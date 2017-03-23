@@ -143,7 +143,7 @@ final class TabBarController: UITabBarController {
      */
     @discardableResult
     func showAppRatingViewIfNeeded(_ source: EventParameterRatingSource) -> Bool {
-        guard RatingManager.sharedInstance.shouldShowRating else { return false}
+        guard LGRatingManager.sharedInstance.shouldShowRating else { return false}
         return showAppRatingView(source)
     }
 

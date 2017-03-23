@@ -34,7 +34,7 @@ class RatingManagerSpec: QuickSpec {
                 beforeEach {
                     let versionChange = VersionChange.none
                     crashManager = CrashManager(appCrashed: true, versionChange: versionChange)
-                    sut = RatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                    sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
                         versionChange: versionChange)
                 }
                 it("should not show rating") {
@@ -52,7 +52,7 @@ class RatingManagerSpec: QuickSpec {
                     beforeEach {
                         let versionChange = VersionChange.newInstall
                         crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
-                        sut = RatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                        sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
                             versionChange: versionChange)
                     }
                     it("key storage indicates that user did not rate") {
@@ -69,7 +69,7 @@ class RatingManagerSpec: QuickSpec {
                     beforeEach {
                         let versionChange = VersionChange.none
                         crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
-                        sut = RatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                        sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
                             versionChange: versionChange)
                     }
                     it("key storage indicates that user did not rate") {
@@ -86,7 +86,7 @@ class RatingManagerSpec: QuickSpec {
                     beforeEach {
                         let versionChange = VersionChange.major
                         crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
-                        sut = RatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                        sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
                             versionChange: versionChange)
                     }
                     it("key storage indicates that user did not rate") {
@@ -103,7 +103,7 @@ class RatingManagerSpec: QuickSpec {
                     beforeEach {
                         let versionChange = VersionChange.minor
                         crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
-                        sut = RatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                        sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
                             versionChange: versionChange)
                     }
                     it("key storage indicates that user did not rate") {
@@ -120,7 +120,7 @@ class RatingManagerSpec: QuickSpec {
                     beforeEach {
                         let versionChange = VersionChange.patch
                         crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
-                        sut = RatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                        sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
                             versionChange: versionChange)
                     }
                     it("key storage indicates that user did not rate") {
@@ -145,7 +145,7 @@ class RatingManagerSpec: QuickSpec {
                     beforeEach {
                         let versionChange = VersionChange.newInstall
                         crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
-                        sut = RatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                        sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
                             versionChange: versionChange)
                     }
                     it("key storage indicates that user did not rate") {
@@ -162,7 +162,7 @@ class RatingManagerSpec: QuickSpec {
                     beforeEach {
                         let versionChange = VersionChange.none
                         crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
-                        sut = RatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                        sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
                             versionChange: versionChange)
                     }
                     it("key storage indicates that user did not rate") {
@@ -179,7 +179,7 @@ class RatingManagerSpec: QuickSpec {
                     beforeEach {
                         let versionChange = VersionChange.major
                         crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
-                        sut = RatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                        sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
                             versionChange: versionChange)
                     }
                     it("key storage indicates that user did not rate") {
@@ -196,7 +196,7 @@ class RatingManagerSpec: QuickSpec {
                     beforeEach {
                         let versionChange = VersionChange.minor
                         crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
-                        sut = RatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                        sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
                             versionChange: versionChange)
                     }
                     it("key storage indicates that user did not rate") {
@@ -213,7 +213,7 @@ class RatingManagerSpec: QuickSpec {
                     beforeEach {
                         let versionChange = VersionChange.patch
                         crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
-                        sut = RatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                        sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
                             versionChange: versionChange)
                     }
                     it("key storage indicates that user did not rate") {
@@ -238,7 +238,7 @@ class RatingManagerSpec: QuickSpec {
                     beforeEach {
                         let versionChange = VersionChange.newInstall
                         crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
-                        sut = RatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                        sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
                             versionChange: versionChange)
                     }
                     it("key storage indicates that user did not rate") {
@@ -255,7 +255,7 @@ class RatingManagerSpec: QuickSpec {
                     beforeEach {
                         let versionChange = VersionChange.none
                         crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
-                        sut = RatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                        sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
                             versionChange: versionChange)
                     }
                     it("key storage indicates that user did rate") {
@@ -272,7 +272,7 @@ class RatingManagerSpec: QuickSpec {
                     beforeEach {
                         let versionChange = VersionChange.major
                         crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
-                        sut = RatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                        sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
                             versionChange: versionChange)
                     }
                     it("key storage indicates that user did not rate") {
@@ -289,7 +289,7 @@ class RatingManagerSpec: QuickSpec {
                     beforeEach {
                         let versionChange = VersionChange.minor
                         crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
-                        sut = RatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                        sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
                             versionChange: versionChange)
                     }
                     it("key storage indicates that user did not rate") {
@@ -306,7 +306,7 @@ class RatingManagerSpec: QuickSpec {
                     beforeEach {
                         let versionChange = VersionChange.patch
                         crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
-                        sut = RatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                        sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
                             versionChange: versionChange)
                     }
                     it("key storage indicates that user did rate") {
@@ -327,7 +327,7 @@ class RatingManagerSpec: QuickSpec {
 
                     let versionChange = VersionChange.newInstall
                     crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
-                    sut = RatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                    sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
                         versionChange: versionChange)
                     sut.userDidRate()
                 }
@@ -342,7 +342,7 @@ class RatingManagerSpec: QuickSpec {
 
                     let versionChange = VersionChange.none
                     crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
-                    sut = RatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                    sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
                         versionChange: versionChange)
                     sut.userDidRemindLater()
                 }

@@ -595,7 +595,7 @@ extension ChatViewController: ChatViewModelDelegate {
     
     func vmShowPrePermissions(_ type: PrePermissionType) {
         showKeyboard(false, animated: true)
-        PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: type, completion: nil)
+        LGPushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: type, completion: nil)
     }
     
     func vmShowKeyboard() {

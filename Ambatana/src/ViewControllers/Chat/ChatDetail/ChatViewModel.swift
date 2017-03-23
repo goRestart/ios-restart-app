@@ -100,8 +100,10 @@ class ChatViewModel: BaseViewModel {
     fileprivate let sessionManager: SessionManager
     fileprivate let featureFlags: FeatureFlaggeable
     fileprivate let source: EventParameterTypePage
+    fileprivate let pushPermissionsManager: PushPermissionsManager
+    fileprivate let ratingManager: RatingManager
     
-    fileprivate let keyValueStorage: KeyValueStorage
+    fileprivate let keyValueStorage: KeyValueStorageable
 
     fileprivate let firstInteractionDone = Variable<Bool>(false)
     fileprivate let expressBannerTimerFinished = Variable<Bool>(false)
@@ -185,16 +187,18 @@ class ChatViewModel: BaseViewModel {
         let userRepository = Core.userRepository
         let tracker = TrackerProxy.sharedInstance
         let stickersRepository = Core.stickersRepository
-        let configManager = ConfigManager.sharedInstance
+        let configManager = LGConfigManager.sharedInstance
         let sessionManager = Core.sessionManager
         let featureFlags = FeatureFlags.sharedInstance
         let keyValueStorage = KeyValueStorage.sharedInstance
+        let ratingManager = LGRatingManager.sharedInstance
+        let pushPermissionsManager = LGPushPermissionsManager.sharedInstance
 
         self.init(conversation: conversation, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   productRepository: productRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository, tracker: tracker, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
-                  source: source)
+                  source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager)
     }
     
     convenience init?(product: Product, navigator: ChatDetailNavigator?, source: EventParameterTypePage) {
@@ -206,10 +210,13 @@ class ChatViewModel: BaseViewModel {
         let userRepository = Core.userRepository
         let stickersRepository = Core.stickersRepository
         let tracker = TrackerProxy.sharedInstance
-        let configManager = ConfigManager.sharedInstance
+        let configManager = LGConfigManager.sharedInstance
         let sessionManager = Core.sessionManager
         let keyValueStorage = KeyValueStorage.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
+        let ratingManager = LGRatingManager.sharedInstance
+        let pushPermissionsManager = LGPushPermissionsManager.sharedInstance
+        
         let amISelling = myUserRepository.myUser?.objectId == sellerId
         let empty = EmptyConversation(objectId: nil, unreadMessageCount: 0, lastMessageSentAt: nil, product: nil,
                                       interlocutor: nil, amISelling: amISelling)
@@ -217,14 +224,15 @@ class ChatViewModel: BaseViewModel {
                   productRepository: productRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository ,tracker: tracker, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
-                  source: source)
+                  source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager)
         self.setupConversationFromProduct(product)
     }
     
     init(conversation: ChatConversation, myUserRepository: MyUserRepository, chatRepository: ChatRepository,
           productRepository: ProductRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
-          tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, keyValueStorage: KeyValueStorage,
-          navigator: ChatDetailNavigator?, featureFlags: FeatureFlaggeable, source: EventParameterTypePage) {
+          tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, keyValueStorage: KeyValueStorageable,
+          navigator: ChatDetailNavigator?, featureFlags: FeatureFlaggeable, source: EventParameterTypePage,
+          ratingManager: RatingManager, pushPermissionsManager: PushPermissionsManager) {
         self.conversation = Variable<ChatConversation>(conversation)
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
@@ -235,6 +243,8 @@ class ChatViewModel: BaseViewModel {
         self.configManager = configManager
         self.sessionManager = sessionManager
         self.keyValueStorage = keyValueStorage
+        self.ratingManager = ratingManager
+        self.pushPermissionsManager = pushPermissionsManager
 
         self.stickersRepository = stickersRepository
         self.chatViewMessageAdapter = ChatViewMessageAdapter()
@@ -645,9 +655,9 @@ extension ChatViewModel {
                                   message: LGLocalizedString.directAnswerSoldQuestionMessage,
                                   cancelLabel: LGLocalizedString.commonCancel,
                                   actions: [action])
-        } else if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.chat(buyer: isBuyer)) {
+        } else if pushPermissionsManager.shouldShowPushPermissionsAlertFromViewController(.chat(buyer: isBuyer)) {
             delegate?.vmShowPrePermissions(.chat(buyer: isBuyer))
-        } else if RatingManager.sharedInstance.shouldShowRating {
+        } else if ratingManager.shouldShowRating {
             delegate?.vmAskForRating()
         }
     }

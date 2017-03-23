@@ -352,7 +352,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
                   userRepository: Core.userRepository,
                   stickersRepository: Core.stickersRepository,
                   tracker: TrackerProxy.sharedInstance,
-                  configManager: ConfigManager.sharedInstance,
+                  configManager: LGConfigManager.sharedInstance,
                   sessionManager: Core.sessionManager,
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   featureFlags: FeatureFlags.sharedInstance,
@@ -758,9 +758,9 @@ class OldChatViewModel: BaseViewModel, Paginable {
                 },
                                      positiveActionStyle: nil,
                                      negativeText: LGLocalizedString.commonCancel, negativeAction: nil, negativeActionStyle: nil)
-        } else if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.chat(buyer: isBuyer)) {
+        } else if LGPushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.chat(buyer: isBuyer)) {
             delegate?.vmShowPrePermissions(.chat(buyer: isBuyer))
-        } else if RatingManager.sharedInstance.shouldShowRating {
+        } else if LGRatingManager.sharedInstance.shouldShowRating {
             delegate?.vmAskForRating()
         }
         delegate?.vmUpdateReviewButton()

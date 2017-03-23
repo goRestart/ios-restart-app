@@ -12,6 +12,8 @@ import SwiftyUserDefaults
 class StorageableUserDefaults: KeyValueStorageable {
 
     private let userDefaults: UserDefaults
+    
+    var currentUserProperties: UserDefaultsUser?
 
     init(userDefaults: UserDefaults) {
         self.userDefaults = userDefaults

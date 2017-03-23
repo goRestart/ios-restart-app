@@ -66,6 +66,15 @@ class KeyValueStorage {
 
     fileprivate var storage: KeyValueStorageable
     fileprivate let myUserRepository: MyUserRepository
+    
+    
+    var currentUserId: String? {
+        return myUserRepository.myUser?.objectId
+    }
+    var currentUserKey: DefaultsKey<UserDefaultsUser>? {
+        guard let currentUserId = currentUserId else { return nil }
+        return DefaultsKey<UserDefaultsUser>(currentUserId)
+    }
 
 
     // MARK: - Lifecycle
@@ -85,7 +94,7 @@ class KeyValueStorage {
 
 // MARK: - Public methods
 
-extension KeyValueStorage {
+extension KeyValueStorageable {
     var userAppShared: Bool {
         get { return currentUserProperties?.appShared ?? UserDefaultsUser.appSharedDefaultValue }
         set {
@@ -236,16 +245,10 @@ extension KeyValueStorage {
 }
 
 
-// MARK: - Private methods
+// MARK: - KeyValueStorageable
 
-fileprivate extension KeyValueStorage {
-    var currentUserId: String? {
-        return myUserRepository.myUser?.objectId
-    }
-    var currentUserKey: DefaultsKey<UserDefaultsUser>? {
-        guard let currentUserId = currentUserId else { return nil }
-        return DefaultsKey<UserDefaultsUser>(currentUserId)
-    }
+extension KeyValueStorage: KeyValueStorageable {
+    
     var currentUserProperties: UserDefaultsUser? {
         get {
             guard let key = currentUserKey else { return nil }
@@ -256,13 +259,7 @@ fileprivate extension KeyValueStorage {
             set(key, value: newValue)
         }
     }
-}
-
-
-
-// MARK: - KeyValueStorageable
-
-extension KeyValueStorage: KeyValueStorageable {
+    
     subscript(key: DefaultsKey<String?>) -> String? {
         get { return storage[key] }
         set { storage[key] = newValue }

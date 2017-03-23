@@ -61,7 +61,7 @@ extension AppDelegate: UIApplicationDelegate {
         self.productRepository = Core.productRepository
         self.locationManager = Core.locationManager
         self.sessionManager = Core.sessionManager
-        self.configManager = ConfigManager.sharedInstance
+        self.configManager = LGConfigManager.sharedInstance
     
         let keyValueStorage = KeyValueStorage.sharedInstance
         let versionChecker = VersionChecker.sharedInstance
@@ -79,7 +79,7 @@ extension AppDelegate: UIApplicationDelegate {
 
         LGCoreKit.start()
 
-        let appCoordinator = AppCoordinator(configManager: ConfigManager.sharedInstance)
+        let appCoordinator = AppCoordinator(configManager: LGConfigManager.sharedInstance)
         appCoordinator.delegate = self
 
         self.navigator = appCoordinator
