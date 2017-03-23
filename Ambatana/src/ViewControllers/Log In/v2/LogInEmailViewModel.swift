@@ -250,32 +250,22 @@ fileprivate extension LogInEmailViewModel {
     }
 
     func logInFailed(logInError: LoginError) {
-        var message: String? = nil
         var afterMessageCompletion: (() -> ())? = nil
-
-        switch logInError {
-        case .network:
-            message = LGLocalizedString.commonErrorConnectionFailed
-        case .unauthorized:
-            message = LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
-            unauthorizedErrorCount = unauthorizedErrorCount + 1
-        case .scammer:
+        if logInError.isScammer {
             afterMessageCompletion = { [weak self] in
                 guard let contactURL = self?.contactURL else { return }
                 self?.navigator?.openScammerAlertFromLogInEmail(contactURL: contactURL)
             }
-        case .notFound, .internalError, .forbidden, .deviceNotAllowed, .conflict, .tooManyRequests, .badRequest,
-             .userNotVerified:
-            message = LGLocalizedString.logInErrorSendErrorGeneric
+        } else if logInError.isUnauthorized {
+            unauthorizedErrorCount = unauthorizedErrorCount + 1
         }
-        trackLogInFailed(error: logInError)
 
         if unauthorizedErrorCount >= LogInEmailViewModel.unauthorizedErrorCountRememberPwd && afterMessageCompletion == nil {
             afterMessageCompletion = { [weak self] in
                 self?.showRememberPasswordAlert()
             }
         }
-        delegate?.vmHideLoading(message, afterMessageCompletion: afterMessageCompletion)
+        delegate?.vmHideLoading(logInError.errorMessage, afterMessageCompletion: afterMessageCompletion)
     }
 
     func recoverPassword(email: String) {

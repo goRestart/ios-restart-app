@@ -373,22 +373,13 @@ class SignUpLogInViewModel: BaseViewModel {
     }
 
     private func processLoginSessionError(_ error: LoginError) {
-        let message: String
-        switch (error) {
-        case .network:
-            message = LGLocalizedString.commonErrorConnectionFailed
-        case .unauthorized:
-            message = LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
-            unauthorizedErrorCount = unauthorizedErrorCount + 1
-        case .scammer:
+        trackLoginEmailFailedWithError(error.trackingError)
+        if error.isScammer {
             delegate?.vmHideLoading(nil) { [weak self] in
                 self?.showScammerAlert(self?.email, network: .email)
             }
-            trackLoginEmailFailedWithError(error.trackingError)
-            return
-        case .notFound, .internalError, .forbidden, .deviceNotAllowed, .conflict, .tooManyRequests, .badRequest,
-             .userNotVerified:
-            message = LGLocalizedString.logInErrorSendErrorGeneric
+        } else if error.isUnauthorized {
+            unauthorizedErrorCount = unauthorizedErrorCount + 1
         }
 
         var afterMessageCompletion: (() -> ())? = nil
@@ -403,8 +394,7 @@ class SignUpLogInViewModel: BaseViewModel {
             break
         }
 
-        delegate?.vmHideLoading(message, afterMessageCompletion: afterMessageCompletion)
-        trackLoginEmailFailedWithError(error.trackingError)
+        delegate?.vmHideLoading(error.errorMessage, afterMessageCompletion: nafterMessageCompletionil)
     }
 
     private func process(signupError: SignupError) {

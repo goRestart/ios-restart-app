@@ -40,6 +40,39 @@ extension LoginError {
             return .internalError(description: "UserNotVerified")
         }
     }
+
+    var isScammer: Bool {
+        switch self {
+        case .scammer:
+            return true
+        default:
+            return false
+        }
+    }
+
+    var isUnauthorized: Bool {
+        switch self {
+        case .unauthorized:
+            return true
+        default:
+            return false
+        }
+    }
+
+    var errorMessage: String? {
+        switch self {
+        case .network:
+            return LGLocalizedString.commonErrorConnectionFailed
+        case .unauthorized:
+            return LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
+        case .scammer:
+            return nil
+        case .notFound, .internalError, .forbidden, .deviceNotAllowed, .conflict, .tooManyRequests, .badRequest,
+             .userNotVerified:
+            return LGLocalizedString.logInErrorSendErrorGeneric
+        }
+
+    }
 }
 
 extension SignupError {
