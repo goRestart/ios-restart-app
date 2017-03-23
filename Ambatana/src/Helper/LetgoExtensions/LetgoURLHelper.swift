@@ -10,6 +10,12 @@ import Foundation
 import LGCoreKit
 import DeviceUtil
 
+enum ContactUsType {
+    case standard
+    case scammer
+    case deviceNotAllowed
+}
+
 class LetgoURLHelper {
     private static let langsCountryDict = [
         "de":"de",  // https://de.letgo.com/de/something
@@ -66,7 +72,7 @@ class LetgoURLHelper {
         guard let url = LetgoURLHelper.composeLocalizedURL(Constants.websiteHelpEndpoint) else { return nil }
         guard var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return nil }
         urlComponents.percentEncodedQuery = LetgoURLHelper.buildContactParameters(user, installation: installation,
-                                                                                  moderation: false)
+                                                                                  type: .standard)
         return urlComponents.url
     }
 
@@ -78,20 +84,20 @@ class LetgoURLHelper {
         return LetgoURLHelper.composeLocalizedURL(Constants.websitePrivacyEndpoint)
     }
 
-    static func buildContactUsURL(user: MyUser?, installation: Installation?, moderation: Bool = false) -> URL? {
+    static func buildContactUsURL(user: MyUser?, installation: Installation?, type: ContactUsType = .standard) -> URL? {
         guard let url = LetgoURLHelper.composeLocalizedURL(Constants.websiteContactUsEndpoint) else { return nil }
         guard var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return nil }
         urlComponents.percentEncodedQuery = LetgoURLHelper.buildContactParameters(user, installation: installation,
-                                                                                  moderation: moderation)
+                                                                                  type: type)
         return urlComponents.url
     }
 
-    static func buildContactUsURL(userEmail email: String?, installation: Installation?, moderation: Bool = false) -> URL? {
+    static func buildContactUsURL(userEmail email: String?, installation: Installation?, type: ContactUsType = .standard) -> URL? {
         guard let url = LetgoURLHelper.composeLocalizedURL(Constants.websiteContactUsEndpoint) else { return nil }
         guard var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return nil }
         urlComponents.percentEncodedQuery = LetgoURLHelper.buildContactParameters(nil, userName: nil, email: email,
                                                                                   installationId: installation?.objectId,
-                                                                                  moderation: moderation)
+                                                                                  type: type)
         return urlComponents.url
     }
 
@@ -125,13 +131,13 @@ class LetgoURLHelper {
         return LetgoURLHelper.defaultLang
     }
 
-    private static func buildContactParameters(_ user: MyUser?, installation: Installation?, moderation: Bool) -> String? {
+    private static func buildContactParameters(_ user: MyUser?, installation: Installation?, type: ContactUsType) -> String? {
         return buildContactParameters(user?.objectId, userName: user?.name, email: user?.email,
-                                      installationId: installation?.objectId, moderation: moderation)
+                                      installationId: installation?.objectId, type: type)
     }
     
     private static func buildContactParameters(_ userId: String?, userName: String?, email: String?, installationId: String?
-        , moderation: Bool) -> String? {
+        , type: ContactUsType) -> String? {
         var param: [String: String] = [:]
         param["app_version"] = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
         param["os_version"] = UIDevice.current.systemVersion
@@ -140,8 +146,15 @@ class LetgoURLHelper {
         param["user_name"] = userName
         param["user_email"] = email
         param["installation_id"] = installationId
-        if moderation {
+        switch type {
+        case .standard:
+            break
+        case .scammer:
             param["moderation"] = "true"
+        case .deviceNotAllowed:
+            // param["moderation"] = "true"
+            //TODO: IMPLEMENT
+            break
         }
         return param.map{"\($0)=\($1)"}
             .joined(separator: "&")

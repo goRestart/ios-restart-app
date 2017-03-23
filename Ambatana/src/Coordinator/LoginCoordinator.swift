@@ -198,6 +198,7 @@ extension LoginCoordinator: MainSignUpNavigator {
 // MARK: - SignUpLogInNavigator
 
 extension LoginCoordinator: SignUpLogInNavigator {
+
     func cancelSignUpLogIn() {
         // called when closing from popup login so it's not closing root only presented controller
         dismissLastPresented(animated: true, completion: nil)
@@ -209,6 +210,10 @@ extension LoginCoordinator: SignUpLogInNavigator {
 
     func closeSignUpLogInAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork) {
         closeRootAndOpenScammerAlert(contactURL: contactURL, network: network)
+    }
+
+    func closeSignUpLogInAndOpenDeviceNotAllowedAlert(contactURL: URL, network: EventParameterAccountNetwork) {
+        closeRootAndOpenDeviceNotAllowedAlert(contactURL: contactURL, network: network)
     }
 
     func openRecaptcha(transparentMode: Bool) {
@@ -344,6 +349,10 @@ extension LoginCoordinator: LogInEmailNavigator {
         closeRootAndOpenScammerAlert(contactURL: contactURL, network: .email)
     }
 
+    func openDeviceNotAllowedAlertFromLogInEmail(contactURL: URL) {
+        closeRootAndOpenDeviceNotAllowedAlert(contactURL: contactURL, network: .email)
+    }
+
     func closeAfterLogInSuccessful() {
         closeRoot(didLogIn: true)
     }
@@ -436,6 +445,32 @@ fileprivate extension LoginCoordinator {
             self?.parentViewController?.showAlertWithTitle(LGLocalizedString.loginScammerAlertTitle,
                                                            text: LGLocalizedString.loginScammerAlertMessage,
                                                            alertType: .iconAlert(icon: #imageLiteral(resourceName: "ic_moderation_alert")),
+                                                           buttonsLayout: .vertical, actions: actions)
+        }
+    }
+
+    func closeRootAndOpenDeviceNotAllowedAlert(contactURL: URL, network: EventParameterAccountNetwork) {
+        dismissViewController(animated: true) { [weak self] in
+            let contact = UIAction(
+                interface: .button(LGLocalizedString.loginDeviceNotAllowedAlertContactButton, .primary(fontSize: .medium)),
+                action: {
+                    self?.tracker.trackEvent(TrackerEvent.loginBlockedAccountContactUs(network))
+                    self?.closeCoordinator(animated: false) {
+                        self?.parentViewController?.openInternalUrl(contactURL)
+                    }
+
+            })
+            let keepBrowsing = UIAction(
+                interface: .button(LGLocalizedString.loginDeviceNotAllowedAlertOkButton, .secondary(fontSize: .medium,
+                                                                                                     withBorder: false)),
+                action: {
+                    self?.tracker.trackEvent(TrackerEvent.loginBlockedAccountKeepBrowsing(network))
+                    self?.closeCoordinator(animated: false, completion: nil)
+            })
+            let actions = [contact, keepBrowsing]
+            self?.parentViewController?.showAlertWithTitle(LGLocalizedString.loginDeviceNotAllowedAlertTitle,
+                                                           text: LGLocalizedString.loginDeviceNotAllowedAlertMessage,
+                                                           alertType: .iconAlert(icon: #imageLiteral(resourceName: "ic_device_blocked_alert")),
                                                            buttonsLayout: .vertical, actions: actions)
         }
     }

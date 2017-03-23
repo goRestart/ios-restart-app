@@ -394,7 +394,7 @@ class SignUpLogInViewModel: BaseViewModel {
             break
         }
 
-        delegate?.vmHideLoading(error.errorMessage, afterMessageCompletion: nafterMessageCompletionil)
+        delegate?.vmHideLoading(error.errorMessage, afterMessageCompletion: afterMessageCompletion)
     }
 
     private func process(signupError: SignupError) {
@@ -423,6 +423,10 @@ class SignUpLogInViewModel: BaseViewModel {
             delegate?.vmHideLoading(nil) { [weak self] in
                 self?.showScammerAlert(self?.email, network: accountProvider.accountNetwork)
             }
+        } else if result.isDeviceNotAllowed {
+            delegate?.vmHideLoading(nil) { [weak self] in
+                self?.showDeviceNotAllowedAlert(self?.email, network: accountProvider.accountNetwork)
+            }
         } else {
             delegate?.vmHideLoading(result.errorMessage, afterMessageCompletion: nil)
         }
@@ -431,9 +435,19 @@ class SignUpLogInViewModel: BaseViewModel {
     private func showScammerAlert(_ userEmail: String?, network: EventParameterAccountNetwork) {
         guard let contactURL = LetgoURLHelper.buildContactUsURL(userEmail: userEmail,
                                                                 installation: installationRepository.installation,
-                                                                moderation: true) else {
+                                                                type: .scammer) else {
             navigator?.cancelSignUpLogIn()
             return
+        }
+        navigator?.closeSignUpLogInAndOpenScammerAlert(contactURL: contactURL, network: network)
+    }
+
+    private func showDeviceNotAllowedAlert(_ userEmail: String?, network: EventParameterAccountNetwork) {
+        guard let contactURL = LetgoURLHelper.buildContactUsURL(userEmail: userEmail,
+                                                                installation: installationRepository.installation,
+                                                                type: .deviceNotAllowed) else {
+                                                                    navigator?.cancelSignUpLogIn()
+                                                                    return
         }
         navigator?.closeSignUpLogInAndOpenScammerAlert(contactURL: contactURL, network: network)
     }

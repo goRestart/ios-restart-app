@@ -50,6 +50,15 @@ extension LoginError {
         }
     }
 
+    var isDeviceNotAllowed: Bool {
+        switch self {
+        case .deviceNotAllowed:
+            return true
+        default:
+            return false
+        }
+    }
+
     var isUnauthorized: Bool {
         switch self {
         case .unauthorized:
@@ -65,9 +74,9 @@ extension LoginError {
             return LGLocalizedString.commonErrorConnectionFailed
         case .unauthorized:
             return LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
-        case .scammer:
+        case .scammer, .deviceNotAllowed:
             return nil
-        case .notFound, .internalError, .forbidden, .deviceNotAllowed, .conflict, .tooManyRequests, .badRequest,
+        case .notFound, .internalError, .forbidden, .conflict, .tooManyRequests, .badRequest,
              .userNotVerified:
             return LGLocalizedString.logInErrorSendErrorGeneric
         }

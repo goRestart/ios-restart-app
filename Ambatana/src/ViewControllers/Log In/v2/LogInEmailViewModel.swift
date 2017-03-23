@@ -253,8 +253,13 @@ fileprivate extension LogInEmailViewModel {
         var afterMessageCompletion: (() -> ())? = nil
         if logInError.isScammer {
             afterMessageCompletion = { [weak self] in
-                guard let contactURL = self?.contactURL else { return }
+                guard let contactURL = self?.scammerContactURL else { return }
                 self?.navigator?.openScammerAlertFromLogInEmail(contactURL: contactURL)
+            }
+        } else if logInError.isDeviceNotAllowed {
+            afterMessageCompletion = { [weak self] in
+                guard let contactURL = self?.deviceNotAllowedContactURL else { return }
+                self?.navigator?.openDeviceNotAllowedAlertFromLogInEmail(contactURL: contactURL)
             }
         } else if logInError.isUnauthorized {
             unauthorizedErrorCount = unauthorizedErrorCount + 1
@@ -381,9 +386,15 @@ fileprivate extension LogInEmailViewModel {
 // MARK: > Helper
 
 fileprivate extension LogInEmailViewModel {
-    var contactURL: URL? {
+    var scammerContactURL: URL? {
         return LetgoURLHelper.buildContactUsURL(userEmail: email.value,
                                                 installation: installationRepository.installation,
-                                                moderation: true)
+                                                type: .scammer)
+    }
+
+    var deviceNotAllowedContactURL: URL? {
+        return LetgoURLHelper.buildContactUsURL(userEmail: email.value,
+                                                installation: installationRepository.installation,
+                                                type: .deviceNotAllowed)
     }
 }

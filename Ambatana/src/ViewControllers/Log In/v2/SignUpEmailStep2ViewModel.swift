@@ -270,7 +270,7 @@ fileprivate extension SignUpEmailStep2ViewModel {
 
         if signUpError.isScammer {
             afterMessageCompletion = { [weak self] in
-                guard let contactURL = self?.contactURL else { return }
+                guard let contactURL = self?.scammerContactURL else { return }
                 self?.navigator?.openScammerAlertFromSignUpEmailStep2(contactURL: contactURL)
             }
         } else if signUpError.isUserNotVerified {
@@ -355,9 +355,9 @@ fileprivate extension SignUpEmailStep2ViewModel {
 // MARK: > Helper
 
 fileprivate extension SignUpEmailStep2ViewModel {
-    var contactURL: URL? {
+    var scammerContactURL: URL? {
         return LetgoURLHelper.buildContactUsURL(userEmail: email,
                                                 installation: installationRepository.installation,
-                                                moderation: true)
+                                                type: .scammer)
     }
 }

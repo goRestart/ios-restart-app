@@ -245,6 +245,7 @@ extension OnboardingCoordinator: MainSignUpNavigator {
 // MARK: - SignUpLogInNavigator
 
 extension OnboardingCoordinator: SignUpLogInNavigator {
+
     func cancelSignUpLogIn() {
         dismissCurrentNavigationController()
     }
@@ -257,6 +258,13 @@ extension OnboardingCoordinator: SignUpLogInNavigator {
 
     func closeSignUpLogInAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork) {
         // scammer alert is ignored in on-boarding
+        dismissCurrentNavigationController { [weak self] in
+            self?.tourLoginFinish()
+        }
+    }
+
+    func closeSignUpLogInAndOpenDeviceNotAllowedAlert(contactURL: URL, network: EventParameterAccountNetwork) {
+        // deviceNotAllowed alert is ignored in on-boarding
         dismissCurrentNavigationController { [weak self] in
             self?.tourLoginFinish()
         }
@@ -355,6 +363,7 @@ extension OnboardingCoordinator: SignUpEmailStep2Navigator {
 // MARK: - LogInEmailNavigator
 
 extension OnboardingCoordinator: LogInEmailNavigator {
+
     func cancelLogInEmail() {
         dismissCurrentNavigationController()
     }
@@ -386,6 +395,13 @@ extension OnboardingCoordinator: LogInEmailNavigator {
 
     func openScammerAlertFromLogInEmail(contactURL: URL) {
         // scammer alert is ignored in on-boarding
+        dismissCurrentNavigationController { [weak self] in
+            self?.tourLoginFinish()
+        }
+    }
+
+    func openDeviceNotAllowedAlertFromLogInEmail(contactURL: URL) {
+        // device not allowed alert is ignored in on-boarding
         dismissCurrentNavigationController { [weak self] in
             self?.tourLoginFinish()
         }

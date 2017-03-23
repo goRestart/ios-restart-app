@@ -195,7 +195,7 @@ class SignUpViewModel: BaseViewModel {
     private func showScammerAlert(_ network: EventParameterAccountNetwork) {
         guard let contactURL = LetgoURLHelper.buildContactUsURL(userEmail: nil,
                                                                 installation: installationRepository.installation,
-                                                                moderation: true) else {
+                                                                type: .scammer) else {
                 navigator?.cancelMainSignUp()
                 return
             }

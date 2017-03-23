@@ -14,6 +14,7 @@ enum ExternalServiceAuthResult {
     case cancelled
     case network
     case scammer
+    case deviceNotAllowed
     case notFound
     case conflict(cause: ConflictCause)
     case badRequest
@@ -32,6 +33,8 @@ enum ExternalServiceAuthResult {
             self = .notFound
         case .scammer:
             self = .scammer
+        case .deviceNotAllowed:
+            self = .deviceNotAllowed
         case .network:
             self = .network
         default:
@@ -70,6 +73,15 @@ enum ExternalServiceAuthResult {
         }
     }
 
+    var isDeviceNotAllowed: Bool {
+        switch self {
+        case .deviceNotAllowed:
+            return true
+        default:
+            return false
+        }
+    }
+
     var trackingError: EventParameterLoginError? {
         switch self {
         case .success, .cancelled:
@@ -78,6 +90,8 @@ enum ExternalServiceAuthResult {
             return .network
         case .scammer:
             return .forbidden
+        case .deviceNotAllowed:
+            return .deviceNotAllowed
         case .notFound:
             return .userNotFoundOrWrongPassword
         case .badRequest:
@@ -93,7 +107,7 @@ enum ExternalServiceAuthResult {
 
     var errorMessage: String? {
         switch self {
-        case .success, .cancelled, .scammer:
+        case .success, .cancelled, .scammer, .deviceNotAllowed:
             return nil
         case .conflict(let cause):
             switch cause {
