@@ -249,7 +249,7 @@ fileprivate extension LogInEmailViewModel {
         }
     }
 
-    func logInFailed(logInError: SessionManagerError) {
+    func logInFailed(logInError: LoginError) {
         var message: String? = nil
         var afterMessageCompletion: (() -> ())? = nil
 
@@ -264,7 +264,7 @@ fileprivate extension LogInEmailViewModel {
                 guard let contactURL = self?.contactURL else { return }
                 self?.navigator?.openScammerAlertFromLogInEmail(contactURL: contactURL)
             }
-        case .notFound, .internalError, .forbidden, .nonExistingEmail, .conflict, .tooManyRequests, .badRequest,
+        case .notFound, .internalError, .forbidden, .deviceNotAllowed, .conflict, .tooManyRequests, .badRequest,
              .userNotVerified:
             message = LGLocalizedString.logInErrorSendErrorGeneric
         }
@@ -294,7 +294,7 @@ fileprivate extension LogInEmailViewModel {
         delegate?.vmHideLoading(message, afterMessageCompletion: nil)
     }
 
-    func recoverPasswordFailed(error: SessionManagerError) {
+    func recoverPasswordFailed(error: RecoverPasswordError) {
         trackPasswordRecoverFailed(error: error)
 
         var message: String? = nil
@@ -346,50 +346,17 @@ fileprivate extension LogInEmailViewModel {
         tracker.trackEvent(event)
     }
 
-    func trackLogInFailed(error: SessionManagerError) {
+    func trackLogInFailed(error: LoginError) {
         let event = TrackerEvent.loginEmailError(error.trackingError)
         tracker.trackEvent(event)
     }
 
-    func trackPasswordRecoverFailed(error: SessionManagerError) {
+    func trackPasswordRecoverFailed(error: RecoverPasswordError) {
         let event = TrackerEvent.passwordResetError(error.trackingError)
         tracker.trackEvent(event)
     }
 }
 
-fileprivate extension SessionManagerError {
-    var trackingError: EventParameterLoginError {
-        switch self {
-        case .network:
-            return .network
-        case .badRequest(let cause):
-            switch cause {
-            case .nonAcceptableParams:
-                return .blacklistedDomain
-            case .notSpecified, .other:
-                return .badRequest
-            }
-        case .scammer:
-            return .forbidden
-        case .notFound:
-            return .notFound
-        case .conflict:
-            return .emailTaken
-        case .forbidden:
-            return .forbidden
-        case let .internalError(description):
-            return .internalError(description: description)
-        case .nonExistingEmail:
-            return .nonExistingEmail
-        case .unauthorized:
-            return .unauthorized
-        case .tooManyRequests:
-            return .tooManyRequests
-        case .userNotVerified:
-            return .internalError(description: "UserNotVerified")
-        }
-    }
-}
 
 fileprivate extension LogInEmailFormErrors {
     var trackingError: EventParameterLoginError? {

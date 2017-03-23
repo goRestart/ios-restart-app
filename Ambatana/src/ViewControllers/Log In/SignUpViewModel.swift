@@ -153,15 +153,11 @@ class SignUpViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
             strongSelf.delegate?.vmShowLoading(nil)
             }, loginCompletion: { [weak self] result in
-                let error = self?.processAuthResult(result, accountProvider: .facebook)
-                switch result {
-                case .success:
+                self?.processAuthResult(result, accountProvider: .facebook)
+                if result.isSuccess {
                     self?.trackLoginFBOK()
-                default:
-                    break
-                }
-                if let error = error {
-                    self?.trackLoginFBFailedWithError(error)
+                } else if let trackingError = result.trackingError {
+                    self?.trackLoginFBFailedWithError(trackingError)
                 }
             })
     }
@@ -172,61 +168,28 @@ class SignUpViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
             strongSelf.delegate?.vmShowLoading(nil)
         }) { [weak self] result in
-            let error = self?.processAuthResult(result, accountProvider: .google)
-            switch result {
-            case .success:
+            self?.processAuthResult(result, accountProvider: .google)
+            if result.isSuccess {
                 self?.trackLoginGoogleOK()
-            default:
-                break
-            }
-            if let error = error {
-                self?.trackLoginGoogleFailedWithError(error)
+            } else if let trackingError = result.trackingError {
+                self?.trackLoginGoogleFailedWithError(trackingError)
             }
         }
     }
 
-    private func processAuthResult(_ result: ExternalServiceAuthResult,
-                                   accountProvider: AccountProvider) -> EventParameterLoginError? {
-        var loginError: EventParameterLoginError? = nil
-        switch result {
-        case let .success(myUser):
+    private func processAuthResult(_ result: ExternalServiceAuthResult, accountProvider: AccountProvider) {
+        if let myUser = result.myUser {
             savePreviousEmailOrUsername(accountProvider, username: myUser.name)
             delegate?.vmHideLoading(nil) { [weak self] in
                 self?.navigator?.closeMainSignUpSuccessful(with: myUser)
             }
-        case .cancelled:
-            delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
-        case .network:
-            delegate?.vmHideLoading(LGLocalizedString.mainSignUpFbConnectErrorGeneric, afterMessageCompletion: nil)
-            loginError = .network
-        case .scammer:
+        } else if result.isScammer {
             delegate?.vmHideLoading(nil) { [weak self] in
                 self?.showScammerAlert(accountProvider.accountNetwork)
             }
-            loginError = .forbidden
-        case .notFound:
-            delegate?.vmHideLoading(LGLocalizedString.mainSignUpFbConnectErrorGeneric, afterMessageCompletion: nil)
-            loginError = .userNotFoundOrWrongPassword
-        case .badRequest:
-            delegate?.vmHideLoading(LGLocalizedString.mainSignUpFbConnectErrorGeneric, afterMessageCompletion: nil)
-            loginError = .badRequest
-        case .conflict(let cause):
-            var message = ""
-            switch cause {
-            case .userExists, .notSpecified, .other:
-                message = LGLocalizedString.mainSignUpFbConnectErrorEmailTaken
-            case .emailRejected:
-                message = LGLocalizedString.mainSignUpErrorUserRejected
-            case .requestAlreadyProcessed:
-                message = LGLocalizedString.mainSignUpErrorRequestAlreadySent
-            }
-            delegate?.vmHideLoading(message, afterMessageCompletion: nil)
-            loginError = .emailTaken
-        case let .internalError(description):
-            delegate?.vmHideLoading(LGLocalizedString.mainSignUpFbConnectErrorGeneric, afterMessageCompletion: nil)
-            loginError = .internalError(description: description)
+        } else {
+            delegate?.vmHideLoading(result.errorMessage, afterMessageCompletion: nil)
         }
-        return loginError
     }
 
     private func showScammerAlert(_ network: EventParameterAccountNetwork) {

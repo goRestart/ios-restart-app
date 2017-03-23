@@ -19,40 +19,6 @@ import Result
 import RxSwift
 
 
-// MARK: - HOF
-
-/**
- Handles the given API result and executes a completion with a `SessionManagerError`.
- - parameter result: The result to handle.
- - parameter success: A completion block that is executed only on successful result.
- - parameter completion: A completion block that is executed on both successful & failure result.
- */
-func handleApiResult<T>(_ result: Result<T, ApiError>, completion: ((Result<T, SessionManagerError>) -> ())?) {
-    handleApiResult(result, success: nil, failed: nil, completion: completion)
-}
-
-func handleApiResult<T>(_ result: Result<T, ApiError>,
-                     success: ((T) -> ())?,
-                     completion: ((Result<T, SessionManagerError>) -> ())?) {
-    handleApiResult(result, success: success, failed: nil, completion: completion)
-}
-
-func handleApiResult<T>(_ result: Result<T, ApiError>,
-                     success: ((T) -> ())?,
-                     failed: ((ApiError) -> ())?,
-                     completion: ((Result<T, SessionManagerError>) -> ())?) {
-    if let value = result.value {
-        success?(value)
-        completion?(Result<T, SessionManagerError>(value: value))
-    } else if let apiError = result.error {
-        failed?(apiError)
-        let error = SessionManagerError(apiError: apiError)
-        completion?(Result<T, SessionManagerError>(error: error))
-    }
-}
-
-
-
 // MARK: - SessionManager
 
 /**
@@ -133,7 +99,7 @@ class LGSessionManager: InternalSessionManager {
      - parameter completion: The completion closure.
      */
     func signUp(_ email: String, password: String, name: String, newsletter: Bool?,
-                       completion: SessionMyUserCompletion?) {
+                       completion: SignupCompletion?) {
 
         logMessage(.info, type: CoreLoggingOptions.session, message: "Sign up email")
 
@@ -149,15 +115,15 @@ class LGSessionManager: InternalSessionManager {
                                                     if let auth = authResult.value {
                                                         self?.setupAfterUserAuthentication(auth)
                                                         self?.setupSession(myUser)
-                                                        completion?(Result<MyUser, SessionManagerError>(value: myUser))
+                                                        completion?(SignupResult(value: myUser))
                                                     }
                                                     else if let apiError = authResult.error {
-                                                        let error = SessionManagerError(apiError: apiError)
-                                                        completion?(Result<MyUser, SessionManagerError>(error: error))
+                                                        let error = SignupError(apiError: apiError)
+                                                        completion?(SignupResult(error: error))
                                                     }
                                                 }
                                             } else if let error = createResult.error {
-                                                completion?(Result<MyUser, SessionManagerError>(error: SessionManagerError(apiError: error)))
+                                                completion?(SignupResult(error: SignupError(apiError: error)))
                                             }
         }
     }
@@ -172,13 +138,13 @@ class LGSessionManager: InternalSessionManager {
      - parameter completion: The completion closure.
      */
     func signUp(_ email: String, password: String, name: String, newsletter: Bool?, recaptchaToken: String,
-                       completion: SessionMyUserCompletion?) {
+                       completion: SignupCompletion?) {
         verifyWithRecaptcha(recaptchaToken) { [weak self] result in
             if let _ = result.value {
                 self?.signUp(email, password: password, name: name, newsletter: newsletter, completion: completion)
             } else if let apiError = result.error {
-                let error = SessionManagerError(apiError: apiError)
-                completion?(Result<MyUser, SessionManagerError>(error: error))
+                let error = SignupError(apiError: apiError)
+                completion?(SignupResult(error: error))
             }
         }
     }
@@ -189,7 +155,7 @@ class LGSessionManager: InternalSessionManager {
      - parameter password: The password.
      - parameter completion: The completion closure.
      */
-    func login(_ email: String, password: String, completion: SessionMyUserCompletion?) {
+    func login(_ email: String, password: String, completion: LoginCompletion?) {
         let provider: UserSessionProvider = .email(email: email, password: password)
         login(provider, completion: completion)
     }
@@ -199,7 +165,7 @@ class LGSessionManager: InternalSessionManager {
      - parameter token: The Facebook token.
      - parameter completion: The completion closure.
      */
-    func loginFacebook(_ token: String, completion: SessionMyUserCompletion?) {
+    func loginFacebook(_ token: String, completion: LoginCompletion?) {
         let provider: UserSessionProvider = .facebook(facebookToken: token)
         login(provider, completion: completion)
     }
@@ -210,7 +176,7 @@ class LGSessionManager: InternalSessionManager {
      - parameter token:      The Google token
      - parameter completion: The completion closure
      */
-    func loginGoogle(_ token: String, completion: SessionMyUserCompletion?) {
+    func loginGoogle(_ token: String, completion: LoginCompletion?) {
         let provider: UserSessionProvider = .google(googleToken: token)
         login(provider, completion: completion)
     }
@@ -220,7 +186,7 @@ class LGSessionManager: InternalSessionManager {
      - parameter email: The email.
      - parameter completion: The completion closure.
      */
-    func recoverPassword(_ email: String, completion: SessionEmptyCompletion?) {
+    func recoverPassword(_ email: String, completion: RecoverPasswordCompletion?) {
         logMessage(.info, type: CoreLoggingOptions.session, message: "Recover password")
 
         let request = SessionRouter.recoverPassword(email: email)
@@ -422,7 +388,7 @@ class LGSessionManager: InternalSessionManager {
      - parameter provider: The session provider.
      - parameter completion: The completion closure.
      */
-    private func login(_ provider: UserSessionProvider, completion: ((Result<MyUser, SessionManagerError>) -> ())?) {
+    private func login(_ provider: UserSessionProvider, completion: LoginCompletion?) {
         logMessage(.info, type: CoreLoggingOptions.session, message: "Log in \(provider.accountProvider.rawValue)")
 
         authenticateUser(provider) { [weak self] authResult in
@@ -431,15 +397,15 @@ class LGSessionManager: InternalSessionManager {
                 self?.myUserRepository.show(auth.id, completion: { [weak self] userShowResult in
                     if let myUser = userShowResult.value {
                         self?.setupSession(myUser)
-                        completion?(Result<MyUser, SessionManagerError>(value: myUser))
+                        completion?(LoginResult(value: myUser))
                     } else if let error = userShowResult.error {
                         self?.tokenDAO.deleteUserToken()
-                        completion?(Result<MyUser, SessionManagerError>(error: SessionManagerError(repositoryError: error)))
+                        completion?(LoginResult(error: LoginError(repositoryError: error)))
                     }
                     })
             } else if let apiError = authResult.error {
-                let error = SessionManagerError(apiError: apiError)
-                completion?(Result<MyUser, SessionManagerError>(error: error))
+                let error = LoginError(apiError: apiError)
+                completion?(LoginResult(error: error))
             }
         }
     }

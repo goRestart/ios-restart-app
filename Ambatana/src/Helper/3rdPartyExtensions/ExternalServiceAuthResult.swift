@@ -18,31 +18,94 @@ enum ExternalServiceAuthResult {
     case conflict(cause: ConflictCause)
     case badRequest
     case internalError(description: String)
+    case loginError(error: LoginError)
     
-    init(sessionError: SessionManagerError) {
-        switch sessionError {
+    init(loginError: LoginError) {
+        switch loginError {
         case .conflict(let cause):
             self = .conflict(cause: cause)
         case .badRequest:
             self = .badRequest
         case let .internalError(description):
             self = .internalError(description: description)
-        case .nonExistingEmail:
-            self = .internalError(description: "NonExistingEmail")
-        case .unauthorized:
-            self = .internalError(description: "Unauthorized")
-        case .forbidden:
-            self = .internalError(description: "Forbidden")
-        case .tooManyRequests:
-            self = .internalError(description: "TooManyRequests")
-        case .userNotVerified:
-            self = .internalError(description: "UserNotVerified")
         case .notFound:
             self = .notFound
         case .scammer:
             self = .scammer
         case .network:
             self = .network
+        default:
+            self = .loginError(error: loginError)
+        }
+    }
+
+    var myUser: MyUser? {
+        switch self {
+        case let .success(myUser):
+            return myUser
+        default:
+            return nil
+        }
+    }
+
+    var isSuccess: Bool {
+        return myUser != nil
+    }
+
+    var isCancelled: Bool {
+        switch self {
+        case .cancelled:
+            return true
+        default:
+            return false
+        }
+    }
+
+    var isScammer: Bool {
+        switch self {
+        case .scammer:
+            return true
+        default:
+            return false
+        }
+    }
+
+    var trackingError: EventParameterLoginError? {
+        switch self {
+        case .success, .cancelled:
+            return nil
+        case .network:
+            return .network
+        case .scammer:
+            return .forbidden
+        case .notFound:
+            return .userNotFoundOrWrongPassword
+        case .badRequest:
+            return .badRequest
+        case .conflict:
+            return .emailTaken
+        case let .loginError(error):
+            return error.trackingError
+        case let .internalError(description):
+            return .internalError(description: description)
+        }
+    }
+
+    var errorMessage: String? {
+        switch self {
+        case .success, .cancelled, .scammer:
+            return nil
+        case .conflict(let cause):
+            switch cause {
+            case .userExists, .notSpecified, .other:
+                return LGLocalizedString.mainSignUpFbConnectErrorEmailTaken
+            case .emailRejected:
+                return LGLocalizedString.mainSignUpErrorUserRejected
+            case .requestAlreadyProcessed:
+                return LGLocalizedString.mainSignUpErrorRequestAlreadySent
+            }
+        case .network, .notFound, .badRequest, .internalError, .loginError:
+            return LGLocalizedString.mainSignUpFbConnectErrorGeneric
         }
     }
 }

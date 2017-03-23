@@ -200,7 +200,7 @@ fileprivate extension SignUpEmailStep2ViewModel {
     func signUp(email: String, password: String, username: String, newsletter: Bool?, recaptchaToken: String?) {
         delegate?.vmShowLoading(nil)
 
-        let completion: SessionMyUserCompletion = { [weak self] result in
+        let completion: SignupCompletion = { [weak self] result in
             if let myUser = result.value {
                 self?.signUpSucceeded(myUser: myUser, newsletter: newsletter)
             } else if let signUpError = result.error {
@@ -224,7 +224,7 @@ fileprivate extension SignUpEmailStep2ViewModel {
         }
     }
 
-    func signUpFailed(signUpError: SessionManagerError) {
+    func signUpFailed(signUpError: SignupError) {
         let shouldLogin: Bool
         switch signUpError {
         case let .conflict(cause):
@@ -246,7 +246,7 @@ fileprivate extension SignUpEmailStep2ViewModel {
         }
     }
 
-    func logIn(email: String, password: String, signUpError: SessionManagerError) {
+    func logIn(email: String, password: String, signUpError: SignupError) {
         sessionManager.login(email, password: password) { [weak self] result in
             if let myUser = result.value {
                 self?.logInSucceeded(myUser: myUser)
@@ -264,43 +264,22 @@ fileprivate extension SignUpEmailStep2ViewModel {
         }
     }
 
-    private func process(signUpError: SessionManagerError) {
+    private func process(signUpError: SignupError) {
         var message: String? = nil
         var afterMessageCompletion: (() -> ())? = nil
 
-        switch signUpError {
-        case .network:
-            message = LGLocalizedString.commonErrorConnectionFailed
-        case .badRequest(let cause):
-            switch cause {
-            case .notSpecified, .other:
-                message = LGLocalizedString.signUpSendErrorGeneric
-            case .nonAcceptableParams:
-                message = LGLocalizedString.signUpSendErrorInvalidDomain
-            }
-        case .conflict(let cause):
-            switch cause {
-            case .userExists, .notSpecified, .other:
-                message = LGLocalizedString.signUpSendErrorEmailTaken(email)
-            case .emailRejected:
-                message = LGLocalizedString.mainSignUpErrorUserRejected
-            case .requestAlreadyProcessed:
-                message = LGLocalizedString.mainSignUpErrorRequestAlreadySent
-            }
-        case .nonExistingEmail:
-            message = LGLocalizedString.signUpSendErrorInvalidEmail
-        case .userNotVerified:
-            afterMessageCompletion = { [weak self] in
-                let transparentMode = self?.featureFlags.captchaTransparent ?? false
-                self?.navigator?.openRecaptchaFromSignUpEmailStep2(transparentMode: transparentMode)
-            }
-        case .scammer:
+        if signUpError.isScammer {
             afterMessageCompletion = { [weak self] in
                 guard let contactURL = self?.contactURL else { return }
                 self?.navigator?.openScammerAlertFromSignUpEmailStep2(contactURL: contactURL)
             }
-        case .notFound, .internalError, .forbidden, .unauthorized, .tooManyRequests:
-            message = LGLocalizedString.signUpSendErrorGeneric
+        } else if signUpError.isUserNotVerified {
+            afterMessageCompletion = { [weak self] in
+                let transparentMode = self?.featureFlags.captchaTransparent ?? false
+                self?.navigator?.openRecaptchaFromSignUpEmailStep2(transparentMode: transparentMode)
+            }
+        } else {
+            message = signUpError.errorMessage(userEmail: email)
         }
 
         trackSignUpFailed(error: signUpError)
@@ -329,7 +308,7 @@ fileprivate extension SignUpEmailStep2ViewModel {
         tracker.trackEvent(event)
     }
 
-    func trackSignUpFailed(error: SessionManagerError) {
+    func trackSignUpFailed(error: SignupError) {
         let event = TrackerEvent.signupError(error.trackingError)
         tracker.trackEvent(event)
     }
@@ -340,40 +319,6 @@ fileprivate extension SignUpEmailStep2ViewModel {
     }
 }
 
-fileprivate extension SessionManagerError {
-    var trackingError: EventParameterLoginError {
-        switch self {
-        case .network:
-            return .network
-        case .badRequest(let cause):
-            switch cause {
-            case .nonAcceptableParams:
-                return .blacklistedDomain
-            case .notSpecified, .other:
-                return .badRequest
-            }
-        case .scammer:
-            return .forbidden
-        case .notFound:
-            return .notFound
-        case .conflict:
-            return .emailTaken
-        case .forbidden:
-            return .forbidden
-        case let .internalError(description):
-            return .internalError(description: description)
-        case .nonExistingEmail:
-            return .nonExistingEmail
-        case .unauthorized:
-            return .unauthorized
-        case .tooManyRequests:
-            return .tooManyRequests
-        case .userNotVerified:
-            return .internalError(description: "userNotVerified")
-        }
-
-    }
-}
 
 fileprivate extension SignUpEmailStep2FormErrors {
     var trackingError: EventParameterLoginError? {
