@@ -178,20 +178,21 @@ class SignUpViewModel: BaseViewModel {
     }
 
     private func processAuthResult(_ result: ExternalServiceAuthResult, accountProvider: AccountProvider) {
-        if let myUser = result.myUser {
+        switch result {
+        case let .success(myUser):
             savePreviousEmailOrUsername(accountProvider, username: myUser.name)
             delegate?.vmHideLoading(nil) { [weak self] in
                 self?.navigator?.closeMainSignUpSuccessful(with: myUser)
             }
-        } else if result.isScammer {
+        case .scammer:
             delegate?.vmHideLoading(nil) { [weak self] in
                 self?.showScammerAlert(accountProvider.accountNetwork)
             }
-        } else if result.isDeviceNotAllowed {
+        case .deviceNotAllowed:
             delegate?.vmHideLoading(nil) { [weak self] in
                 self?.showDeviceNotAllowedAlert(accountProvider.accountNetwork)
             }
-        } else {
+        case .cancelled, .network, .notFound, .conflict, .badRequest, .internalError, .loginError:
             delegate?.vmHideLoading(result.errorMessage, afterMessageCompletion: nil)
         }
     }

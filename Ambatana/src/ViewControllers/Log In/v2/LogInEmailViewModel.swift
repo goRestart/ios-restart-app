@@ -251,18 +251,21 @@ fileprivate extension LogInEmailViewModel {
 
     func logInFailed(logInError: LoginError) {
         var afterMessageCompletion: (() -> ())? = nil
-        if logInError.isScammer {
+        switch logInError {
+        case .scammer:
             afterMessageCompletion = { [weak self] in
                 guard let contactURL = self?.scammerContactURL else { return }
                 self?.navigator?.openScammerAlertFromLogInEmail(contactURL: contactURL)
             }
-        } else if logInError.isDeviceNotAllowed {
+        case .deviceNotAllowed:
             afterMessageCompletion = { [weak self] in
                 guard let contactURL = self?.deviceNotAllowedContactURL else { return }
                 self?.navigator?.openDeviceNotAllowedAlertFromLogInEmail(contactURL: contactURL)
             }
-        } else if logInError.isUnauthorized {
+        case .unauthorized:
             unauthorizedErrorCount = unauthorizedErrorCount + 1
+        case .network, .badRequest, .notFound, .forbidden, .conflict, .tooManyRequests, .userNotVerified, .internalError:
+            break
         }
 
         trackLogInFailed(error: logInError)

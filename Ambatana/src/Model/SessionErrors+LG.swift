@@ -41,33 +41,6 @@ extension LoginError {
         }
     }
 
-    var isScammer: Bool {
-        switch self {
-        case .scammer:
-            return true
-        default:
-            return false
-        }
-    }
-
-    var isDeviceNotAllowed: Bool {
-        switch self {
-        case .deviceNotAllowed:
-            return true
-        default:
-            return false
-        }
-    }
-
-    var isUnauthorized: Bool {
-        switch self {
-        case .unauthorized:
-            return true
-        default:
-            return false
-        }
-    }
-
     var errorMessage: String? {
         switch self {
         case .network:
@@ -114,24 +87,6 @@ extension SignupError {
             return .tooManyRequests
         case .userNotVerified:
             return .internalError(description: "UserNotVerified")
-        }
-    }
-
-    var isScammer: Bool {
-        switch self {
-        case .scammer:
-            return true
-        default:
-            return false
-        }
-    }
-
-    var isUserNotVerified: Bool {
-        switch self {
-        case .userNotVerified:
-            return true
-        default:
-            return false
         }
     }
 

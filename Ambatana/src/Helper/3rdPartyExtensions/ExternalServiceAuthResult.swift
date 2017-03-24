@@ -55,33 +55,6 @@ enum ExternalServiceAuthResult {
         return myUser != nil
     }
 
-    var isCancelled: Bool {
-        switch self {
-        case .cancelled:
-            return true
-        default:
-            return false
-        }
-    }
-
-    var isScammer: Bool {
-        switch self {
-        case .scammer:
-            return true
-        default:
-            return false
-        }
-    }
-
-    var isDeviceNotAllowed: Bool {
-        switch self {
-        case .deviceNotAllowed:
-            return true
-        default:
-            return false
-        }
-    }
-
     var trackingError: EventParameterLoginError? {
         switch self {
         case .success, .cancelled:

@@ -374,27 +374,29 @@ class SignUpLogInViewModel: BaseViewModel {
 
     private func processLoginSessionError(_ error: LoginError) {
         trackLoginEmailFailedWithError(error.trackingError)
-        if error.isScammer {
-            delegate?.vmHideLoading(nil) { [weak self] in
+        var afterMessageCompletion: (() -> ())? = nil
+        switch error {
+        case .scammer:
+            afterMessageCompletion = { [weak self] in
                 self?.showScammerAlert(self?.email, network: .email)
             }
-        } else if error.isDeviceNotAllowed {
-            delegate?.vmHideLoading(nil) { [weak self] in
+        case .deviceNotAllowed:
+            afterMessageCompletion = { [weak self] in
                 self?.showDeviceNotAllowedAlert(self?.email, network: .email)
             }
-        } else if error.isUnauthorized {
-            unauthorizedErrorCount = unauthorizedErrorCount + 1
-        }
-
-        var afterMessageCompletion: (() -> ())? = nil
-        switch featureFlags.signUpLoginImprovement {
-        case .v1WImprovements:
-            if unauthorizedErrorCount >= SignUpLogInViewModel.unauthorizedErrorCountRememberPwd {
-                afterMessageCompletion = { [weak self] in
-                    self?.showRememberPasswordAlert()
+        case .unauthorized:
+            switch featureFlags.signUpLoginImprovement {
+            case .v1WImprovements:
+                unauthorizedErrorCount = unauthorizedErrorCount + 1
+                if unauthorizedErrorCount >= SignUpLogInViewModel.unauthorizedErrorCountRememberPwd {
+                    afterMessageCompletion = { [weak self] in
+                        self?.showRememberPasswordAlert()
+                    }
                 }
+            case .v1, .v2:
+                break
             }
-        case .v1, .v2:
+        case .network, .badRequest, .notFound, .forbidden, .conflict, .tooManyRequests, .userNotVerified, .internalError:
             break
         }
 
@@ -403,35 +405,38 @@ class SignUpLogInViewModel: BaseViewModel {
 
     private func process(signupError: SignupError) {
         trackSignupEmailFailedWithError(signupError.trackingError)
-        if signupError.isScammer {
+        switch signupError {
+        case .scammer:
             delegate?.vmHideLoading(nil) { [weak self] in
                 self?.showScammerAlert(self?.email, network: .email)
             }
-        } else if signupError.isUserNotVerified {
+        case .userNotVerified:
             delegate?.vmHideLoading(nil) { [weak self] in
                 self?.navigator?.openRecaptcha(transparentMode: self?.featureFlags.captchaTransparent ?? false)
             }
-        } else {
+        case .network, .badRequest, .notFound, .forbidden, .unauthorized, .conflict, .nonExistingEmail,
+             .tooManyRequests, .internalError:
             let message = signupError.errorMessage(userEmail: email)
             delegate?.vmHideLoading(message, afterMessageCompletion: nil)
         }
     }
 
     private func processExternalServiceAuthResult(_ result: ExternalServiceAuthResult, accountProvider: AccountProvider) {
-        if let myUser = result.myUser {
+        switch result {
+        case let .success(myUser):
             savePreviousEmailOrUsername(accountProvider, userEmailOrName: myUser.name)
             delegate?.vmHideLoading(nil) { [weak self] in
                 self?.navigator?.closeSignUpLogInSuccessful(with: myUser)
             }
-        } else if result.isScammer {
+        case .scammer:
             delegate?.vmHideLoading(nil) { [weak self] in
                 self?.showScammerAlert(self?.email, network: accountProvider.accountNetwork)
             }
-        } else if result.isDeviceNotAllowed {
+        case .deviceNotAllowed:
             delegate?.vmHideLoading(nil) { [weak self] in
                 self?.showDeviceNotAllowedAlert(self?.email, network: accountProvider.accountNetwork)
             }
-        } else {
+        case .cancelled, .network, .notFound, .conflict, .badRequest, .internalError, .loginError:
             delegate?.vmHideLoading(result.errorMessage, afterMessageCompletion: nil)
         }
     }

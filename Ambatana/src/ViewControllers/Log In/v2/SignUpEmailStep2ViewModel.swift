@@ -268,17 +268,19 @@ fileprivate extension SignUpEmailStep2ViewModel {
         var message: String? = nil
         var afterMessageCompletion: (() -> ())? = nil
 
-        if signUpError.isScammer {
+        switch signUpError {
+        case .scammer:
             afterMessageCompletion = { [weak self] in
                 guard let contactURL = self?.scammerContactURL else { return }
                 self?.navigator?.openScammerAlertFromSignUpEmailStep2(contactURL: contactURL)
             }
-        } else if signUpError.isUserNotVerified {
+        case .userNotVerified:
             afterMessageCompletion = { [weak self] in
                 let transparentMode = self?.featureFlags.captchaTransparent ?? false
                 self?.navigator?.openRecaptchaFromSignUpEmailStep2(transparentMode: transparentMode)
             }
-        } else {
+        case .network, .badRequest, .notFound, .forbidden, .unauthorized, .conflict, .nonExistingEmail, .tooManyRequests,
+             .internalError:
             message = signUpError.errorMessage(userEmail: email)
         }
 
