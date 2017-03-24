@@ -331,6 +331,10 @@
 "log_in_reset_password_button" = "Esqueceu-se da password?";
 "log_in_send_button" = "Login";
 "log_in_title" = "Registe-se com o email";
+"login_device_not_allowed_alert_contact_button" = "Contact Us";
+"login_device_not_allowed_alert_message" = "You've never logged in on this device before. We've sent you a verification email so check your inbox to continue.";
+"login_device_not_allowed_alert_ok_button" = "OK";
+"login_device_not_allowed_alert_title" = "VERIFY LOGIN";
 "login_scammer_alert_contact_button" = "Contacte-nos";
 "login_scammer_alert_keep_browsing_button" = "Pular";
 "login_scammer_alert_message" = "A sua conta está a ser analisada pela equipa letgo. Se acredita que foi marcada por engano, entre em contacto connosco.";

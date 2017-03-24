@@ -331,6 +331,10 @@
 "log_in_reset_password_button" = "Je wachtwoord vergeten?";
 "log_in_send_button" = "Inloggen";
 "log_in_title" = "Aanmelden met e-mail";
+"login_device_not_allowed_alert_contact_button" = "Contact Us";
+"login_device_not_allowed_alert_message" = "You've never logged in on this device before. We've sent you a verification email so check your inbox to continue.";
+"login_device_not_allowed_alert_ok_button" = "OK";
+"login_device_not_allowed_alert_title" = "VERIFY LOGIN";
 "login_scammer_alert_contact_button" = "Neem contact met ons op";
 "login_scammer_alert_keep_browsing_button" = "Overslaan";
 "login_scammer_alert_message" = "Je account wordt beoordeeld door het letgo team. Als je van mening bent dat het ten onrechte werd gemarkeerd, neem dan contact met ons op.";
