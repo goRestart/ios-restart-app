@@ -275,7 +275,7 @@ enum EventParameterName: String {
     case userSoldTo           = "user-sold-to"
     case isBumpedUp           = "bump-up"
     case chatEnabled          = "chat-enabled"
-    case errorReason          = "reason"
+    case reason               = "reason"
     case quickAnswerType      = "quick-answer-type"
     case listSuccess          = "list-success"
     case userFromId           = "user-from-id"
@@ -628,6 +628,11 @@ enum EventParameterAccountNetwork: String {
     case facebook = "facebook"
     case google = "google"
     case email = "email"
+}
+
+enum EventParameterBlockedAccountReason: String {
+    case secondDevice = "second-device"
+    case accountUnderReview = "account-under-review"
 }
 
 enum EventParameterProfileType: String {

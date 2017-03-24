@@ -21,6 +21,7 @@ class LogInEmailViewModelSpec: BaseViewModelSpec {
     var navigatorReceivedOpenRememberPassword = false
     var navigatorReceivedOpenSignUp = false
     var navigatorReceiverOpenScammerAlert = false
+    var navigatorReceiverOpenDeviceNotAllowedAlert = false
     var navigatorReceivedCloseAfterLogIn = false
 
     override func spec() {
@@ -45,6 +46,7 @@ class LogInEmailViewModelSpec: BaseViewModelSpec {
                 self.navigatorReceivedOpenRememberPassword = false
                 self.navigatorReceivedOpenSignUp = false
                 self.navigatorReceiverOpenScammerAlert = false
+                self.navigatorReceiverOpenDeviceNotAllowedAlert = false
                 self.navigatorReceivedCloseAfterLogIn = false
 
                 email = nil
@@ -60,7 +62,7 @@ class LogInEmailViewModelSpec: BaseViewModelSpec {
 
                 var myUser = MockMyUser.makeMock()
                 myUser.email = "albert@letgo.com"
-                sessionManager.logInResult = SessionMyUserResult(value: myUser)
+                sessionManager.logInResult = LoginResult(value: myUser)
 
                 sut = LogInEmailViewModel(email: nil, isRememberedEmail: false,
                                           source: .sell, collapsedEmail: nil,
@@ -357,7 +359,7 @@ class LogInEmailViewModelSpec: BaseViewModelSpec {
 
                 describe("log in fails once with unauthorized error") {
                     beforeEach {
-                        sessionManager.logInResult = SessionMyUserResult(error: .unauthorized)
+                        sessionManager.logInResult = LoginResult(error: .unauthorized)
                         _ = sut.logInButtonPressed()
 
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
@@ -377,7 +379,7 @@ class LogInEmailViewModelSpec: BaseViewModelSpec {
 
                 describe("log in fails twice with unauthorized error") {
                     beforeEach {
-                        sessionManager.logInResult = SessionMyUserResult(error: .unauthorized)
+                        sessionManager.logInResult = LoginResult(error: .unauthorized)
                         _ = sut.logInButtonPressed()
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                         self.delegateReceivedHideLoading = false
@@ -400,7 +402,7 @@ class LogInEmailViewModelSpec: BaseViewModelSpec {
 
                 describe("log in fails twice with another error") {
                     beforeEach {
-                        sessionManager.logInResult = SessionMyUserResult(error: .network)
+                        sessionManager.logInResult = LoginResult(error: .network)
                         _ = sut.logInButtonPressed()
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                         self.delegateReceivedHideLoading = false
@@ -423,7 +425,7 @@ class LogInEmailViewModelSpec: BaseViewModelSpec {
 
                 describe("log in fails with scammer error") {
                     beforeEach {
-                        sessionManager.logInResult = SessionMyUserResult(error: .scammer)
+                        sessionManager.logInResult = LoginResult(error: .scammer)
                         _ = sut.logInButtonPressed()
 
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
@@ -447,7 +449,7 @@ class LogInEmailViewModelSpec: BaseViewModelSpec {
                     beforeEach {
                         var myUser = MockMyUser.makeMock()
                         myUser.email = email
-                        sessionManager.logInResult = SessionMyUserResult(value: myUser)
+                        sessionManager.logInResult = LoginResult(value: myUser)
                         _ = sut.logInButtonPressed()
 
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
@@ -577,6 +579,10 @@ extension LogInEmailViewModelSpec: LogInEmailNavigator {
 
     func openScammerAlertFromLogInEmail(contactURL: URL) {
         navigatorReceiverOpenScammerAlert = true
+    }
+
+    func openDeviceNotAllowedAlertFromLogInEmail(contactURL: URL) {
+        navigatorReceiverOpenDeviceNotAllowedAlert = true
     }
 
     func closeAfterLogInSuccessful() {

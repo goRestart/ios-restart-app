@@ -428,7 +428,7 @@ fileprivate extension LoginCoordinator {
             let contact = UIAction(
                 interface: .button(LGLocalizedString.loginScammerAlertContactButton, .primary(fontSize: .medium)),
                 action: {
-                    self?.tracker.trackEvent(TrackerEvent.loginBlockedAccountContactUs(network))
+                    self?.tracker.trackEvent(TrackerEvent.loginBlockedAccountContactUs(network, reason: .accountUnderReview))
                     self?.closeCoordinator(animated: false) {
                         self?.parentViewController?.openInternalUrl(contactURL)
                     }
@@ -438,7 +438,7 @@ fileprivate extension LoginCoordinator {
                 interface: .button(LGLocalizedString.loginScammerAlertKeepBrowsingButton, .secondary(fontSize: .medium,
                                                                                                      withBorder: false)),
                 action: {
-                    self?.tracker.trackEvent(TrackerEvent.loginBlockedAccountKeepBrowsing(network))
+                    self?.tracker.trackEvent(TrackerEvent.loginBlockedAccountKeepBrowsing(network, reason: .accountUnderReview))
                     self?.closeCoordinator(animated: false, completion: nil)
             })
             let actions = [contact, keepBrowsing]
@@ -446,6 +446,7 @@ fileprivate extension LoginCoordinator {
                                                            text: LGLocalizedString.loginScammerAlertMessage,
                                                            alertType: .iconAlert(icon: #imageLiteral(resourceName: "ic_moderation_alert")),
                                                            buttonsLayout: .vertical, actions: actions)
+            self?.tracker.trackEvent(TrackerEvent.loginBlockedAccountStart(network, reason: .accountUnderReview))
         }
     }
 
@@ -454,7 +455,7 @@ fileprivate extension LoginCoordinator {
             let contact = UIAction(
                 interface: .button(LGLocalizedString.loginDeviceNotAllowedAlertContactButton, .primary(fontSize: .medium)),
                 action: {
-                    self?.tracker.trackEvent(TrackerEvent.loginBlockedAccountContactUs(network))
+                    self?.tracker.trackEvent(TrackerEvent.loginBlockedAccountContactUs(network, reason: .secondDevice))
                     self?.closeCoordinator(animated: false) {
                         self?.parentViewController?.openInternalUrl(contactURL)
                     }
@@ -464,7 +465,7 @@ fileprivate extension LoginCoordinator {
                 interface: .button(LGLocalizedString.loginDeviceNotAllowedAlertOkButton, .secondary(fontSize: .medium,
                                                                                                      withBorder: false)),
                 action: {
-                    self?.tracker.trackEvent(TrackerEvent.loginBlockedAccountKeepBrowsing(network))
+                    self?.tracker.trackEvent(TrackerEvent.loginBlockedAccountKeepBrowsing(network, reason: .secondDevice))
                     self?.closeCoordinator(animated: false, completion: nil)
             })
             let actions = [contact, keepBrowsing]
@@ -472,6 +473,7 @@ fileprivate extension LoginCoordinator {
                                                            text: LGLocalizedString.loginDeviceNotAllowedAlertMessage,
                                                            alertType: .iconAlert(icon: #imageLiteral(resourceName: "ic_device_blocked_alert")),
                                                            buttonsLayout: .vertical, actions: actions)
+            self?.tracker.trackEvent(TrackerEvent.loginBlockedAccountStart(network, reason: .secondDevice))
         }
     }
 

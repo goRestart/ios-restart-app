@@ -17,6 +17,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
     var loading: Bool = false
     var finishedSuccessfully: Bool = false
     var finishedScammer: Bool = false
+    var finishedDeviceNotAllowed: Bool = false
 
     override func spec() {
         describe("SignUpLogInViewModelSpec") {
@@ -52,6 +53,8 @@ class SignUpLogInViewModelSpec: QuickSpec {
 
                 self.loading = false
                 self.finishedSuccessfully = false
+                self.finishedScammer = false
+                self.finishedDeviceNotAllowed = false
             }
 
             describe("initialization") {
@@ -200,7 +203,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
 
                         myUser = MockMyUser.makeMock()
                         myUser.email = email
-                        sessionManager.logInResult = SessionMyUserResult(value: myUser)
+                        sessionManager.logInResult = LoginResult(value: myUser)
 
                         sut.email = email
                         sut.password = "123456"
@@ -226,7 +229,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                     context("standard") {
                         beforeEach {
                             let email = "albert@letgo.com"
-                            sessionManager.logInResult = SessionMyUserResult(error: .network)
+                            sessionManager.logInResult = LoginResult(error: .network)
 
                             sut.email = email
                             sut.password = "123456"
@@ -249,7 +252,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                     context("scammer") {
                         beforeEach {
                             let email = "albert@letgo.com"
-                            sessionManager.logInResult = SessionMyUserResult(error: .scammer)
+                            sessionManager.logInResult = LoginResult(error: .scammer)
 
                             sut.email = email
                             sut.password = "123456"
@@ -432,6 +435,10 @@ extension SignUpLogInViewModelSpec: SignUpLogInNavigator {
     func closeSignUpLogInAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork) {
         finishedSuccessfully = false
         finishedScammer = true
+    }
+    func closeSignUpLogInAndOpenDeviceNotAllowedAlert(contactURL: URL, network: EventParameterAccountNetwork) {
+        finishedSuccessfully = false
+        finishedDeviceNotAllowed = true
     }
     func openRecaptcha(transparentMode: Bool) {}
 
