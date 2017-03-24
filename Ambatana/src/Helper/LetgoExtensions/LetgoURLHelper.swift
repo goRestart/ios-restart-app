@@ -152,9 +152,7 @@ class LetgoURLHelper {
         case .scammer:
             param["moderation"] = "true"
         case .deviceNotAllowed:
-            // param["moderation"] = "true"
-            //TODO: IMPLEMENT
-            break
+            param["device_not_allowed"] = "true"
         }
         return param.map{"\($0)=\($1)"}
             .joined(separator: "&")
