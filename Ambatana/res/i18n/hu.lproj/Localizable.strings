@@ -331,6 +331,10 @@
 "log_in_reset_password_button" = "Elfelejtetted a jelszavad?";
 "log_in_send_button" = "Bejelentkezés";
 "log_in_title" = "Bejelentkezés e-mail címmel";
+"login_device_not_allowed_alert_contact_button" = "Contact Us";
+"login_device_not_allowed_alert_message" = "You've never logged in on this device before. We've sent you a verification email so check your inbox to continue.";
+"login_device_not_allowed_alert_ok_button" = "OK";
+"login_device_not_allowed_alert_title" = "VERIFY LOGIN";
 "login_scammer_alert_contact_button" = "Írok nektek";
 "login_scammer_alert_keep_browsing_button" = "Kihagy";
 "login_scammer_alert_message" = "Fiókodat a letgo csapata éppen ellenőrzi. Ha úgy gondolod, hogy ezt alaptalanul tesszük, vedd fel velünk a kapcsolatot.";

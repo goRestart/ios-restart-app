@@ -17,6 +17,7 @@ class SignUpViewModelSpec: QuickSpec {
     var loading: Bool = false
     var finishedSuccessfully: Bool = false
     var finishedScammer: Bool = false
+    var finishedDeviceNotAllowed: Bool = false
     
     override func spec() {
 
@@ -48,6 +49,7 @@ class SignUpViewModelSpec: QuickSpec {
                 self.loading = false
                 self.finishedSuccessfully = false
                 self.finishedScammer = false
+                self.finishedDeviceNotAllowed = false
             }
 
             describe("initialization") {
@@ -183,6 +185,28 @@ class SignUpViewModelSpec: QuickSpec {
                             expect(self.finishedScammer).to(beTrue())
                         }
                     }
+                    context("device not allowed") {
+                        beforeEach {
+                            googleLoginHelper.loginResult = .deviceNotAllowed
+                            sut.connectGoogleButtonPressed()
+                            expect(self.loading).toEventually(beFalse())
+                        }
+
+                        it("does not save a user account provider") {
+                            let provider = keyValueStorage[.previousUserAccountProvider]
+                            expect(provider).to(beNil())
+                        }
+                        it("does not save a previous user name") {
+                            let username = keyValueStorage[.previousUserEmailOrName]
+                            expect(username).to(beNil())
+                        }
+                        it("tracks login-screen & login-signup-error-google events") {
+                            expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-screen", "login-signup-error-google"]
+                        }
+                        it("asks to show device not allowed error alert") {
+                            expect(self.finishedDeviceNotAllowed).to(beTrue())
+                        }
+                    }
                 }
             }
 
@@ -254,6 +278,28 @@ class SignUpViewModelSpec: QuickSpec {
                             expect(self.finishedScammer).to(beTrue())
                         }
                     }
+                    context("device not allowed") {
+                        beforeEach {
+                            fbLoginHelper.loginResult = .deviceNotAllowed
+                            sut.connectFBButtonPressed()
+                            expect(self.loading).toEventually(beFalse())
+                        }
+
+                        it("does not save a user account provider") {
+                            let provider = keyValueStorage[.previousUserAccountProvider]
+                            expect(provider).to(beNil())
+                        }
+                        it("does not save a previous user name") {
+                            let username = keyValueStorage[.previousUserEmailOrName]
+                            expect(username).to(beNil())
+                        }
+                        it("tracks login-screen & login-signup-error-facebook events") {
+                            expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-screen", "login-signup-error-facebook"]
+                        }
+                        it("asks to show device not allowed error alert") {
+                            expect(self.finishedDeviceNotAllowed).to(beTrue())
+                        }
+                    }
                 }
             }
         }
@@ -270,6 +316,10 @@ extension SignUpViewModelSpec: MainSignUpNavigator {
     func closeMainSignUpAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork) {
         finishedSuccessfully = false
         finishedScammer = true
+    }
+    func closeMainSignUpAndOpenDeviceNotAllowedAlert(contactURL: URL, network: EventParameterAccountNetwork) {
+        finishedSuccessfully = false
+        finishedDeviceNotAllowed = true
     }
     func openSignUpEmailFromMainSignUp(collapsedEmailParam: EventParameterBoolean?) {}
     func openLogInEmailFromMainSignUp(collapsedEmailParam: EventParameterBoolean?) {}

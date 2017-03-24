@@ -17,6 +17,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
     var loading: Bool = false
     var finishedSuccessfully: Bool = false
     var finishedScammer: Bool = false
+    var finishedDeviceNotAllowed: Bool = false
 
     override func spec() {
         describe("SignUpLogInViewModelSpec") {
@@ -52,6 +53,8 @@ class SignUpLogInViewModelSpec: QuickSpec {
 
                 self.loading = false
                 self.finishedSuccessfully = false
+                self.finishedScammer = false
+                self.finishedDeviceNotAllowed = false
             }
 
             describe("initialization") {
@@ -200,7 +203,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
 
                         myUser = MockMyUser.makeMock()
                         myUser.email = email
-                        sessionManager.logInResult = SessionMyUserResult(value: myUser)
+                        sessionManager.logInResult = LoginResult(value: myUser)
 
                         sut.email = email
                         sut.password = "123456"
@@ -226,7 +229,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                     context("standard") {
                         beforeEach {
                             let email = "albert@letgo.com"
-                            sessionManager.logInResult = SessionMyUserResult(error: .network)
+                            sessionManager.logInResult = LoginResult(error: .network)
 
                             sut.email = email
                             sut.password = "123456"
@@ -249,7 +252,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                     context("scammer") {
                         beforeEach {
                             let email = "albert@letgo.com"
-                            sessionManager.logInResult = SessionMyUserResult(error: .scammer)
+                            sessionManager.logInResult = LoginResult(error: .scammer)
 
                             sut.email = email
                             sut.password = "123456"
@@ -270,6 +273,32 @@ class SignUpLogInViewModelSpec: QuickSpec {
                         }
                         it("asks to show scammer error alert") {
                             expect(self.finishedScammer).to(beTrue())
+                        }
+                    }
+                    context("device not allowed") {
+                        beforeEach {
+                            let email = "albert@letgo.com"
+                            sessionManager.logInResult = LoginResult(error: .deviceNotAllowed)
+
+                            sut.email = email
+                            sut.password = "123456"
+                            sut.logIn()
+                            expect(self.loading).toEventually(beFalse())
+                        }
+
+                        it("does not save a user account provider") {
+                            let provider = keyValueStorage[.previousUserAccountProvider]
+                            expect(provider).to(beNil())
+                        }
+                        it("does not save a previous user name") {
+                            let username = keyValueStorage[.previousUserEmailOrName]
+                            expect(username).to(beNil())
+                        }
+                        it("tracks a login-error event") {
+                            expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-error"]
+                        }
+                        it("asks to show device not allowed error alert") {
+                            expect(self.finishedDeviceNotAllowed).to(beTrue())
                         }
                     }
                 }
@@ -344,6 +373,28 @@ class SignUpLogInViewModelSpec: QuickSpec {
                             expect(self.finishedScammer).to(beTrue())
                         }
                     }
+                    context("device not allowed") {
+                        beforeEach {
+                            googleLoginHelper.loginResult = .deviceNotAllowed
+                            sut.logInWithGoogle()
+                            expect(self.loading).toEventually(beFalse())
+                        }
+
+                        it("does not save a user account provider") {
+                            let provider = keyValueStorage[.previousUserAccountProvider]
+                            expect(provider).to(beNil())
+                        }
+                        it("does not save a previous user name") {
+                            let username = keyValueStorage[.previousUserEmailOrName]
+                            expect(username).to(beNil())
+                        }
+                        it("tracks a login-signup-error-google event") {
+                            expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-signup-error-google"]
+                        }
+                        it("asks to show device not allowed error alert") {
+                            expect(self.finishedDeviceNotAllowed).to(beTrue())
+                        }
+                    }
                 }
             }
 
@@ -416,6 +467,28 @@ class SignUpLogInViewModelSpec: QuickSpec {
                             expect(self.finishedScammer).to(beTrue())
                         }
                     }
+                    context("device not allowed") {
+                        beforeEach {
+                            fbLoginHelper.loginResult = .deviceNotAllowed
+                            sut.logInWithFacebook()
+                            expect(self.loading).toEventually(beFalse())
+                        }
+
+                        it("does not save a user account provider") {
+                            let provider = keyValueStorage[.previousUserAccountProvider]
+                            expect(provider).to(beNil())
+                        }
+                        it("does not save a previous user name") {
+                            let username = keyValueStorage[.previousUserEmailOrName]
+                            expect(username).to(beNil())
+                        }
+                        it("tracks a login-signup-error-facebook event") {
+                            expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-signup-error-facebook"]
+                        }
+                        it("asks to show device not allowed error alert") {
+                            expect(self.finishedDeviceNotAllowed).to(beTrue())
+                        }
+                    }
                 }
             }
         }
@@ -432,6 +505,10 @@ extension SignUpLogInViewModelSpec: SignUpLogInNavigator {
     func closeSignUpLogInAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork) {
         finishedSuccessfully = false
         finishedScammer = true
+    }
+    func closeSignUpLogInAndOpenDeviceNotAllowedAlert(contactURL: URL, network: EventParameterAccountNetwork) {
+        finishedSuccessfully = false
+        finishedDeviceNotAllowed = true
     }
     func openRecaptcha(transparentMode: Bool) {}
 

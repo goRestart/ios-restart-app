@@ -23,7 +23,7 @@ class TabBarViewModel: BaseViewModel {
     var notificationsBadge = Variable<String?>(nil)
     var chatsBadge = Variable<String?>(nil)
     var favoriteBadge = Variable<String?>(nil)
-    var hideScrollBanner = Variable<Bool>(false)
+    var hideScrollBanner = Variable<Bool>(true)
 
     private let keyValueStorage: KeyValueStorage
     private let notificationsManager: NotificationsManager
