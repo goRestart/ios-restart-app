@@ -12,6 +12,7 @@ protocol MainSignUpNavigator: class {
     func cancelMainSignUp()
     func closeMainSignUpSuccessful(with myUser: MyUser)
     func closeMainSignUpAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork)
+    func closeMainSignUpAndOpenDeviceNotAllowedAlert(contactURL: URL, network: EventParameterAccountNetwork)
     func openSignUpEmailFromMainSignUp(collapsedEmailParam: EventParameterBoolean?)
     func openLogInEmailFromMainSignUp(collapsedEmailParam: EventParameterBoolean?)
 

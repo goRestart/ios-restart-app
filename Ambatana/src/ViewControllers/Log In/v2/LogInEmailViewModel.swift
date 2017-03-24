@@ -265,6 +265,7 @@ fileprivate extension LogInEmailViewModel {
             unauthorizedErrorCount = unauthorizedErrorCount + 1
         }
 
+        trackLogInFailed(error: logInError)
         if unauthorizedErrorCount >= LogInEmailViewModel.unauthorizedErrorCountRememberPwd && afterMessageCompletion == nil {
             afterMessageCompletion = { [weak self] in
                 self?.showRememberPasswordAlert()

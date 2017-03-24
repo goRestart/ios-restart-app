@@ -378,6 +378,10 @@ class SignUpLogInViewModel: BaseViewModel {
             delegate?.vmHideLoading(nil) { [weak self] in
                 self?.showScammerAlert(self?.email, network: .email)
             }
+        } else if error.isDeviceNotAllowed {
+            delegate?.vmHideLoading(nil) { [weak self] in
+                self?.showDeviceNotAllowedAlert(self?.email, network: .email)
+            }
         } else if error.isUnauthorized {
             unauthorizedErrorCount = unauthorizedErrorCount + 1
         }
@@ -449,7 +453,7 @@ class SignUpLogInViewModel: BaseViewModel {
                                                                     navigator?.cancelSignUpLogIn()
                                                                     return
         }
-        navigator?.closeSignUpLogInAndOpenScammerAlert(contactURL: contactURL, network: network)
+        navigator?.closeSignUpLogInAndOpenDeviceNotAllowedAlert(contactURL: contactURL, network: network)
     }
     
     

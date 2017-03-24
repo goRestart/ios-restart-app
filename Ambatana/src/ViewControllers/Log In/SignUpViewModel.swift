@@ -187,6 +187,10 @@ class SignUpViewModel: BaseViewModel {
             delegate?.vmHideLoading(nil) { [weak self] in
                 self?.showScammerAlert(accountProvider.accountNetwork)
             }
+        } else if result.isDeviceNotAllowed {
+            delegate?.vmHideLoading(nil) { [weak self] in
+                self?.showDeviceNotAllowedAlert(accountProvider.accountNetwork)
+            }
         } else {
             delegate?.vmHideLoading(result.errorMessage, afterMessageCompletion: nil)
         }
@@ -201,6 +205,17 @@ class SignUpViewModel: BaseViewModel {
             }
 
         navigator?.closeMainSignUpAndOpenScammerAlert(contactURL: contactURL, network: network)
+    }
+
+    private func showDeviceNotAllowedAlert(_ network: EventParameterAccountNetwork) {
+        guard let contactURL = LetgoURLHelper.buildContactUsURL(userEmail: nil,
+                                                                installation: installationRepository.installation,
+                                                                type: .deviceNotAllowed) else {
+                                                                    navigator?.cancelMainSignUp()
+                                                                    return
+        }
+
+        navigator?.closeMainSignUpAndOpenDeviceNotAllowedAlert(contactURL: contactURL, network: network)
     }
 
     private func trackLoginFBOK() {

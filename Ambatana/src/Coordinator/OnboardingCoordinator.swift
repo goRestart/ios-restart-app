@@ -203,6 +203,11 @@ extension OnboardingCoordinator: MainSignUpNavigator {
         tourLoginFinish()
     }
 
+    func closeMainSignUpAndOpenDeviceNotAllowedAlert(contactURL: URL, network: EventParameterAccountNetwork) {
+        // device not allowed alert is ignored in on-boarding
+        tourLoginFinish()
+    }
+
     func openSignUpEmailFromMainSignUp(collapsedEmailParam: EventParameterBoolean?) {
         let vc: UIViewController
 

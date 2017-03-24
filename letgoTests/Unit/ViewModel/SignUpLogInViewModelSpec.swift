@@ -275,6 +275,32 @@ class SignUpLogInViewModelSpec: QuickSpec {
                             expect(self.finishedScammer).to(beTrue())
                         }
                     }
+                    context("device not allowed") {
+                        beforeEach {
+                            let email = "albert@letgo.com"
+                            sessionManager.logInResult = LoginResult(error: .deviceNotAllowed)
+
+                            sut.email = email
+                            sut.password = "123456"
+                            sut.logIn()
+                            expect(self.loading).toEventually(beFalse())
+                        }
+
+                        it("does not save a user account provider") {
+                            let provider = keyValueStorage[.previousUserAccountProvider]
+                            expect(provider).to(beNil())
+                        }
+                        it("does not save a previous user name") {
+                            let username = keyValueStorage[.previousUserEmailOrName]
+                            expect(username).to(beNil())
+                        }
+                        it("tracks a login-error event") {
+                            expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-error"]
+                        }
+                        it("asks to show device not allowed error alert") {
+                            expect(self.finishedDeviceNotAllowed).to(beTrue())
+                        }
+                    }
                 }
             }
 
@@ -347,6 +373,28 @@ class SignUpLogInViewModelSpec: QuickSpec {
                             expect(self.finishedScammer).to(beTrue())
                         }
                     }
+                    context("device not allowed") {
+                        beforeEach {
+                            googleLoginHelper.loginResult = .deviceNotAllowed
+                            sut.logInWithGoogle()
+                            expect(self.loading).toEventually(beFalse())
+                        }
+
+                        it("does not save a user account provider") {
+                            let provider = keyValueStorage[.previousUserAccountProvider]
+                            expect(provider).to(beNil())
+                        }
+                        it("does not save a previous user name") {
+                            let username = keyValueStorage[.previousUserEmailOrName]
+                            expect(username).to(beNil())
+                        }
+                        it("tracks a login-signup-error-google event") {
+                            expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-signup-error-google"]
+                        }
+                        it("asks to show device not allowed error alert") {
+                            expect(self.finishedDeviceNotAllowed).to(beTrue())
+                        }
+                    }
                 }
             }
 
@@ -417,6 +465,28 @@ class SignUpLogInViewModelSpec: QuickSpec {
                         }
                         it("asks to show scammer error alert") {
                             expect(self.finishedScammer).to(beTrue())
+                        }
+                    }
+                    context("device not allowed") {
+                        beforeEach {
+                            fbLoginHelper.loginResult = .deviceNotAllowed
+                            sut.logInWithFacebook()
+                            expect(self.loading).toEventually(beFalse())
+                        }
+
+                        it("does not save a user account provider") {
+                            let provider = keyValueStorage[.previousUserAccountProvider]
+                            expect(provider).to(beNil())
+                        }
+                        it("does not save a previous user name") {
+                            let username = keyValueStorage[.previousUserEmailOrName]
+                            expect(username).to(beNil())
+                        }
+                        it("tracks a login-signup-error-facebook event") {
+                            expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-signup-error-facebook"]
+                        }
+                        it("asks to show device not allowed error alert") {
+                            expect(self.finishedDeviceNotAllowed).to(beTrue())
                         }
                     }
                 }

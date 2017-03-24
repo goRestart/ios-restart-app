@@ -443,6 +443,26 @@ class LogInEmailViewModelSpec: BaseViewModelSpec {
                     }
                 }
 
+                describe("log in fails with device not allowed error") {
+                    beforeEach {
+                        sessionManager.logInResult = LoginResult(error: .deviceNotAllowed)
+                        _ = sut.logInButtonPressed()
+
+                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                    }
+
+                    it("tracks a loginEmailError event") {
+                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                        expect(trackedEventNames) == [EventName.loginEmailError]
+                    }
+                    it("does not call close after login in navigator") {
+                        expect(self.navigatorReceivedCloseAfterLogIn) == false
+                    }
+                    it("calls open device not allowed alert in the navigator") {
+                        expect(self.navigatorReceiverOpenDeviceNotAllowedAlert).toEventually(beTrue())
+                    }
+                }
+
                 describe("log in succeeds") {
                     let email = "albert.hernandez@gmail.com"
 

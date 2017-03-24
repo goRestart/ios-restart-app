@@ -122,6 +122,10 @@ extension LoginCoordinator: MainSignUpNavigator {
         closeRootAndOpenScammerAlert(contactURL: contactURL, network: network)
     }
 
+    func closeMainSignUpAndOpenDeviceNotAllowedAlert(contactURL: URL, network: EventParameterAccountNetwork) {
+        closeRootAndOpenDeviceNotAllowedAlert(contactURL: contactURL, network: network)
+    }
+
     func openSignUpEmailFromMainSignUp(collapsedEmailParam: EventParameterBoolean?) {
         let vc: UIViewController
 
