@@ -331,6 +331,10 @@
 "log_in_reset_password_button" = "Unohditko salasanasi?";
 "log_in_send_button" = "Kirjaudu sisään";
 "log_in_title" = "Kirjaudu sisään sähköpostilla";
+"login_device_not_allowed_alert_contact_button" = "Contact Us";
+"login_device_not_allowed_alert_message" = "You've never logged in on this device before. We've sent you a verification email so check your inbox to continue.";
+"login_device_not_allowed_alert_ok_button" = "OK";
+"login_device_not_allowed_alert_title" = "VERIFY LOGIN";
 "login_scammer_alert_contact_button" = "Ota meihin yhteyttä";
 "login_scammer_alert_keep_browsing_button" = "Ohita";
 "login_scammer_alert_message" = "letgo-tiimi suorittaa tilillesi tarkastusta. Mikäli uskot, että tilisi on ilmiannettu aiheettomasti, ota meihin yhteyttä.";

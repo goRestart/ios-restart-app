@@ -892,6 +892,8 @@
 		C765EE471E7FE58200063750 /* MockDeepLinksRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C765EE461E7FE58200063750 /* MockDeepLinksRouter.swift */; };
 		C765EE491E7FEA4500063750 /* DeepLink+MockFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C765EE481E7FEA4500063750 /* DeepLink+MockFactory.swift */; };
 		C765EE4B1E7FEEE200063750 /* MockChatEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C765EE4A1E7FEEE200063750 /* MockChatEvent.swift */; };
+		C765EE7F1E84036400063750 /* SessionErrors+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C765EE7E1E84036400063750 /* SessionErrors+LG.swift */; };
+		C765EE801E84036400063750 /* SessionErrors+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C765EE7E1E84036400063750 /* SessionErrors+LG.swift */; };
 		C768CC1A1CA44B5F00E39E5F /* BranchDeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = C768CC191CA44B5F00E39E5F /* BranchDeepLink.swift */; };
 		C768CC1B1CA44B5F00E39E5F /* BranchDeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = C768CC191CA44B5F00E39E5F /* BranchDeepLink.swift */; };
 		C7732F6A1D87FA3400EAD5B7 /* TourPostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7732F681D87FA3400EAD5B7 /* TourPostingViewController.swift */; };
@@ -1958,6 +1960,7 @@
 		C765EE461E7FE58200063750 /* MockDeepLinksRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockDeepLinksRouter.swift; sourceTree = "<group>"; };
 		C765EE481E7FEA4500063750 /* DeepLink+MockFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DeepLink+MockFactory.swift"; sourceTree = "<group>"; };
 		C765EE4A1E7FEEE200063750 /* MockChatEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockChatEvent.swift; sourceTree = "<group>"; };
+		C765EE7E1E84036400063750 /* SessionErrors+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SessionErrors+LG.swift"; sourceTree = "<group>"; };
 		C768CC191CA44B5F00E39E5F /* BranchDeepLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BranchDeepLink.swift; sourceTree = "<group>"; };
 		C7732F681D87FA3400EAD5B7 /* TourPostingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourPostingViewController.swift; sourceTree = "<group>"; };
 		C7732F691D87FA3400EAD5B7 /* TourPostingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TourPostingViewController.xib; sourceTree = "<group>"; };
@@ -2731,6 +2734,7 @@
 				C79895C71DE4349900DD58BF /* SessionEvent+LG.swift */,
 				C738327F1E029CC2007D0C03 /* AccountProvider+LG.swift */,
 				C7AFFB0C1E7172B20052A9CA /* MyUser+LG.swift */,
+				C765EE7E1E84036400063750 /* SessionErrors+LG.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -5274,6 +5278,7 @@
 				C711A1AB1CDC99E5002D30D9 /* ProductFavoriteNotificationCellDrawer.swift in Sources */,
 				C7DCFEC21BFE3CFD00F7A4FB /* UITabBarController+Animations.swift in Sources */,
 				50C2E19E1E6FFADD006639BB /* PostProductWhiteCamButtonFooter.swift in Sources */,
+				C765EE7F1E84036400063750 /* SessionErrors+LG.swift in Sources */,
 				C7E73E8A1CD1F77E000F2591 /* NotificationData.swift in Sources */,
 				C7D23FE11DCC954D00931803 /* ProductCarouselUIHelper.swift in Sources */,
 				50261B1F1AFB49B6006E88E0 /* DevelopmentEnvironment.swift in Sources */,
@@ -5772,6 +5777,7 @@
 				50C43DA61E26467C00F10E53 /* SignUpEmailStep1ViewController.swift in Sources */,
 				C7DB41F51C5138B500400945 /* CellDrawer.swift in Sources */,
 				C7B588601CE1DE1C009B3975 /* RelationInfoView.swift in Sources */,
+				C765EE801E84036400063750 /* SessionErrors+LG.swift in Sources */,
 				50C2E19F1E6FFADD006639BB /* PostProductWhiteCamButtonFooter.swift in Sources */,
 				C7DB41F61C5138B500400945 /* UITabBarController+Animations.swift in Sources */,
 				6A879DA01C8D89A400E0C868 /* PushPrePermissionsSettingsViewController.swift in Sources */,

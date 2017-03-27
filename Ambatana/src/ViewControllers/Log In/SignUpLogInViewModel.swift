@@ -237,7 +237,7 @@ class SignUpLogInViewModel: BaseViewModel {
             delegate?.vmHideLoading(LGLocalizedString.signUpAcceptanceError, afterMessageCompletion: nil)
             trackSignupEmailFailedWithError(.termsNotAccepted)
         } else {
-            let completion: (Result<MyUser, SessionManagerError>) -> () = { [weak self] signUpResult in
+            let completion: (Result<MyUser, SignupError>) -> () = { [weak self] signUpResult in
                 guard let strongSelf = self else { return }
 
                 if let user = signUpResult.value {
@@ -251,31 +251,25 @@ class SignUpLogInViewModel: BaseViewModel {
                     strongSelf.delegate?.vmHideLoading(nil) { [weak self] in
                         self?.navigator?.closeSignUpLogInSuccessful(with: user)
                     }
-                } else if let sessionManagerError = signUpResult.error {
-                    switch sessionManagerError {
-                    case .conflict(let cause):
-                        switch cause {
-                        case .userExists:
-                            strongSelf.sessionManager.login(strongSelf.email, password: strongSelf.password) { [weak self] loginResult in
-                                guard let strongSelf = self else { return }
-                                if let myUser = loginResult.value {
-                                    let rememberedAccount = strongSelf.previousEmail.value != nil
-                                    let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource,
-                                                                               rememberedAccount: rememberedAccount,
-                                                                               collapsedEmail: strongSelf.collapsedEmailParam)
-                                    self?.tracker.trackEvent(trackerEvent)
-                                    self?.delegate?.vmHideLoading(nil) { [weak self] in
-                                        self?.navigator?.closeSignUpLogInSuccessful(with: myUser)
-                                    }
-                                } else if let _ = loginResult.error {
-                                    strongSelf.processSignUpSessionError(sessionManagerError)
+                } else if let signUpError = signUpResult.error {
+                    if signUpError.isUserExists {
+                        strongSelf.sessionManager.login(strongSelf.email, password: strongSelf.password) { [weak self] loginResult in
+                            guard let strongSelf = self else { return }
+                            if let myUser = loginResult.value {
+                                let rememberedAccount = strongSelf.previousEmail.value != nil
+                                let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource,
+                                                                           rememberedAccount: rememberedAccount,
+                                                                           collapsedEmail: strongSelf.collapsedEmailParam)
+                                self?.tracker.trackEvent(trackerEvent)
+                                self?.delegate?.vmHideLoading(nil) { [weak self] in
+                                    self?.navigator?.closeSignUpLogInSuccessful(with: myUser)
                                 }
+                            } else {
+                                strongSelf.process(signupError: signUpError)
                             }
-                        default:
-                            strongSelf.processSignUpSessionError(sessionManagerError)
                         }
-                    default:
-                        strongSelf.processSignUpSessionError(sessionManagerError)
+                    } else {
+                        strongSelf.process(signupError: signUpError)
                     }
                 }
             }
@@ -339,15 +333,11 @@ class SignUpLogInViewModel: BaseViewModel {
         fbLoginHelper.login({ [weak self] _ in
             self?.delegate?.vmShowLoading(nil)
         }, loginCompletion: { [weak self] result in
-            let error = self?.processExternalServiceAuthResult(result, accountProvider: .facebook)
-            switch result {
-            case .success:
+            self?.processExternalServiceAuthResult(result, accountProvider: .facebook)
+            if result.isSuccess {
                 self?.trackLoginFBOK()
-            default:
-                break
-            }
-            if let error = error {
-                self?.trackLoginFBFailedWithError(error)
+            } else if let trackingError = result.trackingError {
+                self?.trackLoginFBFailedWithError(trackingError)
             }
         })
     }
@@ -357,15 +347,11 @@ class SignUpLogInViewModel: BaseViewModel {
             // Google OAuth completed. Token obtained
             self?.delegate?.vmShowLoading(nil)
         }) { [weak self] result in
-            let error = self?.processExternalServiceAuthResult(result, accountProvider: .google)
-            switch result {
-            case .success:
+            self?.processExternalServiceAuthResult(result, accountProvider: .google)
+            if result.isSuccess {
                 self?.trackLoginGoogleOK()
-            default:
-                break
-            }
-            if let error = error {
-                self?.trackLoginGoogleFailedWithError(error)
+            } else if let trackingError = result.trackingError {
+                self?.trackLoginGoogleFailedWithError(trackingError)
             }
         }
     }
@@ -386,165 +372,93 @@ class SignUpLogInViewModel: BaseViewModel {
         termsAndConditionsEnabled = systemCountryCode == turkey || countryCode.lowercased() == turkey
     }
 
-    private func processLoginSessionError(_ error: SessionManagerError) {
-        let message: String
-        switch (error) {
-        case .network:
-            message = LGLocalizedString.commonErrorConnectionFailed
+    private func processLoginSessionError(_ error: LoginError) {
+        trackLoginEmailFailedWithError(error.trackingError)
+        var afterMessageCompletion: (() -> ())? = nil
+        switch error {
+        case .scammer:
+            afterMessageCompletion = { [weak self] in
+                self?.showScammerAlert(self?.email, network: .email)
+            }
+        case .deviceNotAllowed:
+            afterMessageCompletion = { [weak self] in
+                self?.showDeviceNotAllowedAlert(self?.email, network: .email)
+            }
         case .unauthorized:
-            message = LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
-            unauthorizedErrorCount = unauthorizedErrorCount + 1
+            switch featureFlags.signUpLoginImprovement {
+            case .v1WImprovements:
+                unauthorizedErrorCount = unauthorizedErrorCount + 1
+                if unauthorizedErrorCount >= SignUpLogInViewModel.unauthorizedErrorCountRememberPwd {
+                    afterMessageCompletion = { [weak self] in
+                        self?.showRememberPasswordAlert()
+                    }
+                }
+            case .v1, .v2:
+                break
+            }
+        case .network, .badRequest, .notFound, .forbidden, .conflict, .tooManyRequests, .userNotVerified, .internalError:
+            break
+        }
+
+        delegate?.vmHideLoading(error.errorMessage, afterMessageCompletion: afterMessageCompletion)
+    }
+
+    private func process(signupError: SignupError) {
+        trackSignupEmailFailedWithError(signupError.trackingError)
+        switch signupError {
         case .scammer:
             delegate?.vmHideLoading(nil) { [weak self] in
                 self?.showScammerAlert(self?.email, network: .email)
             }
-            trackLoginEmailFailedWithError(eventParameterForSessionError(error))
-            return
-        case .notFound, .internalError, .forbidden, .nonExistingEmail, .conflict, .tooManyRequests, .badRequest,
-             .userNotVerified:
-            message = LGLocalizedString.logInErrorSendErrorGeneric
-        }
-
-        var afterMessageCompletion: (() -> ())? = nil
-        switch featureFlags.signUpLoginImprovement {
-        case .v1WImprovements:
-            if unauthorizedErrorCount >= SignUpLogInViewModel.unauthorizedErrorCountRememberPwd {
-                afterMessageCompletion = { [weak self] in
-                    self?.showRememberPasswordAlert()
-                }
-            }
-        case .v1, .v2:
-            break
-        }
-
-        delegate?.vmHideLoading(message, afterMessageCompletion: afterMessageCompletion)
-        trackLoginEmailFailedWithError(eventParameterForSessionError(error))
-    }
-
-    private func processSignUpSessionError(_ error: SessionManagerError) {
-        let message: String
-        switch (error) {
-        case .network:
-            message = LGLocalizedString.commonErrorConnectionFailed
-        case .badRequest(let cause):
-            switch cause {
-            case .notSpecified, .other:
-                message = LGLocalizedString.signUpSendErrorGeneric
-            case .nonAcceptableParams:
-                message = LGLocalizedString.signUpSendErrorInvalidDomain
-            }
-        case .conflict(let cause):
-            switch cause {
-            case .userExists, .notSpecified, .other:
-                message = LGLocalizedString.signUpSendErrorEmailTaken(email)
-            case .emailRejected:
-                message = LGLocalizedString.mainSignUpErrorUserRejected
-            case .requestAlreadyProcessed:
-                message = LGLocalizedString.mainSignUpErrorRequestAlreadySent
-            }
-        case .nonExistingEmail:
-            message = LGLocalizedString.signUpSendErrorInvalidEmail
         case .userNotVerified:
             delegate?.vmHideLoading(nil) { [weak self] in
                 self?.navigator?.openRecaptcha(transparentMode: self?.featureFlags.captchaTransparent ?? false)
             }
-            return
-        case .scammer:
-            delegate?.vmHideLoading(nil) { [weak self] in
-                self?.showScammerAlert(self?.email, network: .email)
-            }
-            return
-        case .notFound, .internalError, .forbidden, .unauthorized, .tooManyRequests:
-            message = LGLocalizedString.signUpSendErrorGeneric
-        }
-        delegate?.vmHideLoading(message, afterMessageCompletion: nil)
-        trackSignupEmailFailedWithError(eventParameterForSessionError(error))
-    }
-
-    private func eventParameterForSessionError(_ error: SessionManagerError) -> EventParameterLoginError {
-        switch (error) {
-        case .network:
-            return .network
-        case .badRequest(let cause):
-            switch cause {
-            case .nonAcceptableParams:
-                return .blacklistedDomain
-            case .notSpecified, .other:
-                return .badRequest
-            }
-        case .scammer:
-            return .forbidden
-        case .notFound:
-            return .notFound
-        case .conflict:
-            return .emailTaken
-        case .forbidden:
-            return .forbidden
-        case let .internalError(description):
-            return .internalError(description: description)
-        case .nonExistingEmail:
-            return .nonExistingEmail
-        case .unauthorized:
-            return .unauthorized
-        case .tooManyRequests:
-            return .tooManyRequests
-        case .userNotVerified:
-            return .internalError(description: "UserNotVerified")
+        case .network, .badRequest, .notFound, .forbidden, .unauthorized, .conflict, .nonExistingEmail,
+             .tooManyRequests, .internalError:
+            let message = signupError.errorMessage(userEmail: email)
+            delegate?.vmHideLoading(message, afterMessageCompletion: nil)
         }
     }
 
-    private func processExternalServiceAuthResult(_ result: ExternalServiceAuthResult,
-                                                  accountProvider: AccountProvider) -> EventParameterLoginError? {
-        var loginError: EventParameterLoginError? = nil
+    private func processExternalServiceAuthResult(_ result: ExternalServiceAuthResult, accountProvider: AccountProvider) {
         switch result {
         case let .success(myUser):
             savePreviousEmailOrUsername(accountProvider, userEmailOrName: myUser.name)
             delegate?.vmHideLoading(nil) { [weak self] in
                 self?.navigator?.closeSignUpLogInSuccessful(with: myUser)
             }
-        case .cancelled:
-            delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
-        case .network:
-            delegate?.vmHideLoading(LGLocalizedString.mainSignUpFbConnectErrorGeneric, afterMessageCompletion: nil)
-            loginError = .network
         case .scammer:
             delegate?.vmHideLoading(nil) { [weak self] in
                 self?.showScammerAlert(self?.email, network: accountProvider.accountNetwork)
             }
-            loginError = .forbidden
-        case .notFound:
-            delegate?.vmHideLoading(LGLocalizedString.mainSignUpFbConnectErrorGeneric, afterMessageCompletion: nil)
-            loginError = .userNotFoundOrWrongPassword
-        case .badRequest:
-            delegate?.vmHideLoading(LGLocalizedString.mainSignUpFbConnectErrorGeneric, afterMessageCompletion: nil)
-            loginError = .badRequest
-        case .conflict(let cause):
-            var message = ""
-            switch cause {
-            case .userExists, .notSpecified, .other:
-                message = LGLocalizedString.mainSignUpFbConnectErrorEmailTaken
-            case .emailRejected:
-                message = LGLocalizedString.mainSignUpErrorUserRejected
-            case .requestAlreadyProcessed:
-                message = LGLocalizedString.mainSignUpErrorRequestAlreadySent
+        case .deviceNotAllowed:
+            delegate?.vmHideLoading(nil) { [weak self] in
+                self?.showDeviceNotAllowedAlert(self?.email, network: accountProvider.accountNetwork)
             }
-            delegate?.vmHideLoading(message, afterMessageCompletion: nil)
-            loginError = .emailTaken
-        case let .internalError(description):
-            delegate?.vmHideLoading(LGLocalizedString.mainSignUpFbConnectErrorGeneric, afterMessageCompletion: nil)
-            loginError = .internalError(description: description)
+        case .cancelled, .network, .notFound, .conflict, .badRequest, .internalError, .loginError:
+            delegate?.vmHideLoading(result.errorMessage, afterMessageCompletion: nil)
         }
-        return loginError
     }
 
     private func showScammerAlert(_ userEmail: String?, network: EventParameterAccountNetwork) {
         guard let contactURL = LetgoURLHelper.buildContactUsURL(userEmail: userEmail,
                                                                 installation: installationRepository.installation,
-                                                                moderation: true) else {
+                                                                type: .scammer) else {
             navigator?.cancelSignUpLogIn()
             return
         }
         navigator?.closeSignUpLogInAndOpenScammerAlert(contactURL: contactURL, network: network)
+    }
+
+    private func showDeviceNotAllowedAlert(_ userEmail: String?, network: EventParameterAccountNetwork) {
+        guard let contactURL = LetgoURLHelper.buildContactUsURL(userEmail: userEmail,
+                                                                installation: installationRepository.installation,
+                                                                type: .deviceNotAllowed) else {
+                                                                    navigator?.cancelSignUpLogIn()
+                                                                    return
+        }
+        navigator?.closeSignUpLogInAndOpenDeviceNotAllowedAlert(contactURL: contactURL, network: network)
     }
     
     
@@ -578,9 +492,8 @@ class SignUpLogInViewModel: BaseViewModel {
         tracker.trackEvent(TrackerEvent.signupError(error))
     }
 
-    fileprivate func trackPasswordRecoverFailed(error: SessionManagerError) {
-        let trackingError = eventParameterForSessionError(error)
-        let event = TrackerEvent.passwordResetError(trackingError)
+    fileprivate func trackPasswordRecoverFailed(error: RecoverPasswordError) {
+        let event = TrackerEvent.passwordResetError(error.trackingError)
         tracker.trackEvent(event)
     }
 }
@@ -677,7 +590,7 @@ fileprivate extension SignUpLogInViewModel {
         delegate?.vmHideLoading(message, afterMessageCompletion: nil)
     }
 
-    func recoverPasswordFailed(error: SessionManagerError) {
+    func recoverPasswordFailed(error: RecoverPasswordError) {
         trackPasswordRecoverFailed(error: error)
 
         var message: String? = nil
