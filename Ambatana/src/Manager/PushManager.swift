@@ -18,19 +18,23 @@ final class PushManager {
 
     private let pushPermissionManager: PushPermissionsManager
     private let installationRepository: InstallationRepository
+    private let deepLinksRouter: DeepLinksRouter
 
 
     // MARK: - Lifecycle
 
     convenience init() {
-        let pushPermissionManager = PushPermissionsManager.sharedInstance
-        let installationRepository = Core.installationRepository
-        self.init(pushPermissionManager: pushPermissionManager, installationRepository: installationRepository)
+        self.init(pushPermissionManager: PushPermissionsManager.sharedInstance,
+                  installationRepository: Core.installationRepository,
+                  deepLinksRouter: LGDeepLinksRouter.sharedInstance)
     }
 
-    required init(pushPermissionManager: PushPermissionsManager, installationRepository: InstallationRepository) {
+    required init(pushPermissionManager: PushPermissionsManager,
+                  installationRepository: InstallationRepository,
+                  deepLinksRouter: DeepLinksRouter) {
         self.pushPermissionManager = pushPermissionManager
         self.installationRepository = installationRepository
+        self.deepLinksRouter = deepLinksRouter
     }
 
 
@@ -55,8 +59,7 @@ final class PushManager {
 
     func application(_ application: UIApplication,
                             didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
-        DeepLinksRouter.sharedInstance.didReceiveRemoteNotification(userInfo,
-                                                                    applicationState: application.applicationState)
+        deepLinksRouter.didReceiveRemoteNotification(userInfo, applicationState: application.applicationState)
     }
 
     func application(_ application: UIApplication,

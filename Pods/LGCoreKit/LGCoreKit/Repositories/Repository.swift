@@ -11,7 +11,7 @@ import Result
 
 // MARK: - RepositoryError
 
-public enum RepositoryError: Error {
+public enum RepositoryError: Error, ApiErrorConvertible, WebSocketErrorConvertible {
     
     case internalError(message: String)
     case network(errorCode: Int, onBackground: Bool)
@@ -101,6 +101,14 @@ extension RepositoryError {
     }
 }
 
+protocol ApiErrorConvertible {
+    init(apiError: ApiError)
+}
+
+protocol WebSocketErrorConvertible {
+    init(webSocketError: WebSocketError)
+}
+
 
 // MARK: - HOF
 
@@ -110,50 +118,51 @@ Handles the given API result and executes a completion with a `RepositoryError`.
 - parameter success: A completion block that is executed only on successful result.
 - parameter completion: A completion block that is executed on both successful & failure result.
 */
-func handleApiResult<T>(_ result: Result<T, ApiError>, completion: ((Result<T, RepositoryError>) -> ())?) {
+func handleApiResult<T, E: ApiErrorConvertible>(_ result: Result<T, ApiError>, completion: ((Result<T, E>) -> ())?) {
     handleApiResult(result, success: nil, failed: nil, completion: completion)
 }
 
-func handleApiResult<T>(_ result: Result<T, ApiError>,
+func handleApiResult<T, E: ApiErrorConvertible>(_ result: Result<T, ApiError>,
     success: ((T) -> ())?,
-    completion: ((Result<T, RepositoryError>) -> ())?) {
+    completion: ((Result<T, E>) -> ())?) {
         handleApiResult(result, success: success, failed: nil, completion: completion)
 }
 
-func handleApiResult<T>(_ result: Result<T, ApiError>,
+func handleApiResult<T, E: ApiErrorConvertible>(_ result: Result<T, ApiError>,
     success: ((T) -> ())?,
     failed: ((ApiError) -> ())?,
-    completion: ((Result<T, RepositoryError>) -> ())?) {
+    completion: ((Result<T, E>) -> ())?) {
         if let value = result.value {
             success?(value)
-            completion?(Result<T, RepositoryError>(value: value))
+            completion?(Result<T, E>(value: value))
         } else if let apiError = result.error {
             failed?(apiError)
-            let error = RepositoryError(apiError: apiError)
-            completion?(Result<T, RepositoryError>(error: error))
+            let error = E.init(apiError: apiError)
+            completion?(Result<T, E>(error: error))
         }
 }
 
-func handleWebSocketResult<T>(_ result: Result<T, WebSocketError>, completion: ((Result<T, RepositoryError>) -> ())?) {
+func handleWebSocketResult<T, E: WebSocketErrorConvertible>(_ result: Result<T, WebSocketError>,
+                           completion: ((Result<T, E>) -> ())?) {
     handleWebSocketResult(result, success: nil, failed: nil, completion: completion)
 }
 
-func handleWebSocketResult<T>(_ result: Result<T, WebSocketError>,
+func handleWebSocketResult<T, E: WebSocketErrorConvertible>(_ result: Result<T, WebSocketError>,
     success: ((T) -> ())?,
-    completion: ((Result<T, RepositoryError>) -> ())?) {
+    completion: ((Result<T, E>) -> ())?) {
         handleWebSocketResult(result, success: success, failed: nil, completion: completion)
 }
 
-func handleWebSocketResult<T>(_ result: Result<T, WebSocketError>,
+func handleWebSocketResult<T, E: WebSocketErrorConvertible>(_ result: Result<T, WebSocketError>,
     success: ((T) -> ())?,
     failed: ((WebSocketError) -> ())?,
-    completion: ((Result<T, RepositoryError>) -> ())?) {
+    completion: ((Result<T, E>) -> ())?) {
         if let value = result.value {
             success?(value)
-            completion?(Result<T, RepositoryError>(value: value))
+            completion?(Result<T, E>(value: value))
         } else if let webSocketError = result.error {
             failed?(webSocketError)
-            let webSocketError = RepositoryError(webSocketError: webSocketError)
-            completion?(Result<T, RepositoryError>(error: webSocketError))
+            let webSocketError = E.init(webSocketError: webSocketError)
+            completion?(Result<T, E>(error: webSocketError))
         }
 }

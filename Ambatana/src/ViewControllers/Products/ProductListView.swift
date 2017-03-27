@@ -544,9 +544,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         Will call scroll delegate on scroll events different than bouncing in the edges indicating scrollingDown state
     */
     private func informScrollDelegate(_ scrollView: UIScrollView) {
-        if shouldNotifyScrollDelegate(scrollView: scrollView) {
-            scrollDelegate?.productListView(self, didScrollDown: scrollingDown)
-        }
+        notifyScrollDownIfNeeded(scrollView: scrollView)
         scrollDelegate?.productListView(self, didScrollWithContentOffsetY: scrollView.contentOffset.y)
     }
     
@@ -571,11 +569,17 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         -> YES IF (LastContentOffset < 0 && ScrollingUP)
      */
 
-    private func shouldNotifyScrollDelegate(scrollView: UIScrollView) -> Bool {
-        guard isDragging.value else { return false }
-        let limit = (scrollView.contentSize.height - scrollView.frame.size.height + collectionViewContentInset.bottom)
-        let offsetLowerThanBouncingLimit = lastContentOffset < limit
-        return lastContentOffset > 0.0 && offsetLowerThanBouncingLimit || lastContentOffset < 0.0 && !scrollingDown
+    private func notifyScrollDownIfNeeded(scrollView: UIScrollView) {
+        if isDragging.value {
+            let limit = (scrollView.contentSize.height - scrollView.frame.size.height + collectionViewContentInset.bottom)
+            let offsetLowerThanBouncingLimit = lastContentOffset < limit
+            if lastContentOffset > 0.0 && offsetLowerThanBouncingLimit || lastContentOffset < 0.0 && !scrollingDown {
+                scrollDelegate?.productListView(self, didScrollDown: scrollingDown)
+            }
+        } else if lastContentOffset == -collectionViewContentInset.top {
+            // If automatically scrolled to top, we should inform !scrollDown
+            scrollDelegate?.productListView(self, didScrollDown: false)
+        }
     }
     
     /**

@@ -84,5 +84,15 @@
         "name": "QuickAnswersRepeatedTextField",
         "values": ["no", "yes"],
         "description": "Quick anwers periscope include the one as textfield placeholder"
+    },
+    {
+        "name": "CarsVerticalEnabled",
+        "values": ["no", "yes"],
+        "description": "Cars vertical enabled"
+    },
+    {
+        "name": "CarsCategoryAfterPicture",
+        "values": ["no", "yes"],
+        "description": "When cars vertical enabled, select category after before/taking the picture/s"
     }
 ]

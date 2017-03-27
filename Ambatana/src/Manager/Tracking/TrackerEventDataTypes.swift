@@ -275,7 +275,7 @@ enum EventParameterName: String {
     case userSoldTo           = "user-sold-to"
     case isBumpedUp           = "bump-up"
     case chatEnabled          = "chat-enabled"
-    case errorReason          = "reason"
+    case reason               = "reason"
     case quickAnswerType      = "quick-answer-type"
     case listSuccess          = "list-success"
     case userFromId           = "user-from-id"
@@ -398,6 +398,7 @@ enum EventParameterLoginError {
     case forbidden
     case invalidEmail
     case nonExistingEmail
+    case deviceNotAllowed
     case invalidPassword
     case invalidUsername
     case userNotFoundOrWrongPassword
@@ -426,6 +427,8 @@ enum EventParameterLoginError {
             return "InvalidEmail"
         case .nonExistingEmail:
             return "NonExistingEmail"
+        case .deviceNotAllowed:
+            return "DeviceNotAllowed"
         case .invalidPassword:
             return "InvalidPassword"
         case .invalidUsername:
@@ -458,7 +461,7 @@ enum EventParameterLoginError {
             return description
         case .network, .unauthorized, .notFound, .forbidden, .invalidEmail, .nonExistingEmail, .invalidPassword,
              .invalidUsername, .userNotFoundOrWrongPassword, .emailTaken, .passwordMismatch, .usernameTaken,
-             .termsNotAccepted, .tooManyRequests, .scammer, .blacklistedDomain, .badRequest:
+             .termsNotAccepted, .tooManyRequests, .scammer, .blacklistedDomain, .badRequest, .deviceNotAllowed:
             return nil
         }
     }
@@ -625,6 +628,11 @@ enum EventParameterAccountNetwork: String {
     case facebook = "facebook"
     case google = "google"
     case email = "email"
+}
+
+enum EventParameterBlockedAccountReason: String {
+    case secondDevice = "second-device"
+    case accountUnderReview = "account-under-review"
 }
 
 enum EventParameterProfileType: String {

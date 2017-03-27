@@ -47,8 +47,8 @@ class SignUpEmailStep2ViewModelSpec: BaseViewModelSpec {
                 let email = "albert.hernandez@gmail.com"
                 var myUser = MockMyUser.makeMock()
                 myUser.email = email
-                sessionManager.signUpResult = SessionMyUserResult(value: myUser)
-                sessionManager.logInResult = SessionMyUserResult(value: myUser)
+                sessionManager.signUpResult = SignupResult(value: myUser)
+                sessionManager.logInResult = LoginResult(value: myUser)
                 installationRepository = MockInstallationRepository()
                 installationRepository.installationVar.value = MockInstallation.makeMock()
                 sut = SignUpEmailStep2ViewModel(email: email, isRememberedEmail: false, password: "654321",
@@ -231,7 +231,7 @@ class SignUpEmailStep2ViewModelSpec: BaseViewModelSpec {
 
                 describe("sign up fails with scammer error") {
                     beforeEach {
-                        sessionManager.signUpResult = SessionMyUserResult(error: .scammer)
+                        sessionManager.signUpResult = SignupResult(error: .scammer)
                         _ = sut.signUpButtonPressed()
 
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
@@ -251,7 +251,7 @@ class SignUpEmailStep2ViewModelSpec: BaseViewModelSpec {
 
                 describe("sign up fails with user not verified error") {
                     beforeEach {
-                        sessionManager.signUpResult = SessionMyUserResult(error: .userNotVerified)
+                        sessionManager.signUpResult = SignupResult(error: .userNotVerified)
                         _ = sut.signUpButtonPressed()
 
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
@@ -271,12 +271,12 @@ class SignUpEmailStep2ViewModelSpec: BaseViewModelSpec {
 
                 describe("sign up fails with conflict user exists error") {
                     beforeEach {
-                        sessionManager.signUpResult = SessionMyUserResult(error: .conflict(cause: .userExists))
+                        sessionManager.signUpResult = SignupResult(error: .conflict(cause: .userExists))
                     }
 
                     describe("auto log in fails") {
                         beforeEach {
-                            sessionManager.logInResult = SessionMyUserResult(error: .network)
+                            sessionManager.logInResult = LoginResult(error: .network)
                             _ = sut.signUpButtonPressed()
 
                             expect(self.delegateReceivedHideLoading).toEventually(beTrue())
@@ -297,7 +297,7 @@ class SignUpEmailStep2ViewModelSpec: BaseViewModelSpec {
                         beforeEach {
                             var myUser = MockMyUser.makeMock()
                             myUser.email = email
-                            sessionManager.logInResult = SessionMyUserResult(value: myUser)
+                            sessionManager.logInResult = LoginResult(value: myUser)
                             _ = sut.signUpButtonPressed()
 
                             expect(self.delegateReceivedHideLoading).toEventually(beTrue())
@@ -323,7 +323,7 @@ class SignUpEmailStep2ViewModelSpec: BaseViewModelSpec {
 
                 describe("sign up fails with other reason") {
                     beforeEach {
-                        sessionManager.signUpResult = SessionMyUserResult(error: .network)
+                        sessionManager.signUpResult = SignupResult(error: .network)
                         _ = sut.signUpButtonPressed()
 
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
@@ -344,7 +344,7 @@ class SignUpEmailStep2ViewModelSpec: BaseViewModelSpec {
                     beforeEach {
                         var myUser = MockMyUser.makeMock()
                         myUser.email = email
-                        sessionManager.signUpResult = SessionMyUserResult(value: myUser)
+                        sessionManager.signUpResult = SignupResult(value: myUser)
                         _ = sut.signUpButtonPressed()
 
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())

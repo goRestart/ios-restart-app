@@ -17,7 +17,6 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     @IBOutlet weak var buttonBottom: UIButton!
     @IBOutlet weak var buttonBottomHeight: NSLayoutConstraint!
     @IBOutlet weak var buttonBottomBottomConstraint: NSLayoutConstraint!
-    @IBOutlet weak var buttonBottomTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var buttonTop: UIButton!
     @IBOutlet weak var buttonTopHeight: NSLayoutConstraint!
     @IBOutlet weak var buttonTopBottomConstraint: NSLayoutConstraint!
@@ -54,11 +53,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
             userViewRightConstraint?.constant = -userViewRightMargin
         }
     }
-    fileprivate var buttonsRightMargin: CGFloat = CarouselUI.buttonTrailingWithIcon {
-        didSet {
-            buttonBottomTrailingConstraint?.constant = buttonsRightMargin
-        }
-    }
+    
     fileprivate var bottomItemsMargin: CGFloat = CarouselUI.itemsMargin {
         didSet {
             chatContainerBottomConstraint?.constant = bottomItemsMargin
@@ -1052,6 +1047,7 @@ extension ProductCarouselViewController {
         bannerContainer.isHidden = false
         bumpUpBanner.updateInfo(info: bumpInfo)
         delay(0.1) { [weak self] in
+            guard let visible = self?.bumpUpBannerIsVisible, visible else { return }
             self?.bannerBottom = 0
             UIView.animate(withDuration: 0.3, animations: {
                 self?.view.layoutIfNeeded()

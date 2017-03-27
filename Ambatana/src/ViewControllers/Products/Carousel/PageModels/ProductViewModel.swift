@@ -342,8 +342,8 @@ class ProductViewModel: BaseViewModel {
 
     fileprivate func createBumpeableBannerFor(productId: String, withPrice: String?, paymentItemId: String?, bumpUpType: BumpUpType) {
 
-        var primaryBlock: (() -> ()?)
-        var buttonBlock: (() -> ()?)
+        var primaryBlock: () -> Void
+        var buttonBlock: () -> Void
         switch bumpUpType {
         case .free:
             guard let paymentItemId = paymentItemId else { return }
@@ -357,18 +357,16 @@ class ProductViewModel: BaseViewModel {
             buttonBlock = freeBlock
         case .priced:
             guard let paymentItemId = paymentItemId else { return }
-            let showPayViewBlock = { [weak self] in
+            primaryBlock = { [weak self] in
                 guard let product = self?.product.value else { return }
                 guard let purchaseableProduct = self?.bumpUpPurchaseableProduct else { return }
                 self?.trackBumpUpStarted(.pay(price: purchaseableProduct.formattedCurrencyPrice))
                 self?.navigator?.openPayBumpUpForProduct(product: product, purchaseableProduct: purchaseableProduct,
                                                          withPaymentItemId: paymentItemId)
             }
-            let payBumpUpBlock = { [weak self] in
+            buttonBlock = { [weak self] in
                 self?.bumpUpProduct(productId: productId)
             }
-            primaryBlock = showPayViewBlock
-            buttonBlock = payBumpUpBlock
         case .restore:
             let restoreBlock = { [weak self] in
                 logMessage(.info, type: [.monetization], message: "TRY TO Restore Bump for product: \(productId)")

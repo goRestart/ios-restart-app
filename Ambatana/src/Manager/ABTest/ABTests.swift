@@ -20,6 +20,7 @@ struct ABTests {
     static var surveyURL = StringABDynamicVar(key: "surveyURL", defaultValue: "")
     static var surveyEnabled = BoolABDynamicVar(key: "surveyEnabled", defaultValue: false)
 
+    static var websocketChat = BoolABDynamicVar(key: "websocketChat", defaultValue: false)
     static var userReviews = BoolABDynamicVar(key: "userReviews", defaultValue: false)
     static var contactSellerOnFavorite = BoolABDynamicVar(key: "contactSellerOnFavorite", defaultValue: false)
     static var captchaTransparent = BoolABDynamicVar(key: "captchaTransparent", defaultValue: false)
@@ -34,15 +35,19 @@ struct ABTests {
     static var hideTabBarOnFirstSession = BoolABDynamicVar(key: "hideTabBarOnFirstSession", defaultValue: false)
     static var postingGallery = IntABDynamicVar(key: "postingGallery", defaultValue: 0)
     static var quickAnswersRepeatedTextField = BoolABDynamicVar(key: "quickAnswersRepeatedTextField", defaultValue: false)
+    static var carsVerticalEnabled = BoolABDynamicVar(key: "carsVerticalEnabled", defaultValue: false)
+    static var carsCategoryAfterPicture = BoolABDynamicVar(key: "carsCategoryAfterPicture", defaultValue: false)
 
     static private var allVariables: [ABVariable] {
         var result = [ABVariable]()
 
         result.append(marketingPush)
+        
         result.append(showNPSSurvey)
         result.append(surveyURL)
         result.append(surveyEnabled)
 
+        result.append(websocketChat)
         result.append(userReviews)
         result.append(contactSellerOnFavorite)
         result.append(passiveBuyersShowKeyboard)
@@ -57,6 +62,8 @@ struct ABTests {
         result.append(hideTabBarOnFirstSession)
         result.append(postingGallery)
         result.append(quickAnswersRepeatedTextField)
+        result.append(carsVerticalEnabled)
+        result.append(carsCategoryAfterPicture)
 
         return result
     }

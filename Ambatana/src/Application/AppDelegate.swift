@@ -36,6 +36,7 @@ final class AppDelegate: UIResponder {
     fileprivate var sessionManager: SessionManager?
     fileprivate var featureFlags: FeatureFlaggeable?
     fileprivate var purchasesShopper: PurchasesShopper?
+    fileprivate var deepLinksRouter: DeepLinksRouter?
 
     fileprivate var navigator: AppNavigator?
 
@@ -50,9 +51,11 @@ final class AppDelegate: UIResponder {
 extension AppDelegate: UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        GodModeManager.sharedInstance.applicationDidFinishLaunching()
         ABTests.registerVariables()
         self.featureFlags = FeatureFlags.sharedInstance
         self.purchasesShopper = LGPurchasesShopper.sharedInstance
+        self.deepLinksRouter = LGDeepLinksRouter.sharedInstance
         setupAppearance()
         setupLibraries(application, launchOptions: launchOptions)
         self.listingRepository = Core.listingRepository
@@ -88,9 +91,8 @@ extension AppDelegate: UIApplicationDelegate {
 
         window.makeKeyAndVisible()
 
-        let deepLinksRouter = DeepLinksRouter.sharedInstance
         let fbApplicationDelegate = FBSDKApplicationDelegate.sharedInstance()
-        let deepLinksRouterContinuation = deepLinksRouter.initWithLaunchOptions(launchOptions)
+        let deepLinksRouterContinuation = deepLinksRouter?.initWithLaunchOptions(launchOptions) ?? false
         let fbSdkContinuation = fbApplicationDelegate?.application(application,
                                                                   didFinishLaunchingWithOptions: launchOptions) ?? false
 
@@ -114,7 +116,7 @@ extension AppDelegate: UIApplicationDelegate {
     @available(iOS 9.0, *)
     func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem,
                      completionHandler: @escaping (Bool) -> Void) {
-        DeepLinksRouter.sharedInstance.performActionForShortcutItem(shortcutItem,
+        deepLinksRouter?.performActionForShortcutItem(shortcutItem,
                                                                     completionHandler: completionHandler)
     }
 
@@ -180,8 +182,7 @@ extension AppDelegate: UIApplicationDelegate {
 
     func application(_ application: UIApplication, continue userActivity: NSUserActivity,
                      restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
-        let routerUserActivity = DeepLinksRouter.sharedInstance.continueUserActivity(userActivity,
-                                                                                  restorationHandler: restorationHandler)
+        let routerUserActivity = deepLinksRouter?.continueUserActivity(userActivity, restorationHandler: restorationHandler) ?? false
         if #available(iOS 9.0, *) {
             AppsFlyerTracker.shared().continue(userActivity, restorationHandler: restorationHandler)
         }
@@ -208,7 +209,7 @@ extension AppDelegate: UIApplicationDelegate {
         userInfo: [AnyHashable: Any], completionHandler: @escaping () -> Void) {
         PushManager.sharedInstance.application(application, handleActionWithIdentifier: identifier,
                                                forRemoteNotification: userInfo, completionHandler: completionHandler)
-        DeepLinksRouter.sharedInstance.handleActionWithIdentifier(identifier, forRemoteNotification: userInfo,
+        deepLinksRouter?.handleActionWithIdentifier(identifier, forRemoteNotification: userInfo,
                                                                   completionHandler: completionHandler)
     }
     
@@ -242,7 +243,6 @@ fileprivate extension AppDelegate {
 
     func setupLibraries(_ application: UIApplication, launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
 
-        KeychainChecker().checkKeychain()
         LGCacheManager().cleanIfNeeded()
         let environmentHelper = EnvironmentsHelper()
         EnvironmentProxy.sharedInstance.setEnvironmentType(environmentHelper.appEnvironment)
@@ -253,12 +253,11 @@ fileprivate extension AppDelegate {
         #if GOD_MODE
             Debug.loggingOptions = [.navigation, .tracking, .deepLink, .monetization]
         #endif
-        
         LGCoreKit.loggingOptions = [.networking, .persistence, .token, .session, .webSockets]
+        
         if let featureFlags = featureFlags {
             LGCoreKit.shouldUseChatWithWebSocket = featureFlags.websocketChat
         }
-        
 
         // Logging
         #if GOD_MODE
@@ -291,8 +290,8 @@ fileprivate extension AppDelegate {
         // Branch.io
         if let branch = Branch.getInstance() {
             branch.initSession(launchOptions: launchOptions, andRegisterDeepLinkHandlerUsingBranchUniversalObject: {
-                object, properties, error in
-                DeepLinksRouter.sharedInstance.deepLinkFromBranchObject(object, properties: properties)
+                [weak self] object, properties, error in
+                self?.deepLinksRouter?.deepLinkFromBranchObject(object, properties: properties)
             })
         }
 
@@ -353,8 +352,7 @@ fileprivate extension AppDelegate {
         TrackerProxy.sharedInstance.application(app, openURL: url, sourceApplication: sourceApplication,
                                                 annotation: annotation)
 
-        let routerHandling = DeepLinksRouter.sharedInstance.openUrl(url, sourceApplication: sourceApplication,
-                                                                 annotation: annotation)
+        let routerHandling = deepLinksRouter?.openUrl(url, sourceApplication: sourceApplication, annotation: annotation) ?? false
 
         let facebookHandling = FBSDKApplicationDelegate.sharedInstance().application(app, open: url,
                                                                                      sourceApplication: sourceApplication, annotation: annotation)

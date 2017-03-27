@@ -80,7 +80,7 @@ final class OnboardingCoordinator: Coordinator {
     }
 
     func openResetPassword(coordinator: ChangePasswordCoordinator) {
-        openChild(coordinator: coordinator, parent: topPresentedController(), animated: true, completion: nil)
+        openChild(coordinator: coordinator, parent: topPresentedController(), animated: true, forceCloseChild: true, completion: nil)
     }
 
     fileprivate func finish(withPosting posting: Bool, source: PostingSource?) {
@@ -203,6 +203,11 @@ extension OnboardingCoordinator: MainSignUpNavigator {
         tourLoginFinish()
     }
 
+    func closeMainSignUpAndOpenDeviceNotAllowedAlert(contactURL: URL, network: EventParameterAccountNetwork) {
+        // device not allowed alert is ignored in on-boarding
+        tourLoginFinish()
+    }
+
     func openSignUpEmailFromMainSignUp(collapsedEmailParam: EventParameterBoolean?) {
         let vc: UIViewController
 
@@ -245,6 +250,7 @@ extension OnboardingCoordinator: MainSignUpNavigator {
 // MARK: - SignUpLogInNavigator
 
 extension OnboardingCoordinator: SignUpLogInNavigator {
+
     func cancelSignUpLogIn() {
         dismissCurrentNavigationController()
     }
@@ -257,6 +263,13 @@ extension OnboardingCoordinator: SignUpLogInNavigator {
 
     func closeSignUpLogInAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork) {
         // scammer alert is ignored in on-boarding
+        dismissCurrentNavigationController { [weak self] in
+            self?.tourLoginFinish()
+        }
+    }
+
+    func closeSignUpLogInAndOpenDeviceNotAllowedAlert(contactURL: URL, network: EventParameterAccountNetwork) {
+        // deviceNotAllowed alert is ignored in on-boarding
         dismissCurrentNavigationController { [weak self] in
             self?.tourLoginFinish()
         }
@@ -355,6 +368,7 @@ extension OnboardingCoordinator: SignUpEmailStep2Navigator {
 // MARK: - LogInEmailNavigator
 
 extension OnboardingCoordinator: LogInEmailNavigator {
+
     func cancelLogInEmail() {
         dismissCurrentNavigationController()
     }
@@ -386,6 +400,13 @@ extension OnboardingCoordinator: LogInEmailNavigator {
 
     func openScammerAlertFromLogInEmail(contactURL: URL) {
         // scammer alert is ignored in on-boarding
+        dismissCurrentNavigationController { [weak self] in
+            self?.tourLoginFinish()
+        }
+    }
+
+    func openDeviceNotAllowedAlertFromLogInEmail(contactURL: URL) {
+        // device not allowed alert is ignored in on-boarding
         dismissCurrentNavigationController { [weak self] in
             self?.tourLoginFinish()
         }

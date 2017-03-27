@@ -1303,6 +1303,22 @@ struct LGLocalizedString {
 		return NSLocalizedString("login_scammer_alert_keep_browsing_button", comment: "")
 	}
 
+	static var loginDeviceNotAllowedAlertTitle: String {
+		return NSLocalizedString("login_device_not_allowed_alert_title", comment: "")
+	}
+
+	static var loginDeviceNotAllowedAlertMessage: String {
+		return NSLocalizedString("login_device_not_allowed_alert_message", comment: "")
+	}
+
+	static var loginDeviceNotAllowedAlertContactButton: String {
+		return NSLocalizedString("login_device_not_allowed_alert_contact_button", comment: "")
+	}
+
+	static var loginDeviceNotAllowedAlertOkButton: String {
+		return NSLocalizedString("login_device_not_allowed_alert_ok_button", comment: "")
+	}
+
 	static var logInEmailTitle: String {
 		return NSLocalizedString("log_in_email_title", comment: "")
 	}

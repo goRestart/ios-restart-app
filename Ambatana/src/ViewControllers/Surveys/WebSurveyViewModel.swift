@@ -55,8 +55,8 @@ class WebSurveyViewModel: BaseViewModel {
     }
 
     func shouldLoad(url: URL?) -> Bool {
-        guard let url = url else { return false }
-        if url.absoluteString.contains(WebSurveyViewModel.submitRedirect) {
+        guard let urlHost = url?.host else { return false }
+        if urlHost.contains(WebSurveyViewModel.submitRedirect) {
             trackComplete()
             navigator?.webSurveyFinished()
             return false

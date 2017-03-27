@@ -486,7 +486,7 @@ class ChatViewModel: BaseViewModel {
                 self?.interlocutorTyping.value = true
             case .interlocutorTypingStopped:
                 self?.interlocutorTyping.value = false
-            case .authenticationTokenExpired:
+            case .authenticationTokenExpired, .talkerUnauthenticated:
                 break
             }
         }.addDisposableTo(disposeBag)

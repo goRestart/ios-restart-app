@@ -72,6 +72,10 @@ class AdminViewController: UIViewController, UITableViewDataSource, UITableViewD
             openFlex()
         case 1:
             openFeatureToggle()
+        case 5:
+            cleanInstall(keepInstallation: false)
+        case 6:
+            cleanInstall(keepInstallation: true)
         default:
             UIPasteboard.general.string = subtitleForCellAtIndexPath(indexPath)
         }
@@ -79,7 +83,12 @@ class AdminViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        #if GOD_MODE
+            return 7
+        #else
+            return 5
+        #endif
+
     }
     
     // MARK: - Private
@@ -91,6 +100,25 @@ class AdminViewController: UIViewController, UITableViewDataSource, UITableViewD
     private func openFeatureToggle() {
         let vc = BumperViewController()
         navigationController?.pushViewController(vc, animated: true)
+    }
+
+    private func cleanInstall(keepInstallation: Bool) {
+        let message = keepInstallation ?
+            "You're about to reset stored state and bumper information. (Push, location, photos and camera permissions will remain)" :
+            "You're about to reset all stored state, bumper and keychain information, installation will be new. (Push, location, photos and camera permissions will remain)"
+
+        ask(message: message, andExecute: {
+            GodModeManager.sharedInstance.setCleanInstallOnNextStart(keepingInstallation: keepInstallation)
+            #if GOD_MODE
+                exit(0)
+            #endif
+        })
+    }
+
+    private func ask(message: String, andExecute action: @escaping () -> Void) {
+        let cancelAction = UIAction(interface: .styledText("Cancel", .cancel), action: {})
+        let okAction = UIAction(interface: .styledText("Do it!", .standard), action: action)
+        showAlert(nil, message: message, actions: [cancelAction, okAction])
     }
     
     private func titleForCellAtIndexPath(_ indexPath: IndexPath) -> String {
@@ -105,6 +133,10 @@ class AdminViewController: UIViewController, UITableViewDataSource, UITableViewD
             return "😎 User id"
         case 4:
             return "📲 Push token"
+        case 5:
+            return "🌪 New install"
+        case 6:
+            return "⏮ Remove & install"
         default:
             return "Not implemented"
         }
@@ -119,6 +151,10 @@ class AdminViewController: UIViewController, UITableViewDataSource, UITableViewD
             return Core.myUserRepository.myUser?.objectId ?? propertyNotFound
         case 4:
             return Core.installationRepository.installation?.deviceToken ?? propertyNotFound
+        case 5:
+            return "Next start will be as a fresh install start (except system permissions)"
+        case 6:
+            return "Next start will be as re-install (keeping installation_id)"
         default:
             return ""
         }

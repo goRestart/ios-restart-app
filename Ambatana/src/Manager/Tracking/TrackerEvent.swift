@@ -144,21 +144,24 @@ struct TrackerEvent {
         return TrackerEvent(name: .passwordResetError, params: params)
     }
 
-    static func loginBlockedAccountStart(_ network: EventParameterAccountNetwork) -> TrackerEvent {
+    static func loginBlockedAccountStart(_ network: EventParameterAccountNetwork, reason: EventParameterBlockedAccountReason) -> TrackerEvent {
         var params = EventParameters()
         params[.accountNetwork] = network.rawValue
+        params[.reason] = reason.rawValue
         return TrackerEvent(name: .loginBlockedAccountStart, params: params)
     }
 
-    static func loginBlockedAccountContactUs(_ network: EventParameterAccountNetwork) -> TrackerEvent {
+    static func loginBlockedAccountContactUs(_ network: EventParameterAccountNetwork, reason: EventParameterBlockedAccountReason) -> TrackerEvent {
         var params = EventParameters()
         params[.accountNetwork] = network.rawValue
+        params[.reason] = reason.rawValue
         return TrackerEvent(name: .loginBlockedAccountContactUs, params: params)
     }
 
-    static func loginBlockedAccountKeepBrowsing(_ network: EventParameterAccountNetwork) -> TrackerEvent {
+    static func loginBlockedAccountKeepBrowsing(_ network: EventParameterAccountNetwork, reason: EventParameterBlockedAccountReason) -> TrackerEvent {
         var params = EventParameters()
         params[.accountNetwork] = network.rawValue
+        params[.reason] = reason.rawValue
         return TrackerEvent(name: .loginBlockedAccountKeepBrowsing, params: params)
     }
 
@@ -1050,7 +1053,7 @@ struct TrackerEvent {
     static func emptyStateVisit(typePage: EventParameterTypePage, reason: EventParameterEmptyReason) -> TrackerEvent {
         var params = EventParameters()
         params[.typePage] = typePage.rawValue
-        params[.errorReason] = reason.rawValue
+        params[.reason] = reason.rawValue
         return TrackerEvent(name: .emptyStateError, params: params)
     }
     
