@@ -22,7 +22,7 @@
 "bump_up_banner_pay_text" = "Daha hızlı satmak için öne çıkar";
 "bump_up_banner_wait_text" = "tekrar öne çıkarmak için";
 "bump_up_error_bump_generic" = "Ürünün öne çıkarılırken bir hata oluştu. Lütfen tekrar dene.";
-"bump_up_error_bump_token" = "Ödemen gerçekleştirildi fakat ürünün henüz yayınlanmadı. Lütfen tekrar dene.";
+"bump_up_error_bump_token" = "Ödemen gerçekleştirildi fakat ürünün henüz öne çıkarılmadı.";
 "bump_up_error_payment_failed" = "Ürünün öne çıkarılırken bir hata oluştu. Ödeme işlemi gerçekleşmedi. Lütfen tekrar dene.";
 "bump_up_free_success" = "Öne çıkarıldı! İlanını öne çıkarmaya devam et ki daha da çok kişi görsün.";
 "bump_up_pay_success" = "Öne çıkarıldı! Şimdi ürününü daha fazla kişi görebilir.";
@@ -331,10 +331,10 @@
 "log_in_reset_password_button" = "Şifremi unuttum";
 "log_in_send_button" = "Giriş yap";
 "log_in_title" = "E-posta ile giriş yap";
-"login_device_not_allowed_alert_contact_button" = "Contact Us";
-"login_device_not_allowed_alert_message" = "You've never logged in on this device before. We've sent you a verification email so check your inbox to continue.";
-"login_device_not_allowed_alert_ok_button" = "OK";
-"login_device_not_allowed_alert_title" = "VERIFY LOGIN";
+"login_device_not_allowed_alert_contact_button" = "Bize Ulaş";
+"login_device_not_allowed_alert_message" = "Daha önce bu cihazdan giriş yapmadın. Sana bir doğrulama e-postası gönderdik; devam etmek için gelen kutunu kontrol etmelisin.";
+"login_device_not_allowed_alert_ok_button" = "Tamam";
+"login_device_not_allowed_alert_title" = "GİRİŞİ DOĞRULA";
 "login_scammer_alert_contact_button" = "Bize ulaşın";
 "login_scammer_alert_keep_browsing_button" = "Kapat";
 "login_scammer_alert_message" = "Hesabın letgo Ekibi tarafından inceleme altına alınmıştır. Eğer bu durumda bir yanlışlık olduğunu düşünüyorsan bizimle iletişime geçebilirsin.";

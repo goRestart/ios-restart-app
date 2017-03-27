@@ -22,7 +22,7 @@
 "bump_up_banner_pay_text" = "Felugrasztva gyorsabban eladhatod";
 "bump_up_banner_wait_text" = "a következő ugrasztásig";
 "bump_up_error_bump_generic" = "Hiba történt a hirdetésed felugrasztása során. Próbálkozz újra.";
-"bump_up_error_bump_token" = "A tranzakciót feldolgoztuk, de portékád még nincs kiemelve. Próbálkozz újra.";
+"bump_up_error_bump_token" = "A tranzakciót feldolgoztuk, de portékád nincs felugrasztva.";
 "bump_up_error_payment_failed" = "Hiba történt portékát feljebb ugrasztása során. Feldolgozatlan befizetés. Próbálkozz újra.";
 "bump_up_free_success" = "Felugrasztva! Ugraszd fel többször, hogy még láthatóbb legyen.";
 "bump_up_pay_success" = "Felugrasztva! Portékád mostantól sokkal láthatóbb.";
@@ -331,10 +331,10 @@
 "log_in_reset_password_button" = "Elfelejtetted a jelszavad?";
 "log_in_send_button" = "Bejelentkezés";
 "log_in_title" = "Bejelentkezés e-mail címmel";
-"login_device_not_allowed_alert_contact_button" = "Contact Us";
-"login_device_not_allowed_alert_message" = "You've never logged in on this device before. We've sent you a verification email so check your inbox to continue.";
-"login_device_not_allowed_alert_ok_button" = "OK";
-"login_device_not_allowed_alert_title" = "VERIFY LOGIN";
+"login_device_not_allowed_alert_contact_button" = "Lépj velünk kapcsolatba";
+"login_device_not_allowed_alert_message" = "Erről az eszközről korábban még nem jelentkeztél be. Visszaigazoló e-mail küldtünk, a folytatáshoz olvasd el!";
+"login_device_not_allowed_alert_ok_button" = "Oké";
+"login_device_not_allowed_alert_title" = "VISSZAIGAZOLANDÓ BEJELENTKEZÉS";
 "login_scammer_alert_contact_button" = "Írok nektek";
 "login_scammer_alert_keep_browsing_button" = "Kihagy";
 "login_scammer_alert_message" = "Fiókodat a letgo csapata éppen ellenőrzi. Ha úgy gondolod, hogy ezt alaptalanul tesszük, vedd fel velünk a kapcsolatot.";

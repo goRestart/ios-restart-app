@@ -22,7 +22,7 @@
 "bump_up_banner_pay_text" = "Đẩy lên để bán nhanh hơn";
 "bump_up_banner_wait_text" = "để đẩy lên lại";
 "bump_up_error_bump_generic" = "Có lỗi trong khi đẩy sản phẩm của bạn lên. Xin vui lòng thử lại.";
-"bump_up_error_bump_token" = "Thanh toán của bạn đã được tiến hành nhưng sản phẩm chưa được nổi bật. Xin vui lòng thử lại.";
+"bump_up_error_bump_token" = "Thanh toán của bạn đã được tiến hành nhưng sản phẩm chưa được đẩy lên.";
 "bump_up_error_payment_failed" = "Có lỗi xảy ra trong khi đẩy sản phẩm của bạn lên. Thanh toán của bạn chưa được tiến hành. Xin vui lòng thử lại.";
 "bump_up_free_success" = "Đẩy lên! Hãy liên tục đẩy sản phẩm lên để dễ thấy hơn nữa.";
 "bump_up_pay_success" = "Đẩy lên! Sản phẩm của bạn hiện đã dễ thấy hơn.";
@@ -331,10 +331,10 @@
 "log_in_reset_password_button" = "Quên mật khẩu?";
 "log_in_send_button" = "Đăng nhập";
 "log_in_title" = "Đăng nhập bằng email";
-"login_device_not_allowed_alert_contact_button" = "Contact Us";
-"login_device_not_allowed_alert_message" = "You've never logged in on this device before. We've sent you a verification email so check your inbox to continue.";
+"login_device_not_allowed_alert_contact_button" = "Liên hệ";
+"login_device_not_allowed_alert_message" = "Bạn chưa từng đăng nhập bằng thiết bị này trước đây. Chúng tôi vừa gửi bạn một email xác nhận, vì vậy hãy kiểm tra hộp thư của bạn để tiếp tục.";
 "login_device_not_allowed_alert_ok_button" = "OK";
-"login_device_not_allowed_alert_title" = "VERIFY LOGIN";
+"login_device_not_allowed_alert_title" = "XÁC NHẬN ĐĂNG NHẬP";
 "login_scammer_alert_contact_button" = "Liên hệ";
 "login_scammer_alert_keep_browsing_button" = "Bỏ qua";
 "login_scammer_alert_message" = "Tài khoản của bạn đang được letgo xem xét. Nếu bạn tin tài khoản của mình bị cảnh báo sai, hãy liên hệ với chúng tôi.";
