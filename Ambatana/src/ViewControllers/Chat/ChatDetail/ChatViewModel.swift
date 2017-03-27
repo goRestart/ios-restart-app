@@ -1173,7 +1173,7 @@ fileprivate extension ChatViewModel {
                                                                sellerRating: sellerRating,
                                                                freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                                isBumpedUp: EventParameterBoolean.falseParameter)
-        TrackerProxy.sharedInstance.trackEvent(firstMessageEvent)
+        tracker.trackEvent(firstMessageEvent)
     }
 
     func trackMessageSent(type: ChatWrapperMessageType) {
@@ -1187,17 +1187,17 @@ fileprivate extension ChatViewModel {
         let messageSentEvent = TrackerEvent.userMessageSent(product, userToId: userId, messageType: type.chatTrackerType,
                                                             quickAnswerType: type.quickAnswerType, typePage: .chat,
                                                             freePostingModeAllowed: featureFlags.freePostingModeAllowed)
-        TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
+        tracker.trackEvent(messageSentEvent)
     }
     
     func trackBlockUsers(_ userIds: [String]) {
         let blockUserEvent = TrackerEvent.profileBlock(.chat, blockedUsersIds: userIds)
-        TrackerProxy.sharedInstance.trackEvent(blockUserEvent)
+        tracker.trackEvent(blockUserEvent)
     }
     
     func trackUnblockUsers(_ userIds: [String]) {
         let unblockUserEvent = TrackerEvent.profileUnblock(.chat, unblockedUsersIds: userIds)
-        TrackerProxy.sharedInstance.trackEvent(unblockUserEvent)
+        tracker.trackEvent(unblockUserEvent)
     }
     
     func trackVisit() {
