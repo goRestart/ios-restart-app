@@ -158,6 +158,9 @@ extension RelatedProductsView: UICollectionViewDelegate, UICollectionViewDataSou
         case .collectionCell, .emptyCell:
             // No banners or collections here
             break
+        case .carCell:
+            // TODO: IMPLEMENT - No cars here yet
+            break
         }
     }
 }
@@ -172,15 +175,9 @@ fileprivate extension RelatedProductsView {
         requester = RelatedProductListRequester(productId: productId, itemsPerPage: Constants.numProductsPerPageDefault)
         requester?.retrieveFirstPage { [weak self] result in
             guard let listings = result.value else { return }
-            var products: [Product] = []
-            for listing in listings {
-                if let product = listing.product {
-                    products.append(product)
-                }
-            }
-            if !products.isEmpty {
-                let productCellModels = products.map(ListingCellModel.init)
-                self?.objects = productCellModels
+            if !listings.isEmpty {
+                let listingCellModels = listings.map(ListingCellModel.init)
+                self?.objects = listingCellModels
             } else {
                 self?.objects = []
             }

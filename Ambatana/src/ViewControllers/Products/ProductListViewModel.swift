@@ -113,9 +113,9 @@ class ProductListViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
 
-    init(requester: ProductListRequester?, products: [Product]? = nil, numberOfColumns: Int = 2,
+    init(requester: ProductListRequester?, listings: [Listing]? = nil, numberOfColumns: Int = 2,
          tracker: Tracker = TrackerProxy.sharedInstance) {
-        self.objects = (products ?? []).map(ListingCellModel.init)
+        self.objects = (listings ?? []).map(ListingCellModel.init)
         self.pageNumber = 0
         self.refreshing = false
         self.state = .loading
@@ -189,22 +189,22 @@ class ProductListViewModel: BaseViewModel {
         clearList()
     }
 
-    func update(product: Product) {
-        guard state.isData, let productId = product.objectId else { return }
-        guard let index = indexFor(productId: productId) else { return }
-        objects[index] = ListingCellModel(product: product)
+    func update(listing: Listing) {
+        guard state.isData, let listingId = listing.objectId else { return }
+        guard let index = indexFor(listingId: listingId) else { return }
+        objects[index] = ListingCellModel(listing: listing)
         delegate?.vmReloadData(self)
     }
 
-    func prepend(product: Product) {
+    func prepend(listing: Listing) {
         guard state.isData else { return }
-        objects.insert(ListingCellModel(product: product), at: 0)
+        objects.insert(ListingCellModel(listing: listing), at: 0)
         delegate?.vmReloadData(self)
     }
 
-    func delete(productId: String) {
+    func delete(listingId: String) {
         guard state.isData else { return }
-        guard let index = indexFor(productId: productId) else { return }
+        guard let index = indexFor(listingId: listingId) else { return }
         objects.remove(at: index)
         delegate?.vmReloadData(self)
     }
@@ -223,8 +223,8 @@ class ProductListViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
             let nextPageNumber = firstPage ? 0 : strongSelf.pageNumber + 1
             self?.isLoading = false
-            if let newProducts = result.value?.flatMap({ $0.product }) {
-                let productCellModels = newProducts.map(ListingCellModel.init)
+            if let newListings = result.value {
+                let productCellModels = newListings.map(ListingCellModel.init)
                 let cellModels = self?.dataDelegate?.vmProcessReceivedProductPage(productCellModels, page: nextPageNumber) ?? productCellModels
                 let indexes: [Int]
                 if firstPage {
@@ -238,7 +238,7 @@ class ProductListViewModel: BaseViewModel {
                 }
                 strongSelf.pageNumber = nextPageNumber
                 let hasProducts = strongSelf.numberOfProducts > 0
-                strongSelf.isLastPage = strongSelf.productListRequester?.isLastPage(newProducts.count) ?? true
+                strongSelf.isLastPage = strongSelf.productListRequester?.isLastPage(newListings.count) ?? true
                 //This assignment should be ALWAYS before calling the delegates to give them the option to re-set the state
                 strongSelf.state = .data
                 strongSelf.delegate?.vmDidFinishLoading(strongSelf, page: nextPageNumber, indexes: indexes)
@@ -270,6 +270,9 @@ class ProductListViewModel: BaseViewModel {
         case .productCell:
             dataDelegate?.productListVM(self, didSelectItemAtIndex: index, thumbnailImage: thumbnailImage,
                                         originFrame: originFrame)
+        case .carCell:
+            // TODO: IMPLEMENT - cars not used yet
+            return
         case .collectionCell(let type):
             dataDelegate?.vmDidSelectCollection(type)
         case .emptyCell:
@@ -302,16 +305,18 @@ class ProductListViewModel: BaseViewModel {
         switch item {
         case .productCell(let product):
             return product
-        case .collectionCell, .emptyCell:
+        case .collectionCell, .emptyCell, .carCell:
             return nil
         }
     }
 
-    func indexFor(productId: String) -> Int? {
+    func indexFor(listingId: String) -> Int? {
         return objects.index(where: { cellModel in
             switch cellModel {
             case let .productCell(cellProduct):
-                return cellProduct.objectId == productId
+                return cellProduct.objectId == listingId
+            case let .carCell(cellCar):
+                return cellCar.objectId == listingId
             case .collectionCell, .emptyCell:
                 return false
             }
@@ -336,6 +341,9 @@ class ProductListViewModel: BaseViewModel {
             let imageFinalHeight = max(ProductListViewModel.cellMinHeight, round(defaultCellSize.width * thumbFactor))
             return CGSize(width: defaultCellSize.width, height: imageFinalHeight)
 
+        case .carCell:
+            // TODO: IMPLEMENT - cars not used yet
+            return CGSize.zero
         case .collectionCell:
             let height = defaultCellSize.width*ProductListViewModel.cellBannerAspectRatio
             return CGSize(width: defaultCellSize.width, height: height)

@@ -36,6 +36,8 @@ class GridDrawerManager {
         switch model {
         case .productCell:
             return productDrawer.cell(collectionView, atIndexPath: atIndexPath)
+        case .carCell:
+            return productDrawer.cell(collectionView, atIndexPath: atIndexPath) // TODO: IMPLEMENT - cars not used yet
         case .collectionCell:
             return collectionDrawer.cell(collectionView, atIndexPath: atIndexPath)
         case .emptyCell:
@@ -51,6 +53,8 @@ class GridDrawerManager {
             let data = ProductData(productID: product.objectId, thumbUrl: product.thumbnail?.fileURL,
                                    isFree: product.price.free && freePostingAllowed, isFeatured: isFeatured)
             return productDrawer.draw(data, style: cellStyle, inCell: cell)
+        case .carCell:
+            break // TODO: IMPLEMENT - cars not used yet
         case .collectionCell(let style) where cell is CollectionCell:
             guard let cell = cell as? CollectionCell else { return }
             return collectionDrawer.draw(style, style: cellStyle, inCell: cell)

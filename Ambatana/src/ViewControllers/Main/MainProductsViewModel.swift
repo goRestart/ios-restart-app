@@ -168,7 +168,7 @@ class MainProductsViewModel: BaseViewModel {
         let columns = show3Columns ? 3 : 2
         let itemsPerPage = show3Columns ? Constants.numProductsPerPageBig : Constants.numProductsPerPageDefault
         self.productListRequester = FilteredProductListRequester(itemsPerPage: itemsPerPage)
-        self.listViewModel = ProductListViewModel(requester: self.productListRequester, products: nil,
+        self.listViewModel = ProductListViewModel(requester: self.productListRequester, listings: nil,
                                                   numberOfColumns: columns, tracker: tracker)
         self.listViewModel.productListFixedInset = show3Columns ? 6 : 10
 
@@ -366,21 +366,11 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
         listingRepository.events.bindNext { [weak self] event in
             switch event {
             case let .update(listing):
-                switch listing {
-                case .product(let product):
-                    self?.listViewModel.update(product: product)
-                case .car:
-                    break
-                }
+                self?.listViewModel.update(listing: listing)
             case let .create(listing):
-                switch listing {
-                case .product(let product):
-                    self?.listViewModel.prepend(product: product)
-                case .car:
-                    break
-                }
-            case let .delete(productId):
-                self?.listViewModel.delete(productId: productId)
+                self?.listViewModel.prepend(listing: listing)
+            case let .delete(listingId):
+                self?.listViewModel.delete(listingId: listingId)
             case .favorite, .unFavorite, .sold, .unSold:
                 break
             }

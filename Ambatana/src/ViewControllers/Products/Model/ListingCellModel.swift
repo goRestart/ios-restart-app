@@ -12,11 +12,17 @@ import LGCoreKit
 
 enum ListingCellModel {
     case productCell(product: Product)
+    case carCell(car: Car)
     case collectionCell(type: CollectionCellType)
     case emptyCell(vm: LGEmptyViewModel)
     
-    init(product: Product) {
-        self = ListingCellModel.productCell(product: product)
+    init(listing: Listing) {
+        switch listing {
+        case let .product(product):
+            self = ListingCellModel.productCell(product: product)
+        case let .car(car):
+            self = ListingCellModel.carCell(car: car)
+        }
     }
 
     init(collection: CollectionCellType) {
