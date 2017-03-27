@@ -666,7 +666,7 @@ fileprivate extension ProductViewModel {
         let currentFavoriteValue = isFavorite.value
         isFavorite.value = !isFavorite.value
         if currentFavoriteValue {
-            listingRepository.deleteFavorite(product: product.value) { [weak self] result in
+            listingRepository.deleteFavorite(listing: .product(product.value)) { [weak self] result in
                 guard let strongSelf = self else { return }
                 if let _ = result.error {
                     strongSelf.isFavorite.value = currentFavoriteValue
@@ -674,7 +674,7 @@ fileprivate extension ProductViewModel {
                 strongSelf.favoriteButtonState.value = .enabled
             }
         } else {
-            listingRepository.saveFavorite(product: product.value) { [weak self] result in
+            listingRepository.saveFavorite(listing: .product(product.value)) { [weak self] result in
                 guard let strongSelf = self else { return }
                 if let _ = result.value {
                     self?.trackHelper.trackSaveFavoriteCompleted(strongSelf.isShowingFeaturedStripe.value)
@@ -811,7 +811,7 @@ fileprivate extension ProductViewModel {
     func markAsSold(buyerId: String?, userSoldTo: EventParameterUserSoldTo) {
         delegate?.vmShowLoading(nil)
 
-        listingRepository.markProductAsSold(product: product.value, buyerId: buyerId) { [weak self] result in
+        listingRepository.markAsSold(product: product.value, buyerId: buyerId) { [weak self] result in
             guard let strongSelf = self else { return }
 
             var markAsSoldCompletion: (()->())? = nil
@@ -836,7 +836,7 @@ fileprivate extension ProductViewModel {
     func markUnsold() {
         delegate?.vmShowLoading(nil)
 
-        listingRepository.markProductAsUnsold(product: product.value) { [weak self] result in
+        listingRepository.markAsUnsold(product: product.value) { [weak self] result in
             guard let strongSelf = self else { return }
 
             let message: String

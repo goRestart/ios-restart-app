@@ -748,7 +748,7 @@ extension ChatViewModel {
 
     private func markProductAsSold(productId: String, buyerId: String?, userSoldTo: EventParameterUserSoldTo?) {
         delegate?.vmShowLoading(nil)
-        listingRepository.markAsSold(productId, buyerId: nil) { [weak self] result in
+        listingRepository.markAsSold(listingId: productId, buyerId: nil) { [weak self] result in
             if let _ = result.value {
                 self?.trackMarkAsSold(userSoldTo: userSoldTo)
             }
