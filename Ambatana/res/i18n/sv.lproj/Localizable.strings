@@ -22,7 +22,7 @@
 "bump_up_banner_pay_text" = "Puffa uppåt för att sälja snabbare";
 "bump_up_banner_wait_text" = "till nästa puff";
 "bump_up_error_bump_generic" = "Ett fel uppstod när din produkt skulle puffas uppåt. Vänligen försök igen.";
-"bump_up_error_bump_token" = "Din betalning har processats men din produkt har inte lagts upp ännu. Vänligen försök igen.";
+"bump_up_error_bump_token" = "Din betalning har genomförts men din produkt har ännu inte lagts upp.";
 "bump_up_error_payment_failed" = "Ett fel uppstod när din produkt skulle puffas uppåt. Din betalning har inte genomförts. Vänligen försök igen.";
 "bump_up_free_success" = "Puffad! Fortsätt att puffa upp din vara så blir den ännu mer synlig.";
 "bump_up_pay_success" = "Puffad! Nu har din produkt fått extra synlighet.";
@@ -331,10 +331,10 @@
 "log_in_reset_password_button" = "Glömt ditt lösenord?";
 "log_in_send_button" = "Logga in";
 "log_in_title" = "Logga in med e-post";
-"login_device_not_allowed_alert_contact_button" = "Contact Us";
-"login_device_not_allowed_alert_message" = "You've never logged in on this device before. We've sent you a verification email so check your inbox to continue.";
-"login_device_not_allowed_alert_ok_button" = "OK";
-"login_device_not_allowed_alert_title" = "VERIFY LOGIN";
+"login_device_not_allowed_alert_contact_button" = "Kontakta Oss";
+"login_device_not_allowed_alert_message" = "Du har aldrig använt denna enhet för att logga in innan. Vi har skickat dig ett mejl för att verifiera enheten, var god kontrollera din inkorg för att kunna fortsätta.";
+"login_device_not_allowed_alert_ok_button" = "Ok";
+"login_device_not_allowed_alert_title" = "VERIFIERA INLOGGNING";
 "login_scammer_alert_contact_button" = "Kontakta Oss";
 "login_scammer_alert_keep_browsing_button" = "Hoppa över";
 "login_scammer_alert_message" = "Ditt konto är under granskning av letgo. Om du tror att det har anmälts av misstag, kontakta oss.";

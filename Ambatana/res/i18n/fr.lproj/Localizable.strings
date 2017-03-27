@@ -22,7 +22,7 @@
 "bump_up_banner_pay_text" = "Renvoyer vers le haut pour vendre pus vite";
 "bump_up_banner_wait_text" = "à attendre";
 "bump_up_error_bump_generic" = "Une erreur est survenue lors du renvoi vers le haut de votre bien. Veuillez réessayer.";
-"bump_up_error_bump_token" = "Votre paiement a été effectué mais votre bien n'a pas encore été mis en avant. Veuillez réessayer.";
+"bump_up_error_bump_token" = "Votre paiement a été effectué, mais le bien n'a pas été renvoyé vers le haut.";
 "bump_up_error_payment_failed" = "Une erreur est survenue lors du renvoi vers le haut de votre bien. Votre paiement n'a pas été traité. Veuillez réessayer.";
 "bump_up_free_success" = "Renvoyé vers le haut ! Continuez de renvoyer vos annonces vers le haut pour toujours plus de visibilité.";
 "bump_up_pay_success" = "Renvoyé vers le haut ! Votre bien bénéficie maintenant d'une meilleure visibilité.";
@@ -331,7 +331,7 @@
 "log_in_reset_password_button" = "Mot de passe oublié ?";
 "log_in_send_button" = "Se Connecter";
 "log_in_title" = "Se Connecter avec email";
-"login_device_not_allowed_alert_contact_button" = "Contact Us";
+"login_device_not_allowed_alert_contact_button" = "Contactez-nous";
 "login_device_not_allowed_alert_message" = "You've never logged in on this device before. We've sent you a verification email so check your inbox to continue.";
 "login_device_not_allowed_alert_ok_button" = "OK";
 "login_device_not_allowed_alert_title" = "VERIFY LOGIN";
