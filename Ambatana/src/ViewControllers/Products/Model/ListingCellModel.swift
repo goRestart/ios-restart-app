@@ -10,21 +10,21 @@ import Foundation
 import LGCoreKit
 
 
-enum ProductCellModel {
+enum ListingCellModel {
     case productCell(product: Product)
     case collectionCell(type: CollectionCellType)
     case emptyCell(vm: LGEmptyViewModel)
     
     init(product: Product) {
-        self = ProductCellModel.productCell(product: product)
+        self = ListingCellModel.productCell(product: product)
     }
 
     init(collection: CollectionCellType) {
-        self = ProductCellModel.collectionCell(type: collection)
+        self = ListingCellModel.collectionCell(type: collection)
     }
 
     init(emptyVM: LGEmptyViewModel) {
-        self = ProductCellModel.emptyCell(vm: emptyVM)
+        self = ListingCellModel.emptyCell(vm: emptyVM)
     }
 }
 

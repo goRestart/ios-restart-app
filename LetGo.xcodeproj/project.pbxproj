@@ -510,8 +510,8 @@
 		6A4D1E161C6B824600D2D3B8 /* TourLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4D1E141C6B824600D2D3B8 /* TourLocationViewModel.swift */; };
 		6A4E80611C77620900C6423E /* LetgoAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4E80601C77620900C6423E /* LetgoAvatar.swift */; };
 		6A4E80621C77620900C6423E /* LetgoAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4E80601C77620900C6423E /* LetgoAvatar.swift */; };
-		6A5691531D255D27000B7365 /* ProductCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5691521D255D27000B7365 /* ProductCellModel.swift */; };
-		6A5691541D255D27000B7365 /* ProductCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5691521D255D27000B7365 /* ProductCellModel.swift */; };
+		6A5691531D255D27000B7365 /* ListingCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5691521D255D27000B7365 /* ListingCellModel.swift */; };
+		6A5691541D255D27000B7365 /* ListingCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5691521D255D27000B7365 /* ListingCellModel.swift */; };
 		6A5E19DC1D548F5400F92692 /* ExternalServiceAuthResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19B71D548F5400F92692 /* ExternalServiceAuthResult.swift */; };
 		6A5E19DD1D548F5400F92692 /* ExternalServiceAuthResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19B71D548F5400F92692 /* ExternalServiceAuthResult.swift */; };
 		6A5E19DE1D548F5400F92692 /* FBLoginHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19B81D548F5400F92692 /* FBLoginHelper.swift */; };
@@ -1734,7 +1734,7 @@
 		6A40A3D11C0DE6B700C551B3 /* MediaPickerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaPickerManager.swift; sourceTree = "<group>"; };
 		6A4D1E141C6B824600D2D3B8 /* TourLocationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourLocationViewModel.swift; sourceTree = "<group>"; };
 		6A4E80601C77620900C6423E /* LetgoAvatar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LetgoAvatar.swift; sourceTree = "<group>"; };
-		6A5691521D255D27000B7365 /* ProductCellModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCellModel.swift; sourceTree = "<group>"; };
+		6A5691521D255D27000B7365 /* ListingCellModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCellModel.swift; sourceTree = "<group>"; };
 		6A5E19B71D548F5400F92692 /* ExternalServiceAuthResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExternalServiceAuthResult.swift; sourceTree = "<group>"; };
 		6A5E19B81D548F5400F92692 /* FBLoginHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FBLoginHelper.swift; sourceTree = "<group>"; };
 		6A5E19B91D548F5400F92692 /* FBSDKSharing+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FBSDKSharing+LG.swift"; sourceTree = "<group>"; };
@@ -3245,7 +3245,7 @@
 		6A5691511D255CF3000B7365 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				6A5691521D255D27000B7365 /* ProductCellModel.swift */,
+				6A5691521D255D27000B7365 /* ListingCellModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -5043,7 +5043,7 @@
 				C74BC2421E0D7FFB00381D96 /* PassiveBuyerCell.swift in Sources */,
 				C7AFFAFE1E7053EF0052A9CA /* NPSViewModel.swift in Sources */,
 				C749C7841C10813400F7118E /* ProductCell.swift in Sources */,
-				6A5691531D255D27000B7365 /* ProductCellModel.swift in Sources */,
+				6A5691531D255D27000B7365 /* ListingCellModel.swift in Sources */,
 				C75B5DC11D59E09500112368 /* ProductCarouselViewController.swift in Sources */,
 				C7B588491CE1DE1C009B3975 /* ChatViewController.swift in Sources */,
 				C77D64681CBD250700A22510 /* Tab.swift in Sources */,
@@ -5540,7 +5540,7 @@
 				C7AFFAFF1E7053EF0052A9CA /* NPSViewModel.swift in Sources */,
 				C7DB419B1C5138B500400945 /* ProductCell.swift in Sources */,
 				C74BC2431E0D7FFB00381D96 /* PassiveBuyerCell.swift in Sources */,
-				6A5691541D255D27000B7365 /* ProductCellModel.swift in Sources */,
+				6A5691541D255D27000B7365 /* ListingCellModel.swift in Sources */,
 				C75B5DC21D59E09500112368 /* ProductCarouselViewController.swift in Sources */,
 				C7B5884A1CE1DE1C009B3975 /* ChatViewController.swift in Sources */,
 				507440DF1E3F97EB006976F7 /* LoginAppearance+Helper.swift in Sources */,

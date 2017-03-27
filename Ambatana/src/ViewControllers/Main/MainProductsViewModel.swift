@@ -505,13 +505,13 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
                                showKeyboardOnFirstAppearIfNeeded: false)
     }
 
-    func vmProcessReceivedProductPage(_ products: [ProductCellModel], page: UInt) -> [ProductCellModel] {
+    func vmProcessReceivedProductPage(_ products: [ListingCellModel], page: UInt) -> [ListingCellModel] {
         guard searchType == nil else { return products }
         guard products.count > bannerCellPosition else { return products }
         var cellModels = products
         if !collections.isEmpty && productListRequester.countryCode == "US" {
             let collectionType = collections[Int(page) % collections.count]
-            let collectionModel = ProductCellModel.collectionCell(type: collectionType)
+            let collectionModel = ListingCellModel.collectionCell(type: collectionType)
             cellModels.insert(collectionModel, at: bannerCellPosition)
         }
         return cellModels

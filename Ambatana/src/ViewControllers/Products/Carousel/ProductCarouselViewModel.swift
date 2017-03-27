@@ -156,7 +156,7 @@ class ProductCarouselViewModel: BaseViewModel {
                   firstProductSyncRequired: false)
     }
 
-    convenience init(productListModels: [ProductCellModel]?,
+    convenience init(productListModels: [ListingCellModel]?,
          initialProduct: Product?,
          thumbnailImage: UIImage?,
          productListRequester: ProductListRequester,
@@ -178,7 +178,7 @@ class ProductCarouselViewModel: BaseViewModel {
                   productViewModelMaker: ProductViewModel.ConvenienceMaker())
     }
 
-    init(productListModels: [ProductCellModel]?,
+    init(productListModels: [ListingCellModel]?,
          initialProduct: Product?,
          thumbnailImage: UIImage?,
          productListRequester: ProductListRequester,

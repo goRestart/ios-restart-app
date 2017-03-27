@@ -1323,7 +1323,7 @@ extension ChatViewModel: ChatRelatedProductsViewDelegate {
     }
 
     func relatedProductsView(_ view: ChatRelatedProductsView, showProduct product: Product, atIndex index: Int,
-                             productListModels: [ProductCellModel], requester: ProductListRequester,
+                             productListModels: [ListingCellModel], requester: ProductListRequester,
                              thumbnailImage: UIImage?, originFrame: CGRect?) {
         let relatedShownReason = EventParameterRelatedShownReason(chatInfoStatus: chatStatus.value)
         tracker.trackEvent(TrackerEvent.chatRelatedItemsComplete(index, shownReason: relatedShownReason))

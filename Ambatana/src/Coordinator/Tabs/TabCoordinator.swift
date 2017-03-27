@@ -217,7 +217,7 @@ fileprivate extension TabCoordinator {
         openProduct(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, productId: product.objectId)
     }
 
-    func openProduct(_ product: Product, cellModels: [ProductCellModel], requester: ProductListRequester,
+    func openProduct(_ product: Product, cellModels: [ListingCellModel], requester: ProductListRequester,
                      thumbnailImage: UIImage?, originFrame: CGRect?, showRelated: Bool,
                      source: EventParameterProductVisitSource, index: Int) {
         if showRelated {

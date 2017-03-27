@@ -31,7 +31,7 @@ enum ProductCarouselCellModel {
         return UIColor.placeholderBackgroundColor(product.objectId)
     }
     
-    static func adapter(_ model: ProductCellModel) -> ProductCarouselCellModel? {
+    static func adapter(_ model: ListingCellModel) -> ProductCarouselCellModel? {
         switch model {
         case .productCell(let product):
             return ProductCarouselCellModel.productCell(product: product)

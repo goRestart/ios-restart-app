@@ -21,13 +21,13 @@ protocol ProductListViewModelDataDelegate: class {
     func productListVM(_ viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool)
     func productListVM(_ viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
                        originFrame: CGRect?)
-    func vmProcessReceivedProductPage(_ products: [ProductCellModel], page: UInt) -> [ProductCellModel]
+    func vmProcessReceivedProductPage(_ products: [ListingCellModel], page: UInt) -> [ListingCellModel]
     func vmDidSelectSellBanner(_ type: String)
     func vmDidSelectCollection(_ type: CollectionCellType)
 }
 
 extension ProductListViewModelDataDelegate {
-    func vmProcessReceivedProductPage(_ products: [ProductCellModel], page: UInt) -> [ProductCellModel] { return products }
+    func vmProcessReceivedProductPage(_ products: [ListingCellModel], page: UInt) -> [ListingCellModel] { return products }
     func vmDidSelectSellBanner(_ type: String) {}
     func vmDidSelectCollection(_ type: CollectionCellType) {}
 }
@@ -80,7 +80,7 @@ class ProductListViewModel: BaseViewModel {
     }
 
     // Data
-    private(set) var objects: [ProductCellModel]
+    private(set) var objects: [ListingCellModel]
 
     // UI
     private(set) var defaultCellSize: CGSize
@@ -115,7 +115,7 @@ class ProductListViewModel: BaseViewModel {
 
     init(requester: ProductListRequester?, products: [Product]? = nil, numberOfColumns: Int = 2,
          tracker: Tracker = TrackerProxy.sharedInstance) {
-        self.objects = (products ?? []).map(ProductCellModel.init)
+        self.objects = (products ?? []).map(ListingCellModel.init)
         self.pageNumber = 0
         self.refreshing = false
         self.state = .loading
@@ -156,7 +156,7 @@ class ProductListViewModel: BaseViewModel {
 
     func setEmptyState(_ viewModel: LGEmptyViewModel) {
         state = .empty(viewModel)
-        objects = [ProductCellModel.emptyCell(vm: viewModel)]
+        objects = [ListingCellModel.emptyCell(vm: viewModel)]
     }
 
     func refreshControlTriggered() {
@@ -192,13 +192,13 @@ class ProductListViewModel: BaseViewModel {
     func update(product: Product) {
         guard state.isData, let productId = product.objectId else { return }
         guard let index = indexFor(productId: productId) else { return }
-        objects[index] = ProductCellModel(product: product)
+        objects[index] = ListingCellModel(product: product)
         delegate?.vmReloadData(self)
     }
 
     func prepend(product: Product) {
         guard state.isData else { return }
-        objects.insert(ProductCellModel(product: product), at: 0)
+        objects.insert(ListingCellModel(product: product), at: 0)
         delegate?.vmReloadData(self)
     }
 
@@ -224,7 +224,7 @@ class ProductListViewModel: BaseViewModel {
             let nextPageNumber = firstPage ? 0 : strongSelf.pageNumber + 1
             self?.isLoading = false
             if let newProducts = result.value?.flatMap({ $0.product }) {
-                let productCellModels = newProducts.map(ProductCellModel.init)
+                let productCellModels = newProducts.map(ListingCellModel.init)
                 let cellModels = self?.dataDelegate?.vmProcessReceivedProductPage(productCellModels, page: nextPageNumber) ?? productCellModels
                 let indexes: [Int]
                 if firstPage {
@@ -291,7 +291,7 @@ class ProductListViewModel: BaseViewModel {
         - parameter index: The index of the product.
         - returns: The product.
     */
-    func itemAtIndex(_ index: Int) -> ProductCellModel? {
+    func itemAtIndex(_ index: Int) -> ListingCellModel? {
         guard 0..<numberOfProducts ~= index else { return nil }
         return objects[index]
     }

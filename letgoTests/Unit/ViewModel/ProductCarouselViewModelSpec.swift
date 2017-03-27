@@ -68,7 +68,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
 
         describe("ProductCarouselViewModelSpec") {
 
-            func buildSut(productListModels: [ProductCellModel]? = nil,
+            func buildSut(productListModels: [ListingCellModel]? = nil,
                           initialProduct: Product? = nil,
                           source: EventParameterProductVisitSource = .productList,
                           showKeyboardOnFirstAppearIfNeeded: Bool = false,
@@ -376,7 +376,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         beforeEach {
                             var products = MockProduct.makeMocks(count: 20)
                             products[0] = product
-                            let productListModels = products.map { ProductCellModel.productCell(product: $0) }
+                            let productListModels = products.map { ListingCellModel.productCell(product: $0) }
                             productListRequester.generateItems(30)
                             buildSut(productListModels: productListModels, initialProduct: product)
                             self.waitFor(timeout: 0.2)
@@ -397,7 +397,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         beforeEach {
                             var products = MockProduct.makeMocks(count: 20)
                             products[18] = product
-                            let productListModels = products.map { ProductCellModel.productCell(product: $0) }
+                            let productListModels = products.map { ListingCellModel.productCell(product: $0) }
                             productListRequester.generateItems(30)
                             buildSut(productListModels: productListModels, initialProduct: product)
                         }
@@ -413,7 +413,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         products[160] = product
                         productListRequester.generateItems(200)
                         productListRequester.offset = 180
-                        let productListModels = products.map { ProductCellModel.productCell(product: $0) }
+                        let productListModels = products.map { ListingCellModel.productCell(product: $0) }
                         buildSut(productListModels: productListModels, initialProduct: product)
                     }
                     describe("move to item before threshold") {
@@ -451,7 +451,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                     context("first item is 0") {
                         beforeEach {
                             product = products[0]
-                            let productListModels = products.map { ProductCellModel.productCell(product: $0) }
+                            let productListModels = products.map { ListingCellModel.productCell(product: $0) }
                             buildSut(productListModels: productListModels, initialProduct: product)
                         }
                         it("requests images for items 0-3") {
@@ -471,7 +471,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                     context("first item is in the middle of list") {
                         beforeEach {
                             product = products[10]
-                            let productListModels = products.map { ProductCellModel.productCell(product: $0) }
+                            let productListModels = products.map { ListingCellModel.productCell(product: $0) }
                             buildSut(productListModels: productListModels, initialProduct: product)
                         }
                         it("requests images for items 9-13") {
@@ -502,7 +502,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                     var products: [MockProduct]!
                     beforeEach {
                         products = MockProduct.makeMocks(count: 20)
-                        let productListModels = products.map { ProductCellModel.productCell(product: $0) }
+                        let productListModels = products.map { ListingCellModel.productCell(product: $0) }
                         buildSut(productListModels: productListModels)
                     }
                     context("viewmodel inactive") {

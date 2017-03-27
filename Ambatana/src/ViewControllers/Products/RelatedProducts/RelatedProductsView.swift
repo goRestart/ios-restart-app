@@ -13,7 +13,7 @@ import RxCocoa
 
 protocol RelatedProductsViewDelegate: class {
     func relatedProductsView(_ view: RelatedProductsView, showProduct product: Product, atIndex index: Int,
-                             productListModels: [ProductCellModel], requester: ProductListRequester,
+                             productListModels: [ListingCellModel], requester: ProductListRequester,
                              thumbnailImage: UIImage?, originFrame: CGRect?)
 }
 
@@ -33,7 +33,7 @@ class RelatedProductsView: UIView {
     fileprivate let productsDiameter: CGFloat
 
     fileprivate var requester: ProductListRequester?
-    fileprivate var objects: [ProductCellModel] = [] {
+    fileprivate var objects: [ListingCellModel] = [] {
         didSet {
             hasProducts.value = !objects.isEmpty
         }
@@ -122,7 +122,7 @@ extension RelatedProductsView: UICollectionViewDelegate, UICollectionViewDataSou
         collectionView.reloadData()
     }
 
-    private func itemAtIndex(_ index: Int) -> ProductCellModel? {
+    private func itemAtIndex(_ index: Int) -> ListingCellModel? {
         guard 0..<objects.count ~= index else { return nil }
         return objects[index]
     }
@@ -179,7 +179,7 @@ fileprivate extension RelatedProductsView {
                 }
             }
             if !products.isEmpty {
-                let productCellModels = products.map(ProductCellModel.init)
+                let productCellModels = products.map(ListingCellModel.init)
                 self?.objects = productCellModels
             } else {
                 self?.objects = []

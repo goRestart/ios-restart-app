@@ -14,7 +14,7 @@ import RxCocoa
 protocol ChatRelatedProductsViewDelegate: class {
     func relatedProductsViewDidShow(_ view: ChatRelatedProductsView)
     func relatedProductsView(_ view: ChatRelatedProductsView, showProduct product: Product, atIndex index: Int,
-                             productListModels: [ProductCellModel], requester: ProductListRequester,
+                             productListModels: [ListingCellModel], requester: ProductListRequester,
                              thumbnailImage: UIImage?, originFrame: CGRect?)
 
 }
@@ -131,7 +131,7 @@ class ChatRelatedProductsView: UIView {
 
 extension ChatRelatedProductsView: RelatedProductsViewDelegate {
     func relatedProductsView(_ view: RelatedProductsView, showProduct product: Product, atIndex index: Int,
-                             productListModels: [ProductCellModel], requester: ProductListRequester,
+                             productListModels: [ListingCellModel], requester: ProductListRequester,
                              thumbnailImage: UIImage?, originFrame: CGRect?) {
 
         var realFrame: CGRect? = nil

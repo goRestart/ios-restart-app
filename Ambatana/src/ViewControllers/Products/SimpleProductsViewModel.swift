@@ -78,7 +78,7 @@ extension SimpleProductsViewModel: ProductListViewModelDataDelegate {
                                showKeyboardOnFirstAppearIfNeeded: false)
     }
 
-    func vmProcessReceivedProductPage(_ products: [ProductCellModel], page: UInt) -> [ProductCellModel] {
+    func vmProcessReceivedProductPage(_ products: [ListingCellModel], page: UInt) -> [ListingCellModel] {
         return products
     }
     func vmDidSelectSellBanner(_ type: String) {}
