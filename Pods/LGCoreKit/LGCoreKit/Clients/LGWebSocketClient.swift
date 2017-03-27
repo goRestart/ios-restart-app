@@ -766,7 +766,7 @@ class LGWebSocketClient: WebSocketClient, WebSocketLibraryDelegate {
         executePendingQueryCompletionCompletion(forKey: response.responseToId, responseData: response.data)
         removeActiveRequest(forKey: response.responseToId)
     }
-    
+
     private func handleEvent(_ dict: [AnyHashable: Any]) {
         guard let response = WebSocketResponseEvent(dict: dict),
             let event = ChatModelsMapper.eventFromDict(dict, type: response.type) else {
@@ -779,6 +779,8 @@ class LGWebSocketClient: WebSocketClient, WebSocketLibraryDelegate {
         case .interlocutorMessageSent, .interlocutorReadConfirmed, .interlocutorReceptionConfirmed,
              .interlocutorTypingStarted, .interlocutorTypingStopped:
             eventBus.onNext(event)
+        case .talkerUnauthenticated: // -> Don't forward this event to the App
+            authenticateWebSocket()
         }
     }
     

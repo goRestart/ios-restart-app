@@ -105,8 +105,19 @@ extension ChatEventType: Decodable {
 
         case "authentication_token_expired":
             result = Decoded<ChatEventType>.success(.authenticationTokenExpired)
-            
-            
+
+        case "talker_unauthenticated":
+            /*
+             {
+             "id": [uuid],
+             "type": "talker_unauthenticated",
+             "data": {
+             "talker_id": [uuid]
+             }
+             }
+             */
+            result = Decoded<ChatEventType>.success(.talkerUnauthenticated)
+
         default:
             result = Decoded<NotificationType>.fromOptional(nil)
         }

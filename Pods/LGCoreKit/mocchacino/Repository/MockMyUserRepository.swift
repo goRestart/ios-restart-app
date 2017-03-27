@@ -2,15 +2,14 @@ import Result
 import RxSwift
 
 open class MockMyUserRepository: MyUserRepository {
-    public var result: MyUserResult
-    public var myUserVar: Variable<MyUser?>
+    public var result: MyUserResult!
+    public var myUserVar = Variable<MyUser?>(nil)
 
     
     // MARK: - Lifecycle
 
-    public init() {
-        self.result = MyUserResult(value: MockMyUser.makeMock())
-        self.myUserVar = Variable<MyUser?>(nil)
+    required public init() {
+        
     }
 
 

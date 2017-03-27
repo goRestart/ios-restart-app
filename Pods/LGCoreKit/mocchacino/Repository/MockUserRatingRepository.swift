@@ -2,15 +2,14 @@ import Result
 import RxSwift
 
 open class MockUserRatingRepository: UserRatingRepository {
-    public var indexResult: UserRatingsResult
-    public var ratingResult: UserRatingResult
+    public var indexResult: UserRatingsResult!
+    public var ratingResult: UserRatingResult!
 
 
     // MARK: - Lifecycle
 
-    public init() {
-        self.indexResult = UserRatingsResult(value: MockUserRating.makeMocks(count: Int.makeRandom(min: 0, max: 10)))
-        self.ratingResult = UserRatingResult(value: MockUserRating.makeMock())
+    required public init() {
+        
     }
 
 

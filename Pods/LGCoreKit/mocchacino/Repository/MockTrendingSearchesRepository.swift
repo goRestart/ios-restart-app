@@ -2,13 +2,13 @@ import Result
 import RxSwift
 
 open class MockTrendingSearchesRepository: TrendingSearchesRepository {
-    public var indexResult: TrendingSearchesResult
+    public var indexResult: TrendingSearchesResult!
 
 
     // MARK: - Lifecycle
 
-    public init() {
-        self.indexResult = TrendingSearchesResult(value: [String].makeRandom())
+    required public init() {
+        
     }
 
 
