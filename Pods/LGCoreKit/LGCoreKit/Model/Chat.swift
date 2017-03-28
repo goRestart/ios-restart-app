@@ -22,8 +22,8 @@ public enum ChatArchivedStatus: Int {
 
 public protocol Chat: BaseModel {
     var product: Product { get }
-    var userFrom: UserProduct { get }
-    var userTo: UserProduct { get }
+    var userFrom: UserListing { get }
+    var userTo: UserListing { get }
     var msgUnreadCount: Int { get }     // Default: 0
     var messages: [Message] { get }     // Default: []
     var updatedAt: Date? { get }
@@ -51,17 +51,17 @@ public extension Chat {
         }
     }
 
-    public var buyer: UserProduct {
+    public var buyer: UserListing {
         guard let productOwnerId = product.user.objectId, let userFromId = userFrom.objectId else { return userFrom }
         return productOwnerId == userFromId ? userTo : userFrom
     }
 
-    public var seller: UserProduct {
+    public var seller: UserListing {
         guard let productOwnerId = product.user.objectId, let userFromId = userFrom.objectId else { return userFrom }
         return productOwnerId == userFromId ? userFrom : userTo
     }
 
-    public func otherUser(myUser: MyUser) -> UserProduct {
+    public func otherUser(myUser: MyUser) -> UserListing {
         guard let myUserId = myUser.objectId, let userFromId = userFrom.objectId else { return userFrom }
         return myUserId == userFromId ? userTo : userFrom
     }

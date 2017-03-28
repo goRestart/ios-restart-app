@@ -12,25 +12,21 @@ import Result
 class LGMonetizationRepository : MonetizationRepository {
 
     let dataSource: MonetizationDataSource
-    let productsLimboDAO: ProductsLimboDAO
+    let listingsLimboDAO: ListingsLimboDAO
 
     // MARK: - Lifecycle
 
-    init(dataSource: MonetizationDataSource, productsLimboDAO: ProductsLimboDAO) {
+    init(dataSource: MonetizationDataSource, listingsLimboDAO: ListingsLimboDAO) {
         self.dataSource = dataSource
-        self.productsLimboDAO = productsLimboDAO
+        self.listingsLimboDAO = listingsLimboDAO
     }
 
 
     // MARK: - PUblic methods
 
-    func retrieveBumpeableProductInfo(productId: String, completion: BumpeableProductCompletion?) {
+    func retrieveBumpeableProductInfo(productId: String, completion: BumpeableListingCompletion?) {
         dataSource.retrieveBumpeableProductInfo(productId: productId) { result in
-            if let value = result.value {
-                completion?(BumpeableProductResult(value: value))
-            } else if let error = result.error {
-                completion?(BumpeableProductResult(error: RepositoryError(apiError: error)))
-            }
+            handleApiResult(result, completion: completion)
         }
     }
 
@@ -38,7 +34,7 @@ class LGMonetizationRepository : MonetizationRepository {
         let paymentId = LGUUID().UUIDString
         dataSource.freeBump(forProduct: productId, itemId: itemId, paymentId: paymentId) { [weak self] result in
             if let _ = result.value {
-                self?.productsLimboDAO.save(productId)
+                self?.listingsLimboDAO.save(productId)
                 completion?(BumpResult(value: Void()))
             } else if let error = result.error {
                 completion?(BumpResult(error: RepositoryError(apiError: error)))
@@ -52,7 +48,7 @@ class LGMonetizationRepository : MonetizationRepository {
         dataSource.pricedBump(forProduct: productId, receiptData: receiptData, itemId: itemId, itemPrice: itemPrice,
                               itemCurrency: itemCurrency, paymentId: paymentId) { [weak self] result in
             if let _ = result.value {
-                self?.productsLimboDAO.save(productId)
+                self?.listingsLimboDAO.save(productId)
                 completion?(BumpResult(value: Void()))
             } else if let error = result.error {
                 completion?(BumpResult(error: RepositoryError(apiError: error)))

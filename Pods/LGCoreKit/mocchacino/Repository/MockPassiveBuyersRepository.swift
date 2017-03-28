@@ -1,15 +1,14 @@
 import Result
 
 open class MockPassiveBuyersRepository: PassiveBuyersRepository {
-    public var showResult: PassiveBuyersResult
-    public var contactResult: PassiveBuyersEmptyResult
+    public var showResult: PassiveBuyersResult!
+    public var contactResult: PassiveBuyersEmptyResult!
 
 
     // MARK: - Lifecycle
 
-    public init() {
-        self.showResult = PassiveBuyersResult(value: MockPassiveBuyersInfo.makeMock())
-        self.contactResult = PassiveBuyersEmptyResult(value: Void())
+    required public init() {
+        
     }
 
 

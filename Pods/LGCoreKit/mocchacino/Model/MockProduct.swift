@@ -8,12 +8,12 @@ public struct MockProduct: Product {
     public var location: LGLocationCoordinates2D
     public var postalAddress: PostalAddress
     public var languageCode: String?
-    public var category: ProductCategory
-    public var status: ProductStatus
+    public var category: ListingCategory
+    public var status: ListingStatus
     public var thumbnail: File?
     public var thumbnailSize: LGSize?
     public var images: [File]
-    public var user: UserProduct
+    public var user: UserListing
     public var updatedAt : Date?
     public var createdAt : Date?
     public var featured: Bool?

@@ -52,6 +52,7 @@ enum WebSocketResponseType: String {
     case interlocutorReceptionConfirmed = "interlocutor_reception_confirmed"
     case interlocutorReadConfirmed      = "interlocutor_read_confirmed"
     case authenticationTokenExpired     = "authentication_token_expired"
+    case talkerUnauthenticated          = "talker_unauthenticated"
     case pong                           = "pong"
     
     enum ResponseSuperType {
@@ -70,7 +71,8 @@ enum WebSocketResponseType: String {
         case .messageList, .conversationCreated, .conversationList, .conversationDetails, .pong:
             return .query
         case .interlocutorTypingStarted, .interlocutorTypingStopped, .interlocutorMessageSent,
-        .interlocutorReceptionConfirmed, .interlocutorReadConfirmed, .authenticationTokenExpired:
+        .interlocutorReceptionConfirmed, .interlocutorReadConfirmed, .authenticationTokenExpired,
+        .talkerUnauthenticated:
             return .event
         }
     }

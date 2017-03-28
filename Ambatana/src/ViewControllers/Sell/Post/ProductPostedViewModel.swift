@@ -26,9 +26,11 @@ class ProductPostedViewModel: BaseViewModel {
     weak var delegate: ProductPostedViewModelDelegate?
 
     private var status: ProductPostedStatus
-    private var listingRepository: ListingRepository?
-    private var trackingInfo: PostProductTrackingInfo
-    private var featureFlags: FeatureFlaggeable
+    private let trackingInfo: PostProductTrackingInfo
+    private let featureFlags: FeatureFlaggeable
+    private let tracker: Tracker
+    private let listingRepository: ListingRepository
+    private let fileRepository: FileRepository
 
     var wasFreePosting: Bool {
         switch self.status {
@@ -44,27 +46,37 @@ class ProductPostedViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
 
-    init(postResult: ProductResult, trackingInfo: PostProductTrackingInfo) {
-        self.trackingInfo = trackingInfo
-        self.featureFlags = FeatureFlags.sharedInstance
-        self.status = ProductPostedStatus(result: postResult)
-        super.init()
+    convenience init(postResult: ProductResult, trackingInfo: PostProductTrackingInfo) {
+        self.init(status: ProductPostedStatus(result: postResult),
+                  trackingInfo: trackingInfo)
     }
 
     convenience init(productToPost: Product, productImages: [UIImage], trackingInfo: PostProductTrackingInfo) {
-        let listingRepository = Core.listingRepository
-        let featureFlags = FeatureFlags.sharedInstance
-        self.init(listingRepository: listingRepository, productToPost: productToPost,
-                  productImages: productImages, trackingInfo: trackingInfo, featureFlags: featureFlags)
+        self.init(status: ProductPostedStatus(images: productImages, product: productToPost),
+                  trackingInfo: trackingInfo)
     }
 
-    init(listingRepository: ListingRepository, productToPost: Product,
-         productImages: [UIImage], trackingInfo: PostProductTrackingInfo, featureFlags: FeatureFlaggeable) {
-            self.listingRepository = listingRepository
-            self.trackingInfo = trackingInfo
-            self.featureFlags = featureFlags
-            self.status = ProductPostedStatus(images: productImages, product: productToPost)
-            super.init()
+    convenience init(status: ProductPostedStatus, trackingInfo: PostProductTrackingInfo) {
+        self.init(status: status,
+                  trackingInfo: trackingInfo,
+                  listingRepository: Core.listingRepository,
+                  fileRepository: Core.fileRepository,
+                  featureFlags: FeatureFlags.sharedInstance,
+                  tracker: TrackerProxy.sharedInstance)
+    }
+
+    init(status: ProductPostedStatus,
+         trackingInfo: PostProductTrackingInfo,
+         listingRepository: ListingRepository,
+         fileRepository: FileRepository,
+         featureFlags: FeatureFlaggeable,
+         tracker: Tracker) {
+        self.status = status
+        self.trackingInfo = trackingInfo
+        self.featureFlags = featureFlags
+        self.tracker = tracker
+        self.listingRepository = listingRepository
+        self.fileRepository = fileRepository
     }
 
     override func didBecomeActive(_ firstTime: Bool) {
@@ -139,12 +151,12 @@ class ProductPostedViewModel: BaseViewModel {
         var product: Product? = nil
         switch status {
         case let .success(productPosted):
-            trackEvent(TrackerEvent.productSellConfirmationClose(productPosted))
+            tracker.trackEvent(TrackerEvent.productSellConfirmationClose(productPosted))
             product = productPosted
         case .posting:
             break
         case let .error(error):
-            trackEvent(TrackerEvent.productSellErrorClose(error))
+            tracker.trackEvent(TrackerEvent.productSellErrorClose(error))
         }
         
         guard let productValue = product else {
@@ -162,7 +174,7 @@ class ProductPostedViewModel: BaseViewModel {
     func editActionPressed() {
         guard let product = status.product else { return }
 
-        trackEvent(TrackerEvent.productSellConfirmationEdit(product))
+        tracker.trackEvent(TrackerEvent.productSellConfirmationEdit(product))
         navigator?.closeProductPostedAndOpenEdit(product)
     }
 
@@ -171,9 +183,9 @@ class ProductPostedViewModel: BaseViewModel {
         case .posting:
             break
         case let .success(product):
-            trackEvent(TrackerEvent.productSellConfirmationPost(product, buttonType: .button))
+            tracker.trackEvent(TrackerEvent.productSellConfirmationPost(product, buttonType: .button))
         case let .error(error):
-            trackEvent(TrackerEvent.productSellErrorPost(error))
+            tracker.trackEvent(TrackerEvent.productSellErrorPost(error))
         }
 
         navigator?.closeProductPostedAndOpenPost()
@@ -181,13 +193,13 @@ class ProductPostedViewModel: BaseViewModel {
 
     func incentivateSectionPressed() {
         guard let product = status.product else { return }
-        trackEvent(TrackerEvent.productSellConfirmationPost(product, buttonType: .itemPicture))
+        tracker.trackEvent(TrackerEvent.productSellConfirmationPost(product, buttonType: .itemPicture))
         navigator?.closeProductPostedAndOpenPost()
     }
 
     func shareStartedIn(_ shareType: ShareType) {
         guard let product = status.product else { return }
-        trackEvent(TrackerEvent.productSellConfirmationShare(product, network: shareType.trackingShareNetwork))
+        tracker.trackEvent(TrackerEvent.productSellConfirmationShare(product, network: shareType.trackingShareNetwork))
     }
 
     func shareFinishedIn(_ shareType: ShareType, withState state: SocialShareState) {
@@ -195,9 +207,9 @@ class ProductPostedViewModel: BaseViewModel {
 
         switch state {
         case .completed:
-            trackEvent(TrackerEvent.productSellConfirmationShareComplete(product, network: shareType.trackingShareNetwork))
+            tracker.trackEvent(TrackerEvent.productSellConfirmationShareComplete(product, network: shareType.trackingShareNetwork))
         case .cancelled:
-            trackEvent(TrackerEvent.productSellConfirmationShareCancel(product, network: shareType.trackingShareNetwork))
+            tracker.trackEvent(TrackerEvent.productSellConfirmationShareCancel(product, network: shareType.trackingShareNetwork))
         case .failed:
             break;
         }
@@ -207,50 +219,56 @@ class ProductPostedViewModel: BaseViewModel {
     // MARK: - Private methods
 
     private func postProduct(_ images: [UIImage], product: Product) {
-        guard let listingRepository = listingRepository else { return }
-
         delegate?.productPostedViewModelSetupLoadingState(self)
 
         listingRepository.create(product: product, images: images, progress: nil) { [weak self] result in
-            guard let strongSelf = self else { return }
-
             // Tracking
             if let postedProduct = result.value {
-                let buttonName = strongSelf.trackingInfo.buttonName
-                let negotiable = strongSelf.trackingInfo.negotiablePrice
-                let pictureSource = strongSelf.trackingInfo.imageSource
-                let event = TrackerEvent.productSellComplete(postedProduct, buttonName: buttonName,
-                                                             sellButtonPosition: strongSelf.trackingInfo.sellButtonPosition,
-                                                             negotiable: negotiable, pictureSource: pictureSource,
-                                                             freePostingModeAllowed: strongSelf.featureFlags.freePostingModeAllowed)
-                strongSelf.trackEvent(event)
-
-                // Track product was sold in the first 24h (and not tracked before)
-                if let firstOpenDate = KeyValueStorage.sharedInstance[.firstRunDate], NSDate().timeIntervalSince(firstOpenDate as Date) <= 86400 &&
-                        !KeyValueStorage.sharedInstance.userTrackingProductSellComplete24hTracked {
-                    KeyValueStorage.sharedInstance.userTrackingProductSellComplete24hTracked = true
-                    let event = TrackerEvent.productSellComplete24h(postedProduct)
-                    strongSelf.trackEvent(event)
-                }
+                self?.trackPostSellComplete(postedProduct: postedProduct)
             } else if let error = result.error {
-                let sellError: EventParameterPostProductError
-                switch error {
-                case .network:
-                    sellError = .network
-                case .serverError, .notFound, .forbidden, .unauthorized, .tooManyRequests, .userNotVerified:
-                    sellError = .serverError(code: error.errorCode)
-                case .internalError:
-                    sellError = .internalError
-                }
-                let sellErrorDataEvent = TrackerEvent.productSellErrorData(sellError)
-                strongSelf.trackEvent(sellErrorDataEvent)
+                self?.trackPostSellError(error: error)
             }
-
-            let status = ProductPostedStatus(result: result)
-            strongSelf.status = status
-            strongSelf.trackProductUploadResultScreen()
-            strongSelf.delegate?.productPostedViewModel(strongSelf, finishedLoadingState: status.success)
+            self?.updateStatusAfterPosting(status: ProductPostedStatus(result: result))
         }
+    }
+
+    private func updateStatusAfterPosting(status: ProductPostedStatus) {
+        self.status = status
+        trackProductUploadResultScreen()
+        delegate?.productPostedViewModel(self, finishedLoadingState: status.success)
+    }
+
+    private func trackPostSellComplete(postedProduct: Product) {
+        let buttonName = trackingInfo.buttonName
+        let negotiable = trackingInfo.negotiablePrice
+        let pictureSource = trackingInfo.imageSource
+        let event = TrackerEvent.productSellComplete(postedProduct, buttonName: buttonName,
+                                                     sellButtonPosition: trackingInfo.sellButtonPosition,
+                                                     negotiable: negotiable, pictureSource: pictureSource,
+                                                     freePostingModeAllowed: featureFlags.freePostingModeAllowed)
+        tracker.trackEvent(event)
+
+        // Track product was sold in the first 24h (and not tracked before)
+        if let firstOpenDate = KeyValueStorage.sharedInstance[.firstRunDate], NSDate().timeIntervalSince(firstOpenDate as Date) <= 86400 &&
+            !KeyValueStorage.sharedInstance.userTrackingProductSellComplete24hTracked {
+            KeyValueStorage.sharedInstance.userTrackingProductSellComplete24hTracked = true
+            let event = TrackerEvent.productSellComplete24h(postedProduct)
+            tracker.trackEvent(event)
+        }
+    }
+
+    private func trackPostSellError(error: RepositoryError) {
+        let sellError: EventParameterPostProductError
+        switch error {
+        case .network:
+            sellError = .network
+        case .serverError, .notFound, .forbidden, .unauthorized, .tooManyRequests, .userNotVerified:
+            sellError = .serverError(code: error.errorCode)
+        case .internalError:
+            sellError = .internalError
+        }
+        let sellErrorDataEvent = TrackerEvent.productSellErrorData(sellError)
+        tracker.trackEvent(sellErrorDataEvent)
     }
 
     private func trackProductUploadResultScreen() {
@@ -258,21 +276,17 @@ class ProductPostedViewModel: BaseViewModel {
         case .posting:
             break
         case let .success(product):
-            trackEvent(TrackerEvent.productSellConfirmation(product))
+            tracker.trackEvent(TrackerEvent.productSellConfirmation(product))
         case let .error(error):
-            trackEvent(TrackerEvent.productSellError(error))
+            tracker.trackEvent(TrackerEvent.productSellError(error))
         }
-    }
-
-    private func trackEvent(_ event: TrackerEvent) {
-        TrackerProxy.sharedInstance.trackEvent(event)
     }
 }
 
 
 // MARK: - ProductPostedStatus
 
-private enum ProductPostedStatus {
+enum ProductPostedStatus {
     case posting(images: [UIImage], product: Product)
     case success(product: Product)
     case error(error: EventParameterPostProductError)
@@ -310,6 +324,15 @@ private enum ProductPostedStatus {
                 self = .error(error: .internalError)
             }
         } else {
+            self = .error(error: .internalError)
+        }
+    }
+
+    init(error: RepositoryError) {
+        switch error {
+        case .network:
+            self = .error(error: .network)
+        default:
             self = .error(error: .internalError)
         }
     }

@@ -1,6 +1,6 @@
 extension NotificationType: MockFactory {
     public static func makeMock() -> NotificationType {
-        let product = MockNotificationProduct.makeMock()
+        let product = MockNotificationListing.makeMock()
         let user = MockNotificationUser.makeMock()
 
         switch Int.makeRandom(min: 0, max: 6) {

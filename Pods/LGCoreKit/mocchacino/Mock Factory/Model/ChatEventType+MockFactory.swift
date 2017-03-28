@@ -1,6 +1,6 @@
 extension ChatEventType: MockFactory {
     public static func makeMock() -> ChatEventType {
-        switch Int.makeRandom(min: 0, max: 5) {
+        switch Int.makeRandom(min: 0, max: 6) {
         case 0:
             return .interlocutorTypingStarted
         case 1:
@@ -14,6 +14,8 @@ extension ChatEventType: MockFactory {
             return .interlocutorReceptionConfirmed(messagesIds: [String].makeRandom())
         case 4:
             return .interlocutorReadConfirmed(messagesIds: [String].makeRandom())
+        case 5:
+            return .talkerUnauthenticated
         default:
             return .authenticationTokenExpired
         }

@@ -20,14 +20,14 @@ public protocol Product: BaseModel, Priceable {
 
     var languageCode: String? { get }
 
-    var category: ProductCategory { get }
-    var status: ProductStatus { get }
+    var category: ListingCategory { get }
+    var status: ListingStatus { get }
 
     var thumbnail: File? { get }
     var thumbnailSize: LGSize? { get }
     var images: [File] { get }          // Default value []
 
-    var user: UserProduct { get }
+    var user: UserListing { get }
 
     var updatedAt : Date? { get }
     var createdAt : Date? { get }

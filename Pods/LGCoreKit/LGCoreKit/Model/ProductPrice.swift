@@ -16,7 +16,7 @@ public func ==(lhs: ProductPrice, rhs: ProductPrice) -> Bool {
     }
 }
 
-public enum ProductPrice {
+public enum ProductPrice: Equatable {
     case free
     case normal(Double)
     case negotiable(Double)

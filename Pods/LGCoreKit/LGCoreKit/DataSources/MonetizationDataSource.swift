@@ -8,7 +8,7 @@
 
 import Result
 
-typealias MonetizationDataSourceBumpeableProductResult = Result<BumpeableProduct, ApiError>
+typealias MonetizationDataSourceBumpeableProductResult = Result<BumpeableListing, ApiError>
 typealias MonetizationDataSourceBumpeableProductCompletion = (MonetizationDataSourceBumpeableProductResult) -> Void
 
 typealias MonetizationDataSourceBumpResult = Result<Void, ApiError>

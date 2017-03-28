@@ -29,14 +29,14 @@ struct LGProduct: Product {
 
     let languageCode: String?
 
-    let category: ProductCategory
-    let status: ProductStatus
+    let category: ListingCategory
+    let status: ListingStatus
 
     let thumbnail: File?
     let thumbnailSize: LGSize?
     let images: [File]
 
-    var user: UserProduct
+    var user: UserListing
 
     let featured: Bool?
 
@@ -47,8 +47,8 @@ struct LGProduct: Product {
 
     init(objectId: String?, updatedAt: Date?, createdAt: Date?, name: String?, nameAuto: String?, descr: String?,
          price: ProductPrice, currency: Currency, location: LGLocationCoordinates2D, postalAddress: PostalAddress,
-         languageCode: String?, category: ProductCategory, status: ProductStatus, thumbnail: File?,
-         thumbnailSize: LGSize?, images: [File], user: UserProduct, featured: Bool?) {
+         languageCode: String?, category: ListingCategory, status: ListingStatus, thumbnail: File?,
+         thumbnailSize: LGSize?, images: [File], user: UserListing, featured: Bool?) {
         self.objectId = objectId
         self.updatedAt = updatedAt
         self.createdAt = createdAt
@@ -70,17 +70,17 @@ struct LGProduct: Product {
         self.favorite = false
     }
     
-    init(chatProduct: ChatProduct, chatInterlocutor: ChatInterlocutor) {
-        let user = LGUserProduct(chatInterlocutor: chatInterlocutor)
-        let images = [chatProduct.image].flatMap{$0}
+    init(chatListing: ChatListing, chatInterlocutor: ChatInterlocutor) {
+        let user = LGUserListing(chatInterlocutor: chatInterlocutor)
+        let images = [chatListing.image].flatMap{$0}
         let location = LGLocationCoordinates2D(latitude: 0, longitude: 0)
         let postalAddress = PostalAddress.emptyAddress()
-        let category = ProductCategory.other
+        let category = ListingCategory.other
         
-        self.init(objectId: chatProduct.objectId, updatedAt: nil, createdAt: nil, name: chatProduct.name,
-                  nameAuto: nil, descr: nil, price: chatProduct.price, currency: chatProduct.currency, location: location,
+        self.init(objectId: chatListing.objectId, updatedAt: nil, createdAt: nil, name: chatListing.name,
+                  nameAuto: nil, descr: nil, price: chatListing.price, currency: chatListing.currency, location: location,
                   postalAddress: postalAddress, languageCode: nil, category: category,
-                  status: chatProduct.status, thumbnail: chatProduct.image, thumbnailSize: nil,
+                  status: chatListing.status, thumbnail: chatListing.image, thumbnailSize: nil,
                   images: images, user: user, featured: nil)
     }
     
@@ -88,10 +88,10 @@ struct LGProduct: Product {
                               nameAuto: String?, descr: String?, price: Double?, priceFlag: ProductPriceFlag?, currency: String,
                               location: LGLocationCoordinates2D, postalAddress: PostalAddress, languageCode: String?,
                               category: Int, status: Int, thumbnail: String?, thumbnailSize: LGSize?, images: [LGFile],
-                              user: LGUserProduct, featured: Bool?) -> LGProduct {
+                              user: LGUserListing, featured: Bool?) -> LGProduct {
         let actualCurrency = Currency.currencyWithCode(currency)
-        let actualCategory = ProductCategory(rawValue: category) ?? .other
-        let actualStatus = ProductStatus(rawValue: status) ?? .pending
+        let actualCategory = ListingCategory(rawValue: category) ?? .other
+        let actualStatus = ListingStatus(rawValue: status) ?? .pending
         let actualThumbnail = LGFile(id: nil, urlString: thumbnail)
         let actualImages = images.flatMap { $0 as File }
         let productPrice = ProductPrice.fromPrice(price, andFlag: priceFlag)
@@ -169,7 +169,7 @@ struct LGProduct: Product {
                          thumbnailSize: thumbnailSize, images: images, user: user, featured: featured)
     }
     
-    func updating(category: ProductCategory) -> LGProduct {
+    func updating(category: ListingCategory) -> LGProduct {
         return LGProduct(objectId: objectId, updatedAt: updatedAt, createdAt: createdAt, name: name,
                          nameAuto: nameAuto, descr: descr, price: price, currency: currency,
                          location: location, postalAddress: postalAddress, languageCode: languageCode,
@@ -177,7 +177,7 @@ struct LGProduct: Product {
                          thumbnailSize: thumbnailSize, images: images, user: user, featured: featured)
     }
     
-    func updating(status: ProductStatus) -> LGProduct {
+    func updating(status: ListingStatus) -> LGProduct {
         return LGProduct(objectId: objectId, updatedAt: updatedAt, createdAt: createdAt, name: name,
                          nameAuto: nameAuto, descr: descr, price: price, currency: currency,
                          location: location, postalAddress: postalAddress, languageCode: languageCode,
@@ -222,8 +222,6 @@ extension LGProduct: CustomStringConvertible {
         return "name: \(name); nameAuto: \(nameAuto); descr: \(descr); price: \(price); currency: \(currency); location: \(location); postalAddress: \(postalAddress); languageCode: \(languageCode); category: \(category); status: \(status); thumbnail: \(thumbnail); thumbnailSize: \(thumbnailSize); images: \(images); user: \(user); featured: \(featured); descr: \(descr);"
     }
 }
-
-extension ProductPriceFlag: Decodable {}
 
 extension LGProduct : Decodable {
     /**
@@ -292,7 +290,7 @@ extension LGProduct : Decodable {
                             <*> j <|? ["thumb", "url"]                              // thumbnail : String?
         let result = init4  <*> j <|? "thumb"                                       // thumbnailSize : LGSize?
                             <*> (j <||? "images" >>- LGArgo.jsonArrayToFileArray)   // images : [LGFile]
-                            <*> j <| "owner"                                        // user : LGUserProduct?
+                            <*> j <| "owner"                                        // user : LGUserListing?
                             <*> j <|? "featured"                                    // featured : Bool
 
         if let error = result.error {

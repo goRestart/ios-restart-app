@@ -1,7 +1,7 @@
 public struct MockUserRating: UserRating {
     public var objectId: String?
     public var userToId: String
-    public var userFrom: UserProduct
+    public var userFrom: UserListing
     public var type: UserRatingType
     public var value: Int
     public var comment: String?

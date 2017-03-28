@@ -1,21 +1,20 @@
 import Result
 
 open class MockMonetizationRepository: MonetizationRepository {
-    public var retrieveResult: BumpeableProductResult
-    public var bumpResult: BumpResult
+    public var retrieveResult: BumpeableListingResult!
+    public var bumpResult: BumpResult!
 
 
     // MARK: - Lifecycle
 
-    public init() {
-        self.retrieveResult = BumpeableProductResult(value: MockBumpeableProduct.makeMock())
-        self.bumpResult = BumpResult(value: Void())
+    required public init() {
+
     }
 
 
     // MARK: - MonetizationRepository
 
-    public func retrieveBumpeableProductInfo(productId: String, completion: BumpeableProductCompletion?) {
+    public func retrieveBumpeableProductInfo(productId: String, completion: BumpeableListingCompletion?) {
         delay(result: retrieveResult, completion: completion)
     }
 

@@ -98,7 +98,7 @@ PODS:
   - KMPlaceholderTextView (1.3.0)
   - Leanplum-iOS-SDK (1.4.3)
   - LGCollapsibleLabel (1.0.0)
-  - LGCoreKit (2.13.4):
+  - LGCoreKit (2.13.5):
     - Alamofire (~> 4.2.0)
     - Argo (~> 4.1.1)
     - CocoaLumberjack/Swift (~> 3.0.0)
@@ -173,7 +173,7 @@ DEPENDENCIES:
   - KMPlaceholderTextView (= 1.3.0)
   - Leanplum-iOS-SDK (= 1.4.3)
   - LGCollapsibleLabel (= 1.0.0)
-  - LGCoreKit (from `../lgcorekit`)
+  - LGCoreKit (from `git@github.com:letgoapp/letgo-ios-lgcorekit.git`, commit `60a42533b317099b0b747afb244ccc5db2343591`)
   - NewRelicAgent (= 5.10.1)
   - Nimble (= 5.1.1)
   - OHHTTPStubs (= 5.2.3)
@@ -199,7 +199,8 @@ EXTERNAL SOURCES:
     :commit: f6230869f4d26d720f36eb227bd269c3d712986b
     :git: git@github.com:letgoapp/keychain-swift.git
   LGCoreKit:
-    :path: ../lgcorekit
+    :commit: 60a42533b317099b0b747afb244ccc5db2343591
+    :git: git@github.com:letgoapp/letgo-ios-lgcorekit.git
   TMReachability:
     :commit: e34782b386307e386348b481c02c176d58ba45e6
     :git: https://github.com/albertbori/Reachability
@@ -214,6 +215,9 @@ CHECKOUT OPTIONS:
   KeychainSwift:
     :commit: f6230869f4d26d720f36eb227bd269c3d712986b
     :git: git@github.com:letgoapp/keychain-swift.git
+  LGCoreKit:
+    :commit: 60a42533b317099b0b747afb244ccc5db2343591
+    :git: git@github.com:letgoapp/letgo-ios-lgcorekit.git
   TMReachability:
     :commit: e34782b386307e386348b481c02c176d58ba45e6
     :git: https://github.com/albertbori/Reachability
@@ -260,7 +264,7 @@ SPEC CHECKSUMS:
   KMPlaceholderTextView: 2bbcd19a273648a80a61e1e48f9743a24d8930e3
   Leanplum-iOS-SDK: 4b12eb749ec0a0915892548a9703474f5c18ae07
   LGCollapsibleLabel: e33f066be104911c7fb83f29f1f9b5bae218422e
-  LGCoreKit: 1429b623ca56e621eb284d3fc8c640947852a1db
+  LGCoreKit: 527780b4e441787da0e3388fc8cad01525c6fd1e
   NewRelicAgent: d16c572a3355d3ff9a359a6677e946c7a75a8f76
   Nimble: 415e3aa3267e7bc2c96b05fa814ddea7bb686a29
   OHHTTPStubs: e238cd5b66d8efa51c861db45895de8fe079f4a7
@@ -279,6 +283,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: 0b9130c8fe7f6973532f4c313543cb6acf9d959f
+PODFILE CHECKSUM: e9a28a1e7617181a4a9cfe035d58dce62a4ca7fe
 
 COCOAPODS: 1.2.0

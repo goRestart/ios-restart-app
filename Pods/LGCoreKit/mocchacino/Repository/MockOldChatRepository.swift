@@ -1,21 +1,17 @@
 import Result
 
 open class MockOldChatRepository: OldChatRepository {
-    public var indexResult: ChatsResult
-    public var retrieveResult: ChatResult
-    public var unreadMsgCountResult: Result<Int, RepositoryError>
-    public var sendMsgResult: MessageResult
-    public var archiveResult: Result<Void, RepositoryError>
+    public var indexResult: ChatsResult!
+    public var retrieveResult: ChatResult!
+    public var unreadMsgCountResult: Result<Int, RepositoryError>!
+    public var sendMsgResult: MessageResult!
+    public var archiveResult: Result<Void, RepositoryError>!
 
 
     // MARK: - Lifecycle
 
-    public init() {
-        self.indexResult = ChatsResult(value: MockChat.makeMocks(count: Int.makeRandom(min: 0, max: 10)))
-        self.retrieveResult = ChatResult(value: MockChat.makeMock())
-        self.unreadMsgCountResult = Result<Int, RepositoryError>(value: Int.makeRandom())
-        self.sendMsgResult = MessageResult(value: MockMessage.makeMock())
-        self.archiveResult = Result<Void, RepositoryError>(value: Void())
+    required public init() {
+
     }
 
 

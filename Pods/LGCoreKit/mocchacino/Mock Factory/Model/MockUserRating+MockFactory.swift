@@ -2,7 +2,7 @@ extension MockUserRating: MockFactory {
     public static func makeMock() -> MockUserRating {
         return MockUserRating(objectId: String.makeRandom(),
                               userToId: String.makeRandom(),
-                              userFrom: MockUserProduct.makeMock(),
+                              userFrom: MockUserListing.makeMock(),
                               type: UserRatingType.makeMock(),
                               value: Int.makeRandom(),
                               comment: String?.makeRandom(),
