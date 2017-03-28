@@ -22,7 +22,7 @@
 "bump_up_banner_pay_text" = "Omhoog plaatsen om sneller te verkopen";
 "bump_up_banner_wait_text" = "opnieuw omhoog plaatsen";
 "bump_up_error_bump_generic" = "Er is een fout opgetreden tijdens het omhoog plaatsen van jouw item. Probeer het opnieuw.";
-"bump_up_error_bump_token" = "Je betaling is verwerkt, maar je item is nog niet geplaatst. Probeer het opnieuw.";
+"bump_up_error_bump_token" = "Je betaling is verwerkt, maar je item is nog niet omhoog geplaatst.";
 "bump_up_error_payment_failed" = "Er is een fout opgetreden tijdens het upgraden van je item. Je betaling werd niet verwerkt. Probeer het opnieuw.";
 "bump_up_free_success" = "Omhoog geplaatst! Blijf je item omhoog plaatsen en het zal nog zichtbaarder zijn.";
 "bump_up_pay_success" = "Omhoog geplaatst! Je item is nu extra zichtbaar.";
@@ -331,6 +331,10 @@
 "log_in_reset_password_button" = "Je wachtwoord vergeten?";
 "log_in_send_button" = "Inloggen";
 "log_in_title" = "Aanmelden met e-mail";
+"login_device_not_allowed_alert_contact_button" = "Contact";
+"login_device_not_allowed_alert_message" = "Je hebt nog nooit eerder ingelogd op dit apparaat. We hebben je net een verificatie e-mail gestuurd. Kijk in je inbox om verder te kunnen gaan.";
+"login_device_not_allowed_alert_ok_button" = "OK";
+"login_device_not_allowed_alert_title" = "CONTROLEER JE LOGIN";
 "login_scammer_alert_contact_button" = "Neem contact met ons op";
 "login_scammer_alert_keep_browsing_button" = "Overslaan";
 "login_scammer_alert_message" = "Je account wordt beoordeeld door het letgo team. Als je van mening bent dat het ten onrechte werd gemarkeerd, neem dan contact met ons op.";
@@ -551,6 +555,10 @@
 "product_post_product_posted_not_logged" = "Foto geupload!";
 "product_post_retake" = "Opnieuw nemen";
 "product_post_retry_button" = "Probeer het nogmaals";
+"product_post_select_category_cars" = "Cars";
+"product_post_select_category_or" = "OR";
+"product_post_select_category_other" = "Something else";
+"product_post_select_category_title" = "What are you posting?";
 "product_post_use_photo" = "Plaats";
 "product_post_use_photo_not_logged" = "Gebruik foto";
 "product_price_label" = "Prijs";

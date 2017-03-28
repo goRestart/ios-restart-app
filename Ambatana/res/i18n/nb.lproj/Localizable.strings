@@ -22,7 +22,7 @@
 "bump_up_banner_pay_text" = "Promoter ditt produkt for et raskere salg";
 "bump_up_banner_wait_text" = "for å promotere ditt produkt igjen";
 "bump_up_error_bump_generic" = "En feil oppstod ved promotering av produktet ditt. Vennligst prøv igjen.";
-"bump_up_error_bump_token" = "Din betaling er prosessert, men ditt produkt er ikke promotert enda.";
+"bump_up_error_bump_token" = "Din betaling er behandlet, men ditt produkt er ikke promotert enda.";
 "bump_up_error_payment_failed" = "En feil oppstod ved fremming av ditt produkt. Din betaling har ikke blitt prosessert. Vennligst prøv igjen.";
 "bump_up_free_success" = "Produktet er promotert! Fortsett å fremme din annonse, og den vil bli enda mer synlig.";
 "bump_up_pay_success" = "Produktet er promotert! Ditt produkt har nå ekstra synlighet.";
@@ -331,6 +331,10 @@
 "log_in_reset_password_button" = "Glemt ditt passord?";
 "log_in_send_button" = "Logg inn";
 "log_in_title" = "Registrer deg med e-post";
+"login_device_not_allowed_alert_contact_button" = "Kontakt oss";
+"login_device_not_allowed_alert_message" = "Du har ikke logget inn på denne enheten tidligere. Vennligst sjekk din e-post innboks, ettersom vi har sendt deg en e-post for verifisering.";
+"login_device_not_allowed_alert_ok_button" = "Ok";
+"login_device_not_allowed_alert_title" = "VERIFISER INNLOGGING";
 "login_scammer_alert_contact_button" = "Kontakt oss";
 "login_scammer_alert_keep_browsing_button" = "Hopp over";
 "login_scammer_alert_message" = "Din konto gjennomgås av letgo's team. Vennligst kontakt oss hvis du mener at din konto har blitt flagget ved en feiltakelse.";
@@ -551,6 +555,10 @@
 "product_post_product_posted_not_logged" = "Bildet ble lastet opp!";
 "product_post_retake" = "Ta nytt bilde";
 "product_post_retry_button" = "Prøv igjen";
+"product_post_select_category_cars" = "Cars";
+"product_post_select_category_or" = "OR";
+"product_post_select_category_other" = "Something else";
+"product_post_select_category_title" = "What are you posting?";
 "product_post_use_photo" = "Publiser";
 "product_post_use_photo_not_logged" = "Bruk bilde";
 "product_price_label" = "Pris";

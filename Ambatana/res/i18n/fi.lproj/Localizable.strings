@@ -22,7 +22,7 @@
 "bump_up_banner_pay_text" = "Nosta myydäksesi nopeammin";
 "bump_up_banner_wait_text" = "seuraavaan nostoon";
 "bump_up_error_bump_generic" = "Tuotettasi nostettaessa tapahtui virhe. Ole hyvä ja yritä uudelleen.";
-"bump_up_error_bump_token" = "Maksusi on käsitelty, mutta tuotettasi ei ole vielä nostettu esiin. Ole hyvä ja yritä uudelleen.";
+"bump_up_error_bump_token" = "Maksusi on käsitelty, mutta tuotettasi ei ole nostettu.";
 "bump_up_error_payment_failed" = "Tuotettasi nostettaessa tapahtui virhe. Maksuasi ei ole käsitelty. Ole hyvä ja yritä uudelleen.";
 "bump_up_free_success" = "Nostettu! Nosta tuotettasi useamminkin listalla ylöspäin, jolloin se saa vielä enemmän näkyvyyttä.";
 "bump_up_pay_success" = "Nostettu! Nyt tuotteesi saa lisänäkyvyyttä.";
@@ -331,6 +331,10 @@
 "log_in_reset_password_button" = "Unohditko salasanasi?";
 "log_in_send_button" = "Kirjaudu sisään";
 "log_in_title" = "Kirjaudu sisään sähköpostilla";
+"login_device_not_allowed_alert_contact_button" = "Ota meihin yhteyttä";
+"login_device_not_allowed_alert_message" = "Et ole koskaan aiemmin kirjautunut tältä laitteelta. Olemme lähettäneet sinulle vahvistussähköpostin, joten tarkista saapuneet sähköpostisi jatkaaksesi.";
+"login_device_not_allowed_alert_ok_button" = "OK";
+"login_device_not_allowed_alert_title" = "VAHVISTA KIRJAUTUMINEN";
 "login_scammer_alert_contact_button" = "Ota meihin yhteyttä";
 "login_scammer_alert_keep_browsing_button" = "Ohita";
 "login_scammer_alert_message" = "letgo-tiimi suorittaa tilillesi tarkastusta. Mikäli uskot, että tilisi on ilmiannettu aiheettomasti, ota meihin yhteyttä.";
@@ -551,6 +555,10 @@
 "product_post_product_posted_not_logged" = "Kuva ladattu!";
 "product_post_retake" = "Ota uusi kuva";
 "product_post_retry_button" = "Yritä uudelleen";
+"product_post_select_category_cars" = "Cars";
+"product_post_select_category_or" = "OR";
+"product_post_select_category_other" = "Something else";
+"product_post_select_category_title" = "What are you posting?";
 "product_post_use_photo" = "Käytä";
 "product_post_use_photo_not_logged" = "Käytä kuvaa";
 "product_price_label" = "Hinta";

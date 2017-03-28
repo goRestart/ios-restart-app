@@ -22,7 +22,7 @@
 "bump_up_banner_pay_text" = "Поднять, чтобы продать быстрее";
 "bump_up_banner_wait_text" = "до нового продвижения";
 "bump_up_error_bump_generic" = "При продвижении товара произошла ошибка. Пожалуйста, попробуйте еще раз.";
-"bump_up_error_bump_token" = "Ваш платеж обработан, но товар еще не поднят. Пожалуйста, попробуйте еще раз.";
+"bump_up_error_bump_token" = "Ваш платеж обработан, но товар еще не поднят.";
 "bump_up_error_payment_failed" = "При поднятии вашего товара произошла ошибка. Ваш платеж не обработан. Пожалуйста, попробуйте еще раз.";
 "bump_up_free_success" = "Поднято! Продолжайте поднимать ваше объявление, и его будет видно еще лучше.";
 "bump_up_pay_success" = "Поднято! Теперь ваш товар лучше виден.";
@@ -331,6 +331,10 @@
 "log_in_reset_password_button" = "Забыли пароль?";
 "log_in_send_button" = "Войти";
 "log_in_title" = "Войти через e-mail";
+"login_device_not_allowed_alert_contact_button" = "Связаться с нами";
+"login_device_not_allowed_alert_message" = "Вы никогда прежде не заходили с этого устройства. Мы отправили вам письмо для подтверждения, проверьте входящие для продолжения.";
+"login_device_not_allowed_alert_ok_button" = "OK";
+"login_device_not_allowed_alert_title" = "ПОДТВЕРДИТЕ ВХОД";
 "login_scammer_alert_contact_button" = "Связаться с нами";
 "login_scammer_alert_keep_browsing_button" = "Пропустить";
 "login_scammer_alert_message" = "Ваш аккаунт проверяется командой letgo. Если вы считаете, что он попал под проверку по ошибке, свяжитесь с нами.";
@@ -551,6 +555,10 @@
 "product_post_product_posted_not_logged" = "Фото загружено!";
 "product_post_retake" = "Переснять";
 "product_post_retry_button" = "Попробовать еще";
+"product_post_select_category_cars" = "Cars";
+"product_post_select_category_or" = "OR";
+"product_post_select_category_other" = "Something else";
+"product_post_select_category_title" = "What are you posting?";
 "product_post_use_photo" = "Разместить";
 "product_post_use_photo_not_logged" = "Загрузить фото";
 "product_price_label" = "Цена";

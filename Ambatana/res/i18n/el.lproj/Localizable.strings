@@ -22,7 +22,7 @@
 "bump_up_banner_pay_text" = "Προωθήστε για να πουλάτε γρηγορότερα";
 "bump_up_banner_wait_text" = "για να προωθήσετε ξανά";
 "bump_up_error_bump_generic" = "Παρουσιάστηκε σφάλμα κατά την προώθηση του αντικειμένου σας. Παρακαλώ δοκιμάστε ξανά.";
-"bump_up_error_bump_token" = "Η πληρωμή σας έχει προχωρήσει, αλλά το αντικείμενό σας δεν έχει προταθεί ακόμη. Παρακαλώ δοκιμάστε ξανά.";
+"bump_up_error_bump_token" = "Η πληρωμή σας έχει προχωρήσει, αλλά το αντικείμενό σας δεν έχει προταθεί.";
 "bump_up_error_payment_failed" = "Παρουσιάστηκε σφάλμα κατά την προώθηση του αντικειμένου σας. Η πληρωμή σας δεν έχει προχωρήσει. Παρακαλώ δοκιμάστε ξανά.";
 "bump_up_free_success" = "Επιτυχής προώθηση! Συνεχίστε την προώθηση και οι καταχωρήσεις σας θα είναι ακόμη πιο ορατές.";
 "bump_up_pay_success" = "Επιτυχής προώθηση! Τώρα το αντικείμενό σας έχει επιπλέον προβολή.";
@@ -331,6 +331,10 @@
 "log_in_reset_password_button" = "Ξεχάσατε τον κωδικό σας;";
 "log_in_send_button" = "Σύνδεση";
 "log_in_title" = "Σύνδεση μέσω email";
+"login_device_not_allowed_alert_contact_button" = "Επικοινωνία";
+"login_device_not_allowed_alert_message" = "Δεν έχετε συνδεθεί ποτέ ξανά μ' αυτήν τη συσκευή. Σας στείλαμε ένα email επιβεβαίωσης γι' αυτό ελέγξτε τα εισερχόμενά σας για να συνεχίσετε.";
+"login_device_not_allowed_alert_ok_button" = "ΟΚ";
+"login_device_not_allowed_alert_title" = "ΕΠΙΒΕΒΑΙΩΣΗ ΣΥΝΔΕΣΗΣ";
 "login_scammer_alert_contact_button" = "Επικοινωνήστε Μαζί Μας";
 "login_scammer_alert_keep_browsing_button" = "Παράλειψη";
 "login_scammer_alert_message" = "Ο λογαριασμός σας είναι υπό έλεγχο από την ομάδα του letgo. Αν πιστεύετε πως έχει επισημανθεί καταλάθως, επικοινωνήστε μαζί μας.";
@@ -551,6 +555,10 @@
 "product_post_product_posted_not_logged" = "Η φωτογραφία ανέβηκε!";
 "product_post_retake" = "Ξανατραβήξτε";
 "product_post_retry_button" = "Προσπαθήστε Ξανά";
+"product_post_select_category_cars" = "Cars";
+"product_post_select_category_or" = "OR";
+"product_post_select_category_other" = "Something else";
+"product_post_select_category_title" = "What are you posting?";
 "product_post_use_photo" = "Δημοσιεύστε";
 "product_post_use_photo_not_logged" = "Χρήση Φωτογραφίας";
 "product_price_label" = "Τιμή";

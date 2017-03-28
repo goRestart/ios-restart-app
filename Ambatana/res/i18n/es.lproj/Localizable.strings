@@ -22,7 +22,7 @@
 "bump_up_banner_pay_text" = "Destaca para vender más rápido";
 "bump_up_banner_wait_text" = "para destacar de nuevo";
 "bump_up_error_bump_generic" = "Se ha producido un error al destacar tu producto. Por favor, inténtalo de nuevo.";
-"bump_up_error_bump_token" = "Tu pago ha sido procesado pero tu producto no ha sido destacado. Por favor, inténtalo de nuevo.";
+"bump_up_error_bump_token" = "Tu pago ha sido procesado pero tu artículo no ha sido destacado.";
 "bump_up_error_payment_failed" = "Se ha producido un error al destacar tu artículo. Tu pago no ha sido procesado. Inténtalo de nuevo.";
 "bump_up_free_success" = "¡Destacado! Sigue destacando tu anuncio y tendrá aún más visibilidad.";
 "bump_up_pay_success" = "¡Destacado! Ahora tu producto tiene más visibilidad.";
@@ -331,6 +331,10 @@
 "log_in_reset_password_button" = "¿Olvidaste tu contraseña?";
 "log_in_send_button" = "Iniciar Sesión";
 "log_in_title" = "Iniciar sesión con email";
+"login_device_not_allowed_alert_contact_button" = "Contáctanos";
+"login_device_not_allowed_alert_message" = "Es la primera vez que inicias sesión en este dispositivo. Te hemos enviado un email de verificación así que revisa tu correo para continuar.";
+"login_device_not_allowed_alert_ok_button" = "OK";
+"login_device_not_allowed_alert_title" = "VERIFICAR INICIO DE SESIÓN";
 "login_scammer_alert_contact_button" = "Contáctanos";
 "login_scammer_alert_keep_browsing_button" = "Saltar";
 "login_scammer_alert_message" = "Tu cuenta está siendo revisada por el equipo de letgo. Si crees que se trata de un error, contacta con nosotros.";
@@ -551,6 +555,10 @@
 "product_post_product_posted_not_logged" = "¡Foto subida!";
 "product_post_retake" = "Cambiar";
 "product_post_retry_button" = "Vuelve a intentarlo";
+"product_post_select_category_cars" = "Cars";
+"product_post_select_category_or" = "OR";
+"product_post_select_category_other" = "Something else";
+"product_post_select_category_title" = "What are you posting?";
 "product_post_use_photo" = "Publicar";
 "product_post_use_photo_not_logged" = "Usar foto";
 "product_price_label" = "Precio";

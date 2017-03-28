@@ -331,6 +331,10 @@
 "log_in_reset_password_button" = "Forgot your password?";
 "log_in_send_button" = "Log In";
 "log_in_title" = "Sign in with email";
+"login_device_not_allowed_alert_contact_button" = "Contact Us";
+"login_device_not_allowed_alert_message" = "You've never logged in on this device before. We've sent you a verification email so check your inbox to continue.";
+"login_device_not_allowed_alert_ok_button" = "OK";
+"login_device_not_allowed_alert_title" = "VERIFY LOGIN";
 "login_scammer_alert_contact_button" = "Contact Us";
 "login_scammer_alert_keep_browsing_button" = "Skip";
 "login_scammer_alert_message" = "Your account is under review by the letgo team. If you believe it has been mistakenly flagged, contact us.";
@@ -551,6 +555,10 @@
 "product_post_product_posted_not_logged" = "Photo Uploaded!";
 "product_post_retake" = "Retake";
 "product_post_retry_button" = "Try Again";
+"product_post_select_category_cars" = "Cars";
+"product_post_select_category_or" = "OR";
+"product_post_select_category_other" = "Something else";
+"product_post_select_category_title" = "What are you posting?";
 "product_post_use_photo" = "Post";
 "product_post_use_photo_not_logged" = "Use Photo";
 "product_price_label" = "Price";

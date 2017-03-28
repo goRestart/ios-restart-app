@@ -960,6 +960,18 @@
 // Alert shown to users that fail to login due to scammer error
 "login_scammer_alert_keep_browsing_button" = "Skip";
 
+// Alert shown to users that fail to login due to device not allowed error
+"login_device_not_allowed_alert_title" = "VERIFY LOGIN";
+
+// Alert shown to users that fail to login due to device not allowed error
+"login_device_not_allowed_alert_message" = "You've never logged in on this device before. We've sent you a verification email so check your inbox to continue.";
+
+// Alert shown to users that fail to login due to device not allowed error
+"login_device_not_allowed_alert_contact_button" = "Contact Us";
+
+// Alert shown to users that fail to login due to device not allowed error
+"login_device_not_allowed_alert_ok_button" = "OK";
+
 // Login v2. Log in w email title
 "log_in_email_title" = "Log In";
 
@@ -1724,6 +1736,18 @@
 
 // User photo button when not logged in
 "product_post_use_photo_not_logged" = "Use Photo";
+
+// Product post category selection title
+"product_post_select_category_title" = "What are you posting?";
+
+// Product post category selection cars button
+"product_post_select_category_cars" = "Cars";
+
+// Product post category selection or label
+"product_post_select_category_or" = "OR";
+
+// Product post category selection others button
+"product_post_select_category_other" = "Something else";
 
 // Price label above price on product
 "product_price_label" = "Price";

@@ -1299,6 +1299,22 @@ struct LGLocalizedString {
 		return NSLocalizedString("login_scammer_alert_keep_browsing_button", comment: "")
 	}
 
+	static var loginDeviceNotAllowedAlertTitle: String {
+		return NSLocalizedString("login_device_not_allowed_alert_title", comment: "")
+	}
+
+	static var loginDeviceNotAllowedAlertMessage: String {
+		return NSLocalizedString("login_device_not_allowed_alert_message", comment: "")
+	}
+
+	static var loginDeviceNotAllowedAlertContactButton: String {
+		return NSLocalizedString("login_device_not_allowed_alert_contact_button", comment: "")
+	}
+
+	static var loginDeviceNotAllowedAlertOkButton: String {
+		return NSLocalizedString("login_device_not_allowed_alert_ok_button", comment: "")
+	}
+
 	static var logInEmailTitle: String {
 		return NSLocalizedString("log_in_email_title", comment: "")
 	}
@@ -2317,6 +2333,22 @@ struct LGLocalizedString {
 
 	static var productPostUsePhotoNotLogged: String {
 		return NSLocalizedString("product_post_use_photo_not_logged", comment: "")
+	}
+
+	static var productPostSelectCategoryTitle: String {
+		return NSLocalizedString("product_post_select_category_title", comment: "")
+	}
+
+	static var productPostSelectCategoryCars: String {
+		return NSLocalizedString("product_post_select_category_cars", comment: "")
+	}
+
+	static var productPostSelectCategoryOr: String {
+		return NSLocalizedString("product_post_select_category_or", comment: "")
+	}
+
+	static var productPostSelectCategoryOther: String {
+		return NSLocalizedString("product_post_select_category_other", comment: "")
 	}
 
 	static var productPriceLabel: String {

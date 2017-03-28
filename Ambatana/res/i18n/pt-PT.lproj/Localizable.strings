@@ -22,7 +22,7 @@
 "bump_up_banner_pay_text" = "Dê prioridade para vender mais rápido";
 "bump_up_banner_wait_text" = "para priorizar de novo";
 "bump_up_error_bump_generic" = "Surgiu um erro ao dar prioridade ao seu item. Tente de novo.";
-"bump_up_error_bump_token" = "O seu pagamento está a ser processado mas o item ainda não foi destacado. Tente de novo.";
+"bump_up_error_bump_token" = "O seu pagamento está a ser processado mas o item ainda não foi destacado.";
 "bump_up_error_payment_failed" = "Ocorreu um erro ao elevar o seu item. O pagamento não foi processado. Tente novamente.";
 "bump_up_free_success" = "Priorizado! Continue a dar prioridade à sua publicação e terá ainda mais visibilidade.";
 "bump_up_pay_success" = "Priorizado! Agora o seu item tem uma visibilidade acrescida.";
@@ -331,6 +331,10 @@
 "log_in_reset_password_button" = "Esqueceu-se da password?";
 "log_in_send_button" = "Login";
 "log_in_title" = "Registe-se com o email";
+"login_device_not_allowed_alert_contact_button" = "Contacte-nos";
+"login_device_not_allowed_alert_message" = "Nunca efetuou login neste dispositivo. Enviamos-lhe um email de verificação,  por isso verifique a sua caixa de entrada para continuar.";
+"login_device_not_allowed_alert_ok_button" = "OK";
+"login_device_not_allowed_alert_title" = "VERIFICAR LOGIN";
 "login_scammer_alert_contact_button" = "Contacte-nos";
 "login_scammer_alert_keep_browsing_button" = "Pular";
 "login_scammer_alert_message" = "A sua conta está a ser analisada pela equipa letgo. Se acredita que foi marcada por engano, entre em contacto connosco.";
@@ -551,6 +555,10 @@
 "product_post_product_posted_not_logged" = "Foto carregada!";
 "product_post_retake" = "Refazer";
 "product_post_retry_button" = "Tente novamente";
+"product_post_select_category_cars" = "Cars";
+"product_post_select_category_or" = "OR";
+"product_post_select_category_other" = "Something else";
+"product_post_select_category_title" = "What are you posting?";
 "product_post_use_photo" = "Publicar";
 "product_post_use_photo_not_logged" = "Usar a foto";
 "product_price_label" = "Preço";
