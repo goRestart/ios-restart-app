@@ -13,7 +13,7 @@ struct LocalProduct: Product {
     let name: String?
     let nameAuto: String?
     let descr: String?
-    let price: ProductPrice
+    let price: ListingPrice
     let currency: Currency
 
     let location: LGLocationCoordinates2D

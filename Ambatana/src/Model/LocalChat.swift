@@ -10,7 +10,7 @@ import LGCoreKit
 
 struct LocalChat: Chat {
     var objectId: String?
-    var product: Product
+    var listing: Listing
     var userFrom: UserListing
     var userTo: UserListing
     var msgUnreadCount = 0
@@ -24,7 +24,7 @@ struct LocalChat: Chat {
     }
 
     init(product: Product, myUserProduct: UserListing?) {
-        self.product = product
+        self.listing = .product(product)
         self.userTo = product.user
         self.userFrom = myUserProduct ?? EmptyUserProduct()
     }

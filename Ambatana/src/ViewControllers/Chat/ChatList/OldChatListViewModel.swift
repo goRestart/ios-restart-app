@@ -85,8 +85,8 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
                                     userName: otherUser?.name ?? "",
                                     userImageUrl: otherUser?.avatar?.fileURL,
                                     userImagePlaceholder: LetgoAvatar.avatarWithID(otherUser?.objectId, name: otherUser?.name),
-                                    productName: chat.product.title ?? "",
-                                    productImageUrl: chat.product.thumbnail?.fileURL,
+                                    productName: chat.listing.title ?? "",
+                                    productImageUrl: chat.listing.thumbnail?.fileURL,
                                     unreadCount: chat.msgUnreadCount,
                                     messageDate: chat.updatedAt)
     }

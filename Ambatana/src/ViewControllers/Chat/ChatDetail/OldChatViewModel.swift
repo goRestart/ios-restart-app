@@ -386,7 +386,8 @@ class OldChatViewModel: BaseViewModel, Paginable {
         self.keyValueStorage = keyValueStorage
         self.deepLinksRouter = deepLinksRouter
         self.loadedMessages = []
-        self.product = chat.product
+        guard let chatProduct = chat.listing.product else { return nil } //TODO: temporal until cars are implemented
+        self.product = chatProduct
         self.source = source
         if let myUser = myUserRepository.myUser {
             self.isDeleted = chat.isArchived(myUser: myUser)

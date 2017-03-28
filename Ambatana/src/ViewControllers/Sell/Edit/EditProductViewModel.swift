@@ -422,7 +422,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         editParams.category = category
         editParams.name = title ?? ""
         editParams.descr = (descr ?? "").stringByRemovingEmoji()
-        editParams.price = isFreePosting.value && featureFlags.freePostingModeAllowed ? ProductPrice.free : ProductPrice.normal((price ?? "0").toPriceDouble())
+        editParams.price = isFreePosting.value && featureFlags.freePostingModeAllowed ? ListingPrice.free : ListingPrice.normal((price ?? "0").toPriceDouble())
         if let updatedLocation = location, let updatedPostalAddress = postalAddress {
             editParams.location = updatedLocation
             editParams.postalAddress = updatedPostalAddress

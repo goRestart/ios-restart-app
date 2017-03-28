@@ -352,7 +352,7 @@ struct TrackerEvent {
                               freePostingModeAllowed: freePostingModeAllowed, isBumpedUp: isBumpedUp)
     }
 
-    private static func productMarkAsSold(productId: String?, price: ProductPrice, currency: String, categoryId: Int?,
+    private static func productMarkAsSold(productId: String?, price: ListingPrice, currency: String, categoryId: Int?,
                                           typePage: EventParameterTypePage, soldTo: EventParameterUserSoldTo?,
                                           freePostingModeAllowed: Bool, isBumpedUp: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
@@ -1104,7 +1104,7 @@ struct TrackerEvent {
         return price != nil ? .trueParameter : .falseParameter
     }
     
-    private static func eventParameterFreePostingWithPrice(_ freePostingModeAllowed: Bool, price: ProductPrice) -> EventParameterBoolean {
+    private static func eventParameterFreePostingWithPrice(_ freePostingModeAllowed: Bool, price: ListingPrice) -> EventParameterBoolean {
         guard freePostingModeAllowed else {return .notAvailable}
         return price.free ? .trueParameter : .falseParameter
     }
