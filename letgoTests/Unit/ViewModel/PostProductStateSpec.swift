@@ -7,6 +7,7 @@
 //
 
 @testable import LetGoGodMode
+import LGCoreKit
 import Quick
 import Nimble
 
@@ -22,456 +23,1052 @@ class PostProductStateSpec: BaseViewModelSpec {
                 featureFlags = MockFeatureFlags()
             }
             
-            describe("initial state") {
-                context("cars vertical disabled & cars category after picture false") {
-                    beforeEach {
-                        featureFlags.carsVerticalEnabled = false
-                        featureFlags.carsCategoryAfterPicture = false
-                        sut = PostProductState.initialState(featureFlags: featureFlags)
+            context("cars vertical disabled") {
+                var oldSut: PostProductState!
+                
+                beforeEach {
+                    featureFlags.carsVerticalEnabled = false
+                    sut = PostProductState(featureFlags: featureFlags)
+                    oldSut = sut
+                }
+                
+                describe("init with feature flags") {
+                    it("has step image selection") {
+                        expect(sut.step) == PostProductStep.imageSelection
                     }
-                    
-                    it("is image selection") {
-                        expect(sut) == .imageSelection
+                    it("has no category") {
+                        expect(sut.category).to(beNil())
+                    }
+                    it("has no pending to upload images") {
+                        expect(sut.category).to(beNil())
+                    }
+                    it("has no result of image upload") {
+                        expect(sut.category).to(beNil())
+                    }
+                    it("has no price") {
+                        expect(sut.price).to(beNil())
+                    }
+                    it("has no car info") {
+                        expect(sut.carInfo).to(beNil())
                     }
                 }
                 
-                context("cars vertical disabled & cars category after picture true") {
-                    beforeEach {
-                        featureFlags.carsVerticalEnabled = false
-                        featureFlags.carsCategoryAfterPicture = true
-                        sut = PostProductState.initialState(featureFlags: featureFlags)
+                context("image selection") {
+                    it("returns the same state when updating category") {
+                        expect(sut.updating(category: .other)) === sut
                     }
                     
-                    it("is image selection") {
-                        expect(sut) == .imageSelection
+                    context("update step to uploading images") {
+                        beforeEach {
+                            oldSut = sut
+                            sut = sut.updatingStepToUploadingImages()
+                        }
+                        
+                        it("returns a new state") {
+                            expect(sut) !== oldSut
+                        }
+                        
+                        it("updates the step to uploading images") {
+                            expect(sut.step) == PostProductStep.uploadingImage
+                        }
+                    }
+                    
+                    it("returns the same state when updating pending to upload images") {
+                        expect(sut.updating(pendingToUploadImages: [])) === sut  // TODO: 🚔 Update w random UIImage
+                    }
+                    
+                    it("returns the same state when updating uploaded images") {
+                        expect(sut.updating(uploadedImages: [MockFile].makeMocks())) === sut
+                    }
+                    
+                    it("returns the same state when updating upload error") {
+                        expect(sut.updating(uploadError: .notFound)) === sut
+                    }
+                    
+                    it("returns the same state when updating price") {
+                        expect(sut.updating(price: ProductPrice.makeMock())) === sut
+                    }
+                    
+                    it("returns the same state when updating car info") {
+                        expect(sut.updating(carInfo: Void())) === sut   // TODO: 🚔 Update w car info
+                    }
+                    
+                    it("returns the same state when updating price & car info") {
+                        expect(sut.updating(price: ProductPrice.makeMock(), carInfo: Void())) === sut
                     }
                 }
                 
-                context("cars vertical enabled & cars category after picture false") {
+                context("uploading images") {
                     beforeEach {
-                        featureFlags.carsVerticalEnabled = true
-                        featureFlags.carsCategoryAfterPicture = false
-                        sut = PostProductState.initialState(featureFlags: featureFlags)
+                        sut = sut.updatingStepToUploadingImages()
                     }
                     
-                    it("is category selection") {
-                        expect(sut) == .categorySelection
+                    it("returns the same state when updating category") {
+                        expect(sut.updating(category: .other)) === sut
+                    }
+                    
+                    it("returns the same state when updating step to uploading images") {
+                        expect(sut.updatingStepToUploadingImages()) === sut
+                    }
+                    
+                    context("update pending to upload images") {
+                        beforeEach {
+                            oldSut = sut
+                            sut = sut.updating(pendingToUploadImages: []) // TODO: 🚔 Update w random UIImage
+                        }
+                        
+                        it("returns a new state") {
+                            expect(sut) !== oldSut
+                        }
+                        
+                        it("updates the step to details selection") {
+                            expect(sut.step) == PostProductStep.detailsSelection
+                        }
+                    }
+                    
+                    context("update uploaded images") {
+                        beforeEach {
+                            oldSut = sut
+                            sut = sut.updating(uploadedImages: [MockFile].makeMocks())
+                        }
+                        
+                        it("returns a new state") {
+                            expect(sut) !== oldSut
+                        }
+                        
+                        it("updates the step to details selection") {
+                            expect(sut.step) == PostProductStep.detailsSelection
+                        }
+                    }
+                    
+                    context("update upload error") {
+                        beforeEach {
+                            oldSut = sut
+                            sut = sut.updating(uploadError: .notFound)
+                        }
+                        
+                        it("returns a new state") {
+                            expect(sut) !== oldSut
+                        }
+                        
+                        it("updates the step to details selection") {
+                            expect(sut.step) == PostProductStep.errorUpload(message: "An error occurred while posting your product.")
+                        }
+                    }
+                    
+                    it("returns the same state when updating price") {
+                        expect(sut.updating(price: ProductPrice.makeMock())) === sut
+                    }
+                    
+                    it("returns the same state when updating car info") {
+                        expect(sut.updating(carInfo: Void())) === sut   // TODO: 🚔 Update w car info
+                    }
+                    
+                    it("returns the same state when updating price & car info") {
+                        expect(sut.updating(price: ProductPrice.makeMock(), carInfo: Void())) === sut
                     }
                 }
                 
-                context("cars vertical enabled & cars category after picture true") {
+                context("upload error") {
                     beforeEach {
-                        featureFlags.carsVerticalEnabled = true
-                        featureFlags.carsCategoryAfterPicture = true
-                        sut = PostProductState.initialState(featureFlags: featureFlags)
+                        sut = sut
+                            .updatingStepToUploadingImages()
+                            .updating(uploadError: .notFound)
                     }
                     
-                    it("is image selection") {
-                        expect(sut) == .imageSelection
+                    it("returns the same state when updating category") {
+                        expect(sut.updating(category: .other)) === sut
+                    }
+                    
+                    context("update step to uploading images") {
+                        beforeEach {
+                            oldSut = sut
+                            sut = sut.updatingStepToUploadingImages()
+                        }
+                        
+                        it("returns a new state") {
+                            expect(sut) !== oldSut
+                        }
+                        
+                        it("updates the step to uploading images") {
+                            expect(sut.step) == PostProductStep.uploadingImage
+                        }
+                    }
+                    
+                    it("returns the same state when updating pending to upload images") {
+                        expect(sut.updating(pendingToUploadImages: [])) === sut  // TODO: 🚔 Update w random UIImage
+                    }
+                    
+                    it("returns the same state when updating uploaded images") {
+                        expect(sut.updating(uploadedImages: [MockFile].makeMocks())) === sut
+                    }
+                    
+                    it("returns the same state when updating upload error") {
+                        expect(sut.updating(uploadError: .notFound)) === sut
+                    }
+                    
+                    it("returns the same state when updating price") {
+                        expect(sut.updating(price: ProductPrice.makeMock())) === sut
+                    }
+                    
+                    it("returns the same state when updating car info") {
+                        expect(sut.updating(carInfo: Void())) === sut   // TODO: 🚔 Update w car info
+                    }
+                    
+                    it("returns the same state when updating price & car info") {
+                        expect(sut.updating(price: ProductPrice.makeMock(), carInfo: Void())) === sut
+                    }
+                }
+                
+                context("details selection") {
+                    beforeEach {
+                        sut = sut
+                            .updatingStepToUploadingImages()
+                            .updating(uploadedImages: [MockFile].makeMocks())
+                    }
+                    
+                    it("returns the same state when updating category") {
+                        expect(sut.updating(category: .other)) === sut
+                    }
+                    
+                    it("returns the same state when updating step to uploading images") {
+                        expect(sut.updatingStepToUploadingImages()) === sut
+                    }
+                    
+                    it("returns the same state when updating pending to upload images") {
+                        expect(sut.updating(pendingToUploadImages: [])) === sut  // TODO: 🚔 Update w random UIImage
+                    }
+                    
+                    it("returns the same state when updating uploaded images") {
+                        expect(sut.updating(uploadedImages: [MockFile].makeMocks())) === sut
+                    }
+                    
+                    it("returns the same state when updating upload error") {
+                        expect(sut.updating(uploadError: .notFound)) === sut
+                    }
+                    
+                    context("update price") {
+                        beforeEach {
+                            oldSut = sut
+                            sut = sut.updating(price: ProductPrice.makeMock())
+                        }
+                        
+                        it("returns a new state") {
+                            expect(sut) !== oldSut
+                        }
+                        
+                        it("updates the step to finished") {
+                            expect(sut.step) == PostProductStep.finished
+                        }
+                    }
+                    
+                    it("returns the same state when updating car info") {
+                        expect(sut.updating(carInfo: Void())) === sut   // TODO: 🚔 Update w car info
+                    }
+                    
+                    it("returns the same state when updating price & car info") {
+                        expect(sut.updating(price: ProductPrice.makeMock(), carInfo: Void())) === sut
                     }
                 }
             }
             
-            describe("next state") {
-                context("cars vertical disabled & cars category after picture false") {
-                    beforeEach {
-                        featureFlags.carsVerticalEnabled = false
-                        featureFlags.carsCategoryAfterPicture = false
+            context("cars vertical enabled & cars category before picture") {
+                var oldSut: PostProductState!
+                
+                beforeEach {
+                    featureFlags.carsVerticalEnabled = true
+                    featureFlags.carsCategoryAfterPicture = false
+                    sut = PostProductState(featureFlags: featureFlags)
+                    oldSut = sut
+                }
+                
+                describe("init with feature flags") {
+                    it("has step category selection") {
+                        expect(sut.step) == PostProductStep.categorySelection
                     }
-                    
-                    describe("image selection") {
-                        beforeEach {
-                            sut = .imageSelection
-                        }
-                        
-                        it("is uploading image") {
-                            expect(sut.nextState(featureFlags: featureFlags)) == .uploadingImage
-                        }
+                    it("has no category") {
+                        expect(sut.category).to(beNil())
                     }
-                    
-                    describe("uploading image") {
-                        beforeEach {
-                            sut = .uploadingImage
-                        }
-                        
-                        it("is details selection") {
-                            expect(sut.nextState(featureFlags: featureFlags)) == .detailsSelection
-                        }
+                    it("has no pending to upload images") {
+                        expect(sut.category).to(beNil())
                     }
-                    
-                    describe("error upload") {
-                        beforeEach {
-                            sut = .errorUpload(message: "message")
-                        }
-                        
-                        it("is uploading image") {
-                            expect(sut.nextState(featureFlags: featureFlags)) == .uploadingImage
-                        }
+                    it("has no result of image upload") {
+                        expect(sut.category).to(beNil())
                     }
-                    
-                    describe("details selection") {
-                        beforeEach {
-                            sut = .detailsSelection
-                        }
-                        
-                        it("has no next state") {
-                            expect(sut.nextState(featureFlags: featureFlags)).to(beNil())
-                        }
+                    it("has no price") {
+                        expect(sut.price).to(beNil())
                     }
-                    
-                    describe("category selection") {
-                        beforeEach {
-                            sut = .categorySelection
-                        }
-                        
-                        it("has no next state") {
-                            expect(sut.nextState(featureFlags: featureFlags)).to(beNil())
-                        }
-                    }
-                    
-                    describe("car details selection") {
-                        beforeEach {
-                            sut = .carDetailsSelection(includePrice: true)
-                        }
-                        
-                        it("has no next state") {
-                            expect(sut.nextState(featureFlags: featureFlags)).to(beNil())
-                        }
+                    it("has no car info") {
+                        expect(sut.carInfo).to(beNil())
                     }
                 }
                 
-                context("cars vertical disabled & cars category after picture true") {
-                    beforeEach {
-                        featureFlags.carsVerticalEnabled = false
-                        featureFlags.carsCategoryAfterPicture = true
-                    }
-                    
-                    describe("image selection") {
+                context("category selection") {
+                    describe("update category") {
                         beforeEach {
-                            sut = .imageSelection
+                            sut = sut.updating(category: .other)
                         }
                         
-                        it("is uploading image") {
-                            expect(sut.nextState(featureFlags: featureFlags)) == .uploadingImage
-                        }
-                    }
-                    
-                    describe("uploading image") {
-                        beforeEach {
-                            sut = .uploadingImage
+                        it("returns a new state") {
+                            expect(sut) !== oldSut
                         }
                         
-                        it("is details selection") {
-                            expect(sut.nextState(featureFlags: featureFlags)) == .detailsSelection
+                        it("updates the step to image selection") {
+                            expect(sut.step) == PostProductStep.imageSelection
+                        }
+                        
+                        it("updates the category") {
+                            expect(sut.category) == .other
                         }
                     }
                     
-                    describe("error upload") {
-                        beforeEach {
-                            sut = .errorUpload(message: "message")
-                        }
-                        
-                        it("is uploading image") {
-                            expect(sut.nextState(featureFlags: featureFlags)) == .uploadingImage
-                        }
+                    it("returns the same state when updating step to uploading images") {
+                        expect(sut.updatingStepToUploadingImages()) === sut
                     }
                     
-                    describe("details selection") {
-                        beforeEach {
-                            sut = .detailsSelection
-                        }
-                        
-                        it("has no next state") {
-                            expect(sut.nextState(featureFlags: featureFlags)).to(beNil())
-                        }
+                    it("returns the same state when updating pending to upload images") {
+                        expect(sut.updating(pendingToUploadImages: [])) === sut  // TODO: 🚔 Update w random UIImage
                     }
                     
-                    describe("category selection") {
-                        beforeEach {
-                            sut = .categorySelection
-                        }
-                        
-                        it("has no next state") {
-                            expect(sut.nextState(featureFlags: featureFlags)).to(beNil())
-                        }
+                    it("returns the same state when updating uploaded images") {
+                        expect(sut.updating(uploadedImages: [MockFile].makeMocks())) === sut
                     }
                     
-                    describe("car details selection") {
-                        beforeEach {
-                            sut = .carDetailsSelection(includePrice: true)
-                        }
-                        
-                        it("has no next state") {
-                            expect(sut.nextState(featureFlags: featureFlags)).to(beNil())
-                        }
+                    it("returns the same state when updating upload error") {
+                        expect(sut.updating(uploadError: .notFound)) === sut
+                    }
+                    
+                    it("returns the same state when updating price") {
+                        expect(sut.updating(price: ProductPrice.makeMock())) === sut
+                    }
+                    
+                    it("returns the same state when updating car info") {
+                        expect(sut.updating(carInfo: Void())) === sut   // TODO: 🚔 Update w car info
+                    }
+                    
+                    it("returns the same state when updating price & car info") {
+                        expect(sut.updating(price: ProductPrice.makeMock(), carInfo: Void())) === sut
                     }
                 }
                 
-                context("cars vertical enabled & cars category after picture false") {
+                context("image selection") {
                     beforeEach {
-                        featureFlags.carsVerticalEnabled = true
-                        featureFlags.carsCategoryAfterPicture = false
+                        sut = sut.updating(category: .other)
                     }
                     
-                    describe("image selection") {
-                        beforeEach {
-                            sut = .imageSelection
-                        }
-                        
-                        it("is uploading image") {
-                            expect(sut.nextState(featureFlags: featureFlags)) == .uploadingImage
-                        }
+                    it("returns the same state when updating category") {
+                        expect(sut.updating(category: .other)) === sut
                     }
                     
-                    describe("uploading image") {
+                    context("update step to uploading images") {
                         beforeEach {
-                            sut = .uploadingImage
+                            oldSut = sut
+                            sut = sut.updatingStepToUploadingImages()
                         }
                         
-                        it("is car details selection with price") {
-                            expect(sut.nextState(featureFlags: featureFlags)) == .carDetailsSelection(includePrice: true)
-                        }
-                    }
-                    
-                    describe("error upload") {
-                        beforeEach {
-                            sut = .errorUpload(message: "message")
+                        it("returns a new state") {
+                            expect(sut) !== oldSut
                         }
                         
-                        it("is uploading image") {
-                            expect(sut.nextState(featureFlags: featureFlags)) == .uploadingImage
+                        it("updates the step to uploading images") {
+                            expect(sut.step) == PostProductStep.uploadingImage
                         }
                     }
                     
-                    describe("details selection") {
-                        beforeEach {
-                            sut = .detailsSelection
-                        }
-                        
-                        it("has no next state") {
-                            expect(sut.nextState(featureFlags: featureFlags)).to(beNil())
-                        }
+                    it("returns the same state when updating pending to upload images") {
+                        expect(sut.updating(pendingToUploadImages: [])) === sut  // TODO: 🚔 Update w random UIImage
                     }
                     
-                    describe("category selection") {
-                        beforeEach {
-                            sut = .categorySelection
-                        }
-                        
-                        it("is image selection") {
-                            expect(sut.nextState(featureFlags: featureFlags)) == .imageSelection
-                        }
+                    it("returns the same state when updating uploaded images") {
+                        expect(sut.updating(uploadedImages: [MockFile].makeMocks())) === sut
                     }
                     
-                    describe("car details selection") {
-                        beforeEach {
-                            sut = .carDetailsSelection(includePrice: true)
-                        }
-                        
-                        it("has no next state") {
-                            expect(sut.nextState(featureFlags: featureFlags)).to(beNil())
-                        }
+                    it("returns the same state when updating upload error") {
+                        expect(sut.updating(uploadError: .notFound)) === sut
+                    }
+                    
+                    it("returns the same state when updating price") {
+                        expect(sut.updating(price: ProductPrice.makeMock())) === sut
+                    }
+                    
+                    it("returns the same state when updating car info") {
+                        expect(sut.updating(carInfo: Void())) === sut   // TODO: 🚔 Update w car info
+                    }
+                    
+                    it("returns the same state when updating price & car info") {
+                        expect(sut.updating(price: ProductPrice.makeMock(), carInfo: Void())) === sut
                     }
                 }
                 
-                context("cars vertical enabled & cars category after picture true") {
+                context("uploading images (w category car)") {
                     beforeEach {
-                        featureFlags.carsVerticalEnabled = true
-                        featureFlags.carsCategoryAfterPicture = true
+                        sut = sut
+                            .updating(category: .car)
+                            .updatingStepToUploadingImages()
                     }
                     
-                    describe("image selection") {
+                    it("returns the same state when updating category") {
+                        expect(sut.updating(category: .other)) === sut
+                    }
+                    
+                    it("returns the same state when updating step to uploading images") {
+                        expect(sut.updatingStepToUploadingImages()) === sut
+                    }
+                    
+                    context("update pending to upload images") {
                         beforeEach {
-                            sut = .imageSelection
+                            oldSut = sut
+                            sut = sut.updating(pendingToUploadImages: []) // TODO: 🚔 Update w random UIImage
                         }
                         
-                        it("is uploading image") {
-                            expect(sut.nextState(featureFlags: featureFlags)) == .uploadingImage
-                        }
-                    }
-                    
-                    describe("uploading image") {
-                        beforeEach {
-                            sut = .uploadingImage
+                        it("returns a new state") {
+                            expect(sut) !== oldSut
                         }
                         
-                        it("is details selection") {
-                            expect(sut.nextState(featureFlags: featureFlags)) == .detailsSelection
+                        it("updates the step to car details selection with price") {
+                            expect(sut.step) == PostProductStep.carDetailsSelection(includePrice: true)
                         }
                     }
                     
-                    describe("error upload") {
+                    context("update uploaded images") {
                         beforeEach {
-                            sut = .errorUpload(message: "message")
+                            oldSut = sut
+                            sut = sut.updating(uploadedImages: [MockFile].makeMocks())
                         }
                         
-                        it("is uploading image") {
-                            expect(sut.nextState(featureFlags: featureFlags)) == .uploadingImage
+                        it("returns a new state") {
+                            expect(sut) !== oldSut
+                        }
+                        
+                        it("updates the step to car details selection with price") {
+                            expect(sut.step) == PostProductStep.carDetailsSelection(includePrice: true)
                         }
                     }
                     
-                    describe("details selection") {
+                    context("update upload error") {
                         beforeEach {
-                            sut = .detailsSelection
+                            oldSut = sut
+                            sut = sut.updating(uploadError: .notFound)
                         }
+                        
+                        it("returns a new state") {
+                            expect(sut) !== oldSut
+                        }
+                        
+                        it("updates the step to details selection") {
+                            expect(sut.step) == PostProductStep.errorUpload(message: "An error occurred while posting your product.")
+                        }
+                    }
+                    
+                    it("returns the same state when updating price") {
+                        expect(sut.updating(price: ProductPrice.makeMock())) === sut
+                    }
+                    
+                    it("returns the same state when updating car info") {
+                        expect(sut.updating(carInfo: Void())) === sut   // TODO: 🚔 Update w car info
+                    }
+                    
+                    it("returns the same state when updating price & car info") {
+                        expect(sut.updating(price: ProductPrice.makeMock(), carInfo: Void())) === sut
+                    }
+                }
+                
+                context("uploading images (w category other)") {
+                    beforeEach {
+                        sut = sut
+                            .updating(category: .other)
+                            .updatingStepToUploadingImages()
+                    }
+                    
+                    it("returns the same state when updating category") {
+                        expect(sut.updating(category: .other)) === sut
+                    }
+                    
+                    it("returns the same state when updating step to uploading images") {
+                        expect(sut.updatingStepToUploadingImages()) === sut
+                    }
+                    
+                    context("update pending to upload images") {
+                        beforeEach {
+                            oldSut = sut
+                            sut = sut.updating(pendingToUploadImages: []) // TODO: 🚔 Update w random UIImage
+                        }
+                        
+                        it("returns a new state") {
+                            expect(sut) !== oldSut
+                        }
+                        
+                        it("updates the step to details selection") {
+                            expect(sut.step) == PostProductStep.detailsSelection
+                        }
+                    }
+                    
+                    context("update uploaded images") {
+                        beforeEach {
+                            oldSut = sut
+                            sut = sut.updating(uploadedImages: [MockFile].makeMocks())
+                        }
+                        
+                        it("returns a new state") {
+                            expect(sut) !== oldSut
+                        }
+                        
+                        it("updates the step to details selection") {
+                            expect(sut.step) == PostProductStep.detailsSelection
+                        }
+                    }
+                    
+                    context("update upload error") {
+                        beforeEach {
+                            oldSut = sut
+                            sut = sut.updating(uploadError: .notFound)
+                        }
+                        
+                        it("returns a new state") {
+                            expect(sut) !== oldSut
+                        }
+                        
+                        it("updates the step to details selection") {
+                            expect(sut.step) == PostProductStep.errorUpload(message: "An error occurred while posting your product.")
+                        }
+                    }
+                    
+                    it("returns the same state when updating price") {
+                        expect(sut.updating(price: ProductPrice.makeMock())) === sut
+                    }
+                    
+                    it("returns the same state when updating car info") {
+                        expect(sut.updating(carInfo: Void())) === sut   // TODO: 🚔 Update w car info
+                    }
+                    
+                    it("returns the same state when updating price & car info") {
+                        expect(sut.updating(price: ProductPrice.makeMock(), carInfo: Void())) === sut
+                    }
+                }
+                
+                context("upload error") {
+                    beforeEach {
+                        sut = sut
+                            .updating(category: .other)
+                            .updatingStepToUploadingImages()
+                            .updating(uploadError: .notFound)
+                    }
+                    
+                    it("returns the same state when updating category") {
+                        expect(sut.updating(category: .other)) === sut
+                    }
+                    
+                    context("update step to uploading images") {
+                        beforeEach {
+                            oldSut = sut
+                            sut = sut.updatingStepToUploadingImages()
+                        }
+                        
+                        it("returns a new state") {
+                            expect(sut) !== oldSut
+                        }
+                        
+                        it("updates the step to uploading images") {
+                            expect(sut.step) == PostProductStep.uploadingImage
+                        }
+                    }
+                    
+                    it("returns the same state when updating pending to upload images") {
+                        expect(sut.updating(pendingToUploadImages: [])) === sut  // TODO: 🚔 Update w random UIImage
+                    }
+                    
+                    it("returns the same state when updating uploaded images") {
+                        expect(sut.updating(uploadedImages: [MockFile].makeMocks())) === sut
+                    }
+                    
+                    it("returns the same state when updating upload error") {
+                        expect(sut.updating(uploadError: .notFound)) === sut
+                    }
+                    
+                    it("returns the same state when updating price") {
+                        expect(sut.updating(price: ProductPrice.makeMock())) === sut
+                    }
+                    
+                    it("returns the same state when updating car info") {
+                        expect(sut.updating(carInfo: Void())) === sut   // TODO: 🚔 Update w car info
+                    }
+                    
+                    it("returns the same state when updating price & car info") {
+                        expect(sut.updating(price: ProductPrice.makeMock(), carInfo: Void())) === sut
+                    }
+                }
+                
+                context("details selection") {
+                    beforeEach {
+                        sut = sut
+                            .updating(category: .other)
+                            .updatingStepToUploadingImages()
+                            .updating(uploadedImages: [MockFile].makeMocks())
+                    }
+                    
+                    it("returns the same state when updating category") {
+                        expect(sut.updating(category: .other)) === sut
+                    }
+                    
+                    it("returns the same state when updating step to uploading images") {
+                        expect(sut.updatingStepToUploadingImages()) === sut
+                    }
+                    
+                    it("returns the same state when updating pending to upload images") {
+                        expect(sut.updating(pendingToUploadImages: [])) === sut  // TODO: 🚔 Update w random UIImage
+                    }
+                    
+                    it("returns the same state when updating uploaded images") {
+                        expect(sut.updating(uploadedImages: [MockFile].makeMocks())) === sut
+                    }
+                    
+                    it("returns the same state when updating upload error") {
+                        expect(sut.updating(uploadError: .notFound)) === sut
+                    }
+                    
+                    context("update price") {
+                        beforeEach {
+                            oldSut = sut
+                            sut = sut.updating(price: ProductPrice.makeMock())
+                        }
+                        
+                        it("returns a new state") {
+                            expect(sut) !== oldSut
+                        }
+                        
+                        it("updates the step to finished") {
+                            expect(sut.step) == PostProductStep.finished
+                        }
+                    }
+                    
+                    it("returns the same state when updating car info") {
+                        expect(sut.updating(carInfo: Void())) === sut   // TODO: 🚔 Update w car info
+                    }
+                    
+                    it("returns the same state when updating price & car info") {
+                        expect(sut.updating(price: ProductPrice.makeMock(), carInfo: Void())) === sut
+                    }
+                }
+                
+                context("car details selection") {
+                    beforeEach {
+                        sut = sut
+                            .updating(category: .car)
+                            .updatingStepToUploadingImages()
+                            .updating(uploadedImages: [MockFile].makeMocks())
+                    }
+                    
+                    it("returns the same state when updating category") {
+                        expect(sut.updating(category: .other)) === sut
+                    }
+                    
+                    it("returns the same state when updating step to uploading images") {
+                        expect(sut.updatingStepToUploadingImages()) === sut
+                    }
+                    
+                    it("returns the same state when updating pending to upload images") {
+                        expect(sut.updating(pendingToUploadImages: [])) === sut  // TODO: 🚔 Update w random UIImage
+                    }
+                    
+                    it("returns the same state when updating uploaded images") {
+                        expect(sut.updating(uploadedImages: [MockFile].makeMocks())) === sut
+                    }
+                    
+                    it("returns the same state when updating upload error") {
+                        expect(sut.updating(uploadError: .notFound)) === sut
+                    }
+                    
+                    it("returns the same state when updating price") {
+                        expect(sut.updating(price: ProductPrice.makeMock())) === sut
+                    }
+                    
+                    it("returns the same state when updating car info") {
+                        expect(sut.updating(carInfo: Void())) === sut   // TODO: 🚔 Update w car info
+                    }
 
-                        it("is category selection") {
-                            expect(sut.nextState(featureFlags: featureFlags)) == .categorySelection
-                        }
-                    }
-                    
-                    describe("category selection") {
+                    context("update price & car info") {
                         beforeEach {
-                            sut = .categorySelection
+                            oldSut = sut
+                            sut = sut.updating(price: ProductPrice.makeMock(), carInfo: Void()) // TODO!
                         }
                         
-                        it("is car details selection") {
-                            expect(sut.nextState(featureFlags: featureFlags)) == .carDetailsSelection(includePrice: false)
-                        }
-                    }
-                    
-                    describe("car details selection") {
-                        beforeEach {
-                            sut = .carDetailsSelection(includePrice: true)
+                        it("returns a new state") {
+                            expect(sut) !== oldSut
                         }
                         
-                        it("has no next state") {
-                            expect(sut.nextState(featureFlags: featureFlags)).to(beNil())
+                        it("updates the step to finished") {
+                            expect(sut.step) == PostProductStep.finished
                         }
                     }
                 }
             }
             
-            describe("is last state") {
-                context("cars vertical disabled") {
-                    beforeEach {
-                        featureFlags.carsVerticalEnabled = false
+            context("cars vertical enabled & cars category after picture") {
+                var oldSut: PostProductState!
+                
+                beforeEach {
+                    featureFlags.carsVerticalEnabled = true
+                    featureFlags.carsCategoryAfterPicture = true
+                    sut = PostProductState(featureFlags: featureFlags)
+                    oldSut = sut
+                }
+                
+                describe("init with feature flags") {
+                    it("has step image selection") {
+                        expect(sut.step) == PostProductStep.imageSelection
                     }
-                    
-                    describe("image selection") {
-                        beforeEach {
-                            sut = .imageSelection
-                        }
-                        
-                        it("is not last state") {
-                            expect(sut.isLastState(featureFlags: featureFlags)) == false
-                        }
+                    it("has no category") {
+                        expect(sut.category).to(beNil())
                     }
-                    
-                    describe("uploading image") {
-                        beforeEach {
-                            sut = .uploadingImage
-                        }
-                        
-                        it("is not last state") {
-                            expect(sut.isLastState(featureFlags: featureFlags)) == false
-                        }
+                    it("has no pending to upload images") {
+                        expect(sut.category).to(beNil())
                     }
-                    
-                    describe("error upload") {
-                        beforeEach {
-                            sut = .errorUpload(message: "message")
-                        }
-                        
-                        it("is not last state") {
-                            expect(sut.isLastState(featureFlags: featureFlags)) == false
-                        }
+                    it("has no result of image upload") {
+                        expect(sut.category).to(beNil())
                     }
-                    
-                    describe("details selection") {
-                        beforeEach {
-                            sut = .detailsSelection
-                        }
-                        
-                        it("is last state") {
-                            expect(sut.isLastState(featureFlags: featureFlags)) == true
-                        }
+                    it("has no price") {
+                        expect(sut.price).to(beNil())
                     }
-                    
-                    describe("category selection") {
-                        beforeEach {
-                            sut = .categorySelection
-                        }
-                        
-                        it("is not last state") {
-                            expect(sut.isLastState(featureFlags: featureFlags)) == false
-                        }
-                    }
-                    
-                    describe("car details selection") {
-                        beforeEach {
-                            sut = .carDetailsSelection(includePrice: true)
-                        }
-                        
-                        it("is last state") {
-                            expect(sut.isLastState(featureFlags: featureFlags)) == true
-                        }
+                    it("has no car info") {
+                        expect(sut.carInfo).to(beNil())
                     }
                 }
                 
-                context("cars vertical enabled") {
+                context("image selection") {
+                    it("returns the same state when updating category") {
+                        expect(sut.updating(category: .other)) === sut
+                    }
+                    
+                    context("update step to uploading images") {
+                        beforeEach {
+                            oldSut = sut
+                            sut = sut.updatingStepToUploadingImages()
+                        }
+                        
+                        it("returns a new state") {
+                            expect(sut) !== oldSut
+                        }
+                        
+                        it("updates the step to uploading images") {
+                            expect(sut.step) == PostProductStep.uploadingImage
+                        }
+                    }
+                    
+                    it("returns the same state when updating pending to upload images") {
+                        expect(sut.updating(pendingToUploadImages: [])) === sut  // TODO: 🚔 Update w random UIImage
+                    }
+                    
+                    it("returns the same state when updating uploaded images") {
+                        expect(sut.updating(uploadedImages: [MockFile].makeMocks())) === sut
+                    }
+                    
+                    it("returns the same state when updating upload error") {
+                        expect(sut.updating(uploadError: .notFound)) === sut
+                    }
+                    
+                    it("returns the same state when updating price") {
+                        expect(sut.updating(price: ProductPrice.makeMock())) === sut
+                    }
+                    
+                    it("returns the same state when updating car info") {
+                        expect(sut.updating(carInfo: Void())) === sut   // TODO: 🚔 Update w car info
+                    }
+                    
+                    it("returns the same state when updating price & car info") {
+                        expect(sut.updating(price: ProductPrice.makeMock(), carInfo: Void())) === sut
+                    }
+                }
+                
+                context("uploading images") {
                     beforeEach {
-                        featureFlags.carsVerticalEnabled = true
+                        sut = sut.updatingStepToUploadingImages()
                     }
                     
-                    describe("image selection") {
-                        beforeEach {
-                            sut = .imageSelection
-                        }
-                        
-                        it("is not last state") {
-                            expect(sut.isLastState(featureFlags: featureFlags)) == false
-                        }
+                    it("returns the same state when updating category") {
+                        expect(sut.updating(category: .other)) === sut
                     }
                     
-                    describe("uploading image") {
-                        beforeEach {
-                            sut = .uploadingImage
-                        }
-                        
-                        it("is not last state") {
-                            expect(sut.isLastState(featureFlags: featureFlags)) == false
-                        }
+                    it("returns the same state when updating step to uploading images") {
+                        expect(sut.updatingStepToUploadingImages()) === sut
                     }
                     
-                    describe("error upload") {
+                    context("update pending to upload images") {
                         beforeEach {
-                            sut = .errorUpload(message: "message")
+                            oldSut = sut
+                            sut = sut.updating(pendingToUploadImages: []) // TODO: 🚔 Update w random UIImage
                         }
                         
-                        it("is not last state") {
-                            expect(sut.isLastState(featureFlags: featureFlags)) == false
+                        it("returns a new state") {
+                            expect(sut) !== oldSut
+                        }
+                        
+                        it("updates the step to car details selection with price") {
+                            expect(sut.step) == PostProductStep.detailsSelection
                         }
                     }
                     
-                    describe("details selection") {
+                    context("update uploaded images") {
                         beforeEach {
-                            sut = .detailsSelection
+                            oldSut = sut
+                            sut = sut.updating(uploadedImages: [MockFile].makeMocks())
                         }
                         
-                        it("is not last state") {
-                            expect(sut.isLastState(featureFlags: featureFlags)) == false
+                        it("returns a new state") {
+                            expect(sut) !== oldSut
+                        }
+                        
+                        it("updates the step to car details selection with price") {
+                            expect(sut.step) == PostProductStep.detailsSelection
                         }
                     }
                     
-                    describe("category selection") {
+                    context("update upload error") {
                         beforeEach {
-                            sut = .categorySelection
+                            oldSut = sut
+                            sut = sut.updating(uploadError: .notFound)
                         }
                         
-                        it("is not last state") {
-                            expect(sut.isLastState(featureFlags: featureFlags)) == false
+                        it("returns a new state") {
+                            expect(sut) !== oldSut
+                        }
+                        
+                        it("updates the step to details selection") {
+                            expect(sut.step) == PostProductStep.errorUpload(message: "An error occurred while posting your product.")
                         }
                     }
                     
-                    describe("car details selection") {
+                    it("returns the same state when updating price") {
+                        expect(sut.updating(price: ProductPrice.makeMock())) === sut
+                    }
+                    
+                    it("returns the same state when updating car info") {
+                        expect(sut.updating(carInfo: Void())) === sut   // TODO: 🚔 Update w car info
+                    }
+                    
+                    it("returns the same state when updating price & car info") {
+                        expect(sut.updating(price: ProductPrice.makeMock(), carInfo: Void())) === sut
+                    }
+                }
+                
+                context("upload error") {
+                    beforeEach {
+                        sut = sut
+                            .updatingStepToUploadingImages()
+                            .updating(uploadError: .notFound)
+                    }
+                    
+                    it("returns the same state when updating category") {
+                        expect(sut.updating(category: .other)) === sut
+                    }
+                    
+                    context("update step to uploading images") {
                         beforeEach {
-                            sut = .carDetailsSelection(includePrice: true)
+                            oldSut = sut
+                            sut = sut.updatingStepToUploadingImages()
                         }
                         
-                        it("is last state") {
-                            expect(sut.isLastState(featureFlags: featureFlags)) == true
+                        it("returns a new state") {
+                            expect(sut) !== oldSut
                         }
+                        
+                        it("updates the step to uploading images") {
+                            expect(sut.step) == PostProductStep.uploadingImage
+                        }
+                    }
+                    
+                    it("returns the same state when updating pending to upload images") {
+                        expect(sut.updating(pendingToUploadImages: [])) === sut  // TODO: 🚔 Update w random UIImage
+                    }
+                    
+                    it("returns the same state when updating uploaded images") {
+                        expect(sut.updating(uploadedImages: [MockFile].makeMocks())) === sut
+                    }
+                    
+                    it("returns the same state when updating upload error") {
+                        expect(sut.updating(uploadError: .notFound)) === sut
+                    }
+                    
+                    it("returns the same state when updating price") {
+                        expect(sut.updating(price: ProductPrice.makeMock())) === sut
+                    }
+                    
+                    it("returns the same state when updating car info") {
+                        expect(sut.updating(carInfo: Void())) === sut   // TODO: 🚔 Update w car info
+                    }
+                    
+                    it("returns the same state when updating price & car info") {
+                        expect(sut.updating(price: ProductPrice.makeMock(), carInfo: Void())) === sut
+                    }
+                }
+                
+                context("details selection") {
+                    beforeEach {
+                        sut = sut
+                            .updatingStepToUploadingImages()
+                            .updating(uploadedImages: [MockFile].makeMocks())
+                    }
+                    
+                    it("returns the same state when updating category") {
+                        expect(sut.updating(category: .other)) === sut
+                    }
+                    
+                    it("returns the same state when updating step to uploading images") {
+                        expect(sut.updatingStepToUploadingImages()) === sut
+                    }
+                    
+                    it("returns the same state when updating pending to upload images") {
+                        expect(sut.updating(pendingToUploadImages: [])) === sut  // TODO: 🚔 Update w random UIImage
+                    }
+                    
+                    it("returns the same state when updating uploaded images") {
+                        expect(sut.updating(uploadedImages: [MockFile].makeMocks())) === sut
+                    }
+                    
+                    it("returns the same state when updating upload error") {
+                        expect(sut.updating(uploadError: .notFound)) === sut
+                    }
+                    
+                    context("update price") {
+                        beforeEach {
+                            oldSut = sut
+                            sut = sut.updating(price: ProductPrice.makeMock())
+                        }
+                        
+                        it("returns a new state") {
+                            expect(sut) !== oldSut
+                        }
+                        
+                        it("updates the step to category selection") {
+                            expect(sut.step) == PostProductStep.categorySelection
+                        }
+                    }
+                    
+                    it("returns the same state when updating car info") {
+                        expect(sut.updating(carInfo: Void())) === sut   // TODO: 🚔 Update w car info
+                    }
+                    
+                    it("returns the same state when updating price & car info") {
+                        expect(sut.updating(price: ProductPrice.makeMock(), carInfo: Void())) === sut
+                    }
+                }
+                
+                context("category selection") {
+                    beforeEach {
+                        sut = sut
+                            .updatingStepToUploadingImages()
+                            .updating(uploadedImages: [MockFile].makeMocks())
+                            .updating(price: ProductPrice.makeMock())
+                    }
+                    
+                    context("update category to other") {
+                        beforeEach {
+                            oldSut = sut
+                            sut = sut.updating(category: .other)
+                        }
+                        
+                        it("returns a new state") {
+                            expect(sut) !== oldSut
+                        }
+                        
+                        it("updates the step to finished") {
+                            expect(sut.step) == PostProductStep.finished
+                        }
+                    }
+                    
+                    context("update category to cars") {
+                        beforeEach {
+                            oldSut = sut
+                            sut = sut.updating(category: .car)
+                        }
+                        
+                        it("returns a new state") {
+                            expect(sut) !== oldSut
+                        }
+                        
+                        it("updates the step to car details w/o price") {
+                            expect(sut.step) == PostProductStep.carDetailsSelection(includePrice: false)
+                        }
+                    }
+                    
+                    it("returns the same state when updating step to uploading images") {
+                        expect(sut.updatingStepToUploadingImages()) === sut
+                    }
+                    
+                    it("returns the same state when updating pending to upload images") {
+                        expect(sut.updating(pendingToUploadImages: [])) === sut  // TODO: 🚔 Update w random UIImage
+                    }
+                    
+                    it("returns the same state when updating uploaded images") {
+                        expect(sut.updating(uploadedImages: [MockFile].makeMocks())) === sut
+                    }
+                    
+                    it("returns the same state when updating upload error") {
+                        expect(sut.updating(uploadError: .notFound)) === sut
+                    }
+                    
+                    it("returns the same state when updating price") {
+                        expect(sut.updating(price: ProductPrice.makeMock())) === sut
+                    }
+                    
+                    it("returns the same state when updating car info") {
+                        expect(sut.updating(carInfo: Void())) === sut   // TODO: 🚔 Update w car info
+                    }
+                    
+                    it("returns the same state when updating price & car info") {
+                        expect(sut.updating(price: ProductPrice.makeMock(), carInfo: Void())) === sut
+                    }
+                }
+                
+                context("car details selection") {
+                    beforeEach {
+                        sut = sut
+                            .updatingStepToUploadingImages()
+                            .updating(uploadedImages: [MockFile].makeMocks())
+                            .updating(price: ProductPrice.makeMock())
+                            .updating(category: .car)
+                    }
+                    
+                    it("returns the same state when updating category") {
+                        expect(sut.updating(category: .other)) === sut
+                    }
+                    
+                    it("returns the same state when updating step to uploading images") {
+                        expect(sut.updatingStepToUploadingImages()) === sut
+                    }
+                    
+                    it("returns the same state when updating pending to upload images") {
+                        expect(sut.updating(pendingToUploadImages: [])) === sut  // TODO: 🚔 Update w random UIImage
+                    }
+                    
+                    it("returns the same state when updating uploaded images") {
+                        expect(sut.updating(uploadedImages: [MockFile].makeMocks())) === sut
+                    }
+                    
+                    it("returns the same state when updating upload error") {
+                        expect(sut.updating(uploadError: .notFound)) === sut
+                    }
+                    
+                    it("returns the same state when updating price") {
+                        expect(sut.updating(price: ProductPrice.makeMock())) === sut
+                    }
+                    
+                    context("update car info") {
+                        beforeEach {
+                            oldSut = sut
+                            sut = sut.updating(carInfo: Void()) // TODO: 🚔 Update w car info
+                        }
+                        
+                        it("returns a new state") {
+                            expect(sut) !== oldSut
+                        }
+                        
+                        it("updates the step to finished") {
+                            expect(sut.step) == PostProductStep.finished
+                        }
+                    }
+                    
+                    it("returns the same state when updating price & car info") {
+                        expect(sut.updating(price: ProductPrice.makeMock(), carInfo: Void())) === sut
                     }
                 }
             }

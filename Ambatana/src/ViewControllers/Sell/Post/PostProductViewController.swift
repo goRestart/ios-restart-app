@@ -24,6 +24,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
     fileprivate var viewPager: LGViewPager
     fileprivate var cameraView: PostProductCameraView
     fileprivate var galleryView: PostProductGalleryView
+    fileprivate let postCategorySelectionView: PostCategorySelectionView? = PostCategorySelectionView()
     fileprivate var footer: PostProductFooter
     fileprivate var footerView: UIView
     fileprivate let gradientView = UIView()
@@ -240,7 +241,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
 
     private func setupRx() {
         viewModel.state.asObservable().bindNext { [weak self] state in
-            switch state {
+            switch state.step {
             case .imageSelection:
                 self?.setSelectImageState()
             case .uploadingImage:
@@ -249,6 +250,13 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
                 self?.setSelectPriceState(loading: false, error: message)
             case .detailsSelection:
                self?.setSelectPriceState(loading: false, error: nil)
+            case .categorySelection: // TODO: 🚔
+                break
+            case let .carDetailsSelection(includePrice):
+                break
+                //self?.setSelectCarDetailsState(loading: false) // TODO: 🚔
+            case .finished:
+                break
             }
         }.addDisposableTo(disposeBag)
 

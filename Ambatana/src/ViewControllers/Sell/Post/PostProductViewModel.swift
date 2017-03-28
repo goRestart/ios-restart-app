@@ -54,8 +54,6 @@ class PostProductViewModel: BaseViewModel {
     fileprivate let featureFlags: FeatureFlaggeable
     
     private var imagesSelected: [UIImage]?
-    fileprivate var pendingToUploadImages: [UIImage]?
-    fileprivate var uploadedImages: [File]?
     fileprivate var uploadedImageSource: EventParameterPictureSource?
     
 
@@ -76,7 +74,7 @@ class PostProductViewModel: BaseViewModel {
          tracker: Tracker,
          sessionManager: SessionManager,
          featureFlags: FeatureFlaggeable) {
-        self.state = Variable<PostProductState>(PostProductState.initialState(featureFlags: featureFlags))
+        self.state = Variable<PostProductState>(PostProductState(featureFlags: featureFlags))
         self.postingSource = source
         self.productRepository = productRepository
         self.fileRepository = fileRepository
@@ -106,42 +104,33 @@ class PostProductViewModel: BaseViewModel {
         uploadedImageSource = source
         imagesSelected = images
         guard sessionManager.loggedIn else {
-            pendingToUploadImages = images
-            state.value = .detailsSelection
+            state.value = state.value.updating(pendingToUploadImages: images)
             return
         }
 
-        state.value = .uploadingImage
+        state.value = state.value.updatingStepToUploadingImages()
 
         fileRepository.upload(images, progress: nil) { [weak self] result in
             guard let strongSelf = self else { return }
-            guard let images = result.value else {
-                guard let error = result.error else { return }
-                let errorString: String
-                switch (error) {
-                case .internalError, .unauthorized, .notFound, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
-                    errorString = LGLocalizedString.productPostGenericError
-                case .network:
-                    errorString = LGLocalizedString.productPostNetworkError
-                }
-                strongSelf.state.value = .errorUpload(message: errorString)
-                return
+            
+            if let images = result.value {
+                strongSelf.state.value = strongSelf.state.value.updating(uploadedImages: images)
+            } else if let error = result.error {
+                strongSelf.state.value = strongSelf.state.value.updating(uploadError: error)
             }
-            strongSelf.uploadedImages = images
-            strongSelf.state.value = .detailsSelection
         }
     }
-
+    
     func closeButtonPressed() {
-        if pendingToUploadImages != nil {
+        if state.value.pendingToUploadImages != nil {
             openPostAbandonAlertNotLoggedIn()
         } else {
-            guard let product = buildProduct(isFreePosting: false), let images = uploadedImages else {
+            guard let product = buildProduct(isFreePosting: false), let images = state.value.lastImagesUploadResult?.value else {
                 navigator?.cancelPostProduct()
                 return
             }
             let trackingInfo = PostProductTrackingInfo(buttonName: .close, sellButtonPosition: postingSource.sellButtonPosition,
-                                                       imageSource: uploadedImageSource, price: nil)
+                                                       imageSource: uploadedImageSource, price: nil) // TODO: 🚔 that nil..?
             navigator?.closePostProductAndPostInBackground(product, images: images, showConfirmation: false,
                                                            trackingInfo: trackingInfo)
         }
@@ -177,10 +166,10 @@ fileprivate extension PostProductViewModel {
         let trackingInfo = PostProductTrackingInfo(buttonName: .done, sellButtonPosition: postingSource.sellButtonPosition,
                                                    imageSource: uploadedImageSource, price: postDetailViewModel.price.value)
         if sessionManager.loggedIn {
-            guard let product = buildProduct(isFreePosting: false), let images = uploadedImages else { return }
+            guard let product = buildProduct(isFreePosting: false), let images = state.value.lastImagesUploadResult?.value else { return }
             navigator?.closePostProductAndPostInBackground(product, images: images, showConfirmation: true,
                                                            trackingInfo: trackingInfo)
-        } else if let images = pendingToUploadImages {
+        } else if let images = state.value.pendingToUploadImages {
             navigator?.openLoginIfNeededFromProductPosted(from: .sell, loggedInAction: { [weak self] in
                 guard let product = self?.buildProduct(isFreePosting: false) else { return }
                 self?.navigator?.closePostProductAndPostLater(product, images: images, trackingInfo: trackingInfo)
