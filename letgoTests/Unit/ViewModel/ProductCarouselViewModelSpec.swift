@@ -114,9 +114,9 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
             }
 
             beforeEach {
-                myUserRepository = MockMyUserRepository()
-                productRepository = MockProductRepository()
-                commercializerRepository = MockCommercializerRepository()
+                myUserRepository = MockMyUserRepository.makeMock()
+                productRepository = MockProductRepository.makeMock()
+                commercializerRepository = MockCommercializerRepository.makeMock()
                 chatWrapper = MockChatWrapper()
                 locationManager = MockLocationManager()
                 countryHelper = CountryHelper.mock()
@@ -124,7 +124,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                 featureFlags = MockFeatureFlags()
                 purchasesShopper = MockPurchasesShopper()
                 notificationsManager = MockNotificationsManager()
-                monetizationRepository = MockMonetizationRepository()
+                monetizationRepository = MockMonetizationRepository.makeMock()
                 tracker = MockTracker()
 
                 productListRequester = MockProductListRequester(canRetrieve: true, offset: 0, pageSize: 20)

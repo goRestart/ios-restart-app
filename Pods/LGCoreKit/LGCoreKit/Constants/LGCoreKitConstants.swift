@@ -41,4 +41,7 @@ public struct LGCoreKitConstants {
     static let openWebsocketMaximumRetryAttempts: Int = 5
 
     static let networkBackgroundIdentifier = "com.letgo.ios.background"
+
+    // Cars Vertical
+    static let carsFirstYear: Int = 1900
 }

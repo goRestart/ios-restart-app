@@ -1,26 +1,20 @@
 import RxSwift
 
 open class MockChatRepository: ChatRepository {
-    public var indexMessagesResult: ChatMessagesResult
-    public var indexConversationsResult: ChatConversationsResult
-    public var showConversationResult: ChatConversationResult
-    public var commandResult: ChatCommandResult
-    public var unreadMessagesResult: ChatUnreadMessagesResult
+    public var indexMessagesResult: ChatMessagesResult!
+    public var indexConversationsResult: ChatConversationsResult!
+    public var showConversationResult: ChatConversationResult!
+    public var commandResult: ChatCommandResult!
+    public var unreadMessagesResult: ChatUnreadMessagesResult!
 
-    public let chatStatusPublishSubject: PublishSubject<WSChatStatus>
-    public let chatEventsPublishSubject: PublishSubject<ChatEvent>
+    public let chatStatusPublishSubject = PublishSubject<WSChatStatus>()
+    public let chatEventsPublishSubject = PublishSubject<ChatEvent>()
 
 
     // MARK: - Lifecycle
 
-    public init() {
-        self.indexMessagesResult = ChatMessagesResult(value: MockChatMessage.makeMocks(count: Int.makeRandom(min: 0, max: 10)))
-        self.indexConversationsResult = ChatConversationsResult(value: MockChatConversation.makeMocks(count: Int.makeRandom(min: 0, max: 10)))
-        self.showConversationResult = ChatConversationResult(value: MockChatConversation.makeMock())
-        self.commandResult = ChatCommandResult(value: Void())
-        self.unreadMessagesResult = ChatUnreadMessagesResult(value: MockChatUnreadMessages.makeMock())
-        self.chatStatusPublishSubject = PublishSubject<WSChatStatus>()
-        self.chatEventsPublishSubject = PublishSubject<ChatEvent>()
+    required public init() {
+        
     }
 
 
@@ -37,7 +31,7 @@ open class MockChatRepository: ChatRepository {
     public func createNewMessage(_ talkerId: String,
                                  text: String,
                                  type: ChatMessageType) -> ChatMessage {
-        return MockChatMessage(objectId: nil,
+        return MockChatMessage(objectId: String.makeRandom(),
                                talkerId: talkerId,
                                text: text,
                                sentAt: nil,

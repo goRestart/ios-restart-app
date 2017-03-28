@@ -110,10 +110,10 @@ class NotificationsManagerSpec: QuickSpec {
 
             beforeEach {
                 sessionManager = MockSessionManager()
-                chatRepository = MockChatRepository()
-                oldChatRepository = MockOldChatRepository()
-                notificationsRepository = MockNotificationsRepository()
-                myUserRepository = MockMyUserRepository()
+                chatRepository = MockChatRepository.makeMock()
+                oldChatRepository = MockOldChatRepository.makeMock()
+                notificationsRepository = MockNotificationsRepository.makeMock()
+                myUserRepository = MockMyUserRepository.makeMock()
                 keyValueStorage = KeyValueStorage(storage: MockKeyValueStorage(), myUserRepository: myUserRepository)
                 featureFlags = MockFeatureFlags()
                 deepLinksRouter = MockDeepLinksRouter()

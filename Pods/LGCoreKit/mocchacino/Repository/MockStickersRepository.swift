@@ -2,15 +2,14 @@ import Result
 import RxSwift
 
 open class MockStickersRepository: StickersRepository {
-    public var stickersVar: Variable<[Sticker]>
-    public var showResult: StickersResult
+    public var stickersVar = Variable<[Sticker]>([])
+    public var showResult: StickersResult!
 
 
     // MARK: - Lifecycle
 
-    public init() {
-        self.stickersVar = Variable<[Sticker]>([])
-        self.showResult = StickersResult(value: MockSticker.makeMocks(count: Int.makeRandom(min: 0, max: 10)))
+    required public init() {
+    
     }
 
 
