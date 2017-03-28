@@ -18,30 +18,30 @@ import Foundation
 class ChatViewModelSpec: BaseViewModelSpec {
     override func spec() {
         
-            var sut: ChatViewModel!
+        var sut: ChatViewModel!
         
-            var conversation: MockChatConversation!
-            var myUserRepository: MockMyUserRepository!
-            var chatRepository: MockChatRepository!
-            var productRepository: MockProductRepository!
-            var userRepository: MockUserRepository!
-            var stickersRepository: MockStickersRepository!
-            var tracker: MockTracker!
-            var configManager: MockConfigManager!
-            var sessionManager: MockSessionManager!
-            var keyValueStorage: KeyValueStorage!
-            var featureFlags: MockFeatureFlags!
-            var source: EventParameterTypePage!
-            var pushPermissionManager: MockPushPermissionsManager!
-            var ratingManager: MockRatingManager!
-            
-            
-            // Vars rx observers
-            var scheduler: TestScheduler!
-            var disposeBag: DisposeBag!
-            var messages: TestableObserver<[ChatViewMessage]>!
+        var conversation: MockChatConversation!
+        var myUserRepository: MockMyUserRepository!
+        var chatRepository: MockChatRepository!
+        var productRepository: MockProductRepository!
+        var userRepository: MockUserRepository!
+        var stickersRepository: MockStickersRepository!
+        var tracker: MockTracker!
+        var configManager: MockConfigManager!
+        var sessionManager: MockSessionManager!
+        var keyValueStorage: KeyValueStorage!
+        var featureFlags: MockFeatureFlags!
+        var source: EventParameterTypePage!
+        var pushPermissionManager: MockPushPermissionsManager!
+        var ratingManager: MockRatingManager!
         
-        describe("ChatViewModelSpec") {
+        
+        // Vars rx observers
+        var scheduler: TestScheduler!
+        var disposeBag: DisposeBag!
+        var messages: TestableObserver<[ChatViewMessage]>!
+        
+        fdescribe("ChatViewModelSpec") {
             
             func buildChatViewModel(myUser: MockMyUser,
                                     chatMessages: [MockChatMessage],
@@ -50,7 +50,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                                     chatConversation: MockChatConversation,
                                     user: MockUser) {
                 
-             
+                
                 myUserRepository.result = MyUserResult(value: myUser)
                 myUserRepository.myUserVar.value = myUser
                 
@@ -60,6 +60,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                 
                 productRepository = MockProductRepository.makeMock()
                 productRepository.productResult = ProductResult(value: product)
+                productRepository.indexResult = ProductsResult(value: MockProduct.makeMocks(count: 5))
                 
                 chatRepository.showConversationResult = ChatConversationResult(value: chatConversation)
                 chatRepository.commandResult = ChatCommandResult(value: Void())
@@ -83,43 +84,8 @@ class ChatViewModelSpec: BaseViewModelSpec {
                 sut.messages.observable.bindTo(messages).addDisposableTo(disposeBag)
             }
             
-            func makeMockMyUser(with userStatus: UserStatus, isDummy: Bool) -> MockMyUser {
-                var myUser = MockMyUser.makeMock()
-                myUser.status = userStatus
-                myUser.isDummy = isDummy
-                return myUser
-            }
-            
-            func makeMockProduct(with status: ProductStatus) -> MockProduct {
-                var productResult = MockProduct.makeMock()
-                productResult.status = status
-                return productResult
-            }
-            
-            func makeChatInterlocutor(with status: UserStatus, isMuted: Bool, isBanned: Bool, hasMutedYou: Bool) -> MockChatInterlocutor {
-                var chatInterlocutor = MockChatInterlocutor.makeMock()
-                chatInterlocutor.status = status
-                chatInterlocutor.isMuted = isMuted
-                chatInterlocutor.isBanned = isBanned
-                chatInterlocutor.hasMutedYou = hasMutedYou
-                return chatInterlocutor
-            }
-            
-            func makeChatConversation(with interlocutor: ChatInterlocutor, unreadMessageCount: Int, lastMessageSentAt: Date?) -> MockChatConversation {
-                var chatConversation = MockChatConversation.makeMock()
-                chatConversation.interlocutor = interlocutor
-                chatConversation.unreadMessageCount = unreadMessageCount
-                chatConversation.lastMessageSentAt = lastMessageSentAt
-                return chatConversation
-            }
-            
-            func makeUser(with status: UserStatus, isDummy: Bool) -> MockUser {
-                var user = MockUser.makeMock()
-                user.status = status
-                user.isDummy = isDummy
-                return user
-            }
 
+            
             beforeEach {
                 
                 // init vars
@@ -150,190 +116,173 @@ class ChatViewModelSpec: BaseViewModelSpec {
                 disposeBag = nil
             }
             
-         /*   context("Review button") {
-                context("there is less than two message for each user") {
-                    it("does not show review button") {
-                        
-                    }
-                }
-                context("no messages enough, send a message and it is enough") {
-                    it("show review button") {
-                        
-                    }
-                }
-                context("interlocutor has more than 2 messages.") {
-                    it("show review button") {
-                    
-                    }
-                }
-            } */
+            /*   context("Review button") {
+             context("there is less than two message for each user") {
+             it("does not show review button") {
+             
+             }
+             }
+             context("no messages enough, send a message and it is enough") {
+             it("show review button") {
+             
+             }
+             }
+             context("interlocutor has more than 2 messages.") {
+             it("show review button") {
+             
+             }
+             }
+             } */
             
-            describe("direct messages") {
-                describe("quick answer") {
-                    context("success first message") {
-                        beforeEach {
-                            
-                            let mockMyUser = makeMockMyUser(with: .active, isDummy: false)
-                            let chatMessages: [MockChatMessage] = []
-                            let productResult = makeMockProduct(with: .approved)
-                            let chatInterlocutor = makeChatInterlocutor(with: .active, isMuted: false, isBanned: false, hasMutedYou: false)
-                            let chatConversation = makeChatConversation(with: chatInterlocutor, unreadMessageCount: 0, lastMessageSentAt: nil)
-                            let user = makeUser(with: .active, isDummy: false)
-                            
-                            buildChatViewModel(myUser: mockMyUser,
-                                               chatMessages: chatMessages,
-                                               product: productResult,
-                                               interlocutor: chatInterlocutor,
-                                               chatConversation: chatConversation,
-                                               user: user)
-                            
-                            sut.active = true
-                            sut.send(quickAnswer: .meetUp)
-                            
-                            expect(tracker.trackedEvents.count).toEventually(equal(3))
-                        }
-                        it("adds one element on messages") {
-                            expect(messages.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.text]
-                        }
-                        it("tracks sent first message + message sent") {
-                            expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "product-detail-ask-question", "user-sent-message"]
-                        }
-                    }
-                    context("success with more than one message") {
-                        beforeEach {
-                            
-                            let mockMyUser = makeMockMyUser(with: .active, isDummy: false)
-                            let chatMessages: [MockChatMessage] = [MockChatMessage.makeMock()]
-                            let productResult = makeMockProduct(with: .approved)
-                            let chatInterlocutor = makeChatInterlocutor(with: .active, isMuted: false, isBanned: false, hasMutedYou: false)
-                            let chatConversation = makeChatConversation(with: chatInterlocutor, unreadMessageCount: 0, lastMessageSentAt: nil)
-                            let user = makeUser(with: .active, isDummy: false)
-                            
-                            buildChatViewModel(myUser: mockMyUser,
-                                               chatMessages: chatMessages,
-                                               product: productResult,
-                                               interlocutor: chatInterlocutor,
-                                               chatConversation: chatConversation,
-                                               user: user)
-                            
-                            sut.active = true
-                            sut.send(quickAnswer: .meetUp)
-                            
-                            expect(tracker.trackedEvents.count).toEventually(equal(3))
-                        }
-                        it("adds one element on messages") {
-                            expect(messages.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.text]
-                        }
-                        it("tracks sent first message + message sent") {
-                            expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "product-detail-ask-question", "user-sent-message"]
-                        }
-                    }
-                  /*  context("success non first message") {
-                        beforeEach {
-                            chatWrapper.results = [ChatWrapperResult(false)]
-                            buildProductViewModel()
-                            sut.sendQuickAnswer(quickAnswer: .meetUp)
-                            
-                            expect(tracker.trackedEvents.count).toEventually(equal(1))
-                        }
-                        it("requests logged in") {
-                            expect(self.calledLogin) == true
-                        }
-                        it("adds one element on directMessages") {
-                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.text]
-                        }
-                        it("tracks sent first message + message sent") {
-                            expect(tracker.trackedEvents.map { $0.actualName }) == ["user-sent-message"]
-                        }
-                    }
-                    context("failure") {
-                        beforeEach {
-                            chatWrapper.results = [ChatWrapperResult(error: .notFound)]
-                            buildProductViewModel()
-                            sut.sendQuickAnswer(quickAnswer: .meetUp)
-                        }
-                        it("requests logged in") {
-                            expect(self.calledLogin) == true
-                        }
-                        it("adds one element on directMessages") {
-                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.text]
-                        }
-                        describe("failure arrives") {
-                            beforeEach {
-                                expect(self.delegateReceivedShowAutoFadingMessage).toEventually(equal(true))
-                            }
-                            it("element is removed from directMessages") {
-                                expect(directChatMessagesObserver.lastValue?.count) == 0
-                            }
-                            it("didn't track any message sent event") {
-                                expect(tracker.trackedEvents.count) == 0
-                            }
-                        }
-                    } */
+            describe("initialization") {
+                beforeEach {
+                    let mockMyUser = self.makeMockMyUser(with: .active, isDummy: false)
+                    let chatMessages: [MockChatMessage] = []
+                    let productResult = self.makeMockProduct(with: .approved)
+                    let chatInterlocutor = self.makeChatInterlocutor(with: .active, isMuted: false, isBanned: false, hasMutedYou: false)
+                    let chatConversation = self.makeChatConversation(with: chatInterlocutor, unreadMessageCount: 0, lastMessageSentAt: nil)
+                    let user = self.makeUser(with: .active, isDummy: false)
+                    
+                    buildChatViewModel(myUser: mockMyUser,
+                                       chatMessages: chatMessages,
+                                       product: productResult,
+                                       interlocutor: chatInterlocutor,
+                                       chatConversation: chatConversation,
+                                       user: user)
+                    sut.active = true
                 }
-           /*     describe("text message") {
-                    context("success first message") {
+                
+            }
+            
+            describe("send message") {
+                describe("new conversation") {
+                    beforeEach {
+                        let mockMyUser = self.makeMockMyUser(with: .active, isDummy: false)
+                        let chatMessages: [MockChatMessage] = []
+                        let productResult = self.makeMockProduct(with: .approved)
+                        let chatInterlocutor = self.makeChatInterlocutor(with: .active, isMuted: false, isBanned: false, hasMutedYou: false)
+                        let chatConversation = self.makeChatConversation(with: chatInterlocutor, unreadMessageCount: 0, lastMessageSentAt: nil)
+                        let user = self.makeUser(with: .active, isDummy: false)
+                        
+                        buildChatViewModel(myUser: mockMyUser,
+                                           chatMessages: chatMessages,
+                                           product: productResult,
+                                           interlocutor: chatInterlocutor,
+                                           chatConversation: chatConversation,
+                                           user: user)
+                        sut.active = true
+                    }
+                    context("quick answer") {
                         beforeEach {
-                            chatWrapper.results = [ChatWrapperResult(true)]
-                            buildProductViewModel()
-                            sut.sendDirectMessage("Hola que tal", isDefaultText: false)
-                            
+                            sut.send(quickAnswer: .meetUp)
+                            expect(tracker.trackedEvents.count).toEventually(equal(3))
+                        }
+                        it("adds one element on messages") {
+                            expect(messages.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.text]
+                        }
+                        it("tracks sent first message + message sent") {
+                            expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "product-detail-ask-question", "user-sent-message"]
+                        }
+                    }
+                    context("custom text") {
+                        beforeEach {
+                            sut.send(text: "text")
+                            expect(tracker.trackedEvents.count).toEventually(equal(3))
+                        }
+                        it("adds one element on messages") {
+                            expect(messages.lastValue?.map{ $0.value }) == ["text"]
+                        }
+                        it("tracks sent first message + message sent") {
+                            expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "product-detail-ask-question", "user-sent-message"]
+                        }
+                    }
+                }
+                
+                describe("already existing conversation") {
+                    beforeEach {
+                        let mockMyUser = self.makeMockMyUser(with: .active, isDummy: false)
+                        let chatMessages: [MockChatMessage] = [MockChatMessage.makeMock()]
+                        let productResult = self.makeMockProduct(with: .approved)
+                        let chatInterlocutor = self.makeChatInterlocutor(with: .active, isMuted: false, isBanned: false, hasMutedYou: false)
+                        let chatConversation = self.makeChatConversation(with: chatInterlocutor, unreadMessageCount: 0, lastMessageSentAt: Date())
+                        let user = self.makeUser(with: .active, isDummy: false)
+                        
+                        buildChatViewModel(myUser: mockMyUser,
+                                           chatMessages: chatMessages,
+                                           product: productResult,
+                                           interlocutor: chatInterlocutor,
+                                           chatConversation: chatConversation,
+                                           user: user)
+                        
+                        sut.active = true
+                    }
+                    context("quick answer") {
+                        beforeEach {
+                            sut.send(quickAnswer: .meetUp)
                             expect(tracker.trackedEvents.count).toEventually(equal(2))
                         }
-                        it("requests logged in") {
-                            expect(self.calledLogin) == true
-                        }
-                        it("adds one element on directMessages") {
-                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == ["Hola que tal"]
+                        it("adds one element on messages") {
+                            expect(messages.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.text]
                         }
                         it("tracks sent first message + message sent") {
-                            expect(tracker.trackedEvents.map { $0.actualName }) == ["product-detail-ask-question", "user-sent-message"]
+                            expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "user-sent-message"]
                         }
                     }
-                    context("success non first message") {
+                    context("custom text") {
                         beforeEach {
-                            chatWrapper.results = [ChatWrapperResult(false)]
-                            buildProductViewModel()
-                            sut.sendDirectMessage("Hola que tal", isDefaultText: true)
                             
-                            expect(tracker.trackedEvents.count).toEventually(equal(1))
+                            sut.send(text: "text")
+                            expect(tracker.trackedEvents.count).toEventually(equal(2))
                         }
-                        it("requests logged in") {
-                            expect(self.calledLogin) == true
-                        }
-                        it("adds one element on directMessages") {
-                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == ["Hola que tal"]
+                        it("adds one element on messages") {
+                            expect(messages.lastValue?.map{ $0.value }) == ["text"]
                         }
                         it("tracks sent first message + message sent") {
-                            expect(tracker.trackedEvents.map { $0.actualName }) == ["user-sent-message"]
+                            expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "user-sent-message"]
                         }
                     }
-                    context("failure") {
-                        beforeEach {
-                            chatWrapper.results = [ChatWrapperResult(error: .notFound)]
-                            buildProductViewModel()
-                            sut.sendDirectMessage("Hola que tal", isDefaultText: true)
-                        }
-                        it("requests logged in") {
-                            expect(self.calledLogin) == true
-                        }
-                        it("adds one element on directMessages") {
-                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == ["Hola que tal"]
-                        }
-                        describe("failure arrives") {
-                            beforeEach {
-                                expect(self.delegateReceivedShowAutoFadingMessage).toEventually(equal(true))
-                            }
-                            it("element is removed from directMessages") {
-                                expect(directChatMessagesObserver.lastValue?.count) == 0
-                            }
-                            it("didn't track any message sent event") {
-                                expect(tracker.trackedEvents.count) == 0
-                            }
-                        }
-                    }
-                } */
+                }
+                
             }
         }
+    }
+}
+
+extension ChatViewModelSpec {
+    func makeMockMyUser(with userStatus: UserStatus, isDummy: Bool) -> MockMyUser {
+        var myUser = MockMyUser.makeMock()
+        myUser.status = userStatus
+        myUser.isDummy = isDummy
+        return myUser
+    }
+    
+    func makeMockProduct(with status: ProductStatus) -> MockProduct {
+        var productResult = MockProduct.makeMock()
+        productResult.status = status
+        return productResult
+    }
+    
+    func makeChatInterlocutor(with status: UserStatus, isMuted: Bool, isBanned: Bool, hasMutedYou: Bool) -> MockChatInterlocutor {
+        var chatInterlocutor = MockChatInterlocutor.makeMock()
+        chatInterlocutor.status = status
+        chatInterlocutor.isMuted = isMuted
+        chatInterlocutor.isBanned = isBanned
+        chatInterlocutor.hasMutedYou = hasMutedYou
+        return chatInterlocutor
+    }
+    
+    func makeChatConversation(with interlocutor: ChatInterlocutor, unreadMessageCount: Int, lastMessageSentAt: Date?) -> MockChatConversation {
+        var chatConversation = MockChatConversation.makeMock()
+        chatConversation.interlocutor = interlocutor
+        chatConversation.unreadMessageCount = unreadMessageCount
+        chatConversation.lastMessageSentAt = lastMessageSentAt
+        return chatConversation
+    }
+    
+    func makeUser(with status: UserStatus, isDummy: Bool) -> MockUser {
+        var user = MockUser.makeMock()
+        user.status = status
+        user.isDummy = isDummy
+        return user
     }
 }
