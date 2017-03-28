@@ -22,7 +22,7 @@
 "bump_up_banner_pay_text" = "빠르게 판매하기 위해 상품을 강조해보세요";
 "bump_up_banner_wait_text" = "다시 강조하기";
 "bump_up_error_bump_generic" = "상품을 강조하는 동안에 오류가 발생했습니다. 다시 시도해주세요.";
-"bump_up_error_bump_token" = "결제를 진행하고자 하였지만, 상품을 선택하시지 않으셨습니다. 다시 시도해주세요.";
+"bump_up_error_bump_token" = "결제가 진행되었지만, 상품이 강조되지 않았습니다.";
 "bump_up_error_payment_failed" = "상품을 강조하는 동안 오류가 발생했습니다. 사용자의 결제가 진행되지 않았습니다. 다시 시도해주세요.";
 "bump_up_free_success" = "상품이 강조되었습니다! 리스트를 계속 강조하시면 사람들이 확인할 수 있습니다.";
 "bump_up_pay_success" = "상품이 강조되었습니다! 이제 상품이 다른 사람들에게 더 잘보입니다.";
@@ -331,10 +331,10 @@
 "log_in_reset_password_button" = "암호를 잊어버리셨나요?";
 "log_in_send_button" = "로그인";
 "log_in_title" = "이메일로 로그인";
-"login_device_not_allowed_alert_contact_button" = "Contact Us";
-"login_device_not_allowed_alert_message" = "You've never logged in on this device before. We've sent you a verification email so check your inbox to continue.";
-"login_device_not_allowed_alert_ok_button" = "OK";
-"login_device_not_allowed_alert_title" = "VERIFY LOGIN";
+"login_device_not_allowed_alert_contact_button" = "문의하기";
+"login_device_not_allowed_alert_message" = "이전에 이 장치에서 로그인 하신 적이 없습니다. 계속 진행하기 위해 저희는 확인 이메일을 회원님의 이메일로 발송하여 드렸습니다. 수신함을 확인해주세요.";
+"login_device_not_allowed_alert_ok_button" = "확인";
+"login_device_not_allowed_alert_title" = "로그인 인증하기";
 "login_scammer_alert_contact_button" = "문의하기";
 "login_scammer_alert_keep_browsing_button" = "넘기기";
 "login_scammer_alert_message" = "letgo팀이 회원님의 계정을 검토하고 있습니다. 만약 잘못된 사항이 있다면, 저희에게 연락하여 주십시오.";

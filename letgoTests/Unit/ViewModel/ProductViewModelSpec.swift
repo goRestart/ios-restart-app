@@ -16,7 +16,7 @@ import Nimble
 
 class ProductViewModelSpec: BaseViewModelSpec {
 
-    var lastBuyersToRate: [UserListing]?
+    var lastBuyersToRate: [UserProduct]?
     var buyerToRateResult: String?
     var shownAlertText: String?
     var shownFavoriteBubble: Bool?
@@ -28,7 +28,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
         var sut: ProductViewModel!
 
         var myUserRepository: MockMyUserRepository!
-        var listingRepository: MockProductRepository!
+        var productRepository: MockProductRepository!
         var commercializerRepository: MockCommercializerRepository!
         var chatWrapper: MockChatWrapper!
         var locationManager: MockLocationManager!
@@ -52,7 +52,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                 let socialSharer = SocialSharer()
                 sut = ProductViewModel(product: product,
                                         myUserRepository: myUserRepository,
-                                        listingRepository: listingRepository,
+                                        productRepository: productRepository,
                                         commercializerRepository: commercializerRepository,
                                         chatWrapper: chatWrapper,
                                         chatViewMessageAdapter: ChatViewMessageAdapter(),
@@ -73,9 +73,9 @@ class ProductViewModelSpec: BaseViewModelSpec {
 
             beforeEach {
                 sut = nil
-                myUserRepository = MockMyUserRepository()
-                listingRepository = MockProductRepository()
-                commercializerRepository = MockCommercializerRepository()
+                myUserRepository = MockMyUserRepository.makeMock()
+                productRepository = MockProductRepository.makeMock()
+                commercializerRepository = MockCommercializerRepository.makeMock()
                 chatWrapper = MockChatWrapper()
                 locationManager = MockLocationManager()
                 countryHelper = CountryHelper.mock()
@@ -102,28 +102,28 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     let myUser = MockMyUser.makeMock()
                     myUserRepository.myUserVar.value = myUser
                     product = MockProduct.makeMock()
-                    var userListing = MockUserListing.makeMock()
-                    userListing.objectId = myUser.objectId
-                    product.user = userListing
+                    var userProduct = MockUserProduct.makeMock()
+                    userProduct.objectId = myUser.objectId
+                    product.user = userProduct
                     product.status = .approved
 
-                    listingRepository.markAsSoldVoidResult = ListingVoidResult(Void())
+                    productRepository.markAsSoldVoidResult = ProductVoidResult(Void())
                     var soldProduct = MockProduct(product: product)
                     soldProduct.status = .sold
-                    listingRepository.productResult = ProductResult(soldProduct)
+                    productRepository.productResult = ProductResult(soldProduct)
                 }
                 context("buyer selection a/b enabled"){
                     beforeEach {
                         featureFlags.userRatingMarkAsSold = true
                     }
                     context("there are possible buyers") {
-                        var possibleBuyers: [UserListing]!
+                        var possibleBuyers: [UserProduct]!
                         beforeEach {
-                            possibleBuyers = [UserListing]()
+                            possibleBuyers = [UserProduct]()
                             for _ in 0..<5 {
-                                possibleBuyers.append(MockUserListing.makeMock())
+                                possibleBuyers.append(MockUserProduct.makeMock())
                             }
-                            listingRepository.listingBuyersResult = ListingBuyersResult(possibleBuyers)
+                            productRepository.productBuyersResult = ProductBuyersResult(possibleBuyers)
                         }
                         context("one is selected") {
                             beforeEach {
@@ -146,7 +146,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                 expect(self.lastBuyersToRate?.count) == possibleBuyers.count
                             }
                             it("has called to mark as sold with correct buyerId") {
-                                expect(listingRepository.markAsSoldBuyerId) == self.buyerToRateResult
+                                expect(productRepository.markAsSoldBuyerId) == self.buyerToRateResult
                             }
                             it("has a mark as sold tracked event with correct user-sold-to") {
                                 let event = tracker.trackedEvents.last
@@ -175,7 +175,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                 expect(self.lastBuyersToRate?.count) == possibleBuyers.count
                             }
                             it("has called to mark as sold with correct buyerId") {
-                                expect(listingRepository.markAsSoldBuyerId).to(beNil())
+                                expect(productRepository.markAsSoldBuyerId).to(beNil())
                             }
                             it("has a mark as sold tracked event with correct user-sold-to") {
                                 let event = tracker.trackedEvents.last
@@ -186,7 +186,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     }
                     context("there are no possible buyers") {
                         beforeEach {
-                            listingRepository.listingBuyersResult = ListingBuyersResult([])
+                            productRepository.productBuyersResult = ProductBuyersResult([])
 
                             buildProductViewModel()
                             sut.active = true
@@ -208,7 +208,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                             expect(self.shownAlertText!) == LGLocalizedString.productMarkAsSoldConfirmMessage
                         }
                         it("has called to mark as sold with correct buyerId") {
-                            expect(listingRepository.markAsSoldBuyerId).to(beNil())
+                            expect(productRepository.markAsSoldBuyerId).to(beNil())
                         }
                         it("has a mark as sold tracked event with correct user-sold-to") {
                             let event = tracker.trackedEvents.last!
@@ -220,11 +220,11 @@ class ProductViewModelSpec: BaseViewModelSpec {
                 context("buyer selection a/b disabled"){
                     beforeEach {
                         featureFlags.userRatingMarkAsSold = false
-                        var possibleBuyers = [UserListing]()
+                        var possibleBuyers = [UserProduct]()
                         for _ in 0..<5 {
-                            possibleBuyers.append(MockUserListing.makeMock())
+                            possibleBuyers.append(MockUserProduct.makeMock())
                         }
-                        listingRepository.listingBuyersResult = ListingBuyersResult(possibleBuyers)
+                        productRepository.productBuyersResult = ProductBuyersResult(possibleBuyers)
 
                         buildProductViewModel()
                         sut.active = true
@@ -246,7 +246,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                         expect(self.shownAlertText!) == LGLocalizedString.productMarkAsSoldConfirmMessage
                     }
                     it("has called to mark as sold with correct buyerId") {
-                        expect(listingRepository.markAsSoldBuyerId).to(beNil())
+                        expect(productRepository.markAsSoldBuyerId).to(beNil())
                     }
                     it("has a mark as sold tracked event with no user-sold-to") {
                         let event = tracker.trackedEvents.last!
@@ -269,7 +269,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     beforeEach {
                         product.favorite = false
                         savedProduct.favorite = true
-                        listingRepository.productResult = ProductResult(savedProduct)
+                        productRepository.productResult = ProductResult(savedProduct)
                         buildProductViewModel()
                     }
                     context("Contact the seller AB test enabled"){
@@ -305,7 +305,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     beforeEach {
                         product.favorite = true
                         savedProduct.favorite = false
-                        listingRepository.productResult = ProductResult(savedProduct)
+                        productRepository.productResult = ProductResult(savedProduct)
                         buildProductViewModel()
                     }
 
@@ -476,9 +476,9 @@ class ProductViewModelSpec: BaseViewModelSpec {
                         let myUser = MockMyUser.makeMock()
                         myUserRepository.myUserVar.value = myUser
                         product = MockProduct.makeMock()
-                        var userListing = MockUserListing.makeMock()
-                        userListing.objectId = myUser.objectId
-                        product.user = userListing
+                        var userProduct = MockUserProduct.makeMock()
+                        userProduct.objectId = myUser.objectId
+                        product.user = userProduct
                         product.status = .approved
 
                         purchasesShopper.isBumpUpPending = false
@@ -504,9 +504,9 @@ class ProductViewModelSpec: BaseViewModelSpec {
                             myUser.objectId = "user_id"
                             myUserRepository.myUserVar.value = myUser
                             product = MockProduct.makeMock()
-                            var userListing = MockUserListing.makeMock()
-                            userListing.objectId = "product_id"
-                            product.user = userListing
+                            var userProduct = MockUserProduct.makeMock()
+                            userProduct.objectId = "product_id"
+                            product.user = userProduct
                             product.status = .approved
 
                             purchasesShopper.isBumpUpPending = false
@@ -527,9 +527,9 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                 let myUser = MockMyUser.makeMock()
                                 myUserRepository.myUserVar.value = myUser
                                 product = MockProduct.makeMock()
-                                var userListing = MockUserListing.makeMock()
-                                userListing.objectId = myUser.objectId
-                                product.user = userListing
+                                var userProduct = MockUserProduct.makeMock()
+                                userProduct.objectId = myUser.objectId
+                                product.user = userProduct
                                 product.status = .pending
 
                                 purchasesShopper.isBumpUpPending = false
@@ -552,16 +552,16 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                     let myUser = MockMyUser.makeMock()
                                     myUserRepository.myUserVar.value = myUser
                                     product = MockProduct.makeMock()
-                                    var userListing = MockUserListing.makeMock()
-                                    userListing.objectId = myUser.objectId
-                                    product.user = userListing
+                                    var userProduct = MockUserProduct.makeMock()
+                                    userProduct.objectId = myUser.objectId
+                                    product.user = userProduct
                                     product.status = .approved
 
                                     purchasesShopper.isBumpUpPending = false
 
                                     var paymentItem = MockPaymentItem.makeMock()
                                     paymentItem.provider = .letgo
-                                    var bumpeableProduct = MockBumpeableListing.makeMock()
+                                    var bumpeableProduct = MockBumpeableProduct.makeMock()
                                     bumpeableProduct.paymentItems = [paymentItem]
                                     monetizationRepository.retrieveResult = BumpeableProductResult(error: .notFound)
 
@@ -582,14 +582,14 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                     let myUser = MockMyUser.makeMock()
                                     myUserRepository.myUserVar.value = myUser
                                     product = MockProduct.makeMock()
-                                    var userListing = MockUserListing.makeMock()
-                                    userListing.objectId = myUser.objectId
-                                    product.user = userListing
+                                    var userProduct = MockUserProduct.makeMock()
+                                    userProduct.objectId = myUser.objectId
+                                    product.user = userProduct
                                     product.status = .approved
 
                                     purchasesShopper.isBumpUpPending = false
 
-                                    var bumpeableProduct = MockBumpeableListing.makeMock()
+                                    var bumpeableProduct = MockBumpeableProduct.makeMock()
                                     bumpeableProduct.paymentItems = []
                                     monetizationRepository.retrieveResult = BumpeableProductResult(value: bumpeableProduct)
 
@@ -610,16 +610,16 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                     let myUser = MockMyUser.makeMock()
                                     myUserRepository.myUserVar.value = myUser
                                     product = MockProduct.makeMock()
-                                    var userListing = MockUserListing.makeMock()
-                                    userListing.objectId = myUser.objectId
-                                    product.user = userListing
+                                    var userProduct = MockUserProduct.makeMock()
+                                    userProduct.objectId = myUser.objectId
+                                    product.user = userProduct
                                     product.status = .approved
 
                                     purchasesShopper.isBumpUpPending = false
 
                                     var paymentItem = MockPaymentItem.makeMock()
                                     paymentItem.provider = .letgo
-                                    var bumpeableProduct = MockBumpeableListing.makeMock()
+                                    var bumpeableProduct = MockBumpeableProduct.makeMock()
                                     bumpeableProduct.paymentItems = [paymentItem]
                                     monetizationRepository.retrieveResult = BumpeableProductResult(value: bumpeableProduct)
 
@@ -648,16 +648,16 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                     let myUser = MockMyUser.makeMock()
                                     myUserRepository.myUserVar.value = myUser
                                     product = MockProduct.makeMock()
-                                    var userListing = MockUserListing.makeMock()
-                                    userListing.objectId = myUser.objectId
-                                    product.user = userListing
+                                    var userProduct = MockUserProduct.makeMock()
+                                    userProduct.objectId = myUser.objectId
+                                    product.user = userProduct
                                     product.status = .approved
 
                                     purchasesShopper.isBumpUpPending = false
 
                                     var paymentItem = MockPaymentItem.makeMock()
                                     paymentItem.provider = .apple
-                                    var bumpeableProduct = MockBumpeableListing.makeMock()
+                                    var bumpeableProduct = MockBumpeableProduct.makeMock()
                                     bumpeableProduct.paymentItems = [paymentItem]
                                     monetizationRepository.retrieveResult = BumpeableProductResult(value: bumpeableProduct)
 
@@ -687,16 +687,16 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                     let myUser = MockMyUser.makeMock()
                                     myUserRepository.myUserVar.value = myUser
                                     product = MockProduct.makeMock()
-                                    var userListing = MockUserListing.makeMock()
-                                    userListing.objectId = myUser.objectId
-                                    product.user = userListing
+                                    var userProduct = MockUserProduct.makeMock()
+                                    userProduct.objectId = myUser.objectId
+                                    product.user = userProduct
                                     product.status = .approved
 
                                     purchasesShopper.isBumpUpPending = true
 
                                     var paymentItem = MockPaymentItem.makeMock()
                                     paymentItem.provider = .apple
-                                    var bumpeableProduct = MockBumpeableListing.makeMock()
+                                    var bumpeableProduct = MockBumpeableProduct.makeMock()
                                     bumpeableProduct.paymentItems = [paymentItem]
                                     monetizationRepository.retrieveResult = BumpeableProductResult(value: bumpeableProduct)
 
@@ -732,15 +732,15 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     myUserRepository.myUserVar.value = myUser
                     product = MockProduct.makeMock()
                     product.objectId = "product_id"
-                    var userListing = MockUserListing.makeMock()
-                    userListing.objectId = myUser.objectId
-                    product.user = userListing
+                    var userProduct = MockUserProduct.makeMock()
+                    userProduct.objectId = myUser.objectId
+                    product.user = userProduct
                     product.status = .approved
 
                     var paymentItem = MockPaymentItem.makeMock()
                     paymentItem.provider = .apple
                     paymentItem.itemId = "paymentItemId"
-                    var bumpeableProduct = MockBumpeableListing.makeMock()
+                    var bumpeableProduct = MockBumpeableProduct.makeMock()
                     bumpeableProduct.paymentItems = [paymentItem]
                     monetizationRepository.retrieveResult = BumpeableProductResult(value: bumpeableProduct)
                 }
@@ -854,7 +854,7 @@ extension ProductViewModelSpec: ProductDetailNavigator {
         calledOpenPricedBumpUpView = true
     }
 
-    func selectBuyerToRate(source: RateUserSource, buyers: [UserListing], completion: @escaping (String?) -> Void) {
+    func selectBuyerToRate(source: RateUserSource, buyers: [UserProduct], completion: @escaping (String?) -> Void) {
         let result = self.buyerToRateResult
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(50)) {
             completion(result)
