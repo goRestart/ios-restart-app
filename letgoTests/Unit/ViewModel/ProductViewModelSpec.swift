@@ -73,9 +73,9 @@ class ProductViewModelSpec: BaseViewModelSpec {
 
             beforeEach {
                 sut = nil
-                myUserRepository = MockMyUserRepository()
-                productRepository = MockProductRepository()
-                commercializerRepository = MockCommercializerRepository()
+                myUserRepository = MockMyUserRepository.makeMock()
+                productRepository = MockProductRepository.makeMock()
+                commercializerRepository = MockCommercializerRepository.makeMock()
                 chatWrapper = MockChatWrapper()
                 locationManager = MockLocationManager()
                 countryHelper = CountryHelper.mock()
