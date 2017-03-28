@@ -67,7 +67,7 @@ class ProductCarouselViewModel: BaseViewModel {
     let productInfo = Variable<ProductVMProductInfo?>(nil)
     let productImageURLs = Variable<[URL]>([])
     let userInfo = Variable<ProductVMUserInfo?>(nil)
-    let ListingStats = Variable<ListingStats?>(nil)
+    let listingStats = Variable<ListingStats?>(nil)
 
     let navBarButtons = Variable<[UIAction]>([])
     let actionButtons = Variable<[UIAction]>([])
@@ -365,7 +365,7 @@ class ProductCarouselViewModel: BaseViewModel {
         currentVM.productInfo.asObservable().bindTo(productInfo).addDisposableTo(activeDisposeBag)
         currentVM.productImageURLs.asObservable().bindTo(productImageURLs).addDisposableTo(activeDisposeBag)
         currentVM.userInfo.asObservable().bindTo(userInfo).addDisposableTo(activeDisposeBag)
-        currentVM.ListingStats.asObservable().bindTo(ListingStats).addDisposableTo(activeDisposeBag)
+        currentVM.listingStats.asObservable().bindTo(listingStats).addDisposableTo(activeDisposeBag)
 
         currentVM.actionButtons.asObservable().bindTo(actionButtons).addDisposableTo(activeDisposeBag)
         currentVM.navBarButtons.asObservable().bindTo(navBarButtons).addDisposableTo(activeDisposeBag)

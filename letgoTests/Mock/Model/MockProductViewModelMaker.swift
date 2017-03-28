@@ -13,7 +13,7 @@ import LGCoreKit
 class MockProductViewModelMaker: ProductViewModelMaker {
 
     let myUserRepository: MockMyUserRepository
-    let listingRepository: MockProductRepository
+    let listingRepository: MockListingRepository
     let commercializerRepository: MockCommercializerRepository
     let chatWrapper: MockChatWrapper
     let locationManager: MockLocationManager
@@ -24,7 +24,7 @@ class MockProductViewModelMaker: ProductViewModelMaker {
     let tracker: MockTracker
 
     init(myUserRepository: MockMyUserRepository,
-         listingRepository: MockProductRepository,
+         listingRepository: MockListingRepository,
          commercializerRepository: MockCommercializerRepository,
          chatWrapper: MockChatWrapper,
          locationManager: MockLocationManager,

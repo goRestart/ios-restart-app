@@ -27,7 +27,7 @@ class LocalChatSpec: QuickSpec {
                 beforeEach {
                     product = MockProduct.makeMock()
                     userListing = nil
-                    sut = LocalChat(product: product, userListing: userListing)
+                    sut = LocalChat(product: product, myUserProduct: userListing)
                 }
                 it("objectId in userTo is the user product") {
                     expect(sut.userTo.objectId) == product.user.objectId
@@ -42,7 +42,7 @@ class LocalChatSpec: QuickSpec {
                 beforeEach {
                     product = MockProduct.makeMock()
                     userListing = MockUserListing.makeMock()
-                    sut = LocalChat(product: product, userListing: userListing)
+                    sut = LocalChat(product: product, myUserProduct: userListing)
                 }
                 it("objectId in userTo is the user product") {
                     expect(sut.userTo.objectId) == product.user.objectId

@@ -413,7 +413,7 @@ fileprivate extension ProductCarouselMoreInfoView {
 
     func setupStatsRx(viewModel: ProductCarouselViewModel) {
         let productCreation = viewModel.productInfo.asObservable().map { $0?.creationDate }
-        let statsAndCreation = Observable.combineLatest(viewModel.ListingStats.asObservable().unwrap(), productCreation) { $0 }
+        let statsAndCreation = Observable.combineLatest(viewModel.listingStats.asObservable().unwrap(), productCreation) { $0 }
         let statsViewVisible = statsAndCreation.map { (stats, creation) in
             return stats.viewsCount >= Constants.minimumStatsCountToShow || stats.favouritesCount >= Constants.minimumStatsCountToShow || creation != nil
         }

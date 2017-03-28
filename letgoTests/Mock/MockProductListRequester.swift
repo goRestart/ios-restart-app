@@ -36,26 +36,26 @@ class MockProductListRequester: ProductListRequester {
     }
 
     func retrieveFirstPage(_ completion: ListingsCompletion?) {
-        var firstPageItems: [Product] = []
+        var firstPageItems: [Listing] = []
         for i in offset..<offset+itemsPerPage {
             if i < items.count {
-                firstPageItems.append(items[i])
+                firstPageItems.append(.product(items[i]))
             }
         }
         offset = offset + itemsPerPage
-        requesterResult = Result(value: firstPageItems)
+        requesterResult = ListingsResult(value: firstPageItems)
         performAfterDelayWithCompletion(completion)
     }
 
     func retrieveNextPage(_ completion: ListingsCompletion?) {
-        var nextPageItems: [Product] = []
+        var nextPageItems: [Listing] = []
         for i in offset..<offset+itemsPerPage {
             if i < items.count {
-                nextPageItems.append(items[i])
+                nextPageItems.append(.product(items[i]))
             }
         }
         offset = offset + itemsPerPage
-        requesterResult = Result(value: nextPageItems)
+        requesterResult = ListingsResult(value: nextPageItems)
         performAfterDelayWithCompletion(completion)
     }
 
