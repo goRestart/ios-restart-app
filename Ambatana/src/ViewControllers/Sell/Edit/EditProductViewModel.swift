@@ -678,8 +678,7 @@ extension EditProductViewModel {
     }
 
     private func shareInFbChanged() -> Bool {
-        let fbLogin = myUserRepository.myUser?.facebookAccount != nil
-        return fbLogin != shouldShareInFB
+        return shouldShareInFB // Initial state is false
     }
 }
 
