@@ -28,6 +28,7 @@ class ProductPostedViewModel: BaseViewModel {
     private var status: ProductPostedStatus
     private let trackingInfo: PostProductTrackingInfo
     private let featureFlags: FeatureFlaggeable
+    private let keyValueStorage: KeyValueStorage
     private let tracker: Tracker
     private let listingRepository: ListingRepository
     private let fileRepository: FileRepository
@@ -62,6 +63,7 @@ class ProductPostedViewModel: BaseViewModel {
                   listingRepository: Core.listingRepository,
                   fileRepository: Core.fileRepository,
                   featureFlags: FeatureFlags.sharedInstance,
+                  keyValueStorage: KeyValueStorage.sharedInstance,
                   tracker: TrackerProxy.sharedInstance)
     }
 
@@ -70,10 +72,12 @@ class ProductPostedViewModel: BaseViewModel {
          listingRepository: ListingRepository,
          fileRepository: FileRepository,
          featureFlags: FeatureFlaggeable,
+         keyValueStorage: KeyValueStorage,
          tracker: Tracker) {
         self.status = status
         self.trackingInfo = trackingInfo
         self.featureFlags = featureFlags
+        self.keyValueStorage = keyValueStorage
         self.tracker = tracker
         self.listingRepository = listingRepository
         self.fileRepository = fileRepository
@@ -221,14 +225,20 @@ class ProductPostedViewModel: BaseViewModel {
     private func postProduct(_ images: [UIImage], product: Product) {
         delegate?.productPostedViewModelSetupLoadingState(self)
 
-        listingRepository.create(product: product, images: images, progress: nil) { [weak self] result in
-            // Tracking
-            if let postedProduct = result.value {
-                self?.trackPostSellComplete(postedProduct: postedProduct)
+        fileRepository.upload(images, progress: nil) { [weak self] result in
+            if let images = result.value {
+                self?.listingRepository.create(product: product, images: images) { [weak self] result in
+                    if let postedProduct = result.value {
+                        self?.trackPostSellComplete(postedProduct: postedProduct)
+                    } else if let error = result.error {
+                        self?.trackPostSellError(error: error)
+                    }
+                    self?.updateStatusAfterPosting(status: ProductPostedStatus(result: result))
+                }
             } else if let error = result.error {
                 self?.trackPostSellError(error: error)
+                self?.updateStatusAfterPosting(status: ProductPostedStatus(error: error))
             }
-            self?.updateStatusAfterPosting(status: ProductPostedStatus(result: result))
         }
     }
 
@@ -249,9 +259,9 @@ class ProductPostedViewModel: BaseViewModel {
         tracker.trackEvent(event)
 
         // Track product was sold in the first 24h (and not tracked before)
-        if let firstOpenDate = KeyValueStorage.sharedInstance[.firstRunDate], NSDate().timeIntervalSince(firstOpenDate as Date) <= 86400 &&
-            !KeyValueStorage.sharedInstance.userTrackingProductSellComplete24hTracked {
-            KeyValueStorage.sharedInstance.userTrackingProductSellComplete24hTracked = true
+        if let firstOpenDate = keyValueStorage[.firstRunDate], NSDate().timeIntervalSince(firstOpenDate as Date) <= 86400 &&
+            !keyValueStorage.userTrackingProductSellComplete24hTracked {
+            keyValueStorage.userTrackingProductSellComplete24hTracked = true
             let event = TrackerEvent.productSellComplete24h(postedProduct)
             tracker.trackEvent(event)
         }
