@@ -259,6 +259,8 @@ fileprivate extension AppDelegate {
             LGCoreKit.shouldUseChatWithWebSocket = featureFlags.websocketChat
         }
 
+        LGCoreKit.carsInfoJSONPath = Bundle.main.path(forResource: "CarsInfo", ofType: "json") ?? ""
+
         // Logging
         #if GOD_MODE
             DDLog.add(DDTTYLogger.sharedInstance())       // TTY = Xcode console
