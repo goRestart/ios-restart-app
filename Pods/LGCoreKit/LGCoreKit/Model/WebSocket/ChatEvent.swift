@@ -13,6 +13,7 @@ public enum ChatEventType {
     case interlocutorReceptionConfirmed(messagesIds: [String])
     case interlocutorReadConfirmed(messagesIds: [String])
     case authenticationTokenExpired
+    case talkerUnauthenticated
 }
 
 public protocol ChatEvent: BaseModel {

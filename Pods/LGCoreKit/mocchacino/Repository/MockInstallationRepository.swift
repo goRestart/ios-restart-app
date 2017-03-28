@@ -2,15 +2,14 @@ import Result
 import RxSwift
 
 open class MockInstallationRepository: InstallationRepository {
-    public var result: InstallationResult
-    public let installationVar: Variable<Installation?>
+    public var result: InstallationResult!
+    public let installationVar = Variable<Installation?>(nil)
 
 
     // MARK: - Lifecycle
 
-    public init() {
-        self.result = InstallationResult(value: MockInstallation.makeMock())
-        self.installationVar = Variable<Installation?>(nil)
+    required public init() {
+        
     }
 
 

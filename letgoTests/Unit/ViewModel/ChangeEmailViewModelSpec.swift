@@ -29,7 +29,7 @@ class ChangeEmailViewModelSpec: QuickSpec {
             var buttonEnable: Bool!
             
             beforeEach {
-                myUserRepository = MockMyUserRepository()
+                myUserRepository = MockMyUserRepository.makeMock()
                 tracker = MockTracker()
                 sut = ChangeEmailViewModel(myUserRepository: myUserRepository, tracker: tracker)
                 sut.delegate = self
