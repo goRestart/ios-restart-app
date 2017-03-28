@@ -146,6 +146,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
     // Repositories
     let myUserRepository: MyUserRepository
     let listingRepository: ListingRepository
+    let fileRepository: FileRepository
     let categoryRepository: CategoryRepository
     let locationManager: LocationManager
     let tracker: Tracker
@@ -162,29 +163,27 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
     // MARK: - Lifecycle
     
     convenience init(product: Product) {
-        let myUserRepository = Core.myUserRepository
-        let listingRepository = Core.listingRepository
-        let categoryRepository = Core.categoryRepository
-        let locationManager = Core.locationManager
-        let tracker = TrackerProxy.sharedInstance
-        let featureFlags = FeatureFlags.sharedInstance
-        self.init(myUserRepository: myUserRepository,
-                  listingRepository: listingRepository,
-                  categoryRepository: categoryRepository,
-                  locationManager: locationManager,
-                  tracker: tracker, product: product,
-                  featureFlags: featureFlags)
+        self.init(product: product,
+                  myUserRepository: Core.myUserRepository,
+                  listingRepository: Core.listingRepository,
+                  fileRepository: Core.fileRepository,
+                  categoryRepository: Core.categoryRepository,
+                  locationManager: Core.locationManager,
+                  tracker: TrackerProxy.sharedInstance,
+                  featureFlags: FeatureFlags.sharedInstance)
     }
     
-    init(myUserRepository: MyUserRepository,
+    init(product: Product,
+         myUserRepository: MyUserRepository,
          listingRepository: ListingRepository,
+         fileRepository: FileRepository,
          categoryRepository: CategoryRepository,
          locationManager: LocationManager,
          tracker: Tracker,
-         product: Product,
          featureFlags: FeatureFlaggeable) {
         self.myUserRepository = myUserRepository
         self.listingRepository = listingRepository
+        self.fileRepository = fileRepository
         self.categoryRepository = categoryRepository
         self.locationManager = locationManager
         self.tracker = tracker
@@ -216,7 +215,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         self.productImages = ProductImages()
         for file in product.images { productImages.append(file) }
 
-        self.shouldShareInFB = myUserRepository.myUser?.facebookAccount != nil
+        self.shouldShareInFB = false
         self.isFreePosting.value = featureFlags.freePostingModeAllowed && product.price.free
         super.init()
 
@@ -411,52 +410,42 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         return nil
     }
 
+
     private func updateProduct() {
         guard let category = category else {
             showError(.noCategory)
             return
         }
-        let name = title ?? ""
-        let description = (descr ?? "").stringByRemovingEmoji()
-
-        let priceAmount = isFreePosting.value && featureFlags.freePostingModeAllowed ? ProductPrice.free : ProductPrice.normal((price ?? "0").toPriceDouble())
-        let currency = initialProduct.currency
-
-        let editedProduct = listingRepository.updateProduct(initialProduct, name: name, description: description,
-                                                            price: priceAmount, currency: currency, location: location,
-                                                            postalAddress: postalAddress, category: category)
-        saveTheProduct(editedProduct, withImages: productImages)
-    }
-    
-    private func saveTheProduct(_ product: Product, withImages images: ProductImages) {
-
+        guard let editParams = ProductEditionParams(product: initialProduct) else { return }
+        delegate?.vmHideKeyboard()
         loadingProgress.value = 0
-        
-        let localImages = images.localImages
-        let remoteImages = images.remoteImages
-        
-        let commonCompletion: ProductCompletion = { [weak self] result in
-            guard let strongSelf = self else { return }
-            strongSelf.loadingProgress.value = nil
-            if let actualProduct = result.value {
-                strongSelf.savedProduct = actualProduct
-                strongSelf.trackComplete(actualProduct)
-                strongSelf.finishedSaving()
-            } else if let error = result.error {
-                let newError = ProductCreateValidationError(repoError: error)
-                strongSelf.showError(newError)
-            }
+        editParams.category = category
+        editParams.name = title ?? ""
+        editParams.descr = (descr ?? "").stringByRemovingEmoji()
+        editParams.price = isFreePosting.value && featureFlags.freePostingModeAllowed ? ProductPrice.free : ProductPrice.normal((price ?? "0").toPriceDouble())
+        if let updatedLocation = location, let updatedPostalAddress = postalAddress {
+            editParams.location = updatedLocation
+            editParams.postalAddress = updatedPostalAddress
         }
 
-        let progressBlock: (Float) -> Void = { [weak self] progress in self?.loadingProgress.value = progress }
-        
-        if let _ = product.objectId {
-            listingRepository.update(product: product, oldImages: remoteImages, newImages: localImages, progress: progressBlock, completion: commonCompletion)
-        } else {
-            if localImages.isEmpty {
-                listingRepository.create(product: product, images: remoteImages, completion: commonCompletion)
-            } else {
-                listingRepository.create(product: product, images: localImages, progress: progressBlock, completion: commonCompletion)
+        let localImages = productImages.localImages
+        let remoteImages = productImages.remoteImages
+        fileRepository.upload(localImages, progress: { [weak self] in self?.loadingProgress.value = $0 }) {
+            [weak self] imagesResult in
+            if let newImages = imagesResult.value {
+                editParams.images = remoteImages + newImages
+                self?.listingRepository.update(productParams: editParams) { result in
+                    self?.loadingProgress.value = nil
+                    if let actualProduct = result.value {
+                        self?.savedProduct = actualProduct
+                        self?.trackComplete(actualProduct)
+                        self?.finishedSaving()
+                    } else if let error = result.error {
+                        self?.showError(ProductCreateValidationError(repoError: error))
+                    }
+                }
+            } else if let error = imagesResult.error {
+                self?.showError(ProductCreateValidationError(repoError: error))
             }
         }
     }
