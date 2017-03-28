@@ -12,7 +12,7 @@ public protocol Product: BaseModel, Priceable {
     var name: String? { get }
     var nameAuto: String? { get }
     var descr: String? { get }
-    var price: ProductPrice { get }
+    var price: ListingPrice { get }
     var currency: Currency { get }
 
     var location: LGLocationCoordinates2D { get }

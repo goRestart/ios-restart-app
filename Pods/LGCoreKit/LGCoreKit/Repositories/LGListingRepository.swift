@@ -23,24 +23,19 @@ final class LGListingRepository: ListingRepository {
     let myUserRepository: MyUserRepository
     let favoritesDAO: FavoritesDAO
     let listingsLimboDAO: ListingsLimboDAO
-    let fileRepository: FileRepository
-    let locationManager: LocationManager
-    let currencyHelper: CurrencyHelper
     var viewedListingIds: Set<String>
 
 
     // MARK: - Lifecycle
 
-    init(listingDataSource: ListingDataSource, myUserRepository: MyUserRepository, fileRepository: FileRepository,
-         favoritesDAO: FavoritesDAO, listingsLimboDAO: ListingsLimboDAO, locationManager: LocationManager,
-         currencyHelper: CurrencyHelper) {
+    init(listingDataSource: ListingDataSource,
+         myUserRepository: MyUserRepository,
+         favoritesDAO: FavoritesDAO,
+         listingsLimboDAO: ListingsLimboDAO) {
         self.dataSource = listingDataSource
         self.myUserRepository = myUserRepository
-        self.fileRepository = fileRepository
         self.favoritesDAO = favoritesDAO
         self.listingsLimboDAO = listingsLimboDAO
-        self.locationManager = locationManager
-        self.currencyHelper = currencyHelper
         self.viewedListingIds = []
     }
 
@@ -58,47 +53,6 @@ final class LGListingRepository: ListingRepository {
             }
         }
         return optionalListing.unwrap()
-    }
-
-    func buildNewProduct(_ name: String?, description: String?, price: ProductPrice, category: ListingCategory) -> Product? {
-        guard let myUser = myUserRepository.myUser, let lgLocation = locationManager.currentLocation else { return nil }
-
-        let currency: Currency
-        let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()
-        if let countryCode = postalAddress.countryCode {
-            currency = currencyHelper.currencyWithCountryCode(countryCode)
-        } else {
-            currency = LGCoreKitConstants.defaultCurrency
-        }
-        let location = LGLocationCoordinates2D(location: lgLocation)
-        let languageCode = Locale.current.identifier
-        let status = ListingStatus.pending
-        let myUserProduct = LGUserListing(user: myUser)
-        return LGProduct(objectId: nil, updatedAt: nil, createdAt: nil, name: name, nameAuto: nil, descr: description,
-                         price: price, currency: currency, location: location, postalAddress: postalAddress,
-                         languageCode: languageCode, category: category, status: status, thumbnail: nil,
-                         thumbnailSize: nil, images: [], user: myUserProduct, featured: false)
-    }
-
-    func updateProduct(_ product: Product, name: String?, description: String?, price: ProductPrice,
-                       currency: Currency, location: LGLocationCoordinates2D?, postalAddress: PostalAddress?,
-                       category: ListingCategory) -> Product {
-        var product = LGProduct(product: product)
-        product = product.updating(name: name)
-        product = product.updating(price: price)
-        product = product.updating(descr: description)
-        product = product.updating(currency: currency)
-        product = product.updating(category: category)
-        
-        if let location = location {
-            product = product.updating(location: location)
-            let newPostalAddress = postalAddress ?? PostalAddress.emptyAddress()
-            product = product.updating(postalAddress: newPostalAddress)
-        }
-        if product.languageCode == nil {
-            product = product.updating(languageCode: Locale.current.identifier)
-        }
-        return product
     }
 
 
@@ -185,35 +139,6 @@ final class LGListingRepository: ListingRepository {
         }
     }
 
-    func create(product: Product, images: [UIImage], progress: ((Float) -> Void)?, completion: ProductCompletion?) {
-        
-        fileRepository.upload(images, progress: progress) { [weak self] result in
-            if let value = result.value {
-                self?.create(product: product, images: value, completion: completion)
-            } else if let error = result.error {
-                completion?(ProductResult(error: error))
-            }
-        }
-    }
-
-    func create(product: Product, images: [File], completion: ProductCompletion?) {
-        
-        var product = LGProduct(product: product)
-        product = product.updating(images: images)
-        dataSource.create(productParams: product.encode()) { [weak self] result in
-            
-            if let product = result.value {
-                // Cache the product in the limbo
-                if let productId = product.objectId {
-                    self?.listingsLimboDAO.save(productId)
-                }
-                // Send event
-                self?.eventBus.onNext(.create(Listing.product(product)))
-            }
-            handleApiResult(result, completion: completion)
-        }
-    }
-
     func update(productParams: ProductEditionParams, completion: ProductCompletion?) {
         guard productParams.userId == myUserRepository.myUser?.objectId else {
             completion?(ProductResult(error: .internalError(message: "UserId doesn't match MyUser")))
@@ -230,40 +155,6 @@ final class LGListingRepository: ListingRepository {
         }
     }
 
-    func update(product: Product, images: [UIImage], progress: ((Float) -> Void)?, completion: ProductCompletion?) {
-        update(product: product, oldImages: [], newImages: images, progress: progress, completion: completion)
-    }
-
-    func update(product: Product, oldImages: [File], newImages: [UIImage], progress: ((Float) -> Void)?,
-                completion: ProductCompletion?) {
-        fileRepository.upload(newImages, progress: progress) { [weak self] result in
-            if let value = result.value {
-                let allImages = oldImages + value
-                self?.update(product: product, images: allImages, completion: completion)
-            } else if let error = result.error {
-                completion?(ProductResult(error: error))
-            }
-        }
-    }
-
-    func update(product: Product, images: [File], completion: ProductCompletion?) {
-        
-        guard let productId = product.objectId else {
-            completion?(ProductResult(error: .internalError(message: "Missing objectId in Product")))
-            return
-        }
-        
-        var newProduct = LGProduct(product: product)
-        newProduct = newProduct.updating(images: images)
-        
-        dataSource.update(productId: productId, productParams: newProduct.encode()) { [weak self] result in
-            if let product = result.value {
-                // Send event
-                self?.eventBus.onNext(.update(Listing.product(product)))
-            }
-            handleApiResult(result, completion: completion)
-        }
-    }
 
     func delete(listingId: String, completion: ListingVoidCompletion?) {
         dataSource.delete(listingId) { [weak self] result in

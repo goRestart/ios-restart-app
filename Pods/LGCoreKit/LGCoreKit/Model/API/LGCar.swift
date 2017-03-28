@@ -21,7 +21,7 @@ struct LGCar: Car {
     let name: String?
     let nameAuto: String?
     let descr: String?
-    let price: ProductPrice
+    let price: ListingPrice
     let currency: Currency
     
     let location: LGLocationCoordinates2D
@@ -46,7 +46,7 @@ struct LGCar: Car {
     
     
     init(objectId: String?, updatedAt: Date?, createdAt: Date?, name: String?, nameAuto: String?, descr: String?,
-         price: ProductPrice, currency: Currency, location: LGLocationCoordinates2D, postalAddress: PostalAddress,
+         price: ListingPrice, currency: Currency, location: LGLocationCoordinates2D, postalAddress: PostalAddress,
          languageCode: String?, category: ListingCategory, status: ListingStatus, thumbnail: File?,
          thumbnailSize: LGSize?, images: [File], user: UserListing, featured: Bool?) {
         self.objectId = objectId
@@ -85,7 +85,7 @@ struct LGCar: Car {
     }
     
     static func productWithId(_ objectId: String?, updatedAt: Date?, createdAt: Date?, name: String?,
-                              nameAuto: String?, descr: String?, price: Double?, priceFlag: ProductPriceFlag?, currency: String,
+                              nameAuto: String?, descr: String?, price: Double?, priceFlag: ListingPriceFlag?, currency: String,
                               location: LGLocationCoordinates2D, postalAddress: PostalAddress, languageCode: String?,
                               category: Int, status: Int, thumbnail: String?, thumbnailSize: LGSize?, images: [LGFile],
                               user: LGUserListing, featured: Bool?) -> LGCar {
@@ -94,10 +94,10 @@ struct LGCar: Car {
         let actualStatus = ListingStatus(rawValue: status) ?? .pending
         let actualThumbnail = LGFile(id: nil, urlString: thumbnail)
         let actualImages = images.flatMap { $0 as File }
-        let productPrice = ProductPrice.fromPrice(price, andFlag: priceFlag)
+        let listingPrice = ListingPrice.fromPrice(price, andFlag: priceFlag)
         
         return self.init(objectId: objectId, updatedAt: updatedAt, createdAt: createdAt, name: name,
-                         nameAuto: nameAuto, descr: descr, price: productPrice, currency: actualCurrency, location: location,
+                         nameAuto: nameAuto, descr: descr, price: listingPrice, currency: actualCurrency, location: location,
                          postalAddress: postalAddress, languageCode: languageCode, category: actualCategory,
                          status: actualStatus, thumbnail: actualThumbnail, thumbnailSize: thumbnailSize,
                          images: actualImages, user: user, featured: featured)
@@ -129,7 +129,7 @@ struct LGCar: Car {
                          thumbnailSize: thumbnailSize, images: images, user: user, featured: featured)
     }
     
-    func updating(price: ProductPrice) -> LGCar {
+    func updating(price: ListingPrice) -> LGCar {
         return LGCar(objectId: objectId, updatedAt: updatedAt, createdAt: createdAt, name: name,
                          nameAuto: nameAuto, descr: descr, price: price, currency: currency,
                          location: location, postalAddress: postalAddress, languageCode: languageCode,
@@ -228,46 +228,57 @@ extension LGCar : Decodable {
      Expects a json in the form:
      
      {
-     "id": "0af7ebed-f285-4e84-8630-d1555ddbf102",
-     "name": "",
-     "category_id": 1,
-     "language_code": "US",
-     "description": "Selling a brand new, never opened FitBit, I'm asking for $75 negotiable.",
-     "price": 75,
-     "price_flag": 1,   // Can be 0 (normal), 1 (free), 2 (Negotiable), 3 (Firm price)
-     "currency": "USD",
-     "status": 1,
-     "geo": {
-     "lat": 40.733637875435,
-     "lng": -73.982275536568,
-     "country_code": "US",
-     "city": "New York",
-     "zip_code": "10003",
-     "distance": 11.90776294472
-     },
-     "owner": {
-     "id": "56da24a0-88d4-4956-a568-74739787051f",
-     "name": "GeralD1507",
-     "avatar_url": null,
-     "zip_code": "10003",
-     "country_code": "US",
-     "is_richy": false,
-     "city": "New York",
-     "banned": null
-     },
-     "images": [{
-     "url": "http:\/\/cdn.letgo.com\/images\/59\/1d\/f8\/22\/591df822060703afad9834d095ed4c2f.jpg",
-     "id": "8ecdfe97-a7ed-4068-b4b8-c68a5ae63540"
-     }],
-     "thumb": {
-     "url": "http:\/\/cdn.letgo.com\/images\/59\/1d\/f8\/22\/591df822060703afad9834d095ed4c2f_thumb.jpg",
-     "width": 576,
-     "height": 1024
-     },
-     "created_at": "2016-04-11T12:49:52+00:00",
-     "updated_at": "2016-04-11T13:13:23+00:00",
-     "image_information": "black fitbit wireless activity wristband",
-     "featured": false
+         "id": "0af7ebed-f285-4e84-8630-d1555ddbf102",
+         "name": "",
+         "category_id": 1,
+         "language_code": "US",
+         "description": "Selling a brand new, never opened FitBit, I'm asking for $75 negotiable.",
+         "price": 75,
+         "price_flag": 1,   // Can be 0 (normal), 1 (free), 2 (Negotiable), 3 (Firm price)
+         "currency": "USD",
+         "status": 1,
+         "geo": {
+             "lat": 40.733637875435,
+             "lng": -73.982275536568,
+             "country_code": "US",
+             "city": "New York",
+             "zip_code": "10003",
+             "distance": 11.90776294472
+         },
+         "owner": {
+             "id": "56da24a0-88d4-4956-a568-74739787051f",
+             "name": "GeralD1507",
+             "avatar_url": null,
+             "zip_code": "10003",
+             "country_code": "US",
+             "is_richy": false,
+             "city": "New York",
+             "banned": null
+         },
+         "images": [{
+             "url": "http:\/\/cdn.letgo.com\/images\/59\/1d\/f8\/22\/591df822060703afad9834d095ed4c2f.jpg",
+             "id": "8ecdfe97-a7ed-4068-b4b8-c68a5ae63540"
+         }],
+         "thumb": {
+             "url": "http:\/\/cdn.letgo.com\/images\/59\/1d\/f8\/22\/591df822060703afad9834d095ed4c2f_thumb.jpg",
+             "width": 576,
+             "height": 1024
+         },
+         "created_at": "2016-04-11T12:49:52+00:00",
+         "updated_at": "2016-04-11T13:13:23+00:00",
+         "image_information": "black fitbit wireless activity wristband",
+         "featured": false
+         "attributes": {
+             "make": {
+                 "id": "4b301c13-9e5f-442a-a63b-affd15f9268e",
+                 "name": "Audi"
+             },
+             "model": {
+                 "id": "3705d6fe-4c63-424a-929c-64c7b715b620",
+                 "name": "A1"
+             },
+             "year": 2000
+         }
      }
      */
     static func decode(_ j: JSON) -> Decoded<LGCar> {

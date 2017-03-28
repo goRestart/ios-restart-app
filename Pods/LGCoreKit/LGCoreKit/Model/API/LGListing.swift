@@ -89,5 +89,5 @@ extension Listing: Decodable  {
     }
 }
 
-extension ProductPriceFlag: Decodable {}
+extension ListingPriceFlag: Decodable {}
 

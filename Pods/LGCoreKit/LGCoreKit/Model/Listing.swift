@@ -64,7 +64,7 @@ public enum Listing: BaseListingModel {
         case .car(let car): return car.descr
         }
     }
-    public var price: ProductPrice {
+    public var price: ListingPrice {
         switch self {
         case .product(let product): return product.price
         case .car(let car): return car.price

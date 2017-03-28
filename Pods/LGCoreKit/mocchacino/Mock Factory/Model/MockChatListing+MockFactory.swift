@@ -4,7 +4,7 @@ extension MockChatListing: MockFactory {
                                name: String?.makeRandom(),
                                status: ListingStatus.makeMock(),
                                image: MockFile?.makeMock(),
-                               price: ProductPrice.makeMock(),
+                               price: ListingPrice.makeMock(),
                                currency: Currency.makeMock())
     }
 }

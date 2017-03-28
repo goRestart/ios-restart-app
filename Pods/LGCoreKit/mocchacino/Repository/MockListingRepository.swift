@@ -41,7 +41,7 @@ open class MockListingRepository: ListingRepository {
 
     public func buildNewProduct(_ name: String?,
                                 description: String?,
-                                price: ProductPrice,
+                                price: ListingPrice,
                                 category: ListingCategory) -> Product? {
         var product = MockProduct.makeMock()
         product.name = name
@@ -54,7 +54,7 @@ open class MockListingRepository: ListingRepository {
     public func updateProduct(_ product: Product,
                               name: String?,
                               description: String?,
-                              price: ProductPrice,
+                              price: ListingPrice,
                               currency: Currency,
                               location: LGLocationCoordinates2D?,
                               postalAddress: PostalAddress?,

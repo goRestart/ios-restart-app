@@ -19,7 +19,7 @@ open class MockOldChatRepository: OldChatRepository {
 
     public func newChatWithProduct(_ product: Product) -> Chat? {
         var chat = MockChat.makeMock()
-        chat.product = product
+        chat.listing = Listing.product(product)
         return chat
     }
 

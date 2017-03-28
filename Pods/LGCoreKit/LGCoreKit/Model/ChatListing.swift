@@ -11,6 +11,6 @@ public protocol ChatListing: BaseModel, Priceable {
     var name: String? { get }
     var status: ListingStatus { get }
     var image: File? { get }
-    var price: ProductPrice { get }
+    var price: ListingPrice { get }
     var currency: Currency { get }
 }

@@ -182,10 +182,10 @@ final class CoreDI: InternalDI {
 
     lazy var listingRepository: ListingRepository = {
         let dataSource = ListingApiDataSource(apiClient: self.apiClient)
-        return LGListingRepository(listingDataSource: dataSource, myUserRepository: self.internalMyUserRepository,
-                                 fileRepository: self.fileRepository, favoritesDAO: self.favoritesDAO,
-                                 listingsLimboDAO: self.listingsLimboDAO, locationManager: self.locationManager,
-                                 currencyHelper: self.currencyHelper)
+        return LGListingRepository(listingDataSource: dataSource,
+                                   myUserRepository: self.internalMyUserRepository,
+                                   favoritesDAO: self.favoritesDAO,
+                                   listingsLimboDAO: self.listingsLimboDAO)
     }()
     lazy var fileRepository: FileRepository = {
         let dataSource = FileApiDataSource(apiClient: self.apiClient)

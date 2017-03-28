@@ -1,6 +1,6 @@
 public struct MockChat: Chat {
     public var objectId: String?
-    public var product: Product
+    public var listing: Listing
     public var userFrom: UserListing
     public var userTo: UserListing
     public var msgUnreadCount: Int

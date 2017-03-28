@@ -75,8 +75,12 @@ public class ProductEditionParams: ProductCreationParams {
     let productId: String
     let userId: String
 
-    init?(product: Product) {
+    public convenience init?(product: Product) {
         guard let productId = product.objectId, let userId = product.user.objectId else { return nil }
+        self.init(product: product, productId: productId, userId: userId)
+    }
+
+    init(product: Product, productId: String, userId: String) {
         self.productId = productId
         self.userId = userId
         super.init(name: product.name,
@@ -105,7 +109,7 @@ public class ProductCreationParams: CustomStringConvertible, Equatable {
 
     public var name: String?
     public var descr: String?
-    public var price: ProductPrice
+    public var price: ListingPrice
     public var category: ListingCategory
     public var currency: Currency
     public var location: LGLocationCoordinates2D
@@ -113,7 +117,7 @@ public class ProductCreationParams: CustomStringConvertible, Equatable {
     public var images: [File]
     var languageCode: String
 
-    init(name: String?, description: String?, price: ProductPrice, category: ListingCategory,
+    public init(name: String?, description: String?, price: ListingPrice, category: ListingCategory,
          currency: Currency, location: LGLocationCoordinates2D, postalAddress: PostalAddress, images: [File]) {
         self.name = name
         self.descr = description
@@ -221,7 +225,7 @@ extension RetrieveListingParams {
             params["categories"] = categories
         }
         if let freePrice = freePrice, freePrice {
-            params["price_flag"] = ProductPriceFlag.free.rawValue
+            params["price_flag"] = ListingPriceFlag.free.rawValue
         }
         params["max_price"] = maxPrice
         params["min_price"] = minPrice

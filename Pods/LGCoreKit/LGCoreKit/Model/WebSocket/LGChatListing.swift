@@ -15,16 +15,16 @@ struct LGChatListing: ChatListing {
     let name: String?
     let status: ListingStatus
     let image: File?
-    let price: ProductPrice
+    let price: ListingPrice
     let currency: Currency
     
-    init(objectId: String?, name: String?, status: Int, image: File?, price: Double?, priceFlag: ProductPriceFlag?,
+    init(objectId: String?, name: String?, status: Int, image: File?, price: Double?, priceFlag: ListingPriceFlag?,
          currency: Currency) {
         self.objectId = objectId
         self.name = name
         self.status = ListingStatus(rawValue: status) ?? .pending
         self.image = image
-        self.price = ProductPrice.fromPrice(price, andFlag: priceFlag)
+        self.price = ListingPrice.fromPrice(price, andFlag: priceFlag)
         self.currency = currency
     }
 }

@@ -29,7 +29,7 @@ class LGOldChatRepository: OldChatRepository {
             return LGChat(
                 objectId: nil,
                 updatedAt: Date(),
-                product: product,
+                listing: Listing.product(product),
                 userFrom: myUserProduct,
                 userTo: product.user,
                 msgUnreadCount: 0,

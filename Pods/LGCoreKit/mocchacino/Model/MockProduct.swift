@@ -3,7 +3,7 @@ public struct MockProduct: Product {
     public var name: String?
     public var nameAuto: String?
     public var descr: String?
-    public var price: ProductPrice
+    public var price: ListingPrice
     public var currency: Currency
     public var location: LGLocationCoordinates2D
     public var postalAddress: PostalAddress

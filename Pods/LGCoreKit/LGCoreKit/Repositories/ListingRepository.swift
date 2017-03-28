@@ -73,12 +73,6 @@ public protocol ListingRepository {
     var events: Observable<ListingEvent> { get }
     func updateEvents(for listingId: String) -> Observable<Listing>
 
-    func buildNewProduct(_ name: String?, description: String?, price: ProductPrice, category: ListingCategory) -> Product?
-
-    func updateProduct(_ product: Product, name: String?, description: String?, price: ProductPrice,
-                              currency: Currency, location: LGLocationCoordinates2D?, postalAddress: PostalAddress?,
-                              category: ListingCategory) -> Product
-
     
     // MARK: - Listing CRUD
     
@@ -88,14 +82,8 @@ public protocol ListingRepository {
     func indexDiscover(listingId: String, params: RetrieveListingParams, completion: ListingsCompletion?)
     func indexFavorites(_ userId: String, completion: ListingsCompletion?)
     func retrieve(_ listingId: String, completion: ListingCompletion?)
-    
-    func create(product: Product, images: [UIImage], progress: ((Float) -> Void)?, completion: ProductCompletion?)
-    func create(product: Product, images: [File], completion: ProductCompletion?)
+
     func create(productParams: ProductCreationParams, completion: ProductCompletion?)
-    
-    func update(product: Product, images: [UIImage], progress: ((Float) -> Void)?, completion: ProductCompletion?)
-    func update(product: Product, oldImages: [File], newImages: [UIImage], progress: ((Float) -> Void)?, completion: ProductCompletion?)
-    func update(product: Product, images: [File], completion: ProductCompletion?)
     func update(productParams: ProductEditionParams, completion: ProductCompletion?)
     
     func delete(listingId: String, completion: ListingVoidCompletion?)

@@ -21,7 +21,7 @@ public enum ChatArchivedStatus: Int {
 }
 
 public protocol Chat: BaseModel {
-    var product: Product { get }
+    var listing: Listing { get }
     var userFrom: UserListing { get }
     var userTo: UserListing { get }
     var msgUnreadCount: Int { get }     // Default: 0
@@ -41,7 +41,7 @@ public extension Chat {
 public extension Chat {
     public var status: ChatStatus {
         if forbidden { return .forbidden }
-        switch product.status {
+        switch listing.status {
         case .deleted, .discarded:
             return .deleted
         case .sold, .soldOld:
@@ -52,13 +52,13 @@ public extension Chat {
     }
 
     public var buyer: UserListing {
-        guard let productOwnerId = product.user.objectId, let userFromId = userFrom.objectId else { return userFrom }
-        return productOwnerId == userFromId ? userTo : userFrom
+        guard let listingOwnerId = listing.user.objectId, let userFromId = userFrom.objectId else { return userFrom }
+        return listingOwnerId == userFromId ? userTo : userFrom
     }
 
     public var seller: UserListing {
-        guard let productOwnerId = product.user.objectId, let userFromId = userFrom.objectId else { return userFrom }
-        return productOwnerId == userFromId ? userFrom : userTo
+        guard let listingOwnerId = listing.user.objectId, let userFromId = userFrom.objectId else { return userFrom }
+        return listingOwnerId == userFromId ? userFrom : userTo
     }
 
     public func otherUser(myUser: MyUser) -> UserListing {

@@ -4,7 +4,7 @@ extension MockProduct: MockFactory {
                            name: String?.makeRandom(),
                            nameAuto: String?.makeRandom(),
                            descr: String?.makeRandom(),
-                           price: ProductPrice.makeMock(),
+                           price: ListingPrice.makeMock(),
                            currency: Currency.makeMock(),
                            location: LGLocationCoordinates2D.makeMock(),
                            postalAddress: PostalAddress.makeMock(),

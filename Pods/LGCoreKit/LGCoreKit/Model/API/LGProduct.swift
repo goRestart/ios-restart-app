@@ -21,7 +21,7 @@ struct LGProduct: Product {
     let name: String?
     let nameAuto: String?
     let descr: String?
-    let price: ProductPrice
+    let price: ListingPrice
     let currency: Currency
 
     let location: LGLocationCoordinates2D
@@ -46,7 +46,7 @@ struct LGProduct: Product {
 
 
     init(objectId: String?, updatedAt: Date?, createdAt: Date?, name: String?, nameAuto: String?, descr: String?,
-         price: ProductPrice, currency: Currency, location: LGLocationCoordinates2D, postalAddress: PostalAddress,
+         price: ListingPrice, currency: Currency, location: LGLocationCoordinates2D, postalAddress: PostalAddress,
          languageCode: String?, category: ListingCategory, status: ListingStatus, thumbnail: File?,
          thumbnailSize: LGSize?, images: [File], user: UserListing, featured: Bool?) {
         self.objectId = objectId
@@ -85,7 +85,7 @@ struct LGProduct: Product {
     }
     
     static func productWithId(_ objectId: String?, updatedAt: Date?, createdAt: Date?, name: String?,
-                              nameAuto: String?, descr: String?, price: Double?, priceFlag: ProductPriceFlag?, currency: String,
+                              nameAuto: String?, descr: String?, price: Double?, priceFlag: ListingPriceFlag?, currency: String,
                               location: LGLocationCoordinates2D, postalAddress: PostalAddress, languageCode: String?,
                               category: Int, status: Int, thumbnail: String?, thumbnailSize: LGSize?, images: [LGFile],
                               user: LGUserListing, featured: Bool?) -> LGProduct {
@@ -94,10 +94,10 @@ struct LGProduct: Product {
         let actualStatus = ListingStatus(rawValue: status) ?? .pending
         let actualThumbnail = LGFile(id: nil, urlString: thumbnail)
         let actualImages = images.flatMap { $0 as File }
-        let productPrice = ProductPrice.fromPrice(price, andFlag: priceFlag)
+        let listingPrice = ListingPrice.fromPrice(price, andFlag: priceFlag)
         
         return self.init(objectId: objectId, updatedAt: updatedAt, createdAt: createdAt, name: name,
-                         nameAuto: nameAuto, descr: descr, price: productPrice, currency: actualCurrency, location: location,
+                         nameAuto: nameAuto, descr: descr, price: listingPrice, currency: actualCurrency, location: location,
                          postalAddress: postalAddress, languageCode: languageCode, category: actualCategory,
                          status: actualStatus, thumbnail: actualThumbnail, thumbnailSize: thumbnailSize,
                          images: actualImages, user: user, featured: featured)
@@ -129,7 +129,7 @@ struct LGProduct: Product {
                          thumbnailSize: thumbnailSize, images: images, user: user, featured: featured)
     }
     
-    func updating(price: ProductPrice) -> LGProduct {
+    func updating(price: ListingPrice) -> LGProduct {
         return LGProduct(objectId: objectId, updatedAt: updatedAt, createdAt: createdAt, name: name,
                          nameAuto: nameAuto, descr: descr, price: price, currency: currency,
                          location: location, postalAddress: postalAddress, languageCode: languageCode,

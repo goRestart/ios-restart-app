@@ -17,7 +17,7 @@ struct LGChat: Chat {
     let updatedAt: Date?
 
     // Chat iVars
-    let product: Product
+    let listing: Listing
     let userFrom: UserListing
     let userTo: UserListing
     let msgUnreadCount: Int
@@ -28,7 +28,7 @@ struct LGChat: Chat {
 
 extension LGChat : Decodable {
 
-    static func newLGChat(_ objectId: String?, updatedAt: Date?, product: LGProduct, userFrom: LGUserListing,
+    static func newLGChat(_ objectId: String?, updatedAt: Date?, listing: Listing, userFrom: LGUserListing,
         userTo: LGUserListing, msgUnreadCount: Int, messages: [LGMessage]?, forbidden: Bool, status: Int) -> LGChat {
 
             let theMessages : [Message]
@@ -39,7 +39,7 @@ extension LGChat : Decodable {
                 theMessages = []
             }
             let archivedStatus = ChatArchivedStatus(rawValue: status) ?? .active
-            return LGChat(objectId: objectId, updatedAt: updatedAt, product: product, userFrom: userFrom,
+            return LGChat(objectId: objectId, updatedAt: updatedAt, listing: listing, userFrom: userFrom,
                 userTo: userTo, msgUnreadCount: msgUnreadCount, messages: theMessages, forbidden: forbidden,
                 archivedStatus: archivedStatus)
     }
@@ -49,7 +49,7 @@ extension LGChat : Decodable {
 
         {
             "id": "ca0dd7da-0162-4c06-a8dc-c094bbfc7fe3",
-            "product": LGProduct,
+            "listing": Listing,
             "user_to": LGUser,
             "user_from": LGUser,
             "unread_count": 0,

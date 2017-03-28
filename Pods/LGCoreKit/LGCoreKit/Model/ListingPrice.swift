@@ -1,12 +1,12 @@
 //
-//  ProductPrice.swift
+//  ListingPrice.swift
 //  LGCoreKit
 //
 //  Created by Eli Kohen on 07/10/16.
 //  Copyright © 2016 Ambatana Inc. All rights reserved.
 //
 
-public func ==(lhs: ProductPrice, rhs: ProductPrice) -> Bool {
+public func ==(lhs: ListingPrice, rhs: ListingPrice) -> Bool {
     switch (lhs, rhs) {
     case (.free, .free): return true
     case (.normal(let a), .normal(let b)) where a == b: return true
@@ -16,7 +16,7 @@ public func ==(lhs: ProductPrice, rhs: ProductPrice) -> Bool {
     }
 }
 
-public enum ProductPrice: Equatable {
+public enum ListingPrice: Equatable {
     case free
     case normal(Double)
     case negotiable(Double)
@@ -44,7 +44,7 @@ public enum ProductPrice: Equatable {
         }
     }
 
-    var priceFlag: ProductPriceFlag {
+    var priceFlag: ListingPriceFlag {
         switch self {
         case .free:
             return .free
@@ -57,7 +57,7 @@ public enum ProductPrice: Equatable {
         }
     }
 
-    static func fromPrice(_ price: Double?, andFlag flag: ProductPriceFlag?) -> ProductPrice {
+    static func fromPrice(_ price: Double?, andFlag flag: ListingPriceFlag?) -> ListingPrice {
         let price = price ?? 0
         guard let flag = flag else { return .normal(price) }
         switch flag {
@@ -73,6 +73,9 @@ public enum ProductPrice: Equatable {
     }
 }
 
-enum ProductPriceFlag: Int {
-    case normal = 0, free = 1, negotiable = 2, firmPrice = 3
+enum ListingPriceFlag: Int {
+    case normal = 0
+    case free = 1
+    case negotiable = 2
+    case firmPrice = 3
 }
