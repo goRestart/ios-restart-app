@@ -91,10 +91,11 @@ extension SellCoordinator: PostProductNavigator {
         }
     }
 
-    func closePostProductAndPostInBackground(_ product: Product, images: [File], showConfirmation: Bool,
+    func closePostProductAndPostInBackground(params: ProductCreationParams, showConfirmation: Bool,
                                              trackingInfo: PostProductTrackingInfo) {
         dismissViewController(animated: true) { [weak self] in
-            self?.listingRepository.create(product: product, images: images) { result in
+
+            self?.listingRepository.create(productParams: params) { result in
                 self?.trackPost(result, trackingInfo: trackingInfo)
 
                 if let _ = result.value {
@@ -135,11 +136,12 @@ extension SellCoordinator: PostProductNavigator {
         }
     }
 
-    func closePostProductAndPostLater(_ product: Product, images: [UIImage], trackingInfo: PostProductTrackingInfo) {
+    func closePostProductAndPostLater(params: ProductCreationParams, images: [UIImage],
+                                      trackingInfo: PostProductTrackingInfo) {
         guard let parentVC = parentViewController else { return }
 
         dismissViewController(animated: true) { [weak self] in
-            let productPostedVM = ProductPostedViewModel(productToPost: product, productImages: images,
+            let productPostedVM = ProductPostedViewModel(postParams: params, productImages: images,
                                                          trackingInfo: trackingInfo)
             productPostedVM.navigator = self
             let productPostedVC = ProductPostedViewController(viewModel: productPostedVM)

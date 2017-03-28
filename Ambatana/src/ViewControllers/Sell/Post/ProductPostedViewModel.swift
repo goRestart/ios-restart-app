@@ -35,8 +35,8 @@ class ProductPostedViewModel: BaseViewModel {
 
     var wasFreePosting: Bool {
         switch self.status {
-        case let .posting(_, product):
-            return product.price.free
+        case let .posting(_, params):
+            return params.price.free
         case let .success(product):
             return product.price.free
         case .error:
@@ -52,8 +52,8 @@ class ProductPostedViewModel: BaseViewModel {
                   trackingInfo: trackingInfo)
     }
 
-    convenience init(productToPost: Product, productImages: [UIImage], trackingInfo: PostProductTrackingInfo) {
-        self.init(status: ProductPostedStatus(images: productImages, product: productToPost),
+    convenience init(postParams: ProductCreationParams, productImages: [UIImage], trackingInfo: PostProductTrackingInfo) {
+        self.init(status: ProductPostedStatus(images: productImages, params: postParams),
                   trackingInfo: trackingInfo)
     }
 
@@ -86,8 +86,8 @@ class ProductPostedViewModel: BaseViewModel {
     override func didBecomeActive(_ firstTime: Bool) {
         if firstTime {
             switch status {
-            case let .posting(images, product):
-                postProduct(images, product: product)
+            case let .posting(images, params):
+                postProduct(images, params: params)
             case .success:
                 delegate?.productPostedViewModel(self, setupStaticState: true)
                 trackProductUploadResultScreen()
@@ -222,12 +222,13 @@ class ProductPostedViewModel: BaseViewModel {
 
     // MARK: - Private methods
 
-    private func postProduct(_ images: [UIImage], product: Product) {
+    private func postProduct(_ images: [UIImage], params: ProductCreationParams) {
         delegate?.productPostedViewModelSetupLoadingState(self)
 
         fileRepository.upload(images, progress: nil) { [weak self] result in
             if let images = result.value {
-                self?.listingRepository.create(product: product, images: images) { [weak self] result in
+                params.images = images
+                self?.listingRepository.create(productParams: params) { [weak self] result in
                     if let postedProduct = result.value {
                         self?.trackPostSellComplete(postedProduct: postedProduct)
                     } else if let error = result.error {
@@ -297,7 +298,7 @@ class ProductPostedViewModel: BaseViewModel {
 // MARK: - ProductPostedStatus
 
 enum ProductPostedStatus {
-    case posting(images: [UIImage], product: Product)
+    case posting(images: [UIImage], params: ProductCreationParams)
     case success(product: Product)
     case error(error: EventParameterPostProductError)
 
@@ -319,8 +320,8 @@ enum ProductPostedStatus {
         }
     }
 
-    init(images: [UIImage], product: Product) {
-        self = .posting(images: images, product: product)
+    init(images: [UIImage], params: ProductCreationParams) {
+        self = .posting(images: images, params: params)
     }
 
     init(result: ProductResult) {
