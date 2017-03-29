@@ -24,6 +24,7 @@ enum ChatWrapperMessageType {
 
 protocol ChatWrapper {
     func sendMessageForProduct(_ product: Product, type: ChatWrapperMessageType, completion: ChatWrapperCompletion?)
+    func sendMessageFor(listing: Listing, type: ChatWrapperMessageType, completion: ChatWrapperCompletion?)
 }
 
 class LGChatWrapper: ChatWrapper {
@@ -48,19 +49,46 @@ class LGChatWrapper: ChatWrapper {
 
 
     func sendMessageForProduct(_ product: Product, type: ChatWrapperMessageType, completion: ChatWrapperCompletion?) {
+        guard let sellerId = product.user.objectId else {
+            completion?(Result(error: .internalError(message: "There's no recipient to send the message")))
+            return
+        }
+        guard let productId = product.objectId else {
+            completion?(Result(error: .internalError(message: "There's no product to send the message")))
+            return
+        }
+
         if featureFlags.websocketChat {
-            sendWebSocketChatMessage(product, text: type.text, type: type.chatType, completion: completion)
+            sendWebSocketChatMessage(productId, sellerId: sellerId, text: type.text, type: type.chatType, completion: completion)
         } else {
-            sendOldChatMessage(product, text: type.text, type: type.oldChatType, completion: completion)
+            sendOldChatMessage(productId, sellerId: sellerId, text: type.text, type: type.oldChatType, completion: completion)
         }
     }
 
-    private func sendOldChatMessage(_ product: Product, text: String?, type: MessageType, completion: ChatWrapperCompletion?) {
+    func sendMessageFor(listing: Listing, type: ChatWrapperMessageType, completion: ChatWrapperCompletion?) {
+        guard let sellerId = listing.user.objectId else {
+            completion?(Result(error: .internalError(message: "There's no recipient to send the message")))
+            return
+        }
+        guard let productId = listing.objectId else {
+            completion?(Result(error: .internalError(message: "There's no product to send the message")))
+            return
+        }
+
+
+        if featureFlags.websocketChat {
+            sendWebSocketChatMessage(productId, sellerId: sellerId, text: type.text, type: type.chatType, completion: completion)
+        } else {
+            sendOldChatMessage(productId, sellerId: sellerId, text: type.text, type: type.oldChatType, completion: completion)
+        }
+    }
+
+    private func sendOldChatMessage(_ listingId: String, sellerId: String, text: String?, type: MessageType, completion: ChatWrapperCompletion?) {
         guard let text = text else {
             completion?(Result(error: .internalError(message: "There's no message to send")))
             return
         }
-        oldChatRepository.sendMessage(type, message: text, product: product, recipient: LocalUser(userListing: product.user)) { result in
+        oldChatRepository.sendMessage(type, message: text, listingId: listingId, recipientId: sellerId) { result in
             if let _ = result.value {
                 // Value is true as we can't know (old chat)  if it is first contact or not. (always track)
                 completion?(Result(value: true))
@@ -70,17 +98,9 @@ class LGChatWrapper: ChatWrapper {
         }
     }
 
-    private func sendWebSocketChatMessage(_ product: Product, text: String, type: ChatMessageType,
+    private func sendWebSocketChatMessage(_ productId: String, sellerId: String, text: String, type: ChatMessageType,
                                           completion: ChatWrapperCompletion?) {
         // get conversation
-        guard let sellerId = product.user.objectId else {
-            completion?(Result(error: .internalError(message: "There's no recipient to send the message")))
-            return
-        }
-        guard let productId = product.objectId else {
-            completion?(Result(error: .internalError(message: "There's no product to send the message")))
-            return
-        }
         chatRepository.showConversation(sellerId, productId: productId) { [weak self] result in
             if let value = result.value {
                 guard let conversationId = value.objectId else {

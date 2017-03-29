@@ -26,13 +26,13 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
 }
 
 protocol ProductViewModelMaker {
-    func make(product: Product) -> ProductViewModel
+    func make(listing: Listing) -> ProductViewModel
 }
 
 class ProductViewModel: BaseViewModel {
     class ConvenienceMaker: ProductViewModelMaker {
-        func make(product: Product) -> ProductViewModel {
-            return ProductViewModel(product: product,
+        func make(listing: Listing) -> ProductViewModel {
+            return ProductViewModel(listing: listing,
                                      myUserRepository: Core.myUserRepository,
                                      listingRepository: Core.listingRepository,
                                      commercializerRepository: Core.commercializerRepository,
@@ -53,9 +53,9 @@ class ProductViewModel: BaseViewModel {
     weak var navigator: ProductDetailNavigator?
 
     // Data
-    let product: Variable<Product>
+    let listing: Variable<Listing>
     var isMine: Bool {
-        return product.value.isMine(myUserRepository: myUserRepository)
+        return listing.value.isMine(myUserRepository: myUserRepository)
     }
     let isFavorite = Variable<Bool>(false)
     let listingStats = Variable<ListingStats?>(nil)
@@ -67,7 +67,7 @@ class ProductViewModel: BaseViewModel {
     let directChatMessages = CollectionVariable<ChatViewMessage>([])
     var quickAnswers: [QuickAnswer] {
         guard !isMine else { return [] }
-        let isFree = product.value.price.free && featureFlags.freePostingModeAllowed
+        let isFree = listing.value.price.free && featureFlags.freePostingModeAllowed
         return QuickAnswer.quickAnswersForPeriscope(isFree: isFree, repeatingPlaceholderText: featureFlags.quickAnswersRepeatedTextField)
     }
 
@@ -75,7 +75,7 @@ class ProductViewModel: BaseViewModel {
     let actionButtons = Variable<[UIAction]>([])
     let directChatEnabled = Variable<Bool>(false)
     var directChatPlaceholder: String {
-        let userName = product.value.user.name?.toNameReduced(maxChars: Constants.maxCharactersOnUserNameChatButton) ?? ""
+        let userName = listing.value.user.name?.toNameReduced(maxChars: Constants.maxCharactersOnUserNameChatButton) ?? ""
         return LGLocalizedString.productChatWithSellerNameButton(userName)
     }
     fileprivate let productIsFavoriteable = Variable<Bool>(false)
@@ -133,7 +133,7 @@ class ProductViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
 
-    init(product: Product,
+    init(listing: Listing,
          myUserRepository: MyUserRepository,
          listingRepository: ListingRepository,
          commercializerRepository: CommercializerRepository,
@@ -146,12 +146,12 @@ class ProductViewModel: BaseViewModel {
          purchasesShopper: PurchasesShopper,
          monetizationRepository: MonetizationRepository,
          tracker: Tracker) {
-        self.product = Variable<Product>(product)
+        self.listing = Variable<Listing>(listing)
         self.socialSharer = socialSharer
         self.myUserRepository = myUserRepository
         self.listingRepository = listingRepository
         self.countryHelper = countryHelper
-        self.trackHelper = ProductVMTrackHelper(tracker: tracker, product: product, featureFlags: featureFlags)
+        self.trackHelper = ProductVMTrackHelper(tracker: tracker, listing: listing, featureFlags: featureFlags)
         self.commercializerRepository = commercializerRepository
         self.commercializers = Variable<[Commercializer]?>(nil)
         self.chatWrapper = chatWrapper
@@ -162,7 +162,7 @@ class ProductViewModel: BaseViewModel {
         self.monetizationRepository = monetizationRepository
         self.showFeaturedStripeHelper = ShowFeaturedStripeHelper(featureFlags: featureFlags, myUserRepository: myUserRepository)
 
-        self.userInfo = Variable<ProductVMUserInfo>(ProductVMUserInfo(userListing: product.user, myUser: myUserRepository.myUser))
+        self.userInfo = Variable<ProductVMUserInfo>(ProductVMUserInfo(userListing: listing.user, myUser: myUserRepository.myUser))
         self.disposeBag = DisposeBag()
 
         super.init()
@@ -172,7 +172,7 @@ class ProductViewModel: BaseViewModel {
     }
     
     internal override func didBecomeActive(_ firstTime: Bool) {
-        guard let productId = product.value.objectId else { return }
+        guard let productId = listing.value.objectId else { return }
 
         listingRepository.incrementViews(listingId: productId, completion: nil)
 
@@ -214,10 +214,10 @@ class ProductViewModel: BaseViewModel {
     }
 
     func syncProduct(_ completion: (() -> ())?) {
-        guard let productId = product.value.objectId else { return }
+        guard let productId = listing.value.objectId else { return }
         listingRepository.retrieve(productId) { [weak self] result in
-            if let product = result.value?.product {
-                self?.product.value = product
+            if let listing = result.value {
+                self?.listing.value = listing
             }
             completion?()
         }
@@ -225,11 +225,9 @@ class ProductViewModel: BaseViewModel {
 
     private func setupRxBindings() {
 
-        if let productId = product.value.objectId {
+        if let productId = listing.value.objectId {
             listingRepository.updateEvents(for: productId).bindNext { [weak self] listing in
-                if let product = listing.product {
-                    self?.product.value = product
-                }
+                self?.listing.value = listing
             }.addDisposableTo(disposeBag)
         }
 
@@ -240,7 +238,7 @@ class ProductViewModel: BaseViewModel {
             strongSelf.directChatEnabled.value = status.directChatsAvailable
         }.addDisposableTo(disposeBag)
 
-        // bumpeable product check
+        // bumpeable listing check
         status.asObservable().bindNext { [weak self] status in
             if status.isBumpeable {
                 self?.refreshBumpeableBanner()
@@ -253,23 +251,23 @@ class ProductViewModel: BaseViewModel {
             self?.refreshNavBarButtons()
         }.addDisposableTo(disposeBag)
 
-        product.asObservable().subscribeNext { [weak self] product in
+        listing.asObservable().subscribeNext { [weak self] listing in
             guard let strongSelf = self else { return }
-            strongSelf.trackHelper.product = product
-            let isMine = product.isMine(myUserRepository: strongSelf.myUserRepository)
-            strongSelf.status.value = ProductViewModelStatus(product: product, isMine: isMine, featureFlags: strongSelf.featureFlags)
+            strongSelf.trackHelper.listing = listing
+            let isMine = listing.isMine(myUserRepository: strongSelf.myUserRepository)
+            strongSelf.status.value = ProductViewModelStatus(listing: listing, isMine: isMine, featureFlags: strongSelf.featureFlags)
 
-            strongSelf.isShowingFeaturedStripe.value = strongSelf.showFeaturedStripeHelper.shouldShowFeaturedStripeFor(product) && !strongSelf.status.value.shouldShowStatus
+            strongSelf.isShowingFeaturedStripe.value = strongSelf.showFeaturedStripeHelper.shouldShowFeaturedStripeFor(listing: listing) && !strongSelf.status.value.shouldShowStatus
 
             strongSelf.productIsFavoriteable.value = !isMine
-            strongSelf.isFavorite.value = product.favorite
-            strongSelf.socialMessage.value = ProductSocialMessage(product: product, fallbackToStore: false)
-            strongSelf.freeBumpUpShareMessage = ProductSocialMessage(product: product, fallbackToStore: true)
-            strongSelf.productImageURLs.value = product.images.flatMap { return $0.fileURL }
+            strongSelf.isFavorite.value = listing.favorite
+            strongSelf.socialMessage.value = ProductSocialMessage(listing: listing, fallbackToStore: false)
+            strongSelf.freeBumpUpShareMessage = ProductSocialMessage(listing: listing, fallbackToStore: true)
+            strongSelf.productImageURLs.value = listing.images.flatMap { return $0.fileURL }
 
-            let productInfo = ProductVMProductInfo(product: product,
-                                                   isAutoTranslated: product.isTitleAutoTranslated(strongSelf.countryHelper),
-                                                   distance: strongSelf.distanceString(product))
+            let productInfo = ProductVMProductInfo(listing: listing,
+                                                   isAutoTranslated: listing.isTitleAutoTranslated(strongSelf.countryHelper),
+                                                   distance: strongSelf.distanceString(listing))
             strongSelf.productInfo.value = productInfo
 
         }.addDisposableTo(disposeBag)
@@ -294,19 +292,19 @@ class ProductViewModel: BaseViewModel {
         }.addDisposableTo(disposeBag)
     }
     
-    private func distanceString(_ product: Product) -> String? {
+    private func distanceString(_ listing: Listing) -> String? {
         guard let userLocation = locationManager.currentLocation?.location else { return nil }
-        let distance = product.location.distanceTo(userLocation)
+        let distance = listing.location.distanceTo(userLocation)
         let distanceString = String(format: "%0.1f %@", arguments: [distance, DistanceType.systemDistanceType().string])
         return LGLocalizedString.productDistanceXFromYou(distanceString)
     }
 
     private func refreshStatus() {
-        status.value = ProductViewModelStatus(product: product.value, isMine: isMine, featureFlags: featureFlags)
+        status.value = ProductViewModelStatus(listing: listing.value, isMine: isMine, featureFlags: featureFlags)
     }
 
     func refreshBumpeableBanner() {
-        guard let productId = product.value.objectId, status.value.isBumpeable, !isUpdatingBumpUpBanner,
+        guard let productId = listing.value.objectId, status.value.isBumpeable, !isUpdatingBumpUpBanner,
                 (featureFlags.freeBumpUpEnabled || featureFlags.pricedBumpUpEnabled) else { return }
 
         let isBumpUpPending = purchasesShopper.isBumpUpPending(productId: productId)
@@ -348,7 +346,7 @@ class ProductViewModel: BaseViewModel {
         case .free:
             guard let paymentItemId = paymentItemId else { return }
             let freeBlock = { [weak self] in
-                guard let product = self?.product.value, let socialMessage = self?.freeBumpUpShareMessage else { return }
+                guard let product = self?.listing.value.product, let socialMessage = self?.freeBumpUpShareMessage else { return }
                 self?.trackBumpUpStarted(.free)
                 self?.navigator?.openFreeBumpUpForProduct(product: product, socialMessage: socialMessage,
                                                           withPaymentItemId: paymentItemId)
@@ -358,7 +356,7 @@ class ProductViewModel: BaseViewModel {
         case .priced:
             guard let paymentItemId = paymentItemId else { return }
             primaryBlock = { [weak self] in
-                guard let product = self?.product.value else { return }
+                guard let product = self?.listing.value.product else { return }
                 guard let purchaseableProduct = self?.bumpUpPurchaseableProduct else { return }
                 self?.trackBumpUpStarted(.pay(price: purchaseableProduct.formattedCurrencyPrice))
                 self?.navigator?.openPayBumpUpForProduct(product: product, purchaseableProduct: purchaseableProduct,
@@ -369,7 +367,7 @@ class ProductViewModel: BaseViewModel {
             }
         case .restore:
             let restoreBlock = { [weak self] in
-                logMessage(.info, type: [.monetization], message: "TRY TO Restore Bump for product: \(productId)")
+                logMessage(.info, type: [.monetization], message: "TRY TO Restore Bump for listing: \(productId)")
                 self?.purchasesShopper.requestPricedBumpUpForProduct(productId: productId)
             }
             primaryBlock = restoreBlock
@@ -387,12 +385,13 @@ class ProductViewModel: BaseViewModel {
 extension ProductViewModel {
 
     func openProductOwnerProfile() {
-        let data = UserDetailData.userAPI(user: LocalUser(userListing: product.value.user), source: .productDetail)
+        let data = UserDetailData.userAPI(user: LocalUser(userListing: listing.value.user), source: .productDetail)
         navigator?.openUser(data)
     }
 
     func editProduct() {
-        navigator?.editProduct(product.value)
+        guard let product = listing.value.product else { return }
+        navigator?.editProduct(product)
     }
 
     func shareProduct() {
@@ -404,9 +403,10 @@ extension ProductViewModel {
     }
 
     func chatWithSeller() {
+        guard let product = listing.value.product else { return }
         let source: EventParameterTypePage = (moreInfoState.value == .shown) ? .productDetailMoreInfo : .productDetail
         trackHelper.trackChatWithSeller(source)
-        navigator?.openProductChat(product.value)
+        navigator?.openProductChat(product)
     }
 
     func sendDirectMessage(_ text: String, isDefaultText: Bool) {
@@ -431,7 +431,7 @@ extension ProductViewModel {
         let readyCommercializers = commercializers.filter {$0.status == .ready }
 
         guard let commercialDisplayVM = CommercialDisplayViewModel(commercializers: readyCommercializers,
-                                                                   productId: product.value.objectId,
+                                                                   productId: listing.value.objectId,
                                                                    source: .productDetail,
                                                                    isMyVideo: isMine) else { return }
         delegate?.vmOpenCommercialDisplay(commercialDisplayVM)
@@ -610,11 +610,11 @@ extension ProductViewModel {
     }
 
     private var socialShareMessage: SocialMessage {
-        return ProductSocialMessage(product: product.value, fallbackToStore: false)
+        return ProductSocialMessage(listing: listing.value, fallbackToStore: false)
     }
 
     private var suggestMarkSoldWhenDeleting: Bool {
-        switch product.value.status {
+        switch listing.value.status {
         case .pending, .discarded, .sold, .soldOld, .deleted:
             return false
         case .approved:
@@ -666,7 +666,7 @@ fileprivate extension ProductViewModel {
         let currentFavoriteValue = isFavorite.value
         isFavorite.value = !isFavorite.value
         if currentFavoriteValue {
-            listingRepository.deleteFavorite(listing: .product(product.value)) { [weak self] result in
+            listingRepository.deleteFavorite(listing: listing.value) { [weak self] result in
                 guard let strongSelf = self else { return }
                 if let _ = result.error {
                     strongSelf.isFavorite.value = currentFavoriteValue
@@ -674,7 +674,7 @@ fileprivate extension ProductViewModel {
                 strongSelf.favoriteButtonState.value = .enabled
             }
         } else {
-            listingRepository.saveFavorite(listing: .product(product.value)) { [weak self] result in
+            listingRepository.saveFavorite(listing: listing.value) { [weak self] result in
                 guard let strongSelf = self else { return }
                 if let _ = result.value {
                     self?.trackHelper.trackSaveFavoriteCompleted(strongSelf.isShowingFeaturedStripe.value)
@@ -712,7 +712,7 @@ fileprivate extension ProductViewModel {
             return
         }
 
-        guard let productId = product.value.objectId else { return }
+        guard let productId = listing.value.objectId else { return }
         delegate?.vmShowLoading(nil)
         listingRepository.possibleBuyersOf(listingId: productId) { [weak self] result in
             if let buyers = result.value, !buyers.isEmpty {
@@ -765,7 +765,7 @@ fileprivate extension ProductViewModel {
     }
 
     func report() {
-        guard let productId = product.value.objectId else { return }
+        guard let productId = listing.value.objectId else { return }
         if isReported.value {
             delegate?.vmHideLoading(LGLocalizedString.productReportedSuccessMessage, afterMessageCompletion: nil)
             return
@@ -788,7 +788,7 @@ fileprivate extension ProductViewModel {
     }
 
     func delete() {
-        guard let productId = product.value.objectId else { return }
+        guard let productId = listing.value.objectId else { return }
         delegate?.vmShowLoading(LGLocalizedString.commonLoading)
         trackHelper.trackDeleteStarted()
 
@@ -809,17 +809,18 @@ fileprivate extension ProductViewModel {
     }
 
     func markAsSold(buyerId: String?, userSoldTo: EventParameterUserSoldTo) {
+        guard let product = listing.value.product else { return }
         delegate?.vmShowLoading(nil)
 
-        listingRepository.markAsSold(product: product.value, buyerId: buyerId) { [weak self] result in
+        listingRepository.markAsSold(product: product, buyerId: buyerId) { [weak self] result in
             guard let strongSelf = self else { return }
 
             var markAsSoldCompletion: (()->())? = nil
 
             let message: String
             if let value = result.value {
-                strongSelf.product.value = value
-                message = strongSelf.product.value.price.free ? LGLocalizedString.productMarkAsSoldFreeSuccessMessage : LGLocalizedString.productMarkAsSoldSuccessMessage
+                strongSelf.listing.value = .product(value)
+                message = strongSelf.listing.value.price.free ? LGLocalizedString.productMarkAsSoldFreeSuccessMessage : LGLocalizedString.productMarkAsSoldSuccessMessage
                 self?.trackHelper.trackMarkSoldCompleted(to: userSoldTo, isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value)
                 markAsSoldCompletion = {
                     if RatingManager.sharedInstance.shouldShowRating {
@@ -834,15 +835,16 @@ fileprivate extension ProductViewModel {
     }
 
     func markUnsold() {
+        guard let product = listing.value.product else { return }
         delegate?.vmShowLoading(nil)
 
-        listingRepository.markAsUnsold(product: product.value) { [weak self] result in
+        listingRepository.markAsUnsold(product: product) { [weak self] result in
             guard let strongSelf = self else { return }
 
             let message: String
             if let value = result.value {
-                strongSelf.product.value = value
-                message = strongSelf.product.value.price.free ? LGLocalizedString.productSellAgainFreeSuccessMessage : LGLocalizedString.productSellAgainSuccessMessage
+                strongSelf.listing.value = .product(value)
+                message = strongSelf.listing.value.price.free ? LGLocalizedString.productSellAgainFreeSuccessMessage : LGLocalizedString.productSellAgainSuccessMessage
                 self?.trackHelper.trackMarkUnsoldCompleted()
             } else {
                 message = LGLocalizedString.productSellAgainErrorGeneric
@@ -857,7 +859,7 @@ fileprivate extension ProductViewModel {
         let messageView = chatViewMessageAdapter.adapt(message)
         directChatMessages.insert(messageView, atIndex: 0)
 
-        chatWrapper.sendMessageForProduct(product.value, type: type) {
+        chatWrapper.sendMessageFor(listing: listing.value, type: type) {
             [weak self] result in
             guard let strongSelf = self else { return }
             if let firstMessage = result.value {
@@ -954,7 +956,7 @@ extension ProductViewModel: SocialSharerDelegate {
 
 extension ProductViewModel: PurchasesShopperDelegate {
     func shopperFinishedProductsRequestForProductId(_ productId: String?, withProducts products: [PurchaseableProduct]) {
-        guard let requestProdId = productId, let currentProdId = product.value.objectId,
+        guard let requestProdId = productId, let currentProdId = listing.value.objectId,
             requestProdId == currentProdId else { return }
         guard let purchase = products.first else { return }
 

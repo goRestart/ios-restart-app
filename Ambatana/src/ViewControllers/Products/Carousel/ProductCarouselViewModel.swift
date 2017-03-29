@@ -239,7 +239,7 @@ class ProductCarouselViewModel: BaseViewModel {
     private func syncFirstProduct() {
         currentProductViewModel?.syncProduct() { [weak self] in
             guard let strongSelf = self else { return }
-            guard let product = strongSelf.currentProductViewModel?.product.value else { return }
+            guard let product = strongSelf.currentProductViewModel?.listing.value.product else { return }
             let newModel = ProductCarouselCellModel(product: product)
             strongSelf.objects.replace(strongSelf.startIndex, with: newModel)
         }
@@ -333,7 +333,7 @@ class ProductCarouselViewModel: BaseViewModel {
         if let vm = productsViewModels[productId] {
             return vm
         }
-        let vm = productViewModelMaker.make(product: product)
+        let vm = productViewModelMaker.make(listing: .product(product))
         vm.navigator = navigator
         productsViewModels[productId] = vm
         return vm
@@ -354,9 +354,9 @@ class ProductCarouselViewModel: BaseViewModel {
     private func setupCurrentProductVMRxBindings(forIndex index: Int) {
         activeDisposeBag = DisposeBag()
         guard let currentVM = currentProductViewModel else { return }
-        currentVM.product.asObservable().skip(1).bindNext { [weak self] updatedProduct in
-            guard let strongSelf = self else { return }
-            strongSelf.objects.replace(index, with: ProductCarouselCellModel(product:updatedProduct))
+        currentVM.listing.asObservable().skip(1).bindNext { [weak self] updatedListing in
+            guard let strongSelf = self, let product = updatedListing.product else { return }
+            strongSelf.objects.replace(index, with: ProductCarouselCellModel(product:product))
         }.addDisposableTo(activeDisposeBag)
 
         currentVM.status.asObservable().bindTo(status).addDisposableTo(activeDisposeBag)

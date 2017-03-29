@@ -88,15 +88,39 @@ class LGOldChatRepository: OldChatRepository {
     // MARK: Post methods
 
     func sendText(_ message: String, product: Product, recipient: User, completion: MessageCompletion?) {
-        sendMessage(.text, message: message, product: product, recipient: recipient, completion: completion)
+        guard let recipientId = recipient.objectId, let productId = product.objectId else {
+            completion?(Result<Message, RepositoryError>(error: .notFound))
+            return
+        }
+        sendText(message, listingId: productId, recipientId: recipientId, completion: completion)
+    }
+
+    func sendText(_ message: String, listingId: String, recipientId: String, completion: MessageCompletion?) {
+        sendMessage(.text, message: message, listingId: listingId, recipientId: recipientId, completion: completion)
     }
 
     func sendOffer(_ message: String, product: Product, recipient: User, completion: MessageCompletion?) {
-        sendMessage(.offer, message: message, product: product, recipient: recipient, completion: completion)
+        guard let recipientId = recipient.objectId, let productId = product.objectId else {
+            completion?(Result<Message, RepositoryError>(error: .notFound))
+            return
+        }
+        sendOffer(message, listingId: productId, recipientId: recipientId, completion: completion)
+    }
+
+    func sendOffer(_ message: String, listingId: String, recipientId: String, completion: MessageCompletion?) {
+        sendMessage(.offer, message: message, listingId: listingId, recipientId: recipientId, completion: completion)
     }
 
     func sendSticker(_ sticker: Sticker, product: Product, recipient: User, completion: MessageCompletion?) {
-        sendMessage(.sticker, message: sticker.name, product: product, recipient: recipient, completion: completion)
+        guard let recipientId = recipient.objectId, let productId = product.objectId else {
+            completion?(Result<Message, RepositoryError>(error: .notFound))
+            return
+        }
+        sendSticker(sticker, listingId: productId, recipientId: recipientId, completion: completion)
+    }
+
+    func sendSticker(_ sticker: Sticker, listingId: String, recipientId: String, completion: MessageCompletion?) {
+        sendMessage(.sticker, message: sticker.name, listingId: listingId, recipientId: recipientId, completion: completion)
     }
 
     func archiveChatsWithIds(_ ids: [String], completion: ((Result<Void, RepositoryError>) -> ())?) {
@@ -117,19 +141,15 @@ class LGOldChatRepository: OldChatRepository {
 
     // MARK: - Private methods
 
-    func sendMessage(_ messageType: MessageType, message: String, product: Product, recipient: User,
+    func sendMessage(_ messageType: MessageType, message: String, listingId: String, recipientId: String,
                      completion: MessageCompletion?) {
 
         guard let myUser = self.myUserRepository.myUser?.objectId else {
             completion?(Result<Message, RepositoryError>(error: .internalError(message:"Non existant MyUser Id")))
             return
         }
-        guard let recipientUserId = recipient.objectId, let productId = product.objectId else {
-            completion?(Result<Message, RepositoryError>(error: .notFound))
-            return
-        }
 
-        dataSource.sendMessageTo(recipientUserId, productId: productId, message: message, type: messageType) {
+        dataSource.sendMessageTo(recipientId, productId: listingId, message: message, type: messageType) {
             result in
             if let error = result.error {
                 completion?(Result<Message, RepositoryError>(error: RepositoryError(apiError: error)))

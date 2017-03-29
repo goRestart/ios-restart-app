@@ -683,14 +683,14 @@ class OldChatViewModel: BaseViewModel, Paginable {
         if isSendingMessage.value { return }
         let message = type.text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         guard message.characters.count > 0 else { return }
-        guard let toUser = otherUser else { return }
+        guard let toUserId = otherUser?.objectId, let productId = product.objectId else { return }
         if type.isUserText {
             delegate?.vmClearText()
         }
         isSendingMessage.value = true
 
         let chatType = type.oldChatType
-        chatRepository.sendMessage(chatType, message: message, product: product, recipient: toUser) { [weak self] result in
+        chatRepository.sendMessage(chatType, message: message, listingId: productId, recipientId: toUserId) { [weak self] result in
             guard let strongSelf = self else { return }
             if let sentMessage = result.value, let adapter = self?.chatViewMessageAdapter {
                 //This is required to be called BEFORE any message insertion
