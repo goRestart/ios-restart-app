@@ -29,7 +29,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
         var imageDownloader: MockImageDownloader!
 
         var myUserRepository: MockMyUserRepository!
-        var productRepository: MockListingRepository!
+        var listingRepository: MockListingRepository!
         var commercializerRepository: MockCommercializerRepository!
         var chatWrapper: MockChatWrapper!
         var locationManager: MockLocationManager!
@@ -115,7 +115,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
 
             beforeEach {
                 myUserRepository = MockMyUserRepository.makeMock()
-                productRepository = MockListingRepository.makeMock()
+                listingRepository = MockListingRepository.makeMock()
                 commercializerRepository = MockCommercializerRepository.makeMock()
                 chatWrapper = MockChatWrapper()
                 locationManager = MockLocationManager()
@@ -132,7 +132,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                 imageDownloader = MockImageDownloader()
 
                 productViewModelMaker = MockProductViewModelMaker(myUserRepository: myUserRepository,
-                                                                  listingRepository: productRepository,
+                                                                  listingRepository: listingRepository,
                                                                   commercializerRepository: commercializerRepository,
                                                                   chatWrapper: chatWrapper,
                                                                   locationManager: locationManager,
@@ -354,7 +354,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                     newProduct.name = String.makeRandom()
                     newProduct.objectId = product.objectId
                     newProduct.user = product.user
-                    productRepository.productResult = ProductResult(newProduct)
+                    listingRepository.listingResult = ListingResult(.product(newProduct))
                     buildSut(initialProduct: product, firstProductSyncRequired: true)
                 }
                 it("product info title passes trough both items title") {
@@ -618,9 +618,9 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                     var relation = MockUserListingRelation.makeMock()
                     relation.isFavorited = true
                     relation.isReported = false
-                    productRepository.userProductRelationResult = ListingUserRelationResult(relation)
+                    listingRepository.userProductRelationResult = ListingUserRelationResult(relation)
                     stats = MockListingStats.makeMock()
-                    productRepository.statsResult = ListingStatsResult(stats)
+                    listingRepository.statsResult = ListingStatsResult(stats)
                     commercializerRepository.indexResult = CommercializersResult([])
                     product.status = .approved
                 }
@@ -1164,7 +1164,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                     productUpdated = MockProduct.makeMock()
                     productUpdated.objectId = product.objectId
                     productUpdated.user = product.user
-                    productRepository.eventsPublishSubject.onNext(.update(.product(productUpdated)))
+                    listingRepository.eventsPublishSubject.onNext(.update(.product(productUpdated)))
                 }
                 it("has two events for product info") {
                     expect(productInfoObserver.eventValues.count) == 2
