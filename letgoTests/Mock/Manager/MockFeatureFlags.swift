@@ -41,7 +41,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var carsCategoryAfterPicture: Bool = false
 
     // Country dependant features
-    var commercialsAllowed = false
     var freePostingModeAllowed = false
     var locationMatchesCountry = false
     var signUpEmailNewsletterAcceptRequired = false

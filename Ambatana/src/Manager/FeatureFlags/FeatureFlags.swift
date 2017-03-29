@@ -38,7 +38,6 @@ protocol FeatureFlaggeable {
     var carsCategoryAfterPicture: Bool { get }
 
     // Country dependant features
-    var commercialsAllowed: Bool { get }
     var freePostingModeAllowed: Bool { get }
     var locationMatchesCountry: Bool { get }
     var signUpEmailNewsletterAcceptRequired: Bool { get }
@@ -216,16 +215,6 @@ class FeatureFlags: FeatureFlaggeable {
     }
     
     // MARK: - Country features
-
-    var commercialsAllowed: Bool {
-        switch locationCountryCode {
-        case .usa?:
-            return true
-        default:
-            return false
-        }
-
-    }
 
     var freePostingModeAllowed: Bool {
         switch (locationCountryCode, localeCountryCode) {

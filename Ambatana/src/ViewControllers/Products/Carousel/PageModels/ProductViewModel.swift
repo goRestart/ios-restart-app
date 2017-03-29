@@ -192,7 +192,7 @@ class ProductViewModel: BaseViewModel {
             }
         }
 
-        if !commercialsRetrieved && featureFlags.commercialsAllowed {
+        if !commercialsRetrieved && product.value.commercialsAllowed {
             commercializerRepository.index(productId) { [weak self] result in
                 guard let value = result.value else { return }
                 let readyCommercials = value.filter {$0.status == .ready }
