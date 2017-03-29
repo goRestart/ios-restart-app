@@ -29,10 +29,6 @@ enum ChatDetailData {
     case listingAPI(listing: Listing)
 }
 
-enum BackAction {
-    case expressChat(products: [Product])
-}
-
 protocol TabNavigator: class {
     func openSell(_ source: PostingSource)
     func openUser(_ data: UserDetailData)
