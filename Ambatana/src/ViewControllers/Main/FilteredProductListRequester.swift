@@ -53,13 +53,10 @@ class FilteredProductListRequester: ProductListRequester {
                 completion?(result)
                 return
             }
-            let indexProducts = indexListings.flatMap { $0.product }
             self?.listingRepository.indexLimbo { [weak self] limboResult in
-                let listings: [Listing] = limboResult.value ?? []
-                var finalProducts: [Product] = listings.flatMap { $0.product }
-                finalProducts += indexProducts
-                self?.offset = indexProducts.count
-                let finalListings: [Listing] = finalProducts.map { Listing.product($0) }
+                var finalListings: [Listing] = limboResult.value ?? []
+                finalListings += indexListings
+                self?.offset = indexListings.count
                 completion?(ListingsResult(finalListings))
             }
         }
