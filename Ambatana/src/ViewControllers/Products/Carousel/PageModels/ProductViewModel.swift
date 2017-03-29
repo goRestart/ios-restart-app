@@ -213,9 +213,9 @@ class ProductViewModel: BaseViewModel {
         bumpUpBannerInfo.value = nil
     }
 
-    func syncProduct(_ completion: (() -> ())?) {
-        guard let productId = listing.value.objectId else { return }
-        listingRepository.retrieve(productId) { [weak self] result in
+    func syncListing(_ completion: (() -> ())?) {
+        guard let listingId = listing.value.objectId else { return }
+        listingRepository.retrieve(listingId) { [weak self] result in
             if let listing = result.value {
                 self?.listing.value = listing
             }

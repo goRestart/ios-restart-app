@@ -227,7 +227,7 @@ fileprivate extension TabCoordinator {
                         source: source, requester: requester, index: index, discover: discover,
                         showKeyboardOnFirstAppearIfNeeded: false)
         } else {
-            let vm = ProductCarouselViewModel(productListModels: cellModels, initialProduct: product,
+            let vm = ProductCarouselViewModel(productListModels: cellModels, initialListing: .product(product),
                                               thumbnailImage: thumbnailImage, productListRequester: requester, source: source,
                                               showKeyboardOnFirstAppearIfNeeded: false, trackingIndex: index,
                                               firstProductSyncRequired: false)
