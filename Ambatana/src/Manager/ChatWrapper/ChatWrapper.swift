@@ -23,7 +23,6 @@ enum ChatWrapperMessageType {
 }
 
 protocol ChatWrapper {
-    func sendMessageForProduct(_ product: Product, type: ChatWrapperMessageType, completion: ChatWrapperCompletion?)
     func sendMessageFor(listing: Listing, type: ChatWrapperMessageType, completion: ChatWrapperCompletion?)
 }
 
@@ -45,24 +44,6 @@ class LGChatWrapper: ChatWrapper {
         self.oldChatRepository = oldChatRepository
         self.myUserRepository = myUserRepository
         self.featureFlags = featureFlags
-    }
-
-
-    func sendMessageForProduct(_ product: Product, type: ChatWrapperMessageType, completion: ChatWrapperCompletion?) {
-        guard let sellerId = product.user.objectId else {
-            completion?(Result(error: .internalError(message: "There's no recipient to send the message")))
-            return
-        }
-        guard let productId = product.objectId else {
-            completion?(Result(error: .internalError(message: "There's no product to send the message")))
-            return
-        }
-
-        if featureFlags.websocketChat {
-            sendWebSocketChatMessage(productId, sellerId: sellerId, text: type.text, type: type.chatType, completion: completion)
-        } else {
-            sendOldChatMessage(productId, sellerId: sellerId, text: type.text, type: type.oldChatType, completion: completion)
-        }
     }
 
     func sendMessageFor(listing: Listing, type: ChatWrapperMessageType, completion: ChatWrapperCompletion?) {

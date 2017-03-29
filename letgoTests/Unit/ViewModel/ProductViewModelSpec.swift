@@ -50,7 +50,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
 
             func buildProductViewModel() {
                 let socialSharer = SocialSharer()
-                sut = ProductViewModel(product: product,
+                sut = ProductViewModel(listing: .product(product),
                                         myUserRepository: myUserRepository,
                                         listingRepository: listingRepository,
                                         commercializerRepository: commercializerRepository,
@@ -841,16 +841,16 @@ extension ProductViewModelSpec: ProductDetailNavigator {
     func editProduct(_ product: Product) {
 
     }
-    func openProductChat(_ product: Product) {
+    func openListingChat(_ listing: Listing) {
 
     }
     func closeAfterDelete() {
 
     }
-    func openFreeBumpUpForProduct(product: Product, socialMessage: SocialMessage, withPaymentItemId: String) {
+    func openFreeBumpUpForProduct(listing: Listing, socialMessage: SocialMessage, withPaymentItemId: String) {
         calledOpenFreeBumpUpView = true
     }
-    func openPayBumpUpForProduct(product: Product, purchaseableProduct: PurchaseableProduct, withPaymentItemId: String) {
+    func openPayBumpUpForProduct(listing: Listing, purchaseableProduct: PurchaseableProduct, withPaymentItemId: String) {
         calledOpenPricedBumpUpView = true
     }
 
