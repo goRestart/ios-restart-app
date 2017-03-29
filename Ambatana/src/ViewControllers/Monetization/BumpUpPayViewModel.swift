@@ -15,7 +15,7 @@ protocol BumpUpPayViewModelDelegate: BaseViewModelDelegate { }
 
 class BumpUpPayViewModel: BaseViewModel {
 
-    var product: Product
+    var listing: Listing
     let paymentItemId: String?
 
     var price: String {
@@ -30,15 +30,15 @@ class BumpUpPayViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
 
-    convenience init(product: Product, purchaseableProduct: PurchaseableProduct, paymentItemId: String?) {
+    convenience init(listing: Listing, purchaseableProduct: PurchaseableProduct, paymentItemId: String?) {
         let purchasesShopper = LGPurchasesShopper.sharedInstance
-        self.init(product: product, purchaseableProduct: purchaseableProduct,
+        self.init(listing: listing, purchaseableProduct: purchaseableProduct,
                   purchasesShopper: purchasesShopper, paymentItemId: paymentItemId)
     }
 
-    init(product: Product, purchaseableProduct: PurchaseableProduct, purchasesShopper: PurchasesShopper,
+    init(listing: Listing, purchaseableProduct: PurchaseableProduct, purchasesShopper: PurchasesShopper,
          paymentItemId: String?) {
-        self.product = product
+        self.listing = listing
         self.purchaseableProduct = purchaseableProduct
         self.purchasesShopper = purchasesShopper
         self.paymentItemId = paymentItemId
@@ -62,7 +62,7 @@ class BumpUpPayViewModel: BaseViewModel {
 
     func bumpUpProduct() {
         logMessage(.info, type: [.monetization], message: "TRY TO Bump with purchase: \(purchaseableProduct)")
-        guard let productId = product.objectId, let paymentItemId = paymentItemId else { return }
+        guard let productId = listing.objectId, let paymentItemId = paymentItemId else { return }
         purchasesShopper.requestPaymentForProduct(productId: productId, appstoreProduct: purchaseableProduct, paymentItemId: paymentItemId)
     }
 }

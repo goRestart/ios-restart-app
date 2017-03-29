@@ -406,14 +406,14 @@ extension TabCoordinator: ProductDetailNavigator {
                                                 alertType: .plainAlert, actions: [action])
     }
 
-    func openFreeBumpUpForProduct(product: Product, socialMessage: SocialMessage, withPaymentItemId paymentItemId: String) {
-        let bumpCoordinator = BumpUpCoordinator(product: product, socialMessage: socialMessage, paymentItemId: paymentItemId)
+    func openFreeBumpUpForProduct(listing: Listing, socialMessage: SocialMessage, withPaymentItemId paymentItemId: String) {
+        let bumpCoordinator = BumpUpCoordinator(listing: listing, socialMessage: socialMessage, paymentItemId: paymentItemId)
         openChild(coordinator: bumpCoordinator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
     }
 
-    func openPayBumpUpForProduct(product: Product, purchaseableProduct: PurchaseableProduct,
+    func openPayBumpUpForProduct(listing: Listing, purchaseableProduct: PurchaseableProduct,
                                  withPaymentItemId paymentItemId: String) {
-        let bumpCoordinator = BumpUpCoordinator(product: product, purchaseableProduct: purchaseableProduct,
+        let bumpCoordinator = BumpUpCoordinator(listing: listing, purchaseableProduct: purchaseableProduct,
                                                 paymentItemId: paymentItemId)
         openChild(coordinator: bumpCoordinator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
     }
@@ -452,8 +452,8 @@ extension TabCoordinator: ChatDetailNavigator {
         navigationController.popViewController(animated: true)
     }
 
-    func openExpressChat(_ products: [Product], sourceProductId: String, manualOpen: Bool) {
-        guard let expressChatCoordinator = ExpressChatCoordinator(products: products, sourceProductId: sourceProductId, manualOpen: manualOpen) else { return }
+    func openExpressChat(_ listings: [Listing], sourceListingId: String, manualOpen: Bool) {
+        guard let expressChatCoordinator = ExpressChatCoordinator(listings: listings, sourceProductId: sourceListingId, manualOpen: manualOpen) else { return }
         expressChatCoordinator.delegate = self
         openChild(coordinator: expressChatCoordinator, parent: rootViewController, animated: true, forceCloseChild: false, completion: nil)
     }

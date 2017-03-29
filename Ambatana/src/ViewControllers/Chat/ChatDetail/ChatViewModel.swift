@@ -275,9 +275,8 @@ class ChatViewModel: BaseViewModel {
         guard sessionManager.loggedIn else { return }
         guard isBuyer else { return }
         guard !relatedListings.isEmpty else { return }
-        guard let productId = conversation.value.product?.objectId else { return }
-        let products = relatedListings.flatMap { $0.product }
-        navigator?.openExpressChat(products, sourceProductId: productId, manualOpen: false)
+        guard let listingId = conversation.value.product?.objectId else { return }
+        navigator?.openExpressChat(relatedListings, sourceListingId: listingId, manualOpen: false)
     }
 
     func setupConversationFrom(listing: Listing) {
@@ -548,9 +547,8 @@ class ChatViewModel: BaseViewModel {
     }
 
     func bannerActionButtonTapped() {
-        guard let productId = conversation.value.product?.objectId else { return }
-        let products = relatedListings.flatMap { $0.product }
-        navigator?.openExpressChat(products, sourceProductId: productId, manualOpen: true)
+        guard let listingId = conversation.value.product?.objectId else { return }
+        navigator?.openExpressChat(relatedListings, sourceListingId: listingId, manualOpen: true)
     }
 
     func directAnswersButtonPressed() {

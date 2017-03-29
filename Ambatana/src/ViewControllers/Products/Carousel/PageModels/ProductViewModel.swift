@@ -346,9 +346,9 @@ class ProductViewModel: BaseViewModel {
         case .free:
             guard let paymentItemId = paymentItemId else { return }
             let freeBlock = { [weak self] in
-                guard let product = self?.listing.value.product, let socialMessage = self?.freeBumpUpShareMessage else { return }
+                guard let listing = self?.listing.value, let socialMessage = self?.freeBumpUpShareMessage else { return }
                 self?.trackBumpUpStarted(.free)
-                self?.navigator?.openFreeBumpUpForProduct(product: product, socialMessage: socialMessage,
+                self?.navigator?.openFreeBumpUpForProduct(listing: listing, socialMessage: socialMessage,
                                                           withPaymentItemId: paymentItemId)
             }
             primaryBlock = freeBlock
@@ -356,10 +356,10 @@ class ProductViewModel: BaseViewModel {
         case .priced:
             guard let paymentItemId = paymentItemId else { return }
             primaryBlock = { [weak self] in
-                guard let product = self?.listing.value.product else { return }
+                guard let listing = self?.listing.value else { return }
                 guard let purchaseableProduct = self?.bumpUpPurchaseableProduct else { return }
                 self?.trackBumpUpStarted(.pay(price: purchaseableProduct.formattedCurrencyPrice))
-                self?.navigator?.openPayBumpUpForProduct(product: product, purchaseableProduct: purchaseableProduct,
+                self?.navigator?.openPayBumpUpForProduct(listing: listing, purchaseableProduct: purchaseableProduct,
                                                          withPaymentItemId: paymentItemId)
             }
             buttonBlock = { [weak self] in

@@ -431,9 +431,8 @@ class OldChatViewModel: BaseViewModel, Paginable {
         guard sessionManager.loggedIn else { return }
         guard isBuyer else { return }
         guard !relatedListings.isEmpty else { return }
-        guard let productId = listing.objectId else { return }
-        let products = relatedListings.flatMap { $0.product }
-        navigator?.openExpressChat(products, sourceProductId: productId, manualOpen: false)
+        guard let listingId = listing.objectId else { return }
+        navigator?.openExpressChat(relatedListings, sourceListingId: listingId, manualOpen: false)
     }
     
     func showScammerDisclaimerMessage() {
@@ -571,9 +570,8 @@ class OldChatViewModel: BaseViewModel, Paginable {
     }
 
     func bannerActionButtonTapped() {
-        guard let productId = listing.objectId else { return }
-        let products = relatedListings.flatMap { $0.product }
-        navigator?.openExpressChat(products, sourceProductId: productId, manualOpen: true)
+        guard let listingId = listing.objectId else { return }
+        navigator?.openExpressChat(relatedListings, sourceListingId: listingId, manualOpen: true)
     }
 
     func directAnswersButtonPressed() {
@@ -1023,11 +1021,10 @@ class OldChatViewModel: BaseViewModel, Paginable {
     // MARK: Tracking
     
     private func trackFirstMessage(type: ChatWrapperMessageType) {
-        guard let product = listing.product else { return }
         // only track ask question if I didn't send any previous message
         guard !didSendMessage else { return }
         let sellerRating: Float? = isBuyer ? otherUser?.ratingAverage : myUserRepository.myUser?.ratingAverage
-        let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: type.chatTrackerType, quickAnswerType: type.quickAnswerType,
+        let firstMessageEvent = TrackerEvent.firstMessage(listing, messageType: type.chatTrackerType, quickAnswerType: type.quickAnswerType,
                                                           typePage: .chat, sellerRating: sellerRating,
                                                           freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                           isBumpedUp: .falseParameter)
@@ -1035,13 +1032,12 @@ class OldChatViewModel: BaseViewModel, Paginable {
     }
     
     private func trackMessageSent(type: ChatWrapperMessageType) {
-        guard let product = listing.product else { return }
         if shouldSendFirstMessageEvent {
             shouldSendFirstMessageEvent = false
             trackFirstMessage(type: type)
         }
         
-        let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: otherUser,
+        let messageSentEvent = TrackerEvent.userMessageSent(listing, userTo: otherUser,
                                                             messageType: type.chatTrackerType,
                                                             quickAnswerType: type.quickAnswerType, typePage: .chat,
                                                             freePostingModeAllowed: featureFlags.freePostingModeAllowed)
@@ -1064,8 +1060,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
     }
 
     private func trackMarkAsSold(userSoldTo: EventParameterUserSoldTo?) {
-        guard let product = listing.product else { return }
-        let markAsSold = TrackerEvent.productMarkAsSold(product, typePage: .chat, soldTo: userSoldTo,
+        let markAsSold = TrackerEvent.productMarkAsSold(listing, typePage: .chat, soldTo: userSoldTo,
                                                         freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                         isBumpedUp: .notAvailable)
         tracker.trackEvent(markAsSold)
