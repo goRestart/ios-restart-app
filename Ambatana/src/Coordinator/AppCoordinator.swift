@@ -552,7 +552,7 @@ fileprivate extension AppCoordinator {
         case let .product(productId):
             tabBarCtl.clearAllPresented()
             afterDelayClosure = { [weak self] in
-                self?.selectedTabCoordinator?.openProduct(ProductDetailData.id(productId: productId), source: .openApp,
+                self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: productId), source: .openApp,
                                                           showKeyboardOnFirstAppearIfNeeded: false)
             }
         case let .user(userId):

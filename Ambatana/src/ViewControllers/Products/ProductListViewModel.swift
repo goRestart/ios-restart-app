@@ -267,12 +267,9 @@ class ProductListViewModel: BaseViewModel {
     func selectedItemAtIndex(_ index: Int, thumbnailImage: UIImage?, originFrame: CGRect?) {
         guard let item = itemAtIndex(index) else { return }        
         switch item {
-        case .productCell:
+        case .listingCell:
             dataDelegate?.productListVM(self, didSelectItemAtIndex: index, thumbnailImage: thumbnailImage,
                                         originFrame: originFrame)
-        case .carCell:
-            // TODO: IMPLEMENT - cars not used yet
-            return
         case .collectionCell(let type):
             dataDelegate?.vmDidSelectCollection(type)
         case .emptyCell:
@@ -299,13 +296,13 @@ class ProductListViewModel: BaseViewModel {
         return objects[index]
     }
 
-    func productAtIndex(_ index: Int) -> Product? {
+    func listingAtIndex(_ index: Int) -> Listing? {
         guard 0..<numberOfProducts ~= index else { return nil }
         let item = objects[index]
         switch item {
-        case .productCell(let product):
-            return product
-        case .collectionCell, .emptyCell, .carCell:
+        case let .listingCell(listing):
+            return listing
+        case .collectionCell, .emptyCell:
             return nil
         }
     }
@@ -313,10 +310,8 @@ class ProductListViewModel: BaseViewModel {
     func indexFor(listingId: String) -> Int? {
         return objects.index(where: { cellModel in
             switch cellModel {
-            case let .productCell(cellProduct):
-                return cellProduct.objectId == listingId
-            case let .carCell(cellCar):
-                return cellCar.objectId == listingId
+            case let .listingCell(listing):
+                return listing.objectId == listingId
             case .collectionCell, .emptyCell:
                 return false
             }
@@ -332,18 +327,14 @@ class ProductListViewModel: BaseViewModel {
     func sizeForCellAtIndex(_ index: Int) -> CGSize {
         guard let item = itemAtIndex(index) else { return defaultCellSize }
         switch item {
-        case .productCell(let product):
-            guard let thumbnailSize = product.thumbnailSize, thumbnailSize.height != 0 && thumbnailSize.width != 0
+        case let .listingCell(listing):
+            guard let thumbnailSize = listing.thumbnailSize, thumbnailSize.height != 0 && thumbnailSize.width != 0
                 else { return defaultCellSize }
             
             let thumbFactor = min(ProductListViewModel.cellMaxThumbFactor,
                                   CGFloat(thumbnailSize.height / thumbnailSize.width))
             let imageFinalHeight = max(ProductListViewModel.cellMinHeight, round(defaultCellSize.width * thumbFactor))
             return CGSize(width: defaultCellSize.width, height: imageFinalHeight)
-
-        case .carCell:
-            // TODO: IMPLEMENT - cars not used yet
-            return CGSize.zero
         case .collectionCell:
             let height = defaultCellSize.width*ProductListViewModel.cellBannerAspectRatio
             return CGSize(width: defaultCellSize.width, height: height)

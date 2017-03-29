@@ -12,7 +12,7 @@ import RxCocoa
 
 
 protocol RelatedProductsViewDelegate: class {
-    func relatedProductsView(_ view: RelatedProductsView, showProduct product: Product, atIndex index: Int,
+    func relatedProductsView(_ view: RelatedProductsView, showListing listing: Listing, atIndex index: Int,
                              productListModels: [ListingCellModel], requester: ProductListRequester,
                              thumbnailImage: UIImage?, originFrame: CGRect?)
 }
@@ -143,7 +143,7 @@ extension RelatedProductsView: UICollectionViewDelegate, UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let item = itemAtIndex(indexPath.row) else { return }
         switch item {
-        case let .productCell(product):
+        case let .listingCell(listing):
             let cell = collectionView.cellForItem(at: indexPath) as? ProductCell
             let thumbnailImage = cell?.thumbnailImageView.image
 
@@ -152,14 +152,11 @@ extension RelatedProductsView: UICollectionViewDelegate, UICollectionViewDataSou
                 originFrame = superview?.convert(cellFrame, from: collectionView)
             }
             guard let requester = requester else { return }
-            delegate?.relatedProductsView(self, showProduct: product, atIndex: indexPath.row,
+            delegate?.relatedProductsView(self, showListing: listing, atIndex: indexPath.row,
                                           productListModels: objects, requester: requester,
                                           thumbnailImage: thumbnailImage, originFrame: originFrame)
         case .collectionCell, .emptyCell:
             // No banners or collections here
-            break
-        case .carCell:
-            // TODO: IMPLEMENT - No cars here yet
             break
         }
     }

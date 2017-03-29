@@ -187,8 +187,8 @@ fileprivate extension NotificationsViewModel {
                                     type: .productSold(productImage: product.image), date: notification.createdAt,
                                     isRead: notification.isRead,
                                     primaryAction: { [weak self] in
-                                        let data = ProductDetailData.id(productId: product.id)
-                                        self?.navigator?.openProduct(data, source: .notifications,
+                                        let data = ListingDetailData.id(listingId: product.id)
+                                        self?.navigator?.openListing(data, source: .notifications,
                                                                      showKeyboardOnFirstAppearIfNeeded: false)
                                     })
         case let .buyersInterested(product, buyers):
@@ -208,8 +208,8 @@ fileprivate extension NotificationsViewModel {
                                     type: .productSuggested(product: product, seller: seller),
                                     date: notification.createdAt, isRead: notification.isRead,
                                     primaryAction: { [weak self] in
-                                        let data = ProductDetailData.id(productId: product.id)
-                                        self?.navigator?.openProduct(data, source: .notifications,
+                                        let data = ListingDetailData.id(listingId: product.id)
+                                        self?.navigator?.openListing(data, source: .notifications,
                                                                      showKeyboardOnFirstAppearIfNeeded: true)
                                     })
         case let .facebookFriendshipCreated(user, facebookUsername):

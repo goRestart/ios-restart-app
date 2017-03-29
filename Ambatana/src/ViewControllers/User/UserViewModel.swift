@@ -621,13 +621,13 @@ extension UserViewModel: ProductListViewModelDataDelegate {
     func productListVM(_ viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
                        originFrame: CGRect?) {
         guard viewModel === productListViewModel.value else { return } //guarding view model is the selected one
-        guard let product = viewModel.productAtIndex(index), let requester = viewModel.productListRequester else { return }
+        guard let listing = viewModel.listingAtIndex(index), let requester = viewModel.productListRequester else { return }
         let cellModels = viewModel.objects
         
-        let data = ProductDetailData.productList(product: product, cellModels: cellModels, requester: requester,
+        let data = ListingDetailData.listingList(listing: listing, cellModels: cellModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame,
                                                  showRelated: false, index: 0)
-        navigator?.openProduct(data, source: .profile, showKeyboardOnFirstAppearIfNeeded: false)
+        navigator?.openListing(data, source: .profile, showKeyboardOnFirstAppearIfNeeded: false)
     }
 }
 

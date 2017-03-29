@@ -23,9 +23,9 @@ struct LocalChat: Chat {
         return userFrom.objectId == nil
     }
 
-    init(product: Product, myUserProduct: UserListing?) {
-        self.listing = .product(product)
-        self.userTo = product.user
+    init(listing: Listing, myUserProduct: UserListing?) {
+        self.listing = listing
+        self.userTo = listing.user
         self.userFrom = myUserProduct ?? EmptyUserProduct()
     }
 }

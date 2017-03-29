@@ -102,21 +102,21 @@ extension TabCoordinator: TabNavigator {
         }
     }
 
-    func openProduct(_ data: ProductDetailData, source: EventParameterProductVisitSource,
+    func openListing(_ data: ListingDetailData, source: EventParameterProductVisitSource,
                      showKeyboardOnFirstAppearIfNeeded: Bool) {
         switch data {
-        case let .id(productId):
-            openProduct(productId: productId, source: source,
+        case let .id(listingId):
+            openListing(listingId: listingId, source: source,
                         showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded)
-        case let .productAPI(product, thumbnailImage, originFrame):
-            openProduct(product: product, thumbnailImage: thumbnailImage, originFrame: originFrame, source: source,
+        case let .listingAPI(listing, thumbnailImage, originFrame):
+            openListing(listing: listing, thumbnailImage: thumbnailImage, originFrame: originFrame, source: source,
                         index: 0, discover: false, showKeyboardOnFirstAppearIfNeeded: false)
-        case let .productList(product, cellModels, requester, thumbnailImage, originFrame, showRelated, index):
-            openProduct(product, cellModels: cellModels, requester: requester, thumbnailImage: thumbnailImage,
+        case let .listingList(listing, cellModels, requester, thumbnailImage, originFrame, showRelated, index):
+            openListing(listing, cellModels: cellModels, requester: requester, thumbnailImage: thumbnailImage,
                         originFrame: originFrame, showRelated: showRelated, source: source,
                         index: index)
-        case let .productChat(chatConversation):
-            openProduct(chatConversation: chatConversation, source: source)
+        case let .listingChat(chatConversation):
+            openListing(chatConversation: chatConversation, source: source)
         }
     }
 
@@ -126,8 +126,8 @@ extension TabCoordinator: TabNavigator {
             openChat(chat, source: source)
         case let .conversation(conversation):
             openConversation(conversation, source: source)
-        case let .productAPI(product):
-            openProductChat(product)
+        case let .listingAPI(listing):
+            openListingChat(listing)
         case let .dataIds(data):
             openChatFromConversationData(data, source: source)
         }
@@ -161,13 +161,13 @@ extension TabCoordinator: TabNavigator {
 }
 
 fileprivate extension TabCoordinator {
-    func openProduct(productId: String, source: EventParameterProductVisitSource,
+    func openListing(listingId: String, source: EventParameterProductVisitSource,
                      showKeyboardOnFirstAppearIfNeeded: Bool) {
         navigationController.showLoadingMessageAlert()
-        listingRepository.retrieve(productId) { [weak self] result in
-            if let product = result.value?.product {
+        listingRepository.retrieve(listingId) { [weak self] result in
+            if let listing = result.value {
                 self?.navigationController.dismissLoadingMessageAlert {
-                    self?.openProduct(product: product, source: source, index: 0, discover: false,
+                    self?.openListing(listing: listing, source: source, index: 0, discover: false,
                                       showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded)
                 }
             } else if let error = result.error {
@@ -186,15 +186,15 @@ fileprivate extension TabCoordinator {
         }
     }
 
-    func openProduct(product: Product, thumbnailImage: UIImage? = nil, originFrame: CGRect? = nil,
+    func openListing(listing: Listing, thumbnailImage: UIImage? = nil, originFrame: CGRect? = nil,
                              source: EventParameterProductVisitSource, requester: ProductListRequester? = nil, index: Int,
                              discover: Bool, showKeyboardOnFirstAppearIfNeeded: Bool) {
-        guard let productId = product.objectId else { return }
+        guard let listingId = listing.objectId else { return }
 
         var requestersArray: [ProductListRequester] = []
         let relatedRequester: ProductListRequester = discover ?
-            DiscoverProductListRequester(productId: productId, itemsPerPage: Constants.numProductsPerPageDefault) :
-            RelatedProductListRequester(productId: productId, itemsPerPage: Constants.numProductsPerPageDefault)
+            DiscoverProductListRequester(productId: listingId, itemsPerPage: Constants.numProductsPerPageDefault) :
+            RelatedProductListRequester(productId: listingId, itemsPerPage: Constants.numProductsPerPageDefault)
         requestersArray.append(relatedRequester)
 
         // Adding product list after related
@@ -210,47 +210,47 @@ fileprivate extension TabCoordinator {
 
         let requester = ProductListMultiRequester(requesters: requestersArray)
 
-        let vm = ProductCarouselViewModel(product: product, thumbnailImage: thumbnailImage,
+        let vm = ProductCarouselViewModel(listing: listing, thumbnailImage: thumbnailImage,
                                           productListRequester: requester, source: source,
                                           showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded, trackingIndex: index)
         vm.navigator = self
-        openProduct(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, productId: product.objectId)
+        openListing(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, listingId: listingId)
     }
 
-    func openProduct(_ product: Product, cellModels: [ListingCellModel], requester: ProductListRequester,
+    func openListing(_ listing: Listing, cellModels: [ListingCellModel], requester: ProductListRequester,
                      thumbnailImage: UIImage?, originFrame: CGRect?, showRelated: Bool,
                      source: EventParameterProductVisitSource, index: Int) {
         if showRelated {
             //Same as single product opening
             let discover = !featureFlags.productDetailNextRelated
-            openProduct(product: product, thumbnailImage: thumbnailImage, originFrame: originFrame,
+            openListing(listing: listing, thumbnailImage: thumbnailImage, originFrame: originFrame,
                         source: source, requester: requester, index: index, discover: discover,
                         showKeyboardOnFirstAppearIfNeeded: false)
         } else {
-            let vm = ProductCarouselViewModel(productListModels: cellModels, initialListing: .product(product),
+            let vm = ProductCarouselViewModel(productListModels: cellModels, initialListing: listing,
                                               thumbnailImage: thumbnailImage, productListRequester: requester, source: source,
                                               showKeyboardOnFirstAppearIfNeeded: false, trackingIndex: index,
                                               firstProductSyncRequired: false)
             vm.navigator = self
-            openProduct(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, productId: product.objectId)
+            openListing(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, listingId: listing.objectId)
         }
     }
 
-    func openProduct(chatConversation: ChatConversation, source: EventParameterProductVisitSource) {
+    func openListing(chatConversation: ChatConversation, source: EventParameterProductVisitSource) {
         guard let localProduct = LocalProduct(chatConversation: chatConversation, myUser: myUserRepository.myUser),
             let productId = localProduct.objectId else { return }
         let relatedRequester = RelatedProductListRequester(productId: productId,  itemsPerPage: Constants.numProductsPerPageDefault)
         let filteredRequester = FilteredProductListRequester( itemsPerPage: Constants.numProductsPerPageDefault, offset: 0)
         let requester = ProductListMultiRequester(requesters: [relatedRequester, filteredRequester])
-        let vm = ProductCarouselViewModel(product: localProduct, productListRequester: requester,
+        let vm = ProductCarouselViewModel(listing: .product(localProduct), productListRequester: requester,
                                           source: source, showKeyboardOnFirstAppearIfNeeded: false, trackingIndex: nil)
         vm.navigator = self
-        openProduct(vm, thumbnailImage: nil, originFrame: nil, productId: productId)
+        openListing(vm, thumbnailImage: nil, originFrame: nil, listingId: productId)
     }
 
-    func openProduct(_ viewModel: ProductCarouselViewModel, thumbnailImage: UIImage?, originFrame: CGRect?,
-                     productId: String?) {
-        let color = UIColor.placeholderBackgroundColor(productId)
+    func openListing(_ viewModel: ProductCarouselViewModel, thumbnailImage: UIImage?, originFrame: CGRect?,
+                     listingId: String?) {
+        let color = UIColor.placeholderBackgroundColor(listingId)
         let animator = ProductCarouselPushAnimator(originFrame: originFrame, originThumbnail: thumbnailImage,
                                                    backgroundColor: color)
         let vc = ProductCarouselViewController(viewModel: viewModel, pushAnimator: animator)
@@ -310,13 +310,13 @@ fileprivate extension TabCoordinator {
         navigationController.pushViewController(vc, animated: true)
     }
 
-    func openChatFromProduct(_ product: Product) {
+    func openChatFrom(listing: Listing) {
         if featureFlags.websocketChat {
-            guard let chatVM = ChatViewModel(product: product, navigator: self, source: .productDetail) else { return }
+            guard let chatVM = ChatViewModel(listing: listing, navigator: self, source: .productDetail) else { return }
             let chatVC = ChatViewController(viewModel: chatVM, hidesBottomBar: false)
             navigationController.pushViewController(chatVC, animated: true)
         } else {
-            guard let chatVM = OldChatViewModel(product: product, source: .productDetail) else { return }
+            guard let chatVM = OldChatViewModel(listing: listing, source: .productDetail) else { return }
             chatVM.navigator = self
             let chatVC = OldChatViewController(viewModel: chatVM, hidesBottomBar: false)
             navigationController.pushViewController(chatVC, animated: true)
@@ -391,8 +391,8 @@ extension TabCoordinator: ProductDetailNavigator {
         navigationController.present(navCtl, animated: true, completion: nil)
     }
 
-    func openProductChat(_ product: Product) {
-        openChatFromProduct(product)
+    func openListingChat(_ listing: Listing) {
+        openChatFrom(listing: listing)
     }
 
     func closeAfterDelete() {

@@ -384,8 +384,8 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
 
         switch (sortCriteria) {
         case .distance:
-            guard let topProduct = listViewModel.productAtIndex(index) else { return }
-            let distance = Float(productListRequester.distanceFromProductCoordinates(topProduct.location))
+            guard let topListing = listViewModel.listingAtIndex(index) else { return }
+            let distance = Float(productListRequester.distanceFromProductCoordinates(topListing.location))
 
             // instance var max distance or MIN distance to avoid updating the label everytime
             if (scrollingDown && distance > bubbleDistance) || (!scrollingDown && distance < bubbleDistance) ||
@@ -485,13 +485,13 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
     func productListVM(_ viewModel: ProductListViewModel, didSelectItemAtIndex index: Int,
                        thumbnailImage: UIImage?, originFrame: CGRect?) {
         
-        guard let product = viewModel.productAtIndex(index) else { return }
+        guard let listing = viewModel.listingAtIndex(index) else { return }
         let cellModels = viewModel.objects
         let showRelated = searchType == nil && filters.isDefault()
-        let data = ProductDetailData.productList(product: product, cellModels: cellModels,
+        let data = ListingDetailData.listingList(listing: listing, cellModels: cellModels,
                                                  requester: productListRequester, thumbnailImage: thumbnailImage,
                                                  originFrame: originFrame, showRelated: showRelated, index: index)
-        navigator?.openProduct(data, source: productVisitSource,
+        navigator?.openListing(data, source: productVisitSource,
                                showKeyboardOnFirstAppearIfNeeded: false)
     }
 

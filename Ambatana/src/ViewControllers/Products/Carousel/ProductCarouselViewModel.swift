@@ -125,13 +125,13 @@ class ProductCarouselViewModel: BaseViewModel {
 
     // MARK: - Init
 
-    convenience init(product: LocalProduct,
+    convenience init(listing: Listing,
                      productListRequester: ProductListRequester,
                      source: EventParameterProductVisitSource,
                      showKeyboardOnFirstAppearIfNeeded: Bool,
                      trackingIndex: Int?) {
         self.init(productListModels: nil,
-                  initialListing: .product(product),
+                  initialListing: listing,
                   thumbnailImage: nil,
                   productListRequester: productListRequester,
                   source: source,
@@ -140,14 +140,14 @@ class ProductCarouselViewModel: BaseViewModel {
                   firstProductSyncRequired: true)
     }
 
-    convenience init(product: Product,
+    convenience init(listing: Listing,
                      thumbnailImage: UIImage?,
                      productListRequester: ProductListRequester,
                      source: EventParameterProductVisitSource,
                      showKeyboardOnFirstAppearIfNeeded: Bool,
                      trackingIndex: Int?) {
         self.init(productListModels: nil,
-                  initialListing: .product(product),
+                  initialListing: listing,
                   thumbnailImage: thumbnailImage,
                   productListRequester: productListRequester,
                   source: source,

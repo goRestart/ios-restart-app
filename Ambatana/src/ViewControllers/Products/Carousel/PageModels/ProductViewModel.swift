@@ -403,10 +403,9 @@ extension ProductViewModel {
     }
 
     func chatWithSeller() {
-        guard let product = listing.value.product else { return }
         let source: EventParameterTypePage = (moreInfoState.value == .shown) ? .productDetailMoreInfo : .productDetail
         trackHelper.trackChatWithSeller(source)
-        navigator?.openProductChat(product)
+        navigator?.openListingChat(listing.value)
     }
 
     func sendDirectMessage(_ text: String, isDefaultText: Bool) {
