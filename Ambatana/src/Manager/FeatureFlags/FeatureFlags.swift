@@ -231,7 +231,7 @@ class FeatureFlags: FeatureFlaggeable {
         switch countryCode {
         case .turkey:
             return locationManager.countryMatchesWith(countryCode: countryCodeString)
-        default:
+        case .usa:
             return true
         }
     }
