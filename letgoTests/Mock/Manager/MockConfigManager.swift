@@ -12,7 +12,7 @@
 struct MockConfigManager: ConfigManager {
     var updateTimeout: Double = 1.0
     var shouldForceUpdate: Bool = false
-    var myMessagesCountForRating: Int = 10
-    var otherMessagesCountForRating: Int = 10
+    var myMessagesCountForRating: Int = 2
+    var otherMessagesCountForRating: Int = 2
     func updateWithCompletion(_ completion: (() -> Void)?) { }
 }
