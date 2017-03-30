@@ -45,4 +45,8 @@ class MockFeatureFlags: FeatureFlaggeable {
     var locationMatchesCountry = false
     var signUpEmailNewsletterAcceptRequired = false
     var signUpEmailTermsAndConditionsAcceptRequired = false
+
+    func commercialsAllowedFor(productCountryCode: String?) -> Bool {
+        return false
+    }
 }

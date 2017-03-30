@@ -42,6 +42,7 @@ protocol FeatureFlaggeable {
     var locationMatchesCountry: Bool { get }
     var signUpEmailNewsletterAcceptRequired: Bool { get }
     var signUpEmailTermsAndConditionsAcceptRequired: Bool { get }
+    func commercialsAllowedFor(productCountryCode: String?) -> Bool
 }
 
 
@@ -230,7 +231,7 @@ class FeatureFlags: FeatureFlaggeable {
         switch countryCode {
         case .turkey:
             return locationManager.countryMatchesWith(countryCode: countryCodeString)
-        case .usa:
+        default:
             return true
         }
     }
@@ -253,6 +254,15 @@ class FeatureFlags: FeatureFlaggeable {
         }
     }
 
+    func commercialsAllowedFor(productCountryCode: String?) -> Bool {
+        guard let code = productCountryCode, let countryCode = CountryCode(rawValue: code) else { return false }
+        switch countryCode {
+        case .usa:
+            return true
+        default:
+            return false
+        }
+    }
     
     // MARK: - Private
     
