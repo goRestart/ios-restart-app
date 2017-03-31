@@ -421,7 +421,7 @@ fileprivate extension AppCoordinator {
         locationManager.locationEvents.filter { $0 == .locationUpdate }.take(1).bindNext {
             [weak self] _ in
             guard let strongSelf = self else { return }
-            if strongSelf.featureFlags.locationRequiresManualChangeSugestion {
+            if strongSelf.featureFlags.locationRequiresManualChangeSuggestion {
                 strongSelf.askUserToUpdateLocationManually()
             }
         }.addDisposableTo(disposeBag)

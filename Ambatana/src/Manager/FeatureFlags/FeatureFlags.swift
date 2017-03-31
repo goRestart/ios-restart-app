@@ -39,7 +39,7 @@ protocol FeatureFlaggeable {
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
-    var locationRequiresManualChangeSugestion: Bool { get }
+    var locationRequiresManualChangeSuggestion: Bool { get }
     var signUpEmailNewsletterAcceptRequired: Bool { get }
     var signUpEmailTermsAndConditionsAcceptRequired: Bool { get }
     func commercialsAllowedFor(productCountryCode: String?) -> Bool
@@ -226,7 +226,7 @@ class FeatureFlags: FeatureFlaggeable {
         }
     }
     
-    var locationRequiresManualChangeSugestion: Bool {
+    var locationRequiresManualChangeSuggestion: Bool {
         // Manual location is already ok
         guard let currentLocation = locationManager.currentLocation, currentLocation.isAuto else { return false }
         guard let countryCodeString = carrierCountryInfo.countryCode, let countryCode = CountryCode(rawValue: countryCodeString) else { return false }
