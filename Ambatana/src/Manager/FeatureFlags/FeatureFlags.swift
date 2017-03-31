@@ -39,7 +39,7 @@ protocol FeatureFlaggeable {
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
-    var locationMatchesCountry: Bool { get }
+    var locationRequiresManualChangeSugestion: Bool { get }
     var signUpEmailNewsletterAcceptRequired: Bool { get }
     var signUpEmailTermsAndConditionsAcceptRequired: Bool { get }
     func commercialsAllowedFor(productCountryCode: String?) -> Bool
@@ -226,13 +226,16 @@ class FeatureFlags: FeatureFlaggeable {
         }
     }
     
-    var locationMatchesCountry: Bool {
-        guard let countryCodeString = carrierCountryInfo.countryCode, let countryCode = CountryCode(rawValue: countryCodeString) else { return true }
+    var locationRequiresManualChangeSugestion: Bool {
+        // Manual location is already ok
+        guard let currentLocation = locationManager.currentLocation, currentLocation.isAuto else { return false }
+        guard let countryCodeString = carrierCountryInfo.countryCode, let countryCode = CountryCode(rawValue: countryCodeString) else { return false }
         switch countryCode {
         case .turkey:
-            return locationManager.countryMatchesWith(countryCode: countryCodeString)
+            // In turkey, if current location country doesn't match carrier one we must sugest user to change it
+            return !locationManager.countryMatchesWith(countryCode: countryCodeString)
         case .usa:
-            return true
+            return false
         }
     }
 
