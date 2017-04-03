@@ -17,10 +17,10 @@
                 <outlet property="customLoadingView" destination="wW5-ZX-UqE" id="web-O5-ekj"/>
                 <outlet property="detailsContainer" destination="xup-cr-6f7" id="Nbc-zh-N87"/>
                 <outlet property="detailsScroll" destination="5Qq-I7-zHx" id="5fw-2v-7G1"/>
+                <outlet property="otherStepsContainer" destination="o7t-oA-DP2" id="PBJ-am-L1u"/>
                 <outlet property="postErrorLabel" destination="ceY-sz-ePA" id="She-qR-gcK"/>
                 <outlet property="postedInfoLabel" destination="bb0-id-OIx" id="ibe-jQ-ayN"/>
                 <outlet property="retryButton" destination="hZ2-Pa-uBQ" id="uKM-Hn-SwA"/>
-                <outlet property="selectPriceContainer" destination="o7t-oA-DP2" id="yZ0-k5-Tv3"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -33,7 +33,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                 </view>
-                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o7t-oA-DP2" userLabel="SelectPriceContainer">
+                <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o7t-oA-DP2" userLabel="otherStepsContainer">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <subviews>
                         <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BGS-Qn-e7g" userLabel="BluredView">
@@ -70,10 +70,10 @@
                                         <rect key="frame" x="0.0" y="52" width="375" height="615"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xup-cr-6f7" userLabel="ContentContainer">
-                                                <rect key="frame" x="15" y="2" width="345" height="194.5"/>
+                                                <rect key="frame" x="15" y="2" width="345" height="195"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" placeholderIntrinsicWidth="48" placeholderIntrinsicHeight="48" translatesAutoresizingMaskIntoConstraints="NO" id="wW5-ZX-UqE" userLabel="customLoadingView" customClass="LoadingIndicator" customModule="LetGo" customModuleProvider="target">
-                                                        <rect key="frame" x="148.5" y="0.0" width="48" height="48"/>
+                                                        <rect key="frame" x="149" y="0.0" width="48" height="48"/>
                                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="48" id="R11-n3-0ch"/>
@@ -81,19 +81,19 @@
                                                         </constraints>
                                                     </view>
                                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Product posted. Congrats!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bb0-id-OIx" userLabel="postedInfoLabel">
-                                                        <rect key="frame" x="0.0" y="58" width="345" height="21.5"/>
+                                                        <rect key="frame" x="0.0" y="58" width="345" height="22"/>
                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Your product hasn't been posted. Please check your network settings." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ceY-sz-ePA" userLabel="errorLabel">
-                                                        <rect key="frame" x="0.0" y="89.5" width="345" height="36"/>
+                                                        <rect key="frame" x="0.0" y="90" width="345" height="36"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <button opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hZ2-Pa-uBQ" userLabel="retryButton">
-                                                        <rect key="frame" x="122" y="135.5" width="101" height="44"/>
+                                                        <rect key="frame" x="122" y="136" width="101" height="44"/>
                                                         <color key="backgroundColor" red="0.98660099506378174" green="0.14062686264514923" blue="0.26615336537361145" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="44" id="wQj-Eu-ak5"/>

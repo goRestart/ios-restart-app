@@ -42,6 +42,7 @@ class PostProductViewModel: BaseViewModel {
     }
 
     let state: Variable<PostProductState>
+    let category: Variable<PostCategory?>
 
     let postDetailViewModel: PostProductDetailViewModel
     let postProductCameraViewModel: PostProductCameraViewModel
@@ -56,7 +57,9 @@ class PostProductViewModel: BaseViewModel {
     private var imagesSelected: [UIImage]?
     fileprivate var uploadedImageSource: EventParameterPictureSource?
     
+    fileprivate let disposeBag: DisposeBag
 
+    
     // MARK: - Lifecycle
 
     convenience init(source: PostingSource) {
@@ -75,6 +78,8 @@ class PostProductViewModel: BaseViewModel {
          sessionManager: SessionManager,
          featureFlags: FeatureFlaggeable) {
         self.state = Variable<PostProductState>(PostProductState(featureFlags: featureFlags))
+        self.category = Variable<PostCategory?>(nil)
+        
         self.postingSource = source
         self.productRepository = productRepository
         self.fileRepository = fileRepository
@@ -83,8 +88,11 @@ class PostProductViewModel: BaseViewModel {
         self.tracker = tracker
         self.sessionManager = sessionManager
         self.featureFlags = featureFlags
+        self.disposeBag = DisposeBag()
         super.init()
         self.postDetailViewModel.delegate = self
+        
+        setupRx()
     }
 
     override func didBecomeActive(_ firstTime: Bool) {
@@ -150,6 +158,13 @@ extension PostProductViewModel: PostProductDetailViewModelDelegate {
 // MARK: - Private methods
 
 fileprivate extension PostProductViewModel {
+    func setupRx() {
+        category.asObservable().subscribeNext { [weak self] category in
+            guard let strongSelf = self, let category = category else { return }
+            strongSelf.state.value = strongSelf.state.value.updating(category: category)
+        }.addDisposableTo(disposeBag)
+    }
+    
     func openPostAbandonAlertNotLoggedIn() {
         let title = LGLocalizedString.productPostCloseAlertTitle
         let message = LGLocalizedString.productPostCloseAlertDescription
