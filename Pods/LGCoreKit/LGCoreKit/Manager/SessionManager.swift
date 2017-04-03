@@ -9,11 +9,14 @@
 import Result
 import RxSwift
 
-public typealias SessionMyUserResult = Result<MyUser, SessionManagerError>
-public typealias SessionMyUserCompletion = (SessionMyUserResult) -> Void
+public typealias LoginResult = Result<MyUser, LoginError>
+public typealias LoginCompletion = (LoginResult) -> Void
 
-public typealias SessionEmptyResult = Result<Void, SessionManagerError>
-public typealias SessionEmptyCompletion = (SessionEmptyResult) -> Void
+public typealias SignupResult = Result<MyUser, SignupError>
+public typealias SignupCompletion = (SignupResult) -> Void
+
+public typealias RecoverPasswordResult = Result<Void, RecoverPasswordError>
+public typealias RecoverPasswordCompletion = (RecoverPasswordResult) -> Void
 
 
 public enum SessionEvent {
@@ -36,7 +39,7 @@ public protocol SessionManager: class {
     - parameter completion: The completion closure.
     */
     func signUp(_ email: String, password: String, name: String, newsletter: Bool?,
-        completion: SessionMyUserCompletion?)
+        completion: SignupCompletion?)
 
     /**
      Signs up with the given credentials and public user name, if recaptcha verification is ok.
@@ -48,7 +51,7 @@ public protocol SessionManager: class {
      - parameter completion: The completion closure.
      */
     func signUp(_ email: String, password: String, name: String, newsletter: Bool?, recaptchaToken: String,
-                       completion: SessionMyUserCompletion?)
+                       completion: SignupCompletion?)
 
     /**
     Logs the user in via email.
@@ -56,14 +59,14 @@ public protocol SessionManager: class {
     - parameter password: The password.
     - parameter completion: The completion closure.
     */
-    func login(_ email: String, password: String, completion: SessionMyUserCompletion?)
+    func login(_ email: String, password: String, completion: LoginCompletion?)
 
     /**
     Logs the user in via Facebook.
     - parameter token: The Facebook token.
     - parameter completion: The completion closure.
     */
-    func loginFacebook(_ token: String, completion: SessionMyUserCompletion?)
+    func loginFacebook(_ token: String, completion: LoginCompletion?)
     
     /**
      Logs the user in via Google
@@ -71,14 +74,14 @@ public protocol SessionManager: class {
      - parameter token:      The Google token
      - parameter completion: The completion closure
      */
-    func loginGoogle(_ token: String, completion: SessionMyUserCompletion?)
+    func loginGoogle(_ token: String, completion: LoginCompletion?)
 
     /**
     Requests a password recovery.
     - parameter email: The email.
     - parameter completion: The completion closure.
     */
-    func recoverPassword(_ email: String, completion: SessionEmptyCompletion?)
+    func recoverPassword(_ email: String, completion: RecoverPasswordCompletion?)
 
     /**
     Logs the user out.

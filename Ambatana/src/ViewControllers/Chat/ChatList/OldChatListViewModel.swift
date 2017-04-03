@@ -12,6 +12,7 @@ import RxSwift
 
 class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewModel {
     private var chatRepository: OldChatRepository
+    private var deepLinksRouter: DeepLinksRouter
 
     private(set) var chatsType: ChatsType
     weak var delegate: ChatListViewModelDelegate?
@@ -26,11 +27,20 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
     // MARK: - Lifecycle
 
     convenience init(chatsType: ChatsType, tabNavigator: TabNavigator?) {
-        self.init(chatRepository: Core.oldChatRepository, chats: [], chatsType: chatsType, tabNavigator: tabNavigator)
+        self.init(chatRepository: Core.oldChatRepository,
+                  deepLinksRouter: LGDeepLinksRouter.sharedInstance,
+                  chats: [],
+                  chatsType: chatsType,
+                  tabNavigator: tabNavigator)
     }
 
-    required init(chatRepository: OldChatRepository, chats: [Chat], chatsType: ChatsType, tabNavigator: TabNavigator?) {
+    required init(chatRepository: OldChatRepository,
+                  deepLinksRouter: DeepLinksRouter,
+                  chats: [Chat],
+                  chatsType: ChatsType,
+                  tabNavigator: TabNavigator?) {
         self.chatRepository = chatRepository
+        self.deepLinksRouter = deepLinksRouter
         self.chatsType = chatsType
         super.init(objects: chats, tabNavigator: tabNavigator)
     }
@@ -135,7 +145,7 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
     // MARK: - Private methods
 
     private func setupRxBindings() {
-        DeepLinksRouter.sharedInstance.chatDeepLinks.subscribeNext{ [weak self] _ in
+        deepLinksRouter.chatDeepLinks.subscribeNext{ [weak self] _ in
             self?.refresh(completion: nil)
         }.addDisposableTo(disposeBag)
     }

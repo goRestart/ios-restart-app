@@ -39,9 +39,10 @@ protocol FeatureFlaggeable {
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
-    var locationMatchesCountry: Bool { get }
+    var locationRequiresManualChangeSuggestion: Bool { get }
     var signUpEmailNewsletterAcceptRequired: Bool { get }
     var signUpEmailTermsAndConditionsAcceptRequired: Bool { get }
+    func commercialsAllowedFor(productCountryCode: String?) -> Bool
 }
 
 
@@ -60,9 +61,9 @@ class FeatureFlags: FeatureFlaggeable {
         if Bumper.enabled {
             self.websocketChat = Bumper.websocketChat
         } else {
-            self.websocketChat = false
+            self.websocketChat = ABTests.websocketChat.value
         }
-
+        
         self.locale = locale
         self.locationManager = locationManager
         self.carrierCountryInfo = countryInfo
@@ -225,11 +226,16 @@ class FeatureFlags: FeatureFlaggeable {
         }
     }
     
-    var locationMatchesCountry: Bool {
-        guard let countryCodeString = carrierCountryInfo.countryCode, let countryCode = CountryCode(rawValue: countryCodeString) else { return true }
+    var locationRequiresManualChangeSuggestion: Bool {
+        // Manual location is already ok
+        guard let currentLocation = locationManager.currentLocation, currentLocation.isAuto else { return false }
+        guard let countryCodeString = carrierCountryInfo.countryCode, let countryCode = CountryCode(rawValue: countryCodeString) else { return false }
         switch countryCode {
         case .turkey:
-            return locationManager.countryMatchesWith(countryCode: countryCodeString)
+            // In turkey, if current location country doesn't match carrier one we must sugest user to change it
+            return !locationManager.countryMatchesWith(countryCode: countryCodeString)
+        case .usa:
+            return false
         }
     }
 
@@ -251,6 +257,15 @@ class FeatureFlags: FeatureFlaggeable {
         }
     }
 
+    func commercialsAllowedFor(productCountryCode: String?) -> Bool {
+        guard let code = productCountryCode, let countryCode = CountryCode(rawValue: code) else { return false }
+        switch countryCode {
+        case .usa:
+            return true
+        default:
+            return false
+        }
+    }
     
     // MARK: - Private
     

@@ -614,7 +614,7 @@ class TrackerEventSpec: QuickSpec {
 
             describe("Login Blocked Account Start") {
                 beforeEach {
-                    sut = TrackerEvent.loginBlockedAccountStart(.email)
+                    sut = TrackerEvent.loginBlockedAccountStart(.email, reason: .accountUnderReview)
                 }
 
                 it("has its event name") {
@@ -624,11 +624,15 @@ class TrackerEventSpec: QuickSpec {
                     let network = sut.params!.stringKeyParams["account-network"] as! String
                     expect(network) == "email"
                 }
+                it("contains the reason parameter") {
+                    let network = sut.params!.stringKeyParams["reason"] as! String
+                    expect(network) == "account-under-review"
+                }
             }
 
             describe("Login Blocked Account Contact us") {
                 beforeEach {
-                    sut = TrackerEvent.loginBlockedAccountContactUs(.email)
+                    sut = TrackerEvent.loginBlockedAccountContactUs(.email, reason: .accountUnderReview)
                 }
 
                 it("has its event name") {
@@ -638,11 +642,15 @@ class TrackerEventSpec: QuickSpec {
                     let network = sut.params!.stringKeyParams["account-network"] as! String
                     expect(network) == "email"
                 }
+                it("contains the reason parameter") {
+                    let network = sut.params!.stringKeyParams["reason"] as! String
+                    expect(network) == "account-under-review"
+                }
             }
 
             describe("Login Blocked Account Keep browsing") {
                 beforeEach {
-                    sut = TrackerEvent.loginBlockedAccountKeepBrowsing(.email)
+                    sut = TrackerEvent.loginBlockedAccountKeepBrowsing(.email, reason: .accountUnderReview)
                 }
 
                 it("has its event name") {
@@ -652,8 +660,12 @@ class TrackerEventSpec: QuickSpec {
                     let network = sut.params!.stringKeyParams["account-network"] as! String
                     expect(network) == "email"
                 }
+                it("contains the reason parameter") {
+                    let network = sut.params!.stringKeyParams["reason"] as! String
+                    expect(network) == "account-under-review"
+                }
             }
-            
+
             describe("signup error") {
                 let error = EventParameterLoginError.internalError(description: "details")
                 beforeEach {

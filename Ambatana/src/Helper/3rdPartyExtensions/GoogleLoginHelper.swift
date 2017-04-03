@@ -74,7 +74,7 @@ extension GoogleLoginHelper: ExternalAuthHelper {
                     if let myUser = result.value {
                         loginCompletion?(.success(myUser: myUser))
                     } else if let error = result.error {
-                        loginCompletion?(ExternalServiceAuthResult(sessionError: error))
+                        loginCompletion?(ExternalServiceAuthResult(loginError: error))
                     }
                 }
             case .cancelled:

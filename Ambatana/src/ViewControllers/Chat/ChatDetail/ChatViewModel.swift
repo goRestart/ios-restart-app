@@ -1,3 +1,4 @@
+
 //
 //  ChatViewModel.swift
 //  LetGo
@@ -486,6 +487,8 @@ class ChatViewModel: BaseViewModel {
             case .interlocutorTypingStopped:
                 self?.interlocutorTyping.value = false
             case .authenticationTokenExpired:
+                break
+            case .talkerUnauthenticated:
                 break
             }
         }.addDisposableTo(disposeBag)

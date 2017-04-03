@@ -41,10 +41,10 @@ struct BumpUpInfo {
     var type: BumpUpType
     var timeSinceLastBump: TimeInterval
     var price: String?
-    var primaryBlock: (() -> ()?)
-    var buttonBlock: (() -> ()?)
+    var primaryBlock: () -> Void
+    var buttonBlock: () -> Void
 
-    init(type: BumpUpType, timeSinceLastBump: TimeInterval, price: String?, primaryBlock: @escaping (()->()?), buttonBlock: @escaping (()->()?)) {
+    init(type: BumpUpType, timeSinceLastBump: TimeInterval, price: String?, primaryBlock: @escaping () -> Void, buttonBlock: @escaping () -> Void ) {
         self.type = type
         self.timeSinceLastBump = timeSinceLastBump
         self.price = price
@@ -71,8 +71,8 @@ class BumpUpBanner: UIView {
 
     private(set) var type: BumpUpType = .free
 
-    private var primaryBlock: (()->()?) = { return nil }
-    private var buttonBlock: (()->()?) = { return nil }
+    private var primaryBlock: () -> Void = {}
+    private var buttonBlock: () -> Void = {}
 
     private let featureFlags: FeatureFlags = FeatureFlags.sharedInstance
 

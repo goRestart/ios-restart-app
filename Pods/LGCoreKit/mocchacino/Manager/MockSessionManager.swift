@@ -4,18 +4,18 @@ import RxSwift
 
 open class MockSessionManager: SessionManager {
     public var sessionEventsPublishSubject: PublishSubject<SessionEvent>
-    public var logInResult: SessionMyUserResult
-    public var signUpResult: SessionMyUserResult
-    public var recoverPasswordResult: SessionEmptyResult
+    public var logInResult: LoginResult
+    public var signUpResult: SignupResult
+    public var recoverPasswordResult: RecoverPasswordResult
 
 
     // MARK: - Lifecycle
 
     public init() {
         self.sessionEventsPublishSubject = PublishSubject<SessionEvent>()
-        self.logInResult = SessionMyUserResult(value: MockMyUser.makeMock())
-        self.signUpResult = SessionMyUserResult(value: MockMyUser.makeMock())
-        self.recoverPasswordResult = SessionEmptyResult(value: Void())
+        self.logInResult = LoginResult(value: MockMyUser.makeMock())
+        self.signUpResult = SignupResult(value: MockMyUser.makeMock())
+        self.recoverPasswordResult = RecoverPasswordResult(value: Void())
         self.loggedIn = false
     }
 
@@ -32,7 +32,7 @@ open class MockSessionManager: SessionManager {
                        password: String,
                        name: String,
                        newsletter: Bool?,
-                       completion: SessionMyUserCompletion?) {
+                       completion: SignupCompletion?) {
         delay(result: signUpResult, completion: completion)
     }
 
@@ -41,28 +41,28 @@ open class MockSessionManager: SessionManager {
                        name: String,
                        newsletter: Bool?,
                        recaptchaToken: String,
-                       completion: SessionMyUserCompletion?) {
+                       completion: SignupCompletion?) {
         delay(result: signUpResult, completion: completion)
     }
 
     public func login(_ email: String,
                       password: String,
-                      completion: SessionMyUserCompletion?) {
+                      completion: LoginCompletion?) {
         delay(result: logInResult, completion: completion)
     }
 
     public func loginFacebook(_ token: String,
-                              completion: SessionMyUserCompletion?) {
+                              completion: LoginCompletion?) {
         delay(result: logInResult, completion: completion)
     }
 
     public func loginGoogle(_ token: String,
-                            completion: SessionMyUserCompletion?) {
+                            completion: LoginCompletion?) {
         delay(result: logInResult, completion: completion)
     }
 
     public func recoverPassword(_ email: String,
-                                completion: SessionEmptyCompletion?) {
+                                completion: RecoverPasswordCompletion?) {
         delay(result: recoverPasswordResult, completion: completion)
     }
 

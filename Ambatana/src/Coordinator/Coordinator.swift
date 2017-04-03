@@ -78,16 +78,31 @@ extension Coordinator {
 // MARK: - Helpers
 
 extension Coordinator {
-    func openChild(coordinator: Coordinator, parent: UIViewController, animated: Bool,
+    final func openChild(coordinator: Coordinator, parent: UIViewController, animated: Bool, forceCloseChild: Bool,
                          completion: (() -> Void)?) {
-        guard child == nil else { return }
-        child = coordinator
-        coordinator.coordinatorDelegate = self
-        coordinator.presentViewController(parent: parent, animated: animated, completion: completion)
+        let presentBlock = {
+            self.child?.coordinatorDelegate = nil
+            self.child = coordinator
+            coordinator.coordinatorDelegate = self
+            coordinator.presentViewController(parent: parent, animated: animated, completion: completion)
+        }
+
+        if let child = child {
+            let message: String
+            if forceCloseChild {
+                child.closeCoordinator(animated: false, completion: presentBlock)
+                message = "\(type(of:self)) is opening \(type(of:coordinator.self)) while child \(type(of:child.self)) was present"
+            } else {
+                message = "\(type(of:self)) couldn't open \(type(of:coordinator.self)) because child \(type(of:child.self)) was present"
+            }
+            logMessage(.error, type: [.navigation], message: message)
+            report(AppReport.navigation(error: .childCoordinatorPresent), message: message)
+        } else {
+            presentBlock()
+        }
     }
 
-    // Default close, can be overriden
-    func closeCoordinator(animated: Bool, completion: (() -> Void)?) {
+    final func closeCoordinator(animated: Bool, completion: (() -> Void)?) {
         let dismiss: () -> Void = { [weak self] in
             self?.dismissViewController(animated: animated) {
                 guard let strongSelf = self else { return }
@@ -115,7 +130,7 @@ extension Coordinator {
             return
         }
         let coordinator = LoginCoordinator(source: source, style: style, loggedInAction: loggedInAction)
-        openChild(coordinator: coordinator, parent: viewController, animated: true, completion: nil)
+        openChild(coordinator: coordinator, parent: viewController, animated: true, forceCloseChild: true, completion: nil)
     }
 }
 

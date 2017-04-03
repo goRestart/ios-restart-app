@@ -114,9 +114,9 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
             }
 
             beforeEach {
-                myUserRepository = MockMyUserRepository()
-                productRepository = MockProductRepository()
-                commercializerRepository = MockCommercializerRepository()
+                myUserRepository = MockMyUserRepository.makeMock()
+                productRepository = MockProductRepository.makeMock()
+                commercializerRepository = MockCommercializerRepository.makeMock()
                 chatWrapper = MockChatWrapper()
                 locationManager = MockLocationManager()
                 countryHelper = CountryHelper.mock()
@@ -124,7 +124,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                 featureFlags = MockFeatureFlags()
                 purchasesShopper = MockPurchasesShopper()
                 notificationsManager = MockNotificationsManager()
-                monetizationRepository = MockMonetizationRepository()
+                monetizationRepository = MockMonetizationRepository.makeMock()
                 tracker = MockTracker()
 
                 productListRequester = MockProductListRequester(canRetrieve: true, offset: 0, pageSize: 20)
@@ -726,6 +726,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                     context("pending") {
                         beforeEach {
                             product.status = .pending
+                            product.name = String.makeRandom()
                             buildSut(initialProduct: product)
                             sut.active = true
                         }
@@ -768,6 +769,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         beforeEach {
                             product.status = .approved
                             product.price = .normal(25)
+                            product.name = String.makeRandom()
                             buildSut(initialProduct: product)
                             sut.active = true
                         }
@@ -810,6 +812,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         beforeEach {
                             product.status = .approved
                             product.price = .free
+                            product.name = String.makeRandom()
                             buildSut(initialProduct: product)
                             sut.active = true
                         }
@@ -852,6 +855,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         beforeEach {
                             product.status = .sold
                             product.price = .normal(25)
+                            product.name = String.makeRandom()
                             buildSut(initialProduct: product)
                             sut.active = true
                         }
@@ -894,6 +898,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         beforeEach {
                             product.status = .sold
                             product.price = .free
+                            product.name = String.makeRandom()
                             buildSut(initialProduct: product)
                             sut.active = true
                         }
@@ -937,6 +942,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                     context("pending") {
                         beforeEach {
                             product.status = .pending
+                            product.name = String.makeRandom()
                             buildSut(initialProduct: product)
                             sut.active = true
                         }
@@ -979,6 +985,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         beforeEach {
                             product.status = .approved
                             product.price = .normal(25)
+                            product.name = String.makeRandom()
                             buildSut(initialProduct: product)
                             sut.active = true
                         }
@@ -1064,6 +1071,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         beforeEach {
                             product.status = .sold
                             product.price = .normal(25)
+                            product.name = String.makeRandom()
                             buildSut(initialProduct: product)
                             sut.active = true
                         }
@@ -1106,6 +1114,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         beforeEach {
                             product.status = .sold
                             product.price = .free
+                            product.name = String.makeRandom()
                             buildSut(initialProduct: product)
                             sut.active = true
                         }

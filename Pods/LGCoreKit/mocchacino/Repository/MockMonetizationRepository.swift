@@ -1,15 +1,14 @@
 import Result
 
 open class MockMonetizationRepository: MonetizationRepository {
-    public var retrieveResult: BumpeableProductResult
-    public var bumpResult: BumpResult
+    public var retrieveResult: BumpeableProductResult!
+    public var bumpResult: BumpResult!
 
 
     // MARK: - Lifecycle
 
-    public init() {
-        self.retrieveResult = BumpeableProductResult(value: MockBumpeableProduct.makeMock())
-        self.bumpResult = BumpResult(value: Void())
+    required public init() {
+        
     }
 
 

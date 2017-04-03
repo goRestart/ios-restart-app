@@ -27,6 +27,7 @@ class NotificationsManagerSpec: QuickSpec {
         var notificationsRepository: MockNotificationsRepository!
         var keyValueStorage: KeyValueStorage!
         var featureFlags: MockFeatureFlags!
+        var deepLinksRouter: MockDeepLinksRouter!
 
         var disposeBag: DisposeBag!
 
@@ -38,9 +39,13 @@ class NotificationsManagerSpec: QuickSpec {
 
         describe("NotificationsManagerSpec") {
             func createNotificationsManager() {
-                sut = LGNotificationsManager(sessionManager: sessionManager, chatRepository: chatRepository,
-                                           oldChatRepository: oldChatRepository, notificationsRepository: notificationsRepository,
-                                           keyValueStorage: keyValueStorage, featureFlags: featureFlags)
+                sut = LGNotificationsManager(sessionManager: sessionManager,
+                                             chatRepository: chatRepository,
+                                             oldChatRepository: oldChatRepository,
+                                             notificationsRepository: notificationsRepository,
+                                             keyValueStorage: keyValueStorage,
+                                             featureFlags: featureFlags,
+                                             deepLinksRouter: deepLinksRouter)
 
                 disposeBag = nil
                 disposeBag = DisposeBag()
@@ -87,14 +92,31 @@ class NotificationsManagerSpec: QuickSpec {
                 notificationsRepository.unreadCountResult = NotificationsUnreadCountResult(notifications)
             }
 
+            func populateEmptyCountersResults() {
+                oldChatRepository.unreadMsgCountResult = Result<Int, RepositoryError>(0)
+                let chatUnread = MockChatUnreadMessages(totalUnreadMessages: 0)
+                chatRepository.unreadMessagesResult = ChatUnreadMessagesResult(chatUnread)
+                let notifications = MockUnreadNotificationsCounts(productSold: 0,
+                                                                  productLike: 0,
+                                                                  review: 0,
+                                                                  reviewUpdated: 0,
+                                                                  buyersInterested: 0,
+                                                                  productSuggested: 0,
+                                                                  facebookFriendshipCreated: 0,
+                                                                  modular: 0,
+                                                                  total: 0)
+                notificationsRepository.unreadCountResult = NotificationsUnreadCountResult(notifications)
+            }
+
             beforeEach {
                 sessionManager = MockSessionManager()
-                chatRepository = MockChatRepository()
-                oldChatRepository = MockOldChatRepository()
-                notificationsRepository = MockNotificationsRepository()
-                myUserRepository = MockMyUserRepository()
+                chatRepository = MockChatRepository.makeMock()
+                oldChatRepository = MockOldChatRepository.makeMock()
+                notificationsRepository = MockNotificationsRepository.makeMock()
+                myUserRepository = MockMyUserRepository.makeMock()
                 keyValueStorage = KeyValueStorage(storage: MockKeyValueStorage(), myUserRepository: myUserRepository)
                 featureFlags = MockFeatureFlags()
+                deepLinksRouter = MockDeepLinksRouter()
 
                 let scheduler = TestScheduler(initialClock: 0)
                 scheduler.start()
@@ -438,6 +460,77 @@ class NotificationsManagerSpec: QuickSpec {
                         }
                         it("loggedInMktNofitications emits false, and then true after logout") {
                             XCTAssertEqual(loggedInMarketingNotificationsObserver.events, [next(0, false), next(0, true)])
+                        }
+                    }
+                }
+            }
+            describe("push notification") {
+                context("old chat") {
+                    beforeEach {
+                        featureFlags.websocketChat = false
+                        featureFlags.userReviews = false
+                        doLogin()
+                        populateEmptyCountersResults()
+                        createNotificationsManager()
+                        sut.setup()
+                        expect(unreadMessagesObserver.eventValues.count).toEventually(equal(2)) // initial + setup
+                        populateCountersResults()
+                        deepLinksRouter.deepLinksSignal.onNext(DeepLink.makeChatMock())
+                        expect(unreadMessagesObserver.eventValues.count).toEventually(equal(3))
+                    }
+                    it("unreadMessagesCount value becomes 10") {
+                        XCTAssertEqual(unreadMessagesObserver.events, [next(0, nil), next(0, 0), next(0, 10)])
+                    }
+                }
+                context("new chat") {
+                    beforeEach {
+                        featureFlags.websocketChat = true
+                        featureFlags.userReviews = false
+                        doLogin()
+                        populateEmptyCountersResults()
+                        createNotificationsManager()
+                        sut.setup()
+                        expect(unreadMessagesObserver.eventValues.count).toEventually(equal(2)) // initial + setup
+                        populateCountersResults()
+                    }
+                    it("unread messages changed from nil to 0") {
+                        XCTAssertEqual(unreadMessagesObserver.events, [next(0, nil), next(0, 0)])
+                    }
+                    context("chat status is connected") {
+                        beforeEach {
+                            chatRepository.chatStatusPublishSubject.onNext(.openAuthenticated)
+                        }
+                        describe("user receives push notification") {
+                            beforeEach {
+                                deepLinksRouter.deepLinksSignal.onNext(DeepLink.makeChatMock())
+                                self.waitFor(timeout: 0.2)
+                            }
+                            it("doesn't update anything") {
+                                XCTAssertEqual(unreadMessagesObserver.events, [next(0, nil), next(0, 0)])
+                            }
+                        }
+                        describe("user receives message event from chat") {
+                            beforeEach {
+                                chatRepository.chatEventsPublishSubject.onNext(MockChatEvent.makeMessageSentMock())
+                                expect(unreadMessagesObserver.eventValues.count).toEventually(equal(3))
+                            }
+                            it("unreadMessagesCount value becomes 7") {
+                                XCTAssertEqual(unreadMessagesObserver.events, [next(0, nil), next(0, 0), next(0, 7)])
+                            }
+                        }
+                    }
+                    context("chat status is not connected") {
+                        beforeEach {
+                            chatRepository.chatStatusPublishSubject.onNext(.closed)
+                        }
+                        describe("user receives push notification") {
+                            beforeEach {
+                                deepLinksRouter.deepLinksSignal.onNext(DeepLink.makeChatMock())
+                                expect(unreadMessagesObserver.eventValues.count).toEventually(equal(3))
+                            }
+                            it("unreadMessagesCount value becomes 7") {
+                                XCTAssertEqual(unreadMessagesObserver.events, [next(0, nil), next(0, 0), next(0, 7)])
+                            }
                         }
                     }
                 }

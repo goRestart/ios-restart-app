@@ -10,14 +10,34 @@ import Foundation
 import RxSwift
 import Branch
 
-class DeepLinksRouter {
-    static let sharedInstance: DeepLinksRouter = DeepLinksRouter()
+protocol DeepLinksRouter: class {
+    var deepLinks: Observable<DeepLink> { get }
+    var chatDeepLinks: Observable<DeepLink> { get }
 
-    let deepLinks = PublishSubject<DeepLink>()
+    func consumeInitialDeepLink() -> DeepLink?
+    func initWithLaunchOptions(_ launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool
+    @available(iOS 9.0, *)
+    func performActionForShortcutItem(_ shortcutItem: UIApplicationShortcutItem, completionHandler: (Bool) -> Void)
+    func openUrl(_ url: URL, sourceApplication: String?, annotation: Any?) -> Bool
+    func continueUserActivity(_ userActivity: NSUserActivity, restorationHandler: ([Any]?) -> Void) -> Bool
+    func deepLinkFromBranchObject(_ object: BranchUniversalObject?, properties: BranchLinkProperties?)
+    @discardableResult
+    func didReceiveRemoteNotification(_ userInfo: [AnyHashable: Any], applicationState: UIApplicationState)
+        -> PushNotification?
+    func handleActionWithIdentifier(_ identifier: String?, forRemoteNotification userInfo: [AnyHashable: Any],
+                                    completionHandler: () -> Void)
+}
+
+class LGDeepLinksRouter: DeepLinksRouter {
+    static let sharedInstance: LGDeepLinksRouter = LGDeepLinksRouter()
+
+    var deepLinks: Observable<DeepLink> {
+        return deepLinksSignal.asObservable()
+    }
 
     /// Helper filtering .conversations, .conversation and .message
     var chatDeepLinks: Observable<DeepLink> {
-        return deepLinks.asObservable().filter { deepLink in
+        return deepLinks.filter { deepLink in
             switch deepLink.action {
             case .conversations, .conversation, .message:
                 return true
@@ -26,6 +46,8 @@ class DeepLinksRouter {
             }
         }
     }
+
+    private let deepLinksSignal = PublishSubject<DeepLink>()
 
     private var initialDeepLink: DeepLink?
 
@@ -55,7 +77,7 @@ class DeepLinksRouter {
     @available(iOS 9.0, *)
     func performActionForShortcutItem(_ shortcutItem: UIApplicationShortcutItem, completionHandler: (Bool) -> Void) {
         guard let shortCut = ShortcutItem.buildFromUIApplicationShortcutItem(shortcutItem) else { return }
-        deepLinks.onNext(shortCut.deepLink)
+        deepLinksSignal.onNext(shortCut.deepLink)
     }
 
     // MARK: > Uri schemes
@@ -65,7 +87,7 @@ class DeepLinksRouter {
         if Branch.getInstance().handleDeepLink(url) { return true }
 
         guard let uriScheme = UriScheme.buildFromUrl(url) else { return false }
-        deepLinks.onNext(uriScheme.deepLink)
+        deepLinksSignal.onNext(uriScheme.deepLink)
         return true
     }
 
@@ -74,7 +96,7 @@ class DeepLinksRouter {
     func continueUserActivity(_ userActivity: NSUserActivity, restorationHandler: ([Any]?) -> Void) -> Bool {
         logMessage(.verbose, type: AppLoggingOptions.deepLink, message: "Continue user activity: \(userActivity.webpageURL)")
         if let appsflyerDeepLink = AppsFlyerDeepLink.buildFromUserActivity(userActivity) {
-            deepLinks.onNext(appsflyerDeepLink.deepLink)
+            deepLinksSignal.onNext(appsflyerDeepLink.deepLink)
             return true
         }
 
@@ -84,7 +106,7 @@ class DeepLinksRouter {
             // Branch sometimes fails to return true for their own user activity so we return true for app.letgo.com links
             return UniversalLink.isBranchDeepLink(userActivity)
         }
-        deepLinks.onNext(universalLink.deepLink)
+        deepLinksSignal.onNext(universalLink.deepLink)
         return true
     }
 
@@ -94,7 +116,7 @@ class DeepLinksRouter {
         logMessage(.verbose, type: .deepLink, message: "received branch Object \(object)")
         guard let branchDeepLink = object?.deepLinkWithProperties(properties) else { return }
         logMessage(.verbose, type: .deepLink, message: "Resolved branch Object \(branchDeepLink.action)")
-        deepLinks.onNext(branchDeepLink)
+        deepLinksSignal.onNext(branchDeepLink)
     }
 
     // MARK: > Push Notifications
@@ -103,7 +125,7 @@ class DeepLinksRouter {
         -> PushNotification? {
             guard let pushNotification = PushNotification.buildFromUserInfo(userInfo,
                                                 appActive: applicationState == .active) else { return nil }
-            deepLinks.onNext(pushNotification.deepLink)
+            deepLinksSignal.onNext(pushNotification.deepLink)
             return pushNotification
     }
 

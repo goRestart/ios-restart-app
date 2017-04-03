@@ -63,7 +63,7 @@ final class AppCoordinator: NSObject, Coordinator {
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   pushPermissionsManager: PushPermissionsManager.sharedInstance,
                   ratingManager: RatingManager.sharedInstance,
-                  deepLinksRouter: DeepLinksRouter.sharedInstance,
+                  deepLinksRouter: LGDeepLinksRouter.sharedInstance,
                   tracker: TrackerProxy.sharedInstance,
                   productRepository: Core.productRepository,
                   userRepository: Core.userRepository,
@@ -168,7 +168,7 @@ extension AppCoordinator: AppNavigator {
 
         let onboardingCoordinator = OnboardingCoordinator()
         onboardingCoordinator.delegate = self
-        openChild(coordinator: onboardingCoordinator, parent: tabBarCtl, animated: true, completion: nil)
+        openChild(coordinator: onboardingCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
         return true
     }
 
@@ -192,13 +192,13 @@ extension AppCoordinator: AppNavigator {
     func openSell(_ source: PostingSource) {
         let sellCoordinator = SellCoordinator(source: source)
         sellCoordinator.delegate = self
-        openChild(coordinator: sellCoordinator, parent: tabBarCtl, animated: true, completion: nil)
+        openChild(coordinator: sellCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
     }
 
     func openUserRating(_ source: RateUserSource, data: RateUserData) {
         let userRatingCoordinator = UserRatingCoordinator(source: source, data: data)
         userRatingCoordinator.delegate = self
-        openChild(coordinator: userRatingCoordinator, parent: tabBarCtl, animated: true, completion: nil)
+        openChild(coordinator: userRatingCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
     }
     
     func openChangeLocation() {
@@ -217,12 +217,9 @@ extension AppCoordinator: AppNavigator {
             onboardingCoordinator.openResetPassword(coordinator: changePasswordCoordinator)
             return
         }
-        forceCloseCurrentChild() { [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.tabBarCtl.clearAllPresented()
-            strongSelf.openChild(coordinator: changePasswordCoordinator, parent: strongSelf.tabBarCtl,
-                                 animated: true, completion: nil)
-        }
+
+        tabBarCtl.clearAllPresented()
+        openChild(coordinator: changePasswordCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
     }
 
     func openSurveyIfNeeded() {
@@ -230,7 +227,7 @@ extension AppCoordinator: AppNavigator {
             guard let surveysCoordinator = SurveysCoordinator() else { return }
             guard let parent = self?.tabBarCtl else { return }
             surveysCoordinator.delegate = self
-            self?.openChild(coordinator: surveysCoordinator, parent: parent, animated: true, completion: nil)
+            self?.openChild(coordinator: surveysCoordinator, parent: parent, animated: true, forceCloseChild: false, completion: nil)
         }
     }
 
@@ -244,15 +241,6 @@ extension AppCoordinator: AppNavigator {
     
     func openDeepLink(deepLink: DeepLink) {
         triggerDeepLink(deepLink, initialDeepLink: false)
-    }
-}
-
-
-// MARK: - CoordinatorDelegate
-
-extension AppCoordinator: CoordinatorDelegate {
-    func coordinatorDidClose(_ coordinator: Coordinator) {
-        child = nil
     }
 }
 
@@ -433,10 +421,10 @@ fileprivate extension AppCoordinator {
         locationManager.locationEvents.filter { $0 == .locationUpdate }.take(1).bindNext {
             [weak self] _ in
             guard let strongSelf = self else { return }
-            if let currentLocation = strongSelf.locationManager.currentLocation, currentLocation.isAuto && !strongSelf.featureFlags.locationMatchesCountry {
+            if strongSelf.featureFlags.locationRequiresManualChangeSuggestion {
                 strongSelf.askUserToUpdateLocationManually()
             }
-            }.addDisposableTo(disposeBag)
+        }.addDisposableTo(disposeBag)
        }
 
     func askUserToUpdateLocation() {
@@ -526,17 +514,6 @@ fileprivate extension AppCoordinator {
 
 fileprivate extension AppCoordinator {
 
-    func forceCloseCurrentChild(completion: (() -> Void)?) {
-        if let child = child {
-            child.closeCoordinator(animated: false) { [weak self] in
-                self?.child = nil
-                completion?()
-            }
-        } else {
-            completion?()
-        }
-    }
-
     func openTab(_ tab: Tab, force: Bool, completion: (() -> ())?) {
         let shouldOpen = force || shouldOpenTab(tab)
         if shouldOpen {
@@ -546,7 +523,7 @@ fileprivate extension AppCoordinator {
 
     func openLogin(_ style: LoginStyle, source: EventParameterLoginSourceValue, afterLogInSuccessful: @escaping () -> ()) {
         let coordinator = LoginCoordinator(source: source, style: style, loggedInAction: afterLogInSuccessful)
-        openChild(coordinator: coordinator, parent: tabBarCtl, animated: true, completion: nil)
+        openChild(coordinator: coordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
     }
 
     /**

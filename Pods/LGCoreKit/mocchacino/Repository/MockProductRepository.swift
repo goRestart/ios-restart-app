@@ -2,16 +2,16 @@ import Result
 import RxSwift
 
 open class MockProductRepository: ProductRepository {
-    public var eventsPublishSubject: PublishSubject<ProductEvent>
+    public var eventsPublishSubject = PublishSubject<ProductEvent>()
     
-    public var indexResult: ProductsResult
-    public var productResult: ProductResult
-    public var deleteProductResult: ProductVoidResult
-    public var markAsSoldVoidResult: ProductVoidResult
-    public var userProductRelationResult: ProductUserRelationResult
-    public var statsResult: ProductStatsResult
-    public var incrementViewsResult: ProductVoidResult
-    public var productBuyersResult: ProductBuyersResult
+    public var indexResult: ProductsResult!
+    public var productResult: ProductResult!
+    public var deleteProductResult: ProductVoidResult!
+    public var markAsSoldVoidResult: ProductVoidResult!
+    public var userProductRelationResult: ProductUserRelationResult!
+    public var statsResult: ProductStatsResult!
+    public var incrementViewsResult: ProductVoidResult!
+    public var productBuyersResult: ProductBuyersResult!
 
     public var markAsSoldProductId: String?
     public var markAsSoldBuyerId: String?
@@ -19,16 +19,8 @@ open class MockProductRepository: ProductRepository {
 
     // MARK: - Lifecycle
 
-    public init() {
-        self.eventsPublishSubject = PublishSubject<ProductEvent>()
-        self.indexResult = ProductsResult(value: MockProduct.makeMocks(count: Int.makeRandom(min: 0, max: 10)))
-        self.productResult = ProductResult(value: MockProduct.makeMock())
-        self.deleteProductResult = ProductVoidResult(value: Void())
-        self.markAsSoldVoidResult = ProductVoidResult(value: Void())
-        self.userProductRelationResult = ProductUserRelationResult(value: MockUserProductRelation.makeMock())
-        self.statsResult = ProductStatsResult(value: MockProductStats.makeMock())
-        self.incrementViewsResult = ProductVoidResult(value: Void())
-        self.productBuyersResult = ProductBuyersResult(value: MockUserProduct.makeMocks(count: Int.makeRandom(min: 0, max: 10)))
+    required public init() {
+        
     }
 
 

@@ -42,7 +42,11 @@ class MockFeatureFlags: FeatureFlaggeable {
 
     // Country dependant features
     var freePostingModeAllowed = false
-    var locationMatchesCountry = false
+    var locationRequiresManualChangeSuggestion = false
     var signUpEmailNewsletterAcceptRequired = false
     var signUpEmailTermsAndConditionsAcceptRequired = false
+
+    func commercialsAllowedFor(productCountryCode: String?) -> Bool {
+        return false
+    }
 }

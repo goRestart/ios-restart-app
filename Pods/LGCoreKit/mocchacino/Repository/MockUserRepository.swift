@@ -2,19 +2,16 @@ import Result
 import RxSwift
 
 open class MockUserRepository: UserRepository {
-    public var indexResult: UsersResult
-    public var userResult: UserResult
-    public var userUserRelationResult: UserUserRelationResult
-    public var emptyResult: UserVoidResult
+    public var indexResult: UsersResult!
+    public var userResult: UserResult!
+    public var userUserRelationResult: UserUserRelationResult!
+    public var emptyResult: UserVoidResult!
 
 
     // MARK: - Lifecycle
 
-    public init() {
-        self.indexResult = UsersResult(value: MockUser.makeMocks(count: Int.makeRandom(min: 0, max: 10)))
-        self.userResult = UserResult(value: MockUser.makeMock())
-        self.userUserRelationResult = UserUserRelationResult(value: MockUserUserRelation.makeMock())
-        self.emptyResult = UserVoidResult(value: Void())
+    required public init() {
+        
     }
 
 
