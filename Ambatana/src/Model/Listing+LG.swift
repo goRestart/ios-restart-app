@@ -8,7 +8,7 @@
 
 import LGCoreKit
 
-extension Listing: Priceable {
+extension Listing {
     func belongsTo(userId: String?) -> Bool {
         let ownerId = user.objectId
         guard user.objectId != nil && userId != nil else { return false }

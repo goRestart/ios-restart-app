@@ -172,12 +172,12 @@ class ProductViewModel: BaseViewModel {
     }
     
     internal override func didBecomeActive(_ firstTime: Bool) {
-        guard let productId = listing.value.objectId else { return }
+        guard let listingId = listing.value.objectId else { return }
 
-        listingRepository.incrementViews(listingId: productId, completion: nil)
+        listingRepository.incrementViews(listingId: listingId, completion: nil)
 
         if !relationRetrieved && myUserRepository.myUser != nil {
-            listingRepository.retrieveUserListingRelation(productId) { [weak self] result in
+            listingRepository.retrieveUserListingRelation(listingId) { [weak self] result in
                 guard let value = result.value  else { return }
                 self?.relationRetrieved = true
                 self?.isFavorite.value = value.isFavorited
@@ -186,14 +186,14 @@ class ProductViewModel: BaseViewModel {
         }
 
         if listingStats.value == nil {
-            listingRepository.retrieveStats(listingId: productId) { [weak self] result in
+            listingRepository.retrieveStats(listingId: listingId) { [weak self] result in
                 guard let stats = result.value else { return }
                 self?.listingStats.value = stats
             }
         }
 
-        if !commercialsRetrieved && featureFlags.commercialsAllowedFor(productCountryCode: product.value.postalAddress.countryCode) {
-            commercializerRepository.index(productId) { [weak self] result in
+        if !commercialsRetrieved && featureFlags.commercialsAllowedFor(productCountryCode: listing.value.postalAddress.countryCode) {
+            commercializerRepository.index(listingId) { [weak self] result in
                 guard let value = result.value else { return }
                 let readyCommercials = value.filter {$0.status == .ready }
                 self?.productHasReadyCommercials.value = !readyCommercials.isEmpty
