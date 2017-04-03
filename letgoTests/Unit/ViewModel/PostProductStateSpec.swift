@@ -72,9 +72,20 @@ class PostProductStateSpec: BaseViewModelSpec {
                             expect(sut.step) == PostProductStep.uploadingImage
                         }
                     }
-                    
-                    it("returns the same state when updating pending to upload images") {
-                        expect(sut.updating(pendingToUploadImages: [])) === sut  // TODO: 🚔 Update w random UIImage
+                                       
+                    context("update pending to upload images") {
+                        beforeEach {
+                            oldSut = sut
+                            sut = sut.updating(pendingToUploadImages: []) // TODO: 🚔 Update w random UIImage
+                        }
+                        
+                        it("returns a new state") {
+                            expect(sut) !== oldSut
+                        }
+                        
+                        it("updates the step to details selection") {
+                            expect(sut.step) == PostProductStep.detailsSelection
+                        }
                     }
                     
                     it("returns the same state when updating uploaded images") {
@@ -111,19 +122,8 @@ class PostProductStateSpec: BaseViewModelSpec {
                         expect(sut.updatingStepToUploadingImages()) === sut
                     }
                     
-                    context("update pending to upload images") {
-                        beforeEach {
-                            oldSut = sut
-                            sut = sut.updating(pendingToUploadImages: []) // TODO: 🚔 Update w random UIImage
-                        }
-                        
-                        it("returns a new state") {
-                            expect(sut) !== oldSut
-                        }
-                        
-                        it("updates the step to details selection") {
-                            expect(sut.step) == PostProductStep.detailsSelection
-                        }
+                    it("returns the same state when updating pending to upload images") {
+                        expect(sut.updating(pendingToUploadImages: [])) === sut  // TODO: 🚔 Update w random UIImage
                     }
                     
                     context("update uploaded images") {
@@ -375,8 +375,19 @@ class PostProductStateSpec: BaseViewModelSpec {
                         }
                     }
                     
-                    it("returns the same state when updating pending to upload images") {
-                        expect(sut.updating(pendingToUploadImages: [])) === sut  // TODO: 🚔 Update w random UIImage
+                    context("update pending to upload images") {
+                        beforeEach {
+                            oldSut = sut
+                            sut = sut.updating(pendingToUploadImages: []) // TODO: 🚔 Update w random UIImage
+                        }
+                        
+                        it("returns a new state") {
+                            expect(sut) !== oldSut
+                        }
+                        
+                        it("updates the step to details selection") {
+                            expect(sut.step) == PostProductStep.detailsSelection
+                        }
                     }
                     
                     it("returns the same state when updating uploaded images") {
@@ -415,19 +426,8 @@ class PostProductStateSpec: BaseViewModelSpec {
                         expect(sut.updatingStepToUploadingImages()) === sut
                     }
                     
-                    context("update pending to upload images") {
-                        beforeEach {
-                            oldSut = sut
-                            sut = sut.updating(pendingToUploadImages: []) // TODO: 🚔 Update w random UIImage
-                        }
-                        
-                        it("returns a new state") {
-                            expect(sut) !== oldSut
-                        }
-                        
-                        it("updates the step to car details selection with price") {
-                            expect(sut.step) == PostProductStep.carDetailsSelection(includePrice: true)
-                        }
+                    it("returns the same state when updating pending to upload images") {
+                        expect(sut.updating(pendingToUploadImages: [])) === sut  // TODO: 🚔 Update w random UIImage
                     }
                     
                     context("update uploaded images") {
@@ -488,19 +488,8 @@ class PostProductStateSpec: BaseViewModelSpec {
                         expect(sut.updatingStepToUploadingImages()) === sut
                     }
                     
-                    context("update pending to upload images") {
-                        beforeEach {
-                            oldSut = sut
-                            sut = sut.updating(pendingToUploadImages: []) // TODO: 🚔 Update w random UIImage
-                        }
-                        
-                        it("returns a new state") {
-                            expect(sut) !== oldSut
-                        }
-                        
-                        it("updates the step to details selection") {
-                            expect(sut.step) == PostProductStep.detailsSelection
-                        }
+                    it("returns the same state when updating pending to upload images") {
+                        expect(sut.updating(pendingToUploadImages: [])) === sut  // TODO: 🚔 Update w random UIImage
                     }
                     
                     context("update uploaded images") {
@@ -754,8 +743,19 @@ class PostProductStateSpec: BaseViewModelSpec {
                         }
                     }
                     
-                    it("returns the same state when updating pending to upload images") {
-                        expect(sut.updating(pendingToUploadImages: [])) === sut  // TODO: 🚔 Update w random UIImage
+                    context("update pending to upload images") {
+                        beforeEach {
+                            oldSut = sut
+                            sut = sut.updating(pendingToUploadImages: []) // TODO: 🚔 Update w random UIImage
+                        }
+                        
+                        it("returns a new state") {
+                            expect(sut) !== oldSut
+                        }
+                        
+                        it("updates the step to car details selection with price") {
+                            expect(sut.step) == PostProductStep.detailsSelection
+                        }
                     }
                     
                     it("returns the same state when updating uploaded images") {
@@ -792,19 +792,8 @@ class PostProductStateSpec: BaseViewModelSpec {
                         expect(sut.updatingStepToUploadingImages()) === sut
                     }
                     
-                    context("update pending to upload images") {
-                        beforeEach {
-                            oldSut = sut
-                            sut = sut.updating(pendingToUploadImages: []) // TODO: 🚔 Update w random UIImage
-                        }
-                        
-                        it("returns a new state") {
-                            expect(sut) !== oldSut
-                        }
-                        
-                        it("updates the step to car details selection with price") {
-                            expect(sut.step) == PostProductStep.detailsSelection
-                        }
+                    it("returns the same state when updating pending to upload images") {
+                        expect(sut.updating(pendingToUploadImages: [])) === sut  // TODO: 🚔 Update w random UIImage
                     }
                     
                     context("update uploaded images") {
