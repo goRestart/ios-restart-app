@@ -252,6 +252,8 @@
 		50560B9B1B25D18F0021D8D9 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50560B8E1B25D18F0021D8D9 /* TabBarController.swift */; };
 		50582C291D6C7F4F00787E91 /* AccessibilityId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50582C281D6C7F4F00787E91 /* AccessibilityId.swift */; };
 		50582C2A1D6C7F4F00787E91 /* AccessibilityId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50582C281D6C7F4F00787E91 /* AccessibilityId.swift */; };
+		505F55B31E8A97AF005A616F /* PostCategorySelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505F55B21E8A97AF005A616F /* PostCategorySelectionView.swift */; };
+		505F55B41E8A97AF005A616F /* PostCategorySelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505F55B21E8A97AF005A616F /* PostCategorySelectionView.swift */; };
 		5061ACBE1DE36534002E5423 /* ExternalAuthHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5061ACBC1DE3637D002E5423 /* ExternalAuthHelper.swift */; };
 		5061ACBF1DE36535002E5423 /* ExternalAuthHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5061ACBC1DE3637D002E5423 /* ExternalAuthHelper.swift */; };
 		5063949A1C8D97050091C831 /* BaseViewModelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506394991C8D97050091C831 /* BaseViewModelDelegate.swift */; };
@@ -1534,6 +1536,7 @@
 		50560B891B25D18F0021D8D9 /* BaseViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
 		50560B8E1B25D18F0021D8D9 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		50582C281D6C7F4F00787E91 /* AccessibilityId.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccessibilityId.swift; sourceTree = "<group>"; };
+		505F55B21E8A97AF005A616F /* PostCategorySelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCategorySelectionView.swift; sourceTree = "<group>"; };
 		5061ACBC1DE3637D002E5423 /* ExternalAuthHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExternalAuthHelper.swift; sourceTree = "<group>"; };
 		506394991C8D97050091C831 /* BaseViewModelDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewModelDelegate.swift; sourceTree = "<group>"; };
 		5063949B1C8D97520091C831 /* UIAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIAction.swift; sourceTree = "<group>"; };
@@ -3569,6 +3572,7 @@
 		C74016D71D646793004C1E9D /* PostDetails */ = {
 			isa = PBXGroup;
 			children = (
+				505F55B21E8A97AF005A616F /* PostCategorySelectionView.swift */,
 				C74016DE1D6468A7004C1E9D /* PostProductDetailViewModel.swift */,
 				C74016D81D6467C9004C1E9D /* PostProductDetailPriceView.swift */,
 				C74016DB1D6467DB004C1E9D /* PostProductDetailPriceView.xib */,
@@ -5335,6 +5339,7 @@
 				C754E0131CB2679D006FDFD5 /* CommercialPreviewViewController.swift in Sources */,
 				72EB705C1E65C44E00BF709B /* ModularNotificationCellDrawer.swift in Sources */,
 				C731B8781CE22BBE00F31D46 /* WSChatListViewModel.swift in Sources */,
+				505F55B31E8A97AF005A616F /* PostCategorySelectionView.swift in Sources */,
 				6A4D1E151C6B824600D2D3B8 /* TourLocationViewModel.swift in Sources */,
 				C7B5884F1CE1DE1C009B3975 /* DirectAnswerCell.swift in Sources */,
 				C7B5888D1CE1DFA6009B3975 /* ChatOthersMessageCell.swift in Sources */,
@@ -5830,6 +5835,7 @@
 				C711A1AA1CDC99E5002D30D9 /* NotificationCellDrawerFactory.swift in Sources */,
 				72EB705D1E65C44E00BF709B /* ModularNotificationCellDrawer.swift in Sources */,
 				C7F22D811DB7A3A200353803 /* RecaptchaViewController.swift in Sources */,
+				505F55B41E8A97AF005A616F /* PostCategorySelectionView.swift in Sources */,
 				C754E0141CB2679D006FDFD5 /* CommercialPreviewViewController.swift in Sources */,
 				C7DB42151C5138B500400945 /* SignUpLogInViewModel.swift in Sources */,
 				C731B8791CE22BBE00F31D46 /* WSChatListViewModel.swift in Sources */,
