@@ -11,7 +11,6 @@ import LGCoreKit
 import RxSwift
 
 protocol ChatViewModelDelegate: BaseViewModelDelegate {
-    func vmShowRelatedProducts(_ productId: String?)
 
     func vmDidFailRetrievingChatMessages()
     
@@ -38,8 +37,28 @@ struct EmptyConversation: ChatConversation {
     var amISelling: Bool 
 }
 
-enum ChatRelatedItemsState {
-    case loading, visible, hidden
+enum ChatRelatedItemsState: Equatable {
+    case loading
+    case visible(productId: String)
+    case hidden
+    
+    var isVisible: Bool {
+        switch self {
+        case .visible:
+            return true
+        case .hidden, .loading:
+            return false
+        }
+    }
+}
+
+func ==(a: ChatRelatedItemsState, b: ChatRelatedItemsState) -> Bool {
+    switch (a, b) {
+    case (.visible(let prodA), .visible(let prodB)) where prodA == prodB: return true
+    case (.hidden, .hidden): return true
+    case (.loading, .loading): return true
+    default: return false
+    }
 }
 
 enum DirectAnswersState {
@@ -83,6 +102,7 @@ class ChatViewModel: BaseViewModel {
     var relatedProducts: [Product] = []
     var shouldTrackFirstMessage: Bool = false
     let shouldShowExpressBanner = Variable<Bool>(false)
+    let relatedProductsState = Variable<ChatRelatedItemsState>(.loading)
 
     var keyForTextCaching: String { return userDefaultsSubKey }
     
@@ -112,7 +132,6 @@ class ChatViewModel: BaseViewModel {
     fileprivate let expressMessagesAlreadySent = Variable<Bool>(false)
     fileprivate let interlocutorIsMuted = Variable<Bool>(false)
     private let interlocutorHasMutedYou = Variable<Bool>(false)
-    private let relatedProductsState = Variable<ChatRelatedItemsState>(.loading)
     fileprivate let sellerDidntAnswer = Variable<Bool?>(nil)
     fileprivate let conversation: Variable<ChatConversation>
     fileprivate var interlocutor: User?
@@ -355,23 +374,17 @@ class ChatViewModel: BaseViewModel {
             }
         }.addDisposableTo(disposeBag)
 
-        relatedProductsState.asObservable().bindNext { [weak self] state in
-            switch state {
-            case .loading, .hidden:
-                self?.delegate?.vmShowRelatedProducts(nil)
-            case .visible:
-                self?.delegate?.vmShowRelatedProducts(self?.conversation.value.product?.objectId)
-            }
-        }.addDisposableTo(disposeBag)
-
         let relatedProductsConversation = conversation.asObservable().map { $0.relatedProductsEnabled }
         Observable.combineLatest(relatedProductsConversation, sellerDidntAnswer.asObservable()) { [weak self] in
             guard let strongSelf = self else { return .loading }
             guard strongSelf.isBuyer else { return .hidden } // Seller doesn't have related products
-            if $0 { return .visible }
+            guard let productId = strongSelf.conversation.value.product?.objectId else {return .hidden }
+            if $0 { return .visible(productId: productId) }
             guard let didntAnswer = $1 else { return .loading } // If still checking if seller didn't answer. set loading state
-            return didntAnswer ? .visible : .hidden
+            return didntAnswer ? .visible(productId: productId) : .hidden
         }.bindTo(relatedProductsState).addDisposableTo(disposeBag)
+        
+       
 
         let cfgManager = configManager
         let myMessagesReviewable = myMessagesCount.asObservable().map { $0 >= cfgManager.myMessagesCountForRating }
@@ -407,7 +420,7 @@ class ChatViewModel: BaseViewModel {
          */
         Observable.combineLatest(expressBannerTriggered,
             hasRelatedProducts.asObservable(),
-            relatedProductsState.asObservable().map { $0 == .visible },
+            relatedProductsState.asObservable().map { $0.isVisible },
         expressMessagesAlreadySent.asObservable()) { $0 && $1 && !$2 && !$3 }
             .distinctUntilChanged().bindTo(shouldShowExpressBanner).addDisposableTo(disposeBag)
 

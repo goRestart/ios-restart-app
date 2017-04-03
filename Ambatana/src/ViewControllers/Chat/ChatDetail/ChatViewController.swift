@@ -496,6 +496,15 @@ fileprivate extension ChatViewController {
         viewModel.showStickerBadge.asObservable().bindNext { [weak self] _ in
             self?.reloadLeftActions()
         }.addDisposableTo(disposeBag)
+        
+        viewModel.relatedProductsState.asObservable().bindNext { state in
+            switch state {
+            case .visible(let productId):
+                self.relatedProductsView.productId.value = productId
+            case .hidden, .loading:
+                self.relatedProductsView.productId.value = nil
+            }
+        }.addDisposableTo(disposeBag)
     }
 }
 
@@ -550,10 +559,6 @@ extension ChatViewController: ChatViewModelDelegate {
         showAutoFadingOutMessageAlert(LGLocalizedString.chatMessageLoadGenericError) { [weak self] in
             self?.popBackViewController()
         }
-    }
-
-    func vmShowRelatedProducts(_ productId: String?) {
-        relatedProductsView.productId.value = productId
     }
 
     func vmDidUpdateProduct(messageToShow message: String?) {

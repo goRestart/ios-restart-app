@@ -77,6 +77,7 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
         initStickersWindow()
         setupSendingRx()
         setupExpressBannerRx()
+        setupRx()
         NotificationCenter.default.addObserver(self, selector: #selector(menuControllerWillShow(_:)),
                                                          name: NSNotification.Name.UIMenuControllerWillShowMenu, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(menuControllerWillHide(_:)),
@@ -221,6 +222,17 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
                 self?.hideStickers()
             }
         }.addDisposableTo(disposeBag)
+    }
+    
+    private func setupRx() {
+        viewModel.relatedProductsState.asObservable().bindNext { state in
+            switch state {
+            case .visible(let productId):
+                self.relatedProductsView.productId.value = productId
+            case .hidden, .loading:
+                self.relatedProductsView.productId.value = nil
+            }
+            }.addDisposableTo(disposeBag)
     }
 
     private func setupNavigationBar() {
@@ -452,10 +464,7 @@ extension OldChatViewController: OldChatViewModelDelegate {
         showAutoFadingOutMessageAlert(message)
     }
 
-    func vmShowRelatedProducts(_ productId: String?) {
-        relatedProductsView.productId.value = productId
-    }
-
+    
     // MARK: > User
 
     func vmShowReportUser(_ reportUserViewModel: ReportUsersViewModel) {

@@ -17,8 +17,8 @@ import Foundation
 
 class ChatViewModelSpec: BaseViewModelSpec {
     
-    // Control vars
-    var relatedProductsShown: Bool = false
+    // Control vars:
+    var safetyTipsShown: Bool! = false
     
     override func spec() {
         
@@ -38,6 +38,8 @@ class ChatViewModelSpec: BaseViewModelSpec {
         var source: EventParameterTypePage!
         var pushPermissionManager: MockPushPermissionsManager!
         var ratingManager: MockRatingManager!
+
+        
         
         // Vars to modify on tests:
         var mockMyUser: MockMyUser!
@@ -51,8 +53,9 @@ class ChatViewModelSpec: BaseViewModelSpec {
         var scheduler: TestScheduler!
         var disposeBag: DisposeBag!
         var messages: TestableObserver<[ChatViewMessage]>!
+        var relatedProductsStateObserver: TestableObserver<ChatRelatedItemsState>!
         
-        fdescribe("ChatViewModelSpec") {
+        describe("ChatViewModelSpec") {
             
             func buildChatViewModel(myUser: MockMyUser,
                                     chatMessages: [MockChatMessage],
@@ -94,8 +97,8 @@ class ChatViewModelSpec: BaseViewModelSpec {
                 sut.delegate = self
                 disposeBag = DisposeBag()
                 sut.messages.observable.bindTo(messages).addDisposableTo(disposeBag)
+                sut.relatedProductsState.asObservable().bindTo(relatedProductsStateObserver).addDisposableTo(disposeBag)
             }
-            
             
             
             beforeEach {
@@ -120,11 +123,13 @@ class ChatViewModelSpec: BaseViewModelSpec {
                 scheduler = TestScheduler(initialClock: 0)
                 scheduler.start()
                 messages = scheduler.createObserver(Array<ChatViewMessage>.self)
+                relatedProductsStateObserver = scheduler.createObserver(ChatRelatedItemsState.self)
                 
             }
             afterEach {
                 scheduler.stop()
                 disposeBag = nil
+                self.resetViewModelSpec()
             }
             
             
@@ -149,15 +154,20 @@ class ChatViewModelSpec: BaseViewModelSpec {
                                                chatConversation: chatConversation,
                                                user: user)
                             sut.active = true
+                            self.waitFor(timeout: 1)
                         }
                         it ("does not have related products") {
                             expect(sut.relatedProducts.count).toEventually(equal(0))
                         }
-                        it("does not show related products over the keyboard") {
-                            expect(self.relatedProductsShown).toEventually(equal(false))
+                        it("related products states has only one value") {
+                            expect(relatedProductsStateObserver.eventValues.count).toEventually(equal(1))
+                        }
+                        it("related products state is hidden") {
+                            expect(relatedProductsStateObserver.eventValues) == [.hidden]
                         }
                     }
                     context("being a buyer") {
+                        var productId: String!
                         beforeEach {
                             chatConversation = self.makeChatConversation(with: chatInterlocutor, unreadMessageCount: 0, lastMessageSentAt: nil, amISelling: false)
                             buildChatViewModel(myUser: mockMyUser,
@@ -167,14 +177,70 @@ class ChatViewModelSpec: BaseViewModelSpec {
                                                chatConversation: chatConversation,
                                                user: user)
                             sut.active = true
+                            expect(relatedProductsStateObserver.eventValues.count).toEventually(equal(1))
                         }
                         it ("has related products") {
                             expect(sut.relatedProducts.count).toEventually(equal(4))
                         }
-                        fit("shows related products over the keyboard") {
-                            expect(self.relatedProductsShown).toEventually(equal(true))
+                        it("related products state is hidden") {
+                            productId = chatConversation.product?.objectId
+                            expect(relatedProductsStateObserver.eventValues) == [.visible(productId: productId)]
                         }
                     }
+                }
+                context("safety tips") {
+                    context("userChatSafetyTipsShown is false and there is no message from interlocutor") {
+                        beforeEach {
+                            keyValueStorage.userChatSafetyTipsShown = false
+                            chatConversation = self.makeChatConversation(with: chatInterlocutor, unreadMessageCount: 0, lastMessageSentAt: nil, amISelling: false)
+                            buildChatViewModel(myUser: mockMyUser,
+                                               chatMessages: chatMessages,
+                                               product: productResult,
+                                               interlocutor: chatInterlocutor,
+                                               chatConversation: chatConversation,
+                                               user: user)
+                            sut.active = true
+                        }
+                        it("safety tips show up") {
+                            expect(self.safetyTipsShown).toEventually(equal(false))
+                        }
+                    }
+                    context("userChatSafetyTipsShown is true and there is no message from interlocutor") {
+                        beforeEach {
+                            keyValueStorage.userChatSafetyTipsShown = true
+                                chatConversation = self.makeChatConversation(with: chatInterlocutor, unreadMessageCount: 0, lastMessageSentAt: nil, amISelling: false)
+                                buildChatViewModel(myUser: mockMyUser,
+                                                   chatMessages: chatMessages,
+                                                   product: productResult,
+                                                   interlocutor: chatInterlocutor,
+                                                   chatConversation: chatConversation,
+                                                   user: user)
+                                sut.active = true
+                                self.waitFor(timeout: 1)
+                        }
+                        it("safety tips show up") {
+                            expect(self.safetyTipsShown).toEventually(equal(false))
+                        }
+                    }
+                    context("userChatSafetyTipsShown is false and there is message from interlocutor") {
+                        beforeEach {
+                            keyValueStorage.userChatSafetyTipsShown = false
+                            chatMessages = self.makeChatMessages(with: mockMyUser.objectId!, myMessagesNumber: 10, interlocutorId: chatInterlocutor.objectId!, interlocutorNumberMessages: 10)
+                            chatConversation = self.makeChatConversation(with: chatInterlocutor, unreadMessageCount: 0, lastMessageSentAt: Date(), amISelling: false)
+                            buildChatViewModel(myUser: mockMyUser,
+                                               chatMessages: chatMessages,
+                                               product: productResult,
+                                               interlocutor: chatInterlocutor,
+                                               chatConversation: chatConversation,
+                                               user: user)
+                            sut.active = true
+                            self.waitFor(timeout: 1)
+                        }
+                        it("safety tips show up") {
+                            expect(self.safetyTipsShown).toEventually(equal(true))
+                        }
+                    }
+
                 }
             }
             
@@ -184,8 +250,6 @@ class ChatViewModelSpec: BaseViewModelSpec {
                     productResult = self.makeMockProduct(with: .approved)
                     chatInterlocutor = self.makeChatInterlocutor(with: .active, isMuted: false, isBanned: false, hasMutedYou: false)
                     user = self.makeUser(with: .active, isDummy: false, userId: mockMyUser.objectId!)
-                    
-                    
                 }
                 context("there is less than two message for each user") {
                     beforeEach {
@@ -198,6 +262,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                                            chatConversation: chatConversation,
                                            user: user)
                         sut.active = true
+                        self.waitFor(timeout: 1)
                     }
                     it("does not show review button") {
                         expect(sut.shouldShowReviewButton.value) == false
@@ -295,24 +360,36 @@ class ChatViewModelSpec: BaseViewModelSpec {
                             expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "product-detail-ask-question", "user-sent-message"]
                         }
                     }
+                    context("sticker") {
+                        var sticker: MockSticker!
+                        beforeEach {
+                            sticker = MockSticker.makeMock()
+                            sut.send(sticker: sticker)
+                            expect(tracker.trackedEvents.count).toEventually(equal(3))
+                        }
+                        fit("adds one element on messages") {
+                            expect(messages.lastValue?.map{ $0.value }) == [sticker.name]
+                        }
+                        it("tracks sent first message + message sent") {
+                            expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "product-detail-ask-question", "user-sent-message"]
+                        }
+                    }
                 }
                 
                 describe("already existing conversation") {
                     beforeEach {
                         mockMyUser = self.makeMockMyUser(with: .active, isDummy: false)
-                        chatMessages = [MockChatMessage.makeMock()]
                         productResult = self.makeMockProduct(with: .approved)
                         chatInterlocutor = self.makeChatInterlocutor(with: .active, isMuted: false, isBanned: false, hasMutedYou: false)
-                        chatConversation = self.makeChatConversation(with: chatInterlocutor, unreadMessageCount: 0, lastMessageSentAt: Date(), amISelling: false)
                         user = self.makeUser(with: .active, isDummy: false, userId: mockMyUser.objectId!)
-                        
+                        chatMessages = self.makeChatMessages(with: mockMyUser.objectId!, myMessagesNumber: 1, interlocutorId: chatInterlocutor.objectId!, interlocutorNumberMessages: 1)
+                        chatConversation = self.makeChatConversation(with: chatInterlocutor, unreadMessageCount: 0, lastMessageSentAt: Date(), amISelling: false)
                         buildChatViewModel(myUser: mockMyUser,
                                            chatMessages: chatMessages,
                                            product: productResult,
                                            interlocutor: chatInterlocutor,
                                            chatConversation: chatConversation,
                                            user: user)
-                        
                         sut.active = true
                     }
                     context("quick answer") {
@@ -321,7 +398,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                             expect(tracker.trackedEvents.count).toEventually(equal(2))
                         }
                         it("adds one element on messages") {
-                            expect(messages.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.text]
+                            expect(messages.lastValue?.last?.value) == QuickAnswer.meetUp.text
                         }
                         it("tracks sent first message + message sent") {
                             expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "user-sent-message"]
@@ -329,31 +406,31 @@ class ChatViewModelSpec: BaseViewModelSpec {
                     }
                     context("custom text") {
                         beforeEach {
-                            
                             sut.send(text: "text")
                             expect(tracker.trackedEvents.count).toEventually(equal(2))
                         }
                         it("adds one element on messages") {
-                            expect(messages.lastValue?.map{ $0.value }) == ["text"]
+                            expect(messages.lastValue?.last?.value) == "text"
                         }
                         it("tracks sent first message + message sent") {
                             expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "user-sent-message"]
                         }
                     }
                     context("sticker") {
+                        var sticker: MockSticker!
                         beforeEach {
-                            sut.send(sticker: MockSticker.makeMock())
+                            sticker = MockSticker.makeMock()
+                            sut.send(sticker: sticker)
                             expect(tracker.trackedEvents.count).toEventually(equal(2))
                         }
                         it("adds one element on messages") {
-                            expect(messages.lastValue?.map{ $0.value }) == ["text"]
+                            expect(messages.lastValue?.last?.value) == sticker.name
                         }
                         it("tracks sent first message + message sent") {
                             expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "user-sent-message"]
                         }
                     }
                 }
-                
             }
         }
     }
@@ -361,24 +438,16 @@ class ChatViewModelSpec: BaseViewModelSpec {
 
 
 extension ChatViewModelSpec: ChatViewModelDelegate {
-    func vmShowRelatedProducts(_ productId: String?) {
-        print("💩💩💩💩💩💩")
-        relatedProductsShown = (productId != nil) ? true : false
-    }
-    
     func vmDidFailRetrievingChatMessages() {
-        print("💩💩💩💩💩💩 💩vmDidFailRetrievingChatMessages")
     }
     
     func vmShowReportUser(_ reportUserViewModel: ReportUsersViewModel) {
-        print("💩💩💩💩💩💩💩 vmShowReportUser")
     }
     func vmShowUserRating(_ source: RateUserSource, data: RateUserData) {
-        print("💩💩💩💩💩💩💩 vmShowUserRating")
     }
     
     func vmShowSafetyTips() {
-        print("💩💩💩💩💩💩 vmShowSafetyTips")
+        safetyTipsShown = true
     }
     
     func vmClearText() {
