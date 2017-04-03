@@ -19,6 +19,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
     
     // Control vars:
     var safetyTipsShown: Bool! = false
+    var textFieldCleaned: Bool! = false
     
     override func spec() {
         
@@ -347,6 +348,9 @@ class ChatViewModelSpec: BaseViewModelSpec {
                         it("tracks sent first message + message sent") {
                             expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "product-detail-ask-question", "user-sent-message"]
                         }
+                        it("should not clean textField") {
+                            expect(self.textFieldCleaned) == false
+                        }
                     }
                     context("custom text") {
                         beforeEach {
@@ -358,6 +362,9 @@ class ChatViewModelSpec: BaseViewModelSpec {
                         }
                         it("tracks sent first message + message sent") {
                             expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "product-detail-ask-question", "user-sent-message"]
+                        }
+                        it("should clean textField") {
+                            expect(self.textFieldCleaned).toEventually(equal(true))
                         }
                     }
                     context("sticker") {
@@ -372,6 +379,9 @@ class ChatViewModelSpec: BaseViewModelSpec {
                         }
                         it("tracks sent first message + message sent") {
                             expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "product-detail-ask-question", "user-sent-message"]
+                        }
+                        it("should clean textField") {
+                            expect(self.textFieldCleaned).toEventually(equal(true))
                         }
                     }
                 }
@@ -403,6 +413,9 @@ class ChatViewModelSpec: BaseViewModelSpec {
                         it("tracks sent first message + message sent") {
                             expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "user-sent-message"]
                         }
+                        it("should not clean textField") {
+                            expect(self.textFieldCleaned).toEventually(equal(false))
+                        }
                     }
                     context("custom text") {
                         beforeEach {
@@ -414,6 +427,9 @@ class ChatViewModelSpec: BaseViewModelSpec {
                         }
                         it("tracks sent first message + message sent") {
                             expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "user-sent-message"]
+                        }
+                        it("should clean textField") {
+                            expect(self.textFieldCleaned).toEventually(equal(true))
                         }
                     }
                     context("sticker") {
@@ -429,6 +445,9 @@ class ChatViewModelSpec: BaseViewModelSpec {
                         it("tracks sent first message + message sent") {
                             expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "user-sent-message"]
                         }
+                        it("should clean textField") {
+                            expect(self.textFieldCleaned).toEventually(equal(true))
+                        }
                     }
                 }
             }
@@ -438,37 +457,22 @@ class ChatViewModelSpec: BaseViewModelSpec {
 
 
 extension ChatViewModelSpec: ChatViewModelDelegate {
-    func vmDidFailRetrievingChatMessages() {
-    }
     
-    func vmShowReportUser(_ reportUserViewModel: ReportUsersViewModel) {
-    }
-    func vmShowUserRating(_ source: RateUserSource, data: RateUserData) {
-    }
-    
+    func vmDidFailRetrievingChatMessages() {}
+    func vmShowReportUser(_ reportUserViewModel: ReportUsersViewModel) {}
+    func vmShowUserRating(_ source: RateUserSource, data: RateUserData) {}
     func vmShowSafetyTips() {
         safetyTipsShown = true
     }
-    
     func vmClearText() {
-        print("💩💩💩💩💩 vmClearText")
+        textFieldCleaned = true
     }
-    func vmHideKeyboard(_ animated: Bool) {
-        print("💩💩💩💩💩 vmHideKeyboard")
-    }
-    func vmShowKeyboard() {
-        print("💩💩💩💩💩 vmShowKeyboard")
-    }
+    func vmHideKeyboard(_ animated: Bool) {}
+    func vmShowKeyboard() {}
     
-    func vmAskForRating() {
-        print("💩💩💩💩💩 vmAskForRating")
-    }
-    func vmShowPrePermissions(_ type: PrePermissionType) {
-        print("💩💩💩vmShowPrePermissions")
-    }
-    func vmShowMessage(_ message: String, completion: (() -> ())?) {
-        print("💩💩💩💩💩💩 vmShowMessage")
-    }
+    func vmAskForRating() { }
+    func vmShowPrePermissions(_ type: PrePermissionType) {}
+    func vmShowMessage(_ message: String, completion: (() -> ())?) {}
 }
 
 extension ChatViewModelSpec {
