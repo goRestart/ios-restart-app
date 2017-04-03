@@ -8,7 +8,7 @@
 
 
 //Remove all setters and change by a factory method if required
-public protocol Product: BaseModel, Priceable {
+public protocol Product: BaseListingModel {
     var name: String? { get }
     var nameAuto: String? { get }
     var descr: String? { get }
@@ -33,31 +33,4 @@ public protocol Product: BaseModel, Priceable {
     var createdAt : Date? { get }
 
     var featured: Bool? { get }
-
-    var favorite: Bool { get }          // Default value false
-}
-
-extension Product {
-    func encode() -> [String: Any] {
-        var params: [String: Any] = [:]
-        params["name"] = name
-        params["category"] = category.rawValue
-        params["languageCode"] = languageCode
-        params["userId"] = user.objectId 
-        params["description"] = descr
-        params["price"] = price.value
-        params["price_flag"] = price.priceFlag.rawValue
-        params["currency"] = currency.code
-        params["latitude"] = location.latitude
-        params["longitude"] = location.longitude
-        params["countryCode"] = postalAddress.countryCode
-        params["city"] = postalAddress.city
-        params["address"] = postalAddress.address 
-        params["zipCode"] = postalAddress.zipCode
-        
-        let tokensString = images.flatMap{$0.objectId}.map{"\"" + $0 + "\""}.joined(separator: ",")
-        params["images"] = "[" + tokensString + "]" 
-        
-        return params
-    }
 }

@@ -6,7 +6,7 @@
 //  Copyright © 2017 Ambatana Inc. All rights reserved.
 //
 
-public enum Listing: BaseListingModel {
+public enum Listing: BaseListingModel, Priceable {
     case product(Product)
     case car(Car)
     
@@ -152,17 +152,6 @@ public enum Listing: BaseListingModel {
         switch self {
         case .product(let product): return product.favorite
         case .car(let car): return car.favorite
-        }
-    }
-}
-
-extension Listing {
-    func encode() -> [String: Any] {
-        switch self {
-        case .product(let product):
-            return product.encode()
-        case .car(let car):
-            return car.encode()
         }
     }
 }

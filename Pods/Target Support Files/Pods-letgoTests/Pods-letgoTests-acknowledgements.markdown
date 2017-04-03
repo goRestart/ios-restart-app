@@ -408,7 +408,7 @@ Copyright 2016 Google
 
 ## FirebaseInstanceID
 
-Copyright 2016 Google
+Copyright 2017 Google
 
 ## GTMOAuth2
 
@@ -826,10 +826,6 @@ Copyright 2016 Google
 
 Copyright 2016 Google Inc.
 
-## GoogleAppUtilities
-
-Copyright 2016 Google
-
 ## GoogleIDFASupport
 
 Copyright 2015 Google Inc.
@@ -840,7 +836,7 @@ Copyright 2016 Google
 
 ## GoogleSignIn
 
-Copyright 2016 Google
+Copyright 2017 Google
 
 ## GoogleSymbolUtilities
 

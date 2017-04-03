@@ -17,7 +17,7 @@ struct LGCar: Car {
     let updatedAt: Date?
     let createdAt: Date?
     
-    // Car iVars
+    // Listing iVars
     let name: String?
     let nameAuto: String?
     let descr: String?
@@ -44,11 +44,18 @@ struct LGCar: Car {
     // the object is created after the decoding.
     var favorite: Bool = false
     
+    // Car iVars
+    let make: String?
+    let makeId: String?
+    let model: String?
+    let modelId: String?
+    let year: Int?
     
     init(objectId: String?, updatedAt: Date?, createdAt: Date?, name: String?, nameAuto: String?, descr: String?,
          price: ListingPrice, currency: Currency, location: LGLocationCoordinates2D, postalAddress: PostalAddress,
          languageCode: String?, category: ListingCategory, status: ListingStatus, thumbnail: File?,
-         thumbnailSize: LGSize?, images: [File], user: UserListing, featured: Bool?) {
+         thumbnailSize: LGSize?, images: [File], user: UserListing, featured: Bool?, make: String?, makeId: String?,
+         model: String?, modelId: String?, year: Int?) {
         self.objectId = objectId
         self.updatedAt = updatedAt
         self.createdAt = createdAt
@@ -68,6 +75,11 @@ struct LGCar: Car {
         self.user = user
         self.featured = featured ?? false
         self.favorite = false
+        self.make = make
+        self.makeId = makeId
+        self.model = model
+        self.modelId = modelId
+        self.year = year
     }
     
     init(chatListing: ChatListing, chatInterlocutor: ChatInterlocutor) {
@@ -81,14 +93,14 @@ struct LGCar: Car {
                   nameAuto: nil, descr: nil, price: chatListing.price, currency: chatListing.currency, location: location,
                   postalAddress: postalAddress, languageCode: nil, category: category,
                   status: chatListing.status, thumbnail: chatListing.image, thumbnailSize: nil,
-                  images: images, user: user, featured: nil)
+                  images: images, user: user, featured: nil, make: nil, makeId: nil, model: nil, modelId: nil, year: nil)
     }
     
-    static func productWithId(_ objectId: String?, updatedAt: Date?, createdAt: Date?, name: String?,
+    static func carWithId(_ objectId: String?, updatedAt: Date?, createdAt: Date?, name: String?,
                               nameAuto: String?, descr: String?, price: Double?, priceFlag: ListingPriceFlag?, currency: String,
                               location: LGLocationCoordinates2D, postalAddress: PostalAddress, languageCode: String?,
                               category: Int, status: Int, thumbnail: String?, thumbnailSize: LGSize?, images: [LGFile],
-                              user: LGUserListing, featured: Bool?) -> LGCar {
+                              user: LGUserListing, featured: Bool?, carAttributes: CarAttributes?) -> LGCar {
         let actualCurrency = Currency.currencyWithCode(currency)
         let actualCategory = ListingCategory(rawValue: category) ?? .other
         let actualStatus = ListingStatus(rawValue: status) ?? .pending
@@ -100,117 +112,21 @@ struct LGCar: Car {
                          nameAuto: nameAuto, descr: descr, price: listingPrice, currency: actualCurrency, location: location,
                          postalAddress: postalAddress, languageCode: languageCode, category: actualCategory,
                          status: actualStatus, thumbnail: actualThumbnail, thumbnailSize: thumbnailSize,
-                         images: actualImages, user: user, featured: featured)
-    }
-    
-    // MARK: Updates
-    
-    func updating(objectId: String?) -> LGCar {
-        return LGCar(objectId: objectId, updatedAt: updatedAt, createdAt: createdAt, name: name,
-                         nameAuto: nameAuto, descr: descr, price: price, currency: currency,
-                         location: location, postalAddress: postalAddress, languageCode: languageCode,
-                         category: category, status: status, thumbnail: thumbnail,
-                         thumbnailSize: thumbnailSize, images: images, user: user, featured: featured)
-    }
-    
-    func updating(name: String?) -> LGCar {
-        return LGCar(objectId: objectId, updatedAt: updatedAt, createdAt: createdAt, name: name,
-                         nameAuto: nameAuto, descr: descr, price: price, currency: currency,
-                         location: location, postalAddress: postalAddress, languageCode: languageCode,
-                         category: category, status: status, thumbnail: thumbnail,
-                         thumbnailSize: thumbnailSize, images: images, user: user, featured: featured)
-    }
-    
-    func updating(descr: String?) -> LGCar {
-        return LGCar(objectId: objectId, updatedAt: updatedAt, createdAt: createdAt, name: name,
-                         nameAuto: nameAuto, descr: descr, price: price, currency: currency,
-                         location: location, postalAddress: postalAddress, languageCode: languageCode,
-                         category: category, status: status, thumbnail: thumbnail,
-                         thumbnailSize: thumbnailSize, images: images, user: user, featured: featured)
-    }
-    
-    func updating(price: ListingPrice) -> LGCar {
-        return LGCar(objectId: objectId, updatedAt: updatedAt, createdAt: createdAt, name: name,
-                         nameAuto: nameAuto, descr: descr, price: price, currency: currency,
-                         location: location, postalAddress: postalAddress, languageCode: languageCode,
-                         category: category, status: status, thumbnail: thumbnail,
-                         thumbnailSize: thumbnailSize, images: images, user: user, featured: featured)
-    }
-    
-    func updating(currency: Currency) -> LGCar {
-        return LGCar(objectId: objectId, updatedAt: updatedAt, createdAt: createdAt, name: name,
-                         nameAuto: nameAuto, descr: descr, price: price, currency: currency,
-                         location: location, postalAddress: postalAddress, languageCode: languageCode,
-                         category: category, status: status, thumbnail: thumbnail,
-                         thumbnailSize: thumbnailSize, images: images, user: user, featured: featured)
-    }
-    
-    func updating(location: LGLocationCoordinates2D) -> LGCar {
-        return LGCar(objectId: objectId, updatedAt: updatedAt, createdAt: createdAt, name: name,
-                         nameAuto: nameAuto, descr: descr, price: price, currency: currency,
-                         location: location, postalAddress: postalAddress, languageCode: languageCode,
-                         category: category, status: status, thumbnail: thumbnail,
-                         thumbnailSize: thumbnailSize, images: images, user: user, featured: featured)
-    }
-    
-    func updating(postalAddress: PostalAddress) -> LGCar {
-        return LGCar(objectId: objectId, updatedAt: updatedAt, createdAt: createdAt, name: name,
-                         nameAuto: nameAuto, descr: descr, price: price, currency: currency,
-                         location: location, postalAddress: postalAddress, languageCode: languageCode,
-                         category: category, status: status, thumbnail: thumbnail,
-                         thumbnailSize: thumbnailSize, images: images, user: user, featured: featured)
-    }
-    
-    func updating(languageCode: String?) -> LGCar {
-        return LGCar(objectId: objectId, updatedAt: updatedAt, createdAt: createdAt, name: name,
-                         nameAuto: nameAuto, descr: descr, price: price, currency: currency,
-                         location: location, postalAddress: postalAddress, languageCode: languageCode,
-                         category: category, status: status, thumbnail: thumbnail,
-                         thumbnailSize: thumbnailSize, images: images, user: user, featured: featured)
-    }
-    
-    func updating(category: ListingCategory) -> LGCar {
-        return LGCar(objectId: objectId, updatedAt: updatedAt, createdAt: createdAt, name: name,
-                         nameAuto: nameAuto, descr: descr, price: price, currency: currency,
-                         location: location, postalAddress: postalAddress, languageCode: languageCode,
-                         category: category, status: status, thumbnail: thumbnail,
-                         thumbnailSize: thumbnailSize, images: images, user: user, featured: featured)
-    }
-    
-    func updating(status: ListingStatus) -> LGCar {
-        return LGCar(objectId: objectId, updatedAt: updatedAt, createdAt: createdAt, name: name,
-                         nameAuto: nameAuto, descr: descr, price: price, currency: currency,
-                         location: location, postalAddress: postalAddress, languageCode: languageCode,
-                         category: category, status: status, thumbnail: thumbnail,
-                         thumbnailSize: thumbnailSize, images: images, user: user, featured: featured)
-    }
-    
-    func updating(images: [File]) -> LGCar {
-        return LGCar(objectId: objectId, updatedAt: updatedAt, createdAt: createdAt, name: name,
-                         nameAuto: nameAuto, descr: descr, price: price, currency: currency,
-                         location: location, postalAddress: postalAddress, languageCode: languageCode,
-                         category: category, status: status, thumbnail: thumbnail,
-                         thumbnailSize: thumbnailSize, images: images, user: user, featured: featured)
-    }
-    
-    func updating(featured: Bool) -> LGCar {
-        return LGCar(objectId: objectId, updatedAt: updatedAt, createdAt: createdAt, name: name,
-                         nameAuto: nameAuto, descr: descr, price: price, currency: currency,
-                         location: location, postalAddress: postalAddress, languageCode: languageCode,
-                         category: category, status: status, thumbnail: thumbnail,
-                         thumbnailSize: thumbnailSize, images: images, user: user, featured: featured)
+                         images: actualImages, user: user, featured: featured, make: carAttributes?.make,
+                         makeId: carAttributes?.makeId, model: carAttributes?.model, modelId: carAttributes?.modelId,
+                         year: carAttributes?.year)
     }
 }
 
 // Designated initializers
 extension LGCar {
     init(car: Car) {
-        self.init(objectId: car.objectId, updatedAt: car.updatedAt, createdAt: car.createdAt,
-                  name: car.name, nameAuto: car.nameAuto, descr: car.descr, price: car.price,
-                  currency: car.currency, location: car.location, postalAddress: car.postalAddress,
-                  languageCode: car.languageCode, category: car.category, status: car.status,
-                  thumbnail: car.thumbnail, thumbnailSize: car.thumbnailSize,
-                  images: car.images, user: car.user, featured: car.featured)
+        self.init(objectId: car.objectId, updatedAt: car.updatedAt, createdAt: car.createdAt, name: car.name,
+                  nameAuto: car.nameAuto, descr: car.descr, price: car.price, currency: car.currency,
+                  location: car.location, postalAddress: car.postalAddress, languageCode: car.languageCode,
+                  category: car.category, status: car.status, thumbnail: car.thumbnail, thumbnailSize: car.thumbnailSize,
+                  images: car.images, user: car.user, featured: car.featured, make: car.make, makeId: car.makeId,
+                  model: car.model, modelId: car.modelId, year: car.year)
         self.favorite = car.favorite
     }
 }
@@ -219,11 +135,50 @@ extension LGCar {
 extension LGCar: CustomStringConvertible {
     var description: String {
         
-        return "name: \(name); nameAuto: \(nameAuto); descr: \(descr); price: \(price); currency: \(currency); location: \(location); postalAddress: \(postalAddress); languageCode: \(languageCode); category: \(category); status: \(status); thumbnail: \(thumbnail); thumbnailSize: \(thumbnailSize); images: \(images); user: \(user); featured: \(featured); descr: \(descr);"
+        return "name: \(name); nameAuto: \(nameAuto); descr: \(descr); price: \(price); currency: \(currency); "
+        + "location: \(location); postalAddress: \(postalAddress); languageCode: \(languageCode); "
+        + "category: \(category); status: \(status); thumbnail: \(thumbnail); thumbnailSize: \(thumbnailSize); "
+        + "images: \(images); user: \(user); featured: \(featured); descr: \(descr); "
+        + "make: \(make); model: \(model); year: \(year)"
     }
 }
 
 extension LGCar : Decodable {
+    
+    struct CarAttributes: Decodable {
+        let make: String?
+        let makeId: String?
+        let model: String?
+        let modelId: String?
+        let year: Int?
+        
+        /**
+         Expects a json in the form:
+         
+         {
+             "make": {
+                "id": "4b301c13-9e5f-442a-a63b-affd15f9268e",
+                "name": "Audi"
+             },
+             "model": {
+                "id": "3705d6fe-4c63-424a-929c-64c7b715b620",
+                "name": "A1"
+             },
+             "year": 2000
+         }
+         
+         */
+        static func decode(_ j: JSON) -> Decoded<CarAttributes> {
+            let init1 = curry(CarAttributes.init)
+                                <^> j <|? ["make", "id"]
+                                <*> j <|? ["make", "name"]
+            let init2 = init1   <*> j <|? ["model", "id"]
+                                <*> j <|? ["model", "name"]
+                                <*> j <|? "year"
+            return init2
+        }
+    }
+    
     /**
      Expects a json in the form:
      
@@ -283,32 +238,33 @@ extension LGCar : Decodable {
      */
     static func decode(_ j: JSON) -> Decoded<LGCar> {
         let geo: JSON? = j.decode("geo")
-        let init1 = curry(LGCar.productWithId)
-            <^> j <|? "id"                                          // objectId : String?
-            <*> j <|? "updated_at"                                  // updatedAt : Date?
-            <*> j <|? "created_at"                                  // createdAt : Date?
-            <*> j <|? "name"                                        // name : String?
-        let init2 = init1   <*> j <|? "image_information"                           // nameAuto : String?
-            <*> j <|? "description"                                 // descr : String?
-            <*> j <|? "price"                                       // price : Float?
-            <*> j <|? "price_flag"
-            <*> j <| "currency"                                    // currency : String?
-        let init3 = init2   <*> LGArgo.jsonToCoordinates(geo, latKey: "lat", lonKey: "lng") // location : LGLocationCoordinates2D?
-            <*> j <| "geo"                                          // postalAddress : PostalAddress
-            <*> j <|? "language_code"                               // languageCode : String?
-        let init4 = init3   <*> j <| "category_id"                                  // category_id : Int
-            <*> j <| "status"                                       // status : Int
-            <*> j <|? ["thumb", "url"]                              // thumbnail : String?
+        let init1 = curry(LGCar.carWithId)
+                            <^> j <|? "id"                                          // objectId : String?
+                            <*> j <|? "updated_at"                                  // updatedAt : Date?
+                            <*> j <|? "created_at"                                  // createdAt : Date?
+        let init2 = init1   <*> j <|? "name"                                        // name : String?
+                            <*> j <|? "image_information"                           // nameAuto : String?
+                            <*> j <|? "description"                                 // descr : String?
+                            <*> j <|? "price"                                       // price : Float?
+        let init3 = init2   <*> j <|? "price_flag"
+                            <*> j <| "currency"                                    // currency : String?
+                            <*> LGArgo.jsonToCoordinates(geo, latKey: "lat", lonKey: "lng") // location : LGLocationCoordinates2D?
+                            <*> j <| "geo"                                          // postalAddress : PostalAddress
+        let init4 = init3   <*> j <|? "language_code"                               // languageCode : String?
+                            <*> j <| "category_id"                                  // category_id : Int
+                            <*> j <| "status"                                       // status : Int
+                            <*> j <|? ["thumb", "url"]                              // thumbnail : String?
         let result = init4  <*> j <|? "thumb"                                       // thumbnailSize : LGSize?
-            <*> (j <||? "images" >>- LGArgo.jsonArrayToFileArray)   // images : [LGFile]
-            <*> j <| "owner"                                        // user : LGUserListing?
-            <*> j <|? "featured"                                    // featured : Bool
+                            <*> (j <||? "images" >>- LGArgo.jsonArrayToFileArray)   // images : [LGFile]
+                            <*> j <| "owner"                                        // user : LGUserListing?
+                            <*> j <|? "featured"                                    // featured : Bool
+        let car = result    <*> j <|? "attributes"                                  // carAttributes : CarAttributes
         
         if let error = result.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGCar parse error: \(error)")
         }
         
-        return result
+        return car
     }
 }
 

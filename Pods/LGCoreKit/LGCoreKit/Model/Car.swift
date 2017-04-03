@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol Car: BaseModel, Priceable {
+public protocol Car: BaseListingModel {
     var name: String? { get }
     var nameAuto: String? { get }
     var descr: String? { get }
@@ -34,30 +34,9 @@ public protocol Car: BaseModel, Priceable {
     
     var featured: Bool? { get }
     
-    var favorite: Bool { get }          // Default value false
-}
-
-extension Car {
-    func encode() -> [String: Any] {
-        var params: [String: Any] = [:]
-        params["name"] = name
-        params["category"] = category.rawValue
-        params["languageCode"] = languageCode
-        params["userId"] = user.objectId
-        params["description"] = descr
-        params["price"] = price.value
-        params["price_flag"] = price.priceFlag.rawValue
-        params["currency"] = currency.code
-        params["latitude"] = location.latitude
-        params["longitude"] = location.longitude
-        params["countryCode"] = postalAddress.countryCode
-        params["city"] = postalAddress.city
-        params["address"] = postalAddress.address
-        params["zipCode"] = postalAddress.zipCode
-        
-        let tokensString = images.flatMap{$0.objectId}.map{"\"" + $0 + "\""}.joined(separator: ",")
-        params["images"] = "[" + tokensString + "]"
-        
-        return params
-    }
+    var make: String? { get }
+    var makeId: String? { get }
+    var model: String? { get }
+    var modelId: String? { get }
+    var year: Int? { get }
 }

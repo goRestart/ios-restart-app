@@ -126,6 +126,7 @@ public class ProductCreationParams: CustomStringConvertible, Equatable {
         self.currency = currency
         self.location = location
         self.postalAddress = postalAddress
+        // TODO: inject locale
         self.languageCode = Locale.current.identifier
         self.images = images
     }
