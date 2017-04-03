@@ -71,9 +71,9 @@
         "description": "Product detail remove chat text on tap"
     },
     {
-        "name": "HideTabBarOnFirstSession",
+        "name": "HideTabBarOnFirstSessionV2",
         "values": ["no", "yes"],
-        "description": "hide tab bar with incentivise scroll banner"
+        "description": "hide tab bar with incentivise scroll banner v2"
     },
     {
         "name": "PostingGallery",

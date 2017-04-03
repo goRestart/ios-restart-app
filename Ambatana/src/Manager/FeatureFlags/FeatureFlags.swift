@@ -31,7 +31,7 @@ protocol FeatureFlaggeable {
     var productDetailNextRelated: Bool { get }
     var signUpLoginImprovement: SignUpLoginImprovement { get }
     var periscopeRemovePredefinedText: Bool { get }
-    var hideTabBarOnFirstSession: Bool { get }
+    var hideTabBarOnFirstSessionV2: Bool { get }
     var postingGallery: PostingGallery { get }
     var quickAnswersRepeatedTextField: Bool { get }
     var carsVerticalEnabled: Bool { get }
@@ -187,11 +187,11 @@ class FeatureFlags: FeatureFlaggeable {
         return PostingGallery.fromPosition(ABTests.postingGallery.value)
     }
 
-    var hideTabBarOnFirstSession: Bool {
+    var hideTabBarOnFirstSessionV2: Bool {
         if Bumper.enabled {
-            return Bumper.hideTabBarOnFirstSession
+            return Bumper.hideTabBarOnFirstSessionV2
         }
-        return ABTests.hideTabBarOnFirstSession.value
+        return ABTests.hideTabBarOnFirstSessionV2.value
     }
     
     var quickAnswersRepeatedTextField: Bool {

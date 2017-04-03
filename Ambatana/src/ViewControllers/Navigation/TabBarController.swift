@@ -275,20 +275,6 @@ extension TabBarController: TabBarViewModelDelegate {
     func vmSwitchToTab(_ tab: Tab, force: Bool, completion: (() -> ())?) {
         switchToTab(tab, checkIfShouldSwitch: !force, completion: completion)
     }
-
-    func vmShowTooltipAtSellButtonWithText(_ text: NSAttributedString) {
-        tooltip = Tooltip(targetView: floatingSellButton, superView: view, title: text, style: .black(closeEnabled: true),
-                              peakOnTop: false, actionBlock: { [weak self] in
-            self?.viewModel.tooltipDismissed()
-        }, closeBlock: { [weak self] in
-            self?.viewModel.tooltipDismissed()
-        })
-        if let toolTipShowed = tooltip {
-            view.addSubview(toolTipShowed)
-            setupExternalConstraintsForTooltip(toolTipShowed, targetView: floatingSellButton, containerView: view)
-        }
-        view.layoutIfNeeded()
-    }
 }
 
 
