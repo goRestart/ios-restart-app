@@ -31,7 +31,7 @@ class CountryCodeSpec: QuickSpec {
                     beforeEach {
                         sut = CountryCode(string:"US")
                     }
-                    it("sut is turkey") {
+                    it("sut is usa") {
                         expect(sut) == .usa
                     }
                 }
@@ -49,7 +49,7 @@ class CountryCodeSpec: QuickSpec {
                     beforeEach {
                         sut = CountryCode(string:"us")
                     }
-                    it("sut is turkey") {
+                    it("sut is usa") {
                         expect(sut) == .usa
                     }
                 }
