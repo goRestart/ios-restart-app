@@ -18,8 +18,8 @@ import Foundation
 class ChatViewModelSpec: BaseViewModelSpec {
     
     // Control vars:
-    var safetyTipsShown: Bool! = false
-    var textFieldCleaned: Bool! = false
+    var safetyTipsShown: Bool!
+    var textFieldCleaned: Bool!
     
     override func spec() {
         
@@ -65,6 +65,8 @@ class ChatViewModelSpec: BaseViewModelSpec {
                                     chatConversation: MockChatConversation,
                                     user: MockUser) {
                 
+                safetyTipsShown = false
+                textFieldCleaned = false
                 
                 myUserRepository.result = MyUserResult(value: myUser)
                 myUserRepository.myUserVar.value = myUser
@@ -364,7 +366,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                             expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "product-detail-ask-question", "user-sent-message"]
                         }
                         it("should clean textField") {
-                            expect(self.textFieldCleaned).toEventually(equal(true))
+                            expect(self.textFieldCleaned) == true
                         }
                     }
                     context("sticker") {
@@ -374,14 +376,14 @@ class ChatViewModelSpec: BaseViewModelSpec {
                             sut.send(sticker: sticker)
                             expect(tracker.trackedEvents.count).toEventually(equal(3))
                         }
-                        fit("adds one element on messages") {
+                        it("adds one element on messages") {
                             expect(messages.lastValue?.map{ $0.value }) == [sticker.name]
                         }
                         it("tracks sent first message + message sent") {
                             expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "product-detail-ask-question", "user-sent-message"]
                         }
                         it("should clean textField") {
-                            expect(self.textFieldCleaned).toEventually(equal(true))
+                            expect(self.textFieldCleaned) == false
                         }
                     }
                 }
@@ -414,7 +416,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                             expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "user-sent-message"]
                         }
                         it("should not clean textField") {
-                            expect(self.textFieldCleaned).toEventually(equal(false))
+                            expect(self.textFieldCleaned) == false
                         }
                     }
                     context("custom text") {
@@ -429,7 +431,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                             expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "user-sent-message"]
                         }
                         it("should clean textField") {
-                            expect(self.textFieldCleaned).toEventually(equal(true))
+                            expect(self.textFieldCleaned) == true
                         }
                     }
                     context("sticker") {
@@ -446,7 +448,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                             expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "user-sent-message"]
                         }
                         it("should clean textField") {
-                            expect(self.textFieldCleaned).toEventually(equal(true))
+                            expect(self.textFieldCleaned) == false
                         }
                     }
                 }
