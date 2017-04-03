@@ -36,7 +36,7 @@ class CountryCodeSpec: QuickSpec {
                     }
                 }
             }
-            context("init downcase") {
+            context("init lowercase") {
                 describe("turkey") {
                     beforeEach {
                         sut = CountryCode(string:"tr")
