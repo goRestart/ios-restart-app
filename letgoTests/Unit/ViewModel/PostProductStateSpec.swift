@@ -76,7 +76,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     context("update pending to upload images") {
                         beforeEach {
                             oldSut = sut
-                            sut = sut.updating(pendingToUploadImages: []) // TODO: 🚔 Update w random UIImage
+                            sut = sut.updating(pendingToUploadImages: [UIImage].makeRandom())
                         }
                         
                         it("returns a new state") {
@@ -123,7 +123,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating pending to upload images") {
-                        expect(sut.updating(pendingToUploadImages: [])) === sut  // TODO: 🚔 Update w random UIImage
+                        expect(sut.updating(pendingToUploadImages: [UIImage].makeRandom())) === sut
                     }
                     
                     context("update uploaded images") {
@@ -196,7 +196,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating pending to upload images") {
-                        expect(sut.updating(pendingToUploadImages: [])) === sut  // TODO: 🚔 Update w random UIImage
+                        expect(sut.updating(pendingToUploadImages: [UIImage].makeRandom())) === sut
                     }
                     
                     it("returns the same state when updating uploaded images") {
@@ -236,7 +236,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating pending to upload images") {
-                        expect(sut.updating(pendingToUploadImages: [])) === sut  // TODO: 🚔 Update w random UIImage
+                        expect(sut.updating(pendingToUploadImages: [UIImage].makeRandom())) === sut
                     }
                     
                     it("returns the same state when updating uploaded images") {
@@ -327,7 +327,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating pending to upload images") {
-                        expect(sut.updating(pendingToUploadImages: [])) === sut  // TODO: 🚔 Update w random UIImage
+                        expect(sut.updating(pendingToUploadImages: [UIImage].makeRandom())) === sut
                     }
                     
                     it("returns the same state when updating uploaded images") {
@@ -378,7 +378,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     context("update pending to upload images") {
                         beforeEach {
                             oldSut = sut
-                            sut = sut.updating(pendingToUploadImages: []) // TODO: 🚔 Update w random UIImage
+                            sut = sut.updating(pendingToUploadImages: [UIImage].makeRandom())
                         }
                         
                         it("returns a new state") {
@@ -427,7 +427,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating pending to upload images") {
-                        expect(sut.updating(pendingToUploadImages: [])) === sut  // TODO: 🚔 Update w random UIImage
+                        expect(sut.updating(pendingToUploadImages: [UIImage].makeRandom())) === sut
                     }
                     
                     context("update uploaded images") {
@@ -489,7 +489,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating pending to upload images") {
-                        expect(sut.updating(pendingToUploadImages: [])) === sut  // TODO: 🚔 Update w random UIImage
+                        expect(sut.updating(pendingToUploadImages: [UIImage].makeRandom())) === sut
                     }
                     
                     context("update uploaded images") {
@@ -563,7 +563,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating pending to upload images") {
-                        expect(sut.updating(pendingToUploadImages: [])) === sut  // TODO: 🚔 Update w random UIImage
+                        expect(sut.updating(pendingToUploadImages: [UIImage].makeRandom())) === sut
                     }
                     
                     it("returns the same state when updating uploaded images") {
@@ -604,7 +604,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating pending to upload images") {
-                        expect(sut.updating(pendingToUploadImages: [])) === sut  // TODO: 🚔 Update w random UIImage
+                        expect(sut.updating(pendingToUploadImages: [UIImage].makeRandom())) === sut
                     }
                     
                     it("returns the same state when updating uploaded images") {
@@ -656,7 +656,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating pending to upload images") {
-                        expect(sut.updating(pendingToUploadImages: [])) === sut  // TODO: 🚔 Update w random UIImage
+                        expect(sut.updating(pendingToUploadImages: [UIImage].makeRandom())) === sut
                     }
                     
                     it("returns the same state when updating uploaded images") {
@@ -746,7 +746,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     context("update pending to upload images") {
                         beforeEach {
                             oldSut = sut
-                            sut = sut.updating(pendingToUploadImages: []) // TODO: 🚔 Update w random UIImage
+                            sut = sut.updating(pendingToUploadImages: [UIImage].makeRandom())
                         }
                         
                         it("returns a new state") {
@@ -793,7 +793,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating pending to upload images") {
-                        expect(sut.updating(pendingToUploadImages: [])) === sut  // TODO: 🚔 Update w random UIImage
+                        expect(sut.updating(pendingToUploadImages: [UIImage].makeRandom())) === sut
                     }
                     
                     context("update uploaded images") {
@@ -866,7 +866,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating pending to upload images") {
-                        expect(sut.updating(pendingToUploadImages: [])) === sut  // TODO: 🚔 Update w random UIImage
+                        expect(sut.updating(pendingToUploadImages: [UIImage].makeRandom())) === sut
                     }
                     
                     it("returns the same state when updating uploaded images") {
@@ -906,7 +906,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating pending to upload images") {
-                        expect(sut.updating(pendingToUploadImages: [])) === sut  // TODO: 🚔 Update w random UIImage
+                        expect(sut.updating(pendingToUploadImages: [UIImage].makeRandom())) === sut
                     }
                     
                     it("returns the same state when updating uploaded images") {
@@ -984,7 +984,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating pending to upload images") {
-                        expect(sut.updating(pendingToUploadImages: [])) === sut  // TODO: 🚔 Update w random UIImage
+                        expect(sut.updating(pendingToUploadImages: [UIImage].makeRandom())) === sut
                     }
                     
                     it("returns the same state when updating uploaded images") {
@@ -1026,7 +1026,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating pending to upload images") {
-                        expect(sut.updating(pendingToUploadImages: [])) === sut  // TODO: 🚔 Update w random UIImage
+                        expect(sut.updating(pendingToUploadImages: [UIImage].makeRandom())) === sut
                     }
                     
                     it("returns the same state when updating uploaded images") {
