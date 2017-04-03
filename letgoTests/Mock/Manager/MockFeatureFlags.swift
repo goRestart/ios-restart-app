@@ -49,4 +49,8 @@ class MockFeatureFlags: FeatureFlaggeable {
     func commercialsAllowedFor(productCountryCode: String?) -> Bool {
         return false
     }
+
+    func collectionsAllowedFor(countryCode: String?) -> Bool {
+        return false
+    }
 }
