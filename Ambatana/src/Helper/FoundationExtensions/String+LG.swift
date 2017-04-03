@@ -147,6 +147,12 @@ extension String {
         return firstPart + " " + String(lastWordFirstChar) + "."
     }
 
+    func clipMoreThan(wordCount: Int) -> String {
+        let words = self.byWords
+        if words.count <= wordCount { return self }
+        return words.prefix(wordCount).joined(separator: " ")
+    }
+
     func toPriceDouble() -> Double {
         let formatter = NumberFormatter()
         formatter.numberStyle = NumberFormatter.Style.decimal
