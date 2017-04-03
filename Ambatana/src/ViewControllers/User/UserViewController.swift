@@ -564,7 +564,7 @@ extension UserViewController {
 
 extension UserViewController: ScrollableToTop {
     func scrollToTop() {
-        productListView.scrollToTop(true)
+        productListView?.scrollToTop(true)
     }
 }
 
