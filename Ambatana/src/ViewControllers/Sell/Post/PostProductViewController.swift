@@ -222,6 +222,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
     
     private func setupFooter() {
         footerView.translatesAutoresizingMaskIntoConstraints = false
+        cameraGalleryContainer.addSubview(footerView)
         footerView.layout(with: cameraGalleryContainer)
             .leading()
             .trailing()
@@ -238,7 +239,6 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         footer.postButton?.rx.tap.asObservable().subscribeNext { [weak self] _ in
             self?.galleryPostButtonPressed()
         }.addDisposableTo(disposeBag)
-        cameraGalleryContainer.addSubview(footerView)
     }
 
     private func setupRx() {
