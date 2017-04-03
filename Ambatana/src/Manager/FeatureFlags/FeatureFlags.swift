@@ -269,8 +269,13 @@ class FeatureFlags: FeatureFlaggeable {
     }
 
     func collectionsAllowedFor(countryCode: String?) -> Bool {
-        //Collections disabled https://ambatana.atlassian.net/browse/ABIOS-2517
-        return false
+        guard let code = countryCode, let countryCode = CountryCode(string: code) else { return false }
+        switch countryCode {
+        case .usa:
+            return true
+        default:
+            return false
+        }
     }
     
     // MARK: - Private
