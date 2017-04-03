@@ -43,6 +43,7 @@ protocol FeatureFlaggeable {
     var signUpEmailNewsletterAcceptRequired: Bool { get }
     var signUpEmailTermsAndConditionsAcceptRequired: Bool { get }
     func commercialsAllowedFor(productCountryCode: String?) -> Bool
+    func collectionsAllowedFor(countryCode: String?) -> Bool
 }
 
 
@@ -229,7 +230,7 @@ class FeatureFlags: FeatureFlaggeable {
     var locationRequiresManualChangeSuggestion: Bool {
         // Manual location is already ok
         guard let currentLocation = locationManager.currentLocation, currentLocation.isAuto else { return false }
-        guard let countryCodeString = carrierCountryInfo.countryCode, let countryCode = CountryCode(rawValue: countryCodeString) else { return false }
+        guard let countryCodeString = carrierCountryInfo.countryCode, let countryCode = CountryCode(string: countryCodeString) else { return false }
         switch countryCode {
         case .turkey:
             // In turkey, if current location country doesn't match carrier one we must sugest user to change it
@@ -258,7 +259,7 @@ class FeatureFlags: FeatureFlaggeable {
     }
 
     func commercialsAllowedFor(productCountryCode: String?) -> Bool {
-        guard let code = productCountryCode, let countryCode = CountryCode(rawValue: code) else { return false }
+        guard let code = productCountryCode, let countryCode = CountryCode(string: code) else { return false }
         switch countryCode {
         case .usa:
             return true
@@ -266,15 +267,20 @@ class FeatureFlags: FeatureFlaggeable {
             return false
         }
     }
+
+    func collectionsAllowedFor(countryCode: String?) -> Bool {
+        //Collections disabled https://ambatana.atlassian.net/browse/ABIOS-2517
+        return false
+    }
     
     // MARK: - Private
     
     private var locationCountryCode: CountryCode? {
         guard let countryCode = locationManager.currentLocation?.countryCode else { return nil }
-        return CountryCode(rawValue: countryCode)
+        return CountryCode(string: countryCode)
     }
 
     private var localeCountryCode: CountryCode? {
-        return CountryCode(rawValue: locale.lg_countryCode)
+        return CountryCode(string: locale.lg_countryCode)
     }
 }

@@ -499,7 +499,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
         guard searchType == nil else { return products }
         guard products.count > bannerCellPosition else { return products }
         var cellModels = products
-        if !collections.isEmpty && productListRequester.countryCode == "US" {
+        if !collections.isEmpty && featureFlags.collectionsAllowedFor(countryCode: productListRequester.countryCode) {
             let collectionType = collections[Int(page) % collections.count]
             let collectionModel = ProductCellModel.collectionCell(type: collectionType)
             cellModels.insert(collectionModel, at: bannerCellPosition)
