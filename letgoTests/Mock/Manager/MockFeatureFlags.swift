@@ -34,7 +34,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var productDetailNextRelated: Bool = false
     var signUpLoginImprovement: SignUpLoginImprovement = .v1
     var periscopeRemovePredefinedText: Bool = false
-    var hideTabBarOnFirstSession: Bool = false
+    var hideTabBarOnFirstSessionV2: Bool = false
     var postingGallery: PostingGallery = .singleSelection
     var quickAnswersRepeatedTextField: Bool = false
     var carsVerticalEnabled: Bool = false
