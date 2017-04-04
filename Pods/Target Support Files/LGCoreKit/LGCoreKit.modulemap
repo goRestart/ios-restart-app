@@ -1,0 +1,6 @@
+framework module LGCoreKit {
+  umbrella header "LGCoreKit-umbrella.h"
+
+  export *
+  module * { export * }
+}

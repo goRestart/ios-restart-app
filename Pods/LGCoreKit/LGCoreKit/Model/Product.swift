@@ -8,7 +8,7 @@
 
 
 //Remove all setters and change by a factory method if required
-public protocol Product: BaseListingModel {
+public protocol Product: BaseListingModel, Priceable {
     var name: String? { get }
     var nameAuto: String? { get }
     var descr: String? { get }

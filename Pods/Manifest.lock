@@ -96,7 +96,7 @@ PODS:
   - KMPlaceholderTextView (1.3.0)
   - Leanplum-iOS-SDK (1.4.3)
   - LGCollapsibleLabel (1.0.0)
-  - LGCoreKit (2.13.6):
+  - LGCoreKit (2.14.0):
     - Alamofire (~> 4.2.0)
     - Argo (~> 4.1.1)
     - CocoaLumberjack/Swift (~> 3.0.0)
@@ -171,7 +171,7 @@ DEPENDENCIES:
   - KMPlaceholderTextView (= 1.3.0)
   - Leanplum-iOS-SDK (= 1.4.3)
   - LGCollapsibleLabel (= 1.0.0)
-  - LGCoreKit (from `../lgcorekit`)
+  - LGCoreKit (= 2.14.0)
   - NewRelicAgent (= 5.10.1)
   - Nimble (= 5.1.1)
   - OHHTTPStubs (= 5.2.3)
@@ -196,8 +196,6 @@ EXTERNAL SOURCES:
   KeychainSwift:
     :commit: f6230869f4d26d720f36eb227bd269c3d712986b
     :git: git@github.com:letgoapp/keychain-swift.git
-  LGCoreKit:
-    :path: ../lgcorekit
   TMReachability:
     :commit: e34782b386307e386348b481c02c176d58ba45e6
     :git: https://github.com/albertbori/Reachability
@@ -257,7 +255,7 @@ SPEC CHECKSUMS:
   KMPlaceholderTextView: 2bbcd19a273648a80a61e1e48f9743a24d8930e3
   Leanplum-iOS-SDK: 4b12eb749ec0a0915892548a9703474f5c18ae07
   LGCollapsibleLabel: e33f066be104911c7fb83f29f1f9b5bae218422e
-  LGCoreKit: 927b7cdb249363fae24057bb77e26667d635cb3b
+  LGCoreKit: 233415d8051663c0daf4367614b1962861ed515c
   NewRelicAgent: d16c572a3355d3ff9a359a6677e946c7a75a8f76
   Nimble: 415e3aa3267e7bc2c96b05fa814ddea7bb686a29
   OHHTTPStubs: e238cd5b66d8efa51c861db45895de8fe079f4a7
@@ -276,6 +274,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: 05541fb6dd83385fb153fb31293ac7bfa655ef45
+PODFILE CHECKSUM: 5aaeadb87bdd8957e3c9a1425a2c0bb2f49a73cb
 
 COCOAPODS: 1.2.0

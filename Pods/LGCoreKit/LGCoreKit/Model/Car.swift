@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol Car: BaseListingModel {
+public protocol Car: BaseListingModel, Priceable {
     var name: String? { get }
     var nameAuto: String? { get }
     var descr: String? { get }
