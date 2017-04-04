@@ -1737,6 +1737,18 @@
 // User photo button when not logged in
 "product_post_use_photo_not_logged" = "Use Photo";
 
+// Product post category selection title
+"product_post_select_category_title" = "What are you posting?";
+
+// Product post category selection cars button
+"product_post_select_category_cars" = "Cars";
+
+// Product post category selection or label
+"product_post_select_category_or" = "OR";
+
+// Product post category selection others button
+"product_post_select_category_other" = "Something else";
+
 // Price label above price on product
 "product_price_label" = "Price";
 

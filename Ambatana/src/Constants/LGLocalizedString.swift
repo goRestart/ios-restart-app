@@ -2335,6 +2335,22 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_post_use_photo_not_logged", comment: "")
 	}
 
+	static var productPostSelectCategoryTitle: String {
+		return NSLocalizedString("product_post_select_category_title", comment: "")
+	}
+
+	static var productPostSelectCategoryCars: String {
+		return NSLocalizedString("product_post_select_category_cars", comment: "")
+	}
+
+	static var productPostSelectCategoryOr: String {
+		return NSLocalizedString("product_post_select_category_or", comment: "")
+	}
+
+	static var productPostSelectCategoryOther: String {
+		return NSLocalizedString("product_post_select_category_other", comment: "")
+	}
+
 	static var productPriceLabel: String {
 		return NSLocalizedString("product_price_label", comment: "")
 	}

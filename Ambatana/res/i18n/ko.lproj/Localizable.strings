@@ -488,8 +488,8 @@
 "product_more_info_open_button" = "더 많은 정보";
 "product_more_info_related_title" = "다음 항목에 관심이 가실 수도 있습니다:";
 "product_more_info_related_view_more" = "더보기";
-"product_more_info_tooltip_part_1" = "탭";
-"product_more_info_tooltip_part_2" = "%@ 더 많은 정보 확인하기";
+"product_more_info_tooltip_part_1" = "누르세요";
+"product_more_info_tooltip_part_2" = "더 많은 정보를 보기위해서 %@";
 "product_negotiable_price" = "흥정가능한";
 "product_onboarding_finger_scroll_label" = "더 많은 사진을 확인하기 위해 스크롤을 내려보세요";
 "product_onboarding_finger_swipe_label" = "다음 상품 혹은 이전 상품으로 가기위해 터치하기";
@@ -555,6 +555,10 @@
 "product_post_product_posted_not_logged" = "사진이 업로드 되었습니다!";
 "product_post_retake" = "다시 촬영하기";
 "product_post_retry_button" = "다시 시도하기";
+"product_post_select_category_cars" = "자동차";
+"product_post_select_category_or" = "혹은";
+"product_post_select_category_other" = "다른 상품";
+"product_post_select_category_title" = "무엇을 게시하시나요?";
 "product_post_use_photo" = "게시하기";
 "product_post_use_photo_not_logged" = "사진 사용하기";
 "product_price_label" = "가격";

@@ -555,6 +555,10 @@
 "product_post_product_posted_not_logged" = "Bildet ble lastet opp!";
 "product_post_retake" = "Ta nytt bilde";
 "product_post_retry_button" = "Prøv igjen";
+"product_post_select_category_cars" = "Biler";
+"product_post_select_category_or" = "ELLER";
+"product_post_select_category_other" = "Noe annet";
+"product_post_select_category_title" = "Hva publiserer du?";
 "product_post_use_photo" = "Publiser";
 "product_post_use_photo_not_logged" = "Bruk bilde";
 "product_price_label" = "Pris";
