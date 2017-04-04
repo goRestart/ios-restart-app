@@ -727,6 +727,7 @@ fileprivate extension MainProductsViewModel {
         switch type {
         case .You:
             query = keyValueStorage[.lastSearches].reversed().joined(separator: " ")
+                .clipMoreThan(wordCount: Constants.maxSelectedForYouQueryTerms)
         }
         return query
     }
