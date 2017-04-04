@@ -11,7 +11,7 @@ public struct MockChatInterlocutor: ChatInterlocutor {
         var result = [String: Any]()
         result["id"] = objectId
         result["name"] = name
-        result["avatar"] = avatar?.fileURL
+        result["avatar"] = avatar?.fileURL?.absoluteString
         result["is_banned"] = isBanned
         result["is_muted"] = isMuted
         result["has_muted_you"] = hasMutedYou

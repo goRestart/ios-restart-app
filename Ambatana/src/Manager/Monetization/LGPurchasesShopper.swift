@@ -8,7 +8,7 @@
 
 import LGCoreKit
 import StoreKit
-
+import AdSupport
 
 enum PurchasesShopperState {
     case restoring
@@ -50,6 +50,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
     private var requestFactory: PurchaseableProductsRequestFactory
     private var monetizationRepository: MonetizationRepository
     private var myUserRepository: MyUserRepository
+    private var installationRepository: InstallationRepository
     fileprivate let keyValueStorage: KeyValueStorage
     private var receiptURLProvider: ReceiptURLProvider
     fileprivate var paymentQueue: PaymentEnqueuable
@@ -70,24 +71,29 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         let factory = AppstoreProductsRequestFactory()
         let monetizationRepository = Core.monetizationRepository
         let myUserRepository = Core.myUserRepository
+        let installationRepository = Core.installationRepository
         let keyValueStorage = KeyValueStorage.sharedInstance
         self.init(requestFactory: factory, monetizationRepository: monetizationRepository, myUserRepository: myUserRepository,
-                  keyValueStorage: keyValueStorage, paymentQueue: SKPaymentQueue.default(), receiptURLProvider: Bundle.main)
+                  installationRepository: installationRepository, keyValueStorage: keyValueStorage,
+                  paymentQueue: SKPaymentQueue.default(), receiptURLProvider: Bundle.main)
     }
 
     convenience init(requestFactory: PurchaseableProductsRequestFactory,
                      monetizationRepository: MonetizationRepository,
                      myUserRepository: MyUserRepository,
+                     installationRepository: InstallationRepository,
                      paymentQueue: PaymentEnqueuable,
                      receiptURLProvider: ReceiptURLProvider) {
         let keyValueStorage = KeyValueStorage.sharedInstance
         self.init(requestFactory: requestFactory, monetizationRepository: monetizationRepository, myUserRepository: myUserRepository,
-                  keyValueStorage: keyValueStorage, paymentQueue: paymentQueue, receiptURLProvider: receiptURLProvider)
+                  installationRepository: installationRepository, keyValueStorage: keyValueStorage, paymentQueue: paymentQueue,
+                  receiptURLProvider: receiptURLProvider)
     }
 
     init(requestFactory: PurchaseableProductsRequestFactory,
          monetizationRepository: MonetizationRepository,
          myUserRepository: MyUserRepository,
+         installationRepository: InstallationRepository,
          keyValueStorage: KeyValueStorage,
          paymentQueue: PaymentEnqueuable,
          receiptURLProvider: ReceiptURLProvider) {
@@ -95,6 +101,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         self.requestFactory = requestFactory
         self.productsRequest = requestFactory.generatePurchaseableProductsRequest([])
         self.myUserRepository = myUserRepository
+        self.installationRepository = installationRepository
         self.keyValueStorage = keyValueStorage
         self.receiptURLProvider = receiptURLProvider
         self.paymentQueue = paymentQueue
@@ -251,9 +258,15 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
             }
         }
 
+        let amplitudeId = myUserRepository.myUser?.emailOrId
+        let appsflyerId = installationRepository.installation?.objectId
+        let idfa = ASIdentifierManager.shared().advertisingIdentifier.uuidString
+        let bundleId = Bundle.main.bundleIdentifier
+
         monetizationRepository.pricedBump(forProduct: productId, receiptData: receiptData,
                                           itemId: transaction.payment.productIdentifier, itemPrice: price ?? "0",
-                                          itemCurrency: currency ?? "") { [weak self] result in
+                                          itemCurrency: currency ?? "", amplitudeId: amplitudeId, appsflyerId: appsflyerId,
+                                          idfa: idfa, bundleId: bundleId) { [weak self] result in
             if let _ = result.value {
                 self?.remove(transaction: transaction.transactionIdentifier)
                 self?.paymentQueue.finishTransaction(transaction)
@@ -318,6 +331,7 @@ extension LGPurchasesShopper: PurchaseableProductsRequestDelegate {
     func productsRequest(_ request: PurchaseableProductsRequest, didFailWithError error: Error) {
         // noo need to update any UI, we just don't show the banner
         self.currentRequestProductId = nil
+        logMessage(.info, type: [.monetization], message: "Products request failed with error: \(error)")
     }
 }
 
@@ -363,6 +377,7 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
             case .failed:
                 delegate?.pricedBumpPaymentDidFail()
                 queue.finishTransaction(transaction)
+                logMessage(.info, type: [.monetization], message: "Purchase failed with error: \(transaction.error?.localizedDescription)")
             }
         }
     }
@@ -387,6 +402,7 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
             case .failed:
                 delegate?.pricedBumpPaymentDidFail()
                 queue.finishTransaction(transaction)
+                logMessage(.info, type: [.monetization], message: "Purchase restore failed with error: \(transaction.error?.localizedDescription)")
             }
         }
     }
