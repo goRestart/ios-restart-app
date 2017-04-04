@@ -983,7 +983,8 @@ extension ProductViewModel: PurchasesShopperDelegate {
     }
 
     func pricedBumpDidSucceed() {
-        trackHelper.trackBumpUpCompleted(.pay(price: ""), network: .notAvailable)
+        trackHelper.trackBumpUpCompleted(.pay(price: bumpUpPurchaseableProduct?.formattedCurrencyPrice ?? ""),
+                                         network: .notAvailable)
         delegate?.vmHideLoading(LGLocalizedString.bumpUpPaySuccess, afterMessageCompletion: { [weak self] in
             self?.delegate?.vmResetBumpUpBannerCountdown()
         })
