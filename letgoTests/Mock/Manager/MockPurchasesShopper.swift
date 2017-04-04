@@ -54,7 +54,7 @@ class MockPurchasesShopper: PurchasesShopper {
         }
     }
 
-    func isBumpUpPending(productId: String) -> Bool {
+    func isBumpUpPending(forListingId: String) -> Bool {
         return isBumpUpPending
     }
 

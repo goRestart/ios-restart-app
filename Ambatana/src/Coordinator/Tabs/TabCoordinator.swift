@@ -406,12 +406,12 @@ extension TabCoordinator: ProductDetailNavigator {
                                                 alertType: .plainAlert, actions: [action])
     }
 
-    func openFreeBumpUpForProduct(listing: Listing, socialMessage: SocialMessage, withPaymentItemId paymentItemId: String) {
+    func openFreeBumpUp(forListing listing: Listing, socialMessage: SocialMessage, withPaymentItemId paymentItemId: String) {
         let bumpCoordinator = BumpUpCoordinator(listing: listing, socialMessage: socialMessage, paymentItemId: paymentItemId)
         openChild(coordinator: bumpCoordinator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
     }
 
-    func openPayBumpUpForProduct(listing: Listing, purchaseableProduct: PurchaseableProduct,
+    func openPayBumpUp(forListing listing: Listing, purchaseableProduct: PurchaseableProduct,
                                  withPaymentItemId paymentItemId: String) {
         let bumpCoordinator = BumpUpCoordinator(listing: listing, purchaseableProduct: purchaseableProduct,
                                                 paymentItemId: paymentItemId)

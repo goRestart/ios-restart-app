@@ -46,8 +46,8 @@ protocol ProductDetailNavigator: TabNavigator {
     func editProduct(_ product: Product)
     func openListingChat(_ listing: Listing)
     func closeAfterDelete()
-    func openFreeBumpUpForProduct(listing: Listing, socialMessage: SocialMessage, withPaymentItemId: String)
-    func openPayBumpUpForProduct(listing: Listing, purchaseableProduct: PurchaseableProduct, withPaymentItemId: String)
+    func openFreeBumpUp(forListing listing: Listing, socialMessage: SocialMessage, withPaymentItemId: String)
+    func openPayBumpUp(forListing listing: Listing, purchaseableProduct: PurchaseableProduct, withPaymentItemId: String)
     func selectBuyerToRate(source: RateUserSource, buyers: [UserListing], completion: @escaping (String?) -> Void)
     func showProductFavoriteBubble(with data: BubbleNotificationData)
     func openLoginIfNeededFromProductDetail(from: EventParameterLoginSourceValue, infoMessage: String,

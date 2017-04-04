@@ -132,8 +132,8 @@ extension BumpUpFreeViewModel: SocialSharerDelegate {
 extension BumpUpFreeViewModel {
     func bumpUpProduct(withNetwork shareNetwork: EventParameterShareNetwork) {
         logMessage(.info, type: [.monetization], message: "TRY TO Bump FREE")
-        guard let productId = listing.objectId, let paymentItemId = self.paymentItemId else { return }
-        purchasesShopper?.requestFreeBumpUpForProduct(productId: productId, withPaymentItemId: paymentItemId,
+        guard let listingId = listing.objectId, let paymentItemId = self.paymentItemId else { return }
+        purchasesShopper?.requestFreeBumpUp(forListingId: listingId, paymentItemId: paymentItemId,
                                                       shareNetwork: shareNetwork)
     }
 }
