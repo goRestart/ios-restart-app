@@ -6351,7 +6351,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios.notificationservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "a5f14e8c-89d9-4e8d-a47d-e43c20ac1c54";
+				PROVISIONING_PROFILE = "ac6ae6d5-bf1b-4494-bba2-5e2cc78ba476";
 				PROVISIONING_PROFILE_SPECIFIER = "Letgo Notification Service Development";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -6377,7 +6377,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios.notificationservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "461b4e4b-b2c1-4cfd-8409-24a30a3ed036";
+				PROVISIONING_PROFILE = "3bb24fd8-6774-48ab-888f-58b3cbf44a3e";
 				PROVISIONING_PROFILE_SPECIFIER = "Letgo Notification Service AppStore";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
@@ -6401,7 +6401,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios.notificationservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "51f2edcb-a478-4ef1-8718-ab88c50566fb";
+				PROVISIONING_PROFILE = "a4932ece-6fd1-4cf1-b6cb-d15fd402b96e";
 				PROVISIONING_PROFILE_SPECIFIER = "Letgo Notification Service Adhoc";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
