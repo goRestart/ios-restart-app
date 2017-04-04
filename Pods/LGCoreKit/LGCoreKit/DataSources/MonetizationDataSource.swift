@@ -19,5 +19,6 @@ protocol MonetizationDataSource {
     func freeBump(forProduct productId: String, itemId: String, paymentId: String,
                   completion: MonetizationDataSourceBumpCompletion?)
     func pricedBump(forProduct productId: String, receiptData: String, itemId: String, itemPrice: String, itemCurrency: String,
-                    paymentId: String, completion: MonetizationDataSourceBumpCompletion?)
+                    paymentId: String, amplitudeId: String?, appsflyerId: String?, idfa: String?, bundleId: String?,
+                    completion: MonetizationDataSourceBumpCompletion?)
 }
