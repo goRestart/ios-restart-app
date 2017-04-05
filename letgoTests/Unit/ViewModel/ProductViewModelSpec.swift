@@ -138,7 +138,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
 
                                 expect(tracker.trackedEvents.count).toEventually(equal(1))
                             }
-                            it("has mark as sold and then sell it again button") {
+                            fit("has mark as sold and then sell it again button") {
                                 let buttonTexts: [String] = bottomButtonsObserver.eventValues.flatMap { $0.first?.text }
                                 expect(buttonTexts) == [LGLocalizedString.productMarkAsSoldButton, LGLocalizedString.productSellAgainButton]
                             }
@@ -847,10 +847,10 @@ extension ProductViewModelSpec: ProductDetailNavigator {
     func closeAfterDelete() {
 
     }
-    func openFreeBumpUpForProduct(listing: Listing, socialMessage: SocialMessage, withPaymentItemId: String) {
+    func openFreeBumpUp(forListing listing: Listing, socialMessage: SocialMessage, paymentItemId: String) {
         calledOpenFreeBumpUpView = true
     }
-    func openPayBumpUpForProduct(listing: Listing, purchaseableProduct: PurchaseableProduct, withPaymentItemId: String) {
+    func openPayBumpUp(forListing listing: Listing, purchaseableProduct: PurchaseableProduct, paymentItemId: String) {
         calledOpenPricedBumpUpView = true
     }
 

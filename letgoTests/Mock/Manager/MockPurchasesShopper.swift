@@ -36,7 +36,7 @@ class MockPurchasesShopper: PurchasesShopper {
         delegate?.shopperFinishedProductsRequestForProductId(productId, withProducts: purchaseableProducts)
     }
 
-    func requestPaymentForProduct(productId: String, appstoreProduct: PurchaseableProduct, paymentItemId: String) {
+    func requestPayment(forListingId listingId: String, appstoreProduct: PurchaseableProduct, paymentItemId: String) {
         delegate?.pricedBumpDidStart()
 
         performAfterDelayWithCompletion { [weak self] in
@@ -58,11 +58,11 @@ class MockPurchasesShopper: PurchasesShopper {
         return isBumpUpPending
     }
 
-    func requestFreeBumpUpForProduct(productId: String, withPaymentItemId paymentItemId: String, shareNetwork: EventParameterShareNetwork) {
+    func requestFreeBumpUp(forListingId listingId: String, paymentItemId: String, shareNetwork: EventParameterShareNetwork) {
 
     }
 
-    func requestPricedBumpUpForProduct(productId: String) {
+    func requestPricedBumpUp(forListingId listingId: String) {
         delegate?.pricedBumpDidStart()
         if pricedBumpSucceeds {
             // payment works and bump works

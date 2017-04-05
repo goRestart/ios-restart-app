@@ -349,7 +349,7 @@ class ProductViewModel: BaseViewModel {
                 guard let listing = self?.listing.value, let socialMessage = self?.freeBumpUpShareMessage else { return }
                 self?.trackBumpUpStarted(.free)
                 self?.navigator?.openFreeBumpUp(forListing: listing, socialMessage: socialMessage,
-                                                withPaymentItemId: paymentItemId)
+                                                paymentItemId: paymentItemId)
             }
             primaryBlock = freeBlock
             buttonBlock = freeBlock
@@ -359,7 +359,7 @@ class ProductViewModel: BaseViewModel {
                 guard let listing = self?.listing.value else { return }
                 guard let purchaseableProduct = self?.bumpUpPurchaseableProduct else { return }
                 self?.navigator?.openPayBumpUp(forListing: listing, purchaseableProduct: purchaseableProduct,
-                                                         withPaymentItemId: paymentItemId)
+                                               paymentItemId: paymentItemId)
             }
             buttonBlock = { [weak self] in
                 self?.bumpUpProduct(productId: listingId)
