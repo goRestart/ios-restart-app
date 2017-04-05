@@ -33,6 +33,8 @@ final class TabBarController: UITabBarController {
     // Rx
     fileprivate let disposeBag = DisposeBag()
 
+    fileprivate static let appRatingTag = Int.makeRandom()
+
     
     // MARK: - Lifecycle
 
@@ -106,6 +108,16 @@ final class TabBarController: UITabBarController {
         }
     }
 
+    func showAppRatingView(_ source: EventParameterRatingSource) {
+        view.subviews.find(where: { $0.tag == TabBarController.appRatingTag })?.removeFromSuperview()
+        guard let ratingView = AppRatingView.ratingView(source) else { return }
+
+        ratingView.setupWithFrame(view.frame)
+        ratingView.delegate = self
+        ratingView.tag = TabBarController.appRatingTag
+        view.addSubview(ratingView)
+    }
+
 
     /**
     Shows/hides the sell floating button
@@ -148,29 +160,6 @@ final class TabBarController: UITabBarController {
         super.setTabBarHidden(hidden, animated: animated, completion: { [weak self] _ in
             self?.viewModel.tabBarChangeVisibility(hidden: hidden)
         })
-    }
-
-    /**
-     Shows the app rating if needed.
-
-     - param source: The source.
-     - returns: Whether app rating has been shown or not
-     */
-    @discardableResult
-    func showAppRatingViewIfNeeded(_ source: EventParameterRatingSource) -> Bool {
-        guard RatingManager.sharedInstance.shouldShowRating else { return false}
-        return showAppRatingView(source)
-    }
-
-    @discardableResult
-    fileprivate func showAppRatingView(_ source: EventParameterRatingSource) -> Bool {
-        guard let nav = selectedViewController as? UINavigationController,
-            let ratingView = AppRatingView.ratingView(source) else { return false}
-
-        ratingView.setupWithFrame(nav.view.frame)
-        ratingView.delegate = self
-        view.addSubview(ratingView)
-        return true
     }
 
 

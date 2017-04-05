@@ -267,17 +267,6 @@ class ChatViewController: TextViewController {
     dynamic private func optionsBtnPressed() {
         viewModel.openOptionsMenu()
     }
-    
-    
-    // MARK: > Rating
-
-    fileprivate func askForRating() {
-        delay(1.0) { [weak self] in
-            self?.showKeyboard(false, animated: true)
-            guard let tabBarCtrl = self?.tabBarController as? TabBarController else { return }
-            tabBarCtrl.showAppRatingViewIfNeeded(.chat)
-        }
-    }
 }
 
 
@@ -579,11 +568,6 @@ extension ChatViewController: ChatViewModelDelegate {
     
     func vmShowSafetyTips() {
         showSafetyTips()
-    }
-    
-    func vmAskForRating() {
-        showKeyboard(false, animated: true)
-        askForRating()
     }
     
     func vmShowPrePermissions(_ type: PrePermissionType) {

@@ -23,7 +23,6 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmHideKeyboard(_ animated: Bool)
     func vmShowKeyboard()
     
-    func vmAskForRating()
     func vmShowPrePermissions(_ type: PrePermissionType)
     func vmShowMessage(_ message: String, completion: (() -> ())?)
 }
@@ -650,7 +649,11 @@ extension ChatViewModel {
         } else if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.chat(buyer: isBuyer)) {
             delegate?.vmShowPrePermissions(.chat(buyer: isBuyer))
         } else if RatingManager.sharedInstance.shouldShowRating {
-            delegate?.vmAskForRating()
+            delegate?.vmHideKeyboard(true)
+            delay(1.0) { [weak self] in
+                self?.delegate?.vmHideKeyboard(true)
+                self?.navigator?.openAppRating(.chat)
+            }
         }
     }
 

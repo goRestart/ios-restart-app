@@ -199,6 +199,11 @@ extension AppCoordinator: AppNavigator {
         openChild(coordinator: sellCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
     }
 
+    func openAppRating(_ source: EventParameterRatingSource) {
+        guard ratingManager.shouldShowRating else { return }
+        tabBarCtl.showAppRatingView(source)
+    }
+
     func openUserRating(_ source: RateUserSource, data: RateUserData) {
         let userRatingCoordinator = UserRatingCoordinator(source: source, data: data)
         userRatingCoordinator.delegate = self
@@ -280,7 +285,7 @@ extension AppCoordinator: UserRatingCoordinatorDelegate {
 
     func userRatingCoordinatorDidFinish(withRating rating: Int?, ratedUserId: String?) {
         if rating == 5 {
-            tabBarCtl.showAppRatingViewIfNeeded(.chat)
+            openAppRating(.chat)
         }
     }
 }
@@ -296,15 +301,11 @@ fileprivate extension AppCoordinator {
         if pushPermissionsManager.shouldShowPushPermissionsAlertFromViewController(.sell) {
             pushPermissionsManager.showPrePermissionsViewFrom(tabBarCtl, type: .sell, completion: nil)
         } else if ratingManager.shouldShowRating {
-            showAppRatingViewIfNeeded(.productSellComplete)
+            openAppRating(.productSellComplete)
         } else {
             return false
         }
         return true
-    }
-
-    @discardableResult func showAppRatingViewIfNeeded(_ source: EventParameterRatingSource) -> Bool {
-        return tabBarCtl.showAppRatingViewIfNeeded(source)
     }
 }
 

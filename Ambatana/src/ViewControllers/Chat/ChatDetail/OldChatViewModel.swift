@@ -27,7 +27,6 @@ protocol OldChatViewModelDelegate: BaseViewModelDelegate {
     func vmShowReportUser(_ reportUserViewModel: ReportUsersViewModel)
     
     func vmShowSafetyTips()
-    func vmAskForRating()
     func vmShowPrePermissions(_ type: PrePermissionType)
     func vmShowKeyboard()
     func vmHideKeyboard(animated: Bool)
@@ -760,7 +759,11 @@ class OldChatViewModel: BaseViewModel, Paginable {
         } else if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.chat(buyer: isBuyer)) {
             delegate?.vmShowPrePermissions(.chat(buyer: isBuyer))
         } else if RatingManager.sharedInstance.shouldShowRating {
-            delegate?.vmAskForRating()
+            delegate?.vmHideKeyboard(animated: true)
+            delay(1) { [weak self] in
+                self?.delegate?.vmHideKeyboard(animated: true)
+                self?.navigator?.openAppRating(.chat)
+            }
         }
         delegate?.vmUpdateReviewButton()
     }

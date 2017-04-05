@@ -1089,11 +1089,6 @@ extension ProductCarouselViewController: ProductCarouselViewModelDelegate {
         navigationController?.present(commercialDisplayVC, animated: true, completion: nil)
     }
 
-    func vmAskForRating() {
-        guard let tabBarCtrl = self.tabBarController as? TabBarController else { return }
-        tabBarCtrl.showAppRatingViewIfNeeded(.markedSold)
-    }
-
     func vmShowCarouselOptions(_ cancelLabel: String, actions: [UIAction]) {
         showActionSheet(cancelLabel, actions: actions, barButtonItem: navigationItem.rightBarButtonItems?.first)
     }
