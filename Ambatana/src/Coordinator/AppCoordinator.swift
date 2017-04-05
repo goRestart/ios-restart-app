@@ -529,6 +529,8 @@ fileprivate extension AppCoordinator {
         }
         if let child = child {
             child.closeCoordinator(animated: false, completion: openCompletion)
+        } else if let child = selectedTabCoordinator?.child {
+            child.closeCoordinator(animated: false, completion: openCompletion)
         } else {
             openCompletion()
         }
