@@ -808,10 +808,9 @@ fileprivate extension ProductViewModel {
     }
 
     func markAsSold(buyerId: String?, userSoldTo: EventParameterUserSoldTo) {
-        guard let listingId = listing.value.objectId else { return }
         delegate?.vmShowLoading(nil)
 
-        listingRepository.markAsSold(listingId: listingId, buyerId: buyerId) { [weak self] result in
+        listingRepository.markAsSold(listing: listing.value, buyerId: buyerId) { [weak self] result in
             guard let strongSelf = self else { return }
 
             var markAsSoldCompletion: (()->())? = nil
@@ -834,15 +833,14 @@ fileprivate extension ProductViewModel {
     }
 
     func markUnsold() {
-        guard let product = listing.value.product else { return }
         delegate?.vmShowLoading(nil)
 
-        listingRepository.markAsUnsold(product: product) { [weak self] result in
+        listingRepository.markAsUnsold(listing: listing.value) { [weak self] result in
             guard let strongSelf = self else { return }
 
             let message: String
             if let value = result.value {
-                strongSelf.listing.value = .product(value)
+                strongSelf.listing.value = value
                 message = strongSelf.listing.value.price.free ? LGLocalizedString.productSellAgainFreeSuccessMessage : LGLocalizedString.productSellAgainSuccessMessage
                 self?.trackHelper.trackMarkUnsoldCompleted()
             } else {

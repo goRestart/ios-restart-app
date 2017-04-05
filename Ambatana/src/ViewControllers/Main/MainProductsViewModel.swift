@@ -57,10 +57,10 @@ class MainProductsViewModel: BaseViewModel {
         if let place = filters.place {
             resultTags.append(.location(place))
         }
-        if filters.selectedWithin != ProductTimeCriteria.defaultOption {
+        if filters.selectedWithin != ListingTimeCriteria.defaultOption {
             resultTags.append(.within(filters.selectedWithin))
         }
-        if let selectedOrdering = filters.selectedOrdering, selectedOrdering != ProductSortCriteria.defaultOption {
+        if let selectedOrdering = filters.selectedOrdering, selectedOrdering != ListingSortCriteria.defaultOption {
             resultTags.append(.orderBy(selectedOrdering))
         }
 
@@ -246,8 +246,8 @@ class MainProductsViewModel: BaseViewModel {
 
         var place: Place? = nil
         var categories: [FilterCategoryItem] = []
-        var orderBy = ProductSortCriteria.defaultOption
-        var within = ProductTimeCriteria.defaultOption
+        var orderBy = ListingSortCriteria.defaultOption
+        var within = ListingTimeCriteria.defaultOption
         var minPrice: Int? = nil
         var maxPrice: Int? = nil
         var free: Bool = false
@@ -316,7 +316,7 @@ class MainProductsViewModel: BaseViewModel {
     }
     
     fileprivate func updateListView() {
-        if filters.selectedOrdering == ProductSortCriteria.defaultOption {
+        if filters.selectedOrdering == ListingSortCriteria.defaultOption {
             infoBubbleText.value = LGLocalizedString.productPopularNearYou
         }
 

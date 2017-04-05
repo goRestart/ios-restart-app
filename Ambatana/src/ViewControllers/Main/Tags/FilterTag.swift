@@ -10,8 +10,8 @@ import LGCoreKit
 
 enum FilterTag: Equatable{
     case location(Place)
-    case within(ProductTimeCriteria)
-    case orderBy(ProductSortCriteria)
+    case within(ListingTimeCriteria)
+    case orderBy(ListingSortCriteria)
     case category(ListingCategory)
     case priceRange(from: Int?, to: Int?, currency: Currency?)
     case freeStuff

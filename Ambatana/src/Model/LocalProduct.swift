@@ -38,7 +38,7 @@ struct LocalProduct: Product {
 
 
     init?(chatConversation: ChatConversation, myUser: MyUser?) {
-        guard let chatListing = chatConversation.product else { return nil }
+        guard let chatListing = chatConversation.listing else { return nil }
         if chatConversation.amISelling {
             guard let myUser = myUser, let localUser = LocalUser(user: myUser) else { return nil }
             self.user = localUser

@@ -16,7 +16,7 @@ extension ListingCategory {
             return LGLocalizedString.categoriesUnassigned
         case .electronics:
             return LGLocalizedString.categoriesElectronics
-        case .carsAndMotors:
+        case .motorsAndAccessories:
             return LGLocalizedString.categoriesCarsAndMotors
         case .sportsLeisureAndGames:
             return LGLocalizedString.categoriesSportsLeisureAndGames
@@ -41,7 +41,7 @@ extension ListingCategory {
             return nil
         case .electronics:
             return UIImage(named: "categories_electronics")
-        case .carsAndMotors:
+        case .motorsAndAccessories:
             return UIImage(named: "categories_cars")
         case .sportsLeisureAndGames:
             return UIImage(named: "categories_sports")
@@ -66,7 +66,7 @@ extension ListingCategory {
             return nil
         case .electronics:
             return UIImage(named: "categories_electronics_inactive")
-        case .carsAndMotors:
+        case .motorsAndAccessories:
             return UIImage(named: "categories_cars_inactive")
         case .sportsLeisureAndGames:
             return UIImage(named: "categories_sports_inactive")
@@ -91,7 +91,7 @@ extension ListingCategory {
             return UIColor.unassignedCategory
         case .electronics:
             return UIColor.electronicsCategory
-        case .carsAndMotors:
+        case .motorsAndAccessories:
             return UIColor.carsMotorsCategory
         case .sportsLeisureAndGames:
             return UIColor.sportsGamesCategory

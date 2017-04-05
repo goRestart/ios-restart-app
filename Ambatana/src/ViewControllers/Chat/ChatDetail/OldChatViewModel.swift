@@ -1000,9 +1000,8 @@ class OldChatViewModel: BaseViewModel, Paginable {
     }
     
     private func markProductAsSold(buyerId: String?, userSoldTo: EventParameterUserSoldTo?) {
-        guard let listingId = listing.objectId else { return }
         delegate?.vmShowLoading(nil)
-        listingRepository.markAsSold(listingId: listingId, buyerId: buyerId) { [weak self] result in
+        listingRepository.markAsSold(listing: listing, buyerId: buyerId) { [weak self] result in
             self?.delegate?.vmHideLoading(nil) { [weak self] in
                 guard let strongSelf = self else { return }
                 if let value = result.value {

@@ -135,7 +135,7 @@ class MainProductsViewModelSpec: QuickSpec {
                 context("with filter but no search") {
                     beforeEach {
                         var userFilters = ProductFilters()
-                        userFilters.selectedCategories = [.carsAndMotors]
+                        userFilters.selectedCategories = [.motorsAndAccessories]
                         let searchType: SearchType? = nil
                         sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, listingRepository: Core.listingRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: mockTracker, searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
                         sut.productListVM(productListViewModel, didSucceedRetrievingProductsPage: 0, hasProducts: true)
@@ -153,7 +153,7 @@ class MainProductsViewModelSpec: QuickSpec {
                 context("with filter & search") {
                     beforeEach {
                         var userFilters = ProductFilters()
-                        userFilters.selectedCategories = [.carsAndMotors]
+                        userFilters.selectedCategories = [.motorsAndAccessories]
                         let searchType: SearchType = .user(query: "iphone")
                         sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, trendingSearchesRepository: Core.trendingSearchesRepository, listingRepository: Core.listingRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: mockTracker, searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags)
                         sut.productListVM(productListViewModel, didSucceedRetrievingProductsPage: 0, hasProducts: true)

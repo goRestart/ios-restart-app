@@ -707,7 +707,7 @@ class TrackerEventSpec: QuickSpec {
             }
             
             describe("productList") {
-                let categories: [ListingCategory] = [.homeAndGarden, .carsAndMotors]
+                let categories: [ListingCategory] = [.homeAndGarden, .motorsAndAccessories]
                 let searchQuery = "iPhone"
                 beforeEach {
                     sut = TrackerEvent.productList(nil, categories: categories, searchQuery: searchQuery, feedSource: .home, success: .trueParameter)
@@ -797,8 +797,8 @@ class TrackerEventSpec: QuickSpec {
                     beforeEach {
                         let coords = LGLocationCoordinates2D(latitude: 41.123, longitude: 2.123)
                         sut = TrackerEvent.filterComplete(coords, distanceRadius: 10, distanceUnit: DistanceType.km,
-                            categories: [.electronics, .carsAndMotors],
-                            sortBy: ProductSortCriteria.distance, postedWithin: ProductTimeCriteria.day,
+                            categories: [.electronics, .motorsAndAccessories],
+                            sortBy: ListingSortCriteria.distance, postedWithin: ListingTimeCriteria.day,
                             priceRange: .priceRange(min: 5, max: 100), freePostingModeAllowed: true)
                     }
                     it("has its event name") {
@@ -1946,7 +1946,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the product related params when passing by a product, name & category") {
                     var product = MockProduct.makeMock()
-                    let newCategory = ListingCategory.carsAndMotors
+                    let newCategory = ListingCategory.motorsAndAccessories
                     product.objectId = "q1w2e3"
 
                     sut = TrackerEvent.productEditComplete(nil, product: product, category: newCategory,

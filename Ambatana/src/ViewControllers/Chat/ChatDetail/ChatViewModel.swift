@@ -33,7 +33,7 @@ struct EmptyConversation: ChatConversation {
     var objectId: String?
     var unreadMessageCount: Int = 0
     var lastMessageSentAt: Date? = nil
-    var product: ChatListing? = nil
+    var listing: ChatListing? = nil
     var interlocutor: ChatInterlocutor? = nil
     var amISelling: Bool 
 }
@@ -132,7 +132,7 @@ class ChatViewModel: BaseViewModel {
     fileprivate let disposeBag = DisposeBag()
     
     fileprivate var userDefaultsSubKey: String {
-        return "\(conversation.value.product?.objectId ?? listingId) + \(buyerId ?? "offline")"
+        return "\(conversation.value.listing?.objectId ?? listingId) + \(buyerId ?? "offline")"
     }
 
     fileprivate var isBuyer: Bool {
@@ -212,7 +212,7 @@ class ChatViewModel: BaseViewModel {
         let keyValueStorage = KeyValueStorage.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
         let amISelling = myUserRepository.myUser?.objectId == sellerId
-        let empty = EmptyConversation(objectId: nil, unreadMessageCount: 0, lastMessageSentAt: nil, product: nil,
+        let empty = EmptyConversation(objectId: nil, unreadMessageCount: 0, lastMessageSentAt: nil, listing: nil,
                                       interlocutor: nil, amISelling: amISelling)
         self.init(conversation: empty, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   listingRepository: listingRepository, userRepository: userRepository,
@@ -275,7 +275,7 @@ class ChatViewModel: BaseViewModel {
         guard sessionManager.loggedIn else { return }
         guard isBuyer else { return }
         guard !relatedListings.isEmpty else { return }
-        guard let listingId = conversation.value.product?.objectId else { return }
+        guard let listingId = conversation.value.listing?.objectId else { return }
         navigator?.openExpressChat(relatedListings, sourceListingId: listingId, manualOpen: false)
     }
 
@@ -323,11 +323,11 @@ class ChatViewModel: BaseViewModel {
             self?.chatEnabled.value = conversation.chatEnabled
             self?.interlocutorIsMuted.value = conversation.interlocutor?.isMuted ?? false
             self?.interlocutorHasMutedYou.value = conversation.interlocutor?.hasMutedYou ?? false
-            self?.title.value = conversation.product?.name ?? ""
-            self?.productName.value = conversation.product?.name ?? ""
-            self?.productImageUrl.value = conversation.product?.image?.fileURL
-            self?.productPrice.value = conversation.product?.priceString() ?? ""
-            self?.productIsFree.value = conversation.product?.price.free ?? false
+            self?.title.value = conversation.listing?.name ?? ""
+            self?.productName.value = conversation.listing?.name ?? ""
+            self?.productImageUrl.value = conversation.listing?.image?.fileURL
+            self?.productPrice.value = conversation.listing?.priceString() ?? ""
+            self?.productIsFree.value = conversation.listing?.price.free ?? false
             self?.interlocutorAvatarURL.value = conversation.interlocutor?.avatar?.fileURL
             self?.interlocutorName.value = conversation.interlocutor?.name ?? ""
             self?.interlocutorId.value = conversation.interlocutor?.objectId
@@ -350,7 +350,7 @@ class ChatViewModel: BaseViewModel {
             case .loading, .hidden:
                 self?.delegate?.vmShowRelatedProducts(nil)
             case .visible:
-                self?.delegate?.vmShowRelatedProducts(self?.conversation.value.product?.objectId)
+                self?.delegate?.vmShowRelatedProducts(self?.conversation.value.listing?.objectId)
             }
         }.addDisposableTo(disposeBag)
 
@@ -498,7 +498,7 @@ class ChatViewModel: BaseViewModel {
     // MARK: - Public Methods
     
     func productInfoPressed() {
-        guard let product = conversation.value.product else { return }
+        guard let product = conversation.value.listing else { return }
         switch product.status {
         case .deleted:
             break
@@ -547,7 +547,7 @@ class ChatViewModel: BaseViewModel {
     }
 
     func bannerActionButtonTapped() {
-        guard let listingId = conversation.value.product?.objectId else { return }
+        guard let listingId = conversation.value.listing?.objectId else { return }
         navigator?.openExpressChat(relatedListings, sourceListingId: listingId, manualOpen: true)
     }
 
@@ -566,7 +566,7 @@ extension ChatViewModel {
         case .conversation(let conversationId):
             return conversationId == conversation.value.objectId
         case let .productBuyer(productId, productBuyerId):
-            return productId == conversation.value.product?.objectId && productBuyerId == buyerId
+            return productId == conversation.value.listing?.objectId && productBuyerId == buyerId
         }
     }
 
@@ -727,29 +727,29 @@ extension ChatViewModel {
 extension ChatViewModel {
     fileprivate func markProductAsSold() {
         guard conversation.value.amISelling else { return }
-        guard let productId = conversation.value.product?.objectId else { return }
+        guard let listingId = conversation.value.listing?.objectId else { return }
         guard featureFlags.userRatingMarkAsSold else {
-            markProductAsSold(productId: productId, buyerId: nil, userSoldTo: nil)
+            markProductAsSold(listingId: listingId, buyerId: nil, userSoldTo: nil)
             return
         }
         delegate?.vmShowLoading(nil)
-        listingRepository.possibleBuyersOf(listingId: productId) { [weak self] result in
+        listingRepository.possibleBuyersOf(listingId: listingId) { [weak self] result in
             if let buyers = result.value, !buyers.isEmpty {
                 self?.delegate?.vmHideLoading(nil) {
                     self?.navigator?.selectBuyerToRate(source: .chat, buyers: buyers) { buyerId in
                         let userSoldTo: EventParameterUserSoldTo = buyerId != nil ? .letgoUser : .outsideLetgo
-                        self?.markProductAsSold(productId: productId, buyerId: buyerId, userSoldTo: userSoldTo)
+                        self?.markProductAsSold(listingId: listingId, buyerId: buyerId, userSoldTo: userSoldTo)
                     }
                 }
             } else {
-                self?.markProductAsSold(productId: productId, buyerId: nil, userSoldTo: .noConversations)
+                self?.markProductAsSold(listingId: listingId, buyerId: nil, userSoldTo: .noConversations)
             }
         }
     }
-
-    private func markProductAsSold(productId: String, buyerId: String?, userSoldTo: EventParameterUserSoldTo?) {
+    
+    private func markProductAsSold(listingId: String, buyerId: String?, userSoldTo: EventParameterUserSoldTo?) {
         delegate?.vmShowLoading(nil)
-        listingRepository.markAsSold(listingId: productId, buyerId: nil) { [weak self] result in
+        listingRepository.markAsSold(listingId: listingId, buyerId: nil) { [weak self] result in
             if let _ = result.value {
                 self?.trackMarkAsSold(userSoldTo: userSoldTo)
             }
@@ -1156,7 +1156,7 @@ fileprivate extension ChatViewModel {
 fileprivate extension ChatViewModel {
     
     func trackFirstMessage(type: ChatWrapperMessageType) {
-        guard let product = conversation.value.product else { return }
+        guard let product = conversation.value.listing else { return }
         guard let userId = conversation.value.interlocutor?.objectId else { return }
 
         let sellerRating = conversation.value.amISelling ?
@@ -1170,7 +1170,7 @@ fileprivate extension ChatViewModel {
     }
 
     func trackMessageSent(type: ChatWrapperMessageType) {
-        guard let product = conversation.value.product else { return }
+        guard let product = conversation.value.listing else { return }
         guard let userId = conversation.value.interlocutor?.objectId else { return }
 
         if shouldTrackFirstMessage {
@@ -1199,7 +1199,7 @@ fileprivate extension ChatViewModel {
     }
 
     func trackMarkAsSold(userSoldTo: EventParameterUserSoldTo?) {
-        guard let product = conversation.value.product else { return }
+        guard let product = conversation.value.listing else { return }
         let markAsSold = TrackerEvent.productMarkAsSold(product, typePage: .chat, soldTo: userSoldTo,
                                                         freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                         isBumpedUp: .notAvailable)
@@ -1213,7 +1213,7 @@ fileprivate extension ChatViewModel {
 fileprivate extension ChatConversation {
     var chatStatus: ChatInfoViewStatus {
         guard let interlocutor = interlocutor else { return .available }
-        guard let product = product else { return .available }
+        guard let listing = listing else { return .available }
 
         switch interlocutor.status {
         case .scammer:
@@ -1229,7 +1229,7 @@ fileprivate extension ChatConversation {
         if interlocutor.isBanned { return .forbidden }
         if interlocutor.isMuted { return .blocked }
         if interlocutor.hasMutedYou { return .blockedBy }
-        switch product.status {
+        switch listing.status {
         case .deleted, .discarded:
             return .productDeleted
         case .sold, .soldOld:
@@ -1344,7 +1344,7 @@ extension ChatViewModel {
 
     fileprivate func retrieveRelatedProducts() {
         guard isBuyer else { return }
-        guard let productId = conversation.value.product?.objectId else { return }
+        guard let productId = conversation.value.listing?.objectId else { return }
         listingRepository.indexRelated(listingId: productId, params: RetrieveListingParams()) {
             [weak self] result in
             guard let strongSelf = self else { return }
@@ -1377,9 +1377,9 @@ extension ChatViewModel {
     }
 
     private func expressChatMessageSentForCurrentProduct() -> Bool {
-        guard let productId = conversation.value.product?.objectId else { return false }
+        guard let listingId = conversation.value.listing?.objectId else { return false }
         for productSentId in keyValueStorage.userProductsWithExpressChatMessageSent {
-            if productSentId == productId { return true }
+            if productSentId == listingId { return true }
         }
         return false
     }

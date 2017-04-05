@@ -218,8 +218,8 @@ struct TrackerEvent {
     }
 
     static func filterComplete(_ coordinates: LGLocationCoordinates2D?, distanceRadius: Int?,
-                               distanceUnit: DistanceType, categories: [ListingCategory]?, sortBy: ProductSortCriteria?,
-                               postedWithin: ProductTimeCriteria?, priceRange: FilterPriceRange, freePostingModeAllowed: Bool) -> TrackerEvent {
+                               distanceUnit: DistanceType, categories: [ListingCategory]?, sortBy: ListingSortCriteria?,
+                               postedWithin: ListingTimeCriteria?, priceRange: FilterPriceRange, freePostingModeAllowed: Bool) -> TrackerEvent {
         var params = EventParameters()
 
         // Filter Coordinates
@@ -1064,7 +1064,7 @@ struct TrackerEvent {
     // MARK: - Private methods
 
 
-    private static func eventParameterSortByTypeForSorting(_ sorting: ProductSortCriteria?) -> EventParameterSortBy? {
+    private static func eventParameterSortByTypeForSorting(_ sorting: ListingSortCriteria?) -> EventParameterSortBy? {
         guard let sorting = sorting else { return nil }
         let sortBy: EventParameterSortBy?
         switch (sorting) {
@@ -1081,7 +1081,7 @@ struct TrackerEvent {
         return sortBy
     }
 
-    private static func eventParameterPostedWithinForTime(_ time: ProductTimeCriteria?) -> EventParameterPostedWithin? {
+    private static func eventParameterPostedWithinForTime(_ time: ListingTimeCriteria?) -> EventParameterPostedWithin? {
         guard let time = time else { return nil }
         switch time {
         case .day:
