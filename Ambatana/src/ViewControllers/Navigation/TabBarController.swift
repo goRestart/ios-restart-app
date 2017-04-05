@@ -56,7 +56,6 @@ final class TabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.viewModel.delegate = self
 
         setupAdminAccess()
         setupIncentiviseScrollBanner()
@@ -74,16 +73,27 @@ final class TabBarController: UITabBarController {
         viewModel.active = false
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        viewModel.didAppear()
-    }
-
     
     // MARK: - Public methods
-    
-    func switchToTab(_ tab: Tab, completion: (() -> ())? = nil) {
-        viewModel.externalSwitchToTab(tab, completion: completion)
+
+    /**
+     Pops the current navigation controller to root and switches to the given tab.
+
+     - parameter The: tab to go to.
+     */
+    func switchTo(tab: Tab) {
+        guard let viewControllers = viewControllers, 0..<viewControllers.count ~= tab.index else { return }
+        let vc = viewControllers[tab.index]
+
+        if let navBarCtl = selectedViewController as? UINavigationController {
+            _ = navBarCtl.popToRootViewController(animated: false)
+        }
+
+        setTabBarHidden(false, animated: false)
+
+        selectedIndex = tab.index
+        // Notify the delegate, as programmatically change doesn't do it
+        delegate?.tabBarController?(self, didSelect: vc)
     }
 
     func clearAllPresented(_ completion: (() -> Void)?) {
@@ -230,45 +240,6 @@ final class TabBarController: UITabBarController {
 
     
     // MARK: > UI
-
-    /**
-     Pops the current navigation controller to root and switches to the given tab.
-
-     - parameter The: tab to go to.
-     */
-    fileprivate func switchToTab(_ tab: Tab, checkIfShouldSwitch: Bool, completion: (() -> ())?) {
-        guard let navBarCtl = selectedViewController as? UINavigationController else { return }
-        guard let viewControllers = viewControllers, tab.index < viewControllers.count else { return }
-        guard let vc = (viewControllers as NSArray).object(at: tab.index) as? UIViewController else { return }
-        if checkIfShouldSwitch {
-            let shouldSelectVC = delegate?.tabBarController?(self, shouldSelect: vc) ?? true
-            guard shouldSelectVC else { return }
-        }
-
-        // Dismiss all presented view controllers
-        navBarCtl.dismissAllPresented { [weak self, weak navBarCtl] in
-            // Pop previous navigation to root
-            _ = navBarCtl?.popToRootViewController(animated: false)
-            navBarCtl?.tabBarController?.setTabBarHidden(false, animated: false)
-
-            guard let strongSelf = self else { return }
-
-            strongSelf.selectedIndex = tab.index
-            // Notify the delegate, as programmatically change doesn't do it
-            strongSelf.delegate?.tabBarController?(strongSelf, didSelect: vc)
-
-            completion?()
-        }
-    }
-}
-
-
-// MARK: - TabBarViewModelDelegate
-
-extension TabBarController: TabBarViewModelDelegate {
-    func vmSwitchToTab(_ tab: Tab, force: Bool, completion: (() -> ())?) {
-        switchToTab(tab, checkIfShouldSwitch: !force, completion: completion)
-    }
 }
 
 

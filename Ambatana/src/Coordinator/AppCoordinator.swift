@@ -190,7 +190,7 @@ extension AppCoordinator: AppNavigator {
     }
 
     func openHome() {
-        tabBarCtl.switchToTab(.home)
+        openTab(.home, completion: nil)
     }
 
     func openSell(_ source: PostingSource) {
@@ -517,10 +517,19 @@ fileprivate extension AppCoordinator {
 
 fileprivate extension AppCoordinator {
 
-    func openTab(_ tab: Tab, force: Bool, completion: (() -> ())?) {
-        let shouldOpen = force || shouldOpenTab(tab)
-        if shouldOpen {
-            tabBarCtl.switchToTab(tab, completion: completion)
+    func openTab(_ tab: Tab, force: Bool, completion: (() -> Void)?) {
+        guard force || shouldOpenTab(tab) else { return }
+
+        let openCompletion: () -> Void = { [weak self] in
+            self?.tabBarCtl.clearAllPresented {
+                self?.tabBarCtl.switchTo(tab: tab)
+                completion?()
+            }
+        }
+        if let child = child {
+            child.closeCoordinator(animated: false, completion: openCompletion)
+        } else {
+            openCompletion()
         }
     }
 
