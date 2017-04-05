@@ -19,7 +19,6 @@ enum UserSource {
 
 protocol UserViewModelDelegate: BaseViewModelDelegate {
     func vmOpenReportUser(_ reportUserVM: ReportUsersViewModel)
-    func vmOpenHome()
     func vmShowUserActionSheet(_ cancelLabel: String, actions: [UIAction])
     func vmShowNativeShare(_ socialMessage: SocialMessage)
 }
@@ -609,7 +608,7 @@ extension UserViewModel: ProductListViewModelDataDelegate {
         } else if viewModel === favoritesProductListViewModel {
             errTitle = LGLocalizedString.profileFavouritesMyUserNoProductsLabel
             errButTitle = itsMe ? nil : LGLocalizedString.profileFavouritesMyUserNoProductsButton
-            errButAction = { [weak self] in self?.delegate?.vmOpenHome() }
+            errButAction = { [weak self] in self?.navigator?.openHome() }
         } else { return }
         
         let emptyViewModel = LGEmptyViewModel(icon: nil, title: errTitle, body: nil, buttonTitle: errButTitle,

@@ -16,7 +16,6 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmDidFailRetrievingChatMessages()
     
     func vmShowReportUser(_ reportUserViewModel: ReportUsersViewModel)
-    func vmShowUserRating(_ source: RateUserSource, data: RateUserData)
 
     func vmShowSafetyTips()
 
@@ -520,7 +519,7 @@ class ChatViewModel: BaseViewModel {
         reviewTooltipVisible.value = false
         guard let interlocutor = conversation.value.interlocutor, let reviewData = RateUserData(interlocutor: interlocutor)
             else { return }
-        delegate?.vmShowUserRating(.chat, data: reviewData)
+        navigator?.openUserRating(.chat, data: reviewData)
     }
 
     func closeReviewTooltipPressed() {

@@ -25,7 +25,6 @@ protocol OldChatViewModelDelegate: BaseViewModelDelegate {
     func vmDidUpdateProduct(messageToShow message: String?)
 
     func vmShowReportUser(_ reportUserViewModel: ReportUsersViewModel)
-    func vmShowUserRating(_ source: RateUserSource, data: RateUserData)
     
     func vmShowSafetyTips()
     func vmAskForRating()
@@ -486,7 +485,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
     func reviewUserPressed() {
         keyValueStorage[.userRatingTooltipAlreadyShown] = true
         guard let otherUser = otherUser, let reviewData = RateUserData(user: otherUser) else { return }
-        delegate?.vmShowUserRating(.chat, data: reviewData)
+        navigator?.openUserRating(.chat, data: reviewData)
     }
 
     func closeReviewTooltipPressed() {

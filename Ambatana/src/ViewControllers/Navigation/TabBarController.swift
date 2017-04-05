@@ -86,9 +86,14 @@ final class TabBarController: UITabBarController {
         viewModel.externalSwitchToTab(tab, completion: completion)
     }
 
-    func clearAllPresented() {
-        self.dismissAllPresented(nil)
-        viewControllers?.forEach { $0.dismissAllPresented(nil) }
+    func clearAllPresented(_ completion: (() -> Void)?) {
+        if let selectedVC = selectedViewController {
+            selectedVC.dismissAllPresented() { [weak self] in
+                self?.dismissAllPresented(completion)
+            }
+        } else {
+            dismissAllPresented(completion)
+        }
     }
 
 
@@ -193,7 +198,7 @@ final class TabBarController: UITabBarController {
 
     private func setupSellButton() {
         
-        floatingSellButton.buttonTouchBlock = { [weak self] in self?.sellButtonPressed() }
+        floatingSellButton.buttonTouchBlock = { [weak self] in self?.viewModel.sellButtonPressed() }
         floatingSellButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(floatingSellButton)
         floatingSellButton.layout(with: view).centerX()
@@ -221,17 +226,6 @@ final class TabBarController: UITabBarController {
         viewModel.hideScrollBanner.asObservable().bindNext({ [weak self] hidden in
             self?.incentiviseScrollBanner.isHidden = hidden
         }).addDisposableTo(disposeBag)
-    }
-
-    
-    // MARK: > Action
-
-    dynamic func sellButtonPressed() {
-        viewModel.sellButtonPressed()
-    }
-
-    func openUserRating(_ source: RateUserSource, data: RateUserData) {
-        viewModel.userRating(source, data: data)
     }
 
     
