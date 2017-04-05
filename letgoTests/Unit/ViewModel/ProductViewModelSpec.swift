@@ -110,7 +110,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     listingRepository.markAsSoldVoidResult = ListingVoidResult(Void())
                     var soldProduct = MockProduct(product: product)
                     soldProduct.status = .sold
-                    listingRepository.productResult = ProductResult(soldProduct)
+                    listingRepository.markAsSoldResult = ListingResult(.product(soldProduct))
                 }
                 context("buyer selection a/b enabled"){
                     beforeEach {
@@ -138,7 +138,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
 
                                 expect(tracker.trackedEvents.count).toEventually(equal(1))
                             }
-                            fit("has mark as sold and then sell it again button") {
+                            it("has mark as sold and then sell it again button") {
                                 let buttonTexts: [String] = bottomButtonsObserver.eventValues.flatMap { $0.first?.text }
                                 expect(buttonTexts) == [LGLocalizedString.productMarkAsSoldButton, LGLocalizedString.productSellAgainButton]
                             }
