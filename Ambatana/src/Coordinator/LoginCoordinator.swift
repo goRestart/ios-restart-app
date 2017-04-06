@@ -19,7 +19,7 @@ protocol RecaptchaTokenDelegate: class {
     func recaptchaTokenObtained(token: String)
 }
 
-final class LoginCoordinator: Coordinator {
+final class LoginCoordinator: Coordinator, ChangePasswordPresenter {
     var child: Coordinator?
     var viewController: UIViewController
     weak var coordinatorDelegate: CoordinatorDelegate?
@@ -85,6 +85,10 @@ final class LoginCoordinator: Coordinator {
             self.viewController = popUpSignUpVC
         }
         viewModel.navigator = self
+    }
+
+    func openChangePassword(coordinator: ChangePasswordCoordinator) {
+        openChild(coordinator: coordinator, parent: topPresentedController(), animated: true, forceCloseChild: true, completion: nil)
     }
 
     func presentViewController(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
@@ -505,6 +509,14 @@ fileprivate extension LoginCoordinator {
 
     func currentNavigationController() -> UINavigationController? {
         return topViewController() as? UINavigationController
+    }
+
+    func topPresentedController() -> UIViewController {
+        var current = topViewController()
+        while let presented = current.presentedViewController {
+            current = presented
+        }
+        return current
     }
 
     func dismissLastPresented(animated: Bool, completion: (() -> Void)?) {

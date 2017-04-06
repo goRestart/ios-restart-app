@@ -555,6 +555,10 @@
 "product_post_product_posted_not_logged" = "Ảnh đã được tải lên!";
 "product_post_retake" = "Chụp lại";
 "product_post_retry_button" = "Thử lại";
+"product_post_select_category_cars" = "Xe hơi";
+"product_post_select_category_or" = "HOẶC";
+"product_post_select_category_other" = "Thứ gì khác";
+"product_post_select_category_title" = "Bạn đang đăng gì?";
 "product_post_use_photo" = "Đăng";
 "product_post_use_photo_not_logged" = "Sử dụng Hình ảnh";
 "product_price_label" = "Giá";

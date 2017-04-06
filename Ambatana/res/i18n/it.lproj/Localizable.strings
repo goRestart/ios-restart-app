@@ -555,6 +555,10 @@
 "product_post_product_posted_not_logged" = "Foto Caricata!";
 "product_post_retake" = "Scatta di Nuovo";
 "product_post_retry_button" = "Riprova";
+"product_post_select_category_cars" = "Auto";
+"product_post_select_category_or" = "O";
+"product_post_select_category_other" = "Qualcos'altro";
+"product_post_select_category_title" = "Che cosa stai pubblicando?";
 "product_post_use_photo" = "Pubblica";
 "product_post_use_photo_not_logged" = "Utilizza Foto";
 "product_price_label" = "Prezzo";

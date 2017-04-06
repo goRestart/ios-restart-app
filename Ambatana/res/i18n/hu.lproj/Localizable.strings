@@ -555,6 +555,10 @@
 "product_post_product_posted_not_logged" = "Fotó feltöltve!";
 "product_post_retake" = "Újra";
 "product_post_retry_button" = "Újra";
+"product_post_select_category_cars" = "Cars";
+"product_post_select_category_or" = "OR";
+"product_post_select_category_other" = "Something else";
+"product_post_select_category_title" = "What are you posting?";
 "product_post_use_photo" = "Meghirdetem";
 "product_post_use_photo_not_logged" = "Fotó használata";
 "product_price_label" = "Ár";

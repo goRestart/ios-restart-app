@@ -213,12 +213,11 @@ extension AppCoordinator: AppNavigator {
     
     func openResetPassword(_ token: String) {
         let changePasswordCoordinator = ChangePasswordCoordinator(token: token)
-        if let onboardingCoordinator = child as? OnboardingCoordinator {
-            onboardingCoordinator.openResetPassword(coordinator: changePasswordCoordinator)
+        if let onboardingCoordinator = child as? ChangePasswordPresenter {
+            onboardingCoordinator.openChangePassword(coordinator: changePasswordCoordinator)
             return
         }
 
-        tabBarCtl.clearAllPresented()
         openChild(coordinator: changePasswordCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
     }
 
