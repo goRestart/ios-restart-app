@@ -921,6 +921,12 @@
 // Replacement of [TL_HIDDEN]
 "hidden_phone_tag" = "[PHONE NUMBER HIDDEN]";
 
+// Alert when clicked hidden_something text
+"hidden_text_alert_title" = "STAY SAFE";
+
+// Alert when clicked hidden_something text
+"hidden_text_alert_description" = "We hide contact information to help you buy and sell safely. Chatting inside letgo is easy and more secure.";
+
 // Fake distance shown in a bubble in a fake product list in onboarding
 "location_permissions_bubble" = "0.1 mi from you";
 

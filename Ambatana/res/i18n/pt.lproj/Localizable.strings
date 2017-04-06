@@ -307,6 +307,8 @@
 "help_title" = "Help";
 "hidden_email_tag" = "[EMAIL HIDDEN]";
 "hidden_phone_tag" = "[PHONE NUMBER HIDDEN]";
+"hidden_text_alert_description" = "We hide contact information to help you buy and sell safely. Chatting inside letgo is easy and more secure.";
+"hidden_text_alert_title" = "STAY SAFE";
 "location_permissions_allow_button" = "Allow";
 "location_permissions_bubble" = "0.1 mi from you";
 "location_permissions_button" = "Yes, Use my Location";

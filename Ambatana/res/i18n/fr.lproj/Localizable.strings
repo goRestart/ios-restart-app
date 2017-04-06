@@ -305,8 +305,10 @@
 "forced_update_title" = "Mise à jour disponible";
 "forced_update_update_button" = "Mettre à jour";
 "help_title" = "Aide";
-"hidden_email_tag" = "[EMAIL HIDDEN]";
-"hidden_phone_tag" = "[PHONE NUMBER HIDDEN]";
+"hidden_email_tag" = "[EMAIL CENSURÉ]";
+"hidden_phone_tag" = "[NUMÉRO DE TELEPHONE CENSURÉ]";
+"hidden_text_alert_description" = "We hide contact information to help you buy and sell safely. Chatting inside letgo is easy and more secure.";
+"hidden_text_alert_title" = "STAY SAFE";
 "location_permissions_allow_button" = "Autoriser";
 "location_permissions_bubble" = "à 0.1 km de vous";
 "location_permissions_button" = "Oui, Utiliser ma Localisation";

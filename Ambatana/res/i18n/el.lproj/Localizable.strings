@@ -305,8 +305,10 @@
 "forced_update_title" = "Διαθέσιμη ενημέρωση";
 "forced_update_update_button" = "Αναβάθμιση";
 "help_title" = "Βοήθεια";
-"hidden_email_tag" = "[EMAIL HIDDEN]";
-"hidden_phone_tag" = "[PHONE NUMBER HIDDEN]";
+"hidden_email_tag" = "[ΑΠΟΚΡΥΨΗ EMAIL]";
+"hidden_phone_tag" = "[ΑΠΟΚΡΥΨΗ ΤΗΛΕΦΩΝΟΥ]";
+"hidden_text_alert_description" = "We hide contact information to help you buy and sell safely. Chatting inside letgo is easy and more secure.";
+"hidden_text_alert_title" = "STAY SAFE";
 "location_permissions_allow_button" = "Να επιτρέπεται";
 "location_permissions_bubble" = "15μ. από εσάς";
 "location_permissions_button" = "Χρήση της Τοποθεσίας μου";

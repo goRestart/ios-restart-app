@@ -305,8 +305,10 @@
 "forced_update_title" = "Yeni bir güncelleme mevcut";
 "forced_update_update_button" = "Güncelle";
 "help_title" = "Yardım";
-"hidden_email_tag" = "[EMAIL HIDDEN]";
-"hidden_phone_tag" = "[PHONE NUMBER HIDDEN]";
+"hidden_email_tag" = "[E-POSTA GİZLENMİŞTİR]";
+"hidden_phone_tag" = "[TELEFON NUMARASI GİZLENMİŞTİR]";
+"hidden_text_alert_description" = "We hide contact information to help you buy and sell safely. Chatting inside letgo is easy and more secure.";
+"hidden_text_alert_title" = "STAY SAFE";
 "location_permissions_allow_button" = "İzin Ver";
 "location_permissions_bubble" = "senden 1km uzakta";
 "location_permissions_button" = "Evet, Konumumu Kullan";
