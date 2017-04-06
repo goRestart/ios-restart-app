@@ -16,7 +16,6 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmDidFailRetrievingChatMessages()
     
     func vmShowReportUser(_ reportUserViewModel: ReportUsersViewModel)
-    func vmShowUserRating(_ source: RateUserSource, data: RateUserData)
 
     func vmShowSafetyTips()
 
@@ -24,7 +23,6 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmHideKeyboard(_ animated: Bool)
     func vmShowKeyboard()
     
-    func vmAskForRating()
     func vmShowPrePermissions(_ type: PrePermissionType)
     func vmShowMessage(_ message: String, completion: (() -> ())?)
 }
@@ -520,7 +518,7 @@ class ChatViewModel: BaseViewModel {
         reviewTooltipVisible.value = false
         guard let interlocutor = conversation.value.interlocutor, let reviewData = RateUserData(interlocutor: interlocutor)
             else { return }
-        delegate?.vmShowUserRating(.chat, data: reviewData)
+        navigator?.openUserRating(.chat, data: reviewData)
     }
 
     func closeReviewTooltipPressed() {
@@ -651,7 +649,11 @@ extension ChatViewModel {
         } else if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.chat(buyer: isBuyer)) {
             delegate?.vmShowPrePermissions(.chat(buyer: isBuyer))
         } else if RatingManager.sharedInstance.shouldShowRating {
-            delegate?.vmAskForRating()
+            delegate?.vmHideKeyboard(true)
+            delay(1.0) { [weak self] in
+                self?.delegate?.vmHideKeyboard(true)
+                self?.navigator?.openAppRating(.chat)
+            }
         }
     }
 

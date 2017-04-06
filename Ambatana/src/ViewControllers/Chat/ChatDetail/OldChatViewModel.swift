@@ -25,10 +25,8 @@ protocol OldChatViewModelDelegate: BaseViewModelDelegate {
     func vmDidUpdateProduct(messageToShow message: String?)
 
     func vmShowReportUser(_ reportUserViewModel: ReportUsersViewModel)
-    func vmShowUserRating(_ source: RateUserSource, data: RateUserData)
     
     func vmShowSafetyTips()
-    func vmAskForRating()
     func vmShowPrePermissions(_ type: PrePermissionType)
     func vmShowKeyboard()
     func vmHideKeyboard(animated: Bool)
@@ -486,7 +484,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
     func reviewUserPressed() {
         keyValueStorage[.userRatingTooltipAlreadyShown] = true
         guard let otherUser = otherUser, let reviewData = RateUserData(user: otherUser) else { return }
-        delegate?.vmShowUserRating(.chat, data: reviewData)
+        navigator?.openUserRating(.chat, data: reviewData)
     }
 
     func closeReviewTooltipPressed() {
@@ -761,7 +759,11 @@ class OldChatViewModel: BaseViewModel, Paginable {
         } else if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.chat(buyer: isBuyer)) {
             delegate?.vmShowPrePermissions(.chat(buyer: isBuyer))
         } else if RatingManager.sharedInstance.shouldShowRating {
-            delegate?.vmAskForRating()
+            delegate?.vmHideKeyboard(animated: true)
+            delay(1) { [weak self] in
+                self?.delegate?.vmHideKeyboard(animated: true)
+                self?.navigator?.openAppRating(.chat)
+            }
         }
         delegate?.vmUpdateReviewButton()
     }
