@@ -34,7 +34,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                 
                 describe("init with feature flags") {
                     it("has step image selection") {
-                        expect(sut.step) == PostProductStep.imageSelection
+                        expect(sut.step) == PostListingStep.imageSelection
                     }
                     it("has no category") {
                         expect(sut.category).to(beNil())
@@ -69,7 +69,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         }
                         
                         it("updates the step to uploading images") {
-                            expect(sut.step) == PostProductStep.uploadingImage
+                            expect(sut.step) == PostListingStep.uploadingImage
                         }
                     }
                                        
@@ -84,7 +84,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         }
                         
                         it("updates the step to details selection") {
-                            expect(sut.step) == PostProductStep.detailsSelection
+                            expect(sut.step) == PostListingStep.detailsSelection
                         }
                     }
                     
@@ -97,7 +97,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating price") {
-                        expect(sut.updating(price: ProductPrice.makeMock())) === sut
+                        expect(sut.updating(price: ListingPrice.makeMock())) === sut
                     }
                     
                     it("returns the same state when updating car info") {
@@ -105,7 +105,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating price & car info") {
-                        expect(sut.updating(price: ProductPrice.makeMock(), carInfo: Void())) === sut
+                        expect(sut.updating(price: ListingPrice.makeMock(), carInfo: Void())) === sut
                     }
                 }
                 
@@ -137,7 +137,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         }
                         
                         it("updates the step to details selection") {
-                            expect(sut.step) == PostProductStep.detailsSelection
+                            expect(sut.step) == PostListingStep.detailsSelection
                         }
                     }
                     
@@ -152,12 +152,12 @@ class PostProductStateSpec: BaseViewModelSpec {
                         }
                         
                         it("updates the step to details selection") {
-                            expect(sut.step) == PostProductStep.errorUpload(message: "An error occurred while posting your product.")
+                            expect(sut.step) == PostListingStep.errorUpload(message: "An error occurred while posting your product.")
                         }
                     }
                     
                     it("returns the same state when updating price") {
-                        expect(sut.updating(price: ProductPrice.makeMock())) === sut
+                        expect(sut.updating(price: ListingPrice.makeMock())) === sut
                     }
                     
                     it("returns the same state when updating car info") {
@@ -165,7 +165,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating price & car info") {
-                        expect(sut.updating(price: ProductPrice.makeMock(), carInfo: Void())) === sut
+                        expect(sut.updating(price: ListingPrice.makeMock(), carInfo: Void())) === sut
                     }
                 }
                 
@@ -191,7 +191,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         }
                         
                         it("updates the step to uploading images") {
-                            expect(sut.step) == PostProductStep.uploadingImage
+                            expect(sut.step) == PostListingStep.uploadingImage
                         }
                     }
                     
@@ -208,7 +208,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating price") {
-                        expect(sut.updating(price: ProductPrice.makeMock())) === sut
+                        expect(sut.updating(price: ListingPrice.makeMock())) === sut
                     }
                     
                     it("returns the same state when updating car info") {
@@ -216,7 +216,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating price & car info") {
-                        expect(sut.updating(price: ProductPrice.makeMock(), carInfo: Void())) === sut
+                        expect(sut.updating(price: ListingPrice.makeMock(), carInfo: Void())) === sut
                     }
                 }
                 
@@ -250,7 +250,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     context("update price") {
                         beforeEach {
                             oldSut = sut
-                            sut = sut.updating(price: ProductPrice.makeMock())
+                            sut = sut.updating(price: ListingPrice.makeMock())
                         }
                         
                         it("returns a new state") {
@@ -258,7 +258,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         }
                         
                         it("updates the step to finished") {
-                            expect(sut.step) == PostProductStep.finished
+                            expect(sut.step) == PostListingStep.finished
                         }
                     }
                     
@@ -267,7 +267,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating price & car info") {
-                        expect(sut.updating(price: ProductPrice.makeMock(), carInfo: Void())) === sut
+                        expect(sut.updating(price: ListingPrice.makeMock(), carInfo: Void())) === sut
                     }
                 }
             }
@@ -284,7 +284,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                 
                 describe("init with feature flags") {
                     it("has step category selection") {
-                        expect(sut.step) == PostProductStep.categorySelection
+                        expect(sut.step) == PostListingStep.categorySelection
                     }
                     it("has no category") {
                         expect(sut.category).to(beNil())
@@ -314,7 +314,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         }
                         
                         it("updates the step to image selection") {
-                            expect(sut.step) == PostProductStep.imageSelection
+                            expect(sut.step) == PostListingStep.imageSelection
                         }
                         
                         it("updates the category") {
@@ -339,7 +339,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating price") {
-                        expect(sut.updating(price: ProductPrice.makeMock())) === sut
+                        expect(sut.updating(price: ListingPrice.makeMock())) === sut
                     }
                     
                     it("returns the same state when updating car info") {
@@ -347,7 +347,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating price & car info") {
-                        expect(sut.updating(price: ProductPrice.makeMock(), carInfo: Void())) === sut
+                        expect(sut.updating(price: ListingPrice.makeMock(), carInfo: Void())) === sut
                     }
                 }
                 
@@ -371,7 +371,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         }
                         
                         it("updates the step to uploading images") {
-                            expect(sut.step) == PostProductStep.uploadingImage
+                            expect(sut.step) == PostListingStep.uploadingImage
                         }
                     }
                     
@@ -386,7 +386,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         }
                         
                         it("updates the step to details selection") {
-                            expect(sut.step) == PostProductStep.detailsSelection
+                            expect(sut.step) == PostListingStep.detailsSelection
                         }
                     }
                     
@@ -399,7 +399,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating price") {
-                        expect(sut.updating(price: ProductPrice.makeMock())) === sut
+                        expect(sut.updating(price: ListingPrice.makeMock())) === sut
                     }
                     
                     it("returns the same state when updating car info") {
@@ -407,7 +407,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating price & car info") {
-                        expect(sut.updating(price: ProductPrice.makeMock(), carInfo: Void())) === sut
+                        expect(sut.updating(price: ListingPrice.makeMock(), carInfo: Void())) === sut
                     }
                 }
                 
@@ -441,7 +441,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         }
                         
                         it("updates the step to car details selection with price") {
-                            expect(sut.step) == PostProductStep.carDetailsSelection(includePrice: true)
+                            expect(sut.step) == PostListingStep.carDetailsSelection(includePrice: true)
                         }
                     }
                     
@@ -456,12 +456,12 @@ class PostProductStateSpec: BaseViewModelSpec {
                         }
                         
                         it("updates the step to details selection") {
-                            expect(sut.step) == PostProductStep.errorUpload(message: "An error occurred while posting your product.")
+                            expect(sut.step) == PostListingStep.errorUpload(message: "An error occurred while posting your product.")
                         }
                     }
                     
                     it("returns the same state when updating price") {
-                        expect(sut.updating(price: ProductPrice.makeMock())) === sut
+                        expect(sut.updating(price: ListingPrice.makeMock())) === sut
                     }
                     
                     it("returns the same state when updating car info") {
@@ -469,7 +469,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating price & car info") {
-                        expect(sut.updating(price: ProductPrice.makeMock(), carInfo: Void())) === sut
+                        expect(sut.updating(price: ListingPrice.makeMock(), carInfo: Void())) === sut
                     }
                 }
                 
@@ -503,7 +503,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         }
                         
                         it("updates the step to details selection") {
-                            expect(sut.step) == PostProductStep.detailsSelection
+                            expect(sut.step) == PostListingStep.detailsSelection
                         }
                     }
                     
@@ -518,12 +518,12 @@ class PostProductStateSpec: BaseViewModelSpec {
                         }
                         
                         it("updates the step to details selection") {
-                            expect(sut.step) == PostProductStep.errorUpload(message: "An error occurred while posting your product.")
+                            expect(sut.step) == PostListingStep.errorUpload(message: "An error occurred while posting your product.")
                         }
                     }
                     
                     it("returns the same state when updating price") {
-                        expect(sut.updating(price: ProductPrice.makeMock())) === sut
+                        expect(sut.updating(price: ListingPrice.makeMock())) === sut
                     }
                     
                     it("returns the same state when updating car info") {
@@ -531,7 +531,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating price & car info") {
-                        expect(sut.updating(price: ProductPrice.makeMock(), carInfo: Void())) === sut
+                        expect(sut.updating(price: ListingPrice.makeMock(), carInfo: Void())) === sut
                     }
                 }
                 
@@ -558,7 +558,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         }
                         
                         it("updates the step to uploading images") {
-                            expect(sut.step) == PostProductStep.uploadingImage
+                            expect(sut.step) == PostListingStep.uploadingImage
                         }
                     }
                     
@@ -575,7 +575,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating price") {
-                        expect(sut.updating(price: ProductPrice.makeMock())) === sut
+                        expect(sut.updating(price: ListingPrice.makeMock())) === sut
                     }
                     
                     it("returns the same state when updating car info") {
@@ -583,7 +583,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating price & car info") {
-                        expect(sut.updating(price: ProductPrice.makeMock(), carInfo: Void())) === sut
+                        expect(sut.updating(price: ListingPrice.makeMock(), carInfo: Void())) === sut
                     }
                 }
                 
@@ -618,7 +618,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     context("update price") {
                         beforeEach {
                             oldSut = sut
-                            sut = sut.updating(price: ProductPrice.makeMock())
+                            sut = sut.updating(price: ListingPrice.makeMock())
                         }
                         
                         it("returns a new state") {
@@ -626,7 +626,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         }
                         
                         it("updates the step to finished") {
-                            expect(sut.step) == PostProductStep.finished
+                            expect(sut.step) == PostListingStep.finished
                         }
                     }
                     
@@ -635,7 +635,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating price & car info") {
-                        expect(sut.updating(price: ProductPrice.makeMock(), carInfo: Void())) === sut
+                        expect(sut.updating(price: ListingPrice.makeMock(), carInfo: Void())) === sut
                     }
                 }
                 
@@ -668,7 +668,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating price") {
-                        expect(sut.updating(price: ProductPrice.makeMock())) === sut
+                        expect(sut.updating(price: ListingPrice.makeMock())) === sut
                     }
                     
                     it("returns the same state when updating car info") {
@@ -678,7 +678,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     context("update price & car info") {
                         beforeEach {
                             oldSut = sut
-                            sut = sut.updating(price: ProductPrice.makeMock(), carInfo: Void()) // TODO!
+                            sut = sut.updating(price: ListingPrice.makeMock(), carInfo: Void()) // TODO!
                         }
                         
                         it("returns a new state") {
@@ -686,7 +686,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         }
                         
                         it("updates the step to finished") {
-                            expect(sut.step) == PostProductStep.finished
+                            expect(sut.step) == PostListingStep.finished
                         }
                     }
                 }
@@ -704,7 +704,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                 
                 describe("init with feature flags") {
                     it("has step image selection") {
-                        expect(sut.step) == PostProductStep.imageSelection
+                        expect(sut.step) == PostListingStep.imageSelection
                     }
                     it("has no category") {
                         expect(sut.category).to(beNil())
@@ -739,7 +739,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         }
                         
                         it("updates the step to uploading images") {
-                            expect(sut.step) == PostProductStep.uploadingImage
+                            expect(sut.step) == PostListingStep.uploadingImage
                         }
                     }
                     
@@ -754,7 +754,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         }
                         
                         it("updates the step to car details selection with price") {
-                            expect(sut.step) == PostProductStep.detailsSelection
+                            expect(sut.step) == PostListingStep.detailsSelection
                         }
                     }
                     
@@ -767,7 +767,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating price") {
-                        expect(sut.updating(price: ProductPrice.makeMock())) === sut
+                        expect(sut.updating(price: ListingPrice.makeMock())) === sut
                     }
                     
                     it("returns the same state when updating car info") {
@@ -775,7 +775,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating price & car info") {
-                        expect(sut.updating(price: ProductPrice.makeMock(), carInfo: Void())) === sut
+                        expect(sut.updating(price: ListingPrice.makeMock(), carInfo: Void())) === sut
                     }
                 }
                 
@@ -807,7 +807,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         }
                         
                         it("updates the step to car details selection with price") {
-                            expect(sut.step) == PostProductStep.detailsSelection
+                            expect(sut.step) == PostListingStep.detailsSelection
                         }
                     }
                     
@@ -822,12 +822,12 @@ class PostProductStateSpec: BaseViewModelSpec {
                         }
                         
                         it("updates the step to details selection") {
-                            expect(sut.step) == PostProductStep.errorUpload(message: "An error occurred while posting your product.")
+                            expect(sut.step) == PostListingStep.errorUpload(message: "An error occurred while posting your product.")
                         }
                     }
                     
                     it("returns the same state when updating price") {
-                        expect(sut.updating(price: ProductPrice.makeMock())) === sut
+                        expect(sut.updating(price: ListingPrice.makeMock())) === sut
                     }
                     
                     it("returns the same state when updating car info") {
@@ -835,7 +835,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating price & car info") {
-                        expect(sut.updating(price: ProductPrice.makeMock(), carInfo: Void())) === sut
+                        expect(sut.updating(price: ListingPrice.makeMock(), carInfo: Void())) === sut
                     }
                 }
                 
@@ -861,7 +861,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         }
                         
                         it("updates the step to uploading images") {
-                            expect(sut.step) == PostProductStep.uploadingImage
+                            expect(sut.step) == PostListingStep.uploadingImage
                         }
                     }
                     
@@ -878,7 +878,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating price") {
-                        expect(sut.updating(price: ProductPrice.makeMock())) === sut
+                        expect(sut.updating(price: ListingPrice.makeMock())) === sut
                     }
                     
                     it("returns the same state when updating car info") {
@@ -886,7 +886,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating price & car info") {
-                        expect(sut.updating(price: ProductPrice.makeMock(), carInfo: Void())) === sut
+                        expect(sut.updating(price: ListingPrice.makeMock(), carInfo: Void())) === sut
                     }
                 }
                 
@@ -920,7 +920,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     context("update price") {
                         beforeEach {
                             oldSut = sut
-                            sut = sut.updating(price: ProductPrice.makeMock())
+                            sut = sut.updating(price: ListingPrice.makeMock())
                         }
                         
                         it("returns a new state") {
@@ -928,7 +928,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         }
                         
                         it("updates the step to category selection") {
-                            expect(sut.step) == PostProductStep.categorySelection
+                            expect(sut.step) == PostListingStep.categorySelection
                         }
                     }
                     
@@ -937,7 +937,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating price & car info") {
-                        expect(sut.updating(price: ProductPrice.makeMock(), carInfo: Void())) === sut
+                        expect(sut.updating(price: ListingPrice.makeMock(), carInfo: Void())) === sut
                     }
                 }
                 
@@ -946,7 +946,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         sut = sut
                             .updatingStepToUploadingImages()
                             .updating(uploadedImages: [MockFile].makeMocks())
-                            .updating(price: ProductPrice.makeMock())
+                            .updating(price: ListingPrice.makeMock())
                     }
                     
                     context("update category to other") {
@@ -960,7 +960,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         }
                         
                         it("updates the step to finished") {
-                            expect(sut.step) == PostProductStep.finished
+                            expect(sut.step) == PostListingStep.finished
                         }
                     }
                     
@@ -975,7 +975,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         }
                         
                         it("updates the step to car details w/o price") {
-                            expect(sut.step) == PostProductStep.carDetailsSelection(includePrice: false)
+                            expect(sut.step) == PostListingStep.carDetailsSelection(includePrice: false)
                         }
                     }
                     
@@ -996,7 +996,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating price") {
-                        expect(sut.updating(price: ProductPrice.makeMock())) === sut
+                        expect(sut.updating(price: ListingPrice.makeMock())) === sut
                     }
                     
                     it("returns the same state when updating car info") {
@@ -1004,7 +1004,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating price & car info") {
-                        expect(sut.updating(price: ProductPrice.makeMock(), carInfo: Void())) === sut
+                        expect(sut.updating(price: ListingPrice.makeMock(), carInfo: Void())) === sut
                     }
                 }
                 
@@ -1013,7 +1013,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         sut = sut
                             .updatingStepToUploadingImages()
                             .updating(uploadedImages: [MockFile].makeMocks())
-                            .updating(price: ProductPrice.makeMock())
+                            .updating(price: ListingPrice.makeMock())
                             .updating(category: .car)
                     }
                     
@@ -1038,7 +1038,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating price") {
-                        expect(sut.updating(price: ProductPrice.makeMock())) === sut
+                        expect(sut.updating(price: ListingPrice.makeMock())) === sut
                     }
                     
                     context("update car info") {
@@ -1052,12 +1052,12 @@ class PostProductStateSpec: BaseViewModelSpec {
                         }
                         
                         it("updates the step to finished") {
-                            expect(sut.step) == PostProductStep.finished
+                            expect(sut.step) == PostListingStep.finished
                         }
                     }
                     
                     it("returns the same state when updating price & car info") {
-                        expect(sut.updating(price: ProductPrice.makeMock(), carInfo: Void())) === sut
+                        expect(sut.updating(price: ListingPrice.makeMock(), carInfo: Void())) === sut
                     }
                 }
             }
