@@ -31,7 +31,7 @@ protocol FeatureFlaggeable {
     var productDetailNextRelated: Bool { get }
     var signUpLoginImprovement: SignUpLoginImprovement { get }
     var periscopeRemovePredefinedText: Bool { get }
-    var hideTabBarOnFirstSession: Bool { get }
+    var hideTabBarOnFirstSessionV2: Bool { get }
     var postingGallery: PostingGallery { get }
     var quickAnswersRepeatedTextField: Bool { get }
     var carsVerticalEnabled: Bool { get }
@@ -43,6 +43,7 @@ protocol FeatureFlaggeable {
     var signUpEmailNewsletterAcceptRequired: Bool { get }
     var signUpEmailTermsAndConditionsAcceptRequired: Bool { get }
     func commercialsAllowedFor(productCountryCode: String?) -> Bool
+    func collectionsAllowedFor(countryCode: String?) -> Bool
 }
 
 
@@ -187,11 +188,11 @@ class FeatureFlags: FeatureFlaggeable {
         return PostingGallery.fromPosition(ABTests.postingGallery.value)
     }
 
-    var hideTabBarOnFirstSession: Bool {
+    var hideTabBarOnFirstSessionV2: Bool {
         if Bumper.enabled {
-            return Bumper.hideTabBarOnFirstSession
+            return Bumper.hideTabBarOnFirstSessionV2
         }
-        return ABTests.hideTabBarOnFirstSession.value
+        return ABTests.hideTabBarOnFirstSessionV2.value
     }
     
     var quickAnswersRepeatedTextField: Bool {
@@ -229,7 +230,7 @@ class FeatureFlags: FeatureFlaggeable {
     var locationRequiresManualChangeSuggestion: Bool {
         // Manual location is already ok
         guard let currentLocation = locationManager.currentLocation, currentLocation.isAuto else { return false }
-        guard let countryCodeString = carrierCountryInfo.countryCode, let countryCode = CountryCode(rawValue: countryCodeString) else { return false }
+        guard let countryCodeString = carrierCountryInfo.countryCode, let countryCode = CountryCode(string: countryCodeString) else { return false }
         switch countryCode {
         case .turkey:
             // In turkey, if current location country doesn't match carrier one we must sugest user to change it
@@ -258,7 +259,17 @@ class FeatureFlags: FeatureFlaggeable {
     }
 
     func commercialsAllowedFor(productCountryCode: String?) -> Bool {
-        guard let code = productCountryCode, let countryCode = CountryCode(rawValue: code) else { return false }
+        guard let code = productCountryCode, let countryCode = CountryCode(string: code) else { return false }
+        switch countryCode {
+        case .usa:
+            return true
+        default:
+            return false
+        }
+    }
+
+    func collectionsAllowedFor(countryCode: String?) -> Bool {
+        guard let code = countryCode, let countryCode = CountryCode(string: code) else { return false }
         switch countryCode {
         case .usa:
             return true
@@ -271,10 +282,10 @@ class FeatureFlags: FeatureFlaggeable {
     
     private var locationCountryCode: CountryCode? {
         guard let countryCode = locationManager.currentLocation?.countryCode else { return nil }
-        return CountryCode(rawValue: countryCode)
+        return CountryCode(string: countryCode)
     }
 
     private var localeCountryCode: CountryCode? {
-        return CountryCode(rawValue: locale.lg_countryCode)
+        return CountryCode(string: locale.lg_countryCode)
     }
 }

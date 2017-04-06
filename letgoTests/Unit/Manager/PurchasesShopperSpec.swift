@@ -30,6 +30,7 @@ class PurchasesShopperSpec: QuickSpec {
         var requestFactory: MockPurchaseableProductsRequestFactory!
         var monetizationRepository: MockMonetizationRepository!
         var myUserRepository: MockMyUserRepository!
+        var installationRepository: InstallationRepository!
         var paymentQueue: MockPaymentQueue!
 
         describe("PurchasesShopperSpec") {
@@ -40,11 +41,12 @@ class PurchasesShopperSpec: QuickSpec {
                 requestFactory = MockPurchaseableProductsRequestFactory()
                 monetizationRepository = MockMonetizationRepository()
                 myUserRepository = MockMyUserRepository()
+                installationRepository = MockInstallationRepository()
                 let mockReceiptURLProvider = MockReceiptURLProvider()
                 paymentQueue = MockPaymentQueue()
                 sut = LGPurchasesShopper(requestFactory: requestFactory, monetizationRepository: monetizationRepository,
-                                         myUserRepository: myUserRepository, paymentQueue: paymentQueue,
-                                         receiptURLProvider: mockReceiptURLProvider)
+                                         myUserRepository: myUserRepository, installationRepository: installationRepository,
+                                         paymentQueue: paymentQueue, receiptURLProvider: mockReceiptURLProvider)
                 sut.delegate = self
                 sut.startObservingTransactions()
             }
@@ -105,8 +107,8 @@ class PurchasesShopperSpec: QuickSpec {
                 context("bump finishes successfully") {
                     beforeEach {
                         monetizationRepository.bumpResult = Result<Void, RepositoryError>(value: Void())
-                        sut.requestFreeBumpUpForProduct(productId: "a_product_id", withPaymentItemId: "payment_id_1",
-                                                        shareNetwork: .email)
+                        sut.requestFreeBumpUp(forListingId: "a_product_id", paymentItemId: "payment_id_1",
+                                              shareNetwork: .email)
                         expect(self.mockBumpResult).toEventuallyNot(beNil())
                     }
                     it ("bump request succeeds") {
@@ -119,8 +121,8 @@ class PurchasesShopperSpec: QuickSpec {
                 context("free bump fails") {
                     beforeEach {
                         monetizationRepository.bumpResult = Result<Void, RepositoryError>(error: .notFound)
-                        sut.requestFreeBumpUpForProduct(productId: "a_product_id", withPaymentItemId: "payment_id_1",
-                                                        shareNetwork: .email)
+                        sut.requestFreeBumpUp(forListingId: "a_product_id", paymentItemId: "payment_id_1",
+                                              shareNetwork: .email)
                         expect(self.mockBumpResult).toEventuallyNot(beNil())
                     }
                     it ("bump request fails") {
@@ -142,7 +144,7 @@ class PurchasesShopperSpec: QuickSpec {
                         initialPendingPayments = sut.numPendingTransactions
                         let myAppstoreProduct = MyAppstoreProduct(myProductIdentifier: "my_appstore_product_id")
                         sut.letgoProductsDict["product_id"] = [myAppstoreProduct]
-                        sut.requestPaymentForProduct(productId: "product_id", appstoreProduct: myAppstoreProduct, paymentItemId: "payment_id")
+                        sut.requestPayment(forListingId: "product_id", appstoreProduct: myAppstoreProduct, paymentItemId: "payment_id")
                     }
                     it ("doesn't add a new payment to the queue") {
                         expect(sut.numPendingTransactions) == initialPendingPayments
@@ -153,7 +155,7 @@ class PurchasesShopperSpec: QuickSpec {
                         initialPendingPayments = sut.numPendingTransactions
                         let myAppstoreProduct = MyAppstoreProduct(myProductIdentifier: "my_appstore_product_id")
                         sut.letgoProductsDict["product_id"] = [myAppstoreProduct]
-                        sut.requestPaymentForProduct(productId: "product_id", appstoreProduct: myAppstoreProduct, paymentItemId: "payment_id")
+                        sut.requestPayment(forListingId: "product_id", appstoreProduct: myAppstoreProduct, paymentItemId: "payment_id")
                     }
                     it ("adds a new payment to the queue") {
                         expect(sut.numPendingTransactions) == initialPendingPayments + 1
@@ -165,7 +167,7 @@ class PurchasesShopperSpec: QuickSpec {
                         let myAppstoreProduct = MyAppstoreProduct(myProductIdentifier: "my_appstore_product_id")
                         sut.letgoProductsDict["product_id"] = [myAppstoreProduct]
                         let unavailableAppstoreProduct = MyAppstoreProduct(myProductIdentifier: "unavailable_appstore_product_id")
-                        sut.requestPaymentForProduct(productId: "product_id", appstoreProduct: unavailableAppstoreProduct, paymentItemId: "payment_id")
+                        sut.requestPayment(forListingId: "product_id", appstoreProduct: unavailableAppstoreProduct, paymentItemId: "payment_id")
                     }
                     it ("doesn't add a new payment to the queue") {
                         expect(sut.numPendingTransactions) == initialPendingPayments

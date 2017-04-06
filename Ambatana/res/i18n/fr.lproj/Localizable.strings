@@ -37,6 +37,7 @@
 "bump_up_view_pay_subtitle" = "Donnez plus de visibilité à votre annonce pendant 24 heures en la renvoyant vers le haut.";
 "bump_up_view_pay_title" = "RENVOYER VERS LE HAUT POUR VENDRE PLUS RAPIDEMENT";
 "categories_baby_and_child" = "Bébé et Enfant";
+"categories_car" = "Voitures";
 "categories_cars_and_motors" = "Voitures et Motos";
 "categories_electronics" = "Electroniques";
 "categories_fashion_and_accessories" = "Mode et Accessoires";
@@ -304,6 +305,8 @@
 "forced_update_title" = "Mise à jour disponible";
 "forced_update_update_button" = "Mettre à jour";
 "help_title" = "Aide";
+"hidden_email_tag" = "[EMAIL HIDDEN]";
+"hidden_phone_tag" = "[PHONE NUMBER HIDDEN]";
 "location_permissions_allow_button" = "Autoriser";
 "location_permissions_bubble" = "à 0.1 km de vous";
 "location_permissions_button" = "Oui, Utiliser ma Localisation";
@@ -331,8 +334,8 @@
 "log_in_reset_password_button" = "Mot de passe oublié ?";
 "log_in_send_button" = "Se Connecter";
 "log_in_title" = "Se Connecter avec email";
-"login_device_not_allowed_alert_contact_button" = "Contactez-nous";
-"login_device_not_allowed_alert_message" = "Vous ne vous êtes jamais connecté avec cet appareil avant aujourd'hui. Nous vous avons envoyé un courriel de vérification. Veuillez le lire pour continuer.";
+"login_device_not_allowed_alert_contact_button" = "Contactez Nous";
+"login_device_not_allowed_alert_message" = "Vous ne vous êtes jamais connecté avec cet appareil. Nous vous avons envoyé un email de vérification donc consultez votre boite de réception pour continuer.";
 "login_device_not_allowed_alert_ok_button" = "OK";
 "login_device_not_allowed_alert_title" = "VÉRIFIER CONNEXION";
 "login_scammer_alert_contact_button" = "Contactez Nous";
@@ -555,10 +558,10 @@
 "product_post_product_posted_not_logged" = "Photo uploadée !";
 "product_post_retake" = "Reprendre";
 "product_post_retry_button" = "Réessayer";
-"product_post_select_category_cars" = "Cars";
-"product_post_select_category_or" = "OR";
-"product_post_select_category_other" = "Something else";
-"product_post_select_category_title" = "What are you posting?";
+"product_post_select_category_cars" = "Voitures";
+"product_post_select_category_or" = "OU";
+"product_post_select_category_other" = "Autre chose";
+"product_post_select_category_title" = "Que postez-vous ?";
 "product_post_use_photo" = "Poster";
 "product_post_use_photo_not_logged" = "Utiliser la Photo";
 "product_price_label" = "Prix";

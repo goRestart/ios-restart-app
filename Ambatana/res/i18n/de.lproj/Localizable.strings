@@ -37,6 +37,7 @@
 "bump_up_view_pay_subtitle" = "Mache dein Angebot für 24 Stunden besonders sichtbar, indem du es ganz nach oben holst.";
 "bump_up_view_pay_title" = "NACH OBEN HOLEN, UM SCHNELLER ZU VERKAUFEN";
 "categories_baby_and_child" = "Baby und Kind";
+"categories_car" = "Cars";
 "categories_cars_and_motors" = "Autos und Fahrzeuge";
 "categories_electronics" = "Elektronik";
 "categories_fashion_and_accessories" = "Mode und Accessoires";
@@ -304,6 +305,8 @@
 "forced_update_title" = "Neue Version verfügbar";
 "forced_update_update_button" = "Neue Version";
 "help_title" = "Hilfe";
+"hidden_email_tag" = "[EMAIL HIDDEN]";
+"hidden_phone_tag" = "[PHONE NUMBER HIDDEN]";
 "location_permissions_allow_button" = "Erlauben";
 "location_permissions_bubble" = "0,1 km von dir entfernt";
 "location_permissions_button" = "Ja, meinen Standort benutzen";
@@ -555,10 +558,10 @@
 "product_post_product_posted_not_logged" = "Foto hochgeladen!";
 "product_post_retake" = "Nochmal";
 "product_post_retry_button" = "Versuch's noch einmal";
-"product_post_select_category_cars" = "Cars";
-"product_post_select_category_or" = "OR";
-"product_post_select_category_other" = "Something else";
-"product_post_select_category_title" = "What are you posting?";
+"product_post_select_category_cars" = "Autos";
+"product_post_select_category_or" = "ODER";
+"product_post_select_category_other" = "Etwas anderes";
+"product_post_select_category_title" = "Was stellst du ein?";
 "product_post_use_photo" = "Foto verwenden";
 "product_post_use_photo_not_logged" = "Foto nutzen";
 "product_price_label" = "Preis";

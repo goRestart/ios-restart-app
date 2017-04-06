@@ -9,16 +9,8 @@
 import LGCoreKit
 import RxSwift
 
-protocol TabBarViewModelDelegate: BaseViewModelDelegate {
-    func vmSwitchToTab(_ tab: Tab, force: Bool, completion: (() -> ())?)
-    func vmShowTooltipAtSellButtonWithText(_ text: NSAttributedString)
-}
-
-
 class TabBarViewModel: BaseViewModel {
     weak var navigator: AppNavigator?
-    weak var delegate: TabBarViewModelDelegate?
-
 
     var notificationsBadge = Variable<String?>(nil)
     var chatsBadge = Variable<String?>(nil)
@@ -28,7 +20,6 @@ class TabBarViewModel: BaseViewModel {
     private let keyValueStorage: KeyValueStorage
     private let notificationsManager: NotificationsManager
     private let myUserRepository: MyUserRepository
-    private var didAppearFirstTime: Bool
     private var featureFlags: FeatureFlaggeable
     private let abTestSyncTimeout: TimeInterval
 
@@ -54,53 +45,16 @@ class TabBarViewModel: BaseViewModel {
         self.myUserRepository = myUserRepository
         self.featureFlags = featureFlags
         self.abTestSyncTimeout = syncTimeout
-        self.didAppearFirstTime = false
         super.init()
         setupRx()
         syncFeatureFlagsRXIfNeeded()
     }
 
-    func didAppear() {
-        guard !didAppearFirstTime else { return }
-        didAppearFirstTime = true
-        guard featureFlags.freePostingModeAllowed && !keyValueStorage[.giveAwayTooltipAlreadyShown] else { return }
-
-        var newTextAttributes = [String : Any]()
-        newTextAttributes[NSForegroundColorAttributeName] = UIColor.primaryColorHighlighted
-        newTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(size: 17)
-
-        let newText = NSAttributedString(string: LGLocalizedString.commonNew, attributes: newTextAttributes)
-
-        var titleTextAttributes = [String : Any]()
-        titleTextAttributes[NSForegroundColorAttributeName] = UIColor.white
-        titleTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(size: 17)
-
-        let titleText = NSAttributedString(string: LGLocalizedString.tabBarGiveAwayTooltip, attributes: titleTextAttributes)
-
-        let fullTitle: NSMutableAttributedString = NSMutableAttributedString(attributedString: newText)
-        fullTitle.append(NSAttributedString(string: " "))
-        fullTitle.append(titleText)
-
-        delegate?.vmShowTooltipAtSellButtonWithText(fullTitle)
-    }
-
 
     // MARK: - Public methods
 
-    func tooltipDismissed() {
-        keyValueStorage[.giveAwayTooltipAlreadyShown] = true
-    }
-
     func sellButtonPressed() {
         navigator?.openSell(.sellButton)
-    }
-
-    func userRating(_ source: RateUserSource, data: RateUserData) {
-        navigator?.openUserRating(source, data: data)
-    }
-
-    func externalSwitchToTab(_ tab: Tab, completion: (() -> ())?) {
-        delegate?.vmSwitchToTab(tab, force: false, completion: completion)
     }
     
     func tabBarChangeVisibility(hidden: Bool) {
@@ -133,6 +87,6 @@ class TabBarViewModel: BaseViewModel {
     }
 
     private func setScrollBannerVisibility(timeout: Bool) {
-        hideScrollBanner.value = timeout ? true : !featureFlags.hideTabBarOnFirstSession
+        hideScrollBanner.value = timeout ? true : !featureFlags.hideTabBarOnFirstSessionV2
     }
 }

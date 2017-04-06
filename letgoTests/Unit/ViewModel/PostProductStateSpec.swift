@@ -15,8 +15,8 @@ import Nimble
 class PostProductStateSpec: BaseViewModelSpec {
    
     override func spec() {
-        describe("PostProductState") {
-            var sut: PostProductState!
+        describe("PostListingState") {
+            var sut: PostListingState!
             var featureFlags: MockFeatureFlags!
             
             beforeEach {
@@ -24,11 +24,11 @@ class PostProductStateSpec: BaseViewModelSpec {
             }
             
             context("cars vertical disabled") {
-                var oldSut: PostProductState!
+                var oldSut: PostListingState!
                 
                 beforeEach {
                     featureFlags.carsVerticalEnabled = false
-                    sut = PostProductState(featureFlags: featureFlags)
+                    sut = PostListingState(featureFlags: featureFlags)
                     oldSut = sut
                 }
                 
@@ -273,12 +273,12 @@ class PostProductStateSpec: BaseViewModelSpec {
             }
             
             context("cars vertical enabled & cars category before picture") {
-                var oldSut: PostProductState!
+                var oldSut: PostListingState!
                 
                 beforeEach {
                     featureFlags.carsVerticalEnabled = true
                     featureFlags.carsCategoryAfterPicture = false
-                    sut = PostProductState(featureFlags: featureFlags)
+                    sut = PostListingState(featureFlags: featureFlags)
                     oldSut = sut
                 }
                 
@@ -693,12 +693,12 @@ class PostProductStateSpec: BaseViewModelSpec {
             }
             
             context("cars vertical enabled & cars category after picture") {
-                var oldSut: PostProductState!
+                var oldSut: PostListingState!
                 
                 beforeEach {
                     featureFlags.carsVerticalEnabled = true
                     featureFlags.carsCategoryAfterPicture = true
-                    sut = PostProductState(featureFlags: featureFlags)
+                    sut = PostListingState(featureFlags: featureFlags)
                     oldSut = sut
                 }
                 

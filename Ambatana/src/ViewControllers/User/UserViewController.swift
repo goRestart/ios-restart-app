@@ -189,11 +189,6 @@ extension UserViewController: UserViewModelDelegate {
         let vc = ReportUsersViewController(viewModel: reportUserVM)
         navigationController?.pushViewController(vc, animated: true)
     }
-
-    func vmOpenHome() {
-        guard let tabBarCtl = tabBarController as? TabBarController else { return }
-        tabBarCtl.switchToTab(.home)
-    }
     
     func vmShowUserActionSheet(_ cancelLabel: String, actions: [UIAction]) {
         showActionSheet(cancelLabel, actions: actions, barButtonItem: navigationItem.rightBarButtonItem)

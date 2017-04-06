@@ -37,7 +37,8 @@
 "bump_up_view_pay_subtitle" = "Donnez plus de visibilité à votre annonce pendant 24 heures en la renvoyant vers le haut.";
 "bump_up_view_pay_title" = "RENVOYER VERS LE HAUT POUR VENDRE PLUS VITE";
 "categories_baby_and_child" = "Bébé et Enfant";
-"categories_cars_and_motors" = "Voitures et Motos";
+"categories_car" = "Voitures";
+"categories_cars_and_motors" = "Véhicules et accessoires";
 "categories_electronics" = "Équipement électronique";
 "categories_fashion_and_accessories" = "Mode et Accessoires";
 "categories_free" = "Objets Gratuits";
@@ -277,8 +278,8 @@
 "edit_product_send_ok" = "Félicitations ! Votre produit a été mis à jour. Il apparaîtra sous peu dans les annonces.";
 "edit_product_suggesting_title" = "Suggestion de titre...";
 "edit_product_title" = "Modifier le Produit";
-"edit_product_unsaved_changes_alert" = "Êtes-vous certain de vouloir annuler ces changements ?";
-"edit_product_unsaved_changes_alert_ok" = "Annuler";
+"edit_product_unsaved_changes_alert" = "Êtes-vous certain de vouloir quitter la page ? Tous les changements seront perdus.";
+"edit_product_unsaved_changes_alert_ok" = "Quitter";
 "filters_distance_not_set" = "non configuré";
 "filters_navbar_reset" = "Réinitialiser";
 "filters_price_from" = "De";
@@ -304,6 +305,8 @@
 "forced_update_title" = "Mise à jour Disponible";
 "forced_update_update_button" = "Mettre à jour";
 "help_title" = "Aide";
+"hidden_email_tag" = "[EMAIL HIDDEN]";
+"hidden_phone_tag" = "[PHONE NUMBER HIDDEN]";
 "location_permissions_allow_button" = "Autoriser";
 "location_permissions_bubble" = "à 0.1 km de chez vous";
 "location_permissions_button" = "Oui, Utiliser ma Localisation";
@@ -555,10 +558,10 @@
 "product_post_product_posted_not_logged" = "Photo Téléchargée !";
 "product_post_retake" = "Reprendre";
 "product_post_retry_button" = "Réessayer";
-"product_post_select_category_cars" = "Cars";
-"product_post_select_category_or" = "OR";
-"product_post_select_category_other" = "Something else";
-"product_post_select_category_title" = "What are you posting?";
+"product_post_select_category_cars" = "Des voitures";
+"product_post_select_category_or" = "OU";
+"product_post_select_category_other" = "Autre chose";
+"product_post_select_category_title" = "Que publiez-vous ?";
 "product_post_use_photo" = "Publier";
 "product_post_use_photo_not_logged" = "Utiliser la Photo";
 "product_price_label" = "Prix";

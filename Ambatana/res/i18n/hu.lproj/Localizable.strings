@@ -37,6 +37,7 @@
 "bump_up_view_pay_subtitle" = "A lista elejére ugrasztva nagyobb láthatóságot adhatsz portékádnak 24 órára.";
 "bump_up_view_pay_title" = "FELUGRASZTVA GYORSABBAN ELADHATSZ";
 "categories_baby_and_child" = "Baba és gyerek";
+"categories_car" = "Cars";
 "categories_cars_and_motors" = "Autók és motorok";
 "categories_electronics" = "Elektronika";
 "categories_fashion_and_accessories" = "Divat és kiegészítők";
@@ -304,6 +305,8 @@
 "forced_update_title" = "Frissítés elérhető";
 "forced_update_update_button" = "Frissítés";
 "help_title" = "Segítség";
+"hidden_email_tag" = "[EMAIL HIDDEN]";
+"hidden_phone_tag" = "[PHONE NUMBER HIDDEN]";
 "location_permissions_allow_button" = "Engedélyezés";
 "location_permissions_bubble" = "0,1 km-re tőled";
 "location_permissions_button" = "Igen, Használja a Helyzetemet";

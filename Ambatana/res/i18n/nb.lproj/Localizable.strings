@@ -37,7 +37,8 @@
 "bump_up_view_pay_subtitle" = "Gi din annonse høyere synlighet i 24 timer ved å flytte den til toppen.";
 "bump_up_view_pay_title" = "PROMOTER DITT PRODUKT FOR ET RASKERE SALG";
 "categories_baby_and_child" = "Baby og barn";
-"categories_cars_and_motors" = "Bil og motor";
+"categories_car" = "Biler";
+"categories_cars_and_motors" = "Motorer og tilbehør";
 "categories_electronics" = "Elektronikk";
 "categories_fashion_and_accessories" = "Mote og tilbehør";
 "categories_free" = "Gis bort";
@@ -304,6 +305,8 @@
 "forced_update_title" = "Oppdatering tilgjengelig";
 "forced_update_update_button" = "Oppdater";
 "help_title" = "Hjelp";
+"hidden_email_tag" = "[EMAIL HIDDEN]";
+"hidden_phone_tag" = "[PHONE NUMBER HIDDEN]";
 "location_permissions_allow_button" = "Tillat";
 "location_permissions_bubble" = "0.1 km fra deg";
 "location_permissions_button" = "Ja, Bruk min Plassering";
@@ -555,10 +558,10 @@
 "product_post_product_posted_not_logged" = "Bildet ble lastet opp!";
 "product_post_retake" = "Ta nytt bilde";
 "product_post_retry_button" = "Prøv igjen";
-"product_post_select_category_cars" = "Cars";
-"product_post_select_category_or" = "OR";
-"product_post_select_category_other" = "Something else";
-"product_post_select_category_title" = "What are you posting?";
+"product_post_select_category_cars" = "Biler";
+"product_post_select_category_or" = "ELLER";
+"product_post_select_category_other" = "Noe annet";
+"product_post_select_category_title" = "Hva publiserer du?";
 "product_post_use_photo" = "Publiser";
 "product_post_use_photo_not_logged" = "Bruk bilde";
 "product_price_label" = "Pris";

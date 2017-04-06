@@ -41,18 +41,20 @@ class PostProductViewModel: BaseViewModel {
         }
     }
 
-    let state: Variable<PostProductState>
+    let state: Variable<PostListingState>
     let category: Variable<PostCategory?>
 
     let postDetailViewModel: PostProductDetailViewModel
     let postProductCameraViewModel: PostProductCameraViewModel
     let postingSource: PostingSource
     
-    fileprivate let productRepository: ProductRepository
+    fileprivate let listingRepository: ListingRepository
     fileprivate let fileRepository: FileRepository
+    fileprivate let currencyHelper: CurrencyHelper
     fileprivate let tracker: Tracker
     fileprivate let sessionManager: SessionManager
     fileprivate let featureFlags: FeatureFlaggeable
+    fileprivate let locationManager: LocationManager
     
     private var imagesSelected: [UIImage]?
     fileprivate var uploadedImageSource: EventParameterPictureSource?
@@ -64,30 +66,36 @@ class PostProductViewModel: BaseViewModel {
 
     convenience init(source: PostingSource) {
         self.init(source: source,
-                  productRepository: Core.productRepository,
+                  listingRepository: Core.listingRepository,
                   fileRepository: Core.fileRepository,
                   tracker: TrackerProxy.sharedInstance,
                   sessionManager: Core.sessionManager,
-                  featureFlags: FeatureFlags.sharedInstance)
+                  featureFlags: FeatureFlags.sharedInstance,
+                  locationManager: Core.locationManager,
+                  currencyHelper: Core.currencyHelper)
     }
 
     init(source: PostingSource,
-         productRepository: ProductRepository,
+         listingRepository: ListingRepository,
          fileRepository: FileRepository,
          tracker: Tracker,
          sessionManager: SessionManager,
-         featureFlags: FeatureFlaggeable) {
-        self.state = Variable<PostProductState>(PostProductState(featureFlags: featureFlags))
+         featureFlags: FeatureFlaggeable,
+         locationManager: LocationManager,
+         currencyHelper: CurrencyHelper) {
+        self.state = Variable<PostListingState>(PostListingState(featureFlags: featureFlags))
         self.category = Variable<PostCategory?>(nil)
         
         self.postingSource = source
-        self.productRepository = productRepository
+        self.listingRepository = listingRepository
         self.fileRepository = fileRepository
         self.postDetailViewModel = PostProductDetailViewModel()
         self.postProductCameraViewModel = PostProductCameraViewModel(postingSource: source)
         self.tracker = tracker
         self.sessionManager = sessionManager
         self.featureFlags = featureFlags
+        self.locationManager = locationManager
+        self.currencyHelper = currencyHelper
         self.disposeBag = DisposeBag()
         super.init()
         self.postDetailViewModel.delegate = self
@@ -133,14 +141,13 @@ class PostProductViewModel: BaseViewModel {
         if state.value.pendingToUploadImages != nil {
             openPostAbandonAlertNotLoggedIn()
         } else {
-            guard let product = buildProduct(isFreePosting: false), let images = state.value.lastImagesUploadResult?.value else {
+            guard let images = state.value.lastImagesUploadResult?.value, let params = makeProductCreationParams(images: images) else {
                 navigator?.cancelPostProduct()
                 return
             }
             let trackingInfo = PostProductTrackingInfo(buttonName: .close, sellButtonPosition: postingSource.sellButtonPosition,
                                                        imageSource: uploadedImageSource, price: nil) // TODO: 🚔 that nil..?
-            navigator?.closePostProductAndPostInBackground(product, images: images, showConfirmation: false,
-                                                           trackingInfo: trackingInfo)
+            navigator?.closePostProductAndPostInBackground(params: params, showConfirmation: false, trackingInfo: trackingInfo)
         }
     }
 }
@@ -181,24 +188,33 @@ fileprivate extension PostProductViewModel {
         let trackingInfo = PostProductTrackingInfo(buttonName: .done, sellButtonPosition: postingSource.sellButtonPosition,
                                                    imageSource: uploadedImageSource, price: postDetailViewModel.price.value)
         if sessionManager.loggedIn {
-            guard let product = buildProduct(isFreePosting: false), let images = state.value.lastImagesUploadResult?.value else { return }
-            navigator?.closePostProductAndPostInBackground(product, images: images, showConfirmation: true,
-                                                           trackingInfo: trackingInfo)
-        } else if let images = state.value.pendingToUploadImages {
+            guard let images = state.value.lastImagesUploadResult?.value, let params = makeProductCreationParams(images: images) else { return }
+            navigator?.closePostProductAndPostInBackground(params: params, showConfirmation: true, trackingInfo: trackingInfo)
+            } else if let images = state.value.pendingToUploadImages {
             navigator?.openLoginIfNeededFromProductPosted(from: .sell, loggedInAction: { [weak self] in
-                guard let product = self?.buildProduct(isFreePosting: false) else { return }
-                self?.navigator?.closePostProductAndPostLater(product, images: images, trackingInfo: trackingInfo)
+                guard let params = self?.makeProductCreationParams(images: []) else { return }
+                self?.navigator?.closePostProductAndPostLater(params: params, images: images, trackingInfo: trackingInfo)
             })
         } else {
             navigator?.cancelPostProduct()
         }
     }
 
-    func buildProduct(isFreePosting: Bool) -> Product? {
-        let price = isFreePosting ? ProductPrice.free : postDetailViewModel.productPrice
+    func makeProductCreationParams(images: [File]) -> ProductCreationParams? {
+        guard let location = locationManager.currentLocation?.location else { return nil }
+        let price = postDetailViewModel.productPrice
         let title = postDetailViewModel.productTitle
         let description = postDetailViewModel.productDescription
-        return productRepository.buildNewProduct(title, description: description, price: price, category: .unassigned)
+        let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()
+        let currency = currencyHelper.currencyWithCountryCode(postalAddress.countryCode ?? "US")
+        return ProductCreationParams(name: title,
+                                     description: description,
+                                     price: price,
+                                     category: .unassigned,
+                                     currency: currency,
+                                     location: location,
+                                     postalAddress: postalAddress,
+                                     images: images)
     }
 }
 

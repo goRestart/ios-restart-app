@@ -78,11 +78,6 @@ extension UserRatingListViewController: UserRatingListViewModelDelegate {
         }
     }
 
-    func vmShowUserRating(_ source: RateUserSource, data: RateUserData) {
-        guard let tabBarController = self.tabBarController as? TabBarController else { return }
-        tabBarController.openUserRating(source, data: data)
-    }
-
     func vmRefresh() {
         tableView.reloadData()
     }

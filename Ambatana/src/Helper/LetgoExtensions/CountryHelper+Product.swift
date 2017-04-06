@@ -15,4 +15,11 @@ extension CountryHelper {
         guard let locale = countryInfo.locale else { return nil }
         return locale.languageCode
     }
+
+    func countryLanguageFor(listing: Listing) -> String? {
+        guard let countryCode = listing.postalAddress.countryCode else { return nil }
+        guard let countryInfo = countryInfoForCountryCode(countryCode) else { return nil }
+        guard let locale = countryInfo.locale else { return nil }
+        return locale.languageCode
+    }
 }

@@ -10,9 +10,9 @@ import LGCoreKit
 
 struct LocalChat: Chat {
     var objectId: String?
-    var product: Product
-    var userFrom: UserProduct
-    var userTo: UserProduct
+    var listing: Listing
+    var userFrom: UserListing
+    var userTo: UserListing
     var msgUnreadCount = 0
     var messages: [Message] = []
     var updatedAt: Date? = nil
@@ -23,15 +23,15 @@ struct LocalChat: Chat {
         return userFrom.objectId == nil
     }
 
-    init(product: Product, myUserProduct: UserProduct?) {
-        self.product = product
-        self.userTo = product.user
+    init(listing: Listing, myUserProduct: UserListing?) {
+        self.listing = listing
+        self.userTo = listing.user
         self.userFrom = myUserProduct ?? EmptyUserProduct()
     }
 }
 
 
-private struct EmptyUserProduct: UserProduct {
+private struct EmptyUserProduct: UserListing {
     let objectId: String? = nil
     let name: String? = nil
     let avatar: File? = nil

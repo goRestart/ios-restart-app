@@ -70,7 +70,7 @@ final class CoreDI: InternalDI {
         
         let favoritesDAO = FavoritesUDDAO(userDefaults: userDefaults)
         let stickersDAO = StickersUDDAO(userDefaults: userDefaults)
-        let productsLimboDAO = ProductsLimboUDDAO(userDefaults: userDefaults)
+        let listingsLimboDAO = ListingsLimboUDDAO(userDefaults: userDefaults)
 
         let sessionManager = LGSessionManager(apiClient: apiClient,
                                               websocketClient: webSocketClient,
@@ -119,7 +119,7 @@ final class CoreDI: InternalDI {
         self.myUserDAO = myUserDAO
         self.favoritesDAO = favoritesDAO
         self.stickersDAO = stickersDAO
-        self.productsLimboDAO = productsLimboDAO
+        self.listingsLimboDAO = listingsLimboDAO
         
         self.reachability = reachability
         
@@ -180,12 +180,12 @@ final class CoreDI: InternalDI {
         return LGCategoryRepository()
     }()
 
-    lazy var productRepository: ProductRepository = {
-        let dataSource = ProductApiDataSource(apiClient: self.apiClient)
-        return LGProductRepository(productDataSource: dataSource, myUserRepository: self.internalMyUserRepository,
-                                 fileRepository: self.fileRepository, favoritesDAO: self.favoritesDAO,
-                                 productsLimboDAO: self.productsLimboDAO, locationManager: self.locationManager,
-                                 currencyHelper: self.currencyHelper)
+    lazy var listingRepository: ListingRepository = {
+        let dataSource = ListingApiDataSource(apiClient: self.apiClient)
+        return LGListingRepository(listingDataSource: dataSource,
+                                   myUserRepository: self.internalMyUserRepository,
+                                   favoritesDAO: self.favoritesDAO,
+                                   listingsLimboDAO: self.listingsLimboDAO)
     }()
     lazy var fileRepository: FileRepository = {
         let dataSource = FileApiDataSource(apiClient: self.apiClient)
@@ -202,7 +202,7 @@ final class CoreDI: InternalDI {
     }()
     lazy var monetizationRepository: MonetizationRepository = {
         let dataSource = MonetizationApiDataSource(apiClient: self.apiClient)
-        return LGMonetizationRepository(dataSource: dataSource, productsLimboDAO: self.productsLimboDAO)
+        return LGMonetizationRepository(dataSource: dataSource, listingsLimboDAO: self.listingsLimboDAO)
     }()
 
     // MARK: > DAO
@@ -213,7 +213,7 @@ final class CoreDI: InternalDI {
     let myUserDAO: MyUserDAO
     let favoritesDAO: FavoritesDAO
     let stickersDAO: StickersDAO
-    let productsLimboDAO: ProductsLimboDAO
+    let listingsLimboDAO: ListingsLimboDAO
     
     // MARK: > Reachability
     

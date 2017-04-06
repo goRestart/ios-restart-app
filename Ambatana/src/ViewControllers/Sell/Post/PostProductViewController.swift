@@ -279,7 +279,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
 
 // MARK: - State selection
 
-fileprivate extension PostProductState {
+fileprivate extension PostListingState {
     var isOtherStepsContainerAlpha: CGFloat {
         switch step {
         case .imageSelection:
@@ -390,7 +390,7 @@ fileprivate extension PostProductState {
 }
 
 extension PostProductViewController {
-    fileprivate func update(state: PostProductState) {
+    fileprivate func update(state: PostListingState) {
         if let view = viewToAdjustDetailsScrollContentInset(state: state) {
             adjustDetailsScrollContentInset(to: view)
         }
@@ -434,7 +434,7 @@ extension PostProductViewController {
         }
     }
     
-    private func viewToAdjustDetailsScrollContentInset(state: PostProductState) -> UIView? {
+    private func viewToAdjustDetailsScrollContentInset(state: PostListingState) -> UIView? {
         switch state.step {
         case .detailsSelection:
             return detailsScroll

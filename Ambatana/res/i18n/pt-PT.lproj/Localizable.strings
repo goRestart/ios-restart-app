@@ -37,6 +37,7 @@
 "bump_up_view_pay_subtitle" = "Dê uma elevada visibilidade à sua publicação durante 24 horas movendo-a para o topo.";
 "bump_up_view_pay_title" = "DÊ PRIORIDADE PARA VENDER MAIS RÁPIDO";
 "categories_baby_and_child" = "Bebés e Crianças";
+"categories_car" = "Cars";
 "categories_cars_and_motors" = "Veículos";
 "categories_electronics" = "Aparelhos eletrónicos";
 "categories_fashion_and_accessories" = "Moda e Acessórios";
@@ -304,6 +305,8 @@
 "forced_update_title" = "Atualização disponível";
 "forced_update_update_button" = "Atualizar";
 "help_title" = "Ajuda";
+"hidden_email_tag" = "[EMAIL HIDDEN]";
+"hidden_phone_tag" = "[PHONE NUMBER HIDDEN]";
 "location_permissions_allow_button" = "Permitir";
 "location_permissions_bubble" = "1,60 km de si";
 "location_permissions_button" = "Sim, Usem a Minha Localização";
@@ -332,7 +335,7 @@
 "log_in_send_button" = "Login";
 "log_in_title" = "Registe-se com o email";
 "login_device_not_allowed_alert_contact_button" = "Contacte-nos";
-"login_device_not_allowed_alert_message" = "Nunca efetuou login neste dispositivo. Enviamos-lhe um email de verificação,  por isso verifique a sua caixa de entrada para continuar.";
+"login_device_not_allowed_alert_message" = "Nunca efetuou login neste dispositivo. Enviamos-lhe um email de verificação, por isso verifique a sua caixa de entrada para continuar.";
 "login_device_not_allowed_alert_ok_button" = "OK";
 "login_device_not_allowed_alert_title" = "VERIFICAR LOGIN";
 "login_scammer_alert_contact_button" = "Contacte-nos";
@@ -555,10 +558,10 @@
 "product_post_product_posted_not_logged" = "Foto carregada!";
 "product_post_retake" = "Refazer";
 "product_post_retry_button" = "Tente novamente";
-"product_post_select_category_cars" = "Cars";
-"product_post_select_category_or" = "OR";
-"product_post_select_category_other" = "Something else";
-"product_post_select_category_title" = "What are you posting?";
+"product_post_select_category_cars" = "Viaturas";
+"product_post_select_category_or" = "OU";
+"product_post_select_category_other" = "Outra coisa";
+"product_post_select_category_title" = "O que está a publicar?";
 "product_post_use_photo" = "Publicar";
 "product_post_use_photo_not_logged" = "Usar a foto";
 "product_price_label" = "Preço";

@@ -31,7 +31,7 @@ final class AppDelegate: UIResponder {
     fileprivate var crashManager: CrashManager?
     fileprivate var keyValueStorage: KeyValueStorage?
 
-    fileprivate var productRepository: ProductRepository?
+    fileprivate var listingRepository: ListingRepository?
     fileprivate var locationManager: LocationManager?
     fileprivate var sessionManager: SessionManager?
     fileprivate var featureFlags: FeatureFlaggeable?
@@ -58,7 +58,7 @@ extension AppDelegate: UIApplicationDelegate {
         self.deepLinksRouter = LGDeepLinksRouter.sharedInstance
         setupAppearance()
         setupLibraries(application, launchOptions: launchOptions)
-        self.productRepository = Core.productRepository
+        self.listingRepository = Core.listingRepository
         self.locationManager = Core.locationManager
         self.sessionManager = Core.sessionManager
         self.configManager = ConfigManager.sharedInstance
@@ -137,7 +137,7 @@ extension AppDelegate: UIApplicationDelegate {
         keyValueStorage?[.didEnterBackground] = true
         appIsActive.value = false
         LGCoreKit.applicationDidEnterBackground()
-        productRepository?.updateProductViewCounts()
+        listingRepository?.updateListingViewCounts()
         TrackerProxy.sharedInstance.applicationDidEnterBackground(application)
 
         // stop observing payment transactions

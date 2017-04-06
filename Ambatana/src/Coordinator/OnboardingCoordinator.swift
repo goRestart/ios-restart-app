@@ -13,7 +13,7 @@ protocol OnboardingCoordinatorDelegate: class {
     func onboardingCoordinator(_ coordinator: OnboardingCoordinator, didFinishPosting posting: Bool, source: PostingSource?)
 }
 
-final class OnboardingCoordinator: Coordinator {
+final class OnboardingCoordinator: Coordinator, ChangePasswordPresenter {
     var child: Coordinator?
     let viewController: UIViewController
     weak var coordinatorDelegate: CoordinatorDelegate?
@@ -79,7 +79,7 @@ final class OnboardingCoordinator: Coordinator {
         }
     }
 
-    func openResetPassword(coordinator: ChangePasswordCoordinator) {
+    func openChangePassword(coordinator: ChangePasswordCoordinator) {
         openChild(coordinator: coordinator, parent: topPresentedController(), animated: true, forceCloseChild: true, completion: nil)
     }
 

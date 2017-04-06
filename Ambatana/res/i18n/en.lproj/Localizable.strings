@@ -116,7 +116,7 @@
 "categories_baby_and_child" = "Baby and Child";
 
 // Categories cars and motors. Check attached image "categories (1).png"
-"categories_cars_and_motors" = "Cars and Motors";
+"categories_cars_and_motors" = "Motors and Accesories";
 
 // Categories electronics. Check image @ "categories_cars_and_motors" segment
 "categories_electronics" = "Electronics";
@@ -144,6 +144,9 @@
 
 // Text for non assigned category
 "categories_unassigned" = "Not selected";
+
+// Category "Cars"
+"categories_car" = "Cars";
 
 // Change location apply button. Check image @ "change_location_title" segment
 "change_location_apply_button" = "Set location";
@@ -911,6 +914,12 @@
 
 // Help title.
 "help_title" = "Help";
+
+// Replacement of [EMAIL_HIDDEN]
+"hidden_email_tag" = "[EMAIL HIDDEN]";
+
+// Replacement of [TL_HIDDEN]
+"hidden_phone_tag" = "[PHONE NUMBER HIDDEN]";
 
 // Fake distance shown in a bubble in a fake product list in onboarding
 "location_permissions_bubble" = "0.1 mi from you";

@@ -203,6 +203,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("categories_unassigned", comment: "")
 	}
 
+	static var categoriesCar: String {
+		return NSLocalizedString("categories_car", comment: "")
+	}
+
 	static var changeLocationApplyButton: String {
 		return NSLocalizedString("change_location_apply_button", comment: "")
 	}
@@ -1233,6 +1237,14 @@ struct LGLocalizedString {
 
 	static var helpTitle: String {
 		return NSLocalizedString("help_title", comment: "")
+	}
+
+	static var hiddenEmailTag: String {
+		return NSLocalizedString("hidden_email_tag", comment: "")
+	}
+
+	static var hiddenPhoneTag: String {
+		return NSLocalizedString("hidden_phone_tag", comment: "")
 	}
 
 	static var locationPermissionsBubble: String {

@@ -12,23 +12,23 @@ class RelatedProductListRequester: ProductListRequester {
 
     let itemsPerPage: Int
     private let productObjectId: String
-    private let productRepository: ProductRepository
+    private let listingRepository: ListingRepository
     private var offset: Int = 0
 
-    private var retrieveProductParams: RetrieveProductsParams {
-        var params = RetrieveProductsParams()
+    private var retrieveProductParams: RetrieveListingParams {
+        var params = RetrieveListingParams()
         params.numProducts = itemsPerPage
         params.offset = offset
         return params
     }
 
     convenience init(productId: String, itemsPerPage: Int) {
-        self.init(productId: productId, itemsPerPage: itemsPerPage, productRepository: Core.productRepository)
+        self.init(productId: productId, itemsPerPage: itemsPerPage, listingRepository: Core.listingRepository)
     }
 
-    init(productId: String, itemsPerPage: Int, productRepository: ProductRepository) {
+    init(productId: String, itemsPerPage: Int, listingRepository: ListingRepository) {
         self.productObjectId = productId
-        self.productRepository = productRepository
+        self.listingRepository = listingRepository
         self.itemsPerPage = itemsPerPage
     }
 
@@ -36,17 +36,17 @@ class RelatedProductListRequester: ProductListRequester {
         return true
     }
     
-    func retrieveFirstPage(_ completion: ProductsCompletion?) {
+    func retrieveFirstPage(_ completion: ListingsCompletion?) {
         offset = 0
         productsRetrieval(completion)
     }
     
-    func retrieveNextPage(_ completion: ProductsCompletion?) {
+    func retrieveNextPage(_ completion: ListingsCompletion?) {
         productsRetrieval(completion)
     }
 
-    func productsRetrieval(_ completion: ProductsCompletion?) {
-        productRepository.indexRelated(productId: productObjectId, params: retrieveProductParams) {
+    func productsRetrieval(_ completion: ListingsCompletion?) {
+        listingRepository.indexRelated(listingId: productObjectId, params: retrieveProductParams) {
             [weak self] result in
             if let value = result.value {
                 self?.offset += value.count
