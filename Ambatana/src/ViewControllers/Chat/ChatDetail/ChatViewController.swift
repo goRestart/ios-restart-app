@@ -31,6 +31,7 @@ class ChatViewController: TextViewController {
     let expressChatBanner: ChatBanner
     var bannerTopConstraint: NSLayoutConstraint = NSLayoutConstraint()
     var featureFlags: FeatureFlaggeable
+    var pushPermissionManager: PushPermissionsManager
 
     var blockedToastOffset: CGFloat {
         return relationInfoView.isHidden ? 0 : RelationInfoView.defaultHeight
@@ -44,16 +45,21 @@ class ChatViewController: TextViewController {
     }
 
     convenience init(viewModel: ChatViewModel, hidesBottomBar: Bool) {
-        self.init(viewModel: viewModel, featureFlags: FeatureFlags.sharedInstance, hidesBottomBar: hidesBottomBar)
+        self.init(viewModel: viewModel, featureFlags: FeatureFlags.sharedInstance,
+                  pushPermissionManager: LGPushPermissionsManager.sharedInstance,
+                  hidesBottomBar: hidesBottomBar)
     }
 
-    required init(viewModel: ChatViewModel, featureFlags: FeatureFlaggeable, hidesBottomBar: Bool) {
+    required init(viewModel: ChatViewModel, featureFlags: FeatureFlaggeable,
+                  pushPermissionManager: PushPermissionsManager,
+                  hidesBottomBar: Bool) {
         self.viewModel = viewModel
         self.productView = ChatProductView.chatProductView(featureFlags.userReviews)
         self.relatedProductsView = ChatRelatedProductsView()
         self.directAnswersPresenter = DirectAnswersPresenter(websocketChatActive: featureFlags.websocketChat)
         self.stickersView = ChatStickersView()
         self.featureFlags = featureFlags
+        self.pushPermissionManager = pushPermissionManager
         self.expressChatBanner = ChatBanner()
         super.init(viewModel: viewModel, nibName: nil)
         self.viewModel.delegate = self
@@ -600,7 +606,7 @@ extension ChatViewController: ChatViewModelDelegate {
     
     func vmShowPrePermissions(_ type: PrePermissionType) {
         showKeyboard(false, animated: true)
-        LGPushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: type, completion: nil)
+        pushPermissionManager.showPrePermissionsViewFrom(self, type: type, completion: nil)
     }
     
     func vmShowKeyboard() {

@@ -17,6 +17,7 @@ public typealias BumpCompletion = (BumpResult) -> Void
 public protocol MonetizationRepository {
     func retrieveBumpeableProductInfo(productId: String, completion: BumpeableProductCompletion?)
     func freeBump(forProduct productId: String, itemId: String, completion: BumpCompletion?)
-    func pricedBump(forProduct productId: String, receiptData: String, itemId: String, itemPrice: String, itemCurrency: String,
+    func pricedBump(forProduct productId: String, receiptData: String, itemId: String, itemPrice: String,
+                    itemCurrency: String, amplitudeId: String?, appsflyerId: String?, idfa: String?, bundleId: String?,
                     completion: BumpCompletion?)
 }

@@ -192,7 +192,7 @@ class ProductViewModel: BaseViewModel {
             }
         }
 
-        if !commercialsRetrieved {
+        if !commercialsRetrieved && featureFlags.commercialsAllowedFor(productCountryCode: product.value.postalAddress.countryCode) {
             commercializerRepository.index(productId) { [weak self] result in
                 guard let value = result.value else { return }
                 let readyCommercials = value.filter {$0.status == .ready }
@@ -358,7 +358,6 @@ class ProductViewModel: BaseViewModel {
             primaryBlock = { [weak self] in
                 guard let product = self?.product.value else { return }
                 guard let purchaseableProduct = self?.bumpUpPurchaseableProduct else { return }
-                self?.trackBumpUpStarted(.pay(price: purchaseableProduct.formattedCurrencyPrice))
                 self?.navigator?.openPayBumpUpForProduct(product: product, purchaseableProduct: purchaseableProduct,
                                                          withPaymentItemId: paymentItemId)
             }
@@ -443,9 +442,10 @@ extension ProductViewModel {
 
     func bumpUpProduct(productId: String) {
         logMessage(.info, type: [.monetization], message: "TRY TO Bump with purchase: \(bumpUpPurchaseableProduct)")
-        guard let purchase = bumpUpPurchaseableProduct,
+        guard let purchaseableProduct = bumpUpPurchaseableProduct,
             let paymentItemId = paymentItemId else { return }
-        purchasesShopper.requestPaymentForProduct(productId: productId, appstoreProduct: purchase, paymentItemId: paymentItemId)
+        purchasesShopper.requestPaymentForProduct(productId: productId, appstoreProduct: purchaseableProduct,
+                                                  paymentItemId: paymentItemId)
     }
 }
 
@@ -978,10 +978,13 @@ extension ProductViewModel: PurchasesShopperDelegate {
 
     // Priced Bump Up
     func pricedBumpDidStart() {
+        trackBumpUpStarted(.pay(price: bumpUpPurchaseableProduct?.formattedCurrencyPrice ?? ""))
         delegate?.vmShowLoading(LGLocalizedString.bumpUpProcessingPricedText)
     }
 
     func pricedBumpDidSucceed() {
+        trackHelper.trackBumpUpCompleted(.pay(price: bumpUpPurchaseableProduct?.formattedCurrencyPrice ?? ""),
+                                         network: .notAvailable)
         delegate?.vmHideLoading(LGLocalizedString.bumpUpPaySuccess, afterMessageCompletion: { [weak self] in
             self?.delegate?.vmResetBumpUpBannerCountdown()
         })

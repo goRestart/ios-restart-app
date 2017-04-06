@@ -78,8 +78,9 @@ extension AppDelegate: UIApplicationDelegate {
         crashCheck()
 
         LGCoreKit.start()
-
-        let appCoordinator = AppCoordinator(configManager: LGConfigManager.sharedInstance)
+        
+        let appCoordinator = AppCoordinator(configManager: configManager)
+        
         appCoordinator.delegate = self
 
         self.navigator = appCoordinator

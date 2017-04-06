@@ -54,10 +54,10 @@ final class AppCoordinator: NSObject, Coordinator {
 
     // MARK: - Lifecycle
 
-    convenience init(configManager: ConfigManager) {
+    convenience init(configManager: ConfigManager?) {
         let tabBarViewModel = TabBarViewModel()
         self.init(tabBarController: TabBarController(viewModel: tabBarViewModel),
-                  configManager: configManager,
+                  configManager: configManager ?? LGConfigManager.sharedInstance,
                   sessionManager: Core.sessionManager,
                   bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
                   keyValueStorage: KeyValueStorage.sharedInstance,
@@ -213,12 +213,11 @@ extension AppCoordinator: AppNavigator {
     
     func openResetPassword(_ token: String) {
         let changePasswordCoordinator = ChangePasswordCoordinator(token: token)
-        if let onboardingCoordinator = child as? OnboardingCoordinator {
-            onboardingCoordinator.openResetPassword(coordinator: changePasswordCoordinator)
+        if let onboardingCoordinator = child as? ChangePasswordPresenter {
+            onboardingCoordinator.openChangePassword(coordinator: changePasswordCoordinator)
             return
         }
 
-        tabBarCtl.clearAllPresented()
         openChild(coordinator: changePasswordCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
     }
 
@@ -421,10 +420,10 @@ fileprivate extension AppCoordinator {
         locationManager.locationEvents.filter { $0 == .locationUpdate }.take(1).bindNext {
             [weak self] _ in
             guard let strongSelf = self else { return }
-            if let currentLocation = strongSelf.locationManager.currentLocation, currentLocation.isAuto && !strongSelf.featureFlags.locationMatchesCountry {
+            if strongSelf.featureFlags.locationRequiresManualChangeSuggestion {
                 strongSelf.askUserToUpdateLocationManually()
             }
-            }.addDisposableTo(disposeBag)
+        }.addDisposableTo(disposeBag)
        }
 
     func askUserToUpdateLocation() {

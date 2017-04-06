@@ -100,10 +100,9 @@ class MainProductsViewModel: BaseViewModel {
 
     fileprivate let tracker: Tracker
     fileprivate let searchType: SearchType? // The initial search
-    private let generalCollectionsShuffled: [CollectionCellType]
     fileprivate var collections: [CollectionCellType] {
-        guard keyValueStorage[.lastSearches].count >= minimumSearchesSavedToShowCollection else { return generalCollectionsShuffled }
-        return [.You] + generalCollectionsShuffled
+        guard keyValueStorage[.lastSearches].count >= minimumSearchesSavedToShowCollection else { return [] }
+        return [.You]
     }
     fileprivate let keyValueStorage: KeyValueStorageable
     fileprivate let featureFlags: FeatureFlaggeable
@@ -160,7 +159,6 @@ class MainProductsViewModel: BaseViewModel {
         self.currencyHelper = currencyHelper
         self.tracker = tracker
         self.searchType = searchType
-        self.generalCollectionsShuffled = CollectionCellType.generalCollections.shuffled()
         self.filters = filters
         self.keyValueStorage = keyValueStorage
         self.featureFlags = featureFlags
@@ -499,7 +497,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
         guard searchType == nil else { return products }
         guard products.count > bannerCellPosition else { return products }
         var cellModels = products
-        if !collections.isEmpty && productListRequester.countryCode == "US" {
+        if !collections.isEmpty && featureFlags.collectionsAllowedFor(countryCode: productListRequester.countryCode) {
             let collectionType = collections[Int(page) % collections.count]
             let collectionModel = ProductCellModel.collectionCell(type: collectionType)
             cellModels.insert(collectionModel, at: bannerCellPosition)
@@ -729,14 +727,7 @@ fileprivate extension MainProductsViewModel {
         switch type {
         case .You:
             query = keyValueStorage[.lastSearches].reversed().joined(separator: " ")
-        case .Transport:
-            query = "car motorcycle boat scooter kayak trailer atv truck bike jeep rims camper cart dirtbike jetski gokart four wheeler bicycle quad bike tractor bmw wheels canoe hoverboard Toyota bmx rv Chevy sub ford paddle Harley yamaha Jeep Honda mustang corvette dodge"
-        case .Gaming:
-            query = "ps4 xbox pokemon nintendo PS3 game boy Wii atari sega"
-        case .Apple:
-            query = "iphone apple iPad MacBook iPod Mac iMac"
-        case .Furniture:
-            query = "dresser couch furniture desk table patio bed stand chair sofa rug mirror futon bench stool frame recliner lamp cabinet ikea shelf antique bedroom book shelf tables end table bunk beds night stand canopy"
+                .clipMoreThan(wordCount: Constants.maxSelectedForYouQueryTerms)
         }
         return query
     }

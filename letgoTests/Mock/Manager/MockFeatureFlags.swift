@@ -34,7 +34,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var productDetailNextRelated: Bool = false
     var signUpLoginImprovement: SignUpLoginImprovement = .v1
     var periscopeRemovePredefinedText: Bool = false
-    var hideTabBarOnFirstSession: Bool = false
+    var hideTabBarOnFirstSessionV2: Bool = false
     var postingGallery: PostingGallery = .singleSelection
     var quickAnswersRepeatedTextField: Bool = false
     var carsVerticalEnabled: Bool = false
@@ -42,7 +42,15 @@ class MockFeatureFlags: FeatureFlaggeable {
 
     // Country dependant features
     var freePostingModeAllowed = false
-    var locationMatchesCountry = false
+    var locationRequiresManualChangeSuggestion = false
     var signUpEmailNewsletterAcceptRequired = false
     var signUpEmailTermsAndConditionsAcceptRequired = false
+
+    func commercialsAllowedFor(productCountryCode: String?) -> Bool {
+        return false
+    }
+
+    func collectionsAllowedFor(countryCode: String?) -> Bool {
+        return false
+    }
 }

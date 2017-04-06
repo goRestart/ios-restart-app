@@ -332,7 +332,7 @@
 "log_in_send_button" = "Login";
 "log_in_title" = "Registe-se com o email";
 "login_device_not_allowed_alert_contact_button" = "Contacte-nos";
-"login_device_not_allowed_alert_message" = "Nunca efetuou login neste dispositivo. Enviamos-lhe um email de verificação,  por isso verifique a sua caixa de entrada para continuar.";
+"login_device_not_allowed_alert_message" = "Nunca efetuou login neste dispositivo. Enviamos-lhe um email de verificação, por isso verifique a sua caixa de entrada para continuar.";
 "login_device_not_allowed_alert_ok_button" = "OK";
 "login_device_not_allowed_alert_title" = "VERIFICAR LOGIN";
 "login_scammer_alert_contact_button" = "Contacte-nos";
@@ -555,6 +555,10 @@
 "product_post_product_posted_not_logged" = "Foto carregada!";
 "product_post_retake" = "Refazer";
 "product_post_retry_button" = "Tente novamente";
+"product_post_select_category_cars" = "Viaturas";
+"product_post_select_category_or" = "OU";
+"product_post_select_category_other" = "Outra coisa";
+"product_post_select_category_title" = "O que está a publicar?";
 "product_post_use_photo" = "Publicar";
 "product_post_use_photo_not_logged" = "Usar a foto";
 "product_price_label" = "Preço";

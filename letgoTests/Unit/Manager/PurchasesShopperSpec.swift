@@ -30,6 +30,7 @@ class PurchasesShopperSpec: QuickSpec {
         var requestFactory: MockPurchaseableProductsRequestFactory!
         var monetizationRepository: MockMonetizationRepository!
         var myUserRepository: MockMyUserRepository!
+        var installationRepository: InstallationRepository!
         var paymentQueue: MockPaymentQueue!
 
         describe("PurchasesShopperSpec") {
@@ -40,11 +41,12 @@ class PurchasesShopperSpec: QuickSpec {
                 requestFactory = MockPurchaseableProductsRequestFactory()
                 monetizationRepository = MockMonetizationRepository()
                 myUserRepository = MockMyUserRepository()
+                installationRepository = MockInstallationRepository()
                 let mockReceiptURLProvider = MockReceiptURLProvider()
                 paymentQueue = MockPaymentQueue()
                 sut = LGPurchasesShopper(requestFactory: requestFactory, monetizationRepository: monetizationRepository,
-                                         myUserRepository: myUserRepository, paymentQueue: paymentQueue,
-                                         receiptURLProvider: mockReceiptURLProvider)
+                                         myUserRepository: myUserRepository, installationRepository: installationRepository,
+                                         paymentQueue: paymentQueue, receiptURLProvider: mockReceiptURLProvider)
                 sut.delegate = self
                 sut.startObservingTransactions()
             }

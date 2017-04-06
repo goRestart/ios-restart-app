@@ -133,10 +133,10 @@ class LGPushPermissionsManager: PushPermissionsManager {
             name:NSNotification.Name.UIApplicationWillResignActive, object: nil)
         UIApplication.shared.registerPushNotifications()
 
-        /* Appart from listening 'resignActive' event, we need to add a timer for the case when the alert is NOT
-        shown */
-        let _ = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(settingsTimerFinished),
-            userInfo: nil, repeats: false)
+        /* Appart from listening 'resignActive' event, we need to add a Dispatch asyncAfter for the case when the alert is NOT shown */
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
+            self.settingsTimerFinished()
+        }
     }
 
     /**

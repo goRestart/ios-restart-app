@@ -11,7 +11,6 @@ import RxSwift
 
 protocol TabBarViewModelDelegate: BaseViewModelDelegate {
     func vmSwitchToTab(_ tab: Tab, force: Bool, completion: (() -> ())?)
-    func vmShowTooltipAtSellButtonWithText(_ text: NSAttributedString)
 }
 
 
@@ -63,33 +62,11 @@ class TabBarViewModel: BaseViewModel {
     func didAppear() {
         guard !didAppearFirstTime else { return }
         didAppearFirstTime = true
-        guard featureFlags.freePostingModeAllowed && !keyValueStorage[.giveAwayTooltipAlreadyShown] else { return }
-
-        var newTextAttributes = [String : Any]()
-        newTextAttributes[NSForegroundColorAttributeName] = UIColor.primaryColorHighlighted
-        newTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(size: 17)
-
-        let newText = NSAttributedString(string: LGLocalizedString.commonNew, attributes: newTextAttributes)
-
-        var titleTextAttributes = [String : Any]()
-        titleTextAttributes[NSForegroundColorAttributeName] = UIColor.white
-        titleTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(size: 17)
-
-        let titleText = NSAttributedString(string: LGLocalizedString.tabBarGiveAwayTooltip, attributes: titleTextAttributes)
-
-        let fullTitle: NSMutableAttributedString = NSMutableAttributedString(attributedString: newText)
-        fullTitle.append(NSAttributedString(string: " "))
-        fullTitle.append(titleText)
-
-        delegate?.vmShowTooltipAtSellButtonWithText(fullTitle)
+        
     }
 
 
     // MARK: - Public methods
-
-    func tooltipDismissed() {
-        keyValueStorage[.giveAwayTooltipAlreadyShown] = true
-    }
 
     func sellButtonPressed() {
         navigator?.openSell(.sellButton)
@@ -133,6 +110,6 @@ class TabBarViewModel: BaseViewModel {
     }
 
     private func setScrollBannerVisibility(timeout: Bool) {
-        hideScrollBanner.value = timeout ? true : !featureFlags.hideTabBarOnFirstSession
+        hideScrollBanner.value = timeout ? true : !featureFlags.hideTabBarOnFirstSessionV2
     }
 }

@@ -47,10 +47,12 @@ class LGMonetizationRepository : MonetizationRepository {
     }
 
     func pricedBump(forProduct productId: String, receiptData: String, itemId: String, itemPrice: String, itemCurrency: String,
+                    amplitudeId: String?, appsflyerId: String?, idfa: String?, bundleId: String?,
                     completion: BumpCompletion?) {
         let paymentId = LGUUID().UUIDString
         dataSource.pricedBump(forProduct: productId, receiptData: receiptData, itemId: itemId, itemPrice: itemPrice,
-                              itemCurrency: itemCurrency, paymentId: paymentId) { [weak self] result in
+                              itemCurrency: itemCurrency, paymentId: paymentId, amplitudeId: amplitudeId, appsflyerId: appsflyerId,
+                              idfa: idfa, bundleId: bundleId) { [weak self] result in
             if let _ = result.value {
                 self?.productsLimboDAO.save(productId)
                 completion?(BumpResult(value: Void()))

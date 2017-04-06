@@ -62,6 +62,7 @@ struct Constants {
     static let numProductsPerPageDefault = 20
     static let numProductsPerPageBig = 40
     static let productsPagingThresholdPercentage: Float = 0.4 // Percentage of page to check bottom threshold to paginate
+    static let maxSelectedForYouQueryTerms = 15
     
     // Categories
     static let categoriesCellFactor: CGFloat = 150.0 / 160.0
