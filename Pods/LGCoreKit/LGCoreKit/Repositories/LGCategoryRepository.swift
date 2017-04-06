@@ -11,9 +11,9 @@ final class LGCategoryRepository: CategoryRepository {
 
     func index(filterVisible filter: Bool, completion: CategoriesCompletion?) {
         if filter {
-            completion?(CategoriesResult(value: ProductCategory.visibleValues()))
+            completion?(CategoriesResult(value: ListingCategory.visibleValues()))
         } else {
-            completion?(CategoriesResult(value: ProductCategory.allValues()))
+            completion?(CategoriesResult(value: ListingCategory.allValues()))
         }
     }
 }

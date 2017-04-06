@@ -69,16 +69,16 @@ extension SimpleProductsViewModel: ProductListViewModelDataDelegate {
     }
     func productListVM(_ viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
                        originFrame: CGRect?) {
-        guard let product = viewModel.productAtIndex(index) else { return }
+        guard let listing = viewModel.listingAtIndex(index) else { return }
         let cellModels = viewModel.objects
-        let data = ProductDetailData.productList(product: product, cellModels: cellModels,
+        let data = ListingDetailData.listingList(listing: listing, cellModels: cellModels,
                                                  requester: productListRequester, thumbnailImage: thumbnailImage,
                                                  originFrame: originFrame, showRelated: false, index: index)
-        navigator?.openProduct(data, source: productVisitSource,
+        navigator?.openListing(data, source: productVisitSource,
                                showKeyboardOnFirstAppearIfNeeded: false)
     }
 
-    func vmProcessReceivedProductPage(_ products: [ProductCellModel], page: UInt) -> [ProductCellModel] {
+    func vmProcessReceivedProductPage(_ products: [ListingCellModel], page: UInt) -> [ListingCellModel] {
         return products
     }
     func vmDidSelectSellBanner(_ type: String) {}

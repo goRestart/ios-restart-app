@@ -1,5 +1,5 @@
 //
-//  ChatProduct+title.swift
+//  ChatListing+title.swift
 //  LetGo
 //
 //  Created by Dídac on 29/06/16.
@@ -9,7 +9,7 @@
 
 import LGCoreKit
 
-extension ChatProduct {
+extension ChatListing {
 
     var title: String? {
         if let name = name?.trim, !name.isEmpty {

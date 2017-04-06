@@ -1,20 +1,20 @@
 import Result
 
 open class MockMonetizationRepository: MonetizationRepository {
-    public var retrieveResult: BumpeableProductResult!
+    public var retrieveResult: BumpeableListingResult!
     public var bumpResult: BumpResult!
 
 
     // MARK: - Lifecycle
 
     required public init() {
-        
+
     }
 
 
     // MARK: - MonetizationRepository
 
-    public func retrieveBumpeableProductInfo(productId: String, completion: BumpeableProductCompletion?) {
+    public func retrieveBumpeableProductInfo(productId: String, completion: BumpeableListingCompletion?) {
         delay(result: retrieveResult, completion: completion)
     }
 

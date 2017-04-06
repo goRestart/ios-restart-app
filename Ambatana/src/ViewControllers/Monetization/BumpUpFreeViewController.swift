@@ -49,7 +49,7 @@ class BumpUpFreeViewController: BaseViewController {
     // MARK: private methods
 
     func setupUI() {
-        if let imageUrl = viewModel.product.images.first?.fileURL {
+        if let imageUrl = viewModel.listing.images.first?.fileURL {
             productImageView.lg_setImageWithURL(imageUrl, placeholderImage: nil, completion: {
                 [weak self] (result, url) -> Void in
                 if let _ = result.value {

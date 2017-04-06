@@ -37,7 +37,8 @@
 "bump_up_view_pay_subtitle" = "Offri una maggiore visibilità al tuo annuncio per 24 ore spostandolo in alto.";
 "bump_up_view_pay_title" = "PROMUOVI PER VENDERE PIÙ RAPIDAMENTE";
 "categories_baby_and_child" = "Bambino e Ragazzo";
-"categories_cars_and_motors" = "Auto e Motori";
+"categories_car" = "Cars";
+"categories_cars_and_motors" = "Motors and Accesories";
 "categories_electronics" = "Elettronica";
 "categories_fashion_and_accessories" = "Moda e Accessori";
 "categories_free" = "Oggetti gratuiti";
@@ -555,6 +556,10 @@
 "product_post_product_posted_not_logged" = "Foto Caricata!";
 "product_post_retake" = "Scatta di Nuovo";
 "product_post_retry_button" = "Riprova";
+"product_post_select_category_cars" = "Auto";
+"product_post_select_category_or" = "O";
+"product_post_select_category_other" = "Qualcos'altro";
+"product_post_select_category_title" = "Che cosa stai pubblicando?";
 "product_post_use_photo" = "Pubblica";
 "product_post_use_photo_not_logged" = "Utilizza Foto";
 "product_price_label" = "Prezzo";

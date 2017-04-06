@@ -31,7 +31,7 @@ class NotificationsViewModelSpec: BaseViewModelSpec {
                         beforeEach {
                             let notificationsRepository = MockNotificationsRepository()
                             notificationsRepository.indexResult = Result<[NotificationModel], RepositoryError>(value: [])
-                            sut = NotificationsViewModel(notificationsRepository: notificationsRepository , productRepository: MockProductRepository(),
+                            sut = NotificationsViewModel(notificationsRepository: notificationsRepository , listingRepository: MockListingRepository(),
                                                          userRepository: MockUserRepository(), myUserRepository: MockMyUserRepository(),
                                                          notificationsManager: MockNotificationsManager(),
                                                          locationManager: MockLocationManager(), tracker: tracker,
@@ -53,7 +53,7 @@ class NotificationsViewModelSpec: BaseViewModelSpec {
                             let notification = MockNotificationModel.makeMock()
                             notificationsRepository.indexResult = Result<[NotificationModel], RepositoryError>(value: [notification])
                             sut = NotificationsViewModel(notificationsRepository: notificationsRepository ,
-                                                         productRepository: MockProductRepository(), userRepository: MockUserRepository(),
+                                                         listingRepository: MockListingRepository(), userRepository: MockUserRepository(),
                                                          myUserRepository: MockMyUserRepository(), notificationsManager: MockNotificationsManager(),
                                                          locationManager: MockLocationManager(), tracker: tracker,
                                                          featureFlags: MockFeatureFlags())
@@ -72,7 +72,7 @@ class NotificationsViewModelSpec: BaseViewModelSpec {
                         notificationsRepository.indexResult = Result<[NotificationModel], RepositoryError>(error: .network(errorCode: -1,
                                                                                                                            onBackground: false))
                         sut = NotificationsViewModel(notificationsRepository: notificationsRepository,
-                                                     productRepository: MockProductRepository(), userRepository: MockUserRepository(),
+                                                     listingRepository: MockListingRepository(), userRepository: MockUserRepository(),
                                                      myUserRepository: MockMyUserRepository(), notificationsManager: MockNotificationsManager(),
                                                      locationManager: MockLocationManager(), tracker: tracker,
                                                      featureFlags: MockFeatureFlags())
@@ -93,7 +93,7 @@ class NotificationsViewModelSpec: BaseViewModelSpec {
                         let notificationsRepository = MockNotificationsRepository()
                         notificationsRepository.indexResult = Result<[NotificationModel], RepositoryError>(error: .tooManyRequests)
                         sut = NotificationsViewModel(notificationsRepository: notificationsRepository,
-                                                     productRepository: MockProductRepository(), userRepository: MockUserRepository(),
+                                                     listingRepository: MockListingRepository(), userRepository: MockUserRepository(),
                                                      myUserRepository: MockMyUserRepository(), notificationsManager: MockNotificationsManager(),
                                                      locationManager: MockLocationManager(), tracker: tracker,
                                                      featureFlags: MockFeatureFlags())

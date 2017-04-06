@@ -1,5 +1,5 @@
-extension ProductPrice: MockFactory {
-    public static func makeMock() -> ProductPrice {
+extension ListingPrice: MockFactory {
+    public static func makeMock() -> ListingPrice {
         switch Int.makeRandom(min: 0, max: 3) {
         case 0:
             return .free

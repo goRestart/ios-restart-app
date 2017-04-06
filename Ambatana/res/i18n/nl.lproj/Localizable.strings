@@ -37,7 +37,8 @@
 "bump_up_view_pay_subtitle" = "Geef je item voor 24 uur meer zichtbaarheid door het naar de top te verplaatsen.";
 "bump_up_view_pay_title" = "OMHOOG PLAATSEN OM SNELLER TE VERKOPEN";
 "categories_baby_and_child" = "Baby en kind";
-"categories_cars_and_motors" = "Auto's en motoren";
+"categories_car" = "Cars";
+"categories_cars_and_motors" = "Motors and Accesories";
 "categories_electronics" = "Elektronica";
 "categories_fashion_and_accessories" = "Mode en accessoires";
 "categories_free" = "Gratis Spullen";
@@ -555,6 +556,10 @@
 "product_post_product_posted_not_logged" = "Foto geupload!";
 "product_post_retake" = "Opnieuw nemen";
 "product_post_retry_button" = "Probeer het nogmaals";
+"product_post_select_category_cars" = "Auto’s";
+"product_post_select_category_or" = "OF";
+"product_post_select_category_other" = "Iets anders";
+"product_post_select_category_title" = "Wat wil je verkopen?";
 "product_post_use_photo" = "Plaats";
 "product_post_use_photo_not_logged" = "Gebruik foto";
 "product_price_label" = "Prijs";

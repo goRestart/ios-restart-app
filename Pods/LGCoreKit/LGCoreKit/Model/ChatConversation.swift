@@ -9,7 +9,7 @@
 public protocol ChatConversation: BaseModel {
     var unreadMessageCount: Int { get }
     var lastMessageSentAt: Date? { get }
-    var product: ChatProduct? { get }
+    var listing: ChatListing? { get }
     var interlocutor: ChatInterlocutor? { get }
     var amISelling: Bool { get }
 }

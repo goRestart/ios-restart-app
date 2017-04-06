@@ -19,7 +19,7 @@ class GridDrawerManager {
     var cellStyle: CellStyle = .small
     var freePostingAllowed: Bool = true
     
-    private let productDrawer = ProductCellDrawer()
+    private let listingDrawer = ProductCellDrawer()
     private let collectionDrawer = ProductCollectionCellDrawer()
     private let emptyCellDrawer = EmptyCellDrawer()
     private let showFeaturedStripeHelper = ShowFeaturedStripeHelper(featureFlags: FeatureFlags.sharedInstance,
@@ -32,10 +32,10 @@ class GridDrawerManager {
         EmptyCellDrawer.registerCell(collectionView)
     }
     
-    func cell(_ model: ProductCellModel, collectionView: UICollectionView, atIndexPath: IndexPath) -> UICollectionViewCell {
+    func cell(_ model: ListingCellModel, collectionView: UICollectionView, atIndexPath: IndexPath) -> UICollectionViewCell {
         switch model {
-        case .productCell:
-            return productDrawer.cell(collectionView, atIndexPath: atIndexPath)
+        case .listingCell:
+            return listingDrawer.cell(collectionView, atIndexPath: atIndexPath)
         case .collectionCell:
             return collectionDrawer.cell(collectionView, atIndexPath: atIndexPath)
         case .emptyCell:
@@ -43,14 +43,14 @@ class GridDrawerManager {
         }
     }
     
-    func draw(_ model: ProductCellModel, inCell cell: UICollectionViewCell) {
+    func draw(_ model: ListingCellModel, inCell cell: UICollectionViewCell) {
         switch model {
-        case .productCell(let product) where cell is ProductCell:
+        case let .listingCell(listing) where cell is ProductCell:
             guard let cell = cell as? ProductCell else { return }
-            let isFeatured = showFeaturedStripeHelper.shouldShowFeaturedStripeFor(product)
-            let data = ProductData(productID: product.objectId, thumbUrl: product.thumbnail?.fileURL,
-                                   isFree: product.price.free && freePostingAllowed, isFeatured: isFeatured)
-            return productDrawer.draw(data, style: cellStyle, inCell: cell)
+            let isFeatured = showFeaturedStripeHelper.shouldShowFeaturedStripeFor(listing: listing)
+            let data = ProductData(productID: listing.objectId, thumbUrl: listing.thumbnail?.fileURL,
+                                   isFree: listing.price.free && freePostingAllowed, isFeatured: isFeatured)
+            return listingDrawer.draw(data, style: cellStyle, inCell: cell)
         case .collectionCell(let style) where cell is CollectionCell:
             guard let cell = cell as? CollectionCell else { return }
             return collectionDrawer.draw(style, style: cellStyle, inCell: cell)

@@ -13,8 +13,8 @@ import RxCocoa
 
 protocol ChatRelatedProductsViewDelegate: class {
     func relatedProductsViewDidShow(_ view: ChatRelatedProductsView)
-    func relatedProductsView(_ view: ChatRelatedProductsView, showProduct product: Product, atIndex index: Int,
-                             productListModels: [ProductCellModel], requester: ProductListRequester,
+    func relatedProductsView(_ view: ChatRelatedProductsView, showListing listing: Listing, atIndex index: Int,
+                             productListModels: [ListingCellModel], requester: ProductListRequester,
                              thumbnailImage: UIImage?, originFrame: CGRect?)
 
 }
@@ -130,8 +130,8 @@ class ChatRelatedProductsView: UIView {
 
 
 extension ChatRelatedProductsView: RelatedProductsViewDelegate {
-    func relatedProductsView(_ view: RelatedProductsView, showProduct product: Product, atIndex index: Int,
-                             productListModels: [ProductCellModel], requester: ProductListRequester,
+    func relatedProductsView(_ view: RelatedProductsView, showListing listing: Listing, atIndex index: Int,
+                             productListModels: [ListingCellModel], requester: ProductListRequester,
                              thumbnailImage: UIImage?, originFrame: CGRect?) {
 
         var realFrame: CGRect? = nil
@@ -139,7 +139,7 @@ extension ChatRelatedProductsView: RelatedProductsViewDelegate {
             realFrame = convert(originFrame, to: parentView)
         }
 
-        delegate?.relatedProductsView(self, showProduct: product, atIndex: index, productListModels: productListModels,
+        delegate?.relatedProductsView(self, showListing: listing, atIndex: index, productListModels: productListModels,
                                       requester: requester, thumbnailImage: thumbnailImage, originFrame: realFrame)
     }
 }

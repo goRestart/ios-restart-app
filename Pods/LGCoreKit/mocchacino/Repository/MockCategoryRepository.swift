@@ -7,7 +7,7 @@ open class MockCategoryRepository: CategoryRepository {
     // MARK: - Lifecycle
 
     required public init() {
-        
+
     }
 
     

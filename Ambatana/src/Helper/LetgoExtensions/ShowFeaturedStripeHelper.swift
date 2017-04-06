@@ -26,4 +26,10 @@ class ShowFeaturedStripeHelper {
         // if the product is featured, the owner will always see the stripe, despite what the feature flag says
         return product.isMine(myUserRepository: myUserRepository) || featureFlags.pricedBumpUpEnabled
     }
+
+    func shouldShowFeaturedStripeFor(listing: Listing) -> Bool {
+        guard let isFeatured = listing.featured, isFeatured else { return false }
+        // if the product is featured, the owner will always see the stripe, despite what the feature flag says
+        return listing.isMine(myUserRepository: myUserRepository) || featureFlags.pricedBumpUpEnabled
+    }
 }

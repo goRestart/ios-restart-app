@@ -37,7 +37,8 @@
 "bump_up_view_pay_subtitle" = "Ürününü 24 saat için üste çıkararak daha fazla kişiye göster.";
 "bump_up_view_pay_title" = "DAHA HIZLI SATMAK İÇİN ÖNE ÇIKAR";
 "categories_baby_and_child" = "Bebek ve Çocuk";
-"categories_cars_and_motors" = "Araba ve Motosikletler";
+"categories_car" = "Cars";
+"categories_cars_and_motors" = "Motors and Accesories";
 "categories_electronics" = "Elektronik";
 "categories_fashion_and_accessories" = "Giyim ve Aksesuar";
 "categories_free" = "Ücretsiz Ürün";
@@ -248,7 +249,7 @@
 "contact_subject_option_product_edit" = "Ürünü düzenle/sil";
 "contact_subject_option_profile_edit" = "Profili düzenle/sil";
 "contact_subject_option_report" = "Kullanıcı/spam bildir";
-"direct_answer_condition" = "Ürünün durumu nasıldır?";
+"direct_answer_condition" = "Ürün ne durumda?";
 "direct_answer_free_available" = "Evet, hala satılık";
 "direct_answer_free_no_available" = "Üzgünüm, ürünü çoktan başkasına verdim!";
 "direct_answer_free_still_have" = "Ürün hala satılık mı?";
@@ -555,6 +556,10 @@
 "product_post_product_posted_not_logged" = "Fotoğraf Yüklendi!";
 "product_post_retake" = "Tekrar Çek";
 "product_post_retry_button" = "Yeniden Dene";
+"product_post_select_category_cars" = "Araba";
+"product_post_select_category_or" = "VEYA";
+"product_post_select_category_other" = "Başka bir şey";
+"product_post_select_category_title" = "Ne yayınlıyorsun?";
 "product_post_use_photo" = "Yayınla";
 "product_post_use_photo_not_logged" = "Fotoğrafı Kullan";
 "product_price_label" = "FİYAT";

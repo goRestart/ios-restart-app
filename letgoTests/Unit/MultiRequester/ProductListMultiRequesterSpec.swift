@@ -17,8 +17,8 @@ class ProductListMultiRequesterSpec: QuickSpec {
         var sut: ProductListMultiRequester!
         var dataCount: Int = 0
 
-        var result: ProductsResult!
-        let completion: ProductsCompletion = { r in
+        var result: ListingsResult!
+        let completion: ListingsCompletion = { r in
             if let data = r.value {
                 dataCount = data.count
             }

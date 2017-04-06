@@ -25,7 +25,7 @@ class PostProductDetailViewModel: BaseViewModel {
     let isFree = Variable<Bool>(false)
     
     // Out variables
-    var productPrice: ProductPrice {
+    var productPrice: ListingPrice {
         return isFree.value ? .free : .normal(price.value.toPriceDouble())
     }
     var productTitle: String? {

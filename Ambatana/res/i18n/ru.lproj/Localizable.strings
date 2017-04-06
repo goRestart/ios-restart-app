@@ -37,7 +37,8 @@
 "bump_up_view_pay_subtitle" = "Дает вашему объявлению больше просмотров на 24 часа, поднимая его наверх в списке.";
 "bump_up_view_pay_title" = "ПОДНИМИТЕ ДЛЯ БЫСТРОЙ ПРОДАЖИ";
 "categories_baby_and_child" = "Все для детей";
-"categories_cars_and_motors" = "Автомобили и Запчасти";
+"categories_car" = "Cars";
+"categories_cars_and_motors" = "Motors and Accesories";
 "categories_electronics" = "Электроника";
 "categories_fashion_and_accessories" = "Мода и Аксессуары";
 "categories_free" = "Бесплатные вещи";
@@ -277,8 +278,8 @@
 "edit_product_send_ok" = "Поздравляем! Ваш товар обновлен. В скором времени он появится в списке.";
 "edit_product_suggesting_title" = "Предлагаемый заголовок...";
 "edit_product_title" = "Редактировать товар";
-"edit_product_unsaved_changes_alert" = "Вы точно хотите отменить эти изменения?";
-"edit_product_unsaved_changes_alert_ok" = "Отменить";
+"edit_product_unsaved_changes_alert" = "Вы точно не хотите сохранять эти изменения?";
+"edit_product_unsaved_changes_alert_ok" = "Не сохранять";
 "filters_distance_not_set" = "не установлен";
 "filters_navbar_reset" = "Сброс";
 "filters_price_from" = "От";
@@ -555,6 +556,10 @@
 "product_post_product_posted_not_logged" = "Фото загружено!";
 "product_post_retake" = "Переснять";
 "product_post_retry_button" = "Попробовать еще";
+"product_post_select_category_cars" = "Машины";
+"product_post_select_category_or" = "ИЛИ";
+"product_post_select_category_other" = "Что-то еще";
+"product_post_select_category_title" = "Что вы размещаете?";
 "product_post_use_photo" = "Разместить";
 "product_post_use_photo_not_logged" = "Загрузить фото";
 "product_price_label" = "Цена";

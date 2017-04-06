@@ -108,7 +108,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
             checkChanges()
         }
     }
-    var category: ProductCategory? {
+    var category: ListingCategory? {
         didSet {
             checkChanges()
         }
@@ -140,12 +140,13 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
     }
     fileprivate let initialProduct: Product
     fileprivate var savedProduct: Product?
-    fileprivate var categories: [ProductCategory] = []
+    fileprivate var categories: [ListingCategory] = []
     fileprivate var shouldTrack: Bool = true
     
     // Repositories
     let myUserRepository: MyUserRepository
-    let productRepository: ProductRepository
+    let listingRepository: ListingRepository
+    let fileRepository: FileRepository
     let categoryRepository: CategoryRepository
     let locationManager: LocationManager
     let tracker: Tracker
@@ -162,29 +163,27 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
     // MARK: - Lifecycle
     
     convenience init(product: Product) {
-        let myUserRepository = Core.myUserRepository
-        let productRepository = Core.productRepository
-        let categoryRepository = Core.categoryRepository
-        let locationManager = Core.locationManager
-        let tracker = TrackerProxy.sharedInstance
-        let featureFlags = FeatureFlags.sharedInstance
-        self.init(myUserRepository: myUserRepository,
-                  productRepository: productRepository,
-                  categoryRepository: categoryRepository,
-                  locationManager: locationManager,
-                  tracker: tracker, product: product,
-                  featureFlags: featureFlags)
+        self.init(product: product,
+                  myUserRepository: Core.myUserRepository,
+                  listingRepository: Core.listingRepository,
+                  fileRepository: Core.fileRepository,
+                  categoryRepository: Core.categoryRepository,
+                  locationManager: Core.locationManager,
+                  tracker: TrackerProxy.sharedInstance,
+                  featureFlags: FeatureFlags.sharedInstance)
     }
     
-    init(myUserRepository: MyUserRepository,
-         productRepository: ProductRepository,
+    init(product: Product,
+         myUserRepository: MyUserRepository,
+         listingRepository: ListingRepository,
+         fileRepository: FileRepository,
          categoryRepository: CategoryRepository,
          locationManager: LocationManager,
          tracker: Tracker,
-         product: Product,
          featureFlags: FeatureFlaggeable) {
         self.myUserRepository = myUserRepository
-        self.productRepository = productRepository
+        self.listingRepository = listingRepository
+        self.fileRepository = fileRepository
         self.categoryRepository = categoryRepository
         self.locationManager = locationManager
         self.tracker = tracker
@@ -216,7 +215,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         self.productImages = ProductImages()
         for file in product.images { productImages.append(file) }
 
-        self.shouldShareInFB = myUserRepository.myUser?.facebookAccount != nil
+        self.shouldShareInFB = false
         self.isFreePosting.value = featureFlags.freePostingModeAllowed && product.price.free
         super.init()
 
@@ -411,52 +410,42 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         return nil
     }
 
+
     private func updateProduct() {
         guard let category = category else {
             showError(.noCategory)
             return
         }
-        let name = title ?? ""
-        let description = (descr ?? "").stringByRemovingEmoji()
-
-        let priceAmount = isFreePosting.value && featureFlags.freePostingModeAllowed ? ProductPrice.free : ProductPrice.normal((price ?? "0").toPriceDouble())
-        let currency = initialProduct.currency
-
-        let editedProduct = productRepository.updateProduct(initialProduct, name: name, description: description,
-                                                            price: priceAmount, currency: currency, location: location,
-                                                            postalAddress: postalAddress, category: category)
-        saveTheProduct(editedProduct, withImages: productImages)
-    }
-    
-    private func saveTheProduct(_ product: Product, withImages images: ProductImages) {
-
+        guard let editParams = ProductEditionParams(product: initialProduct) else { return }
+        delegate?.vmHideKeyboard()
         loadingProgress.value = 0
-        
-        let localImages = images.localImages
-        let remoteImages = images.remoteImages
-        
-        let commonCompletion: ProductCompletion = { [weak self] result in
-            guard let strongSelf = self else { return }
-            strongSelf.loadingProgress.value = nil
-            if let actualProduct = result.value {
-                strongSelf.savedProduct = actualProduct
-                strongSelf.trackComplete(actualProduct)
-                strongSelf.finishedSaving()
-            } else if let error = result.error {
-                let newError = ProductCreateValidationError(repoError: error)
-                strongSelf.showError(newError)
-            }
+        editParams.category = category
+        editParams.name = title ?? ""
+        editParams.descr = (descr ?? "").stringByRemovingEmoji()
+        editParams.price = isFreePosting.value && featureFlags.freePostingModeAllowed ? ListingPrice.free : ListingPrice.normal((price ?? "0").toPriceDouble())
+        if let updatedLocation = location, let updatedPostalAddress = postalAddress {
+            editParams.location = updatedLocation
+            editParams.postalAddress = updatedPostalAddress
         }
 
-        let progressBlock: (Float) -> Void = { [weak self] progress in self?.loadingProgress.value = progress }
-        
-        if let _ = product.objectId {
-            productRepository.update(product, oldImages: remoteImages, newImages: localImages, progress: progressBlock, completion: commonCompletion)
-        } else {
-            if localImages.isEmpty {
-                productRepository.create(product, images: remoteImages, completion: commonCompletion)
-            } else {
-                productRepository.create(product, images: localImages, progress: progressBlock, completion: commonCompletion)
+        let localImages = productImages.localImages
+        let remoteImages = productImages.remoteImages
+        fileRepository.upload(localImages, progress: { [weak self] in self?.loadingProgress.value = $0 }) {
+            [weak self] imagesResult in
+            if let newImages = imagesResult.value {
+                editParams.images = remoteImages + newImages
+                self?.listingRepository.update(productParams: editParams) { result in
+                    self?.loadingProgress.value = nil
+                    if let actualProduct = result.value {
+                        self?.savedProduct = actualProduct
+                        self?.trackComplete(actualProduct)
+                        self?.finishedSaving()
+                    } else if let error = result.error {
+                        self?.showError(ProductCreateValidationError(repoError: error))
+                    }
+                }
+            } else if let error = imagesResult.error {
+                self?.showError(ProductCreateValidationError(repoError: error))
             }
         }
     }
@@ -562,7 +551,7 @@ extension EditProductViewModel {
             return
         }
         titleDisclaimerStatus.value = .loading
-        productRepository.retrieve(productId) { [weak self] result in
+        listingRepository.retrieve(productId) { [weak self] result in
             if let value = result.value {
                 guard let proposedTitle = value.nameAuto else { return }
                 self?.stopTimer()
@@ -689,8 +678,7 @@ extension EditProductViewModel {
     }
 
     private func shareInFbChanged() -> Bool {
-        let fbLogin = myUserRepository.myUser?.facebookAccount != nil
-        return fbLogin != shouldShareInFB
+        return shouldShareInFB // Initial state is false
     }
 }
 

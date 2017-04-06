@@ -8,32 +8,32 @@
 
 protocol FavoritesDAO {
     var favorites: [String] { get }
-    func save(products: [Product])
-    func save(product: Product)
-    func save(productIds: [String])
-    func save(productId: String)
-    func remove(productId: String)
-    func remove(product: Product)
+    func save(listings: [Listing])
+    func save(listing: Listing)
+    func save(listingIds: [String])
+    func save(listingId: String)
+    func remove(listingId: String)
+    func remove(listing: Listing)
     func clean()
 }
 
 extension FavoritesDAO {
-    func save(products: [Product]) {
-        let ids = products.flatMap{$0.objectId}
-        save(productIds: ids)
+    func save(listings: [Listing]) {
+        let ids = listings.flatMap{$0.objectId}
+        save(listingIds: ids)
     }
     
-    func save(productId: String) {
-        save(productIds: [productId])
+    func save(listingId: String) {
+        save(listingIds: [listingId])
     }
     
-    func save(product: Product) {
-        save(products: [product])
+    func save(listing: Listing) {
+        save(listings: [listing])
     }
     
-    func remove(product: Product) {
-        if let productId = product.objectId {
-            remove(productId: productId)
+    func remove(listing: Listing) {
+        if let listingId = listing.objectId {
+            remove(listingId: listingId)
         }
     }
 }

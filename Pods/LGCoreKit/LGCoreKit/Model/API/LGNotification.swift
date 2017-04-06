@@ -77,7 +77,7 @@ extension NotificationType: Decodable {
              }
              */
             result = curry(NotificationType.like)
-                <^> LGNotificationProduct.decode(data)
+                <^> LGNotificationListing.decode(data)
                 <*> LGNotificationUser.decode(data)
         case "sold":
             /**
@@ -91,7 +91,7 @@ extension NotificationType: Decodable {
              }
              */
             result = curry(NotificationType.sold)
-                <^> LGNotificationProduct.decode(data)
+                <^> LGNotificationListing.decode(data)
                 <*> LGNotificationUser.decode(data)
         case "review":
             /**
@@ -135,7 +135,7 @@ extension NotificationType: Decodable {
              }
              */
             result = curry(buildBuyersInterested)
-                <^> LGNotificationProduct.decode(data)
+                <^> LGNotificationListing.decode(data)
                 <*> data <|| JSONKeys.buyers
         case "product_suggested":
             /*
@@ -149,7 +149,7 @@ extension NotificationType: Decodable {
              }
             */
             result = curry(NotificationType.productSuggested)
-                <^> LGNotificationProduct.decode(data)
+                <^> LGNotificationListing.decode(data)
                 <*> LGNotificationUser.decode(data)
         case "facebook_friendship_created":
             /*
@@ -177,7 +177,7 @@ extension NotificationType: Decodable {
         return result
     }
 
-    private static func buildBuyersInterested(_ product: NotificationProduct, buyers: [LGNotificationUser]) -> NotificationType {
+    private static func buildBuyersInterested(_ product: NotificationListing, buyers: [LGNotificationUser]) -> NotificationType {
         return NotificationType.buyersInterested(product: product, buyers: buyers.flatMap({$0}))
     }
 }
