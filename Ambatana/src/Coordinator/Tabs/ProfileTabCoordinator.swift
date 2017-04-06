@@ -13,7 +13,7 @@ import FBSDKShareKit
 final class ProfileTabCoordinator: TabCoordinator {
 
     convenience init() {
-        let productRepository = Core.productRepository
+        let listingRepository = Core.listingRepository
         let userRepository = Core.userRepository
         let chatRepository = Core.chatRepository
         let oldChatRepository = Core.oldChatRepository
@@ -25,7 +25,7 @@ final class ProfileTabCoordinator: TabCoordinator {
         let rootViewController = UserViewController(viewModel: viewModel)
         let featureFlags = FeatureFlags.sharedInstance
         let sessionManager = Core.sessionManager
-        self.init(productRepository: productRepository, userRepository: userRepository,
+        self.init(listingRepository: listingRepository, userRepository: userRepository,
                   chatRepository: chatRepository, oldChatRepository: oldChatRepository,
                   myUserRepository: myUserRepository,
                   bubbleNotificationManager: bubbleNotificationManager,

@@ -13,7 +13,7 @@ import LGCoreKit
 class MockProductViewModelMaker: ProductViewModelMaker {
 
     let myUserRepository: MockMyUserRepository
-    let productRepository: MockProductRepository
+    let listingRepository: MockListingRepository
     let commercializerRepository: MockCommercializerRepository
     let chatWrapper: MockChatWrapper
     let locationManager: MockLocationManager
@@ -24,7 +24,7 @@ class MockProductViewModelMaker: ProductViewModelMaker {
     let tracker: MockTracker
 
     init(myUserRepository: MockMyUserRepository,
-         productRepository: MockProductRepository,
+         listingRepository: MockListingRepository,
          commercializerRepository: MockCommercializerRepository,
          chatWrapper: MockChatWrapper,
          locationManager: MockLocationManager,
@@ -34,7 +34,7 @@ class MockProductViewModelMaker: ProductViewModelMaker {
          monetizationRepository: MockMonetizationRepository,
          tracker: MockTracker) {
         self.myUserRepository = myUserRepository
-        self.productRepository = productRepository
+        self.listingRepository = listingRepository
         self.commercializerRepository = commercializerRepository
         self.chatWrapper = chatWrapper
         self.locationManager = locationManager
@@ -45,10 +45,10 @@ class MockProductViewModelMaker: ProductViewModelMaker {
         self.tracker = tracker
     }
 
-    func make(product: Product) -> ProductViewModel {
-        return ProductViewModel(product: product,
+    func make(listing: Listing) -> ProductViewModel {
+        return ProductViewModel(listing: listing,
                                 myUserRepository: myUserRepository,
-                                productRepository: productRepository,
+                                listingRepository: listingRepository,
                                 commercializerRepository: commercializerRepository,
                                 chatWrapper: chatWrapper,
                                 chatViewMessageAdapter: ChatViewMessageAdapter(),

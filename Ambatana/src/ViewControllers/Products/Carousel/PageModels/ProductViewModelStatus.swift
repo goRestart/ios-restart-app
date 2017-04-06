@@ -26,20 +26,20 @@ enum ProductViewModelStatus {
     // Common:
     case notAvailable
 
-    init(product: Product, isMine: Bool, featureFlags: FeatureFlaggeable) {
-        switch product.status {
+    init(listing: Listing, isMine: Bool, featureFlags: FeatureFlaggeable) {
+        switch listing.status {
         case .pending:
             self = isMine ? .pending : .notAvailable
         case .discarded, .deleted:
             self = .notAvailable
         case .approved:
-            if featureFlags.freePostingModeAllowed && product.price.free {
+            if featureFlags.freePostingModeAllowed && listing.price.free {
                 self = isMine ? .availableFree : .otherAvailableFree
             } else {
                 self = isMine ? .available : .otherAvailable
             }
         case .sold, .soldOld:
-            if featureFlags.freePostingModeAllowed && product.price.free {
+            if featureFlags.freePostingModeAllowed && listing.price.free {
                 self = isMine ? .soldFree : .otherSoldFree
             } else {
                 self = isMine ? .sold : .otherSold

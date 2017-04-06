@@ -116,7 +116,7 @@
 "categories_baby_and_child" = "Baby and Child";
 
 // Categories cars and motors. Check attached image "categories (1).png"
-"categories_cars_and_motors" = "Cars and Motors";
+"categories_cars_and_motors" = "Motors and Accesories";
 
 // Categories electronics. Check image @ "categories_cars_and_motors" segment
 "categories_electronics" = "Electronics";
@@ -144,6 +144,9 @@
 
 // Text for non assigned category
 "categories_unassigned" = "Not selected";
+
+// Category "Cars"
+"categories_car" = "Cars";
 
 // Change location apply button. Check image @ "change_location_title" segment
 "change_location_apply_button" = "Set location";
@@ -1736,6 +1739,18 @@
 
 // User photo button when not logged in
 "product_post_use_photo_not_logged" = "Use Photo";
+
+// Product post category selection title
+"product_post_select_category_title" = "What are you posting?";
+
+// Product post category selection cars button
+"product_post_select_category_cars" = "Cars";
+
+// Product post category selection or label
+"product_post_select_category_or" = "OR";
+
+// Product post category selection others button
+"product_post_select_category_other" = "Something else";
 
 // Price label above price on product
 "product_price_label" = "Price";

@@ -37,7 +37,8 @@
 "bump_up_view_pay_subtitle" = "Δώστε στην καταχώρησή σας περισσότερη προβολή για 24 ώρες, μετακινώντας την στην κορυφή.";
 "bump_up_view_pay_title" = "ΠΡΟΩΘΗΣΤΕ ΓΙΑ ΝΑ ΠΟΥΛΗΣΕΤΕ ΓΡΗΓΟΡΟΤΕΡΑ";
 "categories_baby_and_child" = "Βρεφικά και Παιδικά";
-"categories_cars_and_motors" = "Αυτοκίνητα και Μηχανές";
+"categories_car" = "Cars";
+"categories_cars_and_motors" = "Motors and Accesories";
 "categories_electronics" = "Ηλεκτρονικά";
 "categories_fashion_and_accessories" = "Μόδα και Αξεσουάρ";
 "categories_free" = "Δωρεάν Πράγματα";
@@ -555,6 +556,10 @@
 "product_post_product_posted_not_logged" = "Η φωτογραφία ανέβηκε!";
 "product_post_retake" = "Ξανατραβήξτε";
 "product_post_retry_button" = "Προσπαθήστε Ξανά";
+"product_post_select_category_cars" = "Αυτοκίνητα";
+"product_post_select_category_or" = "Ή";
+"product_post_select_category_other" = "Κάτι άλλο";
+"product_post_select_category_title" = "Τί δημοσιεύετε;";
 "product_post_use_photo" = "Δημοσιεύστε";
 "product_post_use_photo_not_logged" = "Χρήση Φωτογραφίας";
 "product_price_label" = "Τιμή";

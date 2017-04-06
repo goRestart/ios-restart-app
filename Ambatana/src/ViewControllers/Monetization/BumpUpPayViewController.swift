@@ -48,7 +48,7 @@ class BumpUpPayViewController: BaseViewController {
 
     func setupUI() {
 
-        if let imageUrl = viewModel.product.images.first?.fileURL {
+        if let imageUrl = viewModel.listing.images.first?.fileURL {
             productImageView.lg_setImageWithURL(imageUrl, placeholderImage: nil, completion: {
                 [weak self] (result, url) -> Void in
                 if let _ = result.value {
@@ -70,6 +70,7 @@ class BumpUpPayViewController: BaseViewController {
 
         let rotation = CGFloat(M_PI_4)
         featuredLabel.transform = CGAffineTransform(rotationAngle: rotation)
+        featuredLabel.text = LGLocalizedString.bumpUpProductCellFeaturedStripe
         bumpUpButton.setStyle(.primary(fontSize: .medium))
         bumpUpButton.setTitle(LGLocalizedString.bumpUpViewPayButtonTitle(viewModel.price), for: .normal)
 

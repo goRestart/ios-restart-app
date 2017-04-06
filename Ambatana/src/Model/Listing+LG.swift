@@ -8,6 +8,18 @@
 
 import LGCoreKit
 
+extension Listing {
+    func belongsTo(userId: String?) -> Bool {
+        let ownerId = user.objectId
+        guard user.objectId != nil && userId != nil else { return false }
+        return ownerId == userId
+    }
+
+    func isMine(myUserRepository: MyUserRepository) -> Bool {
+        return belongsTo(userId: myUserRepository.myUser?.objectId)
+    }
+}
+
 extension Product {
     func belongsTo(userId: String?) -> Bool {
         let ownerId = user.objectId

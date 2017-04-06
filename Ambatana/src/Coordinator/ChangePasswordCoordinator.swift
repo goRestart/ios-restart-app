@@ -9,6 +9,10 @@
 import Foundation
 import LGCoreKit
 
+protocol ChangePasswordPresenter {
+    func openChangePassword(coordinator: ChangePasswordCoordinator)
+}
+
 final class ChangePasswordCoordinator: Coordinator {
     var child: Coordinator?
     let viewController: UIViewController

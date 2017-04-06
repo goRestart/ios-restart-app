@@ -1,5 +1,5 @@
 //
-//  ProductStatsView.swift
+//  ListingStatsView.swift
 //  LetGo
 //
 //  Created by Dídac on 27/05/16.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ProductStatsView: UIView {
+class ListingStatsView: UIView {
 
     @IBOutlet var favouriteStatsView: UIView!
     @IBOutlet var favouriteStatsLabel: UILabel!
@@ -33,8 +33,8 @@ class ProductStatsView: UIView {
 
     // MARK: -Lifecycle
 
-    static func productStatsView() -> ProductStatsView? {
-        let view = Bundle.main.loadNibNamed("ProductStatsView", owner: self, options: nil)?.first as? ProductStatsView
+    static func ListingStatsView() -> ListingStatsView? {
+        let view = Bundle.main.loadNibNamed("ListingStatsView", owner: self, options: nil)?.first as? ListingStatsView
         view?.setupUI()
         return view
     }

@@ -1,5 +1,5 @@
 //
-//  ProductCategory+LG.swift
+//  ListingCategory+LG.swift
 //  LetGo
 //
 //  Created by Albert Hernández López on 29/06/15.
@@ -8,7 +8,7 @@
 
 import LGCoreKit
 
-extension ProductCategory {
+extension ListingCategory {
     
     var name : String {
         switch(self) {
@@ -16,7 +16,7 @@ extension ProductCategory {
             return LGLocalizedString.categoriesUnassigned
         case .electronics:
             return LGLocalizedString.categoriesElectronics
-        case .carsAndMotors:
+        case .motorsAndAccessories:
             return LGLocalizedString.categoriesCarsAndMotors
         case .sportsLeisureAndGames:
             return LGLocalizedString.categoriesSportsLeisureAndGames
@@ -30,6 +30,8 @@ extension ProductCategory {
             return LGLocalizedString.categoriesBabyAndChild
         case .other:
             return LGLocalizedString.categoriesOther
+        case .cars:
+            return LGLocalizedString.categoriesCar
         }
     }
         
@@ -39,7 +41,7 @@ extension ProductCategory {
             return nil
         case .electronics:
             return UIImage(named: "categories_electronics")
-        case .carsAndMotors:
+        case .motorsAndAccessories:
             return UIImage(named: "categories_cars")
         case .sportsLeisureAndGames:
             return UIImage(named: "categories_sports")
@@ -53,6 +55,8 @@ extension ProductCategory {
             return UIImage(named: "categories_babies")
         case .other:
             return UIImage(named: "categories_others")
+        case .cars:
+            return UIImage(named: "categories_car")
         }
     }
     
@@ -62,7 +66,7 @@ extension ProductCategory {
             return nil
         case .electronics:
             return UIImage(named: "categories_electronics_inactive")
-        case .carsAndMotors:
+        case .motorsAndAccessories:
             return UIImage(named: "categories_cars_inactive")
         case .sportsLeisureAndGames:
             return UIImage(named: "categories_sports_inactive")
@@ -76,6 +80,8 @@ extension ProductCategory {
             return UIImage(named: "categories_babies_inactive")
         case .other:
             return UIImage(named: "categories_others_inactive")
+        case .cars:
+            return UIImage(named: "categories_car_inactive")
         }
     }
     
@@ -85,7 +91,7 @@ extension ProductCategory {
             return UIColor.unassignedCategory
         case .electronics:
             return UIColor.electronicsCategory
-        case .carsAndMotors:
+        case .motorsAndAccessories:
             return UIColor.carsMotorsCategory
         case .sportsLeisureAndGames:
             return UIColor.sportsGamesCategory
@@ -99,13 +105,15 @@ extension ProductCategory {
             return UIColor.babyChildCategory
         case .other:
             return UIColor.otherCategory
+        case .cars:
+            return UIColor.carCategory
         }
     }
 
-    static func categoriesFromString(_ categories: String) -> [ProductCategory] {
+    static func categoriesFromString(_ categories: String) -> [ListingCategory] {
         return categories.components(separatedBy: ",").flatMap {
             guard let intValue = Int(String(describing: $0)) else { return nil }
-            return ProductCategory(rawValue: intValue)
+            return ListingCategory(rawValue: intValue)
         }
     }
 }

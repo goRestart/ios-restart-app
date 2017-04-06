@@ -203,6 +203,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("categories_unassigned", comment: "")
 	}
 
+	static var categoriesCar: String {
+		return NSLocalizedString("categories_car", comment: "")
+	}
+
 	static var changeLocationApplyButton: String {
 		return NSLocalizedString("change_location_apply_button", comment: "")
 	}
@@ -2333,6 +2337,22 @@ struct LGLocalizedString {
 
 	static var productPostUsePhotoNotLogged: String {
 		return NSLocalizedString("product_post_use_photo_not_logged", comment: "")
+	}
+
+	static var productPostSelectCategoryTitle: String {
+		return NSLocalizedString("product_post_select_category_title", comment: "")
+	}
+
+	static var productPostSelectCategoryCars: String {
+		return NSLocalizedString("product_post_select_category_cars", comment: "")
+	}
+
+	static var productPostSelectCategoryOr: String {
+		return NSLocalizedString("product_post_select_category_or", comment: "")
+	}
+
+	static var productPostSelectCategoryOther: String {
+		return NSLocalizedString("product_post_select_category_other", comment: "")
 	}
 
 	static var productPriceLabel: String {

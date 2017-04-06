@@ -37,7 +37,8 @@
 "bump_up_view_pay_subtitle" = "Give your listing higher visibility for 24 hours by moving it to the top.";
 "bump_up_view_pay_title" = "BUMP UP TO SELL FASTER";
 "categories_baby_and_child" = "Baby and Child";
-"categories_cars_and_motors" = "Cars and Motors";
+"categories_car" = "Cars";
+"categories_cars_and_motors" = "Motors and Accesories";
 "categories_electronics" = "Electronics";
 "categories_fashion_and_accessories" = "Fashion and Accessories";
 "categories_free" = "Free Stuff";
@@ -555,6 +556,10 @@
 "product_post_product_posted_not_logged" = "Photo Uploaded!";
 "product_post_retake" = "Retake";
 "product_post_retry_button" = "Try Again";
+"product_post_select_category_cars" = "Cars";
+"product_post_select_category_or" = "OR";
+"product_post_select_category_other" = "Something else";
+"product_post_select_category_title" = "What are you posting?";
 "product_post_use_photo" = "Post";
 "product_post_use_photo_not_logged" = "Use Photo";
 "product_price_label" = "Price";

@@ -19,33 +19,33 @@ class BumpUpCoordinator: Coordinator {
     let sessionManager: SessionManager
 
 
-    convenience init(product: Product,
+    convenience init(listing: Listing,
                      socialMessage: SocialMessage,
                      paymentItemId: String?) {
-        self.init(product: product,
+        self.init(listing: listing,
                   socialMessage: socialMessage,
                   paymentItemId: paymentItemId,
                   bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
                   sessionManager: Core.sessionManager)
     }
 
-    convenience init(product: Product,
+    convenience init(listing: Listing,
                      purchaseableProduct: PurchaseableProduct,
                      paymentItemId: String?) {
-        self.init(product: product,
+        self.init(listing: listing,
                   purchaseableProduct: purchaseableProduct,
                   paymentItemId: paymentItemId,
                   bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
                   sessionManager: Core.sessionManager)
     }
 
-    init(product: Product,
+    init(listing: Listing,
          socialMessage: SocialMessage,
          paymentItemId: String?,
          bubbleNotificationManager: BubbleNotificationManager,
          sessionManager: SessionManager) {
 
-        let bumpUpVM = BumpUpFreeViewModel(product: product, socialMessage: socialMessage, paymentItemId: paymentItemId)
+        let bumpUpVM = BumpUpFreeViewModel(listing: listing, socialMessage: socialMessage, paymentItemId: paymentItemId)
         let bumpUpVC = BumpUpFreeViewController(viewModel: bumpUpVM)
         bumpUpVC.modalPresentationStyle = .overCurrentContext
         self.viewController = bumpUpVC
@@ -55,13 +55,13 @@ class BumpUpCoordinator: Coordinator {
     }
 
 
-    init(product: Product,
+    init(listing: Listing,
          purchaseableProduct: PurchaseableProduct,
          paymentItemId: String?,
          bubbleNotificationManager: BubbleNotificationManager,
          sessionManager: SessionManager) {
 
-        let bumpUpVM = BumpUpPayViewModel(product: product, purchaseableProduct: purchaseableProduct,
+        let bumpUpVM = BumpUpPayViewModel(listing: listing, purchaseableProduct: purchaseableProduct,
                                           paymentItemId: paymentItemId)
         let bumpUpVC = BumpUpPayViewController(viewModel: bumpUpVM)
         bumpUpVC.modalPresentationStyle = .overCurrentContext

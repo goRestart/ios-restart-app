@@ -1,3 +1,4 @@
+
 //
 //  ChatViewModel.swift
 //  LetGo
@@ -15,7 +16,6 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmDidFailRetrievingChatMessages()
     
     func vmShowReportUser(_ reportUserViewModel: ReportUsersViewModel)
-    func vmShowUserRating(_ source: RateUserSource, data: RateUserData)
 
     func vmShowSafetyTips()
 
@@ -23,7 +23,6 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmHideKeyboard(_ animated: Bool)
     func vmShowKeyboard()
     
-    func vmAskForRating()
     func vmShowPrePermissions(_ type: PrePermissionType)
     func vmShowMessage(_ message: String, completion: (() -> ())?)
 }
@@ -32,7 +31,7 @@ struct EmptyConversation: ChatConversation {
     var objectId: String?
     var unreadMessageCount: Int = 0
     var lastMessageSentAt: Date? = nil
-    var product: ChatProduct? = nil
+    var listing: ChatListing? = nil
     var interlocutor: ChatInterlocutor? = nil
     var amISelling: Bool 
 }
@@ -79,7 +78,7 @@ class ChatViewModel: BaseViewModel {
     let messages = CollectionVariable<ChatViewMessage>([])
     let shouldShowReviewButton = Variable<Bool>(false)
     let userReviewTooltipVisible = Variable<Bool>(false)
-    var relatedProducts: [Product] = []
+    var relatedListings: [Listing] = []
     var shouldTrackFirstMessage: Bool = false
     let shouldShowExpressBanner = Variable<Bool>(false)
 
@@ -91,7 +90,7 @@ class ChatViewModel: BaseViewModel {
     // fileprivate
     fileprivate let myUserRepository: MyUserRepository
     fileprivate let chatRepository: ChatRepository
-    fileprivate let productRepository: ProductRepository
+    fileprivate let listingRepository: ListingRepository
     fileprivate let userRepository: UserRepository
     fileprivate let stickersRepository: StickersRepository
     fileprivate let chatViewMessageAdapter: ChatViewMessageAdapter
@@ -121,7 +120,7 @@ class ChatViewModel: BaseViewModel {
 
     fileprivate var isDeleted = false
     fileprivate var shouldAskProductSold: Bool = false
-    fileprivate var productId: String? // Only used when accessing a chat from a product
+    fileprivate var listingId: String? // Only used when accessing a chat from a listing
     fileprivate var preSendMessageCompletion: ((_ type: ChatWrapperMessageType) -> Void)?
     fileprivate var afterRetrieveMessagesCompletion: (() -> Void)?
 
@@ -131,7 +130,7 @@ class ChatViewModel: BaseViewModel {
     fileprivate let disposeBag = DisposeBag()
     
     fileprivate var userDefaultsSubKey: String {
-        return "\(conversation.value.product?.objectId ?? productId) + \(buyerId ?? "offline")"
+        return "\(conversation.value.listing?.objectId ?? listingId) + \(buyerId ?? "offline")"
     }
 
     fileprivate var isBuyer: Bool {
@@ -181,7 +180,7 @@ class ChatViewModel: BaseViewModel {
     convenience init(conversation: ChatConversation, navigator: ChatDetailNavigator?, source: EventParameterTypePage) {
         let myUserRepository = Core.myUserRepository
         let chatRepository = Core.chatRepository
-        let productRepository = Core.productRepository
+        let listingRepository = Core.listingRepository
         let userRepository = Core.userRepository
         let tracker = TrackerProxy.sharedInstance
         let stickersRepository = Core.stickersRepository
@@ -191,18 +190,18 @@ class ChatViewModel: BaseViewModel {
         let keyValueStorage = KeyValueStorage.sharedInstance
 
         self.init(conversation: conversation, myUserRepository: myUserRepository, chatRepository: chatRepository,
-                  productRepository: productRepository, userRepository: userRepository,
+                  listingRepository: listingRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository, tracker: tracker, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
                   source: source)
     }
     
-    convenience init?(product: Product, navigator: ChatDetailNavigator?, source: EventParameterTypePage) {
-        guard let _ = product.objectId, let sellerId = product.user.objectId else { return nil }
+    convenience init?(listing: Listing, navigator: ChatDetailNavigator?, source: EventParameterTypePage) {
+        guard let _ = listing.objectId, let sellerId = listing.user.objectId else { return nil }
 
         let myUserRepository = Core.myUserRepository
         let chatRepository = Core.chatRepository
-        let productRepository = Core.productRepository
+        let listingRepository = Core.listingRepository
         let userRepository = Core.userRepository
         let stickersRepository = Core.stickersRepository
         let tracker = TrackerProxy.sharedInstance
@@ -211,24 +210,24 @@ class ChatViewModel: BaseViewModel {
         let keyValueStorage = KeyValueStorage.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
         let amISelling = myUserRepository.myUser?.objectId == sellerId
-        let empty = EmptyConversation(objectId: nil, unreadMessageCount: 0, lastMessageSentAt: nil, product: nil,
+        let empty = EmptyConversation(objectId: nil, unreadMessageCount: 0, lastMessageSentAt: nil, listing: nil,
                                       interlocutor: nil, amISelling: amISelling)
         self.init(conversation: empty, myUserRepository: myUserRepository, chatRepository: chatRepository,
-                  productRepository: productRepository, userRepository: userRepository,
+                  listingRepository: listingRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository ,tracker: tracker, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
                   source: source)
-        self.setupConversationFromProduct(product)
+        self.setupConversationFrom(listing: listing)
     }
     
     init(conversation: ChatConversation, myUserRepository: MyUserRepository, chatRepository: ChatRepository,
-          productRepository: ProductRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
+          listingRepository: ListingRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
           tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, keyValueStorage: KeyValueStorage,
           navigator: ChatDetailNavigator?, featureFlags: FeatureFlaggeable, source: EventParameterTypePage) {
         self.conversation = Variable<ChatConversation>(conversation)
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
-        self.productRepository = productRepository
+        self.listingRepository = listingRepository
         self.userRepository = userRepository
         self.tracker = tracker
         self.featureFlags = featureFlags
@@ -273,22 +272,22 @@ class ChatViewModel: BaseViewModel {
     func wentBack() {
         guard sessionManager.loggedIn else { return }
         guard isBuyer else { return }
-        guard !relatedProducts.isEmpty else { return }
-        guard let productId = conversation.value.product?.objectId else { return }
-        navigator?.openExpressChat(relatedProducts, sourceProductId: productId, manualOpen: false)
+        guard !relatedListings.isEmpty else { return }
+        guard let listingId = conversation.value.listing?.objectId else { return }
+        navigator?.openExpressChat(relatedListings, sourceListingId: listingId, manualOpen: false)
     }
 
-    func setupConversationFromProduct(_ product: Product) {
-        guard let productId = product.objectId, let sellerId = product.user.objectId else { return }
+    func setupConversationFrom(listing: Listing) {
+        guard let listingId = listing.objectId, let sellerId = listing.user.objectId else { return }
         if let _ =  myUserRepository.myUser?.objectId {
-            syncConversation(productId, sellerId: sellerId)
+            syncConversation(listingId, sellerId: sellerId)
         } else {
-            setupNotLoggedIn(product)
+            setupNotLoggedIn(listing)
         }
     }
 
-    func syncConversation(_ productId: String, sellerId: String) {
-        chatRepository.showConversation(sellerId, productId: productId) { [weak self] result in
+    func syncConversation(_ listingId: String, sellerId: String) {
+        chatRepository.showConversation(sellerId, productId: listingId) { [weak self] result in
             if let value = result.value {
                 self?.conversation.value = value
                 self?.refreshMessages()
@@ -322,11 +321,11 @@ class ChatViewModel: BaseViewModel {
             self?.chatEnabled.value = conversation.chatEnabled
             self?.interlocutorIsMuted.value = conversation.interlocutor?.isMuted ?? false
             self?.interlocutorHasMutedYou.value = conversation.interlocutor?.hasMutedYou ?? false
-            self?.title.value = conversation.product?.name ?? ""
-            self?.productName.value = conversation.product?.name ?? ""
-            self?.productImageUrl.value = conversation.product?.image?.fileURL
-            self?.productPrice.value = conversation.product?.priceString() ?? ""
-            self?.productIsFree.value = conversation.product?.price.free ?? false
+            self?.title.value = conversation.listing?.name ?? ""
+            self?.productName.value = conversation.listing?.name ?? ""
+            self?.productImageUrl.value = conversation.listing?.image?.fileURL
+            self?.productPrice.value = conversation.listing?.priceString() ?? ""
+            self?.productIsFree.value = conversation.listing?.price.free ?? false
             self?.interlocutorAvatarURL.value = conversation.interlocutor?.avatar?.fileURL
             self?.interlocutorName.value = conversation.interlocutor?.name ?? ""
             self?.interlocutorId.value = conversation.interlocutor?.objectId
@@ -349,7 +348,7 @@ class ChatViewModel: BaseViewModel {
             case .loading, .hidden:
                 self?.delegate?.vmShowRelatedProducts(nil)
             case .visible:
-                self?.delegate?.vmShowRelatedProducts(self?.conversation.value.product?.objectId)
+                self?.delegate?.vmShowRelatedProducts(self?.conversation.value.listing?.objectId)
             }
         }.addDisposableTo(disposeBag)
 
@@ -495,14 +494,14 @@ class ChatViewModel: BaseViewModel {
     // MARK: - Public Methods
     
     func productInfoPressed() {
-        guard let product = conversation.value.product else { return }
+        guard let product = conversation.value.listing else { return }
         switch product.status {
         case .deleted:
             break
         case .pending, .approved, .discarded, .sold, .soldOld:
             delegate?.vmHideKeyboard(false)
-            let data = ProductDetailData.productChat(chatConversation: conversation.value)
-            navigator?.openProduct(data, source: .chat, showKeyboardOnFirstAppearIfNeeded: false)
+            let data = ListingDetailData.listingChat(chatConversation: conversation.value)
+            navigator?.openListing(data, source: .chat, showKeyboardOnFirstAppearIfNeeded: false)
         }
     }
     
@@ -517,7 +516,7 @@ class ChatViewModel: BaseViewModel {
         reviewTooltipVisible.value = false
         guard let interlocutor = conversation.value.interlocutor, let reviewData = RateUserData(interlocutor: interlocutor)
             else { return }
-        delegate?.vmShowUserRating(.chat, data: reviewData)
+        navigator?.openUserRating(.chat, data: reviewData)
     }
 
     func closeReviewTooltipPressed() {
@@ -544,8 +543,8 @@ class ChatViewModel: BaseViewModel {
     }
 
     func bannerActionButtonTapped() {
-        guard let productId = conversation.value.product?.objectId else { return }
-        navigator?.openExpressChat(relatedProducts, sourceProductId: productId, manualOpen: true)
+        guard let listingId = conversation.value.listing?.objectId else { return }
+        navigator?.openExpressChat(relatedListings, sourceListingId: listingId, manualOpen: true)
     }
 
     func directAnswersButtonPressed() {
@@ -563,7 +562,7 @@ extension ChatViewModel {
         case .conversation(let conversationId):
             return conversationId == conversation.value.objectId
         case let .productBuyer(productId, productBuyerId):
-            return productId == conversation.value.product?.objectId && productBuyerId == buyerId
+            return productId == conversation.value.listing?.objectId && productBuyerId == buyerId
         }
     }
 
@@ -648,7 +647,11 @@ extension ChatViewModel {
         } else if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.chat(buyer: isBuyer)) {
             delegate?.vmShowPrePermissions(.chat(buyer: isBuyer))
         } else if RatingManager.sharedInstance.shouldShowRating {
-            delegate?.vmAskForRating()
+            delegate?.vmHideKeyboard(true)
+            delay(1.0) { [weak self] in
+                self?.delegate?.vmHideKeyboard(true)
+                self?.navigator?.openAppRating(.chat)
+            }
         }
     }
 
@@ -724,29 +727,29 @@ extension ChatViewModel {
 extension ChatViewModel {
     fileprivate func markProductAsSold() {
         guard conversation.value.amISelling else { return }
-        guard let productId = conversation.value.product?.objectId else { return }
+        guard let listingId = conversation.value.listing?.objectId else { return }
         guard featureFlags.userRatingMarkAsSold else {
-            markProductAsSold(productId: productId, buyerId: nil, userSoldTo: nil)
+            markProductAsSold(listingId: listingId, buyerId: nil, userSoldTo: nil)
             return
         }
         delegate?.vmShowLoading(nil)
-        productRepository.possibleBuyersOf(productId: productId) { [weak self] result in
+        listingRepository.possibleBuyersOf(listingId: listingId) { [weak self] result in
             if let buyers = result.value, !buyers.isEmpty {
                 self?.delegate?.vmHideLoading(nil) {
                     self?.navigator?.selectBuyerToRate(source: .chat, buyers: buyers) { buyerId in
                         let userSoldTo: EventParameterUserSoldTo = buyerId != nil ? .letgoUser : .outsideLetgo
-                        self?.markProductAsSold(productId: productId, buyerId: buyerId, userSoldTo: userSoldTo)
+                        self?.markProductAsSold(listingId: listingId, buyerId: buyerId, userSoldTo: userSoldTo)
                     }
                 }
             } else {
-                self?.markProductAsSold(productId: productId, buyerId: nil, userSoldTo: .noConversations)
+                self?.markProductAsSold(listingId: listingId, buyerId: nil, userSoldTo: .noConversations)
             }
         }
     }
-
-    private func markProductAsSold(productId: String, buyerId: String?, userSoldTo: EventParameterUserSoldTo?) {
+    
+    private func markProductAsSold(listingId: String, buyerId: String?, userSoldTo: EventParameterUserSoldTo?) {
         delegate?.vmShowLoading(nil)
-        productRepository.markProductAsSold(productId, buyerId: nil) { [weak self] result in
+        listingRepository.markAsSold(listingId: listingId, buyerId: nil) { [weak self] result in
             if let _ = result.value {
                 self?.trackMarkAsSold(userSoldTo: userSoldTo)
             }
@@ -1109,17 +1112,17 @@ extension ChatViewModel {
 // MARK: - Second step login
 
 fileprivate extension ChatViewModel {
-    func setupNotLoggedIn(_ product: Product) {
-        guard let productId = product.objectId, let sellerId = product.user.objectId else { return }
-        self.productId = productId
+    func setupNotLoggedIn(_ listing: Listing) {
+        guard let listingId = listing.objectId, let sellerId = listing.user.objectId else { return }
+        self.listingId = listingId
 
         // Configure product + user info
-        title.value = product.title ?? ""
-        productName.value = product.title ?? ""
-        productImageUrl.value = product.thumbnail?.fileURL
-        productPrice.value = product.priceString()
-        interlocutorAvatarURL.value = product.user.avatar?.fileURL
-        interlocutorName.value = product.user.name ?? ""
+        title.value = listing.title ?? ""
+        productName.value = listing.title ?? ""
+        productImageUrl.value = listing.thumbnail?.fileURL
+        productPrice.value = listing.priceString()
+        interlocutorAvatarURL.value = listing.user.avatar?.fileURL
+        interlocutorName.value = listing.user.name ?? ""
         interlocutorId.value = sellerId
 
         // Configure login + send actions
@@ -1141,7 +1144,7 @@ fileprivate extension ChatViewModel {
                     guard let messages = self?.messages.value, messages.isEmpty else { return }
                     self?.sendMessage(type: type)
                 }
-                self?.syncConversation(productId, sellerId: sellerId)
+                self?.syncConversation(listingId, sellerId: sellerId)
             })
         }
     }
@@ -1153,7 +1156,7 @@ fileprivate extension ChatViewModel {
 fileprivate extension ChatViewModel {
     
     func trackFirstMessage(type: ChatWrapperMessageType) {
-        guard let product = conversation.value.product else { return }
+        guard let product = conversation.value.listing else { return }
         guard let userId = conversation.value.interlocutor?.objectId else { return }
 
         let sellerRating = conversation.value.amISelling ?
@@ -1167,7 +1170,7 @@ fileprivate extension ChatViewModel {
     }
 
     func trackMessageSent(type: ChatWrapperMessageType) {
-        guard let product = conversation.value.product else { return }
+        guard let product = conversation.value.listing else { return }
         guard let userId = conversation.value.interlocutor?.objectId else { return }
 
         if shouldTrackFirstMessage {
@@ -1196,7 +1199,7 @@ fileprivate extension ChatViewModel {
     }
 
     func trackMarkAsSold(userSoldTo: EventParameterUserSoldTo?) {
-        guard let product = conversation.value.product else { return }
+        guard let product = conversation.value.listing else { return }
         let markAsSold = TrackerEvent.productMarkAsSold(product, typePage: .chat, soldTo: userSoldTo,
                                                         freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                         isBumpedUp: .notAvailable)
@@ -1210,7 +1213,7 @@ fileprivate extension ChatViewModel {
 fileprivate extension ChatConversation {
     var chatStatus: ChatInfoViewStatus {
         guard let interlocutor = interlocutor else { return .available }
-        guard let product = product else { return .available }
+        guard let listing = listing else { return .available }
 
         switch interlocutor.status {
         case .scammer:
@@ -1226,7 +1229,7 @@ fileprivate extension ChatConversation {
         if interlocutor.isBanned { return .forbidden }
         if interlocutor.isMuted { return .blocked }
         if interlocutor.hasMutedYou { return .blockedBy }
-        switch product.status {
+        switch listing.status {
         case .deleted, .discarded:
             return .productDeleted
         case .sold, .soldOld:
@@ -1320,15 +1323,15 @@ extension ChatViewModel: ChatRelatedProductsViewDelegate {
         tracker.trackEvent(TrackerEvent.chatRelatedItemsStart(relatedShownReason))
     }
 
-    func relatedProductsView(_ view: ChatRelatedProductsView, showProduct product: Product, atIndex index: Int,
-                             productListModels: [ProductCellModel], requester: ProductListRequester,
+    func relatedProductsView(_ view: ChatRelatedProductsView, showListing listing: Listing, atIndex index: Int,
+                             productListModels: [ListingCellModel], requester: ProductListRequester,
                              thumbnailImage: UIImage?, originFrame: CGRect?) {
         let relatedShownReason = EventParameterRelatedShownReason(chatInfoStatus: chatStatus.value)
         tracker.trackEvent(TrackerEvent.chatRelatedItemsComplete(index, shownReason: relatedShownReason))
-        let data = ProductDetailData.productList(product: product, cellModels: productListModels, requester: requester,
+        let data = ListingDetailData.listingList(listing: listing, cellModels: productListModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame,
                                                  showRelated: false, index: 0)
-        navigator?.openProduct(data, source: .chat, showKeyboardOnFirstAppearIfNeeded: false)
+        navigator?.openListing(data, source: .chat, showKeyboardOnFirstAppearIfNeeded: false)
     }
 }
 
@@ -1341,27 +1344,28 @@ extension ChatViewModel {
 
     fileprivate func retrieveRelatedProducts() {
         guard isBuyer else { return }
-        guard let productId = conversation.value.product?.objectId else { return }
-        productRepository.indexRelated(productId: productId, params: RetrieveProductsParams()) {
+        guard let productId = conversation.value.listing?.objectId else { return }
+        listingRepository.indexRelated(listingId: productId, params: RetrieveListingParams()) {
             [weak self] result in
             guard let strongSelf = self else { return }
-            if let value = result.value {
-                strongSelf.relatedProducts = strongSelf.relatedWithoutMyProducts(value)
-                strongSelf.hasRelatedProducts.value = !strongSelf.relatedProducts.isEmpty
+            if let listings = result.value {
+                strongSelf.relatedListings = strongSelf.relatedWithoutMyListings(listings)
+                strongSelf.hasRelatedProducts.value = !strongSelf.relatedListings.isEmpty
             }
         }
     }
 
-    private func relatedWithoutMyProducts(_ products: [Product]) -> [Product] {
-        var cleanRelatedProducts: [Product] = []
-        for product in products {
-            if product.user.objectId != myUserRepository.myUser?.objectId { cleanRelatedProducts.append(product) }
-            if cleanRelatedProducts.count == OldChatViewModel.maxRelatedProductsForExpressChat {
-                return cleanRelatedProducts
+    private func relatedWithoutMyListings(_ listings: [Listing]) -> [Listing] {
+        var cleanRelatedListings: [Listing] = []
+        for listing in listings {
+            if listing.user.objectId != myUserRepository.myUser?.objectId { cleanRelatedListings.append(listing) }
+            if cleanRelatedListings.count == OldChatViewModel.maxRelatedProductsForExpressChat {
+                return cleanRelatedListings
             }
         }
-        return cleanRelatedProducts
+        return cleanRelatedListings
     }
+
 
     // Express Chat Banner methods
 
@@ -1373,9 +1377,9 @@ extension ChatViewModel {
     }
 
     private func expressChatMessageSentForCurrentProduct() -> Bool {
-        guard let productId = conversation.value.product?.objectId else { return false }
+        guard let listingId = conversation.value.listing?.objectId else { return false }
         for productSentId in keyValueStorage.userProductsWithExpressChatMessageSent {
-            if productSentId == productId { return true }
+            if productSentId == listingId { return true }
         }
         return false
     }

@@ -11,7 +11,7 @@ import LGCoreKit
 final class ChatsTabCoordinator: TabCoordinator {
 
     convenience init() {
-        let productRepository = Core.productRepository
+        let listingRepository = Core.listingRepository
         let userRepository = Core.userRepository
         let chatRepository = Core.chatRepository
         let oldChatRepository = Core.oldChatRepository
@@ -23,7 +23,7 @@ final class ChatsTabCoordinator: TabCoordinator {
         let chatGroupedVM = ChatGroupedViewModel()
         let rootViewController = ChatGroupedViewController(viewModel: chatGroupedVM)
         let sessionManager = Core.sessionManager
-        self.init(productRepository: productRepository, userRepository: userRepository,
+        self.init(listingRepository: listingRepository, userRepository: userRepository,
                   chatRepository: chatRepository, oldChatRepository: oldChatRepository,
                   myUserRepository: myUserRepository,
                   bubbleNotificationManager: bubbleNotificationManager,

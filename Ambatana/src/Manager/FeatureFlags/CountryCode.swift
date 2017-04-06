@@ -10,4 +10,11 @@ import Foundation
 
 enum CountryCode: String {
     case turkey = "tr"
+    case usa = "us"
+
+    init?(string: String) {
+        let lowerCasedCode = string.lowercased()
+        guard let countryCode = CountryCode(rawValue: lowerCasedCode) else { return nil }
+        self = countryCode
+    }
 }

@@ -277,6 +277,20 @@ class StringLGSpec: QuickSpec {
                     expect("<b>a vocal is a letter</html>".ignoreHTMLTags) == "a vocal is a letter"
                 }
             }
+            describe("clipMoreThan: wordCount") {
+                it("sentence with more than count returns clipped") {
+                    expect("This is a sentence of seven words".clipMoreThan(wordCount: 4)) == "This is a sentence"
+                }
+                it("sentence with less than count returns string itself") {
+                    expect("This is a sentence of seven words".clipMoreThan(wordCount: 9)) == "This is a sentence of seven words"
+                }
+                it("sentence with equal count returns string itself") {
+                    expect("This is a sentence of seven words".clipMoreThan(wordCount: 7)) == "This is a sentence of seven words"
+                }
+                it("sentence with zero count returns empty") {
+                    expect("This is a sentence of seven words".clipMoreThan(wordCount: 0)) == ""
+                }
+            }
         }
     }
 }

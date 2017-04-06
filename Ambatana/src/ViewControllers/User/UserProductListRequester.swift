@@ -16,33 +16,33 @@ class UserFavoritesProductListRequester: UserProductListRequester {
 
     let itemsPerPage: Int = 0 // Not used, favorites doesn't paginate
     var userObjectId: String? = nil
-    let productRepository: ProductRepository
+    let listingRepository: ListingRepository
     let locationManager: LocationManager
 
     convenience init() {
-        self.init(productRepository: Core.productRepository, locationManager: Core.locationManager)
+        self.init(listingRepository: Core.listingRepository, locationManager: Core.locationManager)
     }
 
-    init(productRepository: ProductRepository, locationManager: LocationManager) {
-        self.productRepository = productRepository
+    init(listingRepository: ListingRepository, locationManager: LocationManager) {
+        self.listingRepository = listingRepository
         self.locationManager = locationManager
     }
 
     func canRetrieve() -> Bool { return true }
     
-    func retrieveFirstPage(_ completion: ProductsCompletion?) {
+    func retrieveFirstPage(_ completion: ListingsCompletion?) {
         productsRetrieval(completion)
     }
     
-    func retrieveNextPage(_ completion: ProductsCompletion?) {
+    func retrieveNextPage(_ completion: ListingsCompletion?) {
         //User favorites doesn't have pagination.
-        completion?(ProductsResult(value: []))
+        completion?(ListingsResult(value: []))
         return
     }
 
-    private func productsRetrieval(_ completion: ProductsCompletion?) {
+    private func productsRetrieval(_ completion: ListingsCompletion?) {
         guard let userId = userObjectId else { return }
-        productRepository.indexFavorites(userId, completion: completion)
+        listingRepository.indexFavorites(userId, completion: completion)
     }
 
     func isLastPage(_ resultCount: Int) -> Bool {
@@ -64,19 +64,19 @@ class UserStatusesProductListRequester: UserProductListRequester {
 
     let itemsPerPage: Int
     var userObjectId: String? = nil
-    private let statuses: [ProductStatus]
-    private let productRepository: ProductRepository
+    private let statuses: [ListingStatus]
+    private let listingRepository: ListingRepository
     private let locationManager: LocationManager
     private var offset: Int = 0
 
-    convenience init(statuses: [ProductStatus], itemsPerPage: Int) {
-        self.init(productRepository: Core.productRepository, locationManager: Core.locationManager, statuses: statuses,
+    convenience init(statuses: [ListingStatus], itemsPerPage: Int) {
+        self.init(listingRepository: Core.listingRepository, locationManager: Core.locationManager, statuses: statuses,
                   itemsPerPage: itemsPerPage)
     }
 
-    init(productRepository: ProductRepository, locationManager: LocationManager, statuses: [ProductStatus],
+    init(listingRepository: ListingRepository, locationManager: LocationManager, statuses: [ListingStatus],
          itemsPerPage: Int) {
-        self.productRepository = productRepository
+        self.listingRepository = listingRepository
         self.locationManager = locationManager
         self.statuses = statuses
         self.itemsPerPage = itemsPerPage
@@ -84,18 +84,18 @@ class UserStatusesProductListRequester: UserProductListRequester {
 
     func canRetrieve() -> Bool { return userObjectId != nil }
 
-    func retrieveFirstPage(_ completion: ProductsCompletion?) {
+    func retrieveFirstPage(_ completion: ListingsCompletion?) {
         offset = 0
         productsRetrieval(completion)
     }
     
-    func retrieveNextPage(_ completion: ProductsCompletion?) {
+    func retrieveNextPage(_ completion: ListingsCompletion?) {
         productsRetrieval(completion)
     }
     
-    private func productsRetrieval(_ completion: ProductsCompletion?) {
+    private func productsRetrieval(_ completion: ListingsCompletion?) {
         guard let userId = userObjectId else { return  }
-        productRepository.index(userId: userId, params: retrieveProductsParams) { [weak self] result in
+        listingRepository.index(userId: userId, params: retrieveProductsParams) { [weak self] result in
             if let products = result.value, !products.isEmpty {
                 self?.offset += products.count
                 //User posted previously -> Store it
@@ -118,8 +118,8 @@ class UserStatusesProductListRequester: UserProductListRequester {
         return r
     }
 
-    private var retrieveProductsParams: RetrieveProductsParams {
-        var params: RetrieveProductsParams = RetrieveProductsParams()
+    private var retrieveProductsParams: RetrieveListingParams {
+        var params: RetrieveListingParams = RetrieveListingParams()
         params.offset = offset
         params.numProducts = itemsPerPage
         if let currentLocation = locationManager.currentLocation {

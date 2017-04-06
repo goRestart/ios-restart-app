@@ -585,6 +585,7 @@ enum EventParameterRatingSource: String {
     case chat = "chat"
     case productSellComplete = "product-sell-complete"
     case markedSold = "marked-sold"
+    case favorite = "favorite"
 }
 
 enum EventParameterProductVisitSource: String {
@@ -768,15 +769,27 @@ struct EventParameters {
             EventParameterProductItemType.dummy.rawValue : EventParameterProductItemType.real.rawValue
         params[.userToId] = product.user.objectId
     }
-    
-    internal mutating func addChatProductParams(_ product: ChatProduct) {
+
+    internal mutating func addListingParams(_ listing: Listing) {
+        params[.productId] = listing.objectId
+        params[.productLatitude] = listing.location.latitude
+        params[.productLongitude] = listing.location.longitude
+        params[.productPrice] = listing.price.value
+        params[.productCurrency] = listing.currency.code
+        params[.categoryId] = listing.category.rawValue
+        params[.productType] = listing.user.isDummy ?
+            EventParameterProductItemType.dummy.rawValue : EventParameterProductItemType.real.rawValue
+        params[.userToId] = listing.user.objectId
+    }
+
+    internal mutating func addChatProductParams(_ product: ChatListing) {
         params[.productId] = product.objectId
         params[.productPrice] = product.price.value
         params[.productCurrency] = product.currency.code
         params[.productType] = EventParameterProductItemType.real.rawValue
     }
     
-    internal mutating func addUserParams(_ user: UserProduct?) {
+    internal mutating func addUserParams(_ user: UserListing?) {
         params[.userToId] = user?.objectId
     }
 

@@ -19,4 +19,12 @@ extension Priceable {
             return priceValue > 0 ? formattedPrice() :  LGLocalizedString.productNegotiablePrice
         }
     }
+
+    func priceString(freeModeAllowed: Bool) -> String {
+        if freeModeAllowed && price.free {
+            return LGLocalizedString.productFreePrice
+        } else {
+            return price.value > 0 ? formattedPrice() :  LGLocalizedString.productNegotiablePrice
+        }
+    }
 }

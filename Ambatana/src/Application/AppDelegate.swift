@@ -31,7 +31,7 @@ final class AppDelegate: UIResponder {
     fileprivate var crashManager: CrashManager?
     fileprivate var keyValueStorage: KeyValueStorage?
 
-    fileprivate var productRepository: ProductRepository?
+    fileprivate var listingRepository: ListingRepository?
     fileprivate var locationManager: LocationManager?
     fileprivate var sessionManager: SessionManager?
     fileprivate var featureFlags: FeatureFlaggeable?
@@ -58,7 +58,7 @@ extension AppDelegate: UIApplicationDelegate {
         self.deepLinksRouter = LGDeepLinksRouter.sharedInstance
         setupAppearance()
         setupLibraries(application, launchOptions: launchOptions)
-        self.productRepository = Core.productRepository
+        self.listingRepository = Core.listingRepository
         self.locationManager = Core.locationManager
         self.sessionManager = Core.sessionManager
         self.configManager = ConfigManager.sharedInstance
@@ -137,7 +137,7 @@ extension AppDelegate: UIApplicationDelegate {
         keyValueStorage?[.didEnterBackground] = true
         appIsActive.value = false
         LGCoreKit.applicationDidEnterBackground()
-        productRepository?.updateProductViewCounts()
+        listingRepository?.updateListingViewCounts()
         TrackerProxy.sharedInstance.applicationDidEnterBackground(application)
 
         // stop observing payment transactions
@@ -254,12 +254,6 @@ fileprivate extension AppDelegate {
             Debug.loggingOptions = [.navigation, .tracking, .deepLink, .monetization]
         #endif
         LGCoreKit.loggingOptions = [.networking, .persistence, .token, .session, .webSockets]
-        
-        if let featureFlags = featureFlags {
-            LGCoreKit.shouldUseChatWithWebSocket = featureFlags.websocketChat
-        }
-
-        LGCoreKit.carsInfoJSONPath = Bundle.main.path(forResource: "CarsInfo", ofType: "json") ?? ""
 
         // Logging
         #if GOD_MODE
@@ -287,7 +281,14 @@ fileprivate extension AppDelegate {
         #endif
 
         // LGCoreKit
-        LGCoreKit.initialize(launchOptions, environmentType: environmentHelper.coreEnvironment)
+        let coreEnvironment = environmentHelper.coreEnvironment
+        let shouldUseWebSocketChat = featureFlags?.websocketChat ?? false
+        let carsInfoJSONPath = Bundle.main.path(forResource: "CarsInfo", ofType: "json") ?? ""
+
+        let coreKitConfig = LGCoreKitConfig(environmentType: coreEnvironment,
+                                            shouldUseChatWithWebSocket: shouldUseWebSocketChat,
+                                            carsInfoAppJSONURL: URL(fileURLWithPath: carsInfoJSONPath))
+        LGCoreKit.initialize(config: coreKitConfig)
 
         // Branch.io
         if let branch = Branch.getInstance() {

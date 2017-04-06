@@ -43,7 +43,7 @@ extension ProductListMultiRequester: ProductListRequester {
         return activeRequester.canRetrieve()
     }
 
-    func retrieveFirstPage(_ completion: ProductsCompletion?) {
+    func retrieveFirstPage(_ completion: ListingsCompletion?) {
         resetInitialData()
         activeRequester?.retrieveFirstPage { [weak self] result in
             self?.updateLastPage(result)
@@ -51,8 +51,8 @@ extension ProductListMultiRequester: ProductListRequester {
         }
     }
 
-    func retrieveNextPage(_ completion: ProductsCompletion?) {
-        let completionBlock: ProductsCompletion = { [weak self] result in
+    func retrieveNextPage(_ completion: ListingsCompletion?) {
+        let completionBlock: ListingsCompletion = { [weak self] result in
             self?.updateLastPage(result)
             completion?(result)
         }
@@ -87,7 +87,7 @@ extension ProductListMultiRequester: ProductListRequester {
         multiIsLastPage = false
     }
 
-    private func updateLastPage(_ result: ProductsResult) {
+    private func updateLastPage(_ result: ListingsResult) {
         guard let activeRequester = activeRequester else {
             // if we don't have an active requester, is last page
             multiIsLastPage = true
