@@ -277,8 +277,8 @@
 "edit_product_send_ok" = "Félicitations ! Votre produit a été mis à jour. Il apparaîtra sous peu dans les annonces.";
 "edit_product_suggesting_title" = "Suggestion de titre...";
 "edit_product_title" = "Modifier le Produit";
-"edit_product_unsaved_changes_alert" = "Êtes-vous certain de vouloir annuler ces changements ?";
-"edit_product_unsaved_changes_alert_ok" = "Annuler";
+"edit_product_unsaved_changes_alert" = "Êtes-vous certain de vouloir quitter la page ? Tous les changements seront perdus.";
+"edit_product_unsaved_changes_alert_ok" = "Quitter";
 "filters_distance_not_set" = "non configuré";
 "filters_navbar_reset" = "Réinitialiser";
 "filters_price_from" = "De";

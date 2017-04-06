@@ -190,10 +190,6 @@ struct LGLocalizedString {
 	static var categoriesOther: String {
 		return NSLocalizedString("categories_other", comment: "")
 	}
-    
-    static var categoriesCar: String {
-        return NSLocalizedString("categories_car", comment: "")
-    }
 
 	static var categoriesSportsLeisureAndGames: String {
 		return NSLocalizedString("categories_sports_leisure_and_games", comment: "")
@@ -205,6 +201,10 @@ struct LGLocalizedString {
 
 	static var categoriesUnassigned: String {
 		return NSLocalizedString("categories_unassigned", comment: "")
+	}
+
+	static var categoriesCar: String {
+		return NSLocalizedString("categories_car", comment: "")
 	}
 
 	static var changeLocationApplyButton: String {

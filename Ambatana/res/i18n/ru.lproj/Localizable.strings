@@ -277,8 +277,8 @@
 "edit_product_send_ok" = "Поздравляем! Ваш товар обновлен. В скором времени он появится в списке.";
 "edit_product_suggesting_title" = "Предлагаемый заголовок...";
 "edit_product_title" = "Редактировать товар";
-"edit_product_unsaved_changes_alert" = "Вы точно хотите отменить эти изменения?";
-"edit_product_unsaved_changes_alert_ok" = "Отменить";
+"edit_product_unsaved_changes_alert" = "Вы точно не хотите сохранять эти изменения?";
+"edit_product_unsaved_changes_alert_ok" = "Не сохранять";
 "filters_distance_not_set" = "не установлен";
 "filters_navbar_reset" = "Сброс";
 "filters_price_from" = "От";
