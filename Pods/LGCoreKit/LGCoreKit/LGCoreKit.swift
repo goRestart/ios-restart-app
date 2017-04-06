@@ -33,7 +33,7 @@ public class LGCoreKit {
 
     public static func start() {
         guard let userId = InternalCore.myUserRepository.myUser?.objectId else { return }
-        InternalCore.productRepository.indexFavorites(userId, completion: nil)
+        InternalCore.listingRepository.indexFavorites(userId, completion: nil)
         InternalCore.stickersRepository.show(nil) // Sync stickers to UserDefaults
     }
     
@@ -52,7 +52,7 @@ public class LGCoreKit {
             completion?()
             return
         }
-        InternalCore.productRepository.indexFavorites(userId) { _ in
+        InternalCore.listingRepository.indexFavorites(userId) { _ in
             completion?()
         }
     }

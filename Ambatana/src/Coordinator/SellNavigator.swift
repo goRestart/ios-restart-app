@@ -11,9 +11,10 @@ import Foundation
 
 protocol PostProductNavigator: class {
     func cancelPostProduct()
-    func closePostProductAndPostInBackground(_ product: Product, images: [File], showConfirmation: Bool,
+    func closePostProductAndPostInBackground(params: ProductCreationParams, showConfirmation: Bool,
                                              trackingInfo: PostProductTrackingInfo)
-    func closePostProductAndPostLater(_ product: Product, images: [UIImage], trackingInfo: PostProductTrackingInfo)
+    func closePostProductAndPostLater(params: ProductCreationParams, images: [UIImage],
+                                      trackingInfo: PostProductTrackingInfo)
     func openLoginIfNeededFromProductPosted(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void))
 }
 

@@ -1,5 +1,5 @@
 //
-//  ProductTimeCriteria+LG.swift
+//  ListingTimeCriteria+LG.swift
 //  LetGo
 //
 //  Created by Eli Kohen on 23/11/15.
@@ -8,8 +8,8 @@
 
 import LGCoreKit
 
-extension ProductTimeCriteria {
-    static var defaultOption : ProductTimeCriteria {
+extension ListingTimeCriteria {
+    static var defaultOption : ListingTimeCriteria {
         return .all
     }
     
@@ -26,6 +26,6 @@ extension ProductTimeCriteria {
         }
     }
     
-    static func allValues() -> [ProductTimeCriteria] { return [.day, .week, .month, .all] }
+    static func allValues() -> [ListingTimeCriteria] { return [.day, .week, .month, .all] }
 
 }

@@ -19,7 +19,7 @@ open class MockOldChatRepository: OldChatRepository {
 
     public func newChatWithProduct(_ product: Product) -> Chat? {
         var chat = MockChat.makeMock()
-        chat.product = product
+        chat.listing = Listing.product(product)
         return chat
     }
 
@@ -64,6 +64,13 @@ open class MockOldChatRepository: OldChatRepository {
         delay(result: sendMsgResult, completion: completion)
     }
 
+    public func sendText(_ message: String,
+                  listingId: String,
+                  recipientId: String,
+                  completion: MessageCompletion?) {
+        delay(result: sendMsgResult, completion: completion)
+    }
+
     public func sendOffer(_ message: String,
                           product: Product,
                           recipient: User,
@@ -71,10 +78,24 @@ open class MockOldChatRepository: OldChatRepository {
         delay(result: sendMsgResult, completion: completion)
     }
 
+    public func sendOffer(_ message: String,
+                   listingId: String,
+                   recipientId: String,
+                   completion: MessageCompletion?) {
+        delay(result: sendMsgResult, completion: completion)
+    }
+
     public func sendSticker(_ sticker: Sticker,
                             product: Product,
                             recipient: User,
                             completion: MessageCompletion?) {
+        delay(result: sendMsgResult, completion: completion)
+    }
+
+    public func sendSticker(_ sticker: Sticker,
+                     listingId: String,
+                     recipientId: String,
+                     completion: MessageCompletion?) {
         delay(result: sendMsgResult, completion: completion)
     }
 
@@ -88,11 +109,8 @@ open class MockOldChatRepository: OldChatRepository {
         delay(result: archiveResult, completion: completion)
     }
 
-    public func sendMessage(_ messageType: MessageType,
-                            message: String,
-                            product: Product,
-                            recipient: User,
-                            completion: MessageCompletion?) {
+    public func sendMessage(_ messageType: MessageType, message: String, listingId: String, recipientId: String,
+                     completion: MessageCompletion?) {
         delay(result: sendMsgResult, completion: completion)
     }
 }

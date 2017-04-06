@@ -78,15 +78,15 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
 
         var otherUser: User?
         if let myUserId = myUser.objectId, let userFromId = chat.userFrom.objectId, let _ = chat.userTo.objectId {
-            otherUser = (myUserId == userFromId) ? LocalUser(userProduct: chat.userTo) : LocalUser(userProduct: chat.userFrom)
+            otherUser = (myUserId == userFromId) ? LocalUser(userListing: chat.userTo) : LocalUser(userListing: chat.userFrom)
         }
 
         return ConversationCellData(status: chat.conversationCellStatus(otherUser),
                                     userName: otherUser?.name ?? "",
                                     userImageUrl: otherUser?.avatar?.fileURL,
                                     userImagePlaceholder: LetgoAvatar.avatarWithID(otherUser?.objectId, name: otherUser?.name),
-                                    productName: chat.product.title ?? "",
-                                    productImageUrl: chat.product.thumbnail?.fileURL,
+                                    productName: chat.listing.title ?? "",
+                                    productImageUrl: chat.listing.thumbnail?.fileURL,
                                     unreadCount: chat.msgUnreadCount,
                                     messageDate: chat.updatedAt)
     }

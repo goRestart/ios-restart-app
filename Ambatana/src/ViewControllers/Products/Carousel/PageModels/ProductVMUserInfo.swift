@@ -15,20 +15,20 @@ struct ProductVMUserInfo {
     let avatar: URL?
     let avatarPlaceholder: UIImage?
 
-    init(userProduct: UserProduct, myUser: MyUser?) {
-        let ownerId = userProduct.objectId
+    init(userListing: UserListing, myUser: MyUser?) {
+        let ownerId = userListing.objectId
         self.userId = ownerId
         let ownerIsMyUser: Bool
-        if let productUserId = userProduct.objectId, let myUser = myUser, let myUserId = myUser.objectId {
+        if let productUserId = userListing.objectId, let myUser = myUser, let myUserId = myUser.objectId {
             ownerIsMyUser = (productUserId == myUserId )
         } else {
             ownerIsMyUser = false
         }
         let myUsername = myUser?.shortName
-        let ownerUsername = userProduct.shortName
+        let ownerUsername = userListing.shortName
         self.name = ownerIsMyUser ? (myUsername ?? ownerUsername ?? "") : (ownerUsername ?? "")
         let myAvatarURL = myUser?.avatar?.fileURL
-        let ownerAvatarURL = userProduct.avatar?.fileURL
+        let ownerAvatarURL = userListing.avatar?.fileURL
         self.avatar = ownerIsMyUser ? (myAvatarURL ?? ownerAvatarURL) : ownerAvatarURL
 
         if ownerIsMyUser {

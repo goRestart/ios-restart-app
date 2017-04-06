@@ -37,7 +37,8 @@
 "bump_up_view_pay_subtitle" = "Hanki tuotteellesi enemmän näkyvyyttä 24 tunnin ajaksi siirtämällä se listan kärkeen.";
 "bump_up_view_pay_title" = "NOSTA MYYDÄKSESI NOPEAMMIN";
 "categories_baby_and_child" = "Vauvat ja lapset";
-"categories_cars_and_motors" = "Autot ja muut ajoneuvot";
+"categories_car" = "Cars";
+"categories_cars_and_motors" = "Motors and Accesories";
 "categories_electronics" = "Elektroniikka";
 "categories_fashion_and_accessories" = "Muoti ja asusteet";
 "categories_free" = "Ilmaiset";

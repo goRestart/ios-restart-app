@@ -28,7 +28,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
         var conversation: MockChatConversation!
         var myUserRepository: MockMyUserRepository!
         var chatRepository: MockChatRepository!
-        var productRepository: MockProductRepository!
+        var listingRepository: MockListingRepository!
         var userRepository: MockUserRepository!
         var stickersRepository: MockStickersRepository!
         var tracker: MockTracker!
@@ -54,7 +54,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
         var scheduler: TestScheduler!
         var disposeBag: DisposeBag!
         var messages: TestableObserver<[ChatViewMessage]>!
-        var relatedProductsStateObserver: TestableObserver<ChatRelatedItemsState>!
+        var relatedListingsStateObserver: TestableObserver<ChatRelatedItemsState>!
         
         describe("ChatViewModelSpec") {
             
@@ -75,9 +75,19 @@ class ChatViewModelSpec: BaseViewModelSpec {
                 chatRepository.indexMessagesResult = ChatMessagesResult(value: chatMessages)
                 chatRepository.chatStatusPublishSubject.onNext(.openAuthenticated)
                 
-                productRepository = MockProductRepository.makeMock()
-                productRepository.productResult = ProductResult(value: product)
-                productRepository.indexResult = ProductsResult(value: MockProduct.makeMocks(count: 4)) // related products
+                listingRepository = MockListingRepository.makeMock()
+                listingRepository.productResult = ProductResult(value: product)
+            
+                let productA = Listing.product(MockProduct.makeMock())
+                let productB = Listing.product(MockProduct.makeMock())
+                let productC = Listing.product(MockProduct.makeMock())
+                let productD = Listing.product(MockProduct.makeMock())
+                var listingsRelated = [productA]
+                listingsRelated.append(productB)
+                listingsRelated.append(productC)
+                listingsRelated.append(productD)
+                
+                listingRepository.indexResult = ListingsResult(value: listingsRelated)
                 
                 chatRepository.showConversationResult = ChatConversationResult(value: chatConversation)
                 chatRepository.commandResult = ChatCommandResult(value: Void())
@@ -91,7 +101,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                 userRepository.emptyResult = UserVoidResult(value: Void())
                 
                 sut = ChatViewModel(conversation: conversation, myUserRepository: myUserRepository,
-                                    chatRepository: chatRepository, productRepository: productRepository,
+                                    chatRepository: chatRepository, listingRepository: listingRepository,
                                     userRepository: userRepository, stickersRepository: stickersRepository,
                                     tracker: tracker, configManager: configManager, sessionManager: sessionManager,
                                     keyValueStorage: keyValueStorage, navigator: nil, featureFlags: featureFlags,
@@ -100,7 +110,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                 sut.delegate = self
                 disposeBag = DisposeBag()
                 sut.messages.observable.bindTo(messages).addDisposableTo(disposeBag)
-                sut.relatedProductsState.asObservable().bindTo(relatedProductsStateObserver).addDisposableTo(disposeBag)
+                sut.relatedProductsState.asObservable().bindTo(relatedListingsStateObserver).addDisposableTo(disposeBag)
             }
             
             
@@ -111,7 +121,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                 conversation = MockChatConversation.makeMock()
                 myUserRepository = MockMyUserRepository()
                 chatRepository = MockChatRepository()
-                productRepository = MockProductRepository()
+                listingRepository = MockListingRepository()
                 userRepository = MockUserRepository()
                 stickersRepository  = MockStickersRepository.makeMock()
                 tracker = MockTracker()
@@ -126,7 +136,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                 scheduler = TestScheduler(initialClock: 0)
                 scheduler.start()
                 messages = scheduler.createObserver(Array<ChatViewMessage>.self)
-                relatedProductsStateObserver = scheduler.createObserver(ChatRelatedItemsState.self)
+                relatedListingsStateObserver = scheduler.createObserver(ChatRelatedItemsState.self)
                 
             }
             afterEach {
@@ -160,17 +170,17 @@ class ChatViewModelSpec: BaseViewModelSpec {
                             self.waitFor(timeout: 1)
                         }
                         it ("does not have related products") {
-                            expect(sut.relatedProducts.count).toEventually(equal(0))
+                            expect(sut.relatedListings.count).toEventually(equal(0))
                         }
                         it("related products states has only one value") {
-                            expect(relatedProductsStateObserver.eventValues.count).toEventually(equal(1))
+                            expect(relatedListingsStateObserver.eventValues.count).toEventually(equal(1))
                         }
                         it("related products state is hidden") {
-                            expect(relatedProductsStateObserver.eventValues) == [.hidden]
+                            expect(relatedListingsStateObserver.eventValues) == [.hidden]
                         }
                     }
                     context("being a buyer") {
-                        var productId: String!
+                        var listingId: String!
                         beforeEach {
                             chatConversation = self.makeChatConversation(with: chatInterlocutor, unreadMessageCount: 0, lastMessageSentAt: nil, amISelling: false)
                             buildChatViewModel(myUser: mockMyUser,
@@ -180,14 +190,14 @@ class ChatViewModelSpec: BaseViewModelSpec {
                                                chatConversation: chatConversation,
                                                user: user)
                             sut.active = true
-                            expect(relatedProductsStateObserver.eventValues.count).toEventually(equal(1))
+                            expect(relatedListingsStateObserver.eventValues.count).toEventually(equal(1))
                         }
                         it ("has related products") {
-                            expect(sut.relatedProducts.count).toEventually(equal(4))
+                            expect(sut.relatedListings.count).toEventually(equal(4))
                         }
                         it("related products state is visible") {
-                            productId = chatConversation.product?.objectId
-                            expect(relatedProductsStateObserver.eventValues) == [.visible(productId: productId)]
+                            listingId = chatConversation.listing?.objectId
+                            expect(relatedListingsStateObserver.eventValues) == [.visible(listingId: listingId)]
                         }
                     }
                 }
@@ -485,7 +495,7 @@ extension ChatViewModelSpec {
         return myUser
     }
     
-    func makeMockProduct(with status: ProductStatus) -> MockProduct {
+    func makeMockProduct(with status: ListingStatus) -> MockProduct {
         var productResult = MockProduct.makeMock()
         productResult.status = status
         return productResult

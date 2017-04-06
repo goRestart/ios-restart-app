@@ -98,9 +98,12 @@ class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
 
 
     // Tab navigator
+    func openHome() {}
     func openSell(_ source: PostingSource) {}
+    func openAppRating(_ source: EventParameterRatingSource) {}
+    func openUserRating(_ source: RateUserSource, data: RateUserData) {}
     func openUser(_ data: UserDetailData) {}
-    func openProduct(_ data: ProductDetailData, source: EventParameterProductVisitSource,
+    func openListing(_ data: ListingDetailData, source: EventParameterProductVisitSource,
                      showKeyboardOnFirstAppearIfNeeded: Bool) {}
     func openChat(_ data: ChatDetailData, source: EventParameterTypePage) {}
     func openVerifyAccounts(_ types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?) {}

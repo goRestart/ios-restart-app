@@ -28,8 +28,8 @@ final class ExpressChatCoordinator: Coordinator {
     
     // MARK: - Lifecycle
 
-    convenience init?(products: [Product], sourceProductId: String, manualOpen: Bool) {
-        self.init(products: products,
+    convenience init?(listings: [Listing], sourceProductId: String, manualOpen: Bool) {
+        self.init(listings: listings,
                   sourceProductId: sourceProductId,
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
@@ -37,13 +37,13 @@ final class ExpressChatCoordinator: Coordinator {
                   sessionManager: Core.sessionManager)
     }
 
-    init?(products: [Product],
+    init?(listings: [Listing],
           sourceProductId: String,
           keyValueStorage: KeyValueStorage,
           bubbleNotificationManager: BubbleNotificationManager,
           manualOpen: Bool,
           sessionManager: SessionManager) {
-        let vm = ExpressChatViewModel(productList: products, sourceProductId: sourceProductId, manualOpen: manualOpen)
+        let vm = ExpressChatViewModel(listings: listings, sourceProductId: sourceProductId, manualOpen: manualOpen)
         let vc = ExpressChatViewController(viewModel: vm)
         self.viewController = vc
         self.bubbleNotificationManager = bubbleNotificationManager

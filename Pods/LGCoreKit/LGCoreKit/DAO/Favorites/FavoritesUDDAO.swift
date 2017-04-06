@@ -25,7 +25,7 @@ final class FavoritesUDDAO: FavoritesDAO {
     
     // MARK: - FavoritesDAO
     
-    /// Computed variable to access the favorited product IDs
+    /// Computed variable to access the favorited listing IDs
     /// Internally the cache is saved in a Set, but this var will return an Array
     var favorites: [String] {
         return Array(favoritesSet)
@@ -35,23 +35,23 @@ final class FavoritesUDDAO: FavoritesDAO {
     // MARK: - Public methods
     
     /**
-    Save the given products as Favorited. Will be saved in the DAO cache and in UserDefaults
+    Save the given listings as Favorited. Will be saved in the DAO cache and in UserDefaults
     
-    - parameter productIDs: Products IDs favorited
+    - parameter listingIds: Listings IDs favorited
     */
-    func save(productIds: [String]) {
-        favoritesSet = favoritesSet.union(Set(productIds))
+    func save(listingIds: [String]) {
+        favoritesSet = favoritesSet.union(Set(listingIds))
         sync()
     }
     
     /**
-    Remove the given product from Favorites. Will be updated in the DAO cache and in UserDefaults
+    Remove the given listing from Favorites. Will be updated in the DAO cache and in UserDefaults
     
-    - parameter productId: Product ID no longer favorited.
+    - parameter listingId: Listing ID no longer favorited.
     */
     
-    func remove(productId: String) {
-        favoritesSet.remove(productId)
+    func remove(listingId: String) {
+        favoritesSet.remove(listingId)
         sync()
     }
     
@@ -73,7 +73,7 @@ final class FavoritesUDDAO: FavoritesDAO {
     /**
     Return the favorites stored in UserDefaults
     
-    - returns: Set of Product IDs
+    - returns: Set of Listing IDs
     */
     private func fetch() -> Set<String> {
         guard let array = userDefaults.array(forKey: FavoritesUDDAO.FavoritesKey) else { return Set<String>() }

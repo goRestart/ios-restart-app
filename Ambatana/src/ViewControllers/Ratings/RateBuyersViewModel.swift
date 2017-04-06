@@ -13,9 +13,9 @@ class RateBuyersViewModel: BaseViewModel {
 
     weak var navigator: RateBuyersNavigator?
 
-    let possibleBuyers: [UserProduct]
+    let possibleBuyers: [UserListing]
 
-    init(buyers: [UserProduct]) {
+    init(buyers: [UserListing]) {
         self.possibleBuyers = buyers
     }
 
@@ -52,7 +52,7 @@ class RateBuyersViewModel: BaseViewModel {
         return buyer.name
     }
 
-    private func buyerAt(index: Int) -> UserProduct? {
+    private func buyerAt(index: Int) -> UserListing? {
         guard 0..<possibleBuyers.count ~= index else { return nil }
         return possibleBuyers[index]
     }

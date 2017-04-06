@@ -51,7 +51,7 @@ extension LGChatMessage: Decodable {
             <*> j <|| JSONKeys.warnings
 
         if let error = init1.error {
-            logMessage(.error, type: .parsing, message: "LGChatProduct parse error: \(error)")
+            logMessage(.error, type: .parsing, message: "LGChatListing parse error: \(error)")
         }
         return init1
     }

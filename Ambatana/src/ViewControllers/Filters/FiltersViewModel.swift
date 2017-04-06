@@ -11,10 +11,10 @@ import LGCoreKit
 import RxSwift
 
 enum FilterCategoryItem: Equatable {
-    case category(category: ProductCategory)
+    case category(category: ListingCategory)
     case free
 
-    init(category: ProductCategory) {
+    init(category: ListingCategory) {
         self = .category(category: category)
     }
 
@@ -122,13 +122,13 @@ class FiltersViewModel: BaseViewModel {
     var numOfWithinTimes : Int {
         return self.withinTimes.count
     }
-    private var withinTimes : [ProductTimeCriteria]
+    private var withinTimes : [ListingTimeCriteria]
     
     //SortOptions vars
     var numOfSortOptions : Int {
         return self.sortOptions.count
     }
-    private var sortOptions : [ProductSortCriteria]
+    private var sortOptions : [ListingSortCriteria]
 
     private var minPrice: Int? {
         return productFilter.priceRange.min
@@ -156,12 +156,12 @@ class FiltersViewModel: BaseViewModel {
     
     convenience init(currentFilters: ProductFilters) {
         self.init(categoryRepository: Core.categoryRepository, categories: [],
-            withinTimes: ProductTimeCriteria.allValues(), sortOptions: ProductSortCriteria.allValues(),
+            withinTimes: ListingTimeCriteria.allValues(), sortOptions: ListingSortCriteria.allValues(),
             currentFilters: currentFilters, featureFlags: FeatureFlags.sharedInstance)
     }
     
     required init(categoryRepository: CategoryRepository, categories: [FilterCategoryItem],
-                  withinTimes: [ProductTimeCriteria], sortOptions: [ProductSortCriteria], currentFilters: ProductFilters,
+                  withinTimes: [ListingTimeCriteria], sortOptions: [ListingSortCriteria], currentFilters: ProductFilters,
         featureFlags: FeatureFlaggeable) {
         self.categoryRepository = categoryRepository
         self.categories = categories
@@ -234,7 +234,7 @@ class FiltersViewModel: BaseViewModel {
         }
     }
 
-    private func buildFilterCategoryItemsWithCategories(_ categories: [ProductCategory]) -> [FilterCategoryItem] {
+    private func buildFilterCategoryItemsWithCategories(_ categories: [ListingCategory]) -> [FilterCategoryItem] {
         let filterCatItems: [FilterCategoryItem] = featureFlags.freePostingModeAllowed ? [.free] : []
         let builtCategories = categories.map { FilterCategoryItem(category: $0) }
         return filterCatItems + builtCategories

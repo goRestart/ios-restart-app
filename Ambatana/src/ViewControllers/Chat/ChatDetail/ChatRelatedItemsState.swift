@@ -8,7 +8,7 @@
 
 enum ChatRelatedItemsState: Equatable {
     case loading
-    case visible(productId: String)
+    case visible(listingId: String)
     case hidden
     
     var isVisible: Bool {
@@ -23,7 +23,7 @@ enum ChatRelatedItemsState: Equatable {
 
 func ==(a: ChatRelatedItemsState, b: ChatRelatedItemsState) -> Bool {
     switch (a, b) {
-    case (.visible(let prodA), .visible(let prodB)) where prodA == prodB: return true
+    case (.visible(let listingA), .visible(let listingB)) where listingA == listingB: return true
     case (.hidden, .hidden): return true
     case (.loading, .loading): return true
     default: return false

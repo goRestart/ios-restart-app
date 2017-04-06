@@ -56,8 +56,10 @@ class PostProductViewModel: BaseViewModel {
     let postProductCameraViewModel: PostProductCameraViewModel
     let postingSource: PostingSource
     
-    fileprivate let productRepository: ProductRepository
+    fileprivate let listingRepository: ListingRepository
     fileprivate let fileRepository: FileRepository
+    fileprivate let locationManager: LocationManager
+    fileprivate let currencyHelper: CurrencyHelper
     fileprivate let tracker: Tracker
     private var imagesSelected: [UIImage]?
     fileprivate var pendingToUploadImages: [UIImage]?
@@ -68,21 +70,29 @@ class PostProductViewModel: BaseViewModel {
     // MARK: - Lifecycle
 
     convenience init(source: PostingSource) {
-        let productRepository = Core.productRepository
-        let fileRepository = Core.fileRepository
-        let tracker = TrackerProxy.sharedInstance
-        let sessionManager = Core.sessionManager
-        self.init(source: source, productRepository: productRepository, fileRepository: fileRepository,
-                  tracker: tracker, sessionManager: sessionManager)
+        self.init(source: source,
+                  listingRepository: Core.listingRepository,
+                  fileRepository: Core.fileRepository,
+                  locationManager: Core.locationManager,
+                  currencyHelper: Core.currencyHelper,
+                  tracker: TrackerProxy.sharedInstance,
+                  sessionManager: Core.sessionManager)
     }
 
-    init(source: PostingSource, productRepository: ProductRepository, fileRepository: FileRepository,
-         tracker: Tracker, sessionManager: SessionManager) {
+    init(source: PostingSource,
+         listingRepository: ListingRepository,
+         fileRepository: FileRepository,
+         locationManager: LocationManager,
+         currencyHelper: CurrencyHelper,
+         tracker: Tracker,
+         sessionManager: SessionManager) {
         self.postingSource = source
-        self.productRepository = productRepository
+        self.listingRepository = listingRepository
         self.fileRepository = fileRepository
         self.postDetailViewModel = PostProductDetailViewModel()
         self.postProductCameraViewModel = PostProductCameraViewModel(postingSource: source)
+        self.locationManager = locationManager
+        self.currencyHelper = currencyHelper
         self.tracker = tracker
         self.sessionManager = sessionManager
         super.init()
@@ -136,14 +146,13 @@ class PostProductViewModel: BaseViewModel {
         if pendingToUploadImages != nil {
             openPostAbandonAlertNotLoggedIn()
         } else {
-            guard let product = buildProduct(isFreePosting: false), let images = uploadedImages else {
+            guard let images = uploadedImages, let params = makeProductCreationParams(images: images) else {
                 navigator?.cancelPostProduct()
                 return
             }
             let trackingInfo = PostProductTrackingInfo(buttonName: .close, sellButtonPosition: postingSource.sellButtonPosition,
                                                        imageSource: uploadedImageSource, price: nil)
-            navigator?.closePostProductAndPostInBackground(product, images: images, showConfirmation: false,
-                                                           trackingInfo: trackingInfo)
+            navigator?.closePostProductAndPostInBackground(params: params, showConfirmation: false, trackingInfo: trackingInfo)
         }
     }
 }
@@ -177,24 +186,33 @@ fileprivate extension PostProductViewModel {
         let trackingInfo = PostProductTrackingInfo(buttonName: .done, sellButtonPosition: postingSource.sellButtonPosition,
                                                    imageSource: uploadedImageSource, price: postDetailViewModel.price.value)
         if sessionManager.loggedIn {
-            guard let product = buildProduct(isFreePosting: false), let images = uploadedImages else { return }
-            navigator?.closePostProductAndPostInBackground(product, images: images, showConfirmation: true,
-                                                           trackingInfo: trackingInfo)
+            guard let images = uploadedImages, let params = makeProductCreationParams(images: images) else { return }
+            navigator?.closePostProductAndPostInBackground(params: params, showConfirmation: true, trackingInfo: trackingInfo)
         } else if let images = pendingToUploadImages {
             navigator?.openLoginIfNeededFromProductPosted(from: .sell, loggedInAction: { [weak self] in
-                guard let product = self?.buildProduct(isFreePosting: false) else { return }
-                self?.navigator?.closePostProductAndPostLater(product, images: images, trackingInfo: trackingInfo)
+                guard let params = self?.makeProductCreationParams(images: []) else { return }
+                self?.navigator?.closePostProductAndPostLater(params: params, images: images, trackingInfo: trackingInfo)
             })
         } else {
             navigator?.cancelPostProduct()
         }
     }
 
-    func buildProduct(isFreePosting: Bool) -> Product? {
-        let price = isFreePosting ? ProductPrice.free : postDetailViewModel.productPrice
+    func makeProductCreationParams(images: [File]) -> ProductCreationParams? {
+        guard let location = locationManager.currentLocation?.location else { return nil }
+        let price = postDetailViewModel.productPrice
         let title = postDetailViewModel.productTitle
         let description = postDetailViewModel.productDescription
-        return productRepository.buildNewProduct(title, description: description, price: price, category: .unassigned)
+        let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()
+        let currency = currencyHelper.currencyWithCountryCode(postalAddress.countryCode ?? "US")
+        return ProductCreationParams(name: title,
+                                     description: description,
+                                     price: price,
+                                     category: .unassigned,
+                                     currency: currency,
+                                     location: location,
+                                     postalAddress: postalAddress,
+                                     images: images)
     }
 }
 

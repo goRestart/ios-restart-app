@@ -72,8 +72,8 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
                                     userImageUrl: conversation.interlocutor?.avatar?.fileURL,
                                     userImagePlaceholder: LetgoAvatar.avatarWithID(conversation.interlocutor?.objectId,
                                         name: conversation.interlocutor?.name),
-                                    productName: conversation.product?.name ?? "",
-                                    productImageUrl: conversation.product?.image?.fileURL,
+                                    productName: conversation.listing?.name ?? "",
+                                    productImageUrl: conversation.listing?.image?.fileURL,
                                     unreadCount: conversation.unreadMessageCount,
                                     messageDate: conversation.lastMessageSentAt)
     }
@@ -168,7 +168,7 @@ fileprivate extension ChatsType {
 
 fileprivate extension ChatConversation {
     var conversationCellStatus: ConversationCellStatus {
-        guard let product = product, let interlocutor = interlocutor else { return .userDeleted }
+        guard let listing = listing, let interlocutor = interlocutor else { return .userDeleted }
         if interlocutor.isBanned { return .forbidden }
 
         switch interlocutor.status {
@@ -189,7 +189,7 @@ fileprivate extension ChatConversation {
             return .blockedByUser
         }
 
-        switch product.status {
+        switch listing.status {
         case .deleted, .discarded:
             return .productDeleted
         case .sold, .soldOld:

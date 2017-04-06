@@ -375,17 +375,6 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
     dynamic private func optionsBtnPressed() {
         viewModel.optionsBtnPressed()
     }
-    
-    // MARK: > Rating
-    
-    fileprivate func askForRating() {
-        let delay = Int64(1.0 * Double(NSEC_PER_SEC))
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(delay) / Double(NSEC_PER_SEC)) { [weak self] in
-            self?.showKeyboard(false, animated: true)
-            guard let tabBarCtrl = self?.tabBarController as? TabBarController else { return }
-            tabBarCtrl.showAppRatingViewIfNeeded(.chat)
-        }
-    }
 }
 
 
@@ -471,11 +460,7 @@ extension OldChatViewController: OldChatViewModelDelegate {
         let vc = ReportUsersViewController(viewModel: reportUserViewModel)
         self.navigationController?.pushViewController(vc, animated: true)
     }
-
-    func vmShowUserRating(_ source: RateUserSource, data: RateUserData) {
-        guard let tabBarController = self.tabBarController as? TabBarController else { return }
-        tabBarController.openUserRating(source, data: data)
-    }
+    
 
     // MARK: > Info views
     
@@ -492,11 +477,6 @@ extension OldChatViewController: OldChatViewModelDelegate {
     
     func vmShowSafetyTips() {
         showSafetyTips()
-    }
-    
-    func vmAskForRating() {
-        showKeyboard(false, animated: true)
-        askForRating()
     }
     
     func vmShowPrePermissions(_ type: PrePermissionType) {

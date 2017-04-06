@@ -16,7 +16,7 @@ class MockProductListRequester: ProductListRequester {
     var itemsPerPage: Int
     var offset: Int
     var canRetrieveItems: Bool
-    var requesterResult: ProductsResult?
+    var requesterResult: ListingsResult?
     var items: [Product] = []
 
     init(canRetrieve: Bool, offset: Int, pageSize: Int) {
@@ -35,27 +35,27 @@ class MockProductListRequester: ProductListRequester {
         return canRetrieveItems
     }
 
-    func retrieveFirstPage(_ completion: ProductsCompletion?) {
-        var firstPageItems: [Product] = []
+    func retrieveFirstPage(_ completion: ListingsCompletion?) {
+        var firstPageItems: [Listing] = []
         for i in offset..<offset+itemsPerPage {
             if i < items.count {
-                firstPageItems.append(items[i])
+                firstPageItems.append(.product(items[i]))
             }
         }
         offset = offset + itemsPerPage
-        requesterResult = Result(value: firstPageItems)
+        requesterResult = ListingsResult(value: firstPageItems)
         performAfterDelayWithCompletion(completion)
     }
 
-    func retrieveNextPage(_ completion: ProductsCompletion?) {
-        var nextPageItems: [Product] = []
+    func retrieveNextPage(_ completion: ListingsCompletion?) {
+        var nextPageItems: [Listing] = []
         for i in offset..<offset+itemsPerPage {
             if i < items.count {
-                nextPageItems.append(items[i])
+                nextPageItems.append(.product(items[i]))
             }
         }
         offset = offset + itemsPerPage
-        requesterResult = Result(value: nextPageItems)
+        requesterResult = ListingsResult(value: nextPageItems)
         performAfterDelayWithCompletion(completion)
     }
 
@@ -71,7 +71,7 @@ class MockProductListRequester: ProductListRequester {
         return self
     }
 
-    fileprivate func performAfterDelayWithCompletion(_ completion: ProductsCompletion?) {
+    fileprivate func performAfterDelayWithCompletion(_ completion: ListingsCompletion?) {
         let delay = DispatchTime.now() + Double(Int64(0.05 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
         DispatchQueue.main.asyncAfter(deadline: delay) {
             completion?(self.requesterResult!)
