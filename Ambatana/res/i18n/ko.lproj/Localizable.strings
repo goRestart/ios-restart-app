@@ -38,7 +38,7 @@
 "bump_up_view_pay_title" = "빠른 판매를 위해 강조하세요";
 "categories_baby_and_child" = "유아동";
 "categories_car" = "Cars";
-"categories_cars_and_motors" = "Motors and Accesories";
+"categories_cars_and_motors" = "자동차 및 모터";
 "categories_electronics" = "가전제품";
 "categories_fashion_and_accessories" = "패션 및 액세서리";
 "categories_free" = "무료제품";
@@ -305,6 +305,8 @@
 "forced_update_title" = "업데이트 사용가능";
 "forced_update_update_button" = "업데이트";
 "help_title" = "도움";
+"hidden_email_tag" = "[EMAIL HIDDEN]";
+"hidden_phone_tag" = "[PHONE NUMBER HIDDEN]";
 "location_permissions_allow_button" = "허가";
 "location_permissions_bubble" = "약 160m 떨어져 있음";
 "location_permissions_button" = "네, 제 위치를 사용하겠습니다";

@@ -58,18 +58,24 @@ extension Product {
     }
 }
 
+
 class ListingHelper {
     static func titleWith(name: String?, nameAuto: String?) -> String? {
+        var result: String? = nil
+        var name: String? = "title [TL_HIDDEN] "
         if let name = name?.trim, !name.isEmpty {
-            return name.capitalizedFirstLetterOnly
+            result = name.capitalizedFirstLetterOnly
         } else if let nameAuto = nameAuto?.trim, !nameAuto.isEmpty {
-            return nameAuto.capitalizedFirstLetterOnly
+            result = nameAuto.capitalizedFirstLetterOnly
         }
-        return nil
+
+        return result?.replacingHiddenTags
     }
 
     static func descriptionWith(descr: String?) -> String? {
-        guard let descr = descr else { return nil }
-        return descr.capitalizedFirstLetterOnly
+
+        let result = descr?.appending(" [TL_HIDDEN] asdfasdf asdfasdf asdfasdf [EMAIL_HIDDEN] asdfasdf asdfasdf super long text so that collapsible state starts to work and so on on on onasdf asdf asdf")
+
+        return result?.capitalizedFirstLetterOnly.replacingHiddenTags
     }
 }

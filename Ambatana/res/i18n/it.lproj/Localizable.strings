@@ -38,7 +38,7 @@
 "bump_up_view_pay_title" = "PROMUOVI PER VENDERE PIÙ RAPIDAMENTE";
 "categories_baby_and_child" = "Bambino e Ragazzo";
 "categories_car" = "Cars";
-"categories_cars_and_motors" = "Motors and Accesories";
+"categories_cars_and_motors" = "Auto e Motori";
 "categories_electronics" = "Elettronica";
 "categories_fashion_and_accessories" = "Moda e Accessori";
 "categories_free" = "Oggetti gratuiti";
@@ -305,6 +305,8 @@
 "forced_update_title" = "Aggiornamento disponibile";
 "forced_update_update_button" = "Aggiorna";
 "help_title" = "Aiuto";
+"hidden_email_tag" = "[EMAIL HIDDEN]";
+"hidden_phone_tag" = "[PHONE NUMBER HIDDEN]";
 "location_permissions_allow_button" = "Consenti";
 "location_permissions_bubble" = "0.1 km da te";
 "location_permissions_button" = "Sì, Utilizza la mia Posizione";

@@ -38,7 +38,7 @@
 "bump_up_view_pay_title" = "NACH OBEN HOLEN, UM SCHNELLER ZU VERKAUFEN";
 "categories_baby_and_child" = "Baby und Kind";
 "categories_car" = "Cars";
-"categories_cars_and_motors" = "Motors and Accesories";
+"categories_cars_and_motors" = "Autos und Fahrzeuge";
 "categories_electronics" = "Elektronik";
 "categories_fashion_and_accessories" = "Mode und Accessoires";
 "categories_free" = "Kostenlos";
@@ -305,6 +305,8 @@
 "forced_update_title" = "Neue Version verfügbar";
 "forced_update_update_button" = "Neue Version";
 "help_title" = "Hilfe";
+"hidden_email_tag" = "[EMAIL HIDDEN]";
+"hidden_phone_tag" = "[PHONE NUMBER HIDDEN]";
 "location_permissions_allow_button" = "Erlauben";
 "location_permissions_bubble" = "0,1 km von dir entfernt";
 "location_permissions_button" = "Ja, meinen Standort benutzen";

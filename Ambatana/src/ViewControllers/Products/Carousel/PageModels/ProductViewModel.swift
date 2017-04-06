@@ -448,6 +448,16 @@ extension ProductViewModel {
         purchasesShopper.requestPayment(forListingId: productId, appstoreProduct: purchaseableProduct,
                                                   paymentItemId: paymentItemId)
     }
+
+    func titleURLPressed(_ url: URL) {
+        print("title presssed")
+        //TODO: IMPLEMENT
+    }
+
+    func descriptionURLPressed(_ url: URL) {
+        //TODO: IMPLEMENT
+        print("description presssed")
+    }
 }
 
 

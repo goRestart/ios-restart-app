@@ -38,7 +38,7 @@
 "bump_up_view_pay_title" = "NOSTA MYYDÄKSESI NOPEAMMIN";
 "categories_baby_and_child" = "Vauvat ja lapset";
 "categories_car" = "Cars";
-"categories_cars_and_motors" = "Motors and Accesories";
+"categories_cars_and_motors" = "Autot ja muut ajoneuvot";
 "categories_electronics" = "Elektroniikka";
 "categories_fashion_and_accessories" = "Muoti ja asusteet";
 "categories_free" = "Ilmaiset";
@@ -305,6 +305,8 @@
 "forced_update_title" = "Päivitys saatavilla";
 "forced_update_update_button" = "Päivitä";
 "help_title" = "Apua";
+"hidden_email_tag" = "[EMAIL HIDDEN]";
+"hidden_phone_tag" = "[PHONE NUMBER HIDDEN]";
 "location_permissions_allow_button" = "Salli";
 "location_permissions_bubble" = "0.1 km sinusta";
 "location_permissions_button" = "Kyllä, Käytä Sijaintiani";

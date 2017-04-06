@@ -38,7 +38,7 @@
 "bump_up_view_pay_title" = "DÊ PRIORIDADE PARA VENDER MAIS RÁPIDO";
 "categories_baby_and_child" = "Bebés e Crianças";
 "categories_car" = "Cars";
-"categories_cars_and_motors" = "Motors and Accesories";
+"categories_cars_and_motors" = "Veículos";
 "categories_electronics" = "Aparelhos eletrónicos";
 "categories_fashion_and_accessories" = "Moda e Acessórios";
 "categories_free" = "Coisas Gratuitas";
@@ -305,6 +305,8 @@
 "forced_update_title" = "Atualização disponível";
 "forced_update_update_button" = "Atualizar";
 "help_title" = "Ajuda";
+"hidden_email_tag" = "[EMAIL HIDDEN]";
+"hidden_phone_tag" = "[PHONE NUMBER HIDDEN]";
 "location_permissions_allow_button" = "Permitir";
 "location_permissions_bubble" = "1,60 km de si";
 "location_permissions_button" = "Sim, Usem a Minha Localização";

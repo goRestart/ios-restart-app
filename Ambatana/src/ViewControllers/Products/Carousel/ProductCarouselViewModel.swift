@@ -316,6 +316,14 @@ class ProductCarouselViewModel: BaseViewModel {
     func shareButtonPressed() {
         currentProductViewModel?.shareProduct()
     }
+
+    func titleURLPressed(_ url: URL) {
+        currentProductViewModel?.titleURLPressed(url)
+    }
+
+    func descriptionURLPressed(_ url: URL) {
+        currentProductViewModel?.descriptionURLPressed(url)
+    }
     
     // MARK: - Private Methods
 

@@ -915,6 +915,12 @@
 // Help title.
 "help_title" = "Help";
 
+// Replacement of [EMAIL_HIDDEN]
+"hidden_email_tag" = "[EMAIL HIDDEN]";
+
+// Replacement of [TL_HIDDEN]
+"hidden_phone_tag" = "[PHONE NUMBER HIDDEN]";
+
 // Fake distance shown in a bubble in a fake product list in onboarding
 "location_permissions_bubble" = "0.1 mi from you";
 

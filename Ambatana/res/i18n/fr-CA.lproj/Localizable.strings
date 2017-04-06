@@ -37,8 +37,8 @@
 "bump_up_view_pay_subtitle" = "Donnez plus de visibilité à votre annonce pendant 24 heures en la renvoyant vers le haut.";
 "bump_up_view_pay_title" = "RENVOYER VERS LE HAUT POUR VENDRE PLUS VITE";
 "categories_baby_and_child" = "Bébé et Enfant";
-"categories_car" = "Cars";
-"categories_cars_and_motors" = "Motors and Accesories";
+"categories_car" = "Voitures";
+"categories_cars_and_motors" = "Véhicules et accessoires";
 "categories_electronics" = "Équipement électronique";
 "categories_fashion_and_accessories" = "Mode et Accessoires";
 "categories_free" = "Objets Gratuits";
@@ -305,6 +305,8 @@
 "forced_update_title" = "Mise à jour Disponible";
 "forced_update_update_button" = "Mettre à jour";
 "help_title" = "Aide";
+"hidden_email_tag" = "[EMAIL HIDDEN]";
+"hidden_phone_tag" = "[PHONE NUMBER HIDDEN]";
 "location_permissions_allow_button" = "Autoriser";
 "location_permissions_bubble" = "à 0.1 km de chez vous";
 "location_permissions_button" = "Oui, Utiliser ma Localisation";

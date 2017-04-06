@@ -305,6 +305,8 @@
 "forced_update_title" = "Update Available";
 "forced_update_update_button" = "Update";
 "help_title" = "Help";
+"hidden_email_tag" = "[EMAIL HIDDEN]";
+"hidden_phone_tag" = "[PHONE NUMBER HIDDEN]";
 "location_permissions_allow_button" = "Allow";
 "location_permissions_bubble" = "0.1 mi from you";
 "location_permissions_button" = "Yes, Use my Location";

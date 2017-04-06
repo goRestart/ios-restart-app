@@ -176,7 +176,7 @@ DEPENDENCIES:
   - KeychainSwift (from `git@github.com:letgoapp/keychain-swift.git`, commit `f6230869f4d26d720f36eb227bd269c3d712986b`)
   - KMPlaceholderTextView (= 1.3.0)
   - Leanplum-iOS-SDK (= 1.4.3)
-  - LGCollapsibleLabel (= 1.0.0)
+  - LGCollapsibleLabel (from `git@github.com:letgoapp/letgo-ios-collapsiblelabel.git`, commit `205b4f2f5193056d4cd994105ac7993c0820158b`)
   - LGCoreKit (= 3.0.0)
   - NewRelicAgent (= 5.10.1)
   - Nimble (= 5.1.1)
@@ -202,6 +202,9 @@ EXTERNAL SOURCES:
   KeychainSwift:
     :commit: f6230869f4d26d720f36eb227bd269c3d712986b
     :git: git@github.com:letgoapp/keychain-swift.git
+  LGCollapsibleLabel:
+    :commit: 205b4f2f5193056d4cd994105ac7993c0820158b
+    :git: git@github.com:letgoapp/letgo-ios-collapsiblelabel.git
   TMReachability:
     :commit: e34782b386307e386348b481c02c176d58ba45e6
     :git: https://github.com/albertbori/Reachability
@@ -216,6 +219,9 @@ CHECKOUT OPTIONS:
   KeychainSwift:
     :commit: f6230869f4d26d720f36eb227bd269c3d712986b
     :git: git@github.com:letgoapp/keychain-swift.git
+  LGCollapsibleLabel:
+    :commit: 205b4f2f5193056d4cd994105ac7993c0820158b
+    :git: git@github.com:letgoapp/letgo-ios-collapsiblelabel.git
   TMReachability:
     :commit: e34782b386307e386348b481c02c176d58ba45e6
     :git: https://github.com/albertbori/Reachability
@@ -260,7 +266,7 @@ SPEC CHECKSUMS:
   KeychainSwift: b6947435dd78cc442c64a84ae648dd0e871cf448
   KMPlaceholderTextView: 2bbcd19a273648a80a61e1e48f9743a24d8930e3
   Leanplum-iOS-SDK: 4b12eb749ec0a0915892548a9703474f5c18ae07
-  LGCollapsibleLabel: e33f066be104911c7fb83f29f1f9b5bae218422e
+  LGCollapsibleLabel: 6c2c1883459db167f7f19bc6b25414eb14bbb08e
   LGCoreKit: 0273895202a2f8b6f1b5bd79c28c6b58c3277c0f
   NewRelicAgent: d16c572a3355d3ff9a359a6677e946c7a75a8f76
   Nimble: 415e3aa3267e7bc2c96b05fa814ddea7bb686a29
@@ -282,6 +288,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: 352e75e81902bbe49f1e222ec0cbb39c9e360504
+PODFILE CHECKSUM: f00950ba87ea38a262382d6f1074d02349d013e1
 
 COCOAPODS: 1.2.0

@@ -37,8 +37,8 @@
 "bump_up_view_pay_subtitle" = "Дает вашему объявлению больше просмотров на 24 часа, поднимая его наверх в списке.";
 "bump_up_view_pay_title" = "ПОДНИМИТЕ ДЛЯ БЫСТРОЙ ПРОДАЖИ";
 "categories_baby_and_child" = "Все для детей";
-"categories_car" = "Cars";
-"categories_cars_and_motors" = "Motors and Accesories";
+"categories_car" = "Машины";
+"categories_cars_and_motors" = "Запчасти и Аксессуары";
 "categories_electronics" = "Электроника";
 "categories_fashion_and_accessories" = "Мода и Аксессуары";
 "categories_free" = "Бесплатные вещи";
@@ -305,6 +305,8 @@
 "forced_update_title" = "Доступно обновление";
 "forced_update_update_button" = "Обновить";
 "help_title" = "Помощь";
+"hidden_email_tag" = "[EMAIL HIDDEN]";
+"hidden_phone_tag" = "[PHONE NUMBER HIDDEN]";
 "location_permissions_allow_button" = "Разрешить";
 "location_permissions_bubble" = "500 м от вас";
 "location_permissions_button" = "Да, использовать геолокацию";
