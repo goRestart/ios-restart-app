@@ -3,7 +3,7 @@ extension MockChatConversation: MockFactory {
         return MockChatConversation(objectId: String.makeRandom(),
                                     unreadMessageCount: Int.makeRandom(),
                                     lastMessageSentAt: Date?.makeRandom(),
-                                    product: MockChatProduct.makeMock(),
+                                    listing: MockChatListing.makeMock(),
                                     interlocutor: MockChatInterlocutor.makeMock(),
                                     amISelling: Bool.makeRandom())
     }

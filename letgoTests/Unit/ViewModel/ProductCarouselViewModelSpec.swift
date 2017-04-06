@@ -29,7 +29,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
         var imageDownloader: MockImageDownloader!
 
         var myUserRepository: MockMyUserRepository!
-        var productRepository: MockProductRepository!
+        var listingRepository: MockListingRepository!
         var commercializerRepository: MockCommercializerRepository!
         var chatWrapper: MockChatWrapper!
         var locationManager: MockLocationManager!
@@ -48,7 +48,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
         var productInfoObserver: TestableObserver<ProductVMProductInfo?>!
         var productImageUrlsObserver: TestableObserver<[URL]>!
         var userInfoObserver: TestableObserver<ProductVMUserInfo?>!
-        var productStatsObserver: TestableObserver<ProductStats?>!
+        var productStatsObserver: TestableObserver<ListingStats?>!
         var navBarButtonsObserver: TestableObserver<[UIAction]>!
         var actionButtonsObserver: TestableObserver<[UIAction]>!
         var statusObserver: TestableObserver<ProductViewModelStatus>!
@@ -68,15 +68,19 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
 
         describe("ProductCarouselViewModelSpec") {
 
-            func buildSut(productListModels: [ProductCellModel]? = nil,
+            func buildSut(productListModels: [ListingCellModel]? = nil,
                           initialProduct: Product? = nil,
                           source: EventParameterProductVisitSource = .productList,
                           showKeyboardOnFirstAppearIfNeeded: Bool = false,
                           trackingIndex: Int? = nil,
                           firstProductSyncRequired: Bool = false) {
 
+                var initialListing: Listing? = nil
+                if let initialProduct = initialProduct {
+                    initialListing = .product(initialProduct)
+                }
                 sut = ProductCarouselViewModel(productListModels: productListModels,
-                                               initialProduct: initialProduct,
+                                               initialListing: initialListing,
                                                thumbnailImage: nil,
                                                productListRequester: productListRequester,
                                                source: source,
@@ -94,7 +98,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                 sut.productInfo.asObservable().bindTo(productInfoObserver).addDisposableTo(disposeBag)
                 sut.productImageURLs.asObservable().bindTo(productImageUrlsObserver).addDisposableTo(disposeBag)
                 sut.userInfo.asObservable().bindTo(userInfoObserver).addDisposableTo(disposeBag)
-                sut.productStats.asObservable().bindTo(productStatsObserver).addDisposableTo(disposeBag)
+                sut.listingStats.asObservable().bindTo(productStatsObserver).addDisposableTo(disposeBag)
                 sut.navBarButtons.asObservable().bindTo(navBarButtonsObserver).addDisposableTo(disposeBag)
                 sut.actionButtons.asObservable().bindTo(actionButtonsObserver).addDisposableTo(disposeBag)
                 sut.status.asObservable().bindTo(statusObserver).addDisposableTo(disposeBag)
@@ -115,7 +119,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
 
             beforeEach {
                 myUserRepository = MockMyUserRepository.makeMock()
-                productRepository = MockProductRepository.makeMock()
+                listingRepository = MockListingRepository.makeMock()
                 commercializerRepository = MockCommercializerRepository.makeMock()
                 chatWrapper = MockChatWrapper()
                 locationManager = MockLocationManager()
@@ -132,7 +136,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                 imageDownloader = MockImageDownloader()
 
                 productViewModelMaker = MockProductViewModelMaker(myUserRepository: myUserRepository,
-                                                                  productRepository: productRepository,
+                                                                  listingRepository: listingRepository,
                                                                   commercializerRepository: commercializerRepository,
                                                                   chatWrapper: chatWrapper,
                                                                   locationManager: locationManager,
@@ -148,7 +152,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                 productInfoObserver = scheduler.createObserver(Optional<ProductVMProductInfo>.self)
                 productImageUrlsObserver = scheduler.createObserver(Array<URL>.self)
                 userInfoObserver = scheduler.createObserver(Optional<ProductVMUserInfo>.self)
-                productStatsObserver = scheduler.createObserver(Optional<ProductStats>.self)
+                productStatsObserver = scheduler.createObserver(Optional<ListingStats>.self)
                 navBarButtonsObserver = scheduler.createObserver(Array<UIAction>.self)
                 actionButtonsObserver = scheduler.createObserver(Array<UIAction>.self)
                 statusObserver = scheduler.createObserver(ProductViewModelStatus.self)
@@ -247,7 +251,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         beforeEach {
                             let myUser = MockMyUser.makeMock()
                             myUserRepository.myUserVar.value = myUser
-                            var productUser = MockUserProduct.makeMock()
+                            var productUser = MockUserListing.makeMock()
                             productUser.objectId = myUser.objectId
                             product.user = productUser
                             product.status = .approved
@@ -354,7 +358,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                     newProduct.name = String.makeRandom()
                     newProduct.objectId = product.objectId
                     newProduct.user = product.user
-                    productRepository.productResult = ProductResult(newProduct)
+                    listingRepository.listingResult = ListingResult(.product(newProduct))
                     buildSut(initialProduct: product, firstProductSyncRequired: true)
                 }
                 it("product info title passes trough both items title") {
@@ -376,7 +380,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         beforeEach {
                             var products = MockProduct.makeMocks(count: 20)
                             products[0] = product
-                            let productListModels = products.map { ProductCellModel.productCell(product: $0) }
+                            let productListModels = products.map { ListingCellModel.listingCell(listing: .product($0)) }
                             productListRequester.generateItems(30)
                             buildSut(productListModels: productListModels, initialProduct: product)
                             self.waitFor(timeout: 0.2)
@@ -397,7 +401,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         beforeEach {
                             var products = MockProduct.makeMocks(count: 20)
                             products[18] = product
-                            let productListModels = products.map { ProductCellModel.productCell(product: $0) }
+                            let productListModels = products.map { ListingCellModel.listingCell(listing: .product($0)) }
                             productListRequester.generateItems(30)
                             buildSut(productListModels: productListModels, initialProduct: product)
                         }
@@ -413,7 +417,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         products[160] = product
                         productListRequester.generateItems(200)
                         productListRequester.offset = 180
-                        let productListModels = products.map { ProductCellModel.productCell(product: $0) }
+                        let productListModels = products.map { ListingCellModel.listingCell(listing: .product($0)) }
                         buildSut(productListModels: productListModels, initialProduct: product)
                     }
                     describe("move to item before threshold") {
@@ -451,7 +455,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                     context("first item is 0") {
                         beforeEach {
                             product = products[0]
-                            let productListModels = products.map { ProductCellModel.productCell(product: $0) }
+                            let productListModels = products.map { ListingCellModel.listingCell(listing: .product($0)) }
                             buildSut(productListModels: productListModels, initialProduct: product)
                         }
                         it("requests images for items 0-3") {
@@ -471,7 +475,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                     context("first item is in the middle of list") {
                         beforeEach {
                             product = products[10]
-                            let productListModels = products.map { ProductCellModel.productCell(product: $0) }
+                            let productListModels = products.map { ListingCellModel.listingCell(listing: .product($0)) }
                             buildSut(productListModels: productListModels, initialProduct: product)
                         }
                         it("requests images for items 9-13") {
@@ -502,7 +506,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                     var products: [MockProduct]!
                     beforeEach {
                         products = MockProduct.makeMocks(count: 20)
-                        let productListModels = products.map { ProductCellModel.productCell(product: $0) }
+                        let productListModels = products.map { ListingCellModel.listingCell(listing: .product($0)) }
                         buildSut(productListModels: productListModels)
                     }
                     context("viewmodel inactive") {
@@ -613,14 +617,14 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                 }
             }
             describe("changes after myUser update") {
-                var stats: MockProductStats!
+                var stats: MockListingStats!
                 beforeEach {
-                    var relation = MockUserProductRelation.makeMock()
+                    var relation = MockUserListingRelation.makeMock()
                     relation.isFavorited = true
                     relation.isReported = false
-                    productRepository.userProductRelationResult = ProductUserRelationResult(relation)
-                    stats = MockProductStats.makeMock()
-                    productRepository.statsResult = ProductStatsResult(stats)
+                    listingRepository.userProductRelationResult = ListingUserRelationResult(relation)
+                    stats = MockListingStats.makeMock()
+                    listingRepository.statsResult = ListingStatsResult(stats)
                     commercializerRepository.indexResult = CommercializersResult([])
                     product.status = .approved
                 }
@@ -708,7 +712,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
             describe("overlay elements state") {
                 beforeEach {
                     product.name = String.makeRandom()
-                    var productUser = MockUserProduct.makeMock()
+                    var productUser = MockUserListing.makeMock()
                     productUser.name = String.makeRandom()
                     product.user = productUser
 
@@ -1164,7 +1168,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                     productUpdated = MockProduct.makeMock()
                     productUpdated.objectId = product.objectId
                     productUpdated.user = product.user
-                    productRepository.eventsPublishSubject.onNext(.update(productUpdated))
+                    listingRepository.eventsPublishSubject.onNext(.update(.product(productUpdated)))
                 }
                 it("has two events for product info") {
                     expect(productInfoObserver.eventValues.count) == 2

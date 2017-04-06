@@ -53,9 +53,9 @@ struct ProductFilters {
     var place: Place?
     var distanceRadius: Int?
     var distanceType: DistanceType
-    var selectedCategories: [ProductCategory]
-    var selectedWithin: ProductTimeCriteria
-    var selectedOrdering: ProductSortCriteria?
+    var selectedCategories: [ListingCategory]
+    var selectedWithin: ListingTimeCriteria
+    var selectedOrdering: ListingSortCriteria?
     var filterCoordinates: LGLocationCoordinates2D? {
         return place?.location
     }
@@ -67,14 +67,14 @@ struct ProductFilters {
             distanceRadius: Constants.distanceFilterDefault,
             distanceType: DistanceType.systemDistanceType(),
             selectedCategories: [],
-            selectedWithin: ProductTimeCriteria.defaultOption,
-            selectedOrdering: ProductSortCriteria.defaultOption,
+            selectedWithin: ListingTimeCriteria.defaultOption,
+            selectedOrdering: ListingSortCriteria.defaultOption,
             priceRange: .priceRange(min: nil, max: nil)
         )
     }
     
-    init(place: Place?, distanceRadius: Int, distanceType: DistanceType, selectedCategories: [ProductCategory],
-         selectedWithin: ProductTimeCriteria, selectedOrdering: ProductSortCriteria?, priceRange: FilterPriceRange){
+    init(place: Place?, distanceRadius: Int, distanceType: DistanceType, selectedCategories: [ListingCategory],
+         selectedWithin: ListingTimeCriteria, selectedOrdering: ListingSortCriteria?, priceRange: FilterPriceRange){
         self.place = place
         self.distanceRadius = distanceRadius > 0 ? distanceRadius : nil
         self.distanceType = distanceType
@@ -84,7 +84,7 @@ struct ProductFilters {
         self.priceRange = priceRange
     }
     
-    mutating func toggleCategory(_ category: ProductCategory) {
+    mutating func toggleCategory(_ category: ListingCategory) {
         if let categoryIndex = indexForCategory(category) {
             selectedCategories.remove(at: categoryIndex)
         } else {
@@ -92,7 +92,7 @@ struct ProductFilters {
         }
     }
     
-    func hasSelectedCategory(_ category: ProductCategory) -> Bool {
+    func hasSelectedCategory(_ category: ListingCategory) -> Bool {
         return indexForCategory(category) != nil
     }
 
@@ -100,13 +100,13 @@ struct ProductFilters {
         if let _ = place { return false } //Default is nil
         if let _ = distanceRadius { return false } //Default is nil
         if !selectedCategories.isEmpty { return false }
-        if selectedWithin != ProductTimeCriteria.defaultOption { return false }
-        if selectedOrdering != ProductSortCriteria.defaultOption { return false }
+        if selectedWithin != ListingTimeCriteria.defaultOption { return false }
+        if selectedOrdering != ListingSortCriteria.defaultOption { return false }
         if priceRange != .priceRange(min: nil, max: nil) { return false }
         return true
     }
     
-    private func indexForCategory(_ category: ProductCategory) -> Int? {
+    private func indexForCategory(_ category: ListingCategory) -> Int? {
         for i in 0..<selectedCategories.count {
             if(selectedCategories[i] == category){
                 return i

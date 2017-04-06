@@ -13,7 +13,7 @@ import Runes
 struct LGUserRating: UserRating {
     let objectId: String?
     let userToId: String
-    let userFrom: UserProduct
+    let userFrom: UserListing
     let type: UserRatingType
     let value: Int
     let comment: String?
@@ -21,7 +21,7 @@ struct LGUserRating: UserRating {
     let createdAt: Date
     let updatedAt: Date
 
-    init(objectId: String, userToId: String, userFrom: LGUserProduct, type: UserRatingType, value: Int, comment: String?,
+    init(objectId: String, userToId: String, userFrom: LGUserListing, type: UserRatingType, value: Int, comment: String?,
          status: UserRatingStatus, createdAt: Date, updatedAt: Date) {
         self.objectId = objectId
         self.userToId = userToId

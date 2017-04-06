@@ -7,7 +7,7 @@
 //
 
 public protocol Priceable {
-    var price: ProductPrice { get }
+    var price: ListingPrice { get }
     var currency: Currency { get }
 }
 

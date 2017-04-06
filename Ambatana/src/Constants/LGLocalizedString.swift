@@ -203,6 +203,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("categories_unassigned", comment: "")
 	}
 
+	static var categoriesCar: String {
+		return NSLocalizedString("categories_car", comment: "")
+	}
+
 	static var changeLocationApplyButton: String {
 		return NSLocalizedString("change_location_apply_button", comment: "")
 	}

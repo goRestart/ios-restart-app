@@ -1,5 +1,5 @@
 //
-//  ProductSortCriteria+LG.swift
+//  ListingSortCriteria+LG.swift
 //  LetGo
 //
 //  Created by Eli Kohen on 16/11/15.
@@ -8,8 +8,8 @@
 
 import LGCoreKit
 
-extension ProductSortCriteria {
-    static var defaultOption : ProductSortCriteria? {
+extension ListingSortCriteria {
+    static var defaultOption : ListingSortCriteria? {
         return nil
     }
     
@@ -26,7 +26,7 @@ extension ProductSortCriteria {
         }
     }
     
-    static func allValues() -> [ProductSortCriteria] {
+    static func allValues() -> [ListingSortCriteria] {
         return [.creation, .distance, .priceAsc, .priceDesc]
     }
 }
