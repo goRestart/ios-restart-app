@@ -185,7 +185,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                         it ("has related products") {
                             expect(sut.relatedProducts.count).toEventually(equal(4))
                         }
-                        it("related products state is hidden") {
+                        it("related products state is visible") {
                             productId = chatConversation.product?.objectId
                             expect(relatedProductsStateObserver.eventValues) == [.visible(productId: productId)]
                         }

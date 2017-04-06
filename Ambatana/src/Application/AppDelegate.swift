@@ -79,7 +79,7 @@ extension AppDelegate: UIApplicationDelegate {
 
         LGCoreKit.start()
         
-        let appCoordinator = AppCoordinator(configManager: configManager)
+        let appCoordinator = AppCoordinator(configManager: configManager ?? LGConfigManager.sharedInstance)
         
         appCoordinator.delegate = self
 

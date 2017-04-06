@@ -54,10 +54,10 @@ final class AppCoordinator: NSObject, Coordinator {
 
     // MARK: - Lifecycle
 
-    convenience init(configManager: ConfigManager?) {
+    convenience init(configManager: ConfigManager) {
         let tabBarViewModel = TabBarViewModel()
         self.init(tabBarController: TabBarController(viewModel: tabBarViewModel),
-                  configManager: configManager ?? LGConfigManager.sharedInstance,
+                  configManager: configManager,
                   sessionManager: Core.sessionManager,
                   bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
                   keyValueStorage: KeyValueStorage.sharedInstance,
