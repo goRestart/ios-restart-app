@@ -162,8 +162,8 @@
 		2EE4BD1C1CD8E71A00EAADF9 /* RatingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4BD1A1CD8E71A00EAADF9 /* RatingManager.swift */; };
 		2EE4BD211CDA398400EAADF9 /* CrashManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4BD201CDA398400EAADF9 /* CrashManager.swift */; };
 		2EE4BD221CDA398400EAADF9 /* CrashManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4BD201CDA398400EAADF9 /* CrashManager.swift */; };
-		2EED4D251D23F03E0024328A /* ChatProduct+title.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EED4D241D23F03E0024328A /* ChatProduct+title.swift */; };
-		2EED4D261D23F03E0024328A /* ChatProduct+title.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EED4D241D23F03E0024328A /* ChatProduct+title.swift */; };
+		2EED4D251D23F03E0024328A /* ChatListing+title.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EED4D241D23F03E0024328A /* ChatListing+title.swift */; };
+		2EED4D261D23F03E0024328A /* ChatListing+title.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EED4D241D23F03E0024328A /* ChatListing+title.swift */; };
 		2EEDC5881E71B0D6008779D8 /* HOF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC653B41E71744B00E23DDF /* HOF.swift */; };
 		2EF0BB131E784468006808B5 /* MockPaymentQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF0BB121E784468006808B5 /* MockPaymentQueue.swift */; };
 		2EF4E3AE1D3688AB00A09DFD /* ConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF4E3A81D3688AB00A09DFD /* ConfigManager.swift */; };
@@ -1480,7 +1480,7 @@
 		2EE47E591BBEA5B70034C19D /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		2EE4BD1A1CD8E71A00EAADF9 /* RatingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingManager.swift; sourceTree = "<group>"; };
 		2EE4BD201CDA398400EAADF9 /* CrashManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashManager.swift; sourceTree = "<group>"; };
-		2EED4D241D23F03E0024328A /* ChatProduct+title.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatProduct+title.swift"; sourceTree = "<group>"; };
+		2EED4D241D23F03E0024328A /* ChatListing+title.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatListing+title.swift"; sourceTree = "<group>"; };
 		2EF0BB121E784468006808B5 /* MockPaymentQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockPaymentQueue.swift; sourceTree = "<group>"; };
 		2EF4E3A81D3688AB00A09DFD /* ConfigManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConfigManager.swift; path = Config/ConfigManager.swift; sourceTree = "<group>"; };
 		2EF4E3A91D3688AB00A09DFD /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Config.swift; path = Config/Config.swift; sourceTree = "<group>"; };
@@ -2701,7 +2701,7 @@
 		508E4CE81B41A5BD007BD301 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				2EED4D241D23F03E0024328A /* ChatProduct+title.swift */,
+				2EED4D241D23F03E0024328A /* ChatListing+title.swift */,
 				50E8A08A1B79F8D800DE49CC /* ContactSubject.swift */,
 				C7363FB91BFA3E6500A4BF6F /* DistanceType+LG.swift */,
 				C780281C1BF0FB64002B26C5 /* FilterSection.swift */,
@@ -5335,7 +5335,7 @@
 				C7890A821E55AC0E0079964C /* CameraWrapper.swift in Sources */,
 				507F1BFB1C89DDF9001F0A95 /* PostalAddress+String.swift in Sources */,
 				6A5E1A101D548F5400F92692 /* UIImage+LG.swift in Sources */,
-				2EED4D251D23F03E0024328A /* ChatProduct+title.swift in Sources */,
+				2EED4D251D23F03E0024328A /* ChatListing+title.swift in Sources */,
 				508010FE1D4748120073F362 /* SettingsViewController.swift in Sources */,
 				C73FABBC1DD3895E008F4519 /* SettingsInfoCell.swift in Sources */,
 				C7B5887D1CE1DFA6009B3975 /* BaseChatCellDrawer.swift in Sources */,
@@ -5839,7 +5839,7 @@
 				508010FF1D4748120073F362 /* SettingsViewController.swift in Sources */,
 				2EB4C6A81E3A089D00455A11 /* BumpUpFreeViewModel.swift in Sources */,
 				C7DB42111C5138B500400945 /* UIApplication+TopViewController.swift in Sources */,
-				2EED4D261D23F03E0024328A /* ChatProduct+title.swift in Sources */,
+				2EED4D261D23F03E0024328A /* ChatListing+title.swift in Sources */,
 				C73FABBD1DD3895E008F4519 /* SettingsInfoCell.swift in Sources */,
 				6A5E19EB1D548F5400F92692 /* Date+LG.swift in Sources */,
 				C7B5887E1CE1DFA6009B3975 /* BaseChatCellDrawer.swift in Sources */,
