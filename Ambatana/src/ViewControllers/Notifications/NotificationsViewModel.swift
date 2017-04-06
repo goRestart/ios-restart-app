@@ -19,7 +19,7 @@ class NotificationsViewModel: BaseViewModel {
     private var notificationsData: [NotificationData] = []
 
     private let notificationsRepository: NotificationsRepository
-    private let productRepository: ProductRepository
+    private let listingRepository: ListingRepository
     private let userRepository: UserRepository
     fileprivate let myUserRepository: MyUserRepository
     private let notificationsManager: NotificationsManager
@@ -30,7 +30,7 @@ class NotificationsViewModel: BaseViewModel {
 
     convenience override init() {
         self.init(notificationsRepository: Core.notificationsRepository,
-                  productRepository: Core.productRepository,
+                  listingRepository: Core.listingRepository,
                   userRepository: Core.userRepository,
                   myUserRepository: Core.myUserRepository,
                   notificationsManager: LGNotificationsManager.sharedInstance,
@@ -38,12 +38,12 @@ class NotificationsViewModel: BaseViewModel {
                   tracker: TrackerProxy.sharedInstance, featureFlags: FeatureFlags.sharedInstance)
     }
 
-    init(notificationsRepository: NotificationsRepository, productRepository: ProductRepository,
+    init(notificationsRepository: NotificationsRepository, listingRepository: ListingRepository,
          userRepository: UserRepository, myUserRepository: MyUserRepository,
          notificationsManager: NotificationsManager, locationManager: LocationManager,
          tracker: Tracker, featureFlags: FeatureFlaggeable) {
         self.notificationsRepository = notificationsRepository
-        self.productRepository = productRepository
+        self.listingRepository = listingRepository
         self.myUserRepository = myUserRepository
         self.userRepository = userRepository
         self.notificationsManager = notificationsManager
@@ -187,8 +187,8 @@ fileprivate extension NotificationsViewModel {
                                     type: .productSold(productImage: product.image), date: notification.createdAt,
                                     isRead: notification.isRead,
                                     primaryAction: { [weak self] in
-                                        let data = ProductDetailData.id(productId: product.id)
-                                        self?.navigator?.openProduct(data, source: .notifications,
+                                        let data = ListingDetailData.id(listingId: product.id)
+                                        self?.navigator?.openListing(data, source: .notifications,
                                                                      showKeyboardOnFirstAppearIfNeeded: false)
                                     })
         case let .buyersInterested(product, buyers):
@@ -208,8 +208,8 @@ fileprivate extension NotificationsViewModel {
                                     type: .productSuggested(product: product, seller: seller),
                                     date: notification.createdAt, isRead: notification.isRead,
                                     primaryAction: { [weak self] in
-                                        let data = ProductDetailData.id(productId: product.id)
-                                        self?.navigator?.openProduct(data, source: .notifications,
+                                        let data = ListingDetailData.id(listingId: product.id)
+                                        self?.navigator?.openListing(data, source: .notifications,
                                                                      showKeyboardOnFirstAppearIfNeeded: true)
                                     })
         case let .facebookFriendshipCreated(user, facebookUsername):

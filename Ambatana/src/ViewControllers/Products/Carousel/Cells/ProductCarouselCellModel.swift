@@ -10,31 +10,31 @@ import Foundation
 import LGCoreKit
 
 enum ProductCarouselCellModel {
-    case productCell(product: Product)
+    case listingCell(listing: Listing)
     
-    init(product: Product) {
-        self = .productCell(product: product)
+    init(listing: Listing) {
+        self = .listingCell(listing: listing)
     }
 
-    var product: Product {
+    var listing: Listing {
         switch self {
-        case let .productCell(product):
-            return product
+        case let .listingCell(listing):
+            return listing
         }
     }
 
     var images: [URL] {
-        return product.images.flatMap { $0.fileURL }
+        return listing.images.flatMap { $0.fileURL }
     }
 
     var backgroundColor: UIColor {
-        return UIColor.placeholderBackgroundColor(product.objectId)
+        return UIColor.placeholderBackgroundColor(listing.objectId)
     }
     
-    static func adapter(_ model: ProductCellModel) -> ProductCarouselCellModel? {
+    static func adapter(_ model: ListingCellModel) -> ProductCarouselCellModel? {
         switch model {
-        case .productCell(let product):
-            return ProductCarouselCellModel.productCell(product: product)
+        case let .listingCell(listing):
+            return ProductCarouselCellModel.listingCell(listing: listing)
         default:
             return nil
         }

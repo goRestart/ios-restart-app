@@ -15,7 +15,7 @@ struct RateUserData {
     let userName: String?
     let ratingType: UserRatingType
 
-    init?(user: UserProduct) {
+    init?(user: UserListing) {
         guard let userId = user.objectId else { return nil }
         self.userId = userId
         self.userAvatar = user.avatar?.fileURL

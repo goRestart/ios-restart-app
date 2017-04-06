@@ -1,5 +1,5 @@
 //
-//  UserProduct+LG.swift
+//  UserListing+LG.swift
 //  LetGo
 //
 //  Created by Juan Iglesias on 30/01/17.
@@ -9,7 +9,7 @@
 import LGCoreKit
 
 
-extension UserProduct {
+extension UserListing {
     var shortName: String? {
         return name?.trunc(18)
     }

@@ -14,29 +14,25 @@ enum UserDetailData {
     case userChat(user: ChatInterlocutor)
 }
 
-enum ProductDetailData {
-    case id(productId: String)
-    case productAPI(product: Product, thumbnailImage: UIImage?, originFrame: CGRect?)
-    case productList(product: Product, cellModels: [ProductCellModel], requester: ProductListRequester,
+enum ListingDetailData {
+    case id(listingId: String)
+    case listingAPI(listing: Listing, thumbnailImage: UIImage?, originFrame: CGRect?)
+    case listingList(listing: Listing, cellModels: [ListingCellModel], requester: ProductListRequester,
                      thumbnailImage: UIImage?, originFrame: CGRect?, showRelated: Bool, index: Int)
-    case productChat(chatConversation: ChatConversation)
+    case listingChat(chatConversation: ChatConversation)
 }
 
 enum ChatDetailData {
     case dataIds(data: ConversationData)
     case chatAPI(chat: Chat)
     case conversation(conversation: ChatConversation)
-    case productAPI(product: Product)
-}
-
-enum BackAction {
-    case expressChat(products: [Product])
+    case listingAPI(listing: Listing)
 }
 
 protocol TabNavigator: class {
     func openSell(_ source: PostingSource)
     func openUser(_ data: UserDetailData)
-    func openProduct(_ data: ProductDetailData, source: EventParameterProductVisitSource,
+    func openListing(_ data: ListingDetailData, source: EventParameterProductVisitSource,
                      showKeyboardOnFirstAppearIfNeeded: Bool)
     func openChat(_ data: ChatDetailData, source: EventParameterTypePage)
     func openVerifyAccounts(_ types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?)
@@ -48,11 +44,11 @@ protocol TabNavigator: class {
 protocol ProductDetailNavigator: TabNavigator {
     func closeProductDetail()
     func editProduct(_ product: Product)
-    func openProductChat(_ product: Product)
+    func openListingChat(_ listing: Listing)
     func closeAfterDelete()
-    func openFreeBumpUpForProduct(product: Product, socialMessage: SocialMessage, withPaymentItemId: String)
-    func openPayBumpUpForProduct(product: Product, purchaseableProduct: PurchaseableProduct, withPaymentItemId: String)
-    func selectBuyerToRate(source: RateUserSource, buyers: [UserProduct], completion: @escaping (String?) -> Void)
+    func openFreeBumpUp(forListing listing: Listing, socialMessage: SocialMessage, paymentItemId: String)
+    func openPayBumpUp(forListing listing: Listing, purchaseableProduct: PurchaseableProduct, paymentItemId: String)
+    func selectBuyerToRate(source: RateUserSource, buyers: [UserListing], completion: @escaping (String?) -> Void)
     func showProductFavoriteBubble(with data: BubbleNotificationData)
     func openLoginIfNeededFromProductDetail(from: EventParameterLoginSourceValue, infoMessage: String,
                                             loggedInAction: @escaping (() -> Void))
@@ -60,13 +56,13 @@ protocol ProductDetailNavigator: TabNavigator {
 
 protocol SimpleProductsNavigator: class {
     func closeSimpleProducts()
-    func openProduct(_ data: ProductDetailData, source: EventParameterProductVisitSource,
+    func openListing(_ data: ListingDetailData, source: EventParameterProductVisitSource,
                      showKeyboardOnFirstAppearIfNeeded: Bool)
 }
 
 protocol ChatDetailNavigator: TabNavigator {
     func closeChatDetail()
-    func openExpressChat(_ products: [Product], sourceProductId: String, manualOpen: Bool)
-    func selectBuyerToRate(source: RateUserSource, buyers: [UserProduct], completion: @escaping (String?) -> Void)
+    func openExpressChat(_ listings: [Listing], sourceListingId: String, manualOpen: Bool)
+    func selectBuyerToRate(source: RateUserSource, buyers: [UserListing], completion: @escaping (String?) -> Void)
     func openLoginIfNeededFromChatDetail(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void))
 }

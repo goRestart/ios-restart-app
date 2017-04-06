@@ -95,6 +95,25 @@ struct ProductSocialMessage: SocialMessage {
         self.init(title: socialTitle, product: product, isMine: productIsMine, fallbackToStore: fallbackToStore)
     }
 
+    init(title: String, listing: Listing, isMine: Bool, fallbackToStore: Bool) {
+        self.title = title
+        self.productUserName = listing.user.name ?? ""
+        self.productTitle = listing.title ?? ""
+        self.imageURL = listing.images.first?.fileURL ?? listing.thumbnail?.fileURL
+        self.productId = listing.objectId ?? ""
+        self.productDescription = listing.description ?? ""
+        self.isMine = isMine
+        self.fallbackToStore = fallbackToStore
+    }
+
+    init(listing: Listing, fallbackToStore: Bool) {
+        let productIsMine = Core.myUserRepository.myUser?.objectId == listing.user.objectId
+        let socialTitleMyProduct = listing.price.free ? LGLocalizedString.productIsMineShareBodyFree :
+            LGLocalizedString.productIsMineShareBody
+        let socialTitle = productIsMine ? socialTitleMyProduct : LGLocalizedString.productShareBody
+        self.init(title: socialTitle, listing: listing, isMine: productIsMine, fallbackToStore: fallbackToStore)
+    }
+
     var nativeShareItems: [Any] {
         if let shareUrl = shareUrl(.native) {
             return [shareUrl, fullMessage()]

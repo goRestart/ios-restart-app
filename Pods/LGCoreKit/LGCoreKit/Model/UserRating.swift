@@ -8,7 +8,7 @@
 
 public protocol UserRating: BaseModel {
     var userToId: String { get }
-    var userFrom: UserProduct { get }
+    var userFrom: UserListing { get }
     var type: UserRatingType { get }
     var value: Int { get }
     var comment: String? { get }

@@ -82,6 +82,7 @@ public protocol OldChatRepository {
      - parameter completion: The completion closure.
      */
     func sendText(_ message: String, product: Product, recipient: User, completion: MessageCompletion?)
+    func sendText(_ message: String, listingId: String, recipientId: String, completion: MessageCompletion?)
 
     /**
      Sends an offer to given recipient for the given product.
@@ -92,6 +93,7 @@ public protocol OldChatRepository {
      - parameter completion: The completion closure.
      */
     func sendOffer(_ message: String, product: Product, recipient: User, completion: MessageCompletion?)
+    func sendOffer(_ message: String, listingId: String, recipientId: String, completion: MessageCompletion?)
 
     /**
      Sends a sticker to given recipient for the given product.
@@ -102,6 +104,7 @@ public protocol OldChatRepository {
      - parameter completion: The completion closure.
      */
     func sendSticker(_ sticker: Sticker, product: Product, recipient: User, completion: MessageCompletion?)
+    func sendSticker(_ sticker: Sticker, listingId: String, recipientId: String, completion: MessageCompletion?)
 
     /**
      Archives a bunch of chats for the current user
@@ -134,6 +137,6 @@ public protocol OldChatRepository {
      - parameter recipient: The recipient user.
      - parameter completion: The completion closure.
      */
-    func sendMessage(_ messageType: MessageType, message: String, product: Product, recipient: User,
-                            completion: MessageCompletion?)
+    func sendMessage(_ messageType: MessageType, message: String, listingId: String, recipientId: String,
+                     completion: MessageCompletion?)
 }

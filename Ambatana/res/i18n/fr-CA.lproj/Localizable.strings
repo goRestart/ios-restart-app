@@ -37,7 +37,8 @@
 "bump_up_view_pay_subtitle" = "Donnez plus de visibilité à votre annonce pendant 24 heures en la renvoyant vers le haut.";
 "bump_up_view_pay_title" = "RENVOYER VERS LE HAUT POUR VENDRE PLUS VITE";
 "categories_baby_and_child" = "Bébé et Enfant";
-"categories_cars_and_motors" = "Voitures et Motos";
+"categories_car" = "Cars";
+"categories_cars_and_motors" = "Motors and Accesories";
 "categories_electronics" = "Équipement électronique";
 "categories_fashion_and_accessories" = "Mode et Accessoires";
 "categories_free" = "Objets Gratuits";
@@ -277,8 +278,8 @@
 "edit_product_send_ok" = "Félicitations ! Votre produit a été mis à jour. Il apparaîtra sous peu dans les annonces.";
 "edit_product_suggesting_title" = "Suggestion de titre...";
 "edit_product_title" = "Modifier le Produit";
-"edit_product_unsaved_changes_alert" = "Êtes-vous certain de vouloir annuler ces changements ?";
-"edit_product_unsaved_changes_alert_ok" = "Annuler";
+"edit_product_unsaved_changes_alert" = "Êtes-vous certain de vouloir quitter la page ? Tous les changements seront perdus.";
+"edit_product_unsaved_changes_alert_ok" = "Quitter";
 "filters_distance_not_set" = "non configuré";
 "filters_navbar_reset" = "Réinitialiser";
 "filters_price_from" = "De";
