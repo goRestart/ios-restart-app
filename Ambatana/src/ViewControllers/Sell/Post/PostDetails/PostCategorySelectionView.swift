@@ -61,6 +61,7 @@ fileprivate extension PostCategorySelectionView {
     func setupUI() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = UIFont.systemSemiBoldFont(size: 17)
+        titleLabel.textAlignment = .center
         titleLabel.textColor = UIColor.white
         titleLabel.text = LGLocalizedString.productPostSelectCategoryTitle
         addSubview(titleLabel)
@@ -106,8 +107,8 @@ fileprivate extension PostCategorySelectionView {
     
     func setupLayout() {
         titleLabel.layout(with: self)
-            .leading(by: Metrics.closeButtonWidth)
-            .trailing(by: Metrics.closeButtonWidth)
+            .leading(by: Metrics.margin)
+            .trailing(by: -Metrics.margin)
             .top(by: 14)
         
         categoriesContainerView.layout(with: self)

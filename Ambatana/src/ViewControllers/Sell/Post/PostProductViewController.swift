@@ -208,6 +208,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         
         setupViewPager()
         setupPriceView()
+        setupCategorySelectionView()
         setupFooter()
     }
 
@@ -218,6 +219,12 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         priceView.translatesAutoresizingMaskIntoConstraints = false
         detailsContainer.addSubview(priceView)
         priceView.layout(with: detailsContainer).fill()
+    }
+    
+    private func setupCategorySelectionView() {
+        categorySelectionView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(categorySelectionView)
+        categorySelectionView.layout(with: view).fill()
     }
     
     private func setupFooter() {
