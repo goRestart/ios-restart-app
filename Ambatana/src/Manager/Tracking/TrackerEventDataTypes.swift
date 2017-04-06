@@ -585,6 +585,7 @@ enum EventParameterRatingSource: String {
     case chat = "chat"
     case productSellComplete = "product-sell-complete"
     case markedSold = "marked-sold"
+    case favorite = "favorite"
 }
 
 enum EventParameterProductVisitSource: String {

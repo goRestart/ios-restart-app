@@ -189,10 +189,19 @@ extension AppCoordinator: AppNavigator {
         tabBarCtl.present(alert, animated: true, completion: nil)
     }
 
+    func openHome() {
+        openTab(.home, completion: nil)
+    }
+
     func openSell(_ source: PostingSource) {
         let sellCoordinator = SellCoordinator(source: source)
         sellCoordinator.delegate = self
         openChild(coordinator: sellCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
+    }
+
+    func openAppRating(_ source: EventParameterRatingSource) {
+        guard ratingManager.shouldShowRating else { return }
+        tabBarCtl.showAppRatingView(source)
     }
 
     func openUserRating(_ source: RateUserSource, data: RateUserData) {
@@ -276,7 +285,7 @@ extension AppCoordinator: UserRatingCoordinatorDelegate {
 
     func userRatingCoordinatorDidFinish(withRating rating: Int?, ratedUserId: String?) {
         if rating == 5 {
-            tabBarCtl.showAppRatingViewIfNeeded(.chat)
+            openAppRating(.chat)
         }
     }
 }
@@ -292,15 +301,11 @@ fileprivate extension AppCoordinator {
         if pushPermissionsManager.shouldShowPushPermissionsAlertFromViewController(.sell) {
             pushPermissionsManager.showPrePermissionsViewFrom(tabBarCtl, type: .sell, completion: nil)
         } else if ratingManager.shouldShowRating {
-            showAppRatingViewIfNeeded(.productSellComplete)
+            openAppRating(.productSellComplete)
         } else {
             return false
         }
         return true
-    }
-
-    @discardableResult func showAppRatingViewIfNeeded(_ source: EventParameterRatingSource) -> Bool {
-        return tabBarCtl.showAppRatingViewIfNeeded(source)
     }
 }
 
@@ -513,10 +518,21 @@ fileprivate extension AppCoordinator {
 
 fileprivate extension AppCoordinator {
 
-    func openTab(_ tab: Tab, force: Bool, completion: (() -> ())?) {
-        let shouldOpen = force || shouldOpenTab(tab)
-        if shouldOpen {
-            tabBarCtl.switchToTab(tab, completion: completion)
+    func openTab(_ tab: Tab, force: Bool, completion: (() -> Void)?) {
+        guard force || shouldOpenTab(tab) else { return }
+
+        let openCompletion: () -> Void = { [weak self] in
+            self?.tabBarCtl.clearAllPresented {
+                self?.tabBarCtl.switchTo(tab: tab)
+                completion?()
+            }
+        }
+        if let child = child {
+            child.closeCoordinator(animated: false, completion: openCompletion)
+        } else if let child = selectedTabCoordinator?.child {
+            child.closeCoordinator(animated: false, completion: openCompletion)
+        } else {
+            openCompletion()
         }
     }
 
@@ -549,7 +565,7 @@ fileprivate extension AppCoordinator {
                 self?.openSell(.deepLink)
             }
         case let .product(productId):
-            tabBarCtl.clearAllPresented()
+            tabBarCtl.clearAllPresented(nil)
             afterDelayClosure = { [weak self] in
                 self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: productId), source: .openApp,
                                                           showKeyboardOnFirstAppearIfNeeded: false)
@@ -558,7 +574,7 @@ fileprivate extension AppCoordinator {
             if userId == myUserRepository.myUser?.objectId {
                 openTab(.profile, force: false, completion: nil)
             } else {
-                tabBarCtl.clearAllPresented()
+                tabBarCtl.clearAllPresented(nil)
                 afterDelayClosure = { [weak self] in
                     self?.selectedTabCoordinator?.openUser(UserDetailData.id(userId: userId, source: .link))
                 }

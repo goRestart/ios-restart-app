@@ -98,7 +98,10 @@ class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
 
 
     // Tab navigator
+    func openHome() {}
     func openSell(_ source: PostingSource) {}
+    func openAppRating(_ source: EventParameterRatingSource) {}
+    func openUserRating(_ source: RateUserSource, data: RateUserData) {}
     func openUser(_ data: UserDetailData) {}
     func openListing(_ data: ListingDetailData, source: EventParameterProductVisitSource,
                      showKeyboardOnFirstAppearIfNeeded: Bool) {}

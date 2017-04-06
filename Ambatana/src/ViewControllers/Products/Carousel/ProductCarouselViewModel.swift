@@ -15,7 +15,6 @@ protocol ProductCarouselViewModelDelegate: BaseViewModelDelegate {
 
     // Forward from ProductViewModelDelegate
     func vmOpenCommercialDisplay(_ displayVM: CommercialDisplayViewModel)
-    func vmAskForRating()
     func vmShowCarouselOptions(_ cancelLabel: String, actions: [UIAction])
     func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?)
     func vmResetBumpUpBannerCountdown()
@@ -457,9 +456,6 @@ extension ProductCarouselViewModel: ProductViewModelDelegate {
     // ProductViewModelDelegate forwarding methods
     func vmOpenCommercialDisplay(_ displayVM: CommercialDisplayViewModel) {
         delegate?.vmOpenCommercialDisplay(displayVM)
-    }
-    func vmAskForRating() {
-        delegate?.vmAskForRating()
     }
     func vmShowProductDetailOptions(_ cancelLabel: String, actions: [UIAction]) {
         var finalActions: [UIAction] = actions

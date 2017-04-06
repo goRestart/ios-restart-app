@@ -87,8 +87,20 @@ class TabCoordinator: NSObject, Coordinator {
 
 extension TabCoordinator: TabNavigator {
 
+    func openHome() {
+        appNavigator?.openHome()
+    }
+
     func openSell(_ source: PostingSource) {
         appNavigator?.openSell(source)
+    }
+
+    func openAppRating(_ source: EventParameterRatingSource) {
+        appNavigator?.openAppRating(source)
+    }
+
+    func openUserRating(_ source: RateUserSource, data: RateUserData) {
+        appNavigator?.openUserRating(source, data: data)
     }
 
     func openUser(_ data: UserDetailData) {

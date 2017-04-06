@@ -13,7 +13,6 @@ protocol UserRatingListViewModelDelegate : BaseViewModelDelegate {
     func vmIsLoadingUserRatingsRequest(_ isLoading: Bool, firstPage: Bool)
     func vmDidLoadUserRatings(_ ratings: [UserRating])
     func vmDidFailLoadingUserRatings(_ firstPage: Bool)
-    func vmShowUserRating(_ source: RateUserSource, data: RateUserData)
     func vmRefresh()
 }
 
@@ -123,7 +122,7 @@ extension UserRatingListViewModel:  UserRatingCellDelegate {
 
         let reviewAction = UIAction(interface: .text(LGLocalizedString.ratingListActionReviewUser), action: { [weak self] in
             guard let userData = RateUserData(user: userFrom) else { return }
-            self?.delegate?.vmShowUserRating(.userRatingList, data: userData)
+            self?.tabNavigator?.openUserRating(.userRatingList, data: userData)
         }, accessibilityId: .ratingListCellReview)
         actions.append(reviewAction)
 

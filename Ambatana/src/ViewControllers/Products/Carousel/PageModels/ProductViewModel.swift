@@ -16,7 +16,6 @@ import RxSwift
 protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
 
     func vmOpenCommercialDisplay(_ displayVM: CommercialDisplayViewModel)
-    func vmAskForRating()
     func vmShowProductDetailOptions(_ cancelLabel: String, actions: [UIAction])
 
     func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?)
@@ -696,9 +695,7 @@ fileprivate extension ProductViewModel {
                 guard let strongSelf = self else { return }
                 if let _ = result.value {
                     self?.trackHelper.trackSaveFavoriteCompleted(strongSelf.isShowingFeaturedStripe.value)
-                    if RatingManager.sharedInstance.shouldShowRating {
-                        strongSelf.delegate?.vmAskForRating()
-                    }
+                    self?.navigator?.openAppRating(.favorite)
                 } else {
                     strongSelf.isFavorite.value = currentFavoriteValue
                 }
@@ -840,9 +837,7 @@ fileprivate extension ProductViewModel {
                 message = strongSelf.listing.value.price.free ? LGLocalizedString.productMarkAsSoldFreeSuccessMessage : LGLocalizedString.productMarkAsSoldSuccessMessage
                 self?.trackHelper.trackMarkSoldCompleted(to: userSoldTo, isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value)
                 markAsSoldCompletion = {
-                    if RatingManager.sharedInstance.shouldShowRating {
-                        strongSelf.delegate?.vmAskForRating()
-                    }
+                    self?.navigator?.openAppRating(.markedSold)
                 }
             } else {
                 message = LGLocalizedString.productMarkAsSoldErrorGeneric
