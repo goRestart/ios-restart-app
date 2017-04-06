@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1217" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1108" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PostProductViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
                 <outlet property="cameraGalleryContainer" destination="ZCG-gR-EN6" id="1xg-Ra-Q1g"/>
-                <outlet property="closeButton" destination="cop-L9-SsK" id="P5D-OM-8q8"/>
                 <outlet property="customLoadingView" destination="wW5-ZX-UqE" id="web-O5-ekj"/>
                 <outlet property="detailsContainer" destination="xup-cr-6f7" id="Nbc-zh-N87"/>
                 <outlet property="detailsScroll" destination="5Qq-I7-zHx" id="5fw-2v-7G1"/>
@@ -44,25 +42,8 @@
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c23-Uc-PaC" userLabel="TopControlsContainer">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="52"/>
-                                        <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cop-L9-SsK" userLabel="CloseBtn">
-                                                <rect key="frame" x="0.0" y="0.0" width="52" height="52"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" secondItem="cop-L9-SsK" secondAttribute="height" multiplier="1:1" id="W3f-es-Q3p"/>
-                                                </constraints>
-                                                <state key="normal" image="ic_post_close">
-                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="onCloseButton:" destination="-1" eventType="touchUpInside" id="mcU-eY-utl"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="bottom" secondItem="cop-L9-SsK" secondAttribute="bottom" id="8pa-sW-xZv"/>
-                                            <constraint firstItem="cop-L9-SsK" firstAttribute="top" secondItem="c23-Uc-PaC" secondAttribute="top" id="Scj-Re-SoM"/>
-                                            <constraint firstItem="cop-L9-SsK" firstAttribute="leading" secondItem="c23-Uc-PaC" secondAttribute="leading" id="sqH-gB-pii"/>
                                             <constraint firstAttribute="height" constant="52" id="tTX-9U-HrB"/>
                                         </constraints>
                                     </view>
@@ -170,7 +151,4 @@
             <point key="canvasLocation" x="844.5" y="455.5"/>
         </view>
     </objects>
-    <resources>
-        <image name="ic_post_close" width="36" height="36"/>
-    </resources>
 </document>

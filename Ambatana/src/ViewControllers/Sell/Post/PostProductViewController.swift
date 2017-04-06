@@ -10,7 +10,6 @@ import UIKit
 import RxSwift
 
 class PostProductViewController: BaseViewController, PostProductViewModelDelegate {
-    @IBOutlet weak var closeButton: UIButton!
     
     @IBOutlet weak var cameraGalleryContainer: UIView!
     
@@ -23,6 +22,8 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
     @IBOutlet weak var postedInfoLabel: UILabel!
     @IBOutlet weak var postErrorLabel: UILabel!
     @IBOutlet weak var retryButton: UIButton!
+    
+    fileprivate var closeButton: UIButton
 
     // contained in cameraGalleryContainer
     fileprivate var viewPager: LGViewPager
@@ -99,6 +100,8 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
             self.footerView = postFooter
         }
         
+        self.closeButton = UIButton()
+        
         let viewPagerConfig = LGViewPagerConfig(tabPosition: tabPosition, tabLayout: .fixed, tabHeight: 50)
         self.viewPager = LGViewPager(config: viewPagerConfig, frame: CGRect.zero)
         self.cameraView = PostProductCameraView(viewModel: viewModel.postProductCameraViewModel)
@@ -116,6 +119,10 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
                    statusBarStyle: UIApplication.shared.statusBarStyle)
         modalPresentationStyle = .overCurrentContext
         viewModel.delegate = self
+
+        self.closeButton.addTarget(self, action: #selector(onCloseButton),
+                                   for: .touchUpInside)
+        self.closeButton.setImage(UIImage(named: "ic_post_close"), for: .normal)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -207,9 +214,16 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         galleryView.collectionViewBottomInset = Metrics.margin + Metrics.sellCameraIconMaxSide
         
         setupViewPager()
-        setupPriceView()
         setupCategorySelectionView()
+        setupPriceView()
+        setupCloseButton()
         setupFooter()
+    }
+    
+    private func setupCloseButton() {
+        closeButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(closeButton)
+        closeButton.layout(with: view).left(by: 8).top(by: 9)
     }
 
     private func setupPriceView() {
