@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  PostListingState.swift
 //  LetGo
 //
 //  Created by Albert Hernández López on 21/03/17.

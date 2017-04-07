@@ -457,8 +457,8 @@
 		50D67B9D1D182F07003AC0A5 /* SellNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D67B9C1D182F07003AC0A5 /* SellNavigator.swift */; };
 		50D67B9E1D182F07003AC0A5 /* SellNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D67B9C1D182F07003AC0A5 /* SellNavigator.swift */; };
 		50D934D71E803C9E00BDD5FF /* PostProductStateSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D934D61E803C9E00BDD5FF /* PostProductStateSpec.swift */; };
-		50D934D91E81283100BDD5FF /* PostProductState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D934D81E81283100BDD5FF /* PostProductState.swift */; };
-		50D934DA1E81283100BDD5FF /* PostProductState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D934D81E81283100BDD5FF /* PostProductState.swift */; };
+		50D934D91E81283100BDD5FF /* PostListingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D934D81E81283100BDD5FF /* PostListingState.swift */; };
+		50D934DA1E81283100BDD5FF /* PostListingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D934D81E81283100BDD5FF /* PostListingState.swift */; };
 		50E0E84B1D40B11600A6397C /* UserViewHeaderContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E0E84A1D40B11600A6397C /* UserViewHeaderContainer.swift */; };
 		50E0E84C1D40B11600A6397C /* UserViewHeaderContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E0E84A1D40B11600A6397C /* UserViewHeaderContainer.swift */; };
 		50E557BB1E421CB900327B6A /* LoginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E557BA1E421CB900327B6A /* LoginCoordinator.swift */; };
@@ -1705,7 +1705,7 @@
 		50D67B991D182EE9003AC0A5 /* SellCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellCoordinator.swift; sourceTree = "<group>"; };
 		50D67B9C1D182F07003AC0A5 /* SellNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellNavigator.swift; sourceTree = "<group>"; };
 		50D934D61E803C9E00BDD5FF /* PostProductStateSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = PostProductStateSpec.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		50D934D81E81283100BDD5FF /* PostProductState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = PostProductState.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		50D934D81E81283100BDD5FF /* PostListingState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = PostListingState.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		50E0E84A1D40B11600A6397C /* UserViewHeaderContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewHeaderContainer.swift; sourceTree = "<group>"; };
 		50E557BA1E421CB900327B6A /* LoginCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCoordinator.swift; sourceTree = "<group>"; };
 		50E557BD1E421CF500327B6A /* LoginNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginNavigator.swift; sourceTree = "<group>"; };
@@ -3929,7 +3929,7 @@
 				C7C328401C907267008078EC /* PostProductGalleryViewModel.swift */,
 				C7F18A931C89CB3300D23319 /* PostProductGalleryView.swift */,
 				C7F18A961C89CB4C00D23319 /* PostProductGalleryView.xib */,
-				50D934D81E81283100BDD5FF /* PostProductState.swift */,
+				50D934D81E81283100BDD5FF /* PostListingState.swift */,
 				C7DE8ADE1C88A98B005CF37E /* PostProductViewController.swift */,
 				C7DE8ADF1C88A98B005CF37E /* PostProductViewController.xib */,
 				C7DE8ADB1C88A8E5005CF37E /* PostProductViewModel.swift */,
@@ -5307,7 +5307,7 @@
 				50E0E84B1D40B11600A6397C /* UserViewHeaderContainer.swift in Sources */,
 				2E4A9DBA1D8054DE00F99026 /* ProductListMultiRequester.swift in Sources */,
 				C7C61E041D633FDB00F9505D /* SearchType.swift in Sources */,
-				50D934D91E81283100BDD5FF /* PostProductState.swift in Sources */,
+				50D934D91E81283100BDD5FF /* PostListingState.swift in Sources */,
 				50E8A08B1B79F8D800DE49CC /* ContactSubject.swift in Sources */,
 				6A672C161CCFB76E00AB9175 /* UIFont+LG.swift in Sources */,
 				C74016DF1D6468A7004C1E9D /* PostProductDetailViewModel.swift in Sources */,
@@ -5806,7 +5806,7 @@
 				C73832811E029CC2007D0C03 /* AccountProvider+LG.swift in Sources */,
 				6A5E19FD1D548F5400F92692 /* LetgoURLHelper.swift in Sources */,
 				C7DB42031C5138B500400945 /* MainSignUpViewController.swift in Sources */,
-				50D934DA1E81283100BDD5FF /* PostProductState.swift in Sources */,
+				50D934DA1E81283100BDD5FF /* PostListingState.swift in Sources */,
 				C7DB42041C5138B500400945 /* ContactSubject.swift in Sources */,
 				50E0E84C1D40B11600A6397C /* UserViewHeaderContainer.swift in Sources */,
 				C7C61E051D633FDB00F9505D /* SearchType.swift in Sources */,
