@@ -13,7 +13,7 @@ public typealias CarsMakesCompletion = (CarsMakesResult) -> Void
 
 
 public protocol CarsInfoRepository {
-    func loadFirstRunCacheIfNeeded(jsonURL: URL?)
+    func loadFirstRunCacheIfNeeded(jsonURL: URL)
     func refreshCarsInfoFile()
     func retrieveCarsMakes() -> [CarsMake]
     func retrieveCarsModelsFormake(makeId: String) -> [CarsModel]

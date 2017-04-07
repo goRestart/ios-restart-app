@@ -12,7 +12,7 @@ import RxSwift
 final class LGCarsInfoRepository: CarsInfoRepository {
 
     private let dataSource: CarsInfoDataSource
-    private let cache: CarsInfoDAO?
+    private let cache: CarsInfoDAO
     private let locationManager: LocationManager
 
     private var countryCode: String?
@@ -22,36 +22,33 @@ final class LGCarsInfoRepository: CarsInfoRepository {
 
     // MARK: - Lifecycle
 
-    init(dataSource: CarsInfoDataSource, cache: CarsInfoDAO?, locationManager: LocationManager) {
+    init(dataSource: CarsInfoDataSource, cache: CarsInfoDAO, locationManager: LocationManager) {
         self.dataSource = dataSource
         self.cache = cache
         self.locationManager = locationManager
         setupRx()
     }
 
-    func loadFirstRunCacheIfNeeded(jsonURL: URL?) {
-        cache?.loadFirstRunCacheIfNeeded(jsonURL: jsonURL)
+    func loadFirstRunCacheIfNeeded(jsonURL: URL) {
+        cache.loadFirstRunCacheIfNeeded(jsonURL: jsonURL)
     }
 
     func refreshCarsInfoFile() {
         countryCode = locationManager.currentLocation?.postalAddress?.countryCode
         dataSource.index(countryCode: countryCode) { [weak self] result in
             if let value = result.value {
-                guard let cache = self?.cache else { return }
                 if !value.isEmpty {
-                    cache.save(carsInfo: value)
+                    self?.cache.save(carsInfo: value)
                 }
             }
         }
     }
 
     func retrieveCarsMakes() -> [CarsMake] {
-        guard let cache = cache else { return [] }
         return cache.carsMakesList
     }
 
     func retrieveCarsModelsFormake(makeId: String) -> [CarsModel] {
-        guard let cache = cache else { return [] }
         return cache.modelsForMake(makeId: makeId)
     }
 

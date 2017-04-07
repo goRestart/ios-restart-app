@@ -99,17 +99,14 @@ class CarsInfoRealmDAO: CarsInfoDAO {
         }
     }
 
-    func loadFirstRunCacheIfNeeded(jsonURL: URL?) {
+    func loadFirstRunCacheIfNeeded(jsonURL: URL) {
         guard dataBase.objects(RealmCarsMakeWithModels.self).isEmpty else { return }
 
         do {
-            guard let url = jsonURL else { return }
-            let data = try Data(contentsOf: url)
+            let data = try Data(contentsOf: jsonURL)
             let jsonCarsMakesList = try JSONSerialization.jsonObject(with: data, options: [])
-            let carsMakeList = decoder(jsonCarsMakesList)
-            guard let actualCarsMakeList = carsMakeList else { return }
-
-            save(carsInfo: actualCarsMakeList)
+            guard let carsMakeList = decoder(jsonCarsMakesList) else { return }
+            save(carsInfo: carsMakeList)
         } catch let error {
             logMessage(.verbose, type: CoreLoggingOptions.database, message: "Failed to create first run cache: \(error)")
         }

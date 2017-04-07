@@ -26,7 +26,7 @@ final class CoreDI: InternalDI {
         
         let tokenKeychainDAO = TokenKeychainDAO(keychain: keychain)
         let userDefaultsDAO = TokenUserDefaultsDAO(userDefaults: UserDefaults.standard)
-        tokenDAO = TokenRedundanceDAO(primaryDAO: tokenKeychainDAO, secondaryDAO: userDefaultsDAO)
+        tokenDAO = TokenCleanupDAO(primaryDAO: tokenKeychainDAO, toDeleteDAO: userDefaultsDAO)
 
         let apiClient = AFApiClient(alamofireManager: networkManager, tokenDAO: tokenDAO)
         let reachability = LGReachability()
@@ -115,7 +115,7 @@ final class CoreDI: InternalDI {
         self.passiveBuyersRepository = LGPassiveBuyersRepository(dataSource: passiveBuyersDataSource)
 
         let carsInfoDataSource = CarsInfoApiDataSource(apiClient: self.apiClient)
-        let carsInfoCache = CarsInfoRealmDAO()
+        let carsInfoCache: CarsInfoDAO = CarsInfoRealmDAO() ?? CarsInfoMemoryDAO()
         self.carsInfoRepository = LGCarsInfoRepository(dataSource: carsInfoDataSource, cache: carsInfoCache, locationManager: locationManager)
 
         self.deviceIdDAO = deviceIdDAO

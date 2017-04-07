@@ -11,5 +11,5 @@ protocol CarsInfoDAO {
     func save(carsInfo: [CarsMakeWithModels])
     func modelsForMake(makeId: String) -> [CarsModel]
     func clean()
-    func loadFirstRunCacheIfNeeded(jsonURL: URL?)
+    func loadFirstRunCacheIfNeeded(jsonURL: URL)
 }
