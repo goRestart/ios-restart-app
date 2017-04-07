@@ -29,4 +29,6 @@ protocol KeyValueStorageable: class {
 
     func get<T: UserDefaultsDecodable>(_ key: DefaultsKey<T>) -> T?
     func set<T: UserDefaultsDecodable>(_ key: DefaultsKey<T>, value: T?)
+    
+    var currentUserProperties: UserDefaultsUser? { get set }
 }

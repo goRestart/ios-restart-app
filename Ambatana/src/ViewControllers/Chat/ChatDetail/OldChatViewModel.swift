@@ -21,7 +21,6 @@ protocol OldChatViewModelDelegate: BaseViewModelDelegate {
     func vmDidFailSendingMessage()
     func vmDidSucceedSendingMessage(_ index: Int)
 
-    func vmShowRelatedProducts(_ productId: String?)
     func vmDidUpdateProduct(messageToShow message: String?)
 
     func vmShowReportUser(_ reportUserViewModel: ReportUsersViewModel)
@@ -350,7 +349,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
                   userRepository: Core.userRepository,
                   stickersRepository: Core.stickersRepository,
                   tracker: TrackerProxy.sharedInstance,
-                  configManager: ConfigManager.sharedInstance,
+                  configManager: LGConfigManager.sharedInstance,
                   sessionManager: Core.sessionManager,
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   featureFlags: FeatureFlags.sharedInstance,
@@ -607,9 +606,10 @@ class OldChatViewModel: BaseViewModel, Paginable {
         Observable.combineLatest(chatStatusEnablesRelatedProducts.asObservable(), sellerDidntAnswer.asObservable()) { [weak self] in
             guard let strongSelf = self else { return .loading }
             guard strongSelf.isBuyer else { return .hidden } // Seller doesn't have related products
-            if $0 { return .visible }
+            guard let listingId = self?.listing.objectId else {return .hidden }
+            if $0 { return .visible(listingId: listingId) }
             guard let didntAnswer = $1 else { return .loading } // If still checking if seller didn't answer. set loading state
-            return didntAnswer ? .visible : .hidden
+            return didntAnswer ? .visible(listingId: listingId) : .hidden
         }
         .bindTo(relatedProductsState).addDisposableTo(disposeBag)
 
@@ -623,18 +623,9 @@ class OldChatViewModel: BaseViewModel, Paginable {
          */
         Observable.combineLatest(expressBannerTriggered,
             hasRelatedProducts.asObservable(),
-            relatedProductsState.asObservable().map { (state: ChatRelatedItemsState) -> Bool in return state == .visible },
+            relatedProductsState.asObservable().map { (state: ChatRelatedItemsState) -> Bool in return state.isVisible },
         expressMessagesAlreadySent.asObservable()) { $0 && $1 && !$2 && !$3 }
             .distinctUntilChanged().bindTo(shouldShowExpressBanner).addDisposableTo(disposeBag)
-
-        relatedProductsState.asObservable().bindNext { [weak self] state in
-            switch state {
-            case .loading, .hidden:
-                self?.delegate?.vmShowRelatedProducts(nil)
-            case .visible:
-                self?.delegate?.vmShowRelatedProducts(self?.listing.objectId)
-            }
-        }.addDisposableTo(disposeBag)
 
         userDirectAnswersEnabled.value = keyValueStorage.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
         let directAnswers: Observable<DirectAnswersState> = Observable.combineLatest(
@@ -756,9 +747,9 @@ class OldChatViewModel: BaseViewModel, Paginable {
                 },
                                      positiveActionStyle: nil,
                                      negativeText: LGLocalizedString.commonCancel, negativeAction: nil, negativeActionStyle: nil)
-        } else if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.chat(buyer: isBuyer)) {
+        } else if LGPushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.chat(buyer: isBuyer)) {
             delegate?.vmShowPrePermissions(.chat(buyer: isBuyer))
-        } else if RatingManager.sharedInstance.shouldShowRating {
+        } else if LGRatingManager.sharedInstance.shouldShowRating {
             delegate?.vmHideKeyboard(animated: true)
             delay(1) { [weak self] in
                 self?.delegate?.vmHideKeyboard(animated: true)

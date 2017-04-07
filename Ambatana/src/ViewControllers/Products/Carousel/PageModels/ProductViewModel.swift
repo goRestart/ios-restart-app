@@ -695,6 +695,7 @@ fileprivate extension ProductViewModel {
                 guard let strongSelf = self else { return }
                 if let _ = result.value {
                     self?.trackHelper.trackSaveFavoriteCompleted(strongSelf.isShowingFeaturedStripe.value)
+
                     self?.navigator?.openAppRating(.favorite)
                 } else {
                     strongSelf.isFavorite.value = currentFavoriteValue
