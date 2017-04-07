@@ -45,7 +45,25 @@ extension String {
         result.replaceSubrange(result.startIndex...result.startIndex, with: String(result[result.startIndex]).capitalized)
         return result
     }
-    
+
+    var replacingHiddenTags: String {
+        var result = self
+        for tag in TextHiddenTags.allTags {
+            result = result.replacingOccurrences(of: tag.rawValue, with: tag.localized)
+        }
+        return result
+    }
+
+    var attributedHiddenTagsLinks: NSMutableAttributedString {
+        var urlDict: [String : URL] = [:]
+        for tag in TextHiddenTags.allTags {
+            if let url = tag.linkURL {
+                urlDict[tag.localized] = url
+            }
+        }
+        return attributedHyperlinkedStringWithURLDict(urlDict, textColor: nil)
+    }
+
     var specialCharactersRemoved: String {
         let charactersToRemove = CharacterSet.alphanumerics.inverted
         return components(separatedBy: charactersToRemove).joined(separator: "")
@@ -55,19 +73,21 @@ extension String {
         return replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
     }
 
-    func attributedHyperlinkedStringWithURLDict(_ urlDict: [String : URL], textColor: UIColor)
+    func attributedHyperlinkedStringWithURLDict(_ urlDict: [String : URL], textColor: UIColor?)
         -> NSMutableAttributedString {
         
             // Attributed string works with NSRange and NSRange != Range<String>
             let nsText = NSString(string: self)
             let resultText : NSMutableAttributedString = NSMutableAttributedString(string: self)
-            
-            resultText.addAttribute(NSForegroundColorAttributeName, value: textColor,
-                range: NSMakeRange(0, resultText.length))
+
+            if let textColor = textColor {
+                resultText.addAttribute(NSForegroundColorAttributeName, value: textColor,
+                                        range: NSMakeRange(0, resultText.length))
+            }
             
             for (word, url) in urlDict {
                 let range = nsText.range(of: word, options: .caseInsensitive)
-                
+                guard range.location != NSNotFound else { continue }
                 resultText.addAttribute(NSLinkAttributeName, value: url, range: range)
             }
             return resultText

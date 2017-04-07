@@ -138,7 +138,7 @@ final class OnboardingCoordinator: Coordinator, ChangePasswordPresenter {
 
 extension OnboardingCoordinator: TourLoginNavigator {
     func tourLoginFinish() {
-        let pushPermissionsManager = PushPermissionsManager.sharedInstance
+        let pushPermissionsManager = LGPushPermissionsManager.sharedInstance
         let canAskForPushPermissions = pushPermissionsManager.shouldShowPushPermissionsAlertFromViewController(.onboarding)
 
         if canAskForPushPermissions {

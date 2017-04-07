@@ -9,8 +9,8 @@
 import RxSwift
 
 
-class RatingManager {
-    static let sharedInstance: RatingManager = RatingManager()
+class LGRatingManager {
+    static let sharedInstance: LGRatingManager = LGRatingManager()
 
     fileprivate let keyValueStorage: KeyValueStorage
     fileprivate let crashManager: CrashManager
@@ -45,7 +45,7 @@ class RatingManager {
 
 // MARK: - Internal methods
 
-extension RatingManager {
+extension LGRatingManager: RatingManager {
     var shouldShowRating: Bool {
         guard !crashManager.appCrashed else { return false }
         guard !keyValueStorage.userRatingAlreadyRated else { return false }

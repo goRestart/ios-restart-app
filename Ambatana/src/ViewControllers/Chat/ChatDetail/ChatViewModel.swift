@@ -11,7 +11,6 @@ import LGCoreKit
 import RxSwift
 
 protocol ChatViewModelDelegate: BaseViewModelDelegate {
-    func vmShowRelatedProducts(_ productId: String?)
 
     func vmDidFailRetrievingChatMessages()
     
@@ -36,9 +35,7 @@ struct EmptyConversation: ChatConversation {
     var amISelling: Bool 
 }
 
-enum ChatRelatedItemsState {
-    case loading, visible, hidden
-}
+
 
 enum DirectAnswersState {
     case notAvailable, visible, hidden
@@ -81,6 +78,7 @@ class ChatViewModel: BaseViewModel {
     var relatedListings: [Listing] = []
     var shouldTrackFirstMessage: Bool = false
     let shouldShowExpressBanner = Variable<Bool>(false)
+    let relatedProductsState = Variable<ChatRelatedItemsState>(.loading)
 
     var keyForTextCaching: String { return userDefaultsSubKey }
     
@@ -99,8 +97,10 @@ class ChatViewModel: BaseViewModel {
     fileprivate let sessionManager: SessionManager
     fileprivate let featureFlags: FeatureFlaggeable
     fileprivate let source: EventParameterTypePage
+    fileprivate let pushPermissionsManager: PushPermissionsManager
+    fileprivate let ratingManager: RatingManager
     
-    fileprivate let keyValueStorage: KeyValueStorage
+    fileprivate let keyValueStorage: KeyValueStorageable
 
     fileprivate let firstInteractionDone = Variable<Bool>(false)
     fileprivate let expressBannerTimerFinished = Variable<Bool>(false)
@@ -108,7 +108,6 @@ class ChatViewModel: BaseViewModel {
     fileprivate let expressMessagesAlreadySent = Variable<Bool>(false)
     fileprivate let interlocutorIsMuted = Variable<Bool>(false)
     private let interlocutorHasMutedYou = Variable<Bool>(false)
-    private let relatedProductsState = Variable<ChatRelatedItemsState>(.loading)
     fileprivate let sellerDidntAnswer = Variable<Bool?>(nil)
     fileprivate let conversation: Variable<ChatConversation>
     fileprivate var interlocutor: User?
@@ -184,16 +183,18 @@ class ChatViewModel: BaseViewModel {
         let userRepository = Core.userRepository
         let tracker = TrackerProxy.sharedInstance
         let stickersRepository = Core.stickersRepository
-        let configManager = ConfigManager.sharedInstance
+        let configManager = LGConfigManager.sharedInstance
         let sessionManager = Core.sessionManager
         let featureFlags = FeatureFlags.sharedInstance
         let keyValueStorage = KeyValueStorage.sharedInstance
+        let ratingManager = LGRatingManager.sharedInstance
+        let pushPermissionsManager = LGPushPermissionsManager.sharedInstance
 
         self.init(conversation: conversation, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   listingRepository: listingRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository, tracker: tracker, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
-                  source: source)
+                  source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager)
     }
     
     convenience init?(listing: Listing, navigator: ChatDetailNavigator?, source: EventParameterTypePage) {
@@ -205,10 +206,13 @@ class ChatViewModel: BaseViewModel {
         let userRepository = Core.userRepository
         let stickersRepository = Core.stickersRepository
         let tracker = TrackerProxy.sharedInstance
-        let configManager = ConfigManager.sharedInstance
+        let configManager = LGConfigManager.sharedInstance
         let sessionManager = Core.sessionManager
         let keyValueStorage = KeyValueStorage.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
+        let ratingManager = LGRatingManager.sharedInstance
+        let pushPermissionsManager = LGPushPermissionsManager.sharedInstance
+        
         let amISelling = myUserRepository.myUser?.objectId == sellerId
         let empty = EmptyConversation(objectId: nil, unreadMessageCount: 0, lastMessageSentAt: nil, listing: nil,
                                       interlocutor: nil, amISelling: amISelling)
@@ -216,14 +220,15 @@ class ChatViewModel: BaseViewModel {
                   listingRepository: listingRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository ,tracker: tracker, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
-                  source: source)
+                  source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager)
         self.setupConversationFrom(listing: listing)
     }
     
     init(conversation: ChatConversation, myUserRepository: MyUserRepository, chatRepository: ChatRepository,
           listingRepository: ListingRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
-          tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, keyValueStorage: KeyValueStorage,
-          navigator: ChatDetailNavigator?, featureFlags: FeatureFlaggeable, source: EventParameterTypePage) {
+          tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, keyValueStorage: KeyValueStorageable,
+          navigator: ChatDetailNavigator?, featureFlags: FeatureFlaggeable, source: EventParameterTypePage,
+          ratingManager: RatingManager, pushPermissionsManager: PushPermissionsManager) {
         self.conversation = Variable<ChatConversation>(conversation)
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
@@ -234,6 +239,8 @@ class ChatViewModel: BaseViewModel {
         self.configManager = configManager
         self.sessionManager = sessionManager
         self.keyValueStorage = keyValueStorage
+        self.ratingManager = ratingManager
+        self.pushPermissionsManager = pushPermissionsManager
 
         self.stickersRepository = stickersRepository
         self.chatViewMessageAdapter = ChatViewMessageAdapter()
@@ -343,23 +350,17 @@ class ChatViewModel: BaseViewModel {
             }
         }.addDisposableTo(disposeBag)
 
-        relatedProductsState.asObservable().bindNext { [weak self] state in
-            switch state {
-            case .loading, .hidden:
-                self?.delegate?.vmShowRelatedProducts(nil)
-            case .visible:
-                self?.delegate?.vmShowRelatedProducts(self?.conversation.value.listing?.objectId)
-            }
-        }.addDisposableTo(disposeBag)
-
         let relatedProductsConversation = conversation.asObservable().map { $0.relatedProductsEnabled }
         Observable.combineLatest(relatedProductsConversation, sellerDidntAnswer.asObservable()) { [weak self] in
             guard let strongSelf = self else { return .loading }
             guard strongSelf.isBuyer else { return .hidden } // Seller doesn't have related products
-            if $0 { return .visible }
+            guard let listingId = strongSelf.conversation.value.listing?.objectId else {return .hidden }
+            if $0 { return .visible(listingId: listingId) }
             guard let didntAnswer = $1 else { return .loading } // If still checking if seller didn't answer. set loading state
-            return didntAnswer ? .visible : .hidden
+            return didntAnswer ? .visible(listingId: listingId) : .hidden
         }.bindTo(relatedProductsState).addDisposableTo(disposeBag)
+        
+       
 
         let cfgManager = configManager
         let myMessagesReviewable = myMessagesCount.asObservable().map { $0 >= cfgManager.myMessagesCountForRating }
@@ -395,7 +396,7 @@ class ChatViewModel: BaseViewModel {
          */
         Observable.combineLatest(expressBannerTriggered,
             hasRelatedProducts.asObservable(),
-            relatedProductsState.asObservable().map { $0 == .visible },
+            relatedProductsState.asObservable().map { $0.isVisible },
         expressMessagesAlreadySent.asObservable()) { $0 && $1 && !$2 && !$3 }
             .distinctUntilChanged().bindTo(shouldShowExpressBanner).addDisposableTo(disposeBag)
 
@@ -644,9 +645,9 @@ extension ChatViewModel {
                                   message: LGLocalizedString.directAnswerSoldQuestionMessage,
                                   cancelLabel: LGLocalizedString.commonCancel,
                                   actions: [action])
-        } else if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.chat(buyer: isBuyer)) {
+        } else if pushPermissionsManager.shouldShowPushPermissionsAlertFromViewController(.chat(buyer: isBuyer)) {
             delegate?.vmShowPrePermissions(.chat(buyer: isBuyer))
-        } else if RatingManager.sharedInstance.shouldShowRating {
+        } else if ratingManager.shouldShowRating {
             delegate?.vmHideKeyboard(true)
             delay(1.0) { [weak self] in
                 self?.delegate?.vmHideKeyboard(true)
@@ -1166,7 +1167,7 @@ fileprivate extension ChatViewModel {
                                                                sellerRating: sellerRating,
                                                                freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                                isBumpedUp: EventParameterBoolean.falseParameter)
-        TrackerProxy.sharedInstance.trackEvent(firstMessageEvent)
+        tracker.trackEvent(firstMessageEvent)
     }
 
     func trackMessageSent(type: ChatWrapperMessageType) {
@@ -1180,17 +1181,17 @@ fileprivate extension ChatViewModel {
         let messageSentEvent = TrackerEvent.userMessageSent(product, userToId: userId, messageType: type.chatTrackerType,
                                                             quickAnswerType: type.quickAnswerType, typePage: .chat,
                                                             freePostingModeAllowed: featureFlags.freePostingModeAllowed)
-        TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
+        tracker.trackEvent(messageSentEvent)
     }
     
     func trackBlockUsers(_ userIds: [String]) {
         let blockUserEvent = TrackerEvent.profileBlock(.chat, blockedUsersIds: userIds)
-        TrackerProxy.sharedInstance.trackEvent(blockUserEvent)
+        tracker.trackEvent(blockUserEvent)
     }
     
     func trackUnblockUsers(_ userIds: [String]) {
         let unblockUserEvent = TrackerEvent.profileUnblock(.chat, unblockedUsersIds: userIds)
-        TrackerProxy.sharedInstance.trackEvent(unblockUserEvent)
+        tracker.trackEvent(unblockUserEvent)
     }
     
     func trackVisit() {

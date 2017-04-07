@@ -12,9 +12,6 @@ import LGCoreKit
 extension ChatListing {
 
     var title: String? {
-        if let name = name?.trim, !name.isEmpty {
-            return name.capitalizedFirstLetterOnly
-        }
-        return nil
+        return ListingHelper.titleWith(name: name, nameAuto: nil)
     }
 }

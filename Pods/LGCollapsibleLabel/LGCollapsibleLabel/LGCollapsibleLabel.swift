@@ -78,10 +78,31 @@ public class LGCollapsibleLabel: UIView {
     /**
      Label text
      */
-    public var mainText: String = "" {
+    public var mainText: String? = nil {
         didSet {
             guard let _ = textView else { return }
             textView.text = mainText
+        }
+    }
+
+    public var mainAttributedText: NSAttributedString? = nil {
+        didSet {
+            guard let _ = textView else { return }
+            textView.attributedText = mainAttributedText
+        }
+    }
+
+    public var linkTextAttributes: [String : Any]? = nil {
+        didSet {
+            guard let _ = textView else { return }
+            textView.linkTextAttributes = linkTextAttributes
+        }
+    }
+
+    public weak var delegate: UITextViewDelegate? = nil {
+        didSet {
+            guard let _ = textView else { return }
+            textView.delegate = delegate
         }
     }
 
@@ -168,6 +189,9 @@ public class LGCollapsibleLabel: UIView {
         //Main text
         textView.text = mainText
         textView.textColor = textColor
+        textView.attributedText = mainAttributedText
+        textView.linkTextAttributes = linkTextAttributes
+        textView.delegate = delegate
 
         setupGradient()
 
@@ -192,13 +216,14 @@ public class LGCollapsibleLabel: UIView {
     }
 
     private func heightOfText() -> CGFloat {
-        guard !self.mainText.isEmpty else {
+        if (mainText ?? "").isEmpty && (mainAttributedText ?? NSAttributedString()).length == 0 {
             return 0.0
         }
 
         let aTextView = UITextView(frame: self.bounds)
         aTextView.font = self.textView.font
         aTextView.text = self.mainText
+        aTextView.attributedText = self.mainAttributedText
         let sizeThatFits = aTextView.sizeThatFits(CGSize(width: aTextView.frame.size.width, height: CGFloat.greatestFiniteMagnitude))
         return sizeThatFits.height
     }
