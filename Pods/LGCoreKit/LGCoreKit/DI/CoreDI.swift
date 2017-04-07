@@ -26,7 +26,7 @@ final class CoreDI: InternalDI {
         
         let tokenKeychainDAO = TokenKeychainDAO(keychain: keychain)
         let userDefaultsDAO = TokenUserDefaultsDAO(userDefaults: UserDefaults.standard)
-        tokenDAO = TokenRedundanceDAO(primaryDAO: tokenKeychainDAO, secondaryDAO: userDefaultsDAO)
+        tokenDAO = TokenCleanupDAO(primaryDAO: tokenKeychainDAO, toDeleteDAO: userDefaultsDAO)
 
         let apiClient = AFApiClient(alamofireManager: networkManager, tokenDAO: tokenDAO)
         let reachability = LGReachability()
@@ -113,7 +113,11 @@ final class CoreDI: InternalDI {
         self.userRatingRepository = LGUserRatingRepository(dataSource: userRatingDataSource, myUserRepository: myUserRepository)
         let passiveBuyersDataSource = PassiveBuyersApiDataSource(apiClient: self.apiClient)
         self.passiveBuyersRepository = LGPassiveBuyersRepository(dataSource: passiveBuyersDataSource)
-        
+
+        let carsInfoDataSource = CarsInfoApiDataSource(apiClient: self.apiClient)
+        let carsInfoCache: CarsInfoDAO = CarsInfoRealmDAO() ?? CarsInfoMemoryDAO()
+        self.carsInfoRepository = LGCarsInfoRepository(dataSource: carsInfoDataSource, cache: carsInfoCache, locationManager: locationManager)
+
         self.deviceIdDAO = deviceIdDAO
         self.installationDAO = installationDAO
         self.myUserDAO = myUserDAO
@@ -176,6 +180,7 @@ final class CoreDI: InternalDI {
     let trendingSearchesRepository: TrendingSearchesRepository
     let userRatingRepository: UserRatingRepository
     let passiveBuyersRepository: PassiveBuyersRepository
+    let carsInfoRepository: CarsInfoRepository
     lazy var categoryRepository: CategoryRepository = {
         return LGCategoryRepository()
     }()

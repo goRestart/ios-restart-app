@@ -35,8 +35,8 @@ class CarsInfoApiDataSource: CarsInfoDataSource {
 
     // MARK: - Decoder
 
-    private func decoder(_ object: Any) -> CarsInfo? {
-        let apiCarsInfo: LGCarsInfo? = decode(object)
-        return apiCarsInfo
+    private func decoder(_ object: Any) -> [CarsMakeWithModels]? {
+        let apiCarsMakeList: [ApiCarsMake]? = decode(object)
+        return apiCarsMakeList
     }
 }

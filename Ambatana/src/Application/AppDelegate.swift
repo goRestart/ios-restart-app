@@ -255,10 +255,6 @@ fileprivate extension AppDelegate {
             Debug.loggingOptions = [.navigation, .tracking, .deepLink, .monetization]
         #endif
         LGCoreKit.loggingOptions = [.networking, .persistence, .token, .session, .webSockets]
-        
-        if let featureFlags = featureFlags {
-            LGCoreKit.shouldUseChatWithWebSocket = featureFlags.websocketChat
-        }
 
         // Logging
         #if GOD_MODE
@@ -286,7 +282,14 @@ fileprivate extension AppDelegate {
         #endif
 
         // LGCoreKit
-        LGCoreKit.initialize(launchOptions, environmentType: environmentHelper.coreEnvironment)
+        let coreEnvironment = environmentHelper.coreEnvironment
+        let shouldUseWebSocketChat = featureFlags?.websocketChat ?? false
+        let carsInfoJSONPath = Bundle.main.path(forResource: "CarsInfo", ofType: "json") ?? ""
+
+        let coreKitConfig = LGCoreKitConfig(environmentType: coreEnvironment,
+                                            shouldUseChatWithWebSocket: shouldUseWebSocketChat,
+                                            carsInfoAppJSONURL: URL(fileURLWithPath: carsInfoJSONPath))
+        LGCoreKit.initialize(config: coreKitConfig)
 
         // Branch.io
         if let branch = Branch.getInstance() {
