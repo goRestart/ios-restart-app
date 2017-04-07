@@ -629,7 +629,6 @@
 		727EF06F1E0BE6600037DA4E /* LGLocation+isAuto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727EF06E1E0BE6600037DA4E /* LGLocation+isAuto.swift */; };
 		727EF0701E0BE6600037DA4E /* LGLocation+isAuto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727EF06E1E0BE6600037DA4E /* LGLocation+isAuto.swift */; };
 		7281CBCA1E5EF06800C6ADF4 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D57CD01E5767FC0009FA06 /* NotificationService.swift */; };
-		729A7EFD1E9784D5003B34A5 /* OldChatViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729A7EFC1E9784D5003B34A5 /* OldChatViewModelSpec.swift */; };
 		72A83F641DD222100043EB3B /* Leanplum+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A83F631DD222100043EB3B /* Leanplum+LG.swift */; };
 		72A83F651DD222100043EB3B /* Leanplum+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A83F631DD222100043EB3B /* Leanplum+LG.swift */; };
 		72AAA5A21DEEDE19008DD329 /* EscrowEnviroment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72AAA5A11DEEDE19008DD329 /* EscrowEnviroment.swift */; };
@@ -1808,7 +1807,6 @@
 		727EF0681E0AF0220037DA4E /* LocationManager+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LocationManager+LG.swift"; sourceTree = "<group>"; };
 		727EF06B1E0BE16D0037DA4E /* CountryCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryCode.swift; sourceTree = "<group>"; };
 		727EF06E1E0BE6600037DA4E /* LGLocation+isAuto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LGLocation+isAuto.swift"; sourceTree = "<group>"; };
-		729A7EFC1E9784D5003B34A5 /* OldChatViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OldChatViewModelSpec.swift; sourceTree = "<group>"; };
 		72A83F631DD222100043EB3B /* Leanplum+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Leanplum+LG.swift"; sourceTree = "<group>"; };
 		72AAA5A11DEEDE19008DD329 /* EscrowEnviroment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EscrowEnviroment.swift; sourceTree = "<group>"; };
 		72AC69941E71940B00944CE5 /* IncentiviseScrollBanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncentiviseScrollBanner.swift; sourceTree = "<group>"; };
@@ -3165,7 +3163,6 @@
 			children = (
 				50D08D961E69AF14009CC260 /* BaseChatGroupedListViewModelSpec.swift */,
 				50D08D971E69AF14009CC260 /* BaseViewModelSpec.swift */,
-				729A7EFC1E9784D5003B34A5 /* OldChatViewModelSpec.swift */,
 				50D08D981E69AF14009CC260 /* ChangeEmailViewModelSpec.swift */,
 				72D928D71E83D1C60030F4C3 /* ChatViewModelSpec.swift */,
 				50D08D9A1E69AF14009CC260 /* LogInEmailViewModelSpec.swift */,
@@ -4961,7 +4958,6 @@
 				C734AC891E6DB6A80053C383 /* QuickSpec+Wait.swift in Sources */,
 				50D08DB21E69AF14009CC260 /* MockFeatureFlags.swift in Sources */,
 				50D08DBA1E69AF14009CC260 /* MockPurchaseableProduct.swift in Sources */,
-				729A7EFD1E9784D5003B34A5 /* OldChatViewModelSpec.swift in Sources */,
 				C765EE471E7FE58200063750 /* MockDeepLinksRouter.swift in Sources */,
 				50D08DDF1E69AF14009CC260 /* MainProductsViewModelSpec.swift in Sources */,
 				50D08DDA1E69AF14009CC260 /* BaseChatGroupedListViewModelSpec.swift in Sources */,
