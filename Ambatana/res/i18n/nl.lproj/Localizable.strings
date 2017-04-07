@@ -37,8 +37,8 @@
 "bump_up_view_pay_subtitle" = "Geef je item voor 24 uur meer zichtbaarheid door het naar de top te verplaatsen.";
 "bump_up_view_pay_title" = "OMHOOG PLAATSEN OM SNELLER TE VERKOPEN";
 "categories_baby_and_child" = "Baby en kind";
-"categories_car" = "Cars";
-"categories_cars_and_motors" = "Motors and Accesories";
+"categories_car" = "Auto's";
+"categories_cars_and_motors" = "Auto's en Motoren";
 "categories_electronics" = "Elektronica";
 "categories_fashion_and_accessories" = "Mode en accessoires";
 "categories_free" = "Gratis Spullen";
@@ -305,6 +305,10 @@
 "forced_update_title" = "Update beschikbaar";
 "forced_update_update_button" = "Bijwerken";
 "help_title" = "Hulp";
+"hidden_email_tag" = "[E-MAIL VERBORGEN]";
+"hidden_phone_tag" = "[TELEFOONNUMMER VERBORGEN]";
+"hidden_text_alert_description" = "We hide contact information to help you buy and sell safely. Chatting inside letgo is easy and more secure.";
+"hidden_text_alert_title" = "STAY SAFE";
 "location_permissions_allow_button" = "Toestaan";
 "location_permissions_bubble" = "1km van bij jou";
 "location_permissions_button" = "Ja, Gebruik mijn Locatie";

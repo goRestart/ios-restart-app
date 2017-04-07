@@ -37,8 +37,8 @@
 "bump_up_view_pay_subtitle" = "Gi din annonse høyere synlighet i 24 timer ved å flytte den til toppen.";
 "bump_up_view_pay_title" = "PROMOTER DITT PRODUKT FOR ET RASKERE SALG";
 "categories_baby_and_child" = "Baby og barn";
-"categories_car" = "Cars";
-"categories_cars_and_motors" = "Motors and Accesories";
+"categories_car" = "Biler";
+"categories_cars_and_motors" = "Motorer og tilbehør";
 "categories_electronics" = "Elektronikk";
 "categories_fashion_and_accessories" = "Mote og tilbehør";
 "categories_free" = "Gis bort";
@@ -305,6 +305,10 @@
 "forced_update_title" = "Oppdatering tilgjengelig";
 "forced_update_update_button" = "Oppdater";
 "help_title" = "Hjelp";
+"hidden_email_tag" = "[E-POST SKJULT]";
+"hidden_phone_tag" = "[TELEFONNUMMER SKJULT]";
+"hidden_text_alert_description" = "We hide contact information to help you buy and sell safely. Chatting inside letgo is easy and more secure.";
+"hidden_text_alert_title" = "STAY SAFE";
 "location_permissions_allow_button" = "Tillat";
 "location_permissions_bubble" = "0.1 km fra deg";
 "location_permissions_button" = "Ja, Bruk min Plassering";

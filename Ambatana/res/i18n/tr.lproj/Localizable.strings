@@ -37,8 +37,8 @@
 "bump_up_view_pay_subtitle" = "Ürününü 24 saat için üste çıkararak daha fazla kişiye göster.";
 "bump_up_view_pay_title" = "DAHA HIZLI SATMAK İÇİN ÖNE ÇIKAR";
 "categories_baby_and_child" = "Bebek ve Çocuk";
-"categories_car" = "Cars";
-"categories_cars_and_motors" = "Motors and Accesories";
+"categories_car" = "Arabalar";
+"categories_cars_and_motors" = "Motorlu Taşıtlar ve Aksesuarları";
 "categories_electronics" = "Elektronik";
 "categories_fashion_and_accessories" = "Giyim ve Aksesuar";
 "categories_free" = "Ücretsiz Ürün";
@@ -305,6 +305,10 @@
 "forced_update_title" = "Yeni bir güncelleme mevcut";
 "forced_update_update_button" = "Güncelle";
 "help_title" = "Yardım";
+"hidden_email_tag" = "[E-POSTA GİZLENMİŞTİR]";
+"hidden_phone_tag" = "[TELEFON NUMARASI GİZLENMİŞTİR]";
+"hidden_text_alert_description" = "We hide contact information to help you buy and sell safely. Chatting inside letgo is easy and more secure.";
+"hidden_text_alert_title" = "STAY SAFE";
 "location_permissions_allow_button" = "İzin Ver";
 "location_permissions_bubble" = "senden 1km uzakta";
 "location_permissions_button" = "Evet, Konumumu Kullan";

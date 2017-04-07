@@ -1239,6 +1239,22 @@ struct LGLocalizedString {
 		return NSLocalizedString("help_title", comment: "")
 	}
 
+	static var hiddenEmailTag: String {
+		return NSLocalizedString("hidden_email_tag", comment: "")
+	}
+
+	static var hiddenPhoneTag: String {
+		return NSLocalizedString("hidden_phone_tag", comment: "")
+	}
+
+	static var hiddenTextAlertTitle: String {
+		return NSLocalizedString("hidden_text_alert_title", comment: "")
+	}
+
+	static var hiddenTextAlertDescription: String {
+		return NSLocalizedString("hidden_text_alert_description", comment: "")
+	}
+
 	static var locationPermissionsBubble: String {
 		return NSLocalizedString("location_permissions_bubble", comment: "")
 	}

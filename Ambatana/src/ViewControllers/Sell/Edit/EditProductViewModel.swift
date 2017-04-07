@@ -201,7 +201,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         self.price = product.price.value > 0 ? String.fromPriceDouble(product.price.value) : nil
 
         currency = product.currency
-        if let descr = product.description {
+        if let descr = product.descr {
             self.descr = descr
         }
 

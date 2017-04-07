@@ -37,8 +37,8 @@
 "bump_up_view_pay_subtitle" = "Donnez plus de visibilité à votre annonce pendant 24 heures en la renvoyant vers le haut.";
 "bump_up_view_pay_title" = "RENVOYER VERS LE HAUT POUR VENDRE PLUS RAPIDEMENT";
 "categories_baby_and_child" = "Bébé et Enfant";
-"categories_car" = "Cars";
-"categories_cars_and_motors" = "Motors and Accesories";
+"categories_car" = "Voitures";
+"categories_cars_and_motors" = "Voitures et Motos";
 "categories_electronics" = "Electroniques";
 "categories_fashion_and_accessories" = "Mode et Accessoires";
 "categories_free" = "Gratuit";
@@ -305,6 +305,10 @@
 "forced_update_title" = "Mise à jour disponible";
 "forced_update_update_button" = "Mettre à jour";
 "help_title" = "Aide";
+"hidden_email_tag" = "[EMAIL CENSURÉ]";
+"hidden_phone_tag" = "[NUMÉRO DE TELEPHONE CENSURÉ]";
+"hidden_text_alert_description" = "We hide contact information to help you buy and sell safely. Chatting inside letgo is easy and more secure.";
+"hidden_text_alert_title" = "STAY SAFE";
 "location_permissions_allow_button" = "Autoriser";
 "location_permissions_bubble" = "à 0.1 km de vous";
 "location_permissions_button" = "Oui, Utiliser ma Localisation";
