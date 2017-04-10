@@ -166,16 +166,20 @@ extension ProductVMTrackHelper {
     }
 
     func trackMessageSent(_ isFirstMessage: Bool, messageType: ChatWrapperMessageType, isShowingFeaturedStripe: Bool) {
+
+        let isBumpedUp = isShowingFeaturedStripe ? EventParameterBoolean.trueParameter :
+            EventParameterBoolean.falseParameter
+
+        let sendMessageInfo = SendMessageTrackingInfo()
+            .set(listing: listing, freePostingModeAllowed: featureFlags.freePostingModeAllowed)
+            .set(messageType: messageType.chatTrackerType)
+            .set(quickAnswerType: messageType.quickAnswerType)
+            .set(typePage: .productDetail)
+            .set(isBumpedUp: isBumpedUp)
+
         if isFirstMessage {
-            let isBumpedUp = isShowingFeaturedStripe ? EventParameterBoolean.trueParameter :
-                                                       EventParameterBoolean.falseParameter
-            let firstMessageEvent = TrackerEvent.firstMessage(listing, messageType: messageType.chatTrackerType, quickAnswerType: messageType.quickAnswerType,
-                                                              typePage: .productDetail, freePostingModeAllowed: featureFlags.freePostingModeAllowed,
-                                                              isBumpedUp: isBumpedUp)
-            tracker.trackEvent(firstMessageEvent)
+            tracker.trackEvent(TrackerEvent.firstMessage(info: sendMessageInfo))
         }
-        let messageSentEvent = TrackerEvent.userMessageSent(listing, userTo: listing.user, messageType: messageType.chatTrackerType, quickAnswerType: messageType.quickAnswerType,
-                                                            typePage: .productDetail, freePostingModeAllowed: featureFlags.freePostingModeAllowed)
-        tracker.trackEvent(messageSentEvent)
+        tracker.trackEvent(TrackerEvent.userMessageSent(info: sendMessageInfo))
     }
 }

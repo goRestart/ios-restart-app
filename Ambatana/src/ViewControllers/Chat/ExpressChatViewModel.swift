@@ -164,16 +164,18 @@ class ExpressChatViewModel: BaseViewModel {
 extension ExpressChatViewModel {
     static func singleMessageExtraTrackings(_ tracker: Tracker, shouldSendAskQuestion: Bool, listing: Listing,
                                             freePostingModeAllowed: Bool) {
-        if shouldSendAskQuestion {
-            let askQuestionEvent = TrackerEvent.firstMessage(listing, messageType: .text, quickAnswerType: nil, typePage: .expressChat,
-                                                             freePostingModeAllowed: freePostingModeAllowed,
-                                                             isBumpedUp: .falseParameter)
-            tracker.trackEvent(askQuestionEvent)
-        }
 
-        let messageSentEvent = TrackerEvent.userMessageSent(listing, userTo: listing.user, messageType: .text, quickAnswerType: nil,
-                                                            typePage: .expressChat, freePostingModeAllowed: freePostingModeAllowed)
-        tracker.trackEvent(messageSentEvent)
+        let sendMessageInfo = SendMessageTrackingInfo()
+            .set(listing: listing, freePostingModeAllowed: freePostingModeAllowed)
+            .set(messageType: .text)
+            .set(quickAnswerType: nil)
+            .set(typePage: .expressChat)
+            .set(isBumpedUp: .falseParameter)
+
+        if shouldSendAskQuestion {
+            tracker.trackEvent(TrackerEvent.firstMessage(info: sendMessageInfo))
+        }
+        tracker.trackEvent(TrackerEvent.userMessageSent(info: sendMessageInfo))
     }
 
     func trackExpressChatStart() {

@@ -677,6 +677,10 @@
 		C703BE031C7F1AF900EC8EF2 /* EditLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C703BDFD1C7F1AF900EC8EF2 /* EditLocationViewModel.swift */; };
 		C707D44A1E96799000042C03 /* TextHiddenTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = C707D4491E96799000042C03 /* TextHiddenTags.swift */; };
 		C707D44B1E96799000042C03 /* TextHiddenTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = C707D4491E96799000042C03 /* TextHiddenTags.swift */; };
+		C707D4521E9B7CA100042C03 /* SendMessageTrackingInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C707D4511E9B7CA100042C03 /* SendMessageTrackingInfo.swift */; };
+		C707D4531E9B7CA200042C03 /* SendMessageTrackingInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C707D4511E9B7CA100042C03 /* SendMessageTrackingInfo.swift */; };
+		C707D4551E9B7CB200042C03 /* PostProductTrackingInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C707D4541E9B7CB200042C03 /* PostProductTrackingInfo.swift */; };
+		C707D4561E9B7CB200042C03 /* PostProductTrackingInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C707D4541E9B7CB200042C03 /* PostProductTrackingInfo.swift */; };
 		C708C83C1CDB590400AA87B3 /* AppRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C708C83A1CDB590400AA87B3 /* AppRatingView.swift */; };
 		C708C83D1CDB590400AA87B3 /* AppRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C708C83A1CDB590400AA87B3 /* AppRatingView.swift */; };
 		C708C83E1CDB590400AA87B3 /* AppRatingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C708C83B1CDB590400AA87B3 /* AppRatingView.xib */; };
@@ -1847,6 +1851,8 @@
 		C703BDFC1C7F1AF900EC8EF2 /* EditLocationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditLocationViewController.xib; sourceTree = "<group>"; };
 		C703BDFD1C7F1AF900EC8EF2 /* EditLocationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditLocationViewModel.swift; sourceTree = "<group>"; };
 		C707D4491E96799000042C03 /* TextHiddenTags.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextHiddenTags.swift; sourceTree = "<group>"; };
+		C707D4511E9B7CA100042C03 /* SendMessageTrackingInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendMessageTrackingInfo.swift; sourceTree = "<group>"; };
+		C707D4541E9B7CB200042C03 /* PostProductTrackingInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostProductTrackingInfo.swift; sourceTree = "<group>"; };
 		C708C83A1CDB590400AA87B3 /* AppRatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppRatingView.swift; sourceTree = "<group>"; };
 		C708C83B1CDB590400AA87B3 /* AppRatingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AppRatingView.xib; sourceTree = "<group>"; };
 		C70A426C1E9666C100B6EFD8 /* CollectionType+Find.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CollectionType+Find.swift"; sourceTree = "<group>"; };
@@ -2874,6 +2880,7 @@
 		50C9E4B71B71FBB7001E4E92 /* Tracking */ = {
 			isa = PBXGroup;
 			children = (
+				C707D4501E9B7C8A00042C03 /* Model */,
 				50C9E4C01B723E6B001E4E92 /* AmplitudeTracker.swift */,
 				50C9E4C21B723E7B001E4E92 /* AppsflyerTracker.swift */,
 				2E2AB8271C04A2EF0007B8EB /* CrashlyticsTracker.swift */,
@@ -3489,6 +3496,15 @@
 				C703BDFD1C7F1AF900EC8EF2 /* EditLocationViewModel.swift */,
 			);
 			path = Location;
+			sourceTree = "<group>";
+		};
+		C707D4501E9B7C8A00042C03 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C707D4511E9B7CA100042C03 /* SendMessageTrackingInfo.swift */,
+				C707D4541E9B7CB200042C03 /* PostProductTrackingInfo.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		C7111EF71CA43819000C5C5A /* DeepLinks */ = {
@@ -5071,6 +5087,7 @@
 				C731B8721CE218C400F31D46 /* OldChatListViewModel.swift in Sources */,
 				C7C61E001D631F3200F9505D /* ProductCollectionCellDrawer.swift in Sources */,
 				2E3665691DE4880A00000F68 /* PostIncentivatorView.swift in Sources */,
+				C707D4551E9B7CB200042C03 /* PostProductTrackingInfo.swift in Sources */,
 				C7B588451CE1DE1C009B3975 /* ChatProductView.swift in Sources */,
 				50D67B9A1D182EE9003AC0A5 /* SellCoordinator.swift in Sources */,
 				C72794421D549342009C25AB /* HelpViewController.swift in Sources */,
@@ -5497,6 +5514,7 @@
 				C7F4CBA31C9181A5008E40D6 /* PostProductCameraViewModel.swift in Sources */,
 				6A5E19EC1D548F5400F92692 /* NSError+LG.swift in Sources */,
 				C7B5885B1CE1DE1C009B3975 /* OldChatViewController.swift in Sources */,
+				C707D4521E9B7CA100042C03 /* SendMessageTrackingInfo.swift in Sources */,
 				50146BDF1D4F910000B0F635 /* NotificationsTabNavigator.swift in Sources */,
 				5076228C1CD0EB1D004E5D0D /* Coordinator.swift in Sources */,
 				C7F18A941C89CB3300D23319 /* PostProductGalleryView.swift in Sources */,
@@ -5573,6 +5591,7 @@
 				50D67B9B1D182EE9003AC0A5 /* SellCoordinator.swift in Sources */,
 				C7C61E011D631F3400F9505D /* ProductCollectionCellDrawer.swift in Sources */,
 				2E36656A1DE4880A00000F68 /* PostIncentivatorView.swift in Sources */,
+				C707D4561E9B7CB200042C03 /* PostProductTrackingInfo.swift in Sources */,
 				C7B588A31CE1E025009B3975 /* ChatGroupedListViewModel.swift in Sources */,
 				2E4952EA1E268AC300188880 /* BumpUpPayViewController.swift in Sources */,
 				C72794431D549342009C25AB /* HelpViewController.swift in Sources */,
@@ -5999,6 +6018,7 @@
 				6ACC24BB1D2A5C570064B165 /* GridCellDrawer.swift in Sources */,
 				6A5E19ED1D548F5400F92692 /* NSError+LG.swift in Sources */,
 				C7F4CBA41C9181A5008E40D6 /* PostProductCameraViewModel.swift in Sources */,
+				C707D4531E9B7CA200042C03 /* SendMessageTrackingInfo.swift in Sources */,
 				C7B5885C1CE1DE1C009B3975 /* OldChatViewController.swift in Sources */,
 				50146BE01D4F910000B0F635 /* NotificationsTabNavigator.swift in Sources */,
 				5076228D1CD0EB1D004E5D0D /* Coordinator.swift in Sources */,

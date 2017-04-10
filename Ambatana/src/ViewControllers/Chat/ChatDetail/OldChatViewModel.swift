@@ -1012,28 +1012,23 @@ class OldChatViewModel: BaseViewModel, Paginable {
     
     // MARK: Tracking
     
-    private func trackFirstMessage(type: ChatWrapperMessageType) {
-        // only track ask question if I didn't send any previous message
-        guard !didSendMessage else { return }
-        let sellerRating: Float? = isBuyer ? otherUser?.ratingAverage : myUserRepository.myUser?.ratingAverage
-        let firstMessageEvent = TrackerEvent.firstMessage(listing, messageType: type.chatTrackerType, quickAnswerType: type.quickAnswerType,
-                                                          typePage: .chat, sellerRating: sellerRating,
-                                                          freePostingModeAllowed: featureFlags.freePostingModeAllowed,
-                                                          isBumpedUp: .falseParameter)
-        tracker.trackEvent(firstMessageEvent)
-    }
-    
     private func trackMessageSent(type: ChatWrapperMessageType) {
-        if shouldSendFirstMessageEvent {
+        let sellerRating: Float? = isBuyer ? otherUser?.ratingAverage : myUserRepository.myUser?.ratingAverage
+        let sendMessageInfo = SendMessageTrackingInfo()
+            .set(listing: listing, freePostingModeAllowed: featureFlags.freePostingModeAllowed)
+            .set(interlocutorId: otherUser?.objectId)
+            .set(messageType: type.chatTrackerType)
+            .set(quickAnswerType: type.quickAnswerType)
+            .set(typePage: .chat)
+            .set(sellerRating: sellerRating)
+            .set(isBumpedUp: .falseParameter)
+
+        if shouldSendFirstMessageEvent && !didSendMessage {
             shouldSendFirstMessageEvent = false
-            trackFirstMessage(type: type)
+            tracker.trackEvent(TrackerEvent.firstMessage(info: sendMessageInfo))
         }
-        
-        let messageSentEvent = TrackerEvent.userMessageSent(listing, userTo: otherUser,
-                                                            messageType: type.chatTrackerType,
-                                                            quickAnswerType: type.quickAnswerType, typePage: .chat,
-                                                            freePostingModeAllowed: featureFlags.freePostingModeAllowed)
-        tracker.trackEvent(messageSentEvent)
+
+        tracker.trackEvent(TrackerEvent.userMessageSent(info: sendMessageInfo))
     }
     
     private func trackBlockUsers(_ userIds: [String]) {
