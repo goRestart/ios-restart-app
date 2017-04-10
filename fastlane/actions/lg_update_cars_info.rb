@@ -1,8 +1,6 @@
 module Fastlane
   module Actions
-    module SharedValues
-    end
-
+    
     class LgUpdateCarsInfoAction < Action
       def self.run(params)
         require 'open-uri'
