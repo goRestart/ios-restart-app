@@ -11,16 +11,16 @@ module Fastlane
 
         if !path_to_repo.nil?
           cdCommand = "cd #{path_to_repo}"
-          Helper.log.debug cdCommand
+          UI.message cdCommand
           Actions.sh cdCommand
         end
 
         command = "git tag #{tag_name} && git push origin #{tag_name}"
-        Helper.log.debug command
+        UI.message command
         Actions.sh command
 
         Actions.lane_context[SharedValues::RB_GIT_TAG_VALUE] = tag_name
-        Helper.log.info "Tag created and pushed to repository".blue
+        UI.message "Tag created and pushed to repository".blue
       end
 
 

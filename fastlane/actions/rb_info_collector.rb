@@ -24,7 +24,7 @@ module Fastlane
         ask_for_simulator = params[:ask_for_simulator]
         ask_for_build_configuration = params[:ask_for_build_configuration]
         
-        Helper.log.info ("👾  Some data is necessary to run this script, define the next values:").blue
+        UI.message ("👾  Some data is necessary to run this script, define the next values:").blue
 
         if ask_for_branch_name
           branch_name = ask("Branch name = ".yellow)
@@ -106,7 +106,7 @@ module Fastlane
 
         if ask_for_simulator
           deviceList = `xcrun instruments -s devices | grep Simulator | grep Simulator -n`
-          Helper.log.info ("#{deviceList}").blue
+          UI.message ("#{deviceList}").blue
           selected_number = ask("Select a device from the list above, just the number (default=1)".yellow)
           if selected_number.nil?
             selected_number = 1
