@@ -229,10 +229,11 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
     private func setupPriceView() {
         retryButton.setTitle(LGLocalizedString.commonErrorListRetryButton, for: .normal)
         retryButton.setStyle(.primary(fontSize: .medium))
-
         priceView.translatesAutoresizingMaskIntoConstraints = false
         detailsContainer.addSubview(priceView)
-        priceView.layout(with: detailsContainer).fill()
+        priceView.layout(with: postedInfoLabel).below(by: Metrics.margin)
+        priceView.layout(with: detailsContainer).bottom()
+        priceView.layout(with: detailsContainer).fillHorizontal()
     }
     
     private func setupCategorySelectionView() {
@@ -462,7 +463,7 @@ extension PostProductViewController {
     }
     
     private func adjustDetailsScrollContentInset(to view: UIView) {
-        detailsScroll.contentInset.top = (view.height / 3) - view.height
+        detailsScroll.contentInset.top = (view.height / 3)
     }
 }
 
