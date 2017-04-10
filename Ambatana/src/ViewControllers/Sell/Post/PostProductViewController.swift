@@ -449,13 +449,13 @@ extension PostProductViewController {
     
     private func viewToAdjustDetailsScrollContentInset(state: PostListingState) -> UIView? {
         switch state.step {
-        case .detailsSelection:
+        case .detailsSelection, .uploadSuccess, .uploadingImage:
             return detailsScroll
         case .categorySelection:
             return categorySelectionView
         case .carDetailsSelection:
             return carDetailsView
-        case .imageSelection, .uploadingImage, .errorUpload, .finished, .uploadSuccess:
+        case .imageSelection, .errorUpload, .finished:
             return nil
         }
     }
