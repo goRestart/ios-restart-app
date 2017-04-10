@@ -141,7 +141,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                 beforeEach {
                     mockMyUser = self.makeMockMyUser(with: .active, isDummy: false)
                     chatMessages = []
-                    productResult = self.makeMockProduct(with: .active)
+                    productResult = self.makeMockProduct(with: .approved)
                     chatInterlocutor = self.makeChatInterlocutor(with: .active, isMuted: false, isBanned: false, hasMutedYou: false)
                     user = self.makeUser(with: .active, isDummy: false, userId: mockMyUser.objectId!)
                     
