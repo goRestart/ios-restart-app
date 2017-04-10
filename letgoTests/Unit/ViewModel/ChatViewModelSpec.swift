@@ -63,6 +63,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                                     product: MockProduct,
                                     interlocutor: MockChatInterlocutor,
                                     chatConversation: MockChatConversation,
+                                    commandSuccess: Bool = true,
                                     user: MockUser) {
                 
                 safetyTipsShown = false
@@ -90,7 +91,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                 listingRepository.indexResult = ListingsResult(value: listingsRelated)
                 
                 chatRepository.showConversationResult = ChatConversationResult(value: chatConversation)
-                chatRepository.commandResult = ChatCommandResult(value: Void())
+                chatRepository.commandResult = commandSuccess ? ChatCommandResult(value: Void()) : ChatCommandResult(error: .internalError(message: "test"))
                 
                 conversation = chatConversation
                 
@@ -190,14 +191,13 @@ class ChatViewModelSpec: BaseViewModelSpec {
                                                chatConversation: chatConversation,
                                                user: user)
                             sut.active = true
-                            expect(relatedListingsStateObserver.eventValues.count).toEventually(equal(1))
                         }
                         it ("has related products") {
                             expect(sut.relatedListings.count).toEventually(equal(4))
                         }
                         it("related products state is visible") {
                             listingId = chatConversation.listing?.objectId
-                            expect(relatedListingsStateObserver.eventValues) == [.visible(listingId: listingId)]
+                            expect(relatedListingsStateObserver.lastValue).toEventually(equal(ChatRelatedItemsState.visible(listingId: listingId)))
                         }
                     }
                 }
@@ -475,8 +475,8 @@ class ChatViewModelSpec: BaseViewModelSpec {
                                            product: productResult,
                                            interlocutor: chatInterlocutor,
                                            chatConversation: chatConversation,
+                                           commandSuccess: false,
                                            user: user)
-                        chatRepository.commandResult = ChatCommandResult(error: .internalError(message: "test"))
                         sut.active = true
                     }
                     context("quick answer") {
