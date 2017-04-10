@@ -141,7 +141,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                 beforeEach {
                     mockMyUser = self.makeMockMyUser(with: .active, isDummy: false)
                     chatMessages = []
-                    productResult = self.makeMockProduct(with: .sold)
+                    productResult = self.makeMockProduct(with: .active)
                     chatInterlocutor = self.makeChatInterlocutor(with: .active, isMuted: false, isBanned: false, hasMutedYou: false)
                     user = self.makeUser(with: .active, isDummy: false, userId: mockMyUser.objectId!)
                     
@@ -170,6 +170,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                     context("being a buyer") {
                         var listingId: String!
                         beforeEach {
+                            productResult = self.makeMockProduct(with: .sold)
                             chatConversation = self.makeChatConversation(with: chatInterlocutor, unreadMessageCount: 0, lastMessageSentAt: nil, amISelling: false)
                             buildChatViewModel(myUser: mockMyUser,
                                                chatMessages: chatMessages,
@@ -182,7 +183,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                         it ("has related products") {
                             expect(sut.relatedListings.count).toEventually(equal(4))
                         }
-                        fit("related products state is visible") {
+                        it("related products state is visible") {
                             listingId = chatConversation.listing?.objectId
                             expect(relatedListingsStateObserver.lastValue).toEventually(equal(ChatRelatedItemsState.visible(listingId: listingId)))
                         }
