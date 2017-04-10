@@ -110,7 +110,7 @@ extension UIColor {
 
 extension UIColor {
 
-    private static let asparagus = UIColor(rgb: 0x81ac56)
+    static let asparagus = UIColor(rgb: 0x81ac56)
     fileprivate static let macaroniAndCheese = UIColor(rgb: 0xf1b83d)
     private static let wisteria = UIColor(rgb: 0xa384bf)
     private static let desert = UIColor(rgb: 0xa384bf)
