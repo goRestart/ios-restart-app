@@ -623,6 +623,7 @@ extension ChatViewModel {
                 strongSelf.afterSendMessageEvents()
                 strongSelf.trackMessageSent(type: type)
             } else if let error = result.error {
+                strongSelf.trackMessageSentError(type: type, error: error)
                 // Removing message until we implement the retry-message state behavior
                 strongSelf.removeMessage(messageId: messageId)
                 switch error {
@@ -1157,26 +1158,18 @@ fileprivate extension ChatViewModel {
 fileprivate extension ChatViewModel {
 
     func trackMessageSent(type: ChatWrapperMessageType) {
-        guard let listing = conversation.value.listing else { return }
-        guard let userId = conversation.value.interlocutor?.objectId else { return }
-
-        let sellerRating = conversation.value.amISelling ?
-            myUserRepository.myUser?.ratingAverage : interlocutor?.ratingAverage
-
-        let sendMessageInfo = SendMessageTrackingInfo()
-            .set(chatListing: listing, freePostingModeAllowed: featureFlags.freePostingModeAllowed)
-            .set(interlocutorId: userId)
-            .set(messageType: type.chatTrackerType)
-            .set(quickAnswerType: type.quickAnswerType)
-            .set(typePage: .chat)
-            .set(sellerRating: sellerRating)
-            .set(isBumpedUp: .falseParameter)
+        guard let info = buildSendMessageInfo(withType: type, error: nil) else { return }
 
         if shouldTrackFirstMessage {
             shouldTrackFirstMessage = false
-            tracker.trackEvent(TrackerEvent.firstMessage(info: sendMessageInfo))
+            tracker.trackEvent(TrackerEvent.firstMessage(info: info))
         }
-        tracker.trackEvent(TrackerEvent.userMessageSent(info: sendMessageInfo))
+        tracker.trackEvent(TrackerEvent.userMessageSent(info: info))
+    }
+
+    func trackMessageSentError(type: ChatWrapperMessageType, error: RepositoryError) {
+        guard let info = buildSendMessageInfo(withType: type, error: error) else { return }
+        tracker.trackEvent(TrackerEvent.userMessageSentError(info: info))
     }
     
     func trackBlockUsers(_ userIds: [String]) {
@@ -1200,6 +1193,27 @@ fileprivate extension ChatViewModel {
                                                         freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                         isBumpedUp: .notAvailable)
         tracker.trackEvent(markAsSold)
+    }
+
+    private func buildSendMessageInfo(withType type: ChatWrapperMessageType, error: RepositoryError?) -> SendMessageTrackingInfo? {
+        guard let listing = conversation.value.listing else { return nil }
+        guard let userId = conversation.value.interlocutor?.objectId else { return nil }
+
+        let sellerRating = conversation.value.amISelling ?
+            myUserRepository.myUser?.ratingAverage : interlocutor?.ratingAverage
+
+        let sendMessageInfo = SendMessageTrackingInfo()
+            .set(chatListing: listing, freePostingModeAllowed: featureFlags.freePostingModeAllowed)
+            .set(interlocutorId: userId)
+            .set(messageType: type.chatTrackerType)
+            .set(quickAnswerType: type.quickAnswerType)
+            .set(typePage: .chat)
+            .set(sellerRating: sellerRating)
+            .set(isBumpedUp: .falseParameter)
+        if let error = error {
+            sendMessageInfo.set(error: error.chatError)
+        }
+        return sendMessageInfo
     }
 }
 

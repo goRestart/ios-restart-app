@@ -687,6 +687,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
                 strongSelf.delegate?.vmDidSucceedSendingMessage(0)
                 strongSelf.afterSendMessageEvents()
             } else if let error = result.error {
+                strongSelf.trackMessageSentError(type: type, error: error)
                 switch error {
                 case .userNotVerified:
                     strongSelf.userNotVerifiedError()
@@ -1013,22 +1014,18 @@ class OldChatViewModel: BaseViewModel, Paginable {
     // MARK: Tracking
     
     private func trackMessageSent(type: ChatWrapperMessageType) {
-        let sellerRating: Float? = isBuyer ? otherUser?.ratingAverage : myUserRepository.myUser?.ratingAverage
-        let sendMessageInfo = SendMessageTrackingInfo()
-            .set(listing: listing, freePostingModeAllowed: featureFlags.freePostingModeAllowed)
-            .set(interlocutorId: otherUser?.objectId)
-            .set(messageType: type.chatTrackerType)
-            .set(quickAnswerType: type.quickAnswerType)
-            .set(typePage: .chat)
-            .set(sellerRating: sellerRating)
-            .set(isBumpedUp: .falseParameter)
+        guard let info = buildSendMessageInfo(withType: type, error: nil) else { return }
 
         if shouldSendFirstMessageEvent && !didSendMessage {
             shouldSendFirstMessageEvent = false
-            tracker.trackEvent(TrackerEvent.firstMessage(info: sendMessageInfo))
+            tracker.trackEvent(TrackerEvent.firstMessage(info: info))
         }
+        tracker.trackEvent(TrackerEvent.userMessageSent(info: info))
+    }
 
-        tracker.trackEvent(TrackerEvent.userMessageSent(info: sendMessageInfo))
+    private func trackMessageSentError(type: ChatWrapperMessageType, error: RepositoryError) {
+        guard let info = buildSendMessageInfo(withType: type, error: error) else { return }
+        tracker.trackEvent(TrackerEvent.userMessageSentError(info: info))
     }
     
     private func trackBlockUsers(_ userIds: [String]) {
@@ -1051,6 +1048,23 @@ class OldChatViewModel: BaseViewModel, Paginable {
                                                         freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                         isBumpedUp: .notAvailable)
         tracker.trackEvent(markAsSold)
+    }
+
+    private func buildSendMessageInfo(withType type: ChatWrapperMessageType, error: RepositoryError?) -> SendMessageTrackingInfo? {
+        let sellerRating: Float? = isBuyer ? otherUser?.ratingAverage : myUserRepository.myUser?.ratingAverage
+        let sendMessageInfo = SendMessageTrackingInfo()
+            .set(listing: listing, freePostingModeAllowed: featureFlags.freePostingModeAllowed)
+            .set(interlocutorId: otherUser?.objectId)
+            .set(messageType: type.chatTrackerType)
+            .set(quickAnswerType: type.quickAnswerType)
+            .set(typePage: .chat)
+            .set(sellerRating: sellerRating)
+            .set(isBumpedUp: .falseParameter)
+
+        if let error = error {
+            sendMessageInfo.set(error: error.chatError)
+        }
+        return sendMessageInfo
     }
     
     // MARK: - Paginable

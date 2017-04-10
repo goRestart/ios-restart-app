@@ -166,7 +166,22 @@ extension ProductVMTrackHelper {
     }
 
     func trackMessageSent(_ isFirstMessage: Bool, messageType: ChatWrapperMessageType, isShowingFeaturedStripe: Bool) {
+        guard let info = buildSendMessageInfo(withType: messageType, isShowingFeaturedStripe: isShowingFeaturedStripe,
+                                              error: nil) else { return }
+        if isFirstMessage {
+            tracker.trackEvent(TrackerEvent.firstMessage(info: info))
+        }
+        tracker.trackEvent(TrackerEvent.userMessageSent(info: info))
+    }
 
+    func trackMessageSentError(messageType: ChatWrapperMessageType, isShowingFeaturedStripe: Bool, error: RepositoryError) {
+        guard let info = buildSendMessageInfo(withType: messageType, isShowingFeaturedStripe: isShowingFeaturedStripe,
+                                              error: error) else { return }
+        tracker.trackEvent(TrackerEvent.userMessageSentError(info: info))
+    }
+
+    private func buildSendMessageInfo(withType messageType: ChatWrapperMessageType, isShowingFeaturedStripe: Bool,
+                                      error: RepositoryError?) -> SendMessageTrackingInfo? {
         let isBumpedUp = isShowingFeaturedStripe ? EventParameterBoolean.trueParameter :
             EventParameterBoolean.falseParameter
 
@@ -176,10 +191,9 @@ extension ProductVMTrackHelper {
             .set(quickAnswerType: messageType.quickAnswerType)
             .set(typePage: .productDetail)
             .set(isBumpedUp: isBumpedUp)
-
-        if isFirstMessage {
-            tracker.trackEvent(TrackerEvent.firstMessage(info: sendMessageInfo))
+        if let error = error {
+            sendMessageInfo.set(error: error.chatError)
         }
-        tracker.trackEvent(TrackerEvent.userMessageSent(info: sendMessageInfo))
+        return sendMessageInfo
     }
 }

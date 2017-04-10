@@ -871,14 +871,14 @@ fileprivate extension ProductViewModel {
         let messageView = chatViewMessageAdapter.adapt(message)
         directChatMessages.insert(messageView, atIndex: 0)
 
-        chatWrapper.sendMessageFor(listing: listing.value, type: type) {
-            [weak self] result in
+        chatWrapper.sendMessageFor(listing: listing.value, type: type) { [weak self] result in
             guard let strongSelf = self else { return }
             if let firstMessage = result.value {
                 strongSelf.trackHelper.trackMessageSent(firstMessage && !strongSelf.alreadyTrackedFirstMessageSent,
                                                    messageType: type, isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value)
                 strongSelf.alreadyTrackedFirstMessageSent = true
             } else if let error = result.error {
+                strongSelf.trackHelper.trackMessageSentError(messageType: type, isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value, error: error)
                 switch error {
                 case .forbidden:
                     strongSelf.delegate?.vmShowAutoFadingMessage(LGLocalizedString.productChatDirectErrorBlockedUserMessage, completion: nil)
