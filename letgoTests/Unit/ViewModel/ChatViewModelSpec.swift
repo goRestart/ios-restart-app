@@ -462,6 +462,53 @@ class ChatViewModelSpec: BaseViewModelSpec {
                         }
                     }
                 }
+                describe("already existing conversation message returns error") {
+                    beforeEach {
+                        mockMyUser = self.makeMockMyUser(with: .active, isDummy: false)
+                        productResult = self.makeMockProduct(with: .approved)
+                        chatInterlocutor = self.makeChatInterlocutor(with: .active, isMuted: false, isBanned: false, hasMutedYou: false)
+                        user = self.makeUser(with: .active, isDummy: false, userId: mockMyUser.objectId!)
+                        chatMessages = self.makeChatMessages(with: mockMyUser.objectId!, myMessagesNumber: 1, interlocutorId: chatInterlocutor.objectId!, interlocutorNumberMessages: 1)
+                        chatConversation = self.makeChatConversation(with: chatInterlocutor, unreadMessageCount: 0, lastMessageSentAt: Date(), amISelling: false)
+                        buildChatViewModel(myUser: mockMyUser,
+                                           chatMessages: chatMessages,
+                                           product: productResult,
+                                           interlocutor: chatInterlocutor,
+                                           chatConversation: chatConversation,
+                                           user: user)
+                        chatRepository.commandResult = ChatCommandResult(error: .internalError(message: "test"))
+                        sut.active = true
+                    }
+                    context("quick answer") {
+                        beforeEach {
+                            sut.send(quickAnswer: .meetUp)
+                            expect(tracker.trackedEvents.count).toEventually(equal(2))
+                        }
+                        it("tracks sent message error") {
+                            expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "user-sent-message-error"]
+                        }
+                    }
+                    context("custom text") {
+                        beforeEach {
+                            sut.send(text: "text")
+                            expect(tracker.trackedEvents.count).toEventually(equal(2))
+                        }
+                        it("tracks sent message error") {
+                            expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "user-sent-message-error"]
+                        }
+                    }
+                    context("sticker") {
+                        var sticker: MockSticker!
+                        beforeEach {
+                            sticker = MockSticker.makeMock()
+                            sut.send(sticker: sticker)
+                            expect(tracker.trackedEvents.count).toEventually(equal(2))
+                        }
+                        it("tracks sent message error") {
+                            expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "user-sent-message-error"]
+                        }
+                    }
+                }
             }
         }
     }
