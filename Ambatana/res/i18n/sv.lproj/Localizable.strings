@@ -37,8 +37,8 @@
 "bump_up_view_pay_subtitle" = "Ge din vara högre synlighet under 24 timmar genom att flytta den till toppen.";
 "bump_up_view_pay_title" = "PUFFA UPPÅT FÖR ATT SÄLJA SNABBARE";
 "categories_baby_and_child" = "Bebis och barn";
-"categories_car" = "Cars";
-"categories_cars_and_motors" = "Bil och motor";
+"categories_car" = "Bilar";
+"categories_cars_and_motors" = "Motorer och tillbehör";
 "categories_electronics" = "Elektronik";
 "categories_fashion_and_accessories" = "Mode och accessoarer";
 "categories_free" = "Gratisprylar";
@@ -305,8 +305,10 @@
 "forced_update_title" = "Uppdatering tillgänglig";
 "forced_update_update_button" = "Uppdatera";
 "help_title" = "Hjälp";
-"hidden_email_tag" = "[EMAIL HIDDEN]";
-"hidden_phone_tag" = "[PHONE NUMBER HIDDEN]";
+"hidden_email_tag" = "[DOLD E-POSTADRESS]";
+"hidden_phone_tag" = "[DOLT TELEFONNUMMER]";
+"hidden_text_alert_description" = "Vi döljer kontaktinformation för att du ska kunna köpa och sälja säkert. Att chatta via letgo är både enkelt och säkrare.";
+"hidden_text_alert_title" = "SÄKERHETSTIPS";
 "location_permissions_allow_button" = "Tillåt";
 "location_permissions_bubble" = "1 km från dig";
 "location_permissions_button" = "Ja, Använd Min Plats";

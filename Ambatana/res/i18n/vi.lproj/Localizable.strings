@@ -305,8 +305,10 @@
 "forced_update_title" = "Có bản cập nhật mới";
 "forced_update_update_button" = "Cập nhật";
 "help_title" = "Trợ giúp";
-"hidden_email_tag" = "[EMAIL HIDDEN]";
-"hidden_phone_tag" = "[PHONE NUMBER HIDDEN]";
+"hidden_email_tag" = "[EMAIL BỊ ẨN]";
+"hidden_phone_tag" = "[SỐ ĐIỆN THOẠI BỊ ẨN]";
+"hidden_text_alert_description" = "Chúng tôi ẩn thông tin liên lạc để giúp bạn mua và bán được an toàn. Trò chuyện trên letgo luôn dễ dàng và bảo mật hơn.";
+"hidden_text_alert_title" = "GIỮ AN TOÀN";
 "location_permissions_allow_button" = "Cho phép";
 "location_permissions_bubble" = "Cách bạn 100m";
 "location_permissions_button" = "Có, hãy Sử dụng Địa điểm của tôi";

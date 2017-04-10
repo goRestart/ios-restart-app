@@ -130,7 +130,7 @@ class PostProductViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
             
             if let images = result.value {
-                strongSelf.state.value = strongSelf.state.value.updating(uploadedImages: images)
+                strongSelf.state.value = strongSelf.state.value.updatingToSuccessUpload(uploadedImages: images)
             } else if let error = result.error {
                 strongSelf.state.value = strongSelf.state.value.updating(uploadError: error)
             }
@@ -173,6 +173,13 @@ fileprivate extension PostProductViewModel {
         
         state.asObservable().filter { $0.step == .finished }.bindNext { [weak self] _ in
             self?.postProduct()
+        }.addDisposableTo(disposeBag)
+        
+        state.asObservable().debug().filter { $0.step == .uploadSuccess }.bindNext { [weak self] _ in
+            delay(1) { [weak self] in
+                guard let strongSelf = self else { return }
+                strongSelf.state.value = strongSelf.state.value.updatingAfterUploadingSuccess()
+            }
         }.addDisposableTo(disposeBag)
     }
     

@@ -89,7 +89,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating uploaded images") {
-                        expect(sut.updating(uploadedImages: [MockFile].makeMocks())) === sut
+                        expect(sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())) === sut
                     }
                     
                     it("returns the same state when updating upload error") {
@@ -129,15 +129,25 @@ class PostProductStateSpec: BaseViewModelSpec {
                     context("update uploaded images") {
                         beforeEach {
                             oldSut = sut
-                            sut = sut.updating(uploadedImages: [MockFile].makeMocks())
+                            sut = sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
                         }
                         
                         it("returns a new state") {
                             expect(sut) !== oldSut
                         }
                         
-                        it("updates the step to details selection") {
-                            expect(sut.step) == PostListingStep.detailsSelection
+                        it("updates the step to upload success") {
+                            expect(sut.step) == PostListingStep.uploadSuccess
+                        }
+                        
+                        context("update to detail selection") {
+                            beforeEach {
+                                oldSut = sut
+                                sut = sut.updatingAfterUploadingSuccess()
+                            }
+                            it("updates the step to details selection") {
+                                expect(sut.step) == PostListingStep.detailsSelection
+                            }
                         }
                     }
                     
@@ -200,7 +210,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating uploaded images") {
-                        expect(sut.updating(uploadedImages: [MockFile].makeMocks())) === sut
+                        expect(sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())) === sut
                     }
                     
                     it("returns the same state when updating upload error") {
@@ -220,11 +230,11 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                 }
                 
-                context("details selection") {
+                context("finished upload images success") {
                     beforeEach {
                         sut = sut
                             .updatingStepToUploadingImages()
-                            .updating(uploadedImages: [MockFile].makeMocks())
+                            .updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
                     }
                     
                     it("returns the same state when updating category") {
@@ -240,17 +250,17 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating uploaded images") {
-                        expect(sut.updating(uploadedImages: [MockFile].makeMocks())) === sut
+                        expect(sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())) === sut
                     }
                     
                     it("returns the same state when updating upload error") {
                         expect(sut.updating(uploadError: .notFound)) === sut
                     }
                     
-                    context("update price") {
+                    context("updating after sucess") {
                         beforeEach {
                             oldSut = sut
-                            sut = sut.updating(price: ListingPrice.makeMock())
+                            sut = sut.updatingAfterUploadingSuccess()
                         }
                         
                         it("returns a new state") {
@@ -258,7 +268,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         }
                         
                         it("updates the step to finished") {
-                            expect(sut.step) == PostListingStep.finished
+                            expect(sut.step) == PostListingStep.detailsSelection
                         }
                     }
                     
@@ -331,7 +341,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating uploaded images") {
-                        expect(sut.updating(uploadedImages: [MockFile].makeMocks())) === sut
+                        expect(sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())) === sut
                     }
                     
                     it("returns the same state when updating upload error") {
@@ -391,7 +401,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating uploaded images") {
-                        expect(sut.updating(uploadedImages: [MockFile].makeMocks())) === sut
+                        expect(sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())) === sut
                     }
                     
                     it("returns the same state when updating upload error") {
@@ -433,7 +443,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     context("update uploaded images") {
                         beforeEach {
                             oldSut = sut
-                            sut = sut.updating(uploadedImages: [MockFile].makeMocks())
+                            sut = sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
                         }
                         
                         it("returns a new state") {
@@ -441,10 +451,19 @@ class PostProductStateSpec: BaseViewModelSpec {
                         }
                         
                         it("updates the step to car details selection with price") {
-                            expect(sut.step) == PostListingStep.carDetailsSelection(includePrice: true)
+                            expect(sut.step) == PostListingStep.uploadSuccess
+                        }
+                        context("change from uploaded success") {
+                            beforeEach {
+                                oldSut = sut
+                                sut = sut.updatingAfterUploadingSuccess()
+                            }
+                            it("updates the step to car details selection with price") {
+                                expect(sut.step) == PostListingStep.carDetailsSelection(includePrice: true)
+                            }
                         }
                     }
-                    
+                  
                     context("update upload error") {
                         beforeEach {
                             oldSut = sut
@@ -495,15 +514,23 @@ class PostProductStateSpec: BaseViewModelSpec {
                     context("update uploaded images") {
                         beforeEach {
                             oldSut = sut
-                            sut = sut.updating(uploadedImages: [MockFile].makeMocks())
+                            sut = sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
                         }
                         
                         it("returns a new state") {
                             expect(sut) !== oldSut
                         }
                         
-                        it("updates the step to details selection") {
-                            expect(sut.step) == PostListingStep.detailsSelection
+                        it("updates the step to upload sucess") {
+                            expect(sut.step) == PostListingStep.uploadSuccess
+                        }
+                        context("update after upload Sucess") {
+                            beforeEach{
+                                sut.updatingAfterUploadingSuccess()
+                            }
+                            it("updates the step to upload sucess") {
+                                expect(sut.step) == PostListingStep.uploadSuccess
+                            }
                         }
                     }
                     
@@ -567,7 +594,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating uploaded images") {
-                        expect(sut.updating(uploadedImages: [MockFile].makeMocks())) === sut
+                        expect(sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())) === sut
                     }
                     
                     it("returns the same state when updating upload error") {
@@ -592,7 +619,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         sut = sut
                             .updating(category: .other)
                             .updatingStepToUploadingImages()
-                            .updating(uploadedImages: [MockFile].makeMocks())
+                            .updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
                     }
                     
                     it("returns the same state when updating category") {
@@ -608,7 +635,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating uploaded images") {
-                        expect(sut.updating(uploadedImages: [MockFile].makeMocks())) === sut
+                        expect(sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())) === sut
                     }
                     
                     it("returns the same state when updating upload error") {
@@ -618,6 +645,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     context("update price") {
                         beforeEach {
                             oldSut = sut
+                            sut = sut.updatingAfterUploadingSuccess()
                             sut = sut.updating(price: ListingPrice.makeMock())
                         }
                         
@@ -644,7 +672,8 @@ class PostProductStateSpec: BaseViewModelSpec {
                         sut = sut
                             .updating(category: .car)
                             .updatingStepToUploadingImages()
-                            .updating(uploadedImages: [MockFile].makeMocks())
+                            .updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
+                            .updatingAfterUploadingSuccess()
                     }
                     
                     it("returns the same state when updating category") {
@@ -660,7 +689,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating uploaded images") {
-                        expect(sut.updating(uploadedImages: [MockFile].makeMocks())) === sut
+                        expect(sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())) === sut
                     }
                     
                     it("returns the same state when updating upload error") {
@@ -759,7 +788,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating uploaded images") {
-                        expect(sut.updating(uploadedImages: [MockFile].makeMocks())) === sut
+                        expect(sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())) === sut
                     }
                     
                     it("returns the same state when updating upload error") {
@@ -799,7 +828,8 @@ class PostProductStateSpec: BaseViewModelSpec {
                     context("update uploaded images") {
                         beforeEach {
                             oldSut = sut
-                            sut = sut.updating(uploadedImages: [MockFile].makeMocks())
+                            sut = sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
+                                    .updatingAfterUploadingSuccess()
                         }
                         
                         it("returns a new state") {
@@ -870,7 +900,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating uploaded images") {
-                        expect(sut.updating(uploadedImages: [MockFile].makeMocks())) === sut
+                        expect(sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())) === sut
                     }
                     
                     it("returns the same state when updating upload error") {
@@ -894,7 +924,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     beforeEach {
                         sut = sut
                             .updatingStepToUploadingImages()
-                            .updating(uploadedImages: [MockFile].makeMocks())
+                            .updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
                     }
                     
                     it("returns the same state when updating category") {
@@ -910,7 +940,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating uploaded images") {
-                        expect(sut.updating(uploadedImages: [MockFile].makeMocks())) === sut
+                        expect(sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())) === sut
                     }
                     
                     it("returns the same state when updating upload error") {
@@ -920,6 +950,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     context("update price") {
                         beforeEach {
                             oldSut = sut
+                            sut = sut.updatingAfterUploadingSuccess()
                             sut = sut.updating(price: ListingPrice.makeMock())
                         }
                         
@@ -943,10 +974,10 @@ class PostProductStateSpec: BaseViewModelSpec {
                 
                 context("category selection") {
                     beforeEach {
-                        sut = sut
-                            .updatingStepToUploadingImages()
-                            .updating(uploadedImages: [MockFile].makeMocks())
-                            .updating(price: ListingPrice.makeMock())
+                        sut = sut.updatingStepToUploadingImages()
+                        sut = sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
+                        sut = sut.updatingAfterUploadingSuccess()
+                        sut = sut.updating(price: ListingPrice.makeMock())
                     }
                     
                     context("update category to other") {
@@ -988,7 +1019,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating uploaded images") {
-                        expect(sut.updating(uploadedImages: [MockFile].makeMocks())) === sut
+                        expect(sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())) === sut
                     }
                     
                     it("returns the same state when updating upload error") {
@@ -1012,7 +1043,8 @@ class PostProductStateSpec: BaseViewModelSpec {
                     beforeEach {
                         sut = sut
                             .updatingStepToUploadingImages()
-                            .updating(uploadedImages: [MockFile].makeMocks())
+                            .updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
+                            .updatingAfterUploadingSuccess()
                             .updating(price: ListingPrice.makeMock())
                             .updating(category: .car)
                     }
@@ -1030,7 +1062,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating uploaded images") {
-                        expect(sut.updating(uploadedImages: [MockFile].makeMocks())) === sut
+                        expect(sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())) === sut
                     }
                     
                     it("returns the same state when updating upload error") {

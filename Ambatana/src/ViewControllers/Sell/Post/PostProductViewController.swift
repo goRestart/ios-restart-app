@@ -299,7 +299,7 @@ fileprivate extension PostListingState {
         switch step {
         case .imageSelection:
             return 0
-        case .uploadingImage, .errorUpload, .detailsSelection, .categorySelection, .carDetailsSelection, .finished:
+        case .uploadingImage, .errorUpload, .detailsSelection, .categorySelection, .carDetailsSelection, .finished, .uploadSuccess:
             return 1
         }
     }
@@ -308,7 +308,7 @@ fileprivate extension PostListingState {
         switch step {
         case .imageSelection, .categorySelection, .carDetailsSelection, .finished:
             return 0
-        case .uploadingImage, .errorUpload, .detailsSelection:
+        case .uploadingImage, .errorUpload, .detailsSelection, .uploadSuccess:
             return 1
         }
     }
@@ -317,7 +317,7 @@ fileprivate extension PostListingState {
         switch step {
         case .imageSelection, .categorySelection, .uploadingImage, .errorUpload, .carDetailsSelection, .finished:
             return 0
-        case .detailsSelection:
+        case .detailsSelection, .uploadSuccess:
             return 1
         }
     }
@@ -332,7 +332,7 @@ fileprivate extension PostListingState {
     
     var postErrorLabelText: String? {
         switch step {
-        case .imageSelection, .detailsSelection, .categorySelection, .uploadingImage, .carDetailsSelection, .finished:
+        case .imageSelection, .detailsSelection, .categorySelection, .uploadingImage, .carDetailsSelection, .finished, .uploadSuccess:
             return nil
         case let .errorUpload(message):
             return message
@@ -345,7 +345,7 @@ fileprivate extension PostListingState {
     
     var priceViewAlpha: CGFloat {
         switch step {
-        case .imageSelection, .categorySelection, .carDetailsSelection, .uploadingImage, .errorUpload, .finished:
+        case .imageSelection, .categorySelection, .carDetailsSelection, .uploadingImage, .errorUpload, .finished, .uploadSuccess:
             return 0
         case .detailsSelection:
             return 1
@@ -354,7 +354,7 @@ fileprivate extension PostListingState {
     
     var categorySelectionViewAlpha: CGFloat {
         switch step {
-        case .imageSelection, .carDetailsSelection, .uploadingImage, .errorUpload, .detailsSelection, .finished:
+        case .imageSelection, .carDetailsSelection, .uploadingImage, .errorUpload, .detailsSelection, .finished, .uploadSuccess:
             return 0
         case .categorySelection:
             return 1
@@ -363,31 +363,29 @@ fileprivate extension PostListingState {
     
     var carDetailsViewAlpha: CGFloat {
         switch step {
-        case .imageSelection, .categorySelection, .uploadingImage, .errorUpload, .detailsSelection, .finished:
+        case .imageSelection, .categorySelection, .uploadingImage, .errorUpload, .detailsSelection, .finished, .uploadSuccess:
             return 0
         case .carDetailsSelection:
             return 1
         }
     }
     
-    func priceViewShouldBecomeFirstResponder(wasLoading: Bool) -> Bool {
-        guard wasLoading else { return false }
+    func priceViewShouldBecomeFirstResponder() -> Bool {
         switch step {
-        case .imageSelection, .categorySelection, .uploadingImage, .errorUpload, .carDetailsSelection, .finished:
+        case .imageSelection, .categorySelection, .uploadingImage, .errorUpload, .carDetailsSelection, .finished, .uploadSuccess:
             return false
         case .detailsSelection:
             return true
         }
     }
     
-    func priceViewShouldResignFirstResponder(wasLoading: Bool) -> Bool {
-        guard wasLoading else { return false }
+    func priceViewShouldResignFirstResponder() -> Bool {
         return isError
     }
     
     var isError: Bool {
         switch step {
-        case .imageSelection, .detailsSelection, .categorySelection, .uploadingImage, .carDetailsSelection, .finished:
+        case .imageSelection, .detailsSelection, .categorySelection, .uploadingImage, .carDetailsSelection, .finished, .uploadSuccess:
             return false
         case .errorUpload:
             return true
@@ -396,7 +394,7 @@ fileprivate extension PostListingState {
     
     var isLoading: Bool {
         switch step {
-        case .imageSelection, .detailsSelection, .categorySelection, .errorUpload, .carDetailsSelection, .finished:
+        case .imageSelection, .detailsSelection, .categorySelection, .errorUpload, .carDetailsSelection, .finished, .uploadSuccess:
             return false
         case .uploadingImage:
             return true
@@ -423,7 +421,6 @@ extension PostProductViewController {
             self?.carDetailsView.alpha = state.carDetailsViewAlpha
         }
         
-        let wasLoading = isLoading
         if state.isLoading {
             UIView.animate(withDuration: 0.2,
                            delay: 0.8,
@@ -442,12 +439,12 @@ extension PostProductViewController {
         } else {
             updateVisibility()
         }
-        
-        if state.priceViewShouldBecomeFirstResponder(wasLoading: wasLoading) {
+        if state.priceViewShouldBecomeFirstResponder() {
             priceView.becomeFirstResponder()
-        } else if state.priceViewShouldResignFirstResponder(wasLoading: wasLoading) {
+        } else if state.priceViewShouldResignFirstResponder() {
             priceView.resignFirstResponder()
         }
+ 
     }
     
     private func viewToAdjustDetailsScrollContentInset(state: PostListingState) -> UIView? {
@@ -458,7 +455,7 @@ extension PostProductViewController {
             return categorySelectionView
         case .carDetailsSelection:
             return carDetailsView
-        case .imageSelection, .uploadingImage, .errorUpload, .finished:
+        case .imageSelection, .uploadingImage, .errorUpload, .finished, .uploadSuccess:
             return nil
         }
     }

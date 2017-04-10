@@ -1247,6 +1247,38 @@ struct LGLocalizedString {
 		return NSLocalizedString("hidden_phone_tag", comment: "")
 	}
 
+	static var hiddenTextAlertTitle: String {
+		return NSLocalizedString("hidden_text_alert_title", comment: "")
+	}
+
+	static var hiddenTextAlertDescription: String {
+		return NSLocalizedString("hidden_text_alert_description", comment: "")
+	}
+
+	static var carPostAddDetailsTitle: String {
+		return NSLocalizedString("car_post_add_details_title", comment: "")
+	}
+
+	static var carPostAddDetailsCarMake: String {
+		return NSLocalizedString("car_post_add_details_car_make", comment: "")
+	}
+
+	static var carPostAddDetailsCarModel: String {
+		return NSLocalizedString("car_post_add_details_car_model", comment: "")
+	}
+
+	static var carPostAddDetailsCarYear: String {
+		return NSLocalizedString("car_post_add_details_car_year", comment: "")
+	}
+
+	static var carPostAddDetailsProgress: String {
+		return NSLocalizedString("car_post_add_details_progress", comment: "")
+	}
+
+	static var carPostAddDetailsProgress100: String {
+		return NSLocalizedString("car_post_add_details_progress_100", comment: "")
+	}
+
 	static var locationPermissionsBubble: String {
 		return NSLocalizedString("location_permissions_bubble", comment: "")
 	}
