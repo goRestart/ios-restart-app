@@ -157,7 +157,7 @@ class PostProductViewModel: BaseViewModel {
 
 extension PostProductViewModel: PostProductDetailViewModelDelegate {
     func postProductDetailDone(_ viewModel: PostProductDetailViewModel) {
-        postProduct()
+        state.value = state.value.updating(price: viewModel.productPrice)
     }
 }
 
@@ -169,6 +169,10 @@ fileprivate extension PostProductViewModel {
         category.asObservable().subscribeNext { [weak self] category in
             guard let strongSelf = self, let category = category else { return }
             strongSelf.state.value = strongSelf.state.value.updating(category: category)
+        }.addDisposableTo(disposeBag)
+        
+        state.asObservable().filter { $0.step == .finished }.bindNext { [weak self] _ in
+            self?.postProduct()
         }.addDisposableTo(disposeBag)
     }
     

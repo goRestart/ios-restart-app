@@ -406,6 +406,7 @@ fileprivate extension PostListingState {
 
 extension PostProductViewController {
     fileprivate func update(state: PostListingState) {
+
         if let view = viewToAdjustDetailsScrollContentInset(state: state) {
             adjustDetailsScrollContentInset(to: view)
         }
