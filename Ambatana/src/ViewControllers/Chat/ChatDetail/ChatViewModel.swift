@@ -623,6 +623,7 @@ extension ChatViewModel {
                 strongSelf.afterSendMessageEvents()
                 strongSelf.trackMessageSent(type: type)
             } else if let error = result.error {
+                strongSelf.trackMessageSentError(type: type, error: error)
                 // Removing message until we implement the retry-message state behavior
                 strongSelf.removeMessage(messageId: messageId)
                 switch error {
@@ -1155,33 +1156,20 @@ fileprivate extension ChatViewModel {
 // MARK: - Tracking
 
 fileprivate extension ChatViewModel {
-    
-    func trackFirstMessage(type: ChatWrapperMessageType) {
-        guard let product = conversation.value.listing else { return }
-        guard let userId = conversation.value.interlocutor?.objectId else { return }
-
-        let sellerRating = conversation.value.amISelling ?
-            myUserRepository.myUser?.ratingAverage : interlocutor?.ratingAverage
-        let firstMessageEvent = TrackerEvent.firstMessage(product, messageType: type.chatTrackerType, quickAnswerType: type.quickAnswerType,
-                                                               interlocutorId: userId, typePage: .chat,
-                                                               sellerRating: sellerRating,
-                                                               freePostingModeAllowed: featureFlags.freePostingModeAllowed,
-                                                               isBumpedUp: EventParameterBoolean.falseParameter)
-        tracker.trackEvent(firstMessageEvent)
-    }
 
     func trackMessageSent(type: ChatWrapperMessageType) {
-        guard let product = conversation.value.listing else { return }
-        guard let userId = conversation.value.interlocutor?.objectId else { return }
+        guard let info = buildSendMessageInfo(withType: type, error: nil) else { return }
 
         if shouldTrackFirstMessage {
             shouldTrackFirstMessage = false
-            trackFirstMessage(type:type)
+            tracker.trackEvent(TrackerEvent.firstMessage(info: info))
         }
-        let messageSentEvent = TrackerEvent.userMessageSent(product, userToId: userId, messageType: type.chatTrackerType,
-                                                            quickAnswerType: type.quickAnswerType, typePage: .chat,
-                                                            freePostingModeAllowed: featureFlags.freePostingModeAllowed)
-        tracker.trackEvent(messageSentEvent)
+        tracker.trackEvent(TrackerEvent.userMessageSent(info: info))
+    }
+
+    func trackMessageSentError(type: ChatWrapperMessageType, error: RepositoryError) {
+        guard let info = buildSendMessageInfo(withType: type, error: error) else { return }
+        tracker.trackEvent(TrackerEvent.userMessageSentError(info: info))
     }
     
     func trackBlockUsers(_ userIds: [String]) {
@@ -1205,6 +1193,27 @@ fileprivate extension ChatViewModel {
                                                         freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                         isBumpedUp: .notAvailable)
         tracker.trackEvent(markAsSold)
+    }
+
+    private func buildSendMessageInfo(withType type: ChatWrapperMessageType, error: RepositoryError?) -> SendMessageTrackingInfo? {
+        guard let listing = conversation.value.listing else { return nil }
+        guard let userId = conversation.value.interlocutor?.objectId else { return nil }
+
+        let sellerRating = conversation.value.amISelling ?
+            myUserRepository.myUser?.ratingAverage : interlocutor?.ratingAverage
+
+        let sendMessageInfo = SendMessageTrackingInfo()
+            .set(chatListing: listing, freePostingModeAllowed: featureFlags.freePostingModeAllowed)
+            .set(interlocutorId: userId)
+            .set(messageType: type.chatTrackerType)
+            .set(quickAnswerType: type.quickAnswerType)
+            .set(typePage: .chat)
+            .set(sellerRating: sellerRating)
+            .set(isBumpedUp: .falseParameter)
+        if let error = error {
+            sendMessageInfo.set(error: error.chatError)
+        }
+        return sendMessageInfo
     }
 }
 

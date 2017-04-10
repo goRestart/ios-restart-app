@@ -95,8 +95,11 @@ class ExpressChatViewModel: BaseViewModel {
         for listing in selectedListings.value {
             chatWrapper.sendMessageFor(listing: listing, type:.expressChat(messageText.value)) { result in
                 if let value = result.value {
-                    ExpressChatViewModel.singleMessageExtraTrackings(tracker, shouldSendAskQuestion: value, listing: listing,
+                    ExpressChatViewModel.singleMessageTrackings(tracker, shouldSendAskQuestion: value, listing: listing,
                                                                      freePostingModeAllowed: freePostingModeAllowed)
+                } else if let error = result.error {
+                    ExpressChatViewModel.singleMessageTrackingError(tracker, listing: listing,
+                                                                         freePostingModeAllowed: freePostingModeAllowed, error: error)
                 }
             }
         }
@@ -162,18 +165,36 @@ class ExpressChatViewModel: BaseViewModel {
 // MARK: - Tracking
 
 extension ExpressChatViewModel {
-    static func singleMessageExtraTrackings(_ tracker: Tracker, shouldSendAskQuestion: Bool, listing: Listing,
+    static func singleMessageTrackings(_ tracker: Tracker, shouldSendAskQuestion: Bool, listing: Listing,
                                             freePostingModeAllowed: Bool) {
+        guard let info = buildSendMessageInfo(withListing: listing, freePostingModeAllowed: freePostingModeAllowed,
+                                              error: nil) else { return }
         if shouldSendAskQuestion {
-            let askQuestionEvent = TrackerEvent.firstMessage(listing, messageType: .text, quickAnswerType: nil, typePage: .expressChat,
-                                                             freePostingModeAllowed: freePostingModeAllowed,
-                                                             isBumpedUp: .falseParameter)
-            tracker.trackEvent(askQuestionEvent)
+            tracker.trackEvent(TrackerEvent.firstMessage(info: info))
         }
+        tracker.trackEvent(TrackerEvent.userMessageSent(info: info))
+    }
 
-        let messageSentEvent = TrackerEvent.userMessageSent(listing, userTo: listing.user, messageType: .text, quickAnswerType: nil,
-                                                            typePage: .expressChat, freePostingModeAllowed: freePostingModeAllowed)
-        tracker.trackEvent(messageSentEvent)
+    static func singleMessageTrackingError(_ tracker: Tracker, listing: Listing,
+                                                freePostingModeAllowed: Bool, error: RepositoryError) {
+        guard let info = buildSendMessageInfo(withListing: listing, freePostingModeAllowed: freePostingModeAllowed,
+                                              error: error) else { return }
+        tracker.trackEvent(TrackerEvent.userMessageSentError(info: info))
+    }
+
+    private static func buildSendMessageInfo(withListing listing: Listing, freePostingModeAllowed: Bool,
+                                             error: RepositoryError?) -> SendMessageTrackingInfo? {
+        let sendMessageInfo = SendMessageTrackingInfo()
+            .set(listing: listing, freePostingModeAllowed: freePostingModeAllowed)
+            .set(messageType: .text)
+            .set(quickAnswerType: nil)
+            .set(typePage: .expressChat)
+            .set(isBumpedUp: .falseParameter)
+
+        if let error = error {
+            sendMessageInfo.set(error: error.chatError)
+        }
+        return sendMessageInfo
     }
 
     func trackExpressChatStart() {

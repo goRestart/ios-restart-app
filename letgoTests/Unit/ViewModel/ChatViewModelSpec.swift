@@ -61,8 +61,8 @@ class ChatViewModelSpec: BaseViewModelSpec {
             func buildChatViewModel(myUser: MockMyUser,
                                     chatMessages: [MockChatMessage],
                                     product: MockProduct,
-                                    interlocutor: MockChatInterlocutor,
                                     chatConversation: MockChatConversation,
+                                    commandSuccess: Bool = true,
                                     user: MockUser) {
                 
                 safetyTipsShown = false
@@ -70,14 +70,12 @@ class ChatViewModelSpec: BaseViewModelSpec {
                 
                 myUserRepository.result = MyUserResult(value: myUser)
                 myUserRepository.myUserVar.value = myUser
-                
-                chatRepository = MockChatRepository.makeMock()
+
                 chatRepository.indexMessagesResult = ChatMessagesResult(value: chatMessages)
                 chatRepository.chatStatusPublishSubject.onNext(.openAuthenticated)
-                
-                listingRepository = MockListingRepository.makeMock()
-                listingRepository.productResult = ProductResult(value: product)
-            
+                chatRepository.showConversationResult = ChatConversationResult(value: chatConversation)
+                chatRepository.commandResult = commandSuccess ? ChatCommandResult(value: Void()) : ChatCommandResult(error: .internalError(message: "test"))
+
                 let productA = Listing.product(MockProduct.makeMock())
                 let productB = Listing.product(MockProduct.makeMock())
                 let productC = Listing.product(MockProduct.makeMock())
@@ -86,20 +84,13 @@ class ChatViewModelSpec: BaseViewModelSpec {
                 listingsRelated.append(productB)
                 listingsRelated.append(productC)
                 listingsRelated.append(productD)
-                
                 listingRepository.indexResult = ListingsResult(value: listingsRelated)
-                
-                chatRepository.showConversationResult = ChatConversationResult(value: chatConversation)
-                chatRepository.commandResult = ChatCommandResult(value: Void())
-                
-                conversation = chatConversation
-                
-                userRepository = MockUserRepository.makeMock()
-                
+                listingRepository.productResult = ProductResult(value: product)
+
                 userRepository.userResult = UserResult(value: user)
-                userRepository.userUserRelationResult = UserUserRelationResult(value: MockUserUserRelation.makeMock())
                 userRepository.emptyResult = UserVoidResult(value: Void())
-                
+
+                conversation = chatConversation
                 sut = ChatViewModel(conversation: conversation, myUserRepository: myUserRepository,
                                     chatRepository: chatRepository, listingRepository: listingRepository,
                                     userRepository: userRepository, stickersRepository: stickersRepository,
@@ -118,7 +109,6 @@ class ChatViewModelSpec: BaseViewModelSpec {
                 
                 // init vars
                 sut = nil
-                conversation = MockChatConversation.makeMock()
                 myUserRepository = MockMyUserRepository()
                 chatRepository = MockChatRepository()
                 listingRepository = MockListingRepository()
@@ -163,11 +153,9 @@ class ChatViewModelSpec: BaseViewModelSpec {
                             buildChatViewModel(myUser: mockMyUser,
                                                chatMessages: chatMessages,
                                                product: productResult,
-                                               interlocutor: chatInterlocutor,
                                                chatConversation: chatConversation,
                                                user: user)
                             sut.active = true
-                            self.waitFor(timeout: 1)
                         }
                         it ("does not have related products") {
                             expect(sut.relatedListings.count).toEventually(equal(0))
@@ -176,28 +164,28 @@ class ChatViewModelSpec: BaseViewModelSpec {
                             expect(relatedListingsStateObserver.eventValues.count).toEventually(equal(1))
                         }
                         it("related products state is hidden") {
-                            expect(relatedListingsStateObserver.eventValues) == [.hidden]
+                            expect(relatedListingsStateObserver.lastValue).toEventually(equal(ChatRelatedItemsState.hidden))
                         }
                     }
                     context("being a buyer") {
                         var listingId: String!
                         beforeEach {
+                            productResult = self.makeMockProduct(with: .sold)
                             chatConversation = self.makeChatConversation(with: chatInterlocutor, unreadMessageCount: 0, lastMessageSentAt: nil, amISelling: false)
                             buildChatViewModel(myUser: mockMyUser,
                                                chatMessages: chatMessages,
                                                product: productResult,
-                                               interlocutor: chatInterlocutor,
                                                chatConversation: chatConversation,
                                                user: user)
                             sut.active = true
-                            expect(relatedListingsStateObserver.eventValues.count).toEventually(equal(1))
+                            expect(relatedListingsStateObserver.events.count).toEventually(equal(1), timeout: 10)
                         }
                         it ("has related products") {
                             expect(sut.relatedListings.count).toEventually(equal(4))
                         }
                         it("related products state is visible") {
                             listingId = chatConversation.listing?.objectId
-                            expect(relatedListingsStateObserver.eventValues) == [.visible(listingId: listingId)]
+                            expect(relatedListingsStateObserver.lastValue).toEventually(equal(ChatRelatedItemsState.visible(listingId: listingId)))
                         }
                     }
                 }
@@ -209,7 +197,6 @@ class ChatViewModelSpec: BaseViewModelSpec {
                             buildChatViewModel(myUser: mockMyUser,
                                                chatMessages: chatMessages,
                                                product: productResult,
-                                               interlocutor: chatInterlocutor,
                                                chatConversation: chatConversation,
                                                user: user)
                             sut.active = true
@@ -225,7 +212,6 @@ class ChatViewModelSpec: BaseViewModelSpec {
                                 buildChatViewModel(myUser: mockMyUser,
                                                    chatMessages: chatMessages,
                                                    product: productResult,
-                                                   interlocutor: chatInterlocutor,
                                                    chatConversation: chatConversation,
                                                    user: user)
                                 sut.active = true
@@ -243,7 +229,6 @@ class ChatViewModelSpec: BaseViewModelSpec {
                             buildChatViewModel(myUser: mockMyUser,
                                                chatMessages: chatMessages,
                                                product: productResult,
-                                               interlocutor: chatInterlocutor,
                                                chatConversation: chatConversation,
                                                user: user)
                             sut.active = true
@@ -271,7 +256,6 @@ class ChatViewModelSpec: BaseViewModelSpec {
                         buildChatViewModel(myUser: mockMyUser,
                                            chatMessages: chatMessages,
                                            product: productResult,
-                                           interlocutor: chatInterlocutor,
                                            chatConversation: chatConversation,
                                            user: user)
                         sut.active = true
@@ -288,7 +272,6 @@ class ChatViewModelSpec: BaseViewModelSpec {
                         buildChatViewModel(myUser: mockMyUser,
                                            chatMessages: chatMessages,
                                            product: productResult,
-                                           interlocutor: chatInterlocutor,
                                            chatConversation: chatConversation,
                                            user: user)
                         sut.active = true
@@ -303,7 +286,6 @@ class ChatViewModelSpec: BaseViewModelSpec {
                                 buildChatViewModel(myUser: mockMyUser,
                                                    chatMessages: chatMessages,
                                                    product: productResult,
-                                                   interlocutor: chatInterlocutor,
                                                    chatConversation: chatConversation,
                                                    user: user)
                                 sut.active = true
@@ -318,7 +300,6 @@ class ChatViewModelSpec: BaseViewModelSpec {
                                 buildChatViewModel(myUser: mockMyUser,
                                                    chatMessages: chatMessages,
                                                    product: productResult,
-                                                   interlocutor: chatInterlocutor,
                                                    chatConversation: chatConversation,
                                                    user: user)
                                 sut.active = true
@@ -344,7 +325,6 @@ class ChatViewModelSpec: BaseViewModelSpec {
                         buildChatViewModel(myUser: mockMyUser,
                                            chatMessages: chatMessages,
                                            product: productResult,
-                                           interlocutor: chatInterlocutor,
                                            chatConversation: chatConversation,
                                            user: user)
                         sut.active = true
@@ -409,7 +389,6 @@ class ChatViewModelSpec: BaseViewModelSpec {
                         buildChatViewModel(myUser: mockMyUser,
                                            chatMessages: chatMessages,
                                            product: productResult,
-                                           interlocutor: chatInterlocutor,
                                            chatConversation: chatConversation,
                                            user: user)
                         sut.active = true
@@ -459,6 +438,52 @@ class ChatViewModelSpec: BaseViewModelSpec {
                         }
                         it("should clean textField") {
                             expect(self.textFieldCleaned) == false
+                        }
+                    }
+                }
+                describe("already existing conversation message returns error") {
+                    beforeEach {
+                        mockMyUser = self.makeMockMyUser(with: .active, isDummy: false)
+                        productResult = self.makeMockProduct(with: .approved)
+                        chatInterlocutor = self.makeChatInterlocutor(with: .active, isMuted: false, isBanned: false, hasMutedYou: false)
+                        user = self.makeUser(with: .active, isDummy: false, userId: mockMyUser.objectId!)
+                        chatMessages = self.makeChatMessages(with: mockMyUser.objectId!, myMessagesNumber: 1, interlocutorId: chatInterlocutor.objectId!, interlocutorNumberMessages: 1)
+                        chatConversation = self.makeChatConversation(with: chatInterlocutor, unreadMessageCount: 0, lastMessageSentAt: Date(), amISelling: false)
+                        buildChatViewModel(myUser: mockMyUser,
+                                           chatMessages: chatMessages,
+                                           product: productResult,
+                                           chatConversation: chatConversation,
+                                           commandSuccess: false,
+                                           user: user)
+                        sut.active = true
+                    }
+                    context("quick answer") {
+                        beforeEach {
+                            sut.send(quickAnswer: .meetUp)
+                            expect(tracker.trackedEvents.count).toEventually(equal(2))
+                        }
+                        it("tracks sent message error") {
+                            expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "user-sent-message-error"]
+                        }
+                    }
+                    context("custom text") {
+                        beforeEach {
+                            sut.send(text: "text")
+                            expect(tracker.trackedEvents.count).toEventually(equal(2))
+                        }
+                        it("tracks sent message error") {
+                            expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "user-sent-message-error"]
+                        }
+                    }
+                    context("sticker") {
+                        var sticker: MockSticker!
+                        beforeEach {
+                            sticker = MockSticker.makeMock()
+                            sut.send(sticker: sticker)
+                            expect(tracker.trackedEvents.count).toEventually(equal(2))
+                        }
+                        it("tracks sent message error") {
+                            expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "user-sent-message-error"]
                         }
                     }
                 }
