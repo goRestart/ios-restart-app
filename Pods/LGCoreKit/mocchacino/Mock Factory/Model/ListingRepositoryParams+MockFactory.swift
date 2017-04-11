@@ -53,11 +53,7 @@ class MockCarCreationParams: CarCreationParams, MockFactory {
                    location: LGLocationCoordinates2D.makeMock(),
                    postalAddress: PostalAddress.makeMock(),
                    images: MockFile.makeMocks(count: Int.makeRandom(min: 0, max: 4)),
-                   make: String?.makeRandom(),
-                   makeId: String?.makeRandom(),
-                   model: String?.makeRandom(),
-                   modelId: String?.makeRandom(),
-                   year: Int?.makeRandom())
+                   carAttributes: CarAttributes.emptyCarAttributes()) // TODO: add makeMock for CarAttributes
     }
     
     public static func makeMock() -> Self {
