@@ -16,7 +16,7 @@ class ConfigFileManagerSpec: QuickSpec {
    
     override func spec() {
         
-        var sut : ConfigManager!
+        var sut : LGConfigManager!
         var service : MockConfigRetrieveService!
         var dao : MockConfigDAO!
 
@@ -28,7 +28,7 @@ class ConfigFileManagerSpec: QuickSpec {
         describe("initialization") {
             context("with dao that cannot load any data") {
                 beforeEach {
-                    sut = ConfigManager(service: service, dao: dao, appCurrentVersion: "18")
+                    sut = LGConfigManager(service: service, dao: dao, appCurrentVersion: "18")
                 }
                 it("should not force an update") {
                     expect(sut.shouldForceUpdate).to(beFalse())
@@ -41,7 +41,7 @@ class ConfigFileManagerSpec: QuickSpec {
                                         myMessagesCountForRating: Constants.myMessagesCountForRating,
                                         otherMessagesCountForRating: Constants.otherMessagesCountForRating)
                     dao.config = config
-                    sut = ConfigManager(service: service, dao: dao, appCurrentVersion: "18")
+                    sut = LGConfigManager(service: service, dao: dao, appCurrentVersion: "18")
                 }
                 it("should not force an update") {
                     expect(sut.shouldForceUpdate).to(beFalse())
@@ -54,7 +54,7 @@ class ConfigFileManagerSpec: QuickSpec {
                                         myMessagesCountForRating: Constants.myMessagesCountForRating,
                                         otherMessagesCountForRating: Constants.otherMessagesCountForRating)
                     dao.config = config
-                    sut = ConfigManager(service: service, dao: dao, appCurrentVersion: "18")
+                    sut = LGConfigManager(service: service, dao: dao, appCurrentVersion: "18")
                 }
                 it("should force an update") {
                     expect(sut.shouldForceUpdate).to(beTrue())
@@ -62,7 +62,7 @@ class ConfigFileManagerSpec: QuickSpec {
             }
             context("messages count with dao that cannot load any data") {
                 beforeEach {
-                    sut = ConfigManager(service: service, dao: dao, appCurrentVersion: "18")
+                    sut = LGConfigManager(service: service, dao: dao, appCurrentVersion: "18")
                 }
                 it("should have default value for my messages") {
                     expect(sut.myMessagesCountForRating) == Constants.myMessagesCountForRating
@@ -78,7 +78,7 @@ class ConfigFileManagerSpec: QuickSpec {
                            myMessagesCountForRating: 2,
                            otherMessagesCountForRating: 3)
                     dao.config = config
-                    sut = ConfigManager(service: service, dao: dao, appCurrentVersion: "18")
+                    sut = LGConfigManager(service: service, dao: dao, appCurrentVersion: "18")
                 }
                 it("should have default value for my messages") {
                     expect(sut.myMessagesCountForRating) == 2
@@ -104,13 +104,13 @@ class ConfigFileManagerSpec: QuickSpec {
                 dao.config = nil
                 service.mockResult = ConfigRetrieveServiceResult(error: .internalError)
                 
-                sut = ConfigManager(service: service, dao: dao, appCurrentVersion: "18")
+                sut = LGConfigManager(service: service, dao: dao, appCurrentVersion: "18")
                 sut.updateWithCompletion(completion)
                 expect(didExecuteCompletion).toEventually(beTrue())
             }
             
             it("should execute completion block if service times out") {
-                sut = ConfigManager(service: service, dao: dao, appCurrentVersion: "18")
+                sut = LGConfigManager(service: service, dao: dao, appCurrentVersion: "18")
                 sut.updateWithCompletion(completion)
                 expect(didExecuteCompletion).toEventually(beTrue(), timeout: 4)
             }
@@ -120,7 +120,7 @@ class ConfigFileManagerSpec: QuickSpec {
                     dao.config = nil
                     service.mockResult = ConfigRetrieveServiceResult(error: .network)
                     
-                    sut = ConfigManager(service: service, dao: dao, appCurrentVersion: "18")
+                    sut = LGConfigManager(service: service, dao: dao, appCurrentVersion: "18")
                     
                     sut.updateWithCompletion(completion)
                     expect(didExecuteCompletion).toEventually(beTrue())
@@ -140,7 +140,7 @@ class ConfigFileManagerSpec: QuickSpec {
                     
                     service.mockResult = ConfigRetrieveServiceResult(error: .network)
                     
-                    sut = ConfigManager(service: service, dao: dao, appCurrentVersion: "18")
+                    sut = LGConfigManager(service: service, dao: dao, appCurrentVersion: "18")
                     
                     sut.updateWithCompletion(completion)
                     expect(didExecuteCompletion).toEventually(beTrue())
@@ -160,7 +160,7 @@ class ConfigFileManagerSpec: QuickSpec {
                                         otherMessagesCountForRating: Constants.otherMessagesCountForRating)
                     service.mockResult = ConfigRetrieveServiceResult(value: config)
                     
-                    sut = ConfigManager(service: service, dao: dao, appCurrentVersion: "18")
+                    sut = LGConfigManager(service: service, dao: dao, appCurrentVersion: "18")
                     
                     sut.updateWithCompletion(completion)
                     expect(didExecuteCompletion).toEventually(beTrue())
@@ -180,7 +180,7 @@ class ConfigFileManagerSpec: QuickSpec {
                                         otherMessagesCountForRating: Constants.otherMessagesCountForRating)
                     service.mockResult = ConfigRetrieveServiceResult(value: config)
                     
-                    sut = ConfigManager(service: service, dao: dao, appCurrentVersion: "18")
+                    sut = LGConfigManager(service: service, dao: dao, appCurrentVersion: "18")
                     
                     sut.updateWithCompletion(completion)
                     expect(didExecuteCompletion).toEventually(beTrue())

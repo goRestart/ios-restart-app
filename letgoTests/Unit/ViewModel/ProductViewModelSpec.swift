@@ -397,8 +397,8 @@ class ProductViewModelSpec: BaseViewModelSpec {
                             it("element is removed from directMessages") {
                                 expect(directChatMessagesObserver.lastValue?.count) == 0
                             }
-                            it("didn't track any message sent event") {
-                                expect(tracker.trackedEvents.count) == 0
+                            it("tracks send message error") {
+                                expect(tracker.trackedEvents.map { $0.actualName }) == ["user-sent-message-error"]
                             }
                         }
                     }
@@ -459,8 +459,8 @@ class ProductViewModelSpec: BaseViewModelSpec {
                             it("element is removed from directMessages") {
                                 expect(directChatMessagesObserver.lastValue?.count) == 0
                             }
-                            it("didn't track any message sent event") {
-                                expect(tracker.trackedEvents.count) == 0
+                            it("tracks send message error") {
+                                expect(tracker.trackedEvents.map { $0.actualName }) == ["user-sent-message-error"]
                             }
                         }
                     }

@@ -1243,6 +1243,7 @@ class TrackerEventSpec: QuickSpec {
 
             describe("product ask question") {
                 var product: Product!
+                var sendMessageInfo: SendMessageTrackingInfo!
                 beforeEach {
                     var mockProduct = MockProduct.makeMock()
                     mockProduct.objectId = "12345"
@@ -1256,10 +1257,15 @@ class TrackerEventSpec: QuickSpec {
                     mockProduct.user = productOwner
                     mockProduct.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
                     product = mockProduct
-                    
-                    sut = TrackerEvent.firstMessage(.product(product), messageType: .text, quickAnswerType: nil,
-                                                    typePage: .productDetail, sellerRating: 4,
-                                                    freePostingModeAllowed: true, isBumpedUp: .trueParameter)
+
+                    sendMessageInfo = SendMessageTrackingInfo()
+                        .set(listing: .product(product), freePostingModeAllowed: true)
+                        .set(messageType: .text)
+                        .set(quickAnswerType: nil)
+                        .set(typePage: .productDetail)
+                        .set(sellerRating: 4)
+                        .set(isBumpedUp: .trueParameter)
+                    sut = TrackerEvent.firstMessage(info: sendMessageInfo)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-ask-question"))
@@ -1314,10 +1320,8 @@ class TrackerEventSpec: QuickSpec {
                 }
                 describe("text message") {
                     beforeEach {
-                        sut = TrackerEvent.firstMessage(.product(product), messageType: .text, quickAnswerType: nil,
-                                                        typePage: .productDetail, sellerRating: 4,
-                                                        freePostingModeAllowed: true, isBumpedUp: .trueParameter)
-
+                        sendMessageInfo.set(messageType: .text)
+                        sut = TrackerEvent.firstMessage(info: sendMessageInfo)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1329,10 +1333,8 @@ class TrackerEventSpec: QuickSpec {
                 }
                 describe("sticker message") {
                     beforeEach {
-                        sut = TrackerEvent.firstMessage(.product(product), messageType: .sticker, quickAnswerType: nil,
-                                                        typePage: .productDetail, sellerRating: 4,
-                                                        freePostingModeAllowed: true, isBumpedUp: .trueParameter)
-
+                        sendMessageInfo.set(messageType: .sticker)
+                        sut = TrackerEvent.firstMessage(info: sendMessageInfo)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1344,10 +1346,9 @@ class TrackerEventSpec: QuickSpec {
                 }
                 describe("quick answer message") {
                     beforeEach {
-                        sut = TrackerEvent.firstMessage(.product(product), messageType: .quickAnswer, quickAnswerType: .notInterested,
-                                                        typePage: .productDetail, sellerRating: 4,
-                                                        freePostingModeAllowed: true, isBumpedUp: .trueParameter)
-
+                        sendMessageInfo.set(messageType: .quickAnswer)
+                        sendMessageInfo.set(quickAnswerType: .notInterested)
+                        sut = TrackerEvent.firstMessage(info: sendMessageInfo)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1362,6 +1363,7 @@ class TrackerEventSpec: QuickSpec {
 
             describe("product ask question (ChatListing)") {
                 var product: ChatListing!
+                var sendMessageInfo: SendMessageTrackingInfo!
                 beforeEach {
                     var mockProduct = MockChatListing.makeMock()
                     mockProduct.objectId = "12345"
@@ -1369,9 +1371,15 @@ class TrackerEventSpec: QuickSpec {
                     mockProduct.currency = Currency(code: "EUR", symbol: "€")
 
                     product = mockProduct
-                    sut = TrackerEvent.firstMessage(product, messageType: .text, quickAnswerType: nil,
-                                                    interlocutorId: "67890", typePage: .productDetail, sellerRating: 4,
-                                                    freePostingModeAllowed: true, isBumpedUp: .trueParameter)
+                    sendMessageInfo = SendMessageTrackingInfo()
+                        .set(chatListing: product, freePostingModeAllowed: true)
+                        .set(interlocutorId: "67890")
+                        .set(messageType: .text)
+                        .set(quickAnswerType: nil)
+                        .set(typePage: .productDetail)
+                        .set(sellerRating: 4)
+                        .set(isBumpedUp: .trueParameter)
+                    sut = TrackerEvent.firstMessage(info: sendMessageInfo)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-ask-question"))
@@ -1414,9 +1422,8 @@ class TrackerEventSpec: QuickSpec {
                 }
                 describe("text message") {
                     beforeEach {
-                        sut = TrackerEvent.firstMessage(product, messageType: .text, quickAnswerType: nil,
-                                                        interlocutorId: "67890", typePage: .productDetail, sellerRating: 4,
-                                                        freePostingModeAllowed: true, isBumpedUp: .trueParameter)
+                        sendMessageInfo.set(messageType: .text)
+                        sut = TrackerEvent.firstMessage(info: sendMessageInfo)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1428,9 +1435,8 @@ class TrackerEventSpec: QuickSpec {
                 }
                 describe("sticker message") {
                     beforeEach {
-                        sut = TrackerEvent.firstMessage(product, messageType: .sticker, quickAnswerType: nil,
-                                                        interlocutorId: "67890", typePage: .productDetail, sellerRating: 4,
-                                                        freePostingModeAllowed: true, isBumpedUp: .trueParameter)
+                        sendMessageInfo.set(messageType: .sticker)
+                        sut = TrackerEvent.firstMessage(info: sendMessageInfo)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1442,9 +1448,9 @@ class TrackerEventSpec: QuickSpec {
                 }
                 describe("quick answer message") {
                     beforeEach {
-                        sut = TrackerEvent.firstMessage(product, messageType: .quickAnswer, quickAnswerType: .notInterested,
-                                                        interlocutorId: "67890", typePage: .productDetail, sellerRating: 4,
-                                                        freePostingModeAllowed: true, isBumpedUp: .trueParameter)
+                        sendMessageInfo.set(messageType: .quickAnswer)
+                        sendMessageInfo.set(quickAnswerType: .notInterested)
+                        sut = TrackerEvent.firstMessage(info: sendMessageInfo)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -2006,6 +2012,7 @@ class TrackerEventSpec: QuickSpec {
             describe("userMessageSent") {
                 var userListing: MockUserListing!
                 var product: MockProduct!
+                var sendMessageInfo: SendMessageTrackingInfo!
                 beforeEach {
                     userListing = MockUserListing.makeMock()
                     userListing.objectId = "56897"
@@ -2024,8 +2031,14 @@ class TrackerEventSpec: QuickSpec {
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
                                                           countryCode: "US", country: nil)
 
-                    sut = TrackerEvent.userMessageSent(.product(product), userTo: userListing, messageType: .text,
-                                                       quickAnswerType: nil, typePage: .chat, freePostingModeAllowed: true)
+                    sendMessageInfo = SendMessageTrackingInfo()
+                        .set(listing: .product(product), freePostingModeAllowed: true)
+                        .set(messageType: .text)
+                        .set(quickAnswerType: nil)
+                        .set(typePage: .chat)
+                        .set(sellerRating: 4)
+                        .set(isBumpedUp: .trueParameter)
+                    sut = TrackerEvent.userMessageSent(info: sendMessageInfo)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("user-sent-message"))
@@ -2071,9 +2084,8 @@ class TrackerEventSpec: QuickSpec {
                 }
                 describe("text message") {
                     beforeEach {
-                        sut = TrackerEvent.userMessageSent(.product(product), userTo: userListing, messageType: .text,
-                                                           quickAnswerType: nil, typePage: .chat,
-                                                           freePostingModeAllowed: true)
+                        sendMessageInfo.set(messageType: .text)
+                        sut = TrackerEvent.userMessageSent(info: sendMessageInfo)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -2089,9 +2101,8 @@ class TrackerEventSpec: QuickSpec {
                 }
                 describe("sticker message") {
                     beforeEach {
-                        sut = TrackerEvent.userMessageSent(.product(product), userTo: userListing, messageType: .sticker,
-                                                           quickAnswerType: nil, typePage: .chat,
-                                                           freePostingModeAllowed: true)
+                        sendMessageInfo.set(messageType: .sticker)
+                        sut = TrackerEvent.userMessageSent(info: sendMessageInfo)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -2107,9 +2118,148 @@ class TrackerEventSpec: QuickSpec {
                 }
                 describe("quick answer message") {
                     beforeEach {
-                        sut = TrackerEvent.userMessageSent(.product(product), userTo: userListing, messageType: .quickAnswer,
-                                                           quickAnswerType: .notInterested, typePage: .chat,
-                                                           freePostingModeAllowed: true)
+                        sendMessageInfo.set(messageType: .quickAnswer)
+                        sendMessageInfo.set(quickAnswerType: .notInterested)
+                        sut = TrackerEvent.userMessageSent(info: sendMessageInfo)
+                    }
+                    it("has message-type param with value text") {
+                        let value = sut.params!.stringKeyParams["message-type"] as? String
+                        expect(value) == "quick-answer"
+                    }
+                    it("has quick-answer param with value false") {
+                        let value = sut.params!.stringKeyParams["quick-answer"] as? String
+                        expect(value) == "true"
+                    }
+                    it("has no quick-answer-type") {
+                        let value = sut.params!.stringKeyParams["quick-answer-type"] as? String
+                        expect(value) == "not-interested"
+                    }
+                }
+            }
+
+            describe("userMessageSentError") {
+                var userListing: MockUserListing!
+                var product: MockProduct!
+                var sendMessageInfo: SendMessageTrackingInfo!
+                beforeEach {
+                    userListing = MockUserListing.makeMock()
+                    userListing.objectId = "56897"
+                    userListing.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
+                                                              state: "", countryCode: "NL", country: nil)
+                    userListing.isDummy = false
+
+                    product = MockProduct.makeMock()
+                    product.objectId = "AAAAA"
+                    product.name = "iPhone 7S"
+                    product.price = .negotiable(123.983)
+                    product.currency = Currency(code: "EUR", symbol: "€")
+                    product.category = .homeAndGarden
+                    product.user = userListing
+                    product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
+                    product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
+                                                          countryCode: "US", country: nil)
+
+                    let error: EventParameterChatError = .serverError(code: 404)
+
+                    sendMessageInfo = SendMessageTrackingInfo()
+                        .set(listing: .product(product), freePostingModeAllowed: true)
+                        .set(messageType: .text)
+                        .set(quickAnswerType: nil)
+                        .set(typePage: .chat)
+                        .set(sellerRating: 4)
+                        .set(isBumpedUp: .trueParameter)
+                        .set(error: error)
+                    sut = TrackerEvent.userMessageSentError(info: sendMessageInfo)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("user-sent-message-error"))
+                }
+                it("has product-id param") {
+                    let productId = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(productId) == "AAAAA"
+                }
+                it("has product-price param") {
+                    let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
+                    expect(productPrice) == 123.983
+                }
+                it("has product-currency param") {
+                    let productCurrency = sut.params!.stringKeyParams["product-currency"] as? String
+                    expect(productCurrency) == "EUR"
+                }
+                it("has category-id param") {
+                    let productCategory = sut.params!.stringKeyParams["category-id"] as? Int
+                    expect(productCategory) == ListingCategory.homeAndGarden.rawValue
+                }
+                it("has coordinates params") {
+                    let productLat = sut.params!.stringKeyParams["product-lat"] as? Double
+                    expect(productLat) == 3.12354534
+
+                    let productLng = sut.params!.stringKeyParams["product-lng"] as? Double
+                    expect(productLng) == 7.23983292
+                }
+                it("has item-type param") {
+                    let itemType = sut.params!.stringKeyParams["item-type"] as? String
+                    expect(itemType) == "1"
+                }
+                it("has user-to-id param") {
+                    let productUserId = sut.params!.stringKeyParams["user-to-id"] as? String
+                    expect(productUserId) == "56897"
+                }
+                it("has type-page param") {
+                    let pageType = sut.params!.stringKeyParams["type-page"] as? String
+                    expect(pageType) == "chat"
+                }
+                it("has free-posting param") {
+                    let freePosting = sut.params!.stringKeyParams["free-posting"] as? String
+                    expect(freePosting) == "false"
+                }
+                it("has error-description param") {
+                    let value = sut.params!.stringKeyParams["error-description"] as? String
+                    expect(value) == "chat-server"
+                }
+                it("has error-details param") {
+                    let value = sut.params!.stringKeyParams["error-details"] as? String
+                    expect(value) == "404"
+                }
+                describe("text message") {
+                    beforeEach {
+                        sendMessageInfo.set(messageType: .text)
+                        sut = TrackerEvent.userMessageSentError(info: sendMessageInfo)
+                    }
+                    it("has message-type param with value text") {
+                        let value = sut.params!.stringKeyParams["message-type"] as? String
+                        expect(value) == "text"
+                    }
+                    it("has quick-answer param with value false") {
+                        let value = sut.params!.stringKeyParams["quick-answer"] as? String
+                        expect(value) == "false"
+                    }
+                    it("has no quick-answer-type") {
+                        expect(sut.params!.stringKeyParams["quick-answer-type"]).to(beNil())
+                    }
+                }
+                describe("sticker message") {
+                    beforeEach {
+                        sendMessageInfo.set(messageType: .sticker)
+                        sut = TrackerEvent.userMessageSentError(info: sendMessageInfo)
+                    }
+                    it("has message-type param with value text") {
+                        let value = sut.params!.stringKeyParams["message-type"] as? String
+                        expect(value) == "sticker"
+                    }
+                    it("has quick-answer param with value false") {
+                        let value = sut.params!.stringKeyParams["quick-answer"] as? String
+                        expect(value) == "false"
+                    }
+                    it("has no quick-answer-type") {
+                        expect(sut.params!.stringKeyParams["quick-answer-type"]).to(beNil())
+                    }
+                }
+                describe("quick answer message") {
+                    beforeEach {
+                        sendMessageInfo.set(messageType: .quickAnswer)
+                        sendMessageInfo.set(quickAnswerType: .notInterested)
+                        sut = TrackerEvent.userMessageSentError(info: sendMessageInfo)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String

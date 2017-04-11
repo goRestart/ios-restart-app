@@ -106,7 +106,7 @@ final class PushPrePermissionsSettingsViewController: BaseViewController {
     // MARK: - Actions
     
     @IBAction func yesButtonPressed(_ sender: AnyObject) {
-        PushPermissionsManager.sharedInstance.openPushNotificationSettings()
+        LGPushPermissionsManager.sharedInstance.openPushNotificationSettings()
         viewModel.userDidTapYesButton()
         close()
     }

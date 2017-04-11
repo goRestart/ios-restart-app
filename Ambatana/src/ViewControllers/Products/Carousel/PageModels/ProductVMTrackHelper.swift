@@ -166,16 +166,34 @@ extension ProductVMTrackHelper {
     }
 
     func trackMessageSent(_ isFirstMessage: Bool, messageType: ChatWrapperMessageType, isShowingFeaturedStripe: Bool) {
+        guard let info = buildSendMessageInfo(withType: messageType, isShowingFeaturedStripe: isShowingFeaturedStripe,
+                                              error: nil) else { return }
         if isFirstMessage {
-            let isBumpedUp = isShowingFeaturedStripe ? EventParameterBoolean.trueParameter :
-                                                       EventParameterBoolean.falseParameter
-            let firstMessageEvent = TrackerEvent.firstMessage(listing, messageType: messageType.chatTrackerType, quickAnswerType: messageType.quickAnswerType,
-                                                              typePage: .productDetail, freePostingModeAllowed: featureFlags.freePostingModeAllowed,
-                                                              isBumpedUp: isBumpedUp)
-            tracker.trackEvent(firstMessageEvent)
+            tracker.trackEvent(TrackerEvent.firstMessage(info: info))
         }
-        let messageSentEvent = TrackerEvent.userMessageSent(listing, userTo: listing.user, messageType: messageType.chatTrackerType, quickAnswerType: messageType.quickAnswerType,
-                                                            typePage: .productDetail, freePostingModeAllowed: featureFlags.freePostingModeAllowed)
-        tracker.trackEvent(messageSentEvent)
+        tracker.trackEvent(TrackerEvent.userMessageSent(info: info))
+    }
+
+    func trackMessageSentError(messageType: ChatWrapperMessageType, isShowingFeaturedStripe: Bool, error: RepositoryError) {
+        guard let info = buildSendMessageInfo(withType: messageType, isShowingFeaturedStripe: isShowingFeaturedStripe,
+                                              error: error) else { return }
+        tracker.trackEvent(TrackerEvent.userMessageSentError(info: info))
+    }
+
+    private func buildSendMessageInfo(withType messageType: ChatWrapperMessageType, isShowingFeaturedStripe: Bool,
+                                      error: RepositoryError?) -> SendMessageTrackingInfo? {
+        let isBumpedUp = isShowingFeaturedStripe ? EventParameterBoolean.trueParameter :
+            EventParameterBoolean.falseParameter
+
+        let sendMessageInfo = SendMessageTrackingInfo()
+            .set(listing: listing, freePostingModeAllowed: featureFlags.freePostingModeAllowed)
+            .set(messageType: messageType.chatTrackerType)
+            .set(quickAnswerType: messageType.quickAnswerType)
+            .set(typePage: .productDetail)
+            .set(isBumpedUp: isBumpedUp)
+        if let error = error {
+            sendMessageInfo.set(error: error.chatError)
+        }
+        return sendMessageInfo
     }
 }
