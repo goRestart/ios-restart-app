@@ -390,18 +390,24 @@ platform :ios do
     end
   end
 
-  lane :eliprueba do 
-    # lg_dependencies
+  lane :eliprueba do |options|
+    lg_dependencies
+    # raise "exception test"
+    UI.message("options: #{options}")
   end
 
   after_all do |lane|
     notification(
-      title: "Fastlane",
-      message: "'#{lane}' finished successfully"
+      title: "Fastlane '#{lane}'",
+      message: "finished successfully"
     )
   end
 
   error do |lane, exception|
-    puts "exception: #{exception.message}"
+    notification(
+      title: "Fastlane '#{lane}'",
+      message: "Failed: #{exception.message}"
+    )
+    UI.error "exception: #{exception.message}"
   end
 end
