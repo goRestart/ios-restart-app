@@ -176,6 +176,7 @@ fileprivate extension PostProductViewModel {
         }.addDisposableTo(disposeBag)
         
         state.asObservable().debug().filter { $0.step == .uploadSuccess }.bindNext { [weak self] _ in
+            // Keep one second delay in order to give time to read the product posted message.
             delay(1) { [weak self] in
                 guard let strongSelf = self else { return }
                 strongSelf.state.value = strongSelf.state.value.updatingAfterUploadingSuccess()
