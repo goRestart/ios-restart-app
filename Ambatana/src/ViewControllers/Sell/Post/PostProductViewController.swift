@@ -112,6 +112,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         
         self.priceView = PostProductDetailPriceView(viewModel: viewModel.postDetailViewModel)
         self.categorySelectionView = PostCategorySelectionView()
+        let categoryDetails
         self.carDetailsView = AddCategoryDetailsView(withCategoryDetails: [])
         
         self.postingGallery = postingGallery
@@ -216,6 +217,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         setupViewPager()
         setupCategorySelectionView()
         setupPriceView()
+        setupAddCarDetailsView()
         setupCloseButton()
         setupFooter()
     }
@@ -240,6 +242,12 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         categorySelectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(categorySelectionView)
         categorySelectionView.layout(with: view).fill()
+    }
+    
+    private func setupAddCarDetailsView() {
+        carDetailsView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(carDetailsView)
+        carDetailsView.layout(with: view).fill()
     }
     
     private func setupFooter() {
