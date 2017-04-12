@@ -2394,30 +2394,6 @@ struct LGLocalizedString {
 	static var productPostSelectCategoryOther: String {
 		return NSLocalizedString("product_post_select_category_other", comment: "")
 	}
-    
-    static var carPostAddDetailsTitle: String {
-        return NSLocalizedString("car_post_add_details_title", comment: "")
-    }
-    
-    static var carPostAddDetailsCarMake: String {
-        return NSLocalizedString("car_post_add_details_car_make", comment: "")
-    }
-    
-    static var carPostAddDetailsCarModel: String {
-        return NSLocalizedString("car_post_add_details_car_model", comment: "")
-    }
-    
-    static var carPostAddDetailsCarYear: String {
-        return NSLocalizedString("car_post_add_details_car_year", comment: "")
-    }
-    
-    static var carPostAddDetailsProgress: String {
-        return NSLocalizedString("car_post_add_details_progress", comment: "")
-    }
-    
-    static var carPostAddDetailsProgress100: String {
-        return NSLocalizedString("car_post_add_details_progress_100", comment: "")
-    }
 
 	static var productPriceLabel: String {
 		return NSLocalizedString("product_price_label", comment: "")
