@@ -130,7 +130,7 @@ class PostProductViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
             
             if let images = result.value {
-                strongSelf.state.value = strongSelf.state.value.updating(uploadedImages: images)
+                strongSelf.state.value = strongSelf.state.value.updatingToSuccessUpload(uploadedImages: images)
             } else if let error = result.error {
                 strongSelf.state.value = strongSelf.state.value.updating(uploadError: error)
             }
@@ -157,7 +157,7 @@ class PostProductViewModel: BaseViewModel {
 
 extension PostProductViewModel: PostProductDetailViewModelDelegate {
     func postProductDetailDone(_ viewModel: PostProductDetailViewModel) {
-        postProduct()
+        state.value = state.value.updating(price: viewModel.productPrice)
     }
 }
 
@@ -169,6 +169,18 @@ fileprivate extension PostProductViewModel {
         category.asObservable().subscribeNext { [weak self] category in
             guard let strongSelf = self, let category = category else { return }
             strongSelf.state.value = strongSelf.state.value.updating(category: category)
+        }.addDisposableTo(disposeBag)
+        
+        state.asObservable().filter { $0.step == .finished }.bindNext { [weak self] _ in
+            self?.postProduct()
+        }.addDisposableTo(disposeBag)
+        
+        state.asObservable().debug().filter { $0.step == .uploadSuccess }.bindNext { [weak self] _ in
+            // Keep one second delay in order to give time to read the product posted message.
+            delay(1) { [weak self] in
+                guard let strongSelf = self else { return }
+                strongSelf.state.value = strongSelf.state.value.updatingAfterUploadingSuccess()
+            }
         }.addDisposableTo(disposeBag)
     }
     

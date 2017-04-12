@@ -323,7 +323,7 @@ enum CarsCategoryAfterPicture: String, BumperFeature  {
     static var defaultValue: String { return CarsCategoryAfterPicture.no.rawValue }
     static var enumValues: [CarsCategoryAfterPicture] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "When cars vertical enabled, select category after before/taking the picture/s" } 
+    static var description: String { return "When cars vertical enabled, select category after image selection" } 
     var asBool: Bool { return self == .yes }
 }
 

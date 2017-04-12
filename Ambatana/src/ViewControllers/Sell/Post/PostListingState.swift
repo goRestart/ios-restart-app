@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  PostListingState.swift
 //  LetGo
 //
 //  Created by Albert Hernández López on 21/03/17.
@@ -84,7 +84,7 @@ final class PostListingState {
         switch step {
         case .imageSelection, .errorUpload:
             break
-        case .uploadingImage, .detailsSelection, .categorySelection, .carDetailsSelection, .finished:
+        case .uploadingImage, .detailsSelection, .categorySelection, .carDetailsSelection, .finished, .uploadSuccess:
             return self
         }
         
@@ -101,7 +101,7 @@ final class PostListingState {
         switch step {
         case .imageSelection:
             break
-        case .uploadingImage, .errorUpload, .detailsSelection, .categorySelection, .carDetailsSelection, .finished:
+        case .uploadingImage, .errorUpload, .detailsSelection, .categorySelection, .carDetailsSelection, .finished, .uploadSuccess:
             return self
         }
         
@@ -121,8 +121,8 @@ final class PostListingState {
                                 featureFlags: featureFlags)
     }
     
-    func updating(uploadedImages: [File]) -> PostListingState {
-        guard step == .uploadingImage else { return self }
+    func updatingAfterUploadingSuccess() -> PostListingState {
+        guard step == .uploadSuccess else { return self }
         
         let nextStep: PostListingStep
         if let category = category, category == .car {
@@ -132,6 +132,19 @@ final class PostListingState {
         }
         
         return PostListingState(step: nextStep,
+                                category: category,
+                                pendingToUploadImages: pendingToUploadImages,
+                                lastImagesUploadResult: lastImagesUploadResult,
+                                price: price,
+                                carInfo: carInfo,
+                                featureFlags: featureFlags)
+    }
+    
+    
+    func updatingToSuccessUpload(uploadedImages: [File]) -> PostListingState {
+        guard step == .uploadingImage else { return self }
+        
+        return PostListingState(step: .uploadSuccess,
                                 category: category,
                                 pendingToUploadImages: pendingToUploadImages,
                                 lastImagesUploadResult: FilesResult(value: uploadedImages),
@@ -208,6 +221,7 @@ enum PostListingStep: Equatable {
     case uploadingImage
     case errorUpload(message: String)
     case detailsSelection
+    case uploadSuccess
     
     case categorySelection
     case carDetailsSelection(includePrice: Bool)
@@ -218,7 +232,7 @@ enum PostListingStep: Equatable {
 func ==(lhs: PostListingStep, rhs: PostListingStep) -> Bool {
     switch (lhs, rhs) {
     case (.imageSelection, .imageSelection), (.uploadingImage, .uploadingImage), (.detailsSelection, .detailsSelection),
-         (.categorySelection, .categorySelection), (.finished, .finished):
+         (.categorySelection, .categorySelection), (.finished, .finished), (.uploadSuccess, .uploadSuccess):
         return true
     case (let .errorUpload(lMessage), let .errorUpload(rMessage)):
         return lMessage == rMessage
