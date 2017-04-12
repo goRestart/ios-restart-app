@@ -4,72 +4,133 @@ module Fastlane
     end
 
     class LgDependenciesAction < Action
-      def self.run(params)
+      def self.run(params)        
 
-        UI.message ("Make sure you run this lane both with sudo and without to first update gems and then update commands")
-
-        gemsRequired = ["fastlane", "badge"]
+        gemsRequired = ["fastlane", "badge", "danger", "octokit", "crack", "byebug", "micro-optparse", "google_drive", "colorize", "web_translate_it"]
         commandsRequired = ["imagemagick"]
 
-        if Process.uid == 0 
-          gemsToInstall = []
-          gemsRequired.each do |gemName|
-            gemsToInstall.push(gemName) unless checkGemExists(gemName)
-          end
-          if !gemsToInstall.empty?
-            UI.message ("The following gems are required: #{gemsToInstall.join(', ')}")
-            if UI.input("Do you want to install them? [yes/no]") == "yes"
-              gemsToInstall.each do |gemName|
-                installGem(gemName)
-              end
-            else
-              UI.error ("All requirements must be installed to continue")
-              exit
-            end
-          end
-
-          gemsToUpdate = []
-          gemsRequired.each do |gemName|
-            gemsToUpdate.push(gemName) unless !checkGemOutdated(gemName)
-          end
-
-          if !gemsToUpdate.empty?
-            UI.message ("The following gems are outdated: #{gemsToUpdate.join(', ')}")
-            if UI.input("Do you want to update them? [yes/no]") == "yes"
-              gemsToUpdate.each do |gemName|
-                updateGem(gemName)
-              end
-            end
-          end
+        if params[:lg_just_info]
+          checkGems(gemsRequired)
+          checkCommands(commandsRequired)
         else
-          commandsToInstall = []
-          commandsRequired.each do |commandName|
-            commandsToInstall.push(commandName) unless checkBrewPkgExists(commandName)
-          end 
+          UI.message ("Make sure you run this lane both with sudo and without to first update gems and then update commands")
+          if Process.uid == 0 
+            # Sudo required to install/update gems
+            checkAndUpdateGems(gemsRequired)
+          else
+            checkGems(gemsRequired)
+            # Non-Sudo required to install/update commands
+            checkAndUpdateCommands(commandsRequired)
+          end
+        end
+      end
 
-          if !commandsToInstall.empty? 
-            UI.message ("The following commands are required: #{commandsToInstall.join(', ')}")
-            if UI.input("Do you want to install them? [yes/no]") == "yes"
-              commandsToInstall.each do |commandName|
-                brewInstall(commandName)
-              end
-            else
-              UI.error ("All requirements must be installed to continue")
-              exit
+      def self.checkGems(gemsRequired)
+        gemsToInstall = []
+        gemsRequired.each do |gemName|
+          gemsToInstall.push(gemName) unless checkGemExists(gemName)
+        end
+        if !gemsToInstall.empty?
+          UI.error ("The following gems are required: #{gemsToInstall.join(', ')}")
+          UI.important ("You can install them by executing 'sudo gem install [gemname] or call 'sudo fastlane dependencies' to install them all")
+          exit
+        end
+
+        gemsToUpdate = []
+        gemsRequired.each do |gemName|
+          gemsToUpdate.push(gemName) unless !checkGemOutdated(gemName)
+        end
+
+        if !gemsToUpdate.empty?
+          UI.important ("The following gems are outdated: #{gemsToUpdate.join(', ')}")
+          UI.message ("You can update them by executing 'sudo gem update [gemname] or call 'sudo fastlane dependencies' to update them all").cyan
+        end
+      end
+
+      def self.checkAndUpdateGems(gemsRequired)
+        gemsToInstall = []
+        gemsRequired.each do |gemName|
+          gemsToInstall.push(gemName) unless checkGemExists(gemName)
+        end
+        if !gemsToInstall.empty?
+          UI.message ("The following gems are required: #{gemsToInstall.join(', ')}")
+          if UI.input("Do you want to install them? [yes/no]") == "yes"
+            gemsToInstall.each do |gemName|
+              installGem(gemName)
+            end
+          else
+            UI.error ("All requirements must be installed to continue")
+            exit
+          end
+        end
+
+        gemsToUpdate = []
+        gemsRequired.each do |gemName|
+          gemsToUpdate.push(gemName) unless !checkGemOutdated(gemName)
+        end
+
+        if !gemsToUpdate.empty?
+          UI.message ("The following gems are outdated: #{gemsToUpdate.join(', ')}")
+          if UI.input("Do you want to update them? [yes/no]") == "yes"
+            gemsToUpdate.each do |gemName|
+              updateGem(gemName)
             end
           end
+        end
+      end
 
-          commandsToUpdate = []
-          commandsRequired.each do |commandName|
-            commandsToUpdate.push(commandName) unless !checkBrewPkgOutdated(commandName)
+      def self.checkCommands(commandsRequired)
+        commandsToInstall = []
+        commandsRequired.each do |commandName|
+          commandsToInstall.push(commandName) unless checkBrewPkgExists(commandName)
+        end 
+
+        if !commandsToInstall.empty? 
+          UI.error ("The following commands are required: #{commandsToInstall.join(', ')}")
+          UI.important ("You can install them by executing 'brew install [commandName] or call 'fastlane dependencies' to install them all")
+          UI.message ("If you don't have homebrew installed, do so by looking at: https://brew.sh")
+          exit
+        end
+
+        commandsToUpdate = []
+        commandsRequired.each do |commandName|
+          commandsToUpdate.push(commandName) unless !checkBrewPkgOutdated(commandName)
+        end
+
+        if !commandsToUpdate.empty? 
+          UI.important ("The following commands are outdated: #{commandsToUpdate.join(', ')}")
+          UI.message ("You can update them by executing 'brew upgrade [commandName] or call 'fastlane dependencies' to update them all").cyan
+        end
+      end
+
+      def self.checkAndUpdateCommands(commandsRequired)
+        commandsToInstall = []
+        commandsRequired.each do |commandName|
+          commandsToInstall.push(commandName) unless checkBrewPkgExists(commandName)
+        end 
+
+        if !commandsToInstall.empty? 
+          UI.message ("The following commands are required: #{commandsToInstall.join(', ')}")
+          if UI.input("Do you want to install them? [yes/no]") == "yes"
+            commandsToInstall.each do |commandName|
+              brewInstall(commandName)
+            end
+          else
+            UI.error ("All requirements must be installed to continue")
+            exit
           end
+        end
 
-          if !commandsToUpdate.empty? 
-            UI.message ("The following commands are outdated: #{commandsToUpdate.join(', ')}") unless commandsToUpdate.empty?
-            if UI.input("Do you want to update them? [yes/no]") == "yes"
-              commandsToUpdate.each do |commandName|
-                brewUpdate(commandName)
-              end
+        commandsToUpdate = []
+        commandsRequired.each do |commandName|
+          commandsToUpdate.push(commandName) unless !checkBrewPkgOutdated(commandName)
+        end
+
+        if !commandsToUpdate.empty? 
+          UI.message ("The following commands are outdated: #{commandsToUpdate.join(', ')}")
+          if UI.input("Do you want to update them? [yes/no]") == "yes"
+            commandsToUpdate.each do |commandName|
+              brewUpdate(commandName)
             end
           end
         end
@@ -181,7 +242,14 @@ module Fastlane
       end
 
       def self.available_options
-        [ ]
+        [           
+          FastlaneCore::ConfigItem.new(key: :lg_just_info,
+                                       env_name: "LG_DEPENDENCIES_JUST_INFO",
+                                       description: "Whether to show just information or install/update",
+                                       is_string: false,
+                                       default_value: true,
+                                       optional: true)
+        ]
       end
 
       def self.output

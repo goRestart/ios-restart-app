@@ -195,7 +195,7 @@ platform :ios do
 
 
     UI.important ("\n\n ⚠️ \nThis lane will take a release branch, merge it in master branch, build master and send it to Apple. Be sure to specify the correct version, equal to the release branch of type `release-x.x.x` \n\n")
-    UI.message ("📝  Before we begin...").blue
+    UI.message ("📝  Before we begin...").cyan
 
     # Merge release branch into develop #manual
     manual_done = ask("Have you merged release branch into develop? YOU HAVE TO DO THIS MANUALLY (y/n) = ".yellow)
@@ -390,10 +390,10 @@ platform :ios do
     end
   end
 
-  lane :eliprueba do |options|
-    lg_dependencies
-    # raise "exception test"
-    UI.message("options: #{options}")
+  lane :dependencies do
+    lg_dependencies(
+      lg_just_info: false
+    )
   end
 
   after_all do |lane|

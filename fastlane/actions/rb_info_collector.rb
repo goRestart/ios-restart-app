@@ -24,7 +24,7 @@ module Fastlane
         ask_for_simulator = params[:ask_for_simulator]
         ask_for_build_configuration = params[:ask_for_build_configuration]
         
-        UI.message ("👾  Some data is necessary to run this script, define the next values:").blue
+        UI.message ("👾  Some data is necessary to run this script, define the next values:").cyan
 
         if ask_for_branch_name
           branch_name = ask("Branch name = ".yellow)
