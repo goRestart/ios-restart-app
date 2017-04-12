@@ -12,10 +12,13 @@ final class AddDetailProgressView: UIView {
     
     private let progressView = UIProgressView()
     private let titleLabel = UILabel()
+    private let initialPercentange: Int
     
     // MARK: - Lifecycle
     
-    init() {
+    init(withInitialPercentage percentage: Int) {
+        initialPercentange = percentage
+        
         super.init(frame: CGRect.zero)
         
         setupUI()
@@ -39,6 +42,7 @@ final class AddDetailProgressView: UIView {
         progressView.translatesAutoresizingMaskIntoConstraints = false
         progressView.progressTintColor = UIColor.white
         progressView.trackTintColor = UIColor.white.withAlphaComponent(0.3)
+        setPercentage(initialPercentange)
     }
     
     private func setupLayout() {
@@ -48,7 +52,7 @@ final class AddDetailProgressView: UIView {
         
         progressView.layout().width(120).height(8)
         progressView.layout(with: self).centerX()
-        progressView.layout(with: titlelLabel).top(by: Metrics.margin)
+        progressView.layout(with: titleLabel).top(by: Metrics.margin)
         titleLabel.layout(with: self).leading(by: Metrics.margin).trailing(by: -Metrics.margin).bottom()
     }
     

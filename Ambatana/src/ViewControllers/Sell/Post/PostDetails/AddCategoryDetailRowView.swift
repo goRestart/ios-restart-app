@@ -1,5 +1,5 @@
 //
-//  AddDetailSelectionView.swift
+//  AddCategoryDetailRowView.swift
 //  LetGo
 //
 //  Created by Nestor on 10/04/2017.
@@ -8,13 +8,27 @@
 
 import UIKit
 
-class AddDetailSelectionView: UIView {
+struct CategoryDetailRow {
+    // row
+    let title: String
+    let selectedValueTitle: String
+    let selectedValueId: String
+    let selectAction: (_ detailId: String, _ value: String) -> ()
+    
+    var isFilled: Bool {
+        return !selectedValueTitle.isEmpty && !selectedValueId.isEmpty
+    }
+}
+
+class AddCategoryDetailRowView: UIView {
     
     private let titleLabel = UILabel()
     private let valueLabel = UILabel()
     private let icon = UIImageView()
-    private let button = UIButton(type: .custom)
-    let action: () -> ()
+    private let button = UIButton()
+    private let selectAction: (_ detailId: String, _ value: String) -> ()
+    
+    var detailId: String
     
     var enabled: Bool = true {
         didSet {
@@ -31,16 +45,16 @@ class AddDetailSelectionView: UIView {
     
     var title: String {
         set {
-            titleLabel.text = title
+            titleLabel.text = newValue
         }
         get {
             return titleLabel.text ?? ""
         }
     }
     
-    var value: String {
+    var value: String  {
         set {
-            valueLabel.text = value
+            valueLabel.text = newValue
         }
         get {
             return valueLabel.text ?? ""
@@ -49,12 +63,14 @@ class AddDetailSelectionView: UIView {
     
     // MARK: - Lifecycle
     
-    init(withTitle title: String, value: String, action: @escaping () -> ()) {
-        self.title = title
-        self.value = value
-        self.action = action
+    init(withCategoryDetailRow categoryDetailRow: CategoryDetailRow) {
+        self.detailId = categoryDetailRow.selectedValueId
+        self.selectAction = categoryDetailRow.selectAction
         
         super.init(frame: CGRect.zero)
+        
+        self.title = categoryDetailRow.title
+        self.value = categoryDetailRow.selectedValueTitle
         
         setupUI()
         setupAccessibilityIds()
@@ -105,7 +121,7 @@ class AddDetailSelectionView: UIView {
     
     dynamic func didPressDetail() {
         if enabled {
-            action()
+            selectAction(detailId, value)
         }
     }
 }

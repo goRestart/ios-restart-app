@@ -655,18 +655,20 @@
 		72EB70601E65C63900BF709B /* ModularNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72EB705E1E65C63900BF709B /* ModularNotificationCell.swift */; };
 		7EA1474D1E12769500C3F462 /* LGLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA1474C1E12769500C3F462 /* LGLayout.swift */; };
 		7EA1474E1E12769500C3F462 /* LGLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA1474C1E12769500C3F462 /* LGLayout.swift */; };
-		8E0C9DF41E96924F00768D27 /* AddDetailProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0C9DF31E96924F00768D27 /* AddDetailProgressView.swift */; };
-		8E0C9DF51E96924F00768D27 /* AddDetailProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0C9DF31E96924F00768D27 /* AddDetailProgressView.swift */; };
-		8E0C9DF71E96935300768D27 /* AddCarDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0C9DF61E96935300768D27 /* AddCarDetailsView.swift */; };
-		8E0C9DF81E96935300768D27 /* AddCarDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0C9DF61E96935300768D27 /* AddCarDetailsView.swift */; };
-		8E15D7971E9B97D3000A99C0 /* AddDetailSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E15D7961E9B97D3000A99C0 /* AddDetailSelectionView.swift */; };
-		8E15D7981E9B97D3000A99C0 /* AddDetailSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E15D7961E9B97D3000A99C0 /* AddDetailSelectionView.swift */; };
+		8E0C9DF41E96924F00768D27 /* AddCategoryDetailProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0C9DF31E96924F00768D27 /* AddCategoryDetailProgressView.swift */; };
+		8E0C9DF51E96924F00768D27 /* AddCategoryDetailProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0C9DF31E96924F00768D27 /* AddCategoryDetailProgressView.swift */; };
+		8E0C9DF71E96935300768D27 /* AddCategoryDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0C9DF61E96935300768D27 /* AddCategoryDetailsView.swift */; };
+		8E0C9DF81E96935300768D27 /* AddCategoryDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0C9DF61E96935300768D27 /* AddCategoryDetailsView.swift */; };
+		8E15D7971E9B97D3000A99C0 /* AddCategoryDetailRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E15D7961E9B97D3000A99C0 /* AddCategoryDetailRowView.swift */; };
+		8E15D7981E9B97D3000A99C0 /* AddCategoryDetailRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E15D7961E9B97D3000A99C0 /* AddCategoryDetailRowView.swift */; };
 		8E2600731E2FB15D00242B3F /* ChangeEmailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2600721E2FB15D00242B3F /* ChangeEmailViewModel.swift */; };
 		8E2600741E2FB15D00242B3F /* ChangeEmailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2600721E2FB15D00242B3F /* ChangeEmailViewModel.swift */; };
 		8E2600761E2FB16D00242B3F /* ChangeEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2600751E2FB16D00242B3F /* ChangeEmailViewController.swift */; };
 		8E2600771E2FB16D00242B3F /* ChangeEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2600751E2FB16D00242B3F /* ChangeEmailViewController.swift */; };
 		8E26007C1E30E1C300242B3F /* ChangeEmailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26007B1E30E1C300242B3F /* ChangeEmailView.swift */; };
 		8E26007D1E30E1C300242B3F /* ChangeEmailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26007B1E30E1C300242B3F /* ChangeEmailView.swift */; };
+		8E69F3F21E9E30EE00E14F12 /* AddCategoryDetailsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E69F3F11E9E30EE00E14F12 /* AddCategoryDetailsTableView.swift */; };
+		8E69F3F31E9E30EE00E14F12 /* AddCategoryDetailsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E69F3F11E9E30EE00E14F12 /* AddCategoryDetailsTableView.swift */; };
 		C703BDFE1C7F1AF900EC8EF2 /* EditLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C703BDFB1C7F1AF900EC8EF2 /* EditLocationViewController.swift */; };
 		C703BDFF1C7F1AF900EC8EF2 /* EditLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C703BDFB1C7F1AF900EC8EF2 /* EditLocationViewController.swift */; };
 		C703BE001C7F1AF900EC8EF2 /* EditLocationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C703BDFC1C7F1AF900EC8EF2 /* EditLocationViewController.xib */; };
@@ -1827,12 +1829,13 @@
 		7EA1474C1E12769500C3F462 /* LGLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGLayout.swift; sourceTree = "<group>"; };
 		7ED714BB7ABD1804F5E818D4 /* Pods-LetGo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.release.xcconfig"; sourceTree = "<group>"; };
 		7FF25262DBFA224AC937A467 /* Pods_LetGo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetGo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8E0C9DF31E96924F00768D27 /* AddDetailProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddDetailProgressView.swift; sourceTree = "<group>"; };
-		8E0C9DF61E96935300768D27 /* AddCarDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCarDetailsView.swift; sourceTree = "<group>"; };
-		8E15D7961E9B97D3000A99C0 /* AddDetailSelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddDetailSelectionView.swift; sourceTree = "<group>"; };
+		8E0C9DF31E96924F00768D27 /* AddCategoryDetailProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCategoryDetailProgressView.swift; sourceTree = "<group>"; };
+		8E0C9DF61E96935300768D27 /* AddCategoryDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCategoryDetailsView.swift; sourceTree = "<group>"; };
+		8E15D7961E9B97D3000A99C0 /* AddCategoryDetailRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCategoryDetailRowView.swift; sourceTree = "<group>"; };
 		8E2600721E2FB15D00242B3F /* ChangeEmailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeEmailViewModel.swift; sourceTree = "<group>"; };
 		8E2600751E2FB16D00242B3F /* ChangeEmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeEmailViewController.swift; sourceTree = "<group>"; };
 		8E26007B1E30E1C300242B3F /* ChangeEmailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeEmailView.swift; sourceTree = "<group>"; };
+		8E69F3F11E9E30EE00E14F12 /* AddCategoryDetailsTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCategoryDetailsTableView.swift; sourceTree = "<group>"; };
 		97046DEB81A876CB375E76E9 /* Pods-LetGoGodMode.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.adhoc.xcconfig"; sourceTree = "<group>"; };
 		9DF506523FC9C0A89601A8E3 /* Pods-LetGo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.debug.xcconfig"; sourceTree = "<group>"; };
 		A4F90A24DB7817F94793400D /* Pods_LGPushNotifications.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LGPushNotifications.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -3431,6 +3434,17 @@
 			path = notificationservice;
 			sourceTree = "<group>";
 		};
+		8E69F3F41E9E361000E14F12 /* AddDetails */ = {
+			isa = PBXGroup;
+			children = (
+				8E0C9DF61E96935300768D27 /* AddCategoryDetailsView.swift */,
+				8E0C9DF31E96924F00768D27 /* AddCategoryDetailProgressView.swift */,
+				8E15D7961E9B97D3000A99C0 /* AddCategoryDetailRowView.swift */,
+				8E69F3F11E9E30EE00E14F12 /* AddCategoryDetailsTableView.swift */,
+			);
+			name = AddDetails;
+			sourceTree = "<group>";
+		};
 		ABA47C14BB52140048297810 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -3608,9 +3622,7 @@
 			isa = PBXGroup;
 			children = (
 				505F55B21E8A97AF005A616F /* PostCategorySelectionView.swift */,
-				8E0C9DF61E96935300768D27 /* AddCarDetailsView.swift */,
-				8E15D7961E9B97D3000A99C0 /* AddDetailSelectionView.swift */,
-				8E0C9DF31E96924F00768D27 /* AddDetailProgressView.swift */,
+				8E69F3F41E9E361000E14F12 /* AddDetails */,
 				C74016DE1D6468A7004C1E9D /* PostProductDetailViewModel.swift */,
 				C74016D81D6467C9004C1E9D /* PostProductDetailPriceView.swift */,
 				C74016DB1D6467DB004C1E9D /* PostProductDetailPriceView.xib */,
@@ -5090,7 +5102,7 @@
 				507440DE1E3F97EB006976F7 /* LoginAppearance+Helper.swift in Sources */,
 				2E3047E11CA196F30099C0BC /* VideoPlayerContainerView.swift in Sources */,
 				C72794361D549342009C25AB /* ChangePasswordViewController.swift in Sources */,
-				8E15D7971E9B97D3000A99C0 /* AddDetailSelectionView.swift in Sources */,
+				8E15D7971E9B97D3000A99C0 /* AddCategoryDetailRowView.swift in Sources */,
 				C75C54431E0D2D2F003F219D /* PassiveBuyersViewModel.swift in Sources */,
 				8E2600731E2FB15D00242B3F /* ChangeEmailViewModel.swift in Sources */,
 				6A5E19DE1D548F5400F92692 /* FBLoginHelper.swift in Sources */,
@@ -5292,6 +5304,7 @@
 				C7126BD71E6053AA00038CC4 /* ProductViewModel.swift in Sources */,
 				2E50E9A71D057E92002DC4C1 /* LGAlertViewController.swift in Sources */,
 				6A5E19E41D548F5400F92692 /* CGAffineTransform+LG.swift in Sources */,
+				8E69F3F21E9E30EE00E14F12 /* AddCategoryDetailsTableView.swift in Sources */,
 				C7DE8AD61C88929A005CF37E /* PostProductCameraView.swift in Sources */,
 				C7B543281D758BA7005FBA30 /* VerifyAccountsViewController.swift in Sources */,
 				C77593E51BF0BD310097D62F /* FilterCategoryCell.swift in Sources */,
@@ -5340,7 +5353,7 @@
 				C75B5DD31D59E0C500112368 /* ProductCarouselCellModel.swift in Sources */,
 				C7DE8AD11C888761005CF37E /* SellProductCell.swift in Sources */,
 				508D486D1CD09E8500C52BE3 /* AlamofireImage+ImageDownloaderType.swift in Sources */,
-				8E0C9DF71E96935300768D27 /* AddCarDetailsView.swift in Sources */,
+				8E0C9DF71E96935300768D27 /* AddCategoryDetailsView.swift in Sources */,
 				6AA26CFD1CFDBA7600546063 /* ChatDisclaimerCellDrawer.swift in Sources */,
 				50A8DC821BA06BB1008296B0 /* ChatSafetyTipsView.swift in Sources */,
 				2E131C6B1DEDE998004D26DC /* LGPurchasesShopper.swift in Sources */,
@@ -5467,7 +5480,7 @@
 				6AF75D041CF3600D00EACCF0 /* ChatStickerCell.swift in Sources */,
 				2E373FA51D3D019600AC811C /* UserRatingListViewController.swift in Sources */,
 				50560B9B1B25D18F0021D8D9 /* TabBarController.swift in Sources */,
-				8E0C9DF41E96924F00768D27 /* AddDetailProgressView.swift in Sources */,
+				8E0C9DF41E96924F00768D27 /* AddCategoryDetailProgressView.swift in Sources */,
 				C788EED71CC7847400B9E26F /* FilteredProductListRequester.swift in Sources */,
 				509273361B172D5B00A346F9 /* PushManager.swift in Sources */,
 				2E2A5E141D5C78600047ED45 /* ExpressChatNavigator.swift in Sources */,
@@ -5592,7 +5605,7 @@
 				507440DF1E3F97EB006976F7 /* LoginAppearance+Helper.swift in Sources */,
 				C77D64691CBD250700A22510 /* Tab.swift in Sources */,
 				2E3047E21CA196F30099C0BC /* VideoPlayerContainerView.swift in Sources */,
-				8E15D7981E9B97D3000A99C0 /* AddDetailSelectionView.swift in Sources */,
+				8E15D7981E9B97D3000A99C0 /* AddCategoryDetailRowView.swift in Sources */,
 				C72794371D549342009C25AB /* ChangePasswordViewController.swift in Sources */,
 				8E2600741E2FB15D00242B3F /* ChangeEmailViewModel.swift in Sources */,
 				6A5E19DF1D548F5400F92692 /* FBLoginHelper.swift in Sources */,
@@ -5794,6 +5807,7 @@
 				C7126BD81E6053AA00038CC4 /* ProductViewModel.swift in Sources */,
 				7EA1474E1E12769500C3F462 /* LGLayout.swift in Sources */,
 				727EF06A1E0AF0220037DA4E /* LocationManager+LG.swift in Sources */,
+				8E69F3F31E9E30EE00E14F12 /* AddCategoryDetailsTableView.swift in Sources */,
 				C7B5884C1CE1DE1C009B3975 /* ChatViewModel.swift in Sources */,
 				6A5E19E51D548F5400F92692 /* CGAffineTransform+LG.swift in Sources */,
 				C7DE8AD71C88929A005CF37E /* PostProductCameraView.swift in Sources */,
@@ -5842,7 +5856,7 @@
 				C7111EFD1CA43885000C5C5A /* DeepLink.swift in Sources */,
 				C75B5DD41D59E0C500112368 /* ProductCarouselCellModel.swift in Sources */,
 				C7DB42061C5138B500400945 /* Listing+Negotiable.swift in Sources */,
-				8E0C9DF81E96935300768D27 /* AddCarDetailsView.swift in Sources */,
+				8E0C9DF81E96935300768D27 /* AddCategoryDetailsView.swift in Sources */,
 				C73C163C1D06C1B500DFC67D /* SuggestionSearchCell.swift in Sources */,
 				C7DE8AD21C888761005CF37E /* SellProductCell.swift in Sources */,
 				508D486E1CD09E8500C52BE3 /* AlamofireImage+ImageDownloaderType.swift in Sources */,
@@ -5969,7 +5983,7 @@
 				50146BD11D4F5F9F00B0F635 /* ChatsTabCoordinator.swift in Sources */,
 				50CA9FB11C91696800350C5F /* UserViewModel.swift in Sources */,
 				C7DB42251C5138B500400945 /* SocialShareView.swift in Sources */,
-				8E0C9DF51E96924F00768D27 /* AddDetailProgressView.swift in Sources */,
+				8E0C9DF51E96924F00768D27 /* AddCategoryDetailProgressView.swift in Sources */,
 				6AF75D051CF3600D00EACCF0 /* ChatStickerCell.swift in Sources */,
 				C7DB42261C5138B500400945 /* TabBarController.swift in Sources */,
 				C788EED81CC7847400B9E26F /* FilteredProductListRequester.swift in Sources */,

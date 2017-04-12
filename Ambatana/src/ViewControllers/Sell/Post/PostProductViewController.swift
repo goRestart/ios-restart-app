@@ -33,7 +33,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
     // contained in detailsContainer
     fileprivate let priceView: UIView
     fileprivate let categorySelectionView: PostCategorySelectionView
-    fileprivate let carDetailsView: CarDetailsView
+    fileprivate let carDetailsView: AddCategoryDetailsView
     
     fileprivate var footer: PostProductFooter
     fileprivate var footerView: UIView
@@ -112,7 +112,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         
         self.priceView = PostProductDetailPriceView(viewModel: viewModel.postDetailViewModel)
         self.categorySelectionView = PostCategorySelectionView()
-        self.carDetailsView = CarDetailsView()
+        self.carDetailsView = AddCategoryDetailsView(withCategoryDetails: [])
         
         self.postingGallery = postingGallery
         super.init(viewModel: viewModel, nibName: "PostProductViewController",
