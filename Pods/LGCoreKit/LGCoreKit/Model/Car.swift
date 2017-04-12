@@ -33,10 +33,6 @@ public protocol Car: BaseListingModel, Priceable {
     var createdAt : Date? { get }
     
     var featured: Bool? { get }
-    
-    var make: String? { get }
-    var makeId: String? { get }
-    var model: String? { get }
-    var modelId: String? { get }
-    var year: Int? { get }
+   
+    var carAttributes: CarAttributes { get }
 }

@@ -447,6 +447,14 @@ extension ProductViewModel {
         purchasesShopper.requestPayment(forListingId: productId, appstoreProduct: purchaseableProduct,
                                                   paymentItemId: paymentItemId)
     }
+
+    func titleURLPressed(_ url: URL) {
+        showItemHiddenIfNeededFor(url: url)
+    }
+
+    func descriptionURLPressed(_ url: URL) {
+        showItemHiddenIfNeededFor(url: url)
+    }
 }
 
 
@@ -658,6 +666,17 @@ extension ProductViewModel {
 // MARK: - Private actions
 
 fileprivate extension ProductViewModel {
+
+    func showItemHiddenIfNeededFor(url: URL) {
+        guard let _ = TextHiddenTags(fromURL: url) else { return }
+
+        let okAction = UIAction(interface: .button(LGLocalizedString.commonOk, .primary(fontSize: .big)), action: {})
+        delegate?.vmShowAlertWithTitle(LGLocalizedString.hiddenTextAlertTitle,
+                                       text: LGLocalizedString.hiddenTextAlertDescription,
+                                       alertType: .iconAlert(icon: #imageLiteral(resourceName: "ic_safety_tips_big")),
+                                       actions: [okAction])
+    }
+
     func switchFavoriteAction() {
         guard favoriteButtonState.value != .disabled else { return }
         favoriteButtonState.value = .disabled
@@ -676,6 +695,7 @@ fileprivate extension ProductViewModel {
                 guard let strongSelf = self else { return }
                 if let _ = result.value {
                     self?.trackHelper.trackSaveFavoriteCompleted(strongSelf.isShowingFeaturedStripe.value)
+
                     self?.navigator?.openAppRating(.favorite)
                 } else {
                     strongSelf.isFavorite.value = currentFavoriteValue
@@ -851,14 +871,14 @@ fileprivate extension ProductViewModel {
         let messageView = chatViewMessageAdapter.adapt(message)
         directChatMessages.insert(messageView, atIndex: 0)
 
-        chatWrapper.sendMessageFor(listing: listing.value, type: type) {
-            [weak self] result in
+        chatWrapper.sendMessageFor(listing: listing.value, type: type) { [weak self] result in
             guard let strongSelf = self else { return }
             if let firstMessage = result.value {
                 strongSelf.trackHelper.trackMessageSent(firstMessage && !strongSelf.alreadyTrackedFirstMessageSent,
                                                    messageType: type, isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value)
                 strongSelf.alreadyTrackedFirstMessageSent = true
             } else if let error = result.error {
+                strongSelf.trackHelper.trackMessageSentError(messageType: type, isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value, error: error)
                 switch error {
                 case .forbidden:
                     strongSelf.delegate?.vmShowAutoFadingMessage(LGLocalizedString.productChatDirectErrorBlockedUserMessage, completion: nil)

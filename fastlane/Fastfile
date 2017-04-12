@@ -69,9 +69,16 @@ platform :ios do
       shallow_clone: true
     )
 
+    lg_update_cars_info
+    
     lg_strings(repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] + "/")
 
     deploy_to_crashlitycs
+  end
+
+  desc "Copy CarsInfo json from remote host"
+  lane :update_cars_info do
+    lg_update_cars_info
   end
 
   desc "Build and distribute build to Crashlytics"

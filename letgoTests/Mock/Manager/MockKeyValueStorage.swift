@@ -11,6 +11,9 @@ import LGCoreKit
 import SwiftyUserDefaults
 
 class MockKeyValueStorage {
+    
+    var currentUserProperties: UserDefaultsUser?
+    
     fileprivate var keyValue = Dictionary<String, Any>()
 }
 

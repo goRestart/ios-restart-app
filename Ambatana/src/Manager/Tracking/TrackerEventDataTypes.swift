@@ -80,6 +80,7 @@ enum EventName: String {
     case productDeleteComplete              = "product-delete-complete"
     
     case userMessageSent                    = "user-sent-message"
+    case userMessageSentError               = "user-sent-message-error"
     case chatRelatedItemsStart              = "chat-related-items-start"
     case chatRelatedItemsComplete           = "chat-related-items-complete"
 
@@ -493,6 +494,37 @@ enum EventParameterPostProductError {
     }
 }
 
+enum EventParameterChatError {
+    case network
+    case internalError(description: String?)
+    case serverError(code: Int?)
+
+    var description: String {
+        switch self {
+        case .network:
+            return "chat-network"
+        case .internalError:
+            return "chat-internal"
+        case .serverError:
+            return "chat-server"
+        }
+    }
+
+    var details: String? {
+        switch self {
+        case .network:
+            break
+        case let .internalError(description):
+            return description
+        case let .serverError(errorCode):
+            if let errorCode = errorCode {
+                return String(errorCode)
+            }
+        }
+        return nil
+    }
+}
+
 enum EventParameterEditedFields: String {
     case picture = "picture"
     case title = "title"
@@ -782,15 +814,11 @@ struct EventParameters {
         params[.userToId] = listing.user.objectId
     }
 
-    internal mutating func addChatProductParams(_ product: ChatListing) {
-        params[.productId] = product.objectId
-        params[.productPrice] = product.price.value
-        params[.productCurrency] = product.currency.code
+    internal mutating func addChatListingParams(_ listing: ChatListing) {
+        params[.productId] = listing.objectId
+        params[.productPrice] = listing.price.value
+        params[.productCurrency] = listing.currency.code
         params[.productType] = EventParameterProductItemType.real.rawValue
-    }
-    
-    internal mutating func addUserParams(_ user: UserListing?) {
-        params[.userToId] = user?.objectId
     }
 
     internal subscript(paramName: EventParameterName) -> Any? {
@@ -799,25 +827,6 @@ struct EventParameters {
         }
         set(newValue) {
             params[paramName] = newValue
-        }
-    }
-}
-
-struct PostProductTrackingInfo {
-    var buttonName: EventParameterButtonNameType
-    var sellButtonPosition: EventParameterSellButtonPosition
-    var imageSource: EventParameterPictureSource
-    var negotiablePrice: EventParameterNegotiablePrice
-
-    init(buttonName: EventParameterButtonNameType, sellButtonPosition: EventParameterSellButtonPosition,
-         imageSource: EventParameterPictureSource?, price: String?) {
-        self.buttonName = buttonName
-        self.sellButtonPosition = sellButtonPosition
-        self.imageSource = imageSource ?? .camera
-        if let price = price, let doublePrice = Double(price) {
-            negotiablePrice = doublePrice > 0 ? .no : .yes
-        } else {
-            negotiablePrice = .yes
         }
     }
 }

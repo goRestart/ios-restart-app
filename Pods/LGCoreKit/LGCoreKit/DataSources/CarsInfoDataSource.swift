@@ -8,7 +8,7 @@
 
 import Result
 
-typealias CarsInfoDataSourceResult = Result<CarsInfo, ApiError>
+typealias CarsInfoDataSourceResult = Result<[CarsMakeWithModels], ApiError>
 typealias CarsInfoDataSourceCompletion = (CarsInfoDataSourceResult) -> Void
 
 protocol CarsInfoDataSource {

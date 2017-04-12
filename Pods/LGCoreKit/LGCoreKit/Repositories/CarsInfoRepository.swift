@@ -8,10 +8,13 @@
 
 import Result
 
-public typealias CarsInfoResult = Result<CarsInfo, RepositoryError>
-public typealias CarsInfoCompletion = (CarsInfoResult) -> Void
+public typealias CarsMakesResult = Result<[CarsMake], RepositoryError>
+public typealias CarsMakesCompletion = (CarsMakesResult) -> Void
 
 
 public protocol CarsInfoRepository {
-    func retrieveCarsInfoFileForCountry(countryCode: String?, completion: CarsInfoCompletion?)
+    func loadFirstRunCacheIfNeeded(jsonURL: URL)
+    func refreshCarsInfoFile()
+    func retrieveCarsMakes() -> [CarsMake]
+    func retrieveCarsModelsFormake(makeId: String) -> [CarsModel]
 }
