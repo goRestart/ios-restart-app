@@ -25,6 +25,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     private static let titleDisclaimerBottomConstraintHidden: CGFloat = 8
     private static let separatorOptionsViewDistance = LGUIKitConstants.onePixelSize
     private static let viewOptionGenericHeight: CGFloat = 50
+    private static let carsInfoContainerHeight: CGFloat = 134 // (3 x 44 + 2 separators)
 
     enum TextFieldTag: Int {
         case productTitle = 1000, productPrice, productDescription
@@ -71,6 +72,21 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     @IBOutlet weak var categoryTitleLabel: UILabel!
     @IBOutlet weak var categorySelectedLabel: UILabel!
     @IBOutlet weak var categoryButton: UIButton!
+
+    @IBOutlet weak var carsMakeTitleLabel: UILabel!
+    @IBOutlet weak var carsMakeSelectedLabel: UILabel!
+    @IBOutlet weak var carsMakeButton: UIButton!
+
+    @IBOutlet weak var carsModelTitleLabel: UILabel!
+    @IBOutlet weak var carsModelSelectedLabel: UILabel!
+    @IBOutlet weak var carsModelButton: UIButton!
+
+    @IBOutlet weak var carsYearTitleLabel: UILabel!
+    @IBOutlet weak var carsYearSelectedLabel: UILabel!
+    @IBOutlet weak var carsYearButton: UIButton!
+
+    @IBOutlet weak var carsInfoContainerHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var carsInfoContainerSeparatorTopConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var shareFBSwitch: UISwitch!
@@ -512,6 +528,16 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
             self?.updateFreePostViews(active)
             }.addDisposableTo(disposeBag)
 
+        viewModel.category.asObservable().bindNext{ [weak self] category in
+            guard let category = category else {
+                self?.categorySelectedLabel.text = ""
+                self?.updateCarsFields(isCar: false)
+                return
+            }
+            self?.categorySelectedLabel.text = category.name 
+            self?.updateCarsFields(isCar: category == .cars)
+        }.addDisposableTo(disposeBag)
+
         viewModel.loadingProgress.asObservable().map { $0 == nil }.bindTo(loadingView.rx.isHidden).addDisposableTo(disposeBag)
         viewModel.loadingProgress.asObservable().ignoreNil().bindTo(loadingProgressView.rx.progress).addDisposableTo(disposeBag)
 
@@ -565,6 +591,20 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         })
     }
 
+    private func updateCarsFields(isCar: Bool) {
+        print(isCar)
+        if isCar {
+            carsInfoContainerHeightConstraint.constant = EditProductViewController.carsInfoContainerHeight
+            carsInfoContainerSeparatorTopConstraint.constant = EditProductViewController.separatorOptionsViewDistance
+        } else {
+            carsInfoContainerHeightConstraint.constant = 0
+            carsInfoContainerSeparatorTopConstraint.constant = 0
+        }
+        UIView.animate(withDuration: 0.3, animations: {
+            self.view.layoutIfNeeded()
+        })
+    }
+
     dynamic func closeButtonPressed() {
         viewModel.closeButtonPressed()
     }
@@ -578,10 +618,6 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
 // MARK: - EditProductViewModelDelegate Methods
 
 extension EditProductViewController: EditProductViewModelDelegate {
-
-    func vmDidSelectCategoryWithName(_ categoryName: String) {
-        categorySelectedLabel.text = categoryName
-    }
 
     func vmShouldUpdateDescriptionWithCount(_ count: Int) {
         if count <= 0 {
