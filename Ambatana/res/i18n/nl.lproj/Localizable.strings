@@ -307,8 +307,8 @@
 "help_title" = "Hulp";
 "hidden_email_tag" = "[E-MAIL VERBORGEN]";
 "hidden_phone_tag" = "[TELEFOONNUMMER VERBORGEN]";
-"hidden_text_alert_description" = "We hide contact information to help you buy and sell safely. Chatting inside letgo is easy and more secure.";
-"hidden_text_alert_title" = "STAY SAFE";
+"hidden_text_alert_description" = "Wij verbergen contact informatie zodat je veilig kunt kopen en verkopen. In letgo kun je veilig en gemakkelijk chatten.";
+"hidden_text_alert_title" = "VEILIGHEIDSTIPS";
 "location_permissions_allow_button" = "Toestaan";
 "location_permissions_bubble" = "1km van bij jou";
 "location_permissions_button" = "Ja, Gebruik mijn Locatie";

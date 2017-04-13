@@ -307,8 +307,8 @@
 "help_title" = "Hjelp";
 "hidden_email_tag" = "[E-POST SKJULT]";
 "hidden_phone_tag" = "[TELEFONNUMMER SKJULT]";
-"hidden_text_alert_description" = "We hide contact information to help you buy and sell safely. Chatting inside letgo is easy and more secure.";
-"hidden_text_alert_title" = "STAY SAFE";
+"hidden_text_alert_description" = "Vi skjuler kontaktinformasjon for å hjelpe deg med et sikkert kjøp og salg. Å kommunisere i letgo er enklere og gir deg mer sikkerhet.";
+"hidden_text_alert_title" = "VÆR FORSIKTIG";
 "location_permissions_allow_button" = "Tillat";
 "location_permissions_bubble" = "0.1 km fra deg";
 "location_permissions_button" = "Ja, Bruk min Plassering";

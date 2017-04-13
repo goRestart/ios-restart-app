@@ -424,6 +424,10 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         categoryTitleLabel.text = LGLocalizedString.sellCategorySelectionLabel
         categorySelectedLabel.text = viewModel.categoryName ?? ""
 
+        carsMakeTitleLabel.text = LGLocalizedString.postCategoryDetailCarMake
+        carsModelTitleLabel.text = LGLocalizedString.postCategoryDetailCarModel
+        carsYearTitleLabel.text = LGLocalizedString.postCategoryDetailCarYear
+
         sendButton.setTitle(LGLocalizedString.editProductSendButton, for: .normal)
         sendButton.setStyle(.primary(fontSize:.big))
         

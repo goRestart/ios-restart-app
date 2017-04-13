@@ -307,8 +307,8 @@
 "help_title" = "Помощь";
 "hidden_email_tag" = "[Е-МЕЙЛ СКРЫТ]";
 "hidden_phone_tag" = "[НОМЕР ТЕЛЕФОНА СКРЫТ]";
-"hidden_text_alert_description" = "We hide contact information to help you buy and sell safely. Chatting inside letgo is easy and more secure.";
-"hidden_text_alert_title" = "STAY SAFE";
+"hidden_text_alert_description" = "Мы скрыли контактную информацию, чтобы вы могли спокойно торговать. Общаться в letgo легко и безопасно.";
+"hidden_text_alert_title" = "ОСТАВАЙТЕСЬ В БЕЗОПАСНОСТИ";
 "location_permissions_allow_button" = "Разрешить";
 "location_permissions_bubble" = "500 м от вас";
 "location_permissions_button" = "Да, использовать геолокацию";
