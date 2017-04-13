@@ -12,7 +12,7 @@ module Fastlane
         if !path_to_repo.nil?
           command = "cd #{path_to_repo} && git checkout #{items_to_revert}"
         end
-        Helper.log.debug command
+        UI.message command
         Actions.sh command
       end
 

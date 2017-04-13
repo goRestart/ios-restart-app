@@ -9,7 +9,7 @@ module Fastlane
       def self.run(params)
         branch_name = params[:branch_name]
         repository_path = params[:repository_path]
-        Helper.log.info ("Creating new branch: " + branch_name).blue
+        UI.message ("Creating new branch: " + branch_name).blue
 
         if repository_path.nil?
           command = "git checkout -b #{branch_name} && git push -u origin #{branch_name}"
@@ -17,11 +17,11 @@ module Fastlane
           command = "(cd #{repository_path} && git checkout -b #{branch_name} && git push -u origin #{branch_name})"
         end
 
-        Helper.log.debug command
+        UI.message command
         Actions.sh command
         Actions.lane_context[SharedValues::RB_CREATED_BRANCH_NAME] = branch_name
         Actions.lane_context[Actions::SharedValues::RB_INFO_BRANCH_NAME] = branch_name
-        Helper.log.info ("New branch #{branch_name} created").blue
+        UI.message ("New branch #{branch_name} created").blue
       end
 
 

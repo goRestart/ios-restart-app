@@ -15,7 +15,7 @@ module Fastlane
 
       def self.setInfoPlistVersionValue(key, value, filePath)
         command = "/usr/libexec/PlistBuddy -c 'Set :#{key} #{value}' '#{filePath}'"
-        Helper.log.debug command
+        UI.message command
         Actions.sh command
       end
 
@@ -30,7 +30,7 @@ module Fastlane
 
         if branch_name
           changeBranchCommand = "(cd #{path_to_repo} && git checkout #{branch_name})"
-          Helper.log.debug changeBranchCommand
+          UI.message changeBranchCommand
           Actions.sh changeBranchCommand
         end
 
@@ -45,20 +45,20 @@ module Fastlane
 
         sth_changed = false
         if current_app_build_num.strip == build_number
-          Helper.log.debug "Build number not changed, it already has the desired value"
+          UI.message "Build number not changed, it already has the desired value"
         else
           setInfoPlistVersionValue("CFBundleVersion", build_number, plist_path)
           sth_changed = true
         end
 
         if current_app_version_num.strip == version_number
-          Helper.log.debug "Version number not changed, it already has the desired value"
+          UI.message "Version number not changed, it already has the desired value"
         else
           setInfoPlistVersionValue("CFBundleShortVersionString", version_number, plist_path)
           sth_changed = true
         end
 
-        Helper.log.info "Bundle: #{build_number} Version: #{version_number}".blue
+        UI.message "Bundle: #{build_number} Version: #{version_number}".blue
 
         
         if update_json_files
@@ -75,12 +75,12 @@ module Fastlane
         end
 
         if push_changes && sth_changed
-          Helper.log.info "Pushing changes...".blue
+          UI.message "Pushing changes...".blue
           pushChangeCommand = "(cd #{path_to_repo} && git add " + ENV["APP_PLIST_PATH"] + 
                               " && git commit -m '★ Update version to #{version_number} (#{build_number})' && git push)"
-          Helper.log.debug pushChangeCommand
+          UI.message pushChangeCommand
           Actions.sh pushChangeCommand
-          Helper.log.info "Version changes pushed successfully!".blue
+          UI.message "Version changes pushed successfully!".blue
         end
 
         Actions.lane_context[SharedValues::RB_BUILD_NUMBER] = build_number

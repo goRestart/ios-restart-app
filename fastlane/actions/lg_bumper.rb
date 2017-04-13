@@ -9,7 +9,7 @@ module Fastlane
         destination_dir = params[:destination_dir]
         scriptCommand = "ruby ./Pods/bumper/scripts/flags_generator/flags_generator.rb -s #{source_json} -d #{destination_dir}"
         puts scriptCommand
-        Helper.log.debug scriptCommand
+        UI.message scriptCommand
         Actions.sh scriptCommand
       end
 

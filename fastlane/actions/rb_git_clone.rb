@@ -17,7 +17,7 @@ module Fastlane
         if repo_url.nil?
           repo_url = ask("Repo url to clone: ".yellow)
           if repo_url.nil?
-            Helper.log.error "Repo url not defined!"
+            UI.error "Repo url not defined!"
             exit 1
           end
         end
@@ -25,7 +25,7 @@ module Fastlane
         if branch_name.nil?
           branch_name = ask("Branch name: ".yellow)
           if branch_name.nil?
-            Helper.log.error "Branch name not defined!"
+            UI.error "Branch name not defined!"
             exit 1
           end
         end
@@ -34,9 +34,9 @@ module Fastlane
         Actions.lane_context[SharedValues::RB_GIT_CLONE_TMP_FOLDER] = tmp_folder
         Actions.lane_context[SharedValues::RB_GIT_CLONE_WORKSPACE_PATH] = tmp_folder
 
-        Helper.log.info ("Github repo: " + repo_url).blue
-        Helper.log.info ("Github branch: " + branch_name).blue
-        Helper.log.info ("Temporary folder: " + tmp_folder).blue
+        UI.message ("Github repo: " + repo_url).blue
+        UI.message ("Github branch: " + branch_name).blue
+        UI.message ("Temporary folder: " + tmp_folder).blue
 
         single_branch_command = ""
         if flag_single_branch
@@ -53,7 +53,7 @@ module Fastlane
 
         Actions.sh command
 
-        Helper.log.info "Git clone completed".blue
+        UI.message "Git clone completed".blue
 
       end
 

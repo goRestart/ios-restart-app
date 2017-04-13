@@ -10,7 +10,7 @@ module Fastlane
         to_branch = params[:to_branch_name]
         flag_no_ff = params[:no_fast_fordward]
         repository_path = params[:repository_path]
-        Helper.log.info ("Merging " + from_branch + " into " + to_branch).blue
+        UI.message ("Merging " + from_branch + " into " + to_branch).blue
 
         git_command = "git checkout #{to_branch} && git merge origin/#{from_branch}"
         if flag_no_ff
@@ -22,9 +22,9 @@ module Fastlane
         end
 
         git_command = git_command + " && git push"
-        Helper.log.debug git_command
+        UI.message git_command
         Actions.sh git_command
-        Helper.log.info ("Merge finished successfully and changes pushed to '#{to_branch}'").blue
+        UI.message ("Merge finished successfully and changes pushed to '#{to_branch}'").blue
       end
 
 
