@@ -19,7 +19,7 @@ module Fastlane
         # wait until there is a device booted
         count=`xcrun simctl list | grep Booted | wc -l | sed -e 's/ //g'`
         while count.to_i < 1 do
-            Helper.log.info ("Waiting for iOS Simuator to boot")
+            UI.message ("Waiting for iOS Simuator to boot")
             sleep 1
             count=`xcrun simctl list | grep Booted | wc -l | sed -e 's/ //g'`
         end

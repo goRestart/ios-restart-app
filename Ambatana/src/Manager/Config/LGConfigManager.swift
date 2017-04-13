@@ -9,9 +9,9 @@
 import Result
 import LGCoreKit
 
-class ConfigManager {
+class LGConfigManager: ConfigManager {
 
-    static let sharedInstance: ConfigManager = ConfigManager()
+    static let sharedInstance: LGConfigManager = LGConfigManager()
 
     private let service : ConfigRetrieveService
     private let dao : ConfigDAO

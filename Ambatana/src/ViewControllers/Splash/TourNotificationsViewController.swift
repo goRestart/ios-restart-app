@@ -112,7 +112,7 @@ final class TourNotificationsViewController: BaseViewController {
     
     @IBAction func yesButtonPressed(_ sender: AnyObject) {
         viewModel.userDidTapYesButton()
-        PushPermissionsManager.sharedInstance.showPushPermissionsAlert(prePermissionType: .onboarding)
+        LGPushPermissionsManager.sharedInstance.showPushPermissionsAlert(prePermissionType: .onboarding)
         pushDialogWasShown = true
     }
     

@@ -34,6 +34,9 @@ public struct CoreLoggingOptions: OptionSet, CustomStringConvertible {
         if contains(CoreLoggingOptions.parsing) {
             options.append("📦")
         }
+        if contains(CoreLoggingOptions.database) {
+            options.append("📝")
+        }
         return options.joined(separator: "+")
     }
 
@@ -54,6 +57,7 @@ public struct CoreLoggingOptions: OptionSet, CustomStringConvertible {
     public static var session = CoreLoggingOptions(rawValue: 8)
     public static var webSockets = CoreLoggingOptions(rawValue: 16)
     public static var parsing = CoreLoggingOptions(rawValue: 32)
+    public static var database = CoreLoggingOptions(rawValue: 64)
 }
 
 

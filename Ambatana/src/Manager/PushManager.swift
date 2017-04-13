@@ -24,7 +24,7 @@ final class PushManager {
     // MARK: - Lifecycle
 
     convenience init() {
-        self.init(pushPermissionManager: PushPermissionsManager.sharedInstance,
+        self.init(pushPermissionManager: LGPushPermissionsManager.sharedInstance,
                   installationRepository: Core.installationRepository,
                   deepLinksRouter: LGDeepLinksRouter.sharedInstance)
     }

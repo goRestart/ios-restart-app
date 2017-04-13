@@ -16,9 +16,10 @@ enum PrePermissionType {
     case profile
 }
 
-class PushPermissionsManager: NSObject {
+class LGPushPermissionsManager: PushPermissionsManager {
 
-    static let sharedInstance: PushPermissionsManager = PushPermissionsManager()
+    static let sharedInstance: LGPushPermissionsManager = LGPushPermissionsManager()
+    
     var pushPermissionsSettingsMode: Bool {
         return KeyValueStorage.sharedInstance[.pushPermissionsDidShowNativeAlert]
     }
@@ -128,20 +129,20 @@ class PushPermissionsManager: NSObject {
 
         /*When system alert permissions appear, application gets 'resignActive' event so we add the listener to
         check if was shown or not */
-        NotificationCenter.default.addObserver(self, selector: #selector(PushPermissionsManager.didShowSystemPermissions(_:)),
+        NotificationCenter.default.addObserver(self, selector: #selector(didShowSystemPermissions(_:)),
             name:NSNotification.Name.UIApplicationWillResignActive, object: nil)
         UIApplication.shared.registerPushNotifications()
 
-        /* Appart from listening 'resignActive' event, we need to add a timer for the case when the alert is NOT
-        shown */
-        let _ = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(PushPermissionsManager.settingsTimerFinished),
-            userInfo: nil, repeats: false)
+        /* Appart from listening 'resignActive' event, we need to add a Dispatch asyncAfter for the case when the alert is NOT shown */
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
+            self.settingsTimerFinished()
+        }
     }
 
     /**
     If this method gets called it means the system show the permissions alert
     */
-    func didShowSystemPermissions(_ notification: Notification) {
+    @objc func didShowSystemPermissions(_ notification: Notification) {
         didShowSystemPermissions = true
         trackPermissionSystemStart()
         
@@ -155,7 +156,7 @@ class PushPermissionsManager: NSObject {
     /**
     If this method gets called it means the system DIDN'T show the permissions alert
     */
-    func settingsTimerFinished() {
+    @objc func settingsTimerFinished() {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationWillResignActive,
             object: nil)
 

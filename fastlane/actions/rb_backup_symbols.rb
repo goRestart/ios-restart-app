@@ -22,9 +22,9 @@ module Fastlane
         if dsym_path
           FileUtils.mkdir_p(complete_backup_path)
           FileUtils.cp(dsym_path, complete_backup_path)
-          Helper.log.info "Symbols file (#{dsym_path}) copied to backups folder (#{complete_backup_path})"
+          UI.message "Symbols file (#{dsym_path}) copied to backups folder (#{complete_backup_path})"
         else
-          Helper.log.error "Couldn't find the symbols file, backup not done"
+          UI.error "Couldn't find the symbols file, backup not done"
         end
 
         if backup_ipa
@@ -32,9 +32,9 @@ module Fastlane
           if ipa_path
             FileUtils.mkdir_p(complete_backup_path)
             FileUtils.cp(ipa_path, complete_backup_path)
-            Helper.log.info "Ipa file (#{ipa_path}) copied to backups folder (#{complete_backup_path})"
+            UI.message "Ipa file (#{ipa_path}) copied to backups folder (#{complete_backup_path})"
           else
-            Helper.log.error "Couldn't find the ipa file, backup not done"
+            UI.error "Couldn't find the ipa file, backup not done"
           end
         end
 

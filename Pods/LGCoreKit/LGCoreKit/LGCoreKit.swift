@@ -16,19 +16,21 @@ public let Core: DI = {
 public class LGCoreKit {
 
     public static var loggingOptions = CoreLoggingOptions.none
-    public static var shouldUseChatWithWebSocket = false
     public static var quadKeyZoomLevel = LGCoreKitConstants.defaultQuadKeyPrecision
+    static var shouldUseChatWithWebSocket = false
 
-    public static func initialize(_ launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
-        initialize(launchOptions, environmentType: .production)
-    }
+    public static func initialize(config: LGCoreKitConfig) {
 
-    public static func initialize(_ launchOptions: [UIApplicationLaunchOptionsKey: Any]?, environmentType: EnvironmentType) {
-        EnvironmentProxy.sharedInstance.setEnvironmentType(environmentType)
+        LGCoreKit.shouldUseChatWithWebSocket = config.shouldUseChatWithWebSocket
+
+        EnvironmentProxy.sharedInstance.setEnvironmentType(config.environmentType)
 
         // Managers setup
         InternalCore.internalSessionManager.initialize()
         InternalCore.locationManager.initialize()
+
+        // Cars Info cache
+        InternalCore.carsInfoRepository.loadFirstRunCacheIfNeeded(jsonURL: config.carsInfoAppJSONURL)
     }
 
     public static func start() {
@@ -45,6 +47,7 @@ public class LGCoreKit {
         // Refresh my user
         InternalCore.myUserRepository.refresh(nil)
         InternalCore.webSocketClient.applicationWillEnterForeground()
+        InternalCore.carsInfoRepository.refreshCarsInfoFile()
     }
 
     static func setupAfterLoggedIn(_ completion: (() -> ())?) {

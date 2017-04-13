@@ -928,22 +928,22 @@
 "hidden_text_alert_description" = "We hide contact information to help you buy and sell safely. Chatting inside letgo is easy and more secure.";
 
 // Add listing details title
-"car_post_add_details_title" = "Listings with completed details attract 20% more potential buyers";
+"post_category_details_title" = "Listings with completed details attract 20% more potential buyers";
 
 // car make title
-"car_post_add_details_car_make" = "Make";
+"post_category_detail_car_make" = "Make";
 
 // car model title
-"car_post_add_details_car_model" = "Model";
+"post_category_detail_car_model" = "Model";
 
 // car year title
-"car_post_add_details_car_year" = "Year";
+"post_category_detail_car_year" = "Year";
 
 // progress mark
-"car_post_add_details_progress" = "progress";
+"post_category_details_progress" = "progress";
 
 // progress mark when it's at 100%
-"car_post_add_details_progress_100" = "Looks amazing";
+"post_category_details_progress_100" = "Looks amazing";
 
 // Fake distance shown in a bubble in a fake product list in onboarding
 "location_permissions_bubble" = "0.1 mi from you";

@@ -21,7 +21,6 @@ protocol OldChatViewModelDelegate: BaseViewModelDelegate {
     func vmDidFailSendingMessage()
     func vmDidSucceedSendingMessage(_ index: Int)
 
-    func vmShowRelatedProducts(_ productId: String?)
     func vmDidUpdateProduct(messageToShow message: String?)
 
     func vmShowReportUser(_ reportUserViewModel: ReportUsersViewModel)
@@ -350,7 +349,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
                   userRepository: Core.userRepository,
                   stickersRepository: Core.stickersRepository,
                   tracker: TrackerProxy.sharedInstance,
-                  configManager: ConfigManager.sharedInstance,
+                  configManager: LGConfigManager.sharedInstance,
                   sessionManager: Core.sessionManager,
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   featureFlags: FeatureFlags.sharedInstance,
@@ -607,9 +606,10 @@ class OldChatViewModel: BaseViewModel, Paginable {
         Observable.combineLatest(chatStatusEnablesRelatedProducts.asObservable(), sellerDidntAnswer.asObservable()) { [weak self] in
             guard let strongSelf = self else { return .loading }
             guard strongSelf.isBuyer else { return .hidden } // Seller doesn't have related products
-            if $0 { return .visible }
+            guard let listingId = self?.listing.objectId else {return .hidden }
+            if $0 { return .visible(listingId: listingId) }
             guard let didntAnswer = $1 else { return .loading } // If still checking if seller didn't answer. set loading state
-            return didntAnswer ? .visible : .hidden
+            return didntAnswer ? .visible(listingId: listingId) : .hidden
         }
         .bindTo(relatedProductsState).addDisposableTo(disposeBag)
 
@@ -623,18 +623,9 @@ class OldChatViewModel: BaseViewModel, Paginable {
          */
         Observable.combineLatest(expressBannerTriggered,
             hasRelatedProducts.asObservable(),
-            relatedProductsState.asObservable().map { (state: ChatRelatedItemsState) -> Bool in return state == .visible },
+            relatedProductsState.asObservable().map { (state: ChatRelatedItemsState) -> Bool in return state.isVisible },
         expressMessagesAlreadySent.asObservable()) { $0 && $1 && !$2 && !$3 }
             .distinctUntilChanged().bindTo(shouldShowExpressBanner).addDisposableTo(disposeBag)
-
-        relatedProductsState.asObservable().bindNext { [weak self] state in
-            switch state {
-            case .loading, .hidden:
-                self?.delegate?.vmShowRelatedProducts(nil)
-            case .visible:
-                self?.delegate?.vmShowRelatedProducts(self?.listing.objectId)
-            }
-        }.addDisposableTo(disposeBag)
 
         userDirectAnswersEnabled.value = keyValueStorage.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
         let directAnswers: Observable<DirectAnswersState> = Observable.combineLatest(
@@ -696,6 +687,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
                 strongSelf.delegate?.vmDidSucceedSendingMessage(0)
                 strongSelf.afterSendMessageEvents()
             } else if let error = result.error {
+                strongSelf.trackMessageSentError(type: type, error: error)
                 switch error {
                 case .userNotVerified:
                     strongSelf.userNotVerifiedError()
@@ -756,9 +748,9 @@ class OldChatViewModel: BaseViewModel, Paginable {
                 },
                                      positiveActionStyle: nil,
                                      negativeText: LGLocalizedString.commonCancel, negativeAction: nil, negativeActionStyle: nil)
-        } else if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.chat(buyer: isBuyer)) {
+        } else if LGPushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.chat(buyer: isBuyer)) {
             delegate?.vmShowPrePermissions(.chat(buyer: isBuyer))
-        } else if RatingManager.sharedInstance.shouldShowRating {
+        } else if LGRatingManager.sharedInstance.shouldShowRating {
             delegate?.vmHideKeyboard(animated: true)
             delay(1) { [weak self] in
                 self?.delegate?.vmHideKeyboard(animated: true)
@@ -1021,28 +1013,19 @@ class OldChatViewModel: BaseViewModel, Paginable {
     
     // MARK: Tracking
     
-    private func trackFirstMessage(type: ChatWrapperMessageType) {
-        // only track ask question if I didn't send any previous message
-        guard !didSendMessage else { return }
-        let sellerRating: Float? = isBuyer ? otherUser?.ratingAverage : myUserRepository.myUser?.ratingAverage
-        let firstMessageEvent = TrackerEvent.firstMessage(listing, messageType: type.chatTrackerType, quickAnswerType: type.quickAnswerType,
-                                                          typePage: .chat, sellerRating: sellerRating,
-                                                          freePostingModeAllowed: featureFlags.freePostingModeAllowed,
-                                                          isBumpedUp: .falseParameter)
-        tracker.trackEvent(firstMessageEvent)
-    }
-    
     private func trackMessageSent(type: ChatWrapperMessageType) {
-        if shouldSendFirstMessageEvent {
+        guard let info = buildSendMessageInfo(withType: type, error: nil) else { return }
+
+        if shouldSendFirstMessageEvent && !didSendMessage {
             shouldSendFirstMessageEvent = false
-            trackFirstMessage(type: type)
+            tracker.trackEvent(TrackerEvent.firstMessage(info: info))
         }
-        
-        let messageSentEvent = TrackerEvent.userMessageSent(listing, userTo: otherUser,
-                                                            messageType: type.chatTrackerType,
-                                                            quickAnswerType: type.quickAnswerType, typePage: .chat,
-                                                            freePostingModeAllowed: featureFlags.freePostingModeAllowed)
-        tracker.trackEvent(messageSentEvent)
+        tracker.trackEvent(TrackerEvent.userMessageSent(info: info))
+    }
+
+    private func trackMessageSentError(type: ChatWrapperMessageType, error: RepositoryError) {
+        guard let info = buildSendMessageInfo(withType: type, error: error) else { return }
+        tracker.trackEvent(TrackerEvent.userMessageSentError(info: info))
     }
     
     private func trackBlockUsers(_ userIds: [String]) {
@@ -1065,6 +1048,23 @@ class OldChatViewModel: BaseViewModel, Paginable {
                                                         freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                         isBumpedUp: .notAvailable)
         tracker.trackEvent(markAsSold)
+    }
+
+    private func buildSendMessageInfo(withType type: ChatWrapperMessageType, error: RepositoryError?) -> SendMessageTrackingInfo? {
+        let sellerRating: Float? = isBuyer ? otherUser?.ratingAverage : myUserRepository.myUser?.ratingAverage
+        let sendMessageInfo = SendMessageTrackingInfo()
+            .set(listing: listing, freePostingModeAllowed: featureFlags.freePostingModeAllowed)
+            .set(interlocutorId: otherUser?.objectId)
+            .set(messageType: type.chatTrackerType)
+            .set(quickAnswerType: type.quickAnswerType)
+            .set(typePage: .chat)
+            .set(sellerRating: sellerRating)
+            .set(isBumpedUp: .falseParameter)
+
+        if let error = error {
+            sendMessageInfo.set(error: error.chatError)
+        }
+        return sendMessageInfo
     }
     
     // MARK: - Paginable

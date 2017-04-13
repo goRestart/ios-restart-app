@@ -549,68 +549,16 @@ struct TrackerEvent {
         return TrackerEvent(name: .productDeleteComplete, params: params)
     }
 
-    static func firstMessage(_ listing: Listing, messageType: EventParameterMessageType, quickAnswerType: EventParameterQuickAnswerType?,
-                             typePage: EventParameterTypePage, sellerRating: Float? = nil, freePostingModeAllowed: Bool,
-                             isBumpedUp: EventParameterBoolean) -> TrackerEvent {
-        var params = EventParameters()
-        params.addListingParams(listing)
-        params[.messageType] = messageType.rawValue
-        params[.quickAnswerType] = quickAnswerType?.rawValue
-        params[.typePage] = typePage.rawValue
-        params[.userToId] = listing.user.objectId
-        params[.sellerUserRating] = sellerRating
-        params[.freePosting] = eventParameterFreePostingWithPrice(freePostingModeAllowed, price: listing.price).rawValue
-        params[.isBumpedUp] = isBumpedUp.rawValue
-        return TrackerEvent(name: .firstMessage, params: params)
+    static func firstMessage(info: SendMessageTrackingInfo) -> TrackerEvent {
+        return TrackerEvent(name: .firstMessage, params: info.params)
     }
 
-    // Duplicated method from the one above to support tracking using ChatListing model
-    static func firstMessage(_ product: ChatListing, messageType: EventParameterMessageType, quickAnswerType: EventParameterQuickAnswerType?,
-                             interlocutorId: String?, typePage: EventParameterTypePage,
-                             sellerRating: Float? = nil, freePostingModeAllowed: Bool,
-                             isBumpedUp: EventParameterBoolean) -> TrackerEvent {
-        // Note: does not have: category-id, product-lat, product-lng
-        var params = EventParameters()
-        params.addChatProductParams(product)
-        params[.messageType] = messageType.rawValue
-        params[.quickAnswerType] = quickAnswerType?.rawValue
-        params[.typePage] = typePage.rawValue
-        params[.userToId] = interlocutorId
-        params[.sellerUserRating] = sellerRating
-        params[.freePosting] = eventParameterFreePostingWithPrice(freePostingModeAllowed, price: product.price).rawValue
-        params[.isBumpedUp] = isBumpedUp.rawValue
-        return TrackerEvent(name: .firstMessage, params: params)
+    static func userMessageSent(info: SendMessageTrackingInfo) -> TrackerEvent {
+        return TrackerEvent(name: .userMessageSent, params: info.params)
     }
 
-    static func userMessageSent(_ listing: Listing, userTo: UserListing?, messageType: EventParameterMessageType,
-                                quickAnswerType: EventParameterQuickAnswerType?, typePage: EventParameterTypePage,
-                                freePostingModeAllowed: Bool) -> TrackerEvent {
-        var params = EventParameters()
-        params.addListingParams(listing)
-        params.addUserParams(userTo)
-        params[.messageType] = messageType.rawValue
-        let isQuickAnswer: EventParameterBoolean = quickAnswerType != nil ? .trueParameter : .falseParameter
-        params[.quickAnswer] = isQuickAnswer.rawValue
-        params[.quickAnswerType] = quickAnswerType?.rawValue
-        params[.typePage] = typePage.rawValue
-        params[.freePosting] = eventParameterFreePostingWithPrice(freePostingModeAllowed, price: listing.price).rawValue
-        return TrackerEvent(name: .userMessageSent, params: params)
-    }
-    
-    // Duplicated method from the one above to support tracking using ChatListing model
-    static func userMessageSent(_ product: ChatListing, userToId: String?, messageType: EventParameterMessageType,
-                                       quickAnswerType: EventParameterQuickAnswerType?, typePage: EventParameterTypePage,
-                                       freePostingModeAllowed: Bool) -> TrackerEvent {
-        var params = EventParameters()
-        params.addChatProductParams(product)
-        params[.userToId] = userToId
-        params[.messageType] = messageType.rawValue
-        let isQuickAnswer: EventParameterBoolean = quickAnswerType != nil ? .trueParameter : .falseParameter
-        params[.quickAnswer] = isQuickAnswer.rawValue
-        params[.quickAnswerType] = quickAnswerType?.rawValue
-        params[.typePage] = typePage.rawValue
-        params[.freePosting] = eventParameterFreePostingWithPrice(freePostingModeAllowed, price: product.price).rawValue
-        return TrackerEvent(name: .userMessageSent, params: params)
+    static func userMessageSentError(info: SendMessageTrackingInfo) -> TrackerEvent {
+        return TrackerEvent(name: .userMessageSentError, params: info.params)
     }
 
     static func chatRelatedItemsStart(_ shownReason: EventParameterRelatedShownReason) -> TrackerEvent {
@@ -1099,7 +1047,7 @@ struct TrackerEvent {
         return price != nil ? .trueParameter : .falseParameter
     }
     
-    private static func eventParameterFreePostingWithPrice(_ freePostingModeAllowed: Bool, price: ListingPrice) -> EventParameterBoolean {
+    static func eventParameterFreePostingWithPrice(_ freePostingModeAllowed: Bool, price: ListingPrice) -> EventParameterBoolean {
         guard freePostingModeAllowed else {return .notAvailable}
         return price.free ? .trueParameter : .falseParameter
     }
