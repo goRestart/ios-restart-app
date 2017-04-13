@@ -229,7 +229,7 @@ extension LGLayout {
                 relatedBy: NSLayoutRelation = .equal,
                 priority: UILayoutPriority = UILayoutPriorityRequired,
                 constraintBlock: LGConstraintConfigurationBlock? = nil) -> LGLayout {
-        constraint(item1: item1, attribute1: .trailing, relatedBy: relatedBy, item2: item2, attribute2: .leading,
+        constraint(item1: item1, attribute1: .leading, relatedBy: relatedBy, item2: item2, attribute2: .trailing,
                    constant: constant, multiplier: multiplier, priority: priority, constraintBlock: constraintBlock)
         return self
     }

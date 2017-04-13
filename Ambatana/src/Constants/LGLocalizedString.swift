@@ -1255,6 +1255,30 @@ struct LGLocalizedString {
 		return NSLocalizedString("hidden_text_alert_description", comment: "")
 	}
 
+	static var postCategoryDetailsTitle: String {
+		return NSLocalizedString("post_category_details_title", comment: "")
+	}
+
+	static var postCategoryDetailCarMake: String {
+		return NSLocalizedString("post_category_detail_car_make", comment: "")
+	}
+
+	static var postCategoryDetailCarModel: String {
+		return NSLocalizedString("post_category_detail_car_model", comment: "")
+	}
+
+	static var postCategoryDetailCarYear: String {
+		return NSLocalizedString("post_category_detail_car_year", comment: "")
+	}
+
+	static var postCategoryDetailsProgress: String {
+		return NSLocalizedString("post_category_details_progress", comment: "")
+	}
+
+	static var postCategoryDetailsProgress100: String {
+		return NSLocalizedString("post_category_details_progress_100", comment: "")
+	}
+
 	static var locationPermissionsBubble: String {
 		return NSLocalizedString("location_permissions_bubble", comment: "")
 	}

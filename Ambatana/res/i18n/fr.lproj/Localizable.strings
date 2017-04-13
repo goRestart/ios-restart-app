@@ -38,7 +38,7 @@
 "bump_up_view_pay_title" = "RENVOYER VERS LE HAUT POUR VENDRE PLUS RAPIDEMENT";
 "categories_baby_and_child" = "Bébé et Enfant";
 "categories_car" = "Voitures";
-"categories_cars_and_motors" = "Voitures et Motos";
+"categories_cars_and_motors" = "Véhicules et accessoires";
 "categories_electronics" = "Electroniques";
 "categories_fashion_and_accessories" = "Mode et Accessoires";
 "categories_free" = "Gratuit";
@@ -279,7 +279,7 @@
 "edit_product_suggesting_title" = "Suggestion de titre...";
 "edit_product_title" = "Modifier le Bien";
 "edit_product_unsaved_changes_alert" = "Êtes-vous certain de vouloir annuler ces changements ?";
-"edit_product_unsaved_changes_alert_ok" = "Annuler";
+"edit_product_unsaved_changes_alert_ok" = "Oui";
 "filters_distance_not_set" = "Aucun";
 "filters_navbar_reset" = "Reset";
 "filters_price_from" = "De";
@@ -307,8 +307,8 @@
 "help_title" = "Aide";
 "hidden_email_tag" = "[EMAIL CENSURÉ]";
 "hidden_phone_tag" = "[NUMÉRO DE TELEPHONE CENSURÉ]";
-"hidden_text_alert_description" = "We hide contact information to help you buy and sell safely. Chatting inside letgo is easy and more secure.";
-"hidden_text_alert_title" = "STAY SAFE";
+"hidden_text_alert_description" = "Nous masquons les informations de contact pour vous aider à acheter et vendre en toute sécurité. Chatter dans letgo est facile et plus sécurisé.";
+"hidden_text_alert_title" = "SOYEZ PRUDENT";
 "location_permissions_allow_button" = "Autoriser";
 "location_permissions_bubble" = "à 0.1 km de vous";
 "location_permissions_button" = "Oui, Utiliser ma Localisation";

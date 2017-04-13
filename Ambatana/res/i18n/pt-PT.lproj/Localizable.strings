@@ -37,8 +37,8 @@
 "bump_up_view_pay_subtitle" = "Dê uma elevada visibilidade à sua publicação durante 24 horas movendo-a para o topo.";
 "bump_up_view_pay_title" = "DÊ PRIORIDADE PARA VENDER MAIS RÁPIDO";
 "categories_baby_and_child" = "Bebés e Crianças";
-"categories_car" = "Cars";
-"categories_cars_and_motors" = "Veículos";
+"categories_car" = "Carros";
+"categories_cars_and_motors" = "Motores e Acessórios";
 "categories_electronics" = "Aparelhos eletrónicos";
 "categories_fashion_and_accessories" = "Moda e Acessórios";
 "categories_free" = "Coisas Gratuitas";
@@ -307,8 +307,8 @@
 "help_title" = "Ajuda";
 "hidden_email_tag" = "[EMAIL OCULTO]";
 "hidden_phone_tag" = "[NÚMERO DE TELEFONE OCULTO]";
-"hidden_text_alert_description" = "We hide contact information to help you buy and sell safely. Chatting inside letgo is easy and more secure.";
-"hidden_text_alert_title" = "STAY SAFE";
+"hidden_text_alert_description" = "Ocultamos os dados de contacto para o ajudarmos a comprar e a vender com segurança. Conversar no letgo é fácil e mais seguro.";
+"hidden_text_alert_title" = "MANTENHA-SE SEGURO";
 "location_permissions_allow_button" = "Permitir";
 "location_permissions_bubble" = "1,60 km de si";
 "location_permissions_button" = "Sim, Usem a Minha Localização";

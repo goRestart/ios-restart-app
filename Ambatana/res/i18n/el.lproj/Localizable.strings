@@ -307,8 +307,8 @@
 "help_title" = "Βοήθεια";
 "hidden_email_tag" = "[ΑΠΟΚΡΥΨΗ EMAIL]";
 "hidden_phone_tag" = "[ΑΠΟΚΡΥΨΗ ΤΗΛΕΦΩΝΟΥ]";
-"hidden_text_alert_description" = "We hide contact information to help you buy and sell safely. Chatting inside letgo is easy and more secure.";
-"hidden_text_alert_title" = "STAY SAFE";
+"hidden_text_alert_description" = "Αποκρύψαμε τις πληροφορίες επικοινωνίας για να σας βοηθήσουμε να κάνετε αγοραπωλησίες με ασφάλεια. Οι συνομιλίες εντός του easy είναι πιο ασφαλείς.";
+"hidden_text_alert_title" = "ΜΕΙΝΕΤΕ ΑΣΦΑΛΕΙΣ";
 "location_permissions_allow_button" = "Να επιτρέπεται";
 "location_permissions_bubble" = "15μ. από εσάς";
 "location_permissions_button" = "Χρήση της Τοποθεσίας μου";
