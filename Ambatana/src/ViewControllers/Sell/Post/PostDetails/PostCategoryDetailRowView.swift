@@ -8,19 +8,13 @@
 
 import UIKit
 
-struct CategoryDetailRow {
+struct PostCategoryDetailRow {
     // row
     let title: String
-    let selectedValueTitle: String
-    let selectedValueId: String
     let selectAction: (_ detailId: String, _ value: String) -> ()
-    
-    var isFilled: Bool {
-        return !selectedValueTitle.isEmpty && !selectedValueId.isEmpty
-    }
 }
 
-class AddCategoryDetailRowView: UIView {
+class PostCategoryDetailRowView: UIView {
     
     private let titleLabel = UILabel()
     private let valueLabel = UILabel()
@@ -63,14 +57,10 @@ class AddCategoryDetailRowView: UIView {
     
     // MARK: - Lifecycle
     
-    init(withCategoryDetailRow categoryDetailRow: CategoryDetailRow) {
-        self.detailId = categoryDetailRow.selectedValueId
+    init(withCategoryDetailRow categoryDetailRow: PostCategoryDetailRow) {
         self.selectAction = categoryDetailRow.selectAction
-        
         super.init(frame: CGRect.zero)
-        
         self.title = categoryDetailRow.title
-        self.value = categoryDetailRow.selectedValueTitle
         
         setupUI()
         setupAccessibilityIds()

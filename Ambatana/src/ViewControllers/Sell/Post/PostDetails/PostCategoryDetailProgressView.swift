@@ -1,5 +1,5 @@
 //
-//  ProgressView.swift
+//  PostCategoryDetailProgressView.swift
 //  LetGo
 //
 //  Created by Nestor on 06/04/2017.
@@ -8,17 +8,14 @@
 
 import UIKit
 
-final class AddDetailProgressView: UIView {
+final class PostCategoryDetailProgressView: UIView {
     
     private let progressView = UIProgressView()
     private let titleLabel = UILabel()
-    private let initialPercentange: Int
     
     // MARK: - Lifecycle
     
-    init(withInitialPercentage percentage: Int) {
-        initialPercentange = percentage
-        
+    init() {
         super.init(frame: CGRect.zero)
         
         setupUI()
@@ -37,12 +34,11 @@ final class AddDetailProgressView: UIView {
         titleLabel.font = UIFont.systemRegularFont(size: 13)
         titleLabel.textAlignment = .center
         titleLabel.textColor = UIColor.white
-        titleLabel.text = LGLocalizedString.carPostAddDetailsProgress
+        titleLabel.text = LGLocalizedString.postCategoryDetailsProgress
         
         progressView.translatesAutoresizingMaskIntoConstraints = false
         progressView.progressTintColor = UIColor.white
         progressView.trackTintColor = UIColor.white.withAlphaComponent(0.3)
-        setPercentage(initialPercentange)
     }
     
     private func setupLayout() {
@@ -69,10 +65,10 @@ final class AddDetailProgressView: UIView {
         
         if percentage == 100  {
             progressView.progressTintColor = UIColor.asparagus
-            titleLabel.text = String(percentage) + "% " + LGLocalizedString.carPostAddDetailsProgress100
+            titleLabel.text = String(percentage) + "% " + LGLocalizedString.postCategoryDetailsProgress100
         } else {
             progressView.progressTintColor = UIColor.white
-            titleLabel.text = String(percentage) + "% " + LGLocalizedString.carPostAddDetailsProgress
+            titleLabel.text = String(percentage) + "% " + LGLocalizedString.postCategoryDetailsProgress
         }
     }
 }

@@ -1,5 +1,5 @@
 //
-//  AddCategoryDetailsView.swift
+//  PostCategoryDetailsView.swift
 //  LetGo
 //
 //  Created by Nestor on 06/04/2017.
@@ -9,27 +9,19 @@
 import UIKit
 import RxSwift
 
-struct CategoryDetailTable {
-    // table
-    var values: [String] = []
-    
-    let selectAction: () -> ()
-}
-
-class AddCategoryDetailsView: UIView {
+class PostCategoryDetailsView: UIView {
     private let titleLabel = UILabel()
-    private let progressView: AddDetailProgressView
-    private var detailRowViews: [AddCategoryDetailRowView] = []
+    private let progressView: PostCategoryDetailProgressView
+    private var detailRowViews: [PostCategoryDetailRowView] = []
     private let doneButton = UIButton()
     
-    private let categoryDetails: [CategoryDetailRow]
+    private let categoryDetails: [PostCategoryDetailRow]
     
     // MARK: - Lifecycle
     
-    init(withCategoryDetails categoryDetails: [CategoryDetailRow]) {
+    init(withCategoryDetails categoryDetails: [PostCategoryDetailRow]) {
         self.categoryDetails = categoryDetails
-        let percentage = AddCategoryDetailsView.getProgress(forCategoryDetails: categoryDetails)
-        progressView = AddDetailProgressView(withInitialPercentage: percentage)
+        progressView = PostCategoryDetailProgressView()
         
         super.init(frame: CGRect.zero)
         
@@ -48,11 +40,11 @@ class AddCategoryDetailsView: UIView {
         titleLabel.font = UIFont.systemSemiBoldFont(size: 27)
         titleLabel.textAlignment = .center
         titleLabel.textColor = UIColor.white
-        titleLabel.text = LGLocalizedString.carPostAddDetailsTitle
+        titleLabel.text = LGLocalizedString.postCategoryDetailsTitle
 
-        var details: [AddCategoryDetailRowView] = []
+        var details: [PostCategoryDetailRowView] = []
         for detail in categoryDetails {
-            details.append(AddCategoryDetailRowView(withCategoryDetailRow: detail))
+            details.append(PostCategoryDetailRowView(withCategoryDetailRow: detail))
         }
     }
     
@@ -72,7 +64,7 @@ class AddCategoryDetailsView: UIView {
     
     // MARK: - Helpers
     
-    static private func getProgress(forCategoryDetails details: [CategoryDetailRow]) -> Int {
+ /*   static private func getProgress(forCategoryDetails details: [PostCategoryDetailRow]) -> Int {
         guard details.count > 0 else { return 100 }
         var detailsFilled = 0
         details.forEach { (detail) in
@@ -82,4 +74,5 @@ class AddCategoryDetailsView: UIView {
         }
         return Int(detailsFilled / details.count)
     }
+ */
 }

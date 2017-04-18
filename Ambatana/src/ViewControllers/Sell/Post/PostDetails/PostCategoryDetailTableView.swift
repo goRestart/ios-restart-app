@@ -1,5 +1,5 @@
 //
-//  AddCategoryDetailsTableView.swift
+//  PostCategoryDetailTableView.swift
 //  LetGo
 //
 //  Created by Nestor on 12/04/2017.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class AddCategoryDetailsTableView: UIView {
+final class PostCategoryDetailTableView: UIView {
     
     
     // MARK: - Lifecycle

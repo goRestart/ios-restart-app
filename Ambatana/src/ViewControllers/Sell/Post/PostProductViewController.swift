@@ -33,7 +33,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
     // contained in detailsContainer
     fileprivate let priceView: UIView
     fileprivate let categorySelectionView: PostCategorySelectionView
-    fileprivate let carDetailsView: AddCategoryDetailsView
+    fileprivate let carDetailsView: PostCategoryDetailsView
     
     fileprivate var footer: PostProductFooter
     fileprivate var footerView: UIView
@@ -112,8 +112,15 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         
         self.priceView = PostProductDetailPriceView(viewModel: viewModel.postDetailViewModel)
         self.categorySelectionView = PostCategorySelectionView()
-        let categoryDetails
-        self.carDetailsView = AddCategoryDetailsView(withCategoryDetails: [])
+        let categoryDetails = [PostCategoryDetailRow(title: LGLocalizedString.postCategoryDetailCarMake,
+                                                    selectAction: { (<#String#>, <#String#>) in
+                                                        <#code#>
+        }),
+                               PostCategoryDetailRow(title: LGLocalizedString.postCategoryDetailCarModel,
+                                                     selectAction: <#T##(String, String) -> ()#>),
+                               PostCategoryDetailRow(title: LGLocalizedString.postCategoryDetailCarYear,
+                                                     selectAction: <#T##(String, String) -> ()#>)]
+        self.carDetailsView = PostCategoryDetailsView(withCategoryDetails: categoryDetails)
         
         self.postingGallery = postingGallery
         super.init(viewModel: viewModel, nibName: "PostProductViewController",
