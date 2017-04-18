@@ -219,6 +219,8 @@ enum AccessibilityId: String {
     case postingInfoEditButton
     case postingInfoMainButton
     case postingInfoIncentiveContainer
+    case postingCategorySelectionCarsButton
+    case postingCategorySelectionOtherButton
 
     // EditProduct
     case editProductCloseButton

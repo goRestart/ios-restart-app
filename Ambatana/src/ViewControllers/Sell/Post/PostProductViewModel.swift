@@ -21,19 +21,10 @@ enum PostingSource {
     case deleteProduct
 }
 
-enum PostProductState {
-    case imageSelection
-    case uploadingImage
-    case errorUpload(message: String)
-    case detailsSelection
-}
-
 
 class PostProductViewModel: BaseViewModel {
-
     weak var delegate: PostProductViewModelDelegate?
     weak var navigator: PostProductNavigator?
-    fileprivate let sessionManager: SessionManager
 
     var usePhotoButtonText: String {
         if sessionManager.loggedIn {
@@ -50,7 +41,8 @@ class PostProductViewModel: BaseViewModel {
         }
     }
 
-    let state = Variable<PostProductState>(.imageSelection)
+    let state: Variable<PostListingState>
+    let category: Variable<PostCategory?>
 
     let postDetailViewModel: PostProductDetailViewModel
     let postProductCameraViewModel: PostProductCameraViewModel
@@ -58,45 +50,57 @@ class PostProductViewModel: BaseViewModel {
     
     fileprivate let listingRepository: ListingRepository
     fileprivate let fileRepository: FileRepository
-    fileprivate let locationManager: LocationManager
     fileprivate let currencyHelper: CurrencyHelper
     fileprivate let tracker: Tracker
+    fileprivate let sessionManager: SessionManager
+    fileprivate let featureFlags: FeatureFlaggeable
+    fileprivate let locationManager: LocationManager
+    
     private var imagesSelected: [UIImage]?
-    fileprivate var pendingToUploadImages: [UIImage]?
-    fileprivate var uploadedImages: [File]?
     fileprivate var uploadedImageSource: EventParameterPictureSource?
     
+    fileprivate let disposeBag: DisposeBag
 
+    
     // MARK: - Lifecycle
 
     convenience init(source: PostingSource) {
         self.init(source: source,
                   listingRepository: Core.listingRepository,
                   fileRepository: Core.fileRepository,
-                  locationManager: Core.locationManager,
-                  currencyHelper: Core.currencyHelper,
                   tracker: TrackerProxy.sharedInstance,
-                  sessionManager: Core.sessionManager)
+                  sessionManager: Core.sessionManager,
+                  featureFlags: FeatureFlags.sharedInstance,
+                  locationManager: Core.locationManager,
+                  currencyHelper: Core.currencyHelper)
     }
 
     init(source: PostingSource,
          listingRepository: ListingRepository,
          fileRepository: FileRepository,
-         locationManager: LocationManager,
-         currencyHelper: CurrencyHelper,
          tracker: Tracker,
-         sessionManager: SessionManager) {
+         sessionManager: SessionManager,
+         featureFlags: FeatureFlaggeable,
+         locationManager: LocationManager,
+         currencyHelper: CurrencyHelper) {
+        self.state = Variable<PostListingState>(PostListingState(featureFlags: featureFlags))
+        self.category = Variable<PostCategory?>(nil)
+        
         self.postingSource = source
         self.listingRepository = listingRepository
         self.fileRepository = fileRepository
         self.postDetailViewModel = PostProductDetailViewModel()
         self.postProductCameraViewModel = PostProductCameraViewModel(postingSource: source)
-        self.locationManager = locationManager
-        self.currencyHelper = currencyHelper
         self.tracker = tracker
         self.sessionManager = sessionManager
+        self.featureFlags = featureFlags
+        self.locationManager = locationManager
+        self.currencyHelper = currencyHelper
+        self.disposeBag = DisposeBag()
         super.init()
         self.postDetailViewModel.delegate = self
+        
+        setupRx()
     }
 
     override func didBecomeActive(_ firstTime: Bool) {
@@ -116,42 +120,33 @@ class PostProductViewModel: BaseViewModel {
         uploadedImageSource = source
         imagesSelected = images
         guard sessionManager.loggedIn else {
-            pendingToUploadImages = images
-            state.value = .detailsSelection
+            state.value = state.value.updating(pendingToUploadImages: images)
             return
         }
 
-        state.value = .uploadingImage
+        state.value = state.value.updatingStepToUploadingImages()
 
         fileRepository.upload(images, progress: nil) { [weak self] result in
             guard let strongSelf = self else { return }
-            guard let images = result.value else {
-                guard let error = result.error else { return }
-                let errorString: String
-                switch (error) {
-                case .internalError, .unauthorized, .notFound, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
-                    errorString = LGLocalizedString.productPostGenericError
-                case .network:
-                    errorString = LGLocalizedString.productPostNetworkError
-                }
-                strongSelf.state.value = .errorUpload(message: errorString)
-                return
+            
+            if let images = result.value {
+                strongSelf.state.value = strongSelf.state.value.updatingToSuccessUpload(uploadedImages: images)
+            } else if let error = result.error {
+                strongSelf.state.value = strongSelf.state.value.updating(uploadError: error)
             }
-            strongSelf.uploadedImages = images
-            strongSelf.state.value = .detailsSelection
         }
     }
-
+    
     func closeButtonPressed() {
-        if pendingToUploadImages != nil {
+        if state.value.pendingToUploadImages != nil {
             openPostAbandonAlertNotLoggedIn()
         } else {
-            guard let images = uploadedImages, let params = makeProductCreationParams(images: images) else {
+            guard let images = state.value.lastImagesUploadResult?.value, let params = makeProductCreationParams(images: images) else {
                 navigator?.cancelPostProduct()
                 return
             }
             let trackingInfo = PostProductTrackingInfo(buttonName: .close, sellButtonPosition: postingSource.sellButtonPosition,
-                                                       imageSource: uploadedImageSource, price: nil)
+                                                       imageSource: uploadedImageSource, price: nil) // TODO: 🚔 that nil..?
             navigator?.closePostProductAndPostInBackground(params: params, showConfirmation: false, trackingInfo: trackingInfo)
         }
     }
@@ -162,7 +157,7 @@ class PostProductViewModel: BaseViewModel {
 
 extension PostProductViewModel: PostProductDetailViewModelDelegate {
     func postProductDetailDone(_ viewModel: PostProductDetailViewModel) {
-        postProduct()
+        state.value = state.value.updating(price: viewModel.productPrice)
     }
 }
 
@@ -170,6 +165,25 @@ extension PostProductViewModel: PostProductDetailViewModelDelegate {
 // MARK: - Private methods
 
 fileprivate extension PostProductViewModel {
+    func setupRx() {
+        category.asObservable().subscribeNext { [weak self] category in
+            guard let strongSelf = self, let category = category else { return }
+            strongSelf.state.value = strongSelf.state.value.updating(category: category)
+        }.addDisposableTo(disposeBag)
+        
+        state.asObservable().filter { $0.step == .finished }.bindNext { [weak self] _ in
+            self?.postProduct()
+        }.addDisposableTo(disposeBag)
+        
+        state.asObservable().debug().filter { $0.step == .uploadSuccess }.bindNext { [weak self] _ in
+            // Keep one second delay in order to give time to read the product posted message.
+            delay(1) { [weak self] in
+                guard let strongSelf = self else { return }
+                strongSelf.state.value = strongSelf.state.value.updatingAfterUploadingSuccess()
+            }
+        }.addDisposableTo(disposeBag)
+    }
+    
     func openPostAbandonAlertNotLoggedIn() {
         let title = LGLocalizedString.productPostCloseAlertTitle
         let message = LGLocalizedString.productPostCloseAlertDescription
@@ -186,9 +200,9 @@ fileprivate extension PostProductViewModel {
         let trackingInfo = PostProductTrackingInfo(buttonName: .done, sellButtonPosition: postingSource.sellButtonPosition,
                                                    imageSource: uploadedImageSource, price: postDetailViewModel.price.value)
         if sessionManager.loggedIn {
-            guard let images = uploadedImages, let params = makeProductCreationParams(images: images) else { return }
+            guard let images = state.value.lastImagesUploadResult?.value, let params = makeProductCreationParams(images: images) else { return }
             navigator?.closePostProductAndPostInBackground(params: params, showConfirmation: true, trackingInfo: trackingInfo)
-        } else if let images = pendingToUploadImages {
+            } else if let images = state.value.pendingToUploadImages {
             navigator?.openLoginIfNeededFromProductPosted(from: .sell, loggedInAction: { [weak self] in
                 guard let params = self?.makeProductCreationParams(images: []) else { return }
                 self?.navigator?.closePostProductAndPostLater(params: params, images: images, trackingInfo: trackingInfo)
