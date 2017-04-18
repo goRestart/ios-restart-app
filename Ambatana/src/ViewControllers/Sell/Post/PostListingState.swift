@@ -191,7 +191,7 @@ final class PostListingState {
                                 featureFlags: featureFlags)
     }
     
-    func updating(carInfo: CarAttributes) -> PostListingState {   // TODO: 🚔 Update with actual car info model
+    func updating(carInfo: CarAttributes) -> PostListingState {
         guard step == .carDetailsSelection(includePrice: false) else { return self }
         
         return PostListingState(step: .finished,
@@ -203,7 +203,7 @@ final class PostListingState {
                                 featureFlags: featureFlags)
     }
     
-    func updating(price: ListingPrice, carInfo: CarAttributes) -> PostListingState {  // TODO: 🚔 Update with actual car info model
+    func updating(price: ListingPrice, carInfo: CarAttributes) -> PostListingState {
         guard step == .carDetailsSelection(includePrice: true) else { return self }
         
         return PostListingState(step: .finished,
