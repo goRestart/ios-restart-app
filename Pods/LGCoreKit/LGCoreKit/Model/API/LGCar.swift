@@ -40,32 +40,25 @@ struct LGCar: Car {
     
     let featured: Bool?
     
+    let carAttributes: CarAttributes
+    
     // This parameters is not included in the API, we set a default value that must be changed if needed once
     // the object is created after the decoding.
     var favorite: Bool = false
-    
-    // Car iVars
-    let make: String?
-    let makeId: String?
-    let model: String?
-    let modelId: String?
-    let year: Int?
     
     init(car: Car) {
         self.init(objectId: car.objectId, updatedAt: car.updatedAt, createdAt: car.createdAt, name: car.name,
                   nameAuto: car.nameAuto, descr: car.descr, price: car.price, currency: car.currency,
                   location: car.location, postalAddress: car.postalAddress, languageCode: car.languageCode,
                   category: car.category, status: car.status, thumbnail: car.thumbnail, thumbnailSize: car.thumbnailSize,
-                  images: car.images, user: car.user, featured: car.featured, make: car.make, makeId: car.makeId,
-                  model: car.model, modelId: car.modelId, year: car.year)
+                  images: car.images, user: car.user, featured: car.featured, carAttributes: car.carAttributes)
         self.favorite = car.favorite
     }
     
     init(objectId: String?, updatedAt: Date?, createdAt: Date?, name: String?, nameAuto: String?, descr: String?,
          price: ListingPrice, currency: Currency, location: LGLocationCoordinates2D, postalAddress: PostalAddress,
          languageCode: String?, category: ListingCategory, status: ListingStatus, thumbnail: File?,
-         thumbnailSize: LGSize?, images: [File], user: UserListing, featured: Bool?, make: String?, makeId: String?,
-         model: String?, modelId: String?, year: Int?) {
+         thumbnailSize: LGSize?, images: [File], user: UserListing, featured: Bool?, carAttributes: CarAttributes?) {
         self.objectId = objectId
         self.updatedAt = updatedAt
         self.createdAt = createdAt
@@ -85,11 +78,7 @@ struct LGCar: Car {
         self.user = user
         self.featured = featured ?? false
         self.favorite = false
-        self.make = make
-        self.makeId = makeId
-        self.model = model
-        self.modelId = modelId
-        self.year = year
+        self.carAttributes = carAttributes ?? CarAttributes.emptyCarAttributes()
     }
     
     init(chatListing: ChatListing, chatInterlocutor: ChatInterlocutor) {
@@ -103,7 +92,7 @@ struct LGCar: Car {
                   nameAuto: nil, descr: nil, price: chatListing.price, currency: chatListing.currency, location: location,
                   postalAddress: postalAddress, languageCode: nil, category: category,
                   status: chatListing.status, thumbnail: chatListing.image, thumbnailSize: nil,
-                  images: images, user: user, featured: nil, make: nil, makeId: nil, model: nil, modelId: nil, year: nil)
+                  images: images, user: user, featured: nil, carAttributes: CarAttributes.emptyCarAttributes())
     }
     
     static func carWithId(_ objectId: String?, updatedAt: Date?, createdAt: Date?, name: String?,
@@ -122,9 +111,7 @@ struct LGCar: Car {
                          nameAuto: nameAuto, descr: descr, price: listingPrice, currency: actualCurrency, location: location,
                          postalAddress: postalAddress, languageCode: languageCode, category: actualCategory,
                          status: actualStatus, thumbnail: actualThumbnail, thumbnailSize: thumbnailSize,
-                         images: actualImages, user: user, featured: featured, make: carAttributes?.make,
-                         makeId: carAttributes?.makeId, model: carAttributes?.model, modelId: carAttributes?.modelId,
-                         year: carAttributes?.year)
+                         images: actualImages, user: user, featured: featured, carAttributes: carAttributes)
     }
     
     // MARK: Updates
@@ -134,8 +121,7 @@ struct LGCar: Car {
                          nameAuto: nameAuto, descr: descr, price: price, currency: currency,
                          location: location, postalAddress: postalAddress, languageCode: languageCode,
                          category: category, status: status, thumbnail: thumbnail,
-                         thumbnailSize: thumbnailSize, images: images, user: user, featured: featured, make: make,
-                         makeId: makeId, model: model, modelId: modelId, year: year)
+                         thumbnailSize: thumbnailSize, images: images, user: user, featured: featured, carAttributes: carAttributes)
     }
     
     func updating(status: ListingStatus) -> LGCar {
@@ -143,46 +129,11 @@ struct LGCar: Car {
                      nameAuto: nameAuto, descr: descr, price: price, currency: currency,
                      location: location, postalAddress: postalAddress, languageCode: languageCode,
                      category: category, status: status, thumbnail: thumbnail,
-                     thumbnailSize: thumbnailSize, images: images, user: user, featured: featured, make: make,
-                     makeId: makeId, model: model, modelId: modelId, year: year)
+                     thumbnailSize: thumbnailSize, images: images, user: user, featured: featured, carAttributes: carAttributes)
     }
 }
 
 extension LGCar : Decodable {
-    
-    struct CarAttributes: Decodable {
-        let make: String?
-        let makeId: String?
-        let model: String?
-        let modelId: String?
-        let year: Int?
-        
-        /**
-         Expects a json in the form:
-         
-         {
-             "make": {
-                "id": "4b301c13-9e5f-442a-a63b-affd15f9268e",
-                "name": "Audi"
-             },
-             "model": {
-                "id": "3705d6fe-4c63-424a-929c-64c7b715b620",
-                "name": "A1"
-             },
-             "year": 2000
-         }
-         
-         */
-        static func decode(_ j: JSON) -> Decoded<CarAttributes> {
-            let init1 = curry(CarAttributes.init)
-                                <^> j <|? ["make", "id"]
-                                <*> j <|? ["make", "name"]
-            let init2 = init1   <*> j <|? ["model", "id"]
-                                <*> j <|? ["model", "name"]
-                                <*> j <|? "year"
-            return init2
-        }
-    }
     
     /**
      Expects a json in the form:

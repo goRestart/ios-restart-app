@@ -196,15 +196,11 @@ public class CarCreationParams {
     public var postalAddress: PostalAddress
     public var images: [File]
     var languageCode: String
-    public var make: String?
-    public var makeId: String?
-    public var model: String?
-    public var modelId: String?
-    public var year: Int?
+    public var carAttributes: CarAttributes
     
     public init(name: String?, description: String?, price: ListingPrice, category: ListingCategory,
                 currency: Currency, location: LGLocationCoordinates2D, postalAddress: PostalAddress, images: [File],
-                make: String?, makeId: String?, model: String?, modelId: String?, year: Int?) {
+                carAttributes: CarAttributes) {
         self.name = name
         self.descr = description
         self.price = price
@@ -214,11 +210,7 @@ public class CarCreationParams {
         self.postalAddress = postalAddress
         self.languageCode = Locale.current.identifier
         self.images = images
-        self.make = make
-        self.makeId = makeId
-        self.model = model
-        self.modelId = modelId
-        self.year = year
+        self.carAttributes = carAttributes
     }
     
     func apiEncode(userId: String) -> [String: Any] {
@@ -241,14 +233,14 @@ public class CarCreationParams {
         let tokensString = images.flatMap{$0.objectId}.map{"\"" + $0 + "\""}.joined(separator: ",")
         params["images"] = "[" + tokensString + "]"
         
-        var carAttributes: [String:Any] = [:]
-        carAttributes["make"] = ["id":makeId,
-                                 "name":make]
-        carAttributes["model"] = ["id":modelId,
-                                  "name":model]
-        carAttributes["year"] = year
         
-        params["attributes"] = carAttributes
+        
+        var carAttributesDict: [String:Any] = [:]
+        carAttributesDict["make"] = ["id": carAttributes.makeId, "name": carAttributes.make]
+        carAttributesDict["model"] = ["id": carAttributes.modelId, "name": carAttributes.model]
+        carAttributesDict["year"] = carAttributes.year
+        
+        params["attributes"] = carAttributesDict
         
         return params
     }
@@ -274,11 +266,7 @@ public class CarEditionParams: CarCreationParams {
                    location: car.location,
                    postalAddress: car.postalAddress,
                    images: car.images,
-                   make: car.make,
-                   makeId: car.makeId,
-                   model: car.model,
-                   modelId: car.modelId,
-                   year: car.year)
+                   carAttributes: car.carAttributes)
         if let languageCode = car.languageCode {
             self.languageCode = languageCode
         }

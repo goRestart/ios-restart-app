@@ -19,10 +19,6 @@ extension MockCar: MockFactory {
                            createdAt: Date?.makeRandom(),
                            featured: Bool?.makeRandom(),
                            favorite: Bool.makeRandom(),
-                           make: String?.makeRandom(),
-                           makeId: String?.makeRandom(),
-                           model: String?.makeRandom(),
-                           modelId: String?.makeRandom(),
-                           year: Int?.makeRandom())
+                           carAttributes: CarAttributes.emptyCarAttributes()) //TODO: 🚔 need to create a makeRandom carAttributes!
     }
 }
