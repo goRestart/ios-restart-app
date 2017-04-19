@@ -150,6 +150,10 @@ class PostProductViewModel: BaseViewModel {
             navigator?.closePostProductAndPostInBackground(params: params, showConfirmation: false, trackingInfo: trackingInfo)
         }
     }
+    
+    func carMakes() -> [CarsMake] {
+        listingRepository.
+    }
 }
 
 
@@ -168,7 +172,8 @@ fileprivate extension PostProductViewModel {
     func setupRx() {
         category.asObservable().subscribeNext { [weak self] category in
             guard let strongSelf = self, let category = category else { return }
-            strongSelf.state.value = strongSelf.state.value.updating(category: category)
+            //strongSelf.state.value = strongSelf.state.value.updating(category: category)
+            strongSelf.state.value = strongSelf.state.value.updatingAfterUploadingSuccess()
         }.addDisposableTo(disposeBag)
         
         state.asObservable().filter { $0.step == .finished }.bindNext { [weak self] _ in

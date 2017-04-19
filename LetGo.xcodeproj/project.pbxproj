@@ -672,8 +672,8 @@
 		7EA1474E1E12769500C3F462 /* LGLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA1474C1E12769500C3F462 /* LGLayout.swift */; };
 		8E0C9DF41E96924F00768D27 /* PostCategoryDetailProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0C9DF31E96924F00768D27 /* PostCategoryDetailProgressView.swift */; };
 		8E0C9DF51E96924F00768D27 /* PostCategoryDetailProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0C9DF31E96924F00768D27 /* PostCategoryDetailProgressView.swift */; };
-		8E0C9DF71E96935300768D27 /* PostCategoryDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0C9DF61E96935300768D27 /* PostCategoryDetailsView.swift */; };
-		8E0C9DF81E96935300768D27 /* PostCategoryDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0C9DF61E96935300768D27 /* PostCategoryDetailsView.swift */; };
+		8E0C9DF71E96935300768D27 /* PostCarDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0C9DF61E96935300768D27 /* PostCarDetailsView.swift */; };
+		8E0C9DF81E96935300768D27 /* PostCarDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0C9DF61E96935300768D27 /* PostCarDetailsView.swift */; };
 		8E15D7971E9B97D3000A99C0 /* PostCategoryDetailRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E15D7961E9B97D3000A99C0 /* PostCategoryDetailRowView.swift */; };
 		8E15D7981E9B97D3000A99C0 /* PostCategoryDetailRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E15D7961E9B97D3000A99C0 /* PostCategoryDetailRowView.swift */; };
 		8E2600731E2FB15D00242B3F /* ChangeEmailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2600721E2FB15D00242B3F /* ChangeEmailViewModel.swift */; };
@@ -1861,7 +1861,7 @@
 		7ED714BB7ABD1804F5E818D4 /* Pods-LetGo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.release.xcconfig"; sourceTree = "<group>"; };
 		7FF25262DBFA224AC937A467 /* Pods_LetGo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetGo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E0C9DF31E96924F00768D27 /* PostCategoryDetailProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCategoryDetailProgressView.swift; sourceTree = "<group>"; };
-		8E0C9DF61E96935300768D27 /* PostCategoryDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCategoryDetailsView.swift; sourceTree = "<group>"; };
+		8E0C9DF61E96935300768D27 /* PostCarDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCarDetailsView.swift; sourceTree = "<group>"; };
 		8E15D7961E9B97D3000A99C0 /* PostCategoryDetailRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCategoryDetailRowView.swift; sourceTree = "<group>"; };
 		8E2600721E2FB15D00242B3F /* ChangeEmailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeEmailViewModel.swift; sourceTree = "<group>"; };
 		8E2600751E2FB16D00242B3F /* ChangeEmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeEmailViewController.swift; sourceTree = "<group>"; };
@@ -3681,7 +3681,7 @@
 			isa = PBXGroup;
 			children = (
 				505F55B21E8A97AF005A616F /* PostCategorySelectionView.swift */,
-				8E0C9DF61E96935300768D27 /* PostCategoryDetailsView.swift */,
+				8E0C9DF61E96935300768D27 /* PostCarDetailsView.swift */,
 				8E0C9DF31E96924F00768D27 /* PostCategoryDetailProgressView.swift */,
 				8E15D7961E9B97D3000A99C0 /* PostCategoryDetailRowView.swift */,
 				8E69F3F11E9E30EE00E14F12 /* PostCategoryDetailTableView.swift */,
@@ -5429,7 +5429,7 @@
 				C75B5DD31D59E0C500112368 /* ProductCarouselCellModel.swift in Sources */,
 				C7DE8AD11C888761005CF37E /* SellProductCell.swift in Sources */,
 				508D486D1CD09E8500C52BE3 /* AlamofireImage+ImageDownloaderType.swift in Sources */,
-				8E0C9DF71E96935300768D27 /* PostCategoryDetailsView.swift in Sources */,
+				8E0C9DF71E96935300768D27 /* PostCarDetailsView.swift in Sources */,
 				6AA26CFD1CFDBA7600546063 /* ChatDisclaimerCellDrawer.swift in Sources */,
 				50A8DC821BA06BB1008296B0 /* ChatSafetyTipsView.swift in Sources */,
 				2E131C6B1DEDE998004D26DC /* LGPurchasesShopper.swift in Sources */,
@@ -5940,7 +5940,7 @@
 				C7111EFD1CA43885000C5C5A /* DeepLink.swift in Sources */,
 				C75B5DD41D59E0C500112368 /* ProductCarouselCellModel.swift in Sources */,
 				C7DB42061C5138B500400945 /* Listing+Negotiable.swift in Sources */,
-				8E0C9DF81E96935300768D27 /* PostCategoryDetailsView.swift in Sources */,
+				8E0C9DF81E96935300768D27 /* PostCarDetailsView.swift in Sources */,
 				C73C163C1D06C1B500DFC67D /* SuggestionSearchCell.swift in Sources */,
 				C7DE8AD21C888761005CF37E /* SellProductCell.swift in Sources */,
 				508D486E1CD09E8500C52BE3 /* AlamofireImage+ImageDownloaderType.swift in Sources */,

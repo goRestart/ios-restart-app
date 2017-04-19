@@ -8,21 +8,12 @@
 
 import UIKit
 
-struct PostCategoryDetailRow {
-    // row
-    let title: String
-    let selectAction: (_ detailId: String, _ value: String) -> ()
-}
-
 class PostCategoryDetailRowView: UIView {
     
     private let titleLabel = UILabel()
     private let valueLabel = UILabel()
     private let icon = UIImageView()
-    private let button = UIButton()
-    private let selectAction: (_ detailId: String, _ value: String) -> ()
-    
-    var detailId: String
+    let button = UIButton()
     
     var enabled: Bool = true {
         didSet {
@@ -46,22 +37,20 @@ class PostCategoryDetailRowView: UIView {
         }
     }
     
-    var value: String  {
+    var value: String?  {
         set {
             valueLabel.text = newValue
         }
         get {
-            return valueLabel.text ?? ""
+            return valueLabel.text
         }
     }
     
     // MARK: - Lifecycle
     
-    init(withCategoryDetailRow categoryDetailRow: PostCategoryDetailRow) {
-        self.selectAction = categoryDetailRow.selectAction
+    init(withTitle title: String) {
         super.init(frame: CGRect.zero)
-        self.title = categoryDetailRow.title
-        
+        self.title = title
         setupUI()
         setupAccessibilityIds()
         setupLayout()
@@ -74,8 +63,6 @@ class PostCategoryDetailRowView: UIView {
     // MARK: - Layout
     
     private func setupUI() {
-        button.addTarget(self, action: #selector(didPressDetail), for: .touchUpInside)
-        
         titleLabel.font = UIFont.systemSemiBoldFont(size: 17)
         titleLabel.textAlignment = .left
         titleLabel.textColor = UIColor.white
@@ -105,13 +92,5 @@ class PostCategoryDetailRowView: UIView {
     
     private func setupAccessibilityIds() {
         
-    }
-    
-    // MARK: - Actions
-    
-    dynamic func didPressDetail() {
-        if enabled {
-            selectAction(detailId, value)
-        }
     }
 }

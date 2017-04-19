@@ -1,5 +1,5 @@
 //
-//  PostCategoryDetailsView.swift
+//  PostCarDetailsView.swift
 //  LetGo
 //
 //  Created by Nestor on 06/04/2017.
@@ -9,20 +9,17 @@
 import UIKit
 import RxSwift
 
-class PostCategoryDetailsView: UIView {
+class PostCarDetailsView: UIView {
     private let titleLabel = UILabel()
-    private let progressView: PostCategoryDetailProgressView
-    private var detailRowViews: [PostCategoryDetailRowView] = []
-    private let doneButton = UIButton()
-    
-    private let categoryDetails: [PostCategoryDetailRow]
+    private let progressView = PostCategoryDetailProgressView()
+    let makeRowView = PostCategoryDetailRowView(withTitle: LGLocalizedString.postCategoryDetailCarMake)
+    let modelRowView = PostCategoryDetailRowView(withTitle: LGLocalizedString.postCategoryDetailCarModel)
+    let yearRowView = PostCategoryDetailRowView(withTitle: LGLocalizedString.postCategoryDetailCarYear)
+    let doneButton = UIButton(type: .custom)
     
     // MARK: - Lifecycle
-    
-    init(withCategoryDetails categoryDetails: [PostCategoryDetailRow]) {
-        self.categoryDetails = categoryDetails
-        progressView = PostCategoryDetailProgressView()
-        
+
+    init() {
         super.init(frame: CGRect.zero)
         
         setupUI()
@@ -42,18 +39,19 @@ class PostCategoryDetailsView: UIView {
         titleLabel.textColor = UIColor.white
         titleLabel.text = LGLocalizedString.postCategoryDetailsTitle
 
-        var details: [PostCategoryDetailRowView] = []
-        for detail in categoryDetails {
-            details.append(PostCategoryDetailRowView(withCategoryDetailRow: detail))
-        }
+        makeRowView.enabled = true
+        modelRowView.enabled = false
+        yearRowView.enabled = true
+        
+        doneButton.setStyle(.primary(fontSize: .big))
     }
     
     private func setupLayout() {
-        let subviews = [titleLabel, progressView, doneButton]
+        let subviews = [titleLabel, progressView, makeRowView, modelRowView, yearRowView, doneButton]
         setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: subviews)
         addSubviews(subviews)
         
-        
+        tileLabel.layout(with: )
     }
     
     // MARK: - Accessibility

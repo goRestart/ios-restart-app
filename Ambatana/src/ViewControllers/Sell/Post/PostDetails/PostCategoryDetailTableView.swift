@@ -8,12 +8,22 @@
 
 import UIKit
 
+enum CategoryDetailSelectedInfo {
+    case index(index: Int)
+    case custom(string: String) // for 'Others' options
+}
+
 final class PostCategoryDetailTableView: UIView {
     
+    let titles: [String]
+    let selectedIndex: Int?
     
     // MARK: - Lifecycle
     
-    init() {
+    init(withTitles titles: [String], selectedIndex: Int?) {
+        self.titles = titles
+        self.selectedIndex = selectedIndex
+        
         super.init(frame: CGRect.zero)
         
         setupUI()

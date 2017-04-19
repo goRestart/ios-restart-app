@@ -112,16 +112,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         
         self.priceView = PostProductDetailPriceView(viewModel: viewModel.postDetailViewModel)
         self.categorySelectionView = PostCategorySelectionView()
-        let categoryDetails = [PostCategoryDetailRow(title: LGLocalizedString.postCategoryDetailCarMake,
-                                                    selectAction: { (<#String#>, <#String#>) in
-                                                        <#code#>
-        }),
-                               PostCategoryDetailRow(title: LGLocalizedString.postCategoryDetailCarModel,
-                                                     selectAction: <#T##(String, String) -> ()#>),
-                               PostCategoryDetailRow(title: LGLocalizedString.postCategoryDetailCarYear,
-                                                     selectAction: <#T##(String, String) -> ()#>)]
-        self.carDetailsView = PostCategoryDetailsView(withCategoryDetails: categoryDetails)
-        
+        self.carDetailsView = PostCategoryDetailsView()
         self.postingGallery = postingGallery
         super.init(viewModel: viewModel, nibName: "PostProductViewController",
                    statusBarStyle: UIApplication.shared.statusBarStyle)
@@ -255,6 +246,20 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         carDetailsView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(carDetailsView)
         carDetailsView.layout(with: view).fill()
+        
+        carDetailsView.makeRowView.button.rx.tap.asObservable().subscribeNext { [weak self] _ in
+            self?.carMakeRowButtonPressed()
+        }.addDisposableTo(disposeBag)
+        carDetailsView.modelRowView.button.rx.tap.asObservable().subscribeNext { [weak self] _ in
+            self?.carMakeRowButtonPressed()
+        }.addDisposableTo(disposeBag)
+        carDetailsView.yearRowView.button.rx.tap.asObservable().subscribeNext { [weak self] _ in
+            self?.carMakeRowButtonPressed()
+        }.addDisposableTo(disposeBag)
+        
+        carDetailsView.doneButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
+            self?.carMakeRowButtonPressed()
+        }.addDisposableTo(disposeBag)
     }
     
     private func setupFooter() {
@@ -303,6 +308,33 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         UIView.animate(withDuration: 0.3, animations: { () -> Void in
             self.customLoadingView.alpha = hide ? 0.0 : 1.0
         })
+    }
+}
+
+// MARK: - Car details
+
+extension PostProductViewController {
+    dynamic func carMakeRowButtonPressed() {
+        // get carmakes from view model
+        showDetailTable(withTitles: ["audi","bmw"], ids: ["1","2"], selectedIndex: nil)
+    }
+    
+    dynamic func modelRowButtonPressed() {
+        // get carmodels from view model
+        showDetailTable(withTitles: ["A3","A4"], ids: ["3","4"], selectedIndex: nil)
+    }
+    
+    dynamic func yearRowButtonPrescsed() {
+        // get years from view model
+        showDetailTable(withTitles: ["A3","A4"], ids: ["3","4"], selectedIndex: nil)
+    }
+    
+    dynamic func carDetailsDoneButtonPressed() {
+        
+    }
+    
+    private func showDetailTable(withTitles titles: [String], selectedIndex: Int?) {
+        
     }
 }
 
