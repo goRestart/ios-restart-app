@@ -16,6 +16,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
     @IBOutlet weak var otherStepsContainer: UIView!
     @IBOutlet weak var detailsScroll: UIScrollView!
     @IBOutlet weak var detailsContainer: UIView!
+    @IBOutlet weak var detailsContainerBottomConstraint: NSLayoutConstraint!
     
     // contained in detailsContainer
     @IBOutlet weak var customLoadingView: LoadingIndicator!
@@ -213,6 +214,8 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         galleryView.usePhotoButtonText = viewModel.usePhotoButtonText
         galleryView.collectionViewBottomInset = Metrics.margin + Metrics.sellCameraIconMaxSide
         
+        detailsContainerBottomConstraint.constant = 0
+        
         setupViewPager()
         setupCategorySelectionView()
         setupPriceView()
@@ -274,12 +277,13 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         
         keyboardHelper.rx_keyboardOrigin.asObservable().bindNext { [weak self] origin in
             guard origin > 0 else { return }
-            guard let scrollView = self?.detailsScroll, let viewHeight = self?.view.height,
-            let detailsRect = self?.priceView.frame else { return }
-            scrollView.contentInset.bottom = viewHeight - origin
+            guard let viewHeight = self?.view.height else { return }
+            self?.detailsContainerBottomConstraint.constant = (origin - viewHeight)/2
+            UIView.animate(withDuration: 0.1, animations: { 
+                self?.view.layoutIfNeeded()
+            })
             let showingKeyboard = (viewHeight - origin) > 0
             self?.loadingViewHidden(hide: showingKeyboard)
-            scrollView.scrollRectToVisible(detailsRect, animated: false)
         }.addDisposableTo(disposeBag)
     }
     
@@ -441,6 +445,7 @@ extension PostProductViewController {
         }
         if state.priceViewShouldBecomeFirstResponder() {
             priceView.becomeFirstResponder()
+            customLoadingView.stopAnimating(!state.isError, completion: nil)
         } else if state.priceViewShouldResignFirstResponder() {
             priceView.resignFirstResponder()
         }
@@ -449,13 +454,11 @@ extension PostProductViewController {
     
     private func viewToAdjustDetailsScrollContentInset(state: PostListingState) -> UIView? {
         switch state.step {
-        case .detailsSelection, .uploadSuccess, .uploadingImage:
-            return detailsScroll
         case .categorySelection:
             return categorySelectionView
         case .carDetailsSelection:
             return carDetailsView
-        case .imageSelection, .errorUpload, .finished:
+        case .imageSelection, .errorUpload, .finished,.detailsSelection, .uploadSuccess, .uploadingImage:
             return nil
         }
     }

@@ -14,6 +14,7 @@
                 <outlet property="cameraGalleryContainer" destination="ZCG-gR-EN6" id="1xg-Ra-Q1g"/>
                 <outlet property="customLoadingView" destination="wW5-ZX-UqE" id="web-O5-ekj"/>
                 <outlet property="detailsContainer" destination="xup-cr-6f7" id="Nbc-zh-N87"/>
+                <outlet property="detailsContainerBottomConstraint" destination="Cdn-w5-064" id="U4n-oF-KnQ"/>
                 <outlet property="detailsScroll" destination="5Qq-I7-zHx" id="5fw-2v-7G1"/>
                 <outlet property="otherStepsContainer" destination="o7t-oA-DP2" id="PBJ-am-L1u"/>
                 <outlet property="postErrorLabel" destination="ceY-sz-ePA" id="She-qR-gcK"/>
@@ -51,7 +52,7 @@
                                         <rect key="frame" x="0.0" y="52" width="375" height="615"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xup-cr-6f7" userLabel="ContentContainer">
-                                                <rect key="frame" x="15" y="2" width="345" height="195"/>
+                                                <rect key="frame" x="15" y="210" width="345" height="195"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" placeholderIntrinsicWidth="48" placeholderIntrinsicHeight="48" translatesAutoresizingMaskIntoConstraints="NO" id="wW5-ZX-UqE" userLabel="customLoadingView" customClass="LoadingIndicator" customModule="LetGo" customModuleProvider="target">
                                                         <rect key="frame" x="149" y="0.0" width="48" height="48"/>
@@ -108,8 +109,8 @@
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="xup-cr-6f7" secondAttribute="trailing" constant="15" id="1PR-PZ-gLz"/>
                                             <constraint firstAttribute="bottom" secondItem="xup-cr-6f7" secondAttribute="bottom" id="B4c-gU-zBY"/>
+                                            <constraint firstItem="xup-cr-6f7" firstAttribute="centerY" secondItem="5Qq-I7-zHx" secondAttribute="centerY" id="Cdn-w5-064"/>
                                             <constraint firstItem="xup-cr-6f7" firstAttribute="leading" secondItem="5Qq-I7-zHx" secondAttribute="leading" constant="15" id="Lor-gR-42z"/>
-                                            <constraint firstItem="xup-cr-6f7" firstAttribute="top" secondItem="5Qq-I7-zHx" secondAttribute="top" constant="2" id="RYu-CG-JLC"/>
                                             <constraint firstItem="xup-cr-6f7" firstAttribute="width" secondItem="5Qq-I7-zHx" secondAttribute="width" constant="-30" id="hxo-21-q9e"/>
                                         </constraints>
                                     </scrollView>
