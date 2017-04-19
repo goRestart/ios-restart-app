@@ -149,7 +149,7 @@ class ChatViewModel: BaseViewModel {
     
     fileprivate var blockAction: () -> Void {
         return { [weak self] in
-            self?.blockUserAction()
+            self?.blockUserAction(buttonPosition: .safetyPopup)
         }
     }
 
@@ -809,7 +809,7 @@ extension ChatViewModel {
                     actions.append(unblock)
                 } else {
                     let block = UIAction(interface: UIActionInterface.text(LGLocalizedString.chatBlockUser),
-                                           action: blockUserAction)
+                                         action:  { [weak self] in self?.blockUserAction(buttonPosition: .threeDots) } )
                     actions.append(block)
                 }
             }
@@ -856,11 +856,11 @@ extension ChatViewModel {
         delegate?.vmShowReportUser(reportVM)
     }
     
-    fileprivate func blockUserAction() {
+    fileprivate func blockUserAction(buttonPosition: EventParameterBlockButtonPosition) {
         
         let action = UIAction(interface: .styledText(LGLocalizedString.chatBlockUserAlertBlockButton, .destructive), action: {
             [weak self] in
-            self?.blockUser() { [weak self] success in
+            self?.blockUser(buttonPosition: buttonPosition) { [weak self] success in
                 if success {
                     self?.interlocutorIsMuted.value = true
                     self?.refreshConversation()
@@ -876,14 +876,14 @@ extension ChatViewModel {
                               actions: [action])
     }
     
-    private func blockUser(_ completion: @escaping (_ success: Bool) -> ()) {
+    private func blockUser(buttonPosition: EventParameterBlockButtonPosition, completion: @escaping (_ success: Bool) -> ()) {
         
         guard let userId = conversation.value.interlocutor?.objectId else {
             completion(false)
             return
         }
         
-        trackBlockUsers([userId])
+        trackBlockUsers([userId], buttonPosition: buttonPosition)
         
         self.userRepository.blockUserWithId(userId) { result -> Void in
             completion(result.value != nil)
@@ -1178,8 +1178,8 @@ fileprivate extension ChatViewModel {
         tracker.trackEvent(TrackerEvent.userMessageSentError(info: info))
     }
     
-    func trackBlockUsers(_ userIds: [String]) {
-        let blockUserEvent = TrackerEvent.profileBlock(.chat, blockedUsersIds: userIds)
+    func trackBlockUsers(_ userIds: [String], buttonPosition: EventParameterBlockButtonPosition) {
+        let blockUserEvent = TrackerEvent.profileBlock(.chat, blockedUsersIds: userIds, buttonPosition: buttonPosition)
         tracker.trackEvent(blockUserEvent)
     }
     

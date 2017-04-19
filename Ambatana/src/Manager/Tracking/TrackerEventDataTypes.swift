@@ -282,6 +282,7 @@ enum EventParameterName: String {
     case userFromId           = "user-from-id"
     case notAvailableReason   = "not-available-reason"
     case surveyUrl            = "survey-url"
+    case blockButtonPosition  = "block-button-position"
 }
 
 enum EventParameterBoolean: String {
@@ -767,6 +768,12 @@ enum EventParameterNotAvailableReason: String {
     case serverError         = "server-error"
     case network             = "network"
     
+}
+
+enum EventParameterBlockButtonPosition: String {
+    case threeDots          = "three-dots"
+    case safetyPopup        = "safety-popup"
+    case others            = "N/A"
 }
 
 struct EventParameters {

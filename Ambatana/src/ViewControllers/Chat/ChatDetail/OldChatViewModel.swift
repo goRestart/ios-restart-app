@@ -201,7 +201,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
     
     var blockUserAction: () -> Void {
         return { [weak self] in
-            self?.blockUserPressed()
+            self?.blockUserPressed(position: .safetyPopup)
         }
     }
 
@@ -536,7 +536,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
                 actions.append({ [weak self] in self?.unblockUserPressed() })
             } else {
                 texts.append(LGLocalizedString.chatBlockUser)
-                actions.append({ [weak self] in self?.blockUserPressed() })
+                actions.append({ [weak self] in self?.blockUserPressed(position: .threeDots) })
             }
         }
         
@@ -887,13 +887,13 @@ class OldChatViewModel: BaseViewModel, Paginable {
         shouldAskProductSold = false
     }
     
-    private func blockUserPressed() {
+    private func blockUserPressed(position: EventParameterBlockButtonPosition) {
         
         delegate?.vmShowQuestion(title: LGLocalizedString.chatBlockUserAlertTitle,
                                  message: LGLocalizedString.chatBlockUserAlertText,
                                  positiveText: LGLocalizedString.chatBlockUserAlertBlockButton,
                                  positiveAction: { [weak self] in
-                                    self?.blockUser() { [weak self] success in
+                                    self?.blockUser(position: position) { [weak self] success in
                                         if success {
                                             self?.userRelation?.isBlocked = true
                                         } else {
@@ -905,14 +905,14 @@ class OldChatViewModel: BaseViewModel, Paginable {
                                  negativeText: LGLocalizedString.commonCancel, negativeAction: nil, negativeActionStyle: nil)
     }
     
-    private func blockUser(_ completion: @escaping (_ success: Bool) -> ()) {
+    private func blockUser(position: EventParameterBlockButtonPosition, completion: @escaping (_ success: Bool) -> ()) {
         
         guard let user = otherUser, let userId = user.objectId else {
             completion(false)
             return
         }
         
-        trackBlockUsers([userId])
+        trackBlockUsers([userId], buttonPosition: position)
         
         self.userRepository.blockUserWithId(userId) { [weak self] result -> Void in
             let success = result.value != nil
@@ -1047,8 +1047,8 @@ class OldChatViewModel: BaseViewModel, Paginable {
         tracker.trackEvent(TrackerEvent.userMessageSentError(info: info))
     }
     
-    private func trackBlockUsers(_ userIds: [String]) {
-        let blockUserEvent = TrackerEvent.profileBlock(.chat, blockedUsersIds: userIds)
+    private func trackBlockUsers(_ userIds: [String], buttonPosition: EventParameterBlockButtonPosition) {
+        let blockUserEvent = TrackerEvent.profileBlock(.chat, blockedUsersIds: userIds, buttonPosition: buttonPosition)
         tracker.trackEvent(blockUserEvent)
     }
     
