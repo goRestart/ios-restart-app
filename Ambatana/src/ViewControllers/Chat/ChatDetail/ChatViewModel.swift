@@ -146,6 +146,12 @@ class ChatViewModel: BaseViewModel {
             self?.delegate?.vmShowSafetyTips()
         }
     }
+    
+    fileprivate var blockAction: () -> Void {
+        return { [weak self] in
+            self?.blockUserAction()
+        }
+    }
 
     fileprivate var buyerId: String? {
         let myUserId = myUserRepository.myUser?.objectId
@@ -850,7 +856,7 @@ extension ChatViewModel {
         delegate?.vmShowReportUser(reportVM)
     }
     
-    private func blockUserAction() {
+    fileprivate func blockUserAction() {
         
         let action = UIAction(interface: .styledText(LGLocalizedString.chatBlockUserAlertBlockButton, .destructive), action: {
             [weak self] in
@@ -943,7 +949,7 @@ extension ChatViewModel {
     }
     
     private var defaultDisclaimerMessage: ChatViewMessage {
-        return chatViewMessageAdapter.createMessageSuspiciousDisclaimerMessage(safetyTipsAction)
+        return chatViewMessageAdapter.createMessageSuspiciousDisclaimerMessage(blockAction)
     }
 
     var userInfoMessage: ChatViewMessage? {

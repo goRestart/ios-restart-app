@@ -144,6 +144,8 @@
 "chat_list_unblock" = "Deblokkeer";
 "chat_login_popup_text" = "Om te beginnen met chatten, moet je inloggen";
 "chat_message_disclaimer_scammer" = "Wees extra voorzichtig bij het uitwisselen van telefoon/e-mailgegevens. Frauduleuze gebruikers vragen je vaak om de letgo chat te verlaten. Wees geïnformeerd! Tik hier om onze %@ te herzien.";
+"chat_message_disclaimer_scammer_append_blocked" = "Tap here to block this user.";
+"chat_message_disclaimer_scammer_base_blocked" = "Be extra careful when exchanging phone/email details. Fraudulent users often ask you to leave the letgo chat. %@";
 "chat_message_field_hint" = "Schrijf hier je bericht...";
 "chat_message_load_generic_error" = "Er is een fout opgetreden bij het opvragen van jouw gespreksgegevens. Probeer het nog eens.";
 "chat_not_verified_alert_message" = "Maak verbinding met Facebook, Google of E-mail om jouw identiteit te verifiëren.";

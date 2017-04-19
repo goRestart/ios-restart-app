@@ -114,6 +114,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
     }
 
     var chatStatus: ChatInfoViewStatus {
+       
         if chat.forbidden {
             return .forbidden
         }
@@ -129,7 +130,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         case .active, .inactive, .notFound:
             break // In this case we rely on the rest of states
         }
-
+        
         if let relation = userRelation {
             if relation.isBlocked { return .blocked }
             if relation.isBlockedBy { return .blockedBy }
@@ -172,7 +173,11 @@ class OldChatViewModel: BaseViewModel, Paginable {
     }
 
     var messageSuspiciousDisclaimerMessage: ChatViewMessage {
-        return chatViewMessageAdapter.createMessageSuspiciousDisclaimerMessage(safetyTipsAction)
+        var action: (() -> Void)? = blockUserAction
+        if let relations = userRelation, relations.isBlocked {
+            action = nil
+        }
+        return chatViewMessageAdapter.createMessageSuspiciousDisclaimerMessage(action)
     }
 
     var userInfoMessage: ChatViewMessage? {
@@ -191,6 +196,12 @@ class OldChatViewModel: BaseViewModel, Paginable {
     var safetyTipsAction: () -> Void {
         return { [weak self] in
             self?.delegate?.vmShowSafetyTips()
+        }
+    }
+    
+    var blockUserAction: () -> Void {
+        return { [weak self] in
+            self?.blockUserPressed()
         }
     }
 
@@ -414,6 +425,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
     }
 
     private func refreshChatInfo() {
+        
         guard chatStatus != .forbidden else {
             showScammerDisclaimerMessage()
             markForbiddenAsRead()
@@ -783,20 +795,25 @@ class OldChatViewModel: BaseViewModel, Paginable {
             guard let strongSelf = self else { return }
             if let chat = result.value {
                 strongSelf.chat = chat
-                let chatMessages = chat.messages.map(strongSelf.chatViewMessageAdapter.adapt)
-                let newChatMessages = strongSelf.chatViewMessageAdapter
-                    .addDisclaimers(chatMessages, disclaimerMessage: strongSelf.messageSuspiciousDisclaimerMessage)
 
-                let insertedMessagesInfo = OldChatViewModel.insertNewMessagesAt(strongSelf.loadedMessages,
-                                                                                newMessages: newChatMessages)
-                strongSelf.loadedMessages = insertedMessagesInfo.messages
-                strongSelf.delegate?.vmUpdateAfterReceivingMessagesAtPositions(insertedMessagesInfo.indexes,
-                                                                               isUpdate: insertedMessagesInfo.isUpdate)
+                strongSelf.updateDisclamers()
                 strongSelf.afterRetrieveChatMessagesEvents()
                 strongSelf.checkSellerDidntAnswer(chat.messages, page: strongSelf.firstPage)
             }
             strongSelf.isLoading = false
         }
+    }
+    
+    fileprivate func updateDisclamers() {
+        let chatMessages = chat.messages.map(chatViewMessageAdapter.adapt)
+        let newChatMessages = chatViewMessageAdapter
+            .addDisclaimers(chatMessages, disclaimerMessage: messageSuspiciousDisclaimerMessage)
+        
+        let insertedMessagesInfo = OldChatViewModel.insertNewMessagesAt(loadedMessages,
+                                                                        newMessages: newChatMessages)
+        loadedMessages = insertedMessagesInfo.messages
+        delegate?.vmUpdateAfterReceivingMessagesAtPositions(insertedMessagesInfo.indexes,
+                                                                       isUpdate: insertedMessagesInfo.isUpdate)
     }
     
     /**
@@ -903,6 +920,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
             
             if success {
                 self?.delegate?.vmUpdateReviewButton()
+                self?.updateDisclamers()
             }
         }
     }
@@ -931,6 +949,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
             
             if success {
                 self?.delegate?.vmUpdateReviewButton()
+                self?.updateDisclamers()
             }
         }
     }
