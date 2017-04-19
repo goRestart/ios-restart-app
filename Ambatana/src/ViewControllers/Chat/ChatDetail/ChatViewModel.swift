@@ -864,6 +864,7 @@ extension ChatViewModel {
                 if success {
                     self?.interlocutorIsMuted.value = true
                     self?.refreshConversation()
+                    self?.refreshMessages()
                 } else {
                     self?.delegate?.vmShowMessage(LGLocalizedString.blockUserErrorGeneric, completion: nil)
                 }
@@ -895,6 +896,7 @@ extension ChatViewModel {
             if success {
                 self?.interlocutorIsMuted.value = false
                 self?.refreshConversation()
+                self?.refreshMessages()
             } else {
                 self?.delegate?.vmShowMessage(LGLocalizedString.unblockUserErrorGeneric, completion: nil)
             }
@@ -949,7 +951,11 @@ extension ChatViewModel {
     }
     
     private var defaultDisclaimerMessage: ChatViewMessage {
-        return chatViewMessageAdapter.createMessageSuspiciousDisclaimerMessage(blockAction)
+        var action: (() -> Void)? = blockAction
+        if chatStatus.value == .blocked {
+            action = nil
+        }
+        return chatViewMessageAdapter.createMessageSuspiciousDisclaimerMessage(action)
     }
 
     var userInfoMessage: ChatViewMessage? {
