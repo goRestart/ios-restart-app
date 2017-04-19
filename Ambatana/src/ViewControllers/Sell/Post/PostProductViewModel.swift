@@ -152,7 +152,7 @@ class PostProductViewModel: BaseViewModel {
     }
     
     func carMakes() -> [CarsMake] {
-        listingRepository.
+        return []
     }
 }
 

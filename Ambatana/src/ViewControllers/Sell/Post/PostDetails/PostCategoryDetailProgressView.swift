@@ -29,6 +29,19 @@ final class PostCategoryDetailProgressView: UIView {
     
     // MARK: - Layout
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        progressView.rounded = true
+    }
+    
+    override var intrinsicContentSize: CGSize {
+        return CGSize(width: UIViewNoIntrinsicMetric,
+                      height: titleLabel.intrinsicContentSize.height
+                        + progressView.intrinsicContentSize.height
+                        + Metrics.margin)
+    }
+    
     private func setupUI() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = UIFont.systemRegularFont(size: 13)
@@ -48,7 +61,7 @@ final class PostCategoryDetailProgressView: UIView {
         
         progressView.layout().width(120).height(8)
         progressView.layout(with: self).centerX()
-        progressView.layout(with: titleLabel).top(by: Metrics.margin)
+        titleLabel.layout(with: progressView).below(by: 10)
         titleLabel.layout(with: self).leading(by: Metrics.margin).trailing(by: -Metrics.margin).bottom()
     }
     

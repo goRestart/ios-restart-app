@@ -33,7 +33,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
     // contained in detailsContainer
     fileprivate let priceView: UIView
     fileprivate let categorySelectionView: PostCategorySelectionView
-    fileprivate let carDetailsView: PostCategoryDetailsView
+    fileprivate let carDetailsView: PostCarDetailsView
     
     fileprivate var footer: PostProductFooter
     fileprivate var footerView: UIView
@@ -112,7 +112,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         
         self.priceView = PostProductDetailPriceView(viewModel: viewModel.postDetailViewModel)
         self.categorySelectionView = PostCategorySelectionView()
-        self.carDetailsView = PostCategoryDetailsView()
+        self.carDetailsView = PostCarDetailsView()
         self.postingGallery = postingGallery
         super.init(viewModel: viewModel, nibName: "PostProductViewController",
                    statusBarStyle: UIApplication.shared.statusBarStyle)
@@ -316,17 +316,17 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
 extension PostProductViewController {
     dynamic func carMakeRowButtonPressed() {
         // get carmakes from view model
-        showDetailTable(withTitles: ["audi","bmw"], ids: ["1","2"], selectedIndex: nil)
+        showDetailTable(withTitles: ["audi","bmw"], selectedIndex: nil)
     }
     
     dynamic func modelRowButtonPressed() {
         // get carmodels from view model
-        showDetailTable(withTitles: ["A3","A4"], ids: ["3","4"], selectedIndex: nil)
+        showDetailTable(withTitles: ["A3","A4"], selectedIndex: nil)
     }
     
     dynamic func yearRowButtonPrescsed() {
         // get years from view model
-        showDetailTable(withTitles: ["A3","A4"], ids: ["3","4"], selectedIndex: nil)
+        showDetailTable(withTitles: ["A3","A4"], selectedIndex: nil)
     }
     
     dynamic func carDetailsDoneButtonPressed() {

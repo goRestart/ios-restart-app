@@ -9,7 +9,7 @@
 import UIKit
 
 class PostCategoryDetailRowView: UIView {
-    
+
     private let titleLabel = UILabel()
     private let valueLabel = UILabel()
     private let icon = UIImageView()
