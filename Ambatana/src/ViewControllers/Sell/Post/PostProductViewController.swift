@@ -277,10 +277,11 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         
         keyboardHelper.rx_keyboardOrigin.asObservable().bindNext { [weak self] origin in
             guard origin > 0 else { return }
+            guard let strongSelf = self else { return }
             guard let viewHeight = self?.view.height else { return }
             self?.detailsContainerBottomConstraint.constant = (origin - viewHeight)/2
-            UIView.animate(withDuration: 0.1, animations: { 
-                self?.view.layoutIfNeeded()
+            UIView.animate(withDuration: Double(strongSelf.keyboardHelper.animationTime), animations: {
+                strongSelf.view.layoutIfNeeded()
             })
             let showingKeyboard = (viewHeight - origin) > 0
             self?.loadingViewHidden(hide: showingKeyboard)
