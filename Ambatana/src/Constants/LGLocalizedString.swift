@@ -583,6 +583,14 @@ struct LGLocalizedString {
 		return String(format: NSLocalizedString("chat_message_disclaimer_scammer", comment: ""), var1)
 	}
 
+	static func chatMessageDisclaimerScammerBaseBlocked(_ var1: String) -> String {
+		return String(format: NSLocalizedString("chat_message_disclaimer_scammer_base_blocked", comment: ""), var1)
+	}
+
+	static var chatMessageDisclaimerScammerAppendBlocked: String {
+		return NSLocalizedString("chat_message_disclaimer_scammer_append_blocked", comment: "")
+	}
+
 	static var chatMessageFieldHint: String {
 		return NSLocalizedString("chat_message_field_hint", comment: "")
 	}
@@ -1255,30 +1263,6 @@ struct LGLocalizedString {
 		return NSLocalizedString("hidden_text_alert_description", comment: "")
 	}
 
-	static var postCategoryDetailsTitle: String {
-		return NSLocalizedString("post_category_details_title", comment: "")
-	}
-
-	static var postCategoryDetailCarMake: String {
-		return NSLocalizedString("post_category_detail_car_make", comment: "")
-	}
-
-	static var postCategoryDetailCarModel: String {
-		return NSLocalizedString("post_category_detail_car_model", comment: "")
-	}
-
-	static var postCategoryDetailCarYear: String {
-		return NSLocalizedString("post_category_detail_car_year", comment: "")
-	}
-
-	static var postCategoryDetailsProgress: String {
-		return NSLocalizedString("post_category_details_progress", comment: "")
-	}
-
-	static var postCategoryDetailsProgress100: String {
-		return NSLocalizedString("post_category_details_progress_100", comment: "")
-	}
-
 	static var locationPermissionsBubble: String {
 		return NSLocalizedString("location_permissions_bubble", comment: "")
 	}
@@ -1829,6 +1813,34 @@ struct LGLocalizedString {
 
 	static var passiveBuyersContactSuccess: String {
 		return NSLocalizedString("passive_buyers_contact_success", comment: "")
+	}
+
+	static var postCategoryDetailsNavigationTitle: String {
+		return NSLocalizedString("post_category_details_navigation_title", comment: "")
+	}
+
+	static var postCategoryDetailsDescription: String {
+		return NSLocalizedString("post_category_details_description", comment: "")
+	}
+
+	static var postCategoryDetailCarMake: String {
+		return NSLocalizedString("post_category_detail_car_make", comment: "")
+	}
+
+	static var postCategoryDetailCarModel: String {
+		return NSLocalizedString("post_category_detail_car_model", comment: "")
+	}
+
+	static var postCategoryDetailCarYear: String {
+		return NSLocalizedString("post_category_detail_car_year", comment: "")
+	}
+
+	static var postCategoryDetailsProgress: String {
+		return NSLocalizedString("post_category_details_progress", comment: "")
+	}
+
+	static var postCategoryDetailsProgress100: String {
+		return NSLocalizedString("post_category_details_progress_100", comment: "")
 	}
 
 	static var productAskAQuestionButton: String {

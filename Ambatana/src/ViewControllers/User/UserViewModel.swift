@@ -699,7 +699,7 @@ extension UserViewModel {
     }
     
     func trackBlock(_ userId: String) {
-        let event = TrackerEvent.profileBlock(.profile, blockedUsersIds: [userId])
+        let event = TrackerEvent.profileBlock(.profile, blockedUsersIds: [userId], buttonPosition: .others)
         tracker.trackEvent(event)
     }
     

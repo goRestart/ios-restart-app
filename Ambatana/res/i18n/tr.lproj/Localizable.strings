@@ -4,7 +4,7 @@
 "account_pending_moderation_w_name" = "%@ adlı kullanıcının hesabı inceleme altındadır";
 "app_notification_reply" = "Yanıtla";
 "app_share_download_text" = "Yükle";
-"app_share_email_button" = "Email ile davet et";
+"app_share_email_button" = "E-posta ile davet et";
 "app_share_error" = "Uygulama paylaşılırken bir hata oluştu. Lütfen tekrar dene.";
 "app_share_fbmessenger_button" = "Messenger ile davet et";
 "app_share_invite_text" = "Davet Et";
@@ -15,7 +15,7 @@
 "app_share_success" = "Uygulama paylaşıldı!";
 "app_share_title" = "ARKADAŞLARINI DAVET ET";
 "app_share_title_alternative" = "MUTLULUĞU PAYLAŞ";
-"app_share_whatsapp_button" = "Whatsapp ile davet et";
+"app_share_whatsapp_button" = "WhatsApp ile davet et";
 "block_user_error_generic" = "Kullanıcı engellenirken bir hata oluştu.";
 "bump_up_banner_free_button_title" = "Üste çıkar";
 "bump_up_banner_free_text" = "Daha hızlı satmak için üste çıkar";
@@ -37,7 +37,7 @@
 "bump_up_view_pay_subtitle" = "Ürününü 24 saat için üste çıkararak daha fazla kişiye göster.";
 "bump_up_view_pay_title" = "DAHA HIZLI SATMAK İÇİN ÜSTE ÇIKAR";
 "categories_baby_and_child" = "Bebek ve Çocuk";
-"categories_car" = "Arabalar";
+"categories_car" = "Otomobil";
 "categories_cars_and_motors" = "Motorlu Taşıtlar ve Aksesuarları";
 "categories_electronics" = "Elektronik";
 "categories_fashion_and_accessories" = "Giyim ve Aksesuar";
@@ -144,6 +144,8 @@
 "chat_list_unblock" = "Engeli Kaldır";
 "chat_login_popup_text" = "Mesajlaşmaya başlamak için giriş yapmalısın";
 "chat_message_disclaimer_scammer" = "Telefon numarası ve e-posta bilgilerini paylaşırken çok temkinli ol. Dolandırıcı kullanıcılar görüşmeyi genelde letgo sohbet sisteminden dışarıya taşımayı teklif ederler. Dikkatli ol ve %@ kısmını okumak için buraya dokun.";
+"chat_message_disclaimer_scammer_append_blocked" = "Tap here to block this user.";
+"chat_message_disclaimer_scammer_base_blocked" = "Be extra careful when exchanging phone/email details. Fraudulent users often ask you to leave the letgo chat. %@";
 "chat_message_field_hint" = "Mesajını buraya yaz";
 "chat_message_load_generic_error" = "Sohbet bilgilerine erişirken bir hata oluştu. Lütfen tekrar dene.";
 "chat_not_verified_alert_message" = "Kimliğini doğrulamak için Facebook, Google veya Eposta ile bağlan.";
@@ -560,7 +562,7 @@
 "product_post_product_posted_not_logged" = "Fotoğraf Yüklendi!";
 "product_post_retake" = "Tekrar Çek";
 "product_post_retry_button" = "Yeniden Dene";
-"product_post_select_category_cars" = "Araba";
+"product_post_select_category_cars" = "Otomobil";
 "product_post_select_category_or" = "VEYA";
 "product_post_select_category_other" = "Başka bir şey";
 "product_post_select_category_title" = "Ne yayınlıyorsun?";
