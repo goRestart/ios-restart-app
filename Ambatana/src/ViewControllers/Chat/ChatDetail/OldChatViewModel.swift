@@ -796,7 +796,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
             if let chat = result.value {
                 strongSelf.chat = chat
 
-                strongSelf.updateDisclamers()
+                strongSelf.updateDisclaimers()
                 strongSelf.afterRetrieveChatMessagesEvents()
                 strongSelf.checkSellerDidntAnswer(chat.messages, page: strongSelf.firstPage)
             }
@@ -804,7 +804,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         }
     }
     
-    fileprivate func updateDisclamers() {
+    fileprivate func updateDisclaimers() {
         let chatMessages = chat.messages.map(chatViewMessageAdapter.adapt)
         let newChatMessages = chatViewMessageAdapter
             .addDisclaimers(chatMessages, disclaimerMessage: messageSuspiciousDisclaimerMessage)
@@ -920,7 +920,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
             
             if success {
                 self?.delegate?.vmUpdateReviewButton()
-                self?.updateDisclamers()
+                self?.updateDisclaimers()
             }
         }
     }
@@ -949,7 +949,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
             
             if success {
                 self?.delegate?.vmUpdateReviewButton()
-                self?.updateDisclamers()
+                self?.updateDisclaimers()
             }
         }
     }

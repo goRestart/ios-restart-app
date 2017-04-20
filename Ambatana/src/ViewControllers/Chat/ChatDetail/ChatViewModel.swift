@@ -864,7 +864,7 @@ extension ChatViewModel {
                 if success {
                     self?.interlocutorIsMuted.value = true
                     self?.refreshConversation()
-                    self?.updateDisclamers()
+                    self?.updateDisclaimers()
                 } else {
                     self?.delegate?.vmShowMessage(LGLocalizedString.blockUserErrorGeneric, completion: nil)
                 }
@@ -896,7 +896,7 @@ extension ChatViewModel {
             if success {
                 self?.interlocutorIsMuted.value = false
                 self?.refreshConversation()
-                self?.updateDisclamers()
+                self?.updateDisclaimers()
             } else {
                 self?.delegate?.vmShowMessage(LGLocalizedString.unblockUserErrorGeneric, completion: nil)
             }
@@ -1077,7 +1077,7 @@ extension ChatViewModel {
         messages.appendContentsOf(chatMessages)
     }
     
-    fileprivate func updateDisclamers() {
+    fileprivate func updateDisclaimers() {
         let chatMessages = chatViewMessageAdapter.addDisclaimers(messages.value,
                                                                  disclaimerMessage: defaultDisclaimerMessage)
         messages.removeAll()
