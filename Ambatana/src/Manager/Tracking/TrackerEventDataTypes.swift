@@ -773,7 +773,7 @@ enum EventParameterNotAvailableReason: String {
 enum EventParameterBlockButtonPosition: String {
     case threeDots          = "three-dots"
     case safetyPopup        = "safety-popup"
-    case others            = "N/A"
+    case others             = "N/A"
 }
 
 struct EventParameters {
