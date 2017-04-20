@@ -144,6 +144,8 @@
 "chat_list_unblock" = "차단해제";
 "chat_login_popup_text" = "채팅을 시작하기 위해서, 사용자께서는 반드시 로그인 하셔야합니다";
 "chat_message_disclaimer_scammer" = "휴대전화 정보/이메일 정보를 교환할 때는 조심하여 주십시오. 사기를 계획하는 사용자가 letgo 채팅으로 물어볼 수도 있습니다. 이 경우 저희에게 알려주세요!여기를 눌러 저희 %@를 확인하세요";
+"chat_message_disclaimer_scammer_append_blocked" = "이곳을 클릭하여 해당 사용자를 차단하세요.";
+"chat_message_disclaimer_scammer_base_blocked" = "휴대전화 정보/이메일 정보를 교환할 때는 조심하여 주십시오. 사기를 계획하는 사용자가 letgo 채팅으로 물어볼 수도 있습니다. %@";
 "chat_message_field_hint" = "메세지를 이곳에 입력하세요";
 "chat_message_load_generic_error" = "대화창을 불러오는데 오류가 발생했습니다. 다시 시도해주세요.  ";
 "chat_not_verified_alert_message" = "본인인증을 하기 위해 페이스북, 구글 혹은 이메일로 연결하세요.";

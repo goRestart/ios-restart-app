@@ -247,6 +247,12 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         view.addSubview(carDetailsView)
         carDetailsView.layout(with: view).fill()
         
+        carDetailsView.navigationBackButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
+            self?.carDetailsNavigationBackButtonPressed()
+            }.addDisposableTo(disposeBag)
+        carDetailsView.navigationOkButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
+            self?.carDetailsNavigationOkButtonPressed()
+            }.addDisposableTo(disposeBag)
         carDetailsView.makeRowView.button.rx.tap.asObservable().subscribeNext { [weak self] _ in
             self?.carMakeRowButtonPressed()
         }.addDisposableTo(disposeBag)
@@ -314,27 +320,36 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
 // MARK: - Car details
 
 extension PostProductViewController {
+    dynamic func carDetailsNavigationBackButtonPressed() {
+    
+    }
+    
+    dynamic func carDetailsNavigationOkButtonPressed() {
+        carDetailsView.showSelectDetail()
+    }
+    
     dynamic func carMakeRowButtonPressed() {
         // get carmakes from view model
-        showDetailTable(withTitles: ["audi","bmw"], selectedIndex: nil)
+        showSelectDetailValue(forDetail: .make, values: ["audi","bmw"], selectedValue: nil)
     }
     
     dynamic func modelRowButtonPressed() {
         // get carmodels from view model
-        showDetailTable(withTitles: ["A3","A4"], selectedIndex: nil)
+        showSelectDetailValue(forDetail: .model, values: ["A3","A4"], selectedValue: nil)
     }
     
     dynamic func yearRowButtonPrescsed() {
         // get years from view model
-        showDetailTable(withTitles: ["A3","A4"], selectedIndex: nil)
+        showSelectDetailValue(forDetail: .year, values: ["A3","A4"], selectedValue: nil)
     }
     
     dynamic func carDetailsDoneButtonPressed() {
         
     }
     
-    private func showDetailTable(withTitles titles: [String], selectedIndex: Int?) {
-        
+    
+    private func showSelectDetailValue(forDetail detail: PostCarDetail, values: [String], selectedValue: Int?) {
+        carDetailsView.showSelectDetailValue(forDetail: detail, values: values, selectedValue: selectedValue)
     }
 }
 

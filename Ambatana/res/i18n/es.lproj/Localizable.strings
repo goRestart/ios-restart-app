@@ -144,6 +144,8 @@
 "chat_list_unblock" = "Desbloquear";
 "chat_login_popup_text" = "Para empezar a chatear, tienes que iniciar sesión";
 "chat_message_disclaimer_scammer" = "Ten mucho cuidado al intercambiar números de teléfono/emails. Los usuarios fraudulentos suelen pedir que abandones el chat de letgo. ¡Infórmate! Pulsa aquí para revisar nuestros %@.";
+"chat_message_disclaimer_scammer_append_blocked" = "Pulsa aquí para bloquear a este usuario.";
+"chat_message_disclaimer_scammer_base_blocked" = "Ten mucho cuidado al intercambiar números de teléfono/emails. Los usuarios fraudulentos suelen pedir que abandones el chat de letgo. %@";
 "chat_message_field_hint" = "Escribe tu mensaje";
 "chat_message_load_generic_error" = "Se ha producido un error al acceder a los datos de tu conversación. Por favor, inténtalo de nuevo.";
 "chat_not_verified_alert_message" = "Conéctate con Facebook, Google o Email para verificar tu identidad.";

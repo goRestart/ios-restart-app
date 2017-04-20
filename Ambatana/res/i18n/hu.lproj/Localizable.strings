@@ -144,6 +144,8 @@
 "chat_list_unblock" = "Feloldás";
 "chat_login_popup_text" = "A csevegéshez be kell jelentkezned";
 "chat_message_disclaimer_scammer" = "Légy extra óvatos, ha megosztod telefonszámodat/e-mail címedet. A csalók gyakran megpróbálnak rávenni, hogy leváltsátok a letgo csevegést. Tájékozódj! Ide koppintva olvasd át %@ oldalát.";
+"chat_message_disclaimer_scammer_append_blocked" = "Koppints ide a felhasználó letiltásához.";
+"chat_message_disclaimer_scammer_base_blocked" = "Légy extra óvatos, ha megosztod telefonszámodat vagy e-mail címedet. A csalók gyakran próbálják meg rávenni kiszemeltjeiket a letgo csevegőjének elhagyására. %@";
 "chat_message_field_hint" = "Ide írd az üzeneted…";
 "chat_message_load_generic_error" = "Hiba történt a beszélgetésed adatainak begyűjtése során. Próbálkozz újra.";
 "chat_not_verified_alert_message" = "Az azonosításhoz csatlakozz a Facebook, a Google vagy az e-mail címed segítségével.";

@@ -144,6 +144,8 @@
 "chat_list_unblock" = "Opphev Blokkering";
 "chat_login_popup_text" = "Du må være pålogget for å kunne starte samtale";
 "chat_message_disclaimer_scammer" = "Vær ekstra forsiktig når du veksler telefonnummer eller e-postadresse med andre. Falske bruker vil ofte be deg om å fortsette kommunikasjonen utenfor letgo. Pass på! Trykk her for å se våre %@.";
+"chat_message_disclaimer_scammer_append_blocked" = "Trykk her for å blokkere denne brukeren.";
+"chat_message_disclaimer_scammer_base_blocked" = "Vær ekstra forsiktig når du veksler telefonnummer/e-postadresse. Falske brukere vil ofte be deg om å fortsette kommunikasjonen utenfor letgo's chat. %@";
 "chat_message_field_hint" = "Skriv din melding her";
 "chat_message_load_generic_error" = "En feil oppstod ved å motta samtaledata. Vennligst prøv igjen.";
 "chat_not_verified_alert_message" = "Koble til med Facebook, Google eller e-post for å verifisere din identitet.";

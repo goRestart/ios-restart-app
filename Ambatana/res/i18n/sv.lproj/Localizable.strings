@@ -144,6 +144,8 @@
 "chat_list_unblock" = "Avblockera";
 "chat_login_popup_text" = "För att börja chatta, måste du logga in";
 "chat_message_disclaimer_scammer" = "Var extra försiktig när du delar med dig av telefonnummer/e-postadress. Bedragare ber ofta om att lämna letgo-chatten. Klicka här för att läsa våra %@.";
+"chat_message_disclaimer_scammer_append_blocked" = "Klicka här för att blockera användaren.";
+"chat_message_disclaimer_scammer_base_blocked" = "Var extra försiktig när du delar med dig av telefonnummer/e-postadress. Bedragare ber ofta om att lämna letgo-chatten. %@";
 "chat_message_field_hint" = "Skriv ditt meddelande här";
 "chat_message_load_generic_error" = "Ett fel uppstod vid hämtning av din information. Var god försök igen.";
 "chat_not_verified_alert_message" = "Anslut med Facebook, Google eller din e-postadress för att verifiera din identitet.";

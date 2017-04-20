@@ -144,6 +144,8 @@
 "chat_list_unblock" = "Blockierung aufheben";
 "chat_login_popup_text" = "Bitte melde dich an, um ein Gespräch zu beginnen";
 "chat_message_disclaimer_scammer" = "Sei besonders vorsichtig, wenn du Kontaktinformationen wie Telefonnummern oder E-Mail-Adressen austauschst. Betrügerische Nutzer wollen häufig außerhalb des letgo-Systems kommunizieren. Sei informiert! Drücke hier, um unsere %@ anzuschauen.";
+"chat_message_disclaimer_scammer_append_blocked" = "Drücke hier, um diesen Nutzer zu blockieren";
+"chat_message_disclaimer_scammer_base_blocked" = "Sei besonders vorsichtig, wenn du Kontaktinformationen wie Telefonnummern oder E-Mail-Adressen austauschst. Betrügerische Nutzer wollen häufig außerhalb des letgo-Systems kommunizieren. %@";
 "chat_message_field_hint" = "Gib hier deine Nachricht ein";
 "chat_message_load_generic_error" = "Beim Abrufen deiner Gesprächsdaten ist ein Fehler aufgetreten. Versuche es bitte noch einmal.";
 "chat_not_verified_alert_message" = "Verbinde dich mit Facebook, Google oder via E-Mail, um deine Identität zu bestätigen.";

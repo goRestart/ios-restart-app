@@ -144,6 +144,8 @@
 "chat_list_unblock" = "Bỏ chặn";
 "chat_login_popup_text" = "Bạn cần đăng nhập để bắt đầu trò chuyện";
 "chat_message_disclaimer_scammer" = "Hãy đặc biệt cẩn thận khi trao đổi thông tin số điện thoại/email. Người dùng lừa đảo thường muốn bạn rời khỏi trò chuyện trong letgo. Hãy lưu ý! Nhấn váo đây để xem %@ của chúng tôi.";
+"chat_message_disclaimer_scammer_append_blocked" = "Nhấp vào đây để chặn người dùng này.";
+"chat_message_disclaimer_scammer_base_blocked" = "Hãy đặc biệt cẩn thận khi trao đổi thông tin số điện thoại/email. Người dùng lừa đảo thường muốn bạn rời khỏi trò chuyện trong letgo. %@";
 "chat_message_field_hint" = "Nhập tin nhắn của bạn tại đây";
 "chat_message_load_generic_error" = "Có lỗi xảy ra trong khi hồi phục dữ liệu trò chuyện của bạn. Xin vui lòng thử lại.";
 "chat_not_verified_alert_message" = "Kết nối với Facebook, Google hoặc Email để xác minh danh tính của bạn.";

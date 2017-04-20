@@ -88,6 +88,10 @@ class PostCategoryDetailRowView: UIView {
         icon.layout(with: self).top().bottom().trailing()
     }
     
+    func isFilled() -> Bool {
+        return value != nil ? true : false
+    }
+    
     // MARK: - Accessibility
     
     private func setupAccessibilityIds() {

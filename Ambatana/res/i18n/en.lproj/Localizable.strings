@@ -56,36 +56,36 @@
 "block_user_error_generic" = "An error occurred while blocking this user.";
 
 // Text for bubble in free bump
-"bump_up_banner_free_text" = "Bump up for free to sell faster";
+"bump_up_banner_free_text" = "Bump Up for free to sell faster";
 
 // Text for bubble in payment bump
-"bump_up_banner_pay_text" = "Bump up to sell faster";
+"bump_up_banner_pay_text" = "Bump Up to sell faster";
 
 // Text for bubble while waiting for next bump
-"bump_up_banner_wait_text" = "to bump up again";
+"bump_up_banner_wait_text" = "to Bump Up again";
 
 // Title for bubble button
-"bump_up_banner_free_button_title" = "Bump up";
+"bump_up_banner_free_button_title" = "Bump Up";
 
 // Free bump up success message
-"bump_up_free_success" = "Bumped up! Keep bumping up your listing and it'll be even more visible.";
+"bump_up_free_success" = "Bumped Up! Keep Bumping Up your listing and it'll be even more visible.";
 
 // Payment bump up success message
-"bump_up_pay_success" = "Bumped up! Now your item has extra visibility.";
+"bump_up_pay_success" = "Bumped Up! Now your item has extra visibility.";
 
 // Error when bumping
-"bump_up_error_bump_generic" = "An error occurred while bumping up your item. Please try again.";
+"bump_up_error_bump_generic" = "An error occurred while Bumping Up your item. Please try again.";
 
 // Token error when bumping
 "bump_up_error_bump_token" = "Your payment has been processed but your item hasn't been featured.";
 
 // Error shown when payment fails
-"bump_up_error_payment_failed" = "An error occurred while bumping up your item. Your payment hasn't been processed. Please try again.";
+"bump_up_error_payment_failed" = "An error occurred while Bumping Up your item. Your payment hasn't been processed. Please try again.";
 
-// Text for loading view whiel processing free bump
-"bump_up_processing_free_text" = "Processing bump up...";
+// Text for loading view while processing free bump
+"bump_up_processing_free_text" = "Processing Bump Up...";
 
-// Text for loading view whiel processing bump with a price
+// Text for loading view while processing bump with a price
 "bump_up_processing_priced_text" = "Processing payment...";
 
 // Text for stripe in featured products cells
@@ -110,7 +110,7 @@
 "bump_up_view_pay_button_title" = "Activate for %@";
 
 // Text for "bumps left" label for payment bump up view
-"bump_up_view_pay_bumps_left_text" = "You have %i bump ups left.";
+"bump_up_view_pay_bumps_left_text" = "You have %i Bump Ups left.";
 
 // Categories baby and child. Check attached image "categories (2).png"
 "categories_baby_and_child" = "Baby and Child";
@@ -429,6 +429,12 @@
 
 // Disclaimer shown for each suspicious message received in chat
 "chat_message_disclaimer_scammer" = "Be extra careful when exchanging phone/email details. Fraudulent users often ask you to leave the letgo chat. Be informed! Tap here to review our %@.";
+
+// Disclaimer shown for each suspicious message received in chat with no blocked user
+"chat_message_disclaimer_scammer_base_blocked" = "Be extra careful when exchanging phone/email details. Fraudulent users often ask you to leave the letgo chat. %@";
+
+// Disclaimer shown for each suspicious message received in chat with blocked user
+"chat_message_disclaimer_scammer_append_blocked" = "Tap here to block this user.";
 
 // Chat message field hint. Check attached image "chat.png"
 "chat_message_field_hint" = "Type your message here";
@@ -1341,8 +1347,11 @@
 //  Passive buyers screen for seller -> Contact success
 "passive_buyers_contact_success" = "Buyers contacted!";
 
-// Add listing details title
-"post_category_details_title" = "Listings with completed details attract 20% more potential buyers";
+// Add Details navigation title
+"post_category_details_navigation_title" = "Add Details";
+
+// Add listing details description
+"post_category_details_description" = "Listings with completed details attract 20% more potential buyers";
 
 // car make title
 "post_category_detail_car_make" = "Make";
@@ -1352,6 +1361,9 @@
 
 // car year title
 "post_category_detail_car_year" = "Year";
+
+// ok navigation bar button
+"post_category_detail_ok_button" = "OK";
 
 // progress mark
 "post_category_details_progress" = "progress";

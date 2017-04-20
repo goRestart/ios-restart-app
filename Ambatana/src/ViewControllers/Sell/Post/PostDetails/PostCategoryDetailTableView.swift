@@ -15,15 +15,12 @@ enum CategoryDetailSelectedInfo {
 
 final class PostCategoryDetailTableView: UIView {
     
-    let titles: [String]
-    let selectedIndex: Int?
+    var titles: [String] = []
+    var selectedIndex: Int? = nil
     
     // MARK: - Lifecycle
     
-    init(withTitles titles: [String], selectedIndex: Int?) {
-        self.titles = titles
-        self.selectedIndex = selectedIndex
-        
+    init() {
         super.init(frame: CGRect.zero)
         
         setupUI()

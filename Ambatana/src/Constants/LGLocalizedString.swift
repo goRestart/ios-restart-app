@@ -583,6 +583,14 @@ struct LGLocalizedString {
 		return String(format: NSLocalizedString("chat_message_disclaimer_scammer", comment: ""), var1)
 	}
 
+	static func chatMessageDisclaimerScammerBaseBlocked(_ var1: String) -> String {
+		return String(format: NSLocalizedString("chat_message_disclaimer_scammer_base_blocked", comment: ""), var1)
+	}
+
+	static var chatMessageDisclaimerScammerAppendBlocked: String {
+		return NSLocalizedString("chat_message_disclaimer_scammer_append_blocked", comment: "")
+	}
+
 	static var chatMessageFieldHint: String {
 		return NSLocalizedString("chat_message_field_hint", comment: "")
 	}
@@ -1807,10 +1815,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("passive_buyers_contact_success", comment: "")
 	}
 
-    static var postCategoryDetailsNavigationTitle: String {
-        return NSLocalizedString("post_category_details_navigation_title", comment: "")
-    }
-    
+	static var postCategoryDetailsNavigationTitle: String {
+		return NSLocalizedString("post_category_details_navigation_title", comment: "")
+	}
+
 	static var postCategoryDetailsDescription: String {
 		return NSLocalizedString("post_category_details_description", comment: "")
 	}
@@ -1825,6 +1833,10 @@ struct LGLocalizedString {
 
 	static var postCategoryDetailCarYear: String {
 		return NSLocalizedString("post_category_detail_car_year", comment: "")
+	}
+
+	static var postCategoryDetailOkButton: String {
+		return NSLocalizedString("post_category_detail_ok_button", comment: "")
 	}
 
 	static var postCategoryDetailsProgress: String {
