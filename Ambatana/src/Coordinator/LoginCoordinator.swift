@@ -34,6 +34,7 @@ final class LoginCoordinator: Coordinator, ChangePasswordPresenter {
     fileprivate let source: EventParameterLoginSourceValue
     fileprivate let style: LoginStyle
     fileprivate let loggedInAction: () -> Void
+    fileprivate let cancelAction: (() -> Void)?
 
     fileprivate let keyValueStorage: KeyValueStorage
     fileprivate let tracker: Tracker
@@ -46,10 +47,12 @@ final class LoginCoordinator: Coordinator, ChangePasswordPresenter {
 
     convenience init(source: EventParameterLoginSourceValue,
                      style: LoginStyle,
-                     loggedInAction: @escaping (() -> Void)) {
+                     loggedInAction: @escaping (() -> Void),
+                     cancelAction: (() -> Void)?) {
         self.init(source: source,
                   style: style,
                   loggedInAction: loggedInAction,
+                  cancelAction: cancelAction,
                   bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   tracker: TrackerProxy.sharedInstance,
@@ -60,6 +63,7 @@ final class LoginCoordinator: Coordinator, ChangePasswordPresenter {
     init(source: EventParameterLoginSourceValue,
          style: LoginStyle,
          loggedInAction: @escaping (() -> Void),
+         cancelAction: (() -> Void)?,
          bubbleNotificationManager: BubbleNotificationManager,
          keyValueStorage: KeyValueStorage,
          tracker: Tracker,
@@ -69,6 +73,7 @@ final class LoginCoordinator: Coordinator, ChangePasswordPresenter {
         self.source = source
         self.style = style
         self.loggedInAction = loggedInAction
+        self.cancelAction = cancelAction
 
         self.keyValueStorage = keyValueStorage
         self.tracker = tracker
@@ -427,6 +432,10 @@ fileprivate extension LoginCoordinator {
             guard let strongSelf = self else { return }
             if didLogIn {
                 strongSelf.loggedInAction()
+            } else {
+                if let action = strongSelf.cancelAction {
+                    action()
+                }
             }
         }
     }

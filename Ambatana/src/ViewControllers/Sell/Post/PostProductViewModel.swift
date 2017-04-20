@@ -175,7 +175,7 @@ fileprivate extension PostProductViewModel {
             self?.postProduct()
         }.addDisposableTo(disposeBag)
         
-        state.asObservable().debug().filter { $0.step == .uploadSuccess }.bindNext { [weak self] _ in
+        state.asObservable().filter { $0.step == .uploadSuccess }.bindNext { [weak self] _ in
             // Keep one second delay in order to give time to read the product posted message.
             delay(1) { [weak self] in
                 guard let strongSelf = self else { return }
@@ -202,11 +202,16 @@ fileprivate extension PostProductViewModel {
         if sessionManager.loggedIn {
             guard let images = state.value.lastImagesUploadResult?.value, let params = makeProductCreationParams(images: images) else { return }
             navigator?.closePostProductAndPostInBackground(params: params, showConfirmation: true, trackingInfo: trackingInfo)
-            } else if let images = state.value.pendingToUploadImages {
-            navigator?.openLoginIfNeededFromProductPosted(from: .sell, loggedInAction: { [weak self] in
+        } else if let images = state.value.pendingToUploadImages {
+            let loggedInAction = { [weak self] in
                 guard let params = self?.makeProductCreationParams(images: []) else { return }
                 self?.navigator?.closePostProductAndPostLater(params: params, images: images, trackingInfo: trackingInfo)
-            })
+            }
+            let cancelAction = { [weak self] in
+                guard let state = self?.state.value else { return }
+                self?.state.value = state.revertToPreviousStep()
+            }
+            navigator?.openLoginIfNeededFromProductPosted(from: .sell, loggedInAction: loggedInAction, cancelAction: cancelAction)
         } else {
             navigator?.cancelPostProduct()
         }
