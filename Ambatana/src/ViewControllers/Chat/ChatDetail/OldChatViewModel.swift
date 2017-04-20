@@ -201,7 +201,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
     
     var blockUserAction: () -> Void {
         return { [weak self] in
-            self?.blockUserPressed(position: .safetyPopup)
+            self?.blockUser(position: .safetyPopup)
         }
     }
 
@@ -887,7 +887,11 @@ class OldChatViewModel: BaseViewModel, Paginable {
         shouldAskProductSold = false
     }
     
-    private func blockUserPressed(position: EventParameterBlockButtonPosition) {
+    fileprivate func blockUserPressed(position: EventParameterBlockButtonPosition) {
+        blockUser(position: position)
+    }
+    
+    private func blockUser(position: EventParameterBlockButtonPosition) {
         
         delegate?.vmShowQuestion(title: LGLocalizedString.chatBlockUserAlertTitle,
                                  message: LGLocalizedString.chatBlockUserAlertText,
