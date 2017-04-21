@@ -305,7 +305,7 @@ class ProductCarouselViewModel: BaseViewModel {
     }
 
     func editButtonPressed() {
-        currentProductViewModel?.editProduct()
+        currentProductViewModel?.editListing()
     }
 
     func favoriteButtonPressed() {

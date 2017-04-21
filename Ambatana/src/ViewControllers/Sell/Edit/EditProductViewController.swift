@@ -542,6 +542,16 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
             self?.updateCarsFields(isCar: category == .cars)
         }.addDisposableTo(disposeBag)
 
+        carsMakeButton.rx.tap.bindNext { [weak self] in
+            self?.viewModel.carMakeButtonPressed()
+            }.addDisposableTo(disposeBag)
+        carsModelButton.rx.tap.bindNext { [weak self] in
+            self?.viewModel.carModelButtonPressed()
+            }.addDisposableTo(disposeBag)
+        carsYearButton.rx.tap.bindNext { [weak self] in
+            self?.viewModel.carYearButtonPressed()
+            }.addDisposableTo(disposeBag)
+
         viewModel.loadingProgress.asObservable().map { $0 == nil }.bindTo(loadingView.rx.isHidden).addDisposableTo(disposeBag)
         viewModel.loadingProgress.asObservable().ignoreNil().bindTo(loadingProgressView.rx.progress).addDisposableTo(disposeBag)
 

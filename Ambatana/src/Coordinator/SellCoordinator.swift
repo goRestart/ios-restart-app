@@ -11,7 +11,7 @@ import RxSwift
 
 protocol SellCoordinatorDelegate: class {
     func sellCoordinatorDidCancel(_ coordinator: SellCoordinator)
-    func sellCoordinator(_ coordinator: SellCoordinator, didFinishWithProduct product: Product)
+    func sellCoordinator(_ coordinator: SellCoordinator, didFinishWithListing listing: Listing)
 }
 
 final class SellCoordinator: Coordinator {
@@ -126,7 +126,7 @@ extension SellCoordinator: PostProductNavigator {
                     self?.closeCoordinator(animated: false) {
                         guard let strongSelf = self else { return }
                         if let product = result.value {
-                            strongSelf.delegate?.sellCoordinator(strongSelf, didFinishWithProduct: product)
+                            strongSelf.delegate?.sellCoordinator(strongSelf, didFinishWithListing: .product(product))
                         } else {
                             strongSelf.delegate?.sellCoordinatorDidCancel(strongSelf)
                         }
@@ -167,24 +167,24 @@ extension SellCoordinator: ProductPostedNavigator {
         }
     }
 
-    func closeProductPosted(_ product: Product) {
+    func closeProductPosted(_ listing: Listing) {
         closeCoordinator(animated: true) { [weak self] in
             guard let strongSelf = self, let delegate = strongSelf.delegate else { return }
 
-            delegate.sellCoordinator(strongSelf, didFinishWithProduct: product)
+            delegate.sellCoordinator(strongSelf, didFinishWithListing: listing)
         }
     }
 
-    func closeProductPostedAndOpenEdit(_ product: Product) {
+    func closeProductPostedAndOpenEdit(_ listing: Listing) {
         dismissViewController(animated: true) { [weak self] in
             guard let parentVC = self?.parentViewController else { return }
 
             // TODO: Open EditProductCoordinator, refactor this completion with a EditProductCoordinatorDelegate func
-            let editVM = EditProductViewModel(product: product)
-            editVM.closeCompletion = { editedProduct in
+            let editVM = EditProductViewModel(listing: listing)
+            editVM.closeCompletion = { editedListing in
                 self?.closeCoordinator(animated: false) {
                     guard let strongSelf = self else { return }
-                    strongSelf.delegate?.sellCoordinator(strongSelf, didFinishWithProduct: editedProduct ?? product)
+                    strongSelf.delegate?.sellCoordinator(strongSelf, didFinishWithListing: editedListing ?? listing)
                 }
             }
             let editVC = EditProductViewController(viewModel: editVM)

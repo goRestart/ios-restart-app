@@ -258,7 +258,7 @@ extension AppCoordinator: AppNavigator {
 extension AppCoordinator: SellCoordinatorDelegate {
     func sellCoordinatorDidCancel(_ coordinator: SellCoordinator) {}
 
-    func sellCoordinator(_ coordinator: SellCoordinator, didFinishWithProduct product: Product) {
+    func sellCoordinator(_ coordinator: SellCoordinator, didFinishWithListing listing: Listing) {
         refreshSelectedProductsRefreshable()
 
         openAfterSellDialogIfNeeded()

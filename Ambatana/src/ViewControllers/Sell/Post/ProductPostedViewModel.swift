@@ -48,7 +48,7 @@ class ProductPostedViewModel: BaseViewModel {
     // MARK: - Lifecycle
 
     convenience init(postResult: ProductResult, trackingInfo: PostProductTrackingInfo) {
-        self.init(status: ProductPostedStatus(result: postResult),
+        self.init(status: ProductPostedStatus(productResult: postResult),
                   trackingInfo: trackingInfo)
     }
 
@@ -143,8 +143,8 @@ class ProductPostedViewModel: BaseViewModel {
         switch status {
         case .posting, .error:
             return nil
-        case let .success(product):
-            return ProductSocialMessage(product: product, fallbackToStore: false)
+        case let .success(listing):
+            return ProductSocialMessage(listing: listing, fallbackToStore: false)
         }
     }
     
@@ -152,23 +152,23 @@ class ProductPostedViewModel: BaseViewModel {
     // MARK: > Actions
 
     func closeActionPressed() {
-        var product: Product? = nil
+        var listing: Listing? = nil
         switch status {
-        case let .success(productPosted):
-            tracker.trackEvent(TrackerEvent.productSellConfirmationClose(productPosted))
-            product = productPosted
+        case let .success(listingPosted):
+            tracker.trackEvent(TrackerEvent.productSellConfirmationClose(listingPosted))
+            listing = listingPosted
         case .posting:
             break
         case let .error(error):
             tracker.trackEvent(TrackerEvent.productSellErrorClose(error))
         }
         
-        guard let productValue = product else {
+        guard let listingValue = listing else {
             navigator?.cancelProductPosted()
             return
         }
         
-        navigator?.closeProductPosted(productValue)
+        navigator?.closeProductPosted(listingValue)
     }
     
     func shareActionPressed() {
@@ -176,10 +176,10 @@ class ProductPostedViewModel: BaseViewModel {
     }
 
     func editActionPressed() {
-        guard let product = status.product else { return }
+        guard let listing = status.listing else { return }
 
-        tracker.trackEvent(TrackerEvent.productSellConfirmationEdit(product))
-        navigator?.closeProductPostedAndOpenEdit(product)
+        tracker.trackEvent(TrackerEvent.productSellConfirmationEdit(listing))
+        navigator?.closeProductPostedAndOpenEdit(listing)
     }
 
     func mainActionPressed() {
@@ -196,24 +196,24 @@ class ProductPostedViewModel: BaseViewModel {
     }
 
     func incentivateSectionPressed() {
-        guard let product = status.product else { return }
-        tracker.trackEvent(TrackerEvent.productSellConfirmationPost(product, buttonType: .itemPicture))
+        guard let listing = status.listing else { return }
+        tracker.trackEvent(TrackerEvent.productSellConfirmationPost(listing, buttonType: .itemPicture))
         navigator?.closeProductPostedAndOpenPost()
     }
 
     func shareStartedIn(_ shareType: ShareType) {
-        guard let product = status.product else { return }
-        tracker.trackEvent(TrackerEvent.productSellConfirmationShare(product, network: shareType.trackingShareNetwork))
+        guard let listing = status.listing else { return }
+        tracker.trackEvent(TrackerEvent.productSellConfirmationShare(listing, network: shareType.trackingShareNetwork))
     }
 
     func shareFinishedIn(_ shareType: ShareType, withState state: SocialShareState) {
-        guard let product = status.product else { return }
+        guard let listing = status.listing else { return }
 
         switch state {
         case .completed:
-            tracker.trackEvent(TrackerEvent.productSellConfirmationShareComplete(product, network: shareType.trackingShareNetwork))
+            tracker.trackEvent(TrackerEvent.productSellConfirmationShareComplete(listing, network: shareType.trackingShareNetwork))
         case .cancelled:
-            tracker.trackEvent(TrackerEvent.productSellConfirmationShareCancel(product, network: shareType.trackingShareNetwork))
+            tracker.trackEvent(TrackerEvent.productSellConfirmationShareCancel(listing, network: shareType.trackingShareNetwork))
         case .failed:
             break;
         }
@@ -234,7 +234,7 @@ class ProductPostedViewModel: BaseViewModel {
                     } else if let error = result.error {
                         self?.trackPostSellError(error: error)
                     }
-                    self?.updateStatusAfterPosting(status: ProductPostedStatus(result: result))
+                    self?.updateStatusAfterPosting(status: ProductPostedStatus(productResult: result))
                 }
             } else if let error = result.error {
                 self?.trackPostSellError(error: error)
@@ -286,8 +286,8 @@ class ProductPostedViewModel: BaseViewModel {
         switch status {
         case .posting:
             break
-        case let .success(product):
-            tracker.trackEvent(TrackerEvent.productSellConfirmation(product))
+        case let .success(listing):
+            tracker.trackEvent(TrackerEvent.productSellConfirmation(listing))
         case let .error(error):
             tracker.trackEvent(TrackerEvent.productSellError(error))
         }
@@ -299,10 +299,10 @@ class ProductPostedViewModel: BaseViewModel {
 
 enum ProductPostedStatus {
     case posting(images: [UIImage], params: ProductCreationParams)
-    case success(product: Product)
+    case success(listing: Listing)
     case error(error: EventParameterPostProductError)
 
-    var product: Product? {
+    var listing: Listing? {
         switch self {
         case .posting, .error:
             return nil
@@ -324,10 +324,25 @@ enum ProductPostedStatus {
         self = .posting(images: images, params: params)
     }
 
-    init(result: ProductResult) {
-        if let product = result.value {
-            self = .success(product: product)
-        } else if let error = result.error {
+    init(productResult: ProductResult) {
+        if let product = productResult.value {
+            self = .success(listing: .product(product))
+        } else if let error = productResult.error {
+            switch error {
+            case .network:
+                self = .error(error: .network)
+            default:
+                self = .error(error: .internalError)
+            }
+        } else {
+            self = .error(error: .internalError)
+        }
+    }
+
+    init(carResult: CarResult) {
+        if let car = carResult.value {
+            self = .success(listing: .car(car))
+        } else if let error = carResult.error {
             switch error {
             case .network:
                 self = .error(error: .network)

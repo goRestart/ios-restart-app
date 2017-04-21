@@ -838,7 +838,7 @@ extension ProductViewModelSpec: ProductDetailNavigator {
     func closeProductDetail() {
 
     }
-    func editProduct(_ product: Product) {
+    func editListing(_ listing: Listing) {
 
     }
     func openListingChat(_ listing: Listing) {
