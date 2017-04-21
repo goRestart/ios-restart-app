@@ -37,7 +37,8 @@
 "bump_up_view_pay_subtitle" = "Để bài đăng của bạn dễ nhìn hơn trong 24 giờ bằng cách đẩy lên đầu.";
 "bump_up_view_pay_title" = "ĐẨY BÀI ĐĂNG ĐỂ BÁN NHANH HƠN";
 "categories_baby_and_child" = "Trẻ sơ sinh và Trẻ nhỏ";
-"categories_cars_and_motors" = "Ô tô và Xe máy";
+"categories_car" = "Xe hơi";
+"categories_cars_and_motors" = "Xe máy và Phụ kiện";
 "categories_electronics" = "Đồ điện tử";
 "categories_fashion_and_accessories" = "Thời trang và Phụ kiện";
 "categories_free" = "Đồ Miễn phí";
@@ -143,6 +144,8 @@
 "chat_list_unblock" = "Bỏ chặn";
 "chat_login_popup_text" = "Bạn cần đăng nhập để bắt đầu trò chuyện";
 "chat_message_disclaimer_scammer" = "Hãy đặc biệt cẩn thận khi trao đổi thông tin số điện thoại/email. Người dùng lừa đảo thường muốn bạn rời khỏi trò chuyện trong letgo. Hãy lưu ý! Nhấn váo đây để xem %@ của chúng tôi.";
+"chat_message_disclaimer_scammer_append_blocked" = "Nhấp vào đây để chặn người dùng này.";
+"chat_message_disclaimer_scammer_base_blocked" = "Hãy đặc biệt cẩn thận khi trao đổi thông tin số điện thoại/email. Người dùng lừa đảo thường muốn bạn rời khỏi trò chuyện trong letgo. %@";
 "chat_message_field_hint" = "Nhập tin nhắn của bạn tại đây";
 "chat_message_load_generic_error" = "Có lỗi xảy ra trong khi hồi phục dữ liệu trò chuyện của bạn. Xin vui lòng thử lại.";
 "chat_not_verified_alert_message" = "Kết nối với Facebook, Google hoặc Email để xác minh danh tính của bạn.";
@@ -277,8 +280,8 @@
 "edit_product_send_ok" = "Chúc mừng! Sản phẩm của bạn vừa được cập nhật. Sản phẩm sẽ sớm xuất hiện trong danh mục của chúng tôi.";
 "edit_product_suggesting_title" = "Đang gợi ý tiêu đề...";
 "edit_product_title" = "Chỉnh sửa Sản phẩm";
-"edit_product_unsaved_changes_alert" = "Bạn có chắc chắn muốn hủy những thay đổi này?";
-"edit_product_unsaved_changes_alert_ok" = "Hủy";
+"edit_product_unsaved_changes_alert" = "Bạn có chắc chắn muốn rời khỏi trang này? Thay đổi sẽ bị mất.";
+"edit_product_unsaved_changes_alert_ok" = "Rời";
 "filters_distance_not_set" = "chưa được cài đặt";
 "filters_navbar_reset" = "Xóa";
 "filters_price_from" = "Từ";
@@ -304,6 +307,10 @@
 "forced_update_title" = "Có bản cập nhật mới";
 "forced_update_update_button" = "Cập nhật";
 "help_title" = "Trợ giúp";
+"hidden_email_tag" = "[EMAIL BỊ ẨN]";
+"hidden_phone_tag" = "[SỐ ĐIỆN THOẠI BỊ ẨN]";
+"hidden_text_alert_description" = "Chúng tôi ẩn thông tin liên lạc để giúp bạn mua và bán được an toàn. Trò chuyện trên letgo luôn dễ dàng và bảo mật hơn.";
+"hidden_text_alert_title" = "GIỮ AN TOÀN";
 "location_permissions_allow_button" = "Cho phép";
 "location_permissions_bubble" = "Cách bạn 100m";
 "location_permissions_button" = "Có, hãy Sử dụng Địa điểm của tôi";

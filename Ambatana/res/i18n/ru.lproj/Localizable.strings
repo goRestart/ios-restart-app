@@ -37,7 +37,8 @@
 "bump_up_view_pay_subtitle" = "Дает вашему объявлению больше просмотров на 24 часа, поднимая его наверх в списке.";
 "bump_up_view_pay_title" = "ПОДНИМИТЕ ДЛЯ БЫСТРОЙ ПРОДАЖИ";
 "categories_baby_and_child" = "Все для детей";
-"categories_cars_and_motors" = "Автомобили и Запчасти";
+"categories_car" = "Машины";
+"categories_cars_and_motors" = "Запчасти и Аксессуары";
 "categories_electronics" = "Электроника";
 "categories_fashion_and_accessories" = "Мода и Аксессуары";
 "categories_free" = "Бесплатные вещи";
@@ -143,6 +144,8 @@
 "chat_list_unblock" = "Разблокировать";
 "chat_login_popup_text" = "Для того, чтобы начать переписку, Вам необходимо войти в систему";
 "chat_message_disclaimer_scammer" = "Будьте особенно осторожны, когда обмениваетесь телефонами или е-мейлами. Мошенники часто просят пообщаться вне чата letgo. Будьте в курсе! Нажмите здесь, чтобы посмотреть наши %@.";
+"chat_message_disclaimer_scammer_append_blocked" = "Нажмите здесь, чтобы заблокировать такого пользователя.";
+"chat_message_disclaimer_scammer_base_blocked" = "Будьте особенно осторожны, когда обмениваетесь телефонами или е-мейлами. Мошенники часто просят пообщаться вне чата letgo. %@";
 "chat_message_field_hint" = "Введите сообщение";
 "chat_message_load_generic_error" = "При загрузке диалога произошла ошибка. Пожалуйста, попробуйте еще раз.";
 "chat_not_verified_alert_message" = "Свяжите аккаунт с Facebook, Google или почтой для подтверждения личности.";
@@ -277,8 +280,8 @@
 "edit_product_send_ok" = "Поздравляем! Ваш товар обновлен. В скором времени он появится в списке.";
 "edit_product_suggesting_title" = "Предлагаемый заголовок...";
 "edit_product_title" = "Редактировать товар";
-"edit_product_unsaved_changes_alert" = "Вы точно хотите отменить эти изменения?";
-"edit_product_unsaved_changes_alert_ok" = "Отменить";
+"edit_product_unsaved_changes_alert" = "Вы точно не хотите сохранять эти изменения?";
+"edit_product_unsaved_changes_alert_ok" = "Не сохранять";
 "filters_distance_not_set" = "не установлен";
 "filters_navbar_reset" = "Сброс";
 "filters_price_from" = "От";
@@ -304,6 +307,10 @@
 "forced_update_title" = "Доступно обновление";
 "forced_update_update_button" = "Обновить";
 "help_title" = "Помощь";
+"hidden_email_tag" = "[Е-МЕЙЛ СКРЫТ]";
+"hidden_phone_tag" = "[НОМЕР ТЕЛЕФОНА СКРЫТ]";
+"hidden_text_alert_description" = "Мы скрыли контактную информацию, чтобы вы могли спокойно торговать. Общаться в letgo легко и безопасно.";
+"hidden_text_alert_title" = "ОСТАВАЙТЕСЬ В БЕЗОПАСНОСТИ";
 "location_permissions_allow_button" = "Разрешить";
 "location_permissions_bubble" = "500 м от вас";
 "location_permissions_button" = "Да, использовать геолокацию";

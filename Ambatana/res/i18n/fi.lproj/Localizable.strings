@@ -37,7 +37,8 @@
 "bump_up_view_pay_subtitle" = "Hanki tuotteellesi enemmän näkyvyyttä 24 tunnin ajaksi siirtämällä se listan kärkeen.";
 "bump_up_view_pay_title" = "NOSTA MYYDÄKSESI NOPEAMMIN";
 "categories_baby_and_child" = "Vauvat ja lapset";
-"categories_cars_and_motors" = "Autot ja muut ajoneuvot";
+"categories_car" = "Autot";
+"categories_cars_and_motors" = "Ajoneuvot ja varusteet";
 "categories_electronics" = "Elektroniikka";
 "categories_fashion_and_accessories" = "Muoti ja asusteet";
 "categories_free" = "Ilmaiset";
@@ -143,6 +144,8 @@
 "chat_list_unblock" = "Poista Esto";
 "chat_login_popup_text" = "Sinun täytyy kirjautua sisään aloittaaksesi keskustelun";
 "chat_message_disclaimer_scammer" = "Ole erityisen varovainen, kun vaihdatte puhelinnumeroita/sähköpostiosoitteita. Vilpillisillä aikeilla liikkeellä olevat käyttäjät pyytävät usein poistumaan letgon keskustelusta. Ole varuillasi! Paina tästä käydäksesi läpi %@";
+"chat_message_disclaimer_scammer_append_blocked" = "Paina tästä estääksesi tämän käyttäjän.";
+"chat_message_disclaimer_scammer_base_blocked" = "Ole erityisen varovainen, kun vaihdatte puhelinnumeroita/sähköpostiosoitteita. Vilpillisissä aikeissa liikkeellä olevat käyttäjät pyytävät usein poistumaan letgon keskustelusta. %@";
 "chat_message_field_hint" = "Kirjoita viestisi tähän";
 "chat_message_load_generic_error" = "Keskustelutietojasi noudettaessa tapahtui virhe. Ole hyvä ja yritä uudelleen.";
 "chat_not_verified_alert_message" = "Vahvista henkilöllisyytesi Facebookin, Googlen tai sähköpostin avulla.";
@@ -304,6 +307,10 @@
 "forced_update_title" = "Päivitys saatavilla";
 "forced_update_update_button" = "Päivitä";
 "help_title" = "Apua";
+"hidden_email_tag" = "[SÄHKÖPOSTI PIILOTETTU]";
+"hidden_phone_tag" = "[PUHELINNUMERO PIILOTETTU]";
+"hidden_text_alert_description" = "Piilotamme yhteystiedot auttaaksemme sinua ostamaan ja myymään turvallisesti. Keskustelu letgon sisällä on helppoa ja turvallisempaa.";
+"hidden_text_alert_title" = "PYSY TURVASSA";
 "location_permissions_allow_button" = "Salli";
 "location_permissions_bubble" = "0.1 km sinusta";
 "location_permissions_button" = "Kyllä, Käytä Sijaintiani";

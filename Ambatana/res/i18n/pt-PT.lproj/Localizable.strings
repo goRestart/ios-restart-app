@@ -37,7 +37,8 @@
 "bump_up_view_pay_subtitle" = "Dê uma elevada visibilidade à sua publicação durante 24 horas movendo-a para o topo.";
 "bump_up_view_pay_title" = "DÊ PRIORIDADE PARA VENDER MAIS RÁPIDO";
 "categories_baby_and_child" = "Bebés e Crianças";
-"categories_cars_and_motors" = "Veículos";
+"categories_car" = "Carros";
+"categories_cars_and_motors" = "Motores e Acessórios";
 "categories_electronics" = "Aparelhos eletrónicos";
 "categories_fashion_and_accessories" = "Moda e Acessórios";
 "categories_free" = "Coisas Gratuitas";
@@ -143,6 +144,8 @@
 "chat_list_unblock" = "Desbloquear";
 "chat_login_popup_text" = "Para começar a conversar deve primeiro fazer login";
 "chat_message_disclaimer_scammer" = "Seja extremamente cuidadoso ao trocar contactos de telefone/email. Os utilizadores fraudulentos pedem com frequência para abandonar o chat do letgo. Mantenha-se informado! Toque aqui para rever as nossas %@.";
+"chat_message_disclaimer_scammer_append_blocked" = "Toque aqui para bloquear este utilizador.";
+"chat_message_disclaimer_scammer_base_blocked" = "Seja extremamente cuidadoso ao trocar contactos de telefone/email. Os utilizadores fraudulentos pedem com frequência para abandonar o chat do letgo. %@";
 "chat_message_field_hint" = "Escreva a sua mensagem aqui";
 "chat_message_load_generic_error" = "Ocorreu um erro ao recuperar os dados da conversação. Por favor tente novamente.";
 "chat_not_verified_alert_message" = "Entre com o Facebook, Google ou Email para verificar a sua identidade.";
@@ -304,6 +307,10 @@
 "forced_update_title" = "Atualização disponível";
 "forced_update_update_button" = "Atualizar";
 "help_title" = "Ajuda";
+"hidden_email_tag" = "[EMAIL OCULTO]";
+"hidden_phone_tag" = "[NÚMERO DE TELEFONE OCULTO]";
+"hidden_text_alert_description" = "Ocultamos os dados de contacto para o ajudarmos a comprar e a vender com segurança. Conversar no letgo é fácil e mais seguro.";
+"hidden_text_alert_title" = "MANTENHA-SE SEGURO";
 "location_permissions_allow_button" = "Permitir";
 "location_permissions_bubble" = "1,60 km de si";
 "location_permissions_button" = "Sim, Usem a Minha Localização";

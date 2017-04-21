@@ -37,7 +37,8 @@
 "bump_up_view_pay_subtitle" = "Ge din vara högre synlighet under 24 timmar genom att flytta den till toppen.";
 "bump_up_view_pay_title" = "PUFFA UPPÅT FÖR ATT SÄLJA SNABBARE";
 "categories_baby_and_child" = "Bebis och barn";
-"categories_cars_and_motors" = "Bil och motor";
+"categories_car" = "Bilar";
+"categories_cars_and_motors" = "Motorer och tillbehör";
 "categories_electronics" = "Elektronik";
 "categories_fashion_and_accessories" = "Mode och accessoarer";
 "categories_free" = "Gratisprylar";
@@ -143,6 +144,8 @@
 "chat_list_unblock" = "Avblockera";
 "chat_login_popup_text" = "För att börja chatta, måste du logga in";
 "chat_message_disclaimer_scammer" = "Var extra försiktig när du delar med dig av telefonnummer/e-postadress. Bedragare ber ofta om att lämna letgo-chatten. Klicka här för att läsa våra %@.";
+"chat_message_disclaimer_scammer_append_blocked" = "Klicka här för att blockera användaren.";
+"chat_message_disclaimer_scammer_base_blocked" = "Var extra försiktig när du delar med dig av telefonnummer/e-postadress. Bedragare ber ofta om att lämna letgo-chatten. %@";
 "chat_message_field_hint" = "Skriv ditt meddelande här";
 "chat_message_load_generic_error" = "Ett fel uppstod vid hämtning av din information. Var god försök igen.";
 "chat_not_verified_alert_message" = "Anslut med Facebook, Google eller din e-postadress för att verifiera din identitet.";
@@ -304,6 +307,10 @@
 "forced_update_title" = "Uppdatering tillgänglig";
 "forced_update_update_button" = "Uppdatera";
 "help_title" = "Hjälp";
+"hidden_email_tag" = "[DOLD E-POSTADRESS]";
+"hidden_phone_tag" = "[DOLT TELEFONNUMMER]";
+"hidden_text_alert_description" = "Vi döljer kontaktinformation för att du ska kunna köpa och sälja säkert. Att chatta via letgo är både enkelt och säkrare.";
+"hidden_text_alert_title" = "SÄKERHETSTIPS";
 "location_permissions_allow_button" = "Tillåt";
 "location_permissions_bubble" = "1 km från dig";
 "location_permissions_button" = "Ja, Använd Min Plats";

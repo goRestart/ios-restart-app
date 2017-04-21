@@ -37,7 +37,8 @@
 "bump_up_view_pay_subtitle" = "Donnez plus de visibilité à votre annonce pendant 24 heures en la renvoyant vers le haut.";
 "bump_up_view_pay_title" = "RENVOYER VERS LE HAUT POUR VENDRE PLUS VITE";
 "categories_baby_and_child" = "Bébé et Enfant";
-"categories_cars_and_motors" = "Voitures et Motos";
+"categories_car" = "Voitures";
+"categories_cars_and_motors" = "Véhicules et accessoires";
 "categories_electronics" = "Équipement électronique";
 "categories_fashion_and_accessories" = "Mode et Accessoires";
 "categories_free" = "Objets Gratuits";
@@ -143,6 +144,8 @@
 "chat_list_unblock" = "Débloquer";
 "chat_login_popup_text" = "Pour commencer à clavarder, vous devez vous connecter";
 "chat_message_disclaimer_scammer" = "Soyez très prudent lorsque vous donnez votre courriel/téléphone. Les utilisateurs frauduleux demandent souvent de clavarder en dehors de letgo. Informez-vous ! Sélectionnez ici pour lire nos %@.";
+"chat_message_disclaimer_scammer_append_blocked" = "Sélectionnez ici pour bloquer cet utilisateur.";
+"chat_message_disclaimer_scammer_base_blocked" = "Soyez très prudents lorsque vous donnez votre courriel/téléphone. Les fraudeurs demandent souvent de clavarder en dehors de letgo. %@";
 "chat_message_field_hint" = "Entrez votre message ici";
 "chat_message_load_generic_error" = "Une erreur est survenue lors de la récupération de vos données de conversation. Veuillez réessayer.";
 "chat_not_verified_alert_message" = "Connectez-vous avec Facebook, Google ou par courriel pour valider votre identité.";
@@ -277,8 +280,8 @@
 "edit_product_send_ok" = "Félicitations ! Votre produit a été mis à jour. Il apparaîtra sous peu dans les annonces.";
 "edit_product_suggesting_title" = "Suggestion de titre...";
 "edit_product_title" = "Modifier le Produit";
-"edit_product_unsaved_changes_alert" = "Êtes-vous certain de vouloir annuler ces changements ?";
-"edit_product_unsaved_changes_alert_ok" = "Annuler";
+"edit_product_unsaved_changes_alert" = "Êtes-vous certain de vouloir quitter la page ? Tous les changements seront perdus.";
+"edit_product_unsaved_changes_alert_ok" = "Quitter";
 "filters_distance_not_set" = "non configuré";
 "filters_navbar_reset" = "Réinitialiser";
 "filters_price_from" = "De";
@@ -304,6 +307,10 @@
 "forced_update_title" = "Mise à jour Disponible";
 "forced_update_update_button" = "Mettre à jour";
 "help_title" = "Aide";
+"hidden_email_tag" = "[COURRIEL MASQUÉ]";
+"hidden_phone_tag" = "[NUMÉRO DE TÉLÉPHONE MASQUÉ]";
+"hidden_text_alert_description" = "Nous masquons les coordonnées pour vous aider à vendre et acheter en toute sécurité. Clavarder dans letgo est facile et plus sécuritaire.";
+"hidden_text_alert_title" = "SOYEZ PRUDENTS";
 "location_permissions_allow_button" = "Autoriser";
 "location_permissions_bubble" = "à 0.1 km de chez vous";
 "location_permissions_button" = "Oui, Utiliser ma Localisation";

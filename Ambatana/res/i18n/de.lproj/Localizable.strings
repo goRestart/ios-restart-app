@@ -37,7 +37,8 @@
 "bump_up_view_pay_subtitle" = "Mache dein Angebot für 24 Stunden besonders sichtbar, indem du es ganz nach oben holst.";
 "bump_up_view_pay_title" = "NACH OBEN HOLEN, UM SCHNELLER ZU VERKAUFEN";
 "categories_baby_and_child" = "Baby und Kind";
-"categories_cars_and_motors" = "Autos und Fahrzeuge";
+"categories_car" = "Autos";
+"categories_cars_and_motors" = "Fahrzeuge und Zubehör";
 "categories_electronics" = "Elektronik";
 "categories_fashion_and_accessories" = "Mode und Accessoires";
 "categories_free" = "Kostenlos";
@@ -143,6 +144,8 @@
 "chat_list_unblock" = "Blockierung aufheben";
 "chat_login_popup_text" = "Bitte melde dich an, um ein Gespräch zu beginnen";
 "chat_message_disclaimer_scammer" = "Sei besonders vorsichtig, wenn du Kontaktinformationen wie Telefonnummern oder E-Mail-Adressen austauschst. Betrügerische Nutzer wollen häufig außerhalb des letgo-Systems kommunizieren. Sei informiert! Drücke hier, um unsere %@ anzuschauen.";
+"chat_message_disclaimer_scammer_append_blocked" = "Drücke hier, um diesen Nutzer zu blockieren";
+"chat_message_disclaimer_scammer_base_blocked" = "Sei besonders vorsichtig, wenn du Kontaktinformationen wie Telefonnummern oder E-Mail-Adressen austauschst. Betrügerische Nutzer wollen häufig außerhalb des letgo-Systems kommunizieren. %@";
 "chat_message_field_hint" = "Gib hier deine Nachricht ein";
 "chat_message_load_generic_error" = "Beim Abrufen deiner Gesprächsdaten ist ein Fehler aufgetreten. Versuche es bitte noch einmal.";
 "chat_not_verified_alert_message" = "Verbinde dich mit Facebook, Google oder via E-Mail, um deine Identität zu bestätigen.";
@@ -304,6 +307,10 @@
 "forced_update_title" = "Neue Version verfügbar";
 "forced_update_update_button" = "Neue Version";
 "help_title" = "Hilfe";
+"hidden_email_tag" = "[E-MAIL-ADRESSE VERSTECKT]";
+"hidden_phone_tag" = "[TELEFONNUMMER VERSTECKT]";
+"hidden_text_alert_description" = "Wir verstecken Kontaktinformationen, damit du sicher kaufen und verkaufen kannst. Gespräche innerhalb letgos zu führen ist leicht und außerdem sicherer.";
+"hidden_text_alert_title" = "SICHERHEITSHINWEIS";
 "location_permissions_allow_button" = "Erlauben";
 "location_permissions_bubble" = "0,1 km von dir entfernt";
 "location_permissions_button" = "Ja, meinen Standort benutzen";

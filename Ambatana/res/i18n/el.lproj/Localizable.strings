@@ -37,7 +37,8 @@
 "bump_up_view_pay_subtitle" = "Δώστε στην καταχώρησή σας περισσότερη προβολή για 24 ώρες, μετακινώντας την στην κορυφή.";
 "bump_up_view_pay_title" = "ΠΡΟΩΘΗΣΤΕ ΓΙΑ ΝΑ ΠΟΥΛΗΣΕΤΕ ΓΡΗΓΟΡΟΤΕΡΑ";
 "categories_baby_and_child" = "Βρεφικά και Παιδικά";
-"categories_cars_and_motors" = "Αυτοκίνητα και Μηχανές";
+"categories_car" = "Αυτοκίνητα";
+"categories_cars_and_motors" = "Μηχανές και Αξεσουάρ";
 "categories_electronics" = "Ηλεκτρονικά";
 "categories_fashion_and_accessories" = "Μόδα και Αξεσουάρ";
 "categories_free" = "Δωρεάν Πράγματα";
@@ -143,6 +144,8 @@
 "chat_list_unblock" = "Ξεμπλοκάρισμα";
 "chat_login_popup_text" = "Για να ξεκινήσετε να συνομιλείτε, θα πρέπει να συνδεθείτε";
 "chat_message_disclaimer_scammer" = "Να είστε ιδαίτερα προσεκτικοί όταν ανταλλάζετε πληροφορίες τηλεφώνων/email. Οι χρήστες που θέλουν να σας εξαπατήσουν, ενδέχεται να σας ζητήσουν να αποχωρήσετε από τη συνομιλία στο letgo. Να είστε ενημερωμένοι! Πατήστε εδώ για να ελέγξετε τις %@ μας.";
+"chat_message_disclaimer_scammer_append_blocked" = "Πατήστε εδώ για να μπλοκάρετε αυτόν το χρήστη.";
+"chat_message_disclaimer_scammer_base_blocked" = "Να είστε ιδαίτερα προσεκτικοί όταν ανταλλάζετε πληροφορίες τηλεφώνου/email. Οι χρήστες που θέλουν να σας εξαπατήσουν, συχνά ζητούν να αποχωρήσετε από τη letgo συνομιλία. %@";
 "chat_message_field_hint" = "Γράψε το μήνυμά σου εδώ";
 "chat_message_load_generic_error" = "Παρουσιάστηκε σφάλμα κατά την ανάκτηση δεδομένων των συνομιλιών σας. Παρακαλώ, δοκιμάστε ξανά.";
 "chat_not_verified_alert_message" = "Συνδεθείτε με Facebook, Google ή Email για να επιβεβαιώσετε την ταυτότητά σας.";
@@ -304,6 +307,10 @@
 "forced_update_title" = "Διαθέσιμη ενημέρωση";
 "forced_update_update_button" = "Αναβάθμιση";
 "help_title" = "Βοήθεια";
+"hidden_email_tag" = "[ΑΠΟΚΡΥΨΗ EMAIL]";
+"hidden_phone_tag" = "[ΑΠΟΚΡΥΨΗ ΤΗΛΕΦΩΝΟΥ]";
+"hidden_text_alert_description" = "Αποκρύψαμε τις πληροφορίες επικοινωνίας για να σας βοηθήσουμε να κάνετε αγοραπωλησίες με ασφάλεια. Οι συνομιλίες εντός του easy είναι πιο ασφαλείς.";
+"hidden_text_alert_title" = "ΜΕΙΝΕΤΕ ΑΣΦΑΛΕΙΣ";
 "location_permissions_allow_button" = "Να επιτρέπεται";
 "location_permissions_bubble" = "15μ. από εσάς";
 "location_permissions_button" = "Χρήση της Τοποθεσίας μου";

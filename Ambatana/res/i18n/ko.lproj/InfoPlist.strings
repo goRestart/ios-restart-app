@@ -1,5 +1,5 @@
-"NSCameraUsageDescription" = "To start selling, give letgo access to your camera";
-"NSLocationWhenInUseUsageDescription" = "letgo needs to access your location to show you products nearby";
-"NSPhotoLibraryUsageDescription" = "To start selling, give letgo access to your library";
-"sell_shortcut_title" = "Sell Your Stuff";
-"start_browsing_shortcut_title" = "Start Browsing";
+"NSCameraUsageDescription" = "판매를 시작하기 위해, letgo의 카메라 기능에 접근할 수 있도록 허가해주세요";
+"NSLocationWhenInUseUsageDescription" = "렛고는 근처의 제품을 파악하기위해 위치정보를 사용할 것입니다.";
+"NSPhotoLibraryUsageDescription" = "판매를 시작하기 위해, letgo가 라이브러리에 접근할 수 있도록 허가해주세요";
+"sell_shortcut_title" = "고객님의 물건을 판매하세요";
+"start_browsing_shortcut_title" = "검색을 시작해보세요";
