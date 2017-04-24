@@ -63,6 +63,7 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
     }
     
     deinit {
+        stickersView.removeFromSuperview()
         NotificationCenter.default.removeObserver(self)
     }
     
@@ -91,7 +92,6 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        stickersView.removeFromSuperview()
         removeIgnoreTouchesForTooltip()
     }
     override func viewDidAppear(_ animated: Bool) {

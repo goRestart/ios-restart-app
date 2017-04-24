@@ -72,6 +72,7 @@ class ChatViewController: TextViewController {
     }
     
     deinit {
+        stickersView.removeFromSuperview()
         NotificationCenter.default.removeObserver(self)
     }
 
