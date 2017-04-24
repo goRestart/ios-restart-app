@@ -94,7 +94,6 @@ class ChatViewController: TextViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        stickersView.removeFromSuperview()
         removeIgnoreTouchesForTooltip()
     }
 
