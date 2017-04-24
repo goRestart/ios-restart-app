@@ -21,7 +21,7 @@ class PostCarDetailsView: UIView {
     private let navigationMakeButton = UIButton()
     private let navigationModelButton = UIButton()
     private let navigationYearButton = UIButton()
-    let navigationOkButton = UIButton()
+    private let navigationOkButton = UIButton()
     private let descriptionLabel = UILabel()
     private let progressView = PostCategoryDetailProgressView()
     let makeRowView = PostCategoryDetailRowView(withTitle: LGLocalizedString.postCategoryDetailCarMake)
@@ -30,9 +30,9 @@ class PostCarDetailsView: UIView {
     let doneButton = UIButton(type: .custom)
     
     private var progressTopConstraint: NSLayoutConstraint = NSLayoutConstraint()
-    private static let progressConstantSelectDetail = UIScreen.main.bounds.height*2/5
-    private static let progressConstantSelectDetailValue = 44 + Metrics.margin
+    private static let progressTopConstraintConstantSelectDetail = Metrics.screenHeight*2/5
     
+    var postCarDetailSelected: PostCarDetail? = nil
     private let tableView = PostCategoryDetailTableView()
     
     // MARK: - Lifecycle
@@ -66,20 +66,25 @@ class PostCarDetailsView: UIView {
         navigationTitle.text = LGLocalizedString.postCategoryDetailsNavigationTitle
         
         navigationMakeButton.setTitleColor(UIColor.white, for: .normal)
+        navigationMakeButton.setTitleColor(UIColor.white.withAlphaComponent(0.7), for: .highlighted)
         navigationMakeButton.titleLabel?.adjustsFontSizeToFitWidth = false
         navigationMakeButton.titleLabel?.lineBreakMode = .byTruncatingTail
-        updateMake(nil)
+        updateMake(withMake: nil)
         navigationModelButton.setTitleColor(UIColor.white, for: .normal)
+        navigationModelButton.setTitleColor(UIColor.white.withAlphaComponent(0.7), for: .highlighted)
         navigationModelButton.titleLabel?.adjustsFontSizeToFitWidth = false
         navigationModelButton.titleLabel?.lineBreakMode = .byTruncatingTail
-        updateModel(nil)
+        updateModel(withModel: nil)
         navigationYearButton.setTitleColor(UIColor.white, for: .normal)
+        navigationYearButton.setTitleColor(UIColor.white.withAlphaComponent(0.7), for: .highlighted)
         navigationYearButton.titleLabel?.adjustsFontSizeToFitWidth = false
         navigationYearButton.titleLabel?.lineBreakMode = .byTruncatingTail
-        updateYear(nil)
+        updateYear(withYear: nil)
         
         navigationOkButton.setTitleColor(UIColor.white, for: .normal)
+        navigationOkButton.setTitleColor(UIColor.white.withAlphaComponent(0.7), for: .highlighted)
         navigationOkButton.setTitle(LGLocalizedString.postCategoryDetailOkButton, for: .normal)
+        navigationOkButton.addTarget(self, action: #selector(navigationButtonOkPressed), for: .touchUpInside)
         
         descriptionLabel.font = UIFont.systemSemiBoldFont(size: 27)
         descriptionLabel.textAlignment = .left
@@ -107,51 +112,79 @@ class PostCarDetailsView: UIView {
         setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: subviews)
         addSubviews(subviews)
         
-        layoutMargins = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 30)
+        layoutMargins = UIEdgeInsets(top: 0, left: Metrics.margin*2, bottom: 0, right: Metrics.margin*2)
         
-        navigationBackButton.layout(with: self).left(by: 8).top(by: 9)
+        navigationBackButton.layout(with: self)
+            .left(by: Metrics.margin)
+            .top(by: Metrics.margin)
         navigationTitle.layout(with: self)
             .leading(to: .leadingMargin, by: Metrics.margin)
             .trailing(to: .trailingMargin, by: -Metrics.margin)
-            .top(by: 14)
-        navigationMakeButton.setTitle("asdfasdfsafasdfsdafsdafsadfsadfdsafd", for: .normal)
+        navigationTitle.layout(with: navigationMakeButton)
+            .centerY()
         navigationMakeButton.layout(with: self)
             .leading(to: .leadingMargin, by: Metrics.margin, relatedBy: .greaterThanOrEqual)
-            .top(by: 9)
-        navigationMakeButton.layout(with: navigationModelButton).trailing(to: .leading, by: -Metrics.margin)
-        navigationModelButton.setTitle("21343214231423143214321432142314132", for: .normal)
-        navigationModelButton.layout().width(UIScreen.main.bounds.width*2/5, relatedBy: .lessThanOrEqual)
+            .top(by: Metrics.shortMargin)
+        navigationMakeButton.layout(with: navigationModelButton)
+            .trailing(to: .leading, by: -Metrics.margin)
+        navigationModelButton.layout()
+            .width(UIScreen.main.bounds.width*2/5, relatedBy: .lessThanOrEqual)
         navigationModelButton.layout(with: self)
-            .top(by: 9).centerX()
-        navigationModelButton.layout(with: navigationYearButton).trailing(to: .leading, by: -Metrics.margin)
-        navigationYearButton.setTitle("2009", for: .normal)
-        navigationYearButton.layout(with: self).top(by: 9)
+            .top(by: Metrics.shortMargin)
+            .centerX()
+        navigationModelButton.layout(with: navigationYearButton)
+            .trailing(to: .leading, by: -Metrics.margin)
+        navigationYearButton.layout(with: self)
+            .top(by: Metrics.shortMargin)
         navigationYearButton.layout(with: navigationOkButton)
             .trailing(to: .leading, by: -Metrics.margin, relatedBy: .lessThanOrEqual)
+        navigationYearButton.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
         
-        navigationOkButton.layout(with: self).right(by: -8).top(by: 9)
+        navigationOkButton.layout(with: self)
+            .right(by: -Metrics.margin)
+            .top(by: Metrics.shortMargin)
+        navigationOkButton.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
         
-        descriptionLabel.layout(with: self).leadingMargin().trailingMargin()
-        progressView.layout(with: descriptionLabel).below(by: Metrics.margin*2)
+        descriptionLabel.layout(with: self)
+            .leadingMargin()
+            .trailingMargin()
+        progressView.layout(with: descriptionLabel)
+            .below(by: Metrics.margin*2)
         progressView.layout(with: self)
             .centerX()
-            .top(by: PostCarDetailsView.progressConstantSelectDetail, constraintBlock: { [weak self] in
+            .top(by: PostCarDetailsView.progressTopConstraintConstantSelectDetail, constraintBlock: { [weak self] in
                 self?.progressTopConstraint = $0
             })
         
-        makeRowView.layout(with: progressView).below(by: Metrics.margin*2)
-        makeRowView.layout().height(50)
-        makeRowView.layout(with: self).leadingMargin().trailingMargin()
-        modelRowView.layout(with: makeRowView).below()
-        modelRowView.layout().height(50)
-        modelRowView.layout(with: self).leadingMargin().trailingMargin()
-        yearRowView.layout(with: modelRowView).below()
-        yearRowView.layout().height(50)
-        yearRowView.layout(with: self).leadingMargin().trailingMargin()
+        makeRowView.layout(with: progressView)
+            .below(by: Metrics.margin*2)
+        makeRowView.layout()
+            .height(50)
+        makeRowView.layout(with: self)
+            .leadingMargin()
+            .trailingMargin()
+        modelRowView.layout(with: makeRowView)
+            .below()
+        modelRowView.layout()
+            .height(50)
+        modelRowView.layout(with: self)
+            .leadingMargin()
+            .trailingMargin()
+        yearRowView.layout(with: modelRowView)
+            .below()
+        yearRowView.layout()
+            .height(50)
+        yearRowView.layout(with: self)
+            .leadingMargin()
+            .trailingMargin()
         
-        doneButton.layout(with: yearRowView).below(by: Metrics.margin)
-        doneButton.layout().height(Metrics.buttonHeight)
-        doneButton.layout(with: self).leadingMargin().trailingMargin()
+        doneButton.layout(with: yearRowView)
+            .below(by: Metrics.margin)
+        doneButton.layout()
+            .height(Metrics.buttonHeight)
+        doneButton.layout(with: self)
+            .leadingMargin()
+            .trailingMargin()
     }
     
     // MARK: - Accessibility
@@ -162,7 +195,7 @@ class PostCarDetailsView: UIView {
     
     // MARK: - Helpers
     
-    func updateMake(_ make: String?) {
+    func updateMake(withMake make: String?) {
         var buttomTitle = LGLocalizedString.postCategoryDetailCarMake
         if let make = make, !make.isEmpty {
             buttomTitle = make
@@ -172,7 +205,7 @@ class PostCarDetailsView: UIView {
         updateProgress()
     }
     
-    func updateModel(_ model: String?) {
+    func updateModel(withModel model: String?) {
         var buttomTitle = LGLocalizedString.postCategoryDetailCarModel
         if let model = model, !model.isEmpty {
             buttomTitle = model
@@ -182,7 +215,7 @@ class PostCarDetailsView: UIView {
         updateProgress()
     }
     
-    func updateYear(_ year: String?) {
+    func updateYear(withYear year: String?) {
         var buttomTitle = LGLocalizedString.postCategoryDetailCarYear
         if let year = year, !year.isEmpty {
             buttomTitle = year
@@ -225,6 +258,12 @@ class PostCarDetailsView: UIView {
         }
     }
     
+    // MARK: UI Actions
+    
+    dynamic func navigationButtonOkPressed() {
+        showSelectDetail()
+    }
+    
     // MARK: Animations
     
     private func selectDetailVisibleViews() -> [UIView] {
@@ -236,7 +275,9 @@ class PostCarDetailsView: UIView {
     }
     
     func showSelectDetail() {
-        self.progressTopConstraint.constant = PostCarDetailsView.progressConstantSelectDetail
+        postCarDetailSelected = nil
+        
+        self.progressTopConstraint.constant = PostCarDetailsView.progressTopConstraintConstantSelectDetail
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseIn, animations: {
             self.layoutIfNeeded()
             self.navigationBackButton.transform = CGAffineTransform(rotationAngle: CGFloat(0))
@@ -250,13 +291,14 @@ class PostCarDetailsView: UIView {
     
     func showSelectDetailValue(forDetail detail: PostCarDetail, values: [String], selectedValue: Int?) {
         updateNavigationButtons(forDetail: detail)
+        postCarDetailSelected = detail
         
         UIView.animate(withDuration: 0.15, delay: 0, options: .curveEaseOut, animations: {
             self.selectDetailVisibleViews().forEach { $0.alpha = 0 }
             self.selectDetailValueVisibleViews().forEach { $0.alpha = 1 }
         }, completion: nil)
         
-        self.progressTopConstraint.constant = PostCarDetailsView.progressConstantSelectDetailValue
+        self.progressTopConstraint.constant = navigationTitle.frame.maxY + Metrics.margin
         UIView.animate(withDuration: 0.2, delay: 0.05, options: .curveEaseIn, animations: {
             self.layoutIfNeeded()
             self.navigationBackButton.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))

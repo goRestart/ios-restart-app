@@ -71,7 +71,7 @@ class PostCategoryDetailRowView: UIView {
         valueLabel.textAlignment = .right
         valueLabel.textColor = UIColor.white.withAlphaComponent(0.3)
         
-        icon.image = UIImage(named: "ic_arrow_down")
+        icon.image = UIImage(named: "ic_post_disclousure")
         icon.contentMode = .scaleAspectFit
     }
     
@@ -80,12 +80,25 @@ class PostCategoryDetailRowView: UIView {
         setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: subviews)
         addSubviews(subviews)
         
-        button.layout(with: self).top().left().right().bottom()
-        titleLabel.layout(with: self).top().bottom().leading()
-        valueLabel.layout(with: self).top().bottom()
-        valueLabel.layout(with: icon).trailing(to: .leading)
-        icon.layout().height(13).proportionalWidth()
-        icon.layout(with: self).top().bottom().trailing()
+        layoutMargins = UIEdgeInsets(top: 0, left: Metrics.margin*2, bottom: 0, right: Metrics.margin*2)
+        
+        button.layout(with: self)
+            .fill()
+        titleLabel.layout(with: self)
+            .top()
+            .bottom()
+            .leading(to: .leadingMargin)
+        valueLabel.layout(with: self)
+            .top()
+            .bottom()
+        valueLabel.layout(with: icon)
+            .trailing(to: .leading)
+        icon.layout()
+            .width(15).widthProportionalToHeight()
+        icon.layout(with: self)
+            .top()
+            .bottom()
+            .trailing(to: .trailingMargin)
     }
     
     func isFilled() -> Bool {

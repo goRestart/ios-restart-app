@@ -223,7 +223,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
     private func setupCloseButton() {
         closeButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(closeButton)
-        closeButton.layout(with: view).left(by: 8).top(by: 9)
+        closeButton.layout(with: view).left(by: Metrics.margin).top(by: Metrics.margin)
     }
 
     private func setupPriceView() {
@@ -250,21 +250,18 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         carDetailsView.navigationBackButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
             self?.carDetailsNavigationBackButtonPressed()
             }.addDisposableTo(disposeBag)
-        carDetailsView.navigationOkButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
-            self?.carDetailsNavigationOkButtonPressed()
-            }.addDisposableTo(disposeBag)
         carDetailsView.makeRowView.button.rx.tap.asObservable().subscribeNext { [weak self] _ in
             self?.carMakeRowButtonPressed()
         }.addDisposableTo(disposeBag)
         carDetailsView.modelRowView.button.rx.tap.asObservable().subscribeNext { [weak self] _ in
-            self?.carMakeRowButtonPressed()
+            self?.carModelRowButtonPressed()
         }.addDisposableTo(disposeBag)
         carDetailsView.yearRowView.button.rx.tap.asObservable().subscribeNext { [weak self] _ in
-            self?.carMakeRowButtonPressed()
+            self?.carYearRowButtonPressed()
         }.addDisposableTo(disposeBag)
         
         carDetailsView.doneButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
-            self?.carMakeRowButtonPressed()
+            self?.carDetailsDoneButtonPressed()
         }.addDisposableTo(disposeBag)
     }
     
@@ -321,34 +318,34 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
 
 extension PostProductViewController {
     dynamic func carDetailsNavigationBackButtonPressed() {
-    
-    }
-    
-    dynamic func carDetailsNavigationOkButtonPressed() {
-        carDetailsView.showSelectDetail()
+        if carDetailsView.postCarDetailSelected == nil {
+            carDetailsView.showSelectDetail()
+        } else {
+            // go back to previous state
+            // viewModel.goBackTo...
+        }
     }
     
     dynamic func carMakeRowButtonPressed() {
         // get carmakes from view model
-        showSelectDetailValue(forDetail: .make, values: ["audi","bmw"], selectedValue: nil)
+        showSelectCarDetailValue(forDetail: .make, values: ["audi","bmw"], selectedValue: nil)
     }
     
-    dynamic func modelRowButtonPressed() {
+    dynamic func carModelRowButtonPressed() {
         // get carmodels from view model
-        showSelectDetailValue(forDetail: .model, values: ["A3","A4"], selectedValue: nil)
+        showSelectCarDetailValue(forDetail: .model, values: ["A3","A4"], selectedValue: nil)
     }
     
-    dynamic func yearRowButtonPrescsed() {
+    dynamic func carYearRowButtonPressed() {
         // get years from view model
-        showSelectDetailValue(forDetail: .year, values: ["A3","A4"], selectedValue: nil)
+        showSelectCarDetailValue(forDetail: .year, values: ["A3","A4"], selectedValue: nil)
     }
     
     dynamic func carDetailsDoneButtonPressed() {
         
     }
     
-    
-    private func showSelectDetailValue(forDetail detail: PostCarDetail, values: [String], selectedValue: Int?) {
+    private func showSelectCarDetailValue(forDetail detail: PostCarDetail, values: [String], selectedValue: Int?) {
         carDetailsView.showSelectDetailValue(forDetail: detail, values: values, selectedValue: selectedValue)
     }
 }
@@ -357,6 +354,15 @@ extension PostProductViewController {
 // MARK: - State selection
 
 fileprivate extension PostListingState {
+    var closeButtonAlpha: CGFloat {
+        switch step {
+        case .carDetailsSelection:
+            return 0
+        case .imageSelection, .uploadingImage, .errorUpload, .detailsSelection, .categorySelection, .finished, .uploadSuccess:
+            return 1
+        }
+    }
+    
     var isOtherStepsContainerAlpha: CGFloat {
         switch step {
         case .imageSelection:
@@ -471,6 +477,7 @@ extension PostProductViewController {
             adjustDetailsScrollContentInset(to: view)
         }
         let updateVisibility: () -> () = { [weak self] in
+            self?.closeButton.alpha = state.closeButtonAlpha
             self?.otherStepsContainer.alpha = state.isOtherStepsContainerAlpha
             self?.customLoadingView.alpha = state.customLoadingViewAlpha
             self?.postedInfoLabel.alpha = state.postedInfoLabelAlpha
