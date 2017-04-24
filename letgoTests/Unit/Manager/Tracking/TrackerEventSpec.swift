@@ -3121,7 +3121,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains click-area param") {
                     let param = sut.params!.stringKeyParams["notification-click-area"] as? String
-                    expect(param) == "cta1"
+                    expect(param) == "cta-1"
                 }
                 it("contains action param") {
                     let param = sut.params!.stringKeyParams["notification-action"] as? String
