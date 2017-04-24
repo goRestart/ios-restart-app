@@ -63,7 +63,6 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
     }
     
     deinit {
-        stickersView.removeFromSuperview()
         NotificationCenter.default.removeObserver(self)
     }
     
@@ -92,9 +91,9 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        stickersView.removeFromSuperview()
         removeIgnoreTouchesForTooltip()
     }
-
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         viewModel.didAppear()
@@ -225,12 +224,12 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
     }
     
     private func setupRx() {
-        viewModel.relatedProductsState.asObservable().bindNext { state in
+        viewModel.relatedProductsState.asObservable().bindNext { [weak self] state in
             switch state {
             case .visible(let productId):
-                self.relatedProductsView.productId.value = productId
+                self?.relatedProductsView.productId.value = productId
             case .hidden, .loading:
-                self.relatedProductsView.productId.value = nil
+                self?.relatedProductsView.productId.value = nil
             }
             }.addDisposableTo(disposeBag)
     }
