@@ -712,10 +712,10 @@ enum EventParameterNotificationAction: String {
     case conversation = "conversation"
     case message = "message"
     case search = "search"
-    case resetPassword = "resetPassword"
-    case userRatings = "userRatings"
-    case userRating = "userRating"
-    case passiveBuyers = "passiveBuyers"
+    case resetPassword = "reset-password"
+    case userRatings = "user-ratings"
+    case userRating = "user-rating"
+    case passiveBuyers = "passive-buyers"
     case unknown = "N/A"
 }
 

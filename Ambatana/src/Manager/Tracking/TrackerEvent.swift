@@ -940,8 +940,8 @@ struct TrackerEvent {
                                            deeplink: EventParameterNotificationAction) -> TrackerEvent {
         var params = EventParameters()
         params[.notificationType] = type.rawValue
-        params[.notificationClickArea] = type.rawValue
-        params[.notificationAction] = type.rawValue
+        params[.notificationClickArea] = source.rawValue
+        params[.notificationAction] = deeplink.rawValue
         return TrackerEvent(name: .notificationCenterComplete, params: params)
     }
 
