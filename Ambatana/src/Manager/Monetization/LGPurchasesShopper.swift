@@ -9,6 +9,7 @@
 import LGCoreKit
 import StoreKit
 import AdSupport
+import AppsFlyerLib
 
 enum PurchasesShopperState {
     case restoring
@@ -251,7 +252,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         }
 
         let amplitudeId = myUserRepository.myUser?.emailOrId
-        let appsflyerId = installationRepository.installation?.objectId
+        let appsflyerId = AppsFlyerTracker.shared().getAppsFlyerUID()
         let idfa = ASIdentifierManager.shared().advertisingIdentifier.uuidString
         let bundleId = Bundle.main.bundleIdentifier
 
