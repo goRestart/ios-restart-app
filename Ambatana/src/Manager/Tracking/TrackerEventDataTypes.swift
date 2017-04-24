@@ -260,6 +260,8 @@ enum EventParameterName: String {
     case accountNetwork       = "account-network"
     case profileType          = "profile-type"
     case notificationType     = "notification-type"
+    case notificationClickArea = "notification-click-area"
+    case notificationAction   = "notification-action"
     case shownReason          = "shown-reason"
     case freePosting          = "free-posting"
     case sellButtonPosition   = "sell-button-position"
@@ -684,6 +686,37 @@ enum EventParameterNotificationType: String {
     case productSuggested = "passive-buyer-make-offer"
     case facebookFriendshipCreated = "facebook-friendship-created"
     case modular = "modular"
+}
+
+enum EventParameterNotificationClickArea: String {
+    case basicImage = "basic-image"
+    case heroImage = "hero-image"
+    case text = "text"
+    case thumbnail1 = "thumbnail-1"
+    case thumbnail2 = "thumbnail-2"
+    case thumbnail3 = "thumbnail-3"
+    case thumbnail4 = "thumbnail-4"
+    case cta1 = "cta-1"
+    case cta2 = "cta-2"
+    case cta3 = "cta-3"
+    case main = "main"
+    case unknown = "N/A"
+}
+
+enum EventParameterNotificationAction: String {
+    case home = "home"
+    case sell = "sell"
+    case product = "product"
+    case user = "user"
+    case conversations = "conversations"
+    case conversation = "conversation"
+    case message = "message"
+    case search = "search"
+    case resetPassword = "resetPassword"
+    case userRatings = "userRatings"
+    case userRating = "userRating"
+    case passiveBuyers = "passiveBuyers"
+    case unknown = "N/A"
 }
 
 enum EventParameterRelatedShownReason: String {

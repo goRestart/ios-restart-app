@@ -936,9 +936,12 @@ struct TrackerEvent {
         return TrackerEvent(name: .notificationCenterStart, params: EventParameters())
     }
 
-    static func notificationCenterComplete(_ type: EventParameterNotificationType) -> TrackerEvent {
+    static func notificationCenterComplete(_ type: EventParameterNotificationType, source: EventParameterNotificationClickArea,
+                                           deeplink: EventParameterNotificationAction) -> TrackerEvent {
         var params = EventParameters()
         params[.notificationType] = type.rawValue
+        params[.notificationClickArea] = type.rawValue
+        params[.notificationAction] = type.rawValue
         return TrackerEvent(name: .notificationCenterComplete, params: params)
     }
 

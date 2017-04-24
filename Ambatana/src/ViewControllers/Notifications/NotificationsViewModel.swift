@@ -80,7 +80,13 @@ class NotificationsViewModel: BaseViewModel {
 
     func selectedItemAtIndex(_ index: Int) {
         guard let data = dataAtIndex(index) else { return }
-        trackItemPressed(data.type.eventType)
+        // Not track if type is modular as primary action on modular notification includes tracking.
+        switch data.type {
+        case .welcome, .productFavorite, .productSold, .rating, .ratingUpdated, .buyersInterested, .productSuggested, .facebookFriendshipCreated:
+            trackItemPressed(type: data.type.eventType, source: .main, deeplink: data.type.notificationAction)
+        case .modular:
+            break
+        }
         data.primaryAction?()
     }
     
@@ -226,7 +232,7 @@ fileprivate extension NotificationsViewModel {
                                     date: notification.createdAt, isRead: notification.isRead,
                                     primaryAction: { [weak self] in
                                         guard let deeplink = modules.callToActions.first?.deeplink else { return }
-                                        self?.triggerModularNotificationDeeplink(deeplink: deeplink)
+                                        self?.triggerModularNotificationDeeplink(deeplink: deeplink, source: .main)
                                     })
         }
     }
@@ -243,9 +249,10 @@ fileprivate extension NotificationsViewModel {
 // MARK: - modularNotificationCellDelegate
 
 extension NotificationsViewModel: ModularNotificationCellDelegate {
-    func triggerModularNotificationDeeplink(deeplink: String) {
+    func triggerModularNotificationDeeplink(deeplink: String, source: EventParameterNotificationClickArea) {
         guard let deepLinkURL = URL(string: deeplink) else { return }
         guard let deepLink = UriScheme.buildFromUrl(deepLinkURL)?.deepLink else { return }
+        trackItemPressed(type: .modular, source: source, deeplink: deepLink.deeplinkTrackParameter)
         navigator?.openNotificationDeepLink(deepLink: deepLink)
     }
 }
@@ -259,8 +266,8 @@ fileprivate extension NotificationsViewModel {
         tracker.trackEvent(event)
     }
 
-    func trackItemPressed(_ type: EventParameterNotificationType) {
-        let event = TrackerEvent.notificationCenterComplete(type)
+    func trackItemPressed(type: EventParameterNotificationType, source: EventParameterNotificationClickArea, deeplink: EventParameterNotificationAction) {
+        let event = TrackerEvent.notificationCenterComplete(type, source: source, deeplink: deeplink)
         tracker.trackEvent(event)
     }
     
@@ -293,4 +300,60 @@ fileprivate extension NotificationDataType {
             return .modular
         }
     }
+    
+    var notificationAction: EventParameterNotificationAction {
+        switch self {
+        case .productSold:
+            return .product
+        case .productFavorite:
+            return .product
+        case .rating:
+            return .userRating
+        case .ratingUpdated:
+            return .userRating
+        case .welcome:
+            return .sell
+        case .buyersInterested:
+            return .passiveBuyers
+        case .productSuggested:
+            return .product
+        case .facebookFriendshipCreated:
+            return .user
+        case .modular:
+            return .unknown // It should not happen never.
+        }
+    }
 }
+
+fileprivate extension DeepLink {
+    
+    var deeplinkTrackParameter: EventParameterNotificationAction {
+        switch self.action {
+        case .home:
+            return .home
+        case .sell:
+            return .sell
+        case .product:
+            return .product
+        case .user:
+            return .user
+        case .conversations:
+            return .conversations
+        case .conversation:
+            return .conversation
+        case .message:
+            return .message
+        case .search:
+            return .search
+        case .resetPassword:
+            return .resetPassword
+        case .userRatings:
+            return .userRatings
+        case .userRating:
+            return .userRating
+        case .passiveBuyers:
+            return .passiveBuyers
+        }
+    }
+}
+

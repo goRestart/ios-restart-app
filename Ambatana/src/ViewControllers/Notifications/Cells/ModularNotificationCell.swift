@@ -9,7 +9,7 @@
 import LGCoreKit
 
 protocol ModularNotificationCellDelegate: class {
-    func triggerModularNotificationDeeplink(deeplink: String)
+    func triggerModularNotificationDeeplink(deeplink: String, source: EventParameterNotificationClickArea)
 }
 
 
@@ -381,35 +381,63 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
     
     func elementTapped(sender: UITapGestureRecognizer) {
         guard let view = sender.view else { return }
+        var sourceClickArea: EventParameterNotificationClickArea
         var deeplinkString: String? = nil
         switch view {
         case heroImageView:
             deeplinkString = heroImageDeeplink
+            sourceClickArea = .heroImage
         case basicImage:
             deeplinkString = basicImageDeeplink
+            sourceClickArea = .basicImage
         case textBodyLabel:
             deeplinkString = textTitleDeepLink
+            sourceClickArea = .text
         default:
-            break
+            sourceClickArea = .unknown
         }
-        notifacionModuleTapped(with: deeplinkString)
+        notifacionModuleTapped(with: deeplinkString, source: sourceClickArea)
     }
     
     func thumbnailTapped(sender: UITapGestureRecognizer) {
         guard let view = sender.view as? UIImageView else { return }
         guard let thumbnailTappedIndex = thumbnails.index(of: view) else { return }
-        notifacionModuleTapped(with: thumbnailsDeeplinks[thumbnailTappedIndex])
+        let sourceClickArea: EventParameterNotificationClickArea
+        switch thumbnailTappedIndex {
+        case 0:
+            sourceClickArea = .thumbnail1
+        case 1:
+            sourceClickArea = .thumbnail2
+        case 2:
+            sourceClickArea = .thumbnail3
+        case 3:
+            sourceClickArea = .thumbnail4
+        default:
+            sourceClickArea = .unknown
+        }
+        notifacionModuleTapped(with: thumbnailsDeeplinks[thumbnailTappedIndex], source: sourceClickArea)
     }
     
     func CTATapped(sender: UITapGestureRecognizer) {
         guard let view = sender.view as? UIButton else { return }
         guard let buttonTappedIndex = callsToAction.index(of: view) else { return }
-        notifacionModuleTapped(with: callsToActionDeeplinks[buttonTappedIndex])
+        let sourceClickArea: EventParameterNotificationClickArea
+        switch buttonTappedIndex {
+            case 0:
+                sourceClickArea = .cta1
+            case 1:
+                sourceClickArea = .cta2
+            case 2:
+                sourceClickArea = .cta3
+            default:
+            sourceClickArea = .unknown
+        }
+        notifacionModuleTapped(with: callsToActionDeeplinks[buttonTappedIndex], source: sourceClickArea)
     }
     
-    func notifacionModuleTapped(with deeplink: String?) {
+    func notifacionModuleTapped(with deeplink: String?, source: EventParameterNotificationClickArea) {
         guard let deeplink = deeplink else { return }
-        delegate?.triggerModularNotificationDeeplink(deeplink: deeplink)
+        delegate?.triggerModularNotificationDeeplink(deeplink: deeplink, source: source)
     }
     
     // MARK: - Accesibility Ids.
