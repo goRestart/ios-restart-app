@@ -15,6 +15,11 @@ enum PostCarDetail {
     case year
 }
 
+enum PostCarDetailState {
+    case selectDetail
+    case selectDetailValue(forDetail: PostCarDetail)
+}
+
 class PostCarDetailsView: UIView {
     let navigationBackButton = UIButton()
     private let navigationTitle = UILabel()
@@ -32,8 +37,9 @@ class PostCarDetailsView: UIView {
     private var progressTopConstraint: NSLayoutConstraint = NSLayoutConstraint()
     private static let progressTopConstraintConstantSelectDetail = Metrics.screenHeight*2/5
     
-    var postCarDetailSelected: PostCarDetail? = nil
-    private let tableView = PostCategoryDetailTableView()
+    var state: PostCarDetailState = .selectDetail
+    
+    private let tableView = CategoryDetailTableView(withStyle: .lightContent)
     
     // MARK: - Lifecycle
 
@@ -58,7 +64,7 @@ class PostCarDetailsView: UIView {
     }
     
     private func setupUI() {
-        navigationBackButton.setImage(UIImage(named: "ic_post_back"), for: .normal)
+        navigationBackButton.setImage(UIImage(named: "ic_back"), for: .normal)
         
         navigationTitle.font = UIFont.systemSemiBoldFont(size: 17)
         navigationTitle.textAlignment = .center
@@ -66,24 +72,25 @@ class PostCarDetailsView: UIView {
         navigationTitle.text = LGLocalizedString.postCategoryDetailsNavigationTitle
         
         navigationMakeButton.setTitleColor(UIColor.white, for: .normal)
-        navigationMakeButton.setTitleColor(UIColor.white.withAlphaComponent(0.7), for: .highlighted)
+        navigationMakeButton.setTitleColor(UIColor.whiteTextHighAlpha, for: .highlighted)
         navigationMakeButton.titleLabel?.adjustsFontSizeToFitWidth = false
         navigationMakeButton.titleLabel?.lineBreakMode = .byTruncatingTail
         updateMake(withMake: nil)
         navigationModelButton.setTitleColor(UIColor.white, for: .normal)
-        navigationModelButton.setTitleColor(UIColor.white.withAlphaComponent(0.7), for: .highlighted)
+        navigationModelButton.setTitleColor(UIColor.whiteTextHighAlpha, for: .highlighted)
         navigationModelButton.titleLabel?.adjustsFontSizeToFitWidth = false
         navigationModelButton.titleLabel?.lineBreakMode = .byTruncatingTail
         updateModel(withModel: nil)
         navigationYearButton.setTitleColor(UIColor.white, for: .normal)
-        navigationYearButton.setTitleColor(UIColor.white.withAlphaComponent(0.7), for: .highlighted)
+        navigationYearButton.setTitleColor(UIColor.whiteTextHighAlpha, for: .highlighted)
         navigationYearButton.titleLabel?.adjustsFontSizeToFitWidth = false
         navigationYearButton.titleLabel?.lineBreakMode = .byTruncatingTail
         updateYear(withYear: nil)
         
         navigationOkButton.setTitleColor(UIColor.white, for: .normal)
-        navigationOkButton.setTitleColor(UIColor.white.withAlphaComponent(0.7), for: .highlighted)
+        navigationOkButton.setTitleColor(UIColor.whiteTextHighAlpha, for: .highlighted)
         navigationOkButton.setTitle(LGLocalizedString.postCategoryDetailOkButton, for: .normal)
+        navigationOkButton.titleLabel?.font = UIFont.boldBarButtonFont
         navigationOkButton.addTarget(self, action: #selector(navigationButtonOkPressed), for: .touchUpInside)
         
         descriptionLabel.font = UIFont.systemSemiBoldFont(size: 27)
@@ -108,7 +115,7 @@ class PostCarDetailsView: UIView {
     private func setupLayout() {
         let subviews = [navigationBackButton, navigationTitle, navigationMakeButton, navigationModelButton,
                         navigationYearButton, navigationOkButton, descriptionLabel, progressView, makeRowView,
-                        modelRowView, yearRowView, doneButton]
+                        modelRowView, yearRowView, doneButton, tableView]
         setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: subviews)
         addSubviews(subviews)
         
@@ -149,7 +156,7 @@ class PostCarDetailsView: UIView {
             .leadingMargin()
             .trailingMargin()
         progressView.layout(with: descriptionLabel)
-            .below(by: Metrics.margin*2)
+            .below(by: Metrics.bigMargin)
         progressView.layout(with: self)
             .centerX()
             .top(by: PostCarDetailsView.progressTopConstraintConstantSelectDetail, constraintBlock: { [weak self] in
@@ -157,7 +164,7 @@ class PostCarDetailsView: UIView {
             })
         
         makeRowView.layout(with: progressView)
-            .below(by: Metrics.margin*2)
+            .below(by: Metrics.bigMargin)
         makeRowView.layout()
             .height(50)
         makeRowView.layout(with: self)
@@ -185,6 +192,13 @@ class PostCarDetailsView: UIView {
         doneButton.layout(with: self)
             .leadingMargin()
             .trailingMargin()
+        
+        tableView.layout(with: progressView)
+            .below(by: Metrics.bigMargin)
+        tableView.layout(with: self)
+            .leading()
+            .trailing()
+            .bottom()
     }
     
     // MARK: - Accessibility
@@ -245,17 +259,21 @@ class PostCarDetailsView: UIView {
         switch detail {
         case .make:
             navigationMakeButton.setTitleColor(UIColor.white, for: .normal)
-            navigationModelButton.setTitleColor(UIColor.white.withAlphaComponent(0.3), for: .normal)
-            navigationYearButton.setTitleColor(UIColor.white.withAlphaComponent(0.3), for: .normal)
+            navigationModelButton.setTitleColor(UIColor.whiteTextLowAlpha, for: .normal)
+            navigationYearButton.setTitleColor(UIColor.whiteTextLowAlpha, for: .normal)
         case .model:
-            navigationMakeButton.setTitleColor(UIColor.white.withAlphaComponent(0.3), for: .normal)
+            navigationMakeButton.setTitleColor(UIColor.whiteTextLowAlpha, for: .normal)
             navigationModelButton.setTitleColor(UIColor.white, for: .normal)
-            navigationYearButton.setTitleColor(UIColor.white.withAlphaComponent(0.3), for: .normal)
+            navigationYearButton.setTitleColor(UIColor.whiteTextLowAlpha, for: .normal)
         case .year:
-            navigationMakeButton.setTitleColor(UIColor.white.withAlphaComponent(0.3), for: .normal)
-            navigationModelButton.setTitleColor(UIColor.white.withAlphaComponent(0.3), for: .normal)
+            navigationMakeButton.setTitleColor(UIColor.whiteTextLowAlpha, for: .normal)
+            navigationModelButton.setTitleColor(UIColor.whiteTextLowAlpha, for: .normal)
             navigationYearButton.setTitleColor(UIColor.white, for: .normal)
         }
+    }
+    
+    private func updateTableView(withValues values: [String], selectedValueIndex: Int?) {
+        tableView.setupTableView(withValues: values, selectedValueIndex: selectedValueIndex)
     }
     
     // MARK: UI Actions
@@ -275,7 +293,7 @@ class PostCarDetailsView: UIView {
     }
     
     func showSelectDetail() {
-        postCarDetailSelected = nil
+        state = .selectDetail
         
         self.progressTopConstraint.constant = PostCarDetailsView.progressTopConstraintConstantSelectDetail
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseIn, animations: {
@@ -289,16 +307,17 @@ class PostCarDetailsView: UIView {
         }, completion: nil)
     }
     
-    func showSelectDetailValue(forDetail detail: PostCarDetail, values: [String], selectedValue: Int?) {
+    func showSelectDetailValue(forDetail detail: PostCarDetail, values: [String], selectedValueIndex: Int?) {
+        state = .selectDetailValue(forDetail: detail)
         updateNavigationButtons(forDetail: detail)
-        postCarDetailSelected = detail
+        updateTableView(withValues: values, selectedValueIndex: selectedValueIndex)
         
         UIView.animate(withDuration: 0.15, delay: 0, options: .curveEaseOut, animations: {
             self.selectDetailVisibleViews().forEach { $0.alpha = 0 }
             self.selectDetailValueVisibleViews().forEach { $0.alpha = 1 }
         }, completion: nil)
         
-        self.progressTopConstraint.constant = navigationTitle.frame.maxY + Metrics.margin
+        self.progressTopConstraint.constant = navigationTitle.frame.maxY + Metrics.veryBigMargin
         UIView.animate(withDuration: 0.2, delay: 0.05, options: .curveEaseIn, animations: {
             self.layoutIfNeeded()
             self.navigationBackButton.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))

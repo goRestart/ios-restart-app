@@ -318,35 +318,37 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
 
 extension PostProductViewController {
     dynamic func carDetailsNavigationBackButtonPressed() {
-        if carDetailsView.postCarDetailSelected == nil {
-            carDetailsView.showSelectDetail()
-        } else {
+        switch carDetailsView.state {
+        case .selectDetail:
             // go back to previous state
             // viewModel.goBackTo...
+            break
+        case .selectDetailValue:
+            carDetailsView.showSelectDetail()
         }
     }
     
     dynamic func carMakeRowButtonPressed() {
         // get carmakes from view model
-        showSelectCarDetailValue(forDetail: .make, values: ["audi","bmw"], selectedValue: nil)
+        showSelectCarDetailValue(forDetail: .make, values: ["audi","bmw"], selectedValueIndex: nil)
     }
     
     dynamic func carModelRowButtonPressed() {
         // get carmodels from view model
-        showSelectCarDetailValue(forDetail: .model, values: ["A3","A4"], selectedValue: nil)
+        showSelectCarDetailValue(forDetail: .model, values: ["A3","A4"], selectedValueIndex: 0)
     }
     
     dynamic func carYearRowButtonPressed() {
         // get years from view model
-        showSelectCarDetailValue(forDetail: .year, values: ["A3","A4"], selectedValue: nil)
+        showSelectCarDetailValue(forDetail: .year, values: ["A3","A4"], selectedValueIndex: 1)
     }
     
     dynamic func carDetailsDoneButtonPressed() {
         
     }
     
-    private func showSelectCarDetailValue(forDetail detail: PostCarDetail, values: [String], selectedValue: Int?) {
-        carDetailsView.showSelectDetailValue(forDetail: detail, values: values, selectedValue: selectedValue)
+    private func showSelectCarDetailValue(forDetail detail: PostCarDetail, values: [String], selectedValueIndex: Int?) {
+        carDetailsView.showSelectDetailValue(forDetail: detail, values: values, selectedValueIndex: selectedValueIndex)
     }
 }
 

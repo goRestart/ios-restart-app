@@ -46,15 +46,16 @@ final class PostCategoryDetailProgressView: UIView {
     }
     
     private func setupUI() {
-        titleLabel.font = UIFont.systemRegularFont(size: 13)
+        titleLabel.font = UIFont.smallBodyFont
         titleLabel.textAlignment = .center
         titleLabel.textColor = UIColor.white
         titleLabel.text = LGLocalizedString.postCategoryDetailsProgress
         
         progressView.progressTintColor = UIColor.white
-        progressView.trackTintColor = UIColor.white.withAlphaComponent(0.3)
+        progressView.trackTintColor = UIColor.whiteTextLowAlpha
         
-        imageView.image = UIImage(named: "ic_post_checkmark")
+        imageView.image = UIImage(named: "ic_checkmark")?.withRenderingMode(.alwaysTemplate)
+        imageView.tintColor = UIColor.white
         imageView.contentMode = .scaleAspectFit
     }
     
@@ -95,7 +96,7 @@ final class PostCategoryDetailProgressView: UIView {
     func setPercentage(_ percentage: Int) {
         progressView.setProgress(Float(percentage), animated: true)
         
-        if percentage != 100  {
+        if percentage == 100 {
             progressView.progressTintColor = UIColor.asparagus
             titleLabel.text = LGLocalizedString.postCategoryDetailsProgress100
             imageViewCenterConstraint.constant = (imageView.frame.width + Metrics.margin)/2

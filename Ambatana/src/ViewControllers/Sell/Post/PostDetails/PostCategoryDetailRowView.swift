@@ -22,7 +22,7 @@ class PostCategoryDetailRowView: UIView {
                 valueLabel.text = ""
                 icon.alpha = 1
             } else {
-                titleLabel.textColor = UIColor.white.withAlphaComponent(0.3)
+                titleLabel.textColor = UIColor.whiteTextLowAlpha
                 icon.alpha = 0.7
             }
         }
@@ -63,13 +63,13 @@ class PostCategoryDetailRowView: UIView {
     // MARK: - Layout
     
     private func setupUI() {
-        titleLabel.font = UIFont.systemSemiBoldFont(size: 17)
+        titleLabel.font = UIFont.pageTitleFont
         titleLabel.textAlignment = .left
         titleLabel.textColor = UIColor.white
         
-        valueLabel.font = UIFont.systemSemiBoldFont(size: 17)
+        valueLabel.font = UIFont.pageTitleFont
         valueLabel.textAlignment = .right
-        valueLabel.textColor = UIColor.white.withAlphaComponent(0.3)
+        valueLabel.textColor = UIColor.whiteTextLowAlpha
         
         icon.image = UIImage(named: "ic_post_disclousure")
         icon.contentMode = .scaleAspectFit
