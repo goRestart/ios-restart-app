@@ -1850,6 +1850,14 @@ struct LGLocalizedString {
     static var postCategoryDetailSearchPlaceholder: String {
         return NSLocalizedString("post_category_detail_search_placeholder", comment: "")
     }
+    
+    static var postCategoryDetailAddMake: String {
+        return NSLocalizedString("post_category_detail_add_make", comment: "")
+    }
+    
+    static var postCategoryDetailAddModel: String {
+        return NSLocalizedString("post_category_detail_add_model", comment: "")
+    }
 
 	static var productAskAQuestionButton: String {
 		return NSLocalizedString("product_ask_a_question_button", comment: "")

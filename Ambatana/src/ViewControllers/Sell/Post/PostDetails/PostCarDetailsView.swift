@@ -13,6 +13,14 @@ enum PostCarDetail {
     case make
     case model
     case year
+    
+    var addOtherString: String? {
+        switch self {
+        case .make: return LGLocalizedString.postCategoryDetailAddMake
+        case .model: return LGLocalizedString.postCategoryDetailAddModel
+        case .year: return nil
+        }
+    }
 }
 
 enum PostCarDetailState {
@@ -272,8 +280,10 @@ class PostCarDetailsView: UIView {
         }
     }
     
-    private func updateTableView(withValues values: [String], selectedValueIndex: Int?) {
-        tableView.setupTableView(withValues: values, selectedValueIndex: selectedValueIndex)
+    private func updateTableView(withValues values: [String], selectedValueIndex: Int?, addOtherString: String?) {
+        tableView.setupTableView(withValues: values,
+                                 selectedValueIndex: selectedValueIndex,
+                                 addOtherString: addOtherString)
     }
     
     // MARK: UI Actions
@@ -310,7 +320,7 @@ class PostCarDetailsView: UIView {
     func showSelectDetailValue(forDetail detail: PostCarDetail, values: [String], selectedValueIndex: Int?) {
         state = .selectDetailValue(forDetail: detail)
         updateNavigationButtons(forDetail: detail)
-        updateTableView(withValues: values, selectedValueIndex: selectedValueIndex)
+        updateTableView(withValues: values, selectedValueIndex: selectedValueIndex, addOtherString: detail.addOtherString)
         
         UIView.animate(withDuration: 0.15, delay: 0, options: .curveEaseOut, animations: {
             self.selectDetailVisibleViews().forEach { $0.alpha = 0 }
