@@ -937,11 +937,12 @@ struct TrackerEvent {
     }
 
     static func notificationCenterComplete(_ type: EventParameterNotificationType, source: EventParameterNotificationClickArea,
-                                           deeplink: EventParameterNotificationAction) -> TrackerEvent {
+                                           cardAction: String?, notificationCampaign: String?) -> TrackerEvent {
         var params = EventParameters()
         params[.notificationType] = type.rawValue
         params[.notificationClickArea] = source.rawValue
-        params[.notificationAction] = deeplink.rawValue
+        params[.notificationAction] = cardAction ?? "N/A"
+        params[.notificationCampaign] = notificationCampaign ?? "N/A"
         return TrackerEvent(name: .notificationCenterComplete, params: params)
     }
 

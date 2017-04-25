@@ -262,6 +262,7 @@ enum EventParameterName: String {
     case notificationType     = "notification-type"
     case notificationClickArea = "notification-click-area"
     case notificationAction   = "notification-action"
+    case notificationCampaign = "notification-campaign"
     case shownReason          = "shown-reason"
     case freePosting          = "free-posting"
     case sellButtonPosition   = "sell-button-position"
@@ -704,10 +705,10 @@ enum EventParameterNotificationClickArea: String {
 }
 
 enum EventParameterNotificationAction: String {
-    case home = "home"
-    case sell = "sell"
-    case product = "product"
-    case user = "user"
+    case home = "product-list"
+    case sell = "product-sell-start"
+    case product = "product-detail-visit"
+    case user = "profile-visit"
     case conversations = "conversations"
     case conversation = "conversation"
     case message = "message"

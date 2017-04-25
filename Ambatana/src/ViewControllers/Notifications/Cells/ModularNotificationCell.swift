@@ -9,7 +9,7 @@
 import LGCoreKit
 
 protocol ModularNotificationCellDelegate: class {
-    func triggerModularNotificationDeeplink(deeplink: String, source: EventParameterNotificationClickArea)
+    func triggerModularNotificationDeeplink(deeplink: String, source: EventParameterNotificationClickArea, notificationCampaign: String?)
 }
 
 
@@ -24,6 +24,7 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
     let iconImageView: UIImageView
     let thumbnails: [UIImageView]
     
+    var campaignType: String?
     var heroImageHeightConstraint = NSLayoutConstraint()
     var basicImageWidthConstraint = NSLayoutConstraint()
     var basicImageHeightConstraint = NSLayoutConstraint()
@@ -197,7 +198,9 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
     
     //MARK: - Public Methods: 
     
-    func addModularData(with modules: NotificationModular, isRead: Bool) {
+    func addModularData(with modules: NotificationModular, isRead: Bool, notificationCampaign: String?) {
+        
+        campaignType = notificationCampaign
         //HeroImage if needed
         if let heroImage = modules.heroImage {
             addHeroImage(with: heroImage.imageURL, deeplink: heroImage.deeplink)
@@ -437,7 +440,8 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
     
     func notifacionModuleTapped(with deeplink: String?, source: EventParameterNotificationClickArea) {
         guard let deeplink = deeplink else { return }
-        delegate?.triggerModularNotificationDeeplink(deeplink: deeplink, source: source)
+        delegate?.triggerModularNotificationDeeplink(deeplink: deeplink, source: source,
+                                                     notificationCampaign: campaignType)
     }
     
     // MARK: - Accesibility Ids.

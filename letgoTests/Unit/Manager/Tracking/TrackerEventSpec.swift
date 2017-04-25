@@ -2970,7 +2970,7 @@ class TrackerEventSpec: QuickSpec {
             }
             describe("Notification center complete type welcome") {
                 beforeEach {
-                    sut = TrackerEvent.notificationCenterComplete(.welcome, source: .main, deeplink: .sell)
+                    sut = TrackerEvent.notificationCenterComplete(.welcome, source: .main, cardAction: "passive-buyer-seller", notificationCampaign: nil)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("notification-center-complete"))
@@ -2990,7 +2990,7 @@ class TrackerEventSpec: QuickSpec {
             }
             describe("Notification center complete type buyersInterested") {
                 beforeEach {
-                    sut = TrackerEvent.notificationCenterComplete(.buyersInterested, source: .main, deeplink: .user)
+                    sut = TrackerEvent.notificationCenterComplete(.buyersInterested, source: .main, cardAction: "passive-buyer-seller", notificationCampaign: nil)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("notification-center-complete"))
@@ -3010,7 +3010,7 @@ class TrackerEventSpec: QuickSpec {
             }
             describe("Notification center complete type favorite") {
                 beforeEach {
-                    sut = TrackerEvent.notificationCenterComplete(.favorite, source: .main, deeplink: .product)
+                    sut = TrackerEvent.notificationCenterComplete(.favorite, source: .main, cardAction: "passive-buyer-seller", notificationCampaign: nil)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("notification-center-complete"))
@@ -3030,7 +3030,7 @@ class TrackerEventSpec: QuickSpec {
             }
             describe("Notification center complete type productSold") {
                 beforeEach {
-                    sut = TrackerEvent.notificationCenterComplete(.productSold, source: .main, deeplink: .product)
+                    sut = TrackerEvent.notificationCenterComplete(.productSold, source: .main, cardAction: "passive-buyer-seller", notificationCampaign: nil)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("notification-center-complete"))
@@ -3050,7 +3050,7 @@ class TrackerEventSpec: QuickSpec {
             }
             describe("Notification center complete type productSuggested") {
                 beforeEach {
-                    sut = TrackerEvent.notificationCenterComplete(.productSuggested, source: .main, deeplink: .product)
+                    sut = TrackerEvent.notificationCenterComplete(.productSuggested, source: .main, cardAction: "passive-buyer-seller", notificationCampaign: nil)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("notification-center-complete"))
@@ -3070,7 +3070,7 @@ class TrackerEventSpec: QuickSpec {
             }
             describe("Notification center complete type rating") {
                 beforeEach {
-                    sut = TrackerEvent.notificationCenterComplete(.rating, source: .main, deeplink: .userRating)
+                    sut = TrackerEvent.notificationCenterComplete(.rating, source: .main, cardAction: "passive-buyer-seller", notificationCampaign: nil)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("notification-center-complete"))
@@ -3090,7 +3090,7 @@ class TrackerEventSpec: QuickSpec {
             }
             describe("Notification center complete type ratingUpdated") {
                 beforeEach {
-                    sut = TrackerEvent.notificationCenterComplete(.ratingUpdated, source: .main, deeplink: .userRating)
+                    sut = TrackerEvent.notificationCenterComplete(.ratingUpdated, source: .main, cardAction: "passive-buyer-seller", notificationCampaign: nil)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("notification-center-complete"))
@@ -3107,10 +3107,14 @@ class TrackerEventSpec: QuickSpec {
                     let param = sut.params!.stringKeyParams["notification-action"] as? String
                     expect(param) == "user-rating"
                 }
+                it("contains notificationCampaign param") {
+                    let param = sut.params!.stringKeyParams["notification-campaign"] as? String
+                    expect(param) == "N/A"
+                }
             }
             describe("Notification center complete type modular") {
                 beforeEach {
-                    sut = TrackerEvent.notificationCenterComplete(.modular, source: .cta1, deeplink: .user)
+                    sut = TrackerEvent.notificationCenterComplete(.modular, source: .cta1, cardAction: .user, notificationCampaign: "inactive_march_2017")
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("notification-center-complete"))
@@ -3126,6 +3130,10 @@ class TrackerEventSpec: QuickSpec {
                 it("contains action param") {
                     let param = sut.params!.stringKeyParams["notification-action"] as? String
                     expect(param) == "user"
+                }
+                it("contains notificationCampaign param") {
+                    let param = sut.params!.stringKeyParams["notification-campaign"] as? String
+                    expect(param) == "inactive_march_2017"
                 }
             }
             describe("Marketing Push Notifications") {

@@ -32,25 +32,25 @@ struct PushNotification {
         let badge = getBadgeNumberFromUserInfo(userInfo)
         let alert = getAlertFromUserInfo(userInfo) ?? ""
         let origin = DeepLinkOrigin.push(appActive: appActive, alert: alert)
-
+        
         if let urlStr = userInfo["url"] as? String, let url = URL(string: urlStr), let uriScheme = UriScheme.buildFromUrl(url) {
 
             return PushNotification(deepLink: DeepLink.push(uriScheme.deepLink.action, origin: origin,
                 campaign: uriScheme.deepLink.campaign, medium: uriScheme.deepLink.medium,
-                source: uriScheme.deepLink.source), badge: badge)
+                source: uriScheme.deepLink.source, cardActionParameter: uriScheme.deepLink.cardActionParameter), badge: badge)
 
         } else if let conversationId = userInfo["c"] as? String {
             let type = DeepLinkMessageType(rawValue: (userInfo["n_t"] as? Int) ?? 0 ) ?? .message
             return PushNotification(deepLink: DeepLink.push(.message(messageType: type, data:
                 .conversation(conversationId: conversationId)), origin: origin, campaign: nil, medium: nil,
-                source: .push), badge: badge)
+                source: .push, cardActionParameter: nil), badge: badge)
 
         } else if let productId = userInfo["p"] as? String, let buyerId = userInfo["u"] as? String {
             
             let type = DeepLinkMessageType(rawValue: (userInfo["n_t"] as? Int) ?? 0 ) ?? .message
             return PushNotification(deepLink: DeepLink.push(.message(messageType: type, data:
                 .productBuyer(productId: productId, buyerId: buyerId)), origin: origin, campaign: nil, medium: nil,
-                source: .push), badge: badge)
+                source: .push, cardActionParameter: nil), badge: badge)
         }
 
         return nil

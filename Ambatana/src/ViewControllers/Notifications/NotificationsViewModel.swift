@@ -83,7 +83,8 @@ class NotificationsViewModel: BaseViewModel {
         // Not track if type is modular as primary action on modular notification includes tracking.
         switch data.type {
         case .welcome, .productFavorite, .productSold, .rating, .ratingUpdated, .buyersInterested, .productSuggested, .facebookFriendshipCreated:
-            trackItemPressed(type: data.type.eventType, source: .main, deeplink: data.type.notificationAction)
+            trackItemPressed(type: data.type.eventType, source: .main, cardAction: data.type.notificationAction.rawValue,
+                             notificationCampaign: nil)
         case .modular:
             break
         }
@@ -240,7 +241,8 @@ fileprivate extension NotificationsViewModel {
                                     campaignType: notification.campaignType,
                                     primaryAction: { [weak self] in
                                         guard let deeplink = modules.callToActions.first?.deeplink else { return }
-                                        self?.triggerModularNotificationDeeplink(deeplink: deeplink, source: .main)
+                                        self?.triggerModularNotificationDeeplink(deeplink: deeplink, source: .main,
+                                                                                 notificationCampaign: notification.campaignType)
                                     })
         }
     }
@@ -257,10 +259,11 @@ fileprivate extension NotificationsViewModel {
 // MARK: - modularNotificationCellDelegate
 
 extension NotificationsViewModel: ModularNotificationCellDelegate {
-    func triggerModularNotificationDeeplink(deeplink: String, source: EventParameterNotificationClickArea) {
+    func triggerModularNotificationDeeplink(deeplink: String, source: EventParameterNotificationClickArea, notificationCampaign: String?) {
         guard let deepLinkURL = URL(string: deeplink) else { return }
         guard let deepLink = UriScheme.buildFromUrl(deepLinkURL)?.deepLink else { return }
-        trackItemPressed(type: .modular, source: source, deeplink: deepLink.deeplinkTrackParameter)
+        trackItemPressed(type: .modular, source: source, cardAction: deepLink.cardActionParameter,
+                         notificationCampaign: notificationCampaign)
         navigator?.openNotificationDeepLink(deepLink: deepLink)
     }
 }
@@ -274,8 +277,10 @@ fileprivate extension NotificationsViewModel {
         tracker.trackEvent(event)
     }
 
-    func trackItemPressed(type: EventParameterNotificationType, source: EventParameterNotificationClickArea, deeplink: EventParameterNotificationAction) {
-        let event = TrackerEvent.notificationCenterComplete(type, source: source, deeplink: deeplink)
+    func trackItemPressed(type: EventParameterNotificationType, source: EventParameterNotificationClickArea,
+                          cardAction: String?, notificationCampaign: String?) {
+        let event = TrackerEvent.notificationCenterComplete(type, source: source, cardAction: cardAction,
+                                                            notificationCampaign: notificationCampaign)
         tracker.trackEvent(event)
     }
     
@@ -332,36 +337,3 @@ fileprivate extension NotificationDataType {
         }
     }
 }
-
-fileprivate extension DeepLink {
-    
-    var deeplinkTrackParameter: EventParameterNotificationAction {
-        switch self.action {
-        case .home:
-            return .home
-        case .sell:
-            return .sell
-        case .product:
-            return .product
-        case .user:
-            return .user
-        case .conversations:
-            return .conversations
-        case .conversation:
-            return .conversation
-        case .message:
-            return .message
-        case .search:
-            return .search
-        case .resetPassword:
-            return .resetPassword
-        case .userRatings:
-            return .userRatings
-        case .userRating:
-            return .userRating
-        case .passiveBuyers:
-            return .passiveBuyers
-        }
-    }
-}
-
