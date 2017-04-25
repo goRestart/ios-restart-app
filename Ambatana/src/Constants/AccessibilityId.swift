@@ -233,6 +233,9 @@ enum AccessibilityId: String {
     case editProductDescriptionField
     case editProductLocationButton
     case editProductCategoryButton
+    case editProductCarsMakeButton
+    case editProductCarsModelButton
+    case editProductCarsYearButton
     case editProductSendButton
     case editProductShareFBSwitch
     case editProductLoadingView

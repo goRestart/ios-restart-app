@@ -542,6 +542,33 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
             self?.updateCarsFields(isCar: category == .cars)
         }.addDisposableTo(disposeBag)
 
+        viewModel.carMakeName.asObservable().bindTo(carsMakeSelectedLabel.rx.text).addDisposableTo(disposeBag)
+        viewModel.carMakeId.asObservable().bindNext{ [weak self] makeId in
+            if let _ = makeId {
+                self?.carsModelButton.isEnabled = true
+            } else {
+                self?.carsModelButton.isEnabled = false
+                self?.carsYearButton.isEnabled = false
+            }
+        }.addDisposableTo(disposeBag)
+
+        viewModel.carModelName.asObservable().bindTo(carsModelSelectedLabel.rx.text).addDisposableTo(disposeBag)
+        viewModel.carModelId.asObservable().bindNext{ [weak self] modelId in
+            if let _ = modelId {
+                self?.carsYearButton.isEnabled = true
+            } else {
+                self?.carsYearButton.isEnabled = false
+            }
+        }.addDisposableTo(disposeBag)
+
+        viewModel.carYear.asObservable().bindNext{ [weak self] year in
+            guard let year = year else {
+                self?.carsYearSelectedLabel.text = ""
+                return
+            }
+            self?.carsYearSelectedLabel.text = "\(year)"
+        }.addDisposableTo(disposeBag)
+
         carsMakeButton.rx.tap.bindNext { [weak self] in
             self?.viewModel.carMakeButtonPressed()
             }.addDisposableTo(disposeBag)
@@ -606,14 +633,24 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     }
 
     private func updateCarsFields(isCar: Bool) {
-        print(isCar)
         if isCar {
             carsInfoContainerHeightConstraint.constant = EditProductViewController.carsInfoContainerHeight
             carsInfoContainerSeparatorTopConstraint.constant = EditProductViewController.separatorOptionsViewDistance
+            postFreeViewHeightConstraint.constant = 0
+            freePostViewSeparatorTopConstraint.constant = 0
         } else {
             carsInfoContainerHeightConstraint.constant = 0
             carsInfoContainerSeparatorTopConstraint.constant = 0
+            
+            if featureFlags.freePostingModeAllowed {
+                postFreeViewHeightConstraint.constant = EditProductViewController.viewOptionGenericHeight
+                freePostViewSeparatorTopConstraint.constant = EditProductViewController.separatorOptionsViewDistance
+            } else {
+                postFreeViewHeightConstraint.constant = 0
+                freePostViewSeparatorTopConstraint.constant = 0
+            }
         }
+
         UIView.animate(withDuration: 0.3, animations: {
             self.view.layoutIfNeeded()
         })
@@ -648,6 +685,11 @@ extension EditProductViewController: EditProductViewModelDelegate {
 
     func vmShareOnFbWith(content: FBSDKShareLinkContent) {
         FBSDKShareDialog.show(from: self, with: content, delegate: self)
+    }
+
+    func openCarsAttributesChoicesWithViewModel(attributesChoiceViewModel: CarsAttributesChoiceViewModel) {
+        let vc = CarsAttributesChoiceViewController(viewModel: attributesChoiceViewModel)
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     func vmShouldOpenMapWithViewModel(_ locationViewModel: EditLocationViewModel) {
@@ -692,6 +734,9 @@ extension EditProductViewController {
         descriptionTextView.accessibilityId = .editProductDescriptionField
         setLocationButton.accessibilityId = .editProductLocationButton
         categoryButton.accessibilityId = .editProductCategoryButton
+        carsMakeButton.accessibilityId = .editProductCarsMakeButton
+        carsModelButton.accessibilityId = .editProductCarsModelButton
+        carsYearButton.accessibilityId = .editProductCarsYearButton
         sendButton.accessibilityId = .editProductSendButton
         shareFBSwitch.accessibilityId = .editProductShareFBSwitch
         loadingView.accessibilityId = .editProductLoadingView
