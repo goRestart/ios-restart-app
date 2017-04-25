@@ -151,7 +151,7 @@ class NotificationsViewModel: BaseViewModel {
         guard data.id != nil else { return }
         guard let index = notificationsData.index(where: { $0.id != nil && $0.id == data.id }) else { return }
         let completedData = NotificationData(id: data.id, type: data.type, date: data.date, isRead: data.isRead,
-                                             primaryAction: nil, primaryActionCompleted: true)
+                                             campaignType: data.campaignType, primaryAction: nil, primaryActionCompleted: true)
         notificationsData[index] = completedData
         viewState.value = .data
     }
@@ -169,6 +169,7 @@ fileprivate extension NotificationsViewModel {
             return NotificationData(id: notification.objectId,
                                     type: .rating(user: user),
                                     date: notification.createdAt, isRead: notification.isRead,
+                                    campaignType: notification.campaignType,
                                     primaryAction: { [weak self] in
                                         self?.navigator?.openMyRatingList()
                                     })
@@ -177,6 +178,7 @@ fileprivate extension NotificationsViewModel {
             return NotificationData(id: notification.objectId,
                                     type: .ratingUpdated(user: user),
                                     date: notification.createdAt, isRead: notification.isRead,
+                                    campaignType: notification.campaignType,
                                     primaryAction: { [weak self] in
                                         self?.navigator?.openMyRatingList()
                                     })
@@ -184,6 +186,7 @@ fileprivate extension NotificationsViewModel {
             return NotificationData(id: notification.objectId,
                                     type: .productFavorite(product: product, user: user),
                                     date: notification.createdAt, isRead: notification.isRead,
+                                    campaignType: notification.campaignType,
                                     primaryAction: { [weak self] in
                                         let data = UserDetailData.id(userId: user.id, source: .notifications)
                                         self?.navigator?.openUser(data)
@@ -192,6 +195,7 @@ fileprivate extension NotificationsViewModel {
             return NotificationData(id: notification.objectId,
                                     type: .productSold(productImage: product.image), date: notification.createdAt,
                                     isRead: notification.isRead,
+                                    campaignType: notification.campaignType,
                                     primaryAction: { [weak self] in
                                         let data = ListingDetailData.id(listingId: product.id)
                                         self?.navigator?.openListing(data, source: .notifications,
@@ -201,6 +205,7 @@ fileprivate extension NotificationsViewModel {
             var data = NotificationData(id: notification.objectId,
                                     type: .buyersInterested(product: product, buyers: buyers),
                                     date: notification.createdAt, isRead: notification.isRead,
+                                    campaignType: notification.campaignType,
                                     primaryAction: nil,
                                     primaryActionCompleted: false)
             data.primaryAction = { [weak self] in
@@ -213,6 +218,7 @@ fileprivate extension NotificationsViewModel {
             return NotificationData(id: notification.objectId,
                                     type: .productSuggested(product: product, seller: seller),
                                     date: notification.createdAt, isRead: notification.isRead,
+                                    campaignType: notification.campaignType,
                                     primaryAction: { [weak self] in
                                         let data = ListingDetailData.id(listingId: product.id)
                                         self?.navigator?.openListing(data, source: .notifications,
@@ -222,6 +228,7 @@ fileprivate extension NotificationsViewModel {
             return NotificationData(id: notification.objectId,
                                     type: .facebookFriendshipCreated(user: user, facebookUsername: facebookUsername),
                                     date: notification.createdAt, isRead: notification.isRead,
+                                    campaignType: notification.campaignType,
                                     primaryAction: { [weak self] in
                                         let data = UserDetailData.id(userId: user.id, source: .notifications)
                                         self?.navigator?.openUser(data)
@@ -230,6 +237,7 @@ fileprivate extension NotificationsViewModel {
             return NotificationData(id: notification.objectId,
                                     type: .modular(modules: modules, delegate: self),
                                     date: notification.createdAt, isRead: notification.isRead,
+                                    campaignType: notification.campaignType,
                                     primaryAction: { [weak self] in
                                         guard let deeplink = modules.callToActions.first?.deeplink else { return }
                                         self?.triggerModularNotificationDeeplink(deeplink: deeplink, source: .main)
@@ -239,7 +247,7 @@ fileprivate extension NotificationsViewModel {
 
     func buildWelcomeNotification() -> NotificationData {
         return NotificationData(id: nil, type: .welcome(city: locationManager.currentLocation?.postalAddress?.city),
-                                date: Date(), isRead: true, primaryAction: { [weak self] in
+                                date: Date(), isRead: true, campaignType: nil, primaryAction: { [weak self] in
                                     self?.navigator?.openSell(.notifications)
                                 })
     }
