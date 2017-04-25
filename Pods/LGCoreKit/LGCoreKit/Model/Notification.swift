@@ -20,5 +20,6 @@ public enum NotificationType {
 public protocol NotificationModel: BaseModel {
     var createdAt: Date { get }
     var isRead: Bool { get }
+    var campaignType: String? { get }
     var type: NotificationType { get }
 }
