@@ -1,5 +1,5 @@
 //
-//  EditProductViewModel.swift
+//  EditListingViewModel.swift
 //  LetGo
 //
 //  Created by Dídac on 23/07/15.
@@ -20,7 +20,7 @@ enum TitleDisclaimerStatus {
     case clean      // user edits title
 }
 
-protocol EditProductViewModelDelegate : BaseViewModelDelegate {
+protocol EditListingViewModelDelegate : BaseViewModelDelegate {
     func vmShouldUpdateDescriptionWithCount(_ count: Int)
     func vmDidAddOrDeleteImage()
     func openCarsAttributesChoicesWithViewModel(attributesChoiceViewModel: CarsAttributesChoiceViewModel)
@@ -29,13 +29,13 @@ protocol EditProductViewModelDelegate : BaseViewModelDelegate {
     func vmHideKeyboard()
 }
 
-enum EditProductImageType {
+enum EditListingImageType {
     case local(image: UIImage)
     case remote(file: File)
 }
 
-class ProductImages {
-    var images: [EditProductImageType] = []
+class ListingImages {
+    var images: [EditListingImageType] = []
     var localImages: [UIImage] {
         return images.flatMap {
             switch $0 {
@@ -70,7 +70,7 @@ class ProductImages {
     }
 }
 
-class EditProductViewModel: BaseViewModel, EditLocationDelegate {
+class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
     // real time cloudsight
     let proposedTitle = Variable<String>("")
@@ -135,9 +135,9 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
     let saveButtonEnabled = Variable<Bool>(false)
 
     // Data
-    var productImages: ProductImages
-    var images: [EditProductImageType] {
-        return productImages.images
+    var listingImages: ListingImages
+    var images: [EditListingImageType] {
+        return listingImages.images
     }
     fileprivate let initialListing: Listing
     fileprivate var savedListing: Listing?
@@ -155,7 +155,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
     let featureFlags: FeatureFlaggeable
 
     // Delegate
-    weak var delegate: EditProductViewModelDelegate?
+    weak var delegate: EditListingViewModelDelegate?
     var closeCompletion: ((Listing?) -> Void)?
 
     // Rx
@@ -217,8 +217,8 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
 
         self.category.value = listing.category
 
-        self.productImages = ProductImages()
-        for file in listing.images { productImages.append(file) }
+        self.listingImages = ListingImages()
+        for file in listing.images { listingImages.append(file) }
 
         switch listing {
         case .car(let car):
@@ -265,7 +265,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
         return images.count
     }
     
-    func imageAtIndex(_ index: Int) -> EditProductImageType {
+    func imageAtIndex(_ index: Int) -> EditListingImageType {
         return images[index]
     }
     
@@ -284,13 +284,13 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
     }
     
     func appendImage(_ image: UIImage) {
-        productImages.append(image)
+        listingImages.append(image)
         delegate?.vmDidAddOrDeleteImage()
         checkChanges()
     }
 
     func deleteImageAtIndex(_ index: Int) {
-        productImages.removeAtIndex(index)
+        listingImages.removeAtIndex(index)
         delegate?.vmDidAddOrDeleteImage()
         checkChanges()
     }
@@ -425,7 +425,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
 
     private func checkChanges() {
         var hasChanges = false
-        if productImages.localImages.count > 0 || initialListing.images.count != productImages.remoteImages.count  {
+        if listingImages.localImages.count > 0 || initialListing.images.count != listingImages.remoteImages.count  {
             hasChanges = true
         }
         else if (initialListing.title ?? "") != (title ?? "") {
@@ -492,8 +492,8 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
             editParams.postalAddress = updatedPostalAddress
         }
 
-        let localImages = productImages.localImages
-        let remoteImages = productImages.remoteImages
+        let localImages = listingImages.localImages
+        let remoteImages = listingImages.remoteImages
         fileRepository.upload(localImages, progress: { [weak self] in self?.loadingProgress.value = $0 }) {
             [weak self] imagesResult in
             if let newImages = imagesResult.value {
@@ -530,8 +530,8 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
             editParams.postalAddress = updatedPostalAddress
         }
 
-        let localImages = productImages.localImages
-        let remoteImages = productImages.remoteImages
+        let localImages = listingImages.localImages
+        let remoteImages = listingImages.remoteImages
         fileRepository.upload(localImages, progress: { [weak self] in self?.loadingProgress.value = $0 }) {
             [weak self] imagesResult in
             if let newImages = imagesResult.value {
@@ -608,7 +608,7 @@ class EditProductViewModel: BaseViewModel, EditLocationDelegate {
 
 // MARK: - Categories
 
-extension EditProductViewModel {
+extension EditListingViewModel {
 
     var numberOfCategories: Int {
         return categories.count
@@ -635,7 +635,7 @@ extension EditProductViewModel {
 
 // MARK: - EditLocationDelegate
 
-extension EditProductViewModel {
+extension EditListingViewModel {
     func editLocationDidSelectPlace(_ place: Place) {
         location = place.location
         postalAddress = place.postalAddress
@@ -645,7 +645,7 @@ extension EditProductViewModel {
 
 // MARK: - CarsAttributesChoiceDelegate
 
-extension EditProductViewModel : CarsAttributesChoiceDelegate {
+extension EditListingViewModel : CarsAttributesChoiceDelegate {
     func didSelectMake(make: CarsMake) {
         carMakeId.value = make.makeId
         carMakeName.value = make.makeName
@@ -667,7 +667,7 @@ extension EditProductViewModel : CarsAttributesChoiceDelegate {
 
 // MARK: - Cloudsight in real time
 
-extension EditProductViewModel {
+extension EditListingViewModel {
     dynamic func getAutoGeneratedTitle() {
         guard let productId = initialListing.objectId, shouldAskForAutoTitle else {
             stopTimer()
@@ -732,7 +732,7 @@ extension EditProductViewModel {
 
 // MARK: - Trackings
 
-extension EditProductViewModel {
+extension EditListingViewModel {
 
     fileprivate func trackStart() {
         let myUser = myUserRepository.myUser
@@ -773,7 +773,7 @@ extension EditProductViewModel {
     fileprivate func editFieldsComparedTo(_ listing: Listing) -> [EventParameterEditedFields] {
         var editedFields: [EventParameterEditedFields] = []
 
-        if productImages.localImages.count > 0 || initialListing.images.count != productImages.remoteImages.count  {
+        if listingImages.localImages.count > 0 || initialListing.images.count != listingImages.remoteImages.count  {
             editedFields.append(.picture)
         }
         if (initialListing.name ?? "") != (listing.name ?? "") {

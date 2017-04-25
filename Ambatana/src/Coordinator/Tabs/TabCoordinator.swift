@@ -397,8 +397,8 @@ extension TabCoordinator: ProductDetailNavigator {
 
     func editListing(_ listing: Listing) {
         // TODO: Open EditProductCoordinator
-        let editProductVM = EditProductViewModel(listing: listing)
-        let editProductVC = EditProductViewController(viewModel: editProductVM)
+        let editProductVM = EditListingViewModel(listing: listing)
+        let editProductVC = EditListingViewController(viewModel: editProductVM)
         let navCtl = UINavigationController(rootViewController: editProductVC)
         navigationController.present(navCtl, animated: true, completion: nil)
     }

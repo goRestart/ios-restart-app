@@ -1,5 +1,5 @@
 //
-//  EditProductViewController.swift
+//  EditListingViewController.swift
 //  LetGo
 //
 //  Created by Dídac on 23/07/15.
@@ -13,7 +13,7 @@ import RxSwift
 import KMPlaceholderTextView
 
 
-class EditProductViewController: BaseViewController, UITextFieldDelegate,
+class EditListingViewController: BaseViewController, UITextFieldDelegate,
     UITextViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate,
     UINavigationControllerDelegate {
     
@@ -99,7 +99,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
     var hideKbTapRecognizer: UITapGestureRecognizer?
 
     // viewModel
-    fileprivate var viewModel : EditProductViewModel
+    fileprivate var viewModel : EditListingViewModel
     fileprivate var keyboardHelper: KeyboardHelper
     private var featureFlags: FeatureFlaggeable
     // Rx
@@ -109,15 +109,15 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
 
     // MARK: - Lifecycle
     
-    convenience init(viewModel: EditProductViewModel) {
+    convenience init(viewModel: EditListingViewModel) {
         self.init(viewModel: viewModel, keyboardHelper: KeyboardHelper.sharedInstance, featureFlags: FeatureFlags.sharedInstance)
     }
     
-    required init(viewModel: EditProductViewModel, keyboardHelper: KeyboardHelper, featureFlags: FeatureFlaggeable) {
+    required init(viewModel: EditListingViewModel, keyboardHelper: KeyboardHelper, featureFlags: FeatureFlaggeable) {
         self.keyboardHelper = keyboardHelper
         self.viewModel = viewModel
         self.featureFlags = featureFlags
-        super.init(viewModel: viewModel, nibName: "EditProductViewController")
+        super.init(viewModel: viewModel, nibName: "EditListingViewController")
         self.viewModel.delegate = self
         automaticallyAdjustsScrollViewInsets = false
     }
@@ -353,7 +353,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         let imageTypeAtIndex = viewModel.imageAtIndex(index)
         switch imageTypeAtIndex {
         case .local(let image):
-            UIImageWriteToSavedPhotosAlbum(image, self, #selector(EditProductViewController.image(_:didFinishSavingWithError:contextInfo:)), nil)
+            UIImageWriteToSavedPhotosAlbum(image, self, #selector(EditListingViewController.image(_:didFinishSavingWithError:contextInfo:)), nil)
         case .remote(let file):
             guard let fileUrl = file.fileURL else {
                 self.dismissLoadingMessageAlert(){
@@ -363,7 +363,7 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
             }
             ImageDownloader.sharedInstance.downloadImageWithURL(fileUrl) { [weak self] (result, _) in
                 guard let strongSelf = self, let image = result.value?.image else { return }
-                UIImageWriteToSavedPhotosAlbum(image, strongSelf, #selector(EditProductViewController.image(_:didFinishSavingWithError:contextInfo:)), nil)
+                UIImageWriteToSavedPhotosAlbum(image, strongSelf, #selector(EditListingViewController.image(_:didFinishSavingWithError:contextInfo:)), nil)
             }
         }
     }
@@ -385,10 +385,10 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
 
         setNavBarTitle(LGLocalizedString.editProductTitle)
         let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: UIBarButtonItemStyle.plain,
-                                          target: self, action: #selector(EditProductViewController.closeButtonPressed))
+                                          target: self, action: #selector(EditListingViewController.closeButtonPressed))
         self.navigationItem.leftBarButtonItem = closeButton;
         
-        separatorContainerViewsConstraints.forEach { $0.constant = EditProductViewController.separatorOptionsViewDistance }
+        separatorContainerViewsConstraints.forEach { $0.constant = EditListingViewController.separatorOptionsViewDistance }
         containerEditOptionsView.layer.cornerRadius = LGUIKitConstants.containerCornerRadius
         updateButtonBottomConstraint.constant = 0
         
@@ -435,8 +435,8 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
         shareFBLabel.text = LGLocalizedString.sellShareOnFacebookLabel
 
         if featureFlags.freePostingModeAllowed {
-            postFreeViewHeightConstraint.constant = EditProductViewController.viewOptionGenericHeight
-            freePostViewSeparatorTopConstraint.constant = EditProductViewController.separatorOptionsViewDistance
+            postFreeViewHeightConstraint.constant = EditListingViewController.viewOptionGenericHeight
+            freePostViewSeparatorTopConstraint.constant = EditListingViewController.separatorOptionsViewDistance
         } else {
             postFreeViewHeightConstraint.constant = 0
             freePostViewSeparatorTopConstraint.constant = 0
@@ -479,35 +479,35 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
 
                 if strongSelf.viewModel.titleAutogenerated.value || strongSelf.viewModel.titleAutotranslated.value {
                     strongSelf.titleDisclaimer.isHidden = false
-                    strongSelf.titleDisclaimerLeadingConstraint.constant = EditProductViewController.completeTitleDisclaimerLeadingConstraint
-                    strongSelf.titleDisclaimerHeightConstraint.constant = EditProductViewController.titleDisclaimerHeightConstraint
-                    strongSelf.titleDisclaimerBottomConstraint.constant = EditProductViewController.titleDisclaimerBottomConstraintVisible
+                    strongSelf.titleDisclaimerLeadingConstraint.constant = EditListingViewController.completeTitleDisclaimerLeadingConstraint
+                    strongSelf.titleDisclaimerHeightConstraint.constant = EditListingViewController.titleDisclaimerHeightConstraint
+                    strongSelf.titleDisclaimerBottomConstraint.constant = EditListingViewController.titleDisclaimerBottomConstraintVisible
                 } else {
                     strongSelf.titleDisclaimer.isHidden = true
-                    strongSelf.titleDisclaimerLeadingConstraint.constant = EditProductViewController.loadingTitleDisclaimerLeadingConstraint
+                    strongSelf.titleDisclaimerLeadingConstraint.constant = EditListingViewController.loadingTitleDisclaimerLeadingConstraint
                     strongSelf.titleDisclaimerHeightConstraint.constant = 0
-                    strongSelf.titleDisclaimerBottomConstraint.constant = EditProductViewController.titleDisclaimerBottomConstraintHidden
+                    strongSelf.titleDisclaimerBottomConstraint.constant = EditListingViewController.titleDisclaimerBottomConstraintHidden
                 }
             case .ready:
                 strongSelf.autoGeneratedTitleButton.isHidden = false
                 strongSelf.titleDisclaimerActivityIndicator.stopAnimating()
                 strongSelf.titleDisclaimer.isHidden = true
-                strongSelf.titleDisclaimerHeightConstraint.constant = EditProductViewController.titleDisclaimerHeightConstraint
-                strongSelf.titleDisclaimerBottomConstraint.constant = EditProductViewController.titleDisclaimerBottomConstraintVisible
+                strongSelf.titleDisclaimerHeightConstraint.constant = EditListingViewController.titleDisclaimerHeightConstraint
+                strongSelf.titleDisclaimerBottomConstraint.constant = EditListingViewController.titleDisclaimerBottomConstraintVisible
             case .loading:
                 strongSelf.autoGeneratedTitleButton.isHidden = true
                 strongSelf.titleDisclaimerActivityIndicator.startAnimating()
                 strongSelf.titleDisclaimerLeadingConstraint.constant = 8
                 strongSelf.titleDisclaimer.isHidden = false
-                strongSelf.titleDisclaimerHeightConstraint.constant = EditProductViewController.titleDisclaimerHeightConstraint
-                strongSelf.titleDisclaimerBottomConstraint.constant = EditProductViewController.titleDisclaimerBottomConstraintVisible
+                strongSelf.titleDisclaimerHeightConstraint.constant = EditListingViewController.titleDisclaimerHeightConstraint
+                strongSelf.titleDisclaimerBottomConstraint.constant = EditListingViewController.titleDisclaimerBottomConstraintVisible
                 strongSelf.titleDisclaimer.text = LGLocalizedString.editProductSuggestingTitle
             case .clean:
                 strongSelf.autoGeneratedTitleButton.isHidden = true
                 strongSelf.titleDisclaimerActivityIndicator.stopAnimating()
                 strongSelf.titleDisclaimer.isHidden = true
                 strongSelf.titleDisclaimerHeightConstraint.constant = 0
-                strongSelf.titleDisclaimerBottomConstraint.constant = EditProductViewController.titleDisclaimerBottomConstraintHidden
+                strongSelf.titleDisclaimerBottomConstraint.constant = EditListingViewController.titleDisclaimerBottomConstraintHidden
             }
             strongSelf.view.layoutIfNeeded()
         }.addDisposableTo(disposeBag)
@@ -624,8 +624,8 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
             priceContainerHeightConstraint.constant = 0
             priceViewSeparatorTopConstraint.constant = 0
         } else {
-            priceContainerHeightConstraint.constant = EditProductViewController.viewOptionGenericHeight
-            priceViewSeparatorTopConstraint.constant = EditProductViewController.separatorOptionsViewDistance
+            priceContainerHeightConstraint.constant = EditListingViewController.viewOptionGenericHeight
+            priceViewSeparatorTopConstraint.constant = EditListingViewController.separatorOptionsViewDistance
         }
         UIView.animate(withDuration: 0.3, animations: {
             self.view.layoutIfNeeded()
@@ -634,8 +634,8 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
 
     private func updateCarsFields(isCar: Bool) {
         if isCar {
-            carsInfoContainerHeightConstraint.constant = EditProductViewController.carsInfoContainerHeight
-            carsInfoContainerSeparatorTopConstraint.constant = EditProductViewController.separatorOptionsViewDistance
+            carsInfoContainerHeightConstraint.constant = EditListingViewController.carsInfoContainerHeight
+            carsInfoContainerSeparatorTopConstraint.constant = EditListingViewController.separatorOptionsViewDistance
             postFreeViewHeightConstraint.constant = 0
             freePostViewSeparatorTopConstraint.constant = 0
         } else {
@@ -643,8 +643,8 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
             carsInfoContainerSeparatorTopConstraint.constant = 0
             
             if featureFlags.freePostingModeAllowed {
-                postFreeViewHeightConstraint.constant = EditProductViewController.viewOptionGenericHeight
-                freePostViewSeparatorTopConstraint.constant = EditProductViewController.separatorOptionsViewDistance
+                postFreeViewHeightConstraint.constant = EditListingViewController.viewOptionGenericHeight
+                freePostViewSeparatorTopConstraint.constant = EditListingViewController.separatorOptionsViewDistance
             } else {
                 postFreeViewHeightConstraint.constant = 0
                 freePostViewSeparatorTopConstraint.constant = 0
@@ -666,9 +666,9 @@ class EditProductViewController: BaseViewController, UITextFieldDelegate,
 }
 
 
-// MARK: - EditProductViewModelDelegate Methods
+// MARK: - EditListingViewModelDelegate Methods
 
-extension EditProductViewController: EditProductViewModelDelegate {
+extension EditListingViewController: EditListingViewModelDelegate {
 
     func vmShouldUpdateDescriptionWithCount(_ count: Int) {
         if count <= 0 {
@@ -705,7 +705,7 @@ extension EditProductViewController: EditProductViewModelDelegate {
 
 // MARK: - FBSDKSharingDelegate 
 
-extension EditProductViewController: FBSDKSharingDelegate {
+extension EditListingViewController: FBSDKSharingDelegate {
     func sharer(_ sharer: FBSDKSharing!, didCompleteWithResults results: [AnyHashable: Any]!) {
         viewModel.fbSharingFinishedOk()
     }
@@ -722,7 +722,7 @@ extension EditProductViewController: FBSDKSharingDelegate {
 
 // MARK: - Accesibility 
 
-extension EditProductViewController {
+extension EditListingViewController {
     func setAccesibilityIds() {
         navigationItem.leftBarButtonItem?.accessibilityId = .editProductCloseButton
         scrollView.accessibilityId = .editProductScroll

@@ -180,14 +180,14 @@ extension SellCoordinator: ProductPostedNavigator {
             guard let parentVC = self?.parentViewController else { return }
 
             // TODO: Open EditProductCoordinator, refactor this completion with a EditProductCoordinatorDelegate func
-            let editVM = EditProductViewModel(listing: listing)
+            let editVM = EditListingViewModel(listing: listing)
             editVM.closeCompletion = { editedListing in
                 self?.closeCoordinator(animated: false) {
                     guard let strongSelf = self else { return }
                     strongSelf.delegate?.sellCoordinator(strongSelf, didFinishWithListing: editedListing ?? listing)
                 }
             }
-            let editVC = EditProductViewController(viewModel: editVM)
+            let editVC = EditListingViewController(viewModel: editVM)
             let navCtl = UINavigationController(rootViewController: editVC)
             parentVC.present(navCtl, animated: true, completion: nil)
         }
