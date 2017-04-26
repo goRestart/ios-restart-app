@@ -53,6 +53,10 @@ class MainProductsViewModel: BaseViewModel {
         var resultTags : [FilterTag] = []
         for prodCat in filters.selectedCategories {
             resultTags.append(.category(prodCat))
+            // Category 9 (.cars) tag only shown when carVerticalEnabled.
+            if prodCat == .cars && !featureFlags.carsVerticalEnabled {
+                resultTags.removeLast()
+            }
         }
         if let place = filters.place {
             resultTags.append(.location(place))

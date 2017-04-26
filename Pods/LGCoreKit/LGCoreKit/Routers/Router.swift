@@ -17,7 +17,7 @@ protocol BaseURL {
 
 struct APIBaseURL: BaseURL {
     static let baseURL = EnvironmentProxy.sharedInstance.apiBaseURL
-    static let acceptHeader: String? = nil
+    static let acceptHeader: String? = "application/json;version=2"
     static let contentTypeHeader: String? = nil
 }
 

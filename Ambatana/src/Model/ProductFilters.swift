@@ -84,11 +84,20 @@ struct ProductFilters {
         self.priceRange = priceRange
     }
     
-    mutating func toggleCategory(_ category: ListingCategory) {
+    mutating func toggleCategory(_ category: ListingCategory, carVerticalEnabled: Bool) {
         if let categoryIndex = indexForCategory(category) {
             selectedCategories.remove(at: categoryIndex)
+            if !carVerticalEnabled && category == .motorsAndAccessories {
+                if let categoryCarsIndex = indexForCategory(.cars) {
+                    selectedCategories.remove(at: categoryCarsIndex)
+                }
+            }
         } else {
             selectedCategories.append(category)
+            if !carVerticalEnabled && category == .motorsAndAccessories {
+                selectedCategories.append(.cars)
+            }
+    
         }
     }
     
