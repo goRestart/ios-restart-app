@@ -2666,7 +2666,7 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     let userId1 = "test-id-1"
                     let userId2 = "test-id-2"
-                    sut = TrackerEvent.profileBlock(.profile, blockedUsersIds: [userId1, userId2])
+                    sut = TrackerEvent.profileBlock(.profile, blockedUsersIds: [userId1, userId2], buttonPosition: .threeDots)
                 }
                 afterEach {
                     user = nil
@@ -2684,6 +2684,10 @@ class TrackerEventSpec: QuickSpec {
                 it("contains the blocked users ids separated by commas") {
                     let userId = sut.params!.stringKeyParams["user-to-id"] as? String
                     expect(userId).to(equal("test-id-1,test-id-2"))
+                }
+                it("contains the button position parameter") {
+                    let buttomPosition = sut.params!.stringKeyParams["block-button-position"] as? String
+                    expect(buttomPosition).to(equal("three-dots"))
                 }
             }
 

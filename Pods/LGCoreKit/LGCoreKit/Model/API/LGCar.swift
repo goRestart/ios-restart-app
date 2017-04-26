@@ -58,7 +58,7 @@ struct LGCar: Car {
     init(objectId: String?, updatedAt: Date?, createdAt: Date?, name: String?, nameAuto: String?, descr: String?,
          price: ListingPrice, currency: Currency, location: LGLocationCoordinates2D, postalAddress: PostalAddress,
          languageCode: String?, category: ListingCategory, status: ListingStatus, thumbnail: File?,
-         thumbnailSize: LGSize?, images: [File], user: UserListing, featured: Bool?, carAttributes: CarAttributes) {
+         thumbnailSize: LGSize?, images: [File], user: UserListing, featured: Bool?, carAttributes: CarAttributes?) {
         self.objectId = objectId
         self.updatedAt = updatedAt
         self.createdAt = createdAt
@@ -78,7 +78,7 @@ struct LGCar: Car {
         self.user = user
         self.featured = featured ?? false
         self.favorite = false
-        self.carAttributes = carAttributes
+        self.carAttributes = carAttributes ?? CarAttributes.emptyCarAttributes()
     }
     
     init(chatListing: ChatListing, chatInterlocutor: ChatInterlocutor) {
@@ -99,7 +99,7 @@ struct LGCar: Car {
                               nameAuto: String?, descr: String?, price: Double?, priceFlag: ListingPriceFlag?, currency: String,
                               location: LGLocationCoordinates2D, postalAddress: PostalAddress, languageCode: String?,
                               category: Int, status: Int, thumbnail: String?, thumbnailSize: LGSize?, images: [LGFile],
-                              user: LGUserListing, featured: Bool?, carAttributes: CarAttributes) -> LGCar {
+                              user: LGUserListing, featured: Bool?, carAttributes: CarAttributes?) -> LGCar {
         let actualCurrency = Currency.currencyWithCode(currency)
         let actualCategory = ListingCategory(rawValue: category) ?? .other
         let actualStatus = ListingStatus(rawValue: status) ?? .pending
@@ -219,7 +219,7 @@ extension LGCar : Decodable {
                             <*> (j <||? "images" >>- LGArgo.jsonArrayToFileArray)   // images : [LGFile]
                             <*> j <| "owner"                                        // user : LGUserListing?
                             <*> j <|? "featured"                                    // featured : Bool
-        let car = result    <*> j <| "attributes"                                  // carAttributes : CarAttributes
+        let car = result    <*> j <|? "attributes"                                  // carAttributes : CarAttributes
         
         if let error = car.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGCar parse error: \(error)")

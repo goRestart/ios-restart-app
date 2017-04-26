@@ -84,6 +84,11 @@ Will run CI unit tests job
 fastlane ios ci_ui_tests
 ```
 Will run CI UI tests job
+### ios dependencies
+```
+fastlane ios dependencies
+```
+
 
 ----
 

@@ -8,7 +8,7 @@ module Fastlane
 
         git_clone_path = Actions.lane_context[SharedValues::RB_GIT_CLONE_TMP_FOLDER]
         FileUtils.rm_rf(git_clone_path)
-        Helper.log.info ("Removed temporary folder created in git_clone: /" + git_clone_path).blue
+        UI.message ("Removed temporary folder created in git_clone: /" + git_clone_path).blue
 
       end
 

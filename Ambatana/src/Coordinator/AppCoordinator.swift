@@ -344,7 +344,7 @@ extension AppCoordinator: UITabBarControllerDelegate {
         }
 
         if let source = tab.logInSource, shouldOpenLogin {
-            openLogin(.fullScreen, source: source, afterLogInSuccessful: afterLogInSuccessful)
+            openLogin(.fullScreen, source: source, afterLogInSuccessful: afterLogInSuccessful, cancelAction: nil)
             return false
         } else {
             switch tab {
@@ -458,7 +458,7 @@ fileprivate extension AppCoordinator {
     }
 
     func openLoginIfNeeded(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void)) {
-        openLoginIfNeeded(from: from, style: .fullScreen, loggedInAction: loggedInAction)
+        openLoginIfNeeded(from: from, style: .fullScreen, loggedInAction: loggedInAction, cancelAction: nil)
     }
 }
 
@@ -536,8 +536,8 @@ fileprivate extension AppCoordinator {
         }
     }
 
-    func openLogin(_ style: LoginStyle, source: EventParameterLoginSourceValue, afterLogInSuccessful: @escaping () -> ()) {
-        let coordinator = LoginCoordinator(source: source, style: style, loggedInAction: afterLogInSuccessful)
+    func openLogin(_ style: LoginStyle, source: EventParameterLoginSourceValue, afterLogInSuccessful: @escaping () -> (), cancelAction: (() -> Void)?) {
+        let coordinator = LoginCoordinator(source: source, style: style, loggedInAction: afterLogInSuccessful, cancelAction: cancelAction)
         openChild(coordinator: coordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
     }
 

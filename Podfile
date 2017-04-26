@@ -12,9 +12,9 @@ def shared_pods
     pod "AlamofireImage",       "3.2.0"
     pod "Argo",                 "4.1.2"
 
-    pod "FBSDKLoginKit",        "4.15.1" # Obj-c
-    pod "FBSDKCoreKit",         "4.15.1" # Obj-c
-    pod "FBSDKShareKit",		"4.15.1" # Obj-c
+    pod "FBSDKLoginKit",        "4.22.0" # Obj-c
+    pod "FBSDKCoreKit",         "4.22.0" # Obj-c
+    pod "FBSDKShareKit",		"4.22.0" # Obj-c
 
     pod "RxSwift",              "3.1.0"
     pod "RxSwiftExt",           "2.1.0"
@@ -34,9 +34,9 @@ def shared_pods
     pod "NewRelicAgent",        "5.10.1"
 
     # letgo Core
-    #pod "LGCoreKit",            "3.0.1"
+    pod "LGCoreKit",            "3.0.5"
     #pod "LGCoreKit",            :path => "../lgcorekit"
-    pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => 'a4459cedc1abc899d98ae557dc73a0ed7690938f'
+    #pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => 'a742accd3b0450157d97bce76e1b273a015916e4'
 
     # letgo Collapsible label
     pod "LGCollapsibleLabel",   "1.1.0"     # :path => "../collapsiblelabel"

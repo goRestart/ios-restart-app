@@ -50,6 +50,7 @@ class PostProductViewModel: BaseViewModel {
     
     fileprivate let listingRepository: ListingRepository
     fileprivate let fileRepository: FileRepository
+    fileprivate let carsInfoRepository: CarsInfoRepository
     fileprivate let currencyHelper: CurrencyHelper
     fileprivate let tracker: Tracker
     fileprivate let sessionManager: SessionManager
@@ -68,6 +69,7 @@ class PostProductViewModel: BaseViewModel {
         self.init(source: source,
                   listingRepository: Core.listingRepository,
                   fileRepository: Core.fileRepository,
+                  carsInfoRepository: Core.carsInfoRepository,
                   tracker: TrackerProxy.sharedInstance,
                   sessionManager: Core.sessionManager,
                   featureFlags: FeatureFlags.sharedInstance,
@@ -78,6 +80,7 @@ class PostProductViewModel: BaseViewModel {
     init(source: PostingSource,
          listingRepository: ListingRepository,
          fileRepository: FileRepository,
+         carsInfoRepository: CarsInfoRepository,
          tracker: Tracker,
          sessionManager: SessionManager,
          featureFlags: FeatureFlaggeable,
@@ -89,6 +92,7 @@ class PostProductViewModel: BaseViewModel {
         self.postingSource = source
         self.listingRepository = listingRepository
         self.fileRepository = fileRepository
+        self.carsInfoRepository = carsInfoRepository
         self.postDetailViewModel = PostProductDetailViewModel()
         self.postProductCameraViewModel = PostProductCameraViewModel(postingSource: source)
         self.tracker = tracker
@@ -150,12 +154,25 @@ class PostProductViewModel: BaseViewModel {
             navigator?.closePostProductAndPostInBackground(params: params, showConfirmation: false, trackingInfo: trackingInfo)
         }
     }
-    
-    func carMakes() -> [CarsMake] {
-        return []
-    }
 }
 
+// MARK: - Car details
+
+extension PostProductViewModel {
+    
+    func carMakes() -> [CarsMake] {
+        return carsInfoRepository.retrieveCarsMakes()
+    }
+    
+    func carModels(forMake make: CarsMake) -> [CarsModel] {
+        return carsInfoRepository.retrieveCarsModelsFormake(makeId: make.makeId)
+    }
+    
+    func carYears() -> [Int] {
+        // TODO: take from corekit
+        return Array(1900...2017)
+    }
+}
 
 // MARK: - PostProductDetailViewModelDelegate
 
@@ -172,15 +189,14 @@ fileprivate extension PostProductViewModel {
     func setupRx() {
         category.asObservable().subscribeNext { [weak self] category in
             guard let strongSelf = self, let category = category else { return }
-            //strongSelf.state.value = strongSelf.state.value.updating(category: category)
-            strongSelf.state.value = strongSelf.state.value.updatingAfterUploadingSuccess()
+            strongSelf.state.value = strongSelf.state.value.updating(category: category)
         }.addDisposableTo(disposeBag)
         
         state.asObservable().filter { $0.step == .finished }.bindNext { [weak self] _ in
             self?.postProduct()
         }.addDisposableTo(disposeBag)
         
-        state.asObservable().debug().filter { $0.step == .uploadSuccess }.bindNext { [weak self] _ in
+        state.asObservable().filter { $0.step == .uploadSuccess }.bindNext { [weak self] _ in
             // Keep one second delay in order to give time to read the product posted message.
             delay(1) { [weak self] in
                 guard let strongSelf = self else { return }
@@ -207,11 +223,16 @@ fileprivate extension PostProductViewModel {
         if sessionManager.loggedIn {
             guard let images = state.value.lastImagesUploadResult?.value, let params = makeProductCreationParams(images: images) else { return }
             navigator?.closePostProductAndPostInBackground(params: params, showConfirmation: true, trackingInfo: trackingInfo)
-            } else if let images = state.value.pendingToUploadImages {
-            navigator?.openLoginIfNeededFromProductPosted(from: .sell, loggedInAction: { [weak self] in
+        } else if let images = state.value.pendingToUploadImages {
+            let loggedInAction = { [weak self] in
                 guard let params = self?.makeProductCreationParams(images: []) else { return }
                 self?.navigator?.closePostProductAndPostLater(params: params, images: images, trackingInfo: trackingInfo)
-            })
+            }
+            let cancelAction = { [weak self] in
+                guard let state = self?.state.value else { return }
+                self?.state.value = state.revertToPreviousStep()
+            }
+            navigator?.openLoginIfNeededFromProductPosted(from: .sell, loggedInAction: loggedInAction, cancelAction: cancelAction)
         } else {
             navigator?.cancelPostProduct()
         }

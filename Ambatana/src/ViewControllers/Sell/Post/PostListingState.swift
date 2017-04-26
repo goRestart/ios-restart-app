@@ -10,6 +10,7 @@ import LGCoreKit
 
 final class PostListingState {
     let step: PostListingStep
+    let previousStep: PostListingStep?
     let category: PostCategory?
     let pendingToUploadImages: [UIImage]?
     let lastImagesUploadResult: FilesResult?
@@ -33,6 +34,7 @@ final class PostListingState {
             step = .imageSelection
         }
         self.init(step: step,
+                  previousStep: nil,
                   category: nil,
                   pendingToUploadImages: nil,
                   lastImagesUploadResult: nil,
@@ -42,6 +44,7 @@ final class PostListingState {
     }
     
     private init(step: PostListingStep,
+                 previousStep: PostListingStep?,
                  category: PostCategory?,
                  pendingToUploadImages: [UIImage]?,
                  lastImagesUploadResult: FilesResult?,
@@ -49,17 +52,18 @@ final class PostListingState {
                  carInfo: CarAttributes?,
                  featureFlags: FeatureFlaggeable) {
         self.step = step
+        self.previousStep = previousStep
         self.category = category
         self.pendingToUploadImages = pendingToUploadImages
         self.lastImagesUploadResult = lastImagesUploadResult
         self.price = price
         self.carInfo = carInfo
         self.featureFlags = featureFlags
+       
     }
     
     func updating(category: PostCategory) -> PostListingState {
         guard featureFlags.carsVerticalEnabled, step == .categorySelection else { return self }
-    
         let newStep: PostListingStep
         if featureFlags.carsCategoryAfterPicture {
             switch category {
@@ -72,6 +76,7 @@ final class PostListingState {
             newStep = .imageSelection
         }
         return PostListingState(step: newStep,
+                                previousStep: step,
                                 category: category,
                                 pendingToUploadImages: pendingToUploadImages,
                                 lastImagesUploadResult: lastImagesUploadResult,
@@ -87,8 +92,8 @@ final class PostListingState {
         case .uploadingImage, .detailsSelection, .categorySelection, .carDetailsSelection, .finished, .uploadSuccess:
             return self
         }
-        
         return PostListingState(step: .uploadingImage,
+                                previousStep: step,
                                 category: category,
                                 pendingToUploadImages: pendingToUploadImages,
                                 lastImagesUploadResult: lastImagesUploadResult,
@@ -104,7 +109,6 @@ final class PostListingState {
         case .uploadingImage, .errorUpload, .detailsSelection, .categorySelection, .carDetailsSelection, .finished, .uploadSuccess:
             return self
         }
-        
         let nextStep: PostListingStep
         if let category = category, category == .car {
             nextStep = .carDetailsSelection(includePrice: true)
@@ -113,6 +117,7 @@ final class PostListingState {
         }
         
         return PostListingState(step: nextStep,
+                                previousStep: step,
                                 category: category,
                                 pendingToUploadImages: pendingToUploadImages,
                                 lastImagesUploadResult: lastImagesUploadResult,
@@ -122,16 +127,16 @@ final class PostListingState {
     }
     
     func updatingAfterUploadingSuccess() -> PostListingState {
-        //guard step == .uploadSuccess else { return self }
-        
+        guard step == .uploadSuccess else { return self }
         let nextStep: PostListingStep
-        //if let category = category, category == .car {
+        if let category = category, category == .car {
             nextStep = .carDetailsSelection(includePrice: true)
-        //} else {
-           // nextStep = .detailsSelection
-        //}
+        } else {
+            nextStep = .detailsSelection
+        }
         
         return PostListingState(step: nextStep,
+                                previousStep: step,
                                 category: category,
                                 pendingToUploadImages: pendingToUploadImages,
                                 lastImagesUploadResult: lastImagesUploadResult,
@@ -143,8 +148,8 @@ final class PostListingState {
     
     func updatingToSuccessUpload(uploadedImages: [File]) -> PostListingState {
         guard step == .uploadingImage else { return self }
-        
         return PostListingState(step: .uploadSuccess,
+                                previousStep: step,
                                 category: category,
                                 pendingToUploadImages: pendingToUploadImages,
                                 lastImagesUploadResult: FilesResult(value: uploadedImages),
@@ -155,7 +160,6 @@ final class PostListingState {
     
     func updating(uploadError: RepositoryError) -> PostListingState {
         guard step == .uploadingImage else { return self }
-        
         let message: String
         switch uploadError {
         case .internalError, .unauthorized, .notFound, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
@@ -165,6 +169,7 @@ final class PostListingState {
         }
         
         return PostListingState(step: .errorUpload(message: message),
+                                previousStep: step,
                                 category: category,
                                 pendingToUploadImages: pendingToUploadImages,
                                 lastImagesUploadResult: FilesResult(error: uploadError),
@@ -175,7 +180,6 @@ final class PostListingState {
     
     func updating(price: ListingPrice) -> PostListingState {
         guard step == .detailsSelection else { return self }
-        
         let newStep: PostListingStep
         if featureFlags.carsVerticalEnabled, featureFlags.carsCategoryAfterPicture {
             newStep = .categorySelection
@@ -183,6 +187,7 @@ final class PostListingState {
             newStep = .finished
         }
         return PostListingState(step: newStep,
+                                previousStep: step,
                                 category: category,
                                 pendingToUploadImages: pendingToUploadImages,
                                 lastImagesUploadResult: lastImagesUploadResult,
@@ -191,10 +196,10 @@ final class PostListingState {
                                 featureFlags: featureFlags)
     }
     
-    func updating(carInfo: CarAttributes) -> PostListingState {   // TODO: 🚔 Update with actual car info model
+    func updating(carInfo: CarAttributes) -> PostListingState {
         guard step == .carDetailsSelection(includePrice: false) else { return self }
-        
         return PostListingState(step: .finished,
+                                previousStep: step,
                                 category: category,
                                 pendingToUploadImages: pendingToUploadImages,
                                 lastImagesUploadResult: lastImagesUploadResult,
@@ -203,10 +208,22 @@ final class PostListingState {
                                 featureFlags: featureFlags)
     }
     
-    func updating(price: ListingPrice, carInfo: CarAttributes) -> PostListingState {  // TODO: 🚔 Update with actual car info model
+    func updating(price: ListingPrice, carInfo: CarAttributes) -> PostListingState {
         guard step == .carDetailsSelection(includePrice: true) else { return self }
-        
         return PostListingState(step: .finished,
+                                previousStep: step,
+                                category: category,
+                                pendingToUploadImages: pendingToUploadImages,
+                                lastImagesUploadResult: lastImagesUploadResult,
+                                price: price,
+                                carInfo: carInfo,
+                                featureFlags: featureFlags)
+    }
+    
+    func revertToPreviousStep() -> PostListingState {
+        guard let previousStep = previousStep else { return self }
+        return PostListingState(step: previousStep,
+                                previousStep: nil,
                                 category: category,
                                 pendingToUploadImages: pendingToUploadImages,
                                 lastImagesUploadResult: lastImagesUploadResult,

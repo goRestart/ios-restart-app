@@ -762,10 +762,12 @@ struct TrackerEvent {
             return TrackerEvent(name: .profileReport, params: params)
     }
 
-    static func profileBlock(_ typePage: EventParameterTypePage, blockedUsersIds: [String]) -> TrackerEvent{
+    static func profileBlock(_ typePage: EventParameterTypePage, blockedUsersIds: [String],
+                             buttonPosition: EventParameterBlockButtonPosition) -> TrackerEvent{
         var params = EventParameters()
         params[.typePage] = typePage.rawValue
         params[.userToId] = blockedUsersIds.joined(separator: ",")
+        params[.blockButtonPosition] = buttonPosition.rawValue
         return TrackerEvent(name: .profileBlock, params: params)
     }
 

@@ -10,12 +10,12 @@ module Fastlane
         build_number = params[:build_number]
         version_number = params[:version_number]
 
-        Helper.log.info "Pushing changes...".blue
+        UI.message "Pushing changes...".blue
         pushChangeCommand = "(cd #{path_to_repo} && git add ." + 
                         " && git commit -m '★ Update version to #{version_number} (#{build_number})' && git pull && git push)"
-        Helper.log.debug pushChangeCommand
+        UI.message pushChangeCommand
         Actions.sh pushChangeCommand
-        Helper.log.info "Version changes pushed successfully!".blue
+        UI.success "Version changes pushed successfully!"
       end
 
 
