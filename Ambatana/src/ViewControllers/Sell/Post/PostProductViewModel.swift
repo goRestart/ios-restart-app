@@ -60,6 +60,9 @@ class PostProductViewModel: BaseViewModel {
     private var imagesSelected: [UIImage]?
     fileprivate var uploadedImageSource: EventParameterPictureSource?
     
+    let selectedDetail = Variable<CategoryDetailSelectedInfo?>(nil)
+    var selectedCarAttributes: CarAttributes = CarAttributes.emptyCarAttributes()
+    
     fileprivate let disposeBag: DisposeBag
 
     
@@ -105,6 +108,7 @@ class PostProductViewModel: BaseViewModel {
         self.postDetailViewModel.delegate = self
         
         setupRx()
+        setupCarsRx()
     }
 
     override func didBecomeActive(_ firstTime: Bool) {
@@ -160,17 +164,123 @@ class PostProductViewModel: BaseViewModel {
 
 extension PostProductViewModel {
     
-    func carMakes() -> [CarsMake] {
+    fileprivate var carMakes: [CarsMake] {
         return carsInfoRepository.retrieveCarsMakes()
     }
     
-    func carModels(forMake make: CarsMake) -> [CarsModel] {
-        return carsInfoRepository.retrieveCarsModelsFormake(makeId: make.makeId)
+    fileprivate var selectedCarMakeInfo: CarInfoWrapper? {
+        guard let makeId = selectedCarAttributes.makeId,
+            let makeName = selectedCarAttributes.make else {
+                return nil
+        }
+        return CarInfoWrapper(id: makeId, name: makeName, type: .make)
     }
     
-    func carYears() -> [Int] {
+    fileprivate func carModels(forMakeId makeId: String) -> [CarsModel] {
+        return carsInfoRepository.retrieveCarsModelsFormake(makeId: makeId)
+    }
+    
+    fileprivate var selectedCarModelInfo: CarInfoWrapper? {
+        guard let modelId = selectedCarAttributes.modelId,
+            let modelName = selectedCarAttributes.model else {
+                return nil
+        }
+        return CarInfoWrapper(id: modelId, name: modelName, type: .model)
+    }
+    
+    fileprivate var carYears: [Int] {
         // TODO: take from corekit
-        return Array(1900...2017)
+        return Array(1900...2017).reversed()
+    }
+    
+    fileprivate var selectedCarYearInfo: CarInfoWrapper? {
+        guard let year = selectedCarAttributes.year else {
+                return nil
+        }
+        let stringYear = String(year)
+        return CarInfoWrapper(id: stringYear, name: stringYear, type: .year)
+    }
+    
+    func carInfo(forDetail detail: CarDetailType) -> (carInfoWrappers: [CarInfoWrapper], selectedIndex: Int?) {
+        switch detail {
+        case .make:
+            let values: [CarInfoWrapper] = carMakes
+                .map { CarInfoWrapper(id: $0.makeId, name: $0.makeName, type: .make) }
+            var selectedIndex: Int? = nil
+            if let selectedMakeInfo = selectedCarMakeInfo {
+                selectedIndex = values.index(of: selectedMakeInfo)
+            }
+            return (carInfoWrappers: values, selectedIndex: selectedIndex)
+        case .model:
+            guard let makeId = selectedCarMakeInfo?.id else { return ([], nil) }
+            let values: [CarInfoWrapper] = carModels(forMakeId: makeId)
+                .map { CarInfoWrapper(id: $0.modelId, name: $0.modelName, type: .model) }
+            var selectedIndex: Int? = nil
+            if let selectedModelInfo = selectedCarModelInfo {
+                selectedIndex = values.index(of: selectedModelInfo)
+            }
+            return (carInfoWrappers: values, selectedIndex: selectedIndex)
+        case .year:
+            let values: [CarInfoWrapper] = carYears
+                .map { CarInfoWrapper(id: String($0), name: String($0), type: .year) }
+            var selectedIndex: Int? = nil
+            if let selectedYearInfo = selectedCarYearInfo {
+                selectedIndex = values.index(of: selectedYearInfo)
+            }
+            return (carInfoWrappers: values, selectedIndex: selectedIndex)
+        }
+    }
+    
+    var currentCarDetailsProgress: Float {
+        let details: [Any?] = [selectedCarAttributes.makeId, selectedCarAttributes.modelId, selectedCarAttributes.year]
+        let detailsFilled: [Any] = details.flatMap { data in
+            if let data = data as? String, !data.isEmpty {
+                return data
+            } else if let data = data as? Int, data != 0 {
+                return data
+            }
+            return nil
+        }
+        
+        guard details.count > 0 else { return 1 }
+        return Float(detailsFilled.count) / Float(details.count)
+    }
+    
+    // MARK: - Setup rx
+    
+    func setupCarsRx() {
+        selectedDetail.asObservable().subscribeNext { [weak self] (categoryDetailSelectedInfo) in
+            guard let categoryDetail = categoryDetailSelectedInfo else { return }
+            guard let strongSelf = self else { return}
+            switch categoryDetail.type {
+            case .make:
+                strongSelf.selectedCarAttributes = strongSelf.selectedCarAttributes.updating(make: categoryDetail.name,
+                                                                                             makeId: categoryDetail.id,
+                                                                                             model: "",
+                                                                                             modelId: "")
+            case .model:
+                strongSelf.selectedCarAttributes = strongSelf.selectedCarAttributes.updating(model: categoryDetail.name,
+                                                                                             modelId: categoryDetail.id)
+            case .year:
+                strongSelf.selectedCarAttributes = strongSelf.selectedCarAttributes.updating(year: Int(categoryDetail.id))
+            }
+        }.addDisposableTo(disposeBag)
+    }
+}
+
+extension CarAttributes {
+    // use "" to remove data
+    func updating(make: String? = nil, //LGCoreKit.carMakeEmptyValue
+                  makeId: String? = nil,
+                  model: String? = nil,
+                  modelId: String? = nil,
+                  year: Int? = nil) -> CarAttributes {
+        
+        return CarAttributes(make: make ?? self.make,
+                             makeId: makeId ?? self.makeId,
+                             model: model ?? self.model,
+                             modelId: modelId ?? self.modelId,
+                             year: year ?? self.year)
     }
 }
 
@@ -188,8 +298,10 @@ extension PostProductViewModel: PostProductDetailViewModelDelegate {
 fileprivate extension PostProductViewModel {
     func setupRx() {
         category.asObservable().subscribeNext { [weak self] category in
-            guard let strongSelf = self, let category = category else { return }
-            strongSelf.state.value = strongSelf.state.value.updating(category: category)
+//            guard let strongSelf = self, let category = category else { return }
+//            strongSelf.state.value = strongSelf.state.value.updating(category: category)
+            guard let strongSelf = self else { return }
+            strongSelf.state.value = strongSelf.state.value.updatingAfterUploadingSuccess()
         }.addDisposableTo(disposeBag)
         
         state.asObservable().filter { $0.step == .finished }.bindNext { [weak self] _ in

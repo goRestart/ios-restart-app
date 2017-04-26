@@ -249,6 +249,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         carDetailsView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(carDetailsView)
         carDetailsView.layout(with: view).fill()
+        carDetailsView.updateProgress(withPercentage: viewModel.currentCarDetailsProgress)
         
         carDetailsView.navigationBackButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
             self?.carDetailsNavigationBackButtonPressed()
@@ -274,6 +275,26 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         
         carDetailsView.doneButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
             self?.carDetailsDoneButtonPressed()
+        }.addDisposableTo(disposeBag)
+        
+        carDetailsView.tableView.selectedDetail.asObservable().bindTo(viewModel.selectedDetail)
+            .addDisposableTo(disposeBag)
+        viewModel.selectedDetail.asObservable().subscribeNext { [weak self] (categoryDetailSelectedInfo) in
+            guard let strongSelf = self else { return }
+            guard let categoryDetail = categoryDetailSelectedInfo else { return }
+            switch categoryDetail.type {
+            case .make:
+                strongSelf.carDetailsView.updateMake(withMake: categoryDetail.name)
+                strongSelf.carDetailsView.updateModel(withModel: nil)
+                strongSelf.showCarModels()
+            case .model:
+                strongSelf.carDetailsView.updateModel(withModel: categoryDetail.name)
+                strongSelf.showCarYears()
+            case .year:
+                strongSelf.carDetailsView.updateYear(withYear: categoryDetail.name)
+                strongSelf.didFinishEnteringDetails()
+            }
+            strongSelf.carDetailsView.updateProgress(withPercentage: strongSelf.viewModel.currentCarDetailsProgress)
         }.addDisposableTo(disposeBag)
     }
     
@@ -333,6 +354,27 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
 extension PostProductViewController {
     
     dynamic func carDetailsNavigationBackButtonPressed() {
+        didFinishEnteringDetails()
+    }
+    
+    dynamic func carMakeButtonPressed() {
+        showCarMakes()
+    }
+    
+    dynamic func carModelButtonPressed() {
+        showCarModels()
+    }
+    
+    dynamic func carYearButtonPressed() {
+        showCarYears()
+    }
+    
+    dynamic func carDetailsDoneButtonPressed() {
+        carDetailsView.hideKeyboard()
+        // request
+    }
+    
+    fileprivate func didFinishEnteringDetails() {
         carDetailsView.hideKeyboard()
         
         switch carDetailsView.state {
@@ -345,27 +387,22 @@ extension PostProductViewController {
         }
     }
     
-    dynamic func carMakeButtonPressed() {
-        // get carmakes from view model
-        showSelectCarDetailValue(forDetail: .make, values: ["audi","bmw"], selectedValueIndex: nil)
+    fileprivate func showCarMakes() {
+        let (values, selectedIndex) = viewModel.carInfo(forDetail: .make)
+        showSelectCarDetailValue(forDetail: .make, values: values, selectedValueIndex: selectedIndex)
     }
     
-    dynamic func carModelButtonPressed() {
-        // get carmodels from view model
-        showSelectCarDetailValue(forDetail: .model, values: ["A3","A4"], selectedValueIndex: 0)
+    fileprivate func showCarModels() {
+        let (values, selectedIndex) = viewModel.carInfo(forDetail: .model)
+        showSelectCarDetailValue(forDetail: .model, values: values, selectedValueIndex: selectedIndex)
     }
     
-    dynamic func carYearButtonPressed() {
-        // get years from view model
-        showSelectCarDetailValue(forDetail: .year, values: ["A3","A4"], selectedValueIndex: 1)
+    fileprivate func showCarYears() {
+        let (values, selectedIndex) = viewModel.carInfo(forDetail: .year)
+        showSelectCarDetailValue(forDetail: .year, values: values, selectedValueIndex: selectedIndex)
     }
     
-    dynamic func carDetailsDoneButtonPressed() {
-        carDetailsView.hideKeyboard()
-        // request
-    }
-    
-    private func showSelectCarDetailValue(forDetail detail: PostCarDetail, values: [String], selectedValueIndex: Int?) {
+    private func showSelectCarDetailValue(forDetail detail: CarDetailType, values: [CarInfoWrapper], selectedValueIndex: Int?) {
         carDetailsView.hideKeyboard()
         carDetailsView.showSelectDetailValue(forDetail: detail, values: values, selectedValueIndex: selectedValueIndex)
     }

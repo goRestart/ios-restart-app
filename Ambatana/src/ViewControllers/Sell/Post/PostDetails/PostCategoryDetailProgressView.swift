@@ -86,17 +86,17 @@ final class PostCategoryDetailProgressView: UIView {
     
     // MARK: - Public methods
     
-    func setPercentage(_ percentage: Int) {
-        progressView.setProgress(Float(percentage), animated: true)
+    func setPercentage(_ percentage: Float) {
+        progressView.setProgress(percentage, animated: true)
         
-        if percentage == 100 {
+        if percentage == Float(1) {
             progressView.progressTintColor = UIColor.asparagus
             titleLabel.text = LGLocalizedString.postCategoryDetailsProgress100
-            imageViewCenterConstraint.constant = (imageView.frame.width + Metrics.margin)/2
+            imageViewCenterConstraint.constant = imageView.frame.width/2 + Metrics.veryShortMargin
             imageView.alpha = 1
         } else {
             progressView.progressTintColor = UIColor.white
-            titleLabel.text = String(percentage) + "% " + LGLocalizedString.postCategoryDetailsProgress
+            titleLabel.text = String(Int(percentage*100)) + "% " + LGLocalizedString.postCategoryDetailsProgress
             imageViewCenterConstraint.constant = 0
             imageView.alpha = 0
         }

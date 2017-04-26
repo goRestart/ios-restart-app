@@ -9,23 +9,9 @@
 import UIKit
 import RxSwift
 
-enum PostCarDetail {
-    case make
-    case model
-    case year
-    
-    var addOtherString: String? {
-        switch self {
-        case .make: return LGLocalizedString.postCategoryDetailAddMake
-        case .model: return LGLocalizedString.postCategoryDetailAddModel
-        case .year: return nil
-        }
-    }
-}
-
 enum PostCarDetailState {
     case selectDetail
-    case selectDetailValue(forDetail: PostCarDetail)
+    case selectDetailValue(forDetail: CarDetailType)
 }
 
 func ==(lhs: PostCarDetailState, rhs: PostCarDetailState) -> Bool {
@@ -58,7 +44,7 @@ class PostCarDetailsView: UIView {
     
     var state: PostCarDetailState = .selectDetail
     
-    private let tableView = CategoryDetailTableView(withStyle: .lightContent)
+    let tableView = CategoryDetailTableView(withStyle: .lightContent)
     
     // MARK: - Lifecycle
 
@@ -117,8 +103,6 @@ class PostCarDetailsView: UIView {
         descriptionLabel.textColor = UIColor.white
         descriptionLabel.text = LGLocalizedString.postCategoryDetailsDescription
         descriptionLabel.numberOfLines = 0
-
-        updateProgress()
         
         makeRowView.enabled = true
         modelRowView.enabled = false
@@ -240,7 +224,6 @@ class PostCarDetailsView: UIView {
         }
         navigationMakeButton.setTitle(buttonTitle, for: .normal)
         makeRowView.value = make
-        updateProgress()
     }
     
     func updateModel(withModel model: String?) {
@@ -250,7 +233,6 @@ class PostCarDetailsView: UIView {
         }
         navigationModelButton.setTitle(buttonTitle, for: .normal)
         modelRowView.value = model
-        updateProgress()
     }
     
     func updateYear(withYear year: String?) {
@@ -260,30 +242,17 @@ class PostCarDetailsView: UIView {
         }
         navigationYearButton.setTitle(buttonTitle, for: .normal)
         yearRowView.value = year
-        updateProgress()
     }
     
     func hideKeyboard() {
         tableView.hideKeyboard()
     }
     
-    private func updateProgress() {
-        progressView.setPercentage(getCurrentProgress())
+    func updateProgress(withPercentage percentage: Float) {
+        progressView.setPercentage(percentage)
     }
     
-    private func getCurrentProgress() -> Int {
-        let details = [makeRowView, modelRowView, yearRowView]
-        var detailsFilled = 0
-        details.forEach { (detail) in
-            if detail.isFilled() {
-                detailsFilled += detailsFilled
-            }
-        }
-        guard details.count > 0 else { return 100 }
-        return Int(detailsFilled / details.count)
-    }
-    
-    private func updateNavigationButtons(forDetail detail: PostCarDetail) {
+    private func updateNavigationButtons(forDetail detail: CarDetailType) {
         switch detail {
         case .make:
             navigationMakeButton.setTitleColor(UIColor.white, for: .normal)
@@ -300,8 +269,9 @@ class PostCarDetailsView: UIView {
         }
     }
     
-    private func updateTableView(withValues values: [String], selectedValueIndex: Int?, addOtherString: String?) {
-        tableView.setupTableView(withValues: values,
+    private func updateTableView(withDetailType type: CarDetailType, values: [CarInfoWrapper],
+                                 selectedValueIndex: Int?, addOtherString: String?) {
+        tableView.setupTableView(withDetailType: type, values: values,
                                  selectedValueIndex: selectedValueIndex,
                                  addOtherString: addOtherString)
     }
@@ -338,13 +308,15 @@ class PostCarDetailsView: UIView {
         }, completion: nil)
     }
     
-    func showSelectDetailValue(forDetail detail: PostCarDetail, values: [String], selectedValueIndex: Int?) {
+    func showSelectDetailValue(forDetail detail: CarDetailType, values: [CarInfoWrapper], selectedValueIndex: Int?) {
         defer {
             state = .selectDetailValue(forDetail: detail)
         }
         
         updateNavigationButtons(forDetail: detail)
-        updateTableView(withValues: values, selectedValueIndex: selectedValueIndex, addOtherString: detail.addOtherString)
+        updateTableView(withDetailType: detail, values: values,
+                        selectedValueIndex: selectedValueIndex,
+                        addOtherString: detail.addOtherString)
         
         guard state == .selectDetail else { return }
         

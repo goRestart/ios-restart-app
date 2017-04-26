@@ -8,6 +8,7 @@
 
 import UIKit
 import RxSwift
+import LGCoreKit
 
 enum CategoryDetailStyle {
     case lightContent // Light content, for use on dark backgrounds
@@ -77,14 +78,63 @@ enum CategoryDetailStyle {
     }
 }
 
-enum CategoryDetailSelectedInfo {
-    case index(i: Int, value: String) // index in rawValues
-    case custom(value: String) // for 'Others' options
+enum CarDetailType {
+    case make
+    case model
+    case year
     
-    var value: String? {
+    var addOtherString: String? {
         switch self {
-        case .index(_, let value): return value
-        case .custom(let value): return value
+        case .make: return LGLocalizedString.postCategoryDetailAddMake
+        case .model: return LGLocalizedString.postCategoryDetailAddModel
+        case .year: return nil
+        }
+    }
+    
+    static public func ==(lhs: CarDetailType, rhs: CarDetailType) -> Bool {
+        switch (lhs, rhs) {
+        case (.make, .make), (.model, .model), (.year, .year):
+            return true
+        default:
+            return false
+        }
+    }
+}
+
+
+
+struct CarInfoWrapper: Equatable {
+    let id: String // for Others it will be "", for year it will be equal to name
+    let name: String
+    let type: CarDetailType
+
+    public static func ==(lhs: CarInfoWrapper, rhs: CarInfoWrapper) -> Bool {
+        return lhs.id == rhs.id && lhs.name == rhs.name && lhs.type == rhs.type
+    }
+}
+
+enum CategoryDetailSelectedInfo {
+    case index(i: Int, value: CarInfoWrapper)
+    case custom(value: CarInfoWrapper) // for 'Others' options
+    
+    var name: String {
+        switch self {
+        case .index(_, let value): return value.name
+        case .custom(let value): return value.name
+        }
+    }
+    
+    var id: String {
+        switch self {
+        case .index(_, let value): return value.id
+        case .custom(let value): return value.id
+        }
+    }
+    
+    var type: CarDetailType {
+        switch self {
+        case .index(_, let value): return value.type
+        case .custom(let value): return value.type
         }
     }
 }
@@ -94,8 +144,8 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
     static let cellIdentifier = "categoryDetailCell"
     
     private let style: CategoryDetailStyle
-    private var rawValues: [String] = []
-    private var filteredValues: [String] = [] {
+    private var rawValues: [CarInfoWrapper] = []
+    private var filteredValues: [CarInfoWrapper] = [] {
         didSet {
             tableView.reloadData()
         }
@@ -104,6 +154,7 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
     private let searchBar = UISearchBar()
     private let tableView = UITableView()
     private var addOtherString: String?
+    private var detailType: CarDetailType = .make
     
     let selectedDetail = Variable<CategoryDetailSelectedInfo?>(nil)
     
@@ -193,7 +244,7 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
         if searchText.isEmpty {
             filteredValues = rawValues
         } else {
-            filteredValues = rawValues.filter { $0.lowercased().contains(searchText.lowercased()) }
+            filteredValues = rawValues.filter { $0.name.lowercased().contains(searchText.lowercased()) }
         }
     }
     
@@ -227,7 +278,7 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
         let value = filteredValues[indexPath.row]
         let selected = isValueSelected(value)
         cell.selectionStyle = .none
-        cell.textLabel?.text = value
+        cell.textLabel?.text = value.name
         cell.textLabel?.font = UIFont.bigBodyFont
         cell.accessoryType = selected ? .checkmark : .none
         cell.backgroundColor = style.cellBackgroundColor
@@ -238,7 +289,7 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard !isOtherCell(forIndexPath: indexPath) else {
             if let searchBarText = searchBar.text, !searchBarText.isEmpty {
-                selectedDetail.value = .custom(value: searchBarText)
+                selectedDetail.value = .custom(value: CarInfoWrapper(id: "", name: searchBarText, type: detailType))
                 searchBar.resignFirstResponder()
             } else {
                 searchBar.becomeFirstResponder()
@@ -246,16 +297,16 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
             return
         }
         
-        let stringValue = filteredValues[indexPath.row]
-        guard let index = rawValues.index(of: stringValue) else { return }
-        selectedDetail.value = .index(i: index, value: stringValue)
-        
         if let cell = tableView.cellForRow(at: indexPath) {
             cell.accessoryType = .checkmark
             cell.textLabel?.textColor = style.cellSelectedTextColor
         }
         
         searchBar.resignFirstResponder()
+        
+        let value = filteredValues[indexPath.row]
+        guard let index = rawValues.index(of: value) else { return }
+        selectedDetail.value = .index(i: index, value: value)
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
@@ -265,8 +316,8 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
         }
     }
     
-    private func isValueSelected(_ value: String) -> Bool {
-        if let selectedValue = selectedDetail.value?.value, selectedValue == value {
+    private func isValueSelected(_ value: CarInfoWrapper) -> Bool {
+        if let selectedId = selectedDetail.value?.id, selectedId == value.id {
             return true
         }
         return false
@@ -289,13 +340,17 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
         searchBar.resignFirstResponder()
     }
     
-    func setupTableView(withValues values: [String], selectedValueIndex: Int?, addOtherString: String?) {
+    func setupTableView(withDetailType type: CarDetailType, values: [CarInfoWrapper], selectedValueIndex: Int?, addOtherString: String?) {
         self.addOtherString = addOtherString
+        detailType = type
         rawValues = values
         filteredValues = values
+        searchBar.text = nil
+        
         if let selectedIndex = selectedValueIndex, selectedIndex < filteredValues.count {
             let indexPath = IndexPath(row: selectedIndex, section: 0)
             tableView.selectRow(at: indexPath, animated: false, scrollPosition: .middle)
         }
+        
     }
 }

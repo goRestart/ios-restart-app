@@ -92,7 +92,7 @@ class PostCategoryDetailRowView: UIView {
             .top()
             .bottom()
         valueLabel.layout(with: icon)
-            .trailing(to: .leading)
+            .trailing(to: .leading, by: -Metrics.margin)
         icon.layout()
             .width(15).widthProportionalToHeight()
         icon.layout(with: self)
@@ -100,11 +100,7 @@ class PostCategoryDetailRowView: UIView {
             .bottom()
             .trailing(to: .trailingMargin)
     }
-    
-    func isFilled() -> Bool {
-        return value != nil ? true : false
-    }
-    
+
     // MARK: - Accessibility
     
     private func setupAccessibilityIds() {
