@@ -83,6 +83,7 @@ class NotificationsViewModel: BaseViewModel {
         // Not track if type is modular as primary action on modular notification includes tracking.
         switch data.type {
         case .welcome, .productFavorite, .productSold, .rating, .ratingUpdated, .buyersInterested, .productSuggested, .facebookFriendshipCreated:
+            // cardAction is passed as string instead of EventParameterCardAction type as retention could send anything on the query parameter.
             trackItemPressed(type: data.type.eventType, source: .main, cardAction: data.type.notificationAction.rawValue,
                              notificationCampaign: nil)
         case .modular:

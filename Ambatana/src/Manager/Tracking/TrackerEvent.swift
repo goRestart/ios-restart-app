@@ -941,6 +941,7 @@ struct TrackerEvent {
         var params = EventParameters()
         params[.notificationType] = type.rawValue
         params[.notificationClickArea] = source.rawValue
+        // cardAction is passed as string instead of EventParameterCardAction type as retention could send anything on the query parameter.
         params[.notificationAction] = cardAction ?? "N/A"
         params[.notificationCampaign] = notificationCampaign ?? "N/A"
         return TrackerEvent(name: .notificationCenterComplete, params: params)
