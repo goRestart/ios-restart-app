@@ -249,15 +249,24 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         
         carDetailsView.navigationBackButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
             self?.carDetailsNavigationBackButtonPressed()
-            }.addDisposableTo(disposeBag)
+        }.addDisposableTo(disposeBag)
+        carDetailsView.navigationMakeButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
+            self?.carMakeButtonPressed()
+        }.addDisposableTo(disposeBag)
+        carDetailsView.navigationModelButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
+            self?.carModelButtonPressed()
+        }.addDisposableTo(disposeBag)
+        carDetailsView.navigationYearButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
+            self?.carYearButtonPressed()
+        }.addDisposableTo(disposeBag)
         carDetailsView.makeRowView.button.rx.tap.asObservable().subscribeNext { [weak self] _ in
-            self?.carMakeRowButtonPressed()
+            self?.carMakeButtonPressed()
         }.addDisposableTo(disposeBag)
         carDetailsView.modelRowView.button.rx.tap.asObservable().subscribeNext { [weak self] _ in
-            self?.carModelRowButtonPressed()
+            self?.carModelButtonPressed()
         }.addDisposableTo(disposeBag)
         carDetailsView.yearRowView.button.rx.tap.asObservable().subscribeNext { [weak self] _ in
-            self?.carYearRowButtonPressed()
+            self?.carYearButtonPressed()
         }.addDisposableTo(disposeBag)
         
         carDetailsView.doneButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
@@ -317,7 +326,10 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
 // MARK: - Car details
 
 extension PostProductViewController {
+    
     dynamic func carDetailsNavigationBackButtonPressed() {
+        carDetailsView.hideKeyboard()
+        
         switch carDetailsView.state {
         case .selectDetail:
             // go back to previous state
@@ -328,26 +340,28 @@ extension PostProductViewController {
         }
     }
     
-    dynamic func carMakeRowButtonPressed() {
+    dynamic func carMakeButtonPressed() {
         // get carmakes from view model
         showSelectCarDetailValue(forDetail: .make, values: ["audi","bmw"], selectedValueIndex: nil)
     }
     
-    dynamic func carModelRowButtonPressed() {
+    dynamic func carModelButtonPressed() {
         // get carmodels from view model
         showSelectCarDetailValue(forDetail: .model, values: ["A3","A4"], selectedValueIndex: 0)
     }
     
-    dynamic func carYearRowButtonPressed() {
+    dynamic func carYearButtonPressed() {
         // get years from view model
         showSelectCarDetailValue(forDetail: .year, values: ["A3","A4"], selectedValueIndex: 1)
     }
     
     dynamic func carDetailsDoneButtonPressed() {
-        
+        carDetailsView.hideKeyboard()
+        // request
     }
     
     private func showSelectCarDetailValue(forDetail detail: PostCarDetail, values: [String], selectedValueIndex: Int?) {
+        carDetailsView.hideKeyboard()
         carDetailsView.showSelectDetailValue(forDetail: detail, values: values, selectedValueIndex: selectedValueIndex)
     }
 }

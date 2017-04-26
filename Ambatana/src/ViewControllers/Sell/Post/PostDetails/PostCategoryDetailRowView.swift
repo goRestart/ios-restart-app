@@ -108,6 +108,6 @@ class PostCategoryDetailRowView: UIView {
     // MARK: - Accessibility
     
     private func setupAccessibilityIds() {
-        
+        button.accessibilityId = .postingCategoryDeatilRowButton
     }
 }

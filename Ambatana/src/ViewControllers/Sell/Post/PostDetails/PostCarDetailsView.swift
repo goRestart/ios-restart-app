@@ -28,12 +28,23 @@ enum PostCarDetailState {
     case selectDetailValue(forDetail: PostCarDetail)
 }
 
+func ==(lhs: PostCarDetailState, rhs: PostCarDetailState) -> Bool {
+    switch (lhs, rhs) {
+    case (.selectDetail, .selectDetail):
+        return true
+    case (.selectDetailValue(let lhsDetail), .selectDetailValue(let rhsDetail)):
+        return lhsDetail == rhsDetail
+    default:
+        return false
+    }
+}
+
 class PostCarDetailsView: UIView {
     let navigationBackButton = UIButton()
     private let navigationTitle = UILabel()
-    private let navigationMakeButton = UIButton()
-    private let navigationModelButton = UIButton()
-    private let navigationYearButton = UIButton()
+    let navigationMakeButton = UIButton()
+    let navigationModelButton = UIButton()
+    let navigationYearButton = UIButton()
     private let navigationOkButton = UIButton()
     private let descriptionLabel = UILabel()
     private let progressView = PostCategoryDetailProgressView()
@@ -212,39 +223,48 @@ class PostCarDetailsView: UIView {
     // MARK: - Accessibility
     
     private func setupAccessibilityIds() {
-        
+        navigationBackButton.accessibilityId = .postingCategoryDeatilNavigationBackButton
+        navigationMakeButton.accessibilityId = .postingCategoryDeatilNavigationMakeButton
+        navigationModelButton.accessibilityId = .postingCategoryDeatilNavigationModelButton
+        navigationYearButton.accessibilityId = .postingCategoryDeatilNavigationYearButton
+        navigationOkButton.accessibilityId = .postingCategoryDeatilNavigationOkButton
+        doneButton.accessibilityId = .postingCategoryDeatilDoneButton
     }
     
     // MARK: - Helpers
     
     func updateMake(withMake make: String?) {
-        var buttomTitle = LGLocalizedString.postCategoryDetailCarMake
+        var buttonTitle = LGLocalizedString.postCategoryDetailCarMake
         if let make = make, !make.isEmpty {
-            buttomTitle = make
+            buttonTitle = make
         }
-        navigationMakeButton.setTitle(buttomTitle, for: .normal)
+        navigationMakeButton.setTitle(buttonTitle, for: .normal)
         makeRowView.value = make
         updateProgress()
     }
     
     func updateModel(withModel model: String?) {
-        var buttomTitle = LGLocalizedString.postCategoryDetailCarModel
+        var buttonTitle = LGLocalizedString.postCategoryDetailCarModel
         if let model = model, !model.isEmpty {
-            buttomTitle = model
+            buttonTitle = model
         }
-        navigationModelButton.setTitle(buttomTitle, for: .normal)
+        navigationModelButton.setTitle(buttonTitle, for: .normal)
         modelRowView.value = model
         updateProgress()
     }
     
     func updateYear(withYear year: String?) {
-        var buttomTitle = LGLocalizedString.postCategoryDetailCarYear
+        var buttonTitle = LGLocalizedString.postCategoryDetailCarYear
         if let year = year, !year.isEmpty {
-            buttomTitle = year
+            buttonTitle = year
         }
-        navigationYearButton.setTitle(buttomTitle, for: .normal)
+        navigationYearButton.setTitle(buttonTitle, for: .normal)
         yearRowView.value = year
         updateProgress()
+    }
+    
+    func hideKeyboard() {
+        tableView.hideKeyboard()
     }
     
     private func updateProgress() {
@@ -289,6 +309,7 @@ class PostCarDetailsView: UIView {
     // MARK: UI Actions
     
     dynamic func navigationButtonOkPressed() {
+        tableView.resignFirstResponder()
         showSelectDetail()
     }
     
@@ -318,9 +339,14 @@ class PostCarDetailsView: UIView {
     }
     
     func showSelectDetailValue(forDetail detail: PostCarDetail, values: [String], selectedValueIndex: Int?) {
-        state = .selectDetailValue(forDetail: detail)
+        defer {
+            state = .selectDetailValue(forDetail: detail)
+        }
+        
         updateNavigationButtons(forDetail: detail)
         updateTableView(withValues: values, selectedValueIndex: selectedValueIndex, addOtherString: detail.addOtherString)
+        
+        guard state == .selectDetail else { return }
         
         UIView.animate(withDuration: 0.15, delay: 0, options: .curveEaseOut, animations: {
             self.selectDetailVisibleViews().forEach { $0.alpha = 0 }

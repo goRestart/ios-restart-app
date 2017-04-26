@@ -183,7 +183,8 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
     // MARK: - Accessibility
     
     private func setupAccessibilityIds() {
-        
+        searchBar.accessibilityId = .postingCategoryDeatilSearchBar
+        tableView.accessibilityId = .postingCategoryDeatilTableView
     }
     
     // MARK: - UISearchBar delegate
@@ -216,6 +217,7 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
             cell.textLabel?.textColor = style.cellSelectedTextColor
             cell.imageView?.image = UIImage(named: "ic_cirle_plus")
             cell.imageView?.contentMode = .left
+            cell.layoutIfNeeded()
             return cell
         }
         
@@ -234,10 +236,6 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        defer {
-            tableView.deselectRow(at: indexPath, animated: true)
-        }
-        
         guard !isOtherCell(forIndexPath: indexPath) else {
             if let searchBarText = searchBar.text, !searchBarText.isEmpty {
                 selectedDetail.value = .custom(value: searchBarText)
@@ -286,6 +284,10 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
     }
     
     // MARK: - Public methods
+    
+    func hideKeyboard() {
+        searchBar.resignFirstResponder()
+    }
     
     func setupTableView(withValues values: [String], selectedValueIndex: Int?, addOtherString: String?) {
         self.addOtherString = addOtherString

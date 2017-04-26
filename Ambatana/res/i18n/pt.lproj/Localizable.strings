@@ -69,7 +69,7 @@
 "change_password_new_password_field_hint" = "New password";
 "change_password_send_error_generic" = "An error occurred while changing the password. Please try again.";
 "change_password_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
-"change_password_send_error_link_expired" = "Sorry, this link has expired!";
+"change_password_send_error_link_expired" = "Oops! This link has expired.";
 "change_password_send_error_passwords_mismatch" = "Passwords don't match. Please try again.";
 "change_password_send_ok" = "Password changed!";
 "change_password_title" = "Change password";

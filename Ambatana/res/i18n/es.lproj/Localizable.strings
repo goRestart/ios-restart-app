@@ -253,7 +253,7 @@
 "contact_subject_option_report" = "Denunciar usuario/spam";
 "direct_answer_condition" = "¿En qué condición está el artículo?";
 "direct_answer_free_available" = "Sí, todavía está disponible";
-"direct_answer_free_no_available" = "Perdona, ¡ya lo he regalado!";
+"direct_answer_free_no_available" = "Lo siento, ¡ya lo he regalado!";
 "direct_answer_free_still_have" = "¿Todavía lo tienes?";
 "direct_answer_free_yours" = "¡Es tuyo!";
 "direct_answer_interested" = "¡Me interesa!";

@@ -22,7 +22,6 @@ final class PostCategoryDetailProgressView: UIView {
         super.init(frame: CGRect.zero)
         
         setupUI()
-        setupAccessibilityIds()
         setupLayout()
     }
     
@@ -83,12 +82,6 @@ final class PostCategoryDetailProgressView: UIView {
         imageView.layout(with: titleLabel)
             .right(to: .left, by: -Metrics.veryShortMargin)
             .centerY()
-    }
-    
-    // MARK: - Accessibility
-    
-    private func setupAccessibilityIds() {
-        
     }
     
     // MARK: - Public methods
