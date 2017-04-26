@@ -15,7 +15,8 @@ extension DeepLink: MockFactory {
                         origin: .push(appActive: false, alert: String.makeRandom()),
                         campaign: String?.makeRandom(),
                         medium: String?.makeRandom(),
-                        source: .push)
+                        source: .push,
+                        cardActionParameter: String?.makeRandom())
     }
 
     public static func makeChatMock() -> DeepLink {
@@ -23,6 +24,7 @@ extension DeepLink: MockFactory {
                         origin: .push(appActive: false, alert: String.makeRandom()),
                         campaign: String?.makeRandom(),
                         medium: String?.makeRandom(),
-                        source: .push)
+                        source: .push,
+                        cardActionParameter: String?.makeRandom())
     }
 }

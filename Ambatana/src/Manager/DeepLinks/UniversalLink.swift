@@ -11,6 +11,7 @@ struct UniversalLink {
     static let utmMediumKey = "utm_medium"
     static let utmSourceKey = "utm_source"
     static let utmCampaignKey = "utm_campaign"
+    static let cardAction = "cardAction"
 
     let deepLink: DeepLink
 
@@ -52,26 +53,27 @@ struct UniversalLink {
         let campaign = queryParams[UniversalLink.utmCampaignKey]
         let medium = queryParams[UniversalLink.utmMediumKey]
         let source = DeepLinkSource(string: queryParams[UniversalLink.utmSourceKey])
+        let cardAction = queryParams[UniversalLink.cardAction]
 
         if components.count > 1 { //the ones with <language_code> part
             switch components[1] {
             case "i":
                 guard components.count > 2, let productId = components.last?.decomposeIdSlug() else { return nil }
-                return UniversalLink(deepLink: DeepLink.link(.product(productId: productId), campaign: campaign, medium: medium, source: source))
+                return UniversalLink(deepLink: DeepLink.link(.product(productId: productId), campaign: campaign, medium: medium, source: source, cardActionParameter: cardAction))
             case "u":
                 guard components.count > 2, let userId = components.last?.decomposeIdSlug() else { return nil }
-                return UniversalLink(deepLink: DeepLink.link(.user(userId: userId), campaign: campaign, medium: medium, source: source))
+                return UniversalLink(deepLink: DeepLink.link(.user(userId: userId), campaign: campaign, medium: medium, source: source, cardActionParameter: cardAction))
             case "q", "scq":
                 guard components.count > 2, let query = components.last else { return nil }
-                return UniversalLink(deepLink: DeepLink.link(.search(query: query, categories: queryParams["categories"]), campaign: campaign, medium: medium, source: source))
+                return UniversalLink(deepLink: DeepLink.link(.search(query: query, categories: queryParams["categories"]), campaign: campaign, medium: medium, source: source, cardActionParameter: cardAction))
             case "account-chat-list":
-                return UniversalLink(deepLink: DeepLink.link(.conversations, campaign: campaign, medium: medium, source: source))
+                return UniversalLink(deepLink: DeepLink.link(.conversations, campaign: campaign, medium: medium, source: source, cardActionParameter: cardAction))
             case "account-chat-conversation":
                 guard components.count > 2, let conversationId = components.last else { return nil }
-                return UniversalLink(deepLink: DeepLink.link(.conversation(data: .conversation(conversationId: conversationId)), campaign: campaign, medium: medium, source: source))
+                return UniversalLink(deepLink: DeepLink.link(.conversation(data: .conversation(conversationId: conversationId)), campaign: campaign, medium: medium, source: source, cardActionParameter: cardAction))
             case "reset-password-renew":
                 guard let token = queryParams["token"] else { return nil }
-                return UniversalLink(deepLink: DeepLink.link(.resetPassword(token: token), campaign: campaign, medium: medium, source: source))
+                return UniversalLink(deepLink: DeepLink.link(.resetPassword(token: token), campaign: campaign, medium: medium, source: source, cardActionParameter: cardAction))
             default: break
             }
         }
@@ -84,7 +86,7 @@ struct UniversalLink {
             }
         }
 
-        return UniversalLink(deepLink: DeepLink.link(.home, campaign: campaign, medium: medium, source: source))
+        return UniversalLink(deepLink: DeepLink.link(.home, campaign: campaign, medium: medium, source: source, cardActionParameter: cardAction))
     }
 
     static func isBranchDeepLink(_ userActivity: NSUserActivity) -> Bool {
