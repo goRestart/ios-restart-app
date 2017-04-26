@@ -52,6 +52,19 @@ final class LGCarsInfoRepository: CarsInfoRepository {
         return cache.modelsForMake(makeId: makeId)
     }
 
+    func retrieveValidYears(withFirstYear firstYear: Int?, ascending: Bool) -> [Int] {
+        let currentYear = Calendar.current.component(.year, from: Date())
+        guard let actualFirstYear = firstYear else {
+            let yearsList = Array(LGCoreKitConstants.carsFirstYear...currentYear)
+            return ascending ? yearsList : yearsList.reversed()
+        }
+        // older cars than 1900? unlikely... :/
+        var modelFirstYear = max(LGCoreKitConstants.carsFirstYear, actualFirstYear)
+        // let's make sure the first year is smaller than the current year
+        modelFirstYear = min(modelFirstYear, currentYear)
+        let yearsList = Array(modelFirstYear...currentYear)
+        return ascending ? yearsList : yearsList.reversed()
+    }
 
     // Rx
 

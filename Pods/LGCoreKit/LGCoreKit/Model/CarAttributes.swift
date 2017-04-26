@@ -16,17 +16,16 @@ public struct CarAttributes: Equatable {
     public let  model: String?
     public let  modelId: String?
     public let  year: Int?
-    public init(make: String?, makeId: String?, model: String?, modelId: String?, year: Int?) {
-        self.make = make
+    public init(makeId: String?, make: String?, modelId: String?, model: String?, year: Int?) {
         self.makeId = makeId
-        self.model = model
-        
+        self.make = make
         self.modelId = modelId
+        self.model = model
         self.year = year
     }
     
     public static func emptyCarAttributes() -> CarAttributes {
-        return CarAttributes(make: nil, makeId: nil, model: nil, modelId: nil, year: nil)
+        return CarAttributes(makeId: nil, make: nil, modelId: nil, model: nil, year: nil)
     }
 }
 

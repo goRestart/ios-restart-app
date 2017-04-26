@@ -15,12 +15,14 @@ struct LGNotification: NotificationModel {
     let createdAt: Date
     let isRead: Bool
     let type: NotificationType
+    let campaignType: String?
 
-    init(objectId: String?, createdAt: Date, isRead: Bool, type: NotificationType) {
+    init(objectId: String?, createdAt: Date, isRead: Bool, type: NotificationType, campaignType: String?) {
         self.objectId = objectId
         self.createdAt = createdAt
         self.isRead = isRead
         self.type = type
+        self.campaignType = campaignType
     }
 }
 
@@ -42,6 +44,7 @@ extension LGNotification : Decodable {
             <*> j <| "created_at"
             <*> j <| "is_read"
             <*> NotificationType.decode(j)
+            <*> j <|? "campaign_type"
 
         if let error = result.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGNotification parse error: \(error)")

@@ -3,6 +3,7 @@ extension MockNotificationModel: MockFactory {
         return MockNotificationModel(objectId: String.makeRandom(),
                                      createdAt: Date.makeRandom(),
                                      isRead: Bool.makeRandom(),
+                                     campaignType: String.makeRandom(),
                                      type: NotificationType.makeMock())
     }
 }

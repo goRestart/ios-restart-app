@@ -546,9 +546,12 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         viewModel.carMakeId.asObservable().bindNext{ [weak self] makeId in
             if let _ = makeId {
                 self?.carsModelButton.isEnabled = true
+                self?.carsModelTitleLabel.isEnabled = true
             } else {
                 self?.carsModelButton.isEnabled = false
+                self?.carsModelTitleLabel.isEnabled = false
                 self?.carsYearButton.isEnabled = false
+                self?.carsYearTitleLabel.isEnabled = false
             }
         }.addDisposableTo(disposeBag)
 
@@ -556,6 +559,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         viewModel.carModelId.asObservable().bindNext{ [weak self] modelId in
             if let _ = modelId {
                 self?.carsYearButton.isEnabled = true
+                self?.carsYearTitleLabel.isEnabled = true
             } else {
                 self?.carsYearButton.isEnabled = false
             }

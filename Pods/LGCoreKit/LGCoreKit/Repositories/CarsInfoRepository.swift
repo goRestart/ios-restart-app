@@ -17,4 +17,5 @@ public protocol CarsInfoRepository {
     func refreshCarsInfoFile()
     func retrieveCarsMakes() -> [CarsMake]
     func retrieveCarsModelsFormake(makeId: String) -> [CarsModel]
+    func retrieveValidYears(withFirstYear firstYear: Int?, ascending: Bool) -> [Int]
 }
