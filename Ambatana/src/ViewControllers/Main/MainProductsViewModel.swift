@@ -54,7 +54,8 @@ class MainProductsViewModel: BaseViewModel {
         for prodCat in filters.selectedCategories {
             resultTags.append(.category(prodCat))
             // Category 9 (.cars) tag only shown when carVerticalEnabled.
-            if prodCat == .cars && !featureFlags.carsVerticalEnabled {
+            //TODO: add the following condition to remove or not the tag:  && !featureFlags.carsVerticalEnabled
+            if prodCat == .cars {
                 resultTags.removeLast()
             }
         }
