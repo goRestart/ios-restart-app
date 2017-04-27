@@ -146,6 +146,12 @@ class ChatViewModel: BaseViewModel {
             self?.delegate?.vmShowSafetyTips()
         }
     }
+    
+    fileprivate var blockAction: () -> Void {
+        return { [weak self] in
+            self?.blockUserAction(buttonPosition: .safetyPopup)
+        }
+    }
 
     fileprivate var buyerId: String? {
         let myUserId = myUserRepository.myUser?.objectId
@@ -803,7 +809,7 @@ extension ChatViewModel {
                     actions.append(unblock)
                 } else {
                     let block = UIAction(interface: UIActionInterface.text(LGLocalizedString.chatBlockUser),
-                                           action: blockUserAction)
+                                         action:  { [weak self] in self?.blockUserAction(buttonPosition: .threeDots) } )
                     actions.append(block)
                 }
             }
@@ -850,14 +856,15 @@ extension ChatViewModel {
         delegate?.vmShowReportUser(reportVM)
     }
     
-    private func blockUserAction() {
+    fileprivate func blockUserAction(buttonPosition: EventParameterBlockButtonPosition) {
         
         let action = UIAction(interface: .styledText(LGLocalizedString.chatBlockUserAlertBlockButton, .destructive), action: {
             [weak self] in
-            self?.blockUser() { [weak self] success in
+            self?.blockUser(buttonPosition: buttonPosition) { [weak self] success in
                 if success {
                     self?.interlocutorIsMuted.value = true
                     self?.refreshConversation()
+                    self?.updateDisclaimers()
                 } else {
                     self?.delegate?.vmShowMessage(LGLocalizedString.blockUserErrorGeneric, completion: nil)
                 }
@@ -870,14 +877,14 @@ extension ChatViewModel {
                               actions: [action])
     }
     
-    private func blockUser(_ completion: @escaping (_ success: Bool) -> ()) {
+    private func blockUser(buttonPosition: EventParameterBlockButtonPosition, completion: @escaping (_ success: Bool) -> ()) {
         
         guard let userId = conversation.value.interlocutor?.objectId else {
             completion(false)
             return
         }
         
-        trackBlockUsers([userId])
+        trackBlockUsers([userId], buttonPosition: buttonPosition)
         
         self.userRepository.blockUserWithId(userId) { result -> Void in
             completion(result.value != nil)
@@ -889,6 +896,7 @@ extension ChatViewModel {
             if success {
                 self?.interlocutorIsMuted.value = false
                 self?.refreshConversation()
+                self?.updateDisclaimers()
             } else {
                 self?.delegate?.vmShowMessage(LGLocalizedString.unblockUserErrorGeneric, completion: nil)
             }
@@ -943,7 +951,8 @@ extension ChatViewModel {
     }
     
     private var defaultDisclaimerMessage: ChatViewMessage {
-        return chatViewMessageAdapter.createMessageSuspiciousDisclaimerMessage(safetyTipsAction)
+        let action: (() -> Void)? = interlocutorIsMuted.value ? nil : blockAction
+        return chatViewMessageAdapter.createMessageSuspiciousDisclaimerMessage(action)
     }
 
     var userInfoMessage: ChatViewMessage? {
@@ -1067,6 +1076,14 @@ extension ChatViewModel {
         messages.removeAll()
         messages.appendContentsOf(chatMessages)
     }
+    
+    fileprivate func updateDisclaimers() {
+        let chatMessages = chatViewMessageAdapter.addDisclaimers(messages.value,
+                                                                 disclaimerMessage: defaultDisclaimerMessage)
+        messages.removeAll()
+        messages.appendContentsOf(chatMessages)
+
+    }
 
     private func afterRetrieveChatMessagesEvents() {
         if shouldShowSafetyTips {
@@ -1172,8 +1189,8 @@ fileprivate extension ChatViewModel {
         tracker.trackEvent(TrackerEvent.userMessageSentError(info: info))
     }
     
-    func trackBlockUsers(_ userIds: [String]) {
-        let blockUserEvent = TrackerEvent.profileBlock(.chat, blockedUsersIds: userIds)
+    func trackBlockUsers(_ userIds: [String], buttonPosition: EventParameterBlockButtonPosition) {
+        let blockUserEvent = TrackerEvent.profileBlock(.chat, blockedUsersIds: userIds, buttonPosition: buttonPosition)
         tracker.trackEvent(blockUserEvent)
     }
     

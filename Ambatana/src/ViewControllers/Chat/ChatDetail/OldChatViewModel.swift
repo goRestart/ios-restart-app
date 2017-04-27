@@ -114,6 +114,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
     }
 
     var chatStatus: ChatInfoViewStatus {
+       
         if chat.forbidden {
             return .forbidden
         }
@@ -129,7 +130,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         case .active, .inactive, .notFound:
             break // In this case we rely on the rest of states
         }
-
+        
         if let relation = userRelation {
             if relation.isBlocked { return .blocked }
             if relation.isBlockedBy { return .blockedBy }
@@ -172,7 +173,11 @@ class OldChatViewModel: BaseViewModel, Paginable {
     }
 
     var messageSuspiciousDisclaimerMessage: ChatViewMessage {
-        return chatViewMessageAdapter.createMessageSuspiciousDisclaimerMessage(safetyTipsAction)
+        var action: (() -> Void)? = blockUserAction
+        if let relations = userRelation, relations.isBlocked {
+            action = nil
+        }
+        return chatViewMessageAdapter.createMessageSuspiciousDisclaimerMessage(action)
     }
 
     var userInfoMessage: ChatViewMessage? {
@@ -191,6 +196,12 @@ class OldChatViewModel: BaseViewModel, Paginable {
     var safetyTipsAction: () -> Void {
         return { [weak self] in
             self?.delegate?.vmShowSafetyTips()
+        }
+    }
+    
+    var blockUserAction: () -> Void {
+        return { [weak self] in
+            self?.blockUser(position: .safetyPopup)
         }
     }
 
@@ -414,6 +425,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
     }
 
     private func refreshChatInfo() {
+        
         guard chatStatus != .forbidden else {
             showScammerDisclaimerMessage()
             markForbiddenAsRead()
@@ -524,7 +536,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
                 actions.append({ [weak self] in self?.unblockUserPressed() })
             } else {
                 texts.append(LGLocalizedString.chatBlockUser)
-                actions.append({ [weak self] in self?.blockUserPressed() })
+                actions.append({ [weak self] in self?.blockUserPressed(position: .threeDots) })
             }
         }
         
@@ -783,20 +795,25 @@ class OldChatViewModel: BaseViewModel, Paginable {
             guard let strongSelf = self else { return }
             if let chat = result.value {
                 strongSelf.chat = chat
-                let chatMessages = chat.messages.map(strongSelf.chatViewMessageAdapter.adapt)
-                let newChatMessages = strongSelf.chatViewMessageAdapter
-                    .addDisclaimers(chatMessages, disclaimerMessage: strongSelf.messageSuspiciousDisclaimerMessage)
 
-                let insertedMessagesInfo = OldChatViewModel.insertNewMessagesAt(strongSelf.loadedMessages,
-                                                                                newMessages: newChatMessages)
-                strongSelf.loadedMessages = insertedMessagesInfo.messages
-                strongSelf.delegate?.vmUpdateAfterReceivingMessagesAtPositions(insertedMessagesInfo.indexes,
-                                                                               isUpdate: insertedMessagesInfo.isUpdate)
+                strongSelf.updateDisclaimers()
                 strongSelf.afterRetrieveChatMessagesEvents()
                 strongSelf.checkSellerDidntAnswer(chat.messages, page: strongSelf.firstPage)
             }
             strongSelf.isLoading = false
         }
+    }
+    
+    fileprivate func updateDisclaimers() {
+        let chatMessages = chat.messages.map(chatViewMessageAdapter.adapt)
+        let newChatMessages = chatViewMessageAdapter
+            .addDisclaimers(chatMessages, disclaimerMessage: messageSuspiciousDisclaimerMessage)
+        
+        let insertedMessagesInfo = OldChatViewModel.insertNewMessagesAt(loadedMessages,
+                                                                        newMessages: newChatMessages)
+        loadedMessages = insertedMessagesInfo.messages
+        delegate?.vmUpdateAfterReceivingMessagesAtPositions(insertedMessagesInfo.indexes,
+                                                                       isUpdate: insertedMessagesInfo.isUpdate)
     }
     
     /**
@@ -870,13 +887,17 @@ class OldChatViewModel: BaseViewModel, Paginable {
         shouldAskProductSold = false
     }
     
-    private func blockUserPressed() {
+    fileprivate func blockUserPressed(position: EventParameterBlockButtonPosition) {
+        blockUser(position: position)
+    }
+    
+    private func blockUser(position: EventParameterBlockButtonPosition) {
         
         delegate?.vmShowQuestion(title: LGLocalizedString.chatBlockUserAlertTitle,
                                  message: LGLocalizedString.chatBlockUserAlertText,
                                  positiveText: LGLocalizedString.chatBlockUserAlertBlockButton,
                                  positiveAction: { [weak self] in
-                                    self?.blockUser() { [weak self] success in
+                                    self?.blockUser(position: position) { [weak self] success in
                                         if success {
                                             self?.userRelation?.isBlocked = true
                                         } else {
@@ -888,14 +909,14 @@ class OldChatViewModel: BaseViewModel, Paginable {
                                  negativeText: LGLocalizedString.commonCancel, negativeAction: nil, negativeActionStyle: nil)
     }
     
-    private func blockUser(_ completion: @escaping (_ success: Bool) -> ()) {
+    private func blockUser(position: EventParameterBlockButtonPosition, completion: @escaping (_ success: Bool) -> ()) {
         
         guard let user = otherUser, let userId = user.objectId else {
             completion(false)
             return
         }
         
-        trackBlockUsers([userId])
+        trackBlockUsers([userId], buttonPosition: position)
         
         self.userRepository.blockUserWithId(userId) { [weak self] result -> Void in
             let success = result.value != nil
@@ -903,6 +924,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
             
             if success {
                 self?.delegate?.vmUpdateReviewButton()
+                self?.updateDisclaimers()
             }
         }
     }
@@ -931,6 +953,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
             
             if success {
                 self?.delegate?.vmUpdateReviewButton()
+                self?.updateDisclaimers()
             }
         }
     }
@@ -1028,8 +1051,8 @@ class OldChatViewModel: BaseViewModel, Paginable {
         tracker.trackEvent(TrackerEvent.userMessageSentError(info: info))
     }
     
-    private func trackBlockUsers(_ userIds: [String]) {
-        let blockUserEvent = TrackerEvent.profileBlock(.chat, blockedUsersIds: userIds)
+    private func trackBlockUsers(_ userIds: [String], buttonPosition: EventParameterBlockButtonPosition) {
+        let blockUserEvent = TrackerEvent.profileBlock(.chat, blockedUsersIds: userIds, buttonPosition: buttonPosition)
         tracker.trackEvent(blockUserEvent)
     }
     

@@ -94,7 +94,6 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
         super.viewWillDisappear(animated)
         removeIgnoreTouchesForTooltip()
     }
-
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         viewModel.didAppear()
@@ -225,12 +224,12 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
     }
     
     private func setupRx() {
-        viewModel.relatedProductsState.asObservable().bindNext { state in
+        viewModel.relatedProductsState.asObservable().bindNext { [weak self] state in
             switch state {
             case .visible(let productId):
-                self.relatedProductsView.productId.value = productId
+                self?.relatedProductsView.productId.value = productId
             case .hidden, .loading:
-                self.relatedProductsView.productId.value = nil
+                self?.relatedProductsView.productId.value = nil
             }
             }.addDisposableTo(disposeBag)
     }

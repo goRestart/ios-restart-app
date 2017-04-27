@@ -762,10 +762,12 @@ struct TrackerEvent {
             return TrackerEvent(name: .profileReport, params: params)
     }
 
-    static func profileBlock(_ typePage: EventParameterTypePage, blockedUsersIds: [String]) -> TrackerEvent{
+    static func profileBlock(_ typePage: EventParameterTypePage, blockedUsersIds: [String],
+                             buttonPosition: EventParameterBlockButtonPosition) -> TrackerEvent{
         var params = EventParameters()
         params[.typePage] = typePage.rawValue
         params[.userToId] = blockedUsersIds.joined(separator: ",")
+        params[.blockButtonPosition] = buttonPosition.rawValue
         return TrackerEvent(name: .profileBlock, params: params)
     }
 
@@ -934,9 +936,14 @@ struct TrackerEvent {
         return TrackerEvent(name: .notificationCenterStart, params: EventParameters())
     }
 
-    static func notificationCenterComplete(_ type: EventParameterNotificationType) -> TrackerEvent {
+    static func notificationCenterComplete(_ type: EventParameterNotificationType, source: EventParameterNotificationClickArea,
+                                           cardAction: String?, notificationCampaign: String?) -> TrackerEvent {
         var params = EventParameters()
         params[.notificationType] = type.rawValue
+        params[.notificationClickArea] = source.rawValue
+        // cardAction is passed as string instead of EventParameterCardAction type as retention could send anything on the query parameter.
+        params[.notificationAction] = cardAction ?? "N/A"
+        params[.notificationCampaign] = notificationCampaign ?? "N/A"
         return TrackerEvent(name: .notificationCenterComplete, params: params)
     }
 

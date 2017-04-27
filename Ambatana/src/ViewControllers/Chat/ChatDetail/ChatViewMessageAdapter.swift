@@ -123,9 +123,11 @@ class ChatViewMessageAdapter {
 
     func createMessageSuspiciousDisclaimerMessage(_ action: (() -> ())?) -> ChatViewMessage {
         let messageSuspiciousMessage = ChatViewMessageAdapter.alertMutableAttributedString
-
-        let keyword = LGLocalizedString.chatBlockedDisclaimerScammerAppendSafetyTipsKeyword
-        let secondPhraseStr = LGLocalizedString.chatMessageDisclaimerScammer(keyword)
+        var keyword = ""
+        if let _ = action {
+             keyword = LGLocalizedString.chatMessageDisclaimerScammerAppendBlocked
+        }
+        let secondPhraseStr = LGLocalizedString.chatMessageDisclaimerScammerBaseBlocked(keyword)
         let secondPhraseNSStr = NSString(string: secondPhraseStr)
         let range = secondPhraseNSStr.range(of: keyword)
 

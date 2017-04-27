@@ -16,28 +16,26 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#import <FBSDKCoreKit/FBSDKButton.h>
+/*
+  simple class to manage image downloads
 
-#import <FBSDKShareKit/FBSDKLikeObjectType.h>
-#import <FBSDKShareKit/FBSDKLiking.h>
-
-/**
-  A button to like an object.
-
- Tapping the receiver will invoke an API call to the Facebook app through a fast-app-switch that allows
- the object to be liked.  Upon return to the calling app, the view will update with the new state.  If the
- currentAccessToken has "publish_actions" permission and the object is an Open Graph object, then the like can happen
- seamlessly without the fast-app-switch.
+ this class is not smart enough to dedupe identical requests in flight.
  */
-@interface FBSDKLikeButton : FBSDKButton <FBSDKLiking>
+@interface FBSDKImageDownloader : NSObject
 
-/**
-  If YES, a sound is played when the receiver is toggled.
++ (instancetype)sharedInstance;
 
- @default YES
+/*
+  download an image or retrieve it from cache
+ - Parameter url: the url to download
+ - Parameter ttl: the amount of time (in seconds) that using a cached version is acceptable.
+ - Parameter completion: the callback with the image - for simplicity nil is returned rather than surfacing an error.
  */
-@property (nonatomic, assign, getter = isSoundEnabled) BOOL soundEnabled;
+- (void)downloadImageWithURL:(NSURL *)url ttl:(NSTimeInterval)ttl completion:(void(^)(UIImage* image))completion;
+
+- (void)removeAll;
 
 @end

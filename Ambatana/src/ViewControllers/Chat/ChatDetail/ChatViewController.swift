@@ -479,8 +479,8 @@ fileprivate extension ChatViewController {
             guard let strongSelf = self else { return }
             let visible = state == .visible
             strongSelf.directAnswersPresenter.hidden = !visible
-            strongSelf.configureBottomMargin(animated: true)            
-        }.addDisposableTo(disposeBag)
+            strongSelf.configureBottomMargin(animated: true)
+            }.addDisposableTo(disposeBag)
 
         keyboardChanges.bindNext { [weak self] change in
             if !change.visible {
@@ -492,12 +492,12 @@ fileprivate extension ChatViewController {
             self?.reloadLeftActions()
         }.addDisposableTo(disposeBag)
         
-        viewModel.relatedProductsState.asObservable().bindNext { state in
+        viewModel.relatedProductsState.asObservable().bindNext { [weak self] state in
             switch state {
             case .visible(let productId):
-                self.relatedProductsView.productId.value = productId
+                self?.relatedProductsView.productId.value = productId
             case .hidden, .loading:
-                self.relatedProductsView.productId.value = nil
+                self?.relatedProductsView.productId.value = nil
             }
         }.addDisposableTo(disposeBag)
     }

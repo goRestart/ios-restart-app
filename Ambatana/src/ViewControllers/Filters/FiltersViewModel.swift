@@ -253,7 +253,7 @@ class FiltersViewModel: BaseViewModel {
             }
             sections = generateSections()
         case .category(let cat):
-            productFilter.toggleCategory(cat)
+            productFilter.toggleCategory(cat, carVerticalEnabled: featureFlags.carsVerticalEnabled)
         }
         self.delegate?.vmDidUpdate()
     }
