@@ -77,6 +77,10 @@ public struct RetrieveListingParams {
     }
 }
 
+enum ListingParams {
+    case 
+}
+
 public struct IndexTrendingListingsParams {
     let countryCode: String?
     let coordinates: LGLocationCoordinates2D?

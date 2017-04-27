@@ -11,7 +11,7 @@ import RxSwift
 
 protocol SellCoordinatorDelegate: class {
     func sellCoordinatorDidCancel(_ coordinator: SellCoordinator)
-    func sellCoordinator(_ coordinator: SellCoordinator, didFinishWithProduct product: Product)
+    func sellCoordinator(_ coordinator: SellCoordinator, didFinishWithListing listing: Listing)
 }
 
 final class SellCoordinator: Coordinator {
@@ -91,52 +91,74 @@ extension SellCoordinator: PostProductNavigator {
         }
     }
 
-    func closePostProductAndPostInBackground(params: ProductCreationParams, showConfirmation: Bool,
+    func closePostProductAndPostInBackground(params: ListingCreationParams, showConfirmation: Bool,
                                              trackingInfo: PostProductTrackingInfo) {
         dismissViewController(animated: true) { [weak self] in
-
-            self?.listingRepository.create(productParams: params) { result in
-                self?.trackPost(result, trackingInfo: trackingInfo)
-
-                if let _ = result.value {
-                    self?.keyValueStorage.userPostProductPostedPreviously = true
-                } else if let error = result.error {
-                    let sellError: EventParameterPostProductError
-                    switch error {
-                    case .network:
-                        sellError = .network
-                    case .serverError, .notFound, .forbidden, .unauthorized, .tooManyRequests, .userNotVerified:
-                        sellError = .serverError(code: error.errorCode)
-                    case .internalError:
-                        sellError = .internalError
+            switch params {
+            case .product(let productParams):
+                self?.listingRepository.create(productParams: productParams) { result in
+                    if let value = result.value {
+                        self?.keyValueStorage.userPostProductPostedPreviously = true
+                        self?.showConfirmation(showConfirmation, listingResult: ListingResult(value: value),
+                                               trackingInfo: trackingInfo)
+                    } else if let error = result.error {
+                        self?.trackListingPostedInBackground(withError: error)
+                        self?.showConfirmation(showConfirmation, listingResult: ListingResult(error: error),
+                                               trackingInfo: trackingInfo)
                     }
-                    let sellErrorDataEvent = TrackerEvent.productSellErrorData(sellError)
-                    TrackerProxy.sharedInstance.trackEvent(sellErrorDataEvent)
                 }
-
-                if showConfirmation {
-                    guard let parentVC = self?.parentViewController else { return }
-
-                    let productPostedVM = ProductPostedViewModel(postResult: result, trackingInfo: trackingInfo)
-                    productPostedVM.navigator = self
-                    let productPostedVC = ProductPostedViewController(viewModel: productPostedVM)
-                    self?.viewController = productPostedVC
-                    parentVC.present(productPostedVC, animated: true, completion: nil)
-                } else {
-                    self?.closeCoordinator(animated: false) {
-                        guard let strongSelf = self else { return }
-                        if let product = result.value {
-                            strongSelf.delegate?.sellCoordinator(strongSelf, didFinishWithProduct: product)
-                        } else {
-                            strongSelf.delegate?.sellCoordinatorDidCancel(strongSelf)
-                        }
+            case .car(let carParams):
+                self?.listingRepository.create(carParams: carParams) { result in
+                    if let value = result.value {
+                        self?.keyValueStorage.userPostProductPostedPreviously = true
+                        self?.showConfirmation(showConfirmation, listingResult: ListingResult(value: value),
+                                               trackingInfo: trackingInfo)
+                    } else if let error = result.error {
+                        self?.trackListingPostedInBackground(withError: error)
+                        self?.showConfirmation(showConfirmation, listingResult: ListingResult(error: error),
+                                               trackingInfo: trackingInfo)
                     }
                 }
             }
         }
     }
+    
+    fileprivate func trackListingPostedInBackground(withError error: RepositoryError) {
+        let sellError: EventParameterPostProductError
+        switch error {
+        case .network:
+            sellError = .network
+        case .serverError, .notFound, .forbidden, .unauthorized, .tooManyRequests, .userNotVerified:
+            sellError = .serverError(code: error.errorCode)
+        case .internalError:
+            sellError = .internalError
+        }
+        let sellErrorDataEvent = TrackerEvent.productSellErrorData(sellError)
+        TrackerProxy.sharedInstance.trackEvent(sellErrorDataEvent)
+    }
 
-    func closePostProductAndPostLater(params: ProductCreationParams, images: [UIImage],
+    fileprivate func showConfirmation(_ showConfirmation: Bool, listingResult: ListingResult, trackingInfo: PostProductTrackingInfo) {
+        if showConfirmation {
+            guard let parentVC = parentViewController else { return }
+            
+            let productPostedVM = ProductPostedViewModel(listingResult: listingResult, trackingInfo: trackingInfo)
+            productPostedVM.navigator = self
+            let productPostedVC = ProductPostedViewController(viewModel: productPostedVM)
+            viewController = productPostedVC
+            parentVC.present(productPostedVC, animated: true, completion: nil)
+        } else {
+            closeCoordinator(animated: false) { [weak self] in
+                guard let strongSelf = self else { return }
+                if let listing = listingResult.value {
+                    strongSelf.delegate?.sellCoordinator(strongSelf, didFinishWithListing: listing)
+                } else {
+                    strongSelf.delegate?.sellCoordinatorDidCancel(strongSelf)
+                }
+            }
+        }
+    }
+
+    func closePostProductAndPostLater(params: ListingCreationParams, images: [UIImage],
                                       trackingInfo: PostProductTrackingInfo) {
         guard let parentVC = parentViewController else { return }
 
@@ -167,7 +189,7 @@ extension SellCoordinator: ProductPostedNavigator {
         }
     }
 
-    func closeProductPosted(_ product: Product) {
+    func closeProductPosted(_ listing: Listing) {
         closeCoordinator(animated: true) { [weak self] in
             guard let strongSelf = self, let delegate = strongSelf.delegate else { return }
 
@@ -175,7 +197,7 @@ extension SellCoordinator: ProductPostedNavigator {
         }
     }
 
-    func closeProductPostedAndOpenEdit(_ product: Product) {
+    func closeProductPostedAndOpenEdit(_ listing: Listing) {
         dismissViewController(animated: true) { [weak self] in
             guard let parentVC = self?.parentViewController else { return }
 
@@ -210,9 +232,9 @@ extension SellCoordinator: ProductPostedNavigator {
 // MARK: - Tracking
 
 fileprivate extension SellCoordinator {
-    func trackPost(_ result: ProductResult, trackingInfo: PostProductTrackingInfo) {
-        guard let product = result.value else { return }
-        let event = TrackerEvent.productSellComplete(product, buttonName: trackingInfo.buttonName, sellButtonPosition: trackingInfo.sellButtonPosition,
+    func trackPost(_ result: ListingResult, trackingInfo: PostProductTrackingInfo) {
+        guard let listing = result.value else { return }
+        let event = TrackerEvent.productSellComplete(listing, buttonName: trackingInfo.buttonName, sellButtonPosition: trackingInfo.sellButtonPosition,
                                                      negotiable: trackingInfo.negotiablePrice, pictureSource: trackingInfo.imageSource,
                                                      freePostingModeAllowed: featureFlags.freePostingModeAllowed)
 
@@ -223,7 +245,7 @@ fileprivate extension SellCoordinator {
                 !keyValueStorage.userTrackingProductSellComplete24hTracked {
             keyValueStorage.userTrackingProductSellComplete24hTracked = true
 
-            let event = TrackerEvent.productSellComplete24h(product)
+            let event = TrackerEvent.productSellComplete24h(listing)
             tracker.trackEvent(event)
         }
     }

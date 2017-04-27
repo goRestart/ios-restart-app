@@ -149,13 +149,29 @@ class PostProductViewModel: BaseViewModel {
         if state.value.pendingToUploadImages != nil {
             openPostAbandonAlertNotLoggedIn()
         } else {
-            guard let images = state.value.lastImagesUploadResult?.value, let params = makeProductCreationParams(images: images) else {
-                navigator?.cancelPostProduct()
-                return
+            guard let images = state.value.lastImagesUploadResult?.value else { return }
+            
+            var listingParams: ListingCreationParams?
+            if let category = category.value, category == .car {
+                if let carParams = makeCarCreationParams(images: images) {
+                    listingParams = ListingCreationParams.car(carParams)
+                } else {
+                    navigator?.cancelPostProduct()
+                }
             }
-            let trackingInfo = PostProductTrackingInfo(buttonName: .close, sellButtonPosition: postingSource.sellButtonPosition,
-                                                       imageSource: uploadedImageSource, price: nil) // TODO: 🚔 that nil..?
-            navigator?.closePostProductAndPostInBackground(params: params, showConfirmation: false, trackingInfo: trackingInfo)
+            else if let productParams = makeProductCreationParams(images: images) {
+                listingParams = ListingCreationParams.product(productParams)
+            } else {
+                navigator?.cancelPostProduct()
+            }
+            
+            guard let params = listingParams else { return }
+            let trackingInfo = PostProductTrackingInfo(buttonName: .close,
+                                                       sellButtonPosition: postingSource.sellButtonPosition,
+                                                       imageSource: uploadedImageSource,
+                                                       price: postDetailViewModel.price.value)
+            navigator?.closePostProductAndPostInBackground(params: params, showConfirmation: false,
+                                                           trackingInfo: trackingInfo)
         }
     }
 }
@@ -262,8 +278,8 @@ extension PostProductViewModel {
             case .make:
                 strongSelf.selectedCarAttributes = strongSelf.selectedCarAttributes.updating(make: categoryDetail.name,
                                                                                              makeId: categoryDetail.id,
-                                                                                             model: "",
-                                                                                             modelId: "")
+                                                                                             model: LGCoreKitConstants.carsMakeEmptyValue,
+                                                                                             modelId: LGCoreKitConstants.carsModelEmptyValue)
             case .model:
                 strongSelf.selectedCarAttributes = strongSelf.selectedCarAttributes.updating(model: categoryDetail.name,
                                                                                              modelId: categoryDetail.id)
@@ -271,22 +287,6 @@ extension PostProductViewModel {
                 strongSelf.selectedCarAttributes = strongSelf.selectedCarAttributes.updating(year: Int(categoryDetail.id))
             }
         }.addDisposableTo(disposeBag)
-    }
-}
-
-extension CarAttributes {
-    // use "" to remove data
-    func updating(make: String? = nil, //LGCoreKit.carMakeEmptyValue
-                  makeId: String? = nil,
-                  model: String? = nil,
-                  modelId: String? = nil,
-                  year: Int? = nil) -> CarAttributes {
-        
-        return CarAttributes(make: make ?? self.make,
-                             makeId: makeId ?? self.makeId,
-                             model: model ?? self.model,
-                             modelId: modelId ?? self.modelId,
-                             year: year ?? self.year)
     }
 }
 
@@ -379,7 +379,7 @@ fileprivate extension PostProductViewModel {
     
     func postListing() {
         if let postCategory = category.value, postCategory == .car {
-            psotCar()
+            postCar()
         } else {
             postProduct()
         }
