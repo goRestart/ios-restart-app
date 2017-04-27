@@ -296,6 +296,7 @@ class PostCarDetailsView: UIView {
     func showSelectDetail() {
         state = .selectDetail
         
+        layoutIfNeeded()
         self.progressTopConstraint.constant = PostCarDetailsView.progressTopConstraintConstantSelectDetail
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseIn, animations: {
             self.layoutIfNeeded()
@@ -320,6 +321,7 @@ class PostCarDetailsView: UIView {
         
         guard state == .selectDetail else { return }
         
+        layoutIfNeeded()
         UIView.animate(withDuration: 0.15, delay: 0, options: .curveEaseOut, animations: {
             self.selectDetailVisibleViews().forEach { $0.alpha = 0 }
             self.selectDetailValueVisibleViews().forEach { $0.alpha = 1 }

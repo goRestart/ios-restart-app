@@ -371,7 +371,7 @@ extension PostProductViewController {
     
     dynamic func carDetailsDoneButtonPressed() {
         carDetailsView.hideKeyboard()
-        // request
+        viewModel.postCarDetailDone()
     }
     
     fileprivate func didFinishEnteringDetails() {
@@ -380,7 +380,7 @@ extension PostProductViewController {
         switch carDetailsView.state {
         case .selectDetail:
             // go back to previous state
-            // viewModel.goBackTo...
+             viewModel.goBackT
             break
         case .selectDetailValue:
             carDetailsView.showSelectDetail()

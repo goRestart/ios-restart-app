@@ -183,7 +183,8 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
         tableView.separatorStyle = UITableViewCellSeparatorStyle.none
         tableView.backgroundColor = style.tableViewBackgroundColor
         tableView.tintColor = style.tableViewTintColor
-
+        tableView.indicatorStyle = .white
+        
         searchBar.delegate = self
         searchBar.autocapitalizationType = .none
         searchBar.autocorrectionType = .no
@@ -268,7 +269,6 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
             cell.textLabel?.textColor = style.cellSelectedTextColor
             cell.imageView?.image = UIImage(named: "ic_cirle_plus")
             cell.imageView?.contentMode = .left
-            cell.layoutIfNeeded()
             return cell
         }
         
@@ -303,6 +303,8 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
         }
         
         searchBar.resignFirstResponder()
+        
+        // la selected de hace 2 no se ve !!!!
         
         let value = filteredValues[indexPath.row]
         guard let index = rawValues.index(of: value) else { return }
@@ -341,15 +343,21 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
     }
     
     func setupTableView(withDetailType type: CarDetailType, values: [CarInfoWrapper], selectedValueIndex: Int?, addOtherString: String?) {
+        searchBar.text = nil
         self.addOtherString = addOtherString
         detailType = type
         rawValues = values
         filteredValues = values
-        searchBar.text = nil
         
         if let selectedIndex = selectedValueIndex, selectedIndex < filteredValues.count {
             let indexPath = IndexPath(row: selectedIndex, section: 0)
             tableView.selectRow(at: indexPath, animated: false, scrollPosition: .middle)
+            if let cell = tableView.cellForRow(at: indexPath) {
+                cell.accessoryType = .checkmark
+                cell.textLabel?.textColor = style.cellSelectedTextColor
+            }
+        } else {
+            tableView.setContentOffset(CGPoint.zero, animated: false)
         }
         
     }

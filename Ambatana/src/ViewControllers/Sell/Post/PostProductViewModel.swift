@@ -246,6 +246,12 @@ extension PostProductViewModel {
         return Float(detailsFilled.count) / Float(details.count)
     }
     
+    func postCarDetailDone() {
+        state.value = state.value.updating(carInfo: selectedCarAttributes)
+    }
+    
+//    func postCar?
+    
     // MARK: - Setup rx
     
     func setupCarsRx() {
