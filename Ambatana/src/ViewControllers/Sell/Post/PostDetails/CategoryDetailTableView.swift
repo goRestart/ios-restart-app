@@ -305,8 +305,6 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
         
         searchBar.resignFirstResponder()
         
-        // la selected de hace 2 no se ve !!!!
-        
         let value = filteredValues[indexPath.row]
         guard let index = rawValues.index(of: value) else { return }
         selectedDetail.value = .index(i: index, value: value)

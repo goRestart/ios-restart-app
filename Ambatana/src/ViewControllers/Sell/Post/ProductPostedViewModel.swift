@@ -48,19 +48,9 @@ class ProductPostedViewModel: BaseViewModel {
     // MARK: - Lifecycle
 
     convenience init(listingResult: ListingResult, trackingInfo: PostProductTrackingInfo) {
-        self.init(status: ListingPostedStatus(result: listingResult),
+        self.init(status: ListingPostedStatus(listingResult: listingResult),
                   trackingInfo: trackingInfo)
     }
-
-//    convenience init(productResult: ProductResult, trackingInfo: PostProductTrackingInfo) {
-//        self.init(status: ListingPostedStatus(result: productResult),
-//                  trackingInfo: trackingInfo)
-//    }
-//    
-//    convenience init(carResult: CarResult, trackingInfo: PostProductTrackingInfo) {
-//        self.init(status: ListingPostedStatus(result: carResult),
-//                  trackingInfo: trackingInfo)
-//    }
 
     convenience init(postParams: ListingCreationParams, productImages: [UIImage], trackingInfo: PostProductTrackingInfo) {
         self.init(status: ListingPostedStatus(images: productImages, params: postParams),
@@ -206,24 +196,24 @@ class ProductPostedViewModel: BaseViewModel {
     }
 
     func incentivateSectionPressed() {
-        guard let product = status.product else { return }
-        tracker.trackEvent(TrackerEvent.productSellConfirmationPost(product, buttonType: .itemPicture))
+        guard let listing = status.listing else { return }
+        tracker.trackEvent(TrackerEvent.productSellConfirmationPost(listing, buttonType: .itemPicture))
         navigator?.closeProductPostedAndOpenPost()
     }
 
     func shareStartedIn(_ shareType: ShareType) {
-        guard let product = status.product else { return }
-        tracker.trackEvent(TrackerEvent.productSellConfirmationShare(product, network: shareType.trackingShareNetwork))
+        guard let listing = status.listing else { return }
+        tracker.trackEvent(TrackerEvent.productSellConfirmationShare(listing, network: shareType.trackingShareNetwork))
     }
 
     func shareFinishedIn(_ shareType: ShareType, withState state: SocialShareState) {
-        guard let product = status.product else { return }
+        guard let listing = status.listing else { return }
 
         switch state {
         case .completed:
-            tracker.trackEvent(TrackerEvent.productSellConfirmationShareComplete(product, network: shareType.trackingShareNetwork))
+            tracker.trackEvent(TrackerEvent.productSellConfirmationShareComplete(listing, network: shareType.trackingShareNetwork))
         case .cancelled:
-            tracker.trackEvent(TrackerEvent.productSellConfirmationShareCancel(product, network: shareType.trackingShareNetwork))
+            tracker.trackEvent(TrackerEvent.productSellConfirmationShareCancel(listing, network: shareType.trackingShareNetwork))
         case .failed:
             break;
         }
@@ -246,7 +236,7 @@ class ProductPostedViewModel: BaseViewModel {
                         } else if let error = result.error {
                             self?.trackPostSellError(error: error)
                         }
-                        self?.updateStatusAfterPosting(status: ListingPostedStatus(result: result))
+                        self?.updateStatusAfterPosting(status: ListingPostedStatus(productResult: result))
                     }
                 case .car(let carParams):
                     self?.listingRepository.create(carParams: carParams) { [weak self] result in
@@ -255,7 +245,7 @@ class ProductPostedViewModel: BaseViewModel {
                         } else if let error = result.error {
                             self?.trackPostSellError(error: error)
                         }
-                        self?.updateStatusAfterPosting(status: ListingPostedStatus(result: result))
+                        self?.updateStatusAfterPosting(status: ListingPostedStatus(carResult: result))
                     }
                 }
             } else if let error = result.error {
@@ -346,10 +336,10 @@ enum ListingPostedStatus {
         self = .posting(images: images, params: params)
     }
 
-    init(listing: ListingResult) {
-        if let listing = result.value {
+    init(listingResult: ListingResult) {
+        if let listing = listingResult.value {
             self = .success(listing: listing)
-        } else if let error = result.error {
+        } else if let error = listingResult.error {
             switch error {
             case .network:
                 self = .error(error: .network)
@@ -361,35 +351,35 @@ enum ListingPostedStatus {
         }
     }
 
-//    init(result: ProductResult) {
-//        if let product = result.value {
-//            self = .success(listing: Listing.product(product))
-//        } else if let error = result.error {
-//            switch error {
-//            case .network:
-//                self = .error(error: .network)
-//            default:
-//                self = .error(error: .internalError)
-//            }
-//        } else {
-//            self = .error(error: .internalError)
-//        }
-//    }
-//    
-//    init(result: CarResult) {
-//        if let car = result.value {
-//            self = .success(listing: Listing.car(car))
-//        } else if let error = result.error {
-//            switch error {
-//            case .network:
-//                self = .error(error: .network)
-//            default:
-//                self = .error(error: .internalError)
-//            }
-//        } else {
-//            self = .error(error: .internalError)
-//        }
-//    }
+    init(productResult: ProductResult) {
+        if let product = productResult.value {
+            self = .success(listing: Listing.product(product))
+        } else if let error = productResult.error {
+            switch error {
+            case .network:
+                self = .error(error: .network)
+            default:
+                self = .error(error: .internalError)
+            }
+        } else {
+            self = .error(error: .internalError)
+        }
+    }
+    
+    init(carResult: CarResult) {
+        if let car = carResult.value {
+            self = .success(listing: Listing.car(car))
+        } else if let error = carResult.error {
+            switch error {
+            case .network:
+                self = .error(error: .network)
+            default:
+                self = .error(error: .internalError)
+            }
+        } else {
+            self = .error(error: .internalError)
+        }
+    }
 
     init(error: RepositoryError) {
         switch error {

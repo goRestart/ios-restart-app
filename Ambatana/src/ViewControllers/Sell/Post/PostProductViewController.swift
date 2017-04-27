@@ -379,8 +379,7 @@ extension PostProductViewController {
         
         switch carDetailsView.state {
         case .selectDetail:
-            // go back to previous state
-//             viewModel.goBack
+             viewModel.revertToPreviousStep()
             break
         case .selectDetailValue:
             carDetailsView.showSelectDetail()

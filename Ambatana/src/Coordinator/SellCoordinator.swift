@@ -99,7 +99,7 @@ extension SellCoordinator: PostProductNavigator {
                 self?.listingRepository.create(productParams: productParams) { result in
                     if let value = result.value {
                         self?.keyValueStorage.userPostProductPostedPreviously = true
-                        self?.showConfirmation(showConfirmation, listingResult: ListingResult(value: value),
+                        self?.showConfirmation(showConfirmation, listingResult: ListingResult(value: Listing.product(value)),
                                                trackingInfo: trackingInfo)
                     } else if let error = result.error {
                         self?.trackListingPostedInBackground(withError: error)
@@ -111,7 +111,7 @@ extension SellCoordinator: PostProductNavigator {
                 self?.listingRepository.create(carParams: carParams) { result in
                     if let value = result.value {
                         self?.keyValueStorage.userPostProductPostedPreviously = true
-                        self?.showConfirmation(showConfirmation, listingResult: ListingResult(value: value),
+                        self?.showConfirmation(showConfirmation, listingResult: ListingResult(value: Listing.car(value)),
                                                trackingInfo: trackingInfo)
                     } else if let error = result.error {
                         self?.trackListingPostedInBackground(withError: error)
@@ -193,7 +193,7 @@ extension SellCoordinator: ProductPostedNavigator {
         closeCoordinator(animated: true) { [weak self] in
             guard let strongSelf = self, let delegate = strongSelf.delegate else { return }
 
-            delegate.sellCoordinator(strongSelf, didFinishWithProduct: product)
+            delegate.sellCoordinator(strongSelf, didFinishWithListing: listing)
         }
     }
 
@@ -201,12 +201,17 @@ extension SellCoordinator: ProductPostedNavigator {
         dismissViewController(animated: true) { [weak self] in
             guard let parentVC = self?.parentViewController else { return }
 
+            
+            // TODO: cars
+            guard let product = listing.product else { return }
+            
             // TODO: Open EditProductCoordinator, refactor this completion with a EditProductCoordinatorDelegate func
             let editVM = EditProductViewModel(product: product)
             editVM.closeCompletion = { editedProduct in
                 self?.closeCoordinator(animated: false) {
                     guard let strongSelf = self else { return }
-                    strongSelf.delegate?.sellCoordinator(strongSelf, didFinishWithProduct: editedProduct ?? product)
+                    let listing = Listing.product(editedProduct ?? product)
+                    strongSelf.delegate?.sellCoordinator(strongSelf, didFinishWithListing: listing)
                 }
             }
             let editVC = EditProductViewController(viewModel: editVM)
