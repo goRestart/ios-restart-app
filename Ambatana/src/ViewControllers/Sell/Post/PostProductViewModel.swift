@@ -160,7 +160,7 @@ class PostProductViewModel: BaseViewModel {
     }
 }
 
-// MARK: - Car details
+// MARK: - Cars vertical
 
 extension PostProductViewModel {
     
@@ -232,7 +232,7 @@ extension PostProductViewModel {
     }
     
     var currentCarDetailsProgress: Float {
-        let details: [Any?] = [selectedCarAttributes.makeId, selectedCarAttributes.modelId, selectedCarAttributes.year]
+        let details: [Any?] = [selectedCarAttributes.make, selectedCarAttributes.model, selectedCarAttributes.year]
         let detailsFilled: [Any] = details.flatMap { data in
             if let data = data as? String, !data.isEmpty {
                 return data
@@ -335,7 +335,7 @@ fileprivate extension PostProductViewModel {
         delegate?.vmShowAlert(title, message: message, actions: [cancelAction, postAction])
     }
 
-    func postProduct() {
+    fileprivate func postProduct() {
         let trackingInfo = PostProductTrackingInfo(buttonName: .done, sellButtonPosition: postingSource.sellButtonPosition,
                                                    imageSource: uploadedImageSource, price: postDetailViewModel.price.value)
         if sessionManager.loggedIn {
@@ -355,8 +355,37 @@ fileprivate extension PostProductViewModel {
             navigator?.cancelPostProduct()
         }
     }
+    
+    fileprivate func postCar() {
+        let trackingInfo = PostProductTrackingInfo(buttonName: .done, sellButtonPosition: postingSource.sellButtonPosition,
+                                                   imageSource: uploadedImageSource, price: postDetailViewModel.price.value)
+        if sessionManager.loggedIn {
+            guard let images = state.value.lastImagesUploadResult?.value, let params = makeCarCreationParams(images: images) else { return }
+            navigator?.closePostProductAndPostInBackground(params: params, showConfirmation: true, trackingInfo: trackingInfo)
+        } else if let images = state.value.pendingToUploadImages {
+            let loggedInAction = { [weak self] in
+                guard let params = self?.makeProductCreationParams(images: []) else { return }
+                self?.navigator?.closePostProductAndPostLater(params: params, images: images, trackingInfo: trackingInfo)
+            }
+            let cancelAction = { [weak self] in
+                guard let state = self?.state.value else { return }
+                self?.state.value = state.revertToPreviousStep()
+            }
+            navigator?.openLoginIfNeededFromProductPosted(from: .sell, loggedInAction: loggedInAction, cancelAction: cancelAction)
+        } else {
+            navigator?.cancelPostProduct()
+        }
+    }
+    
+    func postListing() {
+        if let postCategory = category.value, postCategory == .car {
+            psotCar()
+        } else {
+            postProduct()
+        }
+    }
 
-    func makeProductCreationParams(images: [File]) -> ProductCreationParams? {
+    fileprivate func makeProductCreationParams(images: [File]) -> ProductCreationParams? {
         guard let location = locationManager.currentLocation?.location else { return nil }
         let price = postDetailViewModel.productPrice
         let title = postDetailViewModel.productTitle
@@ -371,6 +400,24 @@ fileprivate extension PostProductViewModel {
                                      location: location,
                                      postalAddress: postalAddress,
                                      images: images)
+    }
+    
+    fileprivate func makeCarCreationParams(images: [File]) -> CarCreationParams? {
+        guard let location = locationManager.currentLocation?.location else { return nil }
+        let price = postDetailViewModel.productPrice
+        let title = postDetailViewModel.productTitle
+        let description = postDetailViewModel.productDescription
+        let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()
+        let currency = currencyHelper.currencyWithCountryCode(postalAddress.countryCode ?? "US")
+        return CarCreationParams(name: title,
+                                 description: description,
+                                 price: price,
+                                 category: .cars,
+                                 currency: currency,
+                                 location: location,
+                                 postalAddress: postalAddress,
+                                 images: images,
+                                 carAttributes: selectedCarAttributes)
     }
 }
 

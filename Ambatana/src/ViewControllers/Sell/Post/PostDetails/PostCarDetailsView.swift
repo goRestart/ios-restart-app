@@ -221,6 +221,9 @@ class PostCarDetailsView: UIView {
         var buttonTitle = LGLocalizedString.postCategoryDetailCarMake
         if let make = make, !make.isEmpty {
             buttonTitle = make
+            modelRowView.enabled = true
+        } else {
+            modelRowView.enabled = false
         }
         navigationMakeButton.setTitle(buttonTitle, for: .normal)
         makeRowView.value = make
@@ -315,6 +318,7 @@ class PostCarDetailsView: UIView {
         }
         
         updateNavigationButtons(forDetail: detail)
+        
         updateTableView(withDetailType: detail, values: values,
                         selectedValueIndex: selectedValueIndex,
                         addOtherString: detail.addOtherString)

@@ -92,7 +92,7 @@ final class PostCategoryDetailProgressView: UIView {
         if percentage == Float(1) {
             progressView.progressTintColor = UIColor.asparagus
             titleLabel.text = LGLocalizedString.postCategoryDetailsProgress100
-            imageViewCenterConstraint.constant = imageView.frame.width/2 + Metrics.veryShortMargin
+            imageViewCenterConstraint.constant = (imageView.frame.width + Metrics.veryShortMargin)/2
             imageView.alpha = 1
         } else {
             progressView.progressTintColor = UIColor.white

@@ -184,6 +184,7 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
         tableView.backgroundColor = style.tableViewBackgroundColor
         tableView.tintColor = style.tableViewTintColor
         tableView.indicatorStyle = .white
+        tableView.keyboardDismissMode = .onDrag
         
         searchBar.delegate = self
         searchBar.autocapitalizationType = .none
@@ -344,6 +345,7 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
     
     func setupTableView(withDetailType type: CarDetailType, values: [CarInfoWrapper], selectedValueIndex: Int?, addOtherString: String?) {
         searchBar.text = nil
+        searchBar.keyboardType = type == .year ? .numberPad : .default
         self.addOtherString = addOtherString
         detailType = type
         rawValues = values
