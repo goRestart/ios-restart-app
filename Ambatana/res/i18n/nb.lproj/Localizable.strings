@@ -69,7 +69,7 @@
 "change_password_new_password_field_hint" = "Nytt passord";
 "change_password_send_error_generic" = "En feil oppstod ved endring av passord. Vennligst prøv igjen.";
 "change_password_send_error_invalid_password_with_max" = "Vennligst legg til et gyldig passord. Det må inneholde mellom %d og %d tegn.";
-"change_password_send_error_link_expired" = "Beklager, denne lenken har utløpt!";
+"change_password_send_error_link_expired" = "Oops! Denne lenken har utløpt.";
 "change_password_send_error_passwords_mismatch" = "Passordene er ikke like. Vennligst prøv igjen.";
 "change_password_send_ok" = "Passordet ble endret!";
 "change_password_title" = "Endre passord";
@@ -144,8 +144,8 @@
 "chat_list_unblock" = "Opphev Blokkering";
 "chat_login_popup_text" = "Du må være pålogget for å kunne starte samtale";
 "chat_message_disclaimer_scammer" = "Vær ekstra forsiktig når du veksler telefonnummer eller e-postadresse med andre. Falske bruker vil ofte be deg om å fortsette kommunikasjonen utenfor letgo. Pass på! Trykk her for å se våre %@.";
-"chat_message_disclaimer_scammer_append_blocked" = "Tap here to block this user.";
-"chat_message_disclaimer_scammer_base_blocked" = "Be extra careful when exchanging phone/email details. Fraudulent users often ask you to leave the letgo chat. %@";
+"chat_message_disclaimer_scammer_append_blocked" = "Trykk her for å blokkere denne brukeren.";
+"chat_message_disclaimer_scammer_base_blocked" = "Vær ekstra forsiktig når du veksler telefonnummer/e-postadresse. Falske brukere vil ofte be deg om å fortsette kommunikasjonen utenfor letgo's chat. %@";
 "chat_message_field_hint" = "Skriv din melding her";
 "chat_message_load_generic_error" = "En feil oppstod ved å motta samtaledata. Vennligst prøv igjen.";
 "chat_not_verified_alert_message" = "Koble til med Facebook, Google eller e-post for å verifisere din identitet.";
@@ -432,6 +432,17 @@
 "passive_buyers_message" = "Contact disse kjøperne som er interesserte i lignende produkter";
 "passive_buyers_not_available" = "Oops! Kunne ikke finne kjøper.";
 "passive_buyers_title" = "DISSE KJØPERNE KAN VÆRE INTERESSERTE";
+"post_category_detail_add_make" = "Legg til merke";
+"post_category_detail_add_model" = "Legg til modell";
+"post_category_detail_car_make" = "Merke";
+"post_category_detail_car_model" = "Model";
+"post_category_detail_car_year" = "År";
+"post_category_detail_ok_button" = "Ok";
+"post_category_detail_search_placeholder" = "Søk";
+"post_category_details_description" = "Annonser med komplette detaljer tiltrekker deg 20% flere potensielle kjøpere";
+"post_category_details_navigation_title" = "Legg til detaljer";
+"post_category_details_progress" = "%@ complete";
+"post_category_details_progress_100" = "Looks amazing";
 "product_ask_a_question_button" = "Still et spørsmål";
 "product_auto_generated_title_label" = "Automatisk generert tittel av letgo";
 "product_auto_generated_translated_title_label" = "(og oversatt av Google)";

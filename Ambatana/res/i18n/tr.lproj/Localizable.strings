@@ -69,7 +69,7 @@
 "change_password_new_password_field_hint" = "Yeni şifre";
 "change_password_send_error_generic" = "Şifre değiştirilirken bir hata oluştu. Lütfen tekrar dene.";
 "change_password_send_error_invalid_password_with_max" = "Lütfen geçerli bir şifre gir. Şifre en az %d, en fazla %d karakterden oluşmalıdır.";
-"change_password_send_error_link_expired" = "Üzgünüz, bu link zaman aşımına uğradı!";
+"change_password_send_error_link_expired" = "Oops! Bu link zaman aşımına uğradı.";
 "change_password_send_error_passwords_mismatch" = "Şifreler eşleşmiyor. Lütfen tekrar dene.";
 "change_password_send_ok" = "Şifren değiştirildi!";
 "change_password_title" = "Şifre değiştir";
@@ -144,8 +144,8 @@
 "chat_list_unblock" = "Engeli Kaldır";
 "chat_login_popup_text" = "Mesajlaşmaya başlamak için giriş yapmalısın";
 "chat_message_disclaimer_scammer" = "Telefon numarası ve e-posta bilgilerini paylaşırken çok temkinli ol. Dolandırıcı kullanıcılar görüşmeyi genelde letgo sohbet sisteminden dışarıya taşımayı teklif ederler. Dikkatli ol ve %@ kısmını okumak için buraya dokun.";
-"chat_message_disclaimer_scammer_append_blocked" = "Tap here to block this user.";
-"chat_message_disclaimer_scammer_base_blocked" = "Be extra careful when exchanging phone/email details. Fraudulent users often ask you to leave the letgo chat. %@";
+"chat_message_disclaimer_scammer_append_blocked" = "Bu kullanıcıyı engellemek için buraya tıkla.";
+"chat_message_disclaimer_scammer_base_blocked" = "Telefon numarası ve e-posta bilgilerini paylaşırken çok dikkatli ol. Dolandırıcı kullanıcılar görüşmeyi genelde letgo sohbet sisteminden dışarıya taşımayı teklif ederler. %@";
 "chat_message_field_hint" = "Mesajını buraya yaz";
 "chat_message_load_generic_error" = "Sohbet bilgilerine erişirken bir hata oluştu. Lütfen tekrar dene.";
 "chat_not_verified_alert_message" = "Kimliğini doğrulamak için Facebook, Google veya Eposta ile bağlan.";
@@ -432,6 +432,17 @@
 "passive_buyers_message" = "Benzer ürünlerle ilgilenebilecek bu alıcılarla iletişime geç";
 "passive_buyers_not_available" = "Oops! Alıcılar bulunamadı.";
 "passive_buyers_title" = "BU ALICILAR İLGİLENİYOR OLABİLİR";
+"post_category_detail_add_make" = "Marka Ekle";
+"post_category_detail_add_model" = "Model Ekle";
+"post_category_detail_car_make" = "Marka";
+"post_category_detail_car_model" = "Model";
+"post_category_detail_car_year" = "Yıl";
+"post_category_detail_ok_button" = "OK";
+"post_category_detail_search_placeholder" = "Ara";
+"post_category_details_description" = "Detayları tam girilmiş ilanlar %20 oranda daha fazla potansiyel müşteri çeker.";
+"post_category_details_navigation_title" = "Detay Ekle";
+"post_category_details_progress" = "%@ complete";
+"post_category_details_progress_100" = "Looks amazing";
 "product_ask_a_question_button" = "Soru Sor";
 "product_auto_generated_title_label" = "Başlık letgo tarafından otomatik olarak belirlendi";
 "product_auto_generated_translated_title_label" = "(Yandex ile çevrildi)";

@@ -34,7 +34,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
     // contained in detailsContainer
     fileprivate let priceView: UIView
     fileprivate let categorySelectionView: PostCategorySelectionView
-    fileprivate let carDetailsView: UIView  // TODO: 🚔
+    fileprivate let carDetailsView: PostCarDetailsView
     
     fileprivate var footer: PostProductFooter
     fileprivate var footerView: UIView
@@ -113,7 +113,11 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         
         self.priceView = PostProductDetailPriceView(viewModel: viewModel.postDetailViewModel)
         self.categorySelectionView = PostCategorySelectionView()
-        self.carDetailsView = UIView()
+        if viewModel.shouldAddPriceRowInCarDetails() {
+            self.carDetailsView = PostCarDetailsView(withPriceRow: true)
+        } else {
+            self.carDetailsView = PostCarDetailsView(withPriceRow: false)
+        }
         
         self.postingGallery = postingGallery
         super.init(viewModel: viewModel, nibName: "PostProductViewController",
@@ -219,6 +223,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         setupViewPager()
         setupCategorySelectionView()
         setupPriceView()
+        setupAddCarDetailsView()
         setupCloseButton()
         setupFooter()
     }
@@ -226,7 +231,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
     private func setupCloseButton() {
         closeButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(closeButton)
-        closeButton.layout(with: view).left(by: 8).top(by: 9)
+        closeButton.layout(with: view).left(by: Metrics.margin).top(by: Metrics.margin)
     }
 
     private func setupPriceView() {
@@ -243,6 +248,61 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         categorySelectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(categorySelectionView)
         categorySelectionView.layout(with: view).fill()
+    }
+    
+    private func setupAddCarDetailsView() {
+        carDetailsView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(carDetailsView)
+        carDetailsView.layout(with: view).fill()
+        carDetailsView.updateProgress(withPercentage: viewModel.currentCarDetailsProgress)
+        carDetailsView.setCurrencySymbol(viewModel.postDetailViewModel.currencySymbol)
+        carDetailsView.backButtonHidden(!viewModel.shouldShowBackButtonInCarDetails())
+        
+        carDetailsView.navigationBackButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
+            self?.carDetailsNavigationBackButtonPressed()
+        }.addDisposableTo(disposeBag)
+        carDetailsView.navigationMakeButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
+            self?.carMakeButtonPressed()
+        }.addDisposableTo(disposeBag)
+        carDetailsView.navigationModelButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
+            self?.carModelButtonPressed()
+        }.addDisposableTo(disposeBag)
+        carDetailsView.navigationYearButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
+            self?.carYearButtonPressed()
+        }.addDisposableTo(disposeBag)
+        carDetailsView.makeRowView.button.rx.tap.asObservable().subscribeNext { [weak self] _ in
+            self?.carMakeButtonPressed()
+        }.addDisposableTo(disposeBag)
+        carDetailsView.modelRowView.button.rx.tap.asObservable().subscribeNext { [weak self] _ in
+            self?.carModelButtonPressed()
+        }.addDisposableTo(disposeBag)
+        carDetailsView.yearRowView.button.rx.tap.asObservable().subscribeNext { [weak self] _ in
+            self?.carYearButtonPressed()
+        }.addDisposableTo(disposeBag)
+        
+        carDetailsView.doneButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
+            self?.carDetailsDoneButtonPressed()
+        }.addDisposableTo(disposeBag)
+        
+        carDetailsView.tableView.selectedDetail.asObservable().bindTo(viewModel.selectedDetail)
+            .addDisposableTo(disposeBag)
+        viewModel.selectedDetail.asObservable().subscribeNext { [weak self] (categoryDetailSelectedInfo) in
+            guard let strongSelf = self else { return }
+            guard let categoryDetail = categoryDetailSelectedInfo else { return }
+            switch categoryDetail.type {
+            case .make:
+                strongSelf.carDetailsView.updateMake(withMake: categoryDetail.name)
+                strongSelf.carDetailsView.updateModel(withModel: nil)
+                strongSelf.showCarModels()
+            case .model:
+                strongSelf.carDetailsView.updateModel(withModel: categoryDetail.name)
+                strongSelf.showCarYears()
+            case .year:
+                strongSelf.carDetailsView.updateYear(withYear: categoryDetail.name)
+                strongSelf.didFinishEnteringDetails()
+            }
+            strongSelf.carDetailsView.updateProgress(withPercentage: strongSelf.viewModel.currentCarDetailsProgress)
+        }.addDisposableTo(disposeBag)
     }
     
     private func setupFooter() {
@@ -296,10 +356,83 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
     }
 }
 
+// MARK: - Car details
+
+extension PostProductViewController {
+    
+    dynamic func carDetailsNavigationBackButtonPressed() {
+        switch carDetailsView.state {
+        case .selectDetail, .selectDetailValue(forDetail: .make):
+            didFinishEnteringDetails()
+        case .selectDetailValue(forDetail: .model):
+            showCarMakes()
+        case .selectDetailValue(forDetail: .year):
+            showCarModels()
+        }
+    }
+    
+    dynamic func carMakeButtonPressed() {
+        showCarMakes()
+    }
+    
+    dynamic func carModelButtonPressed() {
+        showCarModels()
+    }
+    
+    dynamic func carYearButtonPressed() {
+        showCarYears()
+    }
+    
+    dynamic func carDetailsDoneButtonPressed() {
+        carDetailsView.hideKeyboard()
+        viewModel.postCarDetailDone()
+    }
+    
+    fileprivate func didFinishEnteringDetails() {
+        carDetailsView.hideKeyboard()
+        
+        switch carDetailsView.state {
+        case .selectDetail:
+            viewModel.revertToPreviousStep()
+        case .selectDetailValue:
+            carDetailsView.showSelectDetail()
+        }
+    }
+    
+    fileprivate func showCarMakes() {
+        let (values, selectedIndex) = viewModel.carInfo(forDetail: .make)
+        showSelectCarDetailValue(forDetail: .make, values: values, selectedValueIndex: selectedIndex)
+    }
+    
+    fileprivate func showCarModels() {
+        let (values, selectedIndex) = viewModel.carInfo(forDetail: .model)
+        showSelectCarDetailValue(forDetail: .model, values: values, selectedValueIndex: selectedIndex)
+    }
+    
+    fileprivate func showCarYears() {
+        let (values, selectedIndex) = viewModel.carInfo(forDetail: .year)
+        showSelectCarDetailValue(forDetail: .year, values: values, selectedValueIndex: selectedIndex)
+    }
+    
+    private func showSelectCarDetailValue(forDetail detail: CarDetailType, values: [CarInfoWrapper], selectedValueIndex: Int?) {
+        carDetailsView.hideKeyboard()
+        carDetailsView.showSelectDetailValue(forDetail: detail, values: values, selectedValueIndex: selectedValueIndex)
+    }
+}
+
 
 // MARK: - State selection
 
 fileprivate extension PostListingState {
+    func closeButtonAlpha(carDetailsBackButtonEnabled: Bool) -> CGFloat {
+        switch step {
+        case .carDetailsSelection:
+            return carDetailsBackButtonEnabled ? 0 : 1
+        case .imageSelection, .uploadingImage, .errorUpload, .detailsSelection, .categorySelection, .finished, .uploadSuccess:
+            return 1
+        }
+    }
+    
     var isOtherStepsContainerAlpha: CGFloat {
         switch step {
         case .imageSelection:
@@ -414,16 +547,18 @@ extension PostProductViewController {
             adjustDetailsScrollContentInset(to: view)
         }
         let updateVisibility: () -> () = { [weak self] in
-            self?.otherStepsContainer.alpha = state.isOtherStepsContainerAlpha
-            self?.customLoadingView.alpha = state.customLoadingViewAlpha
-            self?.postedInfoLabel.alpha = state.postedInfoLabelAlpha
-            self?.postedInfoLabel.text = state.postedInfoLabelText(confirmationText: self?.viewModel.confirmationOkText)
-            self?.postErrorLabel.alpha = state.postErrorLabelAlpha
-            self?.postErrorLabel.text = state.postErrorLabelText
-            self?.retryButton.alpha = state.retryButtonAlpha
-            self?.priceView.alpha = state.priceViewAlpha
-            self?.categorySelectionView.alpha = state.categorySelectionViewAlpha
-            self?.carDetailsView.alpha = state.carDetailsViewAlpha
+            guard let strongSelf = self else { return }
+            strongSelf.closeButton.alpha = state.closeButtonAlpha(carDetailsBackButtonEnabled: strongSelf.viewModel.shouldShowBackButtonInCarDetails())
+            strongSelf.otherStepsContainer.alpha = state.isOtherStepsContainerAlpha
+            strongSelf.customLoadingView.alpha = state.customLoadingViewAlpha
+            strongSelf.postedInfoLabel.alpha = state.postedInfoLabelAlpha
+            strongSelf.postedInfoLabel.text = state.postedInfoLabelText(confirmationText: strongSelf.viewModel.confirmationOkText)
+            strongSelf.postErrorLabel.alpha = state.postErrorLabelAlpha
+            strongSelf.postErrorLabel.text = state.postErrorLabelText
+            strongSelf.retryButton.alpha = state.retryButtonAlpha
+            strongSelf.priceView.alpha = state.priceViewAlpha
+            strongSelf.categorySelectionView.alpha = state.categorySelectionViewAlpha
+            strongSelf.carDetailsView.alpha = state.carDetailsViewAlpha
         }
         
         if state.isLoading {

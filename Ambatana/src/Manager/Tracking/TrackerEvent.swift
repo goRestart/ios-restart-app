@@ -397,17 +397,17 @@ struct TrackerEvent {
         return TrackerEvent(name: .productSellSharedFB, params: params)
     }
 
-    static func productSellComplete(_ product: Product, buttonName: EventParameterButtonNameType?,
+    static func productSellComplete(_ listing: Listing, buttonName: EventParameterButtonNameType?,
                                     sellButtonPosition: EventParameterSellButtonPosition?, negotiable: EventParameterNegotiablePrice?,
                                     pictureSource: EventParameterPictureSource?, freePostingModeAllowed: Bool) -> TrackerEvent {
         var params = EventParameters()
-        params[.freePosting] = eventParameterFreePostingWithPrice(freePostingModeAllowed, price: product.price).rawValue
-        params[.productId] = product.objectId ?? ""
-        params[.categoryId] = product.category.rawValue
-        params[.productName] = product.name ?? ""
-        params[.numberPhotosPosting] = product.images.count
+        params[.freePosting] = eventParameterFreePostingWithPrice(freePostingModeAllowed, price: listing.price).rawValue
+        params[.productId] = listing.objectId ?? ""
+        params[.categoryId] = listing.category.rawValue
+        params[.productName] = listing.name ?? ""
+        params[.numberPhotosPosting] = listing.images.count
         params[.sellButtonPosition] = sellButtonPosition?.rawValue
-        params[.productDescription] = !(product.descr?.isEmpty ?? true)
+        params[.productDescription] = !(listing.descr?.isEmpty ?? true)
         if let buttonName = buttonName {
             params[.buttonName] = buttonName.rawValue
         }
@@ -450,9 +450,9 @@ struct TrackerEvent {
         return TrackerEvent(name: .productSellComplete, params: params)
     }
     
-    static func productSellComplete24h(_ product: Product) -> TrackerEvent {
+    static func productSellComplete24h(_ listing: Listing) -> TrackerEvent {
         var params = EventParameters()
-        params[.productId] = product.objectId ?? ""
+        params[.productId] = listing.objectId ?? ""
         return TrackerEvent(name: .productSellComplete24h, params: params)
     }
 

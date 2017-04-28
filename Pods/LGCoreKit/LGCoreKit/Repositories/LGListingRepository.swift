@@ -163,20 +163,15 @@ final class LGListingRepository: ListingRepository {
             return
         }
         dataSource.createCar(userId: myUserId, carParams: carParams) { [weak self] result in
-            guard let strongSelf = self else { return }
             if let car = result.value {
                 // Cache the car in the limbo
                 if let carId = car.objectId {
                     self?.listingsLimboDAO.save(carId)
                 }
                 // Send event
-                var newCar = LGCar(car: car)
-                let carUpdated = strongSelf.fillCarAttributes(car: newCar)
                 self?.eventBus.onNext(.create(Listing.car(car)))
-                handleApiResult(Result(value: carUpdated), completion: completion)
-            } else {
-                handleApiResult(result, completion: completion)
             }
+            handleApiResult(result, completion: completion)
         }
     }
     func update(carParams: CarEditionParams, completion: CarCompletion?) {
@@ -185,16 +180,16 @@ final class LGListingRepository: ListingRepository {
             return
         }
         
-        dataSource.updateCar(carParams: carParams) { [weak self] result in
+        dataSource.updateCar(carParams: carParams) {
+            [weak self] result in
             guard let strongSelf = self else { return }
             if let car = result.value {
+                // Send event
                 var newCar = LGCar(car: car)
                 let carUpdated = strongSelf.fillCarAttributes(car: newCar)
                 self?.eventBus.onNext(.update(Listing.car(carUpdated)))
-                handleApiResult(Result(value: carUpdated), completion: completion)
-            } else {
-                handleApiResult(result, completion: completion)
             }
+            handleApiResult(result, completion: completion)
         }
     }
 

@@ -25,7 +25,7 @@ class ProductPostedViewModel: BaseViewModel {
     weak var navigator: ProductPostedNavigator?
     weak var delegate: ProductPostedViewModelDelegate?
 
-    private var status: ProductPostedStatus
+    private var status: ListingPostedStatus
     private let trackingInfo: PostProductTrackingInfo
     private let featureFlags: FeatureFlaggeable
     private let keyValueStorage: KeyValueStorage
@@ -47,17 +47,17 @@ class ProductPostedViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
 
-    convenience init(postResult: ProductResult, trackingInfo: PostProductTrackingInfo) {
-        self.init(status: ProductPostedStatus(productResult: postResult),
+    convenience init(listingResult: ListingResult, trackingInfo: PostProductTrackingInfo) {
+        self.init(status: ListingPostedStatus(listingResult: listingResult),
                   trackingInfo: trackingInfo)
     }
 
-    convenience init(postParams: ProductCreationParams, productImages: [UIImage], trackingInfo: PostProductTrackingInfo) {
-        self.init(status: ProductPostedStatus(images: productImages, params: postParams),
+    convenience init(postParams: ListingCreationParams, productImages: [UIImage], trackingInfo: PostProductTrackingInfo) {
+        self.init(status: ListingPostedStatus(images: productImages, params: postParams),
                   trackingInfo: trackingInfo)
     }
 
-    convenience init(status: ProductPostedStatus, trackingInfo: PostProductTrackingInfo) {
+    convenience init(status: ListingPostedStatus, trackingInfo: PostProductTrackingInfo) {
         self.init(status: status,
                   trackingInfo: trackingInfo,
                   listingRepository: Core.listingRepository,
@@ -67,7 +67,7 @@ class ProductPostedViewModel: BaseViewModel {
                   tracker: TrackerProxy.sharedInstance)
     }
 
-    init(status: ProductPostedStatus,
+    init(status: ListingPostedStatus,
          trackingInfo: PostProductTrackingInfo,
          listingRepository: ListingRepository,
          fileRepository: FileRepository,
@@ -87,7 +87,7 @@ class ProductPostedViewModel: BaseViewModel {
         if firstTime {
             switch status {
             case let .posting(images, params):
-                postProduct(images, params: params)
+                postListing(images, params: params)
             case .success:
                 delegate?.productPostedViewModel(self, setupStaticState: true)
                 trackProductUploadResultScreen()
@@ -222,38 +222,50 @@ class ProductPostedViewModel: BaseViewModel {
 
     // MARK: - Private methods
 
-    private func postProduct(_ images: [UIImage], params: ProductCreationParams) {
+    private func postListing(_ images: [UIImage], params: ListingCreationParams) {
         delegate?.productPostedViewModelSetupLoadingState(self)
 
         fileRepository.upload(images, progress: nil) { [weak self] result in
             if let images = result.value {
-                params.images = images
-                self?.listingRepository.create(productParams: params) { [weak self] result in
-                    if let postedProduct = result.value {
-                        self?.trackPostSellComplete(postedProduct: postedProduct)
-                    } else if let error = result.error {
-                        self?.trackPostSellError(error: error)
+                let updatedParams = params.updating(images: images)
+                switch updatedParams {
+                case .product(let productParams):
+                    self?.listingRepository.create(productParams: productParams) { [weak self] result in
+                        if let postedProduct = result.value {
+                            self?.trackPostSellComplete(postedListing: Listing.product(postedProduct))
+                        } else if let error = result.error {
+                            self?.trackPostSellError(error: error)
+                        }
+                        self?.updateStatusAfterPosting(status: ListingPostedStatus(productResult: result))
                     }
-                    self?.updateStatusAfterPosting(status: ProductPostedStatus(productResult: result))
+                case .car(let carParams):
+                    self?.listingRepository.create(carParams: carParams) { [weak self] result in
+                        if let postedCar = result.value {
+                            self?.trackPostSellComplete(postedListing: Listing.car(postedCar))
+                        } else if let error = result.error {
+                            self?.trackPostSellError(error: error)
+                        }
+                        self?.updateStatusAfterPosting(status: ListingPostedStatus(carResult: result))
+                    }
                 }
             } else if let error = result.error {
                 self?.trackPostSellError(error: error)
-                self?.updateStatusAfterPosting(status: ProductPostedStatus(error: error))
+                self?.updateStatusAfterPosting(status: ListingPostedStatus(error: error))
             }
         }
     }
 
-    private func updateStatusAfterPosting(status: ProductPostedStatus) {
+    private func updateStatusAfterPosting(status: ListingPostedStatus) {
         self.status = status
         trackProductUploadResultScreen()
         delegate?.productPostedViewModel(self, finishedLoadingState: status.success)
     }
 
-    private func trackPostSellComplete(postedProduct: Product) {
+    private func trackPostSellComplete(postedListing: Listing) {
         let buttonName = trackingInfo.buttonName
         let negotiable = trackingInfo.negotiablePrice
         let pictureSource = trackingInfo.imageSource
-        let event = TrackerEvent.productSellComplete(postedProduct, buttonName: buttonName,
+        let event = TrackerEvent.productSellComplete(postedListing, buttonName: buttonName,
                                                      sellButtonPosition: trackingInfo.sellButtonPosition,
                                                      negotiable: negotiable, pictureSource: pictureSource,
                                                      freePostingModeAllowed: featureFlags.freePostingModeAllowed)
@@ -263,7 +275,7 @@ class ProductPostedViewModel: BaseViewModel {
         if let firstOpenDate = keyValueStorage[.firstRunDate], NSDate().timeIntervalSince(firstOpenDate as Date) <= 86400 &&
             !keyValueStorage.userTrackingProductSellComplete24hTracked {
             keyValueStorage.userTrackingProductSellComplete24hTracked = true
-            let event = TrackerEvent.productSellComplete24h(postedProduct)
+            let event = TrackerEvent.productSellComplete24h(postedListing)
             tracker.trackEvent(event)
         }
     }
@@ -295,10 +307,10 @@ class ProductPostedViewModel: BaseViewModel {
 }
 
 
-// MARK: - ProductPostedStatus
+// MARK: - ListingPostedStatus
 
-enum ProductPostedStatus {
-    case posting(images: [UIImage], params: ProductCreationParams)
+enum ListingPostedStatus {
+    case posting(images: [UIImage], params: ListingCreationParams)
     case success(listing: Listing)
     case error(error: EventParameterPostProductError)
 
@@ -306,8 +318,8 @@ enum ProductPostedStatus {
         switch self {
         case .posting, .error:
             return nil
-        case let .success(product):
-            return product
+        case let .success(listing):
+            return listing
         }
     }
 
@@ -320,13 +332,28 @@ enum ProductPostedStatus {
         }
     }
 
-    init(images: [UIImage], params: ProductCreationParams) {
+    init(images: [UIImage], params: ListingCreationParams) {
         self = .posting(images: images, params: params)
+    }
+
+    init(listingResult: ListingResult) {
+        if let listing = listingResult.value {
+            self = .success(listing: listing)
+        } else if let error = listingResult.error {
+            switch error {
+            case .network:
+                self = .error(error: .network)
+            default:
+                self = .error(error: .internalError)
+            }
+        } else {
+            self = .error(error: .internalError)
+        }
     }
 
     init(productResult: ProductResult) {
         if let product = productResult.value {
-            self = .success(listing: .product(product))
+            self = .success(listing: Listing.product(product))
         } else if let error = productResult.error {
             switch error {
             case .network:
@@ -341,7 +368,7 @@ enum ProductPostedStatus {
 
     init(carResult: CarResult) {
         if let car = carResult.value {
-            self = .success(listing: .car(car))
+            self = .success(listing: Listing.car(car))
         } else if let error = carResult.error {
             switch error {
             case .network:

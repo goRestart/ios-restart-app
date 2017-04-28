@@ -1,5 +1,10 @@
+<<<<<<< HEAD:Ambatana/src/ViewControllers/Sell/Edit/EditListingViewController.xib
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1212" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+=======
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+>>>>>>> develop:Ambatana/src/ViewControllers/Sell/Edit/EditProductViewController.xib
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -76,7 +81,11 @@
                     <rect key="frame" x="0.0" y="64" width="432" height="1170"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Uploading product, please wait..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="DIJ-41-73M" userLabel="Loading Label">
+<<<<<<< HEAD:Ambatana/src/ViewControllers/Sell/Edit/EditListingViewController.xib
                             <rect key="frame" x="8" y="542.5" width="416" height="21"/>
+=======
+                            <rect key="frame" x="8" y="259" width="359" height="21"/>
+>>>>>>> develop:Ambatana/src/ViewControllers/Sell/Edit/EditProductViewController.xib
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
@@ -276,13 +285,21 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="_The Shire, Middle Earth" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5dJ-rt-vyE">
+<<<<<<< HEAD:Ambatana/src/ViewControllers/Sell/Edit/EditListingViewController.xib
                                             <rect key="frame" x="134" y="12" width="227" height="21"/>
+=======
+                                            <rect key="frame" x="134" y="12" width="170" height="21"/>
+>>>>>>> develop:Ambatana/src/ViewControllers/Sell/Edit/EditProductViewController.xib
                                             <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
                                             <color key="textColor" red="0.45882352941176469" green="0.45882352941176469" blue="0.45882352941176469" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="right_chevron" translatesAutoresizingMaskIntoConstraints="NO" id="Hb4-WS-wfY">
+<<<<<<< HEAD:Ambatana/src/ViewControllers/Sell/Edit/EditListingViewController.xib
                                             <rect key="frame" x="376" y="16" width="8" height="13"/>
+=======
+                                            <rect key="frame" x="319" y="16" width="8" height="13"/>
+>>>>>>> develop:Ambatana/src/ViewControllers/Sell/Edit/EditProductViewController.xib
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="13" id="IIW-pz-hg8"/>
                                                 <constraint firstAttribute="width" constant="12" id="dAP-PL-uKV"/>
@@ -332,13 +349,21 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="_ Electronics" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f7H-dC-LbD">
+<<<<<<< HEAD:Ambatana/src/ViewControllers/Sell/Edit/EditListingViewController.xib
                                             <rect key="frame" x="118" y="12" width="243" height="21"/>
+=======
+                                            <rect key="frame" x="118" y="12" width="186" height="21"/>
+>>>>>>> develop:Ambatana/src/ViewControllers/Sell/Edit/EditProductViewController.xib
                                             <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
                                             <color key="textColor" red="0.45882352939999999" green="0.45882352939999999" blue="0.45882352939999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="right_chevron" translatesAutoresizingMaskIntoConstraints="NO" id="kOm-c5-hc1">
+<<<<<<< HEAD:Ambatana/src/ViewControllers/Sell/Edit/EditListingViewController.xib
                                             <rect key="frame" x="376" y="16" width="8" height="13"/>
+=======
+                                            <rect key="frame" x="319" y="16" width="8" height="13"/>
+>>>>>>> develop:Ambatana/src/ViewControllers/Sell/Edit/EditProductViewController.xib
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="12" id="GYs-bg-auT"/>
                                                 <constraint firstAttribute="height" constant="13" id="coj-y6-ity"/>
@@ -606,7 +631,11 @@
                                             </connections>
                                         </switch>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_share on Facebook" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.69999999999999996" translatesAutoresizingMaskIntoConstraints="NO" id="omw-7q-aKH" userLabel="Share FB Label">
+<<<<<<< HEAD:Ambatana/src/ViewControllers/Sell/Edit/EditListingViewController.xib
                                             <rect key="frame" x="16" y="12" width="312" height="21"/>
+=======
+                                            <rect key="frame" x="16" y="12" width="255" height="21"/>
+>>>>>>> develop:Ambatana/src/ViewControllers/Sell/Edit/EditProductViewController.xib
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>

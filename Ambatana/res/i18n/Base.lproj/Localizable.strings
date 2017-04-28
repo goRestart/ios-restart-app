@@ -191,7 +191,7 @@
 "change_password_send_error_passwords_mismatch" = "Passwords don't match. Please try again.";
 
 // Change password send error link expired (when trying to reset a pwd through an expired email link)
-"change_password_send_error_link_expired" = "Sorry, this link has expired!";
+"change_password_send_error_link_expired" = "Oops! This link has expired.";
 
 // Change password send ok. Check image @ "change_password_send_error_generic" segment
 "change_password_send_ok" = "Password changed!";
@@ -1362,11 +1362,23 @@
 // car year title
 "post_category_detail_car_year" = "Year";
 
-// progress mark
-"post_category_details_progress" = "progress";
+// ok navigation bar button
+"post_category_detail_ok_button" = "OK";
+
+// progress mark, var is "83%"
+"post_category_details_progress" = "%@ complete";
 
 // progress mark when it's at 100%
 "post_category_details_progress_100" = "Looks amazing";
+
+// Search text inside search bar
+"post_category_detail_search_placeholder" = "Search";
+
+// Add make option
+"post_category_detail_add_make" = "Add Make";
+
+// Add model option
+"post_category_detail_add_model" = "Add Model";
 
 // Product ask a question button. Check attached image "product (buyer).png"
 "product_ask_a_question_button" = "Ask a Question";

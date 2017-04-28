@@ -69,7 +69,7 @@
 "change_password_new_password_field_hint" = "Νέος Κωδικός Πρόσβασης";
 "change_password_send_error_generic" = "Παρουσιάστηκε σφάλμα κατά την αλλαγή του κωδικού πρόσβασης.Παρακαλώ προσπαθήστε ξανά.";
 "change_password_send_error_invalid_password_with_max" = "Παρακαλώ, εισάγετε έναν έγκυρο κωδικό πρόσβασης. Θα πρέπει να αποτελείται τουλάχιστον από %d μέχρι %d χαρακτήρες.";
-"change_password_send_error_link_expired" = "Συγγνώμη, ο σύνδεσμος έχει λήξει!";
+"change_password_send_error_link_expired" = "Όπα! Ο σύνδεσμος έχει λήξει.";
 "change_password_send_error_passwords_mismatch" = "Οι κωδικοί πρόσβασης δεν ταιριάζουν. Παρακαλώ προσπαθήστε ξανά.";
 "change_password_send_ok" = "Ο κωδικός πρόσβασης άλλαξε!";
 "change_password_title" = "Αλλαγή κωδικού πρόσβασης";
@@ -144,8 +144,8 @@
 "chat_list_unblock" = "Ξεμπλοκάρισμα";
 "chat_login_popup_text" = "Για να ξεκινήσετε να συνομιλείτε, θα πρέπει να συνδεθείτε";
 "chat_message_disclaimer_scammer" = "Να είστε ιδαίτερα προσεκτικοί όταν ανταλλάζετε πληροφορίες τηλεφώνων/email. Οι χρήστες που θέλουν να σας εξαπατήσουν, ενδέχεται να σας ζητήσουν να αποχωρήσετε από τη συνομιλία στο letgo. Να είστε ενημερωμένοι! Πατήστε εδώ για να ελέγξετε τις %@ μας.";
-"chat_message_disclaimer_scammer_append_blocked" = "Tap here to block this user.";
-"chat_message_disclaimer_scammer_base_blocked" = "Be extra careful when exchanging phone/email details. Fraudulent users often ask you to leave the letgo chat. %@";
+"chat_message_disclaimer_scammer_append_blocked" = "Πατήστε εδώ για να μπλοκάρετε αυτόν το χρήστη.";
+"chat_message_disclaimer_scammer_base_blocked" = "Να είστε ιδαίτερα προσεκτικοί όταν ανταλλάζετε πληροφορίες τηλεφώνου/email. Οι χρήστες που θέλουν να σας εξαπατήσουν, συχνά ζητούν να αποχωρήσετε από τη letgo συνομιλία. %@";
 "chat_message_field_hint" = "Γράψε το μήνυμά σου εδώ";
 "chat_message_load_generic_error" = "Παρουσιάστηκε σφάλμα κατά την ανάκτηση δεδομένων των συνομιλιών σας. Παρακαλώ, δοκιμάστε ξανά.";
 "chat_not_verified_alert_message" = "Συνδεθείτε με Facebook, Google ή Email για να επιβεβαιώσετε την ταυτότητά σας.";
@@ -432,6 +432,17 @@
 "passive_buyers_message" = "Επικοινωνήστε με τους αγοραστές που ενδιαφέρονται για συναφή προϊόντα";
 "passive_buyers_not_available" = "Όπα! Οι αγοραστές δε βρέθηκαν.";
 "passive_buyers_title" = "ΑΥΤΟΙ ΟΙ ΑΓΟΡΑΣΤΕΣ ΜΠΟΡΕΙ ΝΑ ΕΝΔΙΑΦΕΡΟΝΤΑΙ";
+"post_category_detail_add_make" = "Προσθέστε Δημιουργία";
+"post_category_detail_add_model" = "Προσθέστε Μοντέλο";
+"post_category_detail_car_make" = "Δημιουργία";
+"post_category_detail_car_model" = "Μοντέλο";
+"post_category_detail_car_year" = "Χρονολογία";
+"post_category_detail_ok_button" = "ΟΚ";
+"post_category_detail_search_placeholder" = "Αναζήτηση";
+"post_category_details_description" = "Δημοσιεύσεις με ολοκληρωμένες λεπτομέρειες ελκύουν 20% περισσότερους πιθανούς αγοραστές";
+"post_category_details_navigation_title" = "Προσθήκη Λεπτομερειών";
+"post_category_details_progress" = "%@ complete";
+"post_category_details_progress_100" = "Looks amazing";
 "product_ask_a_question_button" = "Κάντε ερώτηση";
 "product_auto_generated_title_label" = "Ο τίτλος έχει επιλεγεί αυτόματα από το letgo";
 "product_auto_generated_translated_title_label" = "(και μεταγραστεί από το Google)";
