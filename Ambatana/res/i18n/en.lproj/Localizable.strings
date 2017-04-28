@@ -1366,19 +1366,19 @@
 "post_category_detail_ok_button" = "OK";
 
 // progress mark
-"post_category_details_progress" = "progress";
+"post_category_details_progress" = "%@ complete";
 
 // progress mark when it's at 100%
-"post_category_details_progress_100" = "Looks amazing";
+"post_category_details_progress_100" = "Looks amazing!";
 
 // Search text inside search bar
 "post_category_detail_search_placeholder" = "Search";
 
 // Add make option
-"post_category_detail_add_make" = "Add make";
+"post_category_detail_add_make" = "Add Make";
 
 // Add model option
-"post_category_detail_add_model" = "Add model";
+"post_category_detail_add_model" = "Add Model";
 
 // Product ask a question button. Check attached image "product (buyer).png"
 "product_ask_a_question_button" = "Ask a Question";

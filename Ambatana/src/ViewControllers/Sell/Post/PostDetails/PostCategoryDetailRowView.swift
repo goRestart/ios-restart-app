@@ -8,18 +8,24 @@
 
 import UIKit
 
+enum PostCategoryDetailRowViewType {
+    case defaultRow
+    case textEntryRow
+}
+
 class PostCategoryDetailRowView: UIView {
 
     private let titleLabel = UILabel()
     private let valueLabel = UILabel()
+    private let textField = UITextField()
     private let icon = UIImageView()
     let button = UIButton()
+    private let type: PostCategoryDetailRowViewType
     
-    var enabled: Bool = true {
+    private var highlighted: Bool = false {
         didSet {
-            if enabled {
+            if highlighted {
                 titleLabel.textColor = UIColor.white
-                valueLabel.text = ""
                 icon.alpha = 1
             } else {
                 titleLabel.textColor = UIColor.whiteTextLowAlpha
@@ -28,7 +34,7 @@ class PostCategoryDetailRowView: UIView {
         }
     }
     
-    var title: String {
+    var title: String? {
         set {
             titleLabel.text = newValue
         }
@@ -37,18 +43,37 @@ class PostCategoryDetailRowView: UIView {
         }
     }
     
-    var value: String?  {
+    var value: String? {
         set {
             valueLabel.text = newValue
+            if let string = newValue, !string.isEmpty {
+                highlighted = true
+            }  else {
+                highlighted = false
+            }
         }
         get {
             return valueLabel.text
         }
     }
     
+    var placeholder: String? {
+        set {
+            if let value = newValue {
+                textField.attributedPlaceholder =
+                    NSAttributedString(string: value,
+                                       attributes: [NSForegroundColorAttributeName: UIColor.whiteTextHighAlpha])
+            }
+        }
+        get {
+            return textField.placeholder
+        }
+    }
+    
     // MARK: - Lifecycle
     
-    init(withTitle title: String) {
+    init(withTitle title: String, type: PostCategoryDetailRowViewType = .defaultRow) {
+        self.type = type
         super.init(frame: CGRect.zero)
         self.title = title
         setupUI()
@@ -63,47 +88,72 @@ class PostCategoryDetailRowView: UIView {
     // MARK: - Layout
     
     private func setupUI() {
-        titleLabel.font = UIFont.pageTitleFont
+        titleLabel.font = UIFont.mediumButtonFont
         titleLabel.textAlignment = .left
         titleLabel.textColor = UIColor.white
         
-        valueLabel.font = UIFont.pageTitleFont
-        valueLabel.textAlignment = .right
-        valueLabel.textColor = UIColor.whiteTextLowAlpha
-        
-        icon.image = UIImage(named: "ic_post_disclousure")
-        icon.contentMode = .scaleAspectFit
+        switch type {
+        case .defaultRow:
+            valueLabel.font = UIFont.bigBodyFont
+            valueLabel.textAlignment = .right
+            valueLabel.textColor = UIColor.whiteTextLowAlpha
+            icon.image = UIImage(named: "ic_post_disclousure")
+            icon.contentMode = .scaleAspectFit
+        case .textEntryRow:
+            textField.textAlignment = .right
+            textField.clearButtonMode = .never
+            textField.backgroundColor = UIColor.clear
+            textField.textColor = UIColor.white
+            textField.keyboardType = .numberPad
+        }
     }
     
     private func setupLayout() {
-        let subviews = [button, titleLabel, valueLabel, icon]
+        let subviews = [button, titleLabel, valueLabel, textField, icon]
         setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: subviews)
         addSubviews(subviews)
         
         layoutMargins = UIEdgeInsets(top: 0, left: Metrics.margin*2, bottom: 0, right: Metrics.margin*2)
         
-        button.layout(with: self)
-            .fill()
-        titleLabel.layout(with: self)
-            .top()
-            .bottom()
-            .leading(to: .leadingMargin)
-        valueLabel.layout(with: self)
-            .top()
-            .bottom()
-        valueLabel.layout(with: icon)
-            .trailing(to: .leading, by: -Metrics.margin)
-        icon.layout()
-            .width(15).widthProportionalToHeight()
-        icon.layout(with: self)
-            .top()
-            .bottom()
-            .trailing(to: .trailingMargin)
+        switch type {
+        case .defaultRow:
+            button.layout(with: self)
+                .fill()
+            titleLabel.layout(with: self)
+                .top()
+                .bottom()
+                .leading(to: .leadingMargin)
+            valueLabel.layout(with: self)
+                .top()
+                .bottom()
+            valueLabel.layout(with: icon)
+                .trailing(to: .leading, by: -Metrics.margin)
+            icon.layout()
+                .width(15).widthProportionalToHeight()
+            icon.layout(with: self)
+                .top()
+                .bottom()
+                .trailing(to: .trailingMargin)
+        case .textEntryRow:
+            titleLabel.layout()
+                .width(35)
+            titleLabel.layout(with: self)
+                .top()
+                .bottom()
+                .leading(to: .leadingMargin)
+            textField.layout(with: self)
+                .top()
+                .bottom()
+                .trailing(to: .centerX)
+            textField.layout(with: titleLabel)
+                .toLeft(by: Metrics.margin)
+        }
     }
 
     // MARK: - Accessibility
     
     private func setupAccessibilityIds() {
         button.accessibilityId = .postingCategoryDeatilRowButton
+        textField.accessibilityId = .postingCategoryDeatilTextField
     }
 }

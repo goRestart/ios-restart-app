@@ -153,7 +153,10 @@ class PostProductViewModel: BaseViewModel {
         if state.value.pendingToUploadImages != nil {
             openPostAbandonAlertNotLoggedIn()
         } else {
-            guard let images = state.value.lastImagesUploadResult?.value else { return }
+            guard let images = state.value.lastImagesUploadResult?.value else {
+                navigator?.cancelPostProduct()
+                return
+            }
             
             var listingParams: ListingCreationParams?
             if let category = category.value, category == .car {
@@ -183,6 +186,14 @@ class PostProductViewModel: BaseViewModel {
 // MARK: - Cars vertical
 
 extension PostProductViewModel {
+    
+    func shouldShowBackButtonInCarDetails() -> Bool {
+        return featureFlags.carsCategoryAfterPicture
+    }
+    
+    func shouldAddPriceRowInCarDetails() -> Bool {
+        return !featureFlags.carsCategoryAfterPicture
+    }
     
     fileprivate var carMakes: [CarsMake] {
         return carsInfoRepository.retrieveCarsMakes()

@@ -38,7 +38,7 @@
 "bump_up_view_pay_title" = "OMHOOG PLAATSEN OM SNELLER TE VERKOPEN";
 "categories_baby_and_child" = "Baby en kind";
 "categories_car" = "Auto's";
-"categories_cars_and_motors" = "Auto's en Motoren";
+"categories_cars_and_motors" = "Motors en Accessoires";
 "categories_electronics" = "Elektronica";
 "categories_fashion_and_accessories" = "Mode en accessoires";
 "categories_free" = "Gratis Spullen";
@@ -69,7 +69,7 @@
 "change_password_new_password_field_hint" = "Nieuw wachtwoord";
 "change_password_send_error_generic" = "Er is een fout opgetreden bij het wijzigen van het wachtwoord. Probeer het nog eens.";
 "change_password_send_error_invalid_password_with_max" = "Voer a.u.b. een geldig wachtwoord in, het moeten tussen %d en %d tekens bevatten.";
-"change_password_send_error_link_expired" = "Sorry, deze link is verlopen!";
+"change_password_send_error_link_expired" = "Oeps! Deze link is verlopen!";
 "change_password_send_error_passwords_mismatch" = "Wachtwoorden komen niet overeen. Probeer het opnieuw.";
 "change_password_send_ok" = "Wachtwoord gewijzigd!";
 "change_password_title" = "Wijzig Wachtwoord";
@@ -432,6 +432,17 @@
 "passive_buyers_message" = "Neem contact op met kopers die geïnteresseerd zijn in soortgelijke producten";
 "passive_buyers_not_available" = "Oeps! Kopers niet gevonden.";
 "passive_buyers_title" = "DEZE KOPERS ZIJN MISSCHIEN GEÏNTERESSEERD";
+"post_category_detail_add_make" = "Merk toevoegen";
+"post_category_detail_add_model" = "Model toevoegen";
+"post_category_detail_car_make" = "Merk";
+"post_category_detail_car_model" = "Model";
+"post_category_detail_car_year" = "Jaar";
+"post_category_detail_ok_button" = "OK";
+"post_category_detail_search_placeholder" = "Zoeken";
+"post_category_details_description" = "Advertenties met de compleet ingevulde gegevens trekken 20% meer potentiële kopers";
+"post_category_details_navigation_title" = "Details toevoegen";
+"post_category_details_progress" = "%@ complete";
+"post_category_details_progress_100" = "Looks amazing!";
 "product_ask_a_question_button" = "Stel een vraag";
 "product_auto_generated_title_label" = "Titel automatisch gegenereerd door letgo";
 "product_auto_generated_translated_title_label" = "(en vertaald door Google)";

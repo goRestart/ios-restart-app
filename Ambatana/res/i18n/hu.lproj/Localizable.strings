@@ -432,6 +432,17 @@
 "passive_buyers_message" = "Lépj kapcsolatba hasonló portékák után érdeklődő vásárlókkal";
 "passive_buyers_not_available" = "Hoppá! A vásárlók nem találhatók.";
 "passive_buyers_title" = "EZEK A VÁSÁRLÓK ÉRDEKLŐDNEK";
+"post_category_detail_add_make" = "Gyártó hozzáadása";
+"post_category_detail_add_model" = "Típus hozzáadása";
+"post_category_detail_car_make" = "Gyártó";
+"post_category_detail_car_model" = "Típus";
+"post_category_detail_car_year" = "Évjárat";
+"post_category_detail_ok_button" = "OK";
+"post_category_detail_search_placeholder" = "Keresés";
+"post_category_details_description" = "A teljesen kitöltött részletezővel rendelkező hirdetések 20%-kal több potenciális vásárlót vonzanak";
+"post_category_details_navigation_title" = "Részletek hozzáadása";
+"post_category_details_progress" = "%@ complete";
+"post_category_details_progress_100" = "Looks amazing!";
 "product_ask_a_question_button" = "Kérdezek valamit";
 "product_auto_generated_title_label" = "A címet a letgo hozta létre automatikusan";
 "product_auto_generated_translated_title_label" = "(és a Google fordította)";

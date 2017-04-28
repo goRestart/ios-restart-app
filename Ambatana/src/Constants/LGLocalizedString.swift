@@ -1839,8 +1839,8 @@ struct LGLocalizedString {
 		return NSLocalizedString("post_category_detail_ok_button", comment: "")
 	}
 
-	static var postCategoryDetailsProgress: String {
-		return NSLocalizedString("post_category_details_progress", comment: "")
+	static func postCategoryDetailsProgress(_ var1: String) -> String {
+		return String(format: NSLocalizedString("post_category_details_progress", comment: ""), var1)
 	}
 
 	static var postCategoryDetailsProgress100: String {

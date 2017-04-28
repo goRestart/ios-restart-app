@@ -44,4 +44,8 @@ public struct LGCoreKitConstants {
 
     // Cars Vertical
     static let carsFirstYear: Int = 1900
+    static let carsMakeEmptyValue = ""
+    static let carsModelEmptyValue = ""
+    static let carsYearEmptyValue = 0
+    
 }

@@ -432,6 +432,17 @@
 "passive_buyers_message" = "Contatta questi acquirenti, interessanti a prodotti simili";
 "passive_buyers_not_available" = "Ops! Acquirenti non trovati.";
 "passive_buyers_title" = "QUESTI ACQUIRENTI POTREBBERO ESSERE INTERESSATI";
+"post_category_detail_add_make" = "Aggiungi marca";
+"post_category_detail_add_model" = "Aggiungi modello";
+"post_category_detail_car_make" = "Marca";
+"post_category_detail_car_model" = "Modello";
+"post_category_detail_car_year" = "Anno";
+"post_category_detail_ok_button" = "OK";
+"post_category_detail_search_placeholder" = "Ricerca";
+"post_category_details_description" = "Gli annunci con dettagli completi attraggono il 20% in più di potenziali clienti";
+"post_category_details_navigation_title" = "Aggiungi dettagli";
+"post_category_details_progress" = "%@ complete";
+"post_category_details_progress_100" = "Looks amazing!";
 "product_ask_a_question_button" = "Fai una Domanda";
 "product_auto_generated_title_label" = "Titolo generato automaticamente da letgo";
 "product_auto_generated_translated_title_label" = "(e tradotto da Google)";

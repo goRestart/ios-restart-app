@@ -48,7 +48,6 @@ final class PostCategoryDetailProgressView: UIView {
         titleLabel.font = UIFont.smallBodyFont
         titleLabel.textAlignment = .center
         titleLabel.textColor = UIColor.white
-        titleLabel.text = LGLocalizedString.postCategoryDetailsProgress
         
         progressView.progressTintColor = UIColor.white
         progressView.trackTintColor = UIColor.whiteTextLowAlpha
@@ -68,6 +67,7 @@ final class PostCategoryDetailProgressView: UIView {
         progressView.layout()
             .width(Metrics.screenWidth/3)
             .height(8)
+            .width(120)
         progressView.layout(with: self)
             .centerX()
         
@@ -79,6 +79,9 @@ final class PostCategoryDetailProgressView: UIView {
             .bottom()
             .centerX() { [weak self] in self?.imageViewCenterConstraint = $0 }
 
+        imageView.layout()
+            .height(13)
+            .width(10)
         imageView.layout(with: titleLabel)
             .right(to: .left, by: -Metrics.veryShortMargin)
             .centerY()
@@ -96,7 +99,7 @@ final class PostCategoryDetailProgressView: UIView {
             imageView.alpha = 1
         } else {
             progressView.progressTintColor = UIColor.white
-            titleLabel.text = String(Int(percentage*100)) + "% " + LGLocalizedString.postCategoryDetailsProgress
+            titleLabel.text = LGLocalizedString.postCategoryDetailsProgress(String(Int(percentage*100))+"%")
             imageViewCenterConstraint.constant = 0
             imageView.alpha = 0
         }

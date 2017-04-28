@@ -228,6 +228,7 @@ enum AccessibilityId: String {
     case postingCategoryDeatilNavigationOkButton
     case postingCategoryDeatilDoneButton
     case postingCategoryDeatilRowButton
+    case postingCategoryDeatilTextField
     case postingCategoryDeatilSearchBar
     case postingCategoryDeatilTableView
 

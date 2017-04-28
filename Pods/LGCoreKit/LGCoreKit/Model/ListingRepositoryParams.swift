@@ -77,10 +77,6 @@ public struct RetrieveListingParams {
     }
 }
 
-enum ListingParams {
-    case 
-}
-
 public struct IndexTrendingListingsParams {
     let countryCode: String?
     let coordinates: LGLocationCoordinates2D?
@@ -113,6 +109,18 @@ public class ProductEditionParams: ProductCreationParams {
     let productId: String
     let userId: String
 
+    public convenience init?(listing: Listing) {
+        guard let productId = listing.objectId, let userId = listing.user.objectId else { return nil }
+        let editedProduct: Product
+        switch listing {
+        case let .car(car):
+            editedProduct = ProductEditionParams.createProductParams(withCar: car)
+        case let .product(product):
+            editedProduct = product
+        }
+        self.init(product: editedProduct, productId: productId, userId: userId)
+    }
+
     public convenience init?(product: Product) {
         guard let productId = product.objectId, let userId = product.user.objectId else { return nil }
         self.init(product: product, productId: productId, userId: userId)
@@ -134,8 +142,17 @@ public class ProductEditionParams: ProductCreationParams {
         }
     }
 
-    func apiEncode() -> [String: Any] {
-        return super.apiEncode(userId: userId)
+    func apiEditionEncode() -> [String: Any] {
+        return super.apiCreationEncode(userId: userId)
+    }
+
+    static private func createProductParams(withCar car: Car) -> Product {
+        let product = LGProduct(objectId: car.objectId, updatedAt: car.updatedAt, createdAt: car.createdAt, name: car.name,
+                                nameAuto: car.nameAuto, descr: car.descr, price: car.price, currency: car.currency,
+                                location: car.location, postalAddress: car.postalAddress, languageCode: car.languageCode,
+                                category: .motorsAndAccessories, status: car.status, thumbnail: car.thumbnail, thumbnailSize: car.thumbnailSize,
+                                images: car.images, user: car.user, featured: car.featured)
+        return product
     }
 }
 
@@ -165,7 +182,7 @@ public class ProductCreationParams {
         self.images = images
     }
 
-    func apiEncode(userId: String) -> [String: Any] {
+    func apiCreationEncode(userId: String) -> [String: Any] {
         var params: [String: Any] = [:]
         params["name"] = name
         params["category"] = category.rawValue
@@ -217,7 +234,7 @@ public class CarCreationParams {
         self.carAttributes = carAttributes
     }
     
-    func apiEncode(userId: String) -> [String: Any] {
+    func apiCreationEncode(userId: String) -> [String: Any] {
         var params: [String:Any] = [:]
         params["name"] = name
         params["category"] = category.rawValue
@@ -236,14 +253,12 @@ public class CarCreationParams {
         
         let tokensString = images.flatMap{$0.objectId}.map{"\"" + $0 + "\""}.joined(separator: ",")
         params["images"] = "[" + tokensString + "]"
-        
-        
-        
+
         var carAttributesDict: [String:Any] = [:]
-        carAttributesDict["make"] = ["id": carAttributes.makeId, "name": carAttributes.make]
-        carAttributesDict["model"] = ["id": carAttributes.modelId, "name": carAttributes.model]
-        carAttributesDict["year"] = carAttributes.year
-        
+        carAttributesDict["make"] = carAttributes.makeId ?? ""
+        carAttributesDict["model"] = carAttributes.modelId ?? ""
+        carAttributesDict["year"] = carAttributes.year ?? 0
+
         params["attributes"] = carAttributesDict
         
         return params
@@ -253,7 +268,19 @@ public class CarCreationParams {
 public class CarEditionParams: CarCreationParams {
     let carId: String
     let userId: String
-    
+
+    public convenience init?(listing: Listing) {
+        guard let carId = listing.objectId, let userId = listing.user.objectId else { return nil }
+        let editedCar: Car
+        switch listing {
+        case let .car(car):
+            editedCar = car
+        case let .product(product):
+            editedCar = CarEditionParams.createCarParams(withProduct: product)
+        }
+        self.init(car: editedCar, carId: carId, userId: userId)
+    }
+
     public convenience init?(car: Car) {
         guard let carId = car.objectId, let userId = car.user.objectId else { return nil }
         self.init(car: car, carId: carId, userId: userId)
@@ -276,8 +303,17 @@ public class CarEditionParams: CarCreationParams {
         }
     }
     
-    func apiEncode() -> [String: Any] {
-        return super.apiEncode(userId: userId)
+    func apiEditionEncode() -> [String: Any] {
+        return super.apiCreationEncode(userId: userId)
+    }
+
+    static private func createCarParams(withProduct product: Product) -> Car {
+        let car = LGCar(objectId: product.objectId, updatedAt: product.updatedAt, createdAt: product.createdAt, name: product.name,
+                        nameAuto: product.nameAuto, descr: product.descr, price: product.price, currency: product.currency,
+                        location: product.location, postalAddress: product.postalAddress, languageCode: product.languageCode,
+                        category: .cars, status: product.status, thumbnail: product.thumbnail, thumbnailSize: product.thumbnailSize,
+                        images: product.images, user: product.user, featured: product.featured, carAttributes: nil)
+        return car
     }
 }
 

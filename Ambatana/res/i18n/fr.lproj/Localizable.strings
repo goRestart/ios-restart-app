@@ -69,7 +69,7 @@
 "change_password_new_password_field_hint" = "Nouveau mot de passe";
 "change_password_send_error_generic" = "Une erreur est survenue lors du changement de mot de passe. Veuillez réessayer.";
 "change_password_send_error_invalid_password_with_max" = "Veuillez entrer un mot de passe valide. Il doit contenir entre %d et %d caractères.";
-"change_password_send_error_link_expired" = "Désolé, ce lien a expiré !";
+"change_password_send_error_link_expired" = "Oups ! Ce lien a expiré !";
 "change_password_send_error_passwords_mismatch" = "Les mots de passe ne correspondent pas. Veuillez réessayer.";
 "change_password_send_ok" = "Mot de passe modifié !";
 "change_password_title" = "Changer le mot de passe";
@@ -432,6 +432,17 @@
 "passive_buyers_message" = "Contactez ces acheteurs qui sont intéressés par des biens similaires";
 "passive_buyers_not_available" = "Oups ! Acheteurs introuvables.";
 "passive_buyers_title" = "CES ACHETEURS POURRAIENT ÊTRE INTÉRESSÉS";
+"post_category_detail_add_make" = "Ajouter Marque";
+"post_category_detail_add_model" = "Ajouter Modèle";
+"post_category_detail_car_make" = "Marque";
+"post_category_detail_car_model" = "Modèle";
+"post_category_detail_car_year" = "Année";
+"post_category_detail_ok_button" = "OK";
+"post_category_detail_search_placeholder" = "Recherche";
+"post_category_details_description" = "Les annonces avec des informations détaillées attirent 20% plus d'acheteurs potentiels";
+"post_category_details_navigation_title" = "Ajouter des Détails";
+"post_category_details_progress" = "%@ complete";
+"post_category_details_progress_100" = "Looks amazing!";
 "product_ask_a_question_button" = "Poser une question";
 "product_auto_generated_title_label" = "Titre généré automatiquement par letgo";
 "product_auto_generated_translated_title_label" = "(et traduit par Google)";
@@ -497,7 +508,7 @@
 "product_more_info_related_view_more" = "Voir plus";
 "product_more_info_tooltip_part_1" = "Tapez";
 "product_more_info_tooltip_part_2" = "%@ pour plus d'infos";
-"product_negotiable_price" = "Negociable";
+"product_negotiable_price" = "Négociable";
 "product_onboarding_finger_scroll_label" = "Scrollez pour voir plus de photos";
 "product_onboarding_finger_swipe_label" = "Glissez pour voir le bien suivant ou le précédent";
 "product_onboarding_finger_tap_label" = "Tapez pour voir le bien suivant";

@@ -113,7 +113,12 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         
         self.priceView = PostProductDetailPriceView(viewModel: viewModel.postDetailViewModel)
         self.categorySelectionView = PostCategorySelectionView()
-        self.carDetailsView = PostCarDetailsView()
+        if viewModel.shouldAddPriceRowInCarDetails() {
+            self.carDetailsView = PostCarDetailsView(withPriceRow: true)
+        } else {
+            self.carDetailsView = PostCarDetailsView(withPriceRow: false)
+        }
+        
         self.postingGallery = postingGallery
         super.init(viewModel: viewModel, nibName: "PostProductViewController",
                    statusBarStyle: UIApplication.shared.statusBarStyle)
@@ -250,6 +255,8 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         view.addSubview(carDetailsView)
         carDetailsView.layout(with: view).fill()
         carDetailsView.updateProgress(withPercentage: viewModel.currentCarDetailsProgress)
+        carDetailsView.setCurrencySymbol(viewModel.postDetailViewModel.currencySymbol)
+        carDetailsView.backButtonHidden(!viewModel.shouldShowBackButtonInCarDetails())
         
         carDetailsView.navigationBackButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
             self?.carDetailsNavigationBackButtonPressed()
@@ -417,10 +424,10 @@ extension PostProductViewController {
 // MARK: - State selection
 
 fileprivate extension PostListingState {
-    var closeButtonAlpha: CGFloat {
+    func closeButtonAlpha(carDetailsBackButtonEnabled: Bool) -> CGFloat {
         switch step {
         case .carDetailsSelection:
-            return 0
+            return carDetailsBackButtonEnabled ? 0 : 1
         case .imageSelection, .uploadingImage, .errorUpload, .detailsSelection, .categorySelection, .finished, .uploadSuccess:
             return 1
         }
@@ -540,17 +547,18 @@ extension PostProductViewController {
             adjustDetailsScrollContentInset(to: view)
         }
         let updateVisibility: () -> () = { [weak self] in
-            self?.closeButton.alpha = state.closeButtonAlpha
-            self?.otherStepsContainer.alpha = state.isOtherStepsContainerAlpha
-            self?.customLoadingView.alpha = state.customLoadingViewAlpha
-            self?.postedInfoLabel.alpha = state.postedInfoLabelAlpha
-            self?.postedInfoLabel.text = state.postedInfoLabelText(confirmationText: self?.viewModel.confirmationOkText)
-            self?.postErrorLabel.alpha = state.postErrorLabelAlpha
-            self?.postErrorLabel.text = state.postErrorLabelText
-            self?.retryButton.alpha = state.retryButtonAlpha
-            self?.priceView.alpha = state.priceViewAlpha
-            self?.categorySelectionView.alpha = state.categorySelectionViewAlpha
-            self?.carDetailsView.alpha = state.carDetailsViewAlpha
+            guard let strongSelf = self else { return }
+            strongSelf.closeButton.alpha = state.closeButtonAlpha(carDetailsBackButtonEnabled: strongSelf.viewModel.shouldShowBackButtonInCarDetails())
+            strongSelf.otherStepsContainer.alpha = state.isOtherStepsContainerAlpha
+            strongSelf.customLoadingView.alpha = state.customLoadingViewAlpha
+            strongSelf.postedInfoLabel.alpha = state.postedInfoLabelAlpha
+            strongSelf.postedInfoLabel.text = state.postedInfoLabelText(confirmationText: strongSelf.viewModel.confirmationOkText)
+            strongSelf.postErrorLabel.alpha = state.postErrorLabelAlpha
+            strongSelf.postErrorLabel.text = state.postErrorLabelText
+            strongSelf.retryButton.alpha = state.retryButtonAlpha
+            strongSelf.priceView.alpha = state.priceViewAlpha
+            strongSelf.categorySelectionView.alpha = state.categorySelectionViewAlpha
+            strongSelf.carDetailsView.alpha = state.carDetailsViewAlpha
         }
         
         if state.isLoading {

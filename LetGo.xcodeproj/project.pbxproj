@@ -3245,13 +3245,6 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
-		50D934D21E8014EB00BDD5FF /* Cars */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Cars;
-			sourceTree = "<group>";
-		};
 		50EC64021C64B04700DC04C5 /* LGEmptyView */ = {
 			isa = PBXGroup;
 			children = (
@@ -4010,7 +4003,6 @@
 		C7DE8AA61C8886FE005CF37E /* Post */ = {
 			isa = PBXGroup;
 			children = (
-				50D934D21E8014EB00BDD5FF /* Cars */,
 				C7F18A9C1C89D5FB00D23319 /* cells */,
 				C74016D71D646793004C1E9D /* PostDetails */,
 				50C2E1991E6FFA7A006639BB /* PostProductFooter */,

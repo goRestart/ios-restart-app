@@ -131,6 +131,14 @@ struct LGCar: Car {
                      category: category, status: status, thumbnail: thumbnail,
                      thumbnailSize: thumbnailSize, images: images, user: user, featured: featured, carAttributes: carAttributes)
     }
+    
+    func updating(carAttributes: CarAttributes) -> LGCar {
+        return LGCar(objectId: objectId, updatedAt: updatedAt, createdAt: createdAt, name: name,
+                     nameAuto: nameAuto, descr: descr, price: price, currency: currency,
+                     location: location, postalAddress: postalAddress, languageCode: languageCode,
+                     category: category, status: status, thumbnail: thumbnail,
+                     thumbnailSize: thumbnailSize, images: images, user: user, featured: featured, carAttributes: carAttributes)
+    }
 }
 
 extension LGCar : Decodable {
@@ -180,15 +188,9 @@ extension LGCar : Decodable {
          "image_information": "black fitbit wireless activity wristband",
          "featured": false
          "attributes": {
-             "make": {
-                 "id": "4b301c13-9e5f-442a-a63b-affd15f9268e",
-                 "name": "Audi"
-             },
-             "model": {
-                 "id": "3705d6fe-4c63-424a-929c-64c7b715b620",
-                 "name": "A1"
-             },
-             "year": 2000
+            "make": "4b301c13-9e5f-442a-a63b-affd15f9268e",
+            "model": "3705d6fe-4c63-424a-929c-64c7b715b620",
+            "year": 2000
          }
      }
      */

@@ -37,10 +37,12 @@ class PostCarDetailsView: UIView {
     let makeRowView = PostCategoryDetailRowView(withTitle: LGLocalizedString.postCategoryDetailCarMake)
     let modelRowView = PostCategoryDetailRowView(withTitle: LGLocalizedString.postCategoryDetailCarModel)
     let yearRowView = PostCategoryDetailRowView(withTitle: LGLocalizedString.postCategoryDetailCarYear)
+    let priceRowView = PostCategoryDetailRowView(withTitle: "", type: .textEntryRow)
     let doneButton = UIButton(type: .custom)
+    private let priceRowEnabled: Bool
     
     private var progressTopConstraint: NSLayoutConstraint = NSLayoutConstraint()
-    private static let progressTopConstraintConstantSelectDetail = Metrics.screenHeight*2/5
+    private static let progressTopConstraintConstantSelectDetail = Metrics.screenHeight*1/3
     
     var state: PostCarDetailState = .selectDetail
     
@@ -48,7 +50,9 @@ class PostCarDetailsView: UIView {
     
     // MARK: - Lifecycle
 
-    init() {
+    init(withPriceRow priceRowEnabled: Bool) {
+        self.priceRowEnabled = priceRowEnabled
+        
         super.init(frame: CGRect.zero)
         
         setupUI()
@@ -98,7 +102,6 @@ class PostCarDetailsView: UIView {
         navigationOkButton.titleLabel?.font = UIFont.boldBarButtonFont
         navigationOkButton.addTarget(self, action: #selector(navigationButtonOkPressed), for: .touchUpInside)
         
-        
         if DeviceFamily.current == .iPhone4 {
             descriptionLabel.font = UIFont.systemBoldFont(size: 21)
         } else {
@@ -109,12 +112,12 @@ class PostCarDetailsView: UIView {
         descriptionLabel.text = LGLocalizedString.postCategoryDetailsDescription
         descriptionLabel.numberOfLines = 0
         
-        makeRowView.enabled = true
-        modelRowView.enabled = false
-        yearRowView.enabled = true
+        priceRowView.isHidden = !priceRowEnabled
+        priceRowView.placeholder = LGLocalizedString.productNegotiablePrice
         
         doneButton.setStyle(.primary(fontSize: .big))
         doneButton.setTitle(LGLocalizedString.productPostDone, for: .normal)
+        doneButton.isEnabled = false
         
         selectDetailVisibleViews().forEach { $0.alpha = 1 }
         selectDetailValueVisibleViews().forEach { $0.alpha = 0 }
@@ -123,7 +126,7 @@ class PostCarDetailsView: UIView {
     private func setupLayout() {
         let subviews = [navigationBackButton, navigationTitle, navigationMakeButton, navigationModelButton,
                         navigationYearButton, navigationOkButton, descriptionLabel, progressView, makeRowView,
-                        modelRowView, yearRowView, doneButton, tableView]
+                        modelRowView, yearRowView, priceRowView, doneButton, tableView]
         setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: subviews)
         addSubviews(subviews)
         
@@ -193,8 +196,21 @@ class PostCarDetailsView: UIView {
             .leadingMargin()
             .trailingMargin()
         
-        doneButton.layout(with: yearRowView)
-            .below(by: Metrics.margin)
+        if priceRowEnabled {
+            priceRowView.layout(with: yearRowView)
+                .below()
+            priceRowView.layout()
+                .height(50)
+            priceRowView.layout(with: self)
+                .leadingMargin()
+                .trailingMargin()
+            doneButton.layout(with: priceRowView)
+                .below(by: Metrics.margin)
+        } else {
+            doneButton.layout(with: yearRowView)
+                .below(by: Metrics.margin)
+        }
+        
         doneButton.layout()
             .height(Metrics.buttonHeight)
         doneButton.layout(with: self)
@@ -226,9 +242,9 @@ class PostCarDetailsView: UIView {
         var buttonTitle = LGLocalizedString.postCategoryDetailCarMake
         if let make = make, !make.isEmpty {
             buttonTitle = make
-            modelRowView.enabled = true
+            doneButton.isEnabled = true
         } else {
-            modelRowView.enabled = false
+            doneButton.isEnabled = false
         }
         navigationMakeButton.setTitle(buttonTitle, for: .normal)
         makeRowView.value = make
@@ -254,6 +270,10 @@ class PostCarDetailsView: UIView {
     
     func hideKeyboard() {
         tableView.hideKeyboard()
+    }
+    
+    func setCurrencySymbol(_ symbol: String?) {
+        priceRowView.title = symbol
     }
     
     func updateProgress(withPercentage percentage: Float) {
@@ -284,6 +304,10 @@ class PostCarDetailsView: UIView {
                                  addOtherString: addOtherString)
     }
     
+    func backButtonHidden(_ hidden: Bool) {
+        navigationBackButton.isHidden = hidden
+    }
+    
     // MARK: UI Actions
     
     dynamic func navigationButtonOkPressed() {
@@ -294,7 +318,7 @@ class PostCarDetailsView: UIView {
     // MARK: Animations
     
     private func selectDetailVisibleViews() -> [UIView] {
-        return [navigationTitle, descriptionLabel, makeRowView, modelRowView, yearRowView, doneButton]
+        return [navigationTitle, descriptionLabel, makeRowView, modelRowView, yearRowView, priceRowView, doneButton]
     }
     
     private func selectDetailValueVisibleViews() -> [UIView] {
