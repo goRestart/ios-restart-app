@@ -98,7 +98,12 @@ class PostCarDetailsView: UIView {
         navigationOkButton.titleLabel?.font = UIFont.boldBarButtonFont
         navigationOkButton.addTarget(self, action: #selector(navigationButtonOkPressed), for: .touchUpInside)
         
-        descriptionLabel.font = UIFont.systemSemiBoldFont(size: 27)
+        
+        if DeviceFamily.current == .iPhone4 {
+            descriptionLabel.font = UIFont.systemBoldFont(size: 21)
+        } else {
+            descriptionLabel.font = UIFont.systemBoldFont(size: 27)
+        }
         descriptionLabel.textAlignment = .left
         descriptionLabel.textColor = UIColor.white
         descriptionLabel.text = LGLocalizedString.postCategoryDetailsDescription
@@ -303,7 +308,6 @@ class PostCarDetailsView: UIView {
         self.progressTopConstraint.constant = PostCarDetailsView.progressTopConstraintConstantSelectDetail
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseIn, animations: {
             self.layoutIfNeeded()
-            self.navigationBackButton.transform = CGAffineTransform(rotationAngle: CGFloat(0))
         }, completion: nil)
 
         UIView.animate(withDuration: 0.15, delay: 0.05, options: .curveEaseIn, animations: {
@@ -334,7 +338,6 @@ class PostCarDetailsView: UIView {
         self.progressTopConstraint.constant = navigationTitle.frame.maxY + Metrics.veryBigMargin
         UIView.animate(withDuration: 0.2, delay: 0.05, options: .curveEaseIn, animations: {
             self.layoutIfNeeded()
-            self.navigationBackButton.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
         }, completion: nil)
     }
 }

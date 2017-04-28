@@ -354,7 +354,14 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
 extension PostProductViewController {
     
     dynamic func carDetailsNavigationBackButtonPressed() {
-        didFinishEnteringDetails()
+        switch carDetailsView.state {
+        case .selectDetail, .selectDetailValue(forDetail: .make):
+            didFinishEnteringDetails()
+        case .selectDetailValue(forDetail: .model):
+            showCarMakes()
+        case .selectDetailValue(forDetail: .year):
+            showCarModels()
+        }
     }
     
     dynamic func carMakeButtonPressed() {
@@ -379,8 +386,7 @@ extension PostProductViewController {
         
         switch carDetailsView.state {
         case .selectDetail:
-             viewModel.revertToPreviousStep()
-            break
+            viewModel.revertToPreviousStep()
         case .selectDetailValue:
             carDetailsView.showSelectDetail()
         }
