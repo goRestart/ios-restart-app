@@ -266,8 +266,12 @@ extension PostProductViewModel {
     }
     
     func postCarDetailDone() {
+        if featureFlags.carsCategoryAfterPicture {
+            state.value = state.value.updating(price: postDetailViewModel.productPrice, carInfo: selectedCarAttributes)
+        } else {
+            state.value = state.value.updating(carInfo: selectedCarAttributes)
+        }
         
-        state.value = state.value.updating(carInfo: selectedCarAttributes)
     }
     
     // MARK: - Setup rx

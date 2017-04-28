@@ -111,7 +111,7 @@ final class PostListingState {
         }
         let nextStep: PostListingStep
         if let category = category, category == .car {
-            nextStep = .carDetailsSelection(includePrice: false)
+            nextStep = .carDetailsSelection(includePrice: true)
         } else {
             nextStep = .detailsSelection
         }
@@ -130,7 +130,7 @@ final class PostListingState {
         guard step == .uploadSuccess else { return self }
         let nextStep: PostListingStep
         if let category = category, category == .car {
-            nextStep = .carDetailsSelection(includePrice: false)
+            nextStep = .carDetailsSelection(includePrice: true)
         } else {
             nextStep = .detailsSelection
         }
