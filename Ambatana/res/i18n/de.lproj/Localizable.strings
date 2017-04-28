@@ -442,7 +442,7 @@
 "post_category_details_description" = "Angebote mit vollständigen Angaben haben 20% mehr potentielle Käufer";
 "post_category_details_navigation_title" = "Details hinzufügen";
 "post_category_details_progress" = "%@ complete";
-"post_category_details_progress_100" = "Looks amazing!";
+"post_category_details_progress_100" = "Looks amazing";
 "product_ask_a_question_button" = "Stelle eine Frage";
 "product_auto_generated_title_label" = "Der Titel wurde von letgo automatisch generiert";
 "product_auto_generated_translated_title_label" = "(und mit Google übersetzt)";

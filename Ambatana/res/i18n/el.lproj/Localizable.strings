@@ -442,7 +442,7 @@
 "post_category_details_description" = "Δημοσιεύσεις με ολοκληρωμένες λεπτομέρειες ελκύουν 20% περισσότερους πιθανούς αγοραστές";
 "post_category_details_navigation_title" = "Προσθήκη Λεπτομερειών";
 "post_category_details_progress" = "%@ complete";
-"post_category_details_progress_100" = "Looks amazing!";
+"post_category_details_progress_100" = "Looks amazing";
 "product_ask_a_question_button" = "Κάντε ερώτηση";
 "product_auto_generated_title_label" = "Ο τίτλος έχει επιλεγεί αυτόματα από το letgo";
 "product_auto_generated_translated_title_label" = "(και μεταγραστεί από το Google)";

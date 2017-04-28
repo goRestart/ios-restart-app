@@ -442,7 +442,7 @@
 "post_category_details_description" = "Les annonces avec des informations détaillées attirent 20% plus d'acheteurs potentiels";
 "post_category_details_navigation_title" = "Ajouter des Détails";
 "post_category_details_progress" = "%@ complete";
-"post_category_details_progress_100" = "Looks amazing!";
+"post_category_details_progress_100" = "Looks amazing";
 "product_ask_a_question_button" = "Poser une Question";
 "product_auto_generated_title_label" = "Titre généré automatiquement par letgo";
 "product_auto_generated_translated_title_label" = "(et traduit par Google)";

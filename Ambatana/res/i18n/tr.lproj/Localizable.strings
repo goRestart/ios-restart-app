@@ -442,7 +442,7 @@
 "post_category_details_description" = "Detayları tam girilmiş ilanlar %20 oranda daha fazla potansiyel müşteri çeker.";
 "post_category_details_navigation_title" = "Detay Ekle";
 "post_category_details_progress" = "%@ complete";
-"post_category_details_progress_100" = "Looks amazing!";
+"post_category_details_progress_100" = "Looks amazing";
 "product_ask_a_question_button" = "Soru Sor";
 "product_auto_generated_title_label" = "Başlık letgo tarafından otomatik olarak belirlendi";
 "product_auto_generated_translated_title_label" = "(Yandex ile çevrildi)";

@@ -442,7 +442,7 @@
 "post_category_details_description" = "Kaikki tiedot sisältävät ilmoitukset houkuttelevat 20% enemmän potentiaalisia ostajia";
 "post_category_details_navigation_title" = "Lisää tiedot";
 "post_category_details_progress" = "%@ complete";
-"post_category_details_progress_100" = "Looks amazing!";
+"post_category_details_progress_100" = "Looks amazing";
 "product_ask_a_question_button" = "Esitä kysymys";
 "product_auto_generated_title_label" = "letgon automaattisesti luoma otsikko";
 "product_auto_generated_translated_title_label" = "(ja Googlen kääntämä)";

@@ -442,7 +442,7 @@
 "post_category_details_description" = "완벽한 상세 내역과 함께 게시를 한 상품이 20%더 많은 고객들을 유치하고 있습니다";
 "post_category_details_navigation_title" = "상세 내역 추가";
 "post_category_details_progress" = "%@ complete";
-"post_category_details_progress_100" = "Looks amazing!";
+"post_category_details_progress_100" = "Looks amazing";
 "product_ask_a_question_button" = "질문하기";
 "product_auto_generated_title_label" = "제목은 letgo에서 자동적으로 생성합니다";
 "product_auto_generated_translated_title_label" = "(또한 구글에 의해서 번역됩니다)";

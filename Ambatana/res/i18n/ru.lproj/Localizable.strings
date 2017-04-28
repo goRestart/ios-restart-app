@@ -442,7 +442,7 @@
 "post_category_details_description" = "Объявление с полной информацией привлекает на 20% больше покупателей";
 "post_category_details_navigation_title" = "Добавить информацию";
 "post_category_details_progress" = "%@ complete";
-"post_category_details_progress_100" = "Looks amazing!";
+"post_category_details_progress_100" = "Looks amazing";
 "product_ask_a_question_button" = "Задать вопрос";
 "product_auto_generated_title_label" = "Заголовок автоматически задан letgo";
 "product_auto_generated_translated_title_label" = "(и переведен Яндексом)";

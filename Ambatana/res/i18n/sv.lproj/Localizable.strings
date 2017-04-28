@@ -442,7 +442,7 @@
 "post_category_details_description" = "De som fyller i alla uppgifter attraherar 20% flera potentiella köpare";
 "post_category_details_navigation_title" = "Lägg till uppgifter";
 "post_category_details_progress" = "%@ complete";
-"post_category_details_progress_100" = "Looks amazing!";
+"post_category_details_progress_100" = "Looks amazing";
 "product_ask_a_question_button" = "Ställ en fråga";
 "product_auto_generated_title_label" = "Titeln har genererats automatiskt av letgo";
 "product_auto_generated_translated_title_label" = "(och översatts av Google)";

@@ -442,7 +442,7 @@
 "post_category_details_description" = "Các bài đăng với mô tả đầy đủ thu hút hơn 20% người mua tiềm năng";
 "post_category_details_navigation_title" = "Thêm chi tiết";
 "post_category_details_progress" = "%@ complete";
-"post_category_details_progress_100" = "Looks amazing!";
+"post_category_details_progress_100" = "Looks amazing";
 "product_ask_a_question_button" = "Đặt câu hỏi";
 "product_auto_generated_title_label" = "Tiêu đề do letgo tự động đặt";
 "product_auto_generated_translated_title_label" = "(và do Google dịch)";

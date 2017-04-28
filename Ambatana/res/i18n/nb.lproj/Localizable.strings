@@ -442,7 +442,7 @@
 "post_category_details_description" = "Annonser med komplette detaljer tiltrekker deg 20% flere potensielle kjøpere";
 "post_category_details_navigation_title" = "Legg til detaljer";
 "post_category_details_progress" = "%@ complete";
-"post_category_details_progress_100" = "Looks amazing!";
+"post_category_details_progress_100" = "Looks amazing";
 "product_ask_a_question_button" = "Still et spørsmål";
 "product_auto_generated_title_label" = "Automatisk generert tittel av letgo";
 "product_auto_generated_translated_title_label" = "(og oversatt av Google)";
