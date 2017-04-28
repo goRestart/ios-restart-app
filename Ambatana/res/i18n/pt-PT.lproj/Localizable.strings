@@ -69,7 +69,7 @@
 "change_password_new_password_field_hint" = "Nova password";
 "change_password_send_error_generic" = "Ocorreu um erro ao alterar a password. Por favor tente novamente.";
 "change_password_send_error_invalid_password_with_max" = "Por favor insira uma password válida que deverá conter entre %d e %d caracteres.";
-"change_password_send_error_link_expired" = "Lamentamos mas este link expirou!";
+"change_password_send_error_link_expired" = "Ups! Este link expirou.";
 "change_password_send_error_passwords_mismatch" = "As passwords não coincidem. Por favor tente novamente.";
 "change_password_send_ok" = "Password alterada!";
 "change_password_title" = "Alterar password";
@@ -144,8 +144,8 @@
 "chat_list_unblock" = "Desbloquear";
 "chat_login_popup_text" = "Para começar a conversar deve primeiro fazer login";
 "chat_message_disclaimer_scammer" = "Seja extremamente cuidadoso ao trocar contactos de telefone/email. Os utilizadores fraudulentos pedem com frequência para abandonar o chat do letgo. Mantenha-se informado! Toque aqui para rever as nossas %@.";
-"chat_message_disclaimer_scammer_append_blocked" = "Tap here to block this user.";
-"chat_message_disclaimer_scammer_base_blocked" = "Be extra careful when exchanging phone/email details. Fraudulent users often ask you to leave the letgo chat. %@";
+"chat_message_disclaimer_scammer_append_blocked" = "Toque aqui para bloquear este utilizador.";
+"chat_message_disclaimer_scammer_base_blocked" = "Seja extremamente cuidadoso ao trocar contactos de telefone/email. Os utilizadores fraudulentos pedem com frequência para abandonar o chat do letgo. %@";
 "chat_message_field_hint" = "Escreva a sua mensagem aqui";
 "chat_message_load_generic_error" = "Ocorreu um erro ao recuperar os dados da conversação. Por favor tente novamente.";
 "chat_not_verified_alert_message" = "Entre com o Facebook, Google ou Email para verificar a sua identidade.";
@@ -432,6 +432,17 @@
 "passive_buyers_message" = "Contacte estes compradores interessados em produtos semelhantes";
 "passive_buyers_not_available" = "Ups! Compradores não encontrados.";
 "passive_buyers_title" = "ESTES COMPRADORES PODEM ESTAR INTERESSADOS";
+"post_category_detail_add_make" = "Adicionar Marca";
+"post_category_detail_add_model" = "Adicionar Modelo";
+"post_category_detail_car_make" = "Marca";
+"post_category_detail_car_model" = "Modelo";
+"post_category_detail_car_year" = "Ano";
+"post_category_detail_ok_button" = "OK";
+"post_category_detail_search_placeholder" = "Buscar";
+"post_category_details_description" = "Publicações com dados completos atraem mais 20% de potenciais compradores";
+"post_category_details_navigation_title" = "Adicionar detalhes";
+"post_category_details_progress" = "%@ complete";
+"post_category_details_progress_100" = "Looks amazing";
 "product_ask_a_question_button" = "Faça uma pergunta";
 "product_auto_generated_title_label" = "Título gerado automaticamente pelo letgo";
 "product_auto_generated_translated_title_label" = "(e traduzido pelo Google)";

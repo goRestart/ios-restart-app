@@ -8,9 +8,17 @@
 //
 
 struct Metrics {
+    
+    static let screenWidth: CGFloat = UIScreen.main.bounds.width
+    static let screenHeight: CGFloat = UIScreen.main.bounds.height
+    
     // Common
+    static let veryBigMargin: CGFloat       = 25
+    static let bigMargin: CGFloat           = 20
     static let margin: CGFloat              = 15
     static let shortMargin: CGFloat         = 10
+    static let veryShortMargin: CGFloat     = 5
+    
     static let textFieldHeight: CGFloat     = 50
     static let buttonHeight: CGFloat        = 50
     static let closeButtonWidth: CGFloat    = 54

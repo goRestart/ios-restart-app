@@ -69,7 +69,7 @@
 "change_password_new_password_field_hint" = "Mật khẩu mới";
 "change_password_send_error_generic" = "Lỗi xảy ra khi thay đổi mật khẩu. Xin vui lòng thử lại.";
 "change_password_send_error_invalid_password_with_max" = "Vui lòng nhập mật khẩu hợp lệ. Mật khẩu cần có từ %d đến %d ký tự.";
-"change_password_send_error_link_expired" = "Rất tiếc, liên kết này đã hết hạn!";
+"change_password_send_error_link_expired" = "Ồ! Liên kết này đã hết hạn.";
 "change_password_send_error_passwords_mismatch" = "Mật khẩu không khớp. Xin vui lòng thử lại.";
 "change_password_send_ok" = "Mật khẩu đã thay đổi!";
 "change_password_title" = "Đổi mật khẩu";
@@ -144,8 +144,8 @@
 "chat_list_unblock" = "Bỏ chặn";
 "chat_login_popup_text" = "Bạn cần đăng nhập để bắt đầu trò chuyện";
 "chat_message_disclaimer_scammer" = "Hãy đặc biệt cẩn thận khi trao đổi thông tin số điện thoại/email. Người dùng lừa đảo thường muốn bạn rời khỏi trò chuyện trong letgo. Hãy lưu ý! Nhấn váo đây để xem %@ của chúng tôi.";
-"chat_message_disclaimer_scammer_append_blocked" = "Tap here to block this user.";
-"chat_message_disclaimer_scammer_base_blocked" = "Be extra careful when exchanging phone/email details. Fraudulent users often ask you to leave the letgo chat. %@";
+"chat_message_disclaimer_scammer_append_blocked" = "Nhấp vào đây để chặn người dùng này.";
+"chat_message_disclaimer_scammer_base_blocked" = "Hãy đặc biệt cẩn thận khi trao đổi thông tin số điện thoại/email. Người dùng lừa đảo thường muốn bạn rời khỏi trò chuyện trong letgo. %@";
 "chat_message_field_hint" = "Nhập tin nhắn của bạn tại đây";
 "chat_message_load_generic_error" = "Có lỗi xảy ra trong khi hồi phục dữ liệu trò chuyện của bạn. Xin vui lòng thử lại.";
 "chat_not_verified_alert_message" = "Kết nối với Facebook, Google hoặc Email để xác minh danh tính của bạn.";
@@ -432,6 +432,17 @@
 "passive_buyers_message" = "Liên hệ với những người mua quan tâm đến sản phẩm tương tự";
 "passive_buyers_not_available" = "Ồ! Không tìm thấy người mua.";
 "passive_buyers_title" = "NHỮNG NGƯỜI MUA NÀY CÓ THỂ QUAN TÂM";
+"post_category_detail_add_make" = "Thêm Nhà sản xuất";
+"post_category_detail_add_model" = "Thêm Dòng";
+"post_category_detail_car_make" = "Nhà sản xuất";
+"post_category_detail_car_model" = "Dòng";
+"post_category_detail_car_year" = "Năm";
+"post_category_detail_ok_button" = "OK";
+"post_category_detail_search_placeholder" = "Tìm kiếm";
+"post_category_details_description" = "Các bài đăng với mô tả đầy đủ thu hút hơn 20% người mua tiềm năng";
+"post_category_details_navigation_title" = "Thêm chi tiết";
+"post_category_details_progress" = "%@ complete";
+"post_category_details_progress_100" = "Looks amazing";
 "product_ask_a_question_button" = "Đặt câu hỏi";
 "product_auto_generated_title_label" = "Tiêu đề do letgo tự động đặt";
 "product_auto_generated_translated_title_label" = "(và do Google dịch)";

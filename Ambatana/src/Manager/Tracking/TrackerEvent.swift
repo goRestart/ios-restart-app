@@ -397,17 +397,17 @@ struct TrackerEvent {
         return TrackerEvent(name: .productSellSharedFB, params: params)
     }
 
-    static func productSellComplete(_ product: Product, buttonName: EventParameterButtonNameType?,
+    static func productSellComplete(_ listing: Listing, buttonName: EventParameterButtonNameType?,
                                     sellButtonPosition: EventParameterSellButtonPosition?, negotiable: EventParameterNegotiablePrice?,
                                     pictureSource: EventParameterPictureSource?, freePostingModeAllowed: Bool) -> TrackerEvent {
         var params = EventParameters()
-        params[.freePosting] = eventParameterFreePostingWithPrice(freePostingModeAllowed, price: product.price).rawValue
-        params[.productId] = product.objectId ?? ""
-        params[.categoryId] = product.category.rawValue
-        params[.productName] = product.name ?? ""
-        params[.numberPhotosPosting] = product.images.count
+        params[.freePosting] = eventParameterFreePostingWithPrice(freePostingModeAllowed, price: listing.price).rawValue
+        params[.productId] = listing.objectId ?? ""
+        params[.categoryId] = listing.category.rawValue
+        params[.productName] = listing.name ?? ""
+        params[.numberPhotosPosting] = listing.images.count
         params[.sellButtonPosition] = sellButtonPosition?.rawValue
-        params[.productDescription] = !(product.descr?.isEmpty ?? true)
+        params[.productDescription] = !(listing.descr?.isEmpty ?? true)
         if let buttonName = buttonName {
             params[.buttonName] = buttonName.rawValue
         }
@@ -420,9 +420,9 @@ struct TrackerEvent {
         return TrackerEvent(name: .productSellComplete, params: params)
     }
     
-    static func productSellComplete24h(_ product: Product) -> TrackerEvent {
+    static func productSellComplete24h(_ listing: Listing) -> TrackerEvent {
         var params = EventParameters()
-        params[.productId] = product.objectId ?? ""
+        params[.productId] = listing.objectId ?? ""
         return TrackerEvent(name: .productSellComplete24h, params: params)
     }
 
@@ -451,51 +451,51 @@ struct TrackerEvent {
         return TrackerEvent(name: .productSellErrorData, params: params)
     }
 
-    static func productSellConfirmation(_ product: Product) -> TrackerEvent {
+    static func productSellConfirmation(_ listing: Listing) -> TrackerEvent {
         var params = EventParameters()
-        params[.productId] = product.objectId ?? ""
+        params[.productId] = listing.objectId ?? ""
         return TrackerEvent(name: .productSellConfirmation, params: params)
     }
 
-    static func productSellConfirmationPost(_ product: Product, buttonType: EventParameterButtonType) -> TrackerEvent {
+    static func productSellConfirmationPost(_ listing: Listing, buttonType: EventParameterButtonType) -> TrackerEvent {
         var params = EventParameters()
-        params[.productId] = product.objectId ?? ""
+        params[.productId] = listing.objectId ?? ""
         params[.buttonType] = buttonType.rawValue
         return TrackerEvent(name: .productSellConfirmationPost, params: params)
     }
 
-    static func productSellConfirmationEdit(_ product: Product) -> TrackerEvent {
+    static func productSellConfirmationEdit(_ listing: Listing) -> TrackerEvent {
         var params = EventParameters()
-        params[.productId] = product.objectId ?? ""
+        params[.productId] = listing.objectId ?? ""
         return TrackerEvent(name: .productSellConfirmationEdit, params: params)
     }
 
-    static func productSellConfirmationClose(_ product: Product) -> TrackerEvent {
+    static func productSellConfirmationClose(_ listing: Listing) -> TrackerEvent {
         var params = EventParameters()
-        params[.productId] = product.objectId ?? ""
+        params[.productId] = listing.objectId ?? ""
         return TrackerEvent(name: .productSellConfirmationClose, params: params)
     }
 
-    static func productSellConfirmationShare(_ product: Product, network: EventParameterShareNetwork)
+    static func productSellConfirmationShare(_ listing: Listing, network: EventParameterShareNetwork)
         -> TrackerEvent {
             var params = EventParameters()
-            params[.productId] = product.objectId ?? ""
+            params[.productId] = listing.objectId ?? ""
             params[.shareNetwork] = network.rawValue
             return TrackerEvent(name: .productSellConfirmationShare, params: params)
     }
 
-    static func productSellConfirmationShareCancel(_ product: Product,
+    static func productSellConfirmationShareCancel(_ listing: Listing,
         network: EventParameterShareNetwork) -> TrackerEvent {
             var params = EventParameters()
-            params[.productId] = product.objectId ?? ""
+            params[.productId] = listing.objectId ?? ""
             params[.shareNetwork] = network.rawValue
             return TrackerEvent(name: .productSellConfirmationShareCancel, params: params)
     }
 
-    static func productSellConfirmationShareComplete(_ product: Product,
+    static func productSellConfirmationShareComplete(_ listing: Listing,
         network: EventParameterShareNetwork) -> TrackerEvent {
             var params = EventParameters()
-            params[.productId] = product.objectId ?? ""
+            params[.productId] = listing.objectId ?? ""
             params[.shareNetwork] = network.rawValue
             return TrackerEvent(name: .productSellConfirmationShareComplete, params: params)
     }

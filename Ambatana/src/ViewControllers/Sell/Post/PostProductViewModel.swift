@@ -50,6 +50,7 @@ class PostProductViewModel: BaseViewModel {
     
     fileprivate let listingRepository: ListingRepository
     fileprivate let fileRepository: FileRepository
+    fileprivate let carsInfoRepository: CarsInfoRepository
     fileprivate let currencyHelper: CurrencyHelper
     fileprivate let tracker: Tracker
     fileprivate let sessionManager: SessionManager
@@ -58,6 +59,9 @@ class PostProductViewModel: BaseViewModel {
     
     private var imagesSelected: [UIImage]?
     fileprivate var uploadedImageSource: EventParameterPictureSource?
+    
+    let selectedDetail = Variable<CategoryDetailSelectedInfo?>(nil)
+    var selectedCarAttributes: CarAttributes = CarAttributes.emptyCarAttributes()
     
     fileprivate let disposeBag: DisposeBag
 
@@ -68,6 +72,7 @@ class PostProductViewModel: BaseViewModel {
         self.init(source: source,
                   listingRepository: Core.listingRepository,
                   fileRepository: Core.fileRepository,
+                  carsInfoRepository: Core.carsInfoRepository,
                   tracker: TrackerProxy.sharedInstance,
                   sessionManager: Core.sessionManager,
                   featureFlags: FeatureFlags.sharedInstance,
@@ -78,6 +83,7 @@ class PostProductViewModel: BaseViewModel {
     init(source: PostingSource,
          listingRepository: ListingRepository,
          fileRepository: FileRepository,
+         carsInfoRepository: CarsInfoRepository,
          tracker: Tracker,
          sessionManager: SessionManager,
          featureFlags: FeatureFlaggeable,
@@ -89,6 +95,7 @@ class PostProductViewModel: BaseViewModel {
         self.postingSource = source
         self.listingRepository = listingRepository
         self.fileRepository = fileRepository
+        self.carsInfoRepository = carsInfoRepository
         self.postDetailViewModel = PostProductDetailViewModel()
         self.postProductCameraViewModel = PostProductCameraViewModel(postingSource: source)
         self.tracker = tracker
@@ -101,6 +108,7 @@ class PostProductViewModel: BaseViewModel {
         self.postDetailViewModel.delegate = self
         
         setupRx()
+        setupCarsRx()
     }
 
     override func didBecomeActive(_ firstTime: Bool) {
@@ -110,6 +118,10 @@ class PostProductViewModel: BaseViewModel {
     }
 
     // MARK: - Public methods
+    
+    func revertToPreviousStep() {
+        state.value = state.value.revertToPreviousStep()
+    }
    
     func retryButtonPressed() {
         guard let images = imagesSelected, let source = uploadedImageSource else { return }
@@ -141,17 +153,159 @@ class PostProductViewModel: BaseViewModel {
         if state.value.pendingToUploadImages != nil {
             openPostAbandonAlertNotLoggedIn()
         } else {
-            guard let images = state.value.lastImagesUploadResult?.value, let params = makeProductCreationParams(images: images) else {
+            guard let images = state.value.lastImagesUploadResult?.value else {
                 navigator?.cancelPostProduct()
                 return
             }
-            let trackingInfo = PostProductTrackingInfo(buttonName: .close, sellButtonPosition: postingSource.sellButtonPosition,
-                                                       imageSource: uploadedImageSource, price: nil) // TODO: 🚔 that nil..?
-            navigator?.closePostProductAndPostInBackground(params: params, showConfirmation: false, trackingInfo: trackingInfo)
+            
+            var listingParams: ListingCreationParams?
+            if let category = category.value, category == .car {
+                if let carParams = makeCarCreationParams(images: images) {
+                    listingParams = ListingCreationParams.car(carParams)
+                } else {
+                    navigator?.cancelPostProduct()
+                }
+            }
+            else if let productParams = makeProductCreationParams(images: images) {
+                listingParams = ListingCreationParams.product(productParams)
+            } else {
+                navigator?.cancelPostProduct()
+            }
+            
+            guard let params = listingParams else { return }
+            let trackingInfo = PostProductTrackingInfo(buttonName: .close,
+                                                       sellButtonPosition: postingSource.sellButtonPosition,
+                                                       imageSource: uploadedImageSource,
+                                                       price: postDetailViewModel.price.value)
+            navigator?.closePostProductAndPostInBackground(params: params, showConfirmation: false,
+                                                           trackingInfo: trackingInfo)
         }
     }
 }
 
+// MARK: - Cars vertical
+
+extension PostProductViewModel {
+    
+    func shouldShowBackButtonInCarDetails() -> Bool {
+        return featureFlags.carsCategoryAfterPicture
+    }
+    
+    func shouldAddPriceRowInCarDetails() -> Bool {
+        return !featureFlags.carsCategoryAfterPicture
+    }
+    
+    fileprivate var carMakes: [CarsMake] {
+        return carsInfoRepository.retrieveCarsMakes()
+    }
+    
+    fileprivate var selectedCarMakeInfo: CarInfoWrapper? {
+        guard let makeId = selectedCarAttributes.makeId,
+            let makeName = selectedCarAttributes.make else {
+                return nil
+        }
+        return CarInfoWrapper(id: makeId, name: makeName, type: .make)
+    }
+    
+    fileprivate func carModels(forMakeId makeId: String) -> [CarsModel] {
+        return carsInfoRepository.retrieveCarsModelsFormake(makeId: makeId)
+    }
+    
+    fileprivate var selectedCarModelInfo: CarInfoWrapper? {
+        guard let modelId = selectedCarAttributes.modelId,
+            let modelName = selectedCarAttributes.model else {
+                return nil
+        }
+        return CarInfoWrapper(id: modelId, name: modelName, type: .model)
+    }
+    
+    fileprivate var carYears: [Int] {
+        return carsInfoRepository.retrieveValidYears(withFirstYear: 0, ascending: false)
+    }
+    
+    fileprivate var selectedCarYearInfo: CarInfoWrapper? {
+        guard let year = selectedCarAttributes.year else {
+                return nil
+        }
+        let stringYear = String(year)
+        return CarInfoWrapper(id: stringYear, name: stringYear, type: .year)
+    }
+    
+    func carInfo(forDetail detail: CarDetailType) -> (carInfoWrappers: [CarInfoWrapper], selectedIndex: Int?) {
+        switch detail {
+        case .make:
+            let values: [CarInfoWrapper] = carMakes
+                .map { CarInfoWrapper(id: $0.makeId, name: $0.makeName, type: .make) }
+            var selectedIndex: Int? = nil
+            if let selectedMakeInfo = selectedCarMakeInfo {
+                selectedIndex = values.index(of: selectedMakeInfo)
+            }
+            return (carInfoWrappers: values, selectedIndex: selectedIndex)
+        case .model:
+            guard let makeId = selectedCarMakeInfo?.id else { return ([], nil) }
+            let values: [CarInfoWrapper] = carModels(forMakeId: makeId)
+                .map { CarInfoWrapper(id: $0.modelId, name: $0.modelName, type: .model) }
+            var selectedIndex: Int? = nil
+            if let selectedModelInfo = selectedCarModelInfo {
+                selectedIndex = values.index(of: selectedModelInfo)
+            }
+            return (carInfoWrappers: values, selectedIndex: selectedIndex)
+        case .year:
+            let values: [CarInfoWrapper] = carYears
+                .map { CarInfoWrapper(id: String($0), name: String($0), type: .year) }
+            var selectedIndex: Int? = nil
+            if let selectedYearInfo = selectedCarYearInfo {
+                selectedIndex = values.index(of: selectedYearInfo)
+            }
+            return (carInfoWrappers: values, selectedIndex: selectedIndex)
+        }
+    }
+    
+    var currentCarDetailsProgress: Float {
+        let details: [Any?] = [selectedCarAttributes.make, selectedCarAttributes.model, selectedCarAttributes.year]
+        let detailsFilled: [Any] = details.flatMap { data in
+            if let data = data as? String, !data.isEmpty {
+                return data
+            } else if let data = data as? Int, data != 0 {
+                return data
+            }
+            return nil
+        }
+        
+        guard details.count > 0 else { return 1 }
+        return Float(detailsFilled.count) / Float(details.count)
+    }
+    
+    func postCarDetailDone() {
+        if featureFlags.carsCategoryAfterPicture {
+            state.value = state.value.updating(price: postDetailViewModel.productPrice, carInfo: selectedCarAttributes)
+        } else {
+            state.value = state.value.updating(carInfo: selectedCarAttributes)
+        }
+        
+    }
+    
+    // MARK: - Setup rx
+    
+    func setupCarsRx() {
+        selectedDetail.asObservable().subscribeNext { [weak self] (categoryDetailSelectedInfo) in
+            guard let categoryDetail = categoryDetailSelectedInfo else { return }
+            guard let strongSelf = self else { return}
+            switch categoryDetail.type {
+            case .make:
+                strongSelf.selectedCarAttributes = strongSelf.selectedCarAttributes.updating(makeId: categoryDetail.id,
+                                                                                             make: categoryDetail.name,
+                                                                                             modelId: "",
+                                                                                             model: "") // TODO: take this default value from corekit
+            case .model:
+                strongSelf.selectedCarAttributes = strongSelf.selectedCarAttributes.updating(modelId: categoryDetail.id,
+                                                                                             model: categoryDetail.name)
+            case .year:
+                strongSelf.selectedCarAttributes = strongSelf.selectedCarAttributes.updating(year: Int(categoryDetail.id))
+            }
+        }.addDisposableTo(disposeBag)
+    }
+}
 
 // MARK: - PostProductDetailViewModelDelegate
 
@@ -172,7 +326,7 @@ fileprivate extension PostProductViewModel {
         }.addDisposableTo(disposeBag)
         
         state.asObservable().filter { $0.step == .finished }.bindNext { [weak self] _ in
-            self?.postProduct()
+            self?.postListing()
         }.addDisposableTo(disposeBag)
         
         state.asObservable().filter { $0.step == .uploadSuccess }.bindNext { [weak self] _ in
@@ -191,7 +345,7 @@ fileprivate extension PostProductViewModel {
             self?.navigator?.cancelPostProduct()
         })
         let postAction = UIAction(interface: .text(LGLocalizedString.productPostCloseAlertOkButton), action: { [weak self] in
-            self?.postProduct()
+            self?.postListing()
         })
         delegate?.vmShowAlert(title, message: message, actions: [cancelAction, postAction])
     }
@@ -200,20 +354,59 @@ fileprivate extension PostProductViewModel {
         let trackingInfo = PostProductTrackingInfo(buttonName: .done, sellButtonPosition: postingSource.sellButtonPosition,
                                                    imageSource: uploadedImageSource, price: postDetailViewModel.price.value)
         if sessionManager.loggedIn {
-            guard let images = state.value.lastImagesUploadResult?.value, let params = makeProductCreationParams(images: images) else { return }
-            navigator?.closePostProductAndPostInBackground(params: params, showConfirmation: true, trackingInfo: trackingInfo)
+            guard let images = state.value.lastImagesUploadResult?.value,
+                let productParams = makeProductCreationParams(images: images) else { return }
+            navigator?.closePostProductAndPostInBackground(params: ListingCreationParams.product(productParams),
+                                                           showConfirmation: true,
+                                                           trackingInfo: trackingInfo)
         } else if let images = state.value.pendingToUploadImages {
             let loggedInAction = { [weak self] in
-                guard let params = self?.makeProductCreationParams(images: []) else { return }
-                self?.navigator?.closePostProductAndPostLater(params: params, images: images, trackingInfo: trackingInfo)
+                guard let productParams = self?.makeProductCreationParams(images: []) else { return }
+                self?.navigator?.closePostProductAndPostLater(params: ListingCreationParams.product(productParams),
+                                                              images: images,
+                                                              trackingInfo: trackingInfo)
             }
             let cancelAction = { [weak self] in
                 guard let state = self?.state.value else { return }
-                self?.state.value = state.revertToPreviousStep()
+                self?.revertToPreviousStep()
             }
             navigator?.openLoginIfNeededFromProductPosted(from: .sell, loggedInAction: loggedInAction, cancelAction: cancelAction)
         } else {
             navigator?.cancelPostProduct()
+        }
+    }
+    
+    func postCar() {
+        let trackingInfo = PostProductTrackingInfo(buttonName: .done, sellButtonPosition: postingSource.sellButtonPosition,
+                                                   imageSource: uploadedImageSource, price: postDetailViewModel.price.value)
+        if sessionManager.loggedIn {
+            guard let images = state.value.lastImagesUploadResult?.value,
+                let carParams = makeCarCreationParams(images: images) else { return }
+            navigator?.closePostProductAndPostInBackground(params: ListingCreationParams.car(carParams),
+                                                           showConfirmation: true,
+                                                           trackingInfo: trackingInfo)
+        } else if let images = state.value.pendingToUploadImages {
+            let loggedInAction = { [weak self] in
+                guard let carParams = self?.makeCarCreationParams(images: []) else { return }
+                self?.navigator?.closePostProductAndPostLater(params: ListingCreationParams.car(carParams),
+                                                              images: images,
+                                                              trackingInfo: trackingInfo)
+            }
+            let cancelAction = { [weak self] in
+                guard let state = self?.state.value else { return }
+                self?.revertToPreviousStep()
+            }
+            navigator?.openLoginIfNeededFromProductPosted(from: .sell, loggedInAction: loggedInAction, cancelAction: cancelAction)
+        } else {
+            navigator?.cancelPostProduct()
+        }
+    }
+    
+    func postListing() {
+        if let postCategory = category.value, postCategory == .car {
+            postCar()
+        } else {
+            postProduct()
         }
     }
 
@@ -232,6 +425,24 @@ fileprivate extension PostProductViewModel {
                                      location: location,
                                      postalAddress: postalAddress,
                                      images: images)
+    }
+    
+    func makeCarCreationParams(images: [File]) -> CarCreationParams? {
+        guard let location = locationManager.currentLocation?.location else { return nil }
+        let price = postDetailViewModel.productPrice
+        let title = postDetailViewModel.productTitle
+        let description = postDetailViewModel.productDescription
+        let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()
+        let currency = currencyHelper.currencyWithCountryCode(postalAddress.countryCode ?? "US")
+        return CarCreationParams(name: title,
+                                 description: description,
+                                 price: price,
+                                 category: .cars,
+                                 currency: currency,
+                                 location: location,
+                                 postalAddress: postalAddress,
+                                 images: images,
+                                 carAttributes: selectedCarAttributes)
     }
 }
 

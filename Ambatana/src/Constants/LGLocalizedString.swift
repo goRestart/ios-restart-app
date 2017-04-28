@@ -1835,12 +1835,28 @@ struct LGLocalizedString {
 		return NSLocalizedString("post_category_detail_car_year", comment: "")
 	}
 
-	static var postCategoryDetailsProgress: String {
-		return NSLocalizedString("post_category_details_progress", comment: "")
+	static var postCategoryDetailOkButton: String {
+		return NSLocalizedString("post_category_detail_ok_button", comment: "")
+	}
+
+	static func postCategoryDetailsProgress(_ var1: String) -> String {
+		return String(format: NSLocalizedString("post_category_details_progress", comment: ""), var1)
 	}
 
 	static var postCategoryDetailsProgress100: String {
 		return NSLocalizedString("post_category_details_progress_100", comment: "")
+	}
+
+	static var postCategoryDetailSearchPlaceholder: String {
+		return NSLocalizedString("post_category_detail_search_placeholder", comment: "")
+	}
+
+	static var postCategoryDetailAddMake: String {
+		return NSLocalizedString("post_category_detail_add_make", comment: "")
+	}
+
+	static var postCategoryDetailAddModel: String {
+		return NSLocalizedString("post_category_detail_add_model", comment: "")
 	}
 
 	static var productAskAQuestionButton: String {

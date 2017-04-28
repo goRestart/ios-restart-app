@@ -1709,7 +1709,7 @@ class TrackerEventSpec: QuickSpec {
                     product.price = .negotiable(20)
                     product.images = MockFile.makeMocks(count: 2)
                     product.descr = String.makeRandom()
-                    sut = TrackerEvent.productSellComplete(product, buttonName: .done, sellButtonPosition: .floatingButton, negotiable: .yes,
+                    sut = TrackerEvent.productSellComplete(Listing.product(product), buttonName: .done, sellButtonPosition: .floatingButton, negotiable: .yes,
                         pictureSource: .gallery, freePostingModeAllowed: true)
                 }
                 it("has its event name") {
@@ -1761,7 +1761,7 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "r4nd0m1D"
-                    sut = TrackerEvent.productSellConfirmation(product)
+                    sut = TrackerEvent.productSellConfirmation(Listing.product(product))
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-confirmation"))
@@ -1776,7 +1776,7 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "r4nd0m1D"
-                    sut = TrackerEvent.productSellConfirmationPost(product, buttonType: .button)
+                    sut = TrackerEvent.productSellConfirmationPost(Listing.product(product), buttonType: .button)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-confirmation-post"))
@@ -1795,7 +1795,7 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "r4nd0m1D"
-                    sut = TrackerEvent.productSellConfirmationEdit(product)
+                    sut = TrackerEvent.productSellConfirmationEdit(Listing.product(product))
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-confirmation-edit"))
@@ -1810,7 +1810,7 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "r4nd0m1D"
-                    sut = TrackerEvent.productSellConfirmationClose(product)
+                    sut = TrackerEvent.productSellConfirmationClose(Listing.product(product))
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-confirmation-close"))
@@ -1825,7 +1825,7 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "r4nd0m1D"
-                    sut = TrackerEvent.productSellConfirmationShare(product, network: .facebook)
+                    sut = TrackerEvent.productSellConfirmationShare(Listing.product(product), network: .facebook)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-confirmation-share"))
@@ -1844,7 +1844,7 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "r4nd0m1D"
-                    sut = TrackerEvent.productSellConfirmationShareCancel(product, network: .facebook)
+                    sut = TrackerEvent.productSellConfirmationShareCancel(Listing.product(product), network: .facebook)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-confirmation-share-cancel"))
@@ -1863,7 +1863,7 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "r4nd0m1D"
-                    sut = TrackerEvent.productSellConfirmationShareComplete(product, network: .facebook)
+                    sut = TrackerEvent.productSellConfirmationShareComplete(Listing.product(product), network: .facebook)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-confirmation-share-complete"))

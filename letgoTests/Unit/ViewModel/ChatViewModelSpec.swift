@@ -185,7 +185,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                         }
                         it("related products state is visible") {
                             listingId = chatConversation.listing?.objectId
-                            expect(relatedListingsStateObserver.lastValue).toEventually(equal(ChatRelatedItemsState.visible(listingId: listingId)))
+                            expect(relatedListingsStateObserver.lastValue).toEventually(equal(ChatRelatedItemsState.visible(listingId: listingId)), timeout: 10)
                         }
                     }
                 }

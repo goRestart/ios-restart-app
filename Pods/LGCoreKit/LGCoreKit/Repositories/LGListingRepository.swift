@@ -21,6 +21,7 @@ final class LGListingRepository: ListingRepository {
 
     let dataSource: ListingDataSource
     let myUserRepository: MyUserRepository
+    let carsInfoRepository: CarsInfoRepository
     let favoritesDAO: FavoritesDAO
     let listingsLimboDAO: ListingsLimboDAO
     var viewedListingIds: Set<String>
@@ -31,12 +32,14 @@ final class LGListingRepository: ListingRepository {
     init(listingDataSource: ListingDataSource,
          myUserRepository: MyUserRepository,
          favoritesDAO: FavoritesDAO,
-         listingsLimboDAO: ListingsLimboDAO) {
+         listingsLimboDAO: ListingsLimboDAO,
+         carsInfoRepository: CarsInfoRepository) {
         self.dataSource = listingDataSource
         self.myUserRepository = myUserRepository
         self.favoritesDAO = favoritesDAO
         self.listingsLimboDAO = listingsLimboDAO
         self.viewedListingIds = []
+        self.carsInfoRepository = carsInfoRepository
     }
 
     func updateEvents(for listingId: String) -> Observable<Listing> {
@@ -88,7 +91,7 @@ final class LGListingRepository: ListingRepository {
                 }
                 var listings = value
                 if let favorites = self?.favoritesDAO.favorites,
-                    let favoritedListings = self?.setFavorites(value, favorites: favorites) {
+                    let favoritedListings = self?.setFavoritesAndCarData(value, favorites: favorites) {
                     listings = favoritedListings
                 }
                 completion?(ListingsResult(value: listings))
@@ -113,6 +116,7 @@ final class LGListingRepository: ListingRepository {
                     var newCar = LGCar(car: car)
                     if let objectId = newCar.objectId {
                         newCar.favorite = favorites.contains(objectId)
+                        newCar = self.fillCarAttributes(car: newCar)
                     }
                     completion?(ListingResult(value: Listing.car(newCar)))
                 }
@@ -178,9 +182,12 @@ final class LGListingRepository: ListingRepository {
         
         dataSource.updateCar(carParams: carParams) {
             [weak self] result in
+            guard let strongSelf = self else { return }
             if let car = result.value {
                 // Send event
-                self?.eventBus.onNext(.update(Listing.car(car)))
+                var newCar = LGCar(car: car)
+                let carUpdated = strongSelf.fillCarAttributes(car: newCar)
+                self?.eventBus.onNext(.update(Listing.car(carUpdated)))
             }
             handleApiResult(result, completion: completion)
         }
@@ -435,7 +442,7 @@ final class LGListingRepository: ListingRepository {
 
     // MARK: - Private funcs
 
-    private func setFavorites(_ listings: [Listing], favorites: [String]) -> [Listing] {
+    private func setFavoritesAndCarData(_ listings: [Listing], favorites: [String]) -> [Listing] {
         
         var newListings: [Listing] = []
         
@@ -449,6 +456,7 @@ final class LGListingRepository: ListingRepository {
             case .car(let car):
                 var newCar = LGCar(car: car)
                 newCar.favorite = favorites.contains(listingId)
+                newCar = fillCarAttributes(car: newCar)
                 newListings.append(Listing.car(newCar))
             }
         }
@@ -462,7 +470,7 @@ final class LGListingRepository: ListingRepository {
                 completion?(ListingsResult(error: RepositoryError(apiError: error)))
             } else if let value = result.value {
                 guard let strongSelf = self else { return }
-                let newListings = strongSelf.setFavorites(value, favorites: favorites)
+                let newListings = strongSelf.setFavoritesAndCarData(value, favorites: favorites)
                 completion?(ListingsResult(value: newListings))
             }
         }
@@ -477,6 +485,18 @@ final class LGListingRepository: ListingRepository {
                 completion?(ListingVoidResult(value: ()))
             }
         }
+    }
+    
+    private func fillCarAttributes(car: LGCar) -> LGCar {
+        guard let makeId = car.carAttributes.makeId else { return car }
+        let make = carsInfoRepository.retrieveMakeName(with: makeId)
+        let model = carsInfoRepository.retrieveModelName(with: makeId, modelId: car.carAttributes.modelId)
+        let carAttributesUpdated = car.carAttributes.updating(makeId: car.carAttributes.makeId,
+                                                              make: make,
+                                                              modelId: car.carAttributes.modelId,
+                                                              model: model,
+                                                              year: car.carAttributes.year)
+        return car.updating(carAttributes: carAttributesUpdated)
     }
 }
 

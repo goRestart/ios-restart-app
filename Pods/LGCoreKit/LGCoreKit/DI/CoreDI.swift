@@ -190,7 +190,8 @@ final class CoreDI: InternalDI {
         return LGListingRepository(listingDataSource: dataSource,
                                    myUserRepository: self.internalMyUserRepository,
                                    favoritesDAO: self.favoritesDAO,
-                                   listingsLimboDAO: self.listingsLimboDAO)
+                                   listingsLimboDAO: self.listingsLimboDAO,
+                                   carsInfoRepository: self.carsInfoRepository)
     }()
     lazy var fileRepository: FileRepository = {
         let dataSource = FileApiDataSource(apiClient: self.apiClient)
