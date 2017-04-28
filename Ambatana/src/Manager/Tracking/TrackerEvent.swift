@@ -417,6 +417,36 @@ struct TrackerEvent {
         if let pictureSource = pictureSource {
             params[.pictureSource] = pictureSource.rawValue
         }
+
+
+//        let listing: Listing
+//
+//        switch listing {
+//        case.car:
+//            params[.postingType] = EventParameterPostingType.car.rawValue
+//        case .product:
+//            params[.postingType] = EventParameterPostingType.stuff.rawValue
+//        }
+//
+//        params[.make] = EventParameterMake.make(name: listing.car?.carAttributes.make).name
+//        params[.model] = EventParameterModel.model(name: listing.car?.carAttributes.model).name
+//        params[.year] = EventParameterYear.year(year: listing.car?.carAttributes.year).year
+//
+//        //  o
+//
+//        switch listing {
+//        case.car(let car):
+//            params[.postingType] = EventParameterPostingType.car.rawValue
+//            params[.make] = EventParameterMake.make(name: car.carAttributes.make).name
+//            params[.model] = EventParameterModel.model(name: car.carAttributes.model).name
+//            params[.year] = EventParameterYear.year(year: car.carAttributes.year).year
+//        case .product:
+//            params[.postingType] = EventParameterPostingType.stuff.rawValue
+//            params[.make] = "N/A"
+//            params[.model] = "N/A"
+//            params[.year] = "N/A"
+//        }
+
         return TrackerEvent(name: .productSellComplete, params: params)
     }
     
@@ -527,14 +557,18 @@ struct TrackerEvent {
     }
 
     static func productEditComplete(_ user: User?, listing: Listing, category: ListingCategory?,
-        editedFields: [EventParameterEditedFields]) -> TrackerEvent {
-            var params = EventParameters()
-            // Product
-            params[.productId] = listing.objectId
-            params[.categoryId] = category?.rawValue ?? 0
-            params[.editedFields] = editedFields.map({$0.rawValue}).joined(separator: ",")
+                                    editedFields: [EventParameterEditedFields]) -> TrackerEvent {
+        var params = EventParameters()
+        // Product
+        params[.productId] = listing.objectId
+        params[.categoryId] = category?.rawValue ?? 0
+        params[.editedFields] = editedFields.map({$0.rawValue}).joined(separator: ",")
 
-            return TrackerEvent(name: .productEditComplete, params: params)
+        params[.make] = EventParameterMake.make(name: listing.car?.carAttributes.make).name
+        params[.model] = EventParameterModel.model(name: listing.car?.carAttributes.model).name
+        params[.year] = EventParameterYear.year(year: listing.car?.carAttributes.year).year
+
+        return TrackerEvent(name: .productEditComplete, params: params)
     }
 
     static func productDeleteStart(_ listing: Listing) -> TrackerEvent {

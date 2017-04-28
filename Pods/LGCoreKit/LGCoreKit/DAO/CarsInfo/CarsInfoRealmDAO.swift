@@ -111,11 +111,27 @@ class CarsInfoRealmDAO: CarsInfoDAO {
             logMessage(.verbose, type: CoreLoggingOptions.database, message: "Failed to create first run cache: \(error)")
         }
     }
-
+    
+    func retrieveMakeName(with makeId: String?) -> String? {
+        guard let makeId = makeId else { return nil }
+        let makes = dataBase.objects(RealmCarsMakeWithModels.self)
+        let queryPredicate = NSPredicate(format: "makeId == '\(makeId)'")
+        guard let rmMake = makes.filter(queryPredicate).first else { return nil }
+        return rmMake.makeName
+    }
+    
+    func retrieveModelName(with makeId: String?, modelId: String?) -> String? {
+        guard let makeId = makeId else { return nil }
+        guard let modelId = modelId else { return nil }
+        let models = modelsForMake(makeId: makeId)
+        return models.first(where: { $0.modelId == modelId })?.modelName
+    }
+    
     private func decoder(_ object: Any) -> [CarsMakeWithModels]? {
         let apiCarsMakeList: [ApiCarsMake]? = decode(object)
         return apiCarsMakeList
     }
+    
 }
 
 

@@ -142,8 +142,8 @@ public class ProductEditionParams: ProductCreationParams {
         }
     }
 
-    func apiEncode() -> [String: Any] {
-        return super.apiEncode(userId: userId)
+    func apiEditionEncode() -> [String: Any] {
+        return super.apiCreationEncode(userId: userId)
     }
 
     static private func createProductParams(withCar car: Car) -> Product {
@@ -182,7 +182,7 @@ public class ProductCreationParams {
         self.images = images
     }
 
-    func apiEncode(userId: String) -> [String: Any] {
+    func apiCreationEncode(userId: String) -> [String: Any] {
         var params: [String: Any] = [:]
         params["name"] = name
         params["category"] = category.rawValue
@@ -234,7 +234,7 @@ public class CarCreationParams {
         self.carAttributes = carAttributes
     }
     
-    func apiEncode(userId: String) -> [String: Any] {
+    func apiCreationEncode(userId: String) -> [String: Any] {
         var params: [String:Any] = [:]
         params["name"] = name
         params["category"] = category.rawValue
@@ -303,8 +303,8 @@ public class CarEditionParams: CarCreationParams {
         }
     }
     
-    func apiEncode() -> [String: Any] {
-        return super.apiEncode(userId: userId)
+    func apiEditionEncode() -> [String: Any] {
+        return super.apiCreationEncode(userId: userId)
     }
 
     static private func createCarParams(withProduct product: Product) -> Car {

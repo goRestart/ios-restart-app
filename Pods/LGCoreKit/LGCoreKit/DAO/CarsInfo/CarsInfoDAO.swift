@@ -12,4 +12,6 @@ protocol CarsInfoDAO {
     func modelsForMake(makeId: String) -> [CarsModel]
     func clean()
     func loadFirstRunCacheIfNeeded(jsonURL: URL)
+    func retrieveModelName(with makeId: String?, modelId: String?) -> String?
+    func retrieveMakeName(with makeId: String?) -> String?
 }

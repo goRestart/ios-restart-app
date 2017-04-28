@@ -52,7 +52,7 @@ final class LGCarsInfoRepository: CarsInfoRepository {
         return cache.modelsForMake(makeId: makeId)
     }
 
-    func retrieveValidYears(withFirstYear firstYear: Int?, ascending: Bool) -> [Int] {
+    func retrieveValidYears(withFirstYear firstYear: Int? = LGCoreKitConstants.carsFirstYear, ascending: Bool) -> [Int] {
         let currentYear = Calendar.current.component(.year, from: Date())
         guard let actualFirstYear = firstYear else {
             let yearsList = Array(LGCoreKitConstants.carsFirstYear...currentYear)
@@ -65,6 +65,15 @@ final class LGCarsInfoRepository: CarsInfoRepository {
         let yearsList = Array(modelFirstYear...currentYear)
         return ascending ? yearsList : yearsList.reversed()
     }
+    
+    func retrieveModelName(with makeId: String?, modelId: String?) -> String? {
+        return cache.retrieveModelName(with: makeId, modelId: modelId)
+    }
+    func retrieveMakeName(with makeId: String?) -> String? {
+        return cache.retrieveMakeName(with: makeId)
+    }
+    
+    
 
     // Rx
 

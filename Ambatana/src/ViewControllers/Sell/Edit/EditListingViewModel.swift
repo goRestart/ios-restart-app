@@ -215,7 +215,11 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
         self.locationInfo.value = listing.postalAddress.zipCodeCityString ?? ""
 
-        self.category.value = listing.category
+        if !featureFlags.carsVerticalEnabled, listing.category == .cars {
+            self.category.value = .motorsAndAccessories
+        } else {
+            self.category.value = listing.category
+        }
 
         self.listingImages = ListingImages()
         for file in listing.images { listingImages.append(file) }
@@ -324,7 +328,6 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
     func carYearButtonPressed() {
         // open car years table
-        guard let _ = carModelId.value else { return }
         let carsYearsList = carsInfoRepository.retrieveValidYears(withFirstYear: nil, ascending: false)
         let carsAttributtesChoiceVMWithYears = CarsAttributesChoiceViewModel(yearsList: carsYearsList)
         carsAttributtesChoiceVMWithYears.choiceDelegate = self
@@ -651,13 +654,11 @@ extension EditListingViewModel : CarsAttributesChoiceDelegate {
         carMakeName.value = make.makeName
         carModelId.value = nil
         carModelName.value = nil
-        carYear.value = nil
     }
 
     func didSelectModel(model: CarsModel) {
         carModelId.value = model.modelId
         carModelName.value = model.modelName
-        carYear.value = nil
     }
 
     func didSelectYear(year: Int) {
@@ -787,6 +788,19 @@ extension EditListingViewModel {
         }
         if initialListing.category != listing.category {
             editedFields.append(.category)
+            // listing was not car and now is a car
+            // if it was a car and is not anymore, BI said NOT TO track changes in make, model and year
+            if let carAttributes = listing.car?.carAttributes {
+                if let make = carAttributes.make, !make.isEmpty {
+                    editedFields.append(.make)
+                }
+                if let model = carAttributes.model, !model.isEmpty {
+                    editedFields.append(.model)
+                }
+                if let year = carAttributes.year, year != 0 {
+                    editedFields.append(.year)
+                }
+            }
         }
         if initialListing.location != listing.location {
             editedFields.append(.location)
@@ -796,6 +810,18 @@ extension EditListingViewModel {
         }
         if initialListing.price.free != listing.price.free {
             editedFields.append(.freePosting)
+        }
+        // listing was a car and is still a car
+        if let carAttributes = initialListing.car?.carAttributes, let newCarAttributes = listing.car?.carAttributes {
+            if carAttributes.make != newCarAttributes.make {
+                editedFields.append(.make)
+            }
+            if carAttributes.model != newCarAttributes.model {
+                editedFields.append(.model)
+            }
+            if carAttributes.year != newCarAttributes.year {
+                editedFields.append(.year)
+            }
         }
         return editedFields
     }

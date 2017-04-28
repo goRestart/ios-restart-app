@@ -550,20 +550,10 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
             } else {
                 self?.carsModelButton.isEnabled = false
                 self?.carsModelTitleLabel.isEnabled = false
-                self?.carsYearButton.isEnabled = false
-                self?.carsYearTitleLabel.isEnabled = false
             }
         }.addDisposableTo(disposeBag)
 
         viewModel.carModelName.asObservable().bindTo(carsModelSelectedLabel.rx.text).addDisposableTo(disposeBag)
-        viewModel.carModelId.asObservable().bindNext{ [weak self] modelId in
-            if let _ = modelId {
-                self?.carsYearButton.isEnabled = true
-                self?.carsYearTitleLabel.isEnabled = true
-            } else {
-                self?.carsYearButton.isEnabled = false
-            }
-        }.addDisposableTo(disposeBag)
 
         viewModel.carYear.asObservable().bindNext{ [weak self] year in
             guard let year = year else {

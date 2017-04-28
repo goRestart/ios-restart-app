@@ -58,21 +58,26 @@ class CarsAttributesChoiceViewModel : BaseViewModel {
     weak var delegate: CarsAttributesChoiceViewModelDelegate?
     weak var choiceDelegate: CarsAttributesChoiceDelegate?
 
+    var title: String
+
     let carsAttributeType = Variable<CarsAttributeType>(.make(makesList: []))
 
     // init to show Makes table
     init(carsMakes: [CarsMake]) {
         carsAttributeType.value = .make(makesList: carsMakes)
+        self.title = LGLocalizedString.postCategoryDetailCarMake
     }
 
     // init to show Models table
     init(carsModels: [CarsModel]) {
         carsAttributeType.value = .model(modelsList: carsModels)
+        self.title = LGLocalizedString.postCategoryDetailCarModel
     }
 
     // init to show Years table
     init(yearsList: [Int]) {
         carsAttributeType.value = .year(yearsList: yearsList)
+        self.title = LGLocalizedString.postCategoryDetailCarYear
     }
 
     func makeSelected(make: CarsMake) {

@@ -25,6 +25,7 @@ class CarsAttributesChoiceViewController : BaseViewController, CarsAttributesCho
         self.tableView = UITableView()
         super.init(viewModel: viewModel, nibName: nil)
         self.viewModel.delegate = self
+        self.title = viewModel.title
     }
     
     required init?(coder aDecoder: NSCoder) {

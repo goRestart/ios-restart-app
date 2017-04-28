@@ -12,10 +12,15 @@ import Runes
 
 public struct CarAttributes: Equatable {
     public let make: String?
-    public let  makeId: String?
-    public let  model: String?
-    public let  modelId: String?
-    public let  year: Int?
+    public let makeId: String?
+    public let model: String?
+    public let modelId: String?
+    public let year: Int?
+    
+    static func initWith(makeId: String?, modelId: String?, year: Int?) -> CarAttributes {
+        return self.init(makeId: makeId, make: nil, modelId: modelId, model: nil, year: year)
+    }
+    
     public init(makeId: String?, make: String?, modelId: String?, model: String?, year: Int?) {
         self.makeId = makeId
         self.make = make
@@ -25,7 +30,24 @@ public struct CarAttributes: Equatable {
     }
     
     public static func emptyCarAttributes() -> CarAttributes {
-        return CarAttributes(makeId: nil, make: nil, modelId: nil, model: nil, year: nil)
+        return CarAttributes(makeId: LGCoreKitConstants.carsMakeEmptyValue,
+                             make: LGCoreKitConstants.carsMakeEmptyValue,
+                             modelId: LGCoreKitConstants.carsModelEmptyValue,
+                             model: LGCoreKitConstants.carsModelEmptyValue,
+                             year: LGCoreKitConstants.carsYearEmptyValue)
+    }
+    
+    public func updating(makeId: String? = nil,
+                         make: String? = nil,
+                         modelId: String? = nil,
+                         model: String? = nil,
+                         year: Int? = nil) -> CarAttributes {
+        
+        return CarAttributes(makeId: makeId ?? self.makeId,
+                             make: make ?? self.make,
+                             modelId: modelId ?? self.modelId,
+                             model: model ?? self.model,
+                             year: year ?? self.year)
     }
 }
 
@@ -40,26 +62,19 @@ extension CarAttributes : Decodable {
     /**
      Expects a json in the form:
      
-     {
-     "make": {
-     "id": "4b301c13-9e5f-442a-a63b-affd15f9268e",
-     "name": "Audi"
-     },
-     "model": {
-     "id": "3705d6fe-4c63-424a-929c-64c7b715b620",
-     "name": "A1"
-     },
-     "year": 2000
+     "attributes": {
+        "make": "f762a529-6e99-4244-9568-e31b6705edb5", //required, valid uuid4 or empty string.
+        "model": "b243756c-456b-4132-8a6f-c63758551f7", //required, valid uuid4 or empty string.
+        "year": 2000 //required, valid year (>1900) or 0.
+     
      }
      
      */
     public static func decode(_ j: JSON) -> Decoded<CarAttributes> {
-        let init1 = curry(CarAttributes.init)
-            <^> j <|? ["make", "id"]
-            <*> j <|? ["make", "name"]
-        let init2 = init1   <*> j <|? ["model", "id"]
-            <*> j <|? ["model", "name"]
+        let init1 = curry(CarAttributes.initWith)
+            <^> j <|? "make"
+            <*> j <|? "model"
             <*> j <|? "year"
-        return init2
+        return init1
     }
 }
