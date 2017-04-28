@@ -80,7 +80,15 @@ class NotificationsViewModel: BaseViewModel {
 
     func selectedItemAtIndex(_ index: Int) {
         guard let data = dataAtIndex(index) else { return }
-        trackItemPressed(data.type.eventType)
+        // Not track if type is modular as primary action on modular notification includes tracking.
+        switch data.type {
+        case .welcome, .productFavorite, .productSold, .rating, .ratingUpdated, .buyersInterested, .productSuggested, .facebookFriendshipCreated:
+            // cardAction is passed as string instead of EventParameterCardAction type as retention could send anything on the query parameter.
+            trackItemPressed(type: data.type.eventType, source: .main, cardAction: data.type.notificationAction.rawValue,
+                             notificationCampaign: nil)
+        case .modular:
+            break
+        }
         data.primaryAction?()
     }
     
@@ -234,7 +242,8 @@ fileprivate extension NotificationsViewModel {
                                     campaignType: notification.campaignType,
                                     primaryAction: { [weak self] in
                                         guard let deeplink = modules.callToActions.first?.deeplink else { return }
-                                        self?.triggerModularNotificationDeeplink(deeplink: deeplink)
+                                        self?.triggerModularNotificationDeeplink(deeplink: deeplink, source: .main,
+                                                                                 notificationCampaign: notification.campaignType)
                                     })
         }
     }
@@ -251,9 +260,11 @@ fileprivate extension NotificationsViewModel {
 // MARK: - modularNotificationCellDelegate
 
 extension NotificationsViewModel: ModularNotificationCellDelegate {
-    func triggerModularNotificationDeeplink(deeplink: String) {
+    func triggerModularNotificationDeeplink(deeplink: String, source: EventParameterNotificationClickArea, notificationCampaign: String?) {
         guard let deepLinkURL = URL(string: deeplink) else { return }
         guard let deepLink = UriScheme.buildFromUrl(deepLinkURL)?.deepLink else { return }
+        trackItemPressed(type: .modular, source: source, cardAction: deepLink.cardActionParameter,
+                         notificationCampaign: notificationCampaign)
         navigator?.openNotificationDeepLink(deepLink: deepLink)
     }
 }
@@ -267,8 +278,10 @@ fileprivate extension NotificationsViewModel {
         tracker.trackEvent(event)
     }
 
-    func trackItemPressed(_ type: EventParameterNotificationType) {
-        let event = TrackerEvent.notificationCenterComplete(type)
+    func trackItemPressed(type: EventParameterNotificationType, source: EventParameterNotificationClickArea,
+                          cardAction: String?, notificationCampaign: String?) {
+        let event = TrackerEvent.notificationCenterComplete(type, source: source, cardAction: cardAction,
+                                                            notificationCampaign: notificationCampaign)
         tracker.trackEvent(event)
     }
     
@@ -299,6 +312,29 @@ fileprivate extension NotificationDataType {
             return .facebookFriendshipCreated
         case .modular:
             return .modular
+        }
+    }
+    
+    var notificationAction: EventParameterNotificationAction {
+        switch self {
+        case .productSold:
+            return .product
+        case .productFavorite:
+            return .product
+        case .rating:
+            return .userRating
+        case .ratingUpdated:
+            return .userRating
+        case .welcome:
+            return .sell
+        case .buyersInterested:
+            return .passiveBuyers
+        case .productSuggested:
+            return .product
+        case .facebookFriendshipCreated:
+            return .user
+        case .modular:
+            return .unknown // It should not happen never.
         }
     }
 }

@@ -79,7 +79,7 @@ class CategoriesViewModel: BaseViewModel {
             case .free:
                 productFilters.priceRange = .freePrice
             case .category(let cat):
-                productFilters.toggleCategory(cat)
+                productFilters.toggleCategory(cat, carVerticalEnabled: featureFlags.carsVerticalEnabled)
             }
             return productFilters
         }

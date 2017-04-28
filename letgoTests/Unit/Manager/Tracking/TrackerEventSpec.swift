@@ -2970,7 +2970,7 @@ class TrackerEventSpec: QuickSpec {
             }
             describe("Notification center complete type welcome") {
                 beforeEach {
-                    sut = TrackerEvent.notificationCenterComplete(.welcome)
+                    sut = TrackerEvent.notificationCenterComplete(.welcome, source: .main, cardAction: "profile-visit", notificationCampaign: nil)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("notification-center-complete"))
@@ -2979,10 +2979,18 @@ class TrackerEventSpec: QuickSpec {
                     let param = sut.params!.stringKeyParams["notification-type"] as? String
                     expect(param) == "welcome"
                 }
+                it("contains click-area param") {
+                    let param = sut.params!.stringKeyParams["notification-click-area"] as? String
+                    expect(param) == "main"
+                }
+                it("contains action param") {
+                    let param = sut.params!.stringKeyParams["notification-action"] as? String
+                    expect(param) == "profile-visit"
+                }
             }
             describe("Notification center complete type buyersInterested") {
                 beforeEach {
-                    sut = TrackerEvent.notificationCenterComplete(.buyersInterested)
+                    sut = TrackerEvent.notificationCenterComplete(.buyersInterested, source: .main, cardAction: "profile-visit", notificationCampaign: nil)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("notification-center-complete"))
@@ -2991,10 +2999,18 @@ class TrackerEventSpec: QuickSpec {
                     let param = sut.params!.stringKeyParams["notification-type"] as? String
                     expect(param) == "passive-buyer-seller"
                 }
+                it("contains click-area param") {
+                    let param = sut.params!.stringKeyParams["notification-click-area"] as? String
+                    expect(param) == "main"
+                }
+                it("contains action param") {
+                    let param = sut.params!.stringKeyParams["notification-action"] as? String
+                    expect(param) == "profile-visit"
+                }
             }
             describe("Notification center complete type favorite") {
                 beforeEach {
-                    sut = TrackerEvent.notificationCenterComplete(.favorite)
+                    sut = TrackerEvent.notificationCenterComplete(.favorite, source: .main, cardAction: "product-detail-visit", notificationCampaign: nil)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("notification-center-complete"))
@@ -3003,10 +3019,18 @@ class TrackerEventSpec: QuickSpec {
                     let param = sut.params!.stringKeyParams["notification-type"] as? String
                     expect(param) == "favorite"
                 }
+                it("contains click-area param") {
+                    let param = sut.params!.stringKeyParams["notification-click-area"] as? String
+                    expect(param) == "main"
+                }
+                it("contains action param") {
+                    let param = sut.params!.stringKeyParams["notification-action"] as? String
+                    expect(param) == "product-detail-visit"
+                }
             }
             describe("Notification center complete type productSold") {
                 beforeEach {
-                    sut = TrackerEvent.notificationCenterComplete(.productSold)
+                    sut = TrackerEvent.notificationCenterComplete(.productSold, source: .main, cardAction: "product-detail-visit", notificationCampaign: nil)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("notification-center-complete"))
@@ -3015,10 +3039,18 @@ class TrackerEventSpec: QuickSpec {
                     let param = sut.params!.stringKeyParams["notification-type"] as? String
                     expect(param) == "favorite-sold"
                 }
+                it("contains click-area param") {
+                    let param = sut.params!.stringKeyParams["notification-click-area"] as? String
+                    expect(param) == "main"
+                }
+                it("contains action param") {
+                    let param = sut.params!.stringKeyParams["notification-action"] as? String
+                    expect(param) == "product-detail-visit"
+                }
             }
             describe("Notification center complete type productSuggested") {
                 beforeEach {
-                    sut = TrackerEvent.notificationCenterComplete(.productSuggested)
+                    sut = TrackerEvent.notificationCenterComplete(.productSuggested, source: .main, cardAction: "passive-buyer-seller", notificationCampaign: nil)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("notification-center-complete"))
@@ -3027,10 +3059,18 @@ class TrackerEventSpec: QuickSpec {
                     let param = sut.params!.stringKeyParams["notification-type"] as? String
                     expect(param) == "passive-buyer-make-offer"
                 }
+                it("contains click-area param") {
+                    let param = sut.params!.stringKeyParams["notification-click-area"] as? String
+                    expect(param) == "main"
+                }
+                it("contains action param") {
+                    let param = sut.params!.stringKeyParams["notification-action"] as? String
+                    expect(param) == "passive-buyer-seller"
+                }
             }
             describe("Notification center complete type rating") {
                 beforeEach {
-                    sut = TrackerEvent.notificationCenterComplete(.rating)
+                    sut = TrackerEvent.notificationCenterComplete(.rating, source: .main, cardAction: "passive-buyer-seller", notificationCampaign: nil)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("notification-center-complete"))
@@ -3039,10 +3079,18 @@ class TrackerEventSpec: QuickSpec {
                     let param = sut.params!.stringKeyParams["notification-type"] as? String
                     expect(param) == "rating"
                 }
+                it("contains click-area param") {
+                    let param = sut.params!.stringKeyParams["notification-click-area"] as? String
+                    expect(param) == "main"
+                }
+                it("contains action param") {
+                    let param = sut.params!.stringKeyParams["notification-action"] as? String
+                    expect(param) == "passive-buyer-seller"
+                }
             }
             describe("Notification center complete type ratingUpdated") {
                 beforeEach {
-                    sut = TrackerEvent.notificationCenterComplete(.ratingUpdated)
+                    sut = TrackerEvent.notificationCenterComplete(.ratingUpdated, source: .main, cardAction: "passive-buyer-seller", notificationCampaign: nil)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("notification-center-complete"))
@@ -3050,6 +3098,42 @@ class TrackerEventSpec: QuickSpec {
                 it("contains notification-type param") {
                     let param = sut.params!.stringKeyParams["notification-type"] as? String
                     expect(param) == "rating-updated"
+                }
+                it("contains click-area param") {
+                    let param = sut.params!.stringKeyParams["notification-click-area"] as? String
+                    expect(param) == "main"
+                }
+                it("contains action param") {
+                    let param = sut.params!.stringKeyParams["notification-action"] as? String
+                    expect(param) == "passive-buyer-seller"
+                }
+                it("contains notificationCampaign param") {
+                    let param = sut.params!.stringKeyParams["notification-campaign"] as? String
+                    expect(param) == "N/A"
+                }
+            }
+            describe("Notification center complete type modular") {
+                beforeEach {
+                    sut = TrackerEvent.notificationCenterComplete(.modular, source: .cta1, cardAction: "profile-visit", notificationCampaign: "inactive_march_2017")
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("notification-center-complete"))
+                }
+                it("contains notification-type param") {
+                    let param = sut.params!.stringKeyParams["notification-type"] as? String
+                    expect(param) == "modular"
+                }
+                it("contains click-area param") {
+                    let param = sut.params!.stringKeyParams["notification-click-area"] as? String
+                    expect(param) == "cta-1"
+                }
+                it("contains action param") {
+                    let param = sut.params!.stringKeyParams["notification-action"] as? String
+                    expect(param) == "profile-visit"
+                }
+                it("contains notificationCampaign param") {
+                    let param = sut.params!.stringKeyParams["notification-campaign"] as? String
+                    expect(param) == "inactive_march_2017"
                 }
             }
             describe("Marketing Push Notifications") {
