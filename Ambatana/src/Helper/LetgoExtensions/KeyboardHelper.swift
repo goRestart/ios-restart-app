@@ -14,7 +14,7 @@ class KeyboardHelper {
     private(set) var keyboardOrigin: CGFloat = UIScreen.main.bounds.height
     private(set) var animationTime: CGFloat = 0.25
     private(set) var animationCurve: Int = 0
-    static let sharedInstance = KeyboardHelper()
+    //static let sharedInstance = KeyboardHelper()
     
     var rx_keyboardHeight = Variable<CGFloat>(0.0)
     var rx_keyboardOrigin = Variable<CGFloat>(0.0)

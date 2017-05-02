@@ -70,6 +70,10 @@ class PostCategoryDetailRowView: UIView {
         }
     }
     
+    func hideKeyboard() {
+        textField.resignFirstResponder()
+    }
+    
     // MARK: - Lifecycle
     
     init(withTitle title: String, type: PostCategoryDetailRowViewType = .defaultRow) {

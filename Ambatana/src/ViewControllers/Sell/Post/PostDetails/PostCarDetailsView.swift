@@ -270,6 +270,7 @@ class PostCarDetailsView: UIView {
     
     func hideKeyboard() {
         tableView.hideKeyboard()
+        priceRowView.hideKeyboard()
     }
     
     func setCurrencySymbol(_ symbol: String?) {
