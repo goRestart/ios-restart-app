@@ -43,6 +43,15 @@
 "categories_fashion_and_accessories" = "Divat és kiegészítők";
 "categories_free" = "Ingyenes dolgok";
 "categories_home_and_garden" = "Otthon és kert";
+"categories_inFeed_baby_child" = "Gyerek";
+"categories_inFeed_books_movies" = "Szórakozás";
+"categories_inFeed_cars" = "Autók";
+"categories_inFeed_electronics" = "Technológia";
+"categories_inFeed_fashion" = "Divat";
+"categories_inFeed_home" = "Otthon";
+"categories_inFeed_motors" = "Motorok";
+"categories_inFeed_others" = "Egyéb";
+"categories_inFeed_sports_leisure_games" = "Szabadidő";
 "categories_movies_books_and_music" = "Filmek, könyvek, zenék";
 "categories_other" = "Egyéb";
 "categories_sports_leisure_and_games" = "Sport, szabadidő, játékok";
@@ -69,7 +78,7 @@
 "change_password_new_password_field_hint" = "Új jelszó";
 "change_password_send_error_generic" = "Hiba történt a jelszó megváltoztatása során. Próbálkozz újra!";
 "change_password_send_error_invalid_password_with_max" = "Kérjük, érvényes jelszót adj meg. A hossza %d és %d között lehet.";
-"change_password_send_error_link_expired" = "Sajnáljuk, ez a hivatkozás lejárt!";
+"change_password_send_error_link_expired" = "Hoppá! Ez a hivatkozás lejárt.";
 "change_password_send_error_passwords_mismatch" = "A jelszavak nem egyeznek. Próbálkozz újra!";
 "change_password_send_ok" = "Jelszó megváltoztatva!";
 "change_password_title" = "Jelszóváltás";
@@ -441,8 +450,8 @@
 "post_category_detail_search_placeholder" = "Keresés";
 "post_category_details_description" = "A teljesen kitöltött részletezővel rendelkező hirdetések 20%-kal több potenciális vásárlót vonzanak";
 "post_category_details_navigation_title" = "Részletek hozzáadása";
-"post_category_details_progress" = "%@ complete";
-"post_category_details_progress_100" = "Looks amazing";
+"post_category_details_progress" = "%@ kész";
+"post_category_details_progress_100" = "Szuper";
 "product_ask_a_question_button" = "Kérdezek valamit";
 "product_auto_generated_title_label" = "A címet a letgo hozta létre automatikusan";
 "product_auto_generated_translated_title_label" = "(és a Google fordította)";

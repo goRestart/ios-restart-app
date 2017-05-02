@@ -43,6 +43,15 @@
 "categories_fashion_and_accessories" = "패션 및 액세서리";
 "categories_free" = "무료제품";
 "categories_home_and_garden" = "가정 및 정원용품";
+"categories_inFeed_baby_child" = "어린이";
+"categories_inFeed_books_movies" = "엔터테인먼트";
+"categories_inFeed_cars" = "자동차";
+"categories_inFeed_electronics" = "기술";
+"categories_inFeed_fashion" = "패션";
+"categories_inFeed_home" = "집";
+"categories_inFeed_motors" = "모토";
+"categories_inFeed_others" = "기타";
+"categories_inFeed_sports_leisure_games" = "레져";
 "categories_movies_books_and_music" = "영화, 도서 및 음악";
 "categories_other" = "기타";
 "categories_sports_leisure_and_games" = "스포츠,레저 및 게임";
@@ -441,8 +450,8 @@
 "post_category_detail_search_placeholder" = "검색";
 "post_category_details_description" = "완벽한 상세 내역과 함께 게시를 한 상품이 20%더 많은 고객들을 유치하고 있습니다";
 "post_category_details_navigation_title" = "상세 내역 추가";
-"post_category_details_progress" = "%@ complete";
-"post_category_details_progress_100" = "Looks amazing";
+"post_category_details_progress" = "%@ 완료되었습니다";
+"post_category_details_progress_100" = "훌륭해 보이네요";
 "product_ask_a_question_button" = "질문하기";
 "product_auto_generated_title_label" = "제목은 letgo에서 자동적으로 생성합니다";
 "product_auto_generated_translated_title_label" = "(또한 구글에 의해서 번역됩니다)";
