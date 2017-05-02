@@ -243,7 +243,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         detailsContainer.addSubview(priceView)
         priceView.layout(with: postedInfoLabel).below(by: Metrics.margin)
         priceView.layout(with: detailsContainer).bottom()
-        priceView.layout(with: detailsContainer).leading(by: 50).trailing(by: -50)
+        priceView.layout(with: detailsContainer).fillHorizontal(by: Metrics.screenWidth/10)
     }
     
     private func setupCategorySelectionView() {
