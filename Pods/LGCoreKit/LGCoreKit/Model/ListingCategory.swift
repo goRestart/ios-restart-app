@@ -22,7 +22,7 @@ public enum ListingCategory: Int {
         // TODO: move .cars to visible once the become available
         return [.unassigned, .cars] + visibleValues()
     }
-    static func visibleValues() -> [ListingCategory] {
+    static public func visibleValues() -> [ListingCategory] {
         return [.electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden, .moviesBooksAndMusic,
                 .fashionAndAccesories, .babyAndChild, .other]
     }

@@ -22,6 +22,7 @@ struct MainProductsHeader: OptionSet {
 
     static let PushPermissions  = MainProductsHeader(rawValue:1)
     static let SellButton = MainProductsHeader(rawValue:2)
+    static let CategoriesCollectionBanner = MainProductsHeader(rawValue:3)
 }
 
 class MainProductsViewModel: BaseViewModel {
@@ -210,6 +211,7 @@ class MainProductsViewModel: BaseViewModel {
 
     override func didBecomeActive(_ firstTime: Bool) {
         updatePermissionsWarning()
+        updateCategoriesHeader()
         if let currentLocation = locationManager.currentLocation {
             retrieveProductsIfNeededWithNewLocation(currentLocation)
             retrieveLastUserSearch()
@@ -683,6 +685,18 @@ extension MainProductsViewModel {
             currentHeader.remove(MainProductsHeader.PushPermissions)
         } else {
             currentHeader.insert(MainProductsHeader.PushPermissions)
+        }
+        guard mainProductsHeader.value != currentHeader else { return }
+        mainProductsHeader.value = currentHeader
+    }
+    
+    fileprivate dynamic func updateCategoriesHeader() {
+        var currentHeader = mainProductsHeader.value
+        // TODO: CHeck condition to show or not category header
+        if UIApplication.shared.areRemoteNotificationsEnabled {
+            currentHeader.remove(MainProductsHeader.CategoriesCollectionBanner)
+        } else {
+            currentHeader.insert(MainProductsHeader.CategoriesCollectionBanner)
         }
         guard mainProductsHeader.value != currentHeader else { return }
         mainProductsHeader.value = currentHeader
