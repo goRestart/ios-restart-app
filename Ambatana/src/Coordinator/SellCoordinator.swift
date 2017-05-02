@@ -201,17 +201,12 @@ extension SellCoordinator: ProductPostedNavigator {
         dismissViewController(animated: true) { [weak self] in
             guard let parentVC = self?.parentViewController else { return }
 
-            
-            // TODO: cars
-            guard let product = listing.product else { return }
-            
             // TODO: Open EditProductCoordinator, refactor this completion with a EditProductCoordinatorDelegate func
             let editVM = EditListingViewModel(listing: listing)
             editVM.closeCompletion = { editedListing in
                 self?.closeCoordinator(animated: false) {
                     guard let strongSelf = self else { return }
-                    let listing = Listing.product(editedProduct ?? product)
-                    strongSelf.delegate?.sellCoordinator(strongSelf, didFinishWithListing: listing)
+                    strongSelf.delegate?.sellCoordinator(strongSelf, didFinishWithListing: editedListing ?? listing)
                 }
             }
             let editVC = EditListingViewController(viewModel: editVM)

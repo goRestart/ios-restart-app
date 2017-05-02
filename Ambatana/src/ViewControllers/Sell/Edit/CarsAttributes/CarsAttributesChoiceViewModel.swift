@@ -9,38 +9,15 @@
 import RxSwift
 import LGCoreKit
 
-enum CarsAttributeType {
-    case make(makesList: [CarsMake])
-    case model(modelsList: [CarsModel])
-    case year(yearsList: [Int])
-
-    var list: [Any] {
-        switch self {
-        case let .make(makes):
-            return makes
-        case let .model(models):
-            return models
-        case let .year(years):
-            return years
-        }
-    }
-
-    func itemAtPosition(position: Int) -> Any? {
-        guard 0..<list.count ~= position else { return nil }
-        return list[position]
-    }
-
-    func nameForItemAtPosition(position: Int) -> String {
+extension CarDetailType {
+    var navigationTitle: String {
         switch self {
         case .make:
-            guard let currentMake = itemAtPosition(position: position) as? CarsMake else { return "" }
-            return currentMake.makeName
+            return LGLocalizedString.postCategoryDetailCarMake
         case .model:
-            guard let currentModel = itemAtPosition(position: position) as? CarsModel else { return "" }
-            return currentModel.modelName
+            return LGLocalizedString.postCategoryDetailCarModel
         case .year:
-            guard let currentYear = itemAtPosition(position: position) as? Int else { return "" }
-            return "\(currentYear)"
+            return LGLocalizedString.postCategoryDetailCarYear
         }
     }
 }
@@ -48,8 +25,8 @@ enum CarsAttributeType {
 protocol CarsAttributesChoiceViewModelDelegate: BaseViewModelDelegate {}
 
 protocol CarsAttributesChoiceDelegate: class {
-    func didSelectMake(make: CarsMake)
-    func didSelectModel(model: CarsModel)
+    func didSelectMake(makeId: String, makeName: String)
+    func didSelectModel(modelId: String, modelName: String)
     func didSelectYear(year: Int)
 }
 
@@ -59,43 +36,58 @@ class CarsAttributesChoiceViewModel : BaseViewModel {
     weak var choiceDelegate: CarsAttributesChoiceDelegate?
 
     var title: String
+    var detailType: CarDetailType
+    var selectedIndex: Int?
 
-    let carsAttributeType = Variable<CarsAttributeType>(.make(makesList: []))
+
+    let wrappedInfoList = Variable<[CarInfoWrapper]>([])
 
     // init to show Makes table
-    init(carsMakes: [CarsMake]) {
-        carsAttributeType.value = .make(makesList: carsMakes)
-        self.title = LGLocalizedString.postCategoryDetailCarMake
+    init(carsMakes: [CarsMake], selectedMake: String?) {
+        self.detailType = .make
+        self.title = detailType.navigationTitle
+        if let selectedMake = selectedMake {
+            self.selectedIndex = carsMakes.map {$0.makeId}.index(of: selectedMake)
+        }
+        wrappedInfoList.value = carsMakes.map { CarInfoWrapper(id: $0.makeId, name: $0.makeName, type: .make )}
     }
 
     // init to show Models table
-    init(carsModels: [CarsModel]) {
-        carsAttributeType.value = .model(modelsList: carsModels)
-        self.title = LGLocalizedString.postCategoryDetailCarModel
+    init(carsModels: [CarsModel], selectedModel: String?) {
+        self.detailType = .model
+        self.title = detailType.navigationTitle
+        if let selectedModel = selectedModel {
+            self.selectedIndex = carsModels.map {$0.modelId}.index(of: selectedModel)
+        }
+        wrappedInfoList.value = carsModels.map { CarInfoWrapper(id: $0.modelId, name: $0.modelName, type: .model )}
     }
 
     // init to show Years table
-    init(yearsList: [Int]) {
-        carsAttributeType.value = .year(yearsList: yearsList)
-        self.title = LGLocalizedString.postCategoryDetailCarYear
+    init(yearsList: [Int], selectedYear: Int?) {
+        self.detailType = .year
+        self.title = detailType.navigationTitle
+        if let selectedYear = selectedYear {
+            self.selectedIndex = yearsList.index(of: selectedYear)
+        }
+        wrappedInfoList.value = yearsList.map { CarInfoWrapper(id: String($0), name: String($0), type: .year )}
     }
 
-    func makeSelected(make: CarsMake) {
-        choiceDelegate?.didSelectMake(make: make)
+    func carInfoSelected(id: String, name: String, type: CarDetailType) {
+        switch type {
+        case .make:
+            choiceDelegate?.didSelectMake(makeId: id, makeName: name)
+        case .model:
+            choiceDelegate?.didSelectModel(modelId: id, modelName: name)
+        case .year:
+            guard let year = Int(id) else { return }
+            choiceDelegate?.didSelectYear(year: year)
+        }
         closeAttributesChoice()
     }
+}
 
-    func modelSelected(model: CarsModel) {
-        choiceDelegate?.didSelectModel(model: model)
-        closeAttributesChoice()
-    }
-
-    func yearSelected(year: Int) {
-        choiceDelegate?.didSelectYear(year: year)
-        closeAttributesChoice()
-    }
-
-    private func closeAttributesChoice() {
+extension CarsAttributesChoiceViewModel {
+    fileprivate func closeAttributesChoice() {
         delegate?.vmPop()
     }
-} 
+}

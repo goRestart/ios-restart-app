@@ -312,7 +312,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     func carMakeButtonPressed() {
         // open car makes table
         let carsMakesList = carsInfoRepository.retrieveCarsMakes()
-        let carsAttributtesChoiceVMWithMakes = CarsAttributesChoiceViewModel(carsMakes: carsMakesList)
+        let carsAttributtesChoiceVMWithMakes = CarsAttributesChoiceViewModel(carsMakes: carsMakesList, selectedMake: carMakeId.value)
         carsAttributtesChoiceVMWithMakes.choiceDelegate = self
         delegate?.openCarsAttributesChoicesWithViewModel(attributesChoiceViewModel: carsAttributtesChoiceVMWithMakes)
     }
@@ -321,7 +321,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         // open car models table
         guard let makeId = carMakeId.value else { return }
         let carsModelsList = carsInfoRepository.retrieveCarsModelsFormake(makeId: makeId)
-        let carsAttributtesChoiceVMWithModels = CarsAttributesChoiceViewModel(carsModels: carsModelsList)
+        let carsAttributtesChoiceVMWithModels = CarsAttributesChoiceViewModel(carsModels: carsModelsList, selectedModel: carModelId.value)
         carsAttributtesChoiceVMWithModels.choiceDelegate = self
         delegate?.openCarsAttributesChoicesWithViewModel(attributesChoiceViewModel: carsAttributtesChoiceVMWithModels)
     }
@@ -329,7 +329,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     func carYearButtonPressed() {
         // open car years table
         let carsYearsList = carsInfoRepository.retrieveValidYears(withFirstYear: nil, ascending: false)
-        let carsAttributtesChoiceVMWithYears = CarsAttributesChoiceViewModel(yearsList: carsYearsList)
+        let carsAttributtesChoiceVMWithYears = CarsAttributesChoiceViewModel(yearsList: carsYearsList, selectedYear: carYear.value)
         carsAttributtesChoiceVMWithYears.choiceDelegate = self
         delegate?.openCarsAttributesChoicesWithViewModel(attributesChoiceViewModel: carsAttributtesChoiceVMWithYears)
     }
@@ -649,16 +649,16 @@ extension EditListingViewModel {
 // MARK: - CarsAttributesChoiceDelegate
 
 extension EditListingViewModel : CarsAttributesChoiceDelegate {
-    func didSelectMake(make: CarsMake) {
-        carMakeId.value = make.makeId
-        carMakeName.value = make.makeName
+    func didSelectMake(makeId: String, makeName: String) {
+        carMakeId.value = makeId
+        carMakeName.value = makeName
         carModelId.value = nil
         carModelName.value = nil
     }
 
-    func didSelectModel(model: CarsModel) {
-        carModelId.value = model.modelId
-        carModelName.value = model.modelName
+    func didSelectModel(modelId: String, modelName: String) {
+        carModelId.value = modelId
+        carModelName.value = modelName
     }
 
     func didSelectYear(year: Int) {

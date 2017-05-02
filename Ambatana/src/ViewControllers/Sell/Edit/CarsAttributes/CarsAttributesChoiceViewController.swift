@@ -12,17 +12,15 @@ import RxSwift
 
 class CarsAttributesChoiceViewController : BaseViewController, CarsAttributesChoiceViewModelDelegate {
 
-    static var cellIdentifier = "CarsAttributesCellId"
-
-    private let tableView: UITableView
+    private let tableView = CategoryDetailTableView(withStyle: .darkContent)
     fileprivate let viewModel: CarsAttributesChoiceViewModel
-    fileprivate var showingAttributeType: CarsAttributeType = .make(makesList: [])
+
+    private var isDrawingInitialSelection: Bool = false
 
     let disposeBag = DisposeBag()
 
     init(viewModel: CarsAttributesChoiceViewModel) {
         self.viewModel = viewModel
-        self.tableView = UITableView()
         super.init(viewModel: viewModel, nibName: nil)
         self.viewModel.delegate = self
         self.title = viewModel.title
@@ -40,49 +38,42 @@ class CarsAttributesChoiceViewController : BaseViewController, CarsAttributesCho
 
     private func setupUI() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
+
         view.addSubview(tableView)
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.layout(with: view).fill()
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: CarsAttributesChoiceViewController.cellIdentifier)
+        tableView.layout(with: view).left().right()
+        tableView.layout(with: topLayoutGuide).top(to: .bottom, by: Metrics.margin)
+        tableView.layout(with: bottomLayoutGuide).bottom(to: .top)
     }
 
     private func setupRx() {
-        viewModel.carsAttributeType.asObservable().bindNext { [weak self] attrType in
-            self?.showingAttributeType = attrType
-            self?.tableView.reloadData()
+
+        // Rx to fill the table
+        viewModel.wrappedInfoList.asObservable().bindNext { [weak self] carInfoList in
+            self?.updateTableView(values: carInfoList, selectedValueIndex: self?.viewModel.selectedIndex, addOtherString: self?.viewModel.detailType.addOtherString)
+        }.addDisposableTo(disposeBag)
+
+        // Rx to select info
+        tableView.selectedDetail.asObservable().bindNext { [weak self] detailSelectedInfo in
+            guard let strongSelf = self else { return }
+            guard !strongSelf.isDrawingInitialSelection else {
+                strongSelf.isDrawingInitialSelection = false
+                return
+            }
+            guard let selectedId = detailSelectedInfo?.id,
+                let selectedName = detailSelectedInfo?.name,
+                let selectedType = detailSelectedInfo?.type else { return }
+
+            self?.viewModel.carInfoSelected(id: selectedId, name: selectedName, type: selectedType)
         }.addDisposableTo(disposeBag)
     }
-}
 
-extension CarsAttributesChoiceViewController: UITableViewDelegate, UITableViewDataSource {
+    private func updateTableView(values: [CarInfoWrapper], selectedValueIndex: Int?, addOtherString: String?) {
+        tableView.setupTableView(withDetailType: viewModel.detailType, values: values,
+                                 selectedValueIndex: selectedValueIndex,
+                                 addOtherString: addOtherString)
 
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return showingAttributeType.list.count
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .default, reuseIdentifier: CarsAttributesChoiceViewController.cellIdentifier)
-
-        cell.textLabel?.text = showingAttributeType.nameForItemAtPosition(position: indexPath.row)
-        return cell
-    }
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch showingAttributeType {
-        case .make:
-            guard let selectedMake = showingAttributeType.itemAtPosition(position: indexPath.row) as? CarsMake else { return }
-            viewModel.makeSelected(make: selectedMake)
-        case .model:
-            guard let selectedModel = showingAttributeType.itemAtPosition(position: indexPath.row) as? CarsModel else { return }
-            viewModel.modelSelected(model: selectedModel)
-        case .year:
-            guard let selectedYear = showingAttributeType.itemAtPosition(position: indexPath.row) as? Int else { return }
-            viewModel.yearSelected(year: selectedYear)
-        }
+        guard let selectedIndex = selectedValueIndex, 0..<values.count ~= selectedIndex else { return }
+        isDrawingInitialSelection = true
+        tableView.selectedDetail.value = .index(i: selectedIndex, value: values[selectedIndex])
     }
 }
