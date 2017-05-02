@@ -185,11 +185,13 @@ final class LGListingRepository: ListingRepository {
             guard let strongSelf = self else { return }
             if let car = result.value {
                 // Send event
-                var newCar = LGCar(car: car)
+                let newCar = LGCar(car: car)
                 let carUpdated = strongSelf.fillCarAttributes(car: newCar)
                 self?.eventBus.onNext(.update(Listing.car(carUpdated)))
+                handleApiResult(Result(value: carUpdated), completion: completion)
+            } else {
+                handleApiResult(result, completion: completion)
             }
-            handleApiResult(result, completion: completion)
         }
     }
 
@@ -390,7 +392,7 @@ final class LGListingRepository: ListingRepository {
                 var newListings: [Listing] = []
 
                 for listing in listings {
-                    guard let listingId = listing.objectId else { continue }
+                    guard let _ = listing.objectId else { continue }
                     switch listing {
                     case .product(let product):
                         newListings.append(Listing.product(product))
@@ -400,7 +402,6 @@ final class LGListingRepository: ListingRepository {
                         newListings.append(Listing.car(newCar))
                     }
                 }
-
                 completion?(ListingsResult(value: newListings))
             }
         }
