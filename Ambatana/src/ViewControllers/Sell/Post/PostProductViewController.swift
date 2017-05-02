@@ -35,7 +35,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
     fileprivate let priceView: UIView
     fileprivate let categorySelectionView: PostCategorySelectionView
     fileprivate let carDetailsView: PostCarDetailsView
-    fileprivate var carDetailsViewCenterXConstraint = NSLayoutConstraint()
+    fileprivate var carDetailsViewCenterYConstraint = NSLayoutConstraint()
     
     fileprivate var footer: PostProductFooter
     fileprivate var footerView: UIView
@@ -259,7 +259,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
             .proportionalWidth()
             .proportionalHeight()
             .centerX()
-            .centerY(constraintBlock: { [weak self] in self?.carDetailsViewCenterXConstraint = $0 })
+            .centerY(constraintBlock: { [weak self] in self?.carDetailsViewCenterYConstraint = $0 })
         
         carDetailsView.updateProgress(withPercentage: viewModel.currentCarDetailsProgress)
         carDetailsView.setCurrencySymbol(viewModel.postDetailViewModel.currencySymbol)
@@ -348,7 +348,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
             print(strongSelf.view)
             let keyboardHeight = origin - strongSelf.view.height
             strongSelf.detailsContainerBottomConstraint.constant = keyboardHeight
-            strongSelf.carDetailsViewCenterXConstraint.constant = keyboardHeight/2
+            strongSelf.carDetailsViewCenterYConstraint.constant = keyboardHeight/2
             UIView.animate(withDuration: Double(strongSelf.keyboardHelper.animationTime), animations: {
                 strongSelf.view.layoutIfNeeded()
             })
