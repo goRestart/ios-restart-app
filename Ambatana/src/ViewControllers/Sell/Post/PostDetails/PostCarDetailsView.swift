@@ -313,6 +313,7 @@ class PostCarDetailsView: UIView {
     
     dynamic func navigationButtonOkPressed() {
         tableView.resignFirstResponder()
+        priceRowView.hideKeyboard()
         showSelectDetail()
     }
     

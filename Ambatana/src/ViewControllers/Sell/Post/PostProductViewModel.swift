@@ -430,7 +430,15 @@ fileprivate extension PostProductViewModel {
     func makeCarCreationParams(images: [File]) -> CarCreationParams? {
         guard let location = locationManager.currentLocation?.location else { return nil }
         let price = postDetailViewModel.productPrice
-        let title = postDetailViewModel.productTitle
+        var title = postDetailViewModel.productTitle
+        if selectedCarAttributes.makeId == "" { // user maked "other"
+            let make = selectedCarAttributes.make ?? ""
+            let model = selectedCarAttributes.model ?? ""
+            let year = selectedCarAttributes.year
+            title = (make.isEmpty ? "" : "\(make) ")
+                + (model.isEmpty ? "" : "\(model) ")
+                + (year == 0 ? "" : "\(year)")
+        }
         let description = postDetailViewModel.productDescription
         let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()
         let currency = currencyHelper.currencyWithCountryCode(postalAddress.countryCode ?? "US")
