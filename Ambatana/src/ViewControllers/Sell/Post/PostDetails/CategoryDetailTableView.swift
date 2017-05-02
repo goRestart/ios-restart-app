@@ -59,6 +59,15 @@ enum CategoryDetailStyle {
         }
     }
 
+    var othersIconTintColor: UIColor {
+        switch self {
+        case .lightContent:
+            return UIColor.white
+        case .darkContent:
+            return UIColor.blackText
+        }
+    }
+
     var searchBackgroundColor: UIColor {
         switch self {
         case .lightContent:
@@ -283,7 +292,8 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
             cell.textLabel?.font = UIFont.systemBoldFont(size: 17)
             cell.backgroundColor = style.cellBackgroundColor
             cell.textLabel?.textColor = style.cellSelectedTextColor
-            cell.imageView?.image = UIImage(named: "ic_cirle_plus")
+            cell.imageView?.image = UIImage(named: "ic_cirle_plus")?.withRenderingMode(.alwaysTemplate)
+            cell.imageView?.tintColor = style.othersIconTintColor
             cell.imageView?.contentMode = .left
             return cell
         }

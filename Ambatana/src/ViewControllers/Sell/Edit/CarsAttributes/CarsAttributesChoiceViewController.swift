@@ -37,6 +37,7 @@ class CarsAttributesChoiceViewController : BaseViewController, CarsAttributesCho
     }
 
     private func setupUI() {
+        view.backgroundColor = UIColor.white
         tableView.translatesAutoresizingMaskIntoConstraints = false
 
         view.addSubview(tableView)

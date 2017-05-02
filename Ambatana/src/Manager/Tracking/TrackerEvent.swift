@@ -418,34 +418,16 @@ struct TrackerEvent {
             params[.pictureSource] = pictureSource.rawValue
         }
 
+        switch listing {
+        case .car:
+            params[.postingType] = EventParameterPostingType.car.rawValue
+        case .product:
+            params[.postingType] = EventParameterPostingType.stuff.rawValue
+        }
 
-//        let listing: Listing
-//
-//        switch listing {
-//        case.car:
-//            params[.postingType] = EventParameterPostingType.car.rawValue
-//        case .product:
-//            params[.postingType] = EventParameterPostingType.stuff.rawValue
-//        }
-//
-//        params[.make] = EventParameterMake.make(name: listing.car?.carAttributes.make).name
-//        params[.model] = EventParameterModel.model(name: listing.car?.carAttributes.model).name
-//        params[.year] = EventParameterYear.year(year: listing.car?.carAttributes.year).year
-//
-//        //  o
-//
-//        switch listing {
-//        case.car(let car):
-//            params[.postingType] = EventParameterPostingType.car.rawValue
-//            params[.make] = EventParameterMake.make(name: car.carAttributes.make).name
-//            params[.model] = EventParameterModel.model(name: car.carAttributes.model).name
-//            params[.year] = EventParameterYear.year(year: car.carAttributes.year).year
-//        case .product:
-//            params[.postingType] = EventParameterPostingType.stuff.rawValue
-//            params[.make] = "N/A"
-//            params[.model] = "N/A"
-//            params[.year] = "N/A"
-//        }
+        params[.make] = EventParameterMake.make(name: listing.car?.carAttributes.make).name
+        params[.model] = EventParameterModel.model(name: listing.car?.carAttributes.model).name
+        params[.year] = EventParameterYear.year(year: listing.car?.carAttributes.year).year
 
         return TrackerEvent(name: .productSellComplete, params: params)
     }

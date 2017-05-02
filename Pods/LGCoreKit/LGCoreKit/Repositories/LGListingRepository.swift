@@ -379,13 +379,29 @@ final class LGListingRepository: ListingRepository {
         }
 
         dataSource.indexLimbo(listingIds) { [weak self] result in
+            guard let strongSelf = self else { return }
             if let error = result.error {
                 completion?(ListingsResult(error: RepositoryError(apiError: error)))
             } else if let listings = result.value {
-                self?.listingsLimboDAO.removeAll()
+                strongSelf.listingsLimboDAO.removeAll()
                 let listingIds = listings.flatMap { $0.objectId }
                 self?.listingsLimboDAO.save(listingIds)
-                completion?(ListingsResult(value: listings))
+
+                var newListings: [Listing] = []
+
+                for listing in listings {
+                    guard let listingId = listing.objectId else { continue }
+                    switch listing {
+                    case .product(let product):
+                        newListings.append(Listing.product(product))
+                    case .car(let car):
+                        var newCar = LGCar(car: car)
+                        newCar = strongSelf.fillCarAttributes(car: newCar)
+                        newListings.append(Listing.car(newCar))
+                    }
+                }
+
+                completion?(ListingsResult(value: newListings))
             }
         }
     }

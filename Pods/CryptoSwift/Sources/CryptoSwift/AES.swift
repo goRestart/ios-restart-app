@@ -20,6 +20,8 @@ public final class AES: BlockCipher {
         case invalidKeyOrInitializationVector
         /// Invalid IV
         case invalidInitializationVector
+        /// Invalid Data
+        case invalidData
     }
 
     public enum Variant: Int {
@@ -139,10 +141,14 @@ fileprivate extension AES {
         let rounds = self.variant.Nr
         let rk = self.expandedKey
 
-        var b0 = UInt32(block[block.startIndex + 0 + (0 << 2)]) << 0 | UInt32(block[block.startIndex + 1 + (0 << 2)]) << 8 | UInt32(block[block.startIndex + 2 + (0 << 2)]) << 16 | UInt32(block[block.startIndex + 3 + (0 << 2)]) << 24
-        var b1 = UInt32(block[block.startIndex + 0 + (1 << 2)]) << 0 | UInt32(block[block.startIndex + 1 + (1 << 2)]) << 8 | UInt32(block[block.startIndex + 2 + (1 << 2)]) << 16 | UInt32(block[block.startIndex + 3 + (1 << 2)]) << 24
-        var b2 = UInt32(block[block.startIndex + 0 + (2 << 2)]) << 0 | UInt32(block[block.startIndex + 1 + (2 << 2)]) << 8 | UInt32(block[block.startIndex + 2 + (2 << 2)]) << 16 | UInt32(block[block.startIndex + 3 + (2 << 2)]) << 24
-        var b3 = UInt32(block[block.startIndex + 0 + (3 << 2)]) << 0 | UInt32(block[block.startIndex + 1 + (3 << 2)]) << 8 | UInt32(block[block.startIndex + 2 + (3 << 2)]) << 16 | UInt32(block[block.startIndex + 3 + (3 << 2)]) << 24
+        var b0 = UInt32(block[block.startIndex + 0 + (0 << 2)]) << 0 | UInt32(block[block.startIndex + 1 + (0 << 2)]) << 8 | UInt32(block[block.startIndex + 2 + (0 << 2)]) << 16
+            b0 = b0 | UInt32(block[block.startIndex + 3 + (0 << 2)]) << 24
+        var b1 = UInt32(block[block.startIndex + 0 + (1 << 2)]) << 0 | UInt32(block[block.startIndex + 1 + (1 << 2)]) << 8 | UInt32(block[block.startIndex + 2 + (1 << 2)]) << 16
+            b1 = b1 | UInt32(block[block.startIndex + 3 + (1 << 2)]) << 24
+        var b2 = UInt32(block[block.startIndex + 0 + (2 << 2)]) << 0 | UInt32(block[block.startIndex + 1 + (2 << 2)]) << 8 | UInt32(block[block.startIndex + 2 + (2 << 2)]) << 16
+            b2 = b2 | UInt32(block[block.startIndex + 3 + (2 << 2)]) << 24
+        var b3 = UInt32(block[block.startIndex + 0 + (3 << 2)]) << 0 | UInt32(block[block.startIndex + 1 + (3 << 2)]) << 8 | UInt32(block[block.startIndex + 2 + (3 << 2)]) << 16
+            b3 = b3 | UInt32(block[block.startIndex + 3 + (3 << 2)]) << 24
 
         var t = Array<UInt32>(repeating: 0, count: 4)
 
@@ -426,7 +432,7 @@ extension AES {
         mutating public func update<T: Collection>(withBytes bytes: T, isLast: Bool = false) throws -> Array<UInt8> where T.Iterator.Element == UInt8 {
             self.accumulated += bytes
 
-            if isLast && self.paddingRequired {
+            if isLast {
                 self.accumulated = padding.add(to: self.accumulated, blockSize: AES.blockSize)
             }
 
@@ -567,6 +573,10 @@ extension AES: Cipher {
 
         var oneTimeCryptor = self.makeDecryptor()
         let chunks = bytes.batched(by: AES.blockSize)
+        if chunks.count == 0 {
+            throw Error.invalidData
+        }
+
         var out = Array<UInt8>()
         out.reserveCapacity(bytes.count)
 

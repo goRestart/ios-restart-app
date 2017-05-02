@@ -525,7 +525,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         loadingProgress.value = 0
         editParams.carAttributes = carAttributes
         editParams.category = .cars
-        editParams.name = title ?? ""
+        editParams.name = title ?? generateCarTitle()
         editParams.descr = (descr ?? "").stringByRemovingEmoji()
         editParams.price = ListingPrice.normal((price ?? "0").toPriceDouble())
         if let updatedLocation = location, let updatedPostalAddress = postalAddress {
@@ -554,6 +554,25 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
                 self?.showError(ProductCreateValidationError(repoError: error))
             }
         }
+    }
+
+    private func generateCarTitle() -> String {
+        // title only generated for "other" makes
+        guard let makeId = carAttributes.makeId, makeId.isEmpty else { return title ?? "" }
+        guard let title = title, !title.isEmpty else {
+            var carTitle: String = ""
+            if let makeName = carAttributes.make, !makeName.isEmpty {
+                carTitle += makeName + " "
+            }
+            if let modelName = carAttributes.model, !modelName.isEmpty {
+                carTitle += modelName + " "
+            }
+            if let year = carAttributes.year, year != 0 {
+                carTitle += String(year)
+            }
+            return carTitle
+        }
+        return title
     }
 
     private func finishedSaving() {
@@ -791,10 +810,10 @@ extension EditListingViewModel {
             // listing was not car and now is a car
             // if it was a car and is not anymore, BI said NOT TO track changes in make, model and year
             if let carAttributes = listing.car?.carAttributes {
-                if let make = carAttributes.make, !make.isEmpty {
+                if let make = carAttributes.makeId, !make.isEmpty {
                     editedFields.append(.make)
                 }
-                if let model = carAttributes.model, !model.isEmpty {
+                if let model = carAttributes.modelId, !model.isEmpty {
                     editedFields.append(.model)
                 }
                 if let year = carAttributes.year, year != 0 {
@@ -813,10 +832,10 @@ extension EditListingViewModel {
         }
         // listing was a car and is still a car
         if let carAttributes = initialListing.car?.carAttributes, let newCarAttributes = listing.car?.carAttributes {
-            if carAttributes.make != newCarAttributes.make {
+            if carAttributes.makeId != newCarAttributes.makeId {
                 editedFields.append(.make)
             }
-            if carAttributes.model != newCarAttributes.model {
+            if carAttributes.modelId != newCarAttributes.modelId {
                 editedFields.append(.model)
             }
             if carAttributes.year != newCarAttributes.year {
