@@ -363,7 +363,8 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
         detailType = type
         rawValues = values
         filteredValues = values
-        
+
+        layoutIfNeeded() // Forces the tableView to be properly drawn before scroll to position
         if let selectedIndex = selectedValueIndex, selectedIndex < filteredValues.count {
             let indexPath = IndexPath(row: selectedIndex, section: 0)
             tableView.selectRow(at: indexPath, animated: false, scrollPosition: .middle)
@@ -374,6 +375,5 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
         } else {
             tableView.setContentOffset(CGPoint.zero, animated: false)
         }
-        
     }
 }
