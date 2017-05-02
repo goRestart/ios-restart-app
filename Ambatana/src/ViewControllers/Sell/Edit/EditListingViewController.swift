@@ -560,7 +560,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
                 self?.carsYearSelectedLabel.text = ""
                 return
             }
-            self?.carsYearSelectedLabel.text = "\(year)"
+            self?.carsYearSelectedLabel.text = String(year)
         }.addDisposableTo(disposeBag)
 
         carsMakeButton.rx.tap.bindNext { [weak self] in
