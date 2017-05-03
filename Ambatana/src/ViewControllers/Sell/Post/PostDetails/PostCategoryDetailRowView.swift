@@ -7,13 +7,14 @@
 //
 
 import UIKit
+import RxSwift
 
 enum PostCategoryDetailRowViewType {
     case defaultRow
     case textEntryRow
 }
 
-class PostCategoryDetailRowView: UIView {
+class PostCategoryDetailRowView: UIView, UITextFieldDelegate {
 
     private let titleLabel = UILabel()
     private let valueLabel = UILabel()
@@ -70,6 +71,8 @@ class PostCategoryDetailRowView: UIView {
         }
     }
     
+    let textInput = Variable<String?>(nil)
+    
     func hideKeyboard() {
         textField.resignFirstResponder()
     }
@@ -109,9 +112,10 @@ class PostCategoryDetailRowView: UIView {
             textField.backgroundColor = UIColor.clear
             textField.textColor = UIColor.white
             textField.keyboardType = .numberPad
+            textField.delegate = self
         }
     }
-    
+
     private func setupLayout() {
         let subviews = [button, titleLabel, valueLabel, textField, icon]
         setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: subviews)
@@ -152,6 +156,16 @@ class PostCategoryDetailRowView: UIView {
             textField.layout(with: titleLabel)
                 .toLeft(by: Metrics.margin)
         }
+    }
+    
+    // MARK: - TextFieldDelegate
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if let textFieldText = textField.text {
+            let text = (textFieldText as NSString).replacingCharacters(in: range, with: string)
+            textInput.value = text
+        }
+        return true
     }
 
     // MARK: - Accessibility

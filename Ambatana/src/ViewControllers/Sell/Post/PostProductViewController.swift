@@ -310,6 +310,11 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
             }
             strongSelf.carDetailsView.updateProgress(withPercentage: strongSelf.viewModel.currentCarDetailsProgress)
         }.addDisposableTo(disposeBag)
+        
+        carDetailsView.priceRowView.textInput.asObservable().subscribeNext { [weak self] (text) in
+            guard let text = text else { return }
+            self?.viewModel.postDetailViewModel.price.value = text
+        }.addDisposableTo(disposeBag)
     }
     
     private func setupFooter() {
