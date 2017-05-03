@@ -110,7 +110,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     // MARK: - Lifecycle
     
     convenience init(viewModel: EditListingViewModel) {
-        self.init(viewModel: viewModel, keyboardHelper: KeyboardHelper.sharedInstance, featureFlags: FeatureFlags.sharedInstance)
+        self.init(viewModel: viewModel, keyboardHelper: KeyboardHelper(), featureFlags: FeatureFlags.sharedInstance)
     }
     
     required init(viewModel: EditListingViewModel, keyboardHelper: KeyboardHelper, featureFlags: FeatureFlaggeable) {
