@@ -10,14 +10,14 @@ import RealmSwift
 import Argo
 
 class RealmCarsMakeWithModels: Object {
-    dynamic var makeId: String = ""
-    dynamic var makeName: String = ""
+    dynamic var makeId: String = CarAttributes.emptyMake
+    dynamic var makeName: String = CarAttributes.emptyMake
     let models = List<RealmCarsModel>()
 }
 
 class RealmCarsModel: Object {
-    dynamic var modelId: String = ""
-    dynamic var modelName: String = ""
+    dynamic var modelId: String = CarAttributes.emptyModel
+    dynamic var modelName: String = CarAttributes.emptyModel
 }
 
 
