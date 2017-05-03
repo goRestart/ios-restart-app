@@ -23,7 +23,7 @@ enum TitleDisclaimerStatus {
 protocol EditListingViewModelDelegate : BaseViewModelDelegate {
     func vmShouldUpdateDescriptionWithCount(_ count: Int)
     func vmDidAddOrDeleteImage()
-    func openCarsAttributesChoicesWithViewModel(attributesChoiceViewModel: CarsAttributesChoiceViewModel)
+    func openCarAttributeSelectionsWithViewModel(attributesChoiceViewModel: CarAttributeSelectionViewModel)
     func vmShouldOpenMapWithViewModel(_ locationViewModel: EditLocationViewModel)
     func vmShareOnFbWith(content: FBSDKShareLinkContent)
     func vmHideKeyboard()
@@ -215,11 +215,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
         self.locationInfo.value = listing.postalAddress.zipCodeCityString ?? ""
 
-        if !featureFlags.carsVerticalEnabled, listing.category == .cars {
-            self.category.value = .motorsAndAccessories
-        } else {
-            self.category.value = listing.category
-        }
+        self.category.value = listing.category
 
         self.listingImages = ListingImages()
         for file in listing.images { listingImages.append(file) }
@@ -312,26 +308,26 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     func carMakeButtonPressed() {
         // open car makes table
         let carsMakesList = carsInfoRepository.retrieveCarsMakes()
-        let carsAttributtesChoiceVMWithMakes = CarsAttributesChoiceViewModel(carsMakes: carsMakesList, selectedMake: carMakeId.value)
+        let carsAttributtesChoiceVMWithMakes = CarAttributeSelectionViewModel(carsMakes: carsMakesList, selectedMake: carMakeId.value)
         carsAttributtesChoiceVMWithMakes.choiceDelegate = self
-        delegate?.openCarsAttributesChoicesWithViewModel(attributesChoiceViewModel: carsAttributtesChoiceVMWithMakes)
+        delegate?.openCarAttributeSelectionsWithViewModel(attributesChoiceViewModel: carsAttributtesChoiceVMWithMakes)
     }
 
     func carModelButtonPressed() {
         // open car models table
         guard let makeId = carMakeId.value else { return }
         let carsModelsList = carsInfoRepository.retrieveCarsModelsFormake(makeId: makeId)
-        let carsAttributtesChoiceVMWithModels = CarsAttributesChoiceViewModel(carsModels: carsModelsList, selectedModel: carModelId.value)
+        let carsAttributtesChoiceVMWithModels = CarAttributeSelectionViewModel(carsModels: carsModelsList, selectedModel: carModelId.value)
         carsAttributtesChoiceVMWithModels.choiceDelegate = self
-        delegate?.openCarsAttributesChoicesWithViewModel(attributesChoiceViewModel: carsAttributtesChoiceVMWithModels)
+        delegate?.openCarAttributeSelectionsWithViewModel(attributesChoiceViewModel: carsAttributtesChoiceVMWithModels)
     }
 
     func carYearButtonPressed() {
         // open car years table
         let carsYearsList = carsInfoRepository.retrieveValidYears(withFirstYear: nil, ascending: false)
-        let carsAttributtesChoiceVMWithYears = CarsAttributesChoiceViewModel(yearsList: carsYearsList, selectedYear: carYear.value)
+        let carsAttributtesChoiceVMWithYears = CarAttributeSelectionViewModel(yearsList: carsYearsList, selectedYear: carYear.value)
         carsAttributtesChoiceVMWithYears.choiceDelegate = self
-        delegate?.openCarsAttributesChoicesWithViewModel(attributesChoiceViewModel: carsAttributtesChoiceVMWithYears)
+        delegate?.openCarAttributeSelectionsWithViewModel(attributesChoiceViewModel: carsAttributtesChoiceVMWithYears)
     }
 
     var fbShareContent: FBSDKShareLinkContent? {
@@ -527,7 +523,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         editParams.category = .cars
         editParams.name = title ?? generateCarTitle()
         editParams.descr = (descr ?? "").stringByRemovingEmoji()
-        editParams.price = ListingPrice.normal((price ?? "0").toPriceDouble())
+        editParams.price = isFreePosting.value && featureFlags.freePostingModeAllowed ? ListingPrice.free : ListingPrice.normal((price ?? "0").toPriceDouble())
         if let updatedLocation = location, let updatedPostalAddress = postalAddress {
             editParams.location = updatedLocation
             editParams.postalAddress = updatedPostalAddress
@@ -557,20 +553,10 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
 
     private func generateCarTitle() -> String {
-        // title only generated for "other" makes
+        // title only generated for "other" makes, and only if there isn't a title already
         guard let makeId = carAttributes.makeId, makeId.isEmpty else { return title ?? "" }
         guard let title = title, !title.isEmpty else {
-            var carTitle: String = ""
-            if let makeName = carAttributes.make, !makeName.isEmpty {
-                carTitle += makeName + " "
-            }
-            if let modelName = carAttributes.model, !modelName.isEmpty {
-                carTitle += modelName + " "
-            }
-            if let year = carAttributes.year, year != 0 {
-                carTitle += String(year)
-            }
-            return carTitle
+            return carAttributes.generatedCarName()
         }
         return title
     }
@@ -665,9 +651,9 @@ extension EditListingViewModel {
     }
 }
 
-// MARK: - CarsAttributesChoiceDelegate
+// MARK: - CarAttributeSelectionDelegate
 
-extension EditListingViewModel : CarsAttributesChoiceDelegate {
+extension EditListingViewModel : CarAttributeSelectionDelegate {
     func didSelectMake(makeId: String, makeName: String) {
         carMakeId.value = makeId
         carMakeName.value = makeName

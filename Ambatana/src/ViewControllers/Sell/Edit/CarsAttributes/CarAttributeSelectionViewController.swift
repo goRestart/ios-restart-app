@@ -1,5 +1,5 @@
 //
-//  CarsAttributesChoiceViewController.swift
+//  CarAttributeSelectionViewController.swift
 //  LetGo
 //
 //  Created by Dídac on 24/04/17.
@@ -10,16 +10,16 @@ import Foundation
 import LGCoreKit
 import RxSwift
 
-class CarsAttributesChoiceViewController : BaseViewController, CarsAttributesChoiceViewModelDelegate {
+class CarAttributeSelectionViewController : BaseViewController, CarAttributeSelectionViewModelDelegate {
 
     private let tableView = CategoryDetailTableView(withStyle: .darkContent)
-    fileprivate let viewModel: CarsAttributesChoiceViewModel
+    fileprivate let viewModel: CarAttributeSelectionViewModel
 
     private var isDrawingInitialSelection: Bool = false
 
     let disposeBag = DisposeBag()
 
-    init(viewModel: CarsAttributesChoiceViewModel) {
+    init(viewModel: CarAttributeSelectionViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
         self.viewModel.delegate = self

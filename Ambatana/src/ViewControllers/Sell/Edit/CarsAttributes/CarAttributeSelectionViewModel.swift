@@ -1,5 +1,5 @@
 //
-//  CarsAttributesChoiceViewModel.swift
+//  CarAttributeSelectionViewModel.swift
 //  LetGo
 //
 //  Created by Dídac on 24/04/17.
@@ -22,18 +22,18 @@ extension CarDetailType {
     }
 }
 
-protocol CarsAttributesChoiceViewModelDelegate: BaseViewModelDelegate {}
+protocol CarAttributeSelectionViewModelDelegate: BaseViewModelDelegate {}
 
-protocol CarsAttributesChoiceDelegate: class {
+protocol CarAttributeSelectionDelegate: class {
     func didSelectMake(makeId: String, makeName: String)
     func didSelectModel(modelId: String, modelName: String)
     func didSelectYear(year: Int)
 }
 
-class CarsAttributesChoiceViewModel : BaseViewModel {
+class CarAttributeSelectionViewModel : BaseViewModel {
 
-    weak var delegate: CarsAttributesChoiceViewModelDelegate?
-    weak var choiceDelegate: CarsAttributesChoiceDelegate?
+    weak var delegate: CarAttributeSelectionViewModelDelegate?
+    weak var choiceDelegate: CarAttributeSelectionDelegate?
 
     var title: String
     var detailType: CarDetailType
@@ -42,7 +42,6 @@ class CarsAttributesChoiceViewModel : BaseViewModel {
 
     let wrappedInfoList = Variable<[CarInfoWrapper]>([])
 
-    // init to show Makes table
     init(carsMakes: [CarsMake], selectedMake: String?) {
         self.detailType = .make
         self.title = detailType.navigationTitle
@@ -52,7 +51,6 @@ class CarsAttributesChoiceViewModel : BaseViewModel {
         wrappedInfoList.value = carsMakes.map { CarInfoWrapper(id: $0.makeId, name: $0.makeName, type: .make )}
     }
 
-    // init to show Models table
     init(carsModels: [CarsModel], selectedModel: String?) {
         self.detailType = .model
         self.title = detailType.navigationTitle
@@ -62,7 +60,6 @@ class CarsAttributesChoiceViewModel : BaseViewModel {
         wrappedInfoList.value = carsModels.map { CarInfoWrapper(id: $0.modelId, name: $0.modelName, type: .model )}
     }
 
-    // init to show Years table
     init(yearsList: [Int], selectedYear: Int?) {
         self.detailType = .year
         self.title = detailType.navigationTitle
@@ -86,7 +83,7 @@ class CarsAttributesChoiceViewModel : BaseViewModel {
     }
 }
 
-extension CarsAttributesChoiceViewModel {
+extension CarAttributeSelectionViewModel {
     fileprivate func closeAttributesChoice() {
         delegate?.vmPop()
     }

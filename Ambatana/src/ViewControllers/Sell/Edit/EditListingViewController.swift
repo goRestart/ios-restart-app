@@ -630,19 +630,9 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         if isCar {
             carsInfoContainerHeightConstraint.constant = EditListingViewController.carsInfoContainerHeight
             carsInfoContainerSeparatorTopConstraint.constant = EditListingViewController.separatorOptionsViewDistance
-            postFreeViewHeightConstraint.constant = 0
-            freePostViewSeparatorTopConstraint.constant = 0
         } else {
             carsInfoContainerHeightConstraint.constant = 0
             carsInfoContainerSeparatorTopConstraint.constant = 0
-            
-            if featureFlags.freePostingModeAllowed {
-                postFreeViewHeightConstraint.constant = EditListingViewController.viewOptionGenericHeight
-                freePostViewSeparatorTopConstraint.constant = EditListingViewController.separatorOptionsViewDistance
-            } else {
-                postFreeViewHeightConstraint.constant = 0
-                freePostViewSeparatorTopConstraint.constant = 0
-            }
         }
 
         UIView.animate(withDuration: 0.3, animations: {
@@ -681,8 +671,8 @@ extension EditListingViewController: EditListingViewModelDelegate {
         FBSDKShareDialog.show(from: self, with: content, delegate: self)
     }
 
-    func openCarsAttributesChoicesWithViewModel(attributesChoiceViewModel: CarsAttributesChoiceViewModel) {
-        let vc = CarsAttributesChoiceViewController(viewModel: attributesChoiceViewModel)
+    func openCarAttributeSelectionsWithViewModel(attributesChoiceViewModel: CarAttributeSelectionViewModel) {
+        let vc = CarAttributeSelectionViewController(viewModel: attributesChoiceViewModel)
         navigationController?.pushViewController(vc, animated: true)
     }
 
