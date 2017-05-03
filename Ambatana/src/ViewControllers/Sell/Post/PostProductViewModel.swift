@@ -23,6 +23,9 @@ enum PostingSource {
 
 
 class PostProductViewModel: BaseViewModel {
+    
+    static let carDetailsNumber: Int = 3
+    
     weak var delegate: PostProductViewModelDelegate?
     weak var navigator: PostProductNavigator?
 
@@ -262,7 +265,7 @@ extension PostProductViewModel {
     }
     
     var currentCarDetailsProgress: Float {
-        let details = 3
+        let details = PostProductViewModel.carDetailsNumber
         var detailsFilled = 0
         detailsFilled += selectedCarAttributes.isMakeEmpty ? 0 : 1
         detailsFilled += selectedCarAttributes.isModelEmpty ? 0 : 1
