@@ -45,7 +45,7 @@ UICollectionViewDataSource, UICollectionViewDelegate {
     }
     
     convenience init(viewModel: FiltersViewModel) {
-        self.init(viewModel: viewModel, nibName: "FiltersViewController", keyboardHelper: KeyboardHelper.sharedInstance)
+        self.init(viewModel: viewModel, nibName: "FiltersViewController", keyboardHelper: KeyboardHelper())
     }
     
     required init(viewModel: FiltersViewModel, nibName nibNameOrNil: String?, keyboardHelper: KeyboardHelper) {

@@ -207,6 +207,42 @@ struct LGLocalizedString {
 		return NSLocalizedString("categories_car", comment: "")
 	}
 
+	static var categoriesInfeedElectronics: String {
+		return NSLocalizedString("categories_inFeed_electronics", comment: "")
+	}
+
+	static var categoriesInfeedMotors: String {
+		return NSLocalizedString("categories_inFeed_motors", comment: "")
+	}
+
+	static var categoriesInfeedSportsLeisureGames: String {
+		return NSLocalizedString("categories_inFeed_sports_leisure_games", comment: "")
+	}
+
+	static var categoriesInfeedHome: String {
+		return NSLocalizedString("categories_inFeed_home", comment: "")
+	}
+
+	static var categoriesInfeedBooksMovies: String {
+		return NSLocalizedString("categories_inFeed_books_movies", comment: "")
+	}
+
+	static var categoriesInfeedFashion: String {
+		return NSLocalizedString("categories_inFeed_fashion", comment: "")
+	}
+
+	static var categoriesInfeedBabyChild: String {
+		return NSLocalizedString("categories_inFeed_baby_child", comment: "")
+	}
+
+	static var categoriesInfeedOthers: String {
+		return NSLocalizedString("categories_inFeed_others", comment: "")
+	}
+
+	static var categoriesInfeedCars: String {
+		return NSLocalizedString("categories_inFeed_cars", comment: "")
+	}
+
 	static var changeLocationApplyButton: String {
 		return NSLocalizedString("change_location_apply_button", comment: "")
 	}

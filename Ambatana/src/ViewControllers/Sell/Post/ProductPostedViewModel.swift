@@ -365,7 +365,7 @@ enum ListingPostedStatus {
             self = .error(error: .internalError)
         }
     }
-    
+
     init(carResult: CarResult) {
         if let car = carResult.value {
             self = .success(listing: Listing.car(car))

@@ -1882,13 +1882,13 @@ class TrackerEventSpec: QuickSpec {
                 it("has its event name") {
                     let user = MockUser.makeMock()
                     let product = MockProduct.makeMock()
-                    sut = TrackerEvent.productEditStart(user, product: product)
+                    sut = TrackerEvent.productEditStart(user, listing: .product(product))
                     expect(sut.name.rawValue).to(equal("product-edit-start"))
                 }
                 it("contains the product id") {
                     var product = MockProduct.makeMock()
                     product.objectId = "q1w2e3"
-                    sut = TrackerEvent.productEditStart(nil, product: product)
+                    sut = TrackerEvent.productEditStart(nil, listing: .product(product))
                     
                     expect(sut.params).notTo(beNil())
                     expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
@@ -1901,13 +1901,13 @@ class TrackerEventSpec: QuickSpec {
                 it("has its event name") {
                     _ = MockUser.makeMock()
                     let product = MockProduct.makeMock()
-                    sut = TrackerEvent.productEditFormValidationFailed(nil, product: product, description: "whatever")
+                    sut = TrackerEvent.productEditFormValidationFailed(nil, listing: .product(product), description: "whatever")
                     expect(sut.name.rawValue).to(equal("product-edit-form-validation-failed"))
                 }
                 it("contains the description related params") {
                     let product = MockProduct.makeMock()
                     
-                    sut = TrackerEvent.productEditFormValidationFailed(nil, product: product, description: "whatever")
+                    sut = TrackerEvent.productEditFormValidationFailed(nil, listing: .product(product), description: "whatever")
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["description"]).notTo(beNil())
@@ -1917,7 +1917,7 @@ class TrackerEventSpec: QuickSpec {
                 it("contains the product id") {
                     var product = MockProduct.makeMock()
                     product.objectId = "q1w2e3"
-                    sut = TrackerEvent.productEditFormValidationFailed(nil, product: product, description: "whatever")
+                    sut = TrackerEvent.productEditFormValidationFailed(nil, listing: .product(product), description: "whatever")
                     
                     expect(sut.params).notTo(beNil())
                     expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
@@ -1929,13 +1929,13 @@ class TrackerEventSpec: QuickSpec {
             describe("productEditSharedFB") {
                 it("has its event name") {
                     let product = MockProduct.makeMock()
-                    sut = TrackerEvent.productEditSharedFB(nil, product: product)
+                    sut = TrackerEvent.productEditSharedFB(nil, listing: .product(product))
                     expect(sut.name.rawValue).to(equal("product-edit-shared-fb"))
                 }
                 it("contains the product id") {
                     var product = MockProduct.makeMock()
                     product.objectId = "q1w2e3"
-                    sut = TrackerEvent.productEditSharedFB(nil, product: product)
+                    sut = TrackerEvent.productEditSharedFB(nil, listing: .product(product))
                     
                     expect(sut.params).notTo(beNil())
                     expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
@@ -1947,7 +1947,7 @@ class TrackerEventSpec: QuickSpec {
             describe("productEditComplete") {
                 it("has its event name") {
                     let product = MockProduct.makeMock()
-                    sut = TrackerEvent.productEditComplete(nil, product: product, category: nil, editedFields: [])
+                    sut = TrackerEvent.productEditComplete(nil, listing: .product(product), category: nil, editedFields: [])
                     expect(sut.name.rawValue).to(equal("product-edit-complete"))
                 }
                 it("contains the product related params when passing by a product, name & category") {
@@ -1955,7 +1955,7 @@ class TrackerEventSpec: QuickSpec {
                     let newCategory = ListingCategory.motorsAndAccessories
                     product.objectId = "q1w2e3"
 
-                    sut = TrackerEvent.productEditComplete(nil, product: product, category: newCategory,
+                    sut = TrackerEvent.productEditComplete(nil, listing: .product(product), category: newCategory,
                         editedFields: [.title, .category])
                     expect(sut.params).notTo(beNil())
                     

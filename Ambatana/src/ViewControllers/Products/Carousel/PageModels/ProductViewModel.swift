@@ -387,9 +387,8 @@ extension ProductViewModel {
         navigator?.openUser(data)
     }
 
-    func editProduct() {
-        guard let product = listing.value.product else { return }
-        navigator?.editProduct(product)
+    func editListing() {
+        navigator?.editListing(listing.value)
     }
 
     func shareProduct() {
@@ -496,7 +495,7 @@ extension ProductViewModel {
     private func buildEditNavBarAction() -> UIAction {
         let icon = UIImage(named: "navbar_edit")?.withRenderingMode(.alwaysOriginal)
         return UIAction(interface: .image(icon, nil), action: { [weak self] in
-            self?.editProduct()
+            self?.editListing()
         }, accessibilityId: .productCarouselNavBarEditButton)
     }
 
@@ -541,7 +540,7 @@ extension ProductViewModel {
 
     private func buildEditAction() -> UIAction {
         return UIAction(interface: .text(LGLocalizedString.productOptionEdit), action: { [weak self] in
-            self?.editProduct()
+            self?.editListing()
         }, accessibilityId: .productCarouselNavBarEditButton)
     }
 

@@ -286,6 +286,10 @@ enum EventParameterName: String {
     case notAvailableReason   = "not-available-reason"
     case surveyUrl            = "survey-url"
     case blockButtonPosition  = "block-button-position"
+    case postingType          = "posting-type"
+    case make                 = "product-make"
+    case model                = "product-model"
+    case year                 = "product-year"
 }
 
 enum EventParameterBoolean: String {
@@ -382,6 +386,57 @@ enum EventParameterPostedWithin: String {
     case week = "week"
     case month = "month"
     case all = ""
+}
+
+enum EventParameterPostingType: String {
+    case car = "car"
+    case stuff = "stuff"
+    case none = "N/A"
+}
+
+enum EventParameterMake {
+    case make(name: String?)
+    case none
+
+    var name: String {
+        switch self {
+        case .make(let name):
+            guard let name = name, !name.isEmpty else { return "N/A" }
+            return name
+        case .none:
+            return "N/A"
+        }
+    }
+}
+
+enum EventParameterModel {
+    case model(name: String?)
+    case none
+
+    var name: String {
+        switch self {
+        case .model(let name):
+            guard let name = name, !name.isEmpty else { return "N/A" }
+            return name
+        case .none:
+            return "N/A"
+        }
+    }
+}
+
+enum EventParameterYear {
+    case year(year: Int?)
+    case none
+
+    var year: String {
+        switch self {
+        case .year(let year):
+            guard let year = year, year != 0 else { return "N/A" }
+            return String(year)
+        case .none:
+            return "N/A"
+        }
+    }
 }
 
 enum EventParameterMessageType: String {
@@ -538,6 +593,9 @@ enum EventParameterEditedFields: String {
     case location = "location"
     case share = "share"
     case freePosting = "free-posting"
+    case make = "make"
+    case model = "model"
+    case year = "year"
 }
 
 enum EventParameterTypePage: String {

@@ -37,7 +37,7 @@ class SellProductCell: UICollectionViewCell, ReusableCell {
         self.imageView.image = UIImage()
     }
 
-    func setupCellWithImageType(_ type: EditProductImageType) {
+    func setupCellWithImageType(_ type: EditListingImageType) {
         switch type {
         case .local(let image):
             setupCellWithImage(image)

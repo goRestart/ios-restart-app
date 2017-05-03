@@ -73,6 +73,7 @@ fileprivate extension PostCategorySelectionView {
         carsCategoryButton.titleLabel?.font = UIFont.systemBoldFont(size: 30)
         carsCategoryButton.setTitle(LGLocalizedString.productPostSelectCategoryCars, for: .normal)
         carsCategoryButton.setTitleColor(UIColor.white, for: .normal)
+        carsCategoryButton.setTitleColor(UIColor.whiteTextHighAlpha, for: .highlighted)
         carsCategoryButton.rx.tap.subscribeNext { [weak self] _ in
             self?.selectedCategoryPublishSubject.onNext(.car)
         }.addDisposableTo(disposeBag)
@@ -94,6 +95,7 @@ fileprivate extension PostCategorySelectionView {
         otherCategoryButton.titleLabel?.font = UIFont.systemBoldFont(size: 30)
         otherCategoryButton.setTitle(LGLocalizedString.productPostSelectCategoryOther, for: .normal)
         otherCategoryButton.setTitleColor(UIColor.white, for: .normal)
+        otherCategoryButton.setTitleColor(UIColor.whiteTextHighAlpha, for: .highlighted)
         otherCategoryButton.rx.tap.subscribeNext { [weak self] _ in
             self?.selectedCategoryPublishSubject.onNext(.other)
         }.addDisposableTo(disposeBag)

@@ -47,7 +47,7 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
     // MARK: - View Lifecycle
 
     convenience init(viewModel: VerifyAccountsViewModel) {
-        self.init(viewModel: viewModel, keyboardHelper: KeyboardHelper.sharedInstance)
+        self.init(viewModel: viewModel, keyboardHelper: KeyboardHelper())
     }
 
     init(viewModel: VerifyAccountsViewModel, keyboardHelper: KeyboardHelper) {
