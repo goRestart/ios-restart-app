@@ -58,13 +58,30 @@ enum CategoryDetailStyle {
             return UIColor.primaryColor
         }
     }
-    
+
+    var othersIconTintColor: UIColor {
+        switch self {
+        case .lightContent:
+            return UIColor.white
+        case .darkContent:
+            return UIColor.blackText
+        }
+    }
+
+    var searchBackgroundColor: UIColor {
+        switch self {
+        case .lightContent:
+            return UIColor.white.withAlphaComponent(0.2)
+        case .darkContent:
+            return UIColor.grayBackground
+        }
+    }
     var searchIconColor: UIColor {
         switch self {
         case .lightContent:
             return UIColor.white
         case .darkContent:
-            return UIColor.green
+            return UIColor.blackTextLowAlpha
         }
     }
     
@@ -72,6 +89,15 @@ enum CategoryDetailStyle {
         switch self {
         case .lightContent:
             return UIColor.white
+        case .darkContent:
+            return UIColor.blackTextHighAlpha
+        }
+    }
+
+    var placeholderTextColor: UIColor {
+        switch self {
+        case .lightContent:
+            return UIColor.whiteTextHighAlpha
         case .darkContent:
             return UIColor.blackTextHighAlpha
         }
@@ -100,8 +126,6 @@ enum CarDetailType {
         }
     }
 }
-
-
 
 struct CarInfoWrapper: Equatable {
     let id: String // for Others it will be "", for year it will be equal to name
@@ -193,7 +217,7 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
         searchBar.barTintColor = UIColor.clear
         searchBar.backgroundColor = nil
         searchBar.tintColor = UIColor.redText
-        let imageWithColor = UIImage.imageWithColor(UIColor.white.withAlphaComponent(0.2),
+        let imageWithColor = UIImage.imageWithColor(style.searchBackgroundColor,
                                            size: CGSize(width: Metrics.screenWidth-Metrics.margin*2, height: 44))
         let searchBarBackground = UIImage.roundedImage(image: imageWithColor, cornerRadius: 10)
         searchBar.setSearchFieldBackgroundImage(nil, for: .normal)
@@ -206,7 +230,7 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
             textField.textColor = style.searchTextColor
             textField.attributedPlaceholder =
                 NSAttributedString(string: LGLocalizedString.postCategoryDetailSearchPlaceholder,
-                    attributes: [NSForegroundColorAttributeName: UIColor.whiteTextHighAlpha])
+                    attributes: [NSForegroundColorAttributeName: style.placeholderTextColor])
             if let iconSearchImageView = textField.leftView as? UIImageView {
                 iconSearchImageView.image = iconSearchImageView.image?.withRenderingMode(.alwaysTemplate)
                 iconSearchImageView.tintColor = style.searchIconColor
@@ -268,7 +292,8 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
             cell.textLabel?.font = UIFont.systemBoldFont(size: 17)
             cell.backgroundColor = style.cellBackgroundColor
             cell.textLabel?.textColor = style.cellSelectedTextColor
-            cell.imageView?.image = UIImage(named: "ic_cirle_plus")
+            cell.imageView?.image = UIImage(named: "ic_cirle_plus")?.withRenderingMode(.alwaysTemplate)
+            cell.imageView?.tintColor = style.othersIconTintColor
             cell.imageView?.contentMode = .left
             return cell
         }
@@ -348,7 +373,8 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
         detailType = type
         rawValues = values
         filteredValues = values
-        
+
+        layoutIfNeeded() // Forces the tableView to be properly drawn before scroll to position
         if let selectedIndex = selectedValueIndex, selectedIndex < filteredValues.count {
             let indexPath = IndexPath(row: selectedIndex, section: 0)
             tableView.selectRow(at: indexPath, animated: false, scrollPosition: .middle)
@@ -359,6 +385,5 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
         } else {
             tableView.setContentOffset(CGPoint.zero, animated: false)
         }
-        
     }
 }

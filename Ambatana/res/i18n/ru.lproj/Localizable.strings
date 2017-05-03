@@ -43,6 +43,15 @@
 "categories_fashion_and_accessories" = "Мода и Аксессуары";
 "categories_free" = "Бесплатные вещи";
 "categories_home_and_garden" = "Для дома и дачи";
+"categories_inFeed_baby_child" = "Дети";
+"categories_inFeed_books_movies" = "Развлечения";
+"categories_inFeed_cars" = "Машины";
+"categories_inFeed_electronics" = "Техника";
+"categories_inFeed_fashion" = "Мода";
+"categories_inFeed_home" = "Дом";
+"categories_inFeed_motors" = "Машины";
+"categories_inFeed_others" = "Другое";
+"categories_inFeed_sports_leisure_games" = "Отдых";
 "categories_movies_books_and_music" = "Фильмы, Книги и Музыка";
 "categories_other" = "Другое";
 "categories_sports_leisure_and_games" = "Спорт и Развлечения";
@@ -441,8 +450,8 @@
 "post_category_detail_search_placeholder" = "Поиск";
 "post_category_details_description" = "Объявление с полной информацией привлекает на 20% больше покупателей";
 "post_category_details_navigation_title" = "Добавить информацию";
-"post_category_details_progress" = "%@ complete";
-"post_category_details_progress_100" = "Looks amazing";
+"post_category_details_progress" = "%@ завершено";
+"post_category_details_progress_100" = "Выглядит круто";
 "product_ask_a_question_button" = "Задать вопрос";
 "product_auto_generated_title_label" = "Заголовок автоматически задан letgo";
 "product_auto_generated_translated_title_label" = "(и переведен Яндексом)";

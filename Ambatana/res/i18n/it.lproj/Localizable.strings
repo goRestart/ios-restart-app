@@ -43,6 +43,15 @@
 "categories_fashion_and_accessories" = "Moda e Accessori";
 "categories_free" = "Oggetti gratuiti";
 "categories_home_and_garden" = "Casa e Giardino";
+"categories_inFeed_baby_child" = "Bambino";
+"categories_inFeed_books_movies" = "Svago";
+"categories_inFeed_cars" = "Auto";
+"categories_inFeed_electronics" = "Elettronica";
+"categories_inFeed_fashion" = "Moda";
+"categories_inFeed_home" = "Casa";
+"categories_inFeed_motors" = "Motori";
+"categories_inFeed_others" = "Altro";
+"categories_inFeed_sports_leisure_games" = "tempo libero";
 "categories_movies_books_and_music" = "Film, Libri e Musica";
 "categories_other" = "Altro";
 "categories_sports_leisure_and_games" = "Sport, Tempo libero e Giochi";
@@ -441,8 +450,8 @@
 "post_category_detail_search_placeholder" = "Ricerca";
 "post_category_details_description" = "Gli annunci con dettagli completi attraggono il 20% in più di potenziali clienti";
 "post_category_details_navigation_title" = "Aggiungi dettagli";
-"post_category_details_progress" = "%@ complete";
-"post_category_details_progress_100" = "Looks amazing";
+"post_category_details_progress" = "%@ completato";
+"post_category_details_progress_100" = "Un bellissimo aspetto";
 "product_ask_a_question_button" = "Fai una Domanda";
 "product_auto_generated_title_label" = "Titolo generato automaticamente da letgo";
 "product_auto_generated_translated_title_label" = "(e tradotto da Google)";

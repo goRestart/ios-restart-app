@@ -43,6 +43,15 @@
 "categories_fashion_and_accessories" = "Giyim ve Aksesuar";
 "categories_free" = "Ücretsiz Ürün";
 "categories_home_and_garden" = "Ev ve Bahçe";
+"categories_inFeed_baby_child" = "Çocuk";
+"categories_inFeed_books_movies" = "Eğlence";
+"categories_inFeed_cars" = "Otomobil";
+"categories_inFeed_electronics" = "Teknoloji";
+"categories_inFeed_fashion" = "Moda";
+"categories_inFeed_home" = "Ev";
+"categories_inFeed_motors" = "Otomobil";
+"categories_inFeed_others" = "Diğer";
+"categories_inFeed_sports_leisure_games" = "Spor";
 "categories_movies_books_and_music" = "Film, Kitap ve Müzik";
 "categories_other" = "Diğer";
 "categories_sports_leisure_and_games" = "Spor, Eğlence ve Oyunlar";
@@ -441,8 +450,8 @@
 "post_category_detail_search_placeholder" = "Ara";
 "post_category_details_description" = "Detayları tam girilmiş ilanlar %20 oranda daha fazla potansiyel müşteri çeker.";
 "post_category_details_navigation_title" = "Detay Ekle";
-"post_category_details_progress" = "%@ complete";
-"post_category_details_progress_100" = "Looks amazing";
+"post_category_details_progress" = "%@ tamamlandı";
+"post_category_details_progress_100" = "Harika görünüyor";
 "product_ask_a_question_button" = "Soru Sor";
 "product_auto_generated_title_label" = "Başlık letgo tarafından otomatik olarak belirlendi";
 "product_auto_generated_translated_title_label" = "(Yandex ile çevrildi)";

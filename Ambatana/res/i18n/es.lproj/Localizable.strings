@@ -43,6 +43,15 @@
 "categories_fashion_and_accessories" = "Moda y Accesorios";
 "categories_free" = "Gratis";
 "categories_home_and_garden" = "Hogar y Jardín";
+"categories_inFeed_baby_child" = "Niño";
+"categories_inFeed_books_movies" = "Ocio";
+"categories_inFeed_cars" = "Coches";
+"categories_inFeed_electronics" = "Tecnología";
+"categories_inFeed_fashion" = "Moda";
+"categories_inFeed_home" = "Hogar";
+"categories_inFeed_motors" = "Motores";
+"categories_inFeed_others" = "Otro";
+"categories_inFeed_sports_leisure_games" = "Tiempo libre";
 "categories_movies_books_and_music" = "Películas, Libros y Música";
 "categories_other" = "Otros";
 "categories_sports_leisure_and_games" = "Deporte, Ocio y Juegos";
@@ -73,7 +82,7 @@
 "change_password_send_error_passwords_mismatch" = "¡Ups! La contraseña no coincide. Por favor, inténtalo de nuevo.";
 "change_password_send_ok" = "¡Contraseña cambiada!";
 "change_password_title" = "Cambiar contraseña";
-"change_username_error_invalid_username" = "¡Ups! Introduce un nombre válido, debe tener al menos %d caracteres.";
+"change_username_error_invalid_username" = "Por favor, introduce un nombre válido. Debe tener al menos %d caracteres.";
 "change_username_error_invalid_username_letgo" = "Otra cuenta está usando %@";
 "change_username_field_hint" = "Nombre y apellido";
 "change_username_loading" = "Guardando tu nombre de usuario...";
@@ -333,7 +342,7 @@
 "log_in_email_wrong_password_alert_message" = "La contraseña que has introducido para %@ es incorrecta.";
 "log_in_email_wrong_password_alert_title" = "Contraseña incorrecta";
 "log_in_error_send_error_generic" = "Se ha producido un error al iniciar la sesión. Por favor, inténtalo de nuevo.";
-"log_in_error_send_error_invalid_email" = "¡Ups! Introduce un email válido para continuar.";
+"log_in_error_send_error_invalid_email" = "Por favor, introduce un email válido.";
 "log_in_error_send_error_user_not_found_or_wrong_password" = "Email o contraseña erróneos. Por favor, inténtalo de nuevo.";
 "log_in_reset_password_button" = "¿Olvidaste tu contraseña?";
 "log_in_send_button" = "Iniciar Sesión";
@@ -441,8 +450,8 @@
 "post_category_detail_search_placeholder" = "Buscar";
 "post_category_details_description" = "Los anuncios con detalles completados atraen un 20% más de compradores potenciales";
 "post_category_details_navigation_title" = "Añadir detalles";
-"post_category_details_progress" = "%@ complete";
-"post_category_details_progress_100" = "Looks amazing";
+"post_category_details_progress" = "%@ completado";
+"post_category_details_progress_100" = "Tiene buena pinta";
 "product_ask_a_question_button" = "Haz una pregunta";
 "product_auto_generated_title_label" = "Título generado automáticamente por letgo";
 "product_auto_generated_translated_title_label" = "(y traducido por Google)";
@@ -695,7 +704,7 @@
 "reset_password_instructions" = "Por favor, introduce tu dirección de email y te enviaremos un email para restablecer tu contraseña.";
 "reset_password_send_button" = "Enviar email";
 "reset_password_send_error_generic" = "Se ha producido un error al restablecer tu contraseña. Por favor, inténtalo de nuevo.";
-"reset_password_send_error_invalid_email" = "¡Ups! Introduce un email válido para continuar.";
+"reset_password_send_error_invalid_email" = "Por favor, introduce un email válido.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "El email %@ no está registrado.";
 "reset_password_send_ok" = "Hemos enviado un email a %@. Haz clic en el enlace dentro del email para restablecer tu contraseña.";
 "reset_password_send_too_many_requests" = "Ya te hemos enviado un email para restablecer la contraseña. Revisa tu bandeja de entrada y sigue las instrucciones del mensaje.";
@@ -721,8 +730,8 @@
 "sell_post_free_label" = "Gratis";
 "sell_price_field" = "Precio:";
 "sell_send_error_invalid_category" = "¡Ups! Por favor, elige una categoría para tu artículo.";
-"sell_send_error_invalid_description" = "¡Ups! Por favor, introduce una descripción válida para tu artículo.";
-"sell_send_error_invalid_description_too_long" = "La descripción de tu artículo debe tener como máximo %d caracteres.";
+"sell_send_error_invalid_description" = "Por favor, introduce una descripción válida para tu artículo.";
+"sell_send_error_invalid_description_too_long" = "Por favor, introduce una descripción válida para tu artículo. Debe tener como máximo %d caracteres.";
 "sell_send_error_invalid_image_count" = "Por favor, añade al menos una foto de tu artículo.";
 "sell_send_error_invalid_price" = "Por favor, introduce un precio válido para tu artículo. Debe ser un número.";
 "sell_send_error_invalid_title" = "Por favor, introduce un título válido para tu artículo.";
@@ -782,9 +791,9 @@
 "sign_up_send_error_email_taken" = "El email %@ ya está registrado. Por favor, úsalo para iniciar sesión.";
 "sign_up_send_error_generic" = "Se ha producido un error al crear tu cuenta. Por favor, inténtalo de nuevo.";
 "sign_up_send_error_invalid_domain" = "Dirección de email inválida. Por favor, cambiála y vuelve a intentarlo.";
-"sign_up_send_error_invalid_email" = "¡Ups! Introduce un email válido para continuar.";
+"sign_up_send_error_invalid_email" = "Por favor, introduce un email válido.";
 "sign_up_send_error_invalid_password_with_max" = "Por favor, introduce una contraseña válida. Debe tener entre %d y %d caracteres.";
-"sign_up_send_error_invalid_username" = "¡Ups! Introduce un nombre válido, debe tener al menos %d caracteres.";
+"sign_up_send_error_invalid_username" = "Por favor, introduce un nombre válido. Debe tener al menos %d caracteres.";
 "sign_up_terms_conditions" = "I agree to the letgo Terms & Conditions and Privacy Policy";
 "sign_up_terms_conditions_privacy_part" = "Privacy Policy";
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";

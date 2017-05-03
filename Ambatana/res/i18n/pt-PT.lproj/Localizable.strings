@@ -43,6 +43,15 @@
 "categories_fashion_and_accessories" = "Moda e Acessórios";
 "categories_free" = "Coisas Gratuitas";
 "categories_home_and_garden" = "Casa e Jardim";
+"categories_inFeed_baby_child" = "Crianças";
+"categories_inFeed_books_movies" = "Entretenimento";
+"categories_inFeed_cars" = "Carros";
+"categories_inFeed_electronics" = "Tecnologia";
+"categories_inFeed_fashion" = "Moda";
+"categories_inFeed_home" = "Casa";
+"categories_inFeed_motors" = "Motores";
+"categories_inFeed_others" = "Outro";
+"categories_inFeed_sports_leisure_games" = "Lazer";
 "categories_movies_books_and_music" = "Filmes, Livros e Música";
 "categories_other" = "Outros";
 "categories_sports_leisure_and_games" = "Desportos, Lazer e Jogos";
@@ -441,8 +450,8 @@
 "post_category_detail_search_placeholder" = "Buscar";
 "post_category_details_description" = "Publicações com dados completos atraem mais 20% de potenciais compradores";
 "post_category_details_navigation_title" = "Adicionar detalhes";
-"post_category_details_progress" = "%@ complete";
-"post_category_details_progress_100" = "Looks amazing";
+"post_category_details_progress" = "%@ completo";
+"post_category_details_progress_100" = "Está fantástico";
 "product_ask_a_question_button" = "Faça uma pergunta";
 "product_auto_generated_title_label" = "Título gerado automaticamente pelo letgo";
 "product_auto_generated_translated_title_label" = "(e traduzido pelo Google)";

@@ -43,6 +43,15 @@
 "categories_fashion_and_accessories" = "Muoti ja asusteet";
 "categories_free" = "Ilmaiset";
 "categories_home_and_garden" = "Koti ja puutarha";
+"categories_inFeed_baby_child" = "Lapset";
+"categories_inFeed_books_movies" = "Viihde";
+"categories_inFeed_cars" = "Autot";
+"categories_inFeed_electronics" = "Tekniikka";
+"categories_inFeed_fashion" = "Muoti";
+"categories_inFeed_home" = "Koti";
+"categories_inFeed_motors" = "Ajoneuvot";
+"categories_inFeed_others" = "Muu";
+"categories_inFeed_sports_leisure_games" = "Vapaa-aika";
 "categories_movies_books_and_music" = "Elokuvat, kirjat ja musiikki";
 "categories_other" = "Muut";
 "categories_sports_leisure_and_games" = "Urheilu, vapaa-aika ja pelit";
@@ -441,8 +450,8 @@
 "post_category_detail_search_placeholder" = "Hae";
 "post_category_details_description" = "Kaikki tiedot sisältävät ilmoitukset houkuttelevat 20% enemmän potentiaalisia ostajia";
 "post_category_details_navigation_title" = "Lisää tiedot";
-"post_category_details_progress" = "%@ complete";
-"post_category_details_progress_100" = "Looks amazing";
+"post_category_details_progress" = "%@ valmis";
+"post_category_details_progress_100" = "Näyttää mahtavalta";
 "product_ask_a_question_button" = "Esitä kysymys";
 "product_auto_generated_title_label" = "letgon automaattisesti luoma otsikko";
 "product_auto_generated_translated_title_label" = "(ja Googlen kääntämä)";

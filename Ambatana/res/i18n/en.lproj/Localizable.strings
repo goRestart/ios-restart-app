@@ -148,6 +148,33 @@
 // Category "Cars"
 "categories_car" = "Cars";
 
+// Category "Tech"
+"categories_inFeed_electronics" = "Tech";
+
+// Category "Motors"
+"categories_inFeed_motors" = "Motors";
+
+// Category "Leisure"
+"categories_inFeed_sports_leisure_games" = "Leisure";
+
+// Category "Home"
+"categories_inFeed_home" = "Home";
+
+// Category "Entertainment"
+"categories_inFeed_books_movies" = "Entertainment";
+
+// Category "Fashion"
+"categories_inFeed_fashion" = "Fashion";
+
+// Category "Child"
+"categories_inFeed_baby_child" = "Child";
+
+// Category "Other"
+"categories_inFeed_others" = "Other";
+
+// Category "Cars"
+"categories_inFeed_cars" = "Cars";
+
 // Change location apply button. Check image @ "change_location_title" segment
 "change_location_apply_button" = "Set location";
 
@@ -185,7 +212,7 @@
 "change_password_send_error_generic" = "An error occurred while changing the password. Please try again.";
 
 // Change password send error invalid password. Check image @ "change_password_send_error_generic" segment
-"change_password_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
+"change_password_send_error_invalid_password_with_max" = "Please enter a valid password. It must be between %d and %d characters.";
 
 // Change password send error passwords mismatch. Check image @ "change_password_send_error_generic" segment
 "change_password_send_error_passwords_mismatch" = "Passwords don't match. Please try again.";
@@ -200,7 +227,7 @@
 "change_password_title" = "Change password";
 
 // Change name invalid name error.  Check image @ "change_username_title" segment
-"change_username_error_invalid_username" = "Please insert a valid username. It must be at least %d characters long.";
+"change_username_error_invalid_username" = "Please enter a valid username. It must be at least %d characters long.";
 
 // Change name invalid username letgo. Check image @ "change_username_title" segment
 "change_username_error_invalid_username_letgo" = "Another account is using %@";
@@ -239,7 +266,7 @@
 "change_email_field_hint" = "New email (email@domain.com)";
 
 // Change email invalid email
-"change_email_error_invalid_email" = "Please insert a valid email address.";
+"change_email_error_invalid_email" = "Please enter a valid email address.";
 
 // Change email already registered
 "change_email_error_already_registered" = "This email address is already registered. Please enter a different one.";
@@ -955,7 +982,7 @@
 "log_in_error_send_error_generic" = "An error occurred while logging in. Please try again.";
 
 // Log in error send error invalid email. Check image @ "log_in_error_send_error_generic" segment
-"log_in_error_send_error_invalid_email" = "Please insert a valid email address.";
+"log_in_error_send_error_invalid_email" = "Please enter a valid email address.";
 
 // Log in error send error user not found or wrong password. Check image @ "log_in_error_send_error_generic" segment
 "log_in_error_send_error_user_not_found_or_wrong_password" = "Invalid email or password. Please try again.";
@@ -2147,7 +2174,7 @@
 "reset_password_send_error_generic" = "An error occurred while resetting your password. Please try again.";
 
 // Reset password send error invalid email. Check image @ "reset_password_send_error_generic" segment
-"reset_password_send_error_invalid_email" = "Please insert a valid email address.";
+"reset_password_send_error_invalid_email" = "Please enter a valid email address.";
 
 // Reset password send error user not found or wrong password. Check image @ "reset_password_send_error_generic" segment
 "reset_password_send_error_user_not_found_or_wrong_password" = "The email address %@ is not registered.";
@@ -2225,19 +2252,19 @@
 "sell_send_error_invalid_category" = "Please choose a category for the product.";
 
 // Sell send error invalid description. Check image @ "sell_send_error_invalid_category" segment
-"sell_send_error_invalid_description" = "Please insert a valid description for your product.";
+"sell_send_error_invalid_description" = "Please enter a valid description for your product.";
 
 // Sell send error invalid description too long. Check image @ "sell_send_error_invalid_category" segment
-"sell_send_error_invalid_description_too_long" = "Please insert a valid description for your product. It must be under %d characters.";
+"sell_send_error_invalid_description_too_long" = "Please enter a valid description for your product. It must be under %d characters.";
 
 // Sell send error invalid image count. Check image @ "sell_send_error_invalid_category" segment
 "sell_send_error_invalid_image_count" = "At least one photo is required to sell a product.";
 
 // Sell send error invalid price. Check image @ "sell_send_error_invalid_category" segment
-"sell_send_error_invalid_price" = "Please insert a valid price for the product. It should only include numbers.";
+"sell_send_error_invalid_price" = "Please enter a valid price for the product. It should only include numbers.";
 
 // Sell send error invalid title. Check image @ "sell_send_error_invalid_category" segment
-"sell_send_error_invalid_title" = "Please insert a valid title for your product.";
+"sell_send_error_invalid_title" = "Please enter a valid title for your product.";
 
 // Sell send error sharing facebook. Check image @ "sell_send_error_invalid_category" segment
 "sell_send_error_sharing_facebook" = "An error occurred while sharing on Facebook. Please try again.";
@@ -2360,13 +2387,13 @@
 "sign_up_send_error_invalid_domain" = "Invalid email address. Please change it and try again.";
 
 // Sign up send error invalid email. Check image @ "sign_up_send_error_email_taken" segment
-"sign_up_send_error_invalid_email" = "Please insert a valid email address.";
+"sign_up_send_error_invalid_email" = "Please enter a valid email address.";
 
 // Sign up send error invalid password. Check image @ "sign_up_send_error_email_taken" segment
-"sign_up_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
+"sign_up_send_error_invalid_password_with_max" = "Please enter a valid password. It must be between %d and %d characters.";
 
 // Sign up send error invalid username. Check image @ "sign_up_send_error_email_taken" segment
-"sign_up_send_error_invalid_username" = "Please insert a valid username. It must be at least %d characters long.";
+"sign_up_send_error_invalid_username" = "Please enter a valid username. It must be at least %d characters long.";
 
 // Sign up terms and conditions complete text (just turkey)
 "sign_up_terms_conditions" = "I agree to the letgo Terms & Conditions and Privacy Policy";

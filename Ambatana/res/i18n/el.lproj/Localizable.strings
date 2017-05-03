@@ -43,6 +43,15 @@
 "categories_fashion_and_accessories" = "Μόδα και Αξεσουάρ";
 "categories_free" = "Δωρεάν Πράγματα";
 "categories_home_and_garden" = "Σπίτι και Κήπος";
+"categories_inFeed_baby_child" = "Παιδί";
+"categories_inFeed_books_movies" = "Ψυχαγωγία";
+"categories_inFeed_cars" = "Αυτοκίνητα";
+"categories_inFeed_electronics" = "Τεχνολογία";
+"categories_inFeed_fashion" = "Μόδα";
+"categories_inFeed_home" = "Σπίτι";
+"categories_inFeed_motors" = "Μηχανές";
+"categories_inFeed_others" = "Άλλο";
+"categories_inFeed_sports_leisure_games" = "Χόμπι";
 "categories_movies_books_and_music" = "Ταινίες, Βιβλία και Μουσική";
 "categories_other" = "Άλλα";
 "categories_sports_leisure_and_games" = "Αθλητικά, Ψυχαγωγία και Παιχνίδια";
@@ -441,8 +450,8 @@
 "post_category_detail_search_placeholder" = "Αναζήτηση";
 "post_category_details_description" = "Δημοσιεύσεις με ολοκληρωμένες λεπτομέρειες ελκύουν 20% περισσότερους πιθανούς αγοραστές";
 "post_category_details_navigation_title" = "Προσθήκη Λεπτομερειών";
-"post_category_details_progress" = "%@ complete";
-"post_category_details_progress_100" = "Looks amazing";
+"post_category_details_progress" = "%@ ολοκλήρωση";
+"post_category_details_progress_100" = "Μοιάζει υπέροχο";
 "product_ask_a_question_button" = "Κάντε ερώτηση";
 "product_auto_generated_title_label" = "Ο τίτλος έχει επιλεγεί αυτόματα από το letgo";
 "product_auto_generated_translated_title_label" = "(και μεταγραστεί από το Google)";
