@@ -417,6 +417,18 @@ struct TrackerEvent {
         if let pictureSource = pictureSource {
             params[.pictureSource] = pictureSource.rawValue
         }
+
+        switch listing {
+        case .car:
+            params[.postingType] = EventParameterPostingType.car.rawValue
+        case .product:
+            params[.postingType] = EventParameterPostingType.stuff.rawValue
+        }
+
+        params[.make] = EventParameterMake.make(name: listing.car?.carAttributes.make).name
+        params[.model] = EventParameterModel.model(name: listing.car?.carAttributes.model).name
+        params[.year] = EventParameterYear.year(year: listing.car?.carAttributes.year).year
+
         return TrackerEvent(name: .productSellComplete, params: params)
     }
     
@@ -500,41 +512,45 @@ struct TrackerEvent {
             return TrackerEvent(name: .productSellConfirmationShareComplete, params: params)
     }
 
-    static func productEditStart(_ user: User?, product: Product) -> TrackerEvent {
+    static func productEditStart(_ user: User?, listing: Listing) -> TrackerEvent {
         var params = EventParameters()
         // Product
-        params[.productId] = product.objectId
+        params[.productId] = listing.objectId
         return TrackerEvent(name: .productEditStart, params: params)
     }
 
-    static func productEditFormValidationFailed(_ user: User?, product: Product, description: String)
+    static func productEditFormValidationFailed(_ user: User?, listing: Listing, description: String)
         -> TrackerEvent {
             var params = EventParameters()
             // Product
-            params[.productId] = product.objectId
+            params[.productId] = listing.objectId
             // Validation failure description
             params[.description] = description
             return TrackerEvent(name: .productEditFormValidationFailed, params: params)
     }
 
-    static func productEditSharedFB(_ user: User?, product: Product?) -> TrackerEvent {
+    static func productEditSharedFB(_ user: User?, listing: Listing?) -> TrackerEvent {
         var params = EventParameters()
         // Product
-        if let productId = product?.objectId {
+        if let productId = listing?.objectId {
             params[.productId] = productId
         }
         return TrackerEvent(name: .productEditSharedFB, params: params)
     }
 
-    static func productEditComplete(_ user: User?, product: Product, category: ListingCategory?,
-        editedFields: [EventParameterEditedFields]) -> TrackerEvent {
-            var params = EventParameters()
-            // Product
-            params[.productId] = product.objectId
-            params[.categoryId] = category?.rawValue ?? 0
-            params[.editedFields] = editedFields.map({$0.rawValue}).joined(separator: ",")
+    static func productEditComplete(_ user: User?, listing: Listing, category: ListingCategory?,
+                                    editedFields: [EventParameterEditedFields]) -> TrackerEvent {
+        var params = EventParameters()
+        // Product
+        params[.productId] = listing.objectId
+        params[.categoryId] = category?.rawValue ?? 0
+        params[.editedFields] = editedFields.map({$0.rawValue}).joined(separator: ",")
 
-            return TrackerEvent(name: .productEditComplete, params: params)
+        params[.make] = EventParameterMake.make(name: listing.car?.carAttributes.make).name
+        params[.model] = EventParameterModel.model(name: listing.car?.carAttributes.model).name
+        params[.year] = EventParameterYear.year(year: listing.car?.carAttributes.year).year
+
+        return TrackerEvent(name: .productEditComplete, params: params)
     }
 
     static func productDeleteStart(_ listing: Listing) -> TrackerEvent {

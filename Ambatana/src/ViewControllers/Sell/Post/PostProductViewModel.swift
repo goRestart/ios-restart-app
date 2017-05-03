@@ -432,12 +432,7 @@ fileprivate extension PostProductViewModel {
         let price = postDetailViewModel.productPrice
         var title = postDetailViewModel.productTitle
         if selectedCarAttributes.makeId == "" { // user maked "other"
-            let make = selectedCarAttributes.make ?? ""
-            let model = selectedCarAttributes.model ?? ""
-            let year = selectedCarAttributes.year
-            title = (make.isEmpty ? "" : "\(make) ")
-                + (model.isEmpty ? "" : "\(model) ")
-                + (year == 0 ? "" : "\(year)")
+            title = title ?? selectedCarAttributes.generatedCarName()
         }
         let description = postDetailViewModel.productDescription
         let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()

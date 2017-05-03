@@ -352,7 +352,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
             guard let strongSelf = self else { return }
             print(strongSelf.view)
             let keyboardHeight = origin - strongSelf.view.height
-            strongSelf.detailsContainerBottomConstraint.constant = keyboardHeight
+            strongSelf.detailsContainerBottomConstraint.constant = keyboardHeight/2
             if strongSelf.carDetailsView.state == .selectDetail {
                 strongSelf.carDetailsViewCenterYConstraint.constant = keyboardHeight/2
             }
