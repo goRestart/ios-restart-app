@@ -324,7 +324,7 @@ class PostCarDetailsView: UIView {
     }
     
     private func selectDetailValueVisibleViews() -> [UIView] {
-        return [tableView, navigationMakeButton, navigationModelButton, navigationYearButton]
+        return [tableView, navigationMakeButton, navigationModelButton, navigationYearButton, navigationOkButton]
     }
     
     func showSelectDetail() {
