@@ -59,7 +59,7 @@
 "categories_unassigned" = "Δεν έχει επιλεχθεί";
 "change_email_current_email_label" = "ΤΡΕΧΟΝ EMAIL:";
 "change_email_error_already_registered" = "Αυτή η διεύθυνση email είναι ήδη εγγεγραμμένη. Παρακαλώ εισάγετε μία άλλη.";
-"change_email_error_invalid_email" = "Παρακαλώ εισάγετε μια έγκυρη διεύθυνση email.";
+"change_email_error_invalid_email" = "Παρακαλώ εισάγετε ένα έγκυρο email.";
 "change_email_field_hint" = "Νέο email (email@domain.com)";
 "change_email_loading" = "Αποθήκευση email...";
 "change_email_save_button" = "Αποθήκευση";
@@ -77,12 +77,12 @@
 "change_password_confirm_password_field_hint" = "Επιβεβαίωση κωδικού πρόσβασης";
 "change_password_new_password_field_hint" = "Νέος Κωδικός Πρόσβασης";
 "change_password_send_error_generic" = "Παρουσιάστηκε σφάλμα κατά την αλλαγή του κωδικού πρόσβασης.Παρακαλώ προσπαθήστε ξανά.";
-"change_password_send_error_invalid_password_with_max" = "Παρακαλώ, εισάγετε έναν έγκυρο κωδικό πρόσβασης. Θα πρέπει να αποτελείται τουλάχιστον από %d μέχρι %d χαρακτήρες.";
+"change_password_send_error_invalid_password_with_max" = "Παρακαλώ εισάγετε έναν έγκυρο κωδικό πρόσβασης. Θα πρέπει να αποτελείται τουλάχιστον από %d μέχρι %d χαρακτήρες.";
 "change_password_send_error_link_expired" = "Όπα! Ο σύνδεσμος έχει λήξει.";
 "change_password_send_error_passwords_mismatch" = "Οι κωδικοί πρόσβασης δεν ταιριάζουν. Παρακαλώ προσπαθήστε ξανά.";
 "change_password_send_ok" = "Ο κωδικός πρόσβασης άλλαξε!";
 "change_password_title" = "Αλλαγή κωδικού πρόσβασης";
-"change_username_error_invalid_username" = "Παρακαλώ εισάγετε έγκυρο όνομα, θα πρέπει να αποτελείται από τουλάχιστον %d χαρακτήρες.";
+"change_username_error_invalid_username" = "Παρακαλώ εισάγετε έγκυρο όνομα χρήστη. Θα πρέπει να αποτελείται από τουλάχιστον %d χαρακτήρες.";
 "change_username_error_invalid_username_letgo" = "Κάποιος άλλος λογαριασμός χρησιμοποιεί το %@";
 "change_username_field_hint" = "Ονοματεπώνυμο";
 "change_username_loading" = "Αποθήκευση ονόματος χρήστη...";
@@ -297,6 +297,7 @@
 "filters_price_to" = "Μέχρι";
 "filters_price_wrong_range_error" = "Η μικρότερη τιμή δεν μπορεί να είναι περισσότερη από τη μεγαλύτερη τιμή.";
 "filters_save_button" = "Αποθήκευση φίλτρων";
+"filters_section_car_info" = "Car Info";
 "filters_section_categories" = "Κατηγορίες";
 "filters_section_distance" = "Απόσταση";
 "filters_section_location" = "Τοποθεσία";
@@ -342,7 +343,7 @@
 "log_in_email_wrong_password_alert_message" = "Ο κωδικός που εισάγατε για %@ είναι λάθος.";
 "log_in_email_wrong_password_alert_title" = "Λάθος κωδικός";
 "log_in_error_send_error_generic" = "Παρουσιάστηκε σφάλμα κατά τη σύνδεση. Παρακαλώ προσπαθήστε ξανά.";
-"log_in_error_send_error_invalid_email" = "Παρακαλώ εισάγετε ένα έγκυρο email στο πεδίο email χρήστη.";
+"log_in_error_send_error_invalid_email" = "Παρακαλώ εισάγετε ένα έγκυρο email.";
 "log_in_error_send_error_user_not_found_or_wrong_password" = "Άγνωστο email ή κωδικός. Παρακαλώ προσπαθήστε ξανά.";
 "log_in_reset_password_button" = "Ξεχάσατε τον κωδικό σας;";
 "log_in_send_button" = "Σύνδεση";
@@ -704,7 +705,7 @@
 "reset_password_instructions" = "Παρακαλώ, εισάγετε την ηλεκτρονική σας διεύθυνση και θα σας στείλουμε ένα email για να επανακτήσετε τον κωδικό σας.";
 "reset_password_send_button" = "Αποστολή email";
 "reset_password_send_error_generic" = "Παρουσιάστηκε σφάλμα κατά την προσπάθεια επαναφοράς του κωδικού σας. Παρακαλώ προσπαθήστε ξανά.";
-"reset_password_send_error_invalid_email" = "Παρακαλώ εισάγετε ένα έγκυρο email στο πεδίο email χρήστη.";
+"reset_password_send_error_invalid_email" = "Παρακαλώ εισάγετε ένα έγκυρο email.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "Δεν έχει γίνει εγγραφή με τη διεύθυνση email %@.";
 "reset_password_send_ok" = "Σας στείλαμε ένα μήνυμα στο %@. Κάντε κλικ στο σύνδεσμο του email για να επαναφέρετε τον κωδικό πρόσβασης.";
 "reset_password_send_too_many_requests" = "Σας έχουμε στείλει ήδη ένα email για επαναφορά κωδικού. Παρακαλώ ελέγξτε τα email σας και ακολουθήστε τις οδηγίες.";
@@ -731,9 +732,9 @@
 "sell_price_field" = "Τιμή:";
 "sell_send_error_invalid_category" = "Παρακαλώ επιλέξτε μία κατηγορία για το προϊόν.";
 "sell_send_error_invalid_description" = "Παρακαλώ εισάγετε μία έγκυρη περιγραφή του προϊόντος.";
-"sell_send_error_invalid_description_too_long" = "Το μέγιστο μέγεθος περιγραφής προϊόντος είναι %d χαρακτήρες.";
+"sell_send_error_invalid_description_too_long" = "Παρακαλώ εισάγετε μια έγκυρη περιγραφή για το προϊόν σας. Θα πρέπει να έχει κάτω από %d χαρακτήρες.";
 "sell_send_error_invalid_image_count" = "Απαιτείται τουλάχιστον μια φωτογραφία για την πώληση προϊόντος.";
-"sell_send_error_invalid_price" = "Παρακαλώ εισάγετε μία έγκυρη τιμή για το προϊόν. Επιτρέπονται μόνο νούμερα!";
+"sell_send_error_invalid_price" = "Παρακαλώ εισάγετε μία έγκυρη τιμή για το προϊόν. Θα πρέπει να περιέχει μόνο νούμερα.";
 "sell_send_error_invalid_title" = "Παρακαλώ εισάγετε έναν έγκυρο τίτλο για το προϊόν.";
 "sell_send_error_sharing_facebook" = "Παρουσιάστηκε σφάλμα κατά την κοινοποίηση στο Facebook. Παρακαλώ, δοκιμάστε ξανά.";
 "sell_share_fb_content" = "Δείτε τι πουλάω στο letgo!";
@@ -791,9 +792,9 @@
 "sign_up_send_error_email_taken" = "Έχει ήδη γίνει εγγραφή με το email %@. Παρακαλώ, χρησιμοποιήστε το για να συνδεθείτε.";
 "sign_up_send_error_generic" = "Παρουσιάστηκε σφάλμα κατά τη δημιουργία λογαριασμού. Παρακαλώ προσπαθήστε ξανά.";
 "sign_up_send_error_invalid_domain" = "Λανθασμένη διεύθυνση email. Παρακαλώ, αλλάξτε την και προσπαθήστε ξανά.";
-"sign_up_send_error_invalid_email" = "Παρακαλώ εισάγετε ένα έγκυρο email στο πεδίο email χρήστη.";
-"sign_up_send_error_invalid_password_with_max" = "Παρακαλώ, εισάγετε έναν έγκυρο κωδικό πρόσβασης. Θα πρέπει να αποτελείται τουλάχιστον από %d μέχρι %d χαρακτήρες.";
-"sign_up_send_error_invalid_username" = "Παρακαλώ εισάγετε έγκυρο όνομα, θα πρέπει να αποτελείται από τουλάχιστον %d χαρακτήρες.";
+"sign_up_send_error_invalid_email" = "Παρακαλώ εισάγετε ένα έγκυρο email.";
+"sign_up_send_error_invalid_password_with_max" = "Παρακαλώ εισάγετε έναν έγκυρο κωδικό πρόσβασης. Θα πρέπει να αποτελείται τουλάχιστον από %d μέχρι %d χαρακτήρες.";
+"sign_up_send_error_invalid_username" = "Παρακαλώ εισάγετε έγκυρο όνομα χρήστη. Θα πρέπει να αποτελείται από τουλάχιστον %d χαρακτήρες.";
 "sign_up_terms_conditions" = "I agree to the letgo Terms & Conditions and Privacy Policy";
 "sign_up_terms_conditions_privacy_part" = "Privacy Policy";
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";

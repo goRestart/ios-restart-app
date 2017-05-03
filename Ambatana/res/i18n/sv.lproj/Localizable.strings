@@ -297,6 +297,7 @@
 "filters_price_to" = "Till";
 "filters_price_wrong_range_error" = "Lägsta pris kan inte vara högre än högsta pris.";
 "filters_save_button" = "Spara filter";
+"filters_section_car_info" = "Car Info";
 "filters_section_categories" = "Kategorier";
 "filters_section_distance" = "Avstånd";
 "filters_section_location" = "Plats";
