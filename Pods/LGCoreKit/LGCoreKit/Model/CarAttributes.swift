@@ -17,6 +17,31 @@ public struct CarAttributes: Equatable {
     public let modelId: String?
     public let year: Int?
     
+    public static let emptyMake = LGCoreKitConstants.carsMakeEmptyValue
+    public static let emptyModel = LGCoreKitConstants.carsModelEmptyValue
+    public static let emptyYear = LGCoreKitConstants.carsYearEmptyValue
+    
+    public var isMakeEmpty: Bool {
+        if let makeId = makeId {
+            return makeId == CarAttributes.emptyMake
+        }
+        return true
+    }
+    
+    public var isModelEmpty: Bool {
+        if let modelId = modelId {
+            return modelId == CarAttributes.emptyModel
+        }
+        return true
+    }
+    
+    public var isYearEmpty: Bool {
+        if let year = year {
+            return year == CarAttributes.emptyYear
+        }
+        return true
+    }
+    
     static func initWith(makeId: String?, modelId: String?, year: Int?) -> CarAttributes {
         return self.init(makeId: makeId, make: nil, modelId: modelId, model: nil, year: year)
     }

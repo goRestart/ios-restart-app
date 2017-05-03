@@ -796,13 +796,13 @@ extension EditListingViewModel {
             // listing was not car and now is a car
             // if it was a car and is not anymore, BI said NOT TO track changes in make, model and year
             if let carAttributes = listing.car?.carAttributes {
-                if let make = carAttributes.makeId, !make.isEmpty {
+                if !carAttributes.isMakeEmpty {
                     editedFields.append(.make)
                 }
-                if let model = carAttributes.modelId, !model.isEmpty {
+                if !carAttributes.isModelEmpty {
                     editedFields.append(.model)
                 }
-                if let year = carAttributes.year, year != 0 {
+                if !carAttributes.isYearEmpty {
                     editedFields.append(.year)
                 }
             }
