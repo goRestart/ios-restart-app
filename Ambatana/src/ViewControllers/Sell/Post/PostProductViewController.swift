@@ -35,6 +35,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
     fileprivate let priceView: UIView
     fileprivate let categorySelectionView: PostCategorySelectionView
     fileprivate let carDetailsView: PostCarDetailsView
+    fileprivate var carDetailsViewCenterYConstraint = NSLayoutConstraint()
     
     fileprivate var footer: PostProductFooter
     fileprivate var footerView: UIView
@@ -57,7 +58,6 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
 
     private let disposeBag = DisposeBag()
 
-
     // ViewModel
     fileprivate var viewModel: PostProductViewModel
 
@@ -68,7 +68,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
                      forceCamera: Bool) {
         self.init(viewModel: viewModel,
                   forceCamera: forceCamera,
-                  keyboardHelper: KeyboardHelper.sharedInstance,
+                  keyboardHelper: KeyboardHelper(),
                   postingGallery: FeatureFlags.sharedInstance.postingGallery)
     }
 
@@ -139,6 +139,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         
         setupView()
         setAccesibilityIds()
+        view.layoutIfNeeded()
         setupRx()
     }
 
@@ -181,6 +182,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
     // MARK: - Actions
     
     @IBAction func onCloseButton(_ sender: AnyObject) {
+        carDetailsView.hideKeyboard()
         priceView.resignFirstResponder()
         viewModel.closeButtonPressed()
     }
@@ -241,7 +243,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         detailsContainer.addSubview(priceView)
         priceView.layout(with: postedInfoLabel).below(by: Metrics.margin)
         priceView.layout(with: detailsContainer).bottom()
-        priceView.layout(with: detailsContainer).fillHorizontal()
+        priceView.layout(with: detailsContainer).fillHorizontal(by: Metrics.screenWidth/10)
     }
     
     private func setupCategorySelectionView() {
@@ -253,7 +255,12 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
     private func setupAddCarDetailsView() {
         carDetailsView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(carDetailsView)
-        carDetailsView.layout(with: view).fill()
+        carDetailsView.layout(with: view)
+            .proportionalWidth()
+            .proportionalHeight()
+            .centerX()
+            .centerY(constraintBlock: { [weak self] in self?.carDetailsViewCenterYConstraint = $0 })
+        
         carDetailsView.updateProgress(withPercentage: viewModel.currentCarDetailsProgress)
         carDetailsView.setCurrencySymbol(viewModel.postDetailViewModel.currencySymbol)
         carDetailsView.backButtonHidden(!viewModel.shouldShowBackButtonInCarDetails())
@@ -338,13 +345,17 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         keyboardHelper.rx_keyboardOrigin.asObservable().bindNext { [weak self] origin in
             guard origin > 0 else { return }
             guard let strongSelf = self else { return }
-            guard let viewHeight = self?.view.height else { return }
-            self?.detailsContainerBottomConstraint.constant = (origin - viewHeight)/2
+            print(strongSelf.view)
+            let keyboardHeight = origin - strongSelf.view.height
+            strongSelf.detailsContainerBottomConstraint.constant = keyboardHeight
+            if strongSelf.carDetailsView.state == .selectDetail {
+                strongSelf.carDetailsViewCenterYConstraint.constant = keyboardHeight/2
+            }
             UIView.animate(withDuration: Double(strongSelf.keyboardHelper.animationTime), animations: {
                 strongSelf.view.layoutIfNeeded()
             })
-            let showingKeyboard = (viewHeight - origin) > 0
-            self?.loadingViewHidden(hide: showingKeyboard)
+            let showingKeyboard = keyboardHeight > 0
+            strongSelf.loadingViewHidden(hide: showingKeyboard)
         }.addDisposableTo(disposeBag)
     }
     

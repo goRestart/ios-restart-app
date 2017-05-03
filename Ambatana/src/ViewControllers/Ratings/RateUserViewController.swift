@@ -37,7 +37,7 @@ class RateUserViewController: BaseViewController {
     // MARK: - Lifecycle
 
     convenience init(viewModel: RateUserViewModel, showSkipButton: Bool) {
-        self.init(viewModel: viewModel, showSkipButton: showSkipButton, keyboardHelper: KeyboardHelper.sharedInstance)
+        self.init(viewModel: viewModel, showSkipButton: showSkipButton, keyboardHelper: KeyboardHelper())
     }
 
     init(viewModel: RateUserViewModel, showSkipButton: Bool, keyboardHelper: KeyboardHelper) {

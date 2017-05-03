@@ -277,7 +277,7 @@ extension PostProductViewModel {
     }
     
     func postCarDetailDone() {
-        if featureFlags.carsCategoryAfterPicture {
+        if !featureFlags.carsCategoryAfterPicture {
             state.value = state.value.updating(price: postDetailViewModel.productPrice, carInfo: selectedCarAttributes)
         } else {
             state.value = state.value.updating(carInfo: selectedCarAttributes)
@@ -393,7 +393,7 @@ fileprivate extension PostProductViewModel {
                                                               trackingInfo: trackingInfo)
             }
             let cancelAction = { [weak self] in
-                guard let state = self?.state.value else { return }
+                guard let _ = self?.state.value else { return }
                 self?.revertToPreviousStep()
             }
             navigator?.openLoginIfNeededFromProductPosted(from: .sell, loggedInAction: loggedInAction, cancelAction: cancelAction)
@@ -430,7 +430,15 @@ fileprivate extension PostProductViewModel {
     func makeCarCreationParams(images: [File]) -> CarCreationParams? {
         guard let location = locationManager.currentLocation?.location else { return nil }
         let price = postDetailViewModel.productPrice
-        let title = postDetailViewModel.productTitle
+        var title = postDetailViewModel.productTitle
+        if selectedCarAttributes.makeId == "" { // user maked "other"
+            let make = selectedCarAttributes.make ?? ""
+            let model = selectedCarAttributes.model ?? ""
+            let year = selectedCarAttributes.year
+            title = (make.isEmpty ? "" : "\(make) ")
+                + (model.isEmpty ? "" : "\(model) ")
+                + (year == 0 ? "" : "\(year)")
+        }
         let description = postDetailViewModel.productDescription
         let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()
         let currency = currencyHelper.currencyWithCountryCode(postalAddress.countryCode ?? "US")
