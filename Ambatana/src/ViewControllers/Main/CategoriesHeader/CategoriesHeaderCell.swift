@@ -20,7 +20,7 @@ class CategoriesHeaderCell: UICollectionViewCell {
     var categoryIcon: UIImageView = UIImageView()
     var categoryTitle: UILabel = UILabel()
     var categoryNewLabel: UILabel = UILabel()
-    var shouldShowCategoryNewBadge: Bool = false
+    var categoryNewContainter: UIView = UIView()
     
     weak var delegate : CategoriesHeaderCellDelegate?
     
@@ -28,7 +28,7 @@ class CategoriesHeaderCell: UICollectionViewCell {
     // MARK: - Static methods
     
     static func cellSize() -> CGSize {
-        return CGSize(width: 90, height: 120)
+        return CGSize(width: 80, height: 110)
     }
 
     
@@ -40,7 +40,8 @@ class CategoriesHeaderCell: UICollectionViewCell {
         categoryIcon.contentMode = .scaleAspectFit
         contentView.addSubview(categoryIcon)
         contentView.addSubview(categoryTitle)
-        contentView.addSubview(categoryNewLabel)
+        contentView.addSubview(categoryNewContainter)
+        categoryNewContainter.addSubview(categoryNewLabel)
         self.setupUI()
         self.resetUI()
         self.setAccessibilityIds()
@@ -55,35 +56,63 @@ class CategoriesHeaderCell: UICollectionViewCell {
         self.resetUI()
     }
     
+    override func layoutSubviews() {
+        categoryNewContainter.rounded = true
+        addShadow()
+        super.layoutSubviews()
+    }
+    
+    
+    // MARK: - Public Methods
+    
+    func addNewTagToCategory() {
+        categoryNewContainter.isHidden = false
+        categoryNewLabel.text = LGLocalizedString.commonNew
+        layoutIfNeeded()
+    }
     
     // MARK: - Private methods
     
     private func setupUI() {
+        
+        backgroundColor = UIColor.clear
+        categoryNewContainter.backgroundColor = UIColor.white
+        categoryNewLabel.backgroundColor = UIColor.clear
+        
         categoryTitle.translatesAutoresizingMaskIntoConstraints = false
         categoryNewLabel.translatesAutoresizingMaskIntoConstraints = false
         categoryIcon.translatesAutoresizingMaskIntoConstraints = false
-        contentView.layer.borderColor = UIColor.lineGray.cgColor
-        contentView.layer.borderWidth = LGUIKitConstants.onePixelSize
-        contentView.layer.cornerRadius = 4.0
-        contentView.layer.backgroundColor = UIColor.white.cgColor
+        categoryNewContainter.translatesAutoresizingMaskIntoConstraints = false
         
-        categoryIcon.layout(with: contentView).top(by: 20).left(by: 10).right(by: 10)
+        categoryTitle.font = UIFont.boldSystemFont(ofSize: 9)
+        categoryNewLabel.font = UIFont.boldSystemFont(ofSize: 9)
         
-        categoryTitle.layout(with: categoryIcon).centerX().below(by: 10)
-        categoryTitle.layout().height(30)
+        categoryTitle.textColor = UIColor.grayDark
+        categoryNewLabel.textColor = UIColor.lgBlack
         
-        categoryNewLabel.layout().height(30)
-        categoryNewLabel.layout(with: categoryIcon).top()
+        categoryIcon.layout().height(60).width(60)
+        categoryIcon.layout(with: contentView).top(by: 20).centerX()
+        categoryTitle.layout(with: contentView).bottom().left().right()
+        categoryTitle.layout().height(20)
+        categoryTitle.textAlignment = .center
+        categoryNewContainter.layout(with: contentView).top(by: 10).centerX()
         
-        categoryNewLabel.text = shouldShowCategoryNewBadge ? LGLocalizedString.commonNew : ""
+        categoryNewLabel.layout(with: categoryNewContainter).top(by: 3).left(by: 10).right(by: -10).bottom(by: -3)
+        categoryNewLabel.textAlignment = .center
         
     }
     
+    private func addShadow() {
+        categoryNewContainter.layer.shadowColor = UIColor.black.cgColor
+        categoryNewContainter.layer.shadowOpacity = 0.5
+        categoryNewContainter.layer.shadowRadius = 1
+    }
+    
     private func resetUI() {
-        self.categoryTitle.text = ""
-        self.categoryNewLabel.text = ""
-        self.categoryIcon.image = nil
-        self.shouldShowCategoryNewBadge = false
+        categoryTitle.text = ""
+        categoryNewLabel.text = ""
+        categoryIcon.image = nil
+        categoryNewContainter.isHidden = true
     }
     
     private func setAccessibilityIds() {

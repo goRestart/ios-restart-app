@@ -348,7 +348,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
 
 // MARK: - ProductListViewHeaderDelegate
 
-extension MainProductsViewController: ProductListViewHeaderDelegate, PushPermissionsHeaderDelegate, CategoriesHeaderDelegate {
+extension MainProductsViewController: ProductListViewHeaderDelegate, PushPermissionsHeaderDelegate {
 
     func totalHeaderHeight() -> CGFloat {
         var totalHeight: CGFloat = 0
@@ -356,7 +356,7 @@ extension MainProductsViewController: ProductListViewHeaderDelegate, PushPermiss
             totalHeight = PushPermissionsHeader.viewHeight
         }
         if shouldShowCategoryCollectionBanner {
-            totalHeight = totalHeight + PushPermissionsHeader.viewHeight
+            totalHeight = totalHeight + CategoriesHeaderCollectionView.viewHeight
         }
         return totalHeight
     }
@@ -370,11 +370,10 @@ extension MainProductsViewController: ProductListViewHeaderDelegate, PushPermiss
             header.addHeader(pushHeader, height: PushPermissionsHeader.viewHeight)
         }
         if shouldShowPermissionsBanner {
-            let headerSize = CGRect(x: 0, y: 0, width: 200, height: CategoriesHeader.viewHeight)
-            let categoriesHeader = CategoriesHeader(collectionView: CategoriesHeaderCollectionView(categories: ListingCategory.visibleValues(), frame: headerSize))
+            let headerSize = CGRect(x: 0, y: 0, width: 200, height: CategoriesHeaderCollectionView.viewHeight)
+            let categoriesHeader = CategoriesHeaderCollectionView(categories: ListingCategory.visibleValuesInFeed(), frame: headerSize)
             categoriesHeader.tag = 1
-            categoriesHeader.delegate = self
-            header.addHeader(categoriesHeader, height: CategoriesHeader.viewHeight)
+            header.addHeader(categoriesHeader, height: CategoriesHeaderCollectionView.viewHeight)
         }
     }
 
@@ -390,9 +389,9 @@ extension MainProductsViewController: ProductListViewHeaderDelegate, PushPermiss
         viewModel.pushPermissionsHeaderPressed()
     }
     
-    func categoryHeaderPressed() {
-        viewModel.pushPermissionsHeaderPressed()
-    }
+//    func categoryHeaderPressed() {
+//        viewModel.pushPermissionsHeaderPressed()
+//    }
 }
 
 
