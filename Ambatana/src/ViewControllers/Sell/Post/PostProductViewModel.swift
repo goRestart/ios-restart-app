@@ -220,7 +220,7 @@ extension PostProductViewModel {
     }
     
     fileprivate var carYears: [Int] {
-        return carsInfoRepository.retrieveValidYears(withFirstYear: 0, ascending: false)
+        return carsInfoRepository.retrieveValidYears(withFirstYear: nil, ascending: false)
     }
     
     fileprivate var selectedCarYearInfo: CarInfoWrapper? {
@@ -262,18 +262,13 @@ extension PostProductViewModel {
     }
     
     var currentCarDetailsProgress: Float {
-        let details: [Any?] = [selectedCarAttributes.make, selectedCarAttributes.model, selectedCarAttributes.year]
-        let detailsFilled: [Any] = details.flatMap { data in
-            if let data = data as? String, !data.isEmpty {
-                return data
-            } else if let data = data as? Int, data != 0 {
-                return data
-            }
-            return nil
-        }
-        
-        guard details.count > 0 else { return 1 }
-        return Float(detailsFilled.count) / Float(details.count)
+        let details = 3
+        var detailsFilled = 0
+        detailsFilled += selectedCarAttributes.isMakeEmpty ? 0 : 1
+        detailsFilled += selectedCarAttributes.isModelEmpty ? 0 : 1
+        detailsFilled += selectedCarAttributes.isYearEmpty ? 0 : 1
+        guard details > 0 else { return 1 }
+        return Float(detailsFilled) / Float(details)
     }
     
     func postCarDetailDone() {
@@ -295,8 +290,8 @@ extension PostProductViewModel {
             case .make:
                 strongSelf.selectedCarAttributes = strongSelf.selectedCarAttributes.updating(makeId: categoryDetail.id,
                                                                                              make: categoryDetail.name,
-                                                                                             modelId: "",
-                                                                                             model: "") // TODO: take this default value from corekit
+                                                                                             modelId: CarAttributes.emptyModel,
+                                                                                             model: CarAttributes.emptyModel)
             case .model:
                 strongSelf.selectedCarAttributes = strongSelf.selectedCarAttributes.updating(modelId: categoryDetail.id,
                                                                                              model: categoryDetail.name)
@@ -431,7 +426,7 @@ fileprivate extension PostProductViewModel {
         guard let location = locationManager.currentLocation?.location else { return nil }
         let price = postDetailViewModel.productPrice
         var title = postDetailViewModel.productTitle
-        if selectedCarAttributes.makeId == "" { // user maked "other"
+        if selectedCarAttributes.makeId == CarAttributes.emptyMake {
             title = title ?? selectedCarAttributes.generatedCarName()
         }
         let description = postDetailViewModel.productDescription
