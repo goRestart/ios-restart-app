@@ -3800,6 +3800,7 @@
 		4A82EA13581083AEA457F73DDAE4AF38 /* FBSDKLikeBoxView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FBSDKLikeBoxView.m; path = FBSDKShareKit/FBSDKShareKit/Internal/FBSDKLikeBoxView.m; sourceTree = "<group>"; };
 		4A83569969C9A47440E0B1342567BEF0 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.0.sdk/System/Library/Frameworks/MobileCoreServices.framework; sourceTree = DEVELOPER_DIR; };
 		4ABB869F9E97A5C2EADA32DF107C9F7D /* FLEXArgumentInputFontView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FLEXArgumentInputFontView.h; path = Classes/Editing/ArgumentInputViews/FLEXArgumentInputFontView.h; sourceTree = "<group>"; };
+		4AD645132E81CE74D5C263317147D903 /* LPInbox.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = LPInbox.h; path = Leanplum.framework/Headers/LPInbox.h; sourceTree = "<group>"; };
 		4ADCFFC684D0CE1742C861E6DB461CE9 /* RLMSyncConfiguration.mm */ = {isa = PBXFileReference; includeInIndex = 1; name = RLMSyncConfiguration.mm; path = Realm/RLMSyncConfiguration.mm; sourceTree = "<group>"; };
 		4AEF1AFF22BADE14C954216E2D192C70 /* Decoded.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Decoded.swift; path = Sources/Argo/Types/Decoded/Decoded.swift; sourceTree = "<group>"; };
 		4B2EA661B4A4844CCE95C2B22E11E7B2 /* LGPaymentItem.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LGPaymentItem.swift; path = LGCoreKit/Model/API/LGPaymentItem.swift; sourceTree = "<group>"; };
@@ -4377,6 +4378,7 @@
 		8F1053618CFF0A3FC229D065B207D6BA /* FBSDKLiking.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBSDKLiking.h; path = FBSDKShareKit/FBSDKShareKit/FBSDKLiking.h; sourceTree = "<group>"; };
 		8F3E823B8A90684CEA9239ECB5B9F1BA /* LGNotificationCTAModule.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LGNotificationCTAModule.swift; path = LGCoreKit/Model/API/LGNotificationCTAModule.swift; sourceTree = "<group>"; };
 		8F534C4414C6AB8FE0095979B5159446 /* BaseModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BaseModel.swift; path = LGCoreKit/Model/BaseModel.swift; sourceTree = "<group>"; };
+		8F6B2B3936F2FFEB5746834590005408 /* Leanplum.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Leanplum.framework; sourceTree = "<group>"; };
 		8F86D759C1C00988AA5FF2F14FB30738 /* FBSDKShareAPI.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBSDKShareAPI.h; path = FBSDKShareKit/FBSDKShareKit/FBSDKShareAPI.h; sourceTree = "<group>"; };
 		8F914426F31A98DE397BBEB895E3C5CC /* ConcurrentMainScheduler.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConcurrentMainScheduler.swift; path = RxSwift/Schedulers/ConcurrentMainScheduler.swift; sourceTree = "<group>"; };
 		8FA0952FD276C6A8EB3F42A7BDAC34B2 /* RxMutableBox.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RxMutableBox.swift; path = RxSwift/RxMutableBox.swift; sourceTree = "<group>"; };
@@ -4832,7 +4834,6 @@
 		C41F8CAFA415A227B55A5CEB1FAB9C9B /* SwiftyUserDefaults-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftyUserDefaults-prefix.pch"; sourceTree = "<group>"; };
 		C4341A019CD844126A8FEFD81E24D520 /* BeIdenticalTo.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BeIdenticalTo.swift; path = Sources/Nimble/Matchers/BeIdenticalTo.swift; sourceTree = "<group>"; };
 		C4450B8114E00479A19085F378CDCD6F /* RealmConfiguration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RealmConfiguration.swift; path = RealmSwift/RealmConfiguration.swift; sourceTree = "<group>"; };
-		C46CE2E327970599AFF68E9776A8970A /* LPNewsfeed.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = LPNewsfeed.h; path = Leanplum.framework/Headers/LPNewsfeed.h; sourceTree = "<group>"; };
 		C46D3DA264F645B8A704BE63726C4850 /* FBSDKGraphRequestConnection.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBSDKGraphRequestConnection.h; path = FBSDKCoreKit/FBSDKCoreKit/FBSDKGraphRequestConnection.h; sourceTree = "<group>"; };
 		C488DC7E7155F4DD6D48B098E31E2CEA /* RLMRealm.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RLMRealm.h; path = include/RLMRealm.h; sourceTree = "<group>"; };
 		C4A5E92012D22CBADC75FFED4D4FA9A7 /* KeychainSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = KeychainSwift.framework; path = KeychainSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -4895,7 +4896,6 @@
 		CA9BCFE3ABE8ECC64E5EA3CB47F00EA3 /* BranchSetIdentityRequest.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BranchSetIdentityRequest.h; path = "Branch-SDK/Branch-SDK/Requests/BranchSetIdentityRequest.h"; sourceTree = "<group>"; };
 		CAAD40E76B47C7C03B15DF4D08008967 /* FLEXTableContentViewController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FLEXTableContentViewController.m; path = Classes/GlobalStateExplorers/DatabaseBrowser/FLEXTableContentViewController.m; sourceTree = "<group>"; };
 		CAEBA6A8510079C96301480B7615888D /* CountryInfo.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CountryInfo.swift; path = LGCoreKit/Utils/i18n/Countries/CountryInfo.swift; sourceTree = "<group>"; };
-		CB7A83D0A3B40E5F2F50213FF3EC9499 /* Leanplum.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Leanplum.h; path = Leanplum.framework/Headers/Leanplum.h; sourceTree = "<group>"; };
 		CBA027801C647461A686988D17D3A6AD /* FLEXSystemLogTableViewController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FLEXSystemLogTableViewController.m; path = Classes/GlobalStateExplorers/SystemLog/FLEXSystemLogTableViewController.m; sourceTree = "<group>"; };
 		CBA949DFAAF49DB0272E9BDAD53CC997 /* UISearchBar+Rx.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UISearchBar+Rx.swift"; path = "RxCocoa/iOS/UISearchBar+Rx.swift"; sourceTree = "<group>"; };
 		CBBED1143CA963ACBA112C59FE71497E /* Concat.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Concat.swift; path = RxSwift/Observables/Implementations/Concat.swift; sourceTree = "<group>"; };
@@ -5279,7 +5279,6 @@
 		F7E4F87B7F65CEBFB274D93E1571258E /* FBSDKColor.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FBSDKColor.m; path = FBSDKCoreKit/FBSDKCoreKit/Internal/UI/FBSDKColor.m; sourceTree = "<group>"; };
 		F7EB86EE7DC72543114113BDCD2688D6 /* results.cpp */ = {isa = PBXFileReference; includeInIndex = 1; name = results.cpp; path = Realm/ObjectStore/src/results.cpp; sourceTree = "<group>"; };
 		F8088678060295462C089F463E1E95AB /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FBSDKCoreKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F82E42ABA7829BC7DE54CE9984333E5F /* Leanplum.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Leanplum.framework; sourceTree = "<group>"; };
 		F82E53F3E53791471F5A8583C7630FA7 /* ChatMessageType+MockFactory.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "ChatMessageType+MockFactory.swift"; path = "mocchacino/Mock Factory/Model/ChatMessageType+MockFactory.swift"; sourceTree = "<group>"; };
 		F82F8B2F9F5377DDD1B2458DD4C49079 /* FBSDKAppEventsStateManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FBSDKAppEventsStateManager.m; path = FBSDKCoreKit/FBSDKCoreKit/Internal/AppEvents/FBSDKAppEventsStateManager.m; sourceTree = "<group>"; };
 		F861C3A4CB1935EB031DBABAD85D34E8 /* ignoreWhen.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ignoreWhen.swift; path = Source/ignoreWhen.swift; sourceTree = "<group>"; };
@@ -5287,6 +5286,7 @@
 		F87C2D22FA5FAE793CB70062A3008602 /* CHTCollectionViewWaterfallLayout.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = CHTCollectionViewWaterfallLayout.xcconfig; sourceTree = "<group>"; };
 		F899DD685F60523E464707629128DA00 /* ExampleMetadata.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExampleMetadata.swift; path = Sources/Quick/ExampleMetadata.swift; sourceTree = "<group>"; };
 		F8B607A459E0758E5E403B03E912D191 /* LGCoreKit.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = LGCoreKit.h; path = LGCoreKit/LGCoreKit.h; sourceTree = "<group>"; };
+		F8BAA1088C58A291CD1D4F890497D3CE /* Leanplum.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Leanplum.h; path = Leanplum.framework/Headers/Leanplum.h; sourceTree = "<group>"; };
 		F8C4A48A9F405A9E0CE7CF43412B4A3E /* FBSDKBridgeAPICrypto.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FBSDKBridgeAPICrypto.m; path = FBSDKCoreKit/FBSDKCoreKit/Internal/BridgeAPI/FBSDKBridgeAPICrypto.m; sourceTree = "<group>"; };
 		F8FB9B204959290C2611B1826245BA25 /* TrendingSearchesRepository.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TrendingSearchesRepository.swift; path = LGCoreKit/Repositories/TrendingSearchesRepository.swift; sourceTree = "<group>"; };
 		F909538BB6AE73A81092605DB4891AA7 /* RLMPredicateUtil.mm */ = {isa = PBXFileReference; includeInIndex = 1; name = RLMPredicateUtil.mm; path = Realm/RLMPredicateUtil.mm; sourceTree = "<group>"; };
@@ -6354,6 +6354,14 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
+		1E23B257C2049C9019342B42B7F25B4E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8F6B2B3936F2FFEB5746834590005408 /* Leanplum.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		222F7F18CD3B5055A94FAE6DFA4F2840 /* GoogleSymbolUtilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -7205,6 +7213,17 @@
 			path = GoogleUtilities;
 			sourceTree = "<group>";
 		};
+		77C3192A6E5BB30D4ACFC5F904F9EE9C /* Leanplum-iOS-SDK */ = {
+			isa = PBXGroup;
+			children = (
+				F8BAA1088C58A291CD1D4F890497D3CE /* Leanplum.h */,
+				4AD645132E81CE74D5C263317147D903 /* LPInbox.h */,
+				1E23B257C2049C9019342B42B7F25B4E /* Frameworks */,
+			);
+			name = "Leanplum-iOS-SDK";
+			path = "Leanplum-iOS-SDK";
+			sourceTree = "<group>";
+		};
 		791A581AA5AA23C973723EAE86B841EC /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -7293,7 +7312,7 @@
 				97D0CF0CEF8F02B51CDFAB07B15ECDFE /* JSONWebToken */,
 				E1AC4C6459FCD97D828E8B2E4A29C055 /* KeychainSwift */,
 				D0F146A6777644E3190AFF6163BF7C3D /* KMPlaceholderTextView */,
-				852E777D8D60C4782B1A5A1323768818 /* Leanplum-iOS-SDK */,
+				77C3192A6E5BB30D4ACFC5F904F9EE9C /* Leanplum-iOS-SDK */,
 				E97AE975BC7A27F5BB6EB414A6918EFE /* LGCollapsibleLabel */,
 				93844A113F0B7D993F101BECCDDECC5A /* LGCoreKit */,
 				9E07DDE3C84F7FF8208887D1C1EDF374 /* NewRelicAgent */,
@@ -7345,17 +7364,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		852E777D8D60C4782B1A5A1323768818 /* Leanplum-iOS-SDK */ = {
-			isa = PBXGroup;
-			children = (
-				CB7A83D0A3B40E5F2F50213FF3EC9499 /* Leanplum.h */,
-				C46CE2E327970599AFF68E9776A8970A /* LPNewsfeed.h */,
-				8ADD9EDD45F68CE7A8B110366A7E049E /* Frameworks */,
-			);
-			name = "Leanplum-iOS-SDK";
-			path = "Leanplum-iOS-SDK";
-			sourceTree = "<group>";
-		};
 		868E90A85BAA5119A275B3A642D942D0 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -7390,14 +7398,6 @@
 			);
 			name = "Support Files";
 			path = "../Target Support Files/FBSDKLoginKit";
-			sourceTree = "<group>";
-		};
-		8ADD9EDD45F68CE7A8B110366A7E049E /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				F82E42ABA7829BC7DE54CE9984333E5F /* Leanplum.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		8B51CD55A12E5677BF92F34E0ABA0096 /* JBKenBurnsView */ = {
