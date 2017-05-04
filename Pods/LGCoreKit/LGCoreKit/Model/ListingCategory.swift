@@ -22,14 +22,14 @@ public enum ListingCategory: Int {
         // TODO: move .cars to visible once the become available
         return [.unassigned, .cars] + visibleValues()
     }
-    static public func visibleValues() -> [ListingCategory] {
+    static func visibleValues() -> [ListingCategory] {
         return [.electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden, .moviesBooksAndMusic,
                 .fashionAndAccesories, .babyAndChild, .other]
     }
     
     static public func visibleValuesInFeed() -> [ListingCategory] {
-        return [.cars, .electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden, .moviesBooksAndMusic,
-                .fashionAndAccesories, .babyAndChild, .other]
+        return [.cars, .electronics, .homeAndGarden, .sportsLeisureAndGames, .motorsAndAccessories, .fashionAndAccesories,
+                .babyAndChild, .moviesBooksAndMusic, .other]
     }
     
     public var isProduct: Bool {
