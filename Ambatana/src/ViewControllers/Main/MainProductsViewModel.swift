@@ -302,6 +302,16 @@ class MainProductsViewModel: BaseViewModel {
     
         updateListView()
     }
+    
+    /**
+     Called when a filter gets removed
+     */
+    func updateFiltersFromHeaderCategories(_ category: ListingCategory) {
+        filters.selectedCategories = [category]
+        delegate?.vmShowTags(tags)
+        updateListView()
+    }
+
 
     
     // MARK: - Private methods
@@ -693,7 +703,7 @@ extension MainProductsViewModel {
     fileprivate dynamic func updateCategoriesHeader() {
         var currentHeader = mainProductsHeader.value
         // TODO: CHeck condition to show or not category header
-        if UIApplication.shared.areRemoteNotificationsEnabled {
+        if !featureFlags.carsVerticalEnabled {
             currentHeader.remove(MainProductsHeader.CategoriesCollectionBanner)
         } else {
             currentHeader.insert(MainProductsHeader.CategoriesCollectionBanner)

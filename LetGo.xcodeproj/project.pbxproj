@@ -643,8 +643,6 @@
 		72AAA5A31DEEDE19008DD329 /* EscrowEnviroment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72AAA5A11DEEDE19008DD329 /* EscrowEnviroment.swift */; };
 		72AC69951E71940B00944CE5 /* IncentiviseScrollBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72AC69941E71940B00944CE5 /* IncentiviseScrollBanner.swift */; };
 		72AC69961E71940B00944CE5 /* IncentiviseScrollBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72AC69941E71940B00944CE5 /* IncentiviseScrollBanner.swift */; };
-		72B027521EB8CAC1007B1D2C /* CategoriesHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B027511EB8CAC1007B1D2C /* CategoriesHeader.swift */; };
-		72B027531EB8CAC1007B1D2C /* CategoriesHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B027511EB8CAC1007B1D2C /* CategoriesHeader.swift */; };
 		72B76C831DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B76C821DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift */; };
 		72B76C841DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B76C821DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift */; };
 		72B935F61E3F917500F93F73 /* UserProduct+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B935F51E3F917500F93F73 /* UserProduct+LG.swift */; };
@@ -1847,7 +1845,6 @@
 		72A83F631DD222100043EB3B /* Leanplum+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Leanplum+LG.swift"; sourceTree = "<group>"; };
 		72AAA5A11DEEDE19008DD329 /* EscrowEnviroment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EscrowEnviroment.swift; sourceTree = "<group>"; };
 		72AC69941E71940B00944CE5 /* IncentiviseScrollBanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncentiviseScrollBanner.swift; sourceTree = "<group>"; };
-		72B027511EB8CAC1007B1D2C /* CategoriesHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoriesHeader.swift; sourceTree = "<group>"; };
 		72B76C821DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CTTelephonyNetworkInfo+CountryConfigurable.swift"; path = "../FoundationExtensions/CTTelephonyNetworkInfo+CountryConfigurable.swift"; sourceTree = "<group>"; };
 		72B935F51E3F917500F93F73 /* UserProduct+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserProduct+LG.swift"; sourceTree = "<group>"; };
 		72C99E9B1DED7417006361C1 /* ChangePasswordCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordCoordinator.swift; sourceTree = "<group>"; };
@@ -2686,7 +2683,6 @@
 				2E5350401CF8A0C6003B06CC /* ListingStatsView.swift */,
 				2E5350431CF8A181003B06CC /* ListingStatsView.xib */,
 				C77B7DB91DBF9D150043C624 /* PushPermissionsHeader.swift */,
-				72B027511EB8CAC1007B1D2C /* CategoriesHeader.swift */,
 				2E64D4191D11B34F00257B69 /* Tooltip.swift */,
 			);
 			path = Widgets;
@@ -5301,7 +5297,6 @@
 				C730FD0E1E76F93000175C27 /* CacheManager.swift in Sources */,
 				5009F83E1E5B01890064ED22 /* Metrics.swift in Sources */,
 				C7363FBA1BFA3E6500A4BF6F /* DistanceType+LG.swift in Sources */,
-				72B027521EB8CAC1007B1D2C /* CategoriesHeader.swift in Sources */,
 				C75C543D1E0D2CF6003F219D /* PassiveBuyersViewController.swift in Sources */,
 				C7F6F7521CB5081F000147F9 /* CommercialShareViewController.swift in Sources */,
 				C7B5889E1CE1E025009B3975 /* ChatGroupedListView.swift in Sources */,
@@ -5816,7 +5811,6 @@
 				C730FD0F1E76F93000175C27 /* CacheManager.swift in Sources */,
 				5009F83F1E5B01890064ED22 /* Metrics.swift in Sources */,
 				C7DB41CC1C5138B500400945 /* ProductCellDrawer.swift in Sources */,
-				72B027531EB8CAC1007B1D2C /* CategoriesHeader.swift in Sources */,
 				2E373FAB1D3E6F3900AC811C /* UserRatingListViewController.swift in Sources */,
 				C78BB50C1C5A314700614096 /* AppShareViewController.swift in Sources */,
 				50D67B981D0AFF24003AC0A5 /* TabBarShowable.swift in Sources */,

@@ -52,6 +52,8 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     private let topInset = Variable<CGFloat> (0)
 
     fileprivate let disposeBag = DisposeBag()
+    
+    fileprivate var categoriesHeader: CategoriesHeaderCollectionView?
 
     
     // MARK: - Lifecycle
@@ -369,11 +371,18 @@ extension MainProductsViewController: ProductListViewHeaderDelegate, PushPermiss
             pushHeader.delegate = self
             header.addHeader(pushHeader, height: PushPermissionsHeader.viewHeight)
         }
-        if shouldShowPermissionsBanner {
+        if shouldShowCategoryCollectionBanner {
             let headerSize = CGRect(x: 0, y: 0, width: 200, height: CategoriesHeaderCollectionView.viewHeight)
-            let categoriesHeader = CategoriesHeaderCollectionView(categories: ListingCategory.visibleValuesInFeed(), frame: headerSize)
-            categoriesHeader.tag = 1
-            header.addHeader(categoriesHeader, height: CategoriesHeaderCollectionView.viewHeight)
+            categoriesHeader = CategoriesHeaderCollectionView(categories: ListingCategory.visibleValuesInFeed(), frame: headerSize)
+            categoriesHeader?.categorySelected.asObservable().bindNext { [weak self] category in
+                guard let category = category else { return }
+                self?.viewModel.updateFiltersFromHeaderCategories(category)
+            }.addDisposableTo(disposeBag)
+            if let categoriesHeader = categoriesHeader {
+                categoriesHeader.tag = 1
+                header.addHeader(categoriesHeader, height: CategoriesHeaderCollectionView.viewHeight)
+            }
+            
         }
     }
 
@@ -388,10 +397,6 @@ extension MainProductsViewController: ProductListViewHeaderDelegate, PushPermiss
     func pushPermissionHeaderPressed() {
         viewModel.pushPermissionsHeaderPressed()
     }
-    
-//    func categoryHeaderPressed() {
-//        viewModel.pushPermissionsHeaderPressed()
-//    }
 }
 
 

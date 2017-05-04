@@ -6,14 +6,16 @@
 //  Copyright © 2017 Ambatana. All rights reserved.
 //
 
+import RxSwift
 import LGCoreKit
 
 
-class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource, CategoriesHeaderCellDelegate {
+class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource {
     
-    var categories: [ListingCategory]
+    private var categories: [ListingCategory]
+    var categorySelected = Variable<ListingCategory?>(nil)
     
-     static let viewHeight: CGFloat = 110
+    static let viewHeight: CGFloat = 110
     
     init(categories: [ListingCategory], frame: CGRect) {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -32,7 +34,7 @@ class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     
     // MARK: - Public methods
     func updateCategories(_ newCategories: [ListingCategory]) {
@@ -52,7 +54,6 @@ class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoriesHeaderCell", for: indexPath) as? CategoriesHeaderCell else { return UICollectionViewCell() }
-        cell.delegate = self
         cell.categoryTitle.text = categories[indexPath.row].nameInFeed.uppercase
         cell.categoryIcon.image = categories[indexPath.row].imageInFeed
         if  categories[indexPath.row].isCar {
@@ -61,9 +62,9 @@ class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        print("category has been pressed")
-        return true
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        categorySelected.value = categories[indexPath.row]
     }
 
     

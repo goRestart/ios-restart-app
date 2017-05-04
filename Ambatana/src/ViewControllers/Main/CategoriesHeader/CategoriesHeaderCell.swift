@@ -8,10 +8,10 @@
 
 import UIKit
 import LGCoreKit
-
-protocol CategoriesHeaderCellDelegate : class {
-    func categoryCellClicked(_ categoriesHeaderCell: CategoriesHeaderCell)
-}
+//
+//protocol CategoriesHeaderCellDelegate : class {
+//    func categoryCellClicked(_ categoriesHeaderCell: CategoriesHeaderCell)
+//}
 
 class CategoriesHeaderCell: UICollectionViewCell {
     
@@ -21,8 +21,6 @@ class CategoriesHeaderCell: UICollectionViewCell {
     var categoryTitle: UILabel = UILabel()
     var categoryNewLabel: UILabel = UILabel()
     var categoryNewContainter: UIView = UIView()
-    
-    weak var delegate : CategoriesHeaderCellDelegate?
     
     
     // MARK: - Static methods
