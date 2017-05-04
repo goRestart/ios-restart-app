@@ -297,6 +297,7 @@
 "filters_price_to" = "Til";
 "filters_price_wrong_range_error" = "Minimal pris kan ikke være høyere enn maksimal pris.";
 "filters_save_button" = "Lagre filtre";
+"filters_section_car_info" = "Car Info";
 "filters_section_categories" = "Kategorier";
 "filters_section_distance" = "Avstand";
 "filters_section_location" = "Sted";

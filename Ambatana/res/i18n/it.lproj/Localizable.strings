@@ -297,6 +297,7 @@
 "filters_price_to" = "A";
 "filters_price_wrong_range_error" = "Il prezzo minimo non può superare quello massimo.";
 "filters_save_button" = "Salva filtri";
+"filters_section_car_info" = "Car Info";
 "filters_section_categories" = "Categorie";
 "filters_section_distance" = "Distanza";
 "filters_section_location" = "Posizione";

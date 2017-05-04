@@ -882,6 +882,9 @@
 // Filters save button
 "filters_save_button" = "Save filters";
 
+// Filters section car info
+"filters_section_car_info" = "Car Info";
+
 // Filters section categories
 "filters_section_categories" = "Categories";
 

@@ -82,7 +82,7 @@
 "change_password_send_error_passwords_mismatch" = "Die Kennwörter stimmen nicht überein. Bitte versuche es erneut.";
 "change_password_send_ok" = "Kennwort geändert!";
 "change_password_title" = "Kennwort ändern";
-"change_username_error_invalid_username" = "Bitte gib einen gültigen Namen mit mindestens %d Zeichen ein.";
+"change_username_error_invalid_username" = "Bitte gib einen gültigen Benutzernamen mit mindestens %d Zeichen ein.";
 "change_username_error_invalid_username_letgo" = "Ein anderes Benutzerkonto benutzt bereits %@";
 "change_username_field_hint" = "Vollständiger Name";
 "change_username_loading" = "Dein Name wird gespeichert.";
@@ -297,6 +297,7 @@
 "filters_price_to" = "Bis";
 "filters_price_wrong_range_error" = "Der Mindestpreis kann nicht höher sein als der Höchstpreis.";
 "filters_save_button" = "Filter speichern";
+"filters_section_car_info" = "Car Info";
 "filters_section_categories" = "Kategorien";
 "filters_section_distance" = "Entfernung";
 "filters_section_location" = "Standort";
@@ -342,7 +343,7 @@
 "log_in_email_wrong_password_alert_message" = "Das von dir eingegebene Kennwort für %@ ist falsch.";
 "log_in_email_wrong_password_alert_title" = "Kennwort falsch";
 "log_in_error_send_error_generic" = "Beim Anmelden ist ein Fehler aufgetreten. Bitte versuche es erneut.";
-"log_in_error_send_error_invalid_email" = "Bitte gib eine gültige E-Mail-Adresse im E-Mail-Feld ein.";
+"log_in_error_send_error_invalid_email" = "Bitte gib eine gültige E-Mail-Adresse ein.";
 "log_in_error_send_error_user_not_found_or_wrong_password" = "Unbekannter Nutzername oder falsches Kennwort. Bitte versuche es erneut.";
 "log_in_reset_password_button" = "Kennwort vergessen?";
 "log_in_send_button" = "Anmelden";
@@ -704,7 +705,7 @@
 "reset_password_instructions" = "Bitte gib deine E-Mail-Adresse ein, damit wir dir eine Mail zum Zurücksetzen deines Kennworts schicken können.";
 "reset_password_send_button" = "Kennwort zurücksetzen";
 "reset_password_send_error_generic" = "Beim Zurücksetzen des Kennworts ist ein Fehler aufgetreten. Bitte versuche es erneut.";
-"reset_password_send_error_invalid_email" = "Bitte gib eine gültige E-Mail-Adresse im E-Mail-Feld ein.";
+"reset_password_send_error_invalid_email" = "Bitte gib eine gültige E-Mail-Adresse ein.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "Die E-Mail-Adresse %@ ist uns nicht bekannt.";
 "reset_password_send_ok" = "Wir haben eine E-Mail an %@ geschickt. Klicke bitte auf den Link in der E-Mail, um dein Kennwort zurückzusetzen.";
 "reset_password_send_too_many_requests" = "Wir haben dir bereits eine E-Mail zur Kennwortwiederherstellung geschickt. Bitte schaue in dein Postfach und folge den Anweisungen.";
@@ -731,7 +732,7 @@
 "sell_price_field" = "Preis:";
 "sell_send_error_invalid_category" = "Bitte wähle eine Kategorie für das Produkt aus.";
 "sell_send_error_invalid_description" = "Bitte gib eine gültige Beschreibung für das Produkt ein.";
-"sell_send_error_invalid_description_too_long" = "Die maximale Länge der Beschreibung beträgt %d Zeichen.";
+"sell_send_error_invalid_description_too_long" = "Bitte gib eine gültige Beschreibung für dein Produkt ein. Sie darf höchstens %d Zeichen lang sein.";
 "sell_send_error_invalid_image_count" = "Es wird mindestens ein Foto benötigt um ein Produkt verkaufen zu können.";
 "sell_send_error_invalid_price" = "Bitte gib einen gültigen Preis für das Produkt ein. Er darf nur aus Ziffern bestehen.";
 "sell_send_error_invalid_title" = "Bitte gib einen gültigen Titel für das Produkt ein.";
@@ -791,9 +792,9 @@
 "sign_up_send_error_email_taken" = "Die E-Mail-Adresse %@ wird bereits verwendet. Bitte nutze sie, um dich anzumelden.";
 "sign_up_send_error_generic" = "Beim Erstellen des Nutzers ist ein Fehler aufgetreten. Bitte versuche es erneut.";
 "sign_up_send_error_invalid_domain" = "Ungültige E-Mail-Adresse. Bitte gib eine andere Adresse ein und versuche es erneut.";
-"sign_up_send_error_invalid_email" = "Bitte gib eine gültige E-Mail-Adresse im E-Mail-Feld ein.";
+"sign_up_send_error_invalid_email" = "Bitte gib eine gültige E-Mail-Adresse ein.";
 "sign_up_send_error_invalid_password_with_max" = "Bitte gib ein gültiges Kennwort ein. Es muss zwischen %d und %d Zeichen lang sein.";
-"sign_up_send_error_invalid_username" = "Bitte gib einen gültigen Namen mit mindestens %d Zeichen ein.";
+"sign_up_send_error_invalid_username" = "Bitte gib einen gültigen Benutzernamen mit mindestens %d Zeichen ein.";
 "sign_up_terms_conditions" = "I agree to the letgo Terms & Conditions and Privacy Policy";
 "sign_up_terms_conditions_privacy_part" = "Privacy Policy";
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";

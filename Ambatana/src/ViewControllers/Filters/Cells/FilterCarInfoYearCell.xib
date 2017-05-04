@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1212" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" id="odN-N2-t2i" customClass="FilterCarInfoYearCell" customModule="LetGo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="379" height="100"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="379" height="100"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L6B-NU-GOa" userLabel="Separator">
+                        <rect key="frame" x="0.0" y="0.0" width="379" height="1"/>
+                        <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="s1r-QD-yB3"/>
+                        </constraints>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Year" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SU2-Zq-TuO">
+                        <rect key="frame" x="15" y="16" width="40" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Any Year" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h2d-7S-6QF">
+                        <rect key="frame" x="289" y="16" width="75" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vF7-pH-nC6" customClass="RangeSlider" customModule="SwiftRangeSlider">
+                        <rect key="frame" x="30" y="61" width="319" height="30"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="puM-nM-8t4"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="trackHighlightTintColor">
+                                <color key="value" red="1" green="0.2470588235" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                        <connections>
+                            <action selector="sliderDidEnd:" destination="odN-N2-t2i" eventType="touchUpOutside" id="Yt7-p8-tnb"/>
+                            <action selector="sliderDidEnd:" destination="odN-N2-t2i" eventType="touchUpInside" id="nmn-kB-Yyz"/>
+                            <action selector="sliderValueChanged:" destination="odN-N2-t2i" eventType="valueChanged" id="JMX-mz-OqV"/>
+                        </connections>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e7e-Bk-57e" userLabel="Bottom separator">
+                        <rect key="frame" x="0.0" y="99" width="379" height="1"/>
+                        <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="BAj-Wl-a7v"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="e7e-Bk-57e" firstAttribute="leading" secondItem="odN-N2-t2i" secondAttribute="leading" id="1Lb-nS-iFO"/>
+                <constraint firstItem="SU2-Zq-TuO" firstAttribute="top" secondItem="L6B-NU-GOa" secondAttribute="bottom" constant="15" id="3F3-lH-963"/>
+                <constraint firstItem="vF7-pH-nC6" firstAttribute="leading" secondItem="odN-N2-t2i" secondAttribute="leading" constant="30" id="A7o-OI-4ao"/>
+                <constraint firstItem="L6B-NU-GOa" firstAttribute="top" secondItem="odN-N2-t2i" secondAttribute="top" id="Bbd-Vv-G4C"/>
+                <constraint firstItem="h2d-7S-6QF" firstAttribute="top" secondItem="L6B-NU-GOa" secondAttribute="bottom" constant="15" id="G9B-mR-iFg"/>
+                <constraint firstAttribute="trailing" secondItem="L6B-NU-GOa" secondAttribute="trailing" id="Knn-yb-S5c"/>
+                <constraint firstItem="SU2-Zq-TuO" firstAttribute="leading" secondItem="odN-N2-t2i" secondAttribute="leading" constant="15" id="S8a-5e-clZ"/>
+                <constraint firstItem="e7e-Bk-57e" firstAttribute="top" secondItem="vF7-pH-nC6" secondAttribute="bottom" constant="8" id="TZL-oF-RLW"/>
+                <constraint firstAttribute="trailing" secondItem="h2d-7S-6QF" secondAttribute="trailing" constant="15" id="V9O-au-D6A"/>
+                <constraint firstAttribute="trailing" secondItem="vF7-pH-nC6" secondAttribute="trailing" constant="30" id="Z7a-se-tOB"/>
+                <constraint firstAttribute="bottom" secondItem="e7e-Bk-57e" secondAttribute="bottom" id="aJ9-D7-8Qw"/>
+                <constraint firstItem="L6B-NU-GOa" firstAttribute="leading" secondItem="odN-N2-t2i" secondAttribute="leading" id="d38-LO-NaH"/>
+                <constraint firstItem="h2d-7S-6QF" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="SU2-Zq-TuO" secondAttribute="trailing" constant="20" id="mAc-QS-qlm"/>
+                <constraint firstAttribute="trailing" secondItem="e7e-Bk-57e" secondAttribute="trailing" id="qAD-gv-gk9"/>
+            </constraints>
+            <size key="customSize" width="450" height="50"/>
+            <connections>
+                <outlet property="bottomSeparatorHeight" destination="BAj-Wl-a7v" id="loE-DJ-TOt"/>
+                <outlet property="infoLabel" destination="h2d-7S-6QF" id="htF-t7-4bf"/>
+                <outlet property="titleLabel" destination="SU2-Zq-TuO" id="Ey8-de-Aab"/>
+                <outlet property="topSeparatorHeight" destination="s1r-QD-yB3" id="IPS-B3-cd7"/>
+                <outlet property="yearRangeSlider" destination="vF7-pH-nC6" id="5o6-HO-Plh"/>
+            </connections>
+            <point key="canvasLocation" x="-69.5" y="-58"/>
+        </collectionViewCell>
+    </objects>
+</document>

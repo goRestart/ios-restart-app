@@ -82,7 +82,7 @@
 "change_password_send_error_passwords_mismatch" = "Salasanat eivät täsmää. Ole hyvä ja yritä uudelleen.";
 "change_password_send_ok" = "Salasana vaihdettu!";
 "change_password_title" = "Vaihda salasana";
-"change_username_error_invalid_username" = "Ole hyvä ja syötä kelvollinen nimi, jossa on vähintään %d merkkiä.";
+"change_username_error_invalid_username" = "Ole hyvä ja syötä kelvollinen käyttäjänimi, jossa on vähintään %d merkkiä.";
 "change_username_error_invalid_username_letgo" = "%@ on toisen tilin käytössä";
 "change_username_field_hint" = "Koko nimi";
 "change_username_loading" = "Tallennetaan käyttäjänimeäsi...";
@@ -297,6 +297,7 @@
 "filters_price_to" = "Päättyen";
 "filters_price_wrong_range_error" = "Minimihinta ei voi olla suurempi kuin maksimihinta.";
 "filters_save_button" = "Tallenna suodattimet";
+"filters_section_car_info" = "Car Info";
 "filters_section_categories" = "Kategoriat";
 "filters_section_distance" = "Etäisyys";
 "filters_section_location" = "Sijainti";
@@ -342,7 +343,7 @@
 "log_in_email_wrong_password_alert_message" = "Osoitteelle %@ syöttämäsi salasana on väärin.";
 "log_in_email_wrong_password_alert_title" = "Väärä salasana";
 "log_in_error_send_error_generic" = "Kirjautumisessa tapahtui virhe. Ole hyvä ja yritä uudelleen.";
-"log_in_error_send_error_invalid_email" = "Ole hyvä ja syötä sähköpostikenttään toimiva sähköpostiosoite.";
+"log_in_error_send_error_invalid_email" = "Ole hyvä ja syötä toimiva sähköpostiosoite.";
 "log_in_error_send_error_user_not_found_or_wrong_password" = "Sähköposti tai salasana ei kelpaa. Ole hyvä ja yritä uudelleen.";
 "log_in_reset_password_button" = "Unohditko salasanasi?";
 "log_in_send_button" = "Kirjaudu sisään";
@@ -704,7 +705,7 @@
 "reset_password_instructions" = "Ole hyvä ja syötä sähköpostiosoitteesi niin lähetämme sinulle sähköpostia salasanasi nollaamiseksi.";
 "reset_password_send_button" = "Lähetä sähköposti";
 "reset_password_send_error_generic" = "Salasanaasi nollatessa tapahtui virhe. Ole hyvä ja yritä uudelleen.";
-"reset_password_send_error_invalid_email" = "Ole hyvä ja syötä sähköpostikenttään toimiva sähköpostiosoite.";
+"reset_password_send_error_invalid_email" = "Ole hyvä ja syötä toimiva sähköpostiosoite.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "Sähköpostiosoitetta %@ ei ole rekisteröity.";
 "reset_password_send_ok" = "Olemme lähettäneet sähköpostia osoitteeseen %@. Klikkaa sähköpostissa olevaa linkkiä vaihtaaksesi salasanasi!";
 "reset_password_send_too_many_requests" = "Olemme lähettäneet sinulle jo sähköpostin salasanan nollaamiseksi. Ole hyvä ja tarkista sähköpostisi ja seuraa siinä olevia ohjeita.";
@@ -731,7 +732,7 @@
 "sell_price_field" = "Hinta:";
 "sell_send_error_invalid_category" = "Ole hyvä, ja valitse tuotteelle kategoria.";
 "sell_send_error_invalid_description" = "Ole hyvä ja syötä tuotteelle kelvollinen kuvaus.";
-"sell_send_error_invalid_description_too_long" = "Tuotteen kuvauksen maksimipituus on %d merkkiä.";
+"sell_send_error_invalid_description_too_long" = "Ole hyvä ja syötä tuotteelle kelvollinen kuvaus. Kuvauksen maksimipituus on %d merkkiä.";
 "sell_send_error_invalid_image_count" = "Tuotteen myyntiin laittamista varten vaaditaan vähintään yksi kuva.";
 "sell_send_error_invalid_price" = "Ole hyvä ja syötä tuotteelle kelvollinen hinta. Sen pitää olla pelkkä numero.";
 "sell_send_error_invalid_title" = "Ole hyvä ja syötä tuotteelle kelvollinen otsikko.";
@@ -791,9 +792,9 @@
 "sign_up_send_error_email_taken" = "Sähköpostiosoite %@ on jo rekisteröity. Ole hyvä ja käytä sitä sisäänkirjautumiseen.";
 "sign_up_send_error_generic" = "Tiliä luotaessa tapahtui virhe. Ole hyvä ja yritä uudelleen.";
 "sign_up_send_error_invalid_domain" = "Sähköpostiosoite ei kelpaa. Vaihda osoite ja kokeile uudelleen.";
-"sign_up_send_error_invalid_email" = "Ole hyvä ja syötä sähköpostikenttään toimiva sähköpostiosoite.";
+"sign_up_send_error_invalid_email" = "Ole hyvä ja syötä toimiva sähköpostiosoite.";
 "sign_up_send_error_invalid_password_with_max" = "Ole hyvä ja syötä kelvollinen salasana. Siinä pitää olla %d-%d merkkiä.";
-"sign_up_send_error_invalid_username" = "Ole hyvä ja syötä kelvollinen nimi, jossa on vähintään %d merkkiä.";
+"sign_up_send_error_invalid_username" = "Ole hyvä ja syötä kelvollinen käyttäjänimi, jossa on vähintään %d merkkiä.";
 "sign_up_terms_conditions" = "I agree to the letgo Terms & Conditions and Privacy Policy";
 "sign_up_terms_conditions_privacy_part" = "Privacy Policy";
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";

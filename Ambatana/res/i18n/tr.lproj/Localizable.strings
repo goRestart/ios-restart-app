@@ -297,6 +297,7 @@
 "filters_price_to" = "Maksimum";
 "filters_price_wrong_range_error" = "Minimum fiyat maksimum fiyattan yüksek olamaz.";
 "filters_save_button" = "Filtreleri Kaydet";
+"filters_section_car_info" = "Car Info";
 "filters_section_categories" = "KATEGORİLER";
 "filters_section_distance" = "Mesafe";
 "filters_section_location" = "Konum";
@@ -731,7 +732,7 @@
 "sell_price_field" = "Fiyat:";
 "sell_send_error_invalid_category" = "Lütfen, ürünün için bir kategori seç.";
 "sell_send_error_invalid_description" = "Lütfen, ürünün için geçerli bir açıklama gir.";
-"sell_send_error_invalid_description_too_long" = "Ürün açıklaması için en fazla %d karakter girebilirsin.";
+"sell_send_error_invalid_description_too_long" = "Lütfen %d karakteri geçmeyecek geçerli bir ürün açıklaması gir.";
 "sell_send_error_invalid_image_count" = "Bir ürünün satılabilmesi için en az bir fotoğrafı olması gerekir.";
 "sell_send_error_invalid_price" = "Lütfen, ürün için geçerli bir fiyat gir. Fiyat sadece sayılardan oluşmalıdır.";
 "sell_send_error_invalid_title" = "Lütfen, ürün için geçerli bir başlık gir.";

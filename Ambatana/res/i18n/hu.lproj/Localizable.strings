@@ -297,6 +297,7 @@
 "filters_price_to" = "Eddig:";
 "filters_price_wrong_range_error" = "A minimális ár nem lehet magasabb a maximális árnál.";
 "filters_save_button" = "Szűrők mentése";
+"filters_section_car_info" = "Car Info";
 "filters_section_categories" = "Kategóriák";
 "filters_section_distance" = "Távolság";
 "filters_section_location" = "Tartózkodási hely";

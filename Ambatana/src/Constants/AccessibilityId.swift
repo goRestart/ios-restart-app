@@ -92,6 +92,13 @@ enum AccessibilityId: String {
     case filterCategoryCellIcon
     case filterCategoryCellTitleLabel
 
+    case filterCarInfoMakeModelCell
+    case filterCarInfoMakeModelCellTitleLabel
+    case filterCarInfoMakeModelCellInfoLabel
+    case filterCarInfoYearCell
+    case filterCarInfoYearCellTitleLabel
+    case filterCarInfoYearCellInfoLabel
+
     case filterSingleCheckCell
     case filterSingleCheckCellTickIcon
     case filterSingleCheckCellTitleLabel

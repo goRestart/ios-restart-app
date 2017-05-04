@@ -33,7 +33,7 @@ protocol CarAttributeSelectionDelegate: class {
 class CarAttributeSelectionViewModel : BaseViewModel {
 
     weak var delegate: CarAttributeSelectionViewModelDelegate?
-    weak var choiceDelegate: CarAttributeSelectionDelegate?
+    weak var carAttributeSelectionDelegate: CarAttributeSelectionDelegate?
 
     var title: String
     var detailType: CarDetailType
@@ -72,12 +72,12 @@ class CarAttributeSelectionViewModel : BaseViewModel {
     func carInfoSelected(id: String, name: String, type: CarDetailType) {
         switch type {
         case .make:
-            choiceDelegate?.didSelectMake(makeId: id, makeName: name)
+            carAttributeSelectionDelegate?.didSelectMake(makeId: id, makeName: name)
         case .model:
-            choiceDelegate?.didSelectModel(modelId: id, modelName: name)
+            carAttributeSelectionDelegate?.didSelectModel(modelId: id, modelName: name)
         case .year:
             guard let year = Int(id) else { return }
-            choiceDelegate?.didSelectYear(year: year)
+            carAttributeSelectionDelegate?.didSelectYear(year: year)
         }
         closeAttributesChoice()
     }

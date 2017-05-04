@@ -81,6 +81,9 @@ def shared_pods
     # TODO: This is an override to check our fork, remove after original repo merges our pr.
     pod "KeychainSwift",        :git => 'git@github.com:letgoapp/keychain-swift.git', :commit => 'f6230869f4d26d720f36eb227bd269c3d712986b'
 
+    # Range Slider
+    pod "SwiftRangeSlider"
+
 end
 
 target "LetGo" do

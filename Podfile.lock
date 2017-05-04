@@ -145,6 +145,7 @@ PODS:
   - RxTest (3.1.0):
     - RxSwift (~> 3.0)
   - SocketRocket (0.5.1)
+  - SwiftRangeSlider (1.0.0)
   - SwiftyUserDefaults (3.0.0)
   - TMReachability (3.2)
   - TwitterCore (2.3.0):
@@ -188,6 +189,7 @@ DEPENDENCIES:
   - RxSwift (= 3.1.0)
   - RxSwiftExt (= 2.1.0)
   - RxTest (= 3.1.0)
+  - SwiftRangeSlider
   - SwiftyUserDefaults (= 3.0.0)
   - TMReachability (from `https://github.com/albertbori/Reachability`, commit `e34782b386307e386348b481c02c176d58ba45e6`)
   - TwitterKit (= 2.3.0)
@@ -277,11 +279,12 @@ SPEC CHECKSUMS:
   RxSwiftExt: 492a6575cf6afabb8feeed3204bd0f9e2c695e67
   RxTest: 661e33b5022682961784da03cf79c175fcc4bd64
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
+  SwiftRangeSlider: f4355136684a1f50e4dc784ab6465d3b181111ff
   SwiftyUserDefaults: 0f1d45fc3aafb9064dac661e367f8f83fe21a4b4
   TMReachability: 48c99d728a8b0ad4493800592484b8cbb65c896c
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: 8476efc10c9d8ff0c5c2d6cb0ff92789795e29d8
+PODFILE CHECKSUM: bc85cb5b50e19c7422a6de1c55d5f2231f6b33c9
 
 COCOAPODS: 1.2.0
