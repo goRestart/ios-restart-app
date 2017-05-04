@@ -73,12 +73,13 @@ class CategoryHeaderCell: UICollectionViewCell {
         categoryNewContainter.backgroundColor = UIColor.white
         categoryNewLabel.backgroundColor = UIColor.clear
         
-        
-        
         categoryTitle.translatesAutoresizingMaskIntoConstraints = false
         categoryNewLabel.translatesAutoresizingMaskIntoConstraints = false
         categoryIcon.translatesAutoresizingMaskIntoConstraints = false
         categoryNewContainter.translatesAutoresizingMaskIntoConstraints = false
+        
+        let subviews = [categoryTitle, categoryNewLabel, categoryIcon, categoryNewContainter]
+        setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: subviews)
         
         categoryTitle.font = UIFont.boldSystemFont(ofSize: 9)
         categoryNewLabel.font = UIFont.boldSystemFont(ofSize: 9)

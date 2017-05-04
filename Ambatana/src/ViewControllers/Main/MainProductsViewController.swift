@@ -372,8 +372,7 @@ extension MainProductsViewController: ProductListViewHeaderDelegate, PushPermiss
             header.addHeader(pushHeader, height: PushPermissionsHeader.viewHeight)
         }
         if shouldShowCategoryCollectionBanner {
-            let headerSize = CGRect(x: 0, y: 0, width: 200, height: CategoriesHeaderCollectionView.viewHeight)
-            categoriesHeader = CategoriesHeaderCollectionView(categories: ListingCategory.visibleValuesInFeed(), frame: headerSize)
+            categoriesHeader = CategoriesHeaderCollectionView(categories: ListingCategory.visibleValuesInFeed(), frame: CGRect.zero)
             categoriesHeader?.categorySelected.asObservable().bindNext { [weak self] category in
                 guard let category = category else { return }
                 self?.viewModel.updateFiltersFromHeaderCategories(category)
