@@ -22,15 +22,15 @@ public struct CarAttributes: Equatable {
     public static let emptyYear = LGCoreKitConstants.carsYearEmptyValue
     
     public var isMakeEmpty: Bool {
-        if let makeId = makeId {
-            return makeId == CarAttributes.emptyMake
+        if let make = make {
+            return make == CarAttributes.emptyMake
         }
         return true
     }
     
     public var isModelEmpty: Bool {
-        if let modelId = modelId {
-            return modelId == CarAttributes.emptyModel
+        if let model = model {
+            return model == CarAttributes.emptyModel
         }
         return true
     }

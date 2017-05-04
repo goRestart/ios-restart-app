@@ -556,7 +556,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         viewModel.carModelName.asObservable().bindTo(carsModelSelectedLabel.rx.text).addDisposableTo(disposeBag)
 
         viewModel.carYear.asObservable().bindNext{ [weak self] year in
-            guard let year = year else {
+            guard let year = year, year != CarAttributes.emptyYear else {
                 self?.carsYearSelectedLabel.text = ""
                 return
             }
