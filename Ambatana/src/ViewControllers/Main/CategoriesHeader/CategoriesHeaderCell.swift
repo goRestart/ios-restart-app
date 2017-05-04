@@ -8,14 +8,11 @@
 
 import UIKit
 import LGCoreKit
-//
-//protocol CategoriesHeaderCellDelegate : class {
-//    func categoryCellClicked(_ categoriesHeaderCell: CategoriesHeaderCell)
-//}
 
-class CategoriesHeaderCell: UICollectionViewCell {
+
+class CategoryHeaderCell: UICollectionViewCell {
     
-    static let reuseIdentifier = "CategoriesHeaderCell"
+    static let reuseIdentifier = "CategoryHeaderCell"
     
     var categoryIcon: UIImageView = UIImageView()
     var categoryTitle: UILabel = UILabel()
@@ -56,7 +53,6 @@ class CategoriesHeaderCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         categoryNewContainter.rounded = true
-        addShadow()
         super.layoutSubviews()
     }
     
@@ -76,6 +72,8 @@ class CategoriesHeaderCell: UICollectionViewCell {
         backgroundColor = UIColor.clear
         categoryNewContainter.backgroundColor = UIColor.white
         categoryNewLabel.backgroundColor = UIColor.clear
+        
+        
         
         categoryTitle.translatesAutoresizingMaskIntoConstraints = false
         categoryNewLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -98,12 +96,7 @@ class CategoriesHeaderCell: UICollectionViewCell {
         categoryNewLabel.layout(with: categoryNewContainter).top(by: 3).left(by: 10).right(by: -10).bottom(by: -3)
         categoryNewLabel.textAlignment = .center
         
-    }
-    
-    private func addShadow() {
-        categoryNewContainter.layer.shadowColor = UIColor.black.cgColor
-        categoryNewContainter.layer.shadowOpacity = 0.5
-        categoryNewContainter.layer.shadowRadius = 1
+        categoryNewContainter.applyDefaultShadow()
     }
     
     private func resetUI() {
@@ -115,7 +108,7 @@ class CategoriesHeaderCell: UICollectionViewCell {
     
     private func setAccessibilityIds() {
         self.accessibilityId = .filterTagCell
-        categoryIcon.accessibilityId = .categoriesHeaderCellCategoryIcon
-        categoryTitle.accessibilityId = .categoriesHeaderCellCategoryTitle
+        categoryIcon.accessibilityId = .categoryHeaderCellCategoryIcon
+        categoryTitle.accessibilityId = .categoryHeaderCellCategoryTitle
     }
 }

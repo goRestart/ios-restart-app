@@ -22,7 +22,7 @@ class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 0
-        layout.itemSize = CategoriesHeaderCell.cellSize()
+        layout.itemSize = CategoryHeaderCell.cellSize()
         self.categories = categories
         super.init(frame: frame, collectionViewLayout: layout)
         
@@ -44,7 +44,7 @@ class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate
     
     // MARK: - UICollectionViewDelegate & DataSource methods
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
-        return CategoriesHeaderCell.cellSize()
+        return CategoryHeaderCell.cellSize()
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -53,10 +53,10 @@ class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoriesHeaderCell", for: indexPath) as? CategoriesHeaderCell else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryHeaderCell.reuseIdentifier, for: indexPath) as? CategoryHeaderCell else { return UICollectionViewCell() }
         cell.categoryTitle.text = categories[indexPath.row].nameInFeed.uppercase
         cell.categoryIcon.image = categories[indexPath.row].imageInFeed
-        if  categories[indexPath.row].isCar {
+        if categories[indexPath.row].isCar {
             cell.addNewTagToCategory()
         }
         return cell
@@ -79,7 +79,7 @@ class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate
         backgroundColor = UIColor.clear
         
         // CollectionView cells
-        register(CategoriesHeaderCell.self, forCellWithReuseIdentifier: CategoriesHeaderCell.reuseIdentifier)
+        register(CategoryHeaderCell.self, forCellWithReuseIdentifier: CategoryHeaderCell.reuseIdentifier)
         if let layout = collectionViewLayout as? UICollectionViewFlowLayout {
             layout.scrollDirection = UICollectionViewScrollDirection.horizontal
         }

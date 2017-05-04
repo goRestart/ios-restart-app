@@ -73,9 +73,9 @@ enum AccessibilityId: String {
     
     // CategoriesHeader Cells
     case categoriesHeaderCollectionView
-    case categoriesHeaderCell
-    case categoriesHeaderCellCategoryIcon
-    case categoriesHeaderCellCategoryTitle
+    case categoryHeaderCell
+    case categoryHeaderCellCategoryIcon
+    case categoryHeaderCellCategoryTitle
 
     // SuggestionSearchCell
     case suggestionSearchCell

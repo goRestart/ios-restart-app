@@ -358,7 +358,7 @@ extension MainProductsViewController: ProductListViewHeaderDelegate, PushPermiss
             totalHeight = PushPermissionsHeader.viewHeight
         }
         if shouldShowCategoryCollectionBanner {
-            totalHeight = totalHeight + CategoriesHeaderCollectionView.viewHeight
+            totalHeight += CategoriesHeaderCollectionView.viewHeight
         }
         return totalHeight
     }
