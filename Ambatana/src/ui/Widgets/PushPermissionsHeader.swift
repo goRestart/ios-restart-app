@@ -25,7 +25,7 @@ class PushPermissionsHeader: UIView {
     // MARK: - Lifecycle
 
     convenience init() {
-        self.init(frame: CGRect(x: 0, y: 0, width: 200, height: PushPermissionsHeader.viewHeight))
+        self.init(frame: CGRect.zero)
     }
 
     override init(frame: CGRect) {

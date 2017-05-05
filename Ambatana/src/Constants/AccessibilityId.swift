@@ -70,6 +70,12 @@ enum AccessibilityId: String {
     case filterTagCell
     case filterTagCellTagIcon
     case filterTagCellTagLabel
+    
+    // CategoriesHeader Cells
+    case categoriesHeaderCollectionView
+    case categoryHeaderCell
+    case categoryHeaderCellCategoryIcon
+    case categoryHeaderCellCategoryTitle
 
     // SuggestionSearchCell
     case suggestionSearchCell

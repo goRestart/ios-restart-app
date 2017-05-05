@@ -22,6 +22,7 @@ struct MainProductsHeader: OptionSet {
 
     static let PushPermissions  = MainProductsHeader(rawValue:1)
     static let SellButton = MainProductsHeader(rawValue:2)
+    static let CategoriesCollectionBanner = MainProductsHeader(rawValue:4)
 }
 
 class MainProductsViewModel: BaseViewModel {
@@ -84,7 +85,7 @@ class MainProductsViewModel: BaseViewModel {
         if let distance = filters.distanceRadius {
             resultTags.append(.distance(distance: distance))
         }
-        
+       
         return resultTags
     }
 
@@ -209,6 +210,7 @@ class MainProductsViewModel: BaseViewModel {
 
     override func didBecomeActive(_ firstTime: Bool) {
         updatePermissionsWarning()
+        updateCategoriesHeader()
         if let currentLocation = locationManager.currentLocation {
             retrieveProductsIfNeededWithNewLocation(currentLocation)
             retrieveLastUserSearch()
@@ -296,9 +298,21 @@ class MainProductsViewModel: BaseViewModel {
         }
         
         filters.distanceRadius = distance
-    
+        
+        updateCategoriesHeader()
         updateListView()
     }
+    
+    /**
+     Called when a filter gets removed
+     */
+    func updateFiltersFromHeaderCategories(_ category: ListingCategory) {
+        filters.selectedCategories = [category]
+        delegate?.vmShowTags(tags)
+        updateCategoriesHeader()
+        updateListView()
+    }
+
 
     
     // MARK: - Private methods
@@ -320,6 +334,7 @@ class MainProductsViewModel: BaseViewModel {
     }
     
     fileprivate func updateListView() {
+        
         if filters.selectedOrdering == ListingSortCriteria.defaultOption {
             infoBubbleText.value = LGLocalizedString.productPopularNearYou
         }
@@ -682,6 +697,17 @@ extension MainProductsViewModel {
             currentHeader.remove(MainProductsHeader.PushPermissions)
         } else {
             currentHeader.insert(MainProductsHeader.PushPermissions)
+        }
+        guard mainProductsHeader.value != currentHeader else { return }
+        mainProductsHeader.value = currentHeader
+    }
+    
+    fileprivate dynamic func updateCategoriesHeader() {
+        var currentHeader = mainProductsHeader.value
+        if featureFlags.carsVerticalEnabled && filters.isDefault() {
+            currentHeader.insert(MainProductsHeader.CategoriesCollectionBanner)
+        } else {
+            currentHeader.remove(MainProductsHeader.CategoriesCollectionBanner)
         }
         guard mainProductsHeader.value != currentHeader else { return }
         mainProductsHeader.value = currentHeader
