@@ -407,6 +407,7 @@ class SignUpLogInViewModel: BaseViewModel {
         
         switch signupError {
         case .scammer:
+            trackSignupEmailFailedWithError(signupError.trackingError)
             delegate?.vmHideLoading(nil) { [weak self] in
                 self?.showScammerAlert(self?.email, network: .email)
             }
