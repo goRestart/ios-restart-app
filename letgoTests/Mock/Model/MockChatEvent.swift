@@ -16,7 +16,7 @@ struct MockChatEvent: ChatEvent {
 
 extension MockChatEvent: MockFactory {
     public static func makeMock() -> MockChatEvent {
-        return MockChatEvent(objectId: String?.makeRandom(),
+        return MockChatEvent(objectId: String.makeRandom(),
                              type: .interlocutorTypingStarted,
                              conversationId: String.makeRandom())
     }

@@ -275,7 +275,7 @@ class ChatViewModel: BaseViewModel {
         }
     }
 
-    private func refreshChat() {
+    fileprivate func refreshChat() {
         // only load messages if the interlocutor is not blocked
         // Note: In some corner cases (staging only atm) the interlocutor may come as nil
         if let interlocutor = conversation.value.interlocutor, interlocutor.isBanned { return }
@@ -863,8 +863,7 @@ extension ChatViewModel {
             self?.blockUser(buttonPosition: buttonPosition) { [weak self] success in
                 if success {
                     self?.interlocutorIsMuted.value = true
-                    self?.refreshConversation()
-                    self?.updateDisclaimers()
+                    self?.refreshChat()
                 } else {
                     self?.delegate?.vmShowMessage(LGLocalizedString.blockUserErrorGeneric, completion: nil)
                 }
@@ -895,8 +894,7 @@ extension ChatViewModel {
         unBlockUser() { [weak self] success in
             if success {
                 self?.interlocutorIsMuted.value = false
-                self?.refreshConversation()
-                self?.updateDisclaimers()
+                self?.refreshChat()
             } else {
                 self?.delegate?.vmShowMessage(LGLocalizedString.unblockUserErrorGeneric, completion: nil)
             }

@@ -678,6 +678,10 @@
 		72D928F01E83F0BD0030F4C3 /* PushPermissionsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D928ED1E83F0BD0030F4C3 /* PushPermissionsManager.swift */; };
 		72D928F11E83F0BD0030F4C3 /* PushPermissionsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D928ED1E83F0BD0030F4C3 /* PushPermissionsManager.swift */; };
 		72D928F31E840F440030F4C3 /* MockPushPermissionsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D928F21E840F440030F4C3 /* MockPushPermissionsManager.swift */; };
+		72E8A5861EB2FF15000524E6 /* CategoriesHeaderCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E8A5851EB2FF15000524E6 /* CategoriesHeaderCollectionView.swift */; };
+		72E8A5871EB2FF15000524E6 /* CategoriesHeaderCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E8A5851EB2FF15000524E6 /* CategoriesHeaderCollectionView.swift */; };
+		72E8A58A1EB34D93000524E6 /* CategoriesHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E8A5891EB34D93000524E6 /* CategoriesHeaderCell.swift */; };
+		72E8A58B1EB34D93000524E6 /* CategoriesHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E8A5891EB34D93000524E6 /* CategoriesHeaderCell.swift */; };
 		72EB705C1E65C44E00BF709B /* ModularNotificationCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72EB705B1E65C44E00BF709B /* ModularNotificationCellDrawer.swift */; };
 		72EB705D1E65C44E00BF709B /* ModularNotificationCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72EB705B1E65C44E00BF709B /* ModularNotificationCellDrawer.swift */; };
 		72EB705F1E65C63900BF709B /* ModularNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72EB705E1E65C63900BF709B /* ModularNotificationCell.swift */; };
@@ -1877,6 +1881,8 @@
 		72D928EC1E83F0BD0030F4C3 /* LGPushPermissionsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LGPushPermissionsManager.swift; path = PushPermissionManager/LGPushPermissionsManager.swift; sourceTree = "<group>"; };
 		72D928ED1E83F0BD0030F4C3 /* PushPermissionsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PushPermissionsManager.swift; path = PushPermissionManager/PushPermissionsManager.swift; sourceTree = "<group>"; };
 		72D928F21E840F440030F4C3 /* MockPushPermissionsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockPushPermissionsManager.swift; sourceTree = "<group>"; };
+		72E8A5851EB2FF15000524E6 /* CategoriesHeaderCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CategoriesHeaderCollectionView.swift; path = ../CategoriesHeader/CategoriesHeaderCollectionView.swift; sourceTree = "<group>"; };
+		72E8A5891EB34D93000524E6 /* CategoriesHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CategoriesHeaderCell.swift; path = Ambatana/src/ViewControllers/Main/CategoriesHeader/CategoriesHeaderCell.swift; sourceTree = SOURCE_ROOT; };
 		72EB705B1E65C44E00BF709B /* ModularNotificationCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModularNotificationCellDrawer.swift; sourceTree = "<group>"; };
 		72EB705E1E65C63900BF709B /* ModularNotificationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModularNotificationCell.swift; sourceTree = "<group>"; };
 		7B2FD4C296937E707B24D7EB /* Pods-LetGoGodMode.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.release.xcconfig"; sourceTree = "<group>"; };
@@ -3523,6 +3529,16 @@
 			name = PushPermissionManager;
 			sourceTree = "<group>";
 		};
+		72E8A5881EB2FF22000524E6 /* CategoryHeader */ = {
+			isa = PBXGroup;
+			children = (
+				72E8A5851EB2FF15000524E6 /* CategoriesHeaderCollectionView.swift */,
+				72E8A5891EB34D93000524E6 /* CategoriesHeaderCell.swift */,
+			);
+			name = CategoryHeader;
+			path = Tags;
+			sourceTree = "<group>";
+		};
 		ABA47C14BB52140048297810 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -4207,6 +4223,7 @@
 			children = (
 				C7C61E021D633FCD00F9505D /* Model */,
 				C73C16381D06C19200DFC67D /* Trending */,
+				72E8A5881EB2FF22000524E6 /* CategoryHeader */,
 				C7132A461BF4F56D0000747A /* Tags */,
 				D4BFE5AF1B640C36006A8CB6 /* MainProductsViewController.swift */,
 				D4BFE5B01B640C36006A8CB6 /* MainProductsViewController.xib */,
@@ -5460,6 +5477,7 @@
 				C727943C1D549342009C25AB /* ChangeUsernameViewController.swift in Sources */,
 				C7740DF41DC386EC00988036 /* ProductSoldNotificationCellDrawer.swift in Sources */,
 				50C2E1A11E6FFAF2006639BB /* PostProductTabsFooter.swift in Sources */,
+				72E8A58A1EB34D93000524E6 /* CategoriesHeaderCell.swift in Sources */,
 				5009F8411E5B24F30064ED22 /* LogInEmailView.swift in Sources */,
 				C7111EFC1CA43885000C5C5A /* DeepLink.swift in Sources */,
 				C7E590321E5EC9F1002921B2 /* MultiPageRequester.swift in Sources */,
@@ -5547,6 +5565,7 @@
 				50C2E19B1E6FFACE006639BB /* PostProductRedCamButtonFooter.swift in Sources */,
 				72D928DC1E83DD340030F4C3 /* ConfigManager.swift in Sources */,
 				C77593F11BF0E48D0097D62F /* FilterHeaderCell.swift in Sources */,
+				72E8A5861EB2FF15000524E6 /* CategoriesHeaderCollectionView.swift in Sources */,
 				6AF75D071CF449AF00EACCF0 /* ChatViewMessage.swift in Sources */,
 				C77593DE1BF0B8A00097D62F /* FiltersViewController.swift in Sources */,
 				2E3760331BD914BA00A5A030 /* CategoriesViewController.swift in Sources */,
@@ -5977,6 +5996,7 @@
 				C74016E01D6468A7004C1E9D /* PostProductDetailViewModel.swift in Sources */,
 				C727943D1D549342009C25AB /* ChangeUsernameViewController.swift in Sources */,
 				50C2E1A21E6FFAF2006639BB /* PostProductTabsFooter.swift in Sources */,
+				72E8A58B1EB34D93000524E6 /* CategoriesHeaderCell.swift in Sources */,
 				5009F8421E5B24F30064ED22 /* LogInEmailView.swift in Sources */,
 				6A672C171CCFB76E00AB9175 /* UIFont+LG.swift in Sources */,
 				C7E590331E5EC9F1002921B2 /* MultiPageRequester.swift in Sources */,
@@ -6064,6 +6084,7 @@
 				50C2E19C1E6FFACE006639BB /* PostProductRedCamButtonFooter.swift in Sources */,
 				72D928DB1E83DD330030F4C3 /* ConfigManager.swift in Sources */,
 				72C99E9D1DED7417006361C1 /* ChangePasswordCoordinator.swift in Sources */,
+				72E8A5871EB2FF15000524E6 /* CategoriesHeaderCollectionView.swift in Sources */,
 				C7415ED71DE880BD0003D6C1 /* SimpleProductsViewController.swift in Sources */,
 				2E9716AA1D5A284F009B3A32 /* ExpressChatViewController.swift in Sources */,
 				C7DB421C1C5138B500400945 /* FiltersViewController.swift in Sources */,

@@ -34,7 +34,32 @@ extension ListingCategory {
             return LGLocalizedString.categoriesCar
         }
     }
-        
+    
+    var nameInFeed : String {
+        switch(self) {
+        case .unassigned:
+            return ""
+        case .electronics:
+            return LGLocalizedString.categoriesInfeedElectronics
+        case .motorsAndAccessories:
+            return LGLocalizedString.categoriesInfeedMotors
+        case .sportsLeisureAndGames:
+            return LGLocalizedString.categoriesInfeedSportsLeisureGames
+        case .homeAndGarden:
+            return LGLocalizedString.categoriesInfeedHome
+        case .moviesBooksAndMusic:
+            return LGLocalizedString.categoriesInfeedBooksMovies
+        case .fashionAndAccesories:
+            return LGLocalizedString.categoriesInfeedFashion
+        case .babyAndChild:
+            return LGLocalizedString.categoriesInfeedBabyChild
+        case .other:
+            return LGLocalizedString.categoriesInfeedOthers
+        case .cars:
+            return LGLocalizedString.categoriesInfeedCars
+        }
+    }
+    
     var image : UIImage? {
         switch (self) {
         case .unassigned:
@@ -57,6 +82,31 @@ extension ListingCategory {
             return UIImage(named: "categories_others")
         case .cars:
             return UIImage(named: "categories_cars")
+        }
+    }
+    
+    var imageInFeed: UIImage? {
+        switch (self) {
+        case .unassigned:
+            return nil
+        case .electronics:
+            return UIImage(named: "tech")
+        case .motorsAndAccessories:
+            return UIImage(named: "motors")
+        case .sportsLeisureAndGames:
+            return UIImage(named: "leisure")
+        case .homeAndGarden:
+            return UIImage(named: "home")
+        case .moviesBooksAndMusic:
+            return UIImage(named: "entretainment")
+        case .fashionAndAccesories:
+            return UIImage(named: "fashion")
+        case .babyAndChild:
+            return UIImage(named: "child")
+        case .other:
+            return UIImage(named: "others")
+        case .cars:
+            return UIImage(named: "cars")
         }
     }
     

@@ -98,8 +98,10 @@ extension SellCoordinator: PostProductNavigator {
             case .product(let productParams):
                 self?.listingRepository.create(productParams: productParams) { result in
                     if let value = result.value {
+                        let listing = Listing.product(value)
+                        self?.trackPost(withListing: listing, trackingInfo: trackingInfo)
                         self?.keyValueStorage.userPostProductPostedPreviously = true
-                        self?.showConfirmation(showConfirmation, listingResult: ListingResult(value: Listing.product(value)),
+                        self?.showConfirmation(showConfirmation, listingResult: ListingResult(value: listing),
                                                trackingInfo: trackingInfo)
                     } else if let error = result.error {
                         self?.trackListingPostedInBackground(withError: error)
@@ -110,8 +112,10 @@ extension SellCoordinator: PostProductNavigator {
             case .car(let carParams):
                 self?.listingRepository.create(carParams: carParams) { result in
                     if let value = result.value {
+                        let listing = Listing.car(value)
+                        self?.trackPost(withListing: listing, trackingInfo: trackingInfo)
                         self?.keyValueStorage.userPostProductPostedPreviously = true
-                        self?.showConfirmation(showConfirmation, listingResult: ListingResult(value: Listing.car(value)),
+                        self?.showConfirmation(showConfirmation, listingResult: ListingResult(value: listing),
                                                trackingInfo: trackingInfo)
                     } else if let error = result.error {
                         self?.trackListingPostedInBackground(withError: error)
@@ -232,8 +236,7 @@ extension SellCoordinator: ProductPostedNavigator {
 // MARK: - Tracking
 
 fileprivate extension SellCoordinator {
-    func trackPost(_ result: ListingResult, trackingInfo: PostProductTrackingInfo) {
-        guard let listing = result.value else { return }
+    func trackPost(withListing listing: Listing, trackingInfo: PostProductTrackingInfo) {
         let event = TrackerEvent.productSellComplete(listing, buttonName: trackingInfo.buttonName, sellButtonPosition: trackingInfo.sellButtonPosition,
                                                      negotiable: trackingInfo.negotiablePrice, pictureSource: trackingInfo.imageSource,
                                                      freePostingModeAllowed: featureFlags.freePostingModeAllowed)

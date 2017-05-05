@@ -26,16 +26,9 @@ class ListHeaderContainer: UICollectionReusableView, ReusableCell {
         guard getHeader(view.tag) == nil else { return }
         view.translatesAutoresizingMaskIntoConstraints = false
         containerView.addSubview(view)
-
-        var views = [String: Any]()
-        views["header"] = view
-        var metrics = [String: Any]()
-        metrics["height"] = height
-        containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[header]-0-|",
-            options: [], metrics: nil, views: views))
-        containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[header(height)]-0-|",
-            options: [], metrics: metrics, views: views))
-
+        
+        view.layout(with: containerView).fillHorizontal().top(by: totalHeight)
+        view.layout().height(height)
         totalHeight += height
     }
 

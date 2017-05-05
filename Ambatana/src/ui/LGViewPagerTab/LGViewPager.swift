@@ -566,6 +566,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
     }
     
     private func changeSelectedTab(_ sender: LGViewPagerTabItem, animated: Bool) {
+        layoutIfNeeded()
         scrollTabScrollViewToTab(sender, animated: animated)
         guard let idx = tabMenuItems.index(of: sender) else { return }
         let x = CGFloat(idx) * pagesScrollView.frame.size.width

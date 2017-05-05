@@ -11,13 +11,13 @@ import LGCoreKit
 extension CarAttributes {
     func generatedCarName() -> String {
         var carTitle: String = ""
-        if let makeName = make, !makeName.isEmpty {
+        if let makeName = make, makeName != CarAttributes.emptyMake {
             carTitle += makeName + " "
         }
-        if let modelName = model, !modelName.isEmpty {
+        if let modelName = model, modelName != CarAttributes.emptyModel {
             carTitle += modelName + " "
         }
-        if let year = year, year != 0 {
+        if let year = year, year != CarAttributes.emptyYear {
             carTitle += String(year)
         }
         return carTitle

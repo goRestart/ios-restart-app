@@ -119,7 +119,8 @@ struct ProductFilters {
         } else {
             // SELECT
             selectedCategories = [category]
-            if !carVerticalEnabled && category == .motorsAndAccessories {
+            // with .motorsAndAccesories if carVertical is not enabled we also add .cars included to motorsAndAccessories
+            if category == .motorsAndAccessories && !carVerticalEnabled {
                 selectedCategories.append(.cars)
             }
         }
