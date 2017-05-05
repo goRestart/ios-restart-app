@@ -86,15 +86,16 @@ class MainProductsViewModel: BaseViewModel {
             resultTags.append(.distance(distance: distance))
         }
 
-        if let makeId = filters.carMakeId, let makeName = filters.carMakeName {
-            resultTags.append(.make(id: makeId, name: makeName))
-            if let modelId = filters.carModelId, let modelName = filters.carModelName {
-                resultTags.append(.model(id: modelId, name: modelName))
+        if filters.selectedCategories.contains(.cars) {
+            if let makeId = filters.carMakeId, let makeName = filters.carMakeName {
+                resultTags.append(.make(id: makeId, name: makeName))
+                if let modelId = filters.carModelId, let modelName = filters.carModelName {
+                    resultTags.append(.model(id: modelId, name: modelName))
+                }
             }
-        }
-
-        if filters.carYearStart != nil || filters.carYearEnd != nil {
-            resultTags.append(.yearsRange(from: filters.carYearStart, to: filters.carYearEnd))
+            if filters.carYearStart != nil || filters.carYearEnd != nil {
+                resultTags.append(.yearsRange(from: filters.carYearStart, to: filters.carYearEnd))
+            }
         }
 
         return resultTags

@@ -83,8 +83,9 @@ public struct RetrieveListingParams {
         attributes["model"] = modelId
         attributes["start_year"] = startYear
         attributes["end_year"] = endYear
-        params["attributes"] = attributes
-        
+        if attributes.keys.count > 0 {
+            params["attributes"] = attributes
+        }
         return params
     }
 }

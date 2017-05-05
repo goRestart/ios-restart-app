@@ -27,6 +27,12 @@ public enum ListingCategory: Int {
                 .fashionAndAccesories, .babyAndChild, .other]
     }
     
+    
+    public static func visibleValuesInFeed() -> [ListingCategory] {
+        return [.cars, .electronics, .homeAndGarden, .sportsLeisureAndGames, .motorsAndAccessories,
+                .fashionAndAccesories, .babyAndChild, .moviesBooksAndMusic, .other]
+    }
+    
     public var isProduct: Bool {
         switch self {
         case .unassigned, .electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden,
