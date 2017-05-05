@@ -106,10 +106,32 @@ class FiltersViewModel: BaseViewModel {
     private var categoryRepository: CategoryRepository
     private var categories: [FilterCategoryItem]
 
-    fileprivate var currentCarMakeId: String?
-    var currentCarMakeName: String?
-    fileprivate var currentCarModelId: String?
-    var currentCarModelName: String?
+    var currentCarMakeName: String? {
+        return productFilter.carMakeName
+    }
+    var currentCarModelName: String? {
+        return productFilter.carModelName
+    }
+    var modelCellEnabled: Bool {
+        return currentCarMakeName != nil
+    }
+    var carYearStart: Int? {
+        get {
+            return productFilter.carYearStart
+        }
+        set {
+            productFilter.carYearStart = newValue
+        }
+    }
+
+    var carYearEnd: Int? {
+        get {
+            return productFilter.carYearEnd
+        }
+        set {
+            productFilter.carYearEnd = newValue
+        }
+    }
 
     var numOfCategories : Int {
         // we add an extra empty cell if the num of categories is odds
@@ -210,15 +232,15 @@ class FiltersViewModel: BaseViewModel {
 
     func makeButtonPressed() {
         let carsMakesList = carsInfoRepository.retrieveCarsMakes()
-        let carsAttributtesChoiceVMWithMakes = CarAttributeSelectionViewModel(carsMakes: carsMakesList, selectedMake: nil)
+        let carsAttributtesChoiceVMWithMakes = CarAttributeSelectionViewModel(carsMakes: carsMakesList, selectedMake: productFilter.carMakeId, style: .filter)
         carsAttributtesChoiceVMWithMakes.carAttributeSelectionDelegate = self
         delegate?.vmOpenCarAttributeSelectionsWithViewModel(attributesChoiceViewModel: carsAttributtesChoiceVMWithMakes)
     }
 
     func modelButtonPressed() {
-        guard let makeId = currentCarMakeId else { return }
+        guard let makeId = productFilter.carMakeId else { return }
         let carsModelsForMakeList = carsInfoRepository.retrieveCarsModelsFormake(makeId: makeId)
-        let carsAttributtesChoiceVMWithModels = CarAttributeSelectionViewModel(carsModels: carsModelsForMakeList, selectedModel: nil)
+        let carsAttributtesChoiceVMWithModels = CarAttributeSelectionViewModel(carsModels: carsModelsForMakeList, selectedModel: productFilter.carModelId, style: .filter)
         carsAttributtesChoiceVMWithModels.carAttributeSelectionDelegate = self
         delegate?.vmOpenCarAttributeSelectionsWithViewModel(attributesChoiceViewModel: carsAttributtesChoiceVMWithModels)
     }
@@ -248,7 +270,11 @@ class FiltersViewModel: BaseViewModel {
                                                         sortBy: productFilter.selectedOrdering,
                                                         postedWithin: productFilter.selectedWithin,
                                                         priceRange: productFilter.priceRange,
-                                                        freePostingModeAllowed: featureFlags.freePostingModeAllowed)
+                                                        freePostingModeAllowed: featureFlags.freePostingModeAllowed,
+                                                        carMake: productFilter.carMakeName,
+                                                        carModel: productFilter.carModelName,
+                                                        carYearStart: productFilter.carYearStart,
+                                                        carYearEnd: productFilter.carYearEnd)
         TrackerProxy.sharedInstance.trackEvent(trackingEvent)
         
         dataDelegate?.viewModelDidUpdateFilters(self, filters: productFilter)
@@ -290,6 +316,9 @@ class FiltersViewModel: BaseViewModel {
                 productFilter.priceRange = .freePrice
             }
         case .category(let cat):
+            if cat != .cars {
+                resetCarsInfo()
+            }
             productFilter.toggleCategory(cat, carVerticalEnabled: featureFlags.carsVerticalEnabled)
         }
         sections = generateSections()
@@ -401,6 +430,15 @@ class FiltersViewModel: BaseViewModel {
         // index is in range and avoid the extra blank cell in case num categories is odd
         return index < numOfCategories && !(isOddNumCategories && index == numOfCategories-1)
     }
+
+    private func resetCarsInfo() {
+        productFilter.carMakeId = nil
+        productFilter.carModelId = nil
+        productFilter.carMakeName = nil
+        productFilter.carModelName = nil
+        productFilter.carYearStart = nil
+        productFilter.carYearEnd = nil
+    }
 }
 
 
@@ -415,16 +453,16 @@ extension FiltersViewModel: EditLocationDelegate {
 
 extension FiltersViewModel: CarAttributeSelectionDelegate {
     func didSelectMake(makeId: String, makeName: String) {
-        currentCarMakeId = makeId
-        currentCarMakeName = makeName
-        currentCarModelId = nil
-        currentCarModelName = nil
+        productFilter.carMakeId = makeId
+        productFilter.carMakeName = makeName
+        productFilter.carModelId = nil
+        productFilter.carModelName = nil
         delegate?.vmDidUpdate()
     }
 
     func didSelectModel(modelId: String, modelName: String) {
-        currentCarModelId = modelId
-        currentCarModelName = modelName
+        productFilter.carModelId = modelId
+        productFilter.carModelName = modelName
         delegate?.vmDidUpdate()
     }
 

@@ -149,6 +149,10 @@ fileprivate extension FilteredProductListRequester {
         params.sortCriteria = filters?.selectedOrdering
         params.distanceRadius = filters?.distanceRadius
         params.distanceType = filters?.distanceType
+        params.makeId = filters?.carMakeId
+        params.modelId = filters?.carModelId
+        params.startYear = filters?.carYearStart
+        params.endYear = filters?.carYearEnd
         if let priceRange = filters?.priceRange {
             switch priceRange {
             case .freePrice:

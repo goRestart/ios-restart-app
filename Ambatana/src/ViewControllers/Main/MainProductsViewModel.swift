@@ -55,7 +55,7 @@ class MainProductsViewModel: BaseViewModel {
             resultTags.append(.category(prodCat))
             // Category 9 (.cars) tag only shown when carVerticalEnabled.
             //TODO: add the following condition to remove or not the tag:  && !featureFlags.carsVerticalEnabled
-            if prodCat == .cars {
+            if prodCat == .cars && !featureFlags.carsVerticalEnabled {
                 resultTags.removeLast()
             }
         }
@@ -84,6 +84,17 @@ class MainProductsViewModel: BaseViewModel {
         
         if let distance = filters.distanceRadius {
             resultTags.append(.distance(distance: distance))
+        }
+
+        if let makeId = filters.carMakeId, let makeName = filters.carMakeName {
+            resultTags.append(.make(id: makeId, name: makeName))
+            if let modelId = filters.carModelId, let modelName = filters.carModelName {
+                resultTags.append(.model(id: modelId, name: modelName))
+            }
+        }
+
+        if filters.carYearStart != nil || filters.carYearEnd != nil {
+            resultTags.append(.yearsRange(from: filters.carYearStart, to: filters.carYearEnd))
         }
         
         return resultTags
@@ -257,6 +268,12 @@ class MainProductsViewModel: BaseViewModel {
         var maxPrice: Int? = nil
         var free: Bool = false
         var distance: Int? = nil
+        var makeId: String? = nil
+        var makeName: String? = nil
+        var modelId: String? = nil
+        var modelName: String? = nil
+        var carYearStart: Int? = nil
+        var carYearEnd: Int? = nil
 
         for filterTag in tags {
             switch filterTag {
@@ -275,8 +292,16 @@ class MainProductsViewModel: BaseViewModel {
                 free = true
             case .distance(let distanceFilter):
                 distance = distanceFilter
+            case .make(let id, let name):
+                makeId = id
+                makeName = name
+            case .model(let id, let name):
+                modelId = id
+                modelName = name
+            case .yearsRange(let startYear, let endYear):
+                carYearStart = startYear
+                carYearEnd = endYear
             }
-           
         }
 
         filters.place = place
@@ -297,7 +322,14 @@ class MainProductsViewModel: BaseViewModel {
         }
         
         filters.distanceRadius = distance
-    
+
+        filters.carMakeId = makeId
+        filters.carMakeName = makeName
+        filters.carModelId = modelId
+        filters.carModelName = modelName
+        filters.carYearStart = carYearStart
+        filters.carYearEnd = carYearEnd
+
         updateListView()
     }
 

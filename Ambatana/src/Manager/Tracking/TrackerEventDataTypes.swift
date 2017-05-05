@@ -290,6 +290,8 @@ enum EventParameterName: String {
     case make                 = "product-make"
     case model                = "product-model"
     case year                 = "product-year"
+    case yearStart            = "product-year-start"
+    case yearEnd              = "product-year-end"
 }
 
 enum EventParameterBoolean: String {

@@ -10,12 +10,16 @@ import UIKit
 import SwiftRangeSlider
 
 protocol FilterCarInfoYearCellDelegate: class {
-    func filterYearChanged(withMinValue minValue: Double, maxValue: Double)
+    func filterYearChanged(withStartYear startYear: Int?, endYear: Int?)
 }
 
 class FilterCarInfoYearCell: UICollectionViewCell {
 
     static let filterMinCarYear: Double = 1950
+
+    var currentYear: Double {
+        return Double(Calendar.current.component(.year, from: Date()))
+    }
 
     @IBOutlet weak var yearRangeSlider: RangeSlider!
     @IBOutlet weak var titleLabel: UILabel!
@@ -41,6 +45,15 @@ class FilterCarInfoYearCell: UICollectionViewCell {
         self.resetUI()
     }
 
+    func drawSlider(withStartingYear startYear: Int?, endYear: Int?) {
+        if let startYear = startYear {
+            yearRangeSlider.lowerValue = Double(startYear)
+        }
+        if let endYear = endYear {
+            yearRangeSlider.upperValue = Double(endYear)
+        }
+        updateInfoLabel()
+    }
 
     // MARK: - Actions
 
@@ -49,19 +62,27 @@ class FilterCarInfoYearCell: UICollectionViewCell {
     }
 
     @IBAction func sliderDidEnd(_ sender: UISlider) {
-        delegate?.filterYearChanged(withMinValue: yearRangeSlider.lowerValue, maxValue: yearRangeSlider.upperValue)
+        var startYear: Int? = nil
+        var endYear: Int? = nil
+        if yearRangeSlider.lowerValue > FilterCarInfoYearCell.filterMinCarYear {
+            startYear = Int(yearRangeSlider.lowerValue)
+        }
+        if yearRangeSlider.upperValue < currentYear {
+            endYear = Int(yearRangeSlider.upperValue)
+        }
+        delegate?.filterYearChanged(withStartYear: startYear, endYear: endYear)
     }
 
 
     // MARK: - Private methods
 
     private func setupUI() {
-        let currentYear = Calendar.current.component(.year, from: Date())
-
-        yearRangeSlider.minimumValue = Double(FilterCarInfoYearCell.filterMinCarYear)
-        yearRangeSlider.maximumValue = Double(currentYear)
-        yearRangeSlider.lowerValue = Double(FilterCarInfoYearCell.filterMinCarYear)
-        yearRangeSlider.upperValue = Double(currentYear)
+        yearRangeSlider.stepValue = 1
+        yearRangeSlider.minimumValue = FilterCarInfoYearCell.filterMinCarYear
+        yearRangeSlider.maximumValue = currentYear
+        yearRangeSlider.lowerValue = FilterCarInfoYearCell.filterMinCarYear
+        yearRangeSlider.upperValue = currentYear
+        yearRangeSlider.trackThickness = 0.05
 
         bottomSeparatorHeight.constant = LGUIKitConstants.onePixelSize
         topSeparatorHeight.constant = LGUIKitConstants.onePixelSize
@@ -69,7 +90,7 @@ class FilterCarInfoYearCell: UICollectionViewCell {
 
     // Resets the UI to the initial state
     private func resetUI() {
-        infoLabel.text = "_Any Year"
+        updateInfoLabel()
     }
 
 
@@ -81,10 +102,17 @@ class FilterCarInfoYearCell: UICollectionViewCell {
 
     private func updateInfoLabel() {
         if yearRangeSlider.lowerValue == FilterCarInfoYearCell.filterMinCarYear,
+            yearRangeSlider.upperValue == currentYear {
+            infoLabel.text = LGLocalizedString.filtersCarYearAnyYear
+        } else if yearRangeSlider.lowerValue == FilterCarInfoYearCell.filterMinCarYear,
             yearRangeSlider.upperValue == FilterCarInfoYearCell.filterMinCarYear {
-            infoLabel.text = "_Before \(Int(yearRangeSlider.lowerValue))"
-        } else if yearRangeSlider.upperValue > FilterCarInfoYearCell.filterMinCarYear {
-            infoLabel.text = "_Before \(Int(yearRangeSlider.lowerValue)) - \(Int(yearRangeSlider.upperValue))"
+            infoLabel.text = String(format: LGLocalizedString.filtersCarYearBeforeYear, Int(yearRangeSlider.lowerValue)) //"_Before \(Int(yearRangeSlider.lowerValue))"
+        } else if yearRangeSlider.lowerValue == FilterCarInfoYearCell.filterMinCarYear,
+            yearRangeSlider.upperValue > FilterCarInfoYearCell.filterMinCarYear {
+            infoLabel.text = String(format: LGLocalizedString.filtersCarYearBeforeYear, Int(yearRangeSlider.lowerValue))
+                + " - \(Int(yearRangeSlider.upperValue))" //"_Before \(Int(yearRangeSlider.lowerValue)) - \(Int(yearRangeSlider.upperValue))"
+        } else if yearRangeSlider.lowerValue == yearRangeSlider.upperValue {
+            infoLabel.text = "\(Int(yearRangeSlider.lowerValue))"
         } else {
             infoLabel.text = "\(Int(yearRangeSlider.lowerValue)) - \(Int(yearRangeSlider.upperValue))"
         }

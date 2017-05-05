@@ -291,13 +291,17 @@
 "edit_product_title" = "Chỉnh sửa Sản phẩm";
 "edit_product_unsaved_changes_alert" = "Bạn có chắc chắn muốn rời khỏi trang này? Thay đổi sẽ bị mất.";
 "edit_product_unsaved_changes_alert_ok" = "Rời";
+"filters_car_make_not_set" = "Chưa Cài Đặt";
+"filters_car_model_not_set" = "Chưa Cài Đặt";
+"filters_car_year_any_year" = "Mọi Năm";
+"filters_car_year_before_year" = "Trước %i";
 "filters_distance_not_set" = "chưa được cài đặt";
 "filters_navbar_reset" = "Xóa";
 "filters_price_from" = "Từ";
 "filters_price_to" = "Tới";
 "filters_price_wrong_range_error" = "Giá tối thiểu không thể cao hơn giá tối đa.";
 "filters_save_button" = "Lưu bộ lọc";
-"filters_section_car_info" = "Car Info";
+"filters_section_car_info" = "Thông tin ô tô";
 "filters_section_categories" = "Danh mục";
 "filters_section_distance" = "Khoảng cách";
 "filters_section_location" = "Địa điểm";
@@ -731,7 +735,7 @@
 "sell_post_free_label" = "Miễn phí";
 "sell_price_field" = "Giá:";
 "sell_send_error_invalid_category" = "Vui lòng chọn một danh mục cho sản phẩm.";
-"sell_send_error_invalid_description" = "Vui lòng nhập một mô tả hợp lệ cho sản phẩm.";
+"sell_send_error_invalid_description" = "Vui lòng nhập một miêu tả hợp lệ cho sản phẩm.";
 "sell_send_error_invalid_description_too_long" = "Vui lòng nhập một miêu tả hợp lệ cho sản phẩm. Miêu tả dài tối đa %d ký tự.";
 "sell_send_error_invalid_image_count" = "Cần ít nhất một hình ảnh khi đăng bán sản phẩm.";
 "sell_send_error_invalid_price" = "Xin vui lòng nhập giá hợp lệ cho sản phẩm. Giá chỉ bao gồm các số.";

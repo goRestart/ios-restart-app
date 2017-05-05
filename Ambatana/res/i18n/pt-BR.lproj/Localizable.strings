@@ -34,7 +34,7 @@
 "bump_up_view_free_title" = "BUMP UP YOUR LISTING";
 "bump_up_view_pay_bumps_left_text" = "You have %i Bump Ups left.";
 "bump_up_view_pay_button_title" = "Activate for %@";
-"bump_up_view_pay_subtitle" = "Give your listing higher visibility for 24 hours by moving it to the top.";
+"bump_up_view_pay_subtitle" = "Give your listing higher visibility by moving it to the top.";
 "bump_up_view_pay_title" = "BUMP UP TO SELL FASTER";
 "categories_baby_and_child" = "Baby and Child";
 "categories_car" = "Cars";
@@ -291,6 +291,10 @@
 "edit_product_title" = "Edit Product";
 "edit_product_unsaved_changes_alert" = "Are you sure you want to discard these changes?";
 "edit_product_unsaved_changes_alert_ok" = "Discard";
+"filters_car_make_not_set" = "Not Set";
+"filters_car_model_not_set" = "Not Set";
+"filters_car_year_any_year" = "Any Year";
+"filters_car_year_before_year" = "Before %i";
 "filters_distance_not_set" = "not set";
 "filters_navbar_reset" = "Reset";
 "filters_price_from" = "From";

@@ -61,6 +61,14 @@ struct ProductFilters {
     }
     var priceRange: FilterPriceRange
 
+    var carMakeId: String?
+    var carMakeName: String?
+    var carModelId: String?
+    var carModelName: String?
+    var carYearStart: Int?
+    var carYearEnd: Int?
+
+
     init() {
         self.init(
             place: nil,
@@ -69,12 +77,19 @@ struct ProductFilters {
             selectedCategories: [],
             selectedWithin: ListingTimeCriteria.defaultOption,
             selectedOrdering: ListingSortCriteria.defaultOption,
-            priceRange: .priceRange(min: nil, max: nil)
+            priceRange: .priceRange(min: nil, max: nil),
+            carMakeId: nil,
+            carMakeName: nil,
+            carModelId: nil,
+            carModelName: nil,
+            carYearStart: nil,
+            carYearEnd: nil
         )
     }
     
     init(place: Place?, distanceRadius: Int, distanceType: DistanceType, selectedCategories: [ListingCategory],
-         selectedWithin: ListingTimeCriteria, selectedOrdering: ListingSortCriteria?, priceRange: FilterPriceRange){
+         selectedWithin: ListingTimeCriteria, selectedOrdering: ListingSortCriteria?, priceRange: FilterPriceRange,
+         carMakeId: String?, carMakeName: String?, carModelId: String?, carModelName: String?, carYearStart: Int?, carYearEnd: Int?){
         self.place = place
         self.distanceRadius = distanceRadius > 0 ? distanceRadius : nil
         self.distanceType = distanceType
@@ -82,6 +97,12 @@ struct ProductFilters {
         self.selectedWithin = selectedWithin
         self.selectedOrdering = selectedOrdering
         self.priceRange = priceRange
+        self.carMakeId = carMakeId
+        self.carMakeName = carMakeName
+        self.carModelId = carModelId
+        self.carModelName = carModelName
+        self.carYearStart = carYearStart
+        self.carYearEnd = carYearEnd
     }
     
     mutating func toggleCategory(_ category: ListingCategory, carVerticalEnabled: Bool) {

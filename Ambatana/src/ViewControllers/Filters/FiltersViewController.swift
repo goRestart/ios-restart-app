@@ -10,8 +10,8 @@ import UIKit
 import RxSwift
 
 class FiltersViewController: BaseViewController, FiltersViewModelDelegate, FilterDistanceCellDelegate, FilterPriceCellDelegate,
-UICollectionViewDataSource, UICollectionViewDelegate {
-    
+FilterCarInfoYearCellDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
+
     // Outlets & buttons
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var saveFiltersBtn: UIButton!
@@ -124,6 +124,13 @@ UICollectionViewDataSource, UICollectionViewDelegate {
     
     func filterDistanceChanged(_ filterDistanceCell: FilterDistanceCell) {
         viewModel.currentDistanceRadius = filterDistanceCell.distance
+    }
+
+    // MARK: FilterCarInfoYearCellDelegate
+
+    func filterYearChanged(withStartYear startYear: Int?, endYear: Int?) {
+        viewModel.carYearStart = startYear
+        viewModel.carYearEnd = endYear
     }
 
     // MARK: FilterPriceCellDelegate
@@ -242,22 +249,27 @@ UICollectionViewDataSource, UICollectionViewDelegate {
                     // make
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterCarInfoMakeModelCell",
                                                                         for: indexPath) as? FilterCarInfoMakeModelCell else { return UICollectionViewCell() }
+                    cell.isUserInteractionEnabled = true
+                    cell.titleLabel.isEnabled = true
                     cell.titleLabel.text = LGLocalizedString.postCategoryDetailCarMake
-                    cell.infoLabel.text = viewModel.currentCarMakeName
+                    cell.infoLabel.text = viewModel.currentCarMakeName ?? LGLocalizedString.filtersCarMakeNotSet
                     return cell
                 case 1:
                     // Model
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterCarInfoMakeModelCell",
                                                                         for: indexPath) as? FilterCarInfoMakeModelCell else { return UICollectionViewCell() }
+                    cell.isUserInteractionEnabled = viewModel.modelCellEnabled
+                    cell.titleLabel.isEnabled = viewModel.modelCellEnabled
                     cell.titleLabel.text = LGLocalizedString.postCategoryDetailCarModel
-                    cell.infoLabel.text = viewModel.currentCarModelName
+                    cell.infoLabel.text = viewModel.currentCarModelName ?? LGLocalizedString.filtersCarModelNotSet
                     return cell
                 case 2:
                     // Year
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterCarInfoYearCell",
                                                                         for: indexPath) as? FilterCarInfoYearCell else { return UICollectionViewCell() }
+                    cell.delegate = self
                     cell.titleLabel.text = LGLocalizedString.postCategoryDetailCarYear
-                    cell.infoLabel.text = "_Any Year"
+                    cell.drawSlider(withStartingYear: viewModel.carYearStart, endYear: viewModel.carYearEnd)
                     return cell
                 default:
                     return UICollectionViewCell()

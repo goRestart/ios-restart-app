@@ -50,7 +50,15 @@ class CarAttributeSelectionViewController : BaseViewController, CarAttributeSele
 
         // Rx to fill the table
         viewModel.wrappedInfoList.asObservable().bindNext { [weak self] carInfoList in
-            self?.updateTableView(values: carInfoList, selectedValueIndex: self?.viewModel.selectedIndex, addOtherString: self?.viewModel.detailType.addOtherString)
+            guard let strongSelf = self else { return }
+            var addOtherString: String?
+            switch strongSelf.viewModel.style {
+            case .edit:
+                addOtherString = strongSelf.viewModel.detailType.addOtherString
+            case .filter:
+                break
+            }
+            self?.updateTableView(values: carInfoList, selectedValueIndex: strongSelf.viewModel.selectedIndex, addOtherString: addOtherString)
         }.addDisposableTo(disposeBag)
 
         // Rx to select info
