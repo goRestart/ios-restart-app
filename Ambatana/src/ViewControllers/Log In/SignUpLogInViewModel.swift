@@ -404,7 +404,7 @@ class SignUpLogInViewModel: BaseViewModel {
     }
 
     private func process(signupError: SignupError) {
-        trackSignupEmailFailedWithError(signupError.trackingError)
+        
         switch signupError {
         case .scammer:
             delegate?.vmHideLoading(nil) { [weak self] in
@@ -416,6 +416,7 @@ class SignUpLogInViewModel: BaseViewModel {
             }
         case .network, .badRequest, .notFound, .forbidden, .unauthorized, .conflict, .nonExistingEmail,
              .tooManyRequests, .internalError:
+            trackSignupEmailFailedWithError(signupError.trackingError)
             let message = signupError.errorMessage(userEmail: email)
             delegate?.vmHideLoading(message, afterMessageCompletion: nil)
         }
