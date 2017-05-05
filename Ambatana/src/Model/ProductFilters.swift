@@ -87,16 +87,16 @@ struct ProductFilters {
     mutating func toggleCategory(_ category: ListingCategory, carVerticalEnabled: Bool) {
         if let categoryIndex = indexForCategory(category) {
             selectedCategories.remove(at: categoryIndex)
-            // TODO: Cars Phase I has to include always cars with motorsAndAccessories as filters are not implemented yet. 
-            // TODO: When Cars Phase II need to check if carsVerticalEnabled = false.
-            if category == .motorsAndAccessories {
+            // with .motorsAndAccesories if carVertical is not enabled we also remove .cars if exists
+            if category == .motorsAndAccessories && !carVerticalEnabled {
                 if let categoryCarsIndex = indexForCategory(.cars) {
                     selectedCategories.remove(at: categoryCarsIndex)
                 }
             }
         } else {
+            // with .motorsAndAccesories if carVertical is not enabled we also add .cars included to motorsAndAccessories
             selectedCategories.append(category)
-            if category == .motorsAndAccessories {
+            if category == .motorsAndAccessories && !carVerticalEnabled {
                 selectedCategories.append(.cars)
             }
         }
