@@ -260,8 +260,16 @@ struct TrackerEvent {
 
         params[.make] = carMake ?? "N/A"
         params[.model] = carModel ?? "N/A"
-        params[.yearStart] = carYearStart ?? "N/A"
-        params[.yearEnd] = carYearEnd ?? "N/A"
+        if let carYearStart = carYearStart {
+            params[.yearStart] = String(carYearStart)
+        } else {
+            params[.yearStart] = "N/A"
+        }
+        if let carYearEnd = carYearEnd {
+            params[.yearEnd] = String(carYearEnd)
+        } else {
+            params[.yearEnd] = "N/A"
+        }
 
         return TrackerEvent(name: .filterComplete, params: params)
     }

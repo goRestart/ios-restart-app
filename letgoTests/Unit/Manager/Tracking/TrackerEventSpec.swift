@@ -799,7 +799,8 @@ class TrackerEventSpec: QuickSpec {
                         sut = TrackerEvent.filterComplete(coords, distanceRadius: 10, distanceUnit: DistanceType.km,
                             categories: [.electronics, .motorsAndAccessories],
                             sortBy: ListingSortCriteria.distance, postedWithin: ListingTimeCriteria.day,
-                            priceRange: .priceRange(min: 5, max: 100), freePostingModeAllowed: true)
+                            priceRange: .priceRange(min: 5, max: 100), freePostingModeAllowed: true, carMake: "make",
+                            carModel: "model", carYearStart: 1990, carYearEnd: 2000)
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("filter-complete"))
@@ -838,11 +839,25 @@ class TrackerEventSpec: QuickSpec {
                     it ("free-posting") {
                         expect(sut.params!.stringKeyParams["free-posting"] as? String) == "false"
                     }
+                    it ("make") {
+                        expect(sut.params!.stringKeyParams["product-make"] as? String) == "make"
+                    }
+                    it ("model") {
+                        expect(sut.params!.stringKeyParams["product-model"] as? String) == "model"
+                    }
+                    it ("start") {
+                        expect(sut.params!.stringKeyParams["product-year-start"] as? String) == "1990"
+                    }
+                    it ("end") {
+                        expect(sut.params!.stringKeyParams["product-year-end"] as? String) == "2000"
+                    }
                 }
                 context("not receiving all params, contains the default params") {
                     beforeEach {
                         sut = TrackerEvent.filterComplete(nil, distanceRadius: nil, distanceUnit: DistanceType.km,
-                            categories: nil, sortBy: nil, postedWithin: nil, priceRange: .priceRange(min: nil, max: nil), freePostingModeAllowed: false)
+                            categories: nil, sortBy: nil, postedWithin: nil, priceRange: .priceRange(min: nil, max: nil),
+                            freePostingModeAllowed: false, carMake: nil,
+                            carModel: nil, carYearStart: nil, carYearEnd: nil)
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("filter-complete"))
@@ -880,6 +895,18 @@ class TrackerEventSpec: QuickSpec {
                     }
                     it("free posting") {
                         expect(sut.params!.stringKeyParams["free-posting"] as? String) == "N/A"
+                    }
+                    it ("make") {
+                        expect(sut.params!.stringKeyParams["product-make"] as? String) == "N/A"
+                    }
+                    it ("model") {
+                        expect(sut.params!.stringKeyParams["product-model"] as? String) == "N/A"
+                    }
+                    it ("start") {
+                        expect(sut.params!.stringKeyParams["product-year-start"] as? String) == "N/A"
+                    }
+                    it ("end") {
+                        expect(sut.params!.stringKeyParams["product-year-end"] as? String) == "N/A"
                     }
                 }
             }
