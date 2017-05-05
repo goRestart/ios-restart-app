@@ -23,6 +23,10 @@ public struct RetrieveListingParams {
     public var freePrice: Bool?
     public var distanceRadius: Int?
     public var distanceType: DistanceType?
+    public var makeId: String?
+    public var modelId: String?
+    public var startYear: Int?
+    public var endYear: Int?
     
     public init() { }
     
@@ -73,6 +77,15 @@ public struct RetrieveListingParams {
         params["sort"] = sortCriteria?.string
         params["since"] = timeCriteria?.string
         
+        // Car attributes: 
+        var attributes = Dictionary<String, Any>()
+        attributes["make"] = makeId
+        attributes["model"] = modelId
+        attributes["start_year"] = startYear
+        attributes["end_year"] = endYear
+        if attributes.keys.count > 0 {
+            params["attributes"] = attributes
+        }
         return params
     }
 }

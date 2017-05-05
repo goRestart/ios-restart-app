@@ -47,6 +47,12 @@ class FilterTagCell: UICollectionViewCell {
             return CGSize(width: iconWidth+fixedWidthSpace, height: FilterTagCell.cellHeight)
         case .distance(let distance):
             return FilterTagCell.sizeForText(distance.intToDistanteFormat())
+        case .make(_, let name):
+            return FilterTagCell.sizeForText(name)
+        case .model(_, let name):
+            return FilterTagCell.sizeForText(name)
+        case .yearsRange(let startYear, let endYear):
+            return FilterTagCell.sizeForText(FilterTagCell.stringForYearsRange(startYear, endYear: endYear))
         }
     }
     
@@ -77,6 +83,28 @@ class FilterTagCell: UICollectionViewCell {
         } else {
             // should never ever happen
             return "🤑"
+        }
+    }
+
+    private static func stringForYearsRange(_ startYear: Int?, endYear: Int?) -> String {
+        var startText = ""
+        var endText = ""
+        if let startYear = startYear {
+            startText = String(startYear)
+        }
+        if let endYear = endYear {
+            endText = String(endYear)
+        }
+
+        if !startText.isEmpty && !endText.isEmpty {
+            return startText + " " + "-" + " " + endText
+        } else if !startText.isEmpty {
+            return startText
+        } else if !endText.isEmpty {
+            return endText
+        } else {
+            // should never ever happen
+            return ""
         }
     }
 
@@ -124,6 +152,12 @@ class FilterTagCell: UICollectionViewCell {
             self.tagIcon.image = UIImage(named: "categories_free")
         case .distance(let distance):
             self.tagLabel.text = distance.intToDistanteFormat()
+        case .make(_, let name):
+            self.tagLabel.text = name
+        case .model(_, let name):
+            self.tagLabel.text = name
+        case .yearsRange(let startYear, let endYear):
+            self.tagLabel.text = FilterTagCell.stringForYearsRange(startYear, endYear: endYear)
         }
     }
 

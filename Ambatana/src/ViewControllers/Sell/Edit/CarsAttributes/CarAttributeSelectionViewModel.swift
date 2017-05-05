@@ -9,6 +9,11 @@
 import RxSwift
 import LGCoreKit
 
+enum CarAttributeSelectionTableStyle {
+    case edit
+    case filter
+}
+
 extension CarDetailType {
     var navigationTitle: String {
         switch self {
@@ -33,31 +38,50 @@ protocol CarAttributeSelectionDelegate: class {
 class CarAttributeSelectionViewModel : BaseViewModel {
 
     weak var delegate: CarAttributeSelectionViewModelDelegate?
-    weak var choiceDelegate: CarAttributeSelectionDelegate?
+    weak var carAttributeSelectionDelegate: CarAttributeSelectionDelegate?
 
     var title: String
     var detailType: CarDetailType
     var selectedIndex: Int?
+    var style: CarAttributeSelectionTableStyle = .edit
 
 
     let wrappedInfoList = Variable<[CarInfoWrapper]>([])
 
-    init(carsMakes: [CarsMake], selectedMake: String?) {
+    init(carsMakes: [CarsMake], selectedMake: String?, style: CarAttributeSelectionTableStyle) {
         self.detailType = .make
         self.title = detailType.navigationTitle
-        if let selectedMake = selectedMake {
-            self.selectedIndex = carsMakes.map {$0.makeId}.index(of: selectedMake)
+        self.style = style
+        var carInfoWrapperList: [CarInfoWrapper] = carsMakes.map { CarInfoWrapper(id: $0.makeId, name: $0.makeName, type: .make )}
+        switch style {
+        case .filter:
+            carInfoWrapperList.append(CarInfoWrapper(id: "", name: LGLocalizedString.categoriesOther, type: .make))
+        case .edit:
+            break
         }
-        wrappedInfoList.value = carsMakes.map { CarInfoWrapper(id: $0.makeId, name: $0.makeName, type: .make )}
+
+        if let selectedMake = selectedMake {
+            self.selectedIndex = carInfoWrapperList.map {$0.id}.index(of: selectedMake)
+        }
+        wrappedInfoList.value = carInfoWrapperList
     }
 
-    init(carsModels: [CarsModel], selectedModel: String?) {
+    init(carsModels: [CarsModel], selectedModel: String?, style: CarAttributeSelectionTableStyle) {
         self.detailType = .model
         self.title = detailType.navigationTitle
-        if let selectedModel = selectedModel {
-            self.selectedIndex = carsModels.map {$0.modelId}.index(of: selectedModel)
+        self.style = style
+        var carInfoWrapperList: [CarInfoWrapper] = carsModels.map { CarInfoWrapper(id: $0.modelId, name: $0.modelName, type: .model )}
+        switch style {
+        case .filter:
+            carInfoWrapperList.append(CarInfoWrapper(id: "", name: LGLocalizedString.categoriesOther, type: .model))
+        case .edit:
+            break
         }
-        wrappedInfoList.value = carsModels.map { CarInfoWrapper(id: $0.modelId, name: $0.modelName, type: .model )}
+
+        if let selectedModel = selectedModel {
+            self.selectedIndex = carInfoWrapperList.map {$0.id}.index(of: selectedModel)
+        }
+        wrappedInfoList.value = carInfoWrapperList
     }
 
     init(yearsList: [Int], selectedYear: Int?) {
@@ -72,12 +96,12 @@ class CarAttributeSelectionViewModel : BaseViewModel {
     func carInfoSelected(id: String, name: String, type: CarDetailType) {
         switch type {
         case .make:
-            choiceDelegate?.didSelectMake(makeId: id, makeName: name)
+            carAttributeSelectionDelegate?.didSelectMake(makeId: id, makeName: name)
         case .model:
-            choiceDelegate?.didSelectModel(modelId: id, modelName: name)
+            carAttributeSelectionDelegate?.didSelectModel(modelId: id, modelName: name)
         case .year:
             guard let year = Int(id) else { return }
-            choiceDelegate?.didSelectYear(year: year)
+            carAttributeSelectionDelegate?.didSelectYear(year: year)
         }
         closeAttributesChoice()
     }

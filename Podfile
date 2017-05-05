@@ -34,9 +34,9 @@ def shared_pods
     pod "NewRelicAgent",        "5.10.1"
 
     # letgo Core
-    pod "LGCoreKit",            "3.1.3"
-    #pod "LGCoreKit",            :path => "../lgcorekit"
-    #pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => 'f3a4ec0e1e1e32b59a278629e6b7dfac4f0478e3'
+    pod "LGCoreKit",            "3.1.4"
+#    pod "LGCoreKit",            :path => "../lgcorekit"
+#    pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => '0938c68bd9fc177586a65bc1c9324e6d4ad0c0ec'
 
     # letgo Collapsible label
     pod "LGCollapsibleLabel",   "1.1.0"     # :path => "../collapsiblelabel"
@@ -80,6 +80,9 @@ def shared_pods
 
     # TODO: This is an override to check our fork, remove after original repo merges our pr.
     pod "KeychainSwift",        :git => 'git@github.com:letgoapp/keychain-swift.git', :commit => 'f6230869f4d26d720f36eb227bd269c3d712986b'
+
+    # Range Slider
+    pod "SwiftRangeSlider"
 
 end
 

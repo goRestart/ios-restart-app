@@ -219,7 +219,8 @@ struct TrackerEvent {
 
     static func filterComplete(_ coordinates: LGLocationCoordinates2D?, distanceRadius: Int?,
                                distanceUnit: DistanceType, categories: [ListingCategory]?, sortBy: ListingSortCriteria?,
-                               postedWithin: ListingTimeCriteria?, priceRange: FilterPriceRange, freePostingModeAllowed: Bool) -> TrackerEvent {
+                               postedWithin: ListingTimeCriteria?, priceRange: FilterPriceRange, freePostingModeAllowed: Bool,
+                               carMake: String?, carModel: String?, carYearStart: Int?, carYearEnd: Int?) -> TrackerEvent {
         var params = EventParameters()
 
         // Filter Coordinates
@@ -256,6 +257,19 @@ struct TrackerEvent {
         params[.priceTo] = eventParameterHasPriceFilter(priceRange.max).rawValue
         
         params[.freePosting] = eventParameterFreePostingWithPriceRange(freePostingModeAllowed, priceRange: priceRange).rawValue
+
+        params[.make] = carMake ?? "N/A"
+        params[.model] = carModel ?? "N/A"
+        if let carYearStart = carYearStart {
+            params[.yearStart] = String(carYearStart)
+        } else {
+            params[.yearStart] = "N/A"
+        }
+        if let carYearEnd = carYearEnd {
+            params[.yearEnd] = String(carYearEnd)
+        } else {
+            params[.yearEnd] = "N/A"
+        }
 
         return TrackerEvent(name: .filterComplete, params: params)
     }

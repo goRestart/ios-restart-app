@@ -308,8 +308,8 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     func carMakeButtonPressed() {
         // open car makes table
         let carsMakesList = carsInfoRepository.retrieveCarsMakes()
-        let carsAttributtesChoiceVMWithMakes = CarAttributeSelectionViewModel(carsMakes: carsMakesList, selectedMake: carMakeId.value)
-        carsAttributtesChoiceVMWithMakes.choiceDelegate = self
+        let carsAttributtesChoiceVMWithMakes = CarAttributeSelectionViewModel(carsMakes: carsMakesList, selectedMake: carMakeId.value, style: .edit)
+        carsAttributtesChoiceVMWithMakes.carAttributeSelectionDelegate = self
         delegate?.openCarAttributeSelectionsWithViewModel(attributesChoiceViewModel: carsAttributtesChoiceVMWithMakes)
     }
 
@@ -317,8 +317,8 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         // open car models table
         guard let makeId = carMakeId.value else { return }
         let carsModelsList = carsInfoRepository.retrieveCarsModelsFormake(makeId: makeId)
-        let carsAttributtesChoiceVMWithModels = CarAttributeSelectionViewModel(carsModels: carsModelsList, selectedModel: carModelId.value)
-        carsAttributtesChoiceVMWithModels.choiceDelegate = self
+        let carsAttributtesChoiceVMWithModels = CarAttributeSelectionViewModel(carsModels: carsModelsList, selectedModel: carModelId.value, style: .edit)
+        carsAttributtesChoiceVMWithModels.carAttributeSelectionDelegate = self
         delegate?.openCarAttributeSelectionsWithViewModel(attributesChoiceViewModel: carsAttributtesChoiceVMWithModels)
     }
 
@@ -326,7 +326,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         // open car years table
         let carsYearsList = carsInfoRepository.retrieveValidYears(withFirstYear: nil, ascending: false)
         let carsAttributtesChoiceVMWithYears = CarAttributeSelectionViewModel(yearsList: carsYearsList, selectedYear: carYear.value)
-        carsAttributtesChoiceVMWithYears.choiceDelegate = self
+        carsAttributtesChoiceVMWithYears.carAttributeSelectionDelegate = self
         delegate?.openCarAttributeSelectionsWithViewModel(attributesChoiceViewModel: carsAttributtesChoiceVMWithYears)
     }
 

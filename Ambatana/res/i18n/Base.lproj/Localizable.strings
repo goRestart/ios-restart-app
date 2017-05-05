@@ -104,7 +104,7 @@
 "bump_up_view_pay_title" = "BUMP UP TO SELL FASTER";
 
 // Subtitle for payment bump up view
-"bump_up_view_pay_subtitle" = "Give your listing higher visibility for 24 hours by moving it to the top.";
+"bump_up_view_pay_subtitle" = "Give your listing higher visibility by moving it to the top.";
 
 // Button title for payment bump up view
 "bump_up_view_pay_button_title" = "Activate for %@";
@@ -938,6 +938,18 @@
 
 // Filters within option 7 days
 "filters_within_week" = "The last 7 days";
+
+// Filters Make not set
+"filters_car_make_not_set" = "Not Set";
+
+// Filters Model Not Set
+"filters_car_model_not_set" = "Not Set";
+
+// Filters for Year, full range
+"filters_car_year_any_year" = "Any Year";
+
+// Filters For Year, before year X
+"filters_car_year_before_year" = "Before %i";
 
 // Forced update message.
 "forced_update_message" = "A new version of letgo is available. Please update now!";

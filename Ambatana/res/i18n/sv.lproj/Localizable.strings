@@ -34,7 +34,7 @@
 "bump_up_view_free_title" = "PUFFA DIN VARA UPPÅT";
 "bump_up_view_pay_bumps_left_text" = "Du har %i puffar uppåt kvar.";
 "bump_up_view_pay_button_title" = "Aktivera för %@";
-"bump_up_view_pay_subtitle" = "Ge din vara högre synlighet under 24 timmar genom att flytta den till toppen.";
+"bump_up_view_pay_subtitle" = "Ge din produkt mera synlighet genom att flytta den högst upp.";
 "bump_up_view_pay_title" = "PUFFA UPPÅT FÖR ATT SÄLJA SNABBARE";
 "categories_baby_and_child" = "Bebis och barn";
 "categories_car" = "Bilar";
@@ -291,13 +291,17 @@
 "edit_product_title" = "Redigera produkt";
 "edit_product_unsaved_changes_alert" = "Är du säker på att du vill lämna sidan utan att spara ändringarna?";
 "edit_product_unsaved_changes_alert_ok" = "Släng bort";
+"filters_car_make_not_set" = "Ej Valt";
+"filters_car_model_not_set" = "Ej Vald";
+"filters_car_year_any_year" = "Alla år";
+"filters_car_year_before_year" = "Innan %i";
 "filters_distance_not_set" = "inte vald";
 "filters_navbar_reset" = "Återställ";
 "filters_price_from" = "Från";
 "filters_price_to" = "Till";
 "filters_price_wrong_range_error" = "Lägsta pris kan inte vara högre än högsta pris.";
 "filters_save_button" = "Spara filter";
-"filters_section_car_info" = "Car Info";
+"filters_section_car_info" = "Biluppgifter";
 "filters_section_categories" = "Kategorier";
 "filters_section_distance" = "Avstånd";
 "filters_section_location" = "Plats";

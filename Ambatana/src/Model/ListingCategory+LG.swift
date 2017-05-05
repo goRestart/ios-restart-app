@@ -67,7 +67,7 @@ extension ListingCategory {
         case .electronics:
             return UIImage(named: "categories_electronics")
         case .motorsAndAccessories:
-            return UIImage(named: "categories_cars")
+            return UIImage(named: "categories_motors")
         case .sportsLeisureAndGames:
             return UIImage(named: "categories_sports")
         case .homeAndGarden:
@@ -81,7 +81,7 @@ extension ListingCategory {
         case .other:
             return UIImage(named: "categories_others")
         case .cars:
-            return UIImage(named: "categories_car")
+            return UIImage(named: "categories_cars")
         }
     }
     
@@ -117,7 +117,7 @@ extension ListingCategory {
         case .electronics:
             return UIImage(named: "categories_electronics_inactive")
         case .motorsAndAccessories:
-            return UIImage(named: "categories_cars_inactive")
+            return UIImage(named: "categories_motors_inactive")
         case .sportsLeisureAndGames:
             return UIImage(named: "categories_sports_inactive")
         case .homeAndGarden:
@@ -131,7 +131,7 @@ extension ListingCategory {
         case .other:
             return UIImage(named: "categories_others_inactive")
         case .cars:
-            return UIImage(named: "categories_car_inactive")
+            return UIImage(named: "categories_cars_inactive")
         }
     }
     

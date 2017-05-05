@@ -1271,6 +1271,22 @@ struct LGLocalizedString {
 		return NSLocalizedString("filters_within_week", comment: "")
 	}
 
+	static var filtersCarMakeNotSet: String {
+		return NSLocalizedString("filters_car_make_not_set", comment: "")
+	}
+
+	static var filtersCarModelNotSet: String {
+		return NSLocalizedString("filters_car_model_not_set", comment: "")
+	}
+
+	static var filtersCarYearAnyYear: String {
+		return NSLocalizedString("filters_car_year_any_year", comment: "")
+	}
+
+	static var filtersCarYearBeforeYear: String {
+		return NSLocalizedString("filters_car_year_before_year", comment: "")
+	}
+
 	static var forcedUpdateMessage: String {
 		return NSLocalizedString("forced_update_message", comment: "")
 	}

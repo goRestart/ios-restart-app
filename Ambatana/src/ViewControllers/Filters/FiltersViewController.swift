@@ -10,8 +10,8 @@ import UIKit
 import RxSwift
 
 class FiltersViewController: BaseViewController, FiltersViewModelDelegate, FilterDistanceCellDelegate, FilterPriceCellDelegate,
-UICollectionViewDataSource, UICollectionViewDelegate {
-    
+FilterCarInfoYearCellDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
+
     // Outlets & buttons
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var saveFiltersBtn: UIButton!
@@ -115,10 +115,22 @@ UICollectionViewDataSource, UICollectionViewDelegate {
         collectionView.scrollRectToVisible(priceToCellFrame, animated: false)
     }
 
+    func vmOpenCarAttributeSelectionsWithViewModel(attributesChoiceViewModel: CarAttributeSelectionViewModel) {
+        let vc = CarAttributeSelectionViewController(viewModel: attributesChoiceViewModel)
+        pushViewController(vc, animated: true, completion: nil)
+    }
+
     // MARK: FilterDistanceCellDelegate
     
     func filterDistanceChanged(_ filterDistanceCell: FilterDistanceCell) {
         viewModel.currentDistanceRadius = filterDistanceCell.distance
+    }
+
+    // MARK: FilterCarInfoYearCellDelegate
+
+    func filterYearChanged(withStartYear startYear: Int?, endYear: Int?) {
+        viewModel.carYearStart = startYear
+        viewModel.carYearEnd = endYear
     }
 
     // MARK: FilterPriceCellDelegate
@@ -147,6 +159,15 @@ UICollectionViewDataSource, UICollectionViewDelegate {
                 return distanceCellSize
             case .categories:
                 return categoryCellSize
+            case .carsInfo:
+                switch indexPath.item {
+                case 0, 1:
+                    return singleCheckCellSize
+                case 2:
+                    return distanceCellSize
+                default:
+                    return singleCheckCellSize
+                }
             case .sortBy, .within, .location:
                 return singleCheckCellSize
             case .price:
@@ -166,6 +187,8 @@ UICollectionViewDataSource, UICollectionViewDelegate {
             return 1
         case .categories:
             return viewModel.numOfCategories
+        case .carsInfo:
+            return 3
         case .within:
             return viewModel.numOfWithinTimes
         case .sortBy:
@@ -220,6 +243,37 @@ UICollectionViewDataSource, UICollectionViewDelegate {
                 cell.rightSeparator.isHidden = indexPath.row % 2 == 1
                 cell.isSelected = viewModel.categorySelectedAtIndex(indexPath.row)
                 return cell
+            case .carsInfo:
+                switch indexPath.item {
+                case 0:
+                    // make
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterCarInfoMakeModelCell",
+                                                                        for: indexPath) as? FilterCarInfoMakeModelCell else { return UICollectionViewCell() }
+                    cell.isUserInteractionEnabled = true
+                    cell.titleLabel.isEnabled = true
+                    cell.titleLabel.text = LGLocalizedString.postCategoryDetailCarMake
+                    cell.infoLabel.text = viewModel.currentCarMakeName ?? LGLocalizedString.filtersCarMakeNotSet
+                    return cell
+                case 1:
+                    // Model
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterCarInfoMakeModelCell",
+                                                                        for: indexPath) as? FilterCarInfoMakeModelCell else { return UICollectionViewCell() }
+                    cell.isUserInteractionEnabled = viewModel.modelCellEnabled
+                    cell.titleLabel.isEnabled = viewModel.modelCellEnabled
+                    cell.titleLabel.text = LGLocalizedString.postCategoryDetailCarModel
+                    cell.infoLabel.text = viewModel.currentCarModelName ?? LGLocalizedString.filtersCarModelNotSet
+                    return cell
+                case 2:
+                    // Year
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterCarInfoYearCell",
+                                                                        for: indexPath) as? FilterCarInfoYearCell else { return UICollectionViewCell() }
+                    cell.delegate = self
+                    cell.titleLabel.text = LGLocalizedString.postCategoryDetailCarYear
+                    cell.drawSlider(withStartingYear: viewModel.carYearStart, endYear: viewModel.carYearEnd)
+                    return cell
+                default:
+                    return UICollectionViewCell()
+                }
             case .within:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterSingleCheckCell",
                     for: indexPath) as? FilterSingleCheckCell else { return UICollectionViewCell() }
@@ -262,6 +316,20 @@ UICollectionViewDataSource, UICollectionViewDelegate {
             break
         case .categories:
             viewModel.selectCategoryAtIndex(indexPath.row)
+        case .carsInfo:
+            switch indexPath.item {
+            case 0:
+                // make
+                viewModel.makeButtonPressed()
+            case 1:
+                // Model
+                viewModel.modelButtonPressed()
+            case 2:
+                // Do nothing for year
+                break
+            default:
+                break
+            }
         case .within:
             viewModel.selectWithinTimeAtIndex(indexPath.row)
         case .sortBy:
@@ -285,6 +353,10 @@ UICollectionViewDataSource, UICollectionViewDelegate {
         self.collectionView.register(distanceNib, forCellWithReuseIdentifier: "FilterDistanceCell")
         let locationNib = UINib(nibName: "FilterLocationCell", bundle: nil)
         self.collectionView.register(locationNib, forCellWithReuseIdentifier: "FilterLocationCell")
+        let carMakeModelNib = UINib(nibName: "FilterCarInfoMakeModelCell", bundle: nil)
+        self.collectionView.register(carMakeModelNib, forCellWithReuseIdentifier: "FilterCarInfoMakeModelCell")
+        let carYearNib = UINib(nibName: "FilterCarInfoYearCell", bundle: nil)
+        self.collectionView.register(carYearNib, forCellWithReuseIdentifier: "FilterCarInfoYearCell")
         let headerNib = UINib(nibName: "FilterHeaderCell", bundle: nil)
         self.collectionView.register(headerNib, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader,
             withReuseIdentifier: "FilterHeaderCell")
