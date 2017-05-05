@@ -350,7 +350,6 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         keyboardHelper.rx_keyboardOrigin.asObservable().bindNext { [weak self] origin in
             guard origin > 0 else { return }
             guard let strongSelf = self else { return }
-            print(strongSelf.view)
             let keyboardHeight = origin - strongSelf.view.height
             strongSelf.detailsContainerBottomConstraint.constant = keyboardHeight/2
             if strongSelf.carDetailsView.state == .selectDetail {
