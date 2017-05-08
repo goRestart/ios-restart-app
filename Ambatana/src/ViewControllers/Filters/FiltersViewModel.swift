@@ -11,10 +11,10 @@ import LGCoreKit
 import RxSwift
 
 enum FilterCategoryItem: Equatable {
-    case category(category: ProductCategory)
+    case category(category: ListingCategory)
     case free
 
-    init(category: ProductCategory) {
+    init(category: ListingCategory) {
         self = .category(category: category)
     }
 
@@ -58,6 +58,7 @@ protocol FiltersViewModelDelegate: BaseViewModelDelegate {
     func vmDidUpdate()
     func vmOpenLocation(_ locationViewModel: EditLocationViewModel)
     func vmForcePriceFix()
+    func vmOpenCarAttributeSelectionsWithViewModel(attributesChoiceViewModel: CarAttributeSelectionViewModel)
 }
 
 protocol FiltersViewModelDataDelegate: class {
@@ -105,6 +106,33 @@ class FiltersViewModel: BaseViewModel {
     private var categoryRepository: CategoryRepository
     private var categories: [FilterCategoryItem]
 
+    var currentCarMakeName: String? {
+        return productFilter.carMakeName
+    }
+    var currentCarModelName: String? {
+        return productFilter.carModelName
+    }
+    var modelCellEnabled: Bool {
+        return currentCarMakeName != nil
+    }
+    var carYearStart: Int? {
+        get {
+            return productFilter.carYearStart
+        }
+        set {
+            productFilter.carYearStart = newValue
+        }
+    }
+
+    var carYearEnd: Int? {
+        get {
+            return productFilter.carYearEnd
+        }
+        set {
+            productFilter.carYearEnd = newValue
+        }
+    }
+
     var numOfCategories : Int {
         // we add an extra empty cell if the num of categories is odds
         return isOddNumCategories ? self.categories.count+1 : self.categories.count
@@ -118,17 +146,21 @@ class FiltersViewModel: BaseViewModel {
         return self.productFilter.priceRange.free
     }
 
+    var carsInfoCellsDisabled: Bool {
+        return !(featureFlags.carsVerticalEnabled && productFilter.selectedCategories.contains(.cars))
+    }
+
     //Within vars
     var numOfWithinTimes : Int {
         return self.withinTimes.count
     }
-    private var withinTimes : [ProductTimeCriteria]
+    private var withinTimes : [ListingTimeCriteria]
     
     //SortOptions vars
     var numOfSortOptions : Int {
         return self.sortOptions.count
     }
-    private var sortOptions : [ProductSortCriteria]
+    private var sortOptions : [ListingSortCriteria]
 
     private var minPrice: Int? {
         return productFilter.priceRange.min
@@ -149,20 +181,21 @@ class FiltersViewModel: BaseViewModel {
     fileprivate var productFilter : ProductFilters
     
     private let featureFlags: FeatureFlaggeable
-    
+    private let carsInfoRepository: CarsInfoRepository
+
     override convenience init() {
         self.init(currentFilters: ProductFilters())
     }
     
     convenience init(currentFilters: ProductFilters) {
         self.init(categoryRepository: Core.categoryRepository, categories: [],
-            withinTimes: ProductTimeCriteria.allValues(), sortOptions: ProductSortCriteria.allValues(),
-            currentFilters: currentFilters, featureFlags: FeatureFlags.sharedInstance)
+            withinTimes: ListingTimeCriteria.allValues(), sortOptions: ListingSortCriteria.allValues(),
+            currentFilters: currentFilters, featureFlags: FeatureFlags.sharedInstance, carsInfoRepository: Core.carsInfoRepository)
     }
     
     required init(categoryRepository: CategoryRepository, categories: [FilterCategoryItem],
-                  withinTimes: [ProductTimeCriteria], sortOptions: [ProductSortCriteria], currentFilters: ProductFilters,
-        featureFlags: FeatureFlaggeable) {
+                  withinTimes: [ListingTimeCriteria], sortOptions: [ListingSortCriteria], currentFilters: ProductFilters,
+        featureFlags: FeatureFlaggeable, carsInfoRepository: CarsInfoRepository) {
         self.categoryRepository = categoryRepository
         self.categories = categories
         self.withinTimes = withinTimes
@@ -170,6 +203,7 @@ class FiltersViewModel: BaseViewModel {
         self.productFilter = currentFilters
         self.sections = []
         self.featureFlags = featureFlags
+        self.carsInfoRepository = carsInfoRepository
         super.init()
         self.sections = generateSections()
     }
@@ -178,8 +212,15 @@ class FiltersViewModel: BaseViewModel {
 
     private func generateSections() -> [FilterSection] {
         var updatedSections = FilterSection.allValues
-        guard let idx = updatedSections.index(of: FilterSection.price), priceCellsDisabled else { return updatedSections }
-        updatedSections.remove(at: idx)
+
+        // Don't show price cells if necessary
+        if let idx = updatedSections.index(of: FilterSection.price), priceCellsDisabled {
+            updatedSections.remove(at: idx)
+        }
+        // Don't show car info cells if necessary
+        if let idx = updatedSections.index(of: FilterSection.carsInfo), carsInfoCellsDisabled {
+            updatedSections.remove(at: idx)
+        }
         return updatedSections
     }
 
@@ -188,7 +229,22 @@ class FiltersViewModel: BaseViewModel {
         locationVM.locationDelegate = self
         delegate?.vmOpenLocation(locationVM)
     }
-    
+
+    func makeButtonPressed() {
+        let carsMakesList = carsInfoRepository.retrieveCarsMakes()
+        let carsAttributtesChoiceVMWithMakes = CarAttributeSelectionViewModel(carsMakes: carsMakesList, selectedMake: productFilter.carMakeId, style: .filter)
+        carsAttributtesChoiceVMWithMakes.carAttributeSelectionDelegate = self
+        delegate?.vmOpenCarAttributeSelectionsWithViewModel(attributesChoiceViewModel: carsAttributtesChoiceVMWithMakes)
+    }
+
+    func modelButtonPressed() {
+        guard let makeId = productFilter.carMakeId else { return }
+        let carsModelsForMakeList = carsInfoRepository.retrieveCarsModelsFormake(makeId: makeId)
+        let carsAttributtesChoiceVMWithModels = CarAttributeSelectionViewModel(carsModels: carsModelsForMakeList, selectedModel: productFilter.carModelId, style: .filter)
+        carsAttributtesChoiceVMWithModels.carAttributeSelectionDelegate = self
+        delegate?.vmOpenCarAttributeSelectionsWithViewModel(attributesChoiceViewModel: carsAttributtesChoiceVMWithModels)
+    }
+
     func resetFilters() {
         self.productFilter = ProductFilters()
         delegate?.vmDidUpdate()
@@ -214,7 +270,11 @@ class FiltersViewModel: BaseViewModel {
                                                         sortBy: productFilter.selectedOrdering,
                                                         postedWithin: productFilter.selectedWithin,
                                                         priceRange: productFilter.priceRange,
-                                                        freePostingModeAllowed: featureFlags.freePostingModeAllowed)
+                                                        freePostingModeAllowed: featureFlags.freePostingModeAllowed,
+                                                        carMake: productFilter.carMakeName,
+                                                        carModel: productFilter.carModelName,
+                                                        carYearStart: productFilter.carYearStart,
+                                                        carYearEnd: productFilter.carYearEnd)
         TrackerProxy.sharedInstance.trackEvent(trackingEvent)
         
         dataDelegate?.viewModelDidUpdateFilters(self, filters: productFilter)
@@ -234,8 +294,12 @@ class FiltersViewModel: BaseViewModel {
         }
     }
 
-    private func buildFilterCategoryItemsWithCategories(_ categories: [ProductCategory]) -> [FilterCategoryItem] {
-        let filterCatItems: [FilterCategoryItem] = featureFlags.freePostingModeAllowed ? [.free] : []
+    private func buildFilterCategoryItemsWithCategories(_ categories: [ListingCategory]) -> [FilterCategoryItem] {
+
+        var filterCatItems: [FilterCategoryItem] = featureFlags.carsVerticalEnabled ? [.category(category: .cars)] : []
+        if featureFlags.freePostingModeAllowed {
+            filterCatItems.append(.free)
+        }
         let builtCategories = categories.map { FilterCategoryItem(category: $0) }
         return filterCatItems + builtCategories
     }
@@ -251,10 +315,13 @@ class FiltersViewModel: BaseViewModel {
             case .priceRange:
                 productFilter.priceRange = .freePrice
             }
-            sections = generateSections()
         case .category(let cat):
-            productFilter.toggleCategory(cat)
+            if cat != .cars {
+                resetCarsInfo()
+            }
+            productFilter.toggleCategory(cat, carVerticalEnabled: featureFlags.carsVerticalEnabled)
         }
+        sections = generateSections()
         self.delegate?.vmDidUpdate()
     }
     
@@ -363,6 +430,15 @@ class FiltersViewModel: BaseViewModel {
         // index is in range and avoid the extra blank cell in case num categories is odd
         return index < numOfCategories && !(isOddNumCategories && index == numOfCategories-1)
     }
+
+    private func resetCarsInfo() {
+        productFilter.carMakeId = nil
+        productFilter.carModelId = nil
+        productFilter.carMakeName = nil
+        productFilter.carModelName = nil
+        productFilter.carYearStart = nil
+        productFilter.carYearEnd = nil
+    }
 }
 
 
@@ -374,3 +450,22 @@ extension FiltersViewModel: EditLocationDelegate {
         delegate?.vmDidUpdate()
     }
 }
+
+extension FiltersViewModel: CarAttributeSelectionDelegate {
+    func didSelectMake(makeId: String, makeName: String) {
+        productFilter.carMakeId = makeId
+        productFilter.carMakeName = makeName
+        productFilter.carModelId = nil
+        productFilter.carModelName = nil
+        delegate?.vmDidUpdate()
+    }
+
+    func didSelectModel(modelId: String, modelName: String) {
+        productFilter.carModelId = modelId
+        productFilter.carModelName = modelName
+        delegate?.vmDidUpdate()
+    }
+
+    func didSelectYear(year: Int) { }
+}
+

@@ -31,6 +31,7 @@ class ChatViewController: TextViewController {
     let expressChatBanner: ChatBanner
     var bannerTopConstraint: NSLayoutConstraint = NSLayoutConstraint()
     var featureFlags: FeatureFlaggeable
+    var pushPermissionManager: PushPermissionsManager
 
     var blockedToastOffset: CGFloat {
         return relationInfoView.isHidden ? 0 : RelationInfoView.defaultHeight
@@ -44,16 +45,21 @@ class ChatViewController: TextViewController {
     }
 
     convenience init(viewModel: ChatViewModel, hidesBottomBar: Bool) {
-        self.init(viewModel: viewModel, featureFlags: FeatureFlags.sharedInstance, hidesBottomBar: hidesBottomBar)
+        self.init(viewModel: viewModel, featureFlags: FeatureFlags.sharedInstance,
+                  pushPermissionManager: LGPushPermissionsManager.sharedInstance,
+                  hidesBottomBar: hidesBottomBar)
     }
 
-    required init(viewModel: ChatViewModel, featureFlags: FeatureFlaggeable, hidesBottomBar: Bool) {
+    required init(viewModel: ChatViewModel, featureFlags: FeatureFlaggeable,
+                  pushPermissionManager: PushPermissionsManager,
+                  hidesBottomBar: Bool) {
         self.viewModel = viewModel
         self.productView = ChatProductView.chatProductView(featureFlags.userReviews)
         self.relatedProductsView = ChatRelatedProductsView()
         self.directAnswersPresenter = DirectAnswersPresenter(websocketChatActive: featureFlags.websocketChat)
         self.stickersView = ChatStickersView()
         self.featureFlags = featureFlags
+        self.pushPermissionManager = pushPermissionManager
         self.expressChatBanner = ChatBanner()
         super.init(viewModel: viewModel, nibName: nil)
         self.viewModel.delegate = self
@@ -267,17 +273,6 @@ class ChatViewController: TextViewController {
     dynamic private func optionsBtnPressed() {
         viewModel.openOptionsMenu()
     }
-    
-    
-    // MARK: > Rating
-
-    fileprivate func askForRating() {
-        delay(1.0) { [weak self] in
-            self?.showKeyboard(false, animated: true)
-            guard let tabBarCtrl = self?.tabBarController as? TabBarController else { return }
-            tabBarCtrl.showAppRatingViewIfNeeded(.chat)
-        }
-    }
 }
 
 
@@ -484,8 +479,8 @@ fileprivate extension ChatViewController {
             guard let strongSelf = self else { return }
             let visible = state == .visible
             strongSelf.directAnswersPresenter.hidden = !visible
-            strongSelf.configureBottomMargin(animated: true)            
-        }.addDisposableTo(disposeBag)
+            strongSelf.configureBottomMargin(animated: true)
+            }.addDisposableTo(disposeBag)
 
         keyboardChanges.bindNext { [weak self] change in
             if !change.visible {
@@ -495,6 +490,15 @@ fileprivate extension ChatViewController {
         
         viewModel.showStickerBadge.asObservable().bindNext { [weak self] _ in
             self?.reloadLeftActions()
+        }.addDisposableTo(disposeBag)
+        
+        viewModel.relatedProductsState.asObservable().bindNext { [weak self] state in
+            switch state {
+            case .visible(let productId):
+                self?.relatedProductsView.productId.value = productId
+            case .hidden, .loading:
+                self?.relatedProductsView.productId.value = nil
+            }
         }.addDisposableTo(disposeBag)
     }
 }
@@ -552,10 +556,6 @@ extension ChatViewController: ChatViewModelDelegate {
         }
     }
 
-    func vmShowRelatedProducts(_ productId: String?) {
-        relatedProductsView.productId.value = productId
-    }
-
     func vmDidUpdateProduct(messageToShow message: String?) {
         // TODO: 🎪 Show a message when marked as sold is implemented
         guard let message = message else { return }
@@ -574,13 +574,6 @@ extension ChatViewController: ChatViewModelDelegate {
         self.navigationController?.pushViewController(vc, animated: true)
     }
 
-    // MARK: > Rate user
-
-    func vmShowUserRating(_ source: RateUserSource, data: RateUserData) {
-        guard let tabBarController = self.tabBarController as? TabBarController else { return }
-        tabBarController.openUserRating(source, data: data)
-    }
-
     
     // MARK: > Alerts and messages
     
@@ -588,14 +581,9 @@ extension ChatViewController: ChatViewModelDelegate {
         showSafetyTips()
     }
     
-    func vmAskForRating() {
-        showKeyboard(false, animated: true)
-        askForRating()
-    }
-    
     func vmShowPrePermissions(_ type: PrePermissionType) {
         showKeyboard(false, animated: true)
-        PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: type, completion: nil)
+        pushPermissionManager.showPrePermissionsViewFrom(self, type: type, completion: nil)
     }
     
     func vmShowKeyboard() {

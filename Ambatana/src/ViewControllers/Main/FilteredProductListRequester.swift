@@ -13,7 +13,7 @@ import CoreLocation
 class FilteredProductListRequester: ProductListRequester {
 
     let itemsPerPage: Int
-    fileprivate let productRepository: ProductRepository
+    fileprivate let listingRepository: ListingRepository
     fileprivate let locationManager: LocationManager
     fileprivate var queryFirstCallCoordinates: LGLocationCoordinates2D?
     fileprivate var queryFirstCallCountryCode: String?
@@ -24,12 +24,12 @@ class FilteredProductListRequester: ProductListRequester {
     var filters: ProductFilters?
 
     convenience init(itemsPerPage: Int, offset: Int = 0) {
-        self.init(productRepository: Core.productRepository, locationManager: Core.locationManager,
+        self.init(listingRepository: Core.listingRepository, locationManager: Core.locationManager,
                   itemsPerPage: itemsPerPage, offset: offset)
     }
 
-    init(productRepository: ProductRepository, locationManager: LocationManager, itemsPerPage: Int, offset: Int) {
-        self.productRepository = productRepository
+    init(listingRepository: ListingRepository, locationManager: LocationManager, itemsPerPage: Int, offset: Int) {
+        self.listingRepository = listingRepository
         self.locationManager = locationManager
         self.initialOffset = offset
         self.itemsPerPage = itemsPerPage
@@ -40,7 +40,7 @@ class FilteredProductListRequester: ProductListRequester {
 
     func canRetrieve() -> Bool { return queryCoordinates != nil }
     
-    func retrieveFirstPage(_ completion: ProductsCompletion?) {
+    func retrieveFirstPage(_ completion: ListingsCompletion?) {
         offset = initialOffset
         if let currentLocation = locationManager.currentLocation {
             queryFirstCallCoordinates = LGLocationCoordinates2D(location: currentLocation)
@@ -48,21 +48,21 @@ class FilteredProductListRequester: ProductListRequester {
         }
         
         retrieve() { [weak self] result in
-            guard let indexProducts = result.value, let useLimbo = self?.prependLimbo, useLimbo else {
+            guard let indexListings = result.value, let useLimbo = self?.prependLimbo, useLimbo else {
                 self?.offset = result.value?.count ?? self?.offset ?? 0
                 completion?(result)
                 return
             }
-            self?.productRepository.indexLimbo { [weak self] limboResult in
-                var finalProducts: [Product] = limboResult.value ?? []
-                finalProducts += indexProducts
-                self?.offset = indexProducts.count
-                completion?(ProductsResult(finalProducts))
+            self?.listingRepository.indexLimbo { [weak self] limboResult in
+                var finalListings: [Listing] = limboResult.value ?? []
+                finalListings += indexListings
+                self?.offset = indexListings.count
+                completion?(ListingsResult(finalListings))
             }
         }
     }
     
-    func retrieveNextPage(_ completion: ProductsCompletion?) {
+    func retrieveNextPage(_ completion: ListingsCompletion?) {
         retrieve() { [weak self] result in
             if let value = result.value {
                 self?.offset += value.count
@@ -71,8 +71,8 @@ class FilteredProductListRequester: ProductListRequester {
         }
     }
     
-    private func retrieve(_ completion: ProductsCompletion?) {
-        productRepository.index(retrieveProductsParams, completion: completion)
+    private func retrieve(_ completion: ListingsCompletion?) {
+        listingRepository.index(retrieveProductsParams, completion: completion)
     }
 
     func isLastPage(_ resultCount: Int) -> Bool {
@@ -137,8 +137,8 @@ fileprivate extension FilteredProductListRequester {
         return nil
     }
 
-    var retrieveProductsParams: RetrieveProductsParams {
-        var params: RetrieveProductsParams = RetrieveProductsParams()
+    var retrieveProductsParams: RetrieveListingParams {
+        var params: RetrieveListingParams = RetrieveListingParams()
         params.numProducts = itemsPerPage
         params.offset = offset
         params.coordinates = queryCoordinates
@@ -149,6 +149,10 @@ fileprivate extension FilteredProductListRequester {
         params.sortCriteria = filters?.selectedOrdering
         params.distanceRadius = filters?.distanceRadius
         params.distanceType = filters?.distanceType
+        params.makeId = filters?.carMakeId
+        params.modelId = filters?.carModelId
+        params.startYear = filters?.carYearStart
+        params.endYear = filters?.carYearEnd
         if let priceRange = filters?.priceRange {
             switch priceRange {
             case .freePrice:

@@ -165,7 +165,7 @@ struct TrackerEvent {
         return TrackerEvent(name: .loginBlockedAccountKeepBrowsing, params: params)
     }
 
-    static func productList(_ user: User?, categories: [ProductCategory]?, searchQuery: String?,
+    static func productList(_ user: User?, categories: [ListingCategory]?, searchQuery: String?,
                             feedSource: EventParameterFeedSource, success: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
 
@@ -218,8 +218,9 @@ struct TrackerEvent {
     }
 
     static func filterComplete(_ coordinates: LGLocationCoordinates2D?, distanceRadius: Int?,
-                               distanceUnit: DistanceType, categories: [ProductCategory]?, sortBy: ProductSortCriteria?,
-                               postedWithin: ProductTimeCriteria?, priceRange: FilterPriceRange, freePostingModeAllowed: Bool) -> TrackerEvent {
+                               distanceUnit: DistanceType, categories: [ListingCategory]?, sortBy: ListingSortCriteria?,
+                               postedWithin: ListingTimeCriteria?, priceRange: FilterPriceRange, freePostingModeAllowed: Bool,
+                               carMake: String?, carModel: String?, carYearStart: Int?, carYearEnd: Int?) -> TrackerEvent {
         var params = EventParameters()
 
         // Filter Coordinates
@@ -257,13 +258,26 @@ struct TrackerEvent {
         
         params[.freePosting] = eventParameterFreePostingWithPriceRange(freePostingModeAllowed, priceRange: priceRange).rawValue
 
+        params[.make] = carMake ?? "N/A"
+        params[.model] = carModel ?? "N/A"
+        if let carYearStart = carYearStart {
+            params[.yearStart] = String(carYearStart)
+        } else {
+            params[.yearStart] = "N/A"
+        }
+        if let carYearEnd = carYearEnd {
+            params[.yearEnd] = String(carYearEnd)
+        } else {
+            params[.yearEnd] = "N/A"
+        }
+
         return TrackerEvent(name: .filterComplete, params: params)
     }
 
-    static func productDetailVisit(_ product: Product, visitUserAction: ProductVisitUserAction, source: EventParameterProductVisitSource, feedPosition: EventParameterFeedPosition,
+    static func productDetailVisit(_ listing: Listing, visitUserAction: ProductVisitUserAction, source: EventParameterProductVisitSource, feedPosition: EventParameterFeedPosition,
                                    isBumpedUp: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
-        params.addProductParams(product)
+        params.addListingParams(listing)
         params[.userAction] = visitUserAction.rawValue
         params[.productVisitSource] = source.rawValue
         params[.feedPosition] = feedPosition.value
@@ -278,26 +292,26 @@ struct TrackerEvent {
         return TrackerEvent(name: .productNotAvailable, params: params)
     }
 
-    static func productDetailVisitMoreInfo(_ product: Product) -> TrackerEvent {
+    static func productDetailVisitMoreInfo(_ listing: Listing) -> TrackerEvent {
         var params = EventParameters()
-        params.addProductParams(product)
+        params.addListingParams(listing)
         return TrackerEvent(name: .productDetailVisitMoreInfo, params: params)
     }
 
-    static func productFavorite(_ product: Product, typePage: EventParameterTypePage,
+    static func productFavorite(_ listing: Listing, typePage: EventParameterTypePage,
                                 isBumpedUp: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
-        params.addProductParams(product)
+        params.addListingParams(listing)
         params[.typePage] = typePage.rawValue
         params[.isBumpedUp] = isBumpedUp.rawValue
         return TrackerEvent(name: .productFavorite, params: params)
     }
 
-    static func productShare(_ product: Product, network: EventParameterShareNetwork?,
+    static func productShare(_ listing: Listing, network: EventParameterShareNetwork?,
                              buttonPosition: EventParameterButtonPosition,
                              typePage: EventParameterTypePage, isBumpedUp: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
-        params.addProductParams(product)
+        params.addListingParams(listing)
 
         // When starting share if native then the network is considered as N/A
         var actualNetwork = network ?? .notAvailable
@@ -314,45 +328,45 @@ struct TrackerEvent {
         return TrackerEvent(name: .productShare, params: params)
     }
 
-    static func productShareCancel(_ product: Product, network: EventParameterShareNetwork,
+    static func productShareCancel(_ listing: Listing, network: EventParameterShareNetwork,
         typePage: EventParameterTypePage) -> TrackerEvent {
             var params = EventParameters()
-            params.addProductParams(product)
+            params.addListingParams(listing)
             params[.shareNetwork] = network.rawValue
             params[.typePage] = typePage.rawValue
             return TrackerEvent(name: .productShareCancel, params: params)
     }
 
-    static func productShareComplete(_ product: Product, network: EventParameterShareNetwork,
+    static func productShareComplete(_ listing: Listing, network: EventParameterShareNetwork,
         typePage: EventParameterTypePage) -> TrackerEvent {
             var params = EventParameters()
-            params.addProductParams(product)
+            params.addListingParams(listing)
             params[.shareNetwork] = network.rawValue
             params[.typePage] = typePage.rawValue
             return TrackerEvent(name: .productShareComplete, params: params)
     }
 
-    static func productDetailOpenChat(_ product: Product, typePage: EventParameterTypePage) -> TrackerEvent {
+    static func productDetailOpenChat(_ listing: Listing, typePage: EventParameterTypePage) -> TrackerEvent {
         var params = EventParameters()
-        params[.productId] = product.objectId
+        params[.productId] = listing.objectId
         params[.typePage] = typePage.rawValue
         return TrackerEvent(name: .productOpenChat, params: params)
     }
 
-    static func productMarkAsSold(_ product: ChatProduct, typePage: EventParameterTypePage, soldTo: EventParameterUserSoldTo?,
+    static func productMarkAsSold(_ product: ChatListing, typePage: EventParameterTypePage, soldTo: EventParameterUserSoldTo?,
                                   freePostingModeAllowed: Bool, isBumpedUp: EventParameterBoolean) -> TrackerEvent {
         return productMarkAsSold(productId: product.objectId, price: product.price, currency: product.currency.code,
                                      categoryId: nil, typePage: typePage, soldTo: soldTo,
                                      freePostingModeAllowed: freePostingModeAllowed, isBumpedUp: isBumpedUp)
     }
-    static func productMarkAsSold(_ product: Product, typePage: EventParameterTypePage, soldTo: EventParameterUserSoldTo?,
+    static func productMarkAsSold(_ listing: Listing, typePage: EventParameterTypePage, soldTo: EventParameterUserSoldTo?,
                                   freePostingModeAllowed: Bool, isBumpedUp: EventParameterBoolean) -> TrackerEvent {
-        return productMarkAsSold(productId: product.objectId, price: product.price, currency: product.currency.code,
-                              categoryId: product.category.rawValue, typePage: typePage, soldTo: soldTo,
+        return productMarkAsSold(productId: listing.objectId, price: listing.price, currency: listing.currency.code,
+                              categoryId: listing.category.rawValue, typePage: typePage, soldTo: soldTo,
                               freePostingModeAllowed: freePostingModeAllowed, isBumpedUp: isBumpedUp)
     }
 
-    private static func productMarkAsSold(productId: String?, price: ProductPrice, currency: String, categoryId: Int?,
+    private static func productMarkAsSold(productId: String?, price: ListingPrice, currency: String, categoryId: Int?,
                                           typePage: EventParameterTypePage, soldTo: EventParameterUserSoldTo?,
                                           freePostingModeAllowed: Bool, isBumpedUp: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
@@ -367,20 +381,18 @@ struct TrackerEvent {
         return TrackerEvent(name: .productMarkAsSold, params: params)
     }
 
-    static func productMarkAsUnsold(_ product: Product) -> TrackerEvent {
+    static func productMarkAsUnsold(_ listing: Listing) -> TrackerEvent {
         var params = EventParameters()
-        if let productId = product.objectId {
-            params[.productId] = productId
-        }
-        params[.productPrice] = product.price.value
-        params[.productCurrency] = product.currency.code
-        params[.categoryId] = product.category.rawValue
+        params[.productId] = listing.objectId
+        params[.productPrice] = listing.price.value
+        params[.productCurrency] = listing.currency.code
+        params[.categoryId] = listing.category.rawValue
         return TrackerEvent(name: .productMarkAsUnsold, params: params)
     }
 
-    static func productReport(_ product: Product) -> TrackerEvent {
+    static func productReport(_ listing: Listing) -> TrackerEvent {
         var params = EventParameters()
-        params.addProductParams(product)
+        params.addListingParams(listing)
         return TrackerEvent(name: .productReport, params: params)
     }
 
@@ -395,24 +407,21 @@ struct TrackerEvent {
 
     static func productSellSharedFB(_ product: Product?) -> TrackerEvent {
         var params = EventParameters()
-        // Product name
-        if let productId = product?.objectId {
-            params[.productId] = productId
-        }
+        params[.productId] = product?.objectId
         return TrackerEvent(name: .productSellSharedFB, params: params)
     }
 
-    static func productSellComplete(_ product: Product, buttonName: EventParameterButtonNameType?,
+    static func productSellComplete(_ listing: Listing, buttonName: EventParameterButtonNameType?,
                                     sellButtonPosition: EventParameterSellButtonPosition?, negotiable: EventParameterNegotiablePrice?,
                                     pictureSource: EventParameterPictureSource?, freePostingModeAllowed: Bool) -> TrackerEvent {
         var params = EventParameters()
-        params[.freePosting] = eventParameterFreePostingWithPrice(freePostingModeAllowed, price: product.price).rawValue
-        params[.productId] = product.objectId ?? ""
-        params[.categoryId] = product.category.rawValue
-        params[.productName] = product.name ?? ""
-        params[.numberPhotosPosting] = product.images.count
+        params[.freePosting] = eventParameterFreePostingWithPrice(freePostingModeAllowed, price: listing.price).rawValue
+        params[.productId] = listing.objectId ?? ""
+        params[.categoryId] = listing.category.rawValue
+        params[.productName] = listing.name ?? ""
+        params[.numberPhotosPosting] = listing.images.count
         params[.sellButtonPosition] = sellButtonPosition?.rawValue
-        params[.productDescription] = !(product.descr?.isEmpty ?? true)
+        params[.productDescription] = !(listing.descr?.isEmpty ?? true)
         if let buttonName = buttonName {
             params[.buttonName] = buttonName.rawValue
         }
@@ -422,12 +431,24 @@ struct TrackerEvent {
         if let pictureSource = pictureSource {
             params[.pictureSource] = pictureSource.rawValue
         }
+
+        switch listing {
+        case .car:
+            params[.postingType] = EventParameterPostingType.car.rawValue
+        case .product:
+            params[.postingType] = EventParameterPostingType.stuff.rawValue
+        }
+
+        params[.make] = EventParameterMake.make(name: listing.car?.carAttributes.make).name
+        params[.model] = EventParameterModel.model(name: listing.car?.carAttributes.model).name
+        params[.year] = EventParameterYear.year(year: listing.car?.carAttributes.year).year
+
         return TrackerEvent(name: .productSellComplete, params: params)
     }
     
-    static func productSellComplete24h(_ product: Product) -> TrackerEvent {
+    static func productSellComplete24h(_ listing: Listing) -> TrackerEvent {
         var params = EventParameters()
-        params[.productId] = product.objectId ?? ""
+        params[.productId] = listing.objectId ?? ""
         return TrackerEvent(name: .productSellComplete24h, params: params)
     }
 
@@ -456,166 +477,118 @@ struct TrackerEvent {
         return TrackerEvent(name: .productSellErrorData, params: params)
     }
 
-    static func productSellConfirmation(_ product: Product) -> TrackerEvent {
+    static func productSellConfirmation(_ listing: Listing) -> TrackerEvent {
         var params = EventParameters()
-        params[.productId] = product.objectId ?? ""
+        params[.productId] = listing.objectId ?? ""
         return TrackerEvent(name: .productSellConfirmation, params: params)
     }
 
-    static func productSellConfirmationPost(_ product: Product, buttonType: EventParameterButtonType) -> TrackerEvent {
+    static func productSellConfirmationPost(_ listing: Listing, buttonType: EventParameterButtonType) -> TrackerEvent {
         var params = EventParameters()
-        params[.productId] = product.objectId ?? ""
+        params[.productId] = listing.objectId ?? ""
         params[.buttonType] = buttonType.rawValue
         return TrackerEvent(name: .productSellConfirmationPost, params: params)
     }
 
-    static func productSellConfirmationEdit(_ product: Product) -> TrackerEvent {
+    static func productSellConfirmationEdit(_ listing: Listing) -> TrackerEvent {
         var params = EventParameters()
-        params[.productId] = product.objectId ?? ""
+        params[.productId] = listing.objectId ?? ""
         return TrackerEvent(name: .productSellConfirmationEdit, params: params)
     }
 
-    static func productSellConfirmationClose(_ product: Product) -> TrackerEvent {
+    static func productSellConfirmationClose(_ listing: Listing) -> TrackerEvent {
         var params = EventParameters()
-        params[.productId] = product.objectId ?? ""
+        params[.productId] = listing.objectId ?? ""
         return TrackerEvent(name: .productSellConfirmationClose, params: params)
     }
 
-    static func productSellConfirmationShare(_ product: Product, network: EventParameterShareNetwork)
+    static func productSellConfirmationShare(_ listing: Listing, network: EventParameterShareNetwork)
         -> TrackerEvent {
             var params = EventParameters()
-            params[.productId] = product.objectId ?? ""
+            params[.productId] = listing.objectId ?? ""
             params[.shareNetwork] = network.rawValue
             return TrackerEvent(name: .productSellConfirmationShare, params: params)
     }
 
-    static func productSellConfirmationShareCancel(_ product: Product,
+    static func productSellConfirmationShareCancel(_ listing: Listing,
         network: EventParameterShareNetwork) -> TrackerEvent {
             var params = EventParameters()
-            params[.productId] = product.objectId ?? ""
+            params[.productId] = listing.objectId ?? ""
             params[.shareNetwork] = network.rawValue
             return TrackerEvent(name: .productSellConfirmationShareCancel, params: params)
     }
 
-    static func productSellConfirmationShareComplete(_ product: Product,
+    static func productSellConfirmationShareComplete(_ listing: Listing,
         network: EventParameterShareNetwork) -> TrackerEvent {
             var params = EventParameters()
-            params[.productId] = product.objectId ?? ""
+            params[.productId] = listing.objectId ?? ""
             params[.shareNetwork] = network.rawValue
             return TrackerEvent(name: .productSellConfirmationShareComplete, params: params)
     }
 
-    static func productEditStart(_ user: User?, product: Product) -> TrackerEvent {
+    static func productEditStart(_ user: User?, listing: Listing) -> TrackerEvent {
         var params = EventParameters()
         // Product
-        params[.productId] = product.objectId
+        params[.productId] = listing.objectId
         return TrackerEvent(name: .productEditStart, params: params)
     }
 
-    static func productEditFormValidationFailed(_ user: User?, product: Product, description: String)
+    static func productEditFormValidationFailed(_ user: User?, listing: Listing, description: String)
         -> TrackerEvent {
             var params = EventParameters()
             // Product
-            params[.productId] = product.objectId
+            params[.productId] = listing.objectId
             // Validation failure description
             params[.description] = description
             return TrackerEvent(name: .productEditFormValidationFailed, params: params)
     }
 
-    static func productEditSharedFB(_ user: User?, product: Product?) -> TrackerEvent {
+    static func productEditSharedFB(_ user: User?, listing: Listing?) -> TrackerEvent {
         var params = EventParameters()
         // Product
-        if let productId = product?.objectId {
+        if let productId = listing?.objectId {
             params[.productId] = productId
         }
         return TrackerEvent(name: .productEditSharedFB, params: params)
     }
 
-    static func productEditComplete(_ user: User?, product: Product, category: ProductCategory?,
-        editedFields: [EventParameterEditedFields]) -> TrackerEvent {
-            var params = EventParameters()
-            // Product
-            params[.productId] = product.objectId
-            params[.categoryId] = category?.rawValue ?? 0
-            params[.editedFields] = editedFields.map({$0.rawValue}).joined(separator: ",")
+    static func productEditComplete(_ user: User?, listing: Listing, category: ListingCategory?,
+                                    editedFields: [EventParameterEditedFields]) -> TrackerEvent {
+        var params = EventParameters()
+        // Product
+        params[.productId] = listing.objectId
+        params[.categoryId] = category?.rawValue ?? 0
+        params[.editedFields] = editedFields.map({$0.rawValue}).joined(separator: ",")
 
-            return TrackerEvent(name: .productEditComplete, params: params)
+        params[.make] = EventParameterMake.make(name: listing.car?.carAttributes.make).name
+        params[.model] = EventParameterModel.model(name: listing.car?.carAttributes.model).name
+        params[.year] = EventParameterYear.year(year: listing.car?.carAttributes.year).year
+
+        return TrackerEvent(name: .productEditComplete, params: params)
     }
 
-    static func productDeleteStart(_ product: Product) -> TrackerEvent {
+    static func productDeleteStart(_ listing: Listing) -> TrackerEvent {
         var params = EventParameters()
-        params[.productId] = product.objectId
+        params[.productId] = listing.objectId
         return TrackerEvent(name: .productDeleteStart, params: params)
     }
 
-    static func productDeleteComplete(_ product: Product) -> TrackerEvent {
+    static func productDeleteComplete(_ listing: Listing) -> TrackerEvent {
         var params = EventParameters()
-        params[.productId] = product.objectId
+        params[.productId] = listing.objectId
         return TrackerEvent(name: .productDeleteComplete, params: params)
     }
 
-    static func firstMessage(_ product: Product, messageType: EventParameterMessageType, quickAnswerType: EventParameterQuickAnswerType?,
-                             typePage: EventParameterTypePage, sellerRating: Float? = nil, freePostingModeAllowed: Bool,
-                             isBumpedUp: EventParameterBoolean) -> TrackerEvent {
-        var params = EventParameters()
-        params.addProductParams(product)
-        params[.messageType] = messageType.rawValue
-        params[.quickAnswerType] = quickAnswerType?.rawValue
-        params[.typePage] = typePage.rawValue
-        params[.userToId] = product.user.objectId
-        params[.sellerUserRating] = sellerRating
-        params[.freePosting] = eventParameterFreePostingWithPrice(freePostingModeAllowed, price: product.price).rawValue
-        params[.isBumpedUp] = isBumpedUp.rawValue
-        return TrackerEvent(name: .firstMessage, params: params)
+    static func firstMessage(info: SendMessageTrackingInfo) -> TrackerEvent {
+        return TrackerEvent(name: .firstMessage, params: info.params)
     }
 
-    // Duplicated method from the one above to support tracking using ChatProduct model
-    static func firstMessage(_ product: ChatProduct, messageType: EventParameterMessageType, quickAnswerType: EventParameterQuickAnswerType?,
-                             interlocutorId: String?, typePage: EventParameterTypePage,
-                             sellerRating: Float? = nil, freePostingModeAllowed: Bool,
-                             isBumpedUp: EventParameterBoolean) -> TrackerEvent {
-        // Note: does not have: category-id, product-lat, product-lng
-        var params = EventParameters()
-        params.addChatProductParams(product)
-        params[.messageType] = messageType.rawValue
-        params[.quickAnswerType] = quickAnswerType?.rawValue
-        params[.typePage] = typePage.rawValue
-        params[.userToId] = interlocutorId
-        params[.sellerUserRating] = sellerRating
-        params[.freePosting] = eventParameterFreePostingWithPrice(freePostingModeAllowed, price: product.price).rawValue
-        params[.isBumpedUp] = isBumpedUp.rawValue
-        return TrackerEvent(name: .firstMessage, params: params)
+    static func userMessageSent(info: SendMessageTrackingInfo) -> TrackerEvent {
+        return TrackerEvent(name: .userMessageSent, params: info.params)
     }
 
-    static func userMessageSent(_ product: Product, userTo: UserProduct?, messageType: EventParameterMessageType,
-                                quickAnswerType: EventParameterQuickAnswerType?, typePage: EventParameterTypePage,
-                                freePostingModeAllowed: Bool) -> TrackerEvent {
-        var params = EventParameters()
-        params.addProductParams(product)
-        params.addUserParams(userTo)
-        params[.messageType] = messageType.rawValue
-        let isQuickAnswer: EventParameterBoolean = quickAnswerType != nil ? .trueParameter : .falseParameter
-        params[.quickAnswer] = isQuickAnswer.rawValue
-        params[.quickAnswerType] = quickAnswerType?.rawValue
-        params[.typePage] = typePage.rawValue
-        params[.freePosting] = eventParameterFreePostingWithPrice(freePostingModeAllowed, price: product.price).rawValue
-        return TrackerEvent(name: .userMessageSent, params: params)
-    }
-    
-    // Duplicated method from the one above to support tracking using ChatProduct model
-    static func userMessageSent(_ product: ChatProduct, userToId: String?, messageType: EventParameterMessageType,
-                                       quickAnswerType: EventParameterQuickAnswerType?, typePage: EventParameterTypePage,
-                                       freePostingModeAllowed: Bool) -> TrackerEvent {
-        var params = EventParameters()
-        params.addChatProductParams(product)
-        params[.userToId] = userToId
-        params[.messageType] = messageType.rawValue
-        let isQuickAnswer: EventParameterBoolean = quickAnswerType != nil ? .trueParameter : .falseParameter
-        params[.quickAnswer] = isQuickAnswer.rawValue
-        params[.quickAnswerType] = quickAnswerType?.rawValue
-        params[.typePage] = typePage.rawValue
-        params[.freePosting] = eventParameterFreePostingWithPrice(freePostingModeAllowed, price: product.price).rawValue
-        return TrackerEvent(name: .userMessageSent, params: params)
+    static func userMessageSentError(info: SendMessageTrackingInfo) -> TrackerEvent {
+        return TrackerEvent(name: .userMessageSentError, params: info.params)
     }
 
     static func chatRelatedItemsStart(_ shownReason: EventParameterRelatedShownReason) -> TrackerEvent {
@@ -819,10 +792,12 @@ struct TrackerEvent {
             return TrackerEvent(name: .profileReport, params: params)
     }
 
-    static func profileBlock(_ typePage: EventParameterTypePage, blockedUsersIds: [String]) -> TrackerEvent{
+    static func profileBlock(_ typePage: EventParameterTypePage, blockedUsersIds: [String],
+                             buttonPosition: EventParameterBlockButtonPosition) -> TrackerEvent{
         var params = EventParameters()
         params[.typePage] = typePage.rawValue
         params[.userToId] = blockedUsersIds.joined(separator: ",")
+        params[.blockButtonPosition] = buttonPosition.rawValue
         return TrackerEvent(name: .profileBlock, params: params)
     }
 
@@ -991,9 +966,14 @@ struct TrackerEvent {
         return TrackerEvent(name: .notificationCenterStart, params: EventParameters())
     }
 
-    static func notificationCenterComplete(_ type: EventParameterNotificationType) -> TrackerEvent {
+    static func notificationCenterComplete(_ type: EventParameterNotificationType, source: EventParameterNotificationClickArea,
+                                           cardAction: String?, notificationCampaign: String?) -> TrackerEvent {
         var params = EventParameters()
         params[.notificationType] = type.rawValue
+        params[.notificationClickArea] = source.rawValue
+        // cardAction is passed as string instead of EventParameterCardAction type as retention could send anything on the query parameter.
+        params[.notificationAction] = cardAction ?? "N/A"
+        params[.notificationCampaign] = notificationCampaign ?? "N/A"
         return TrackerEvent(name: .notificationCenterComplete, params: params)
     }
 
@@ -1026,18 +1006,18 @@ struct TrackerEvent {
         return TrackerEvent(name: .passiveBuyerAbandon, params: params)
     }
 
-    static func productBumpUpStart(_ product: Product, price: EventParameterBumpUpPrice) -> TrackerEvent {
+    static func productBumpUpStart(_ listing: Listing, price: EventParameterBumpUpPrice) -> TrackerEvent {
         var params = EventParameters()
-        params.addProductParams(product)
+        params.addListingParams(listing)
 
         params[.bumpUpPrice] = price.description
         return TrackerEvent(name: .bumpUpStart, params: params)
     }
 
-    static func productBumpUpComplete(_ product: Product, price: EventParameterBumpUpPrice,
+    static func productBumpUpComplete(_ listing: Listing, price: EventParameterBumpUpPrice,
                                       network: EventParameterShareNetwork) -> TrackerEvent {
         var params = EventParameters()
-        params.addProductParams(product)
+        params.addListingParams(listing)
         params[.bumpUpPrice] = price.description
         params[.shareNetwork] = network.rawValue
         return TrackerEvent(name: .bumpUpComplete, params: params)
@@ -1069,7 +1049,7 @@ struct TrackerEvent {
     // MARK: - Private methods
 
 
-    private static func eventParameterSortByTypeForSorting(_ sorting: ProductSortCriteria?) -> EventParameterSortBy? {
+    private static func eventParameterSortByTypeForSorting(_ sorting: ListingSortCriteria?) -> EventParameterSortBy? {
         guard let sorting = sorting else { return nil }
         let sortBy: EventParameterSortBy?
         switch (sorting) {
@@ -1086,7 +1066,7 @@ struct TrackerEvent {
         return sortBy
     }
 
-    private static func eventParameterPostedWithinForTime(_ time: ProductTimeCriteria?) -> EventParameterPostedWithin? {
+    private static func eventParameterPostedWithinForTime(_ time: ListingTimeCriteria?) -> EventParameterPostedWithin? {
         guard let time = time else { return nil }
         switch time {
         case .day:
@@ -1104,7 +1084,7 @@ struct TrackerEvent {
         return price != nil ? .trueParameter : .falseParameter
     }
     
-    private static func eventParameterFreePostingWithPrice(_ freePostingModeAllowed: Bool, price: ProductPrice) -> EventParameterBoolean {
+    static func eventParameterFreePostingWithPrice(_ freePostingModeAllowed: Bool, price: ListingPrice) -> EventParameterBoolean {
         guard freePostingModeAllowed else {return .notAvailable}
         return price.free ? .trueParameter : .falseParameter
     }

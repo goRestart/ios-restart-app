@@ -19,7 +19,6 @@ enum UserSource {
 
 protocol UserViewModelDelegate: BaseViewModelDelegate {
     func vmOpenReportUser(_ reportUserVM: ReportUsersViewModel)
-    func vmOpenHome()
     func vmShowUserActionSheet(_ cancelLabel: String, actions: [UIAction])
     func vmShowNativeShare(_ socialMessage: SocialMessage)
 }
@@ -33,7 +32,7 @@ class UserViewModel: BaseViewModel {
     fileprivate let sessionManager: SessionManager
     fileprivate let myUserRepository: MyUserRepository
     fileprivate let userRepository: UserRepository
-    fileprivate let productRepository: ProductRepository
+    fileprivate let listingRepository: ListingRepository
     fileprivate let tracker: Tracker
     fileprivate let featureFlags: FeatureFlaggeable
     fileprivate let notificationsManager: NotificationsManager
@@ -103,22 +102,22 @@ class UserViewModel: BaseViewModel {
         let sessionManager = Core.sessionManager
         let myUserRepository = Core.myUserRepository
         let userRepository = Core.userRepository
-        let productRepository = Core.productRepository
+        let listingRepository = Core.listingRepository
         let tracker = TrackerProxy.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
         let notificationsManager = LGNotificationsManager.sharedInstance
         self.init(sessionManager: sessionManager, myUserRepository: myUserRepository, userRepository: userRepository,
-                  productRepository: productRepository, tracker: tracker, isMyProfile: isMyProfile, user: user, source: source,
+                  listingRepository: listingRepository, tracker: tracker, isMyProfile: isMyProfile, user: user, source: source,
                   featureFlags: featureFlags, notificationsManager: notificationsManager)
     }
 
     init(sessionManager: SessionManager, myUserRepository: MyUserRepository, userRepository: UserRepository,
-         productRepository: ProductRepository, tracker: Tracker, isMyProfile: Bool, user: User?, source: UserSource,
+         listingRepository: ListingRepository, tracker: Tracker, isMyProfile: Bool, user: User?, source: UserSource,
          featureFlags: FeatureFlaggeable, notificationsManager: NotificationsManager) {
         self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
         self.userRepository = userRepository
-        self.productRepository = productRepository
+        self.listingRepository = listingRepository
         self.tracker = tracker
         self.isMyProfile = isMyProfile
         self.user = Variable<User?>(user)
@@ -336,7 +335,7 @@ extension UserViewModel {
         let positive = UIAction(interface: .styledText(LGLocalizedString.profilePermissionsAlertOk, .standard),
                                 action: { [weak self] in
                                     self?.trackPushPermissionComplete()
-                                    PushPermissionsManager.sharedInstance.showPushPermissionsAlert(prePermissionType: .profile)
+                                    LGPushPermissionsManager.sharedInstance.showPushPermissionsAlert(prePermissionType: .profile)
             },
                                 accessibilityId: .userPushPermissionOK)
         let negative = UIAction(interface: .styledText(LGLocalizedString.profilePermissionsAlertCancel, .cancel),
@@ -549,20 +548,20 @@ fileprivate extension UserViewModel {
         }.addDisposableTo(disposeBag)
 
         if itsMe {
-            productRepository.events.bindNext { [weak self] event in
+            listingRepository.events.bindNext { [weak self] event in
                 switch event {
-                case let .update(product):
-                    self?.sellingProductListViewModel.update(product: product)
+                case let .update(listing):
+                    self?.sellingProductListViewModel.update(listing: listing)
                 case .sold, .unSold:
                     self?.sellingProductListViewModel.refresh()
                     self?.soldProductListViewModel.refresh()
                 case .favorite, .unFavorite:
                     self?.favoritesProductListViewModel.refresh()
-                case let .create(product):
-                    self?.sellingProductListViewModel.prepend(product: product)
-                case let .delete(productId):
-                    self?.sellingProductListViewModel.delete(productId: productId)
-                    self?.soldProductListViewModel.delete(productId: productId)
+                case let .create(listing):
+                    self?.sellingProductListViewModel.prepend(listing: listing)
+                case let .delete(listingId):
+                    self?.sellingProductListViewModel.delete(listingId: listingId)
+                    self?.soldProductListViewModel.delete(listingId: listingId)
                 }
             }.addDisposableTo(disposeBag)
         }
@@ -609,7 +608,7 @@ extension UserViewModel: ProductListViewModelDataDelegate {
         } else if viewModel === favoritesProductListViewModel {
             errTitle = LGLocalizedString.profileFavouritesMyUserNoProductsLabel
             errButTitle = itsMe ? nil : LGLocalizedString.profileFavouritesMyUserNoProductsButton
-            errButAction = { [weak self] in self?.delegate?.vmOpenHome() }
+            errButAction = { [weak self] in self?.navigator?.openHome() }
         } else { return }
         
         let emptyViewModel = LGEmptyViewModel(icon: nil, title: errTitle, body: nil, buttonTitle: errButTitle,
@@ -621,13 +620,13 @@ extension UserViewModel: ProductListViewModelDataDelegate {
     func productListVM(_ viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
                        originFrame: CGRect?) {
         guard viewModel === productListViewModel.value else { return } //guarding view model is the selected one
-        guard let product = viewModel.productAtIndex(index), let requester = viewModel.productListRequester else { return }
+        guard let listing = viewModel.listingAtIndex(index), let requester = viewModel.productListRequester else { return }
         let cellModels = viewModel.objects
         
-        let data = ProductDetailData.productList(product: product, cellModels: cellModels, requester: requester,
+        let data = ListingDetailData.listingList(listing: listing, cellModels: cellModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame,
                                                  showRelated: false, index: 0)
-        navigator?.openProduct(data, source: .profile, showKeyboardOnFirstAppearIfNeeded: false)
+        navigator?.openListing(data, source: .profile, showKeyboardOnFirstAppearIfNeeded: false)
     }
 }
 
@@ -700,7 +699,7 @@ extension UserViewModel {
     }
     
     func trackBlock(_ userId: String) {
-        let event = TrackerEvent.profileBlock(.profile, blockedUsersIds: [userId])
+        let event = TrackerEvent.profileBlock(.profile, blockedUsersIds: [userId], buttonPosition: .others)
         tracker.trackEvent(event)
     }
     
@@ -711,7 +710,7 @@ extension UserViewModel {
     
     func trackPushPermissionStart() {
         let goToSettings: EventParameterBoolean =
-            PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .trueParameter : .notAvailable
+            LGPushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .trueParameter : .notAvailable
         let trackerEvent = TrackerEvent.permissionAlertStart(.push, typePage: .profile, alertType: .custom,
                                                              permissionGoToSettings: goToSettings)
         tracker.trackEvent(trackerEvent)
@@ -719,7 +718,7 @@ extension UserViewModel {
     
     func trackPushPermissionComplete() {
         let goToSettings: EventParameterBoolean =
-            PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .trueParameter : .notAvailable
+            LGPushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .trueParameter : .notAvailable
         let trackerEvent = TrackerEvent.permissionAlertComplete(.push, typePage: .profile, alertType: .custom,
                                                                 permissionGoToSettings: goToSettings)
         tracker.trackEvent(trackerEvent)
@@ -727,7 +726,7 @@ extension UserViewModel {
     
     func trackPushPermissionCancel() {
         let goToSettings: EventParameterBoolean =
-            PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .trueParameter : .notAvailable
+            LGPushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .trueParameter : .notAvailable
         let trackerEvent = TrackerEvent.permissionAlertCancel(.push, typePage: .profile, alertType: .custom,
                                                               permissionGoToSettings: goToSettings)
         tracker.trackEvent(trackerEvent)

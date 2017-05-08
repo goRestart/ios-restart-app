@@ -7,7 +7,7 @@
 //
 
 enum FilterSection: Int {
-    case location, categories, distance, sortBy, within, price
+    case location, categories, carsInfo, distance, sortBy, within, price
 }
 
 extension FilterSection {
@@ -21,6 +21,8 @@ extension FilterSection {
             return LGLocalizedString.filtersSectionDistance.uppercase
         case .categories:
             return LGLocalizedString.filtersSectionCategories.uppercase
+        case .carsInfo:
+            return LGLocalizedString.filtersSectionCarInfo.uppercase
         case .within:
             return LGLocalizedString.filtersSectionWithin.uppercase
         case .sortBy:
@@ -31,7 +33,7 @@ extension FilterSection {
     }
     
     static var allValues: [FilterSection] {
-        return [.location, .categories, .distance, .sortBy, .within, .price]
+        return [.location, .categories, .carsInfo, .distance, .sortBy, .within, .price]
     }
     
 }

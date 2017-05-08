@@ -11,15 +11,16 @@ import Foundation
 
 protocol PostProductNavigator: class {
     func cancelPostProduct()
-    func closePostProductAndPostInBackground(_ product: Product, images: [File], showConfirmation: Bool,
+    func closePostProductAndPostInBackground(params: ListingCreationParams, showConfirmation: Bool,
                                              trackingInfo: PostProductTrackingInfo)
-    func closePostProductAndPostLater(_ product: Product, images: [UIImage], trackingInfo: PostProductTrackingInfo)
-    func openLoginIfNeededFromProductPosted(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void))
+    func closePostProductAndPostLater(params: ListingCreationParams, images: [UIImage],
+                                      trackingInfo: PostProductTrackingInfo)
+    func openLoginIfNeededFromProductPosted(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void), cancelAction: (() -> Void)?)
 }
 
 protocol ProductPostedNavigator: class {
     func cancelProductPosted()
-    func closeProductPosted(_ product: Product)
-    func closeProductPostedAndOpenEdit(_ product: Product)
+    func closeProductPosted(_ listing: Listing)
+    func closeProductPostedAndOpenEdit(_ listing: Listing)
     func closeProductPostedAndOpenPost()
 }

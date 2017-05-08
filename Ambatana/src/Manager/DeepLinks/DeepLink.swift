@@ -14,19 +14,22 @@ struct DeepLink {
     let campaign: String?
     let medium: String?
     let source: DeepLinkSource
+    let cardActionParameter: String?
 
     static func push(_ action: DeepLinkAction, origin: DeepLinkOrigin, campaign: String?, medium: String?,
-                     source: DeepLinkSource) -> DeepLink {
+                     source: DeepLinkSource, cardActionParameter: String?) -> DeepLink {
         return DeepLink(action: action, origin: origin, campaign: campaign, medium: medium,
-                        source: source)
+                        source: source, cardActionParameter: cardActionParameter)
     }
 
-    static func link(_ action: DeepLinkAction, campaign: String?, medium: String?, source: DeepLinkSource) -> DeepLink {
-        return DeepLink(action: action, origin: .link, campaign: campaign, medium: medium, source: source)
+    static func link(_ action: DeepLinkAction, campaign: String?, medium: String?,
+                     source: DeepLinkSource, cardActionParameter: String?) -> DeepLink {
+        return DeepLink(action: action, origin: .link, campaign: campaign, medium: medium,
+                        source: source, cardActionParameter: cardActionParameter)
     }
 
     static func shortCut(_ action: DeepLinkAction) -> DeepLink {
-        return DeepLink(action: action, origin: .shortCut, campaign: nil, medium: nil, source: .none)
+        return DeepLink(action: action, origin: .shortCut, campaign: nil, medium: nil, source: .none, cardActionParameter: nil)
     }
 }
 

@@ -134,7 +134,7 @@ public func ==(lhs: LGLocationCoordinates2D, rhs: LGLocationCoordinates2D) -> Bo
 }
 
 // @see: https://ambatana.atlassian.net/wiki/display/BAPI/IDs+reference
-@objc public enum ProductStatus: Int, CustomStringConvertible {
+@objc public enum ListingStatus: Int, CustomStringConvertible {
     case pending = 0, approved = 1, discarded = 2, sold = 3, soldOld = 5, deleted = 6
     public var string: String {
         get {

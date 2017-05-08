@@ -52,6 +52,8 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     private let topInset = Variable<CGFloat> (0)
 
     fileprivate let disposeBag = DisposeBag()
+    
+    fileprivate var categoriesHeader: CategoriesHeaderCollectionView?
 
     
     // MARK: - Lifecycle
@@ -351,21 +353,44 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
 extension MainProductsViewController: ProductListViewHeaderDelegate, PushPermissionsHeaderDelegate {
 
     func totalHeaderHeight() -> CGFloat {
-        return shouldShowPermissionsBanner ? PushPermissionsHeader.viewHeight : 0
+        var totalHeight: CGFloat = 0
+        if shouldShowPermissionsBanner {
+            totalHeight = PushPermissionsHeader.viewHeight
+        }
+        if shouldShowCategoryCollectionBanner {
+            totalHeight += CategoriesHeaderCollectionView.viewHeight
+        }
+        return totalHeight
     }
 
     func setupViewsInHeader(_ header: ListHeaderContainer) {
+        header.clear()
         if shouldShowPermissionsBanner {
             let pushHeader = PushPermissionsHeader()
+            pushHeader.tag = 0
             pushHeader.delegate = self
             header.addHeader(pushHeader, height: PushPermissionsHeader.viewHeight)
-        } else {
-            header.clear()
+        }
+        if shouldShowCategoryCollectionBanner {
+            categoriesHeader = CategoriesHeaderCollectionView(categories: ListingCategory.visibleValuesInFeed(), frame: CGRect.zero)
+            categoriesHeader?.categorySelected.asObservable().bindNext { [weak self] category in
+                guard let category = category else { return }
+                self?.viewModel.updateFiltersFromHeaderCategories(category)
+            }.addDisposableTo(disposeBag)
+            if let categoriesHeader = categoriesHeader {
+                categoriesHeader.tag = 1
+                header.addHeader(categoriesHeader, height: CategoriesHeaderCollectionView.viewHeight)
+            }
+            
         }
     }
 
     private var shouldShowPermissionsBanner: Bool {
         return viewModel.mainProductsHeader.value.contains(MainProductsHeader.PushPermissions)
+    }
+    
+    private var shouldShowCategoryCollectionBanner: Bool {
+        return viewModel.mainProductsHeader.value.contains(MainProductsHeader.CategoriesCollectionBanner)
     }
 
     func pushPermissionHeaderPressed() {

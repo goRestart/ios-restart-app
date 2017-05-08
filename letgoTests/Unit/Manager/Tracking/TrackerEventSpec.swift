@@ -707,7 +707,7 @@ class TrackerEventSpec: QuickSpec {
             }
             
             describe("productList") {
-                let categories: [ProductCategory] = [.homeAndGarden, .carsAndMotors]
+                let categories: [ListingCategory] = [.homeAndGarden, .motorsAndAccessories]
                 let searchQuery = "iPhone"
                 beforeEach {
                     sut = TrackerEvent.productList(nil, categories: categories, searchQuery: searchQuery, feedSource: .home, success: .trueParameter)
@@ -797,9 +797,10 @@ class TrackerEventSpec: QuickSpec {
                     beforeEach {
                         let coords = LGLocationCoordinates2D(latitude: 41.123, longitude: 2.123)
                         sut = TrackerEvent.filterComplete(coords, distanceRadius: 10, distanceUnit: DistanceType.km,
-                            categories: [.electronics, .carsAndMotors],
-                            sortBy: ProductSortCriteria.distance, postedWithin: ProductTimeCriteria.day,
-                            priceRange: .priceRange(min: 5, max: 100), freePostingModeAllowed: true)
+                            categories: [.electronics, .motorsAndAccessories],
+                            sortBy: ListingSortCriteria.distance, postedWithin: ListingTimeCriteria.day,
+                            priceRange: .priceRange(min: 5, max: 100), freePostingModeAllowed: true, carMake: "make",
+                            carModel: "model", carYearStart: 1990, carYearEnd: 2000)
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("filter-complete"))
@@ -838,11 +839,25 @@ class TrackerEventSpec: QuickSpec {
                     it ("free-posting") {
                         expect(sut.params!.stringKeyParams["free-posting"] as? String) == "false"
                     }
+                    it ("make") {
+                        expect(sut.params!.stringKeyParams["product-make"] as? String) == "make"
+                    }
+                    it ("model") {
+                        expect(sut.params!.stringKeyParams["product-model"] as? String) == "model"
+                    }
+                    it ("start") {
+                        expect(sut.params!.stringKeyParams["product-year-start"] as? String) == "1990"
+                    }
+                    it ("end") {
+                        expect(sut.params!.stringKeyParams["product-year-end"] as? String) == "2000"
+                    }
                 }
                 context("not receiving all params, contains the default params") {
                     beforeEach {
                         sut = TrackerEvent.filterComplete(nil, distanceRadius: nil, distanceUnit: DistanceType.km,
-                            categories: nil, sortBy: nil, postedWithin: nil, priceRange: .priceRange(min: nil, max: nil), freePostingModeAllowed: false)
+                            categories: nil, sortBy: nil, postedWithin: nil, priceRange: .priceRange(min: nil, max: nil),
+                            freePostingModeAllowed: false, carMake: nil,
+                            carModel: nil, carYearStart: nil, carYearEnd: nil)
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("filter-complete"))
@@ -881,16 +896,28 @@ class TrackerEventSpec: QuickSpec {
                     it("free posting") {
                         expect(sut.params!.stringKeyParams["free-posting"] as? String) == "N/A"
                     }
+                    it ("make") {
+                        expect(sut.params!.stringKeyParams["product-make"] as? String) == "N/A"
+                    }
+                    it ("model") {
+                        expect(sut.params!.stringKeyParams["product-model"] as? String) == "N/A"
+                    }
+                    it ("start") {
+                        expect(sut.params!.stringKeyParams["product-year-start"] as? String) == "N/A"
+                    }
+                    it ("end") {
+                        expect(sut.params!.stringKeyParams["product-year-end"] as? String) == "N/A"
+                    }
                 }
             }
             
             describe("productDetailVisit") {
                 beforeEach {
-                    var userProduct = MockUserProduct.makeMock()
-                    userProduct.objectId = "56897"
-                    userProduct.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
+                    var userListing = MockUserListing.makeMock()
+                    userListing.objectId = "56897"
+                    userListing.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
                                                               state: "", countryCode: "NL", country: nil)
-                    userProduct.isDummy = false
+                    userListing.isDummy = false
 
                     var product = MockProduct.makeMock()
                     product.objectId = "AAAAA"
@@ -898,12 +925,12 @@ class TrackerEventSpec: QuickSpec {
                     product.price = .negotiable(123.2)
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = .homeAndGarden
-                    product.user = userProduct
+                    product.user = userListing
                     product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345",
                                                           state: "Catalonia", countryCode: "US", country: nil)
 
-                    sut = TrackerEvent.productDetailVisit(product, visitUserAction: .none, source: .productList,
+                    sut = TrackerEvent.productDetailVisit(.product(product), visitUserAction: .none, source: .productList,
                                                           feedPosition: .position(index:1), isBumpedUp: .trueParameter)
                 }
                 it("has its event name") {
@@ -959,9 +986,9 @@ class TrackerEventSpec: QuickSpec {
             
             describe("productDetailVisitMoreInfo") {
                 beforeEach {
-                    var userProduct = MockUserProduct.makeMock()
-                    userProduct.objectId = "56897"
-                    userProduct.isDummy = false
+                    var userListing = MockUserListing.makeMock()
+                    userListing.objectId = "56897"
+                    userListing.isDummy = false
 
                     var product = MockProduct.makeMock()
                     product.objectId = "AAAAA"
@@ -969,12 +996,12 @@ class TrackerEventSpec: QuickSpec {
                     product.price = .negotiable(123.2)
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = .homeAndGarden
-                    product.user = userProduct
+                    product.user = userListing
                     product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
                         countryCode: "US", country: nil)
 
-                    sut = TrackerEvent.productDetailVisitMoreInfo(product)
+                    sut = TrackerEvent.productDetailVisitMoreInfo(.product(product))
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-visit-more-info"))
@@ -1031,11 +1058,11 @@ class TrackerEventSpec: QuickSpec {
             describe("productFavorite") {
 
                 beforeEach {
-                    var userProduct = MockUserProduct.makeMock()
-                    userProduct.objectId = "56897"
-                    userProduct.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
+                    var userListing = MockUserListing.makeMock()
+                    userListing.objectId = "56897"
+                    userListing.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
                                                               state: "", countryCode: "NL", country: nil)
-                    userProduct.isDummy = false
+                    userListing.isDummy = false
                     
                     var product = MockProduct.makeMock()
                     product.objectId = "AAAAA"
@@ -1043,12 +1070,12 @@ class TrackerEventSpec: QuickSpec {
                     product.price = .negotiable(123.983)
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = .homeAndGarden
-                    product.user = userProduct
+                    product.user = userListing
                     product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
                                                           countryCode: "US", country: nil)
                     
-                    sut = TrackerEvent.productFavorite(product, typePage: .productDetail, isBumpedUp: .trueParameter)
+                    sut = TrackerEvent.productFavorite(.product(product), typePage: .productDetail, isBumpedUp: .trueParameter)
                     expect(sut.params).notTo(beNil())
                 }
                 it("has its event name") {
@@ -1096,11 +1123,11 @@ class TrackerEventSpec: QuickSpec {
             
             describe("productShare") {
                 beforeEach {
-                    var userProduct = MockUserProduct.makeMock()
-                    userProduct.objectId = "56897"
-                    userProduct.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
+                    var userListing = MockUserListing.makeMock()
+                    userListing.objectId = "56897"
+                    userListing.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
                                                               state: "", countryCode: "NL", country: nil)
-                    userProduct.isDummy = false
+                    userListing.isDummy = false
                     
                     var product = MockProduct.makeMock()
                     product.objectId = "AAAAA"
@@ -1108,12 +1135,12 @@ class TrackerEventSpec: QuickSpec {
                     product.price = .negotiable(123.983)
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = .homeAndGarden
-                    product.user = userProduct
+                    product.user = userListing
                     product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
                                                           countryCode: "US", country: nil)
                     
-                    sut = TrackerEvent.productShare(product, network: .facebook, buttonPosition: .top
+                    sut = TrackerEvent.productShare(.product(product), network: .facebook, buttonPosition: .top
                         , typePage: .productDetail, isBumpedUp: .falseParameter)
                     expect(sut.params).notTo(beNil())
                 }
@@ -1173,13 +1200,13 @@ class TrackerEventSpec: QuickSpec {
                 var event: TrackerEvent!
                 beforeEach {
                     product = MockProduct.makeMock()
-                    var user = MockUserProduct.makeMock()
+                    var user = MockUserListing.makeMock()
                     user.objectId = "ABCDE"
                     user.isDummy = false
 
                     product.user = user
                     product.objectId = "123ABC"
-                    event = TrackerEvent.productShareCancel(product, network: .facebook, typePage: .productDetail)
+                    event = TrackerEvent.productShareCancel(.product(product), network: .facebook, typePage: .productDetail)
                 }
                 it("has the correct event name") {
                     expect(event.name.rawValue) == "product-detail-share-cancel"
@@ -1210,12 +1237,12 @@ class TrackerEventSpec: QuickSpec {
                 var event: TrackerEvent!
                 beforeEach {
                     product = MockProduct.makeMock()
-                    var user = MockUserProduct.makeMock()
+                    var user = MockUserListing.makeMock()
                     user.objectId = "ABCDE"
                     user.isDummy = false
                     product.user = user
                     product.objectId = "123ABC"
-                    event = TrackerEvent.productShareComplete(product, network: .facebook, typePage: .productDetail)
+                    event = TrackerEvent.productShareComplete(.product(product), network: .facebook, typePage: .productDetail)
                 }
                 it("has the correct event name") {
                     expect(event.name.rawValue) == "product-detail-share-complete"
@@ -1243,6 +1270,7 @@ class TrackerEventSpec: QuickSpec {
 
             describe("product ask question") {
                 var product: Product!
+                var sendMessageInfo: SendMessageTrackingInfo!
                 beforeEach {
                     var mockProduct = MockProduct.makeMock()
                     mockProduct.objectId = "12345"
@@ -1250,16 +1278,21 @@ class TrackerEventSpec: QuickSpec {
                     mockProduct.currency = Currency(code: "EUR", symbol: "€")
                     mockProduct.category = .homeAndGarden
 
-                    var productOwner = MockUserProduct.makeMock()
+                    var productOwner = MockUserListing.makeMock()
                     productOwner.objectId = "67890"
                     productOwner.isDummy = false
                     mockProduct.user = productOwner
                     mockProduct.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
                     product = mockProduct
-                    
-                    sut = TrackerEvent.firstMessage(product, messageType: .text, quickAnswerType: nil,
-                                                    typePage: .productDetail, sellerRating: 4,
-                                                    freePostingModeAllowed: true, isBumpedUp: .trueParameter)
+
+                    sendMessageInfo = SendMessageTrackingInfo()
+                        .set(listing: .product(product), freePostingModeAllowed: true)
+                        .set(messageType: .text)
+                        .set(quickAnswerType: nil)
+                        .set(typePage: .productDetail)
+                        .set(sellerRating: 4)
+                        .set(isBumpedUp: .trueParameter)
+                    sut = TrackerEvent.firstMessage(info: sendMessageInfo)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-ask-question"))
@@ -1314,10 +1347,8 @@ class TrackerEventSpec: QuickSpec {
                 }
                 describe("text message") {
                     beforeEach {
-                        sut = TrackerEvent.firstMessage(product, messageType: .text, quickAnswerType: nil,
-                                                        typePage: .productDetail, sellerRating: 4,
-                                                        freePostingModeAllowed: true, isBumpedUp: .trueParameter)
-
+                        sendMessageInfo.set(messageType: .text)
+                        sut = TrackerEvent.firstMessage(info: sendMessageInfo)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1329,10 +1360,8 @@ class TrackerEventSpec: QuickSpec {
                 }
                 describe("sticker message") {
                     beforeEach {
-                        sut = TrackerEvent.firstMessage(product, messageType: .sticker, quickAnswerType: nil,
-                                                        typePage: .productDetail, sellerRating: 4,
-                                                        freePostingModeAllowed: true, isBumpedUp: .trueParameter)
-
+                        sendMessageInfo.set(messageType: .sticker)
+                        sut = TrackerEvent.firstMessage(info: sendMessageInfo)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1344,10 +1373,9 @@ class TrackerEventSpec: QuickSpec {
                 }
                 describe("quick answer message") {
                     beforeEach {
-                        sut = TrackerEvent.firstMessage(product, messageType: .quickAnswer, quickAnswerType: .notInterested,
-                                                        typePage: .productDetail, sellerRating: 4,
-                                                        freePostingModeAllowed: true, isBumpedUp: .trueParameter)
-
+                        sendMessageInfo.set(messageType: .quickAnswer)
+                        sendMessageInfo.set(quickAnswerType: .notInterested)
+                        sut = TrackerEvent.firstMessage(info: sendMessageInfo)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1360,18 +1388,25 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
-            describe("product ask question (ChatProduct)") {
-                var product: ChatProduct!
+            describe("product ask question (ChatListing)") {
+                var product: ChatListing!
+                var sendMessageInfo: SendMessageTrackingInfo!
                 beforeEach {
-                    var mockProduct = MockChatProduct.makeMock()
+                    var mockProduct = MockChatListing.makeMock()
                     mockProduct.objectId = "12345"
                     mockProduct.price = .negotiable(123.983)
                     mockProduct.currency = Currency(code: "EUR", symbol: "€")
 
                     product = mockProduct
-                    sut = TrackerEvent.firstMessage(product, messageType: .text, quickAnswerType: nil,
-                                                    interlocutorId: "67890", typePage: .productDetail, sellerRating: 4,
-                                                    freePostingModeAllowed: true, isBumpedUp: .trueParameter)
+                    sendMessageInfo = SendMessageTrackingInfo()
+                        .set(chatListing: product, freePostingModeAllowed: true)
+                        .set(interlocutorId: "67890")
+                        .set(messageType: .text)
+                        .set(quickAnswerType: nil)
+                        .set(typePage: .productDetail)
+                        .set(sellerRating: 4)
+                        .set(isBumpedUp: .trueParameter)
+                    sut = TrackerEvent.firstMessage(info: sendMessageInfo)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-ask-question"))
@@ -1414,9 +1449,8 @@ class TrackerEventSpec: QuickSpec {
                 }
                 describe("text message") {
                     beforeEach {
-                        sut = TrackerEvent.firstMessage(product, messageType: .text, quickAnswerType: nil,
-                                                        interlocutorId: "67890", typePage: .productDetail, sellerRating: 4,
-                                                        freePostingModeAllowed: true, isBumpedUp: .trueParameter)
+                        sendMessageInfo.set(messageType: .text)
+                        sut = TrackerEvent.firstMessage(info: sendMessageInfo)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1428,9 +1462,8 @@ class TrackerEventSpec: QuickSpec {
                 }
                 describe("sticker message") {
                     beforeEach {
-                        sut = TrackerEvent.firstMessage(product, messageType: .sticker, quickAnswerType: nil,
-                                                        interlocutorId: "67890", typePage: .productDetail, sellerRating: 4,
-                                                        freePostingModeAllowed: true, isBumpedUp: .trueParameter)
+                        sendMessageInfo.set(messageType: .sticker)
+                        sut = TrackerEvent.firstMessage(info: sendMessageInfo)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1442,9 +1475,9 @@ class TrackerEventSpec: QuickSpec {
                 }
                 describe("quick answer message") {
                     beforeEach {
-                        sut = TrackerEvent.firstMessage(product, messageType: .quickAnswer, quickAnswerType: .notInterested,
-                                                        interlocutorId: "67890", typePage: .productDetail, sellerRating: 4,
-                                                        freePostingModeAllowed: true, isBumpedUp: .trueParameter)
+                        sendMessageInfo.set(messageType: .quickAnswer)
+                        sendMessageInfo.set(quickAnswerType: .notInterested)
+                        sut = TrackerEvent.firstMessage(info: sendMessageInfo)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1464,7 +1497,7 @@ class TrackerEventSpec: QuickSpec {
                     mockProduct.price = .negotiable(123.983)
                     mockProduct.currency = Currency(code: "EUR", symbol: "€")
 
-                    sut = TrackerEvent.productDetailOpenChat(mockProduct, typePage: .productDetail)
+                    sut = TrackerEvent.productDetailOpenChat(.product(mockProduct), typePage: .productDetail)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-open-chat"))
@@ -1481,11 +1514,11 @@ class TrackerEventSpec: QuickSpec {
 
             describe("productMarkAsSold") {
                 beforeEach {
-                    var userProduct = MockUserProduct.makeMock()
-                    userProduct.objectId = "56897"
-                    userProduct.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
+                    var userListing = MockUserListing.makeMock()
+                    userListing.objectId = "56897"
+                    userListing.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
                                                               state: "", countryCode: "NL", country: nil)
-                    userProduct.isDummy = false
+                    userListing.isDummy = false
 
                     var product = MockProduct.makeMock()
                     product.objectId = "AAAAA"
@@ -1493,12 +1526,12 @@ class TrackerEventSpec: QuickSpec {
                     product.price = .free
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = .homeAndGarden
-                    product.user = userProduct
+                    product.user = userListing
                     product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
                                                           countryCode: "US", country: nil)
 
-                    sut = TrackerEvent.productMarkAsSold(product, typePage: .productDetail, soldTo: .letgoUser,
+                    sut = TrackerEvent.productMarkAsSold(.product(product), typePage: .productDetail, soldTo: .letgoUser,
                                                          freePostingModeAllowed: true, isBumpedUp: .trueParameter)
                 }
 
@@ -1525,7 +1558,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains category-id param") {
                     let value = sut.params!.stringKeyParams["category-id"] as? Int
-                    expect(value) == ProductCategory.homeAndGarden.rawValue
+                    expect(value) == ListingCategory.homeAndGarden.rawValue
                 }
                 it("contains user-sold-to param") {
                     let value = sut.params!.stringKeyParams["user-sold-to"] as? String
@@ -1544,11 +1577,11 @@ class TrackerEventSpec: QuickSpec {
             describe("productMarkAsUnsold") {
                 it("has its event name") {
                     let product = MockProduct.makeMock()
-                    sut = TrackerEvent.productMarkAsUnsold(product)
+                    sut = TrackerEvent.productMarkAsUnsold(.product(product))
                     expect(sut.name.rawValue).to(equal("product-detail-unsold"))
                 }
                 it("contains the product related params when passing by a product and my user") {
-                    var myUser = MockUserProduct.makeMock()
+                    var myUser = MockUserListing.makeMock()
                     myUser.objectId = "12345"
                     myUser.postalAddress = PostalAddress(address: nil, city: "Barcelona", zipCode: "08026", state: "Catalonia",
                         countryCode: "ES", country: nil)
@@ -1558,14 +1591,14 @@ class TrackerEventSpec: QuickSpec {
                     product.name = "iPhone 7S"
                     product.price = .negotiable(123.983)
                     product.currency = Currency(code: "EUR", symbol: "€")
-                    product.category = ProductCategory(rawValue: 4)!
+                    product.category = ListingCategory(rawValue: 4)!
                     product.user = myUser
                     product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
                         countryCode: "US", country: nil)
-                    product.category = ProductCategory(rawValue: 4)!
+                    product.category = ListingCategory(rawValue: 4)!
                     
-                    sut = TrackerEvent.productMarkAsUnsold(product)
+                    sut = TrackerEvent.productMarkAsUnsold(.product(product))
                     expect(sut.params).notTo(beNil())
                     
                     // Product
@@ -1591,15 +1624,15 @@ class TrackerEventSpec: QuickSpec {
             describe("productReport") {
                 it("has its event name") {
                     let product = MockProduct.makeMock()
-                    sut = TrackerEvent.productReport(product)
+                    sut = TrackerEvent.productReport(.product(product))
                     expect(sut.name.rawValue).to(equal("product-detail-report"))
                 }
                 it("contains the product related params when passing by a product and my user") {
-                    var userProduct = MockUserProduct.makeMock()
-                    userProduct.objectId = "56897"
-                    userProduct.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
+                    var userListing = MockUserListing.makeMock()
+                    userListing.objectId = "56897"
+                    userListing.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
                                                               state: "", countryCode: "NL", country: nil)
-                    userProduct.isDummy = false
+                    userListing.isDummy = false
                     
                     var product = MockProduct.makeMock()
                     product.objectId = "AAAAA"
@@ -1607,12 +1640,12 @@ class TrackerEventSpec: QuickSpec {
                     product.price = .negotiable(123.983)
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = .homeAndGarden
-                    product.user = userProduct
+                    product.user = userListing
                     product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
                                                           countryCode: "US", country: nil)
                     
-                    sut = TrackerEvent.productReport(product)
+                    sut = TrackerEvent.productReport(.product(product))
                     expect(sut.params).notTo(beNil())
                     
                     // Product
@@ -1703,7 +1736,7 @@ class TrackerEventSpec: QuickSpec {
                     product.price = .negotiable(20)
                     product.images = MockFile.makeMocks(count: 2)
                     product.descr = String.makeRandom()
-                    sut = TrackerEvent.productSellComplete(product, buttonName: .done, sellButtonPosition: .floatingButton, negotiable: .yes,
+                    sut = TrackerEvent.productSellComplete(Listing.product(product), buttonName: .done, sellButtonPosition: .floatingButton, negotiable: .yes,
                         pictureSource: .gallery, freePostingModeAllowed: true)
                 }
                 it("has its event name") {
@@ -1755,7 +1788,7 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "r4nd0m1D"
-                    sut = TrackerEvent.productSellConfirmation(product)
+                    sut = TrackerEvent.productSellConfirmation(Listing.product(product))
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-confirmation"))
@@ -1770,7 +1803,7 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "r4nd0m1D"
-                    sut = TrackerEvent.productSellConfirmationPost(product, buttonType: .button)
+                    sut = TrackerEvent.productSellConfirmationPost(Listing.product(product), buttonType: .button)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-confirmation-post"))
@@ -1789,7 +1822,7 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "r4nd0m1D"
-                    sut = TrackerEvent.productSellConfirmationEdit(product)
+                    sut = TrackerEvent.productSellConfirmationEdit(Listing.product(product))
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-confirmation-edit"))
@@ -1804,7 +1837,7 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "r4nd0m1D"
-                    sut = TrackerEvent.productSellConfirmationClose(product)
+                    sut = TrackerEvent.productSellConfirmationClose(Listing.product(product))
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-confirmation-close"))
@@ -1819,7 +1852,7 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "r4nd0m1D"
-                    sut = TrackerEvent.productSellConfirmationShare(product, network: .facebook)
+                    sut = TrackerEvent.productSellConfirmationShare(Listing.product(product), network: .facebook)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-confirmation-share"))
@@ -1838,7 +1871,7 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "r4nd0m1D"
-                    sut = TrackerEvent.productSellConfirmationShareCancel(product, network: .facebook)
+                    sut = TrackerEvent.productSellConfirmationShareCancel(Listing.product(product), network: .facebook)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-confirmation-share-cancel"))
@@ -1857,7 +1890,7 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "r4nd0m1D"
-                    sut = TrackerEvent.productSellConfirmationShareComplete(product, network: .facebook)
+                    sut = TrackerEvent.productSellConfirmationShareComplete(Listing.product(product), network: .facebook)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-confirmation-share-complete"))
@@ -1876,13 +1909,13 @@ class TrackerEventSpec: QuickSpec {
                 it("has its event name") {
                     let user = MockUser.makeMock()
                     let product = MockProduct.makeMock()
-                    sut = TrackerEvent.productEditStart(user, product: product)
+                    sut = TrackerEvent.productEditStart(user, listing: .product(product))
                     expect(sut.name.rawValue).to(equal("product-edit-start"))
                 }
                 it("contains the product id") {
                     var product = MockProduct.makeMock()
                     product.objectId = "q1w2e3"
-                    sut = TrackerEvent.productEditStart(nil, product: product)
+                    sut = TrackerEvent.productEditStart(nil, listing: .product(product))
                     
                     expect(sut.params).notTo(beNil())
                     expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
@@ -1895,13 +1928,13 @@ class TrackerEventSpec: QuickSpec {
                 it("has its event name") {
                     _ = MockUser.makeMock()
                     let product = MockProduct.makeMock()
-                    sut = TrackerEvent.productEditFormValidationFailed(nil, product: product, description: "whatever")
+                    sut = TrackerEvent.productEditFormValidationFailed(nil, listing: .product(product), description: "whatever")
                     expect(sut.name.rawValue).to(equal("product-edit-form-validation-failed"))
                 }
                 it("contains the description related params") {
                     let product = MockProduct.makeMock()
                     
-                    sut = TrackerEvent.productEditFormValidationFailed(nil, product: product, description: "whatever")
+                    sut = TrackerEvent.productEditFormValidationFailed(nil, listing: .product(product), description: "whatever")
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["description"]).notTo(beNil())
@@ -1911,7 +1944,7 @@ class TrackerEventSpec: QuickSpec {
                 it("contains the product id") {
                     var product = MockProduct.makeMock()
                     product.objectId = "q1w2e3"
-                    sut = TrackerEvent.productEditFormValidationFailed(nil, product: product, description: "whatever")
+                    sut = TrackerEvent.productEditFormValidationFailed(nil, listing: .product(product), description: "whatever")
                     
                     expect(sut.params).notTo(beNil())
                     expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
@@ -1923,13 +1956,13 @@ class TrackerEventSpec: QuickSpec {
             describe("productEditSharedFB") {
                 it("has its event name") {
                     let product = MockProduct.makeMock()
-                    sut = TrackerEvent.productEditSharedFB(nil, product: product)
+                    sut = TrackerEvent.productEditSharedFB(nil, listing: .product(product))
                     expect(sut.name.rawValue).to(equal("product-edit-shared-fb"))
                 }
                 it("contains the product id") {
                     var product = MockProduct.makeMock()
                     product.objectId = "q1w2e3"
-                    sut = TrackerEvent.productEditSharedFB(nil, product: product)
+                    sut = TrackerEvent.productEditSharedFB(nil, listing: .product(product))
                     
                     expect(sut.params).notTo(beNil())
                     expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
@@ -1941,15 +1974,15 @@ class TrackerEventSpec: QuickSpec {
             describe("productEditComplete") {
                 it("has its event name") {
                     let product = MockProduct.makeMock()
-                    sut = TrackerEvent.productEditComplete(nil, product: product, category: nil, editedFields: [])
+                    sut = TrackerEvent.productEditComplete(nil, listing: .product(product), category: nil, editedFields: [])
                     expect(sut.name.rawValue).to(equal("product-edit-complete"))
                 }
                 it("contains the product related params when passing by a product, name & category") {
                     var product = MockProduct.makeMock()
-                    let newCategory = ProductCategory.carsAndMotors
+                    let newCategory = ListingCategory.motorsAndAccessories
                     product.objectId = "q1w2e3"
 
-                    sut = TrackerEvent.productEditComplete(nil, product: product, category: newCategory,
+                    sut = TrackerEvent.productEditComplete(nil, listing: .product(product), category: newCategory,
                         editedFields: [.title, .category])
                     expect(sut.params).notTo(beNil())
                     
@@ -1970,13 +2003,13 @@ class TrackerEventSpec: QuickSpec {
             describe("productDeleteStart") {
                 it("has its event name") {
                     let product = MockProduct.makeMock()
-                    sut = TrackerEvent.productDeleteStart(product)
+                    sut = TrackerEvent.productDeleteStart(.product(product))
                     expect(sut.name.rawValue).to(equal("product-delete-start"))
                 }
                 it("contains the product id") {
                     var product = MockProduct.makeMock()
                     product.objectId = "q1w2e3"
-                    sut = TrackerEvent.productDeleteStart(product)
+                    sut = TrackerEvent.productDeleteStart(.product(product))
                     
                     expect(sut.params).notTo(beNil())
                     expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
@@ -1988,13 +2021,13 @@ class TrackerEventSpec: QuickSpec {
             describe("productDeleteComplete") {
                 it("has its event name") {
                     let product = MockProduct.makeMock()
-                    sut = TrackerEvent.productDeleteComplete(product)
+                    sut = TrackerEvent.productDeleteComplete(.product(product))
                     expect(sut.name.rawValue).to(equal("product-delete-complete"))
                 }
                 it("contains the product id") {
                     var product = MockProduct.makeMock()
                     product.objectId = "q1w2e3"
-                    sut = TrackerEvent.productDeleteComplete(product)
+                    sut = TrackerEvent.productDeleteComplete(.product(product))
                     
                     expect(sut.params).notTo(beNil())
                     expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
@@ -2004,14 +2037,15 @@ class TrackerEventSpec: QuickSpec {
             }
             
             describe("userMessageSent") {
-                var userProduct: MockUserProduct!
+                var userListing: MockUserListing!
                 var product: MockProduct!
+                var sendMessageInfo: SendMessageTrackingInfo!
                 beforeEach {
-                    userProduct = MockUserProduct.makeMock()
-                    userProduct.objectId = "56897"
-                    userProduct.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
+                    userListing = MockUserListing.makeMock()
+                    userListing.objectId = "56897"
+                    userListing.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
                                                               state: "", countryCode: "NL", country: nil)
-                    userProduct.isDummy = false
+                    userListing.isDummy = false
 
                     product = MockProduct.makeMock()
                     product.objectId = "AAAAA"
@@ -2019,13 +2053,19 @@ class TrackerEventSpec: QuickSpec {
                     product.price = .negotiable(123.983)
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = .homeAndGarden
-                    product.user = userProduct
+                    product.user = userListing
                     product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
                                                           countryCode: "US", country: nil)
 
-                    sut = TrackerEvent.userMessageSent(product, userTo: userProduct, messageType: .text,
-                                                       quickAnswerType: nil, typePage: .chat, freePostingModeAllowed: true)
+                    sendMessageInfo = SendMessageTrackingInfo()
+                        .set(listing: .product(product), freePostingModeAllowed: true)
+                        .set(messageType: .text)
+                        .set(quickAnswerType: nil)
+                        .set(typePage: .chat)
+                        .set(sellerRating: 4)
+                        .set(isBumpedUp: .trueParameter)
+                    sut = TrackerEvent.userMessageSent(info: sendMessageInfo)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("user-sent-message"))
@@ -2044,7 +2084,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("has category-id param") {
                     let productCategory = sut.params!.stringKeyParams["category-id"] as? Int
-                    expect(productCategory) == ProductCategory.homeAndGarden.rawValue
+                    expect(productCategory) == ListingCategory.homeAndGarden.rawValue
                 }
                 it("has coordinates params") {
                     let productLat = sut.params!.stringKeyParams["product-lat"] as? Double
@@ -2071,9 +2111,8 @@ class TrackerEventSpec: QuickSpec {
                 }
                 describe("text message") {
                     beforeEach {
-                        sut = TrackerEvent.userMessageSent(product, userTo: userProduct, messageType: .text,
-                                                           quickAnswerType: nil, typePage: .chat,
-                                                           freePostingModeAllowed: true)
+                        sendMessageInfo.set(messageType: .text)
+                        sut = TrackerEvent.userMessageSent(info: sendMessageInfo)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -2089,9 +2128,8 @@ class TrackerEventSpec: QuickSpec {
                 }
                 describe("sticker message") {
                     beforeEach {
-                        sut = TrackerEvent.userMessageSent(product, userTo: userProduct, messageType: .sticker,
-                                                           quickAnswerType: nil, typePage: .chat,
-                                                           freePostingModeAllowed: true)
+                        sendMessageInfo.set(messageType: .sticker)
+                        sut = TrackerEvent.userMessageSent(info: sendMessageInfo)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -2107,9 +2145,148 @@ class TrackerEventSpec: QuickSpec {
                 }
                 describe("quick answer message") {
                     beforeEach {
-                        sut = TrackerEvent.userMessageSent(product, userTo: userProduct, messageType: .quickAnswer,
-                                                           quickAnswerType: .notInterested, typePage: .chat,
-                                                           freePostingModeAllowed: true)
+                        sendMessageInfo.set(messageType: .quickAnswer)
+                        sendMessageInfo.set(quickAnswerType: .notInterested)
+                        sut = TrackerEvent.userMessageSent(info: sendMessageInfo)
+                    }
+                    it("has message-type param with value text") {
+                        let value = sut.params!.stringKeyParams["message-type"] as? String
+                        expect(value) == "quick-answer"
+                    }
+                    it("has quick-answer param with value false") {
+                        let value = sut.params!.stringKeyParams["quick-answer"] as? String
+                        expect(value) == "true"
+                    }
+                    it("has no quick-answer-type") {
+                        let value = sut.params!.stringKeyParams["quick-answer-type"] as? String
+                        expect(value) == "not-interested"
+                    }
+                }
+            }
+
+            describe("userMessageSentError") {
+                var userListing: MockUserListing!
+                var product: MockProduct!
+                var sendMessageInfo: SendMessageTrackingInfo!
+                beforeEach {
+                    userListing = MockUserListing.makeMock()
+                    userListing.objectId = "56897"
+                    userListing.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
+                                                              state: "", countryCode: "NL", country: nil)
+                    userListing.isDummy = false
+
+                    product = MockProduct.makeMock()
+                    product.objectId = "AAAAA"
+                    product.name = "iPhone 7S"
+                    product.price = .negotiable(123.983)
+                    product.currency = Currency(code: "EUR", symbol: "€")
+                    product.category = .homeAndGarden
+                    product.user = userListing
+                    product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
+                    product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
+                                                          countryCode: "US", country: nil)
+
+                    let error: EventParameterChatError = .serverError(code: 404)
+
+                    sendMessageInfo = SendMessageTrackingInfo()
+                        .set(listing: .product(product), freePostingModeAllowed: true)
+                        .set(messageType: .text)
+                        .set(quickAnswerType: nil)
+                        .set(typePage: .chat)
+                        .set(sellerRating: 4)
+                        .set(isBumpedUp: .trueParameter)
+                        .set(error: error)
+                    sut = TrackerEvent.userMessageSentError(info: sendMessageInfo)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("user-sent-message-error"))
+                }
+                it("has product-id param") {
+                    let productId = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(productId) == "AAAAA"
+                }
+                it("has product-price param") {
+                    let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
+                    expect(productPrice) == 123.983
+                }
+                it("has product-currency param") {
+                    let productCurrency = sut.params!.stringKeyParams["product-currency"] as? String
+                    expect(productCurrency) == "EUR"
+                }
+                it("has category-id param") {
+                    let productCategory = sut.params!.stringKeyParams["category-id"] as? Int
+                    expect(productCategory) == ListingCategory.homeAndGarden.rawValue
+                }
+                it("has coordinates params") {
+                    let productLat = sut.params!.stringKeyParams["product-lat"] as? Double
+                    expect(productLat) == 3.12354534
+
+                    let productLng = sut.params!.stringKeyParams["product-lng"] as? Double
+                    expect(productLng) == 7.23983292
+                }
+                it("has item-type param") {
+                    let itemType = sut.params!.stringKeyParams["item-type"] as? String
+                    expect(itemType) == "1"
+                }
+                it("has user-to-id param") {
+                    let productUserId = sut.params!.stringKeyParams["user-to-id"] as? String
+                    expect(productUserId) == "56897"
+                }
+                it("has type-page param") {
+                    let pageType = sut.params!.stringKeyParams["type-page"] as? String
+                    expect(pageType) == "chat"
+                }
+                it("has free-posting param") {
+                    let freePosting = sut.params!.stringKeyParams["free-posting"] as? String
+                    expect(freePosting) == "false"
+                }
+                it("has error-description param") {
+                    let value = sut.params!.stringKeyParams["error-description"] as? String
+                    expect(value) == "chat-server"
+                }
+                it("has error-details param") {
+                    let value = sut.params!.stringKeyParams["error-details"] as? String
+                    expect(value) == "404"
+                }
+                describe("text message") {
+                    beforeEach {
+                        sendMessageInfo.set(messageType: .text)
+                        sut = TrackerEvent.userMessageSentError(info: sendMessageInfo)
+                    }
+                    it("has message-type param with value text") {
+                        let value = sut.params!.stringKeyParams["message-type"] as? String
+                        expect(value) == "text"
+                    }
+                    it("has quick-answer param with value false") {
+                        let value = sut.params!.stringKeyParams["quick-answer"] as? String
+                        expect(value) == "false"
+                    }
+                    it("has no quick-answer-type") {
+                        expect(sut.params!.stringKeyParams["quick-answer-type"]).to(beNil())
+                    }
+                }
+                describe("sticker message") {
+                    beforeEach {
+                        sendMessageInfo.set(messageType: .sticker)
+                        sut = TrackerEvent.userMessageSentError(info: sendMessageInfo)
+                    }
+                    it("has message-type param with value text") {
+                        let value = sut.params!.stringKeyParams["message-type"] as? String
+                        expect(value) == "sticker"
+                    }
+                    it("has quick-answer param with value false") {
+                        let value = sut.params!.stringKeyParams["quick-answer"] as? String
+                        expect(value) == "false"
+                    }
+                    it("has no quick-answer-type") {
+                        expect(sut.params!.stringKeyParams["quick-answer-type"]).to(beNil())
+                    }
+                }
+                describe("quick answer message") {
+                    beforeEach {
+                        sendMessageInfo.set(messageType: .quickAnswer)
+                        sendMessageInfo.set(quickAnswerType: .notInterested)
+                        sut = TrackerEvent.userMessageSentError(info: sendMessageInfo)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -2516,7 +2693,7 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     let userId1 = "test-id-1"
                     let userId2 = "test-id-2"
-                    sut = TrackerEvent.profileBlock(.profile, blockedUsersIds: [userId1, userId2])
+                    sut = TrackerEvent.profileBlock(.profile, blockedUsersIds: [userId1, userId2], buttonPosition: .threeDots)
                 }
                 afterEach {
                     user = nil
@@ -2534,6 +2711,10 @@ class TrackerEventSpec: QuickSpec {
                 it("contains the blocked users ids separated by commas") {
                     let userId = sut.params!.stringKeyParams["user-to-id"] as? String
                     expect(userId).to(equal("test-id-1,test-id-2"))
+                }
+                it("contains the button position parameter") {
+                    let buttomPosition = sut.params!.stringKeyParams["block-button-position"] as? String
+                    expect(buttomPosition).to(equal("three-dots"))
                 }
             }
 
@@ -2816,7 +2997,7 @@ class TrackerEventSpec: QuickSpec {
             }
             describe("Notification center complete type welcome") {
                 beforeEach {
-                    sut = TrackerEvent.notificationCenterComplete(.welcome)
+                    sut = TrackerEvent.notificationCenterComplete(.welcome, source: .main, cardAction: "profile-visit", notificationCampaign: nil)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("notification-center-complete"))
@@ -2825,10 +3006,18 @@ class TrackerEventSpec: QuickSpec {
                     let param = sut.params!.stringKeyParams["notification-type"] as? String
                     expect(param) == "welcome"
                 }
+                it("contains click-area param") {
+                    let param = sut.params!.stringKeyParams["notification-click-area"] as? String
+                    expect(param) == "main"
+                }
+                it("contains action param") {
+                    let param = sut.params!.stringKeyParams["notification-action"] as? String
+                    expect(param) == "profile-visit"
+                }
             }
             describe("Notification center complete type buyersInterested") {
                 beforeEach {
-                    sut = TrackerEvent.notificationCenterComplete(.buyersInterested)
+                    sut = TrackerEvent.notificationCenterComplete(.buyersInterested, source: .main, cardAction: "profile-visit", notificationCampaign: nil)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("notification-center-complete"))
@@ -2837,10 +3026,18 @@ class TrackerEventSpec: QuickSpec {
                     let param = sut.params!.stringKeyParams["notification-type"] as? String
                     expect(param) == "passive-buyer-seller"
                 }
+                it("contains click-area param") {
+                    let param = sut.params!.stringKeyParams["notification-click-area"] as? String
+                    expect(param) == "main"
+                }
+                it("contains action param") {
+                    let param = sut.params!.stringKeyParams["notification-action"] as? String
+                    expect(param) == "profile-visit"
+                }
             }
             describe("Notification center complete type favorite") {
                 beforeEach {
-                    sut = TrackerEvent.notificationCenterComplete(.favorite)
+                    sut = TrackerEvent.notificationCenterComplete(.favorite, source: .main, cardAction: "product-detail-visit", notificationCampaign: nil)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("notification-center-complete"))
@@ -2849,10 +3046,18 @@ class TrackerEventSpec: QuickSpec {
                     let param = sut.params!.stringKeyParams["notification-type"] as? String
                     expect(param) == "favorite"
                 }
+                it("contains click-area param") {
+                    let param = sut.params!.stringKeyParams["notification-click-area"] as? String
+                    expect(param) == "main"
+                }
+                it("contains action param") {
+                    let param = sut.params!.stringKeyParams["notification-action"] as? String
+                    expect(param) == "product-detail-visit"
+                }
             }
             describe("Notification center complete type productSold") {
                 beforeEach {
-                    sut = TrackerEvent.notificationCenterComplete(.productSold)
+                    sut = TrackerEvent.notificationCenterComplete(.productSold, source: .main, cardAction: "product-detail-visit", notificationCampaign: nil)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("notification-center-complete"))
@@ -2861,10 +3066,18 @@ class TrackerEventSpec: QuickSpec {
                     let param = sut.params!.stringKeyParams["notification-type"] as? String
                     expect(param) == "favorite-sold"
                 }
+                it("contains click-area param") {
+                    let param = sut.params!.stringKeyParams["notification-click-area"] as? String
+                    expect(param) == "main"
+                }
+                it("contains action param") {
+                    let param = sut.params!.stringKeyParams["notification-action"] as? String
+                    expect(param) == "product-detail-visit"
+                }
             }
             describe("Notification center complete type productSuggested") {
                 beforeEach {
-                    sut = TrackerEvent.notificationCenterComplete(.productSuggested)
+                    sut = TrackerEvent.notificationCenterComplete(.productSuggested, source: .main, cardAction: "passive-buyer-seller", notificationCampaign: nil)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("notification-center-complete"))
@@ -2873,10 +3086,18 @@ class TrackerEventSpec: QuickSpec {
                     let param = sut.params!.stringKeyParams["notification-type"] as? String
                     expect(param) == "passive-buyer-make-offer"
                 }
+                it("contains click-area param") {
+                    let param = sut.params!.stringKeyParams["notification-click-area"] as? String
+                    expect(param) == "main"
+                }
+                it("contains action param") {
+                    let param = sut.params!.stringKeyParams["notification-action"] as? String
+                    expect(param) == "passive-buyer-seller"
+                }
             }
             describe("Notification center complete type rating") {
                 beforeEach {
-                    sut = TrackerEvent.notificationCenterComplete(.rating)
+                    sut = TrackerEvent.notificationCenterComplete(.rating, source: .main, cardAction: "passive-buyer-seller", notificationCampaign: nil)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("notification-center-complete"))
@@ -2885,10 +3106,18 @@ class TrackerEventSpec: QuickSpec {
                     let param = sut.params!.stringKeyParams["notification-type"] as? String
                     expect(param) == "rating"
                 }
+                it("contains click-area param") {
+                    let param = sut.params!.stringKeyParams["notification-click-area"] as? String
+                    expect(param) == "main"
+                }
+                it("contains action param") {
+                    let param = sut.params!.stringKeyParams["notification-action"] as? String
+                    expect(param) == "passive-buyer-seller"
+                }
             }
             describe("Notification center complete type ratingUpdated") {
                 beforeEach {
-                    sut = TrackerEvent.notificationCenterComplete(.ratingUpdated)
+                    sut = TrackerEvent.notificationCenterComplete(.ratingUpdated, source: .main, cardAction: "passive-buyer-seller", notificationCampaign: nil)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("notification-center-complete"))
@@ -2896,6 +3125,42 @@ class TrackerEventSpec: QuickSpec {
                 it("contains notification-type param") {
                     let param = sut.params!.stringKeyParams["notification-type"] as? String
                     expect(param) == "rating-updated"
+                }
+                it("contains click-area param") {
+                    let param = sut.params!.stringKeyParams["notification-click-area"] as? String
+                    expect(param) == "main"
+                }
+                it("contains action param") {
+                    let param = sut.params!.stringKeyParams["notification-action"] as? String
+                    expect(param) == "passive-buyer-seller"
+                }
+                it("contains notificationCampaign param") {
+                    let param = sut.params!.stringKeyParams["notification-campaign"] as? String
+                    expect(param) == "N/A"
+                }
+            }
+            describe("Notification center complete type modular") {
+                beforeEach {
+                    sut = TrackerEvent.notificationCenterComplete(.modular, source: .cta1, cardAction: "profile-visit", notificationCampaign: "inactive_march_2017")
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("notification-center-complete"))
+                }
+                it("contains notification-type param") {
+                    let param = sut.params!.stringKeyParams["notification-type"] as? String
+                    expect(param) == "modular"
+                }
+                it("contains click-area param") {
+                    let param = sut.params!.stringKeyParams["notification-click-area"] as? String
+                    expect(param) == "cta-1"
+                }
+                it("contains action param") {
+                    let param = sut.params!.stringKeyParams["notification-action"] as? String
+                    expect(param) == "profile-visit"
+                }
+                it("contains notificationCampaign param") {
+                    let param = sut.params!.stringKeyParams["notification-campaign"] as? String
+                    expect(param) == "inactive_march_2017"
                 }
             }
             describe("Marketing Push Notifications") {
@@ -2918,7 +3183,7 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "12345"
-                    sut = TrackerEvent.productBumpUpStart(product, price: .free)
+                    sut = TrackerEvent.productBumpUpStart(.product(product), price: .free)
                 }
                 it("has its event name ") {
                     expect(sut.name.rawValue).to(equal("bump-up-start"))
@@ -2934,7 +3199,7 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "12345"
-                    sut = TrackerEvent.productBumpUpComplete(product, price: .free, network: .facebook)
+                    sut = TrackerEvent.productBumpUpComplete(.product(product), price: .free, network: .facebook)
                 }
                 it("has its event name ") {
                     expect(sut.name.rawValue).to(equal("bump-up-complete"))

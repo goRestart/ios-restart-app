@@ -12,16 +12,16 @@ class DiscoverProductListRequester {
 
     let itemsPerPage: Int
     fileprivate let productObjectId: String
-    fileprivate let productRepository: ProductRepository
+    fileprivate let listingRepository: ListingRepository
     fileprivate var offset: Int = 0
 
     convenience init(productId: String, itemsPerPage: Int) {
-        self.init(productId: productId, itemsPerPage: itemsPerPage, productRepository: Core.productRepository)
+        self.init(productId: productId, itemsPerPage: itemsPerPage, listingRepository: Core.listingRepository)
     }
 
-    init(productId: String, itemsPerPage: Int, productRepository: ProductRepository) {
+    init(productId: String, itemsPerPage: Int, listingRepository: ListingRepository) {
         self.productObjectId = productId
-        self.productRepository = productRepository
+        self.listingRepository = listingRepository
         self.itemsPerPage = itemsPerPage
     }
 }
@@ -34,12 +34,12 @@ extension DiscoverProductListRequester: ProductListRequester {
         return true
     }
 
-    func retrieveFirstPage(_ completion: ProductsCompletion?) {
+    func retrieveFirstPage(_ completion: ListingsCompletion?) {
         offset = 0
         productsRetrieval(completion)
     }
 
-    func retrieveNextPage(_ completion: ProductsCompletion?) {
+    func retrieveNextPage(_ completion: ListingsCompletion?) {
         productsRetrieval(completion)
     }
 
@@ -60,15 +60,15 @@ extension DiscoverProductListRequester: ProductListRequester {
 
 fileprivate extension DiscoverProductListRequester {
 
-    var retrieveProductsParams: RetrieveProductsParams {
-        var params = RetrieveProductsParams()
+    var retrieveProductsParams: RetrieveListingParams {
+        var params = RetrieveListingParams()
         params.offset = offset
         params.numProducts = itemsPerPage
         return params
     }
 
-    func productsRetrieval(_ completion: ProductsCompletion?) {
-        productRepository.indexDiscover(productId: productObjectId, params: retrieveProductsParams) { [weak self] result in
+    func productsRetrieval(_ completion: ListingsCompletion?) {
+        listingRepository.indexDiscover(listingId: productObjectId, params: retrieveProductsParams) { [weak self] result in
             if let value = result.value {
                 self?.offset += value.count
             }

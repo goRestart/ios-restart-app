@@ -69,9 +69,16 @@ platform :ios do
       shallow_clone: true
     )
 
+    lg_update_cars_info
+    
     lg_strings(repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] + "/")
 
     deploy_to_crashlitycs
+  end
+
+  desc "Copy CarsInfo json from remote host"
+  lane :update_cars_info do
+    lg_update_cars_info
   end
 
   desc "Build and distribute build to Crashlytics"
@@ -187,8 +194,8 @@ platform :ios do
   lane :deploy_to_appstore do
 
 
-    Helper.log.info ("\n\n ⚠️ \nThis lane will take a release branch, merge it in master branch, build master and send it to Apple. Be sure to specify the correct version, equal to the release branch of type `release-x.x.x` \n\n").blue
-    Helper.log.info ("📝  Before we begin...").blue
+    UI.important ("\n\n ⚠️ \nThis lane will take a release branch, merge it in master branch, build master and send it to Apple. Be sure to specify the correct version, equal to the release branch of type `release-x.x.x` \n\n")
+    UI.message ("📝  Before we begin...").cyan
 
     # Merge release branch into develop #manual
     manual_done = ask("Have you merged release branch into develop? YOU HAVE TO DO THIS MANUALLY (y/n) = ".yellow)
@@ -383,11 +390,24 @@ platform :ios do
     end
   end
 
+  lane :dependencies do
+    lg_dependencies(
+      lg_just_info: false
+    )
+  end
+
   after_all do |lane|
-    notify "Fastlane finished '#{lane}' successfully" # Mac OS X Notification
+    notification(
+      title: "Fastlane '#{lane}'",
+      message: "finished successfully"
+    )
   end
 
   error do |lane, exception|
-    puts "exception: #{exception.message}"
+    notification(
+      title: "Fastlane '#{lane}'",
+      message: "Failed: #{exception.message}"
+    )
+    UI.error "exception: #{exception.message}"
   end
 end

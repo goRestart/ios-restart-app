@@ -19,7 +19,7 @@ class NotificationsViewModel: BaseViewModel {
     private var notificationsData: [NotificationData] = []
 
     private let notificationsRepository: NotificationsRepository
-    private let productRepository: ProductRepository
+    private let listingRepository: ListingRepository
     private let userRepository: UserRepository
     fileprivate let myUserRepository: MyUserRepository
     private let notificationsManager: NotificationsManager
@@ -30,7 +30,7 @@ class NotificationsViewModel: BaseViewModel {
 
     convenience override init() {
         self.init(notificationsRepository: Core.notificationsRepository,
-                  productRepository: Core.productRepository,
+                  listingRepository: Core.listingRepository,
                   userRepository: Core.userRepository,
                   myUserRepository: Core.myUserRepository,
                   notificationsManager: LGNotificationsManager.sharedInstance,
@@ -38,12 +38,12 @@ class NotificationsViewModel: BaseViewModel {
                   tracker: TrackerProxy.sharedInstance, featureFlags: FeatureFlags.sharedInstance)
     }
 
-    init(notificationsRepository: NotificationsRepository, productRepository: ProductRepository,
+    init(notificationsRepository: NotificationsRepository, listingRepository: ListingRepository,
          userRepository: UserRepository, myUserRepository: MyUserRepository,
          notificationsManager: NotificationsManager, locationManager: LocationManager,
          tracker: Tracker, featureFlags: FeatureFlaggeable) {
         self.notificationsRepository = notificationsRepository
-        self.productRepository = productRepository
+        self.listingRepository = listingRepository
         self.myUserRepository = myUserRepository
         self.userRepository = userRepository
         self.notificationsManager = notificationsManager
@@ -80,7 +80,15 @@ class NotificationsViewModel: BaseViewModel {
 
     func selectedItemAtIndex(_ index: Int) {
         guard let data = dataAtIndex(index) else { return }
-        trackItemPressed(data.type.eventType)
+        // Not track if type is modular as primary action on modular notification includes tracking.
+        switch data.type {
+        case .welcome, .productFavorite, .productSold, .rating, .ratingUpdated, .buyersInterested, .productSuggested, .facebookFriendshipCreated:
+            // cardAction is passed as string instead of EventParameterCardAction type as retention could send anything on the query parameter.
+            trackItemPressed(type: data.type.eventType, source: .main, cardAction: data.type.notificationAction.rawValue,
+                             notificationCampaign: nil)
+        case .modular:
+            break
+        }
         data.primaryAction?()
     }
     
@@ -145,7 +153,7 @@ class NotificationsViewModel: BaseViewModel {
         guard data.id != nil else { return }
         guard let index = notificationsData.index(where: { $0.id != nil && $0.id == data.id }) else { return }
         let completedData = NotificationData(id: data.id, type: data.type, date: data.date, isRead: data.isRead,
-                                             primaryAction: nil, primaryActionCompleted: true)
+                                             campaignType: data.campaignType, primaryAction: nil, primaryActionCompleted: true)
         notificationsData[index] = completedData
         viewState.value = .data
     }
@@ -163,6 +171,7 @@ fileprivate extension NotificationsViewModel {
             return NotificationData(id: notification.objectId,
                                     type: .rating(user: user),
                                     date: notification.createdAt, isRead: notification.isRead,
+                                    campaignType: notification.campaignType,
                                     primaryAction: { [weak self] in
                                         self?.navigator?.openMyRatingList()
                                     })
@@ -171,6 +180,7 @@ fileprivate extension NotificationsViewModel {
             return NotificationData(id: notification.objectId,
                                     type: .ratingUpdated(user: user),
                                     date: notification.createdAt, isRead: notification.isRead,
+                                    campaignType: notification.campaignType,
                                     primaryAction: { [weak self] in
                                         self?.navigator?.openMyRatingList()
                                     })
@@ -178,6 +188,7 @@ fileprivate extension NotificationsViewModel {
             return NotificationData(id: notification.objectId,
                                     type: .productFavorite(product: product, user: user),
                                     date: notification.createdAt, isRead: notification.isRead,
+                                    campaignType: notification.campaignType,
                                     primaryAction: { [weak self] in
                                         let data = UserDetailData.id(userId: user.id, source: .notifications)
                                         self?.navigator?.openUser(data)
@@ -186,15 +197,17 @@ fileprivate extension NotificationsViewModel {
             return NotificationData(id: notification.objectId,
                                     type: .productSold(productImage: product.image), date: notification.createdAt,
                                     isRead: notification.isRead,
+                                    campaignType: notification.campaignType,
                                     primaryAction: { [weak self] in
-                                        let data = ProductDetailData.id(productId: product.id)
-                                        self?.navigator?.openProduct(data, source: .notifications,
+                                        let data = ListingDetailData.id(listingId: product.id)
+                                        self?.navigator?.openListing(data, source: .notifications,
                                                                      showKeyboardOnFirstAppearIfNeeded: false)
                                     })
         case let .buyersInterested(product, buyers):
             var data = NotificationData(id: notification.objectId,
                                     type: .buyersInterested(product: product, buyers: buyers),
                                     date: notification.createdAt, isRead: notification.isRead,
+                                    campaignType: notification.campaignType,
                                     primaryAction: nil,
                                     primaryActionCompleted: false)
             data.primaryAction = { [weak self] in
@@ -207,15 +220,17 @@ fileprivate extension NotificationsViewModel {
             return NotificationData(id: notification.objectId,
                                     type: .productSuggested(product: product, seller: seller),
                                     date: notification.createdAt, isRead: notification.isRead,
+                                    campaignType: notification.campaignType,
                                     primaryAction: { [weak self] in
-                                        let data = ProductDetailData.id(productId: product.id)
-                                        self?.navigator?.openProduct(data, source: .notifications,
+                                        let data = ListingDetailData.id(listingId: product.id)
+                                        self?.navigator?.openListing(data, source: .notifications,
                                                                      showKeyboardOnFirstAppearIfNeeded: true)
                                     })
         case let .facebookFriendshipCreated(user, facebookUsername):
             return NotificationData(id: notification.objectId,
                                     type: .facebookFriendshipCreated(user: user, facebookUsername: facebookUsername),
                                     date: notification.createdAt, isRead: notification.isRead,
+                                    campaignType: notification.campaignType,
                                     primaryAction: { [weak self] in
                                         let data = UserDetailData.id(userId: user.id, source: .notifications)
                                         self?.navigator?.openUser(data)
@@ -224,16 +239,18 @@ fileprivate extension NotificationsViewModel {
             return NotificationData(id: notification.objectId,
                                     type: .modular(modules: modules, delegate: self),
                                     date: notification.createdAt, isRead: notification.isRead,
+                                    campaignType: notification.campaignType,
                                     primaryAction: { [weak self] in
                                         guard let deeplink = modules.callToActions.first?.deeplink else { return }
-                                        self?.triggerModularNotificationDeeplink(deeplink: deeplink)
+                                        self?.triggerModularNotificationDeeplink(deeplink: deeplink, source: .main,
+                                                                                 notificationCampaign: notification.campaignType)
                                     })
         }
     }
 
     func buildWelcomeNotification() -> NotificationData {
         return NotificationData(id: nil, type: .welcome(city: locationManager.currentLocation?.postalAddress?.city),
-                                date: Date(), isRead: true, primaryAction: { [weak self] in
+                                date: Date(), isRead: true, campaignType: nil, primaryAction: { [weak self] in
                                     self?.navigator?.openSell(.notifications)
                                 })
     }
@@ -243,9 +260,11 @@ fileprivate extension NotificationsViewModel {
 // MARK: - modularNotificationCellDelegate
 
 extension NotificationsViewModel: ModularNotificationCellDelegate {
-    func triggerModularNotificationDeeplink(deeplink: String) {
+    func triggerModularNotificationDeeplink(deeplink: String, source: EventParameterNotificationClickArea, notificationCampaign: String?) {
         guard let deepLinkURL = URL(string: deeplink) else { return }
         guard let deepLink = UriScheme.buildFromUrl(deepLinkURL)?.deepLink else { return }
+        trackItemPressed(type: .modular, source: source, cardAction: deepLink.cardActionParameter,
+                         notificationCampaign: notificationCampaign)
         navigator?.openNotificationDeepLink(deepLink: deepLink)
     }
 }
@@ -259,8 +278,10 @@ fileprivate extension NotificationsViewModel {
         tracker.trackEvent(event)
     }
 
-    func trackItemPressed(_ type: EventParameterNotificationType) {
-        let event = TrackerEvent.notificationCenterComplete(type)
+    func trackItemPressed(type: EventParameterNotificationType, source: EventParameterNotificationClickArea,
+                          cardAction: String?, notificationCampaign: String?) {
+        let event = TrackerEvent.notificationCenterComplete(type, source: source, cardAction: cardAction,
+                                                            notificationCampaign: notificationCampaign)
         tracker.trackEvent(event)
     }
     
@@ -291,6 +312,29 @@ fileprivate extension NotificationDataType {
             return .facebookFriendshipCreated
         case .modular:
             return .modular
+        }
+    }
+    
+    var notificationAction: EventParameterNotificationAction {
+        switch self {
+        case .productSold:
+            return .product
+        case .productFavorite:
+            return .product
+        case .rating:
+            return .userRating
+        case .ratingUpdated:
+            return .userRating
+        case .welcome:
+            return .sell
+        case .buyersInterested:
+            return .passiveBuyers
+        case .productSuggested:
+            return .product
+        case .facebookFriendshipCreated:
+            return .user
+        case .modular:
+            return .unknown // It should not happen never.
         }
     }
 }

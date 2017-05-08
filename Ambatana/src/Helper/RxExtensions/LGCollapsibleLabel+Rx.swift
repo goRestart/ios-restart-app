@@ -11,16 +11,9 @@ import RxCocoa
 import RxSwift
 
 extension Reactive where Base: LGCollapsibleLabel {
-    var mainText: UIBindingObserver<Base, String> {
-        return UIBindingObserver<Base, String>(UIElement: self.base) { (label, mainText) -> () in
-            label.mainText = mainText
-            label.setNeedsLayout()
-        }
-    }
-
-    var optionalMainText: UIBindingObserver<Base, String?> {
+    var mainText: UIBindingObserver<Base, String?> {
         return UIBindingObserver<Base, String?>(UIElement: self.base) { (label, mainText) -> () in
-            label.mainText = mainText ?? ""
+            label.mainText = mainText
             label.setNeedsLayout()
         }
     }

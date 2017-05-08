@@ -70,6 +70,12 @@ enum AccessibilityId: String {
     case filterTagCell
     case filterTagCellTagIcon
     case filterTagCellTagLabel
+    
+    // CategoriesHeader Cells
+    case categoriesHeaderCollectionView
+    case categoryHeaderCell
+    case categoryHeaderCellCategoryIcon
+    case categoryHeaderCellCategoryTitle
 
     // SuggestionSearchCell
     case suggestionSearchCell
@@ -91,6 +97,13 @@ enum AccessibilityId: String {
     case filterCategoryCell
     case filterCategoryCellIcon
     case filterCategoryCellTitleLabel
+
+    case filterCarInfoMakeModelCell
+    case filterCarInfoMakeModelCellTitleLabel
+    case filterCarInfoMakeModelCellInfoLabel
+    case filterCarInfoYearCell
+    case filterCarInfoYearCellTitleLabel
+    case filterCarInfoYearCellInfoLabel
 
     case filterSingleCheckCell
     case filterSingleCheckCellTickIcon
@@ -219,6 +232,18 @@ enum AccessibilityId: String {
     case postingInfoEditButton
     case postingInfoMainButton
     case postingInfoIncentiveContainer
+    case postingCategorySelectionCarsButton
+    case postingCategorySelectionOtherButton
+    case postingCategoryDeatilNavigationBackButton
+    case postingCategoryDeatilNavigationMakeButton
+    case postingCategoryDeatilNavigationModelButton
+    case postingCategoryDeatilNavigationYearButton
+    case postingCategoryDeatilNavigationOkButton
+    case postingCategoryDeatilDoneButton
+    case postingCategoryDeatilRowButton
+    case postingCategoryDeatilTextField
+    case postingCategoryDeatilSearchBar
+    case postingCategoryDeatilTableView
 
     // EditProduct
     case editProductCloseButton
@@ -231,6 +256,9 @@ enum AccessibilityId: String {
     case editProductDescriptionField
     case editProductLocationButton
     case editProductCategoryButton
+    case editProductCarsMakeButton
+    case editProductCarsModelButton
+    case editProductCarsYearButton
     case editProductSendButton
     case editProductShareFBSwitch
     case editProductLoadingView

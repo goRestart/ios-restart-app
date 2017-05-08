@@ -13,7 +13,7 @@ struct LocalProduct: Product {
     let name: String?
     let nameAuto: String?
     let descr: String?
-    let price: ProductPrice
+    let price: ListingPrice
     let currency: Currency
 
     let location: LGLocationCoordinates2D
@@ -21,14 +21,14 @@ struct LocalProduct: Product {
 
     let languageCode: String?
 
-    let category: ProductCategory
-    let status: ProductStatus
+    let category: ListingCategory
+    let status: ListingStatus
 
     let thumbnail: File?
     let thumbnailSize: LGSize?
     let images: [File]
 
-    let user: UserProduct
+    let user: UserListing
 
     let updatedAt : Date?
     let createdAt : Date?
@@ -38,7 +38,7 @@ struct LocalProduct: Product {
 
 
     init?(chatConversation: ChatConversation, myUser: MyUser?) {
-        guard let chatProduct = chatConversation.product else { return nil }
+        guard let chatListing = chatConversation.listing else { return nil }
         if chatConversation.amISelling {
             guard let myUser = myUser, let localUser = LocalUser(user: myUser) else { return nil }
             self.user = localUser
@@ -46,20 +46,20 @@ struct LocalProduct: Product {
             guard let interlocutor = chatConversation.interlocutor else { return nil }
             self.user = LocalUser(chatInterlocutor: interlocutor)
         }
-        self.objectId = chatProduct.objectId
-        self.name = chatProduct.name
+        self.objectId = chatListing.objectId
+        self.name = chatListing.name
         self.nameAuto = nil
         self.descr = nil
-        self.price = chatProduct.price
-        self.currency = chatProduct.currency
+        self.price = chatListing.price
+        self.currency = chatListing.currency
         self.location = LGLocationCoordinates2D(latitude: 0, longitude: 0)
         self.postalAddress = PostalAddress.emptyAddress()
         self.languageCode = nil
         self.category = .other
-        self.status = chatProduct.status
-        self.thumbnail = chatProduct.image
+        self.status = chatListing.status
+        self.thumbnail = chatListing.image
         self.thumbnailSize = nil
-        self.images = [chatProduct.image].flatMap{ $0 }
+        self.images = [chatListing.image].flatMap{ $0 }
         self.updatedAt = nil
         self.createdAt = nil
         self.featured = false

@@ -22,6 +22,7 @@ struct MainProductsHeader: OptionSet {
 
     static let PushPermissions  = MainProductsHeader(rawValue:1)
     static let SellButton = MainProductsHeader(rawValue:2)
+    static let CategoriesCollectionBanner = MainProductsHeader(rawValue:4)
 }
 
 class MainProductsViewModel: BaseViewModel {
@@ -53,14 +54,18 @@ class MainProductsViewModel: BaseViewModel {
         var resultTags : [FilterTag] = []
         for prodCat in filters.selectedCategories {
             resultTags.append(.category(prodCat))
+            // Category 9 (.cars) tag only shown when carVerticalEnabled.
+            if prodCat == .cars && !featureFlags.carsVerticalEnabled {
+                resultTags.removeLast()
+            }
         }
         if let place = filters.place {
             resultTags.append(.location(place))
         }
-        if filters.selectedWithin != ProductTimeCriteria.defaultOption {
+        if filters.selectedWithin != ListingTimeCriteria.defaultOption {
             resultTags.append(.within(filters.selectedWithin))
         }
-        if let selectedOrdering = filters.selectedOrdering, selectedOrdering != ProductSortCriteria.defaultOption {
+        if let selectedOrdering = filters.selectedOrdering, selectedOrdering != ListingSortCriteria.defaultOption {
             resultTags.append(.orderBy(selectedOrdering))
         }
 
@@ -80,7 +85,19 @@ class MainProductsViewModel: BaseViewModel {
         if let distance = filters.distanceRadius {
             resultTags.append(.distance(distance: distance))
         }
-        
+
+        if filters.selectedCategories.contains(.cars) {
+            if let makeId = filters.carMakeId, let makeName = filters.carMakeName {
+                resultTags.append(.make(id: makeId, name: makeName))
+                if let modelId = filters.carModelId, let modelName = filters.carModelName {
+                    resultTags.append(.model(id: modelId, name: modelName))
+                }
+            }
+            if filters.carYearStart != nil || filters.carYearEnd != nil {
+                resultTags.append(.yearsRange(from: filters.carYearStart, to: filters.carYearEnd))
+            }
+        }
+
         return resultTags
     }
 
@@ -94,7 +111,7 @@ class MainProductsViewModel: BaseViewModel {
     fileprivate let sessionManager: SessionManager
     fileprivate let myUserRepository: MyUserRepository
     fileprivate let trendingSearchesRepository: TrendingSearchesRepository
-    fileprivate let productRepository: ProductRepository
+    fileprivate let listingRepository: ListingRepository
     fileprivate let locationManager: LocationManager
     fileprivate let currencyHelper: CurrencyHelper
 
@@ -148,13 +165,13 @@ class MainProductsViewModel: BaseViewModel {
     // MARK: - Lifecycle
     
     init(sessionManager: SessionManager, myUserRepository: MyUserRepository, trendingSearchesRepository: TrendingSearchesRepository,
-         productRepository: ProductRepository, locationManager: LocationManager, currencyHelper: CurrencyHelper, tracker: Tracker,
+         listingRepository: ListingRepository, locationManager: LocationManager, currencyHelper: CurrencyHelper, tracker: Tracker,
          searchType: SearchType? = nil, filters: ProductFilters, keyValueStorage: KeyValueStorageable, featureFlags: FeatureFlaggeable) {
         
         self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
         self.trendingSearchesRepository = trendingSearchesRepository
-        self.productRepository = productRepository
+        self.listingRepository = listingRepository
         self.locationManager = locationManager
         self.currencyHelper = currencyHelper
         self.tracker = tracker
@@ -166,7 +183,7 @@ class MainProductsViewModel: BaseViewModel {
         let columns = show3Columns ? 3 : 2
         let itemsPerPage = show3Columns ? Constants.numProductsPerPageBig : Constants.numProductsPerPageDefault
         self.productListRequester = FilteredProductListRequester(itemsPerPage: itemsPerPage)
-        self.listViewModel = ProductListViewModel(requester: self.productListRequester, products: nil,
+        self.listViewModel = ProductListViewModel(requester: self.productListRequester, listings: nil,
                                                   numberOfColumns: columns, tracker: tracker)
         self.listViewModel.productListFixedInset = show3Columns ? 6 : 10
 
@@ -183,14 +200,14 @@ class MainProductsViewModel: BaseViewModel {
         let sessionManager = Core.sessionManager
         let myUserRepository = Core.myUserRepository
         let trendingSearchesRepository = Core.trendingSearchesRepository
-        let productRepository = Core.productRepository
+        let listingRepository = Core.listingRepository
         let locationManager = Core.locationManager
         let currencyHelper = Core.currencyHelper
         let tracker = TrackerProxy.sharedInstance
         let keyValueStorage = KeyValueStorage.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
         self.init(sessionManager: sessionManager,myUserRepository: myUserRepository, trendingSearchesRepository: trendingSearchesRepository,
-                  productRepository: productRepository, locationManager: locationManager, currencyHelper: currencyHelper, tracker: tracker,
+                  listingRepository: listingRepository, locationManager: locationManager, currencyHelper: currencyHelper, tracker: tracker,
                   searchType: searchType, filters: filters, keyValueStorage: keyValueStorage, featureFlags: featureFlags)
     }
     
@@ -205,6 +222,7 @@ class MainProductsViewModel: BaseViewModel {
 
     override func didBecomeActive(_ firstTime: Bool) {
         updatePermissionsWarning()
+        updateCategoriesHeader()
         if let currentLocation = locationManager.currentLocation {
             retrieveProductsIfNeededWithNewLocation(currentLocation)
             retrieveLastUserSearch()
@@ -246,12 +264,18 @@ class MainProductsViewModel: BaseViewModel {
 
         var place: Place? = nil
         var categories: [FilterCategoryItem] = []
-        var orderBy = ProductSortCriteria.defaultOption
-        var within = ProductTimeCriteria.defaultOption
+        var orderBy = ListingSortCriteria.defaultOption
+        var within = ListingTimeCriteria.defaultOption
         var minPrice: Int? = nil
         var maxPrice: Int? = nil
         var free: Bool = false
         var distance: Int? = nil
+        var makeId: String? = nil
+        var makeName: String? = nil
+        var modelId: String? = nil
+        var modelName: String? = nil
+        var carYearStart: Int? = nil
+        var carYearEnd: Int? = nil
 
         for filterTag in tags {
             switch filterTag {
@@ -270,8 +294,16 @@ class MainProductsViewModel: BaseViewModel {
                 free = true
             case .distance(let distanceFilter):
                 distance = distanceFilter
+            case .make(let id, let name):
+                makeId = id
+                makeName = name
+            case .model(let id, let name):
+                modelId = id
+                modelName = name
+            case .yearsRange(let startYear, let endYear):
+                carYearStart = startYear
+                carYearEnd = endYear
             }
-           
         }
 
         filters.place = place
@@ -292,9 +324,30 @@ class MainProductsViewModel: BaseViewModel {
         }
         
         filters.distanceRadius = distance
-    
+
+        filters.carMakeId = makeId
+        filters.carMakeName = makeName
+        filters.carModelId = modelId
+        filters.carModelName = modelName
+        filters.carYearStart = carYearStart
+        filters.carYearEnd = carYearEnd
+
+
+        
+        updateCategoriesHeader()
         updateListView()
     }
+    
+    /**
+     Called when a filter gets removed
+     */
+    func updateFiltersFromHeaderCategories(_ category: ListingCategory) {
+        filters.selectedCategories = [category]
+        delegate?.vmShowTags(tags)
+        updateCategoriesHeader()
+        updateListView()
+    }
+
 
     
     // MARK: - Private methods
@@ -316,7 +369,8 @@ class MainProductsViewModel: BaseViewModel {
     }
     
     fileprivate func updateListView() {
-        if filters.selectedOrdering == ProductSortCriteria.defaultOption {
+        
+        if filters.selectedOrdering == ListingSortCriteria.defaultOption {
             infoBubbleText.value = LGLocalizedString.productPopularNearYou
         }
 
@@ -361,14 +415,14 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
         productListRequester.filters = filters
         productListRequester.queryString = searchType?.query
 
-        productRepository.events.bindNext { [weak self] event in
+        listingRepository.events.bindNext { [weak self] event in
             switch event {
-            case let .update(product):
-                self?.listViewModel.update(product: product)
-            case let .create(product):
-                self?.listViewModel.prepend(product: product)
-            case let .delete(productId):
-                self?.listViewModel.delete(productId: productId)
+            case let .update(listing):
+                self?.listViewModel.update(listing: listing)
+            case let .create(listing):
+                self?.listViewModel.prepend(listing: listing)
+            case let .delete(listingId):
+                self?.listViewModel.delete(listingId: listingId)
             case .favorite, .unFavorite, .sold, .unSold:
                 break
             }
@@ -382,8 +436,8 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
 
         switch (sortCriteria) {
         case .distance:
-            guard let topProduct = listViewModel.productAtIndex(index) else { return }
-            let distance = Float(productListRequester.distanceFromProductCoordinates(topProduct.location))
+            guard let topListing = listViewModel.listingAtIndex(index) else { return }
+            let distance = Float(productListRequester.distanceFromProductCoordinates(topListing.location))
 
             // instance var max distance or MIN distance to avoid updating the label everytime
             if (scrollingDown && distance > bubbleDistance) || (!scrollingDown && distance < bubbleDistance) ||
@@ -483,23 +537,23 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
     func productListVM(_ viewModel: ProductListViewModel, didSelectItemAtIndex index: Int,
                        thumbnailImage: UIImage?, originFrame: CGRect?) {
         
-        guard let product = viewModel.productAtIndex(index) else { return }
+        guard let listing = viewModel.listingAtIndex(index) else { return }
         let cellModels = viewModel.objects
         let showRelated = searchType == nil && filters.isDefault()
-        let data = ProductDetailData.productList(product: product, cellModels: cellModels,
+        let data = ListingDetailData.listingList(listing: listing, cellModels: cellModels,
                                                  requester: productListRequester, thumbnailImage: thumbnailImage,
                                                  originFrame: originFrame, showRelated: showRelated, index: index)
-        navigator?.openProduct(data, source: productVisitSource,
+        navigator?.openListing(data, source: productVisitSource,
                                showKeyboardOnFirstAppearIfNeeded: false)
     }
 
-    func vmProcessReceivedProductPage(_ products: [ProductCellModel], page: UInt) -> [ProductCellModel] {
+    func vmProcessReceivedProductPage(_ products: [ListingCellModel], page: UInt) -> [ListingCellModel] {
         guard searchType == nil else { return products }
         guard products.count > bannerCellPosition else { return products }
         var cellModels = products
         if !collections.isEmpty && featureFlags.collectionsAllowedFor(countryCode: productListRequester.countryCode) {
             let collectionType = collections[Int(page) % collections.count]
-            let collectionModel = ProductCellModel.collectionCell(type: collectionType)
+            let collectionModel = ListingCellModel.collectionCell(type: collectionType)
             cellModels.insert(collectionModel, at: bannerCellPosition)
         }
         return cellModels
@@ -682,13 +736,24 @@ extension MainProductsViewModel {
         guard mainProductsHeader.value != currentHeader else { return }
         mainProductsHeader.value = currentHeader
     }
+    
+    fileprivate dynamic func updateCategoriesHeader() {
+        var currentHeader = mainProductsHeader.value
+        if featureFlags.carsVerticalEnabled && filters.isDefault() {
+            currentHeader.insert(MainProductsHeader.CategoriesCollectionBanner)
+        } else {
+            currentHeader.remove(MainProductsHeader.CategoriesCollectionBanner)
+        }
+        guard mainProductsHeader.value != currentHeader else { return }
+        mainProductsHeader.value = currentHeader
+    }
 
     private func openPushPermissionsAlert() {
         trackPushPermissionStart()
         let positive = UIAction(interface: .styledText(LGLocalizedString.profilePermissionsAlertOk, .standard),
                                 action: { [weak self] in
                                     self?.trackPushPermissionComplete()
-                                    PushPermissionsManager.sharedInstance.showPushPermissionsAlert(prePermissionType: .productListBanner)
+                                    LGPushPermissionsManager.sharedInstance.showPushPermissionsAlert(prePermissionType: .productListBanner)
             },
                                 accessibilityId: .userPushPermissionOK)
         let negative = UIAction(interface: .styledText(LGLocalizedString.profilePermissionsAlertCancel, .cancel),
@@ -801,7 +866,7 @@ fileprivate extension MainProductsViewModel {
 
     func trackPushPermissionStart() {
         let goToSettings: EventParameterBoolean =
-            PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .trueParameter : .notAvailable
+            LGPushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .trueParameter : .notAvailable
         let trackerEvent = TrackerEvent.permissionAlertStart(.push, typePage: .productListBanner, alertType: .custom,
                                                              permissionGoToSettings: goToSettings)
         tracker.trackEvent(trackerEvent)
@@ -809,7 +874,7 @@ fileprivate extension MainProductsViewModel {
 
     func trackPushPermissionComplete() {
         let goToSettings: EventParameterBoolean =
-            PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .trueParameter : .notAvailable
+            LGPushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .trueParameter : .notAvailable
         let trackerEvent = TrackerEvent.permissionAlertComplete(.push, typePage: .productListBanner, alertType: .custom,
                                                                 permissionGoToSettings: goToSettings)
         tracker.trackEvent(trackerEvent)
@@ -817,7 +882,7 @@ fileprivate extension MainProductsViewModel {
 
     func trackPushPermissionCancel() {
         let goToSettings: EventParameterBoolean =
-            PushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .trueParameter : .notAvailable
+            LGPushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .trueParameter : .notAvailable
         let trackerEvent = TrackerEvent.permissionAlertCancel(.push, typePage: .productListBanner, alertType: .custom,
                                                               permissionGoToSettings: goToSettings)
         tracker.trackEvent(trackerEvent)

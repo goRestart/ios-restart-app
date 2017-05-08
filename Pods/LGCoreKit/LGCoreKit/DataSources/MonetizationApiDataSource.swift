@@ -80,9 +80,9 @@ class MonetizationApiDataSource : MonetizationDataSource {
 
     // Private methods
 
-    private static func decoderBumpeableProduct(object: Any) -> BumpeableProduct? {
-        let bumpeableProduct: LGBumpeableProduct? = decode(object)
-        return bumpeableProduct
+    private static func decoderBumpeableProduct(object: Any) -> BumpeableListing? {
+        let bumpeableListing: LGBumpeableListing? = decode(object)
+        return bumpeableListing
     }
 
     private func buildAnalyticsParams(amplitudeId: String?, appsflyerId: String?, idfa: String?, bundleId: String?) -> [String : Any] {

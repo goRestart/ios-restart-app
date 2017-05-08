@@ -9,11 +9,6 @@
 import LGCoreKit
 import RxSwift
 
-protocol ChatGroupedViewModelDelegate: class {
-    func viewModelShouldOpenHome(_ viewModel: ChatGroupedViewModel)
-    func viewModelShouldOpenSell(_ viewModel: ChatGroupedViewModel)
-}
-
 class ChatGroupedViewModel: BaseViewModel {
 
     enum Tab: Int {
@@ -56,7 +51,6 @@ class ChatGroupedViewModel: BaseViewModel {
     fileprivate let chatRepository: ChatRepository
     fileprivate let featureFlags: FeatureFlaggeable
 
-    weak var delegate: ChatGroupedViewModelDelegate?
     weak var tabNavigator: TabNavigator? {
         didSet {
             chatListViewModels.forEach { $0.tabNavigator = tabNavigator }
@@ -225,13 +219,11 @@ class ChatGroupedViewModel: BaseViewModel {
             title: LGLocalizedString.chatListAllEmptyTitle,
             body: nil, buttonTitle: LGLocalizedString.chatListSellingEmptyButton,
             action: { [weak self] in
-                guard let strongSelf = self else { return }
-                strongSelf.delegate?.viewModelShouldOpenSell(strongSelf)
+                self?.tabNavigator?.openSell(.sellButton)
             },
             secondaryButtonTitle: LGLocalizedString.chatListBuyingEmptyButton,
             secondaryAction: { [weak self] in
-                guard let strongSelf = self else { return }
-                strongSelf.delegate?.viewModelShouldOpenHome(strongSelf)
+                self?.tabNavigator?.openHome()
             }, emptyReason: nil
         )
         let chatListViewModel: ChatListViewModel
@@ -250,8 +242,7 @@ class ChatGroupedViewModel: BaseViewModel {
             title: LGLocalizedString.chatListSellingEmptyTitle,
             body: nil, buttonTitle: LGLocalizedString.chatListSellingEmptyButton,
             action: { [weak self] in
-                guard let strongSelf = self else { return }
-                strongSelf.delegate?.viewModelShouldOpenSell(strongSelf)
+                self?.tabNavigator?.openSell(.sellButton)
             },
             secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: nil
         )
@@ -271,8 +262,7 @@ class ChatGroupedViewModel: BaseViewModel {
             title: LGLocalizedString.chatListBuyingEmptyTitle,
             body: nil, buttonTitle: LGLocalizedString.chatListBuyingEmptyButton,
             action: { [weak self] in
-                guard let strongSelf = self else { return }
-                strongSelf.delegate?.viewModelShouldOpenHome(strongSelf)
+                self?.tabNavigator?.openHome()
             },
             secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: nil
         )

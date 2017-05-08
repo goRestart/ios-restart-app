@@ -15,12 +15,14 @@ struct LGNotification: NotificationModel {
     let createdAt: Date
     let isRead: Bool
     let type: NotificationType
+    let campaignType: String?
 
-    init(objectId: String?, createdAt: Date, isRead: Bool, type: NotificationType) {
+    init(objectId: String?, createdAt: Date, isRead: Bool, type: NotificationType, campaignType: String?) {
         self.objectId = objectId
         self.createdAt = createdAt
         self.isRead = isRead
         self.type = type
+        self.campaignType = campaignType
     }
 }
 
@@ -42,6 +44,7 @@ extension LGNotification : Decodable {
             <*> j <| "created_at"
             <*> j <| "is_read"
             <*> NotificationType.decode(j)
+            <*> j <|? "campaign_type"
 
         if let error = result.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGNotification parse error: \(error)")
@@ -77,7 +80,7 @@ extension NotificationType: Decodable {
              }
              */
             result = curry(NotificationType.like)
-                <^> LGNotificationProduct.decode(data)
+                <^> LGNotificationListing.decode(data)
                 <*> LGNotificationUser.decode(data)
         case "sold":
             /**
@@ -91,7 +94,7 @@ extension NotificationType: Decodable {
              }
              */
             result = curry(NotificationType.sold)
-                <^> LGNotificationProduct.decode(data)
+                <^> LGNotificationListing.decode(data)
                 <*> LGNotificationUser.decode(data)
         case "review":
             /**
@@ -135,7 +138,7 @@ extension NotificationType: Decodable {
              }
              */
             result = curry(buildBuyersInterested)
-                <^> LGNotificationProduct.decode(data)
+                <^> LGNotificationListing.decode(data)
                 <*> data <|| JSONKeys.buyers
         case "product_suggested":
             /*
@@ -149,7 +152,7 @@ extension NotificationType: Decodable {
              }
             */
             result = curry(NotificationType.productSuggested)
-                <^> LGNotificationProduct.decode(data)
+                <^> LGNotificationListing.decode(data)
                 <*> LGNotificationUser.decode(data)
         case "facebook_friendship_created":
             /*
@@ -177,7 +180,7 @@ extension NotificationType: Decodable {
         return result
     }
 
-    private static func buildBuyersInterested(_ product: NotificationProduct, buyers: [LGNotificationUser]) -> NotificationType {
+    private static func buildBuyersInterested(_ product: NotificationListing, buyers: [LGNotificationUser]) -> NotificationType {
         return NotificationType.buyersInterested(product: product, buyers: buyers.flatMap({$0}))
     }
 }

@@ -21,9 +21,9 @@ public enum ChatArchivedStatus: Int {
 }
 
 public protocol Chat: BaseModel {
-    var product: Product { get }
-    var userFrom: UserProduct { get }
-    var userTo: UserProduct { get }
+    var listing: Listing { get }
+    var userFrom: UserListing { get }
+    var userTo: UserListing { get }
     var msgUnreadCount: Int { get }     // Default: 0
     var messages: [Message] { get }     // Default: []
     var updatedAt: Date? { get }
@@ -41,7 +41,7 @@ public extension Chat {
 public extension Chat {
     public var status: ChatStatus {
         if forbidden { return .forbidden }
-        switch product.status {
+        switch listing.status {
         case .deleted, .discarded:
             return .deleted
         case .sold, .soldOld:
@@ -51,17 +51,17 @@ public extension Chat {
         }
     }
 
-    public var buyer: UserProduct {
-        guard let productOwnerId = product.user.objectId, let userFromId = userFrom.objectId else { return userFrom }
-        return productOwnerId == userFromId ? userTo : userFrom
+    public var buyer: UserListing {
+        guard let listingOwnerId = listing.user.objectId, let userFromId = userFrom.objectId else { return userFrom }
+        return listingOwnerId == userFromId ? userTo : userFrom
     }
 
-    public var seller: UserProduct {
-        guard let productOwnerId = product.user.objectId, let userFromId = userFrom.objectId else { return userFrom }
-        return productOwnerId == userFromId ? userFrom : userTo
+    public var seller: UserListing {
+        guard let listingOwnerId = listing.user.objectId, let userFromId = userFrom.objectId else { return userFrom }
+        return listingOwnerId == userFromId ? userFrom : userTo
     }
 
-    public func otherUser(myUser: MyUser) -> UserProduct {
+    public func otherUser(myUser: MyUser) -> UserListing {
         guard let myUserId = myUser.objectId, let userFromId = userFrom.objectId else { return userFrom }
         return myUserId == userFromId ? userTo : userFrom
     }

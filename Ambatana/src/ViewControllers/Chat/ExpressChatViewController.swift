@@ -31,7 +31,7 @@ class ExpressChatViewController: BaseViewController {
     let disposeBag = DisposeBag()
 
     convenience init(viewModel: ExpressChatViewModel) {
-        self.init(viewModel: viewModel, keyboardHelper: KeyboardHelper.sharedInstance)
+        self.init(viewModel: viewModel, keyboardHelper: KeyboardHelper())
     }
 
     init (viewModel: ExpressChatViewModel, keyboardHelper: KeyboardHelper) {

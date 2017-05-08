@@ -22,7 +22,7 @@ final class NotificationsTabCoordinator: TabCoordinator {
     init(passiveBuyersRepository: PassiveBuyersRepository) {
         self.passiveBuyersRepository = passiveBuyersRepository
 
-        let productRepository = Core.productRepository
+        let listingRepository = Core.listingRepository
         let userRepository = Core.userRepository
         let chatRepository = Core.chatRepository
         let oldChatRepository = Core.oldChatRepository
@@ -34,7 +34,7 @@ final class NotificationsTabCoordinator: TabCoordinator {
         let featureFlags = FeatureFlags.sharedInstance
         let sessionManager = Core.sessionManager
         let rootViewController = NotificationsViewController(viewModel: viewModel)
-        super.init(productRepository: productRepository, userRepository: userRepository,
+        super.init(listingRepository: listingRepository, userRepository: userRepository,
                   chatRepository: chatRepository, oldChatRepository: oldChatRepository,
                   myUserRepository: myUserRepository,
                   bubbleNotificationManager: bubbleNotificationManager,

@@ -39,6 +39,11 @@ Will clone develop, create a new `release-x.x.x` branch from, update the build i
 fastlane ios beta
 ```
 Will clone the specified branch, update the build info and do a deploy of that to crashlytics
+### ios update_cars_info
+```
+fastlane ios update_cars_info
+```
+Copy CarsInfo json from remote host
 ### ios local_beta
 ```
 fastlane ios local_beta
@@ -79,6 +84,11 @@ Will run CI unit tests job
 fastlane ios ci_ui_tests
 ```
 Will run CI UI tests job
+### ios dependencies
+```
+fastlane ios dependencies
+```
+
 
 ----
 

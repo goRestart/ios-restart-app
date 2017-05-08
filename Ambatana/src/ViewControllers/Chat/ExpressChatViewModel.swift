@@ -19,14 +19,14 @@ class ExpressChatViewModel: BaseViewModel {
     private var keyValueStorage: KeyValueStorage
     fileprivate var featureFlags: FeatureFlaggeable
     fileprivate var trackerProxy: TrackerProxy
-    private var productList: [Product]
+    private var listings: [Listing]
     private var sourceProductId: String
     fileprivate var manualOpen: Bool
     var productListCount: Int {
-        return productList.count
+        return listings.count
     }
 
-    let selectedProducts = Variable<[Product]>([])
+    let selectedListings = Variable<[Listing]>([])
     let messageText = Variable<String>(LGLocalizedString.chatExpressTextFieldText)
     let sendButtonEnabled = Variable<Bool>(false)
 
@@ -45,18 +45,18 @@ class ExpressChatViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
 
-    convenience init(productList: [Product], sourceProductId: String, manualOpen: Bool) {
-        self.init(productList: productList, sourceProductId: sourceProductId, manualOpen: manualOpen,
+    convenience init(listings: [Listing], sourceProductId: String, manualOpen: Bool) {
+        self.init(listings: listings, sourceProductId: sourceProductId, manualOpen: manualOpen,
                   keyValueStorage: KeyValueStorage.sharedInstance, trackerProxy: TrackerProxy.sharedInstance,
                   featureFlags: FeatureFlags.sharedInstance, chatWrapper: LGChatWrapper())
     }
 
-    init(productList: [Product], sourceProductId: String, manualOpen: Bool, keyValueStorage: KeyValueStorage,
+    init(listings: [Listing], sourceProductId: String, manualOpen: Bool, keyValueStorage: KeyValueStorage,
          trackerProxy: TrackerProxy, featureFlags: FeatureFlags, chatWrapper: ChatWrapper) {
-        self.productList = productList
+        self.listings = listings
         self.sourceProductId = sourceProductId
         self.manualOpen = manualOpen
-        self.selectedProducts.value = productList
+        self.selectedListings.value = listings
         self.keyValueStorage = keyValueStorage
         self.trackerProxy = trackerProxy
         self.featureFlags = featureFlags
@@ -74,29 +74,32 @@ class ExpressChatViewModel: BaseViewModel {
 
     func titleForItemAtIndex(_ index: Int) -> String {
         guard index < productListCount else { return "" }
-        return productList[index].title ?? ""
+        return listings[index].title ?? ""
     }
 
     func imageURLForItemAtIndex(_ index: Int) -> URL? {
         guard index < productListCount else { return nil }
-        guard let imageUrl = productList[index].thumbnail?.fileURL else { return nil }
+        guard let imageUrl = listings[index].thumbnail?.fileURL else { return nil }
         return imageUrl
     }
 
     func priceForItemAtIndex(_ index: Int) -> String {
         guard index < productListCount else { return "" }
-        return productList[index].priceString()
+        return listings[index].priceString()
     }
 
     func sendMessage() {
         let tracker = trackerProxy
         let freePostingModeAllowed = featureFlags.freePostingModeAllowed
 
-        for product in selectedProducts.value {
-            chatWrapper.sendMessageForProduct(product, type:.expressChat(messageText.value)) { result in
+        for listing in selectedListings.value {
+            chatWrapper.sendMessageFor(listing: listing, type:.expressChat(messageText.value)) { result in
                 if let value = result.value {
-                    ExpressChatViewModel.singleMessageExtraTrackings(tracker, shouldSendAskQuestion: value, product: product,
+                    ExpressChatViewModel.singleMessageTrackings(tracker, shouldSendAskQuestion: value, listing: listing,
                                                                      freePostingModeAllowed: freePostingModeAllowed)
+                } else if let error = result.error {
+                    ExpressChatViewModel.singleMessageTrackingError(tracker, listing: listing,
+                                                                         freePostingModeAllowed: freePostingModeAllowed, error: error)
                 }
             }
         }
@@ -114,24 +117,24 @@ class ExpressChatViewModel: BaseViewModel {
 
     func selectItemAtIndex(_ index: Int) {
         guard index < productListCount else { return }
-        let product = productList[index]
-        let selectedIndex = selectedProductsContains(product)
+        let listing = listings[index]
+        let selectedIndex = selectedProductsContains(listing)
         guard selectedIndex >= selectedItemsCount.value else { return }
-        selectedProducts.value.insert(product, at: 0)
+        selectedListings.value.insert(listing, at: 0)
     }
 
     func deselectItemAtIndex(_ index: Int) {
         guard index < productListCount else { return }
-        let product = productList[index]
-        let selectedIndex = selectedProductsContains(product)
+        let listing = listings[index]
+        let selectedIndex = selectedProductsContains(listing)
         guard selectedIndex < selectedItemsCount.value else { return }
-        selectedProducts.value.remove(at: selectedIndex)
+        selectedListings.value.remove(at: selectedIndex)
     }
 
-    private func selectedProductsContains(_ product: Product) -> Int {
+    private func selectedProductsContains(_ listing: Listing) -> Int {
         var index = 0
-        for selectedProduct in selectedProducts.value {
-            if selectedProduct.objectId == product.objectId { return index }
+        for selectedListing in selectedListings.value {
+            if selectedListing.objectId == listing.objectId { return index }
             index += 1
         }
         return index
@@ -142,8 +145,8 @@ class ExpressChatViewModel: BaseViewModel {
 
     func setupRx() {
 
-        selectedProducts.asObservable().subscribeNext { [weak self] products in
-            self?.selectedItemsCount.value = products.count
+        selectedListings.asObservable().subscribeNext { [weak self] listings in
+            self?.selectedItemsCount.value = listings.count
         }.addDisposableTo(disposeBag)
 
         selectedItemsCount.asObservable().subscribeNext { [weak self] numSelected in
@@ -162,18 +165,36 @@ class ExpressChatViewModel: BaseViewModel {
 // MARK: - Tracking
 
 extension ExpressChatViewModel {
-    static func singleMessageExtraTrackings(_ tracker: Tracker, shouldSendAskQuestion: Bool, product: Product,
+    static func singleMessageTrackings(_ tracker: Tracker, shouldSendAskQuestion: Bool, listing: Listing,
                                             freePostingModeAllowed: Bool) {
+        guard let info = buildSendMessageInfo(withListing: listing, freePostingModeAllowed: freePostingModeAllowed,
+                                              error: nil) else { return }
         if shouldSendAskQuestion {
-            let askQuestionEvent = TrackerEvent.firstMessage(product, messageType: .text, quickAnswerType: nil, typePage: .expressChat,
-                                                             freePostingModeAllowed: freePostingModeAllowed,
-                                                             isBumpedUp: .falseParameter)
-            tracker.trackEvent(askQuestionEvent)
+            tracker.trackEvent(TrackerEvent.firstMessage(info: info))
         }
+        tracker.trackEvent(TrackerEvent.userMessageSent(info: info))
+    }
 
-        let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: product.user, messageType: .text, quickAnswerType: nil,
-                                                            typePage: .expressChat, freePostingModeAllowed: freePostingModeAllowed)
-        tracker.trackEvent(messageSentEvent)
+    static func singleMessageTrackingError(_ tracker: Tracker, listing: Listing,
+                                                freePostingModeAllowed: Bool, error: RepositoryError) {
+        guard let info = buildSendMessageInfo(withListing: listing, freePostingModeAllowed: freePostingModeAllowed,
+                                              error: error) else { return }
+        tracker.trackEvent(TrackerEvent.userMessageSentError(info: info))
+    }
+
+    private static func buildSendMessageInfo(withListing listing: Listing, freePostingModeAllowed: Bool,
+                                             error: RepositoryError?) -> SendMessageTrackingInfo? {
+        let sendMessageInfo = SendMessageTrackingInfo()
+            .set(listing: listing, freePostingModeAllowed: freePostingModeAllowed)
+            .set(messageType: .text)
+            .set(quickAnswerType: nil)
+            .set(typePage: .expressChat)
+            .set(isBumpedUp: .falseParameter)
+
+        if let error = error {
+            sendMessageInfo.set(error: error.chatError)
+        }
+        return sendMessageInfo
     }
 
     func trackExpressChatStart() {

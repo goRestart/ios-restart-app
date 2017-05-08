@@ -77,6 +77,7 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
         initStickersWindow()
         setupSendingRx()
         setupExpressBannerRx()
+        setupRx()
         NotificationCenter.default.addObserver(self, selector: #selector(menuControllerWillShow(_:)),
                                                          name: NSNotification.Name.UIMenuControllerWillShowMenu, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(menuControllerWillHide(_:)),
@@ -93,7 +94,6 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
         super.viewWillDisappear(animated)
         removeIgnoreTouchesForTooltip()
     }
-
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         viewModel.didAppear()
@@ -221,6 +221,17 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
                 self?.hideStickers()
             }
         }.addDisposableTo(disposeBag)
+    }
+    
+    private func setupRx() {
+        viewModel.relatedProductsState.asObservable().bindNext { [weak self] state in
+            switch state {
+            case .visible(let productId):
+                self?.relatedProductsView.productId.value = productId
+            case .hidden, .loading:
+                self?.relatedProductsView.productId.value = nil
+            }
+            }.addDisposableTo(disposeBag)
     }
 
     private func setupNavigationBar() {
@@ -363,17 +374,6 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
     dynamic private func optionsBtnPressed() {
         viewModel.optionsBtnPressed()
     }
-    
-    // MARK: > Rating
-    
-    fileprivate func askForRating() {
-        let delay = Int64(1.0 * Double(NSEC_PER_SEC))
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(delay) / Double(NSEC_PER_SEC)) { [weak self] in
-            self?.showKeyboard(false, animated: true)
-            guard let tabBarCtrl = self?.tabBarController as? TabBarController else { return }
-            tabBarCtrl.showAppRatingViewIfNeeded(.chat)
-        }
-    }
 }
 
 
@@ -452,21 +452,14 @@ extension OldChatViewController: OldChatViewModelDelegate {
         showAutoFadingOutMessageAlert(message)
     }
 
-    func vmShowRelatedProducts(_ productId: String?) {
-        relatedProductsView.productId.value = productId
-    }
-
+    
     // MARK: > User
 
     func vmShowReportUser(_ reportUserViewModel: ReportUsersViewModel) {
         let vc = ReportUsersViewController(viewModel: reportUserViewModel)
         self.navigationController?.pushViewController(vc, animated: true)
     }
-
-    func vmShowUserRating(_ source: RateUserSource, data: RateUserData) {
-        guard let tabBarController = self.tabBarController as? TabBarController else { return }
-        tabBarController.openUserRating(source, data: data)
-    }
+    
 
     // MARK: > Info views
     
@@ -485,14 +478,9 @@ extension OldChatViewController: OldChatViewModelDelegate {
         showSafetyTips()
     }
     
-    func vmAskForRating() {
-        showKeyboard(false, animated: true)
-        askForRating()
-    }
-    
     func vmShowPrePermissions(_ type: PrePermissionType) {
         showKeyboard(false, animated: true)
-        PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: type, completion: nil)
+        LGPushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: type, completion: nil)
     }
     
     func vmShowKeyboard() {

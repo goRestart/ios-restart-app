@@ -15,7 +15,7 @@ struct LGChatConversation: ChatConversation {
     let unreadMessageCount: Int
     let lastMessageSentAt: Date?
     let amISelling: Bool
-    let product: ChatProduct?
+    let listing: ChatListing?
     let interlocutor: ChatInterlocutor?
 }
 
@@ -36,7 +36,7 @@ extension LGChatConversation: Decodable {
             <*> j <| JSONKeys.unreadMessageCount
             <*> j <|? JSONKeys.lastMessageSentAt
             <*> j <| JSONKeys.amISelling
-            <*> (j <|? JSONKeys.product >>- LGChatProduct.decodeOptional)
+            <*> (j <|? JSONKeys.product >>- LGChatListing.decodeOptional)
             <*> (j <|? JSONKeys.interlocutor >>- LGChatInterlocutor.decodeOptional)
 
         if let error = init1.error {

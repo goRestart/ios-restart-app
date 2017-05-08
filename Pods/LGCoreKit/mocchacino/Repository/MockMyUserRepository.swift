@@ -8,9 +8,7 @@ open class MockMyUserRepository: MyUserRepository {
     
     // MARK: - Lifecycle
 
-    required public init() {
-        
-    }
+    required public init() {}
 
 
     // MARK: - MyUserRepository

@@ -56,7 +56,7 @@ class SettingsViewModel: BaseViewModel {
         self.init(myUserRepository: Core.myUserRepository,
                   notificationsManager: LGNotificationsManager.sharedInstance,
                   tracker: TrackerProxy.sharedInstance,
-                  pushPermissionManager: PushPermissionsManager.sharedInstance)
+                  pushPermissionManager: LGPushPermissionsManager.sharedInstance)
     }
 
     init(myUserRepository: MyUserRepository,

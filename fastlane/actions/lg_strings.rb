@@ -13,7 +13,7 @@ module Fastlane
           pushChangeCommand << " -c -m"
         end
 
-        Helper.log.debug pushChangeCommand
+        UI.message pushChangeCommand
         Actions.sh pushChangeCommand
       end
 

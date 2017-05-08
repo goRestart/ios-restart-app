@@ -22,7 +22,7 @@ public protocol DI: class {
     var myUserRepository: MyUserRepository { get }
     var installationRepository: InstallationRepository { get }
     var oldChatRepository: OldChatRepository { get }
-    var productRepository: ProductRepository { get }
+    var listingRepository: ListingRepository { get }
     var fileRepository: FileRepository { get }
     var contactRepository: ContactRepository { get }
     var userRepository: UserRepository { get }
@@ -35,6 +35,7 @@ public protocol DI: class {
     var userRatingRepository: UserRatingRepository { get }
     var monetizationRepository: MonetizationRepository { get }
     var passiveBuyersRepository: PassiveBuyersRepository { get }
+    var carsInfoRepository: CarsInfoRepository { get }
 
     // Helper
     var dateFormatter: DateFormatter { get }
@@ -67,7 +68,7 @@ protocol InternalDI: DI {
     var installationDAO: InstallationDAO { get }
     var myUserDAO: MyUserDAO { get }
     var favoritesDAO: FavoritesDAO { get }
-    var productsLimboDAO: ProductsLimboDAO { get }
+    var listingsLimboDAO: ListingsLimboDAO { get }
     
     // Reachability
     var reachability: ReachabilityProtocol? { get }

@@ -11,7 +11,7 @@ import RxCocoa
 import RxSwift
 import UIKit
 
-class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegate, ChatGroupedListViewDelegate,
+class ChatGroupedViewController: BaseViewController, ChatGroupedListViewDelegate,
                                  ChatListViewDelegate, BlockedUsersListViewDelegate, LGViewPagerDataSource,
                                  LGViewPagerDelegate, ScrollableToTop {
     // UI
@@ -51,8 +51,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         automaticallyAdjustsScrollViewInsets = false
         hidesBottomBarWhenPushed = false
         hasTabBar = true
-        
-        viewModel.delegate = self
+
         for index in 0..<viewModel.chatListsCount {
             let page: ChatListView
             if featureFlags.websocketChat {
@@ -114,19 +113,6 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         didSet {
             pages.forEach { $0.active = active }
         }
-    }
-
-
-    // MARK: - ChatGroupedViewModelDelegate
-
-    func viewModelShouldOpenHome(_ viewModel: ChatGroupedViewModel) {
-        guard let tabBarCtl = tabBarController as? TabBarController else { return }
-        tabBarCtl.switchToTab(.home)
-    }
-
-    func viewModelShouldOpenSell(_ viewModel: ChatGroupedViewModel) {
-        guard let tabBarController = self.tabBarController as? TabBarController else { return }
-        tabBarController.sellButtonPressed()
     }
 
 

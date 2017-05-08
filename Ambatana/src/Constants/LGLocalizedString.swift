@@ -207,6 +207,42 @@ struct LGLocalizedString {
 		return NSLocalizedString("categories_car", comment: "")
 	}
 
+	static var categoriesInfeedElectronics: String {
+		return NSLocalizedString("categories_inFeed_electronics", comment: "")
+	}
+
+	static var categoriesInfeedMotors: String {
+		return NSLocalizedString("categories_inFeed_motors", comment: "")
+	}
+
+	static var categoriesInfeedSportsLeisureGames: String {
+		return NSLocalizedString("categories_inFeed_sports_leisure_games", comment: "")
+	}
+
+	static var categoriesInfeedHome: String {
+		return NSLocalizedString("categories_inFeed_home", comment: "")
+	}
+
+	static var categoriesInfeedBooksMovies: String {
+		return NSLocalizedString("categories_inFeed_books_movies", comment: "")
+	}
+
+	static var categoriesInfeedFashion: String {
+		return NSLocalizedString("categories_inFeed_fashion", comment: "")
+	}
+
+	static var categoriesInfeedBabyChild: String {
+		return NSLocalizedString("categories_inFeed_baby_child", comment: "")
+	}
+
+	static var categoriesInfeedOthers: String {
+		return NSLocalizedString("categories_inFeed_others", comment: "")
+	}
+
+	static var categoriesInfeedCars: String {
+		return NSLocalizedString("categories_inFeed_cars", comment: "")
+	}
+
 	static var changeLocationApplyButton: String {
 		return NSLocalizedString("change_location_apply_button", comment: "")
 	}
@@ -1159,6 +1195,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("filters_save_button", comment: "")
 	}
 
+	static var filtersSectionCarInfo: String {
+		return NSLocalizedString("filters_section_car_info", comment: "")
+	}
+
 	static var filtersSectionCategories: String {
 		return NSLocalizedString("filters_section_categories", comment: "")
 	}
@@ -1229,6 +1269,22 @@ struct LGLocalizedString {
 
 	static var filtersWithinWeek: String {
 		return NSLocalizedString("filters_within_week", comment: "")
+	}
+
+	static var filtersCarMakeNotSet: String {
+		return NSLocalizedString("filters_car_make_not_set", comment: "")
+	}
+
+	static var filtersCarModelNotSet: String {
+		return NSLocalizedString("filters_car_model_not_set", comment: "")
+	}
+
+	static var filtersCarYearAnyYear: String {
+		return NSLocalizedString("filters_car_year_any_year", comment: "")
+	}
+
+	static var filtersCarYearBeforeYear: String {
+		return NSLocalizedString("filters_car_year_before_year", comment: "")
 	}
 
 	static var forcedUpdateMessage: String {
@@ -1839,12 +1895,24 @@ struct LGLocalizedString {
 		return NSLocalizedString("post_category_detail_ok_button", comment: "")
 	}
 
-	static var postCategoryDetailsProgress: String {
-		return NSLocalizedString("post_category_details_progress", comment: "")
+	static func postCategoryDetailsProgress(_ var1: String) -> String {
+		return String(format: NSLocalizedString("post_category_details_progress", comment: ""), var1)
 	}
 
 	static var postCategoryDetailsProgress100: String {
 		return NSLocalizedString("post_category_details_progress_100", comment: "")
+	}
+
+	static var postCategoryDetailSearchPlaceholder: String {
+		return NSLocalizedString("post_category_detail_search_placeholder", comment: "")
+	}
+
+	static var postCategoryDetailAddMake: String {
+		return NSLocalizedString("post_category_detail_add_make", comment: "")
+	}
+
+	static var postCategoryDetailAddModel: String {
+		return NSLocalizedString("post_category_detail_add_model", comment: "")
 	}
 
 	static var productAskAQuestionButton: String {

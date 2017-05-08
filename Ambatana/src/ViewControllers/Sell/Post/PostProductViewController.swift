@@ -10,20 +10,33 @@ import UIKit
 import RxSwift
 
 class PostProductViewController: BaseViewController, PostProductViewModelDelegate {
-    @IBOutlet weak var closeButton: UIButton!
+    
     @IBOutlet weak var cameraGalleryContainer: UIView!
-    @IBOutlet weak var selectPriceContainer: UIView!
-    @IBOutlet weak var customLoadingView: LoadingIndicator!
-    @IBOutlet weak var postedInfoLabel: UILabel!
+    
+    @IBOutlet weak var otherStepsContainer: UIView!
     @IBOutlet weak var detailsScroll: UIScrollView!
     @IBOutlet weak var detailsContainer: UIView!
+    @IBOutlet weak var detailsContainerBottomConstraint: NSLayoutConstraint!
+    
+    // contained in detailsContainer
+    @IBOutlet weak var customLoadingView: LoadingIndicator!
+    @IBOutlet weak var postedInfoLabel: UILabel!
     @IBOutlet weak var postErrorLabel: UILabel!
     @IBOutlet weak var retryButton: UIButton!
-    fileprivate var productDetailView: UIView
+    
+    fileprivate var closeButton: UIButton
 
+    // contained in cameraGalleryContainer
     fileprivate var viewPager: LGViewPager
     fileprivate var cameraView: PostProductCameraView
     fileprivate var galleryView: PostProductGalleryView
+
+    // contained in detailsContainer
+    fileprivate let priceView: UIView
+    fileprivate let categorySelectionView: PostCategorySelectionView
+    fileprivate let carDetailsView: PostCarDetailsView
+    fileprivate var carDetailsViewCenterYConstraint = NSLayoutConstraint()
+    
     fileprivate var footer: PostProductFooter
     fileprivate var footerView: UIView
     fileprivate let gradientView = UIView()
@@ -32,6 +45,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
                                                                       locations: [0, 1])
     fileprivate let keyboardHelper: KeyboardHelper
     fileprivate let postingGallery: PostingGallery
+    fileprivate var isLoading: Bool = false
     private var viewDidAppear: Bool = false
 
     fileprivate static let detailTopMarginPrice: CGFloat = 100
@@ -44,7 +58,6 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
 
     private let disposeBag = DisposeBag()
 
-
     // ViewModel
     fileprivate var viewModel: PostProductViewModel
 
@@ -55,7 +68,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
                      forceCamera: Bool) {
         self.init(viewModel: viewModel,
                   forceCamera: forceCamera,
-                  keyboardHelper: KeyboardHelper.sharedInstance,
+                  keyboardHelper: KeyboardHelper(),
                   postingGallery: FeatureFlags.sharedInstance.postingGallery)
     }
 
@@ -88,6 +101,8 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
             self.footerView = postFooter
         }
         
+        self.closeButton = UIButton()
+        
         let viewPagerConfig = LGViewPagerConfig(tabPosition: tabPosition, tabLayout: .fixed, tabHeight: 50)
         self.viewPager = LGViewPager(config: viewPagerConfig, frame: CGRect.zero)
         self.cameraView = PostProductCameraView(viewModel: viewModel.postProductCameraViewModel)
@@ -95,12 +110,24 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         self.keyboardHelper = keyboardHelper
         self.viewModel = viewModel
         self.forceCamera = forceCamera
-        self.productDetailView = PostProductDetailPriceView(viewModel: viewModel.postDetailViewModel)
+        
+        self.priceView = PostProductDetailPriceView(viewModel: viewModel.postDetailViewModel)
+        self.categorySelectionView = PostCategorySelectionView()
+        if viewModel.shouldAddPriceRowInCarDetails() {
+            self.carDetailsView = PostCarDetailsView(withPriceRow: true)
+        } else {
+            self.carDetailsView = PostCarDetailsView(withPriceRow: false)
+        }
+        
         self.postingGallery = postingGallery
         super.init(viewModel: viewModel, nibName: "PostProductViewController",
                    statusBarStyle: UIApplication.shared.statusBarStyle)
         modalPresentationStyle = .overCurrentContext
         viewModel.delegate = self
+
+        self.closeButton.addTarget(self, action: #selector(onCloseButton),
+                                   for: .touchUpInside)
+        self.closeButton.setImage(UIImage(named: "ic_post_close"), for: .normal)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -112,6 +139,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         
         setupView()
         setAccesibilityIds()
+        view.layoutIfNeeded()
         setupRx()
     }
 
@@ -154,7 +182,8 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
     // MARK: - Actions
     
     @IBAction func onCloseButton(_ sender: AnyObject) {
-        productDetailView.resignFirstResponder()
+        carDetailsView.hideKeyboard()
+        priceView.resignFirstResponder()
         viewModel.closeButtonPressed()
     }
 
@@ -191,34 +220,111 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         galleryView.usePhotoButtonText = viewModel.usePhotoButtonText
         galleryView.collectionViewBottomInset = Metrics.margin + Metrics.sellCameraIconMaxSide
         
+        detailsContainerBottomConstraint.constant = 0
+        
         setupViewPager()
-        setupDetailView()
+        setupCategorySelectionView()
+        setupPriceView()
+        setupAddCarDetailsView()
+        setupCloseButton()
         setupFooter()
-
-        setSelectImageState()
+    }
+    
+    private func setupCloseButton() {
+        closeButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(closeButton)
+        closeButton.layout(with: view).left(by: Metrics.margin).top(by: Metrics.margin)
     }
 
-    private func setupDetailView() {
+    private func setupPriceView() {
         retryButton.setTitle(LGLocalizedString.commonErrorListRetryButton, for: .normal)
         retryButton.setStyle(.primary(fontSize: .medium))
-
-        productDetailView.translatesAutoresizingMaskIntoConstraints = false
-        detailsContainer.addSubview(productDetailView)
-        productDetailView.alpha = 0
-
-        let top = NSLayoutConstraint(item: productDetailView, attribute: .top, relatedBy: .equal,
-                                     toItem: postedInfoLabel, attribute: .bottom, multiplier: 1.0, constant: 15)
-        let left = NSLayoutConstraint(item: productDetailView, attribute: .left, relatedBy: .equal,
-                                      toItem: detailsContainer, attribute: .left, multiplier: 1.0, constant: 0)
-        let right = NSLayoutConstraint(item: productDetailView, attribute: .right, relatedBy: .equal,
-                                       toItem: detailsContainer, attribute: .right, multiplier: 1.0, constant: 0)
-        let bottom = NSLayoutConstraint(item: productDetailView, attribute: .bottom, relatedBy: .equal,
-                                        toItem: detailsContainer, attribute: .bottom, multiplier: 1.0, constant: 0)
-        detailsContainer.addConstraints([top, left, right, bottom])
+        priceView.translatesAutoresizingMaskIntoConstraints = false
+        detailsContainer.addSubview(priceView)
+        priceView.layout(with: postedInfoLabel).below(by: Metrics.margin)
+        priceView.layout(with: detailsContainer).bottom()
+        priceView.layout(with: detailsContainer).fillHorizontal(by: Metrics.screenWidth/10)
+    }
+    
+    private func setupCategorySelectionView() {
+        categorySelectionView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(categorySelectionView)
+        categorySelectionView.layout(with: view).fill()
+    }
+    
+    private func setupAddCarDetailsView() {
+        carDetailsView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(carDetailsView)
+        carDetailsView.layout(with: view)
+            .proportionalWidth()
+            .proportionalHeight()
+            .centerX()
+            .centerY(constraintBlock: { [weak self] in self?.carDetailsViewCenterYConstraint = $0 })
+        
+        carDetailsView.updateProgress(withPercentage: viewModel.currentCarDetailsProgress)
+        carDetailsView.setCurrencySymbol(viewModel.postDetailViewModel.currencySymbol)
+        carDetailsView.backButtonHidden(!viewModel.shouldShowBackButtonInCarDetails())
+        
+        carDetailsView.navigationBackButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
+            self?.carDetailsNavigationBackButtonPressed()
+        }.addDisposableTo(disposeBag)
+        carDetailsView.navigationMakeButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
+            self?.carMakeButtonPressed()
+        }.addDisposableTo(disposeBag)
+        carDetailsView.navigationModelButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
+            self?.carModelButtonPressed()
+        }.addDisposableTo(disposeBag)
+        carDetailsView.navigationYearButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
+            self?.carYearButtonPressed()
+        }.addDisposableTo(disposeBag)
+        carDetailsView.makeRowView.button.rx.tap.asObservable().subscribeNext { [weak self] _ in
+            self?.carMakeButtonPressed()
+        }.addDisposableTo(disposeBag)
+        carDetailsView.modelRowView.button.rx.tap.asObservable().subscribeNext { [weak self] _ in
+            self?.carModelButtonPressed()
+        }.addDisposableTo(disposeBag)
+        carDetailsView.yearRowView.button.rx.tap.asObservable().subscribeNext { [weak self] _ in
+            self?.carYearButtonPressed()
+        }.addDisposableTo(disposeBag)
+        
+        carDetailsView.doneButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
+            self?.carDetailsDoneButtonPressed()
+        }.addDisposableTo(disposeBag)
+        
+        carDetailsView.tableView.selectedDetail.asObservable().bindTo(viewModel.selectedDetail)
+            .addDisposableTo(disposeBag)
+        viewModel.selectedDetail.asObservable().subscribeNext { [weak self] (categoryDetailSelectedInfo) in
+            guard let strongSelf = self else { return }
+            guard let categoryDetail = categoryDetailSelectedInfo else { return }
+            switch categoryDetail.type {
+            case .make:
+                strongSelf.carDetailsView.updateMake(withMake: categoryDetail.name)
+                strongSelf.carDetailsView.updateModel(withModel: nil)
+                strongSelf.showCarModels()
+            case .model:
+                strongSelf.carDetailsView.updateModel(withModel: categoryDetail.name)
+                strongSelf.showCarYears()
+            case .year:
+                strongSelf.carDetailsView.updateYear(withYear: categoryDetail.name)
+                strongSelf.didFinishEnteringDetails()
+            }
+            strongSelf.carDetailsView.updateProgress(withPercentage: strongSelf.viewModel.currentCarDetailsProgress)
+        }.addDisposableTo(disposeBag)
+        
+        carDetailsView.priceRowView.textInput.asObservable().subscribeNext { [weak self] (text) in
+            guard let text = text else { return }
+            self?.viewModel.postDetailViewModel.price.value = text
+        }.addDisposableTo(disposeBag)
     }
     
     private func setupFooter() {
         footerView.translatesAutoresizingMaskIntoConstraints = false
+        cameraGalleryContainer.addSubview(footerView)
+        footerView.layout(with: cameraGalleryContainer)
+            .leading()
+            .trailing()
+            .bottom()
+        
         footer.galleryButton?.rx.tap.asObservable().subscribeNext { [weak self] _ in
             self?.galleryButtonPressed()
         }.addDisposableTo(disposeBag)
@@ -230,37 +336,30 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         footer.postButton?.rx.tap.asObservable().subscribeNext { [weak self] _ in
             self?.galleryPostButtonPressed()
         }.addDisposableTo(disposeBag)
-        cameraGalleryContainer.addSubview(footerView)
-        
-        footerView.layout(with: cameraGalleryContainer)
-            .leading()
-            .trailing()
-            .bottom()
     }
 
     private func setupRx() {
         viewModel.state.asObservable().bindNext { [weak self] state in
-            switch state {
-            case .imageSelection:
-                self?.setSelectImageState()
-            case .uploadingImage:
-                self?.setSelectPriceState(loading: true, error: nil)
-            case .errorUpload(let message):
-                self?.setSelectPriceState(loading: false, error: message)
-            case .detailsSelection:
-               self?.setSelectPriceState(loading: false, error: nil)
-            }
+            self?.update(state: state)
         }.addDisposableTo(disposeBag)
 
+        categorySelectionView.selectedCategory.asObservable()
+            .bindTo(viewModel.category)
+            .addDisposableTo(disposeBag)
+        
         keyboardHelper.rx_keyboardOrigin.asObservable().bindNext { [weak self] origin in
             guard origin > 0 else { return }
-            guard let scrollView = self?.detailsScroll, let viewHeight = self?.view.height,
-            let detailsRect = self?.productDetailView.frame else { return }
-            scrollView.contentInset.bottom = viewHeight - origin
-            let showingKeyboard = (viewHeight - origin) > 0
-            self?.loadingViewHidden(hide: showingKeyboard)
-            scrollView.scrollRectToVisible(detailsRect, animated: false)
-            
+            guard let strongSelf = self else { return }
+            let keyboardHeight = origin - strongSelf.view.height
+            strongSelf.detailsContainerBottomConstraint.constant = keyboardHeight/2
+            if strongSelf.carDetailsView.state == .selectDetail {
+                strongSelf.carDetailsViewCenterYConstraint.constant = keyboardHeight/2
+            }
+            UIView.animate(withDuration: Double(strongSelf.keyboardHelper.animationTime), animations: {
+                strongSelf.view.layoutIfNeeded()
+            })
+            let showingKeyboard = keyboardHeight > 0
+            strongSelf.loadingViewHidden(hide: showingKeyboard)
         }.addDisposableTo(disposeBag)
     }
     
@@ -272,84 +371,251 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
     }
 }
 
+// MARK: - Car details
+
+extension PostProductViewController {
+    
+    dynamic func carDetailsNavigationBackButtonPressed() {
+        switch carDetailsView.state {
+        case .selectDetail, .selectDetailValue(forDetail: .make):
+            didFinishEnteringDetails()
+        case .selectDetailValue(forDetail: .model):
+            showCarMakes()
+        case .selectDetailValue(forDetail: .year):
+            showCarModels()
+        }
+    }
+    
+    dynamic func carMakeButtonPressed() {
+        showCarMakes()
+    }
+    
+    dynamic func carModelButtonPressed() {
+        showCarModels()
+    }
+    
+    dynamic func carYearButtonPressed() {
+        showCarYears()
+    }
+    
+    dynamic func carDetailsDoneButtonPressed() {
+        carDetailsView.hideKeyboard()
+        viewModel.postCarDetailDone()
+    }
+    
+    fileprivate func didFinishEnteringDetails() {
+        carDetailsView.hideKeyboard()
+        
+        switch carDetailsView.state {
+        case .selectDetail:
+            viewModel.revertToPreviousStep()
+        case .selectDetailValue:
+            carDetailsView.showSelectDetail()
+        }
+    }
+    
+    fileprivate func showCarMakes() {
+        let (values, selectedIndex) = viewModel.carInfo(forDetail: .make)
+        showSelectCarDetailValue(forDetail: .make, values: values, selectedValueIndex: selectedIndex)
+    }
+    
+    fileprivate func showCarModels() {
+        let (values, selectedIndex) = viewModel.carInfo(forDetail: .model)
+        showSelectCarDetailValue(forDetail: .model, values: values, selectedValueIndex: selectedIndex)
+    }
+    
+    fileprivate func showCarYears() {
+        let (values, selectedIndex) = viewModel.carInfo(forDetail: .year)
+        showSelectCarDetailValue(forDetail: .year, values: values, selectedValueIndex: selectedIndex)
+    }
+    
+    private func showSelectCarDetailValue(forDetail detail: CarDetailType, values: [CarInfoWrapper], selectedValueIndex: Int?) {
+        carDetailsView.hideKeyboard()
+        carDetailsView.showSelectDetailValue(forDetail: detail, values: values, selectedValueIndex: selectedValueIndex)
+    }
+}
+
 
 // MARK: - State selection
 
+fileprivate extension PostListingState {
+    func closeButtonAlpha(carDetailsBackButtonEnabled: Bool) -> CGFloat {
+        switch step {
+        case .carDetailsSelection:
+            return carDetailsBackButtonEnabled ? 0 : 1
+        case .imageSelection, .uploadingImage, .errorUpload, .detailsSelection, .categorySelection, .finished, .uploadSuccess:
+            return 1
+        }
+    }
+    
+    var isOtherStepsContainerAlpha: CGFloat {
+        switch step {
+        case .imageSelection:
+            return 0
+        case .uploadingImage, .errorUpload, .detailsSelection, .categorySelection, .carDetailsSelection, .finished, .uploadSuccess:
+            return 1
+        }
+    }
+    
+    var customLoadingViewAlpha: CGFloat {
+        switch step {
+        case .imageSelection, .categorySelection, .carDetailsSelection, .finished:
+            return 0
+        case .uploadingImage, .errorUpload, .detailsSelection, .uploadSuccess:
+            return 1
+        }
+    }
+    
+    var postedInfoLabelAlpha: CGFloat {
+        switch step {
+        case .imageSelection, .categorySelection, .uploadingImage, .errorUpload, .carDetailsSelection, .finished:
+            return 0
+        case .detailsSelection, .uploadSuccess:
+            return 1
+        }
+    }
+    
+    func postedInfoLabelText(confirmationText: String?) -> String? {
+        return isError ? LGLocalizedString.commonErrorTitle.capitalized : confirmationText
+    }
+    
+    var postErrorLabelAlpha: CGFloat {
+        return isError ? 1 : 0
+    }
+    
+    var postErrorLabelText: String? {
+        switch step {
+        case .imageSelection, .detailsSelection, .categorySelection, .uploadingImage, .carDetailsSelection, .finished, .uploadSuccess:
+            return nil
+        case let .errorUpload(message):
+            return message
+        }
+    }
+    
+    var retryButtonAlpha: CGFloat {
+        return isError ? 1 : 0
+    }
+    
+    var priceViewAlpha: CGFloat {
+        switch step {
+        case .imageSelection, .categorySelection, .carDetailsSelection, .uploadingImage, .errorUpload, .finished, .uploadSuccess:
+            return 0
+        case .detailsSelection:
+            return 1
+        }
+    }
+    
+    var categorySelectionViewAlpha: CGFloat {
+        switch step {
+        case .imageSelection, .carDetailsSelection, .uploadingImage, .errorUpload, .detailsSelection, .finished, .uploadSuccess:
+            return 0
+        case .categorySelection:
+            return 1
+        }
+    }
+    
+    var carDetailsViewAlpha: CGFloat {
+        switch step {
+        case .imageSelection, .categorySelection, .uploadingImage, .errorUpload, .detailsSelection, .finished, .uploadSuccess:
+            return 0
+        case .carDetailsSelection:
+            return 1
+        }
+    }
+    
+    func priceViewShouldBecomeFirstResponder() -> Bool {
+        switch step {
+        case .imageSelection, .categorySelection, .uploadingImage, .errorUpload, .carDetailsSelection, .finished, .uploadSuccess:
+            return false
+        case .detailsSelection:
+            return true
+        }
+    }
+    
+    func priceViewShouldResignFirstResponder() -> Bool {
+        return isError
+    }
+    
+    var isError: Bool {
+        switch step {
+        case .imageSelection, .detailsSelection, .categorySelection, .uploadingImage, .carDetailsSelection, .finished, .uploadSuccess:
+            return false
+        case .errorUpload:
+            return true
+        }
+    }
+    
+    var isLoading: Bool {
+        switch step {
+        case .imageSelection, .detailsSelection, .categorySelection, .errorUpload, .carDetailsSelection, .finished, .uploadSuccess:
+            return false
+        case .uploadingImage:
+            return true
+        }
+    }
+}
+
 extension PostProductViewController {
-    fileprivate func setSelectImageState() {
-        selectPriceContainer.isHidden = true
-    }
+    fileprivate func update(state: PostListingState) {
 
-    fileprivate func setSelectPriceState(loading: Bool, error: String?) {
-        detailsScroll.contentInset.top = (view.height / 3) - customLoadingView.height
-
-        selectPriceContainer.isHidden = false
-        let hasError = error != nil
-
-        if(loading) {
-            customLoadingView.startAnimating()
-            setSelectPriceItems(loading, error: error)
+        if let view = viewToAdjustDetailsScrollContentInset(state: state) {
+            adjustDetailsScrollContentInset(to: view)
         }
-        else {
-            customLoadingView.stopAnimating(!hasError) { [weak self] in
-                self?.setSelectPriceItems(loading, error: error)
-            }
-        }
-    }
-
-    fileprivate func setSelectPriceItems(_ loading: Bool, error: String?) {
-        postedInfoLabel.alpha = 0
-        postedInfoLabel.text = error != nil ?
-            LGLocalizedString.commonErrorTitle.capitalized : viewModel.confirmationOkText
-        postErrorLabel.text = error
-
-        if (loading) {
-            setSelectPriceBottomItems(loading, error: error)
-        } else {
-            UIView.animate(withDuration: 0.2,
-                                       animations: { [weak self] in
-                                        self?.postedInfoLabel.alpha = 1
-                },
-                                       completion: { [weak self] completed in
-                                        self?.postedInfoLabel.alpha = 1
-                                        self?.setSelectPriceBottomItems(loading, error: error)
-                }
-            )
-        }
-    }
-
-    fileprivate func setSelectPriceBottomItems(_ loading: Bool, error: String?) {
-        productDetailView.alpha = 0
-        postErrorLabel.alpha = 0
-        retryButton.alpha = 0
-
-        guard !loading else { return }
-
-        let okItemsAlpha: CGFloat = error != nil ? 0 : 1
-        let wrongItemsAlpha: CGFloat = error == nil ? 0 : 1
-        let loadingItemAlpha: CGFloat = 1
-        let finalAlphaBlock = { [weak self] in
+        let updateVisibility: () -> () = { [weak self] in
             guard let strongSelf = self else { return }
-            strongSelf.productDetailView.alpha = okItemsAlpha
-            strongSelf.postErrorLabel.alpha = wrongItemsAlpha
-            strongSelf.retryButton.alpha = wrongItemsAlpha
-            strongSelf.customLoadingView.alpha = loadingItemAlpha
-            strongSelf.postedInfoLabel.alpha = loadingItemAlpha
-            strongSelf.detailsScroll.contentInset.top = PostProductViewController.detailTopMarginPrice
+            strongSelf.closeButton.alpha = state.closeButtonAlpha(carDetailsBackButtonEnabled: strongSelf.viewModel.shouldShowBackButtonInCarDetails())
+            strongSelf.otherStepsContainer.alpha = state.isOtherStepsContainerAlpha
+            strongSelf.customLoadingView.alpha = state.customLoadingViewAlpha
+            strongSelf.postedInfoLabel.alpha = state.postedInfoLabelAlpha
+            strongSelf.postedInfoLabel.text = state.postedInfoLabelText(confirmationText: strongSelf.viewModel.confirmationOkText)
+            strongSelf.postErrorLabel.alpha = state.postErrorLabelAlpha
+            strongSelf.postErrorLabel.text = state.postErrorLabelText
+            strongSelf.retryButton.alpha = state.retryButtonAlpha
+            strongSelf.priceView.alpha = state.priceViewAlpha
+            strongSelf.categorySelectionView.alpha = state.categorySelectionViewAlpha
+            strongSelf.carDetailsView.alpha = state.carDetailsViewAlpha
         }
-        UIView.animate(withDuration: 0.2, delay: 0.8, options: UIViewAnimationOptions(),
-                                   animations: { () -> Void in
-                                    finalAlphaBlock()
-            }, completion: { [weak self] (completed: Bool) -> Void in
-                finalAlphaBlock()
-
-                if okItemsAlpha == 1 {
-                    self?.productDetailView.becomeFirstResponder()
-                } else {
-                    self?.productDetailView.resignFirstResponder()
-                }
-            }
-        )
+        
+        if state.isLoading {
+            UIView.animate(withDuration: 0.2,
+                           delay: 0.8,
+                           options: [],
+                           animations: { () -> Void in
+                                updateVisibility()
+                           },
+                           completion: { (_) -> Void in
+                                updateVisibility()
+                           })
+            customLoadingView.startAnimating()
+            isLoading = true
+        } else if isLoading {
+            customLoadingView.stopAnimating(!state.isError, completion: updateVisibility)
+            isLoading = false
+        } else {
+            updateVisibility()
+        }
+        if state.priceViewShouldBecomeFirstResponder() {
+            priceView.becomeFirstResponder()
+            customLoadingView.stopAnimating(!state.isError, completion: nil)
+        } else if state.priceViewShouldResignFirstResponder() {
+            priceView.resignFirstResponder()
+        }
+ 
+    }
+    
+    private func viewToAdjustDetailsScrollContentInset(state: PostListingState) -> UIView? {
+        switch state.step {
+        case .categorySelection:
+            return categorySelectionView
+        case .carDetailsSelection:
+            return carDetailsView
+        case .imageSelection, .errorUpload, .finished,.detailsSelection, .uploadSuccess, .uploadingImage:
+            return nil
+        }
+    }
+    
+    private func adjustDetailsScrollContentInset(to view: UIView) {
+        detailsScroll.contentInset.top = (view.height / 3)
     }
 }
 

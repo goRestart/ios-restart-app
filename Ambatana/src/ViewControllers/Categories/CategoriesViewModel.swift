@@ -50,7 +50,7 @@ class CategoriesViewModel: BaseViewModel {
         }
     }
 
-    private func buildFullCategoryItemsWithCategories(_ categories: [ProductCategory]) -> [FilterCategoryItem] {
+    private func buildFullCategoryItemsWithCategories(_ categories: [ListingCategory]) -> [FilterCategoryItem] {
         let filterCatItems: [FilterCategoryItem] = featureFlags.freePostingModeAllowed ? [.free] : []
         let builtCategories = categories.map { FilterCategoryItem(category: $0) }
         return filterCatItems + builtCategories
@@ -79,7 +79,7 @@ class CategoriesViewModel: BaseViewModel {
             case .free:
                 productFilters.priceRange = .freePrice
             case .category(let cat):
-                productFilters.toggleCategory(cat)
+                productFilters.toggleCategory(cat, carVerticalEnabled: featureFlags.carsVerticalEnabled)
             }
             return productFilters
         }

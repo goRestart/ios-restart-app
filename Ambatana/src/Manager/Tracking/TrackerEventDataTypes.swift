@@ -80,6 +80,7 @@ enum EventName: String {
     case productDeleteComplete              = "product-delete-complete"
     
     case userMessageSent                    = "user-sent-message"
+    case userMessageSentError               = "user-sent-message-error"
     case chatRelatedItemsStart              = "chat-related-items-start"
     case chatRelatedItemsComplete           = "chat-related-items-complete"
 
@@ -259,6 +260,9 @@ enum EventParameterName: String {
     case accountNetwork       = "account-network"
     case profileType          = "profile-type"
     case notificationType     = "notification-type"
+    case notificationClickArea = "notification-click-area"
+    case notificationAction   = "notification-action"
+    case notificationCampaign = "notification-campaign"
     case shownReason          = "shown-reason"
     case freePosting          = "free-posting"
     case sellButtonPosition   = "sell-button-position"
@@ -281,6 +285,13 @@ enum EventParameterName: String {
     case userFromId           = "user-from-id"
     case notAvailableReason   = "not-available-reason"
     case surveyUrl            = "survey-url"
+    case blockButtonPosition  = "block-button-position"
+    case postingType          = "posting-type"
+    case make                 = "product-make"
+    case model                = "product-model"
+    case year                 = "product-year"
+    case yearStart            = "product-year-start"
+    case yearEnd              = "product-year-end"
 }
 
 enum EventParameterBoolean: String {
@@ -377,6 +388,57 @@ enum EventParameterPostedWithin: String {
     case week = "week"
     case month = "month"
     case all = ""
+}
+
+enum EventParameterPostingType: String {
+    case car = "car"
+    case stuff = "stuff"
+    case none = "N/A"
+}
+
+enum EventParameterMake {
+    case make(name: String?)
+    case none
+
+    var name: String {
+        switch self {
+        case .make(let name):
+            guard let name = name, !name.isEmpty else { return "N/A" }
+            return name
+        case .none:
+            return "N/A"
+        }
+    }
+}
+
+enum EventParameterModel {
+    case model(name: String?)
+    case none
+
+    var name: String {
+        switch self {
+        case .model(let name):
+            guard let name = name, !name.isEmpty else { return "N/A" }
+            return name
+        case .none:
+            return "N/A"
+        }
+    }
+}
+
+enum EventParameterYear {
+    case year(year: Int?)
+    case none
+
+    var year: String {
+        switch self {
+        case .year(let year):
+            guard let year = year, year != 0 else { return "N/A" }
+            return String(year)
+        case .none:
+            return "N/A"
+        }
+    }
 }
 
 enum EventParameterMessageType: String {
@@ -493,6 +555,37 @@ enum EventParameterPostProductError {
     }
 }
 
+enum EventParameterChatError {
+    case network
+    case internalError(description: String?)
+    case serverError(code: Int?)
+
+    var description: String {
+        switch self {
+        case .network:
+            return "chat-network"
+        case .internalError:
+            return "chat-internal"
+        case .serverError:
+            return "chat-server"
+        }
+    }
+
+    var details: String? {
+        switch self {
+        case .network:
+            break
+        case let .internalError(description):
+            return description
+        case let .serverError(errorCode):
+            if let errorCode = errorCode {
+                return String(errorCode)
+            }
+        }
+        return nil
+    }
+}
+
 enum EventParameterEditedFields: String {
     case picture = "picture"
     case title = "title"
@@ -502,6 +595,9 @@ enum EventParameterEditedFields: String {
     case location = "location"
     case share = "share"
     case freePosting = "free-posting"
+    case make = "make"
+    case model = "model"
+    case year = "year"
 }
 
 enum EventParameterTypePage: String {
@@ -585,6 +681,7 @@ enum EventParameterRatingSource: String {
     case chat = "chat"
     case productSellComplete = "product-sell-complete"
     case markedSold = "marked-sold"
+    case favorite = "favorite"
 }
 
 enum EventParameterProductVisitSource: String {
@@ -650,6 +747,37 @@ enum EventParameterNotificationType: String {
     case productSuggested = "passive-buyer-make-offer"
     case facebookFriendshipCreated = "facebook-friendship-created"
     case modular = "modular"
+}
+
+enum EventParameterNotificationClickArea: String {
+    case basicImage = "basic-image"
+    case heroImage = "hero-image"
+    case text = "text"
+    case thumbnail1 = "thumbnail-1"
+    case thumbnail2 = "thumbnail-2"
+    case thumbnail3 = "thumbnail-3"
+    case thumbnail4 = "thumbnail-4"
+    case cta1 = "cta-1"
+    case cta2 = "cta-2"
+    case cta3 = "cta-3"
+    case main = "main"
+    case unknown = "N/A"
+}
+
+enum EventParameterNotificationAction: String {
+    case home = "product-list"
+    case sell = "product-sell-start"
+    case product = "product-detail-visit"
+    case user = "profile-visit"
+    case conversations = "conversations"
+    case conversation = "conversation"
+    case message = "message"
+    case search = "search"
+    case resetPassword = "reset-password"
+    case userRatings = "user-ratings"
+    case userRating = "user-rating"
+    case passiveBuyers = "passive-buyers"
+    case unknown = "N/A"
 }
 
 enum EventParameterRelatedShownReason: String {
@@ -736,6 +864,12 @@ enum EventParameterNotAvailableReason: String {
     
 }
 
+enum EventParameterBlockButtonPosition: String {
+    case threeDots          = "three-dots"
+    case safetyPopup        = "safety-popup"
+    case others             = "N/A"
+}
+
 struct EventParameters {
     private var params: [EventParameterName : Any] = [:]
     
@@ -768,16 +902,24 @@ struct EventParameters {
             EventParameterProductItemType.dummy.rawValue : EventParameterProductItemType.real.rawValue
         params[.userToId] = product.user.objectId
     }
-    
-    internal mutating func addChatProductParams(_ product: ChatProduct) {
-        params[.productId] = product.objectId
-        params[.productPrice] = product.price.value
-        params[.productCurrency] = product.currency.code
-        params[.productType] = EventParameterProductItemType.real.rawValue
+
+    internal mutating func addListingParams(_ listing: Listing) {
+        params[.productId] = listing.objectId
+        params[.productLatitude] = listing.location.latitude
+        params[.productLongitude] = listing.location.longitude
+        params[.productPrice] = listing.price.value
+        params[.productCurrency] = listing.currency.code
+        params[.categoryId] = listing.category.rawValue
+        params[.productType] = listing.user.isDummy ?
+            EventParameterProductItemType.dummy.rawValue : EventParameterProductItemType.real.rawValue
+        params[.userToId] = listing.user.objectId
     }
-    
-    internal mutating func addUserParams(_ user: UserProduct?) {
-        params[.userToId] = user?.objectId
+
+    internal mutating func addChatListingParams(_ listing: ChatListing) {
+        params[.productId] = listing.objectId
+        params[.productPrice] = listing.price.value
+        params[.productCurrency] = listing.currency.code
+        params[.productType] = EventParameterProductItemType.real.rawValue
     }
 
     internal subscript(paramName: EventParameterName) -> Any? {
@@ -786,25 +928,6 @@ struct EventParameters {
         }
         set(newValue) {
             params[paramName] = newValue
-        }
-    }
-}
-
-struct PostProductTrackingInfo {
-    var buttonName: EventParameterButtonNameType
-    var sellButtonPosition: EventParameterSellButtonPosition
-    var imageSource: EventParameterPictureSource
-    var negotiablePrice: EventParameterNegotiablePrice
-
-    init(buttonName: EventParameterButtonNameType, sellButtonPosition: EventParameterSellButtonPosition,
-         imageSource: EventParameterPictureSource?, price: String?) {
-        self.buttonName = buttonName
-        self.sellButtonPosition = sellButtonPosition
-        self.imageSource = imageSource ?? .camera
-        if let price = price, let doublePrice = Double(price) {
-            negotiablePrice = doublePrice > 0 ? .no : .yes
-        } else {
-            negotiablePrice = .yes
         }
     }
 }
