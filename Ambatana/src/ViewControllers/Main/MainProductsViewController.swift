@@ -372,7 +372,9 @@ extension MainProductsViewController: ProductListViewHeaderDelegate, PushPermiss
             header.addHeader(pushHeader, height: PushPermissionsHeader.viewHeight)
         }
         if shouldShowCategoryCollectionBanner {
-            categoriesHeader = CategoriesHeaderCollectionView(categories: ListingCategory.visibleValuesInFeed(), frame: CGRect.zero)
+            let screenWidth: CGFloat = UIScreen.main.bounds.size.width
+            categoriesHeader = CategoriesHeaderCollectionView(categories: ListingCategory.visibleValuesInFeed(),
+                                                              frame: CGRect(x: 0, y: 0, width: screenWidth, height: 110))
             categoriesHeader?.categorySelected.asObservable().bindNext { [weak self] category in
                 guard let category = category else { return }
                 self?.viewModel.updateFiltersFromHeaderCategories(category)
@@ -381,7 +383,6 @@ extension MainProductsViewController: ProductListViewHeaderDelegate, PushPermiss
                 categoriesHeader.tag = 1
                 header.addHeader(categoriesHeader, height: CategoriesHeaderCollectionView.viewHeight)
             }
-            
         }
     }
 
