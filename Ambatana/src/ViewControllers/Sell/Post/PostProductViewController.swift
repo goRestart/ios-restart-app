@@ -361,7 +361,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
                 strongSelf.view.layoutIfNeeded()
             })
             let showingKeyboard = keyboardHeight > 0
-            strongSelf.loadingViewHidden(hide: showingKeyboard)
+            strongSelf.loadingViewHidden(hide: !showingKeyboard)
         }.addDisposableTo(disposeBag)
     }
     
