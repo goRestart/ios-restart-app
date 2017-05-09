@@ -8,19 +8,10 @@
 
 import UIKit
 
-/// enum for label positions
-public enum NHSliderLabelStyle : Int {
-    /// lower and upper labels stick to the left and right of slider
-    case STICKY
-    
-    /// lower and upper labels follow position of lower and upper thumbs
-    case FOLLOW
-}
-
 /// delegate for changed value
 public protocol NHRangeSliderViewDelegate: class {
-    /// slider value changed
     func sliderValueChanged(lowerValue: Double, upperValue: Double)
+    func sliderInteractionFinished(lowerValue: Double, upperValue: Double)
 }
 
 
@@ -38,7 +29,6 @@ open class NHRangeSliderView: UIView {
     open var spacing: CGFloat = 4.0
     
     /// position of thumb labels. Set to STICKY to stick to left and right positions. Set to FOLLOW to follow left and right thumbs
-    open var thumbLabelStyle: NHSliderLabelStyle = .STICKY
     
     /// minimum value
     @IBInspectable open var minimumValue: Double = 0.0 {
@@ -161,6 +151,8 @@ open class NHRangeSliderView: UIView {
         rangeSlider?.layout(with: self).fill()
 
         self.rangeSlider?.addTarget(self, action: #selector(self.rangeSliderValueChanged(_:)), for: .valueChanged)
+        self.rangeSlider?.addTarget(self, action: #selector(self.rangeSliderInteractionFinished(_:)), for: .touchUpInside)
+        self.rangeSlider?.addTarget(self, action: #selector(self.rangeSliderInteractionFinished(_:)), for: .touchUpOutside)
     }
     
     //MARK: range slider delegage
@@ -171,5 +163,9 @@ open class NHRangeSliderView: UIView {
     /// - Parameter rangeSlider: the changed rangeSlider
     open func rangeSliderValueChanged(_ rangeSlider: NHRangeSlider) {
         delegate?.sliderValueChanged(lowerValue: rangeSlider.lowerValue, upperValue: rangeSlider.upperValue)
+    }
+
+    open func rangeSliderInteractionFinished(_ rangeSlider: NHRangeSlider) {
+        delegate?.sliderInteractionFinished(lowerValue: rangeSlider.lowerValue, upperValue: rangeSlider.upperValue)
     }
 }

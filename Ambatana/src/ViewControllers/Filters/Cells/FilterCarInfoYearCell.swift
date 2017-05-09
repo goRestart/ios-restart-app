@@ -55,25 +55,7 @@ class FilterCarInfoYearCell: UICollectionViewCell {
         updateInfoLabel(lowerValue: yearRangeSlider.lowerValue, upperValue: yearRangeSlider.upperValue)
     }
 
-    // MARK: - Actions
-
-//    @IBAction func sliderValueChanged(_ sender: UISlider) {
-//        updateInfoLabel()
-//    }
-
-    @IBAction func sliderDidEnd(_ sender: UISlider) {
-        var startYear: Int? = nil
-        var endYear: Int? = nil
-        if yearRangeSlider.lowerValue > FilterCarInfoYearCell.filterMinCarYear {
-            startYear = Int(yearRangeSlider.lowerValue)
-        }
-        if yearRangeSlider.upperValue < currentYear {
-            endYear = Int(yearRangeSlider.upperValue)
-        }
-        delegate?.filterYearChanged(withStartYear: startYear, endYear: endYear)
-    }
-
-
+    
     // MARK: - Private methods
 
     private func setupUI() {
@@ -102,21 +84,6 @@ class FilterCarInfoYearCell: UICollectionViewCell {
     }
 
     fileprivate func updateInfoLabel(lowerValue: Double, upperValue: Double) {
-//        if yearRangeSlider.lowerValue == FilterCarInfoYearCell.filterMinCarYear,
-//            yearRangeSlider.upperValue == currentYear {
-//            infoLabel.text = LGLocalizedString.filtersCarYearAnyYear
-//        } else if yearRangeSlider.lowerValue == FilterCarInfoYearCell.filterMinCarYear,
-//            yearRangeSlider.upperValue == FilterCarInfoYearCell.filterMinCarYear {
-//            infoLabel.text = String(format: LGLocalizedString.filtersCarYearBeforeYear, Int(yearRangeSlider.lowerValue)) //"_Before \(Int(yearRangeSlider.lowerValue))"
-//        } else if yearRangeSlider.lowerValue == FilterCarInfoYearCell.filterMinCarYear,
-//            yearRangeSlider.upperValue > FilterCarInfoYearCell.filterMinCarYear {
-//            infoLabel.text = String(format: LGLocalizedString.filtersCarYearBeforeYear, Int(yearRangeSlider.lowerValue))
-//                + " - \(Int(yearRangeSlider.upperValue))" //"_Before \(Int(yearRangeSlider.lowerValue)) - \(Int(yearRangeSlider.upperValue))"
-//        } else if yearRangeSlider.lowerValue == yearRangeSlider.upperValue {
-//            infoLabel.text = "\(Int(yearRangeSlider.lowerValue))"
-//        } else {
-//            infoLabel.text = "\(Int(yearRangeSlider.lowerValue)) - \(Int(yearRangeSlider.upperValue))"
-//        }
 
         if lowerValue == FilterCarInfoYearCell.filterMinCarYear,
            upperValue == currentYear {
@@ -138,7 +105,18 @@ class FilterCarInfoYearCell: UICollectionViewCell {
 
 extension FilterCarInfoYearCell: NHRangeSliderViewDelegate {
     func sliderValueChanged(lowerValue: Double, upperValue: Double) {
-        
         updateInfoLabel(lowerValue: lowerValue, upperValue: upperValue)
+    }
+
+    func sliderInteractionFinished(lowerValue: Double, upperValue: Double) {
+        var startYear: Int? = nil
+        var endYear: Int? = nil
+        if lowerValue > FilterCarInfoYearCell.filterMinCarYear {
+            startYear = Int(lowerValue)
+        }
+        if upperValue < currentYear {
+            endYear = Int(upperValue)
+        }
+        delegate?.filterYearChanged(withStartYear: startYear, endYear: endYear)
     }
 }

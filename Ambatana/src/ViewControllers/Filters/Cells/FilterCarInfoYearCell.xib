@@ -48,10 +48,6 @@
                                 <color key="value" red="1" green="0.2470588235" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
-                        <connections>
-                            <action selector="sliderDidEnd:" destination="odN-N2-t2i" eventType="touchUpOutside" id="Yt7-p8-tnb"/>
-                            <action selector="sliderDidEnd:" destination="odN-N2-t2i" eventType="touchUpInside" id="nmn-kB-Yyz"/>
-                        </connections>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e7e-Bk-57e" userLabel="Bottom separator">
                         <rect key="frame" x="0.0" y="99" width="379" height="1"/>

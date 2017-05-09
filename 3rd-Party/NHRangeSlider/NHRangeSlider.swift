@@ -166,7 +166,6 @@ open class NHRangeSlider: UIControl {
             updateLayerFrames()
         }
     }
-
     
     
     /// minimum distance between the upper and lower thumbs.
