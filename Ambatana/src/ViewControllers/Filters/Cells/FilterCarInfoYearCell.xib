@@ -37,7 +37,7 @@
                         <color key="textColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vF7-pH-nC6" customClass="RangeSlider" customModule="SwiftRangeSlider">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vF7-pH-nC6" customClass="NHRangeSliderView" customModule="LetGo" customModuleProvider="target">
                         <rect key="frame" x="30" y="61" width="319" height="30"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -51,7 +51,6 @@
                         <connections>
                             <action selector="sliderDidEnd:" destination="odN-N2-t2i" eventType="touchUpOutside" id="Yt7-p8-tnb"/>
                             <action selector="sliderDidEnd:" destination="odN-N2-t2i" eventType="touchUpInside" id="nmn-kB-Yyz"/>
-                            <action selector="sliderValueChanged:" destination="odN-N2-t2i" eventType="valueChanged" id="JMX-mz-OqV"/>
                         </connections>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e7e-Bk-57e" userLabel="Bottom separator">
