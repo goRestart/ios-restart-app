@@ -38,7 +38,6 @@ public class RangeSliderTrackLayer: CALayer {
         let lowerValuePosition = CGFloat(slider.positionForValue(slider.lowerValue))
         let upperValuePosition = CGFloat(slider.positionForValue(slider.upperValue))
         let rect = CGRect(x: lowerValuePosition, y: 0.0, width: upperValuePosition - lowerValuePosition, height: bounds.height)
-//        let rect = CGRect(x: lowerValuePosition, y: 0.0, width: upperValuePosition - lowerValuePosition, height: 2)
         ctx.fill(rect)
     }
 }
