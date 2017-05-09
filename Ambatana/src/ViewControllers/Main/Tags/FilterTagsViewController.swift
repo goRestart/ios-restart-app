@@ -113,14 +113,24 @@ class FilterTagsViewController : NSObject, UICollectionViewDelegate, UICollectio
                     switch tags[i] {
                     case .make, .model, .yearsRange:
                         relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
-                    default:
+                    case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category:
                         continue
                     }
                 }
-            default:
+            case .electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden, .moviesBooksAndMusic,
+                 .fashionAndAccesories, .babyAndChild, .other, .unassigned:
                 break
             }
-        default:
+        case .make:
+            for i in 0..<tags.count {
+                switch tags[i] {
+                case .model:
+                    relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
+                case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .make, .yearsRange:
+                    continue
+                }
+            }
+        case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .model, .yearsRange:
             break
         }
         return relatedIndexesToDelete
