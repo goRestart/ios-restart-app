@@ -60,31 +60,6 @@ extension ListingCategory {
         }
     }
     
-    var image : UIImage? {
-        switch (self) {
-        case .unassigned:
-            return nil
-        case .electronics:
-            return UIImage(named: "categories_electronics")
-        case .motorsAndAccessories:
-            return UIImage(named: "categories_motors")
-        case .sportsLeisureAndGames:
-            return UIImage(named: "categories_sports")
-        case .homeAndGarden:
-            return UIImage(named: "categories_homes")
-        case .moviesBooksAndMusic:
-            return UIImage(named: "categories_music")
-        case .fashionAndAccesories:
-            return UIImage(named: "categories_fashion")
-        case .babyAndChild:
-            return UIImage(named: "categories_babies")
-        case .other:
-            return UIImage(named: "categories_others")
-        case .cars:
-            return UIImage(named: "categories_cars")
-        }
-    }
-    
     var imageInFeed: UIImage? {
         switch (self) {
         case .unassigned:
@@ -110,7 +85,7 @@ extension ListingCategory {
         }
     }
     
-    var imageSmallInactive : UIImage? {
+    var image: UIImage? {
         switch (self) {
         case .unassigned:
             return nil
@@ -132,6 +107,31 @@ extension ListingCategory {
             return UIImage(named: "categories_others_inactive")
         case .cars:
             return UIImage(named: "categories_cars_inactive")
+        }
+    }
+    
+    var imageTag: UIImage? {
+        switch (self) {
+        case .unassigned:
+            return nil
+        case .electronics:
+            return UIImage(named: "categories_electronics_tag")
+        case .motorsAndAccessories:
+            return UIImage(named: "categories_motors_tag")
+        case .sportsLeisureAndGames:
+            return UIImage(named: "categories_sports_tag")
+        case .homeAndGarden:
+            return UIImage(named: "categories_homes_tag")
+        case .moviesBooksAndMusic:
+            return UIImage(named: "categories_music_tag")
+        case .fashionAndAccesories:
+            return UIImage(named: "categories_fashion_tag")
+        case .babyAndChild:
+            return UIImage(named: "categories_babies_tag")
+        case .other:
+            return UIImage(named: "categories_others_tag")
+        case .cars:
+            return UIImage(named: "categories_cars_tag")
         }
     }
     

@@ -15,7 +15,7 @@ class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate
     private var categories: [ListingCategory]
     var categorySelected = Variable<ListingCategory?>(nil)
     
-    static let viewHeight: CGFloat = 110
+    static let viewHeight: CGFloat = CategoryHeaderCell.cellSize().height
     
     init(categories: [ListingCategory], frame: CGRect) {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()

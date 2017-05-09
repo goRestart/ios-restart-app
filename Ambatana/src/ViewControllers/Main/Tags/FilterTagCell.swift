@@ -144,12 +144,12 @@ class FilterTagCell: UICollectionViewCell {
             self.tagLabel.text = timeOption.name
         case .category(let category):
             self.tagIconWidth.constant = FilterTagCell.iconWidth
-            self.tagIcon.image = category.image
+            self.tagIcon.image = category.imageTag
         case .priceRange(let minPrice, let maxPrice, let currency):
             self.tagLabel.text = FilterTagCell.stringForPriceRange(minPrice, max: maxPrice, withCurrency: currency)
         case .freeStuff:
             self.tagIconWidth.constant = FilterTagCell.iconWidth
-            self.tagIcon.image = UIImage(named: "categories_free")
+            self.tagIcon.image = UIImage(named: "categories_free_tag")
         case .distance(let distance):
             self.tagLabel.text = distance.intToDistanteFormat()
         case .make(_, let name):
@@ -167,7 +167,7 @@ class FilterTagCell: UICollectionViewCell {
     private func setupUI() {
         self.contentView.layer.borderColor = UIColor.lineGray.cgColor
         self.contentView.layer.borderWidth = LGUIKitConstants.onePixelSize
-        self.contentView.layer.cornerRadius = 4.0
+        self.contentView.rounded = true
         self.contentView.layer.backgroundColor = UIColor.white.cgColor
     }
     
