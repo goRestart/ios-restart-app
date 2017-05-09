@@ -25,7 +25,7 @@ func ==(lhs: PostCarDetailState, rhs: PostCarDetailState) -> Bool {
     }
 }
 
-class PostCarDetailsView: UIView {
+class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
     let navigationView = UIView()
     let contentView = UIView()
     
@@ -61,7 +61,9 @@ class PostCarDetailsView: UIView {
         setupUI()
         setupAccessibilityIds()
         setupLayout()
-        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(hideKeyboard)))
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        gesture.delegate = self
+        contentView.addGestureRecognizer(gesture)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -346,7 +348,8 @@ class PostCarDetailsView: UIView {
     
     func moveContentUpward(by constant: CGFloat) {
         if constant < 0 {
-            progressTopConstraint.constant = constant
+            let constantNeeded = constant + (Metrics.screenHeight - navigationView.frame.minY - doneButton.frame.minY)
+            progressTopConstraint.constant = constantNeeded
         } else {
             progressTopConstraint.constant = PostCarDetailsView.progressTopConstraintConstantSelectDetail
         }
@@ -398,5 +401,15 @@ class PostCarDetailsView: UIView {
         UIView.animate(withDuration: 0.2, delay: 0.05, options: .curveEaseIn, animations: {
             self.layoutIfNeeded()
         }, completion: nil)
+    }
+    
+    // MARK: UIGestureRecognizer delegate
+    
+    override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        let point = gestureRecognizer.location(in: self)
+        if tableView.frame.contains(point) {
+            return false
+        }
+        return true
     }
 }
