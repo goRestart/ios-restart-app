@@ -96,9 +96,7 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        if !cameraWrapper.isAttached {
-            cameraWrapper.addPreviewLayerTo(view: cameraView)
-        }
+        cameraWrapper.addPreviewLayerTo(view: cameraView)
     }
 
     // MARK: - Public methods
@@ -197,6 +195,7 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
 
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideFirstTimeAlert))
         addGestureRecognizer(tapRecognizer)
+        
     }
 
     private func setupRX() {
