@@ -209,6 +209,7 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
         tableView.tintColor = style.tableViewTintColor
         tableView.indicatorStyle = .white
         tableView.keyboardDismissMode = .onDrag
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Metrics.margin, right: 0)
         
         searchBar.delegate = self
         searchBar.autocapitalizationType = .none
@@ -225,6 +226,7 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
         searchBar.searchTextPositionAdjustment = UIOffsetMake(10, 0);
         
         if let textField: UITextField = searchBar.firstSubview(ofType: UITextField.self) {
+            textField.font = UIFont.bigBodyFont
             textField.clearButtonMode = .never
             textField.backgroundColor = UIColor.clear
             textField.textColor = style.searchTextColor
@@ -305,7 +307,7 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
         let selected = isValueSelected(value)
         cell.selectionStyle = .none
         cell.textLabel?.text = value.name
-        cell.textLabel?.font = UIFont.bigBodyFont
+        cell.textLabel?.font = selected ? UIFont.mediumButtonFont : UIFont.bigBodyFont
         cell.accessoryType = selected ? .checkmark : .none
         cell.backgroundColor = style.cellBackgroundColor
         cell.textLabel?.textColor = selected ? style.cellSelectedTextColor : style.cellTextColor
@@ -326,6 +328,7 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
         if let cell = tableView.cellForRow(at: indexPath) {
             cell.accessoryType = .checkmark
             cell.textLabel?.textColor = style.cellSelectedTextColor
+            cell.textLabel?.font = UIFont.mediumButtonFont
         }
         
         searchBar.resignFirstResponder()
@@ -381,6 +384,7 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
             if let cell = tableView.cellForRow(at: indexPath) {
                 cell.accessoryType = .checkmark
                 cell.textLabel?.textColor = style.cellSelectedTextColor
+                cell.textLabel?.font = UIFont.mediumButtonFont
             }
         } else {
             tableView.setContentOffset(CGPoint.zero, animated: false)
