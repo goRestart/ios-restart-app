@@ -98,7 +98,11 @@ final class PostCategoryDetailProgressView: UIView {
             imageViewCenterConstraint.constant = (imageView.frame.width + Metrics.veryShortMargin)/2
             imageView.alpha = 1
         } else {
-            progressView.progressTintColor = UIColor.white
+            if percentage > 0.5 {
+                progressView.progressTintColor = UIColor.macaroniAndCheese
+            } else {
+                progressView.progressTintColor = UIColor.white
+            }
             titleLabel.text = LGLocalizedString.postCategoryDetailsProgress(String(Int(percentage*100))+"%")
             imageViewCenterConstraint.constant = 0
             imageView.alpha = 0
