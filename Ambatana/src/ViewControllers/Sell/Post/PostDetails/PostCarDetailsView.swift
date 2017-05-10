@@ -45,7 +45,7 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
     private let priceRowEnabled: Bool
     
     private var progressTopConstraint: NSLayoutConstraint = NSLayoutConstraint()
-    private static let progressTopConstraintConstantSelectDetail = Metrics.screenHeight*1/4
+    private static let progressTopConstraintConstantSelectDetail = Metrics.screenHeight/4
     
     var state: PostCarDetailState = .selectDetail
     
@@ -147,7 +147,8 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
         navigationView.layoutMargins = UIEdgeInsets(top: 0, left: Metrics.margin*2, bottom: 0, right: Metrics.margin*2)
         contentView.layoutMargins = UIEdgeInsets(top: 0, left: Metrics.margin*2, bottom: 0, right: Metrics.margin*2)
         
-        navigationView.layout().height(44)
+        navigationView.layout()
+            .height(44)
         navigationView.layout(with: self)
             .left()
             .right()
@@ -348,8 +349,8 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
     
     func moveContentUpward(by constant: CGFloat) {
         if constant < 0 {
-            let constantNeeded = constant + (Metrics.screenHeight - navigationView.frame.minY - doneButton.frame.minY)
-            progressTopConstraint.constant = constantNeeded
+            let constantNeeded = constant + (Metrics.screenHeight - doneButton.frame.maxY - navigationView.frame.maxY)
+            progressTopConstraint.constant = PostCarDetailsView.progressTopConstraintConstantSelectDetail + constantNeeded
         } else {
             progressTopConstraint.constant = PostCarDetailsView.progressTopConstraintConstantSelectDetail
         }

@@ -352,7 +352,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
             let keyboardHeight = origin - strongSelf.view.height
             strongSelf.detailsContainerBottomConstraint.constant = keyboardHeight/2
             if strongSelf.carDetailsView.state == .selectDetail {
-                strongSelf.carDetailsView.moveContentUpward(by: keyboardHeight/2)
+                strongSelf.carDetailsView.moveContentUpward(by: keyboardHeight)
             }
             UIView.animate(withDuration: Double(strongSelf.keyboardHelper.animationTime), animations: {
                 strongSelf.view.layoutIfNeeded()
