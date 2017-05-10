@@ -45,7 +45,7 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
     private let priceRowEnabled: Bool
     
     private var progressTopConstraint: NSLayoutConstraint = NSLayoutConstraint()
-    private static let progressTopConstraintConstantSelectDetail = Metrics.screenHeight/4
+    private static var progressTopConstraintConstantSelectDetail = Metrics.screenHeight/3.5
     
     var state: PostCarDetailState = .selectDetail
     
@@ -74,7 +74,6 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
         doneButton.rounded = true
     }
     
@@ -110,8 +109,8 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
         navigationOkButton.titleLabel?.font = UIFont.boldBarButtonFont
         navigationOkButton.addTarget(self, action: #selector(navigationButtonOkPressed), for: .touchUpInside)
         
-        if DeviceFamily.current == .iPhone4 {
-            descriptionLabel.font = UIFont.systemBoldFont(size: 21)
+        if DeviceFamily.current == .iPhone4 || DeviceFamily.current == .iPhone5 {
+            descriptionLabel.font = UIFont.systemBoldFont(size: 19)
         } else {
             descriptionLabel.font = UIFont.systemBoldFont(size: 27)
         }
@@ -194,6 +193,7 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
         descriptionLabel.layout(with: contentView)
             .leadingMargin()
             .trailingMargin()
+        descriptionLabel.layout(with: contentView).top(by: 0, relatedBy: .greaterThanOrEqual, priority: UILayoutPriorityDefaultHigh)
         progressView.layout(with: descriptionLabel)
             .below(by: Metrics.bigMargin)
         progressView.layout(with: contentView)
@@ -340,7 +340,7 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
     // MARK: UI Actions
     
     dynamic func navigationButtonOkPressed() {
-        tableView.resignFirstResponder()
+        tableView.hideKeyboard()
         priceRowView.hideKeyboard()
         showSelectDetail()
     }
