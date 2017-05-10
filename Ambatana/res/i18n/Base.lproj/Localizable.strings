@@ -116,7 +116,7 @@
 "categories_baby_and_child" = "Baby and Child";
 
 // Categories cars and motors. Check attached image "categories (1).png"
-"categories_cars_and_motors" = "Motors and Accessories";
+"categories_cars_and_motors" = "Other Vehicles and Parts";
 
 // Categories electronics. Check image @ "categories_cars_and_motors" segment
 "categories_electronics" = "Electronics";
@@ -1840,7 +1840,7 @@
 "product_post_select_category_cars" = "Cars";
 
 // Product post category selection motors and accesories button
-"product_post_select_category_motors_and_accessories" = "Other Vehicles and Car Parts";
+"product_post_select_category_motors_and_accessories" = "Other Vehicles and Parts";
 
 // Product post category selection or label
 "product_post_select_category_or" = "OR";
