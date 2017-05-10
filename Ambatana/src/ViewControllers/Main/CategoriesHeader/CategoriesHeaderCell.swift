@@ -23,7 +23,7 @@ class CategoryHeaderCell: UICollectionViewCell {
     // MARK: - Static methods
     
     static func cellSize() -> CGSize {
-        return CGSize(width: 80, height: 110)
+        return CGSize(width: 80, height: 120)
     }
 
     
@@ -89,7 +89,7 @@ class CategoryHeaderCell: UICollectionViewCell {
         
         categoryIcon.layout().height(60).width(60)
         categoryIcon.layout(with: contentView).top(by: 20).centerX()
-        categoryTitle.layout(with: contentView).bottom().left().right()
+        categoryTitle.layout(with: contentView).bottom(by: -10).left().right()
         categoryTitle.layout().height(20)
         categoryTitle.textAlignment = .center
         categoryNewContainter.layout(with: contentView).top(by: 10).centerX()
