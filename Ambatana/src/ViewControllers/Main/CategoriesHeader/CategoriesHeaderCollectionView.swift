@@ -15,7 +15,7 @@ class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate
     private var categories: [ListingCategory]
     var categorySelected = Variable<ListingCategory?>(nil)
     
-    static let viewHeight: CGFloat = 110
+    static let viewHeight: CGFloat = CategoryHeaderCell.cellSize().height
     
     init(categories: [ListingCategory], frame: CGRect) {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -25,7 +25,6 @@ class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate
         layout.itemSize = CategoryHeaderCell.cellSize()
         self.categories = categories
         super.init(frame: frame, collectionViewLayout: layout)
-        
         //Setup
         setup()
         setAccessibilityIds()
@@ -35,12 +34,6 @@ class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    // MARK: - Public methods
-    func updateCategories(_ newCategories: [ListingCategory]) {
-        categories = newCategories
-        reloadData()
-    }
     
     // MARK: - UICollectionViewDelegate & DataSource methods
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {

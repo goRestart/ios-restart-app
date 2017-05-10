@@ -404,9 +404,10 @@ class SignUpLogInViewModel: BaseViewModel {
     }
 
     private func process(signupError: SignupError) {
-        trackSignupEmailFailedWithError(signupError.trackingError)
+        
         switch signupError {
         case .scammer:
+            trackSignupEmailFailedWithError(signupError.trackingError)
             delegate?.vmHideLoading(nil) { [weak self] in
                 self?.showScammerAlert(self?.email, network: .email)
             }
@@ -416,6 +417,7 @@ class SignUpLogInViewModel: BaseViewModel {
             }
         case .network, .badRequest, .notFound, .forbidden, .unauthorized, .conflict, .nonExistingEmail,
              .tooManyRequests, .internalError:
+            trackSignupEmailFailedWithError(signupError.trackingError)
             let message = signupError.errorMessage(userEmail: email)
             delegate?.vmHideLoading(message, afterMessageCompletion: nil)
         }

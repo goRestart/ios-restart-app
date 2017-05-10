@@ -104,7 +104,8 @@ class CategoriesViewController: BaseViewController, CategoriesViewModelDelegate,
         }
         
         cell.titleLabel.text = category.name
-        cell.imageView.image = category.image
+        // This code is not used anymore. We should remove this whole class.
+        cell.imageView.image = category.icon
         
         return cell
     }

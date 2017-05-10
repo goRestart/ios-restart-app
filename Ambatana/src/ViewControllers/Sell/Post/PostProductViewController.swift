@@ -35,7 +35,6 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
     fileprivate let priceView: UIView
     fileprivate let categorySelectionView: PostCategorySelectionView
     fileprivate let carDetailsView: PostCarDetailsView
-    fileprivate var carDetailsViewCenterYConstraint = NSLayoutConstraint()
     
     fileprivate var footer: PostProductFooter
     fileprivate var footerView: UIView
@@ -256,10 +255,10 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         carDetailsView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(carDetailsView)
         carDetailsView.layout(with: view)
-            .proportionalWidth()
-            .proportionalHeight()
-            .centerX()
-            .centerY(constraintBlock: { [weak self] in self?.carDetailsViewCenterYConstraint = $0 })
+            .left()
+            .right()
+            .top()
+            .bottom()
         
         carDetailsView.updateProgress(withPercentage: viewModel.currentCarDetailsProgress)
         carDetailsView.setCurrencySymbol(viewModel.postDetailViewModel.currencySymbol)
@@ -306,7 +305,9 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
                 strongSelf.showCarYears()
             case .year:
                 strongSelf.carDetailsView.updateYear(withYear: categoryDetail.name)
-                strongSelf.didFinishEnteringDetails()
+                delay(0.3) { [weak self] in // requested by designers
+                    strongSelf.didFinishEnteringDetails()
+                }
             }
             strongSelf.carDetailsView.updateProgress(withPercentage: strongSelf.viewModel.currentCarDetailsProgress)
         }.addDisposableTo(disposeBag)
@@ -353,13 +354,13 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
             let keyboardHeight = origin - strongSelf.view.height
             strongSelf.detailsContainerBottomConstraint.constant = keyboardHeight/2
             if strongSelf.carDetailsView.state == .selectDetail {
-                strongSelf.carDetailsViewCenterYConstraint.constant = keyboardHeight/2
+                strongSelf.carDetailsView.moveContentUpward(by: keyboardHeight)
             }
             UIView.animate(withDuration: Double(strongSelf.keyboardHelper.animationTime), animations: {
                 strongSelf.view.layoutIfNeeded()
             })
             let showingKeyboard = keyboardHeight > 0
-            strongSelf.loadingViewHidden(hide: showingKeyboard)
+            strongSelf.loadingViewHidden(hide: !showingKeyboard)
         }.addDisposableTo(disposeBag)
     }
     
@@ -431,7 +432,9 @@ extension PostProductViewController {
     
     private func showSelectCarDetailValue(forDetail detail: CarDetailType, values: [CarInfoWrapper], selectedValueIndex: Int?) {
         carDetailsView.hideKeyboard()
-        carDetailsView.showSelectDetailValue(forDetail: detail, values: values, selectedValueIndex: selectedValueIndex)
+        delay(0.3) { [weak self] in // requested by designers
+            self?.carDetailsView.showSelectDetailValue(forDetail: detail, values: values, selectedValueIndex: selectedValueIndex)
+        }
     }
 }
 

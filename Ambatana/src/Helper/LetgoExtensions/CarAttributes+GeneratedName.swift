@@ -12,13 +12,13 @@ extension CarAttributes {
     func generatedCarName() -> String {
         var carTitle: String = ""
         if let makeName = make, makeName != CarAttributes.emptyMake {
-            carTitle += makeName + " "
+            carTitle += makeName
         }
         if let modelName = model, modelName != CarAttributes.emptyModel {
-            carTitle += modelName + " "
+            carTitle += " - " + modelName
         }
         if let year = year, year != CarAttributes.emptyYear {
-            carTitle += String(year)
+            carTitle += " - " + String(year)
         }
         return carTitle
     }
