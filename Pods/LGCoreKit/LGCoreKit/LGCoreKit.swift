@@ -37,8 +37,9 @@ public class LGCoreKit {
         guard let userId = InternalCore.myUserRepository.myUser?.objectId else { return }
         InternalCore.listingRepository.indexFavorites(userId, completion: nil)
         InternalCore.stickersRepository.show(nil) // Sync stickers to UserDefaults
+        InternalCore.carsInfoRepository.refreshCarsInfoFile()
     }
-    
+
     public static func applicationDidEnterBackground() {
         InternalCore.webSocketClient.applicationDidEnterBackground()
     }
@@ -47,7 +48,6 @@ public class LGCoreKit {
         // Refresh my user
         InternalCore.myUserRepository.refresh(nil)
         InternalCore.webSocketClient.applicationWillEnterForeground()
-        InternalCore.carsInfoRepository.refreshCarsInfoFile()
     }
 
     static func setupAfterLoggedIn(_ completion: (() -> ())?) {
