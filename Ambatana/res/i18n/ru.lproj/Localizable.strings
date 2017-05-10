@@ -588,6 +588,7 @@
 "product_post_retake" = "Переснять";
 "product_post_retry_button" = "Попробовать еще";
 "product_post_select_category_cars" = "Машины";
+"product_post_select_category_motors_and_accessories" = "Other Vehicles and Car Parts";
 "product_post_select_category_or" = "ИЛИ";
 "product_post_select_category_other" = "Что-то еще";
 "product_post_select_category_title" = "Что вы размещаете?";
