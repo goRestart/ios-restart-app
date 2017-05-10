@@ -30,18 +30,9 @@ enum FilterCategoryItem: Equatable {
     var icon: UIImage? {
         switch self {
         case let .category(category: category):
-            return category.imageSmallInactive
-        case .free:
-            return UIImage(named: "categories_free_inactive")
-        }
-    }
-
-    var image: UIImage? {
-        switch self {
-        case let .category(category: category):
             return category.image
         case .free:
-            return UIImage(named: "categories_free")
+            return UIImage(named: "categories_free_inactive")
         }
     }
 }
@@ -337,6 +328,7 @@ class FiltersViewModel: BaseViewModel {
         return category.icon?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
     }
     
+    
     func categoryColorAtIndex(_ index: Int) -> UIColor {
         guard isValidCategory(index) else { return UIColor.blackText }
         let category = categories[index]
@@ -345,6 +337,17 @@ class FiltersViewModel: BaseViewModel {
             return productFilter.priceRange.free ? UIColor.redText : UIColor.blackText
         case .category(let cat):
             return productFilter.hasSelectedCategory(cat) ? UIColor.redText : UIColor.blackText
+        }
+    }
+    
+    func categoryIconColorAtIndex(_ index: Int) -> UIColor {
+        guard isValidCategory(index) else { return UIColor.blackText }
+        let category = categories[index]
+        switch category {
+        case .free:
+            return productFilter.priceRange.free ? UIColor.redText : UIColor.gray
+        case .category(let cat):
+            return productFilter.hasSelectedCategory(cat) ? UIColor.redText : UIColor.gray
         }
     }
 
