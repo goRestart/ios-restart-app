@@ -34,7 +34,7 @@
 "bump_up_view_free_title" = "HOLE DEIN ANGEBOT HOCH";
 "bump_up_view_pay_bumps_left_text" = "Du kannst noch %i Angebote hochholen.";
 "bump_up_view_pay_button_title" = "Für %@ aktivieren";
-"bump_up_view_pay_subtitle" = "Mache dein Angebot für 24 Stunden besonders sichtbar, indem du es ganz nach oben holst.";
+"bump_up_view_pay_subtitle" = "Mache dein Angebot besonders sichtbar, indem du es ganz nach oben holst.";
 "bump_up_view_pay_title" = "NACH OBEN HOLEN, UM SCHNELLER ZU VERKAUFEN";
 "categories_baby_and_child" = "Baby und Kind";
 "categories_car" = "Autos";
@@ -291,10 +291,10 @@
 "edit_product_title" = "Produkt bearbeiten";
 "edit_product_unsaved_changes_alert" = "Bist du sicher, dass du diese Änderungen verwerfen möchtest?";
 "edit_product_unsaved_changes_alert_ok" = "Verwerfen";
-"filters_car_make_not_set" = "Nicht Eingestellt";
-"filters_car_model_not_set" = "Nicht Eingestellt";
-"filters_car_year_any_year" = "Any Year";
-"filters_car_year_before_year" = "Before %i";
+"filters_car_make_not_set" = "Nicht ausgewählt";
+"filters_car_model_not_set" = "Nicht ausgewählt";
+"filters_car_year_any_year" = "Beliebiges Baujahr";
+"filters_car_year_before_year" = "Von vor %i";
 "filters_distance_not_set" = "nicht eingestellt";
 "filters_navbar_reset" = "Zurücksetzen";
 "filters_price_from" = "Von";

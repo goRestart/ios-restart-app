@@ -1839,11 +1839,14 @@
 // Product post category selection cars button
 "product_post_select_category_cars" = "Cars";
 
+// Product post category selection motors and accesories button
+"product_post_select_category_motors_and_accessories" = "Other Vehicles and Car Parts";
+
 // Product post category selection or label
 "product_post_select_category_or" = "OR";
 
 // Product post category selection others button
-"product_post_select_category_other" = "Something else";
+"product_post_select_category_other" = "Other items";
 
 // Price label above price on product
 "product_price_label" = "Price";
