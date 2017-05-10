@@ -103,7 +103,8 @@ class FilterTagsViewController : NSObject, UICollectionViewDelegate, UICollectio
         collectionView?.accessibilityId = .filterTagsCollectionView
     }
 
-    private func removeRelatedTags(forTag tag: FilterTag) -> [IndexPath] {
+    // not private for testing reasons
+    func removeRelatedTags(forTag tag: FilterTag) -> [IndexPath] {
         var relatedIndexesToDelete: [IndexPath] = []
         switch tag {
         case .category(let listingCategory):
