@@ -237,9 +237,10 @@ FilterCarInfoYearCellDelegate, UICollectionViewDataSource, UICollectionViewDeleg
                     for: indexPath) as? FilterCategoryCell else { return UICollectionViewCell() }
                 cell.titleLabel.text = viewModel.categoryTextAtIndex(indexPath.row)
                 cell.categoryIcon.image = viewModel.categoryIconAtIndex(indexPath.row)
-                let color = viewModel.categoryColorAtIndex(indexPath.row)
-                cell.categoryIcon.tintColor = color
-                cell.titleLabel.textColor = color
+                let colorText = viewModel.categoryColorAtIndex(indexPath.row)
+                let colorIcon = viewModel.categoryIconColorAtIndex(indexPath.row)
+                cell.categoryIcon.tintColor = colorIcon
+                cell.titleLabel.textColor = colorText
                 cell.rightSeparator.isHidden = indexPath.row % 2 == 1
                 cell.isSelected = viewModel.categorySelectedAtIndex(indexPath.row)
                 return cell

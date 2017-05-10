@@ -429,9 +429,8 @@ fileprivate extension PostProductViewModel {
         guard let location = locationManager.currentLocation?.location else { return nil }
         let price = postDetailViewModel.productPrice
         var title = postDetailViewModel.productTitle
-        if selectedCarAttributes.makeId == CarAttributes.emptyMake {
-            title = title ?? selectedCarAttributes.generatedCarName()
-        }
+        title = title ?? selectedCarAttributes.generatedCarName()
+
         let description = postDetailViewModel.productDescription
         let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()
         let currency = currencyHelper.currencyWithCountryCode(postalAddress.countryCode ?? "US")

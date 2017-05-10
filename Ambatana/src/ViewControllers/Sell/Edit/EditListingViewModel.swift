@@ -521,7 +521,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         loadingProgress.value = 0
         editParams.carAttributes = carAttributes
         editParams.category = .cars
-        editParams.name = title ?? generateCarTitle()
+        editParams.name = generateCarTitle()
         editParams.descr = (descr ?? "").stringByRemovingEmoji()
         editParams.price = isFreePosting.value && featureFlags.freePostingModeAllowed ? ListingPrice.free : ListingPrice.normal((price ?? "0").toPriceDouble())
         if let updatedLocation = location, let updatedPostalAddress = postalAddress {
@@ -553,8 +553,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
 
     private func generateCarTitle() -> String {
-        // title only generated for "other" makes, and only if there isn't a title already
-        guard let makeId = carAttributes.makeId, makeId.isEmpty else { return title ?? "" }
+        // title generate always but when there is already a title.
         guard let title = title, !title.isEmpty else {
             return carAttributes.generatedCarName()
         }

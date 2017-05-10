@@ -306,7 +306,9 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
                 strongSelf.showCarYears()
             case .year:
                 strongSelf.carDetailsView.updateYear(withYear: categoryDetail.name)
-                strongSelf.didFinishEnteringDetails()
+                delay(0.3) { [weak self] in // requested by designers
+                    strongSelf.didFinishEnteringDetails()
+                }
             }
             strongSelf.carDetailsView.updateProgress(withPercentage: strongSelf.viewModel.currentCarDetailsProgress)
         }.addDisposableTo(disposeBag)
@@ -359,7 +361,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
                 strongSelf.view.layoutIfNeeded()
             })
             let showingKeyboard = keyboardHeight > 0
-            strongSelf.loadingViewHidden(hide: showingKeyboard)
+            strongSelf.loadingViewHidden(hide: !showingKeyboard)
         }.addDisposableTo(disposeBag)
     }
     
@@ -431,7 +433,9 @@ extension PostProductViewController {
     
     private func showSelectCarDetailValue(forDetail detail: CarDetailType, values: [CarInfoWrapper], selectedValueIndex: Int?) {
         carDetailsView.hideKeyboard()
-        carDetailsView.showSelectDetailValue(forDetail: detail, values: values, selectedValueIndex: selectedValueIndex)
+        delay(0.3) { [weak self] in // requested by designers
+            self?.carDetailsView.showSelectDetailValue(forDetail: detail, values: values, selectedValueIndex: selectedValueIndex)
+        }
     }
 }
 

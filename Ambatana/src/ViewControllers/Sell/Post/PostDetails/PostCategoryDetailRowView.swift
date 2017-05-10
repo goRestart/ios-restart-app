@@ -107,7 +107,7 @@ class PostCategoryDetailRowView: UIView, UITextFieldDelegate {
             icon.image = UIImage(named: "ic_post_disclousure")
             icon.contentMode = .scaleAspectFit
         case .textEntryRow:
-            textField.textAlignment = .right
+            textField.textAlignment = .left
             textField.clearButtonMode = .never
             textField.backgroundColor = UIColor.clear
             textField.textColor = UIColor.white
@@ -152,7 +152,7 @@ class PostCategoryDetailRowView: UIView, UITextFieldDelegate {
             textField.layout(with: self)
                 .top()
                 .bottom()
-                .trailing(to: .centerX)
+                .trailing(by: -Metrics.margin)
             textField.layout(with: titleLabel)
                 .toLeft(by: Metrics.margin)
         }
