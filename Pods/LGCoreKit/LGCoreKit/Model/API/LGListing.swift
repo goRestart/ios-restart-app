@@ -63,14 +63,18 @@ extension Listing: Decodable  {
      */
 
     public static func decode(_ j: JSON) -> Decoded<Listing> {
-        guard let categoryId: Int = j.decode("category_id"),
-            let category: ListingCategory = ListingCategory(rawValue: categoryId) else {
-            return Decoded<Listing>.failure(DecodeError.custom("category_id not found / invalid"))
+
+        // to guarantee compatibility with future categories
+        var category: ListingCategory = .unassigned
+
+        if let categoryId: Int = j.decode("category_id"),
+            let listingCategory: ListingCategory = ListingCategory(rawValue: categoryId) {
+            category = listingCategory
         }
-        
+
         let result: Decoded<Listing>
         switch category {
-            // Products
+            // Products or unknown categories
         case .unassigned, .electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden, .moviesBooksAndMusic,
              .fashionAndAccesories, .babyAndChild, .other:
             result = curry(Listing.product)

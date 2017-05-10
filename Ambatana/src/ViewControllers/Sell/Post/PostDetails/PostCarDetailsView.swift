@@ -193,7 +193,6 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
         descriptionLabel.layout(with: contentView)
             .leadingMargin()
             .trailingMargin()
-        descriptionLabel.layout(with: contentView).top(by: 0, relatedBy: .greaterThanOrEqual, priority: UILayoutPriorityDefaultHigh)
         progressView.layout(with: descriptionLabel)
             .below(by: Metrics.bigMargin)
         progressView.layout(with: contentView)

@@ -179,11 +179,6 @@ extension LGProduct : Decodable {
 		}
     */
     static func decode(_ j: JSON) -> Decoded<LGProduct> {
-        guard let category_id: Int = j.decode("category_id"),
-            let category = ListingCategory(rawValue: category_id), category.isProduct else {
-                logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGProduct parse error: category_id is not valid")
-                return Decoded<LGProduct>.failure(DecodeError.custom("category_id: is not valid"))
-        }
         let geo: JSON? = j.decode("geo")
         let init1 = curry(LGProduct.productWithId)
                             <^> j <|? "id"                                          // objectId : String?
