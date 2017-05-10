@@ -392,7 +392,7 @@ fileprivate extension PostProductViewModel {
             }
             let cancelAction = { [weak self] in
                 guard let _ = self?.state.value else { return }
-                self?.revertToPreviousStep()
+                self?.navigator?.cancelPostProduct()
             }
             navigator?.openLoginIfNeededFromProductPosted(from: .sell, loggedInAction: loggedInAction, cancelAction: cancelAction)
         } else {
