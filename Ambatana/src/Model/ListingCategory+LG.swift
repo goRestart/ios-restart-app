@@ -65,23 +65,23 @@ extension ListingCategory {
         case .unassigned:
             return nil
         case .electronics:
-            return UIImage(named: "tech")
+            return UIImage(named: "tech_feed")
         case .motorsAndAccessories:
-            return UIImage(named: "motors")
+            return UIImage(named: "motors_feed")
         case .sportsLeisureAndGames:
-            return UIImage(named: "leisure")
+            return UIImage(named: "leisure_feed")
         case .homeAndGarden:
-            return UIImage(named: "home")
+            return UIImage(named: "home_feed")
         case .moviesBooksAndMusic:
-            return UIImage(named: "entretainment")
+            return UIImage(named: "entretainment_feed")
         case .fashionAndAccesories:
-            return UIImage(named: "fashion")
+            return UIImage(named: "fashion_feed")
         case .babyAndChild:
-            return UIImage(named: "child")
+            return UIImage(named: "child_feed")
         case .other:
-            return UIImage(named: "others")
+            return UIImage(named: "others_feed")
         case .cars:
-            return UIImage(named: "cars")
+            return UIImage(named: "cars_feed")
         }
     }
     

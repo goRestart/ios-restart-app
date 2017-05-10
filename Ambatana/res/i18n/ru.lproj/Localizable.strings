@@ -34,7 +34,7 @@
 "bump_up_view_free_title" = "ПОДНИМИТЕ ВАШЕ ОБЪЯВЛЕНИЕ";
 "bump_up_view_pay_bumps_left_text" = "У вас осталось %i продвижений.";
 "bump_up_view_pay_button_title" = "Активировать за %@";
-"bump_up_view_pay_subtitle" = "Дает вашему объявлению больше просмотров на 24 часа, поднимая его наверх в списке.";
+"bump_up_view_pay_subtitle" = "Повысьте количество просмотров вашего объявления, поднимая его наверх в списке.";
 "bump_up_view_pay_title" = "ПОДНИМИТЕ ДЛЯ БЫСТРОЙ ПРОДАЖИ";
 "categories_baby_and_child" = "Все для детей";
 "categories_car" = "Машины";
@@ -293,8 +293,8 @@
 "edit_product_unsaved_changes_alert_ok" = "Не сохранять";
 "filters_car_make_not_set" = "Не установлен";
 "filters_car_model_not_set" = "Не установлен";
-"filters_car_year_any_year" = "Any Year";
-"filters_car_year_before_year" = "Before %i";
+"filters_car_year_any_year" = "Любой год";
+"filters_car_year_before_year" = "До %i";
 "filters_distance_not_set" = "не установлен";
 "filters_navbar_reset" = "Сброс";
 "filters_price_from" = "От";
@@ -588,6 +588,7 @@
 "product_post_retake" = "Переснять";
 "product_post_retry_button" = "Попробовать еще";
 "product_post_select_category_cars" = "Машины";
+"product_post_select_category_motors_and_accessories" = "Other Vehicles and Parts";
 "product_post_select_category_or" = "ИЛИ";
 "product_post_select_category_other" = "Что-то еще";
 "product_post_select_category_title" = "Что вы размещаете?";

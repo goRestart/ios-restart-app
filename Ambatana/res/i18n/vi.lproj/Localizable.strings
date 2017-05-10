@@ -588,8 +588,9 @@
 "product_post_retake" = "Chụp lại";
 "product_post_retry_button" = "Thử lại";
 "product_post_select_category_cars" = "Xe hơi";
+"product_post_select_category_motors_and_accessories" = "Other Vehicles and Parts";
 "product_post_select_category_or" = "HOẶC";
-"product_post_select_category_other" = "Thứ gì khác";
+"product_post_select_category_other" = "Sản phẩm khác";
 "product_post_select_category_title" = "Bạn đang đăng gì?";
 "product_post_use_photo" = "Đăng";
 "product_post_use_photo_not_logged" = "Sử dụng Hình ảnh";

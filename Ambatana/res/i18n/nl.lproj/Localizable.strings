@@ -34,7 +34,7 @@
 "bump_up_view_free_title" = "JE ITEM OMHOOG PLAATSEN";
 "bump_up_view_pay_bumps_left_text" = "Je kunt nog %i keer omhoog plaatsen.";
 "bump_up_view_pay_button_title" = "Activeren voor %@";
-"bump_up_view_pay_subtitle" = "Geef je item voor 24 uur meer zichtbaarheid door het naar de top te verplaatsen.";
+"bump_up_view_pay_subtitle" = "Geef je item meer zichtbaarheid door het bovenaan te verplaatsen.";
 "bump_up_view_pay_title" = "OMHOOG PLAATSEN OM SNELLER TE VERKOPEN";
 "categories_baby_and_child" = "Baby en kind";
 "categories_car" = "Auto's";
@@ -588,8 +588,9 @@
 "product_post_retake" = "Opnieuw nemen";
 "product_post_retry_button" = "Probeer het nogmaals";
 "product_post_select_category_cars" = "Auto’s";
+"product_post_select_category_motors_and_accessories" = "Other Vehicles and Parts";
 "product_post_select_category_or" = "OF";
-"product_post_select_category_other" = "Iets anders";
+"product_post_select_category_other" = "Overige items";
 "product_post_select_category_title" = "Wat wil je verkopen?";
 "product_post_use_photo" = "Plaats";
 "product_post_use_photo_not_logged" = "Gebruik foto";

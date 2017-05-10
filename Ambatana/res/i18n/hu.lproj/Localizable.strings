@@ -34,7 +34,7 @@
 "bump_up_view_free_title" = "UGRASZD FEL HIRDETÉSEDET";
 "bump_up_view_pay_bumps_left_text" = "%i ugrasztásod maradt.";
 "bump_up_view_pay_button_title" = "Aktiválás: %@";
-"bump_up_view_pay_subtitle" = "A lista elejére ugrasztva nagyobb láthatóságot adhatsz portékádnak 24 órára.";
+"bump_up_view_pay_subtitle" = "A lista elejére ugrasztva nagyobb láthatóságot adhatsz portékádnak.";
 "bump_up_view_pay_title" = "FELUGRASZTVA GYORSABBAN ELADHATSZ";
 "categories_baby_and_child" = "Baba és gyerek";
 "categories_car" = "Autók";
@@ -82,7 +82,7 @@
 "change_password_send_error_passwords_mismatch" = "A jelszavak nem egyeznek. Próbálkozz újra!";
 "change_password_send_ok" = "Jelszó megváltoztatva!";
 "change_password_title" = "Jelszóváltás";
-"change_username_error_invalid_username" = "Kérjük, érvényes nevet adj meg: legalább %d karakterből álljon!";
+"change_username_error_invalid_username" = "Kérjük, érvényes felhasználónevet adj meg. Legalább %d karakterből álljon!";
 "change_username_error_invalid_username_letgo" = "Másik fiók használja a következőt: %@";
 "change_username_field_hint" = "Teljes név";
 "change_username_loading" = "Felhasználói név mentése...";
@@ -291,10 +291,10 @@
 "edit_product_title" = "Portéka szerkesztése";
 "edit_product_unsaved_changes_alert" = "Biztosan elveted a módosításokat?";
 "edit_product_unsaved_changes_alert_ok" = "Elvetés";
-"filters_car_make_not_set" = "Nincs Megadva";
-"filters_car_model_not_set" = "Nincs Megadva";
-"filters_car_year_any_year" = "Any Year";
-"filters_car_year_before_year" = "Before %i";
+"filters_car_make_not_set" = "Nincs megadva";
+"filters_car_model_not_set" = "Nincs megadva";
+"filters_car_year_any_year" = "Bármilyen évjárat";
+"filters_car_year_before_year" = "%i előtti";
 "filters_distance_not_set" = "nincs megadva";
 "filters_navbar_reset" = "Mégse";
 "filters_price_from" = "Ettől:";
@@ -588,6 +588,7 @@
 "product_post_retake" = "Újra";
 "product_post_retry_button" = "Újra";
 "product_post_select_category_cars" = "Autók";
+"product_post_select_category_motors_and_accessories" = "Other Vehicles and Parts";
 "product_post_select_category_or" = "VAGY";
 "product_post_select_category_other" = "Valami más";
 "product_post_select_category_title" = "Mit készülsz meghirdetni?";
@@ -709,7 +710,7 @@
 "reset_password_instructions" = "Add meg az e-mail címed, mi pedig küldünk egy levelet, amivel helyreállíthatod jelszavadat.";
 "reset_password_send_button" = "E-mail küldése";
 "reset_password_send_error_generic" = "Hiba történt a jelszó helyreállítása során. Próbálkozz újra!";
-"reset_password_send_error_invalid_email" = "Kérjük, érvényes e-mail címet adj meg!";
+"reset_password_send_error_invalid_email" = "Kérjük, érvényes e-mail címet adj meg.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "A következő e-mail cím nincs regisztrálva: %@";
 "reset_password_send_ok" = "E-mailt küldtünk a következő címre: %@. A benne lévő linkre kattintva helyreállíthatod jelszavadat.";
 "reset_password_send_too_many_requests" = "Már küldtünk jelszó-helyreállítási e-mailt. Ellenőrizd postafiókodat, és kövesd az utasításokat!";
@@ -735,8 +736,8 @@
 "sell_post_free_label" = "Ingyenes";
 "sell_price_field" = "Ár:";
 "sell_send_error_invalid_category" = "Kérjük, válassz kategóriát a termékednek!";
-"sell_send_error_invalid_description" = "Kérjük, hogy érvényes leírást adj meg a portékához.";
-"sell_send_error_invalid_description_too_long" = "A portékák leírásának maximális hossza %d karakter.";
+"sell_send_error_invalid_description" = "Kérjük, érvényes leírást adj meg a portékához.";
+"sell_send_error_invalid_description_too_long" = "Kérjük, érvényes leírást adj meg a portékához. Legfeljebb %d karakterből álljon!";
 "sell_send_error_invalid_image_count" = "Legalább egy kép szükséges a portéka meghirdetéséhez.";
 "sell_send_error_invalid_price" = "Kérjük, érvényes árat adj meg a portékához. Csak szám lehet.";
 "sell_send_error_invalid_title" = "Kérjük, érvényes címet adj a portékának.";
@@ -798,7 +799,7 @@
 "sign_up_send_error_invalid_domain" = "Érvénytelen e-mail cím. Javítsd, majd próbálkozz újra.";
 "sign_up_send_error_invalid_email" = "Kérjük, érvényes e-mail címet adj meg!";
 "sign_up_send_error_invalid_password_with_max" = "Kérjük, érvényes jelszót adj meg. A hossza %d és %d között lehet.";
-"sign_up_send_error_invalid_username" = "Kérjük, érvényes nevet adj meg: legalább %d karakterből álljon!";
+"sign_up_send_error_invalid_username" = "Kérjük, érvényes nevet adj meg. Legalább %d karakterből álljon!";
 "sign_up_terms_conditions" = "I agree to the letgo Terms & Conditions and Privacy Policy";
 "sign_up_terms_conditions_privacy_part" = "Privacy Policy";
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";

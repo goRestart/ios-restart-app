@@ -34,7 +34,7 @@
 "bump_up_view_free_title" = "PROMUOVI IL TUO ANNUNCIO";
 "bump_up_view_pay_bumps_left_text" = "Puoi promuovere il tuo prodotto ancora per %i volte.";
 "bump_up_view_pay_button_title" = "Attiva per %@";
-"bump_up_view_pay_subtitle" = "Offri una maggiore visibilità al tuo annuncio per 24 ore spostandolo in alto.";
+"bump_up_view_pay_subtitle" = "Offri una maggiore visibilità al tuo annuncio spostandolo in alto.";
 "bump_up_view_pay_title" = "PROMUOVI PER VENDERE PIÙ RAPIDAMENTE";
 "categories_baby_and_child" = "Bambino e Ragazzo";
 "categories_car" = "Auto";
@@ -82,7 +82,7 @@
 "change_password_send_error_passwords_mismatch" = "Le password non corrispondono. Riprova.";
 "change_password_send_ok" = "Password modificata!";
 "change_password_title" = "Cambia password";
-"change_username_error_invalid_username" = "Inserisci un nome valido, deve contenere almeno %d caratteri.";
+"change_username_error_invalid_username" = "Inserisci un nome utente valido. Deve contenere almeno %d caratteri.";
 "change_username_error_invalid_username_letgo" = "Un altro account sta già utilizzando %@";
 "change_username_field_hint" = "Nome e Cognome";
 "change_username_loading" = "Salvataggio nome utente...";
@@ -293,8 +293,8 @@
 "edit_product_unsaved_changes_alert_ok" = "Elimina";
 "filters_car_make_not_set" = "Non Impostato";
 "filters_car_model_not_set" = "Non Impostato";
-"filters_car_year_any_year" = "Any Year";
-"filters_car_year_before_year" = "Before %i";
+"filters_car_year_any_year" = "Qualunque";
+"filters_car_year_before_year" = "Prima del %i";
 "filters_distance_not_set" = "non impostato";
 "filters_navbar_reset" = "Resetta";
 "filters_price_from" = "Da";
@@ -347,7 +347,7 @@
 "log_in_email_wrong_password_alert_message" = "La password che hai inserito per %@ non è corretta.";
 "log_in_email_wrong_password_alert_title" = "Password non corretta";
 "log_in_error_send_error_generic" = "Si è verificato un errore durante l'accesso. Riprova più tardi.";
-"log_in_error_send_error_invalid_email" = "Inserisci un indirizzo email valido nell'apposito campo.";
+"log_in_error_send_error_invalid_email" = "Inserisci un indirizzo email valido.";
 "log_in_error_send_error_user_not_found_or_wrong_password" = "Email o password non valide. Riprova più tardi.";
 "log_in_reset_password_button" = "Password dimenticata?";
 "log_in_send_button" = "Accedi";
@@ -588,8 +588,9 @@
 "product_post_retake" = "Scatta di Nuovo";
 "product_post_retry_button" = "Riprova";
 "product_post_select_category_cars" = "Auto";
+"product_post_select_category_motors_and_accessories" = "Other Vehicles and Parts";
 "product_post_select_category_or" = "O";
-"product_post_select_category_other" = "Qualcos'altro";
+"product_post_select_category_other" = "Altri articoli";
 "product_post_select_category_title" = "Che cosa stai pubblicando?";
 "product_post_use_photo" = "Pubblica";
 "product_post_use_photo_not_logged" = "Utilizza Foto";
@@ -709,7 +710,7 @@
 "reset_password_instructions" = "Inserisci il tuo indirizzo di posta elettronica e provvederemo ad inviarti un'email per ripristinare la tua password.";
 "reset_password_send_button" = "Invia email";
 "reset_password_send_error_generic" = "Si è verificato un errore durante il tentativo di ripristino della tua password. Riprova più tardi.";
-"reset_password_send_error_invalid_email" = "Inserisci un indirizzo email valido nell'apposito campo.";
+"reset_password_send_error_invalid_email" = "Inserisci un indirizzo email valido.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "L'indirizzo email %@ non è registrato.";
 "reset_password_send_ok" = "Abbiamo inviato un'email a %@. Clicca sul link all'interno dell'email per ripristinare la tua password!";
 "reset_password_send_too_many_requests" = "Ti abbiamo già inviato una email per reimpostare la password. Controlla la tua casella di posta e segui le istruzioni.";
@@ -736,9 +737,9 @@
 "sell_price_field" = "Prezzo:";
 "sell_send_error_invalid_category" = "Scegli una categoria per il prodotto.";
 "sell_send_error_invalid_description" = "Inserisci una descrizione valida per il prodotto.";
-"sell_send_error_invalid_description_too_long" = "La massima lunghezza per la descrizione del prodotto è %d caratteri.";
+"sell_send_error_invalid_description_too_long" = "Inserisci una descrizione valida per il prodotto. Deve contenere meno di %d caratteri.";
 "sell_send_error_invalid_image_count" = "È necessaria almeno una foto per la vendita di un prodotto.";
-"sell_send_error_invalid_price" = "Inserisci un prezzo valido per il prodotto. Deve essere soltanto un numero.";
+"sell_send_error_invalid_price" = "Inserisci un prezzo valido per il prodotto. Deve contenere soltanto numeri.";
 "sell_send_error_invalid_title" = "Inserisci un titolo valido per il prodotto.";
 "sell_send_error_sharing_facebook" = "Si è verificato un errore durante la condivisione su Facebook. Riprova più tardi.";
 "sell_share_fb_content" = "Guarda cosa sto vendendo su letgo!";
@@ -796,9 +797,9 @@
 "sign_up_send_error_email_taken" = "L'indirizzo email %@ risulta già registrato. Ti preghiamo di utilizzarlo per effettuare l'accesso.";
 "sign_up_send_error_generic" = "Si è verificato un errore durante la creazione dell'account. Riprova più tardi.";
 "sign_up_send_error_invalid_domain" = "Indirizzo email non valido. Modificalo e riprova.";
-"sign_up_send_error_invalid_email" = "Inserisci un indirizzo email valido nell'apposito campo.";
+"sign_up_send_error_invalid_email" = "Inserisci un indirizzo email valido.";
 "sign_up_send_error_invalid_password_with_max" = "Inserisci una password valida. Deve contenere tra i %d e i %d caratteri.";
-"sign_up_send_error_invalid_username" = "Inserisci un nome utente valido, deve contenere almeno %d caratteri.";
+"sign_up_send_error_invalid_username" = "Inserisci un nome utente valido. Deve contenere almeno %d caratteri.";
 "sign_up_terms_conditions" = "I agree to the letgo Terms & Conditions and Privacy Policy";
 "sign_up_terms_conditions_privacy_part" = "Privacy Policy";
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";

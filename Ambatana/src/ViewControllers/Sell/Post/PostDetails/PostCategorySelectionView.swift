@@ -18,12 +18,8 @@ final class PostCategorySelectionView: UIView {
     fileprivate let titleLabel = UILabel()
     fileprivate let categoriesContainerView = UIView()
     fileprivate let carsCategoryButton = UIButton()
-    fileprivate let orLeftView = UIView()
-    fileprivate let orLabel = UILabel()
-    fileprivate let orRightView = UIView()
+    fileprivate let motorsAndAccessoriesButton = UIButton()
     fileprivate let otherCategoryButton = UIButton()
-    
-    fileprivate var lines: [CALayer] = []
     
     fileprivate let disposeBag = DisposeBag()
     
@@ -46,12 +42,6 @@ final class PostCategorySelectionView: UIView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        layoutIfNeeded()
-        updateUI()
-    }
 }
 
 
@@ -70,32 +60,42 @@ fileprivate extension PostCategorySelectionView {
         addSubview(categoriesContainerView)
         
         carsCategoryButton.translatesAutoresizingMaskIntoConstraints = false
-        carsCategoryButton.titleLabel?.font = UIFont.systemBoldFont(size: 30)
+        carsCategoryButton.titleLabel?.font = UIFont.systemBoldFont(size: 23)
         carsCategoryButton.setTitle(LGLocalizedString.productPostSelectCategoryCars, for: .normal)
         carsCategoryButton.setTitleColor(UIColor.white, for: .normal)
         carsCategoryButton.setTitleColor(UIColor.whiteTextHighAlpha, for: .highlighted)
+        carsCategoryButton.setImage(UIImage(named: "categories_cars_inactive"), for: .normal)
+        carsCategoryButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: Metrics.bigMargin, bottom: 0, right: 0)
+        carsCategoryButton.titleLabel?.lineBreakMode = .byWordWrapping
+        carsCategoryButton.contentHorizontalAlignment = .left
         carsCategoryButton.rx.tap.subscribeNext { [weak self] _ in
             self?.selectedCategoryPublishSubject.onNext(.car)
         }.addDisposableTo(disposeBag)
         categoriesContainerView.addSubview(carsCategoryButton)
-        
-        orLeftView.translatesAutoresizingMaskIntoConstraints = false
-        categoriesContainerView.addSubview(orLeftView)
-        
-        orLabel.translatesAutoresizingMaskIntoConstraints = false
-        orLabel.font = UIFont.systemRegularFont(size: 13)
-        orLabel.textColor = UIColor.white.withAlphaComponent(0.5)
-        orLabel.text = LGLocalizedString.productPostSelectCategoryOr
-        categoriesContainerView.addSubview(orLabel)
-        
-        orRightView.translatesAutoresizingMaskIntoConstraints = false
-        categoriesContainerView.addSubview(orRightView)
+
+        motorsAndAccessoriesButton.translatesAutoresizingMaskIntoConstraints = false
+        motorsAndAccessoriesButton.titleLabel?.font = UIFont.systemBoldFont(size: 23)
+        motorsAndAccessoriesButton.setTitle(LGLocalizedString.productPostSelectCategoryMotorsAndAccessories, for: .normal)
+        motorsAndAccessoriesButton.setTitleColor(UIColor.white, for: .normal)
+        motorsAndAccessoriesButton.setTitleColor(UIColor.whiteTextHighAlpha, for: .highlighted)
+        motorsAndAccessoriesButton.setImage(UIImage(named: "categories_motors_inactive"), for: .normal)
+        motorsAndAccessoriesButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: Metrics.bigMargin, bottom: 0, right: 0)
+        motorsAndAccessoriesButton.titleLabel?.lineBreakMode = .byWordWrapping
+        motorsAndAccessoriesButton.contentHorizontalAlignment = .left
+        motorsAndAccessoriesButton.rx.tap.subscribeNext { [weak self] _ in
+            self?.selectedCategoryPublishSubject.onNext(.other)
+            }.addDisposableTo(disposeBag)
+        categoriesContainerView.addSubview(motorsAndAccessoriesButton)
         
         otherCategoryButton.translatesAutoresizingMaskIntoConstraints = false
-        otherCategoryButton.titleLabel?.font = UIFont.systemBoldFont(size: 30)
+        otherCategoryButton.titleLabel?.font = UIFont.systemBoldFont(size: 23)
         otherCategoryButton.setTitle(LGLocalizedString.productPostSelectCategoryOther, for: .normal)
         otherCategoryButton.setTitleColor(UIColor.white, for: .normal)
         otherCategoryButton.setTitleColor(UIColor.whiteTextHighAlpha, for: .highlighted)
+        otherCategoryButton.setImage(UIImage(named: "categories_other_items"), for: .normal)
+        otherCategoryButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: Metrics.bigMargin, bottom: 0, right: 0)
+        otherCategoryButton.titleLabel?.lineBreakMode = .byWordWrapping
+        otherCategoryButton.contentHorizontalAlignment = .left
         otherCategoryButton.rx.tap.subscribeNext { [weak self] _ in
             self?.selectedCategoryPublishSubject.onNext(.other)
         }.addDisposableTo(disposeBag)
@@ -104,6 +104,7 @@ fileprivate extension PostCategorySelectionView {
     
     func setupAccessibilityIds() {
         carsCategoryButton.accessibilityId = .postingCategorySelectionCarsButton
+        motorsAndAccessoriesButton.accessibilityId = .postingCategorySelectionMotorsAndAccessoriesButton
         otherCategoryButton.accessibilityId = .postingCategorySelectionOtherButton
     }
     
@@ -114,42 +115,32 @@ fileprivate extension PostCategorySelectionView {
             .top(by: 14)
         
         categoriesContainerView.layout(with: self)
-            .leading(by: Metrics.margin)
-            .trailing(by: -Metrics.margin)
+            .leading()
+            .trailing()
             .centerY()
         
+        carsCategoryButton.layout()
+            .height(55)
         carsCategoryButton.layout(with: categoriesContainerView)
-            .leading()
-            .trailing()
+            .leading(by: Metrics.bigMargin)
+            .trailing(by: -Metrics.bigMargin)
             .top()
+        carsCategoryButton.layout(with: motorsAndAccessoriesButton)
+            .above(by: -Metrics.bigMargin)
         
-        orLeftView.layout().width(36)
-        orLeftView.layout(with: orLabel)
-            .top(to: .centerY)
-            .bottom()
-            .toRight(by: -15)
+        motorsAndAccessoriesButton.layout()
+            .height(55)
+        motorsAndAccessoriesButton.layout(with: categoriesContainerView)
+            .leading(by: Metrics.bigMargin)
+            .trailing(by: -Metrics.bigMargin)
+        motorsAndAccessoriesButton.layout(with: otherCategoryButton)
+            .above(by: -Metrics.bigMargin)
         
-        orLabel.layout(with: categoriesContainerView).centerX()
-        orLabel.layout(with: carsCategoryButton).below(by: 36)
-        
-        orRightView.layout().width(36)
-        orRightView.layout(with: orLabel)
-            .top(to: .centerY)
-            .bottom()
-            .toLeft(by: 15)
-        
-        otherCategoryButton.layout(with: orLabel).below(by: 36)
+        otherCategoryButton.layout()
+            .height(55)
         otherCategoryButton.layout(with: categoriesContainerView)
-            .leading()
-            .trailing()
+            .leading(by: Metrics.bigMargin)
+            .trailing(by: -Metrics.bigMargin)
             .bottom()
-    }
-    
-    func updateUI() {
-        // Redraw the lines
-        lines.forEach { $0.removeFromSuperlayer() }
-        lines = []
-        lines.append(orLeftView.addTopBorderWithWidth(1, color: UIColor.white.withAlphaComponent(0.5)))
-        lines.append(orRightView.addTopBorderWithWidth(1, color: UIColor.white.withAlphaComponent(0.5)))
     }
 }

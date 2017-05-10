@@ -2471,6 +2471,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_post_select_category_cars", comment: "")
 	}
 
+	static var productPostSelectCategoryMotorsAndAccessories: String {
+		return NSLocalizedString("product_post_select_category_motors_and_accessories", comment: "")
+	}
+
 	static var productPostSelectCategoryOr: String {
 		return NSLocalizedString("product_post_select_category_or", comment: "")
 	}
