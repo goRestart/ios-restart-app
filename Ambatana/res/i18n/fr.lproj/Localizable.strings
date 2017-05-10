@@ -34,7 +34,7 @@
 "bump_up_view_free_title" = "RENVOYEZ VOTRE ANNONCE VERS LE HAUT";
 "bump_up_view_pay_bumps_left_text" = "Il vous reste %i renvois vers le haut.";
 "bump_up_view_pay_button_title" = "Activer pour %@";
-"bump_up_view_pay_subtitle" = "Donnez plus de visibilité à votre annonce pendant 24 heures en la renvoyant vers le haut.";
+"bump_up_view_pay_subtitle" = "Donnez plus de visibilité à votre annonce en la renvoyant vers le haut.";
 "bump_up_view_pay_title" = "RENVOYER VERS LE HAUT POUR VENDRE PLUS RAPIDEMENT";
 "categories_baby_and_child" = "Bébé et Enfant";
 "categories_car" = "Voitures";
@@ -291,10 +291,10 @@
 "edit_product_title" = "Modifier le Bien";
 "edit_product_unsaved_changes_alert" = "Êtes-vous certain de vouloir annuler ces changements ?";
 "edit_product_unsaved_changes_alert_ok" = "Oui";
-"filters_car_make_not_set" = "Aucun";
-"filters_car_model_not_set" = "Aucun";
-"filters_car_year_any_year" = "Any Year";
-"filters_car_year_before_year" = "Before %i";
+"filters_car_make_not_set" = "Non Communiqué";
+"filters_car_model_not_set" = "Non Communiqué";
+"filters_car_year_any_year" = "Toutes les Années";
+"filters_car_year_before_year" = "Avant %i";
 "filters_distance_not_set" = "Aucun";
 "filters_navbar_reset" = "Reset";
 "filters_price_from" = "De";

@@ -1843,7 +1843,7 @@
 "product_post_select_category_or" = "OR";
 
 // Product post category selection others button
-"product_post_select_category_other" = "Something else";
+"product_post_select_category_other" = "Other items";
 
 // Price label above price on product
 "product_price_label" = "Price";

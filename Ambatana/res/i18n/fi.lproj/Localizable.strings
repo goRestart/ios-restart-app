@@ -34,7 +34,7 @@
 "bump_up_view_free_title" = "NOSTA TUOTTEESI";
 "bump_up_view_pay_bumps_left_text" = "Sinulla on %i nostoa jäljellä.";
 "bump_up_view_pay_button_title" = "Aktivoi hintaan %@";
-"bump_up_view_pay_subtitle" = "Hanki tuotteellesi enemmän näkyvyyttä 24 tunnin ajaksi siirtämällä se listan kärkeen.";
+"bump_up_view_pay_subtitle" = "Hanki tuotteellesi enemmän näkyvyyttä siirtämällä se listan kärkeen.";
 "bump_up_view_pay_title" = "NOSTA MYYDÄKSESI NOPEAMMIN";
 "categories_baby_and_child" = "Vauvat ja lapset";
 "categories_car" = "Autot";
@@ -291,10 +291,10 @@
 "edit_product_title" = "Muokkaa tuotetta";
 "edit_product_unsaved_changes_alert" = "Haluatko varmasti hylätä nämä muutokset?";
 "edit_product_unsaved_changes_alert_ok" = "Hylkää";
-"filters_car_make_not_set" = "Ei Rajattu";
-"filters_car_model_not_set" = "Ei Rajattu";
-"filters_car_year_any_year" = "Any Year";
-"filters_car_year_before_year" = "Before %i";
+"filters_car_make_not_set" = "Ei rajattu";
+"filters_car_model_not_set" = "Ei rajattu";
+"filters_car_year_any_year" = "Kaikki vuodet";
+"filters_car_year_before_year" = "Ennen vuotta %i";
 "filters_distance_not_set" = "ei rajattu";
 "filters_navbar_reset" = "Nollaa";
 "filters_price_from" = "Alkaen";
@@ -589,7 +589,7 @@
 "product_post_retry_button" = "Yritä uudelleen";
 "product_post_select_category_cars" = "Autoja";
 "product_post_select_category_or" = "VAI";
-"product_post_select_category_other" = "jotakin muuta";
+"product_post_select_category_other" = "Muut tuotteet";
 "product_post_select_category_title" = "Mitä olet julkaisemassa?";
 "product_post_use_photo" = "Käytä";
 "product_post_use_photo_not_logged" = "Käytä kuvaa";
