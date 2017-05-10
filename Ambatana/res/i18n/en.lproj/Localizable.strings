@@ -1839,6 +1839,9 @@
 // Product post category selection cars button
 "product_post_select_category_cars" = "Cars";
 
+// Product post category selection motors and accesories button
+"product_post_select_category_motors_and_accessories" = "Other Vehicles and Car Parts";
+
 // Product post category selection or label
 "product_post_select_category_or" = "OR";
 

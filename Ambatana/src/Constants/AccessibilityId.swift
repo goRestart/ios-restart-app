@@ -233,6 +233,7 @@ enum AccessibilityId: String {
     case postingInfoMainButton
     case postingInfoIncentiveContainer
     case postingCategorySelectionCarsButton
+    case postingCategorySelectionMotorsAndAccessoriesButton
     case postingCategorySelectionOtherButton
     case postingCategoryDeatilNavigationBackButton
     case postingCategoryDeatilNavigationMakeButton
