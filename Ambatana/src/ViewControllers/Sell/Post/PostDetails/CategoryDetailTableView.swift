@@ -272,7 +272,8 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
         if searchText.isEmpty {
             filteredValues = rawValues
         } else {
-            filteredValues = rawValues.filter { $0.name.lowercased().contains(searchText.lowercased()) }
+            // we want to show "Other" always ---> $0.id == ""
+            filteredValues = rawValues.filter { $0.name.lowercased().contains(searchText.lowercased()) || $0.id == "" }
         }
     }
     
