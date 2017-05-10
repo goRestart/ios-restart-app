@@ -130,6 +130,11 @@
 		2E64D41B1D11B34F00257B69 /* Tooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E64D4191D11B34F00257B69 /* Tooltip.swift */; };
 		2E6B6E3D1D2BC0A500C10A20 /* PostIncentiviserItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6B6E3C1D2BC0A500C10A20 /* PostIncentiviserItem.swift */; };
 		2E6B6E3E1D2BCC9800C10A20 /* PostIncentiviserItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6B6E3C1D2BC0A500C10A20 /* PostIncentiviserItem.swift */; };
+		2E8ED6A21EC1B60800A2B4AE /* NHRangeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8ED6A01EC1B60800A2B4AE /* NHRangeSlider.swift */; };
+		2E8ED6A31EC1B60800A2B4AE /* NHRangeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8ED6A01EC1B60800A2B4AE /* NHRangeSlider.swift */; };
+		2E8ED6A41EC1B60800A2B4AE /* NHRangeSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8ED6A11EC1B60800A2B4AE /* NHRangeSliderView.swift */; };
+		2E8ED6A51EC1B60800A2B4AE /* NHRangeSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8ED6A11EC1B60800A2B4AE /* NHRangeSliderView.swift */; };
+		2E8ED6A71EC2184E00A2B4AE /* FilterTagsVC+RemoveRelatedTagsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8ED6A61EC2184E00A2B4AE /* FilterTagsVC+RemoveRelatedTagsSpec.swift */; };
 		2E97169E1D59E958009B3A32 /* ExpressChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E97169C1D59E958009B3A32 /* ExpressChatViewController.swift */; };
 		2E97169F1D59E958009B3A32 /* ExpressChatViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E97169D1D59E958009B3A32 /* ExpressChatViewController.xib */; };
 		2E9716A31D5A0535009B3A32 /* ExpressChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9716A11D5A0535009B3A32 /* ExpressChatCell.swift */; };
@@ -1511,6 +1516,9 @@
 		2E607ECD1E3F41C700ADFED1 /* BumpUpCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BumpUpCoordinator.swift; sourceTree = "<group>"; };
 		2E64D4191D11B34F00257B69 /* Tooltip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tooltip.swift; sourceTree = "<group>"; };
 		2E6B6E3C1D2BC0A500C10A20 /* PostIncentiviserItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostIncentiviserItem.swift; sourceTree = "<group>"; };
+		2E8ED6A01EC1B60800A2B4AE /* NHRangeSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NHRangeSlider.swift; sourceTree = "<group>"; };
+		2E8ED6A11EC1B60800A2B4AE /* NHRangeSliderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NHRangeSliderView.swift; sourceTree = "<group>"; };
+		2E8ED6A61EC2184E00A2B4AE /* FilterTagsVC+RemoveRelatedTagsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FilterTagsVC+RemoveRelatedTagsSpec.swift"; sourceTree = "<group>"; };
 		2E97169C1D59E958009B3A32 /* ExpressChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpressChatViewController.swift; sourceTree = "<group>"; };
 		2E97169D1D59E958009B3A32 /* ExpressChatViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExpressChatViewController.xib; sourceTree = "<group>"; };
 		2E9716A11D5A0535009B3A32 /* ExpressChatCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpressChatCell.swift; sourceTree = "<group>"; };
@@ -2458,6 +2466,16 @@
 			name = ABTest;
 			sourceTree = "<group>";
 		};
+		2E8ED69F1EC1B60800A2B4AE /* NHRangeSlider */ = {
+			isa = PBXGroup;
+			children = (
+				2E8ED6A01EC1B60800A2B4AE /* NHRangeSlider.swift */,
+				2E8ED6A11EC1B60800A2B4AE /* NHRangeSliderView.swift */,
+			);
+			name = NHRangeSlider;
+			path = "3rd-Party/NHRangeSlider";
+			sourceTree = "<group>";
+		};
 		2E9716A01D5A04F3009B3A32 /* ExpressChat */ = {
 			isa = PBXGroup;
 			children = (
@@ -3172,6 +3190,7 @@
 				50D08D761E69AF14009CC260 /* CGFloat+LGSpec.swift */,
 				50D08D771E69AF14009CC260 /* Collection+LGSpec.swift */,
 				50D08D781E69AF14009CC260 /* CollectionVariableSpec.swift */,
+				2E8ED6A61EC2184E00A2B4AE /* FilterTagsVC+RemoveRelatedTagsSpec.swift */,
 				50D08D791E69AF14009CC260 /* Int+LGSpec.swift */,
 				50D08D7A1E69AF14009CC260 /* MultiPageRequesterSpec.swift */,
 				50D08D7B1E69AF14009CC260 /* RxTest+LG.swift */,
@@ -4236,6 +4255,7 @@
 		D4FE33521AF2166800088532 /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
+				2E8ED69F1EC1B60800A2B4AE /* NHRangeSlider */,
 				50C9E50A1B74EEED001E4E92 /* DLImageResizing */,
 			);
 			name = "3rd Party";
@@ -5075,6 +5095,7 @@
 				50D08DE51E69AF14009CC260 /* SignUpLogInViewModelSpec.swift in Sources */,
 				50D08DD41E69AF14009CC260 /* LocalProductSpec.swift in Sources */,
 				50D08DBB1E69AF14009CC260 /* MockPurchaseableProductsRequest+MockFactory.swift in Sources */,
+				2E8ED6A71EC2184E00A2B4AE /* FilterTagsVC+RemoveRelatedTagsSpec.swift in Sources */,
 				50D08DB81E69AF14009CC260 /* MockProductListRequester.swift in Sources */,
 				C734AC891E6DB6A80053C383 /* QuickSpec+Wait.swift in Sources */,
 				50D08DB21E69AF14009CC260 /* MockFeatureFlags.swift in Sources */,
@@ -5209,6 +5230,7 @@
 				C78F9DB61DC9ED1300884064 /* LocalProduct.swift in Sources */,
 				50C43D9F1E26465E00F10E53 /* SignUpEmailStep1ViewModel.swift in Sources */,
 				6A12E0521C63988100C1BFE3 /* TourNotificationsViewController.swift in Sources */,
+				2E8ED6A21EC1B60800A2B4AE /* NHRangeSlider.swift in Sources */,
 				2E1F0D971D65F4B80021EDBE /* BubbleNotification.swift in Sources */,
 				2EF4E3B11D3688AB00A09DFD /* ConfigRetrieveService.swift in Sources */,
 				2E4B43EA1E7810C00048214B /* PaymentEnqueuable.swift in Sources */,
@@ -5510,6 +5532,7 @@
 				C75B5DC51D59E09500112368 /* ProductCarouselViewModel.swift in Sources */,
 				50A61C221DCA1B5A0057436A /* NSLocale+Country.swift in Sources */,
 				C7890A821E55AC0E0079964C /* CameraWrapper.swift in Sources */,
+				2E8ED6A41EC1B60800A2B4AE /* NHRangeSliderView.swift in Sources */,
 				507F1BFB1C89DDF9001F0A95 /* PostalAddress+String.swift in Sources */,
 				6A5E1A101D548F5400F92692 /* UIImage+LG.swift in Sources */,
 				2EED4D251D23F03E0024328A /* ChatListing+title.swift in Sources */,
@@ -5728,6 +5751,7 @@
 				C7DB41991C5138B500400945 /* BaseViewController.swift in Sources */,
 				6A12E0531C63988100C1BFE3 /* TourNotificationsViewController.swift in Sources */,
 				C78F9DB71DC9ED1400884064 /* LocalProduct.swift in Sources */,
+				2E8ED6A31EC1B60800A2B4AE /* NHRangeSlider.swift in Sources */,
 				50C43DA01E26465E00F10E53 /* SignUpEmailStep1ViewModel.swift in Sources */,
 				2E2D53E11D369B0500348D12 /* ConfigRetrieveService.swift in Sources */,
 				2E4B43EB1E7810C00048214B /* PaymentEnqueuable.swift in Sources */,
@@ -6029,6 +6053,7 @@
 				C711A1AE1CDC99E5002D30D9 /* WelcomeNotificationCellDrawer.swift in Sources */,
 				C75B5DC61D59E09500112368 /* ProductCarouselViewModel.swift in Sources */,
 				C7890A831E55AC0E0079964C /* CameraWrapper.swift in Sources */,
+				2E8ED6A51EC1B60800A2B4AE /* NHRangeSliderView.swift in Sources */,
 				C78F9DBD1DCA525F00884064 /* ChatTextView.swift in Sources */,
 				C7B588821CE1DFA6009B3975 /* ChatCellDrawerFactory.swift in Sources */,
 				6A5E1A111D548F5400F92692 /* UIImage+LG.swift in Sources */,

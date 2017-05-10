@@ -268,6 +268,7 @@ FilterCarInfoYearCellDelegate, UICollectionViewDataSource, UICollectionViewDeleg
                     // Year
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterCarInfoYearCell",
                                                                         for: indexPath) as? FilterCarInfoYearCell else { return UICollectionViewCell() }
+                    cell.isUserInteractionEnabled = true
                     cell.delegate = self
                     cell.titleLabel.text = LGLocalizedString.postCategoryDetailCarYear
                     cell.drawSlider(withStartingYear: viewModel.carYearStart, endYear: viewModel.carYearEnd)
@@ -429,5 +430,12 @@ FilterCarInfoYearCellDelegate, UICollectionViewDataSource, UICollectionViewDeleg
         saveFiltersBtn.accessibilityId = .filtersSaveFiltersButton
         self.navigationItem.rightBarButtonItem?.accessibilityId = .filtersResetButton
         self.navigationItem.leftBarButtonItem?.accessibilityId = .filtersCancelButton
+    }
+}
+
+extension FiltersViewController: UINavigationControllerDelegate {
+        func navigationController(_ navigationController: UINavigationController,
+                              didShow viewController: UIViewController, animated: Bool) {
+
     }
 }

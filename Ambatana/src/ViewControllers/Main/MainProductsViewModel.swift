@@ -324,7 +324,7 @@ class MainProductsViewModel: BaseViewModel {
         }
         
         filters.distanceRadius = distance
-
+        
         filters.carMakeId = makeId
         filters.carMakeName = makeName
         filters.carModelId = modelId
@@ -332,8 +332,6 @@ class MainProductsViewModel: BaseViewModel {
         filters.carYearStart = carYearStart
         filters.carYearEnd = carYearEnd
 
-
-        
         updateCategoriesHeader()
         updateListView()
     }
