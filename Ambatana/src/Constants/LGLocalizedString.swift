@@ -1119,8 +1119,16 @@ struct LGLocalizedString {
 		return NSLocalizedString("direct_answer_sold_question_message", comment: "")
 	}
 
+	static var directAnswerGivenAwayQuestionMessage: String {
+		return NSLocalizedString("direct_answer_given_away_question_message", comment: "")
+	}
+
 	static var directAnswerSoldQuestionOk: String {
 		return NSLocalizedString("direct_answer_sold_question_ok", comment: "")
+	}
+
+	static var directAnswerGivenAwayQuestionOk: String {
+		return NSLocalizedString("direct_answer_given_away_question_ok", comment: "")
 	}
 
 	static var directAnswerStillAvailable: String {
@@ -1145,6 +1153,10 @@ struct LGLocalizedString {
 
 	static var directAnswersShow: String {
 		return NSLocalizedString("direct_answers_show", comment: "")
+	}
+
+	static var directAnswerGivenAwayQuestionTitle: String {
+		return NSLocalizedString("direct_answer_given_away_question_title", comment: "")
 	}
 
 	static var editProductLocationAlertText: String {

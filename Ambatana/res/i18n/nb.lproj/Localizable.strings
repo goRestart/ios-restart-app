@@ -265,6 +265,9 @@
 "direct_answer_free_no_available" = "Beklager, det er allerede gitt bort!";
 "direct_answer_free_still_have" = "Har du fortsatt produktet?";
 "direct_answer_free_yours" = "Produktet er ditt!";
+"direct_answer_given_away_question_message" = "Mark your product as given away so all letgo users know";
+"direct_answer_given_away_question_ok" = "Mark as given away";
+"direct_answer_given_away_question_title" = "Already gave it away?";
 "direct_answer_interested" = "Jeg er interessert!";
 "direct_answer_is_negotiable" = "Kan prisen diskuteres?";
 "direct_answer_like_to_buy" = "Hei! Jeg vil gjerne kjøpe produktet";
@@ -588,7 +591,7 @@
 "product_post_retake" = "Ta nytt bilde";
 "product_post_retry_button" = "Prøv igjen";
 "product_post_select_category_cars" = "Biler";
-"product_post_select_category_motors_and_accessories" = "Other Vehicles and Parts";
+"product_post_select_category_motors_and_accessories" = "Andre kjøretøyer og deler";
 "product_post_select_category_or" = "ELLER";
 "product_post_select_category_other" = "Andre produkter";
 "product_post_select_category_title" = "Hva publiserer du?";

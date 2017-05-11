@@ -265,6 +265,9 @@
 "direct_answer_free_no_available" = "Tyvärr, jag har redan gett bort den!";
 "direct_answer_free_still_have" = "Finns den fortfarande?";
 "direct_answer_free_yours" = "Den är din!";
+"direct_answer_given_away_question_message" = "Mark your product as given away so all letgo users know";
+"direct_answer_given_away_question_ok" = "Mark as given away";
+"direct_answer_given_away_question_title" = "Already gave it away?";
 "direct_answer_interested" = "Jag är intresserad!";
 "direct_answer_is_negotiable" = "Är priset förhandlingsbart?";
 "direct_answer_like_to_buy" = "Hej! Jag skulle vilja köpa den";
@@ -588,7 +591,7 @@
 "product_post_retake" = "Ta en ny";
 "product_post_retry_button" = "Försök igen";
 "product_post_select_category_cars" = "Bilar";
-"product_post_select_category_motors_and_accessories" = "Other Vehicles and Parts";
+"product_post_select_category_motors_and_accessories" = "Andra Fordon och Reservdelar";
 "product_post_select_category_or" = "ELLER";
 "product_post_select_category_other" = "Något annat";
 "product_post_select_category_title" = "Vad lägger du upp?";

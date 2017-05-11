@@ -265,6 +265,9 @@
 "direct_answer_free_no_available" = "Sorry, I've already given it away!";
 "direct_answer_free_still_have" = "Still have it?";
 "direct_answer_free_yours" = "It's yours!";
+"direct_answer_given_away_question_message" = "Mark your product as given away so all letgo users know";
+"direct_answer_given_away_question_ok" = "Mark as given away";
+"direct_answer_given_away_question_title" = "Already gave it away?";
 "direct_answer_interested" = "I'm interested!";
 "direct_answer_is_negotiable" = "Is the price negotiable?";
 "direct_answer_like_to_buy" = "Hi! I'd like to buy it";

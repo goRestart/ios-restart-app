@@ -825,8 +825,14 @@
 // Alert to ask the user to mark the product as sold - message
 "direct_answer_sold_question_message" = "Mark your product as sold so all letgo users know";
 
+// Alert to ask the user to mark the product as given away - message
+"direct_answer_given_away_question_message" = "Mark your product as given away so all letgo users know";
+
 // Alert to ask the user to mark the product as sold - possitive btn
 "direct_answer_sold_question_ok" = "Mark as sold";
+
+// Alert to ask the user to mark the product as given away - possitive btn
+"direct_answer_given_away_question_ok" = "Mark as given away";
 
 // Chat direct answer as buyer
 "direct_answer_still_available" = "Is this item still available?";
@@ -845,6 +851,9 @@
 
 // option button to show quick answers
 "direct_answers_show" = "Show Quick Answers";
+
+// Alert to ask the user to mark the product as given away - title
+"direct_answer_given_away_question_title" = "Already gave it away?";
 
 // Text for Edit Product Location Alert
 "edit_product_location_alert_text" = "To change where your product is posted, allow access to your location";
