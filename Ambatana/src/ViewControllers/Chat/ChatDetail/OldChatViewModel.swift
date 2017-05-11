@@ -751,10 +751,23 @@ class OldChatViewModel: BaseViewModel, Paginable {
     private func afterSendMessageEvents() {
         firstInteractionDone.value = true
         if shouldAskProductSold {
+            var okText: String
+            var alertTitle: String
+            var soldQuestionText: String
+            
+            if listing.price.free {
+                okText = LGLocalizedString.directAnswerGivenAwayQuestionOk
+                alertTitle = LGLocalizedString.directAnswerGivenAwayQuestionTitle
+                soldQuestionText = LGLocalizedString.directAnswerGivenAwayQuestionMessage
+            } else {
+                okText = LGLocalizedString.directAnswerSoldQuestionOk
+                alertTitle = LGLocalizedString.directAnswerSoldQuestionTitle
+                soldQuestionText = LGLocalizedString.directAnswerSoldQuestionMessage
+            }
             shouldAskProductSold = false
-            delegate?.vmShowQuestion(title: LGLocalizedString.directAnswerSoldQuestionTitle,
-                                     message: LGLocalizedString.directAnswerSoldQuestionMessage,
-                                     positiveText: LGLocalizedString.directAnswerSoldQuestionOk,
+            delegate?.vmShowQuestion(title: alertTitle,
+                                     message: soldQuestionText,
+                                     positiveText: okText,
                                      positiveAction: { [weak self] in
                                         self?.markProductAsSold()
                 },
@@ -878,7 +891,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
     }
     
     fileprivate func onProductSoldDirectAnswer() {
-        if chatStatus != .productSold {
+        if chatStatus == .available {
             shouldAskProductSold = true
         }
     }
@@ -1207,9 +1220,11 @@ extension OldChatViewModel: DirectAnswersPresenterDelegate {
     
     func directAnswersDidTapAnswer(_ controller: DirectAnswersPresenter, answer: QuickAnswer) {
         switch answer {
-        case .productSold:
+        case .productSold, .freeNotAvailable:
             onProductSoldDirectAnswer()
-        default:
+        case .interested, .notInterested, .meetUp, .stillAvailable, .isNegotiable, .likeToBuy, .productCondition,
+             .productStillForSale, .whatsOffer, .negotiableYes, .negotiableNo, .freeStillHave, .freeYours,
+             .freeAvailable:
             clearProductSoldDirectAnswer()
         }
         send(quickAnswer: answer)
