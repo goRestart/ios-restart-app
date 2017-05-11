@@ -37,7 +37,7 @@ class NotificationsManagerSpec: QuickSpec {
         var marketingNotificationsObserver: TestableObserver<Bool>!
         var loggedInMarketingNotificationsObserver: TestableObserver<Bool>!
 
-        describe("NotificationsManagerSpec") {
+        fdescribe("NotificationsManagerSpec") {
             func createNotificationsManager() {
                 sut = LGNotificationsManager(sessionManager: sessionManager,
                                              chatRepository: chatRepository,
@@ -166,11 +166,11 @@ class NotificationsManagerSpec: QuickSpec {
                             it("unreadMessagesCount emits a nil and then the 10") {
                                 XCTAssertEqual(unreadMessagesObserver.events, [next(0, nil), next(0, 10)])
                             }
-                            it("unreadNotificationsCount emits and then the 10") {
-                                XCTAssertEqual(unreadNotificationsObserver.events, [next(0, nil), next(0, 10)])
+                            fit("unreadNotificationsCount emits and then the 12") {
+                                XCTAssertEqual(unreadNotificationsObserver.events, [next(0, nil), next(0, 12)])
                             }
-                            it("globalCount is 24") {
-                                expect(globalCountObserver.events.last?.value.element!) == 20
+                            it("globalCount is 22") {
+                                expect(globalCountObserver.events.last?.value.element!) == 22
                             }
                         }
                         context("new chat & review enabled") {
@@ -185,10 +185,10 @@ class NotificationsManagerSpec: QuickSpec {
                                 XCTAssertEqual(unreadMessagesObserver.events, [next(0, nil), next(0, 7)])
                             }
                             it("unreadNotificationsCount emits and then the 14") {
-                                XCTAssertEqual(unreadNotificationsObserver.events, [next(0, nil), next(0, 14)])
+                                XCTAssertEqual(unreadNotificationsObserver.events, [next(0, nil), next(0, 16)])
                             }
-                            it("globalCount is 21") {
-                                expect(globalCountObserver.events.last?.value.element!) == 21
+                            it("globalCount is 23") {
+                                expect(globalCountObserver.events.last?.value.element!) == 23
                             }
                         }
                     }
@@ -302,10 +302,10 @@ class NotificationsManagerSpec: QuickSpec {
                             XCTAssertEqual(unreadMessagesObserver.events, [next(0, nil), next(0, 10)])
                         }
                         it("unreadNotificationsCount emits and then the 10") {
-                            XCTAssertEqual(unreadNotificationsObserver.events, [next(0, nil), next(0, 10)])
+                            XCTAssertEqual(unreadNotificationsObserver.events, [next(0, nil), next(0, 12)])
                         }
-                        it("globalCount is 24") {
-                            expect(globalCountObserver.events.last?.value.element!) == 20
+                        it("globalCount is 22") {
+                            expect(globalCountObserver.events.last?.value.element!) == 22
                         }
                     }
                     context("new chat & review enabled") {
@@ -320,11 +320,11 @@ class NotificationsManagerSpec: QuickSpec {
                         it("unreadMessagesCount emits a nil and then the 7") {
                             XCTAssertEqual(unreadMessagesObserver.events, [next(0, nil), next(0, 7)])
                         }
-                        it("unreadNotificationsCount emits and then the 14") {
-                            XCTAssertEqual(unreadNotificationsObserver.events, [next(0, nil), next(0, 14)])
+                        it("unreadNotificationsCount emits and then the 16") {
+                            XCTAssertEqual(unreadNotificationsObserver.events, [next(0, nil), next(0, 16)])
                         }
-                        it("globalCount is 21") {
-                            expect(globalCountObserver.events.last?.value.element!) == 21
+                        it("globalCount is 23") {
+                            expect(globalCountObserver.events.last?.value.element!) == 23
                         }
                     }
                 }
@@ -393,8 +393,8 @@ class NotificationsManagerSpec: QuickSpec {
                         it("unreadMessagesCount emits a nil, 10 and 0") {
                             XCTAssertEqual(unreadMessagesObserver.events, [next(0, nil), next(0, 10), next(0, nil)])
                         }
-                        it("unreadNotificationsCount emits nil, 10 and 0") {
-                            XCTAssertEqual(unreadNotificationsObserver.events, [next(0, nil), next(0, 10), next(0, nil)])
+                        it("unreadNotificationsCount emits nil, 12 and 0") {
+                            XCTAssertEqual(unreadNotificationsObserver.events, [next(0, nil), next(0, 12), next(0, nil)])
                         }
                         it("globalCount is 0") {
                             expect(globalCountObserver.events.last?.value.element!) == 0
@@ -412,8 +412,8 @@ class NotificationsManagerSpec: QuickSpec {
                         it("unreadMessagesCount emits a nil, 7 and 0") {
                             XCTAssertEqual(unreadMessagesObserver.events, [next(0, nil), next(0, 7), next(0, nil)])
                         }
-                        it("unreadNotificationsCount emits nil, 14 and 0") {
-                            XCTAssertEqual(unreadNotificationsObserver.events, [next(0, nil), next(0, 14), next(0, nil)])
+                        it("unreadNotificationsCount emits nil, 16 and 0") {
+                            XCTAssertEqual(unreadNotificationsObserver.events, [next(0, nil), next(0, 16), next(0, nil)])
                         }
                         it("globalCount is 0") {
                             expect(globalCountObserver.events.last?.value.element!) == 0
