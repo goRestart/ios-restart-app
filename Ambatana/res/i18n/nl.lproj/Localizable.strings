@@ -265,6 +265,9 @@
 "direct_answer_free_no_available" = "Sorry, ik heb het al weggegeven!";
 "direct_answer_free_still_have" = "Is het nog beschikbaar?";
 "direct_answer_free_yours" = "Het is van jou!";
+"direct_answer_given_away_question_message" = "Mark your product as given away so all letgo users know";
+"direct_answer_given_away_question_ok" = "Mark as given away";
+"direct_answer_given_away_question_title" = "Already gave it away?";
 "direct_answer_interested" = "Ik ben geïnteresseerd!";
 "direct_answer_is_negotiable" = "Is de prijs bespreekbaar?";
 "direct_answer_like_to_buy" = "Hoi! Ik wil het graag kopen";
@@ -588,7 +591,7 @@
 "product_post_retake" = "Opnieuw nemen";
 "product_post_retry_button" = "Probeer het nogmaals";
 "product_post_select_category_cars" = "Auto’s";
-"product_post_select_category_motors_and_accessories" = "Other Vehicles and Parts";
+"product_post_select_category_motors_and_accessories" = "Overige Voertuigen en Onderdelen";
 "product_post_select_category_or" = "OF";
 "product_post_select_category_other" = "Overige items";
 "product_post_select_category_title" = "Wat wil je verkopen?";
