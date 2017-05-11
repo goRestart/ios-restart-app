@@ -37,7 +37,7 @@ class NotificationsManagerSpec: QuickSpec {
         var marketingNotificationsObserver: TestableObserver<Bool>!
         var loggedInMarketingNotificationsObserver: TestableObserver<Bool>!
 
-        fdescribe("NotificationsManagerSpec") {
+        describe("NotificationsManagerSpec") {
             func createNotificationsManager() {
                 sut = LGNotificationsManager(sessionManager: sessionManager,
                                              chatRepository: chatRepository,
@@ -166,7 +166,7 @@ class NotificationsManagerSpec: QuickSpec {
                             it("unreadMessagesCount emits a nil and then the 10") {
                                 XCTAssertEqual(unreadMessagesObserver.events, [next(0, nil), next(0, 10)])
                             }
-                            fit("unreadNotificationsCount emits and then the 12") {
+                            it("unreadNotificationsCount emits and then the 12") {
                                 XCTAssertEqual(unreadNotificationsObserver.events, [next(0, nil), next(0, 12)])
                             }
                             it("globalCount is 22") {
