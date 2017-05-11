@@ -136,4 +136,7 @@ struct Constants {
     // Bump Up
     static let bumpUpPaidTimeLimit: TimeInterval = TimeInterval.make(minutes: 15)
     static let bumpUpFreeTimeLimit: TimeInterval = TimeInterval.make(hours: 8)
+
+    // Cars
+    static let filterMinCarYear: Int = 1990
 }
