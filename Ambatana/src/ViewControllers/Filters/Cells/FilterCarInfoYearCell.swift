@@ -25,6 +25,7 @@ class FilterCarInfoYearCell: UICollectionViewCell {
     @IBOutlet weak var yearRangeSlider: NHRangeSliderView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var infoLabel: UILabel!
+    @IBOutlet weak var bottomSeparator: UIView!
 
     @IBOutlet weak var bottomSeparatorHeight: NSLayoutConstraint!
     @IBOutlet weak var topSeparatorHeight: NSLayoutConstraint!
@@ -66,6 +67,9 @@ class FilterCarInfoYearCell: UICollectionViewCell {
         yearRangeSlider.lowerValue = filterMinCarYear
         yearRangeSlider.stepValue = 1.0
         yearRangeSlider.gapBetweenThumbs = 0
+        yearRangeSlider.thumbSize = 28
+        yearRangeSlider.thumbBorderWidth = 1
+        yearRangeSlider.thumbBorderColor = UIColor.grayLighter
         yearRangeSlider.delegate = self
         
         bottomSeparatorHeight.constant = LGUIKitConstants.onePixelSize
@@ -75,6 +79,7 @@ class FilterCarInfoYearCell: UICollectionViewCell {
     // Resets the UI to the initial state
     private func resetUI() {
         updateInfoLabel(lowerValue: filterMinCarYear, upperValue: currentYear)
+        bottomSeparator.isHidden = true
     }
 
 

@@ -284,10 +284,18 @@ open class NHRangeSlider: UIControl {
         
         lowerThumbLayer.rangeSlider = self
         lowerThumbLayer.contentsScale = UIScreen.main.scale
+        lowerThumbLayer.shadowColor = UIColor.black.cgColor
+        lowerThumbLayer.shadowOpacity = 0.2
+        lowerThumbLayer.shadowOffset = CGSize(width: 0, height: 2)
+        lowerThumbLayer.shadowRadius = 3
         layer.addSublayer(lowerThumbLayer)
         
         upperThumbLayer.rangeSlider = self
         upperThumbLayer.contentsScale = UIScreen.main.scale
+        upperThumbLayer.shadowColor = UIColor.black.cgColor
+        upperThumbLayer.shadowOpacity = 0.2
+        upperThumbLayer.shadowOffset = CGSize(width: 0, height: 2)
+        upperThumbLayer.shadowRadius = 3
         layer.addSublayer(upperThumbLayer)
     }
     
@@ -298,18 +306,23 @@ open class NHRangeSlider: UIControl {
 
         let trackHeight: CGFloat = 2.0
         let trackVerticalOffset = (bounds.height/2)-trackHeight
-        trackLayer.frame = CGRect(x: bounds.origin.x, y: bounds.origin.y + trackVerticalOffset, width: bounds.width, height: trackHeight)
+        trackLayer.frame = CGRect(x: bounds.origin.x+5, y: bounds.origin.y + trackVerticalOffset, width: bounds.width-10, height: trackHeight)
 
         trackLayer.setNeedsDisplay()
         
         let lowerThumbCenter = CGFloat(positionForValue(lowerValue))
+
         lowerThumbLayer.frame = CGRect(x: lowerThumbCenter - thumbWidth/2.0, y: 0.0, width: thumbWidth, height: thumbWidth)
         lowerThumbLayer.setNeedsDisplay()
-        
+        let lowImg = UIImage(named: "range_slider_thumb_right_arrow")
+        lowerThumbLayer.contents = lowImg?.cgImage
+
         let upperThumbCenter = CGFloat(positionForValue(upperValue))
         upperThumbLayer.frame = CGRect(x: upperThumbCenter - thumbWidth/2.0, y: 0.0, width: thumbWidth, height: thumbWidth)
         upperThumbLayer.setNeedsDisplay()
-        
+        let upImg = UIImage(named: "range_slider_thumb_left_arrow")
+        upperThumbLayer.contents = upImg?.cgImage
+
         CATransaction.commit()
         CATransaction.setDisableActions(false)
     }
