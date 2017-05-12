@@ -17,11 +17,11 @@ enum FilterCategoryItem: Equatable {
     init(category: ListingCategory) {
         self = .category(category: category)
     }
-
-    var name: String {
+    
+    func getName(isCarsEnabled: Bool) -> String {
         switch self {
         case let .category(category: category):
-            return category.name
+            return category.getName(isCarsEnabled: isCarsEnabled)
         case .free:
             return LGLocalizedString.categoriesFree
         }
@@ -318,7 +318,7 @@ class FiltersViewModel: BaseViewModel {
     
     func categoryTextAtIndex(_ index: Int) -> String? {
         guard isValidCategory(index) else { return nil }
-        return categories[index].name
+        return categories[index].getName(isCarsEnabled: featureFlags.carsVerticalEnabled)
     }
     
     func categoryIconAtIndex(_ index: Int) -> UIImage? {
