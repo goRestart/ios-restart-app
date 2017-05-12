@@ -60,7 +60,7 @@ class FilterTagCell: UICollectionViewCell {
         let constraintRect = CGSize(width: CGFloat.greatestFiniteMagnitude, height: FilterTagCell.cellHeight)
         let boundingBox = text.boundingRect(with: constraintRect,
             options: NSStringDrawingOptions.usesLineFragmentOrigin,
-            attributes: [NSFontAttributeName: UIFont.smallBodyFont], context: nil)
+            attributes: [NSFontAttributeName: UIFont.mediumBodyFont], context: nil)
         return CGSize(width: boundingBox.width+fixedWidthSpace+5, height: FilterTagCell.cellHeight)
     }
 
@@ -87,8 +87,9 @@ class FilterTagCell: UICollectionViewCell {
     }
 
     private static func stringForYearsRange(_ startYear: Int?, endYear: Int?) -> String {
-        var startText = ""
-        var endText = ""
+        var startText = String(format: LGLocalizedString.filtersCarYearBeforeYear, Constants.filterMinCarYear)
+        var endText = String(Date().year())
+
         if let startYear = startYear {
             startText = String(startYear)
         }

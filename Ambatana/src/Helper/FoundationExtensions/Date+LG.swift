@@ -175,4 +175,8 @@ extension Date {
         let now = Date().timeIntervalSince1970
         return (now-time) < seconds
     }
+
+    func year() -> Int {
+        return Calendar.current.component(.year, from: self)
+    }
 }
