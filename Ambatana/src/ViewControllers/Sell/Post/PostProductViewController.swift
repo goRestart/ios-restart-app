@@ -351,17 +351,16 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         keyboardHelper.rx_keyboardOrigin.asObservable().bindNext { [weak self] origin in
             guard origin > 0 else { return }
             guard let strongSelf = self else { return }
-            let keyboardHeight = origin - strongSelf.view.height
-            guard let viewHeight = self?.view.height else { return }
-            self?.detailsContainerBottomConstraint.constant = (origin - viewHeight)/2
+            let nextKeyboardHeight = origin - strongSelf.view.height
+            strongSelf.detailsContainerBottomConstraint.constant = nextKeyboardHeight/2
             if strongSelf.carDetailsView.state == .selectDetail {
-                strongSelf.carDetailsView.moveContentUpward(by: keyboardHeight)
+                strongSelf.carDetailsView.moveContentUpward(by: nextKeyboardHeight)
             }
             UIView.animate(withDuration: Double(strongSelf.keyboardHelper.animationTime), animations: {
                 strongSelf.view.layoutIfNeeded()
             })
-            let showingKeyboard = keyboardHeight >= 0
-            strongSelf.loadingViewHidden(show: showingKeyboard)
+            let willShowKeyboard = nextKeyboardHeight >= 0
+            strongSelf.loadingViewHidden(show: willShowKeyboard)
         }.addDisposableTo(disposeBag)
     }
     
