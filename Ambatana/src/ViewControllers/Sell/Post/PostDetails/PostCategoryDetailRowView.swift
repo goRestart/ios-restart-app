@@ -23,9 +23,10 @@ class PostCategoryDetailRowView: UIView, UITextFieldDelegate {
     let button = UIButton()
     private let type: PostCategoryDetailRowViewType
     
-    private var highlighted: Bool = false {
+    var isEnabled: Bool = false {
         didSet {
-            if highlighted {
+            button.isEnabled = isEnabled
+            if isEnabled {
                 titleLabel.textColor = UIColor.white
                 icon.alpha = 1
             } else {
@@ -47,11 +48,6 @@ class PostCategoryDetailRowView: UIView, UITextFieldDelegate {
     var value: String? {
         set {
             valueLabel.text = newValue
-            if let string = newValue, !string.isEmpty {
-                highlighted = true
-            }  else {
-                highlighted = false
-            }
         }
         get {
             return valueLabel.text
