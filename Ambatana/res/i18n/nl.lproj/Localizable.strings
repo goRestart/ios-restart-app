@@ -265,9 +265,9 @@
 "direct_answer_free_no_available" = "Sorry, ik heb het al weggegeven!";
 "direct_answer_free_still_have" = "Is het nog beschikbaar?";
 "direct_answer_free_yours" = "Het is van jou!";
-"direct_answer_given_away_question_message" = "Mark your product as given away so all letgo users know";
-"direct_answer_given_away_question_ok" = "Mark as given away";
-"direct_answer_given_away_question_title" = "Already gave it away?";
+"direct_answer_given_away_question_message" = "Markeer je product als weggegeven zodat alle letgo gebruikers dit weten";
+"direct_answer_given_away_question_ok" = "Markeer als weggegeven";
+"direct_answer_given_away_question_title" = "Al weggegeven?";
 "direct_answer_interested" = "Ik ben geïnteresseerd!";
 "direct_answer_is_negotiable" = "Is de prijs bespreekbaar?";
 "direct_answer_like_to_buy" = "Hoi! Ik wil het graag kopen";

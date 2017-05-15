@@ -265,9 +265,9 @@
 "direct_answer_free_no_available" = "Ikävä kyllä olen jo antanut sen pois!";
 "direct_answer_free_still_have" = "Onko sinulla vielä se?";
 "direct_answer_free_yours" = "Saat tuotteen!";
-"direct_answer_given_away_question_message" = "Mark your product as given away so all letgo users know";
-"direct_answer_given_away_question_ok" = "Mark as given away";
-"direct_answer_given_away_question_title" = "Already gave it away?";
+"direct_answer_given_away_question_message" = "Merkitse tuotteesi pois annetuksi, jotta kaikki letgon käyttäjät tietävät sen";
+"direct_answer_given_away_question_ok" = "Merkitse pois annetuksi";
+"direct_answer_given_away_question_title" = "Annoitko sen jo pois?";
 "direct_answer_interested" = "Olen kiinnostunut!";
 "direct_answer_is_negotiable" = "Onko hinta neuvoteltavissa?";
 "direct_answer_like_to_buy" = "Hei! Haluaisin ostaa sen";

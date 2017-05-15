@@ -265,9 +265,9 @@
 "direct_answer_free_no_available" = "Désolé, je l'ai déjà donné !";
 "direct_answer_free_still_have" = "L'avez-vous toujours ?";
 "direct_answer_free_yours" = "Il est à vous !";
-"direct_answer_given_away_question_message" = "Mark your product as given away so all letgo users know";
-"direct_answer_given_away_question_ok" = "Mark as given away";
-"direct_answer_given_away_question_title" = "Already gave it away?";
+"direct_answer_given_away_question_message" = "Indiquez que votre produit a été donné pour que tous les utilisateurs letgo le sachent";
+"direct_answer_given_away_question_ok" = "Je l'ai donné";
+"direct_answer_given_away_question_title" = "Déjà donné ?";
 "direct_answer_interested" = "Je suis intéressé !";
 "direct_answer_is_negotiable" = "Le prix est-il négociable ?";
 "direct_answer_like_to_buy" = "Bonjour ! J'aimerais l'acheter";
@@ -591,7 +591,7 @@
 "product_post_retake" = "Reprendre";
 "product_post_retry_button" = "Réessayer";
 "product_post_select_category_cars" = "Des voitures";
-"product_post_select_category_motors_and_accessories" = "Other Vehicles and Parts";
+"product_post_select_category_motors_and_accessories" = "Autres Véhicules et Accessoires";
 "product_post_select_category_or" = "OU";
 "product_post_select_category_other" = "Autres produits";
 "product_post_select_category_title" = "Que publiez-vous ?";
