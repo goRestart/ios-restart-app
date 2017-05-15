@@ -29,6 +29,11 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     
     @IBOutlet weak var tagsCollectionView: UICollectionView!
     var tagsCollectionTopSpace: NSLayoutConstraint?
+    
+    @IBOutlet weak var filterDescriptionHeaderViewContainer: UIView!
+    @IBOutlet weak var filterTitleHeaderViewContainer: UIView!
+    fileprivate let filterDescriptionHeaderView = FilterDescriptionHeaderView()
+    fileprivate let filterTitleHeaderView = FilterTitleHeaderView()
 
     fileprivate let infoBubbleTopMargin: CGFloat = 8
     fileprivate let verticalMarginHeaderView: CGFloat = 16
@@ -82,7 +87,10 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        topInset.value = topBarHeight
+        
+        setupFilterHeaders()
+        
+        topInset.value = topBarHeight + filterHeadersHeight()
         productListView.collectionViewContentInset.bottom = tabBarHeight
             + LGUIKitConstants.tabBarSellFloatingButtonHeight
             + LGUIKitConstants.tabBarSellFloatingButtonDistance
@@ -195,6 +203,27 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         return true
     }
     
+    // MARK: - FilterHeaders
+    
+    private func setupFilterHeaders() {
+        filterDescriptionHeaderView.translatesAutoresizingMaskIntoConstraints = false
+        filterDescriptionHeaderViewContainer.addSubview(filterDescriptionHeaderView)
+        filterDescriptionHeaderView.layout(with: filterDescriptionHeaderViewContainer).fill()
+        filterDescriptionHeaderView.text = "sdamfkl jdaslfkadskkjlfhads klfjadjsklfhdsajklhjfhajks dfhadjks fhadks ljfhasdjk flhsdakjf f adskfh ajkslf akl"
+        
+        filterTitleHeaderView.translatesAutoresizingMaskIntoConstraints = false
+        filterTitleHeaderViewContainer.addSubview(filterTitleHeaderView)
+        filterTitleHeaderView.layout(with: filterTitleHeaderViewContainer).fill()
+        filterTitleHeaderView.text = "BMW i8"
+        
+        view.layoutIfNeeded()
+    }
+    
+    private func filterHeadersHeight() -> CGFloat {
+        let a = filterDescriptionHeaderViewContainer.height + filterTitleHeaderViewContainer.height
+        return a
+    }
+    
     // MARK: - FilterTagsViewControllerDelegate
     
     func filterTagsViewControllerDidRemoveTag(_ controller: FilterTagsViewController) {
@@ -293,9 +322,9 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         }
 
         let tagsHeight = tagsCollectionView.frame.size.height
-        tagsCollectionTopSpace?.constant = show ? 0.0 : -tagsHeight
+        tagsCollectionTopSpace?.constant = show ? 0.0 : -tagsHeight - filterDescriptionHeaderViewContainer.height
         if updateInsets {
-            topInset.value = show ? topBarHeight + tagsHeight : topBarHeight
+            topInset.value = show ? topBarHeight + tagsHeight + filterHeadersHeight() : topBarHeight
         }
 
         UIView.animate(
