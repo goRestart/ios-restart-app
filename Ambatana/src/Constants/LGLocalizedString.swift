@@ -1303,6 +1303,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("filters_car_year_before_year", comment: "")
 	}
 
+	static var filtersTagLocationSelected: String {
+		return NSLocalizedString("filters_tag_location_selected", comment: "")
+	}
+
 	static var forcedUpdateMessage: String {
 		return NSLocalizedString("forced_update_message", comment: "")
 	}
