@@ -23,7 +23,7 @@ public enum ListingCategory: Int {
         if filtered {
             return previousCategories()
         } else {
-            return  [.cars] + previousCategories()
+            return [.cars] + previousCategories()
         }
     }
     
