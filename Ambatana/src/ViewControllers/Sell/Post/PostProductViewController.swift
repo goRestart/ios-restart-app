@@ -351,24 +351,24 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         keyboardHelper.rx_keyboardOrigin.asObservable().bindNext { [weak self] origin in
             guard origin > 0 else { return }
             guard let strongSelf = self else { return }
-            let nextKeyboardHeight = origin - strongSelf.view.height
-            strongSelf.detailsContainerBottomConstraint.constant = nextKeyboardHeight/2
+            let nextKeyboardHeight = strongSelf.view.height - origin
+            strongSelf.detailsContainerBottomConstraint.constant = -nextKeyboardHeight/2
             if strongSelf.carDetailsView.state == .selectDetail {
-                strongSelf.carDetailsView.moveContentUpward(by: nextKeyboardHeight)
+                strongSelf.carDetailsView.moveContentUpward(by: -nextKeyboardHeight)
             }
             UIView.animate(withDuration: Double(strongSelf.keyboardHelper.animationTime), animations: {
                 strongSelf.view.layoutIfNeeded()
             })
-            let willShowKeyboard = nextKeyboardHeight >= 0
-            strongSelf.loadingViewHidden(show: willShowKeyboard)
+            let willShowKeyboard = nextKeyboardHeight > 0
+            strongSelf.loadingViewHidden(showingKeyboard: willShowKeyboard)
         }.addDisposableTo(disposeBag)
     }
     
-    private func loadingViewHidden(show: Bool) {
+    private func loadingViewHidden(showingKeyboard: Bool) {
         guard !DeviceFamily.current.isWiderOrEqualThan(.iPhone6) else { return }
         guard !priceView.isHidden else { return }
         UIView.animate(withDuration: 0.3, animations: { () -> Void in
-            self.customLoadingView.alpha = show ? 1.0 : 0.0
+            self.customLoadingView.alpha = showingKeyboard ? 0.0 : 1.0
         })
     }
 }
