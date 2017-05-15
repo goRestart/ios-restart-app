@@ -91,8 +91,9 @@ class UserRatingApiDataSource: UserRatingDataSource {
     // MARK: - Decoder
 
     private static func decoderArray(_ object: Any) -> [UserRating]? {
-        guard let ratings : [LGUserRating] = decode(object) else { return nil }
-        return ratings.map{$0}
+        // Ignore ratings that can't be decoded
+        guard let ratings = Array<LGUserRating>.filteredDecode(JSON(object)).value else { return nil }
+        return ratings.map{ $0 }
     }
 
     private static func decoder(_ object: Any) -> UserRating? {

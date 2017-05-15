@@ -15,15 +15,17 @@ protocol FilterCarInfoYearCellDelegate: class {
 
 class FilterCarInfoYearCell: UICollectionViewCell {
 
-    static let filterMinCarYear: Double = 1950
-
+    var filterMinCarYear: Double {
+        return Double(Constants.filterMinCarYear)
+    }
     var currentYear: Double {
-        return Double(Calendar.current.component(.year, from: Date()))
+        return Double(Date().year())
     }
 
     @IBOutlet weak var yearRangeSlider: NHRangeSliderView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var infoLabel: UILabel!
+    @IBOutlet weak var bottomSeparator: UIView!
 
     @IBOutlet weak var bottomSeparatorHeight: NSLayoutConstraint!
     @IBOutlet weak var topSeparatorHeight: NSLayoutConstraint!
@@ -60,11 +62,14 @@ class FilterCarInfoYearCell: UICollectionViewCell {
 
     private func setupUI() {
         yearRangeSlider.maximumValue = currentYear
-        yearRangeSlider.minimumValue = FilterCarInfoYearCell.filterMinCarYear
+        yearRangeSlider.minimumValue = filterMinCarYear
         yearRangeSlider.upperValue = currentYear
-        yearRangeSlider.lowerValue = FilterCarInfoYearCell.filterMinCarYear
+        yearRangeSlider.lowerValue = filterMinCarYear
         yearRangeSlider.stepValue = 1.0
         yearRangeSlider.gapBetweenThumbs = 0
+        yearRangeSlider.thumbSize = 28
+        yearRangeSlider.thumbBorderWidth = 1
+        yearRangeSlider.thumbBorderColor = UIColor.grayLighter
         yearRangeSlider.delegate = self
         
         bottomSeparatorHeight.constant = LGUIKitConstants.onePixelSize
@@ -73,7 +78,8 @@ class FilterCarInfoYearCell: UICollectionViewCell {
 
     // Resets the UI to the initial state
     private func resetUI() {
-        updateInfoLabel(lowerValue: FilterCarInfoYearCell.filterMinCarYear, upperValue: currentYear)
+        updateInfoLabel(lowerValue: filterMinCarYear, upperValue: currentYear)
+        bottomSeparator.isHidden = true
     }
 
 
@@ -85,14 +91,14 @@ class FilterCarInfoYearCell: UICollectionViewCell {
 
     fileprivate func updateInfoLabel(lowerValue: Double, upperValue: Double) {
 
-        if lowerValue == FilterCarInfoYearCell.filterMinCarYear,
+        if lowerValue == filterMinCarYear,
            upperValue == currentYear {
             infoLabel.text = LGLocalizedString.filtersCarYearAnyYear
-        } else if lowerValue == FilterCarInfoYearCell.filterMinCarYear,
-            upperValue == FilterCarInfoYearCell.filterMinCarYear {
+        } else if lowerValue == filterMinCarYear,
+            upperValue == filterMinCarYear {
             infoLabel.text = String(format: LGLocalizedString.filtersCarYearBeforeYear, Int(lowerValue)) //"_Before \(Int(yearRangeSlider.lowerValue))"
-        } else if lowerValue == FilterCarInfoYearCell.filterMinCarYear,
-            upperValue > FilterCarInfoYearCell.filterMinCarYear {
+        } else if lowerValue == filterMinCarYear,
+            upperValue > filterMinCarYear {
             infoLabel.text = String(format: LGLocalizedString.filtersCarYearBeforeYear, Int(lowerValue))
                 + " - \(Int(upperValue))" //"_Before \(Int(lowerValue)) - \(Int(upperValue))"
         } else if lowerValue == upperValue {
@@ -111,7 +117,7 @@ extension FilterCarInfoYearCell: NHRangeSliderViewDelegate {
     func sliderInteractionFinished(lowerValue: Double, upperValue: Double) {
         var startYear: Int? = nil
         var endYear: Int? = nil
-        if lowerValue > FilterCarInfoYearCell.filterMinCarYear {
+        if lowerValue > filterMinCarYear {
             startYear = Int(lowerValue)
         }
         if upperValue < currentYear {
