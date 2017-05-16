@@ -435,7 +435,9 @@ extension Place {
             }
             result += country
         }
-
+        if result.isEmpty {
+            result = placeResumedData ?? LGLocalizedString.filtersTagLocationSelected
+        }
         return result
     }
 }
