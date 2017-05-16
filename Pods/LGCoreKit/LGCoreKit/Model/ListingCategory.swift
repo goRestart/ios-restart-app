@@ -18,11 +18,16 @@ public enum ListingCategory: Int {
     case other = 8
     case cars = 9
 
-    static func allValues() -> [ListingCategory] {
-        // TODO: move .cars to visible once the become available
-        return [.unassigned, .cars] + visibleValues()
+    
+    static func visibleValues(filtered: Bool) -> [ListingCategory] {
+        if filtered {
+            return previousCategories()
+        } else {
+            return [.cars] + previousCategories()
+        }
     }
-    static func visibleValues() -> [ListingCategory] {
+    
+    static func previousCategories() -> [ListingCategory] {
         return [.electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden, .moviesBooksAndMusic,
                 .fashionAndAccesories, .babyAndChild, .other]
     }
