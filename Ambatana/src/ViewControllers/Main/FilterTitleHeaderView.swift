@@ -53,6 +53,7 @@ class FilterTitleHeaderView: UIView {
     private func setupLayout() {
         label.translatesAutoresizingMaskIntoConstraints = false
         addSubview(label)
+        removeLayoutMargins()
         label.layout(with: self)
             .top(to: .topMargin)
             .left(to: .leftMargin)
