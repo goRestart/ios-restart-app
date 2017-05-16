@@ -139,7 +139,6 @@ class ChatViewController: TextViewController {
     // MARK: > UI
     
     private func setupUI() {
-        view.backgroundColor = UIColor.grayBackground
 
         setupNavigationBar()
 
