@@ -44,13 +44,13 @@ final class PushManager {
 
     // MARK: - Internal methods
 
-    func application(_ application: UIApplication,
-                            didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
+    func application(_ application: Application,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
         // Setup push notification libraries
         setupLeanplum()
     }
 
-    func applicationDidBecomeActive(_ application: UIApplication) {
+    func applicationDidBecomeActive(_ application: Application) {
         /* If push notification alert was already shown, then call `registerForRemoteNotifications` again
          so the app delegate method will be called back again and update `Installation` (if needed) in:
          `application(application:didRegisterForRemoteNotificationsWithDeviceToken:) */
@@ -61,8 +61,8 @@ final class PushManager {
         }
     }
 
-    func application(_ application: UIApplication,
-                            didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
+    func application(_ application: Application,
+                     didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
         deepLinksRouter.didReceiveRemoteNotification(userInfo,
                                                      applicationState: application.applicationState)
         notificationsManager.updateCounters()
@@ -73,18 +73,18 @@ final class PushManager {
         installationRepository.updatePushToken(tokenStringFromData(deviceToken), completion: nil)
     }
 
-    func application(_ application: UIApplication,
+    func application(_ application: Application,
                             didFailToRegisterForRemoteNotificationsWithError error: Error) {
         installationRepository.updatePushToken("", completion: nil)
     }
 
-    func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?,
-                            forRemoteNotification userInfo: [AnyHashable: Any], completionHandler: @escaping () -> Void) {
+    func application(_ application: Application, handleActionWithIdentifier identifier: String?,
+                     forRemoteNotification userInfo: [AnyHashable: Any], completionHandler: @escaping () -> Void) {
         Leanplum.handleAction(withIdentifier: identifier, forRemoteNotification: userInfo, completionHandler: completionHandler)
     }
 
-    func application(_ application: UIApplication,
-                            didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
+    func application(_ application: Application,
+                     didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
         NotificationCenter.default
             .post(name: Foundation.Notification.Name(rawValue: Notification.DidRegisterUserNotificationSettings.rawValue), object: nil)
         pushPermissionManager.application(application, didRegisterUserNotificationSettings: notificationSettings)

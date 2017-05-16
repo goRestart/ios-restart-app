@@ -1,3 +1,4 @@
+
 //
 //  Application.swift
 //  LetGo
@@ -6,4 +7,14 @@
 //  Copyright © 2017 Ambatana. All rights reserved.
 //
 
-import Foundation
+import UIKit
+
+protocol Application {
+    var applicationState: UIApplicationState { get }
+    
+    // Push notifications
+    var areRemoteNotificationsEnabled: Bool { get }
+    func registerForRemoteNotifications()
+}
+
+extension UIApplication: Application {}

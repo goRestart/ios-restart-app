@@ -19,7 +19,7 @@ class PushManagerSpec: QuickSpec {
     override func spec() {
         var sut: PushManager!
         
-        var application: UIApplication!
+        var application: Application!
         var pushPermissionsManager: MockPushPermissionsManager!
         var installationRepository: MockInstallationRepository!
         var deepLinksRouter: MockDeepLinksRouter!
@@ -27,7 +27,7 @@ class PushManagerSpec: QuickSpec {
        
         fdescribe("PushManager") {
             beforeEach {
-                application = UIApplication.shared
+                application = MockApplication()
                 pushPermissionsManager = MockPushPermissionsManager()
                 installationRepository = MockInstallationRepository()
                 deepLinksRouter = MockDeepLinksRouter()
@@ -53,8 +53,6 @@ class PushManagerSpec: QuickSpec {
                     expect(notificationsManager.updateCountersCalled) == true
                 }
             }
-            
-            
         }
     }
 }
