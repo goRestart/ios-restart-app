@@ -51,7 +51,6 @@ class SettingsViewController: BaseViewController {
     // MARK: - Private
 
     private func setupUI() {
-        view.backgroundColor = UIColor.grayBackground
         settingProfileImageLabel.text = LGLocalizedString.settingsChangeProfilePictureLoading
         settingProfileImageView.isHidden = true
         setNavBarTitle(LGLocalizedString.settingsTitle)

@@ -181,7 +181,6 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
     // MARK: > UI
     
     private func setupUI() {
-        view.backgroundColor = UIColor.grayBackground
         
         setupNavigationBar()
 
