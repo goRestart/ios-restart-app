@@ -19,6 +19,7 @@ final class PushManager {
     private let pushPermissionManager: PushPermissionsManager
     private let installationRepository: InstallationRepository
     private let deepLinksRouter: DeepLinksRouter
+    private let notificationsManager: NotificationsManager
 
 
     // MARK: - Lifecycle
@@ -26,15 +27,18 @@ final class PushManager {
     convenience init() {
         self.init(pushPermissionManager: LGPushPermissionsManager.sharedInstance,
                   installationRepository: Core.installationRepository,
-                  deepLinksRouter: LGDeepLinksRouter.sharedInstance)
+                  deepLinksRouter: LGDeepLinksRouter.sharedInstance,
+                  notificationsManager: LGNotificationsManager.sharedInstance)
     }
 
     required init(pushPermissionManager: PushPermissionsManager,
                   installationRepository: InstallationRepository,
-                  deepLinksRouter: DeepLinksRouter) {
+                  deepLinksRouter: DeepLinksRouter,
+                  notificationsManager: NotificationsManager) {
         self.pushPermissionManager = pushPermissionManager
         self.installationRepository = installationRepository
         self.deepLinksRouter = deepLinksRouter
+        self.notificationsManager = notificationsManager
     }
 
 
@@ -59,7 +63,9 @@ final class PushManager {
 
     func application(_ application: UIApplication,
                             didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
-        deepLinksRouter.didReceiveRemoteNotification(userInfo, applicationState: application.applicationState)
+        deepLinksRouter.didReceiveRemoteNotification(userInfo,
+                                                     applicationState: application.applicationState)
+        notificationsManager.updateCounters()
     }
 
     func application(_ application: UIApplication,
