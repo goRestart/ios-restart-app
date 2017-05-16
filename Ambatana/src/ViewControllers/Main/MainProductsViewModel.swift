@@ -89,13 +89,13 @@ class MainProductsViewModel: BaseViewModel {
 
         if filters.selectedCategories.contains(.cars) {
             if let makeId = filters.carMakeId, let makeName = filters.carMakeName {
-                resultTags.append(.make(id: makeId, name: makeName))
+                resultTags.append(.make(id: makeId.value, name: makeName))
                 if let modelId = filters.carModelId, let modelName = filters.carModelName {
-                    resultTags.append(.model(id: modelId, name: modelName))
+                    resultTags.append(.model(id: modelId.value, name: modelName))
                 }
             }
             if filters.carYearStart != nil || filters.carYearEnd != nil {
-                resultTags.append(.yearsRange(from: filters.carYearStart, to: filters.carYearEnd))
+                resultTags.append(.yearsRange(from: filters.carYearStart?.value, to: filters.carYearEnd?.value))
             }
         }
 
@@ -328,13 +328,32 @@ class MainProductsViewModel: BaseViewModel {
         }
         
         filters.distanceRadius = distance
-        
-        filters.carMakeId = makeId
+
+        if let makeId = makeId {
+            filters.carMakeId = RetrieveListingParam<String>(value: makeId, isNegated: false)
+        } else {
+            filters.carMakeId = nil
+        }
         filters.carMakeName = makeName
-        filters.carModelId = modelId
+
+        if let modelId = modelId {
+            filters.carModelId = RetrieveListingParam<String>(value: modelId, isNegated: false)
+        } else {
+            filters.carModelId = nil
+        }
         filters.carModelName = modelName
-        filters.carYearStart = carYearStart
-        filters.carYearEnd = carYearEnd
+
+        if let startYear = carYearStart {
+            filters.carYearStart = RetrieveListingParam<Int>(value: startYear, isNegated: false)
+        } else {
+            filters.carYearStart = nil
+        }
+
+        if let endYear = carYearEnd {
+            filters.carYearEnd = RetrieveListingParam<Int>(value: endYear, isNegated: false)
+        } else {
+            filters.carYearEnd = nil
+        }
 
         updateCategoriesHeader()
         updateListView()

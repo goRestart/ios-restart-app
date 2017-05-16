@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import LGCoreKit
 
 class FilterProductListRequesterFactory {
 
@@ -35,27 +36,29 @@ class FilterProductListRequesterFactory {
 
         var finalCarFiltersArray: [ProductFilters] = [filters]
 
-        // TODO: ⚠️ CHANGE THOSE NILS FOR "NEGATIVE VALUES"
-
         if filters.carYearStart != nil || filters.carYearEnd != nil {
             var noYearFilter = filters
-            noYearFilter.carYearStart = nil
-            noYearFilter.carYearEnd = nil
+            if let startYear = filters.carYearStart?.value {
+                noYearFilter.carYearStart = RetrieveListingParam<Int>(value: startYear, isNegated: true)
+            }
+            if let endYear = filters.carYearEnd?.value {
+                noYearFilter.carYearEnd = RetrieveListingParam<Int>(value: endYear, isNegated: true)
+            }
             finalCarFiltersArray.append(noYearFilter)
         }
 
-        if filters.carModelId != nil {
+        if let modelId = filters.carModelId?.value {
             var noModelFilter = filters
-            noModelFilter.carModelId = nil
+            noModelFilter.carModelId = RetrieveListingParam<String>(value: modelId, isNegated: true)
             noModelFilter.carModelName = nil
             noModelFilter.carYearStart = nil
             noModelFilter.carYearEnd = nil
             finalCarFiltersArray.append(noModelFilter)
         }
 
-        if filters.carMakeId != nil {
+        if let makeId = filters.carMakeId?.value {
             var noMakeFilter = filters
-            noMakeFilter.carMakeId = nil
+            noMakeFilter.carMakeId = RetrieveListingParam<String>(value: makeId, isNegated: true)
             noMakeFilter.carMakeName = nil
             noMakeFilter.carModelId = nil
             noMakeFilter.carModelName = nil

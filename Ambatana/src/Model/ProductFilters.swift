@@ -61,13 +61,12 @@ struct ProductFilters {
     }
     var priceRange: FilterPriceRange
 
-    var carMakeId: String?
+    var carMakeId: RetrieveListingParam<String>?
     var carMakeName: String?
-    var carModelId: String?
+    var carModelId: RetrieveListingParam<String>?
     var carModelName: String?
-    var carYearStart: Int?
-    var carYearEnd: Int?
-
+    var carYearStart: RetrieveListingParam<Int>?
+    var carYearEnd: RetrieveListingParam<Int>?
 
     init() {
         self.init(
@@ -89,7 +88,8 @@ struct ProductFilters {
     
     init(place: Place?, distanceRadius: Int, distanceType: DistanceType, selectedCategories: [ListingCategory],
          selectedWithin: ListingTimeCriteria, selectedOrdering: ListingSortCriteria?, priceRange: FilterPriceRange,
-         carMakeId: String?, carMakeName: String?, carModelId: String?, carModelName: String?, carYearStart: Int?, carYearEnd: Int?){
+         carMakeId: RetrieveListingParam<String>?, carMakeName: String?, carModelId: RetrieveListingParam<String>?,
+         carModelName: String?, carYearStart: RetrieveListingParam<Int>?, carYearEnd: RetrieveListingParam<Int>?){
         self.place = place
         self.distanceRadius = distanceRadius > 0 ? distanceRadius : nil
         self.distanceType = distanceType
