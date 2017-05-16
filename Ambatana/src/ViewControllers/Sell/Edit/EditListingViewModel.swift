@@ -269,8 +269,8 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         return images[index]
     }
     
-    var categoryName: String? {
-        return category.value?.name
+    func getCategoryName(isCarsEnabled: Bool) -> String? {
+        return category.value?.getName(isCarsEnabled: isCarsEnabled)
     }
 
     var carAttributes: CarAttributes {
@@ -623,7 +623,7 @@ extension EditListingViewModel {
 
     func categoryNameAtIndex(_ index: Int) -> String {
         guard 0..<categories.count ~= index else { return "" }
-        return categories[index].name
+        return categories[index].getName(isCarsEnabled: featureFlags.carsVerticalEnabled)
     }
 
     func selectCategoryAtIndex(_ index: Int) {

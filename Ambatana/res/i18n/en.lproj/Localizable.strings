@@ -118,6 +118,9 @@
 // Categories cars and motors. Check attached image "categories (1).png"
 "categories_cars_and_motors" = "Other Vehicles and Parts";
 
+// Categories cars and motors before cars category exists
+"categories_old_cars_and_motors" = "Cars and Motors";
+
 // Categories electronics. Check image @ "categories_cars_and_motors" segment
 "categories_electronics" = "Electronics";
 
@@ -959,6 +962,9 @@
 
 // Filters For Year, before year X
 "filters_car_year_before_year" = "Before %i";
+
+// Selected location text when there is no postal address. 
+"filters_tag_location_selected" = "Selected location";
 
 // Forced update message.
 "forced_update_message" = "A new version of letgo is available. Please update now!";

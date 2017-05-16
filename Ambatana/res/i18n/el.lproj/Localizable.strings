@@ -265,9 +265,9 @@
 "direct_answer_free_no_available" = "Συγγνώμη, το έχω ήδη χαρίσει!";
 "direct_answer_free_still_have" = "Το έχεις ακόμη;";
 "direct_answer_free_yours" = "Είναι δικό σου!";
-"direct_answer_given_away_question_message" = "Mark your product as given away so all letgo users know";
-"direct_answer_given_away_question_ok" = "Mark as given away";
-"direct_answer_given_away_question_title" = "Already gave it away?";
+"direct_answer_given_away_question_message" = "Μαρκάρετε το προϊόν σας ως χαρισμένο ώστε να το γνωρίζουν όλοι οι χρήστες του letgo";
+"direct_answer_given_away_question_ok" = "Μαρκάρισμα ως χαρισμένο";
+"direct_answer_given_away_question_title" = "Το χαρίσατε ήδη;";
 "direct_answer_interested" = "Ενδιαφέρομαι!";
 "direct_answer_is_negotiable" = "Είναι διαπραγματεύσιμη η τιμή;";
 "direct_answer_like_to_buy" = "Γεια! Θα ήθελα να το αγοράσω";

@@ -167,6 +167,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("categories_cars_and_motors", comment: "")
 	}
 
+	static var categoriesOldCarsAndMotors: String {
+		return NSLocalizedString("categories_old_cars_and_motors", comment: "")
+	}
+
 	static var categoriesElectronics: String {
 		return NSLocalizedString("categories_electronics", comment: "")
 	}
@@ -1297,6 +1301,10 @@ struct LGLocalizedString {
 
 	static var filtersCarYearBeforeYear: String {
 		return NSLocalizedString("filters_car_year_before_year", comment: "")
+	}
+
+	static var filtersTagLocationSelected: String {
+		return NSLocalizedString("filters_tag_location_selected", comment: "")
 	}
 
 	static var forcedUpdateMessage: String {

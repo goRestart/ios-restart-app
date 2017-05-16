@@ -265,9 +265,9 @@
 "direct_answer_free_no_available" = "Üzgünüm, ürünü çoktan başkasına verdim!";
 "direct_answer_free_still_have" = "Ürün hala satılık mı?";
 "direct_answer_free_yours" = "Senin oldu!";
-"direct_answer_given_away_question_message" = "Mark your product as given away so all letgo users know";
-"direct_answer_given_away_question_ok" = "Mark as given away";
-"direct_answer_given_away_question_title" = "Already gave it away?";
+"direct_answer_given_away_question_message" = "Ürününü ücretsiz olarak verildi olarak işaretle ki tüm letgo kullanıcıları bilsin";
+"direct_answer_given_away_question_ok" = "Ürünü ücretsiz verildi olarak işaretle";
+"direct_answer_given_away_question_title" = "Ürününü zaten ücretsiz olarak verdin mi?";
 "direct_answer_interested" = "İlgileniyorum!";
 "direct_answer_is_negotiable" = "Fiyatta pazarlık payı var mı?";
 "direct_answer_like_to_buy" = "Merhaba! Almak istiyorum";

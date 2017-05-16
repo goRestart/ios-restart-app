@@ -140,15 +140,23 @@ fileprivate extension FilteredProductListRequester {
         params.coordinates = queryCoordinates
         params.queryString = queryString
         params.countryCode = countryCode
-        params.categoryIds = filters?.selectedCategories.flatMap{ $0.rawValue }
+        params.categoryIds = filters?.selectedCategories.flatMap { $0.rawValue }
         params.timeCriteria = filters?.selectedWithin
         params.sortCriteria = filters?.selectedOrdering
         params.distanceRadius = filters?.distanceRadius
         params.distanceType = filters?.distanceType
-        params.makeId = filters?.carMakeId
-        params.modelId = filters?.carModelId
-        params.startYear = filters?.carYearStart
-        params.endYear = filters?.carYearEnd
+        if let makeId = filters?.carMakeId {
+            params.makeId = RetrieveListingParam<String>(value: makeId, isNegated: false)
+        }
+        if let modelId = filters?.carModelId {
+            params.modelId = RetrieveListingParam<String>(value: modelId, isNegated: false)
+        }
+        if let startYear = filters?.carYearStart {
+            params.startYear = RetrieveListingParam<Int>(value: startYear, isNegated: false)
+        }
+        if let endYear = filters?.carYearEnd {
+            params.endYear = RetrieveListingParam<Int>(value: endYear, isNegated: false)
+        }
         if let priceRange = filters?.priceRange {
             switch priceRange {
             case .freePrice:

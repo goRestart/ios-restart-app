@@ -265,9 +265,9 @@
 "direct_answer_free_no_available" = "Xin lỗi, tôi đã tặng rồi!";
 "direct_answer_free_still_have" = "Vẫn còn chứ?";
 "direct_answer_free_yours" = "Đó là của bạn!";
-"direct_answer_given_away_question_message" = "Mark your product as given away so all letgo users know";
-"direct_answer_given_away_question_ok" = "Mark as given away";
-"direct_answer_given_away_question_title" = "Already gave it away?";
+"direct_answer_given_away_question_message" = "Đánh dấu đã tặng cho sản phẩm của bạn để mọi người dùng letgo được biết";
+"direct_answer_given_away_question_ok" = "Đánh dấu đã tặng";
+"direct_answer_given_away_question_title" = "Đã tặng?";
 "direct_answer_interested" = "Tôi quan tâm!";
 "direct_answer_is_negotiable" = "Giá có thương lượng được không?";
 "direct_answer_like_to_buy" = "Xin chào! Tôi muốn mua sản phẩm";
