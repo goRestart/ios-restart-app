@@ -11,9 +11,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MainProductsViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
-                <outlet property="filterDescriptionConstraint" destination="8Uy-Tr-iML" id="j7z-oF-ty5"/>
                 <outlet property="filterDescriptionHeaderViewContainer" destination="Bcs-2y-4c3" id="wyH-WG-jEZ"/>
-                <outlet property="filterTitleConstraint" destination="JWw-Di-w96" id="4iL-83-Apk"/>
+                <outlet property="filterDescriptionTopConstraint" destination="8Uy-Tr-iML" id="g7O-Bg-X50"/>
                 <outlet property="filterTitleHeaderViewContainer" destination="quF-a1-B5k" id="6P1-SH-aeB"/>
                 <outlet property="infoBubbleLabel" destination="6Qi-9b-goZ" id="5CJ-Cs-TP8"/>
                 <outlet property="infoBubbleShadow" destination="xYw-ae-DlH" id="lZk-9m-TGk"/>

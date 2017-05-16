@@ -34,8 +34,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     @IBOutlet weak var filterTitleHeaderViewContainer: UIView!
     fileprivate let filterDescriptionHeaderView = FilterDescriptionHeaderView()
     fileprivate let filterTitleHeaderView = FilterTitleHeaderView()
-    @IBOutlet weak var filterDescriptionConstraint: NSLayoutConstraint!
-    @IBOutlet weak var filterTitleConstraint: NSLayoutConstraint!
+    @IBOutlet weak var filterDescriptionTopConstraint: NSLayoutConstraint!
 
     fileprivate let infoBubbleTopMargin: CGFloat = 8
     fileprivate let verticalMarginHeaderView: CGFloat = 16
@@ -167,18 +166,18 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         guard contentOffsetY <= 0 else { return }
         // ignore values higher than the topInset
         guard abs(contentOffsetY) <= topInset.value else {
-            filterDescriptionConstraint.constant = 0
+            filterDescriptionTopConstraint.constant = 0
             return
         }
         
         let filterHeadersOffset = topInset.value + contentOffsetY
         if filterHeadersOffset <= filterDescriptionHeaderViewContainer.height {
             // move upwards until description header is completely below
-            filterDescriptionConstraint.constant = -filterHeadersOffset
+            filterDescriptionTopConstraint.constant = -filterHeadersOffset
             filterDescriptionHeaderView.alpha = 1
         } else {
             // description header is completely below and also hidden
-            filterDescriptionConstraint.constant = -filterDescriptionHeaderViewContainer.height
+            filterDescriptionTopConstraint.constant = -filterDescriptionHeaderViewContainer.height
             filterDescriptionHeaderView.alpha = 0.1
         }
     }
