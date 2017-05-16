@@ -36,6 +36,10 @@ class ChatViewController: TextViewController {
     var blockedToastOffset: CGFloat {
         return relationInfoView.isHidden ? 0 : RelationInfoView.defaultHeight
     }
+    
+    var expressChatBannerOffset: CGFloat {
+        return expressChatBanner.isHidden ? 0 : expressChatBanner.height
+    }
 
 
     // MARK: - View lifecycle
@@ -599,7 +603,7 @@ extension ChatViewController {
     // It is an open issue in the Library https://github.com/slackhq/SlackTextViewController/issues/137
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.tableView.contentInset.bottom = navBarHeight + blockedToastOffset
+        self.tableView.contentInset.bottom = navBarHeight + blockedToastOffset + expressChatBannerOffset
     }
 }
 
