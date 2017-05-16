@@ -36,6 +36,14 @@ class ChatViewController: TextViewController {
     var blockedToastOffset: CGFloat {
         return relationInfoView.isHidden ? 0 : RelationInfoView.defaultHeight
     }
+    
+    var expressChatBannerOffset: CGFloat {
+        return expressChatBanner.isHidden ? 0 : expressChatBanner.height
+    }
+    
+    var tableViewInsetBottom: CGFloat {
+        return navBarHeight + blockedToastOffset + expressChatBannerOffset
+    }
 
 
     // MARK: - View lifecycle
@@ -193,13 +201,14 @@ class ChatViewController: TextViewController {
     private func addSubviews() {
         relationInfoView.translatesAutoresizingMaskIntoConstraints = false
         expressChatBanner.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(expressChatBanner)
         view.addSubview(relationInfoView)
         view.addSubview(activityIndicator)
-        view.addSubview(expressChatBanner)
+        
     }
 
     private func setupFrames() {
-        tableView.contentInset.bottom = navBarHeight + blockedToastOffset
+        tableView.contentInset.bottom = tableViewInsetBottom
         tableView.frame = CGRect(x: 0, y: blockedToastOffset, width: tableView.width,
                                      height: tableView.height - blockedToastOffset)
         
@@ -208,23 +217,13 @@ class ChatViewController: TextViewController {
     }
     
     private func setupConstraints() {
-        var views: [String: Any] = ["relationInfoView": relationInfoView]
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[relationInfoView]-0-|", options: [],
-            metrics: nil, views: views))
-        view.addConstraint(NSLayoutConstraint(item: relationInfoView, attribute: .top, relatedBy: .equal,
-            toItem: topLayoutGuide, attribute: .bottom, multiplier: 1, constant: 0))
-
-        let bannerHeight = NSLayoutConstraint(item: expressChatBanner, attribute: .height, relatedBy: .greaterThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: expressBannerHeight)
-        expressChatBanner.addConstraint(bannerHeight)
-
-        views = ["expressChatBanner": expressChatBanner]
-        bannerTopConstraint = NSLayoutConstraint(item: expressChatBanner, attribute: .top, relatedBy: .equal, toItem: topLayoutGuide, attribute: .bottom, multiplier: 1, constant: -expressBannerHeight)
-        let bannerSides = NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[expressChatBanner]-0-|", options: [], metrics: nil, views: views)
-
-        view.addConstraint(bannerTopConstraint)
-        view.addConstraints(bannerSides)
+        relationInfoView.layout(with: topLayoutGuide).below()
+        relationInfoView.layout(with: view).fillHorizontal()
+        
+        expressChatBanner.layout().height(expressBannerHeight, relatedBy: .greaterThanOrEqual)
+        expressChatBanner.layout(with: view).fillHorizontal()
+        expressChatBanner.layout(with: relationInfoView).below(by: -relationInfoView.height, constraintBlock: { [weak self] in self?.bannerTopConstraint = $0 })
     }
-
 
     fileprivate func setupRelatedProducts() {
         relatedProductsView.setupOnTopOfView(textViewBar)
@@ -608,7 +607,7 @@ extension ChatViewController {
     // It is an open issue in the Library https://github.com/slackhq/SlackTextViewController/issues/137
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.tableView.contentInset.bottom = navBarHeight + blockedToastOffset
+        self.tableView.contentInset.bottom = tableViewInsetBottom
     }
 }
 
