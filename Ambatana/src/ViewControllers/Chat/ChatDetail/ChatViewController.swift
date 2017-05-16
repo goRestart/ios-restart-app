@@ -40,6 +40,10 @@ class ChatViewController: TextViewController {
     var expressChatBannerOffset: CGFloat {
         return expressChatBanner.isHidden ? 0 : expressChatBanner.height
     }
+    
+    var tableViewInsetBottom: CGFloat {
+        return navBarHeight + blockedToastOffset + expressChatBannerOffset
+    }
 
 
     // MARK: - View lifecycle
@@ -204,7 +208,7 @@ class ChatViewController: TextViewController {
     }
 
     private func setupFrames() {
-        tableView.contentInset.bottom = navBarHeight + blockedToastOffset + expressChatBannerOffset
+        tableView.contentInset.bottom = tableViewInsetBottom
         tableView.frame = CGRect(x: 0, y: blockedToastOffset, width: tableView.width,
                                      height: tableView.height - blockedToastOffset)
         
@@ -603,7 +607,7 @@ extension ChatViewController {
     // It is an open issue in the Library https://github.com/slackhq/SlackTextViewController/issues/137
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.tableView.contentInset.bottom = navBarHeight + blockedToastOffset + expressChatBannerOffset
+        self.tableView.contentInset.bottom = tableViewInsetBottom
     }
 }
 
