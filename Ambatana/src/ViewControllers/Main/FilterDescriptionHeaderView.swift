@@ -13,12 +13,7 @@ class FilterDescriptionHeaderView: UIView {
     private let containerView = UIView()
     private let backgroundView = UIView()
     private let label = UILabel()
-    
-    private let topConstraint = NSLayoutConstraint()
-    private let leftConstraint = NSLayoutConstraint()
-    private let rightConstraint = NSLayoutConstraint()
-    private let bottomConstraint = NSLayoutConstraint()
-    
+
     var text: String? {
         set {
             if let text = newValue, !text.isEmpty {
@@ -27,6 +22,7 @@ class FilterDescriptionHeaderView: UIView {
                 removeLayoutMargins()
             }
             label.text = newValue
+            layoutIfNeeded()
         }
         get {
             return label.text
@@ -46,11 +42,6 @@ class FilterDescriptionHeaderView: UIView {
     }
     
     // MARK: - Layout
-    
-    /*override var intrinsicContentSize: CGSize {
-        print("-------------------\(label.intrinsicContentSize)")
-        return label.intrinsicContentSize
-    }*/
     
     private func setupUI() {
         backgroundColor = UIColor.grayBackground.withAlphaComponent(0.95)
@@ -103,11 +94,5 @@ class FilterDescriptionHeaderView: UIView {
     private func removeLayoutMargins() {
         layoutMargins = UIEdgeInsets.zero
         backgroundView.layoutMargins = UIEdgeInsets.zero
-    }
-    
-    // MARK: - Public methods
-    
-    func shrink() {
-        
     }
 }

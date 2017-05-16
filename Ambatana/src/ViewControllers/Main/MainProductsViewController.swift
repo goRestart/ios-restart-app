@@ -34,6 +34,8 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     @IBOutlet weak var filterTitleHeaderViewContainer: UIView!
     fileprivate let filterDescriptionHeaderView = FilterDescriptionHeaderView()
     fileprivate let filterTitleHeaderView = FilterTitleHeaderView()
+    @IBOutlet weak var filterDescriptionConstraint: NSLayoutConstraint!
+    @IBOutlet weak var filterTitleConstraint: NSLayoutConstraint!
 
     fileprivate let infoBubbleTopMargin: CGFloat = 8
     fileprivate let verticalMarginHeaderView: CGFloat = 16
@@ -157,6 +159,28 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
 
     func productListView(_ productListView: ProductListView, didScrollWithContentOffsetY contentOffsetY: CGFloat) {
         updateBubbleTopConstraint()
+        updateFilterHeaderTopConstraint(withContentOffsetY: contentOffsetY)
+    }
+    
+    private func updateFilterHeaderTopConstraint(withContentOffsetY contentOffsetY: CGFloat) {
+        // ignore positive values
+        guard contentOffsetY <= 0 else { return }
+        // ignore values higher than the topInset
+        guard abs(contentOffsetY) <= topInset.value else {
+            filterDescriptionConstraint.constant = 0
+            return
+        }
+        
+        let filterHeadersOffset = topInset.value + contentOffsetY
+        if filterHeadersOffset <= filterDescriptionHeaderViewContainer.height {
+            // move upwards until description header is completely below
+            filterDescriptionConstraint.constant = -filterHeadersOffset
+            filterDescriptionHeaderView.alpha = 1
+        } else {
+            // description header is completely below and also hidden
+            filterDescriptionConstraint.constant = -filterDescriptionHeaderViewContainer.height
+            filterDescriptionHeaderView.alpha = 0.1
+        }
     }
 
     private func updateBubbleTopConstraint() {
@@ -209,19 +233,22 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         filterDescriptionHeaderView.translatesAutoresizingMaskIntoConstraints = false
         filterDescriptionHeaderViewContainer.addSubview(filterDescriptionHeaderView)
         filterDescriptionHeaderView.layout(with: filterDescriptionHeaderViewContainer).fill()
-        filterDescriptionHeaderView.text = "sdamfkl jdaslfkadskkjlfhads klfjadjsklfhdsajklhjfhajks dfhadjks fhadks ljfhasdjk flhsdakjf f adskfh ajkslf akl"
         
         filterTitleHeaderView.translatesAutoresizingMaskIntoConstraints = false
         filterTitleHeaderViewContainer.addSubview(filterTitleHeaderView)
         filterTitleHeaderView.layout(with: filterTitleHeaderViewContainer).fill()
-        filterTitleHeaderView.text = "BMW i8"
-        
-        view.layoutIfNeeded()
     }
     
     private func filterHeadersHeight() -> CGFloat {
-        let a = filterDescriptionHeaderViewContainer.height + filterTitleHeaderViewContainer.height
-        return a
+        return filterDescriptionHeaderViewContainer.height + filterTitleHeaderViewContainer.height
+    }
+    
+    func setFilterHeaderTitle(withText text: String) {
+        filterTitleHeaderView.text = text
+    }
+    
+    func setFilterHeaderDescription(withText text: String) {
+        filterDescriptionHeaderView.text = text
     }
     
     // MARK: - FilterTagsViewControllerDelegate
@@ -322,7 +349,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         }
 
         let tagsHeight = tagsCollectionView.frame.size.height
-        tagsCollectionTopSpace?.constant = show ? 0.0 : -tagsHeight - filterDescriptionHeaderViewContainer.height
+        tagsCollectionTopSpace?.constant = show ? 0.0 : -tagsHeight
         if updateInsets {
             topInset.value = show ? topBarHeight + tagsHeight + filterHeadersHeight() : topBarHeight
         }

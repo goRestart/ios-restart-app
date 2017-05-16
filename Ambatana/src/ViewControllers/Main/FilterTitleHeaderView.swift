@@ -10,7 +10,7 @@ import Foundation
 
 class FilterTitleHeaderView: UIView {
     
-    let label = UILabel()
+    private let label = UILabel()
     
     var text: String? {
         set {
@@ -20,6 +20,7 @@ class FilterTitleHeaderView: UIView {
                 removeLayoutMargins()
             }
             label.text = newValue
+            layoutIfNeeded()
         }
         get {
             return label.text
@@ -39,10 +40,6 @@ class FilterTitleHeaderView: UIView {
     }
     
     // MARK: - Layout
-    
-    /*override var intrinsicContentSize: CGSize {
-       return CGSize(width: UIViewNoIntrinsicMetric, height: 100)
-    }*/
     
     private func setupUI() {
         backgroundColor = UIColor.grayBackground.withAlphaComponent(0.95)

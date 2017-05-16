@@ -11,7 +11,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MainProductsViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
+                <outlet property="filterDescriptionConstraint" destination="8Uy-Tr-iML" id="j7z-oF-ty5"/>
                 <outlet property="filterDescriptionHeaderViewContainer" destination="Bcs-2y-4c3" id="wyH-WG-jEZ"/>
+                <outlet property="filterTitleConstraint" destination="JWw-Di-w96" id="4iL-83-Apk"/>
                 <outlet property="filterTitleHeaderViewContainer" destination="quF-a1-B5k" id="6P1-SH-aeB"/>
                 <outlet property="infoBubbleLabel" destination="6Qi-9b-goZ" id="5CJ-Cs-TP8"/>
                 <outlet property="infoBubbleShadow" destination="xYw-ae-DlH" id="lZk-9m-TGk"/>
@@ -31,6 +33,18 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cx9-GQ-2WN" customClass="ProductListView" customModule="LetGo" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                 </view>
+                <view clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="40" translatesAutoresizingMaskIntoConstraints="NO" id="Bcs-2y-4c3" userLabel="FilterDescriptionHeaderView">
+                    <rect key="frame" x="0.0" y="64" width="375" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" placeholder="YES" id="Xov-mO-o3N"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="quF-a1-B5k" userLabel="FilterTitleHeaderView">
+                    <rect key="frame" x="0.0" y="104" width="375" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" placeholder="YES" id="GRJ-qE-CcY"/>
+                    </constraints>
+                </view>
                 <collectionView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceHorizontal="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="NKA-bk-QYJ">
                     <rect key="frame" x="0.0" y="24" width="375" height="40"/>
                     <color key="backgroundColor" red="0.96862745100000003" green="0.95294117649999999" blue="0.95294117649999999" alpha="0.94999999999999996" colorSpace="custom" customColorSpace="sRGB"/>
@@ -44,18 +58,6 @@
                         <inset key="sectionInset" minX="8" minY="4" maxX="5" maxY="4"/>
                     </collectionViewFlowLayout>
                 </collectionView>
-                <view contentMode="scaleToFill" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="40" translatesAutoresizingMaskIntoConstraints="NO" id="Bcs-2y-4c3" userLabel="FilterDescriptionHeaderView">
-                    <rect key="frame" x="0.0" y="64" width="375" height="40"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="40" placeholder="YES" id="Xov-mO-o3N"/>
-                    </constraints>
-                </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="quF-a1-B5k" userLabel="FilterTitleHeaderView">
-                    <rect key="frame" x="0.0" y="104" width="375" height="20"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="20" placeholder="YES" id="GRJ-qE-CcY"/>
-                    </constraints>
-                </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xYw-ae-DlH" userLabel="infoBubbleShadow">
                     <rect key="frame" x="120" y="132" width="136" height="30"/>
                     <subviews>
