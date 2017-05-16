@@ -137,6 +137,7 @@ struct ProductFilters {
         if selectedWithin != ListingTimeCriteria.defaultOption { return false }
         if selectedOrdering != ListingSortCriteria.defaultOption { return false }
         if priceRange != .priceRange(min: nil, max: nil) { return false }
+        if carMakeId != nil || carModelId != nil || carYearStart != nil || carYearEnd != nil { return false }
         return true
     }
     

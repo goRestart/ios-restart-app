@@ -22,6 +22,10 @@ class ProductListMultiRequester {
         return activeRequester?.itemsPerPage ?? 0
     }
 
+    var isUsingLastRequester: Bool {
+        return currentIndex == requestersArray.count-1
+    }
+
     // MARK: - Lifecycle
 
     convenience init() {
@@ -53,6 +57,7 @@ extension ProductListMultiRequester: ProductListRequester {
 
     func retrieveNextPage(_ completion: ListingsCompletion?) {
         let completionBlock: ListingsCompletion = { [weak self] result in
+
             self?.updateLastPage(result)
             completion?(result)
         }
@@ -75,6 +80,14 @@ extension ProductListMultiRequester: ProductListRequester {
     func duplicate() -> ProductListRequester {
         let newArray = requestersArray.map { $0.duplicate() }
         return ProductListMultiRequester(requesters: newArray)
+    }
+
+    func distanceFromProductCoordinates(_ productCoords: LGLocationCoordinates2D) -> Double? {
+        return activeRequester?.distanceFromProductCoordinates(productCoords)
+    }
+
+    var countryCode: String? {
+        return activeRequester?.countryCode
     }
 
 

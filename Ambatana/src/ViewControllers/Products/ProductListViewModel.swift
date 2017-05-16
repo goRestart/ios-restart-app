@@ -40,6 +40,8 @@ protocol ProductListRequester: class {
     func isLastPage(_ resultCount: Int) -> Bool
     func updateInitialOffset(_ newOffset: Int)
     func duplicate() -> ProductListRequester
+    func distanceFromProductCoordinates(_ productCoords: LGLocationCoordinates2D) -> Double?
+    var countryCode: String? { get }
 }
 
 
@@ -68,7 +70,7 @@ class ProductListViewModel: BaseViewModel {
     weak var dataDelegate: ProductListViewModelDataDelegate?
     
     // Requester
-    let productListRequester: ProductListRequester?
+    var productListRequester: ProductListRequester?
 
     //State
     private(set) var pageNumber: UInt
@@ -138,6 +140,10 @@ class ProductListViewModel: BaseViewModel {
     
     // MARK: - Public methods
     // MARK: > Requests
+
+    func forceCollectionUpdateForEmptyResult() {
+        delegate?.vmDidFinishLoading(self, page: 0, indexes: [])
+    }
 
     func refresh() {
         refreshing = true

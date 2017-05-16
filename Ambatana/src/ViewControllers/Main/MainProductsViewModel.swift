@@ -42,6 +42,7 @@ class MainProductsViewModel: BaseViewModel {
     }
     let bannerCellPosition: Int = 8
     var filters: ProductFilters
+    var queryString: String?
 
     let infoBubbleVisible = Variable<Bool>(false)
     let infoBubbleText = Variable<String>(LGLocalizedString.productPopularNearYou)
@@ -132,9 +133,9 @@ class MainProductsViewModel: BaseViewModel {
     
     // List VM
     let listViewModel: ProductListViewModel
-    fileprivate let productListRequester: FilteredProductListRequester
+    fileprivate var productListRequester: ProductListMultiRequester
     var currentActiveFilters: ProductFilters? {
-        return productListRequester.filters
+        return filters
     }
     var userActiveFilters: ProductFilters? {
         return filters
@@ -177,12 +178,15 @@ class MainProductsViewModel: BaseViewModel {
         self.tracker = tracker
         self.searchType = searchType
         self.filters = filters
+        self.queryString = searchType?.query
         self.keyValueStorage = keyValueStorage
         self.featureFlags = featureFlags
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         let columns = show3Columns ? 3 : 2
         let itemsPerPage = show3Columns ? Constants.numProductsPerPageBig : Constants.numProductsPerPageDefault
-        self.productListRequester = FilteredProductListRequester(itemsPerPage: itemsPerPage)
+        self.productListRequester = FilterProductListRequesterFactory.generateRequester(withFilters: filters,
+                                                                                        queryString: searchType?.query,
+                                                                                        itemsPerPage: itemsPerPage)
         self.listViewModel = ProductListViewModel(requester: self.productListRequester, listings: nil,
                                                   numberOfColumns: columns, tracker: tracker)
         self.listViewModel.productListFixedInset = show3Columns ? 6 : 10
@@ -372,7 +376,14 @@ class MainProductsViewModel: BaseViewModel {
             infoBubbleText.value = LGLocalizedString.productPopularNearYou
         }
 
-        productListRequester.filters = filters
+        let currentItemsPerPage = productListRequester.itemsPerPage
+
+        productListRequester = FilterProductListRequesterFactory.generateRequester(withFilters: filters,
+                                                                                   queryString: queryString,
+                                                                                   itemsPerPage: currentItemsPerPage)
+
+        listViewModel.productListRequester = productListRequester
+
         infoBubbleVisible.value = false
         errorMessage.value = nil
         listViewModel.resetUI()
@@ -410,9 +421,6 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
     func setupProductList() {
         listViewModel.dataDelegate = self
 
-        productListRequester.filters = filters
-        productListRequester.queryString = searchType?.query
-
         listingRepository.events.bindNext { [weak self] event in
             switch event {
             case let .update(listing):
@@ -435,7 +443,8 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
         switch (sortCriteria) {
         case .distance:
             guard let topListing = listViewModel.listingAtIndex(index) else { return }
-            let distance = Float(productListRequester.distanceFromProductCoordinates(topListing.location))
+            guard let requesterDistance = productListRequester.distanceFromProductCoordinates(topListing.location) else { return }
+            let distance = Float(requesterDistance)
 
             // instance var max distance or MIN distance to avoid updating the label everytime
             if (scrollingDown && distance > bubbleDistance) || (!scrollingDown && distance < bubbleDistance) ||
@@ -462,7 +471,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
         
         trackRequestSuccess(page: page, hasProducts: hasProducts)
         // Only save the string when there is products and we are not searching a collection
-        if let queryString = productListRequester.queryString, hasProducts {
+        if let queryString = queryString, hasProducts {
             if let searchType = searchType, !searchType.isCollection {
                 updateLastSearchStoraged(queryString)
             }
@@ -479,7 +488,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
             let errBody: String?
 
             // Search
-            if productListRequester.queryString != nil || productListRequester.hasFilters() {
+            if queryString != nil || !filters.isDefault() {
                 errImage = UIImage(named: "err_search_no_products")
                 errTitle = LGLocalizedString.productSearchNoProductsTitle
                 errBody = LGLocalizedString.productSearchNoProductsBody
@@ -831,11 +840,11 @@ fileprivate extension MainProductsViewModel {
             return .collection
         }
         if searchType.isEmpty() {
-            if productListRequester.hasFilters() {
+            if !filters.isDefault() {
                 return .filter
             }
         } else {
-            if productListRequester.hasFilters() {
+            if !filters.isDefault() {
                 return .searchAndFilter
             } else {
                 return .search
@@ -849,8 +858,9 @@ fileprivate extension MainProductsViewModel {
         guard page == 0 else { return }
         let successParameter: EventParameterBoolean = hasProducts ? .trueParameter : .falseParameter
         let trackerEvent = TrackerEvent.productList(myUserRepository.myUser,
-                                                    categories: productListRequester.filters?.selectedCategories,
-                                                    searchQuery: productListRequester.queryString, feedSource: feedSource, success: successParameter)
+                                                    categories: filters.selectedCategories,
+                                                    searchQuery: queryString, feedSource: feedSource,
+                                                    success: successParameter)
         tracker.trackEvent(trackerEvent)
 
         if let searchType = searchType, shouldTrackSearch {

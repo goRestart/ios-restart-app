@@ -103,11 +103,7 @@ class FilteredProductListRequester: ProductListRequester {
         return queryFirstCallCountryCode ?? locationManager.currentLocation?.countryCode
     }
 
-    func hasFilters() -> Bool {
-        return filters?.selectedCategories.count != 0 || filters?.selectedWithin != .all || filters?.distanceRadius != nil
-    }
-
-    func distanceFromProductCoordinates(_ productCoords: LGLocationCoordinates2D) -> Double {
+    func distanceFromProductCoordinates(_ productCoords: LGLocationCoordinates2D) -> Double? {
 
         var meters = 0.0
         if let coordinates = queryCoordinates {

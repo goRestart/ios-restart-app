@@ -12,7 +12,6 @@ import LGCoreKit
 import Result
 
 class MockProductListRequester: ProductListRequester {
-
     var itemsPerPage: Int
     var offset: Int
     var canRetrieveItems: Bool
@@ -69,6 +68,12 @@ class MockProductListRequester: ProductListRequester {
 
     func duplicate() -> ProductListRequester {
         return self
+    }
+    func distanceFromProductCoordinates(_ productCoords: LGLocationCoordinates2D) -> Double? {
+        return nil
+    }
+    var countryCode: String? {
+        return nil
     }
 
     fileprivate func performAfterDelayWithCompletion(_ completion: ListingsCompletion?) {

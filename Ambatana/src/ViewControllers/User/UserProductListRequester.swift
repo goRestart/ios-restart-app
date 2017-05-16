@@ -13,6 +13,12 @@ protocol UserProductListRequester: ProductListRequester {
 }
 
 class UserFavoritesProductListRequester: UserProductListRequester {
+    func distanceFromProductCoordinates(_ productCoords: LGLocationCoordinates2D) -> Double? {
+        return nil
+    }
+    var countryCode: String? {
+        return nil
+    }
 
     let itemsPerPage: Int = 0 // Not used, favorites doesn't paginate
     var userObjectId: String? = nil
@@ -61,6 +67,12 @@ class UserFavoritesProductListRequester: UserProductListRequester {
 
 
 class UserStatusesProductListRequester: UserProductListRequester {
+    func distanceFromProductCoordinates(_ productCoords: LGLocationCoordinates2D) -> Double? {
+        return nil
+    }
+    var countryCode: String? {
+        return nil
+    }
 
     let itemsPerPage: Int
     var userObjectId: String? = nil

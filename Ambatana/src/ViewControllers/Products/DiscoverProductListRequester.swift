@@ -9,7 +9,6 @@
 import LGCoreKit
 
 class DiscoverProductListRequester {
-
     let itemsPerPage: Int
     fileprivate let productObjectId: String
     fileprivate let listingRepository: ListingRepository
@@ -30,6 +29,7 @@ class DiscoverProductListRequester {
 // MARK: - ProductListRequester
 
 extension DiscoverProductListRequester: ProductListRequester {
+
     func canRetrieve() -> Bool {
         return true
     }
@@ -52,6 +52,12 @@ extension DiscoverProductListRequester: ProductListRequester {
         let r = DiscoverProductListRequester(productId: productObjectId, itemsPerPage: itemsPerPage)
         r.offset = offset
         return r
+    }
+    func distanceFromProductCoordinates(_ productCoords: LGLocationCoordinates2D) -> Double? {
+        return nil
+    }
+    var countryCode: String? {
+        return nil
     }
 }
 

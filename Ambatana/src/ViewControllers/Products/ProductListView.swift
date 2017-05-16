@@ -404,24 +404,28 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
     func vmDidFinishLoading(_ vm: ProductListViewModel, page: UInt, indexes: [Int]) {
         guard viewModel === vm else { return }
-        if page == 0 {
-            reloadData()
-            if refreshControl.isRefreshing {
-                refreshControl.endRefreshing()
-            } else if shouldScrollToTopOnFirstPageReload {
-                scrollToTop(false)
+
+        // Added delay to avoid overlapping 2 modifications to the collection
+        delay(0.1) { _ in
+            if page == 0 {
+                self.reloadData()
+                if self.refreshControl.isRefreshing {
+                    self.refreshControl.endRefreshing()
+                } else if self.shouldScrollToTopOnFirstPageReload {
+                    self.scrollToTop(false)
+                }
+            } else if self.viewModel.isLastPage {
+                // Last page
+                // Reload in order to be able to reload the footer
+                self.reloadData()
+            } else if !indexes.isEmpty {
+                // Middle pages
+                // Insert animated
+                let indexPaths = indexes.map{ IndexPath(item: $0, section: 0) }
+                self.collectionView.insertItems(at: indexPaths)
+            } else {
+                self.reloadData()
             }
-        } else if viewModel.isLastPage {
-            // Last page
-            // Reload in order to be able to reload the footer
-            reloadData()
-        } else if !indexes.isEmpty {
-            // Middle pages
-            // Insert animated
-            let indexPaths = indexes.map{ IndexPath(item: $0, section: 0) }
-            collectionView.insertItems(at: indexPaths)
-        } else {
-            reloadData()
         }
     }
     

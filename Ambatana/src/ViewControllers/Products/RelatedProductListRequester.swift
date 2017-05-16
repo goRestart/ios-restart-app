@@ -9,7 +9,6 @@
 import LGCoreKit
 
 class RelatedProductListRequester: ProductListRequester {
-
     let itemsPerPage: Int
     private let productObjectId: String
     private let listingRepository: ListingRepository
@@ -65,5 +64,11 @@ class RelatedProductListRequester: ProductListRequester {
         let r = RelatedProductListRequester(productId: productObjectId, itemsPerPage: itemsPerPage)
         r.offset = offset
         return r
+    }
+    func distanceFromProductCoordinates(_ productCoords: LGLocationCoordinates2D) -> Double? {
+        return nil
+    }
+    var countryCode: String? {
+        return nil
     }
 }
