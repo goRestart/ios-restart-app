@@ -204,7 +204,7 @@ class ChatViewController: TextViewController {
     }
 
     private func setupFrames() {
-        tableView.contentInset.bottom = navBarHeight + blockedToastOffset
+        tableView.contentInset.bottom = navBarHeight + blockedToastOffset + expressChatBannerOffset
         tableView.frame = CGRect(x: 0, y: blockedToastOffset, width: tableView.width,
                                      height: tableView.height - blockedToastOffset)
         
