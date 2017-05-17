@@ -265,9 +265,9 @@
 "direct_answer_free_no_available" = "Tut mir leid, ich hab's schon verschenkt.";
 "direct_answer_free_still_have" = "Hast du's noch?";
 "direct_answer_free_yours" = "Du kannst es haben!";
-"direct_answer_given_away_question_message" = "Mark your product as given away so all letgo users know";
-"direct_answer_given_away_question_ok" = "Mark as given away";
-"direct_answer_given_away_question_title" = "Already gave it away?";
+"direct_answer_given_away_question_message" = "Markiere dein Produkt als verschenkt, damit die letgo-Nutzer Bescheid wissen";
+"direct_answer_given_away_question_ok" = "Als verschenkt markieren";
+"direct_answer_given_away_question_title" = "Hast du es bereits verschenkt?";
 "direct_answer_interested" = "Ich bin interessiert!";
 "direct_answer_is_negotiable" = "Ist der Preis verhandelbar?";
 "direct_answer_like_to_buy" = "Hallo! Ich möchte es kaufen";

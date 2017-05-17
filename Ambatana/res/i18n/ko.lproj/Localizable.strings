@@ -38,7 +38,7 @@
 "bump_up_view_pay_title" = "빠른 판매를 위해 강조하세요";
 "categories_baby_and_child" = "유아동";
 "categories_car" = "자동차";
-"categories_cars_and_motors" = "차량 및 차량 부속품";
+"categories_cars_and_motors" = "다른 운송 수단들과 부품들";
 "categories_electronics" = "가전제품";
 "categories_fashion_and_accessories" = "패션 및 액세서리";
 "categories_free" = "무료제품";
@@ -265,9 +265,9 @@
 "direct_answer_free_no_available" = "죄송합니다. 이미 상품을 증정했습니다!";
 "direct_answer_free_still_have" = "아직 가지고 계신가요?";
 "direct_answer_free_yours" = "당신것이에요!";
-"direct_answer_given_away_question_message" = "Mark your product as given away so all letgo users know";
-"direct_answer_given_away_question_ok" = "Mark as given away";
-"direct_answer_given_away_question_title" = "Already gave it away?";
+"direct_answer_given_away_question_message" = "모든 letgo 사용자들이 알아볼 수 있도록 귀하의 상품을 기부 완료로 표시하세요";
+"direct_answer_given_away_question_ok" = "증정 완료로 표시";
+"direct_answer_given_away_question_title" = "이미 기부하였습니까?";
 "direct_answer_interested" = "관심있어요!";
 "direct_answer_is_negotiable" = "가격이 흥정 가능한가요?";
 "direct_answer_like_to_buy" = "안녕하세요! 구매하기를 원하는데요";
@@ -297,7 +297,7 @@
 "filters_car_make_not_set" = "설정되지 않은";
 "filters_car_model_not_set" = "설정되지 않은";
 "filters_car_year_any_year" = "아무 해";
-"filters_car_year_before_year" = "%i 전";
+"filters_car_year_before_year" = "% 전!";
 "filters_distance_not_set" = "설정하지 않기";
 "filters_navbar_reset" = "리셋";
 "filters_price_from" = "부터";
@@ -591,7 +591,7 @@
 "product_post_retake" = "다시 촬영하기";
 "product_post_retry_button" = "다시 시도하기";
 "product_post_select_category_cars" = "자동차";
-"product_post_select_category_motors_and_accessories" = "다른 운송수단들과 부품들";
+"product_post_select_category_motors_and_accessories" = "다른 운송 수단들과 부품들";
 "product_post_select_category_or" = "혹은";
 "product_post_select_category_other" = "기타 제품";
 "product_post_select_category_title" = "무엇을 게시하시나요?";

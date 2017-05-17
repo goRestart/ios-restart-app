@@ -265,9 +265,9 @@
 "direct_answer_free_no_available" = "Bocsi, már elajándékoztam!";
 "direct_answer_free_still_have" = "Még megvan?";
 "direct_answer_free_yours" = "A tiéd!";
-"direct_answer_given_away_question_message" = "Mark your product as given away so all letgo users know";
-"direct_answer_given_away_question_ok" = "Mark as given away";
-"direct_answer_given_away_question_title" = "Already gave it away?";
+"direct_answer_given_away_question_message" = "Jelöld portékádat elajándékozottként, hogy a többiek is tudjanak róla";
+"direct_answer_given_away_question_ok" = "Megjelölés elajándékozottként";
+"direct_answer_given_away_question_title" = "Már elajándékoztad?";
 "direct_answer_interested" = "Érdekel!";
 "direct_answer_is_negotiable" = "Alkudható az ár?";
 "direct_answer_like_to_buy" = "Szia! Megvenném!";
@@ -591,7 +591,7 @@
 "product_post_retake" = "Újra";
 "product_post_retry_button" = "Újra";
 "product_post_select_category_cars" = "Autók";
-"product_post_select_category_motors_and_accessories" = "Other Vehicles and Parts";
+"product_post_select_category_motors_and_accessories" = "Más járművek és alkatrészek";
 "product_post_select_category_or" = "VAGY";
 "product_post_select_category_other" = "Valami más";
 "product_post_select_category_title" = "Mit készülsz meghirdetni?";

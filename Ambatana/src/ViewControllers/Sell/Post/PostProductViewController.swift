@@ -351,23 +351,24 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         keyboardHelper.rx_keyboardOrigin.asObservable().bindNext { [weak self] origin in
             guard origin > 0 else { return }
             guard let strongSelf = self else { return }
-            let keyboardHeight = origin - strongSelf.view.height
-            strongSelf.detailsContainerBottomConstraint.constant = keyboardHeight/2
+            let nextKeyboardHeight = strongSelf.view.height - origin
+            strongSelf.detailsContainerBottomConstraint.constant = -nextKeyboardHeight/2
             if strongSelf.carDetailsView.state == .selectDetail {
-                strongSelf.carDetailsView.moveContentUpward(by: keyboardHeight)
+                strongSelf.carDetailsView.moveContentUpward(by: -nextKeyboardHeight)
             }
             UIView.animate(withDuration: Double(strongSelf.keyboardHelper.animationTime), animations: {
                 strongSelf.view.layoutIfNeeded()
             })
-            let showingKeyboard = keyboardHeight > 0
-            strongSelf.loadingViewHidden(hide: !showingKeyboard)
+            let willShowKeyboard = nextKeyboardHeight > 0
+            strongSelf.loadingViewHidden(showingKeyboard: willShowKeyboard)
         }.addDisposableTo(disposeBag)
     }
     
-    private func loadingViewHidden(hide: Bool) {
+    private func loadingViewHidden(showingKeyboard: Bool) {
         guard !DeviceFamily.current.isWiderOrEqualThan(.iPhone6) else { return }
+        guard !priceView.isHidden else { return }
         UIView.animate(withDuration: 0.3, animations: { () -> Void in
-            self.customLoadingView.alpha = hide ? 0.0 : 1.0
+            self.customLoadingView.alpha = showingKeyboard ? 0.0 : 1.0
         })
     }
 }
@@ -603,16 +604,17 @@ extension PostProductViewController {
         } else if state.priceViewShouldResignFirstResponder() {
             priceView.resignFirstResponder()
         }
- 
     }
     
     private func viewToAdjustDetailsScrollContentInset(state: PostListingState) -> UIView? {
         switch state.step {
+        case .detailsSelection:
+            return customLoadingView
         case .categorySelection:
             return categorySelectionView
         case .carDetailsSelection:
             return carDetailsView
-        case .imageSelection, .errorUpload, .finished,.detailsSelection, .uploadSuccess, .uploadingImage:
+        case .imageSelection, .uploadingImage, .errorUpload, .finished, .uploadSuccess:
             return nil
         }
     }

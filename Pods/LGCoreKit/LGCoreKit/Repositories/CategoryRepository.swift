@@ -12,5 +12,5 @@ public typealias CategoriesResult = Result<[ListingCategory], RepositoryError>
 public typealias CategoriesCompletion = (CategoriesResult) -> Void
 
 public protocol CategoryRepository {
-    func index(filterVisible filter: Bool, completion: CategoriesCompletion?)
+    func index(filterVisible filtered: Bool, completion: CategoriesCompletion?)
 }

@@ -265,9 +265,9 @@
 "direct_answer_free_no_available" = "Spiacente, l'ho già regalato!";
 "direct_answer_free_still_have" = "È ancora disponibile?";
 "direct_answer_free_yours" = "È tuo!";
-"direct_answer_given_away_question_message" = "Mark your product as given away so all letgo users know";
-"direct_answer_given_away_question_ok" = "Mark as given away";
-"direct_answer_given_away_question_title" = "Already gave it away?";
+"direct_answer_given_away_question_message" = "Contrassegna il tuo prodotto come regalato, in modo che gli altri utenti di letgo possano saperlo";
+"direct_answer_given_away_question_ok" = "Segna come regalato";
+"direct_answer_given_away_question_title" = "Già regalato?";
 "direct_answer_interested" = "Sono interessato!";
 "direct_answer_is_negotiable" = "Il prezzo è trattabile?";
 "direct_answer_like_to_buy" = "Ciao! Vorrei comprare questo articolo";

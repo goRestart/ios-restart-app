@@ -270,8 +270,12 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
         if let make = make, !make.isEmpty {
             buttonTitle = make
             doneButton.isEnabled = true
+            modelRowView.isEnabled = true
+            yearRowView.isEnabled = true
         } else {
             doneButton.isEnabled = false
+            modelRowView.isEnabled = false
+            yearRowView.isEnabled = false
         }
         navigationMakeButton.setTitle(buttonTitle, for: .normal)
         makeRowView.value = make
