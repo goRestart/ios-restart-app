@@ -19,6 +19,7 @@ final class PushManager {
     private let pushPermissionManager: PushPermissionsManager
     private let installationRepository: InstallationRepository
     private let deepLinksRouter: DeepLinksRouter
+    private let notificationsManager: NotificationsManager
 
 
     // MARK: - Lifecycle
@@ -26,27 +27,30 @@ final class PushManager {
     convenience init() {
         self.init(pushPermissionManager: LGPushPermissionsManager.sharedInstance,
                   installationRepository: Core.installationRepository,
-                  deepLinksRouter: LGDeepLinksRouter.sharedInstance)
+                  deepLinksRouter: LGDeepLinksRouter.sharedInstance,
+                  notificationsManager: LGNotificationsManager.sharedInstance)
     }
 
     required init(pushPermissionManager: PushPermissionsManager,
                   installationRepository: InstallationRepository,
-                  deepLinksRouter: DeepLinksRouter) {
+                  deepLinksRouter: DeepLinksRouter,
+                  notificationsManager: NotificationsManager) {
         self.pushPermissionManager = pushPermissionManager
         self.installationRepository = installationRepository
         self.deepLinksRouter = deepLinksRouter
+        self.notificationsManager = notificationsManager
     }
 
 
     // MARK: - Internal methods
 
-    func application(_ application: UIApplication,
-                            didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
+    func application(_ application: Application,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
         // Setup push notification libraries
         setupLeanplum()
     }
 
-    func applicationDidBecomeActive(_ application: UIApplication) {
+    func applicationDidBecomeActive(_ application: Application) {
         /* If push notification alert was already shown, then call `registerForRemoteNotifications` again
          so the app delegate method will be called back again and update `Installation` (if needed) in:
          `application(application:didRegisterForRemoteNotificationsWithDeviceToken:) */
@@ -57,30 +61,33 @@ final class PushManager {
         }
     }
 
-    func application(_ application: UIApplication,
-                            didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
-        deepLinksRouter.didReceiveRemoteNotification(userInfo, applicationState: application.applicationState)
+    func application(_ application: Application,
+                     didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
+        deepLinksRouter.didReceiveRemoteNotification(userInfo,
+                                                     applicationState: application.applicationState)
+        notificationsManager.updateCounters()
     }
 
-    func application(_ application: UIApplication,
+    func application(_ application: Application,
                             didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         installationRepository.updatePushToken(tokenStringFromData(deviceToken), completion: nil)
     }
 
-    func application(_ application: UIApplication,
+    func application(_ application: Application,
                             didFailToRegisterForRemoteNotificationsWithError error: Error) {
         installationRepository.updatePushToken("", completion: nil)
     }
 
-    func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?,
-                            forRemoteNotification userInfo: [AnyHashable: Any], completionHandler: @escaping () -> Void) {
+    func application(_ application: Application, handleActionWithIdentifier identifier: String?,
+                     forRemoteNotification userInfo: [AnyHashable: Any], completionHandler: @escaping () -> Void) {
         Leanplum.handleAction(withIdentifier: identifier, forRemoteNotification: userInfo, completionHandler: completionHandler)
     }
 
-    func application(_ application: UIApplication,
-                            didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
+    func application(_ application: Application,
+                     didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
         NotificationCenter.default
-            .post(name: Foundation.Notification.Name(rawValue: Notification.DidRegisterUserNotificationSettings.rawValue), object: nil)
+            .post(name: Foundation.Notification.Name(rawValue: Notification.DidRegisterUserNotificationSettings.rawValue),
+                  object: nil)
         pushPermissionManager.application(application, didRegisterUserNotificationSettings: notificationSettings)
     }
 
