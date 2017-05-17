@@ -68,7 +68,7 @@ final class PushManager {
         notificationsManager.updateCounters()
     }
 
-    func application(_ application: UIApplication,
+    func application(_ application: Application,
                             didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         installationRepository.updatePushToken(tokenStringFromData(deviceToken), completion: nil)
     }
@@ -86,7 +86,8 @@ final class PushManager {
     func application(_ application: Application,
                      didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
         NotificationCenter.default
-            .post(name: Foundation.Notification.Name(rawValue: Notification.DidRegisterUserNotificationSettings.rawValue), object: nil)
+            .post(name: Foundation.Notification.Name(rawValue: Notification.DidRegisterUserNotificationSettings.rawValue),
+                  object: nil)
         pushPermissionManager.application(application, didRegisterUserNotificationSettings: notificationSettings)
     }
 

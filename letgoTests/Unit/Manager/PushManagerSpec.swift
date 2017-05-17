@@ -15,21 +15,25 @@ import Result
 @testable import LetGoGodMode
 
 class PushManagerSpec: QuickSpec {
+    var didRegisterUserNotificationSettingsCalled: Bool!
     
     override func spec() {
         var sut: PushManager!
         
-        var application: Application!
+        var application: MockApplication!
         var pushPermissionsManager: MockPushPermissionsManager!
-        var installationRepository: MockInstallationRepository!
+        var installationRepository: MyMockInstallationRepository!
         var deepLinksRouter: MockDeepLinksRouter!
         var notificationsManager: MockNotificationsManager!
        
-        fdescribe("PushManager") {
+        describe("PushManager") {
             beforeEach {
+                self.didRegisterUserNotificationSettingsCalled = false
+                
                 application = MockApplication()
                 pushPermissionsManager = MockPushPermissionsManager()
-                installationRepository = MockInstallationRepository()
+                installationRepository = MyMockInstallationRepository()
+                installationRepository.result = Result<Installation, RepositoryError>(value: MockInstallation.makeMock())
                 deepLinksRouter = MockDeepLinksRouter()
                 notificationsManager = MockNotificationsManager()
                 
@@ -39,7 +43,31 @@ class PushManagerSpec: QuickSpec {
                                   notificationsManager: notificationsManager)
             }
             
-            describe("didReceiveRemoteNotification") {
+            describe("app did become active") {
+                context("remote notifications enabled") {
+                    beforeEach {
+                        application.areRemoteNotificationsEnabled = true
+                        sut.applicationDidBecomeActive(application)
+                    }
+                    
+                    it("registers the app for remote notifications") {
+                        expect(application.registerForRemoteNotificationsCalled) == true
+                    }
+                }
+                
+                context("remote notifications disabled") {
+                    beforeEach {
+                        application.areRemoteNotificationsEnabled = false
+                        sut.applicationDidBecomeActive(application)
+                    }
+                    
+                    it("calls installation repository to update push token") {
+                        expect(installationRepository.lastUpdatePushTokenCallTokenParam) == ""
+                    }
+                }
+            }
+            
+            describe("app did receive remote notification") {
                 beforeEach {
                     let notification =  [AnyHashable: Any]()
                     sut.application(application, didReceiveRemoteNotification: notification)
@@ -53,6 +81,65 @@ class PushManagerSpec: QuickSpec {
                     expect(notificationsManager.updateCountersCalled) == true
                 }
             }
+            
+            describe("app did register for remote notifications with device token") {
+                let deviceToken = "hello!".data(using: .utf8)!
+                
+                beforeEach {
+                    sut.application(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
+                }
+                
+                it("calls installation repository to update push token with the received one") {
+                    expect(installationRepository.lastUpdatePushTokenCallTokenParam) == deviceToken.toHexString()
+                }
+            }
+            
+            describe("app did fail to register for remote notifications with error") {
+                beforeEach {
+                    sut.application(application, didFailToRegisterForRemoteNotificationsWithError: NSError())
+                }
+                
+                it("calls installation repository to delete the push token") {
+                    expect(installationRepository.lastUpdatePushTokenCallTokenParam) == ""
+                }
+            }
+            
+            describe("application did register user notification settings") {
+                beforeEach {
+                    NotificationCenter.default.addObserver(self, selector: #selector(self.didRegisterUserNotificationSettings),
+                                                           name: NSNotification.Name(rawValue: PushManager.Notification.DidRegisterUserNotificationSettings.rawValue),
+                                                           object: nil)
+                    
+                    let settings = UIUserNotificationSettings(types: .alert, categories: nil)
+                    sut.application(application, didRegisterUserNotificationSettings: settings)
+                }
+                
+                afterEach {
+                    NotificationCenter.default.removeObserver(self)
+                }
+                
+                it("calls didRegisterUserNotificationSettingsCalled in push permission manager") {
+                    expect(pushPermissionsManager.didRegisterUserNotificationSettingsCalled) == true
+                }
+                
+                it("didRegisterUserNotificationSettingsNotificationReceived") {
+                    expect(self.didRegisterUserNotificationSettingsCalled) == true
+                }
+            }
         }
+    }
+    
+    dynamic func didRegisterUserNotificationSettings() {
+        didRegisterUserNotificationSettingsCalled = true
+    }
+}
+
+
+fileprivate class MyMockInstallationRepository: MockInstallationRepository {
+    var lastUpdatePushTokenCallTokenParam: String?
+    
+    override func updatePushToken(_ token: String, completion: InstallationCompletion?) {
+        lastUpdatePushTokenCallTokenParam = token
+        super.updatePushToken(token, completion: completion)
     }
 }
