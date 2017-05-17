@@ -29,6 +29,12 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     
     @IBOutlet weak var tagsCollectionView: UICollectionView!
     var tagsCollectionTopSpace: NSLayoutConstraint?
+    
+    @IBOutlet weak var filterDescriptionHeaderViewContainer: UIView!
+    @IBOutlet weak var filterTitleHeaderViewContainer: UIView!
+    fileprivate let filterDescriptionHeaderView = FilterDescriptionHeaderView()
+    fileprivate let filterTitleHeaderView = FilterTitleHeaderView()
+    @IBOutlet weak var filterDescriptionTopConstraint: NSLayoutConstraint!
 
     fileprivate let infoBubbleTopMargin: CGFloat = 8
     fileprivate let verticalMarginHeaderView: CGFloat = 16
@@ -82,7 +88,10 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        topInset.value = topBarHeight
+        
+        setupFilterHeaders()
+        
+        topInset.value = topBarHeight + filterHeadersHeight()
         productListView.collectionViewContentInset.bottom = tabBarHeight
             + LGUIKitConstants.tabBarSellFloatingButtonHeight
             + LGUIKitConstants.tabBarSellFloatingButtonDistance
@@ -149,6 +158,28 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
 
     func productListView(_ productListView: ProductListView, didScrollWithContentOffsetY contentOffsetY: CGFloat) {
         updateBubbleTopConstraint()
+        updateFilterHeaderTopConstraint(withContentOffsetY: contentOffsetY)
+    }
+    
+    private func updateFilterHeaderTopConstraint(withContentOffsetY contentOffsetY: CGFloat) {
+        // ignore positive values
+        guard contentOffsetY <= 0 else { return }
+        // ignore values higher than the topInset
+        guard abs(contentOffsetY) <= topInset.value else {
+            filterDescriptionTopConstraint.constant = 0
+            return
+        }
+        
+        let filterHeadersOffset = topInset.value + contentOffsetY
+        if filterHeadersOffset <= filterDescriptionHeaderViewContainer.height {
+            // move upwards until description header is completely below
+            filterDescriptionTopConstraint.constant = -filterHeadersOffset
+            filterDescriptionHeaderView.alpha = 1
+        } else {
+            // description header is completely below and also hidden
+            filterDescriptionTopConstraint.constant = -filterDescriptionHeaderViewContainer.height
+            filterDescriptionHeaderView.alpha = 0.1
+        }
     }
 
     private func updateBubbleTopConstraint() {
@@ -193,6 +224,30 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         guard let query = textField.text else { return true }
         viewModel.search(query)
         return true
+    }
+    
+    // MARK: - FilterHeaders
+    
+    private func setupFilterHeaders() {
+        filterDescriptionHeaderView.translatesAutoresizingMaskIntoConstraints = false
+        filterDescriptionHeaderViewContainer.addSubview(filterDescriptionHeaderView)
+        filterDescriptionHeaderView.layout(with: filterDescriptionHeaderViewContainer).fill()
+        
+        filterTitleHeaderView.translatesAutoresizingMaskIntoConstraints = false
+        filterTitleHeaderViewContainer.addSubview(filterTitleHeaderView)
+        filterTitleHeaderView.layout(with: filterTitleHeaderViewContainer).fill()
+    }
+    
+    private func filterHeadersHeight() -> CGFloat {
+        return filterDescriptionHeaderViewContainer.height + filterTitleHeaderViewContainer.height
+    }
+    
+    func setFilterHeaderTitle(withText text: String) {
+        filterTitleHeaderView.text = text
+    }
+    
+    func setFilterHeaderDescription(withText text: String) {
+        filterDescriptionHeaderView.text = text
     }
     
     // MARK: - FilterTagsViewControllerDelegate
@@ -295,7 +350,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         let tagsHeight = tagsCollectionView.frame.size.height
         tagsCollectionTopSpace?.constant = show ? 0.0 : -tagsHeight
         if updateInsets {
-            topInset.value = show ? topBarHeight + tagsHeight : topBarHeight
+            topInset.value = show ? topBarHeight + tagsHeight + filterHeadersHeight() : topBarHeight
         }
 
         UIView.animate(

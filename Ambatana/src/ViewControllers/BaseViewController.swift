@@ -460,7 +460,7 @@ class BaseViewController: UIViewController, TabBarShowable {
         setNavBarBackButton(nil)
         setupToastView()
         navigationController?.interactivePopGestureRecognizer?.isEnabled = swipeBackGestureEnabled
-        
+        view.backgroundColor = UIColor.viewControllerBackground
         //Listen to status bar changes
         NotificationCenter.default.addObserver(self, selector: #selector(BaseViewController.statusBarDidShow(_:)),
             name: NSNotification.Name(rawValue: StatusBarNotification.StatusBarWillShow.rawValue), object: nil)

@@ -58,7 +58,6 @@ class PassiveBuyersViewController: BaseViewController, PassiveBuyersViewModelDel
     // MARK: - Private methods
 
     private func setupUI() {
-        view.backgroundColor = UIColor.grayBackground
         topContainer.backgroundColor = UIColor.grayBackground
         topContainer.alpha = 0
         closeButton.setImage(UIImage(named: "navbar_close")?.withRenderingMode(.alwaysTemplate), for: .normal)

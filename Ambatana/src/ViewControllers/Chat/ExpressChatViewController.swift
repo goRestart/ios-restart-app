@@ -61,7 +61,6 @@ class ExpressChatViewController: BaseViewController {
     }
 
     func setupUI() {
-        view.backgroundColor = UIColor.grayBackground
         scrollView.backgroundColor = UIColor.clear
         automaticallyAdjustsScrollViewInsets = false
 

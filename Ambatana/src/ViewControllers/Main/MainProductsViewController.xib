@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -11,9 +11,12 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MainProductsViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
+                <outlet property="filterDescriptionHeaderViewContainer" destination="Bcs-2y-4c3" id="wyH-WG-jEZ"/>
+                <outlet property="filterDescriptionTopConstraint" destination="8Uy-Tr-iML" id="g7O-Bg-X50"/>
+                <outlet property="filterTitleHeaderViewContainer" destination="quF-a1-B5k" id="6P1-SH-aeB"/>
                 <outlet property="infoBubbleLabel" destination="6Qi-9b-goZ" id="5CJ-Cs-TP8"/>
                 <outlet property="infoBubbleShadow" destination="xYw-ae-DlH" id="lZk-9m-TGk"/>
-                <outlet property="infoBubbleTopConstraint" destination="47Q-dM-XkO" id="abg-GO-QFR"/>
+                <outlet property="infoBubbleTopConstraint" destination="KwV-0X-J7L" id="E3C-gn-fSJ"/>
                 <outlet property="productListView" destination="cx9-GQ-2WN" id="qZS-Ea-iYo"/>
                 <outlet property="suggestionsSearchesContainer" destination="KVa-du-ATY" id="5ql-Q6-9oI"/>
                 <outlet property="suggestionsSearchesTable" destination="b6O-i4-W4D" id="K0o-NZ-bQ8"/>
@@ -29,6 +32,18 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cx9-GQ-2WN" customClass="ProductListView" customModule="LetGo" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                 </view>
+                <view clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="40" translatesAutoresizingMaskIntoConstraints="NO" id="Bcs-2y-4c3" userLabel="FilterDescriptionHeaderView">
+                    <rect key="frame" x="0.0" y="64" width="375" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" placeholder="YES" id="Xov-mO-o3N"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="quF-a1-B5k" userLabel="FilterTitleHeaderView">
+                    <rect key="frame" x="0.0" y="104" width="375" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" placeholder="YES" id="GRJ-qE-CcY"/>
+                    </constraints>
+                </view>
                 <collectionView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceHorizontal="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="NKA-bk-QYJ">
                     <rect key="frame" x="0.0" y="24" width="375" height="40"/>
                     <color key="backgroundColor" red="0.96862745100000003" green="0.95294117649999999" blue="0.95294117649999999" alpha="0.94999999999999996" colorSpace="custom" customColorSpace="sRGB"/>
@@ -43,7 +58,7 @@
                     </collectionViewFlowLayout>
                 </collectionView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xYw-ae-DlH" userLabel="infoBubbleShadow">
-                    <rect key="frame" x="120" y="72" width="136" height="30"/>
+                    <rect key="frame" x="120" y="132" width="136" height="30"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_15 Km from you" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Qi-9b-goZ" userLabel="infoBubbleLabel">
                             <rect key="frame" x="15" y="0.0" width="106" height="30"/>
@@ -112,10 +127,14 @@
             <constraints>
                 <constraint firstItem="5oN-bB-dM0" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="1xZ-7K-Hmg"/>
                 <constraint firstItem="cx9-GQ-2WN" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="3DU-dL-AwZ"/>
-                <constraint firstItem="xYw-ae-DlH" firstAttribute="top" secondItem="NKA-bk-QYJ" secondAttribute="bottom" constant="8" id="47Q-dM-XkO"/>
+                <constraint firstAttribute="trailing" secondItem="Bcs-2y-4c3" secondAttribute="trailing" id="8OD-ea-9Yc"/>
+                <constraint firstItem="Bcs-2y-4c3" firstAttribute="top" secondItem="NKA-bk-QYJ" secondAttribute="bottom" id="8Uy-Tr-iML"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="xYw-ae-DlH" secondAttribute="trailing" constant="20" id="9ub-mn-Dw1"/>
+                <constraint firstAttribute="trailing" secondItem="quF-a1-B5k" secondAttribute="trailing" id="CCI-E6-e0n"/>
                 <constraint firstAttribute="trailing" secondItem="KVa-du-ATY" secondAttribute="trailing" id="CH6-HW-hG2"/>
                 <constraint firstItem="KVa-du-ATY" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" placeholder="YES" id="GDn-Jr-nLa"/>
+                <constraint firstItem="quF-a1-B5k" firstAttribute="top" secondItem="Bcs-2y-4c3" secondAttribute="bottom" id="JWw-Di-w96"/>
+                <constraint firstItem="xYw-ae-DlH" firstAttribute="top" secondItem="quF-a1-B5k" secondAttribute="bottom" constant="8" id="KwV-0X-J7L"/>
                 <constraint firstItem="5oN-bB-dM0" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="LFg-xU-jJ7"/>
                 <constraint firstAttribute="trailing" secondItem="cx9-GQ-2WN" secondAttribute="trailing" id="MXl-BZ-HJO"/>
                 <constraint firstItem="NKA-bk-QYJ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Nzs-yc-Xxb"/>
@@ -124,6 +143,8 @@
                 <constraint firstItem="NKA-bk-QYJ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="24" placeholder="YES" id="RWx-4h-JIi"/>
                 <constraint firstItem="xYw-ae-DlH" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="RvD-Q0-iag"/>
                 <constraint firstAttribute="bottom" secondItem="KVa-du-ATY" secondAttribute="bottom" id="SlI-xA-xv3"/>
+                <constraint firstItem="Bcs-2y-4c3" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="YXz-G8-QU8"/>
+                <constraint firstItem="quF-a1-B5k" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Yar-2u-8AD"/>
                 <constraint firstAttribute="bottom" secondItem="cx9-GQ-2WN" secondAttribute="bottom" id="eCp-yK-QmV"/>
                 <constraint firstAttribute="centerX" secondItem="xYw-ae-DlH" secondAttribute="centerX" id="ern-bv-UNB"/>
                 <constraint firstItem="KVa-du-ATY" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="n0U-ZX-PJn"/>
