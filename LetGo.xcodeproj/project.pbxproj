@@ -695,6 +695,10 @@
 		8E0C9DF51E96924F00768D27 /* PostCategoryDetailProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0C9DF31E96924F00768D27 /* PostCategoryDetailProgressView.swift */; };
 		8E0C9DF71E96935300768D27 /* PostCarDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0C9DF61E96935300768D27 /* PostCarDetailsView.swift */; };
 		8E0C9DF81E96935300768D27 /* PostCarDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0C9DF61E96935300768D27 /* PostCarDetailsView.swift */; };
+		8E1139E21EC9AD5B00A9D772 /* FilterDescriptionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1139E11EC9AD5B00A9D772 /* FilterDescriptionHeaderView.swift */; };
+		8E1139E31EC9AD5B00A9D772 /* FilterDescriptionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1139E11EC9AD5B00A9D772 /* FilterDescriptionHeaderView.swift */; };
+		8E1139E51EC9AD7100A9D772 /* FilterTitleHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1139E41EC9AD7100A9D772 /* FilterTitleHeaderView.swift */; };
+		8E1139E61EC9AD7100A9D772 /* FilterTitleHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1139E41EC9AD7100A9D772 /* FilterTitleHeaderView.swift */; };
 		8E15D7971E9B97D3000A99C0 /* PostCategoryDetailRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E15D7961E9B97D3000A99C0 /* PostCategoryDetailRowView.swift */; };
 		8E15D7981E9B97D3000A99C0 /* PostCategoryDetailRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E15D7961E9B97D3000A99C0 /* PostCategoryDetailRowView.swift */; };
 		8E2600731E2FB15D00242B3F /* ChangeEmailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2600721E2FB15D00242B3F /* ChangeEmailViewModel.swift */; };
@@ -1889,6 +1893,8 @@
 		7FF25262DBFA224AC937A467 /* Pods_LetGo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetGo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E0C9DF31E96924F00768D27 /* PostCategoryDetailProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCategoryDetailProgressView.swift; sourceTree = "<group>"; };
 		8E0C9DF61E96935300768D27 /* PostCarDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCarDetailsView.swift; sourceTree = "<group>"; };
+		8E1139E11EC9AD5B00A9D772 /* FilterDescriptionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterDescriptionHeaderView.swift; sourceTree = "<group>"; };
+		8E1139E41EC9AD7100A9D772 /* FilterTitleHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterTitleHeaderView.swift; sourceTree = "<group>"; };
 		8E15D7961E9B97D3000A99C0 /* PostCategoryDetailRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCategoryDetailRowView.swift; sourceTree = "<group>"; };
 		8E2600721E2FB15D00242B3F /* ChangeEmailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeEmailViewModel.swift; sourceTree = "<group>"; };
 		8E2600751E2FB16D00242B3F /* ChangeEmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeEmailViewController.swift; sourceTree = "<group>"; };
@@ -4225,6 +4231,8 @@
 				C7132A461BF4F56D0000747A /* Tags */,
 				D4BFE5AF1B640C36006A8CB6 /* MainProductsViewController.swift */,
 				D4BFE5B01B640C36006A8CB6 /* MainProductsViewController.xib */,
+				8E1139E11EC9AD5B00A9D772 /* FilterDescriptionHeaderView.swift */,
+				8E1139E41EC9AD7100A9D772 /* FilterTitleHeaderView.swift */,
 				D4BFE5B11B640C36006A8CB6 /* MainProductsViewModel.swift */,
 				C788EED61CC7847400B9E26F /* FilteredProductListRequester.swift */,
 			);
@@ -5326,6 +5334,7 @@
 				C7363FBC1BFA449A00A4BF6F /* ProductSortCriteria+LG.swift in Sources */,
 				5009F8441E5B25030064ED22 /* SignUpEmailStep1View.swift in Sources */,
 				C7B588A61CE1E025009B3975 /* ChatListViewModel.swift in Sources */,
+				8E1139E21EC9AD5B00A9D772 /* FilterDescriptionHeaderView.swift in Sources */,
 				503996D61C60C258004D2E09 /* LGViewPager.swift in Sources */,
 				C7AFFAFA1E7053EF0052A9CA /* NPSViewController.swift in Sources */,
 				6A5E19F81D548F5400F92692 /* GlobalFunctions.swift in Sources */,
@@ -5425,6 +5434,7 @@
 				C79895C81DE4349900DD58BF /* SessionEvent+LG.swift in Sources */,
 				72A83F641DD222100043EB3B /* Leanplum+LG.swift in Sources */,
 				C743FEB01E449F2E00B4E912 /* RateBuyersView.swift in Sources */,
+				8E1139E51EC9AD7100A9D772 /* FilterTitleHeaderView.swift in Sources */,
 				2EBC92051E0A77A5007F0F82 /* AppstoreProductsRequest.swift in Sources */,
 				72AC69951E71940B00944CE5 /* IncentiviseScrollBanner.swift in Sources */,
 				50C63B711DC3A79100836D85 /* SocialMessage.swift in Sources */,
@@ -5845,6 +5855,7 @@
 				C79643121D4F5AFA000C5FCE /* RelatedProductsView.swift in Sources */,
 				C749316F1D34FD0200E117F1 /* RateUserViewController.swift in Sources */,
 				5009F8451E5B25030064ED22 /* SignUpEmailStep1View.swift in Sources */,
+				8E1139E31EC9AD5B00A9D772 /* FilterDescriptionHeaderView.swift in Sources */,
 				C727FBC41CCFC545002BC643 /* NotificationsViewModel.swift in Sources */,
 				C7AFFAFB1E7053EF0052A9CA /* NPSViewController.swift in Sources */,
 				C7B5885E1CE1DE1C009B3975 /* OldChatViewModel.swift in Sources */,
@@ -5944,6 +5955,7 @@
 				C7D23FE21DCC96BA00931803 /* ProductCarouselUIHelper.swift in Sources */,
 				C7DB41F71C5138B500400945 /* DevelopmentEnvironment.swift in Sources */,
 				50C63B771DC3B63700836D85 /* ShareType.swift in Sources */,
+				8E1139E61EC9AD7100A9D772 /* FilterTitleHeaderView.swift in Sources */,
 				C743FEB11E449F2E00B4E912 /* RateBuyersView.swift in Sources */,
 				C79895C91DE43D5100DD58BF /* SessionEvent+LG.swift in Sources */,
 				72AC69961E71940B00944CE5 /* IncentiviseScrollBanner.swift in Sources */,
