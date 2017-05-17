@@ -13,7 +13,7 @@ import LGCoreKit
 enum ListingCellModel {
     case listingCell(listing: Listing)
     case collectionCell(type: CollectionCellType)
-    case emptyCell(vm: LGEmptyViewModel)
+    case emptyCell(vm: LGEmptyViewModel?)
     
     init(listing: Listing) {
         self = ListingCellModel.listingCell(listing: listing)

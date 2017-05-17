@@ -501,7 +501,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
             return
         }
 
-        if page == 0 && !hasProducts {
+        if page == 0 && !hasProducts && productListRequester.isUsingLastRequester {
             let errImage: UIImage?
             let errTitle: String?
             let errBody: String?
@@ -521,6 +521,9 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
             let emptyViewModel = LGEmptyViewModel(icon: errImage, title: errTitle, body: errBody, buttonTitle: nil,
                                                   action: nil, secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: nil)
             listViewModel.setEmptyState(emptyViewModel)
+
+        } else if page == 0 && !hasProducts && !productListRequester.isUsingLastRequester {
+            listViewModel.setWaitingState()
         }
 
         errorMessage.value = nil

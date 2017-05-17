@@ -316,7 +316,7 @@ extension UserViewModel {
         switch listVM.state {
         case .loading:
             listVM.retrieveProducts()
-        case .data, .error, .empty:
+        case .data, .error, .empty, .waitingNextRequester:
             break
         }
     }

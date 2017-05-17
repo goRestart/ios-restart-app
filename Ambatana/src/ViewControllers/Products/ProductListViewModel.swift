@@ -165,6 +165,11 @@ class ProductListViewModel: BaseViewModel {
         objects = [ListingCellModel.emptyCell(vm: viewModel)]
     }
 
+    func setWaitingState() {
+        state = .waitingNextRequester
+        objects = [ListingCellModel.emptyCell(vm: nil)]
+    }
+
     func refreshControlTriggered() {
         refresh()
     }

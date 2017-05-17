@@ -206,7 +206,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             let headerFrame = CGRect(origin: CGPoint.zero, size: collectionHeaderSize)
             let insideHeader = headerFrame.contains(collectionConvertedPoint)
             return insideHeader ? hitView : errorView
-        case .data, .loading, .error:
+        case .data, .loading, .error, .waitingNextRequester:
             return hitView
         }
     }
@@ -521,6 +521,11 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             dataView.isHidden = false
             errorView.isHidden = false
             setErrorState(emptyVM)
+        case .waitingNextRequester:
+            // Show/hide views
+            firstLoadView.isHidden = false
+            dataView.isHidden = true
+            errorView.isHidden = true
         }
     }
 
