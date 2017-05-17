@@ -26,6 +26,12 @@ class ProductListMultiRequester {
         return currentIndex == requestersArray.count-1
     }
 
+    // var used for UT
+    var numOfRequesters: Int {
+        return requestersArray.count
+    }
+
+
     // MARK: - Lifecycle
 
     convenience init() {

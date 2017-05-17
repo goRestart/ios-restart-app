@@ -177,6 +177,7 @@
 		2EDCFA331BFF8AB00000E47D /* SignUpLogInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDCFA301BFF8AB00000E47D /* SignUpLogInViewModel.swift */; };
 		2EE4BD211CDA398400EAADF9 /* CrashManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4BD201CDA398400EAADF9 /* CrashManager.swift */; };
 		2EE4BD221CDA398400EAADF9 /* CrashManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4BD201CDA398400EAADF9 /* CrashManager.swift */; };
+		2EEBD9741ECB5AF100F43E76 /* FilterProductListRequesterFactorySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEBD9731ECB5AF100F43E76 /* FilterProductListRequesterFactorySpec.swift */; };
 		2EED4D251D23F03E0024328A /* ChatListing+title.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EED4D241D23F03E0024328A /* ChatListing+title.swift */; };
 		2EED4D261D23F03E0024328A /* ChatListing+title.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EED4D241D23F03E0024328A /* ChatListing+title.swift */; };
 		2EEDC5881E71B0D6008779D8 /* HOF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC653B41E71744B00E23DDF /* HOF.swift */; };
@@ -1535,6 +1536,7 @@
 		2EDCFA301BFF8AB00000E47D /* SignUpLogInViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpLogInViewModel.swift; sourceTree = "<group>"; };
 		2EE47E591BBEA5B70034C19D /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		2EE4BD201CDA398400EAADF9 /* CrashManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashManager.swift; sourceTree = "<group>"; };
+		2EEBD9731ECB5AF100F43E76 /* FilterProductListRequesterFactorySpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterProductListRequesterFactorySpec.swift; sourceTree = "<group>"; };
 		2EED4D241D23F03E0024328A /* ChatListing+title.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatListing+title.swift"; sourceTree = "<group>"; };
 		2EF0BB121E784468006808B5 /* MockPaymentQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockPaymentQueue.swift; sourceTree = "<group>"; };
 		2EF4E3A81D3688AB00A09DFD /* LGConfigManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LGConfigManager.swift; path = Config/LGConfigManager.swift; sourceTree = "<group>"; };
@@ -3219,6 +3221,7 @@
 			isa = PBXGroup;
 			children = (
 				50D08D901E69AF14009CC260 /* ProductListMultiRequesterSpec.swift */,
+				2EEBD9731ECB5AF100F43E76 /* FilterProductListRequesterFactorySpec.swift */,
 			);
 			path = MultiRequester;
 			sourceTree = "<group>";
@@ -5063,6 +5066,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EEBD9741ECB5AF100F43E76 /* FilterProductListRequesterFactorySpec.swift in Sources */,
 				C750AA8D1E6D77B7005F87C5 /* MockImageDownloader.swift in Sources */,
 				50D08DE51E69AF14009CC260 /* SignUpLogInViewModelSpec.swift in Sources */,
 				50D08DD41E69AF14009CC260 /* LocalProductSpec.swift in Sources */,
