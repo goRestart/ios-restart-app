@@ -186,6 +186,17 @@ struct TrackerEvent {
         params[.listSuccess] = success.rawValue
         return TrackerEvent(name: .productList, params: params)
     }
+    
+    static func productListVertical(category: ListingCategory, keywords: [String],
+                                    matchingFields: [String], notMatchingFields: [String]) -> TrackerEvent {
+        var params = EventParameters()
+        params[.categoryId] = String(category.rawValue)
+        params[.verticalKeyword] = keywords.joined(separator: "_")
+        params[.verticalMatchingFields] = matchingFields.joined(separator: ",")
+        params[.verticalNoMatchingFields] = notMatchingFields.joined(separator: ",")
+
+        return TrackerEvent(name: .productListVertical, params: params)
+    }
 
     static func exploreCollection(_ collectionTitle: String) -> TrackerEvent {
         var params = EventParameters()

@@ -732,6 +732,34 @@ class TrackerEventSpec: QuickSpec {
                     expect(listSuccess).to(equal("true"))
                 }
             }
+            
+            describe("productListVertical") {
+                let categories: [ListingCategory] = [.homeAndGarden, .motorsAndAccessories]
+                let searchQuery = "iPhone"
+                beforeEach {
+                    sut = TrackerEvent.productListVertical(category: .cars,
+                                                           keywords: ["kw1", "kw2"],
+                                                           matchingFields: ["mf1", "mf2"],
+                                                           notMatchingFields: ["nmf1", "nmf2"])
+                }
+                
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-list-vertical"))
+                }
+                it("contains the category id parameter") {
+                    let categoryId = sut.params!.stringKeyParams["category-id"] as? String
+                    expect(categoryId).to(equal("9"))
+                }
+                it("contains vertical keyword parameter") {
+                    expect(sut.params!.stringKeyParams["vertical-keyword"] as? String) == "kw1_kw2"
+                }
+                it("contains vertical matching fields parameter") {
+                    expect(sut.params!.stringKeyParams["vertical-matching-fields"] as? String) == "mf1,mf2"
+                }
+                it("contains vertical no  matching fields parameter") {
+                    expect(sut.params!.stringKeyParams["vertical-no-matching-fields"] as? String) == "nmf1,nmf2"
+                }
+            }
 
             describe("searchStart") {
                 it("has its event name") {
