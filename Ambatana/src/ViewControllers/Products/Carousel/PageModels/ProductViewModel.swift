@@ -27,11 +27,6 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
 protocol ProductViewModelMaker {
     func make(listing: Listing, visitSource: EventParameterProductVisitSource) -> ProductViewModel
 }
-struct VisitedListing {
-    let listingId: String
-    let source: EventParameterProductVisitSource
-
-}
 
 class ProductViewModel: BaseViewModel {
     class ConvenienceMaker: ProductViewModelMaker {

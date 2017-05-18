@@ -113,6 +113,7 @@ class ProductCarouselViewModel: BaseViewModel {
     fileprivate let keyValueStorage: KeyValueStorageable
     fileprivate let imageDownloader: ImageDownloaderType
     fileprivate let productViewModelMaker: ProductViewModelMaker
+    fileprivate let currentMovement: CarouselMovement = .initial
 
     fileprivate let disposeBag = DisposeBag()
 
@@ -214,7 +215,7 @@ class ProductCarouselViewModel: BaseViewModel {
         super.init()
         self.trackingIndex = trackingIndex
         setupRxBindings()
-        moveToProductAtIndex(startIndex, movement: .initial)
+        moveToProductAtIndex(startIndex, movement: currentMovement)
 
         if firstProductSyncRequired {
             syncFirstListing()
@@ -228,9 +229,11 @@ class ProductCarouselViewModel: BaseViewModel {
 
         // Tracking
         if let trackingIndex = trackingIndex, currentIndex == startIndex {
-            currentProductViewModel?.trackVisit(.none, source: source, feedPosition: .position(index: trackingIndex))
+            currentProductViewModel?.trackVisit(.none, source: source.getSourceVisitParameter(withMovement: currentMovement),
+                                                feedPosition: .position(index: trackingIndex))
         } else {
-            currentProductViewModel?.trackVisit(.none, source: source, feedPosition: .none)
+            currentProductViewModel?.trackVisit(.none, source: source.getSourceVisitParameter(withMovement: currentMovement),
+                                                feedPosition: .none)
         }
     }
     
@@ -561,45 +564,6 @@ extension CarouselMovement {
             return .none
         case .initial:
             return .position(index: index)
-        }
-    }
-}
-
-extension EventParameterProductVisitSource {
-    func getSourceVisitParameter(withMovement movement: CarouselMovement) -> EventParameterProductVisitSource {
-        switch movement {
-        case .initial:
-            return self
-        case .swipeRight, .tap:
-            switch self {
-            case .productList, .productListNext, .productListPrevious: return .productListNext
-            case .moreInfoRelated, .moreInfoRelatedNext, .moreInfoRelatedPrevious: return .moreInfoRelatedNext
-            case .collection, .collectionNext, .collectionPrevious: return .collectionNext
-            case .search, .searchNext, .searchPrevious: return .searchNext
-            case .filter, .filterNext, .filterPrevious: return .filterNext
-            case .searchAndFilter, .searchAndFilterNext, .searchAndFilterPrevious: return .searchAndFilterNext
-            case .category: return .category
-            case .profile, .profileNext, .profilePrevious: return .profileNext
-            case .chat, .chatNext, .chatPrevious: return .chatNext
-            case .openApp, .openAppNext, .openAppPrevious: return .openAppNext
-            case .notifications, .notificationsNext, .notificationsPrevious: return .notificationsNext
-            case .unknown: return .unknown
-            }
-        case .swipeLeft:
-            switch self {
-            case .productList, .productListNext, .productListPrevious: return .productListPrevious
-            case .moreInfoRelated, .moreInfoRelatedNext, .moreInfoRelatedPrevious: return .moreInfoRelatedPrevious
-            case .collection, .collectionNext, .collectionPrevious: return .collectionPrevious
-            case .search, .searchNext, .searchPrevious: return .searchPrevious
-            case .filter, .filterNext, .filterPrevious: return .filterPrevious
-            case .searchAndFilter, .searchAndFilterNext, .searchAndFilterPrevious: return .searchAndFilterPrevious
-            case .category: return .category
-            case .profile, .profileNext, .profilePrevious: return .profilePrevious
-            case .chat, .chatNext, .chatPrevious: return .chatPrevious
-            case .openApp, .openAppNext, .openAppPrevious: return .openAppPrevious
-            case .notifications, .notificationsNext, .notificationsPrevious: return .notificationsPrevious
-            case .unknown: return .unknown
-            }
         }
     }
 }

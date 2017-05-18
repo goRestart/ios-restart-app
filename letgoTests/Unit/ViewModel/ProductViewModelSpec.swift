@@ -51,6 +51,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
             func buildProductViewModel() {
                 let socialSharer = SocialSharer()
                 sut = ProductViewModel(listing: .product(product),
+                                       visitSource: .productList,
                                         myUserRepository: myUserRepository,
                                         listingRepository: listingRepository,
                                         commercializerRepository: commercializerRepository,

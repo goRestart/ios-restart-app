@@ -1320,7 +1320,7 @@ class TrackerEventSpec: QuickSpec {
                         .set(typePage: .productDetail)
                         .set(sellerRating: 4)
                         .set(isBumpedUp: .trueParameter)
-                    sut = TrackerEvent.firstMessage(info: sendMessageInfo)
+                    sut = TrackerEvent.firstMessage(info: sendMessageInfo, productVisitSource: .productList)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-ask-question"))
@@ -1373,10 +1373,14 @@ class TrackerEventSpec: QuickSpec {
                     let bumpedUp = sut.params!.stringKeyParams["bump-up"] as? String
                     expect(bumpedUp) == "true"
                 }
+                it("contains product visit source") {
+                    let bumpedUp = sut.params!.stringKeyParams["visit-source"] as? String
+                    expect(bumpedUp) == "product-list"
+                }
                 describe("text message") {
                     beforeEach {
                         sendMessageInfo.set(messageType: .text)
-                        sut = TrackerEvent.firstMessage(info: sendMessageInfo)
+                        sut = TrackerEvent.firstMessage(info: sendMessageInfo, productVisitSource: .productList)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1389,7 +1393,7 @@ class TrackerEventSpec: QuickSpec {
                 describe("sticker message") {
                     beforeEach {
                         sendMessageInfo.set(messageType: .sticker)
-                        sut = TrackerEvent.firstMessage(info: sendMessageInfo)
+                        sut = TrackerEvent.firstMessage(info: sendMessageInfo, productVisitSource: .productList)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1403,7 +1407,7 @@ class TrackerEventSpec: QuickSpec {
                     beforeEach {
                         sendMessageInfo.set(messageType: .quickAnswer)
                         sendMessageInfo.set(quickAnswerType: .notInterested)
-                        sut = TrackerEvent.firstMessage(info: sendMessageInfo)
+                        sut = TrackerEvent.firstMessage(info: sendMessageInfo, productVisitSource: .productList)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1434,7 +1438,7 @@ class TrackerEventSpec: QuickSpec {
                         .set(typePage: .productDetail)
                         .set(sellerRating: 4)
                         .set(isBumpedUp: .trueParameter)
-                    sut = TrackerEvent.firstMessage(info: sendMessageInfo)
+                    sut = TrackerEvent.firstMessage(info: sendMessageInfo, productVisitSource: .productList)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-ask-question"))
@@ -1475,10 +1479,14 @@ class TrackerEventSpec: QuickSpec {
                     let bumpedUp = sut.params!.stringKeyParams["bump-up"] as? String
                     expect(bumpedUp) == "true"
                 }
+                it("contains product visit source") {
+                    let bumpedUp = sut.params!.stringKeyParams["visit-source"] as? String
+                    expect(bumpedUp) == "product-list"
+                }
                 describe("text message") {
                     beforeEach {
                         sendMessageInfo.set(messageType: .text)
-                        sut = TrackerEvent.firstMessage(info: sendMessageInfo)
+                        sut = TrackerEvent.firstMessage(info: sendMessageInfo, productVisitSource: .productList)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1491,7 +1499,7 @@ class TrackerEventSpec: QuickSpec {
                 describe("sticker message") {
                     beforeEach {
                         sendMessageInfo.set(messageType: .sticker)
-                        sut = TrackerEvent.firstMessage(info: sendMessageInfo)
+                        sut = TrackerEvent.firstMessage(info: sendMessageInfo, productVisitSource: .productList)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1505,7 +1513,7 @@ class TrackerEventSpec: QuickSpec {
                     beforeEach {
                         sendMessageInfo.set(messageType: .quickAnswer)
                         sendMessageInfo.set(quickAnswerType: .notInterested)
-                        sut = TrackerEvent.firstMessage(info: sendMessageInfo)
+                        sut = TrackerEvent.firstMessage(info: sendMessageInfo, productVisitSource: .productList)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String

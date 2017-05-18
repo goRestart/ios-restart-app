@@ -723,6 +723,42 @@ enum EventParameterProductVisitSource: String {
     case notificationsPrevious = "previous-notifications"
     case unknown = "N/A"
 
+    func getSourceVisitParameter(withMovement movement: CarouselMovement) -> EventParameterProductVisitSource {
+        switch movement {
+        case .initial:
+            return self
+        case .swipeRight, .tap:
+            switch self {
+            case .productList, .productListNext, .productListPrevious: return .productListNext
+            case .moreInfoRelated, .moreInfoRelatedNext, .moreInfoRelatedPrevious: return .moreInfoRelatedNext
+            case .collection, .collectionNext, .collectionPrevious: return .collectionNext
+            case .search, .searchNext, .searchPrevious: return .searchNext
+            case .filter, .filterNext, .filterPrevious: return .filterNext
+            case .searchAndFilter, .searchAndFilterNext, .searchAndFilterPrevious: return .searchAndFilterNext
+            case .category: return .category
+            case .profile, .profileNext, .profilePrevious: return .profileNext
+            case .chat, .chatNext, .chatPrevious: return .chatNext
+            case .openApp, .openAppNext, .openAppPrevious: return .openAppNext
+            case .notifications, .notificationsNext, .notificationsPrevious: return .notificationsNext
+            case .unknown: return .unknown
+            }
+        case .swipeLeft:
+            switch self {
+            case .productList, .productListNext, .productListPrevious: return .productListPrevious
+            case .moreInfoRelated, .moreInfoRelatedNext, .moreInfoRelatedPrevious: return .moreInfoRelatedPrevious
+            case .collection, .collectionNext, .collectionPrevious: return .collectionPrevious
+            case .search, .searchNext, .searchPrevious: return .searchPrevious
+            case .filter, .filterNext, .filterPrevious: return .filterPrevious
+            case .searchAndFilter, .searchAndFilterNext, .searchAndFilterPrevious: return .searchAndFilterPrevious
+            case .category: return .category
+            case .profile, .profileNext, .profilePrevious: return .profilePrevious
+            case .chat, .chatNext, .chatPrevious: return .chatPrevious
+            case .openApp, .openAppNext, .openAppPrevious: return .openAppPrevious
+            case .notifications, .notificationsNext, .notificationsPrevious: return .notificationsPrevious
+            case .unknown: return .unknown
+            }
+        }
+    }
 }
 
 enum EventParameterFeedPosition {
