@@ -40,6 +40,7 @@ class ProductCarouselViewModel: BaseViewModel {
             setCurrentIndex(currentIndex)
         }
     }
+    
     weak var delegate: ProductCarouselViewModelDelegate?
     weak var navigator: ProductDetailNavigator? {
         didSet {
@@ -252,14 +253,13 @@ class ProductCarouselViewModel: BaseViewModel {
     }
 
     func moveToProductAtIndex(_ index: Int, movement: CarouselMovement) {
-        guard let viewModel = viewModelAt(index: index) else { return }
+        guard let viewModel = viewModelAt(index: index, movement: movement) else { return }
         currentProductViewModel?.active = false
         currentProductViewModel?.delegate = nil
         currentProductViewModel = viewModel
         currentProductViewModel?.delegate = self
         currentProductViewModel?.active = active
         currentIndex = index
-        
         setupCurrentProductVMRxBindings(forIndex: index)
         prefetchNeighborsImages(index, movement: movement)
 
@@ -330,17 +330,18 @@ class ProductCarouselViewModel: BaseViewModel {
         return productCellModelAt(index: index)?.listing
     }
 
-    private func viewModelAt(index: Int) -> ProductViewModel? {
+    private func viewModelAt(index: Int, movement: CarouselMovement) -> ProductViewModel? {
         guard let listing = listingAt(index: index) else { return nil }
-        return viewModelFor(listing: listing)
+        return viewModelFor(listing: listing, movement: movement)
     }
     
-    private func viewModelFor(listing: Listing) -> ProductViewModel? {
+    private func viewModelFor(listing: Listing, movement: CarouselMovement) -> ProductViewModel? {
         guard let listingId = listing.objectId else { return nil }
         if let vm = productsViewModels[listingId] {
             return vm
         }
-        let vm = productViewModelMaker.make(listing: listing)
+        let visitSourceWithMovement = source.getSourceVisitParameter(withMovement: movement)
+        let vm = productViewModelMaker.make(listing: listing, visitSource: visitSourceWithMovement)
         vm.navigator = navigator
         productsViewModels[listingId] = vm
         return vm
@@ -560,6 +561,44 @@ extension CarouselMovement {
             return .none
         case .initial:
             return .position(index: index)
+        }
+    }
+}
+
+
+extension EventParameterProductVisitSource {
+    func getSourceVisitParameter(withMovement movement: CarouselMovement) -> EventParameterProductVisitSource {
+        switch movement {
+        case .initial:
+            return self
+        case .swipeRight, .tap:
+            switch self {
+            case .productList, .productListNext, .productListPrevious: return .productListNext
+            case .moreInfoRelated, .moreInfoRelatedNext, .moreInfoRelatedPrevious: return .moreInfoRelatedNext
+            case .collection, .collectionNext, .collectionPrevious: return .collectionNext
+            case .search, .searchNext, .searchPrevious: return .searchNext
+            case .filter, .filterNext, .filterPrevious: return .filterNext
+            case .searchAndFilter, .searchAndFilterNext, .searchAndFilterPrevious: return .searchAndFilterNext
+            case .category: return .category
+            case .profile, .profileNext, .profilePrevious: return .profileNext
+            case .chat, .chatNext, .chatPrevious: return .chatNext
+            case .openApp, .openAppNext, .openAppPrevious: return .openAppNext
+            case .notifications, .notificationsNext, .notificationsPrevious: return .notificationsNext
+            }
+        case .swipeLeft:
+            switch self {
+            case .productList, .productListNext, .productListPrevious: return .productListPrevious
+            case .moreInfoRelated, .moreInfoRelatedNext, .moreInfoRelatedPrevious: return .moreInfoRelatedPrevious
+            case .collection, .collectionNext, .collectionPrevious: return .collectionPrevious
+            case .search, .searchNext, .searchPrevious: return .searchPrevious
+            case .filter, .filterNext, .filterPrevious: return .filterPrevious
+            case .searchAndFilter, .searchAndFilterNext, .searchAndFilterPrevious: return .searchAndFilterPrevious
+            case .category: return .category
+            case .profile, .profileNext, .profilePrevious: return .profilePrevious
+            case .chat, .chatNext, .chatPrevious: return .chatPrevious
+            case .openApp, .openAppNext, .openAppPrevious: return .openAppPrevious
+            case .notifications, .notificationsNext, .notificationsPrevious: return .notificationsPrevious
+            }
         }
     }
 }
