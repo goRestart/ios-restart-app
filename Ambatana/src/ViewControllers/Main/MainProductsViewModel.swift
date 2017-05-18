@@ -508,29 +508,30 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
             return
         }
 
-        if page == 0 && !hasProducts && productListRequester.isUsingLastRequester {
-            let errImage: UIImage?
-            let errTitle: String?
-            let errBody: String?
+        if !hasProducts {
+            if productListRequester.multiIsLastPage {
+                let errImage: UIImage?
+                let errTitle: String?
+                let errBody: String?
 
-            // Search
-            if queryString != nil || !filters.isDefault() {
-                errImage = UIImage(named: "err_search_no_products")
-                errTitle = LGLocalizedString.productSearchNoProductsTitle
-                errBody = LGLocalizedString.productSearchNoProductsBody
+                // Search
+                if queryString != nil || !filters.isDefault() {
+                    errImage = UIImage(named: "err_search_no_products")
+                    errTitle = LGLocalizedString.productSearchNoProductsTitle
+                    errBody = LGLocalizedString.productSearchNoProductsBody
+                } else {
+                    // Listing
+                    errImage = UIImage(named: "err_list_no_products")
+                    errTitle = LGLocalizedString.productListNoProductsTitle
+                    errBody = LGLocalizedString.productListNoProductsBody
+                }
+
+                let emptyViewModel = LGEmptyViewModel(icon: errImage, title: errTitle, body: errBody, buttonTitle: nil,
+                                                      action: nil, secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: nil)
+                listViewModel.setEmptyState(emptyViewModel)
             } else {
-                // Listing
-                errImage = UIImage(named: "err_list_no_products")
-                errTitle = LGLocalizedString.productListNoProductsTitle
-                errBody = LGLocalizedString.productListNoProductsBody
+                listViewModel.retrieveProductsNextPage()
             }
-
-            let emptyViewModel = LGEmptyViewModel(icon: errImage, title: errTitle, body: errBody, buttonTitle: nil,
-                                                  action: nil, secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: nil)
-            listViewModel.setEmptyState(emptyViewModel)
-
-        } else if page == 0 && !hasProducts && !productListRequester.isUsingLastRequester {
-            listViewModel.setWaitingState()
         }
 
         errorMessage.value = nil

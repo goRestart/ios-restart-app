@@ -166,11 +166,6 @@ class ProductListViewModel: BaseViewModel {
         objects = [ListingCellModel.emptyCell(vm: viewModel)]
     }
 
-    func setWaitingState() {
-        state = .waitingNextRequester
-        objects = [ListingCellModel.emptyCell(vm: nil)]
-    }
-
     func refreshControlTriggered() {
         refresh()
     }
@@ -252,7 +247,10 @@ class ProductListViewModel: BaseViewModel {
                 let hasProducts = strongSelf.numberOfProducts > 0
                 strongSelf.isLastPage = strongSelf.productListRequester?.isLastPage(newListings.count) ?? true
                 //This assignment should be ALWAYS before calling the delegates to give them the option to re-set the state
-                strongSelf.state = .data
+                if hasProducts {
+                    // to avoid showing "loading footer" when there are no elements
+                    strongSelf.state = .data
+                }
                 strongSelf.delegate?.vmDidFinishLoading(strongSelf, page: nextPageNumber, indexes: indexes)
                 strongSelf.dataDelegate?.productListVM(strongSelf, didSucceedRetrievingProductsPage: nextPageNumber,
                                                        hasProducts: hasProducts)

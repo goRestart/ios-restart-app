@@ -206,7 +206,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             let headerFrame = CGRect(origin: CGPoint.zero, size: collectionHeaderSize)
             let insideHeader = headerFrame.contains(collectionConvertedPoint)
             return insideHeader ? hitView : errorView
-        case .data, .loading, .error, .waitingNextRequester:
+        case .data, .loading, .error:
             return hitView
         }
     }
@@ -268,7 +268,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     
     func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!,
         heightForFooterInSection section: Int) -> CGFloat {
-            return Constants.productListFooterHeight
+        return Constants.productListFooterHeight
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
@@ -404,32 +404,31 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
     func vmDidFinishLoading(_ vm: ProductListViewModel, page: UInt, indexes: [Int]) {
         guard viewModel === vm else { return }
-
-        // Added delay to avoid overlapping 2 modifications to the collection
-        delay(0.1) { _ in
-            if page == 0 {
-                self.reloadData()
-                if self.refreshControl.isRefreshing {
-                    self.refreshControl.endRefreshing()
-                } else if self.shouldScrollToTopOnFirstPageReload {
-                    self.scrollToTop(false)
-                }
-            } else if self.viewModel.isLastPage {
-                // Last page
-                // Reload in order to be able to reload the footer
-                self.reloadData()
-            } else if !indexes.isEmpty {
-                // Middle pages
-                // Insert animated
-                let indexPaths = indexes.map{ IndexPath(item: $0, section: 0) }
-                self.collectionView.insertItems(at: indexPaths)
-            } else {
-                self.reloadData()
+        if page == 0 {
+            reloadData()
+            if refreshControl.isRefreshing {
+                refreshControl.endRefreshing()
+            } else if shouldScrollToTopOnFirstPageReload {
+                scrollToTop(false)
+            }
+        } else if self.viewModel.isLastPage {
+            // Last page
+            // Reload in order to be able to reload the footer
+            reloadData()
+        } else if !indexes.isEmpty {
+            // Middle pages
+            // Insert animated
+            let indexPaths = indexes.map{ IndexPath(item: $0, section: 0) }
+            collectionView.insertItems(at: indexPaths)
+        } else {
+            // delay added because reload is ignored if too fast after insertItems
+            delay(0.4) { _ in
+                self.collectionView.reloadSections(IndexSet(integer: 0))
             }
         }
     }
-    
-    
+
+
     // MARK: - Private methods
     // MARK: > UI
 
@@ -521,11 +520,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             dataView.isHidden = false
             errorView.isHidden = false
             setErrorState(emptyVM)
-        case .waitingNextRequester:
-            // Show/hide views
-            firstLoadView.isHidden = false
-            dataView.isHidden = true
-            errorView.isHidden = true
         }
     }
 

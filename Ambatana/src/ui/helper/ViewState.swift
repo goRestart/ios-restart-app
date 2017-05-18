@@ -13,20 +13,19 @@ enum ViewState {
     case data
     case empty(LGEmptyViewModel)
     case error(LGEmptyViewModel)
-    case waitingNextRequester
 
     var isLoading: Bool {
         switch self {
         case .loading:
             return true
-        case .data, .empty, .error, .waitingNextRequester:
+        case .data, .empty, .error:
             return false
         }
     }
 
     var isData: Bool {
         switch self {
-        case .data, .waitingNextRequester:
+        case .data:
             return true
         case .loading, .empty, .error:
             return false

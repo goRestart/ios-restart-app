@@ -48,7 +48,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
                     trackErrorStateShown(reason: emptyReason)
                 }
                 
-            case .loading, .data, .empty, .waitingNextRequester:
+            case .loading, .data, .empty:
                 break
             }
         }
@@ -126,7 +126,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
         switch status {
         case .empty, .error, .data:
             return false
-        case .loading, .waitingNextRequester:
+        case .loading:
             return true
         }
     }
@@ -135,7 +135,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
         switch status {
         case .empty, .error:
             return false
-        case .loading, .data, .waitingNextRequester:
+        case .loading, .data:
             return true
         }
     }
@@ -146,14 +146,14 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
             return viewModel
         case let .error(viewModel):
             return viewModel
-        case .loading, .data, .waitingNextRequester:
+        case .loading, .data:
             return nil
         }
     }
 
     var tableViewHidden: Bool {
         switch status {
-        case .empty, .error, .loading, .waitingNextRequester:
+        case .empty, .error, .loading:
             return true
         case .data:
             return false

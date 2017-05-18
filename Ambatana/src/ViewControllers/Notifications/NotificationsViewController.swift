@@ -74,7 +74,7 @@ class NotificationsViewController: BaseViewController {
     private func setupRX() {
         viewModel.viewState.asObservable().bindNext { [weak self] state in
             switch state {
-            case .loading, .waitingNextRequester:
+            case .loading:
                 self?.activityIndicator.startAnimating()
                 self?.emptyView.isHidden = true
                 self?.tableView.isHidden = true

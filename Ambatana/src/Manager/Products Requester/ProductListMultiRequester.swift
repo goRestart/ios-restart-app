@@ -16,7 +16,7 @@ class ProductListMultiRequester {
     fileprivate var activeRequester: ProductListRequester?
     var currentIndex: Int // not private for testing reasons
     fileprivate var hasChangedRequester: Bool // use it to ask for 1st page of next requester
-    fileprivate var multiIsLastPage: Bool
+    var multiIsLastPage: Bool
 
     var itemsPerPage: Int {
         return activeRequester?.itemsPerPage ?? 0
