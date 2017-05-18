@@ -261,6 +261,10 @@
 		504652F31CC0F398003F5070 /* Listing+Title.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504652F11CC0F0B3003F5070 /* Listing+Title.swift */; };
 		504ADFBF1DB7564E00CCAEAA /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 504ADFBE1DB7564E00CCAEAA /* UserNotifications.framework */; };
 		504ADFC01DB7565600CCAEAA /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 504ADFBE1DB7564E00CCAEAA /* UserNotifications.framework */; };
+		504C63B91ECAE0AB00D33BFA /* PushManagerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504C63B81ECAE0AB00D33BFA /* PushManagerSpec.swift */; };
+		504C63BC1ECAF18F00D33BFA /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504C63BB1ECAF18F00D33BFA /* Application.swift */; };
+		504C63BD1ECAF18F00D33BFA /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504C63BB1ECAF18F00D33BFA /* Application.swift */; };
+		504C63C41ECAF2EA00D33BFA /* MockApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504C63C31ECAF2EA00D33BFA /* MockApplication.swift */; };
 		504E61FB1C872E2400EBF38F /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504E61FA1C872E2400EBF38F /* Debug.swift */; };
 		504E61FC1C872E2400EBF38F /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504E61FA1C872E2400EBF38F /* Debug.swift */; };
 		50560B971B25D18F0021D8D9 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50560B881B25D18F0021D8D9 /* BaseViewController.swift */; };
@@ -1600,6 +1604,9 @@
 		5042D6761BDA8B6F00E54064 /* LGLocalizedString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGLocalizedString.swift; sourceTree = "<group>"; };
 		504652F11CC0F0B3003F5070 /* Listing+Title.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Listing+Title.swift"; sourceTree = "<group>"; };
 		504ADFBE1DB7564E00CCAEAA /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		504C63B81ECAE0AB00D33BFA /* PushManagerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushManagerSpec.swift; sourceTree = "<group>"; };
+		504C63BB1ECAF18F00D33BFA /* Application.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
+		504C63C31ECAF2EA00D33BFA /* MockApplication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockApplication.swift; sourceTree = "<group>"; };
 		504E61FA1C872E2400EBF38F /* Debug.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
 		50560B881B25D18F0021D8D9 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		50560B891B25D18F0021D8D9 /* BaseViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
@@ -2580,6 +2587,30 @@
 			path = LGViewPagerTab;
 			sourceTree = "<group>";
 		};
+		504C63BA1ECAF12900D33BFA /* UIKit */ = {
+			isa = PBXGroup;
+			children = (
+				504C63BB1ECAF18F00D33BFA /* Application.swift */,
+			);
+			path = UIKit;
+			sourceTree = "<group>";
+		};
+		504C63C11ECAF2D600D33BFA /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				504C63C21ECAF2D600D33BFA /* UIKit */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		504C63C21ECAF2D600D33BFA /* UIKit */ = {
+			isa = PBXGroup;
+			children = (
+				504C63C31ECAF2EA00D33BFA /* MockApplication.swift */,
+			);
+			path = UIKit;
+			sourceTree = "<group>";
+		};
 		50560B871B25D18F0021D8D9 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -3078,6 +3109,7 @@
 				50D08D601E69AF14009CC260 /* Manager */,
 				50D08D6B1E69AF14009CC260 /* MockProductListRequester.swift */,
 				50D08D6C1E69AF14009CC260 /* Model */,
+				504C63C11ECAF2D600D33BFA /* Protocols */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -3196,6 +3228,7 @@
 				50D08D831E69AF14009CC260 /* GodModeManagerSpec.swift */,
 				50D08D841E69AF14009CC260 /* NotificationsManagerSpec.swift */,
 				50D08D851E69AF14009CC260 /* PurchasesShopperSpec.swift */,
+				504C63B81ECAE0AB00D33BFA /* PushManagerSpec.swift */,
 				50D08D861E69AF14009CC260 /* Tracking */,
 				50D08D891E69AF14009CC260 /* VersionCheckerSpec.swift */,
 			);
@@ -3499,6 +3532,7 @@
 		6AEF66B11C5A153E0025D43C /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				504C63BA1ECAF12900D33BFA /* UIKit */,
 				6AEF66B21C5A155C0025D43C /* Paginable.swift */,
 				50F681F11C8F4586001F33A3 /* RxPaginable.swift */,
 				C730FD101E77FC5A00175C27 /* BooleanDAO.swift */,
@@ -5119,10 +5153,12 @@
 				72D928F31E840F440030F4C3 /* MockPushPermissionsManager.swift in Sources */,
 				50D08DD61E69AF14009CC260 /* ProductListMultiRequesterSpec.swift in Sources */,
 				50D08DCC1E69AF14009CC260 /* GodModeManagerSpec.swift in Sources */,
+				504C63C41ECAF2EA00D33BFA /* MockApplication.swift in Sources */,
 				C750AA8B1E6D76DC005F87C5 /* MockProductViewModelMaker.swift in Sources */,
 				50D08DE11E69AF14009CC260 /* ProductCarouselViewModelSpec.swift in Sources */,
 				2EF0BB131E784468006808B5 /* MockPaymentQueue.swift in Sources */,
 				C765EE4B1E7FEEE200063750 /* MockChatEvent.swift in Sources */,
+				504C63B91ECAE0AB00D33BFA /* PushManagerSpec.swift in Sources */,
 				50D08DD01E69AF14009CC260 /* TrackerProxySpec.swift in Sources */,
 				50D08DE71E69AF14009CC260 /* TourLoginViewModelSpec.swift in Sources */,
 				C7AFFB101E7176BC0052A9CA /* WebSurveyViewModelSpec.swift in Sources */,
@@ -5211,6 +5247,7 @@
 				50CBCD5F1BF0BB8F00A329BB /* CollectionViewFooter.swift in Sources */,
 				50560B971B25D18F0021D8D9 /* BaseViewController.swift in Sources */,
 				C71C5D5E1D958974006EB3CE /* BumperFeatures.swift in Sources */,
+				504C63BC1ECAF18F00D33BFA /* Application.swift in Sources */,
 				C78F9DB61DC9ED1300884064 /* LocalProduct.swift in Sources */,
 				50C43D9F1E26465E00F10E53 /* SignUpEmailStep1ViewModel.swift in Sources */,
 				6A12E0521C63988100C1BFE3 /* TourNotificationsViewController.swift in Sources */,
@@ -5732,6 +5769,7 @@
 				2E373FB01D3E6F5100AC811C /* UserRatingListViewModel.swift in Sources */,
 				50146BDD1D4F90F100B0F635 /* MainTabNavigator.swift in Sources */,
 				C7DB41981C5138B500400945 /* CollectionViewFooter.swift in Sources */,
+				504C63BD1ECAF18F00D33BFA /* Application.swift in Sources */,
 				C7DB41991C5138B500400945 /* BaseViewController.swift in Sources */,
 				6A12E0531C63988100C1BFE3 /* TourNotificationsViewController.swift in Sources */,
 				C78F9DB71DC9ED1400884064 /* LocalProduct.swift in Sources */,

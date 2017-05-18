@@ -56,8 +56,8 @@ class LGPushPermissionsManager: PushPermissionsManager {
         checkForSystemPushPermissions()
     }
 
-    func application(_ application: UIApplication,
-                            didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
+    func application(_ application: Application,
+                     didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
         guard didShowSystemPermissions else { return }
 
         if notificationSettings.types.contains(.alert) ||
