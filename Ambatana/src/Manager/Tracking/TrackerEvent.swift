@@ -590,8 +590,10 @@ struct TrackerEvent {
         return TrackerEvent(name: .productDeleteComplete, params: params)
     }
 
-    static func firstMessage(info: SendMessageTrackingInfo) -> TrackerEvent {
-        return TrackerEvent(name: .firstMessage, params: info.params)
+    static func firstMessage(info: SendMessageTrackingInfo, productVisitSource: EventParameterProductVisitSource) -> TrackerEvent {
+        var params = info.params
+        params[.productVisitSource] = productVisitSource.rawValue
+        return TrackerEvent(name: .firstMessage, params: params)
     }
 
     static func userMessageSent(info: SendMessageTrackingInfo) -> TrackerEvent {

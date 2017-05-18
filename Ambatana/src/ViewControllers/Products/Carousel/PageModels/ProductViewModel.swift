@@ -25,25 +25,31 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
 }
 
 protocol ProductViewModelMaker {
-    func make(listing: Listing) -> ProductViewModel
+    func make(listing: Listing, visitSource: EventParameterProductVisitSource) -> ProductViewModel
+}
+struct VisitedListing {
+    let listingId: String
+    let source: EventParameterProductVisitSource
+
 }
 
 class ProductViewModel: BaseViewModel {
     class ConvenienceMaker: ProductViewModelMaker {
-        func make(listing: Listing) -> ProductViewModel {
+        func make(listing: Listing, visitSource source: EventParameterProductVisitSource) -> ProductViewModel {
             return ProductViewModel(listing: listing,
-                                     myUserRepository: Core.myUserRepository,
-                                     listingRepository: Core.listingRepository,
-                                     commercializerRepository: Core.commercializerRepository,
-                                     chatWrapper: LGChatWrapper(),
-                                     chatViewMessageAdapter: ChatViewMessageAdapter(),
-                                     locationManager: Core.locationManager,
-                                     countryHelper: Core.countryHelper,
-                                     socialSharer: SocialSharer(),
-                                     featureFlags: FeatureFlags.sharedInstance,
-                                     purchasesShopper: LGPurchasesShopper.sharedInstance,
-                                     monetizationRepository: Core.monetizationRepository,
-                                     tracker: TrackerProxy.sharedInstance)
+                                    visitSource: source,
+                                    myUserRepository: Core.myUserRepository,
+                                    listingRepository: Core.listingRepository,
+                                    commercializerRepository: Core.commercializerRepository,
+                                    chatWrapper: LGChatWrapper(),
+                                    chatViewMessageAdapter: ChatViewMessageAdapter(),
+                                    locationManager: Core.locationManager,
+                                    countryHelper: Core.countryHelper,
+                                    socialSharer: SocialSharer(),
+                                    featureFlags: FeatureFlags.sharedInstance,
+                                    purchasesShopper: LGPurchasesShopper.sharedInstance,
+                                    monetizationRepository: Core.monetizationRepository,
+                                    tracker: TrackerProxy.sharedInstance)
         }
     }
 
@@ -117,6 +123,7 @@ class ProductViewModel: BaseViewModel {
     fileprivate let purchasesShopper: PurchasesShopper
     fileprivate let monetizationRepository: MonetizationRepository
     fileprivate let showFeaturedStripeHelper: ShowFeaturedStripeHelper
+    fileprivate let visitSource: EventParameterProductVisitSource
 
     let isShowingFeaturedStripe = Variable<Bool>(false)
 
@@ -133,6 +140,7 @@ class ProductViewModel: BaseViewModel {
     // MARK: - Lifecycle
 
     init(listing: Listing,
+         visitSource: EventParameterProductVisitSource,
          myUserRepository: MyUserRepository,
          listingRepository: ListingRepository,
          commercializerRepository: CommercializerRepository,
@@ -146,6 +154,7 @@ class ProductViewModel: BaseViewModel {
          monetizationRepository: MonetizationRepository,
          tracker: Tracker) {
         self.listing = Variable<Listing>(listing)
+        self.visitSource = visitSource
         self.socialSharer = socialSharer
         self.myUserRepository = myUserRepository
         self.listingRepository = listingRepository
@@ -873,8 +882,10 @@ fileprivate extension ProductViewModel {
         chatWrapper.sendMessageFor(listing: listing.value, type: type) { [weak self] result in
             guard let strongSelf = self else { return }
             if let firstMessage = result.value {
-                strongSelf.trackHelper.trackMessageSent(firstMessage && !strongSelf.alreadyTrackedFirstMessageSent,
-                                                   messageType: type, isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value)
+                strongSelf.trackHelper.trackMessageSent(isFirstMessage: firstMessage && !strongSelf.alreadyTrackedFirstMessageSent,
+                                                        messageType: type,
+                                                        isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value,
+                                                        productVisitSource: strongSelf.visitSource)
                 strongSelf.alreadyTrackedFirstMessageSent = true
             } else if let error = result.error {
                 strongSelf.trackHelper.trackMessageSentError(messageType: type, isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value, error: error)
