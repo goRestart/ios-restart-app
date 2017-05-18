@@ -103,6 +103,45 @@ class FilteredProductListRequester: ProductListRequester {
         return queryFirstCallCountryCode ?? locationManager.currentLocation?.countryCode
     }
 
+    var requesterTitle: String? {
+        guard let _ = filters?.selectedCategories.contains(.cars) else { return nil }
+        var titleFromFilters: String = ""
+
+        if let makeName = filters?.carMakeName {
+            titleFromFilters += makeName
+        }
+        if let modelName = filters?.carModelName {
+            titleFromFilters += " " + modelName
+        }
+        if let rangeYearTitle = rangeYearTitle(forFilters: filters) {
+            titleFromFilters += " " + rangeYearTitle
+        }
+
+        return titleFromFilters.isEmpty ? nil : titleFromFilters
+    }
+
+    private func rangeYearTitle(forFilters filters: ProductFilters?) -> String? {
+        guard let filters = filters else { return nil }
+
+        if let startYear = filters.carYearStart?.value, let endYear = filters.carYearEnd?.value {
+            // both years specified
+            if startYear == endYear {
+                return String(startYear)
+            } else {
+                return String(startYear) + " - " + String(endYear)
+            }
+        } else if let startYear = filters.carYearStart?.value {
+            // only start specified
+            return String(startYear) + " - " + String(Date().year())
+        } else if let endYear = filters.carYearEnd?.value {
+            // only end specified
+            return String(format: LGLocalizedString.filtersCarYearBeforeYear, Constants.filterMinCarYear) + " - " + String(endYear)
+        } else {
+            // no year specified
+            return nil
+        }
+    }
+
     func distanceFromProductCoordinates(_ productCoords: LGLocationCoordinates2D) -> Double? {
 
         var meters = 0.0

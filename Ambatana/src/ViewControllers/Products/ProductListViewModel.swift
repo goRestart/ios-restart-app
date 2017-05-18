@@ -42,6 +42,7 @@ protocol ProductListRequester: class {
     func duplicate() -> ProductListRequester
     func distanceFromProductCoordinates(_ productCoords: LGLocationCoordinates2D) -> Double?
     var countryCode: String? { get }
+    var requesterTitle: String? { get }
 }
 
 

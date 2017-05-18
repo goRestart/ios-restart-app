@@ -26,6 +26,7 @@ class ProductListMultiRequester {
         return currentIndex == requestersArray.count-1
     }
 
+
     // var used for UT
     var numOfRequesters: Int {
         return requestersArray.count
@@ -94,6 +95,10 @@ extension ProductListMultiRequester: ProductListRequester {
 
     var countryCode: String? {
         return activeRequester?.countryCode
+    }
+
+    var requesterTitle: String? {
+        return activeRequester?.requesterTitle
     }
 
 

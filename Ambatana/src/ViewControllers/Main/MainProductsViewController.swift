@@ -399,6 +399,12 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
                 self?.setToastViewHidden(true)
             }
         }.addDisposableTo(disposeBag)
+
+        viewModel.filterTitle.asObservable().distinctUntilChanged { (s1, s2) -> Bool in
+            s1 == s2
+        }.bindNext { [weak self] filterTitle in
+                self?.filterTitleHeaderView.text = filterTitle
+        }.addDisposableTo(disposeBag)
     }
 }
 

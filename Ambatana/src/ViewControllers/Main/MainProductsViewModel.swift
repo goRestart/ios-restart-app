@@ -107,6 +107,7 @@ class MainProductsViewModel: BaseViewModel {
     }
 
     let mainProductsHeader = Variable<MainProductsHeader>([])
+    let filterTitle = Variable<String?>(nil)
 
     // Manager & repositories
     fileprivate let sessionManager: SessionManager
@@ -457,6 +458,10 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
     // MARK: > ProductListViewCellsDelegate
 
     func visibleTopCellWithIndex(_ index: Int, whileScrollingDown scrollingDown: Bool) {
+
+        // set title for cell at index
+//        filterTitle.value = productListRequester.requesterTitle
+
         guard let sortCriteria = filters.selectedOrdering else { return }
 
         switch (sortCriteria) {
@@ -487,7 +492,9 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
 
     func productListVM(_ viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt,
                               hasProducts: Bool) {
-        
+
+        filterTitle.value = productListRequester.requesterTitle
+
         trackRequestSuccess(page: page, hasProducts: hasProducts)
         // Only save the string when there is products and we are not searching a collection
         if let queryString = queryString, hasProducts {

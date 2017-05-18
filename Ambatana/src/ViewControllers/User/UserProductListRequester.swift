@@ -19,6 +19,10 @@ class UserFavoritesProductListRequester: UserProductListRequester {
     var countryCode: String? {
         return nil
     }
+    var requesterTitle: String? {
+        return nil
+    }
+
 
     let itemsPerPage: Int = 0 // Not used, favorites doesn't paginate
     var userObjectId: String? = nil
@@ -73,6 +77,10 @@ class UserStatusesProductListRequester: UserProductListRequester {
     var countryCode: String? {
         return nil
     }
+    var requesterTitle: String? {
+        return nil
+    }
+
 
     let itemsPerPage: Int
     var userObjectId: String? = nil

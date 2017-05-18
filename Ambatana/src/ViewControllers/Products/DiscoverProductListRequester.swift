@@ -59,6 +59,9 @@ extension DiscoverProductListRequester: ProductListRequester {
     var countryCode: String? {
         return nil
     }
+    var requesterTitle: String? {
+        return nil
+    }
 }
 
 
