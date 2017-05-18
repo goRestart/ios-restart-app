@@ -34,12 +34,12 @@ extension DiscoverProductListRequester: ProductListRequester {
         return true
     }
 
-    func retrieveFirstPage(_ completion: ListingsCompletion?) {
+    func retrieveFirstPage(_ completion: ListingsRequesterCompletion?) {
         offset = 0
         productsRetrieval(completion)
     }
 
-    func retrieveNextPage(_ completion: ListingsCompletion?) {
+    func retrieveNextPage(_ completion: ListingsRequesterCompletion?) {
         productsRetrieval(completion)
     }
 
@@ -59,9 +59,6 @@ extension DiscoverProductListRequester: ProductListRequester {
     var countryCode: String? {
         return nil
     }
-    var requesterTitle: String? {
-        return nil
-    }
 }
 
 
@@ -76,12 +73,12 @@ fileprivate extension DiscoverProductListRequester {
         return params
     }
 
-    func productsRetrieval(_ completion: ListingsCompletion?) {
+    func productsRetrieval(_ completion: ListingsRequesterCompletion?) {
         listingRepository.indexDiscover(listingId: productObjectId, params: retrieveProductsParams) { [weak self] result in
             if let value = result.value {
                 self?.offset += value.count
             }
-            completion?(result)
+            completion?(ListingsRequesterResult(listingsResult: result, context: nil))
         }
     }
 }

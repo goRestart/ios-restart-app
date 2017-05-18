@@ -40,7 +40,7 @@ class FilteredProductListRequester: ProductListRequester {
 
     func canRetrieve() -> Bool { return queryCoordinates != nil }
     
-    func retrieveFirstPage(_ completion: ListingsCompletion?) {
+    func retrieveFirstPage(_ completion: ListingsRequesterCompletion?) {
         offset = initialOffset
         if let currentLocation = locationManager.currentLocation {
             queryFirstCallCoordinates = LGLocationCoordinates2D(location: currentLocation)
@@ -50,24 +50,25 @@ class FilteredProductListRequester: ProductListRequester {
         retrieve() { [weak self] result in
             guard let indexListings = result.value, let useLimbo = self?.prependLimbo, useLimbo else {
                 self?.offset = result.value?.count ?? self?.offset ?? 0
-                completion?(result)
+                completion?(ListingsRequesterResult(listingsResult: result, context: self?.requesterTitle))
                 return
             }
             self?.listingRepository.indexLimbo { [weak self] limboResult in
                 var finalListings: [Listing] = limboResult.value ?? []
                 finalListings += indexListings
                 self?.offset = indexListings.count
-                completion?(ListingsResult(finalListings))
+                let listingsResult = ListingsResult(finalListings)
+                completion?(ListingsRequesterResult(listingsResult: listingsResult, context: self?.requesterTitle))
             }
         }
     }
     
-    func retrieveNextPage(_ completion: ListingsCompletion?) {
+    func retrieveNextPage(_ completion: ListingsRequesterCompletion?) {
         retrieve() { [weak self] result in
             if let value = result.value {
                 self?.offset += value.count
             }
-            completion?(result)
+            completion?(ListingsRequesterResult(listingsResult: result, context: self?.requesterTitle))
         }
     }
     
@@ -103,7 +104,7 @@ class FilteredProductListRequester: ProductListRequester {
         return queryFirstCallCountryCode ?? locationManager.currentLocation?.countryCode
     }
 
-    var requesterTitle: String? {
+    private var requesterTitle: String? {
         guard let _ = filters?.selectedCategories.contains(.cars) else { return nil }
         var titleFromFilters: String = ""
 

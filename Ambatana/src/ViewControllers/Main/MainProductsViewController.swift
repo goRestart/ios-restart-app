@@ -61,6 +61,9 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     
     fileprivate var categoriesHeader: CategoriesHeaderCollectionView?
 
+    var totalTopInset: CGFloat {
+        return topBarHeight + tagsCollectionView.frame.size.height + filterHeadersHeight() + filterTitleHeaderView.frame.height
+    }
     
     // MARK: - Lifecycle
 
@@ -403,7 +406,9 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         viewModel.filterTitle.asObservable().distinctUntilChanged { (s1, s2) -> Bool in
             s1 == s2
         }.bindNext { [weak self] filterTitle in
-                self?.filterTitleHeaderView.text = filterTitle
+            guard let strongSelf = self else { return }
+            strongSelf.topInset.value = strongSelf.totalTopInset
+            strongSelf.filterTitleHeaderView.text = filterTitle
         }.addDisposableTo(disposeBag)
     }
 }

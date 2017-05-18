@@ -19,10 +19,6 @@ class UserFavoritesProductListRequester: UserProductListRequester {
     var countryCode: String? {
         return nil
     }
-    var requesterTitle: String? {
-        return nil
-    }
-
 
     let itemsPerPage: Int = 0 // Not used, favorites doesn't paginate
     var userObjectId: String? = nil
@@ -40,13 +36,16 @@ class UserFavoritesProductListRequester: UserProductListRequester {
 
     func canRetrieve() -> Bool { return true }
     
-    func retrieveFirstPage(_ completion: ListingsCompletion?) {
-        productsRetrieval(completion)
+    func retrieveFirstPage(_ completion: ListingsRequesterCompletion?) {
+        productsRetrieval { [weak self] result in
+            completion?(ListingsRequesterResult(listingsResult: result, context: nil))
+        }
     }
     
-    func retrieveNextPage(_ completion: ListingsCompletion?) {
+    func retrieveNextPage(_ completion: ListingsRequesterCompletion?) {
         //User favorites doesn't have pagination.
-        completion?(ListingsResult(value: []))
+        let listingsResult = ListingsResult(value: [])
+        completion?(ListingsRequesterResult(listingsResult: listingsResult, context: nil))
         return
     }
 
@@ -77,11 +76,7 @@ class UserStatusesProductListRequester: UserProductListRequester {
     var countryCode: String? {
         return nil
     }
-    var requesterTitle: String? {
-        return nil
-    }
-
-
+    
     let itemsPerPage: Int
     var userObjectId: String? = nil
     private let statuses: [ListingStatus]
@@ -104,16 +99,16 @@ class UserStatusesProductListRequester: UserProductListRequester {
 
     func canRetrieve() -> Bool { return userObjectId != nil }
 
-    func retrieveFirstPage(_ completion: ListingsCompletion?) {
+    func retrieveFirstPage(_ completion: ListingsRequesterCompletion?) {
         offset = 0
         productsRetrieval(completion)
     }
     
-    func retrieveNextPage(_ completion: ListingsCompletion?) {
+    func retrieveNextPage(_ completion: ListingsRequesterCompletion?) {
         productsRetrieval(completion)
     }
     
-    private func productsRetrieval(_ completion: ListingsCompletion?) {
+    private func productsRetrieval(_ completion: ListingsRequesterCompletion?) {
         guard let userId = userObjectId else { return  }
         listingRepository.index(userId: userId, params: retrieveProductsParams) { [weak self] result in
             if let products = result.value, !products.isEmpty {
@@ -121,7 +116,7 @@ class UserStatusesProductListRequester: UserProductListRequester {
                 //User posted previously -> Store it
                 KeyValueStorage.sharedInstance.userPostProductPostedPreviously = true
             }
-            completion?(result)
+            completion?(ListingsRequesterResult(listingsResult: result, context: nil))
         }
     }
 

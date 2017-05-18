@@ -75,9 +75,7 @@ class MockProductListRequester: ProductListRequester {
     var countryCode: String? {
         return nil
     }
-    var requesterTitle: String? {
-        return nil
-    }
+
     fileprivate func performAfterDelayWithCompletion(_ completion: ListingsCompletion?) {
         let delay = DispatchTime.now() + Double(Int64(0.05 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
         DispatchQueue.main.asyncAfter(deadline: delay) {

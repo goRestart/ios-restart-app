@@ -459,8 +459,8 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
 
     func visibleTopCellWithIndex(_ index: Int, whileScrollingDown scrollingDown: Bool) {
 
-        // set title for cell at index
-//        filterTitle.value = productListRequester.requesterTitle
+        // set title for cell at index if necessary
+        filterTitle.value = listViewModel.titleForIndex(index: index)
 
         guard let sortCriteria = filters.selectedOrdering else { return }
 
@@ -492,8 +492,6 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
 
     func productListVM(_ viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt,
                               hasProducts: Bool) {
-
-        filterTitle.value = productListRequester.requesterTitle
 
         trackRequestSuccess(page: page, hasProducts: hasProducts)
         // Only save the string when there is products and we are not searching a collection
