@@ -34,7 +34,7 @@ class MockProductListRequester: ProductListRequester {
         return canRetrieveItems
     }
 
-    func retrieveFirstPage(_ completion: ListingsCompletion?) {
+    func retrieveFirstPage(_ completion: ListingsRequesterCompletion?) {
         var firstPageItems: [Listing] = []
         for i in offset..<offset+itemsPerPage {
             if i < items.count {
@@ -46,7 +46,7 @@ class MockProductListRequester: ProductListRequester {
         performAfterDelayWithCompletion(completion)
     }
 
-    func retrieveNextPage(_ completion: ListingsCompletion?) {
+    func retrieveNextPage(_ completion: ListingsRequesterCompletion?) {
         var nextPageItems: [Listing] = []
         for i in offset..<offset+itemsPerPage {
             if i < items.count {
@@ -76,10 +76,10 @@ class MockProductListRequester: ProductListRequester {
         return nil
     }
 
-    fileprivate func performAfterDelayWithCompletion(_ completion: ListingsCompletion?) {
+    fileprivate func performAfterDelayWithCompletion(_ completion: ListingsRequesterCompletion?) {
         let delay = DispatchTime.now() + Double(Int64(0.05 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
         DispatchQueue.main.asyncAfter(deadline: delay) {
-            completion?(self.requesterResult!)
+            completion?(ListingsRequesterResult(listingsResult: self.requesterResult!, context: nil))
         }
     }
 }
