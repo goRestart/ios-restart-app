@@ -176,7 +176,7 @@ extension Date {
         return (now-time) < seconds
     }
 
-    func year() -> Int {
+    var year: Int {
         return Calendar.current.component(.year, from: self)
     }
 }

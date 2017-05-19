@@ -239,7 +239,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     }
     
     private func filterHeadersHeight() -> CGFloat {
-        return filterDescriptionHeaderViewContainer.height + filterTitleHeaderViewContainer.height
+        return filterDescriptionHeaderView.height + filterTitleHeaderView.height
     }
     
     func setFilterHeaderTitle(withText text: String) {
@@ -347,10 +347,9 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
             tagsCollectionView.isHidden = false
         }
 
-        let tagsHeight = tagsCollectionView.frame.size.height
-        tagsCollectionTopSpace?.constant = show ? 0.0 : -tagsHeight
+        tagsCollectionTopSpace?.constant = show ? 0.0 : -heightFiltersTagView
         if updateInsets {
-            topInset.value = show ? topBarHeight + tagsHeight + filterHeadersHeight() : topBarHeight
+            topInset.value = show ? topBarHeight + heightFiltersTagView + filterHeadersHeight() : topBarHeight
         }
 
         UIView.animate(
@@ -403,15 +402,17 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         viewModel.filterTitle.asObservable().distinctUntilChanged { (s1, s2) -> Bool in
             s1 == s2
         }.bindNext { [weak self] filterTitle in
-                guard let strongSelf = self else { return }
-                strongSelf.topInset.value = strongSelf.topBarHeight + strongSelf.tagsCollectionView.frame.size.height + strongSelf.filterHeadersHeight()
-                strongSelf.filterTitleHeaderView.text = filterTitle
+            guard let strongSelf = self else { return }
+            strongSelf.filterTitleHeaderView.text = filterTitle
+            let tagsHeight = strongSelf.tagsShowing ? strongSelf.heightFiltersTagView : 0
+            strongSelf.topInset.value = strongSelf.topBarHeight + tagsHeight + strongSelf.filterHeadersHeight()
         }.addDisposableTo(disposeBag)
 
         viewModel.filterDescription.asObservable().bindNext { [weak self] filterDescr in
             guard let strongSelf = self else { return }
-            strongSelf.topInset.value = strongSelf.topBarHeight + strongSelf.tagsCollectionView.frame.size.height + strongSelf.filterHeadersHeight()
             strongSelf.filterDescriptionHeaderView.text = filterDescr
+            let tagsHeight = strongSelf.tagsShowing ? strongSelf.heightFiltersTagView : 0
+            strongSelf.topInset.value = strongSelf.topBarHeight + tagsHeight + strongSelf.filterHeadersHeight()
         }.addDisposableTo(disposeBag)
     }
 }

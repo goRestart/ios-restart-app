@@ -138,10 +138,18 @@ class FilteredProductListRequester: ProductListRequester {
             }
         } else if let startYear = filters.carYearStart?.value {
             // only start specified
-            return String(startYear) + " - " + String(Date().year())
+            if startYear == Date().year {
+                return String(startYear)
+            } else {
+             return String(startYear) + " - " + String(Date().year)
+            }
         } else if let endYear = filters.carYearEnd?.value {
             // only end specified
-            return String(format: LGLocalizedString.filtersCarYearBeforeYear, Constants.filterMinCarYear) + " - " + String(endYear)
+            if endYear == Constants.filterMinCarYear {
+                return String(format: LGLocalizedString.filtersCarYearBeforeYear, Constants.filterMinCarYear)
+            } else {
+                return String(format: LGLocalizedString.filtersCarYearBeforeYear, Constants.filterMinCarYear) + " - " + String(endYear)
+            }
         } else {
             // no year specified
             return nil
