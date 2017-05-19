@@ -10,6 +10,9 @@ import LGCoreKit
 
 class ProductCellDrawer: BaseCollectionCellDrawer<ProductCell>, GridCellDrawer {
     func draw(_ model: ProductData, style: CellStyle, inCell cell: ProductCell) {
+        if let id = model.productID {
+            cell.setBackgroundColor(id: id)
+        }
         if let thumbURL = model.thumbUrl {
             cell.setImageUrl(thumbURL)
         }
