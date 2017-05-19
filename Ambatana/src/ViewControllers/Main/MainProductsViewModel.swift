@@ -106,8 +106,17 @@ class MainProductsViewModel: BaseViewModel {
         return navigator?.canOpenAppInvite() ?? false
     }
 
+    fileprivate var shouldShowNoExactMatchesDisclaimer: Bool {
+        guard filters.selectedCategories.contains(.cars) else { return false }
+        if filters.carMakeId != nil || filters.carModelId != nil || filters.carYearStart != nil || filters.carYearEnd != nil {
+            return true
+        }
+        return false
+    }
+
     let mainProductsHeader = Variable<MainProductsHeader>([])
     let filterTitle = Variable<String?>(nil)
+    let filterDescription = Variable<String?>(nil)
 
     // Manager & repositories
     fileprivate let sessionManager: SessionManager
@@ -504,6 +513,10 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
             shouldRetryLoad = false
             listViewModel.retrieveProducts()
             return
+        }
+
+        if productListRequester.multiIsFirstPage && shouldShowNoExactMatchesDisclaimer {
+            filterDescription.value = hasProducts ? nil : LGLocalizedString.filterResultsCarsNoMatches
         }
 
         if !hasProducts {

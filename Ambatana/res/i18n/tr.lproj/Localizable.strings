@@ -294,6 +294,8 @@
 "edit_product_title" = "Ürünü Düzenle";
 "edit_product_unsaved_changes_alert" = "Bu değişiklikleri silmek istediğine emin misin?";
 "edit_product_unsaved_changes_alert_ok" = "Sil";
+"filter_results_cars_no_matches" = "No exact matches for your search.\n Showing similar results. ";
+"filter_results_cars_other_results" = "Recently posted in your area";
 "filters_car_make_not_set" = "Belirlenmedi";
 "filters_car_model_not_set" = "Belirlenmedi";
 "filters_car_year_any_year" = "Herhangi bir Yıl";
@@ -315,6 +317,7 @@
 "filters_sort_newest" = "İlk önce en yenisi";
 "filters_sort_price_asc" = "Düşük fiyattan yüksek fiyata";
 "filters_sort_price_desc" = "Yüksek fiyattan düşük fiyata";
+"filters_tag_location_selected" = "Seçilen konum";
 "filters_title" = "Filtreler";
 "filters_within_all" = "Bütün ürünler";
 "filters_within_day" = "Son 24 saat";

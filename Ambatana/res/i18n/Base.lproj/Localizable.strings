@@ -966,6 +966,10 @@
 // Selected location text when there is no postal address. 
 "filters_tag_location_selected" = "Selected location";
 
+"filter_results_cars_no_matches" = "No exact matches for your search.\n Showing similar results. ";
+
+"filter_results_cars_other_results" = "Recently posted in your area";
+
 // Forced update message.
 "forced_update_message" = "A new version of letgo is available. Please update now!";
 

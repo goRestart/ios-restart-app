@@ -293,7 +293,9 @@
 "edit_product_suggesting_title" = "Föreslår titel...";
 "edit_product_title" = "Redigera produkt";
 "edit_product_unsaved_changes_alert" = "Är du säker på att du vill lämna sidan utan att spara ändringarna?";
-"edit_product_unsaved_changes_alert_ok" = "Släng bort";
+"edit_product_unsaved_changes_alert_ok" = "Släng";
+"filter_results_cars_no_matches" = "No exact matches for your search.\n Showing similar results. ";
+"filter_results_cars_other_results" = "Recently posted in your area";
 "filters_car_make_not_set" = "Ej Valt";
 "filters_car_model_not_set" = "Ej Vald";
 "filters_car_year_any_year" = "Alla år";
@@ -315,6 +317,7 @@
 "filters_sort_newest" = "Senaste först";
 "filters_sort_price_asc" = "Pris lågt till högt";
 "filters_sort_price_desc" = "Pris högt till lågt";
+"filters_tag_location_selected" = "Utvald plats";
 "filters_title" = "Filter";
 "filters_within_all" = "Alla produkter";
 "filters_within_day" = "De senaste 24 timmarna";
@@ -542,7 +545,7 @@
 "product_post_camera_permissions_title" = "Tillåt åtkomst till Kamera";
 "product_post_camera_tab" = "FOTO";
 "product_post_camera_tab_v2" = "KAMERA";
-"product_post_close_alert_close_button" = "Släng bort";
+"product_post_close_alert_close_button" = "Släng";
 "product_post_close_alert_description" = "Vill du fortfarande lägga ut den till försäljning?";
 "product_post_close_alert_ok_button" = "Lägg upp produkten";
 "product_post_close_alert_title" = "Produkten är inte upplagd";

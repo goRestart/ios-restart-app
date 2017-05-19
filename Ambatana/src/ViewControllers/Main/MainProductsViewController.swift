@@ -61,10 +61,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     
     fileprivate var categoriesHeader: CategoriesHeaderCollectionView?
 
-    var totalTopInset: CGFloat {
-        return topBarHeight + tagsCollectionView.frame.size.height + filterHeadersHeight() + filterTitleHeaderView.frame.height
-    }
-    
+
     // MARK: - Lifecycle
 
     convenience init(viewModel: MainProductsViewModel) {
@@ -407,8 +404,11 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
             s1 == s2
         }.bindNext { [weak self] filterTitle in
             guard let strongSelf = self else { return }
-            strongSelf.topInset.value = strongSelf.totalTopInset
             strongSelf.filterTitleHeaderView.text = filterTitle
+        }.addDisposableTo(disposeBag)
+
+        viewModel.filterDescription.asObservable().bindNext { [weak self] filterDescr in
+                self?.filterDescriptionHeaderView.text = filterDescr
         }.addDisposableTo(disposeBag)
     }
 }

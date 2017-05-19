@@ -16,6 +16,7 @@ class ProductListMultiRequester {
     fileprivate var activeRequester: ProductListRequester?
     var currentIndex: Int // not private for testing reasons
     fileprivate var hasChangedRequester: Bool // use it to ask for 1st page of next requester
+    var multiIsFirstPage: Bool
     var multiIsLastPage: Bool
 
     var itemsPerPage: Int {
@@ -45,6 +46,7 @@ class ProductListMultiRequester {
         self.activeRequester = requesters[0]
         self.hasChangedRequester = false
         self.multiIsLastPage = false
+        self.multiIsFirstPage = true
     }
 }
 
@@ -59,6 +61,7 @@ extension ProductListMultiRequester: ProductListRequester {
         activeRequester?.retrieveFirstPage { [weak self] result in
             self?.updateLastPage(result)
             completion?(result)
+            self?.multiIsFirstPage = false
         }
     }
 
@@ -105,6 +108,7 @@ extension ProductListMultiRequester: ProductListRequester {
         activeRequester = requestersArray[0]
         hasChangedRequester = false
         multiIsLastPage = false
+        multiIsFirstPage = true
     }
 
     private func updateLastPage(_ result: ListingsRequesterResult) {

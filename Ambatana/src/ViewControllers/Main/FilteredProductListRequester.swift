@@ -118,6 +118,11 @@ class FilteredProductListRequester: ProductListRequester {
             titleFromFilters += " " + rangeYearTitle
         }
 
+        if let _ = filters?.carMakeId, titleFromFilters.isEmpty {
+            // if there's a make filter active but no title, is "Other Results"
+            titleFromFilters = LGLocalizedString.filterResultsCarsOtherResults
+        }
+
         return titleFromFilters.isEmpty ? nil : titleFromFilters
     }
 
