@@ -75,15 +75,9 @@ final class ListingApiDataSource: ListingDataSource {
 
     // MARK: Sold / unsold
 
-    func markAsSold(_ listingId: String, buyerId: String?, completion: ListingDataSourceEmptyCompletion?) {
+    func markAsSold(_ listingId: String, completion: ListingDataSourceEmptyCompletion?) {
         var params = [String: Any]()
         params["status"] = ListingStatus.sold.rawValue
-        if let buyerId = buyerId {
-            params["buyerUserId"] = buyerId
-            params["soldIn"] = "letgo"
-        } else {
-            params["soldIn"] = "external"
-        }
         let request = ListingRouter.patch(listingId: listingId, params: params)
         apiClient.request(request, completion: completion)
     }
