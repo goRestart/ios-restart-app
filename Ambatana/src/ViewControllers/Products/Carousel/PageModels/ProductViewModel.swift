@@ -25,13 +25,14 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
 }
 
 protocol ProductViewModelMaker {
-    func make(listing: Listing) -> ProductViewModel
+    func make(listing: Listing, visitSource: EventParameterProductVisitSource) -> ProductViewModel
 }
 
 class ProductViewModel: BaseViewModel {
     class ConvenienceMaker: ProductViewModelMaker {
-        func make(listing: Listing) -> ProductViewModel {
+        func make(listing: Listing, visitSource source: EventParameterProductVisitSource) -> ProductViewModel {
             return ProductViewModel(listing: listing,
+                                    visitSource: source,
                                      myUserRepository: Core.myUserRepository,
                                      listingRepository: Core.listingRepository,
                                      commercializerRepository: Core.commercializerRepository,
@@ -117,7 +118,8 @@ class ProductViewModel: BaseViewModel {
     fileprivate let purchasesShopper: PurchasesShopper
     fileprivate let monetizationRepository: MonetizationRepository
     fileprivate let showFeaturedStripeHelper: ShowFeaturedStripeHelper
-
+    fileprivate let visitSource: EventParameterProductVisitSource
+    
     let isShowingFeaturedStripe = Variable<Bool>(false)
 
     // Retrieval status
@@ -133,6 +135,7 @@ class ProductViewModel: BaseViewModel {
     // MARK: - Lifecycle
 
     init(listing: Listing,
+         visitSource: EventParameterProductVisitSource,
          myUserRepository: MyUserRepository,
          listingRepository: ListingRepository,
          commercializerRepository: CommercializerRepository,
@@ -146,6 +149,7 @@ class ProductViewModel: BaseViewModel {
          monetizationRepository: MonetizationRepository,
          tracker: Tracker) {
         self.listing = Variable<Listing>(listing)
+        self.visitSource = visitSource
         self.socialSharer = socialSharer
         self.myUserRepository = myUserRepository
         self.listingRepository = listingRepository
@@ -160,7 +164,6 @@ class ProductViewModel: BaseViewModel {
         self.purchasesShopper = purchasesShopper
         self.monetizationRepository = monetizationRepository
         self.showFeaturedStripeHelper = ShowFeaturedStripeHelper(featureFlags: featureFlags, myUserRepository: myUserRepository)
-
         self.userInfo = Variable<ProductVMUserInfo>(ProductVMUserInfo(userListing: listing.user, myUser: myUserRepository.myUser))
         self.disposeBag = DisposeBag()
 
@@ -173,8 +176,7 @@ class ProductViewModel: BaseViewModel {
     internal override func didBecomeActive(_ firstTime: Bool) {
         guard let listingId = listing.value.objectId else { return }
 
-        // ⚠️
-        //listingRepository.incrementViews(listingId: listingId, completion: nil)
+        listingRepository.incrementViews(listingId: listingId, visitSource: visitSource.rawValue, completion: nil)
 
         if !relationRetrieved && myUserRepository.myUser != nil {
             listingRepository.retrieveUserListingRelation(listingId) { [weak self] result in
