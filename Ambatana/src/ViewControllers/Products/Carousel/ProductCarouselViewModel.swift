@@ -113,7 +113,6 @@ class ProductCarouselViewModel: BaseViewModel {
     fileprivate let keyValueStorage: KeyValueStorageable
     fileprivate let imageDownloader: ImageDownloaderType
     fileprivate let productViewModelMaker: ProductViewModelMaker
-    fileprivate let currentMovement: CarouselMovement = .initial
 
     fileprivate let disposeBag = DisposeBag()
 
@@ -215,7 +214,7 @@ class ProductCarouselViewModel: BaseViewModel {
         super.init()
         self.trackingIndex = trackingIndex
         setupRxBindings()
-        moveToProductAtIndex(startIndex, movement: currentMovement)
+        moveToProductAtIndex(startIndex, movement: .initial)
 
         if firstProductSyncRequired {
             syncFirstListing()
@@ -229,11 +228,9 @@ class ProductCarouselViewModel: BaseViewModel {
 
         // Tracking
         if let trackingIndex = trackingIndex, currentIndex == startIndex {
-            currentProductViewModel?.trackVisit(.none, source: source.getSourceVisitParameter(withMovement: currentMovement),
-                                                feedPosition: .position(index: trackingIndex))
+            currentProductViewModel?.trackVisit(.none, source: source, feedPosition: .position(index: trackingIndex))
         } else {
-            currentProductViewModel?.trackVisit(.none, source: source.getSourceVisitParameter(withMovement: currentMovement),
-                                                feedPosition: .none)
+            currentProductViewModel?.trackVisit(.none, source: source, feedPosition: .none)
         }
     }
     
@@ -255,7 +252,7 @@ class ProductCarouselViewModel: BaseViewModel {
     }
 
     func moveToProductAtIndex(_ index: Int, movement: CarouselMovement) {
-        guard let viewModel = viewModelAt(index: index, movement: movement) else { return }
+        guard let viewModel = viewModelAt(index: index) else { return }
         currentProductViewModel?.active = false
         currentProductViewModel?.delegate = nil
         currentProductViewModel = viewModel
@@ -333,18 +330,17 @@ class ProductCarouselViewModel: BaseViewModel {
         return productCellModelAt(index: index)?.listing
     }
 
-    private func viewModelAt(index: Int, movement: CarouselMovement) -> ProductViewModel? {
+    private func viewModelAt(index: Int) -> ProductViewModel? {
         guard let listing = listingAt(index: index) else { return nil }
-        return viewModelFor(listing: listing, movement: movement)
+        return viewModelFor(listing: listing)
     }
     
-    private func viewModelFor(listing: Listing, movement: CarouselMovement) -> ProductViewModel? {
+    private func viewModelFor(listing: Listing) -> ProductViewModel? {
         guard let listingId = listing.objectId else { return nil }
         if let vm = productsViewModels[listingId] {
             return vm
         }
-        let visitSourceWithMovement = source.getSourceVisitParameter(withMovement: movement)
-        let vm = productViewModelMaker.make(listing: listing, visitSource: visitSourceWithMovement)
+        let vm = productViewModelMaker.make(listing: listing, visitSource: source)
         vm.navigator = navigator
         productsViewModels[listingId] = vm
         return vm

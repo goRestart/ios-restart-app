@@ -691,74 +691,17 @@ enum EventParameterRatingSource: String {
 
 enum EventParameterProductVisitSource: String {
     case productList = "product-list"
-    case productListNext = "next-product-list"
-    case productListPrevious = "previous-product-list"
     case moreInfoRelated = "more-info-related"
-    case moreInfoRelatedNext = "next-more-info-related"
-    case moreInfoRelatedPrevious = "previous-more-info-related"
     case collection = "collection"
-    case collectionNext = "collection-next"
-    case collectionPrevious = "collection-previous"
     case search = "search"
-    case searchNext = "next-search"
-    case searchPrevious = "previous-search"
     case filter = "filter"
-    case filterNext = "next-filter"
-    case filterPrevious = "previous-filter"
     case searchAndFilter = "search & filter"
-    case searchAndFilterNext = "next-search & filter"
-    case searchAndFilterPrevious = "previous-search & filter"
     case category = "category"
     case profile = "profile"
-    case profileNext = "next-profile"
-    case profilePrevious = "previous-profile"
     case chat = "chat"
-    case chatNext = "next-chat"
-    case chatPrevious = "previous-chat"
     case openApp = "open-app"
-    case openAppNext = "next-open-app"
-    case openAppPrevious = "previous-open-app"
     case notifications = "notifications"
-    case notificationsNext = "next-notifications"
-    case notificationsPrevious = "previous-notifications"
     case unknown = "N/A"
-
-    func getSourceVisitParameter(withMovement movement: CarouselMovement) -> EventParameterProductVisitSource {
-        switch movement {
-        case .initial:
-            return self
-        case .swipeRight, .tap:
-            switch self {
-            case .productList, .productListNext, .productListPrevious: return .productListNext
-            case .moreInfoRelated, .moreInfoRelatedNext, .moreInfoRelatedPrevious: return .moreInfoRelatedNext
-            case .collection, .collectionNext, .collectionPrevious: return .collectionNext
-            case .search, .searchNext, .searchPrevious: return .searchNext
-            case .filter, .filterNext, .filterPrevious: return .filterNext
-            case .searchAndFilter, .searchAndFilterNext, .searchAndFilterPrevious: return .searchAndFilterNext
-            case .category: return .category
-            case .profile, .profileNext, .profilePrevious: return .profileNext
-            case .chat, .chatNext, .chatPrevious: return .chatNext
-            case .openApp, .openAppNext, .openAppPrevious: return .openAppNext
-            case .notifications, .notificationsNext, .notificationsPrevious: return .notificationsNext
-            case .unknown: return .unknown
-            }
-        case .swipeLeft:
-            switch self {
-            case .productList, .productListNext, .productListPrevious: return .productListPrevious
-            case .moreInfoRelated, .moreInfoRelatedNext, .moreInfoRelatedPrevious: return .moreInfoRelatedPrevious
-            case .collection, .collectionNext, .collectionPrevious: return .collectionPrevious
-            case .search, .searchNext, .searchPrevious: return .searchPrevious
-            case .filter, .filterNext, .filterPrevious: return .filterPrevious
-            case .searchAndFilter, .searchAndFilterNext, .searchAndFilterPrevious: return .searchAndFilterPrevious
-            case .category: return .category
-            case .profile, .profileNext, .profilePrevious: return .profilePrevious
-            case .chat, .chatNext, .chatPrevious: return .chatPrevious
-            case .openApp, .openAppNext, .openAppPrevious: return .openAppPrevious
-            case .notifications, .notificationsNext, .notificationsPrevious: return .notificationsPrevious
-            case .unknown: return .unknown
-            }
-        }
-    }
 }
 
 enum EventParameterFeedPosition {
