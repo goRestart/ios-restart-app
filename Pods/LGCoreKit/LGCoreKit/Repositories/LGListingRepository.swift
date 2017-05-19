@@ -24,8 +24,7 @@ final class LGListingRepository: ListingRepository {
     let carsInfoRepository: CarsInfoRepository
     let favoritesDAO: FavoritesDAO
     let listingsLimboDAO: ListingsLimboDAO
-    var viewedListingIds: Set<String>
-
+    var viewedListings:[(listingId: String, visitSource: String)] = []
 
     // MARK: - Lifecycle
 
@@ -38,7 +37,7 @@ final class LGListingRepository: ListingRepository {
         self.myUserRepository = myUserRepository
         self.favoritesDAO = favoritesDAO
         self.listingsLimboDAO = listingsLimboDAO
-        self.viewedListingIds = []
+        self.viewedListings = []
         self.carsInfoRepository = carsInfoRepository
     }
 
@@ -429,20 +428,20 @@ final class LGListingRepository: ListingRepository {
         }
     }
 
-    func incrementViews(listingId: String, completion: ListingVoidCompletion?) {
-        viewedListingIds.insert(listingId)
-        if viewedListingIds.count >= LGCoreKitConstants.viewedProductsThreshold  {
-            updateListingViewsBatch(Array(viewedListingIds), completion: completion)
-            viewedListingIds = []
+    func incrementViews(listingId: String, visitSource: String, completion: ListingVoidCompletion?) {
+        viewedListings.append((listingId, visitSource))
+        if viewedListings.count >= LGCoreKitConstants.viewedProductsThreshold  {
+            updateListingViewsBatch(Array(viewedListings), completion: completion)
+            viewedListings = []
         } else {
             completion?(ListingVoidResult(value: ()))
         }
     }
 
     func updateListingViewCounts() {
-        guard !viewedListingIds.isEmpty else { return }
-        updateListingViewsBatch(Array(viewedListingIds), completion: nil)
-        viewedListingIds = []
+        guard !viewedListings.isEmpty else { return }
+        updateListingViewsBatch(Array(viewedListings), completion: nil)
+        viewedListings = []
     }
 
 
@@ -496,7 +495,7 @@ final class LGListingRepository: ListingRepository {
         return defaultCompletion
     }
 
-    private func updateListingViewsBatch(_ listingIds: [String], completion: ListingVoidCompletion?) {
+    private func updateListingViewsBatch(_ listingIds: [(String, String)], completion: ListingVoidCompletion?) {
         dataSource.updateStats(listingIds, action: "incr-views") { result in
             if let error = result.error {
                 completion?(ListingVoidResult(error: RepositoryError(apiError: error)))
