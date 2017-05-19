@@ -1374,8 +1374,8 @@ class TrackerEventSpec: QuickSpec {
                     expect(bumpedUp) == "true"
                 }
                 it("contains product visit source") {
-                    let bumpedUp = sut.params!.stringKeyParams["visit-source"] as? String
-                    expect(bumpedUp) == "product-list"
+                    let visitSource = sut.params!.stringKeyParams["visit-source"] as? String
+                    expect(visitSource) == "product-list"
                 }
                 describe("text message") {
                     beforeEach {
@@ -1389,6 +1389,10 @@ class TrackerEventSpec: QuickSpec {
                     it("has no quick-answer-type") {
                         expect(sut.params!.stringKeyParams["quick-answer-type"]).to(beNil())
                     }
+                    it("contains product visit source") {
+                        let visitSource = sut.params!.stringKeyParams["visit-source"] as? String
+                        expect(visitSource) == "product-list"
+                    }
                 }
                 describe("sticker message") {
                     beforeEach {
@@ -1401,6 +1405,10 @@ class TrackerEventSpec: QuickSpec {
                     }
                     it("has no quick-answer-type") {
                         expect(sut.params!.stringKeyParams["quick-answer-type"]).to(beNil())
+                    }
+                    it("contains product visit source") {
+                        let visitSource = sut.params!.stringKeyParams["visit-source"] as? String
+                        expect(visitSource) == "product-list"
                     }
                 }
                 describe("quick answer message") {
@@ -1416,6 +1424,10 @@ class TrackerEventSpec: QuickSpec {
                     it("has no quick-answer-type") {
                         let value = sut.params!.stringKeyParams["quick-answer-type"] as? String
                         expect(value) == "not-interested"
+                    }
+                    it("contains product visit source") {
+                        let visitSource = sut.params!.stringKeyParams["visit-source"] as? String
+                        expect(visitSource) == "product-list"
                     }
                 }
             }
@@ -1480,8 +1492,8 @@ class TrackerEventSpec: QuickSpec {
                     expect(bumpedUp) == "true"
                 }
                 it("contains product visit source") {
-                    let bumpedUp = sut.params!.stringKeyParams["visit-source"] as? String
-                    expect(bumpedUp) == "product-list"
+                    let visitSource = sut.params!.stringKeyParams["visit-source"] as? String
+                    expect(visitSource) == "product-list"
                 }
                 describe("text message") {
                     beforeEach {
@@ -1495,6 +1507,10 @@ class TrackerEventSpec: QuickSpec {
                     it("has no quick-answer-type") {
                         expect(sut.params!.stringKeyParams["quick-answer-type"]).to(beNil())
                     }
+                    it("contains product visit source") {
+                        let visitSource = sut.params!.stringKeyParams["visit-source"] as? String
+                        expect(visitSource) == "product-list"
+                    }
                 }
                 describe("sticker message") {
                     beforeEach {
@@ -1507,6 +1523,10 @@ class TrackerEventSpec: QuickSpec {
                     }
                     it("has no quick-answer-type") {
                         expect(sut.params!.stringKeyParams["quick-answer-type"]).to(beNil())
+                    }
+                    it("contains product visit source") {
+                        let visitSource = sut.params!.stringKeyParams["visit-source"] as? String
+                        expect(visitSource) == "product-list"
                     }
                 }
                 describe("quick answer message") {
@@ -1522,6 +1542,10 @@ class TrackerEventSpec: QuickSpec {
                     it("has no quick-answer-type") {
                         let value = sut.params!.stringKeyParams["quick-answer-type"] as? String
                         expect(value) == "not-interested"
+                    }
+                    it("contains product visit source") {
+                        let visitSource = sut.params!.stringKeyParams["visit-source"] as? String
+                        expect(visitSource) == "product-list"
                     }
                 }
             }
