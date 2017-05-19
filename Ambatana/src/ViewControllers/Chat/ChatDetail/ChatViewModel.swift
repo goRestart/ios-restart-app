@@ -749,25 +749,7 @@ extension ChatViewModel {
     fileprivate func markProductAsSold() {
         guard conversation.value.amISelling else { return }
         guard let listingId = conversation.value.listing?.objectId else { return }
-        guard featureFlags.userRatingMarkAsSold else {
-            markProductAsSold(listingId: listingId)
-            return
-        }
-        delegate?.vmShowLoading(nil)
-        listingRepository.possibleBuyersOf(listingId: listingId) { [weak self] result in
-            if let buyers = result.value, !buyers.isEmpty {
-                self?.delegate?.vmHideLoading(nil) {
-                    self?.navigator?.selectBuyerToRate(source: .chat, buyers: buyers) { buyerId in
-                        self?.markProductAsSold(listingId: listingId)
-                    }
-                }
-            } else {
-                self?.markProductAsSold(listingId: listingId)
-            }
-        }
-    }
-    
-    private func markProductAsSold(listingId: String) {
+        
         delegate?.vmShowLoading(nil)
         listingRepository.markAsSold(listingId: listingId) { [weak self] result in
             if let _ = result.value {

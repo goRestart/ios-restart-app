@@ -769,7 +769,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
                                      message: soldQuestionText,
                                      positiveText: okText,
                                      positiveAction: { [weak self] in
-                                        self?.markProductAsSoldAction()
+                                        self?.markProductAsSold()
                 },
                                      positiveActionStyle: nil,
                                      negativeText: LGLocalizedString.commonCancel, negativeAction: nil, negativeActionStyle: nil)
@@ -1006,26 +1006,6 @@ class OldChatViewModel: BaseViewModel, Paginable {
         guard let otherUserId = otherUser?.objectId else { return }
         let reportVM = ReportUsersViewModel(origin: .chat, userReportedId: otherUserId)
         delegate?.vmShowReportUser(reportVM)
-    }
-
-    private func markProductAsSoldAction() {
-        guard featureFlags.userRatingMarkAsSold else {
-            markProductAsSold()
-            return
-        }
-        guard let productId = self.listing.objectId else { return }
-        delegate?.vmShowLoading(nil)
-        listingRepository.possibleBuyersOf(listingId: productId) { [weak self] result in
-            if let buyers = result.value, !buyers.isEmpty {
-                self?.delegate?.vmHideLoading(nil) {
-                    self?.navigator?.selectBuyerToRate(source: .chat, buyers: buyers) { buyerId in
-                        self?.markProductAsSold()
-                    }
-                }
-            } else {
-                self?.markProductAsSold()
-            }
-        }
     }
     
     private func markProductAsSold() {
