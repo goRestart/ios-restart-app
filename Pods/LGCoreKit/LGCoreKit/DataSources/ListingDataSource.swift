@@ -50,6 +50,6 @@ protocol ListingDataSource {
     func indexLimbo(_ listingIds: [String], completion: ListingsDataSourceCompletion?)
     func indexTrending(_ parameters: [String: Any], completion: ListingsDataSourceCompletion?)
     func retrieveStats(_ listingId: String, completion: ListingDataSourceListingStatsCompletion?)
-    func updateStats(_ listingIds: [String], action: String, completion: ListingDataSourceEmptyCompletion?)
+    func updateStats(_ listingIds: [(listingId: String, visitSource: String)], action: String, completion: ListingDataSourceEmptyCompletion?)
     func possibleBuyersOf(listingId: String, completion: ListingDataSourceUsersCompletion?)
 }
