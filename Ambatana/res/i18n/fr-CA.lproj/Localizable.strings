@@ -294,8 +294,8 @@
 "edit_product_title" = "Modifier le Produit";
 "edit_product_unsaved_changes_alert" = "Êtes-vous certain de vouloir quitter la page ? Tous les changements seront perdus.";
 "edit_product_unsaved_changes_alert_ok" = "Quitter";
-"filter_results_cars_no_matches" = "No exact matches for your search.\n Showing similar results. ";
-"filter_results_cars_other_results" = "Recently posted in your area";
+"filter_results_cars_no_matches" = "Aucune réponse exacte à votre recherche.\nAffichage de résultats similaires. ";
+"filter_results_cars_other_results" = "Publié récemment dans votre seteur";
 "filters_car_make_not_set" = "Non Communiqué";
 "filters_car_model_not_set" = "Non Communiqué";
 "filters_car_year_any_year" = "Toutes les Années";

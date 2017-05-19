@@ -294,8 +294,8 @@
 "edit_product_title" = "Redigera produkt";
 "edit_product_unsaved_changes_alert" = "Är du säker på att du vill lämna sidan utan att spara ändringarna?";
 "edit_product_unsaved_changes_alert_ok" = "Släng";
-"filter_results_cars_no_matches" = "No exact matches for your search.\n Showing similar results. ";
-"filter_results_cars_other_results" = "Recently posted in your area";
+"filter_results_cars_no_matches" = "Din sökning gav ingen träff. \nLiknande resultat visas. ";
+"filter_results_cars_other_results" = "Nyligen upplagda i ditt område";
 "filters_car_make_not_set" = "Ej Valt";
 "filters_car_model_not_set" = "Ej Vald";
 "filters_car_year_any_year" = "Alla år";
