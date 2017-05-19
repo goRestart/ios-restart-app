@@ -253,7 +253,7 @@ class ProductCarouselViewModel: BaseViewModel {
     }
 
     func moveToProductAtIndex(_ index: Int, movement: CarouselMovement) {
-        guard let viewModel = viewModelAt(index: index, movement: movement) else { return }
+        guard let viewModel = viewModelAt(index: index) else { return }
         currentProductViewModel?.active = false
         currentProductViewModel?.delegate = nil
         currentProductViewModel = viewModel
@@ -330,12 +330,12 @@ class ProductCarouselViewModel: BaseViewModel {
         return productCellModelAt(index: index)?.listing
     }
 
-    private func viewModelAt(index: Int, movement: CarouselMovement) -> ProductViewModel? {
+    private func viewModelAt(index: Int) -> ProductViewModel? {
         guard let listing = listingAt(index: index) else { return nil }
-        return viewModelFor(listing: listing, movement: movement)
+        return viewModelFor(listing: listing)
     }
     
-    private func viewModelFor(listing: Listing, movement: CarouselMovement) -> ProductViewModel? {
+    private func viewModelFor(listing: Listing) -> ProductViewModel? {
         guard let listingId = listing.objectId else { return nil }
         if let vm = productsViewModels[listingId] {
             return vm
