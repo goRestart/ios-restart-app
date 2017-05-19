@@ -66,9 +66,11 @@ class RelatedProductListRequester: ProductListRequester {
         return r
     }
     func distanceFromProductCoordinates(_ productCoords: LGLocationCoordinates2D) -> Double? {
+        // method needed for protocol implementation, not used for related
         return nil
     }
     var countryCode: String? {
+        // method needed for protocol implementation, not used for related
         return nil
     }
 }

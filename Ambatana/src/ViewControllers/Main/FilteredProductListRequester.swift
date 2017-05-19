@@ -118,37 +118,42 @@ class FilteredProductListRequester: ProductListRequester {
             titleFromFilters += " " + rangeYearTitle
         }
 
-        if let _ = filters?.carMakeId, titleFromFilters.isEmpty {
+        let filtersHasAnyCarAttributes: Bool = filters?.carMakeId != nil ||
+                                            filters?.carModelId != nil ||
+                                            filters?.carYearStart != nil ||
+                                            filters?.carYearEnd != nil
+
+        if  filtersHasAnyCarAttributes && titleFromFilters.isEmpty {
             // if there's a make filter active but no title, is "Other Results"
             titleFromFilters = LGLocalizedString.filterResultsCarsOtherResults
         }
 
-        return titleFromFilters.isEmpty ? nil : titleFromFilters
+        return titleFromFilters.isEmpty ? nil : titleFromFilters.uppercase
     }
 
     private func rangeYearTitle(forFilters filters: ProductFilters?) -> String? {
         guard let filters = filters else { return nil }
 
-        if let startYear = filters.carYearStart?.value, let endYear = filters.carYearEnd?.value {
+        if let startYear = filters.carYearStart, let endYear = filters.carYearEnd, !startYear.isNegated, !endYear.isNegated {
             // both years specified
-            if startYear == endYear {
-                return String(startYear)
+            if startYear.value == endYear.value {
+                return String(startYear.value)
             } else {
-                return String(startYear) + " - " + String(endYear)
+                return String(startYear.value) + " - " + String(endYear.value)
             }
-        } else if let startYear = filters.carYearStart?.value {
+        } else if let startYear = filters.carYearStart, !startYear.isNegated {
             // only start specified
-            if startYear == Date().year {
-                return String(startYear)
+            if startYear.value == Date().year {
+                return String(startYear.value)
             } else {
-             return String(startYear) + " - " + String(Date().year)
+             return String(startYear.value) + " - " + String(Date().year)
             }
-        } else if let endYear = filters.carYearEnd?.value {
+        } else if let endYear = filters.carYearEnd, !endYear.isNegated {
             // only end specified
-            if endYear == Constants.filterMinCarYear {
+            if endYear.value == Constants.filterMinCarYear {
                 return String(format: LGLocalizedString.filtersCarYearBeforeYear, Constants.filterMinCarYear)
             } else {
-                return String(format: LGLocalizedString.filtersCarYearBeforeYear, Constants.filterMinCarYear) + " - " + String(endYear)
+                return String(format: LGLocalizedString.filtersCarYearBeforeYear, Constants.filterMinCarYear) + " - " + String(endYear.value)
             }
         } else {
             // no year specified

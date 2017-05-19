@@ -54,9 +54,11 @@ extension DiscoverProductListRequester: ProductListRequester {
         return r
     }
     func distanceFromProductCoordinates(_ productCoords: LGLocationCoordinates2D) -> Double? {
+        // method needed for protocol implementation, not used for discover
         return nil
     }
     var countryCode: String? {
+        // method needed for protocol implementation, not used for discover
         return nil
     }
 }

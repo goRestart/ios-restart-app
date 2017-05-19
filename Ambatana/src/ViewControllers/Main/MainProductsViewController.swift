@@ -241,14 +241,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     private func filterHeadersHeight() -> CGFloat {
         return filterDescriptionHeaderView.height + filterTitleHeaderView.height
     }
-    
-    func setFilterHeaderTitle(withText text: String) {
-        filterTitleHeaderView.text = text
-    }
-    
-    func setFilterHeaderDescription(withText text: String) {
-        filterDescriptionHeaderView.text = text
-    }
+
     
     // MARK: - FilterTagsViewControllerDelegate
     

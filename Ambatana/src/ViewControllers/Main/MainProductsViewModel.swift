@@ -89,9 +89,9 @@ class MainProductsViewModel: BaseViewModel {
 
         if filters.selectedCategories.contains(.cars) {
             if let makeId = filters.carMakeId, let makeName = filters.carMakeName {
-                resultTags.append(.make(id: makeId.value, name: makeName))
+                resultTags.append(.make(id: makeId.value, name: makeName.uppercase))
                 if let modelId = filters.carModelId, let modelName = filters.carModelName {
-                    resultTags.append(.model(id: modelId.value, name: modelName))
+                    resultTags.append(.model(id: modelId.value, name: modelName.uppercase))
                 }
             }
             if filters.carYearStart != nil || filters.carYearEnd != nil {

@@ -9,7 +9,7 @@
 import LGCoreKit
 
 class EmptyCellDrawer: BaseCollectionCellDrawer<EmptyCell>, GridCellDrawer {
-    func draw(_ model: LGEmptyViewModel?, style: CellStyle, inCell cell: EmptyCell) {
+    func draw(_ model: LGEmptyViewModel, style: CellStyle, inCell cell: EmptyCell) {
 
     }
 }

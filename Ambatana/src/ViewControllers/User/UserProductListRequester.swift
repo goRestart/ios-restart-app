@@ -14,9 +14,11 @@ protocol UserProductListRequester: ProductListRequester {
 
 class UserFavoritesProductListRequester: UserProductListRequester {
     func distanceFromProductCoordinates(_ productCoords: LGLocationCoordinates2D) -> Double? {
+        // method needed for protocol implementation, not used for user
         return nil
     }
     var countryCode: String? {
+        // method needed for protocol implementation, not used for user
         return nil
     }
 
@@ -71,9 +73,11 @@ class UserFavoritesProductListRequester: UserProductListRequester {
 
 class UserStatusesProductListRequester: UserProductListRequester {
     func distanceFromProductCoordinates(_ productCoords: LGLocationCoordinates2D) -> Double? {
+        // method needed for protocol implementation, not used for user
         return nil
     }
     var countryCode: String? {
+        // method needed for protocol implementation, not used for user
         return nil
     }
     

@@ -151,10 +151,6 @@ class ProductListViewModel: BaseViewModel {
     // MARK: - Public methods
     // MARK: > Requests
 
-    func forceCollectionUpdateForEmptyResult() {
-        delegate?.vmDidFinishLoading(self, page: 0, indexes: [])
-    }
-
     func refresh() {
         refreshing = true
         if !retrieveProducts() {

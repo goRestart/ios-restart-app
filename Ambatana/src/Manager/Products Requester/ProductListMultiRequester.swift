@@ -43,7 +43,9 @@ class ProductListMultiRequester {
     init(requesters: [ProductListRequester]) {
         self.requestersArray = requesters
         self.currentIndex = 0
-        self.activeRequester = requesters[0]
+        if !requesters.isEmpty {
+            self.activeRequester = requesters[0]
+        }
         self.hasChangedRequester = false
         self.multiIsLastPage = false
         self.multiIsFirstPage = true
