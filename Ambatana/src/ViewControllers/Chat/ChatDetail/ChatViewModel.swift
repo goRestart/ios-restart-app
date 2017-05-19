@@ -750,7 +750,7 @@ extension ChatViewModel {
         guard conversation.value.amISelling else { return }
         guard let listingId = conversation.value.listing?.objectId else { return }
         guard featureFlags.userRatingMarkAsSold else {
-            markProductAsSold(listingId: listingId, buyerId: nil, userSoldTo: nil)
+            markProductAsSold(listingId: listingId)
             return
         }
         delegate?.vmShowLoading(nil)
@@ -758,21 +758,20 @@ extension ChatViewModel {
             if let buyers = result.value, !buyers.isEmpty {
                 self?.delegate?.vmHideLoading(nil) {
                     self?.navigator?.selectBuyerToRate(source: .chat, buyers: buyers) { buyerId in
-                        let userSoldTo: EventParameterUserSoldTo = buyerId != nil ? .letgoUser : .outsideLetgo
-                        self?.markProductAsSold(listingId: listingId, buyerId: buyerId, userSoldTo: userSoldTo)
+                        self?.markProductAsSold(listingId: listingId)
                     }
                 }
             } else {
-                self?.markProductAsSold(listingId: listingId, buyerId: nil, userSoldTo: .noConversations)
+                self?.markProductAsSold(listingId: listingId)
             }
         }
     }
     
-    private func markProductAsSold(listingId: String, buyerId: String?, userSoldTo: EventParameterUserSoldTo?) {
+    private func markProductAsSold(listingId: String) {
         delegate?.vmShowLoading(nil)
-        listingRepository.markAsSold(listingId: listingId, buyerId: nil) { [weak self] result in
+        listingRepository.markAsSold(listingId: listingId) { [weak self] result in
             if let _ = result.value {
-                self?.trackMarkAsSold(userSoldTo: userSoldTo)
+                self?.trackMarkAsSold()
             }
             let errorMessage: String? = result.error != nil ? LGLocalizedString.productMarkAsSoldErrorGeneric : nil
             self?.delegate?.vmHideLoading(errorMessage) {
@@ -1215,9 +1214,9 @@ fileprivate extension ChatViewModel {
         tracker.trackEvent(chatWindowOpen)
     }
 
-    func trackMarkAsSold(userSoldTo: EventParameterUserSoldTo?) {
+    func trackMarkAsSold() {
         guard let product = conversation.value.listing else { return }
-        let markAsSold = TrackerEvent.productMarkAsSold(product, typePage: .chat, soldTo: userSoldTo,
+        let markAsSold = TrackerEvent.productMarkAsSold(product, typePage: .chat,
                                                         freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                         isBumpedUp: .notAvailable)
         tracker.trackEvent(markAsSold)

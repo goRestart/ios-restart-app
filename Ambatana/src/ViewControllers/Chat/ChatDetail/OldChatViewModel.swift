@@ -769,7 +769,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
                                      message: soldQuestionText,
                                      positiveText: okText,
                                      positiveAction: { [weak self] in
-                                        self?.markProductAsSold()
+                                        self?.markProductAsSoldAction()
                 },
                                      positiveActionStyle: nil,
                                      negativeText: LGLocalizedString.commonCancel, negativeAction: nil, negativeActionStyle: nil)
@@ -1008,9 +1008,9 @@ class OldChatViewModel: BaseViewModel, Paginable {
         delegate?.vmShowReportUser(reportVM)
     }
 
-    private func markProductAsSold() {
+    private func markProductAsSoldAction() {
         guard featureFlags.userRatingMarkAsSold else {
-            markProductAsSold(buyerId: nil, userSoldTo: nil)
+            markProductAsSold()
             return
         }
         guard let productId = self.listing.objectId else { return }
@@ -1019,26 +1019,25 @@ class OldChatViewModel: BaseViewModel, Paginable {
             if let buyers = result.value, !buyers.isEmpty {
                 self?.delegate?.vmHideLoading(nil) {
                     self?.navigator?.selectBuyerToRate(source: .chat, buyers: buyers) { buyerId in
-                        let userSoldTo: EventParameterUserSoldTo = buyerId != nil ? .letgoUser : .outsideLetgo
-                        self?.markProductAsSold(buyerId: buyerId, userSoldTo: userSoldTo)
+                        self?.markProductAsSold()
                     }
                 }
             } else {
-                self?.markProductAsSold(buyerId: nil, userSoldTo: .noConversations)
+                self?.markProductAsSold()
             }
         }
     }
     
-    private func markProductAsSold(buyerId: String?, userSoldTo: EventParameterUserSoldTo?) {
+    private func markProductAsSold() {
         delegate?.vmShowLoading(nil)
-        listingRepository.markAsSold(listing: listing, buyerId: buyerId) { [weak self] result in
+        listingRepository.markAsSold(listing: listing) { [weak self] result in
             self?.delegate?.vmHideLoading(nil) { [weak self] in
                 guard let strongSelf = self else { return }
                 if let value = result.value {
                     strongSelf.listing = value
                     strongSelf.delegate?.vmDidUpdateProduct(messageToShow: LGLocalizedString.productMarkAsSoldSuccessMessage)
                     strongSelf.delegate?.vmUpdateRelationInfoView(strongSelf.chatStatus)
-                    strongSelf.trackMarkAsSold(userSoldTo: userSoldTo)
+                    strongSelf.trackMarkAsSold()
                 } else {
                     strongSelf.delegate?.vmShowMessage(LGLocalizedString.productMarkAsSoldErrorGeneric, completion: nil)
                 }
@@ -1079,8 +1078,8 @@ class OldChatViewModel: BaseViewModel, Paginable {
         tracker.trackEvent(chatWindowOpen)
     }
 
-    private func trackMarkAsSold(userSoldTo: EventParameterUserSoldTo?) {
-        let markAsSold = TrackerEvent.productMarkAsSold(listing, typePage: .chat, soldTo: userSoldTo,
+    private func trackMarkAsSold() {
+        let markAsSold = TrackerEvent.productMarkAsSold(listing, typePage: .chat,
                                                         freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                         isBumpedUp: .notAvailable)
         tracker.trackEvent(markAsSold)

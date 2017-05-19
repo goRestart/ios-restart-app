@@ -173,7 +173,8 @@ class ProductViewModel: BaseViewModel {
     internal override func didBecomeActive(_ firstTime: Bool) {
         guard let listingId = listing.value.objectId else { return }
 
-        listingRepository.incrementViews(listingId: listingId, completion: nil)
+        // ⚠️
+        //listingRepository.incrementViews(listingId: listingId, completion: nil)
 
         if !relationRetrieved && myUserRepository.myUser != nil {
             listingRepository.retrieveUserListingRelation(listingId) { [weak self] result in
@@ -733,8 +734,7 @@ fileprivate extension ProductViewModel {
             if let buyers = result.value, !buyers.isEmpty {
                 self?.delegate?.vmHideLoading(nil) {
                     self?.navigator?.selectBuyerToRate(source: .markAsSold, buyers: buyers) { [weak self] buyerId in
-                        let userSoldTo: EventParameterUserSoldTo = buyerId != nil ? .letgoUser : .outsideLetgo
-                        self?.markAsSold(buyerId: buyerId, userSoldTo: userSoldTo)
+                        self?.markAsSold()
                     }
                 }
             } else if showConfirmationFallback {
@@ -742,7 +742,7 @@ fileprivate extension ProductViewModel {
                     self?.confirmToMarkAsSold()
                 }
             } else {
-                self?.markAsSold(buyerId: nil, userSoldTo: .noConversations)
+                self?.markAsSold()
             }
         }
     }
@@ -758,7 +758,7 @@ fileprivate extension ProductViewModel {
         var alertActions: [UIAction] = []
         let markAsSoldAction = UIAction(interface: .text(okButton),
                                         action: { [weak self] in
-                                            self?.markAsSold(buyerId: nil, userSoldTo: .noConversations)
+                                            self?.markAsSold()
         })
         alertActions.append(markAsSoldAction)
         delegate?.vmShowAlert(title, message: message, cancelLabel: cancel, actions: alertActions)
@@ -823,10 +823,10 @@ fileprivate extension ProductViewModel {
         }
     }
 
-    func markAsSold(buyerId: String?, userSoldTo: EventParameterUserSoldTo) {
+    func markAsSold() {
         delegate?.vmShowLoading(nil)
 
-        listingRepository.markAsSold(listing: listing.value, buyerId: buyerId) { [weak self] result in
+        listingRepository.markAsSold(listing: listing.value) { [weak self] result in
             guard let strongSelf = self else { return }
 
             var markAsSoldCompletion: (()->())? = nil
@@ -835,7 +835,7 @@ fileprivate extension ProductViewModel {
             if let value = result.value {
                 strongSelf.listing.value = value
                 message = strongSelf.listing.value.price.free ? LGLocalizedString.productMarkAsSoldFreeSuccessMessage : LGLocalizedString.productMarkAsSoldSuccessMessage
-                self?.trackHelper.trackMarkSoldCompleted(to: userSoldTo, isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value)
+                self?.trackHelper.trackMarkSoldCompleted(isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value)
                 markAsSoldCompletion = {
                     self?.navigator?.openAppRating(.markedSold)
                 }

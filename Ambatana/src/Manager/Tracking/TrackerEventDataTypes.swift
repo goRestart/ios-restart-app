@@ -316,12 +316,6 @@ enum EventParameterLoginSourceValue: String {
     case directQuickAnswer = "direct-quick-answer"
 }
 
-enum EventParameterUserSoldTo: String {
-    case letgoUser = "true"
-    case outsideLetgo = "false"
-    case noConversations = "no-conversations"
-}
-
 enum EventParameterProductItemType: String {
     case real = "1"
     case dummy = "0"
