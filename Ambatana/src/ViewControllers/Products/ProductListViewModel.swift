@@ -238,7 +238,7 @@ class ProductListViewModel: BaseViewModel {
             let nextPageNumber = firstPage ? 0 : strongSelf.pageNumber + 1
             self?.isLoading = false
             if let newListings = result.listingsResult.value {
-                if let context = result.context {
+                if let context = result.context, !newListings.isEmpty {
                     strongSelf.indexToTitleMapping[strongSelf.numberOfProducts] = context
                 }
                 let productCellModels = newListings.map(ListingCellModel.init)

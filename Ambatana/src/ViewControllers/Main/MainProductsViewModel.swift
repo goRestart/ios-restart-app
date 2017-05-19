@@ -540,6 +540,8 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
                 let emptyViewModel = LGEmptyViewModel(icon: errImage, title: errTitle, body: errBody, buttonTitle: nil,
                                                       action: nil, secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: nil)
                 listViewModel.setEmptyState(emptyViewModel)
+                filterDescription.value = nil
+                filterTitle.value = nil
             } else {
                 listViewModel.retrieveProductsNextPage()
             }
