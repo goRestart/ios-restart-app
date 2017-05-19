@@ -128,7 +128,7 @@ public protocol ListingRepository {
     // MARK: - Listing Stats
 
     func retrieveStats(listingId: String, completion: ListingStatsCompletion?)
-    func incrementViews(listingId: String, completion: ListingVoidCompletion?)
+    func incrementViews(listingId: String, visitSource: String, completion: ListingVoidCompletion?)
     func updateListingViewCounts()
 
     // MARK: - Possible buyers

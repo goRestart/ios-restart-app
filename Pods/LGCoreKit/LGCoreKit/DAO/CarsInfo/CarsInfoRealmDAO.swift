@@ -68,6 +68,7 @@ class CarsInfoRealmDAO: CarsInfoDAO {
         let realmArray = carsInfo.map { convertToRealmCarsMake(carsMake: $0) }
         let realmList = convertArrayToRealmList(inputArray: realmArray)
 
+        cancelWriteTransactionsIfNeeded()
         do {
             try dataBase.write ({ [weak self] _ in
                 guard let strongSelf = self else { return }
@@ -89,6 +90,7 @@ class CarsInfoRealmDAO: CarsInfoDAO {
     }
 
     func clean() {
+        cancelWriteTransactionsIfNeeded()
         do {
             try dataBase.write ({ [weak self] _ in
                 guard let strongSelf = self else { return }
@@ -138,6 +140,12 @@ class CarsInfoRealmDAO: CarsInfoDAO {
 // MARK: - Private Methods
 
 extension CarsInfoRealmDAO {
+    
+    fileprivate func cancelWriteTransactionsIfNeeded() {
+        if dataBase.isInWriteTransaction {
+            dataBase.cancelWrite()
+        }
+    }
 
     // LG to Realm
 

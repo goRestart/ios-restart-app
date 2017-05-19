@@ -17,9 +17,9 @@ class ProductListMultiRequesterSpec: QuickSpec {
         var sut: ProductListMultiRequester!
         var dataCount: Int = 0
 
-        var result: ListingsResult!
-        let completion: ListingsCompletion = { r in
-            if let data = r.value {
+        var result: ListingsRequesterResult!
+        let completion: ListingsRequesterCompletion = { r in
+            if let data = r.listingsResult.value {
                 dataCount = data.count
             }
             result = r
@@ -35,7 +35,7 @@ class ProductListMultiRequesterSpec: QuickSpec {
                     dataCount = 0
                     sut.currentIndex = 0
                     sut.retrieveFirstPage { result in
-                        if let data = result.value {
+                        if let data = result.listingsResult.value {
                             dataCount = data.count
                         }
                     }
@@ -53,7 +53,7 @@ class ProductListMultiRequesterSpec: QuickSpec {
                     dataCount = 0
                     sut.currentIndex = 0
                     sut.retrieveFirstPage { result in
-                        if let data = result.value {
+                        if let data = result.listingsResult.value {
                             dataCount = data.count
                         }
                     }

@@ -164,7 +164,6 @@ class ProductViewModel: BaseViewModel {
         self.purchasesShopper = purchasesShopper
         self.monetizationRepository = monetizationRepository
         self.showFeaturedStripeHelper = ShowFeaturedStripeHelper(featureFlags: featureFlags, myUserRepository: myUserRepository)
-
         self.userInfo = Variable<ProductVMUserInfo>(ProductVMUserInfo(userListing: listing.user, myUser: myUserRepository.myUser))
         self.disposeBag = DisposeBag()
 
@@ -176,8 +175,7 @@ class ProductViewModel: BaseViewModel {
     
     internal override func didBecomeActive(_ firstTime: Bool) {
         guard let listingId = listing.value.objectId else { return }
-
-        listingRepository.incrementViews(listingId: listingId, completion: nil)
+        listingRepository.incrementViews(listingId: listingId, visitSource: visitSource.rawValue, completion: nil)
 
         if !relationRetrieved && myUserRepository.myUser != nil {
             listingRepository.retrieveUserListingRelation(listingId) { [weak self] result in

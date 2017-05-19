@@ -32,14 +32,23 @@ extension ProductListViewModelDataDelegate {
     func vmDidSelectCollection(_ type: CollectionCellType) {}
 }
 
+struct ListingsRequesterResult {
+    let listingsResult: ListingsResult
+    let context: String?
+}
+
+typealias ListingsRequesterCompletion = (ListingsRequesterResult) -> Void
+
 protocol ProductListRequester: class {
     var itemsPerPage: Int { get }
     func canRetrieve() -> Bool
-    func retrieveFirstPage(_ completion: ListingsCompletion?)
-    func retrieveNextPage(_ completion: ListingsCompletion?)
+    func retrieveFirstPage(_ completion: ListingsRequesterCompletion?)
+    func retrieveNextPage(_ completion: ListingsRequesterCompletion?)
     func isLastPage(_ resultCount: Int) -> Bool
     func updateInitialOffset(_ newOffset: Int)
     func duplicate() -> ProductListRequester
+    func distanceFromProductCoordinates(_ productCoords: LGLocationCoordinates2D) -> Double?
+    var countryCode: String? { get }
 }
 
 
@@ -68,7 +77,7 @@ class ProductListViewModel: BaseViewModel {
     weak var dataDelegate: ProductListViewModelDataDelegate?
     
     // Requester
-    let productListRequester: ProductListRequester?
+    var productListRequester: ProductListRequester?
 
     //State
     private(set) var pageNumber: UInt
@@ -81,6 +90,8 @@ class ProductListViewModel: BaseViewModel {
 
     // Data
     private(set) var objects: [ListingCellModel]
+    private var indexToTitleMapping: [Int:String]
+    private var lastTitle: String?
 
     // UI
     private(set) var defaultCellSize: CGSize
@@ -123,6 +134,7 @@ class ProductListViewModel: BaseViewModel {
         self.productListRequester = requester
         self.defaultCellSize = CGSize.zero
         self.tracker = tracker
+        self.indexToTitleMapping = [:]
         super.init()
         let cellHeight = cellWidth * ProductListViewModel.cellAspectRatio
         self.defaultCellSize = CGSize(width: cellWidth, height: cellHeight)
@@ -217,13 +229,18 @@ class ProductListViewModel: BaseViewModel {
 
         if firstPage && numberOfProducts == 0 {
             state = .loading
+            indexToTitleMapping = [:]
+            lastTitle = nil
         }
         
-        let completion: ListingsCompletion = { [weak self] result in
+        let completion: ListingsRequesterCompletion = { [weak self] result in
             guard let strongSelf = self else { return }
             let nextPageNumber = firstPage ? 0 : strongSelf.pageNumber + 1
             self?.isLoading = false
-            if let newListings = result.value {
+            if let newListings = result.listingsResult.value {
+                if let context = result.context, !newListings.isEmpty {
+                    strongSelf.indexToTitleMapping[strongSelf.numberOfProducts] = context
+                }
                 let productCellModels = newListings.map(ListingCellModel.init)
                 let cellModels = self?.dataDelegate?.vmProcessReceivedProductPage(productCellModels, page: nextPageNumber) ?? productCellModels
                 let indexes: [Int]
@@ -240,11 +257,14 @@ class ProductListViewModel: BaseViewModel {
                 let hasProducts = strongSelf.numberOfProducts > 0
                 strongSelf.isLastPage = strongSelf.productListRequester?.isLastPage(newListings.count) ?? true
                 //This assignment should be ALWAYS before calling the delegates to give them the option to re-set the state
-                strongSelf.state = .data
+                if hasProducts {
+                    // to avoid showing "loading footer" when there are no elements
+                    strongSelf.state = .data
+                }
                 strongSelf.delegate?.vmDidFinishLoading(strongSelf, page: nextPageNumber, indexes: indexes)
                 strongSelf.dataDelegate?.productListVM(strongSelf, didSucceedRetrievingProductsPage: nextPageNumber,
                                                        hasProducts: hasProducts)
-            } else if let error = result.error {
+            } else if let error = result.listingsResult.error {
                 strongSelf.processError(error, nextPageNumber: nextPageNumber)
             }
         }
@@ -356,6 +376,14 @@ class ProductListViewModel: BaseViewModel {
         if shouldRetrieveProductsNextPage {
             retrieveProductsNextPage()
         }
+    }
+
+    func titleForIndex(index: Int) -> String? {
+        guard let newTitle = indexToTitleMapping[index] else {
+            return lastTitle
+        }
+        lastTitle = newTitle
+        return newTitle
     }
 }
 

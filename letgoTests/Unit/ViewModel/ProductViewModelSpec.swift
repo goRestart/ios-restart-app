@@ -34,6 +34,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
         var locationManager: MockLocationManager!
         var countryHelper: CountryHelper!
         var product: MockProduct!
+        var source: EventParameterProductVisitSource!
         var featureFlags: MockFeatureFlags!
         var purchasesShopper: MockPurchasesShopper!
         var monetizationRepository: MockMonetizationRepository!

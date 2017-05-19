@@ -294,6 +294,8 @@
 "edit_product_title" = "Product bewerken";
 "edit_product_unsaved_changes_alert" = "Weet je zeker dat je deze wijzigingen wilt verwijderen?";
 "edit_product_unsaved_changes_alert_ok" = "Verwijderen";
+"filter_results_cars_no_matches" = "Geen exacte resultaten voor jouw zoekopdracht.\n  Toon vergelijkbare resultaten.";
+"filter_results_cars_other_results" = "Recent geplaatst in jouw omgeving";
 "filters_car_make_not_set" = "Niet Ingesteld";
 "filters_car_model_not_set" = "Niet Ingesteld";
 "filters_car_year_any_year" = "Elk Jaar";
@@ -315,6 +317,7 @@
 "filters_sort_newest" = "Nieuwste eerst";
 "filters_sort_price_asc" = "Prijs van laag naar hoog";
 "filters_sort_price_desc" = "Prijs van hoog naar laag";
+"filters_tag_location_selected" = "Geselecteerde locatie";
 "filters_title" = "Filters";
 "filters_within_all" = "Alle producten";
 "filters_within_day" = "de laatste 24 uur";
