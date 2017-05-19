@@ -145,13 +145,9 @@ class ProductViewModelSpec: BaseViewModelSpec {
                             it("has requested buyer selection with buyers array") {
                                 expect(self.lastBuyersToRate?.count) == possibleBuyers.count
                             }
-                            it("has called to mark as sold with correct buyerId") {
-                                expect(listingRepository.markAsSoldBuyerId) == self.buyerToRateResult
-                            }
-                            it("has a mark as sold tracked event with correct user-sold-to") {
+                            it("has a mark as sold tracked event") {
                                 let event = tracker.trackedEvents.last
                                 expect(event?.name.rawValue) == "product-detail-sold"
-                                expect(event?.params?[.userSoldTo] as? String) == "true"
                             }
                         }
                         context("outside letgo is selected") {
@@ -174,13 +170,9 @@ class ProductViewModelSpec: BaseViewModelSpec {
                             it("has requested buyer selection with buyers array") {
                                 expect(self.lastBuyersToRate?.count) == possibleBuyers.count
                             }
-                            it("has called to mark as sold with correct buyerId") {
-                                expect(listingRepository.markAsSoldBuyerId).to(beNil())
-                            }
-                            it("has a mark as sold tracked event with correct user-sold-to") {
+                            it("has a mark as sold tracked event") {
                                 let event = tracker.trackedEvents.last
                                 expect(event?.name.rawValue) == "product-detail-sold"
-                                expect(event?.params?[.userSoldTo] as? String) == "false"
                             }
                         }
                     }
@@ -207,13 +199,9 @@ class ProductViewModelSpec: BaseViewModelSpec {
                         it("has shown mark as sold alert") {
                             expect(self.shownAlertText!) == LGLocalizedString.productMarkAsSoldConfirmMessage
                         }
-                        it("has called to mark as sold with correct buyerId") {
-                            expect(listingRepository.markAsSoldBuyerId).to(beNil())
-                        }
-                        it("has a mark as sold tracked event with correct user-sold-to") {
+                        it("has a mark as sold tracked event") {
                             let event = tracker.trackedEvents.last!
                             expect(event.name.rawValue) == "product-detail-sold"
-                            expect(event.params![.userSoldTo] as? String) == "no-conversations"
                         }
                     }
                 }
@@ -244,9 +232,6 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     }
                     it("has shown mark as sold alert") {
                         expect(self.shownAlertText!) == LGLocalizedString.productMarkAsSoldConfirmMessage
-                    }
-                    it("has called to mark as sold with correct buyerId") {
-                        expect(listingRepository.markAsSoldBuyerId).to(beNil())
                     }
                     it("has a mark as sold tracked event with no user-sold-to") {
                         let event = tracker.trackedEvents.last!
