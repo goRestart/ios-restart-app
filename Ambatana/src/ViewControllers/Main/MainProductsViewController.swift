@@ -403,12 +403,15 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         viewModel.filterTitle.asObservable().distinctUntilChanged { (s1, s2) -> Bool in
             s1 == s2
         }.bindNext { [weak self] filterTitle in
-            guard let strongSelf = self else { return }
-            strongSelf.filterTitleHeaderView.text = filterTitle
+                guard let strongSelf = self else { return }
+                strongSelf.topInset.value = strongSelf.topBarHeight + strongSelf.tagsCollectionView.frame.size.height + strongSelf.filterHeadersHeight()
+                strongSelf.filterTitleHeaderView.text = filterTitle
         }.addDisposableTo(disposeBag)
 
         viewModel.filterDescription.asObservable().bindNext { [weak self] filterDescr in
-                self?.filterDescriptionHeaderView.text = filterDescr
+            guard let strongSelf = self else { return }
+            strongSelf.topInset.value = strongSelf.topBarHeight + strongSelf.tagsCollectionView.frame.size.height + strongSelf.filterHeadersHeight()
+            strongSelf.filterDescriptionHeaderView.text = filterDescr
         }.addDisposableTo(disposeBag)
     }
 }

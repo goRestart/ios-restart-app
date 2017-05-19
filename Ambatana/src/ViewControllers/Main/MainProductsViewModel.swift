@@ -515,8 +515,8 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
             return
         }
 
-        if productListRequester.multiIsFirstPage && shouldShowNoExactMatchesDisclaimer {
-            filterDescription.value = hasProducts ? nil : LGLocalizedString.filterResultsCarsNoMatches
+        if productListRequester.multiIsFirstPage  {
+            filterDescription.value = !hasProducts && shouldShowNoExactMatchesDisclaimer ? LGLocalizedString.filterResultsCarsNoMatches : nil
         }
 
         if !hasProducts {
