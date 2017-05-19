@@ -340,8 +340,7 @@ class ProductCarouselViewModel: BaseViewModel {
         if let vm = productsViewModels[listingId] {
             return vm
         }
-        let visitSourceWithMovement = source.getSourceVisitParameter(withMovement: movement)
-        let vm = productViewModelMaker.make(listing: listing, visitSource: visitSourceWithMovement)
+        let vm = productViewModelMaker.make(listing: listing, visitSource: source)
         vm.navigator = navigator
         productsViewModels[listingId] = vm
         return vm
@@ -561,44 +560,6 @@ extension CarouselMovement {
             return .none
         case .initial:
             return .position(index: index)
-        }
-    }
-}
-
-
-extension EventParameterProductVisitSource {
-    func getSourceVisitParameter(withMovement movement: CarouselMovement) -> EventParameterProductVisitSource {
-        switch movement {
-        case .initial:
-            return self
-        case .swipeRight, .tap:
-            switch self {
-            case .productList, .productListNext, .productListPrevious: return .productListNext
-            case .moreInfoRelated, .moreInfoRelatedNext, .moreInfoRelatedPrevious: return .moreInfoRelatedNext
-            case .collection, .collectionNext, .collectionPrevious: return .collectionNext
-            case .search, .searchNext, .searchPrevious: return .searchNext
-            case .filter, .filterNext, .filterPrevious: return .filterNext
-            case .searchAndFilter, .searchAndFilterNext, .searchAndFilterPrevious: return .searchAndFilterNext
-            case .category: return .category
-            case .profile, .profileNext, .profilePrevious: return .profileNext
-            case .chat, .chatNext, .chatPrevious: return .chatNext
-            case .openApp, .openAppNext, .openAppPrevious: return .openAppNext
-            case .notifications, .notificationsNext, .notificationsPrevious: return .notificationsNext
-            }
-        case .swipeLeft:
-            switch self {
-            case .productList, .productListNext, .productListPrevious: return .productListPrevious
-            case .moreInfoRelated, .moreInfoRelatedNext, .moreInfoRelatedPrevious: return .moreInfoRelatedPrevious
-            case .collection, .collectionNext, .collectionPrevious: return .collectionPrevious
-            case .search, .searchNext, .searchPrevious: return .searchPrevious
-            case .filter, .filterNext, .filterPrevious: return .filterPrevious
-            case .searchAndFilter, .searchAndFilterNext, .searchAndFilterPrevious: return .searchAndFilterPrevious
-            case .category: return .category
-            case .profile, .profileNext, .profilePrevious: return .profilePrevious
-            case .chat, .chatNext, .chatPrevious: return .chatPrevious
-            case .openApp, .openAppNext, .openAppPrevious: return .openAppPrevious
-            case .notifications, .notificationsNext, .notificationsPrevious: return .notificationsPrevious
-            }
         }
     }
 }
