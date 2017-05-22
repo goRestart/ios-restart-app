@@ -94,9 +94,9 @@ public protocol ListingRepository {
     
     // MARK: - Mark listings as (un)sold
     
-    func markAsSold(listing: Listing, buyerId: String?, completion: ListingCompletion?)
+    func markAsSold(listing: Listing, completion: ListingCompletion?)
     func markAsUnsold(listing: Listing, completion: ListingCompletion?)
-    func markAsSold(listingId: String, buyerId: String?, completion: ListingVoidCompletion?)
+    func markAsSold(listingId: String, completion: ListingVoidCompletion?)
     func markAsUnsold(listingId: String, completion: ListingVoidCompletion?)
     
     // MARK: - (un)Favorite listing

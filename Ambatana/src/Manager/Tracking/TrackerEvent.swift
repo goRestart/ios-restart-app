@@ -353,22 +353,22 @@ struct TrackerEvent {
         return TrackerEvent(name: .productOpenChat, params: params)
     }
 
-    static func productMarkAsSold(_ product: ChatListing, typePage: EventParameterTypePage, soldTo: EventParameterUserSoldTo?,
+    static func productMarkAsSold(_ product: ChatListing, typePage: EventParameterTypePage,
                                   freePostingModeAllowed: Bool, isBumpedUp: EventParameterBoolean) -> TrackerEvent {
         return productMarkAsSold(productId: product.objectId, price: product.price, currency: product.currency.code,
-                                     categoryId: nil, typePage: typePage, soldTo: soldTo,
+                                     categoryId: nil, typePage: typePage,
                                      freePostingModeAllowed: freePostingModeAllowed, isBumpedUp: isBumpedUp)
     }
-    static func productMarkAsSold(_ listing: Listing, typePage: EventParameterTypePage, soldTo: EventParameterUserSoldTo?,
+    static func productMarkAsSold(_ listing: Listing, typePage: EventParameterTypePage,
                                   freePostingModeAllowed: Bool, isBumpedUp: EventParameterBoolean) -> TrackerEvent {
         return productMarkAsSold(productId: listing.objectId, price: listing.price, currency: listing.currency.code,
-                              categoryId: listing.category.rawValue, typePage: typePage, soldTo: soldTo,
+                              categoryId: listing.category.rawValue, typePage: typePage,
                               freePostingModeAllowed: freePostingModeAllowed, isBumpedUp: isBumpedUp)
     }
 
     private static func productMarkAsSold(productId: String?, price: ListingPrice, currency: String, categoryId: Int?,
-                                          typePage: EventParameterTypePage, soldTo: EventParameterUserSoldTo?,
-                                          freePostingModeAllowed: Bool, isBumpedUp: EventParameterBoolean) -> TrackerEvent {
+                                          typePage: EventParameterTypePage, freePostingModeAllowed: Bool,
+                                          isBumpedUp: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
         params[.productId] = productId
         params[.productPrice] = price.value
@@ -376,7 +376,6 @@ struct TrackerEvent {
         params[.categoryId] = categoryId
         params[.typePage] = typePage.rawValue
         params[.freePosting] = eventParameterFreePostingWithPrice(freePostingModeAllowed, price: price).rawValue
-        params[.userSoldTo] = soldTo?.rawValue
         params[.isBumpedUp] = isBumpedUp.rawValue
         return TrackerEvent(name: .productMarkAsSold, params: params)
     }

@@ -211,12 +211,12 @@ final class LGListingRepository: ListingRepository {
 
     // MARK: - Mark product as (un)sold
 
-    func markAsSold(listing: Listing, buyerId: String?, completion: ListingCompletion?) {
+    func markAsSold(listing: Listing, completion: ListingCompletion?) {
         guard let listingId = listing.objectId else {
             completion?(ListingResult(error: .internalError(message: "Missing objectId in Listing")))
             return
         }
-        dataSource.markAsSold(listingId, buyerId: buyerId) { [weak self] result in
+        dataSource.markAsSold(listingId) { [weak self] result in
             if let error = result.error {
                 completion?(ListingResult(error: RepositoryError(apiError: error)))
             } else {
@@ -243,8 +243,8 @@ final class LGListingRepository: ListingRepository {
         }
     }
     
-    func markAsSold(listingId: String, buyerId: String?, completion: ListingVoidCompletion?) {
-        dataSource.markAsSold(listingId, buyerId: buyerId) { [weak self] result in
+    func markAsSold(listingId: String, completion: ListingVoidCompletion?) {
+        dataSource.markAsSold(listingId) { [weak self] result in
             if let error = result.error {
                 completion?(ListingVoidResult(error: RepositoryError(apiError: error)))
             } else {
