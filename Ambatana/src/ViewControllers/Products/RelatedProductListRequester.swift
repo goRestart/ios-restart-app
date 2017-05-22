@@ -10,7 +10,7 @@ import LGCoreKit
 
 class RelatedProductListRequester: ProductListRequester {
     let itemsPerPage: Int
-    private let productObjectId: String
+    fileprivate let productObjectId: String
     private let listingRepository: ListingRepository
     private var offset: Int = 0
 
@@ -73,4 +73,10 @@ class RelatedProductListRequester: ProductListRequester {
         // method needed for protocol implementation, not used for related
         return nil
     }
+
+    func isEqual(toRequester requester: ProductListRequester) -> Bool {
+        guard let requester = requester as? RelatedProductListRequester else { return false }
+        return productObjectId == requester.productObjectId
+    }
 }
+

@@ -68,6 +68,11 @@ class UserFavoritesProductListRequester: UserProductListRequester {
         r.userObjectId = userObjectId
         return r
     }
+
+    func isEqual(toRequester requester: ProductListRequester) -> Bool {
+        guard let requester = requester as? UserFavoritesProductListRequester else { return false }
+        return userObjectId == requester.userObjectId
+    }
 }
 
 
@@ -137,6 +142,11 @@ class UserStatusesProductListRequester: UserProductListRequester {
         return r
     }
 
+    func isEqual(toRequester requester: ProductListRequester) -> Bool {
+        guard let requester = requester as? UserStatusesProductListRequester else { return false }
+        return userObjectId == requester.userObjectId
+    }
+    
     private var retrieveProductsParams: RetrieveListingParams {
         var params: RetrieveListingParams = RetrieveListingParams()
         params.offset = offset

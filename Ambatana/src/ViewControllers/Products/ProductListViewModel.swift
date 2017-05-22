@@ -47,10 +47,10 @@ protocol ProductListRequester: class {
     func isLastPage(_ resultCount: Int) -> Bool
     func updateInitialOffset(_ newOffset: Int)
     func duplicate() -> ProductListRequester
+    func isEqual(toRequester requester: ProductListRequester) -> Bool
     func distanceFromProductCoordinates(_ productCoords: LGLocationCoordinates2D) -> Double?
     var countryCode: String? { get }
 }
-
 
 class ProductListViewModel: BaseViewModel {
     

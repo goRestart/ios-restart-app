@@ -94,6 +94,15 @@ extension ProductListMultiRequester: ProductListRequester {
         return ProductListMultiRequester(requesters: newArray)
     }
 
+    func isEqual(toRequester requester: ProductListRequester) -> Bool {
+        guard let requester = requester as? ProductListMultiRequester else { return false }
+        guard requestersArray.count == requester.requestersArray.count else { return false }
+        for (index, req) in requester.requestersArray.enumerated() {
+            guard requestersArray[index].isEqual(toRequester: req) else { return false }
+        }
+        return true
+    }
+
     func distanceFromProductCoordinates(_ productCoords: LGLocationCoordinates2D) -> Double? {
         return activeRequester?.distanceFromProductCoordinates(productCoords)
     }
@@ -138,3 +147,4 @@ extension ProductListMultiRequester: ProductListRequester {
         return false
     }
 }
+

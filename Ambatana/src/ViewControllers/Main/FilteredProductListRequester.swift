@@ -171,6 +171,11 @@ class FilteredProductListRequester: ProductListRequester {
         }
         return meters
     }
+
+    func isEqual(toRequester requester: ProductListRequester) -> Bool {
+        guard let requester = requester as? FilteredProductListRequester else { return false }
+        return queryString == requester.queryString && filters == requester.filters
+    }
 }
 
 
