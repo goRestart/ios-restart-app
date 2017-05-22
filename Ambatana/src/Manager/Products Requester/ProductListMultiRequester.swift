@@ -28,12 +28,6 @@ class ProductListMultiRequester {
     }
 
 
-    // var used for UT
-    var numOfRequesters: Int {
-        return requestersArray.count
-    }
-
-
     // MARK: - Lifecycle
 
     convenience init() {

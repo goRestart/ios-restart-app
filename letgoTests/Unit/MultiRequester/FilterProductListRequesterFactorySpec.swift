@@ -19,34 +19,44 @@ class FilterProductListRequesterFactorySpec: QuickSpec {
     override func spec() {
 
         describe ("multiple requesters generation") {
+            beforeEach {
+                self.expectedRequestersArray = []
+            }
             context ("not car related") {
                 beforeEach {
                     let filters = ProductFilters()
+
+                    let expectedRequester = FilteredProductListRequester(itemsPerPage: 20, offset: 0)
+                    expectedRequester.filters = filters
+                    self.expectedRequestersArray = [expectedRequester]
+
                     self.finalMultiRequester = FilterProductListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                    queryString: nil,
                                                                                                    itemsPerPage: 20,
                                                                                                    multiRequesterEnabled: true)
                 }
-                it ("multi requester has only 1 requester") {
-                    expect(self.finalMultiRequester.numOfRequesters) == 1
+                it ("the requesters are the right ones") {
+                    expect(self.finalMultiRequester.isEqual(toRequester: ProductListMultiRequester(requesters: self.expectedRequestersArray))) == true
                 }
             }
             context ("car related") {
-                beforeEach {
-                    self.expectedRequestersArray = []
-                }
                 context ("car details not specified") {
                     context ("multi requester feature disabled") {
                         beforeEach {
                             var filters = ProductFilters()
                             filters.selectedCategories = [.cars]
+
+                            let expectedRequester = FilteredProductListRequester(itemsPerPage: 20, offset: 0)
+                            expectedRequester.filters = filters
+                            self.expectedRequestersArray = [expectedRequester]
+
                             self.finalMultiRequester = FilterProductListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                            queryString: nil,
                                                                                                            itemsPerPage: 20,
                                                                                                            multiRequesterEnabled: false)
                         }
-                        it ("multi requester has only 1 requester") {
-                            expect(self.finalMultiRequester.numOfRequesters) == 1
+                        it ("the requesters are the right ones") {
+                            expect(self.finalMultiRequester.isEqual(toRequester: ProductListMultiRequester(requesters: self.expectedRequestersArray))) == true
                         }
                     }
                     context ("multi requester feature enabled") {
@@ -63,29 +73,31 @@ class FilterProductListRequesterFactorySpec: QuickSpec {
                                                                                                            itemsPerPage: 20,
                                                                                                            multiRequesterEnabled: true)
                         }
-                        it ("multi requester has only 1 requester") {
-                            expect(self.finalMultiRequester.numOfRequesters) == 1
-                        }
                         it ("the requesters are the right ones") {
                             expect(self.finalMultiRequester.isEqual(toRequester: ProductListMultiRequester(requesters: self.expectedRequestersArray))) == true
                         }
                     }
                 }
                 context ("car details specified") {
-                    context ("multi requester feature disabled") {
+                    fcontext ("multi requester feature disabled") {
                         context ("make & model") {
                             beforeEach {
                                 var filters = ProductFilters()
                                 filters.selectedCategories = [.cars]
                                 filters.carMakeId = RetrieveListingParam<String>(value: "makeId", isNegated: false)
                                 filters.carModelId = RetrieveListingParam<String>(value: "modelId", isNegated: false)
+
+                                let expectedRequester = FilteredProductListRequester(itemsPerPage: 20, offset: 0)
+                                expectedRequester.filters = filters
+                                self.expectedRequestersArray = [expectedRequester]
+
                                 self.finalMultiRequester = FilterProductListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                                queryString: nil,
                                                                                                                itemsPerPage: 20,
                                                                                                                multiRequesterEnabled: false)
                             }
-                            it ("multi requester has 1 requesters") {
-                                expect(self.finalMultiRequester.numOfRequesters) == 1
+                            it ("the requesters are the right ones") {
+                                expect(self.finalMultiRequester.isEqual(toRequester: ProductListMultiRequester(requesters: self.expectedRequestersArray))) == true
                             }
                         }
                     }
@@ -109,9 +121,6 @@ class FilterProductListRequesterFactorySpec: QuickSpec {
                                                                                                                itemsPerPage: 20,
                                                                                                                multiRequesterEnabled: true)
                             }
-                            it ("multi requester has 2 requesters") {
-                                expect(self.finalMultiRequester.numOfRequesters) == 2
-                            }
                             it ("the requesters are the right ones") {
                                 expect(self.finalMultiRequester.isEqual(toRequester: ProductListMultiRequester(requesters: self.expectedRequestersArray))) == true
                             }
@@ -134,9 +143,6 @@ class FilterProductListRequesterFactorySpec: QuickSpec {
                                                                                                                queryString: nil,
                                                                                                                itemsPerPage: 20,
                                                                                                                multiRequesterEnabled: true)
-                            }
-                            it ("multi requester has 2 requesters") {
-                                expect(self.finalMultiRequester.numOfRequesters) == 2
                             }
                             it ("the requesters are the right ones") {
                                 expect(self.finalMultiRequester.isEqual(toRequester: ProductListMultiRequester(requesters: self.expectedRequestersArray))) == true
@@ -170,9 +176,6 @@ class FilterProductListRequesterFactorySpec: QuickSpec {
                                                                                                                itemsPerPage: 20,
                                                                                                                multiRequesterEnabled: true)
                             }
-                            it ("multi requester has 3 requesters") {
-                                expect(self.finalMultiRequester.numOfRequesters) == 3
-                            }
                             it ("the requesters are the right ones") {
                                 expect(self.finalMultiRequester.isEqual(toRequester: ProductListMultiRequester(requesters: self.expectedRequestersArray))) == true
                             }
@@ -205,9 +208,6 @@ class FilterProductListRequesterFactorySpec: QuickSpec {
                                                                                                                itemsPerPage: 20,
                                                                                                                multiRequesterEnabled: true)
                             }
-                            it ("multi requester has 3 requesters") {
-                                expect(self.finalMultiRequester.numOfRequesters) == 3
-                            }
                             it ("the requesters are the right ones") {
                                 expect(self.finalMultiRequester.isEqual(toRequester: ProductListMultiRequester(requesters: self.expectedRequestersArray))) == true
                             }
@@ -239,9 +239,6 @@ class FilterProductListRequesterFactorySpec: QuickSpec {
                                                                                                                queryString: nil,
                                                                                                                itemsPerPage: 20,
                                                                                                                multiRequesterEnabled: true)
-                            }
-                            it ("multi requester has 3 requesters") {
-                                expect(self.finalMultiRequester.numOfRequesters) == 3
                             }
                             it ("the requesters are the right ones") {
                                 expect(self.finalMultiRequester.isEqual(toRequester: ProductListMultiRequester(requesters: self.expectedRequestersArray))) == true
@@ -283,9 +280,6 @@ class FilterProductListRequesterFactorySpec: QuickSpec {
                                                                                                                itemsPerPage: 20,
                                                                                                                multiRequesterEnabled: true)
                             }
-                            it ("multi requester has 4 requesters") {
-                                expect(self.finalMultiRequester.numOfRequesters) == 4
-                            }
                             it ("the requesters are the right ones") {
                                 expect(self.finalMultiRequester.isEqual(toRequester: ProductListMultiRequester(requesters: self.expectedRequestersArray))) == true
                             }
@@ -326,9 +320,6 @@ class FilterProductListRequesterFactorySpec: QuickSpec {
                                                                                                                itemsPerPage: 20,
                                                                                                                multiRequesterEnabled: true)
                             }
-                            it ("multi requester has 4 requesters") {
-                                expect(self.finalMultiRequester.numOfRequesters) == 4
-                            }
                             it ("the requesters are the right ones") {
                                 expect(self.finalMultiRequester.isEqual(toRequester: ProductListMultiRequester(requesters: self.expectedRequestersArray))) == true
                             }
@@ -368,9 +359,6 @@ class FilterProductListRequesterFactorySpec: QuickSpec {
                                                                                                                queryString: nil,
                                                                                                                itemsPerPage: 20,
                                                                                                                multiRequesterEnabled: true)
-                            }
-                            it ("multi requester has 4 requesters") {
-                                expect(self.finalMultiRequester.numOfRequesters) == 4
                             }
                             it ("the requesters are the right ones") {
                                 expect(self.finalMultiRequester.isEqual(toRequester: ProductListMultiRequester(requesters: self.expectedRequestersArray))) == true
@@ -417,10 +405,6 @@ class FilterProductListRequesterFactorySpec: QuickSpec {
                                                                                                                itemsPerPage: 20,
                                                                                                                multiRequesterEnabled: true)
                             }
-                            it ("multi requester has 4 requesters") {
-                                expect(self.finalMultiRequester.numOfRequesters) == 4
-                            }
-
                             it ("the requesters are the right ones") {
                                 expect(self.finalMultiRequester.isEqual(toRequester: ProductListMultiRequester(requesters: self.expectedRequestersArray))) == true
                             }
@@ -445,9 +429,6 @@ class FilterProductListRequesterFactorySpec: QuickSpec {
                                                                                                                queryString: nil,
                                                                                                                itemsPerPage: 20,
                                                                                                                multiRequesterEnabled: true)
-                            }
-                            it ("multi requester has 2 requesters") {
-                                expect(self.finalMultiRequester.numOfRequesters) == 2
                             }
                             it ("the requesters are the right ones") {
                                 expect(self.finalMultiRequester.isEqual(toRequester: ProductListMultiRequester(requesters: self.expectedRequestersArray))) == true
@@ -475,9 +456,6 @@ class FilterProductListRequesterFactorySpec: QuickSpec {
                                                                                                                queryString: nil,
                                                                                                                itemsPerPage: 20,
                                                                                                                multiRequesterEnabled: true)
-                            }
-                            it ("multi requester has 2 requesters") {
-                                expect(self.finalMultiRequester.numOfRequesters) == 2
                             }
                             it ("the requesters are the right ones") {
                                 expect(self.finalMultiRequester.isEqual(toRequester: ProductListMultiRequester(requesters: self.expectedRequestersArray))) == true
