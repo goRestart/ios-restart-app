@@ -97,7 +97,7 @@
     },
     {
         "name": "CarsMultiRequesterEnabled",
-        "values": ["no", "yes"],
+        "values": ["yes", "no"],
         "description": "Cars multi requester enabled"
     }
 ]

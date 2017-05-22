@@ -740,7 +740,7 @@ class TrackerEventSpec: QuickSpec {
                     sut = TrackerEvent.productListVertical(category: .cars,
                                                            keywords: ["kw1", "kw2"],
                                                            matchingFields: ["mf1", "mf2"],
-                                                           notMatchingFields: ["nmf1", "nmf2"])
+                                                           nonMatchingFields: ["nmf1", "nmf2"])
                 }
                 
                 it("has its event name") {

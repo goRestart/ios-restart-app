@@ -132,8 +132,8 @@ extension Bumper  {
     }
 
     static var carsMultiRequesterEnabled: Bool {
-        guard let value = Bumper.value(for: CarsMultiRequesterEnabled.key) else { return false }
-        return CarsMultiRequesterEnabled(rawValue: value)?.asBool ?? false
+        guard let value = Bumper.value(for: CarsMultiRequesterEnabled.key) else { return true }
+        return CarsMultiRequesterEnabled(rawValue: value)?.asBool ?? true
     } 
 }
 
@@ -334,9 +334,9 @@ enum CarsCategoryAfterPicture: String, BumperFeature  {
 }
 
 enum CarsMultiRequesterEnabled: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return CarsMultiRequesterEnabled.no.rawValue }
-    static var enumValues: [CarsMultiRequesterEnabled] { return [.no, .yes]}
+    case yes, no
+    static var defaultValue: String { return CarsMultiRequesterEnabled.yes.rawValue }
+    static var enumValues: [CarsMultiRequesterEnabled] { return [.yes, .no]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Cars multi requester enabled" } 
     var asBool: Bool { return self == .yes }

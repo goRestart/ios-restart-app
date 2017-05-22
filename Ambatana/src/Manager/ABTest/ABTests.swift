@@ -37,7 +37,7 @@ struct ABTests {
     static var quickAnswersRepeatedTextField = BoolABDynamicVar(key: "quickAnswersRepeatedTextField", defaultValue: false)
     static var carsVerticalEnabled = BoolABDynamicVar(key: "carsVerticalEnabled", defaultValue: false)
     static var carsCategoryAfterPicture = BoolABDynamicVar(key: "carsCategoryAfterPicture", defaultValue: false)
-    static var carsMultiRequesterEnabled = BoolABDynamicVar(key: "carsMultiRequesterEnabled", defaultValue: false)
+    static var carsMultiRequesterEnabled = BoolABDynamicVar(key: "carsMultiRequesterEnabled", defaultValue: true)
 
     static private var allVariables: [ABVariable] {
         var result = [ABVariable]()

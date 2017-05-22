@@ -188,12 +188,12 @@ struct TrackerEvent {
     }
     
     static func productListVertical(category: ListingCategory, keywords: [String],
-                                    matchingFields: [String], notMatchingFields: [String]) -> TrackerEvent {
+                                    matchingFields: [String], nonMatchingFields: [String]) -> TrackerEvent {
         var params = EventParameters()
         params[.categoryId] = String(category.rawValue)
-        params[.verticalKeyword] = keywords.joined(separator: "_")
-        params[.verticalMatchingFields] = matchingFields.joined(separator: ",")
-        params[.verticalNoMatchingFields] = notMatchingFields.joined(separator: ",")
+        params[.verticalKeyword] = keywords.isEmpty ? "N/A" : keywords.joined(separator: "_")
+        params[.verticalMatchingFields] = matchingFields.isEmpty ? "N/A" : matchingFields.joined(separator: ",")
+        params[.verticalNoMatchingFields] = nonMatchingFields.isEmpty ? "N/A" : nonMatchingFields.joined(separator: ",")
 
         return TrackerEvent(name: .productListVertical, params: params)
     }
@@ -269,18 +269,35 @@ struct TrackerEvent {
         
         params[.freePosting] = eventParameterFreePostingWithPriceRange(freePostingModeAllowed, priceRange: priceRange).rawValue
 
-        params[.make] = carMake ?? "N/A"
-        params[.model] = carModel ?? "N/A"
+        var verticalFields: [String] = []
+
+        if let make = carMake {
+            params[.make] = make
+            verticalFields.append(EventParameterName.make.rawValue)
+        } else {
+            params[.make] = "N/A"
+        }
+        if let make = carModel {
+            params[.model] = make
+            verticalFields.append(EventParameterName.model.rawValue)
+        } else {
+            params[.model] = "N/A"
+        }
+
         if let carYearStart = carYearStart {
             params[.yearStart] = String(carYearStart)
+            verticalFields.append(EventParameterName.yearStart.rawValue)
         } else {
             params[.yearStart] = "N/A"
         }
         if let carYearEnd = carYearEnd {
             params[.yearEnd] = String(carYearEnd)
+            verticalFields.append(EventParameterName.yearEnd.rawValue)
         } else {
             params[.yearEnd] = "N/A"
         }
+
+        params[.verticalFields] = verticalFields.isEmpty ? "N/A" : verticalFields.joined(separator: ",")
 
         return TrackerEvent(name: .filterComplete, params: params)
     }

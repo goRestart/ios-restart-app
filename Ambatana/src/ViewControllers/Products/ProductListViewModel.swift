@@ -35,6 +35,20 @@ extension ProductListViewModelDataDelegate {
 struct ListingsRequesterResult {
     let listingsResult: ListingsResult
     let context: String?
+    let verticalTrackingInfo: VerticalTrackingInfo?
+
+    init(listingsResult: ListingsResult, context: String?, verticalTrackingInfo: VerticalTrackingInfo? = nil) {
+        self.listingsResult = listingsResult
+        self.context = context
+        self.verticalTrackingInfo = verticalTrackingInfo
+    }
+}
+
+struct VerticalTrackingInfo {
+    let category: ListingCategory
+    let keywords: [String]
+    let matchingFields: [String]
+    let nonMatchingFields: [String]
 }
 
 typealias ListingsRequesterCompletion = (ListingsRequesterResult) -> Void
@@ -59,7 +73,7 @@ class ProductListViewModel: BaseViewModel {
     private static let cellAspectRatio: CGFloat = 198.0 / cellMinHeight
     private static let cellBannerAspectRatio: CGFloat = 1.3
     private static let cellMaxThumbFactor: CGFloat = 2.0
-    
+
     var cellWidth: CGFloat {
         return (UIScreen.main.bounds.size.width - (productListFixedInset*2)) / CGFloat(numberOfColumns)
     }
@@ -241,6 +255,9 @@ class ProductListViewModel: BaseViewModel {
                 if let context = result.context, !newListings.isEmpty {
                     strongSelf.indexToTitleMapping[strongSelf.numberOfProducts] = context
                 }
+                if let verticalTrackingInfo = result.verticalTrackingInfo, !newListings.isEmpty {
+                    strongSelf.trackVerticalFilterResults(withVerticalTrackingInfo: verticalTrackingInfo)
+                }
                 let productCellModels = newListings.map(ListingCellModel.init)
                 let cellModels = self?.dataDelegate?.vmProcessReceivedProductPage(productCellModels, page: nextPageNumber) ?? productCellModels
                 let indexes: [Int]
@@ -393,6 +410,14 @@ class ProductListViewModel: BaseViewModel {
 extension ProductListViewModel {
     func trackErrorStateShown(reason: EventParameterEmptyReason) {
         let event = TrackerEvent.emptyStateVisit(typePage: .productList , reason: reason)
+        tracker.trackEvent(event)
+    }
+
+    func trackVerticalFilterResults(withVerticalTrackingInfo info: VerticalTrackingInfo) {
+        let event = TrackerEvent.productListVertical(category: info.category,
+                                                     keywords: info.keywords,
+                                                     matchingFields: info.matchingFields,
+                                                     nonMatchingFields: info.nonMatchingFields)
         tracker.trackEvent(event)
     }
 }
