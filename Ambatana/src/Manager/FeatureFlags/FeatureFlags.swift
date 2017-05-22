@@ -216,6 +216,13 @@ class FeatureFlags: FeatureFlaggeable {
         return ABTests.carsCategoryAfterPicture.value
     }
     
+    var newMarkAsSoldFlow: Bool {
+        if Bumper.enabled {
+            return Bumper.newMarkAsSoldFlow
+        }
+        return ABTests.newMarkAsSoldFlow.value
+    }
+    
     // MARK: - Country features
 
     var freePostingModeAllowed: Bool {

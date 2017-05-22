@@ -39,6 +39,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var quickAnswersRepeatedTextField: Bool = false
     var carsVerticalEnabled: Bool = false
     var carsCategoryAfterPicture: Bool = false
+    var newMarkAsSoldFlow: Bool = false
 
     // Country dependant features
     var freePostingModeAllowed = false

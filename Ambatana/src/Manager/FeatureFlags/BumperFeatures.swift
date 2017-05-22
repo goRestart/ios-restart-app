@@ -32,6 +32,7 @@ extension Bumper  {
         flags.append(QuickAnswersRepeatedTextField.self)
         flags.append(CarsVerticalEnabled.self)
         flags.append(CarsCategoryAfterPicture.self)
+        flags.append(NewMarkAsSoldFlow.self)
         Bumper.initialize(flags)
     } 
 
@@ -128,6 +129,11 @@ extension Bumper  {
     static var carsCategoryAfterPicture: Bool {
         guard let value = Bumper.value(for: CarsCategoryAfterPicture.key) else { return false }
         return CarsCategoryAfterPicture(rawValue: value)?.asBool ?? false
+    }
+
+    static var newMarkAsSoldFlow: Bool {
+        guard let value = Bumper.value(for: NewMarkAsSoldFlow.key) else { return false }
+        return NewMarkAsSoldFlow(rawValue: value)?.asBool ?? false
     } 
 }
 
@@ -324,6 +330,15 @@ enum CarsCategoryAfterPicture: String, BumperFeature  {
     static var enumValues: [CarsCategoryAfterPicture] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "When cars vertical enabled, select category after image selection" } 
+    var asBool: Bool { return self == .yes }
+}
+
+enum NewMarkAsSoldFlow: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return NewMarkAsSoldFlow.no.rawValue }
+    static var enumValues: [NewMarkAsSoldFlow] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "New mark as sold flow active. alert + showing buyer list" } 
     var asBool: Bool { return self == .yes }
 }
 
