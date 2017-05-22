@@ -22,7 +22,6 @@ extension Bumper  {
         flags.append(CaptchaTransparent.self)
         flags.append(PassiveBuyersShowKeyboard.self)
         flags.append(OnboardingReview.self)
-        flags.append(UserRatingMarkAsSold.self)
         flags.append(ProductDetailNextRelated.self)
         flags.append(ContactSellerOnFavorite.self)
         flags.append(SignUpLoginImprovement.self)
@@ -78,11 +77,6 @@ extension Bumper  {
     static var onboardingReview: OnboardingReview {
         guard let value = Bumper.value(for: OnboardingReview.key) else { return .testA }
         return OnboardingReview(rawValue: value) ?? .testA 
-    }
-
-    static var userRatingMarkAsSold: Bool {
-        guard let value = Bumper.value(for: UserRatingMarkAsSold.key) else { return false }
-        return UserRatingMarkAsSold(rawValue: value)?.asBool ?? false
     }
 
     static var productDetailNextRelated: Bool {
@@ -219,15 +213,6 @@ enum OnboardingReview: String, BumperFeature  {
             default: return .testA
         }
     }
-}
-
-enum UserRatingMarkAsSold: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return UserRatingMarkAsSold.no.rawValue }
-    static var enumValues: [UserRatingMarkAsSold] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Select buyer before mark sold" } 
-    var asBool: Bool { return self == .yes }
 }
 
 enum ProductDetailNextRelated: String, BumperFeature  {

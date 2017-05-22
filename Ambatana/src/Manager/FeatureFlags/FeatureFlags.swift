@@ -27,7 +27,6 @@ protocol FeatureFlaggeable {
     var onboardingReview: OnboardingReview { get }
     var freeBumpUpEnabled: Bool { get }
     var pricedBumpUpEnabled: Bool { get }
-    var userRatingMarkAsSold: Bool { get }
     var productDetailNextRelated: Bool { get }
     var signUpLoginImprovement: SignUpLoginImprovement { get }
     var periscopeRemovePredefinedText: Bool { get }
@@ -151,13 +150,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.pricedBumpUpEnabled
         }
         return ABTests.pricedBumpUpEnabled.value
-    }
-
-    var userRatingMarkAsSold: Bool {
-        if Bumper.enabled {
-            return Bumper.userRatingMarkAsSold
-        }
-        return ABTests.userRatingMarkAsSold.value
     }
 
     var productDetailNextRelated: Bool {

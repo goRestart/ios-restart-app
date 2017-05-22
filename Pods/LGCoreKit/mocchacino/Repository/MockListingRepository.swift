@@ -21,7 +21,6 @@ open class MockListingRepository: ListingRepository {
     public var listingBuyersResult: ListingBuyersResult!
 
     public var markAsSoldProductId: String?
-    public var markAsSoldBuyerId: String?
     
 
     // MARK: - Lifecycle
@@ -158,9 +157,8 @@ open class MockListingRepository: ListingRepository {
         delay(result: deleteProductResult, completion: completion)
     }
     
-    public func markAsSold(listing: Listing, buyerId: String?, completion: ListingCompletion?) {
+    public func markAsSold(listing: Listing, completion: ListingCompletion?) {
         markAsSoldProductId = listing.objectId!
-        markAsSoldBuyerId = buyerId
         delay(result: markAsSoldResult, completion: completion)
     }
 
@@ -168,9 +166,8 @@ open class MockListingRepository: ListingRepository {
         delay(result: markAsUnsoldResult, completion: completion)
     }
     
-    public func markAsSold(listingId: String, buyerId: String?, completion: ListingVoidCompletion?) {
+    public func markAsSold(listingId: String, completion: ListingVoidCompletion?) {
         markAsSoldProductId = listingId
-        markAsSoldBuyerId = buyerId
         delay(result: markAsSoldVoidResult, completion: completion)
     }
     

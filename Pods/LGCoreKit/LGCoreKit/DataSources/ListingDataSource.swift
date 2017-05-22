@@ -40,7 +40,7 @@ protocol ListingDataSource {
     func updateProduct(productParams: ProductEditionParams, completion: ProductDataSourceCompletion?)
     func createCar(userId: String, carParams: CarCreationParams, completion: CarDataSourceCompletion?)
     func updateCar(carParams: CarEditionParams, completion: CarDataSourceCompletion?)
-    func markAsSold(_ listingId: String, buyerId: String?, completion: ListingDataSourceEmptyCompletion?)
+    func markAsSold(_ listingId: String, completion: ListingDataSourceEmptyCompletion?)
     func markAsUnSold(_ listingId: String, completion: ListingDataSourceEmptyCompletion?)
     func delete(_ listingId: String, completion: ListingDataSourceEmptyCompletion?)
     func deleteFavorite(_ listingId: String, userId: String, completion: ListingDataSourceEmptyCompletion?)

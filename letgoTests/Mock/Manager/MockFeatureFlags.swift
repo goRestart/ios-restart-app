@@ -30,7 +30,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var onboardingReview: OnboardingReview = .testA
     var freeBumpUpEnabled: Bool = false
     var pricedBumpUpEnabled: Bool = false
-    var userRatingMarkAsSold: Bool = false
     var productDetailNextRelated: Bool = false
     var signUpLoginImprovement: SignUpLoginImprovement = .v1
     var periscopeRemovePredefinedText: Bool = false
