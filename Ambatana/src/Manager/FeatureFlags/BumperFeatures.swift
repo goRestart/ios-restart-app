@@ -32,7 +32,7 @@ extension Bumper  {
         flags.append(QuickAnswersRepeatedTextField.self)
         flags.append(CarsVerticalEnabled.self)
         flags.append(CarsCategoryAfterPicture.self)
-        flags.append(CarsMultiRequesterEnabled.self)
+        flags.append(NewCarsMultiRequesterEnabled.self)
         Bumper.initialize(flags)
     } 
 
@@ -131,9 +131,9 @@ extension Bumper  {
         return CarsCategoryAfterPicture(rawValue: value)?.asBool ?? false
     }
 
-    static var carsMultiRequesterEnabled: Bool {
-        guard let value = Bumper.value(for: CarsMultiRequesterEnabled.key) else { return true }
-        return CarsMultiRequesterEnabled(rawValue: value)?.asBool ?? true
+    static var newCarsMultiRequesterEnabled: Bool {
+        guard let value = Bumper.value(for: NewCarsMultiRequesterEnabled.key) else { return false }
+        return NewCarsMultiRequesterEnabled(rawValue: value)?.asBool ?? false
     } 
 }
 
@@ -333,10 +333,10 @@ enum CarsCategoryAfterPicture: String, BumperFeature  {
     var asBool: Bool { return self == .yes }
 }
 
-enum CarsMultiRequesterEnabled: String, BumperFeature  {
-    case yes, no
-    static var defaultValue: String { return CarsMultiRequesterEnabled.yes.rawValue }
-    static var enumValues: [CarsMultiRequesterEnabled] { return [.yes, .no]}
+enum NewCarsMultiRequesterEnabled: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return NewCarsMultiRequesterEnabled.no.rawValue }
+    static var enumValues: [NewCarsMultiRequesterEnabled] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Cars multi requester enabled" } 
     var asBool: Bool { return self == .yes }

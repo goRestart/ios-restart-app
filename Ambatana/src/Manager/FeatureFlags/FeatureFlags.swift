@@ -36,7 +36,7 @@ protocol FeatureFlaggeable {
     var quickAnswersRepeatedTextField: Bool { get }
     var carsVerticalEnabled: Bool { get }
     var carsCategoryAfterPicture: Bool { get }
-    var carsMultiRequesterEnabled: Bool { get }
+    var newCarsMultiRequesterEnabled: Bool { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -217,11 +217,11 @@ class FeatureFlags: FeatureFlaggeable {
         return ABTests.carsCategoryAfterPicture.value
     }
 
-    var carsMultiRequesterEnabled: Bool {
+    var newCarsMultiRequesterEnabled: Bool {
         if Bumper.enabled {
-            return Bumper.carsMultiRequesterEnabled
+            return Bumper.newCarsMultiRequesterEnabled
         }
-        return ABTests.carsMultiRequesterEnabled.value
+        return ABTests.newCarsMultiRequesterEnabled.value
     }
 
     // MARK: - Country features
