@@ -879,6 +879,9 @@ class TrackerEventSpec: QuickSpec {
                     it ("end") {
                         expect(sut.params!.stringKeyParams["product-year-end"] as? String) == "2000"
                     }
+                    it ("vertical fields") {
+                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "product-make,product-model,product-year-start,product-year-end"
+                    }
                 }
                 context("not receiving all params, contains the default params") {
                     beforeEach {
@@ -935,6 +938,10 @@ class TrackerEventSpec: QuickSpec {
                     }
                     it ("end") {
                         expect(sut.params!.stringKeyParams["product-year-end"] as? String) == "N/A"
+                    }
+
+                    it ("vertical fields") {
+                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "N/A"
                     }
                 }
             }
