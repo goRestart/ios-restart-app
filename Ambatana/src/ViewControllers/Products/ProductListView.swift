@@ -268,7 +268,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     
     func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!,
         heightForFooterInSection section: Int) -> CGFloat {
-            return Constants.productListFooterHeight
+        return Constants.productListFooterHeight
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
@@ -411,7 +411,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             } else if shouldScrollToTopOnFirstPageReload {
                 scrollToTop(false)
             }
-        } else if viewModel.isLastPage {
+        } else if self.viewModel.isLastPage {
             // Last page
             // Reload in order to be able to reload the footer
             reloadData()
@@ -421,11 +421,14 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             let indexPaths = indexes.map{ IndexPath(item: $0, section: 0) }
             collectionView.insertItems(at: indexPaths)
         } else {
-            reloadData()
+            // delay added because reload is ignored if too fast after insertItems
+            delay(0.4) { _ in
+                self.collectionView.reloadSections(IndexSet(integer: 0))
+            }
         }
     }
-    
-    
+
+
     // MARK: - Private methods
     // MARK: > UI
 

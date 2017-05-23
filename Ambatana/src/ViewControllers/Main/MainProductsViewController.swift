@@ -402,6 +402,22 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
                 self?.setToastViewHidden(true)
             }
         }.addDisposableTo(disposeBag)
+
+        viewModel.filterTitle.asObservable().distinctUntilChanged { (s1, s2) -> Bool in
+            s1 == s2
+        }.bindNext { [weak self] filterTitle in
+            guard let strongSelf = self else { return }
+            strongSelf.filterTitleHeaderView.text = filterTitle
+            let tagsHeight = strongSelf.tagsShowing ? strongSelf.heightFiltersTagView : 0
+            strongSelf.topInset.value = strongSelf.topBarHeight + tagsHeight + strongSelf.filterHeadersHeight()
+        }.addDisposableTo(disposeBag)
+
+        viewModel.filterDescription.asObservable().bindNext { [weak self] filterDescr in
+            guard let strongSelf = self else { return }
+            strongSelf.filterDescriptionHeaderView.text = filterDescr
+            let tagsHeight = strongSelf.tagsShowing ? strongSelf.heightFiltersTagView : 0
+            strongSelf.topInset.value = strongSelf.topBarHeight + tagsHeight + strongSelf.filterHeadersHeight()
+        }.addDisposableTo(disposeBag)
     }
 }
 

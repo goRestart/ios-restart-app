@@ -1054,7 +1054,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
 
         if shouldSendFirstMessageEvent && !didSendMessage {
             shouldSendFirstMessageEvent = false
-            tracker.trackEvent(TrackerEvent.firstMessage(info: info))
+            tracker.trackEvent(TrackerEvent.firstMessage(info: info, productVisitSource: .unknown))
         }
         tracker.trackEvent(TrackerEvent.userMessageSent(info: info))
     }

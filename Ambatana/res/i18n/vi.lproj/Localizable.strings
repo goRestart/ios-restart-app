@@ -294,6 +294,8 @@
 "edit_product_title" = "Chỉnh sửa Sản phẩm";
 "edit_product_unsaved_changes_alert" = "Bạn có chắc chắn muốn rời khỏi trang này? Thay đổi sẽ bị mất.";
 "edit_product_unsaved_changes_alert_ok" = "Rời";
+"filter_results_cars_no_matches" = "Không có kết quả chính xác cho tìm kiếm của bạn.\nHiển thị kết quả tương tự. ";
+"filter_results_cars_other_results" = "Được đăng gần đây tại khu vực của bạn";
 "filters_car_make_not_set" = "Chưa Cài Đặt";
 "filters_car_model_not_set" = "Chưa Cài Đặt";
 "filters_car_year_any_year" = "Mọi Năm";
@@ -315,6 +317,7 @@
 "filters_sort_newest" = "Mới nhất trước tiên";
 "filters_sort_price_asc" = "Giá từ thấp lên cao";
 "filters_sort_price_desc" = "Giá từ cao xuống thấp";
+"filters_tag_location_selected" = "Địa điểm đã chọn";
 "filters_title" = "Bộ lọc";
 "filters_within_all" = "Tất cả sản phẩm";
 "filters_within_day" = "24h qua";

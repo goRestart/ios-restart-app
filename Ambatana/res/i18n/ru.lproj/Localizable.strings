@@ -294,6 +294,8 @@
 "edit_product_title" = "Редактировать товар";
 "edit_product_unsaved_changes_alert" = "Вы точно не хотите сохранять эти изменения?";
 "edit_product_unsaved_changes_alert_ok" = "Не сохранять";
+"filter_results_cars_no_matches" = "No exact matches for your search.\n Showing similar results. ";
+"filter_results_cars_other_results" = "Recently posted in your area";
 "filters_car_make_not_set" = "Не установлен";
 "filters_car_model_not_set" = "Не установлен";
 "filters_car_year_any_year" = "Любой год";
@@ -315,6 +317,7 @@
 "filters_sort_newest" = "Сначала новое";
 "filters_sort_price_asc" = "Цена (от меньшей к большей)";
 "filters_sort_price_desc" = "Цена (от большей к меньшей)";
+"filters_tag_location_selected" = "Выбранное местоположение";
 "filters_title" = "Фильтры";
 "filters_within_all" = "Все товары";
 "filters_within_day" = "Последние 24 часа";

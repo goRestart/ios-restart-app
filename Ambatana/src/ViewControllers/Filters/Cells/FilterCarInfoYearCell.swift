@@ -19,7 +19,7 @@ class FilterCarInfoYearCell: UICollectionViewCell {
         return Double(Constants.filterMinCarYear)
     }
     var currentYear: Double {
-        return Double(Date().year())
+        return Double(Date().year)
     }
 
     @IBOutlet weak var yearRangeSlider: NHRangeSliderView!
