@@ -150,3 +150,37 @@ struct ProductFilters {
         return nil
     }
 }
+
+extension RetrieveListingParam: Equatable {
+    static public func == (a: RetrieveListingParam, b: RetrieveListingParam) -> Bool {
+        return a.value == b.value && a.isNegated == b.isNegated
+    }
+}
+
+extension Place: Equatable {
+    public static func == (a: Place, b: Place) -> Bool {
+        return a.name == b.name &&
+        a.postalAddress == b.postalAddress &&
+        a.location == b.location &&
+        a.placeResumedData == b.placeResumedData
+    }
+}
+
+extension ProductFilters: Equatable {
+    static func ==(a: ProductFilters, b: ProductFilters) -> Bool {
+
+        return a.place == b.place &&
+        a.distanceRadius == b.distanceRadius &&
+        a.distanceType == b.distanceType &&
+        a.selectedCategories == b.selectedCategories &&
+        a.selectedWithin == b.selectedWithin &&
+        a.selectedOrdering == b.selectedOrdering &&
+        a.filterCoordinates == b.filterCoordinates &&
+        a.priceRange == b.priceRange &&
+        a.carMakeId == b.carMakeId &&
+        a.carModelId == b.carModelId &&
+        a.carYearStart == b.carYearStart &&
+        a.carYearEnd == b.carYearEnd
+    }
+}
+

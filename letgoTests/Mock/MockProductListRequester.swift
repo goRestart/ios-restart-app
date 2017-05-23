@@ -69,6 +69,10 @@ class MockProductListRequester: ProductListRequester {
     func duplicate() -> ProductListRequester {
         return self
     }
+    func isEqual(toRequester requester: ProductListRequester) -> Bool {
+        guard let requester = requester as? MockProductListRequester else { return false }
+        return true
+    }
     func distanceFromProductCoordinates(_ productCoords: LGLocationCoordinates2D) -> Double? {
         return nil
     }

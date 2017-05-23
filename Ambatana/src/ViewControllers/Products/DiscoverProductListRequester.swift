@@ -61,6 +61,11 @@ extension DiscoverProductListRequester: ProductListRequester {
         // method needed for protocol implementation, not used for discover
         return nil
     }
+
+    func isEqual(toRequester requester: ProductListRequester) -> Bool {
+        guard let requester = requester as? DiscoverProductListRequester else { return false }
+        return productObjectId == requester.productObjectId
+    }
 }
 
 
