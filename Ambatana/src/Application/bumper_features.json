@@ -96,7 +96,7 @@
         "description": "When cars vertical enabled, select category after image selection"
     },
     {
-        "name": "CarsMultiRequesterEnabled",
+        "name": "NewCarsMultiRequesterEnabled",
         "values": ["no", "yes"],
         "description": "Cars multi requester enabled"
     }

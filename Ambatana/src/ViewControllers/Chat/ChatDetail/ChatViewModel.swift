@@ -1190,7 +1190,7 @@ fileprivate extension ChatViewModel {
 
         if shouldTrackFirstMessage {
             shouldTrackFirstMessage = false
-            tracker.trackEvent(TrackerEvent.firstMessage(info: info))
+            tracker.trackEvent(TrackerEvent.firstMessage(info: info, productVisitSource: .unknown))
         }
         tracker.trackEvent(TrackerEvent.userMessageSent(info: info))
     }

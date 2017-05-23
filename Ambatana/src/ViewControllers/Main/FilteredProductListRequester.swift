@@ -50,7 +50,7 @@ class FilteredProductListRequester: ProductListRequester {
         retrieve() { [weak self] result in
             guard let indexListings = result.value, let useLimbo = self?.prependLimbo, useLimbo else {
                 self?.offset = result.value?.count ?? self?.offset ?? 0
-                completion?(ListingsRequesterResult(listingsResult: result, context: self?.requesterTitle))
+                completion?(ListingsRequesterResult(listingsResult: result, context: self?.requesterTitle, verticalTrackingInfo: self?.generateVerticalTrackingInfo()))
                 return
             }
             self?.listingRepository.indexLimbo { [weak self] limboResult in
@@ -233,5 +233,57 @@ fileprivate extension FilteredProductListRequester {
         if let queryString = queryString, !queryString.isEmpty { return false }
         guard let filters = filters else { return true }
         return filters.isDefault()
+    }
+}
+
+// Tracking Helpers
+
+fileprivate extension FilteredProductListRequester {
+
+    func generateVerticalTrackingInfo() -> VerticalTrackingInfo? {
+        let vertical: ListingCategory = ListingCategory.cars
+        guard let filters = filters, filters.selectedCategories.contains(vertical) else { return nil }
+
+        var keywords: [String] = []
+        var matchingFields: [String] = []
+        var nonMatchingFields: [String] = []
+
+        if let makeId = filters.carMakeId {
+            keywords.append(EventParameterName.make.rawValue)
+            if makeId.isNegated {
+                nonMatchingFields.append(EventParameterName.make.rawValue)
+            } else {
+                matchingFields.append(EventParameterName.make.rawValue)
+            }
+        }
+
+        if let modelId = filters.carModelId {
+            keywords.append(EventParameterName.model.rawValue)
+            if modelId.isNegated {
+                nonMatchingFields.append(EventParameterName.model.rawValue)
+            } else {
+                matchingFields.append(EventParameterName.model.rawValue)
+            }
+        }
+
+        if let yearStart = filters.carYearStart {
+            keywords.append(EventParameterName.yearStart.rawValue)
+            if yearStart.isNegated {
+                nonMatchingFields.append(EventParameterName.yearStart.rawValue)
+            } else {
+                matchingFields.append(EventParameterName.yearStart.rawValue)
+            }
+        }
+
+        if let yearEnd = filters.carYearEnd {
+            keywords.append(EventParameterName.yearEnd.rawValue)
+            if yearEnd.isNegated {
+                nonMatchingFields.append(EventParameterName.yearEnd.rawValue)
+            } else {
+                matchingFields.append(EventParameterName.yearEnd.rawValue)
+            }
+        }
+
+        return VerticalTrackingInfo(category: vertical, keywords: keywords, matchingFields: matchingFields, nonMatchingFields: nonMatchingFields)
     }
 }
