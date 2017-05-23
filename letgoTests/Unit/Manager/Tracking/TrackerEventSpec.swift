@@ -1569,6 +1569,128 @@ class TrackerEventSpec: QuickSpec {
                     expect(bumpedUp) == "true"
                 }
             }
+            
+            describe("productMarkAsSoldAtLetgo") {
+                beforeEach {
+                    var userListing = MockUserListing.makeMock()
+                    userListing.objectId = "56897"
+                    userListing.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
+                                                              state: "", countryCode: "NL", country: nil)
+                    userListing.isDummy = false
+                    
+                    var product = MockProduct.makeMock()
+                    product.objectId = "AAAAA"
+                    product.name = "iPhone 7S"
+                    product.price = .free
+                    product.currency = Currency(code: "EUR", symbol: "€")
+                    product.category = .homeAndGarden
+                    product.user = userListing
+                    product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
+                    product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
+                                                          countryCode: "US", country: nil)
+                    
+                    sut = TrackerEvent.productMarkAsSoldAtLetgo(listing: .product(product), typePage: .productDetail,
+                                                                freePostingModeAllowed: true, buyerId: "buyer-id",
+                                                                isBumpedUp: .trueParameter)
+                }
+                
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-detail-sold-at-letgo"))
+                }
+                it("type-page param is included with value product-detail") {
+                    expect(sut.params!.stringKeyParams["type-page"] as? String) == "product-detail"
+                }
+                it("free-posting param is included as Free") {
+                    expect(sut.params!.stringKeyParams["free-posting"] as? String) == "true"
+                }
+                it("contains product-id param") {
+                    let productId = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(productId) == "AAAAA"
+                }
+                it("contains product-price param") {
+                    let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
+                    expect(productPrice) == Double(0)
+                }
+                it("contains product-currency param") {
+                    let value = sut.params!.stringKeyParams["product-currency"] as? String
+                    expect(value) == "EUR"
+                }
+                it("contains category-id param") {
+                    let value = sut.params!.stringKeyParams["category-id"] as? Int
+                    expect(value) == ListingCategory.homeAndGarden.rawValue
+                }
+                it("contains free posting param") {
+                    let freePosting = sut.params!.stringKeyParams["free-posting"] as? String
+                    expect(freePosting) == "true"
+                }
+                it("contains bumped up param") {
+                    let bumpedUp = sut.params!.stringKeyParams["bump-up"] as? String
+                    expect(bumpedUp) == "true"
+                }
+                it("contains user-sold-to param") {
+                    let userSoldTo = sut.params!.stringKeyParams["user-sold-to"] as? String
+                    expect(userSoldTo) == "buyer-id"
+                }
+                
+            }
+            
+            describe("productMarkAsSoldOutsideLetgo") {
+                beforeEach {
+                    var userListing = MockUserListing.makeMock()
+                    userListing.objectId = "56897"
+                    userListing.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
+                                                              state: "", countryCode: "NL", country: nil)
+                    userListing.isDummy = false
+                    
+                    var product = MockProduct.makeMock()
+                    product.objectId = "AAAAA"
+                    product.name = "iPhone 7S"
+                    product.price = .free
+                    product.currency = Currency(code: "EUR", symbol: "€")
+                    product.category = .homeAndGarden
+                    product.user = userListing
+                    product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
+                    product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
+                                                          countryCode: "US", country: nil)
+                    
+                    sut = TrackerEvent.productMarkAsSoldOutsideLetgo(listing: .product(product), typePage: .productDetail,
+                                                                     freePostingModeAllowed: true, isBumpedUp: .trueParameter)
+                }
+                
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-detail-sold-outside-letgo"))
+                }
+                it("type-page param is included with value product-detail") {
+                    expect(sut.params!.stringKeyParams["type-page"] as? String) == "product-detail"
+                }
+                it("free-posting param is included as Free") {
+                    expect(sut.params!.stringKeyParams["free-posting"] as? String) == "true"
+                }
+                it("contains product-id param") {
+                    let productId = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(productId) == "AAAAA"
+                }
+                it("contains product-price param") {
+                    let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
+                    expect(productPrice) == Double(0)
+                }
+                it("contains product-currency param") {
+                    let value = sut.params!.stringKeyParams["product-currency"] as? String
+                    expect(value) == "EUR"
+                }
+                it("contains category-id param") {
+                    let value = sut.params!.stringKeyParams["category-id"] as? Int
+                    expect(value) == ListingCategory.homeAndGarden.rawValue
+                }
+                it("contains free posting param") {
+                    let freePosting = sut.params!.stringKeyParams["free-posting"] as? String
+                    expect(freePosting) == "true"
+                }
+                it("contains bumped up param") {
+                    let bumpedUp = sut.params!.stringKeyParams["bump-up"] as? String
+                    expect(bumpedUp) == "true"
+                }
+            }
 
             describe("productMarkAsUnsold") {
                 it("has its event name") {

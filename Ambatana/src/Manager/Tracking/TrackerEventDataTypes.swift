@@ -51,6 +51,8 @@ enum EventName: String {
     case firstMessage                       = "product-detail-ask-question"
     case productOpenChat                    = "product-detail-open-chat"
     case productMarkAsSold                  = "product-detail-sold"
+    case productMarkAsSoldAtLetgo           = "product-detail-sold-at-letgo"
+    case productMarkAsSoldOutsideLetgo      = "product-detail-sold-outside-letgo"
     case productMarkAsUnsold                = "product-detail-unsold"
     
     case productReport                      = "product-detail-report"
