@@ -294,6 +294,8 @@
 "edit_product_title" = "Επεξεργασία Προϊόντος";
 "edit_product_unsaved_changes_alert" = "Είστε σίγουροι πώς θέλετε να απορρίψετε αυτές τις αλλαγές;";
 "edit_product_unsaved_changes_alert_ok" = "Απορρίψτε";
+"filter_results_cars_no_matches" = "No exact matches for your search.\n Showing similar results. ";
+"filter_results_cars_other_results" = "Recently posted in your area";
 "filters_car_make_not_set" = "Δεν έχει καθοριστεί";
 "filters_car_model_not_set" = "Δεν έχει καθοριστεί";
 "filters_car_year_any_year" = "Οποιοδήποτε Έτος";
@@ -315,6 +317,7 @@
 "filters_sort_newest" = "Πιο καινούριο";
 "filters_sort_price_asc" = "Τιμή από χαμηλότερη σε υψηλότερη";
 "filters_sort_price_desc" = "Τιμή από υψηλότερη σε χαμηλότερη";
+"filters_tag_location_selected" = "Επιλεγμένη τοποθεσία";
 "filters_title" = "Φίλτρα";
 "filters_within_all" = "Όλα τα προϊόντα";
 "filters_within_day" = "Τελευταίες 24 ώρες";

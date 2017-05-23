@@ -265,9 +265,9 @@
 "direct_answer_free_no_available" = "Désolé, je l'ai déjà donné !";
 "direct_answer_free_still_have" = "L'avez-vous toujours ?";
 "direct_answer_free_yours" = "Il est à vous !";
-"direct_answer_given_away_question_message" = "Mark your product as given away so all letgo users know";
+"direct_answer_given_away_question_message" = "Indiquez que votre bien a été donné pour que tous les utilisateurs letgo le sachent";
 "direct_answer_given_away_question_ok" = "Je l'ai donné";
-"direct_answer_given_away_question_title" = "Already gave it away?";
+"direct_answer_given_away_question_title" = "Déjà donné ?";
 "direct_answer_interested" = "Je suis intéressé !";
 "direct_answer_is_negotiable" = "Le prix est-il négociable ?";
 "direct_answer_like_to_buy" = "Bonjour ! J'aimerais acheter votre bien";
@@ -294,6 +294,8 @@
 "edit_product_title" = "Modifier le Bien";
 "edit_product_unsaved_changes_alert" = "Êtes-vous certain de vouloir annuler ces changements ?";
 "edit_product_unsaved_changes_alert_ok" = "Oui";
+"filter_results_cars_no_matches" = "No exact matches for your search.\n Showing similar results. ";
+"filter_results_cars_other_results" = "Recently posted in your area";
 "filters_car_make_not_set" = "Non Communiqué";
 "filters_car_model_not_set" = "Non Communiqué";
 "filters_car_year_any_year" = "Toutes les Années";
@@ -315,6 +317,7 @@
 "filters_sort_newest" = "Le plus récent en premier";
 "filters_sort_price_asc" = "Prix croissants";
 "filters_sort_price_desc" = "Prix décroissants";
+"filters_tag_location_selected" = "Emplacement sélectionné";
 "filters_title" = "Filtres";
 "filters_within_all" = "Tous les biens";
 "filters_within_day" = "Dernières 24h";

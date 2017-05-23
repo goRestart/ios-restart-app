@@ -294,6 +294,8 @@
 "edit_product_title" = "제품 수정";
 "edit_product_unsaved_changes_alert" = "이 변경사항을 취소하시겠습니까?";
 "edit_product_unsaved_changes_alert_ok" = "취소하기";
+"filter_results_cars_no_matches" = "No exact matches for your search.\n Showing similar results. ";
+"filter_results_cars_other_results" = "Recently posted in your area";
 "filters_car_make_not_set" = "설정되지 않은";
 "filters_car_model_not_set" = "설정되지 않은";
 "filters_car_year_any_year" = "아무 해";
@@ -315,6 +317,7 @@
 "filters_sort_newest" = "새로 올라온 순서대로";
 "filters_sort_price_asc" = "낮은가격에서 높은 가격으로";
 "filters_sort_price_desc" = "높은가격에서 낮은가격으로";
+"filters_tag_location_selected" = "선택된 위치";
 "filters_title" = "필터";
 "filters_within_all" = "모든 제품";
 "filters_within_day" = "마지막 24시간";
