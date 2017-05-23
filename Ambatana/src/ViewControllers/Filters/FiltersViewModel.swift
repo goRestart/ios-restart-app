@@ -249,7 +249,8 @@ class FiltersViewModel: BaseViewModel {
     }
 
     func resetFilters() {
-        self.productFilter = ProductFilters()
+        productFilter = ProductFilters()
+        sections = generateSections()
         delegate?.vmDidUpdate()
     }
 
