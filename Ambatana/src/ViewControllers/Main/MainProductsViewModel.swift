@@ -197,7 +197,7 @@ class MainProductsViewModel: BaseViewModel {
         self.productListRequester = FilterProductListRequesterFactory.generateRequester(withFilters: filters,
                                                                                         queryString: searchType?.query,
                                                                                         itemsPerPage: itemsPerPage,
-                                                                                        multiRequesterEnabled: featureFlags.carsMultiRequesterEnabled)
+                                                                                        multiRequesterEnabled: featureFlags.newCarsMultiRequesterEnabled)
         self.listViewModel = ProductListViewModel(requester: self.productListRequester, listings: nil,
                                                   numberOfColumns: columns, tracker: tracker)
         self.listViewModel.productListFixedInset = show3Columns ? 6 : 10
@@ -411,7 +411,7 @@ class MainProductsViewModel: BaseViewModel {
         productListRequester = FilterProductListRequesterFactory.generateRequester(withFilters: filters,
                                                                                    queryString: queryString,
                                                                                    itemsPerPage: currentItemsPerPage,
-                                                                                   multiRequesterEnabled: featureFlags.carsMultiRequesterEnabled)
+                                                                                   multiRequesterEnabled: featureFlags.newCarsMultiRequesterEnabled)
 
         listViewModel.productListRequester = productListRequester
 
