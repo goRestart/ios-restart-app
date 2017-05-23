@@ -355,15 +355,15 @@ struct TrackerEvent {
 
     static func productMarkAsSold(_ product: ChatListing, typePage: EventParameterTypePage,
                                   freePostingModeAllowed: Bool, isBumpedUp: EventParameterBoolean) -> TrackerEvent {
-        return productMarkAsSold(productId: product.objectId, price: product.price, currency: product.currency.code,
-                                     categoryId: nil, typePage: typePage,
-                                     freePostingModeAllowed: freePostingModeAllowed, isBumpedUp: isBumpedUp)
+        return productMarkAsSold(productId: product.objectId, price: product.price,
+                                 currency: product.currency.code, categoryId: nil, typePage: typePage,
+                                 freePostingModeAllowed: freePostingModeAllowed, isBumpedUp: isBumpedUp)
     }
     static func productMarkAsSold(_ listing: Listing, typePage: EventParameterTypePage,
                                   freePostingModeAllowed: Bool, isBumpedUp: EventParameterBoolean) -> TrackerEvent {
         return productMarkAsSold(productId: listing.objectId, price: listing.price, currency: listing.currency.code,
-                              categoryId: listing.category.rawValue, typePage: typePage,
-                              freePostingModeAllowed: freePostingModeAllowed, isBumpedUp: isBumpedUp)
+                                 categoryId: listing.category.rawValue, typePage: typePage,
+                                 freePostingModeAllowed: freePostingModeAllowed, isBumpedUp: isBumpedUp)
     }
 
     private static func productMarkAsSold(productId: String?, price: ListingPrice, currency: String, categoryId: Int?,
@@ -378,6 +378,72 @@ struct TrackerEvent {
         params[.freePosting] = eventParameterFreePostingWithPrice(freePostingModeAllowed, price: price).rawValue
         params[.isBumpedUp] = isBumpedUp.rawValue
         return TrackerEvent(name: .productMarkAsSold, params: params)
+    }
+
+    static func productMarkAsSoldAtLetgo(listing: Listing, typePage: EventParameterTypePage,
+                                         freePostingModeAllowed: Bool, buyerId: String,
+                                         isBumpedUp: EventParameterBoolean) -> TrackerEvent {
+        return productMarkAsSoldAtLetgo(listingId: listing.objectId, price: listing.price,
+                                        currency: listing.currency.code, categoryId: listing.category.rawValue,
+                                        typePage: typePage, freePostingModeAllowed: freePostingModeAllowed,
+                                        buyerId: buyerId, isBumpedUp: isBumpedUp)
+    }
+    
+    static func productMarkAsSoldAtLetgo(chatListing: ChatListing, typePage: EventParameterTypePage,
+                                         freePostingModeAllowed: Bool, buyerId: String,
+                                         isBumpedUp: EventParameterBoolean) -> TrackerEvent {
+        return productMarkAsSoldAtLetgo(listingId: chatListing.objectId, price: chatListing.price,
+                                        currency: chatListing.currency.code, categoryId: nil,
+                                        typePage: typePage, freePostingModeAllowed: freePostingModeAllowed,
+                                        buyerId: buyerId, isBumpedUp: isBumpedUp)
+    }
+    
+    private static func productMarkAsSoldAtLetgo(listingId: String?, price: ListingPrice, currency: String, categoryId: Int?,
+                                                 typePage: EventParameterTypePage, freePostingModeAllowed: Bool,
+                                                 buyerId: String, isBumpedUp: EventParameterBoolean) -> TrackerEvent {
+        var params = EventParameters()
+        params[.productId] = listingId
+        params[.productPrice] = price.value
+        params[.productCurrency] = currency
+        params[.categoryId] = categoryId
+        params[.typePage] = typePage.rawValue
+        params[.freePosting] = eventParameterFreePostingWithPrice(freePostingModeAllowed, price: price).rawValue
+        params[.userSoldTo] = buyerId
+        params[.isBumpedUp] = isBumpedUp.rawValue
+        return TrackerEvent(name: .productMarkAsSoldAtLetgo, params: params)
+    }
+    
+    static func productMarkAsSoldOutsideLetgo(listing: Listing, typePage: EventParameterTypePage,
+                                              freePostingModeAllowed: Bool,
+                                              isBumpedUp: EventParameterBoolean) -> TrackerEvent {
+        return productMarkAsSoldOutsideLetgo(listingId: listing.objectId, price: listing.price,
+                                             currency: listing.currency.code, categoryId: listing.category.rawValue,
+                                             typePage: typePage, freePostingModeAllowed: freePostingModeAllowed,
+                                             isBumpedUp: isBumpedUp)
+    }
+    
+    static func productMarkAsSoldOutsideLetgo(chatListing: ChatListing, typePage: EventParameterTypePage,
+                                              freePostingModeAllowed: Bool,
+                                              isBumpedUp: EventParameterBoolean) -> TrackerEvent {
+        return productMarkAsSoldOutsideLetgo(listingId: chatListing.objectId, price: chatListing.price,
+                                             currency: chatListing.currency.code, categoryId: nil,
+                                             typePage: typePage, freePostingModeAllowed: freePostingModeAllowed,
+                                             isBumpedUp: isBumpedUp)
+    }
+    
+    private static func productMarkAsSoldOutsideLetgo(listingId: String?, price: ListingPrice, currency: String,
+                                                      categoryId: Int?, typePage: EventParameterTypePage,
+                                                      freePostingModeAllowed: Bool,
+                                                      isBumpedUp: EventParameterBoolean) -> TrackerEvent {
+        var params = EventParameters()
+        params[.productId] = listingId
+        params[.productPrice] = price.value
+        params[.productCurrency] = currency
+        params[.categoryId] = categoryId
+        params[.typePage] = typePage.rawValue
+        params[.freePosting] = eventParameterFreePostingWithPrice(freePostingModeAllowed, price: price).rawValue
+        params[.isBumpedUp] = isBumpedUp.rawValue
+        return TrackerEvent(name: .productMarkAsSoldOutsideLetgo, params: params)
     }
 
     static func productMarkAsUnsold(_ listing: Listing) -> TrackerEvent {
