@@ -294,6 +294,8 @@
 "edit_product_title" = "Modifica Prodotto";
 "edit_product_unsaved_changes_alert" = "Sei sicuro di voler eliminare queste modifiche?";
 "edit_product_unsaved_changes_alert_ok" = "Elimina";
+"filter_results_cars_no_matches" = "No exact matches for your search.\n Showing similar results. ";
+"filter_results_cars_other_results" = "Recently posted in your area";
 "filters_car_make_not_set" = "Non Impostato";
 "filters_car_model_not_set" = "Non Impostato";
 "filters_car_year_any_year" = "Qualunque";
@@ -315,6 +317,7 @@
 "filters_sort_newest" = "Prima i più nuovi";
 "filters_sort_price_asc" = "Dal prezzo più basso al più alto";
 "filters_sort_price_desc" = "Dal prezzo più alto al più basso";
+"filters_tag_location_selected" = "Posizione selezionata";
 "filters_title" = "Filtri";
 "filters_within_all" = "Tutti i prodotti";
 "filters_within_day" = "Nelle ultime 24 ore";
@@ -507,6 +510,12 @@
 "product_list_item_time_minute_label" = "%imin";
 "product_list_no_products_body" = "Sei il primo esploratore della tua città. Benvenuto!";
 "product_list_no_products_title" = "CITTÀ SBLOCCATA!";
+"product_mark_as_given_away_alert_message" = "This action can‘t be undone. Only select this when you have met the buyer and given the item away. Continue?";
+"product_mark_as_given_away_alert_title" = "Mark item as given away";
+"product_mark_as_sold_alert_cancel" = "No";
+"product_mark_as_sold_alert_confirm" = "Yes";
+"product_mark_as_sold_alert_message" = "This action can't be undone. Only select this when you have met the buyer and received payment. Continue?";
+"product_mark_as_sold_alert_title" = "Mark item as sold";
 "product_mark_as_sold_button" = "Segna come venduto";
 "product_mark_as_sold_confirm_cancel_button" = "Annulla";
 "product_mark_as_sold_confirm_message" = "Complimenti, ce l'hai fatta! Sei sicuro di voler contrassegnare il tuo prodotto come venduto?";

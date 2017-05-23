@@ -966,6 +966,10 @@
 // Selected location text when there is no postal address. 
 "filters_tag_location_selected" = "Selected location";
 
+"filter_results_cars_no_matches" = "No exact matches for your search.\n Showing similar results. ";
+
+"filter_results_cars_other_results" = "Recently posted in your area";
+
 // Forced update message.
 "forced_update_message" = "A new version of letgo is available. Please update now!";
 
@@ -1598,6 +1602,24 @@
 
 // Product mark as given away button.
 "product_mark_as_sold_free_button" = "Mark as given away";
+
+// Title fo the alert  to let the seller know that can not undo the action of mark as sold
+"product_mark_as_sold_alert_title" = "Mark item as sold";
+
+// Message to let the seller know that can not undo the action of mark as sold
+"product_mark_as_sold_alert_message" = "This action can't be undone. Only select this when you have met the buyer and received payment. Continue?";
+
+// Cancel button on alert to mark as sold. 
+"product_mark_as_sold_alert_cancel" = "No";
+
+// Accept button on alert to mark as sold.
+"product_mark_as_sold_alert_confirm" = "Yes";
+
+// Title fo the alert  to let the seller know that can not undo the action of mark as given away
+"product_mark_as_given_away_alert_title" = "Mark item as given away";
+
+// Message to let the seller know that can not undo the action of mark as sold
+"product_mark_as_given_away_alert_message" = "This action can‘t be undone. Only select this when you have met the buyer and given the item away. Continue?";
 
 // Alert message when product is mark as given away
 "product_mark_as_sold_free_confirm_message" = "Mark your product as already given away";

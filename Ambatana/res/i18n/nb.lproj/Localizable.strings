@@ -265,9 +265,9 @@
 "direct_answer_free_no_available" = "Beklager, det er allerede gitt bort!";
 "direct_answer_free_still_have" = "Har du fortsatt produktet?";
 "direct_answer_free_yours" = "Produktet er ditt!";
-"direct_answer_given_away_question_message" = "Mark your product as given away so all letgo users know";
+"direct_answer_given_away_question_message" = "Marker ditt produkt som gitt bort slik at alle letgo-brukere vet det";
 "direct_answer_given_away_question_ok" = "Marker som gitt bort";
-"direct_answer_given_away_question_title" = "Already gave it away?";
+"direct_answer_given_away_question_title" = "Allerede gitt bort produktet?";
 "direct_answer_interested" = "Jeg er interessert!";
 "direct_answer_is_negotiable" = "Kan prisen diskuteres?";
 "direct_answer_like_to_buy" = "Hei! Jeg vil gjerne kjøpe produktet";
@@ -294,6 +294,8 @@
 "edit_product_title" = "Endre produkt";
 "edit_product_unsaved_changes_alert" = "Er du sikker på at du vil forkaste endringene?";
 "edit_product_unsaved_changes_alert_ok" = "Forkast";
+"filter_results_cars_no_matches" = "No exact matches for your search.\n Showing similar results. ";
+"filter_results_cars_other_results" = "Recently posted in your area";
 "filters_car_make_not_set" = "Ikke valgt";
 "filters_car_model_not_set" = "Ikke valgt";
 "filters_car_year_any_year" = "Alle år";
@@ -315,6 +317,7 @@
 "filters_sort_newest" = "Nyest først";
 "filters_sort_price_asc" = "Pris lav til høy";
 "filters_sort_price_desc" = "Pris høy til lav";
+"filters_tag_location_selected" = "Valgt plassering";
 "filters_title" = "Filtre";
 "filters_within_all" = "Alle produkter";
 "filters_within_day" = "Siste 24 timer";
@@ -507,6 +510,12 @@
 "product_list_item_time_minute_label" = "%i m";
 "product_list_no_products_body" = "Du er den første oppdageren fra din by. Velkommen!";
 "product_list_no_products_title" = "BY ER ÅPNET!";
+"product_mark_as_given_away_alert_message" = "This action can‘t be undone. Only select this when you have met the buyer and given the item away. Continue?";
+"product_mark_as_given_away_alert_title" = "Mark item as given away";
+"product_mark_as_sold_alert_cancel" = "No";
+"product_mark_as_sold_alert_confirm" = "Yes";
+"product_mark_as_sold_alert_message" = "This action can't be undone. Only select this when you have met the buyer and received payment. Continue?";
+"product_mark_as_sold_alert_title" = "Mark item as sold";
 "product_mark_as_sold_button" = "Merk som solgt";
 "product_mark_as_sold_confirm_cancel_button" = "Avbryt";
 "product_mark_as_sold_confirm_message" = "Gratulerer, du har klart det! Er du sikker på at du ønsker å merke det som solgt?";

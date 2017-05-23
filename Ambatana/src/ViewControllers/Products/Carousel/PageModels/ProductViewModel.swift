@@ -725,6 +725,11 @@ fileprivate extension ProductViewModel {
     }
 
     fileprivate func confirmToMarkAsSold() {
+        // TODO: remove the following code, only a test to check createTransactionsOf
+        let params = CreateTransactionParams(listingId: listing.value.objectId!, buyerId: "c9c24edb-314e-4134-8d12-1d32c10622fc", soldIn: .letgo)
+            listingRepository.createTransactionOf(createTransactionParams: params, completion: { (result) in
+                print("mierda")
+            })
         guard isMine && status.value.isAvailable else { return }
         let free = status.value.isFree
         let okButton = free ? LGLocalizedString.productMarkAsSoldFreeConfirmOkButton : LGLocalizedString.productMarkAsSoldConfirmOkButton

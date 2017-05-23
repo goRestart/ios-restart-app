@@ -374,6 +374,36 @@ public class CarEditionParams: CarCreationParams {
     }
 }
 
+public enum SoldIn: String {
+    case letgo = "letgo"
+    case external = "external"
+    
+    public static let allValues: [SoldIn] = [.letgo, .external]
+}
+
+
+public struct CreateTransactionParams {
+    let listingId: String
+    let buyerId: String?
+    let soldIn: SoldIn?
+    
+    public init(listingId: String, buyerId: String?, soldIn: SoldIn?) {
+        self.listingId = listingId
+        self.buyerId = buyerId
+        self.soldIn = soldIn
+    }
+    
+    
+    var letgoApiParams: Dictionary<String, Any> {
+        var params = Dictionary<String, Any>()
+        params["productId"] = listingId
+        params["buyerUserId"] = buyerId
+        params["soldIn"] = soldIn?.rawValue
+        return params
+    }
+}
+
+
 // MARK: - ENUMS & STRUCTS
 
 public enum ListingSortCriteria: Int, Equatable {

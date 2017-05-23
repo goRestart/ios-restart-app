@@ -1307,6 +1307,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("filters_tag_location_selected", comment: "")
 	}
 
+	static var filterResultsCarsNoMatches: String {
+		return NSLocalizedString("filter_results_cars_no_matches", comment: "")
+	}
+
+	static var filterResultsCarsOtherResults: String {
+		return NSLocalizedString("filter_results_cars_other_results", comment: "")
+	}
+
 	static var forcedUpdateMessage: String {
 		return NSLocalizedString("forced_update_message", comment: "")
 	}
@@ -2149,6 +2157,30 @@ struct LGLocalizedString {
 
 	static var productMarkAsSoldFreeButton: String {
 		return NSLocalizedString("product_mark_as_sold_free_button", comment: "")
+	}
+
+	static var productMarkAsSoldAlertTitle: String {
+		return NSLocalizedString("product_mark_as_sold_alert_title", comment: "")
+	}
+
+	static var productMarkAsSoldAlertMessage: String {
+		return NSLocalizedString("product_mark_as_sold_alert_message", comment: "")
+	}
+
+	static var productMarkAsSoldAlertCancel: String {
+		return NSLocalizedString("product_mark_as_sold_alert_cancel", comment: "")
+	}
+
+	static var productMarkAsSoldAlertConfirm: String {
+		return NSLocalizedString("product_mark_as_sold_alert_confirm", comment: "")
+	}
+
+	static var productMarkAsGivenAwayAlertTitle: String {
+		return NSLocalizedString("product_mark_as_given_away_alert_title", comment: "")
+	}
+
+	static var productMarkAsGivenAwayAlertMessage: String {
+		return NSLocalizedString("product_mark_as_given_away_alert_message", comment: "")
 	}
 
 	static var productMarkAsSoldFreeConfirmMessage: String {

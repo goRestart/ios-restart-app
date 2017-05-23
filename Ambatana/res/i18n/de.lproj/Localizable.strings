@@ -294,6 +294,8 @@
 "edit_product_title" = "Produkt bearbeiten";
 "edit_product_unsaved_changes_alert" = "Bist du sicher, dass du diese Änderungen verwerfen möchtest?";
 "edit_product_unsaved_changes_alert_ok" = "Verwerfen";
+"filter_results_cars_no_matches" = "Keine exakten Treffer für deine Suche.\n Es werden ähnliche Ergebnisse angezeigt. ";
+"filter_results_cars_other_results" = "Kürzlich in deiner Nähe eingestellt";
 "filters_car_make_not_set" = "Nicht ausgewählt";
 "filters_car_model_not_set" = "Nicht ausgewählt";
 "filters_car_year_any_year" = "Beliebiges Baujahr";
@@ -315,6 +317,7 @@
 "filters_sort_newest" = "Neueste zuerst";
 "filters_sort_price_asc" = "Preis aufsteigend";
 "filters_sort_price_desc" = "Preis absteigend";
+"filters_tag_location_selected" = "Ausgewählter Standort";
 "filters_title" = "Filter";
 "filters_within_all" = "Alle Produkte";
 "filters_within_day" = "Den letzten 24h";
@@ -507,6 +510,12 @@
 "product_list_item_time_minute_label" = "%i min";
 "product_list_no_products_body" = "Du bist der erste Entdecker aus deiner Stadt. Willkommen!";
 "product_list_no_products_title" = "STADT FREIGESCHALTET!";
+"product_mark_as_given_away_alert_message" = "This action can‘t be undone. Only select this when you have met the buyer and given the item away. Continue?";
+"product_mark_as_given_away_alert_title" = "Mark item as given away";
+"product_mark_as_sold_alert_cancel" = "No";
+"product_mark_as_sold_alert_confirm" = "Yes";
+"product_mark_as_sold_alert_message" = "This action can't be undone. Only select this when you have met the buyer and received payment. Continue?";
+"product_mark_as_sold_alert_title" = "Mark item as sold";
 "product_mark_as_sold_button" = "Als verkauft markieren";
 "product_mark_as_sold_confirm_cancel_button" = "Abbrechen";
 "product_mark_as_sold_confirm_message" = "Glückwunsch, du hast es geschafft! Bist du sicher, dass du es als verkauft markieren möchtest?";

@@ -294,6 +294,8 @@
 "edit_product_title" = "Muokkaa tuotetta";
 "edit_product_unsaved_changes_alert" = "Haluatko varmasti hylätä nämä muutokset?";
 "edit_product_unsaved_changes_alert_ok" = "Hylkää";
+"filter_results_cars_no_matches" = "Täysin hakuasi vastaavia osumia ei löytynyt.\n Näytetään samankaltaiset tulokset. ";
+"filter_results_cars_other_results" = "Alueellasi äskettäin julkaistu";
 "filters_car_make_not_set" = "Ei rajattu";
 "filters_car_model_not_set" = "Ei rajattu";
 "filters_car_year_any_year" = "Kaikki vuodet";
@@ -315,6 +317,7 @@
 "filters_sort_newest" = "Uusin ensin";
 "filters_sort_price_asc" = "Halvimmasta kalleimpaan";
 "filters_sort_price_desc" = "Kalleimmasta halvimpaan";
+"filters_tag_location_selected" = "Valittu sijainti";
 "filters_title" = "Suodattimet";
 "filters_within_all" = "Kaikki tuotteet";
 "filters_within_day" = "Korkeintaan 24 tuntia";
@@ -507,6 +510,12 @@
 "product_list_item_time_minute_label" = "%imin";
 "product_list_no_products_body" = "Olet ensimmäinen tutkimusmatkailija kaupungistasi. Tervetuloa!";
 "product_list_no_products_title" = "KAUPUNKI AVATTU!";
+"product_mark_as_given_away_alert_message" = "This action can‘t be undone. Only select this when you have met the buyer and given the item away. Continue?";
+"product_mark_as_given_away_alert_title" = "Mark item as given away";
+"product_mark_as_sold_alert_cancel" = "No";
+"product_mark_as_sold_alert_confirm" = "Yes";
+"product_mark_as_sold_alert_message" = "This action can't be undone. Only select this when you have met the buyer and received payment. Continue?";
+"product_mark_as_sold_alert_title" = "Mark item as sold";
 "product_mark_as_sold_button" = "Merkitse myydyksi";
 "product_mark_as_sold_confirm_cancel_button" = "Peruuta";
 "product_mark_as_sold_confirm_message" = "Onneksi olkoon, teit sen! Oletko varma, että haluat merkitä tuotteen myydyksi?";

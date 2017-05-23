@@ -294,6 +294,8 @@
 "edit_product_title" = "Επεξεργασία Προϊόντος";
 "edit_product_unsaved_changes_alert" = "Είστε σίγουροι πώς θέλετε να απορρίψετε αυτές τις αλλαγές;";
 "edit_product_unsaved_changes_alert_ok" = "Απορρίψτε";
+"filter_results_cars_no_matches" = "Δε βρέθηκαν ακριβή αποτελέσματα για την αναζήτησή σας. \nΠροβολή παρόμοιων αποτελεσμάτων. ";
+"filter_results_cars_other_results" = "Πρόσφατες δημοσιεύσεις στην περιοχή σας";
 "filters_car_make_not_set" = "Δεν έχει καθοριστεί";
 "filters_car_model_not_set" = "Δεν έχει καθοριστεί";
 "filters_car_year_any_year" = "Οποιοδήποτε Έτος";
@@ -315,6 +317,7 @@
 "filters_sort_newest" = "Πιο καινούριο";
 "filters_sort_price_asc" = "Τιμή από χαμηλότερη σε υψηλότερη";
 "filters_sort_price_desc" = "Τιμή από υψηλότερη σε χαμηλότερη";
+"filters_tag_location_selected" = "Επιλεγμένη τοποθεσία";
 "filters_title" = "Φίλτρα";
 "filters_within_all" = "Όλα τα προϊόντα";
 "filters_within_day" = "Τελευταίες 24 ώρες";
@@ -507,6 +510,12 @@
 "product_list_item_time_minute_label" = "%iλεπ.";
 "product_list_no_products_body" = "Είστε ο πρώτος εξερευνητής στην πόλη σας. Καλως ήρθατε!";
 "product_list_no_products_title" = "ΞΕΚΛΕΙΔΩΜΑ ΠΟΛΗΣ!";
+"product_mark_as_given_away_alert_message" = "This action can‘t be undone. Only select this when you have met the buyer and given the item away. Continue?";
+"product_mark_as_given_away_alert_title" = "Mark item as given away";
+"product_mark_as_sold_alert_cancel" = "No";
+"product_mark_as_sold_alert_confirm" = "Yes";
+"product_mark_as_sold_alert_message" = "This action can't be undone. Only select this when you have met the buyer and received payment. Continue?";
+"product_mark_as_sold_alert_title" = "Mark item as sold";
 "product_mark_as_sold_button" = "Μάρκαρε ότι πωλήθηκε";
 "product_mark_as_sold_confirm_cancel_button" = "Ακύρωση";
 "product_mark_as_sold_confirm_message" = "Συγχαρητήρια, τα κατάφερες! Θέλεις σίγουρα να το μαρκάρεις ως πουλημένο;";
