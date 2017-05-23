@@ -14,11 +14,13 @@ module Fastlane
         IO.copy_stream(download, carInfo_path)
 
         UI.message "Pushing changes...".blue
-        pushChangeCommand = "(cd #{path_to_repo} && git add " + path_to_file + 
-                              " && git commit -m '★ Update cars info data)' && git push)"
-        UI.message pushChangeCommand
-        Actions.sh pushChangeCommand
-        UI.message "Cars info updated & pushed successfully!".blue
+
+        addFile = "cd #{path_to_repo} && git add " + path_to_file
+        commitChanges = "git diff --quiet --exit-code --cached || (git commit -m '★ Update cars info data' && git push)"
+        UI.message addFile
+        Actions.sh addFile
+        UI.message commitChanges
+        Actions.sh commitChanges
 
 
       end
