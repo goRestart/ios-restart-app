@@ -15,7 +15,7 @@ protocol PushPermissionsManager {
     
     func showPushPermissionsAlert(prePermissionType type: PrePermissionType)
     
-    func application(_ application: UIApplication,
+    func application(_ application: Application,
                      didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings)
     
     

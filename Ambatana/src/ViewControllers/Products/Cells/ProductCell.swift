@@ -55,6 +55,10 @@ class ProductCell: UICollectionViewCell, ReusableCell {
 
     // MARK: - Public / internal methods
 
+    func setBackgroundColor(id: String?) {
+        thumbnailBgColorView.backgroundColor = UIColor.placeholderBackgroundColor(id)
+    }
+    
     func setImageUrl(_ imageUrl: URL) {
         thumbnailImageView.lg_setImageWithURL(imageUrl, placeholderImage: nil, completion: {
             [weak self] (result, url) -> Void in
@@ -99,7 +103,7 @@ class ProductCell: UICollectionViewCell, ReusableCell {
 
     // Resets the UI to the initial state
     private func resetUI() {
-        thumbnailBgColorView.backgroundColor = UIColor.placeholderBackgroundColor()
+        setBackgroundColor(id: nil)
         thumbnailImageView.image = nil
         stripeImageView.image = nil
         stripeLabel.text = ""

@@ -27,6 +27,8 @@ class MockDeepLinksRouter: DeepLinksRouter {
     let deepLinksSignal = PublishSubject<DeepLink>()
     var initialDeepLink: DeepLink?
 
+    var didReceiveRemoteNotificationCalled: Bool = false
+
     func consumeInitialDeepLink() -> DeepLink? { return initialDeepLink }
     func initWithLaunchOptions(_ launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         return false
@@ -46,6 +48,7 @@ class MockDeepLinksRouter: DeepLinksRouter {
     @discardableResult
     func didReceiveRemoteNotification(_ userInfo: [AnyHashable: Any], applicationState: UIApplicationState)
         -> PushNotification? {
+            didReceiveRemoteNotificationCalled = true
             return nil
     }
     func handleActionWithIdentifier(_ identifier: String?, forRemoteNotification userInfo: [AnyHashable: Any],
