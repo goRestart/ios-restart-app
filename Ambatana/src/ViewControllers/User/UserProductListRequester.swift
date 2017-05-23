@@ -13,6 +13,14 @@ protocol UserProductListRequester: ProductListRequester {
 }
 
 class UserFavoritesProductListRequester: UserProductListRequester {
+    func distanceFromProductCoordinates(_ productCoords: LGLocationCoordinates2D) -> Double? {
+        // method needed for protocol implementation, not used for user
+        return nil
+    }
+    var countryCode: String? {
+        // method needed for protocol implementation, not used for user
+        return nil
+    }
 
     let itemsPerPage: Int = 0 // Not used, favorites doesn't paginate
     var userObjectId: String? = nil
@@ -30,13 +38,16 @@ class UserFavoritesProductListRequester: UserProductListRequester {
 
     func canRetrieve() -> Bool { return true }
     
-    func retrieveFirstPage(_ completion: ListingsCompletion?) {
-        productsRetrieval(completion)
+    func retrieveFirstPage(_ completion: ListingsRequesterCompletion?) {
+        productsRetrieval { [weak self] result in
+            completion?(ListingsRequesterResult(listingsResult: result, context: nil))
+        }
     }
     
-    func retrieveNextPage(_ completion: ListingsCompletion?) {
+    func retrieveNextPage(_ completion: ListingsRequesterCompletion?) {
         //User favorites doesn't have pagination.
-        completion?(ListingsResult(value: []))
+        let listingsResult = ListingsResult(value: [])
+        completion?(ListingsRequesterResult(listingsResult: listingsResult, context: nil))
         return
     }
 
@@ -57,11 +68,24 @@ class UserFavoritesProductListRequester: UserProductListRequester {
         r.userObjectId = userObjectId
         return r
     }
+
+    func isEqual(toRequester requester: ProductListRequester) -> Bool {
+        guard let requester = requester as? UserFavoritesProductListRequester else { return false }
+        return userObjectId == requester.userObjectId
+    }
 }
 
 
 class UserStatusesProductListRequester: UserProductListRequester {
-
+    func distanceFromProductCoordinates(_ productCoords: LGLocationCoordinates2D) -> Double? {
+        // method needed for protocol implementation, not used for user
+        return nil
+    }
+    var countryCode: String? {
+        // method needed for protocol implementation, not used for user
+        return nil
+    }
+    
     let itemsPerPage: Int
     var userObjectId: String? = nil
     private let statuses: [ListingStatus]
@@ -84,16 +108,16 @@ class UserStatusesProductListRequester: UserProductListRequester {
 
     func canRetrieve() -> Bool { return userObjectId != nil }
 
-    func retrieveFirstPage(_ completion: ListingsCompletion?) {
+    func retrieveFirstPage(_ completion: ListingsRequesterCompletion?) {
         offset = 0
         productsRetrieval(completion)
     }
     
-    func retrieveNextPage(_ completion: ListingsCompletion?) {
+    func retrieveNextPage(_ completion: ListingsRequesterCompletion?) {
         productsRetrieval(completion)
     }
     
-    private func productsRetrieval(_ completion: ListingsCompletion?) {
+    private func productsRetrieval(_ completion: ListingsRequesterCompletion?) {
         guard let userId = userObjectId else { return  }
         listingRepository.index(userId: userId, params: retrieveProductsParams) { [weak self] result in
             if let products = result.value, !products.isEmpty {
@@ -101,7 +125,7 @@ class UserStatusesProductListRequester: UserProductListRequester {
                 //User posted previously -> Store it
                 KeyValueStorage.sharedInstance.userPostProductPostedPreviously = true
             }
-            completion?(result)
+            completion?(ListingsRequesterResult(listingsResult: result, context: nil))
         }
     }
 
@@ -118,6 +142,11 @@ class UserStatusesProductListRequester: UserProductListRequester {
         return r
     }
 
+    func isEqual(toRequester requester: ProductListRequester) -> Bool {
+        guard let requester = requester as? UserStatusesProductListRequester else { return false }
+        return userObjectId == requester.userObjectId
+    }
+    
     private var retrieveProductsParams: RetrieveListingParams {
         var params: RetrieveListingParams = RetrieveListingParams()
         params.offset = offset

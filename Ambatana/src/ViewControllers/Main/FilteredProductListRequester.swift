@@ -40,7 +40,7 @@ class FilteredProductListRequester: ProductListRequester {
 
     func canRetrieve() -> Bool { return queryCoordinates != nil }
     
-    func retrieveFirstPage(_ completion: ListingsCompletion?) {
+    func retrieveFirstPage(_ completion: ListingsRequesterCompletion?) {
         offset = initialOffset
         if let currentLocation = locationManager.currentLocation {
             queryFirstCallCoordinates = LGLocationCoordinates2D(location: currentLocation)
@@ -50,24 +50,25 @@ class FilteredProductListRequester: ProductListRequester {
         retrieve() { [weak self] result in
             guard let indexListings = result.value, let useLimbo = self?.prependLimbo, useLimbo else {
                 self?.offset = result.value?.count ?? self?.offset ?? 0
-                completion?(result)
+                completion?(ListingsRequesterResult(listingsResult: result, context: self?.requesterTitle))
                 return
             }
             self?.listingRepository.indexLimbo { [weak self] limboResult in
                 var finalListings: [Listing] = limboResult.value ?? []
                 finalListings += indexListings
                 self?.offset = indexListings.count
-                completion?(ListingsResult(finalListings))
+                let listingsResult = ListingsResult(finalListings)
+                completion?(ListingsRequesterResult(listingsResult: listingsResult, context: self?.requesterTitle))
             }
         }
     }
     
-    func retrieveNextPage(_ completion: ListingsCompletion?) {
+    func retrieveNextPage(_ completion: ListingsRequesterCompletion?) {
         retrieve() { [weak self] result in
             if let value = result.value {
                 self?.offset += value.count
             }
-            completion?(result)
+            completion?(ListingsRequesterResult(listingsResult: result, context: self?.requesterTitle))
         }
     }
     
@@ -103,11 +104,64 @@ class FilteredProductListRequester: ProductListRequester {
         return queryFirstCallCountryCode ?? locationManager.currentLocation?.countryCode
     }
 
-    func hasFilters() -> Bool {
-        return filters?.selectedCategories.count != 0 || filters?.selectedWithin != .all || filters?.distanceRadius != nil
+    private var requesterTitle: String? {
+        guard let _ = filters?.selectedCategories.contains(.cars) else { return nil }
+        var titleFromFilters: String = ""
+
+        if let makeName = filters?.carMakeName {
+            titleFromFilters += makeName
+        }
+        if let modelName = filters?.carModelName {
+            titleFromFilters += " " + modelName
+        }
+        if let rangeYearTitle = rangeYearTitle(forFilters: filters) {
+            titleFromFilters += " " + rangeYearTitle
+        }
+
+        let filtersHasAnyCarAttributes: Bool = filters?.carMakeId != nil ||
+                                            filters?.carModelId != nil ||
+                                            filters?.carYearStart != nil ||
+                                            filters?.carYearEnd != nil
+
+        if  filtersHasAnyCarAttributes && titleFromFilters.isEmpty {
+            // if there's a make filter active but no title, is "Other Results"
+            titleFromFilters = LGLocalizedString.filterResultsCarsOtherResults
+        }
+
+        return titleFromFilters.isEmpty ? nil : titleFromFilters.uppercase
     }
 
-    func distanceFromProductCoordinates(_ productCoords: LGLocationCoordinates2D) -> Double {
+    private func rangeYearTitle(forFilters filters: ProductFilters?) -> String? {
+        guard let filters = filters else { return nil }
+
+        if let startYear = filters.carYearStart, let endYear = filters.carYearEnd, !startYear.isNegated, !endYear.isNegated {
+            // both years specified
+            if startYear.value == endYear.value {
+                return String(startYear.value)
+            } else {
+                return String(startYear.value) + " - " + String(endYear.value)
+            }
+        } else if let startYear = filters.carYearStart, !startYear.isNegated {
+            // only start specified
+            if startYear.value == Date().year {
+                return String(startYear.value)
+            } else {
+             return String(startYear.value) + " - " + String(Date().year)
+            }
+        } else if let endYear = filters.carYearEnd, !endYear.isNegated {
+            // only end specified
+            if endYear.value == Constants.filterMinCarYear {
+                return String(format: LGLocalizedString.filtersCarYearBeforeYear, Constants.filterMinCarYear)
+            } else {
+                return String(format: LGLocalizedString.filtersCarYearBeforeYear, Constants.filterMinCarYear) + " - " + String(endYear.value)
+            }
+        } else {
+            // no year specified
+            return nil
+        }
+    }
+
+    func distanceFromProductCoordinates(_ productCoords: LGLocationCoordinates2D) -> Double? {
 
         var meters = 0.0
         if let coordinates = queryCoordinates {
@@ -116,6 +170,11 @@ class FilteredProductListRequester: ProductListRequester {
             meters = productCoords.distanceTo(actualQueryCoords)
         }
         return meters
+    }
+
+    func isEqual(toRequester requester: ProductListRequester) -> Bool {
+        guard let requester = requester as? FilteredProductListRequester else { return false }
+        return queryString == requester.queryString && filters == requester.filters
     }
 }
 
@@ -149,18 +208,11 @@ fileprivate extension FilteredProductListRequester {
         params.sortCriteria = filters?.selectedOrdering
         params.distanceRadius = filters?.distanceRadius
         params.distanceType = filters?.distanceType
-        if let makeId = filters?.carMakeId {
-            params.makeId = RetrieveListingParam<String>(value: makeId, isNegated: false)
-        }
-        if let modelId = filters?.carModelId {
-            params.modelId = RetrieveListingParam<String>(value: modelId, isNegated: false)
-        }
-        if let startYear = filters?.carYearStart {
-            params.startYear = RetrieveListingParam<Int>(value: startYear, isNegated: false)
-        }
-        if let endYear = filters?.carYearEnd {
-            params.endYear = RetrieveListingParam<Int>(value: endYear, isNegated: false)
-        }
+        params.makeId = filters?.carMakeId
+        params.modelId = filters?.carModelId
+        params.startYear = filters?.carYearStart
+        params.endYear = filters?.carYearEnd
+
         if let priceRange = filters?.priceRange {
             switch priceRange {
             case .freePrice:

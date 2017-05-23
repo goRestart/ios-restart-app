@@ -1307,6 +1307,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("filters_tag_location_selected", comment: "")
 	}
 
+	static var filterResultsCarsNoMatches: String {
+		return NSLocalizedString("filter_results_cars_no_matches", comment: "")
+	}
+
+	static var filterResultsCarsOtherResults: String {
+		return NSLocalizedString("filter_results_cars_other_results", comment: "")
+	}
+
 	static var forcedUpdateMessage: String {
 		return NSLocalizedString("forced_update_message", comment: "")
 	}

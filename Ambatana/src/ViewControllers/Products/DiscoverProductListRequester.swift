@@ -9,7 +9,6 @@
 import LGCoreKit
 
 class DiscoverProductListRequester {
-
     let itemsPerPage: Int
     fileprivate let productObjectId: String
     fileprivate let listingRepository: ListingRepository
@@ -30,16 +29,17 @@ class DiscoverProductListRequester {
 // MARK: - ProductListRequester
 
 extension DiscoverProductListRequester: ProductListRequester {
+
     func canRetrieve() -> Bool {
         return true
     }
 
-    func retrieveFirstPage(_ completion: ListingsCompletion?) {
+    func retrieveFirstPage(_ completion: ListingsRequesterCompletion?) {
         offset = 0
         productsRetrieval(completion)
     }
 
-    func retrieveNextPage(_ completion: ListingsCompletion?) {
+    func retrieveNextPage(_ completion: ListingsRequesterCompletion?) {
         productsRetrieval(completion)
     }
 
@@ -52,6 +52,19 @@ extension DiscoverProductListRequester: ProductListRequester {
         let r = DiscoverProductListRequester(productId: productObjectId, itemsPerPage: itemsPerPage)
         r.offset = offset
         return r
+    }
+    func distanceFromProductCoordinates(_ productCoords: LGLocationCoordinates2D) -> Double? {
+        // method needed for protocol implementation, not used for discover
+        return nil
+    }
+    var countryCode: String? {
+        // method needed for protocol implementation, not used for discover
+        return nil
+    }
+
+    func isEqual(toRequester requester: ProductListRequester) -> Bool {
+        guard let requester = requester as? DiscoverProductListRequester else { return false }
+        return productObjectId == requester.productObjectId
     }
 }
 
@@ -67,12 +80,12 @@ fileprivate extension DiscoverProductListRequester {
         return params
     }
 
-    func productsRetrieval(_ completion: ListingsCompletion?) {
+    func productsRetrieval(_ completion: ListingsRequesterCompletion?) {
         listingRepository.indexDiscover(listingId: productObjectId, params: retrieveProductsParams) { [weak self] result in
             if let value = result.value {
                 self?.offset += value.count
             }
-            completion?(result)
+            completion?(ListingsRequesterResult(listingsResult: result, context: nil))
         }
     }
 }

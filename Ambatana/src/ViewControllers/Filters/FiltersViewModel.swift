@@ -108,19 +108,27 @@ class FiltersViewModel: BaseViewModel {
     }
     var carYearStart: Int? {
         get {
-            return productFilter.carYearStart
+            return productFilter.carYearStart?.value
         }
         set {
-            productFilter.carYearStart = newValue
+            guard let newValue = newValue else {
+                productFilter.carYearStart = nil
+                return
+            }
+            productFilter.carYearStart = RetrieveListingParam<Int>(value: newValue, isNegated: false)
         }
     }
 
     var carYearEnd: Int? {
         get {
-            return productFilter.carYearEnd
+            return productFilter.carYearEnd?.value
         }
         set {
-            productFilter.carYearEnd = newValue
+            guard let newValue = newValue else {
+                productFilter.carYearEnd = nil
+                return
+            }
+            productFilter.carYearEnd = RetrieveListingParam<Int>(value: newValue, isNegated: false)
         }
     }
 
@@ -223,21 +231,26 @@ class FiltersViewModel: BaseViewModel {
 
     func makeButtonPressed() {
         let carsMakesList = carsInfoRepository.retrieveCarsMakes()
-        let carsAttributtesChoiceVMWithMakes = CarAttributeSelectionViewModel(carsMakes: carsMakesList, selectedMake: productFilter.carMakeId, style: .filter)
+        let carsAttributtesChoiceVMWithMakes = CarAttributeSelectionViewModel(carsMakes: carsMakesList,
+                                                                              selectedMake: productFilter.carMakeId?.value,
+                                                                              style: .filter)
         carsAttributtesChoiceVMWithMakes.carAttributeSelectionDelegate = self
         delegate?.vmOpenCarAttributeSelectionsWithViewModel(attributesChoiceViewModel: carsAttributtesChoiceVMWithMakes)
     }
 
     func modelButtonPressed() {
-        guard let makeId = productFilter.carMakeId else { return }
+        guard let makeId = productFilter.carMakeId?.value else { return }
         let carsModelsForMakeList = carsInfoRepository.retrieveCarsModelsFormake(makeId: makeId)
-        let carsAttributtesChoiceVMWithModels = CarAttributeSelectionViewModel(carsModels: carsModelsForMakeList, selectedModel: productFilter.carModelId, style: .filter)
+        let carsAttributtesChoiceVMWithModels = CarAttributeSelectionViewModel(carsModels: carsModelsForMakeList,
+                                                                               selectedModel: productFilter.carModelId?.value,
+                                                                               style: .filter)
         carsAttributtesChoiceVMWithModels.carAttributeSelectionDelegate = self
         delegate?.vmOpenCarAttributeSelectionsWithViewModel(attributesChoiceViewModel: carsAttributtesChoiceVMWithModels)
     }
 
     func resetFilters() {
-        self.productFilter = ProductFilters()
+        productFilter = ProductFilters()
+        sections = generateSections()
         delegate?.vmDidUpdate()
     }
 
@@ -264,8 +277,8 @@ class FiltersViewModel: BaseViewModel {
                                                         freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                         carMake: productFilter.carMakeName,
                                                         carModel: productFilter.carModelName,
-                                                        carYearStart: productFilter.carYearStart,
-                                                        carYearEnd: productFilter.carYearEnd)
+                                                        carYearStart: productFilter.carYearStart?.value,
+                                                        carYearEnd: productFilter.carYearEnd?.value)
         TrackerProxy.sharedInstance.trackEvent(trackingEvent)
         
         dataDelegate?.viewModelDidUpdateFilters(self, filters: productFilter)
@@ -456,7 +469,7 @@ extension FiltersViewModel: EditLocationDelegate {
 
 extension FiltersViewModel: CarAttributeSelectionDelegate {
     func didSelectMake(makeId: String, makeName: String) {
-        productFilter.carMakeId = makeId
+        productFilter.carMakeId = RetrieveListingParam<String>(value: makeId, isNegated: false)
         productFilter.carMakeName = makeName
         productFilter.carModelId = nil
         productFilter.carModelName = nil
@@ -464,7 +477,7 @@ extension FiltersViewModel: CarAttributeSelectionDelegate {
     }
 
     func didSelectModel(modelId: String, modelName: String) {
-        productFilter.carModelId = modelId
+        productFilter.carModelId = RetrieveListingParam<String>(value: modelId, isNegated: false)
         productFilter.carModelName = modelName
         delegate?.vmDidUpdate()
     }

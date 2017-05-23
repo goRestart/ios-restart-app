@@ -294,6 +294,8 @@
 "edit_product_title" = "Editar artículo";
 "edit_product_unsaved_changes_alert" = "¿Estás seguro de querer descartar tus cambios?";
 "edit_product_unsaved_changes_alert_ok" = "Descartar";
+"filter_results_cars_no_matches" = "No hay resultados exactos para tu búsqueda.\nMostrando resultados similares.";
+"filter_results_cars_other_results" = "Publicados recientemente cerca de ti";
 "filters_car_make_not_set" = "No Definida";
 "filters_car_model_not_set" = "No Definido";
 "filters_car_year_any_year" = "Cualquier año";
@@ -315,6 +317,7 @@
 "filters_sort_newest" = "Más recientes primero";
 "filters_sort_price_asc" = "De más barato a más caro";
 "filters_sort_price_desc" = "De más caro a más barato";
+"filters_tag_location_selected" = "Ubicación seleccionada";
 "filters_title" = "Filtros";
 "filters_within_all" = "Todos los productos";
 "filters_within_day" = "Las últimas 24h";

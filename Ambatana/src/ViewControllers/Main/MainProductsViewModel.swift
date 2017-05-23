@@ -42,6 +42,7 @@ class MainProductsViewModel: BaseViewModel {
     }
     let bannerCellPosition: Int = 8
     var filters: ProductFilters
+    var queryString: String?
 
     let infoBubbleVisible = Variable<Bool>(false)
     let infoBubbleText = Variable<String>(LGLocalizedString.productPopularNearYou)
@@ -88,13 +89,13 @@ class MainProductsViewModel: BaseViewModel {
 
         if filters.selectedCategories.contains(.cars) {
             if let makeId = filters.carMakeId, let makeName = filters.carMakeName {
-                resultTags.append(.make(id: makeId, name: makeName))
+                resultTags.append(.make(id: makeId.value, name: makeName.uppercase))
                 if let modelId = filters.carModelId, let modelName = filters.carModelName {
-                    resultTags.append(.model(id: modelId, name: modelName))
+                    resultTags.append(.model(id: modelId.value, name: modelName.uppercase))
                 }
             }
             if filters.carYearStart != nil || filters.carYearEnd != nil {
-                resultTags.append(.yearsRange(from: filters.carYearStart, to: filters.carYearEnd))
+                resultTags.append(.yearsRange(from: filters.carYearStart?.value, to: filters.carYearEnd?.value))
             }
         }
 
@@ -105,7 +106,17 @@ class MainProductsViewModel: BaseViewModel {
         return navigator?.canOpenAppInvite() ?? false
     }
 
+    fileprivate var shouldShowNoExactMatchesDisclaimer: Bool {
+        guard filters.selectedCategories.contains(.cars) else { return false }
+        if filters.carMakeId != nil || filters.carModelId != nil || filters.carYearStart != nil || filters.carYearEnd != nil {
+            return true
+        }
+        return false
+    }
+
     let mainProductsHeader = Variable<MainProductsHeader>([])
+    let filterTitle = Variable<String?>(nil)
+    let filterDescription = Variable<String?>(nil)
 
     // Manager & repositories
     fileprivate let sessionManager: SessionManager
@@ -132,9 +143,9 @@ class MainProductsViewModel: BaseViewModel {
     
     // List VM
     let listViewModel: ProductListViewModel
-    fileprivate let productListRequester: FilteredProductListRequester
+    fileprivate var productListRequester: ProductListMultiRequester
     var currentActiveFilters: ProductFilters? {
-        return productListRequester.filters
+        return filters
     }
     var userActiveFilters: ProductFilters? {
         return filters
@@ -177,12 +188,16 @@ class MainProductsViewModel: BaseViewModel {
         self.tracker = tracker
         self.searchType = searchType
         self.filters = filters
+        self.queryString = searchType?.query
         self.keyValueStorage = keyValueStorage
         self.featureFlags = featureFlags
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         let columns = show3Columns ? 3 : 2
         let itemsPerPage = show3Columns ? Constants.numProductsPerPageBig : Constants.numProductsPerPageDefault
-        self.productListRequester = FilteredProductListRequester(itemsPerPage: itemsPerPage)
+        self.productListRequester = FilterProductListRequesterFactory.generateRequester(withFilters: filters,
+                                                                                        queryString: searchType?.query,
+                                                                                        itemsPerPage: itemsPerPage,
+                                                                                        multiRequesterEnabled: featureFlags.carsMultiRequesterEnabled)
         self.listViewModel = ProductListViewModel(requester: self.productListRequester, listings: nil,
                                                   numberOfColumns: columns, tracker: tracker)
         self.listViewModel.productListFixedInset = show3Columns ? 6 : 10
@@ -324,13 +339,32 @@ class MainProductsViewModel: BaseViewModel {
         }
         
         filters.distanceRadius = distance
-        
-        filters.carMakeId = makeId
+
+        if let makeId = makeId {
+            filters.carMakeId = RetrieveListingParam<String>(value: makeId, isNegated: false)
+        } else {
+            filters.carMakeId = nil
+        }
         filters.carMakeName = makeName
-        filters.carModelId = modelId
+
+        if let modelId = modelId {
+            filters.carModelId = RetrieveListingParam<String>(value: modelId, isNegated: false)
+        } else {
+            filters.carModelId = nil
+        }
         filters.carModelName = modelName
-        filters.carYearStart = carYearStart
-        filters.carYearEnd = carYearEnd
+
+        if let startYear = carYearStart {
+            filters.carYearStart = RetrieveListingParam<Int>(value: startYear, isNegated: false)
+        } else {
+            filters.carYearStart = nil
+        }
+
+        if let endYear = carYearEnd {
+            filters.carYearEnd = RetrieveListingParam<Int>(value: endYear, isNegated: false)
+        } else {
+            filters.carYearEnd = nil
+        }
 
         updateCategoriesHeader()
         updateListView()
@@ -372,7 +406,15 @@ class MainProductsViewModel: BaseViewModel {
             infoBubbleText.value = LGLocalizedString.productPopularNearYou
         }
 
-        productListRequester.filters = filters
+        let currentItemsPerPage = productListRequester.itemsPerPage
+
+        productListRequester = FilterProductListRequesterFactory.generateRequester(withFilters: filters,
+                                                                                   queryString: queryString,
+                                                                                   itemsPerPage: currentItemsPerPage,
+                                                                                   multiRequesterEnabled: featureFlags.carsMultiRequesterEnabled)
+
+        listViewModel.productListRequester = productListRequester
+
         infoBubbleVisible.value = false
         errorMessage.value = nil
         listViewModel.resetUI()
@@ -410,9 +452,6 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
     func setupProductList() {
         listViewModel.dataDelegate = self
 
-        productListRequester.filters = filters
-        productListRequester.queryString = searchType?.query
-
         listingRepository.events.bindNext { [weak self] event in
             switch event {
             case let .update(listing):
@@ -430,12 +469,17 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
     // MARK: > ProductListViewCellsDelegate
 
     func visibleTopCellWithIndex(_ index: Int, whileScrollingDown scrollingDown: Bool) {
+
+        // set title for cell at index if necessary
+        filterTitle.value = listViewModel.titleForIndex(index: index)
+
         guard let sortCriteria = filters.selectedOrdering else { return }
 
         switch (sortCriteria) {
         case .distance:
             guard let topListing = listViewModel.listingAtIndex(index) else { return }
-            let distance = Float(productListRequester.distanceFromProductCoordinates(topListing.location))
+            guard let requesterDistance = productListRequester.distanceFromProductCoordinates(topListing.location) else { return }
+            let distance = Float(requesterDistance)
 
             // instance var max distance or MIN distance to avoid updating the label everytime
             if (scrollingDown && distance > bubbleDistance) || (!scrollingDown && distance < bubbleDistance) ||
@@ -459,10 +503,10 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
 
     func productListVM(_ viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt,
                               hasProducts: Bool) {
-        
+
         trackRequestSuccess(page: page, hasProducts: hasProducts)
         // Only save the string when there is products and we are not searching a collection
-        if let queryString = productListRequester.queryString, hasProducts {
+        if let queryString = queryString, hasProducts {
             if let searchType = searchType, !searchType.isCollection {
                 updateLastSearchStoraged(queryString)
             }
@@ -473,26 +517,36 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
             return
         }
 
-        if page == 0 && !hasProducts {
-            let errImage: UIImage?
-            let errTitle: String?
-            let errBody: String?
+        if productListRequester.multiIsFirstPage  {
+            filterDescription.value = !hasProducts && shouldShowNoExactMatchesDisclaimer ? LGLocalizedString.filterResultsCarsNoMatches : nil
+        }
 
-            // Search
-            if productListRequester.queryString != nil || productListRequester.hasFilters() {
-                errImage = UIImage(named: "err_search_no_products")
-                errTitle = LGLocalizedString.productSearchNoProductsTitle
-                errBody = LGLocalizedString.productSearchNoProductsBody
+        if !hasProducts {
+            if productListRequester.multiIsLastPage {
+                let errImage: UIImage?
+                let errTitle: String?
+                let errBody: String?
+
+                // Search
+                if queryString != nil || !filters.isDefault() {
+                    errImage = UIImage(named: "err_search_no_products")
+                    errTitle = LGLocalizedString.productSearchNoProductsTitle
+                    errBody = LGLocalizedString.productSearchNoProductsBody
+                } else {
+                    // Listing
+                    errImage = UIImage(named: "err_list_no_products")
+                    errTitle = LGLocalizedString.productListNoProductsTitle
+                    errBody = LGLocalizedString.productListNoProductsBody
+                }
+
+                let emptyViewModel = LGEmptyViewModel(icon: errImage, title: errTitle, body: errBody, buttonTitle: nil,
+                                                      action: nil, secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: nil)
+                listViewModel.setEmptyState(emptyViewModel)
+                filterDescription.value = nil
+                filterTitle.value = nil
             } else {
-                // Listing
-                errImage = UIImage(named: "err_list_no_products")
-                errTitle = LGLocalizedString.productListNoProductsTitle
-                errBody = LGLocalizedString.productListNoProductsBody
+                listViewModel.retrieveProductsNextPage()
             }
-
-            let emptyViewModel = LGEmptyViewModel(icon: errImage, title: errTitle, body: errBody, buttonTitle: nil,
-                                                  action: nil, secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: nil)
-            listViewModel.setEmptyState(emptyViewModel)
         }
 
         errorMessage.value = nil
@@ -831,11 +885,11 @@ fileprivate extension MainProductsViewModel {
             return .collection
         }
         if searchType.isEmpty() {
-            if productListRequester.hasFilters() {
+            if !filters.isDefault() {
                 return .filter
             }
         } else {
-            if productListRequester.hasFilters() {
+            if !filters.isDefault() {
                 return .searchAndFilter
             } else {
                 return .search
@@ -849,8 +903,9 @@ fileprivate extension MainProductsViewModel {
         guard page == 0 else { return }
         let successParameter: EventParameterBoolean = hasProducts ? .trueParameter : .falseParameter
         let trackerEvent = TrackerEvent.productList(myUserRepository.myUser,
-                                                    categories: productListRequester.filters?.selectedCategories,
-                                                    searchQuery: productListRequester.queryString, feedSource: feedSource, success: successParameter)
+                                                    categories: filters.selectedCategories,
+                                                    searchQuery: queryString, feedSource: feedSource,
+                                                    success: successParameter)
         tracker.trackEvent(trackerEvent)
 
         if let searchType = searchType, shouldTrackSearch {
