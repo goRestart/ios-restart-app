@@ -342,6 +342,8 @@
 		50A61C231DCA1B5A0057436A /* NSLocale+Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A61C211DCA1B5A0057436A /* NSLocale+Country.swift */; };
 		50A8DC801BA06B92008296B0 /* ChatSafetyTipsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50A8DC7F1BA06B92008296B0 /* ChatSafetyTipsView.xib */; };
 		50A8DC821BA06BB1008296B0 /* ChatSafetyTipsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A8DC811BA06BB1008296B0 /* ChatSafetyTipsView.swift */; };
+		50AB5F221ED4447200E9909D /* UserRatingTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AB5F211ED4447200E9909D /* UserRatingTag.swift */; };
+		50AB5F251ED4505800E9909D /* UserRatingTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AB5F211ED4447200E9909D /* UserRatingTag.swift */; };
 		50BA5C061C3C093E00F34042 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BA5C041C3C093E00F34042 /* AppDelegate.swift */; };
 		50BA5C081C3C096D00F34042 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 50BA5C071C3C096D00F34042 /* GoogleService-Info.plist */; };
 		50BCE92C1BF6356B00C130CD /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BCE92B1BF6356B00C130CD /* ToastView.swift */; };
@@ -1650,6 +1652,7 @@
 		50A61C211DCA1B5A0057436A /* NSLocale+Country.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSLocale+Country.swift"; sourceTree = "<group>"; };
 		50A8DC7F1BA06B92008296B0 /* ChatSafetyTipsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatSafetyTipsView.xib; sourceTree = "<group>"; };
 		50A8DC811BA06BB1008296B0 /* ChatSafetyTipsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatSafetyTipsView.swift; sourceTree = "<group>"; };
+		50AB5F211ED4447200E9909D /* UserRatingTag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRatingTag.swift; sourceTree = "<group>"; };
 		50BA5C041C3C093E00F34042 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		50BA5C051C3C093E00F34042 /* letgo-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "letgo-Bridging-Header.h"; sourceTree = "<group>"; };
 		50BA5C071C3C096D00F34042 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -2840,6 +2843,7 @@
 				C7DCFEC31C03625E00F7A4FB /* ProductTimeCriteria+LG.swift */,
 				C79842001CC8E8C900C300FF /* User+LG.swift */,
 				72B935F51E3F917500F93F73 /* UserProduct+LG.swift */,
+				50AB5F211ED4447200E9909D /* UserRatingTag.swift */,
 				C79895C71DE4349900DD58BF /* SessionEvent+LG.swift */,
 				C738327F1E029CC2007D0C03 /* AccountProvider+LG.swift */,
 				C7AFFB0C1E7172B20052A9CA /* MyUser+LG.swift */,
@@ -5248,6 +5252,7 @@
 				2EF4E3B11D3688AB00A09DFD /* ConfigRetrieveService.swift in Sources */,
 				2E4B43EA1E7810C00048214B /* PaymentEnqueuable.swift in Sources */,
 				C7AFFB011E7054590052A9CA /* WebSurveyViewController.swift in Sources */,
+				50AB5F221ED4447200E9909D /* UserRatingTag.swift in Sources */,
 				C711A1A71CDC99E5002D30D9 /* NotificationCellDrawer.swift in Sources */,
 				50C43DA21E26466E00F10E53 /* LogInEmailViewController.swift in Sources */,
 				508D48671CCF4FFC00C52BE3 /* ImageDownloaderType.swift in Sources */,
@@ -5769,6 +5774,7 @@
 				2E2D53E11D369B0500348D12 /* ConfigRetrieveService.swift in Sources */,
 				2E4B43EB1E7810C00048214B /* PaymentEnqueuable.swift in Sources */,
 				C7AFFB021E7054590052A9CA /* WebSurveyViewController.swift in Sources */,
+				50AB5F251ED4505800E9909D /* UserRatingTag.swift in Sources */,
 				2E1F0D981D65F4B80021EDBE /* BubbleNotification.swift in Sources */,
 				C711A1A81CDC99E5002D30D9 /* NotificationCellDrawer.swift in Sources */,
 				508D48681CCF4FFC00C52BE3 /* ImageDownloaderType.swift in Sources */,

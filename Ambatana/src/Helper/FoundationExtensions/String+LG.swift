@@ -247,4 +247,33 @@ extension String {
             lowercaseString.range(of: "let g0") != nil ||
             lowercaseString.range(of: "iet g0") != nil
     }
+    
+    func trimUserRatingTags() -> String {
+        let strings = NegativeUserRatingTag.allValues.map { $0.localizedText } + PositiveUserRativeTag.allValues.map { $0.localizedText }
+        let separator = ". "
+        return trim(strings: strings, separator: separator)
+    }
+    
+    func trim(strings: [String], separator: String) -> String {
+        let actualSeparator = separator.trim
+        return components(separatedBy: actualSeparator)
+            .map { $0.trim }
+            .filter { return !strings.contains($0) }
+            .joined(separator: actualSeparator)
+            .trim
+    }
+    
+    static func make(tags: [UserRatingTag], comment: String? = nil) -> String {
+        let components: [String]
+        if let comment = comment {
+            components = tags.map { $0.localizedText } + [comment]
+        } else {
+            components = tags.map { $0.localizedText }
+        }
+        return make(components: components, separator: ". ")
+    }
+    
+    static func make(components: [String], separator: String) -> String {
+        return components.joined(separator: separator)
+    }
 }
