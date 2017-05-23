@@ -52,7 +52,6 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     
     private var tagsViewController : FilterTagsViewController?
     private var tagsShowing : Bool = false
-    private var tagsAnimating : Bool = false
 
     private let topInset = Variable<CGFloat> (0)
 
@@ -344,37 +343,26 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     }
     
     private func showTagsView(_ show: Bool, updateInsets: Bool) {
-        if tagsAnimating || tagsShowing == show {
+        if tagsShowing == show {
             return
         }
-        
         tagsShowing = show
-        tagsAnimating = true
         
         if show {
             tagsCollectionView.isHidden = false
         }
 
         tagsCollectionHeightConstraint.constant = show ? MainProductsViewController.filterTagsViewHeight : 0
-        
         if updateInsets {
             topInset.value = show ?
                 topBarHeight + MainProductsViewController.filterTagsViewHeight + filterHeadersHeight
                 : topBarHeight
         }
-
-        UIView.animate(
-            withDuration: 0.2,
-            animations: { [weak self]  in
-                self?.view.layoutIfNeeded()
-            },
-            completion: { [weak self] (value: Bool) in
-                if !show {
-                    self?.tagsCollectionView.isHidden = true
-                }
-                self?.tagsAnimating = false
-            }
-        )
+        view.layoutIfNeeded()
+        
+        if !show {
+            tagsCollectionView.isHidden = true
+        }
     }
     
     private func setupInfoBubble() {
