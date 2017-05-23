@@ -8,6 +8,15 @@
 
 protocol UserRatingTag {
     var localizedText: String { get }
+    static var allValues: [Self] { get }
+    static func make(string: String) -> [Self]
+}
+
+extension UserRatingTag {
+    static func make(string: String) -> [Self] {
+        let components = string.components(separatedBy: ". ")
+        return allValues.filter { components.contains($0.localizedText) }
+    }
 }
 
 enum NegativeUserRatingTag: UserRatingTag {

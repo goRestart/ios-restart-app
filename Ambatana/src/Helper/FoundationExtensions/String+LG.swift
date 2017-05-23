@@ -263,12 +263,12 @@ extension String {
             .trim
     }
     
-    static func make(tags: [UserRatingTag], comment: String? = nil) -> String {
+    static func make(tagsString: [String], comment: String? = nil) -> String {
         let components: [String]
         if let comment = comment {
-            components = tags.map { $0.localizedText } + [comment]
+            components = tagsString + [comment]
         } else {
-            components = tags.map { $0.localizedText }
+            components = tagsString
         }
         return make(components: components, separator: ". ")
     }

@@ -305,30 +305,18 @@ class StringLGSpec: QuickSpec {
                     expect("Hi. Bye. It was nice. ".trim(strings: ["Hi", "Bye"], separator: ".")) == "It was nice."
                 }
             }
-            fdescribe("make(tags:comment:)") {
+            describe("make(tagsString:comment:)") {
                 context("w/o comment") {
-                    it("builds up a string with the given tags") {
-                        expect(String.make(tags: [UserRatingTagMock.example1, UserRatingTagMock.example2])) == "ex1. ex2"
+                    it("builds up a string with the given tags strings") {
+                        expect(String.make(tagsString: ["ex1", "ex2"])) == "ex1. ex2"
                     }
                 }
                 context("with comment") {
-                    it("builds up a string with the given tags and comment") {
-                        expect(String.make(tags: [UserRatingTagMock.example1, UserRatingTagMock.example2], comment: "append")) == "ex1. ex2. append"
+                    it("builds up a string with the given tag strings and comment") {
+                        expect(String.make(tagsString: ["ex1", "ex2"], comment: "append")) == "ex1. ex2. append"
                     }
                 }
             }
-        }
-    }
-}
-
-enum UserRatingTagMock: UserRatingTag {
-    case example1, example2
-    var localizedText: String {
-        switch self {
-        case .example1:
-            return "ex1"
-        case .example2:
-            return "ex2"
         }
     }
 }
