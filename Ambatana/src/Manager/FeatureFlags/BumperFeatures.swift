@@ -31,6 +31,7 @@ extension Bumper  {
         flags.append(QuickAnswersRepeatedTextField.self)
         flags.append(CarsVerticalEnabled.self)
         flags.append(CarsCategoryAfterPicture.self)
+        flags.append(NewCarsMultiRequesterEnabled.self)
         Bumper.initialize(flags)
     } 
 
@@ -122,6 +123,11 @@ extension Bumper  {
     static var carsCategoryAfterPicture: Bool {
         guard let value = Bumper.value(for: CarsCategoryAfterPicture.key) else { return false }
         return CarsCategoryAfterPicture(rawValue: value)?.asBool ?? false
+    }
+
+    static var newCarsMultiRequesterEnabled: Bool {
+        guard let value = Bumper.value(for: NewCarsMultiRequesterEnabled.key) else { return false }
+        return NewCarsMultiRequesterEnabled(rawValue: value)?.asBool ?? false
     } 
 }
 
@@ -309,6 +315,15 @@ enum CarsCategoryAfterPicture: String, BumperFeature  {
     static var enumValues: [CarsCategoryAfterPicture] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "When cars vertical enabled, select category after image selection" } 
+    var asBool: Bool { return self == .yes }
+}
+
+enum NewCarsMultiRequesterEnabled: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return NewCarsMultiRequesterEnabled.no.rawValue }
+    static var enumValues: [NewCarsMultiRequesterEnabled] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Cars multi requester enabled" } 
     var asBool: Bool { return self == .yes }
 }
 

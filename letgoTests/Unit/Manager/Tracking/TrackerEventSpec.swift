@@ -732,6 +732,34 @@ class TrackerEventSpec: QuickSpec {
                     expect(listSuccess).to(equal("true"))
                 }
             }
+            
+            describe("productListVertical") {
+                let categories: [ListingCategory] = [.homeAndGarden, .motorsAndAccessories]
+                let searchQuery = "iPhone"
+                beforeEach {
+                    sut = TrackerEvent.productListVertical(category: .cars,
+                                                           keywords: ["kw1", "kw2"],
+                                                           matchingFields: ["mf1", "mf2"],
+                                                           nonMatchingFields: ["nmf1", "nmf2"])
+                }
+                
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-list-vertical"))
+                }
+                it("contains the category id parameter") {
+                    let categoryId = sut.params!.stringKeyParams["category-id"] as? String
+                    expect(categoryId).to(equal("9"))
+                }
+                it("contains vertical keyword parameter") {
+                    expect(sut.params!.stringKeyParams["vertical-keyword"] as? String) == "kw1_kw2"
+                }
+                it("contains vertical matching fields parameter") {
+                    expect(sut.params!.stringKeyParams["vertical-matching-fields"] as? String) == "mf1,mf2"
+                }
+                it("contains vertical no  matching fields parameter") {
+                    expect(sut.params!.stringKeyParams["vertical-no-matching-fields"] as? String) == "nmf1,nmf2"
+                }
+            }
 
             describe("searchStart") {
                 it("has its event name") {
@@ -851,6 +879,9 @@ class TrackerEventSpec: QuickSpec {
                     it ("end") {
                         expect(sut.params!.stringKeyParams["product-year-end"] as? String) == "2000"
                     }
+                    it ("vertical fields") {
+                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "product-make,product-model,product-year-start,product-year-end"
+                    }
                 }
                 context("not receiving all params, contains the default params") {
                     beforeEach {
@@ -907,6 +938,10 @@ class TrackerEventSpec: QuickSpec {
                     }
                     it ("end") {
                         expect(sut.params!.stringKeyParams["product-year-end"] as? String) == "N/A"
+                    }
+
+                    it ("vertical fields") {
+                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "N/A"
                     }
                 }
             }
@@ -1292,7 +1327,7 @@ class TrackerEventSpec: QuickSpec {
                         .set(typePage: .productDetail)
                         .set(sellerRating: 4)
                         .set(isBumpedUp: .trueParameter)
-                    sut = TrackerEvent.firstMessage(info: sendMessageInfo)
+                    sut = TrackerEvent.firstMessage(info: sendMessageInfo, productVisitSource: .productList)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-ask-question"))
@@ -1345,10 +1380,14 @@ class TrackerEventSpec: QuickSpec {
                     let bumpedUp = sut.params!.stringKeyParams["bump-up"] as? String
                     expect(bumpedUp) == "true"
                 }
+                it("contains product visit source") {
+                    let visitSource = sut.params!.stringKeyParams["visit-source"] as? String
+                    expect(visitSource) == "product-list"
+                }
                 describe("text message") {
                     beforeEach {
                         sendMessageInfo.set(messageType: .text)
-                        sut = TrackerEvent.firstMessage(info: sendMessageInfo)
+                        sut = TrackerEvent.firstMessage(info: sendMessageInfo, productVisitSource: .productList)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1357,11 +1396,15 @@ class TrackerEventSpec: QuickSpec {
                     it("has no quick-answer-type") {
                         expect(sut.params!.stringKeyParams["quick-answer-type"]).to(beNil())
                     }
+                    it("contains product visit source") {
+                        let visitSource = sut.params!.stringKeyParams["visit-source"] as? String
+                        expect(visitSource) == "product-list"
+                    }
                 }
                 describe("sticker message") {
                     beforeEach {
                         sendMessageInfo.set(messageType: .sticker)
-                        sut = TrackerEvent.firstMessage(info: sendMessageInfo)
+                        sut = TrackerEvent.firstMessage(info: sendMessageInfo, productVisitSource: .productList)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1370,12 +1413,16 @@ class TrackerEventSpec: QuickSpec {
                     it("has no quick-answer-type") {
                         expect(sut.params!.stringKeyParams["quick-answer-type"]).to(beNil())
                     }
+                    it("contains product visit source") {
+                        let visitSource = sut.params!.stringKeyParams["visit-source"] as? String
+                        expect(visitSource) == "product-list"
+                    }
                 }
                 describe("quick answer message") {
                     beforeEach {
                         sendMessageInfo.set(messageType: .quickAnswer)
                         sendMessageInfo.set(quickAnswerType: .notInterested)
-                        sut = TrackerEvent.firstMessage(info: sendMessageInfo)
+                        sut = TrackerEvent.firstMessage(info: sendMessageInfo, productVisitSource: .productList)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1384,6 +1431,10 @@ class TrackerEventSpec: QuickSpec {
                     it("has no quick-answer-type") {
                         let value = sut.params!.stringKeyParams["quick-answer-type"] as? String
                         expect(value) == "not-interested"
+                    }
+                    it("contains product visit source") {
+                        let visitSource = sut.params!.stringKeyParams["visit-source"] as? String
+                        expect(visitSource) == "product-list"
                     }
                 }
             }
@@ -1406,7 +1457,7 @@ class TrackerEventSpec: QuickSpec {
                         .set(typePage: .productDetail)
                         .set(sellerRating: 4)
                         .set(isBumpedUp: .trueParameter)
-                    sut = TrackerEvent.firstMessage(info: sendMessageInfo)
+                    sut = TrackerEvent.firstMessage(info: sendMessageInfo, productVisitSource: .productList)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-ask-question"))
@@ -1447,10 +1498,14 @@ class TrackerEventSpec: QuickSpec {
                     let bumpedUp = sut.params!.stringKeyParams["bump-up"] as? String
                     expect(bumpedUp) == "true"
                 }
+                it("contains product visit source") {
+                    let visitSource = sut.params!.stringKeyParams["visit-source"] as? String
+                    expect(visitSource) == "product-list"
+                }
                 describe("text message") {
                     beforeEach {
                         sendMessageInfo.set(messageType: .text)
-                        sut = TrackerEvent.firstMessage(info: sendMessageInfo)
+                        sut = TrackerEvent.firstMessage(info: sendMessageInfo, productVisitSource: .productList)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1459,11 +1514,15 @@ class TrackerEventSpec: QuickSpec {
                     it("has no quick-answer-type") {
                         expect(sut.params!.stringKeyParams["quick-answer-type"]).to(beNil())
                     }
+                    it("contains product visit source") {
+                        let visitSource = sut.params!.stringKeyParams["visit-source"] as? String
+                        expect(visitSource) == "product-list"
+                    }
                 }
                 describe("sticker message") {
                     beforeEach {
                         sendMessageInfo.set(messageType: .sticker)
-                        sut = TrackerEvent.firstMessage(info: sendMessageInfo)
+                        sut = TrackerEvent.firstMessage(info: sendMessageInfo, productVisitSource: .productList)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1472,12 +1531,16 @@ class TrackerEventSpec: QuickSpec {
                     it("has no quick-answer-type") {
                         expect(sut.params!.stringKeyParams["quick-answer-type"]).to(beNil())
                     }
+                    it("contains product visit source") {
+                        let visitSource = sut.params!.stringKeyParams["visit-source"] as? String
+                        expect(visitSource) == "product-list"
+                    }
                 }
                 describe("quick answer message") {
                     beforeEach {
                         sendMessageInfo.set(messageType: .quickAnswer)
                         sendMessageInfo.set(quickAnswerType: .notInterested)
-                        sut = TrackerEvent.firstMessage(info: sendMessageInfo)
+                        sut = TrackerEvent.firstMessage(info: sendMessageInfo, productVisitSource: .productList)
                     }
                     it("has message-type param with value text") {
                         let value = sut.params!.stringKeyParams["message-type"] as? String
@@ -1486,6 +1549,10 @@ class TrackerEventSpec: QuickSpec {
                     it("has no quick-answer-type") {
                         let value = sut.params!.stringKeyParams["quick-answer-type"] as? String
                         expect(value) == "not-interested"
+                    }
+                    it("contains product visit source") {
+                        let visitSource = sut.params!.stringKeyParams["visit-source"] as? String
+                        expect(visitSource) == "product-list"
                     }
                 }
             }
@@ -1537,6 +1604,128 @@ class TrackerEventSpec: QuickSpec {
 
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-sold"))
+                }
+                it("type-page param is included with value product-detail") {
+                    expect(sut.params!.stringKeyParams["type-page"] as? String) == "product-detail"
+                }
+                it("free-posting param is included as Free") {
+                    expect(sut.params!.stringKeyParams["free-posting"] as? String) == "true"
+                }
+                it("contains product-id param") {
+                    let productId = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(productId) == "AAAAA"
+                }
+                it("contains product-price param") {
+                    let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
+                    expect(productPrice) == Double(0)
+                }
+                it("contains product-currency param") {
+                    let value = sut.params!.stringKeyParams["product-currency"] as? String
+                    expect(value) == "EUR"
+                }
+                it("contains category-id param") {
+                    let value = sut.params!.stringKeyParams["category-id"] as? Int
+                    expect(value) == ListingCategory.homeAndGarden.rawValue
+                }
+                it("contains free posting param") {
+                    let freePosting = sut.params!.stringKeyParams["free-posting"] as? String
+                    expect(freePosting) == "true"
+                }
+                it("contains bumped up param") {
+                    let bumpedUp = sut.params!.stringKeyParams["bump-up"] as? String
+                    expect(bumpedUp) == "true"
+                }
+            }
+            
+            describe("productMarkAsSoldAtLetgo") {
+                beforeEach {
+                    var userListing = MockUserListing.makeMock()
+                    userListing.objectId = "56897"
+                    userListing.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
+                                                              state: "", countryCode: "NL", country: nil)
+                    userListing.isDummy = false
+                    
+                    var product = MockProduct.makeMock()
+                    product.objectId = "AAAAA"
+                    product.name = "iPhone 7S"
+                    product.price = .free
+                    product.currency = Currency(code: "EUR", symbol: "€")
+                    product.category = .homeAndGarden
+                    product.user = userListing
+                    product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
+                    product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
+                                                          countryCode: "US", country: nil)
+                    
+                    sut = TrackerEvent.productMarkAsSoldAtLetgo(listing: .product(product), typePage: .productDetail,
+                                                                freePostingModeAllowed: true, buyerId: "buyer-id",
+                                                                isBumpedUp: .trueParameter)
+                }
+                
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-detail-sold-at-letgo"))
+                }
+                it("type-page param is included with value product-detail") {
+                    expect(sut.params!.stringKeyParams["type-page"] as? String) == "product-detail"
+                }
+                it("free-posting param is included as Free") {
+                    expect(sut.params!.stringKeyParams["free-posting"] as? String) == "true"
+                }
+                it("contains product-id param") {
+                    let productId = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(productId) == "AAAAA"
+                }
+                it("contains product-price param") {
+                    let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
+                    expect(productPrice) == Double(0)
+                }
+                it("contains product-currency param") {
+                    let value = sut.params!.stringKeyParams["product-currency"] as? String
+                    expect(value) == "EUR"
+                }
+                it("contains category-id param") {
+                    let value = sut.params!.stringKeyParams["category-id"] as? Int
+                    expect(value) == ListingCategory.homeAndGarden.rawValue
+                }
+                it("contains free posting param") {
+                    let freePosting = sut.params!.stringKeyParams["free-posting"] as? String
+                    expect(freePosting) == "true"
+                }
+                it("contains bumped up param") {
+                    let bumpedUp = sut.params!.stringKeyParams["bump-up"] as? String
+                    expect(bumpedUp) == "true"
+                }
+                it("contains user-sold-to param") {
+                    let userSoldTo = sut.params!.stringKeyParams["user-sold-to"] as? String
+                    expect(userSoldTo) == "buyer-id"
+                }
+                
+            }
+            
+            describe("productMarkAsSoldOutsideLetgo") {
+                beforeEach {
+                    var userListing = MockUserListing.makeMock()
+                    userListing.objectId = "56897"
+                    userListing.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
+                                                              state: "", countryCode: "NL", country: nil)
+                    userListing.isDummy = false
+                    
+                    var product = MockProduct.makeMock()
+                    product.objectId = "AAAAA"
+                    product.name = "iPhone 7S"
+                    product.price = .free
+                    product.currency = Currency(code: "EUR", symbol: "€")
+                    product.category = .homeAndGarden
+                    product.user = userListing
+                    product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
+                    product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
+                                                          countryCode: "US", country: nil)
+                    
+                    sut = TrackerEvent.productMarkAsSoldOutsideLetgo(listing: .product(product), typePage: .productDetail,
+                                                                     freePostingModeAllowed: true, isBumpedUp: .trueParameter)
+                }
+                
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-detail-sold-outside-letgo"))
                 }
                 it("type-page param is included with value product-detail") {
                     expect(sut.params!.stringKeyParams["type-page"] as? String) == "product-detail"

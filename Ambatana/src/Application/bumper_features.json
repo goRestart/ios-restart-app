@@ -89,5 +89,10 @@
         "name": "CarsCategoryAfterPicture",
         "values": ["no", "yes"],
         "description": "When cars vertical enabled, select category after image selection"
+    },
+    {
+        "name": "NewCarsMultiRequesterEnabled",
+        "values": ["no", "yes"],
+        "description": "Cars multi requester enabled"
     }
 ]

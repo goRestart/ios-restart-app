@@ -30,6 +30,7 @@ enum EventName: String {
     case loginBlockedAccountKeepBrowsing    = "login-blocked-account-keep-browsing"
 
     case productList                        = "product-list"
+    case productListVertical                = "product-list-vertical"
     case exploreCollection                  = "explore-collection"
     
     case searchStart                        = "search-start"
@@ -51,6 +52,8 @@ enum EventName: String {
     case firstMessage                       = "product-detail-ask-question"
     case productOpenChat                    = "product-detail-open-chat"
     case productMarkAsSold                  = "product-detail-sold"
+    case productMarkAsSoldAtLetgo           = "product-detail-sold-at-letgo"
+    case productMarkAsSoldOutsideLetgo      = "product-detail-sold-outside-letgo"
     case productMarkAsUnsold                = "product-detail-unsold"
     
     case productReport                      = "product-detail-report"
@@ -292,6 +295,10 @@ enum EventParameterName: String {
     case year                 = "product-year"
     case yearStart            = "product-year-start"
     case yearEnd              = "product-year-end"
+    case verticalKeyword            = "vertical-keyword"
+    case verticalMatchingFields     = "vertical-matching-fields"
+    case verticalNoMatchingFields   = "vertical-no-matching-fields"
+    case verticalFields             = "vertical-fields"
 }
 
 enum EventParameterBoolean: String {
@@ -690,6 +697,7 @@ enum EventParameterProductVisitSource: String {
     case chat = "chat"
     case openApp = "open-app"
     case notifications = "notifications"
+    case unknown = "N/A"
 }
 
 
