@@ -529,6 +529,7 @@
 "product_mark_as_sold_free_confirm_title" = "Markera den som bortskänkt";
 "product_mark_as_sold_free_success_message" = "Grattis! Din produkt har märkts som bortskänkt.";
 "product_mark_as_sold_success_message" = "Grattis, din produkt har markerats som såld!";
+"product_menu_rate_buyer" = "Betygsätt köpare";
 "product_more_info_open_button" = "MER INFO";
 "product_more_info_related_title" = "DU KANSKE ÄR INTRESSERAD AV:";
 "product_more_info_related_view_more" = "Läs mer";
@@ -687,7 +688,7 @@
 "rate_buyers_not_on_letgo_button" = "Jag sålde det inte på letgo";
 "rate_buyers_sub_message" = "Vem har du sålt detta till?";
 "rate_buyers_title" = "Vem köpte den här?";
-"rate_user_negative_didnt_show_up" = "Didn’t show up";
+"rate_user_negative_didnt_show_up" = "Dök inte upp";
 "rate_user_negative_item_not_as_advertised" = "Vilseledande annonsering";
 "rate_user_negative_not_polite" = "Oartig";
 "rate_user_negative_not_trustworthy" = "Opålitlig";

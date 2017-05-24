@@ -529,6 +529,7 @@
 "product_mark_as_sold_free_confirm_title" = "Segna come già regalato";
 "product_mark_as_sold_free_success_message" = "Congratulazioni! Il tuo prodotto è stato correttamente contrassegnato come regalato.";
 "product_mark_as_sold_success_message" = "Complimenti, Il tuo prodotto è stato contrassegnato come venduto.";
+"product_menu_rate_buyer" = "Lascia un giudizio sull'acquirente";
 "product_more_info_open_button" = "ALTRE INFO";
 "product_more_info_related_title" = "POTRESTI ESSERE INTERESSATO A:";
 "product_more_info_related_view_more" = "Vedi altro";
@@ -687,7 +688,7 @@
 "rate_buyers_not_on_letgo_button" = "Non l'ho venduto su letgo";
 "rate_buyers_sub_message" = "A chi lo hai venduto?";
 "rate_buyers_title" = "Chi lo ha comprato?";
-"rate_user_negative_didnt_show_up" = "Didn’t show up";
+"rate_user_negative_didnt_show_up" = "Non si è presentato";
 "rate_user_negative_item_not_as_advertised" = "Oggetto diverso dall'annuncio";
 "rate_user_negative_not_polite" = "Non educato";
 "rate_user_negative_not_trustworthy" = "Non affidabile";

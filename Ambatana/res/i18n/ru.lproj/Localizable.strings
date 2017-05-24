@@ -529,6 +529,7 @@
 "product_mark_as_sold_free_confirm_title" = "Отметить как отданный";
 "product_mark_as_sold_free_success_message" = "Поздравляем! Ваш товар отмечен как отданный.";
 "product_mark_as_sold_success_message" = "Поздравляем! Ваш товар отмечен как проданный!";
+"product_menu_rate_buyer" = "Оценить покупателя";
 "product_more_info_open_button" = "ЕЩЕ";
 "product_more_info_related_title" = "ВАС МОЖЕТ ЗАИНТЕРЕСОВАТЬ:";
 "product_more_info_related_view_more" = "Смотреть еще";
@@ -687,7 +688,7 @@
 "rate_buyers_not_on_letgo_button" = "Я продал не на letgo";
 "rate_buyers_sub_message" = "Кому вы продали товар?";
 "rate_buyers_title" = "Кто купил товар?";
-"rate_user_negative_didnt_show_up" = "Didn’t show up";
+"rate_user_negative_didnt_show_up" = "Не пришел";
 "rate_user_negative_item_not_as_advertised" = "Товар не из объявления";
 "rate_user_negative_not_polite" = "Невежливый";
 "rate_user_negative_not_trustworthy" = "Ненадежный";

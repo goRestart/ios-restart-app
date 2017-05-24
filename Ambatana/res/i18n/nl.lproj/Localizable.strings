@@ -529,6 +529,7 @@
 "product_mark_as_sold_free_confirm_title" = "Markeer het als weggegeven";
 "product_mark_as_sold_free_success_message" = "Gefeliciteerd! Je product is succesvol gemarkeerd als weggegeven.";
 "product_mark_as_sold_success_message" = "Gefeliciteerd, jouw product werd gemarkeerd als verkocht!";
+"product_menu_rate_buyer" = "Beoordeel koper";
 "product_more_info_open_button" = "MEER INFO";
 "product_more_info_related_title" = "MISSCHIEN BEN JE GEÏNTERESSEERD IN:";
 "product_more_info_related_view_more" = "Bekijk meer";
@@ -687,7 +688,7 @@
 "rate_buyers_not_on_letgo_button" = "Ik heb het niet verkocht op letgo";
 "rate_buyers_sub_message" = "Aan wie heb je dit verkocht?";
 "rate_buyers_title" = "Wie heeft dit gekocht?";
-"rate_user_negative_didnt_show_up" = "Didn’t show up";
+"rate_user_negative_didnt_show_up" = "Kwam niet opdagen";
 "rate_user_negative_item_not_as_advertised" = "Item niet zoals geadverteerd";
 "rate_user_negative_not_polite" = "Onbeleefd";
 "rate_user_negative_not_trustworthy" = "Onbetrouwbaar";

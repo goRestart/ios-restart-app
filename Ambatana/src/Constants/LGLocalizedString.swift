@@ -2227,6 +2227,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_mark_as_sold_success_message", comment: "")
 	}
 
+	static var productMenuRateBuyer: String {
+		return NSLocalizedString("product_menu_rate_buyer", comment: "")
+	}
+
 	static var productMoreInfoTooltipPart1: String {
 		return NSLocalizedString("product_more_info_tooltip_part_1", comment: "")
 	}

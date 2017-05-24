@@ -529,6 +529,7 @@
 "product_mark_as_sold_free_confirm_title" = "Merkitse pois annetuksi";
 "product_mark_as_sold_free_success_message" = "Onneksi olkoon! Tuotteesi merkittiin pois annetuksi onnistuneesti.";
 "product_mark_as_sold_success_message" = "Onneksi olkoon, tuotteesi on merkitty myydyksi!";
+"product_menu_rate_buyer" = "Arvostele ostaja";
 "product_more_info_open_button" = "LISÄTIEDOT";
 "product_more_info_related_title" = "SINUA SAATTAISI KIINNOSTAA:";
 "product_more_info_related_view_more" = "Näytä lisää";
@@ -687,7 +688,7 @@
 "rate_buyers_not_on_letgo_button" = "En myynyt tätä letgossa";
 "rate_buyers_sub_message" = "Kenelle myit tämän?";
 "rate_buyers_title" = "Kuka osti tämän?";
-"rate_user_negative_didnt_show_up" = "Didn’t show up";
+"rate_user_negative_didnt_show_up" = "Ei saapunut paikalle";
 "rate_user_negative_item_not_as_advertised" = "Tuote ei kuvauksen mukainen";
 "rate_user_negative_not_polite" = "Ei kohtelias";
 "rate_user_negative_not_trustworthy" = "Ei luotettava";

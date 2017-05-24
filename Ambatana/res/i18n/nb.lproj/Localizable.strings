@@ -529,6 +529,7 @@
 "product_mark_as_sold_free_confirm_title" = "Marker det som gitt bort";
 "product_mark_as_sold_free_success_message" = "Gratulerer! Ditt produkt har blitt markert som gitt bort.";
 "product_mark_as_sold_success_message" = "Gratulerer, ditt produkt ble markert som solgt!";
+"product_menu_rate_buyer" = "Ranger kjøper";
 "product_more_info_open_button" = "MER INFO";
 "product_more_info_related_title" = "DU KAN VÆRE INTERESSERT I:";
 "product_more_info_related_view_more" = "Se flere";
@@ -687,7 +688,7 @@
 "rate_buyers_not_on_letgo_button" = "Jeg solgte ikke dette produktet på letgo";
 "rate_buyers_sub_message" = "Hvem solgte du dette produktet til?";
 "rate_buyers_title" = "Hvem kjøpte dette?";
-"rate_user_negative_didnt_show_up" = "Didn’t show up";
+"rate_user_negative_didnt_show_up" = "Møtte ikke opp";
 "rate_user_negative_item_not_as_advertised" = "Produkt var ikke som annonsert";
 "rate_user_negative_not_polite" = "Ikke hyggelig";
 "rate_user_negative_not_trustworthy" = "Ikke troverdig";

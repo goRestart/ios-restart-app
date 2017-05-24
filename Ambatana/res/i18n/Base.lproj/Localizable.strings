@@ -1654,6 +1654,9 @@
 // Product mark as sold success message. Message displayal is like the other error messages
 "product_mark_as_sold_success_message" = "Congratulations, your product has been marked as sold!";
 
+// Rate the buyer when product is marked as sold.
+"product_menu_rate_buyer" = "Rate buyer";
+
 // Tooltip to see more info on snapchat, just the "tap" text
 "product_more_info_tooltip_part_1" = "Tap";
 

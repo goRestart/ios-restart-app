@@ -529,6 +529,7 @@
 "product_mark_as_sold_free_confirm_title" = "Marque como dado";
 "product_mark_as_sold_free_success_message" = "Parabéns! O seu produto foi marcado como dado com sucesso.";
 "product_mark_as_sold_success_message" = "Parabéns, o seu produto foi marcado como vendido!";
+"product_menu_rate_buyer" = "Classificar o comprador";
 "product_more_info_open_button" = "MAIS INFORMAÇÕES";
 "product_more_info_related_title" = "PODERÁ TER INTERESSE EM:";
 "product_more_info_related_view_more" = "Ver mais";
@@ -687,7 +688,7 @@
 "rate_buyers_not_on_letgo_button" = "Não o vendi no letgo";
 "rate_buyers_sub_message" = "A quem vendeu o artigo?";
 "rate_buyers_title" = "Quem comprou isto?";
-"rate_user_negative_didnt_show_up" = "Didn’t show up";
+"rate_user_negative_didnt_show_up" = "Não apareceu";
 "rate_user_negative_item_not_as_advertised" = "Item não está conforme o publicado";
 "rate_user_negative_not_polite" = "Não educado";
 "rate_user_negative_not_trustworthy" = "Não fidedigno";
