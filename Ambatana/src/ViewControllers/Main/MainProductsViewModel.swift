@@ -495,9 +495,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
             break
         }
     }
-
-    func visibleBottomCell(_ index: Int) { }
-
+    
 
     // MARK: > ProductListViewModelDataDelegate
 
