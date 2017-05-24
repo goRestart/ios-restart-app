@@ -65,6 +65,16 @@ enum ProductViewModelStatus {
             return false
         }
     }
+    
+    var isSold: Bool {
+        switch self {
+        case .sold, .soldFree:
+            return true
+        case .pending, .available, .availableFree, .otherAvailable, .otherAvailableFree, .otherSold, .otherSoldFree,
+             .notAvailable:
+            return false
+        }
+    }
 
     var isAvailable: Bool {
         switch self {

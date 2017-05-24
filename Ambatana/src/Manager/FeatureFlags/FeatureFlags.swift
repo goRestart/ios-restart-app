@@ -35,6 +35,7 @@ protocol FeatureFlaggeable {
     var quickAnswersRepeatedTextField: Bool { get }
     var carsVerticalEnabled: Bool { get }
     var carsCategoryAfterPicture: Bool { get }
+    var newMarkAsSoldFlow: Bool { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }

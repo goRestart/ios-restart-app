@@ -529,6 +529,7 @@
 "product_mark_as_sold_free_confirm_title" = "Mark it as given away";
 "product_mark_as_sold_free_success_message" = "Congratulations! Your product has been marked as given away.";
 "product_mark_as_sold_success_message" = "Congratulations, your product has been marked as sold!";
+"product_menu_rate_buyer" = "Rate buyer";
 "product_more_info_open_button" = "MORE INFO";
 "product_more_info_related_title" = "YOU MIGHT BE INTERESTED IN:";
 "product_more_info_related_view_more" = "View more";
@@ -687,6 +688,18 @@
 "rate_buyers_not_on_letgo_button" = "I didn't sell this on letgo";
 "rate_buyers_sub_message" = "Who did you sell this to?";
 "rate_buyers_title" = "Who bought this?";
+"rate_user_negative_didnt_show_up" = "Didn’t show up";
+"rate_user_negative_item_not_as_advertised" = "Item not as advertised";
+"rate_user_negative_not_polite" = "Not polite";
+"rate_user_negative_not_trustworthy" = "Not trustworthy";
+"rate_user_negative_slow_responses" = "Slow responses";
+"rate_user_negative_unfair_price" = "Unfair prices";
+"rate_user_positive_fair_prices" = "Fair prices";
+"rate_user_positive_helpful" = "Helpful";
+"rate_user_positive_polite" = "Polite";
+"rate_user_positive_quick_responses" = "Quick responses";
+"rate_user_positive_showed_up_on_time" = "Showed up on time";
+"rate_user_positive_trustworthy" = "Trustworthy";
 "rating_list_action_report_review" = "Report review";
 "rating_list_action_report_review_error_message" = "An error occurred while sending your report.";
 "rating_list_action_report_review_success_message" = "Your report has been sent!";

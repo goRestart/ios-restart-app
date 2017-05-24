@@ -2227,6 +2227,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_mark_as_sold_success_message", comment: "")
 	}
 
+	static var productMenuRateBuyer: String {
+		return NSLocalizedString("product_menu_rate_buyer", comment: "")
+	}
+
 	static var productMoreInfoTooltipPart1: String {
 		return NSLocalizedString("product_more_info_tooltip_part_1", comment: "")
 	}
@@ -2853,6 +2857,54 @@ struct LGLocalizedString {
 
 	static var rateBuyersNotOnLetgoButton: String {
 		return NSLocalizedString("rate_buyers_not_on_letgo_button", comment: "")
+	}
+
+	static var rateUserNegativeNotPolite: String {
+		return NSLocalizedString("rate_user_negative_not_polite", comment: "")
+	}
+
+	static var rateUserNegativeDidntShowUp: String {
+		return NSLocalizedString("rate_user_negative_didnt_show_up", comment: "")
+	}
+
+	static var rateUserNegativeSlowResponses: String {
+		return NSLocalizedString("rate_user_negative_slow_responses", comment: "")
+	}
+
+	static var rateUserNegativeUnfairPrice: String {
+		return NSLocalizedString("rate_user_negative_unfair_price", comment: "")
+	}
+
+	static var rateUserNegativeNotTrustworthy: String {
+		return NSLocalizedString("rate_user_negative_not_trustworthy", comment: "")
+	}
+
+	static var rateUserNegativeItemNotAsAdvertised: String {
+		return NSLocalizedString("rate_user_negative_item_not_as_advertised", comment: "")
+	}
+
+	static var rateUserPositivePolite: String {
+		return NSLocalizedString("rate_user_positive_polite", comment: "")
+	}
+
+	static var rateUserPositiveShowedUpOnTime: String {
+		return NSLocalizedString("rate_user_positive_showed_up_on_time", comment: "")
+	}
+
+	static var rateUserPositiveQuickResponses: String {
+		return NSLocalizedString("rate_user_positive_quick_responses", comment: "")
+	}
+
+	static var rateUserPositiveFairPrices: String {
+		return NSLocalizedString("rate_user_positive_fair_prices", comment: "")
+	}
+
+	static var rateUserPositiveHelpful: String {
+		return NSLocalizedString("rate_user_positive_helpful", comment: "")
+	}
+
+	static var rateUserPositiveTrustworthy: String {
+		return NSLocalizedString("rate_user_positive_trustworthy", comment: "")
 	}
 
 	static var ratingListActionReportReview: String {
