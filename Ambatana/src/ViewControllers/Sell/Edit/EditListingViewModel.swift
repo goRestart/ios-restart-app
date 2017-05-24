@@ -363,8 +363,8 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
             let okAction = UIAction(interface: UIActionInterface.styledText(LGLocalizedString.commonOk,
                 .standard), action: permissionsActionBlock)
             let alertIcon = UIImage(named: "ic_location_alert")
-            delegate?.vmShowAlertWithTitle(LGLocalizedString.editListingLocationAlertTitle,
-                                           text: LGLocalizedString.editListingLocationAlertText,
+            delegate?.vmShowAlertWithTitle(LGLocalizedString.editProductLocationAlertTitle,
+                                           text: LGLocalizedString.editProductLocationAlertText,
                                            alertType: .iconAlert(icon: alertIcon), actions: [okAction])
         } else {
             // enabled

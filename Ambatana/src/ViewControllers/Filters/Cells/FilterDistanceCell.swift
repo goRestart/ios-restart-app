@@ -28,15 +28,15 @@ class FilterDistanceCell: UICollectionViewCell {
     @IBOutlet weak var separatorHeight: NSLayoutConstraint!
     
     //Static positions
-    private let positions : [Int] = Constants.distanceFilterOptions
+    private let positions: [Int] = Constants.distanceFilterOptions
     
-    weak var delegate : FilterDistanceCellDelegate?
+    weak var delegate: FilterDistanceCellDelegate?
     
-    var distance : Int {
+    var distance: Int {
         return currentDistance()
     }
     
-    var distanceType : DistanceType = .km
+    var distanceType: DistanceType = .km
     
     // MARK: - Lifecycle
     
@@ -156,10 +156,10 @@ class FilterDistanceCell: UICollectionViewCell {
     private func updateTipLabel() {
         
         let currDist = currentDistance()
-        if(currDist == positions.first) {
+        if (currDist == positions.first) {
             //First option (0) means no distance
             distanceLabel.text = LGLocalizedString.filtersDistanceNotSet
-        }else if(currDist == positions.last) {
+        } else if (currDist == positions.last) {
             //Last option (100) will have the string: "max"
             distanceLabel.text = LGLocalizedString.commonMax
         } else {
