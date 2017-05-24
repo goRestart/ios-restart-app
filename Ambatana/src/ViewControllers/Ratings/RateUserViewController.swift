@@ -17,12 +17,15 @@ class RateUserViewController: BaseViewController {
     @IBOutlet weak var userNameText: UILabel!
     @IBOutlet weak var rateInfoText: UILabel!
     @IBOutlet var stars: [UIButton]!
+    
     @IBOutlet weak var descriptionContainer: UIView!
     @IBOutlet weak var descriptionText: UITextView!
     @IBOutlet weak var descriptionCharCounter: UILabel!
-    @IBOutlet weak var descriptionInfoLabel: UILabel!
+    
+    @IBOutlet weak var footerView: UIView!
     @IBOutlet weak var publishButton: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var footerLabel: UILabel!
 
     fileprivate var descrPlaceholder = LGLocalizedString.userRatingReviewPlaceholder
     fileprivate let descrPlaceholderColor = UIColor.gray
@@ -114,7 +117,7 @@ class RateUserViewController: BaseViewController {
         descriptionContainer.layer.borderWidth = LGUIKitConstants.onePixelSize
         descriptionText.text = descrPlaceholder
         descriptionText.textColor = descrPlaceholderColor
-        descriptionInfoLabel.text = LGLocalizedString.userRatingReviewInfo
+        footerLabel.text = LGLocalizedString.userRatingReviewInfo
 
         publishButton.setStyle(.primary(fontSize: .big))
 
