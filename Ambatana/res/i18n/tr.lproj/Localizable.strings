@@ -265,6 +265,9 @@
 "direct_answer_free_no_available" = "Üzgünüm, ürünü çoktan başkasına verdim!";
 "direct_answer_free_still_have" = "Ürün hala satılık mı?";
 "direct_answer_free_yours" = "Senin oldu!";
+"direct_answer_given_away_question_message" = "Ürününü ücretsiz olarak verildi olarak işaretle ki tüm letgo kullanıcıları bilsin";
+"direct_answer_given_away_question_ok" = "Ürünü ücretsiz verildi olarak işaretle";
+"direct_answer_given_away_question_title" = "Ürününü zaten ücretsiz olarak verdin mi?";
 "direct_answer_interested" = "İlgileniyorum!";
 "direct_answer_is_negotiable" = "Fiyatta pazarlık payı var mı?";
 "direct_answer_like_to_buy" = "Merhaba! Almak istiyorum";
@@ -291,6 +294,8 @@
 "edit_product_title" = "Ürünü Düzenle";
 "edit_product_unsaved_changes_alert" = "Bu değişiklikleri silmek istediğine emin misin?";
 "edit_product_unsaved_changes_alert_ok" = "Sil";
+"filter_results_cars_no_matches" = "Aramanla eşleşen bir sonuç yok.\nBenzer sonuçlar gösteriliyor. ";
+"filter_results_cars_other_results" = "Çevrende en son yayınlananlar";
 "filters_car_make_not_set" = "Belirlenmedi";
 "filters_car_model_not_set" = "Belirlenmedi";
 "filters_car_year_any_year" = "Herhangi bir Yıl";
@@ -312,6 +317,7 @@
 "filters_sort_newest" = "İlk önce en yenisi";
 "filters_sort_price_asc" = "Düşük fiyattan yüksek fiyata";
 "filters_sort_price_desc" = "Yüksek fiyattan düşük fiyata";
+"filters_tag_location_selected" = "Seçilen konum";
 "filters_title" = "Filtreler";
 "filters_within_all" = "Bütün ürünler";
 "filters_within_day" = "Son 24 saat";
@@ -504,6 +510,12 @@
 "product_list_item_time_minute_label" = "%idk";
 "product_list_no_products_body" = "Şehrindeki ilk kaşif sensin. Hoş geldin!";
 "product_list_no_products_title" = "ŞEHRİN KİLİDİ AÇILDI!";
+"product_mark_as_given_away_alert_message" = "Bu işlem geri alınamaz. Yalnızca alıcı ile buluşup ürünü ücretsiz olarak verdiğin zaman bunu seçmelisin. Devam etmek istiyor musun?";
+"product_mark_as_given_away_alert_title" = "Ürünü ücretsiz verildi olarak işaretle";
+"product_mark_as_sold_alert_cancel" = "Hayır";
+"product_mark_as_sold_alert_confirm" = "Evet";
+"product_mark_as_sold_alert_message" = "Bu işlem geri alınamaz. Yalnızca alıcı ile buluşup ödeme aldıysan bunu seç. Devam etmek istiyor musun?";
+"product_mark_as_sold_alert_title" = "Ürünü satıldı olarak işaretle";
 "product_mark_as_sold_button" = "Satıldı olarak işaretle";
 "product_mark_as_sold_confirm_cancel_button" = "İptal et";
 "product_mark_as_sold_confirm_message" = "Tebrikler! Bunu satıldı olarak işaretlemek istediğine emin misin?";
@@ -517,6 +529,7 @@
 "product_mark_as_sold_free_confirm_title" = "Ücretsiz verildi olarak işaretle";
 "product_mark_as_sold_free_success_message" = "Tebrikler! Ürünün başarıyla ücretsiz verildi olarak işaretlendi.";
 "product_mark_as_sold_success_message" = "Tebrikler, ürünün satıldı olarak işaretlendi!";
+"product_menu_rate_buyer" = "Alıcıyı değerlendir";
 "product_more_info_open_button" = "DAHA FAZLA BİLGİ";
 "product_more_info_related_title" = "BU ÜRÜNLER DE İLGİNİ ÇEKEBİLİR:";
 "product_more_info_related_view_more" = "Daha fazla bilgi";
@@ -675,6 +688,18 @@
 "rate_buyers_not_on_letgo_button" = "Bu ürünü letgo'da satmadım";
 "rate_buyers_sub_message" = "Bu ürünü kime sattın?";
 "rate_buyers_title" = "Bu ürünü kim aldı?";
+"rate_user_negative_didnt_show_up" = "Buluşmaya gelmedi";
+"rate_user_negative_item_not_as_advertised" = "Ürünü ilandaki gibi değildi";
+"rate_user_negative_not_polite" = "Kibar değil";
+"rate_user_negative_not_trustworthy" = "Güvenilmez";
+"rate_user_negative_slow_responses" = "Geç yanıt veriyor";
+"rate_user_negative_unfair_price" = "Fiyatları makul değil";
+"rate_user_positive_fair_prices" = "Makul fiyatlar";
+"rate_user_positive_helpful" = "Yardımcı oldu";
+"rate_user_positive_polite" = "Kibar";
+"rate_user_positive_quick_responses" = "Çabuk cevaplıyor";
+"rate_user_positive_showed_up_on_time" = "Buluşmaya zamanında geldi";
+"rate_user_positive_trustworthy" = "Güvenilir";
 "rating_list_action_report_review" = "Yorumu bildir";
 "rating_list_action_report_review_error_message" = "Şikayetin gönderilirken bir hata oluştu.";
 "rating_list_action_report_review_success_message" = "Şikayetin bildirildi!";

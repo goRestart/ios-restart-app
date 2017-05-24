@@ -265,6 +265,9 @@
 "direct_answer_free_no_available" = "Bocsi, már elajándékoztam!";
 "direct_answer_free_still_have" = "Még megvan?";
 "direct_answer_free_yours" = "A tiéd!";
+"direct_answer_given_away_question_message" = "Jelöld portékádat elajándékozottként, hogy a többiek is tudjanak róla";
+"direct_answer_given_away_question_ok" = "Megjelölés elajándékozottként";
+"direct_answer_given_away_question_title" = "Már elajándékoztad?";
 "direct_answer_interested" = "Érdekel!";
 "direct_answer_is_negotiable" = "Alkudható az ár?";
 "direct_answer_like_to_buy" = "Szia! Megvenném!";
@@ -291,6 +294,8 @@
 "edit_product_title" = "Portéka szerkesztése";
 "edit_product_unsaved_changes_alert" = "Biztosan elveted a módosításokat?";
 "edit_product_unsaved_changes_alert_ok" = "Elvetés";
+"filter_results_cars_no_matches" = "Nincs pontos találat a keresésre.\n Hasonló találatokat láthatsz.";
+"filter_results_cars_other_results" = "Nemrégiben meghirdetve a környéken.";
 "filters_car_make_not_set" = "Nincs megadva";
 "filters_car_model_not_set" = "Nincs megadva";
 "filters_car_year_any_year" = "Bármilyen évjárat";
@@ -312,6 +317,7 @@
 "filters_sort_newest" = "Legújabbak elöl";
 "filters_sort_price_asc" = "Ár szerint, növekvő";
 "filters_sort_price_desc" = "Ár szerint, csökkenő";
+"filters_tag_location_selected" = "Választott hely";
 "filters_title" = "Szűrők";
 "filters_within_all" = "Minden portéka";
 "filters_within_day" = "Az elmúlt 24 órában";
@@ -504,6 +510,12 @@
 "product_list_item_time_minute_label" = "%i p";
 "product_list_no_products_body" = "Te vagy az első felfedező ebből a városból. Üdv!";
 "product_list_no_products_title" = "VÁROS FELOLDVA!";
+"product_mark_as_given_away_alert_message" = "Ezt nem vonhatod vissza. Csak akkor válaszd, ha már találkoztál az érdeklődővel és át is adtad a tárgyat. Folytatod?";
+"product_mark_as_given_away_alert_title" = "Megjelölés elajándékozottként";
+"product_mark_as_sold_alert_cancel" = "Nem";
+"product_mark_as_sold_alert_confirm" = "Igen";
+"product_mark_as_sold_alert_message" = "Ezt nem vonhatod vissza. Csak akkor válaszd, ha már találkoztál a vásárlóval és megtörtént a tranzakció. Folytatod?";
+"product_mark_as_sold_alert_title" = "Megjelölés eladottként";
 "product_mark_as_sold_button" = "Megjelölés eladottként";
 "product_mark_as_sold_confirm_cancel_button" = "Mégse";
 "product_mark_as_sold_confirm_message" = "Gratulálunk, sikerült! Biztosan meg szeretnéd jelölni eladottként?";
@@ -517,6 +529,7 @@
 "product_mark_as_sold_free_confirm_title" = "Megjelölés elajándékozottként";
 "product_mark_as_sold_free_success_message" = "Gratulálunk! Portékád sikeresen elajándékozottá vált.";
 "product_mark_as_sold_success_message" = "Gratulálunk, portéka megjelölve eladottként!";
+"product_menu_rate_buyer" = "Vásárló értékelése";
 "product_more_info_open_button" = "RÉSZLETEK";
 "product_more_info_related_title" = "TALÁN ÉRDEKEL:";
 "product_more_info_related_view_more" = "Továbbiak";
@@ -588,7 +601,7 @@
 "product_post_retake" = "Újra";
 "product_post_retry_button" = "Újra";
 "product_post_select_category_cars" = "Autók";
-"product_post_select_category_motors_and_accessories" = "Other Vehicles and Parts";
+"product_post_select_category_motors_and_accessories" = "Más járművek és alkatrészek";
 "product_post_select_category_or" = "VAGY";
 "product_post_select_category_other" = "Valami más";
 "product_post_select_category_title" = "Mit készülsz meghirdetni?";
@@ -675,6 +688,18 @@
 "rate_buyers_not_on_letgo_button" = "Nem a letgo piacán adtam el";
 "rate_buyers_sub_message" = "Kinek adtad el?";
 "rate_buyers_title" = "Ki vette meg?";
+"rate_user_negative_didnt_show_up" = "Nem jött el";
+"rate_user_negative_item_not_as_advertised" = "Félrevezető hirdetés";
+"rate_user_negative_not_polite" = "Nem udvarias";
+"rate_user_negative_not_trustworthy" = "Megbízhatatlan";
+"rate_user_negative_slow_responses" = "Lassan válaszol";
+"rate_user_negative_unfair_price" = "Magas árak";
+"rate_user_positive_fair_prices" = "Jó árak";
+"rate_user_positive_helpful" = "Segítőkész";
+"rate_user_positive_polite" = "Udvarias";
+"rate_user_positive_quick_responses" = "Gyorsan válaszolt";
+"rate_user_positive_showed_up_on_time" = "Időben ott volt";
+"rate_user_positive_trustworthy" = "Megbízható";
 "rating_list_action_report_review" = "Értékelés jelentése";
 "rating_list_action_report_review_error_message" = "Hiba történt jelentésed beküldése során.";
 "rating_list_action_report_review_success_message" = "Jelentésed beküldve!";

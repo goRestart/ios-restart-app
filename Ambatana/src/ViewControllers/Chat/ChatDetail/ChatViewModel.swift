@@ -645,11 +645,24 @@ extension ChatViewModel {
     private func afterSendMessageEvents() {
         firstInteractionDone.value = true
         if shouldAskProductSold {
+            var interfaceText: String
+            var alertTitle: String
+            var soldQuestionText: String
+            
+            if productIsFree.value {
+                interfaceText = LGLocalizedString.directAnswerGivenAwayQuestionOk
+                alertTitle = LGLocalizedString.directAnswerGivenAwayQuestionTitle
+                soldQuestionText = LGLocalizedString.directAnswerGivenAwayQuestionMessage
+            } else {
+                interfaceText = LGLocalizedString.directAnswerSoldQuestionOk
+                alertTitle = LGLocalizedString.directAnswerSoldQuestionTitle
+                soldQuestionText = LGLocalizedString.directAnswerSoldQuestionMessage
+            }
             shouldAskProductSold = false
-            let action = UIAction(interface: UIActionInterface.text(LGLocalizedString.directAnswerSoldQuestionOk),
+            let action = UIAction(interface: UIActionInterface.text(interfaceText),
                                   action: { [weak self] in self?.markProductAsSold() })
-            delegate?.vmShowAlert(LGLocalizedString.directAnswerSoldQuestionTitle,
-                                  message: LGLocalizedString.directAnswerSoldQuestionMessage,
+            delegate?.vmShowAlert(alertTitle,
+                                  message: soldQuestionText,
                                   cancelLabel: LGLocalizedString.commonCancel,
                                   actions: [action])
         } else if pushPermissionsManager.shouldShowPushPermissionsAlertFromViewController(.chat(buyer: isBuyer)) {
@@ -1177,7 +1190,7 @@ fileprivate extension ChatViewModel {
 
         if shouldTrackFirstMessage {
             shouldTrackFirstMessage = false
-            tracker.trackEvent(TrackerEvent.firstMessage(info: info))
+            tracker.trackEvent(TrackerEvent.firstMessage(info: info, productVisitSource: .unknown))
         }
         tracker.trackEvent(TrackerEvent.userMessageSent(info: info))
     }
@@ -1306,9 +1319,11 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
     
     func directAnswersDidTapAnswer(_ controller: DirectAnswersPresenter, answer: QuickAnswer) {
         switch answer {
-        case .productSold:
+        case .productSold, .freeNotAvailable:
             onProductSoldDirectAnswer()
-        default:
+        case .interested, .notInterested, .meetUp, .stillAvailable, .isNegotiable, .likeToBuy, .productCondition,
+             .productStillForSale, .whatsOffer, .negotiableYes, .negotiableNo, .freeStillHave, .freeYours,
+             .freeAvailable:
             clearProductSoldDirectAnswer()
         }
         send(quickAnswer: answer)
@@ -1332,7 +1347,7 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
     }
     
     private func onProductSoldDirectAnswer() {
-        if chatStatus.value != .productSold {
+        if chatStatus.value == .available {
             shouldAskProductSold = true
         }
     }

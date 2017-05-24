@@ -8,6 +8,16 @@
 
 // MARK: - PARAMS
 
+public struct RetrieveListingParam<T: Equatable> {
+    public let value: T
+    public let isNegated: Bool
+    
+    public init(value: T, isNegated: Bool) {
+        self.value = value
+        self.isNegated = isNegated
+    }
+}
+
 public struct RetrieveListingParams {
     public var queryString: String?
     public var coordinates: LGLocationCoordinates2D?
@@ -23,10 +33,10 @@ public struct RetrieveListingParams {
     public var freePrice: Bool?
     public var distanceRadius: Int?
     public var distanceType: DistanceType?
-    public var makeId: String?
-    public var modelId: String?
-    public var startYear: Int?
-    public var endYear: Int?
+    public var makeId: RetrieveListingParam<String>?
+    public var modelId: RetrieveListingParam<String>?
+    public var startYear: RetrieveListingParam<Int>?
+    public var endYear: RetrieveListingParam<Int>?
     
     public init() { }
     
@@ -77,14 +87,48 @@ public struct RetrieveListingParams {
         params["sort"] = sortCriteria?.string
         params["since"] = timeCriteria?.string
         
-        // Car attributes: 
-        var attributes = Dictionary<String, Any>()
-        attributes["make"] = makeId
-        attributes["model"] = modelId
-        attributes["start_year"] = startYear
-        attributes["end_year"] = endYear
-        if attributes.keys.count > 0 {
-            params["attributes"] = attributes
+        // Car attributes
+        var carsPositiveAttrs = [String: Any]()
+        var carsNegativeAttrs = [String: Any]()
+        
+        if let makeId = makeId {
+            let value = makeId.value
+            if makeId.isNegated {
+                carsNegativeAttrs["make"] = value
+            } else {
+                carsPositiveAttrs["make"] = value
+            }
+        }
+        if let modelId = modelId {
+            let value = modelId.value
+            if modelId.isNegated {
+                carsNegativeAttrs["model"] = value
+            } else {
+                carsPositiveAttrs["model"] = value
+            }
+        }
+        if let startYear = startYear {
+            let value = startYear.value
+            if startYear.isNegated {
+                carsNegativeAttrs["start_year"] = value
+            } else {
+                carsPositiveAttrs["start_year"] = value
+            }
+        }
+        if let endYear = endYear {
+            let value = endYear.value
+            if endYear.isNegated {
+                carsNegativeAttrs["end_year"] = value
+            } else {
+                carsPositiveAttrs["end_year"] = value
+            }
+        }
+        
+        if carsPositiveAttrs.keys.count > 0 {
+            params["attributes"] = carsPositiveAttrs
+        }
+        if carsNegativeAttrs.keys.count > 0 {
+            params["negative_attributes"] = carsNegativeAttrs
         }
         return params
     }

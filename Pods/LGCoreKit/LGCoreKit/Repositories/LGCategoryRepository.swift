@@ -1,3 +1,4 @@
+
 //
 //  LGCategoryRepository.swift
 //  LGCoreKit
@@ -9,11 +10,7 @@
 
 final class LGCategoryRepository: CategoryRepository {
 
-    func index(filterVisible filter: Bool, completion: CategoriesCompletion?) {
-        if filter {
-            completion?(CategoriesResult(value: ListingCategory.visibleValues()))
-        } else {
-            completion?(CategoriesResult(value: ListingCategory.allValues()))
-        }
+    func index(filterVisible filtered: Bool, completion: CategoriesCompletion?) {
+        completion?(CategoriesResult(value: ListingCategory.visibleValues(filtered: filtered)))
     }
 }

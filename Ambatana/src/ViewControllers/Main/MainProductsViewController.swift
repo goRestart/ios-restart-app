@@ -28,7 +28,13 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     @IBOutlet weak var productListView: ProductListView!
     
     @IBOutlet weak var tagsCollectionView: UICollectionView!
-    var tagsCollectionTopSpace: NSLayoutConstraint?
+    @IBOutlet weak var tagsCollectionHeightConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var filterDescriptionHeaderViewContainer: UIView!
+    @IBOutlet weak var filterTitleHeaderViewContainer: UIView!
+    fileprivate let filterDescriptionHeaderView = FilterDescriptionHeaderView()
+    fileprivate let filterTitleHeaderView = FilterTitleHeaderView()
+    @IBOutlet weak var filterDescriptionTopConstraint: NSLayoutConstraint!
 
     fileprivate let infoBubbleTopMargin: CGFloat = 8
     fileprivate let verticalMarginHeaderView: CGFloat = 16
@@ -36,7 +42,6 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     fileprivate let sectionHeight: CGFloat = 54
     fileprivate let firstSectionMarginTop: CGFloat = -36
     fileprivate let numberOfSuggestionSections = 2
-    fileprivate let heightFiltersTagView: CGFloat = 40
     @IBOutlet weak var infoBubbleLabel: UILabel!
     @IBOutlet weak var infoBubbleShadow: UIView!
     @IBOutlet weak var infoBubbleTopConstraint: NSLayoutConstraint!
@@ -47,7 +52,6 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     
     private var tagsViewController : FilterTagsViewController?
     private var tagsShowing : Bool = false
-    private var tagsAnimating : Bool = false
 
     private let topInset = Variable<CGFloat> (0)
 
@@ -55,6 +59,16 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     
     fileprivate var categoriesHeader: CategoriesHeaderCollectionView?
 
+    fileprivate static let filterTagsViewHeight: CGFloat = 40
+    fileprivate var filterHeadersHeight: CGFloat {
+        return filterDescriptionHeaderView.height + filterTitleHeaderView.height
+    }
+    fileprivate var topHeadersHeight: CGFloat {
+        return filterHeadersHeight + tagsCollectionView.height
+    }
+    fileprivate var collectionViewHeadersHeight: CGFloat {
+        return productListView.headerDelegate?.totalHeaderHeight() ?? 0
+    }
     
     // MARK: - Lifecycle
 
@@ -82,7 +96,9 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        topInset.value = topBarHeight
+        
+        setupFilterHeaders()
+        
         productListView.collectionViewContentInset.bottom = tabBarHeight
             + LGUIKitConstants.tabBarSellFloatingButtonHeight
             + LGUIKitConstants.tabBarSellFloatingButtonDistance
@@ -109,7 +125,9 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         setInviteNavBarButton()
         setupRxBindings()
         setAccessibilityIds()
-        productListView.collectionViewContentInset.top = topBarHeight + (tagsShowing ? heightFiltersTagView : 0)
+        
+        view.layoutIfNeeded()
+        topInset.value = topBarHeight + filterHeadersHeight
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -141,20 +159,48 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     func productListView(_ productListView: ProductListView, didScrollDown scrollDown: Bool) {
         guard viewModel.active else { return }
 
-        if let tagsVC = self.tagsViewController, !tagsVC.tags.isEmpty {
-            showTagsView(!scrollDown, updateInsets: false)
+        // Hide tab bar once all headers inside collection are gone
+        let headersCollection = productListView.headerDelegate?.totalHeaderHeight() ?? 0
+        if productListView.collectionView.contentOffset.y > headersCollection ||
+           productListView.collectionView.contentOffset.y <= -topHeadersHeight  {
+            // Move tags view along iwth tab bar
+            if let tagsVC = self.tagsViewController, !tagsVC.tags.isEmpty {
+                showTagsView(!scrollDown, updateInsets: false)
+            }
+            setBars(hidden: scrollDown)
         }
-        setBars(hidden: scrollDown)
     }
 
     func productListView(_ productListView: ProductListView, didScrollWithContentOffsetY contentOffsetY: CGFloat) {
         updateBubbleTopConstraint()
+        updateFilterHeaderTopConstraint(withContentOffsetY: contentOffsetY)
+    }
+    
+    private func updateFilterHeaderTopConstraint(withContentOffsetY contentOffsetY: CGFloat) {
+        // ignore positive values
+        guard contentOffsetY <= 0 else { return }
+        // ignore values higher than the topInset
+        guard abs(contentOffsetY) <= topInset.value else {
+            filterDescriptionTopConstraint.constant = 0
+            return
+        }
+        
+        let filterHeadersOffset = topInset.value + contentOffsetY
+        if filterHeadersOffset <= filterDescriptionHeaderView.height {
+            // move upwards until description header is completely below
+            filterDescriptionTopConstraint.constant = -filterHeadersOffset
+            filterDescriptionHeaderView.alpha = 1
+        } else {
+            // description header is completely below and also hidden
+            filterDescriptionTopConstraint.constant = -filterDescriptionHeaderView.height
+            filterDescriptionHeaderView.alpha = 0.1
+        }
     }
 
     private func updateBubbleTopConstraint() {
         let delta = productListView.headerBottom - topInset.value
         if delta > 0 {
-            infoBubbleTopConstraint.constant = infoBubbleTopMargin + delta
+                infoBubbleTopConstraint.constant = infoBubbleTopMargin + delta
         } else {
             infoBubbleTopConstraint.constant = infoBubbleTopMargin
         }
@@ -193,6 +239,26 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         guard let query = textField.text else { return true }
         viewModel.search(query)
         return true
+    }
+    
+    // MARK: - FilterHeaders
+    
+    private func setupFilterHeaders() {
+        filterDescriptionHeaderView.translatesAutoresizingMaskIntoConstraints = false
+        filterDescriptionHeaderViewContainer.addSubview(filterDescriptionHeaderView)
+        filterDescriptionHeaderView.layout(with: filterDescriptionHeaderViewContainer).fill()
+        
+        filterTitleHeaderView.translatesAutoresizingMaskIntoConstraints = false
+        filterTitleHeaderViewContainer.addSubview(filterTitleHeaderView)
+        filterTitleHeaderView.layout(with: filterTitleHeaderViewContainer).fill()
+    }
+    
+    func setFilterHeaderTitle(withText text: String) {
+        filterTitleHeaderView.text = text
+    }
+    
+    func setFilterHeaderDescription(withText text: String) {
+        filterDescriptionHeaderView.text = text
     }
     
     // MARK: - FilterTagsViewControllerDelegate
@@ -239,12 +305,8 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     }
     
     private func setupTagsView() {
-        tagsCollectionTopSpace = NSLayoutConstraint(item: tagsCollectionView, attribute: .top, relatedBy: .equal,
-            toItem: topLayoutGuide, attribute: .bottom, multiplier: 1.0, constant: -heightFiltersTagView)
-        if let tagsCollectionTopSpace = tagsCollectionTopSpace {
-            view.addConstraint(tagsCollectionTopSpace)
-        }
-
+        view.addConstraint(NSLayoutConstraint(item: tagsCollectionView, attribute: .top, relatedBy: .equal,
+                                              toItem: topLayoutGuide, attribute: .bottom, multiplier: 1.0, constant: 0))
         tagsViewController = FilterTagsViewController(collectionView: self.tagsCollectionView)
         tagsViewController?.delegate = self
         loadTagsViewWithTags(viewModel.tags)
@@ -281,35 +343,26 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     }
     
     private func showTagsView(_ show: Bool, updateInsets: Bool) {
-        if tagsAnimating || tagsShowing == show {
+        if tagsShowing == show {
             return
         }
-        
         tagsShowing = show
-        tagsAnimating = true
         
         if show {
             tagsCollectionView.isHidden = false
         }
 
-        let tagsHeight = tagsCollectionView.frame.size.height
-        tagsCollectionTopSpace?.constant = show ? 0.0 : -tagsHeight
+        tagsCollectionHeightConstraint.constant = show ? MainProductsViewController.filterTagsViewHeight : 0
         if updateInsets {
-            topInset.value = show ? topBarHeight + tagsHeight : topBarHeight
+            topInset.value = show ?
+                topBarHeight + MainProductsViewController.filterTagsViewHeight + filterHeadersHeight
+                : topBarHeight
         }
-
-        UIView.animate(
-            withDuration: 0.2,
-            animations: { [weak self]  in
-                self?.view.layoutIfNeeded()
-            },
-            completion: { [weak self] (value: Bool) in
-                if !show {
-                    self?.tagsCollectionView.isHidden = true
-                }
-                self?.tagsAnimating = false
-            }
-        )
+        view.layoutIfNeeded()
+        
+        if !show {
+            tagsCollectionView.isHidden = true
+        }
     }
     
     private func setupInfoBubble() {
@@ -328,7 +381,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         viewModel.infoBubbleText.asObservable().bindTo(infoBubbleLabel.rx.text).addDisposableTo(disposeBag)
         viewModel.infoBubbleVisible.asObservable().map { !$0 }.bindTo(infoBubbleShadow.rx.isHidden).addDisposableTo(disposeBag)
 
-        topInset.asObservable().skip(1).bindNext { [weak self] topInset in
+        topInset.asObservable().bindNext { [weak self] topInset in
                 self?.productListView.collectionViewContentInset.top = topInset
         }.addDisposableTo(disposeBag)
 
@@ -343,6 +396,22 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
             } else {
                 self?.setToastViewHidden(true)
             }
+        }.addDisposableTo(disposeBag)
+
+        viewModel.filterTitle.asObservable().distinctUntilChanged { (s1, s2) -> Bool in
+            s1 == s2
+        }.bindNext { [weak self] filterTitle in
+            guard let strongSelf = self else { return }
+            strongSelf.filterTitleHeaderView.text = filterTitle
+            let tagsHeight = strongSelf.tagsShowing ? MainProductsViewController.filterTagsViewHeight : 0
+            strongSelf.topInset.value = strongSelf.topBarHeight + tagsHeight + strongSelf.filterHeadersHeight
+        }.addDisposableTo(disposeBag)
+
+        viewModel.filterDescription.asObservable().bindNext { [weak self] filterDescr in
+            guard let strongSelf = self else { return }
+            strongSelf.filterDescriptionHeaderView.text = filterDescr
+            let tagsHeight = strongSelf.tagsShowing ? MainProductsViewController.filterTagsViewHeight : 0
+            strongSelf.topInset.value = strongSelf.topBarHeight + tagsHeight + strongSelf.filterHeadersHeight
         }.addDisposableTo(disposeBag)
     }
 }

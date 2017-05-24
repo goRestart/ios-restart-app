@@ -10,14 +10,14 @@ import LGCoreKit
 
 extension ListingCategory {
     
-    var name : String {
+    func getName(isCarsEnabled: Bool) -> String {
         switch(self) {
         case .unassigned:
             return LGLocalizedString.categoriesUnassigned
         case .electronics:
             return LGLocalizedString.categoriesElectronics
         case .motorsAndAccessories:
-            return LGLocalizedString.categoriesCarsAndMotors
+            return isCarsEnabled ? LGLocalizedString.categoriesCarsAndMotors : LGLocalizedString.categoriesOldCarsAndMotors
         case .sportsLeisureAndGames:
             return LGLocalizedString.categoriesSportsLeisureAndGames
         case .homeAndGarden:

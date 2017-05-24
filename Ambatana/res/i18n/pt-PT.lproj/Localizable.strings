@@ -265,6 +265,9 @@
 "direct_answer_free_no_available" = "Lamento mas já dei!";
 "direct_answer_free_still_have" = "Ainda tem?";
 "direct_answer_free_yours" = "É seu!";
+"direct_answer_given_away_question_message" = "Informe todos os utilizadores letgo marcando o seu produto como dado";
+"direct_answer_given_away_question_ok" = "Marque como dado";
+"direct_answer_given_away_question_title" = "Já o deu?";
 "direct_answer_interested" = "Tenho interesse!";
 "direct_answer_is_negotiable" = "O preço é negociável?";
 "direct_answer_like_to_buy" = "Olá! Gostava de o comprar";
@@ -291,6 +294,8 @@
 "edit_product_title" = "Editar artigo";
 "edit_product_unsaved_changes_alert" = "Tem a certeza de que deseja rejeitar estas alterações?";
 "edit_product_unsaved_changes_alert_ok" = "Rejeitar";
+"filter_results_cars_no_matches" = "A sua pesquisa não devolveu resultados exatos.\nA exibir resultados semelhantes. ";
+"filter_results_cars_other_results" = "Publicado recentemente na sua área";
 "filters_car_make_not_set" = "Não Definida";
 "filters_car_model_not_set" = "Não Definido";
 "filters_car_year_any_year" = "Qualquer Ano";
@@ -312,6 +317,7 @@
 "filters_sort_newest" = "Os mais recentes primeiro";
 "filters_sort_price_asc" = "Preço: do menor para o maior";
 "filters_sort_price_desc" = "Preço: do maior para o menor";
+"filters_tag_location_selected" = "Localização selecionada";
 "filters_title" = "Filtros";
 "filters_within_all" = "Todos os produtos";
 "filters_within_day" = "Últimas 24 horas";
@@ -504,6 +510,12 @@
 "product_list_item_time_minute_label" = "%imn";
 "product_list_no_products_body" = "É o primeiro explorador da sua cidade. Bem-vindo!";
 "product_list_no_products_title" = "CIDADE DESBLOQUEADA!";
+"product_mark_as_given_away_alert_message" = "Esta ação é irreversível Selecione-a apenas quando se tiver encontrado com o comprador e ter dado o item. Continuar?";
+"product_mark_as_given_away_alert_title" = "Marcar o item como dado";
+"product_mark_as_sold_alert_cancel" = "Não";
+"product_mark_as_sold_alert_confirm" = "Sim";
+"product_mark_as_sold_alert_message" = "Esta ação não pode ser revertida. Selecione-a apenas quando tiver marcado encontro com o comprador e recebido o pagamento. Continuar?";
+"product_mark_as_sold_alert_title" = "Marcar o item como vendido";
 "product_mark_as_sold_button" = "Marcar como vendido";
 "product_mark_as_sold_confirm_cancel_button" = "Cancelar";
 "product_mark_as_sold_confirm_message" = "Parabéns, conseguiu! Tem a certeza que deseja marcar este artigo como vendido?";
@@ -517,6 +529,7 @@
 "product_mark_as_sold_free_confirm_title" = "Marque como dado";
 "product_mark_as_sold_free_success_message" = "Parabéns! O seu produto foi marcado como dado com sucesso.";
 "product_mark_as_sold_success_message" = "Parabéns, o seu produto foi marcado como vendido!";
+"product_menu_rate_buyer" = "Classificar o comprador";
 "product_more_info_open_button" = "MAIS INFORMAÇÕES";
 "product_more_info_related_title" = "PODERÁ TER INTERESSE EM:";
 "product_more_info_related_view_more" = "Ver mais";
@@ -588,7 +601,7 @@
 "product_post_retake" = "Refazer";
 "product_post_retry_button" = "Tente novamente";
 "product_post_select_category_cars" = "Viaturas";
-"product_post_select_category_motors_and_accessories" = "Other Vehicles and Parts";
+"product_post_select_category_motors_and_accessories" = "Outros Veículos e Peças";
 "product_post_select_category_or" = "OU";
 "product_post_select_category_other" = "Outros itens";
 "product_post_select_category_title" = "O que está a publicar?";
@@ -675,6 +688,18 @@
 "rate_buyers_not_on_letgo_button" = "Não o vendi no letgo";
 "rate_buyers_sub_message" = "A quem vendeu o artigo?";
 "rate_buyers_title" = "Quem comprou isto?";
+"rate_user_negative_didnt_show_up" = "Não apareceu";
+"rate_user_negative_item_not_as_advertised" = "Item não está conforme o publicado";
+"rate_user_negative_not_polite" = "Não educado";
+"rate_user_negative_not_trustworthy" = "Não fidedigno";
+"rate_user_negative_slow_responses" = "Demora a responder";
+"rate_user_negative_unfair_price" = "Preços injustos";
+"rate_user_positive_fair_prices" = "Preços justos";
+"rate_user_positive_helpful" = "Prestativo";
+"rate_user_positive_polite" = "Educado";
+"rate_user_positive_quick_responses" = "Respostas rápidas";
+"rate_user_positive_showed_up_on_time" = "Apareceu a horas";
+"rate_user_positive_trustworthy" = "Fidedigno";
 "rating_list_action_report_review" = "Denunciar comentário";
 "rating_list_action_report_review_error_message" = "Ocorreu um erro no envio da sua denúncia.";
 "rating_list_action_report_review_success_message" = "A sua denuncia foi enviada!";

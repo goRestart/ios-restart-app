@@ -30,6 +30,7 @@ FilterCarInfoYearCellDelegate, UICollectionViewDataSource, UICollectionViewDeleg
     private var categoryCellSize = CGSize(width: 0.0, height: 0.0)
     private var singleCheckCellSize = CGSize(width: 0.0, height: 0.0)
     private var priceCellSize = CGSize(width: 0.0, height: 0.0)
+    private var yearRangeCellSize = CGSize(width: 0.0, height: 0.0)
 
     // Price kb scroll
     private var priceToCellFrame: CGRect = CGRect.zero
@@ -164,7 +165,7 @@ FilterCarInfoYearCellDelegate, UICollectionViewDataSource, UICollectionViewDeleg
                 case 0, 1:
                     return singleCheckCellSize
                 case 2:
-                    return distanceCellSize
+                    return yearRangeCellSize
                 default:
                     return singleCheckCellSize
                 }
@@ -382,6 +383,7 @@ FilterCarInfoYearCellDelegate, UICollectionViewDataSource, UICollectionViewDeleg
         categoryCellSize = CGSize(width: screenWidth * 0.5, height: 50.0)
         singleCheckCellSize = CGSize(width: screenWidth, height: 50.0)
         priceCellSize = CGSize(width: screenWidth, height: 50.0)
+        yearRangeCellSize = CGSize(width: screenWidth, height: 100.0)
 
         // Rounded save button
         saveFiltersBtn.setStyle(.primary(fontSize: .medium))

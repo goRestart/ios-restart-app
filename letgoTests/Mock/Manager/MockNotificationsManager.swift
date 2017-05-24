@@ -24,12 +24,14 @@ class MockNotificationsManager: NotificationsManager {
     }
     let marketingNotifications = Variable<Bool>(false)
     let loggedInMktNofitications = Variable<Bool>(false)
+    
+    var updateCountersCalled: Bool = false
 
     func setup() {
 
     }
     func updateCounters() {
-
+        updateCountersCalled = true
     }
     func updateChatCounters() {
 

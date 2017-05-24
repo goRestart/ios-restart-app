@@ -38,10 +38,10 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vF7-pH-nC6" customClass="NHRangeSliderView" customModule="LetGo" customModuleProvider="target">
-                        <rect key="frame" x="30" y="61" width="319" height="30"/>
+                        <rect key="frame" x="15" y="55" width="349" height="36"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="30" id="puM-nM-8t4"/>
+                            <constraint firstAttribute="height" constant="36" id="puM-nM-8t4"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="trackHighlightTintColor">
@@ -62,14 +62,14 @@
             <constraints>
                 <constraint firstItem="e7e-Bk-57e" firstAttribute="leading" secondItem="odN-N2-t2i" secondAttribute="leading" id="1Lb-nS-iFO"/>
                 <constraint firstItem="SU2-Zq-TuO" firstAttribute="top" secondItem="L6B-NU-GOa" secondAttribute="bottom" constant="15" id="3F3-lH-963"/>
-                <constraint firstItem="vF7-pH-nC6" firstAttribute="leading" secondItem="odN-N2-t2i" secondAttribute="leading" constant="30" id="A7o-OI-4ao"/>
+                <constraint firstItem="vF7-pH-nC6" firstAttribute="leading" secondItem="odN-N2-t2i" secondAttribute="leading" constant="15" id="A7o-OI-4ao"/>
                 <constraint firstItem="L6B-NU-GOa" firstAttribute="top" secondItem="odN-N2-t2i" secondAttribute="top" id="Bbd-Vv-G4C"/>
                 <constraint firstItem="h2d-7S-6QF" firstAttribute="top" secondItem="L6B-NU-GOa" secondAttribute="bottom" constant="15" id="G9B-mR-iFg"/>
                 <constraint firstAttribute="trailing" secondItem="L6B-NU-GOa" secondAttribute="trailing" id="Knn-yb-S5c"/>
                 <constraint firstItem="SU2-Zq-TuO" firstAttribute="leading" secondItem="odN-N2-t2i" secondAttribute="leading" constant="15" id="S8a-5e-clZ"/>
                 <constraint firstItem="e7e-Bk-57e" firstAttribute="top" secondItem="vF7-pH-nC6" secondAttribute="bottom" constant="8" id="TZL-oF-RLW"/>
                 <constraint firstAttribute="trailing" secondItem="h2d-7S-6QF" secondAttribute="trailing" constant="15" id="V9O-au-D6A"/>
-                <constraint firstAttribute="trailing" secondItem="vF7-pH-nC6" secondAttribute="trailing" constant="30" id="Z7a-se-tOB"/>
+                <constraint firstAttribute="trailing" secondItem="vF7-pH-nC6" secondAttribute="trailing" constant="15" id="Z7a-se-tOB"/>
                 <constraint firstAttribute="bottom" secondItem="e7e-Bk-57e" secondAttribute="bottom" id="aJ9-D7-8Qw"/>
                 <constraint firstItem="L6B-NU-GOa" firstAttribute="leading" secondItem="odN-N2-t2i" secondAttribute="leading" id="d38-LO-NaH"/>
                 <constraint firstItem="h2d-7S-6QF" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="SU2-Zq-TuO" secondAttribute="trailing" constant="20" id="mAc-QS-qlm"/>
@@ -77,6 +77,7 @@
             </constraints>
             <size key="customSize" width="450" height="50"/>
             <connections>
+                <outlet property="bottomSeparator" destination="e7e-Bk-57e" id="tRa-ds-oEU"/>
                 <outlet property="bottomSeparatorHeight" destination="BAj-Wl-a7v" id="loE-DJ-TOt"/>
                 <outlet property="infoLabel" destination="h2d-7S-6QF" id="htF-t7-4bf"/>
                 <outlet property="titleLabel" destination="SU2-Zq-TuO" id="Ey8-de-Aab"/>

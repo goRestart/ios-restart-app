@@ -40,6 +40,7 @@ class ProductCarouselViewModel: BaseViewModel {
             setCurrentIndex(currentIndex)
         }
     }
+    
     weak var delegate: ProductCarouselViewModelDelegate?
     weak var navigator: ProductDetailNavigator? {
         didSet {
@@ -259,7 +260,6 @@ class ProductCarouselViewModel: BaseViewModel {
         currentProductViewModel?.delegate = self
         currentProductViewModel?.active = active
         currentIndex = index
-        
         setupCurrentProductVMRxBindings(forIndex: index)
         prefetchNeighborsImages(index, movement: movement)
 
@@ -340,7 +340,7 @@ class ProductCarouselViewModel: BaseViewModel {
         if let vm = productsViewModels[listingId] {
             return vm
         }
-        let vm = productViewModelMaker.make(listing: listing)
+        let vm = productViewModelMaker.make(listing: listing, visitSource: source)
         vm.navigator = navigator
         productsViewModels[listingId] = vm
         return vm
@@ -401,10 +401,10 @@ extension ProductCarouselViewModel: Paginable {
         let isFirstPage = (page == firstPage)
         isLoading = true
         
-        let completion: ListingsCompletion = { [weak self] result in
+        let completion: ListingsRequesterCompletion = { [weak self] result in
             guard let strongSelf = self else { return }
             self?.isLoading = false
-            if let newListings = result.value {
+            if let newListings = result.listingsResult.value {
                 strongSelf.nextPage = strongSelf.nextPage + 1
                 strongSelf.objects.appendContentsOf(newListings.map(ProductCarouselCellModel.init))
                 

@@ -106,6 +106,13 @@ extension UIColor {
 }
 
 
+// MARK: > View Controller Color: 
+
+extension UIColor {
+    
+    static var viewControllerBackground: UIColor { return grayBackground }
+}
+
 // MARK: > Categories colors
 
 extension UIColor {
@@ -225,7 +232,7 @@ extension UIColor {
 
 extension UIColor {
 
-    static var listBackgroundColor: UIColor { return reddishWhite }
+    static var listBackgroundColor: UIColor { return grayBackground }
 
     static var chatMyBubbleBgColor: UIColor { return primaryColorAlpha16 }
     static var chatMyBubbleBgColorSelected: UIColor { return primaryColorAlpha30 }
@@ -233,7 +240,6 @@ extension UIColor {
     static var chatOthersBubbleBgColor: UIColor { return white }
     static var chatOthersBubbleBgColorSelected: UIColor { return grayLighter }
 
-    private static let reddishWhite = UIColor(rgb: 0xF7F3F3)
     private static let primaryColorAlpha16 = UIColor(rgb: 0xFFE0E4)
     private static let primaryColorAlpha30 = UIColor(rgb: 0xFFC6CD)
 
@@ -247,6 +253,7 @@ extension UIColor {
     private static let brownLight = UIColor(rgb: 0xE9E2D7)
     private static let brownMedium = UIColor(rgb: 0xD8CAB7)
     private static let greenMedium = UIColor(rgb: 0xC7C8B5)
+    
 
     // Placeholder Colors array
     private static let palette = [gray, grayLight, brownDark, cream, brownLight, brownMedium, greenMedium]
