@@ -66,4 +66,12 @@ extension MainTabCoordinator: MainTabNavigator {
         let navVC = UINavigationController(rootViewController: vc)
         navigationController.present(navVC, animated: true, completion: nil)
     }
+
+    func openLocationSelection() {
+        // TODO: Check ABTest
+        let zipLocationVM = LocationFromZipCodeViewModel()
+        let zipLocationVC = LocationFromZipCodeViewController(viewModel: zipLocationVM)
+        navigationController.present(zipLocationVC, animated: true, completion: nil)
+    }
+
 }

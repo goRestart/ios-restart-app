@@ -139,7 +139,7 @@ extension UIColor {
 extension UIColor {
 
     // Light Background
-    static var blackText: UIColor { return black }
+    static var blackText: UIColor { return lgBlack }
     static var darkGrayText: UIColor { return grayDark }
     static var grayText: UIColor { return gray }
     static var redText: UIColor { return watermelon }

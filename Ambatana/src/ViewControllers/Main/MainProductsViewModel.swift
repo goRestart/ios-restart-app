@@ -346,6 +346,9 @@ class MainProductsViewModel: BaseViewModel {
         updateListView()
     }
 
+    func bubbletapped() {
+        navigator?.openLocationSelection()
+    }
 
     
     // MARK: - Private methods
