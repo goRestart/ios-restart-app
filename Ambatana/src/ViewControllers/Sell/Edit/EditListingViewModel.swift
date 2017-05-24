@@ -363,13 +363,13 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
             let okAction = UIAction(interface: UIActionInterface.styledText(LGLocalizedString.commonOk,
                 .standard), action: permissionsActionBlock)
             let alertIcon = UIImage(named: "ic_location_alert")
-            delegate?.vmShowAlertWithTitle(LGLocalizedString.editProductLocationAlertTitle,
-                                           text: LGLocalizedString.editProductLocationAlertText,
+            delegate?.vmShowAlertWithTitle(LGLocalizedString.editListingLocationAlertTitle,
+                                           text: LGLocalizedString.editListingLocationAlertText,
                                            alertType: .iconAlert(icon: alertIcon), actions: [okAction])
         } else {
             // enabled
             let initialPlace = Place(postalAddress: nil, location: locationManager.currentAutoLocation?.location)
-            let locationVM = EditLocationViewModel(mode: .editProductLocation, initialPlace: initialPlace)
+            let locationVM = EditLocationViewModel(mode: .editListingLocation, initialPlace: initialPlace)
             locationVM.locationDelegate = self
             delegate?.vmShouldOpenMapWithViewModel(locationVM)
         }

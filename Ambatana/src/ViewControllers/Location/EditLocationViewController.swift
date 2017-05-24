@@ -33,8 +33,6 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
 
     @IBOutlet weak var aproxLocationArea: UIView!
     @IBOutlet weak var poiImage: UIImageView!
-    @IBOutlet weak var addressTopText: UILabel!
-    @IBOutlet weak var addressBottomText: UILabel!
 
     fileprivate static let suggestionCellId = "suggestionCell"
     fileprivate static let suggestionCellHeight: CGFloat = 44

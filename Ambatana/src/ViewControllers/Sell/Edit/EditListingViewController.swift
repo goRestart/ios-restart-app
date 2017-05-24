@@ -717,7 +717,7 @@ extension EditListingViewController {
         currencyLabel.accessibilityId = .editProductCurrencyLabel
         priceTextField.accessibilityId = .editProductPriceField
         descriptionTextView.accessibilityId = .editProductDescriptionField
-        setLocationButton.accessibilityId = .editProductLocationButton
+        setLocationButton.accessibilityId = .editListingLocationButton
         categoryButton.accessibilityId = .editProductCategoryButton
         carsMakeButton.accessibilityId = .editProductCarsMakeButton
         carsModelButton.accessibilityId = .editProductCarsModelButton
