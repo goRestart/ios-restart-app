@@ -763,7 +763,7 @@ extension ProductViewModelSpec: ProductDetailNavigator {
         calledOpenPricedBumpUpView = true
     }
 
-    func selectBuyerToRate(source: RateUserSource, buyers: [UserListing]) -> Void {
+    func selectBuyerToRate(source: RateUserSource, buyers: [UserListing], listingId: String) -> Void {
         self.selectBuyersCalled = true
 
     }

@@ -758,7 +758,7 @@ fileprivate extension ProductViewModel {
             if let buyers = result.value, !buyers.isEmpty {
                 strongSelf.delegate?.vmHideLoading(nil) {
                     guard let strongSelf = self else { return }
-                    strongSelf.navigator?.selectBuyerToRate(source: .markAsSold, buyers: buyers)
+                    strongSelf.navigator?.selectBuyerToRate(source: .markAsSold, buyers: buyers, listingId: listingId)
                 }
             } else {
                 let message = strongSelf.listing.value.price.free ? LGLocalizedString.productMarkAsSoldFreeSuccessMessage : LGLocalizedString.productMarkAsSoldSuccessMessage

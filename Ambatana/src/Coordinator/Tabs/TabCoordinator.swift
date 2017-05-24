@@ -36,8 +36,6 @@ class TabCoordinator: NSObject, Coordinator {
     let featureFlags: FeatureFlaggeable
     let disposeBag = DisposeBag()
 
-    var selectBuyerToRateCompletion: ((String?, Bool) -> Void)?
-
     weak var tabCoordinatorDelegate: TabCoordinatorDelegate?
     weak var appNavigator: AppNavigator?
 
@@ -429,8 +427,8 @@ extension TabCoordinator: ProductDetailNavigator {
         openChild(coordinator: bumpCoordinator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
     }
 
-    func selectBuyerToRate(source: RateUserSource, buyers: [UserListing]) -> Void {
-        let ratingCoordinator = UserRatingCoordinator(source: source, buyers: buyers)
+    func selectBuyerToRate(source: RateUserSource, buyers: [UserListing], listingId: String) -> Void {
+        let ratingCoordinator = UserRatingCoordinator(source: source, buyers: buyers, listingId: listingId)
         ratingCoordinator.delegate = self
         openChild(coordinator: ratingCoordinator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
     }
