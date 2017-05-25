@@ -529,6 +529,7 @@
 "product_mark_as_sold_free_confirm_title" = "Mark it as given away";
 "product_mark_as_sold_free_success_message" = "Congratulations! Your product has been marked as given away.";
 "product_mark_as_sold_success_message" = "Congratulations, your product has been marked as sold!";
+"product_menu_rate_buyer" = "Rate buyer";
 "product_more_info_open_button" = "MORE INFO";
 "product_more_info_related_title" = "YOU MIGHT BE INTERESTED IN:";
 "product_more_info_related_view_more" = "View more";

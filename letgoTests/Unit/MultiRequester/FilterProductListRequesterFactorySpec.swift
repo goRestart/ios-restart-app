@@ -79,7 +79,7 @@ class FilterProductListRequesterFactorySpec: QuickSpec {
                     }
                 }
                 context ("car details specified") {
-                    fcontext ("multi requester feature disabled") {
+                    context ("multi requester feature disabled") {
                         context ("make & model") {
                             beforeEach {
                                 var filters = ProductFilters()

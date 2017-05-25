@@ -105,7 +105,6 @@ class ProductListViewModel: BaseViewModel {
     // Data
     private(set) var objects: [ListingCellModel]
     private var indexToTitleMapping: [Int:String]
-    private var lastTitle: String?
 
     // UI
     private(set) var defaultCellSize: CGSize
@@ -244,7 +243,6 @@ class ProductListViewModel: BaseViewModel {
         if firstPage && numberOfProducts == 0 {
             state = .loading
             indexToTitleMapping = [:]
-            lastTitle = nil
         }
         
         let completion: ListingsRequesterCompletion = { [weak self] result in
@@ -396,11 +394,10 @@ class ProductListViewModel: BaseViewModel {
     }
 
     func titleForIndex(index: Int) -> String? {
-        guard let newTitle = indexToTitleMapping[index] else {
-            return lastTitle
+        if let lastValidIndex = (indexToTitleMapping.map { $0.key }.filter { $0 <= index }).sorted().last {
+            return indexToTitleMapping[lastValidIndex]
         }
-        lastTitle = newTitle
-        return newTitle
+        return nil
     }
 }
 
