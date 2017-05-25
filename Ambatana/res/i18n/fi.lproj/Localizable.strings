@@ -859,6 +859,7 @@
 "user_rating_review_placeholder_mandatory" = "Kirjoita kokemuksestasi (pakollinen)";
 "user_rating_review_placeholder_optional" = "Kirjoita kokemuksestasi (vapaaehtoinen)";
 "user_rating_review_send_success" = "Arvostelusi on julkaistu!";
+"user_rating_select_a_tag" = "Select at least one:";
 "user_rating_skip_button" = "Ohita";
 "user_rating_title" = "Arvostele kokemuksesi seuraavan käyttäjän kanssa";
 "user_share_error" = "Profiilia jaettaessa tapahtui virhe. Ole hyvä ja yritä uudelleen.";

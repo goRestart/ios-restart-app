@@ -859,6 +859,7 @@
 "user_rating_review_placeholder_mandatory" = "Viết về trải nghiệm của bạn (bắt buộc)";
 "user_rating_review_placeholder_optional" = "Viết về trải nghiệm của bạn (không bắt buộc)";
 "user_rating_review_send_success" = "Đánh giá của bạn đã được đăng!";
+"user_rating_select_a_tag" = "Select at least one:";
 "user_rating_skip_button" = "Bỏ qua";
 "user_rating_title" = "Đánh giá trải nghiệm của bạn với";
 "user_share_error" = "Có lỗi xảy ra trong khi chia sẻ hồ sơ. Xin vui lòng thử lại.";

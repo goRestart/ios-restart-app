@@ -18,6 +18,8 @@ class RateUserViewController: KeyboardViewController {
     @IBOutlet weak var rateInfoText: UILabel!
     @IBOutlet var stars: [UIButton]!
     
+    @IBOutlet weak var ratingsContainer: UIView!
+    @IBOutlet weak var ratingsTitle: UILabel!
     @IBOutlet weak var ratingTagsCollectionView: UICollectionView!
     @IBOutlet weak var ratingTagsHeightConstraint: NSLayoutConstraint!
     
@@ -124,6 +126,7 @@ class RateUserViewController: KeyboardViewController {
         userNameText.text = viewModel.userName
         rateInfoText.text = viewModel.infoText
         
+        ratingsTitle.text = LGLocalizedString.userRatingSelectATag
         ratingTagsCollectionView.collectionViewLayout = CenterAlignedCollectionViewFlowLayout()
         ratingTagsCollectionView.allowsSelection = true
         ratingTagsCollectionView.allowsMultipleSelection = true

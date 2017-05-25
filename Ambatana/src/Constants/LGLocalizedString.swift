@@ -3499,6 +3499,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("user_rating_message_more", comment: "")
 	}
 
+	static var userRatingSelectATag: String {
+		return NSLocalizedString("user_rating_select_a_tag", comment: "")
+	}
+
 	static var userRatingReviewButton: String {
 		return NSLocalizedString("user_rating_review_button", comment: "")
 	}

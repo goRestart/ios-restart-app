@@ -859,6 +859,7 @@
 "user_rating_review_placeholder_mandatory" = "Skriv om din opplevelse (påkrevd)";
 "user_rating_review_placeholder_optional" = "Skriv om din opplevelse (valgfritt)";
 "user_rating_review_send_success" = "Din omtale er publisert!";
+"user_rating_select_a_tag" = "Select at least one:";
 "user_rating_skip_button" = "Hopp over";
 "user_rating_title" = "Vurder din opplevelse med";
 "user_share_error" = "En feil oppstod ved deling av profil. Vennligst prøv igjen.";

@@ -859,6 +859,7 @@
 "user_rating_review_placeholder_mandatory" = "Dites-nous en plus sur votre expérience (requis)";
 "user_rating_review_placeholder_optional" = "Dites-nous en plus sur votre expérience (optionnel)";
 "user_rating_review_send_success" = "Votre avis a été publié !";
+"user_rating_select_a_tag" = "Select at least one:";
 "user_rating_skip_button" = "Passer";
 "user_rating_title" = "Évaluez votre expérience avec";
 "user_share_error" = "Une erreur est survenue lors du partage du profil. Veuillez réessayer.";

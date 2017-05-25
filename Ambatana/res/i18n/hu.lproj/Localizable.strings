@@ -859,6 +859,7 @@
 "user_rating_review_placeholder_mandatory" = "Számolj be tapasztalataidról (kötelező)";
 "user_rating_review_placeholder_optional" = "Számolj be tapasztalataidról (nem kötelező)";
 "user_rating_review_send_success" = "Értékelésed beküldve!";
+"user_rating_select_a_tag" = "Select at least one:";
 "user_rating_skip_button" = "Kihagy";
 "user_rating_title" = "Mondd el, milyen volt";
 "user_share_error" = "Hiba történt a profil megosztása során. Próbálkozz újra.";

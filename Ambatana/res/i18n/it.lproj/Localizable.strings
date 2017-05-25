@@ -859,6 +859,7 @@
 "user_rating_review_placeholder_mandatory" = "Raccontaci la tua esperienza (obbligatorio)";
 "user_rating_review_placeholder_optional" = "Raccontaci la tua esperienza (facoltativo)";
 "user_rating_review_send_success" = "La tua recensione è stata pubblicata!";
+"user_rating_select_a_tag" = "Select at least one:";
 "user_rating_skip_button" = "Salta";
 "user_rating_title" = "Valuta la tua esperienza con";
 "user_share_error" = "Si è verificato un errore durante la condivisione del profilo. Riprova.";

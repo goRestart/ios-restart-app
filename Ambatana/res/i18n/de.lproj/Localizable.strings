@@ -859,6 +859,7 @@
 "user_rating_review_placeholder_mandatory" = "Schreibe einen Erfahrungsbericht (Pflichtfeld)";
 "user_rating_review_placeholder_optional" = "Schreibe einen Erfahrungsbericht (optional)";
 "user_rating_review_send_success" = "Deine Bewertung wurde veröffentlicht!";
+"user_rating_select_a_tag" = "Select at least one:";
 "user_rating_skip_button" = "Überspringen";
 "user_rating_title" = "Bewerte deine Transaktion mit";
 "user_share_error" = "Beim Teilen des Profils ist ein Fehler aufgetreten. Bitte versuche es noch einmal.";
