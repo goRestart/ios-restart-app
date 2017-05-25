@@ -205,6 +205,7 @@ class RateUserViewModel: BaseViewModel {
         }.distinctUntilChanged()
         
         positiveTagsEnabled.subscribeNext { [weak self] _ in
+            self?.selectedTagIndexes.removeAll()
             self?.delegate?.vmReloadTags()
         }.addDisposableTo(disposeBag)
         
