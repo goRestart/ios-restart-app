@@ -39,6 +39,7 @@ enum RateUserSource {
 protocol RateUserViewModelDelegate: BaseViewModelDelegate {
     func vmUpdateDescription(_ description: String?)
     func vmUpdateDescriptionPlaceholder(_ placeholder: String)
+    func vmReloadTags()
 }
 
 class RateUserViewModel: BaseViewModel {
@@ -180,7 +181,7 @@ class RateUserViewModel: BaseViewModel {
             description.asObservable(), resultSelector: { $0 })
             .map { (loading, rating, description) in
                 guard !loading, let rating = rating else { return false }
-                guard rating < Constants.userRatingMinStarsToOptionalDescr else { return true }
+                guard rating < Constants.userRatingMinStarsPositive else { return true }
                 guard let description = description, !description.isEmpty &&
                     description.characters.count <= Constants.userRatingDescriptionMaxLength else { return false }
                 return true
@@ -188,7 +189,7 @@ class RateUserViewModel: BaseViewModel {
 
         rating.asObservable().map {
                 if let stars = $0 {
-                    return stars < Constants.userRatingMinStarsToOptionalDescr ?
+                    return stars < Constants.userRatingMinStarsPositive ?
                         LGLocalizedString.userRatingReviewPlaceholderMandatory :
                         LGLocalizedString.userRatingReviewPlaceholderOptional
                 } else {
@@ -197,6 +198,16 @@ class RateUserViewModel: BaseViewModel {
             }.bindNext { [weak self] placeholder in
                 self?.delegate?.vmUpdateDescriptionPlaceholder(placeholder)
             }.addDisposableTo(disposeBag)
+        
+        let positiveTagsEnabled = rating.asObservable().map { (stars: Int?) -> Bool in
+            guard let stars = stars else { return true }
+            return stars >= Constants.userRatingMinStarsPositive
+        }.distinctUntilChanged()
+        
+        positiveTagsEnabled.subscribeNext { [weak self] _ in
+            self?.delegate?.vmReloadTags()
+        }.addDisposableTo(disposeBag)
+        
 
         description.asObservable().map { Constants.userRatingDescriptionMaxLength - ($0?.characters.count ?? 0) }
             .bindTo(descriptionCharLimit).addDisposableTo(disposeBag)
@@ -223,10 +234,11 @@ class RateUserViewModel: BaseViewModel {
     
     private var tagTitles: [String] {
         guard let rating = rating.value else { return PositiveUserRatingTag.allValues.map { $0.localizedText } }
-        if rating <= 2 {
-            return NegativeUserRatingTag.allValues.map { $0.localizedText }
-        } else {
+        
+        if rating >= Constants.userRatingMinStarsPositive {
             return PositiveUserRatingTag.allValues.map { $0.localizedText }
+        } else {
+            return NegativeUserRatingTag.allValues.map { $0.localizedText }
         }
     }
 }

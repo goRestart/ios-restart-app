@@ -67,6 +67,11 @@ class RateUserViewController: KeyboardViewController {
         setAccesibilityIds()
         setupRx()
     }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        ratingTagsHeightConstraint.constant = ratingTagsCollectionView.collectionViewLayout.collectionViewContentSize.height
+    }
 
     
     // MARK: - Actions
@@ -138,11 +143,6 @@ class RateUserViewController: KeyboardViewController {
         publishButton.setStyle(.primary(fontSize: .big))
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        ratingTagsHeightConstraint.constant = ratingTagsCollectionView.collectionViewLayout.collectionViewContentSize.height
-    }
-
     private func setupRx() {
         viewModel.isLoading.asObservable().bindNext { [weak self] loading in
             self?.publishButton.setTitle(loading ? nil : LGLocalizedString.userRatingReviewButton, for: .normal)
@@ -195,6 +195,14 @@ extension RateUserViewController: RateUserViewModelDelegate {
             descriptionText.text = placeholder
         }
         descrPlaceholder = placeholder
+    }
+    
+    func vmReloadTags() {
+        ratingTagsCollectionView.reloadData()
+        
+        // Forces relayout so viewDidLayoutSubviews is called and then collection view height is adjusted
+        ratingTagsCollectionView.setNeedsLayout()
+        ratingTagsCollectionView.layoutIfNeeded()
     }
 }
 
