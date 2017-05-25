@@ -18,6 +18,9 @@ class RateUserViewController: KeyboardViewController {
     @IBOutlet weak var rateInfoText: UILabel!
     @IBOutlet var stars: [UIButton]!
     
+    @IBOutlet weak var ratingTagsCollectionView: UICollectionView!
+    @IBOutlet weak var ratingTagsHeightConstraint: NSLayoutConstraint!
+    
     @IBOutlet weak var descriptionContainer: UIView!
     @IBOutlet weak var descriptionContainerBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var descriptionText: UITextView!
@@ -74,8 +77,8 @@ class RateUserViewController: KeyboardViewController {
 
     @IBAction func starHighlighted(_ sender: AnyObject) {
         guard let tag = (sender as? UIButton)?.tag else { return }
-        stars.forEach{$0.isHighlighted = ($0.tag <= tag)}
-        viewBackgroundTap()
+        stars.forEach { $0.isHighlighted = ($0.tag <= tag) }
+        descriptionText.resignFirstResponder()
     }
 
     @IBAction func starSelected(_ sender: AnyObject) {
@@ -91,9 +94,6 @@ class RateUserViewController: KeyboardViewController {
         viewModel.skipButtonPressed()
     }
 
-    dynamic private func viewBackgroundTap() {
-        descriptionText.resignFirstResponder()
-    }
 
     // MARK: - Private methods
 
@@ -118,6 +118,13 @@ class RateUserViewController: KeyboardViewController {
         }
         userNameText.text = viewModel.userName
         rateInfoText.text = viewModel.infoText
+        
+        ratingTagsCollectionView.collectionViewLayout = CenterAlignedCollectionViewFlowLayout()
+        ratingTagsCollectionView.allowsSelection = true
+        ratingTagsCollectionView.allowsMultipleSelection = true
+        ratingTagsCollectionView.register(UserRatingTagCell.self,
+                                          forCellWithReuseIdentifier: UserRatingTagCell.reuseIdentifier)
+        
         descriptionContainer.layer.borderColor = UIColor.lineGray.cgColor
         descriptionContainer.layer.borderWidth = LGUIKitConstants.onePixelSize
         descriptionText.text = descrPlaceholder
@@ -129,9 +136,11 @@ class RateUserViewController: KeyboardViewController {
         descriptionContainerBottomConstraint.constant = footerView.height + Metrics.margin
         
         publishButton.setStyle(.primary(fontSize: .big))
-
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewBackgroundTap))
-        view.addGestureRecognizer(tapGesture)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        ratingTagsHeightConstraint.constant = ratingTagsCollectionView.collectionViewLayout.collectionViewContentSize.height
     }
 
     private func setupRx() {
@@ -186,6 +195,43 @@ extension RateUserViewController: RateUserViewModelDelegate {
             descriptionText.text = placeholder
         }
         descrPlaceholder = placeholder
+    }
+}
+
+
+// MARK: - UIColllectionView Delegate & Datasource
+
+extension RateUserViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+        guard let title = viewModel.titleForTagAt(index: indexPath.row) else { return CGSize.zero }
+        return UserRatingTagCell.size(with: title)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
+        return viewModel.numberOfTags
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UserRatingTagCell.reuseIdentifier,
+                                                            for: indexPath) as? UserRatingTagCell else {
+                                                                return UICollectionViewCell()
+        }
+        let index = indexPath.row
+        cell.title = viewModel.titleForTagAt(index: index)
+//        cell.isOn = viewModel.isTagSelectedAt(index: index)
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        viewModel.selectTagAt(index: indexPath.row)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        viewModel.deselectTagAt(index: indexPath.row)
     }
 }
 

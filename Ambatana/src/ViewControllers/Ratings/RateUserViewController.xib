@@ -20,6 +20,8 @@
                 <outlet property="footerView" destination="Uep-lL-XHZ" id="Xub-so-knl"/>
                 <outlet property="publishButton" destination="dKI-Rc-pUb" id="S4E-QC-Fob"/>
                 <outlet property="rateInfoText" destination="8dW-N1-WVt" id="4YH-mh-nxb"/>
+                <outlet property="ratingTagsCollectionView" destination="gWH-tB-T2G" id="lft-KN-6uN"/>
+                <outlet property="ratingTagsHeightConstraint" destination="uhV-e5-Ca7" id="p6T-p2-LzC"/>
                 <outlet property="scrollView" destination="OBy-KX-Vwn" id="p42-UE-qKs"/>
                 <outlet property="userImage" destination="p8Z-ST-xDr" id="pf9-SD-EeK"/>
                 <outlet property="userNameText" destination="eRe-bF-jWx" id="Vyl-wr-8Aq"/>
@@ -196,22 +198,43 @@
                                                 <color key="textColor" red="0.74117647058823533" green="0.74117647058823533" blue="0.74117647058823533" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="gWH-tB-T2G">
+                                                <rect key="frame" x="15" y="313" width="345" height="134"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="134" id="uhV-e5-Ca7"/>
+                                                </constraints>
+                                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="8Ne-1I-UL6">
+                                                    <size key="itemSize" width="50" height="50"/>
+                                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                </collectionViewFlowLayout>
+                                                <connections>
+                                                    <outlet property="dataSource" destination="-1" id="n6G-ow-zCq"/>
+                                                    <outlet property="delegate" destination="-1" id="9kC-D3-vDk"/>
+                                                </connections>
+                                            </collectionView>
                                         </subviews>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
+                                            <constraint firstItem="gWH-tB-T2G" firstAttribute="top" secondItem="hgH-LD-l39" secondAttribute="bottom" constant="30" id="4EZ-Dm-pvQ"/>
                                             <constraint firstAttribute="bottom" secondItem="WAx-y0-c0O" secondAttribute="bottom" id="4OS-vX-Bpy"/>
                                             <constraint firstItem="hgH-LD-l39" firstAttribute="top" secondItem="8dW-N1-WVt" secondAttribute="bottom" constant="30" id="5q8-4s-ib1"/>
                                             <constraint firstItem="8dW-N1-WVt" firstAttribute="top" secondItem="eRe-bF-jWx" secondAttribute="bottom" constant="30" id="8sl-me-eMe"/>
                                             <constraint firstItem="eRe-bF-jWx" firstAttribute="leading" secondItem="K3h-f5-1vV" secondAttribute="leading" constant="28" id="A3T-RF-PBb"/>
                                             <constraint firstItem="8dW-N1-WVt" firstAttribute="leading" secondItem="K3h-f5-1vV" secondAttribute="leading" constant="28" id="B64-yK-Z3S"/>
                                             <constraint firstItem="s4z-sR-M0l" firstAttribute="bottom" secondItem="WAx-y0-c0O" secondAttribute="bottom" constant="-10" id="BkC-78-9C0"/>
+                                            <constraint firstItem="gWH-tB-T2G" firstAttribute="leading" secondItem="K3h-f5-1vV" secondAttribute="leading" constant="15" id="GMZ-GR-XUf"/>
                                             <constraint firstAttribute="trailing" secondItem="WAx-y0-c0O" secondAttribute="trailing" id="JcB-Ae-xDd"/>
                                             <constraint firstItem="eRe-bF-jWx" firstAttribute="top" secondItem="p8Z-ST-xDr" secondAttribute="bottom" constant="10" id="N3u-E5-5dY"/>
                                             <constraint firstAttribute="trailing" secondItem="8dW-N1-WVt" secondAttribute="trailing" constant="28" id="QzA-bA-T76"/>
                                             <constraint firstItem="WAx-y0-c0O" firstAttribute="leading" secondItem="K3h-f5-1vV" secondAttribute="leading" id="TbW-pw-RZ6"/>
                                             <constraint firstItem="hgH-LD-l39" firstAttribute="centerX" secondItem="K3h-f5-1vV" secondAttribute="centerX" id="Ttv-Cv-zoV"/>
                                             <constraint firstItem="WAx-y0-c0O" firstAttribute="top" secondItem="hgH-LD-l39" secondAttribute="bottom" constant="30" id="Y1p-n0-NHB"/>
+                                            <constraint firstAttribute="trailing" secondItem="gWH-tB-T2G" secondAttribute="trailing" constant="15" id="duc-js-b3j"/>
                                             <constraint firstAttribute="trailing" secondItem="eRe-bF-jWx" secondAttribute="trailing" constant="28" id="jHH-e4-5sc"/>
+                                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="gWH-tB-T2G" secondAttribute="bottom" id="lwD-Mu-gde"/>
                                             <constraint firstItem="s4z-sR-M0l" firstAttribute="trailing" secondItem="WAx-y0-c0O" secondAttribute="trailing" constant="-15" id="ofr-CC-Ok9"/>
                                             <constraint firstItem="p8Z-ST-xDr" firstAttribute="top" secondItem="K3h-f5-1vV" secondAttribute="top" constant="30" id="puO-l1-XoV"/>
                                             <constraint firstItem="p8Z-ST-xDr" firstAttribute="centerX" secondItem="K3h-f5-1vV" secondAttribute="centerX" id="qsc-ug-XQ5"/>

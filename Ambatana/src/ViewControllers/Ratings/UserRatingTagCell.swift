@@ -9,8 +9,11 @@
 import UIKit
 
 class UserRatingTagCell: UICollectionViewCell {
-    fileprivate let titleLabel = UILabel()
-    fileprivate let style: ButtonStyle
+    static let reuseIdentifier = "UserRatingTagCell"
+    fileprivate static let height: CGFloat = 30
+    fileprivate static let style: ButtonStyle = .secondary(fontSize: .medium, withBorder: true)
+    
+    fileprivate let titleLabel: UILabel
     
     override var isSelected: Bool { didSet { updateUIWithCurrentState() } }
     override var isHighlighted: Bool { didSet { updateUIWithCurrentState() } }
@@ -18,15 +21,9 @@ class UserRatingTagCell: UICollectionViewCell {
     
     // MARK: - Lifecycle
     
-    convenience init() {
-        let style = ButtonStyle.secondary(fontSize: .medium, withBorder: true)
-        self.init(style: style)
-    }
-    
-    
-    init(style: ButtonStyle) {
-        self.style = style
-        super.init(frame: CGRect.zero)
+    override init(frame: CGRect) {
+        self.titleLabel = UILabel()
+        super.init(frame: frame)
         
         setupUI()
         setupLayout()
@@ -48,7 +45,19 @@ class UserRatingTagCell: UICollectionViewCell {
 extension UserRatingTagCell {
     var title: String? {
         get { return titleLabel.text }
-        set { titleLabel.text = title }
+        set {
+            titleLabel.text = title
+        }
+    }
+    
+    static func size(with title: String) -> CGSize {
+        let constraintRect = CGSize(width: CGFloat.greatestFiniteMagnitude, height: UserRatingTagCell.height)
+        let boundingBox = title.boundingRect(with: constraintRect,
+                                             options: NSStringDrawingOptions.usesLineFragmentOrigin,
+                                             attributes: [NSFontAttributeName: UserRatingTagCell.style.titleFont],
+                                             context: nil)
+        return CGSize(width: boundingBox.width + UserRatingTagCell.style.sidePadding * 2,
+                      height: UserRatingTagCell.height)
     }
 }
 
@@ -56,24 +65,23 @@ extension UserRatingTagCell {
 // MARK: - Private methods
 
 fileprivate extension UserRatingTagCell {
-    
     func setupUI() {
-        if style.withBorder {
+        if UserRatingTagCell.style.withBorder {
             contentView.layer.borderColor = UIColor.primaryColor.cgColor
-            contentView.layer.borderWidth = LGUIKitConstants.onePixelSize
+            contentView.layer.borderWidth = 1
         }
-        contentView.rounded = style.applyCornerRadius
-        contentView.layer.backgroundColor = style.backgroundColor.cgColor
+        contentView.rounded = UserRatingTagCell.style.applyCornerRadius
+        contentView.layer.backgroundColor = UserRatingTagCell.style.backgroundColor.cgColor
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.textColor = style.titleColor
-        titleLabel.font = style.titleFont
+        titleLabel.textColor = UserRatingTagCell.style.titleColor
+        titleLabel.font = UserRatingTagCell.style.titleFont
         contentView.addSubview(titleLabel)
 
     }
     
     func setupLayout() {
-        titleLabel.layout(with: contentView).fillHorizontal(by: style.sidePadding)
+        titleLabel.layout(with: contentView).fillHorizontal(by: UserRatingTagCell.style.sidePadding)
         titleLabel.layout(with: contentView).fillVertical()
     }
     
@@ -84,18 +92,17 @@ fileprivate extension UserRatingTagCell {
     func updateUIWithCurrentState() {
         let titleColor: UIColor
         let bgColor: UIColor
-        if isSelected {
-            titleColor = style.backgroundColor
-            bgColor = style.titleColor
-        } else if isHighlighted {
-            titleColor = style.titleColor
-            bgColor = style.backgroundColorHighlighted
+        if isHighlighted {
+            titleColor = UserRatingTagCell.style.titleColor
+            bgColor = UserRatingTagCell.style.backgroundColorHighlighted
+        } else if isSelected {
+            titleColor = UserRatingTagCell.style.backgroundColor
+            bgColor = UserRatingTagCell.style.titleColor
         } else {
-            titleColor = style.titleColor
-            bgColor = style.backgroundColor
+            titleColor = UserRatingTagCell.style.titleColor
+            bgColor = UserRatingTagCell.style.backgroundColor
         }
         titleLabel.textColor = titleColor
         contentView.layer.backgroundColor = bgColor.cgColor
     }
 }
-

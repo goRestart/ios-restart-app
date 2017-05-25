@@ -44,7 +44,7 @@ enum NegativeUserRatingTag: UserRatingTag {
     }
 }
 
-enum PositiveUserRativeTag: UserRatingTag {
+enum PositiveUserRatingTag: UserRatingTag {
     case polite, showedUpOnTime, quickResponses, fairPrices, helpful, trustworthy
     
     var localizedText: String {
@@ -64,7 +64,7 @@ enum PositiveUserRativeTag: UserRatingTag {
         }
     }
     
-    static var allValues: [PositiveUserRativeTag] {
-        return [.polite, .showedUpOnTime, .quickResponses, .helpful, .trustworthy]
+    static var allValues: [PositiveUserRatingTag] {
+        return [.polite, .showedUpOnTime, .quickResponses, .fairPrices, .helpful, .trustworthy]
     }
 }

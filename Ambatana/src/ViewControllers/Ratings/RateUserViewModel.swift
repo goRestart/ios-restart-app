@@ -72,6 +72,7 @@ class RateUserViewModel: BaseViewModel {
     fileprivate let source: RateUserSource
     fileprivate let data: RateUserData
     fileprivate var previousRating: UserRating?
+    fileprivate var selectedTagIndexes: Set<Int>
     fileprivate let disposeBag = DisposeBag()
 
 
@@ -86,6 +87,7 @@ class RateUserViewModel: BaseViewModel {
         self.data = data
         self.userRatingRepository = userRatingRepository
         self.tracker = tracker
+        self.selectedTagIndexes = Set<Int>()
 
         super.init()
 
@@ -143,6 +145,33 @@ class RateUserViewModel: BaseViewModel {
         }
     }
 
+    
+    // MARK: - Tags
+    
+    var numberOfTags: Int {
+        return tagTitles.count
+    }
+    
+    func titleForTagAt(index: Int) -> String? {
+        guard 0..<numberOfTags ~= index else { return nil }
+        return tagTitles[index]
+    }
+    
+    func isTagSelectedAt(index: Int) -> Bool {
+        guard 0..<numberOfTags ~= index else { return false }
+        return selectedTagIndexes.contains(index)
+    }
+    
+    func selectTagAt(index: Int) {
+        guard !isTagSelectedAt(index: index) else { return }
+        selectedTagIndexes.insert(index)
+    }
+    
+    func deselectTagAt(index: Int) {
+        guard isTagSelectedAt(index: index) else { return }
+        selectedTagIndexes.remove(index)
+    }
+    
 
     // MARK: - Private methods
 
@@ -189,6 +218,15 @@ class RateUserViewModel: BaseViewModel {
         trackComplete(userRating)
         delegate?.vmShowAutoFadingMessage(LGLocalizedString.userRatingReviewSendSuccess) { [weak self] in
             self?.navigator?.rateUserFinish(withRating: self?.rating.value ?? 0)
+        }
+    }
+    
+    private var tagTitles: [String] {
+        guard let rating = rating.value else { return PositiveUserRatingTag.allValues.map { $0.localizedText } }
+        if rating <= 2 {
+            return NegativeUserRatingTag.allValues.map { $0.localizedText }
+        } else {
+            return PositiveUserRatingTag.allValues.map { $0.localizedText }
         }
     }
 }
