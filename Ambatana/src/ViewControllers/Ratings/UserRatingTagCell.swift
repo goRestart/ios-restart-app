@@ -11,7 +11,7 @@ import UIKit
 class UserRatingTagCell: UICollectionViewCell {
     static let reuseIdentifier = "UserRatingTagCell"
     fileprivate static let height: CGFloat = 30
-    fileprivate static let style: ButtonStyle = .secondary(fontSize: .medium, withBorder: true)
+    fileprivate static let style: ButtonStyle = .secondary(fontSize: .small, withBorder: true)
     
     fileprivate let titleLabel: UILabel
     
@@ -45,9 +45,7 @@ class UserRatingTagCell: UICollectionViewCell {
 extension UserRatingTagCell {
     var title: String? {
         get { return titleLabel.text }
-        set {
-            titleLabel.text = title
-        }
+        set { titleLabel.text = newValue }
     }
     
     static func size(with title: String) -> CGSize {
@@ -56,7 +54,7 @@ extension UserRatingTagCell {
                                              options: NSStringDrawingOptions.usesLineFragmentOrigin,
                                              attributes: [NSFontAttributeName: UserRatingTagCell.style.titleFont],
                                              context: nil)
-        return CGSize(width: boundingBox.width + UserRatingTagCell.style.sidePadding * 2,
+        return CGSize(width: boundingBox.width + UserRatingTagCell.style.sidePadding * 2 + 10,
                       height: UserRatingTagCell.height)
     }
 }
@@ -76,6 +74,7 @@ fileprivate extension UserRatingTagCell {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.textColor = UserRatingTagCell.style.titleColor
         titleLabel.font = UserRatingTagCell.style.titleFont
+        titleLabel.textAlignment = .center
         contentView.addSubview(titleLabel)
 
     }
