@@ -695,8 +695,6 @@
 		72EB70601E65C63900BF709B /* ModularNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72EB705E1E65C63900BF709B /* ModularNotificationCell.swift */; };
 		7EA1474D1E12769500C3F462 /* LGLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA1474C1E12769500C3F462 /* LGLayout.swift */; };
 		7EA1474E1E12769500C3F462 /* LGLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA1474C1E12769500C3F462 /* LGLayout.swift */; };
-		8E04C7451ED70BE30014F58B /* LGHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E04C7441ED70BE30014F58B /* LGHelpers.swift */; };
-		8E04C7461ED70BE30014F58B /* LGHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E04C7441ED70BE30014F58B /* LGHelpers.swift */; };
 		8E0C9DF41E96924F00768D27 /* PostCategoryDetailProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0C9DF31E96924F00768D27 /* PostCategoryDetailProgressView.swift */; };
 		8E0C9DF51E96924F00768D27 /* PostCategoryDetailProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0C9DF31E96924F00768D27 /* PostCategoryDetailProgressView.swift */; };
 		8E0C9DF71E96935300768D27 /* PostCarDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0C9DF61E96935300768D27 /* PostCarDetailsView.swift */; };
@@ -1904,7 +1902,6 @@
 		7EA1474C1E12769500C3F462 /* LGLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGLayout.swift; sourceTree = "<group>"; };
 		7ED714BB7ABD1804F5E818D4 /* Pods-LetGo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.release.xcconfig"; sourceTree = "<group>"; };
 		7FF25262DBFA224AC937A467 /* Pods_LetGo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetGo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8E04C7441ED70BE30014F58B /* LGHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGHelpers.swift; sourceTree = "<group>"; };
 		8E0C9DF31E96924F00768D27 /* PostCategoryDetailProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCategoryDetailProgressView.swift; sourceTree = "<group>"; };
 		8E0C9DF61E96935300768D27 /* PostCarDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCarDetailsView.swift; sourceTree = "<group>"; };
 		8E1139E11EC9AD5B00A9D772 /* FilterDescriptionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterDescriptionHeaderView.swift; sourceTree = "<group>"; };
@@ -4192,7 +4189,6 @@
 				50C63B6E1DC3A76D00836D85 /* SocialSharer */,
 				6A5E19D41D548F5400F92692 /* UIkitExtensions */,
 				C7E590311E5EC9F1002921B2 /* MultiPageRequester.swift */,
-				8E04C7441ED70BE30014F58B /* LGHelpers.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -5340,7 +5336,6 @@
 				C7363FB51BF9CB8D00A4BF6F /* FilterTagCell.swift in Sources */,
 				2E52CCD41CBD54F3003B7A96 /* ABTests.swift in Sources */,
 				C72794461D549342009C25AB /* HelpViewModel.swift in Sources */,
-				8E04C7451ED70BE30014F58B /* LGHelpers.swift in Sources */,
 				2E2208E51DD4BCD800FB2483 /* EmptyCellDrawer.swift in Sources */,
 				501340451E0D447400AD27CA /* BuyersInterestedNotificationCell.swift in Sources */,
 				6A3C730F1CF346CB00A062E0 /* ChatStickerGridCell.swift in Sources */,
@@ -5864,7 +5859,6 @@
 				C7DB41B21C5138B500400945 /* MediaPickerManager.swift in Sources */,
 				50F681F31C8F4586001F33A3 /* RxPaginable.swift in Sources */,
 				C783D97D1C64BB90000EE5CA /* ReportUsersViewController.swift in Sources */,
-				8E04C7461ED70BE30014F58B /* LGHelpers.swift in Sources */,
 				C7DB41B41C5138B500400945 /* AppDelegate.swift in Sources */,
 				C783D98F1C650F38000EE5CA /* ReportUserCellDrawer.swift in Sources */,
 				C7DB41B51C5138B500400945 /* FilterTagCell.swift in Sources */,

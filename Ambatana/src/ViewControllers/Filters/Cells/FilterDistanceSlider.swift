@@ -102,22 +102,21 @@ class FilterDistanceSlider: UIView {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layout(with: self).fill()
         
-        tipTopBackground.layer.cornerRadius = floor(LGHelpers.division(numerator: tipTopBackground.frame.size.height,
-                                                                       denominator: 2))
+        tipTopBackground.layer.cornerRadius = floor(tipTopBackground.frame.size.height / 2)
         slider.maximumValue = Float(positions.count-1)
         slider.minimumValue = 0.0
         
         for i in 0..<positions.count {
-            let percent = LGHelpers.division(numerator: Float(i), denominator: Float(positions.count - 1))
+            let percent = Float(i) / Float(positions.count - 1)
             let xPos = sliderCenterPosition(percent)
-            let xPercent = LGHelpers.division(numerator: xPos, denominator: marksContainerSize.width)
+            let xPercent = xPos / marksContainerSize.width
             
             let markView = UIView()
             markView.backgroundColor = UIColor.grayText
             markView.translatesAutoresizingMaskIntoConstraints = false
             marksContainer.addSubview(markView)
             marksContainer.layout(with: markView)
-                .trailing(to: .centerX, multiplier: LGHelpers.division(numerator: 1, denominator: xPercent))
+                .trailing(to: .centerX, multiplier: 1 / xPercent)
                 .top()
             markView.layout()
                 .width(1)
@@ -140,7 +139,7 @@ class FilterDistanceSlider: UIView {
     
     private func setupInPosition(_ position: Int) {
         slider.setValue(Float(position), animated: true)
-        let percent = LGHelpers.division(numerator: slider.value, denominator: slider.maximumValue)
+        let percent = slider.value / slider.maximumValue
         updateTipPosition(percent)
         updateTipLabel()
     }
@@ -152,7 +151,7 @@ class FilterDistanceSlider: UIView {
     private func sliderCenterPosition(_ percentage: Float) -> CGFloat {
         return ((marksContainerSize.width - FilterDistanceSlider.sliderButtonSize)
             * CGFloat(percentage))
-            + LGHelpers.division(numerator: FilterDistanceSlider.sliderButtonSize, denominator: 2)
+            + FilterDistanceSlider.sliderButtonSize / 2
     }
     
     private func updateTipLabel() {
