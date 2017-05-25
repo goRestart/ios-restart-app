@@ -16,7 +16,6 @@ protocol ProductListViewScrollDelegate: class {
 
 protocol ProductListViewCellsDelegate: class {
     func visibleTopCellWithIndex(_ index: Int, whileScrollingDown scrollingDown: Bool)
-    func visibleBottomCell(_ index: Int)
 }
 
 protocol ProductListViewHeaderDelegate: class {
@@ -310,12 +309,18 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
             let indexes = collectionView.indexPathsForVisibleItems.map{ $0.item }
             let topProductIndex = indexes.min() ?? indexPath.item
-            let bottomProductIndex = indexes.max() ?? indexPath.item
             let scrollingDown = self?.scrollingDown ?? false
 
             self?.cellsDelegate?.visibleTopCellWithIndex(topProductIndex, whileScrollingDown: scrollingDown)
-            self?.cellsDelegate?.visibleBottomCell(bottomProductIndex)
         }
+    }
+
+    func collectionView(_ collectionView: UICollectionView,
+                        didEndDisplaying cell: UICollectionViewCell,
+                        forItemAt indexPath: IndexPath) {
+
+        let topProductIndex = (collectionView.indexPathsForVisibleItems.map{ $0.item }).min() ?? indexPath.item
+        cellsDelegate?.visibleTopCellWithIndex(topProductIndex, whileScrollingDown: scrollingDown)
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String,

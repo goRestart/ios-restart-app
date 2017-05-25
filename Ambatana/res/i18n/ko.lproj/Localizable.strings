@@ -529,6 +529,7 @@
 "product_mark_as_sold_free_confirm_title" = "증정되었다는 표시하기";
 "product_mark_as_sold_free_success_message" = "축하드립니다! 상품이 증정완료로 표시되었습니다.";
 "product_mark_as_sold_success_message" = "축하드립니다, 고객님의 제품이 품절로 표시되었습니다.";
+"product_menu_rate_buyer" = "구매자 평가하기";
 "product_more_info_open_button" = "더 많은 정보";
 "product_more_info_related_title" = "다음 항목에 관심이 가실 수도 있습니다:";
 "product_more_info_related_view_more" = "더보기";
@@ -687,7 +688,7 @@
 "rate_buyers_not_on_letgo_button" = "저는 이것은 letgo에서 판매하지 않았습니다";
 "rate_buyers_sub_message" = "누구에게 이것을 판매하시나요?";
 "rate_buyers_title" = "누가 이것을 구매했나요?";
-"rate_user_negative_didnt_show_up" = "Didn’t show up";
+"rate_user_negative_didnt_show_up" = "나오지 않음";
 "rate_user_negative_item_not_as_advertised" = "허위 매물";
 "rate_user_negative_not_polite" = "예의바르지 않음";
 "rate_user_negative_not_trustworthy" = "신뢰가지 않음";

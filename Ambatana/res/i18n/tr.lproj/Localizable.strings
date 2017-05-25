@@ -529,6 +529,7 @@
 "product_mark_as_sold_free_confirm_title" = "Ücretsiz verildi olarak işaretle";
 "product_mark_as_sold_free_success_message" = "Tebrikler! Ürünün başarıyla ücretsiz verildi olarak işaretlendi.";
 "product_mark_as_sold_success_message" = "Tebrikler, ürünün satıldı olarak işaretlendi!";
+"product_menu_rate_buyer" = "Alıcıyı değerlendir";
 "product_more_info_open_button" = "DAHA FAZLA BİLGİ";
 "product_more_info_related_title" = "BU ÜRÜNLER DE İLGİNİ ÇEKEBİLİR:";
 "product_more_info_related_view_more" = "Daha fazla bilgi";
@@ -687,7 +688,7 @@
 "rate_buyers_not_on_letgo_button" = "Bu ürünü letgo'da satmadım";
 "rate_buyers_sub_message" = "Bu ürünü kime sattın?";
 "rate_buyers_title" = "Bu ürünü kim aldı?";
-"rate_user_negative_didnt_show_up" = "Didn’t show up";
+"rate_user_negative_didnt_show_up" = "Buluşmaya gelmedi";
 "rate_user_negative_item_not_as_advertised" = "Ürünü ilandaki gibi değildi";
 "rate_user_negative_not_polite" = "Kibar değil";
 "rate_user_negative_not_trustworthy" = "Güvenilmez";

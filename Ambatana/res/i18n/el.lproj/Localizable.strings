@@ -529,6 +529,7 @@
 "product_mark_as_sold_free_confirm_title" = "Μαρκάρετέ το ως χαρισμένο";
 "product_mark_as_sold_free_success_message" = "Συγχαρητήρια! Το προϊόν σας έχει μαρκαριστεί επιτυχώς ως χαρισμένο.";
 "product_mark_as_sold_success_message" = "Συγχαρητήρια, το προϊόν σας έχει χαρακτηριστεί ως πουλημένο!";
+"product_menu_rate_buyer" = "Βαθμολογήστε τον αγοραστή";
 "product_more_info_open_button" = "ΠΛΗΡΟΦΟΡΙΕΣ";
 "product_more_info_related_title" = "ΜΠΟΡΕΙ ΝΑ ΕΝΔΙΑΦΕΡΕΣΤΕ ΓΙΑ:";
 "product_more_info_related_view_more" = "Δείτε περισσότερα";
@@ -687,7 +688,7 @@
 "rate_buyers_not_on_letgo_button" = "Δεν το πούλησα στο letgo";
 "rate_buyers_sub_message" = "Σε ποιον το πουλήσατε;";
 "rate_buyers_title" = "Ποιος το αγόρασε;";
-"rate_user_negative_didnt_show_up" = "Didn’t show up";
+"rate_user_negative_didnt_show_up" = "Δεν εμφανίστηκε";
 "rate_user_negative_item_not_as_advertised" = "Το προϊόν δεν ήταν όπως φαινόταν";
 "rate_user_negative_not_polite" = "Αγενής";
 "rate_user_negative_not_trustworthy" = "Μη έμπιστος";
