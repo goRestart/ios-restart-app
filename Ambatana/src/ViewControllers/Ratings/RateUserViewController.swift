@@ -154,11 +154,16 @@ class RateUserViewController: KeyboardViewController {
         keyboardChanges.bindNext { [weak self] change in
             guard let strongSelf = self, change.visible else { return }
 
-            // Current scroll view frame (gets resize) at the bottom
+            // Current scroll view frame (as it gets resized) at the bottom
             let scrollViewHeight = strongSelf.scrollView.frame.height
             let visibleScrollViewHeight = scrollViewHeight - change.height
-            let y = strongSelf.scrollView.contentSize.height - visibleScrollViewHeight//visibleScrollViewHeight - scrollViewHeight
+            let lastVisibleRectTop = strongSelf.scrollView.contentSize.height - visibleScrollViewHeight
+            
+            // Top of the description should be visible
+            let descriptionTop = strongSelf.descriptionContainer.top
+            let y = min(descriptionTop, lastVisibleRectTop)
             let offset = CGPoint(x: 0, y: y)
+            
             strongSelf.scrollView.setContentOffset(offset, animated: true)
             
         }.addDisposableTo(disposeBag)
