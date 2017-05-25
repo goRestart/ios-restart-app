@@ -850,6 +850,7 @@
 "tour_page_1_body" = "Buy and sell quickly, safely and locally. It’s time to letgo!";
 "trending_searches_Title" = "Trending Searches";
 "unblock_user_error_generic" = "An error occurred while unblocking this user.";
+"user_rating_message_more" = "Thanks for sharing! Want to tell us more about you experience?";
 "user_rating_message_w_name" = "Does your experience with %@ get five stars? Tell us how it went.";
 "user_rating_message_wo_name" = "Does your experience with this user get five stars? Tell us how it went.";
 "user_rating_review_button" = "Publish review";

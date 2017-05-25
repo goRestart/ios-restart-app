@@ -850,6 +850,7 @@
 "tour_page_1_body" = "Compre e venda rápido, com segurança e localmente.";
 "trending_searches_Title" = "Pesquisa por Tendências";
 "unblock_user_error_generic" = "Ocorreu um erro ao desbloquear este utilizador.";
+"user_rating_message_more" = "Thanks for sharing! Want to tell us more about you experience?";
 "user_rating_message_w_name" = "Será que a sua experiência com %@ merece cinco estrelas? Conte-nos como correu.";
 "user_rating_message_wo_name" = "Será que a sua experiência com este utilizador merece cinco estrelas? Conte-nos como correu.";
 "user_rating_review_button" = "Publique o comentário";

@@ -850,6 +850,7 @@
 "tour_page_1_body" = "Köp och sälj snabbt, säkert och lokalt.";
 "trending_searches_Title" = "Sökningar som trendar";
 "unblock_user_error_generic" = "Ett fel uppstod när blockeringen av användaren skulle tas bort.";
+"user_rating_message_more" = "Thanks for sharing! Want to tell us more about you experience?";
 "user_rating_message_w_name" = "Får din upplevelse med %@ fem stjärnor? Berätta hur det gick.";
 "user_rating_message_wo_name" = "Får din upplevelse med den här användaren fem stjärnor? Berätta hur det gick.";
 "user_rating_review_button" = "Publicera omdöme";

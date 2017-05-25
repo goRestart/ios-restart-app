@@ -850,6 +850,7 @@
 "tour_page_1_body" = "Vásárolj és adj el gyorsan, biztonságosan – a környékeden.";
 "trending_searches_Title" = "Felkapott kulcsszavak";
 "unblock_user_error_generic" = "Hiba történt a blokkolás feloldása során.";
+"user_rating_message_more" = "Thanks for sharing! Want to tell us more about you experience?";
 "user_rating_message_w_name" = "%@ öt csillagot érdemel? Meséld el, hogy ment!";
 "user_rating_message_wo_name" = "Ez a felhasználó öt csillagot érdemel? Meséld el, hogy ment!";
 "user_rating_review_button" = "Értékelés beküldése";

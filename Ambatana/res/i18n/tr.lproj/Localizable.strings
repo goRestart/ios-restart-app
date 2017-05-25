@@ -850,6 +850,7 @@
 "tour_page_1_body" = "Bulunduğun çevrede hızlı ve güvenli bir şekilde al ve sat.";
 "trending_searches_Title" = "Popüler Aramalar";
 "unblock_user_error_generic" = "Kullanıcı engeli kaldırılırken bir hata oluştu.";
+"user_rating_message_more" = "Thanks for sharing! Want to tell us more about you experience?";
 "user_rating_message_w_name" = "%@ ile deneyimin nasıldı? 5 yıldız vermek ister misin?";
 "user_rating_message_wo_name" = "Bu kullanıcı ile deneyimin nasıldı? 5 yıldız vermek ister misin?";
 "user_rating_review_button" = "Değerlendirmeyi Yayınla";

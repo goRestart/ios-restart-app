@@ -850,6 +850,7 @@
 "tour_page_1_body" = "Mua và bán nhanh chóng, an toàn ở ngay gần bạn.";
 "trending_searches_Title" = "Xu hướng Tìm kiếm";
 "unblock_user_error_generic" = "Có lỗi xảy ra trong khi bỏ chặn người dùng này.";
+"user_rating_message_more" = "Thanks for sharing! Want to tell us more about you experience?";
 "user_rating_message_w_name" = "Trải nghiệm của bạn với %@ có xứng đáng năm sao? Hãy cho chúng tôi biết.";
 "user_rating_message_wo_name" = "Trải nghiệm của bạn với người dùng này có xứng đáng năm sao? Hãy cho chúng tôi biết.";
 "user_rating_review_button" = "Đăng đánh giá";

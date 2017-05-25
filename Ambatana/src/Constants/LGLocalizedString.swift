@@ -2855,6 +2855,18 @@ struct LGLocalizedString {
 		return NSLocalizedString("rate_buyers_sub_message", comment: "")
 	}
 
+	static var rateBuyersWillDoLaterTitle: String {
+		return NSLocalizedString("rate_buyers_will_do_later_title", comment: "")
+	}
+
+	static var rateBuyersWillDoLaterSubtitle: String {
+		return NSLocalizedString("rate_buyers_will_do_later_subtitle", comment: "")
+	}
+
+	static var rateBuyersNotOnLetgoTitleButton: String {
+		return NSLocalizedString("rate_buyers_not_on_letgo_title_button", comment: "")
+	}
+
 	static var rateBuyersNotOnLetgoButton: String {
 		return NSLocalizedString("rate_buyers_not_on_letgo_button", comment: "")
 	}
@@ -3481,6 +3493,10 @@ struct LGLocalizedString {
 
 	static var userRatingMessageWoName: String {
 		return NSLocalizedString("user_rating_message_wo_name", comment: "")
+	}
+
+	static var userRatingMessageMore: String {
+		return NSLocalizedString("user_rating_message_more", comment: "")
 	}
 
 	static var userRatingReviewButton: String {

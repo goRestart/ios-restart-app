@@ -850,6 +850,7 @@
 "tour_page_1_body" = "Покупайте и продавайте быстро, безопасно и удобно.";
 "trending_searches_Title" = "Популярные запросы";
 "unblock_user_error_generic" = "При разблокировке произошла ошибка.";
+"user_rating_message_more" = "Thanks for sharing! Want to tell us more about you experience?";
 "user_rating_message_w_name" = "Ваша сделка с %@ прошла на 5 звезд? Расскажите нам о ней.";
 "user_rating_message_wo_name" = "Ваша сделка с этим пользователем прошла на 5 звезд? Расскажите нам о ней.";
 "user_rating_review_button" = "Опубликовать отзыв";
