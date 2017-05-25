@@ -10,8 +10,8 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class RateUserViewController: BaseViewController {
-
+class RateUserViewController: KeyboardViewController {
+    @IBOutlet weak var visualEffectView: UIVisualEffectView!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var userNameText: UILabel!
@@ -19,6 +19,7 @@ class RateUserViewController: BaseViewController {
     @IBOutlet var stars: [UIButton]!
     
     @IBOutlet weak var descriptionContainer: UIView!
+    @IBOutlet weak var descriptionContainerBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var descriptionText: UITextView!
     @IBOutlet weak var descriptionCharCounter: UILabel!
     
@@ -64,7 +65,7 @@ class RateUserViewController: BaseViewController {
         setupRx()
     }
 
-
+    
     // MARK: - Actions
 
     @IBAction func publishButtonPressed(_ sender: AnyObject) {
@@ -97,6 +98,10 @@ class RateUserViewController: BaseViewController {
     // MARK: - Private methods
 
     private func setupUI() {
+        // In the xib bottom constraints are remove at runtime
+        visualEffectView.layout(with: keyboardView).bottom(to: .top)
+        footerView.layout(with: keyboardView).bottom(to: .top)
+        
         automaticallyAdjustsScrollViewInsets = false
         if showSkipButton {
             setLetGoRightButtonWith(text: LGLocalizedString.userRatingSkipButton, selector: #selector(skipButtonPressed))
@@ -117,8 +122,12 @@ class RateUserViewController: BaseViewController {
         descriptionContainer.layer.borderWidth = LGUIKitConstants.onePixelSize
         descriptionText.text = descrPlaceholder
         descriptionText.textColor = descrPlaceholderColor
+        
         footerLabel.text = LGLocalizedString.userRatingReviewInfo
 
+        footerView.layoutIfNeeded()
+        descriptionContainerBottomConstraint.constant = footerView.height + Metrics.margin
+        
         publishButton.setStyle(.primary(fontSize: .big))
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewBackgroundTap))
@@ -142,12 +151,16 @@ class RateUserViewController: BaseViewController {
             }
         }.addDisposableTo(disposeBag)
 
-        keyboardHelper.rx_keyboardOrigin.asObservable().bindNext { [weak self] origin in
-            guard let scrollView = self?.scrollView, var buttonRect = self?.publishButton.frame,
-                let topHeight = self?.topBarHeight else { return }
-            scrollView.contentInset.bottom = scrollView.height - origin + topHeight
-            buttonRect.bottom = buttonRect.bottom + RateUserViewController.sendButtonMargin
-            scrollView.scrollRectToVisible(buttonRect, animated: false)
+        keyboardChanges.bindNext { [weak self] change in
+            guard let strongSelf = self, change.visible else { return }
+
+            // Current scroll view frame (gets resize) at the bottom
+            let scrollViewHeight = strongSelf.scrollView.frame.height
+            let visibleScrollViewHeight = scrollViewHeight - change.height
+            let y = strongSelf.scrollView.contentSize.height - visibleScrollViewHeight//visibleScrollViewHeight - scrollViewHeight
+            let offset = CGPoint(x: 0, y: y)
+            strongSelf.scrollView.setContentOffset(offset, animated: true)
+            
         }.addDisposableTo(disposeBag)
     }
 }
