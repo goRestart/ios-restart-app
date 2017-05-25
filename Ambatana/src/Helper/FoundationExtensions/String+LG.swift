@@ -247,4 +247,10 @@ extension String {
             lowercaseString.range(of: "let g0") != nil ||
             lowercaseString.range(of: "iet g0") != nil
     }
+
+    var isOnlyDigits: Bool {
+        let nonNumberCharacters = CharacterSet.decimalDigits.inverted
+        guard self.rangeOfCharacter(from: nonNumberCharacters) == nil else { return false }
+        return true
+    }
 }

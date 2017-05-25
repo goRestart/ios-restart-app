@@ -347,7 +347,7 @@ class MainProductsViewModel: BaseViewModel {
     }
 
     func bubbletapped() {
-        navigator?.openLocationSelection()
+        navigator?.openLocationSelection(locationDelegate: self)
     }
 
     
@@ -384,7 +384,7 @@ class MainProductsViewModel: BaseViewModel {
     
     fileprivate func bubbleInfoTextForDistance(_ distance: Int, type: DistanceType) -> String {
         let distanceString = String(format: "%d %@", arguments: [min(Constants.productListMaxDistanceLabel, distance),
-            type.string])
+                                                                 type.string])
         if distance <= Constants.productListMaxDistanceLabel {
             return LGLocalizedString.productDistanceXFromYou(distanceString)
         } else {
@@ -887,5 +887,13 @@ fileprivate extension MainProductsViewModel {
         let trackerEvent = TrackerEvent.permissionAlertCancel(.push, typePage: .productListBanner, alertType: .custom,
                                                               permissionGoToSettings: goToSettings)
         tracker.trackEvent(trackerEvent)
+    }
+}
+
+
+extension MainProductsViewModel: EditLocationDelegate {
+    func editLocationDidSelectPlace(_ place: Place) {
+        filters.place = place
+        updateListView()
     }
 }

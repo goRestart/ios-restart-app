@@ -8,36 +8,42 @@
 
 import Foundation
 import UIKit
+import RxSwift
 
 class LocationFromZipCodeViewController: KeyboardViewController {
 
+    static let zipCodeNumCharacters = 5
 
-    let closeButton: UIButton = UIButton()
-    let titleLabel: UILabel = UILabel()
+    fileprivate let closeButton: UIButton = UIButton()
+    fileprivate let titleLabel: UILabel = UILabel()
 
-    let scrollView: UIScrollView = UIScrollView()
+    fileprivate let scrollView: UIScrollView = UIScrollView()
 
-    let infoSelectionContainer: UIView = UIView()
-    let currentLocationButton: UIButton = UIButton()
-    let leftLineView: UIView = UIView()
-    let orLabel: UILabel = UILabel()
-    let rightLineView: UIView = UIView()
-    let zipCodeTextField: UITextField = UITextField()
-    let minDigitsLabel: UILabel = UILabel()
+    fileprivate let infoSelectionContainer: UIView = UIView()
+    fileprivate let currentLocationButton: UIButton = UIButton()
+    fileprivate let leftLineView: UIView = UIView()
+    fileprivate let orLabel: UILabel = UILabel()
+    fileprivate let rightLineView: UIView = UIView()
+    fileprivate let zipCodeTextField: UITextField = UITextField()
+    fileprivate let minDigitsLabel: UILabel = UILabel()
 
-    let fullAddressContainer: UIView = UIView()
-    let pointerImageView: UIImageView = UIImageView()
-    let addressLabel: UILabel = UILabel()
+    fileprivate let fullAddressContainer: UIView = UIView()
+    fileprivate let pointerImageView: UIImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 18, height: 18))
+    fileprivate let addressLabel: UILabel = UILabel()
+    fileprivate let addressActivityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
 
-    let setLocationButton: UIButton = UIButton()
+    fileprivate let setLocationButton: UIButton = UIButton()
 
-    var viewModel: LocationFromZipCodeViewModel
+    fileprivate var viewModel: LocationFromZipCodeViewModel
+
+    fileprivate let disposeBag = DisposeBag()
 
     init(viewModel: LocationFromZipCodeViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
         setupUI()
         setupLayout()
+        setupRx()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -52,6 +58,7 @@ class LocationFromZipCodeViewController: KeyboardViewController {
 
 fileprivate extension LocationFromZipCodeViewController {
     func setupUI() {
+        view.backgroundColor = UIColor.white
         closeButton.setImage(UIImage(named: "ic_close_red"), for: .normal)
         closeButton.addTarget(self, action: #selector(closeButtonPressed), for: .touchUpInside)
 
@@ -64,6 +71,7 @@ fileprivate extension LocationFromZipCodeViewController {
         currentLocationButton.setTitle("_Current location", for: .normal)
         currentLocationButton.setTitleColor(UIColor.primaryColor, for: .normal)
         currentLocationButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 30)
+        currentLocationButton.addTarget(self, action: #selector(currentLocationButtonPressed), for: .touchUpInside)
 
         leftLineView.backgroundColor = UIColor.gray
         rightLineView.backgroundColor = UIColor.gray
@@ -77,6 +85,8 @@ fileprivate extension LocationFromZipCodeViewController {
         zipCodeTextField.placeholder = "_Zipcode"
         zipCodeTextField.tintColor = UIColor.primaryColor
         zipCodeTextField.keyboardType = .numberPad
+        zipCodeTextField.delegate = self
+        zipCodeTextField.textAlignment = .center
 
         minDigitsLabel.font = UIFont.systemMediumFont(size: 13)
         minDigitsLabel.textColor = UIColor.grayText
@@ -90,16 +100,19 @@ fileprivate extension LocationFromZipCodeViewController {
         pointerImageView.image = UIImage(named: "ic_location")
         pointerImageView.contentMode = .scaleAspectFit
 
-        setLocationButton.setStyle(.primary(fontSize: .big))
+        addressActivityIndicator.stopAnimating()
+        addressActivityIndicator.hidesWhenStopped = true
+
+        setLocationButton.frame = CGRect(x: 0, y: 0, width: 200, height: Metrics.buttonHeight)
         setLocationButton.setTitle("_ Set location", for: .normal)
+        setLocationButton.setStyle(.primary(fontSize: .big))
 
         setLocationButton.addTarget(self, action: #selector(setLocationPressed), for: .touchUpInside)
-
     }
 
     func setupLayout() {
 
-        let rootViews = [closeButton, titleLabel, infoSelectionContainer, fullAddressContainer]
+        let rootViews = [closeButton, titleLabel, infoSelectionContainer, fullAddressContainer, addressActivityIndicator]
         let infoSelectionSubviews = [currentLocationButton, leftLineView, orLabel, rightLineView, zipCodeTextField, minDigitsLabel]
         let fullAddressSubviews = [pointerImageView, addressLabel]
 
@@ -108,14 +121,15 @@ fileprivate extension LocationFromZipCodeViewController {
         view.setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: rootViews)
         view.setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: infoSelectionSubviews)
         view.setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: fullAddressSubviews)
+
         view.addSubview(scrollView)
-        view.addSubview(setLocationButton)
         scrollView.addSubviews(rootViews)
         infoSelectionContainer.addSubviews(infoSelectionSubviews)
         fullAddressContainer.addSubviews(fullAddressSubviews)
+        view.addSubview(setLocationButton)
 
         scrollView.layout(with: view).top(by: Metrics.margin).left().right()
-        scrollView.layout(with: keyboardView).bottom(to: .top)
+        scrollView.layout(with: setLocationButton).bottom(to: .top)
 
         closeButton.layout().width(20).height(20)
         closeButton.layout(with: scrollView).top(by: Metrics.margin).left(by: Metrics.margin)
@@ -125,7 +139,7 @@ fileprivate extension LocationFromZipCodeViewController {
         titleLabel.layout(with: closeButton).leading(to: .trailing, by: Metrics.margin)
 
         infoSelectionContainer.layout(with: scrollView).center()
-        infoSelectionContainer.layout(with: scrollView).trailingMargin().leadingMargin()
+        infoSelectionContainer.layout().width(50, relatedBy: .greaterThanOrEqual)
         infoSelectionContainer.layout(with: titleLabel).top(to: .bottomMargin, by: Metrics.margin, relatedBy: .greaterThanOrEqual)
 
         currentLocationButton.layout(with: infoSelectionContainer).topMargin().centerX()
@@ -147,33 +161,54 @@ fileprivate extension LocationFromZipCodeViewController {
         fullAddressContainer.layout().height(18)
         fullAddressContainer.layout(with: infoSelectionContainer).below(by: Metrics.veryBigMargin)
         fullAddressContainer.layout(with: scrollView).centerX()
-        fullAddressContainer.layout(with: scrollView).trailingMargin(by: Metrics.veryBigMargin, relatedBy: .greaterThanOrEqual)
-                                                     .leadingMargin(by: Metrics.veryBigMargin, relatedBy: .greaterThanOrEqual)
+        fullAddressContainer.layout(with: scrollView).trailingMargin(by: -Metrics.veryBigMargin, relatedBy: .lessThanOrEqual)
+                                                    .leadingMargin(by: Metrics.veryBigMargin, relatedBy: .greaterThanOrEqual)
 
-        fullAddressContainer.layout(with: pointerImageView).left().top().bottom()
-        fullAddressContainer.layout(with: addressLabel).right().top().bottom()
-        addressLabel.layout(with: pointerImageView).toRight()
+        addressActivityIndicator.layout(with: fullAddressContainer).center()
+        pointerImageView.layout().height(18).width(18)
+        pointerImageView.layout(with: fullAddressContainer).left().top().bottom()
+        addressLabel.layout(with: fullAddressContainer).right().top().bottom()
+        addressLabel.layout(with: pointerImageView).left(to: .right)
 
-        setLocationButton.layout(with: view).centerX().bottom()
+        setLocationButton.layout().height(Metrics.buttonHeight)
+        setLocationButton.layout(with: keyboardView).centerX().above(by: -Metrics.bigMargin)
+        setLocationButton.layout(with: view).trailingMargin(by: Metrics.margin, relatedBy: .greaterThanOrEqual)
+                                            .leadingMargin(by: Metrics.margin, relatedBy: .greaterThanOrEqual)
+    }
 
-//        let zipCodeTextField: UITextField = UITextField()
-//        let minDigitsLabel: UILabel = UILabel()
+    func setupRx() {
+        viewModel.setLocationButtonVisible.asObservable().map{ !$0 }.bindTo(setLocationButton.rx.isHidden).addDisposableTo(disposeBag)
+        viewModel.setLocationButtonEnabled.asObservable().bindTo(setLocationButton.rx.isEnabled).addDisposableTo(disposeBag)
+        viewModel.fullAddressVisible.asObservable().map{ !$0 }.bindTo(fullAddressContainer.rx.isHidden).addDisposableTo(disposeBag)
+        viewModel.fullAddress.asObservable().bindTo(addressLabel.rx.text).addDisposableTo(disposeBag)
+        viewModel.isResolvingAddress.asObservable().bindNext { [weak self] isResolving in
+            if isResolving {
+                self?.addressActivityIndicator.startAnimating()
+                self?.zipCodeTextField.isEnabled = false
+            } else {
+                self?.addressActivityIndicator.stopAnimating()
+                self?.zipCodeTextField.isEnabled = true
+            }
+        }.addDisposableTo(disposeBag)
 
-//        navigationMakeButton.layout(with: navigationModelButton)
-//            .trailing(to: .leading, by: -Metrics.margin)
-
-
-//        navigationMakeButton.layout(with: navigationView)
-//            .leading(to: .leadingMargin, by: Metrics.margin, relatedBy: .greaterThanOrEqual)
-//            .top(by: Metrics.shortMargin)
-
+        zipCodeTextField.rx.text.asObservable().distinctUntilChanged({ (s1, s2) -> Bool in
+            s1 == s2
+        }).bindNext { [weak self] text in
+            self?.viewModel.zipCode.value = text
+        }.addDisposableTo(disposeBag)
     }
 
     dynamic func closeButtonPressed() {
         dismiss(animated: true, completion: nil)
     }
 
+    dynamic func currentLocationButtonPressed() {
+        zipCodeTextField.text = ""
+        viewModel.updateAddressFromCurrentLocation()
+    }
+
     dynamic func setLocationPressed() {
+        viewModel.setNewLocation()
         dismiss(animated: true, completion: nil)
     }
 }
@@ -182,4 +217,15 @@ fileprivate extension LocationFromZipCodeViewController {
 
 extension LocationFromZipCodeViewController: UITextFieldDelegate {
 
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        viewModel.editingStart()
+    }
+
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard !string.hasEmojis() else { return false }
+        guard string.isOnlyDigits else { return false }
+        let text = textField.textReplacingCharactersInRange(range, replacementString: string)
+        guard text.characters.count <= LocationFromZipCodeViewController.zipCodeNumCharacters else { return false }
+        return true
+    }
 }

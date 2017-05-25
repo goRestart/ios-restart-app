@@ -11,5 +11,5 @@ import LGCoreKit
 protocol MainTabNavigator: TabNavigator {
     func openMainProduct(withSearchType searchType: SearchType, productFilters: ProductFilters)
     func showFilters(with productFilters: ProductFilters, filtersVMDataDelegate: FiltersViewModelDataDelegate?)
-    func openLocationSelection()
+    func openLocationSelection(locationDelegate: EditLocationDelegate)
 }
