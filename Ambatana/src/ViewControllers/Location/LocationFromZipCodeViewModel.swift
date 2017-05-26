@@ -83,8 +83,8 @@ class LocationFromZipCodeViewModel: BaseViewModel {
                 } else if let resumedData = place.placeResumedData {
                     self?.fullAddress.value = resumedData
                 }
-            }else {
-                print(result.error)
+            } else if let error = result.error {
+                logMessage(.error, type: [.location], message: "PostalAddress Service: Retrieve Address For Location error: \(error)")
             }
         }
     }
@@ -107,8 +107,8 @@ class LocationFromZipCodeViewModel: BaseViewModel {
                 } else if let resumedData = place.placeResumedData {
                     self?.fullAddress.value = resumedData
                 }
-            } else {
-                print(result.error)
+            } else if let error = result.error {
+                logMessage(.error, type: [.location], message: "Search Service: Retrieve Address For Location error: \(error)")
             }
         }
     }

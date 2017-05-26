@@ -853,7 +853,7 @@
 "tour_page_1_body" = "Kjøp og selg raskt, sikkert og lokalt.";
 "trending_searches_Title" = "Populære søk";
 "unblock_user_error_generic" = "En feil oppstod ved oppheving av blokkering for denne brukeren.";
-"user_rating_message_more" = "Thanks for sharing! Want to tell us more about you experience?";
+"user_rating_message_more" = "Thanks for sharing! Want to tell us more about your experience?";
 "user_rating_message_w_name" = "Får din opplevelse med %@ fem stjerner? Fortell oss hvordan det gikk.";
 "user_rating_message_wo_name" = "Får din opplevelse med denne brukeren fem stjerner? Fortell oss hvordan det gikk.";
 "user_rating_review_button" = "Publiser omtale";

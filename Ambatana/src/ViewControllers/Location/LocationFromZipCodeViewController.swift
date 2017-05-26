@@ -198,6 +198,7 @@ fileprivate extension LocationFromZipCodeViewController {
     }
 
     dynamic func closeButtonPressed() {
+        // TODO: use navigator
         dismiss(animated: true, completion: nil)
     }
 
@@ -208,6 +209,7 @@ fileprivate extension LocationFromZipCodeViewController {
 
     dynamic func setLocationPressed() {
         viewModel.setNewLocation()
+        // TODO: use navigator
         dismiss(animated: true, completion: nil)
     }
 }

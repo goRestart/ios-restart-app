@@ -853,7 +853,7 @@
 "tour_page_1_body" = "Achetez et vendez rapidement, de manière sécuritaire et localement. C'est parti avec letgo !";
 "trending_searches_Title" = "Recherches Populaires";
 "unblock_user_error_generic" = "Une erreur est survenue lors du déblocage de cet utilisateur.";
-"user_rating_message_more" = "Thanks for sharing! Want to tell us more about you experience?";
+"user_rating_message_more" = "Thanks for sharing! Want to tell us more about your experience?";
 "user_rating_message_w_name" = "Votre expérience avec %@ vaut-elle cinq étoiles ? Dites-nous comment ça s'est passé.";
 "user_rating_message_wo_name" = "Votre expérience avec cet utilisateur vaut-elle cinq étoiles ? Dites-nous comment ça s'est passé.";
 "user_rating_review_button" = "Publier l'avis";

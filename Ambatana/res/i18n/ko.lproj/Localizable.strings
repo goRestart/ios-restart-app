@@ -853,7 +853,7 @@
 "tour_page_1_body" = "구매와 판매를 빠르고 안전하고 지역적으로 진행하세요.";
 "trending_searches_Title" = "트렌드 검색";
 "unblock_user_error_generic" = "이 사용자의 차단을 해제하는데 오류가 발생했습니다.";
-"user_rating_message_more" = "Thanks for sharing! Want to tell us more about you experience?";
+"user_rating_message_more" = "Thanks for sharing! Want to tell us more about your experience?";
 "user_rating_message_w_name" = "%@에게 별 다섯개를 주실 경험을 하셨나요? 어떠셨는지 저희에게 알려주세요.";
 "user_rating_message_wo_name" = "이 사용자에게 별 다섯개를 주실 경험을 하셨나요? 어떠셨는지 저희에게 알려주세요.";
 "user_rating_review_button" = "댓글 남기기";

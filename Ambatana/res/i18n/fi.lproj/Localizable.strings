@@ -853,7 +853,7 @@
 "tour_page_1_body" = "Osta ja myy nopeasti, turvallisesti ja paikallisesti.";
 "trending_searches_Title" = "Nousussa olevat haut";
 "unblock_user_error_generic" = "Tämän käyttäjän estoa poistettaessa tapahtui virhe.";
-"user_rating_message_more" = "Thanks for sharing! Want to tell us more about you experience?";
+"user_rating_message_more" = "Thanks for sharing! Want to tell us more about your experience?";
 "user_rating_message_w_name" = "Onko kokemuksesi käyttäjän %@ kanssa viiden tähden arvoinen? Kerro meille, miten asiat sujuivat.";
 "user_rating_message_wo_name" = "Onko kokemuksesi tämän käyttäjän kanssa viiden tähden arvoinen? Kerro meille, miten asiat sujuivat.";
 "user_rating_review_button" = "Julkaise arvostelu";

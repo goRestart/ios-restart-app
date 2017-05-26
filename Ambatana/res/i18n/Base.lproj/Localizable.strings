@@ -2613,7 +2613,7 @@
 "user_rating_message_wo_name" = "Does your experience with this user get five stars? Tell us how it went.";
 
 // Information message when rated a user with stars and we ask for comments
-"user_rating_message_more" = "Thanks for sharing! Want to tell us more about you experience?";
+"user_rating_message_more" = "Thanks for sharing! Want to tell us more about your experience?";
 
 // Info message to select one rating tag.
 "user_rating_select_a_tag" = "Select at least one:";
