@@ -347,7 +347,12 @@ class MainProductsViewModel: BaseViewModel {
     }
 
     func bubbletapped() {
-        navigator?.openLocationSelection(locationDelegate: self)
+        switch featureFlags.editLocationBubble {
+        case .inactive:
+            break
+        case .map, .zipCode:
+            navigator?.openLocationSelection(locationDelegate: self)
+        }
     }
 
     

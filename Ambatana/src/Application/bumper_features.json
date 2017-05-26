@@ -89,5 +89,10 @@
         "name": "CarsCategoryAfterPicture",
         "values": ["no", "yes"],
         "description": "When cars vertical enabled, select category after image selection"
+    },
+    {
+        "name": "EditLocationBubble",
+        "values": ["inactive", "map", "zipCode"],
+        "description": "Location Edit A/B/C"
     }
 ]
