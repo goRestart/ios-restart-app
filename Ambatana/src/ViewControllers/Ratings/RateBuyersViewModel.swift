@@ -37,6 +37,9 @@ class RateBuyersViewModel: BaseViewModel {
         self.init(buyers: buyers, listingId: listingId, sourceRateBuyers: source, listingRepository: Core.listingRepository)
     }
     
+    var shouldShowSeeMoreOption: Bool {
+        return RateBuyersViewModel.itemsOnCompactFormat < possibleBuyers.count
+    }
 
     // MARK: - Actions
 
@@ -64,6 +67,8 @@ class RateBuyersViewModel: BaseViewModel {
             visibilityFormat.value = .compact(with: RateBuyersViewModel.itemsOnCompactFormat)
         }
     }
+    
+    
 
     
     // MARK: - Transactions methods
@@ -97,12 +102,24 @@ class RateBuyersViewModel: BaseViewModel {
     }
     
     func bottomBorderAt(index: Int) -> Bool {
-        return buyersToShow - 1 > index
+        guard index == buyersToShow else { return buyersToShow - 1 > index }
+        return true
+        
     }
     
     func topBorderAt(index: Int) -> Bool {
         guard buyersToShow > index else { return true }
         return index == 0
+    }
+    
+    func secondaryActionsbottomBorderAt(index: Int) -> Bool {
+        return true
+    }
+    
+    func secondaryActionstopBorderAt(index: Int) -> Bool {
+        guard index == 0 else { return false }
+        return true
+        
     }
     
     func disclosureDirectionAt(index: Int) -> DisclosureDirection {

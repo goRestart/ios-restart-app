@@ -52,6 +52,7 @@ class RateBuyersViewController: BaseViewController {
         mainView.tableView.dataSource = self
         mainView.tableView.rowHeight = PossibleBuyerCell.cellHeight
         mainView.tableView.backgroundColor = UIColor.clear
+        mainView.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Metrics.shortMargin, right: 0)
 
         let cellNib = UINib(nibName: PossibleBuyerCell.reusableID, bundle: nil)
         mainView.tableView.register(cellNib, forCellReuseIdentifier: PossibleBuyerCell.reusableID)
@@ -74,7 +75,7 @@ class RateBuyersViewController: BaseViewController {
 extension RateBuyersViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return viewModel.buyersToShow + 1
+            return viewModel.shouldShowSeeMoreOption ? viewModel.buyersToShow + 1 : viewModel.buyersToShow
         } else {
             return RateBuyersViewController.numberOfExtraButtons
         }
@@ -109,9 +110,9 @@ extension RateBuyersViewController: UITableViewDelegate, UITableViewDataSource {
         case 1:
             cellType = .otherCell
             image = nil
-            topBorder = true
+            topBorder = viewModel.secondaryActionstopBorderAt(index: indexPath.row)
             disclosureDirection = .right
-            bottomBorder = true
+            bottomBorder = viewModel.secondaryActionsbottomBorderAt(index: indexPath.row)
             title = viewModel.secondaryOptionsTitleAt(index: indexPath.row)
             subtitle = viewModel.secondaryOptionsSubtitleAt(index: indexPath.row)
         default:
@@ -130,6 +131,12 @@ extension RateBuyersViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         guard section == 1 else { return 0 }
         return RateBuyersViewController.headerTableViewHeight
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView()
+        view.backgroundColor = UIColor.grayBackground
+        return view
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
