@@ -74,6 +74,9 @@
 "change_location_recommend_update_location_message" = "근처의 상품을 찾기위해 위치정보를 업데이트 하는 것을 추천합니다!";
 "change_location_search_field_hint" = "도시 및 우편번호를 입력하세요";
 "change_location_title" = "위치 변경하기";
+"change_location_zip_current_location_button" = "Current location";
+"change_location_zip_min_digits_label" = "Must be 5 digits";
+"change_location_zip_placeholder" = "Zip code";
 "change_password_confirm_password_field_hint" = "비밀번호 확인";
 "change_password_new_password_field_hint" = "새로운 비밀번호";
 "change_password_send_error_generic" = "비밀번호를 변경하는데 오류가 발생했습니다. 다시 시도해주세요.";
@@ -850,6 +853,7 @@
 "tour_page_1_body" = "구매와 판매를 빠르고 안전하고 지역적으로 진행하세요.";
 "trending_searches_Title" = "트렌드 검색";
 "unblock_user_error_generic" = "이 사용자의 차단을 해제하는데 오류가 발생했습니다.";
+"user_rating_message_more" = "Thanks for sharing! Want to tell us more about you experience?";
 "user_rating_message_w_name" = "%@에게 별 다섯개를 주실 경험을 하셨나요? 어떠셨는지 저희에게 알려주세요.";
 "user_rating_message_wo_name" = "이 사용자에게 별 다섯개를 주실 경험을 하셨나요? 어떠셨는지 저희에게 알려주세요.";
 "user_rating_review_button" = "댓글 남기기";
@@ -858,6 +862,7 @@
 "user_rating_review_placeholder_mandatory" = "경험하신 것에 대해서 작성해주세요 (선택사항)";
 "user_rating_review_placeholder_optional" = "경험하신 것에 대해서 작성해주세요 (선택사항)";
 "user_rating_review_send_success" = "사용자의 댓글이 정상적으로 등록되었습니다!";
+"user_rating_select_a_tag" = "Select at least one:";
 "user_rating_skip_button" = "넘기기";
 "user_rating_title" = "회원님의 경험을 댓글로 남기기";
 "user_share_error" = "프로필을 공유하는 동안 에러가 발생했습니다. 다시 시도해주세요.";

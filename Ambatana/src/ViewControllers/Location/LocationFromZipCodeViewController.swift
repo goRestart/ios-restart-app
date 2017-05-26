@@ -34,7 +34,7 @@ class LocationFromZipCodeViewController: KeyboardViewController {
 
     fileprivate let setLocationButton: UIButton = UIButton()
 
-    fileprivate var viewModel: LocationFromZipCodeViewModel
+    fileprivate let viewModel: LocationFromZipCodeViewModel
 
     fileprivate let disposeBag = DisposeBag()
 
@@ -62,13 +62,12 @@ fileprivate extension LocationFromZipCodeViewController {
         closeButton.setImage(UIImage(named: "ic_close_red"), for: .normal)
         closeButton.addTarget(self, action: #selector(closeButtonPressed), for: .touchUpInside)
 
-
         titleLabel.font = UIFont.pageTitleFont
         titleLabel.textColor = UIColor.blackText
-        titleLabel.text = "_ Set location"
+        titleLabel.text = LGLocalizedString.changeLocationApplyButton
         titleLabel.textAlignment = .center
 
-        currentLocationButton.setTitle("_Current location", for: .normal)
+        currentLocationButton.setTitle(LGLocalizedString.changeLocationZipCurrentLocationButton, for: .normal)
         currentLocationButton.setTitleColor(UIColor.primaryColor, for: .normal)
         currentLocationButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 30)
         currentLocationButton.addTarget(self, action: #selector(currentLocationButtonPressed), for: .touchUpInside)
@@ -82,7 +81,7 @@ fileprivate extension LocationFromZipCodeViewController {
 
         zipCodeTextField.font = UIFont.boldSystemFont(ofSize: 30)
         zipCodeTextField.textColor = UIColor.blackText
-        zipCodeTextField.placeholder = "_Zipcode"
+        zipCodeTextField.placeholder = LGLocalizedString.changeLocationZipPlaceholder
         zipCodeTextField.tintColor = UIColor.primaryColor
         zipCodeTextField.keyboardType = .numberPad
         zipCodeTextField.delegate = self
@@ -90,12 +89,12 @@ fileprivate extension LocationFromZipCodeViewController {
 
         minDigitsLabel.font = UIFont.systemMediumFont(size: 13)
         minDigitsLabel.textColor = UIColor.grayText
-        minDigitsLabel.text = "_ Must be 5 digits"
+        minDigitsLabel.text = LGLocalizedString.changeLocationZipMinDigitsLabel
         minDigitsLabel.textAlignment = .center
 
         addressLabel.font = UIFont.systemMediumFont(size: 13)
         addressLabel.textColor = UIColor.grayText
-        addressLabel.text = "_Tromaville, XD 66669"
+        addressLabel.text = ""
         addressLabel.textAlignment = .right
         pointerImageView.image = UIImage(named: "ic_location")
         pointerImageView.contentMode = .scaleAspectFit
@@ -104,7 +103,7 @@ fileprivate extension LocationFromZipCodeViewController {
         addressActivityIndicator.hidesWhenStopped = true
 
         setLocationButton.frame = CGRect(x: 0, y: 0, width: 200, height: Metrics.buttonHeight)
-        setLocationButton.setTitle("_ Set location", for: .normal)
+        setLocationButton.setTitle(LGLocalizedString.changeLocationApplyButton, for: .normal)
         setLocationButton.setStyle(.primary(fontSize: .big))
 
         setLocationButton.addTarget(self, action: #selector(setLocationPressed), for: .touchUpInside)

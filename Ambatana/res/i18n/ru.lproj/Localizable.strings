@@ -74,6 +74,9 @@
 "change_location_recommend_update_location_message" = "Мы рекомендуем изменить Ваше местоположение, чтоб найти выгодные предложения по соседству";
 "change_location_search_field_hint" = "Введите город или почтовый индекс";
 "change_location_title" = "Изменить локацию";
+"change_location_zip_current_location_button" = "Current location";
+"change_location_zip_min_digits_label" = "Must be 5 digits";
+"change_location_zip_placeholder" = "Zip code";
 "change_password_confirm_password_field_hint" = "Подтвердите пароль";
 "change_password_new_password_field_hint" = "Новый пароль";
 "change_password_send_error_generic" = "При смене пароля произошла ошибка. Пожалуйста, попробуйте еще раз.";
@@ -850,6 +853,7 @@
 "tour_page_1_body" = "Покупайте и продавайте быстро, безопасно и удобно.";
 "trending_searches_Title" = "Популярные запросы";
 "unblock_user_error_generic" = "При разблокировке произошла ошибка.";
+"user_rating_message_more" = "Thanks for sharing! Want to tell us more about you experience?";
 "user_rating_message_w_name" = "Ваша сделка с %@ прошла на 5 звезд? Расскажите нам о ней.";
 "user_rating_message_wo_name" = "Ваша сделка с этим пользователем прошла на 5 звезд? Расскажите нам о ней.";
 "user_rating_review_button" = "Опубликовать отзыв";
@@ -858,6 +862,7 @@
 "user_rating_review_placeholder_mandatory" = "Опишите ваш опыт (обязательно)";
 "user_rating_review_placeholder_optional" = "Опишите свой опыт (опционально)";
 "user_rating_review_send_success" = "Ваш отзыв опубликован!";
+"user_rating_select_a_tag" = "Select at least one:";
 "user_rating_skip_button" = "Пропустить";
 "user_rating_title" = "Оцените свое общение с";
 "user_share_error" = "При отправке профиля произошла ошибка. Пожалуйста, попробуйте еще раз.";

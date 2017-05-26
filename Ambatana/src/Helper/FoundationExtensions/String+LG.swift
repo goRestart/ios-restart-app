@@ -250,7 +250,7 @@ extension String {
 
     var isOnlyDigits: Bool {
         let nonNumberCharacters = CharacterSet.decimalDigits.inverted
-        guard self.rangeOfCharacter(from: nonNumberCharacters) == nil else { return false }
+        guard rangeOfCharacter(from: nonNumberCharacters) == nil else { return false }
         return true
     }
 }
