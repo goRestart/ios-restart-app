@@ -171,7 +171,7 @@ fileprivate extension RelatedProductsView {
         clear()
         requester = RelatedProductListRequester(productId: productId, itemsPerPage: Constants.numProductsPerPageDefault)
         requester?.retrieveFirstPage { [weak self] result in
-            guard let listings = result.value else { return }
+            guard let listings = result.listingsResult.value else { return }
             if !listings.isEmpty {
                 let listingCellModels = listings.map(ListingCellModel.init)
                 self?.objects = listingCellModels

@@ -39,6 +39,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var carsVerticalEnabled: Bool = false
     var carsCategoryAfterPicture: Bool = false
     var newMarkAsSoldFlow: Bool = false
+    var newCarsMultiRequesterEnabled: Bool = false
 
     // Country dependant features
     var freePostingModeAllowed = false

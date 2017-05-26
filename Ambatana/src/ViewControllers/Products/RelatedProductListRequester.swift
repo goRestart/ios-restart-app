@@ -9,9 +9,8 @@
 import LGCoreKit
 
 class RelatedProductListRequester: ProductListRequester {
-
     let itemsPerPage: Int
-    private let productObjectId: String
+    fileprivate let productObjectId: String
     private let listingRepository: ListingRepository
     private var offset: Int = 0
 
@@ -36,22 +35,22 @@ class RelatedProductListRequester: ProductListRequester {
         return true
     }
     
-    func retrieveFirstPage(_ completion: ListingsCompletion?) {
+    func retrieveFirstPage(_ completion: ListingsRequesterCompletion?) {
         offset = 0
         productsRetrieval(completion)
     }
     
-    func retrieveNextPage(_ completion: ListingsCompletion?) {
+    func retrieveNextPage(_ completion: ListingsRequesterCompletion?) {
         productsRetrieval(completion)
     }
 
-    func productsRetrieval(_ completion: ListingsCompletion?) {
+    func productsRetrieval(_ completion: ListingsRequesterCompletion?) {
         listingRepository.indexRelated(listingId: productObjectId, params: retrieveProductParams) {
             [weak self] result in
             if let value = result.value {
                 self?.offset += value.count
             }
-            completion?(result)
+            completion?(ListingsRequesterResult(listingsResult: result, context: nil))
         }
     }
 
@@ -66,4 +65,18 @@ class RelatedProductListRequester: ProductListRequester {
         r.offset = offset
         return r
     }
+    func distanceFromProductCoordinates(_ productCoords: LGLocationCoordinates2D) -> Double? {
+        // method needed for protocol implementation, not used for related
+        return nil
+    }
+    var countryCode: String? {
+        // method needed for protocol implementation, not used for related
+        return nil
+    }
+
+    func isEqual(toRequester requester: ProductListRequester) -> Bool {
+        guard let requester = requester as? RelatedProductListRequester else { return false }
+        return productObjectId == requester.productObjectId
+    }
 }
+

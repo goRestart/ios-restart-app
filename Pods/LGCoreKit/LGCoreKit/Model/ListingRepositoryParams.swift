@@ -8,7 +8,7 @@
 
 // MARK: - PARAMS
 
-public struct RetrieveListingParam<T> {
+public struct RetrieveListingParam<T: Equatable> {
     public let value: T
     public let isNegated: Bool
     

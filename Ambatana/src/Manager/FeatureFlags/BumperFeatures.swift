@@ -32,6 +32,8 @@ extension Bumper  {
         flags.append(CarsVerticalEnabled.self)
         flags.append(CarsCategoryAfterPicture.self)
         flags.append(NewMarkAsSoldFlow.self)
+        flags.append(NewCarsMultiRequesterEnabled.self)
+
         Bumper.initialize(flags)
     } 
 
@@ -128,6 +130,11 @@ extension Bumper  {
     static var newMarkAsSoldFlow: Bool {
         guard let value = Bumper.value(for: NewMarkAsSoldFlow.key) else { return false }
         return NewMarkAsSoldFlow(rawValue: value)?.asBool ?? false
+    }
+    
+    static var newCarsMultiRequesterEnabled: Bool {
+        guard let value = Bumper.value(for: NewCarsMultiRequesterEnabled.key) else { return false }
+        return NewCarsMultiRequesterEnabled(rawValue: value)?.asBool ?? false
     } 
 }
 
@@ -318,12 +325,22 @@ enum CarsCategoryAfterPicture: String, BumperFeature  {
     var asBool: Bool { return self == .yes }
 }
 
+
 enum NewMarkAsSoldFlow: String, BumperFeature  {
     case no, yes
     static var defaultValue: String { return NewMarkAsSoldFlow.no.rawValue }
     static var enumValues: [NewMarkAsSoldFlow] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "New mark as sold flow active. alert + showing buyer list" } 
+    static var description: String { return "New mark as sold flow active. alert + showing buyer list" }
+    var asBool: Bool { return self == .yes }
+}
+
+enum NewCarsMultiRequesterEnabled: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return NewCarsMultiRequesterEnabled.no.rawValue }
+    static var enumValues: [NewCarsMultiRequesterEnabled] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Cars multi requester enabled" }
     var asBool: Bool { return self == .yes }
 }
 

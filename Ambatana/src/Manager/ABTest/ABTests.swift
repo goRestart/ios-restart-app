@@ -37,6 +37,7 @@ struct ABTests {
     static var carsVerticalEnabled = BoolABDynamicVar(key: "carsVerticalEnabled", defaultValue: false)
     static var carsCategoryAfterPicture = BoolABDynamicVar(key: "carsCategoryAfterPicture", defaultValue: false)
     static var newMarkAsSoldFlow = BoolABDynamicVar(key: "newMarkAsSoldFlow", defaultValue: false)
+    static var newCarsMultiRequesterEnabled = BoolABDynamicVar(key: "newCarsMultiRequesterEnabled", defaultValue: false)
 
     static private var allVariables: [ABVariable] {
         var result = [ABVariable]()
@@ -64,6 +65,7 @@ struct ABTests {
         result.append(carsVerticalEnabled)
         result.append(carsCategoryAfterPicture)
         result.append(newMarkAsSoldFlow)
+        result.append(newCarsMultiRequesterEnabled)
 
         return result
     }

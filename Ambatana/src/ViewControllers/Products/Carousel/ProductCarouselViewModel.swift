@@ -401,10 +401,10 @@ extension ProductCarouselViewModel: Paginable {
         let isFirstPage = (page == firstPage)
         isLoading = true
         
-        let completion: ListingsCompletion = { [weak self] result in
+        let completion: ListingsRequesterCompletion = { [weak self] result in
             guard let strongSelf = self else { return }
             self?.isLoading = false
-            if let newListings = result.value {
+            if let newListings = result.listingsResult.value {
                 strongSelf.nextPage = strongSelf.nextPage + 1
                 strongSelf.objects.appendContentsOf(newListings.map(ProductCarouselCellModel.init))
                 
