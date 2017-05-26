@@ -117,7 +117,7 @@ class RateUserViewModel: BaseViewModel {
         self.rating.value = rating
     }
 
-    func publishButtonPressed() {
+    func sendButtonPressed() {
         guard let rating = rating.value, sendEnabled.value else { return }
 
         let ratingCompletion: UserRatingCompletion = { [weak self] result in

@@ -18,13 +18,13 @@
                 <outlet property="descriptionText" destination="VmE-1m-3hI" id="106-kr-mhB"/>
                 <outlet property="footerLabel" destination="daF-Bo-V4p" id="NzV-pg-CIP"/>
                 <outlet property="footerView" destination="Uep-lL-XHZ" id="Xub-so-knl"/>
-                <outlet property="publishButton" destination="dKI-Rc-pUb" id="S4E-QC-Fob"/>
                 <outlet property="rateInfoText" destination="8dW-N1-WVt" id="4YH-mh-nxb"/>
                 <outlet property="ratingTagsCollectionView" destination="gWH-tB-T2G" id="lft-KN-6uN"/>
                 <outlet property="ratingTagsHeightConstraint" destination="uhV-e5-Ca7" id="p6T-p2-LzC"/>
                 <outlet property="ratingsContainer" destination="hxq-ZX-cpm" id="9Oq-zX-C3K"/>
                 <outlet property="ratingsTitle" destination="kkf-ne-k4s" id="vsK-cD-YId"/>
                 <outlet property="scrollView" destination="OBy-KX-Vwn" id="p42-UE-qKs"/>
+                <outlet property="sendButton" destination="dKI-Rc-pUb" id="eOU-XP-Cns"/>
                 <outlet property="userImage" destination="p8Z-ST-xDr" id="pf9-SD-EeK"/>
                 <outlet property="userNameText" destination="eRe-bF-jWx" id="Vyl-wr-8Aq"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -300,7 +300,7 @@
                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="19"/>
                             <state key="normal" title="_Publish Review"/>
                             <connections>
-                                <action selector="publishButtonPressed:" destination="-1" eventType="touchUpInside" id="osd-HJ-8y9"/>
+                                <action selector="sendButtonPressed:" destination="-1" eventType="touchUpInside" id="Lye-dL-voX"/>
                             </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_you can update this review whenever you want." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="daF-Bo-V4p">

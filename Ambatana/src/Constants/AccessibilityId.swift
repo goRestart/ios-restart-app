@@ -273,7 +273,7 @@ enum AccessibilityId: String {
     case rateUserStarButton5
     case rateUserDescriptionField
     case rateUserLoading
-    case rateUserPublishButton
+    case rateUserSendButton
 
     // RatingList
     case ratingListTable

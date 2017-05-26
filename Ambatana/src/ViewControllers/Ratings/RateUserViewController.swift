@@ -29,7 +29,7 @@ class RateUserViewController: KeyboardViewController {
     @IBOutlet weak var descriptionCharCounter: UILabel!
     
     @IBOutlet weak var footerView: UIView!
-    @IBOutlet weak var publishButton: UIButton!
+    @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var footerLabel: UILabel!
 
@@ -78,8 +78,8 @@ class RateUserViewController: KeyboardViewController {
     
     // MARK: - Actions
 
-    @IBAction func publishButtonPressed(_ sender: AnyObject) {
-        viewModel.publishButtonPressed()
+    @IBAction func sendButtonPressed(_ sender: Any) {
+        viewModel.sendButtonPressed()
     }
 
     @IBAction func starHighlighted(_ sender: AnyObject) {
@@ -143,15 +143,15 @@ class RateUserViewController: KeyboardViewController {
         footerView.layoutIfNeeded()
         descriptionContainerBottomConstraint.constant = footerView.height + Metrics.margin
         
-        publishButton.setStyle(.primary(fontSize: .big))
+        sendButton.setStyle(.primary(fontSize: .big))
     }
     
     private func setupRx() {
         viewModel.isLoading.asObservable().bindNext { [weak self] loading in
-            self?.publishButton.setTitle(loading ? nil : LGLocalizedString.userRatingReviewButton, for: .normal)
+            self?.sendButton.setTitle(loading ? nil : LGLocalizedString.userRatingReviewButton, for: .normal)
             loading ? self?.activityIndicator.startAnimating() : self?.activityIndicator.stopAnimating()
         }.addDisposableTo(disposeBag)
-        viewModel.sendEnabled.asObservable().bindTo(publishButton.rx.isEnabled).addDisposableTo(disposeBag)
+        viewModel.sendEnabled.asObservable().bindTo(sendButton.rx.isEnabled).addDisposableTo(disposeBag)
 
         viewModel.descriptionCharLimit.asObservable().map { return String($0) }.bindTo(descriptionCharCounter.rx.text)
             .addDisposableTo(disposeBag)
@@ -233,7 +233,6 @@ extension RateUserViewController: UICollectionViewDataSource, UICollectionViewDe
         }
         let index = indexPath.row
         cell.title = viewModel.titleForTagAt(index: index)
-//        cell.isOn = viewModel.isTagSelectedAt(index: index)
         return cell
     }
     
@@ -307,6 +306,6 @@ extension RateUserViewController {
         }
         descriptionText.accessibilityId = .rateUserDescriptionField
         activityIndicator.accessibilityId = .rateUserLoading
-        publishButton.accessibilityId = .rateUserPublishButton
+        sendButton.accessibilityId = .rateUserSendButton
     }
 }
