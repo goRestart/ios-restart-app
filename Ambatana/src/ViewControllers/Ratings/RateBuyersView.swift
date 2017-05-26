@@ -69,7 +69,7 @@ class RateBuyersView: UIView {
         iconImage.layout().width(imageDiameter).widthProportionalToHeight()
         titleLabel.layout(with: header).leading(by: textsHMargin).trailing(by: -textsHMargin)
         titleLabel.layout(with: iconImage).below(by: Metrics.margin)
-        messageLabel.layout(with: header).leading(by: textsHMargin).trailing(by: -textsHMargin).bottom(by: -50)
+        messageLabel.layout(with: header).leading(by: textsHMargin).trailing(by: -textsHMargin).bottom(by: -Metrics.veryBigMargin*2)
         messageLabel.layout(with: titleLabel).below(by: Metrics.veryShortMargin)
 
         iconImage.clipsToBounds = true

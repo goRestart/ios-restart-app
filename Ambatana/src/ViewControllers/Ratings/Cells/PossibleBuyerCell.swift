@@ -63,9 +63,9 @@ class PossibleBuyerCell: UITableViewCell, ReusableCell {
                                                       leftMargin: PossibleBuyerCell.leftMarginLabel))
             }
         case .otherCell:
-            leftMarginLabelConstraint.constant = 16
+            leftMarginLabelConstraint.constant = Metrics.margin
             if bottomBorder {
-            separators.append(addBottomViewBorderWith(width: LGUIKitConstants.onePixelSize,
+                separators.append(addBottomViewBorderWith(width: LGUIKitConstants.onePixelSize,
                                                       color: UIColor.lineGray))
             }
         }
@@ -74,7 +74,7 @@ class PossibleBuyerCell: UITableViewCell, ReusableCell {
         
         if let subtitle = subtitle {
             subtitleLabel.text = subtitle
-            bottomMarginTitleConstraint.constant = 23
+            bottomMarginTitleConstraint.constant = Metrics.veryBigMargin
         } else {
             bottomMarginTitleConstraint.constant = 7
         }

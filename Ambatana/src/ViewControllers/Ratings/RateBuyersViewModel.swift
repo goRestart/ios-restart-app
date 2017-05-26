@@ -10,7 +10,7 @@ import LGCoreKit
 import RxSwift
 
 enum VisibilityFormat {
-    case compact(with: Int)
+    case compact(visibleElements: Int)
     case full
 }
 
@@ -24,7 +24,7 @@ class RateBuyersViewModel: BaseViewModel {
     let listingId: String
     let listingRepository: ListingRepository
     let sourceRateBuyers: SourceRateBuyers?
-    let visibilityFormat = Variable<VisibilityFormat>(.compact(with: RateBuyersViewModel.itemsOnCompactFormat))
+    let visibilityFormat = Variable<VisibilityFormat>(.compact(visibleElements: RateBuyersViewModel.itemsOnCompactFormat))
 
     init(buyers: [UserListing], listingId: String, sourceRateBuyers: SourceRateBuyers?, listingRepository: ListingRepository) {
         self.possibleBuyers = buyers
@@ -44,7 +44,6 @@ class RateBuyersViewModel: BaseViewModel {
     // MARK: - Actions
 
     func closeButtonPressed() {
-        createTransaction(listingId: listingId, buyerId: nil, soldIn: nil)
         navigator?.rateBuyersCancel()
     }
 
@@ -64,7 +63,7 @@ class RateBuyersViewModel: BaseViewModel {
         case .compact:
             visibilityFormat.value = .full
         case .full:
-            visibilityFormat.value = .compact(with: RateBuyersViewModel.itemsOnCompactFormat)
+            visibilityFormat.value = .compact(visibleElements: RateBuyersViewModel.itemsOnCompactFormat)
         }
     }
     
@@ -75,7 +74,7 @@ class RateBuyersViewModel: BaseViewModel {
     
     func createTransaction(listingId: String, buyerId: String?, soldIn: SoldIn?) {
         let createTransactionParams = CreateTransactionParams(listingId: listingId, buyerId: buyerId, soldIn: soldIn)
-        listingRepository.createTransactionOf(createTransactionParams: createTransactionParams) { _ in }
+        listingRepository.createTransactionOf(createTransactionParams: createTransactionParams, completion: nil)
     }
 
     // MARK: - Info 

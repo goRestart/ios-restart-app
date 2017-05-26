@@ -9,6 +9,10 @@
 import UIKit
 import RxSwift
 
+enum RateBuyersSection: Int {
+    case possibleBuyers = 0
+    case otherActions = 1
+}
 
 class RateBuyersViewController: BaseViewController {
     
@@ -74,12 +78,13 @@ class RateBuyersViewController: BaseViewController {
 
 extension RateBuyersViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
+        guard let rateBuyersSection = RateBuyersSection(rawValue: section) else { return 0 }
+        switch rateBuyersSection {
+        case .possibleBuyers:
             return viewModel.shouldShowSeeMoreOption ? viewModel.buyersToShow + 1 : viewModel.buyersToShow
-        } else {
+        case .otherActions:
             return RateBuyersViewController.numberOfExtraButtons
         }
-        
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -89,6 +94,7 @@ extension RateBuyersViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let buyerCell = tableView.dequeueReusableCell(withIdentifier: PossibleBuyerCell.reusableID,
                                                             for: indexPath) as? PossibleBuyerCell else { return UITableViewCell() }
+        guard let rateBuyersSection = RateBuyersSection(rawValue: indexPath.section) else { return UITableViewCell() }
         
         let cellType: RateBuyerCellType
         let image: URL?
@@ -98,8 +104,8 @@ extension RateBuyersViewController: UITableViewDelegate, UITableViewDataSource {
         let bottomBorder: Bool
         let disclosureDirection: DisclosureDirection
         
-        switch indexPath.section {
-        case 0:
+        switch rateBuyersSection {
+        case .possibleBuyers:
             cellType = viewModel.cellTypeAt(index: indexPath.row)
             image = viewModel.imageAt(index: indexPath.row)
             title = viewModel.titleAt(index: indexPath.row)
@@ -107,7 +113,7 @@ extension RateBuyersViewController: UITableViewDelegate, UITableViewDataSource {
             topBorder = viewModel.topBorderAt(index: indexPath.row)
             bottomBorder = viewModel.bottomBorderAt(index: indexPath.row)
             disclosureDirection = viewModel.disclosureDirectionAt(index: indexPath.row)
-        case 1:
+        case .otherActions:
             cellType = .otherCell
             image = nil
             topBorder = viewModel.secondaryActionstopBorderAt(index: indexPath.row)
@@ -115,8 +121,6 @@ extension RateBuyersViewController: UITableViewDelegate, UITableViewDataSource {
             bottomBorder = viewModel.secondaryActionsbottomBorderAt(index: indexPath.row)
             title = viewModel.secondaryOptionsTitleAt(index: indexPath.row)
             subtitle = viewModel.secondaryOptionsSubtitleAt(index: indexPath.row)
-        default:
-            return UITableViewCell() // it should not happen
         }
         buyerCell.setupWith(cellType: cellType,
                             image: image,
@@ -129,8 +133,13 @@ extension RateBuyersViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        guard section == 1 else { return 0 }
-        return RateBuyersViewController.headerTableViewHeight
+        guard let rateBuyersSection = RateBuyersSection(rawValue: section) else { return 0 }
+        switch rateBuyersSection {
+        case .possibleBuyers:
+            return 0
+        case .otherActions:
+            return RateBuyersViewController.headerTableViewHeight
+        }
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -145,14 +154,16 @@ extension RateBuyersViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 0 {
+        guard let rateBuyersSection = RateBuyersSection(rawValue: indexPath.section) else { return }
+        switch rateBuyersSection {
+        case .possibleBuyers:
             if indexPath.row < viewModel.buyersToShow {
                 tableView.deselectRow(at: indexPath, animated: true)
                 viewModel.selectedBuyerAt(index: indexPath.row)
             } else {
                 viewModel.showMoreLessPressed()
             }
-        } else {
+        case .otherActions:
             if indexPath.row == 0 {
                 viewModel.notOnLetgoButtonPressed()
             } else {
