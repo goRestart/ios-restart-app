@@ -56,7 +56,8 @@ class LocationFromZipCodeViewModel: BaseViewModel {
     func setupRx() {
         zipCode.asObservable().bindNext { [weak self] zip in
             guard let strongSelf = self else { return }
-            if strongSelf.isValidZip(zip: zip, forCountryCode: strongSelf.countryCode) {
+            guard let zip = zip else { return }
+            if strongSelf.countryCode.isValidZipCode(zipCode: zip) {
                 strongSelf.updateAddressFromZipCode()
             }
         }.addDisposableTo(disposeBag)
@@ -96,7 +97,7 @@ class LocationFromZipCodeViewModel: BaseViewModel {
     }
 
     func updateAddressFromZipCode() {
-        guard let zip = zipCode.value, isValidZip(zip: zip, forCountryCode: countryCode) else { return }
+        guard let zip = zipCode.value, countryCode.isValidZipCode(zipCode: zip) else { return }
 
         fullAddressVisible.value = false
         isResolvingAddress.value = true
@@ -126,18 +127,5 @@ class LocationFromZipCodeViewModel: BaseViewModel {
 
     func clearTextField() {
         zipCode.value = ""
-    }
-
-    private func isValidZip(zip: String?, forCountryCode countryCode: CountryCode) -> Bool {
-        guard let zip = zip else { return false }
-        // US zipo code rules will be the fallback
-        let isValidZipCode: Bool
-        switch countryCode {
-        case .usa:
-            isValidZipCode = zip.characters.count == 5 && zip.isOnlyDigits
-        case .turkey:
-            isValidZipCode = zip.characters.count == 5 && zip.isOnlyDigits // TODO: Check right Turkey zip code rules
-        }
-        return isValidZipCode
     }
 }

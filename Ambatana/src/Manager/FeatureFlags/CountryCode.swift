@@ -20,10 +20,15 @@ enum CountryCode: String {
 
     var zipCodeLenght: Int {
         switch self {
-        case .usa:
+        case .usa, .turkey:
             return 5
-        case .turkey:
-            return 5
+        }
+    }
+
+    func isValidZipCode(zipCode: String) -> Bool {
+        switch self {
+        case .usa, .turkey:
+            return zipCode.characters.count == zipCodeLenght && zipCode.isOnlyDigits
         }
     }
 }
