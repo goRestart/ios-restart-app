@@ -8,6 +8,11 @@
 
 import UIKit
 
+enum SourceRateBuyers {
+    case markAsSold
+    case rateBuyer
+}
+
 class RateBuyersView: UIView {
 
     private let imageMargin: CGFloat = 10
@@ -15,13 +20,15 @@ class RateBuyersView: UIView {
     private let textsHMargin: CGFloat = 40
 
     private let header = UIView()
+    private let source: SourceRateBuyers?
     var headerTopMarginConstraint = NSLayoutConstraint()
     let tableView = UITableView()
 
 
     // MARK: - Lifecycle
 
-    init() {
+    init(source: SourceRateBuyers?) {
+        self.source = source
         super.init(frame: CGRect.zero)
         setupViews()
     }
@@ -72,11 +79,26 @@ class RateBuyersView: UIView {
         titleLabel.font = UIFont.systemMediumFont(size: 17)
         titleLabel.numberOfLines = 0
         titleLabel.textAlignment = .center
-        titleLabel.text = LGLocalizedString.rateBuyersMessage
+        titleLabel.text = setTitle().uppercased()
         messageLabel.textColor = UIColor.darkGrayText
         messageLabel.font = UIFont.mediumBodyFont
         messageLabel.numberOfLines = 0
         messageLabel.textAlignment = .center
-        messageLabel.text = LGLocalizedString.rateBuyersSubMessage
+        messageLabel.text = setSubtitle()
+      
+    }
+    
+    private func setTitle() -> String {
+        guard let source = source, source == .markAsSold else {
+            return  LGLocalizedString.rateBuyersSubMessage
+        }
+        return LGLocalizedString.rateBuyersMessage
+    }
+    
+    private func setSubtitle() -> String {
+        guard let source = source, source == .markAsSold else {
+            return ""
+        }
+        return LGLocalizedString.rateBuyersSubMessage
     }
 }

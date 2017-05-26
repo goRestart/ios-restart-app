@@ -33,7 +33,8 @@ final class UserRatingCoordinator: Coordinator {
     // MARK: - Lifecycle
 
     convenience init(source: RateUserSource,
-                     data: RateUserData) {
+                     data: RateUserData,
+                     sourceRateBuyers: SourceRateBuyers? = nil) {
         self.init(source: source,
                   bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
                   sessionManager: Core.sessionManager)
@@ -44,11 +45,12 @@ final class UserRatingCoordinator: Coordinator {
 
     convenience init(source: RateUserSource,
                      buyers: [UserListing],
-                     listingId: String) {
+                     listingId: String,
+                     sourceRateBuyers: SourceRateBuyers?) {
         self.init(source: source,
                   bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
                   sessionManager: Core.sessionManager)
-        let vc = buildRateBuyers(buyers: buyers, listingId: listingId)
+        let vc = buildRateBuyers(buyers: buyers, listingId: listingId, source: sourceRateBuyers)
         navigationController.viewControllers = [vc]
     }
 
@@ -81,8 +83,8 @@ final class UserRatingCoordinator: Coordinator {
         return userRatingVC
     }
 
-    fileprivate func buildRateBuyers(buyers: [UserListing], listingId: String) -> RateBuyersViewController {
-        let rateBuyersVM = RateBuyersViewModel(buyers: buyers, listingId: listingId)
+    fileprivate func buildRateBuyers(buyers: [UserListing], listingId: String, source: SourceRateBuyers?) -> RateBuyersViewController {
+        let rateBuyersVM = RateBuyersViewModel(buyers: buyers, listingId: listingId, source: source)
         let rateBuyersVC = RateBuyersViewController(with: rateBuyersVM)
         rateBuyersVM.navigator = self
         return rateBuyersVC

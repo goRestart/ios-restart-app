@@ -23,16 +23,18 @@ class RateBuyersViewModel: BaseViewModel {
     let possibleBuyers: [UserListing]
     let listingId: String
     let listingRepository: ListingRepository
+    let sourceRateBuyers: SourceRateBuyers?
     let visibilityFormat = Variable<VisibilityFormat>(.compact(with: RateBuyersViewModel.itemsOnCompactFormat))
 
-    init(buyers: [UserListing], listingId: String, listingRepository: ListingRepository) {
+    init(buyers: [UserListing], listingId: String, sourceRateBuyers: SourceRateBuyers?, listingRepository: ListingRepository) {
         self.possibleBuyers = buyers
         self.listingId = listingId
+        self.sourceRateBuyers = sourceRateBuyers
         self.listingRepository = listingRepository
     }
     
-    convenience init(buyers: [UserListing], listingId: String) {
-        self.init(buyers: buyers, listingId: listingId, listingRepository: Core.listingRepository)
+    convenience init(buyers: [UserListing], listingId: String, source: SourceRateBuyers?) {
+        self.init(buyers: buyers, listingId: listingId, sourceRateBuyers: source, listingRepository: Core.listingRepository)
     }
     
 

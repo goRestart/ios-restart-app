@@ -23,7 +23,7 @@ class RateBuyersViewController: BaseViewController {
 
     init(with viewModel: RateBuyersViewModel) {
         self.viewModel = viewModel
-        self.mainView = RateBuyersView()
+        self.mainView = RateBuyersView(source: viewModel.sourceRateBuyers)
         super.init(viewModel: viewModel, nibName: nil, navBarBackgroundStyle: .transparent(substyle: .light))
     }
 

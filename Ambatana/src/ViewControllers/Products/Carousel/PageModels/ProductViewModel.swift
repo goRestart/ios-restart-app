@@ -637,7 +637,7 @@ extension ProductViewModel {
     
     private func buildRateUserAction() -> UIAction {
         let title = LGLocalizedString.productMenuRateBuyer
-        return UIAction(interface: .text(title), action: { [weak self] in self?.selectBuyerToMarkAsSold() } )
+        return UIAction(interface: .text(title), action: { [weak self] in self?.selectBuyerToMarkAsSold(sourceRateBuyers: .rateBuyer) } )
         
         
     }
@@ -749,7 +749,7 @@ fileprivate extension ProductViewModel {
         return data
     }
     
-    func selectBuyerToMarkAsSold() {
+    func selectBuyerToMarkAsSold(sourceRateBuyers: SourceRateBuyers) {
         guard featureFlags.newMarkAsSoldFlow else { return }
         guard let listingId = listing.value.objectId else { return }
         delegate?.vmShowLoading(nil)
@@ -758,7 +758,7 @@ fileprivate extension ProductViewModel {
             if let buyers = result.value, !buyers.isEmpty {
                 strongSelf.delegate?.vmHideLoading(nil) {
                     guard let strongSelf = self else { return }
-                    strongSelf.navigator?.selectBuyerToRate(source: .markAsSold, buyers: buyers, listingId: listingId)
+                    strongSelf.navigator?.selectBuyerToRate(source: .markAsSold, buyers: buyers, listingId: listingId, sourceRateBuyers: sourceRateBuyers)
                 }
             } else {
                 let message = strongSelf.listing.value.price.free ? LGLocalizedString.productMarkAsSoldFreeSuccessMessage : LGLocalizedString.productMarkAsSoldSuccessMessage
@@ -862,7 +862,7 @@ fileprivate extension ProductViewModel {
         listingRepository.markAsSold(listing: listing.value) { [weak self] result in
             guard let strongSelf = self else { return }
             if let value = result.value {
-                self?.selectBuyerToMarkAsSold()
+                self?.selectBuyerToMarkAsSold(sourceRateBuyers: .markAsSold)
                 strongSelf.listing.value = value
                 self?.trackHelper.trackMarkSoldCompleted(isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value)
             } else {
