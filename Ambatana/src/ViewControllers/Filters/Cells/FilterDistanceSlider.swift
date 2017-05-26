@@ -131,7 +131,6 @@ class FilterDistanceSlider: UIView {
     }
     
     private func setAccessibilityIds() {
-        self.accessibilityId = .filterDistanceCell
         slider.accessibilityId = .filterDistanceSlider
         distanceTip.accessibilityId = .filterDistanceTip
         distanceLabel.accessibilityId = .filterDistanceLabel

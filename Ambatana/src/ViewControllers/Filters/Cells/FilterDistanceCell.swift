@@ -36,13 +36,14 @@ class FilterDistanceCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.setupUI()
-        self.resetUI()
+        setupUI()
+        resetUI()
+        setAccessibilityIds()
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        self.resetUI()
+        resetUI()
     }
     
     // MARK: - Public methods
@@ -62,5 +63,9 @@ class FilterDistanceCell: UICollectionViewCell {
     
     private func resetUI() {
         filterDistanceSlider.resetUI()
+    }
+    
+    private func setAccessibilityIds() {
+        accessibilityId = .filterDistanceCell
     }
 }
