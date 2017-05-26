@@ -74,6 +74,9 @@
 "change_location_recommend_update_location_message" = "Recomendamos-lhe atualizar a sua localização para ver as melhores ofertas perto de si!";
 "change_location_search_field_hint" = "Inserir cidade ou código postal";
 "change_location_title" = "Alterar localização";
+"change_location_zip_current_location_button" = "Current location";
+"change_location_zip_min_digits_label" = "Must be 5 digits";
+"change_location_zip_placeholder" = "Zip code";
 "change_password_confirm_password_field_hint" = "Confirmar password";
 "change_password_new_password_field_hint" = "Nova password";
 "change_password_send_error_generic" = "Ocorreu um erro ao alterar a password. Por favor tente novamente.";
@@ -529,7 +532,7 @@
 "product_mark_as_sold_free_confirm_title" = "Marque como dado";
 "product_mark_as_sold_free_success_message" = "Parabéns! O seu produto foi marcado como dado com sucesso.";
 "product_mark_as_sold_success_message" = "Parabéns, o seu produto foi marcado como vendido!";
-"product_menu_rate_buyer" = "Rate buyer";
+"product_menu_rate_buyer" = "Classificar o comprador";
 "product_more_info_open_button" = "MAIS INFORMAÇÕES";
 "product_more_info_related_title" = "PODERÁ TER INTERESSE EM:";
 "product_more_info_related_view_more" = "Ver mais";
@@ -686,8 +689,13 @@
 "profile_verify_google_title" = "GOOGLE";
 "rate_buyers_message" = "Parabéns!";
 "rate_buyers_not_on_letgo_button" = "Não o vendi no letgo";
+"rate_buyers_not_on_letgo_title_button" = "Sold it somewhere else";
+"rate_buyers_see_less" = "Show less";
+"rate_buyers_see_x_more" = "Show more";
 "rate_buyers_sub_message" = "A quem vendeu o artigo?";
 "rate_buyers_title" = "Quem comprou isto?";
+"rate_buyers_will_do_later_subtitle" = "Rate the buyer later";
+"rate_buyers_will_do_later_title" = "I'll do this later";
 "rate_user_negative_didnt_show_up" = "Não apareceu";
 "rate_user_negative_item_not_as_advertised" = "Item não está conforme o publicado";
 "rate_user_negative_not_polite" = "Não educado";
@@ -850,6 +858,7 @@
 "tour_page_1_body" = "Compre e venda rápido, com segurança e localmente.";
 "trending_searches_Title" = "Pesquisa por Tendências";
 "unblock_user_error_generic" = "Ocorreu um erro ao desbloquear este utilizador.";
+"user_rating_message_more" = "Thanks for sharing! Want to tell us more about your experience?";
 "user_rating_message_w_name" = "Será que a sua experiência com %@ merece cinco estrelas? Conte-nos como correu.";
 "user_rating_message_wo_name" = "Será que a sua experiência com este utilizador merece cinco estrelas? Conte-nos como correu.";
 "user_rating_review_button" = "Publique o comentário";
@@ -858,6 +867,7 @@
 "user_rating_review_placeholder_mandatory" = "Escreva algo sobre a sua experiência (obrigatório)";
 "user_rating_review_placeholder_optional" = "Escreva algo sobre a sua experiência (opcional)";
 "user_rating_review_send_success" = "O seu comentário foi publicado!";
+"user_rating_select_a_tag" = "Selecione pelo menos uma:";
 "user_rating_skip_button" = "Pular";
 "user_rating_title" = "Comente a sua experiência com";
 "user_share_error" = "Ocorreu um erro ao partilhar o perfil. Por favor tente novamente.";

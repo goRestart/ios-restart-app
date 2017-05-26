@@ -74,6 +74,9 @@
 "change_location_recommend_update_location_message" = "We raden je aan om je locatie up te daten om de beste deals bij jouw in de buurt te kunnen zien!";
 "change_location_search_field_hint" = "Voer een stad of postcode in";
 "change_location_title" = "Wijzig locatie";
+"change_location_zip_current_location_button" = "Current location";
+"change_location_zip_min_digits_label" = "Must be 5 digits";
+"change_location_zip_placeholder" = "Zip code";
 "change_password_confirm_password_field_hint" = "Bevestig wachtwoord";
 "change_password_new_password_field_hint" = "Nieuw wachtwoord";
 "change_password_send_error_generic" = "Er is een fout opgetreden bij het wijzigen van het wachtwoord. Probeer het nog eens.";
@@ -529,7 +532,7 @@
 "product_mark_as_sold_free_confirm_title" = "Markeer het als weggegeven";
 "product_mark_as_sold_free_success_message" = "Gefeliciteerd! Je product is succesvol gemarkeerd als weggegeven.";
 "product_mark_as_sold_success_message" = "Gefeliciteerd, jouw product werd gemarkeerd als verkocht!";
-"product_menu_rate_buyer" = "Rate buyer";
+"product_menu_rate_buyer" = "Beoordeel koper";
 "product_more_info_open_button" = "MEER INFO";
 "product_more_info_related_title" = "MISSCHIEN BEN JE GEÏNTERESSEERD IN:";
 "product_more_info_related_view_more" = "Bekijk meer";
@@ -686,8 +689,13 @@
 "profile_verify_google_title" = "GOOGLE";
 "rate_buyers_message" = "Gefeliciteerd!";
 "rate_buyers_not_on_letgo_button" = "Ik heb het niet verkocht op letgo";
+"rate_buyers_not_on_letgo_title_button" = "Sold it somewhere else";
+"rate_buyers_see_less" = "Show less";
+"rate_buyers_see_x_more" = "Show more";
 "rate_buyers_sub_message" = "Aan wie heb je dit verkocht?";
 "rate_buyers_title" = "Wie heeft dit gekocht?";
+"rate_buyers_will_do_later_subtitle" = "Rate the buyer later";
+"rate_buyers_will_do_later_title" = "I'll do this later";
 "rate_user_negative_didnt_show_up" = "Kwam niet opdagen";
 "rate_user_negative_item_not_as_advertised" = "Item niet zoals geadverteerd";
 "rate_user_negative_not_polite" = "Onbeleefd";
@@ -850,6 +858,7 @@
 "tour_page_1_body" = "Koop en verkoop snel, veilig en lokaal.";
 "trending_searches_Title" = "Trending Zoekopdrachten";
 "unblock_user_error_generic" = "Er is een fout opgetreden tijdens het deblokkeren van deze gebruiker.";
+"user_rating_message_more" = "Thanks for sharing! Want to tell us more about your experience?";
 "user_rating_message_w_name" = "Krijgt jouw ervaring met %@ vijf sterren? Laat het ons weten hoe het ging.";
 "user_rating_message_wo_name" = "Krijgt jouw ervaring met deze gebruiker vijf sterren? Laat het ons weten hoe het ging.";
 "user_rating_review_button" = "Publiceer beoordeling";
@@ -858,6 +867,7 @@
 "user_rating_review_placeholder_mandatory" = "Schrijf over jouw ervaring (vereist)";
 "user_rating_review_placeholder_optional" = "Schrijf over jouw ervaring (optioneel)";
 "user_rating_review_send_success" = "Jouw beoordeling werd gepubliceerd!";
+"user_rating_select_a_tag" = "Selecteer minstens één:";
 "user_rating_skip_button" = "Overslaan";
 "user_rating_title" = "Beoordeel jouw ervaring met";
 "user_share_error" = "Er is een fout opgetreden tijdens het delen van het profiel. Probeer het nog eens.";

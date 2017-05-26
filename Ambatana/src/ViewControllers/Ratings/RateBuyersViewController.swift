@@ -9,7 +9,12 @@
 import UIKit
 import RxSwift
 
+
 class RateBuyersViewController: BaseViewController {
+    
+    static fileprivate let headerTableViewHeight: CGFloat = 10
+    static fileprivate let numberOfSections = 2
+    static fileprivate let numberOfExtraButtons = 2
 
     fileprivate let mainView: RateBuyersView
     fileprivate let viewModel: RateBuyersViewModel
@@ -19,7 +24,7 @@ class RateBuyersViewController: BaseViewController {
     init(with viewModel: RateBuyersViewModel) {
         self.viewModel = viewModel
         self.mainView = RateBuyersView()
-        super.init(viewModel: viewModel, nibName: nil)
+        super.init(viewModel: viewModel, nibName: nil, navBarBackgroundStyle: .transparent(substyle: .light))
     }
 
     required init?(coder: NSCoder) {
@@ -30,6 +35,7 @@ class RateBuyersViewController: BaseViewController {
         super.viewDidLoad()
 
         setupUI()
+        setupRx()
     }
 
     // MARK: - Private
@@ -45,14 +51,18 @@ class RateBuyersViewController: BaseViewController {
         mainView.tableView.delegate = self
         mainView.tableView.dataSource = self
         mainView.tableView.rowHeight = PossibleBuyerCell.cellHeight
+        mainView.tableView.backgroundColor = UIColor.clear
 
         let cellNib = UINib(nibName: PossibleBuyerCell.reusableID, bundle: nil)
         mainView.tableView.register(cellNib, forCellReuseIdentifier: PossibleBuyerCell.reusableID)
-
-        mainView.notOnLetgoButton.rx.tap.bindNext { [weak self] in self?.viewModel.notOnLetgoButtonPressed() }
-            .addDisposableTo(disposeBag)
     }
 
+    private func setupRx() {
+        viewModel.visibilityFormat.asObservable().bindNext { [weak self] _ in
+            self?.mainView.tableView.reloadData()
+        }.addDisposableTo(disposeBag)
+    }
+    
     dynamic private func closeButtonPressed() {
         viewModel.closeButtonPressed()
     }
@@ -63,27 +73,107 @@ class RateBuyersViewController: BaseViewController {
 
 extension RateBuyersViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.buyersCount
+        if section == 0 {
+            return viewModel.buyersToShow + 1
+        } else {
+            return RateBuyersViewController.numberOfExtraButtons
+        }
+        
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return RateBuyersViewController.numberOfSections
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let buyerCell = tableView.dequeueReusableCell(withIdentifier: PossibleBuyerCell.reusableID,
                                                             for: indexPath) as? PossibleBuyerCell else { return UITableViewCell() }
-        let image = viewModel.imageAt(index: indexPath.row)
-        let name = viewModel.nameAt(index: indexPath.row)
-
-        buyerCell.setupWith(image, name: name, firstCell: indexPath.row == 0,
-                            lastCell: indexPath.row == viewModel.buyersCount - 1)
+        
+        var cellType: RateBuyerCellType = .userCell
+        var image: URL? = nil
+        var title: String? = nil
+        var subtitle: String? = nil
+        var topBorder: Bool = false
+        var bottomBorder: Bool = true
+        var disclosureDirection: DisclouseDirection = .right
+        
+        switch indexPath.section {
+        case 0:
+            if indexPath.row < viewModel.buyersToShow {
+                cellType = .userCell
+                image = viewModel.imageAt(index: indexPath.row)
+                title = viewModel.nameAt(index: indexPath.row)
+                topBorder = indexPath.row == 0
+                bottomBorder = viewModel.buyersToShow - 1 > indexPath.row
+                disclosureDirection = .right
+            } else {
+                cellType = .otherCell
+                title = viewModel.textForSeeMoreLabel()
+                image = nil
+                topBorder = true
+                bottomBorder = true
+                disclosureDirection = viewModel.visibilityFormat.value.disclouseDirection
+            }
+        case 1:
+            cellType = .otherCell
+            image = nil
+            topBorder = true
+            disclosureDirection = .right
+            if indexPath.row == 0 {
+                title = LGLocalizedString.rateBuyersNotOnLetgoTitleButton
+                subtitle = LGLocalizedString.rateBuyersNotOnLetgoButton
+            } else {
+                title = LGLocalizedString.rateBuyersWillDoLaterTitle
+                subtitle = LGLocalizedString.rateBuyersWillDoLaterSubtitle
+            }
+        default:
+            break
+        }
+        buyerCell.setupWith(cellType: cellType,
+                            image: image,
+                            title: title,
+                            subtitle: subtitle,
+                            topBorder: topBorder,
+                            bottomBorder: bottomBorder,
+                            disclouseDirection: disclosureDirection)
         return buyerCell
     }
-
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        guard section == 1 else { return 0 }
+        return RateBuyersViewController.headerTableViewHeight
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let scroll = scrollView.contentOffset.y + scrollView.contentInset.top
         mainView.headerTopMarginConstraint.constant = -scroll
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        viewModel.selectedBuyerAt(index: indexPath.row)
+        if indexPath.section == 0 {
+            if indexPath.row < viewModel.buyersToShow {
+                tableView.deselectRow(at: indexPath, animated: true)
+                viewModel.selectedBuyerAt(index: indexPath.row)
+            } else {
+                viewModel.showMoreLessPressed()
+            }
+        } else {
+            if indexPath.row == 0 {
+                viewModel.notOnLetgoButtonPressed()
+            } else {
+                viewModel.closeButtonPressed()
+            }
+        }
+    }
+}
+
+extension VisibilityFormat {
+    var disclouseDirection: DisclouseDirection {
+        switch self {
+        case .compact:
+            return .down
+        case .full:
+            return .up
+        }
     }
 }
