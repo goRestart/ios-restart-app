@@ -17,4 +17,13 @@ enum CountryCode: String {
         guard let countryCode = CountryCode(rawValue: lowerCasedCode) else { return nil }
         self = countryCode
     }
+
+    var zipCodeLenght: Int {
+        switch self {
+        case .usa:
+            return 5
+        case .turkey:
+            return 5
+        }
+    }
 }

@@ -12,7 +12,7 @@ import RxSwift
 
 class LocationFromZipCodeViewController: KeyboardViewController {
 
-    static let zipCodeNumCharacters = 5
+    static let fullAddressIconSize: CGFloat = 18
 
     fileprivate let closeButton: UIButton = UIButton()
     fileprivate let titleLabel: UILabel = UILabel()
@@ -28,7 +28,7 @@ class LocationFromZipCodeViewController: KeyboardViewController {
     fileprivate let minDigitsLabel: UILabel = UILabel()
 
     fileprivate let fullAddressContainer: UIView = UIView()
-    fileprivate let pointerImageView: UIImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 18, height: 18))
+    fileprivate let pointerImageView: UIImageView = UIImageView()
     fileprivate let addressLabel: UILabel = UILabel()
     fileprivate let addressActivityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
 
@@ -156,15 +156,14 @@ fileprivate extension LocationFromZipCodeViewController {
         minDigitsLabel.layout(with: zipCodeTextField).below(by: Metrics.veryShortMargin)
         minDigitsLabel.layout(with: infoSelectionContainer).centerX().bottom()
 
-
-        fullAddressContainer.layout().height(18)
         fullAddressContainer.layout(with: infoSelectionContainer).below(by: Metrics.veryBigMargin)
         fullAddressContainer.layout(with: scrollView).centerX()
         fullAddressContainer.layout(with: scrollView).trailingMargin(by: -Metrics.veryBigMargin, relatedBy: .lessThanOrEqual)
                                                     .leadingMargin(by: Metrics.veryBigMargin, relatedBy: .greaterThanOrEqual)
 
         addressActivityIndicator.layout(with: fullAddressContainer).center()
-        pointerImageView.layout().height(18).width(18)
+        pointerImageView.layout().height(LocationFromZipCodeViewController.fullAddressIconSize)
+                                 .width(LocationFromZipCodeViewController.fullAddressIconSize)
         pointerImageView.layout(with: fullAddressContainer).left().top().bottom()
         addressLabel.layout(with: fullAddressContainer).right().top().bottom()
         addressLabel.layout(with: pointerImageView).left(to: .right)
@@ -190,11 +189,12 @@ fileprivate extension LocationFromZipCodeViewController {
             }
         }.addDisposableTo(disposeBag)
 
+
         zipCodeTextField.rx.text.asObservable().distinctUntilChanged({ (s1, s2) -> Bool in
             s1 == s2
-        }).bindNext { [weak self] text in
-            self?.viewModel.zipCode.value = text
-        }.addDisposableTo(disposeBag)
+        }).bindTo(viewModel.zipCode).addDisposableTo(disposeBag)
+
+        viewModel.zipCode.asObservable().bindTo(zipCodeTextField.rx.text).addDisposableTo(disposeBag)
     }
 
     dynamic func closeButtonPressed() {
@@ -203,7 +203,7 @@ fileprivate extension LocationFromZipCodeViewController {
     }
 
     dynamic func currentLocationButtonPressed() {
-        zipCodeTextField.text = ""
+        viewModel.clearTextField()
         viewModel.updateAddressFromCurrentLocation()
     }
 
@@ -226,7 +226,7 @@ extension LocationFromZipCodeViewController: UITextFieldDelegate {
         guard !string.hasEmojis() else { return false }
         guard string.isOnlyDigits else { return false }
         let text = textField.textReplacingCharactersInRange(range, replacementString: string)
-        guard text.characters.count <= LocationFromZipCodeViewController.zipCodeNumCharacters else { return false }
+        guard text.characters.count <= viewModel.countryCode.zipCodeLenght else { return false }
         return true
     }
 }

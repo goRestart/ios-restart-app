@@ -10,6 +10,7 @@ import Foundation
 import LGCoreKit
 import RxSwift
 
+
 class LocationFromZipCodeViewModel: BaseViewModel {
 
     private let locationManager: LocationManager
@@ -28,6 +29,8 @@ class LocationFromZipCodeViewModel: BaseViewModel {
 
     fileprivate var newPlace: Place?
 
+    var countryCode: CountryCode = .usa
+
     private let disposeBag = DisposeBag()
 
 
@@ -43,6 +46,9 @@ class LocationFromZipCodeViewModel: BaseViewModel {
         self.locationManager = locationManager
         self.searchService = searchService
         self.postalAddressService = postalAddressService
+        if let cCode = locationManager.currentLocation?.countryCode {
+            self.countryCode = CountryCode(string: cCode) ?? .usa
+        }
         super.init()
         setupRx()
     }
@@ -50,7 +56,7 @@ class LocationFromZipCodeViewModel: BaseViewModel {
     func setupRx() {
         zipCode.asObservable().bindNext { [weak self] zip in
             guard let strongSelf = self else { return }
-            if strongSelf.isValidZip(zip: zip) {
+            if strongSelf.isValidZip(zip: zip, forCountryCode: strongSelf.countryCode) {
                 strongSelf.updateAddressFromZipCode()
             }
         }.addDisposableTo(disposeBag)
@@ -90,7 +96,7 @@ class LocationFromZipCodeViewModel: BaseViewModel {
     }
 
     func updateAddressFromZipCode() {
-        guard let zip = zipCode.value, isValidZip(zip: zip) else { return }
+        guard let zip = zipCode.value, isValidZip(zip: zip, forCountryCode: countryCode) else { return }
 
         fullAddressVisible.value = false
         isResolvingAddress.value = true
@@ -118,10 +124,20 @@ class LocationFromZipCodeViewModel: BaseViewModel {
         locationDelegate?.editLocationDidSelectPlace(place)
     }
 
-    private func isValidZip(zip: String?) -> Bool {
+    func clearTextField() {
+        zipCode.value = ""
+    }
+
+    private func isValidZip(zip: String?, forCountryCode countryCode: CountryCode) -> Bool {
         guard let zip = zip else { return false }
-        guard zip.characters.count == 5 else { return false }
-        guard zip.isOnlyDigits else { return false }
-        return true
+        // US zipo code rules will be the fallback
+        let isValidZipCode: Bool
+        switch countryCode {
+        case .usa:
+            isValidZipCode = zip.characters.count == 5 && zip.isOnlyDigits
+        case .turkey:
+            isValidZipCode = zip.characters.count == 5 && zip.isOnlyDigits // TODO: Check right Turkey zip code rules
+        }
+        return isValidZipCode
     }
 }
