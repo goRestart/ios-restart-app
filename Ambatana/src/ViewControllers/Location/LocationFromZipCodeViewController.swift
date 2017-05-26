@@ -130,8 +130,8 @@ fileprivate extension LocationFromZipCodeViewController {
         scrollView.layout(with: view).top(by: Metrics.margin).left().right()
         scrollView.layout(with: setLocationButton).bottom(to: .top)
 
-        closeButton.layout().width(20).height(20)
-        closeButton.layout(with: scrollView).top(by: Metrics.margin).left(by: Metrics.margin)
+        closeButton.layout().width(Metrics.closeButtonHeight).height(Metrics.closeButtonHeight)
+        closeButton.layout(with: scrollView).top(by: Metrics.veryShortMargin).left(by: Metrics.veryShortMargin)
 
         titleLabel.layout().height(20)
         titleLabel.layout(with: scrollView).top(by: Metrics.margin).centerX()

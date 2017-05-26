@@ -44,6 +44,15 @@ class MainProductsViewModel: BaseViewModel {
     var filters: ProductFilters
     var queryString: String?
 
+    var hasInteractiveBubble: Bool {
+        switch featureFlags.editLocationBubble {
+        case .inactive:
+            return false
+        case .map, .zipCode:
+            return true
+        }
+    }
+
     let infoBubbleVisible = Variable<Bool>(false)
     let infoBubbleText = Variable<String>(LGLocalizedString.productPopularNearYou)
     let errorMessage = Variable<String?>(nil)
@@ -380,13 +389,8 @@ class MainProductsViewModel: BaseViewModel {
         updateListView()
     }
 
-    func bubbletapped() {
-        switch featureFlags.editLocationBubble {
-        case .inactive:
-            break
-        case .map, .zipCode:
-            navigator?.openLocationSelection(locationDelegate: self)
-        }
+    func bubbleTapped() {
+        navigator?.openLocationSelection(locationDelegate: self)
     }
 
     
