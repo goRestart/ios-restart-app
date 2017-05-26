@@ -24,7 +24,9 @@ protocol EditLocationDelegate: class {
 }
 
 enum EditLocationMode {
-    case editUserLocation, selectLocation, editProductLocation
+    case editUserLocation
+    case editListingLocation
+    case editFilterLocation
 }
 
 class EditLocationViewModel: BaseViewModel {
@@ -90,7 +92,7 @@ class EditLocationViewModel: BaseViewModel {
         self.tracker = tracker
 
         self.approxLocation = Variable<Bool>(KeyValueStorage.sharedInstance.userLocationApproximate &&
-            (mode == .editUserLocation || mode == .editProductLocation))
+            (mode == .editUserLocation || mode == .editListingLocation))
         
         self.predictiveResults = []
         self.currentPlace = Place.newPlace()
@@ -158,7 +160,7 @@ class EditLocationViewModel: BaseViewModel {
         switch mode {
         case .editUserLocation:
             updateUserLocation()
-        case .selectLocation, .editProductLocation:
+        case .editFilterLocation, .editListingLocation:
             locationDelegate?.editLocationDidSelectPlace(currentPlace)
             closeLocation()
         }
@@ -178,7 +180,7 @@ class EditLocationViewModel: BaseViewModel {
                 setPlace(place, forceLocation: true, fromGps: location.type != .manual, enableSave: false)
             }
             approxLocationHidden.value = false
-        case .selectLocation:
+        case .editFilterLocation:
             if let place = initialPlace {
                 setPlace(place, forceLocation: true, fromGps: false, enableSave: false)
             } else {
@@ -188,7 +190,7 @@ class EditLocationViewModel: BaseViewModel {
                 setPlace(place, forceLocation: true, fromGps: location.type != .manual, enableSave: false)
             }
             approxLocationHidden.value = true
-        case .editProductLocation:
+        case .editListingLocation:
             if let place = initialPlace, let location = place.location {
                 postalAddressService.retrieveAddressForLocation(location) { [weak self] result in
                     guard let strongSelf = self else { return }
@@ -210,7 +212,7 @@ class EditLocationViewModel: BaseViewModel {
 
     private func setPlace(_ place: Place, forceLocation: Bool, fromGps: Bool, enableSave: Bool) {
 
-        if mode == .editProductLocation && currentPlace.postalAddress?.countryCode != place.postalAddress?.countryCode {
+        if mode == .editListingLocation && currentPlace.postalAddress?.countryCode != place.postalAddress?.countryCode {
             delegate?.vmShowAutoFadingMessage(LGLocalizedString.changeLocationErrorCountryAlertMessage) { [weak self] in
                 self?.setMapToPreviousKnownPlace()
             }
@@ -344,9 +346,9 @@ class EditLocationViewModel: BaseViewModel {
         switch mode {
         case .editUserLocation:
             event = TrackerEvent.profileEditEditLocationStart()
-        case .selectLocation:
+        case .editFilterLocation:
             event = TrackerEvent.filterLocationStart()
-        case .editProductLocation:
+        case .editListingLocation:
             return
         }
         tracker.trackEvent(event)
