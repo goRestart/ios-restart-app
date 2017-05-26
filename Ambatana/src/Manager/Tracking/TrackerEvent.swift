@@ -186,6 +186,17 @@ struct TrackerEvent {
         params[.listSuccess] = success.rawValue
         return TrackerEvent(name: .productList, params: params)
     }
+    
+    static func productListVertical(category: ListingCategory, keywords: [String],
+                                    matchingFields: [String], nonMatchingFields: [String]) -> TrackerEvent {
+        var params = EventParameters()
+        params[.categoryId] = String(category.rawValue)
+        params[.verticalKeyword] = keywords.isEmpty ? "N/A" : keywords.joined(separator: "_")
+        params[.verticalMatchingFields] = matchingFields.isEmpty ? "N/A" : matchingFields.joined(separator: ",")
+        params[.verticalNoMatchingFields] = nonMatchingFields.isEmpty ? "N/A" : nonMatchingFields.joined(separator: ",")
+
+        return TrackerEvent(name: .productListVertical, params: params)
+    }
 
     static func exploreCollection(_ collectionTitle: String) -> TrackerEvent {
         var params = EventParameters()
@@ -258,18 +269,35 @@ struct TrackerEvent {
         
         params[.freePosting] = eventParameterFreePostingWithPriceRange(freePostingModeAllowed, priceRange: priceRange).rawValue
 
-        params[.make] = carMake ?? "N/A"
-        params[.model] = carModel ?? "N/A"
+        var verticalFields: [String] = []
+
+        if let make = carMake {
+            params[.make] = make
+            verticalFields.append(EventParameterName.make.rawValue)
+        } else {
+            params[.make] = "N/A"
+        }
+        if let make = carModel {
+            params[.model] = make
+            verticalFields.append(EventParameterName.model.rawValue)
+        } else {
+            params[.model] = "N/A"
+        }
+
         if let carYearStart = carYearStart {
             params[.yearStart] = String(carYearStart)
+            verticalFields.append(EventParameterName.yearStart.rawValue)
         } else {
             params[.yearStart] = "N/A"
         }
         if let carYearEnd = carYearEnd {
             params[.yearEnd] = String(carYearEnd)
+            verticalFields.append(EventParameterName.yearEnd.rawValue)
         } else {
             params[.yearEnd] = "N/A"
         }
+
+        params[.verticalFields] = verticalFields.isEmpty ? "N/A" : verticalFields.joined(separator: ",")
 
         return TrackerEvent(name: .filterComplete, params: params)
     }
@@ -644,8 +672,10 @@ struct TrackerEvent {
         return TrackerEvent(name: .productDeleteComplete, params: params)
     }
 
-    static func firstMessage(info: SendMessageTrackingInfo) -> TrackerEvent {
-        return TrackerEvent(name: .firstMessage, params: info.params)
+    static func firstMessage(info: SendMessageTrackingInfo, productVisitSource: EventParameterProductVisitSource) -> TrackerEvent {
+        var params = info.params
+        params[.productVisitSource] = productVisitSource.rawValue
+        return TrackerEvent(name: .firstMessage, params: params)
     }
 
     static func userMessageSent(info: SendMessageTrackingInfo) -> TrackerEvent {

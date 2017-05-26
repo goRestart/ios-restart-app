@@ -32,6 +32,7 @@ extension Bumper  {
         flags.append(CarsVerticalEnabled.self)
         flags.append(CarsCategoryAfterPicture.self)
         flags.append(EditLocationBubble.self)
+        flags.append(NewCarsMultiRequesterEnabled.self)
         Bumper.initialize(flags)
     } 
 
@@ -128,7 +129,12 @@ extension Bumper  {
     static var editLocationBubble: EditLocationBubble {
         guard let value = Bumper.value(for: EditLocationBubble.key) else { return .inactive }
         return EditLocationBubble(rawValue: value) ?? .inactive 
-    } 
+    }
+
+    static var newCarsMultiRequesterEnabled: Bool {
+        guard let value = Bumper.value(for: NewCarsMultiRequesterEnabled.key) else { return false }
+        return NewCarsMultiRequesterEnabled(rawValue: value)?.asBool ?? false
+    }
 }
 
 
@@ -334,3 +340,11 @@ enum EditLocationBubble: String, BumperFeature  {
     }
 }
 
+enum NewCarsMultiRequesterEnabled: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return NewCarsMultiRequesterEnabled.no.rawValue }
+    static var enumValues: [NewCarsMultiRequesterEnabled] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Cars multi requester enabled" } 
+    var asBool: Bool { return self == .yes }
+}

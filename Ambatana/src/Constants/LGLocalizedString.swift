@@ -1307,6 +1307,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("filters_tag_location_selected", comment: "")
 	}
 
+	static var filterResultsCarsNoMatches: String {
+		return NSLocalizedString("filter_results_cars_no_matches", comment: "")
+	}
+
+	static var filterResultsCarsOtherResults: String {
+		return NSLocalizedString("filter_results_cars_other_results", comment: "")
+	}
+
 	static var forcedUpdateMessage: String {
 		return NSLocalizedString("forced_update_message", comment: "")
 	}
@@ -2151,6 +2159,30 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_mark_as_sold_free_button", comment: "")
 	}
 
+	static var productMarkAsSoldAlertTitle: String {
+		return NSLocalizedString("product_mark_as_sold_alert_title", comment: "")
+	}
+
+	static var productMarkAsSoldAlertMessage: String {
+		return NSLocalizedString("product_mark_as_sold_alert_message", comment: "")
+	}
+
+	static var productMarkAsSoldAlertCancel: String {
+		return NSLocalizedString("product_mark_as_sold_alert_cancel", comment: "")
+	}
+
+	static var productMarkAsSoldAlertConfirm: String {
+		return NSLocalizedString("product_mark_as_sold_alert_confirm", comment: "")
+	}
+
+	static var productMarkAsGivenAwayAlertTitle: String {
+		return NSLocalizedString("product_mark_as_given_away_alert_title", comment: "")
+	}
+
+	static var productMarkAsGivenAwayAlertMessage: String {
+		return NSLocalizedString("product_mark_as_given_away_alert_message", comment: "")
+	}
+
 	static var productMarkAsSoldFreeConfirmMessage: String {
 		return NSLocalizedString("product_mark_as_sold_free_confirm_message", comment: "")
 	}
@@ -2193,6 +2225,10 @@ struct LGLocalizedString {
 
 	static var productMarkAsSoldSuccessMessage: String {
 		return NSLocalizedString("product_mark_as_sold_success_message", comment: "")
+	}
+
+	static var productMenuRateBuyer: String {
+		return NSLocalizedString("product_menu_rate_buyer", comment: "")
 	}
 
 	static var productMoreInfoTooltipPart1: String {
@@ -2821,6 +2857,54 @@ struct LGLocalizedString {
 
 	static var rateBuyersNotOnLetgoButton: String {
 		return NSLocalizedString("rate_buyers_not_on_letgo_button", comment: "")
+	}
+
+	static var rateUserNegativeNotPolite: String {
+		return NSLocalizedString("rate_user_negative_not_polite", comment: "")
+	}
+
+	static var rateUserNegativeDidntShowUp: String {
+		return NSLocalizedString("rate_user_negative_didnt_show_up", comment: "")
+	}
+
+	static var rateUserNegativeSlowResponses: String {
+		return NSLocalizedString("rate_user_negative_slow_responses", comment: "")
+	}
+
+	static var rateUserNegativeUnfairPrice: String {
+		return NSLocalizedString("rate_user_negative_unfair_price", comment: "")
+	}
+
+	static var rateUserNegativeNotTrustworthy: String {
+		return NSLocalizedString("rate_user_negative_not_trustworthy", comment: "")
+	}
+
+	static var rateUserNegativeItemNotAsAdvertised: String {
+		return NSLocalizedString("rate_user_negative_item_not_as_advertised", comment: "")
+	}
+
+	static var rateUserPositivePolite: String {
+		return NSLocalizedString("rate_user_positive_polite", comment: "")
+	}
+
+	static var rateUserPositiveShowedUpOnTime: String {
+		return NSLocalizedString("rate_user_positive_showed_up_on_time", comment: "")
+	}
+
+	static var rateUserPositiveQuickResponses: String {
+		return NSLocalizedString("rate_user_positive_quick_responses", comment: "")
+	}
+
+	static var rateUserPositiveFairPrices: String {
+		return NSLocalizedString("rate_user_positive_fair_prices", comment: "")
+	}
+
+	static var rateUserPositiveHelpful: String {
+		return NSLocalizedString("rate_user_positive_helpful", comment: "")
+	}
+
+	static var rateUserPositiveTrustworthy: String {
+		return NSLocalizedString("rate_user_positive_trustworthy", comment: "")
 	}
 
 	static var ratingListActionReportReview: String {

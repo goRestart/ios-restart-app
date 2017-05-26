@@ -36,6 +36,7 @@ protocol FeatureFlaggeable {
     var carsVerticalEnabled: Bool { get }
     var carsCategoryAfterPicture: Bool { get }
     var editLocationBubble: EditLocationBubble { get }
+    var newCarsMultiRequesterEnabled: Bool { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -214,6 +215,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.editLocationBubble
         }
         return EditLocationBubble.fromPosition(ABTests.editLocationBubble.value)
+    }
+
+    var newCarsMultiRequesterEnabled: Bool {
+        if Bumper.enabled {
+            return Bumper.newCarsMultiRequesterEnabled
+        }
+        return ABTests.newCarsMultiRequesterEnabled.value
     }
 
     

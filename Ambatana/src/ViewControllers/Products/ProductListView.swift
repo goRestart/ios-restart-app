@@ -16,7 +16,6 @@ protocol ProductListViewScrollDelegate: class {
 
 protocol ProductListViewCellsDelegate: class {
     func visibleTopCellWithIndex(_ index: Int, whileScrollingDown scrollingDown: Bool)
-    func visibleBottomCell(_ index: Int)
 }
 
 protocol ProductListViewHeaderDelegate: class {
@@ -268,7 +267,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     
     func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!,
         heightForFooterInSection section: Int) -> CGFloat {
-            return Constants.productListFooterHeight
+        return Constants.productListFooterHeight
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
@@ -310,12 +309,18 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
             let indexes = collectionView.indexPathsForVisibleItems.map{ $0.item }
             let topProductIndex = indexes.min() ?? indexPath.item
-            let bottomProductIndex = indexes.max() ?? indexPath.item
             let scrollingDown = self?.scrollingDown ?? false
 
             self?.cellsDelegate?.visibleTopCellWithIndex(topProductIndex, whileScrollingDown: scrollingDown)
-            self?.cellsDelegate?.visibleBottomCell(bottomProductIndex)
         }
+    }
+
+    func collectionView(_ collectionView: UICollectionView,
+                        didEndDisplaying cell: UICollectionViewCell,
+                        forItemAt indexPath: IndexPath) {
+
+        let topProductIndex = (collectionView.indexPathsForVisibleItems.map{ $0.item }).min() ?? indexPath.item
+        cellsDelegate?.visibleTopCellWithIndex(topProductIndex, whileScrollingDown: scrollingDown)
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String,
@@ -411,7 +416,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             } else if shouldScrollToTopOnFirstPageReload {
                 scrollToTop(false)
             }
-        } else if viewModel.isLastPage {
+        } else if self.viewModel.isLastPage {
             // Last page
             // Reload in order to be able to reload the footer
             reloadData()
@@ -421,11 +426,14 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             let indexPaths = indexes.map{ IndexPath(item: $0, section: 0) }
             collectionView.insertItems(at: indexPaths)
         } else {
-            reloadData()
+            // delay added because reload is ignored if too fast after insertItems
+            delay(0.4) { _ in
+                self.collectionView.reloadSections(IndexSet(integer: 0))
+            }
         }
     }
-    
-    
+
+
     // MARK: - Private methods
     // MARK: > UI
 

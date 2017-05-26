@@ -966,6 +966,10 @@
 // Selected location text when there is no postal address. 
 "filters_tag_location_selected" = "Selected location";
 
+"filter_results_cars_no_matches" = "No exact matches for your search.\n Showing similar results. ";
+
+"filter_results_cars_other_results" = "Recently posted in your area";
+
 // Forced update message.
 "forced_update_message" = "A new version of letgo is available. Please update now!";
 
@@ -1599,6 +1603,24 @@
 // Product mark as given away button.
 "product_mark_as_sold_free_button" = "Mark as given away";
 
+// Title fo the alert  to let the seller know that can not undo the action of mark as sold
+"product_mark_as_sold_alert_title" = "Mark item as sold";
+
+// Message to let the seller know that can not undo the action of mark as sold
+"product_mark_as_sold_alert_message" = "This action can't be undone. Only select this when you have met the buyer and received payment. Continue?";
+
+// Cancel button on alert to mark as sold. 
+"product_mark_as_sold_alert_cancel" = "No";
+
+// Accept button on alert to mark as sold.
+"product_mark_as_sold_alert_confirm" = "Yes";
+
+// Title fo the alert  to let the seller know that can not undo the action of mark as given away
+"product_mark_as_given_away_alert_title" = "Mark item as given away";
+
+// Message to let the seller know that can not undo the action of mark as sold
+"product_mark_as_given_away_alert_message" = "This action can‘t be undone. Only select this when you have met the buyer and given the item away. Continue?";
+
 // Alert message when product is mark as given away
 "product_mark_as_sold_free_confirm_message" = "Mark your product as already given away";
 
@@ -1631,6 +1653,9 @@
 
 // Product mark as sold success message. Message displayal is like the other error messages
 "product_mark_as_sold_success_message" = "Congratulations, your product has been marked as sold!";
+
+// Rate the buyer when product is marked as sold.
+"product_menu_rate_buyer" = "Rate buyer";
 
 // Tooltip to see more info on snapchat, just the "tap" text
 "product_more_info_tooltip_part_1" = "Tap";
@@ -2102,6 +2127,42 @@
 
 // Screen to select which buyer you sold the item before rating him/her
 "rate_buyers_not_on_letgo_button" = "I didn't sell this on letgo";
+
+// Rate user quick response negative
+"rate_user_negative_not_polite" = "Not polite";
+
+// Rate user quick response negative
+"rate_user_negative_didnt_show_up" = "Didn’t show up";
+
+// Rate user quick response negative
+"rate_user_negative_slow_responses" = "Slow responses";
+
+// Rate user quick response negative
+"rate_user_negative_unfair_price" = "Unfair prices";
+
+// Rate user quick response negative
+"rate_user_negative_not_trustworthy" = "Not trustworthy";
+
+// Rate user quick response negative
+"rate_user_negative_item_not_as_advertised" = "Item not as advertised";
+
+// Rate user quick response positive
+"rate_user_positive_polite" = "Polite";
+
+// Rate user quick response positive
+"rate_user_positive_showed_up_on_time" = "Showed up on time";
+
+// Rate user quick response positive
+"rate_user_positive_quick_responses" = "Quick responses";
+
+// Rate user quick response positive
+"rate_user_positive_fair_prices" = "Fair prices";
+
+// Rate user quick response positive
+"rate_user_positive_helpful" = "Helpful";
+
+// Rate user quick response positive
+"rate_user_positive_trustworthy" = "Trustworthy";
 
 // action for user to report a review by another user
 "rating_list_action_report_review" = "Report review";

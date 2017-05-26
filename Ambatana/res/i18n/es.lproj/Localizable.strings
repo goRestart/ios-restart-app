@@ -294,6 +294,8 @@
 "edit_product_title" = "Editar artículo";
 "edit_product_unsaved_changes_alert" = "¿Estás seguro de querer descartar tus cambios?";
 "edit_product_unsaved_changes_alert_ok" = "Descartar";
+"filter_results_cars_no_matches" = "No hay resultados exactos para tu búsqueda.\nMostrando resultados similares.";
+"filter_results_cars_other_results" = "Publicados recientemente cerca de ti";
 "filters_car_make_not_set" = "No Definida";
 "filters_car_model_not_set" = "No Definido";
 "filters_car_year_any_year" = "Cualquier año";
@@ -315,6 +317,7 @@
 "filters_sort_newest" = "Más recientes primero";
 "filters_sort_price_asc" = "De más barato a más caro";
 "filters_sort_price_desc" = "De más caro a más barato";
+"filters_tag_location_selected" = "Ubicación seleccionada";
 "filters_title" = "Filtros";
 "filters_within_all" = "Todos los productos";
 "filters_within_day" = "Las últimas 24h";
@@ -507,6 +510,12 @@
 "product_list_item_time_minute_label" = "%im";
 "product_list_no_products_body" = "Eres el primer explorador de esta ciudad. ¡Bienvenido!";
 "product_list_no_products_title" = "¡CIUDAD DESBLOQUEADA!";
+"product_mark_as_given_away_alert_message" = "Esta acción no se puede deshacer. Selecciónala solo cuando te hayas encontrado con el comprador y regalado el artículo. ¿Continuar?";
+"product_mark_as_given_away_alert_title" = "Marcar artículo como regalado";
+"product_mark_as_sold_alert_cancel" = "No";
+"product_mark_as_sold_alert_confirm" = "Sí";
+"product_mark_as_sold_alert_message" = "Esta acción no se puede deshacer. Selecciónala solamente cuando te hayas encontrado con el vendedor y hayas recibido el pago. ¿Continuar?";
+"product_mark_as_sold_alert_title" = "Marcar como vendido";
 "product_mark_as_sold_button" = "Marcar como vendido";
 "product_mark_as_sold_confirm_cancel_button" = "Cancelar";
 "product_mark_as_sold_confirm_message" = "¡Enhorabuena! ¿Estás seguro de que quieres marcar el artículo como vendido?";
@@ -520,6 +529,7 @@
 "product_mark_as_sold_free_confirm_title" = "Marcar como regalado";
 "product_mark_as_sold_free_success_message" = "¡Enhorabuena! Tu artículo ha sido marcado como regalado.";
 "product_mark_as_sold_success_message" = "¡Enhorabuena, tu producto ha sido marcado como vendido!";
+"product_menu_rate_buyer" = "Valorar comprador";
 "product_more_info_open_button" = "MÁS INFO";
 "product_more_info_related_title" = "TAMBIÉN TE PODRÍA INTERESAR:";
 "product_more_info_related_view_more" = "Ver más";
@@ -678,6 +688,18 @@
 "rate_buyers_not_on_letgo_button" = "No lo he vendido en letgo";
 "rate_buyers_sub_message" = "¿A quién se lo has vendido?";
 "rate_buyers_title" = "¿Quién lo ha comprado?";
+"rate_user_negative_didnt_show_up" = "No vino a la cita";
+"rate_user_negative_item_not_as_advertised" = "Artículo defectuoso";
+"rate_user_negative_not_polite" = "No fue amable";
+"rate_user_negative_not_trustworthy" = "No digno de confianza";
+"rate_user_negative_slow_responses" = "Respuestas lentas";
+"rate_user_negative_unfair_price" = "Precio injusto";
+"rate_user_positive_fair_prices" = "Precios justos";
+"rate_user_positive_helpful" = "Servicial";
+"rate_user_positive_polite" = "Amable";
+"rate_user_positive_quick_responses" = "Respuestas rápidas";
+"rate_user_positive_showed_up_on_time" = "Puntual";
+"rate_user_positive_trustworthy" = "Digno de confianza";
 "rating_list_action_report_review" = "Denunciar valoración";
 "rating_list_action_report_review_error_message" = "Se ha producido un error al enviar tu denuncia.";
 "rating_list_action_report_review_success_message" = "¡Tu denuncia ha sido enviada!";

@@ -94,5 +94,10 @@
         "name": "EditLocationBubble",
         "values": ["inactive", "map", "zipCode"],
         "description": "Location Edit A/B/C"
+    },
+    {
+        "name": "NewCarsMultiRequesterEnabled",
+        "values": ["no", "yes"],
+        "description": "Cars multi requester enabled"
     }
 ]
