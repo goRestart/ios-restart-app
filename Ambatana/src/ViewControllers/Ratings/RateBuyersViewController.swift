@@ -89,45 +89,33 @@ extension RateBuyersViewController: UITableViewDelegate, UITableViewDataSource {
         guard let buyerCell = tableView.dequeueReusableCell(withIdentifier: PossibleBuyerCell.reusableID,
                                                             for: indexPath) as? PossibleBuyerCell else { return UITableViewCell() }
         
-        var cellType: RateBuyerCellType = .userCell
-        var image: URL? = nil
-        var title: String? = nil
-        var subtitle: String? = nil
-        var topBorder: Bool = false
-        var bottomBorder: Bool = true
-        var disclosureDirection: DisclouseDirection = .right
+        let cellType: RateBuyerCellType
+        let image: URL?
+        let title: String?
+        let subtitle: String?
+        let topBorder: Bool
+        let bottomBorder: Bool
+        let disclosureDirection: DisclosureDirection
         
         switch indexPath.section {
         case 0:
-            if indexPath.row < viewModel.buyersToShow {
-                cellType = .userCell
-                image = viewModel.imageAt(index: indexPath.row)
-                title = viewModel.nameAt(index: indexPath.row)
-                topBorder = indexPath.row == 0
-                bottomBorder = viewModel.buyersToShow - 1 > indexPath.row
-                disclosureDirection = .right
-            } else {
-                cellType = .otherCell
-                title = viewModel.textForSeeMoreLabel()
-                image = nil
-                topBorder = true
-                bottomBorder = true
-                disclosureDirection = viewModel.visibilityFormat.value.disclouseDirection
-            }
+            cellType = viewModel.cellTypeAt(index: indexPath.row)
+            image = viewModel.imageAt(index: indexPath.row)
+            title = viewModel.titleAt(index: indexPath.row)
+            subtitle = nil
+            topBorder = viewModel.topBorderAt(index: indexPath.row)
+            bottomBorder = viewModel.bottomBorderAt(index: indexPath.row)
+            disclosureDirection = viewModel.disclosureDirectionAt(index: indexPath.row)
         case 1:
             cellType = .otherCell
             image = nil
             topBorder = true
             disclosureDirection = .right
-            if indexPath.row == 0 {
-                title = LGLocalizedString.rateBuyersNotOnLetgoTitleButton
-                subtitle = LGLocalizedString.rateBuyersNotOnLetgoButton
-            } else {
-                title = LGLocalizedString.rateBuyersWillDoLaterTitle
-                subtitle = LGLocalizedString.rateBuyersWillDoLaterSubtitle
-            }
+            bottomBorder = true
+            title = viewModel.secondaryOptionsTitleAt(index: indexPath.row)
+            subtitle = viewModel.secondaryOptionsSubtitleAt(index: indexPath.row)
         default:
-            break
+            return UITableViewCell() // it should not happen
         }
         buyerCell.setupWith(cellType: cellType,
                             image: image,
@@ -168,7 +156,7 @@ extension RateBuyersViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension VisibilityFormat {
-    var disclouseDirection: DisclouseDirection {
+    var disclouseDirection: DisclosureDirection {
         switch self {
         case .compact:
             return .down

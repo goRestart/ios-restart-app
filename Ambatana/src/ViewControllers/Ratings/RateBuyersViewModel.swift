@@ -83,30 +83,70 @@ class RateBuyersViewModel: BaseViewModel {
     }
 
     func imageAt(index: Int) -> URL? {
+        guard buyersToShow > index else { return nil }
         guard let buyer = buyerAt(index: index) else { return nil }
         return buyer.avatar?.fileURL
     }
 
-    func nameAt(index: Int) -> String? {
+    func titleAt(index: Int) -> String? {
+        guard buyersToShow > index else { return textForSeeMoreLabel() }
         guard let buyer = buyerAt(index: index) else { return nil }
         return buyer.name
     }
     
-    func textForSeeMoreLabel() -> String {
+    func bottomBorderAt(index: Int) -> Bool {
+        return buyersToShow - 1 > index
+    }
+    
+    func topBorderAt(index: Int) -> Bool {
+        guard buyersToShow > index else { return true }
+        return index == 0
+    }
+    
+    func disclosureDirectionAt(index: Int) -> DisclosureDirection {
+        guard buyersToShow > index else { return visibilityFormat.value.disclouseDirection }
+        return .right
+    }
+    
+    func cellTypeAt(index: Int) -> RateBuyerCellType {
+        return index < buyersToShow ? .userCell : .otherCell
+    }
+    
+    
+    func secondaryOptionsTitleAt(index: Int) -> String? {
+        switch index {
+        case 0:
+            return LGLocalizedString.rateBuyersNotOnLetgoTitleButton
+        case 1:
+            return LGLocalizedString.rateBuyersWillDoLaterTitle
+        default:
+            return nil
+        }
+    }
+    
+    
+    func secondaryOptionsSubtitleAt(index: Int) -> String? {
+        switch index {
+        case 0:
+            return LGLocalizedString.rateBuyersNotOnLetgoButton
+        case 1:
+            return LGLocalizedString.rateBuyersWillDoLaterSubtitle
+        default:
+            return nil
+       }
+    }
+    
+    private func textForSeeMoreLabel() -> String {
         switch visibilityFormat.value {
         case .compact:
             return LGLocalizedString.rateBuyersSeeXMore
         case .full:
             return LGLocalizedString.rateBuyersSeeLess
         }
-        
     }
 
     private func buyerAt(index: Int) -> UserListing? {
         guard 0..<possibleBuyers.count ~= index else { return nil }
         return possibleBuyers[index]
     }
-
-    
-
 }

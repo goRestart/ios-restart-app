@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum DisclouseDirection {
+enum DisclosureDirection {
     case down
     case up
     case right
@@ -48,7 +48,7 @@ class PossibleBuyerCell: UITableViewCell, ReusableCell {
     // MARK: - Public
 
     func setupWith(cellType: RateBuyerCellType, image imageUrl: URL?, title: String?, subtitle: String?, topBorder: Bool,
-                   bottomBorder: Bool = true, disclouseDirection: DisclouseDirection) {
+                   bottomBorder: Bool = true, disclouseDirection: DisclosureDirection) {
         
         switch cellType {
         case .userCell:
