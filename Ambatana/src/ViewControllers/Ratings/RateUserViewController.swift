@@ -16,6 +16,8 @@ class RateUserViewController: KeyboardViewController {
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var userNameText: UILabel!
     @IBOutlet weak var rateInfoText: UILabel!
+    
+    @IBOutlet weak var starsContainer: UIView!
     @IBOutlet var stars: [UIButton]!
     
     @IBOutlet weak var ratingsContainer: UIView!
@@ -33,7 +35,7 @@ class RateUserViewController: KeyboardViewController {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var footerLabel: UILabel!
 
-    fileprivate var descrPlaceholder = LGLocalizedString.userRatingReviewPlaceholder
+    fileprivate var descrPlaceholder = LGLocalizedString.userRatingReviewPlaceholderOptional
     fileprivate let descrPlaceholderColor = UIColor.gray
     fileprivate static let sendButtonMargin: CGFloat = 15
     fileprivate let showSkipButton: Bool
@@ -110,13 +112,15 @@ class RateUserViewController: KeyboardViewController {
         footerView.layout(with: keyboardView).bottom(to: .top)
         
         automaticallyAdjustsScrollViewInsets = false
+        
+        // ⚠️ WTF is this
         if showSkipButton {
             setLetGoRightButtonWith(text: LGLocalizedString.userRatingSkipButton, selector: #selector(skipButtonPressed))
         } else {
             navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .plain,
                                                                target: self, action: #selector(closeButtonPressed))
         }
-
+        
         setNavBarTitle(LGLocalizedString.userRatingTitle)
 
         userImage.layer.cornerRadius = userImage.width / 2
@@ -147,21 +151,25 @@ class RateUserViewController: KeyboardViewController {
     }
     
     private func setupRx() {
-        viewModel.isLoading.asObservable().bindNext { [weak self] loading in
-            self?.sendButton.setTitle(loading ? nil : LGLocalizedString.userRatingReviewButton, for: .normal)
-            loading ? self?.activityIndicator.startAnimating() : self?.activityIndicator.stopAnimating()
+        viewModel.state.asObservable().bindNext { [weak self] state in
+            self?.updateUI(with: state)
         }.addDisposableTo(disposeBag)
-        viewModel.sendEnabled.asObservable().bindTo(sendButton.rx.isEnabled).addDisposableTo(disposeBag)
-
-        viewModel.descriptionCharLimit.asObservable().map { return String($0) }.bindTo(descriptionCharCounter.rx.text)
-            .addDisposableTo(disposeBag)
-
+        
         viewModel.rating.asObservable().bindNext { [weak self] rating in
             onMainThread { [weak self] in
                 let value = rating ?? 0
-                self?.stars.forEach{ $0.isHighlighted = ($0.tag <= value)}
+                self?.stars.forEach { $0.isHighlighted = ($0.tag <= value) }
             }
         }.addDisposableTo(disposeBag)
+        
+        viewModel.sendText.asObservable().bindTo(sendButton.rx.title(for: .normal)).addDisposableTo(disposeBag)
+        viewModel.sendEnabled.asObservable().bindTo(sendButton.rx.isEnabled).addDisposableTo(disposeBag)
+        viewModel.isLoading.asObservable().bindTo(activityIndicator.rx.isAnimating).addDisposableTo(disposeBag)
+        
+        viewModel.descriptionCharLimit.asObservable()
+            .map { return String($0) }
+            .bindTo(descriptionCharCounter.rx.text)
+            .addDisposableTo(disposeBag)
 
         keyboardChanges.bindNext { [weak self] change in
             guard let strongSelf = self, change.visible else { return }
@@ -180,29 +188,32 @@ class RateUserViewController: KeyboardViewController {
             
         }.addDisposableTo(disposeBag)
     }
+    
+    private func updateUI(with state: RateUserState) {
+        switch state {
+        case .review:
+            ratingTagsCollectionView.isHidden = false
+            vmUpdateTags()
+            starsContainer.isHidden = false
+            descriptionContainer.isHidden = true
+        case .comment:
+            ratingTagsCollectionView.isHidden = true
+            starsContainer.isHidden = true
+            descriptionContainer.isHidden = false
+        }
+    }
 }
 
 
 // MARK: - UserRatingViewModelDelegate
 
 extension RateUserViewController: RateUserViewModelDelegate {
-
     func vmUpdateDescription(_ description: String?) {
         setDescription(description)
     }
 
-    func vmUpdateDescriptionPlaceholder(_ placeholder: String) {
-        guard let descriptionText = descriptionText else { return }
-        guard placeholder != descrPlaceholder else { return }
-        if descriptionText.text == descrPlaceholder {
-            descriptionText.text = placeholder
-        }
-        descrPlaceholder = placeholder
-    }
-    
-    func vmReloadTags() {
+    func vmUpdateTags() {
         ratingTagsCollectionView.reloadData()
-        
         // Forces relayout so viewDidLayoutSubviews is called and then collection view height is adjusted
         ratingTagsCollectionView.setNeedsLayout()
         ratingTagsCollectionView.layoutIfNeeded()
@@ -233,6 +244,11 @@ extension RateUserViewController: UICollectionViewDataSource, UICollectionViewDe
         }
         let index = indexPath.row
         cell.title = viewModel.titleForTagAt(index: index)
+        let isSelected = viewModel.isSelectedTagAt(index: index)
+        cell.isSelected = isSelected
+        if isSelected {
+            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .top)
+        }
         return cell
     }
     

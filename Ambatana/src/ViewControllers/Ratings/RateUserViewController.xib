@@ -25,6 +25,7 @@
                 <outlet property="ratingsTitle" destination="kkf-ne-k4s" id="vsK-cD-YId"/>
                 <outlet property="scrollView" destination="OBy-KX-Vwn" id="p42-UE-qKs"/>
                 <outlet property="sendButton" destination="dKI-Rc-pUb" id="eOU-XP-Cns"/>
+                <outlet property="starsContainer" destination="hgH-LD-l39" id="uA9-iK-Yvf"/>
                 <outlet property="userImage" destination="p8Z-ST-xDr" id="pf9-SD-EeK"/>
                 <outlet property="userNameText" destination="eRe-bF-jWx" id="Vyl-wr-8Aq"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -234,7 +235,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                 </subviews>
-                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="bottom" secondItem="VmE-1m-3hI" secondAttribute="bottom" constant="30" id="5U7-xB-Jo0"/>
                                                     <constraint firstAttribute="trailing" secondItem="s4z-sR-M0l" secondAttribute="trailing" constant="15" id="Djs-4D-Hk6"/>

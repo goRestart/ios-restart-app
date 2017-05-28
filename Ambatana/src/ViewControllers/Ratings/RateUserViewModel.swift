@@ -36,10 +36,14 @@ enum RateUserSource {
     case chat, deepLink, userRatingList, markAsSold
 }
 
+enum RateUserState {
+    case review(positive: Bool)
+    case comment
+}
+
 protocol RateUserViewModelDelegate: BaseViewModelDelegate {
     func vmUpdateDescription(_ description: String?)
-    func vmUpdateDescriptionPlaceholder(_ placeholder: String)
-    func vmReloadTags()
+    func vmUpdateTags()
 }
 
 class RateUserViewModel: BaseViewModel {
@@ -62,6 +66,8 @@ class RateUserViewModel: BaseViewModel {
     }
 
     let isLoading = Variable<Bool>(false)
+    let state = Variable<RateUserState>(.review(positive: true))
+    let sendText = Variable<String?>(nil)
     let sendEnabled = Variable<Bool>(false)
     let rating = Variable<Int?>(nil)
     let description = Variable<String?>(nil)
@@ -73,7 +79,8 @@ class RateUserViewModel: BaseViewModel {
     fileprivate let source: RateUserSource
     fileprivate let data: RateUserData
     fileprivate var previousRating: UserRating?
-    fileprivate var selectedTagIndexes: Set<Int>
+    fileprivate let isReviewPositive = Variable<Bool>(true)
+    fileprivate let selectedTagIndexes = CollectionVariable<Int>([])
     fileprivate let disposeBag = DisposeBag()
 
 
@@ -88,8 +95,6 @@ class RateUserViewModel: BaseViewModel {
         self.data = data
         self.userRatingRepository = userRatingRepository
         self.tracker = tracker
-        self.selectedTagIndexes = Set<Int>()
-
         super.init()
 
         self.setupRx()
@@ -119,11 +124,18 @@ class RateUserViewModel: BaseViewModel {
 
     func sendButtonPressed() {
         guard let rating = rating.value, sendEnabled.value else { return }
-
+        
         let ratingCompletion: UserRatingCompletion = { [weak self] result in
-            self?.isLoading.value = false
+            guard let strongSelf = self else { return }
+            
+            strongSelf.isLoading.value = false
             if let rating = result.value {
-                self?.finishedRating(rating)
+                switch strongSelf.state.value {
+                case .review:
+                    strongSelf.didFinishRating(rating: rating)
+                case .comment:
+                    strongSelf.didFinishCommenting(rating: rating)
+                }
             } else if let error = result.error {
                 let message: String
                 switch error {
@@ -132,20 +144,39 @@ class RateUserViewModel: BaseViewModel {
                 case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
                     message = LGLocalizedString.commonError
                 }
-                self?.delegate?.vmShowAutoFadingMessage(message, completion: nil)
+                strongSelf.delegate?.vmShowAutoFadingMessage(message, completion: nil)
             }
         }
-
-        self.isLoading.value = true
+        
+        isLoading.value = true
+       
+        let comment = makeComment()
         if let previousRating = previousRating {
-            userRatingRepository.updateRating(previousRating, value: rating, comment: description.value,
+            userRatingRepository.updateRating(previousRating, value: rating, comment: comment,
                                               completion: ratingCompletion)
         } else {
-            userRatingRepository.createRating(data.userId, value: rating, comment: description.value,
+            userRatingRepository.createRating(data.userId, value: rating, comment: comment,
                                               type: data.ratingType, completion: ratingCompletion)
         }
     }
 
+    private func makeComment() -> String {
+        let tagsString: [String]
+        if isReviewPositive.value {
+            tagsString = PositiveUserRatingTag.allValues
+                .enumerated()
+                .filter { selectedTagIndexes.value.contains($0.0) }
+                .map { $0.1.localizedText }
+            
+        } else {
+            tagsString = NegativeUserRatingTag.allValues
+                .enumerated()
+                .filter { selectedTagIndexes.value.contains($0.0) }
+                .map { $0.1.localizedText }
+        }
+        return String.make(tagsString: tagsString, comment: description.value)
+    }
+    
     
     // MARK: - Tags
     
@@ -158,60 +189,98 @@ class RateUserViewModel: BaseViewModel {
         return tagTitles[index]
     }
     
-    func isTagSelectedAt(index: Int) -> Bool {
-        guard 0..<numberOfTags ~= index else { return false }
-        return selectedTagIndexes.contains(index)
+    func isSelectedTagAt(index: Int) -> Bool {
+        return selectedTagIndexes.value.contains(index)
     }
     
     func selectTagAt(index: Int) {
-        guard !isTagSelectedAt(index: index) else { return }
-        selectedTagIndexes.insert(index)
+        guard !isSelectedTagAt(index: index) else { return }
+        selectedTagIndexes.append(index)
     }
     
     func deselectTagAt(index: Int) {
-        guard isTagSelectedAt(index: index) else { return }
-        selectedTagIndexes.remove(index)
+        guard let arrayIndex = selectedTagIndexes.value.index(of: index) else { return }
+        selectedTagIndexes.removeAtIndex(arrayIndex)
     }
     
 
     // MARK: - Private methods
 
     private func setupRx() {
-        Observable.combineLatest(isLoading.asObservable(), rating.asObservable(),
-            description.asObservable(), resultSelector: { $0 })
-            .map { (loading, rating, description) in
-                guard !loading, let rating = rating else { return false }
-                guard rating < Constants.userRatingMinStarsPositive else { return true }
-                guard let description = description, !description.isEmpty &&
-                    description.characters.count <= Constants.userRatingDescriptionMaxLength else { return false }
-                return true
-            }.bindTo(sendEnabled).addDisposableTo(disposeBag)
-
-        rating.asObservable().map {
-                if let stars = $0 {
-                    return stars < Constants.userRatingMinStarsPositive ?
-                        LGLocalizedString.userRatingReviewPlaceholderMandatory :
-                        LGLocalizedString.userRatingReviewPlaceholderOptional
-                } else {
-                    return LGLocalizedString.userRatingReviewPlaceholder
+        Observable.combineLatest(isLoading.asObservable(),
+                                 state.asObservable(), resultSelector: { $0 })
+            .map { [weak self] (isLoading, state) -> String? in
+                guard let strongSelf = self, !isLoading else { return nil }
+                
+                switch state {
+                case .review:
+                    return LGLocalizedString.userRatingReviewButton
+                case .comment:
+                    if let _ = strongSelf.previousRating {
+                        return LGLocalizedString.userRatingUpdateCommentButton
+                    } else {
+                        return LGLocalizedString.userRatingAddCommentButton
+                    }
                 }
-            }.bindNext { [weak self] placeholder in
-                self?.delegate?.vmUpdateDescriptionPlaceholder(placeholder)
-            }.addDisposableTo(disposeBag)
+            }.bindTo(sendText).addDisposableTo(disposeBag)
         
-        let positiveTagsEnabled = rating.asObservable().map { (stars: Int?) -> Bool in
-            guard let stars = stars else { return true }
-            return stars >= Constants.userRatingMinStarsPositive
+        let ratingValid = rating.asObservable()
+            .map { $0 != nil }
+            .distinctUntilChanged()
+        let tagsValid = selectedTagIndexes.observable
+            .map { !$0.isEmpty }
+            .distinctUntilChanged()
+        let descriptionValid = description.asObservable().map { description -> Bool in
+            guard let description = description else { return false }
+            return !description.isEmpty &&
+                   description.characters.count <= Constants.userRatingDescriptionMaxLength
         }.distinctUntilChanged()
         
-        positiveTagsEnabled.subscribeNext { [weak self] _ in
-            self?.selectedTagIndexes.removeAll()
-            self?.delegate?.vmReloadTags()
-        }.addDisposableTo(disposeBag)
+        Observable.combineLatest(isLoading.asObservable(),
+                                 state.asObservable(),
+                                 tagsValid,
+                                 ratingValid,
+                                 descriptionValid, resultSelector: { $0 })
+            .map { (isLoading, state, tagsValid, ratingValid, descriptionValid) -> Bool in
+                guard !isLoading else { return false }
+                
+                switch state {
+                case .review:
+                    return ratingValid && tagsValid
+                case .comment:
+                    return ratingValid && tagsValid && descriptionValid
+                }
+            }
+            .distinctUntilChanged()
+            .bindTo(sendEnabled).addDisposableTo(disposeBag)
         
+        rating.asObservable()
+            .map { (stars: Int?) -> Bool in
+                guard let stars = stars else { return true }
+                return stars >= Constants.userRatingMinStarsPositive }
+            .distinctUntilChanged()
+            .bindTo(isReviewPositive).addDisposableTo(disposeBag)
+        
+        isReviewPositive.asObservable().subscribeNext { [weak self] positive in
+            self?.reviewStateDidChange(positive: positive)
+        }.addDisposableTo(disposeBag)
 
-        description.asObservable().map { Constants.userRatingDescriptionMaxLength - ($0?.characters.count ?? 0) }
+        let comment = Observable.combineLatest(description.asObservable(),
+                                 selectedTagIndexes.observable, resultSelector: { $0 })
+            .map { [weak self] _ in return self?.makeComment() }
+        comment.asObservable()
+            .map { Constants.userRatingDescriptionMaxLength - ($0?.characters.count ?? 0) }
             .bindTo(descriptionCharLimit).addDisposableTo(disposeBag)
+    }
+    
+    private func reviewStateDidChange(positive: Bool) {
+        switch state.value {
+        case .review:
+            selectedTagIndexes.removeAll()
+            state.value = .review(positive: positive)
+        case .comment:
+            return
+        }
     }
 
     private func retrievePreviousRating() {
@@ -221,22 +290,48 @@ class RateUserViewModel: BaseViewModel {
             guard let userRating = result.value else { return }
             self?.previousRating = userRating
             self?.rating.value = userRating.value
-            self?.description.value = userRating.comment
-            self?.delegate?.vmUpdateDescription(userRating.comment)
+            
+            let description: String?
+            let tagIdxs: [Int]
+            if let comment = userRating.comment {
+                description = comment.trimUserRatingTags()
+                
+                if userRating.value >= Constants.userRatingMinStarsPositive {
+                    let positiveTags = PositiveUserRatingTag.make(string: comment)
+                    let allPositiveTags = PositiveUserRatingTag.allValues
+                    tagIdxs = positiveTags.flatMap { allPositiveTags.index(of: $0) }
+                } else {
+                    let negativeTags = NegativeUserRatingTag.make(string: comment)
+                    let allNegativeTags = NegativeUserRatingTag.allValues
+                    tagIdxs = negativeTags.flatMap { allNegativeTags.index(of: $0) }
+                }
+            } else {
+                description = nil
+                tagIdxs = []
+            }
+            
+            self?.delegate?.vmUpdateDescription(description)
+            self?.description.value = description
+
+            self?.selectedTagIndexes.value = tagIdxs
+            self?.delegate?.vmUpdateTags()
         }
     }
 
-    private func finishedRating(_ userRating: UserRating) {
-        trackComplete(userRating)
+    private func didFinishRating(rating: UserRating) {
+        state.value = .comment
+        trackComplete(rating: rating)
+    }
+    
+    private func didFinishCommenting(rating: UserRating) {
+        trackComplete(rating: rating)
         delegate?.vmShowAutoFadingMessage(LGLocalizedString.userRatingReviewSendSuccess) { [weak self] in
             self?.navigator?.rateUserFinish(withRating: self?.rating.value ?? 0)
         }
     }
     
     private var tagTitles: [String] {
-        guard let rating = rating.value else { return PositiveUserRatingTag.allValues.map { $0.localizedText } }
-        
-        if rating >= Constants.userRatingMinStarsPositive {
+        if isReviewPositive.value {
             return PositiveUserRatingTag.allValues.map { $0.localizedText }
         } else {
             return NegativeUserRatingTag.allValues.map { $0.localizedText }
@@ -268,7 +363,7 @@ fileprivate extension RateUserViewModel {
         tracker.trackEvent(event)
     }
 
-    func trackComplete(_ rating: UserRating) {
+    func trackComplete(rating: UserRating) {
         let hasComments = !(rating.comment ?? "").isEmpty
         let event = TrackerEvent.userRatingComplete(data.userId, typePage: EventParameterTypePage(source: source),
                                                     rating: rating.value, hasComments: hasComments)
