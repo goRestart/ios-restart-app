@@ -74,6 +74,10 @@
 "change_location_recommend_update_location_message" = "Chúng tôi khuyên bạn nên cập nhật địa điểm để có thể thấy được những sản phẩm giá hời nhất ở quanh bạn!";
 "change_location_search_field_hint" = "Nhập mã vùng hoặc mã bưu chính";
 "change_location_title" = "Thay đổi địa điểm";
+"change_location_zip_current_location_button" = "Địa điểm hiện tại";
+"change_location_zip_min_digits_label" = "Phải gồm 5 số";
+"change_location_zip_not_found_error_message" = "Chúng tôi không thể tìm thấy địa điểm theo mã bưu chính bạn vừa nhập. Vui lòng kiểm tra và thử lại.";
+"change_location_zip_placeholder" = "Mã bưu chính";
 "change_password_confirm_password_field_hint" = "Xác nhận mật khẩu";
 "change_password_new_password_field_hint" = "Mật khẩu mới";
 "change_password_send_error_generic" = "Lỗi xảy ra khi thay đổi mật khẩu. Xin vui lòng thử lại.";
@@ -686,8 +690,13 @@
 "profile_verify_google_title" = "GOOGLE";
 "rate_buyers_message" = "Chúc mừng!";
 "rate_buyers_not_on_letgo_button" = "Tôi không bán sản phẩm này trên letgo";
+"rate_buyers_not_on_letgo_title_button" = "Đã bán ở chỗ khác";
+"rate_buyers_see_less" = "Rút gọn";
+"rate_buyers_see_x_more" = "Hiện thêm";
 "rate_buyers_sub_message" = "Bạn đã bán sản phẩm này cho ai?";
 "rate_buyers_title" = "Ai đã mua sản phẩm này?";
+"rate_buyers_will_do_later_subtitle" = "Đánh giá người mua sau";
+"rate_buyers_will_do_later_title" = "Tôi sẽ thực hiện sau";
 "rate_user_negative_didnt_show_up" = "Không có mặt";
 "rate_user_negative_item_not_as_advertised" = "Sản phẩm không như giới thiệu";
 "rate_user_negative_not_polite" = "Không lịch sự";
@@ -850,7 +859,8 @@
 "tour_page_1_body" = "Mua và bán nhanh chóng, an toàn ở ngay gần bạn.";
 "trending_searches_Title" = "Xu hướng Tìm kiếm";
 "unblock_user_error_generic" = "Có lỗi xảy ra trong khi bỏ chặn người dùng này.";
-"user_rating_message_more" = "Thanks for sharing! Want to tell us more about you experience?";
+"user_rating_add_comment_button" = "Add Comment";
+"user_rating_message_more" = "Cảm ơn đã chia sẻ! Muốn cho chúng tôi biết thêm về trải nghiệm của bạn?";
 "user_rating_message_w_name" = "Trải nghiệm của bạn với %@ có xứng đáng năm sao? Hãy cho chúng tôi biết.";
 "user_rating_message_wo_name" = "Trải nghiệm của bạn với người dùng này có xứng đáng năm sao? Hãy cho chúng tôi biết.";
 "user_rating_review_button" = "Đăng đánh giá";
@@ -859,9 +869,10 @@
 "user_rating_review_placeholder_mandatory" = "Viết về trải nghiệm của bạn (bắt buộc)";
 "user_rating_review_placeholder_optional" = "Viết về trải nghiệm của bạn (không bắt buộc)";
 "user_rating_review_send_success" = "Đánh giá của bạn đã được đăng!";
-"user_rating_select_a_tag" = "Select at least one:";
+"user_rating_select_a_tag" = "Chọn ít nhất một:";
 "user_rating_skip_button" = "Bỏ qua";
 "user_rating_title" = "Đánh giá trải nghiệm của bạn với";
+"user_rating_update_comment_button" = "Update Comment";
 "user_share_error" = "Có lỗi xảy ra trong khi chia sẻ hồ sơ. Xin vui lòng thử lại.";
 "user_share_message_mine" = "Hãy xem tất cả những gì tôi đang bán trên letgo!";
 "user_share_message_other" = "Hãy xem tất cả những gì người bán này có trên letgo!";

@@ -74,6 +74,10 @@
 "change_location_recommend_update_location_message" = "Nous vous recommandons de mettre à jour votre position pour voir les meilleures offres près de vous !";
 "change_location_search_field_hint" = "Entrez une ville ou un code postal";
 "change_location_title" = "Changer de location";
+"change_location_zip_current_location_button" = "Current location";
+"change_location_zip_min_digits_label" = "Must be 5 digits";
+"change_location_zip_not_found_error_message" = "We couldn't find a location based on the zip code you entered. Please check it and try again.";
+"change_location_zip_placeholder" = "Zip code";
 "change_password_confirm_password_field_hint" = "Confirmer le mot de passe";
 "change_password_new_password_field_hint" = "Nouveau mot de passe";
 "change_password_send_error_generic" = "Une erreur est survenue lors du changement de mot de passe. Veuillez réessayer.";
@@ -686,8 +690,13 @@
 "profile_verify_google_title" = "GOOGLE";
 "rate_buyers_message" = "Félicitations !";
 "rate_buyers_not_on_letgo_button" = "Je ne l'ai pas vendu sur letgo";
+"rate_buyers_not_on_letgo_title_button" = "Je l'ai vendu ailleurs";
+"rate_buyers_see_less" = "Afficher moins";
+"rate_buyers_see_x_more" = "Afficher plus";
 "rate_buyers_sub_message" = "À qui l'avez-vous vendu ?";
 "rate_buyers_title" = "Qui a acheté ceci ?";
+"rate_buyers_will_do_later_subtitle" = "Évaluer l'acheteur plus tard";
+"rate_buyers_will_do_later_title" = "Je le ferai plus tard";
 "rate_user_negative_didnt_show_up" = "Absent(e) au rendez-vous";
 "rate_user_negative_item_not_as_advertised" = "Bien non conforme à l'annonce";
 "rate_user_negative_not_polite" = "Impoli(e)";
@@ -850,7 +859,8 @@
 "tour_page_1_body" = "Achetez et vendez rapidement, de manière sûre et localement.";
 "trending_searches_Title" = "Tendance des recherches";
 "unblock_user_error_generic" = "Une erreur est survenue lors du déblocage de cet utilisateur.";
-"user_rating_message_more" = "Thanks for sharing! Want to tell us more about you experience?";
+"user_rating_add_comment_button" = "Add Comment";
+"user_rating_message_more" = "Thanks for sharing! Want to tell us more about your experience?";
 "user_rating_message_w_name" = "Votre expérience avec %@ vaut-elle 5 étoiles ? Dites-nous comment ça s'est passé.";
 "user_rating_message_wo_name" = "Votre expérience avec cet utilisateur vaut-elle 5 étoiles ? Dites-nous comment ça s'est passé.";
 "user_rating_review_button" = "Publier";
@@ -859,9 +869,10 @@
 "user_rating_review_placeholder_mandatory" = "Dites-nous en plus sur votre expérience (requis)";
 "user_rating_review_placeholder_optional" = "Dites-nous en plus sur votre expérience (optionnel)";
 "user_rating_review_send_success" = "Votre avis a été publié !";
-"user_rating_select_a_tag" = "Select at least one:";
+"user_rating_select_a_tag" = "Sélectionnez au moins un :";
 "user_rating_skip_button" = "Passer";
 "user_rating_title" = "Notez votre expérience avec";
+"user_rating_update_comment_button" = "Update Comment";
 "user_share_error" = "Une erreur est survenue lors du partage du profil. Veuillez réessayer.";
 "user_share_message_mine" = "Jetez un oeil à tout ce que je vend sur letgo !";
 "user_share_message_other" = "Jetez un oeil à tout ce que ce vendeur vend sur letgo :";

@@ -74,6 +74,10 @@
 "change_location_recommend_update_location_message" = "근처의 상품을 찾기위해 위치정보를 업데이트 하는 것을 추천합니다!";
 "change_location_search_field_hint" = "도시 및 우편번호를 입력하세요";
 "change_location_title" = "위치 변경하기";
+"change_location_zip_current_location_button" = "현재 위치";
+"change_location_zip_min_digits_label" = "반드시 5 자리 숫자";
+"change_location_zip_not_found_error_message" = "귀하께서 입력하신 우편번호로 위치를 찾을 수 없습니다. 다시 한번 확인해주시고 다시 시도해주시기 바랍니다.";
+"change_location_zip_placeholder" = "우편번호";
 "change_password_confirm_password_field_hint" = "비밀번호 확인";
 "change_password_new_password_field_hint" = "새로운 비밀번호";
 "change_password_send_error_generic" = "비밀번호를 변경하는데 오류가 발생했습니다. 다시 시도해주세요.";
@@ -686,8 +690,13 @@
 "profile_verify_google_title" = "구글";
 "rate_buyers_message" = "축하드립니다!";
 "rate_buyers_not_on_letgo_button" = "저는 이것은 letgo에서 판매하지 않았습니다";
+"rate_buyers_not_on_letgo_title_button" = "다른 곳에서 판매했습니다";
+"rate_buyers_see_less" = "줄이기";
+"rate_buyers_see_x_more" = "더보기";
 "rate_buyers_sub_message" = "누구에게 이것을 판매하시나요?";
 "rate_buyers_title" = "누가 이것을 구매했나요?";
+"rate_buyers_will_do_later_subtitle" = "나중에 구매자의 평점을 남기겠습니다";
+"rate_buyers_will_do_later_title" = "나중에 진행하겠습니다";
 "rate_user_negative_didnt_show_up" = "나오지 않음";
 "rate_user_negative_item_not_as_advertised" = "허위 매물";
 "rate_user_negative_not_polite" = "예의바르지 않음";
@@ -850,7 +859,8 @@
 "tour_page_1_body" = "구매와 판매를 빠르고 안전하고 지역적으로 진행하세요.";
 "trending_searches_Title" = "트렌드 검색";
 "unblock_user_error_generic" = "이 사용자의 차단을 해제하는데 오류가 발생했습니다.";
-"user_rating_message_more" = "Thanks for sharing! Want to tell us more about you experience?";
+"user_rating_add_comment_button" = "Add Comment";
+"user_rating_message_more" = "공유해주셔서 감사합니다! 귀하의 경험에 대해 좀 더 말씀해주시길 원하십니까?";
 "user_rating_message_w_name" = "%@에게 별 다섯개를 주실 경험을 하셨나요? 어떠셨는지 저희에게 알려주세요.";
 "user_rating_message_wo_name" = "이 사용자에게 별 다섯개를 주실 경험을 하셨나요? 어떠셨는지 저희에게 알려주세요.";
 "user_rating_review_button" = "댓글 남기기";
@@ -859,9 +869,10 @@
 "user_rating_review_placeholder_mandatory" = "경험하신 것에 대해서 작성해주세요 (선택사항)";
 "user_rating_review_placeholder_optional" = "경험하신 것에 대해서 작성해주세요 (선택사항)";
 "user_rating_review_send_success" = "사용자의 댓글이 정상적으로 등록되었습니다!";
-"user_rating_select_a_tag" = "Select at least one:";
+"user_rating_select_a_tag" = "적어도 한가지를 선택하셔야 합니다:";
 "user_rating_skip_button" = "넘기기";
 "user_rating_title" = "회원님의 경험을 댓글로 남기기";
+"user_rating_update_comment_button" = "Update Comment";
 "user_share_error" = "프로필을 공유하는 동안 에러가 발생했습니다. 다시 시도해주세요.";
 "user_share_message_mine" = "제가 letgo에서 판매하고 있는 모든 제품들을 확인해보세요!";
 "user_share_message_other" = "이 판매자가 letgo에서 판매하고 있는 모든 제품들을 확인해보세요!";

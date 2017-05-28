@@ -283,6 +283,22 @@ struct LGLocalizedString {
 		return NSLocalizedString("change_location_title", comment: "")
 	}
 
+	static var changeLocationZipCurrentLocationButton: String {
+		return NSLocalizedString("change_location_zip_current_location_button", comment: "")
+	}
+
+	static var changeLocationZipPlaceholder: String {
+		return NSLocalizedString("change_location_zip_placeholder", comment: "")
+	}
+
+	static var changeLocationZipMinDigitsLabel: String {
+		return NSLocalizedString("change_location_zip_min_digits_label", comment: "")
+	}
+
+	static var changeLocationZipNotFoundErrorMessage: String {
+		return NSLocalizedString("change_location_zip_not_found_error_message", comment: "")
+	}
+
 	static var changePasswordConfirmPasswordFieldHint: String {
 		return NSLocalizedString("change_password_confirm_password_field_hint", comment: "")
 	}
@@ -2867,6 +2883,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("rate_buyers_not_on_letgo_title_button", comment: "")
 	}
 
+	static var rateBuyersSeeXMore: String {
+		return NSLocalizedString("rate_buyers_see_x_more", comment: "")
+	}
+
+	static var rateBuyersSeeLess: String {
+		return NSLocalizedString("rate_buyers_see_less", comment: "")
+	}
+
 	static var rateBuyersNotOnLetgoButton: String {
 		return NSLocalizedString("rate_buyers_not_on_letgo_button", comment: "")
 	}
@@ -3505,6 +3529,14 @@ struct LGLocalizedString {
 
 	static var userRatingReviewButton: String {
 		return NSLocalizedString("user_rating_review_button", comment: "")
+	}
+
+	static var userRatingAddCommentButton: String {
+		return NSLocalizedString("user_rating_add_comment_button", comment: "")
+	}
+
+	static var userRatingUpdateCommentButton: String {
+		return NSLocalizedString("user_rating_update_comment_button", comment: "")
 	}
 
 	static var userRatingSkipButton: String {
