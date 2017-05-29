@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import RxSwift
 
-class LocationFromZipCodeViewController: KeyboardViewController {
+class LocationFromZipCodeViewController: KeyboardViewController, LocationFromZipCodeViewModelDelegate {
 
     static let fullAddressIconSize: CGFloat = 18
 
@@ -41,6 +41,7 @@ class LocationFromZipCodeViewController: KeyboardViewController {
     init(viewModel: LocationFromZipCodeViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
+        self.viewModel.delegate = self
         setupUI()
         setupLayout()
         setupRx()
@@ -203,7 +204,6 @@ fileprivate extension LocationFromZipCodeViewController {
     }
 
     dynamic func currentLocationButtonPressed() {
-        viewModel.clearTextField()
         viewModel.updateAddressFromCurrentLocation()
     }
 

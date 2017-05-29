@@ -76,6 +76,7 @@
 "change_location_title" = "Tartózkodási hely módosítása";
 "change_location_zip_current_location_button" = "Current location";
 "change_location_zip_min_digits_label" = "Must be 5 digits";
+"change_location_zip_not_found_error_message" = "We couldn't find a location based on the zip code you entered. Please check it and try again.";
 "change_location_zip_placeholder" = "Zip code";
 "change_password_confirm_password_field_hint" = "Jelszó megerősítése";
 "change_password_new_password_field_hint" = "Új jelszó";
@@ -500,7 +501,10 @@
 "product_delete_sold_confirm_message" = "Biztosan törölni szerenéd ezt a portékát?";
 "product_delete_success_message" = "Portékád törölve.";
 "product_distance_X_from_you" = "%@-re tőled";
+"product_distance_custom_location" = "Custom location";
+"product_distance_more_than" = "More than %@";
 "product_distance_more_than_from_you" = "Több, mint %@-re tőled";
+"product_distance_near_you" = "Near you";
 "product_favorite_direct_message" = "Tetszik! Megvan még?";
 "product_favorite_login_popup_text" = "A kedvencként jelöléshez be kell jelentkezned";
 "product_free_price" = "Ingyenes";
@@ -689,8 +693,13 @@
 "profile_verify_google_title" = "GOOGLE";
 "rate_buyers_message" = "GRATULÁLUNK";
 "rate_buyers_not_on_letgo_button" = "Nem a letgo piacán adtam el";
+"rate_buyers_not_on_letgo_title_button" = "Valahol máshol adtam el";
+"rate_buyers_see_less" = "Kevesebbet";
+"rate_buyers_see_x_more" = "Többet";
 "rate_buyers_sub_message" = "Kinek adtad el?";
 "rate_buyers_title" = "Ki vette meg?";
+"rate_buyers_will_do_later_subtitle" = "Később értékelem a vásárlót";
+"rate_buyers_will_do_later_title" = "Majd később";
 "rate_user_negative_didnt_show_up" = "Nem jött el";
 "rate_user_negative_item_not_as_advertised" = "Félrevezető hirdetés";
 "rate_user_negative_not_polite" = "Nem udvarias";
@@ -853,6 +862,7 @@
 "tour_page_1_body" = "Vásárolj és adj el gyorsan, biztonságosan – a környékeden.";
 "trending_searches_Title" = "Felkapott kulcsszavak";
 "unblock_user_error_generic" = "Hiba történt a blokkolás feloldása során.";
+"user_rating_add_comment_button" = "Új hozzászólás";
 "user_rating_message_more" = "Thanks for sharing! Want to tell us more about your experience?";
 "user_rating_message_w_name" = "%@ öt csillagot érdemel? Meséld el, hogy ment!";
 "user_rating_message_wo_name" = "Ez a felhasználó öt csillagot érdemel? Meséld el, hogy ment!";
@@ -862,9 +872,10 @@
 "user_rating_review_placeholder_mandatory" = "Számolj be tapasztalataidról (kötelező)";
 "user_rating_review_placeholder_optional" = "Számolj be tapasztalataidról (nem kötelező)";
 "user_rating_review_send_success" = "Értékelésed beküldve!";
-"user_rating_select_a_tag" = "Select at least one:";
+"user_rating_select_a_tag" = "Válassz legalább egyet:";
 "user_rating_skip_button" = "Kihagy";
 "user_rating_title" = "Mondd el, milyen volt";
+"user_rating_update_comment_button" = "Hozzászólás szerkesztése";
 "user_share_error" = "Hiba történt a profil megosztása során. Próbálkozz újra.";
 "user_share_message_mine" = "Nézd meg, mi mindent árulok a letgo piacán!";
 "user_share_message_other" = "Nézd meg, ő mi mindent árul a letgo piacán!";

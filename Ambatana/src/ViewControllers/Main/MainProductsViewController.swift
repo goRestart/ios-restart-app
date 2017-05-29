@@ -44,6 +44,9 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     fileprivate let numberOfSuggestionSections = 2
     @IBOutlet weak var infoBubbleLabel: UILabel!
     @IBOutlet weak var infoBubbleShadow: UIView!
+    @IBOutlet weak var infoBubbleArrow: UIImageView!
+    @IBOutlet weak var infoBubbleArrowLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var infoBubbleArrowWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var infoBubbleTopConstraint: NSLayoutConstraint!
     
     fileprivate let navbarSearch: LGNavBarSearchField
@@ -367,6 +370,10 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     
     private func setupInfoBubble() {
         infoBubbleShadow.applyInfoBubbleShadow()
+
+        infoBubbleArrow.isHidden = !viewModel.hasInteractiveBubble
+        infoBubbleArrowLeadingConstraint.constant = viewModel.hasInteractiveBubble ? CGFloat(Metrics.shortMargin) : 0
+        infoBubbleArrowWidthConstraint.constant = viewModel.hasInteractiveBubble ? CGFloat(Metrics.shortMargin) : 0
 
         if viewModel.hasInteractiveBubble {
             let bubbleTap = UITapGestureRecognizer(target: self, action: #selector(onBubbleTapped))

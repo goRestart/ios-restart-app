@@ -10,6 +10,7 @@ import Foundation
 import LGCoreKit
 import RxSwift
 
+protocol LocationFromZipCodeViewModelDelegate: BaseViewModelDelegate { }
 
 class LocationFromZipCodeViewModel: BaseViewModel {
 
@@ -30,6 +31,8 @@ class LocationFromZipCodeViewModel: BaseViewModel {
     fileprivate var newPlace: Place?
 
     var countryCode: CountryCode = .usa
+
+    weak var delegate: LocationFromZipCodeViewModelDelegate?
 
     private let disposeBag = DisposeBag()
 
@@ -74,6 +77,9 @@ class LocationFromZipCodeViewModel: BaseViewModel {
     }
 
     func updateAddressFromCurrentLocation() {
+
+        zipCode.value = ""
+
         guard let location = locationManager.currentAutoLocation?.location else { return }
 
         fullAddressVisible.value = false
@@ -91,6 +97,7 @@ class LocationFromZipCodeViewModel: BaseViewModel {
                     self?.fullAddress.value = resumedData
                 }
             } else if let error = result.error {
+                self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.changeLocationZipNotFoundErrorMessage, completion: nil)
                 logMessage(.error, type: [.location], message: "PostalAddress Service: Retrieve Address For Location error: \(error)")
             }
         }
@@ -115,6 +122,7 @@ class LocationFromZipCodeViewModel: BaseViewModel {
                     self?.fullAddress.value = resumedData
                 }
             } else if let error = result.error {
+                self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.changeLocationZipNotFoundErrorMessage, completion: nil)
                 logMessage(.error, type: [.location], message: "Search Service: Retrieve Address For Location error: \(error)")
             }
         }
@@ -123,9 +131,5 @@ class LocationFromZipCodeViewModel: BaseViewModel {
     func setNewLocation() {
         guard let place = newPlace else { return }
         locationDelegate?.editLocationDidSelectPlace(place)
-    }
-
-    func clearTextField() {
-        zipCode.value = ""
     }
 }

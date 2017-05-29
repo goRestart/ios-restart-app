@@ -53,6 +53,17 @@ class MainProductsViewModel: BaseViewModel {
         }
     }
 
+    var defaultBubbleText: String {
+        switch featureFlags.editLocationBubble {
+        case .inactive:
+            return LGLocalizedString.productPopularNearYou
+        case .zipCode, .map:
+            let distanceRadius = filters.distanceRadius ?? Constants.productListMaxDistanceLabel
+            let type = DistanceType.systemDistanceType()
+            return bubbleInfoTextForDistance(distanceRadius, type: type)
+        }
+    }
+
     let infoBubbleVisible = Variable<Bool>(false)
     let infoBubbleText = Variable<String>(LGLocalizedString.productPopularNearYou)
     let errorMessage = Variable<String?>(nil)
@@ -400,6 +411,7 @@ class MainProductsViewModel: BaseViewModel {
         setupProductList()
         setupSessionAndLocation()
         setupPermissionsNotification()
+        infoBubbleText.value = defaultBubbleText
     }
    
     
@@ -415,7 +427,7 @@ class MainProductsViewModel: BaseViewModel {
     fileprivate func updateListView() {
         
         if filters.selectedOrdering == ListingSortCriteria.defaultOption {
-            infoBubbleText.value = LGLocalizedString.productPopularNearYou
+            infoBubbleText.value = defaultBubbleText
         }
 
         let currentItemsPerPage = productListRequester.itemsPerPage
@@ -434,12 +446,45 @@ class MainProductsViewModel: BaseViewModel {
     }
     
     fileprivate func bubbleInfoTextForDistance(_ distance: Int, type: DistanceType) -> String {
-        let distanceString = String(format: "%d %@", arguments: [min(Constants.productListMaxDistanceLabel, distance),
-                                                                 type.string])
-        if distance <= Constants.productListMaxDistanceLabel {
-            return LGLocalizedString.productDistanceXFromYou(distanceString)
-        } else {
-            return LGLocalizedString.productDistanceMoreThanFromYou(distanceString)
+
+        switch featureFlags.editLocationBubble {
+        case .inactive:
+            let distanceString = String(format: "%d %@", arguments: [min(Constants.productListMaxDistanceLabel, distance),
+                                                                     type.string])
+            if distance <= Constants.productListMaxDistanceLabel {
+                return LGLocalizedString.productDistanceXFromYou(distanceString)
+            } else {
+                return LGLocalizedString.productDistanceMoreThanFromYou(distanceString)
+            }
+        case .zipCode, .map:
+            var maxDistance = Constants.productListMaxDistanceLabel
+
+            if let filterDistanceRadius = filters.distanceRadius {
+                maxDistance = filterDistanceRadius
+            }
+
+            var distanceString = String(format: "%d %@", arguments: [min(maxDistance, distance), type.string])
+
+            if distance > maxDistance && filters.distanceRadius == nil {
+                // if
+                distanceString = LGLocalizedString.productDistanceMoreThan(distanceString)
+            }
+
+            if let customPlace = filters.place {
+                if let city = customPlace.postalAddress?.city {
+                    return city + " - " + distanceString
+                } else if let zip = customPlace.postalAddress?.zipCode {
+                    return zip + " - " + distanceString
+                } else {
+                    return LGLocalizedString.productDistanceCustomLocation + " - " + distanceString
+                }
+            } else {
+                if let realLocationCity = locationManager.currentLocation?.postalAddress?.city {
+                    return realLocationCity + " - " + distanceString
+                } else {
+                    return LGLocalizedString.productDistanceNearYou + " - " + distanceString
+                }
+            }
         }
     }
 }
@@ -502,7 +547,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
                                                            type: DistanceType.systemDistanceType())
             infoBubbleText.value = distanceString
         case .creation:
-            infoBubbleText.value = LGLocalizedString.productPopularNearYou
+            infoBubbleText.value = defaultBubbleText
         case .priceAsc, .priceDesc:
             break
         }

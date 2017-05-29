@@ -214,6 +214,9 @@
 // Change Location with Zip code min 5 digits label
 "change_location_zip_min_digits_label" = "Must be 5 digits";
 
+// Change Location with Zip code error message
+"change_location_zip_not_found_error_message" = "We couldn't find a location based on the zip code you entered. Please check it and try again.";
+
 // Change password confirm password field hint. Check attached image "change_password.png"
 "change_password_confirm_password_field_hint" = "Confirm password";
 
@@ -1561,6 +1564,15 @@
 // Product distance from you. Check image @ "product_ask_a_question_button" segment
 "product_distance_X_from_you" = "%@ from you";
 
+// Product distance. "More than X mi"
+"product_distance_more_than" = "More than %@";
+
+// Product distance. "Near you"
+"product_distance_near_you" = "Near you";
+
+// Product distance. "Custom location"
+"product_distance_custom_location" = "Custom location";
+
 // direct message on product favorite
 "product_favorite_direct_message" = "I like it! Is it still available?";
 
@@ -2144,6 +2156,12 @@
 "rate_buyers_not_on_letgo_title_button" = "Sold it somewhere else";
 
 // Screen to select which buyer you sold the item before rating him/her
+"rate_buyers_see_x_more" = "Show more";
+
+// Screen to select which buyer you sold the item before rating him/her
+"rate_buyers_see_less" = "Show less";
+
+// Screen to select which buyer you sold the item before rating him/her
 "rate_buyers_not_on_letgo_button" = "I didn't sell this on letgo";
 
 // Rate user quick response negative
@@ -2618,8 +2636,14 @@
 // Info message to select one rating tag.
 "user_rating_select_a_tag" = "Select at least one:";
 
-// Send review button
-"user_rating_review_button" = "Publish review";
+// User rating publish review button
+"user_rating_review_button" = "Publish Review";
+
+// User rating add comment button
+"user_rating_add_comment_button" = "Add Comment";
+
+// User rating update comment button
+"user_rating_update_comment_button" = "Update Comment";
 
 // Skip button
 "user_rating_skip_button" = "Skip";
