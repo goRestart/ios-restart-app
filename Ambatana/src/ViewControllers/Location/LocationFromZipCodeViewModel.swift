@@ -32,6 +32,7 @@ class LocationFromZipCodeViewModel: BaseViewModel {
 
     var countryCode: CountryCode = .usa
 
+    weak var navigator: EditLocationFromZipNavigator?
     weak var delegate: LocationFromZipCodeViewModelDelegate?
 
     private let disposeBag = DisposeBag()
@@ -79,6 +80,7 @@ class LocationFromZipCodeViewModel: BaseViewModel {
     func updateAddressFromCurrentLocation() {
 
         zipCode.value = ""
+        setLocationButtonVisible.value = true
 
         guard let location = locationManager.currentAutoLocation?.location else { return }
 
@@ -131,5 +133,10 @@ class LocationFromZipCodeViewModel: BaseViewModel {
     func setNewLocation() {
         guard let place = newPlace else { return }
         locationDelegate?.editLocationDidSelectPlace(place)
+        close()
+    }
+
+    func close() {
+        navigator?.editLocationFromZipDidClose()
     }
 }

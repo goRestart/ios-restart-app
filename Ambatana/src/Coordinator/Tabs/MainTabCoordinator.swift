@@ -68,11 +68,21 @@ extension MainTabCoordinator: MainTabNavigator {
     }
 
     func openLocationSelection(locationDelegate: EditLocationDelegate) {
-        // TODO: Check ABTest
-        let zipLocationVM = LocationFromZipCodeViewModel()
-        zipLocationVM.locationDelegate = locationDelegate
-        let zipLocationVC = LocationFromZipCodeViewController(viewModel: zipLocationVM)
-        navigationController.present(zipLocationVC, animated: true, completion: nil)
-    }
+        switch featureFlags.editLocationBubble {
+        case .inactive:
+            break
+        case .zipCode:
 
+            let editLocationFromZipCoord = EditLocationFromZipCoordinator(locationDelegate: locationDelegate)
+            openChild(coordinator: editLocationFromZipCoord, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
+
+//            let zipLocationVM = LocationFromZipCodeViewModel()
+//            zipLocationVM.locationDelegate = locationDelegate
+//            let zipLocationVC = LocationFromZipCodeViewController(viewModel: zipLocationVM)
+//            navigationController.present(zipLocationVC, animated: true, completion: nil)
+        case .map:
+            // TODO: Add open map location code here
+            break
+        }
+    }
 }
