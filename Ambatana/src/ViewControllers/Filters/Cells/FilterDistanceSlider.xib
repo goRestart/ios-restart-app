@@ -24,32 +24,32 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_filter_far" highlightedImage="ic_filter_far_active" translatesAutoresizingMaskIntoConstraints="NO" id="lwk-ha-vuE" userLabel="FarIcon">
-                    <rect key="frame" x="336" y="321.5" width="24" height="24"/>
+                    <rect key="frame" x="561" y="288" width="24" height="24"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="24" id="3yz-J2-iVG"/>
                         <constraint firstAttribute="height" constant="24" id="vFL-VX-Y6Q"/>
                     </constraints>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_filter_home" highlightedImage="ic_filter_home_active" translatesAutoresizingMaskIntoConstraints="NO" id="aCN-yE-ekt" userLabel="CloseIcon">
-                    <rect key="frame" x="15" y="321.5" width="24" height="24"/>
+                    <rect key="frame" x="15" y="288" width="24" height="24"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="24" id="Cge-WZ-90J"/>
                         <constraint firstAttribute="width" constant="24" id="oDG-I0-wsl"/>
                     </constraints>
                 </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8YR-s9-rD3" userLabel="marksContainer">
-                    <rect key="frame" x="47" y="340.5" width="281" height="5"/>
+                    <rect key="frame" x="47" y="307" width="506" height="5"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="5" id="cGB-ab-uN5"/>
                     </constraints>
                 </view>
                 <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="Bav-pb-usA">
-                    <rect key="frame" x="45" y="318.5" width="285" height="31"/>
+                    <rect key="frame" x="45" y="285" width="510" height="31"/>
                     <color key="minimumTrackTintColor" red="0.98660099509999999" green="0.14062686260000001" blue="0.26615336540000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <color key="maximumTrackTintColor" red="0.71372549019999998" green="0.71372549019999998" blue="0.71372549019999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <connections>
@@ -60,7 +60,7 @@
                     </connections>
                 </slider>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EyQ-Uf-Sqd" userLabel="DistanceTip">
-                    <rect key="frame" x="26" y="290.5" width="68" height="28"/>
+                    <rect key="frame" x="26" y="257" width="68" height="28"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xAe-JY-GCR" userLabel="topBckg">
                             <rect key="frame" x="0.0" y="0.0" width="68" height="24"/>

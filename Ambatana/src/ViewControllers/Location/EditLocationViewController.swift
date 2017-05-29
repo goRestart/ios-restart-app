@@ -26,6 +26,7 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
 
     @IBOutlet weak var gpsLocationButton: UIButton!
     @IBOutlet weak var searchButton: UIButton!
+    @IBOutlet weak var setLocationButtonContainer: UIView!
     @IBOutlet weak var setLocationButton: UIButton!
     @IBOutlet weak var setLocationLoading: UIActivityIndicatorView!
 
@@ -34,6 +35,8 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
     @IBOutlet weak var aproxLocationArea: UIView!
     @IBOutlet weak var poiImage: UIImageView!
 
+    fileprivate let filterDistanceSlider = FilterDistanceSlider()
+    
     fileprivate static let suggestionCellId = "suggestionCell"
     fileprivate static let suggestionCellHeight: CGFloat = 44
 
@@ -100,7 +103,7 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
     // MARK: - view model delegate methods
 
     func vmUpdateSearchTableWithResults(_ results: [String]) {
-        guard let searchField = searchField else { return } // Make sure ui binding is done
+        guard let searchField = searchField else { return }
         /*If searchfield is not first responder means user is not typing so doesn't make sense to show/update
         suggestions table*/
         if !searchField.isFirstResponder { return }
@@ -131,9 +134,31 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
     // MARK: - Private methods
     
     private func setupUI() {
+        searchField.layout(with: topLayoutGuide)
+            .top(to: .bottom, by: Metrics.shortMargin)
+        
+        if viewModel.shouldShowDistanceSlider {
+            let sliderContainer = UIView()
+            sliderContainer.backgroundColor = UIColor.white
+            sliderContainer.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview(sliderContainer)
+            sliderContainer.layout().height(50)
+            sliderContainer.layout(with: view)
+                .left()
+                .right()
+            sliderContainer.layout(with: setLocationButtonContainer)
+                .bottom(to: .top)
+            
+            filterDistanceSlider.translatesAutoresizingMaskIntoConstraints = false
+            sliderContainer.addSubview(filterDistanceSlider)
+            filterDistanceSlider.layout(with: sliderContainer)
+                .fill()
 
-        view.addConstraint(NSLayoutConstraint(item: searchField, attribute: .top, relatedBy: .equal,
-            toItem: topLayoutGuide, attribute: .bottom, multiplier: 1.0, constant: 8.0))
+            filterDistanceSlider.delegate = self
+            filterDistanceSlider.distanceType = viewModel.distanceType
+            filterDistanceSlider.distance = viewModel.distanceRadius
+        }
+        
         searchField.insetX = 40
         searchField.placeholder = LGLocalizedString.changeLocationSearchFieldHint
         searchField.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
@@ -147,8 +172,8 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
         gpsLocationButton.layer.cornerRadius = 10
         poiImage.isHidden = true
         aproxLocationArea.isHidden = true
+        
 
-        // i18n
         approximateLocationLabel.text = LGLocalizedString.changeLocationApproximateLocationLabel
 
         setNavBarTitle(LGLocalizedString.changeLocationTitle)
@@ -247,6 +272,13 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
     }
 }
 
+// MARK: - 
+
+extension EditLocationViewController: FilterDistanceSliderDelegate {
+    func filterDistanceChanged(distance: Int) {
+        viewModel.currentDistanceRadius.value = distance
+    }
+}
 
 // MARK: - MKMapViewDelegate
 

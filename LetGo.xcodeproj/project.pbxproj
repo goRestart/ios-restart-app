@@ -3583,6 +3583,15 @@
 			path = Tags;
 			sourceTree = "<group>";
 		};
+		8E04C7471ED81F2C0014F58B /* DistanceSlider */ = {
+			isa = PBXGroup;
+			children = (
+				8E26E95B1ED5B5B90086D3EC /* FilterDistanceSlider.swift */,
+				8E26E9581ED5AF9A0086D3EC /* FilterDistanceSlider.xib */,
+			);
+			name = DistanceSlider;
+			sourceTree = "<group>";
+		};
 		ABA47C14BB52140048297810 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -3885,14 +3894,13 @@
 				C77593E81BF0C0290097D62F /* FilterSingleCheckCell.xib */,
 				C77593EB1BF0C1FD0097D62F /* FilterDistanceCell.swift */,
 				C77593EC1BF0C1FD0097D62F /* FilterDistanceCell.xib */,
-				8E26E95B1ED5B5B90086D3EC /* FilterDistanceSlider.swift */,
-				8E26E9581ED5AF9A0086D3EC /* FilterDistanceSlider.xib */,
 				C77593EF1BF0E48D0097D62F /* FilterHeaderCell.swift */,
 				C77593F01BF0E48D0097D62F /* FilterHeaderCell.xib */,
 				C75B55F71C7E12C90001F5CD /* FilterLocationCell.swift */,
 				C75B55F81C7E12C90001F5CD /* FilterLocationCell.xib */,
 				2E06EAEB1D7051BA00A40704 /* FilterPriceCell.swift */,
 				2E06EAEC1D7051BA00A40704 /* FilterPriceCell.xib */,
+				8E04C7471ED81F2C0014F58B /* DistanceSlider */,
 			);
 			path = Cells;
 			sourceTree = "<group>";

@@ -224,7 +224,9 @@ class FiltersViewModel: BaseViewModel {
     }
 
     func locationButtonPressed() {
-        let locationVM = EditLocationViewModel(mode: .editFilterLocation, initialPlace: place)
+        let locationVM = EditLocationViewModel(mode: .editFilterLocation,
+                                               initialPlace: place,
+                                               distanceRadius: currentDistanceRadius)
         locationVM.locationDelegate = self
         delegate?.vmOpenLocation(locationVM)
     }
@@ -461,8 +463,9 @@ class FiltersViewModel: BaseViewModel {
 // MARK: - EditUserLocationDelegate
 
 extension FiltersViewModel: EditLocationDelegate {
-    func editLocationDidSelectPlace(_ place: Place) {
+    func editLocationDidSelectPlace(_ place: Place, distanceRadius: Int?) {
         productFilter.place = place
+        productFilter.distanceRadius = distanceRadius
         delegate?.vmDidUpdate()
     }
 }

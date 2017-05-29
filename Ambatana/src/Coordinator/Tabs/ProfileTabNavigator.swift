@@ -16,7 +16,7 @@ protocol SettingsNavigator: class {
     func showFbAppInvite(_ content: FBSDKAppInviteContent, delegate: FBSDKAppInviteDialogDelegate)
     func openEditUserName()
     func openEditEmail()
-    func openEditLocation()
+    func openEditLocation(withDistanceRadius distanceRadius: Int?)
     func openChangePassword()
     func openHelp()
     func closeSettings()
