@@ -45,6 +45,7 @@ class LocationFromZipCodeViewController: KeyboardViewController, LocationFromZip
         setupUI()
         setupLayout()
         setupRx()
+        setupAccessibilityIds()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -208,6 +209,16 @@ fileprivate extension LocationFromZipCodeViewController {
 
     dynamic func setLocationPressed() {
         viewModel.setNewLocation()
+    }
+
+    func setupAccessibilityIds() {
+        closeButton.accessibilityId = AccessibilityId.editLocationFromZipCloseButton
+        titleLabel.accessibilityId = AccessibilityId.editLocationFromZipTitleLabel
+        currentLocationButton.accessibilityId = AccessibilityId.editLocationFromZipCurrentLocationButton
+        zipCodeTextField.accessibilityId = AccessibilityId.editLocationFromZipTextField
+        minDigitsLabel.accessibilityId = AccessibilityId.editLocationFromZipMinDigitsLabel
+        addressLabel.accessibilityId = AccessibilityId.editLocationFromZipFullAddressLabel
+        setLocationButton.accessibilityId = AccessibilityId.editLocationFromZipSetLocationButton
     }
 }
 
