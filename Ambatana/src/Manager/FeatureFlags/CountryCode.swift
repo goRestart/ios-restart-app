@@ -17,4 +17,18 @@ enum CountryCode: String {
         guard let countryCode = CountryCode(rawValue: lowerCasedCode) else { return nil }
         self = countryCode
     }
+
+    var zipCodeLenght: Int {
+        switch self {
+        case .usa, .turkey:
+            return 5
+        }
+    }
+
+    func isValidZipCode(zipCode: String) -> Bool {
+        switch self {
+        case .usa, .turkey:
+            return zipCode.characters.count == zipCodeLenght && zipCode.isOnlyDigits
+        }
+    }
 }

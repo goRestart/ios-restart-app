@@ -74,6 +74,9 @@
 "change_location_recommend_update_location_message" = "Wir empfehlen deinen Standort zu aktualisieren, um die besten Angebote in deiner Nähe zu sehen!";
 "change_location_search_field_hint" = "Gib deine Stadt oder Postleitzahl ein";
 "change_location_title" = "Standort ändern";
+"change_location_zip_current_location_button" = "Current location";
+"change_location_zip_min_digits_label" = "Must be 5 digits";
+"change_location_zip_placeholder" = "Zip code";
 "change_password_confirm_password_field_hint" = "Kennwort bestätigen";
 "change_password_new_password_field_hint" = "Neues Kennwort";
 "change_password_send_error_generic" = "Beim Ändern des Kennworts ist ein Fehler aufgetreten. Bitte versuche es erneut.";
@@ -850,6 +853,7 @@
 "tour_page_1_body" = "Verkaufe schnell, sicher und lokal.";
 "trending_searches_Title" = "Beliebte Suchbegriffe";
 "unblock_user_error_generic" = "Bei der Aufhebung der Blockierung dieses Nutzers ist ein Fehler aufgetreten.";
+"user_rating_message_more" = "Thanks for sharing! Want to tell us more about your experience?";
 "user_rating_message_w_name" = "Verdient der Handel mit %@ fünf Sterne? Erzähle uns, wie es gelaufen ist.";
 "user_rating_message_wo_name" = "Verdient der Handel mit diesem Nutzer fünf Sterne? Erzähle uns, wie es gelaufen ist.";
 "user_rating_review_button" = "Bewertung veröffentlichen";
@@ -858,6 +862,7 @@
 "user_rating_review_placeholder_mandatory" = "Schreibe einen Erfahrungsbericht (Pflichtfeld)";
 "user_rating_review_placeholder_optional" = "Schreibe einen Erfahrungsbericht (optional)";
 "user_rating_review_send_success" = "Deine Bewertung wurde veröffentlicht!";
+"user_rating_select_a_tag" = "Select at least one:";
 "user_rating_skip_button" = "Überspringen";
 "user_rating_title" = "Bewerte deine Transaktion mit";
 "user_share_error" = "Beim Teilen des Profils ist ein Fehler aufgetreten. Bitte versuche es noch einmal.";

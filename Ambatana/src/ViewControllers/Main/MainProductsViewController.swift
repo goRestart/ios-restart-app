@@ -367,6 +367,15 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     
     private func setupInfoBubble() {
         infoBubbleShadow.applyInfoBubbleShadow()
+
+        if viewModel.hasInteractiveBubble {
+            let bubbleTap = UITapGestureRecognizer(target: self, action: #selector(onBubbleTapped))
+            infoBubbleShadow.addGestureRecognizer(bubbleTap)
+        }
+    }
+
+    dynamic private func onBubbleTapped() {
+        viewModel.bubbleTapped()
     }
 
     private func setupSearchAndTrending() {

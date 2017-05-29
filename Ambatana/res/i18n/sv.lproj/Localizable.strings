@@ -74,6 +74,9 @@
 "change_location_recommend_update_location_message" = "Vi rekommenderar dig att uppdatera din plats för att hitta de bästa erbjudandena nära dig!";
 "change_location_search_field_hint" = "Ange stad eller postnummer";
 "change_location_title" = "Ändra plats";
+"change_location_zip_current_location_button" = "Current location";
+"change_location_zip_min_digits_label" = "Must be 5 digits";
+"change_location_zip_placeholder" = "Zip code";
 "change_password_confirm_password_field_hint" = "Bekräfta lösenord";
 "change_password_new_password_field_hint" = "Nytt lösenord";
 "change_password_send_error_generic" = "Ett fel uppstod vid byte av lösenord. Var vänlig försök igen.";
@@ -850,6 +853,7 @@
 "tour_page_1_body" = "Köp och sälj snabbt, säkert och lokalt.";
 "trending_searches_Title" = "Sökningar som trendar";
 "unblock_user_error_generic" = "Ett fel uppstod när blockeringen av användaren skulle tas bort.";
+"user_rating_message_more" = "Thanks for sharing! Want to tell us more about your experience?";
 "user_rating_message_w_name" = "Får din upplevelse med %@ fem stjärnor? Berätta hur det gick.";
 "user_rating_message_wo_name" = "Får din upplevelse med den här användaren fem stjärnor? Berätta hur det gick.";
 "user_rating_review_button" = "Publicera omdöme";
@@ -858,6 +862,7 @@
 "user_rating_review_placeholder_mandatory" = "Skriv om din upplevelse (obligatoriskt)";
 "user_rating_review_placeholder_optional" = "Skriv om din upplevelse (valfritt)";
 "user_rating_review_send_success" = "Ditt omdöme har publicerats!";
+"user_rating_select_a_tag" = "Select at least one:";
 "user_rating_skip_button" = "Hoppa över";
 "user_rating_title" = "Betygsätt din upplevelse med";
 "user_share_error" = "Ett fel inträffade när profilen skulle delas. Vänligen försök igen.";
