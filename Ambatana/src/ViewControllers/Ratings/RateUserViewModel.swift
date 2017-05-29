@@ -36,9 +36,17 @@ enum RateUserSource {
     case chat, deepLink, userRatingList, markAsSold
 }
 
-enum RateUserState {
+enum RateUserState: Equatable {
     case review(positive: Bool)
     case comment
+}
+
+func ==(lhs: RateUserState, rhs: RateUserState) -> Bool {
+    switch (lhs, rhs) {
+    case (.review(let rPos), .review(let lPos)): return rPos == lPos
+    case (.comment, .comment): return true
+    default: return false
+    }
 }
 
 protocol RateUserViewModelDelegate: BaseViewModelDelegate {
@@ -70,7 +78,6 @@ class RateUserViewModel: BaseViewModel {
     let sendEnabled = Variable<Bool>(false)
     let rating = Variable<Int?>(nil)
     let description = Variable<String?>(nil)
-    let descriptionPlaceholder = Variable<String>(LGLocalizedString.userRatingReviewPlaceholder)
     let descriptionCharLimit = Variable<Int>(Constants.userRatingDescriptionMaxLength)
 
     fileprivate let userRatingRepository: UserRatingRepository
