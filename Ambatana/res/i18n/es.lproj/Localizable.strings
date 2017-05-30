@@ -53,6 +53,7 @@
 "categories_inFeed_others" = "Otro";
 "categories_inFeed_sports_leisure_games" = "Tiempo libre";
 "categories_movies_books_and_music" = "Películas, Libros y Música";
+"categories_old_cars_and_motors" = "Coches y Motos";
 "categories_other" = "Otros";
 "categories_sports_leisure_and_games" = "Deporte, Ocio y Juegos";
 "categories_title" = "Categorías";
@@ -501,10 +502,10 @@
 "product_delete_sold_confirm_message" = "¿Seguro que quieres eliminar este artículo?";
 "product_delete_success_message" = "El artículo ha sido eliminado.";
 "product_distance_X_from_you" = "%@ de ti";
-"product_distance_custom_location" = "Custom location";
-"product_distance_more_than" = "More than %@";
+"product_distance_custom_location" = "Ubicación personalizada";
+"product_distance_more_than" = "Más de %@";
 "product_distance_more_than_from_you" = "A más de %@ de ti";
-"product_distance_near_you" = "Near you";
+"product_distance_near_you" = "Cerca de ti";
 "product_favorite_direct_message" = "¡Me gusta! ¿Todavía está disponible?";
 "product_favorite_login_popup_text" = "Para marcar este artículo como favorito, tienes que iniciar sesión";
 "product_free_price" = "Gratis";

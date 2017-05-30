@@ -53,6 +53,7 @@
 "categories_inFeed_others" = "Annan";
 "categories_inFeed_sports_leisure_games" = "Fritid";
 "categories_movies_books_and_music" = "Filmer, böcker och musik";
+"categories_old_cars_and_motors" = "Bil och motor";
 "categories_other" = "Övrigt";
 "categories_sports_leisure_and_games" = "Sport, fritid och spel";
 "categories_title" = "Kategorier";
@@ -501,10 +502,10 @@
 "product_delete_sold_confirm_message" = "Är du säker på att du vill ta bort denna produkt?";
 "product_delete_success_message" = "Din produkt har tagits bort.";
 "product_distance_X_from_you" = "%@ från dig";
-"product_distance_custom_location" = "Custom location";
-"product_distance_more_than" = "More than %@";
+"product_distance_custom_location" = "Vald plats";
+"product_distance_more_than" = "Mer än %@";
 "product_distance_more_than_from_you" = "Mer än %@ från dig";
-"product_distance_near_you" = "Near you";
+"product_distance_near_you" = "Nära dig";
 "product_favorite_direct_message" = "Jag gillar den! Är de fortfarande tillgänglig?";
 "product_favorite_login_popup_text" = "Du måste vara inloggad för att markera denna produkt som favorit";
 "product_free_price" = "Gratis";

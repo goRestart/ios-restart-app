@@ -53,6 +53,7 @@
 "categories_inFeed_others" = "기타";
 "categories_inFeed_sports_leisure_games" = "레져";
 "categories_movies_books_and_music" = "영화, 도서 및 음악";
+"categories_old_cars_and_motors" = "자동차 및 모터류";
 "categories_other" = "기타";
 "categories_sports_leisure_and_games" = "스포츠,레저 및 게임";
 "categories_title" = "항목";
@@ -501,10 +502,10 @@
 "product_delete_sold_confirm_message" = "이 상품을 정말 삭제하기를 원하세요?";
 "product_delete_success_message" = "고객님의 상품이 삭제되었습니다.";
 "product_distance_X_from_you" = "당신으로부터 %@";
-"product_distance_custom_location" = "Custom location";
-"product_distance_more_than" = "More than %@";
+"product_distance_custom_location" = "세관 위치";
+"product_distance_more_than" = "%@ 이상";
 "product_distance_more_than_from_you" = "당신에게 %@ 더 많이";
-"product_distance_near_you" = "Near you";
+"product_distance_near_you" = "귀하 근처";
 "product_favorite_direct_message" = "마음에 드네요! 아직 판매하시나요?";
 "product_favorite_login_popup_text" = "이 상품을 관심상품에 추가하고자 하신다면, 로그인하셔야 합니다.";
 "product_free_price" = "무료";
@@ -866,7 +867,7 @@
 "user_rating_message_more" = "공유해주셔서 감사합니다! 귀하의 경험에 대해 좀 더 말씀해주시길 원하십니까?";
 "user_rating_message_w_name" = "%@에게 별 다섯개를 주실 경험을 하셨나요? 어떠셨는지 저희에게 알려주세요.";
 "user_rating_message_wo_name" = "이 사용자에게 별 다섯개를 주실 경험을 하셨나요? 어떠셨는지 저희에게 알려주세요.";
-"user_rating_review_button" = "댓글 남기기";
+"user_rating_review_button" = "평가 게시하기";
 "user_rating_review_info" = "원하실 때 이 리뷰를 업데이트 하실 수 있습니다.";
 "user_rating_review_placeholder" = "겸험하신 것에 대해서 알려주세요";
 "user_rating_review_placeholder_mandatory" = "경험하신 것에 대해서 작성해주세요 (선택사항)";

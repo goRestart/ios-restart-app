@@ -53,6 +53,7 @@
 "categories_inFeed_others" = "Outro";
 "categories_inFeed_sports_leisure_games" = "Lazer";
 "categories_movies_books_and_music" = "Filmes, Livros e Música";
+"categories_old_cars_and_motors" = "Veículos";
 "categories_other" = "Outros";
 "categories_sports_leisure_and_games" = "Desportos, Lazer e Jogos";
 "categories_title" = "Categorias";
@@ -501,10 +502,10 @@
 "product_delete_sold_confirm_message" = "Tem a certeza que deseja eliminar este artigo?";
 "product_delete_success_message" = "O seu produto foi eliminado.";
 "product_distance_X_from_you" = "%@ de si";
-"product_distance_custom_location" = "Custom location";
-"product_distance_more_than" = "More than %@";
+"product_distance_custom_location" = "Localização personalizada";
+"product_distance_more_than" = "Mais de %@";
 "product_distance_more_than_from_you" = "Mais de %@ de si";
-"product_distance_near_you" = "Near you";
+"product_distance_near_you" = "Perto de si";
 "product_favorite_direct_message" = "Gosto! Ainda está disponível?";
 "product_favorite_login_popup_text" = "Para marcar este item como favorito tem que efetuar o login";
 "product_free_price" = "Grátis";
@@ -866,7 +867,7 @@
 "user_rating_message_more" = "Obrigado pela partilha! Quer contar-nos algo mais sobre a sua experiência?";
 "user_rating_message_w_name" = "Será que a sua experiência com %@ merece cinco estrelas? Conte-nos como correu.";
 "user_rating_message_wo_name" = "Será que a sua experiência com este utilizador merece cinco estrelas? Conte-nos como correu.";
-"user_rating_review_button" = "Publique o comentário";
+"user_rating_review_button" = "Publicar Comentário";
 "user_rating_review_info" = "Pode atualizar este comentário quando quiser.";
 "user_rating_review_placeholder" = "Escreva algo sobre a sua experiência";
 "user_rating_review_placeholder_mandatory" = "Escreva algo sobre a sua experiência (obrigatório)";

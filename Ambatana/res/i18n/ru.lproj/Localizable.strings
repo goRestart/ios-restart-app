@@ -53,6 +53,7 @@
 "categories_inFeed_others" = "Другое";
 "categories_inFeed_sports_leisure_games" = "Отдых";
 "categories_movies_books_and_music" = "Фильмы, Книги и Музыка";
+"categories_old_cars_and_motors" = "Автомобили и Запчасти";
 "categories_other" = "Другое";
 "categories_sports_leisure_and_games" = "Спорт и Развлечения";
 "categories_title" = "Категории";
@@ -501,10 +502,10 @@
 "product_delete_sold_confirm_message" = "Вы точно хотите удалить этот товар?";
 "product_delete_success_message" = "Ваш товар удален.";
 "product_distance_X_from_you" = "%@ от вас";
-"product_distance_custom_location" = "Custom location";
-"product_distance_more_than" = "More than %@";
+"product_distance_custom_location" = "Указать местоположение";
+"product_distance_more_than" = "Более чем %@";
 "product_distance_more_than_from_you" = "Более %@ от вас";
-"product_distance_near_you" = "Near you";
+"product_distance_near_you" = "Рядом с вами";
 "product_favorite_direct_message" = "Мне нравится! Все еще доступно?";
 "product_favorite_login_popup_text" = "Чтобы добавить этот товар в избранное, вы должны войти";
 "product_free_price" = "Бесплатно";

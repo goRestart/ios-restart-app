@@ -19,6 +19,9 @@ open class MockListingRepository: ListingRepository {
     public var statsResult: ListingStatsResult!
     public var incrementViewsResult: ListingVoidResult!
     public var listingBuyersResult: ListingBuyersResult!
+    public var listingResultTransation: ListingResult!
+    public var transactionResult: ListingTransactionResult!
+    public var transactionsResult: ListingTransactionsResult!
 
     public var markAsSoldProductId: String?
     
@@ -212,5 +215,13 @@ open class MockListingRepository: ListingRepository {
 
     public func possibleBuyersOf(listingId: String, completion: ListingBuyersCompletion?) {
         delay(result: listingBuyersResult, completion: completion)
+    }
+    
+    public func createTransactionOf(createTransactionParams: CreateTransactionParams, completion: ListingTransactionCompletion?) {
+        delay(result: transactionResult, completion: completion)
+    }
+    
+    public func retrieveTransactionsOf(listingId: String, completion: ListingTransactionsCompletion?) {
+        delay(result: transactionsResult, completion: completion)
     }
 }

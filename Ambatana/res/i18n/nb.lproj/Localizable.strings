@@ -53,6 +53,7 @@
 "categories_inFeed_others" = "Annet";
 "categories_inFeed_sports_leisure_games" = "Fritid";
 "categories_movies_books_and_music" = "Film, bøker og musikk";
+"categories_old_cars_and_motors" = "Bil og motor";
 "categories_other" = "Annet";
 "categories_sports_leisure_and_games" = "Sport, fritid og spill";
 "categories_title" = "Kategorier";
@@ -501,10 +502,10 @@
 "product_delete_sold_confirm_message" = "Er du sikker på at du vil slette dette produktet?";
 "product_delete_success_message" = "Ditt produkt ble slettet!";
 "product_distance_X_from_you" = "%@ fra deg";
-"product_distance_custom_location" = "Custom location";
-"product_distance_more_than" = "More than %@";
+"product_distance_custom_location" = "Egendefinert plassering";
+"product_distance_more_than" = "Mer enn %@";
 "product_distance_more_than_from_you" = "Mer enn %@ fra deg";
-"product_distance_near_you" = "Near you";
+"product_distance_near_you" = "Nært deg";
 "product_favorite_direct_message" = "Jeg liker produktet! Er det fortsatt tilgjengelig?";
 "product_favorite_login_popup_text" = "Du må logge inn for å favorisere dette produktet";
 "product_free_price" = "Gis bort";
