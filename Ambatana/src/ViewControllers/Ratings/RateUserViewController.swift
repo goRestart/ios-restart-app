@@ -11,7 +11,6 @@ import RxSwift
 import RxCocoa
 
 class RateUserViewController: KeyboardViewController {
-    @IBOutlet weak var visualEffectView: UIVisualEffectView!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var userNameText: UILabel!
@@ -21,6 +20,7 @@ class RateUserViewController: KeyboardViewController {
     @IBOutlet var stars: [UIButton]!
     
     @IBOutlet weak var ratingsContainer: UIView!
+    @IBOutlet weak var ratingsContainerBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var ratingsTitle: UILabel!
     @IBOutlet weak var ratingTagsCollectionView: UICollectionView!
     @IBOutlet weak var ratingTagsHeightConstraint: NSLayoutConstraint!
@@ -108,12 +108,11 @@ class RateUserViewController: KeyboardViewController {
 
     private func setupUI() {
         // In the xib bottom constraints are remove at runtime
-        visualEffectView.layout(with: keyboardView).bottom(to: .top)
+        scrollView.layout(with: keyboardView).bottom(to: .top)
         footerView.layout(with: keyboardView).bottom(to: .top)
         
         automaticallyAdjustsScrollViewInsets = false
         
-        // ⚠️ WTF is this
         if showSkipButton {
             setLetGoRightButtonWith(text: LGLocalizedString.userRatingSkipButton, selector: #selector(skipButtonPressed))
         } else {
@@ -142,11 +141,12 @@ class RateUserViewController: KeyboardViewController {
         descriptionText.text = descrPlaceholder
         descriptionText.textColor = descrPlaceholderColor
         
+        footerView.backgroundColor = UIColor.viewControllerBackground
         footerLabel.text = LGLocalizedString.userRatingReviewInfo
 
         footerView.layoutIfNeeded()
         descriptionContainerBottomConstraint.constant = footerView.height + Metrics.margin
-        
+        ratingsContainerBottomConstraint.constant = footerView.height + Metrics.margin
         sendButton.setStyle(.primary(fontSize: .big))
     }
     
