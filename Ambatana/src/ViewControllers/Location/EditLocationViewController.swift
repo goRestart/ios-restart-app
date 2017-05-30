@@ -103,7 +103,7 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
     // MARK: - view model delegate methods
 
     func vmUpdateSearchTableWithResults(_ results: [String]) {
-        guard let searchField = searchField else { return }
+        guard let searchField = searchField else { return } // Make sure ui binding is done
         /*If searchfield is not first responder means user is not typing so doesn't make sense to show/update
         suggestions table*/
         if !searchField.isFirstResponder { return }
