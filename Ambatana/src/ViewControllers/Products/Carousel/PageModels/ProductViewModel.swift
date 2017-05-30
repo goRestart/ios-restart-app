@@ -88,7 +88,7 @@ class ProductViewModel: BaseViewModel {
 
     let status = Variable<ProductViewModelStatus>(.pending)
     
-    var isTransactionOpen: Bool = false
+    fileprivate var isTransactionOpen: Bool = false
 
     fileprivate let commercializers: Variable<[Commercializer]?>
     fileprivate let isReported = Variable<Bool>(false)
