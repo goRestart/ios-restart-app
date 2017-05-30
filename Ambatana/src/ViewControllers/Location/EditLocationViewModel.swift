@@ -289,11 +289,11 @@ class EditLocationViewModel: BaseViewModel {
             }
             .addDisposableTo(disposeBag)
         
-        currentDistanceRadius.asObservable().skip(1).subscribeNext { [weak self] distance in
-            if let _ = distance {
-                self?.setLocationEnabled.value = true
-            }
-        }.addDisposableTo(disposeBag)
+        currentDistanceRadius.asObservable()
+            .skip(1)
+            .unwrap()
+            .map { _ in true }
+            .bindTo(setLocationEnabled).addDisposableTo(disposeBag)
         
     }
 
