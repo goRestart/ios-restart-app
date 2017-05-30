@@ -236,7 +236,6 @@ class ProductViewModel: BaseViewModel {
         listingRepository.retrieveTransactionsOf(listingId: listingId) { [weak self] (result) in
             guard let transaction = result.value?.first else { return }
             self?.isTransactionOpen = !transaction.closed
-            
         }
     }
 
@@ -638,8 +637,6 @@ extension ProductViewModel {
     private func buildRateUserAction() -> UIAction {
         let title = LGLocalizedString.productMenuRateBuyer
         return UIAction(interface: .text(title), action: { [weak self] in self?.selectBuyerToMarkAsSold(sourceRateBuyers: .rateBuyer) } )
-        
-        
     }
 
     private var socialShareMessage: SocialMessage {

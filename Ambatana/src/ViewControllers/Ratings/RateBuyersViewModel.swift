@@ -66,8 +66,6 @@ class RateBuyersViewModel: BaseViewModel {
             visibilityFormat.value = .compact(visibleElements: RateBuyersViewModel.itemsOnCompactFormat)
         }
     }
-    
-    
 
     
     // MARK: - Transactions methods
@@ -77,6 +75,7 @@ class RateBuyersViewModel: BaseViewModel {
         listingRepository.createTransactionOf(createTransactionParams: createTransactionParams, completion: nil)
     }
 
+    
     // MARK: - Info 
 
     var buyersToShow: Int {
@@ -103,7 +102,6 @@ class RateBuyersViewModel: BaseViewModel {
     func bottomBorderAt(index: Int) -> Bool {
         guard index == buyersToShow else { return buyersToShow - 1 > index }
         return true
-        
     }
     
     func topBorderAt(index: Int) -> Bool {
@@ -118,7 +116,6 @@ class RateBuyersViewModel: BaseViewModel {
     func secondaryActionstopBorderAt(index: Int) -> Bool {
         guard index == 0 else { return false }
         return true
-        
     }
     
     func disclosureDirectionAt(index: Int) -> DisclosureDirection {
