@@ -858,10 +858,18 @@ fileprivate extension ProductViewModel {
         delegate?.vmShowLoading(nil)
         listingRepository.markAsSold(listing: listing.value) { [weak self] result in
             guard let strongSelf = self else { return }
+            
             if let value = result.value {
-                self?.selectBuyerToMarkAsSold(sourceRateBuyers: .markAsSold)
                 strongSelf.listing.value = value
-                self?.trackHelper.trackMarkSoldCompleted(isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value)
+                strongSelf.trackHelper.trackMarkSoldCompleted(isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value)
+                
+                if strongSelf.featureFlags.newMarkAsSoldFlow {
+                    strongSelf.selectBuyerToMarkAsSold(sourceRateBuyers: .markAsSold)
+                } else {
+                    strongSelf.delegate?.vmHideLoading(nil, afterMessageCompletion: {
+                        strongSelf.navigator?.openAppRating(.markedSold)
+                    })
+                }
             } else {
                 let message = LGLocalizedString.productMarkAsSoldErrorGeneric
                 strongSelf.delegate?.vmHideLoading(message, afterMessageCompletion: nil)

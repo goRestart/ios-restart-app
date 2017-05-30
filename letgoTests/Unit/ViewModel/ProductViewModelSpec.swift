@@ -133,11 +133,17 @@ class ProductViewModelSpec: BaseViewModelSpec {
                         let buttonTexts: [String] = bottomButtonsObserver.eventValues.flatMap { $0.first?.text }
                         expect(buttonTexts) == [LGLocalizedString.productMarkAsSoldButton, LGLocalizedString.productSellAgainButton]
                     }
-                    it("hasn't requested buyer selection") {
+                    it("does not request buyer selection") {
                         expect(self.selectBuyersCalled) == false
                     }
                     it("has shown mark as sold alert") {
                         expect(self.shownAlertText!) == LGLocalizedString.productMarkAsSoldConfirmMessage
+                    }
+                    it("calls show loading in delegate") {
+                        expect(self.delegateReceivedShowLoading) == true
+                    }
+                    it("calls hide loading in delegate") {
+                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
                 }
                 
@@ -159,8 +165,17 @@ class ProductViewModelSpec: BaseViewModelSpec {
                         let buttonTexts: [String] = bottomButtonsObserver.eventValues.flatMap { $0.first?.text }
                         expect(buttonTexts) == [LGLocalizedString.productMarkAsSoldButton, LGLocalizedString.productSellAgainButton]
                     }
+                    it("requests buyer selection") {
+                        expect(self.selectBuyersCalled).toEventually(beTrue())
+                    }
                     it("has shown mark as sold alert") {
                         expect(self.shownAlertText!) == LGLocalizedString.productMarkAsSoldAlertMessage
+                    }
+                    it("calls show loading in delegate") {
+                        expect(self.delegateReceivedShowLoading) == true
+                    }
+                    it("calls hide loading in delegate") {
+                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
                 }
             }
