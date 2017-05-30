@@ -68,8 +68,8 @@ struct Constants {
     static let categoriesCellFactor: CGFloat = 150.0 / 160.0
     
     // Filters
-    static var distanceFilterDefault = 0
-    static let distanceFilterOptions = [0, 1, 10, 20, 30, 100]
+    static var distanceSliderDefaultPosition = 0
+    static let distanceSliderPositionss = [0, 1, 10, 20, 30, 100]
     
     // App sharing
     static let facebookAppLinkURL = "https://fb.me/900185926729336"

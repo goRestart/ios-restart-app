@@ -71,7 +71,7 @@ struct ProductFilters {
     init() {
         self.init(
             place: nil,
-            distanceRadius: Constants.distanceFilterDefault,
+            distanceRadius: Constants.distanceSliderDefaultPosition,
             distanceType: DistanceType.systemDistanceType(),
             selectedCategories: [],
             selectedWithin: ListingTimeCriteria.defaultOption,

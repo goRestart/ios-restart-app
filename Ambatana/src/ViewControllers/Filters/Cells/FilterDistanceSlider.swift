@@ -30,8 +30,8 @@ class FilterDistanceSlider: UIView {
         return marksContainer.frame.size
     }
     
-    private let positions: [Int] = Constants.distanceFilterOptions
-    private var selectedPosition: Int = Constants.distanceFilterDefault
+    private let positions: [Int] = Constants.distanceSliderPositions
+    private var selectedPosition: Int = Constants.distanceSliderDefaultPosition
     
     weak var delegate: FilterDistanceSliderDelegate?
     
@@ -47,7 +47,7 @@ class FilterDistanceSlider: UIView {
                     return
                 }
             }
-            setupInPosition(Constants.distanceFilterDefault)
+            setupInPosition(Constants.distanceSliderDefaultPosition)
         }
         get {
             let index = Int(slider.value + FilterDistanceSlider.sliderValueOffset)
