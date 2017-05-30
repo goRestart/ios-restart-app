@@ -259,8 +259,7 @@ class MainProductsViewModel: BaseViewModel {
     }
 
     func showFilters() {
-        navigator?.showFilters(with: filters, filtersVMDataDelegate: self)
-        // Tracking
+        navigator?.openFilters(withProductFilters: filters, filtersVMDataDelegate: self)
         tracker.trackEvent(TrackerEvent.filterStart())
     }
 
@@ -268,7 +267,6 @@ class MainProductsViewModel: BaseViewModel {
         Called when search button is pressed.
     */
     func searchBegan() {
-        // Tracking
         tracker.trackEvent(TrackerEvent.searchStart(myUserRepository.myUser))
     }
     

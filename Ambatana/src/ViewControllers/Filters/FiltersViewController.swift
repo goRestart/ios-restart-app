@@ -26,11 +26,11 @@ FilterCarInfoYearCellDelegate, UICollectionViewDataSource, UICollectionViewDeleg
     private var tapRec: UITapGestureRecognizer?
 
     //Constants
-    private var distanceCellSize = CGSize(width: 0.0, height: 0.0)
-    private var categoryCellSize = CGSize(width: 0.0, height: 0.0)
-    private var singleCheckCellSize = CGSize(width: 0.0, height: 0.0)
-    private var priceCellSize = CGSize(width: 0.0, height: 0.0)
-    private var yearRangeCellSize = CGSize(width: 0.0, height: 0.0)
+    private var distanceCellSize = CGSize.zero
+    private var categoryCellSize = CGSize.zero
+    private var singleCheckCellSize = CGSize.zero
+    private var priceCellSize = CGSize.zero
+    private var yearRangeCellSize = CGSize.zero
 
     // Price kb scroll
     private var priceToCellFrame: CGRect = CGRect.zero
@@ -40,10 +40,6 @@ FilterCarInfoYearCellDelegate, UICollectionViewDataSource, UICollectionViewDeleg
 
     
     // MARK: - Lifecycle
-
-    convenience init() {
-        self.init(viewModel: FiltersViewModel())
-    }
     
     convenience init(viewModel: FiltersViewModel) {
         self.init(viewModel: viewModel, nibName: "FiltersViewController", keyboardHelper: KeyboardHelper())
@@ -63,7 +59,7 @@ FilterCarInfoYearCellDelegate, UICollectionViewDataSource, UICollectionViewDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupUi()
+        setupUI()
         setupRx()
         setAccessibilityIds()
 
@@ -100,11 +96,6 @@ FilterCarInfoYearCellDelegate, UICollectionViewDataSource, UICollectionViewDeleg
         collectionView.reloadData()
     }
 
-    func vmOpenLocation(_ locationViewModel: EditLocationViewModel) {
-        let ctrl = EditLocationViewController(viewModel: locationViewModel)
-        pushViewController(ctrl, animated: true, completion: nil)
-    }
-
     func vmForcePriceFix() {
         // make sure the "to price" cell exists
         guard let priceSectionIndex = viewModel.sections.index(of: .price) else { return }
@@ -114,11 +105,6 @@ FilterCarInfoYearCellDelegate, UICollectionViewDataSource, UICollectionViewDeleg
 
         // move to "to price" cell
         collectionView.scrollRectToVisible(priceToCellFrame, animated: false)
-    }
-
-    func vmOpenCarAttributeSelectionsWithViewModel(attributesChoiceViewModel: CarAttributeSelectionViewModel) {
-        let vc = CarAttributeSelectionViewController(viewModel: attributesChoiceViewModel)
-        pushViewController(vc, animated: true, completion: nil)
     }
 
     // MARK: FilterDistanceCellDelegate
@@ -346,7 +332,7 @@ FilterCarInfoYearCellDelegate, UICollectionViewDataSource, UICollectionViewDeleg
 
     // MARK: Private methods
     
-    private func setupUi(){
+    private func setupUI(){
         // CollectionView cells
         let categoryNib = UINib(nibName: "FilterCategoryCell", bundle: nil)
         self.collectionView.register(categoryNib, forCellWithReuseIdentifier: "FilterCategoryCell")

@@ -10,5 +10,6 @@ import LGCoreKit
 
 protocol MainTabNavigator: TabNavigator {
     func openMainProduct(withSearchType searchType: SearchType, productFilters: ProductFilters)
-    func showFilters(with productFilters: ProductFilters, filtersVMDataDelegate: FiltersViewModelDataDelegate?)
+    func openFilters(withProductFilters productFilters: ProductFilters,
+                     filtersVMDataDelegate: FiltersViewModelDataDelegate?)
 }

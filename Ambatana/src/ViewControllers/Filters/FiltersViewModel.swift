@@ -47,29 +47,21 @@ func ==(a: FilterCategoryItem, b: FilterCategoryItem) -> Bool {
 
 protocol FiltersViewModelDelegate: BaseViewModelDelegate {
     func vmDidUpdate()
-    func vmOpenLocation(_ locationViewModel: EditLocationViewModel)
     func vmForcePriceFix()
-    func vmOpenCarAttributeSelectionsWithViewModel(attributesChoiceViewModel: CarAttributeSelectionViewModel)
 }
 
 protocol FiltersViewModelDataDelegate: class {
-    
     func viewModelDidUpdateFilters(_ viewModel: FiltersViewModel, filters: ProductFilters)
-    
 }
 
 class FiltersViewModel: BaseViewModel {
     
-    //Model delegate
     weak var delegate: FiltersViewModelDelegate?
-    
-    //DataDelegate
-    weak var dataDelegate : FiltersViewModelDataDelegate?
+    weak var dataDelegate: FiltersViewModelDataDelegate?
+    weak var navigator: FiltersNavigator?
 
-    // Sections
     var sections: [FilterSection]
 
-    //Location vars
     var place: Place? {
         get {
             return productFilter.place
@@ -79,7 +71,6 @@ class FiltersViewModel: BaseViewModel {
         }
     }
     
-    //Distance vars
     var currentDistanceRadius : Int {
         get {
             return productFilter.distanceRadius ?? 0
@@ -92,8 +83,7 @@ class FiltersViewModel: BaseViewModel {
     var distanceType : DistanceType {
         return productFilter.distanceType
     }
-      
-    //Category vars
+    
     private var categoryRepository: CategoryRepository
     private var categories: [FilterCategoryItem]
 
@@ -149,13 +139,11 @@ class FiltersViewModel: BaseViewModel {
         return !(featureFlags.carsVerticalEnabled && productFilter.selectedCategories.contains(.cars))
     }
 
-    //Within vars
     var numOfWithinTimes : Int {
         return self.withinTimes.count
     }
     private var withinTimes : [ListingTimeCriteria]
     
-    //SortOptions vars
     var numOfSortOptions : Int {
         return self.sortOptions.count
     }
@@ -228,26 +216,25 @@ class FiltersViewModel: BaseViewModel {
                                                initialPlace: place,
                                                distanceRadius: currentDistanceRadius)
         locationVM.locationDelegate = self
-        delegate?.vmOpenLocation(locationVM)
+        navigator?.openEditLocation(withViewModel: locationVM)
     }
 
     func makeButtonPressed() {
-        let carsMakesList = carsInfoRepository.retrieveCarsMakes()
-        let carsAttributtesChoiceVMWithMakes = CarAttributeSelectionViewModel(carsMakes: carsMakesList,
-                                                                              selectedMake: productFilter.carMakeId?.value,
-                                                                              style: .filter)
-        carsAttributtesChoiceVMWithMakes.carAttributeSelectionDelegate = self
-        delegate?.vmOpenCarAttributeSelectionsWithViewModel(attributesChoiceViewModel: carsAttributtesChoiceVMWithMakes)
+        let vm = CarAttributeSelectionViewModel(carsMakes: carsInfoRepository.retrieveCarsMakes(),
+                                                selectedMake: productFilter.carMakeId?.value,
+                                                style: .filter)
+        vm.carAttributeSelectionDelegate = self
+        navigator?.openCarAttributeSelection(withViewModel: vm)
     }
 
     func modelButtonPressed() {
         guard let makeId = productFilter.carMakeId?.value else { return }
         let carsModelsForMakeList = carsInfoRepository.retrieveCarsModelsFormake(makeId: makeId)
-        let carsAttributtesChoiceVMWithModels = CarAttributeSelectionViewModel(carsModels: carsModelsForMakeList,
-                                                                               selectedModel: productFilter.carModelId?.value,
-                                                                               style: .filter)
-        carsAttributtesChoiceVMWithModels.carAttributeSelectionDelegate = self
-        delegate?.vmOpenCarAttributeSelectionsWithViewModel(attributesChoiceViewModel: carsAttributtesChoiceVMWithModels)
+        let vm = CarAttributeSelectionViewModel(carsModels: carsModelsForMakeList,
+                                                selectedModel: productFilter.carModelId?.value,
+                                                style: .filter)
+        vm.carAttributeSelectionDelegate = self
+        navigator?.openCarAttributeSelection(withViewModel: vm)
     }
 
     func resetFilters() {

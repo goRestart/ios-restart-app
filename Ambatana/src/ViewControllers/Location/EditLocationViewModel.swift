@@ -139,7 +139,8 @@ class EditLocationViewModel: BaseViewModel {
 
     var shouldShowDistanceSlider: Bool {
         // TODO: ⚠️⚠️⚠️ use Location A/B test ⚠️⚠️⚠️
-        return false
+        // if edit location from filter!!
+        return true
     }
     
     var placeCount: Int {
