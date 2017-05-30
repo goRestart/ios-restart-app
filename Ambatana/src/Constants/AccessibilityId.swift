@@ -241,23 +241,23 @@ enum AccessibilityId: String {
     case postingCategoryDeatilTableView
 
     // EditProduct
-    case editProductCloseButton
-    case editProductScroll
-    case editProductTitleField
-    case editProductAutoGenTitleButton
-    case editProductImageCollection
-    case editProductCurrencyLabel
-    case editProductPriceField
-    case editProductDescriptionField
-    case editProductLocationButton
-    case editProductCategoryButton
-    case editProductCarsMakeButton
-    case editProductCarsModelButton
-    case editProductCarsYearButton
-    case editProductSendButton
-    case editProductShareFBSwitch
-    case editProductLoadingView
-    case editProductPostFreeSwitch
+    case editListingCloseButton
+    case editListingScroll
+    case editListingTitleField
+    case editListingAutoGenTitleButton
+    case editListingImageCollection
+    case editListingCurrencyLabel
+    case editListingPriceField
+    case editListingDescriptionField
+    case editListingLocationButton
+    case editListingCategoryButton
+    case editListingCarsMakeButton
+    case editListingCarsModelButton
+    case editListingCarsYearButton
+    case editListingSendButton
+    case editListingShareFBSwitch
+    case editListingLoadingView
+    case editListingPostFreeSwitch
 
     // ReportUser
     case reportUserCollection

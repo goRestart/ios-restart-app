@@ -76,7 +76,7 @@
 "change_location_title" = "Konum değiştir";
 "change_location_zip_current_location_button" = "Bulunduğun konum";
 "change_location_zip_min_digits_label" = "5 haneli olmalı";
-"change_location_zip_not_found_error_message" = "We couldn't find a location based on the zip code you entered. Please check it and try again.";
+"change_location_zip_not_found_error_message" = "Girmiş olduğun posta koduyla eşleşen bir konum bulamadık. Lütfen kontrol edip tekrar dene.";
 "change_location_zip_placeholder" = "Posta kodu";
 "change_password_confirm_password_field_hint" = "Şifreyi onayla";
 "change_password_new_password_field_hint" = "Yeni şifre";
@@ -501,7 +501,10 @@
 "product_delete_sold_confirm_message" = "Bu ürünü silmek istediğine emin misin?";
 "product_delete_success_message" = "Ürün silindi.";
 "product_distance_X_from_you" = "senden %@ uzakta";
+"product_distance_custom_location" = "Özel konum";
+"product_distance_more_than" = "%@'den daha uzakta";
 "product_distance_more_than_from_you" = "Senden %@'den daha uzakta";
+"product_distance_near_you" = "Yakın çevrende";
 "product_favorite_direct_message" = "Beğendim! Hala satılık mı?";
 "product_favorite_login_popup_text" = "Bu ürünü favorilerine eklemek için giriş yapmalısın";
 "product_free_price" = "Bedava";
@@ -859,7 +862,7 @@
 "tour_page_1_body" = "Bulunduğun çevrede hızlı ve güvenli bir şekilde al ve sat.";
 "trending_searches_Title" = "Popüler Aramalar";
 "unblock_user_error_generic" = "Kullanıcı engeli kaldırılırken bir hata oluştu.";
-"user_rating_add_comment_button" = "Add Comment";
+"user_rating_add_comment_button" = "Yorum ekle";
 "user_rating_message_more" = "Paylaştığın için teşekkürler! Deneyiminle ilgili detay eklemek ister misin?";
 "user_rating_message_w_name" = "%@ ile deneyimin nasıldı? 5 yıldız vermek ister misin?";
 "user_rating_message_wo_name" = "Bu kullanıcı ile deneyimin nasıldı? 5 yıldız vermek ister misin?";
@@ -872,7 +875,7 @@
 "user_rating_select_a_tag" = "En az bir tane seç:";
 "user_rating_skip_button" = "Geç";
 "user_rating_title" = "Bu kullanıcı ile deneyimini değerlendir";
-"user_rating_update_comment_button" = "Update Comment";
+"user_rating_update_comment_button" = "Yorumu güncelle";
 "user_share_error" = "Profil paylaşılırken bir hata oluştu. Lütfen tekrar dene.";
 "user_share_message_mine" = "letgo'da sattığım şeylere bir bak!";
 "user_share_message_other" = "Bu kullanıcının letgo'da sattıklarına bir bak!";

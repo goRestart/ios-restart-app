@@ -2107,6 +2107,18 @@ struct LGLocalizedString {
 		return String(format: NSLocalizedString("product_distance_X_from_you", comment: ""), var1)
 	}
 
+	static func productDistanceMoreThan(_ var1: String) -> String {
+		return String(format: NSLocalizedString("product_distance_more_than", comment: ""), var1)
+	}
+
+	static var productDistanceNearYou: String {
+		return NSLocalizedString("product_distance_near_you", comment: "")
+	}
+
+	static var productDistanceCustomLocation: String {
+		return NSLocalizedString("product_distance_custom_location", comment: "")
+	}
+
 	static var productFavoriteDirectMessage: String {
 		return NSLocalizedString("product_favorite_direct_message", comment: "")
 	}

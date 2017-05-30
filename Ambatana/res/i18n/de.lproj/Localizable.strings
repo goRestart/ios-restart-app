@@ -74,10 +74,10 @@
 "change_location_recommend_update_location_message" = "Wir empfehlen deinen Standort zu aktualisieren, um die besten Angebote in deiner Nähe zu sehen!";
 "change_location_search_field_hint" = "Gib deine Stadt oder Postleitzahl ein";
 "change_location_title" = "Standort ändern";
-"change_location_zip_current_location_button" = "Current location";
-"change_location_zip_min_digits_label" = "Must be 5 digits";
-"change_location_zip_not_found_error_message" = "We couldn't find a location based on the zip code you entered. Please check it and try again.";
-"change_location_zip_placeholder" = "Zip code";
+"change_location_zip_current_location_button" = "Aktueller Standort";
+"change_location_zip_min_digits_label" = "Muss aus 5 Ziffern bestehen";
+"change_location_zip_not_found_error_message" = "Wir konnten deinen Standort anhand der von dir eingegebenen Postleitzahl nicht finden. Bitte überprüfe deine Eingabe und versuche es erneut.";
+"change_location_zip_placeholder" = "Postleitzahl";
 "change_password_confirm_password_field_hint" = "Kennwort bestätigen";
 "change_password_new_password_field_hint" = "Neues Kennwort";
 "change_password_send_error_generic" = "Beim Ändern des Kennworts ist ein Fehler aufgetreten. Bitte versuche es erneut.";
@@ -501,7 +501,10 @@
 "product_delete_sold_confirm_message" = "Bist du sicher, dass du dieses Produkt löschen möchtest?";
 "product_delete_success_message" = "Dein Produkt wurde gelöscht.";
 "product_distance_X_from_you" = "%@ von dir";
+"product_distance_custom_location" = "Benutzerdefinierter Ort";
+"product_distance_more_than" = "Über %@";
 "product_distance_more_than_from_you" = "Mehr als %@ von dir";
+"product_distance_near_you" = "In deiner Nähe";
 "product_favorite_direct_message" = "Das gefällt mir! Ist es noch zu haben?";
 "product_favorite_login_popup_text" = "Melde dich an, um dieses Produkt zu deinen Favoriten hinzuzufügen";
 "product_free_price" = "Kostenlos";
@@ -859,8 +862,8 @@
 "tour_page_1_body" = "Verkaufe schnell, sicher und lokal.";
 "trending_searches_Title" = "Beliebte Suchbegriffe";
 "unblock_user_error_generic" = "Bei der Aufhebung der Blockierung dieses Nutzers ist ein Fehler aufgetreten.";
-"user_rating_add_comment_button" = "Add Comment";
-"user_rating_message_more" = "Thanks for sharing! Want to tell us more about your experience?";
+"user_rating_add_comment_button" = "Kommentar hinzufügen";
+"user_rating_message_more" = "Danke für die Bewertung! Möchtest du uns noch mehr über deine Transaktion erzählen?";
 "user_rating_message_w_name" = "Verdient der Handel mit %@ fünf Sterne? Erzähle uns, wie es gelaufen ist.";
 "user_rating_message_wo_name" = "Verdient der Handel mit diesem Nutzer fünf Sterne? Erzähle uns, wie es gelaufen ist.";
 "user_rating_review_button" = "Bewertung veröffentlichen";
@@ -872,7 +875,7 @@
 "user_rating_select_a_tag" = "Wähle mindestens eines aus:";
 "user_rating_skip_button" = "Überspringen";
 "user_rating_title" = "Bewerte deine Transaktion mit";
-"user_rating_update_comment_button" = "Update Comment";
+"user_rating_update_comment_button" = "Kommentar aktualisieren";
 "user_share_error" = "Beim Teilen des Profils ist ein Fehler aufgetreten. Bitte versuche es noch einmal.";
 "user_share_message_mine" = "Schau dir all die Sachen an, die ich auf letgo verkaufe!";
 "user_share_message_other" = "Schau dir all die Sachen an, die dieser Verkäufer auf letgo anbietet!";

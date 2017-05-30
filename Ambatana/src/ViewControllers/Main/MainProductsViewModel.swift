@@ -44,6 +44,15 @@ class MainProductsViewModel: BaseViewModel {
     var filters: ProductFilters
     var queryString: String?
 
+    var hasInteractiveBubble: Bool {
+        switch featureFlags.editLocationBubble {
+        case .inactive:
+            return false
+        case .map, .zipCode:
+            return true
+        }
+    }
+
     let infoBubbleVisible = Variable<Bool>(false)
     let infoBubbleText = Variable<String>(LGLocalizedString.productPopularNearYou)
     let errorMessage = Variable<String?>(nil)
@@ -380,6 +389,9 @@ class MainProductsViewModel: BaseViewModel {
         updateListView()
     }
 
+    func bubbleTapped() {
+        navigator?.openLocationSelection(locationDelegate: self)
+    }
 
     
     // MARK: - Private methods
@@ -423,7 +435,7 @@ class MainProductsViewModel: BaseViewModel {
     
     fileprivate func bubbleInfoTextForDistance(_ distance: Int, type: DistanceType) -> String {
         let distanceString = String(format: "%d %@", arguments: [min(Constants.productListMaxDistanceLabel, distance),
-            type.string])
+                                                                 type.string])
         if distance <= Constants.productListMaxDistanceLabel {
             return LGLocalizedString.productDistanceXFromYou(distanceString)
         } else {
@@ -937,5 +949,13 @@ fileprivate extension MainProductsViewModel {
         let trackerEvent = TrackerEvent.permissionAlertCancel(.push, typePage: .productListBanner, alertType: .custom,
                                                               permissionGoToSettings: goToSettings)
         tracker.trackEvent(trackerEvent)
+    }
+}
+
+
+extension MainProductsViewModel: EditLocationDelegate {
+    func editLocationDidSelectPlace(_ place: Place) {
+        filters.place = place
+        updateListView()
     }
 }

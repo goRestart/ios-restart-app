@@ -31,6 +31,7 @@ extension Bumper  {
         flags.append(QuickAnswersRepeatedTextField.self)
         flags.append(CarsVerticalEnabled.self)
         flags.append(CarsCategoryAfterPicture.self)
+        flags.append(EditLocationBubble.self)
         flags.append(NewCarsMultiRequesterEnabled.self)
         Bumper.initialize(flags)
     } 
@@ -125,10 +126,15 @@ extension Bumper  {
         return CarsCategoryAfterPicture(rawValue: value)?.asBool ?? false
     }
 
+    static var editLocationBubble: EditLocationBubble {
+        guard let value = Bumper.value(for: EditLocationBubble.key) else { return .inactive }
+        return EditLocationBubble(rawValue: value) ?? .inactive 
+    }
+
     static var newCarsMultiRequesterEnabled: Bool {
         guard let value = Bumper.value(for: NewCarsMultiRequesterEnabled.key) else { return false }
         return NewCarsMultiRequesterEnabled(rawValue: value)?.asBool ?? false
-    } 
+    }
 }
 
 
@@ -318,6 +324,22 @@ enum CarsCategoryAfterPicture: String, BumperFeature  {
     var asBool: Bool { return self == .yes }
 }
 
+enum EditLocationBubble: String, BumperFeature  {
+    case inactive, map, zipCode
+    static var defaultValue: String { return EditLocationBubble.inactive.rawValue }
+    static var enumValues: [EditLocationBubble] { return [.inactive, .map, .zipCode]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Location Edit A/B/C" } 
+    static func fromPosition(_ position: Int) -> EditLocationBubble {
+        switch position { 
+            case 0: return .inactive
+            case 1: return .map
+            case 2: return .zipCode
+            default: return .inactive
+        }
+    }
+}
+
 enum NewCarsMultiRequesterEnabled: String, BumperFeature  {
     case no, yes
     static var defaultValue: String { return NewCarsMultiRequesterEnabled.no.rawValue }
@@ -326,4 +348,3 @@ enum NewCarsMultiRequesterEnabled: String, BumperFeature  {
     static var description: String { return "Cars multi requester enabled" } 
     var asBool: Bool { return self == .yes }
 }
-

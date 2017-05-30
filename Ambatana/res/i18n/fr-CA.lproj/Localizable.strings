@@ -76,7 +76,7 @@
 "change_location_title" = "Changer la Localisation";
 "change_location_zip_current_location_button" = "Localisation actuelle";
 "change_location_zip_min_digits_label" = "Doit comporter 6 caractères";
-"change_location_zip_not_found_error_message" = "We couldn't find a location based on the zip code you entered. Please check it and try again.";
+"change_location_zip_not_found_error_message" = "Nous n'avons pas pu trouver d'emplacement correspondant au code postal que vous avez entré.\nVeuillez le vérifier et essayer de nouveau.";
 "change_location_zip_placeholder" = "Code postal";
 "change_password_confirm_password_field_hint" = "Confirmer le mot de passe";
 "change_password_new_password_field_hint" = "Nouveau mot de passe";
@@ -501,7 +501,10 @@
 "product_delete_sold_confirm_message" = "Etes-vous certain de vouloir supprimer ce produit ?";
 "product_delete_success_message" = "Votre produit a été supprimé.";
 "product_distance_X_from_you" = "à %@ de chez vous";
+"product_distance_custom_location" = "Emplacement personnalisé";
+"product_distance_more_than" = "À plus de %@";
 "product_distance_more_than_from_you" = "À plus de %@ de chez vous";
+"product_distance_near_you" = "Près de chez vous";
 "product_favorite_direct_message" = "J'aime ça ! Est-ce que c'est toujours disponible ?";
 "product_favorite_login_popup_text" = "Pour mettre ce produit en favori, vous devez vous connecter";
 "product_free_price" = "Gratuit";
@@ -859,11 +862,11 @@
 "tour_page_1_body" = "Achetez et vendez rapidement, de manière sécuritaire et localement. C'est parti avec letgo !";
 "trending_searches_Title" = "Recherches Populaires";
 "unblock_user_error_generic" = "Une erreur est survenue lors du déblocage de cet utilisateur.";
-"user_rating_add_comment_button" = "Add Comment";
+"user_rating_add_comment_button" = "Ajouter un commentaire";
 "user_rating_message_more" = "Merci du partage ! Vous souhaitez nous en dire plus sur votre expérience ?";
 "user_rating_message_w_name" = "Votre expérience avec %@ vaut-elle cinq étoiles ? Dites-nous comment ça s'est passé.";
 "user_rating_message_wo_name" = "Votre expérience avec cet utilisateur vaut-elle cinq étoiles ? Dites-nous comment ça s'est passé.";
-"user_rating_review_button" = "Publier l'avis";
+"user_rating_review_button" = "Publier Avis";
 "user_rating_review_info" = "Vous pouvez mettre à jour cet avis à tout moment.";
 "user_rating_review_placeholder" = "Dites-nous en plus sur votre expérience";
 "user_rating_review_placeholder_mandatory" = "Dites-nous en plus sur votre expérience (requis)";
@@ -872,7 +875,7 @@
 "user_rating_select_a_tag" = "Sélectionnez au moins un :";
 "user_rating_skip_button" = "Passer";
 "user_rating_title" = "Évaluez votre expérience avec";
-"user_rating_update_comment_button" = "Update Comment";
+"user_rating_update_comment_button" = "Modifier commentaire";
 "user_share_error" = "Une erreur est survenue lors du partage du profil. Veuillez réessayer.";
 "user_share_message_mine" = "Jetez un oeil à tout ce que je vends sur letgo !";
 "user_share_message_other" = "Jetez un oeil à tout ce que ce vendeur propose sur letgo !";

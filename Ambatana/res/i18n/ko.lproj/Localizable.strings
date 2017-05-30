@@ -501,7 +501,10 @@
 "product_delete_sold_confirm_message" = "이 상품을 정말 삭제하기를 원하세요?";
 "product_delete_success_message" = "고객님의 상품이 삭제되었습니다.";
 "product_distance_X_from_you" = "당신으로부터 %@";
+"product_distance_custom_location" = "세관 위치";
+"product_distance_more_than" = "%@ 이상";
 "product_distance_more_than_from_you" = "당신에게 %@ 더 많이";
+"product_distance_near_you" = "귀하 근처";
 "product_favorite_direct_message" = "마음에 드네요! 아직 판매하시나요?";
 "product_favorite_login_popup_text" = "이 상품을 관심상품에 추가하고자 하신다면, 로그인하셔야 합니다.";
 "product_free_price" = "무료";
@@ -859,11 +862,11 @@
 "tour_page_1_body" = "구매와 판매를 빠르고 안전하고 지역적으로 진행하세요.";
 "trending_searches_Title" = "트렌드 검색";
 "unblock_user_error_generic" = "이 사용자의 차단을 해제하는데 오류가 발생했습니다.";
-"user_rating_add_comment_button" = "Add Comment";
+"user_rating_add_comment_button" = "댓글 달기";
 "user_rating_message_more" = "공유해주셔서 감사합니다! 귀하의 경험에 대해 좀 더 말씀해주시길 원하십니까?";
 "user_rating_message_w_name" = "%@에게 별 다섯개를 주실 경험을 하셨나요? 어떠셨는지 저희에게 알려주세요.";
 "user_rating_message_wo_name" = "이 사용자에게 별 다섯개를 주실 경험을 하셨나요? 어떠셨는지 저희에게 알려주세요.";
-"user_rating_review_button" = "댓글 남기기";
+"user_rating_review_button" = "평가 게시하기";
 "user_rating_review_info" = "원하실 때 이 리뷰를 업데이트 하실 수 있습니다.";
 "user_rating_review_placeholder" = "겸험하신 것에 대해서 알려주세요";
 "user_rating_review_placeholder_mandatory" = "경험하신 것에 대해서 작성해주세요 (선택사항)";
@@ -872,7 +875,7 @@
 "user_rating_select_a_tag" = "적어도 한가지를 선택하셔야 합니다:";
 "user_rating_skip_button" = "넘기기";
 "user_rating_title" = "회원님의 경험을 댓글로 남기기";
-"user_rating_update_comment_button" = "Update Comment";
+"user_rating_update_comment_button" = "댓글 수정";
 "user_share_error" = "프로필을 공유하는 동안 에러가 발생했습니다. 다시 시도해주세요.";
 "user_share_message_mine" = "제가 letgo에서 판매하고 있는 모든 제품들을 확인해보세요!";
 "user_share_message_other" = "이 판매자가 letgo에서 판매하고 있는 모든 제품들을 확인해보세요!";

@@ -276,4 +276,9 @@ extension String {
     static func make(components: [String], separator: String) -> String {
         return components.joined(separator: separator)
     }
+    
+    var isOnlyDigits: Bool {
+        let nonNumberCharacters = CharacterSet.decimalDigits.inverted
+        return rangeOfCharacter(from: nonNumberCharacters) == nil
+    }
 }

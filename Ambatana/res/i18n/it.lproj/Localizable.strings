@@ -501,7 +501,10 @@
 "product_delete_sold_confirm_message" = "Sei sicuro di voler eliminare questo prodotto?";
 "product_delete_success_message" = "Il tuo prodotto è stato eliminato.";
 "product_distance_X_from_you" = "%@ da te";
+"product_distance_custom_location" = "Posizione abituale";
+"product_distance_more_than" = "Più di %@";
 "product_distance_more_than_from_you" = "Più di %@ da te";
+"product_distance_near_you" = "Vicino a te";
 "product_favorite_direct_message" = "Mi piace! È ancora disponibile?";
 "product_favorite_login_popup_text" = "Per aggiungere questo articolo ai preferiti, devi effettuare l'accesso";
 "product_free_price" = "Gratis";
@@ -859,7 +862,7 @@
 "tour_page_1_body" = "Compra e vendi localmente, velocemente e in tutta sicurezza.";
 "trending_searches_Title" = "Ricerche di tendenza";
 "unblock_user_error_generic" = "Si è verificato un errore durante il tentativo di sbloccare questo utente.";
-"user_rating_add_comment_button" = "Add Comment";
+"user_rating_add_comment_button" = "Aggiungi commento";
 "user_rating_message_more" = "Grazie per la tua condivisione! Vuoi raccontarci qualcosa in più sulla tua esperienza?";
 "user_rating_message_w_name" = "La tua esperienza con %@ merita cinque stelle? Raccontaci come è andata.";
 "user_rating_message_wo_name" = "La tua esperienza con questi utente merita cinque stelle? Raccontaci come è andata.";
@@ -872,7 +875,7 @@
 "user_rating_select_a_tag" = "Selezionane almeno uno:";
 "user_rating_skip_button" = "Salta";
 "user_rating_title" = "Valuta la tua esperienza con";
-"user_rating_update_comment_button" = "Update Comment";
+"user_rating_update_comment_button" = "Aggiorna commento";
 "user_share_error" = "Si è verificato un errore durante la condivisione del profilo. Riprova.";
 "user_share_message_mine" = "Dai un'occhiata a quello che sto vendendo su letgo!";
 "user_share_message_other" = "Dai un'occhiata a quello che questo venditore ha su letgo!";

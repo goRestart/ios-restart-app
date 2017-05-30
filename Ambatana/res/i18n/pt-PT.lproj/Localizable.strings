@@ -501,7 +501,10 @@
 "product_delete_sold_confirm_message" = "Tem a certeza que deseja eliminar este artigo?";
 "product_delete_success_message" = "O seu produto foi eliminado.";
 "product_distance_X_from_you" = "%@ de si";
+"product_distance_custom_location" = "Localização personalizada";
+"product_distance_more_than" = "Mais de %@";
 "product_distance_more_than_from_you" = "Mais de %@ de si";
+"product_distance_near_you" = "Perto de si";
 "product_favorite_direct_message" = "Gosto! Ainda está disponível?";
 "product_favorite_login_popup_text" = "Para marcar este item como favorito tem que efetuar o login";
 "product_free_price" = "Grátis";
@@ -859,11 +862,11 @@
 "tour_page_1_body" = "Compre e venda rápido, com segurança e localmente.";
 "trending_searches_Title" = "Pesquisa por Tendências";
 "unblock_user_error_generic" = "Ocorreu um erro ao desbloquear este utilizador.";
-"user_rating_add_comment_button" = "Add Comment";
+"user_rating_add_comment_button" = "Adicionar comentário";
 "user_rating_message_more" = "Obrigado pela partilha! Quer contar-nos algo mais sobre a sua experiência?";
 "user_rating_message_w_name" = "Será que a sua experiência com %@ merece cinco estrelas? Conte-nos como correu.";
 "user_rating_message_wo_name" = "Será que a sua experiência com este utilizador merece cinco estrelas? Conte-nos como correu.";
-"user_rating_review_button" = "Publique o comentário";
+"user_rating_review_button" = "Publicar Comentário";
 "user_rating_review_info" = "Pode atualizar este comentário quando quiser.";
 "user_rating_review_placeholder" = "Escreva algo sobre a sua experiência";
 "user_rating_review_placeholder_mandatory" = "Escreva algo sobre a sua experiência (obrigatório)";
@@ -872,7 +875,7 @@
 "user_rating_select_a_tag" = "Selecione pelo menos uma:";
 "user_rating_skip_button" = "Pular";
 "user_rating_title" = "Comente a sua experiência com";
-"user_rating_update_comment_button" = "Update Comment";
+"user_rating_update_comment_button" = "Atualizar comentário";
 "user_share_error" = "Ocorreu um erro ao partilhar o perfil. Por favor tente novamente.";
 "user_share_message_mine" = "Vê tudo o que eu estou a vender no letgo!";
 "user_share_message_other" = "Vê tudo o que este vendedor tem no letgo!";

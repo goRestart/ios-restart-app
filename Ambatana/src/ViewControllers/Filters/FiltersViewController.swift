@@ -9,7 +9,7 @@
 import UIKit
 import RxSwift
 
-class FiltersViewController: BaseViewController, FiltersViewModelDelegate, FilterDistanceCellDelegate, FilterPriceCellDelegate,
+class FiltersViewController: BaseViewController, FiltersViewModelDelegate, FilterDistanceSliderDelegate, FilterPriceCellDelegate,
 FilterCarInfoYearCellDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
 
     // Outlets & buttons
@@ -123,8 +123,8 @@ FilterCarInfoYearCellDelegate, UICollectionViewDataSource, UICollectionViewDeleg
 
     // MARK: FilterDistanceCellDelegate
     
-    func filterDistanceChanged(_ filterDistanceCell: FilterDistanceCell) {
-        viewModel.currentDistanceRadius = filterDistanceCell.distance
+    func filterDistanceChanged(distance: Int) {
+        viewModel.currentDistanceRadius = distance
     }
 
     // MARK: FilterCarInfoYearCellDelegate

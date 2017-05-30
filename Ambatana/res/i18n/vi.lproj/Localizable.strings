@@ -501,7 +501,10 @@
 "product_delete_sold_confirm_message" = "Bạn có chắc chắn muốn xóa sản phẩm này?";
 "product_delete_success_message" = "Sản phẩm của bạn vừa được xóa.";
 "product_distance_X_from_you" = "%@ từ bạn";
+"product_distance_custom_location" = "Tùy chỉnh địa điểm";
+"product_distance_more_than" = "Hơn %@";
 "product_distance_more_than_from_you" = "Hơn %@ từ bạn";
+"product_distance_near_you" = "Gần bạn";
 "product_favorite_direct_message" = "Tôi thích nó! Nó vẫn còn chứ?";
 "product_favorite_login_popup_text" = "Bạn cần đăng nhập để đánh dấu yêu thích sản phẩm này";
 "product_free_price" = "Miễn phí";
@@ -859,7 +862,7 @@
 "tour_page_1_body" = "Mua và bán nhanh chóng, an toàn ở ngay gần bạn.";
 "trending_searches_Title" = "Xu hướng Tìm kiếm";
 "unblock_user_error_generic" = "Có lỗi xảy ra trong khi bỏ chặn người dùng này.";
-"user_rating_add_comment_button" = "Add Comment";
+"user_rating_add_comment_button" = "Thêm bình luận";
 "user_rating_message_more" = "Cảm ơn đã chia sẻ! Muốn cho chúng tôi biết thêm về trải nghiệm của bạn?";
 "user_rating_message_w_name" = "Trải nghiệm của bạn với %@ có xứng đáng năm sao? Hãy cho chúng tôi biết.";
 "user_rating_message_wo_name" = "Trải nghiệm của bạn với người dùng này có xứng đáng năm sao? Hãy cho chúng tôi biết.";
@@ -872,7 +875,7 @@
 "user_rating_select_a_tag" = "Chọn ít nhất một:";
 "user_rating_skip_button" = "Bỏ qua";
 "user_rating_title" = "Đánh giá trải nghiệm của bạn với";
-"user_rating_update_comment_button" = "Update Comment";
+"user_rating_update_comment_button" = "Cập nhật bình luận";
 "user_share_error" = "Có lỗi xảy ra trong khi chia sẻ hồ sơ. Xin vui lòng thử lại.";
 "user_share_message_mine" = "Hãy xem tất cả những gì tôi đang bán trên letgo!";
 "user_share_message_other" = "Hãy xem tất cả những gì người bán này có trên letgo!";

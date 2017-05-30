@@ -501,7 +501,10 @@
 "product_delete_sold_confirm_message" = "Are you sure you want to delete this product?";
 "product_delete_success_message" = "Your product has been deleted.";
 "product_distance_X_from_you" = "%@ from you";
+"product_distance_custom_location" = "Custom location";
+"product_distance_more_than" = "More than %@";
 "product_distance_more_than_from_you" = "More than %@ from you";
+"product_distance_near_you" = "Near you";
 "product_favorite_direct_message" = "I like it! Is it still available?";
 "product_favorite_login_popup_text" = "To favorite this item, you have to log in";
 "product_free_price" = "Free";

@@ -501,7 +501,10 @@
 "product_delete_sold_confirm_message" = "Weet je zeker dat je dit product wilt verwijderen?";
 "product_delete_success_message" = "Jouw product werd verwijderd.";
 "product_distance_X_from_you" = "%@ van bij jou";
+"product_distance_custom_location" = "Custom location";
+"product_distance_more_than" = "More than %@";
 "product_distance_more_than_from_you" = "Meer dan %@ van bij jou";
+"product_distance_near_you" = "Near you";
 "product_favorite_direct_message" = "Ik vind het leuk! Is het nog beschikbaar?";
 "product_favorite_login_popup_text" = "Om dit item te favoriseren, moet je eerst inloggen";
 "product_free_price" = "Gratis";
@@ -859,7 +862,7 @@
 "tour_page_1_body" = "Koop en verkoop snel, veilig en lokaal.";
 "trending_searches_Title" = "Trending Zoekopdrachten";
 "unblock_user_error_generic" = "Er is een fout opgetreden tijdens het deblokkeren van deze gebruiker.";
-"user_rating_add_comment_button" = "Add Comment";
+"user_rating_add_comment_button" = "Opmerking toevoegen";
 "user_rating_message_more" = "Bedankt voor het delen! Wil je ons meer vertellen over jouw ervaring?";
 "user_rating_message_w_name" = "Krijgt jouw ervaring met %@ vijf sterren? Laat het ons weten hoe het ging.";
 "user_rating_message_wo_name" = "Krijgt jouw ervaring met deze gebruiker vijf sterren? Laat het ons weten hoe het ging.";
@@ -872,7 +875,7 @@
 "user_rating_select_a_tag" = "Selecteer minstens één:";
 "user_rating_skip_button" = "Overslaan";
 "user_rating_title" = "Beoordeel jouw ervaring met";
-"user_rating_update_comment_button" = "Update Comment";
+"user_rating_update_comment_button" = "Opmerking bijwerken";
 "user_share_error" = "Er is een fout opgetreden tijdens het delen van het profiel. Probeer het nog eens.";
 "user_share_message_mine" = "Neem een kijkje naar alles wat ik verkoop op letgo!";
 "user_share_message_other" = "Neem een kijkje naar alles wat deze verkoper heeft op letgo!";

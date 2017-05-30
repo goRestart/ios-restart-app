@@ -501,7 +501,10 @@
 "product_delete_sold_confirm_message" = "Oletko varma että haluat poistaa tämän tuotteen?";
 "product_delete_success_message" = "Tuotteesi on poistettu.";
 "product_distance_X_from_you" = "%@ sinusta";
+"product_distance_custom_location" = "Mukautettu sijainti";
+"product_distance_more_than" = "Yli %@";
 "product_distance_more_than_from_you" = "Yli %@ sinusta";
+"product_distance_near_you" = "Lähellä sinua";
 "product_favorite_direct_message" = "Pidän siitä! Onko se vielä vapaana?";
 "product_favorite_login_popup_text" = "Voidaksesi merkitä tämän tuotteen suosikiksesi, sinun on kirjauduttava sisään";
 "product_free_price" = "Ilmainen";
@@ -859,7 +862,7 @@
 "tour_page_1_body" = "Osta ja myy nopeasti, turvallisesti ja paikallisesti.";
 "trending_searches_Title" = "Nousussa olevat haut";
 "unblock_user_error_generic" = "Tämän käyttäjän estoa poistettaessa tapahtui virhe.";
-"user_rating_add_comment_button" = "Add Comment";
+"user_rating_add_comment_button" = "Lisää kommentti";
 "user_rating_message_more" = "Kiitos kokemuksesi jakamisesta! Haluatko kertoa meille lisää kokemuksestasi?";
 "user_rating_message_w_name" = "Onko kokemuksesi käyttäjän %@ kanssa viiden tähden arvoinen? Kerro meille, miten asiat sujuivat.";
 "user_rating_message_wo_name" = "Onko kokemuksesi tämän käyttäjän kanssa viiden tähden arvoinen? Kerro meille, miten asiat sujuivat.";
@@ -872,7 +875,7 @@
 "user_rating_select_a_tag" = "Valitse vähintään yksi:";
 "user_rating_skip_button" = "Ohita";
 "user_rating_title" = "Arvostele kokemuksesi seuraavan käyttäjän kanssa";
-"user_rating_update_comment_button" = "Update Comment";
+"user_rating_update_comment_button" = "Päivitä kommenttia";
 "user_share_error" = "Profiilia jaettaessa tapahtui virhe. Ole hyvä ja yritä uudelleen.";
 "user_share_message_mine" = "Katso mitä kaikkea minulla on myynnissä letgossa!";
 "user_share_message_other" = "Katso mitä kaikkea tällä myyjällä on letgossa!";

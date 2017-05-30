@@ -501,7 +501,10 @@
 "product_delete_sold_confirm_message" = "Вы точно хотите удалить этот товар?";
 "product_delete_success_message" = "Ваш товар удален.";
 "product_distance_X_from_you" = "%@ от вас";
+"product_distance_custom_location" = "Указать местоположение";
+"product_distance_more_than" = "Более чем %@";
 "product_distance_more_than_from_you" = "Более %@ от вас";
+"product_distance_near_you" = "Рядом с вами";
 "product_favorite_direct_message" = "Мне нравится! Все еще доступно?";
 "product_favorite_login_popup_text" = "Чтобы добавить этот товар в избранное, вы должны войти";
 "product_free_price" = "Бесплатно";
@@ -859,7 +862,7 @@
 "tour_page_1_body" = "Покупайте и продавайте быстро, безопасно и удобно.";
 "trending_searches_Title" = "Популярные запросы";
 "unblock_user_error_generic" = "При разблокировке произошла ошибка.";
-"user_rating_add_comment_button" = "Add Comment";
+"user_rating_add_comment_button" = "Добавить комментарий";
 "user_rating_message_more" = "Спасибо, что поделились! Хотите рассказать больше о вашем опыте?";
 "user_rating_message_w_name" = "Ваша сделка с %@ прошла на 5 звезд? Расскажите нам о ней.";
 "user_rating_message_wo_name" = "Ваша сделка с этим пользователем прошла на 5 звезд? Расскажите нам о ней.";
@@ -872,7 +875,7 @@
 "user_rating_select_a_tag" = "Выберите минимум один:";
 "user_rating_skip_button" = "Пропустить";
 "user_rating_title" = "Оцените свое общение с";
-"user_rating_update_comment_button" = "Update Comment";
+"user_rating_update_comment_button" = "Обновить комментарий";
 "user_share_error" = "При отправке профиля произошла ошибка. Пожалуйста, попробуйте еще раз.";
 "user_share_message_mine" = "Посмотри, что я продаю на letgo!";
 "user_share_message_other" = "Посмотри, что этот пользователь продает на letgo!";
