@@ -295,13 +295,13 @@ class StringLGSpec: QuickSpec {
                 it("trims the tags") {
                     expect("Hi. Bye.".trim(strings: ["Hi", "Bye"], separator: ".")) == ""
                 }
-                it("trims the tags and leave what user wrote") {
+                it("trims the tags and leave what user wrote ending w/o dot") {
                     expect("Hi. Bye. It was nice".trim(strings: ["Hi", "Bye"], separator: ".")) == "It was nice"
                 }
-                it("trims the tags and leave what user wrote") {
+                it("trims the tags and leave what user wrote ending with dot") {
                     expect("Hi. Bye. It was nice.".trim(strings: ["Hi", "Bye"], separator: ".")) == "It was nice."
                 }
-                it("trims the tags and leave what user wrote") {
+                it("trims the tags and leave what user wrote ending with dot & space") {
                     expect("Hi. Bye. It was nice. ".trim(strings: ["Hi", "Bye"], separator: ".")) == "It was nice."
                 }
             }
