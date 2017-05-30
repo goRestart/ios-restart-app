@@ -53,6 +53,7 @@
 "categories_inFeed_others" = "Άλλο";
 "categories_inFeed_sports_leisure_games" = "Χόμπι";
 "categories_movies_books_and_music" = "Ταινίες, Βιβλία και Μουσική";
+"categories_old_cars_and_motors" = "Αυτοκίνητα και Μηχανές";
 "categories_other" = "Άλλα";
 "categories_sports_leisure_and_games" = "Αθλητικά, Ψυχαγωγία και Παιχνίδια";
 "categories_title" = "Κατηγορίες";
@@ -76,6 +77,7 @@
 "change_location_title" = "Αλλαγή Τοποθεσίας";
 "change_location_zip_current_location_button" = "Τρέχουσα τοποθεσία";
 "change_location_zip_min_digits_label" = "Θα πρέπει να έχει 5 ψηφία";
+"change_location_zip_not_found_error_message" = "Δεν μπορέσαμε να βρούμε κάποια τοποθεσία με τον ταχυδρομικό κώδικα που εισάγατε. Παρακαλώ ελέγξτε τον και προσπαθήστε ξανά.";
 "change_location_zip_placeholder" = "Ταχυδρομικός κώδικας";
 "change_password_confirm_password_field_hint" = "Επιβεβαίωση κωδικού πρόσβασης";
 "change_password_new_password_field_hint" = "Νέος Κωδικός Πρόσβασης";
@@ -500,7 +502,10 @@
 "product_delete_sold_confirm_message" = "Επιβεβαίωση διαγραφής προϊόντος;";
 "product_delete_success_message" = "Το προϊόν σας έχει διαγραφεί.";
 "product_distance_X_from_you" = "%@ από εσάς";
+"product_distance_custom_location" = "Διαμορφωμένη τοποθεσία";
+"product_distance_more_than" = "Πάνω από %@";
 "product_distance_more_than_from_you" = "Περισσότερο από %@ από εσάς";
+"product_distance_near_you" = "Κοντά σας";
 "product_favorite_direct_message" = "Μου αρέσει! Είναι ακόμη διαθέσιμο;";
 "product_favorite_login_popup_text" = "Για να προσθέσετε το αντικείμενο αυτό στα αγαπημένα σας, θα πρέπει να συνδεθείτε";
 "product_free_price" = "Δωρεάν";
@@ -858,10 +863,11 @@
 "tour_page_1_body" = "Κάντε αγοραπωλησίες στην περιοχή σας γρήγορα και ευκολα.";
 "trending_searches_Title" = "Δημοφιλείς Αναζητήσεις";
 "unblock_user_error_generic" = "Παρουσιάστηκε σφάλμα κατά το ξεμπλοκάρισμα του χρήστη.";
+"user_rating_add_comment_button" = "Αφήστε σχόλιο";
 "user_rating_message_more" = "Ευχαριστούμε για την κοινοποίηση! Θέλετε να μας πείτε περισσότερα για την εμπειρία σας;";
 "user_rating_message_w_name" = "Αξίζει η εμπειρία σας με τον/ την %@ πέντε αστεράκια; Πείτε μας πώς πήγε.";
 "user_rating_message_wo_name" = "Αξίζει η εμπειρία σας με αυτό το χρήστη πέντε αστεράκια; Πείτε μας πώς πήγε.";
-"user_rating_review_button" = "Δημοσιεύστε κριτική";
+"user_rating_review_button" = "Δημοσίευση Κριτικής";
 "user_rating_review_info" = "Μπορείτε να ενημερώσετε αυτήν την κριτική όποτε θέλετε.";
 "user_rating_review_placeholder" = "Γράψτε για την εμπειρία σας";
 "user_rating_review_placeholder_mandatory" = "Γράψτε για την εμπειρία σας (απαραίτητο)";
@@ -870,6 +876,7 @@
 "user_rating_select_a_tag" = "Επιλέξτε τουλάχιστον ένα:";
 "user_rating_skip_button" = "Παράλειψη";
 "user_rating_title" = "Αναφέρετε την εμπειρία σας με";
+"user_rating_update_comment_button" = "Ενημέρωση σχολίου";
 "user_share_error" = "Παρουσιάστηκε σφάλμα κατά την κοινοποίηση του προφίλ. Παρακαλώ, δοκιμάστε ξανά.";
 "user_share_message_mine" = "Δείτε όλα όσα πουλάω στο letgo!";
 "user_share_message_other" = "Δείτε όλα όσα πουλάει αυτός ο πωλητής στο letgo!";

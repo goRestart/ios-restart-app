@@ -295,6 +295,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("change_location_zip_min_digits_label", comment: "")
 	}
 
+	static var changeLocationZipNotFoundErrorMessage: String {
+		return NSLocalizedString("change_location_zip_not_found_error_message", comment: "")
+	}
+
 	static var changePasswordConfirmPasswordFieldHint: String {
 		return NSLocalizedString("change_password_confirm_password_field_hint", comment: "")
 	}
@@ -2103,6 +2107,18 @@ struct LGLocalizedString {
 		return String(format: NSLocalizedString("product_distance_X_from_you", comment: ""), var1)
 	}
 
+	static func productDistanceMoreThan(_ var1: String) -> String {
+		return String(format: NSLocalizedString("product_distance_more_than", comment: ""), var1)
+	}
+
+	static var productDistanceNearYou: String {
+		return NSLocalizedString("product_distance_near_you", comment: "")
+	}
+
+	static var productDistanceCustomLocation: String {
+		return NSLocalizedString("product_distance_custom_location", comment: "")
+	}
+
 	static var productFavoriteDirectMessage: String {
 		return NSLocalizedString("product_favorite_direct_message", comment: "")
 	}
@@ -3525,6 +3541,14 @@ struct LGLocalizedString {
 
 	static var userRatingReviewButton: String {
 		return NSLocalizedString("user_rating_review_button", comment: "")
+	}
+
+	static var userRatingAddCommentButton: String {
+		return NSLocalizedString("user_rating_add_comment_button", comment: "")
+	}
+
+	static var userRatingUpdateCommentButton: String {
+		return NSLocalizedString("user_rating_update_comment_button", comment: "")
 	}
 
 	static var userRatingSkipButton: String {

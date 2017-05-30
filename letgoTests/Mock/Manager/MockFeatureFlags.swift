@@ -39,6 +39,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var carsVerticalEnabled: Bool = false
     var carsCategoryAfterPicture: Bool = false
     var newMarkAsSoldFlow: Bool = false
+    var editLocationBubble: EditLocationBubble = .inactive
     var newCarsMultiRequesterEnabled: Bool = false
 
     // Country dependant features

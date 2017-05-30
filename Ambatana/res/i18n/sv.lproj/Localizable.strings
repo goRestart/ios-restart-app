@@ -53,6 +53,7 @@
 "categories_inFeed_others" = "Annan";
 "categories_inFeed_sports_leisure_games" = "Fritid";
 "categories_movies_books_and_music" = "Filmer, böcker och musik";
+"categories_old_cars_and_motors" = "Bil och motor";
 "categories_other" = "Övrigt";
 "categories_sports_leisure_and_games" = "Sport, fritid och spel";
 "categories_title" = "Kategorier";
@@ -76,6 +77,7 @@
 "change_location_title" = "Ändra plats";
 "change_location_zip_current_location_button" = "Befintlig plats";
 "change_location_zip_min_digits_label" = "Måste vara 5 siffror";
+"change_location_zip_not_found_error_message" = "Ingen ort motsvarar postnumret du angett. Var god kontrollera numret och försök igen.";
 "change_location_zip_placeholder" = "Postnummer";
 "change_password_confirm_password_field_hint" = "Bekräfta lösenord";
 "change_password_new_password_field_hint" = "Nytt lösenord";
@@ -500,7 +502,10 @@
 "product_delete_sold_confirm_message" = "Är du säker på att du vill ta bort denna produkt?";
 "product_delete_success_message" = "Din produkt har tagits bort.";
 "product_distance_X_from_you" = "%@ från dig";
+"product_distance_custom_location" = "Vald plats";
+"product_distance_more_than" = "Mer än %@";
 "product_distance_more_than_from_you" = "Mer än %@ från dig";
+"product_distance_near_you" = "Nära dig";
 "product_favorite_direct_message" = "Jag gillar den! Är de fortfarande tillgänglig?";
 "product_favorite_login_popup_text" = "Du måste vara inloggad för att markera denna produkt som favorit";
 "product_free_price" = "Gratis";
@@ -858,10 +863,11 @@
 "tour_page_1_body" = "Köp och sälj snabbt, säkert och lokalt.";
 "trending_searches_Title" = "Sökningar som trendar";
 "unblock_user_error_generic" = "Ett fel uppstod när blockeringen av användaren skulle tas bort.";
+"user_rating_add_comment_button" = "Lägg till kommentar";
 "user_rating_message_more" = "Tack för ditt omdöme! Vill du berätta mer om din upplevelse?";
 "user_rating_message_w_name" = "Får din upplevelse med %@ fem stjärnor? Berätta hur det gick.";
 "user_rating_message_wo_name" = "Får din upplevelse med den här användaren fem stjärnor? Berätta hur det gick.";
-"user_rating_review_button" = "Publicera omdöme";
+"user_rating_review_button" = "Publicera Omdöme";
 "user_rating_review_info" = "Du kan uppdatera omdömet när du vill.";
 "user_rating_review_placeholder" = "Skriv om din upplevelse";
 "user_rating_review_placeholder_mandatory" = "Skriv om din upplevelse (obligatoriskt)";
@@ -870,6 +876,7 @@
 "user_rating_select_a_tag" = "Välj minst en:";
 "user_rating_skip_button" = "Hoppa över";
 "user_rating_title" = "Betygsätt din upplevelse med";
+"user_rating_update_comment_button" = "Uppdatera kommentar";
 "user_share_error" = "Ett fel inträffade när profilen skulle delas. Vänligen försök igen.";
 "user_share_message_mine" = "Titta på allt som jag säljer på letgo:";
 "user_share_message_other" = "Titta på allt den här säljaren har på letgo:";

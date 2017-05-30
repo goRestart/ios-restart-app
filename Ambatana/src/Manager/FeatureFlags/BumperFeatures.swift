@@ -32,8 +32,8 @@ extension Bumper  {
         flags.append(CarsVerticalEnabled.self)
         flags.append(CarsCategoryAfterPicture.self)
         flags.append(NewMarkAsSoldFlow.self)
+        flags.append(EditLocationBubble.self)
         flags.append(NewCarsMultiRequesterEnabled.self)
-
         Bumper.initialize(flags)
     } 
 
@@ -131,7 +131,12 @@ extension Bumper  {
         guard let value = Bumper.value(for: NewMarkAsSoldFlow.key) else { return false }
         return NewMarkAsSoldFlow(rawValue: value)?.asBool ?? false
     }
-    
+
+    static var editLocationBubble: EditLocationBubble {
+        guard let value = Bumper.value(for: EditLocationBubble.key) else { return .inactive }
+        return EditLocationBubble(rawValue: value) ?? .inactive 
+    }
+
     static var newCarsMultiRequesterEnabled: Bool {
         guard let value = Bumper.value(for: NewCarsMultiRequesterEnabled.key) else { return false }
         return NewCarsMultiRequesterEnabled(rawValue: value)?.asBool ?? false
@@ -325,14 +330,29 @@ enum CarsCategoryAfterPicture: String, BumperFeature  {
     var asBool: Bool { return self == .yes }
 }
 
-
 enum NewMarkAsSoldFlow: String, BumperFeature  {
     case no, yes
     static var defaultValue: String { return NewMarkAsSoldFlow.no.rawValue }
     static var enumValues: [NewMarkAsSoldFlow] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "New mark as sold flow active. alert + showing buyer list" }
+    static var description: String { return "New mark as sold flow active. alert + showing buyer list" } 
     var asBool: Bool { return self == .yes }
+}
+
+enum EditLocationBubble: String, BumperFeature  {
+    case inactive, map, zipCode
+    static var defaultValue: String { return EditLocationBubble.inactive.rawValue }
+    static var enumValues: [EditLocationBubble] { return [.inactive, .map, .zipCode]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Location Edit A/B/C" } 
+    static func fromPosition(_ position: Int) -> EditLocationBubble {
+        switch position { 
+            case 0: return .inactive
+            case 1: return .map
+            case 2: return .zipCode
+            default: return .inactive
+        }
+    }
 }
 
 enum NewCarsMultiRequesterEnabled: String, BumperFeature  {
@@ -340,7 +360,7 @@ enum NewCarsMultiRequesterEnabled: String, BumperFeature  {
     static var defaultValue: String { return NewCarsMultiRequesterEnabled.no.rawValue }
     static var enumValues: [NewCarsMultiRequesterEnabled] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Cars multi requester enabled" }
+    static var description: String { return "Cars multi requester enabled" } 
     var asBool: Bool { return self == .yes }
 }
 

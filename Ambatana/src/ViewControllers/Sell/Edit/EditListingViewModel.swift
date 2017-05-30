@@ -369,7 +369,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         } else {
             // enabled
             let initialPlace = Place(postalAddress: nil, location: locationManager.currentAutoLocation?.location)
-            let locationVM = EditLocationViewModel(mode: .editProductLocation, initialPlace: initialPlace)
+            let locationVM = EditLocationViewModel(mode: .editListingLocation, initialPlace: initialPlace)
             locationVM.locationDelegate = self
             delegate?.vmShouldOpenMapWithViewModel(locationVM)
         }

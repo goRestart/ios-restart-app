@@ -28,6 +28,9 @@ struct AppLoggingOptions: OptionSet, CustomStringConvertible {
         if contains(AppLoggingOptions.monetization) {
             options.append("💰")
         }
+        if contains(AppLoggingOptions.location) {
+            options.append("🌏")
+        }
         return options.joined(separator: "+")
     }
 
@@ -46,6 +49,7 @@ struct AppLoggingOptions: OptionSet, CustomStringConvertible {
     static var tracking = AppLoggingOptions(rawValue: 2)
     static var deepLink = AppLoggingOptions(rawValue: 4)
     static var monetization = AppLoggingOptions(rawValue: 8)
+    static var location = AppLoggingOptions(rawValue: 16)
 }
 
 enum LogLevel {
