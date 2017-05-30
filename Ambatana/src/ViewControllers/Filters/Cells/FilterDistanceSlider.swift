@@ -40,14 +40,10 @@ class FilterDistanceSlider: UIView {
     var distance: Int {
         set {
             layoutIfNeeded()
-            for i in 0..<positions.count {
-                if (positions[i] == newValue){
-                    selectedPosition = i
-                    setupInPosition(i)
-                    return
-                }
-            }
-            setupInPosition(Constants.distanceSliderDefaultPosition)
+            let selectedPosition = (0..<positions.count)
+                .filter { positions[$0] == newValue }
+                .first ?? Constants.distanceSliderDefaultPosition
+            setupInPosition(selectedPosition)
         }
         get {
             let index = Int(slider.value + FilterDistanceSlider.sliderValueOffset)
