@@ -59,7 +59,7 @@ class MainProductsViewModel: BaseViewModel {
             return LGLocalizedString.productPopularNearYou
         case .zipCode, .map:
             let distanceRadius = filters.distanceRadius ?? Constants.productListMaxDistanceLabel
-            let type = DistanceType.systemDistanceType()
+            let type = filters.distanceType
             return bubbleInfoTextForDistance(distanceRadius, type: type)
         }
     }
@@ -445,7 +445,23 @@ class MainProductsViewModel: BaseViewModel {
         listViewModel.resetUI()
         listViewModel.refresh()
     }
-    
+
+
+    /**
+     Bubble Info Logic:
+     
+     If the edit Location From bubble ABCTest is inactive, we show what we've been showing until now:
+        - Default ordering: "Popular near you"
+        - Closest First ordering: *1 mi from you*, *More than 20 mi from you* with dynamic distance
+
+     If It's active, we show:
+        - Default Ordering: *City - XX mi* where XX is the distance radius and doesn't change
+            - If the location is "custom" (edited by user in filters) we show zipCode if we don't know the city,
+              or "Custom Location" if we don't know even the zipCode
+            - If we're using the user location we show "Near you" if we don't know the city
+        - Closest First ordering: *City - XX mi*  where XX is the distance of the products, and changes while scrolling
+     */
+
     fileprivate func bubbleInfoTextForDistance(_ distance: Int, type: DistanceType) -> String {
 
         switch featureFlags.editLocationBubble {
@@ -467,7 +483,6 @@ class MainProductsViewModel: BaseViewModel {
             var distanceString = String(format: "%d %@", arguments: [min(maxDistance, distance), type.string])
 
             if distance > maxDistance && filters.distanceRadius == nil {
-                // if
                 distanceString = LGLocalizedString.productDistanceMoreThan(distanceString)
             }
 

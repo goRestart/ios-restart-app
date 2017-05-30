@@ -372,8 +372,8 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         infoBubbleShadow.applyInfoBubbleShadow()
 
         infoBubbleArrow.isHidden = !viewModel.hasInteractiveBubble
-        infoBubbleArrowLeadingConstraint.constant = viewModel.hasInteractiveBubble ? CGFloat(Metrics.shortMargin) : 0
-        infoBubbleArrowWidthConstraint.constant = viewModel.hasInteractiveBubble ? CGFloat(Metrics.shortMargin) : 0
+        infoBubbleArrowLeadingConstraint.constant = viewModel.hasInteractiveBubble ? Metrics.shortMargin : 0
+        infoBubbleArrowWidthConstraint.constant = viewModel.hasInteractiveBubble ? Metrics.shortMargin : 0
 
         if viewModel.hasInteractiveBubble {
             let bubbleTap = UITapGestureRecognizer(target: self, action: #selector(onBubbleTapped))
