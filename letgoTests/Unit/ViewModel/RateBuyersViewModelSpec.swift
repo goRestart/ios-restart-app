@@ -36,7 +36,10 @@ class RateBuyersViewModelSpec: BaseViewModelSpec {
                 let buyers = MockUserListing.makeMocks(count: 5)
                 let listingId = "123456789"
                 
-                sut = RateBuyersViewModel(buyers: buyers, listingId: listingId, listingRepository: listingRepository)
+                sut = RateBuyersViewModel(buyers: buyers,
+                                          listingId: listingId,
+                                          sourceRateBuyers: nil,
+                                          listingRepository: listingRepository)
                 sut.navigator = self
             }
             
