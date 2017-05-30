@@ -88,24 +88,22 @@ class RateBuyersViewModel: BaseViewModel {
     }
 
     func imageAt(index: Int) -> URL? {
-        guard buyersToShow > index else { return nil }
-        guard let buyer = buyerAt(index: index) else { return nil }
-        return buyer.avatar?.fileURL
+        guard 0..<buyersToShow ~= index else { return nil }
+        let buyer = buyerAt(index: index)
+        return buyer?.avatar?.fileURL
     }
 
     func titleAt(index: Int) -> String? {
-        guard buyersToShow > index else { return textForSeeMoreLabel() }
-        guard let buyer = buyerAt(index: index) else { return nil }
-        return buyer.name
+        guard 0..<buyersToShow ~= index else { return textForSeeMoreLabel() }
+        let buyer = buyerAt(index: index)
+        return buyer?.name
     }
     
     func bottomBorderAt(index: Int) -> Bool {
-        guard index == buyersToShow else { return buyersToShow - 1 > index }
-        return true
+        return 0..<buyersToShow ~= index
     }
     
     func topBorderAt(index: Int) -> Bool {
-        guard buyersToShow > index else { return true }
         return index == 0
     }
     
@@ -114,8 +112,7 @@ class RateBuyersViewModel: BaseViewModel {
     }
     
     func secondaryActionstopBorderAt(index: Int) -> Bool {
-        guard index == 0 else { return false }
-        return true
+        return index == 0
     }
     
     func disclosureDirectionAt(index: Int) -> DisclosureDirection {
