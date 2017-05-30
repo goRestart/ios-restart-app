@@ -30,7 +30,8 @@ class EditLocationFiltersCoordinator: Coordinator {
     init?(initialPlace: Place?,
          locationDelegate: EditLocationDelegate,
          bubbleNotificationManager: BubbleNotificationManager,
-         sessionManager: SessionManager, featureFlags: FeatureFlags) {
+         sessionManager: SessionManager,
+         featureFlags: FeatureFlaggeable) {
 
         switch featureFlags.editLocationBubble {
         case .inactive:

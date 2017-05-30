@@ -58,9 +58,9 @@ class MainProductsViewModel: BaseViewModel {
         case .inactive:
             return LGLocalizedString.productPopularNearYou
         case .zipCode, .map:
-            let distanceRadius = filters.distanceRadius ?? Constants.productListMaxDistanceLabel
+            let distance = filters.distanceRadius ?? Constants.productListMaxDistanceLabel
             let type = filters.distanceType
-            return bubbleInfoTextForDistance(distanceRadius, type: type)
+            return bubbleTextGenerator.bubbleInfoText(forDistance: distance, type: type, distanceRadius: filters.distanceRadius, place: filters.place)
         }
     }
 
@@ -80,9 +80,19 @@ class MainProductsViewModel: BaseViewModel {
                 resultTags.removeLast()
             }
         }
-        if let place = filters.place {
-            resultTags.append(.location(place))
+
+        switch featureFlags.editLocationBubble {
+        case .inactive:
+            if let place = filters.place {
+                resultTags.append(.location(place))
+            }
+            if let distance = filters.distanceRadius {
+                resultTags.append(.distance(distance: distance))
+            }
+        case .map, .zipCode:
+            break
         }
+
         if filters.selectedWithin != ListingTimeCriteria.defaultOption {
             resultTags.append(.within(filters.selectedWithin))
         }
@@ -101,10 +111,6 @@ class MainProductsViewModel: BaseViewModel {
                 }
                 resultTags.append(.priceRange(from: filters.priceRange.min, to: filters.priceRange.max, currency: currency))
             }
-        }
-        
-        if let distance = filters.distanceRadius {
-            resultTags.append(.distance(distance: distance))
         }
 
         if filters.selectedCategories.contains(.cars) {
@@ -145,6 +151,7 @@ class MainProductsViewModel: BaseViewModel {
     fileprivate let listingRepository: ListingRepository
     fileprivate let locationManager: LocationManager
     fileprivate let currencyHelper: CurrencyHelper
+    fileprivate let bubbleTextGenerator: DistanceBubbleTextGenerator
 
     fileprivate let tracker: Tracker
     fileprivate let searchType: SearchType? // The initial search
@@ -197,7 +204,8 @@ class MainProductsViewModel: BaseViewModel {
     
     init(sessionManager: SessionManager, myUserRepository: MyUserRepository, trendingSearchesRepository: TrendingSearchesRepository,
          listingRepository: ListingRepository, locationManager: LocationManager, currencyHelper: CurrencyHelper, tracker: Tracker,
-         searchType: SearchType? = nil, filters: ProductFilters, keyValueStorage: KeyValueStorageable, featureFlags: FeatureFlaggeable) {
+         searchType: SearchType? = nil, filters: ProductFilters, keyValueStorage: KeyValueStorageable, featureFlags: FeatureFlaggeable,
+         bubbleTextGenerator: DistanceBubbleTextGenerator) {
         
         self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
@@ -211,6 +219,7 @@ class MainProductsViewModel: BaseViewModel {
         self.queryString = searchType?.query
         self.keyValueStorage = keyValueStorage
         self.featureFlags = featureFlags
+        self.bubbleTextGenerator = bubbleTextGenerator
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         let columns = show3Columns ? 3 : 2
         let itemsPerPage = show3Columns ? Constants.numProductsPerPageBig : Constants.numProductsPerPageDefault
@@ -241,9 +250,11 @@ class MainProductsViewModel: BaseViewModel {
         let tracker = TrackerProxy.sharedInstance
         let keyValueStorage = KeyValueStorage.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
+        let bubbleTextGenerator = DistanceBubbleTextGenerator()
         self.init(sessionManager: sessionManager,myUserRepository: myUserRepository, trendingSearchesRepository: trendingSearchesRepository,
                   listingRepository: listingRepository, locationManager: locationManager, currencyHelper: currencyHelper, tracker: tracker,
-                  searchType: searchType, filters: filters, keyValueStorage: keyValueStorage, featureFlags: featureFlags)
+                  searchType: searchType, filters: filters, keyValueStorage: keyValueStorage, featureFlags: featureFlags,
+                  bubbleTextGenerator: bubbleTextGenerator)
     }
     
     convenience init(searchType: SearchType? = nil, tabNavigator: TabNavigator?) {
@@ -341,7 +352,14 @@ class MainProductsViewModel: BaseViewModel {
             }
         }
 
-        filters.place = place
+        switch featureFlags.editLocationBubble {
+        case .inactive:
+            filters.place = place
+            filters.distanceRadius = distance
+        case .map, .zipCode:
+            break
+        }
+
         filters.selectedCategories = categories.flatMap{ filterCategoryItem in
             switch filterCategoryItem {
             case .free:
@@ -357,8 +375,6 @@ class MainProductsViewModel: BaseViewModel {
         } else {
             filters.priceRange = .priceRange(min: minPrice, max: maxPrice)
         }
-        
-        filters.distanceRadius = distance
 
         if let makeId = makeId {
             filters.carMakeId = RetrieveListingParam<String>(value: makeId, isNegated: false)
@@ -445,64 +461,6 @@ class MainProductsViewModel: BaseViewModel {
         listViewModel.resetUI()
         listViewModel.refresh()
     }
-
-
-    /**
-     Bubble Info Logic:
-     
-     If the edit Location From bubble ABCTest is inactive, we show what we've been showing until now:
-        - Default ordering: "Popular near you"
-        - Closest First ordering: *1 mi from you*, *More than 20 mi from you* with dynamic distance
-
-     If It's active, we show:
-        - Default Ordering: *City - XX mi* where XX is the distance radius and doesn't change
-            - If the location is "custom" (edited by user in filters) we show zipCode if we don't know the city,
-              or "Custom Location" if we don't know even the zipCode
-            - If we're using the user location we show "Near you" if we don't know the city
-        - Closest First ordering: *City - XX mi*  where XX is the distance of the products, and changes while scrolling
-     */
-
-    fileprivate func bubbleInfoTextForDistance(_ distance: Int, type: DistanceType) -> String {
-
-        switch featureFlags.editLocationBubble {
-        case .inactive:
-            let distanceString = String(format: "%d %@", arguments: [min(Constants.productListMaxDistanceLabel, distance),
-                                                                     type.string])
-            if distance <= Constants.productListMaxDistanceLabel {
-                return LGLocalizedString.productDistanceXFromYou(distanceString)
-            } else {
-                return LGLocalizedString.productDistanceMoreThanFromYou(distanceString)
-            }
-        case .zipCode, .map:
-            var maxDistance = Constants.productListMaxDistanceLabel
-
-            if let filterDistanceRadius = filters.distanceRadius {
-                maxDistance = filterDistanceRadius
-            }
-
-            var distanceString = String(format: "%d %@", arguments: [min(maxDistance, distance), type.string])
-
-            if distance > maxDistance && filters.distanceRadius == nil {
-                distanceString = LGLocalizedString.productDistanceMoreThan(distanceString)
-            }
-
-            if let customPlace = filters.place {
-                if let city = customPlace.postalAddress?.city {
-                    return city + " - " + distanceString
-                } else if let zip = customPlace.postalAddress?.zipCode {
-                    return zip + " - " + distanceString
-                } else {
-                    return LGLocalizedString.productDistanceCustomLocation + " - " + distanceString
-                }
-            } else {
-                if let realLocationCity = locationManager.currentLocation?.postalAddress?.city {
-                    return realLocationCity + " - " + distanceString
-                } else {
-                    return LGLocalizedString.productDistanceNearYou + " - " + distanceString
-                }
-            }
-        }
-    }
 }
 
 
@@ -559,9 +517,10 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
                 listViewModel.refreshing {
                 bubbleDistance = distance
             }
-            let distanceString = bubbleInfoTextForDistance(max(1,Int(round(bubbleDistance))),
-                                                           type: DistanceType.systemDistanceType())
-            infoBubbleText.value = distanceString
+            infoBubbleText.value = bubbleTextGenerator.bubbleInfoText(forDistance: max(1,Int(round(bubbleDistance))),
+                                                                      type: DistanceType.systemDistanceType(),
+                                                                      distanceRadius: filters.distanceRadius,
+                                                                      place: filters.place)
         case .creation:
             infoBubbleText.value = defaultBubbleText
         case .priceAsc, .priceDesc:
@@ -840,6 +799,10 @@ extension MainProductsViewModel {
 
 extension MainProductsViewModel {
 
+    var showCategoriesCollectionBanner: Bool {
+        return featureFlags.carsVerticalEnabled && tags.isEmpty
+    }
+
     func pushPermissionsHeaderPressed() {
         openPushPermissionsAlert()
     }
@@ -862,7 +825,7 @@ extension MainProductsViewModel {
     
     fileprivate dynamic func updateCategoriesHeader() {
         var currentHeader = mainProductsHeader.value
-        if featureFlags.carsVerticalEnabled && filters.isDefault() {
+        if showCategoriesCollectionBanner {
             currentHeader.insert(MainProductsHeader.CategoriesCollectionBanner)
         } else {
             currentHeader.remove(MainProductsHeader.CategoriesCollectionBanner)
