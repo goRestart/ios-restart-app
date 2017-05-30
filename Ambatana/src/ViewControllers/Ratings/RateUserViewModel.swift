@@ -356,14 +356,14 @@ fileprivate extension RateUserViewModel {
         if isReviewPositive.value {
             tagsString = PositiveUserRatingTag.allValues
                 .enumerated()
-                .filter { selectedTagIndexes.value.contains($0.0) }
-                .map { $0.1.localizedText }
+                .filter { (index, _) in return selectedTagIndexes.value.contains(index) }
+                .map { (_, item) in return item.localizedText }
             
         } else {
             tagsString = NegativeUserRatingTag.allValues
                 .enumerated()
-                .filter { selectedTagIndexes.value.contains($0.0) }
-                .map { $0.1.localizedText }
+                .filter { (index, _) in return selectedTagIndexes.value.contains(index) }
+                .map { (_, item) in return item.localizedText }
         }
         return String.make(tagsString: tagsString, comment: description.value)
     }
