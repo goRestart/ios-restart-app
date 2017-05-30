@@ -29,6 +29,12 @@ typealias ListingDataSourceListingStatsCompletion = (ListingDataSourceListingSta
 typealias ListingDataSourceUsersResult = Result<[UserListing], ApiError>
 typealias ListingDataSourceUsersCompletion = (ListingDataSourceUsersResult) -> Void
 
+typealias ListingDataSourceTransactionsResult = Result<[Transaction], ApiError>
+typealias ListingDataSourceTransactionsCompletion = (ListingDataSourceTransactionsResult) -> Void
+
+typealias ListingDataSourceTransactionResult = Result<Transaction, ApiError>
+typealias ListingDataSourceTransactionCompletion = (ListingDataSourceTransactionResult) -> Void
+
 protocol ListingDataSource {
     func index(_ parameters: [String: Any], completion: ListingsDataSourceCompletion?)
     func indexForUser(_ userId: String, parameters: [String: Any], completion: ListingsDataSourceCompletion?)
@@ -52,4 +58,6 @@ protocol ListingDataSource {
     func retrieveStats(_ listingId: String, completion: ListingDataSourceListingStatsCompletion?)
     func updateStats(_ listingIds: [(listingId: String, visitSource: String)], action: String, completion: ListingDataSourceEmptyCompletion?)
     func possibleBuyersOf(listingId: String, completion: ListingDataSourceUsersCompletion?)
+    func createTransactionOf(createTransactionParams: CreateTransactionParams, completion: ListingDataSourceTransactionCompletion?)
+    func retrieveTransactionsOf(listingId: String, completion: ListingDataSourceTransactionsCompletion?)
 }

@@ -35,6 +35,7 @@ protocol FeatureFlaggeable {
     var quickAnswersRepeatedTextField: Bool { get }
     var carsVerticalEnabled: Bool { get }
     var carsCategoryAfterPicture: Bool { get }
+    var newMarkAsSoldFlow: Bool { get }
     var editLocationBubble: EditLocationBubble { get }
     var newCarsMultiRequesterEnabled: Bool { get }
 
@@ -208,6 +209,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.carsCategoryAfterPicture
         }
         return ABTests.carsCategoryAfterPicture.value
+    }
+    
+    var newMarkAsSoldFlow: Bool {
+        if Bumper.enabled {
+            return Bumper.newMarkAsSoldFlow
+        }
+        return ABTests.newMarkAsSoldFlow.value
     }
 
     var editLocationBubble: EditLocationBubble {
