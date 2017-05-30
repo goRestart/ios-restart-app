@@ -28,23 +28,26 @@ class LocationFromZipCodeViewModel: BaseViewModel {
     let fullAddressVisible = Variable<Bool>(false)
     let isResolvingAddress = Variable<Bool>(false)
 
+    fileprivate var initialPlace: Place?
     fileprivate var newPlace: Place?
 
     var countryCode: CountryCode = .usa
 
-    weak var navigator: EditLocationFromZipNavigator?
+    weak var navigator: EditLocationFiltersNavigator?
     weak var delegate: LocationFromZipCodeViewModelDelegate?
 
     private let disposeBag = DisposeBag()
 
 
-    convenience override init() {
-        self.init(locationManager: Core.locationManager,
+    convenience init(initialPlace: Place?) {
+        self.init(initialPlace: initialPlace,
+                  locationManager: Core.locationManager,
                   searchService: CLSearchLocationSuggestionsService(),
                   postalAddressService: CLPostalAddressRetrievalService())
     }
 
-    init(locationManager: LocationManager,
+    init(initialPlace: Place?,
+         locationManager: LocationManager,
          searchService: CLSearchLocationSuggestionsService,
          postalAddressService: PostalAddressRetrievalService) {
         self.locationManager = locationManager
@@ -55,6 +58,10 @@ class LocationFromZipCodeViewModel: BaseViewModel {
         }
         super.init()
         setupRx()
+
+        if let initialPlace = initialPlace {
+            self.fullAddress.value = self.fullAddressString(forPlace: initialPlace)
+        }
     }
 
     func setupRx() {
@@ -91,13 +98,7 @@ class LocationFromZipCodeViewModel: BaseViewModel {
             self?.isResolvingAddress.value = false
             if let place = result.value {
                 self?.newPlace = place
-                if let postalAddress = place.postalAddress, let _ = postalAddress.zipCode {
-                    self?.fullAddress.value = postalAddress.zipCodeCityString
-                } else if let name = place.name {
-                    self?.fullAddress.value = name
-                } else if let resumedData = place.placeResumedData {
-                    self?.fullAddress.value = resumedData
-                }
+                self?.fullAddress.value = self?.fullAddressString(forPlace: place)
             } else if let error = result.error {
                 self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.changeLocationZipNotFoundErrorMessage, completion: nil)
                 logMessage(.error, type: [.location], message: "PostalAddress Service: Retrieve Address For Location error: \(error)")
@@ -116,13 +117,7 @@ class LocationFromZipCodeViewModel: BaseViewModel {
             if let value = result.value, !value.isEmpty {
                 guard let place = value.first else { return }
                 self?.newPlace = place
-                if let postalAddress = place.postalAddress, let _ = postalAddress.zipCode {
-                    self?.fullAddress.value = postalAddress.zipCodeCityString
-                } else if let name = place.name {
-                    self?.fullAddress.value = name
-                } else if let resumedData = place.placeResumedData {
-                    self?.fullAddress.value = resumedData
-                }
+                self?.fullAddress.value = self?.fullAddressString(forPlace: place)
             } else if let error = result.error {
                 self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.changeLocationZipNotFoundErrorMessage, completion: nil)
                 logMessage(.error, type: [.location], message: "Search Service: Retrieve Address For Location error: \(error)")
@@ -138,5 +133,16 @@ class LocationFromZipCodeViewModel: BaseViewModel {
 
     func close() {
         navigator?.editLocationFromZipDidClose()
+    }
+
+    private func fullAddressString(forPlace place: Place) -> String? {
+        if let postalAddress = place.postalAddress, let _ = postalAddress.zipCode {
+            return postalAddress.zipCodeCityString
+        } else if let name = place.name {
+            return name
+        } else if let resumedData = place.placeResumedData {
+            return resumedData
+        }
+        return nil
     }
 }

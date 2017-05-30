@@ -401,7 +401,8 @@ class MainProductsViewModel: BaseViewModel {
     }
 
     func bubbleTapped() {
-        navigator?.openLocationSelection(locationDelegate: self)
+        let initialPlace = filters.place ?? Place(postalAddress: locationManager.currentLocation?.postalAddress, location: locationManager.currentLocation?.location)
+        navigator?.openLocationSelection(initialPlace: initialPlace, locationDelegate: self)
     }
 
     

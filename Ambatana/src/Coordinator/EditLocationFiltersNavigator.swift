@@ -1,5 +1,5 @@
 //
-//  EditLocationFromZipNavigator.swift
+//  EditLocationFiltersNavigator.swift
 //  LetGo
 //
 //  Created by Dídac on 29/05/17.
@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol EditLocationFromZipNavigator: class {
+protocol EditLocationFiltersNavigator: class {
     func editLocationFromZipDidClose()
 }
