@@ -137,13 +137,10 @@ class RateUserViewModelSpec: BaseViewModelSpec {
                         userRatingRepository.ratingResult = UserRatingResult(error: .notFound)
                         
                         sut.didBecomeActive(true)
-                        
-                        let _ = self.expectation(description: "wait for network calls")
-                        self.waitForExpectations(timeout: 0.2, handler: nil)
                     }
                     
                     it("isLoading emits: false, true, false") {
-                         expect(isLoadingObserver.eventValues) == [false, true, false]
+                         expect(isLoadingObserver.eventValues).toEventually(equal([false, true, false]))
                     }
                 }
                 
@@ -161,32 +158,28 @@ class RateUserViewModelSpec: BaseViewModelSpec {
                             userRatingRepository.ratingResult = UserRatingResult(value: userRating)
                             
                             sut.didBecomeActive(true)
-                            
-                            let _ = self.expectation(description: "wait for network calls")
-                            self.waitForExpectations(timeout: 0.2, handler: nil)
                         }
                         
                         it("isLoading emits: false, true, false") {
-                            expect(isLoadingObserver.eventValues) == [false, true, false]
+                            expect(isLoadingObserver.eventValues).toEventually(equal([false, true, false]))
                         }
                         it("sendEnabled emits: true, false, true") {
-                            expect(isLoadingObserver.eventValues) == [false, true, false]
+                            expect(isLoadingObserver.eventValues).toEventually(equal([false, true, false]))
                         }
                         it("rating emits: number") {
-                            expect(ratingObserver.eventValues.flatMap { $0 }) == [userRating.value]
+                            expect(ratingObserver.eventValues.flatMap { $0 }).toEventually(equal([userRating.value]))
                         }
                         it("calls delegate to update description") {
-                            expect(self.delegateReceivedUpdateDescriptionLastValue) == "Comment"
+                            expect(self.delegateReceivedUpdateDescriptionLastValue).toEventually(equal("Comment"))
                         }
                         it("description emits: string") {
-                            expect(descriptionObserver.eventValues.flatMap { $0 }) == ["Comment"]
+                            expect(descriptionObserver.eventValues.flatMap { $0 }).toEventually(equal(["Comment"]))
                         }
                         it("calls delegate to update tags") {
-                            expect(self.delegateReceivedUpdateTags) == true
+                            expect(self.delegateReceivedUpdateTags).toEventually(equal(true))
                         }
                         it("has a selected tag") {
-                            let selectedTags = (0..<sut.numberOfTags).filter { sut.isSelectedTagAt(index: $0) }
-                            expect(selectedTags) == [0]
+                            expect((0..<sut.numberOfTags).filter { sut.isSelectedTagAt(index: $0) }).toEventually(equal([0]))
                         }
                     }
                     
@@ -196,32 +189,29 @@ class RateUserViewModelSpec: BaseViewModelSpec {
                             userRatingRepository.ratingResult = UserRatingResult(value: userRating)
                             
                             sut.didBecomeActive(true)
-                            
-                            let _ = self.expectation(description: "wait for network calls")
-                            self.waitForExpectations(timeout: 0.2, handler: nil)
                         }
                         
                         it("isLoading emits: false, true, false") {
-                            expect(isLoadingObserver.eventValues) == [false, true, false]
+                            expect(isLoadingObserver.eventValues).toEventually(equal([false, true, false]))
                         }
                         it("sendEnabled emits: true, false, true") {
-                            expect(isLoadingObserver.eventValues) == [false, true, false]
+                            expect(isLoadingObserver.eventValues).toEventually(equal([false, true, false]))
                         }
                         it("rating emits: number") {
-                            expect(ratingObserver.eventValues.flatMap { $0 }) == [userRating.value]
+                            expect(ratingObserver.eventValues.flatMap { $0 }).toEventually(equal([userRating.value]))
                         }
                         it("calls delegate to update description") {
-                            expect(self.delegateReceivedUpdateDescriptionLastValue) == userRating.comment
+                            expect(self.delegateReceivedUpdateDescriptionLastValue).toEventually(equal(userRating.comment))
                         }
                         it("description emits: string") {
-                            expect(descriptionObserver.eventValues.flatMap { $0 }) == [userRating.comment!]
+                            expect(descriptionObserver.eventValues.flatMap { $0 }).toEventually(equal([userRating.comment!]))
                         }
                         it("calls delegate to update tags") {
-                            expect(self.delegateReceivedUpdateTags) == true
+                            expect(self.delegateReceivedUpdateTags).toEventually(beTrue())
                         }
                         it("has no selected tag") {
                             let selectedTags = (0..<sut.numberOfTags).filter { sut.isSelectedTagAt(index: $0) }
-                            expect(selectedTags).to(beEmpty())
+                            expect(selectedTags).toEventually(beEmpty())
                         }
                     }
                 }
@@ -231,32 +221,29 @@ class RateUserViewModelSpec: BaseViewModelSpec {
                         userRatingRepository.ratingResult = UserRatingResult(error: .serverError(code: 500))
                         
                         sut.didBecomeActive(true)
-                        
-                        let _ = self.expectation(description: "wait for network calls")
-                        self.waitForExpectations(timeout: 0.2, handler: nil)
                     }
                     
                     it("isLoading emits: false, true, false") {
-                        expect(isLoadingObserver.eventValues) == [false, true, false]
+                        expect(isLoadingObserver.eventValues).toEventually(equal([false, true, false]))
                     }
                     it("sendEnabled emits: true, false, true") {
-                        expect(isLoadingObserver.eventValues) == [false, true, false]
+                        expect(isLoadingObserver.eventValues).toEventually(equal([false, true, false]))
                     }
                     it("rating emits: nil") {
-                        expect(ratingObserver.eventValues.flatMap { $0 }) == []
+                        expect(ratingObserver.eventValues.flatMap { $0 }).toEventually(equal([]))
                     }
                     it("does not call delegate to update description") {
-                        expect(self.delegateReceivedUpdateDescriptionLastValue).to(beNil())
+                        expect(self.delegateReceivedUpdateDescriptionLastValue).toEventually(beNil())
                     }
                     it("description emits: nil") {
-                        expect(descriptionObserver.eventValues.flatMap { $0 }) == []
+                        expect(descriptionObserver.eventValues.flatMap { $0 }).toEventually(equal([]))
                     }
                     it("calls delegate to update tags") {
-                        expect(self.delegateReceivedUpdateTags) == false
+                        expect(self.delegateReceivedUpdateTags).toEventually(equal(false))
                     }
                     it("has no selected tag") {
                         let selectedTags = (0..<sut.numberOfTags).filter { sut.isSelectedTagAt(index: $0) }
-                        expect(selectedTags).to(beEmpty())
+                        expect(selectedTags).toEventually(beEmpty())
                     }
                 }
             }
@@ -264,13 +251,10 @@ class RateUserViewModelSpec: BaseViewModelSpec {
             describe("become active for the next times") {
                 beforeEach {
                     sut.didBecomeActive(false)
-                    
-                    let _ = self.expectation(description: "wait for network calls")
-                    self.waitForExpectations(timeout: 0.2, handler: nil)
                 }
                 
                 it("does not load again") {
-                    expect(isLoadingObserver.eventValues) == [false]
+                    expect(isLoadingObserver.eventValues).toEventually(equal([false]))
                 }
             }
             
@@ -388,18 +372,15 @@ class RateUserViewModelSpec: BaseViewModelSpec {
                                 let userRating = MockUserRating.makeMock()
                                 userRatingRepository.ratingResult = UserRatingResult(value: userRating)
                                 sut.sendButtonPressed()
-                                
-                                let _ = self.expectation(description: "wait for network calls")
-                                self.waitForExpectations(timeout: 0.2, handler: nil)
                             }
 
                             it("sets the state to comment mode") {
-                                expect(stateObserver.eventValues) == [.review(positive: true), .comment]
+                                expect(stateObserver.eventValues).toEventually(equal([.review(positive: true), .comment]))
                             }
                             
                             it("tracks a userRatingComplete event") {
-                                let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
-                                expect(trackedEventNames) == [EventName.userRatingStart, EventName.userRatingComplete]
+                                expect(tracker.trackedEvents).toEventually(haveCount(2))
+                                expect(tracker.trackedEvents.flatMap { $0.name }) == [EventName.userRatingStart, EventName.userRatingComplete]
                             }
                         }
                         
@@ -424,14 +405,11 @@ class RateUserViewModelSpec: BaseViewModelSpec {
                     let userRating = MockUserRating.makeMock()
                     userRatingRepository.ratingResult = UserRatingResult(value: userRating)
                     sut.sendButtonPressed()
-                    
-                    let _ = self.expectation(description: "wait for network calls")
-                    self.waitForExpectations(timeout: 0.2, handler: nil)
                 }
                 
                 describe("leave comment empty") {
                     it("disables send button") {
-                        expect(sut.sendEnabled.value) == false
+                        expect(sut.sendEnabled.value).toEventually(equal(false))
                     }
                 }
                 
@@ -441,27 +419,27 @@ class RateUserViewModelSpec: BaseViewModelSpec {
                     }
                     
                     it("enables send button") {
-                        expect(sut.sendEnabled.value) == true
+                        expect(sut.sendEnabled.value).toEventually(beTrue())
                     }
                     
-                    describe("sendButtonPressed") {
+                    describe("wait for send button to be enabled and press send button") {
+                        beforeEach {
+                            expect(sut.sendEnabled.value).toEventually(beTrue())
+                        }
+                        
                         context("create/update request succeeds") {
                             beforeEach {
                                 let userRating = MockUserRating.makeMock()
                                 userRatingRepository.ratingResult = UserRatingResult(value: userRating)
                                 sut.sendButtonPressed()
-                                
-                                let _ = self.expectation(description: "wait for network calls")
-                                self.waitForExpectations(timeout: 0.2, handler: nil)
                             }
                             
                             it("calls rate user finish in navigator") {
-                                expect(self.navigatorReceivedRateUserFinishLastValue).notTo(beNil())
+                                expect(self.navigatorReceivedRateUserFinishLastValue).toEventuallyNot(beNil())
                             }
                             
-                            it("tracks a userRatingComplete event") {
-                                let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
-                                expect(trackedEventNames) == [EventName.userRatingStart, EventName.userRatingComplete, EventName.userRatingComplete]
+                            it("tracks a second userRatingComplete event") {
+                                expect(tracker.trackedEvents.flatMap { $0.name }).toEventually(equal([EventName.userRatingStart, EventName.userRatingComplete, EventName.userRatingComplete]))
                             }
                         }
                         
