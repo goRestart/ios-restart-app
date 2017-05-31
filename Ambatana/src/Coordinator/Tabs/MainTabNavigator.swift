@@ -12,4 +12,5 @@ protocol MainTabNavigator: TabNavigator {
     func openMainProduct(withSearchType searchType: SearchType, productFilters: ProductFilters)
     func openFilters(withProductFilters productFilters: ProductFilters,
                      filtersVMDataDelegate: FiltersViewModelDataDelegate?)
+    func openLocationSelection(locationDelegate: EditLocationDelegate)
 }

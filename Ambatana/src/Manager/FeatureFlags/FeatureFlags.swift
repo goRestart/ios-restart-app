@@ -35,6 +35,8 @@ protocol FeatureFlaggeable {
     var quickAnswersRepeatedTextField: Bool { get }
     var carsVerticalEnabled: Bool { get }
     var carsCategoryAfterPicture: Bool { get }
+    var newMarkAsSoldFlow: Bool { get }
+    var editLocationBubble: EditLocationBubble { get }
     var newCarsMultiRequesterEnabled: Bool { get }
 
     // Country dependant features
@@ -208,6 +210,20 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return ABTests.carsCategoryAfterPicture.value
     }
+    
+    var newMarkAsSoldFlow: Bool {
+        if Bumper.enabled {
+            return Bumper.newMarkAsSoldFlow
+        }
+        return ABTests.newMarkAsSoldFlow.value
+    }
+
+    var editLocationBubble: EditLocationBubble {
+        if Bumper.enabled {
+            return Bumper.editLocationBubble
+        }
+        return EditLocationBubble.fromPosition(ABTests.editLocationBubble.value)
+    }
 
     var newCarsMultiRequesterEnabled: Bool {
         if Bumper.enabled {
@@ -216,6 +232,7 @@ class FeatureFlags: FeatureFlaggeable {
         return ABTests.newCarsMultiRequesterEnabled.value
     }
 
+    
     // MARK: - Country features
 
     var freePostingModeAllowed: Bool {

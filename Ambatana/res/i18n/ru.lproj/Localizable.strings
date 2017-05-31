@@ -53,6 +53,7 @@
 "categories_inFeed_others" = "Другое";
 "categories_inFeed_sports_leisure_games" = "Отдых";
 "categories_movies_books_and_music" = "Фильмы, Книги и Музыка";
+"categories_old_cars_and_motors" = "Автомобили и Запчасти";
 "categories_other" = "Другое";
 "categories_sports_leisure_and_games" = "Спорт и Развлечения";
 "categories_title" = "Категории";
@@ -74,6 +75,10 @@
 "change_location_recommend_update_location_message" = "Мы рекомендуем изменить Ваше местоположение, чтоб найти выгодные предложения по соседству";
 "change_location_search_field_hint" = "Введите город или почтовый индекс";
 "change_location_title" = "Изменить локацию";
+"change_location_zip_current_location_button" = "Текущее местоположение";
+"change_location_zip_min_digits_label" = "Должен содержать 5 знаков";
+"change_location_zip_not_found_error_message" = "Мы не можем найти местоположение по введенному вами индексу. Пожалуйста, проверьте его и попробуйте еще раз.";
+"change_location_zip_placeholder" = "Индекс";
 "change_password_confirm_password_field_hint" = "Подтвердите пароль";
 "change_password_new_password_field_hint" = "Новый пароль";
 "change_password_send_error_generic" = "При смене пароля произошла ошибка. Пожалуйста, попробуйте еще раз.";
@@ -497,7 +502,10 @@
 "product_delete_sold_confirm_message" = "Вы точно хотите удалить этот товар?";
 "product_delete_success_message" = "Ваш товар удален.";
 "product_distance_X_from_you" = "%@ от вас";
+"product_distance_custom_location" = "Указать местоположение";
+"product_distance_more_than" = "Более чем %@";
 "product_distance_more_than_from_you" = "Более %@ от вас";
+"product_distance_near_you" = "Рядом с вами";
 "product_favorite_direct_message" = "Мне нравится! Все еще доступно?";
 "product_favorite_login_popup_text" = "Чтобы добавить этот товар в избранное, вы должны войти";
 "product_free_price" = "Бесплатно";
@@ -529,6 +537,7 @@
 "product_mark_as_sold_free_confirm_title" = "Отметить как отданный";
 "product_mark_as_sold_free_success_message" = "Поздравляем! Ваш товар отмечен как отданный.";
 "product_mark_as_sold_success_message" = "Поздравляем! Ваш товар отмечен как проданный!";
+"product_menu_rate_buyer" = "Оценить покупателя";
 "product_more_info_open_button" = "ЕЩЕ";
 "product_more_info_related_title" = "ВАС МОЖЕТ ЗАИНТЕРЕСОВАТЬ:";
 "product_more_info_related_view_more" = "Смотреть еще";
@@ -685,9 +694,14 @@
 "profile_verify_google_title" = "GOOGLE";
 "rate_buyers_message" = "Поздравляем!";
 "rate_buyers_not_on_letgo_button" = "Я продал не на letgo";
+"rate_buyers_not_on_letgo_title_button" = "Продал где-то еще";
+"rate_buyers_see_less" = "Скрыть";
+"rate_buyers_see_x_more" = "Показать еще";
 "rate_buyers_sub_message" = "Кому вы продали товар?";
 "rate_buyers_title" = "Кто купил товар?";
-"rate_user_negative_didnt_show_up" = "Didn’t show up";
+"rate_buyers_will_do_later_subtitle" = "Оценить покупателя позже";
+"rate_buyers_will_do_later_title" = "Сделаю позже";
+"rate_user_negative_didnt_show_up" = "Не пришел";
 "rate_user_negative_item_not_as_advertised" = "Товар не из объявления";
 "rate_user_negative_not_polite" = "Невежливый";
 "rate_user_negative_not_trustworthy" = "Ненадежный";
@@ -849,6 +863,8 @@
 "tour_page_1_body" = "Покупайте и продавайте быстро, безопасно и удобно.";
 "trending_searches_Title" = "Популярные запросы";
 "unblock_user_error_generic" = "При разблокировке произошла ошибка.";
+"user_rating_add_comment_button" = "Добавить комментарий";
+"user_rating_message_more" = "Спасибо, что поделились! Хотите рассказать больше о вашем опыте?";
 "user_rating_message_w_name" = "Ваша сделка с %@ прошла на 5 звезд? Расскажите нам о ней.";
 "user_rating_message_wo_name" = "Ваша сделка с этим пользователем прошла на 5 звезд? Расскажите нам о ней.";
 "user_rating_review_button" = "Опубликовать отзыв";
@@ -857,8 +873,10 @@
 "user_rating_review_placeholder_mandatory" = "Опишите ваш опыт (обязательно)";
 "user_rating_review_placeholder_optional" = "Опишите свой опыт (опционально)";
 "user_rating_review_send_success" = "Ваш отзыв опубликован!";
+"user_rating_select_a_tag" = "Выберите минимум один:";
 "user_rating_skip_button" = "Пропустить";
 "user_rating_title" = "Оцените свое общение с";
+"user_rating_update_comment_button" = "Обновить комментарий";
 "user_share_error" = "При отправке профиля произошла ошибка. Пожалуйста, попробуйте еще раз.";
 "user_share_message_mine" = "Посмотри, что я продаю на letgo!";
 "user_share_message_other" = "Посмотри, что этот пользователь продает на letgo!";

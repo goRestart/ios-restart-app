@@ -34,6 +34,8 @@ enum ListingRouter: URLRequestAuthenticable {
     case updateStats(params: [String : Any])
 
     case possibleBuyers(listingId: String)
+    case retrieveTransactionsOf(listingId: String)
+    case createTransactionOf(listingId: String, params: [String : Any])
 
 
     static let productBaseUrl = "/api/products"
@@ -68,13 +70,17 @@ enum ListingRouter: URLRequestAuthenticable {
             return ListingRouter.productBaseUrl + "/stats"
         case let .possibleBuyers(listingId):
             return ListingRouter.productBaseUrl + "/\(listingId)/conversations/users"
+        case let .retrieveTransactionsOf(listingId):
+            return ListingRouter.productBaseUrl + "/\(listingId)/transactions"
+        case let .createTransactionOf(listingId, _):
+            return ListingRouter.productBaseUrl + "/\(listingId)/transactions"
         }
     }
 
     var requiredAuthLevel: AuthLevel {
         switch self {
         case .delete, .update, .patch, .create, .deleteFavorite, .saveFavorite, .userRelation, .saveReport,
-             .indexLimbo, .possibleBuyers:
+             .indexLimbo, .possibleBuyers, .createTransactionOf, .retrieveTransactionsOf:
             return .user
         case .show, .index, .indexForUser, .indexFavorites, .indexRelatedListings, .indexDiscoverListings,
              .indexTrending, .showStats, .updateStats:
@@ -128,6 +134,10 @@ enum ListingRouter: URLRequestAuthenticable {
             return try Router<APIBaseURL>.batchPatch(endpoint: endpoint, params: params, encoding: .url).asURLRequest()
         case .possibleBuyers:
             return try Router<APIBaseURL>.index(endpoint: endpoint, params: [:]).asURLRequest()
+        case .retrieveTransactionsOf:
+            return try Router<APIBaseURL>.index(endpoint: endpoint, params: [:]).asURLRequest()
+        case let .createTransactionOf(_, params):
+            return try Router<APIBaseURL>.create(endpoint: endpoint, params: params, encoding: .url).asURLRequest()
         }
     }
 }

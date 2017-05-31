@@ -205,6 +205,18 @@
 // Change location title. Check attached image "change_location.png"
 "change_location_title" = "Change Location";
 
+// Change Location with Zip code Current Location Button
+"change_location_zip_current_location_button" = "Current location";
+
+// Change Location with Zip code Zipcode placeholder
+"change_location_zip_placeholder" = "Zip code";
+
+// Change Location with Zip code min 5 digits label
+"change_location_zip_min_digits_label" = "Must be 5 digits";
+
+// Change Location with Zip code error message
+"change_location_zip_not_found_error_message" = "We couldn't find a location based on the zip code you entered. Please check it and try again.";
+
 // Change password confirm password field hint. Check attached image "change_password.png"
 "change_password_confirm_password_field_hint" = "Confirm password";
 
@@ -1552,6 +1564,15 @@
 // Product distance from you. Check image @ "product_ask_a_question_button" segment
 "product_distance_X_from_you" = "%@ from you";
 
+// Product distance. "More than X mi"
+"product_distance_more_than" = "More than %@";
+
+// Product distance. "Near you"
+"product_distance_near_you" = "Near you";
+
+// Product distance. "Custom location"
+"product_distance_custom_location" = "Custom location";
+
 // direct message on product favorite
 "product_favorite_direct_message" = "I like it! Is it still available?";
 
@@ -1653,6 +1674,9 @@
 
 // Product mark as sold success message. Message displayal is like the other error messages
 "product_mark_as_sold_success_message" = "Congratulations, your product has been marked as sold!";
+
+// Rate the buyer when product is marked as sold.
+"product_menu_rate_buyer" = "Rate buyer";
 
 // Tooltip to see more info on snapchat, just the "tap" text
 "product_more_info_tooltip_part_1" = "Tap";
@@ -2123,6 +2147,21 @@
 "rate_buyers_sub_message" = "Who did you sell this to?";
 
 // Screen to select which buyer you sold the item before rating him/her
+"rate_buyers_will_do_later_title" = "I'll do this later";
+
+// Screen to select which buyer you sold the item before rating him/her
+"rate_buyers_will_do_later_subtitle" = "Rate the buyer later";
+
+// Screen to select which buyer you sold the item before rating him/her
+"rate_buyers_not_on_letgo_title_button" = "Sold it somewhere else";
+
+// Screen to select which buyer you sold the item before rating him/her
+"rate_buyers_see_x_more" = "Show more";
+
+// Screen to select which buyer you sold the item before rating him/her
+"rate_buyers_see_less" = "Show less";
+
+// Screen to select which buyer you sold the item before rating him/her
 "rate_buyers_not_on_letgo_button" = "I didn't sell this on letgo";
 
 // Rate user quick response negative
@@ -2591,8 +2630,20 @@
 // Information message when rating a user
 "user_rating_message_wo_name" = "Does your experience with this user get five stars? Tell us how it went.";
 
-// Send review button
-"user_rating_review_button" = "Publish review";
+// Information message when rated a user with stars and we ask for comments
+"user_rating_message_more" = "Thanks for sharing! Want to tell us more about your experience?";
+
+// Info message to select one rating tag.
+"user_rating_select_a_tag" = "Select at least one:";
+
+// User rating publish review button
+"user_rating_review_button" = "Publish Review";
+
+// User rating add comment button
+"user_rating_add_comment_button" = "Add Comment";
+
+// User rating update comment button
+"user_rating_update_comment_button" = "Update Comment";
 
 // Skip button
 "user_rating_skip_button" = "Skip";

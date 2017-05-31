@@ -53,6 +53,7 @@
 "categories_inFeed_others" = "Diğer";
 "categories_inFeed_sports_leisure_games" = "Spor";
 "categories_movies_books_and_music" = "Film, Kitap ve Müzik";
+"categories_old_cars_and_motors" = "Araba ve Motosikletler";
 "categories_other" = "Diğer";
 "categories_sports_leisure_and_games" = "Spor, Eğlence ve Oyunlar";
 "categories_title" = "Kategoriler";
@@ -74,6 +75,10 @@
 "change_location_recommend_update_location_message" = "Yakınındaki en iyi fırsatları görmen için konumunu güncellemeni öneriyoruz!";
 "change_location_search_field_hint" = "Şehir adı veya posta kodu gir";
 "change_location_title" = "Konum değiştir";
+"change_location_zip_current_location_button" = "Bulunduğun konum";
+"change_location_zip_min_digits_label" = "5 haneli olmalı";
+"change_location_zip_not_found_error_message" = "Girmiş olduğun posta koduyla eşleşen bir konum bulamadık. Lütfen kontrol edip tekrar dene.";
+"change_location_zip_placeholder" = "Posta kodu";
 "change_password_confirm_password_field_hint" = "Şifreyi onayla";
 "change_password_new_password_field_hint" = "Yeni şifre";
 "change_password_send_error_generic" = "Şifre değiştirilirken bir hata oluştu. Lütfen tekrar dene.";
@@ -497,7 +502,10 @@
 "product_delete_sold_confirm_message" = "Bu ürünü silmek istediğine emin misin?";
 "product_delete_success_message" = "Ürün silindi.";
 "product_distance_X_from_you" = "senden %@ uzakta";
+"product_distance_custom_location" = "Özel konum";
+"product_distance_more_than" = "%@'den daha uzakta";
 "product_distance_more_than_from_you" = "Senden %@'den daha uzakta";
+"product_distance_near_you" = "Yakın çevrende";
 "product_favorite_direct_message" = "Beğendim! Hala satılık mı?";
 "product_favorite_login_popup_text" = "Bu ürünü favorilerine eklemek için giriş yapmalısın";
 "product_free_price" = "Bedava";
@@ -529,6 +537,7 @@
 "product_mark_as_sold_free_confirm_title" = "Ücretsiz verildi olarak işaretle";
 "product_mark_as_sold_free_success_message" = "Tebrikler! Ürünün başarıyla ücretsiz verildi olarak işaretlendi.";
 "product_mark_as_sold_success_message" = "Tebrikler, ürünün satıldı olarak işaretlendi!";
+"product_menu_rate_buyer" = "Alıcıyı değerlendir";
 "product_more_info_open_button" = "DAHA FAZLA BİLGİ";
 "product_more_info_related_title" = "BU ÜRÜNLER DE İLGİNİ ÇEKEBİLİR:";
 "product_more_info_related_view_more" = "Daha fazla bilgi";
@@ -685,9 +694,14 @@
 "profile_verify_google_title" = "GOOGLE";
 "rate_buyers_message" = "Tebrikler!";
 "rate_buyers_not_on_letgo_button" = "Bu ürünü letgo'da satmadım";
+"rate_buyers_not_on_letgo_title_button" = "Bu ürünü başka bir yerde sattım";
+"rate_buyers_see_less" = "Daha az göster";
+"rate_buyers_see_x_more" = "Daha fazla göster";
 "rate_buyers_sub_message" = "Bu ürünü kime sattın?";
 "rate_buyers_title" = "Bu ürünü kim aldı?";
-"rate_user_negative_didnt_show_up" = "Didn’t show up";
+"rate_buyers_will_do_later_subtitle" = "Alıcıyı daha sonra değerlendir";
+"rate_buyers_will_do_later_title" = "Daha sonra yapacağım";
+"rate_user_negative_didnt_show_up" = "Buluşmaya gelmedi";
 "rate_user_negative_item_not_as_advertised" = "Ürünü ilandaki gibi değildi";
 "rate_user_negative_not_polite" = "Kibar değil";
 "rate_user_negative_not_trustworthy" = "Güvenilmez";
@@ -849,6 +863,8 @@
 "tour_page_1_body" = "Bulunduğun çevrede hızlı ve güvenli bir şekilde al ve sat.";
 "trending_searches_Title" = "Popüler Aramalar";
 "unblock_user_error_generic" = "Kullanıcı engeli kaldırılırken bir hata oluştu.";
+"user_rating_add_comment_button" = "Yorum ekle";
+"user_rating_message_more" = "Paylaştığın için teşekkürler! Deneyiminle ilgili detay eklemek ister misin?";
 "user_rating_message_w_name" = "%@ ile deneyimin nasıldı? 5 yıldız vermek ister misin?";
 "user_rating_message_wo_name" = "Bu kullanıcı ile deneyimin nasıldı? 5 yıldız vermek ister misin?";
 "user_rating_review_button" = "Değerlendirmeyi Yayınla";
@@ -857,8 +873,10 @@
 "user_rating_review_placeholder_mandatory" = "Deneyimin hakkında yorum yap (zorunlu)";
 "user_rating_review_placeholder_optional" = "Deneyimin hakkında yorum yap (isteğe bağlı)";
 "user_rating_review_send_success" = "Değerlendirmen yayınlandı!";
+"user_rating_select_a_tag" = "En az bir tane seç:";
 "user_rating_skip_button" = "Geç";
 "user_rating_title" = "Bu kullanıcı ile deneyimini değerlendir";
+"user_rating_update_comment_button" = "Yorumu güncelle";
 "user_share_error" = "Profil paylaşılırken bir hata oluştu. Lütfen tekrar dene.";
 "user_share_message_mine" = "letgo'da sattığım şeylere bir bak!";
 "user_share_message_other" = "Bu kullanıcının letgo'da sattıklarına bir bak!";

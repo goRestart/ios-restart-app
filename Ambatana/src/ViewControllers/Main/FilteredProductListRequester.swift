@@ -68,7 +68,7 @@ class FilteredProductListRequester: ProductListRequester {
             if let value = result.value {
                 self?.offset += value.count
             }
-            completion?(ListingsRequesterResult(listingsResult: result, context: self?.requesterTitle))
+            completion?(ListingsRequesterResult(listingsResult: result, context: nil))
         }
     }
     

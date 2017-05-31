@@ -53,6 +53,7 @@
 "categories_inFeed_others" = "Otro";
 "categories_inFeed_sports_leisure_games" = "Tiempo libre";
 "categories_movies_books_and_music" = "Películas, Libros y Música";
+"categories_old_cars_and_motors" = "Coches y Motos";
 "categories_other" = "Otros";
 "categories_sports_leisure_and_games" = "Deporte, Ocio y Juegos";
 "categories_title" = "Categorías";
@@ -74,6 +75,10 @@
 "change_location_recommend_update_location_message" = "¡Te recomendamos actualizar tu ubicación para ver las mejores ofertas cerca de ti!";
 "change_location_search_field_hint" = "Introducir ciudad o código postal";
 "change_location_title" = "Cambiar ubicación";
+"change_location_zip_current_location_button" = "Ubicación actual";
+"change_location_zip_min_digits_label" = "Debe contener 5 dígitos";
+"change_location_zip_not_found_error_message" = "No hemos podido encontrar una ubicación para el código postal que has introducido. Revísalo y vuelve a intentarlo.";
+"change_location_zip_placeholder" = "Código postal";
 "change_password_confirm_password_field_hint" = "Confirma tu contraseña";
 "change_password_new_password_field_hint" = "Nueva contraseña";
 "change_password_send_error_generic" = "Se ha producido un error al cambiar la contraseña. Por favor, inténtalo de nuevo.";
@@ -497,7 +502,10 @@
 "product_delete_sold_confirm_message" = "¿Seguro que quieres eliminar este artículo?";
 "product_delete_success_message" = "El artículo ha sido eliminado.";
 "product_distance_X_from_you" = "%@ de ti";
+"product_distance_custom_location" = "Ubicación personalizada";
+"product_distance_more_than" = "Más de %@";
 "product_distance_more_than_from_you" = "A más de %@ de ti";
+"product_distance_near_you" = "Cerca de ti";
 "product_favorite_direct_message" = "¡Me gusta! ¿Todavía está disponible?";
 "product_favorite_login_popup_text" = "Para marcar este artículo como favorito, tienes que iniciar sesión";
 "product_free_price" = "Gratis";
@@ -529,6 +537,7 @@
 "product_mark_as_sold_free_confirm_title" = "Marcar como regalado";
 "product_mark_as_sold_free_success_message" = "¡Enhorabuena! Tu artículo ha sido marcado como regalado.";
 "product_mark_as_sold_success_message" = "¡Enhorabuena, tu producto ha sido marcado como vendido!";
+"product_menu_rate_buyer" = "Valorar comprador";
 "product_more_info_open_button" = "MÁS INFO";
 "product_more_info_related_title" = "TAMBIÉN TE PODRÍA INTERESAR:";
 "product_more_info_related_view_more" = "Ver más";
@@ -685,9 +694,14 @@
 "profile_verify_google_title" = "GOOGLE";
 "rate_buyers_message" = "¡Enhorabuena!";
 "rate_buyers_not_on_letgo_button" = "No lo he vendido en letgo";
+"rate_buyers_not_on_letgo_title_button" = "Lo he vendido en otro lugar";
+"rate_buyers_see_less" = "Ver menos";
+"rate_buyers_see_x_more" = "Ver más";
 "rate_buyers_sub_message" = "¿A quién se lo has vendido?";
 "rate_buyers_title" = "¿Quién lo ha comprado?";
-"rate_user_negative_didnt_show_up" = "Didn’t show up";
+"rate_buyers_will_do_later_subtitle" = "Valorar al comprador más tarde";
+"rate_buyers_will_do_later_title" = "Lo haré más tarde";
+"rate_user_negative_didnt_show_up" = "No vino a la cita";
 "rate_user_negative_item_not_as_advertised" = "Artículo defectuoso";
 "rate_user_negative_not_polite" = "No fue amable";
 "rate_user_negative_not_trustworthy" = "No digno de confianza";
@@ -849,6 +863,8 @@
 "tour_page_1_body" = "Compra y vende rápidamente y con seguridad, cerca de ti.";
 "trending_searches_Title" = "Tendencias de búsqueda";
 "unblock_user_error_generic" = "Se ha producido un error al desbloquear a este usuario.";
+"user_rating_add_comment_button" = "Añadir comentario";
+"user_rating_message_more" = "¡Gracias! ¿Quieres contarnos algo más sobre tu experiencia?";
 "user_rating_message_w_name" = "¿Le darías cinco estrellas a tu experiencia con %@? Cuéntanos como ha ido.";
 "user_rating_message_wo_name" = "¿Le darías cinco estrellas a tu experiencia con este usuario? Cuéntanos como ha ido.";
 "user_rating_review_button" = "Publicar valoración";
@@ -857,8 +873,10 @@
 "user_rating_review_placeholder_mandatory" = "Comenta tu experiencia (requerido)";
 "user_rating_review_placeholder_optional" = "Comenta tu experiencia (opcional)";
 "user_rating_review_send_success" = "¡Tu valoración se ha publicado!";
+"user_rating_select_a_tag" = "Selecciona al menos una:";
 "user_rating_skip_button" = "Saltar";
 "user_rating_title" = "Valora tu experiencia con";
+"user_rating_update_comment_button" = "Actualizar comentario";
 "user_share_error" = "Se ha producido un error al compartir el perfil. Por favor, inténtalo de nuevo.";
 "user_share_message_mine" = "¡Mira todo lo que vendo en letgo!";
 "user_share_message_other" = "¡Mira todo lo que tiene este vendedor en letgo!";

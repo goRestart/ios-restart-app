@@ -726,6 +726,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                         myUser.objectId = product.user.objectId
                         myUser.name = String.makeRandom()
                         myUserRepository.myUserVar.value = myUser
+                        listingRepository.transactionsResult = ListingTransactionsResult(value: [])
                     }
                     context("pending") {
                         beforeEach {

@@ -34,6 +34,10 @@
 		2E28B12B1D9912B2001BF8E4 /* Double+Rounding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E28B12A1D9912B2001BF8E4 /* Double+Rounding.swift */; };
 		2E28B12C1D99132D001BF8E4 /* Double+Rounding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E28B12A1D9912B2001BF8E4 /* Double+Rounding.swift */; };
 		2E28B12D1D991330001BF8E4 /* CGFloat+rounding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E28B1281D99129D001BF8E4 /* CGFloat+rounding.swift */; };
+		2E2935BA1ED47E2400B2E359 /* LocationFromZipCodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2935B91ED47E2400B2E359 /* LocationFromZipCodeViewModel.swift */; };
+		2E2935BB1ED47E2400B2E359 /* LocationFromZipCodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2935B91ED47E2400B2E359 /* LocationFromZipCodeViewModel.swift */; };
+		2E2935BD1ED47E3800B2E359 /* LocationFromZipCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2935BC1ED47E3800B2E359 /* LocationFromZipCodeViewController.swift */; };
+		2E2935BE1ED47E3800B2E359 /* LocationFromZipCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2935BC1ED47E3800B2E359 /* LocationFromZipCodeViewController.swift */; };
 		2E2A5E121D5C784B0047ED45 /* ExpressChatCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2A5E111D5C784B0047ED45 /* ExpressChatCoordinator.swift */; };
 		2E2A5E141D5C78600047ED45 /* ExpressChatNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2A5E131D5C78600047ED45 /* ExpressChatNavigator.swift */; };
 		2E2A5E151D5C81200047ED45 /* ExpressChatNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2A5E131D5C78600047ED45 /* ExpressChatNavigator.swift */; };
@@ -693,6 +697,7 @@
 		72EB705D1E65C44E00BF709B /* ModularNotificationCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72EB705B1E65C44E00BF709B /* ModularNotificationCellDrawer.swift */; };
 		72EB705F1E65C63900BF709B /* ModularNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72EB705E1E65C63900BF709B /* ModularNotificationCell.swift */; };
 		72EB70601E65C63900BF709B /* ModularNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72EB705E1E65C63900BF709B /* ModularNotificationCell.swift */; };
+		72FE68B31ED6BDF8003F5E71 /* RateBuyersViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FE68B21ED6BDF8003F5E71 /* RateBuyersViewModelSpec.swift */; };
 		7EA1474D1E12769500C3F462 /* LGLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA1474C1E12769500C3F462 /* LGLayout.swift */; };
 		7EA1474E1E12769500C3F462 /* LGLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA1474C1E12769500C3F462 /* LGLayout.swift */; };
 		8E0C9DF41E96924F00768D27 /* PostCategoryDetailProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0C9DF31E96924F00768D27 /* PostCategoryDetailProgressView.swift */; };
@@ -1475,6 +1480,8 @@
 		2E2208EA1DD4C0F300FB2483 /* EmptyCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EmptyCell.xib; sourceTree = "<group>"; };
 		2E28B1281D99129D001BF8E4 /* CGFloat+rounding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGFloat+rounding.swift"; sourceTree = "<group>"; };
 		2E28B12A1D9912B2001BF8E4 /* Double+Rounding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Double+Rounding.swift"; sourceTree = "<group>"; };
+		2E2935B91ED47E2400B2E359 /* LocationFromZipCodeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationFromZipCodeViewModel.swift; sourceTree = "<group>"; };
+		2E2935BC1ED47E3800B2E359 /* LocationFromZipCodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationFromZipCodeViewController.swift; sourceTree = "<group>"; };
 		2E2A5E111D5C784B0047ED45 /* ExpressChatCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpressChatCoordinator.swift; sourceTree = "<group>"; };
 		2E2A5E131D5C78600047ED45 /* ExpressChatNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpressChatNavigator.swift; sourceTree = "<group>"; };
 		2E2AB8271C04A2EF0007B8EB /* CrashlyticsTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashlyticsTracker.swift; sourceTree = "<group>"; };
@@ -1902,6 +1909,7 @@
 		72E8A5891EB34D93000524E6 /* CategoriesHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CategoriesHeaderCell.swift; path = Ambatana/src/ViewControllers/Main/CategoriesHeader/CategoriesHeaderCell.swift; sourceTree = SOURCE_ROOT; };
 		72EB705B1E65C44E00BF709B /* ModularNotificationCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModularNotificationCellDrawer.swift; sourceTree = "<group>"; };
 		72EB705E1E65C63900BF709B /* ModularNotificationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModularNotificationCell.swift; sourceTree = "<group>"; };
+		72FE68B21ED6BDF8003F5E71 /* RateBuyersViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateBuyersViewModelSpec.swift; sourceTree = "<group>"; };
 		7B2FD4C296937E707B24D7EB /* Pods-LetGoGodMode.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.release.xcconfig"; sourceTree = "<group>"; };
 		7EA1474C1E12769500C3F462 /* LGLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGLayout.swift; sourceTree = "<group>"; };
 		7ED714BB7ABD1804F5E818D4 /* Pods-LetGo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.release.xcconfig"; sourceTree = "<group>"; };
@@ -3292,6 +3300,7 @@
 			isa = PBXGroup;
 			children = (
 				50D08D961E69AF14009CC260 /* BaseChatGroupedListViewModelSpec.swift */,
+				72FE68B21ED6BDF8003F5E71 /* RateBuyersViewModelSpec.swift */,
 				50D08D971E69AF14009CC260 /* BaseViewModelSpec.swift */,
 				50D08D981E69AF14009CC260 /* ChangeEmailViewModelSpec.swift */,
 				729A7F061E979106003B34A5 /* OldChatViewModelSpec.swift */,
@@ -3634,6 +3643,8 @@
 				C703BDFB1C7F1AF900EC8EF2 /* EditLocationViewController.swift */,
 				C703BDFC1C7F1AF900EC8EF2 /* EditLocationViewController.xib */,
 				C703BDFD1C7F1AF900EC8EF2 /* EditLocationViewModel.swift */,
+				2E2935B91ED47E2400B2E359 /* LocationFromZipCodeViewModel.swift */,
+				2E2935BC1ED47E3800B2E359 /* LocationFromZipCodeViewController.swift */,
 			);
 			path = Location;
 			sourceTree = "<group>";
@@ -5148,6 +5159,7 @@
 				C765EE471E7FE58200063750 /* MockDeepLinksRouter.swift in Sources */,
 				50D08DDF1E69AF14009CC260 /* MainProductsViewModelSpec.swift in Sources */,
 				50D08DDA1E69AF14009CC260 /* BaseChatGroupedListViewModelSpec.swift in Sources */,
+				72FE68B31ED6BDF8003F5E71 /* RateBuyersViewModelSpec.swift in Sources */,
 				721A83141E82B52C00507E47 /* MockMediaPermissions.swift in Sources */,
 				50D08DDC1E69AF14009CC260 /* ChangeEmailViewModelSpec.swift in Sources */,
 				50D08DC61E69AF14009CC260 /* ShowFeaturedStripeHelperSpec.swift in Sources */,
@@ -5331,6 +5343,7 @@
 				C727FBBE1CCFC4ED002BC643 /* NotificationsViewController.swift in Sources */,
 				6A5E1A041D548F5400F92692 /* TypeAliases.swift in Sources */,
 				50E557BE1E421CF500327B6A /* LoginNavigator.swift in Sources */,
+				2E2935BA1ED47E2400B2E359 /* LocationFromZipCodeViewModel.swift in Sources */,
 				C74931731D351E8300E117F1 /* RateUserViewModel.swift in Sources */,
 				C783D9891C64C15B000EE5CA /* ReportUserCell.swift in Sources */,
 				50C9E4BD1B721F6B001E4E92 /* TrackerProxy.swift in Sources */,
@@ -5703,6 +5716,7 @@
 				C707D4521E9B7CA100042C03 /* SendMessageTrackingInfo.swift in Sources */,
 				50146BDF1D4F910000B0F635 /* NotificationsTabNavigator.swift in Sources */,
 				5076228C1CD0EB1D004E5D0D /* Coordinator.swift in Sources */,
+				2E2935BD1ED47E3800B2E359 /* LocationFromZipCodeViewController.swift in Sources */,
 				C7F18A941C89CB3300D23319 /* PostProductGalleryView.swift in Sources */,
 				C7DE8ABA1C888750005CF37E /* ProductPostedViewController.swift in Sources */,
 				501340411E0D35A100AD27CA /* ProductSuggestedNotificationCellDrawer.swift in Sources */,
@@ -5856,6 +5870,7 @@
 				C7732F761D8842B800EAD5B7 /* OnboardingNavigator.swift in Sources */,
 				C7DB41AA1C5138B500400945 /* MainProductsViewModel.swift in Sources */,
 				50E557BF1E421CF500327B6A /* LoginNavigator.swift in Sources */,
+				2E2935BB1ED47E2400B2E359 /* LocationFromZipCodeViewModel.swift in Sources */,
 				6A5E1A051D548F5400F92692 /* TypeAliases.swift in Sources */,
 				C727FBBF1CCFC4ED002BC643 /* NotificationsViewController.swift in Sources */,
 				C74931741D351E8300E117F1 /* RateUserViewModel.swift in Sources */,
@@ -6228,6 +6243,7 @@
 				C707D4531E9B7CA200042C03 /* SendMessageTrackingInfo.swift in Sources */,
 				C7B5885C1CE1DE1C009B3975 /* OldChatViewController.swift in Sources */,
 				50146BE01D4F910000B0F635 /* NotificationsTabNavigator.swift in Sources */,
+				2E2935BE1ED47E3800B2E359 /* LocationFromZipCodeViewController.swift in Sources */,
 				5076228D1CD0EB1D004E5D0D /* Coordinator.swift in Sources */,
 				C7F18A951C89CB3300D23319 /* PostProductGalleryView.swift in Sources */,
 				C7DE8ABB1C888750005CF37E /* ProductPostedViewController.swift in Sources */,
