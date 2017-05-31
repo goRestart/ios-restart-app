@@ -122,7 +122,7 @@ class LocationFromZipCodeViewModel: BaseViewModel {
 
     func setNewLocation() {
         guard let place = newPlace else { return }
-        locationDelegate?.editLocationDidSelectPlace(place)
+        locationDelegate?.editLocationDidSelectPlace(place, distanceRadius: nil)
     }
 
     func clearTextField() {

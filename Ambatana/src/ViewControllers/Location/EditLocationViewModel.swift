@@ -138,9 +138,7 @@ class EditLocationViewModel: BaseViewModel {
     }
 
     var shouldShowDistanceSlider: Bool {
-        // TODO: ⚠️⚠️⚠️ use Location A/B test ⚠️⚠️⚠️
-        // if edit location from filter!!
-        return true
+        return mode == .editFilterLocation && featureFlags.editLocationBubble == .map
     }
     
     var placeCount: Int {

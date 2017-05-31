@@ -952,7 +952,7 @@ fileprivate extension MainProductsViewModel {
 
 
 extension MainProductsViewModel: EditLocationDelegate {
-    func editLocationDidSelectPlace(_ place: Place) {
+    func editLocationDidSelectPlace(_ place: Place, distanceRadius: Int?) {
         filters.place = place
         updateListView()
     }
