@@ -143,7 +143,7 @@ class RateUserViewModelSpec: BaseViewModelSpec {
                     }
                     
                     it("isLoading emits: false, true, false") {
-                         XCTAssertEqual(isLoadingObserver.events, [next(0, false), next(0, true), next(0, false)])
+                         expect(isLoadingObserver.eventValues) == [false, true, false]
                     }
                 }
                 
@@ -167,19 +167,19 @@ class RateUserViewModelSpec: BaseViewModelSpec {
                         }
                         
                         it("isLoading emits: false, true, false") {
-                            XCTAssertEqual(isLoadingObserver.events, [next(0, false), next(0, true), next(0, false)])
+                            expect(isLoadingObserver.eventValues) == [false, true, false]
                         }
                         it("sendEnabled emits: true, false, true") {
-                            XCTAssertEqual(isLoadingObserver.events, [next(0, false), next(0, true), next(0, false)])
+                            expect(isLoadingObserver.eventValues) == [false, true, false]
                         }
-                        it("rating emits: nil, number") {
-                            XCTAssertEqual(ratingObserver.events, [next(0, nil), next(0, userRating.value)])
+                        it("rating emits: number") {
+                            expect(ratingObserver.eventValues.flatMap { $0 }) == [userRating.value]
                         }
                         it("calls delegate to update description") {
                             expect(self.delegateReceivedUpdateDescriptionLastValue) == "Comment"
                         }
-                        it("description emits: nil, string") {
-                            XCTAssertEqual(descriptionObserver.events, [next(0, nil), next(0, "Comment")])
+                        it("description emits: string") {
+                            expect(descriptionObserver.eventValues.flatMap { $0 }) == ["Comment"]
                         }
                         it("calls delegate to update tags") {
                             expect(self.delegateReceivedUpdateTags) == true
@@ -202,19 +202,19 @@ class RateUserViewModelSpec: BaseViewModelSpec {
                         }
                         
                         it("isLoading emits: false, true, false") {
-                            XCTAssertEqual(isLoadingObserver.events, [next(0, false), next(0, true), next(0, false)])
+                            expect(isLoadingObserver.eventValues) == [false, true, false]
                         }
                         it("sendEnabled emits: true, false, true") {
-                            XCTAssertEqual(isLoadingObserver.events, [next(0, false), next(0, true), next(0, false)])
+                            expect(isLoadingObserver.eventValues) == [false, true, false]
                         }
-                        it("rating emits: nil, number") {
-                            XCTAssertEqual(ratingObserver.events, [next(0, nil), next(0, userRating.value)])
+                        it("rating emits: number") {
+                            expect(ratingObserver.eventValues.flatMap { $0 }) == [userRating.value]
                         }
                         it("calls delegate to update description") {
                             expect(self.delegateReceivedUpdateDescriptionLastValue) == userRating.comment
                         }
-                        it("description emits: nil, string") {
-                            XCTAssertEqual(descriptionObserver.events, [next(0, nil), next(0, userRating.comment)])
+                        it("description emits: string") {
+                            expect(descriptionObserver.eventValues.flatMap { $0 }) == [userRating.comment!]
                         }
                         it("calls delegate to update tags") {
                             expect(self.delegateReceivedUpdateTags) == true
@@ -237,19 +237,19 @@ class RateUserViewModelSpec: BaseViewModelSpec {
                     }
                     
                     it("isLoading emits: false, true, false") {
-                        XCTAssertEqual(isLoadingObserver.events, [next(0, false), next(0, true), next(0, false)])
+                        expect(isLoadingObserver.eventValues) == [false, true, false]
                     }
                     it("sendEnabled emits: true, false, true") {
-                        XCTAssertEqual(isLoadingObserver.events, [next(0, false), next(0, true), next(0, false)])
+                        expect(isLoadingObserver.eventValues) == [false, true, false]
                     }
                     it("rating emits: nil") {
-                        XCTAssertEqual(ratingObserver.events, [next(0, nil)])
+                        expect(ratingObserver.eventValues.flatMap { $0 }) == []
                     }
                     it("does not call delegate to update description") {
                         expect(self.delegateReceivedUpdateDescriptionLastValue).to(beNil())
                     }
                     it("description emits: nil") {
-                        XCTAssertEqual(descriptionObserver.events, [next(0, nil)])
+                        expect(descriptionObserver.eventValues.flatMap { $0 }) == []
                     }
                     it("calls delegate to update tags") {
                         expect(self.delegateReceivedUpdateTags) == false
@@ -270,7 +270,7 @@ class RateUserViewModelSpec: BaseViewModelSpec {
                 }
                 
                 it("does not load again") {
-                    XCTAssertEqual(isLoadingObserver.events, [next(0, false)])
+                    expect(isLoadingObserver.eventValues) == [false]
                 }
             }
             
@@ -300,16 +300,16 @@ class RateUserViewModelSpec: BaseViewModelSpec {
                         sut.ratingStarPressed(1)
                     }
                     
-                    it("rating emits: nil, 1") {
-                        XCTAssertEqual(ratingObserver.events, [next(0, nil), next(0, 1)])
+                    it("rating emits: 1") {
+                        expect(ratingObserver.eventValues.flatMap { $0 }) == [1]
                     }
                     
                     it("state emits: .review(positive: true), .review(positive: false)") {
-                        XCTAssertEqual(stateObserver.events, [next(0, .review(positive: true)), next(0, .review(positive: false))])
+                        expect(stateObserver.eventValues) == [.review(positive: true), .review(positive: false)]
                     }
                     
                     it("sendEnabled emits: false, false") {
-                        XCTAssertEqual(sendEnabledObserver.events, [next(0, false), next(0, false)])
+                        expect(sendEnabledObserver.eventValues) == [false, false]
                     }
                 }
                 
@@ -318,16 +318,16 @@ class RateUserViewModelSpec: BaseViewModelSpec {
                         sut.ratingStarPressed(5)
                     }
                     
-                    it("rating emits: nil, 5") {
-                        XCTAssertEqual(ratingObserver.events, [next(0, nil), next(0, 5)])
+                    it("rating emits: 5") {
+                        expect(ratingObserver.eventValues.flatMap { $0 }) == [5]
                     }
                     
                     it("state emits: .review(positive: true)") {
-                        XCTAssertEqual(stateObserver.events, [next(0, .review(positive: true))])
+                        expect(stateObserver.eventValues) == [ .review(positive: true)]
                     }
                     
                     it("does not enable send button") {
-                        XCTAssertEqual(sendEnabledObserver.events, [next(0, false)])
+                        expect(sendEnabledObserver.eventValues) == [false]
                     }
                 }
                 
@@ -348,7 +348,7 @@ class RateUserViewModelSpec: BaseViewModelSpec {
             context("review state") {
                 context("rating not selected and tags not selected") {
                     it("does not enable send button") {
-                        XCTAssertEqual(sendEnabledObserver.events, [next(0, false)])
+                        expect(sendEnabledObserver.eventValues) == [false]
                     }
                 }
                 
@@ -358,7 +358,7 @@ class RateUserViewModelSpec: BaseViewModelSpec {
                     }
                     
                     it("does not enable send button") {
-                        XCTAssertEqual(sendEnabledObserver.events, [next(0, false)])
+                        expect(sendEnabledObserver.eventValues) == [false]
                     }
                 }
                 
@@ -368,7 +368,7 @@ class RateUserViewModelSpec: BaseViewModelSpec {
                     }
                     
                     it("does not enable send button") {
-                        XCTAssertEqual(sendEnabledObserver.events, [next(0, false), next(0, false)])
+                        expect(sendEnabledObserver.eventValues) == [false, false]
                     }
                 }
                 
@@ -379,7 +379,7 @@ class RateUserViewModelSpec: BaseViewModelSpec {
                     }
                     
                     it("enables send button") {
-                        XCTAssertEqual(sendEnabledObserver.events, [next(0, false), next(0, true)])
+                        expect(sendEnabledObserver.eventValues) == [false, true]
                     }
                     
                     describe("sendButtonPressed") {
@@ -394,7 +394,7 @@ class RateUserViewModelSpec: BaseViewModelSpec {
                             }
 
                             it("sets the state to comment mode") {
-                                XCTAssertEqual(stateObserver.events, [next(0, .review(positive: true)), next(0, .comment)])
+                                expect(stateObserver.eventValues) == [.review(positive: true), .comment]
                             }
                             
                             it("tracks a userRatingComplete event") {
