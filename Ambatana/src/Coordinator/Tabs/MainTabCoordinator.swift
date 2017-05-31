@@ -67,12 +67,13 @@ extension MainTabCoordinator: MainTabNavigator {
         navigationController.present(navVC, animated: true, completion: nil)
     }
 
-    func openLocationSelection(locationDelegate: EditLocationDelegate) {
-        // TODO: Check ABTest
-        let zipLocationVM = LocationFromZipCodeViewModel()
-        zipLocationVM.locationDelegate = locationDelegate
-        let zipLocationVC = LocationFromZipCodeViewController(viewModel: zipLocationVM)
-        navigationController.present(zipLocationVC, animated: true, completion: nil)
+    func openLocationSelection(initialPlace: Place?, locationDelegate: EditLocationDelegate) {
+        guard let editLocationFiltersCoord = EditLocationFiltersCoordinator(initialPlace: initialPlace,
+                                                                            locationDelegate: locationDelegate) else { return }
+        openChild(coordinator: editLocationFiltersCoord,
+                  parent: rootViewController,
+                  animated: true,
+                  forceCloseChild: true,
+                  completion: nil)
     }
-
 }

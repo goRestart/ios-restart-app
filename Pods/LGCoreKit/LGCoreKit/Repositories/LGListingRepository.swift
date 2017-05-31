@@ -445,7 +445,7 @@ final class LGListingRepository: ListingRepository {
     }
 
 
-    // MARK: - Possible buyers
+    // MARK: - Possible buyers & transactions
 
     func possibleBuyersOf(listingId: String, completion: ListingBuyersCompletion?) {
         guard let _ = myUserRepository.myUser?.objectId else {
@@ -453,6 +453,18 @@ final class LGListingRepository: ListingRepository {
             return
         }
         dataSource.possibleBuyersOf(listingId: listingId) { result in
+            handleApiResult(result, completion: completion)
+        }
+    }
+    
+    func retrieveTransactionsOf(listingId: String, completion: ListingTransactionsCompletion?) {
+        dataSource.retrieveTransactionsOf(listingId: listingId) { result in
+            handleApiResult(result, completion: completion)
+        }
+    }
+    
+    func createTransactionOf(createTransactionParams: CreateTransactionParams, completion: ListingTransactionCompletion?) {
+        dataSource.createTransactionOf(createTransactionParams: createTransactionParams) { result in
             handleApiResult(result, completion: completion)
         }
     }
