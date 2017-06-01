@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import RxSwift
 
-class LocationFromZipCodeViewController: KeyboardViewController {
+class LocationFromZipCodeViewController: KeyboardViewController, LocationFromZipCodeViewModelDelegate {
 
     static let fullAddressIconSize: CGFloat = 18
 
@@ -41,9 +41,11 @@ class LocationFromZipCodeViewController: KeyboardViewController {
     init(viewModel: LocationFromZipCodeViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
+        self.viewModel.delegate = self
         setupUI()
         setupLayout()
         setupRx()
+        setupAccessibilityIds()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -198,19 +200,25 @@ fileprivate extension LocationFromZipCodeViewController {
     }
 
     dynamic func closeButtonPressed() {
-        // TODO: use navigator
-        dismiss(animated: true, completion: nil)
+        viewModel.close()
     }
 
     dynamic func currentLocationButtonPressed() {
-        viewModel.clearTextField()
         viewModel.updateAddressFromCurrentLocation()
     }
 
     dynamic func setLocationPressed() {
         viewModel.setNewLocation()
-        // TODO: use navigator
-        dismiss(animated: true, completion: nil)
+    }
+
+    func setupAccessibilityIds() {
+        closeButton.accessibilityId = AccessibilityId.editLocationFromZipCloseButton
+        titleLabel.accessibilityId = AccessibilityId.editLocationFromZipTitleLabel
+        currentLocationButton.accessibilityId = AccessibilityId.editLocationFromZipCurrentLocationButton
+        zipCodeTextField.accessibilityId = AccessibilityId.editLocationFromZipTextField
+        minDigitsLabel.accessibilityId = AccessibilityId.editLocationFromZipMinDigitsLabel
+        addressLabel.accessibilityId = AccessibilityId.editLocationFromZipFullAddressLabel
+        setLocationButton.accessibilityId = AccessibilityId.editLocationFromZipSetLocationButton
     }
 }
 

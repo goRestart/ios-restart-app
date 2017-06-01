@@ -53,6 +53,17 @@ class MainProductsViewModel: BaseViewModel {
         }
     }
 
+    var defaultBubbleText: String {
+        switch featureFlags.editLocationBubble {
+        case .inactive:
+            return LGLocalizedString.productPopularNearYou
+        case .zipCode, .map:
+            let distance = filters.distanceRadius ?? Constants.productListMaxDistanceLabel
+            let type = filters.distanceType
+            return bubbleTextGenerator.bubbleInfoText(forDistance: distance, type: type, distanceRadius: filters.distanceRadius, place: filters.place)
+        }
+    }
+
     let infoBubbleVisible = Variable<Bool>(false)
     let infoBubbleText = Variable<String>(LGLocalizedString.productPopularNearYou)
     let errorMessage = Variable<String?>(nil)
@@ -69,9 +80,19 @@ class MainProductsViewModel: BaseViewModel {
                 resultTags.removeLast()
             }
         }
-        if let place = filters.place {
-            resultTags.append(.location(place))
+
+        switch featureFlags.editLocationBubble {
+        case .inactive:
+            if let place = filters.place {
+                resultTags.append(.location(place))
+            }
+            if let distance = filters.distanceRadius {
+                resultTags.append(.distance(distance: distance))
+            }
+        case .map, .zipCode:
+            break
         }
+
         if filters.selectedWithin != ListingTimeCriteria.defaultOption {
             resultTags.append(.within(filters.selectedWithin))
         }
@@ -90,10 +111,6 @@ class MainProductsViewModel: BaseViewModel {
                 }
                 resultTags.append(.priceRange(from: filters.priceRange.min, to: filters.priceRange.max, currency: currency))
             }
-        }
-        
-        if let distance = filters.distanceRadius {
-            resultTags.append(.distance(distance: distance))
         }
 
         if filters.selectedCategories.contains(.cars) {
@@ -134,6 +151,7 @@ class MainProductsViewModel: BaseViewModel {
     fileprivate let listingRepository: ListingRepository
     fileprivate let locationManager: LocationManager
     fileprivate let currencyHelper: CurrencyHelper
+    fileprivate let bubbleTextGenerator: DistanceBubbleTextGenerator
 
     fileprivate let tracker: Tracker
     fileprivate let searchType: SearchType? // The initial search
@@ -186,7 +204,8 @@ class MainProductsViewModel: BaseViewModel {
     
     init(sessionManager: SessionManager, myUserRepository: MyUserRepository, trendingSearchesRepository: TrendingSearchesRepository,
          listingRepository: ListingRepository, locationManager: LocationManager, currencyHelper: CurrencyHelper, tracker: Tracker,
-         searchType: SearchType? = nil, filters: ProductFilters, keyValueStorage: KeyValueStorageable, featureFlags: FeatureFlaggeable) {
+         searchType: SearchType? = nil, filters: ProductFilters, keyValueStorage: KeyValueStorageable, featureFlags: FeatureFlaggeable,
+         bubbleTextGenerator: DistanceBubbleTextGenerator) {
         
         self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
@@ -200,6 +219,7 @@ class MainProductsViewModel: BaseViewModel {
         self.queryString = searchType?.query
         self.keyValueStorage = keyValueStorage
         self.featureFlags = featureFlags
+        self.bubbleTextGenerator = bubbleTextGenerator
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         let columns = show3Columns ? 3 : 2
         let itemsPerPage = show3Columns ? Constants.numProductsPerPageBig : Constants.numProductsPerPageDefault
@@ -230,9 +250,11 @@ class MainProductsViewModel: BaseViewModel {
         let tracker = TrackerProxy.sharedInstance
         let keyValueStorage = KeyValueStorage.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
+        let bubbleTextGenerator = DistanceBubbleTextGenerator()
         self.init(sessionManager: sessionManager,myUserRepository: myUserRepository, trendingSearchesRepository: trendingSearchesRepository,
                   listingRepository: listingRepository, locationManager: locationManager, currencyHelper: currencyHelper, tracker: tracker,
-                  searchType: searchType, filters: filters, keyValueStorage: keyValueStorage, featureFlags: featureFlags)
+                  searchType: searchType, filters: filters, keyValueStorage: keyValueStorage, featureFlags: featureFlags,
+                  bubbleTextGenerator: bubbleTextGenerator)
     }
     
     convenience init(searchType: SearchType? = nil, tabNavigator: TabNavigator?) {
@@ -328,7 +350,14 @@ class MainProductsViewModel: BaseViewModel {
             }
         }
 
-        filters.place = place
+        switch featureFlags.editLocationBubble {
+        case .inactive:
+            filters.place = place
+            filters.distanceRadius = distance
+        case .map, .zipCode:
+            break
+        }
+
         filters.selectedCategories = categories.flatMap{ filterCategoryItem in
             switch filterCategoryItem {
             case .free:
@@ -344,8 +373,6 @@ class MainProductsViewModel: BaseViewModel {
         } else {
             filters.priceRange = .priceRange(min: minPrice, max: maxPrice)
         }
-        
-        filters.distanceRadius = distance
 
         if let makeId = makeId {
             filters.carMakeId = RetrieveListingParam<String>(value: makeId, isNegated: false)
@@ -388,7 +415,11 @@ class MainProductsViewModel: BaseViewModel {
     }
 
     func bubbleTapped() {
-        navigator?.openLocationSelection(locationDelegate: self)
+        let initialPlace = filters.place ?? Place(postalAddress: locationManager.currentLocation?.postalAddress,
+                                                  location: locationManager.currentLocation?.location)
+        navigator?.openLocationSelection(initialPlace: initialPlace, 
+                                         distanceRadius: filters.distanceRadius,
+                                         locationDelegate: self)
     }
 
     
@@ -398,6 +429,7 @@ class MainProductsViewModel: BaseViewModel {
         setupProductList()
         setupSessionAndLocation()
         setupPermissionsNotification()
+        infoBubbleText.value = defaultBubbleText
     }
    
     
@@ -413,7 +445,7 @@ class MainProductsViewModel: BaseViewModel {
     fileprivate func updateListView() {
         
         if filters.selectedOrdering == ListingSortCriteria.defaultOption {
-            infoBubbleText.value = LGLocalizedString.productPopularNearYou
+            infoBubbleText.value = defaultBubbleText
         }
 
         let currentItemsPerPage = productListRequester.itemsPerPage
@@ -429,16 +461,6 @@ class MainProductsViewModel: BaseViewModel {
         errorMessage.value = nil
         listViewModel.resetUI()
         listViewModel.refresh()
-    }
-    
-    fileprivate func bubbleInfoTextForDistance(_ distance: Int, type: DistanceType) -> String {
-        let distanceString = String(format: "%d %@", arguments: [min(Constants.productListMaxDistanceLabel, distance),
-                                                                 type.string])
-        if distance <= Constants.productListMaxDistanceLabel {
-            return LGLocalizedString.productDistanceXFromYou(distanceString)
-        } else {
-            return LGLocalizedString.productDistanceMoreThanFromYou(distanceString)
-        }
     }
 }
 
@@ -496,11 +518,12 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
                 listViewModel.refreshing {
                 bubbleDistance = distance
             }
-            let distanceString = bubbleInfoTextForDistance(max(1,Int(round(bubbleDistance))),
-                                                           type: DistanceType.systemDistanceType())
-            infoBubbleText.value = distanceString
+            infoBubbleText.value = bubbleTextGenerator.bubbleInfoText(forDistance: max(1,Int(round(bubbleDistance))),
+                                                                      type: DistanceType.systemDistanceType(),
+                                                                      distanceRadius: filters.distanceRadius,
+                                                                      place: filters.place)
         case .creation:
-            infoBubbleText.value = LGLocalizedString.productPopularNearYou
+            infoBubbleText.value = defaultBubbleText
         case .priceAsc, .priceDesc:
             break
         }
@@ -777,6 +800,10 @@ extension MainProductsViewModel {
 
 extension MainProductsViewModel {
 
+    var showCategoriesCollectionBanner: Bool {
+        return featureFlags.carsVerticalEnabled && tags.isEmpty
+    }
+
     func pushPermissionsHeaderPressed() {
         openPushPermissionsAlert()
     }
@@ -799,7 +826,7 @@ extension MainProductsViewModel {
     
     fileprivate dynamic func updateCategoriesHeader() {
         var currentHeader = mainProductsHeader.value
-        if featureFlags.carsVerticalEnabled && filters.isDefault() {
+        if showCategoriesCollectionBanner {
             currentHeader.insert(MainProductsHeader.CategoriesCollectionBanner)
         } else {
             currentHeader.remove(MainProductsHeader.CategoriesCollectionBanner)
@@ -954,6 +981,7 @@ fileprivate extension MainProductsViewModel {
 extension MainProductsViewModel: EditLocationDelegate {
     func editLocationDidSelectPlace(_ place: Place, distanceRadius: Int?) {
         filters.place = place
+        filters.distanceRadius = distanceRadius
         updateListView()
     }
 }

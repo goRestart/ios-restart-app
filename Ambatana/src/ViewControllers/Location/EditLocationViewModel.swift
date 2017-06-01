@@ -33,6 +33,7 @@ class EditLocationViewModel: BaseViewModel {
    
     weak var delegate: EditLocationViewModelDelegate?
     weak var navigator: EditLocationNavigator?
+    weak var quickLocationFiltersNavigator: QuickLocationFiltersNavigator?
     weak var locationDelegate: EditLocationDelegate?
     
     private let locationManager: LocationManager
@@ -356,9 +357,12 @@ class EditLocationViewModel: BaseViewModel {
     private func closeLocation() {
         if let navigator = navigator {
             navigator.closeEditLocation()
+        } else if let quickLocationFiltersNavigator = quickLocationFiltersNavigator {
+            quickLocationFiltersNavigator.quickLocationFilterDidClose()
         } else {
             delegate?.vmPop()
         }
+        
     }
 
     private func trackVisitIfNeeded() {
