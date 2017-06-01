@@ -473,7 +473,7 @@
 "product_auto_generated_translated_title_label" = "(and translated by Google)";
 "product_bubble_favorite_button" = "Let the seller know!";
 "product_bubble_favorite_text" = "This product has been added to your favorites!";
-"product_chat_direct_error_blocked_user_message" = "Oops! You've blocked this user, so you can't start a chat.";
+"product_chat_direct_error_blocked_user_message" = "Oops! You can't start a chat with this user.";
 "product_chat_direct_message" = "Hi %@, I'm interested";
 "product_chat_direct_message_sending" = "Sending...";
 "product_chat_with_seller_button" = "Chat with the seller";
