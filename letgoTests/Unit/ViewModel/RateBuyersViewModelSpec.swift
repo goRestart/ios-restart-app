@@ -15,21 +15,26 @@ import Nimble
 import LGCoreKit
 
 class RateBuyersViewModelSpec: BaseViewModelSpec {
+    var navigatorReceivedRateBuyerCancel: Bool = false
+    var navigatorReceivedRateBuyerFinished: Bool = false
+    var navigatorReceivedFinishWithOutsideLetgo: Bool = false
     
-    var rateBuyerCancel: Bool! = false
-    var rateBuyerFinished: Bool! = false
-    var finishWithOutsideLetgo: Bool! = false
-    var userId: String?
+    override func resetViewModelSpec() {
+        super.resetViewModelSpec()
+        navigatorReceivedRateBuyerCancel = false
+        navigatorReceivedRateBuyerFinished = false
+        navigatorReceivedFinishWithOutsideLetgo = false
+    }
     
     override func spec() {
-        
         var sut: RateBuyersViewModel!
-        
         var listingRepository: MockListingRepository!
         
         describe("RateBuyersViewModelSpec") {
             
             beforeEach {
+                self.resetViewModelSpec()
+                
                 listingRepository = MockListingRepository()
                 listingRepository.transactionResult = ListingTransactionResult(MockTransaction.makeMock())
                 
@@ -41,55 +46,98 @@ class RateBuyersViewModelSpec: BaseViewModelSpec {
                                           sourceRateBuyers: nil,
                                           listingRepository: listingRepository)
                 sut.navigator = self
+                sut.delegate = self
             }
             
-            context("select sold outside letgo") {
-                beforeEach {
-                    sut.notOnLetgoButtonPressed()
+            describe("select sold outside letgo") {
+                context("transaction succeeds") {
+                    beforeEach {
+                        listingRepository.transactionResult = ListingTransactionResult(value: MockTransaction.makeMock())
+                        sut.notOnLetgoButtonPressed()
+                    }
+                    
+                    it("calls show loading on delegate") {
+                        expect(self.delegateReceivedShowLoading).toEventually(beTrue())
+                    }
+                    it("calls hide loading on delegate") {
+                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                    }
+                    it("calls navigator to finish outside letgo") {
+                        expect(self.navigatorReceivedFinishWithOutsideLetgo).toEventually(beTrue())
+                    }
                 }
                 
-                it("calls navigator to close coordinator") {
-                    expect(self.finishWithOutsideLetgo) == true
+                context("transaction fails") {
+                    beforeEach {
+                        listingRepository.transactionResult = ListingTransactionResult(error: .tooManyRequests)
+                        sut.notOnLetgoButtonPressed()
+                    }
+                    
+                    it("calls show loading on delegate") {
+                        expect(self.delegateReceivedShowLoading).toEventually(beTrue())
+                    }
+                    it("calls hide loading on delegate") {
+                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                    }
                 }
-                it("has  no userId related") {
-                    expect(self.userId).to(beNil())
-                }
-                
             }
-            context("select sold in letgo") {
-                beforeEach {
-                    sut.selectedBuyerAt(index: 0)
+            
+            describe("select sold in letgo") {
+                context("transaction succeeds") {
+                    beforeEach {
+                        listingRepository.transactionResult = ListingTransactionResult(value: MockTransaction.makeMock())
+                        sut.selectedBuyerAt(index: 0)
+                    }
+                    
+                    it("calls show loading on delegate") {
+                        expect(self.delegateReceivedShowLoading).toEventually(beTrue())
+                    }
+                    it("calls hide loading on delegate") {
+                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                    }
+                    it("calls navigator to finish in letgo") {
+                        expect(self.navigatorReceivedRateBuyerFinished).toEventually(beTrue())
+                    }
                 }
                 
-                it("finished rate buyer") {
-                    expect(self.rateBuyerFinished) == true
-                }
-                it("has  no userId related") {
-                    expect(self.userId).toNot(beNil())
+                context("transaction fails") {
+                    beforeEach {
+                        listingRepository.transactionResult = ListingTransactionResult(error: .tooManyRequests)
+                        sut.selectedBuyerAt(index: 0)
+                    }
+                    
+                    it("calls show loading on delegate") {
+                        expect(self.delegateReceivedShowLoading).toEventually(beTrue())
+                    }
+                    it("calls hide loading on delegate") {
+                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                    }
                 }
             }
-            context("select cancel process") {
+            
+            describe("select cancel process") {
                 beforeEach {
                     sut.closeButtonPressed()
                 }
-                it("calls navigator to close coordinator") {
-                    expect(self.rateBuyerCancel) == true
+                
+                it("calls navigator to cancel") {
+                    expect(self.navigatorReceivedRateBuyerCancel) == true
                 }
             }
         }
     }
 }
 
+extension RateBuyersViewModelSpec: RateBuyersViewModelDelegate {}
+
 extension RateBuyersViewModelSpec: RateBuyersNavigator {
     func rateBuyersCancel() {
-        rateBuyerCancel = true
+        navigatorReceivedRateBuyerCancel = true
     }
     func rateBuyersFinish(withUser: UserListing) {
-        rateBuyerFinished = true
-        userId = withUser.objectId
+        navigatorReceivedRateBuyerFinished = true
     }
     func rateBuyersFinishNotOnLetgo() {
-        finishWithOutsideLetgo = true
-        userId = nil
+        navigatorReceivedFinishWithOutsideLetgo = true
     }
 }

@@ -14,18 +14,22 @@ enum VisibilityFormat {
     case full
 }
 
+protocol RateBuyersViewModelDelegate: BaseViewModelDelegate {}
+
 class RateBuyersViewModel: BaseViewModel {
     
     static let itemsOnCompactFormat = 3
 
     weak var navigator: RateBuyersNavigator?
+    weak var delegate: RateBuyersViewModelDelegate?
 
     let possibleBuyers: [UserListing]
     let listingId: String
     let listingRepository: ListingRepository
     let sourceRateBuyers: SourceRateBuyers?
     let visibilityFormat = Variable<VisibilityFormat>(.compact(visibleElements: RateBuyersViewModel.itemsOnCompactFormat))
-
+    
+    
     init(buyers: [UserListing], listingId: String, sourceRateBuyers: SourceRateBuyers?, listingRepository: ListingRepository) {
         self.possibleBuyers = buyers
         self.listingId = listingId
@@ -49,13 +53,47 @@ class RateBuyersViewModel: BaseViewModel {
 
     func selectedBuyerAt(index: Int) {
         guard let buyer = buyerAt(index: index) else { return }
-        createTransaction(listingId: listingId, buyerId: buyer.objectId, soldIn: .letgo)
-        navigator?.rateBuyersFinish(withUser: buyer)
+        let buyerId = buyer.objectId
+        
+        delegate?.vmShowLoading(nil)
+        createTransaction(listingId: listingId, buyerId: buyerId, soldIn: .letgo) { [weak self] result in
+            let message: String?
+            let afterMessageCompletion: (() -> ())?
+            
+            if let _ = result.value {
+                self?.trackMarkAsSoldAtLetgo(buyerId: buyerId)
+                
+                message = nil
+                afterMessageCompletion = {
+                    self?.navigator?.rateBuyersFinish(withUser: buyer)
+                }
+            } else {
+                message = LGLocalizedString.commonError
+                afterMessageCompletion = nil
+            }
+            self?.delegate?.vmHideLoading(message, afterMessageCompletion: afterMessageCompletion)
+        }
     }
 
     func notOnLetgoButtonPressed() {
-        createTransaction(listingId: listingId, buyerId: nil, soldIn: .external)
-        navigator?.rateBuyersFinishNotOnLetgo()
+        delegate?.vmShowLoading(nil)
+        createTransaction(listingId: listingId, buyerId: nil, soldIn: .external) { [weak self] result in
+            let message: String?
+            let afterMessageCompletion: (() -> ())?
+            
+            if let _ = result.value {
+                self?.trackMarkAsSoldOutsideLetgo()
+                
+                message = nil
+                afterMessageCompletion = {
+                    self?.navigator?.rateBuyersFinishNotOnLetgo()
+                }
+            } else {
+                message = LGLocalizedString.commonError
+                afterMessageCompletion = nil
+            }
+            self?.delegate?.vmHideLoading(message, afterMessageCompletion: afterMessageCompletion)
+        }
     }
     
     func showMoreLessPressed() {
@@ -70,9 +108,9 @@ class RateBuyersViewModel: BaseViewModel {
     
     // MARK: - Transactions methods
     
-    func createTransaction(listingId: String, buyerId: String?, soldIn: SoldIn?) {
+    func createTransaction(listingId: String, buyerId: String?, soldIn: SoldIn?, completion: ListingTransactionCompletion?) {
         let createTransactionParams = CreateTransactionParams(listingId: listingId, buyerId: buyerId, soldIn: soldIn)
-        listingRepository.createTransactionOf(createTransactionParams: createTransactionParams, completion: nil)
+        listingRepository.createTransactionOf(createTransactionParams: createTransactionParams, completion: completion)
     }
 
     
