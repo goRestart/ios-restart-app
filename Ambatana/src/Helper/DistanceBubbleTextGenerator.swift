@@ -64,15 +64,15 @@ class DistanceBubbleTextGenerator {
             }
 
             if let customPlace = place {
-                if let city = customPlace.postalAddress?.city {
+                if let city = customPlace.postalAddress?.city, !city.isEmpty {
                     return city + " - " + distanceString
-                } else if let zip = customPlace.postalAddress?.zipCode {
+                } else if let zip = customPlace.postalAddress?.zipCode, !zip.isEmpty {
                     return zip + " - " + distanceString
                 } else {
                     return LGLocalizedString.productDistanceCustomLocation + " - " + distanceString
                 }
             } else {
-                if let realLocationCity = locationManager.currentLocation?.postalAddress?.city {
+                if let realLocationCity = locationManager.currentLocation?.postalAddress?.city, !realLocationCity.isEmpty {
                     return realLocationCity + " - " + distanceString
                 } else {
                     return LGLocalizedString.productDistanceNearYou + " - " + distanceString
