@@ -109,6 +109,7 @@
 		2E4BDE721EDD7E6A00CBDC8C /* DistanceBubbleTextGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4BDE711EDD7E6A00CBDC8C /* DistanceBubbleTextGenerator.swift */; };
 		2E4BDE731EDD7E6A00CBDC8C /* DistanceBubbleTextGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4BDE711EDD7E6A00CBDC8C /* DistanceBubbleTextGenerator.swift */; };
 		2E4BDE751EDDA07700CBDC8C /* DistanceBubbleTextGeneratorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4BDE741EDDA07700CBDC8C /* DistanceBubbleTextGeneratorSpec.swift */; };
+		2E4BDE7F1EDEC7DC00CBDC8C /* LocationFromZipCodeViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4BDE7E1EDEC7DC00CBDC8C /* LocationFromZipCodeViewModelSpec.swift */; };
 		2E4C60A51DDF61B300595490 /* ChatBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4C60A41DDF61B300595490 /* ChatBanner.swift */; };
 		2E4C60A61DDF61B300595490 /* ChatBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4C60A41DDF61B300595490 /* ChatBanner.swift */; };
 		2E4EBFC01EADF628005FE040 /* CarAttributeSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4EBFBF1EADF628005FE040 /* CarAttributeSelectionViewModel.swift */; };
@@ -1520,6 +1521,7 @@
 		2E4BDE6E1EDC52A300CBDC8C /* EditLocationFiltersCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditLocationFiltersCoordinator.swift; sourceTree = "<group>"; };
 		2E4BDE711EDD7E6A00CBDC8C /* DistanceBubbleTextGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistanceBubbleTextGenerator.swift; sourceTree = "<group>"; };
 		2E4BDE741EDDA07700CBDC8C /* DistanceBubbleTextGeneratorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistanceBubbleTextGeneratorSpec.swift; sourceTree = "<group>"; };
+		2E4BDE7E1EDEC7DC00CBDC8C /* LocationFromZipCodeViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationFromZipCodeViewModelSpec.swift; sourceTree = "<group>"; };
 		2E4C60A41DDF61B300595490 /* ChatBanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatBanner.swift; sourceTree = "<group>"; };
 		2E4EBFBF1EADF628005FE040 /* CarAttributeSelectionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CarAttributeSelectionViewModel.swift; path = CarsAttributes/CarAttributeSelectionViewModel.swift; sourceTree = "<group>"; };
 		2E4EBFC21EADF63A005FE040 /* CarAttributeSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CarAttributeSelectionViewController.swift; path = CarsAttributes/CarAttributeSelectionViewController.swift; sourceTree = "<group>"; };
@@ -3323,6 +3325,7 @@
 				50D08DA21E69AF14009CC260 /* SignUpViewModelSpec.swift */,
 				50D08DA31E69AF14009CC260 /* TourLoginViewModelSpec.swift */,
 				C7AFFB0F1E7176BC0052A9CA /* WebSurveyViewModelSpec.swift */,
+				2E4BDE7E1EDEC7DC00CBDC8C /* LocationFromZipCodeViewModelSpec.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -5201,6 +5204,7 @@
 				50D08DE71E69AF14009CC260 /* TourLoginViewModelSpec.swift in Sources */,
 				C7AFFB101E7176BC0052A9CA /* WebSurveyViewModelSpec.swift in Sources */,
 				50D08DBD1E69AF14009CC260 /* MockPurchaseableProductsRequestFactory.swift in Sources */,
+				2E4BDE7F1EDEC7DC00CBDC8C /* LocationFromZipCodeViewModelSpec.swift in Sources */,
 				50D08DC41E69AF14009CC260 /* MultiPageRequesterSpec.swift in Sources */,
 				50D08DCF1E69AF14009CC260 /* TrackerEventSpec.swift in Sources */,
 				50D08DC91E69AF14009CC260 /* TourLoginState+LGSpec.swift in Sources */,
