@@ -66,4 +66,8 @@ extension EditLocationFiltersCoordinator : EditLocationFiltersNavigator {
     func editLocationFromZipDidClose() {
         closeCoordinator(animated: true, completion: nil)
     }
+
+    func editLocationFromMapDidClose() {
+        closeCoordinator(animated: true, completion: nil)
+    }
 }
