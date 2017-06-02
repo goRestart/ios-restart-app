@@ -158,7 +158,7 @@ class DistanceBubbleTextGeneratorSpec: QuickSpec {
                         it ("1 Km -> Barcelona - 1 km") {
                             expect(sut.bubbleInfoText(forDistance: 1, type: .km, distanceRadius: radius, place: nil)) == "\(LGLocalizedString.productDistanceNearYou) - 1 km"
                         }
-                        it ("100 Km -> Barcelona - more than 30 km") {
+                        it ("100 Km -> Barcelona - 30 km") {
                             expect(sut.bubbleInfoText(forDistance: 100, type: .km, distanceRadius: radius, place: nil)) == "\(LGLocalizedString.productDistanceNearYou) - 30 km"
                         }
 
@@ -172,7 +172,7 @@ class DistanceBubbleTextGeneratorSpec: QuickSpec {
                         it ("1 Km -> Barcelona - 1 km") {
                             expect(sut.bubbleInfoText(forDistance: 1, type: .km, distanceRadius: radius, place: nil)) == "Barcelona - 1 km"
                         }
-                        it ("100 Km -> Barcelona - more than 30 km") {
+                        it ("100 Km -> Barcelona - 30 km") {
                             expect(sut.bubbleInfoText(forDistance: 100, type: .km, distanceRadius: radius, place: nil)) == "Barcelona - 30 km"
                         }
                     }
@@ -188,7 +188,7 @@ class DistanceBubbleTextGeneratorSpec: QuickSpec {
                         it ("1 Km -> Barcelona - 1 km") {
                             expect(sut.bubbleInfoText(forDistance: 1, type: .km, distanceRadius: radius, place: place)) == "Barcelona - 1 km"
                         }
-                        it ("100 Km -> Barcelona - more than 30 km") {
+                        it ("100 Km -> Barcelona - 30 km") {
                             expect(sut.bubbleInfoText(forDistance: 100, type: .km, distanceRadius: radius, place: place)) == "Barcelona - 30 km"
                         }
                     }
@@ -202,7 +202,7 @@ class DistanceBubbleTextGeneratorSpec: QuickSpec {
                         it ("1 Km -> 08039 - 1 km") {
                             expect(sut.bubbleInfoText(forDistance: 1, type: .km, distanceRadius: radius, place: place)) == "08039 - 1 km"
                         }
-                        it ("100 Km -> 08039 - more than 30 km") {
+                        it ("100 Km -> 08039 - 30 km") {
                             expect(sut.bubbleInfoText(forDistance: 100, type: .km, distanceRadius: radius, place: place)) == "08039 - 30 km"
                         }
                     }
@@ -216,7 +216,7 @@ class DistanceBubbleTextGeneratorSpec: QuickSpec {
                         it ("1 Km -> Custom Location - 1 km") {
                             expect(sut.bubbleInfoText(forDistance: 1, type: .km, distanceRadius: radius, place: place)) == "\(LGLocalizedString.productDistanceCustomLocation) - 1 km"
                         }
-                        it ("100 Km -> Custom Location - more than 30 km") {
+                        it ("100 Km -> Custom Location - 30 km") {
                             expect(sut.bubbleInfoText(forDistance: 100, type: .km, distanceRadius: radius, place: place)) == "\(LGLocalizedString.productDistanceCustomLocation) - 30 km"
                         }
                     }
