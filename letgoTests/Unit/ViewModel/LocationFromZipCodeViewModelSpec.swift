@@ -145,7 +145,7 @@ class LocationFromZipCodeViewModelSpec: BaseViewModelSpec {
                             sut.updateAddressFromCurrentLocation()
                         }
                         it ("full address is the initial one, has the zip and city separated by comma") {
-                            expect(sut.fullAddress.value).toEventually(equal("06660, Palo Bajo"))
+                            expect(sut.fullAddress.value).toEventually(equal("12345, New York"))
                         }
                     }
                 }
