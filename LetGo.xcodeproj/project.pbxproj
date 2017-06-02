@@ -2816,8 +2816,8 @@
 				C7AFFB091E715F840052A9CA /* SurveysNavigator.swift */,
 				8EF026131EDD73F70097A3A9 /* FiltersCoordinator.swift */,
 				8EF026151EDD74020097A3A9 /* FiltersNavigator.swift */,
-				2E4BDE6B1EDC528800CBDC8C /* QuickLocationFiltersNavigator.swift */,
 				2E4BDE6E1EDC52A300CBDC8C /* QuickLocationFiltersCoordinator.swift */,
+				2E4BDE6B1EDC528800CBDC8C /* QuickLocationFiltersNavigator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";

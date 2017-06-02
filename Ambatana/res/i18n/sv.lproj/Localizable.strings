@@ -473,7 +473,7 @@
 "product_auto_generated_translated_title_label" = "(och översatts av Google)";
 "product_bubble_favorite_button" = "Låt säljaren veta!";
 "product_bubble_favorite_text" = "Denna produkt har lagts till i dina favoriter!";
-"product_chat_direct_error_blocked_user_message" = "Hoppsan! Chatt med den här användaren är blockerad.";
+"product_chat_direct_error_blocked_user_message" = "Hoppsan! Du kan inte chatta med denna användare.";
 "product_chat_direct_message" = "Hej %@, jag är intresserad";
 "product_chat_direct_message_sending" = "Sänder...";
 "product_chat_with_seller_button" = "Chatta med säljaren";
@@ -692,6 +692,7 @@
 "profile_verify_google_button" = "Google";
 "profile_verify_google_message" = "Logga in med Google för att bekräfta din identitet";
 "profile_verify_google_title" = "GOOGLE";
+"quick_filter_location_title" = "Set Location";
 "rate_buyers_message" = "Grattis!";
 "rate_buyers_not_on_letgo_button" = "Jag sålde det inte på letgo";
 "rate_buyers_not_on_letgo_title_button" = "Har sålts någon annanstans";

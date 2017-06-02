@@ -27,6 +27,7 @@ enum EditLocationMode {
     case editUserLocation
     case editListingLocation
     case editFilterLocation
+    case quickFilterLocation
 }
 
 class EditLocationViewModel: BaseViewModel {
@@ -139,7 +140,11 @@ class EditLocationViewModel: BaseViewModel {
     }
 
     var shouldShowDistanceSlider: Bool {
-        return mode == .editFilterLocation && featureFlags.editLocationBubble == .map
+        return mode == .quickFilterLocation && featureFlags.editLocationBubble == .map
+    }
+    
+    var shouldShowCustomNavigationBar: Bool {
+        return mode == .quickFilterLocation
     }
     
     var placeCount: Int {
@@ -176,7 +181,14 @@ class EditLocationViewModel: BaseViewModel {
         case .editFilterLocation, .editListingLocation:
             locationDelegate?.editLocationDidSelectPlace(currentPlace, distanceRadius: distanceRadius)
             closeLocation()
+        case .quickFilterLocation:
+            locationDelegate?.editLocationDidSelectPlace(currentPlace, distanceRadius: distanceRadius)
+            closeQuickLocation()
         }
+    }
+    
+    func cancelSetLocation() {
+        closeQuickLocation()
     }
 
     
@@ -193,7 +205,7 @@ class EditLocationViewModel: BaseViewModel {
                 setPlace(place, forceLocation: true, fromGps: location.type != .manual, enableSave: false)
             }
             approxLocationHidden.value = false
-        case .editFilterLocation:
+        case .editFilterLocation, .quickFilterLocation:
             if let place = initialPlace {
                 setPlace(place, forceLocation: true, fromGps: false, enableSave: false)
             } else {
@@ -357,12 +369,13 @@ class EditLocationViewModel: BaseViewModel {
     private func closeLocation() {
         if let navigator = navigator {
             navigator.closeEditLocation()
-        } else if let quickLocationFiltersNavigator = quickLocationFiltersNavigator {
-            quickLocationFiltersNavigator.quickLocationFilterDidClose()
         } else {
             delegate?.vmPop()
         }
-        
+    }
+    
+    private func closeQuickLocation() {
+        quickLocationFiltersNavigator?.closeQuickLocationFilters()
     }
 
     private func trackVisitIfNeeded() {
@@ -370,7 +383,7 @@ class EditLocationViewModel: BaseViewModel {
         switch mode {
         case .editUserLocation:
             event = TrackerEvent.profileEditEditLocationStart()
-        case .editFilterLocation:
+        case .editFilterLocation, .quickFilterLocation:
             event = TrackerEvent.filterLocationStart()
         case .editListingLocation:
             return

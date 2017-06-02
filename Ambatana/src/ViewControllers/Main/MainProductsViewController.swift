@@ -386,10 +386,8 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     }
 
     private func setupSearchAndTrending() {
-        // Add search text field
         navbarSearch.searchTextField.delegate = self
         setNavBarTitleStyle(.custom(navbarSearch))
-
         setupSuggestionsTable()
     }
 

@@ -2871,6 +2871,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("profile_connect_accounts_message", comment: "")
 	}
 
+	static var quickFilterLocationTitle: String {
+		return NSLocalizedString("quick_filter_location_title", comment: "")
+	}
+
 	static var rateBuyersTitle: String {
 		return NSLocalizedString("rate_buyers_title", comment: "")
 	}

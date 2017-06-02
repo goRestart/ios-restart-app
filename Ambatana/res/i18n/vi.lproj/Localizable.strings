@@ -473,7 +473,7 @@
 "product_auto_generated_translated_title_label" = "(và do Google dịch)";
 "product_bubble_favorite_button" = "Cho người bán biết!";
 "product_bubble_favorite_text" = "Sản phẩm này đã được thêm vào mục yêu thích của bạn!";
-"product_chat_direct_error_blocked_user_message" = "Ồ! Bạn vừa chặn người dùng này, vì vậy bạn không thể bắt đầu một trò chuyện.";
+"product_chat_direct_error_blocked_user_message" = "Ồ! Bạn không thể bắt đầu một trò chuyện với người dùng này.";
 "product_chat_direct_message" = "Xin chào %@, tôi quan tâm";
 "product_chat_direct_message_sending" = "Đang gửi...";
 "product_chat_with_seller_button" = "Trò chuyện với người bán";
@@ -692,6 +692,7 @@
 "profile_verify_google_button" = "Google";
 "profile_verify_google_message" = "Kết nối với Google để xác nhận danh tính của bạn";
 "profile_verify_google_title" = "GOOGLE";
+"quick_filter_location_title" = "Set Location";
 "rate_buyers_message" = "Chúc mừng!";
 "rate_buyers_not_on_letgo_button" = "Tôi không bán sản phẩm này trên letgo";
 "rate_buyers_not_on_letgo_title_button" = "Đã bán ở chỗ khác";
@@ -867,7 +868,7 @@
 "user_rating_message_more" = "Cảm ơn đã chia sẻ! Muốn cho chúng tôi biết thêm về trải nghiệm của bạn?";
 "user_rating_message_w_name" = "Trải nghiệm của bạn với %@ có xứng đáng năm sao? Hãy cho chúng tôi biết.";
 "user_rating_message_wo_name" = "Trải nghiệm của bạn với người dùng này có xứng đáng năm sao? Hãy cho chúng tôi biết.";
-"user_rating_review_button" = "Đăng đánh giá";
+"user_rating_review_button" = "Đăng Đánh giá";
 "user_rating_review_info" = "Bạn có thể cập nhật đánh giá bất cứ khi nào.";
 "user_rating_review_placeholder" = "Viết về trải nghiệm của bạn";
 "user_rating_review_placeholder_mandatory" = "Viết về trải nghiệm của bạn (bắt buộc)";

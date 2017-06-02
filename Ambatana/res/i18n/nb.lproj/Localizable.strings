@@ -473,7 +473,7 @@
 "product_auto_generated_translated_title_label" = "(og oversatt av Google)";
 "product_bubble_favorite_button" = "Informer selgeren!";
 "product_bubble_favorite_text" = "Dette produktet er lagt til blant dine favoritter!";
-"product_chat_direct_error_blocked_user_message" = "Oops! Ettersom du har blokkert denne brukeren kan du ikke starte en samtale.";
+"product_chat_direct_error_blocked_user_message" = "Oops! Du kan ikke starte en samtale med denne brukeren.";
 "product_chat_direct_message" = "Hei %@, jeg er interessert";
 "product_chat_direct_message_sending" = "Sender...";
 "product_chat_with_seller_button" = "Snakk med selgeren";
@@ -692,6 +692,7 @@
 "profile_verify_google_button" = "Google";
 "profile_verify_google_message" = "Koble til med Google for å verifisere din identitet";
 "profile_verify_google_title" = "GOOGLE";
+"quick_filter_location_title" = "Set Location";
 "rate_buyers_message" = "Gratulerer!";
 "rate_buyers_not_on_letgo_button" = "Jeg solgte ikke dette produktet på letgo";
 "rate_buyers_not_on_letgo_title_button" = "Jeg solgte produktet et annet sted";

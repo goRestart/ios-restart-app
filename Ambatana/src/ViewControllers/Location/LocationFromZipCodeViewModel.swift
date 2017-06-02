@@ -131,7 +131,7 @@ class LocationFromZipCodeViewModel: BaseViewModel {
     }
 
     func close() {
-        navigator?.quickLocationFilterDidClose()
+        navigator?.closeQuickLocationFilters()
     }
 
     private func fullAddressString(forPlace place: Place) -> String? {

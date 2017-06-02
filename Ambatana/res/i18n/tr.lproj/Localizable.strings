@@ -157,9 +157,9 @@
 "chat_list_unarchive_error_multiple" = "Konuşmalar arşivden çıkarılırken bir hata oluştu. Lütfen tekrar dene.";
 "chat_list_unblock" = "Engeli Kaldır";
 "chat_login_popup_text" = "Mesajlaşmaya başlamak için giriş yapmalısın";
-"chat_message_disclaimer_scammer" = "Telefon numarası ve e-posta bilgilerini paylaşırken çok temkinli ol. Dolandırıcı kullanıcılar görüşmeyi genelde letgo sohbet sisteminden dışarıya taşımayı teklif ederler. Dikkatli ol ve %@ kısmını okumak için buraya dokun.";
+"chat_message_disclaimer_scammer" = "Be extra careful when exchanging phone/email details. Fraudulent users often ask you to leave the letgo chat. Be informed! Tap here to review our %@.";
 "chat_message_disclaimer_scammer_append_blocked" = "Bu kullanıcıyı engellemek için buraya tıkla.";
-"chat_message_disclaimer_scammer_base_blocked" = "Telefon numarası ve e-posta bilgilerini paylaşırken çok dikkatli ol. Dolandırıcı kullanıcılar görüşmeyi genelde letgo sohbet sisteminden dışarıya taşımayı teklif ederler. %@";
+"chat_message_disclaimer_scammer_base_blocked" = "Be extra careful when exchanging phone/email details. Fraudulent users often ask you to leave the letgo chat. %@";
 "chat_message_field_hint" = "Mesajını buraya yaz";
 "chat_message_load_generic_error" = "Sohbet bilgilerine erişirken bir hata oluştu. Lütfen tekrar dene.";
 "chat_not_verified_alert_message" = "Kimliğini doğrulamak için Facebook, Google veya Eposta ile bağlan.";
@@ -473,7 +473,7 @@
 "product_auto_generated_translated_title_label" = "(Yandex ile çevrildi)";
 "product_bubble_favorite_button" = "Satıcıyı haberdar et!";
 "product_bubble_favorite_text" = "Bu ürün favorilerine eklendi!";
-"product_chat_direct_error_blocked_user_message" = "Oops! Bu kullanıcıyı engellemişsin, bu yüzden mesaj gönderemezsin.";
+"product_chat_direct_error_blocked_user_message" = "Oops! Bu kullanıcıyla bir sohbet başlatamazsın.";
 "product_chat_direct_message" = "Merhaba %@, İlgileniyorum!";
 "product_chat_direct_message_sending" = "Gönderiliyor...";
 "product_chat_with_seller_button" = "Satıcı ile mesajlaş";
@@ -692,6 +692,7 @@
 "profile_verify_google_button" = "Google";
 "profile_verify_google_message" = "Kimliğini doğrulamak için Google ile bağlan";
 "profile_verify_google_title" = "GOOGLE";
+"quick_filter_location_title" = "Set Location";
 "rate_buyers_message" = "Tebrikler!";
 "rate_buyers_not_on_letgo_button" = "Bu ürünü letgo'da satmadım";
 "rate_buyers_not_on_letgo_title_button" = "Bu ürünü başka bir yerde sattım";

@@ -39,7 +39,7 @@ class QuickLocationFiltersCoordinator: Coordinator {
         case .inactive:
             return nil
         case .map:
-            let vm = EditLocationViewModel(mode: .editFilterLocation,
+            let vm = EditLocationViewModel(mode: .quickFilterLocation,
                                            initialPlace: initialPlace,
                                            distanceRadius: distanceRadius)
             vm.locationDelegate = locationDelegate
@@ -52,7 +52,6 @@ class QuickLocationFiltersCoordinator: Coordinator {
             let zipLocationVM = LocationFromZipCodeViewModel(initialPlace: initialPlace)
             zipLocationVM.locationDelegate = locationDelegate
             let zipLocationVC = LocationFromZipCodeViewController(viewModel: zipLocationVM)
-            
             self.viewController = zipLocationVC
             self.bubbleNotificationManager = bubbleNotificationManager
             self.sessionManager = sessionManager
@@ -72,7 +71,7 @@ class QuickLocationFiltersCoordinator: Coordinator {
 
 
 extension QuickLocationFiltersCoordinator : QuickLocationFiltersNavigator {
-    func quickLocationFilterDidClose() {
+    func closeQuickLocationFilters() {
         closeCoordinator(animated: true, completion: nil)
     }
 }

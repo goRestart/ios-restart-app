@@ -9,5 +9,5 @@
 import Foundation
 
 protocol QuickLocationFiltersNavigator: class {
-    func quickLocationFilterDidClose()
+    func closeQuickLocationFilters()
 }

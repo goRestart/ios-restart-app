@@ -473,7 +473,7 @@
 "product_auto_generated_translated_title_label" = "(e traduzido pelo Google)";
 "product_bubble_favorite_button" = "Informe o vendedor!";
 "product_bubble_favorite_text" = "Este produto foi adicionado aos seus favoritos!";
-"product_chat_direct_error_blocked_user_message" = "Ups! Bloqueou este utilizador por isso não pode iniciar uma conversa.";
+"product_chat_direct_error_blocked_user_message" = "Ups! Não pode iniciar uma conversa com este utilizador.";
 "product_chat_direct_message" = "Olá %@, tenho interesse!";
 "product_chat_direct_message_sending" = "A enviar...";
 "product_chat_with_seller_button" = "Converse com o vendedor";
@@ -692,6 +692,7 @@
 "profile_verify_google_button" = "Google";
 "profile_verify_google_message" = "Ligue-se pelo Google para verificar a sua identidade";
 "profile_verify_google_title" = "GOOGLE";
+"quick_filter_location_title" = "Set Location";
 "rate_buyers_message" = "Parabéns!";
 "rate_buyers_not_on_letgo_button" = "Não o vendi no letgo";
 "rate_buyers_not_on_letgo_title_button" = "Vendi noutro sitio";
