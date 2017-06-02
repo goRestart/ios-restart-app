@@ -132,6 +132,7 @@ class EditLocationViewModel: BaseViewModel {
     // MARK: public methods
     
     var distanceMeters: CLLocationDistance {
+        guard let distanceRadius = distanceRadius else { return 0 }
         switch distanceType {
         case .km:
             return Double(distanceRadius) * 1000
@@ -144,8 +145,8 @@ class EditLocationViewModel: BaseViewModel {
         return DistanceType.systemDistanceType()
     }
     
-    var distanceRadius: Int {
-        return currentDistanceRadius.value ?? 0
+    var distanceRadius: Int? {
+        return currentDistanceRadius.value
     }
 
     var shouldShowDistanceSlider: Bool {
@@ -193,9 +194,21 @@ class EditLocationViewModel: BaseViewModel {
             updateUserLocation()
         case .editFilterLocation, .editListingLocation:
             locationDelegate?.editLocationDidSelectPlace(currentPlace, distanceRadius: distanceRadius)
+            let trackerEvent = TrackerEvent.location(locationType: locationManager.currentLocation?.type,
+                                                     locationServiceStatus: locationManager.locationServiceStatus,
+                                                     typePage: .filter,
+                                                     zipCodeFilled: nil,
+                                                     ditanceRadius: distanceRadius)
+            tracker.trackEvent(trackerEvent)
             closeLocation()
         case .quickFilterLocation:
             locationDelegate?.editLocationDidSelectPlace(currentPlace, distanceRadius: distanceRadius)
+            let trackerEvent = TrackerEvent.location(locationType: locationManager.currentLocation?.type,
+                                                     locationServiceStatus: locationManager.locationServiceStatus,
+                                                     typePage: .feedBubble,
+                                                     zipCodeFilled: nil,
+                                                     ditanceRadius: distanceRadius)
+            tracker.trackEvent(trackerEvent)
             closeQuickLocation()
         }
     }
@@ -203,7 +216,6 @@ class EditLocationViewModel: BaseViewModel {
     func cancelSetLocation() {
         closeQuickLocation()
     }
-
     
     // MARK: - Private methods
 
@@ -354,15 +366,18 @@ class EditLocationViewModel: BaseViewModel {
 
     private func updateUserLocation() {
         let myCompletion: (Result<MyUser, RepositoryError>) -> () = { [weak self] result in
-            self?.loading.value = false
+            guard let strongSelf = self else { return }
+            strongSelf.loading.value = false
             if let value = result.value {
-                if let myUserLocation = value.location {
-                    let trackerEvent = TrackerEvent.profileEditEditLocation(myUserLocation)
-                    self?.tracker.trackEvent(trackerEvent)
-                }
-                self?.closeLocation()
+                let trackerEvent = TrackerEvent.location(locationType: value.location?.type,
+                                                         locationServiceStatus: strongSelf.locationManager.locationServiceStatus,
+                                                         typePage: .profile,
+                                                         zipCodeFilled: nil,
+                                                         ditanceRadius: nil)
+                strongSelf.tracker.trackEvent(trackerEvent)
+                strongSelf.closeLocation()
             } else {
-                self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.changeLocationErrorUpdatingLocationMessage, completion: nil)
+                strongSelf.delegate?.vmShowAutoFadingMessage(LGLocalizedString.changeLocationErrorUpdatingLocationMessage, completion: nil)
             }
         }
 

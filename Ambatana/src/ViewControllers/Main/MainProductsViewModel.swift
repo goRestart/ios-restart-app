@@ -678,8 +678,11 @@ extension MainProductsViewModel {
 
         // Tracking: when a new location is received and has different type than previous one
         if lastReceivedLocation?.type != newLocation.type {
-            let locationServiceStatus = locationManager.locationServiceStatus
-            let trackerEvent = TrackerEvent.location(newLocation, locationServiceStatus: locationServiceStatus)
+            let trackerEvent = TrackerEvent.location(locationType: newLocation.type,
+                                                     locationServiceStatus: locationManager.locationServiceStatus,
+                                                     typePage: .automatic,
+                                                     zipCodeFilled: nil,
+                                                     ditanceRadius: filters.distanceRadius)
             tracker.trackEvent(trackerEvent)
         }
         

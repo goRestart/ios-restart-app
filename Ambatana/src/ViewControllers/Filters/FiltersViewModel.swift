@@ -214,7 +214,7 @@ class FiltersViewModel: BaseViewModel {
     func locationButtonPressed() {
         let locationVM = EditLocationViewModel(mode: .editFilterLocation,
                                                initialPlace: place,
-                                               distanceRadius: currentDistanceRadius)
+                                               distanceRadius: productFilter.distanceRadius)
         locationVM.locationDelegate = self
         navigator?.openEditLocation(withViewModel: locationVM)
     }

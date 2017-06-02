@@ -17,6 +17,7 @@ class LocationFromZipCodeViewModel: BaseViewModel {
     private let locationManager: LocationManager
     private let searchService: CLSearchLocationSuggestionsService
     private let postalAddressService: PostalAddressRetrievalService
+    private let tracker: Tracker
 
     weak var locationDelegate: EditLocationDelegate?
 
@@ -37,22 +38,24 @@ class LocationFromZipCodeViewModel: BaseViewModel {
     weak var delegate: LocationFromZipCodeViewModelDelegate?
 
     private let disposeBag = DisposeBag()
-
-
+    
     convenience init(initialPlace: Place?) {
         self.init(initialPlace: initialPlace,
                   locationManager: Core.locationManager,
                   searchService: CLSearchLocationSuggestionsService(),
-                  postalAddressService: CLPostalAddressRetrievalService())
+                  postalAddressService: CLPostalAddressRetrievalService(),
+                  tracker: TrackerProxy.sharedInstance)
     }
 
     init(initialPlace: Place?,
          locationManager: LocationManager,
          searchService: CLSearchLocationSuggestionsService,
-         postalAddressService: PostalAddressRetrievalService) {
+         postalAddressService: PostalAddressRetrievalService,
+         tracker: Tracker) {
         self.locationManager = locationManager
         self.searchService = searchService
         self.postalAddressService = postalAddressService
+        self.tracker = tracker
         if let cCode = locationManager.currentLocation?.countryCode {
             self.countryCode = CountryCode(string: cCode) ?? .usa
         }
@@ -86,7 +89,7 @@ class LocationFromZipCodeViewModel: BaseViewModel {
 
     func updateAddressFromCurrentLocation() {
 
-        zipCode.value = ""
+        zipCode.value = nil
         setLocationButtonVisible.value = true
 
         guard let location = locationManager.currentAutoLocation?.location else { return }
@@ -128,6 +131,15 @@ class LocationFromZipCodeViewModel: BaseViewModel {
     func setNewLocation() {
         guard let place = newPlace else { return }
         locationDelegate?.editLocationDidSelectPlace(place, distanceRadius: nil)
+        
+        let trackerEvent = TrackerEvent.location(locationType: locationManager.currentLocation?.type,
+                                                 locationServiceStatus: locationManager.locationServiceStatus,
+                                                 typePage: .feedBubble,
+                                                 zipCodeFilled: zipCode.value != nil,
+                                                 ditanceRadius: nil)
+        tracker.trackEvent(trackerEvent)
+        
+        close()
     }
 
     func close() {

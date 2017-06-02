@@ -203,7 +203,7 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
 
             filterDistanceSlider.delegate = self
             filterDistanceSlider.distanceType = viewModel.distanceType
-            filterDistanceSlider.distance = viewModel.distanceRadius
+            filterDistanceSlider.distance = viewModel.distanceRadius ?? 0
         }
         
         searchField.insetX = 40
