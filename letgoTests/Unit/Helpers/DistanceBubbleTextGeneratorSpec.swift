@@ -89,7 +89,7 @@ class DistanceBubbleTextGeneratorSpec: QuickSpec {
                         }
                     }
                 }
-                context ("location is set, radius is not") {
+                context ("location is set, radius is not set") {
                     context ("location has city & zipcode") {
                         context ("city is not empty") {
                             beforeEach {
