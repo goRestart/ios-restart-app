@@ -131,6 +131,15 @@ class EditLocationViewModel: BaseViewModel {
     
     // MARK: public methods
     
+    var distanceMeters: CLLocationDistance {
+        switch distanceType {
+        case .km:
+            return Double(distanceRadius) * 1000
+        case .mi:
+            return Double(distanceRadius) * Constants.metersInOneMile
+        }
+    }
+    
     var distanceType: DistanceType {
         return DistanceType.systemDistanceType()
     }
@@ -144,6 +153,10 @@ class EditLocationViewModel: BaseViewModel {
     }
     
     var shouldShowCustomNavigationBar: Bool {
+        return mode == .quickFilterLocation
+    }
+    
+    var shouldShowCircleOverlay: Bool {
         return mode == .quickFilterLocation
     }
     

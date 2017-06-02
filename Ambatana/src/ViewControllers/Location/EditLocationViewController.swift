@@ -17,6 +17,7 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
 
     // UI
     @IBOutlet weak var mapView: MKMapView!
+    fileprivate var circleOverlay: MKOverlay?
     @IBOutlet weak var searchField: LGTextField!
     
     @IBOutlet weak var approxLocationContainer: UIView!
@@ -316,6 +317,22 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
         let region = MKCoordinateRegionMakeWithDistance(coordinate, radius, radius)
         mapView.setRegion(region, animated: true)
     }
+    
+    fileprivate func updateCircleOverlay() {
+        guard viewModel.shouldShowCircleOverlay else { return }
+        removeCircleOverlay()
+        circleOverlay = MKCircle(center: mapView.centerCoordinate, radius: viewModel.distanceMeters)
+        if let circleOverlay = circleOverlay {
+            mapView.add(circleOverlay)
+        }
+    }
+    
+    fileprivate func removeCircleOverlay() {
+        guard viewModel.shouldShowCircleOverlay else { return }
+        if let previousCircleOverlay = circleOverlay {
+            mapView.remove(previousCircleOverlay)
+        }
+    }
 }
 
 // MARK: - 
@@ -323,6 +340,7 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
 extension EditLocationViewController: FilterDistanceSliderDelegate {
     func filterDistanceChanged(distance: Int) {
         viewModel.currentDistanceRadius.value = distance
+        updateCircleOverlay()
     }
 }
 
@@ -330,6 +348,8 @@ extension EditLocationViewController: FilterDistanceSliderDelegate {
 
 extension EditLocationViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
+        removeCircleOverlay()
+        
         mapGestureFromUserInteraction = false
 
         guard let gestureRecognizers = mapView.subviews.first?.gestureRecognizers else { return }
@@ -350,6 +370,14 @@ extension EditLocationViewController: MKMapViewDelegate {
             mapGestureFromUserInteraction = false
             viewModel.userMovedLocation.value = mapView.centerCoordinate
         }
+        updateCircleOverlay()
+    }
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let circleRenderer = MKCircleRenderer(overlay: overlay)
+        circleRenderer.fillColor = UIColor.white
+        circleRenderer.alpha = 0.5
+        return circleRenderer
     }
 }
 

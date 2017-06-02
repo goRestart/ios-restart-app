@@ -21,6 +21,7 @@ struct Constants {
     // Map
     static let accurateRegionRadius = 1000.0    // meters
     static let nonAccurateRegionRadius = 5000.0 // meters
+    static let metersInOneMile: Double = 1609.34
     
     // URLs
     static let appStoreURL = "itms-apps://itunes.apple.com/app/id986339882?mt=8"

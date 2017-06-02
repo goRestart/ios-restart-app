@@ -156,7 +156,7 @@
                     </constraints>
                 </view>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="map_pin" translatesAutoresizingMaskIntoConstraints="NO" id="Boz-Ua-aXW" userLabel="poiImage">
-                    <rect key="frame" x="174" y="304" width="26" height="37"/>
+                    <rect key="frame" x="174" y="266.5" width="26" height="37"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="26" id="Xj0-aQ-6dk"/>
                         <constraint firstAttribute="height" constant="37" id="jhY-lp-MBZ"/>
@@ -193,7 +193,7 @@
                 <constraint firstItem="D4d-mu-m2n" firstAttribute="width" secondItem="sJJ-hc-CQp" secondAttribute="width" id="aPZ-tN-QcB"/>
                 <constraint firstItem="qRX-bt-ebX" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="axi-Ik-sZp"/>
                 <constraint firstAttribute="trailing" secondItem="sJJ-hc-CQp" secondAttribute="trailing" constant="8" id="bPd-9F-c9Q"/>
-                <constraint firstItem="Boz-Ua-aXW" firstAttribute="top" secondItem="qRX-bt-ebX" secondAttribute="centerY" id="brz-9u-XBH"/>
+                <constraint firstItem="Boz-Ua-aXW" firstAttribute="bottom" secondItem="qRX-bt-ebX" secondAttribute="centerY" id="brz-9u-XBH"/>
                 <constraint firstItem="Zil-yY-5DX" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="dRt-Of-Wvr"/>
                 <constraint firstItem="biU-QI-ngN" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="ea9-Ll-G4z"/>
                 <constraint firstItem="Zil-yY-5DX" firstAttribute="top" secondItem="r5z-z9-Hu3" secondAttribute="bottom" id="gQ4-Nh-uI7"/>
