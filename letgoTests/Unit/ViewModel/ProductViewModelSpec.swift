@@ -777,10 +777,12 @@ extension ProductViewModelSpec: ProductDetailNavigator {
     func openPayBumpUp(forListing listing: Listing, purchaseableProduct: PurchaseableProduct, paymentItemId: String) {
         calledOpenPricedBumpUpView = true
     }
-
-    func selectBuyerToRate(source: RateUserSource, buyers: [UserListing], listingId: String, sourceRateBuyers: SourceRateBuyers?) {
+    func selectBuyerToRate(source: RateUserSource,
+                           buyers: [UserListing],
+                           listingId: String,
+                           sourceRateBuyers: SourceRateBuyers?,
+                           trackingInfo: MarkAsSoldTrackingInfo) {
         self.selectBuyersCalled = true
-
     }
     func showProductFavoriteBubble(with data: BubbleNotificationData) {
         shownFavoriteBubble = true

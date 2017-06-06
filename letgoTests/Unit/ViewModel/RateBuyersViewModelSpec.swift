@@ -29,6 +29,7 @@ class RateBuyersViewModelSpec: BaseViewModelSpec {
     override func spec() {
         var sut: RateBuyersViewModel!
         var listingRepository: MockListingRepository!
+        var tracker: MockTracker!
         
         describe("RateBuyersViewModelSpec") {
             
@@ -37,14 +38,21 @@ class RateBuyersViewModelSpec: BaseViewModelSpec {
                 
                 listingRepository = MockListingRepository()
                 listingRepository.transactionResult = ListingTransactionResult(MockTransaction.makeMock())
+                tracker = MockTracker()
                 
                 let buyers = MockUserListing.makeMocks(count: 5)
                 let listingId = "123456789"
                 
+                let trackingInfo = MarkAsSoldTrackingInfo.make(listing: .product(MockProduct.makeMock()),
+                                                               isBumpedUp: .trueParameter,
+                                                               isFreePostingModeAllowed: true,
+                                                               typePage: .productDetail)
                 sut = RateBuyersViewModel(buyers: buyers,
                                           listingId: listingId,
-                                          sourceRateBuyers: nil,
-                                          listingRepository: listingRepository)
+                                          trackingInfo: trackingInfo,
+                                          listingRepository: listingRepository,
+                                          source: nil,
+                                          tracker: tracker)
                 sut.navigator = self
                 sut.delegate = self
             }
@@ -64,6 +72,9 @@ class RateBuyersViewModelSpec: BaseViewModelSpec {
                     }
                     it("calls navigator to finish outside letgo") {
                         expect(self.navigatorReceivedFinishWithOutsideLetgo).toEventually(beTrue())
+                    }
+                    it("tracks a product-detail-sold-outside-letgo event") {
+                        expect(tracker.trackedEvents.map { $0.actualName }).toEventually(equal(["product-detail-sold-outside-letgo"]))
                     }
                 }
                 
@@ -97,6 +108,9 @@ class RateBuyersViewModelSpec: BaseViewModelSpec {
                     }
                     it("calls navigator to finish in letgo") {
                         expect(self.navigatorReceivedRateBuyerFinished).toEventually(beTrue())
+                    }
+                    it("tracks a product-detail-sold-outside-letgo event") {
+                        expect(tracker.trackedEvents.map { $0.actualName }).toEventually(equal(["product-detail-sold-at-letgo"]))
                     }
                 }
                 

@@ -1598,8 +1598,11 @@ class TrackerEventSpec: QuickSpec {
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
                                                           countryCode: "US", country: nil)
 
-                    sut = TrackerEvent.productMarkAsSold(.product(product), typePage: .productDetail,
-                                                         freePostingModeAllowed: true, isBumpedUp: .trueParameter)
+                    let trackingInfo = MarkAsSoldTrackingInfo.make(listing: .product(product),
+                                                                   isBumpedUp: .trueParameter,
+                                                                   isFreePostingModeAllowed: true,
+                                                                   typePage: .productDetail)
+                    sut = TrackerEvent.productMarkAsSold(trackingInfo: trackingInfo)
                 }
 
                 it("has its event name") {
@@ -1655,24 +1658,23 @@ class TrackerEventSpec: QuickSpec {
                     product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
                                                           countryCode: "US", country: nil)
-                    
-                    sut = TrackerEvent.productMarkAsSoldAtLetgo(listing: .product(product), typePage: .productDetail,
-                                                                freePostingModeAllowed: true, buyerId: "buyer-id",
-                                                                isBumpedUp: .trueParameter)
+                    let trackingInfo = MarkAsSoldTrackingInfo.make(listing: .product(product),
+                                                                   isBumpedUp: .trueParameter,
+                                                                   isFreePostingModeAllowed: true,
+                                                                   typePage: .productDetail).updating(buyerId: "buyerId")
+                    sut = TrackerEvent.productMarkAsSoldAtLetgo(trackingInfo: trackingInfo)
                 }
                 
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-sold-at-letgo"))
                 }
-                it("type-page param is included with value product-detail") {
-                    expect(sut.params!.stringKeyParams["type-page"] as? String) == "product-detail"
-                }
-                it("free-posting param is included as Free") {
-                    expect(sut.params!.stringKeyParams["free-posting"] as? String) == "true"
-                }
                 it("contains product-id param") {
                     let productId = sut.params!.stringKeyParams["product-id"] as? String
                     expect(productId) == "AAAAA"
+                }
+                it("contains category-id param") {
+                    let value = sut.params!.stringKeyParams["category-id"] as? Int
+                    expect(value) == ListingCategory.homeAndGarden.rawValue
                 }
                 it("contains product-price param") {
                     let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
@@ -1682,13 +1684,8 @@ class TrackerEventSpec: QuickSpec {
                     let value = sut.params!.stringKeyParams["product-currency"] as? String
                     expect(value) == "EUR"
                 }
-                it("contains category-id param") {
-                    let value = sut.params!.stringKeyParams["category-id"] as? Int
-                    expect(value) == ListingCategory.homeAndGarden.rawValue
-                }
-                it("contains free posting param") {
-                    let freePosting = sut.params!.stringKeyParams["free-posting"] as? String
-                    expect(freePosting) == "true"
+                it("free-posting param is included as Free") {
+                    expect(sut.params!.stringKeyParams["free-posting"] as? String) == "true"
                 }
                 it("contains bumped up param") {
                     let bumpedUp = sut.params!.stringKeyParams["bump-up"] as? String
@@ -1696,9 +1693,8 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains user-sold-to param") {
                     let userSoldTo = sut.params!.stringKeyParams["user-sold-to"] as? String
-                    expect(userSoldTo) == "buyer-id"
+                    expect(userSoldTo) == "buyerId"
                 }
-                
             }
             
             describe("productMarkAsSoldOutsideLetgo") {
@@ -1720,8 +1716,11 @@ class TrackerEventSpec: QuickSpec {
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
                                                           countryCode: "US", country: nil)
                     
-                    sut = TrackerEvent.productMarkAsSoldOutsideLetgo(listing: .product(product), typePage: .productDetail,
-                                                                     freePostingModeAllowed: true, isBumpedUp: .trueParameter)
+                    let trackingInfo = MarkAsSoldTrackingInfo.make(listing: .product(product),
+                                                                   isBumpedUp: .trueParameter,
+                                                                   isFreePostingModeAllowed: true,
+                                                                   typePage: .productDetail)
+                    sut = TrackerEvent.productMarkAsSoldOutsideLetgo(trackingInfo: trackingInfo)
                 }
                 
                 it("has its event name") {
@@ -1730,12 +1729,13 @@ class TrackerEventSpec: QuickSpec {
                 it("type-page param is included with value product-detail") {
                     expect(sut.params!.stringKeyParams["type-page"] as? String) == "product-detail"
                 }
-                it("free-posting param is included as Free") {
-                    expect(sut.params!.stringKeyParams["free-posting"] as? String) == "true"
-                }
                 it("contains product-id param") {
                     let productId = sut.params!.stringKeyParams["product-id"] as? String
                     expect(productId) == "AAAAA"
+                }
+                it("contains category-id param") {
+                    let value = sut.params!.stringKeyParams["category-id"] as? Int
+                    expect(value) == ListingCategory.homeAndGarden.rawValue
                 }
                 it("contains product-price param") {
                     let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
@@ -1745,13 +1745,8 @@ class TrackerEventSpec: QuickSpec {
                     let value = sut.params!.stringKeyParams["product-currency"] as? String
                     expect(value) == "EUR"
                 }
-                it("contains category-id param") {
-                    let value = sut.params!.stringKeyParams["category-id"] as? Int
-                    expect(value) == ListingCategory.homeAndGarden.rawValue
-                }
-                it("contains free posting param") {
-                    let freePosting = sut.params!.stringKeyParams["free-posting"] as? String
-                    expect(freePosting) == "true"
+                it("free-posting param is included as Free") {
+                    expect(sut.params!.stringKeyParams["free-posting"] as? String) == "true"
                 }
                 it("contains bumped up param") {
                     let bumpedUp = sut.params!.stringKeyParams["bump-up"] as? String

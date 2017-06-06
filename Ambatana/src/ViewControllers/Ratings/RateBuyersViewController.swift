@@ -27,7 +27,7 @@ class RateBuyersViewController: BaseViewController, RateBuyersViewModelDelegate 
 
     init(with viewModel: RateBuyersViewModel) {
         self.viewModel = viewModel
-        self.mainView = RateBuyersView(source: viewModel.sourceRateBuyers)
+        self.mainView = RateBuyersView(source: viewModel.source)
         super.init(viewModel: viewModel, nibName: nil, navBarBackgroundStyle: .transparent(substyle: .light))
         
         viewModel.delegate = self

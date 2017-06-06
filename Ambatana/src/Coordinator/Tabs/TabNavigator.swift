@@ -51,7 +51,11 @@ protocol ProductDetailNavigator: TabNavigator {
     func closeAfterDelete()
     func openFreeBumpUp(forListing listing: Listing, socialMessage: SocialMessage, paymentItemId: String)
     func openPayBumpUp(forListing listing: Listing, purchaseableProduct: PurchaseableProduct, paymentItemId: String)
-    func selectBuyerToRate(source: RateUserSource, buyers: [UserListing], listingId: String, sourceRateBuyers: SourceRateBuyers?)
+    func selectBuyerToRate(source: RateUserSource,
+                           buyers: [UserListing],
+                           listingId: String,
+                           sourceRateBuyers: SourceRateBuyers?,
+                           trackingInfo: MarkAsSoldTrackingInfo)
     func showProductFavoriteBubble(with data: BubbleNotificationData)
     func openLoginIfNeededFromProductDetail(from: EventParameterLoginSourceValue, infoMessage: String,
                                             loggedInAction: @escaping (() -> Void))
@@ -66,6 +70,10 @@ protocol SimpleProductsNavigator: class {
 protocol ChatDetailNavigator: TabNavigator {
     func closeChatDetail()
     func openExpressChat(_ listings: [Listing], sourceListingId: String, manualOpen: Bool)
-    func selectBuyerToRate(source: RateUserSource, buyers: [UserListing], listingId: String, sourceRateBuyers: SourceRateBuyers?)
+    func selectBuyerToRate(source: RateUserSource,
+                           buyers: [UserListing],
+                           listingId: String,
+                           sourceRateBuyers: SourceRateBuyers?,
+                           trackingInfo: MarkAsSoldTrackingInfo)
     func openLoginIfNeededFromChatDetail(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void))
 }

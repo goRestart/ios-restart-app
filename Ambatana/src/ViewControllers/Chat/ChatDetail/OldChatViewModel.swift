@@ -1059,9 +1059,11 @@ class OldChatViewModel: BaseViewModel, Paginable {
     }
 
     private func trackMarkAsSold() {
-        let markAsSold = TrackerEvent.productMarkAsSold(listing, typePage: .chat,
-                                                        freePostingModeAllowed: featureFlags.freePostingModeAllowed,
-                                                        isBumpedUp: .notAvailable)
+        let trackingInfo = MarkAsSoldTrackingInfo.make(listing: listing,
+                                                       isBumpedUp: .notAvailable,
+                                                       isFreePostingModeAllowed: featureFlags.freePostingModeAllowed,
+                                                       typePage: .chat)
+        let markAsSold = TrackerEvent.productMarkAsSold(trackingInfo: trackingInfo)
         tracker.trackEvent(markAsSold)
     }
 

@@ -17,7 +17,6 @@ enum VisibilityFormat {
 protocol RateBuyersViewModelDelegate: BaseViewModelDelegate {}
 
 class RateBuyersViewModel: BaseViewModel {
-    
     static let itemsOnCompactFormat = 3
 
     weak var navigator: RateBuyersNavigator?
@@ -26,25 +25,45 @@ class RateBuyersViewModel: BaseViewModel {
     let possibleBuyers: [UserListing]
     let listingId: String
     let listingRepository: ListingRepository
-    let sourceRateBuyers: SourceRateBuyers?
+    let source: SourceRateBuyers?
+    let tracker: Tracker
+    fileprivate let trackingInfo: MarkAsSoldTrackingInfo
     let visibilityFormat = Variable<VisibilityFormat>(.compact(visibleElements: RateBuyersViewModel.itemsOnCompactFormat))
     
     
-    init(buyers: [UserListing], listingId: String, sourceRateBuyers: SourceRateBuyers?, listingRepository: ListingRepository) {
+    // MARK: - Lifecycle
+    
+    init(buyers: [UserListing],
+         listingId: String,
+         trackingInfo: MarkAsSoldTrackingInfo,
+         listingRepository: ListingRepository,
+         source: SourceRateBuyers?,
+         tracker: Tracker) {
         self.possibleBuyers = buyers
         self.listingId = listingId
-        self.sourceRateBuyers = sourceRateBuyers
+        self.trackingInfo = trackingInfo
         self.listingRepository = listingRepository
+        self.source = source
+        self.tracker = tracker
     }
     
-    convenience init(buyers: [UserListing], listingId: String, source: SourceRateBuyers?) {
-        self.init(buyers: buyers, listingId: listingId, sourceRateBuyers: source, listingRepository: Core.listingRepository)
+    convenience init(buyers: [UserListing],
+                     listingId: String,
+                     source: SourceRateBuyers?,
+                     trackingInfo: MarkAsSoldTrackingInfo) {
+        self.init(buyers: buyers,
+                  listingId: listingId,
+                  trackingInfo: trackingInfo,
+                  listingRepository: Core.listingRepository,
+                  source: source,
+                  tracker: TrackerProxy.sharedInstance)
     }
     
     var shouldShowSeeMoreOption: Bool {
         return RateBuyersViewModel.itemsOnCompactFormat < possibleBuyers.count
     }
 
+    
     // MARK: - Actions
 
     func closeButtonPressed() {
@@ -198,5 +217,20 @@ class RateBuyersViewModel: BaseViewModel {
     private func buyerAt(index: Int) -> UserListing? {
         guard 0..<possibleBuyers.count ~= index else { return nil }
         return possibleBuyers[index]
+    }
+}
+
+
+// MARK: - Tracking
+
+fileprivate extension RateBuyersViewModel {
+    func trackMarkAsSoldAtLetgo(buyerId: String?) {
+        let event = TrackerEvent.productMarkAsSoldAtLetgo(trackingInfo: trackingInfo.updating(buyerId: buyerId))
+        tracker.trackEvent(event)
+    }
+    
+    func trackMarkAsSoldOutsideLetgo() {
+        let event = TrackerEvent.productMarkAsSoldOutsideLetgo(trackingInfo: trackingInfo)
+        tracker.trackEvent(event)
     }
 }
