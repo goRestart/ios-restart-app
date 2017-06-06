@@ -75,4 +75,8 @@ extension QuickLocationFiltersCoordinator : QuickLocationFiltersNavigator {
     func closeQuickLocationFilters() {
         closeCoordinator(animated: true, completion: nil)
     }
+
+    func editLocationFromMapDidClose() {
+        closeCoordinator(animated: true, completion: nil)
+    }
 }

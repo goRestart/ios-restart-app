@@ -15,7 +15,7 @@ protocol LocationFromZipCodeViewModelDelegate: BaseViewModelDelegate { }
 class LocationFromZipCodeViewModel: BaseViewModel {
 
     private let locationManager: LocationManager
-    private let searchService: CLSearchLocationSuggestionsService
+    private let searchService: SearchLocationSuggestionsService
     private let postalAddressService: PostalAddressRetrievalService
     private let tracker: Tracker
 

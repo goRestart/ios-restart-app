@@ -13,7 +13,7 @@ struct Constants {
     static let passwordMaxLength = 20
     static let productDescriptionMaxLength = 1500
     static let userRatingDescriptionMaxLength = 255
-    static let userRatingMinStarsToOptionalDescr = 3
+    static let userRatingMinStarsPositive = 3
     static let emailSuggestedDomains = ["gmail.com", "yahoo.com", "hotmail.com", "aol.com", "icloud.com", "outlook.com",
                                         "live.com", "comcast.com", "msn.com", "windowslive.com", "mynet.com",
                                         "yandex.com"]
