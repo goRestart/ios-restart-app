@@ -52,7 +52,7 @@ class LocationFromZipCodeViewModel: BaseViewModel {
     init(initialPlace: Place?,
          distanceRadius: Int?,
          locationManager: LocationManager,
-         searchService: CLSearchLocationSuggestionsService,
+         searchService: SearchLocationSuggestionsService,
          postalAddressService: PostalAddressRetrievalService,
          tracker: Tracker) {
         self.locationManager = locationManager

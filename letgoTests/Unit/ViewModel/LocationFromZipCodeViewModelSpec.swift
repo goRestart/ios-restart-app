@@ -19,6 +19,7 @@ class LocationFromZipCodeViewModelSpec: BaseViewModelSpec {
             var locationManager: LocationManager!
             var searchService: MockSearchLocationSuggestionsService!
             var postalAddressService: MockPostalAddressRetrievalService!
+            var tracker: MockTracker!
 
             var sut: LocationFromZipCodeViewModel!
 
@@ -36,9 +37,11 @@ class LocationFromZipCodeViewModelSpec: BaseViewModelSpec {
                         postalAddressService = MockPostalAddressRetrievalService(value: place)
 
                         sut = LocationFromZipCodeViewModel(initialPlace: nil,
+                                                           distanceRadius: nil,
                                                            locationManager: locationManager,
                                                            searchService: searchService,
-                                                           postalAddressService: postalAddressService)
+                                                           postalAddressService: postalAddressService,
+                                                           tracker: MockTracker())
                     }
                     context ("zip code has a correct format") {
                         beforeEach {
@@ -98,9 +101,11 @@ class LocationFromZipCodeViewModelSpec: BaseViewModelSpec {
                         postalAddressService = MockPostalAddressRetrievalService(error: .network)
 
                         sut = LocationFromZipCodeViewModel(initialPlace: nil,
+                                                           distanceRadius: nil,
                                                            locationManager: locationManager,
                                                            searchService: searchService,
-                                                           postalAddressService: postalAddressService)
+                                                           postalAddressService: postalAddressService,
+                                                           tracker: MockTracker())
                     }
                     context ("zip code has a correct format") {
                         beforeEach {
@@ -145,9 +150,11 @@ class LocationFromZipCodeViewModelSpec: BaseViewModelSpec {
                         postalAddressService = MockPostalAddressRetrievalService(value: resultPlace)
 
                         sut = LocationFromZipCodeViewModel(initialPlace: initialPlace,
+                                                           distanceRadius: nil,
                                                            locationManager: locationManager,
                                                            searchService: searchService,
-                                                           postalAddressService: postalAddressService)
+                                                           postalAddressService: postalAddressService,
+                                                           tracker: MockTracker())
                     }
                     context ("zip code has a correct format") {
                         beforeEach {
@@ -211,9 +218,11 @@ class LocationFromZipCodeViewModelSpec: BaseViewModelSpec {
                         postalAddressService = MockPostalAddressRetrievalService(error: .network)
 
                         sut = LocationFromZipCodeViewModel(initialPlace: initialPlace,
+                                                           distanceRadius: nil,
                                                            locationManager: locationManager,
                                                            searchService: searchService,
-                                                           postalAddressService: postalAddressService)
+                                                           postalAddressService: postalAddressService,
+                                                           tracker: MockTracker())
                     }
                     context ("zip code has a correct format") {
                         beforeEach {
