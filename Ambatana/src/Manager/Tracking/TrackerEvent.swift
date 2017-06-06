@@ -29,19 +29,19 @@ struct TrackerEvent {
                          locationServiceStatus: LocationServiceStatus,
                          typePage: EventParamenterLocationTypePage,
                          zipCodeFilled: Bool?,
-                         ditanceRadius: Int?) -> TrackerEvent {
+                         distanceRadius: Int?) -> TrackerEvent {
         var params = EventParameters()
         if let locationType = locationType {
             params[.locationType] = locationType.rawValue
         }
         params[.typePage] = typePage.rawValue
         if let zipCodeFilled = zipCodeFilled {
-            params[.zipCode] = zipCodeFilled ? EventParameterBoolean.trueParameter : EventParameterBoolean.falseParameter
+            params[.zipCode] = zipCodeFilled ? EventParameterBoolean.trueParameter.rawValue : EventParameterBoolean.falseParameter.rawValue
         } else {
-            params[.zipCode] = EventParameterBoolean.notAvailable
+            params[.zipCode] = EventParameterBoolean.notAvailable.rawValue
         }
-        if let ditanceRadius = ditanceRadius {
-            params[.filterDistanceRadius] = ditanceRadius
+        if let distanceRadius = distanceRadius {
+            params[.filterDistanceRadius] = distanceRadius
         } else {
             params[.filterDistanceRadius] = "default"
         }

@@ -31,6 +31,7 @@ class LocationFromZipCodeViewModel: BaseViewModel {
 
     fileprivate var initialPlace: Place?
     fileprivate var newPlace: Place?
+    fileprivate var distanceRadius: Int?
 
     var countryCode: CountryCode = .usa
 
@@ -39,8 +40,9 @@ class LocationFromZipCodeViewModel: BaseViewModel {
 
     private let disposeBag = DisposeBag()
     
-    convenience init(initialPlace: Place?) {
+    convenience init(initialPlace: Place?, distanceRadius: Int? = nil) {
         self.init(initialPlace: initialPlace,
+                  distanceRadius: distanceRadius,
                   locationManager: Core.locationManager,
                   searchService: CLSearchLocationSuggestionsService(),
                   postalAddressService: CLPostalAddressRetrievalService(),
@@ -48,6 +50,7 @@ class LocationFromZipCodeViewModel: BaseViewModel {
     }
 
     init(initialPlace: Place?,
+         distanceRadius: Int?,
          locationManager: LocationManager,
          searchService: CLSearchLocationSuggestionsService,
          postalAddressService: PostalAddressRetrievalService,
@@ -56,6 +59,7 @@ class LocationFromZipCodeViewModel: BaseViewModel {
         self.searchService = searchService
         self.postalAddressService = postalAddressService
         self.tracker = tracker
+        self.distanceRadius = distanceRadius
         if let cCode = locationManager.currentLocation?.countryCode {
             self.countryCode = CountryCode(string: cCode) ?? .usa
         }
@@ -130,13 +134,13 @@ class LocationFromZipCodeViewModel: BaseViewModel {
 
     func setNewLocation() {
         guard let place = newPlace else { return }
-        locationDelegate?.editLocationDidSelectPlace(place, distanceRadius: nil)
+        locationDelegate?.editLocationDidSelectPlace(place, distanceRadius: distanceRadius)
         
         let trackerEvent = TrackerEvent.location(locationType: locationManager.currentLocation?.type,
                                                  locationServiceStatus: locationManager.locationServiceStatus,
                                                  typePage: .feedBubble,
                                                  zipCodeFilled: zipCode.value != nil,
-                                                 ditanceRadius: nil)
+                                                 distanceRadius: nil)
         tracker.trackEvent(trackerEvent)
         
         close()

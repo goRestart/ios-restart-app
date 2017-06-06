@@ -49,7 +49,8 @@ class QuickLocationFiltersCoordinator: Coordinator {
             self.sessionManager = sessionManager
             vm.quickLocationFiltersNavigator = self
         case .zipCode:
-            let zipLocationVM = LocationFromZipCodeViewModel(initialPlace: initialPlace)
+            let zipLocationVM = LocationFromZipCodeViewModel(initialPlace: initialPlace,
+                                                             distanceRadius: distanceRadius)
             zipLocationVM.locationDelegate = locationDelegate
             let zipLocationVC = LocationFromZipCodeViewController(viewModel: zipLocationVM)
             self.viewController = zipLocationVC

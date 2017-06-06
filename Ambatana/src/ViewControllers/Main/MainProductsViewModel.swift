@@ -682,7 +682,7 @@ extension MainProductsViewModel {
                                                      locationServiceStatus: locationManager.locationServiceStatus,
                                                      typePage: .automatic,
                                                      zipCodeFilled: nil,
-                                                     ditanceRadius: filters.distanceRadius)
+                                                     distanceRadius: filters.distanceRadius)
             tracker.trackEvent(trackerEvent)
         }
         

@@ -13,14 +13,14 @@ class TrackerEventSpec: QuickSpec {
         
         describe("factory methods") {
             
-            fdescribe("location") {
+            describe("location") {
                 context("event name") {
                     beforeEach {
                         sut = TrackerEvent.location(locationType: .sensor,
                                                     locationServiceStatus: .enabled(.authorized),
                                                     typePage: .filter,
                                                     zipCodeFilled: nil,
-                                                    ditanceRadius: nil)
+                                                    distanceRadius: nil)
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue) == "location"
@@ -32,7 +32,7 @@ class TrackerEventSpec: QuickSpec {
                                                     locationServiceStatus: .enabled(.authorized),
                                                     typePage: .filter,
                                                     zipCodeFilled: nil,
-                                                    ditanceRadius: nil)
+                                                    distanceRadius: nil)
                     }
                     it("contains the location type when retrieving from sensors") {
                         expect(sut.params!.stringKeyParams["location-type"] as? String) == "sensor"
@@ -44,7 +44,7 @@ class TrackerEventSpec: QuickSpec {
                                                     locationServiceStatus: .enabled(.authorized),
                                                     typePage: .filter,
                                                     zipCodeFilled: nil,
-                                                    ditanceRadius: nil)
+                                                    distanceRadius: nil)
                     }
                     it("contains the location type when setting manually") {
                         expect(sut.params!.stringKeyParams["location-type"] as? String) == "manual"
@@ -56,7 +56,7 @@ class TrackerEventSpec: QuickSpec {
                                                     locationServiceStatus: .enabled(.authorized),
                                                     typePage: .filter,
                                                     zipCodeFilled: nil,
-                                                    ditanceRadius: nil)
+                                                    distanceRadius: nil)
                     }
                     it("contains the location type when retrieving from ip lookup") {
                         expect(sut.params!.stringKeyParams["location-type"] as? String) == "iplookup"
@@ -68,7 +68,7 @@ class TrackerEventSpec: QuickSpec {
                                                     locationServiceStatus: .enabled(.authorized),
                                                     typePage: .filter,
                                                     zipCodeFilled: nil,
-                                                    ditanceRadius: nil)
+                                                    distanceRadius: nil)
                     }
                     it("contains the location type when retrieving regional") {
                         expect(sut.params!.stringKeyParams["location-type"] as? String) == "regional"
@@ -80,7 +80,7 @@ class TrackerEventSpec: QuickSpec {
                                                     locationServiceStatus: .disabled,
                                                     typePage: .filter,
                                                     zipCodeFilled: nil,
-                                                    ditanceRadius: nil)
+                                                    distanceRadius: nil)
                     }
                     it("contains the location enabled false") {
                         expect(sut.params!.stringKeyParams["location-enabled"] as? Bool) == false
@@ -95,7 +95,7 @@ class TrackerEventSpec: QuickSpec {
                                                     locationServiceStatus: .enabled(.notDetermined),
                                                     typePage: .filter,
                                                     zipCodeFilled: nil,
-                                                    ditanceRadius: nil)
+                                                    distanceRadius: nil)
                     }
                     it("contains the location enabled true") {
                         expect(sut.params!.stringKeyParams["location-enabled"] as? Bool) == true
@@ -110,7 +110,7 @@ class TrackerEventSpec: QuickSpec {
                                                     locationServiceStatus: .enabled(.restricted),
                                                     typePage: .filter,
                                                     zipCodeFilled: nil,
-                                                    ditanceRadius: nil)
+                                                    distanceRadius: nil)
                     }
                     it("contains the location enabled true") {
                         expect(sut.params!.stringKeyParams["location-enabled"] as? Bool) == true
@@ -125,7 +125,7 @@ class TrackerEventSpec: QuickSpec {
                                                     locationServiceStatus: .enabled(.denied),
                                                     typePage: .filter,
                                                     zipCodeFilled: nil,
-                                                    ditanceRadius: nil)
+                                                    distanceRadius: nil)
                     }
                     it("contains the location enabled true") {
                         expect(sut.params!.stringKeyParams["location-enabled"] as? Bool) == true
@@ -140,7 +140,7 @@ class TrackerEventSpec: QuickSpec {
                                                     locationServiceStatus: .enabled(.authorized),
                                                     typePage: .filter,
                                                     zipCodeFilled: nil,
-                                                    ditanceRadius: nil)
+                                                    distanceRadius: nil)
                     }
                     it("contains the location enabled true") {
                         expect(sut.params!.stringKeyParams["location-enabled"] as? Bool) == true
@@ -155,7 +155,7 @@ class TrackerEventSpec: QuickSpec {
                                                     locationServiceStatus: .enabled(.authorized),
                                                     typePage: .filter,
                                                     zipCodeFilled: nil,
-                                                    ditanceRadius: nil)
+                                                    distanceRadius: nil)
                     }
                     it("contains the page type filter") {
                         expect(sut.params!.stringKeyParams["type-page"] as? String) == "filter"
@@ -167,7 +167,7 @@ class TrackerEventSpec: QuickSpec {
                                                     locationServiceStatus: .enabled(.authorized),
                                                     typePage: .profile,
                                                     zipCodeFilled: nil,
-                                                    ditanceRadius: nil)
+                                                    distanceRadius: nil)
                     }
                     it("contains the page type profile") {
                         expect(sut.params!.stringKeyParams["type-page"] as? String) == "profile"
@@ -179,7 +179,7 @@ class TrackerEventSpec: QuickSpec {
                                                     locationServiceStatus: .enabled(.authorized),
                                                     typePage: .feedBubble,
                                                     zipCodeFilled: nil,
-                                                    ditanceRadius: nil)
+                                                    distanceRadius: nil)
                     }
                     it("contains the page type feed-bubble") {
                         expect(sut.params!.stringKeyParams["type-page"] as? String) == "feed-bubble"
@@ -191,7 +191,7 @@ class TrackerEventSpec: QuickSpec {
                                                     locationServiceStatus: .enabled(.authorized),
                                                     typePage: .automatic,
                                                     zipCodeFilled: nil,
-                                                    ditanceRadius: nil)
+                                                    distanceRadius: nil)
                     }
                     it("contains the page type automatic") {
                         expect(sut.params!.stringKeyParams["type-page"] as? String) == "automatic"
@@ -203,7 +203,7 @@ class TrackerEventSpec: QuickSpec {
                                                     locationServiceStatus: .enabled(.authorized),
                                                     typePage: .feedBubble,
                                                     zipCodeFilled: nil,
-                                                    ditanceRadius: nil)
+                                                    distanceRadius: nil)
                     }
                     it("contains zipcode N/A") {
                         expect(sut.params!.stringKeyParams["zipcode"] as? String) == "N/A"
@@ -215,7 +215,7 @@ class TrackerEventSpec: QuickSpec {
                                                     locationServiceStatus: .enabled(.authorized),
                                                     typePage: .feedBubble,
                                                     zipCodeFilled: true,
-                                                    ditanceRadius: nil)
+                                                    distanceRadius: nil)
                     }
                     it("contains zipcode trueParameter") {
                         expect(sut.params!.stringKeyParams["zipcode"] as? String) == "true"
@@ -227,7 +227,7 @@ class TrackerEventSpec: QuickSpec {
                                                     locationServiceStatus: .enabled(.authorized),
                                                     typePage: .feedBubble,
                                                     zipCodeFilled: false,
-                                                    ditanceRadius: nil)
+                                                    distanceRadius: nil)
                     }
                     it("contains zipcode falseParameter") {
                         expect(sut.params!.stringKeyParams["zipcode"] as? String) == "false"
@@ -239,7 +239,7 @@ class TrackerEventSpec: QuickSpec {
                                                     locationServiceStatus: .enabled(.authorized),
                                                     typePage: .feedBubble,
                                                     zipCodeFilled: false,
-                                                    ditanceRadius: nil)
+                                                    distanceRadius: nil)
                     }
                     it("contains distanceRadius default") {
                         expect(sut.params!.stringKeyParams["distance-radius"] as? String) == "default"
@@ -251,10 +251,10 @@ class TrackerEventSpec: QuickSpec {
                                                     locationServiceStatus: .enabled(.authorized),
                                                     typePage: .feedBubble,
                                                     zipCodeFilled: false,
-                                                    ditanceRadius: 1)
+                                                    distanceRadius: 1)
                     }
                     it("contains distanceRadius 1") {
-                        expect(sut.params!.stringKeyParams["distance-radius"] as? String) == "1"
+                        expect(sut.params!.stringKeyParams["distance-radius"] as? Int).to(equal(1))
                     }
                 }
             }

@@ -198,7 +198,7 @@ class EditLocationViewModel: BaseViewModel {
                                                      locationServiceStatus: locationManager.locationServiceStatus,
                                                      typePage: .filter,
                                                      zipCodeFilled: nil,
-                                                     ditanceRadius: distanceRadius)
+                                                     distanceRadius: distanceRadius)
             tracker.trackEvent(trackerEvent)
             closeLocation()
         case .quickFilterLocation:
@@ -207,7 +207,7 @@ class EditLocationViewModel: BaseViewModel {
                                                      locationServiceStatus: locationManager.locationServiceStatus,
                                                      typePage: .feedBubble,
                                                      zipCodeFilled: nil,
-                                                     ditanceRadius: distanceRadius)
+                                                     distanceRadius: distanceRadius)
             tracker.trackEvent(trackerEvent)
             closeQuickLocation()
         }
@@ -373,7 +373,7 @@ class EditLocationViewModel: BaseViewModel {
                                                          locationServiceStatus: strongSelf.locationManager.locationServiceStatus,
                                                          typePage: .profile,
                                                          zipCodeFilled: nil,
-                                                         ditanceRadius: nil)
+                                                         distanceRadius: nil)
                 strongSelf.tracker.trackEvent(trackerEvent)
                 strongSelf.closeLocation()
             } else {
