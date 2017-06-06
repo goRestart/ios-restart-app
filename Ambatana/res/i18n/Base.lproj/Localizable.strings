@@ -1475,7 +1475,7 @@
 "product_bubble_favorite_button" = "Let the seller know!";
 
 // Error shown when one user blocked the other
-"product_chat_direct_error_blocked_user_message" = "Oops! You've blocked this user, so you can't start a chat.";
+"product_chat_direct_error_blocked_user_message" = "Oops! You can't start a chat with this user.";
 
 // direct message sent to the seller fromthe product view
 "product_chat_direct_message" = "Hi %@, I'm interested";

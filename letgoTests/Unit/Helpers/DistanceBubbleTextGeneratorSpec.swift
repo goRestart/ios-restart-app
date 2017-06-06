@@ -43,11 +43,35 @@ class DistanceBubbleTextGeneratorSpec: QuickSpec {
                     sut = DistanceBubbleTextGenerator(locationManager: locationManager, featureFlags: featureFlags)
                 }
                 context ("location filters not set") {
-                    it ("1 Km -> Near you - 1 km") {
-                        expect(sut.bubbleInfoText(forDistance: 1, type: .km, distanceRadius: nil, place: nil)) == "\(LGLocalizedString.productDistanceNearYou) - 1 km"
+                    context ("Current location doesn't have a city") {
+                        beforeEach {
+                            let postalAddress = PostalAddress(address: "", city: nil, zipCode: "08039", state: "", countryCode: "es", country: "")
+                            let location = LGLocation(latitude: 41, longitude: 2, type: .sensor, postalAddress: postalAddress)
+                            locationManager.currentLocation = location
+                        }
+
+                        it ("1 Km -> Near you - 1 km") {
+                            expect(sut.bubbleInfoText(forDistance: 1, type: .km, distanceRadius: nil, place: nil)) == "\(LGLocalizedString.productDistanceNearYou) - 1 km"
+                        }
+                        it ("100 Km -> Near you - more than 20 km") {
+                            expect(sut.bubbleInfoText(forDistance: 100, type: .km, distanceRadius: nil, place: nil)) == "\(LGLocalizedString.productDistanceNearYou) - \(LGLocalizedString.productDistanceMoreThan("20 km"))"
+                        }
+
                     }
-                    it ("100 Km -> Near you - more than 20 km") {
-                        expect(sut.bubbleInfoText(forDistance: 100, type: .km, distanceRadius: nil, place: nil)) == "\(LGLocalizedString.productDistanceNearYou) - \(LGLocalizedString.productDistanceMoreThan("20 km"))"
+                    context ("Current location has a city") {
+                        beforeEach {
+                            let postalAddress = PostalAddress(address: "", city: "Barcelona", zipCode: "08039", state: "", countryCode: "es", country: "")
+                            let location = LGLocation(latitude: 41, longitude: 2, type: .sensor, postalAddress: postalAddress)
+                            locationManager.currentLocation = location
+                        }
+
+                        it ("1 Km -> Near you - 1 km") {
+                            expect(sut.bubbleInfoText(forDistance: 1, type: .km, distanceRadius: nil, place: nil)) == "Barcelona - 1 km"
+                        }
+                        it ("100 Km -> Near you - more than 20 km") {
+                            expect(sut.bubbleInfoText(forDistance: 100, type: .km, distanceRadius: nil, place: nil)) == "Barcelona - \(LGLocalizedString.productDistanceMoreThan("20 km"))"
+                        }
+                        
                     }
                 }
                 context ("location is set, radius is not") {
@@ -95,11 +119,32 @@ class DistanceBubbleTextGeneratorSpec: QuickSpec {
                     beforeEach {
                         radius = 30
                     }
-                    it ("1 Km -> Barcelona - 1 km") {
-                        expect(sut.bubbleInfoText(forDistance: 1, type: .km, distanceRadius: radius, place: nil)) == "\(LGLocalizedString.productDistanceNearYou) - 1 km"
+                    context ("Current location doesn't have a city") {
+                        beforeEach {
+                            let postalAddress = PostalAddress(address: "", city: nil, zipCode: "08039", state: "", countryCode: "es", country: "")
+                            let location = LGLocation(latitude: 41, longitude: 2, type: .sensor, postalAddress: postalAddress)
+                            locationManager.currentLocation = location
+                        }
+                        it ("1 Km -> Barcelona - 1 km") {
+                            expect(sut.bubbleInfoText(forDistance: 1, type: .km, distanceRadius: radius, place: nil)) == "\(LGLocalizedString.productDistanceNearYou) - 1 km"
+                        }
+                        it ("100 Km -> Barcelona - more than 30 km") {
+                            expect(sut.bubbleInfoText(forDistance: 100, type: .km, distanceRadius: radius, place: nil)) == "\(LGLocalizedString.productDistanceNearYou) - 30 km"
+                        }
+
                     }
-                    it ("100 Km -> Barcelona - more than 30 km") {
-                        expect(sut.bubbleInfoText(forDistance: 100, type: .km, distanceRadius: radius, place: nil)) == "\(LGLocalizedString.productDistanceNearYou) - 30 km"
+                    context ("Current location has a city") {
+                        beforeEach {
+                            let postalAddress = PostalAddress(address: "", city: "Barcelona", zipCode: "08039", state: "", countryCode: "es", country: "")
+                            let location = LGLocation(latitude: 41, longitude: 2, type: .sensor, postalAddress: postalAddress)
+                            locationManager.currentLocation = location
+                        }
+                        it ("1 Km -> Barcelona - 1 km") {
+                            expect(sut.bubbleInfoText(forDistance: 1, type: .km, distanceRadius: radius, place: nil)) == "Barcelona - 1 km"
+                        }
+                        it ("100 Km -> Barcelona - more than 30 km") {
+                            expect(sut.bubbleInfoText(forDistance: 100, type: .km, distanceRadius: radius, place: nil)) == "Barcelona - 30 km"
+                        }
                     }
                 }
                 context ("both location and radius are set") {
@@ -124,10 +169,10 @@ class DistanceBubbleTextGeneratorSpec: QuickSpec {
                             place = Place(postalAddress: postalAddress, location: location)
                             radius = 30
                         }
-                        it ("1 Km -> Barcelona - 1 km") {
+                        it ("1 Km -> 08039 - 1 km") {
                             expect(sut.bubbleInfoText(forDistance: 1, type: .km, distanceRadius: radius, place: place)) == "08039 - 1 km"
                         }
-                        it ("100 Km -> Barcelona - more than 30 km") {
+                        it ("100 Km -> 08039 - more than 30 km") {
                             expect(sut.bubbleInfoText(forDistance: 100, type: .km, distanceRadius: radius, place: place)) == "08039 - 30 km"
                         }
                     }
@@ -138,10 +183,10 @@ class DistanceBubbleTextGeneratorSpec: QuickSpec {
                             place = Place(postalAddress: postalAddress, location: location)
                             radius = 30
                         }
-                        it ("1 Km -> Barcelona - 1 km") {
+                        it ("1 Km -> Custom Location - 1 km") {
                             expect(sut.bubbleInfoText(forDistance: 1, type: .km, distanceRadius: radius, place: place)) == "\(LGLocalizedString.productDistanceCustomLocation) - 1 km"
                         }
-                        it ("100 Km -> Barcelona - more than 30 km") {
+                        it ("100 Km -> Custom Location - more than 30 km") {
                             expect(sut.bubbleInfoText(forDistance: 100, type: .km, distanceRadius: radius, place: place)) == "\(LGLocalizedString.productDistanceCustomLocation) - 30 km"
                         }
                     }

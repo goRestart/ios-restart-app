@@ -15,7 +15,7 @@ protocol LocationFromZipCodeViewModelDelegate: BaseViewModelDelegate { }
 class LocationFromZipCodeViewModel: BaseViewModel {
 
     private let locationManager: LocationManager
-    private let searchService: CLSearchLocationSuggestionsService
+    private let searchService: SearchLocationSuggestionsService
     private let postalAddressService: PostalAddressRetrievalService
 
     weak var locationDelegate: EditLocationDelegate?
@@ -48,7 +48,7 @@ class LocationFromZipCodeViewModel: BaseViewModel {
 
     init(initialPlace: Place?,
          locationManager: LocationManager,
-         searchService: CLSearchLocationSuggestionsService,
+         searchService: SearchLocationSuggestionsService,
          postalAddressService: PostalAddressRetrievalService) {
         self.locationManager = locationManager
         self.searchService = searchService
