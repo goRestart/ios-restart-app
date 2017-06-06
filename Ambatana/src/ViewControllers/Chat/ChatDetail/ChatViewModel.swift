@@ -1197,10 +1197,12 @@ fileprivate extension ChatViewModel {
     }
 
     func trackMarkAsSold() {
-        guard let product = conversation.value.listing else { return }
-        let markAsSold = TrackerEvent.productMarkAsSold(product, typePage: .chat,
-                                                        freePostingModeAllowed: featureFlags.freePostingModeAllowed,
-                                                        isBumpedUp: .notAvailable)
+        guard let chatListing = conversation.value.listing else { return }
+        let trackingInfo = MarkAsSoldTrackingInfo.make(chatListing: chatListing,
+                                                       isBumpedUp: .notAvailable,
+                                                       isFreePostingModeAllowed: featureFlags.freePostingModeAllowed,
+                                                       typePage: .chat)
+        let markAsSold = TrackerEvent.productMarkAsSold(trackingInfo: trackingInfo)
         tracker.trackEvent(markAsSold)
     }
 

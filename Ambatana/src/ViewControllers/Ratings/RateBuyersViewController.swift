@@ -14,7 +14,7 @@ enum RateBuyersSection: Int {
     case otherActions = 1
 }
 
-class RateBuyersViewController: BaseViewController {
+class RateBuyersViewController: BaseViewController, RateBuyersViewModelDelegate {
     
     static fileprivate let headerTableViewHeight: CGFloat = 10
     static fileprivate let numberOfSections = 2
@@ -27,8 +27,10 @@ class RateBuyersViewController: BaseViewController {
 
     init(with viewModel: RateBuyersViewModel) {
         self.viewModel = viewModel
-        self.mainView = RateBuyersView(source: viewModel.sourceRateBuyers)
+        self.mainView = RateBuyersView(source: viewModel.source)
         super.init(viewModel: viewModel, nibName: nil, navBarBackgroundStyle: .transparent(substyle: .light))
+        
+        viewModel.delegate = self
     }
 
     required init?(coder: NSCoder) {

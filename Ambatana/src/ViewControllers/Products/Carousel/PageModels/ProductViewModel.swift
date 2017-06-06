@@ -749,13 +749,19 @@ fileprivate extension ProductViewModel {
     func selectBuyerToMarkAsSold(sourceRateBuyers: SourceRateBuyers) {
         guard featureFlags.newMarkAsSoldFlow else { return }
         guard let listingId = listing.value.objectId else { return }
+        let trackingInfo = trackHelper.makeMarkAsSoldTrackingInfo(isShowingFeaturedStripe: isShowingFeaturedStripe.value)
+        
         delegate?.vmShowLoading(nil)
         listingRepository.possibleBuyersOf(listingId: listingId) { [weak self] result in
             guard let strongSelf = self else { return }
             if let buyers = result.value, !buyers.isEmpty {
                 strongSelf.delegate?.vmHideLoading(nil) {
                     guard let strongSelf = self else { return }
-                    strongSelf.navigator?.selectBuyerToRate(source: .markAsSold, buyers: buyers, listingId: listingId, sourceRateBuyers: sourceRateBuyers)
+                    strongSelf.navigator?.selectBuyerToRate(source: .markAsSold,
+                                                            buyers: buyers,
+                                                            listingId: listingId,
+                                                            sourceRateBuyers: sourceRateBuyers,
+                                                            trackingInfo: trackingInfo)
                 }
             } else {
                 let message = strongSelf.listing.value.price.free ? LGLocalizedString.productMarkAsSoldFreeSuccessMessage : LGLocalizedString.productMarkAsSoldSuccessMessage

@@ -427,8 +427,16 @@ extension TabCoordinator: ProductDetailNavigator {
         openChild(coordinator: bumpCoordinator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
     }
 
-    func selectBuyerToRate(source: RateUserSource, buyers: [UserListing], listingId: String, sourceRateBuyers: SourceRateBuyers?) {
-        let ratingCoordinator = UserRatingCoordinator(source: source, buyers: buyers, listingId: listingId, sourceRateBuyers: sourceRateBuyers)
+    func selectBuyerToRate(source: RateUserSource,
+                           buyers: [UserListing],
+                           listingId: String,
+                           sourceRateBuyers: SourceRateBuyers?,
+                           trackingInfo: MarkAsSoldTrackingInfo) {
+        let ratingCoordinator = UserRatingCoordinator(source: source,
+                                                      buyers: buyers,
+                                                      listingId: listingId,
+                                                      sourceRateBuyers: sourceRateBuyers,
+                                                      trackingInfo: trackingInfo)
         ratingCoordinator.delegate = self
         openChild(coordinator: ratingCoordinator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
     }
