@@ -290,8 +290,7 @@ class MainProductsViewModel: BaseViewModel {
     }
 
     func showFilters() {
-        navigator?.showFilters(with: filters, filtersVMDataDelegate: self)
-        // Tracking
+        navigator?.openFilters(withProductFilters: filters, filtersVMDataDelegate: self)
         tracker.trackEvent(TrackerEvent.filterStart())
     }
 
@@ -299,7 +298,6 @@ class MainProductsViewModel: BaseViewModel {
         Called when search button is pressed.
     */
     func searchBegan() {
-        // Tracking
         tracker.trackEvent(TrackerEvent.searchStart(myUserRepository.myUser))
     }
     
@@ -417,8 +415,11 @@ class MainProductsViewModel: BaseViewModel {
     }
 
     func bubbleTapped() {
-        let initialPlace = filters.place ?? Place(postalAddress: locationManager.currentLocation?.postalAddress, location: locationManager.currentLocation?.location)
-        navigator?.openLocationSelection(initialPlace: initialPlace, locationDelegate: self)
+        let initialPlace = filters.place ?? Place(postalAddress: locationManager.currentLocation?.postalAddress,
+                                                  location: locationManager.currentLocation?.location)
+        navigator?.openLocationSelection(initialPlace: initialPlace, 
+                                         distanceRadius: filters.distanceRadius,
+                                         locationDelegate: self)
     }
 
     
@@ -677,8 +678,11 @@ extension MainProductsViewModel {
 
         // Tracking: when a new location is received and has different type than previous one
         if lastReceivedLocation?.type != newLocation.type {
-            let locationServiceStatus = locationManager.locationServiceStatus
-            let trackerEvent = TrackerEvent.location(newLocation, locationServiceStatus: locationServiceStatus)
+            let trackerEvent = TrackerEvent.location(locationType: newLocation.type,
+                                                     locationServiceStatus: locationManager.locationServiceStatus,
+                                                     typePage: .automatic,
+                                                     zipCodeFilled: nil,
+                                                     distanceRadius: filters.distanceRadius)
             tracker.trackEvent(trackerEvent)
         }
         
@@ -978,8 +982,9 @@ fileprivate extension MainProductsViewModel {
 
 
 extension MainProductsViewModel: EditLocationDelegate {
-    func editLocationDidSelectPlace(_ place: Place) {
+    func editLocationDidSelectPlace(_ place: Place, distanceRadius: Int?) {
         filters.place = place
+        filters.distanceRadius = distanceRadius
         updateListView()
     }
 }

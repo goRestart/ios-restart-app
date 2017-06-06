@@ -473,7 +473,7 @@
 "product_auto_generated_translated_title_label" = "(és a Google fordította)";
 "product_bubble_favorite_button" = "Tudasd az eladóval!";
 "product_bubble_favorite_text" = "Portéka hozzáadva a kedvencekhez!";
-"product_chat_direct_error_blocked_user_message" = "Hoppá! Ezt a felhasználót blokkoltad, ezért nem indíthatsz csevegést.";
+"product_chat_direct_error_blocked_user_message" = "Hoppá! Ezzel a felhasználóval nem indíthatsz csevegést.";
 "product_chat_direct_message" = "Szia %@! Érdekel!";
 "product_chat_direct_message_sending" = "Küldés...";
 "product_chat_with_seller_button" = "Csevegés az eladóval";
@@ -692,6 +692,7 @@
 "profile_verify_google_button" = "Google";
 "profile_verify_google_message" = "Csatlakozz Google-lel személyazonosságod megerősítéséhez";
 "profile_verify_google_title" = "GOOGLE";
+"quick_filter_location_title" = "Set Location";
 "rate_buyers_message" = "GRATULÁLUNK";
 "rate_buyers_not_on_letgo_button" = "Nem a letgo piacán adtam el";
 "rate_buyers_not_on_letgo_title_button" = "Valahol máshol adtam el";

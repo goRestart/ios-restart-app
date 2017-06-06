@@ -211,7 +211,7 @@ extension AppCoordinator: AppNavigator {
     }
     
     func openChangeLocation() {
-        profileTabBarCoordinator.openEditLocation()
+        profileTabBarCoordinator.openEditLocation(withDistanceRadius: nil)
     }
 
     func openVerifyAccounts(_ types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?) {

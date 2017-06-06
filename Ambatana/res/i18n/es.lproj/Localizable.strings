@@ -473,7 +473,7 @@
 "product_auto_generated_translated_title_label" = "(y traducido por Google)";
 "product_bubble_favorite_button" = "¡Avisa al vendedor!";
 "product_bubble_favorite_text" = "¡Has añadido este artículo a tus favoritos!";
-"product_chat_direct_error_blocked_user_message" = "¡Ups! Has bloqueado a este usuario, así que no puedes iniciar un chat.";
+"product_chat_direct_error_blocked_user_message" = "¡Ups! No puedes iniciar un chat con este usuario.";
 "product_chat_direct_message" = "Hola %@, me interesa";
 "product_chat_direct_message_sending" = "Enviando...";
 "product_chat_with_seller_button" = "Chatea con el vendedor";
@@ -692,6 +692,7 @@
 "profile_verify_google_button" = "Google";
 "profile_verify_google_message" = "Conéctate con Google para verificar tu identidad";
 "profile_verify_google_title" = "GOOGLE";
+"quick_filter_location_title" = "Set Location";
 "rate_buyers_message" = "¡Enhorabuena!";
 "rate_buyers_not_on_letgo_button" = "No lo he vendido en letgo";
 "rate_buyers_not_on_letgo_title_button" = "Lo he vendido en otro lugar";

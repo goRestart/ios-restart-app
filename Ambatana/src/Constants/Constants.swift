@@ -21,6 +21,7 @@ struct Constants {
     // Map
     static let accurateRegionRadius = 1000.0    // meters
     static let nonAccurateRegionRadius = 5000.0 // meters
+    static let metersInOneMile: Double = 1609.34
     
     // URLs
     static let appStoreURL = "itms-apps://itunes.apple.com/app/id986339882?mt=8"
@@ -68,8 +69,8 @@ struct Constants {
     static let categoriesCellFactor: CGFloat = 150.0 / 160.0
     
     // Filters
-    static var distanceFilterDefault = 0
-    static let distanceFilterOptions = [0, 1, 10, 20, 30, 100]
+    static var distanceSliderDefaultPosition = 0
+    static let distanceSliderPositions = [0, 1, 10, 20, 30, 100]
     
     // App sharing
     static let facebookAppLinkURL = "https://fb.me/900185926729336"

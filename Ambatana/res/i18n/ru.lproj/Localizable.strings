@@ -473,7 +473,7 @@
 "product_auto_generated_translated_title_label" = "(и переведен Яндексом)";
 "product_bubble_favorite_button" = "Дайте знать продавцу!";
 "product_bubble_favorite_text" = "Этот товар добавлен в ваше избранное!";
-"product_chat_direct_error_blocked_user_message" = "Упс! Вы заблокировали этого пользователя и не можете начать с ним чат.";
+"product_chat_direct_error_blocked_user_message" = "Упс! Вы не можете начать чат с этим пользователем.";
 "product_chat_direct_message" = "Привет, %@, меня интересует товар";
 "product_chat_direct_message_sending" = "Отправка...";
 "product_chat_with_seller_button" = "Чат с продавцом";
@@ -692,6 +692,7 @@
 "profile_verify_google_button" = "Google";
 "profile_verify_google_message" = "Войдите через Google, чтобы подтвердить свое имя";
 "profile_verify_google_title" = "GOOGLE";
+"quick_filter_location_title" = "Set Location";
 "rate_buyers_message" = "Поздравляем!";
 "rate_buyers_not_on_letgo_button" = "Я продал не на letgo";
 "rate_buyers_not_on_letgo_title_button" = "Продал где-то еще";

@@ -25,9 +25,26 @@ struct TrackerEvent {
     }
     private(set) var params: EventParameters?
 
-    static func location(_ location: LGLocation, locationServiceStatus: LocationServiceStatus) -> TrackerEvent {
+    static func location(locationType: LGLocationType?,
+                         locationServiceStatus: LocationServiceStatus,
+                         typePage: EventParamenterLocationTypePage,
+                         zipCodeFilled: Bool?,
+                         distanceRadius: Int?) -> TrackerEvent {
         var params = EventParameters()
-        params[.locationType] = location.type.rawValue
+        if let locationType = locationType {
+            params[.locationType] = locationType.rawValue
+        }
+        params[.typePage] = typePage.rawValue
+        if let zipCodeFilled = zipCodeFilled {
+            params[.zipCode] = zipCodeFilled ? EventParameterBoolean.trueParameter.rawValue : EventParameterBoolean.falseParameter.rawValue
+        } else {
+            params[.zipCode] = EventParameterBoolean.notAvailable.rawValue
+        }
+        if let distanceRadius = distanceRadius {
+            params[.filterDistanceRadius] = distanceRadius
+        } else {
+            params[.filterDistanceRadius] = "default"
+        }
         let enabled: Bool
         let allowed: Bool
         switch locationServiceStatus {
@@ -637,12 +654,6 @@ struct TrackerEvent {
 
     static func profileEditEditName() -> TrackerEvent {
         return TrackerEvent(name: .profileEditEditName, params: nil)
-    }
-
-    static func profileEditEditLocation(_ location: LGLocation) -> TrackerEvent {
-        var params = EventParameters()
-        params[.locationType] = location.type.rawValue
-        return TrackerEvent(name: .profileEditEditLocation, params: params)
     }
 
     static func profileEditEditLocationStart() -> TrackerEvent {

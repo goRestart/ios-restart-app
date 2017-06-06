@@ -59,17 +59,22 @@ extension MainTabCoordinator: MainTabNavigator {
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func showFilters(with productFilters: ProductFilters, filtersVMDataDelegate: FiltersViewModelDataDelegate?) {
+    func openFilters(withProductFilters productFilters: ProductFilters,
+                     filtersVMDataDelegate: FiltersViewModelDataDelegate?) {
         let vm = FiltersViewModel(currentFilters: productFilters)
         vm.dataDelegate = filtersVMDataDelegate
-        let vc = FiltersViewController(viewModel: vm)
-        let navVC = UINavigationController(rootViewController: vc)
-        navigationController.present(navVC, animated: true, completion: nil)
+        let filtersCoordinator = FiltersCoordinator(viewModel: vm)
+        openChild(coordinator: filtersCoordinator, parent: navigationController,
+                  animated: true, forceCloseChild: true, completion: nil)
     }
 
-    func openLocationSelection(initialPlace: Place?, locationDelegate: EditLocationDelegate) {
-        guard let editLocationFiltersCoord = EditLocationFiltersCoordinator(initialPlace: initialPlace,
-                                                                            locationDelegate: locationDelegate) else { return }
+    func openLocationSelection(initialPlace: Place?,
+                               distanceRadius: Int?,
+                               locationDelegate: EditLocationDelegate) {
+        guard let editLocationFiltersCoord =
+            QuickLocationFiltersCoordinator(initialPlace: initialPlace,
+                                            distanceRadius: distanceRadius,
+                                            locationDelegate: locationDelegate) else { return }
         openChild(coordinator: editLocationFiltersCoord,
                   parent: rootViewController,
                   animated: true,

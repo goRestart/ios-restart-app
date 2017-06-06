@@ -2137,6 +2137,9 @@
 // Text to verify accounts
 "profile_connect_accounts_message" = "You still haven't verified your account with:";
 
+// Navigation bar title "Set Location"
+"quick_filter_location_title" = "Set Location";
+
 // Screen to select which buyer you sold the item before rating him/her
 "rate_buyers_title" = "Who bought this?";
 

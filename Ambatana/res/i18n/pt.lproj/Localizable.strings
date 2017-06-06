@@ -692,6 +692,7 @@
 "profile_verify_google_button" = "Google";
 "profile_verify_google_message" = "Connect with Google to verify your identity";
 "profile_verify_google_title" = "GOOGLE";
+"quick_filter_location_title" = "Set Location";
 "rate_buyers_message" = "Congratulations!";
 "rate_buyers_not_on_letgo_button" = "I didn't sell this on letgo";
 "rate_buyers_not_on_letgo_title_button" = "Sold it somewhere else";

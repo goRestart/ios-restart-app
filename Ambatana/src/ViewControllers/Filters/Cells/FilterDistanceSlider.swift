@@ -30,15 +30,34 @@ class FilterDistanceSlider: UIView {
         return marksContainer.frame.size
     }
     
-    private let positions: [Int] = Constants.distanceFilterOptions
-    private var currentDistance: Int {
-        let index = Int(slider.value + FilterDistanceSlider.sliderValueOffset)
-        return positions[index]
-    }
+    private let positions: [Int] = Constants.distanceSliderPositions
+    private var selectedPosition: Int = Constants.distanceSliderDefaultPosition
     
     weak var delegate: FilterDistanceSliderDelegate?
     
-    var distanceType: DistanceType = .km
+    var distanceType: DistanceType = DistanceType.systemDistanceType()
+    
+    var distance: Int {
+        set {
+            layoutIfNeeded()
+            selectedPosition = (0..<positions.count)
+                .filter { positions[$0] == newValue }
+                .first ?? Constants.distanceSliderDefaultPosition
+            setupInPosition(selectedPosition)
+        }
+        get {
+            let index = Int(slider.value + FilterDistanceSlider.sliderValueOffset)
+            return positions[index]
+        }
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        // first time we set a distance the slider might not have the right size, so it will go through `layoutSubviews`
+        // once it gets the final one
+        setupInPosition(selectedPosition)
+    }
     
     // MARK: - Lifecycle
     
@@ -52,20 +71,6 @@ class FilterDistanceSlider: UIView {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    // MARK: - Public methods
-    
-    func setDistance(_ distance: Int) {
-        layoutIfNeeded()
-        
-        for i in 0..<positions.count {
-            if (positions[i] == distance){
-                setupInPosition(i)
-                return
-            }
-        }
-        setupInPosition(0)
     }
     
     // MARK: - Internal methods
@@ -83,7 +88,7 @@ class FilterDistanceSlider: UIView {
         let index = Int(slider.value + FilterDistanceSlider.sliderValueOffset)
         setupInPosition(index)
         
-        delegate?.filterDistanceChanged(distance: currentDistance)
+        delegate?.filterDistanceChanged(distance: distance)
     }
     
     @IBAction func sliderValueChanged(_ sender: UISlider) {
@@ -154,13 +159,13 @@ class FilterDistanceSlider: UIView {
     }
     
     private func updateTipLabel() {
-        let currDist = currentDistance
+        let currDist = distance
         if (currDist == positions.first) { // 0: distance "not set"
             distanceLabel.text = LGLocalizedString.filtersDistanceNotSet
         } else if (currDist == positions.last) { // 100: distance "max"
             distanceLabel.text = LGLocalizedString.commonMax
         } else {
-            distanceLabel.text = "\(currentDistance) \(distanceType.string)"
+            distanceLabel.text = "\(distance) \(distanceType.string)"
         }
     }
 }

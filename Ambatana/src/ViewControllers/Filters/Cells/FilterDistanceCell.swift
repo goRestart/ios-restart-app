@@ -49,7 +49,7 @@ class FilterDistanceCell: UICollectionViewCell {
     // MARK: - Public methods
     
     func setupWithDistance(_ initialDistance: Int) {
-        filterDistanceSlider.setDistance(initialDistance)
+        filterDistanceSlider.distance = initialDistance
     }
     
     // MARK: - Private methods

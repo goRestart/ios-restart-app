@@ -17,6 +17,7 @@ class LocationFromZipCodeViewModel: BaseViewModel {
     private let locationManager: LocationManager
     private let searchService: SearchLocationSuggestionsService
     private let postalAddressService: PostalAddressRetrievalService
+    private let tracker: Tracker
 
     weak var locationDelegate: EditLocationDelegate?
 
@@ -30,29 +31,35 @@ class LocationFromZipCodeViewModel: BaseViewModel {
 
     fileprivate var initialPlace: Place?
     fileprivate var newPlace: Place?
+    fileprivate var distanceRadius: Int?
 
     var countryCode: CountryCode = .usa
 
-    weak var navigator: EditLocationFiltersNavigator?
+    weak var navigator: QuickLocationFiltersNavigator?
     weak var delegate: LocationFromZipCodeViewModelDelegate?
 
     private let disposeBag = DisposeBag()
-
-
-    convenience init(initialPlace: Place?) {
+    
+    convenience init(initialPlace: Place?, distanceRadius: Int? = nil) {
         self.init(initialPlace: initialPlace,
+                  distanceRadius: distanceRadius,
                   locationManager: Core.locationManager,
                   searchService: CLSearchLocationSuggestionsService(),
-                  postalAddressService: CLPostalAddressRetrievalService())
+                  postalAddressService: CLPostalAddressRetrievalService(),
+                  tracker: TrackerProxy.sharedInstance)
     }
 
     init(initialPlace: Place?,
+         distanceRadius: Int?,
          locationManager: LocationManager,
          searchService: SearchLocationSuggestionsService,
-         postalAddressService: PostalAddressRetrievalService) {
+         postalAddressService: PostalAddressRetrievalService,
+         tracker: Tracker) {
         self.locationManager = locationManager
         self.searchService = searchService
         self.postalAddressService = postalAddressService
+        self.tracker = tracker
+        self.distanceRadius = distanceRadius
         if let cCode = locationManager.currentLocation?.countryCode {
             self.countryCode = CountryCode(string: cCode) ?? .usa
         }
@@ -86,7 +93,7 @@ class LocationFromZipCodeViewModel: BaseViewModel {
 
     func updateAddressFromCurrentLocation() {
 
-        zipCode.value = ""
+        zipCode.value = nil
         setLocationButtonVisible.value = true
 
         guard let location = locationManager.currentAutoLocation?.location else { return }
@@ -127,12 +134,20 @@ class LocationFromZipCodeViewModel: BaseViewModel {
 
     func setNewLocation() {
         guard let place = newPlace else { return }
-        locationDelegate?.editLocationDidSelectPlace(place)
+        locationDelegate?.editLocationDidSelectPlace(place, distanceRadius: distanceRadius)
+        
+        let trackerEvent = TrackerEvent.location(locationType: locationManager.currentLocation?.type,
+                                                 locationServiceStatus: locationManager.locationServiceStatus,
+                                                 typePage: .feedBubble,
+                                                 zipCodeFilled: zipCode.value != nil,
+                                                 distanceRadius: nil)
+        tracker.trackEvent(trackerEvent)
+        
         close()
     }
 
     func close() {
-        navigator?.editLocationFromZipDidClose()
+        navigator?.closeQuickLocationFilters()
     }
 
     private func fullAddressString(forPlace place: Place) -> String? {
