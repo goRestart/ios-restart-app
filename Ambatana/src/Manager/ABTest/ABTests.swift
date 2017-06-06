@@ -39,6 +39,7 @@ struct ABTests {
     static var newMarkAsSoldFlow = BoolABDynamicVar(key: "newMarkAsSoldFlow", defaultValue: false)
     static var editLocationBubble = IntABDynamicVar(key: "editLocationBubble20170525", defaultValue: 0)
     static var newCarsMultiRequesterEnabled = BoolABDynamicVar(key: "newCarsMultiRequesterEnabled", defaultValue: false)
+    static var newCarouselNavigationEnabled = BoolABDynamicVar(key: "newCarouselNavigationEnabled20170606", defaultValue: false)
 
     static private var allVariables: [ABVariable] {
         var result = [ABVariable]()
@@ -68,6 +69,7 @@ struct ABTests {
         result.append(newMarkAsSoldFlow)
         result.append(editLocationBubble)
         result.append(newCarsMultiRequesterEnabled)
+        result.append(newCarouselNavigationEnabled)
 
         return result
     }

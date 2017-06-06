@@ -104,5 +104,10 @@
         "name": "NewCarsMultiRequesterEnabled",
         "values": ["no", "yes"],
         "description": "Cars multi requester enabled"
+    },
+    {
+        "name": "NewCarouselNavigationEnabled",
+        "values": ["no", "yes"],
+        "description": "New carousel navigation enabled"
     }
 ]

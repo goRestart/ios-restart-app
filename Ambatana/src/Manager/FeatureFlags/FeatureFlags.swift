@@ -38,6 +38,7 @@ protocol FeatureFlaggeable {
     var newMarkAsSoldFlow: Bool { get }
     var editLocationBubble: EditLocationBubble { get }
     var newCarsMultiRequesterEnabled: Bool { get }
+    var newCarouselNavigationEnabled: Bool { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -232,6 +233,12 @@ class FeatureFlags: FeatureFlaggeable {
         return ABTests.newCarsMultiRequesterEnabled.value
     }
 
+    var newCarouselNavigationEnabled: Bool {
+        if Bumper.enabled {
+            return Bumper.newCarouselNavigationEnabled
+        }
+        return ABTests.newCarouselNavigationEnabled.value
+    }
     
     // MARK: - Country features
 
