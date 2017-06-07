@@ -264,19 +264,18 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
                                                                               views: views))
 
         userView.delegate = self
-        let leftMargin = NSLayoutConstraint(item: userView, attribute: .leading, relatedBy: .equal, toItem: view,
-                                            attribute: .leading, multiplier: 1, constant: CarouselUI.itemsMargin)
-        let bottomMargin = NSLayoutConstraint(item: userView, attribute: .bottom, relatedBy: .equal, toItem: buttonTop,
-                                              attribute: .top, multiplier: 1, constant: -CarouselUI.itemsMargin)
-        let rightMargin = NSLayoutConstraint(item: userView, attribute: .trailing, relatedBy: .lessThanOrEqual,
-                                             toItem: view, attribute: .trailing, multiplier: 1,
-                                             constant: -CarouselUI.itemsMargin)
-        let height = NSLayoutConstraint(item: userView, attribute: .height, relatedBy: .equal, toItem: nil,
-                                         attribute: .notAnAttribute, multiplier: 1, constant: 50)
-        view.addConstraints([leftMargin, rightMargin, bottomMargin, height])
-        userViewBottomConstraint = bottomMargin
-        userViewRightConstraint = rightMargin
-        
+
+        userView.layout().height(CarouselUI.buttonHeight)
+        userView.layout(with: view)
+            .leading(by: CarouselUI.itemsMargin)
+            .trailing(by: CarouselUI.itemsMargin, constraintBlock: { [weak self] in
+                self?.userViewRightConstraint = $0
+            })
+        userView.layout(with: buttonTop)
+            .above(by: -CarouselUI.itemsMargin, constraintBlock: { [weak self] in
+            self?.userViewBottomConstraint = $0
+        })
+
         // UserView effect
         fullScreenAvatarEffectView.alpha = 0
         fullScreenAvatarView.clipsToBounds = true
@@ -946,13 +945,19 @@ extension ProductCarouselViewController: UICollectionViewDataSource, UICollectio
             guard let carouselCell = cell as? ProductCarouselCell else { return UICollectionViewCell() }
             guard let productCellModel = viewModel.productCellModelAt(index: indexPath.row) else { return carouselCell }
             carouselCell.configureCellWith(cellModel: productCellModel, placeholderImage: viewModel.thumbnailAtIndex(indexPath.row),
-                                                  indexPath: indexPath, imageDownloader: carouselImageDownloader)
+                                                  indexPath: indexPath, imageDownloader: carouselImageDownloader,
+                                                  horizontalImageScrollDirection: viewModel.horizontalImageScroll)
             carouselCell.delegate = self
             return carouselCell
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         collectionContentOffset.value = scrollView.contentOffset
+    }
+
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let carouselCell = cell as? ProductCarouselCell else { return }
+        carouselCell.returnToFirstImage()
     }
 }
 

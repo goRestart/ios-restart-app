@@ -103,6 +103,10 @@ class ProductCarouselViewModel: BaseViewModel {
         return !keyValueStorage[.didShowProductDetailOnboarding]
     }
 
+    var horizontalImageScroll: Bool {
+        return featureFlags.newCarouselNavigationEnabled
+    }
+
     fileprivate var trackingIndex: Int?
     fileprivate var initialThumbnail: UIImage?
 
@@ -114,6 +118,7 @@ class ProductCarouselViewModel: BaseViewModel {
     fileprivate let keyValueStorage: KeyValueStorageable
     fileprivate let imageDownloader: ImageDownloaderType
     fileprivate let productViewModelMaker: ProductViewModelMaker
+    fileprivate let featureFlags: FeatureFlaggeable
 
     fileprivate let disposeBag = DisposeBag()
 
@@ -206,6 +211,7 @@ class ProductCarouselViewModel: BaseViewModel {
         self.keyValueStorage = keyValueStorage
         self.imageDownloader = imageDownloader
         self.productViewModelMaker = productViewModelMaker
+        self.featureFlags = featureFlags
         if let initialListing = initialListing {
             self.startIndex = objects.value.index(where: { $0.listing.objectId == initialListing.objectId}) ?? 0
         } else {

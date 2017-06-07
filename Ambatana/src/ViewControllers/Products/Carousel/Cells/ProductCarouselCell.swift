@@ -28,6 +28,7 @@ class ProductCarouselCell: UICollectionViewCell {
     weak var delegate: ProductCarouselCellDelegate?
     var placeholderImage: UIImage?
     fileprivate var currentPage = 0
+    fileprivate var horizontalImageScrollDirection: Bool = false
 
     var imageDownloader: ImageDownloaderType =  ImageDownloader.sharedInstance
 
@@ -48,7 +49,7 @@ class ProductCarouselCell: UICollectionViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     func setupUI() {
         addSubview(collectionView)
 
@@ -76,17 +77,29 @@ class ProductCarouselCell: UICollectionViewCell {
     }
 
     func configureCellWith(cellModel: ProductCarouselCellModel, placeholderImage: UIImage?, indexPath: IndexPath,
-                                  imageDownloader: ImageDownloaderType) {
+                           imageDownloader: ImageDownloaderType, horizontalImageScrollDirection: Bool) {
         self.tag = (indexPath as NSIndexPath).hash
         self.productImages = cellModel.images
         self.productBackgroundColor = cellModel.backgroundColor
         self.imageDownloader = imageDownloader
         self.placeholderImage = placeholderImage
+        self.horizontalImageScrollDirection = horizontalImageScrollDirection
+
+        if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            layout.scrollDirection = horizontalImageScrollDirection ? .horizontal : .vertical
+        }
+
         if let firstImageUrl = productImages.first, placeholderImage == nil {
             self.placeholderImage = imageDownloader.cachedImageForUrl(firstImageUrl)
         }
         collectionView.setContentOffset(CGPoint.zero, animated: false) //Resetting images
         collectionView.reloadData()
+    }
+
+    func returnToFirstImage() {
+        guard productImages.count > 1 else { return }
+        let scrollPosition = horizontalImageScrollDirection ? UICollectionViewScrollPosition.left : UICollectionViewScrollPosition.top
+        collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: scrollPosition, animated: false)
     }
     
     fileprivate func numberOfImages() -> Int {
@@ -145,10 +158,11 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let pageSize = collectionView.frame.size.height;
+        let pageSize = horizontalImageScrollDirection ? collectionView.frame.size.width : collectionView.frame.size.height
         let numImages = numberOfImages()
         guard numImages > 0 else { return }
-        let page = Int(round(collectionView.contentOffset.y / pageSize)) % numImages
+        let collectionContentOffset = horizontalImageScrollDirection ? collectionView.contentOffset.x : collectionView.contentOffset.y
+        let page = Int(round(collectionContentOffset / pageSize)) % numImages
         if page != currentPage {
             currentPage = page
             delegate?.isZooming(false)
