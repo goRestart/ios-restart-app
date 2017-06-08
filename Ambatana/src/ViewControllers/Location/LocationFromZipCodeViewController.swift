@@ -138,6 +138,7 @@ fileprivate extension LocationFromZipCodeViewController {
         titleLabel.layout().height(20)
         titleLabel.layout(with: closeButton).centerY()
         titleLabel.layout(with: closeButton).leading(to: .trailing, by: Metrics.margin)
+        titleLabel.layout(with: scrollView).centerX()
 
         infoSelectionContainer.layout(with: scrollView).center()
         infoSelectionContainer.layout().width(50, relatedBy: .greaterThanOrEqual)
@@ -180,6 +181,7 @@ fileprivate extension LocationFromZipCodeViewController {
         viewModel.setLocationButtonVisible.asObservable().map{ !$0 }.bindTo(setLocationButton.rx.isHidden).addDisposableTo(disposeBag)
         viewModel.setLocationButtonEnabled.asObservable().bindTo(setLocationButton.rx.isEnabled).addDisposableTo(disposeBag)
         viewModel.fullAddressVisible.asObservable().map{ !$0 }.bindTo(fullAddressContainer.rx.isHidden).addDisposableTo(disposeBag)
+        viewModel.setDigitsTipLabelVisible.asObservable().map{ !$0 }.bindTo(minDigitsLabel.rx.isHidden).addDisposableTo(disposeBag)
         viewModel.fullAddress.asObservable().bindTo(addressLabel.rx.text).addDisposableTo(disposeBag)
         viewModel.isResolvingAddress.asObservable().bindNext { [weak self] isResolving in
             if isResolving {
@@ -234,7 +236,7 @@ extension LocationFromZipCodeViewController: UITextFieldDelegate {
         guard !string.hasEmojis() else { return false }
         guard string.isOnlyDigits else { return false }
         let text = textField.textReplacingCharactersInRange(range, replacementString: string)
-        guard text.characters.count <= viewModel.countryCode.zipCodeLenght else { return false }
+        guard text.characters.count <= viewModel.zipLenghtForCountry else { return false }
         return true
     }
 }
