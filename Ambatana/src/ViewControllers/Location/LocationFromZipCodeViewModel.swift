@@ -150,8 +150,6 @@ class LocationFromZipCodeViewModel: BaseViewModel {
     func updateAddressFromZipCode() {
         guard let zip = zipCode.value, isValidZipCode.value else { return }
 
-//        guard let zip = zipCode.value, countryCode.value.isValidZipCode(zipCode: zip) else { return }
-
         isResolvingAddress.value = true
 
         searchService.retrieveAddressForLocation(zip) { [weak self] result in
