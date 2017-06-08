@@ -71,12 +71,13 @@ fileprivate extension LocationFromZipCodeViewController {
 
         currentLocationButton.setTitle(LGLocalizedString.changeLocationZipCurrentLocationButton, for: .normal)
         currentLocationButton.setTitleColor(UIColor.primaryColor, for: .normal)
+        currentLocationButton.setTitleColor(UIColor.primaryColorHighlighted, for: .highlighted)
         currentLocationButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 30)
         currentLocationButton.addTarget(self, action: #selector(currentLocationButtonPressed), for: .touchUpInside)
 
         leftLineView.backgroundColor = UIColor.gray
         rightLineView.backgroundColor = UIColor.gray
-        orLabel.font = UIFont.mediumBodyFont
+        orLabel.font = UIFont.smallBodyFont
         orLabel.textColor = UIColor.darkGrayText
         orLabel.text = LGLocalizedString.commonOr.uppercase
         orLabel.textAlignment = .center
@@ -98,7 +99,7 @@ fileprivate extension LocationFromZipCodeViewController {
         addressLabel.textColor = UIColor.grayText
         addressLabel.text = ""
         addressLabel.textAlignment = .right
-        pointerImageView.image = UIImage(named: "ic_location")
+        pointerImageView.image = UIImage(named: "ic_location_light")
         pointerImageView.contentMode = .scaleAspectFit
 
         addressActivityIndicator.stopAnimating()
@@ -202,6 +203,7 @@ fileprivate extension LocationFromZipCodeViewController {
     }
 
     dynamic func closeButtonPressed() {
+        zipCodeTextField.resignFirstResponder()
         viewModel.close()
     }
 
@@ -210,6 +212,7 @@ fileprivate extension LocationFromZipCodeViewController {
     }
 
     dynamic func setLocationPressed() {
+        zipCodeTextField.resignFirstResponder()
         viewModel.setNewLocation()
     }
 
