@@ -71,8 +71,11 @@ final class TrackerProxy: Tracker {
     // MARK: - Tracker
 
     func application(_ application: UIApplication,
-                     didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
-        trackers.forEach { $0.application(application, didFinishLaunchingWithOptions: launchOptions) }
+                     didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?,
+                     featureFlags: FeatureFlaggeable) {
+        trackers.forEach { $0.application(application,
+                                          didFinishLaunchingWithOptions: launchOptions,
+                                          featureFlags: featureFlags) }
 
         setGPSPermission(gpsPermissionEnabled)
         setNotificationsPermission(notificationsPermissionEnabled)

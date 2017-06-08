@@ -52,12 +52,13 @@ extension AppDelegate: UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         GodModeManager.sharedInstance.applicationDidFinishLaunching()
-        ABTests.registerVariables()
-        self.featureFlags = FeatureFlags.sharedInstance
+        let featureFlags = FeatureFlags.sharedInstance
+        self.featureFlags = featureFlags
+        featureFlags.registerVariables()
         self.purchasesShopper = LGPurchasesShopper.sharedInstance
         self.deepLinksRouter = LGDeepLinksRouter.sharedInstance
         setupAppearance()
-        setupLibraries(application, launchOptions: launchOptions)
+        setupLibraries(application, launchOptions: launchOptions, featureFlags: featureFlags)
         self.listingRepository = Core.listingRepository
         self.locationManager = Core.locationManager
         self.sessionManager = Core.sessionManager
@@ -242,7 +243,9 @@ fileprivate extension AppDelegate {
         UIPageControl.appearance().currentPageIndicatorTintColor = UIColor.currentPageIndicatorTintColor
     }
 
-    func setupLibraries(_ application: UIApplication, launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
+    func setupLibraries(_ application: UIApplication,
+                        launchOptions: [UIApplicationLaunchOptionsKey: Any]?,
+                        featureFlags: FeatureFlaggeable) {
 
         LGCacheManager().cleanIfNeeded()
         let environmentHelper = EnvironmentsHelper()
@@ -283,7 +286,7 @@ fileprivate extension AppDelegate {
 
         // LGCoreKit
         let coreEnvironment = environmentHelper.coreEnvironment
-        let shouldUseWebSocketChat = featureFlags?.websocketChat ?? false
+        let shouldUseWebSocketChat = featureFlags.websocketChat
         let carsInfoJSONPath = Bundle.main.path(forResource: "CarsInfo", ofType: "json") ?? ""
 
         let coreKitConfig = LGCoreKitConfig(environmentType: coreEnvironment,
@@ -306,7 +309,9 @@ fileprivate extension AppDelegate {
         PushManager.sharedInstance.application(application, didFinishLaunchingWithOptions: launchOptions)
 
         // Tracking
-        TrackerProxy.sharedInstance.application(application, didFinishLaunchingWithOptions: launchOptions)
+        TrackerProxy.sharedInstance.application(application,
+                                                didFinishLaunchingWithOptions: launchOptions,
+                                                featureFlags: featureFlags)
 
         // Google app indexing
         FIRAppIndexing.sharedInstance().registerApp(EnvironmentProxy.sharedInstance.googleAppIndexingId)
