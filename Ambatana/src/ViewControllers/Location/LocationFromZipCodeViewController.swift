@@ -236,7 +236,7 @@ extension LocationFromZipCodeViewController: UITextFieldDelegate {
         guard !string.hasEmojis() else { return false }
         guard string.isOnlyDigits else { return false }
         let text = textField.textReplacingCharactersInRange(range, replacementString: string)
-        guard text.characters.count <= viewModel.countryCode.zipCodeLenght else { return false }
+        guard text.characters.count <= viewModel.zipLenghtForCountry else { return false }
         return true
     }
 }

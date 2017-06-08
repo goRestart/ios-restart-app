@@ -30,12 +30,17 @@ class LocationFromZipCodeViewModel: BaseViewModel {
     let setDigitsTipLabelVisible = Variable<Bool>(true)
     let fullAddressVisible = Variable<Bool>(false)
     let isResolvingAddress = Variable<Bool>(false)
+    let isValidZipCode = Variable<Bool>(false)
 
     fileprivate let initialPlace = Variable<Place?>(nil)
     fileprivate let newPlace = Variable<Place?>(nil)
     fileprivate var distanceRadius: Int?
 
-    var countryCode: CountryCode = .usa
+    fileprivate let countryCode = Variable<CountryCode>(.usa)
+
+    var zipLenghtForCountry: Int {
+        return countryCode.value.zipCodeLenght
+    }
 
     weak var navigator: QuickLocationFiltersNavigator?
     weak var delegate: LocationFromZipCodeViewModelDelegate?
@@ -61,10 +66,9 @@ class LocationFromZipCodeViewModel: BaseViewModel {
         self.searchService = searchService
         self.postalAddressService = postalAddressService
         self.tracker = tracker
-        self.initialPlace.value = initialPlace
         self.distanceRadius = distanceRadius
         if let cCode = locationManager.currentLocation?.countryCode {
-            self.countryCode = CountryCode(string: cCode) ?? .usa
+            self.countryCode.value = CountryCode(string: cCode) ?? .usa
         }
         super.init()
         setupRx()
@@ -74,14 +78,16 @@ class LocationFromZipCodeViewModel: BaseViewModel {
 
     func setupRx() {
 
-        zipCode.asObservable().unwrap()
-            .bindNext { [weak self] zip in
-                guard let strongSelf = self else { return }
-                if strongSelf.countryCode.isValidZipCode(zipCode: zip) {
-                    strongSelf.updateAddressFromZipCode()
-                } else {
-                    strongSelf.setLocationButtonEnabled.value = false
-                }
+        Observable.combineLatest(countryCode.asObservable(), zipCode.asObservable().unwrap()) { ($0, $1) }
+            .map { (cCode, zip) -> Bool in
+                return cCode.isValidZipCode(zipCode: zip)
+            }
+            .bindTo(isValidZipCode)
+            .addDisposableTo(disposeBag)
+
+        isValidZipCode.asObservable()
+            .bindNext { _ in
+                self.updateAddressFromZipCode()
             }
             .addDisposableTo(disposeBag)
 
@@ -97,14 +103,18 @@ class LocationFromZipCodeViewModel: BaseViewModel {
 
         let fullAddressNotNil = fullAddress.asObservable().map { $0 != nil }
         Observable.combineLatest(fullAddressNotNil, isResolvingAddress.asObservable()) { $0 && !$1 }
-        .bindTo(fullAddressVisible)
-        .addDisposableTo(disposeBag)
+            .bindTo(fullAddressVisible)
+            .addDisposableTo(disposeBag)
 
         let initialAddressString = initialPlace.asObservable().unwrap().map { LocationFromZipCodeViewModel.fullAddressString(forPlace: $0) }
-        Observable.combineLatest(initialAddressString.asObservable(), fullAddress.asObservable().unwrap()) { ($0, $1) }
-            .map { (initialAddress, fullAddress) -> Bool in
-                return initialAddress != fullAddress
-        }.bindTo(setLocationButtonEnabled).addDisposableTo(disposeBag)
+        Observable.combineLatest(initialAddressString.asObservable(),
+                                 fullAddress.asObservable().unwrap(),
+                                 isValidZipCode.asObservable()) { ($0, $1, $2) }
+            .map { (initialAddress, fullAddress, isValidZipCode) -> Bool in
+                return initialAddress != fullAddress && isValidZipCode
+            }
+            .bindTo(setLocationButtonEnabled)
+            .addDisposableTo(disposeBag)
 
         setLocationButtonEnabled.asObservable().map{ !$0 }.bindTo(setDigitsTipLabelVisible).addDisposableTo(disposeBag)
     }
@@ -138,7 +148,9 @@ class LocationFromZipCodeViewModel: BaseViewModel {
     }
 
     func updateAddressFromZipCode() {
-        guard let zip = zipCode.value, countryCode.isValidZipCode(zipCode: zip) else { return }
+        guard let zip = zipCode.value, isValidZipCode.value else { return }
+
+//        guard let zip = zipCode.value, countryCode.value.isValidZipCode(zipCode: zip) else { return }
 
         isResolvingAddress.value = true
 
