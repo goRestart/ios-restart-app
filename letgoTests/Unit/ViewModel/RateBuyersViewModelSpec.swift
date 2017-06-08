@@ -31,7 +31,8 @@ class RateBuyersViewModelSpec: BaseViewModelSpec {
         var listingRepository: MockListingRepository!
         var tracker: MockTracker!
         
-        describe("RateBuyersViewModelSpec") {
+        fdescribe("RateBuyersViewModelSpec") {
+            var trackingInfo: MarkAsSoldTrackingInfo!
             
             beforeEach {
                 self.resetViewModelSpec()
@@ -40,21 +41,88 @@ class RateBuyersViewModelSpec: BaseViewModelSpec {
                 listingRepository.transactionResult = ListingTransactionResult(MockTransaction.makeMock())
                 tracker = MockTracker()
                 
-                let buyers = MockUserListing.makeMocks(count: 5)
-                let listingId = "123456789"
+                trackingInfo = MarkAsSoldTrackingInfo.make(listing: .product(MockProduct.makeMock()),
+                                                           isBumpedUp: .trueParameter,
+                                                           isFreePostingModeAllowed: true,
+                                                           typePage: .productDetail)
                 
-                let trackingInfo = MarkAsSoldTrackingInfo.make(listing: .product(MockProduct.makeMock()),
-                                                               isBumpedUp: .trueParameter,
-                                                               isFreePostingModeAllowed: true,
-                                                               typePage: .productDetail)
+                let buyers = MockUserListing.makeMocks(count: 5)
                 sut = RateBuyersViewModel(buyers: buyers,
-                                          listingId: listingId,
+                                          listingId: "123456789",
                                           trackingInfo: trackingInfo,
                                           listingRepository: listingRepository,
                                           source: nil,
                                           tracker: tracker)
                 sut.navigator = self
                 sut.delegate = self
+            }
+            
+            describe("initialization") {
+                context("with 2 buyers") {
+                    beforeEach {
+                        let buyers = MockUserListing.makeMocks(count: 2)
+                        sut = RateBuyersViewModel(buyers: buyers,
+                                                  listingId: "123456789",
+                                                  trackingInfo: trackingInfo,
+                                                  listingRepository: listingRepository,
+                                                  source: nil,
+                                                  tracker: tracker)
+                        sut.navigator = self
+                        sut.delegate = self
+                    }
+                    
+                    it("shows 2 buyers") {
+                        expect(sut.buyersToShow) == 2
+                    }
+                    
+                    it("does not show a more button") {
+                        expect(sut.shouldShowSeeMoreOption) == false
+                    }
+                }
+                
+                context("with 3 buyers") {
+                    beforeEach {
+                        let buyers = MockUserListing.makeMocks(count: 3)
+                        sut = RateBuyersViewModel(buyers: buyers,
+                                                  listingId: "123456789",
+                                                  trackingInfo: trackingInfo,
+                                                  listingRepository: listingRepository,
+                                                  source: nil,
+                                                  tracker: tracker)
+                        sut.navigator = self
+                        sut.delegate = self
+                    }
+                    
+                    it("shows 3 buyers") {
+                        expect(sut.buyersToShow) == 3
+                    }
+                    
+                    it("does not show a more button") {
+                        expect(sut.shouldShowSeeMoreOption) == false
+                    }
+                }
+                
+                context("with 5 buyers") {
+                    beforeEach {
+                        let buyers = MockUserListing.makeMocks(count: 5)
+                        sut = RateBuyersViewModel(buyers: buyers,
+                                                  listingId: "123456789",
+                                                  trackingInfo: trackingInfo,
+                                                  listingRepository: listingRepository,
+                                                  source: nil,
+                                                  tracker: tracker)
+                        sut.navigator = self
+                        sut.delegate = self
+                    }
+                    
+                    it("shows 3 buyers") {
+                        expect(sut.buyersToShow) == 3
+                    }
+                    
+                    it("shows a more button") {
+                        expect(sut.shouldShowSeeMoreOption) == true
+                    }
+                }
             }
             
             describe("select sold outside letgo") {
