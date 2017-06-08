@@ -31,7 +31,7 @@ class RateBuyersViewModelSpec: BaseViewModelSpec {
         var listingRepository: MockListingRepository!
         var tracker: MockTracker!
         
-        fdescribe("RateBuyersViewModelSpec") {
+        describe("RateBuyersViewModelSpec") {
             var trackingInfo: MarkAsSoldTrackingInfo!
             
             beforeEach {
