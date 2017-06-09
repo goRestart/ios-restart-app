@@ -257,6 +257,9 @@
 		502047191EE99F6E006C0EC2 /* FeatureFlagsDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502047171EE99F6D006C0EC2 /* FeatureFlagsDAO.swift */; };
 		5020471B1EE99F7A006C0EC2 /* FeatureFlagsUDDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5020471A1EE99F7A006C0EC2 /* FeatureFlagsUDDAO.swift */; };
 		5020471C1EE99F7A006C0EC2 /* FeatureFlagsUDDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5020471A1EE99F7A006C0EC2 /* FeatureFlagsUDDAO.swift */; };
+		5020471E1EEA956C006C0EC2 /* FeatureFlagsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5020471D1EEA956C006C0EC2 /* FeatureFlagsSpec.swift */; };
+		502047201EEA98D8006C0EC2 /* MockCountryConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5020471F1EEA98D8006C0EC2 /* MockCountryConfigurable.swift */; };
+		502047221EEA9A2F006C0EC2 /* MockFeatureFlagsDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502047211EEA9A2F006C0EC2 /* MockFeatureFlagsDAO.swift */; };
 		5021910D1B2F1DAA00ABD31F /* RememberPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5021910B1B2F1DAA00ABD31F /* RememberPasswordViewController.swift */; };
 		5021910E1B2F1DAA00ABD31F /* RememberPasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5021910C1B2F1DAA00ABD31F /* RememberPasswordViewController.xib */; };
 		502191101B2F1DC100ABD31F /* RememberPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5021910F1B2F1DC100ABD31F /* RememberPasswordViewModel.swift */; };
@@ -1625,6 +1628,9 @@
 		502047141EE1BB21006C0EC2 /* MarkAsSoldTrackingInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkAsSoldTrackingInfo.swift; sourceTree = "<group>"; };
 		502047171EE99F6D006C0EC2 /* FeatureFlagsDAO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureFlagsDAO.swift; sourceTree = "<group>"; };
 		5020471A1EE99F7A006C0EC2 /* FeatureFlagsUDDAO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureFlagsUDDAO.swift; sourceTree = "<group>"; };
+		5020471D1EEA956C006C0EC2 /* FeatureFlagsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureFlagsSpec.swift; sourceTree = "<group>"; };
+		5020471F1EEA98D8006C0EC2 /* MockCountryConfigurable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockCountryConfigurable.swift; sourceTree = "<group>"; };
+		502047211EEA9A2F006C0EC2 /* MockFeatureFlagsDAO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockFeatureFlagsDAO.swift; sourceTree = "<group>"; };
 		5021910B1B2F1DAA00ABD31F /* RememberPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RememberPasswordViewController.swift; sourceTree = "<group>"; };
 		5021910C1B2F1DAA00ABD31F /* RememberPasswordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RememberPasswordViewController.xib; sourceTree = "<group>"; };
 		5021910F1B2F1DC100ABD31F /* RememberPasswordViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RememberPasswordViewModel.swift; sourceTree = "<group>"; };
@@ -3193,6 +3199,7 @@
 				2EC653B41E71744B00E23DDF /* HOF.swift */,
 				2EC653B51E71744B00E23DDF /* MockExternalAuthHelper.swift */,
 				2EC842A51E6EEB7000EED53A /* MockReceiptURLProvider.swift */,
+				5020471F1EEA98D8006C0EC2 /* MockCountryConfigurable.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -3206,6 +3213,7 @@
 				50D08D621E69AF14009CC260 /* MockBubbleNotificationManager.swift */,
 				50D08D631E69AF14009CC260 /* MockCountryHelper.swift */,
 				50D08D641E69AF14009CC260 /* MockFeatureFlags.swift */,
+				502047211EEA9A2F006C0EC2 /* MockFeatureFlagsDAO.swift */,
 				721A83131E82B52C00507E47 /* MockMediaPermissions.swift */,
 				C750AA8C1E6D77B7005F87C5 /* MockImageDownloader.swift */,
 				50D08D651E69AF14009CC260 /* MockGodModeManager.swift */,
@@ -3287,6 +3295,7 @@
 				50D08D811E69AF14009CC260 /* ConfigFileManagerSpec.swift */,
 				50D08D821E69AF14009CC260 /* CrashManagerSpec.swift */,
 				50D08D831E69AF14009CC260 /* GodModeManagerSpec.swift */,
+				5020471D1EEA956C006C0EC2 /* FeatureFlagsSpec.swift */,
 				50D08D841E69AF14009CC260 /* NotificationsManagerSpec.swift */,
 				50D08D851E69AF14009CC260 /* PurchasesShopperSpec.swift */,
 				504C63B81ECAE0AB00D33BFA /* PushManagerSpec.swift */,
@@ -5217,11 +5226,13 @@
 				50D08DDE1E69AF14009CC260 /* LogInEmailViewModelSpec.swift in Sources */,
 				50D08DD81E69AF14009CC260 /* LGConfigDAOSpec.swift in Sources */,
 				2EEDC5881E71B0D6008779D8 /* HOF.swift in Sources */,
+				502047201EEA98D8006C0EC2 /* MockCountryConfigurable.swift in Sources */,
 				50D08DE21E69AF14009CC260 /* ProductViewModelSpec.swift in Sources */,
 				50D08DAA1E69AF14009CC260 /* MockConfigFileDAO.swift in Sources */,
 				50D08DB71E69AF14009CC260 /* MockTracker.swift in Sources */,
 				50D08DE61E69AF14009CC260 /* SignUpViewModelSpec.swift in Sources */,
 				50D08DE31E69AF14009CC260 /* SignUpEmailStep1ViewModelSpec.swift in Sources */,
+				502047221EEA9A2F006C0EC2 /* MockFeatureFlagsDAO.swift in Sources */,
 				50D08DC01E69AF14009CC260 /* CGFloat+LGSpec.swift in Sources */,
 				72D928D81E83D1C60030F4C3 /* ChatViewModelSpec.swift in Sources */,
 				72D928E71E83ED300030F4C3 /* MockRatingManager.swift in Sources */,
@@ -5273,6 +5284,7 @@
 				50D934D71E803C9E00BDD5FF /* PostProductStateSpec.swift in Sources */,
 				50D08DB01E69AF14009CC260 /* MockBubbleNotificationManager.swift in Sources */,
 				50D08DD71E69AF14009CC260 /* PostIncentiviserItemSpec.swift in Sources */,
+				5020471E1EEA956C006C0EC2 /* FeatureFlagsSpec.swift in Sources */,
 				50D08DBC1E69AF14009CC260 /* MockPurchaseableProductsRequest.swift in Sources */,
 				50D08DC81E69AF14009CC260 /* TestableObserver+LGSpec.swift in Sources */,
 				50D08DAF1E69AF14009CC260 /* MockAppVersion.swift in Sources */,
