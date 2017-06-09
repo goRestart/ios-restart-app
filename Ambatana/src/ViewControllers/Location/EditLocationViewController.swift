@@ -10,6 +10,7 @@ import UIKit
 import MapKit
 import LGCoreKit
 import RxSwift
+import RxSwiftExt
 import RxCocoa
 import Result
 
@@ -292,7 +293,7 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
         //When place changes on viewModel map must follow its location
         //Each time approxLocation or distance value changes, map must zoom-in/out map accordingly
         Observable.combineLatest(viewModel.approxLocation.asObservable(),
-                                 viewModel.placeLocation.asObservable(),
+                                 viewModel.placeLocation.asObservable().unwrap(),
                                  viewModel.currentDistanceRadius.asObservable()) { ($0, $1, $2) }
             .bindNext { [weak self] (approximate, location, currentRadius) in
                 var radius = approximate ? Constants.nonAccurateRegionRadius : Constants.accurateRegionRadius
@@ -324,11 +325,9 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
     /**
         Centers the map in the given location, if any and zooms if a radius is specified
         - coordinate: the location where it should center
-        - radius: the size of the region to show (can be nil )
+        - radius: the size of the region to show
      */
-    fileprivate func centerMapInLocation(_ coordinate: CLLocationCoordinate2D?, radius: Double) {
-        guard let coordinate = coordinate else { return }
-
+    fileprivate func centerMapInLocation(_ coordinate: CLLocationCoordinate2D, radius: Double) {
         let region = MKCoordinateRegionMakeWithDistance(coordinate, radius, radius)
         mapView.setRegion(region, animated: true)
     }
