@@ -26,7 +26,8 @@ class TrackerProxySpec: QuickSpec {
                 tracker2.didFinishLaunchingWithOptionsBlock = { (tracker: Tracker) in flags[1] = true }
                 tracker3.didFinishLaunchingWithOptionsBlock = { (tracker: Tracker) in flags[2] = true }
                 
-                sut.application(UIApplication.shared, didFinishLaunchingWithOptions: nil)
+                let featureFlags = MockFeatureFlags()
+                sut.application(UIApplication.shared, didFinishLaunchingWithOptions: nil, featureFlags: featureFlags)
                 for flag in flags {
                     expect(flag).to(beTrue())
                 }
