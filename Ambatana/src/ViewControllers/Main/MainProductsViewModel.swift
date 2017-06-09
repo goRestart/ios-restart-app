@@ -14,7 +14,7 @@ import RxSwift
 protocol MainProductsViewModelDelegate: BaseViewModelDelegate {
     func vmDidSearch()
     func vmShowTags(_ tags: [FilterTag])
-    func vmPlaceChanged()
+    func vmFiltersChanged()
 }
 
 struct MainProductsHeader: OptionSet {
@@ -991,6 +991,6 @@ extension MainProductsViewModel: EditLocationDelegate {
         filters.place = place
         filters.distanceRadius = distanceRadius
         updateListView()
-        delegate?.vmPlaceChanged()
+        delegate?.vmFiltersChanged()
     }
 }

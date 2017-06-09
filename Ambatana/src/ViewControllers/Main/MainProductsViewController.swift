@@ -220,7 +220,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         loadTagsViewWithTags(tags)
     }
 
-    func vmPlaceChanged() {
+    func vmFiltersChanged() {
         setFiltersNavBarButton()
     }
 
