@@ -473,7 +473,7 @@
 "product_auto_generated_translated_title_label" = "(και μεταγραστεί από το Google)";
 "product_bubble_favorite_button" = "Ενημερώστε τον πωλητή!";
 "product_bubble_favorite_text" = "Αυτό το προϊόν έχει προστεθεί στα αγαπημένα σας!";
-"product_chat_direct_error_blocked_user_message" = "Όπα! Έχετε μπλοκάρει αυτόν το χρήστη, οπότε δεν μπορείτε να ξεκινήσετε μια συνομιλία.";
+"product_chat_direct_error_blocked_user_message" = "Όπα! Δεν μπορείτε να ξεκινήσετε μια συνομιλία με αυτόν το χρήστη.";
 "product_chat_direct_message" = "Γεια σου %@, ενδιαφέρομαι!";
 "product_chat_direct_message_sending" = "Αποστολή...";
 "product_chat_with_seller_button" = "Συνομιλήστε με τον πωλητή";
@@ -692,7 +692,7 @@
 "profile_verify_google_button" = "Google";
 "profile_verify_google_message" = "Συνδεθείτε με το Google για να επιβεβαιώσετε την ταυτότητά σας";
 "profile_verify_google_title" = "GOOGLE";
-"quick_filter_location_title" = "Set Location";
+"quick_filter_location_title" = "Ορισμός Τοποθεσίας";
 "rate_buyers_message" = "Συγχαρητήρια!";
 "rate_buyers_not_on_letgo_button" = "Δεν το πούλησα στο letgo";
 "rate_buyers_not_on_letgo_title_button" = "Το πούλησα κάπου αλλού";

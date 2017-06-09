@@ -332,8 +332,8 @@
 "forced_update_title" = "Mise à jour disponible";
 "forced_update_update_button" = "Mettre à jour";
 "help_title" = "Aide";
-"hidden_email_tag" = "[EMAIL CENSURÉ]";
-"hidden_phone_tag" = "[NUMÉRO DE TELEPHONE CENSURÉ]";
+"hidden_email_tag" = "[EMAIL MASQUÉ]";
+"hidden_phone_tag" = "[NUMÉRO DE TELEPHONE MASQUÉ]";
 "hidden_text_alert_description" = "Nous masquons les informations de contact pour vous aider à acheter et vendre en toute sécurité. Chatter dans letgo est facile et plus sécurisé.";
 "hidden_text_alert_title" = "SOYEZ PRUDENT";
 "location_permissions_allow_button" = "Autoriser";
@@ -473,7 +473,7 @@
 "product_auto_generated_translated_title_label" = "(et traduit par Google)";
 "product_bubble_favorite_button" = "Informez le vendeur !";
 "product_bubble_favorite_text" = "Ce bien a été ajouté à vos favoris !";
-"product_chat_direct_error_blocked_user_message" = "Oups ! Vous avez bloqué cet utilisateur, vous ne pouvez donc pas chatter avec.";
+"product_chat_direct_error_blocked_user_message" = "Oups ! Vous ne pouvez pas débuter un chat avec cet utilisateur.";
 "product_chat_direct_message" = "Salut %@, je suis intéressé !";
 "product_chat_direct_message_sending" = "Envoi...";
 "product_chat_with_seller_button" = "Chatter avec le vendeur";
@@ -692,7 +692,7 @@
 "profile_verify_google_button" = "Google";
 "profile_verify_google_message" = "Connectez-vous avec Google pour vérifier votre identité";
 "profile_verify_google_title" = "GOOGLE";
-"quick_filter_location_title" = "Set Location";
+"quick_filter_location_title" = "Configurer une localisation";
 "rate_buyers_message" = "Félicitations !";
 "rate_buyers_not_on_letgo_button" = "Je ne l'ai pas vendu sur letgo";
 "rate_buyers_not_on_letgo_title_button" = "Je l'ai vendu ailleurs";

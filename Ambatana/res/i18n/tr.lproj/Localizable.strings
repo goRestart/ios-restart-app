@@ -561,8 +561,8 @@
 "product_post_camera_tab" = "FOTOĞRAF";
 "product_post_camera_tab_v2" = "Kamera";
 "product_post_close_alert_close_button" = "Sil";
-"product_post_close_alert_description" = "Onu hala satmak için listelemek istiyor musun?";
-"product_post_close_alert_ok_button" = "Ürün Yükle";
+"product_post_close_alert_description" = "Ürünü satmak için yüklemek istiyor musun?";
+"product_post_close_alert_ok_button" = "Ürünü Yükle";
 "product_post_close_alert_title" = "Ürün yüklenmedi";
 "product_post_confirmation_another" = "veya";
 "product_post_confirmation_another_button" = "Başka bir ürün listele";
@@ -601,7 +601,7 @@
 "product_post_incentive_title" = "TEBRİKLER!";
 "product_post_incentive_toys" = "Oyuncaklar";
 "product_post_incentive_tv" = "TV'ler";
-"product_post_login_message" = "Bir şeyler satmak için, önce giriş yapmalısın";
+"product_post_login_message" = "Ürününü satabilmek için önce giriş yapmalısın";
 "product_post_network_error" = "Ürünün yayınlanmadı.\nLütfen internete bağlı olduğundan emin ol.";
 "product_post_price_label" = "Fiyat eklemek ister misin?";
 "product_post_product_posted" = "Ürünün yayınlandı. Tebrikler!";
@@ -692,7 +692,7 @@
 "profile_verify_google_button" = "Google";
 "profile_verify_google_message" = "Kimliğini doğrulamak için Google ile bağlan";
 "profile_verify_google_title" = "GOOGLE";
-"quick_filter_location_title" = "Set Location";
+"quick_filter_location_title" = "Konum seç";
 "rate_buyers_message" = "Tebrikler!";
 "rate_buyers_not_on_letgo_button" = "Bu ürünü letgo'da satmadım";
 "rate_buyers_not_on_letgo_title_button" = "Bu ürünü başka bir yerde sattım";

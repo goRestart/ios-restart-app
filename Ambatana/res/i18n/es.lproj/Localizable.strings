@@ -262,8 +262,8 @@
 "contact_subject_option_location" = "Problemas de ubicación";
 "contact_subject_option_login" = "Problemas al iniciar sesión";
 "contact_subject_option_other" = "Otros problemas";
-"contact_subject_option_product_edit" = "Editar/borrar artículo";
-"contact_subject_option_profile_edit" = "Editar/borrar perfil";
+"contact_subject_option_product_edit" = "Editar/eliminar artículo";
+"contact_subject_option_profile_edit" = "Editar/eliminar perfil";
 "contact_subject_option_report" = "Denunciar usuario/spam";
 "direct_answer_condition" = "¿En qué condición está el artículo?";
 "direct_answer_free_available" = "Sí, todavía está disponible";
@@ -494,11 +494,11 @@
 "product_delete_confirm_message" = "¿Por qué quieres eliminar tu artículo?";
 "product_delete_confirm_ok_button" = "No quiero venderlo";
 "product_delete_confirm_sold_button" = "Ya lo he vendido";
-"product_delete_confirm_title" = "Borrar artículo";
+"product_delete_confirm_title" = "Eliminar artículo";
 "product_delete_post_button_title" = "Publica otro producto";
 "product_delete_post_subtitle" = "Prueba publicando otro artículo y empieza a ganar dinero.";
 "product_delete_post_title" = "¿NO HAS TENIDO SUERTE?";
-"product_delete_send_error_generic" = "¡Ups! Se ha producido un error al borrar tu artículo. Por favor, inténtalo de nuevo.";
+"product_delete_send_error_generic" = "¡Ups! Se ha producido un error al eliminar tu artículo. Por favor, inténtalo de nuevo.";
 "product_delete_sold_confirm_message" = "¿Seguro que quieres eliminar este artículo?";
 "product_delete_success_message" = "El artículo ha sido eliminado.";
 "product_distance_X_from_you" = "%@ de ti";
@@ -692,7 +692,7 @@
 "profile_verify_google_button" = "Google";
 "profile_verify_google_message" = "Conéctate con Google para verificar tu identidad";
 "profile_verify_google_title" = "GOOGLE";
-"quick_filter_location_title" = "Set Location";
+"quick_filter_location_title" = "Aplicar ubicación";
 "rate_buyers_message" = "¡Enhorabuena!";
 "rate_buyers_not_on_letgo_button" = "No lo he vendido en letgo";
 "rate_buyers_not_on_letgo_title_button" = "Lo he vendido en otro lugar";
@@ -769,7 +769,7 @@
 "sell_picture_save_into_camera_roll_loading" = "Estamos guardando la foto en tu galería...";
 "sell_picture_save_into_camera_roll_ok" = "La foto se ha guardado en tu galería.";
 "sell_picture_selected_cancel_button" = "Cancelar";
-"sell_picture_selected_delete_button" = "Borrar";
+"sell_picture_selected_delete_button" = "Eliminar";
 "sell_picture_selected_save_into_camera_roll_button" = "Guardar";
 "sell_picture_selected_title" = "Elige una acción";
 "sell_post_free_label" = "Gratis";
