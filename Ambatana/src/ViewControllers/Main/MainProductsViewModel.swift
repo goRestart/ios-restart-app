@@ -14,6 +14,7 @@ import RxSwift
 protocol MainProductsViewModelDelegate: BaseViewModelDelegate {
     func vmDidSearch()
     func vmShowTags(_ tags: [FilterTag])
+    func vmFiltersChanged()
 }
 
 struct MainProductsHeader: OptionSet {
@@ -43,6 +44,10 @@ class MainProductsViewModel: BaseViewModel {
     let bannerCellPosition: Int = 8
     var filters: ProductFilters
     var queryString: String?
+
+    var hasFilters: Bool {
+        return !filters.isDefault()
+    }
 
     var hasInteractiveBubble: Bool {
         switch featureFlags.editLocationBubble {
@@ -559,7 +564,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
                 let errBody: String?
 
                 // Search
-                if queryString != nil || !filters.isDefault() {
+                if queryString != nil || hasFilters {
                     errImage = UIImage(named: "err_search_no_products")
                     errTitle = LGLocalizedString.productSearchNoProductsTitle
                     errBody = LGLocalizedString.productSearchNoProductsBody
@@ -622,7 +627,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
         
         guard let listing = viewModel.listingAtIndex(index) else { return }
         let cellModels = viewModel.objects
-        let showRelated = searchType == nil && filters.isDefault()
+        let showRelated = searchType == nil && !hasFilters
         let data = ListingDetailData.listingList(listing: listing, cellModels: cellModels,
                                                  requester: productListRequester, thumbnailImage: thumbnailImage,
                                                  originFrame: originFrame, showRelated: showRelated, index: index)
@@ -899,7 +904,7 @@ fileprivate extension MainProductsViewModel {
             case .collection:
                 return .collection
             case .user, .trending, .lastSearch:
-                if filters.isDefault() {
+                if !hasFilters {
                     return .search
                 } else {
                     return .searchAndFilter
@@ -907,7 +912,7 @@ fileprivate extension MainProductsViewModel {
             }
         }
 
-        if !filters.isDefault() {
+        if hasFilters {
             if filters.selectedCategories.isEmpty {
                 return .filter
             } else {
@@ -923,11 +928,11 @@ fileprivate extension MainProductsViewModel {
             return .collection
         }
         if searchType.isEmpty() {
-            if !filters.isDefault() {
+            if hasFilters {
                 return .filter
             }
         } else {
-            if !filters.isDefault() {
+            if hasFilters {
                 return .searchAndFilter
             } else {
                 return .search
@@ -986,5 +991,6 @@ extension MainProductsViewModel: EditLocationDelegate {
         filters.place = place
         filters.distanceRadius = distanceRadius
         updateListView()
+        delegate?.vmFiltersChanged()
     }
 }
