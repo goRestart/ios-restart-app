@@ -78,6 +78,7 @@ class RateUserViewModel: BaseViewModel {
     let sendEnabled = Variable<Bool>(false)
     let rating = Variable<Int?>(nil)
     let description = Variable<String?>(nil)
+    let descriptionPlaceholder = LGLocalizedString.userRatingReviewPlaceholderOptional
     let descriptionCharLimit = Variable<Int>(Constants.userRatingDescriptionMaxLength)
 
     fileprivate let userRatingRepository: UserRatingRepository
@@ -169,6 +170,14 @@ extension RateUserViewModel {
                                               type: data.ratingType, completion: ratingCompletion)
         }
     }
+    
+    func setDescription(text: String) -> Bool {
+        let descriptionWithoutEmoji = text.stringByRemovingEmoji()        
+        if descriptionWithoutEmoji != descriptionPlaceholder {
+            description.value = descriptionWithoutEmoji.isEmpty ? nil : descriptionWithoutEmoji
+        }
+        return !text.hasEmojis()
+    }
 }
 
 
@@ -239,36 +248,32 @@ fileprivate extension RateUserViewModel {
         let tagsValid = selectedTagIndexes.observable
             .map { !$0.isEmpty }
             .distinctUntilChanged()
-        let descriptionValid = description.asObservable().map { description -> Bool in
-            guard let description = description else { return false }
-            return !description.isEmpty &&
-                   description.characters.count <= Constants.userRatingDescriptionMaxLength
-        }.distinctUntilChanged()
-        
+        let comment = Observable.combineLatest(description.asObservable(), selectedTagIndexes.observable) { $0 }
+            .map { [weak self] _ in return self?.makeComment() }
+        let commentLength = comment.asObservable()
+            .map { Constants.userRatingDescriptionMaxLength - ($0?.characters.count ?? 0) }
+            .distinctUntilChanged()
+        let commentValid = commentLength.map { $0 >= 0 }
+            
         Observable.combineLatest(isLoading.asObservable(),
                                  state.asObservable(),
                                  tagsValid,
                                  ratingValid,
-                                 descriptionValid, resultSelector: { $0 })
-            .map { (isLoading, state, tagsValid, ratingValid, descriptionValid) -> Bool in
+                                 commentValid, resultSelector: { $0 })
+            .map { (isLoading, state, tagsValid, ratingValid, commentValid) -> Bool in
                 guard !isLoading else { return false }
                 
                 switch state {
                 case .review:
                     return ratingValid && tagsValid
                 case .comment:
-                    return ratingValid && tagsValid && descriptionValid
+                    return ratingValid && tagsValid && commentValid
                 }
             }
             .distinctUntilChanged()
             .bindTo(sendEnabled).addDisposableTo(disposeBag)
         
-        let comment = Observable.combineLatest(description.asObservable(),
-                                 selectedTagIndexes.observable, resultSelector: { $0 })
-            .map { [weak self] _ in return self?.makeComment() }
-        comment.asObservable()
-            .map { Constants.userRatingDescriptionMaxLength - ($0?.characters.count ?? 0) }
-            .bindTo(descriptionCharLimit).addDisposableTo(disposeBag)
+        commentLength.bindTo(descriptionCharLimit).addDisposableTo(disposeBag)
     }
 }
 
