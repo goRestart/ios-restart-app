@@ -29,7 +29,9 @@ class MockTracker: Tracker {
 
     // MARK: - Tracker
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?,
+                     featureFlags: FeatureFlaggeable) {
         didFinishLaunchingWithOptionsBlock?(self)
     }
     

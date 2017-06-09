@@ -50,40 +50,51 @@ protocol FeatureFlaggeable: class {
     func collectionsAllowedFor(countryCode: String?) -> Bool
 }
 
+extension FeatureFlaggeable {
+    var syncedData: Observable<Bool> {
+        return trackingData.map { $0 != nil }
+    }
+}
+
 
 class FeatureFlags: FeatureFlaggeable {
 
     static let sharedInstance: FeatureFlags = FeatureFlags()
     
+    let websocketChat: Bool
     private let locale: Locale
     private let locationManager: LocationManager
     private let carrierCountryInfo: CountryConfigurable
     private let abTests: ABTests
+    private let dao: FeatureFlagsDAO
     
     init(locale: Locale,
          locationManager: LocationManager,
          countryInfo: CountryConfigurable,
-         abTests: ABTests) {
+         abTests: ABTests,
+         dao: FeatureFlagsDAO) {
         Bumper.initialize()
 
         // Initialize all vars that shouldn't change over application lifetime
         if Bumper.enabled {
             self.websocketChat = Bumper.websocketChat
         } else {
-            self.websocketChat = abTests.websocketChat.value
+            self.websocketChat = dao.retrieveWebsocketChatEnabled() ?? abTests.websocketChat.value
         }
         
         self.locale = locale
         self.locationManager = locationManager
         self.carrierCountryInfo = countryInfo
         self.abTests = abTests
+        self.dao = dao
     }
 
     convenience init() {
         self.init(locale: Locale.current,
                   locationManager: Core.locationManager,
                   countryInfo: CTTelephonyNetworkInfo(),
-                  abTests: ABTests())
+                  abTests: ABTests(),
+                  dao: FeatureFlagsUDDAO())
     }
 
     
@@ -100,15 +111,11 @@ class FeatureFlags: FeatureFlaggeable {
         return abTests.trackingData.asObservable()
     }
     
-    var syncedData: Observable<Bool> {
-        return abTests.trackingData.asObservable().map { $0 != nil }
-    }
-    
     func variablesUpdated() {
+        dao.save(websocketChatEnabled: abTests.websocketChat.value)
+        dao.save(editLocationBubble: EditLocationBubble.fromPosition(abTests.editLocationBubble.value))
         abTests.variablesUpdated()
     }
-
-    let websocketChat: Bool
 
     var userReviews: Bool {
         if Bumper.enabled {
@@ -247,7 +254,7 @@ class FeatureFlags: FeatureFlaggeable {
         if Bumper.enabled {
             return Bumper.editLocationBubble
         }
-        return EditLocationBubble.fromPosition(abTests.editLocationBubble.value)
+        return dao.retrieveEditLocationBubble() ?? EditLocationBubble.fromPosition(abTests.editLocationBubble.value)
     }
 
     var newCarsMultiRequesterEnabled: Bool {
