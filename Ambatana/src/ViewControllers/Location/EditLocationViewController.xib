@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1212" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -94,9 +94,9 @@
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SWZ-JV-LeO" userLabel="Search button">
-                    <rect key="frame" x="17" y="82" width="16" height="22"/>
+                    <rect key="frame" x="17" y="82" width="17" height="22"/>
                     <color key="tintColor" red="0.49190431833267212" green="0.49134734272956848" blue="0.50855338573455811" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <state key="normal" image="location_search">
+                    <state key="normal" image="list_search">
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
@@ -209,7 +209,7 @@
         </view>
     </objects>
     <resources>
-        <image name="location_search" width="16" height="17"/>
+        <image name="list_search" width="17" height="17"/>
         <image name="map_pin" width="26" height="39"/>
         <image name="map_user_location_button" width="52" height="52"/>
     </resources>
