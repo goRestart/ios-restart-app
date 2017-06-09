@@ -29,6 +29,12 @@ class FeatureFlagsSpec: QuickSpec {
                 countryInfo = MockCountryConfigurable()
                 abTests = ABTests()
                 dao = MockFeatureFlagsDAO()
+                
+                sut = FeatureFlags(locale: locale,
+                                   locationManager: locationManager,
+                                   countryInfo: countryInfo,
+                                   abTests: abTests,
+                                   dao: dao)
             }
 
             describe("initialization") {
@@ -75,8 +81,17 @@ class FeatureFlagsSpec: QuickSpec {
                 it("saves websocket ab test value in dao") {
                     expect(dao.websocketChatEnabled) == abTests.websocketChat.value
                 }
-                it("saves editLocationBubble ab test value in dao") {
+                it("saves edit location bubble ab test value in dao") {
                     expect(dao.editLocationBubble) == EditLocationBubble.fromPosition(abTests.editLocationBubble.value)
+                }
+                it("returns edit location bubble ab test dao value") {
+                    expect(sut.editLocationBubble) == dao.editLocationBubble
+                }
+                it("saves cars vertical enabled ab test value in dao") {
+                    expect(dao.carsVerticalEnabled) == abTests.carsVerticalEnabled.value
+                }
+                it("returns cars vertical enabled ab test dao value") {
+                    expect(sut.carsVerticalEnabled) == dao.carsVerticalEnabled
                 }
             }
         }

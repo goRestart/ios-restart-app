@@ -11,4 +11,6 @@ protocol FeatureFlagsDAO {
     func save(websocketChatEnabled: Bool)
     func retrieveEditLocationBubble() -> EditLocationBubble?
     func save(editLocationBubble: EditLocationBubble)
+    func retrieveCarsVerticalEnabled() -> Bool?
+    func save(carsVerticalEnabled: Bool)
 }

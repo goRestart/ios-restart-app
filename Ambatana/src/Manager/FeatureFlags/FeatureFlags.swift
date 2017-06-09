@@ -114,6 +114,7 @@ class FeatureFlags: FeatureFlaggeable {
     func variablesUpdated() {
         dao.save(websocketChatEnabled: abTests.websocketChat.value)
         dao.save(editLocationBubble: EditLocationBubble.fromPosition(abTests.editLocationBubble.value))
+        dao.save(carsVerticalEnabled: abTests.carsVerticalEnabled.value)
         abTests.variablesUpdated()
     }
 
@@ -233,7 +234,7 @@ class FeatureFlags: FeatureFlaggeable {
         if Bumper.enabled {
             return Bumper.carsVerticalEnabled
         }
-        return abTests.carsVerticalEnabled.value
+        return dao.retrieveCarsVerticalEnabled() ?? abTests.carsVerticalEnabled.value
     }
     
     var carsCategoryAfterPicture: Bool {

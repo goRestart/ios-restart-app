@@ -11,10 +11,12 @@
 class MockFeatureFlagsDAO: FeatureFlagsDAO {
     var websocketChatEnabled: Bool?
     var editLocationBubble: EditLocationBubble?
+    var carsVerticalEnabled: Bool?
     
     init() {
         websocketChatEnabled = Bool?.makeRandom()
         editLocationBubble = EditLocationBubble.enumValues.random()
+        carsVerticalEnabled = Bool?.makeRandom()
     }
     
     func retrieveWebsocketChatEnabled() -> Bool? {
@@ -31,5 +33,13 @@ class MockFeatureFlagsDAO: FeatureFlagsDAO {
     
     func save(editLocationBubble: EditLocationBubble) {
         self.editLocationBubble = editLocationBubble
+    }
+    
+    func retrieveCarsVerticalEnabled() -> Bool? {
+        return carsVerticalEnabled
+    }
+    
+    func save(carsVerticalEnabled: Bool) {
+        self.carsVerticalEnabled = carsVerticalEnabled
     }
 }
