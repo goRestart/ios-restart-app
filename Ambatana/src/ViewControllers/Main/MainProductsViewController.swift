@@ -220,7 +220,11 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         loadTagsViewWithTags(tags)
     }
 
-    
+    func vmPlaceChanged() {
+        setFiltersNavBarButton()
+    }
+
+
     // MARK: UITextFieldDelegate Methods
 
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
@@ -326,8 +330,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     }
     
     private func setFiltersNavBarButton() {
-        let tagsIsEmpty = tagsViewController?.tags.isEmpty ?? false
-        setLetGoRightButtonWith(imageName: tagsIsEmpty ? "ic_filters" : "ic_filters_active",
+        setLetGoRightButtonWith(imageName: viewModel.hasFilters ? "ic_filters_active" : "ic_filters",
                                 renderingMode: .alwaysOriginal, selector: "filtersButtonPressed:")
     }
     
