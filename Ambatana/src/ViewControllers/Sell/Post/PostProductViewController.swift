@@ -305,7 +305,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
                 strongSelf.showCarYears()
             case .year:
                 strongSelf.carDetailsView.updateYear(withYear: categoryDetail.name)
-                delay(0.3) { [weak self] in // requested by designers
+                delay(0.3) { _ in // requested by designers
                     strongSelf.didFinishEnteringDetails()
                 }
             }
