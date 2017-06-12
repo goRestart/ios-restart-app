@@ -145,6 +145,11 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         endEdit()
     }
 
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        // we want to show the selected tags when the user closes the product detail too
+        showTagsView(viewModel.tags.count > 0, updateInsets: true)
+    }
 
     // MARK: - ScrollableToTop
 
