@@ -145,7 +145,12 @@ fileprivate extension LocationFromZipCodeViewController {
         infoSelectionContainer.layout().width(50, relatedBy: .greaterThanOrEqual)
         infoSelectionContainer.layout(with: titleLabel).top(to: .bottomMargin, by: Metrics.margin, relatedBy: .greaterThanOrEqual)
 
-        currentLocationButton.layout(with: infoSelectionContainer).topMargin().centerX()
+        currentLocationButton.layout(with: infoSelectionContainer)
+            .topMargin()
+            .centerX()
+            .trailingMargin(by: -Metrics.veryBigMargin, relatedBy: .lessThanOrEqual)
+            .leadingMargin(by: Metrics.veryBigMargin, relatedBy: .greaterThanOrEqual)
+        
         orLabel.layout(with: infoSelectionContainer).centerX()
         orLabel.layout(with: currentLocationButton).below(by: Metrics.veryBigMargin)
         orLabel.layout(with: leftLineView).leading(to: .trailing, by: Metrics.shortMargin).centerY()
