@@ -20,14 +20,16 @@ class RateBuyersViewController: BaseViewController, RateBuyersViewModelDelegate 
     static fileprivate let numberOfSections = 2
     static fileprivate let numberOfExtraButtons = 2
 
-    fileprivate let mainView: RateBuyersView
+    fileprivate let mainHeader: RateBuyersHeader
+    fileprivate let tableView: UITableView
     fileprivate let viewModel: RateBuyersViewModel
 
     private let disposeBag = DisposeBag()
 
     init(with viewModel: RateBuyersViewModel) {
         self.viewModel = viewModel
-        self.mainView = RateBuyersView(source: viewModel.source)
+        self.mainHeader = RateBuyersHeader(source: viewModel.source)
+        self.tableView = UITableView(frame: CGRect.zero, style: .grouped)
         super.init(viewModel: viewModel, nibName: nil, navBarBackgroundStyle: .transparent(substyle: .light))
         
         viewModel.delegate = self
@@ -51,22 +53,24 @@ class RateBuyersViewController: BaseViewController, RateBuyersViewModelDelegate 
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .plain,
                                                            target: self, action: #selector(closeButtonPressed))
 
-        mainView.translatesAutoresizingMaskIntoConstraints = false
-        mainView.addToViewController(self, inView: view)
-
-        mainView.tableView.delegate = self
-        mainView.tableView.dataSource = self
-        mainView.tableView.rowHeight = PossibleBuyerCell.cellHeight
-        mainView.tableView.backgroundColor = UIColor.clear
-        mainView.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Metrics.shortMargin, right: 0)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.addToViewController(self, inView: view)
+        tableView.layout(with: view).top().left().right().bottom()
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.rowHeight = PossibleBuyerCell.cellHeight
+        tableView.backgroundColor = UIColor.clear
+        tableView.contentInset = UIEdgeInsets(top: 80, left: 0, bottom: Metrics.shortMargin, right: 0)
+        tableView.sectionHeaderHeight = UITableViewAutomaticDimension
+        tableView.estimatedSectionHeaderHeight = 10
 
         let cellNib = UINib(nibName: PossibleBuyerCell.reusableID, bundle: nil)
-        mainView.tableView.register(cellNib, forCellReuseIdentifier: PossibleBuyerCell.reusableID)
+        tableView.register(cellNib, forCellReuseIdentifier: PossibleBuyerCell.reusableID)
     }
 
     private func setupRx() {
         viewModel.visibilityFormat.asObservable().bindNext { [weak self] _ in
-            self?.mainView.tableView.reloadData()
+            self?.tableView.reloadData()
         }.addDisposableTo(disposeBag)
     }
     
@@ -134,27 +138,20 @@ extension RateBuyersViewController: UITableViewDelegate, UITableViewDataSource {
         return buyerCell
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        guard let rateBuyersSection = RateBuyersSection(rawValue: section) else { return 0 }
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let rateBuyersSection = RateBuyersSection(rawValue: section) else { return nil }
         switch rateBuyersSection {
         case .possibleBuyers:
-            return 0
+            return mainHeader
         case .otherActions:
-            return RateBuyersViewController.headerTableViewHeight
+            let view = UIView()
+            view.backgroundColor = UIColor.grayBackground
+            return view
         }
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = UIView()
-        view.backgroundColor = UIColor.grayBackground
-        return view
-    }
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let scroll = scrollView.contentOffset.y + scrollView.contentInset.top
-        mainView.headerTopMarginConstraint.constant = -scroll
+       
     }
 
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let rateBuyersSection = RateBuyersSection(rawValue: indexPath.section) else { return }
         switch rateBuyersSection {
