@@ -180,7 +180,7 @@ class PostProductViewModel: BaseViewModel {
                                                        sellButtonPosition: postingSource.sellButtonPosition,
                                                        imageSource: uploadedImageSource,
                                                        price: postDetailViewModel.price.value)
-            navigator?.closePostProductAndPostInBackground(params: params, showConfirmation: false,
+            navigator?.closePostProductAndPostInBackground(params: params, showConfirmation: true,
                                                            trackingInfo: trackingInfo)
         }
     }
