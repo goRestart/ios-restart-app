@@ -19,6 +19,7 @@ class RateBuyersViewController: BaseViewController, RateBuyersViewModelDelegate 
     static fileprivate let headerTableViewHeight: CGFloat = 10
     static fileprivate let numberOfSections = 2
     static fileprivate let numberOfExtraButtons = 2
+    static fileprivate let topContentInsetTableView: CGFloat = 80
 
     fileprivate let mainHeader: RateBuyersHeader
     fileprivate let tableView: UITableView
@@ -60,9 +61,12 @@ class RateBuyersViewController: BaseViewController, RateBuyersViewModelDelegate 
         tableView.dataSource = self
         tableView.rowHeight = PossibleBuyerCell.cellHeight
         tableView.backgroundColor = UIColor.clear
-        tableView.contentInset = UIEdgeInsets(top: 80, left: 0, bottom: Metrics.shortMargin, right: 0)
+        tableView.contentInset = UIEdgeInsets(top: RateBuyersViewController.topContentInsetTableView,
+                                              left: 0,
+                                              bottom: Metrics.shortMargin,
+                                              right: 0)
         tableView.sectionHeaderHeight = UITableViewAutomaticDimension
-        tableView.estimatedSectionHeaderHeight = 10
+        tableView.estimatedSectionHeaderHeight = RateBuyersViewController.headerTableViewHeight
 
         let cellNib = UINib(nibName: PossibleBuyerCell.reusableID, bundle: nil)
         tableView.register(cellNib, forCellReuseIdentifier: PossibleBuyerCell.reusableID)

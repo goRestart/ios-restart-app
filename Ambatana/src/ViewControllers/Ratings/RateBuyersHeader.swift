@@ -19,7 +19,7 @@ class RateBuyersHeader: UIView {
     private let imageDiameter: CGFloat = 110
     private let textsHMargin: CGFloat = 40
 
-    let header = UIView()
+    private let header = UIView()
     private let source: SourceRateBuyers?
 
 
