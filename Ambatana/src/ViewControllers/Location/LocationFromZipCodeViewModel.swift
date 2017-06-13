@@ -78,7 +78,7 @@ class LocationFromZipCodeViewModel: BaseViewModel {
 
     func setupRx() {
 
-        Observable.combineLatest(countryCode.asObservable(), zipCode.asObservable().unwrap()) { ($0, $1) }
+        Observable.combineLatest(countryCode.asObservable(), zipCode.asObservable().unwrap().distinctUntilChanged()) { ($0, $1) }
             .map { (cCode, zip) -> Bool in
                 return cCode.isValidZipCode(zipCode: zip)
             }
