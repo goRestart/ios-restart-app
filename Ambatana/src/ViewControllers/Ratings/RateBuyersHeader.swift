@@ -39,8 +39,8 @@ class RateBuyersHeader: UIView {
     private func setupViews() {
         setupHeaderViews()
         backgroundColor = UIColor.grayBackground
-        setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: [header])
-        addSubviews([header])
+        header.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(header)
         header.layout(with: self).leading().trailing().top().bottom()
     }
 
