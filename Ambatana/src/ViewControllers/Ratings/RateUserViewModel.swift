@@ -141,6 +141,7 @@ extension RateUserViewModel {
             
             strongSelf.isLoading.value = false
             if let rating = result.value {
+                strongSelf.previousRating = rating
                 switch strongSelf.state.value {
                 case .review:
                     strongSelf.didFinishRating(rating: rating)
