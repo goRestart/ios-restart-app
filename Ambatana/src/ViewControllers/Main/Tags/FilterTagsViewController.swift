@@ -29,8 +29,8 @@ class FilterTagsViewController : NSObject, UICollectionViewDelegate, UICollectio
     
     // MARK: - Public methods
     func updateTags(_ newTags: [FilterTag]) {
-        self.tags = newTags
-        self.collectionView?.reloadData()
+        tags = newTags
+        collectionView?.reloadData()
     }
     
     // MARK: - UICollectionViewDelegate & DataSource methods
