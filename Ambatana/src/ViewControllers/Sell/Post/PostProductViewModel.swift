@@ -365,7 +365,7 @@ fileprivate extension PostProductViewModel {
                                                               trackingInfo: trackingInfo)
             }
             let cancelAction = { [weak self] in
-                guard let state = self?.state.value else { return }
+                guard let _ = self?.state.value else { return }
                 self?.revertToPreviousStep()
             }
             navigator?.openLoginIfNeededFromProductPosted(from: .sell, loggedInAction: loggedInAction, cancelAction: cancelAction)
