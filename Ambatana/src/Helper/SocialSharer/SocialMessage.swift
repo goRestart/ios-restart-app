@@ -163,14 +163,8 @@ struct ProductSocialMessage: SocialMessage {
 
     private func fbShareLinkContent(_ source: ShareSource) -> FBSDKShareLinkContent {
         let shareContent = FBSDKShareLinkContent()
-        
-        shareContent.contentTitle = title + (isMine ? "" : " " + LGLocalizedString.productSharePostedBy(productUserName))
-        shareContent.contentDescription = productTitle + (productDescription.isEmpty ? "" : ": " + productDescription)
         if let actualURL = shareUrl(source) {
             shareContent.contentURL = actualURL
-        }
-        if let actualImageURL = imageURL {
-            shareContent.imageURL = actualImageURL
         }
         return shareContent
     }
@@ -305,10 +299,7 @@ struct AppShareSocialMessage: SocialMessage {
 
     var fbShareContent: FBSDKShareLinkContent {
         let shareContent = FBSDKShareLinkContent()
-        shareContent.contentTitle = LGLocalizedString.appShareSubjectText
-        shareContent.contentDescription = LGLocalizedString.appShareMessageText
         shareContent.contentURL = branchUrl(.facebook)
-        shareContent.imageURL = imageUrl
         return shareContent
     }
 
@@ -436,10 +427,7 @@ struct UserSocialMessage: SocialMessage {
 
     var fbShareContent: FBSDKShareLinkContent {
         let shareContent = FBSDKShareLinkContent()
-        shareContent.contentTitle = titleText
-        shareContent.contentDescription = messageText
         shareContent.contentURL = branchUrl(.facebook)
-        shareContent.imageURL = avatar
         return shareContent
     }
 
@@ -541,19 +529,13 @@ struct CommercializerSocialMessage: SocialMessage {
 
     var fbShareContent: FBSDKShareLinkContent {
         let shareContent = FBSDKShareLinkContent()
-        shareContent.contentTitle = LGLocalizedString.commercializerShareSubjectText
-        shareContent.contentDescription = LGLocalizedString.commercializerShareMessageText
         shareContent.contentURL = completeURL(shareUrl, withSource: .facebook)
-        shareContent.imageURL = thumbUrl
         return shareContent
     }
 
     var fbMessengerShareContent: FBSDKShareLinkContent {
         let shareContent = FBSDKShareLinkContent()
-        shareContent.contentTitle = LGLocalizedString.commercializerShareSubjectText
-        shareContent.contentDescription = LGLocalizedString.commercializerShareMessageText
         shareContent.contentURL = completeURL(shareUrl, withSource: .fbMessenger)
-        shareContent.imageURL = thumbUrl
         return shareContent
     }
 
