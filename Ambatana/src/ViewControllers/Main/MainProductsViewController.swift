@@ -147,7 +147,9 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        // we want to show the selected tags when the user closes the product detail too
+        // we want to show the selected tags when the user closes the product detail too.  Also:
+        // ⚠️ not showing the tags collection view causes a crash when trying to reload the collection data
+        // ⚠️ while not visible (ABIOS-2696)
         showTagsView(viewModel.tags.count > 0, updateInsets: true)
     }
 
