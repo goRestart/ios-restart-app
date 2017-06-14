@@ -8,19 +8,29 @@
 
 import Foundation
 
+protocol TourPostingViewModelDelegate: BaseViewModelDelegate { }
+
 class TourPostingViewModel: BaseViewModel {
     weak var navigator: TourPostingNavigator?
 
     let titleText: String
     let subtitleText: String
     let okButtonText: String
+    
+    let featureFlags: FeatureFlaggeable
 
-
-    override init() {
+     weak var delegate: TourPostingViewModelDelegate?
+    
+    init(featureFlags: FeatureFlaggeable) {
         titleText = LGLocalizedString.onboardingPostingTitleB
         subtitleText = LGLocalizedString.onboardingPostingSubtitleB
         okButtonText = LGLocalizedString.onboardingPostingButtonB
+        self.featureFlags = featureFlags
         super.init()
+    }
+    
+    convenience override init() {
+        self.init(featureFlags: FeatureFlags.sharedInstance)
     }
 
     func cameraButtonPressed() {
@@ -32,6 +42,17 @@ class TourPostingViewModel: BaseViewModel {
     }
 
     func closeButtonPressed() {
-        navigator?.tourPostingClose()
+        if featureFlags.newOnboardingPhase1 {
+            let actionOk = UIAction(interface: UIActionInterface.text(LGLocalizedString.onboardingAlertYes),
+                                    action: { [weak self] in self?.navigator?.tourPostingClose() })
+            let actionCancel = UIAction(interface: UIActionInterface.text(LGLocalizedString.onboardingAlertNo),
+                                        action: { [weak self] in self?.navigator?.tourPostingPost(fromCamera: false) })
+            delegate?.vmShowAlert(LGLocalizedString.onboardingPostingAlertTitle,
+                                  message: LGLocalizedString.onboardingPostingAlertSubtitle,
+                                  actions: [actionCancel, actionOk])
+        } else {
+            navigator?.tourPostingClose()
+        }
+        
     }
 }
