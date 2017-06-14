@@ -473,7 +473,7 @@
 "product_auto_generated_translated_title_label" = "(и переведен Яндексом)";
 "product_bubble_favorite_button" = "Дайте знать продавцу!";
 "product_bubble_favorite_text" = "Этот товар добавлен в ваше избранное!";
-"product_chat_direct_error_blocked_user_message" = "Упс! Вы заблокировали этого пользователя и не можете начать с ним чат.";
+"product_chat_direct_error_blocked_user_message" = "Упс! Вы не можете начать чат с этим пользователем.";
 "product_chat_direct_message" = "Привет, %@, меня интересует товар";
 "product_chat_direct_message_sending" = "Отправка...";
 "product_chat_with_seller_button" = "Чат с продавцом";
@@ -544,6 +544,12 @@
 "product_more_info_tooltip_part_1" = "Нажмите";
 "product_more_info_tooltip_part_2" = "%@ просмотреть больше информации";
 "product_negotiable_price" = "Обсуждаема";
+"product_new_onboarding_finger_keep_swipe_highlighted_label" = "_Keep swiping";
+"product_new_onboarding_finger_keep_swipe_label" = "_%@ back or forward to go to the previous or next item";
+"product_new_onboarding_finger_swipe_highlighted_label" = "_Swipe";
+"product_new_onboarding_finger_swipe_label" = "_%@ to see more pictures";
+"product_new_onboarding_finger_tap_highlighted_label" = "_Tap";
+"product_new_onboarding_finger_tap_label" = "_%@ to go to the next item";
 "product_onboarding_finger_scroll_label" = "Проведите вверх или вниз, чтобы листать фотографии";
 "product_onboarding_finger_swipe_label" = "Проведите влево или вправо, чтобы переключаться между предыдущим и следующим товаром";
 "product_onboarding_finger_tap_label" = "Коснитесь экрана, чтобы перейти к следующему товару";
@@ -692,6 +698,7 @@
 "profile_verify_google_button" = "Google";
 "profile_verify_google_message" = "Войдите через Google, чтобы подтвердить свое имя";
 "profile_verify_google_title" = "GOOGLE";
+"quick_filter_location_title" = "Задать местоположение";
 "rate_buyers_message" = "Поздравляем!";
 "rate_buyers_not_on_letgo_button" = "Я продал не на letgo";
 "rate_buyers_not_on_letgo_title_button" = "Продал где-то еще";

@@ -473,7 +473,7 @@
 "product_auto_generated_translated_title_label" = "(και μεταγραστεί από το Google)";
 "product_bubble_favorite_button" = "Ενημερώστε τον πωλητή!";
 "product_bubble_favorite_text" = "Αυτό το προϊόν έχει προστεθεί στα αγαπημένα σας!";
-"product_chat_direct_error_blocked_user_message" = "Όπα! Έχετε μπλοκάρει αυτόν το χρήστη, οπότε δεν μπορείτε να ξεκινήσετε μια συνομιλία.";
+"product_chat_direct_error_blocked_user_message" = "Όπα! Δεν μπορείτε να ξεκινήσετε μια συνομιλία με αυτόν το χρήστη.";
 "product_chat_direct_message" = "Γεια σου %@, ενδιαφέρομαι!";
 "product_chat_direct_message_sending" = "Αποστολή...";
 "product_chat_with_seller_button" = "Συνομιλήστε με τον πωλητή";
@@ -544,6 +544,12 @@
 "product_more_info_tooltip_part_1" = "Πατήστε";
 "product_more_info_tooltip_part_2" = "%@ για πληροφορίες";
 "product_negotiable_price" = "Συζητήσιμη";
+"product_new_onboarding_finger_keep_swipe_highlighted_label" = "_Keep swiping";
+"product_new_onboarding_finger_keep_swipe_label" = "_%@ back or forward to go to the previous or next item";
+"product_new_onboarding_finger_swipe_highlighted_label" = "_Swipe";
+"product_new_onboarding_finger_swipe_label" = "_%@ to see more pictures";
+"product_new_onboarding_finger_tap_highlighted_label" = "_Tap";
+"product_new_onboarding_finger_tap_label" = "_%@ to go to the next item";
 "product_onboarding_finger_scroll_label" = "Σύρετε για να δείτε περισσότερες φωτογραφίες";
 "product_onboarding_finger_swipe_label" = "Σύρετε για να πάτε στο επόμενο ή στο προηγούμενο προϊόν";
 "product_onboarding_finger_tap_label" = "Πατήστε για να πάτε στο επόμενο προϊόν";
@@ -692,6 +698,7 @@
 "profile_verify_google_button" = "Google";
 "profile_verify_google_message" = "Συνδεθείτε με το Google για να επιβεβαιώσετε την ταυτότητά σας";
 "profile_verify_google_title" = "GOOGLE";
+"quick_filter_location_title" = "Ορισμός Τοποθεσίας";
 "rate_buyers_message" = "Συγχαρητήρια!";
 "rate_buyers_not_on_letgo_button" = "Δεν το πούλησα στο letgo";
 "rate_buyers_not_on_letgo_title_button" = "Το πούλησα κάπου αλλού";

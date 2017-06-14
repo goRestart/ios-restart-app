@@ -473,7 +473,7 @@
 "product_auto_generated_translated_title_label" = "(et traduit par Google)";
 "product_bubble_favorite_button" = "Informez le vendeur !";
 "product_bubble_favorite_text" = "Ce produit a été ajouté à vos favoris !";
-"product_chat_direct_error_blocked_user_message" = "Oups ! Vous avez bloqué cet utilisateur, vous ne pouvez donc pas débuter un clavardage.";
+"product_chat_direct_error_blocked_user_message" = "Oups ! Vous ne pouvez pas débuter un clavardage avec cet utilisateur.";
 "product_chat_direct_message" = "Salut %@, je suis intéressé";
 "product_chat_direct_message_sending" = "Envoi...";
 "product_chat_with_seller_button" = "Clavarder avec le vendeur";
@@ -544,6 +544,12 @@
 "product_more_info_tooltip_part_1" = "Sélectionnez";
 "product_more_info_tooltip_part_2" = "%@ pour voir plus d'infos";
 "product_negotiable_price" = "Négociable";
+"product_new_onboarding_finger_keep_swipe_highlighted_label" = "_Keep swiping";
+"product_new_onboarding_finger_keep_swipe_label" = "_%@ back or forward to go to the previous or next item";
+"product_new_onboarding_finger_swipe_highlighted_label" = "_Swipe";
+"product_new_onboarding_finger_swipe_label" = "_%@ to see more pictures";
+"product_new_onboarding_finger_tap_highlighted_label" = "_Tap";
+"product_new_onboarding_finger_tap_label" = "_%@ to go to the next item";
 "product_onboarding_finger_scroll_label" = "Faites défiler pour voir plus de photos";
 "product_onboarding_finger_swipe_label" = "Faites glisser d'un côté ou de l'autre pour aller au produit suivant ou au précédent";
 "product_onboarding_finger_tap_label" = "Sélectionnez pour aller au produit suivant";
@@ -692,6 +698,7 @@
 "profile_verify_google_button" = "Google";
 "profile_verify_google_message" = "Connectez-vous avec Google pour vérifier votre identité";
 "profile_verify_google_title" = "GOOGLE";
+"quick_filter_location_title" = "Configurer une localisation";
 "rate_buyers_message" = "Félicitations !";
 "rate_buyers_not_on_letgo_button" = "Je ne l'ai pas vendu sur letgo";
 "rate_buyers_not_on_letgo_title_button" = "Je l'ai vendu ailleurs";

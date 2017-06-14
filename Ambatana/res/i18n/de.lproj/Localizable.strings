@@ -473,7 +473,7 @@
 "product_auto_generated_translated_title_label" = "(und mit Google übersetzt)";
 "product_bubble_favorite_button" = "Sag dem Verkäufer Bescheid!";
 "product_bubble_favorite_text" = "Dieses Produkt wurde zu deiner Fundgrube hinzugefügt!";
-"product_chat_direct_error_blocked_user_message" = "Hoppla! Du hast diesen Nutzer blockiert, darum kannst du kein Gespräch mit ihm beginnen.";
+"product_chat_direct_error_blocked_user_message" = "Hoppla! Du kannst du kein Gespräch mit diesem Nutzer beginnen.";
 "product_chat_direct_message" = "Hi %@, ich bin interessiert";
 "product_chat_direct_message_sending" = "Abschicken...";
 "product_chat_with_seller_button" = "Sprich mit dem Verkäufer";
@@ -544,6 +544,12 @@
 "product_more_info_tooltip_part_1" = "Drücke";
 "product_more_info_tooltip_part_2" = "%@ für weitere Infos";
 "product_negotiable_price" = "Verhandelbar";
+"product_new_onboarding_finger_keep_swipe_highlighted_label" = "_Keep swiping";
+"product_new_onboarding_finger_keep_swipe_label" = "_%@ back or forward to go to the previous or next item";
+"product_new_onboarding_finger_swipe_highlighted_label" = "_Swipe";
+"product_new_onboarding_finger_swipe_label" = "_%@ to see more pictures";
+"product_new_onboarding_finger_tap_highlighted_label" = "_Tap";
+"product_new_onboarding_finger_tap_label" = "_%@ to go to the next item";
 "product_onboarding_finger_scroll_label" = "Scrolle, um mehr Bilder zu sehen";
 "product_onboarding_finger_swipe_label" = "Wische, um zum nächsten oder vorherigen Produkt zu gelangen";
 "product_onboarding_finger_tap_label" = "Drücke hier, um zum nächsten Produkt zu gelangen";
@@ -692,6 +698,7 @@
 "profile_verify_google_button" = "Google";
 "profile_verify_google_message" = "Verbinde dich mit Google, um deine Identität zu bestätigen";
 "profile_verify_google_title" = "GOOGLE";
+"quick_filter_location_title" = "Standort einstellen";
 "rate_buyers_message" = "Gratuliere!";
 "rate_buyers_not_on_letgo_button" = "Ich habe es nicht über letgo verkauft";
 "rate_buyers_not_on_letgo_title_button" = "Ich habe es woanders verkauft";

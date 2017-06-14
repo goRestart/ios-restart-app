@@ -473,7 +473,7 @@
 "product_auto_generated_translated_title_label" = "(e traduzido pelo Google)";
 "product_bubble_favorite_button" = "Informe o vendedor!";
 "product_bubble_favorite_text" = "Este produto foi adicionado aos seus favoritos!";
-"product_chat_direct_error_blocked_user_message" = "Ups! Bloqueou este utilizador por isso não pode iniciar uma conversa.";
+"product_chat_direct_error_blocked_user_message" = "Ups! Não pode iniciar uma conversa com este utilizador.";
 "product_chat_direct_message" = "Olá %@, tenho interesse!";
 "product_chat_direct_message_sending" = "A enviar...";
 "product_chat_with_seller_button" = "Converse com o vendedor";
@@ -544,6 +544,12 @@
 "product_more_info_tooltip_part_1" = "Toque";
 "product_more_info_tooltip_part_2" = "%@ para mais informações";
 "product_negotiable_price" = "Negociável";
+"product_new_onboarding_finger_keep_swipe_highlighted_label" = "_Keep swiping";
+"product_new_onboarding_finger_keep_swipe_label" = "_%@ back or forward to go to the previous or next item";
+"product_new_onboarding_finger_swipe_highlighted_label" = "_Swipe";
+"product_new_onboarding_finger_swipe_label" = "_%@ to see more pictures";
+"product_new_onboarding_finger_tap_highlighted_label" = "_Tap";
+"product_new_onboarding_finger_tap_label" = "_%@ to go to the next item";
 "product_onboarding_finger_scroll_label" = "Desloque para ver mais imagens";
 "product_onboarding_finger_swipe_label" = "Deslize para ver o produto seguinte ou o anterior";
 "product_onboarding_finger_tap_label" = "Toque para ver o produto seguinte";
@@ -692,6 +698,7 @@
 "profile_verify_google_button" = "Google";
 "profile_verify_google_message" = "Ligue-se pelo Google para verificar a sua identidade";
 "profile_verify_google_title" = "GOOGLE";
+"quick_filter_location_title" = "Definir localização";
 "rate_buyers_message" = "Parabéns!";
 "rate_buyers_not_on_letgo_button" = "Não o vendi no letgo";
 "rate_buyers_not_on_letgo_title_button" = "Vendi noutro sitio";

@@ -473,7 +473,7 @@
 "product_auto_generated_translated_title_label" = "(och översatts av Google)";
 "product_bubble_favorite_button" = "Låt säljaren veta!";
 "product_bubble_favorite_text" = "Denna produkt har lagts till i dina favoriter!";
-"product_chat_direct_error_blocked_user_message" = "Hoppsan! Chatt med den här användaren är blockerad.";
+"product_chat_direct_error_blocked_user_message" = "Hoppsan! Du kan inte chatta med denna användare.";
 "product_chat_direct_message" = "Hej %@, jag är intresserad";
 "product_chat_direct_message_sending" = "Sänder...";
 "product_chat_with_seller_button" = "Chatta med säljaren";
@@ -544,6 +544,12 @@
 "product_more_info_tooltip_part_1" = "Klicka";
 "product_more_info_tooltip_part_2" = "%@ för mer information";
 "product_negotiable_price" = "Förhandlingsbart";
+"product_new_onboarding_finger_keep_swipe_highlighted_label" = "_Keep swiping";
+"product_new_onboarding_finger_keep_swipe_label" = "_%@ back or forward to go to the previous or next item";
+"product_new_onboarding_finger_swipe_highlighted_label" = "_Swipe";
+"product_new_onboarding_finger_swipe_label" = "_%@ to see more pictures";
+"product_new_onboarding_finger_tap_highlighted_label" = "_Tap";
+"product_new_onboarding_finger_tap_label" = "_%@ to go to the next item";
 "product_onboarding_finger_scroll_label" = "Skrolla ner för att se fler bilder.";
 "product_onboarding_finger_swipe_label" = "Dra för att gå till nästa eller föregående produkt";
 "product_onboarding_finger_tap_label" = "Klicka för att gå till nästa produkt";
@@ -692,6 +698,7 @@
 "profile_verify_google_button" = "Google";
 "profile_verify_google_message" = "Logga in med Google för att bekräfta din identitet";
 "profile_verify_google_title" = "GOOGLE";
+"quick_filter_location_title" = "Välj plats";
 "rate_buyers_message" = "Grattis!";
 "rate_buyers_not_on_letgo_button" = "Jag sålde det inte på letgo";
 "rate_buyers_not_on_letgo_title_button" = "Har sålts någon annanstans";

@@ -23,7 +23,7 @@
 "bump_up_banner_wait_text" = "to Bump Up again";
 "bump_up_error_bump_generic" = "An error occurred while Bumping Up your item. Please try again.";
 "bump_up_error_bump_token" = "Your payment has been processed but your item hasn't been featured.";
-"bump_up_error_payment_failed" = "An error occurred while Bumping Up your item. Your payment hasn't been processed. Please try again.";
+"bump_up_error_payment_failed" = "Couldn't connect to the App Store. Your payment hasn't been processed. Please try again.";
 "bump_up_free_success" = "Bumped Up! Keep Bumping Up your listing and it'll be even more visible.";
 "bump_up_pay_success" = "Bumped Up! Now your item has extra visibility.";
 "bump_up_processing_free_text" = "Processing Bump Up...";
@@ -544,6 +544,12 @@
 "product_more_info_tooltip_part_1" = "Tap";
 "product_more_info_tooltip_part_2" = "%@ to see more info";
 "product_negotiable_price" = "Negotiable";
+"product_new_onboarding_finger_keep_swipe_highlighted_label" = "_Keep swiping";
+"product_new_onboarding_finger_keep_swipe_label" = "_%@ back or forward to go to the previous or next item";
+"product_new_onboarding_finger_swipe_highlighted_label" = "_Swipe";
+"product_new_onboarding_finger_swipe_label" = "_%@ to see more pictures";
+"product_new_onboarding_finger_tap_highlighted_label" = "_Tap";
+"product_new_onboarding_finger_tap_label" = "_%@ to go to the next item";
 "product_onboarding_finger_scroll_label" = "Scroll to see more pictures";
 "product_onboarding_finger_swipe_label" = "Swipe to go to the next product or to the previous one";
 "product_onboarding_finger_tap_label" = "Tap to go to the next product";
@@ -692,6 +698,7 @@
 "profile_verify_google_button" = "Google";
 "profile_verify_google_message" = "Connect with Google to verify your identity";
 "profile_verify_google_title" = "GOOGLE";
+"quick_filter_location_title" = "Set Location";
 "rate_buyers_message" = "Congratulations!";
 "rate_buyers_not_on_letgo_button" = "I didn't sell this on letgo";
 "rate_buyers_not_on_letgo_title_button" = "Sold it somewhere else";

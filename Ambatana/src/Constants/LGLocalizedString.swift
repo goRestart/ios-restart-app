@@ -2299,6 +2299,30 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_onboarding_show_again_button_title", comment: "")
 	}
 
+	static var productNewOnboardingFingerKeepSwipeHighlightedLabel: String {
+		return NSLocalizedString("product_new_onboarding_finger_keep_swipe_highlighted_label", comment: "")
+	}
+
+	static func productNewOnboardingFingerKeepSwipeLabel(_ var1: String) -> String {
+		return String(format: NSLocalizedString("product_new_onboarding_finger_keep_swipe_label", comment: ""), var1)
+	}
+
+	static var productNewOnboardingFingerSwipeHighlightedLabel: String {
+		return NSLocalizedString("product_new_onboarding_finger_swipe_highlighted_label", comment: "")
+	}
+
+	static func productNewOnboardingFingerSwipeLabel(_ var1: String) -> String {
+		return String(format: NSLocalizedString("product_new_onboarding_finger_swipe_label", comment: ""), var1)
+	}
+
+	static var productNewOnboardingFingerTapHighlightedLabel: String {
+		return NSLocalizedString("product_new_onboarding_finger_tap_highlighted_label", comment: "")
+	}
+
+	static func productNewOnboardingFingerTapLabel(_ var1: String) -> String {
+		return String(format: NSLocalizedString("product_new_onboarding_finger_tap_label", comment: ""), var1)
+	}
+
 	static var productOpenCommercialButton: String {
 		return NSLocalizedString("product_open_commercial_button", comment: "")
 	}
@@ -2869,6 +2893,10 @@ struct LGLocalizedString {
 
 	static var profileConnectAccountsMessage: String {
 		return NSLocalizedString("profile_connect_accounts_message", comment: "")
+	}
+
+	static var quickFilterLocationTitle: String {
+		return NSLocalizedString("quick_filter_location_title", comment: "")
 	}
 
 	static var rateBuyersTitle: String {

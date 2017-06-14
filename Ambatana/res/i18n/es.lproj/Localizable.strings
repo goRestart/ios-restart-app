@@ -23,7 +23,7 @@
 "bump_up_banner_wait_text" = "para destacar de nuevo";
 "bump_up_error_bump_generic" = "Se ha producido un error al destacar tu producto. Por favor, inténtalo de nuevo.";
 "bump_up_error_bump_token" = "Tu pago ha sido procesado pero tu artículo no ha sido destacado.";
-"bump_up_error_payment_failed" = "Se ha producido un error al destacar tu artículo. Tu pago no ha sido procesado. Inténtalo de nuevo.";
+"bump_up_error_payment_failed" = "No ha sido posible conectar con la App Store. Tu pago no ha sido procesado. Inténtalo de nuevo.";
 "bump_up_free_success" = "¡Destacado! Sigue destacando tu anuncio y tendrá aún más visibilidad.";
 "bump_up_pay_success" = "¡Destacado! Ahora tu producto tiene más visibilidad.";
 "bump_up_processing_free_text" = "Procesando destacado...";
@@ -262,8 +262,8 @@
 "contact_subject_option_location" = "Problemas de ubicación";
 "contact_subject_option_login" = "Problemas al iniciar sesión";
 "contact_subject_option_other" = "Otros problemas";
-"contact_subject_option_product_edit" = "Editar/borrar artículo";
-"contact_subject_option_profile_edit" = "Editar/borrar perfil";
+"contact_subject_option_product_edit" = "Editar/eliminar artículo";
+"contact_subject_option_profile_edit" = "Editar/eliminar perfil";
 "contact_subject_option_report" = "Denunciar usuario/spam";
 "direct_answer_condition" = "¿En qué condición está el artículo?";
 "direct_answer_free_available" = "Sí, todavía está disponible";
@@ -473,7 +473,7 @@
 "product_auto_generated_translated_title_label" = "(y traducido por Google)";
 "product_bubble_favorite_button" = "¡Avisa al vendedor!";
 "product_bubble_favorite_text" = "¡Has añadido este artículo a tus favoritos!";
-"product_chat_direct_error_blocked_user_message" = "¡Ups! Has bloqueado a este usuario, así que no puedes iniciar un chat.";
+"product_chat_direct_error_blocked_user_message" = "¡Ups! No puedes iniciar un chat con este usuario.";
 "product_chat_direct_message" = "Hola %@, me interesa";
 "product_chat_direct_message_sending" = "Enviando...";
 "product_chat_with_seller_button" = "Chatea con el vendedor";
@@ -494,11 +494,11 @@
 "product_delete_confirm_message" = "¿Por qué quieres eliminar tu artículo?";
 "product_delete_confirm_ok_button" = "No quiero venderlo";
 "product_delete_confirm_sold_button" = "Ya lo he vendido";
-"product_delete_confirm_title" = "Borrar artículo";
+"product_delete_confirm_title" = "Eliminar artículo";
 "product_delete_post_button_title" = "Publica otro producto";
 "product_delete_post_subtitle" = "Prueba publicando otro artículo y empieza a ganar dinero.";
 "product_delete_post_title" = "¿NO HAS TENIDO SUERTE?";
-"product_delete_send_error_generic" = "¡Ups! Se ha producido un error al borrar tu artículo. Por favor, inténtalo de nuevo.";
+"product_delete_send_error_generic" = "¡Ups! Se ha producido un error al eliminar tu artículo. Por favor, inténtalo de nuevo.";
 "product_delete_sold_confirm_message" = "¿Seguro que quieres eliminar este artículo?";
 "product_delete_success_message" = "El artículo ha sido eliminado.";
 "product_distance_X_from_you" = "%@ de ti";
@@ -544,6 +544,12 @@
 "product_more_info_tooltip_part_1" = "Pulsa";
 "product_more_info_tooltip_part_2" = "%@ para ver más detalles";
 "product_negotiable_price" = "Negociable";
+"product_new_onboarding_finger_keep_swipe_highlighted_label" = "_Keep swiping";
+"product_new_onboarding_finger_keep_swipe_label" = "_%@ back or forward to go to the previous or next item";
+"product_new_onboarding_finger_swipe_highlighted_label" = "_Swipe";
+"product_new_onboarding_finger_swipe_label" = "_%@ to see more pictures";
+"product_new_onboarding_finger_tap_highlighted_label" = "_Tap";
+"product_new_onboarding_finger_tap_label" = "_%@ to go to the next item";
 "product_onboarding_finger_scroll_label" = "Desplázate arriba o abajo para ver más fotos";
 "product_onboarding_finger_swipe_label" = "Desliza hacia la derecha o a la izquierda para pasar al próximo producto o al anterior";
 "product_onboarding_finger_tap_label" = "Pulsa para pasar al próximo producto";
@@ -692,6 +698,7 @@
 "profile_verify_google_button" = "Google";
 "profile_verify_google_message" = "Conéctate con Google para verificar tu identidad";
 "profile_verify_google_title" = "GOOGLE";
+"quick_filter_location_title" = "Aplicar ubicación";
 "rate_buyers_message" = "¡Enhorabuena!";
 "rate_buyers_not_on_letgo_button" = "No lo he vendido en letgo";
 "rate_buyers_not_on_letgo_title_button" = "Lo he vendido en otro lugar";
@@ -768,7 +775,7 @@
 "sell_picture_save_into_camera_roll_loading" = "Estamos guardando la foto en tu galería...";
 "sell_picture_save_into_camera_roll_ok" = "La foto se ha guardado en tu galería.";
 "sell_picture_selected_cancel_button" = "Cancelar";
-"sell_picture_selected_delete_button" = "Borrar";
+"sell_picture_selected_delete_button" = "Eliminar";
 "sell_picture_selected_save_into_camera_roll_button" = "Guardar";
 "sell_picture_selected_title" = "Elige una acción";
 "sell_post_free_label" = "Gratis";

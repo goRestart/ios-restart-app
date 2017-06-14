@@ -80,7 +80,7 @@
 "bump_up_error_bump_token" = "Your payment has been processed but your item hasn't been featured.";
 
 // Error shown when payment fails
-"bump_up_error_payment_failed" = "An error occurred while Bumping Up your item. Your payment hasn't been processed. Please try again.";
+"bump_up_error_payment_failed" = "Couldn't connect to the App Store. Your payment hasn't been processed. Please try again.";
 
 // Text for loading view while processing free bump
 "bump_up_processing_free_text" = "Processing Bump Up...";
@@ -1708,6 +1708,24 @@
 // Button to show again the Onboarding in the new Product Detail
 "product_onboarding_show_again_button_title" = "How to Browse";
 
+// Product new onboarding, keep swipping to see gallery highlighted text
+"product_new_onboarding_finger_keep_swipe_highlighted_label" = "_Keep swiping";
+
+// Product new onboarding, keep swipping to go to next or previous product regular text
+"product_new_onboarding_finger_keep_swipe_label" = "_%@ back or forward to go to the previous or next item";
+
+// Product new onboarding, swipe to go to next or previous product label highlighted text
+"product_new_onboarding_finger_swipe_highlighted_label" = "_Swipe";
+
+// Product new onboarding, swipe to see more pictures label regular text
+"product_new_onboarding_finger_swipe_label" = "_%@ to see more pictures";
+
+// Product new onboarding, tap to go to next product label regular text
+"product_new_onboarding_finger_tap_highlighted_label" = "_Tap";
+
+// Product new onboarding, tap to go to next product label regular text
+"product_new_onboarding_finger_tap_label" = "_%@ to go to the next item";
+
 // Button to open the Commercial of a product inside the product detail
 "product_open_commercial_button" = "Commercial";
 
@@ -2136,6 +2154,9 @@
 
 // Text to verify accounts
 "profile_connect_accounts_message" = "You still haven't verified your account with:";
+
+// Navigation bar title "Set Location"
+"quick_filter_location_title" = "Set Location";
 
 // Screen to select which buyer you sold the item before rating him/her
 "rate_buyers_title" = "Who bought this?";

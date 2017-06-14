@@ -473,7 +473,7 @@
 "product_auto_generated_translated_title_label" = "(ja Googlen kääntämä)";
 "product_bubble_favorite_button" = "Kerro myyjälle asiasta!";
 "product_bubble_favorite_text" = "Tämä tuote on lisätty suosikkeihisi!";
-"product_chat_direct_error_blocked_user_message" = "Hups! Olet estänyt tämän käyttäjän, joten et voi aloittaa keskustelua.";
+"product_chat_direct_error_blocked_user_message" = "Hups! Et voi aloittaa keskustelua tämän käyttäjän kanssa.";
 "product_chat_direct_message" = "Hei %@, olen kiinnostunut";
 "product_chat_direct_message_sending" = "Lähetetään...";
 "product_chat_with_seller_button" = "Keskustele myyjän kanssa";
@@ -544,6 +544,12 @@
 "product_more_info_tooltip_part_1" = "Paina";
 "product_more_info_tooltip_part_2" = "%@ nähdäksesi lisätietoja";
 "product_negotiable_price" = "Neuvoteltavissa";
+"product_new_onboarding_finger_keep_swipe_highlighted_label" = "_Keep swiping";
+"product_new_onboarding_finger_keep_swipe_label" = "_%@ back or forward to go to the previous or next item";
+"product_new_onboarding_finger_swipe_highlighted_label" = "_Swipe";
+"product_new_onboarding_finger_swipe_label" = "_%@ to see more pictures";
+"product_new_onboarding_finger_tap_highlighted_label" = "_Tap";
+"product_new_onboarding_finger_tap_label" = "_%@ to go to the next item";
 "product_onboarding_finger_scroll_label" = "Vieritä nähdäksesi lisää kuvia";
 "product_onboarding_finger_swipe_label" = "Pyyhkäise mennäksesi seuraavaan tai edelliseen tuotteeseen";
 "product_onboarding_finger_tap_label" = "Napauta mennäksesi seuraavaan tuotteeseen";
@@ -692,6 +698,7 @@
 "profile_verify_google_button" = "Google";
 "profile_verify_google_message" = "Yhdistä Googlen avulla vahvistaaksesi henkilöllisyytesi";
 "profile_verify_google_title" = "GOOGLE";
+"quick_filter_location_title" = "Aseta sijainti";
 "rate_buyers_message" = "Onneksi olkoon!";
 "rate_buyers_not_on_letgo_button" = "En myynyt tätä letgossa";
 "rate_buyers_not_on_letgo_title_button" = "Myin sen jossakin muualla";
