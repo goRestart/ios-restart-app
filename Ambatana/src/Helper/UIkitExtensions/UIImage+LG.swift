@@ -15,9 +15,9 @@ extension UIImage {
         
         context.translateBy(x: 0.5 * size.height, y: 0.5 * size.width)
         if clockWise {
-            context.rotate(by: CGFloat(M_PI_2))
+            context.rotate(by: CGFloat(Double.pi/2))
         } else {
-            context.rotate(by: CGFloat(-M_PI_2))
+            context.rotate(by: CGFloat(-Double.pi/2))
         }
         context.translateBy(x: -0.5 * size.width, y: -0.5 * size.height)
         
