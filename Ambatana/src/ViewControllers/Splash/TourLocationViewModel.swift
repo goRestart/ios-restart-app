@@ -9,6 +9,8 @@
 import RxSwift
 import LGCoreKit
 
+protocol TourLocationViewModelDelegate: BaseViewModelDelegate { }
+
 final class TourLocationViewModel: BaseViewModel {
 
     var title: String {
@@ -27,7 +29,8 @@ final class TourLocationViewModel: BaseViewModel {
     let typePage: EventParameterTypePage
 
     weak var navigator: TourLocationNavigator?
-
+    weak var delegate: TourLocationViewModelDelegate?
+    
     private let disposeBag = DisposeBag()
 
     convenience init(source: EventParameterTypePage) {
@@ -57,17 +60,34 @@ final class TourLocationViewModel: BaseViewModel {
     }
     
     func userDidTapNoButton() {
-        let trackerEvent = TrackerEvent.permissionAlertCancel(.location, typePage: typePage, alertType: .fullScreen,
-            permissionGoToSettings: .notAvailable)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+        let actionOk = UIAction(interface: UIActionInterface.text(LGLocalizedString.onboardingAlertYes),
+                                action: { [weak self] in self?.canceledRequestPermission() })
+        let actionCancel = UIAction(interface: UIActionInterface.text(LGLocalizedString.onboardingAlertNo),
+                                    action: { [weak self] in self?.askForPermissions() })
+        delegate?.vmShowAlert(LGLocalizedString.onboardingLocationPermissionsAlertTitle,
+                              message: LGLocalizedString.onboardingLocationPermissionsAlertSubtitle,
+                              actions: [actionCancel, actionOk])
     }
     
     func userDidTapYesButton() {
-        let trackerEvent = TrackerEvent.permissionAlertComplete(.location, typePage: typePage, alertType: .fullScreen,
-            permissionGoToSettings: .notAvailable)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+        askForPermissions()
 
+    }
+    
+    private func canceledRequestPermission() {
+        let trackerEvent = TrackerEvent.permissionAlertCancel(.location, typePage: typePage, alertType: .fullScreen,
+                                                              permissionGoToSettings: .notAvailable)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+        nextStep()
+    }
+    
+    private func askForPermissions() {
+        let trackerEvent = TrackerEvent.permissionAlertComplete(.location, typePage: typePage, alertType: .fullScreen,
+                                                                permissionGoToSettings: .notAvailable)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+        
         let trackerSystemEvent = TrackerEvent.permissionSystemStart(.location, typePage: typePage)
         TrackerProxy.sharedInstance.trackEvent(trackerSystemEvent)
+        nextStep()
     }
 }

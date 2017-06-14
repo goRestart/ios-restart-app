@@ -42,6 +42,7 @@ final class TourLocationViewController: BaseViewController {
 
         modalPresentationStyle = .overCurrentContext
         modalTransitionStyle = .crossDissolve
+        self.viewModel.delegate = self
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -57,7 +58,6 @@ final class TourLocationViewController: BaseViewController {
 
     func close() {
         viewModel.userDidTapNoButton()
-        viewModel.nextStep()
     }
 
     
@@ -119,3 +119,7 @@ final class TourLocationViewController: BaseViewController {
         alertContainer.accessibilityId = .tourLocationAlert
     }
 }
+
+// MARK: - TourLocationViewModelDelegate
+
+extension TourLocationViewController: TourLocationViewModelDelegate {}
