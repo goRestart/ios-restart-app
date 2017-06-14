@@ -53,12 +53,20 @@ class CameraWrapper {
     private let cameraManager: CameraManager
     private let motionDeviceOrientation: MotionDeviceOrientation
     private var addingCamera: Bool = false
+    
+    private var recommendedQuality: CameraOutputQuality {
+        if DeviceFamily.current == .iPhone4 {
+            return .medium
+        } else {
+            return .high
+        }
+    }
 
     init() {
         cameraManager = CameraManager()
         motionDeviceOrientation = MotionDeviceOrientation()
 
-        cameraManager.cameraOutputQuality = .high
+        cameraManager.cameraOutputQuality = recommendedQuality
         cameraManager.showAccessPermissionPopupAutomatically = false
         cameraManager.writeFilesToPhoneLibrary = false
         cameraManager.saveLocationOnImages = false
