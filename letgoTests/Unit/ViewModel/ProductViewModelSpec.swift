@@ -660,7 +660,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     bumpeableProduct.paymentItems = [paymentItem]
                     monetizationRepository.retrieveResult = BumpeableListingResult(value: bumpeableProduct)
                 }
-                fcontext ("appstore payment fails") {
+                context ("appstore payment fails") {
                     beforeEach {
                         purchasesShopper.paymentSucceeds = false
 
