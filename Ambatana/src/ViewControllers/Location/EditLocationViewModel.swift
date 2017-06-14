@@ -146,6 +146,7 @@ class EditLocationViewModel: BaseViewModel {
     }
     
     var distanceRadius: Int? {
+        if let currentDistance = currentDistanceRadius.value, currentDistance <= 0 { return nil }
         return currentDistanceRadius.value
     }
 
