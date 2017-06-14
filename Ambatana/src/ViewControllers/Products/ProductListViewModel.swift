@@ -138,8 +138,6 @@ class ProductListViewModel: BaseViewModel {
         return objects.count
     }
     
-    
-    
     let numberOfColumns: Int
 
     
