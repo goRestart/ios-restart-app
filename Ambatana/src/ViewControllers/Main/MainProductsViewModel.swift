@@ -274,6 +274,7 @@ class MainProductsViewModel: BaseViewModel {
     override func didBecomeActive(_ firstTime: Bool) {
         updatePermissionsWarning()
         updateCategoriesHeader()
+        setupRx()
         if let currentLocation = locationManager.currentLocation {
             retrieveProductsIfNeededWithNewLocation(currentLocation)
             retrieveLastUserSearch()
@@ -437,6 +438,11 @@ class MainProductsViewModel: BaseViewModel {
         infoBubbleText.value = defaultBubbleText
     }
    
+    private func setupRx() {
+        listViewModel.isProductListEmpty.asObservable().bindNext { [weak self] _ in
+            self?.updateCategoriesHeader()
+        }.addDisposableTo(disposeBag)
+    }
     
     /**
         Returns a view model for search.
@@ -809,7 +815,7 @@ extension MainProductsViewModel {
 extension MainProductsViewModel {
 
     var showCategoriesCollectionBanner: Bool {
-        return featureFlags.carsVerticalEnabled && tags.isEmpty
+        return featureFlags.carsVerticalEnabled && tags.isEmpty && !listViewModel.isProductListEmpty.value
     }
 
     func pushPermissionsHeaderPressed() {
