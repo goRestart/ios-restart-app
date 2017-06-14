@@ -65,7 +65,6 @@ final class TourLocationViewController: BaseViewController {
     
     @IBAction func yesButtonPressed(_ sender: AnyObject) {
         viewModel.userDidTapYesButton()
-        Core.locationManager.startSensorLocationUpdates()
     }
     
     @IBAction func noButtonPressed(_ sender: AnyObject) {

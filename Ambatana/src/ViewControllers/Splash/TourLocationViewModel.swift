@@ -27,18 +27,20 @@ final class TourLocationViewModel: BaseViewModel {
     }
 
     let typePage: EventParameterTypePage
-
+    let featureFlags: FeatureFlaggeable
+    
     weak var navigator: TourLocationNavigator?
     weak var delegate: TourLocationViewModelDelegate?
     
     private let disposeBag = DisposeBag()
 
     convenience init(source: EventParameterTypePage) {
-        self.init(source: source, locationManager: Core.locationManager)
+        self.init(source: source, locationManager: Core.locationManager, featureFlags: FeatureFlags.sharedInstance)
     }
 
-    init(source: EventParameterTypePage, locationManager: LocationManager) {
+    init(source: EventParameterTypePage, locationManager: LocationManager, featureFlags: FeatureFlags) {
         self.typePage = source
+        self.featureFlags = featureFlags
         super.init()
 
         locationManager.locationEvents.map { $0 == .changedPermissions }.observeOn(MainScheduler.instance)
@@ -60,21 +62,24 @@ final class TourLocationViewModel: BaseViewModel {
     }
     
     func userDidTapNoButton() {
-        let actionOk = UIAction(interface: UIActionInterface.text(LGLocalizedString.onboardingAlertYes),
-                                action: { [weak self] in self?.canceledRequestPermission() })
-        let actionCancel = UIAction(interface: UIActionInterface.text(LGLocalizedString.onboardingAlertNo),
-                                    action: { [weak self] in self?.askForPermissions() })
-        delegate?.vmShowAlert(LGLocalizedString.onboardingLocationPermissionsAlertTitle,
-                              message: LGLocalizedString.onboardingLocationPermissionsAlertSubtitle,
-                              actions: [actionCancel, actionOk])
+        if featureFlags.newOnboardingPhase1 {
+            let actionOk = UIAction(interface: UIActionInterface.text(LGLocalizedString.onboardingAlertYes),
+                                    action: { [weak self] in self?.closeTourLocation() })
+            let actionCancel = UIAction(interface: UIActionInterface.text(LGLocalizedString.onboardingAlertNo),
+                                        action: { [weak self] in self?.askForPermissions() })
+            delegate?.vmShowAlert(LGLocalizedString.onboardingLocationPermissionsAlertTitle,
+                                  message: LGLocalizedString.onboardingLocationPermissionsAlertSubtitle,
+                                  actions: [actionCancel, actionOk])
+        } else {
+            closeTourLocation()
+        }
     }
     
     func userDidTapYesButton() {
         askForPermissions()
-
     }
     
-    private func canceledRequestPermission() {
+    private func closeTourLocation() {
         let trackerEvent = TrackerEvent.permissionAlertCancel(.location, typePage: typePage, alertType: .fullScreen,
                                                               permissionGoToSettings: .notAvailable)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
@@ -88,6 +93,6 @@ final class TourLocationViewModel: BaseViewModel {
         
         let trackerSystemEvent = TrackerEvent.permissionSystemStart(.location, typePage: typePage)
         TrackerProxy.sharedInstance.trackEvent(trackerSystemEvent)
-        nextStep()
+        Core.locationManager.startSensorLocationUpdates()
     }
 }
