@@ -11,8 +11,11 @@ module Fastlane
         version_number = params[:version_number]
 
         UI.message "Pushing changes...".blue
-        pushChangeCommand = "(cd #{path_to_repo} && git add ." + 
-                        " && git commit -m '★ Update version to #{version_number} (#{build_number})' && git pull && git push)"
+        pushChangeCommand = "(cd #{path_to_repo}"
+          + " && git add /Ambatana/res/config/ &&" + # build number
+          + " && git add /Ambatana/src/Application/Info.plist &&" + # version number
+          + " && git commit -m '★ Update version to #{version_number} (#{build_number})'" +
+          + " && git pull && git push)"
         UI.message pushChangeCommand
         Actions.sh pushChangeCommand
         UI.success "Version changes pushed successfully!"
@@ -24,7 +27,7 @@ module Fastlane
       #####################################################
 
       def self.description
-        "Uploads all changes in repository_path to remote git server with a commit indicating the version_number and build_number"
+        "Uploads build & version changes in repository_path to remote git server with a commit indicating the version_number and build_number"
       end
 
       def self.available_options

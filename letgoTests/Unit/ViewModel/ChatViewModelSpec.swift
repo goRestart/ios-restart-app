@@ -167,27 +167,47 @@ class ChatViewModelSpec: BaseViewModelSpec {
                             expect(relatedListingsStateObserver.lastValue).toEventually(equal(ChatRelatedItemsState.hidden))
                         }
                     }
-                    context("being a buyer") {
-                        var listingId: String!
+                    context("being a buyer and listing approved") {
                         beforeEach {
-                            productResult = self.makeMockProduct(with: .sold)
-                            chatConversation = self.makeChatConversation(with: chatInterlocutor, unreadMessageCount: 0, lastMessageSentAt: nil, amISelling: false)
+                            productResult = self.makeMockProduct(with: .approved)
+                            chatConversation = self.makeChatConversation(with: chatInterlocutor, unreadMessageCount: 0, lastMessageSentAt: nil, amISelling: false, listingStatus: .approved)
                             buildChatViewModel(myUser: mockMyUser,
                                                chatMessages: chatMessages,
                                                product: productResult,
                                                chatConversation: chatConversation,
                                                user: user)
                             sut.active = true
-                            expect(relatedListingsStateObserver.events.count).toEventually(equal(1), timeout: 10)
+                            expect(relatedListingsStateObserver.eventValues.count).toEventually(equal(1))
+                        }
+                        it ("has related products") {
+                            expect(sut.relatedListings.count).toEventually(equal(4))
+                        }
+                        it("related products state is visible") {
+                            expect(relatedListingsStateObserver.eventValues).toEventually(equal([.loading]))
+                        }
+                    }
+                    context("being a buyer and listing sold") {
+                        var listingId: String!
+                        beforeEach {
+                            productResult = self.makeMockProduct(with: .sold)
+                            chatConversation = self.makeChatConversation(with: chatInterlocutor, unreadMessageCount: 0, lastMessageSentAt: nil, amISelling: false, listingStatus: .sold)
+                            buildChatViewModel(myUser: mockMyUser,
+                                               chatMessages: chatMessages,
+                                               product: productResult,
+                                               chatConversation: chatConversation,
+                                               user: user)
+                            sut.active = true
+                            expect(relatedListingsStateObserver.eventValues.count).toEventually(equal(1))
                         }
                         it ("has related products") {
                             expect(sut.relatedListings.count).toEventually(equal(4))
                         }
                         it("related products state is visible") {
                             listingId = chatConversation.listing?.objectId
-                            expect(relatedListingsStateObserver.lastValue).toEventually(equal(ChatRelatedItemsState.visible(listingId: listingId)), timeout: 10)
+                            expect(relatedListingsStateObserver.eventValues).toEventually(equal([ChatRelatedItemsState.visible(listingId: listingId)]))
                         }
                     }
+
                 }
                 context("safety tips") {
                     context("userChatSafetyTipsShown is false and there is no message from interlocutor") {
@@ -535,8 +555,15 @@ extension ChatViewModelSpec {
         return chatInterlocutor
     }
     
-    func makeChatConversation(with interlocutor: ChatInterlocutor, unreadMessageCount: Int, lastMessageSentAt: Date?, amISelling: Bool) -> MockChatConversation {
+    func makeChatConversation(with interlocutor: ChatInterlocutor, unreadMessageCount: Int, lastMessageSentAt: Date?,
+                              amISelling: Bool,
+                              listingStatus: ListingStatus? = nil) -> MockChatConversation {
+        let listingStatus: ListingStatus = listingStatus ?? .approved
+        var chatListing = MockChatListing.makeMock()
+        chatListing.status = listingStatus
+
         var chatConversation = MockChatConversation.makeMock()
+        chatConversation.listing = chatListing
         chatConversation.interlocutor = interlocutor
         chatConversation.unreadMessageCount = unreadMessageCount
         chatConversation.lastMessageSentAt = lastMessageSentAt
