@@ -23,7 +23,7 @@
 "bump_up_banner_wait_text" = "다시 강조하기";
 "bump_up_error_bump_generic" = "상품을 강조하는 동안에 오류가 발생했습니다. 다시 시도해주세요.";
 "bump_up_error_bump_token" = "결제가 진행되었지만, 상품이 강조되지 않았습니다.";
-"bump_up_error_payment_failed" = "상품을 강조하는 동안 오류가 발생했습니다. 사용자의 결제가 진행되지 않았습니다. 다시 시도해주세요.";
+"bump_up_error_payment_failed" = "앱 스토어에 연결할 수 없습니다. 귀하의 결제가 진행되지 않았습니다. 다시 시도해주세요.";
 "bump_up_free_success" = "상품이 강조되었습니다! 리스트를 계속 강조하시면 사람들이 확인할 수 있습니다.";
 "bump_up_pay_success" = "상품이 강조되었습니다! 이제 상품이 다른 사람들에게 더 잘보입니다.";
 "bump_up_processing_free_text" = "강조 진행중...";
@@ -544,12 +544,12 @@
 "product_more_info_tooltip_part_1" = "누르세요";
 "product_more_info_tooltip_part_2" = "더 많은 정보를 보기위해서 %@";
 "product_negotiable_price" = "흥정가능한";
-"product_new_onboarding_finger_keep_swipe_highlighted_label" = "_Keep swiping";
-"product_new_onboarding_finger_keep_swipe_label" = "_%@ back or forward to go to the previous or next item";
-"product_new_onboarding_finger_swipe_highlighted_label" = "_Swipe";
-"product_new_onboarding_finger_swipe_label" = "_%@ to see more pictures";
-"product_new_onboarding_finger_tap_highlighted_label" = "_Tap";
-"product_new_onboarding_finger_tap_label" = "_%@ to go to the next item";
+"product_new_onboarding_finger_keep_swipe_highlighted_label" = "계속 넘기기";
+"product_new_onboarding_finger_keep_swipe_label" = "전이나 다음 제품으로 넘기기 위해 뒤로 가기나 앞으로 가기 %@";
+"product_new_onboarding_finger_swipe_highlighted_label" = "넘기기";
+"product_new_onboarding_finger_swipe_label" = "좀 더 많은 사진 보기 위해 %@";
+"product_new_onboarding_finger_tap_highlighted_label" = "두드리기";
+"product_new_onboarding_finger_tap_label" = "다음 제품으로 가기 위해 %@";
 "product_onboarding_finger_scroll_label" = "더 많은 사진을 확인하기 위해 스크롤을 내려보세요";
 "product_onboarding_finger_swipe_label" = "다음 상품 혹은 이전 상품으로 가기위해 터치하기";
 "product_onboarding_finger_tap_label" = "다음 상품으로 가기 위해 누르기";

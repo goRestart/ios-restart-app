@@ -1709,22 +1709,22 @@
 "product_onboarding_show_again_button_title" = "How to Browse";
 
 // Product new onboarding, keep swipping to see gallery highlighted text
-"product_new_onboarding_finger_keep_swipe_highlighted_label" = "_Keep swiping";
+"product_new_onboarding_finger_keep_swipe_highlighted_label" = "Keep swiping";
 
 // Product new onboarding, keep swipping to go to next or previous product regular text
-"product_new_onboarding_finger_keep_swipe_label" = "_%@ back or forward to go to the previous or next item";
+"product_new_onboarding_finger_keep_swipe_label" = "%@ back or forward to go to the previous or next item";
 
 // Product new onboarding, swipe to go to next or previous product label highlighted text
-"product_new_onboarding_finger_swipe_highlighted_label" = "_Swipe";
+"product_new_onboarding_finger_swipe_highlighted_label" = "Swipe";
 
 // Product new onboarding, swipe to see more pictures label regular text
-"product_new_onboarding_finger_swipe_label" = "_%@ to see more pictures";
+"product_new_onboarding_finger_swipe_label" = "%@ to see more pictures";
 
 // Product new onboarding, tap to go to next product label regular text
-"product_new_onboarding_finger_tap_highlighted_label" = "_Tap";
+"product_new_onboarding_finger_tap_highlighted_label" = "Tap";
 
 // Product new onboarding, tap to go to next product label regular text
-"product_new_onboarding_finger_tap_label" = "_%@ to go to the next item";
+"product_new_onboarding_finger_tap_label" = "%@ to go to the next item";
 
 // Button to open the Commercial of a product inside the product detail
 "product_open_commercial_button" = "Commercial";
