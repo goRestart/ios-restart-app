@@ -54,7 +54,7 @@ extension GoogleLoginHelper: GIDSignInDelegate {
     @objc func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
         if let serverAuthCode = user?.serverAuthCode {
             googleSignInCompletion?(.success(serverAuthCode:serverAuthCode))
-        } else if let loginError = error as? NSError, loginError.code == -5 {
+        } else if let loginError = error as NSError?, loginError.code == -5 {
             googleSignInCompletion?(.cancelled)
         } else {
             googleSignInCompletion?(.error(error: error))
