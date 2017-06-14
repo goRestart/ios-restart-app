@@ -87,6 +87,8 @@ class ProductViewModel: BaseViewModel {
     let userInfo: Variable<ProductVMUserInfo>
 
     let status = Variable<ProductViewModelStatus>(.pending)
+    
+    fileprivate var isTransactionOpen: Bool = false
 
     fileprivate let commercializers: Variable<[Commercializer]?>
     fileprivate let isReported = Variable<Bool>(false)
@@ -175,6 +177,7 @@ class ProductViewModel: BaseViewModel {
     
     internal override func didBecomeActive(_ firstTime: Bool) {
         guard let listingId = listing.value.objectId else { return }
+
         listingRepository.incrementViews(listingId: listingId, visitSource: visitSource.rawValue, completion: nil)
 
         if !relationRetrieved && myUserRepository.myUser != nil {
@@ -184,6 +187,10 @@ class ProductViewModel: BaseViewModel {
                 self?.isFavorite.value = value.isFavorited
                 self?.isReported.value = value.isReported
             }
+        }
+        
+        if isMine && status.value.isSold {
+            syncTransactions()
         }
 
         if listingStats.value == nil {
@@ -221,6 +228,14 @@ class ProductViewModel: BaseViewModel {
                 self?.listing.value = listing
             }
             completion?()
+        }
+    }
+    
+    func syncTransactions() {
+        guard let listingId = listing.value.objectId else { return }
+        listingRepository.retrieveTransactionsOf(listingId: listingId) { [weak self] (result) in
+            guard let transaction = result.value?.first else { return }
+            self?.isTransactionOpen = !transaction.closed
         }
     }
 
@@ -536,7 +551,10 @@ extension ProductViewModel {
         if isMine && status.value != .notAvailable {
             actions.append(buildDeleteAction())
         }
-
+        if isMine && status.value.isSold && isTransactionOpen && featureFlags.newMarkAsSoldFlow {
+            actions.append(buildRateUserAction())
+        }
+        
         delegate?.vmShowProductDetailOptions(LGLocalizedString.commonCancel, actions: actions)
     }
 
@@ -591,7 +609,7 @@ extension ProductViewModel {
 
                 let soldAction = UIAction(interface: .text(LGLocalizedString.productDeleteConfirmSoldButton),
                     action: { [weak self] in
-                        self?.selectBuyerToMarkAsSold(showConfirmationFallback: false)
+                        self?.confirmToMarkAsSold()
                     })
                 alertActions.append(soldAction)
 
@@ -614,6 +632,11 @@ extension ProductViewModel {
                 cancelLabel: LGLocalizedString.productDeleteConfirmCancelButton,
                 actions: alertActions)
             })
+    }
+    
+    private func buildRateUserAction() -> UIAction {
+        let title = LGLocalizedString.productMenuRateBuyer
+        return UIAction(interface: .text(title), action: { [weak self] in self?.selectBuyerToMarkAsSold(sourceRateBuyers: .rateBuyer) } )
     }
 
     private var socialShareMessage: SocialMessage {
@@ -646,7 +669,7 @@ extension ProductViewModel {
             break
         case .available:
             actionButtons.append(UIAction(interface: .button(LGLocalizedString.productMarkAsSoldButton, .terciary),
-                action: { [weak self] in self?.selectBuyerToMarkAsSold(showConfirmationFallback: true) }))
+                action: { [weak self] in self?.confirmToMarkAsSold() }))
         case .sold:
             actionButtons.append(UIAction(interface: .button(LGLocalizedString.productSellAgainButton, .secondary(fontSize: .big, withBorder: false)),
                 action: { [weak self] in self?.confirmToMarkAsUnSold(free: false) }))
@@ -654,7 +677,7 @@ extension ProductViewModel {
             break
         case .availableFree:
             actionButtons.append(UIAction(interface: .button(LGLocalizedString.productMarkAsSoldFreeButton, .terciary),
-                action: { [weak self] in self?.selectBuyerToMarkAsSold(showConfirmationFallback: true) }))
+                action: { [weak self] in self?.confirmToMarkAsSold() }))
         case .soldFree:
             actionButtons.append(UIAction(interface: .button(LGLocalizedString.productSellAgainFreeButton, .secondary(fontSize: .big, withBorder: false)),
                 action: { [weak self] in self?.confirmToMarkAsUnSold(free: true) }))
@@ -722,50 +745,62 @@ fileprivate extension ProductViewModel {
                                           iconImage: UIImage(named: "user_placeholder"))
         return data
     }
-
-    func selectBuyerToMarkAsSold(showConfirmationFallback: Bool) {
-        guard featureFlags.userRatingMarkAsSold else {
-            confirmToMarkAsSold()
-            return
-        }
-
-        guard let productId = listing.value.objectId else { return }
+    
+    func selectBuyerToMarkAsSold(sourceRateBuyers: SourceRateBuyers) {
+        guard featureFlags.newMarkAsSoldFlow else { return }
+        guard let listingId = listing.value.objectId else { return }
+        let trackingInfo = trackHelper.makeMarkAsSoldTrackingInfo(isShowingFeaturedStripe: isShowingFeaturedStripe.value)
+        
         delegate?.vmShowLoading(nil)
-        listingRepository.possibleBuyersOf(listingId: productId) { [weak self] result in
+        listingRepository.possibleBuyersOf(listingId: listingId) { [weak self] result in
+            guard let strongSelf = self else { return }
             if let buyers = result.value, !buyers.isEmpty {
-                self?.delegate?.vmHideLoading(nil) {
-                    self?.navigator?.selectBuyerToRate(source: .markAsSold, buyers: buyers) { [weak self] buyerId in
-                        let userSoldTo: EventParameterUserSoldTo = buyerId != nil ? .letgoUser : .outsideLetgo
-                        self?.markAsSold(buyerId: buyerId, userSoldTo: userSoldTo)
-                    }
-                }
-            } else if showConfirmationFallback {
-                self?.delegate?.vmHideLoading(nil) {
-                    self?.confirmToMarkAsSold()
+                strongSelf.delegate?.vmHideLoading(nil) {
+                    guard let strongSelf = self else { return }
+                    strongSelf.navigator?.selectBuyerToRate(source: .markAsSold,
+                                                            buyers: buyers,
+                                                            listingId: listingId,
+                                                            sourceRateBuyers: sourceRateBuyers,
+                                                            trackingInfo: trackingInfo)
                 }
             } else {
-                self?.markAsSold(buyerId: nil, userSoldTo: .noConversations)
+                let message = strongSelf.listing.value.price.free ? LGLocalizedString.productMarkAsSoldFreeSuccessMessage : LGLocalizedString.productMarkAsSoldSuccessMessage
+                strongSelf.delegate?.vmHideLoading(message, afterMessageCompletion: nil)
             }
         }
     }
 
-    private func confirmToMarkAsSold() {
+    fileprivate func confirmToMarkAsSold() {
         guard isMine && status.value.isAvailable else { return }
         let free = status.value.isFree
-        let okButton = free ? LGLocalizedString.productMarkAsSoldFreeConfirmOkButton : LGLocalizedString.productMarkAsSoldConfirmOkButton
-        let title = free ? LGLocalizedString.productMarkAsSoldFreeConfirmTitle : LGLocalizedString.productMarkAsSoldConfirmTitle
-        let message = free ? LGLocalizedString.productMarkAsSoldFreeConfirmMessage : LGLocalizedString.productMarkAsSoldConfirmMessage
-        let cancel = free ? LGLocalizedString.productMarkAsSoldFreeConfirmCancelButton : LGLocalizedString.productMarkAsSoldConfirmCancelButton
-
+        
+        var okButton: String
+        var title: String
+        var message: String
+        var cancel: String
+        
+        if featureFlags.newMarkAsSoldFlow {
+            okButton = LGLocalizedString.productMarkAsSoldAlertConfirm
+            title = free ? LGLocalizedString.productMarkAsGivenAwayAlertTitle: LGLocalizedString.productMarkAsSoldAlertTitle
+            message = free ? LGLocalizedString.productMarkAsGivenAwayAlertMessage : LGLocalizedString.productMarkAsSoldAlertMessage
+            cancel = LGLocalizedString.productMarkAsSoldAlertCancel
+        } else {
+            okButton = free ? LGLocalizedString.productMarkAsSoldFreeConfirmOkButton : LGLocalizedString.productMarkAsSoldConfirmOkButton
+            title = free ? LGLocalizedString.productMarkAsSoldFreeConfirmTitle : LGLocalizedString.productMarkAsSoldConfirmTitle
+            message = free ? LGLocalizedString.productMarkAsSoldFreeConfirmMessage : LGLocalizedString.productMarkAsSoldConfirmMessage
+            cancel = free ? LGLocalizedString.productMarkAsSoldFreeConfirmCancelButton : LGLocalizedString.productMarkAsSoldConfirmCancelButton
+        }
+        
         var alertActions: [UIAction] = []
         let markAsSoldAction = UIAction(interface: .text(okButton),
                                         action: { [weak self] in
-                                            self?.markAsSold(buyerId: nil, userSoldTo: .noConversations)
+                                            self?.markAsSold()
         })
         alertActions.append(markAsSoldAction)
         delegate?.vmShowAlert(title, message: message, cancelLabel: cancel, actions: alertActions)
     }
-
+    
+    
     func confirmToMarkAsUnSold(free: Bool) {
         let okButton = free ? LGLocalizedString.productSellAgainFreeConfirmOkButton : LGLocalizedString.productSellAgainConfirmOkButton
         let title = free ? LGLocalizedString.productSellAgainFreeConfirmTitle : LGLocalizedString.productSellAgainConfirmTitle
@@ -825,35 +860,33 @@ fileprivate extension ProductViewModel {
         }
     }
 
-    func markAsSold(buyerId: String?, userSoldTo: EventParameterUserSoldTo) {
+    func markAsSold() {
         delegate?.vmShowLoading(nil)
-
-        listingRepository.markAsSold(listing: listing.value, buyerId: buyerId) { [weak self] result in
+        listingRepository.markAsSold(listing: listing.value) { [weak self] result in
             guard let strongSelf = self else { return }
-
-            var markAsSoldCompletion: (()->())? = nil
-
-            let message: String
+            
             if let value = result.value {
                 strongSelf.listing.value = value
-                message = strongSelf.listing.value.price.free ? LGLocalizedString.productMarkAsSoldFreeSuccessMessage : LGLocalizedString.productMarkAsSoldSuccessMessage
-                self?.trackHelper.trackMarkSoldCompleted(to: userSoldTo, isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value)
-                markAsSoldCompletion = {
-                    self?.navigator?.openAppRating(.markedSold)
+                strongSelf.trackHelper.trackMarkSoldCompleted(isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value)
+                
+                if strongSelf.featureFlags.newMarkAsSoldFlow {
+                    strongSelf.selectBuyerToMarkAsSold(sourceRateBuyers: .markAsSold)
+                } else {
+                    strongSelf.delegate?.vmHideLoading(nil, afterMessageCompletion: {
+                        strongSelf.navigator?.openAppRating(.markedSold)
+                    })
                 }
             } else {
-                message = LGLocalizedString.productMarkAsSoldErrorGeneric
+                let message = LGLocalizedString.productMarkAsSoldErrorGeneric
+                strongSelf.delegate?.vmHideLoading(message, afterMessageCompletion: nil)
             }
-            strongSelf.delegate?.vmHideLoading(message, afterMessageCompletion: markAsSoldCompletion)
         }
     }
 
     func markUnsold() {
         delegate?.vmShowLoading(nil)
-
         listingRepository.markAsUnsold(listing: listing.value) { [weak self] result in
             guard let strongSelf = self else { return }
-
             let message: String
             if let value = result.value {
                 strongSelf.listing.value = value

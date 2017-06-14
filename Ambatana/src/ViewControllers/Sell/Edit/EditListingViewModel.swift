@@ -369,7 +369,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         } else {
             // enabled
             let initialPlace = Place(postalAddress: nil, location: locationManager.currentAutoLocation?.location)
-            let locationVM = EditLocationViewModel(mode: .editProductLocation, initialPlace: initialPlace)
+            let locationVM = EditLocationViewModel(mode: .editListingLocation, initialPlace: initialPlace, distanceRadius: nil)
             locationVM.locationDelegate = self
             delegate?.vmShouldOpenMapWithViewModel(locationVM)
         }
@@ -643,7 +643,7 @@ extension EditListingViewModel {
 // MARK: - EditLocationDelegate
 
 extension EditListingViewModel {
-    func editLocationDidSelectPlace(_ place: Place) {
+    func editLocationDidSelectPlace(_ place: Place, distanceRadius: Int?) {
         location = place.location
         postalAddress = place.postalAddress
         locationInfo.value = place.postalAddress?.zipCodeCityString ?? ""

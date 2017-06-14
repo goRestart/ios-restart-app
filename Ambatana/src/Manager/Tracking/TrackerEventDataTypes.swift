@@ -52,6 +52,8 @@ enum EventName: String {
     case firstMessage                       = "product-detail-ask-question"
     case productOpenChat                    = "product-detail-open-chat"
     case productMarkAsSold                  = "product-detail-sold"
+    case productMarkAsSoldAtLetgo           = "product-detail-sold-at-letgo"
+    case productMarkAsSoldOutsideLetgo      = "product-detail-sold-outside-letgo"
     case productMarkAsUnsold                = "product-detail-unsold"
     
     case productReport                      = "product-detail-report"
@@ -88,7 +90,6 @@ enum EventName: String {
     case profileVisit                       = "profile-visit"
     case profileEditStart                   = "profile-edit-start"
     case profileEditEditName                = "profile-edit-edit-name"
-    case profileEditEditLocation            = "profile-edit-edit-location"
     case profileEditEditLocationStart       = "profile-edit-edit-location-start"
     case profileEditEditPicture             = "profile-edit-edit-picture"
     case profileReport                      = "profile-report"
@@ -215,6 +216,7 @@ enum EventParameterName: String {
     case loginSource          = "login-type"            // the login source
     case loginRememberedAccount = "existing"
     case locationType         = "location-type"
+    case zipCode              = "zipcode"
     case shareNetwork         = "share-network"
     case buttonPosition       = "button-position"
     case locationEnabled      = "location-enabled"
@@ -319,12 +321,6 @@ enum EventParameterLoginSourceValue: String {
     case install = "install"
     case directChat = "direct-chat"
     case directQuickAnswer = "direct-quick-answer"
-}
-
-enum EventParameterUserSoldTo: String {
-    case letgoUser = "true"
-    case outsideLetgo = "false"
-    case noConversations = "no-conversations"
 }
 
 enum EventParameterProductItemType: String {
@@ -875,6 +871,13 @@ enum EventParameterBlockButtonPosition: String {
     case threeDots          = "three-dots"
     case safetyPopup        = "safety-popup"
     case others             = "N/A"
+}
+
+enum EventParamenterLocationTypePage: String {
+    case filter     = "filter"
+    case profile    = "profile"
+    case feedBubble = "feed-bubble"
+    case automatic  = "automatic"
 }
 
 struct EventParameters {

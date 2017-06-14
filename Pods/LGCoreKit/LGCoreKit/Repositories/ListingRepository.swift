@@ -33,6 +33,12 @@ public typealias ListingsCompletion = (ListingsResult) -> Void
 public typealias ListingBuyersResult = Result<[UserListing], RepositoryError>
 public typealias ListingBuyersCompletion = (ListingBuyersResult) -> Void
 
+public typealias ListingTransactionsResult = Result<[Transaction], RepositoryError>
+public typealias ListingTransactionsCompletion = (ListingTransactionsResult) -> Void
+
+public typealias ListingTransactionResult = Result<Transaction, RepositoryError>
+public typealias ListingTransactionCompletion = (ListingTransactionResult) -> Void
+
 
 public enum ListingEvent {
     case create(Listing)
@@ -94,9 +100,9 @@ public protocol ListingRepository {
     
     // MARK: - Mark listings as (un)sold
     
-    func markAsSold(listing: Listing, buyerId: String?, completion: ListingCompletion?)
+    func markAsSold(listing: Listing, completion: ListingCompletion?)
     func markAsUnsold(listing: Listing, completion: ListingCompletion?)
-    func markAsSold(listingId: String, buyerId: String?, completion: ListingVoidCompletion?)
+    func markAsSold(listingId: String, completion: ListingVoidCompletion?)
     func markAsUnsold(listingId: String, completion: ListingVoidCompletion?)
     
     // MARK: - (un)Favorite listing
@@ -134,4 +140,6 @@ public protocol ListingRepository {
     // MARK: - Possible buyers
 
     func possibleBuyersOf(listingId: String, completion: ListingBuyersCompletion?)
+    func retrieveTransactionsOf(listingId: String, completion: ListingTransactionsCompletion?)
+    func createTransactionOf(createTransactionParams: CreateTransactionParams, completion: ListingTransactionCompletion?)
 }

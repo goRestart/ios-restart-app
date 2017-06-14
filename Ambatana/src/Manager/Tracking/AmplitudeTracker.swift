@@ -50,10 +50,12 @@ final class AmplitudeTracker: Tracker {
     
     // MARK: - Tracker
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?,
+                     featureFlags: FeatureFlaggeable) {
         Amplitude.instance().trackingSessionEvents = false
         Amplitude.instance().initializeApiKey(EnvironmentProxy.sharedInstance.amplitudeAPIKey)
-        setupABTestsRx()
+        setupABTestsRx(featureFlags: featureFlags)
     }
     
     func application(_ application: UIApplication, openURL url: URL, sourceApplication: String?, annotation: Any?) {
@@ -154,8 +156,8 @@ final class AmplitudeTracker: Tracker {
 
     // MARK: - Private
 
-    private func setupABTestsRx() {
-        ABTests.trackingData.asObservable().bindNext { trackingData in
+    private func setupABTestsRx(featureFlags: FeatureFlaggeable) {
+        featureFlags.trackingData.asObservable().bindNext { trackingData in
             guard let trackingData = trackingData else { return }
             let identify = AMPIdentify()
             let trackingDataValue = NSArray(array: trackingData)

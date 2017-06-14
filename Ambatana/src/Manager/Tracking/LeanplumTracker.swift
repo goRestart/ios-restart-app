@@ -59,12 +59,14 @@ final class LeanplumTracker: Tracker {
 
     // MARK: - Tracker
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?,
+                     featureFlags: FeatureFlaggeable) {
         if let deviceId = AppsFlyerTracker.shared().getAppsFlyerUID() {
             Leanplum.setDeviceId(deviceId)
         }
-        Leanplum.onVariablesChanged {
-            ABTests.variablesUpdated()
+        Leanplum.onVariablesChanged { [weak featureFlags] in
+            featureFlags?.variablesUpdated()
         }
         Leanplum.start()
     }

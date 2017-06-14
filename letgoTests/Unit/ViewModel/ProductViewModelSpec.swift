@@ -16,8 +16,7 @@ import Nimble
 
 class ProductViewModelSpec: BaseViewModelSpec {
 
-    var lastBuyersToRate: [UserListing]?
-    var buyerToRateResult: String?
+    var selectBuyersCalled: Bool?
     var shownAlertText: String?
     var shownFavoriteBubble: Bool?
     var calledLogin: Bool?
@@ -114,146 +113,69 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     soldProduct.status = .sold
                     listingRepository.markAsSoldResult = ListingResult(.product(soldProduct))
                 }
-                context("buyer selection a/b enabled"){
+                
+                context("buyer selection a/b disabled") {
                     beforeEach {
-                        featureFlags.userRatingMarkAsSold = true
-                    }
-                    context("there are possible buyers") {
-                        var possibleBuyers: [UserListing]!
-                        beforeEach {
-                            possibleBuyers = [UserListing]()
-                            for _ in 0..<5 {
-                                possibleBuyers.append(MockUserListing.makeMock())
-                            }
-                            listingRepository.listingBuyersResult = ListingBuyersResult(possibleBuyers)
-                        }
-                        context("one is selected") {
-                            beforeEach {
-                                self.buyerToRateResult = possibleBuyers.last?.objectId
-
-                                buildProductViewModel()
-                                sut.active = true
-
-                                // There should appear one button
-                                expect(sut.actionButtons.value.count).toEventually(equal(1))
-                                sut.actionButtons.value.first?.action()
-
-                                expect(tracker.trackedEvents.count).toEventually(equal(1))
-                            }
-                            it("has mark as sold and then sell it again button") {
-                                let buttonTexts: [String] = bottomButtonsObserver.eventValues.flatMap { $0.first?.text }
-                                expect(buttonTexts) == [LGLocalizedString.productMarkAsSoldButton, LGLocalizedString.productSellAgainButton]
-                            }
-                            it("has requested buyer selection with buyers array") {
-                                expect(self.lastBuyersToRate?.count) == possibleBuyers.count
-                            }
-                            it("has called to mark as sold with correct buyerId") {
-                                expect(listingRepository.markAsSoldBuyerId) == self.buyerToRateResult
-                            }
-                            it("has a mark as sold tracked event with correct user-sold-to") {
-                                let event = tracker.trackedEvents.last
-                                expect(event?.name.rawValue) == "product-detail-sold"
-                                expect(event?.params?[.userSoldTo] as? String) == "true"
-                            }
-                        }
-                        context("outside letgo is selected") {
-                            beforeEach {
-                                self.buyerToRateResult = nil
-
-                                buildProductViewModel()
-                                sut.active = true
-
-                                // There should appear one button
-                                expect(sut.actionButtons.value.count).toEventually(equal(1))
-                                sut.actionButtons.value.first?.action()
-
-                                expect(tracker.trackedEvents.count).toEventually(equal(1))
-                            }
-                            it("has mark as sold and then sell it again button") {
-                                let buttonTexts: [String] = bottomButtonsObserver.eventValues.flatMap { $0.first?.text }
-                                expect(buttonTexts) == [LGLocalizedString.productMarkAsSoldButton, LGLocalizedString.productSellAgainButton]
-                            }
-                            it("has requested buyer selection with buyers array") {
-                                expect(self.lastBuyersToRate?.count) == possibleBuyers.count
-                            }
-                            it("has called to mark as sold with correct buyerId") {
-                                expect(listingRepository.markAsSoldBuyerId).to(beNil())
-                            }
-                            it("has a mark as sold tracked event with correct user-sold-to") {
-                                let event = tracker.trackedEvents.last
-                                expect(event?.name.rawValue) == "product-detail-sold"
-                                expect(event?.params?[.userSoldTo] as? String) == "false"
-                            }
-                        }
-                    }
-                    context("there are no possible buyers") {
-                        beforeEach {
-                            listingRepository.listingBuyersResult = ListingBuyersResult([])
-
-                            buildProductViewModel()
-                            sut.active = true
-
-                            // There should appear one button
-                            expect(sut.actionButtons.value.count).toEventually(equal(1))
-                            sut.actionButtons.value.first?.action()
-
-                            expect(tracker.trackedEvents.count).toEventually(equal(1))
-                        }
-                        it("has mark as sold and then sell it again button") {
-                            let buttonTexts: [String] = bottomButtonsObserver.eventValues.flatMap { $0.first?.text }
-                            expect(buttonTexts) == [LGLocalizedString.productMarkAsSoldButton, LGLocalizedString.productSellAgainButton]
-                        }
-                        it("hasn't requested buyer selection") {
-                            expect(self.lastBuyersToRate).to(beNil())
-                        }
-                        it("has shown mark as sold alert") {
-                            expect(self.shownAlertText!) == LGLocalizedString.productMarkAsSoldConfirmMessage
-                        }
-                        it("has called to mark as sold with correct buyerId") {
-                            expect(listingRepository.markAsSoldBuyerId).to(beNil())
-                        }
-                        it("has a mark as sold tracked event with correct user-sold-to") {
-                            let event = tracker.trackedEvents.last!
-                            expect(event.name.rawValue) == "product-detail-sold"
-                            expect(event.params![.userSoldTo] as? String) == "no-conversations"
-                        }
-                    }
-                }
-                context("buyer selection a/b disabled"){
-                    beforeEach {
-                        featureFlags.userRatingMarkAsSold = false
-                        var possibleBuyers = [UserListing]()
-                        for _ in 0..<5 {
-                            possibleBuyers.append(MockUserListing.makeMock())
-                        }
-                        listingRepository.listingBuyersResult = ListingBuyersResult(possibleBuyers)
-
+                        featureFlags.newMarkAsSoldFlow = false
+                        let userListing = MockUserListing.makeMock()
+                        listingRepository.listingBuyersResult = ListingBuyersResult([userListing])
+                        
                         buildProductViewModel()
                         sut.active = true
-
+                        
                         // There should appear one button
                         expect(sut.actionButtons.value.count).toEventually(equal(1))
                         sut.actionButtons.value.first?.action()
-
+                        
                         expect(tracker.trackedEvents.count).toEventually(equal(1))
                     }
                     it("has mark as sold and then sell it again button") {
                         let buttonTexts: [String] = bottomButtonsObserver.eventValues.flatMap { $0.first?.text }
                         expect(buttonTexts) == [LGLocalizedString.productMarkAsSoldButton, LGLocalizedString.productSellAgainButton]
                     }
-                    it("hasn't requested buyer selection") {
-                        expect(self.lastBuyersToRate).to(beNil())
+                    it("does not request buyer selection") {
+                        expect(self.selectBuyersCalled) == false
                     }
                     it("has shown mark as sold alert") {
                         expect(self.shownAlertText!) == LGLocalizedString.productMarkAsSoldConfirmMessage
                     }
-                    it("has called to mark as sold with correct buyerId") {
-                        expect(listingRepository.markAsSoldBuyerId).to(beNil())
+                    it("calls show loading in delegate") {
+                        expect(self.delegateReceivedShowLoading) == true
                     }
-                    it("has a mark as sold tracked event with no user-sold-to") {
-                        let event = tracker.trackedEvents.last!
-                        expect(event.name.rawValue) == "product-detail-sold"
-                        expect(event.params![.userSoldTo]).to(beNil())
+                    it("calls hide loading in delegate") {
+                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                    }
+                }
+                
+                context("buyer selection enabled newMarkAsSoldFlow = true") {
+                    beforeEach {
+                        featureFlags.newMarkAsSoldFlow = true
+                        let userListing = MockUserListing.makeMock()
+                        listingRepository.listingBuyersResult = ListingBuyersResult([userListing])
+                        buildProductViewModel()
+                        sut.active = true
+                        
+                        // There should appear one button
+                        expect(sut.actionButtons.value.count).toEventually(equal(1))
+                        sut.actionButtons.value.first?.action()
+                        
+                        expect(tracker.trackedEvents.count).toEventually(equal(1))
+                    }
+                    it("has mark as sold and then sell it again button") {
+                        let buttonTexts: [String] = bottomButtonsObserver.eventValues.flatMap { $0.first?.text }
+                        expect(buttonTexts) == [LGLocalizedString.productMarkAsSoldButton, LGLocalizedString.productSellAgainButton]
+                    }
+                    it("requests buyer selection") {
+                        expect(self.selectBuyersCalled).toEventually(beTrue())
+                    }
+                    it("has shown mark as sold alert") {
+                        expect(self.shownAlertText!) == LGLocalizedString.productMarkAsSoldAlertMessage
+                    }
+                    it("calls show loading in delegate") {
+                        expect(self.delegateReceivedShowLoading) == true
+                    }
+                    it("calls hide loading in delegate") {
+                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
                 }
             }
@@ -802,10 +724,10 @@ class ProductViewModelSpec: BaseViewModelSpec {
 
     override func resetViewModelSpec() {
         super.resetViewModelSpec()
-        lastBuyersToRate = nil
-        buyerToRateResult = nil
         shownAlertText = nil
+        selectBuyersCalled = false
         calledLogin = nil
+        
     }
 
     override func vmShowAlert(_ title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {
@@ -855,13 +777,12 @@ extension ProductViewModelSpec: ProductDetailNavigator {
     func openPayBumpUp(forListing listing: Listing, purchaseableProduct: PurchaseableProduct, paymentItemId: String) {
         calledOpenPricedBumpUpView = true
     }
-
-    func selectBuyerToRate(source: RateUserSource, buyers: [UserListing], completion: @escaping (String?) -> Void) {
-        let result = self.buyerToRateResult
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(50)) {
-            completion(result)
-            self.lastBuyersToRate = buyers
-        }
+    func selectBuyerToRate(source: RateUserSource,
+                           buyers: [UserListing],
+                           listingId: String,
+                           sourceRateBuyers: SourceRateBuyers?,
+                           trackingInfo: MarkAsSoldTrackingInfo) {
+        self.selectBuyersCalled = true
     }
     func showProductFavoriteBubble(with data: BubbleNotificationData) {
         shownFavoriteBubble = true

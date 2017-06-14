@@ -291,7 +291,49 @@ class StringLGSpec: QuickSpec {
                     expect("This is a sentence of seven words".clipMoreThan(wordCount: 0)) == ""
                 }
             }
+            describe("trim(strings:separator:)") {
+                it("trims the tags") {
+                    expect("Hi. Bye.".trim(strings: ["Hi", "Bye"], separator: ".")) == ""
+                }
+                it("trims the tags and leave what user wrote ending w/o dot") {
+                    expect("Hi. Bye. It was nice".trim(strings: ["Hi", "Bye"], separator: ".")) == "It was nice"
+                }
+                it("trims the tags and leave what user wrote ending with dot") {
+                    expect("Hi. Bye. It was nice.".trim(strings: ["Hi", "Bye"], separator: ".")) == "It was nice."
+                }
+                it("trims the tags and leave what user wrote ending with dot & space") {
+                    expect("Hi. Bye. It was nice. ".trim(strings: ["Hi", "Bye"], separator: ".")) == "It was nice."
+                }
+            }
+            describe("make(tagsString:comment:)") {
+                context("w/o comment") {
+                    it("builds up a string with the given tags strings") {
+                        expect(String.make(tagsString: ["ex1", "ex2"])) == "ex1. ex2"
+                    }
+                }
+                context("with comment") {
+                    it("builds up a string with the given tag strings and comment") {
+                        expect(String.make(tagsString: ["ex1", "ex2"], comment: "append")) == "ex1. ex2. append"
+                    }
+                }
+            }
+            context("isOnlyDigits") {
+                it ("returns true if only digits") {
+                     expect("12345".isOnlyDigits) == true
+                }
+                it ("returns true if empty") {
+                    expect("".isOnlyDigits) == true
+                }
+                it ("returns false if there's any non-digit - letters") {
+                    expect("123AB".isOnlyDigits) == false
+                }
+                it ("returns false if there's any non-digit - punctuation") {
+                    expect("123.5".isOnlyDigits) == false
+                }
+                it ("returns false if there's any non-digit - others") {
+                    expect("123 123".isOnlyDigits) == false
+                }
+            }
         }
     }
 }
-

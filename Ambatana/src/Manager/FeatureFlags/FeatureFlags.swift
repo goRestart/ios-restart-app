@@ -11,10 +11,12 @@ import CoreTelephony
 import bumper
 import RxSwift
 
-protocol FeatureFlaggeable {
+protocol FeatureFlaggeable: class {
 
+    var trackingData: Observable<[String]?> { get }
     var syncedData: Observable<Bool> { get }
-
+    func variablesUpdated()
+    
     var showNPSSurvey: Bool { get }
     var surveyUrl: String { get }
     var surveyEnabled: Bool { get }
@@ -27,7 +29,6 @@ protocol FeatureFlaggeable {
     var onboardingReview: OnboardingReview { get }
     var freeBumpUpEnabled: Bool { get }
     var pricedBumpUpEnabled: Bool { get }
-    var userRatingMarkAsSold: Bool { get }
     var productDetailNextRelated: Bool { get }
     var signUpLoginImprovement: SignUpLoginImprovement { get }
     var periscopeRemovePredefinedText: Bool { get }
@@ -36,6 +37,8 @@ protocol FeatureFlaggeable {
     var quickAnswersRepeatedTextField: Bool { get }
     var carsVerticalEnabled: Bool { get }
     var carsCategoryAfterPicture: Bool { get }
+    var newMarkAsSoldFlow: Bool { get }
+    var editLocationBubble: EditLocationBubble { get }
     var newCarsMultiRequesterEnabled: Bool { get }
 
     // Country dependant features
@@ -47,183 +50,222 @@ protocol FeatureFlaggeable {
     func collectionsAllowedFor(countryCode: String?) -> Bool
 }
 
+extension FeatureFlaggeable {
+    var syncedData: Observable<Bool> {
+        return trackingData.map { $0 != nil }
+    }
+}
+
 
 class FeatureFlags: FeatureFlaggeable {
 
     static let sharedInstance: FeatureFlags = FeatureFlags()
     
+    let websocketChat: Bool
     private let locale: Locale
     private let locationManager: LocationManager
     private let carrierCountryInfo: CountryConfigurable
+    private let abTests: ABTests
+    private let dao: FeatureFlagsDAO
     
-    init(locale: Locale, locationManager: LocationManager, countryInfo: CountryConfigurable) {
+    init(locale: Locale,
+         locationManager: LocationManager,
+         countryInfo: CountryConfigurable,
+         abTests: ABTests,
+         dao: FeatureFlagsDAO) {
         Bumper.initialize()
 
         // Initialize all vars that shouldn't change over application lifetime
         if Bumper.enabled {
             self.websocketChat = Bumper.websocketChat
         } else {
-            self.websocketChat = ABTests.websocketChat.value
+            self.websocketChat = dao.retrieveWebsocketChatEnabled() ?? abTests.websocketChat.value
         }
         
         self.locale = locale
         self.locationManager = locationManager
         self.carrierCountryInfo = countryInfo
+        self.abTests = abTests
+        self.dao = dao
     }
 
     convenience init() {
-        self.init(locale: Locale.current, locationManager: Core.locationManager, countryInfo: CTTelephonyNetworkInfo())
+        self.init(locale: Locale.current,
+                  locationManager: Core.locationManager,
+                  countryInfo: CTTelephonyNetworkInfo(),
+                  abTests: ABTests(),
+                  dao: FeatureFlagsUDDAO())
     }
 
-
+    
+    // MARK: - Public methods
+    
+    func registerVariables() {
+        abTests.registerVariables()
+    }
+    
+    
     // MARK: - A/B Tests features
 
-    var syncedData: Observable<Bool> {
-        return ABTests.trackingData.asObservable().map { $0 != nil }
+    var trackingData: Observable<[String]?> {
+        return abTests.trackingData.asObservable()
     }
-
-    let websocketChat: Bool
+    
+    func variablesUpdated() {
+        dao.save(websocketChatEnabled: abTests.websocketChat.value)
+        dao.save(editLocationBubble: EditLocationBubble.fromPosition(abTests.editLocationBubble.value))
+        dao.save(carsVerticalEnabled: abTests.carsVerticalEnabled.value)
+        abTests.variablesUpdated()
+    }
 
     var userReviews: Bool {
         if Bumper.enabled {
             return Bumper.userReviews
         }
-        return ABTests.userReviews.value
+        return abTests.userReviews.value
     }
 
     var showNPSSurvey: Bool {
         if Bumper.enabled {
             return Bumper.showNPSSurvey
         }
-        return ABTests.showNPSSurvey.value
+        return abTests.showNPSSurvey.value
     }
 
     var surveyUrl: String {
         if Bumper.enabled {
             return Bumper.surveyEnabled ? Constants.surveyDefaultTestUrl : ""
         }
-        return ABTests.surveyURL.value
+        return abTests.surveyURL.value
     }
 
     var surveyEnabled: Bool {
         if Bumper.enabled {
             return Bumper.surveyEnabled
         }
-        return ABTests.surveyEnabled.value
+        return abTests.surveyEnabled.value
     }
     
     var shouldContactSellerOnFavorite: Bool {
         if Bumper.enabled {
             return Bumper.contactSellerOnFavorite
         }
-        return ABTests.contactSellerOnFavorite.value
+        return abTests.contactSellerOnFavorite.value
     }
 
     var captchaTransparent: Bool {
         if Bumper.enabled {
             return Bumper.captchaTransparent
         }
-        return ABTests.captchaTransparent.value
+        return abTests.captchaTransparent.value
     }
 
     var passiveBuyersShowKeyboard: Bool {
         if Bumper.enabled {
             return Bumper.passiveBuyersShowKeyboard
         }
-        return ABTests.passiveBuyersShowKeyboard.value
+        return abTests.passiveBuyersShowKeyboard.value
     }
 
     var onboardingReview: OnboardingReview {
         if Bumper.enabled {
             return Bumper.onboardingReview
         }
-        return OnboardingReview.fromPosition(ABTests.onboardingReview.value)
+        return OnboardingReview.fromPosition(abTests.onboardingReview.value)
     }
 
     var freeBumpUpEnabled: Bool {
         if Bumper.enabled {
             return Bumper.freeBumpUpEnabled
         }
-        return ABTests.freeBumpUpEnabled.value
+        return abTests.freeBumpUpEnabled.value
     }
 
     var pricedBumpUpEnabled: Bool {
         if Bumper.enabled {
             return Bumper.pricedBumpUpEnabled
         }
-        return ABTests.pricedBumpUpEnabled.value
-    }
-
-    var userRatingMarkAsSold: Bool {
-        if Bumper.enabled {
-            return Bumper.userRatingMarkAsSold
-        }
-        return ABTests.userRatingMarkAsSold.value
+        return abTests.pricedBumpUpEnabled.value
     }
 
     var productDetailNextRelated: Bool {
         if Bumper.enabled {
             return Bumper.productDetailNextRelated
         }
-        return ABTests.productDetailNextRelated.value
+        return abTests.productDetailNextRelated.value
     }
 
     var signUpLoginImprovement: SignUpLoginImprovement {
         if Bumper.enabled {
             return Bumper.signUpLoginImprovement
         }
-        return SignUpLoginImprovement.fromPosition(ABTests.signUpLoginImprovement.value)
+        return SignUpLoginImprovement.fromPosition(abTests.signUpLoginImprovement.value)
     }
     
     var periscopeRemovePredefinedText: Bool {
         if Bumper.enabled {
             return Bumper.periscopeRemovePredefinedText
         }
-        return ABTests.periscopeRemovePredefinedText.value
+        return abTests.periscopeRemovePredefinedText.value
     }
     
     var postingGallery: PostingGallery {
         if Bumper.enabled {
             return Bumper.postingGallery
         }
-        return PostingGallery.fromPosition(ABTests.postingGallery.value)
+        return PostingGallery.fromPosition(abTests.postingGallery.value)
     }
 
     var hideTabBarOnFirstSessionV2: Bool {
         if Bumper.enabled {
             return Bumper.hideTabBarOnFirstSessionV2
         }
-        return ABTests.hideTabBarOnFirstSessionV2.value
+        return abTests.hideTabBarOnFirstSessionV2.value
     }
     
     var quickAnswersRepeatedTextField: Bool {
         if Bumper.enabled {
             return Bumper.quickAnswersRepeatedTextField
         }
-        return ABTests.quickAnswersRepeatedTextField.value
+        return abTests.quickAnswersRepeatedTextField.value
     }
     
     var carsVerticalEnabled: Bool {
         if Bumper.enabled {
             return Bumper.carsVerticalEnabled
         }
-        return ABTests.carsVerticalEnabled.value
+        return dao.retrieveCarsVerticalEnabled() ?? abTests.carsVerticalEnabled.value
     }
     
     var carsCategoryAfterPicture: Bool {
         if Bumper.enabled {
             return Bumper.carsCategoryAfterPicture
         }
-        return ABTests.carsCategoryAfterPicture.value
+        return abTests.carsCategoryAfterPicture.value
+    }
+    
+    var newMarkAsSoldFlow: Bool {
+        if Bumper.enabled {
+            return Bumper.newMarkAsSoldFlow
+        }
+        return abTests.newMarkAsSoldFlow.value
+    }
+
+    var editLocationBubble: EditLocationBubble {
+        if Bumper.enabled {
+            return Bumper.editLocationBubble
+        }
+        return dao.retrieveEditLocationBubble() ?? EditLocationBubble.fromPosition(abTests.editLocationBubble.value)
     }
 
     var newCarsMultiRequesterEnabled: Bool {
         if Bumper.enabled {
             return Bumper.newCarsMultiRequesterEnabled
         }
-        return ABTests.newCarsMultiRequesterEnabled.value
+        return abTests.newCarsMultiRequesterEnabled.value
     }
 
+    
     // MARK: - Country features
 
     var freePostingModeAllowed: Bool {

@@ -22,7 +22,6 @@ extension Bumper  {
         flags.append(CaptchaTransparent.self)
         flags.append(PassiveBuyersShowKeyboard.self)
         flags.append(OnboardingReview.self)
-        flags.append(UserRatingMarkAsSold.self)
         flags.append(ProductDetailNextRelated.self)
         flags.append(ContactSellerOnFavorite.self)
         flags.append(SignUpLoginImprovement.self)
@@ -32,6 +31,8 @@ extension Bumper  {
         flags.append(QuickAnswersRepeatedTextField.self)
         flags.append(CarsVerticalEnabled.self)
         flags.append(CarsCategoryAfterPicture.self)
+        flags.append(NewMarkAsSoldFlow.self)
+        flags.append(EditLocationBubble.self)
         flags.append(NewCarsMultiRequesterEnabled.self)
         Bumper.initialize(flags)
     } 
@@ -81,11 +82,6 @@ extension Bumper  {
         return OnboardingReview(rawValue: value) ?? .testA 
     }
 
-    static var userRatingMarkAsSold: Bool {
-        guard let value = Bumper.value(for: UserRatingMarkAsSold.key) else { return false }
-        return UserRatingMarkAsSold(rawValue: value)?.asBool ?? false
-    }
-
     static var productDetailNextRelated: Bool {
         guard let value = Bumper.value(for: ProductDetailNextRelated.key) else { return false }
         return ProductDetailNextRelated(rawValue: value)?.asBool ?? false
@@ -129,6 +125,16 @@ extension Bumper  {
     static var carsCategoryAfterPicture: Bool {
         guard let value = Bumper.value(for: CarsCategoryAfterPicture.key) else { return false }
         return CarsCategoryAfterPicture(rawValue: value)?.asBool ?? false
+    }
+
+    static var newMarkAsSoldFlow: Bool {
+        guard let value = Bumper.value(for: NewMarkAsSoldFlow.key) else { return false }
+        return NewMarkAsSoldFlow(rawValue: value)?.asBool ?? false
+    }
+
+    static var editLocationBubble: EditLocationBubble {
+        guard let value = Bumper.value(for: EditLocationBubble.key) else { return .inactive }
+        return EditLocationBubble(rawValue: value) ?? .inactive 
     }
 
     static var newCarsMultiRequesterEnabled: Bool {
@@ -227,15 +233,6 @@ enum OnboardingReview: String, BumperFeature  {
     }
 }
 
-enum UserRatingMarkAsSold: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return UserRatingMarkAsSold.no.rawValue }
-    static var enumValues: [UserRatingMarkAsSold] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Select buyer before mark sold" } 
-    var asBool: Bool { return self == .yes }
-}
-
 enum ProductDetailNextRelated: String, BumperFeature  {
     case no, yes
     static var defaultValue: String { return ProductDetailNextRelated.no.rawValue }
@@ -331,6 +328,31 @@ enum CarsCategoryAfterPicture: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "When cars vertical enabled, select category after image selection" } 
     var asBool: Bool { return self == .yes }
+}
+
+enum NewMarkAsSoldFlow: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return NewMarkAsSoldFlow.no.rawValue }
+    static var enumValues: [NewMarkAsSoldFlow] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "New mark as sold flow active. alert + showing buyer list" } 
+    var asBool: Bool { return self == .yes }
+}
+
+enum EditLocationBubble: String, BumperFeature  {
+    case inactive, map, zipCode
+    static var defaultValue: String { return EditLocationBubble.inactive.rawValue }
+    static var enumValues: [EditLocationBubble] { return [.inactive, .map, .zipCode]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Location Edit A/B/C" } 
+    static func fromPosition(_ position: Int) -> EditLocationBubble {
+        switch position { 
+            case 0: return .inactive
+            case 1: return .map
+            case 2: return .zipCode
+            default: return .inactive
+        }
+    }
 }
 
 enum NewCarsMultiRequesterEnabled: String, BumperFeature  {

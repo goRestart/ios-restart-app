@@ -53,6 +53,7 @@
 "categories_inFeed_others" = "Overige";
 "categories_inFeed_sports_leisure_games" = "Vrije tijd";
 "categories_movies_books_and_music" = "Films, boeken en muziek";
+"categories_old_cars_and_motors" = "Auto's en Motors";
 "categories_other" = "Overige";
 "categories_sports_leisure_and_games" = "Sport, vrije tijd en games";
 "categories_title" = "Categorieën";
@@ -74,6 +75,10 @@
 "change_location_recommend_update_location_message" = "We raden je aan om je locatie up te daten om de beste deals bij jouw in de buurt te kunnen zien!";
 "change_location_search_field_hint" = "Voer een stad of postcode in";
 "change_location_title" = "Wijzig locatie";
+"change_location_zip_current_location_button" = "Huidige locatie";
+"change_location_zip_min_digits_label" = "Moet uit 4 cijfers en 2 letters bestaan";
+"change_location_zip_not_found_error_message" = "We couldn't find a location based on the zip code you entered. Please check it and try again.";
+"change_location_zip_placeholder" = "Postcode";
 "change_password_confirm_password_field_hint" = "Bevestig wachtwoord";
 "change_password_new_password_field_hint" = "Nieuw wachtwoord";
 "change_password_send_error_generic" = "Er is een fout opgetreden bij het wijzigen van het wachtwoord. Probeer het nog eens.";
@@ -497,7 +502,10 @@
 "product_delete_sold_confirm_message" = "Weet je zeker dat je dit product wilt verwijderen?";
 "product_delete_success_message" = "Jouw product werd verwijderd.";
 "product_distance_X_from_you" = "%@ van bij jou";
+"product_distance_custom_location" = "Custom location";
+"product_distance_more_than" = "More than %@";
 "product_distance_more_than_from_you" = "Meer dan %@ van bij jou";
+"product_distance_near_you" = "Near you";
 "product_favorite_direct_message" = "Ik vind het leuk! Is het nog beschikbaar?";
 "product_favorite_login_popup_text" = "Om dit item te favoriseren, moet je eerst inloggen";
 "product_free_price" = "Gratis";
@@ -684,10 +692,16 @@
 "profile_verify_google_button" = "Google";
 "profile_verify_google_message" = "Verbind met Google om je identiteit te verifiëren";
 "profile_verify_google_title" = "GOOGLE";
+"quick_filter_location_title" = "Locatie Instellen";
 "rate_buyers_message" = "Gefeliciteerd!";
 "rate_buyers_not_on_letgo_button" = "Ik heb het niet verkocht op letgo";
+"rate_buyers_not_on_letgo_title_button" = "Ik heb het ergens anders verkocht";
+"rate_buyers_see_less" = "Toon minder";
+"rate_buyers_see_x_more" = "Toon meer";
 "rate_buyers_sub_message" = "Aan wie heb je dit verkocht?";
 "rate_buyers_title" = "Wie heeft dit gekocht?";
+"rate_buyers_will_do_later_subtitle" = "Beoordeel de koper later";
+"rate_buyers_will_do_later_title" = "Ik doe dit later";
 "rate_user_negative_didnt_show_up" = "Kwam niet opdagen";
 "rate_user_negative_item_not_as_advertised" = "Item niet zoals geadverteerd";
 "rate_user_negative_not_polite" = "Onbeleefd";
@@ -850,6 +864,8 @@
 "tour_page_1_body" = "Koop en verkoop snel, veilig en lokaal.";
 "trending_searches_Title" = "Trending Zoekopdrachten";
 "unblock_user_error_generic" = "Er is een fout opgetreden tijdens het deblokkeren van deze gebruiker.";
+"user_rating_add_comment_button" = "Opmerking toevoegen";
+"user_rating_message_more" = "Bedankt voor het delen! Wil je ons meer vertellen over jouw ervaring?";
 "user_rating_message_w_name" = "Krijgt jouw ervaring met %@ vijf sterren? Laat het ons weten hoe het ging.";
 "user_rating_message_wo_name" = "Krijgt jouw ervaring met deze gebruiker vijf sterren? Laat het ons weten hoe het ging.";
 "user_rating_review_button" = "Publiceer beoordeling";
@@ -858,8 +874,10 @@
 "user_rating_review_placeholder_mandatory" = "Schrijf over jouw ervaring (vereist)";
 "user_rating_review_placeholder_optional" = "Schrijf over jouw ervaring (optioneel)";
 "user_rating_review_send_success" = "Jouw beoordeling werd gepubliceerd!";
+"user_rating_select_a_tag" = "Selecteer minstens één:";
 "user_rating_skip_button" = "Overslaan";
 "user_rating_title" = "Beoordeel jouw ervaring met";
+"user_rating_update_comment_button" = "Opmerking bijwerken";
 "user_share_error" = "Er is een fout opgetreden tijdens het delen van het profiel. Probeer het nog eens.";
 "user_share_message_mine" = "Neem een kijkje naar alles wat ik verkoop op letgo!";
 "user_share_message_other" = "Neem een kijkje naar alles wat deze verkoper heeft op letgo!";

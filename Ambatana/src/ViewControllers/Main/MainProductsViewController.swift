@@ -44,6 +44,9 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     fileprivate let numberOfSuggestionSections = 2
     @IBOutlet weak var infoBubbleLabel: UILabel!
     @IBOutlet weak var infoBubbleShadow: UIView!
+    @IBOutlet weak var infoBubbleArrow: UIImageView!
+    @IBOutlet weak var infoBubbleArrowLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var infoBubbleArrowWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var infoBubbleTopConstraint: NSLayoutConstraint!
     
     fileprivate let navbarSearch: LGNavBarSearchField
@@ -142,6 +145,13 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         endEdit()
     }
 
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        // we want to show the selected tags when the user closes the product detail too.  Also:
+        // ⚠️ not showing the tags collection view causes a crash when trying to reload the collection data
+        // ⚠️ while not visible (ABIOS-2696)
+        showTagsView(viewModel.tags.count > 0, updateInsets: true)
+    }
 
     // MARK: - ScrollableToTop
 
@@ -217,7 +227,11 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         loadTagsViewWithTags(tags)
     }
 
-    
+    func vmFiltersChanged() {
+        setFiltersNavBarButton()
+    }
+
+
     // MARK: UITextFieldDelegate Methods
 
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
@@ -323,8 +337,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     }
     
     private func setFiltersNavBarButton() {
-        let tagsIsEmpty = tagsViewController?.tags.isEmpty ?? false
-        setLetGoRightButtonWith(imageName: tagsIsEmpty ? "ic_filters" : "ic_filters_active",
+        setLetGoRightButtonWith(imageName: viewModel.hasFilters ? "ic_filters_active" : "ic_filters",
                                 renderingMode: .alwaysOriginal, selector: "filtersButtonPressed:")
     }
     
@@ -367,13 +380,24 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     
     private func setupInfoBubble() {
         infoBubbleShadow.applyInfoBubbleShadow()
+
+        infoBubbleArrow.isHidden = !viewModel.hasInteractiveBubble
+        infoBubbleArrowLeadingConstraint.constant = viewModel.hasInteractiveBubble ? Metrics.shortMargin : 0
+        infoBubbleArrowWidthConstraint.constant = viewModel.hasInteractiveBubble ? Metrics.shortMargin : 0
+
+        if viewModel.hasInteractiveBubble {
+            let bubbleTap = UITapGestureRecognizer(target: self, action: #selector(onBubbleTapped))
+            infoBubbleShadow.addGestureRecognizer(bubbleTap)
+        }
+    }
+
+    dynamic private func onBubbleTapped() {
+        viewModel.bubbleTapped()
     }
 
     private func setupSearchAndTrending() {
-        // Add search text field
         navbarSearch.searchTextField.delegate = self
         setNavBarTitleStyle(.custom(navbarSearch))
-
         setupSuggestionsTable()
     }
 

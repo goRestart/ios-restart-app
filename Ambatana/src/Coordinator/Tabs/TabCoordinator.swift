@@ -36,8 +36,6 @@ class TabCoordinator: NSObject, Coordinator {
     let featureFlags: FeatureFlaggeable
     let disposeBag = DisposeBag()
 
-    var selectBuyerToRateCompletion: ((String?) -> Void)?
-
     weak var tabCoordinatorDelegate: TabCoordinatorDelegate?
     weak var appNavigator: AppNavigator?
 
@@ -429,9 +427,16 @@ extension TabCoordinator: ProductDetailNavigator {
         openChild(coordinator: bumpCoordinator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
     }
 
-    func selectBuyerToRate(source: RateUserSource, buyers: [UserListing], completion: @escaping (String?) -> Void) {
-        selectBuyerToRateCompletion = completion
-        let ratingCoordinator = UserRatingCoordinator(source: source, buyers: buyers)
+    func selectBuyerToRate(source: RateUserSource,
+                           buyers: [UserListing],
+                           listingId: String,
+                           sourceRateBuyers: SourceRateBuyers?,
+                           trackingInfo: MarkAsSoldTrackingInfo) {
+        let ratingCoordinator = UserRatingCoordinator(source: source,
+                                                      buyers: buyers,
+                                                      listingId: listingId,
+                                                      sourceRateBuyers: sourceRateBuyers,
+                                                      trackingInfo: trackingInfo)
         ratingCoordinator.delegate = self
         openChild(coordinator: ratingCoordinator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
     }
@@ -524,14 +529,9 @@ extension TabCoordinator: ExpressChatCoordinatorDelegate {
 // MARK: - UserRatingCoordinatorDelegate 
 
 extension TabCoordinator: UserRatingCoordinatorDelegate {
-    func userRatingCoordinatorDidCancel() {
-        selectBuyerToRateCompletion = nil
-    }
+    func userRatingCoordinatorDidCancel() { }
 
-    func userRatingCoordinatorDidFinish(withRating rating: Int?, ratedUserId: String?) {
-        selectBuyerToRateCompletion?(ratedUserId)
-        selectBuyerToRateCompletion = nil
-    }
+    func userRatingCoordinatorDidFinish(withRating rating: Int?, ratedUserId: String?) { }
 }
 
 

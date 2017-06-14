@@ -10,21 +10,31 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class RateUserViewController: BaseViewController {
-
+class RateUserViewController: KeyboardViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var userNameText: UILabel!
     @IBOutlet weak var rateInfoText: UILabel!
+    
+    @IBOutlet weak var starsContainer: UIView!
     @IBOutlet var stars: [UIButton]!
+    
+    @IBOutlet weak var ratingsContainer: UIView!
+    @IBOutlet weak var ratingsContainerBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var ratingsTitle: UILabel!
+    @IBOutlet weak var ratingTagsCollectionView: UICollectionView!
+    @IBOutlet weak var ratingTagsHeightConstraint: NSLayoutConstraint!
+    
     @IBOutlet weak var descriptionContainer: UIView!
+    @IBOutlet weak var descriptionContainerBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var descriptionText: UITextView!
     @IBOutlet weak var descriptionCharCounter: UILabel!
-    @IBOutlet weak var descriptionInfoLabel: UILabel!
-    @IBOutlet weak var publishButton: UIButton!
+    
+    @IBOutlet weak var footerView: UIView!
+    @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var footerLabel: UILabel!
 
-    fileprivate var descrPlaceholder = LGLocalizedString.userRatingReviewPlaceholder
     fileprivate let descrPlaceholderColor = UIColor.gray
     fileprivate static let sendButtonMargin: CGFloat = 15
     fileprivate let showSkipButton: Bool
@@ -60,18 +70,23 @@ class RateUserViewController: BaseViewController {
         setAccesibilityIds()
         setupRx()
     }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        ratingTagsHeightConstraint.constant = ratingTagsCollectionView.collectionViewLayout.collectionViewContentSize.height
+    }
 
-
+    
     // MARK: - Actions
 
-    @IBAction func publishButtonPressed(_ sender: AnyObject) {
-        viewModel.publishButtonPressed()
+    @IBAction func sendButtonPressed(_ sender: Any) {
+        viewModel.sendButtonPressed()
     }
 
     @IBAction func starHighlighted(_ sender: AnyObject) {
         guard let tag = (sender as? UIButton)?.tag else { return }
-        stars.forEach{$0.isHighlighted = ($0.tag <= tag)}
-        viewBackgroundTap()
+        stars.forEach { $0.isHighlighted = ($0.tag <= tag) }
+        descriptionText.resignFirstResponder()
     }
 
     @IBAction func starSelected(_ sender: AnyObject) {
@@ -87,21 +102,23 @@ class RateUserViewController: BaseViewController {
         viewModel.skipButtonPressed()
     }
 
-    dynamic private func viewBackgroundTap() {
-        descriptionText.resignFirstResponder()
-    }
 
     // MARK: - Private methods
 
     private func setupUI() {
+        // In the xib bottom constraints are remove at runtime
+        scrollView.layout(with: keyboardView).bottom(to: .top)
+        footerView.layout(with: keyboardView).bottom(to: .top)
+        
         automaticallyAdjustsScrollViewInsets = false
+        
         if showSkipButton {
             setLetGoRightButtonWith(text: LGLocalizedString.userRatingSkipButton, selector: #selector(skipButtonPressed))
         } else {
             navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .plain,
                                                                target: self, action: #selector(closeButtonPressed))
         }
-
+        
         setNavBarTitle(LGLocalizedString.userRatingTitle)
 
         userImage.layer.cornerRadius = userImage.width / 2
@@ -110,42 +127,79 @@ class RateUserViewController: BaseViewController {
         }
         userNameText.text = viewModel.userName
         rateInfoText.text = viewModel.infoText
+        
+        ratingsTitle.text = LGLocalizedString.userRatingSelectATag
+        ratingTagsCollectionView.collectionViewLayout = CenterAlignedCollectionViewFlowLayout()
+        ratingTagsCollectionView.allowsSelection = true
+        ratingTagsCollectionView.allowsMultipleSelection = true
+        ratingTagsCollectionView.register(UserRatingTagCell.self,
+                                          forCellWithReuseIdentifier: UserRatingTagCell.reuseIdentifier)
+        
         descriptionContainer.layer.borderColor = UIColor.lineGray.cgColor
         descriptionContainer.layer.borderWidth = LGUIKitConstants.onePixelSize
-        descriptionText.text = descrPlaceholder
+        descriptionText.text = viewModel.descriptionPlaceholder
         descriptionText.textColor = descrPlaceholderColor
-        descriptionInfoLabel.text = LGLocalizedString.userRatingReviewInfo
+        
+        footerView.backgroundColor = UIColor.viewControllerBackground
+        footerLabel.text = LGLocalizedString.userRatingReviewInfo
 
-        publishButton.setStyle(.primary(fontSize: .big))
-
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewBackgroundTap))
-        view.addGestureRecognizer(tapGesture)
+        footerView.layoutIfNeeded()
+        descriptionContainerBottomConstraint.constant = footerView.height + Metrics.margin
+        ratingsContainerBottomConstraint.constant = footerView.height + Metrics.margin
+        sendButton.setStyle(.primary(fontSize: .big))
     }
-
+    
     private func setupRx() {
-        viewModel.isLoading.asObservable().bindNext { [weak self] loading in
-            self?.publishButton.setTitle(loading ? nil : LGLocalizedString.userRatingReviewButton, for: .normal)
-            loading ? self?.activityIndicator.startAnimating() : self?.activityIndicator.stopAnimating()
+        viewModel.state.asObservable().bindNext { [weak self] state in
+            self?.updateUI(with: state)
         }.addDisposableTo(disposeBag)
-        viewModel.sendEnabled.asObservable().bindTo(publishButton.rx.isEnabled).addDisposableTo(disposeBag)
-
-        viewModel.descriptionCharLimit.asObservable().map { return String($0) }.bindTo(descriptionCharCounter.rx.text)
-            .addDisposableTo(disposeBag)
-
+        
         viewModel.rating.asObservable().bindNext { [weak self] rating in
             onMainThread { [weak self] in
                 let value = rating ?? 0
-                self?.stars.forEach{ $0.isHighlighted = ($0.tag <= value)}
+                self?.stars.forEach { $0.isHighlighted = ($0.tag <= value) }
             }
         }.addDisposableTo(disposeBag)
+        
+        viewModel.sendText.asObservable().bindTo(sendButton.rx.title(for: .normal)).addDisposableTo(disposeBag)
+        viewModel.sendEnabled.asObservable().bindTo(sendButton.rx.isEnabled).addDisposableTo(disposeBag)
+        viewModel.isLoading.asObservable().bindTo(activityIndicator.rx.isAnimating).addDisposableTo(disposeBag)
+        
+        viewModel.descriptionCharLimit.asObservable()
+            .map { return String($0) }
+            .bindTo(descriptionCharCounter.rx.text)
+            .addDisposableTo(disposeBag)
 
-        keyboardHelper.rx_keyboardOrigin.asObservable().bindNext { [weak self] origin in
-            guard let scrollView = self?.scrollView, var buttonRect = self?.publishButton.frame,
-                let topHeight = self?.topBarHeight else { return }
-            scrollView.contentInset.bottom = scrollView.height - origin + topHeight
-            buttonRect.bottom = buttonRect.bottom + RateUserViewController.sendButtonMargin
-            scrollView.scrollRectToVisible(buttonRect, animated: false)
+        keyboardChanges.bindNext { [weak self] change in
+            guard let strongSelf = self, change.visible else { return }
+
+            // Current scroll view frame (as it gets resized) at the bottom
+            let scrollViewHeight = strongSelf.scrollView.frame.height
+            let visibleScrollViewHeight = scrollViewHeight - change.height
+            let lastVisibleRectTop = strongSelf.scrollView.contentSize.height - visibleScrollViewHeight
+            
+            // Top of the description should be visible
+            let descriptionTop = strongSelf.descriptionContainer.top
+            let y = min(descriptionTop, lastVisibleRectTop)
+            let offset = CGPoint(x: 0, y: y)
+            
+            strongSelf.scrollView.setContentOffset(offset, animated: true)
+            
         }.addDisposableTo(disposeBag)
+    }
+    
+    private func updateUI(with state: RateUserState) {
+        switch state {
+        case .review:
+            ratingTagsCollectionView.isHidden = false
+            vmUpdateTags()
+            starsContainer.isHidden = false
+            descriptionContainer.isHidden = true
+        case .comment:
+            ratingTagsCollectionView.isHidden = true
+            starsContainer.isHidden = true
+            descriptionContainer.isHidden = false
+        }
     }
 }
 
@@ -153,18 +207,62 @@ class RateUserViewController: BaseViewController {
 // MARK: - UserRatingViewModelDelegate
 
 extension RateUserViewController: RateUserViewModelDelegate {
-
     func vmUpdateDescription(_ description: String?) {
-        setDescription(description)
+        if let description = description, !description.isEmpty {
+            descriptionText.text = description
+            descriptionText.textColor = UIColor.grayDark
+        } else {
+            descriptionText.text = viewModel.descriptionPlaceholder
+            descriptionText.textColor = descrPlaceholderColor
+        }
     }
 
-    func vmUpdateDescriptionPlaceholder(_ placeholder: String) {
-        guard let descriptionText = descriptionText else { return }
-        guard placeholder != descrPlaceholder else { return }
-        if descriptionText.text == descrPlaceholder {
-            descriptionText.text = placeholder
+    func vmUpdateTags() {
+        ratingTagsCollectionView.reloadData()
+        // Forces relayout so viewDidLayoutSubviews is called and then collection view height is adjusted
+        view.setNeedsLayout()
+        view.layoutIfNeeded()
+    }
+}
+
+
+// MARK: - UIColllectionView Delegate & Datasource
+
+extension RateUserViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+        guard let title = viewModel.titleForTagAt(index: indexPath.row) else { return CGSize.zero }
+        return UserRatingTagCell.size(with: title)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
+        return viewModel.numberOfTags
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UserRatingTagCell.reuseIdentifier,
+                                                            for: indexPath) as? UserRatingTagCell else {
+                                                                return UICollectionViewCell()
         }
-        descrPlaceholder = placeholder
+        let index = indexPath.row
+        cell.title = viewModel.titleForTagAt(index: index)
+        let isSelected = viewModel.isSelectedTagAt(index: index)
+        cell.isSelected = isSelected
+        if isSelected {
+            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .top)
+        }
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        viewModel.selectTagAt(index: indexPath.row)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        viewModel.deselectTagAt(index: indexPath.row)
     }
 }
 
@@ -174,7 +272,7 @@ extension RateUserViewController: RateUserViewModelDelegate {
 extension RateUserViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         // clear text view placeholder
-        if textView.text == descrPlaceholder && textView.textColor ==  descrPlaceholderColor {
+        if textView.text == viewModel.descriptionPlaceholder && textView.textColor ==  descrPlaceholderColor {
             textView.text = nil
             textView.textColor = UIColor.grayDark
         }
@@ -182,35 +280,15 @@ extension RateUserViewController: UITextViewDelegate {
 
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
-            textView.text = descrPlaceholder
+            textView.text = viewModel.descriptionPlaceholder
             textView.textColor = descrPlaceholderColor
         }
     }
 
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         guard let textViewText = textView.text else { return true }
-        guard textViewText.characters.count + (text.characters.count - range.length) <= Constants.userRatingDescriptionMaxLength else { return false }
-        let cleanReplacement = text.stringByRemovingEmoji()
-        let finalText = (textViewText as NSString).replacingCharacters(in: range, with: cleanReplacement)
-        if finalText != descrPlaceholder && textView.textColor != descrPlaceholderColor {
-            viewModel.description.value = finalText.isEmpty ? nil : finalText
-            if text.hasEmojis() {
-                //Forcing the new text (without emojis) by returning false
-                setDescription(finalText)
-                return false
-            }
-        }
-        return true
-    }
-
-    fileprivate func setDescription(_ description: String?) {
-        if let description = description, !description.isEmpty {
-            descriptionText.text = description
-            descriptionText.textColor = UIColor.grayDark
-        } else {
-            descriptionText.text = descrPlaceholder
-            descriptionText.textColor = descrPlaceholderColor
-        }
+        let finalText = (textViewText as NSString).replacingCharacters(in: range, with: text)
+        return viewModel.setDescription(text: finalText)
     }
 }
 
@@ -229,6 +307,6 @@ extension RateUserViewController {
         }
         descriptionText.accessibilityId = .rateUserDescriptionField
         activityIndicator.accessibilityId = .rateUserLoading
-        publishButton.accessibilityId = .rateUserPublishButton
+        sendButton.accessibilityId = .rateUserSendButton
     }
 }

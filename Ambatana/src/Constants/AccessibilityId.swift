@@ -241,23 +241,23 @@ enum AccessibilityId: String {
     case postingCategoryDeatilTableView
 
     // EditProduct
-    case editProductCloseButton
-    case editProductScroll
-    case editProductTitleField
-    case editProductAutoGenTitleButton
-    case editProductImageCollection
-    case editProductCurrencyLabel
-    case editProductPriceField
-    case editProductDescriptionField
-    case editProductLocationButton
-    case editProductCategoryButton
-    case editProductCarsMakeButton
-    case editProductCarsModelButton
-    case editProductCarsYearButton
-    case editProductSendButton
-    case editProductShareFBSwitch
-    case editProductLoadingView
-    case editProductPostFreeSwitch
+    case editListingCloseButton
+    case editListingScroll
+    case editListingTitleField
+    case editListingAutoGenTitleButton
+    case editListingImageCollection
+    case editListingCurrencyLabel
+    case editListingPriceField
+    case editListingDescriptionField
+    case editListingLocationButton
+    case editListingCategoryButton
+    case editListingCarsMakeButton
+    case editListingCarsModelButton
+    case editListingCarsYearButton
+    case editListingSendButton
+    case editListingShareFBSwitch
+    case editListingLoadingView
+    case editListingPostFreeSwitch
 
     // ReportUser
     case reportUserCollection
@@ -273,7 +273,7 @@ enum AccessibilityId: String {
     case rateUserStarButton5
     case rateUserDescriptionField
     case rateUserLoading
-    case rateUserPublishButton
+    case rateUserSendButton
 
     // RatingList
     case ratingListTable
@@ -497,7 +497,16 @@ enum AccessibilityId: String {
     case editLocationPOIImageView
     case editLocationSetLocationButton
     case editLocationApproxLocationSwitch
-    
+
+    // Edit Location From Zip Code
+    case editLocationFromZipCloseButton
+    case editLocationFromZipTitleLabel
+    case editLocationFromZipCurrentLocationButton
+    case editLocationFromZipTextField
+    case editLocationFromZipMinDigitsLabel
+    case editLocationFromZipFullAddressLabel
+    case editLocationFromZipSetLocationButton
+
     // NPS Survey
     case npsCloseButton
     case npsScore1

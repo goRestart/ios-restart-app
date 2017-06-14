@@ -93,8 +93,6 @@ platform :ios do
     repository_path = Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER]
 
     badge(shield: "#{version_number}-#{build_number}-blue", no_badge: true)
-    # This reverts icons modified by badge method on the local copy
-    lg_revert_git(repository_path: nil, items_to_revert: "Ambatana/res/img/Icons*")
 
     gym(
       workspace: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] + "/" + ENV["XCODE_WORKSPACE"],
@@ -105,9 +103,6 @@ platform :ios do
       clean: true,
       export_method: "ad-hoc"
     )
-
-    # This reverts icons modified by badge method on the temp folder to avoid pushing them to repo
-    lg_revert_git(repository_path: repository_path, items_to_revert: "Ambatana/res/img/Icons*")
 
     changelog = "Beta #{version_number}-#{build_number}"
 
@@ -157,9 +152,6 @@ platform :ios do
       clean: true,
       export_method: "ad-hoc"
     )
-
-    # This reverts icons modified by badge method on the local copy
-    lg_revert_git(repository_path: nil, items_to_revert: "Ambatana/Icons*")
 
     changelog = "Beta #{version_number}-#{build_number}"
 

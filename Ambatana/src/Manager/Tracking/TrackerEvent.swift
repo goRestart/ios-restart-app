@@ -25,9 +25,26 @@ struct TrackerEvent {
     }
     private(set) var params: EventParameters?
 
-    static func location(_ location: LGLocation, locationServiceStatus: LocationServiceStatus) -> TrackerEvent {
+    static func location(locationType: LGLocationType?,
+                         locationServiceStatus: LocationServiceStatus,
+                         typePage: EventParamenterLocationTypePage,
+                         zipCodeFilled: Bool?,
+                         distanceRadius: Int?) -> TrackerEvent {
         var params = EventParameters()
-        params[.locationType] = location.type.rawValue
+        if let locationType = locationType {
+            params[.locationType] = locationType.rawValue
+        }
+        params[.typePage] = typePage.rawValue
+        if let zipCodeFilled = zipCodeFilled {
+            params[.zipCode] = zipCodeFilled ? EventParameterBoolean.trueParameter.rawValue : EventParameterBoolean.falseParameter.rawValue
+        } else {
+            params[.zipCode] = EventParameterBoolean.notAvailable.rawValue
+        }
+        if let distanceRadius = distanceRadius {
+            params[.filterDistanceRadius] = distanceRadius
+        } else {
+            params[.filterDistanceRadius] = "default"
+        }
         let enabled: Bool
         let allowed: Bool
         switch locationServiceStatus {
@@ -381,32 +398,19 @@ struct TrackerEvent {
         return TrackerEvent(name: .productOpenChat, params: params)
     }
 
-    static func productMarkAsSold(_ product: ChatListing, typePage: EventParameterTypePage, soldTo: EventParameterUserSoldTo?,
-                                  freePostingModeAllowed: Bool, isBumpedUp: EventParameterBoolean) -> TrackerEvent {
-        return productMarkAsSold(productId: product.objectId, price: product.price, currency: product.currency.code,
-                                     categoryId: nil, typePage: typePage, soldTo: soldTo,
-                                     freePostingModeAllowed: freePostingModeAllowed, isBumpedUp: isBumpedUp)
-    }
-    static func productMarkAsSold(_ listing: Listing, typePage: EventParameterTypePage, soldTo: EventParameterUserSoldTo?,
-                                  freePostingModeAllowed: Bool, isBumpedUp: EventParameterBoolean) -> TrackerEvent {
-        return productMarkAsSold(productId: listing.objectId, price: listing.price, currency: listing.currency.code,
-                              categoryId: listing.category.rawValue, typePage: typePage, soldTo: soldTo,
-                              freePostingModeAllowed: freePostingModeAllowed, isBumpedUp: isBumpedUp)
-    }
-
-    private static func productMarkAsSold(productId: String?, price: ListingPrice, currency: String, categoryId: Int?,
-                                          typePage: EventParameterTypePage, soldTo: EventParameterUserSoldTo?,
-                                          freePostingModeAllowed: Bool, isBumpedUp: EventParameterBoolean) -> TrackerEvent {
-        var params = EventParameters()
-        params[.productId] = productId
-        params[.productPrice] = price.value
-        params[.productCurrency] = currency
-        params[.categoryId] = categoryId
-        params[.typePage] = typePage.rawValue
-        params[.freePosting] = eventParameterFreePostingWithPrice(freePostingModeAllowed, price: price).rawValue
-        params[.userSoldTo] = soldTo?.rawValue
-        params[.isBumpedUp] = isBumpedUp.rawValue
+    static func productMarkAsSold(trackingInfo: MarkAsSoldTrackingInfo) -> TrackerEvent {
+        let params = trackingInfo.makeEventParameters()
         return TrackerEvent(name: .productMarkAsSold, params: params)
+    }
+    
+    static func productMarkAsSoldAtLetgo(trackingInfo: MarkAsSoldTrackingInfo) -> TrackerEvent {
+        let params = trackingInfo.makeEventParameters()
+        return TrackerEvent(name: .productMarkAsSoldAtLetgo, params: params)
+    }
+    
+    static func productMarkAsSoldOutsideLetgo(trackingInfo: MarkAsSoldTrackingInfo) -> TrackerEvent {
+        let params = trackingInfo.makeEventParameters()
+        return TrackerEvent(name: .productMarkAsSoldOutsideLetgo, params: params)
     }
 
     static func productMarkAsUnsold(_ listing: Listing) -> TrackerEvent {
@@ -650,12 +654,6 @@ struct TrackerEvent {
 
     static func profileEditEditName() -> TrackerEvent {
         return TrackerEvent(name: .profileEditEditName, params: nil)
-    }
-
-    static func profileEditEditLocation(_ location: LGLocation) -> TrackerEvent {
-        var params = EventParameters()
-        params[.locationType] = location.type.rawValue
-        return TrackerEvent(name: .profileEditEditLocation, params: params)
     }
 
     static func profileEditEditLocationStart() -> TrackerEvent {

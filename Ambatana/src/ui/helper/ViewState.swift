@@ -31,6 +31,15 @@ enum ViewState {
             return false
         }
     }
+    
+    var isEmpty: Bool {
+        switch self {
+        case .empty:
+            return true
+        case .data, .error, .data, .loading:
+            return false
+        }
+    }
 }
 
 

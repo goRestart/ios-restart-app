@@ -75,15 +75,9 @@ final class ListingApiDataSource: ListingDataSource {
 
     // MARK: Sold / unsold
 
-    func markAsSold(_ listingId: String, buyerId: String?, completion: ListingDataSourceEmptyCompletion?) {
+    func markAsSold(_ listingId: String, completion: ListingDataSourceEmptyCompletion?) {
         var params = [String: Any]()
         params["status"] = ListingStatus.sold.rawValue
-        if let buyerId = buyerId {
-            params["buyerUserId"] = buyerId
-            params["soldIn"] = "letgo"
-        } else {
-            params["soldIn"] = "external"
-        }
         let request = ListingRouter.patch(listingId: listingId, params: params)
         apiClient.request(request, completion: completion)
     }
@@ -160,6 +154,17 @@ final class ListingApiDataSource: ListingDataSource {
         let request = ListingRouter.possibleBuyers(listingId: listingId)
         apiClient.request(request, decoder: ListingApiDataSource.decoderUserArray, completion: completion)
     }
+    
+    
+    func createTransactionOf(createTransactionParams: CreateTransactionParams, completion: ListingDataSourceTransactionCompletion?) {
+        let request = ListingRouter.createTransactionOf(listingId: createTransactionParams.listingId, params: createTransactionParams.letgoApiParams)
+        apiClient.request(request, decoder: ListingApiDataSource.decoderTransaction, completion: completion)
+    }
+    
+    func retrieveTransactionsOf(listingId: String, completion: ListingDataSourceTransactionsCompletion?) {
+        let request = ListingRouter.retrieveTransactionsOf(listingId: listingId)
+        apiClient.request(request, decoder: ListingApiDataSource.decoderArrayTransactions , completion: completion)
+    }
 
     // MARK: Decode listings
     
@@ -196,5 +201,15 @@ final class ListingApiDataSource: ListingDataSource {
     private static func decoderUserArray(_ object: Any) -> [UserListing]? {
         guard let theUsers : [LGUserListing] = decode(object) else { return nil }
         return theUsers
+    }
+    
+    private static func decoderArrayTransactions(_ object: Any) -> [Transaction]? {
+        guard let transactions = Array<LGTransaction>.filteredDecode(JSON(object)).value else { return nil }
+        return transactions.map{ $0 }
+    }
+    
+    private static func decoderTransaction(_ object: Any) -> Transaction? {
+        guard let transaction : LGTransaction = decode(object) else { return nil }
+        return transaction
     }
 }

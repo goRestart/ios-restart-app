@@ -12,11 +12,11 @@ import RxSwift
 
 class MockFeatureFlags: FeatureFlaggeable {
 
-    var syncedData: Observable<Bool> {
-        return syncedDataVar.asObservable()
+    var trackingData: Observable<[String]?> {
+        return trackingDataVar.asObservable()
     }
-
-    let syncedDataVar = Variable<Bool>(false)
+    func variablesUpdated() {}
+    let trackingDataVar = Variable<[String]?>(nil)
 
     var showNPSSurvey: Bool = false
     var surveyUrl: String = ""
@@ -30,7 +30,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var onboardingReview: OnboardingReview = .testA
     var freeBumpUpEnabled: Bool = false
     var pricedBumpUpEnabled: Bool = false
-    var userRatingMarkAsSold: Bool = false
     var productDetailNextRelated: Bool = false
     var signUpLoginImprovement: SignUpLoginImprovement = .v1
     var periscopeRemovePredefinedText: Bool = false
@@ -39,6 +38,8 @@ class MockFeatureFlags: FeatureFlaggeable {
     var quickAnswersRepeatedTextField: Bool = false
     var carsVerticalEnabled: Bool = false
     var carsCategoryAfterPicture: Bool = false
+    var newMarkAsSoldFlow: Bool = false
+    var editLocationBubble: EditLocationBubble = .inactive
     var newCarsMultiRequesterEnabled: Bool = false
 
     // Country dependant features

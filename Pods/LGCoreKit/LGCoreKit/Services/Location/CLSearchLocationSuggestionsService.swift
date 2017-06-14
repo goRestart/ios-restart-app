@@ -9,16 +9,7 @@
 import CoreLocation
 import Result
 
-public enum SearchLocationSuggestionsServiceError: Error {
-    case network
-    case internalError
-    case notFound
-}
-
-public typealias SearchLocationSuggestionsServiceResult = Result<[Place], SearchLocationSuggestionsServiceError>
-public typealias SearchLocationSuggestionsServiceCompletion = (SearchLocationSuggestionsServiceResult) -> Void
-
-public class CLSearchLocationSuggestionsService {
+public class CLSearchLocationSuggestionsService: SearchLocationSuggestionsService {
 
     // iVars
     private var geocoder: CLGeocoder
@@ -57,5 +48,4 @@ public class CLSearchLocationSuggestionsService {
             }
         })
     }
-
 }

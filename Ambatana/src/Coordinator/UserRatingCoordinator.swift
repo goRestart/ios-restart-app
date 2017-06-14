@@ -33,7 +33,8 @@ final class UserRatingCoordinator: Coordinator {
     // MARK: - Lifecycle
 
     convenience init(source: RateUserSource,
-                     data: RateUserData) {
+                     data: RateUserData,
+                     sourceRateBuyers: SourceRateBuyers? = nil) {
         self.init(source: source,
                   bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
                   sessionManager: Core.sessionManager)
@@ -43,15 +44,23 @@ final class UserRatingCoordinator: Coordinator {
     }
 
     convenience init(source: RateUserSource,
-                     buyers: [UserListing]) {
+                     buyers: [UserListing],
+                     listingId: String,
+                     sourceRateBuyers: SourceRateBuyers?,
+                     trackingInfo: MarkAsSoldTrackingInfo) {
         self.init(source: source,
                   bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
                   sessionManager: Core.sessionManager)
-        let vc = buildRateBuyers(buyers: buyers)
+        let vc = buildRateBuyers(buyers: buyers,
+                                 listingId: listingId,
+                                 source: sourceRateBuyers,
+                                 trackingInfo: trackingInfo)
         navigationController.viewControllers = [vc]
     }
 
-    init(source: RateUserSource, bubbleNotificationManager: BubbleNotificationManager, sessionManager: SessionManager) {
+    init(source: RateUserSource,
+         bubbleNotificationManager: BubbleNotificationManager,
+         sessionManager: SessionManager) {
         self.source = source
         self.bubbleNotificationManager = bubbleNotificationManager
         self.sessionManager = sessionManager
@@ -80,8 +89,14 @@ final class UserRatingCoordinator: Coordinator {
         return userRatingVC
     }
 
-    fileprivate func buildRateBuyers(buyers: [UserListing]) -> RateBuyersViewController {
-        let rateBuyersVM = RateBuyersViewModel(buyers: buyers)
+    fileprivate func buildRateBuyers(buyers: [UserListing],
+                                     listingId: String,
+                                     source: SourceRateBuyers?,
+                                     trackingInfo: MarkAsSoldTrackingInfo) -> RateBuyersViewController {
+        let rateBuyersVM = RateBuyersViewModel(buyers: buyers,
+                                               listingId: listingId,
+                                               source: source,
+                                               trackingInfo: trackingInfo)
         let rateBuyersVC = RateBuyersViewController(with: rateBuyersVM)
         rateBuyersVM.navigator = self
         return rateBuyersVC
