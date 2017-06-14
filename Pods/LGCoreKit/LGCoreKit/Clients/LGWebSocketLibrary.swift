@@ -60,7 +60,8 @@ class LGWebSocketLibrary: NSObject, WebSocketLibraryProtocol, SRWebSocketDelegat
     }
     
     @objc func webSocket(_ webSocket: SRWebSocket!, didCloseWithCode code: Int, reason: String!, wasClean: Bool) {
-        delegate?.webSocketDidClose(withCode: code, reason: reason, wasClean: wasClean)
+        let reasonInfo = reason ?? "emptyReason"
+        delegate?.webSocketDidClose(withCode: code, reason: reasonInfo, wasClean: wasClean)
     }
 }
 

@@ -29,6 +29,6 @@ extension LGFile {
 
 extension LGFile: CustomStringConvertible {
     public var description: String {
-        return "fileURL: \(fileURL); token: \(objectId); isSaved: \(isSaved);"
+        return "fileURL: \(String(describing: fileURL)); token: \(String(describing: objectId)); isSaved: \(isSaved);"
     }
 }
