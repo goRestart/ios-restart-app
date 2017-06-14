@@ -4523,8 +4523,7 @@
 					};
 					50D08D461E699455009CC260 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 3MAE68NKQE;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						TestTargetID = C7DB41831C5138B500400945;
 					};
 					6608E0351A820FBD005895ED = {
@@ -6439,15 +6438,12 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 3MAE68NKQE;
 				INFOPLIST_FILE = letgoUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios.uitests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e71b459e-d9cb-443d-823b-f95c5f414bc4";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OBJC_BRIDGING_HEADER = "letgoUITests/letgoUITests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -6462,17 +6458,14 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 3MAE68NKQE;
 				INFOPLIST_FILE = letgoUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios.uitests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e71b459e-d9cb-443d-823b-f95c5f414bc4";
 				SWIFT_OBJC_BRIDGING_HEADER = "letgoUITests/letgoUITests-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = LetGoGodMode;
@@ -6485,17 +6478,14 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 3MAE68NKQE;
 				INFOPLIST_FILE = letgoUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios.uitests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e71b459e-d9cb-443d-823b-f95c5f414bc4";
 				SWIFT_OBJC_BRIDGING_HEADER = "letgoUITests/letgoUITests-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = LetGoGodMode;
@@ -6510,8 +6500,6 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 3MAE68NKQE;
 				INFOPLIST_FILE = letgoTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -6533,10 +6521,8 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 3MAE68NKQE;
 				INFOPLIST_FILE = letgoTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -6556,10 +6542,8 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 3MAE68NKQE;
 				INFOPLIST_FILE = letgoTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -6593,7 +6577,6 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = Ambatana/res/LetGo.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Eli Kohen (3UU73L3QW2)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -6616,7 +6599,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LLVM_LTO = YES_THIN;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "9c0d451f-d68d-4655-9627-56226ef38478";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;
@@ -6646,7 +6628,6 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = Ambatana/res/LetGo.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Ambatana Holdings B.V. (3MAE68NKQE)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -6660,7 +6641,6 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				PROVISIONING_PROFILE = "3c1f5276-ba35-49ab-b57d-9a0a2335a4ce";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;
@@ -6675,6 +6655,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Juan Iglesias (N84RY52Y5Q)";
 				CURRENT_PROJECT_VERSION = 29;
 				DEVELOPMENT_TEAM = 3MAE68NKQE;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -6693,7 +6674,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
 				PRODUCT_NAME = LetGo;
-				PROVISIONING_PROFILE = "9c0d451f-d68d-4655-9627-56226ef38478";
+				PROVISIONING_PROFILE = "e9244d98-cc36-4d89-bf26-51c0bff66ef8";
 				PROVISIONING_PROFILE_SPECIFIER = "Letgo Development";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/src/Application/letgo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -6708,6 +6689,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Ambatana Holdings B.V. (3MAE68NKQE)";
 				CURRENT_PROJECT_VERSION = 29;
 				DEVELOPMENT_TEAM = 3MAE68NKQE;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -6741,7 +6723,7 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Juan Iglesias (N84RY52Y5Q)";
 				DEVELOPMENT_TEAM = 3MAE68NKQE;
 				INFOPLIST_FILE = "$(SRCROOT)/notificationservice/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -6749,7 +6731,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios.notificationservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d7cc4318-d94c-40e9-a0d8-118e26952855";
+				PROVISIONING_PROFILE = "e9244d98-cc36-4d89-bf26-51c0bff66ef8";
 				PROVISIONING_PROFILE_SPECIFIER = "Letgo Notification Service Development";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -6766,18 +6748,18 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Ambatana Holdings B.V. (3MAE68NKQE)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 3MAE68NKQE;
 				INFOPLIST_FILE = "$(SRCROOT)/notificationservice/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios.notificationservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "3c1f5276-ba35-49ab-b57d-9a0a2335a4ce";
+				PROVISIONING_PROFILE_SPECIFIER = "Letgo Notification Service AppStore";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -6791,18 +6773,18 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Ambatana Holdings B.V. (3MAE68NKQE)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 3MAE68NKQE;
 				INFOPLIST_FILE = "$(SRCROOT)/notificationservice/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios.notificationservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "3004d0f2-16fa-430c-a26b-8b41c2987936";
+				PROVISIONING_PROFILE_SPECIFIER = "Letgo Notification Service Adhoc";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -6816,7 +6798,7 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Juan Iglesias (N84RY52Y5Q)";
 				DEVELOPMENT_TEAM = 3MAE68NKQE;
 				INFOPLIST_FILE = notificationservice/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -6824,7 +6806,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios.notificationservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d7cc4318-d94c-40e9-a0d8-118e26952855";
+				PROVISIONING_PROFILE = "e9244d98-cc36-4d89-bf26-51c0bff66ef8";
 				PROVISIONING_PROFILE_SPECIFIER = "Letgo Notification Service Development";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -6841,18 +6823,18 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Ambatana Holdings B.V. (3MAE68NKQE)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 3MAE68NKQE;
 				INFOPLIST_FILE = notificationservice/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios.notificationservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "3c1f5276-ba35-49ab-b57d-9a0a2335a4ce";
+				PROVISIONING_PROFILE_SPECIFIER = "Letgo Notification Service AppStore";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -6866,18 +6848,18 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Ambatana Holdings B.V. (3MAE68NKQE)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 3MAE68NKQE;
 				INFOPLIST_FILE = notificationservice/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios.notificationservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "3004d0f2-16fa-430c-a26b-8b41c2987936";
+				PROVISIONING_PROFILE_SPECIFIER = "Letgo Notification Service Adhoc";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -6890,7 +6872,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Juan Iglesias (N84RY52Y5Q)";
 				CURRENT_PROJECT_VERSION = 29;
 				DEVELOPMENT_TEAM = 3MAE68NKQE;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -6909,7 +6891,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG -D GOD_MODE";
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "6247ed6d-dbd2-4b65-8324-abc34e4f8f3a";
+				PROVISIONING_PROFILE = "e9244d98-cc36-4d89-bf26-51c0bff66ef8";
 				PROVISIONING_PROFILE_SPECIFIER = "Letgo Development";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/src/Application/letgo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -6924,9 +6906,9 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Ambatana Holdings B.V. (3MAE68NKQE)";
 				CURRENT_PROJECT_VERSION = 29;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 3MAE68NKQE;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -6943,7 +6925,8 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D GOD_MODE";
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "3c1f5276-ba35-49ab-b57d-9a0a2335a4ce";
+				PROVISIONING_PROFILE_SPECIFIER = "Letgo AppStore";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/src/Application/letgo-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -6956,9 +6939,9 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Ambatana Holdings B.V. (3MAE68NKQE)";
 				CURRENT_PROJECT_VERSION = 29;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 3MAE68NKQE;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -6975,7 +6958,8 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D GOD_MODE";
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "3004d0f2-16fa-430c-a26b-8b41c2987936";
+				PROVISIONING_PROFILE_SPECIFIER = "Letgo Adhoc";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/src/Application/letgo-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -7004,7 +6988,6 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = Ambatana/res/LetGo.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Ambatana Holdings B.V. (3MAE68NKQE)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -7018,7 +7001,6 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				PROVISIONING_PROFILE = "e238f210-062f-4db5-907b-43734d8251cf";
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 3.0;
 				SWIFT_WHOLE_MODULE_OPTIMIZATION = NO;
@@ -7032,6 +7014,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Ambatana Holdings B.V. (3MAE68NKQE)";
 				CURRENT_PROJECT_VERSION = 29;
 				DEVELOPMENT_TEAM = 3MAE68NKQE;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -7050,7 +7033,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
 				PRODUCT_NAME = LetGo;
-				PROVISIONING_PROFILE = "e238f210-062f-4db5-907b-43734d8251cf";
+				PROVISIONING_PROFILE = "3004d0f2-16fa-430c-a26b-8b41c2987936";
 				PROVISIONING_PROFILE_SPECIFIER = "Letgo Adhoc";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/src/Application/letgo-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
