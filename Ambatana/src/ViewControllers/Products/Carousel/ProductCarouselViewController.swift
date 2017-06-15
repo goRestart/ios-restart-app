@@ -946,7 +946,7 @@ extension ProductCarouselViewController: UICollectionViewDataSource, UICollectio
             guard let productCellModel = viewModel.productCellModelAt(index: indexPath.row) else { return carouselCell }
             carouselCell.configureCellWith(cellModel: productCellModel, placeholderImage: viewModel.thumbnailAtIndex(indexPath.row),
                                                   indexPath: indexPath, imageDownloader: carouselImageDownloader,
-                                                  horizontalImageScrollDirection: viewModel.horizontalImageScroll)
+                                                  imageScrollDirection: viewModel.imageScrollDirection)
             carouselCell.delegate = self
             return carouselCell
     }

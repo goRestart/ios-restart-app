@@ -105,8 +105,11 @@ class ProductCarouselViewModel: BaseViewModel {
         return shouldShowOldOnboarding || shouldShowNewOnboarding
     }
 
-    var horizontalImageScroll: Bool {
-        return featureFlags.newCarouselNavigationEnabled
+    var imageScrollDirection: UICollectionViewScrollDirection {
+        if featureFlags.newCarouselNavigationEnabled {
+            return .horizontal
+        }
+        return .vertical
     }
 
     fileprivate var trackingIndex: Int?
