@@ -73,7 +73,9 @@ class BumpUpPayViewController: BaseViewController {
         featuredLabel.text = LGLocalizedString.bumpUpProductCellFeaturedStripe
         bumpUpButton.setStyle(.primary(fontSize: .medium))
         bumpUpButton.setTitle(LGLocalizedString.bumpUpViewPayButtonTitle(viewModel.price), for: .normal)
-
+        bumpUpButton.titleLabel?.numberOfLines = 2
+        bumpUpButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        bumpUpButton.titleLabel?.minimumScaleFactor = 0.8
 
         let swipeDownGesture = UISwipeGestureRecognizer(target: self, action: #selector(gestureClose))
         swipeDownGesture.direction = .down
