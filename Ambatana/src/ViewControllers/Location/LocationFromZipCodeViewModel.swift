@@ -26,7 +26,7 @@ class LocationFromZipCodeViewModel: BaseViewModel {
     let fullAddress = Variable<String?>(nil)
 
     let setLocationButtonVisible = Variable<Bool>(false)
-    let setLocationButtonEnabled = Variable<Bool>(false)
+    let setLocationButtonEnabled = Variable<Bool>(false) 
     let setDigitsTipLabelVisible = Variable<Bool>(true)
     let fullAddressVisible = Variable<Bool>(false)
     let isResolvingAddress = Variable<Bool>(false)
@@ -85,6 +85,8 @@ class LocationFromZipCodeViewModel: BaseViewModel {
             .bindTo(isValidZipCode)
             .addDisposableTo(disposeBag)
 
+        isValidZipCode.asObservable().bindTo(setLocationButtonEnabled).addDisposableTo(disposeBag)
+
         isValidZipCode.asObservable()
             .bindNext { _ in
                 self.updateAddressFromZipCode()
@@ -104,16 +106,6 @@ class LocationFromZipCodeViewModel: BaseViewModel {
         let fullAddressNotNil = fullAddress.asObservable().map { $0 != nil }
         Observable.combineLatest(fullAddressNotNil, isResolvingAddress.asObservable()) { $0 && !$1 }
             .bindTo(fullAddressVisible)
-            .addDisposableTo(disposeBag)
-
-        let initialAddressString = initialPlace.asObservable().unwrap().map { LocationFromZipCodeViewModel.fullAddressString(forPlace: $0) }
-        Observable.combineLatest(initialAddressString.asObservable(),
-                                 fullAddress.asObservable().unwrap(),
-                                 isValidZipCode.asObservable()) { ($0, $1, $2) }
-            .map { (initialAddress, fullAddress, isValidZipCode) -> Bool in
-                return initialAddress != fullAddress && isValidZipCode
-            }
-            .bindTo(setLocationButtonEnabled)
             .addDisposableTo(disposeBag)
 
         setLocationButtonEnabled.asObservable().map{ !$0 }.bindTo(setDigitsTipLabelVisible).addDisposableTo(disposeBag)
