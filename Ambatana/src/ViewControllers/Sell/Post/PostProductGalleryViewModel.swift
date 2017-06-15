@@ -12,7 +12,7 @@ import RxSwift
 import RxCocoa
 
 struct ImageSelected {
-    var image: UIImage? // TODO: revert to non-optional when doing https://ambatana.atlassian.net/browse/ABIOS-2195
+    var image: UIImage? // ABIOS-2195
     var index: Int  // the index in the collection
 
     init(image: UIImage?, index: Int) {
