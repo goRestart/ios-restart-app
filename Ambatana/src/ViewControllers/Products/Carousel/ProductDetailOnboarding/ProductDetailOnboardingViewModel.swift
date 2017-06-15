@@ -8,28 +8,25 @@
 
 import Foundation
 
+protocol ProductDetailOnboardingViewDelegate: class {
+    func productDetailOnboardingDidAppear()
+    func productDetailOnboardingDidDisappear()
+}
 
 class ProductDetailOnboardingViewModel : BaseViewModel {
 
     var featureFlags: FeatureFlaggeable
     var keyValueStorage: KeyValueStorageable
+    weak var delegate: ProductDetailOnboardingViewDelegate?
 
-    var shouldShowNewLabel: Bool {
-        return featureFlags.newCarouselNavigationEnabled && keyValueStorage[.didShowProductDetailOnboarding]
+    var newLabelIsHidden: Bool {
+        return !(featureFlags.newCarouselNavigationEnabled && keyValueStorage[.didShowProductDetailOnboarding])
     }
 
     var newText: String {
         return LGLocalizedString.commonNew
     }
 
-    /*
-     product_new_onboarding_finger_keep_swipe_highlighted_label
-     product_new_onboarding_finger_keep_swipe_label
-     product_new_onboarding_finger_swipe_highlighted_label
-     product_new_onboarding_finger_swipe_label
-     product_new_onboarding_finger_tap_highlighted_label
-     product_new_onboarding_finger_tap_label
-     */
     var firstImage: UIImage? {
         return UIImage(named: "finger_tap")
     }
@@ -69,10 +66,27 @@ class ProductDetailOnboardingViewModel : BaseViewModel {
         return tipText(textToHighlight: nil, fullText: LGLocalizedString.productOnboardingFingerScrollLabel)
     }
 
+    convenience override init() {
+        self.init(featureFlags: FeatureFlags.sharedInstance, keyValueStorage: KeyValueStorage.sharedInstance)
+    }
+
     init(featureFlags: FeatureFlaggeable, keyValueStorage: KeyValueStorageable) {
         self.featureFlags = featureFlags
         self.keyValueStorage = keyValueStorage
         super.init()
+    }
+
+    func hasBeenShown() {
+        if featureFlags.newCarouselNavigationEnabled {
+            keyValueStorage[.didShowHorizontalProductDetailOnboarding] = true
+        } else {
+            keyValueStorage[.didShowProductDetailOnboarding] = true
+        }
+        delegate?.productDetailOnboardingDidAppear()
+    }
+
+    func close() {
+        delegate?.productDetailOnboardingDidDisappear()
     }
 
     private func tipText(textToHighlight: String?, fullText: String) -> NSAttributedString {

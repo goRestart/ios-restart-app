@@ -10,11 +10,6 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-protocol ProductDetailOnboardingViewDelegate: class {
-    func productDetailOnboardingDidAppear()
-    func productDetailOnboardingDidDisappear()
-}
-
 class ProductDetailOnboardingView: BaseView {
 
     @IBOutlet weak var contentView: UIView!
@@ -32,8 +27,6 @@ class ProductDetailOnboardingView: BaseView {
     private var showChatsStep = false
 
     private let disposeBag = DisposeBag()
-
-    weak var delegate: ProductDetailOnboardingViewDelegate?
 
 
     // MARK: - Lifecycle
@@ -55,36 +48,39 @@ class ProductDetailOnboardingView: BaseView {
         addSubview(contentView)
 
         newLabel.text = viewModel.newText
+        newLabel.isHidden = viewModel.newLabelIsHidden
 
         setupFingersView()
         setupViewsVisibility()
         setupTapRecognizers()
         setAccessibilityIds()
+        viewModel.hasBeenShown()
     }
 
 
-    // MARK: -Tap actions
+    // MARK: - Tap actions
 
     dynamic private func closeView() {
         UIApplication.shared.setStatusBarHidden(false, with: .fade)
         removeFromSuperview()
-        delegate?.productDetailOnboardingDidDisappear()
+        viewModel.close()
     }
 
 
     // MARK: - private methods
 
     private func setupFingersView() {
+        firstImage.image = viewModel.firstImage
         firstLabel.attributedText = viewModel.firstText
+        secondImage.image = viewModel.secondImage
         secondLabel.attributedText = viewModel.secondText
+        thirdImage.image = viewModel.thirdImage
         thirdLabel.attributedText = viewModel.thirdText
     }
 
     private func setupViewsVisibility() {
         UIApplication.shared.setStatusBarHidden(true, with: .fade)
         fingersView.alpha = 1
-        KeyValueStorage.sharedInstance[.didShowProductDetailOnboarding] = true // 🦄 use view model and add didShowHorizontalProductDetailOnboarding
-        delegate?.productDetailOnboardingDidAppear()
     }
 
     private func setupTapRecognizers() {

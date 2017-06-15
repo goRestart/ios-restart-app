@@ -1080,12 +1080,11 @@ extension ProductCarouselViewController: ProductCarouselViewModelDelegate {
 
     func vmShowOnboarding() {
         guard  let navigationCtrlView = navigationController?.view ?? view else { return }
-        let onboardingVM = ProductDetailOnboardingViewModel(featureFlags: FeatureFlags.sharedInstance, keyValueStorage: KeyValueStorage.sharedInstance)
+        let onboardingVM = ProductDetailOnboardingViewModel()
+        onboardingVM.delegate = self
         productOnboardingView = ProductDetailOnboardingView(viewModel: onboardingVM)
 
-//        productOnboardingView = ProductDetailOnboardingView.instanceFromNibWithState()
         guard let onboarding = productOnboardingView else { return }
-        onboarding.delegate = self
         navigationCtrlView.addSubview(onboarding)
         onboarding.setupUI()
         onboarding.frame = navigationCtrlView.frame

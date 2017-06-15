@@ -100,9 +100,9 @@ class ProductCarouselViewModel: BaseViewModel {
     fileprivate var prefetchingIndexes: [Int] = []
 
     fileprivate var shouldShowOnboarding: Bool {
-        // 🦄
-        return true
-//        return !keyValueStorage[.didShowProductDetailOnboarding] || !keyValueStorage[.didShowHorizontalProductDetailOnboarding]
+        let shouldShowOldOnboarding = !featureFlags.newCarouselNavigationEnabled && !keyValueStorage[.didShowProductDetailOnboarding]
+        let shouldShowNewOnboarding = featureFlags.newCarouselNavigationEnabled && !keyValueStorage[.didShowHorizontalProductDetailOnboarding]
+        return shouldShowOldOnboarding || shouldShowNewOnboarding
     }
 
     var horizontalImageScroll: Bool {
