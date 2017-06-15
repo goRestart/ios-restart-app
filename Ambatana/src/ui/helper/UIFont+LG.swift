@@ -17,7 +17,6 @@ extension UIFont {
     static var pageTitleFont: UIFont { return systemSemiBoldFont(size: 17) }
 
     // Bar Buttons
-    // TODO: improve those 2 names (when is used one and the other? active/inactive?? )
     static var boldBarButtonFont: UIFont { return systemSemiBoldFont(size: 17) }
     static var regularBarButtonFont: UIFont { return systemRegularFont(size: 17) }
 
