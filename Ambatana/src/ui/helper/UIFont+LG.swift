@@ -96,7 +96,6 @@ extension UIFont {
 
 // MARK: > Chat Fonts
 extension UIFont {
-    // TODO: unify fonts to the defined ones if possible
     // Chat header view
     static var chatProductViewNameFont: UIFont { return systemFont(size: 13) }
     static var chatProductViewUserFont: UIFont { return systemBoldFont(size: 13) }
