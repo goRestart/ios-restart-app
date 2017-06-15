@@ -220,8 +220,8 @@ extension RateUserViewController: RateUserViewModelDelegate {
     func vmUpdateTags() {
         ratingTagsCollectionView.reloadData()
         // Forces relayout so viewDidLayoutSubviews is called and then collection view height is adjusted
-        ratingTagsCollectionView.setNeedsLayout()
-        ratingTagsCollectionView.layoutIfNeeded()
+        view.setNeedsLayout()
+        view.layoutIfNeeded()
     }
 }
 

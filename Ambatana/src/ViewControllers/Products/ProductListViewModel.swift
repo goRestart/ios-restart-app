@@ -8,6 +8,7 @@
 
 import LGCoreKit
 import Result
+import RxSwift
 
 protocol ProductListViewModelDelegate: class {
     func vmReloadData(_ vm: ProductListViewModel)
@@ -99,6 +100,7 @@ class ProductListViewModel: BaseViewModel {
     private(set) var state: ViewState {
         didSet {
             delegate?.vmDidUpdateState(self, state: state)
+            isProductListEmpty.value = state.isEmpty
         }
     }
 
@@ -125,6 +127,10 @@ class ProductListViewModel: BaseViewModel {
     // Tracking
     
     fileprivate let tracker: Tracker
+    
+    // RX vars
+    
+    let isProductListEmpty = Variable<Bool>(true)
 
     // MARK: - Computed iVars
     
@@ -159,8 +165,8 @@ class ProductListViewModel: BaseViewModel {
         self.state = listViewModel.state
         self.objects = listViewModel.objects
     }
-
     
+   
     // MARK: - Public methods
     // MARK: > Requests
 
@@ -233,7 +239,8 @@ class ProductListViewModel: BaseViewModel {
         objects.remove(at: index)
         delegate?.vmReloadData(self)
     }
-
+    
+    
     private func retrieveProducts(firstPage: Bool) {
         guard let productListRequester = productListRequester else { return } //Should not happen
 
