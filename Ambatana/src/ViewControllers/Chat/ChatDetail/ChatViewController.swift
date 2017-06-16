@@ -555,7 +555,6 @@ extension ChatViewController: ChatViewModelDelegate {
     }
 
     func vmDidUpdateProduct(messageToShow message: String?) {
-        // TODO: 🎪 Show a message when marked as sold is implemented
         guard let message = message else { return }
         showAutoFadingOutMessageAlert(message)
     }
