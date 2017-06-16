@@ -128,7 +128,7 @@ class BumpUpBanner: UIView {
         }
 
         let timeShouldBeZero = info.timeSinceLastBump <= 0 || (waitingTime - info.timeSinceLastBump < 0)
-        timeIntervalLeft.value = timeShouldBeZero ? 0 :waitingTime - info.timeSinceLastBump
+        timeIntervalLeft.value = timeShouldBeZero ? 0 : waitingTime - info.timeSinceLastBump
         startCountdown()
         bumpButton.isEnabled = timeIntervalLeft.value < 1
 
