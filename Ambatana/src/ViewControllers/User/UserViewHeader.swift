@@ -335,7 +335,7 @@ extension UserViewHeader {
         layoutIfNeeded()
         let width = min(avatarImageView.bounds.width, avatarImageView.bounds.height)
         let path = UIBezierPath(arcCenter: CGPoint(x: avatarImageView.bounds.midX, y: avatarImageView.bounds.midY),
-                                radius: width / 2, startAngle: CGFloat(0.0), endAngle: CGFloat(M_PI * 2.0),
+                                radius: width / 2, startAngle: CGFloat(0.0), endAngle: CGFloat(Double.pi * 2.0),
                                 clockwise: true)
         let mask = CAShapeLayer()
         mask.path = path.cgPath

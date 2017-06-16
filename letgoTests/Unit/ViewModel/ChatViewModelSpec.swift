@@ -235,7 +235,6 @@ class ChatViewModelSpec: BaseViewModelSpec {
                                                    chatConversation: chatConversation,
                                                    user: user)
                                 sut.active = true
-                                self.waitFor(timeout: 1)
                         }
                         it("safety tips show up") {
                             expect(self.safetyTipsShown).toEventually(equal(false))
@@ -252,7 +251,6 @@ class ChatViewModelSpec: BaseViewModelSpec {
                                                chatConversation: chatConversation,
                                                user: user)
                             sut.active = true
-                            self.waitFor(timeout: 1)
                         }
                         it("safety tips show up") {
                             expect(self.safetyTipsShown).toEventually(equal(true))
@@ -279,10 +277,9 @@ class ChatViewModelSpec: BaseViewModelSpec {
                                            chatConversation: chatConversation,
                                            user: user)
                         sut.active = true
-                        self.waitFor(timeout: 1)
                     }
                     it("does not show review button") {
-                        expect(sut.shouldShowReviewButton.value) == false
+                        expect(sut.shouldShowReviewButton.value).toEventually(equal(false))
                     }
                 }
                 context("interlocutor has more than 2 messages.") {

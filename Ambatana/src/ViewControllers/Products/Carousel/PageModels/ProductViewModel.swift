@@ -96,7 +96,7 @@ class ProductViewModel: BaseViewModel {
 
     let bumpUpBannerInfo = Variable<BumpUpInfo?>(nil)
     fileprivate var timeSinceLastBump: TimeInterval = 0
-    fileprivate var bumpUpPurchaseableProduct: PurchaseableProduct?
+    var bumpUpPurchaseableProduct: PurchaseableProduct?
     fileprivate var isUpdatingBumpUpBanner: Bool = false
     fileprivate var paymentItemId: String?
 
@@ -457,7 +457,7 @@ extension ProductViewModel {
     }
 
     func bumpUpProduct(productId: String) {
-        logMessage(.info, type: [.monetization], message: "TRY TO Bump with purchase: \(bumpUpPurchaseableProduct)")
+        logMessage(.info, type: [.monetization], message: "TRY TO Bump with purchase: \(String(describing: bumpUpPurchaseableProduct))")
         guard let purchaseableProduct = bumpUpPurchaseableProduct,
             let paymentItemId = paymentItemId else { return }
         purchasesShopper.requestPayment(forListingId: productId, appstoreProduct: purchaseableProduct,

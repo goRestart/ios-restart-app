@@ -114,7 +114,7 @@ final class TrackerProxy: Tracker {
     }
 
     func trackEvent(_ event: TrackerEvent) {
-        logMessage(.verbose, type: .tracking, message: "\(event.actualName) -> \(event.params)")
+        logMessage(.verbose, type: .tracking, message: "\(event.actualName) -> \(String(describing: event.params))")
         trackers.forEach { $0.trackEvent(event) }
     }
 
