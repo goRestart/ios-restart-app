@@ -58,7 +58,6 @@ extension NotificationsTabCoordinator: NotificationsTabNavigator {
         openRatingList(myUserId)
     }
 
-    // TODO: remove actionCompletedBlock when status comes from back-end
     func openPassiveBuyers(_ productId: String, actionCompletedBlock: (() -> Void)?) {
         navigationController.showLoadingMessageAlert()
         passiveBuyersRepository.show(productId: productId) { [weak self] result in
