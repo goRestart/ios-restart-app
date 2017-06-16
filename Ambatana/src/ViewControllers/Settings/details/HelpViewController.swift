@@ -56,7 +56,7 @@ class HelpViewController: BaseViewController {
         alert.popoverPresentationController?.barButtonItem = self.navigationItem.rightBarButtonItem
         alert.addAction(UIAlertAction(title: LGLocalizedString.mainSignUpTermsConditionsTermsPart, style: .default,
             handler: { [weak self] action in self?.viewModel.termsButtonPressed() }))
-        alert.addAction(UIAlertAction(title: LGLocalizedString.mainSignUpTermsConditionsPrivacyPart, style: .default,
+        alert.addAction(UIAlertAction(title: LGLocalizedString.helpTermsConditionsPrivacyPart, style: .default,
             handler: { [weak self] action in self?.viewModel.privacyButtonPressed() }))
         alert.addAction(UIAlertAction(title: LGLocalizedString.commonCancel, style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)

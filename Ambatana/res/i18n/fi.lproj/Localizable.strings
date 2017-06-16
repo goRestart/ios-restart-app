@@ -23,7 +23,7 @@
 "bump_up_banner_wait_text" = "seuraavaan nostoon";
 "bump_up_error_bump_generic" = "Tuotettasi nostettaessa tapahtui virhe. Ole hyvä ja yritä uudelleen.";
 "bump_up_error_bump_token" = "Maksusi on käsitelty, mutta tuotettasi ei ole nostettu.";
-"bump_up_error_payment_failed" = "Tuotettasi nostettaessa tapahtui virhe. Maksuasi ei ole käsitelty. Ole hyvä ja yritä uudelleen.";
+"bump_up_error_payment_failed" = "App Storeen ei saatu yhteyttä. Maksuasi ei ole käsitelty. Ole hyvä ja yritä uudelleen.";
 "bump_up_free_success" = "Nostettu! Nosta tuotettasi useamminkin listalla ylöspäin, jolloin se saa vielä enemmän näkyvyyttä.";
 "bump_up_pay_success" = "Nostettu! Nyt tuotteesi saa lisänäkyvyyttä.";
 "bump_up_processing_free_text" = "Käsitellään nostoa...";
@@ -331,6 +331,7 @@
 "forced_update_message" = "letgon uusi versio on saatavilla. Ole hyvä ja päivitä nyt.";
 "forced_update_title" = "Päivitys saatavilla";
 "forced_update_update_button" = "Päivitä";
+"help_terms_conditions_privacy_part" = "Yksityisyyskäytäntö";
 "help_title" = "Apua";
 "hidden_email_tag" = "[SÄHKÖPOSTI PIILOTETTU]";
 "hidden_phone_tag" = "[PUHELINNUMERO PIILOTETTU]";
@@ -439,9 +440,17 @@
 "nps_survey_title" = "HALUAISIMME TIETÄÄ...";
 "nps_survey_very_bad" = "En kovin todennäköisesti";
 "nps_survey_very_good" = "Erittäin todennäköisesti";
+"onboarding_alert_no" = "Ei";
+"onboarding_alert_yes" = "Kyllä";
 "onboarding_direct_camera_alert_subtitle" = "Julkaise ensimmäinen tuotteesi ja aloita lähistöllä oleville ihmisille myyminen";
 "onboarding_direct_camera_alert_title" = "Aloita tienaaminen!";
+"onboarding_location_permissions_alert_subtitle" = "Näet kaikista paikoista julkaistut tuotteet sinua lähellä olevien sijaan";
+"onboarding_location_permissions_alert_title" = "Oletko varma?";
 "onboarding_login_skip" = "Ohita";
+"onboarding_notifications_permissions_alert_subtitle" = "Sinun on avattava letgo nähdäksesi, onko sinulla uusia viestejä";
+"onboarding_notifications_permissions_alert_title" = "Oletko varma?";
+"onboarding_posting_alert_subtitle" = "Voit poistaa sen myöhemmin, jos et oikeasti halua myydä sitä";
+"onboarding_posting_alert_title" = "Kokeile julkaisemalla kirja, rannekello, silmälasisi...";
 "onboarding_posting_button_a" = "Myy tavarasi";
 "onboarding_posting_button_b" = "Aloita";
 "onboarding_posting_button_c" = "Kyllä, minulla on myytävää";
@@ -544,6 +553,12 @@
 "product_more_info_tooltip_part_1" = "Paina";
 "product_more_info_tooltip_part_2" = "%@ nähdäksesi lisätietoja";
 "product_negotiable_price" = "Neuvoteltavissa";
+"product_new_onboarding_finger_keep_swipe_highlighted_label" = "Jatka pyyhkäisemistä";
+"product_new_onboarding_finger_keep_swipe_label" = "%@ taakse tai eteenpäin mennäksesi edelliseen tai seuraavaan tuotteeseen";
+"product_new_onboarding_finger_swipe_highlighted_label" = "Pyyhkäise";
+"product_new_onboarding_finger_swipe_label" = "%@ nähdäksesi lisää kuvia";
+"product_new_onboarding_finger_tap_highlighted_label" = "Paina";
+"product_new_onboarding_finger_tap_label" = "%@ mennäksesi seuraavaan tuotteeseen";
 "product_onboarding_finger_scroll_label" = "Vieritä nähdäksesi lisää kuvia";
 "product_onboarding_finger_swipe_label" = "Pyyhkäise mennäksesi seuraavaan tai edelliseen tuotteeseen";
 "product_onboarding_finger_tap_label" = "Napauta mennäksesi seuraavaan tuotteeseen";

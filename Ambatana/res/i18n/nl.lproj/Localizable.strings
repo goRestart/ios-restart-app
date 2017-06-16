@@ -23,7 +23,7 @@
 "bump_up_banner_wait_text" = "opnieuw omhoog plaatsen";
 "bump_up_error_bump_generic" = "Er is een fout opgetreden tijdens het omhoog plaatsen van jouw item. Probeer het opnieuw.";
 "bump_up_error_bump_token" = "Je betaling is verwerkt, maar je item is nog niet omhoog geplaatst.";
-"bump_up_error_payment_failed" = "Er is een fout opgetreden tijdens het upgraden van je item. Je betaling werd niet verwerkt. Probeer het opnieuw.";
+"bump_up_error_payment_failed" = "Kan geen verbinding maken met de App Store. Je betaling is niet verwerkt. Probeer het opnieuw.";
 "bump_up_free_success" = "Omhoog geplaatst! Blijf je item omhoog plaatsen en het zal nog zichtbaarder zijn.";
 "bump_up_pay_success" = "Omhoog geplaatst! Je item is nu extra zichtbaar.";
 "bump_up_processing_free_text" = "Bezig met het omhoog plaatsen...";
@@ -331,6 +331,7 @@
 "forced_update_message" = "Een nieuwe versie van letgo is beschikbaar. Gelieve het nu te updaten.";
 "forced_update_title" = "Update beschikbaar";
 "forced_update_update_button" = "Bijwerken";
+"help_terms_conditions_privacy_part" = "Privacy Beleid";
 "help_title" = "Hulp";
 "hidden_email_tag" = "[E-MAIL VERBORGEN]";
 "hidden_phone_tag" = "[TELEFOONNUMMER VERBORGEN]";
@@ -439,9 +440,17 @@
 "nps_survey_title" = "WE ZOUDEN GRAAG WILLEN WETEN...";
 "nps_survey_very_bad" = "Niet waarschijnlijk";
 "nps_survey_very_good" = "Meest waarschijnlijk";
+"onboarding_alert_no" = "Nee";
+"onboarding_alert_yes" = "Ja";
 "onboarding_direct_camera_alert_subtitle" = "Plaats je eerste product en begin met verkopen aan mensen in jouw omgeving";
 "onboarding_direct_camera_alert_title" = "Begin met geld te verdienen!";
+"onboarding_location_permissions_alert_subtitle" = "Je zult items zien die geplaatst zijn in alle locaties in plaats van bij jou in de buurt";
+"onboarding_location_permissions_alert_title" = "Weet je het zeker?";
 "onboarding_login_skip" = "Overslaan";
+"onboarding_notifications_permissions_alert_subtitle" = "Je zult letgo moeten openen om te zien of je nieuwe berichten hebt";
+"onboarding_notifications_permissions_alert_title" = "Weet je het zeker?";
+"onboarding_posting_alert_subtitle" = "Je kunt het later verwijderen als je het niet echt wilt verkopen";
+"onboarding_posting_alert_title" = "Probeer het door een boek, een horloge of je bril te plaatsen";
 "onboarding_posting_button_a" = "Verkoop Je Spullen";
 "onboarding_posting_button_b" = "Start";
 "onboarding_posting_button_c" = "Ja, ik heb spullen om te verkopen";
@@ -473,7 +482,7 @@
 "product_auto_generated_translated_title_label" = "(en vertaald door Google)";
 "product_bubble_favorite_button" = "Laat het de verkoper weten!";
 "product_bubble_favorite_text" = "Dit product is toegevoegd aan jouw favorieten!";
-"product_chat_direct_error_blocked_user_message" = "Oeps! Je hebt deze gebruiker geblokkeerd, dus je kunt geen chat starten.";
+"product_chat_direct_error_blocked_user_message" = "Oeps! Je kunt geen chat starten met deze gebruiker.";
 "product_chat_direct_message" = "Hoi %@, ik ben geïnteresseerd!";
 "product_chat_direct_message_sending" = "Verzenden...";
 "product_chat_with_seller_button" = "Chat met de verkoper";
@@ -544,6 +553,12 @@
 "product_more_info_tooltip_part_1" = "Tik";
 "product_more_info_tooltip_part_2" = "%@ om meer informatie te zien";
 "product_negotiable_price" = "Bespreekbaar";
+"product_new_onboarding_finger_keep_swipe_highlighted_label" = "Veeg";
+"product_new_onboarding_finger_keep_swipe_label" = "%@ terug of vooruit om naar het vorige of volgende item te gaan";
+"product_new_onboarding_finger_swipe_highlighted_label" = "Veeg";
+"product_new_onboarding_finger_swipe_label" = "%@ om meer afbeeldingen te zien";
+"product_new_onboarding_finger_tap_highlighted_label" = "Tik";
+"product_new_onboarding_finger_tap_label" = "%@ om naar het volgende item te gaan";
 "product_onboarding_finger_scroll_label" = "Scroll om meer afbeeldingen te zien";
 "product_onboarding_finger_swipe_label" = "Schuif om naar het volgende of vorige product te gaan";
 "product_onboarding_finger_tap_label" = "Tik om naar het volgende product te gaan";
