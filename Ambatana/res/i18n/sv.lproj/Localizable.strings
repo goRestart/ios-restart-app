@@ -23,7 +23,7 @@
 "bump_up_banner_wait_text" = "till nästa puff";
 "bump_up_error_bump_generic" = "Ett fel uppstod när din produkt skulle puffas uppåt. Vänligen försök igen.";
 "bump_up_error_bump_token" = "Din betalning har genomförts men din produkt har ännu inte lagts upp.";
-"bump_up_error_payment_failed" = "Ett fel uppstod när din produkt skulle puffas uppåt. Din betalning har inte genomförts. Vänligen försök igen.";
+"bump_up_error_payment_failed" = "Anslutningen till App Store misslyckades. Din betalning har inte genomförts. Vänligen försök igen.";
 "bump_up_free_success" = "Puffad! Fortsätt att puffa upp din vara så blir den ännu mer synlig.";
 "bump_up_pay_success" = "Puffad! Nu har din produkt fått extra synlighet.";
 "bump_up_processing_free_text" = "Bearbetar puff...";
@@ -331,6 +331,7 @@
 "forced_update_message" = "Det finns en ny version av letgo. Var god uppdatera nu.";
 "forced_update_title" = "Uppdatering tillgänglig";
 "forced_update_update_button" = "Uppdatera";
+"help_terms_conditions_privacy_part" = "Integritetspolicy";
 "help_title" = "Hjälp";
 "hidden_email_tag" = "[DOLD E-POSTADRESS]";
 "hidden_phone_tag" = "[DOLT TELEFONNUMMER]";
@@ -439,9 +440,17 @@
 "nps_survey_title" = "VI SKULLE VILJA VETA...";
 "nps_survey_very_bad" = "Inte troligt";
 "nps_survey_very_good" = "Mycket troligt";
+"onboarding_alert_no" = "Nej";
+"onboarding_alert_yes" = "Ja";
 "onboarding_direct_camera_alert_subtitle" = "Lägg upp din första produkt och börja sälja till folk nära dig";
 "onboarding_direct_camera_alert_title" = "Börja tjäna pengar!";
+"onboarding_location_permissions_alert_subtitle" = "Du kommer att se produkter från samtliga platser istället för i din närhet";
+"onboarding_location_permissions_alert_title" = "Är du säker?";
 "onboarding_login_skip" = "Hoppa över";
+"onboarding_notifications_permissions_alert_subtitle" = "Du kommer att behöva öppna letgo för att se om du har fått nya meddelanden";
+"onboarding_notifications_permissions_alert_title" = "Är du säker?";
+"onboarding_posting_alert_subtitle" = "Du kan ta bort den senare om du inte längre vill sälja den";
+"onboarding_posting_alert_title" = "Prova genom att lägga upp en bok, en klocka eller några solglasögon...";
 "onboarding_posting_button_a" = "Sälj dina prylar";
 "onboarding_posting_button_b" = "Starta";
 "onboarding_posting_button_c" = "Ja, jag har saker att sälja";
@@ -544,6 +553,12 @@
 "product_more_info_tooltip_part_1" = "Klicka";
 "product_more_info_tooltip_part_2" = "%@ för mer information";
 "product_negotiable_price" = "Förhandlingsbart";
+"product_new_onboarding_finger_keep_swipe_highlighted_label" = "Fortsätt svepa";
+"product_new_onboarding_finger_keep_swipe_label" = "%@ framåt eller bakåt för att se förra eller nästa produkt";
+"product_new_onboarding_finger_swipe_highlighted_label" = "Svepa";
+"product_new_onboarding_finger_swipe_label" = "%@ för att se fler bilder";
+"product_new_onboarding_finger_tap_highlighted_label" = "Klicka";
+"product_new_onboarding_finger_tap_label" = "%@ för att se nästa produkt";
 "product_onboarding_finger_scroll_label" = "Skrolla ner för att se fler bilder.";
 "product_onboarding_finger_swipe_label" = "Dra för att gå till nästa eller föregående produkt";
 "product_onboarding_finger_tap_label" = "Klicka för att gå till nästa produkt";

@@ -1343,6 +1343,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("forced_update_update_button", comment: "")
 	}
 
+	static var helpTermsConditionsPrivacyPart: String {
+		return NSLocalizedString("help_terms_conditions_privacy_part", comment: "")
+	}
+
 	static var helpTitle: String {
 		return NSLocalizedString("help_title", comment: "")
 	}
@@ -1891,6 +1895,38 @@ struct LGLocalizedString {
 		return NSLocalizedString("onboarding_posting_button_c", comment: "")
 	}
 
+	static var onboardingLocationPermissionsAlertTitle: String {
+		return NSLocalizedString("onboarding_location_permissions_alert_title", comment: "")
+	}
+
+	static var onboardingLocationPermissionsAlertSubtitle: String {
+		return NSLocalizedString("onboarding_location_permissions_alert_subtitle", comment: "")
+	}
+
+	static var onboardingNotificationsPermissionsAlertTitle: String {
+		return NSLocalizedString("onboarding_notifications_permissions_alert_title", comment: "")
+	}
+
+	static var onboardingNotificationsPermissionsAlertSubtitle: String {
+		return NSLocalizedString("onboarding_notifications_permissions_alert_subtitle", comment: "")
+	}
+
+	static var onboardingPostingAlertTitle: String {
+		return NSLocalizedString("onboarding_posting_alert_title", comment: "")
+	}
+
+	static var onboardingPostingAlertSubtitle: String {
+		return NSLocalizedString("onboarding_posting_alert_subtitle", comment: "")
+	}
+
+	static var onboardingAlertYes: String {
+		return NSLocalizedString("onboarding_alert_yes", comment: "")
+	}
+
+	static var onboardingAlertNo: String {
+		return NSLocalizedString("onboarding_alert_no", comment: "")
+	}
+
 	static var passiveBuyersTitle: String {
 		return NSLocalizedString("passive_buyers_title", comment: "")
 	}
@@ -2297,6 +2333,30 @@ struct LGLocalizedString {
 
 	static var productOnboardingShowAgainButtonTitle: String {
 		return NSLocalizedString("product_onboarding_show_again_button_title", comment: "")
+	}
+
+	static var productNewOnboardingFingerKeepSwipeHighlightedLabel: String {
+		return NSLocalizedString("product_new_onboarding_finger_keep_swipe_highlighted_label", comment: "")
+	}
+
+	static func productNewOnboardingFingerKeepSwipeLabel(_ var1: String) -> String {
+		return String(format: NSLocalizedString("product_new_onboarding_finger_keep_swipe_label", comment: ""), var1)
+	}
+
+	static var productNewOnboardingFingerSwipeHighlightedLabel: String {
+		return NSLocalizedString("product_new_onboarding_finger_swipe_highlighted_label", comment: "")
+	}
+
+	static func productNewOnboardingFingerSwipeLabel(_ var1: String) -> String {
+		return String(format: NSLocalizedString("product_new_onboarding_finger_swipe_label", comment: ""), var1)
+	}
+
+	static var productNewOnboardingFingerTapHighlightedLabel: String {
+		return NSLocalizedString("product_new_onboarding_finger_tap_highlighted_label", comment: "")
+	}
+
+	static func productNewOnboardingFingerTapLabel(_ var1: String) -> String {
+		return String(format: NSLocalizedString("product_new_onboarding_finger_tap_label", comment: ""), var1)
 	}
 
 	static var productOpenCommercialButton: String {
