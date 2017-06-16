@@ -94,7 +94,6 @@ class LocationFromZipCodeViewModelSpec: BaseViewModelSpec {
 
                         let postalAddress = PostalAddress(address: "", city: "New York", zipCode: "12345", state: "", countryCode: "us", country: "")
                         let location = LGLocationCoordinates2D(latitude: 41.38, longitude: 2.18)
-                        let place = Place(postalAddress: postalAddress, location: location)
 
                         searchService = MockSearchLocationSuggestionsService(error: .notFound)
 
@@ -211,7 +210,6 @@ class LocationFromZipCodeViewModelSpec: BaseViewModelSpec {
 
                         let postalAddress = PostalAddress(address: "", city: "New York", zipCode: "12345", state: "", countryCode: "us", country: "")
                         let location = LGLocationCoordinates2D(latitude: 41.38, longitude: 2.18)
-                        let place = Place(postalAddress: postalAddress, location: location)
 
                         searchService = MockSearchLocationSuggestionsService(error: .notFound)
 
