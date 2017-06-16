@@ -48,7 +48,7 @@ def shared_pods
     pod "CHTCollectionViewWaterfallLayout", "0.9.5"  # Obj-c
 
     # Device info helper
-    pod "DeviceUtil",           "1.3.8"     # Obj-c
+    pod "DeviceGuru",           "~> 2.1.0"
 
     # Google -> we have to ask for the Google/"subpod" so it imports Google/Core too
     pod "Google/SignIn",        "3.0.3"     # Obj-c
