@@ -387,8 +387,7 @@ class PostProductGalleryViewModel: BaseViewModel {
                 strongSelf.imageSelectionEnabled.value = strongSelf.imagesSelectedCount < strongSelf.maxImagesSelected
                 strongSelf.galleryState.value = .normal
             } else {
-                // TODO: load the thumbnail if the image laoding fails
-                // https://ambatana.atlassian.net/browse/ABIOS-2195
+                // ABIOS-2195
                 strongSelf.imagesSelected.value.append(ImageSelected(image: image, index: index))
                 // in multiple selection, we don't want to show as selected only the images that were loaded
                 for imgSelected in strongSelf.imagesSelected.value {
