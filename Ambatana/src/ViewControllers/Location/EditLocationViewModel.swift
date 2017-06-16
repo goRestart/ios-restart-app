@@ -20,25 +20,28 @@ protocol EditLocationViewModelDelegate: BaseViewModelDelegate {
 }
 
 protocol EditLocationDelegate: class {
-    func editLocationDidSelectPlace(_ place: Place)
+    func editLocationDidSelectPlace(_ place: Place, distanceRadius: Int?)
 }
 
 enum EditLocationMode {
     case editUserLocation
     case editListingLocation
     case editFilterLocation
+    case quickFilterLocation
 }
 
 class EditLocationViewModel: BaseViewModel {
    
     weak var delegate: EditLocationViewModelDelegate?
     weak var navigator: EditLocationNavigator?
+    weak var quickLocationFiltersNavigator: QuickLocationFiltersNavigator?
     weak var locationDelegate: EditLocationDelegate?
     
     private let locationManager: LocationManager
     private let myUserRepository: MyUserRepository
     private let mode: EditLocationMode
     private let tracker: Tracker
+    private let featureFlags: FeatureFlaggeable
     
     private let searchService: CLSearchLocationSuggestionsService
     private let postalAddressService: PostalAddressRetrievalService
@@ -48,7 +51,7 @@ class EditLocationViewModel: BaseViewModel {
     private var pendingGoToLocation = false      // In case goToLocation was called while serviceAlreadyLoading
     private var predictiveResults: [Place]
     private var currentPlace: Place
-
+    
     // MARK: - Rx variables
 
     let disposeBag = DisposeBag()
@@ -60,6 +63,7 @@ class EditLocationViewModel: BaseViewModel {
     let setLocationEnabled = Variable<Bool>(false)
     let approxLocationHidden = Variable<Bool>(false)
     let loading = Variable<Bool>(false)
+    let currentDistanceRadius = Variable<Int?>(nil)
 
     //Input
     let searchText = Variable<(String, autoSelect: Bool)>("", autoSelect: false)
@@ -72,24 +76,31 @@ class EditLocationViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
 
-    convenience init(mode: EditLocationMode) {
-        self.init(mode: mode, initialPlace: nil)
+    convenience init(mode: EditLocationMode,
+                     initialPlace: Place? = nil,
+                     distanceRadius: Int? = nil) {
+        self.init(locationManager: Core.locationManager,
+                  myUserRepository: Core.myUserRepository,
+                  mode: mode,
+                  initialPlace: initialPlace,
+                  distanceRadius: distanceRadius,
+                  tracker: TrackerProxy.sharedInstance,
+                  featureFlags: FeatureFlags.sharedInstance)
     }
 
-    convenience init(mode: EditLocationMode, initialPlace: Place?) {
-        let locationManager = Core.locationManager
-        let myUserRepository = Core.myUserRepository
-        let tracker = TrackerProxy.sharedInstance
-        self.init(locationManager: locationManager, myUserRepository: myUserRepository, mode: mode,
-                  initialPlace: initialPlace, tracker: tracker)
-    }
-
-    init(locationManager: LocationManager, myUserRepository: MyUserRepository, mode: EditLocationMode,
-         initialPlace: Place?, tracker: Tracker) {
+    init(locationManager: LocationManager,
+         myUserRepository: MyUserRepository,
+         mode: EditLocationMode,
+         initialPlace: Place?,
+         distanceRadius: Int?,
+         tracker: Tracker,
+         featureFlags: FeatureFlaggeable) {
+        
         self.locationManager = locationManager
         self.myUserRepository = myUserRepository
         self.mode = mode
         self.tracker = tracker
+        self.featureFlags = featureFlags
 
         self.approxLocation = Variable<Bool>(KeyValueStorage.sharedInstance.userLocationApproximate &&
             (mode == .editUserLocation || mode == .editListingLocation))
@@ -100,7 +111,7 @@ class EditLocationViewModel: BaseViewModel {
         self.postalAddressService = CLPostalAddressRetrievalService()
         super.init()
 
-        self.initPlace(initialPlace)
+        self.initPlace(initialPlace, distanceRadius: distanceRadius)
         self.setRxBindings()
     }
     
@@ -119,7 +130,38 @@ class EditLocationViewModel: BaseViewModel {
     
     
     // MARK: public methods
+    
+    var distanceMeters: CLLocationDistance {
+        guard let distanceRadius = distanceRadius else { return 0 }
+        switch distanceType {
+        case .km:
+            return Double(distanceRadius) * 1000
+        case .mi:
+            return Double(distanceRadius) * Constants.metersInOneMile
+        }
+    }
+    
+    var distanceType: DistanceType {
+        return DistanceType.systemDistanceType()
+    }
+    
+    var distanceRadius: Int? {
+        if let currentDistance = currentDistanceRadius.value, currentDistance <= 0 { return nil }
+        return currentDistanceRadius.value
+    }
 
+    var shouldShowDistanceSlider: Bool {
+        return mode == .quickFilterLocation && featureFlags.editLocationBubble == .map
+    }
+    
+    var shouldShowCustomNavigationBar: Bool {
+        return mode == .quickFilterLocation
+    }
+    
+    var shouldShowCircleOverlay: Bool {
+        return mode == .quickFilterLocation
+    }
+    
     var placeCount: Int {
         return predictiveResults.count
     }
@@ -136,40 +178,49 @@ class EditLocationViewModel: BaseViewModel {
         return predictiveResults[position].postalAddress
     }
 
-    /**
-        when user taps GPS button, map goes to user last GPS location
-    */
     func showGPSLocation() {
         guard let location = locationManager.currentAutoLocation else { return }
         placeLocation.value = location.coordinate
         locationToFetch.value = (location.coordinate, fromGps: true)
     }
 
-    /**
-        Selects a location from the suggestions table
-    */
     func selectPlace(_ resultsIndex: Int) {
         guard resultsIndex >= 0 && resultsIndex < predictiveResults.count else { return }
         setPlace(predictiveResults[resultsIndex], forceLocation: true, fromGps: false, enableSave: true)
     }
 
-    /**
-        Saves the user location
-    */
     func applyLocation() {
         switch mode {
         case .editUserLocation:
             updateUserLocation()
         case .editFilterLocation, .editListingLocation:
-            locationDelegate?.editLocationDidSelectPlace(currentPlace)
+            locationDelegate?.editLocationDidSelectPlace(currentPlace, distanceRadius: distanceRadius)
+            let trackerEvent = TrackerEvent.location(locationType: locationManager.currentLocation?.type,
+                                                     locationServiceStatus: locationManager.locationServiceStatus,
+                                                     typePage: .filter,
+                                                     zipCodeFilled: nil,
+                                                     distanceRadius: distanceRadius)
+            tracker.trackEvent(trackerEvent)
             closeLocation()
+        case .quickFilterLocation:
+            locationDelegate?.editLocationDidSelectPlace(currentPlace, distanceRadius: distanceRadius)
+            let trackerEvent = TrackerEvent.location(locationType: locationManager.currentLocation?.type,
+                                                     locationServiceStatus: locationManager.locationServiceStatus,
+                                                     typePage: .feedBubble,
+                                                     zipCodeFilled: nil,
+                                                     distanceRadius: distanceRadius)
+            tracker.trackEvent(trackerEvent)
+            closeQuickLocation()
         }
     }
-
-
+    
+    func cancelSetLocation() {
+        closeQuickLocation()
+    }
+    
     // MARK: - Private methods
 
-    private func initPlace(_ initialPlace: Place?) {
+    private func initPlace(_ initialPlace: Place?, distanceRadius: Int?) {
         switch mode {
         case .editUserLocation:
             if let place = initialPlace {
@@ -180,7 +231,7 @@ class EditLocationViewModel: BaseViewModel {
                 setPlace(place, forceLocation: true, fromGps: location.type != .manual, enableSave: false)
             }
             approxLocationHidden.value = false
-        case .editFilterLocation:
+        case .editFilterLocation, .quickFilterLocation:
             if let place = initialPlace {
                 setPlace(place, forceLocation: true, fromGps: false, enableSave: false)
             } else {
@@ -190,6 +241,7 @@ class EditLocationViewModel: BaseViewModel {
                 setPlace(place, forceLocation: true, fromGps: location.type != .manual, enableSave: false)
             }
             approxLocationHidden.value = true
+            currentDistanceRadius.value = distanceRadius
         case .editListingLocation:
             if let place = initialPlace, let location = place.location {
                 postalAddressService.retrieveAddressForLocation(location) { [weak self] result in
@@ -273,6 +325,13 @@ class EditLocationViewModel: BaseViewModel {
                 self?.setPlace(place, forceLocation: false, fromGps: gpsLocation, enableSave: true)
             }
             .addDisposableTo(disposeBag)
+        
+        currentDistanceRadius.asObservable()
+            .skip(1)
+            .unwrap()
+            .map { _ in true }
+            .bindTo(setLocationEnabled).addDisposableTo(disposeBag)
+        
     }
 
     private func updateInfoText() {
@@ -308,15 +367,18 @@ class EditLocationViewModel: BaseViewModel {
 
     private func updateUserLocation() {
         let myCompletion: (Result<MyUser, RepositoryError>) -> () = { [weak self] result in
-            self?.loading.value = false
+            guard let strongSelf = self else { return }
+            strongSelf.loading.value = false
             if let value = result.value {
-                if let myUserLocation = value.location {
-                    let trackerEvent = TrackerEvent.profileEditEditLocation(myUserLocation)
-                    self?.tracker.trackEvent(trackerEvent)
-                }
-                self?.closeLocation()
+                let trackerEvent = TrackerEvent.location(locationType: value.location?.type,
+                                                         locationServiceStatus: strongSelf.locationManager.locationServiceStatus,
+                                                         typePage: .profile,
+                                                         zipCodeFilled: nil,
+                                                         distanceRadius: nil)
+                strongSelf.tracker.trackEvent(trackerEvent)
+                strongSelf.closeLocation()
             } else {
-                self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.changeLocationErrorUpdatingLocationMessage, completion: nil)
+                strongSelf.delegate?.vmShowAutoFadingMessage(LGLocalizedString.changeLocationErrorUpdatingLocationMessage, completion: nil)
             }
         }
 
@@ -340,13 +402,17 @@ class EditLocationViewModel: BaseViewModel {
             delegate?.vmPop()
         }
     }
+    
+    private func closeQuickLocation() {
+        quickLocationFiltersNavigator?.closeQuickLocationFilters()
+    }
 
     private func trackVisitIfNeeded() {
         let event: TrackerEvent
         switch mode {
         case .editUserLocation:
             event = TrackerEvent.profileEditEditLocationStart()
-        case .editFilterLocation:
+        case .editFilterLocation, .quickFilterLocation:
             event = TrackerEvent.filterLocationStart()
         case .editListingLocation:
             return

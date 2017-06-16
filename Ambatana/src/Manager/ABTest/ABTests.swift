@@ -8,40 +8,42 @@
 
 import RxSwift
 
-struct ABTests {
-
-    static let trackingData = Variable<[String]?>(nil)
+class ABTests {
+    let trackingData = Variable<[String]?>(nil)
 
     // Not used in code, Just a helper for marketing team
-    static var marketingPush = IntABDynamicVar(key: "marketingPush", defaultValue: 0)
+    let marketingPush = IntABDynamicVar(key: "marketingPush", defaultValue: 0)
 
     // Not an A/B just flags and variables for surveys
-    static var showNPSSurvey = BoolABDynamicVar(key: "showNPSSurvey", defaultValue: false)
-    static var surveyURL = StringABDynamicVar(key: "surveyURL", defaultValue: "")
-    static var surveyEnabled = BoolABDynamicVar(key: "surveyEnabled", defaultValue: false)
+    let showNPSSurvey = BoolABDynamicVar(key: "showNPSSurvey", defaultValue: false)
+    let surveyURL = StringABDynamicVar(key: "surveyURL", defaultValue: "")
+    let surveyEnabled = BoolABDynamicVar(key: "surveyEnabled", defaultValue: false)
 
-    static var websocketChat = BoolABDynamicVar(key: "websocketChat", defaultValue: false)
-    static var userReviews = BoolABDynamicVar(key: "userReviews", defaultValue: false)
-    static var contactSellerOnFavorite = BoolABDynamicVar(key: "contactSellerOnFavorite", defaultValue: false)
-    static var captchaTransparent = BoolABDynamicVar(key: "captchaTransparent", defaultValue: false)
-    static var passiveBuyersShowKeyboard = BoolABDynamicVar(key: "passiveBuyersShowKeyboard", defaultValue: false)
-    static var onboardingReview = IntABDynamicVar(key: "onboardingReview", defaultValue: 0)
-    static var freeBumpUpEnabled = BoolABDynamicVar(key: "freeBumpUpEnabled", defaultValue: false)
-    static var pricedBumpUpEnabled = BoolABDynamicVar(key: "pricedBumpUpEnabled", defaultValue: false)
-    static var productDetailNextRelated = BoolABDynamicVar(key: "productDetailNextRelated", defaultValue: false)
-    static var signUpLoginImprovement = IntABDynamicVar(key: "signUpLoginImprovement", defaultValue: 0)
-    static var periscopeRemovePredefinedText = BoolABDynamicVar(key: "periscopeRemovePredefinedText", defaultValue: false)
-    static var hideTabBarOnFirstSessionV2 = BoolABDynamicVar(key: "hideTabBarOnFirstSessionV2", defaultValue: false)
-    static var postingGallery = IntABDynamicVar(key: "postingGallery", defaultValue: 0)
-    static var quickAnswersRepeatedTextField = BoolABDynamicVar(key: "quickAnswersRepeatedTextField", defaultValue: false)
-    static var carsVerticalEnabled = BoolABDynamicVar(key: "carsVerticalEnabled", defaultValue: false)
-    static var carsCategoryAfterPicture = BoolABDynamicVar(key: "carsCategoryAfterPicture", defaultValue: false)
-    static var newMarkAsSoldFlow = BoolABDynamicVar(key: "newMarkAsSoldFlow", defaultValue: false)
-    static var editLocationBubble = IntABDynamicVar(key: "editLocationBubble20170525", defaultValue: 0)
-    static var newCarsMultiRequesterEnabled = BoolABDynamicVar(key: "newCarsMultiRequesterEnabled", defaultValue: false)
-    static var newCarouselNavigationEnabled = BoolABDynamicVar(key: "newCarouselNavigationEnabled20170606", defaultValue: false)
+    let websocketChat = BoolABDynamicVar(key: "websocketChat20170609", defaultValue: false)
+    let userReviews = BoolABDynamicVar(key: "userReviews", defaultValue: false)
+    let contactSellerOnFavorite = BoolABDynamicVar(key: "contactSellerOnFavorite", defaultValue: false)
+    let captchaTransparent = BoolABDynamicVar(key: "captchaTransparent", defaultValue: false)
+    let passiveBuyersShowKeyboard = BoolABDynamicVar(key: "passiveBuyersShowKeyboard", defaultValue: false)
+    let onboardingReview = IntABDynamicVar(key: "onboardingReview", defaultValue: 0)
+    let freeBumpUpEnabled = BoolABDynamicVar(key: "freeBumpUpEnabled", defaultValue: false)
+    let pricedBumpUpEnabled = BoolABDynamicVar(key: "pricedBumpUpEnabled", defaultValue: false)
+    let productDetailNextRelated = BoolABDynamicVar(key: "productDetailNextRelated", defaultValue: false)
+    let signUpLoginImprovement = IntABDynamicVar(key: "signUpLoginImprovement", defaultValue: 0)
+    let periscopeRemovePredefinedText = BoolABDynamicVar(key: "periscopeRemovePredefinedText", defaultValue: false)
+    let hideTabBarOnFirstSessionV2 = BoolABDynamicVar(key: "hideTabBarOnFirstSessionV2", defaultValue: false)
+    let postingGallery = IntABDynamicVar(key: "postingGallery", defaultValue: 0)
+    let quickAnswersRepeatedTextField = BoolABDynamicVar(key: "quickAnswersRepeatedTextField", defaultValue: false)
+    let carsVerticalEnabled = BoolABDynamicVar(key: "carsVerticalEnabled", defaultValue: false)
+    let carsCategoryAfterPicture = BoolABDynamicVar(key: "carsCategoryAfterPicture", defaultValue: false)
+    let newMarkAsSoldFlow = BoolABDynamicVar(key: "newMarkAsSoldFlow", defaultValue: false)
+    let editLocationBubble = IntABDynamicVar(key: "editLocationBubble20170525", defaultValue: 0)
+    let newCarsMultiRequesterEnabled = BoolABDynamicVar(key: "newCarsMultiRequesterEnabled", defaultValue: false)
+    let newCarouselNavigationEnabled = BoolABDynamicVar(key: "newCarouselNavigationEnabled20170606", defaultValue: false)
 
-    static private var allVariables: [ABVariable] {
+    init() {
+    }
+    
+    private var allVariables: [ABVariable] {
         var result = [ABVariable]()
 
         result.append(marketingPush)
@@ -74,11 +76,11 @@ struct ABTests {
         return result
     }
 
-    static func registerVariables() {
+    func registerVariables() {
         allVariables.forEach { $0.register() }
     }
 
-    static func variablesUpdated() {
+    func variablesUpdated() {
         trackingData.value = allVariables.flatMap { $0.trackingData }
     }
 }

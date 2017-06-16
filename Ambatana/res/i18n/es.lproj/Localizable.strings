@@ -331,6 +331,7 @@
 "forced_update_message" = "Está disponible una nueva versión de letgo. Por favor, actualiza ahora.";
 "forced_update_title" = "Actualización disponible";
 "forced_update_update_button" = "Actualizar";
+"help_terms_conditions_privacy_part" = "Política de Privacidad";
 "help_title" = "Ayuda";
 "hidden_email_tag" = "[EMAIL OCULTO]";
 "hidden_phone_tag" = "[NÚMERO DE TELÉFONO OCULTO]";
@@ -439,9 +440,17 @@
 "nps_survey_title" = "NOS GUSTARÍA SABER...";
 "nps_survey_very_bad" = "Muy improbable";
 "nps_survey_very_good" = "Definitivamente lo recomendaría";
+"onboarding_alert_no" = "No";
+"onboarding_alert_yes" = "Sí";
 "onboarding_direct_camera_alert_subtitle" = "Publica tu primer artículo y empieza a vender cerca de ti";
 "onboarding_direct_camera_alert_title" = "¡Empieza a ganar dinero!";
+"onboarding_location_permissions_alert_subtitle" = "Verás artículos de todas las ubicaciónes, no solo cerca de ti";
+"onboarding_location_permissions_alert_title" = "¿Estás seguro?";
 "onboarding_login_skip" = "Saltar";
+"onboarding_notifications_permissions_alert_subtitle" = "Tendrás que abrir letgo para ver si tienes mensajes nuevos";
+"onboarding_notifications_permissions_alert_title" = "¿Estás seguro?";
+"onboarding_posting_alert_subtitle" = "Puedes eliminarlo más tarde si no quieres venderlo";
+"onboarding_posting_alert_title" = "Pruébalo publicando un libro, un reloj, unas gafas de sol...";
 "onboarding_posting_button_a" = "Empieza a vender";
 "onboarding_posting_button_b" = "Empieza";
 "onboarding_posting_button_c" = "Sí, tengo cosas para vender";

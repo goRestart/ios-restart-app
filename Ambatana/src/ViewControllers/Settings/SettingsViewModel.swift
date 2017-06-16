@@ -216,7 +216,7 @@ class SettingsViewModel: BaseViewModel {
         case .changeEmail:
             navigator?.openEditEmail()
         case .changeLocation:
-            navigator?.openEditLocation()
+            navigator?.openEditLocation(withDistanceRadius: nil)
         case .changePassword:
             navigator?.openChangePassword()
         case .help:

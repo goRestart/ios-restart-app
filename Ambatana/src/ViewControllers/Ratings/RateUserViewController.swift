@@ -35,7 +35,6 @@ class RateUserViewController: KeyboardViewController {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var footerLabel: UILabel!
 
-    fileprivate var descrPlaceholder = LGLocalizedString.userRatingReviewPlaceholderOptional
     fileprivate let descrPlaceholderColor = UIColor.gray
     fileprivate static let sendButtonMargin: CGFloat = 15
     fileprivate let showSkipButton: Bool
@@ -138,7 +137,7 @@ class RateUserViewController: KeyboardViewController {
         
         descriptionContainer.layer.borderColor = UIColor.lineGray.cgColor
         descriptionContainer.layer.borderWidth = LGUIKitConstants.onePixelSize
-        descriptionText.text = descrPlaceholder
+        descriptionText.text = viewModel.descriptionPlaceholder
         descriptionText.textColor = descrPlaceholderColor
         
         footerView.backgroundColor = UIColor.viewControllerBackground
@@ -209,14 +208,20 @@ class RateUserViewController: KeyboardViewController {
 
 extension RateUserViewController: RateUserViewModelDelegate {
     func vmUpdateDescription(_ description: String?) {
-        setDescription(description)
+        if let description = description, !description.isEmpty {
+            descriptionText.text = description
+            descriptionText.textColor = UIColor.grayDark
+        } else {
+            descriptionText.text = viewModel.descriptionPlaceholder
+            descriptionText.textColor = descrPlaceholderColor
+        }
     }
 
     func vmUpdateTags() {
         ratingTagsCollectionView.reloadData()
         // Forces relayout so viewDidLayoutSubviews is called and then collection view height is adjusted
-        ratingTagsCollectionView.setNeedsLayout()
-        ratingTagsCollectionView.layoutIfNeeded()
+        view.setNeedsLayout()
+        view.layoutIfNeeded()
     }
 }
 
@@ -267,7 +272,7 @@ extension RateUserViewController: UICollectionViewDataSource, UICollectionViewDe
 extension RateUserViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         // clear text view placeholder
-        if textView.text == descrPlaceholder && textView.textColor ==  descrPlaceholderColor {
+        if textView.text == viewModel.descriptionPlaceholder && textView.textColor ==  descrPlaceholderColor {
             textView.text = nil
             textView.textColor = UIColor.grayDark
         }
@@ -275,35 +280,15 @@ extension RateUserViewController: UITextViewDelegate {
 
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
-            textView.text = descrPlaceholder
+            textView.text = viewModel.descriptionPlaceholder
             textView.textColor = descrPlaceholderColor
         }
     }
 
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         guard let textViewText = textView.text else { return true }
-        guard textViewText.characters.count + (text.characters.count - range.length) <= Constants.userRatingDescriptionMaxLength else { return false }
-        let cleanReplacement = text.stringByRemovingEmoji()
-        let finalText = (textViewText as NSString).replacingCharacters(in: range, with: cleanReplacement)
-        if finalText != descrPlaceholder && textView.textColor != descrPlaceholderColor {
-            viewModel.description.value = finalText.isEmpty ? nil : finalText
-            if text.hasEmojis() {
-                //Forcing the new text (without emojis) by returning false
-                setDescription(finalText)
-                return false
-            }
-        }
-        return true
-    }
-
-    fileprivate func setDescription(_ description: String?) {
-        if let description = description, !description.isEmpty {
-            descriptionText.text = description
-            descriptionText.textColor = UIColor.grayDark
-        } else {
-            descriptionText.text = descrPlaceholder
-            descriptionText.textColor = descrPlaceholderColor
-        }
+        let finalText = (textViewText as NSString).replacingCharacters(in: range, with: text)
+        return viewModel.setDescription(text: finalText)
     }
 }
 

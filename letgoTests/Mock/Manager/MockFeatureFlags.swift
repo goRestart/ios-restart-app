@@ -12,11 +12,11 @@ import RxSwift
 
 class MockFeatureFlags: FeatureFlaggeable {
 
-    var syncedData: Observable<Bool> {
-        return syncedDataVar.asObservable()
+    var trackingData: Observable<[String]?> {
+        return trackingDataVar.asObservable()
     }
-
-    let syncedDataVar = Variable<Bool>(false)
+    func variablesUpdated() {}
+    let trackingDataVar = Variable<[String]?>(nil)
 
     var showNPSSurvey: Bool = false
     var surveyUrl: String = ""

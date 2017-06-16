@@ -551,7 +551,7 @@ extension ProductViewModel {
         if isMine && status.value != .notAvailable {
             actions.append(buildDeleteAction())
         }
-        if isMine && status.value.isSold && isTransactionOpen {
+        if isMine && status.value.isSold && isTransactionOpen && featureFlags.newMarkAsSoldFlow {
             actions.append(buildRateUserAction())
         }
         

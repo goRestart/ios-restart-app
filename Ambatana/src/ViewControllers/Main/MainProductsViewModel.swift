@@ -14,6 +14,7 @@ import RxSwift
 protocol MainProductsViewModelDelegate: BaseViewModelDelegate {
     func vmDidSearch()
     func vmShowTags(_ tags: [FilterTag])
+    func vmFiltersChanged()
 }
 
 struct MainProductsHeader: OptionSet {
@@ -43,6 +44,10 @@ class MainProductsViewModel: BaseViewModel {
     let bannerCellPosition: Int = 8
     var filters: ProductFilters
     var queryString: String?
+
+    var hasFilters: Bool {
+        return !filters.isDefault()
+    }
 
     var hasInteractiveBubble: Bool {
         switch featureFlags.editLocationBubble {
@@ -269,6 +274,7 @@ class MainProductsViewModel: BaseViewModel {
     override func didBecomeActive(_ firstTime: Bool) {
         updatePermissionsWarning()
         updateCategoriesHeader()
+        setupRx()
         if let currentLocation = locationManager.currentLocation {
             retrieveProductsIfNeededWithNewLocation(currentLocation)
             retrieveLastUserSearch()
@@ -290,8 +296,7 @@ class MainProductsViewModel: BaseViewModel {
     }
 
     func showFilters() {
-        navigator?.showFilters(with: filters, filtersVMDataDelegate: self)
-        // Tracking
+        navigator?.openFilters(withProductFilters: filters, filtersVMDataDelegate: self)
         tracker.trackEvent(TrackerEvent.filterStart())
     }
 
@@ -299,7 +304,6 @@ class MainProductsViewModel: BaseViewModel {
         Called when search button is pressed.
     */
     func searchBegan() {
-        // Tracking
         tracker.trackEvent(TrackerEvent.searchStart(myUserRepository.myUser))
     }
     
@@ -417,8 +421,11 @@ class MainProductsViewModel: BaseViewModel {
     }
 
     func bubbleTapped() {
-        let initialPlace = filters.place ?? Place(postalAddress: locationManager.currentLocation?.postalAddress, location: locationManager.currentLocation?.location)
-        navigator?.openLocationSelection(initialPlace: initialPlace, locationDelegate: self)
+        let initialPlace = filters.place ?? Place(postalAddress: locationManager.currentLocation?.postalAddress,
+                                                  location: locationManager.currentLocation?.location)
+        navigator?.openLocationSelection(initialPlace: initialPlace, 
+                                         distanceRadius: filters.distanceRadius,
+                                         locationDelegate: self)
     }
 
     
@@ -431,6 +438,11 @@ class MainProductsViewModel: BaseViewModel {
         infoBubbleText.value = defaultBubbleText
     }
    
+    private func setupRx() {
+        listViewModel.isProductListEmpty.asObservable().bindNext { [weak self] _ in
+            self?.updateCategoriesHeader()
+        }.addDisposableTo(disposeBag)
+    }
     
     /**
         Returns a view model for search.
@@ -558,7 +570,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
                 let errBody: String?
 
                 // Search
-                if queryString != nil || !filters.isDefault() {
+                if queryString != nil || hasFilters {
                     errImage = UIImage(named: "err_search_no_products")
                     errTitle = LGLocalizedString.productSearchNoProductsTitle
                     errBody = LGLocalizedString.productSearchNoProductsBody
@@ -621,7 +633,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
         
         guard let listing = viewModel.listingAtIndex(index) else { return }
         let cellModels = viewModel.objects
-        let showRelated = searchType == nil && filters.isDefault()
+        let showRelated = searchType == nil && !hasFilters
         let data = ListingDetailData.listingList(listing: listing, cellModels: cellModels,
                                                  requester: productListRequester, thumbnailImage: thumbnailImage,
                                                  originFrame: originFrame, showRelated: showRelated, index: index)
@@ -677,8 +689,11 @@ extension MainProductsViewModel {
 
         // Tracking: when a new location is received and has different type than previous one
         if lastReceivedLocation?.type != newLocation.type {
-            let locationServiceStatus = locationManager.locationServiceStatus
-            let trackerEvent = TrackerEvent.location(newLocation, locationServiceStatus: locationServiceStatus)
+            let trackerEvent = TrackerEvent.location(locationType: newLocation.type,
+                                                     locationServiceStatus: locationManager.locationServiceStatus,
+                                                     typePage: .automatic,
+                                                     zipCodeFilled: nil,
+                                                     distanceRadius: filters.distanceRadius)
             tracker.trackEvent(trackerEvent)
         }
         
@@ -800,7 +815,7 @@ extension MainProductsViewModel {
 extension MainProductsViewModel {
 
     var showCategoriesCollectionBanner: Bool {
-        return featureFlags.carsVerticalEnabled && tags.isEmpty
+        return featureFlags.carsVerticalEnabled && tags.isEmpty && !listViewModel.isProductListEmpty.value
     }
 
     func pushPermissionsHeaderPressed() {
@@ -895,7 +910,7 @@ fileprivate extension MainProductsViewModel {
             case .collection:
                 return .collection
             case .user, .trending, .lastSearch:
-                if filters.isDefault() {
+                if !hasFilters {
                     return .search
                 } else {
                     return .searchAndFilter
@@ -903,7 +918,7 @@ fileprivate extension MainProductsViewModel {
             }
         }
 
-        if !filters.isDefault() {
+        if hasFilters {
             if filters.selectedCategories.isEmpty {
                 return .filter
             } else {
@@ -919,11 +934,11 @@ fileprivate extension MainProductsViewModel {
             return .collection
         }
         if searchType.isEmpty() {
-            if !filters.isDefault() {
+            if hasFilters {
                 return .filter
             }
         } else {
-            if !filters.isDefault() {
+            if hasFilters {
                 return .searchAndFilter
             } else {
                 return .search
@@ -978,8 +993,10 @@ fileprivate extension MainProductsViewModel {
 
 
 extension MainProductsViewModel: EditLocationDelegate {
-    func editLocationDidSelectPlace(_ place: Place) {
+    func editLocationDidSelectPlace(_ place: Place, distanceRadius: Int?) {
         filters.place = place
+        filters.distanceRadius = distanceRadius
         updateListView()
+        delegate?.vmFiltersChanged()
     }
 }

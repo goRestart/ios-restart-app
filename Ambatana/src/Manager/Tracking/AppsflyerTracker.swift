@@ -39,7 +39,9 @@ final class AppsflyerTracker: Tracker {
     
     // MARK: - Tracker
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?,
+                     featureFlags: FeatureFlaggeable) {
         AppsFlyerTracker.shared().appsFlyerDevKey = EnvironmentProxy.sharedInstance.appsFlyerAPIKey
         AppsFlyerTracker.shared().appleAppID = EnvironmentProxy.sharedInstance.appleAppId
     }

@@ -39,7 +39,7 @@ class UserFavoritesProductListRequester: UserProductListRequester {
     func canRetrieve() -> Bool { return true }
     
     func retrieveFirstPage(_ completion: ListingsRequesterCompletion?) {
-        productsRetrieval { [weak self] result in
+        productsRetrieval { result in
             completion?(ListingsRequesterResult(listingsResult: result, context: nil))
         }
     }

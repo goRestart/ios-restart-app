@@ -331,6 +331,7 @@
 "forced_update_message" = "Yeni bir letgo sürümü mevcut. Lütfen şimdi güncelle.";
 "forced_update_title" = "Yeni bir güncelleme mevcut";
 "forced_update_update_button" = "Güncelle";
+"help_terms_conditions_privacy_part" = "Gizlilik Politikası";
 "help_title" = "Yardım";
 "hidden_email_tag" = "[E-POSTA GİZLENMİŞTİR]";
 "hidden_phone_tag" = "[TELEFON NUMARASI GİZLENMİŞTİR]";
@@ -439,9 +440,17 @@
 "nps_survey_title" = "GÖRÜŞLERİNİ BİLMEK İSTERİZ...";
 "nps_survey_very_bad" = "Muhtemel değil";
 "nps_survey_very_good" = "Son derece muhtemel";
+"onboarding_alert_no" = "Hayır";
+"onboarding_alert_yes" = "Evet";
 "onboarding_direct_camera_alert_subtitle" = "İlk ürününü yükleyerek yakınındakilere satış yapmaya başla";
 "onboarding_direct_camera_alert_title" = "Nakit Kazanmaya Başla!";
+"onboarding_location_permissions_alert_subtitle" = "Yakın çevrendekiler yerine her yerde yayınlanmış ürünleri göreceksin";
+"onboarding_location_permissions_alert_title" = "Emin misin?";
 "onboarding_login_skip" = "Geç";
+"onboarding_notifications_permissions_alert_subtitle" = "Yeni mesajlarını görebilmek için letgo'yu açman gerekecek.";
+"onboarding_notifications_permissions_alert_title" = "Emin misin?";
+"onboarding_posting_alert_subtitle" = "Gerçekten satmak istemiyorsan sonra silebilirsin";
+"onboarding_posting_alert_title" = "Bir kitap, saat, gözlük yükleyerek deneyebilirsin...";
 "onboarding_posting_button_a" = "Eşyalarını Sat";
 "onboarding_posting_button_b" = "Başla";
 "onboarding_posting_button_c" = "Evet, satılık eşyalarım var";

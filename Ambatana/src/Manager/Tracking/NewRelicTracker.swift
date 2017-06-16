@@ -20,7 +20,9 @@ final class NewRelicTracker: Tracker {
     private static let UserSessionType = "user"
     private static let guestSessionType = "guest"
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?,
+                     featureFlags: FeatureFlaggeable) {
     }
 
     func application(_ application: UIApplication, openURL url: URL, sourceApplication: String?, annotation: Any?) {

@@ -17,7 +17,7 @@ enum VisibilityFormat {
 protocol RateBuyersViewModelDelegate: BaseViewModelDelegate {}
 
 class RateBuyersViewModel: BaseViewModel {
-    static let itemsOnCompactFormat = 3
+    static let maxItemsOnCompactFormat = 3
 
     weak var navigator: RateBuyersNavigator?
     weak var delegate: RateBuyersViewModelDelegate?
@@ -28,7 +28,7 @@ class RateBuyersViewModel: BaseViewModel {
     let source: SourceRateBuyers?
     let tracker: Tracker
     fileprivate let trackingInfo: MarkAsSoldTrackingInfo
-    let visibilityFormat = Variable<VisibilityFormat>(.compact(visibleElements: RateBuyersViewModel.itemsOnCompactFormat))
+    let visibilityFormat: Variable<VisibilityFormat>
     
     
     // MARK: - Lifecycle
@@ -42,6 +42,8 @@ class RateBuyersViewModel: BaseViewModel {
         self.possibleBuyers = buyers
         self.listingId = listingId
         self.trackingInfo = trackingInfo
+        let visibleElements = min(RateBuyersViewModel.maxItemsOnCompactFormat, possibleBuyers.count)
+        self.visibilityFormat = Variable<VisibilityFormat>(.compact(visibleElements: visibleElements))
         self.listingRepository = listingRepository
         self.source = source
         self.tracker = tracker
@@ -60,7 +62,7 @@ class RateBuyersViewModel: BaseViewModel {
     }
     
     var shouldShowSeeMoreOption: Bool {
-        return RateBuyersViewModel.itemsOnCompactFormat < possibleBuyers.count
+        return possibleBuyers.count > RateBuyersViewModel.maxItemsOnCompactFormat
     }
 
     
@@ -120,7 +122,8 @@ class RateBuyersViewModel: BaseViewModel {
         case .compact:
             visibilityFormat.value = .full
         case .full:
-            visibilityFormat.value = .compact(visibleElements: RateBuyersViewModel.itemsOnCompactFormat)
+            let visibleElements = min(RateBuyersViewModel.maxItemsOnCompactFormat, possibleBuyers.count)
+            visibilityFormat.value = .compact(visibleElements: visibleElements)
         }
     }
 
@@ -157,7 +160,8 @@ class RateBuyersViewModel: BaseViewModel {
     }
     
     func bottomBorderAt(index: Int) -> Bool {
-        return 0..<buyersToShow ~= index
+        guard 0..<buyersToShow ~= index else { return true }
+        return index == buyersToShow - 1
     }
     
     func topBorderAt(index: Int) -> Bool {

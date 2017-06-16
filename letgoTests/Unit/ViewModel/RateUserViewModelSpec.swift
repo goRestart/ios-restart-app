@@ -354,6 +354,10 @@ class RateUserViewModelSpec: BaseViewModelSpec {
                     it("does not enable send button") {
                         expect(sendEnabledObserver.eventValues) == [false, false]
                     }
+                    
+                    it("description char limit gets updated") {
+                        expect(sut.descriptionCharLimit.value) != 255
+                    }
                 }
                 
                 context("rating selected and tags selected") {
@@ -399,12 +403,16 @@ class RateUserViewModelSpec: BaseViewModelSpec {
             }
             
             context("comment state") {
+                var previousDescriptionCharLimit: Int!
+                
                 beforeEach {
                     sut.ratingStarPressed(3)
                     sut.selectTagAt(index: 0)
                     let userRating = MockUserRating.makeMock()
                     userRatingRepository.ratingResult = UserRatingResult(value: userRating)
                     sut.sendButtonPressed()
+                    
+                    previousDescriptionCharLimit = sut.descriptionCharLimit.value
                 }
                 
                 describe("leave comment empty") {
@@ -420,6 +428,10 @@ class RateUserViewModelSpec: BaseViewModelSpec {
                     
                     it("enables send button") {
                         expect(sut.sendEnabled.value).toEventually(beTrue())
+                    }
+                    
+                    it("updates the description char limit") {
+                        expect(sut.descriptionCharLimit.value) != previousDescriptionCharLimit
                     }
                     
                     describe("wait for send button to be enabled and press send button") {
@@ -453,6 +465,25 @@ class RateUserViewModelSpec: BaseViewModelSpec {
                                 expect(self.delegateReceivedShowAutoFadingMessage).toEventually(beTrue())
                             }
                         }
+                    }
+                }
+                
+                describe("type a super long comment") {
+                    beforeEach {
+                        sut.description.value = "comment comment comment comment comment comment comment comment " +
+                                                "comment comment comment comment comment comment comment comment " +
+                                                "comment comment comment comment comment comment comment comment " +
+                                                "comment comment comment comment comment comment comment comment " +
+                                                "comment comment comment comment comment comment comment comment " +
+                                                "comment comment comment comment comment comment comment comment "
+                    }
+                    
+                    it("disables send button") {
+                        expect(sut.sendEnabled.value).toEventually(beFalse())
+                    }
+                    
+                    it("updates the description char limit to negative value") {
+                        expect(sut.descriptionCharLimit.value) < 0
                     }
                 }
             }

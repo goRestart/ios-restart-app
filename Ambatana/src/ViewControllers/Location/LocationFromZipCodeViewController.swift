@@ -71,12 +71,13 @@ fileprivate extension LocationFromZipCodeViewController {
 
         currentLocationButton.setTitle(LGLocalizedString.changeLocationZipCurrentLocationButton, for: .normal)
         currentLocationButton.setTitleColor(UIColor.primaryColor, for: .normal)
+        currentLocationButton.setTitleColor(UIColor.primaryColorHighlighted, for: .highlighted)
         currentLocationButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 30)
         currentLocationButton.addTarget(self, action: #selector(currentLocationButtonPressed), for: .touchUpInside)
 
         leftLineView.backgroundColor = UIColor.gray
         rightLineView.backgroundColor = UIColor.gray
-        orLabel.font = UIFont.mediumBodyFont
+        orLabel.font = UIFont.smallBodyFont
         orLabel.textColor = UIColor.darkGrayText
         orLabel.text = LGLocalizedString.commonOr.uppercase
         orLabel.textAlignment = .center
@@ -98,7 +99,7 @@ fileprivate extension LocationFromZipCodeViewController {
         addressLabel.textColor = UIColor.grayText
         addressLabel.text = ""
         addressLabel.textAlignment = .right
-        pointerImageView.image = UIImage(named: "ic_location")
+        pointerImageView.image = UIImage(named: "ic_location_light")
         pointerImageView.contentMode = .scaleAspectFit
 
         addressActivityIndicator.stopAnimating()
@@ -138,12 +139,21 @@ fileprivate extension LocationFromZipCodeViewController {
         titleLabel.layout().height(20)
         titleLabel.layout(with: closeButton).centerY()
         titleLabel.layout(with: closeButton).leading(to: .trailing, by: Metrics.margin)
+        titleLabel.layout(with: scrollView).centerX()
 
-        infoSelectionContainer.layout(with: scrollView).center()
+        infoSelectionContainer.layout(with: scrollView)
+            .center()
+            .trailingMargin(by: -Metrics.margin, relatedBy: .lessThanOrEqual)
+            .leadingMargin(by: Metrics.margin, relatedBy: .greaterThanOrEqual)
         infoSelectionContainer.layout().width(50, relatedBy: .greaterThanOrEqual)
         infoSelectionContainer.layout(with: titleLabel).top(to: .bottomMargin, by: Metrics.margin, relatedBy: .greaterThanOrEqual)
 
-        currentLocationButton.layout(with: infoSelectionContainer).topMargin().centerX()
+        currentLocationButton.layout(with: infoSelectionContainer)
+            .topMargin()
+            .centerX()
+            .trailingMargin(by: -Metrics.veryBigMargin, relatedBy: .lessThanOrEqual)
+            .leadingMargin(by: Metrics.veryBigMargin, relatedBy: .greaterThanOrEqual)
+        
         orLabel.layout(with: infoSelectionContainer).centerX()
         orLabel.layout(with: currentLocationButton).below(by: Metrics.veryBigMargin)
         orLabel.layout(with: leftLineView).leading(to: .trailing, by: Metrics.shortMargin).centerY()
@@ -180,6 +190,7 @@ fileprivate extension LocationFromZipCodeViewController {
         viewModel.setLocationButtonVisible.asObservable().map{ !$0 }.bindTo(setLocationButton.rx.isHidden).addDisposableTo(disposeBag)
         viewModel.setLocationButtonEnabled.asObservable().bindTo(setLocationButton.rx.isEnabled).addDisposableTo(disposeBag)
         viewModel.fullAddressVisible.asObservable().map{ !$0 }.bindTo(fullAddressContainer.rx.isHidden).addDisposableTo(disposeBag)
+        viewModel.setDigitsTipLabelVisible.asObservable().map{ !$0 }.bindTo(minDigitsLabel.rx.isHidden).addDisposableTo(disposeBag)
         viewModel.fullAddress.asObservable().bindTo(addressLabel.rx.text).addDisposableTo(disposeBag)
         viewModel.isResolvingAddress.asObservable().bindNext { [weak self] isResolving in
             if isResolving {
@@ -200,6 +211,7 @@ fileprivate extension LocationFromZipCodeViewController {
     }
 
     dynamic func closeButtonPressed() {
+        zipCodeTextField.resignFirstResponder()
         viewModel.close()
     }
 
@@ -208,6 +220,7 @@ fileprivate extension LocationFromZipCodeViewController {
     }
 
     dynamic func setLocationPressed() {
+        zipCodeTextField.resignFirstResponder()
         viewModel.setNewLocation()
     }
 
@@ -234,7 +247,7 @@ extension LocationFromZipCodeViewController: UITextFieldDelegate {
         guard !string.hasEmojis() else { return false }
         guard string.isOnlyDigits else { return false }
         let text = textField.textReplacingCharactersInRange(range, replacementString: string)
-        guard text.characters.count <= viewModel.countryCode.zipCodeLenght else { return false }
+        guard text.characters.count <= viewModel.zipLenghtForCountry else { return false }
         return true
     }
 }

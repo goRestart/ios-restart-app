@@ -145,6 +145,13 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         endEdit()
     }
 
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        // we want to show the selected tags when the user closes the product detail too.  Also:
+        // ⚠️ not showing the tags collection view causes a crash when trying to reload the collection data
+        // ⚠️ while not visible (ABIOS-2696)
+        showTagsView(viewModel.tags.count > 0, updateInsets: true)
+    }
 
     // MARK: - ScrollableToTop
 
@@ -220,7 +227,11 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         loadTagsViewWithTags(tags)
     }
 
-    
+    func vmFiltersChanged() {
+        setFiltersNavBarButton()
+    }
+
+
     // MARK: UITextFieldDelegate Methods
 
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
@@ -326,8 +337,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     }
     
     private func setFiltersNavBarButton() {
-        let tagsIsEmpty = tagsViewController?.tags.isEmpty ?? false
-        setLetGoRightButtonWith(imageName: tagsIsEmpty ? "ic_filters" : "ic_filters_active",
+        setLetGoRightButtonWith(imageName: viewModel.hasFilters ? "ic_filters_active" : "ic_filters",
                                 renderingMode: .alwaysOriginal, selector: "filtersButtonPressed:")
     }
     
@@ -386,10 +396,8 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     }
 
     private func setupSearchAndTrending() {
-        // Add search text field
         navbarSearch.searchTextField.delegate = self
         setNavBarTitleStyle(.custom(navbarSearch))
-
         setupSuggestionsTable()
     }
 

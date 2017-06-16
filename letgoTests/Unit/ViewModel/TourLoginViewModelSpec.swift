@@ -39,7 +39,7 @@ class TourLoginViewModelSpec: QuickSpec {
             describe("style initialisation") {
                 beforeEach {
                     featureFlags = MockFeatureFlags()
-                    featureFlags.syncedDataVar.value = false
+                    featureFlags.trackingDataVar.value = nil
 
                     let sessionManager = MockSessionManager()
                     let installationRepository = MockInstallationRepository()
@@ -74,7 +74,7 @@ class TourLoginViewModelSpec: QuickSpec {
                         beforeEach {
                             createTourLoginViewModel()
                             featureFlags.onboardingReview = .testA
-                            featureFlags.syncedDataVar.value = true
+                            featureFlags.trackingDataVar.value = ["testA-true"]
                         }
                         it("sets status .active(closeEnabled: true, emailAsField: true)") {
                             XCTAssertEqual(stateObserver.events, [next(0, .loading), next(0, .active(closeEnabled: true, emailAsField: true))])
@@ -87,7 +87,7 @@ class TourLoginViewModelSpec: QuickSpec {
                         beforeEach {
                             createTourLoginViewModel()
                             featureFlags.onboardingReview = .testB
-                            featureFlags.syncedDataVar.value = true
+                            featureFlags.trackingDataVar.value = ["testB-true"]
                         }
                         it("sets status .active(closeEnabled: false, emailAsField: true)") {
                             XCTAssertEqual(stateObserver.events, [next(0, .loading), next(0, .active(closeEnabled: false, emailAsField: true))])
@@ -100,7 +100,7 @@ class TourLoginViewModelSpec: QuickSpec {
                         beforeEach {
                             createTourLoginViewModel()
                             featureFlags.onboardingReview = .testC
-                            featureFlags.syncedDataVar.value = true
+                            featureFlags.trackingDataVar.value = ["testC-true"]
                         }
                         it("sets status .active(closeEnabled: true, emailAsField: false)") {
                             XCTAssertEqual(stateObserver.events, [next(0, .loading), next(0, .active(closeEnabled: true, emailAsField: false))])
@@ -113,7 +113,7 @@ class TourLoginViewModelSpec: QuickSpec {
                         beforeEach {
                             createTourLoginViewModel()
                             featureFlags.onboardingReview = .testD
-                            featureFlags.syncedDataVar.value = true
+                            featureFlags.trackingDataVar.value = ["testD-true"]
                         }
                         it("sets status .active(closeEnabled: false, emailAsField: false)") {
                             XCTAssertEqual(stateObserver.events, [next(0, .loading), next(0, .active(closeEnabled: false, emailAsField: false))])

@@ -1343,6 +1343,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("forced_update_update_button", comment: "")
 	}
 
+	static var helpTermsConditionsPrivacyPart: String {
+		return NSLocalizedString("help_terms_conditions_privacy_part", comment: "")
+	}
+
 	static var helpTitle: String {
 		return NSLocalizedString("help_title", comment: "")
 	}
@@ -1889,6 +1893,38 @@ struct LGLocalizedString {
 
 	static var onboardingPostingButtonC: String {
 		return NSLocalizedString("onboarding_posting_button_c", comment: "")
+	}
+
+	static var onboardingLocationPermissionsAlertTitle: String {
+		return NSLocalizedString("onboarding_location_permissions_alert_title", comment: "")
+	}
+
+	static var onboardingLocationPermissionsAlertSubtitle: String {
+		return NSLocalizedString("onboarding_location_permissions_alert_subtitle", comment: "")
+	}
+
+	static var onboardingNotificationsPermissionsAlertTitle: String {
+		return NSLocalizedString("onboarding_notifications_permissions_alert_title", comment: "")
+	}
+
+	static var onboardingNotificationsPermissionsAlertSubtitle: String {
+		return NSLocalizedString("onboarding_notifications_permissions_alert_subtitle", comment: "")
+	}
+
+	static var onboardingPostingAlertTitle: String {
+		return NSLocalizedString("onboarding_posting_alert_title", comment: "")
+	}
+
+	static var onboardingPostingAlertSubtitle: String {
+		return NSLocalizedString("onboarding_posting_alert_subtitle", comment: "")
+	}
+
+	static var onboardingAlertYes: String {
+		return NSLocalizedString("onboarding_alert_yes", comment: "")
+	}
+
+	static var onboardingAlertNo: String {
+		return NSLocalizedString("onboarding_alert_no", comment: "")
 	}
 
 	static var passiveBuyersTitle: String {

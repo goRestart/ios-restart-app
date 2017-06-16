@@ -57,11 +57,10 @@ class PossibleBuyerCell: UITableViewCell, ReusableCell {
             } else {
                 userImage.image = UIImage(named: "user_placeholder")
             }
-            if bottomBorder {
-                separators.append(addBottomViewBorderWith(width: LGUIKitConstants.onePixelSize,
+            let leftMargin = bottomBorder ? 0 : PossibleBuyerCell.leftMarginLabel
+            separators.append(addBottomViewBorderWith(width: LGUIKitConstants.onePixelSize,
                                                       color: UIColor.lineGray,
-                                                      leftMargin: PossibleBuyerCell.leftMarginLabel))
-            }
+                                                      leftMargin: leftMargin))
         case .otherCell:
             leftMarginLabelConstraint.constant = Metrics.margin
             if bottomBorder {
