@@ -28,6 +28,8 @@ final class TourLocationViewModel: BaseViewModel {
 
     let typePage: EventParameterTypePage
     let featureFlags: FeatureFlaggeable
+    let locationManager: LocationManager
+    let tracker: Tracker
     
     weak var navigator: TourLocationNavigator?
     weak var delegate: TourLocationViewModelDelegate?
@@ -35,12 +37,16 @@ final class TourLocationViewModel: BaseViewModel {
     private let disposeBag = DisposeBag()
 
     convenience init(source: EventParameterTypePage) {
-        self.init(source: source, locationManager: Core.locationManager, featureFlags: FeatureFlags.sharedInstance)
+        self.init(source: source, locationManager: Core.locationManager,
+                  featureFlags: FeatureFlags.sharedInstance,
+                  tracker: TrackerProxy.sharedInstance)
     }
 
-    init(source: EventParameterTypePage, locationManager: LocationManager, featureFlags: FeatureFlags) {
+    init(source: EventParameterTypePage, locationManager: LocationManager, featureFlags: FeatureFlags, tracker: Tracker) {
         self.typePage = source
         self.featureFlags = featureFlags
+        self.locationManager = locationManager
+        self.tracker = tracker
         super.init()
 
         locationManager.locationEvents.map { $0 == .changedPermissions }.observeOn(MainScheduler.instance)
@@ -58,7 +64,7 @@ final class TourLocationViewModel: BaseViewModel {
     func viewDidLoad() {
         let trackerEvent = TrackerEvent.permissionAlertStart(.location, typePage: typePage, alertType: .fullScreen,
             permissionGoToSettings: .notAvailable)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+        tracker.trackEvent(trackerEvent)
     }
     
     func userDidTapNoButton() {
@@ -82,17 +88,17 @@ final class TourLocationViewModel: BaseViewModel {
     private func closeTourLocation() {
         let trackerEvent = TrackerEvent.permissionAlertCancel(.location, typePage: typePage, alertType: .fullScreen,
                                                               permissionGoToSettings: .notAvailable)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+        tracker.trackEvent(trackerEvent)
         nextStep()
     }
     
     private func askForPermissions() {
         let trackerEvent = TrackerEvent.permissionAlertComplete(.location, typePage: typePage, alertType: .fullScreen,
                                                                 permissionGoToSettings: .notAvailable)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+        tracker.trackEvent(trackerEvent)
         
         let trackerSystemEvent = TrackerEvent.permissionSystemStart(.location, typePage: typePage)
-        TrackerProxy.sharedInstance.trackEvent(trackerSystemEvent)
-        Core.locationManager.startSensorLocationUpdates()
+        tracker.trackEvent(trackerSystemEvent)
+        locationManager.startSensorLocationUpdates()
     }
 }
