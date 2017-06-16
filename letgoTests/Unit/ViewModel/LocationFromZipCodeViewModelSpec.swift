@@ -33,15 +33,15 @@ class LocationFromZipCodeViewModelSpec: BaseViewModelSpec {
                         let place = Place(postalAddress: postalAddress, location: location)
 
                         searchService = MockSearchLocationSuggestionsService(value: [place])
-
                         postalAddressService = MockPostalAddressRetrievalService(value: place)
+                        tracker = MockTracker()
 
                         sut = LocationFromZipCodeViewModel(initialPlace: nil,
                                                            distanceRadius: nil,
                                                            locationManager: locationManager,
                                                            searchService: searchService,
                                                            postalAddressService: postalAddressService,
-                                                           tracker: MockTracker())
+                                                           tracker: tracker)
                     }
                     context ("zip code has a correct format") {
                         beforeEach {
@@ -105,7 +105,7 @@ class LocationFromZipCodeViewModelSpec: BaseViewModelSpec {
                                                            locationManager: locationManager,
                                                            searchService: searchService,
                                                            postalAddressService: postalAddressService,
-                                                           tracker: MockTracker())
+                                                           tracker: tracker)
                     }
                     context ("zip code has a correct format") {
                         beforeEach {
@@ -154,7 +154,7 @@ class LocationFromZipCodeViewModelSpec: BaseViewModelSpec {
                                                            locationManager: locationManager,
                                                            searchService: searchService,
                                                            postalAddressService: postalAddressService,
-                                                           tracker: MockTracker())
+                                                           tracker: tracker)
                     }
                     context ("zip code has a correct format") {
                         beforeEach {
@@ -222,7 +222,7 @@ class LocationFromZipCodeViewModelSpec: BaseViewModelSpec {
                                                            locationManager: locationManager,
                                                            searchService: searchService,
                                                            postalAddressService: postalAddressService,
-                                                           tracker: MockTracker())
+                                                           tracker: tracker)
                     }
                     context ("zip code has a correct format") {
                         beforeEach {
