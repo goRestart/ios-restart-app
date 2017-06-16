@@ -383,7 +383,6 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                             let productListModels = products.map { ListingCellModel.listingCell(listing: .product($0)) }
                             productListRequester.generateItems(30)
                             buildSut(productListModels: productListModels, initialProduct: product)
-                            self.waitFor(timeout: 0.2)
                         }
                         it("doesn't paginate initially") {
                             expect(sut.objectCount).toNot(beGreaterThan(20))
@@ -423,7 +422,6 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                     describe("move to item before threshold") {
                         beforeEach {
                             sut.moveToProductAtIndex(172, movement: .swipeRight)
-                            self.waitFor(timeout: 0.2)
                         }
                         it("doesn't paginate") {
                             expect(sut.objectCount).toNot(beGreaterThan(180))
@@ -632,19 +630,18 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                     beforeEach {
                         buildSut(initialProduct: product)
                         sut.active = true
-                        self.waitFor(timeout: 0.2)
                     }
                     it("doesn't update favorite / reported as user is logged out") {
                         expect(isFavoriteObserver.eventValues.count) == 1
                     }
                     it("updates product stats") {
-                        expect(productStatsObserver.eventValues.count) == 2
+                        expect(productStatsObserver.eventValues.count).toEventually(equal(2))
                     }
                     it("matches product views") {
-                        expect(productStatsObserver.eventValues.flatMap {$0}.last?.viewsCount) == stats.viewsCount
+                        expect(productStatsObserver.eventValues.flatMap {$0}.last?.viewsCount).toEventually(equal(stats.viewsCount))
                     }
                     it("matches product favorites") {
-                        expect(productStatsObserver.eventValues.flatMap {$0}.last?.favouritesCount) == stats.favouritesCount
+                        expect(productStatsObserver.eventValues.flatMap {$0}.last?.favouritesCount).toEventually(equal(stats.favouritesCount))
                     }
                     it("share button state is hidden") {
                         expect(shareButtonStateObserver.eventValues) == [.hidden]

@@ -500,7 +500,7 @@ extension PostProductGalleryView {
 
     private func animateAlbumTickDirectionTop(_ top: Bool) {
         UIView.animate(withDuration: 0.2, animations: { [weak self] in
-            self?.albumButtonTick.transform = CGAffineTransform(rotationAngle: top ? CGFloat(M_PI) : 0)
+            self?.albumButtonTick.transform = CGAffineTransform(rotationAngle: top ? CGFloat(Double.pi) : 0)
         })
     }
 }

@@ -63,7 +63,7 @@ extension Collection where Iterator.Element: Decodable, Iterator.Element == Iter
      */
     static func filteredDecode(_ j: JSON) -> Decoded<[Generator.Element]> {
         switch j {
-        case let .array(a): return filteredSequence(a.map(Generator.Element.decode))
+        case let .array(a): return filteredSequence(a.map(Iterator.Element.decode))
         default: return .typeMismatch(expected: "array", actual: j)
         }
     }

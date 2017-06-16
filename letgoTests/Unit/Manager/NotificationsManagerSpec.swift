@@ -138,8 +138,6 @@ class NotificationsManagerSpec: QuickSpec {
                         beforeEach {
                             sessionManager.loggedIn = false
                             sut.setup()
-                            let _ = self.expectation(description: "Wait for network calls")
-                            self.waitForExpectations(timeout: 0.2, handler: nil)
                         }
                         it("unreadMessagesCount just emits a nil value") {
                             XCTAssertEqual(unreadMessagesObserver.events, [next(0, nil)])
@@ -160,17 +158,15 @@ class NotificationsManagerSpec: QuickSpec {
                                 featureFlags.websocketChat = false
                                 featureFlags.userReviews = false
                                 sut.setup()
-                                let _ = self.expectation(description: "Wait for network calls")
-                                self.waitForExpectations(timeout: 0.2, handler: nil)
                             }
                             it("unreadMessagesCount emits a nil and then the 10") {
-                                XCTAssertEqual(unreadMessagesObserver.events, [next(0, nil), next(0, 10)])
+                                expect(unreadMessagesObserver.eventValues).toEventually(equal([nil, 10]))
                             }
                             it("unreadNotificationsCount emits and then the 12") {
-                                XCTAssertEqual(unreadNotificationsObserver.events, [next(0, nil), next(0, 12)])
+                                expect(unreadNotificationsObserver.eventValues).toEventually(equal([nil, 12]))
                             }
                             it("globalCount is 22") {
-                                expect(globalCountObserver.events.last?.value.element!) == 22
+                                expect(globalCountObserver.events.last?.value.element!).toEventually(equal(22))
                             }
                         }
                         context("new chat & review enabled") {
@@ -178,17 +174,15 @@ class NotificationsManagerSpec: QuickSpec {
                                 featureFlags.websocketChat = true
                                 featureFlags.userReviews = true
                                 sut.setup()
-                                let _ = self.expectation(description: "Wait for network calls")
-                                self.waitForExpectations(timeout: 0.2, handler: nil)
                             }
                             it("unreadMessagesCount emits a nil and then the 7") {
-                                XCTAssertEqual(unreadMessagesObserver.events, [next(0, nil), next(0, 7)])
+                                expect(unreadMessagesObserver.eventValues).toEventually(equal([nil, 7]))
                             }
                             it("unreadNotificationsCount emits and then the 14") {
-                                XCTAssertEqual(unreadNotificationsObserver.events, [next(0, nil), next(0, 16)])
+                                expect(unreadNotificationsObserver.eventValues).toEventually(equal([nil, 16]))
                             }
                             it("globalCount is 23") {
-                                expect(globalCountObserver.events.last?.value.element!) == 23
+                                expect(globalCountObserver.events.last?.value.element!).toEventually(equal(23))
                             }
                         }
                     }
@@ -295,17 +289,15 @@ class NotificationsManagerSpec: QuickSpec {
                             featureFlags.userReviews = false
                             sut.setup()
                             doLogin()
-                            let _ = self.expectation(description: "Wait for network calls")
-                            self.waitForExpectations(timeout: 0.2, handler: nil)
                         }
                         it("unreadMessagesCount emits a nil and then the 10") {
-                            XCTAssertEqual(unreadMessagesObserver.events, [next(0, nil), next(0, 10)])
+                            expect(unreadMessagesObserver.eventValues).toEventually(equal([nil, 10]))
                         }
-                        it("unreadNotificationsCount emits and then the 10") {
-                            XCTAssertEqual(unreadNotificationsObserver.events, [next(0, nil), next(0, 12)])
+                        it("unreadNotificationsCount emits and then the 12") {
+                            expect(unreadNotificationsObserver.eventValues).toEventually(equal([nil, 12]))
                         }
                         it("globalCount is 22") {
-                            expect(globalCountObserver.events.last?.value.element!) == 22
+                            expect(globalCountObserver.events.last?.value.element!).toEventually(equal(22))
                         }
                     }
                     context("new chat & review enabled") {
@@ -314,17 +306,15 @@ class NotificationsManagerSpec: QuickSpec {
                             featureFlags.userReviews = true
                             sut.setup()
                             doLogin()
-                            let _ = self.expectation(description: "Wait for network calls")
-                            self.waitForExpectations(timeout: 0.2, handler: nil)
                         }
                         it("unreadMessagesCount emits a nil and then the 7") {
-                            XCTAssertEqual(unreadMessagesObserver.events, [next(0, nil), next(0, 7)])
+                            expect(unreadMessagesObserver.eventValues).toEventually(equal([nil, 7]))
                         }
                         it("unreadNotificationsCount emits and then the 16") {
-                            XCTAssertEqual(unreadNotificationsObserver.events, [next(0, nil), next(0, 16)])
+                            expect(unreadNotificationsObserver.eventValues).toEventually(equal([nil, 16]))
                         }
                         it("globalCount is 23") {
-                            expect(globalCountObserver.events.last?.value.element!) == 23
+                            expect(globalCountObserver.events.last?.value.element!).toEventually(equal(23))
                         }
                     }
                 }
@@ -386,15 +376,15 @@ class NotificationsManagerSpec: QuickSpec {
                             featureFlags.websocketChat = false
                             featureFlags.userReviews = false
                             sut.setup()
-                            let _ = self.expectation(description: "Wait for network calls")
-                            self.waitForExpectations(timeout: 0.2, handler: nil)
+                            expect(unreadMessagesObserver.eventValues).toEventually(equal([nil, 10]))
+                            expect(unreadNotificationsObserver.eventValues).toEventually(equal([nil, 12]))
                             doLogout()
                         }
                         it("unreadMessagesCount emits a nil, 10 and 0") {
-                            XCTAssertEqual(unreadMessagesObserver.events, [next(0, nil), next(0, 10), next(0, nil)])
+                            expect(unreadMessagesObserver.eventValues).toEventually(equal([nil, 10, nil]))
                         }
                         it("unreadNotificationsCount emits nil, 12 and 0") {
-                            XCTAssertEqual(unreadNotificationsObserver.events, [next(0, nil), next(0, 12), next(0, nil)])
+                            expect(unreadNotificationsObserver.eventValues).toEventually(equal([nil, 12, nil]))
                         }
                         it("globalCount is 0") {
                             expect(globalCountObserver.events.last?.value.element!) == 0
@@ -405,15 +395,15 @@ class NotificationsManagerSpec: QuickSpec {
                             featureFlags.websocketChat = true
                             featureFlags.userReviews = true
                             sut.setup()
-                            let _ = self.expectation(description: "Wait for network calls")
-                            self.waitForExpectations(timeout: 0.2, handler: nil)
+                            expect(unreadMessagesObserver.eventValues).toEventually(equal([nil, 7]))
+                            expect(unreadNotificationsObserver.eventValues).toEventually(equal([nil, 16]))
                             doLogout()
                         }
                         it("unreadMessagesCount emits a nil, 7 and 0") {
-                            XCTAssertEqual(unreadMessagesObserver.events, [next(0, nil), next(0, 7), next(0, nil)])
+                            expect(unreadMessagesObserver.eventValues).toEventually(equal([nil, 7, nil]))
                         }
                         it("unreadNotificationsCount emits nil, 16 and 0") {
-                            XCTAssertEqual(unreadNotificationsObserver.events, [next(0, nil), next(0, 16), next(0, nil)])
+                            expect(unreadNotificationsObserver.eventValues).toEventually(equal([nil, 16, nil]))
                         }
                         it("globalCount is 0") {
                             expect(globalCountObserver.events.last?.value.element!) == 0
@@ -503,7 +493,6 @@ class NotificationsManagerSpec: QuickSpec {
                         describe("user receives push notification") {
                             beforeEach {
                                 deepLinksRouter.deepLinksSignal.onNext(DeepLink.makeChatMock())
-                                self.waitFor(timeout: 0.2)
                             }
                             it("doesn't update anything") {
                                 XCTAssertEqual(unreadMessagesObserver.events, [next(0, nil), next(0, 0)])

@@ -19,7 +19,6 @@ class LocationFromZipCodeViewModelSpec: BaseViewModelSpec {
             var locationManager: LocationManager!
             var searchService: MockSearchLocationSuggestionsService!
             var postalAddressService: MockPostalAddressRetrievalService!
-            var tracker: MockTracker!
 
             var sut: LocationFromZipCodeViewModel!
 
@@ -91,6 +90,7 @@ class LocationFromZipCodeViewModelSpec: BaseViewModelSpec {
                 context ("services don't work") {
                     beforeEach {
                         locationManager = MockLocationManager()
+
                         searchService = MockSearchLocationSuggestionsService(error: .notFound)
                         postalAddressService = MockPostalAddressRetrievalService(error: .network)
 

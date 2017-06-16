@@ -23,7 +23,7 @@
 "bump_up_banner_wait_text" = "để đẩy lên lại";
 "bump_up_error_bump_generic" = "Có lỗi trong khi đẩy sản phẩm của bạn lên. Xin vui lòng thử lại.";
 "bump_up_error_bump_token" = "Thanh toán của bạn đã được tiến hành nhưng sản phẩm chưa được đẩy lên.";
-"bump_up_error_payment_failed" = "Có lỗi xảy ra trong khi đẩy sản phẩm của bạn lên. Thanh toán của bạn chưa được tiến hành. Xin vui lòng thử lại.";
+"bump_up_error_payment_failed" = "Không thể kết nối với Cửa hàng của Ứng dụng. Thanh toán của bạn chưa được tiến hành. Xin vui lòng thử lại.";
 "bump_up_free_success" = "Đẩy lên! Hãy liên tục đẩy sản phẩm lên để dễ thấy hơn nữa.";
 "bump_up_pay_success" = "Đẩy lên! Sản phẩm của bạn hiện đã dễ thấy hơn.";
 "bump_up_processing_free_text" = "Đang tiến hành đẩy lên...";
@@ -331,6 +331,7 @@
 "forced_update_message" = "Đã có phiên bản letgo mới. Hãy tải xuống ngay bây giờ.";
 "forced_update_title" = "Có bản cập nhật mới";
 "forced_update_update_button" = "Cập nhật";
+"help_terms_conditions_privacy_part" = "Chính sách Bảo mật";
 "help_title" = "Trợ giúp";
 "hidden_email_tag" = "[EMAIL BỊ ẨN]";
 "hidden_phone_tag" = "[SỐ ĐIỆN THOẠI BỊ ẨN]";
@@ -439,9 +440,17 @@
 "nps_survey_title" = "CHÚNG TÔI MUỐN BIẾT...";
 "nps_survey_very_bad" = "Không thích lắm";
 "nps_survey_very_good" = "Đặc biệt thích";
+"onboarding_alert_no" = "Không";
+"onboarding_alert_yes" = "Có";
 "onboarding_direct_camera_alert_subtitle" = "Đăng sản phẩm đầu tiên và bắt đầu bán cho những người quanh bạn!";
 "onboarding_direct_camera_alert_title" = "Bắt đầu Kiếm Tiền mặt!";
+"onboarding_location_permissions_alert_subtitle" = "Bạn sẽ xem sản phẩm được đăng tại tất cả địa điểm thay vì tại địa điểm gần bạn";
+"onboarding_location_permissions_alert_title" = "Bạn có chắc chắn?";
 "onboarding_login_skip" = "Bỏ qua";
+"onboarding_notifications_permissions_alert_subtitle" = "Bạn sẽ phải mở letgo để xem nếu bạn có tin nhắn mới";
+"onboarding_notifications_permissions_alert_title" = "Bạn có chắc chắn?";
+"onboarding_posting_alert_subtitle" = "Bạn có thể xóa nó sau nếu bạn thực sự không muốn bán";
+"onboarding_posting_alert_title" = "Thử bằng cách đăng một cuốn sách, đồng hồ hay kính của bạn...";
 "onboarding_posting_button_a" = "Bán Đồ của Bạn";
 "onboarding_posting_button_b" = "Bắt đầu";
 "onboarding_posting_button_c" = "Có, tôi có đồ để bán";
@@ -544,6 +553,12 @@
 "product_more_info_tooltip_part_1" = "Chạm";
 "product_more_info_tooltip_part_2" = "%@ để xem thêm thông tin";
 "product_negotiable_price" = "Có thể thương lượng";
+"product_new_onboarding_finger_keep_swipe_highlighted_label" = "Tiếp tục vuốt";
+"product_new_onboarding_finger_keep_swipe_label" = "%@ về sau hoặc trước để đi tới sản phẩm trước hoặc tiếp theo";
+"product_new_onboarding_finger_swipe_highlighted_label" = "Vuốt";
+"product_new_onboarding_finger_swipe_label" = "%@ để xem thêm ảnh";
+"product_new_onboarding_finger_tap_highlighted_label" = "Chạm";
+"product_new_onboarding_finger_tap_label" = "%@ để đi tới sản phẩm tiếp theo";
 "product_onboarding_finger_scroll_label" = "Cuộn để xem thêm ảnh";
 "product_onboarding_finger_swipe_label" = "Vuốt để tới sản phẩm tiếp theo hoặc sản phẩm trước";
 "product_onboarding_finger_tap_label" = "Nhấn để tới sản phẩm tiếp theo";

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0820"
+   LastUpgradeVersion = "0830"
    wasCreatedForAppExtension = "YES"
    version = "2.0">
    <BuildAction
@@ -47,7 +47,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "50D08C5E1E683B4B009CC260"
+               BlueprintIdentifier = "50D08C841E69835D009CC260"
                BuildableName = "letgoUITests.xctest"
                BlueprintName = "letgoUITests"
                ReferencedContainer = "container:LetGo.xcodeproj">
@@ -57,7 +57,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "50D08C751E6980A8009CC260"
+               BlueprintIdentifier = "50D08D461E699455009CC260"
                BuildableName = "letgoTests.xctest"
                BlueprintName = "letgoTests"
                ReferencedContainer = "container:LetGo.xcodeproj">
