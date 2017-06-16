@@ -129,7 +129,7 @@ class ChatViewModel: BaseViewModel {
     fileprivate let disposeBag = DisposeBag()
     
     fileprivate var userDefaultsSubKey: String {
-        return "\(conversation.value.listing?.objectId ?? listingId) + \(buyerId ?? "offline")"
+        return "\(String(describing: conversation.value.listing?.objectId ?? listingId)) + \(buyerId ?? "offline")"
     }
 
     fileprivate var isBuyer: Bool {

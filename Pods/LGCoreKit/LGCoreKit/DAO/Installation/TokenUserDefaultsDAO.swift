@@ -31,7 +31,7 @@ class TokenUserDefaultsDAO: TokenDAO {
         storeToken(token)
         if token.level < self.token.level {
             logMessage(.warning, type: [CoreLoggingOptions.token],
-                       message: "UD: Token won't be saved as its level \(token.level) < current \(self.token.level), value: \(token.value)")
+                       message: "UD: Token won't be saved as its level \(token.level) < current \(self.token.level), value: \(String(describing: token.value))")
             return
         }
         logMessage(.verbose, type: [CoreLoggingOptions.token], message: "UD: \(token.level) token saved in-memory")
@@ -89,12 +89,12 @@ class TokenUserDefaultsDAO: TokenDAO {
     private func fetch() -> Token {
         if let userToken = get(level: .user) {
             logMessage(.verbose, type: [CoreLoggingOptions.persistence, CoreLoggingOptions.token],
-                       message: "Fetched \(userToken.level) token: \(userToken.value) from UserDefaults")
+                       message: "Fetched \(userToken.level) token: \(String(describing: userToken.value)) from UserDefaults")
             return userToken
         }
         if let installationToken = get(level: .installation) {
             logMessage(.verbose, type: [CoreLoggingOptions.persistence, CoreLoggingOptions.token],
-                       message: "Fetched \(installationToken.level) token: \(installationToken.value) from UserDefaults")
+                       message: "Fetched \(installationToken.level) token: \(String(describing: installationToken.value)) from UserDefaults")
             return installationToken
         }
         logMessage(.verbose, type: [CoreLoggingOptions.persistence, CoreLoggingOptions.token],

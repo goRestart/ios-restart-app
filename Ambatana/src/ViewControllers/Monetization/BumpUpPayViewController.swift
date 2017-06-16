@@ -68,7 +68,7 @@ class BumpUpPayViewController: BaseViewController {
         titleLabel.text = LGLocalizedString.bumpUpViewPayTitle
         subtitleLabel.text = LGLocalizedString.bumpUpViewPaySubtitle
 
-        let rotation = CGFloat(M_PI_4)
+        let rotation = CGFloat(Double.pi/4)
         featuredLabel.transform = CGAffineTransform(rotationAngle: rotation)
         featuredLabel.text = LGLocalizedString.bumpUpProductCellFeaturedStripe
         bumpUpButton.setStyle(.primary(fontSize: .medium))

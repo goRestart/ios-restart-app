@@ -70,7 +70,7 @@ class MockProductListRequester: ProductListRequester {
         return self
     }
     func isEqual(toRequester requester: ProductListRequester) -> Bool {
-        guard let requester = requester as? MockProductListRequester else { return false }
+        guard requester is MockProductListRequester else { return false }
         return true
     }
     func distanceFromProductCoordinates(_ productCoords: LGLocationCoordinates2D) -> Double? {

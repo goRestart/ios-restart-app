@@ -14,7 +14,7 @@ extension CGAffineTransform {
         let windowBounds = UIScreen.main.bounds
         let ty = windowBounds.center.y - sourceFrame.center.y
         var theTransform = CGAffineTransform(translationX: 0, y: ty)
-        theTransform = theTransform.rotated(by: CGFloat(-M_PI_2))
+        theTransform = theTransform.rotated(by: CGFloat(-Double.pi/2))
         let dx = windowBounds.height / sourceFrame.width
         let dy = windowBounds.width / sourceFrame.height
         theTransform = theTransform.scaledBy(x: dx, y: dy)

@@ -61,7 +61,7 @@ class TourPostingViewController: BaseViewController {
 
         for (index, view) in cameraCorners.enumerated() {
             guard index > 0 else { continue }
-            view.transform = CGAffineTransform(rotationAngle: CGFloat(Double(index) * M_PI_2))
+            view.transform = CGAffineTransform(rotationAngle: CGFloat(Double(index) * Double.pi/2))
         }
     }
 
