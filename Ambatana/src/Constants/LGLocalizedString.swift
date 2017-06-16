@@ -1343,6 +1343,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("forced_update_update_button", comment: "")
 	}
 
+	static var helpTermsConditionsPrivacyPart: String {
+		return NSLocalizedString("help_terms_conditions_privacy_part", comment: "")
+	}
+
 	static var helpTitle: String {
 		return NSLocalizedString("help_title", comment: "")
 	}
