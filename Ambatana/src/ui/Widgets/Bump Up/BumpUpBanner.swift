@@ -60,11 +60,11 @@ class BumpUpBanner: UIView {
     static let iconLeftMargin: CGFloat = 15
     static let timerUpdateInterval: TimeInterval = 1
 
-    private var containerView: UIView = UIView()
-    private var iconImageView: UIImageView = UIImageView()
-    private var timeLabel: UILabel = UILabel()
-    private var descriptionLabel: UILabel = UILabel()
-    private var bumpButton: UIButton = UIButton(type: .custom)
+    private let containerView: UIView = UIView()
+    private let iconImageView: UIImageView = UIImageView()
+    private let timeLabel: UILabel = UILabel()
+    private let descriptionLabel: UILabel = UILabel()
+    private let bumpButton: UIButton = UIButton(type: .custom)
 
     private var iconWidthConstraint: NSLayoutConstraint = NSLayoutConstraint()
     private var iconLeftMarginConstraint: NSLayoutConstraint = NSLayoutConstraint()
