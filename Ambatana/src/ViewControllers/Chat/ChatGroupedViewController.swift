@@ -241,7 +241,6 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedListViewDelegate
     // MARK: - Private methods
 
     private func setupUI() {
-        //TODO: remove!!!!
         #if GOD_MODE
         let chatType = featureFlags.websocketChat ? "New" : "Old"
         let leftButton = UIBarButtonItem(title: chatType, style: .plain, target: self, action: #selector(chatInfo))

@@ -7,7 +7,7 @@
 //
 
 
-// TODO: Eventually these extensions should be removed. All alert handling should be presented/dismissed via coordinator
+// ABIOS-2082 All alert handling should be presented/dismissed via coordinator
 import UIKit
 
 private struct AlertKeys {

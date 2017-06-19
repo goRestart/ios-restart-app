@@ -356,7 +356,7 @@ private extension ApiClient {
 
 
 // MARK: - Private methods (legacy)
-// TODO: must be removed as soon as all APIs use bouncer v2
+// ABIOS-2717: to be removed
 
 private extension ApiClient {
 
