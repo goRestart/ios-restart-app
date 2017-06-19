@@ -180,7 +180,7 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
         //We're using same image for the 4 corners, so 3 of them must be rotated to the correct angle
         for (index, view) in cornersContainer.subviews.enumerated() {
             guard index > 0 else { continue }
-            view.transform = CGAffineTransform(rotationAngle: CGFloat(Double(index) * M_PI_2))
+            view.transform = CGAffineTransform(rotationAngle: CGFloat(Double(index) * Double.pi/2))
         }
 
         //i18n

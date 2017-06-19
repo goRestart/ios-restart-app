@@ -410,7 +410,6 @@ class ProductViewModelSpec: BaseViewModelSpec {
                         buildProductViewModel()
                         sut.active = true
 
-                        self.waitFor(timeout: 0.5)
                         expect(sut.bumpUpBannerInfo.value).toEventually(beNil())
                     }
                     it ("banner info is nil") {
@@ -438,7 +437,6 @@ class ProductViewModelSpec: BaseViewModelSpec {
                             buildProductViewModel()
                             sut.active = true
 
-                            self.waitFor(timeout: 0.5)
                             expect(sut.bumpUpBannerInfo.value).toEventually(beNil())
                         }
                         it ("banner info is nil") {
@@ -461,7 +459,6 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                 buildProductViewModel()
                                 sut.active = true
 
-                                self.waitFor(timeout: 0.5)
                                 expect(sut.bumpUpBannerInfo.value).toEventually(beNil())
                             }
                             it ("banner info is nil") {
@@ -492,7 +489,6 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                     buildProductViewModel()
                                     sut.active = true
 
-                                    self.waitFor(timeout: 0.5)
                                     expect(sut.bumpUpBannerInfo.value).toEventually(beNil())
                                 }
                                 it ("banner info is nil") {
@@ -520,7 +516,6 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                     buildProductViewModel()
                                     sut.active = true
 
-                                    self.waitFor(timeout: 0.5)
                                     expect(sut.bumpUpBannerInfo.value).toEventually(beNil())
                                 }
                                 it ("banner info is nil") {
@@ -550,7 +545,6 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                     buildProductViewModel()
                                     sut.active = true
 
-                                    self.waitFor(timeout: 0.5)
                                     expect(sut.bumpUpBannerInfo.value).toEventuallyNot(beNil())
                                 }
                                 it ("banner info type is free") {
@@ -588,7 +582,6 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                     buildProductViewModel()
                                     sut.active = true
 
-                                    self.waitFor(timeout: 0.5)
                                     expect(sut.bumpUpBannerInfo.value).toEventuallyNot(beNil())
                                 }
                                 it ("banner info type is priced") {
@@ -627,7 +620,6 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                     buildProductViewModel()
                                     sut.active = true
 
-                                    self.waitFor(timeout: 0.5)
                                     expect(sut.bumpUpBannerInfo.value).toEventuallyNot(beNil())
                                 }
                                 it ("banner info type is restore") {
@@ -675,13 +667,11 @@ class ProductViewModelSpec: BaseViewModelSpec {
                         buildProductViewModel()
                         sut.active = true
 
-                        self.waitFor(timeout: 0.5)
-
+                        expect(sut.bumpUpPurchaseableProduct).toEventuallyNot(beNil())
                         sut.bumpUpProduct(productId: product.objectId!)
-                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
                     it ("transaction finishes with payment failed") {
-                        expect(self.lastLoadingMessageShown) == LGLocalizedString.bumpUpErrorPaymentFailed
+                        expect(self.lastLoadingMessageShown).toEventually(equal(LGLocalizedString.bumpUpErrorPaymentFailed))
                     }
                 }
                 context ("appstore payment succeeds but bump fails") {
@@ -692,13 +682,11 @@ class ProductViewModelSpec: BaseViewModelSpec {
                         buildProductViewModel()
                         sut.active = true
 
-                        self.waitFor(timeout: 0.5)
-
+                        expect(sut.bumpUpPurchaseableProduct).toEventuallyNot(beNil())
                         sut.bumpUpProduct(productId: product.objectId!)
-                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
                     it ("transaction finishes with bump failed") {
-                        expect(self.lastLoadingMessageShown) == LGLocalizedString.bumpUpErrorBumpGeneric
+                        expect(self.lastLoadingMessageShown).toEventually(equal(LGLocalizedString.bumpUpErrorBumpGeneric))
                     }
                 }
                 context ("appstore payment and bump succeed") {
@@ -709,13 +697,11 @@ class ProductViewModelSpec: BaseViewModelSpec {
                         buildProductViewModel()
                         sut.active = true
 
-                        self.waitFor(timeout: 0.5)
-
+                        expect(sut.bumpUpPurchaseableProduct).toEventuallyNot(beNil())
                         sut.bumpUpProduct(productId: product.objectId!)
-                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
                     it ("transaction finishes with bump suceeded") {
-                        expect(self.lastLoadingMessageShown) == LGLocalizedString.bumpUpPaySuccess
+                        expect(self.lastLoadingMessageShown).toEventually(equal(LGLocalizedString.bumpUpPaySuccess))
                     }
                 }
             }

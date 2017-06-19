@@ -158,6 +158,13 @@ class UserViewController: BaseViewController {
             self?.userBgImageView.alpha = 0
             })
     }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        productListView.minimumContentHeight = productListView.collectionView.frame.height - UserViewController.headerCollapsedHeight
+        
+        averageRatingView.rounded = true
+    }
 }
 
 
@@ -297,13 +304,6 @@ extension UserViewController {
         } else {
             averageRatingContainerViewHeight.constant = 0
         }
-    }
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        productListView.minimumContentHeight = productListView.collectionView.frame.height - UserViewController.headerCollapsedHeight
-
-        averageRatingView.rounded = true
     }
 
     fileprivate func scrollDidChange(_ contentOffsetInsetY: CGFloat) {

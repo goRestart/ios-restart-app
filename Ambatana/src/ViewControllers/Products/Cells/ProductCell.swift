@@ -93,7 +93,7 @@ class ProductCell: UICollectionViewCell, ReusableCell {
     // Sets up the UI
     private func setupUI() {
         cellContent.layer.cornerRadius = LGUIKitConstants.productCellCornerRadius
-        let rotation = CGFloat(M_PI_4)
+        let rotation = CGFloat(Double.pi/4)
         stripeInfoView.transform = CGAffineTransform(rotationAngle: rotation)
         stripeLabel.textColor = UIColor.redText
         // HIDDEN for the moment while we experiment with 3 columns

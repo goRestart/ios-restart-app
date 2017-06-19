@@ -8,7 +8,7 @@
 
 import CoreLocation
 
-public protocol LocationService {
+public protocol LocationService: class {
     var distance: CLLocationDistance { get set }
     var accuracy: CLLocationDistance { get set }
     var lastKnownLocation: CLLocation! { get }

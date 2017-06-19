@@ -863,7 +863,6 @@
 		C731B8731CE218C400F31D46 /* OldChatListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C731B8711CE218C400F31D46 /* OldChatListViewModel.swift */; };
 		C731B8781CE22BBE00F31D46 /* WSChatListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C731B8771CE22BBE00F31D46 /* WSChatListViewModel.swift */; };
 		C731B8791CE22BBE00F31D46 /* WSChatListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C731B8771CE22BBE00F31D46 /* WSChatListViewModel.swift */; };
-		C734AC891E6DB6A80053C383 /* QuickSpec+Wait.swift in Sources */ = {isa = PBXBuildFile; fileRef = C734AC881E6DB6A80053C383 /* QuickSpec+Wait.swift */; };
 		C735101E1D942B5000D67040 /* FeatureFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = C735101D1D942B5000D67040 /* FeatureFlags.swift */; };
 		C735101F1D942B5000D67040 /* FeatureFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = C735101D1D942B5000D67040 /* FeatureFlags.swift */; };
 		C7363FB21BF9CB5B00A4BF6F /* FilterTagsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7363FB11BF9CB5B00A4BF6F /* FilterTagsViewController.swift */; };
@@ -2033,7 +2032,6 @@
 		C73189C81DBE3847005A93EE /* ListHeaderContainer.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ListHeaderContainer.xib; sourceTree = "<group>"; };
 		C731B8711CE218C400F31D46 /* OldChatListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OldChatListViewModel.swift; sourceTree = "<group>"; };
 		C731B8771CE22BBE00F31D46 /* WSChatListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSChatListViewModel.swift; sourceTree = "<group>"; };
-		C734AC881E6DB6A80053C383 /* QuickSpec+Wait.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "QuickSpec+Wait.swift"; sourceTree = "<group>"; };
 		C735101A1D94246C00D67040 /* bumper_features.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bumper_features.json; sourceTree = "<group>"; };
 		C735101D1D942B5000D67040 /* FeatureFlags.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureFlags.swift; sourceTree = "<group>"; };
 		C7363FB11BF9CB5B00A4BF6F /* FilterTagsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterTagsViewController.swift; sourceTree = "<group>"; };
@@ -3287,7 +3285,6 @@
 				50D08D7E1E69AF14009CC260 /* TestableObserver+LGSpec.swift */,
 				50D08D7F1E69AF14009CC260 /* TourLoginState+LGSpec.swift */,
 				2EC653B21E716C8800E23DDF /* Dictionary+FilterSpec.swift */,
-				C734AC881E6DB6A80053C383 /* QuickSpec+Wait.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -5211,7 +5208,6 @@
 				50D08DBB1E69AF14009CC260 /* MockPurchaseableProductsRequest+MockFactory.swift in Sources */,
 				2E8ED6A71EC2184E00A2B4AE /* FilterTagsVC+RemoveRelatedTagsSpec.swift in Sources */,
 				50D08DB81E69AF14009CC260 /* MockProductListRequester.swift in Sources */,
-				C734AC891E6DB6A80053C383 /* QuickSpec+Wait.swift in Sources */,
 				50D08DB21E69AF14009CC260 /* MockFeatureFlags.swift in Sources */,
 				50D08DBA1E69AF14009CC260 /* MockPurchaseableProduct.swift in Sources */,
 				729A7F071E979106003B34A5 /* OldChatViewModelSpec.swift in Sources */,
