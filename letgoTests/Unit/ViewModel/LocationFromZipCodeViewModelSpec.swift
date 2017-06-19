@@ -19,7 +19,6 @@ class LocationFromZipCodeViewModelSpec: BaseViewModelSpec {
             var locationManager: LocationManager!
             var searchService: MockSearchLocationSuggestionsService!
             var postalAddressService: MockPostalAddressRetrievalService!
-            var tracker: MockTracker!
 
             var sut: LocationFromZipCodeViewModel!
 
@@ -91,10 +90,6 @@ class LocationFromZipCodeViewModelSpec: BaseViewModelSpec {
                 context ("services don't work") {
                     beforeEach {
                         locationManager = MockLocationManager()
-
-                        let postalAddress = PostalAddress(address: "", city: "New York", zipCode: "12345", state: "", countryCode: "us", country: "")
-                        let location = LGLocationCoordinates2D(latitude: 41.38, longitude: 2.18)
-                        let place = Place(postalAddress: postalAddress, location: location)
 
                         searchService = MockSearchLocationSuggestionsService(error: .notFound)
 
@@ -208,10 +203,6 @@ class LocationFromZipCodeViewModelSpec: BaseViewModelSpec {
                         let initialPostalAddress = PostalAddress(address: "", city: "Palo Bajo", zipCode: "06660", state: "", countryCode: "us", country: "")
                         let initialLocation = LGLocationCoordinates2D(latitude: 43.38, longitude: 12.18)
                         let initialPlace = Place(postalAddress: initialPostalAddress, location: initialLocation)
-
-                        let postalAddress = PostalAddress(address: "", city: "New York", zipCode: "12345", state: "", countryCode: "us", country: "")
-                        let location = LGLocationCoordinates2D(latitude: 41.38, longitude: 2.18)
-                        let place = Place(postalAddress: postalAddress, location: location)
 
                         searchService = MockSearchLocationSuggestionsService(error: .notFound)
 

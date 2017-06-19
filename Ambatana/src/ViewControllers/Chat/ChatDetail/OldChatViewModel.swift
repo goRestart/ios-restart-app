@@ -253,7 +253,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
     private var isDeleted = false
     private var shouldAskProductSold: Bool = false
     fileprivate var userDefaultsSubKey: String {
-        return "\(listing.objectId) + \(buyer?.objectId ?? "offline")"
+        return "\(String(describing: listing.objectId)) + \(buyer?.objectId ?? "offline")"
     }
     
     fileprivate var loadedMessages: [ChatViewMessage]

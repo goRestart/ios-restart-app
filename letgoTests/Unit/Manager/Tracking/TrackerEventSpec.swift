@@ -854,8 +854,6 @@ class TrackerEventSpec: QuickSpec {
             }
             
             describe("productListVertical") {
-                let categories: [ListingCategory] = [.homeAndGarden, .motorsAndAccessories]
-                let searchQuery = "iPhone"
                 beforeEach {
                     sut = TrackerEvent.productListVertical(category: .cars,
                                                            keywords: ["kw1", "kw2"],

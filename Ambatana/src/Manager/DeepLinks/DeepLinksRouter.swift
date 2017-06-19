@@ -94,7 +94,7 @@ class LGDeepLinksRouter: DeepLinksRouter {
     // MARK: > Universal links
 
     func continueUserActivity(_ userActivity: NSUserActivity, restorationHandler: ([Any]?) -> Void) -> Bool {
-        logMessage(.verbose, type: AppLoggingOptions.deepLink, message: "Continue user activity: \(userActivity.webpageURL)")
+        logMessage(.verbose, type: AppLoggingOptions.deepLink, message: "Continue user activity: \(String(describing: userActivity.webpageURL))")
         if let appsflyerDeepLink = AppsFlyerDeepLink.buildFromUserActivity(userActivity) {
             deepLinksSignal.onNext(appsflyerDeepLink.deepLink)
             return true
@@ -113,7 +113,7 @@ class LGDeepLinksRouter: DeepLinksRouter {
     // MARK: > Branch.io
 
     func deepLinkFromBranchObject(_ object: BranchUniversalObject?, properties: BranchLinkProperties?) {
-        logMessage(.verbose, type: .deepLink, message: "received branch Object \(object)")
+        logMessage(.verbose, type: .deepLink, message: "received branch Object \(String(describing: object))")
         guard let branchDeepLink = object?.deepLinkWithProperties(properties) else { return }
         logMessage(.verbose, type: .deepLink, message: "Resolved branch Object \(branchDeepLink.action)")
         deepLinksSignal.onNext(branchDeepLink)

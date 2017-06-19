@@ -97,7 +97,7 @@ public struct LGLocationCoordinates2D: Equatable {
 
     public func coordsToQuadKey(_ zoomLevel: Int) -> String {
 
-        let π = M_PI
+        let π = Double.pi
 
         let sinLat = sin(self.latitude * π/180)
         let latDec = 0.5 - log((1+sinLat)/(1-sinLat))/(4*π)

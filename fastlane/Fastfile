@@ -277,7 +277,7 @@ platform :ios do
   lane :test do
     scan(
       scheme: "LetGoPROD",
-      device: "iPhone 6 (10.2)",
+      device: "iPhone 6 (10.3.1)",
       output_style: "rspec",
       output_directory: "./scanresults",
       output_types: "junit,html",
@@ -290,7 +290,7 @@ platform :ios do
   lane :ui_test do
     scan(
       scheme: "UITests",
-      device: "iPhone 6 (10.2)",
+      device: "iPhone 6 (10.3.1)",
       output_style: "rspec",
       output_directory: "./scanresults",
       output_types: "junit,html",
