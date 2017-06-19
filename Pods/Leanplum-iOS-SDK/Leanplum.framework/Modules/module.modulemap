@@ -1,5 +1,5 @@
 framework module Leanplum {
-  umbrella header "Leanplum-iOS-SDK-source-umbrella.h"
+  umbrella header "Leanplum.h"
 
   export *
   module * { export * }
