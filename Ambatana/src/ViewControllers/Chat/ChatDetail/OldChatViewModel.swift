@@ -74,7 +74,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         return listing.user.name
     }
     var productPrice: String {
-        return listing.priceString()
+        return listing.priceString(freeModeAllowed: featureFlags.freePostingModeAllowed)
     }
     var listingStatus: ListingStatus {
         return listing.status

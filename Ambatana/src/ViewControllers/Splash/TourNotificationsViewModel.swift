@@ -14,6 +14,11 @@ enum TourNotificationNextStep {
     case noStep
 }
 
+protocol TourNotificationsViewModelDelegate: BaseViewModelDelegate {
+    func requestPermissionFinished()
+    func requestPermissionAccepted()
+}
+
 final class TourNotificationsViewModel: BaseViewModel {
 
     weak var navigator: TourNotificationsNavigator?
@@ -22,6 +27,10 @@ final class TourNotificationsViewModel: BaseViewModel {
     let subtitle: String
     let pushText: String
     let source: PrePermissionType
+    let featureFlags: FeatureFlaggeable
+    
+    weak var delegate: TourNotificationsViewModelDelegate?
+    
     var showPushInfo: Bool {
         return false
     }
@@ -32,11 +41,16 @@ final class TourNotificationsViewModel: BaseViewModel {
         return UIImage(named: "img_permissions_background")
     }
     
-    init(title: String, subtitle: String, pushText: String, source: PrePermissionType) {
+    init(title: String, subtitle: String, pushText: String, source: PrePermissionType, featureFlags: FeatureFlags) {
         self.title = title
         self.subtitle = subtitle
         self.pushText = pushText
         self.source = source
+        self.featureFlags = featureFlags
+    }
+    
+    convenience init(title: String, subtitle: String, pushText: String, source: PrePermissionType) {
+        self.init(title: title, subtitle: subtitle, pushText: pushText, source: source, featureFlags: FeatureFlags.sharedInstance)
     }
 
     func nextStep() -> TourNotificationNextStep? {
@@ -62,14 +76,44 @@ final class TourNotificationsViewModel: BaseViewModel {
     }
     
     func userDidTapNoButton() {
-        let trackerEvent = TrackerEvent.permissionAlertCancel(.push, typePage: source.trackingParam, alertType: .fullScreen,
-            permissionGoToSettings: .notAvailable)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+        if featureFlags.newOnboardingPhase1 {
+            let actionOk = UIAction(interface: UIActionInterface.text(LGLocalizedString.onboardingAlertYes),
+                                    action: { [weak self] in
+                                            self?.trackCloseTourNotifications()
+                                            self?.delegate?.requestPermissionFinished()
+                                        
+            })
+            let actionCancel = UIAction(interface: UIActionInterface.text(LGLocalizedString.onboardingAlertNo),
+                                        action: { [weak self] in
+                                            self?.trackAskPermissions()
+                                            self?.delegate?.requestPermissionAccepted()
+            })
+            delegate?.vmShowAlert(LGLocalizedString.onboardingNotificationsPermissionsAlertTitle,
+                                  message: LGLocalizedString.onboardingNotificationsPermissionsAlertSubtitle,
+                                  actions: [actionCancel, actionOk])
+        } else {
+            trackCloseTourNotifications()
+            delegate?.requestPermissionFinished()
+        }
     }
     
     func userDidTapYesButton() {
+        trackAskPermissions()
+        delegate?.requestPermissionFinished()
+        
+    }
+    
+    // MARK: - Private methods
+    
+    private func trackAskPermissions() {
         let trackerEvent = TrackerEvent.permissionAlertComplete(.push, typePage: source.trackingParam, alertType: .fullScreen,
-            permissionGoToSettings: .notAvailable)
+                                                                permissionGoToSettings: .notAvailable)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+    }
+    
+    private func trackCloseTourNotifications() {
+        let trackerEvent = TrackerEvent.permissionAlertCancel(.push, typePage: source.trackingParam, alertType: .fullScreen,
+        permissionGoToSettings: .notAvailable)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 }
