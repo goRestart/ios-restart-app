@@ -111,6 +111,10 @@ final class TourNotificationsViewController: BaseViewController {
     }
     
     @IBAction func yesButtonPressed(_ sender: AnyObject) {
+        shouldShowPermissions()
+    }
+    
+    fileprivate func shouldShowPermissions() {
         viewModel.userDidTapYesButton()
         LGPushPermissionsManager.sharedInstance.showPushPermissionsAlert(prePermissionType: .onboarding)
         pushDialogWasShown = true
@@ -177,5 +181,9 @@ final class TourNotificationsViewController: BaseViewController {
 extension TourNotificationsViewController: TourNotificationsViewModelDelegate {
     func  requestPermissionFinished() {
         openNextStep()
+    }
+    
+    func requestPermissionAccepted() {
+        shouldShowPermissions()
     }
 }

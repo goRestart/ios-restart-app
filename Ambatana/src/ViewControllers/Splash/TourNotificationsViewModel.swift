@@ -16,6 +16,7 @@ enum TourNotificationNextStep {
 
 protocol TourNotificationsViewModelDelegate: BaseViewModelDelegate {
     func requestPermissionFinished()
+    func requestPermissionAccepted()
 }
 
 final class TourNotificationsViewModel: BaseViewModel {
@@ -78,16 +79,17 @@ final class TourNotificationsViewModel: BaseViewModel {
         if featureFlags.newOnboardingPhase1 {
             let actionOk = UIAction(interface: UIActionInterface.text(LGLocalizedString.onboardingAlertYes),
                                     action: { [weak self] in
-                                        self?.trackCloseTourNotifications()
-                                        self?.delegate?.requestPermissionFinished()
+                                            self?.trackCloseTourNotifications()
+                                            self?.delegate?.requestPermissionFinished()
+                                        
             })
             let actionCancel = UIAction(interface: UIActionInterface.text(LGLocalizedString.onboardingAlertNo),
                                         action: { [weak self] in
                                             self?.trackAskPermissions()
-                                            self?.delegate?.requestPermissionFinished()
+                                            self?.delegate?.requestPermissionAccepted()
             })
-            delegate?.vmShowAlert(LGLocalizedString.onboardingLocationPermissionsAlertTitle,
-                                  message: LGLocalizedString.onboardingLocationPermissionsAlertSubtitle,
+            delegate?.vmShowAlert(LGLocalizedString.onboardingNotificationsPermissionsAlertTitle,
+                                  message: LGLocalizedString.onboardingNotificationsPermissionsAlertSubtitle,
                                   actions: [actionCancel, actionOk])
         } else {
             trackCloseTourNotifications()
