@@ -40,6 +40,7 @@ protocol FeatureFlaggeable: class {
     var newMarkAsSoldFlow: Bool { get }
     var editLocationBubble: EditLocationBubble { get }
     var newCarsMultiRequesterEnabled: Bool { get }
+    var newOnboardingPhase1: Bool { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -264,7 +265,13 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return abTests.newCarsMultiRequesterEnabled.value
     }
-
+    
+    var newOnboardingPhase1: Bool {
+        if Bumper.enabled {
+            return Bumper.newOnboardingPhase1
+        }
+        return abTests.newOnboardingPhase1.value
+    }
     
     // MARK: - Country features
 
