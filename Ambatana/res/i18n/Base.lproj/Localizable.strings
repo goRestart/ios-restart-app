@@ -1409,7 +1409,7 @@
 "onboarding_location_permissions_alert_title" = "Are you sure?";
 
 // Onboarding shows alert if user click on close permission request. 
-"onboarding_location_permissions_alert_subtitle" = "You 'll see items posted in all locations instead of near you";
+"onboarding_location_permissions_alert_subtitle" = "You'll see items posted in all locations instead of near you";
 
 // Onboarding shows alert if user click on close permission request. 
 "onboarding_notifications_permissions_alert_title" = "Are you sure?";
@@ -1418,7 +1418,7 @@
 "onboarding_notifications_permissions_alert_subtitle" = "You'll have to open letgo to see if you have new messages";
 
 // Onboarding shows alert if user click on close permission request. 
-"onboarding_posting_alert_title" = "Try it out by posting a book, a watch, your glasses...";
+"onboarding_posting_alert_title" = "Want to try it out by posting a book, a watch, your glasses...?";
 
 // Onboarding shows alert if user click on close permission request. 
 "onboarding_posting_alert_subtitle" = "You can delete it later if you don't really want to sell it";

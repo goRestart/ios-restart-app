@@ -17,6 +17,7 @@ class MockProductCreationParams: ProductCreationParams, MockFactory {
                    currency: Currency.makeMock(),
                    location: LGLocationCoordinates2D.makeMock(),
                    postalAddress: PostalAddress.makeMock(),
+                   languageCode: Locale.makeRandom().identifier,
                    images: MockFile.makeMocks(count: Int.makeRandom(min: 0, max: 4)))
     }
 
@@ -53,7 +54,7 @@ class MockCarCreationParams: CarCreationParams, MockFactory {
                    location: LGLocationCoordinates2D.makeMock(),
                    postalAddress: PostalAddress.makeMock(),
                    images: MockFile.makeMocks(count: Int.makeRandom(min: 0, max: 4)),
-                   carAttributes: CarAttributes.emptyCarAttributes()) // TODO: add makeMock for CarAttributes
+                   carAttributes: CarAttributes.makeMock())
     }
     
     public static func makeMock() -> Self {

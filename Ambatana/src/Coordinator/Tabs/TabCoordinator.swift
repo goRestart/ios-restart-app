@@ -394,7 +394,7 @@ extension TabCoordinator: ProductDetailNavigator {
     }
 
     func editListing(_ listing: Listing) {
-        // TODO: Open EditProductCoordinator
+        // Refactor to coordinator @ ABIOS-2719
         let editProductVM = EditListingViewModel(listing: listing)
         let editProductVC = EditListingViewController(viewModel: editProductVM)
         let navCtl = UINavigationController(rootViewController: editProductVC)

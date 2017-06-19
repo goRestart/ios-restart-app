@@ -17,7 +17,6 @@ extension UIFont {
     static var pageTitleFont: UIFont { return systemSemiBoldFont(size: 17) }
 
     // Bar Buttons
-    // TODO: improve those 2 names (when is used one and the other? active/inactive?? )
     static var boldBarButtonFont: UIFont { return systemSemiBoldFont(size: 17) }
     static var regularBarButtonFont: UIFont { return systemRegularFont(size: 17) }
 
@@ -96,7 +95,6 @@ extension UIFont {
 
 // MARK: > Chat Fonts
 extension UIFont {
-    // TODO: unify fonts to the defined ones if possible
     // Chat header view
     static var chatProductViewNameFont: UIFont { return systemFont(size: 13) }
     static var chatProductViewUserFont: UIFont { return systemBoldFont(size: 13) }
