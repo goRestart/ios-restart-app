@@ -19,6 +19,7 @@ class LocationFromZipCodeViewModelSpec: BaseViewModelSpec {
             var locationManager: LocationManager!
             var searchService: MockSearchLocationSuggestionsService!
             var postalAddressService: MockPostalAddressRetrievalService!
+            var tracker: Tracker!
 
             var sut: LocationFromZipCodeViewModel!
 
