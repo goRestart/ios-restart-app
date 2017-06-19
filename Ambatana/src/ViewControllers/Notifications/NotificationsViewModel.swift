@@ -82,7 +82,7 @@ class NotificationsViewModel: BaseViewModel {
         guard let data = dataAtIndex(index) else { return }
         // Not track if type is modular as primary action on modular notification includes tracking.
         switch data.type {
-        case .welcome, .productFavorite, .productSold, .rating, .ratingUpdated, .buyersInterested, .productSuggested, .facebookFriendshipCreated:
+        case .productFavorite, .productSold, .rating, .ratingUpdated, .buyersInterested, .productSuggested, .facebookFriendshipCreated:
             // cardAction is passed as string instead of EventParameterCardAction type as retention could send anything on the query parameter.
             trackItemPressed(type: data.type.eventType, source: .main, cardAction: data.type.notificationAction.rawValue,
                              notificationCampaign: nil)
@@ -107,7 +107,7 @@ class NotificationsViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
             if let notifications = result.value {
                 let remoteNotifications = notifications.flatMap{ strongSelf.buildNotification($0) }
-                strongSelf.notificationsData = remoteNotifications + [strongSelf.buildWelcomeNotification()]
+                strongSelf.notificationsData = remoteNotifications
                 if strongSelf.notificationsData.isEmpty {
                     let emptyViewModel = LGEmptyViewModel(icon: UIImage(named: "ic_notifications_empty" ),
                         title:  LGLocalizedString.notificationsEmptyTitle,
@@ -247,13 +247,6 @@ fileprivate extension NotificationsViewModel {
                                     })
         }
     }
-
-    func buildWelcomeNotification() -> NotificationData {
-        return NotificationData(id: nil, type: .welcome(city: locationManager.currentLocation?.postalAddress?.city),
-                                date: Date(), isRead: true, campaignType: nil, primaryAction: { [weak self] in
-                                    self?.navigator?.openSell(.notifications)
-                                })
-    }
 }
 
 
@@ -302,8 +295,6 @@ fileprivate extension NotificationDataType {
             return .rating
         case .ratingUpdated:
             return .ratingUpdated
-        case .welcome:
-            return .welcome
         case .buyersInterested:
             return .buyersInterested
         case .productSuggested:
@@ -325,8 +316,6 @@ fileprivate extension NotificationDataType {
             return .userRating
         case .ratingUpdated:
             return .userRating
-        case .welcome:
-            return .sell
         case .buyersInterested:
             return .passiveBuyers
         case .productSuggested:

@@ -20,8 +20,6 @@ class NotificationCellDrawerFactory {
             return ProductSoldNotificationCellDrawer()
         case .rating, .ratingUpdated:
             return RatingNotificationCellDrawer()
-        case .welcome:
-            return WelcomeNotificationCellDrawer()
         case .buyersInterested:
             return BuyersInterestedNotificationCellDrawer()
         case .productSuggested:
@@ -37,6 +35,5 @@ class NotificationCellDrawerFactory {
         BaseNotificationCellDrawer<NotificationCell>.registerCell(tableView)
         BaseNotificationCellDrawer<BuyersInterestedNotificationCell>.registerCell(tableView)
         BaseNotificationCellDrawer<ModularNotificationCell>.registerClassCell(tableView)
-        WelcomeNotificationCellDrawer.registerCell(tableView)
     }
 }
