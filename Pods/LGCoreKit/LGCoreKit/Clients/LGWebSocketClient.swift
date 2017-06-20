@@ -340,7 +340,7 @@ class LGWebSocketClient: WebSocketClient, WebSocketLibraryDelegate {
     
     private func openWebSocketIfClosed() {
         switch socketStatus.value {
-        case .closed, .closing: // TODO: better handle of closing
+        case .closed, .closing:
             tryToOpenWebSocket()
         default:
             break
@@ -371,7 +371,7 @@ class LGWebSocketClient: WebSocketClient, WebSocketLibraryDelegate {
     
     private func closeWebSocketIfNeeded() {
         switch socketStatus.value {
-        case .open, .opening: // TODO: better handle of opening
+        case .open, .opening:
             closeWebSocket()
         default:
             break

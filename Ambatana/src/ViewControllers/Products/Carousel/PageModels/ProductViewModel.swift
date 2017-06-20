@@ -283,7 +283,8 @@ class ProductViewModel: BaseViewModel {
 
             let productInfo = ProductVMProductInfo(listing: listing,
                                                    isAutoTranslated: listing.isTitleAutoTranslated(strongSelf.countryHelper),
-                                                   distance: strongSelf.distanceString(listing))
+                                                   distance: strongSelf.distanceString(listing),
+                                                   freeModeAllowed: strongSelf.featureFlags.freePostingModeAllowed)
             strongSelf.productInfo.value = productInfo
 
         }.addDisposableTo(disposeBag)

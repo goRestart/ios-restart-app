@@ -184,7 +184,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
         guard didSetupAfterLayout else { return }
-        //TODO: We should refactor how tabBar is hidden. Maybe by using BaseViewController -> hasTabBar
+        // ABIOS-2720
         // Force tabBar to hide when view appears from background.
         self.tabBarController?.setTabBarHidden(true, animated: false)
         addIgnoreTouchesForMoreInfo()

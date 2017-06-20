@@ -36,7 +36,7 @@ enum ViewState {
         switch self {
         case .empty:
             return true
-        case .error, .data, .loading:
+        case .data, .error, .loading:
             return false
         }
     }

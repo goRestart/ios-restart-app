@@ -194,7 +194,7 @@ extension SellCoordinator: ProductPostedNavigator {
         dismissViewController(animated: true) { [weak self] in
             guard let parentVC = self?.parentViewController else { return }
 
-            // TODO: Open EditProductCoordinator, refactor this completion with a EditProductCoordinatorDelegate func
+            // Open a coordinator @ ABIOS-2719
             let editVM = EditListingViewModel(listing: listing)
             editVM.closeCompletion = { editedListing in
                 self?.closeCoordinator(animated: false) {

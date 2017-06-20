@@ -46,6 +46,7 @@ final class TourNotificationsViewController: BaseViewController {
         }
         modalPresentationStyle = .overCurrentContext
         modalTransitionStyle = .crossDissolve
+        self.viewModel.delegate = self
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -107,10 +108,13 @@ final class TourNotificationsViewController: BaseViewController {
    
     @IBAction func noButtonPressed(_ sender: AnyObject) {
         viewModel.userDidTapNoButton()
-        openNextStep()
     }
     
     @IBAction func yesButtonPressed(_ sender: AnyObject) {
+        shouldShowPermissions()
+    }
+    
+    fileprivate func shouldShowPermissions() {
         viewModel.userDidTapYesButton()
         LGPushPermissionsManager.sharedInstance.showPushPermissionsAlert(prePermissionType: .onboarding)
         pushDialogWasShown = true
@@ -168,5 +172,18 @@ final class TourNotificationsViewController: BaseViewController {
         closeButton.accessibilityId = .tourNotificationsCloseButton
         notifyButton.accessibilityId = .tourNotificationsOKButton
         alertContainer.accessibilityId = .tourNotificationsAlert
+    }
+}
+
+
+// MARK: - TourLocationViewModelDelegate
+
+extension TourNotificationsViewController: TourNotificationsViewModelDelegate {
+    func  requestPermissionFinished() {
+        openNextStep()
+    }
+    
+    func requestPermissionAccepted() {
+        shouldShowPermissions()
     }
 }
