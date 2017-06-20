@@ -271,7 +271,7 @@ class FeatureFlags: FeatureFlaggeable {
         if Bumper.enabled {
             return Bumper.newCarouselNavigationEnabled
         }
-        return ABTests.newCarouselNavigationEnabled.value
+        return abTests.newCarouselNavigationEnabled.value
     }
 
     var newOnboardingPhase1: Bool {
