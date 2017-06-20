@@ -109,5 +109,10 @@
         "name": "NewCarouselNavigationEnabled",
         "values": ["no", "yes"],
         "description": "New carousel navigation enabled"
+    },
+    {        
+        "name": "NewOnboardingPhase1",
+        "values": ["no", "yes"],
+        "description": "New onboarding - alerts on close button"
     }
 ]

@@ -85,7 +85,7 @@ class ExpressChatViewModel: BaseViewModel {
 
     func priceForItemAtIndex(_ index: Int) -> String {
         guard index < productListCount else { return "" }
-        return listings[index].priceString()
+        return listings[index].priceString(freeModeAllowed: featureFlags.freePostingModeAllowed)
     }
 
     func sendMessage() {

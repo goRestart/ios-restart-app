@@ -100,7 +100,7 @@ class LoadingIndicator: UIView {
         animation.duration = 1
         animation.isCumulative = true
         animation.repeatCount = HUGE
-        animation.toValue = 2 * M_PI
+        animation.toValue = 2 * Double.pi
         loadingShape.add(animation, forKey: "rotation")
     }
 

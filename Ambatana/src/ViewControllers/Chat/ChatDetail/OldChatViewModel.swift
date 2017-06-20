@@ -74,7 +74,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         return listing.user.name
     }
     var productPrice: String {
-        return listing.priceString()
+        return listing.priceString(freeModeAllowed: featureFlags.freePostingModeAllowed)
     }
     var listingStatus: ListingStatus {
         return listing.status
@@ -253,7 +253,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
     private var isDeleted = false
     private var shouldAskProductSold: Bool = false
     fileprivate var userDefaultsSubKey: String {
-        return "\(listing.objectId) + \(buyer?.objectId ?? "offline")"
+        return "\(String(describing: listing.objectId)) + \(buyer?.objectId ?? "offline")"
     }
     
     fileprivate var loadedMessages: [ChatViewMessage]

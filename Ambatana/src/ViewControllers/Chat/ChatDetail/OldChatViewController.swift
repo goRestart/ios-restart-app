@@ -106,6 +106,14 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
         super.viewDidAppear(animated)
         viewModel.didAppear()
     }
+    
+    // Need to override this to fix the position of the Slack tableView
+    // if you have a "header" view below the navBar
+    // It is an open issue in the Library https://github.com/slackhq/SlackTextViewController/issues/137
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        tableView.contentInset.bottom = tableViewInsetBottom
+    }
 
     override func didMove(toParentViewController parent: UIViewController?) {
         super.didMove(toParentViewController: parent)
@@ -529,20 +537,6 @@ extension OldChatViewController: OldChatViewModelDelegate {
         updateReviewButton()
     }
 }
-
-
-// MARK: - Animate ProductView with keyboard
-
-extension OldChatViewController {
-    // Need to override this to fix the position of the Slack tableView
-    // if you have a "header" view below the navBar
-    // It is an open issue in the Library https://github.com/slackhq/SlackTextViewController/issues/137
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        tableView.contentInset.bottom = tableViewInsetBottom
-    }
-}
-
 
 // MARK: - Copy/Paste feature
 

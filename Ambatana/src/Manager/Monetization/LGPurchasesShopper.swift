@@ -370,7 +370,7 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
             case .failed:
                 delegate?.pricedBumpPaymentDidFail()
                 queue.finishTransaction(transaction)
-                logMessage(.info, type: [.monetization], message: "Purchase failed with error: \(transaction.error?.localizedDescription)")
+                logMessage(.info, type: [.monetization], message: "Purchase failed with error: \(String(describing: transaction.error?.localizedDescription))")
             }
         }
     }
@@ -395,7 +395,7 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
             case .failed:
                 delegate?.pricedBumpPaymentDidFail()
                 queue.finishTransaction(transaction)
-                logMessage(.info, type: [.monetization], message: "Purchase restore failed with error: \(transaction.error?.localizedDescription)")
+                logMessage(.info, type: [.monetization], message: "Purchase restore failed with error: \(String(describing: transaction.error?.localizedDescription))")
             }
         }
     }

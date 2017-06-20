@@ -129,15 +129,15 @@ extension UIImage {
         // modify transform depending on side orientation
         if imageOrientation == .down || imageOrientation == .downMirrored { // EXIF 3 & 4
             transform = transform.translatedBy(x: size.width, y: size.height)
-            transform = transform.rotated(by: CGFloat(M_PI))
+            transform = transform.rotated(by: CGFloat(Double.pi))
         }
         else if imageOrientation == .left || imageOrientation == .leftMirrored { // EXIF 6 & 5
             transform = transform.translatedBy(x: size.width, y: 0)
-            transform = transform.rotated(by: CGFloat(M_PI_2))
+            transform = transform.rotated(by: CGFloat(Double.pi/2))
         }
         else if imageOrientation == .right || imageOrientation == .rightMirrored { // EXIF 7 & 8
             transform = transform.translatedBy(x: 0, y: size.height)
-            transform = transform.rotated(by: CGFloat(-M_PI_2))
+            transform = transform.rotated(by: CGFloat(-Double.pi/2))
         }
         
         // modify transform for mirrored orientations

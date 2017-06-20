@@ -129,7 +129,7 @@ class ChatViewModel: BaseViewModel {
     fileprivate let disposeBag = DisposeBag()
     
     fileprivate var userDefaultsSubKey: String {
-        return "\(conversation.value.listing?.objectId ?? listingId) + \(buyerId ?? "offline")"
+        return "\(String(describing: conversation.value.listing?.objectId ?? listingId)) + \(buyerId ?? "offline")"
     }
 
     fileprivate var isBuyer: Bool {
@@ -337,7 +337,9 @@ class ChatViewModel: BaseViewModel {
             self?.title.value = conversation.listing?.name ?? ""
             self?.productName.value = conversation.listing?.name ?? ""
             self?.productImageUrl.value = conversation.listing?.image?.fileURL
-            self?.productPrice.value = conversation.listing?.priceString() ?? ""
+            if let featureFlags = self?.featureFlags {
+                self?.productPrice.value = conversation.listing?.priceString(freeModeAllowed: featureFlags.freePostingModeAllowed) ?? ""
+            }
             self?.productIsFree.value = conversation.listing?.price.free ?? false
             self?.interlocutorAvatarURL.value = conversation.interlocutor?.avatar?.fileURL
             self?.interlocutorName.value = conversation.interlocutor?.name ?? ""
@@ -1131,7 +1133,7 @@ fileprivate extension ChatViewModel {
         title.value = listing.title ?? ""
         productName.value = listing.title ?? ""
         productImageUrl.value = listing.thumbnail?.fileURL
-        productPrice.value = listing.priceString()
+        productPrice.value = listing.priceString(freeModeAllowed: featureFlags.freePostingModeAllowed)
         interlocutorAvatarURL.value = listing.user.avatar?.fileURL
         interlocutorName.value = listing.user.name ?? ""
         interlocutorId.value = sellerId
