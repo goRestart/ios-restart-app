@@ -326,10 +326,10 @@ class ProductListViewModel: BaseViewModel {
         }
     }
     
-    func prefetchItems(atIndexPaths indexPaths: [IndexPath]) {
+    func prefetchItems(atIndexes indexes: [Int]) {
         var urls = [URL]()
-        for indexPath in indexPaths where objects.count < indexPath.row {
-            switch objects[indexPath.row] {
+        for index in indexes where objects.count < index {
+            switch objects[index] {
             case .listingCell(let listing):
                 if let thumbnailURL = listing.thumbnail?.fileURL {
                     urls.append(thumbnailURL)

@@ -617,7 +617,7 @@ extension ProductListView: UICollectionViewDataSourcePrefetching {
     }
     
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        viewModel.prefetchItems(atIndexPaths: indexPaths)
+        viewModel.prefetchItems(atIndexes: indexPaths.flatMap { $0.row })
     }
 }
 
