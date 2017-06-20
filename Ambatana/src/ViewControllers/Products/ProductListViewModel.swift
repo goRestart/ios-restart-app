@@ -93,6 +93,8 @@ class ProductListViewModel: BaseViewModel {
     
     // Requester
     var productListRequester: ProductListRequester?
+    
+    let LGImageDownloader: ImageDownloader
 
     //State
     private(set) var pageNumber: UInt
@@ -128,6 +130,7 @@ class ProductListViewModel: BaseViewModel {
     
     fileprivate let tracker: Tracker
     
+    
     // RX vars
     
     let isProductListEmpty = Variable<Bool>(true)
@@ -143,8 +146,11 @@ class ProductListViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
 
-    init(requester: ProductListRequester?, listings: [Listing]? = nil, numberOfColumns: Int = 2,
-         tracker: Tracker = TrackerProxy.sharedInstance) {
+    init(requester: ProductListRequester?,
+         listings: [Listing]? = nil,
+         numberOfColumns: Int = 2,
+         tracker: Tracker = TrackerProxy.sharedInstance,
+         LGImageDownloader: ImageDownloader = LGImageDownloader.sharedInstance) {
         self.objects = (listings ?? []).map(ListingCellModel.init)
         self.pageNumber = 0
         self.refreshing = false
@@ -153,6 +159,7 @@ class ProductListViewModel: BaseViewModel {
         self.productListRequester = requester
         self.defaultCellSize = CGSize.zero
         self.tracker = tracker
+        self.LGImageDownloader = LGImageDownloader
         self.indexToTitleMapping = [:]
         super.init()
         let cellHeight = cellWidth * ProductListViewModel.cellAspectRatio
@@ -317,6 +324,21 @@ class ProductListViewModel: BaseViewModel {
         case .emptyCell:
             return
         }
+    }
+    
+    func prefetchItems(atIndexPaths indexPaths: [IndexPath]) {
+        var urls = [URL]()
+        for indexPath in indexPaths where objects.count < indexPath.row {
+            switch objects[indexPath.row] {
+            case .listingCell(let listing):
+                if let thumbnailURL = listing.thumbnail?.fileURL {
+                    urls.append(thumbnailURL)
+                }
+            case .emptyCell, .collectionCell:
+                break
+            }
+        }
+        LGImageDownloader.downloadImagesWithURLs(urls)
     }
 
 
