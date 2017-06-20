@@ -6,9 +6,9 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
+import DeviceGuru
 import Foundation
 import LGCoreKit
-import DeviceUtil
 
 enum ContactUsType {
     case standard
@@ -141,7 +141,7 @@ class LetgoURLHelper {
         var param: [String: String] = [:]
         param["app_version"] = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
         param["os_version"] = UIDevice.current.systemVersion
-        param["device_model"] = DeviceUtil.hardwareDescription()
+        param["device_model"] = DeviceGuru.hardwareDescription()
         param["user_id"] = userId
         param["user_name"] = userName
         param["user_email"] = email

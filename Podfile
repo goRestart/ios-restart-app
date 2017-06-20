@@ -30,15 +30,15 @@ def shared_pods
     # Tracking
     pod "Amplitude-iOS",        "3.8.5"  # Obj-c
     pod "AppsFlyerFramework",   "4.6.5"  # Obj-c
-    #pod "Leanplum-iOS-SDK",     "2.0.1"  # Obj-c
+#    pod "Leanplum-iOS-SDK",     "2.0.1"  # Obj-c
     pod "Leanplum-iOS-SDK", :git => 'https://github.com/Leanplum/Leanplum-iOS-SDK-internal', :tag => '2.0.1.1'
     
     pod "NewRelicAgent",        "5.10.1"
 
     # letgo Core
-    pod "LGCoreKit",             "3.5.1"
+    pod "LGCoreKit",             "3.5.2"
 #    pod "LGCoreKit",            :path => "../lgcorekit"
-#   pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => '632302a34f7b3d258c43a9f6b0e0f0bb41067a68'
+#    pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => '632302a34f7b3d258c43a9f6b0e0f0bb41067a68'
 
     # letgo Collapsible label
     pod "LGCollapsibleLabel",   "1.1.0"     # :path => "../collapsiblelabel"
@@ -50,7 +50,7 @@ def shared_pods
     pod "CHTCollectionViewWaterfallLayout", "0.9.5"  # Obj-c
 
     # Device info helper
-    pod "DeviceUtil",           "1.3.8"     # Obj-c
+    pod "DeviceGuru",           "~> 2.1.0"
 
     # Google -> we have to ask for the Google/"subpod" so it imports Google/Core too
     pod "Google/SignIn",        "3.0.3"     # Obj-c

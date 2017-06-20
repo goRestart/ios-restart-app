@@ -1,5 +1,5 @@
 //
-//  Alamofire.Manager+LG.swift
+//  Alamofire.SessionManager+LG.swift
 //  LGCoreKit
 //
 //  Created by Eli Kohen on 18/05/16.
@@ -9,7 +9,7 @@
 import Alamofire
 
 extension Alamofire.SessionManager {
-    static func lgManager(_ backgroundEnabled: Bool) -> Alamofire.SessionManager {
+    static func make(backgroundEnabled: Bool, userAgentBuilder: UserAgentBuilder?) -> Alamofire.SessionManager {
         let configuration: URLSessionConfiguration
         if backgroundEnabled {
             configuration = URLSessionConfiguration
@@ -17,7 +17,11 @@ extension Alamofire.SessionManager {
         } else {
             configuration = URLSessionConfiguration.default
         }
-        configuration.httpAdditionalHeaders = Alamofire.SessionManager.defaultHTTPHeaders
+        var headers = Alamofire.SessionManager.defaultHTTPHeaders
+        if let userAgentBuilder = userAgentBuilder {
+            headers["User-Agent"] = userAgentBuilder.make(appBundle: Bundle.main)
+        }
+        configuration.httpAdditionalHeaders = headers
         configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
         return Alamofire.SessionManager(configuration: configuration)
     }

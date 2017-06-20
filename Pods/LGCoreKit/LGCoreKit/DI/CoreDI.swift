@@ -15,10 +15,13 @@ final class CoreDI: InternalDI {
     // MARK: - Lifecycle
     
     init() {
+        let userAgentBuilder = LGUserAgentBuilder()
         if ProcessInfo.processInfo.environment["isRunningUnitTests"] != nil {
-            networkManager = Alamofire.SessionManager.lgManager(false)
+            networkManager = Alamofire.SessionManager.make(backgroundEnabled: false,
+                                                           userAgentBuilder: userAgentBuilder)
         } else {
-            networkManager = Alamofire.SessionManager.lgManager(true)
+            networkManager = Alamofire.SessionManager.make(backgroundEnabled: true,
+                                                           userAgentBuilder: userAgentBuilder)
         }
         
         keychain = KeychainSwift()
