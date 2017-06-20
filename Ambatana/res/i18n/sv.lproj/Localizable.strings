@@ -450,7 +450,7 @@
 "onboarding_notifications_permissions_alert_subtitle" = "Du kommer att behöva öppna letgo för att se om du har fått nya meddelanden";
 "onboarding_notifications_permissions_alert_title" = "Är du säker?";
 "onboarding_posting_alert_subtitle" = "Du kan ta bort den senare om du inte längre vill sälja den";
-"onboarding_posting_alert_title" = "Prova genom att lägga upp en bok, en klocka eller några solglasögon...";
+"onboarding_posting_alert_title" = "Skulle du vilja prova genom att lägga upp en bok, en klocka eller några solglasögon...?";
 "onboarding_posting_button_a" = "Sälj dina prylar";
 "onboarding_posting_button_b" = "Starta";
 "onboarding_posting_button_c" = "Ja, jag har saker att sälja";

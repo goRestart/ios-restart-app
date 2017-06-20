@@ -205,7 +205,7 @@ FilterCarInfoYearCellDelegate, UICollectionViewDataSource, UICollectionViewDeleg
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)
         -> UICollectionViewCell {
-            // TODO: Refactor cells into CellDrawer pattern
+            // ABIOS-2721: CellDrawer pattern
             switch viewModel.sections[indexPath.section] {
             case .location:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterLocationCell",
