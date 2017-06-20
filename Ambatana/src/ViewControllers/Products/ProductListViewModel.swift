@@ -94,7 +94,7 @@ class ProductListViewModel: BaseViewModel {
     // Requester
     var productListRequester: ProductListRequester?
     
-    let LGImageDownloader: ImageDownloader
+    let imageDownloader: ImageDownloaderType
 
     //State
     private(set) var pageNumber: UInt
@@ -150,7 +150,7 @@ class ProductListViewModel: BaseViewModel {
          listings: [Listing]? = nil,
          numberOfColumns: Int = 2,
          tracker: Tracker = TrackerProxy.sharedInstance,
-         LGImageDownloader: ImageDownloader = LGImageDownloader.sharedInstance) {
+         imageDownloader: ImageDownloaderType = ImageDownloader.sharedInstance) {
         self.objects = (listings ?? []).map(ListingCellModel.init)
         self.pageNumber = 0
         self.refreshing = false
@@ -159,7 +159,7 @@ class ProductListViewModel: BaseViewModel {
         self.productListRequester = requester
         self.defaultCellSize = CGSize.zero
         self.tracker = tracker
-        self.LGImageDownloader = LGImageDownloader
+        self.imageDownloader = imageDownloader
         self.indexToTitleMapping = [:]
         super.init()
         let cellHeight = cellWidth * ProductListViewModel.cellAspectRatio
@@ -338,7 +338,7 @@ class ProductListViewModel: BaseViewModel {
                 break
             }
         }
-        LGImageDownloader.downloadImagesWithURLs(urls)
+        imageDownloader.downloadImagesWithURLs(urls)
     }
 
 
