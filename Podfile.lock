@@ -33,6 +33,7 @@ PODS:
     - Fabric (~> 1.6.3)
   - CryptoSwift (0.6.9)
   - Curry (3.0.0)
+  - DeviceGuru (2.1.0)
   - DeviceUtil (1.3.8)
   - Fabric (1.6.11)
   - FBSDKCoreKit (4.22.0):
@@ -96,11 +97,12 @@ PODS:
   - KMPlaceholderTextView (1.3.0)
   - Leanplum-iOS-SDK (2.0.1.1)
   - LGCollapsibleLabel (1.1.0)
-  - LGCoreKit (3.5.1):
+  - LGCoreKit (3.6.0):
     - Alamofire (~> 4.2.0)
     - Argo (~> 4.1.1)
     - CocoaLumberjack/Swift (~> 3.0.0)
     - Curry (~> 3.0.0)
+    - DeviceGuru (~> 2.1.0)
     - JSONWebToken (~> 2.0.2)
     - KeychainSwift (~> 7.0.0)
     - ReachabilitySwift (~> 3.0.0)
@@ -177,7 +179,7 @@ DEPENDENCIES:
   - KMPlaceholderTextView (= 1.3.0)
   - Leanplum-iOS-SDK (from `https://github.com/Leanplum/Leanplum-iOS-SDK-internal`, tag `2.0.1.1`)
   - LGCollapsibleLabel (= 1.1.0)
-  - LGCoreKit (from `git@github.com:letgoapp/letgo-ios-lgcorekit.git`, commit `531adbbd3c8161612ebb1e64600b43f4f75f585b`)
+  - LGCoreKit (= 3.6.0)
   - NewRelicAgent (= 5.10.1)
   - Nimble (= 5.1.1)
   - OHHTTPStubs (= 5.2.3)
@@ -205,9 +207,6 @@ EXTERNAL SOURCES:
   Leanplum-iOS-SDK:
     :git: https://github.com/Leanplum/Leanplum-iOS-SDK-internal
     :tag: 2.0.1.1
-  LGCoreKit:
-    :commit: 531adbbd3c8161612ebb1e64600b43f4f75f585b
-    :git: git@github.com:letgoapp/letgo-ios-lgcorekit.git
   TMReachability:
     :commit: e34782b386307e386348b481c02c176d58ba45e6
     :git: https://github.com/albertbori/Reachability
@@ -225,9 +224,6 @@ CHECKOUT OPTIONS:
   Leanplum-iOS-SDK:
     :git: https://github.com/Leanplum/Leanplum-iOS-SDK-internal
     :tag: 2.0.1.1
-  LGCoreKit:
-    :commit: 531adbbd3c8161612ebb1e64600b43f4f75f585b
-    :git: git@github.com:letgoapp/letgo-ios-lgcorekit.git
   TMReachability:
     :commit: e34782b386307e386348b481c02c176d58ba45e6
     :git: https://github.com/albertbori/Reachability
@@ -247,6 +243,7 @@ SPEC CHECKSUMS:
   Crashlytics: 2b6dbe138a42395577cfa73dfa1aa7248cadf39e
   CryptoSwift: a22f6ba238e9ce4d26ee7bf45b9ed82e7122d4a0
   Curry: eb3d2c75aec678b3cc7fb2729d2ad6dd121531d1
+  DeviceGuru: 093cb20ca6b074c9e33df2e2791c521ed67264a5
   DeviceUtil: 9e91dd78b14cd51715d6fada8871c71b00283023
   Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
   FBSDKCoreKit: c693bad19feb225469eeff14452ba364522ee48b
@@ -273,7 +270,7 @@ SPEC CHECKSUMS:
   KMPlaceholderTextView: 2bbcd19a273648a80a61e1e48f9743a24d8930e3
   Leanplum-iOS-SDK: a602e975d3cd8595a04fbaae7a5aa55e3768c288
   LGCollapsibleLabel: db0802fe616737a9dcbdc8ee816819d562b76a6e
-  LGCoreKit: abb248b74f42fbc06f8d27e8cc19646094fbfbdc
+  LGCoreKit: 94f40316b612f4518cb9fd418b6ee87fbc7b2ac5
   NewRelicAgent: d16c572a3355d3ff9a359a6677e946c7a75a8f76
   Nimble: 415e3aa3267e7bc2c96b05fa814ddea7bb686a29
   OHHTTPStubs: e238cd5b66d8efa51c861db45895de8fe079f4a7
@@ -294,6 +291,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: 3c0535fb80e63a2cb09fec79339c302237d6809e
+PODFILE CHECKSUM: f7b9281eb37d665fb14e4b1b4bf258f091dfead7
 
 COCOAPODS: 1.2.0
