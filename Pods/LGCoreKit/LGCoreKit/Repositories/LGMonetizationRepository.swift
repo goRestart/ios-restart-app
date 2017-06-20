@@ -8,9 +8,17 @@
 
 import Foundation
 import Result
+import RxSwift
+import RxSwiftExt
 
 class LGMonetizationRepository : MonetizationRepository {
 
+    var events: Observable<MonetizationEvent> {
+        return eventBus.asObservable()
+    }
+    
+    private let eventBus = PublishSubject<MonetizationEvent>()
+    
     let dataSource: MonetizationDataSource
     let listingsLimboDAO: ListingsLimboDAO
 
@@ -22,7 +30,7 @@ class LGMonetizationRepository : MonetizationRepository {
     }
 
 
-    // MARK: - PUblic methods
+    // MARK: - Public methods
 
     func retrieveBumpeableProductInfo(productId: String, completion: BumpeableListingCompletion?) {
         dataSource.retrieveBumpeableProductInfo(productId: productId) { result in
@@ -30,11 +38,12 @@ class LGMonetizationRepository : MonetizationRepository {
         }
     }
 
-    func freeBump(forProduct productId: String, itemId: String, completion: BumpCompletion?) {
+    func freeBump(forListingId listingId: String, itemId: String, completion: BumpCompletion?) {
         let paymentId = LGUUID().UUIDString
-        dataSource.freeBump(forProduct: productId, itemId: itemId, paymentId: paymentId) { [weak self] result in
+        dataSource.freeBump(forListingId: listingId, itemId: itemId, paymentId: paymentId) { [weak self] result in
             if let _ = result.value {
-                self?.listingsLimboDAO.save(productId)
+                self?.listingsLimboDAO.save(listingId)
+                self?.eventBus.onNext(.freeBump(listingId: listingId))
                 completion?(BumpResult(value: Void()))
             } else if let error = result.error {
                 completion?(BumpResult(error: RepositoryError(apiError: error)))
@@ -42,15 +51,16 @@ class LGMonetizationRepository : MonetizationRepository {
         }
     }
 
-    func pricedBump(forProduct productId: String, receiptData: String, itemId: String, itemPrice: String, itemCurrency: String,
+    func pricedBump(forListingId listingId: String, receiptData: String, itemId: String, itemPrice: String, itemCurrency: String,
                     amplitudeId: String?, appsflyerId: String?, idfa: String?, bundleId: String?,
                     completion: BumpCompletion?) {
         let paymentId = LGUUID().UUIDString
-        dataSource.pricedBump(forProduct: productId, receiptData: receiptData, itemId: itemId, itemPrice: itemPrice,
+        dataSource.pricedBump(forListingId: listingId, receiptData: receiptData, itemId: itemId, itemPrice: itemPrice,
                               itemCurrency: itemCurrency, paymentId: paymentId, amplitudeId: amplitudeId, appsflyerId: appsflyerId,
                               idfa: idfa, bundleId: bundleId) { [weak self] result in
             if let _ = result.value {
-                self?.listingsLimboDAO.save(productId)
+                self?.listingsLimboDAO.save(listingId)
+                self?.eventBus.onNext(.pricedBump(listingId: listingId))
                 completion?(BumpResult(value: Void()))
             } else if let error = result.error {
                 completion?(BumpResult(error: RepositoryError(apiError: error)))

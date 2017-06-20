@@ -1,6 +1,15 @@
 import Result
+import RxSwiftExt
+import RxSwift
 
 open class MockMonetizationRepository: MonetizationRepository {
+    
+    public var eventsPublishSubject = PublishSubject<MonetizationEvent>()
+    
+    public var events: Observable<MonetizationEvent> {
+        return eventsPublishSubject.asObservable()
+    }
+    
     public var retrieveResult: BumpeableListingResult!
     public var bumpResult: BumpResult!
 
@@ -18,11 +27,11 @@ open class MockMonetizationRepository: MonetizationRepository {
         delay(result: retrieveResult, completion: completion)
     }
 
-    public func freeBump(forProduct productId: String, itemId: String, completion: BumpCompletion?) {
+    public func freeBump(forListingId listingId: String, itemId: String, completion: BumpCompletion?) {
         delay(result: bumpResult, completion: completion)
     }
 
-    public func pricedBump(forProduct productId: String, receiptData: String, itemId: String, itemPrice: String,
+    public func pricedBump(forListingId listingId: String, receiptData: String, itemId: String, itemPrice: String,
                            itemCurrency: String, amplitudeId: String?, appsflyerId: String?, idfa: String?,
                            bundleId: String?, completion: BumpCompletion?) {
         delay(result: bumpResult, completion: completion)
