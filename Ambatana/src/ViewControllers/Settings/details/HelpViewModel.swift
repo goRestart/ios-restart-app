@@ -6,9 +6,7 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
-
 import LGCoreKit
-import DeviceUtil
 
 enum HelpURLType {
     case terms
