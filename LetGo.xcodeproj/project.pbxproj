@@ -794,8 +794,6 @@
 		C711A1AA1CDC99E5002D30D9 /* NotificationCellDrawerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C711A1A41CDC99E5002D30D9 /* NotificationCellDrawerFactory.swift */; };
 		C711A1AB1CDC99E5002D30D9 /* ProductFavoriteNotificationCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C711A1A51CDC99E5002D30D9 /* ProductFavoriteNotificationCellDrawer.swift */; };
 		C711A1AC1CDC99E5002D30D9 /* ProductFavoriteNotificationCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C711A1A51CDC99E5002D30D9 /* ProductFavoriteNotificationCellDrawer.swift */; };
-		C711A1AD1CDC99E5002D30D9 /* WelcomeNotificationCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C711A1A61CDC99E5002D30D9 /* WelcomeNotificationCellDrawer.swift */; };
-		C711A1AE1CDC99E5002D30D9 /* WelcomeNotificationCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C711A1A61CDC99E5002D30D9 /* WelcomeNotificationCellDrawer.swift */; };
 		C7126BC71E6052E300038CC4 /* CustomTouchesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7126BC61E6052E300038CC4 /* CustomTouchesTableView.swift */; };
 		C7126BC81E6052E300038CC4 /* CustomTouchesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7126BC61E6052E300038CC4 /* CustomTouchesTableView.swift */; };
 		C7126BD71E6053AA00038CC4 /* ProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7126BD41E6053AA00038CC4 /* ProductViewModel.swift */; };
@@ -875,10 +873,6 @@
 		C73832811E029CC2007D0C03 /* AccountProvider+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C738327F1E029CC2007D0C03 /* AccountProvider+LG.swift */; };
 		C739C1D81D11A2FB0014AD6A /* ChatOtherInfoCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739C1D71D11A2FB0014AD6A /* ChatOtherInfoCellDrawer.swift */; };
 		C739C1D91D11A2FB0014AD6A /* ChatOtherInfoCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739C1D71D11A2FB0014AD6A /* ChatOtherInfoCellDrawer.swift */; };
-		C739D94A1CDC9A2A000F8BA9 /* WelcomeNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739D9481CDC9A2A000F8BA9 /* WelcomeNotificationCell.swift */; };
-		C739D94B1CDC9A2A000F8BA9 /* WelcomeNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739D9481CDC9A2A000F8BA9 /* WelcomeNotificationCell.swift */; };
-		C739D94C1CDC9A2A000F8BA9 /* WelcomeNotificationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C739D9491CDC9A2A000F8BA9 /* WelcomeNotificationCell.xib */; };
-		C739D94D1CDC9A2A000F8BA9 /* WelcomeNotificationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C739D9491CDC9A2A000F8BA9 /* WelcomeNotificationCell.xib */; };
 		C73C163B1D06C1B500DFC67D /* SuggestionSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73C16391D06C1B500DFC67D /* SuggestionSearchCell.swift */; };
 		C73C163C1D06C1B500DFC67D /* SuggestionSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73C16391D06C1B500DFC67D /* SuggestionSearchCell.swift */; };
 		C73C163D1D06C1B500DFC67D /* SuggestionSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C73C163A1D06C1B500DFC67D /* SuggestionSearchCell.xib */; };
@@ -1994,7 +1988,6 @@
 		C711A1A31CDC99E5002D30D9 /* NotificationCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationCellDrawer.swift; sourceTree = "<group>"; };
 		C711A1A41CDC99E5002D30D9 /* NotificationCellDrawerFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationCellDrawerFactory.swift; sourceTree = "<group>"; };
 		C711A1A51CDC99E5002D30D9 /* ProductFavoriteNotificationCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductFavoriteNotificationCellDrawer.swift; sourceTree = "<group>"; };
-		C711A1A61CDC99E5002D30D9 /* WelcomeNotificationCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeNotificationCellDrawer.swift; sourceTree = "<group>"; };
 		C7126BC61E6052E300038CC4 /* CustomTouchesTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTouchesTableView.swift; sourceTree = "<group>"; };
 		C7126BD41E6053AA00038CC4 /* ProductViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductViewModel.swift; sourceTree = "<group>"; };
 		C7126BD51E6053AA00038CC4 /* ProductViewModelStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductViewModelStatus.swift; sourceTree = "<group>"; };
@@ -2042,8 +2035,6 @@
 		C7363FBB1BFA449A00A4BF6F /* ProductSortCriteria+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ProductSortCriteria+LG.swift"; sourceTree = "<group>"; };
 		C738327F1E029CC2007D0C03 /* AccountProvider+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AccountProvider+LG.swift"; sourceTree = "<group>"; };
 		C739C1D71D11A2FB0014AD6A /* ChatOtherInfoCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatOtherInfoCellDrawer.swift; sourceTree = "<group>"; };
-		C739D9481CDC9A2A000F8BA9 /* WelcomeNotificationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeNotificationCell.swift; sourceTree = "<group>"; };
-		C739D9491CDC9A2A000F8BA9 /* WelcomeNotificationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WelcomeNotificationCell.xib; sourceTree = "<group>"; };
 		C73C16391D06C1B500DFC67D /* SuggestionSearchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestionSearchCell.swift; sourceTree = "<group>"; };
 		C73C163A1D06C1B500DFC67D /* SuggestionSearchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SuggestionSearchCell.xib; sourceTree = "<group>"; };
 		C73FABB41DD37968008F4519 /* SettingsLogoutCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsLogoutCell.swift; sourceTree = "<group>"; };
@@ -3732,7 +3723,6 @@
 				C711A1A51CDC99E5002D30D9 /* ProductFavoriteNotificationCellDrawer.swift */,
 				C7740DF31DC386EC00988036 /* ProductSoldNotificationCellDrawer.swift */,
 				C7740DEA1DC34DBC00988036 /* RatingNotificationCellDrawer.swift */,
-				C711A1A61CDC99E5002D30D9 /* WelcomeNotificationCellDrawer.swift */,
 				C73189C11DB9248F005A93EE /* BaseNotificationCellDrawer.swift */,
 				5013403D1E0D359400AD27CA /* BuyersInterestedNotificationCellDrawer.swift */,
 				501340401E0D35A100AD27CA /* ProductSuggestedNotificationCellDrawer.swift */,
@@ -3818,8 +3808,6 @@
 				501340441E0D447400AD27CA /* BuyersInterestedNotificationCell.xib */,
 				C727FBCF1CD10E77002BC643 /* NotificationCell.swift */,
 				C727FBD01CD10E77002BC643 /* NotificationCell.xib */,
-				C739D9481CDC9A2A000F8BA9 /* WelcomeNotificationCell.swift */,
-				C739D9491CDC9A2A000F8BA9 /* WelcomeNotificationCell.xib */,
 				72EB705E1E65C63900BF709B /* ModularNotificationCell.swift */,
 			);
 			path = Cells;
@@ -4717,7 +4705,6 @@
 				C743FEB91E44E46000B4E912 /* PossibleBuyerCell.xib in Resources */,
 				C7B5888B1CE1DFA6009B3975 /* ChatMyMessageCell.xib in Resources */,
 				6A879DA21C8D89B300E0C868 /* PushPrePermissionsSettingsViewController.xib in Resources */,
-				C739D94C1CDC9A2A000F8BA9 /* WelcomeNotificationCell.xib in Resources */,
 				C7B5888F1CE1DFA6009B3975 /* ChatOthersMessageCell.xib in Resources */,
 				50F0BAAA1B28938D00E50A68 /* MainSignUpViewController.xib in Resources */,
 				6A12E0581C6398BE00C1BFE3 /* TourNotificationsViewController.xib in Resources */,
@@ -4860,7 +4847,6 @@
 				C743FEBA1E44E46000B4E912 /* PossibleBuyerCell.xib in Resources */,
 				C7B5888C1CE1DFA6009B3975 /* ChatMyMessageCell.xib in Resources */,
 				6A879DA31C8D89B300E0C868 /* PushPrePermissionsSettingsViewController.xib in Resources */,
-				C739D94D1CDC9A2A000F8BA9 /* WelcomeNotificationCell.xib in Resources */,
 				C7B588901CE1DFA6009B3975 /* ChatOthersMessageCell.xib in Resources */,
 				C7DB42741C5138B500400945 /* MainSignUpViewController.xib in Resources */,
 				6A12E0591C6398BE00C1BFE3 /* TourNotificationsViewController.xib in Resources */,
@@ -5549,7 +5535,6 @@
 				C730750A1E13ABE600EF9A05 /* PassiveBuyersNavigator.swift in Sources */,
 				C7732F721D883C7700EAD5B7 /* OnboardingCoordinator.swift in Sources */,
 				C7BAC9C31E49CEA1005BD0AF /* NotificationsManager.swift in Sources */,
-				C739D94A1CDC9A2A000F8BA9 /* WelcomeNotificationCell.swift in Sources */,
 				C7732F6F1D87FA4600EAD5B7 /* TourPostingViewModel.swift in Sources */,
 				2EBC92151E0ABC73007F0F82 /* PurchaseableProductsResponse.swift in Sources */,
 				2E2A5E121D5C784B0047ED45 /* ExpressChatCoordinator.swift in Sources */,
@@ -5654,7 +5639,6 @@
 				D45838431AEE6B9300B5F181 /* UIColor+RGB.swift in Sources */,
 				C797404F1D2A95B100381A4A /* LeanplumTracker.swift in Sources */,
 				501495EE1D895B5800AC67CA /* DiscoverProductListRequester.swift in Sources */,
-				C711A1AD1CDC99E5002D30D9 /* WelcomeNotificationCellDrawer.swift in Sources */,
 				C730FD111E77FC5A00175C27 /* BooleanDAO.swift in Sources */,
 				6A5E19FE1D548F5400F92692 /* LGLocationCoordinates2D+Distance.swift in Sources */,
 				C7B588811CE1DFA6009B3975 /* ChatCellDrawerFactory.swift in Sources */,
@@ -6092,7 +6076,6 @@
 				C7B588841CE1DFA6009B3975 /* ChatMyMessageCellDrawer.swift in Sources */,
 				C7732F701D87FA4600EAD5B7 /* TourPostingViewModel.swift in Sources */,
 				2EBC92161E0ABC73007F0F82 /* PurchaseableProductsResponse.swift in Sources */,
-				C739D94B1CDC9A2A000F8BA9 /* WelcomeNotificationCell.swift in Sources */,
 				50C43D9D1E26463100F10E53 /* LogInEmailViewModel.swift in Sources */,
 				C7DB41EF1C5138B500400945 /* ProductListView.swift in Sources */,
 				50C2E1A51E6FFB09006639BB /* PostProductPostFooter.swift in Sources */,
@@ -6197,7 +6180,6 @@
 				501495EF1D895B5800AC67CA /* DiscoverProductListRequester.swift in Sources */,
 				6A5E19FF1D548F5400F92692 /* LGLocationCoordinates2D+Distance.swift in Sources */,
 				C79740501D2A95B100381A4A /* LeanplumTracker.swift in Sources */,
-				C711A1AE1CDC99E5002D30D9 /* WelcomeNotificationCellDrawer.swift in Sources */,
 				C75B5DC61D59E09500112368 /* ProductCarouselViewModel.swift in Sources */,
 				C7890A831E55AC0E0079964C /* CameraWrapper.swift in Sources */,
 				2E8ED6A51EC1B60800A2B4AE /* NHRangeSliderView.swift in Sources */,
