@@ -346,7 +346,7 @@
 "log_in_email_email_field_hint" = "Email";
 "log_in_email_footer" = "Δεν έχετε λογαριασμό; Εγγραφή";
 "log_in_email_footer_sign_up_kw" = "Εγγραφή";
-"log_in_email_forgot_password_alert_cancel_action" = "Try Again";
+"log_in_email_forgot_password_alert_cancel_action" = "Προσπαθήστε ξανά";
 "log_in_email_forgot_password_alert_message" = "Μπορούμε να στείλουμε ένα email στο %@ για να σας βοηθήσουμε να ανακτήσετε το λογαριασμό σας.";
 "log_in_email_forgot_password_alert_remember_action" = "Αποστολή email";
 "log_in_email_forgot_password_alert_title" = "Ξέχασες τον κωδικό σου?";
@@ -355,7 +355,7 @@
 "log_in_email_log_in_button" = "Σύνδεση";
 "log_in_email_password_field_hint" = "Κωδικός Πρόσβασης";
 "log_in_email_title" = "Σύνδεση";
-"log_in_email_wrong_password_alert_cancel_action" = "Try Again";
+"log_in_email_wrong_password_alert_cancel_action" = "Προσπαθήστε ξανά";
 "log_in_email_wrong_password_alert_message" = "Ο κωδικός που εισάγατε για %@ είναι λάθος.";
 "log_in_email_wrong_password_alert_title" = "Λάθος κωδικός";
 "log_in_error_send_error_generic" = "Παρουσιάστηκε σφάλμα κατά τη σύνδεση. Παρακαλώ προσπαθήστε ξανά.";

@@ -450,7 +450,7 @@
 "onboarding_notifications_permissions_alert_subtitle" = "Dovrai aprire letgo per controllare se hai nuovi messaggi";
 "onboarding_notifications_permissions_alert_title" = "Sei sicuro?";
 "onboarding_posting_alert_subtitle" = "Puoi eliminarlo successivamente se non hai proprio intenzione di venderlo";
-"onboarding_posting_alert_title" = "Fai una prova pubblicando un libro, un orologio, degli occhiali...";
+"onboarding_posting_alert_title" = "Vuoi fare una prova pubblicando un libro, un orologio o degli occhiali?";
 "onboarding_posting_button_a" = "Vendi le tue cose";
 "onboarding_posting_button_b" = "Inizia";
 "onboarding_posting_button_c" = "Sì, ho qualcosa da vendere";

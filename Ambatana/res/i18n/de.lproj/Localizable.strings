@@ -346,7 +346,7 @@
 "log_in_email_email_field_hint" = "E-Mail";
 "log_in_email_footer" = "Du hast noch kein Benutzerkonto? Registrieren";
 "log_in_email_footer_sign_up_kw" = "Registrieren";
-"log_in_email_forgot_password_alert_cancel_action" = "Try Again";
+"log_in_email_forgot_password_alert_cancel_action" = "Versuch's noch einmal";
 "log_in_email_forgot_password_alert_message" = "Wir können eine E-Mail an %@ schicken, um dir zu helfen, wieder auf dein Benutzerkonto zugreifen zu können.";
 "log_in_email_forgot_password_alert_remember_action" = "E-Mail schicken";
 "log_in_email_forgot_password_alert_title" = "Kennwort vergessen?";
@@ -355,7 +355,7 @@
 "log_in_email_log_in_button" = "Anmelden";
 "log_in_email_password_field_hint" = "Kennwort";
 "log_in_email_title" = "Anmelden";
-"log_in_email_wrong_password_alert_cancel_action" = "Try Again";
+"log_in_email_wrong_password_alert_cancel_action" = "Versuch's noch einmal";
 "log_in_email_wrong_password_alert_message" = "Das von dir eingegebene Kennwort für %@ ist falsch.";
 "log_in_email_wrong_password_alert_title" = "Kennwort falsch";
 "log_in_error_send_error_generic" = "Beim Anmelden ist ein Fehler aufgetreten. Bitte versuche es erneut.";
@@ -450,7 +450,7 @@
 "onboarding_notifications_permissions_alert_subtitle" = "Du musst dann letgo öffnen, um zu sehen, ob du neue Nachrichten bekommen hast";
 "onboarding_notifications_permissions_alert_title" = "Bist du sicher?";
 "onboarding_posting_alert_subtitle" = "Du kannst den Artikel anschließend wieder löschen, wenn du ihn nicht wirklich verkaufen möchtest";
-"onboarding_posting_alert_title" = "Probiere es aus, indem du ein Buch, eine Uhr, deine Brille oder etwas anderes einstellst...";
+"onboarding_posting_alert_title" = "Möchtest du es ausprobieren, indem du ein Buch, eine Uhr, deine Brille oder etwas anderes einstellst...?";
 "onboarding_posting_button_a" = "Verkaufe deine Dinge";
 "onboarding_posting_button_b" = "Leg los";
 "onboarding_posting_button_c" = "Ja, ich möchte Sachen verkaufen";

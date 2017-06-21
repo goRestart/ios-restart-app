@@ -346,7 +346,7 @@
 "log_in_email_email_field_hint" = "E-post";
 "log_in_email_footer" = "Har du ikke konto? Registrer deg";
 "log_in_email_footer_sign_up_kw" = "Registrer deg";
-"log_in_email_forgot_password_alert_cancel_action" = "Try Again";
+"log_in_email_forgot_password_alert_cancel_action" = "Prøv igjen";
 "log_in_email_forgot_password_alert_message" = "Vi kan sende en e-post til %@ for å hjelpe deg tilbake til din konto.";
 "log_in_email_forgot_password_alert_remember_action" = "Send e-post";
 "log_in_email_forgot_password_alert_title" = "Glemt ditt passord?";
@@ -355,7 +355,7 @@
 "log_in_email_log_in_button" = "Logg inn";
 "log_in_email_password_field_hint" = "Passord";
 "log_in_email_title" = "Logg inn";
-"log_in_email_wrong_password_alert_cancel_action" = "Try Again";
+"log_in_email_wrong_password_alert_cancel_action" = "Prøv igjen";
 "log_in_email_wrong_password_alert_message" = "Passordet du har valgt for %@ er ugyldig.";
 "log_in_email_wrong_password_alert_title" = "Ugyldig passord";
 "log_in_error_send_error_generic" = "En feil oppstod ved innlogging. Vennligst prøv igjen.";
@@ -450,7 +450,7 @@
 "onboarding_notifications_permissions_alert_subtitle" = "Du må åpne letgo for å se om du har nye meldinger";
 "onboarding_notifications_permissions_alert_title" = "Er du sikker?";
 "onboarding_posting_alert_subtitle" = "Du kan slette produktet senere hvis du finner ut at du ikke ønsker å selge det";
-"onboarding_posting_alert_title" = "Prøv det ved å publisere en bok, klokke eller dine briller...";
+"onboarding_posting_alert_title" = "Ønsker du å prøve det ved å publisere en bok, klokke eller dine briller...?";
 "onboarding_posting_button_a" = "Selg dine ting";
 "onboarding_posting_button_b" = "Kom i gang";
 "onboarding_posting_button_c" = "Ja, jeg har ting jeg ønsker å selge";
