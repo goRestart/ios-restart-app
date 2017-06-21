@@ -71,6 +71,8 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     }
 
     fileprivate let pageControl: UIPageControl
+    fileprivate let customPageControl: PillPageControl
+    fileprivate var customPageControlBottomConstraint: NSLayoutConstraint?
     fileprivate var moreInfoTooltip: Tooltip?
 
     fileprivate let collectionContentOffset = Variable<CGPoint>(CGPoint.zero)
@@ -120,6 +122,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         self.fullScreenAvatarView = UIImageView(frame: CGRect.zero)
         self.animator = pushAnimator
         self.pageControl = UIPageControl(frame: CGRect.zero)
+        self.customPageControl = PillPageControl(frame: CGRect.zero)
         self.imageDownloader = imageDownloader
         self.carouselImageDownloader = carouselImageDownloader
         self.directAnswersView = DirectAnswersHorizontalView(answers: [], sideMargin: CarouselUI.itemsMargin,
@@ -235,6 +238,8 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     
     func addSubviews() {
         view.addSubview(pageControl)
+        customPageControl.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(customPageControl)
         fullScreenAvatarEffectView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(fullScreenAvatarEffectView)
         userView.translatesAutoresizingMaskIntoConstraints = false
@@ -255,13 +260,11 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         collectionView.alwaysBounceVertical = false
         automaticallyAdjustsScrollViewInsets = false
 
+        customPageControl.backgroundColor = UIColor.clear
+
         CarouselUIHelper.setupPageControl(pageControl, topBarHeight: topBarHeight)
 
-        let views = ["ev": fullScreenAvatarEffectView]
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[ev]|", options: [], metrics: nil,
-                                                                             views: views))
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[ev]|", options: [], metrics: nil,
-                                                                              views: views))
+        fullScreenAvatarEffectView.layout(with: view).fill()
 
         userView.delegate = self
 
@@ -271,10 +274,26 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
             .trailing(by: CarouselUI.itemsMargin, constraintBlock: { [weak self] in
                 self?.userViewRightConstraint = $0
             })
-        userView.layout(with: buttonTop)
+
+        userView.layout(with: customPageControl)
             .above(by: -CarouselUI.itemsMargin, constraintBlock: { [weak self] in
-            self?.userViewBottomConstraint = $0
-        })
+                self?.userViewBottomConstraint = $0
+            })
+
+        customPageControl.layout(with: view).leading(by: CarouselUI.itemsMargin).trailing(by: -CarouselUI.itemsMargin)
+        if viewModel.imageScrollDirection == .horizontal {
+            customPageControl.layout().height(CarouselUI.customPageControlHeight)
+            customPageControl.layout(with: buttonTop)
+                .above(by: -CarouselUI.itemsMargin, constraintBlock: { [weak self] in
+                    self?.customPageControlBottomConstraint = $0
+                })
+        } else {
+            customPageControl.layout().height(0)
+            customPageControl.layout(with: buttonTop)
+                .above(by: 0, constraintBlock: { [weak self] in
+                    self?.customPageControlBottomConstraint = $0
+                })
+        }
 
         // UserView effect
         fullScreenAvatarEffectView.alpha = 0
@@ -385,7 +404,17 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         itemsAlpha.asObservable().bindTo(buttonBottom.rx.alpha).addDisposableTo(disposeBag)
         itemsAlpha.asObservable().bindTo(buttonTop.rx.alpha).addDisposableTo(disposeBag)
         itemsAlpha.asObservable().bindTo(userView.rx.alpha).addDisposableTo(disposeBag)
-        itemsAlpha.asObservable().bindTo(pageControl.rx.alpha).addDisposableTo(disposeBag)
+
+        let pageControlAlpha = Observable.combineLatest(viewModel.horizontalImageNavigationEnabled.asObservable(), itemsAlpha.asObservable(), resultSelector: { horizontalNavigation, itemsAlpha in
+            return horizontalNavigation ? 0 : itemsAlpha
+        }).distinctUntilChanged()
+        pageControlAlpha.asObservable().bindTo(pageControl.rx.alpha).addDisposableTo(disposeBag)
+
+        let customPageControlAlpha = Observable.combineLatest(viewModel.horizontalImageNavigationEnabled.asObservable(), itemsAlpha.asObservable(), resultSelector: { horizontalNavigation, itemsAlpha in
+            return horizontalNavigation ? itemsAlpha : 0
+        }).distinctUntilChanged()
+        customPageControlAlpha.asObservable().bindTo(customPageControl.rx.alpha).addDisposableTo(disposeBag)
+
         itemsAlpha.asObservable().bindTo(productStatusView.rx.alpha).addDisposableTo(disposeBag)
         itemsAlpha.asObservable().bindTo(directChatTable.rx.alpha).addDisposableTo(disposeBag)
         itemsAlpha.asObservable().bindTo(chatContainer.rx.alpha).addDisposableTo(disposeBag)
@@ -486,6 +515,16 @@ extension ProductCarouselViewController {
             pageControl.frame.size = CGSize(width: CarouselUI.pageControlWidth, height:
                 pageControl.size(forNumberOfPages: images.count).width + CarouselUI.pageControlWidth)
         }.addDisposableTo(disposeBag)
+
+        viewModel.productImageURLs.asObservable().bindNext { [weak self] images in
+            guard let customPageControl = self?.customPageControl else { return }
+            customPageControl.progress = 0
+            customPageControl.pageCount = images.count
+            let spacesSize: CGFloat = CGFloat(images.count - 1) * CarouselUI.customPageControlSpaces
+            let screenWidth = UIScreen.main.bounds.width
+            let pillWidth = (screenWidth - (2 * CarouselUI.itemsMargin) - spacesSize)/CGFloat(images.count)
+            customPageControl.pillSize = CGSize(width: pillWidth, height: CarouselUI.customPageControlHeight)
+        }.addDisposableTo(disposeBag)
     }
 
     fileprivate func setupUserInfoRx() {
@@ -552,29 +591,34 @@ extension ProductCarouselViewController {
     }
 
     private func setupBottomButtonsRx() {
-        viewModel.actionButtons.asObservable().bindNext { [weak self] actionButtons in
-            guard let strongSelf = self else { return }
 
-            strongSelf.buttonBottomHeight.constant = actionButtons.isEmpty ? 0 : CarouselUI.buttonHeight
-            strongSelf.buttonTopBottomConstraint.constant = actionButtons.isEmpty ? 0 : CarouselUI.itemsMargin
-            strongSelf.buttonTopHeight.constant = actionButtons.count < 2 ? 0 : CarouselUI.buttonHeight
-            strongSelf.userViewBottomConstraint?.constant = actionButtons.count < 2 ? 0 : -CarouselUI.itemsMargin
+        Observable.combineLatest(viewModel.actionButtons.asObservable(),
+                                 viewModel.horizontalImageNavigationEnabled.asObservable()) { $0 }
+            .bindNext { [weak self] (actionButtons, horizontalImageNavigationEnabled) in
 
-            guard !actionButtons.isEmpty else { return }
+                guard let strongSelf = self else { return }
 
-            let takeUntilAction = strongSelf.viewModel.actionButtons.asObservable().skip(1)
-            guard let bottomAction = actionButtons.first else { return }
-            strongSelf.buttonBottom.configureWith(uiAction: bottomAction)
-            strongSelf.buttonBottom.rx.tap.takeUntil(takeUntilAction).bindNext {
-                bottomAction.action()
-                }.addDisposableTo(strongSelf.disposeBag)
+                strongSelf.buttonBottomHeight.constant = actionButtons.isEmpty ? 0 : CarouselUI.buttonHeight
+                strongSelf.buttonTopBottomConstraint.constant = actionButtons.isEmpty ? 0 : CarouselUI.itemsMargin
+                strongSelf.buttonTopHeight.constant = actionButtons.count < 2 ? 0 : CarouselUI.buttonHeight
+                strongSelf.userViewBottomConstraint?.constant = (actionButtons.count < 2 && !horizontalImageNavigationEnabled) ? 0 : -CarouselUI.itemsMargin
+                strongSelf.customPageControlBottomConstraint?.constant = (actionButtons.count < 2 || horizontalImageNavigationEnabled) ? 0 : -CarouselUI.itemsMargin
 
-            guard let topAction = actionButtons.last, actionButtons.count > 1 else { return }
-            strongSelf.buttonTop.configureWith(uiAction: topAction)
-            strongSelf.buttonTop.rx.tap.takeUntil(takeUntilAction).bindNext {
-                topAction.action()
-                }.addDisposableTo(strongSelf.disposeBag)
+                guard !actionButtons.isEmpty else { return }
 
+                let takeUntilAction = strongSelf.viewModel.actionButtons.asObservable().skip(1)
+                guard let bottomAction = actionButtons.first else { return }
+                strongSelf.buttonBottom.configureWith(uiAction: bottomAction)
+                strongSelf.buttonBottom.rx.tap.takeUntil(takeUntilAction).bindNext {
+                    bottomAction.action()
+                    }.addDisposableTo(strongSelf.disposeBag)
+
+                guard let topAction = actionButtons.last, actionButtons.count > 1 else { return }
+                strongSelf.buttonTop.configureWith(uiAction: topAction)
+                strongSelf.buttonTop.rx.tap.takeUntil(takeUntilAction).bindNext {
+                    topAction.action()
+                    }.addDisposableTo(strongSelf.disposeBag)
+                
             }.addDisposableTo(disposeBag)
     }
 
@@ -747,7 +791,11 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
     }
 
     func didScrollToPage(_ page: Int) {
-        pageControl.currentPage = page
+        if viewModel.horizontalImageNavigationEnabled.value {
+            customPageControl.progress = CGFloat(page)
+        } else {
+            pageControl.currentPage = page
+        }
     }
     
     func didPullFromCellWith(_ offset: CGFloat, bottomLimit: CGFloat) {
