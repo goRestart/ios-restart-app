@@ -12,7 +12,7 @@ import RxSwift
 class ProductCarouselViewController: KeyboardViewController, AnimatableTransition {
 
     @IBOutlet weak var imageBackground: UIImageView!
-    @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
+    @IBOutlet weak var flowLayout: AnimatedPageCollectionViewLayout!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var buttonBottom: UIButton!
     @IBOutlet weak var buttonBottomHeight: NSLayoutConstraint!
@@ -249,9 +249,14 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     }
     
     func setupUI() {
+
+        if viewModel.imageScrollDirection == .horizontal {
+            flowLayout.animator = PageAttributesAnimator()
+        }
+        
         flowLayout.minimumLineSpacing = 0
         flowLayout.minimumInteritemSpacing = 0
-        
+
         collectionView.dataSource = self
         collectionView.delegate = self
         //Duplicating registered cells to avoid reuse of colindant cells
@@ -780,7 +785,7 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
         if newIndexRow < collectionView.numberOfItems(inSection: 0) {
             pendingMovement = .tap
             let nextIndexPath = IndexPath(item: newIndexRow, section: 0)
-            collectionView.scrollToItem(at: nextIndexPath, at: .right, animated: false)
+            collectionView.scrollToItem(at: nextIndexPath, at: .right, animated: true)
         } else {
             collectionView.showRubberBandEffect(.right)
         }
@@ -1127,7 +1132,7 @@ extension ProductCarouselViewController: ProductCarouselViewModelDelegate {
     }
 
     func vmShowOnboarding() {
-        guard  let navigationCtrlView = navigationController?.view ?? view else { return }
+        guard let navigationCtrlView = navigationController?.view ?? view else { return }
         let onboardingVM = ProductDetailOnboardingViewModel()
         onboardingVM.delegate = self
         productOnboardingView = ProductDetailOnboardingView(viewModel: onboardingVM)
