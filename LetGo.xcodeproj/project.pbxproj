@@ -82,6 +82,8 @@
 		2E4436311BF389E000814624 /* LGNavBarSearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4436301BF389E000814624 /* LGNavBarSearchField.swift */; };
 		2E4436331BF389EE00814624 /* LGNavBarSearchField.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E4436321BF389EE00814624 /* LGNavBarSearchField.xib */; };
 		2E4562161BE0F76D00C485D7 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E4562151BE0F76D00C485D7 /* Accelerate.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		2E4627301EF80758007F7380 /* AnimatedPageCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E46272F1EF80758007F7380 /* AnimatedPageCollectionViewLayout.swift */; };
+		2E4627311EF80758007F7380 /* AnimatedPageCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E46272F1EF80758007F7380 /* AnimatedPageCollectionViewLayout.swift */; };
 		2E47610B1EF0343B003F15F2 /* ProductDetailOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E47610A1EF0343B003F15F2 /* ProductDetailOnboardingViewModel.swift */; };
 		2E47610C1EF0343B003F15F2 /* ProductDetailOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E47610A1EF0343B003F15F2 /* ProductDetailOnboardingViewModel.swift */; };
 		2E4952E31E26810D00188880 /* BumpUpFreeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4952DE1E26810D00188880 /* BumpUpFreeViewController.swift */; };
@@ -1522,6 +1524,7 @@
 		2E4436301BF389E000814624 /* LGNavBarSearchField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGNavBarSearchField.swift; sourceTree = "<group>"; };
 		2E4436321BF389EE00814624 /* LGNavBarSearchField.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LGNavBarSearchField.xib; sourceTree = "<group>"; };
 		2E4562151BE0F76D00C485D7 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		2E46272F1EF80758007F7380 /* AnimatedPageCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnimatedPageCollectionViewLayout.swift; path = AnimatedLayout/AnimatedPageCollectionViewLayout.swift; sourceTree = "<group>"; };
 		2E47610A1EF0343B003F15F2 /* ProductDetailOnboardingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDetailOnboardingViewModel.swift; sourceTree = "<group>"; };
 		2E4952DE1E26810D00188880 /* BumpUpFreeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BumpUpFreeViewController.swift; path = Monetization/BumpUpFreeViewController.swift; sourceTree = "<group>"; };
 		2E4952DF1E26810D00188880 /* BumpUpFreeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = BumpUpFreeViewController.xib; path = Monetization/BumpUpFreeViewController.xib; sourceTree = "<group>"; };
@@ -3589,6 +3592,7 @@
 				C75B5DB11D59E09500112368 /* ProductCarouselViewController.xib */,
 				C75B5DB21D59E09500112368 /* ProductCarouselViewModel.swift */,
 				C7D23FE01DCC954D00931803 /* ProductCarouselUIHelper.swift */,
+				2E46272F1EF80758007F7380 /* AnimatedPageCollectionViewLayout.swift */,
 			);
 			path = Carousel;
 			sourceTree = "<group>";
@@ -5360,6 +5364,7 @@
 				8E15D7971E9B97D3000A99C0 /* PostCategoryDetailRowView.swift in Sources */,
 				C75C54431E0D2D2F003F219D /* PassiveBuyersViewModel.swift in Sources */,
 				8E2600731E2FB15D00242B3F /* ChangeEmailViewModel.swift in Sources */,
+				2E4627301EF80758007F7380 /* AnimatedPageCollectionViewLayout.swift in Sources */,
 				509F79AF1ED6E54D00AF2F70 /* CenterAlignedCollectionViewFlowLayout.swift in Sources */,
 				6A5E19DE1D548F5400F92692 /* FBLoginHelper.swift in Sources */,
 				6A672C131CCFB22900AB9175 /* UIColor+LG.swift in Sources */,
@@ -5895,6 +5900,7 @@
 				8E15D7981E9B97D3000A99C0 /* PostCategoryDetailRowView.swift in Sources */,
 				C72794371D549342009C25AB /* ChangePasswordViewController.swift in Sources */,
 				8E2600741E2FB15D00242B3F /* ChangeEmailViewModel.swift in Sources */,
+				2E4627311EF80758007F7380 /* AnimatedPageCollectionViewLayout.swift in Sources */,
 				509F79B01ED6E54D00AF2F70 /* CenterAlignedCollectionViewFlowLayout.swift in Sources */,
 				6A5E19DF1D548F5400F92692 /* FBLoginHelper.swift in Sources */,
 				C75C54441E0D2D2F003F219D /* PassiveBuyersViewModel.swift in Sources */,
