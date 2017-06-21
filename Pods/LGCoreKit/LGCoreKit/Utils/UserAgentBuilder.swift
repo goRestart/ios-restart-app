@@ -14,6 +14,8 @@ protocol UserAgentBuilder {
 }
 
 final class LGUserAgentBuilder: UserAgentBuilder {
+    private static let unknown = "Unknown"
+    
     // Makes a User-Agent with the following the format:
     // target:LetGoGodMode; appVersion:1.17.5; bundle:com.letgo.ios; build:250; os:iOS 10.2.0;
     // device:Apple iPhone 6 Plus; httpLibrary:Alamofire/4.2.0
@@ -28,23 +30,23 @@ final class LGUserAgentBuilder: UserAgentBuilder {
     }
     
     private func makeTarget(appBundle: Bundle) -> String {
-        guard let info = appBundle.infoDictionary else { return "Unknown" }
-        return info[kCFBundleExecutableKey as String] as? String ?? "Unknown"
+        guard let info = appBundle.infoDictionary else { return LGUserAgentBuilder.unknown }
+        return info[kCFBundleExecutableKey as String] as? String ?? LGUserAgentBuilder.unknown
     }
     
     private func makeAppVersion(appBundle: Bundle) -> String {
-        guard let info = appBundle.infoDictionary else { return "Unknown" }
-        return info["CFBundleShortVersionString"] as? String ?? "Unknown"
+        guard let info = appBundle.infoDictionary else { return LGUserAgentBuilder.unknown }
+        return info["CFBundleShortVersionString"] as? String ?? LGUserAgentBuilder.unknown
     }
     
     private func makeBundle(appBundle: Bundle) -> String {
-        guard let info = appBundle.infoDictionary else { return "Unknown" }
-        return info[kCFBundleIdentifierKey as String] as? String ?? "Unknown"
+        guard let info = appBundle.infoDictionary else { return LGUserAgentBuilder.unknown }
+        return info[kCFBundleIdentifierKey as String] as? String ?? LGUserAgentBuilder.unknown
     }
     
     private func makeBuild(appBundle: Bundle) -> String {
-        guard let info = appBundle.infoDictionary else { return "Unknown" }
-        return info[kCFBundleVersionKey as String] as? String ?? "Unknown"
+        guard let info = appBundle.infoDictionary else { return LGUserAgentBuilder.unknown }
+        return info[kCFBundleVersionKey as String] as? String ?? LGUserAgentBuilder.unknown
     }
     
     private func makeOS() -> String {
@@ -60,7 +62,7 @@ final class LGUserAgentBuilder: UserAgentBuilder {
         #elseif os(Linux)
             operatingSystem = "Linux"
         #else
-            operatingSystem = "Unknown"
+            operatingSystem = LGUserAgentBuilder.unknown
         #endif
         
         let version = ProcessInfo.processInfo.operatingSystemVersion
@@ -69,13 +71,13 @@ final class LGUserAgentBuilder: UserAgentBuilder {
     }
     
     private func makeDevice() -> String {
-        let model = DeviceGuru.hardwareDescription() ?? "Unknown"
+        let model = DeviceGuru.hardwareDescription() ?? LGUserAgentBuilder.unknown
         return "Apple \(model)"
     }
     
     private func makeHTTPLibrary() -> String {
-        guard let info = Bundle(for: Alamofire.SessionManager.self).infoDictionary else { return "Unknown" }
-        let build = info["CFBundleShortVersionString"] as? String ?? "Unknown"
+        guard let info = Bundle(for: Alamofire.SessionManager.self).infoDictionary else { return LGUserAgentBuilder.unknown }
+        let build = info["CFBundleShortVersionString"] as? String ?? LGUserAgentBuilder.unknown
         return "Alamofire/\(build)"
     }
 }

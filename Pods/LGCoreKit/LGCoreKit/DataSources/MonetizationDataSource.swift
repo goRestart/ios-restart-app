@@ -16,9 +16,9 @@ typealias MonetizationDataSourceBumpCompletion = (MonetizationDataSourceBumpResu
 
 protocol MonetizationDataSource {
     func retrieveBumpeableProductInfo(productId: String, completion: MonetizationDataSourceBumpeableProductCompletion?)
-    func freeBump(forProduct productId: String, itemId: String, paymentId: String,
+    func freeBump(forListingId listingId: String, itemId: String, paymentId: String,
                   completion: MonetizationDataSourceBumpCompletion?)
-    func pricedBump(forProduct productId: String, receiptData: String, itemId: String, itemPrice: String, itemCurrency: String,
+    func pricedBump(forListingId listingId: String, receiptData: String, itemId: String, itemPrice: String, itemCurrency: String,
                     paymentId: String, amplitudeId: String?, appsflyerId: String?, idfa: String?, bundleId: String?,
                     completion: MonetizationDataSourceBumpCompletion?)
 }
