@@ -50,17 +50,17 @@ class MonetizationApiDataSource : MonetizationDataSource {
         apiClient.request(request, decoder: MonetizationApiDataSource.decoderBumpeableProduct, completion: completion)
     }
 
-    func freeBump(forProduct productId: String, itemId: String, paymentId: String,
+    func freeBump(forListingId listingId: String, itemId: String, paymentId: String,
                   completion: MonetizationDataSourceBumpCompletion?) {
         let params: [String : Any] = [MonetizationApiDataSource.paymentIdKey: paymentId,
                                       MonetizationApiDataSource.itemIdKey: itemId,
-                                      MonetizationApiDataSource.productIdKey: productId]
+                                      MonetizationApiDataSource.productIdKey: listingId]
         let request = MonetizationRouter.freeBump(params: params)
 
         apiClient.request(request, completion: completion)
     }
 
-    func pricedBump(forProduct productId: String, receiptData: String, itemId: String, itemPrice: String, itemCurrency: String,
+    func pricedBump(forListingId listingId: String, receiptData: String, itemId: String, itemPrice: String, itemCurrency: String,
                     paymentId: String, amplitudeId: String?, appsflyerId: String?, idfa: String?, bundleId: String?,
                     completion: MonetizationDataSourceBumpCompletion?) {
 
@@ -69,7 +69,7 @@ class MonetizationApiDataSource : MonetizationDataSource {
         let params: [String : Any] = [MonetizationApiDataSource.paymentIdKey: paymentId,
                                       MonetizationApiDataSource.receiptDataKey: receiptData,
                                       MonetizationApiDataSource.itemIdKey: itemId,
-                                      MonetizationApiDataSource.productIdKey: productId,
+                                      MonetizationApiDataSource.productIdKey: listingId,
                                       MonetizationApiDataSource.priceAmountKey: itemPrice,
                                       MonetizationApiDataSource.priceCurrencyKey: itemCurrency,
                                       MonetizationApiDataSource.analyticsContextKey: analyticsParams]

@@ -38,9 +38,9 @@ class NotificationsViewModelSpec: BaseViewModelSpec {
                                                          featureFlags: MockFeatureFlags())
                             sut.refresh()
                         }
-                        // no notifications from backend but we add "wellcome notification" locally
-                        it ("notifications data has one item") {
-                         expect(sut.dataCount).toEventually(equal(1))
+                        // no notifications from backend
+                        it ("notifications data has not any item") {
+                         expect(sut.dataCount).toEventually(equal(0))
                         }
                         it("tracks empty-state-error event") {
                             expect(tracker.trackedEvents.flatMap { $0.name })

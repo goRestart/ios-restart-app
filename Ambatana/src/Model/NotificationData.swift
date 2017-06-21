@@ -9,7 +9,6 @@
 import LGCoreKit
 
 enum NotificationDataType {
-    case welcome(city: String?)
     case productFavorite(product: NotificationListing, user: NotificationUser)
     case productSold(productImage: String?)
     case rating(user: NotificationUser)

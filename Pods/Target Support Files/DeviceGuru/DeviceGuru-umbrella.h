@@ -10,8 +10,7 @@
 #endif
 #endif
 
-#import "DeviceUtil.h"
 
-FOUNDATION_EXPORT double DeviceUtilVersionNumber;
-FOUNDATION_EXPORT const unsigned char DeviceUtilVersionString[];
+FOUNDATION_EXPORT double DeviceGuruVersionNumber;
+FOUNDATION_EXPORT const unsigned char DeviceGuruVersionString[];
 

@@ -330,6 +330,9 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
             self?.galleryButtonPressed()
         }.addDisposableTo(disposeBag)
         cameraView.takePhotoEnabled.asObservable().bindTo(footer.cameraButton.rx.isEnabled).addDisposableTo(disposeBag)
+        if let galleryButton = footer.galleryButton {
+            cameraView.takePhotoEnabled.asObservable().bindTo(galleryButton.rx.isEnabled).addDisposableTo(disposeBag)
+        }
         footer.cameraButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
             self?.cameraButtonPressed()
         }.addDisposableTo(disposeBag)
