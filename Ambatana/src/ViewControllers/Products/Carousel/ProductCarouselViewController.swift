@@ -1199,6 +1199,7 @@ fileprivate extension ProductCarouselViewController {
         directChatTable.accessibilityId = .productCarouselDirectChatTable
         fullScreenAvatarView.accessibilityId = .productCarouselFullScreenAvatarView
         pageControl.accessibilityId = .productCarouselPageControl
+        customPageControl.accessibilityId = .productCarouselCustomPageControl
         userView.accessibilityId = .productCarouselUserView
         chatTextView.accessibilityId = .productCarouselChatTextView
     }
