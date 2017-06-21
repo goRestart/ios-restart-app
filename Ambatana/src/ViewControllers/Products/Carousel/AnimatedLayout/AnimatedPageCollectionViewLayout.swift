@@ -87,13 +87,14 @@ public class AnimatedPageCollectionViewLayoutAttributes: UICollectionViewLayoutA
     public var endOffset: CGFloat = 0
 
     public override func copy(with zone: NSZone? = nil) -> Any {
-        let copy = super.copy(with: zone) as! AnimatedPageCollectionViewLayoutAttributes
-        copy.contentView = contentView
-        copy.scrollDirection = scrollDirection
-        copy.startOffset = startOffset
-        copy.middleOffset = middleOffset
-        copy.endOffset = endOffset
-        return copy
+        let copy = super.copy(with: zone)
+        guard let animatedPageCopy = copy as? AnimatedPageCollectionViewLayoutAttributes else { return copy }
+        animatedPageCopy.contentView = contentView
+        animatedPageCopy.scrollDirection = scrollDirection
+        animatedPageCopy.startOffset = startOffset
+        animatedPageCopy.middleOffset = middleOffset
+        animatedPageCopy.endOffset = endOffset
+        return animatedPageCopy
     }
 
     public override func isEqual(_ object: Any?) -> Bool {
