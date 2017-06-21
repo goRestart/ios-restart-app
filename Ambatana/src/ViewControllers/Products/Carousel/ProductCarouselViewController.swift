@@ -1079,7 +1079,7 @@ extension ProductCarouselViewController: ProductCarouselViewModelDelegate {
     }
 
     func vmShowOnboarding() {
-        guard  let navigationCtrlView = navigationController?.view ?? view else { return }
+        guard let navigationCtrlView = navigationController?.view ?? view else { return }
         let onboardingVM = ProductDetailOnboardingViewModel()
         onboardingVM.delegate = self
         productOnboardingView = ProductDetailOnboardingView(viewModel: onboardingVM)
