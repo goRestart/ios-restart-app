@@ -112,6 +112,8 @@ class ProductCarouselViewModel: BaseViewModel {
         return .vertical
     }
 
+    let horizontalImageNavigationEnabled = Variable<Bool>(false)
+
     fileprivate var trackingIndex: Int?
     fileprivate var initialThumbnail: UIImage?
 
@@ -358,6 +360,9 @@ class ProductCarouselViewModel: BaseViewModel {
     }
 
     private func setupRxBindings() {
+
+        horizontalImageNavigationEnabled.value = imageScrollDirection == .horizontal
+
         quickAnswersCollapsed.asObservable().skip(1).bindNext { [weak self] collapsed in
             self?.keyValueStorage[.productDetailQuickAnswersHidden] = collapsed
         }.addDisposableTo(disposeBag)

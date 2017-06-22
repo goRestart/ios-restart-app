@@ -82,6 +82,8 @@
 		2E4436311BF389E000814624 /* LGNavBarSearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4436301BF389E000814624 /* LGNavBarSearchField.swift */; };
 		2E4436331BF389EE00814624 /* LGNavBarSearchField.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E4436321BF389EE00814624 /* LGNavBarSearchField.xib */; };
 		2E4562161BE0F76D00C485D7 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E4562151BE0F76D00C485D7 /* Accelerate.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		2E4627331EF9719C007F7380 /* PillPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4627321EF9719C007F7380 /* PillPageControl.swift */; };
+		2E4627341EF9719C007F7380 /* PillPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4627321EF9719C007F7380 /* PillPageControl.swift */; };
 		2E4627301EF80758007F7380 /* AnimatedPageCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E46272F1EF80758007F7380 /* AnimatedPageCollectionViewLayout.swift */; };
 		2E4627311EF80758007F7380 /* AnimatedPageCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E46272F1EF80758007F7380 /* AnimatedPageCollectionViewLayout.swift */; };
 		2E47610B1EF0343B003F15F2 /* ProductDetailOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E47610A1EF0343B003F15F2 /* ProductDetailOnboardingViewModel.swift */; };
@@ -1524,6 +1526,7 @@
 		2E4436301BF389E000814624 /* LGNavBarSearchField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGNavBarSearchField.swift; sourceTree = "<group>"; };
 		2E4436321BF389EE00814624 /* LGNavBarSearchField.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LGNavBarSearchField.xib; sourceTree = "<group>"; };
 		2E4562151BE0F76D00C485D7 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		2E4627321EF9719C007F7380 /* PillPageControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PillPageControl.swift; path = PillPageControl/PillPageControl.swift; sourceTree = "<group>"; };
 		2E46272F1EF80758007F7380 /* AnimatedPageCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnimatedPageCollectionViewLayout.swift; path = AnimatedLayout/AnimatedPageCollectionViewLayout.swift; sourceTree = "<group>"; };
 		2E47610A1EF0343B003F15F2 /* ProductDetailOnboardingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDetailOnboardingViewModel.swift; sourceTree = "<group>"; };
 		2E4952DE1E26810D00188880 /* BumpUpFreeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BumpUpFreeViewController.swift; path = Monetization/BumpUpFreeViewController.swift; sourceTree = "<group>"; };
@@ -2471,6 +2474,14 @@
 				509F79AB1ED6CD1C00AF2F70 /* UserRatingTagCell.swift */,
 			);
 			name = Cells;
+			sourceTree = "<group>";
+		};
+		2E4627351EF971E0007F7380 /* PillPageControl */ = {
+			isa = PBXGroup;
+			children = (
+				2E4627321EF9719C007F7380 /* PillPageControl.swift */,
+			);
+			name = PillPageControl;
 			sourceTree = "<group>";
 		};
 		2E4952DD1E26808D00188880 /* Monetization */ = {
@@ -4287,6 +4298,7 @@
 		D458383C1AEE6A9100B5F181 /* ui */ = {
 			isa = PBXGroup;
 			children = (
+				2E4627351EF971E0007F7380 /* PillPageControl */,
 				508AFB081E51D1B10007363D /* AutocompleteField */,
 				2E3665671DE487A300000F68 /* PostIncevatorView */,
 				2E00C4DE1D00364C00B95010 /* LGAlertViewController */,
@@ -5379,6 +5391,7 @@
 				50C59BDE1CE0DBC100377124 /* KeyValueStorage.swift in Sources */,
 				C7B5432D1D758BF9005FBA30 /* VerifyAccountsViewModel.swift in Sources */,
 				D4BFE5B41B640C36006A8CB6 /* MainProductsViewController.swift in Sources */,
+				2E4627331EF9719C007F7380 /* PillPageControl.swift in Sources */,
 				C7DE8ADC1C88A8E5005CF37E /* PostProductViewModel.swift in Sources */,
 				72EB705F1E65C63900BF709B /* ModularNotificationCell.swift in Sources */,
 				50146BC21D4F5F5B00B0F635 /* TabCoordinator.swift in Sources */,
@@ -5915,6 +5928,7 @@
 				C7C61DFD1D630ED800F9505D /* CollectionCell.swift in Sources */,
 				C7B543251D6F49D1005FBA30 /* UIView+Screenshot.swift in Sources */,
 				50C59BDF1CE0DBC100377124 /* KeyValueStorage.swift in Sources */,
+				2E4627341EF9719C007F7380 /* PillPageControl.swift in Sources */,
 				C7B5432E1D758BF9005FBA30 /* VerifyAccountsViewModel.swift in Sources */,
 				72EB70601E65C63900BF709B /* ModularNotificationCell.swift in Sources */,
 				C7DE8ADD1C88A8E5005CF37E /* PostProductViewModel.swift in Sources */,
