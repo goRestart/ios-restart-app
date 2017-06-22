@@ -10,70 +10,78 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-protocol ProductDetailOnboardingViewDelegate: class {
-    func productDetailOnboardingDidAppear()
-    func productDetailOnboardingDidDisappear()
-}
+class ProductDetailOnboardingView: BaseView {
 
-class ProductDetailOnboardingView: UIView {
-
+    @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var fingersView: UIVisualEffectView!
-    @IBOutlet weak var tapToGoLabel: UILabel!
-    @IBOutlet weak var swipeToGoLabel: UILabel!
-    @IBOutlet weak var scrollToSeeLabel: UILabel!
+    @IBOutlet weak var newLabel: UILabel!
+    @IBOutlet weak var firstLabel: UILabel!
+    @IBOutlet weak var secondLabel: UILabel!
+    @IBOutlet weak var thirdLabel: UILabel!
+    @IBOutlet weak var firstImage: UIImageView!
+    @IBOutlet weak var secondImage: UIImageView!
+    @IBOutlet weak var thirdImage: UIImageView!
+
+    private var viewModel: ProductDetailOnboardingViewModel
 
     private var showChatsStep = false
 
     private let disposeBag = DisposeBag()
 
-    weak var delegate: ProductDetailOnboardingViewDelegate?
 
     // MARK: - Lifecycle
 
-    static func instanceFromNibWithState() -> ProductDetailOnboardingView { 
-        guard let view = Bundle.main.loadNibNamed("ProductDetailOnboardingView", owner: self, options: nil)?
-            .first as? ProductDetailOnboardingView else { return ProductDetailOnboardingView() }
-        return view
-    }
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(viewModel: ProductDetailOnboardingViewModel) {
+        self.viewModel = viewModel
+        super.init(viewModel: viewModel, frame: CGRect.zero)
     }
 
     required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        fatalError("init(coder:) has not been implemented")
     }
 
     func setupUI() {
+        Bundle.main.loadNibNamed("ProductDetailOnboardingView", owner: self, options: nil)
+        contentView.frame = bounds
+        contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        contentView.backgroundColor = UIColor.listBackgroundColor
+        addSubview(contentView)
+
+        newLabel.text = viewModel.newText
+        newLabel.isHidden = viewModel.newLabelIsHidden
+
         setupFingersView()
         setupViewsVisibility()
         setupTapRecognizers()
         setAccessibilityIds()
+        active = true
     }
 
 
-    // MARK: -Tap actions
+    // MARK: - Tap actions
 
     dynamic private func closeView() {
+        active = false
         UIApplication.shared.setStatusBarHidden(false, with: .fade)
         removeFromSuperview()
-        delegate?.productDetailOnboardingDidDisappear()
+        viewModel.close()
     }
 
 
     // MARK: - private methods
 
     private func setupFingersView() {
-        tapToGoLabel.text = LGLocalizedString.productOnboardingFingerTapLabel
-        swipeToGoLabel.text = LGLocalizedString.productOnboardingFingerSwipeLabel
-        scrollToSeeLabel.text = LGLocalizedString.productOnboardingFingerScrollLabel
+        firstImage.image = viewModel.firstImage
+        firstLabel.attributedText = viewModel.firstText
+        secondImage.image = viewModel.secondImage
+        secondLabel.attributedText = viewModel.secondText
+        thirdImage.image = viewModel.thirdImage
+        thirdLabel.attributedText = viewModel.thirdText
     }
 
     private func setupViewsVisibility() {
         UIApplication.shared.setStatusBarHidden(true, with: .fade)
         fingersView.alpha = 1
-        KeyValueStorage.sharedInstance[.didShowProductDetailOnboarding] = true
-        delegate?.productDetailOnboardingDidAppear()
     }
 
     private func setupTapRecognizers() {

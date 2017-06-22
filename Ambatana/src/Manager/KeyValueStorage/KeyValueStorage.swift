@@ -33,7 +33,7 @@ extension DefaultsKeys {
 
     static let didShowOnboarding = DefaultsKey<Bool>("didShowOnboarding")
     static let didShowProductDetailOnboarding = DefaultsKey<Bool>("didShowProductDetailOnboarding")
-    static let didShowProductDetailOnboardingOthersProduct = DefaultsKey<Bool>("didShowProductDetailOnboardingOthersProduct")
+    static let didShowHorizontalProductDetailOnboarding = DefaultsKey<Bool>("didShowHorizontalProductDetailOnboarding")
     static let productDetailQuickAnswersHidden = DefaultsKey<Bool>("productDetailQuickAnswers")
     static let productMoreInfoTooltipDismissed = DefaultsKey<Bool>("showMoreInfoTooltip")
 

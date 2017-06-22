@@ -38,6 +38,7 @@ class ABTests {
     let newMarkAsSoldFlow = BoolABDynamicVar(key: "newMarkAsSoldFlow", defaultValue: false)
     let editLocationBubble = IntABDynamicVar(key: "editLocationBubble20170525", defaultValue: 0)
     let newCarsMultiRequesterEnabled = BoolABDynamicVar(key: "newCarsMultiRequesterEnabled", defaultValue: false)
+    let newCarouselNavigationEnabled = BoolABDynamicVar(key: "newCarouselNavigationEnabled20170606", defaultValue: false)
     let newOnboardingPhase1 = BoolABDynamicVar(key: "newOnboardingPhase1", defaultValue: false)
 
     init() {
@@ -71,6 +72,8 @@ class ABTests {
         result.append(newMarkAsSoldFlow)
         result.append(editLocationBubble)
         result.append(newCarsMultiRequesterEnabled)
+        result.append(newCarouselNavigationEnabled)
+        result.append(newOnboardingPhase1)
 
         return result
     }
