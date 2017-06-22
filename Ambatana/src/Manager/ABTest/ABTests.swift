@@ -39,6 +39,7 @@ class ABTests {
     let editLocationBubble = IntABDynamicVar(key: "editLocationBubble20170525", defaultValue: 0)
     let newCarsMultiRequesterEnabled = BoolABDynamicVar(key: "newCarsMultiRequesterEnabled", defaultValue: false)
     let newOnboardingPhase1 = BoolABDynamicVar(key: "newOnboardingPhase1", defaultValue: false)
+    let searchParamDisc24 = IntABDynamicVar(key: "searchParamDisc24", defaultValue: 0)
 
     init() {
     }

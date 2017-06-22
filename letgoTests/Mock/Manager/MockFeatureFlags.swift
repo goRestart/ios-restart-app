@@ -42,6 +42,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var editLocationBubble: EditLocationBubble = .inactive
     var newCarsMultiRequesterEnabled: Bool = false
     var newOnboardingPhase1: Bool = false
+    var searchParamDisc24: SearchParamDisc24 = .disc24a
 
     // Country dependant features
     var freePostingModeAllowed = false
