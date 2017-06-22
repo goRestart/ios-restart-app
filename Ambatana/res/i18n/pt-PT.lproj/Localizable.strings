@@ -346,7 +346,7 @@
 "log_in_email_email_field_hint" = "Email";
 "log_in_email_footer" = "Ainda não tem uma conta? Inscreva-se";
 "log_in_email_footer_sign_up_kw" = "Inscreva-se";
-"log_in_email_forgot_password_alert_cancel_action" = "Try Again";
+"log_in_email_forgot_password_alert_cancel_action" = "Tente novamente";
 "log_in_email_forgot_password_alert_message" = "Podemos enviar um email para %@ e ajudá-lo a regressar à sua conta.";
 "log_in_email_forgot_password_alert_remember_action" = "Enviar Email";
 "log_in_email_forgot_password_alert_title" = "Esqueceu a senha?";
@@ -355,7 +355,7 @@
 "log_in_email_log_in_button" = "Login";
 "log_in_email_password_field_hint" = "Senha";
 "log_in_email_title" = "Login";
-"log_in_email_wrong_password_alert_cancel_action" = "Try Again";
+"log_in_email_wrong_password_alert_cancel_action" = "Tente novamente";
 "log_in_email_wrong_password_alert_message" = "A password que introduziu para %@ não está correta.";
 "log_in_email_wrong_password_alert_title" = "Password incorreta";
 "log_in_error_send_error_generic" = "Ocorreu um erro ao fazer o login. Por favor tente novamente.";

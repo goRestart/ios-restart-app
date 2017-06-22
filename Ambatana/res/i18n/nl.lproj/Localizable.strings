@@ -346,7 +346,7 @@
 "log_in_email_email_field_hint" = "EMAIL";
 "log_in_email_footer" = "Heb je nog geen account? Meld je aan";
 "log_in_email_footer_sign_up_kw" = "Meld je aan";
-"log_in_email_forgot_password_alert_cancel_action" = "Try Again";
+"log_in_email_forgot_password_alert_cancel_action" = "Probeer opnieuw";
 "log_in_email_forgot_password_alert_message" = "We kunnen een email sturen naar %@ om je te helpen om terug in je account to komen.";
 "log_in_email_forgot_password_alert_remember_action" = "Verzend e-mail";
 "log_in_email_forgot_password_alert_title" = "Wachtwoord vergeten?";
@@ -355,7 +355,7 @@
 "log_in_email_log_in_button" = "Log in";
 "log_in_email_password_field_hint" = "Wachtwoord";
 "log_in_email_title" = "Log in";
-"log_in_email_wrong_password_alert_cancel_action" = "Try Again";
+"log_in_email_wrong_password_alert_cancel_action" = "Probeer opnieuw";
 "log_in_email_wrong_password_alert_message" = "Het wachtwoord dat je hebt ingevuld voor %@ is onjuist.";
 "log_in_email_wrong_password_alert_title" = "Onjuist wachtwoord";
 "log_in_error_send_error_generic" = "Er is een fout opgetreden tijdens het inloggen. Probeer het nog eens.";
