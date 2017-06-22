@@ -294,19 +294,19 @@ extension SearchParamDisc24 {
     var stringValue: String {
         switch self {
         case .disc24a:
-            return "disc24a"
+            return "disc24-a"
         case .disc24b:
-            return "disc24b"
+            return "disc24-b"
         case .disc24c:
-            return "disc24c"
+            return "disc24-c"
         case .disc24d:
-            return "disc24d"
+            return "disc24-d"
         case .disc24e:
-            return "disc24e"
+            return "disc24-e"
         case .disc24f:
-            return "disc24f"
+            return "disc24-f"
         case .disc24g:
-            return "disc24g"
+            return "disc24-g"
         }
     }
 }

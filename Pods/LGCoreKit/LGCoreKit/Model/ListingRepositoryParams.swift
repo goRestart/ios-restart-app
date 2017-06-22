@@ -37,6 +37,7 @@ public struct RetrieveListingParams {
     public var modelId: RetrieveListingParam<String>?
     public var startYear: RetrieveListingParam<Int>?
     public var endYear: RetrieveListingParam<Int>?
+    public var abtest: String?
     
     public init() { }
     
@@ -87,6 +88,7 @@ public struct RetrieveListingParams {
         params["offset"] = offset
         params["sort"] = sortCriteria?.string
         params["since"] = timeCriteria?.string
+        params["abtest"] = abtest
         
         // Car attributes
         var carsPositiveAttrs = [String: Any]()
