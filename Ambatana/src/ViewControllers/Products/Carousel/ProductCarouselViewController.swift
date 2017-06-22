@@ -269,6 +269,21 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
 
         CarouselUIHelper.setupPageControl(pageControl, topBarHeight: topBarHeight)
 
+        customPageControl.layout(with: view).leading(by: CarouselUI.itemsMargin).trailing(by: -CarouselUI.itemsMargin)
+        if viewModel.imageScrollDirection == .horizontal {
+            customPageControl.layout().height(CarouselUI.customPageControlHeight)
+            customPageControl.layout(with: buttonTop)
+                .above(by: -CarouselUI.itemsMargin, constraintBlock: { [weak self] in
+                    self?.customPageControlBottomConstraint = $0
+                })
+        } else {
+            customPageControl.layout().height(0)
+            customPageControl.layout(with: buttonTop)
+                .above(by: 0, constraintBlock: { [weak self] in
+                    self?.customPageControlBottomConstraint = $0
+                })
+        }
+
         fullScreenAvatarEffectView.layout(with: view).fill()
 
         userView.delegate = self
@@ -284,21 +299,6 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
             .above(by: -CarouselUI.itemsMargin, constraintBlock: { [weak self] in
                 self?.userViewBottomConstraint = $0
             })
-
-        customPageControl.layout(with: view).leading(by: CarouselUI.itemsMargin).trailing(by: -CarouselUI.itemsMargin)
-        if viewModel.imageScrollDirection == .horizontal {
-            customPageControl.layout().height(CarouselUI.customPageControlHeight)
-            customPageControl.layout(with: buttonTop)
-                .above(by: -CarouselUI.itemsMargin, constraintBlock: { [weak self] in
-                    self?.customPageControlBottomConstraint = $0
-                })
-        } else {
-            customPageControl.layout().height(0)
-            customPageControl.layout(with: buttonTop)
-                .above(by: 0, constraintBlock: { [weak self] in
-                    self?.customPageControlBottomConstraint = $0
-                })
-        }
 
         // UserView effect
         fullScreenAvatarEffectView.alpha = 0
@@ -410,15 +410,12 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         itemsAlpha.asObservable().bindTo(buttonTop.rx.alpha).addDisposableTo(disposeBag)
         itemsAlpha.asObservable().bindTo(userView.rx.alpha).addDisposableTo(disposeBag)
 
-        let pageControlAlpha = Observable.combineLatest(viewModel.horizontalImageNavigationEnabled.asObservable(), itemsAlpha.asObservable(), resultSelector: { horizontalNavigation, itemsAlpha in
-            return horizontalNavigation ? 0 : itemsAlpha
-        }).distinctUntilChanged()
-        pageControlAlpha.asObservable().bindTo(pageControl.rx.alpha).addDisposableTo(disposeBag)
+        Observable.combineLatest(viewModel.horizontalImageNavigationEnabled.asObservable(), itemsAlpha.asObservable()) { ($0, $1) }
+            .bindNext { [weak self] (horizontalNavigation, itemsAlpha) in
+                self?.pageControl.alpha = horizontalNavigation ? 0 : itemsAlpha
+                self?.customPageControl.alpha = horizontalNavigation ? itemsAlpha : 0
+            }.addDisposableTo(disposeBag)
 
-        let customPageControlAlpha = Observable.combineLatest(viewModel.horizontalImageNavigationEnabled.asObservable(), itemsAlpha.asObservable(), resultSelector: { horizontalNavigation, itemsAlpha in
-            return horizontalNavigation ? itemsAlpha : 0
-        }).distinctUntilChanged()
-        customPageControlAlpha.asObservable().bindTo(customPageControl.rx.alpha).addDisposableTo(disposeBag)
 
         itemsAlpha.asObservable().bindTo(productStatusView.rx.alpha).addDisposableTo(disposeBag)
         itemsAlpha.asObservable().bindTo(directChatTable.rx.alpha).addDisposableTo(disposeBag)
