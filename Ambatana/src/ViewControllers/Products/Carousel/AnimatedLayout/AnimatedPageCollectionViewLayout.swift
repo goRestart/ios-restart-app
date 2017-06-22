@@ -33,7 +33,7 @@ public class AnimatedPageCollectionViewLayout: UICollectionViewFlowLayout {
 
         guard let collectionView = self.collectionView else { return attributes }
 
-        let a = attributes
+        let newAttributes = attributes
 
         /**
          The position for each cell is defined as the ratio of the distance between
@@ -47,28 +47,28 @@ public class AnimatedPageCollectionViewLayout: UICollectionViewFlowLayout {
 
         if scrollDirection == .horizontal {
             distance = collectionView.frame.width
-            itemOffset = a.center.x - collectionView.contentOffset.x
-            a.startOffset = (a.frame.origin.x - collectionView.contentOffset.x) / a.frame.width
-            a.endOffset = (a.frame.origin.x - collectionView.contentOffset.x - collectionView.frame.width) / a.frame.width
+            itemOffset = newAttributes.center.x - collectionView.contentOffset.x
+            newAttributes.startOffset = (newAttributes.frame.origin.x - collectionView.contentOffset.x) / newAttributes.frame.width
+            newAttributes.endOffset = (newAttributes.frame.origin.x - collectionView.contentOffset.x - collectionView.frame.width) / newAttributes.frame.width
         } else {
             distance = collectionView.frame.height
-            itemOffset = a.center.y - collectionView.contentOffset.y
-            a.startOffset = (a.frame.origin.y - collectionView.contentOffset.y) / a.frame.height
-            a.endOffset = (a.frame.origin.y - collectionView.contentOffset.y - collectionView.frame.height) / a.frame.height
+            itemOffset = newAttributes.center.y - collectionView.contentOffset.y
+            newAttributes.startOffset = (newAttributes.frame.origin.y - collectionView.contentOffset.y) / newAttributes.frame.height
+            newAttributes.endOffset = (newAttributes.frame.origin.y - collectionView.contentOffset.y - collectionView.frame.height) / newAttributes.frame.height
         }
 
-        a.scrollDirection = scrollDirection
-        a.middleOffset = itemOffset / distance - 0.5
+        newAttributes.scrollDirection = scrollDirection
+        newAttributes.middleOffset = itemOffset / distance - 0.5
 
         // Cache the contentView since we're going to use it a lot.
-        if a.contentView == nil,
-            let c = collectionView.cellForItem(at: attributes.indexPath)?.contentView {
-            a.contentView = c
+        if newAttributes.contentView == nil,
+            let cellContentView = collectionView.cellForItem(at: attributes.indexPath)?.contentView {
+            newAttributes.contentView = cellContentView
         }
 
-        animator?.animate(collectionView: collectionView, attributes: a)
+        animator?.animate(collectionView: collectionView, attributes: newAttributes)
 
-        return a
+        return newAttributes
     }
 }
 

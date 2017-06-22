@@ -54,13 +54,14 @@ class ProductDetailOnboardingView: BaseView {
         setupViewsVisibility()
         setupTapRecognizers()
         setAccessibilityIds()
-        viewModel.hasBeenShown()
+        active = true
     }
 
 
     // MARK: - Tap actions
 
     dynamic private func closeView() {
+        active = false
         UIApplication.shared.setStatusBarHidden(false, with: .fade)
         removeFromSuperview()
         viewModel.close()
