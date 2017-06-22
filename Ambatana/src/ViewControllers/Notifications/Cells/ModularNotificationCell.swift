@@ -31,6 +31,7 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
     var firstThumbnailHeightConstraint = NSLayoutConstraint()
     var titleLabelTopMargin = NSLayoutConstraint()
     var textTitleLeftMargin = NSLayoutConstraint()
+    var textBodyLabelTopMargin = NSLayoutConstraint()
     var thumbnailsTopMarginConstraint = NSLayoutConstraint()
     var CTAHeightConstraints: [NSLayoutConstraint] = []
     
@@ -126,7 +127,7 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         
         // Config text view:
         background.addSubview(textBodyLabel)
-        textBodyLabel.layout(with: textTitleLabel).below(by: Metrics.modularNotificationTextMargin)
+        textBodyLabel.layout(with: textTitleLabel).below(by: Metrics.modularNotificationTextMargin, constraintBlock: { [weak self] in self?.textBodyLabelTopMargin = $0 })
         textBodyLabel.layout(with: textTitleLabel).fillHorizontal()
         textBodyLabel.numberOfLines = 0
         textBodyLabel.font = UIFont.notificationSubtitleFont(read: false)
@@ -287,8 +288,10 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         if let title = title {
             titleLabelTopMargin.constant = Metrics.margin
             textTitleLabel.text = title
+            textBodyLabelTopMargin.constant = Metrics.veryShortMargin
         } else {
             titleLabelTopMargin.constant = 0
+            textBodyLabelTopMargin.constant = Metrics.margin
         }
         textTitleLeftMargin.constant = basicImageIncluded ? Metrics.margin : 0
         textBodyLabel.font = UIFont.notificationSubtitleFont(read: isRead)
