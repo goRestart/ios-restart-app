@@ -55,7 +55,7 @@ struct BumpUpInfo {
 
 class BumpUpBanner: UIView {
 
-    static let timeLabelWidth: CGFloat = 70
+    static let timeLabelWidth: CGFloat = 80
     static let iconSize: CGFloat = 20
     static let iconLeftMargin: CGFloat = 15
     static let timerUpdateInterval: TimeInterval = 1
@@ -211,8 +211,7 @@ class BumpUpBanner: UIView {
         backgroundColor = UIColor.white
         
         timeLabel.numberOfLines = 1
-        timeLabel.adjustsFontSizeToFitWidth = true
-        timeLabel.minimumScaleFactor = 0.5
+        timeLabel.adjustsFontSizeToFitWidth = false
         timeLabel.textColor = UIColor.primaryColorHighlighted
         timeLabel.font = UIFont.systemMediumFont(size: 17)
         
@@ -259,7 +258,7 @@ class BumpUpBanner: UIView {
         timeLabel.layout(with: descriptionLabel).right(to: .left, by: -Metrics.shortMargin, constraintBlock: { [weak self] in
             self?.marginBetweenLabelsConstraint = $0
         })
-        timeLabel.layout().width(BumpUpBanner.timeLabelWidth, constraintBlock: { [weak self] in
+        timeLabel.layout().width(BumpUpBanner.timeLabelWidth, relatedBy: .greaterThanOrEqual, constraintBlock: { [weak self] in
             self?.timeLabelWidthConstraint = $0
         })
         
