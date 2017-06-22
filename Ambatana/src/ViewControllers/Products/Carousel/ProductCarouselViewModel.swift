@@ -100,19 +100,15 @@ class ProductCarouselViewModel: BaseViewModel {
     fileprivate var prefetchingIndexes: [Int] = []
 
     fileprivate var shouldShowOnboarding: Bool {
-        return !keyValueStorage[.didShowProductDetailOnboarding]
-
-        // TODO: Uncomment once all new navigation features are merged! 🦄
-//        let shouldShowOldOnboarding = !featureFlags.newCarouselNavigationEnabled && !keyValueStorage[.didShowProductDetailOnboarding]
-//        let shouldShowNewOnboarding = featureFlags.newCarouselNavigationEnabled && !keyValueStorage[.didShowHorizontalProductDetailOnboarding]
-//        return shouldShowOldOnboarding || shouldShowNewOnboarding
+        let shouldShowOldOnboarding = !featureFlags.newCarouselNavigationEnabled && !keyValueStorage[.didShowProductDetailOnboarding]
+        let shouldShowNewOnboarding = featureFlags.newCarouselNavigationEnabled && !keyValueStorage[.didShowHorizontalProductDetailOnboarding]
+        return shouldShowOldOnboarding || shouldShowNewOnboarding
     }
 
     var imageScrollDirection: UICollectionViewScrollDirection {
-        // TODO: Uncomment once all new navigation features are merged! 🦄
-//        if featureFlags.newCarouselNavigationEnabled {
-//            return .horizontal
-//        }
+        if featureFlags.newCarouselNavigationEnabled {
+            return .horizontal
+        }
         return .vertical
     }
 

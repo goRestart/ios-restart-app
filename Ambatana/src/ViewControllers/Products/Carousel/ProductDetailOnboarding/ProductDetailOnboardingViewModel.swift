@@ -20,9 +20,7 @@ class ProductDetailOnboardingViewModel : BaseViewModel {
     weak var delegate: ProductDetailOnboardingViewDelegate?
 
     var newLabelIsHidden: Bool {
-        return true
-        // TODO: Uncomment once all new navigation features are merged! 🦄
-//        return !(featureFlags.newCarouselNavigationEnabled && keyValueStorage[.didShowProductDetailOnboarding])
+        return !(featureFlags.newCarouselNavigationEnabled && keyValueStorage[.didShowProductDetailOnboarding])
     }
 
     var newText: String {
@@ -33,12 +31,11 @@ class ProductDetailOnboardingViewModel : BaseViewModel {
         return UIImage(named: "finger_tap")
     }
     var firstText: NSAttributedString {
-        // TODO: Uncomment once all new navigation features are merged! 🦄
-//        if featureFlags.newCarouselNavigationEnabled {
-//            let highlightedText = LGLocalizedString.productNewOnboardingFingerTapHighlightedLabel
-//            return tipText(textToHighlight: highlightedText,
-//                           fullText: LGLocalizedString.productNewOnboardingFingerTapLabel(highlightedText))
-//        }
+        if featureFlags.newCarouselNavigationEnabled {
+            let highlightedText = LGLocalizedString.productNewOnboardingFingerTapHighlightedLabel
+            return tipText(textToHighlight: highlightedText,
+                           fullText: LGLocalizedString.productNewOnboardingFingerTapLabel(highlightedText))
+        }
         return tipText(textToHighlight: nil, fullText: LGLocalizedString.productOnboardingFingerTapLabel)
     }
 
@@ -46,29 +43,26 @@ class ProductDetailOnboardingViewModel : BaseViewModel {
         return UIImage(named: "finger_swipe")
     }
     var secondText: NSAttributedString {
-        // TODO: Uncomment once all new navigation features are merged! 🦄
-//        if featureFlags.newCarouselNavigationEnabled {
-//            let highlightedText = LGLocalizedString.productNewOnboardingFingerSwipeHighlightedLabel
-//            return tipText(textToHighlight: highlightedText,
-//                           fullText: LGLocalizedString.productNewOnboardingFingerSwipeLabel(highlightedText))
-//        }
+        if featureFlags.newCarouselNavigationEnabled {
+            let highlightedText = LGLocalizedString.productNewOnboardingFingerSwipeHighlightedLabel
+            return tipText(textToHighlight: highlightedText,
+                           fullText: LGLocalizedString.productNewOnboardingFingerSwipeLabel(highlightedText))
+        }
         return tipText(textToHighlight: nil, fullText: LGLocalizedString.productOnboardingFingerSwipeLabel)
     }
 
     var thirdImage: UIImage? {
-        // TODO: Uncomment once all new navigation features are merged! 🦄
-//        if featureFlags.newCarouselNavigationEnabled {
-//            return UIImage(named: "finger_keep_swipe")
-//        }
+        if featureFlags.newCarouselNavigationEnabled {
+            return UIImage(named: "finger_keep_swipe")
+        }
         return UIImage(named: "finger_scroll")
     }
     var thirdText: NSAttributedString {
-        // TODO: Uncomment once all new navigation features are merged! 🦄
-//        if featureFlags.newCarouselNavigationEnabled {
-//            let highlightedText = LGLocalizedString.productNewOnboardingFingerKeepSwipeHighlightedLabel
-//            return tipText(textToHighlight: highlightedText,
-//                           fullText: LGLocalizedString.productNewOnboardingFingerKeepSwipeLabel(highlightedText))
-//        }
+        if featureFlags.newCarouselNavigationEnabled {
+            let highlightedText = LGLocalizedString.productNewOnboardingFingerKeepSwipeHighlightedLabel
+            return tipText(textToHighlight: highlightedText,
+                           fullText: LGLocalizedString.productNewOnboardingFingerKeepSwipeLabel(highlightedText))
+        }
         return tipText(textToHighlight: nil, fullText: LGLocalizedString.productOnboardingFingerScrollLabel)
     }
 
@@ -82,15 +76,17 @@ class ProductDetailOnboardingViewModel : BaseViewModel {
         super.init()
     }
 
-    func hasBeenShown() {
-        // TODO: Uncomment once all new navigation features are merged! 🦄
-//        if featureFlags.newCarouselNavigationEnabled {
-//            keyValueStorage[.didShowHorizontalProductDetailOnboarding] = true
-//        } else {
-//            keyValueStorage[.didShowProductDetailOnboarding] = true
-//        }
-        keyValueStorage[.didShowProductDetailOnboarding] = true
+    override func didSetActive(_ active: Bool) {
+        super.didSetActive(active)
+        hasBeenShown()
+    }
 
+    func hasBeenShown() {
+        if featureFlags.newCarouselNavigationEnabled {
+            keyValueStorage[.didShowHorizontalProductDetailOnboarding] = true
+        } else {
+            keyValueStorage[.didShowProductDetailOnboarding] = true
+        }
         delegate?.productDetailOnboardingDidAppear()
     }
 
