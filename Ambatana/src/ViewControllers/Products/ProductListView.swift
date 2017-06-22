@@ -187,7 +187,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
-        self.init(viewModel: ProductListViewModel(requester: nil),featureFlags: FeatureFlags.sharedInstance, coder: aDecoder)
+        self.init(viewModel: ProductListViewModel(requester: nil), featureFlags: FeatureFlags.sharedInstance, coder: aDecoder)
     }
 
     internal override func didBecomeActive(_ firstTime: Bool) {
@@ -493,6 +493,10 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         errorButtonHeightConstraint.constant = ProductListView.defaultErrorButtonHeight
         errorButton.setStyle(.primary(fontSize: .medium))
         errorButton.addTarget(self, action: #selector(ProductListView.errorButtonPressed), for: .touchUpInside)
+        
+        if #available(iOS 10, *) {
+            setupPrefetching()
+        }
     }
     
     func updateLayoutWithSeparation(_ separationBetweenCells: CGFloat) {
@@ -602,6 +606,18 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         default:
             break
         }
+    }
+}
+
+@available(iOS 10, *)
+extension ProductListView: UICollectionViewDataSourcePrefetching {
+    
+    fileprivate func setupPrefetching() {
+        collectionView.prefetchDataSource = self
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        viewModel.prefetchItems(atIndexes: indexPaths.flatMap { $0.row })
     }
 }
 
