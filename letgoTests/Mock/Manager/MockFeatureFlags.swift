@@ -43,6 +43,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var newCarsMultiRequesterEnabled: Bool = false
     var newCarouselNavigationEnabled: Bool = false
     var newOnboardingPhase1: Bool = false
+    var searchParamDisc24: SearchParamDisc24 = .disc24a
 
     // Country dependant features
     var freePostingModeAllowed = false

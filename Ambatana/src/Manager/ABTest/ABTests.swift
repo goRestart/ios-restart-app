@@ -40,6 +40,7 @@ class ABTests {
     let newCarsMultiRequesterEnabled = BoolABDynamicVar(key: "newCarsMultiRequesterEnabled", defaultValue: false)
     let newCarouselNavigationEnabled = BoolABDynamicVar(key: "newCarouselNavigationEnabled20170606", defaultValue: false)
     let newOnboardingPhase1 = BoolABDynamicVar(key: "newOnboardingPhase1", defaultValue: false)
+    let searchParamDisc24 = IntABDynamicVar(key: "searchParamDisc24", defaultValue: 0)
 
     init() {
     }

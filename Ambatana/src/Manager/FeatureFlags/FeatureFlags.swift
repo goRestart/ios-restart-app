@@ -42,6 +42,7 @@ protocol FeatureFlaggeable: class {
     var newCarsMultiRequesterEnabled: Bool { get }
     var newCarouselNavigationEnabled: Bool { get }
     var newOnboardingPhase1: Bool { get }
+    var searchParamDisc24: SearchParamDisc24 { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -279,6 +280,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.newOnboardingPhase1
         }
         return abTests.newOnboardingPhase1.value
+    }
+    
+    var searchParamDisc24: SearchParamDisc24 {
+        if Bumper.enabled {
+            return Bumper.searchParamDisc24
+        }
+        return SearchParamDisc24.fromPosition(abTests.searchParamDisc24.value)
     }
     
     // MARK: - Country features

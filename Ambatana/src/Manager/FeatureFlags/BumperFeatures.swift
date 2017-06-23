@@ -36,6 +36,7 @@ extension Bumper  {
         flags.append(NewCarsMultiRequesterEnabled.self)
         flags.append(NewCarouselNavigationEnabled.self)
         flags.append(NewOnboardingPhase1.self)
+        flags.append(SearchParamDisc24.self)
         Bumper.initialize(flags)
     } 
 
@@ -152,6 +153,11 @@ extension Bumper  {
     static var newOnboardingPhase1: Bool {
         guard let value = Bumper.value(for: NewOnboardingPhase1.key) else { return false }
         return NewOnboardingPhase1(rawValue: value)?.asBool ?? false
+    }
+
+    static var searchParamDisc24: SearchParamDisc24 {
+        guard let value = Bumper.value(for: SearchParamDisc24.key) else { return .disc24a }
+        return SearchParamDisc24(rawValue: value) ?? .disc24a 
     } 
 }
 
@@ -392,5 +398,25 @@ enum NewOnboardingPhase1: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "New onboarding - alerts on close button" } 
     var asBool: Bool { return self == .yes }
+}
+
+enum SearchParamDisc24: String, BumperFeature  {
+    case disc24a, disc24b, disc24c, disc24d, disc24e, disc24f, disc24g
+    static var defaultValue: String { return SearchParamDisc24.disc24a.rawValue }
+    static var enumValues: [SearchParamDisc24] { return [.disc24a, .disc24b, .disc24c, .disc24d, .disc24e, .disc24f, .disc24g]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Diferent search approach" } 
+    static func fromPosition(_ position: Int) -> SearchParamDisc24 {
+        switch position { 
+            case 0: return .disc24a
+            case 1: return .disc24b
+            case 2: return .disc24c
+            case 3: return .disc24d
+            case 4: return .disc24e
+            case 5: return .disc24f
+            case 6: return .disc24g
+            default: return .disc24a
+        }
+    }
 }
 

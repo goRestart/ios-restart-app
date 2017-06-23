@@ -114,5 +114,10 @@
         "name": "NewOnboardingPhase1",
         "values": ["no", "yes"],
         "description": "New onboarding - alerts on close button"
-    }
+    },
+    {
+        "name": "SearchParamDisc24",
+        "values": ["disc24a", "disc24b", "disc24c", "disc24d", "disc24e", "disc24f", "disc24g"],
+        "description": "Diferent search approach"
+ }
 ]
