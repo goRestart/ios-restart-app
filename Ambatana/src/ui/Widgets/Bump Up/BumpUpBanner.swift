@@ -260,16 +260,19 @@ class BumpUpBanner: UIView {
         timeLabel.layout(with: descriptionLabel).right(to: .left, by: -Metrics.shortMargin, constraintBlock: { [weak self] in
             self?.marginBetweenLabelsConstraint = $0
         })
-        timeLabel.layout().width(BumpUpBanner.timeLabelWidth, constraintBlock: { [weak self] in
+        timeLabel.layout().width(BumpUpBanner.timeLabelWidth, relatedBy: .greaterThanOrEqual, constraintBlock: { [weak self] in
             self?.timeLabelWidthConstraint = $0
         })
+        timeLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
         
         descriptionLabel.layout(with: containerView).top()
         descriptionLabel.layout(with: containerView).bottom()
         descriptionLabel.layout(with: bumpButton).right(to: .left, by: -10)
+        descriptionLabel.setContentHuggingPriority(UILayoutPriorityDefaultLow, for: .horizontal)
 
         bumpButton.layout(with: containerView).top(by: 10).bottom(by: -10).right(by: -15)
-        bumpButton.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+        bumpButton.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
+        
     }
 
     private func updateIconConstraints() {
