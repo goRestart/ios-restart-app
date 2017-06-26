@@ -56,6 +56,7 @@ struct BumpUpInfo {
 class BumpUpBanner: UIView {
 
     static let timeLabelWidth: CGFloat = 80
+    static let bumpUpButtonWidth: CGFloat = 60
     static let iconSize: CGFloat = 20
     static let iconLeftMargin: CGFloat = 15
     static let timerUpdateInterval: TimeInterval = 1
@@ -271,6 +272,7 @@ class BumpUpBanner: UIView {
         descriptionLabel.setContentHuggingPriority(UILayoutPriorityDefaultLow, for: .horizontal)
 
         bumpButton.layout(with: containerView).top(by: 10).bottom(by: -10).right(by: -15)
+        bumpButton.layout().width(BumpUpBanner.timeLabelWidth, relatedBy: .greaterThanOrEqual)
         bumpButton.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
         
     }
