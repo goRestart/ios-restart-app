@@ -346,7 +346,7 @@
 "log_in_email_email_field_hint" = "E-post";
 "log_in_email_footer" = "Har du inget konto än? Registrera dig";
 "log_in_email_footer_sign_up_kw" = "Registrera dig";
-"log_in_email_forgot_password_alert_cancel_action" = "Try Again";
+"log_in_email_forgot_password_alert_cancel_action" = "Försök igen";
 "log_in_email_forgot_password_alert_message" = "Vi kan skicka ett mejl till %@ för att hjälpa dig komma åt ditt konto igen.";
 "log_in_email_forgot_password_alert_remember_action" = "Skicka mejl";
 "log_in_email_forgot_password_alert_title" = "Glömt ditt lösenord?";
@@ -355,7 +355,7 @@
 "log_in_email_log_in_button" = "Logga in";
 "log_in_email_password_field_hint" = "Lösenord";
 "log_in_email_title" = "Logga in";
-"log_in_email_wrong_password_alert_cancel_action" = "Try Again";
+"log_in_email_wrong_password_alert_cancel_action" = "Försök igen";
 "log_in_email_wrong_password_alert_message" = "Lösenordet som du har angett för %@ är ogiltigt.";
 "log_in_email_wrong_password_alert_title" = "Ogiltigt lösenord";
 "log_in_error_send_error_generic" = "Ett fel uppstod vid inloggning. Var vänlig försök igen.";

@@ -55,7 +55,8 @@ struct BumpUpInfo {
 
 class BumpUpBanner: UIView {
 
-    static let timeLabelWidth: CGFloat = 70
+    static let timeLabelWidth: CGFloat = 80
+    static let bumpUpButtonWidth: CGFloat = 60
     static let iconSize: CGFloat = 20
     static let iconLeftMargin: CGFloat = 15
     static let timerUpdateInterval: TimeInterval = 1
@@ -211,13 +212,14 @@ class BumpUpBanner: UIView {
         backgroundColor = UIColor.white
         
         timeLabel.numberOfLines = 1
-        timeLabel.adjustsFontSizeToFitWidth = true
-        timeLabel.minimumScaleFactor = 0.5
+        timeLabel.adjustsFontSizeToFitWidth = false
+        timeLabel.textAlignment = .center
         timeLabel.textColor = UIColor.primaryColorHighlighted
         timeLabel.font = UIFont.systemMediumFont(size: 17)
         
         descriptionLabel.numberOfLines = 0
         descriptionLabel.textColor = UIColor.blackText
+        descriptionLabel.textAlignment = .center
         descriptionLabel.font = UIFont.systemMediumFont(size: 15)
         
         iconImageView.image = UIImage(named: "red_chevron_up")
@@ -259,16 +261,20 @@ class BumpUpBanner: UIView {
         timeLabel.layout(with: descriptionLabel).right(to: .left, by: -Metrics.shortMargin, constraintBlock: { [weak self] in
             self?.marginBetweenLabelsConstraint = $0
         })
-        timeLabel.layout().width(BumpUpBanner.timeLabelWidth, constraintBlock: { [weak self] in
+        timeLabel.layout().width(BumpUpBanner.timeLabelWidth, relatedBy: .greaterThanOrEqual, constraintBlock: { [weak self] in
             self?.timeLabelWidthConstraint = $0
         })
+        timeLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
         
         descriptionLabel.layout(with: containerView).top()
         descriptionLabel.layout(with: containerView).bottom()
         descriptionLabel.layout(with: bumpButton).right(to: .left, by: -10)
+        descriptionLabel.setContentHuggingPriority(UILayoutPriorityDefaultLow, for: .horizontal)
 
         bumpButton.layout(with: containerView).top(by: 10).bottom(by: -10).right(by: -15)
-        bumpButton.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+        bumpButton.layout().width(BumpUpBanner.timeLabelWidth, relatedBy: .greaterThanOrEqual)
+        bumpButton.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
+        
     }
 
     private func updateIconConstraints() {
