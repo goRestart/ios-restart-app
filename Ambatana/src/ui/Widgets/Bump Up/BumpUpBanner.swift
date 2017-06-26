@@ -212,11 +212,13 @@ class BumpUpBanner: UIView {
         
         timeLabel.numberOfLines = 1
         timeLabel.adjustsFontSizeToFitWidth = false
+        timeLabel.textAlignment = .center
         timeLabel.textColor = UIColor.primaryColorHighlighted
         timeLabel.font = UIFont.systemMediumFont(size: 17)
         
         descriptionLabel.numberOfLines = 0
         descriptionLabel.textColor = UIColor.blackText
+        descriptionLabel.textAlignment = .center
         descriptionLabel.font = UIFont.systemMediumFont(size: 15)
         
         iconImageView.image = UIImage(named: "red_chevron_up")
@@ -258,7 +260,7 @@ class BumpUpBanner: UIView {
         timeLabel.layout(with: descriptionLabel).right(to: .left, by: -Metrics.shortMargin, constraintBlock: { [weak self] in
             self?.marginBetweenLabelsConstraint = $0
         })
-        timeLabel.layout().width(BumpUpBanner.timeLabelWidth, relatedBy: .greaterThanOrEqual, constraintBlock: { [weak self] in
+        timeLabel.layout().width(BumpUpBanner.timeLabelWidth, constraintBlock: { [weak self] in
             self?.timeLabelWidthConstraint = $0
         })
         
