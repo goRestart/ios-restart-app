@@ -59,16 +59,15 @@ final class CoreDI: InternalDI {
         let sensorLocationService = CLLocationManager()
         sensorLocationService.distance = LGCoreKitConstants.locationDistanceFilter
         sensorLocationService.accuracy = LGCoreKitConstants.locationDesiredAccuracy
-        let ipLookupLocationService = LGIPLookupLocationService(apiClient: apiClient)
-        let postalAddressRetrievalService = CLPostalAddressRetrievalService()
+        let locationDataSource = LGLocationDataSource(apiClient: apiClient)
+        let locationRepository = LGLocationRepository(dataSource: locationDataSource)
         let deviceLocationDAO = DeviceLocationUDDAO()
 
         let countryInfoDAO: CountryInfoDAO = CountryInfoPlistDAO()
         let countryHelper = CountryHelper(locale: locale, countryInfoDAO: countryInfoDAO)
         
-        let locationManager = LGLocationManager(myUserRepository: myUserRepository,
-            sensorLocationService: sensorLocationService, ipLookupLocationService: ipLookupLocationService,
-            postalAddressRetrievalService: postalAddressRetrievalService, deviceLocationDAO: deviceLocationDAO,
+        let locationManager = LGLocationManager(myUserRepository: myUserRepository, sensorLocationService: sensorLocationService,
+            locationRepository: locationRepository, deviceLocationDAO: deviceLocationDAO,
             countryHelper: countryHelper)
         
         let favoritesDAO = FavoritesUDDAO(userDefaults: userDefaults)
@@ -212,6 +211,10 @@ final class CoreDI: InternalDI {
     lazy var monetizationRepository: MonetizationRepository = {
         let dataSource = MonetizationApiDataSource(apiClient: self.apiClient)
         return LGMonetizationRepository(dataSource: dataSource, listingsLimboDAO: self.listingsLimboDAO)
+    }()
+    lazy var locationRepository: LocationRepository = {
+        let dataSource = LGLocationDataSource(apiClient: self.apiClient)
+        return LGLocationRepository(dataSource: dataSource)
     }()
 
     // MARK: > DAO

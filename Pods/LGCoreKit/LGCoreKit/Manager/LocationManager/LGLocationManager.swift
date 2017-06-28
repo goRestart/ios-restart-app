@@ -33,8 +33,7 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
     
     // Services
     private let sensorLocationService: LocationService
-    private let ipLookupLocationService: IPLookupLocationService
-    private let postalAddressRetrievalService: PostalAddressRetrievalService
+    private let locationRepository: LocationRepository
     
     // DAO
     private let dao: DeviceLocationDAO
@@ -63,14 +62,12 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
     // MARK: - Lifecycle
     
     init(myUserRepository: InternalMyUserRepository,
-         sensorLocationService: LocationService, ipLookupLocationService: IPLookupLocationService,
-         postalAddressRetrievalService: PostalAddressRetrievalService, deviceLocationDAO: DeviceLocationDAO,
-         countryHelper: CountryHelper) {
+         sensorLocationService: LocationService, locationRepository: LocationRepository,
+         deviceLocationDAO: DeviceLocationDAO, countryHelper: CountryHelper) {
         self.myUserRepository = myUserRepository
         
         self.sensorLocationService = sensorLocationService
-        self.ipLookupLocationService = ipLookupLocationService
-        self.postalAddressRetrievalService = postalAddressRetrievalService
+        self.locationRepository = locationRepository
         
         self.dao = deviceLocationDAO
         
@@ -258,7 +255,7 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
      */
     private func retrieveInitialLocationIfNeeded() {
         if let currentLocationType = currentLocation?.type, currentLocationType > .ipLookup { return }
-        ipLookupLocationService.retrieveLocationWithCompletion { [weak self] (result: IPLookupLocationServiceResult) -> Void in
+        locationRepository.retrieveLocationWithCompletion { [weak self] (result: IPLookupLocationRepositoryResult) -> Void in
             if let strongSelf = self {
                 if let currentLocationType = strongSelf.currentLocation?.type, currentLocationType > .ipLookup { return }
                 // If there's no previous location or is with lower priority. it should update
@@ -283,7 +280,7 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
     private func retrievePostalAddressAndUpdate(_ location: LGLocation,
                                                 completion: ((Result<MyUser, RepositoryError>) -> ())?) {
         
-        postalAddressRetrievalService.retrieveAddressForLocation(location.location) { [weak self] result in
+        locationRepository.retrieveAddressForLocation(location.location) { [weak self] result in
             let postalAddress = result.value?.postalAddress ?? PostalAddress.emptyAddress()
             let newLocation = location.updating(postalAddress: postalAddress)
             self?.updateLocation(newLocation, userUpdateCompletion: completion)
