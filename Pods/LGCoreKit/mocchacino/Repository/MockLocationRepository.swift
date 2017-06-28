@@ -15,6 +15,12 @@ open class MockLocationRepository: LocationRepository {
     public var ipLookupLocationResult: IPLookupLocationRepositoryResult!
     
     
+    // MARK: - Lifecycle
+    
+    required public init() {
+        
+    }
+    
     // MARK: - PostalAddressRetrievalRepository
     
     public func retrieveAddressForLocation(_ location: LGLocationCoordinates2D, completion: PostalAddressLocationRepositoryCompletion?) {
