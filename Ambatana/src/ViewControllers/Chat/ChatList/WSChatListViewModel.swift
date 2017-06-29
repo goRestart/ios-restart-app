@@ -37,8 +37,11 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
 
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
-        shouldRefreshConversations = false
-        refresh(completion: nil)
+        
+        if shouldRefreshConversations {
+            shouldRefreshConversations = false
+            refresh(completion: nil)
+        }
         if firstTime {
             setupRxBindings()
         }
