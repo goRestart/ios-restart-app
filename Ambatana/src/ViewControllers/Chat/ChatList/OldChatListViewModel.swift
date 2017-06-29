@@ -45,14 +45,16 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
         super.init(objects: chats, tabNavigator: tabNavigator)
     }
 
-    // MARK: - Public methods
-
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
+        refresh(completion: nil)
         if firstTime {
             setupRxBindings()
         }
     }
+    
+    
+    // MARK: - Public methods
 
     override func index(_ page: Int, completion: ((Result<[Chat], RepositoryError>) -> ())?) {
         super.index(page, completion: completion)

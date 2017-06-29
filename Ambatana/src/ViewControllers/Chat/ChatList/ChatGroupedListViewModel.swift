@@ -74,6 +74,8 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     fileprivate let disposeBag = DisposeBag()
 
     private var multipageRequester: MultiPageRequester<T>?
+    
+    var shouldRefreshConversations: Bool = true
 
     // MARK: - Lifecycle
 
@@ -88,11 +90,6 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
         }
 
         setupPaginableRxBindings()
-    }
-
-
-    override func didBecomeActive(_ firstTime: Bool) {
-        refresh(completion: nil)
     }
 
 

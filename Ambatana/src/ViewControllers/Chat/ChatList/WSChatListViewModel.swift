@@ -37,11 +37,14 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
 
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
+        shouldRefreshConversations = false
+        refresh(completion: nil)
         if firstTime {
             setupRxBindings()
         }
     }
 
+    
     // MARK: - Public methods
 
     override func index(_ page: Int, completion: ((Result<[ChatConversation], RepositoryError>) -> ())?) {
@@ -139,6 +142,7 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
                 return false
             }
         }.bindNext { [weak self] event in
+            // TODO: reload the index i nthe table
             self?.refresh(completion: nil)
         }.addDisposableTo(disposeBag)
 
@@ -161,7 +165,7 @@ fileprivate extension ChatsType {
         case .selling: return .asSeller
         case .buying: return .asBuyer
         case .archived: return .archived
-        case .all: return .none
+        case .all: return .all
         }
     }
 }
