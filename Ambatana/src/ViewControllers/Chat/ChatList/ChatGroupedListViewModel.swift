@@ -33,6 +33,7 @@ protocol ChatGroupedListViewModel: class, RxPaginable, ChatGroupedListViewModelT
     var emptyViewModel: LGEmptyViewModel? { get }
     var emptyViewHidden: Bool { get }
     var tableViewHidden: Bool { get }
+    var conversationCollectionVariable: CollectionVariable<ChatConversation> { get }
     func clear()
 }
 
@@ -76,7 +77,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     private var multipageRequester: MultiPageRequester<T>?
     
     var shouldRefreshConversations: Bool = true
-    var conversationCollectionVariable = CollectionVariable<ChatConversation>([])
+    let conversationCollectionVariable = CollectionVariable<ChatConversation>([])
 
     // MARK: - Lifecycle
 

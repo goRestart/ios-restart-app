@@ -23,7 +23,6 @@ protocol ChatListViewModel: class, ChatGroupedListViewModel {
 
     var titleForDeleteButton: String { get }
     var hasMessagesToRead: Bool { get }
-    var conversationCollectionVariable: CollectionVariable<ChatConversation> { get set }
     var shouldRefreshConversations: Bool { get set }
 
     func deleteConfirmationTitle(_ itemCount: Int) -> String

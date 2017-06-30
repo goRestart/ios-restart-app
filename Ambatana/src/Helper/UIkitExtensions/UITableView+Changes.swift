@@ -7,6 +7,8 @@
 //
 
 
+import LGCoreKit
+
 extension UITableView {
     func handleCollectionChange<T>(_ change: CollectionChange<T>, animation: UITableViewRowAnimation = .none, completion: (() -> Void)? = nil) {
         beginUpdates()

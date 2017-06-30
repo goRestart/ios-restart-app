@@ -6,7 +6,7 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-import Foundation
+import LGCoreKit
 
 extension UICollectionView {
     func deselectAll() {
