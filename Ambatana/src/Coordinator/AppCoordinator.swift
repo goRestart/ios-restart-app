@@ -621,6 +621,8 @@ fileprivate extension AppCoordinator {
                     self?.openPassiveBuyers(productId)
                 })
             }
+        case let .notificationCenter:
+            openTab(.notifications, force: false, completion: nil)
         }
         
         if let afterDelayClosure = afterDelayClosure {
@@ -642,7 +644,7 @@ fileprivate extension AppCoordinator {
 
         switch deepLink.action {
         case .home, .sell, .product, .user, .conversations, .search, .resetPassword, .userRatings, .userRating,
-             .passiveBuyers:
+             .passiveBuyers, .notificationCenter:
             return // Do nothing
         case let .conversation(data):
             showInappChatNotification(data, message: deepLink.origin.message)
