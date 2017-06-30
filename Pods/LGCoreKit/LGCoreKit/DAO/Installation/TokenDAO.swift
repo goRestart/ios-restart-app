@@ -10,6 +10,8 @@ import Foundation
 
 protocol TokenDAO {
     var token: Token { get }
+    var currentInstallationToken: Token? { get }
+    var currentUserToken: Token? { get }
     func save(_ token: Token)
     func get(level: AuthLevel) -> Token?
     func reset()

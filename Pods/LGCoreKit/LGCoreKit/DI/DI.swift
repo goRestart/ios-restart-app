@@ -36,6 +36,7 @@ public protocol DI: class {
     var monetizationRepository: MonetizationRepository { get }
     var passiveBuyersRepository: PassiveBuyersRepository { get }
     var carsInfoRepository: CarsInfoRepository { get }
+    var locationRepository: LocationRepository { get }
 
     // Helper
     var dateFormatter: DateFormatter { get }

@@ -43,8 +43,7 @@ class EditLocationViewModel: BaseViewModel {
     private let tracker: Tracker
     private let featureFlags: FeatureFlaggeable
     
-    private let searchService: CLSearchLocationSuggestionsService
-    private let postalAddressService: PostalAddressRetrievalService
+    private let locationRepository: LocationRepository
 
     private var usingGPSLocation = false        // user uses GPS location
     private var serviceAlreadyLoading = false   // if the service is already waiting for a response, we don't launch another request
@@ -81,6 +80,7 @@ class EditLocationViewModel: BaseViewModel {
                      distanceRadius: Int? = nil) {
         self.init(locationManager: Core.locationManager,
                   myUserRepository: Core.myUserRepository,
+                  locationRepository: Core.locationRepository,
                   mode: mode,
                   initialPlace: initialPlace,
                   distanceRadius: distanceRadius,
@@ -90,6 +90,7 @@ class EditLocationViewModel: BaseViewModel {
 
     init(locationManager: LocationManager,
          myUserRepository: MyUserRepository,
+         locationRepository: LocationRepository,
          mode: EditLocationMode,
          initialPlace: Place?,
          distanceRadius: Int?,
@@ -107,8 +108,7 @@ class EditLocationViewModel: BaseViewModel {
         
         self.predictiveResults = []
         self.currentPlace = Place.newPlace()
-        self.searchService = CLSearchLocationSuggestionsService()
-        self.postalAddressService = CLPostalAddressRetrievalService()
+        self.locationRepository = locationRepository
         super.init()
 
         self.initPlace(initialPlace, distanceRadius: distanceRadius)
@@ -244,7 +244,7 @@ class EditLocationViewModel: BaseViewModel {
             currentDistanceRadius.value = distanceRadius
         case .editListingLocation:
             if let place = initialPlace, let location = place.location {
-                postalAddressService.retrieveAddressForLocation(location) { [weak self] result in
+                locationRepository.retrieveAddressForLocation(location) { [weak self] result in
                     guard let strongSelf = self else { return }
                     if let resolvedPlace = result.value {
                         strongSelf.currentPlace = resolvedPlace.postalAddress?.countryCode != nil ?
@@ -318,7 +318,7 @@ class EditLocationViewModel: BaseViewModel {
                 return !(self?.userTouchingMap.value ?? true)
             }
             .map { coordinates, gpsLocation in
-                return self.postalAddressService.rx_retrieveAddressForCoordinates(coordinates, fromGps: gpsLocation)
+                return self.locationRepository.rx_retrieveAddressForCoordinates(coordinates, fromGps: gpsLocation)
             }
             .switchLatest()
             .subscribeNext { [weak self] place, gpsLocation in
@@ -341,7 +341,7 @@ class EditLocationViewModel: BaseViewModel {
     private func resultsForSearchText(_ textToSearch: String, autoSelectFirst: Bool) {
         predictiveResults = []
         delegate?.vmUpdateSearchTableWithResults([])
-        searchService.retrieveAddressForLocation(textToSearch) { [weak self] result in
+        locationRepository.retrieveAddressForLocation(textToSearch) { [weak self] result in
             if autoSelectFirst {
                 if let error = result.error {
                     let errorMsg = error == .notFound ?
@@ -421,7 +421,7 @@ class EditLocationViewModel: BaseViewModel {
     }
 }
 
-extension PostalAddressRetrievalService {
+extension LocationRepository {
     func rx_retrieveAddressForCoordinates(_ coordinates: CLLocationCoordinate2D?, fromGps: Bool)
         -> Observable<(Place, Bool)> {
             guard let coordinates = coordinates else { return rx_retrieveAddressForLocation(nil, fromGps: fromGps) }
@@ -432,13 +432,13 @@ extension PostalAddressRetrievalService {
     func rx_retrieveAddressForLocation(_ location: CLLocation?, fromGps: Bool) -> Observable<(Place, Bool)> {
         return Observable.create({ observer -> Disposable in
             guard let location = location else {
-                observer.onError(PostalAddressRetrievalServiceError.internalError)
+                observer.onError(LocationError.internalError)
                 // Change how to return anonymousDisposable http://stackoverflow.com/questions/40936295/what-is-the-rxswift-3-0-equivalent-to-anonymousdisposable-from-rxswift-2-x
                 return Disposables.create()
             }
             self.retrieveAddressForLocation(LGLocationCoordinates2D(latitude: location.coordinate.latitude,
                 longitude: location.coordinate.longitude)) {
-                (result: PostalAddressRetrievalServiceResult) -> Void in
+                (result: PostalAddressLocationRepositoryResult) -> Void in
                 guard let resolvedPlace = result.value else {
                     observer.onError(result.error ?? .internalError)
                     return
