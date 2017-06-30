@@ -16,7 +16,7 @@ import RxSwift
 class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
     
     var didAcceptPermissions: Bool {
-        switch sensorLocationService.authorizationStatus() {
+        switch locationRepository.authorizationStatus() {
         case .authorizedAlways, .authorizedWhenInUse:
             return true
         case .restricted, .denied, .notDetermined:
@@ -30,11 +30,8 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
     
     // Repositories
     private let myUserRepository: InternalMyUserRepository
-    
-    // Services
-    private let sensorLocationService: LocationService
     private let locationRepository: LocationRepository
-    
+
     // DAO
     private let dao: DeviceLocationDAO
     
@@ -61,12 +58,10 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
     
     // MARK: - Lifecycle
     
-    init(myUserRepository: InternalMyUserRepository,
-         sensorLocationService: LocationService, locationRepository: LocationRepository,
+    init(myUserRepository: InternalMyUserRepository, locationRepository: LocationRepository,
          deviceLocationDAO: DeviceLocationDAO, countryHelper: CountryHelper) {
         self.myUserRepository = myUserRepository
         
-        self.sensorLocationService = sensorLocationService
         self.locationRepository = locationRepository
         
         self.dao = deviceLocationDAO
@@ -81,7 +76,7 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
         super.init()
         
         // Setup
-        self.sensorLocationService.locationManagerDelegate = self
+        self.locationRepository.setLocationManagerDelegate(delegate: self)
         self.setup()
     }
     
@@ -169,8 +164,8 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
      Returns the current location service status.
      */
     var locationServiceStatus: LocationServiceStatus {
-        return LocationServiceStatus(enabled: sensorLocationService.locationEnabled(),
-                                     authStatus: sensorLocationService.authorizationStatus())
+        return LocationServiceStatus(enabled: locationRepository.locationEnabled(),
+                                     authStatus: locationRepository.authorizationStatus())
     }
     
     
@@ -182,16 +177,16 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
      - returns: The location service status.
      */
     func startSensorLocationUpdates() -> LocationServiceStatus {
-        let enabled = sensorLocationService.locationEnabled()
-        let authStatus = sensorLocationService.authorizationStatus()
+        let enabled = locationRepository.locationEnabled()
+        let authStatus = locationRepository.authorizationStatus()
         
         if enabled {
             // If not determined, ask authorization
             if shouldAskForLocationPermissions() {
-                sensorLocationService.requestWhenInUseAuthorization()
+                locationRepository.requestWhenInUseAuthorization()
             } else {
                 // Otherwise, start the location updates
-                sensorLocationService.startUpdatingLocation()
+                locationRepository.startUpdatingLocation()
             }
         }
         return LocationServiceStatus(enabled: enabled, authStatus: authStatus)
@@ -201,14 +196,14 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
      Stops updating location.
      */
     func stopSensorLocationUpdates() {
-        sensorLocationService.stopUpdatingLocation()
+        locationRepository.stopUpdatingLocation()
     }
     
     
     // MARK: - CLLocationManagerDelegate
     
     func shouldAskForLocationPermissions() -> Bool {
-        return sensorLocationService.authorizationStatus() == .notDetermined
+        return locationRepository.authorizationStatus() == .notDetermined
     }
     
     /*

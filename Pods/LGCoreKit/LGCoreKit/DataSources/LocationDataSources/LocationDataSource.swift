@@ -20,7 +20,7 @@ public enum IPLookupLocationError: Error, CustomStringConvertible {
     case internalError
     
     public var description: String {
-        switch (self) {
+        switch self {
         case .network:
             return "Network"
         case .internalError:

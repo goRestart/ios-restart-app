@@ -12,14 +12,67 @@ import Result
 public class LGLocationRepository: LocationRepository {
 
     let dataSource: LocationDataSource
+    var clLocationManager: CLLocationManagerProtocol
 
+    
     // MARK: - Lifecycle
 
-    public init(dataSource: LocationDataSource) {
+    public init(dataSource: LocationDataSource, locationManager: CLLocationManagerProtocol) {
         self.dataSource = dataSource
+        self.clLocationManager = locationManager
     }
 
-    // MARK: - PostalAddressRetrievalRepository
+    // MARK: - Public Methods.
+    
+    public var distance: CLLocationDistance {
+        get {
+            return clLocationManager.distanceFilter
+        }
+        set {
+            clLocationManager.distanceFilter = newValue
+        }
+    }
+    public var accuracy: CLLocationDistance {
+        get {
+            return clLocationManager.desiredAccuracy
+        }
+        set {
+            clLocationManager.desiredAccuracy = newValue
+        }
+    }
+    public var lastKnownLocation: CLLocation? {
+        get {
+            return clLocationManager.location
+        }
+    }
+    
+    public func setLocationManagerDelegate(delegate: CLLocationManagerDelegate) {
+        clLocationManager.delegate = delegate
+    }
+    
+    public func locationEnabled() -> Bool {
+        return CLLocationManager.locationServicesEnabled()
+    }
+    
+    public func authorizationStatus() -> CLAuthorizationStatus {
+        return CLLocationManager.authorizationStatus()
+    }
+    
+    public func requestWhenInUseAuthorization() {
+        clLocationManager.requestWhenInUseAuthorization()
+    }
+    
+    public func requestAlwaysAuthorization() {
+        clLocationManager.requestAlwaysAuthorization()
+    }
+    
+    public func startUpdatingLocation() {
+        clLocationManager.startUpdatingLocation()
+    }
+    
+    public func stopUpdatingLocation() {
+        clLocationManager.stopUpdatingLocation()
+    }
 
     public func retrieveAddressForLocation(_ searchText: String, completion: SuggestionsLocationRepositoryCompletion?) {
 
@@ -54,5 +107,5 @@ public class LGLocationRepository: LocationRepository {
             }
         }
     }
-    
 }
+

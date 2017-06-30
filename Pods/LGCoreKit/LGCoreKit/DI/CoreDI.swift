@@ -55,18 +55,17 @@ final class CoreDI: InternalDI {
         let chatDataSource = ChatWebSocketDataSource(webSocketClient: webSocketClient, apiClient: apiClient)
         let chatRepository = LGChatRepository(dataSource: chatDataSource, myUserRepository: myUserRepository)
         self.chatRepository = chatRepository
-        
-        let sensorLocationService = CLLocationManager()
-        sensorLocationService.distance = LGCoreKitConstants.locationDistanceFilter
-        sensorLocationService.accuracy = LGCoreKitConstants.locationDesiredAccuracy
-        let locationDataSource = LGLocationDataSource(apiClient: apiClient)
-        let locationRepository = LGLocationRepository(dataSource: locationDataSource)
+
+        let locationDataSource = CoreLocationDataSource(apiClient: apiClient)
+        let locationRepository = LGLocationRepository(dataSource: locationDataSource, locationManager: CLLocationManager())
+        locationRepository.distance = LGCoreKitConstants.locationDistanceFilter
+        locationRepository.accuracy = LGCoreKitConstants.locationDesiredAccuracy
         let deviceLocationDAO = DeviceLocationUDDAO()
 
         let countryInfoDAO: CountryInfoDAO = CountryInfoPlistDAO()
         let countryHelper = CountryHelper(locale: locale, countryInfoDAO: countryInfoDAO)
         
-        let locationManager = LGLocationManager(myUserRepository: myUserRepository, sensorLocationService: sensorLocationService,
+        let locationManager = LGLocationManager(myUserRepository: myUserRepository,
             locationRepository: locationRepository, deviceLocationDAO: deviceLocationDAO,
             countryHelper: countryHelper)
         
@@ -213,8 +212,8 @@ final class CoreDI: InternalDI {
         return LGMonetizationRepository(dataSource: dataSource, listingsLimboDAO: self.listingsLimboDAO)
     }()
     lazy var locationRepository: LocationRepository = {
-        let dataSource = LGLocationDataSource(apiClient: self.apiClient)
-        return LGLocationRepository(dataSource: dataSource)
+        let dataSource = CoreLocationDataSource(apiClient: self.apiClient)
+        return LGLocationRepository(dataSource: dataSource, locationManager: CLLocationManager())
     }()
 
     // MARK: > DAO

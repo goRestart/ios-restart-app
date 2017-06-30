@@ -11,7 +11,7 @@ import Argo
 import Result
 import CoreLocation
 
-class LGLocationDataSource: LocationDataSource {
+class CoreLocationDataSource: LocationDataSource {
     
     // iVars
     private var geocoder: CLGeocoder
@@ -22,7 +22,6 @@ class LGLocationDataSource: LocationDataSource {
     public init(apiClient: ApiClient) {
         geocoder = CLGeocoder()
         self.apiClient = apiClient
-        
     }
 
     
@@ -31,23 +30,15 @@ class LGLocationDataSource: LocationDataSource {
         geocoder.geocodeAddressString(searchText, completionHandler: { (placemarks, error) -> Void in
             
             if let actualPlacemarks = placemarks {
-                var suggestedResults: [Place] = []
-                if !actualPlacemarks.isEmpty {
-                    for placemark in actualPlacemarks {
-                        suggestedResults.append(placemark.place())
-                    }
-                }
+                var suggestedResults: [Place] = actualPlacemarks.flatMap { $0.place() }
                 completion?(SuggestionsLocationDataSourceResult(value: suggestedResults))
-            }
-                // Error
-            else if let actualError = error {
+            } else if let actualError = error {
                 if actualError._code == CLError.Code.geocodeFoundNoResult.rawValue {
                     completion?(SuggestionsLocationDataSourceResult(error: .notFound))
                 } else {
                     completion?(SuggestionsLocationDataSourceResult(error: .network))
                 }
-            }
-            else {
+            } else {
                 completion?(SuggestionsLocationDataSourceResult(error: .internalError))
             }
         })
@@ -57,7 +48,6 @@ class LGLocationDataSource: LocationDataSource {
         
         let location = CLLocation(latitude: location.latitude, longitude: location.longitude)
         geocoder.reverseGeocodeLocation(location) { (placemarks, error) -> Void in
-            // Success
             if let actualPlacemarks = placemarks {
                 var place = Place()
                 if !actualPlacemarks.isEmpty {
@@ -65,12 +55,9 @@ class LGLocationDataSource: LocationDataSource {
                     place = placemark.place()
                 }
                 completion?(PostalAddressLocationDataSourceResult(value: place))
-            }
-                // Error
-            else if let _ = error {
+            } else if let _ = error {
                 completion?(PostalAddressLocationDataSourceResult(error: .network))
-            }
-            else {
+            } else {
                 completion?(PostalAddressLocationDataSourceResult(error: .internalError))
             }
         }
@@ -79,7 +66,7 @@ class LGLocationDataSource: LocationDataSource {
     func retrieveLocationWithCompletion(_ completion: IPLookupLocationDataSourceCompletion?) {
         
         let request = LocationRouter.ipLookup
-        apiClient.request(request, decoder: LGLocationDataSource.decoder) {
+        apiClient.request(request, decoder: CoreLocationDataSource.decoder) {
             (result: Result<LGLocationCoordinates2D, ApiError>) -> () in
             
             if let value = result.value {
@@ -98,3 +85,4 @@ class LGLocationDataSource: LocationDataSource {
         return theLocation
     }
 }
+
