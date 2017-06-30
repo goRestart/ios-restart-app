@@ -23,7 +23,6 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
 
     private let disposeBag = DisposeBag()
 
-
     // MARK: - Lifecycle
 
     convenience init(chatsType: ChatsType, tabNavigator: TabNavigator?) {

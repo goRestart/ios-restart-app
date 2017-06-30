@@ -156,6 +156,42 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
                 strongSelf.refresh(completion: nil)
             }
         }.addDisposableTo(disposeBag)
+        
+        chatRepository.allConversations.changesObservable.subscribeNext { [weak self] change in
+            self?.delegate?.chatListViewModelShouldReloadData()
+        }.addDisposableTo(disposeBag)
+        
+        switch chatsType {
+        case .all:
+//            chatRepository.allConversations.observable.subscribeNext { [weak self] change in
+//                switch change {
+//                case .composite(let changes) where changes.count > 2:
+//                    break
+//                case .insert:
+//                    conversationCollectionVariable.bin
+//                    break
+//                case .remove:
+//                    break
+//                case .composite:
+//                    break
+//                }
+//            }.addDisposableTo(disposeBag)
+            
+            let c1 = CollectionVariable<Int>([])
+            let c2 = CollectionVariable<Int>([])
+            c1.bindTo(c2).addDisposableTo(disposeBag)
+            
+            
+            var conversationCollectionVariable2: CollectionVariable<Any>
+            chatRepository.allConversations.bindTo(conversationCollectionVariable2)
+        case .buying:
+            chatRepository.buyingConversations.bindTo(conversationCollectionVariable).addDisposableTo(disposeBag)
+        case .selling:
+            chatRepository.sellingConversations.bindTo(conversationCollectionVariable).addDisposableTo(disposeBag)
+        case .archived:
+            break
+        }
+        
     }
 }
 

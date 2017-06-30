@@ -14,6 +14,7 @@ protocol ChatListViewModelDelegate: class {
     func chatListViewModelDidSucceedArchivingChats(_ viewModel: ChatListViewModel)
     func chatListViewModelDidFailUnarchivingChats(_ viewModel: ChatListViewModel)
     func chatListViewModelDidSucceedUnarchivingChats(_ viewModel: ChatListViewModel)
+    func chatListViewModelShouldReloadData()
 }
 
 protocol ChatListViewModel: class, ChatGroupedListViewModel {
@@ -22,6 +23,7 @@ protocol ChatListViewModel: class, ChatGroupedListViewModel {
 
     var titleForDeleteButton: String { get }
     var hasMessagesToRead: Bool { get }
+    var conversationCollectionVariable: CollectionVariable<ChatConversation> { get set }
     var shouldRefreshConversations: Bool { get set }
 
     func deleteConfirmationTitle(_ itemCount: Int) -> String

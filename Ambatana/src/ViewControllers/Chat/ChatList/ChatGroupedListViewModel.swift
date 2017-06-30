@@ -76,6 +76,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     private var multipageRequester: MultiPageRequester<T>?
     
     var shouldRefreshConversations: Bool = true
+    var conversationCollectionVariable = CollectionVariable<ChatConversation>([])
 
     // MARK: - Lifecycle
 
