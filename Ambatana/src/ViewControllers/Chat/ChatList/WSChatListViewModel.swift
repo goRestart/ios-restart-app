@@ -156,17 +156,18 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
                 strongSelf.refresh(completion: nil)
             }
         }.addDisposableTo(disposeBag)
-        
-        switch chatsType {
-        case .all:
-            chatRepository.allConversations.bindTo(conversationCollectionVariable).addDisposableTo(disposeBag)
-        case .buying:
-            chatRepository.buyingConversations.bindTo(conversationCollectionVariable).addDisposableTo(disposeBag)
-        case .selling:
-            chatRepository.sellingConversations.bindTo(conversationCollectionVariable).addDisposableTo(disposeBag)
-        case .archived:
-            break
-        }
+
+        // TODO: This is calling collection view changles indefinetly for some reason
+//        switch chatsType {
+//        case .all:
+//            chatRepository.allConversations.bindTo(conversationCollectionVariable).addDisposableTo(disposeBag)
+//        case .buying:
+//            chatRepository.buyingConversations.bindTo(conversationCollectionVariable).addDisposableTo(disposeBag)
+//        case .selling:
+//            chatRepository.sellingConversations.bindTo(conversationCollectionVariable).addDisposableTo(disposeBag)
+//        case .archived:
+//            break
+//        }
     }
 }
 
