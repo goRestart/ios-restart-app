@@ -63,6 +63,7 @@ class ProductCarouselViewModel: BaseViewModel {
 
     let showKeyboardOnFirstAppearance: Bool
     let shouldClearTextWhenBeginEditing: Bool
+    let showShareSheetOnFirstAppearance: Bool
 
     let productInfo = Variable<ProductVMProductInfo?>(nil)
     let productImageURLs = Variable<[URL]>([])
@@ -157,6 +158,7 @@ class ProductCarouselViewModel: BaseViewModel {
                      productListRequester: ProductListRequester,
                      source: EventParameterProductVisitSource,
                      showKeyboardOnFirstAppearIfNeeded: Bool,
+                     showShareSheetOnFirstAppearIfNeeded: Bool,
                      trackingIndex: Int?) {
         self.init(productListModels: nil,
                   initialListing: listing,
@@ -164,6 +166,7 @@ class ProductCarouselViewModel: BaseViewModel {
                   productListRequester: productListRequester,
                   source: source,
                   showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded,
+                  showShareSheetOnFirstAppearIfNeeded: showShareSheetOnFirstAppearIfNeeded,
                   trackingIndex: trackingIndex,
                   firstProductSyncRequired: false)
     }
@@ -174,6 +177,7 @@ class ProductCarouselViewModel: BaseViewModel {
          productListRequester: ProductListRequester,
          source: EventParameterProductVisitSource,
          showKeyboardOnFirstAppearIfNeeded: Bool,
+         showShareSheetOnFirstAppearIfNeeded: Bool? = false,
          trackingIndex: Int?,
          firstProductSyncRequired: Bool) {
         self.init(productListModels: productListModels,
@@ -182,6 +186,7 @@ class ProductCarouselViewModel: BaseViewModel {
                   productListRequester: productListRequester,
                   source: source,
                   showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded,
+                  showShareSheetOnFirstAppearIfNeeded: showShareSheetOnFirstAppearIfNeeded,
                   trackingIndex: trackingIndex,
                   firstProductSyncRequired: firstProductSyncRequired,
                   featureFlags: FeatureFlags.sharedInstance,
@@ -196,6 +201,7 @@ class ProductCarouselViewModel: BaseViewModel {
          productListRequester: ProductListRequester,
          source: EventParameterProductVisitSource,
          showKeyboardOnFirstAppearIfNeeded: Bool,
+         showShareSheetOnFirstAppearIfNeeded: Bool? = false,
          trackingIndex: Int?,
          firstProductSyncRequired: Bool,
          featureFlags: FeatureFlaggeable,
@@ -213,6 +219,7 @@ class ProductCarouselViewModel: BaseViewModel {
         self.productListRequester = productListRequester
         self.source = source
         self.showKeyboardOnFirstAppearance = source == .notifications && showKeyboardOnFirstAppearIfNeeded && featureFlags.passiveBuyersShowKeyboard
+        self.showShareSheetOnFirstAppearance = showShareSheetOnFirstAppearIfNeeded!
         self.shouldClearTextWhenBeginEditing = featureFlags.periscopeRemovePredefinedText
         self.quickAnswersCollapsed = Variable<Bool>(keyValueStorage[.productDetailQuickAnswersHidden])
         self.keyValueStorage = keyValueStorage

@@ -37,6 +37,7 @@ enum DeepLinkAction {
     case home
     case sell
     case product(productId: String)
+    case productShare(productId: String)
     case user(userId: String)
     case conversations
     case conversation(data: ConversationData)

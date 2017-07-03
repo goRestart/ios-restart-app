@@ -648,7 +648,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
                                                  requester: productListRequester, thumbnailImage: thumbnailImage,
                                                  originFrame: originFrame, showRelated: showRelated, index: index)
         navigator?.openListing(data, source: productVisitSource,
-                               showKeyboardOnFirstAppearIfNeeded: false)
+                               showKeyboardOnFirstAppearIfNeeded: false, showShareSheetOnFirstAppearIfNeeded: false)
     }
 
     func vmProcessReceivedProductPage(_ products: [ListingCellModel], page: UInt) -> [ListingCellModel] {

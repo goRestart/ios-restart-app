@@ -626,7 +626,7 @@ extension UserViewModel: ProductListViewModelDataDelegate {
         let data = ListingDetailData.listingList(listing: listing, cellModels: cellModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame,
                                                  showRelated: false, index: 0)
-        navigator?.openListing(data, source: .profile, showKeyboardOnFirstAppearIfNeeded: false)
+        navigator?.openListing(data, source: .profile, showKeyboardOnFirstAppearIfNeeded: false, showShareSheetOnFirstAppearIfNeeded: false)
     }
 }
 

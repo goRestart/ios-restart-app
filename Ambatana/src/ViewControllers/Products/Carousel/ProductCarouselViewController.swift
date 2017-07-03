@@ -166,7 +166,10 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
 
     override func viewDidFirstAppear(_ animated: Bool) {
         super.viewDidFirstAppear(animated)
-        if viewModel.showKeyboardOnFirstAppearance {
+        // Do not show both. Share sheet should have preference over keyboard
+        if viewModel.showShareSheetOnFirstAppearance {
+            viewModel.shareButtonPressed()
+        } else if viewModel.showKeyboardOnFirstAppearance {
             chatTextView.becomeFirstResponder()
         }
     }
