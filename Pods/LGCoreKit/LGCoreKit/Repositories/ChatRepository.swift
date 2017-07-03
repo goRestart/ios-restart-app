@@ -33,14 +33,19 @@ public typealias ChatCommandCompletion = (ChatCommandResult) -> Void
 public typealias ChatUnreadMessagesResult = Result<ChatUnreadMessages, RepositoryError>
 public typealias ChatUnreadMessagesCompletion = (ChatUnreadMessagesResult) -> Void
 
-public protocol ChatRepository {
 
+// MARK: - ChatRepository
+
+public protocol ChatRepository: class {
     var chatStatus: Observable<WSChatStatus> { get }
     var chatEvents: Observable<ChatEvent> { get }
+    var allConversations: CollectionVariable<ChatConversation> { get }
+    var sellingConversations: CollectionVariable<ChatConversation> { get }
+    var buyingConversations: CollectionVariable<ChatConversation> { get }
+    var conversationsLock: NSLock { get }
+    
 
-
-    // MARK: > Public Methods
-    // MARK: - Messages
+    // MARK: > Messages
 
     func createNewMessage(_ talkerId: String, text: String, type: ChatMessageType) -> ChatMessage
 
@@ -52,7 +57,7 @@ public protocol ChatRepository {
                                        completion: ChatMessagesCompletion?)
 
 
-    // MARK: - Conversations
+    // MARK: > Conversations
 
     func indexConversations(_ numResults: Int, offset: Int, filter: WebSocketConversationFilter,
                                    completion: ChatConversationsCompletion?)
@@ -62,14 +67,14 @@ public protocol ChatRepository {
     func showConversation(_ sellerId: String, productId: String, completion: ChatConversationCompletion?)
 
 
-    // MARK: - Events
+    // MARK: > Events
 
     func typingStarted(_ conversationId: String)
 
     func typingStopped(_ conversationId: String)
 
 
-    // MARK: - Commands
+    // MARK: > Commands
 
     func sendMessage(_ conversationId: String, messageId: String, type: ChatMessageType, text: String,
                             completion: ChatCommandCompletion?)
@@ -80,15 +85,241 @@ public protocol ChatRepository {
 
     func confirmReception(_ conversationId: String, messageIds: [String], completion: ChatCommandCompletion?)
 
-    func unarchiveConversations(_ conversationIds: [String], completion: ChatCommandCompletion?)
+    func unarchiveConversation(_ conversationId: String, completion: ChatCommandCompletion?)
 
 
-    // MARK: - Unread counts
+    // MARK: > Unread counts
 
     func chatUnreadMessagesCount(_ completion: ChatUnreadMessagesCompletion?)
 
 
-    // MARK: - Server events
+    // MARK: > Server events
 
     func chatEventsIn(_ conversationId: String) -> Observable<ChatEvent>
+}
+
+
+
+// MARK: - InternalChatRepository
+
+protocol InternalChatRepository: ChatRepository {
+    func internalIndexConversations(_ numResults: Int, offset: Int, filter: WebSocketConversationFilter,
+                                    completion: ChatConversationsCompletion?)
+    func updateLocalConversationByFetching(conversationId: String, moveToTop: Bool)
+    func updateLocalConversations(listing: Listing)
+    func updateLocalConversations(listingId: String, status: ListingStatus)
+    func insertLocalConversationByFetching(conversationId: String)
+    func removeLocalConversation(id: String)
+    func removeLocalConversations(ids: [String])
+    
+    func internalSendMessage(_ conversationId: String, messageId: String, type: ChatMessageType, text: String,
+                             completion: ChatCommandCompletion?)
+    func internalArchiveConversations(_ conversationIds: [String], completion: ChatCommandCompletion?)
+    func internalUnarchiveConversation(_ conversationId: String, completion: ChatCommandCompletion?)
+}
+
+extension InternalChatRepository {
+    public func indexConversations(_ numResults: Int, offset: Int, filter: WebSocketConversationFilter,
+                            completion: ChatConversationsCompletion?) {
+        internalIndexConversations(numResults, offset: offset, filter: filter) { [weak self] result in
+            defer { completion?(result) }
+            guard let strongSelf = self,
+                  let newConversations = result.value else { return }
+            
+            var conversations: CollectionVariable<ChatConversation>?
+            switch filter {
+            case .all:
+                conversations = strongSelf.allConversations
+            case .archived:
+                break
+            case .asBuyer:
+                conversations = strongSelf.buyingConversations
+            case .asSeller:
+                conversations = strongSelf.sellingConversations
+            }
+           
+            let isFirstPage = offset == 0
+            if isFirstPage {
+                conversations?.removeAll()
+            }
+            conversations?.appendContentsOf(newConversations)
+        }
+    }
+    
+    public func updateLocalConversationByFetching(conversationId: String, moveToTop: Bool) {
+        showConversation(conversationId) { [weak self] result in
+            guard let updatedConversation = result.value else { return }
+            self?.updateLocalConversation(updatedConversation: updatedConversation, moveToTop: moveToTop)
+        }
+    }
+    
+    public func updateLocalConversations(listing: Listing) {
+        let filterQuery: ((index: Int, conversation: ChatConversation)) -> Bool = {
+            $0.conversation.listing?.objectId == listing.objectId
+        }
+        allConversations.value.enumerated().filter(filterQuery).forEach { (index, conversation) in
+            let updatedConversation = conversation.updating(listing: listing)
+            allConversations.replace(index, with: updatedConversation)
+        }
+        buyingConversations.value.enumerated().filter(filterQuery).forEach { (index, conversation) in
+            let updatedConversation = conversation.updating(listing: listing)
+            buyingConversations.replace(index, with: updatedConversation)
+        }
+        sellingConversations.value.enumerated().filter(filterQuery).forEach { (index, conversation) in
+            let updatedConversation = conversation.updating(listing: listing)
+            sellingConversations.replace(index, with: updatedConversation)
+        }
+    }
+    
+    public func updateLocalConversations(listingId: String, status: ListingStatus) {
+        let filterQuery: ((index: Int, conversation: ChatConversation)) -> Bool = {
+            $0.conversation.listing?.objectId == listingId
+        }
+        allConversations.value.enumerated().filter(filterQuery).forEach { (index, conversation) in
+            let updatedConversation = conversation.updating(listingStatus: status)
+            allConversations.replace(index, with: updatedConversation)
+        }
+        buyingConversations.value.enumerated().filter(filterQuery).forEach { (index, conversation) in
+            let updatedConversation = conversation.updating(listingStatus: status)
+            buyingConversations.replace(index, with: updatedConversation)
+        }
+        sellingConversations.value.enumerated().filter(filterQuery).forEach { (index, conversation) in
+            let updatedConversation = conversation.updating(listingStatus: status)
+            sellingConversations.replace(index, with: updatedConversation)
+        }
+    }
+    
+    public func updateLocalConversation(interlocutorId: String, isBlocked: Bool) {
+        let conversationsArrays = [allConversations, sellingConversations, buyingConversations]
+        conversationsArrays.forEach { (conversations) in
+            let matchingConversations = conversations.value.filter { $0.interlocutor?.objectId == interlocutorId }
+            matchingConversations.forEach { (chatConversation) in
+                guard let interlocutor = chatConversation.interlocutor else { return }
+                let updatedInterlocutor = interlocutor.updating(isMuted: isBlocked)
+                let updatedConversation = chatConversation.updating(interlocutor: updatedInterlocutor)
+                
+                if let index = conversations.value.index(where: { $0.objectId == updatedConversation.objectId }) {
+                    conversations.removeAtIndex(index)
+                    conversations.insert(updatedConversation, atIndex: index)
+                }
+            }
+        }
+    }
+    
+    private func updateLocalConversation(updatedConversation: ChatConversation, moveToTop: Bool) {
+        let conversationsArrays: [CollectionVariable<ChatConversation>]
+        if updatedConversation.amISelling {
+            conversationsArrays = [allConversations, sellingConversations]
+        } else {
+            conversationsArrays = [allConversations, buyingConversations]
+        }
+        conversationsArrays.forEach { conversations in
+            var insertIndex: Int? = nil
+            if let removeIndex = conversations.value.index(where: { $0.objectId == updatedConversation.objectId }) {
+                insertIndex = moveToTop ? 0 : removeIndex
+                conversations.removeAtIndex(removeIndex)
+            } else if moveToTop {
+                insertIndex = 0
+            }
+            if let insertIndex = insertIndex {
+                conversations.insert(updatedConversation, atIndex: insertIndex)
+            }
+        }
+    }
+    
+    public func insertLocalConversationByFetching(conversationId: String) {
+        showConversation(conversationId) { [weak self] result in
+            guard let strongSelf = self,
+                  let updatedConversation = result.value,
+                  let updatedlastMessageSentAt = updatedConversation.lastMessageSentAt else { return }
+            
+            strongSelf.conversationsLock.lock()
+            
+            // Remove if was in place before
+            let findById: (ChatConversation) -> Bool = { $0.objectId == conversationId }
+            if let index = strongSelf.allConversations.value.index(where: findById) {
+                strongSelf.allConversations.removeAtIndex(index)
+            }
+            if updatedConversation.amISelling {
+                if let index = strongSelf.sellingConversations.value.index(where: findById) {
+                    strongSelf.sellingConversations.removeAtIndex(index)
+                }
+            } else {
+                if let index = strongSelf.buyingConversations.value.index(where: findById) {
+                    strongSelf.buyingConversations.removeAtIndex(index)
+                }
+            }
+            
+            // Ordered (by date) insert
+            let findPositionByDate: (ChatConversation) -> Bool = { conversation in
+                guard let lDate = conversation.lastMessageSentAt else { return true }
+                return lDate.compare(updatedlastMessageSentAt) == .orderedAscending
+            }
+            
+            if let index = strongSelf.allConversations.value.index(where: findPositionByDate) {
+                strongSelf.allConversations.insert(updatedConversation, atIndex: index)
+            } else {
+                strongSelf.allConversations.append(updatedConversation)
+            }
+            if updatedConversation.amISelling {
+                if let index = strongSelf.sellingConversations.value.index(where: findPositionByDate) {
+                    strongSelf.sellingConversations.insert(updatedConversation, atIndex: index)
+                } else {
+                    strongSelf.sellingConversations.append(updatedConversation)
+                }
+            } else {
+                if let index = strongSelf.buyingConversations.value.index(where: findPositionByDate) {
+                    strongSelf.buyingConversations.insert(updatedConversation, atIndex: index)
+                } else {
+                    strongSelf.buyingConversations.append(updatedConversation)
+                }
+            }
+            
+            strongSelf.conversationsLock.unlock()
+        }
+    }
+    
+    public func removeLocalConversation(id: String) {
+        conversationsLock.lock()
+        if let index = allConversations.value.index(where: { $0.objectId == id }) {
+            allConversations.value.remove(at: index)
+        }
+        if let index = sellingConversations.value.index(where: { $0.objectId == id }) {
+            sellingConversations.value.remove(at: index)
+        }
+        if let index = buyingConversations.value.index(where: { $0.objectId == id }) {
+            buyingConversations.value.remove(at: index)
+        }
+        conversationsLock.unlock()
+    }
+    
+    public func removeLocalConversations(ids: [String]) {
+        ids.forEach { removeLocalConversation(id: $0) }
+    }
+    
+    public func sendMessage(_ conversationId: String, messageId: String, type: ChatMessageType, text: String,
+                            completion: ChatCommandCompletion?) {
+        internalSendMessage(conversationId, messageId: messageId, type: type, text: text) { [weak self] sendMessageResult in
+            defer {
+                completion?(sendMessageResult)
+            }
+            guard let _ = sendMessageResult.value else { return }
+     
+            self?.updateLocalConversationByFetching(conversationId: conversationId, moveToTop: true)
+        }
+    }
+    
+    public func archiveConversations(_ conversationIds: [String], completion: ChatCommandCompletion?) {
+        internalArchiveConversations(conversationIds) { [weak self] archiveResult in
+            defer { completion?(archiveResult) }
+            self?.removeLocalConversations(ids: conversationIds)
+        }
+    }
+    
+    public func unarchiveConversation(_ conversationId: String, completion: ChatCommandCompletion?) {
+        internalUnarchiveConversation(conversationId) { [weak self] unarchiveResult in
+            defer { completion?(unarchiveResult) }
+            self?.insertLocalConversationByFetching(conversationId: conversationId)
+        }
+    }
 }

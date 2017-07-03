@@ -1,10 +1,14 @@
 import RxSwift
 
-open class MockChatRepository: ChatRepository {
+open class MockChatRepository: InternalChatRepository {
     public var indexMessagesResult: ChatMessagesResult!
     public var indexConversationsResult: ChatConversationsResult!
     public var showConversationResult: ChatConversationResult!
-    public var commandResult: ChatCommandResult!
+    public var sendMessageCommandResult: ChatCommandResult!
+    public var archiveCommandResult: ChatCommandResult!
+    public var unarchiveCommandResult: ChatCommandResult!
+    public var confirmReadCommandResult: ChatCommandResult!
+    public var confirmReceptionCommandResult: ChatCommandResult!
     public var unreadMessagesResult: ChatUnreadMessagesResult!
 
     public let chatStatusPublishSubject = PublishSubject<WSChatStatus>()
@@ -27,6 +31,11 @@ open class MockChatRepository: ChatRepository {
     public var chatEvents: Observable<ChatEvent> {
         return chatEventsPublishSubject.asObservable()
     }
+    
+    public let allConversations = CollectionVariable<ChatConversation>([])
+    public let sellingConversations = CollectionVariable<ChatConversation>([])
+    public let buyingConversations = CollectionVariable<ChatConversation>([])
+    public let conversationsLock: NSLock = NSLock()
 
     public func createNewMessage(_ talkerId: String,
                                  text: String,
@@ -61,7 +70,7 @@ open class MockChatRepository: ChatRepository {
         delay(result: indexMessagesResult, completion: completion)
     }
 
-    public func indexConversations(_ numResults: Int,
+    public func internalIndexConversations(_ numResults: Int,
                                    offset: Int,
                                    filter: WebSocketConversationFilter,
                                    completion: ChatConversationsCompletion?) {
@@ -69,7 +78,7 @@ open class MockChatRepository: ChatRepository {
     }
 
     public func showConversation(_ conversationId: String,
-                                 completion: ChatConversationCompletion?) {
+                                completion: ChatConversationCompletion?) {
         delay(result: showConversationResult, completion: completion)
     }
 
@@ -85,34 +94,34 @@ open class MockChatRepository: ChatRepository {
     public func typingStopped(_ conversationId: String) {
     }
 
-    public func sendMessage(_ conversationId: String,
-                            messageId: String,
-                            type: ChatMessageType,
-                            text: String,
-                            completion: ChatCommandCompletion?) {
-        delay(result: commandResult, completion: completion)
+    public func internalSendMessage(_ conversationId: String,
+                                    messageId: String,
+                                    type: ChatMessageType,
+                                    text: String,
+                                    completion: ChatCommandCompletion?) {
+        delay(result: sendMessageCommandResult, completion: completion)
     }
 
     public func confirmRead(_ conversationId: String,
                             messageIds: [String],
                             completion: ChatCommandCompletion?) {
-        delay(result: commandResult, completion: completion)
+        delay(result: confirmReadCommandResult, completion: completion)
     }
 
-    public func archiveConversations(_ conversationIds: [String],
-                                     completion: ChatCommandCompletion?) {
-        delay(result: commandResult, completion: completion)
+    public func internalArchiveConversations(_ conversationIds: [String],
+                                             completion: ChatCommandCompletion?) {
+        delay(result: archiveCommandResult, completion: completion)
     }
 
     public func confirmReception(_ conversationId: String,
                                  messageIds: [String],
                                  completion: ChatCommandCompletion?) {
-        delay(result: commandResult, completion: completion)
+        delay(result: confirmReceptionCommandResult, completion: completion)
     }
 
-    public func unarchiveConversations(_ conversationIds: [String],
-                                       completion: ChatCommandCompletion?) {
-        delay(result: commandResult, completion: completion)
+    public func internalUnarchiveConversation(_ conversationId: String,
+                                               completion: ChatCommandCompletion?) {
+        delay(result: unarchiveCommandResult, completion: completion)
     }
 
     public func chatUnreadMessagesCount(_ completion: ChatUnreadMessagesCompletion?) {
