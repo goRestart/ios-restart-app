@@ -118,11 +118,7 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
         }
     }
 
-    func chatListViewModelShouldReloadData() {
-        tableView.reloadData()
-    }
     
-
     // MARK: - UITableViewDataSource
 
     override func cellForRowAtIndexPath(_ indexPath: IndexPath) -> UITableViewCell {
