@@ -141,14 +141,14 @@ class ProductCarouselViewModel: BaseViewModel {
     convenience init(listing: Listing,
                      productListRequester: ProductListRequester,
                      source: EventParameterProductVisitSource,
-                     showKeyboardOnFirstAppearIfNeeded: Bool,
+                     showKeyboard: Bool,
                      trackingIndex: Int?) {
         self.init(productListModels: nil,
                   initialListing: listing,
                   thumbnailImage: nil,
                   productListRequester: productListRequester,
                   source: source,
-                  showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded,
+                  showKeyboard: showKeyboard,
                   trackingIndex: trackingIndex,
                   firstProductSyncRequired: true)
     }
@@ -157,16 +157,16 @@ class ProductCarouselViewModel: BaseViewModel {
                      thumbnailImage: UIImage?,
                      productListRequester: ProductListRequester,
                      source: EventParameterProductVisitSource,
-                     showKeyboardOnFirstAppearIfNeeded: Bool,
-                     showShareSheetOnFirstAppearIfNeeded: Bool,
+                     showKeyboard: Bool,
+                     showShareSheet: Bool,
                      trackingIndex: Int?) {
         self.init(productListModels: nil,
                   initialListing: listing,
                   thumbnailImage: thumbnailImage,
                   productListRequester: productListRequester,
                   source: source,
-                  showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded,
-                  showShareSheetOnFirstAppearIfNeeded: showShareSheetOnFirstAppearIfNeeded,
+                  showKeyboard: showKeyboard,
+                  showShareSheet: showShareSheet,
                   trackingIndex: trackingIndex,
                   firstProductSyncRequired: false)
     }
@@ -176,8 +176,8 @@ class ProductCarouselViewModel: BaseViewModel {
          thumbnailImage: UIImage?,
          productListRequester: ProductListRequester,
          source: EventParameterProductVisitSource,
-         showKeyboardOnFirstAppearIfNeeded: Bool,
-         showShareSheetOnFirstAppearIfNeeded: Bool? = false,
+         showKeyboard: Bool,
+         showShareSheet: Bool? = false,
          trackingIndex: Int?,
          firstProductSyncRequired: Bool) {
         self.init(productListModels: productListModels,
@@ -185,8 +185,8 @@ class ProductCarouselViewModel: BaseViewModel {
                   thumbnailImage: thumbnailImage,
                   productListRequester: productListRequester,
                   source: source,
-                  showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded,
-                  showShareSheetOnFirstAppearIfNeeded: showShareSheetOnFirstAppearIfNeeded,
+                  showKeyboard: showKeyboard,
+                  showShareSheet: showShareSheet,
                   trackingIndex: trackingIndex,
                   firstProductSyncRequired: firstProductSyncRequired,
                   featureFlags: FeatureFlags.sharedInstance,
@@ -200,8 +200,8 @@ class ProductCarouselViewModel: BaseViewModel {
          thumbnailImage: UIImage?,
          productListRequester: ProductListRequester,
          source: EventParameterProductVisitSource,
-         showKeyboardOnFirstAppearIfNeeded: Bool,
-         showShareSheetOnFirstAppearIfNeeded: Bool? = false,
+         showKeyboard: Bool,
+         showShareSheet: Bool? = false,
          trackingIndex: Int?,
          firstProductSyncRequired: Bool,
          featureFlags: FeatureFlaggeable,
@@ -218,8 +218,8 @@ class ProductCarouselViewModel: BaseViewModel {
         self.initialThumbnail = thumbnailImage
         self.productListRequester = productListRequester
         self.source = source
-        self.showKeyboardOnFirstAppearance = source == .notifications && showKeyboardOnFirstAppearIfNeeded && featureFlags.passiveBuyersShowKeyboard
-        self.showShareSheetOnFirstAppearance = showShareSheetOnFirstAppearIfNeeded!
+        self.showKeyboardOnFirstAppearance = source == .notifications && showKeyboard && featureFlags.passiveBuyersShowKeyboard
+        self.showShareSheetOnFirstAppearance = showShareSheet!
         self.shouldClearTextWhenBeginEditing = featureFlags.periscopeRemovePredefinedText
         self.quickAnswersCollapsed = Variable<Bool>(keyValueStorage[.productDetailQuickAnswersHidden])
         self.keyValueStorage = keyValueStorage

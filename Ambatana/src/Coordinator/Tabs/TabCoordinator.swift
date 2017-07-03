@@ -113,14 +113,14 @@ extension TabCoordinator: TabNavigator {
     }
 
     func openListing(_ data: ListingDetailData, source: EventParameterProductVisitSource,
-                     showKeyboardOnFirstAppearIfNeeded: Bool, showShareSheetOnFirstAppearIfNeeded: Bool) {
+                     showKeyboard: Bool, showShareSheet: Bool) {
         switch data {
         case let .id(listingId):
             openListing(listingId: listingId, source: source,
-                        showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded, showShareSheetOnFirstAppearIfNeeded: showShareSheetOnFirstAppearIfNeeded)
+                        showKeyboard: showKeyboard, showShareSheet: showShareSheet)
         case let .listingAPI(listing, thumbnailImage, originFrame):
             openListing(listing: listing, thumbnailImage: thumbnailImage, originFrame: originFrame, source: source,
-                        index: 0, discover: false, showKeyboardOnFirstAppearIfNeeded: false, showShareSheetOnFirstAppearIfNeeded: false)
+                        index: 0, discover: false, showKeyboard: false, showShareSheet: false)
         case let .listingList(listing, cellModels, requester, thumbnailImage, originFrame, showRelated, index):
             openListing(listing, cellModels: cellModels, requester: requester, thumbnailImage: thumbnailImage,
                         originFrame: originFrame, showRelated: showRelated, source: source,
@@ -172,13 +172,13 @@ extension TabCoordinator: TabNavigator {
 
 fileprivate extension TabCoordinator {
     func openListing(listingId: String, source: EventParameterProductVisitSource,
-                     showKeyboardOnFirstAppearIfNeeded: Bool, showShareSheetOnFirstAppearIfNeeded: Bool) {
+                     showKeyboard: Bool, showShareSheet: Bool) {
         navigationController.showLoadingMessageAlert()
         listingRepository.retrieve(listingId) { [weak self] result in
             if let listing = result.value {
                 self?.navigationController.dismissLoadingMessageAlert {
                     self?.openListing(listing: listing, source: source, index: 0, discover: false,
-                                      showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded, showShareSheetOnFirstAppearIfNeeded: showShareSheetOnFirstAppearIfNeeded)
+                                      showKeyboard: showKeyboard, showShareSheet: showShareSheet)
                 }
             } else if let error = result.error {
                 let message: String
@@ -198,7 +198,7 @@ fileprivate extension TabCoordinator {
 
     func openListing(listing: Listing, thumbnailImage: UIImage? = nil, originFrame: CGRect? = nil,
                              source: EventParameterProductVisitSource, requester: ProductListRequester? = nil, index: Int,
-                             discover: Bool, showKeyboardOnFirstAppearIfNeeded: Bool, showShareSheetOnFirstAppearIfNeeded: Bool) {
+                             discover: Bool, showKeyboard: Bool, showShareSheet: Bool) {
         guard let listingId = listing.objectId else { return }
 
         var requestersArray: [ProductListRequester] = []
@@ -222,7 +222,7 @@ fileprivate extension TabCoordinator {
 
         let vm = ProductCarouselViewModel(listing: listing, thumbnailImage: thumbnailImage,
                                           productListRequester: requester, source: source,
-                                          showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded, showShareSheetOnFirstAppearIfNeeded: showShareSheetOnFirstAppearIfNeeded, trackingIndex: index)
+                                          showKeyboard: showKeyboard, showShareSheet: showShareSheet, trackingIndex: index)
         vm.navigator = self
         openListing(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, listingId: listingId)
     }
@@ -235,11 +235,11 @@ fileprivate extension TabCoordinator {
             let discover = !featureFlags.productDetailNextRelated
             openListing(listing: listing, thumbnailImage: thumbnailImage, originFrame: originFrame,
                         source: source, requester: requester, index: index, discover: discover,
-                        showKeyboardOnFirstAppearIfNeeded: false, showShareSheetOnFirstAppearIfNeeded: false)
+                        showKeyboard: false, showShareSheet: false)
         } else {
             let vm = ProductCarouselViewModel(productListModels: cellModels, initialListing: listing,
                                               thumbnailImage: thumbnailImage, productListRequester: requester, source: source,
-                                              showKeyboardOnFirstAppearIfNeeded: false, trackingIndex: index,
+                                              showKeyboard: false, trackingIndex: index,
                                               firstProductSyncRequired: false)
             vm.navigator = self
             openListing(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, listingId: listing.objectId)
@@ -253,7 +253,7 @@ fileprivate extension TabCoordinator {
         let filteredRequester = FilteredProductListRequester( itemsPerPage: Constants.numProductsPerPageDefault, offset: 0)
         let requester = ProductListMultiRequester(requesters: [relatedRequester, filteredRequester])
         let vm = ProductCarouselViewModel(listing: .product(localProduct), productListRequester: requester,
-                                          source: source, showKeyboardOnFirstAppearIfNeeded: false, trackingIndex: nil)
+                                          source: source, showKeyboard: false, trackingIndex: nil)
         vm.navigator = self
         openListing(vm, thumbnailImage: nil, originFrame: nil, listingId: productId)
     }

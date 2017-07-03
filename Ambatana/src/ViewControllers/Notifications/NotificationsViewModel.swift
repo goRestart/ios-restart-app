@@ -201,7 +201,7 @@ fileprivate extension NotificationsViewModel {
                                     primaryAction: { [weak self] in
                                         let data = ListingDetailData.id(listingId: product.id)
                                         self?.navigator?.openListing(data, source: .notifications,
-                                                                     showKeyboardOnFirstAppearIfNeeded: false, showShareSheetOnFirstAppearIfNeeded: false)
+                                                                     showKeyboard: false, showShareSheet: false)
                                     })
         case let .buyersInterested(product, buyers):
             var data = NotificationData(id: notification.objectId,
@@ -224,7 +224,7 @@ fileprivate extension NotificationsViewModel {
                                     primaryAction: { [weak self] in
                                         let data = ListingDetailData.id(listingId: product.id)
                                         self?.navigator?.openListing(data, source: .notifications,
-                                                                     showKeyboardOnFirstAppearIfNeeded: true, showShareSheetOnFirstAppearIfNeeded: false)
+                                                                     showKeyboard: true, showShareSheet: false)
                                     })
         case let .facebookFriendshipCreated(user, facebookUsername):
             return NotificationData(id: notification.objectId,

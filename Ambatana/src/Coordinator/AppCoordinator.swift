@@ -568,13 +568,13 @@ fileprivate extension AppCoordinator {
             tabBarCtl.clearAllPresented(nil)
             afterDelayClosure = { [weak self] in
                 self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: productId), source: .openApp,
-                                                          showKeyboardOnFirstAppearIfNeeded: false, showShareSheetOnFirstAppearIfNeeded: false)
+                                                          showKeyboard: false, showShareSheet: false)
             }
         case let .productShare(productId):
             tabBarCtl.clearAllPresented(nil)
             afterDelayClosure = { [weak self] in
                 self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: productId), source: .openApp,
-                                                          showKeyboardOnFirstAppearIfNeeded: false, showShareSheetOnFirstAppearIfNeeded: true)
+                                                          showKeyboard: false, showShareSheet: true)
             }
         case let .user(userId):
             if userId == myUserRepository.myUser?.objectId {

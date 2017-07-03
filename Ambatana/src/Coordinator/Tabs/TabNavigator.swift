@@ -36,7 +36,7 @@ protocol TabNavigator: class {
     func openUserRating(_ source: RateUserSource, data: RateUserData)
     func openUser(_ data: UserDetailData)
     func openListing(_ data: ListingDetailData, source: EventParameterProductVisitSource,
-                     showKeyboardOnFirstAppearIfNeeded: Bool, showShareSheetOnFirstAppearIfNeeded: Bool)
+                     showKeyboard: Bool, showShareSheet: Bool)
     func openChat(_ data: ChatDetailData, source: EventParameterTypePage)
     func openVerifyAccounts(_ types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?)
     func openAppInvite()
@@ -64,7 +64,7 @@ protocol ProductDetailNavigator: TabNavigator {
 protocol SimpleProductsNavigator: class {
     func closeSimpleProducts()
     func openListing(_ data: ListingDetailData, source: EventParameterProductVisitSource,
-                     showKeyboardOnFirstAppearIfNeeded: Bool, showShareSheetOnFirstAppearIfNeeded: Bool)
+                     showKeyboard: Bool, showShareSheet: Bool)
 }
 
 protocol ChatDetailNavigator: TabNavigator {
