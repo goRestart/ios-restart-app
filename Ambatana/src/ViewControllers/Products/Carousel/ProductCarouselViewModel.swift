@@ -33,6 +33,7 @@ class ProductCarouselViewModel: BaseViewModel {
     var isLoading: Bool = false
 
     var currentProductViewModel: ProductViewModel?
+    let currentViewModelIsBeingUpdated = Variable<Bool>(false)
     let startIndex: Int
     fileprivate(set) var currentIndex: Int = 0 {
         didSet {
@@ -267,6 +268,7 @@ class ProductCarouselViewModel: BaseViewModel {
 
     func moveToProductAtIndex(_ index: Int, movement: CarouselMovement) {
         guard let viewModel = viewModelAt(index: index) else { return }
+        currentViewModelIsBeingUpdated.value = false
         currentProductViewModel?.active = false
         currentProductViewModel?.delegate = nil
         currentProductViewModel = viewModel
@@ -379,6 +381,7 @@ class ProductCarouselViewModel: BaseViewModel {
         guard let currentVM = currentProductViewModel else { return }
         currentVM.listing.asObservable().skip(1).bindNext { [weak self] updatedListing in
             guard let strongSelf = self else { return }
+            strongSelf.currentViewModelIsBeingUpdated.value = true
             strongSelf.objects.replace(index, with: ProductCarouselCellModel(listing:updatedListing))
         }.addDisposableTo(activeDisposeBag)
 

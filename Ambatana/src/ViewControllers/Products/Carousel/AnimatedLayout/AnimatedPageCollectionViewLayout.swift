@@ -19,6 +19,7 @@ public class AnimatedPageCollectionViewLayout: UICollectionViewFlowLayout {
     public override class var layoutAttributesClass: AnyClass { return AnimatedPageCollectionViewLayoutAttributes.self }
 
     public override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+        guard let _ = animator else { return super.layoutAttributesForElements(in: rect) }
         guard let attributes = super.layoutAttributesForElements(in: rect) else { return nil }
         return attributes.flatMap { $0.copy() as? AnimatedPageCollectionViewLayoutAttributes }.map { self.transformLayoutAttributes($0) }
     }
