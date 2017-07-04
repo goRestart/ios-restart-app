@@ -105,6 +105,11 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     fileprivate let carouselImageDownloader: ImageDownloaderType
     fileprivate let imageDownloader: ImageDownloaderType
 
+    fileprivate var usesHorizontalNavigation: Bool {
+        return viewModel.horizontalImageNavigationEnabled.value
+    }
+
+
     // MARK: - Lifecycle
 
     convenience init(viewModel: ProductCarouselViewModel, pushAnimator: ProductCarouselPushAnimator?) {
@@ -257,7 +262,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     
     func setupUI() {
 
-        if viewModel.imageScrollDirection == .horizontal {
+        if usesHorizontalNavigation {
             flowLayout.animator = PageAttributesAnimator()
         }
         
@@ -277,7 +282,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         CarouselUIHelper.setupPageControl(pageControl, topBarHeight: topBarHeight)
 
         customPageControl.layout(with: view).leading(by: CarouselUI.itemsMargin).trailing(by: -CarouselUI.itemsMargin)
-        if viewModel.imageScrollDirection == .horizontal {
+        if usesHorizontalNavigation {
             customPageControl.layout().height(CarouselUI.customPageControlHeight)
             customPageControl.layout(with: buttonTop)
                 .above(by: -CarouselUI.itemsMargin, constraintBlock: { [weak self] in
@@ -395,8 +400,18 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
 
     private func setupCollectionRx() {
         viewModel.objectChanges.observeOn(MainScheduler.instance).bindNext { [weak self] change in
+            guard let strongSelf = self else { return }
+
             self?.imageBackground.isHidden = true
-            UIView.performWithoutAnimation {
+
+            if strongSelf.usesHorizontalNavigation && strongSelf.viewModel.isMyListing {
+                // when an item is updated, we have to reload all the items
+                // to reassign the right zIndexes to the cells
+                UIView.performWithoutAnimation {
+                    self?.collectionView.reloadData()
+                }
+                self?.imageBackground.isHidden = false
+            } else {
                 self?.collectionView.handleCollectionChange(change) { _ in
                     self?.imageBackground.isHidden = false
                 }
@@ -747,7 +762,7 @@ extension ProductCarouselViewController {
     private func setupNavigationAnimationsRx() {
         viewModel.currentViewModelIsBeingUpdated.asObservable().bindNext { [weak self] updatingVM in
             guard let strongSelf = self else { return }
-            if strongSelf.viewModel.imageScrollDirection == .horizontal {
+            if strongSelf.usesHorizontalNavigation {
                 if !updatingVM {
                     strongSelf.collectionView.translatesAutoresizingMaskIntoConstraints = false
                     strongSelf.flowLayout.animator = PageAttributesAnimator()
@@ -822,6 +837,10 @@ extension ProductCarouselViewController: UserViewDelegate {
 // MARK: > ProductCarousel Cell Delegate
 
 extension ProductCarouselViewController: ProductCarouselCellDelegate {
+
+    static let animatedLayoutRubberBandOffset: CGFloat = 100
+    static let defaultRubberBandOffset: CGFloat = 50
+
     func didTapOnCarouselCell(_ cell: UICollectionViewCell) {
         guard !chatTextView.isFirstResponder else {
             chatTextView.resignFirstResponder()
@@ -835,7 +854,10 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
             let nextIndexPath = IndexPath(item: newIndexRow, section: 0)
             collectionView.scrollToItem(at: nextIndexPath, at: .right, animated: true)
         } else {
-            collectionView.showRubberBandEffect(.right)
+            collectionView.showRubberBandEffect(.right,
+                                                offset: usesHorizontalNavigation ?
+                                                    ProductCarouselViewController.animatedLayoutRubberBandOffset :
+                                                    ProductCarouselViewController.defaultRubberBandOffset)
         }
     }
 

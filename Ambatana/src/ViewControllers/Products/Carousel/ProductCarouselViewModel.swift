@@ -115,6 +115,10 @@ class ProductCarouselViewModel: BaseViewModel {
 
     let horizontalImageNavigationEnabled = Variable<Bool>(false)
 
+    var isMyListing: Bool {
+        return currentProductViewModel?.isMine ?? false
+    }
+
     fileprivate var trackingIndex: Int?
     fileprivate var initialThumbnail: UIImage?
 
@@ -268,7 +272,6 @@ class ProductCarouselViewModel: BaseViewModel {
 
     func moveToProductAtIndex(_ index: Int, movement: CarouselMovement) {
         guard let viewModel = viewModelAt(index: index) else { return }
-        currentViewModelIsBeingUpdated.value = false
         currentProductViewModel?.active = false
         currentProductViewModel?.delegate = nil
         currentProductViewModel = viewModel
@@ -383,6 +386,7 @@ class ProductCarouselViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
             strongSelf.currentViewModelIsBeingUpdated.value = true
             strongSelf.objects.replace(index, with: ProductCarouselCellModel(listing:updatedListing))
+            strongSelf.currentViewModelIsBeingUpdated.value = false
         }.addDisposableTo(activeDisposeBag)
 
         currentVM.status.asObservable().bindTo(status).addDisposableTo(activeDisposeBag)
