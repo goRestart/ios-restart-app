@@ -101,10 +101,10 @@
 "bump_up_view_free_subtitle" = "The more you share, the more visibility your listing will have.";
 
 // Title for payment bump up view
-"bump_up_view_pay_title" = "BUMP UP TO SELL FASTER";
+"bump_up_view_pay_title" = "SELL FASTER";
 
 // Subtitle for payment bump up view
-"bump_up_view_pay_subtitle" = "Give your listing higher visibility by moving it to the top.";
+"bump_up_view_pay_subtitle" = "Attract more buyers by giving your listing more visibility.";
 
 // Button title for payment bump up view
 "bump_up_view_pay_button_title" = "Activate for %@";
@@ -491,7 +491,7 @@
 "chat_related_products_title" = "YOU MIGHT BE INTERESTED IN:";
 
 // Chat safety tips.
-"chat_safety_tips" = "Safety tips";
+"chat_safety_tips" = "Safety Tips";
 
 // Chat safety tips full message
 "chat_safety_tips_message" = "• Meet in person and pay in cash.\n\n• Keep conversations in the letgo chat.\n\n• Too good to be true? Find another buyer/seller!";

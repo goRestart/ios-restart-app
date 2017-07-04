@@ -15,4 +15,10 @@ extension Reactive where Base: UIView {
             view.backgroundColor = color
         }
     }
+
+    var userInteractionEnabled: UIBindingObserver<Base, Bool> {
+        return UIBindingObserver<Base, Bool>(UIElement: self.base) { (view, enabled) -> () in
+            view.isUserInteractionEnabled = enabled
+        }
+    }
 }
