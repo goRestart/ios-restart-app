@@ -151,6 +151,11 @@ class BumpUpBanner: UIView {
     func stopCountdown() {
         timer.invalidate()
     }
+    
+    func triggerPrimaryBlock() {
+        guard readyToBump.value else { return }
+        primaryBlock()
+    }
 
     private func startCountdown() {
         timer.invalidate()
@@ -158,13 +163,11 @@ class BumpUpBanner: UIView {
     }
 
     dynamic private func bannerTapped() {
-        guard readyToBump.value else { return }
-        primaryBlock()
+        triggerPrimaryBlock()
     }
 
     dynamic private func bannerSwipped() {
-        guard readyToBump.value else { return }
-        primaryBlock()
+        triggerPrimaryBlock()
     }
 
     dynamic private func bumpButtonPressed() {

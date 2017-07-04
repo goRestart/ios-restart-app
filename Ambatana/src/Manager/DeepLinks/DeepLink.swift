@@ -38,6 +38,7 @@ enum DeepLinkAction {
     case sell
     case product(productId: String)
     case productShare(productId: String)
+    case productBumpUp(productId: String)
     case productMarkAsSold(productId: String)
     case user(userId: String)
     case conversations

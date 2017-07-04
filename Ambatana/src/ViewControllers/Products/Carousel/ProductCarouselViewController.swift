@@ -172,11 +172,12 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
             chatTextView.becomeFirstResponder()
         case .showShareSheet:
             viewModel.shareButtonPressed()
+        case .triggerBumpUp:
+            bumpUpBanner.triggerPrimaryBlock()
         case .triggerMarkAsSold:
             viewModel.currentProductViewModel?.confirmToMarkAsSold()
         default:
             break
-            
         }
 
     }

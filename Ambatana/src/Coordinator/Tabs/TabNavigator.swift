@@ -33,6 +33,7 @@ enum ProductCarouselActionOnFirstAppear {
     case nonexistent
     case showKeyboard
     case showShareSheet
+    case triggerBumpUp
     case triggerMarkAsSold
 }
 

@@ -574,6 +574,13 @@ fileprivate extension AppCoordinator {
             afterDelayClosure = { [weak self] in
                 self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: productId), source: .openApp, actionOnFirstAppear: .showShareSheet)
             }
+        case let .productBumpUp(productId):
+            tabBarCtl.clearAllPresented(nil)
+            afterDelayClosure = { [weak self] in
+                self?.openTab(.profile, force: false) { [weak self] in
+                    self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: productId), source: .openApp, actionOnFirstAppear: .triggerBumpUp)
+                }
+            }
         case let .productMarkAsSold(productId):
             tabBarCtl.clearAllPresented(nil)
             afterDelayClosure = { [weak self] in
@@ -654,7 +661,7 @@ fileprivate extension AppCoordinator {
         if let child = child, child is SellCoordinator { return }
 
         switch deepLink.action {
-        case .home, .sell, .product, .productShare, .productMarkAsSold, .user, .conversations, .search, .resetPassword, .userRatings, .userRating,
+        case .home, .sell, .product, .productShare, .productBumpUp, .productMarkAsSold, .user, .conversations, .search, .resetPassword, .userRatings, .userRating,
              .passiveBuyers, .notificationCenter:
             return // Do nothing
         case let .conversation(data):
