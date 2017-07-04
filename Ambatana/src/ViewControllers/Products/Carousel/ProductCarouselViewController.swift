@@ -48,7 +48,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     fileprivate var userViewBottomConstraint: NSLayoutConstraint?
     fileprivate var userViewRightConstraint: NSLayoutConstraint?
 
-    fileprivate var mainViewBlurEffectView: UIVisualEffectView
+    fileprivate let mainViewBlurEffectView: UIVisualEffectView
 
     fileprivate var userViewRightMargin: CGFloat = CarouselUI.itemsMargin {
         didSet {

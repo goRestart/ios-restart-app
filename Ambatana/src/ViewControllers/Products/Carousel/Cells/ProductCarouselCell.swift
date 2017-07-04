@@ -160,7 +160,8 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let pageSize = imageScrollDirection == .horizontal ? collectionView.frame.size.width : collectionView.frame.size.height
         guard pageSize > 0, numberOfImages > 0 else { return }
-        var collectionContentOffset: CGFloat = collectionView.contentOffset.y
+        
+        let collectionContentOffset: CGFloat
 
         if imageScrollDirection == .horizontal {
             collectionContentOffset = collectionView.contentOffset.x
@@ -168,6 +169,8 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
             if collectionView.contentOffset.y > 0 {
                 scrollView.setContentOffset(CGPoint(x: collectionView.contentOffset.x, y: 0.0), animated: false)
             }
+        } else {
+            collectionContentOffset = collectionView.contentOffset.y
         }
         
         let page = Int(round(collectionContentOffset / pageSize)) % numberOfImages
