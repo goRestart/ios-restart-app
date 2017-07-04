@@ -510,7 +510,7 @@ class ChatViewModel: BaseViewModel {
         case .pending, .approved, .discarded, .sold, .soldOld:
             delegate?.vmHideKeyboard(false)
             let data = ListingDetailData.listingChat(chatConversation: conversation.value)
-            navigator?.openListing(data, source: .chat, showKeyboard: false, showShareSheet: false)
+            navigator?.openListing(data, source: .chat, actionOnFirstAppear: .nonexistent)
         }
     }
     
@@ -1356,7 +1356,7 @@ extension ChatViewModel: ChatRelatedProductsViewDelegate {
         let data = ListingDetailData.listingList(listing: listing, cellModels: productListModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame,
                                                  showRelated: false, index: 0)
-        navigator?.openListing(data, source: .chat, showKeyboard: false, showShareSheet: false)
+        navigator?.openListing(data, source: .chat, actionOnFirstAppear: .nonexistent)
     }
 }
 

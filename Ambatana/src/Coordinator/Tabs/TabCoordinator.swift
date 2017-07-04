@@ -112,15 +112,13 @@ extension TabCoordinator: TabNavigator {
         }
     }
 
-    func openListing(_ data: ListingDetailData, source: EventParameterProductVisitSource,
-                     showKeyboard: Bool, showShareSheet: Bool) {
+    func openListing(_ data: ListingDetailData, source: EventParameterProductVisitSource, actionOnFirstAppear: ProductCarouselActionOnFirstAppear) {
         switch data {
         case let .id(listingId):
-            openListing(listingId: listingId, source: source,
-                        showKeyboard: showKeyboard, showShareSheet: showShareSheet)
+            openListing(listingId: listingId, source: source, actionOnFirstAppear: actionOnFirstAppear)
         case let .listingAPI(listing, thumbnailImage, originFrame):
             openListing(listing: listing, thumbnailImage: thumbnailImage, originFrame: originFrame, source: source,
-                        index: 0, discover: false, showKeyboard: false, showShareSheet: false)
+                        index: 0, discover: false, actionOnFirstAppear: actionOnFirstAppear)
         case let .listingList(listing, cellModels, requester, thumbnailImage, originFrame, showRelated, index):
             openListing(listing, cellModels: cellModels, requester: requester, thumbnailImage: thumbnailImage,
                         originFrame: originFrame, showRelated: showRelated, source: source,
@@ -171,14 +169,13 @@ extension TabCoordinator: TabNavigator {
 }
 
 fileprivate extension TabCoordinator {
-    func openListing(listingId: String, source: EventParameterProductVisitSource,
-                     showKeyboard: Bool, showShareSheet: Bool) {
+    func openListing(listingId: String, source: EventParameterProductVisitSource, actionOnFirstAppear: ProductCarouselActionOnFirstAppear) {
         navigationController.showLoadingMessageAlert()
         listingRepository.retrieve(listingId) { [weak self] result in
             if let listing = result.value {
                 self?.navigationController.dismissLoadingMessageAlert {
                     self?.openListing(listing: listing, source: source, index: 0, discover: false,
-                                      showKeyboard: showKeyboard, showShareSheet: showShareSheet)
+                                      actionOnFirstAppear: actionOnFirstAppear)
                 }
             } else if let error = result.error {
                 let message: String
@@ -198,7 +195,7 @@ fileprivate extension TabCoordinator {
 
     func openListing(listing: Listing, thumbnailImage: UIImage? = nil, originFrame: CGRect? = nil,
                              source: EventParameterProductVisitSource, requester: ProductListRequester? = nil, index: Int,
-                             discover: Bool, showKeyboard: Bool, showShareSheet: Bool) {
+                             discover: Bool, actionOnFirstAppear: ProductCarouselActionOnFirstAppear) {
         guard let listingId = listing.objectId else { return }
 
         var requestersArray: [ProductListRequester] = []
@@ -222,7 +219,7 @@ fileprivate extension TabCoordinator {
 
         let vm = ProductCarouselViewModel(listing: listing, thumbnailImage: thumbnailImage,
                                           productListRequester: requester, source: source,
-                                          showKeyboard: showKeyboard, showShareSheet: showShareSheet, trackingIndex: index)
+                                          actionOnFirstAppear: actionOnFirstAppear, trackingIndex: index)
         vm.navigator = self
         openListing(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, listingId: listingId)
     }
@@ -235,11 +232,11 @@ fileprivate extension TabCoordinator {
             let discover = !featureFlags.productDetailNextRelated
             openListing(listing: listing, thumbnailImage: thumbnailImage, originFrame: originFrame,
                         source: source, requester: requester, index: index, discover: discover,
-                        showKeyboard: false, showShareSheet: false)
+                        actionOnFirstAppear: .nonexistent)
         } else {
             let vm = ProductCarouselViewModel(productListModels: cellModels, initialListing: listing,
                                               thumbnailImage: thumbnailImage, productListRequester: requester, source: source,
-                                              showKeyboard: false, trackingIndex: index,
+                                              actionOnFirstAppear: .nonexistent, trackingIndex: index,
                                               firstProductSyncRequired: false)
             vm.navigator = self
             openListing(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, listingId: listing.objectId)
@@ -253,7 +250,7 @@ fileprivate extension TabCoordinator {
         let filteredRequester = FilteredProductListRequester( itemsPerPage: Constants.numProductsPerPageDefault, offset: 0)
         let requester = ProductListMultiRequester(requesters: [relatedRequester, filteredRequester])
         let vm = ProductCarouselViewModel(listing: .product(localProduct), productListRequester: requester,
-                                          source: source, showKeyboard: false, trackingIndex: nil)
+                                          source: source, actionOnFirstAppear: .nonexistent, trackingIndex: nil)
         vm.navigator = self
         openListing(vm, thumbnailImage: nil, originFrame: nil, listingId: productId)
     }

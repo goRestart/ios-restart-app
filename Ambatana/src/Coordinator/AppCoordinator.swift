@@ -567,14 +567,19 @@ fileprivate extension AppCoordinator {
         case let .product(productId):
             tabBarCtl.clearAllPresented(nil)
             afterDelayClosure = { [weak self] in
-                self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: productId), source: .openApp,
-                                                          showKeyboard: false, showShareSheet: false)
+                self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: productId), source: .openApp, actionOnFirstAppear: .nonexistent)
             }
         case let .productShare(productId):
             tabBarCtl.clearAllPresented(nil)
             afterDelayClosure = { [weak self] in
-                self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: productId), source: .openApp,
-                                                          showKeyboard: false, showShareSheet: true)
+                self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: productId), source: .openApp, actionOnFirstAppear: .showShareSheet)
+            }
+        case let .productMarkAsSold(productId):
+            tabBarCtl.clearAllPresented(nil)
+            afterDelayClosure = { [weak self] in
+                self?.openTab(.profile, force: false) { [weak self] in
+                    self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: productId), source: .openApp, actionOnFirstAppear: .triggerMarkAsSold)
+                }
             }
         case let .user(userId):
             if userId == myUserRepository.myUser?.objectId {
@@ -627,7 +632,7 @@ fileprivate extension AppCoordinator {
                     self?.openPassiveBuyers(productId)
                 })
             }
-        case let .notificationCenter:
+        case .notificationCenter:
             openTab(.notifications, force: false, completion: nil)
         }
         
@@ -649,7 +654,7 @@ fileprivate extension AppCoordinator {
         if let child = child, child is SellCoordinator { return }
 
         switch deepLink.action {
-        case .home, .sell, .product, .productShare, .user, .conversations, .search, .resetPassword, .userRatings, .userRating,
+        case .home, .sell, .product, .productShare, .productMarkAsSold, .user, .conversations, .search, .resetPassword, .userRatings, .userRating,
              .passiveBuyers, .notificationCenter:
             return // Do nothing
         case let .conversation(data):

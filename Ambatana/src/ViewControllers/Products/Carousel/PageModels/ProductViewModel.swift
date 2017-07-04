@@ -472,6 +472,36 @@ extension ProductViewModel {
     func descriptionURLPressed(_ url: URL) {
         showItemHiddenIfNeededFor(url: url)
     }
+    
+    func confirmToMarkAsSold() {
+        guard isMine && status.value.isAvailable else { return }
+        let free = status.value.isFree
+        
+        var okButton: String
+        var title: String
+        var message: String
+        var cancel: String
+        
+        if featureFlags.newMarkAsSoldFlow {
+            okButton = LGLocalizedString.productMarkAsSoldAlertConfirm
+            title = free ? LGLocalizedString.productMarkAsGivenAwayAlertTitle: LGLocalizedString.productMarkAsSoldAlertTitle
+            message = free ? LGLocalizedString.productMarkAsGivenAwayAlertMessage : LGLocalizedString.productMarkAsSoldAlertMessage
+            cancel = LGLocalizedString.productMarkAsSoldAlertCancel
+        } else {
+            okButton = free ? LGLocalizedString.productMarkAsSoldFreeConfirmOkButton : LGLocalizedString.productMarkAsSoldConfirmOkButton
+            title = free ? LGLocalizedString.productMarkAsSoldFreeConfirmTitle : LGLocalizedString.productMarkAsSoldConfirmTitle
+            message = free ? LGLocalizedString.productMarkAsSoldFreeConfirmMessage : LGLocalizedString.productMarkAsSoldConfirmMessage
+            cancel = free ? LGLocalizedString.productMarkAsSoldFreeConfirmCancelButton : LGLocalizedString.productMarkAsSoldConfirmCancelButton
+        }
+        
+        var alertActions: [UIAction] = []
+        let markAsSoldAction = UIAction(interface: .text(okButton),
+                                        action: { [weak self] in
+                                            self?.markAsSold()
+        })
+        alertActions.append(markAsSoldAction)
+        delegate?.vmShowAlert(title, message: message, cancelLabel: cancel, actions: alertActions)
+    }
 }
 
 
@@ -770,37 +800,6 @@ fileprivate extension ProductViewModel {
             }
         }
     }
-
-    fileprivate func confirmToMarkAsSold() {
-        guard isMine && status.value.isAvailable else { return }
-        let free = status.value.isFree
-        
-        var okButton: String
-        var title: String
-        var message: String
-        var cancel: String
-        
-        if featureFlags.newMarkAsSoldFlow {
-            okButton = LGLocalizedString.productMarkAsSoldAlertConfirm
-            title = free ? LGLocalizedString.productMarkAsGivenAwayAlertTitle: LGLocalizedString.productMarkAsSoldAlertTitle
-            message = free ? LGLocalizedString.productMarkAsGivenAwayAlertMessage : LGLocalizedString.productMarkAsSoldAlertMessage
-            cancel = LGLocalizedString.productMarkAsSoldAlertCancel
-        } else {
-            okButton = free ? LGLocalizedString.productMarkAsSoldFreeConfirmOkButton : LGLocalizedString.productMarkAsSoldConfirmOkButton
-            title = free ? LGLocalizedString.productMarkAsSoldFreeConfirmTitle : LGLocalizedString.productMarkAsSoldConfirmTitle
-            message = free ? LGLocalizedString.productMarkAsSoldFreeConfirmMessage : LGLocalizedString.productMarkAsSoldConfirmMessage
-            cancel = free ? LGLocalizedString.productMarkAsSoldFreeConfirmCancelButton : LGLocalizedString.productMarkAsSoldConfirmCancelButton
-        }
-        
-        var alertActions: [UIAction] = []
-        let markAsSoldAction = UIAction(interface: .text(okButton),
-                                        action: { [weak self] in
-                                            self?.markAsSold()
-        })
-        alertActions.append(markAsSoldAction)
-        delegate?.vmShowAlert(title, message: message, cancelLabel: cancel, actions: alertActions)
-    }
-    
     
     func confirmToMarkAsUnSold(free: Bool) {
         let okButton = free ? LGLocalizedString.productSellAgainFreeConfirmOkButton : LGLocalizedString.productSellAgainConfirmOkButton

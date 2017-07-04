@@ -61,9 +61,9 @@ class ProductCarouselViewModel: BaseViewModel {
         return !keyValueStorage[.productMoreInfoTooltipDismissed]
     }
 
-    let showKeyboardOnFirstAppearance: Bool
     let shouldClearTextWhenBeginEditing: Bool
-    let showShareSheetOnFirstAppearance: Bool
+    
+    let actionOnFirstAppear: ProductCarouselActionOnFirstAppear
 
     let productInfo = Variable<ProductVMProductInfo?>(nil)
     let productImageURLs = Variable<[URL]>([])
@@ -141,14 +141,14 @@ class ProductCarouselViewModel: BaseViewModel {
     convenience init(listing: Listing,
                      productListRequester: ProductListRequester,
                      source: EventParameterProductVisitSource,
-                     showKeyboard: Bool,
+                     actionOnFirstAppear: ProductCarouselActionOnFirstAppear,
                      trackingIndex: Int?) {
         self.init(productListModels: nil,
                   initialListing: listing,
                   thumbnailImage: nil,
                   productListRequester: productListRequester,
                   source: source,
-                  showKeyboard: showKeyboard,
+                  actionOnFirstAppear: actionOnFirstAppear,
                   trackingIndex: trackingIndex,
                   firstProductSyncRequired: true)
     }
@@ -157,16 +157,14 @@ class ProductCarouselViewModel: BaseViewModel {
                      thumbnailImage: UIImage?,
                      productListRequester: ProductListRequester,
                      source: EventParameterProductVisitSource,
-                     showKeyboard: Bool,
-                     showShareSheet: Bool,
+                     actionOnFirstAppear: ProductCarouselActionOnFirstAppear,
                      trackingIndex: Int?) {
         self.init(productListModels: nil,
                   initialListing: listing,
                   thumbnailImage: thumbnailImage,
                   productListRequester: productListRequester,
                   source: source,
-                  showKeyboard: showKeyboard,
-                  showShareSheet: showShareSheet,
+                  actionOnFirstAppear: actionOnFirstAppear,
                   trackingIndex: trackingIndex,
                   firstProductSyncRequired: false)
     }
@@ -176,8 +174,7 @@ class ProductCarouselViewModel: BaseViewModel {
          thumbnailImage: UIImage?,
          productListRequester: ProductListRequester,
          source: EventParameterProductVisitSource,
-         showKeyboard: Bool,
-         showShareSheet: Bool? = false,
+         actionOnFirstAppear: ProductCarouselActionOnFirstAppear,
          trackingIndex: Int?,
          firstProductSyncRequired: Bool) {
         self.init(productListModels: productListModels,
@@ -185,8 +182,7 @@ class ProductCarouselViewModel: BaseViewModel {
                   thumbnailImage: thumbnailImage,
                   productListRequester: productListRequester,
                   source: source,
-                  showKeyboard: showKeyboard,
-                  showShareSheet: showShareSheet,
+                  actionOnFirstAppear: actionOnFirstAppear,
                   trackingIndex: trackingIndex,
                   firstProductSyncRequired: firstProductSyncRequired,
                   featureFlags: FeatureFlags.sharedInstance,
@@ -200,8 +196,7 @@ class ProductCarouselViewModel: BaseViewModel {
          thumbnailImage: UIImage?,
          productListRequester: ProductListRequester,
          source: EventParameterProductVisitSource,
-         showKeyboard: Bool,
-         showShareSheet: Bool? = false,
+         actionOnFirstAppear: ProductCarouselActionOnFirstAppear,
          trackingIndex: Int?,
          firstProductSyncRequired: Bool,
          featureFlags: FeatureFlaggeable,
@@ -218,8 +213,7 @@ class ProductCarouselViewModel: BaseViewModel {
         self.initialThumbnail = thumbnailImage
         self.productListRequester = productListRequester
         self.source = source
-        self.showKeyboardOnFirstAppearance = source == .notifications && showKeyboard && featureFlags.passiveBuyersShowKeyboard
-        self.showShareSheetOnFirstAppearance = showShareSheet!
+        self.actionOnFirstAppear = actionOnFirstAppear
         self.shouldClearTextWhenBeginEditing = featureFlags.periscopeRemovePredefinedText
         self.quickAnswersCollapsed = Variable<Bool>(keyValueStorage[.productDetailQuickAnswersHidden])
         self.keyValueStorage = keyValueStorage

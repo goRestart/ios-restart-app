@@ -29,14 +29,20 @@ enum ChatDetailData {
     case listingAPI(listing: Listing)
 }
 
+enum ProductCarouselActionOnFirstAppear {
+    case nonexistent
+    case showKeyboard
+    case showShareSheet
+    case triggerMarkAsSold
+}
+
 protocol TabNavigator: class {
     func openHome()
     func openSell(_ source: PostingSource)
     func openAppRating(_ source: EventParameterRatingSource)
     func openUserRating(_ source: RateUserSource, data: RateUserData)
     func openUser(_ data: UserDetailData)
-    func openListing(_ data: ListingDetailData, source: EventParameterProductVisitSource,
-                     showKeyboard: Bool, showShareSheet: Bool)
+    func openListing(_ data: ListingDetailData, source: EventParameterProductVisitSource, actionOnFirstAppear: ProductCarouselActionOnFirstAppear)
     func openChat(_ data: ChatDetailData, source: EventParameterTypePage)
     func openVerifyAccounts(_ types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?)
     func openAppInvite()
@@ -63,8 +69,7 @@ protocol ProductDetailNavigator: TabNavigator {
 
 protocol SimpleProductsNavigator: class {
     func closeSimpleProducts()
-    func openListing(_ data: ListingDetailData, source: EventParameterProductVisitSource,
-                     showKeyboard: Bool, showShareSheet: Bool)
+    func openListing(_ data: ListingDetailData, source: EventParameterProductVisitSource, actionOnFirstAppear: ProductCarouselActionOnFirstAppear)
 }
 
 protocol ChatDetailNavigator: TabNavigator {
