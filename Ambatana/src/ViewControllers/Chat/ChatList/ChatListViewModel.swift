@@ -14,6 +14,7 @@ protocol ChatListViewModelDelegate: class {
     func chatListViewModelDidSucceedArchivingChats(_ viewModel: ChatListViewModel)
     func chatListViewModelDidFailUnarchivingChats(_ viewModel: ChatListViewModel)
     func chatListViewModelDidSucceedUnarchivingChats(_ viewModel: ChatListViewModel)
+    func chatListViewModelShouldReloadData()
 }
 
 protocol ChatListViewModel: class, ChatGroupedListViewModel {

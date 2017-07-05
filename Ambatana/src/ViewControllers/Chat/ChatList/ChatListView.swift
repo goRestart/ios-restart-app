@@ -18,10 +18,12 @@ protocol ChatListViewDelegate: class {
 }
 
 class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
+
     // Constants
     private static let tabBarBottomInset: CGFloat = 44
 
     // Data
+    fileprivate var shouldReloadTableViewWhenActive = false
     var viewModel: ChatListViewModel
     weak var delegate: ChatListViewDelegate?
 
@@ -49,9 +51,13 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    deinit {
-        NotificationCenter.default.removeObserver(self)
+    
+    override func didBecomeActive(_ firstTime: Bool) {
+        super.didBecomeActive(firstTime)
+        if shouldReloadTableViewWhenActive {
+            shouldReloadTableViewWhenActive = false
+            tableView.reloadData()
+        }
     }
 
     override func setupUI() {
@@ -115,6 +121,14 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
         viewModel.refresh { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.delegate?.chatListView(strongSelf, didFinishUnarchivingWithMessage: nil)
+        }
+    }
+    
+    func chatListViewModelShouldReloadData() {
+        if active {
+            tableView.reloadData()
+        } else {
+            shouldReloadTableViewWhenActive = true
         }
     }
 

@@ -245,12 +245,7 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
     
     func setupRx() {
         viewModel.conversationCollectionVariable.changesObservable.subscribeNext { [weak self] change in
-            switch change {
-            case .composite(let changes) where changes.count > 2:
-                self?.tableView.reloadData()
-            case .insert, .remove, .composite:
-                self?.tableView.handleCollectionChange(change)
-            }
+            self?.tableView.handleCollectionChange(change)
         }.addDisposableTo(disposeBag)
     }
 

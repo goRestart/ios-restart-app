@@ -37,11 +37,6 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
 
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
-        
-        if shouldRefreshConversations {
-            shouldRefreshConversations = false
-            refresh(completion: nil)
-        }
         if firstTime {
             setupRxBindings()
         }
@@ -69,10 +64,27 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
         guard let conversation = objectAtIndex(index) else { return }
         tabNavigator?.openChat(.conversation(conversation: conversation), source: .chatList)
     }
+    
+    override func objectAtIndex(_ index: Int) -> ChatConversation? {
+        let conversationsArray: CollectionVariable<ChatConversation>?
+        switch chatsType {
+        case .all:
+            conversationsArray = chatRepository.allConversations
+        case .buying:
+            conversationsArray = chatRepository.buyingConversations
+        case .selling:
+            conversationsArray = chatRepository.sellingConversations
+        case .archived:
+            conversationsArray = nil
+        }
+        guard let conversations = conversationsArray?.value,
+            0..<conversations.count ~= index else { return nil }
+        
+        return conversations[index]
+    }
 
     func conversationDataAtIndex(_ index: Int) -> ConversationCellData? {
         guard let conversation = objectAtIndex(index) else { return nil }
-
         return ConversationCellData(status: conversation.conversationCellStatus,
                                     userName: conversation.interlocutor?.name ?? "",
                                     userImageUrl: conversation.interlocutor?.avatar?.fileURL,
@@ -145,29 +157,31 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
                 return false
             }
         }.bindNext { [weak self] event in
-            // TODO: reload the index i nthe table
-            self?.refresh(completion: nil)
+            self?.delegate?.chatListViewModelShouldReloadData()
         }.addDisposableTo(disposeBag)
 
         chatRepository.chatStatus.bindNext { [weak self] wsChatStatus in
             guard let strongSelf = self else { return }
-            //Reload messages if active, otherwise it will reload when active
+            // Reload messages if active, otherwise it will reload when active
             if wsChatStatus == .openAuthenticated && strongSelf.active {
                 strongSelf.refresh(completion: nil)
             }
         }.addDisposableTo(disposeBag)
 
-        // TODO: This is calling collection view changles indefinetly for some reason
-//        switch chatsType {
-//        case .all:
-//            chatRepository.allConversations.bindTo(conversationCollectionVariable).addDisposableTo(disposeBag)
-//        case .buying:
-//            chatRepository.buyingConversations.bindTo(conversationCollectionVariable).addDisposableTo(disposeBag)
-//        case .selling:
-//            chatRepository.sellingConversations.bindTo(conversationCollectionVariable).addDisposableTo(disposeBag)
-//        case .archived:
-//            break
-//        }
+        let conversationsArray: CollectionVariable<ChatConversation>?
+        switch chatsType {
+        case .all:
+            conversationsArray = chatRepository.allConversations
+        case .buying:
+            conversationsArray = chatRepository.buyingConversations
+        case .selling:
+            conversationsArray = chatRepository.sellingConversations
+        case .archived:
+            conversationsArray = nil
+        }
+        conversationsArray?.changesObservable.subscribeNext(onNext: { [weak self] change in
+            self?.delegate?.chatListViewModelShouldReloadData()
+        }).addDisposableTo(disposeBag)
     }
 }
 
