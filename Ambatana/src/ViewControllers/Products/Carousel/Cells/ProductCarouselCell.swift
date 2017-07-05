@@ -165,14 +165,14 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
         let collectionContentOffset: CGFloat
 
         if imageScrollDirection == .horizontal {
-            verticalScrollCounter = verticalScrollCounter + collectionView.contentOffset.y
-            collectionContentOffset = collectionView.contentOffset.x
+            verticalScrollCounter = verticalScrollCounter + scrollView.contentOffset.y
+            collectionContentOffset = scrollView.contentOffset.x
             // in horizontal image scrolling, collection should not be able to move upwards.
             if verticalScrollCounter > 0 {
-                scrollView.setContentOffset(CGPoint(x: collectionView.contentOffset.x, y: 0.0), animated: false)
+                scrollView.setContentOffset(CGPoint(x: scrollView.contentOffset.x, y: 0.0), animated: false)
             }
         } else {
-            collectionContentOffset = collectionView.contentOffset.y
+            collectionContentOffset = scrollView.contentOffset.y
         }
         
         let page = Int(round(collectionContentOffset / pageSize)) % numberOfImages
@@ -183,6 +183,7 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
         }
 
         if let delegate = delegate {
+            // informs the delegate how much to move the carousel elements "more info", chat textfield & buttons.
             delegate.didPullFromCellWith(scrollView.contentOffset.y, bottomLimit: bottomScrollLimit)
 
             if !delegate.canScrollToNextPage() {
