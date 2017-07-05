@@ -187,6 +187,7 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
             delegate.didPullFromCellWith(scrollView.contentOffset.y, bottomLimit: bottomScrollLimit)
 
             if !delegate.canScrollToNextPage() {
+                // setting the contentOffset.y = 0 prevents the collection of going down when scrolling for the "more info"
                 if imageScrollDirection == .horizontal {
                     // we want to stay in the current picture
                     scrollView.contentOffset = CGPoint(x: scrollView.contentOffset.x, y: 0)
