@@ -29,6 +29,7 @@ class ProductCarouselCell: UICollectionViewCell {
     var placeholderImage: UIImage?
     fileprivate var currentPage = 0
     fileprivate var imageScrollDirection: UICollectionViewScrollDirection = .vertical
+    fileprivate var verticalScrollCounter: CGFloat = 0.0  // USed to prevent more info overscroll down with horizontal images navigator
 
     fileprivate var numberOfImages: Int {
         return productImages.count
@@ -164,9 +165,10 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
         let collectionContentOffset: CGFloat
 
         if imageScrollDirection == .horizontal {
+            verticalScrollCounter = verticalScrollCounter + collectionView.contentOffset.y
             collectionContentOffset = collectionView.contentOffset.x
             // in horizontal image scrolling, collection should not be able to move upwards.
-            if collectionView.contentOffset.y > 0 {
+            if verticalScrollCounter > 0 {
                 scrollView.setContentOffset(CGPoint(x: collectionView.contentOffset.x, y: 0.0), animated: false)
             }
         } else {
@@ -184,12 +186,18 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
             delegate.didPullFromCellWith(scrollView.contentOffset.y, bottomLimit: bottomScrollLimit)
 
             if !delegate.canScrollToNextPage() {
-                scrollView.contentOffset = CGPoint(x: 0, y: 0)
+                if imageScrollDirection == .horizontal {
+                    // we want to stay in the current picture
+                    scrollView.contentOffset = CGPoint(x: scrollView.contentOffset.x, y: 0)
+                } else {
+                    scrollView.contentOffset = CGPoint(x: 0, y: 0)
+                }
             }
         }
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        verticalScrollCounter = 0.0
         delegate?.didEndDraggingCell()
     }
 
