@@ -24,15 +24,32 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
 
     // MARK: - Lifecycle
 
-    convenience init(chatsType: ChatsType, tabNavigator: TabNavigator?) {
+    convenience init(chatsType: ChatsType,
+                     tabNavigator: TabNavigator?) {
         self.init(chatRepository: Core.chatRepository, chats: [], chatsType: chatsType, tabNavigator: tabNavigator)
     }
 
-    required init(chatRepository: ChatRepository, chats: [ChatConversation], chatsType: ChatsType,
-                  tabNavigator: TabNavigator?) {
+    required init(chatRepository: ChatRepository,
+                     chats: [ChatConversation],
+                     chatsType: ChatsType,
+                     tabNavigator: TabNavigator?) {
         self.chatRepository = chatRepository
         self.chatsType = chatsType
-        super.init(objects: chats, tabNavigator: tabNavigator)
+        
+        let collectionVariable: CollectionVariable<ChatConversation>
+        switch chatsType {
+        case .all:
+            collectionVariable = chatRepository.allConversations
+        case .buying:
+            collectionVariable = chatRepository.buyingConversations
+        case .selling:
+            collectionVariable = chatRepository.sellingConversations
+        case .archived:
+            collectionVariable = CollectionVariable<ChatConversation>([])
+        }
+        super.init(collectionVariable: collectionVariable,
+                   shouldWriteInCollectionVariable: true,
+                   tabNavigator: tabNavigator)
     }
 
     override func didBecomeActive(_ firstTime: Bool) {

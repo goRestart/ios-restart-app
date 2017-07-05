@@ -397,7 +397,17 @@ class ProductCarouselViewModel: BaseViewModel {
         currentVM.directChatEnabled.asObservable().bindTo(quickAnswersAvailable).addDisposableTo(activeDisposeBag)
 
         currentVM.directChatEnabled.asObservable().bindTo(directChatEnabled).addDisposableTo(activeDisposeBag)
-        currentVM.directChatMessages.bindTo(directChatMessages).addDisposableTo(activeDisposeBag)
+        directChatMessages.value = currentVM.directChatMessages.value
+        currentVM.directChatMessages.changesObservable.subscribeNext { [weak self] change in
+            switch change {
+            case let .insert(index, value):
+                self?.directChatMessages.insert(value, atIndex: index)
+            case let .remove(index, _):
+                self?.directChatMessages.removeAtIndex(index)
+            case .composite:
+                break
+            }
+        }.addDisposableTo(activeDisposeBag)
         directChatPlaceholder.value = currentVM.directChatPlaceholder
 
         currentVM.isFavorite.asObservable().bindTo(isFavorite).addDisposableTo(activeDisposeBag)

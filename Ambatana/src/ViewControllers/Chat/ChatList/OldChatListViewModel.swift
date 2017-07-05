@@ -41,7 +41,9 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
         self.chatRepository = chatRepository
         self.deepLinksRouter = deepLinksRouter
         self.chatsType = chatsType
-        super.init(objects: chats, tabNavigator: tabNavigator)
+        super.init(collectionVariable: CollectionVariable(chats),
+                   shouldWriteInCollectionVariable: false,
+                   tabNavigator: tabNavigator)
     }
 
     override func didBecomeActive(_ firstTime: Bool) {

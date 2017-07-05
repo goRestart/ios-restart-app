@@ -74,14 +74,6 @@ public final class CollectionVariable<T> {
     
     // MARK: - Public
     
-    public func bindTo(_ another: CollectionVariable<T>) -> Disposable {
-        another.removeAll()
-        another.appendContentsOf(self.value)
-        return changesObservable.asObservable().subscribe(onNext: { [weak self] change in
-            self?.handleChange(change: change)
-        }, onError: nil)
-    }
-    
     public func removeFirst() {
         if (_value.count == 0) { return }
         _lock.lock()
