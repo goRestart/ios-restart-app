@@ -62,6 +62,10 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
     
     // MARK: - Public methods
 
+    override func refresh(completion: (() -> Void)?) {
+        retrieveFirstPage()
+    }
+    
     override func index(_ page: Int, completion: ((Result<[ChatConversation], RepositoryError>) -> ())?) {
         let offset = max(0, page - 1) * resultsPerPage
         
@@ -82,24 +86,6 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
         tabNavigator?.openChat(.conversation(conversation: conversation), source: .chatList)
     }
     
-    override func objectAtIndex(_ index: Int) -> ChatConversation? {
-        let conversationsArray: CollectionVariable<ChatConversation>?
-        switch chatsType {
-        case .all:
-            conversationsArray = chatRepository.allConversations
-        case .buying:
-            conversationsArray = chatRepository.buyingConversations
-        case .selling:
-            conversationsArray = chatRepository.sellingConversations
-        case .archived:
-            conversationsArray = nil
-        }
-        guard let conversations = conversationsArray?.value,
-            0..<conversations.count ~= index else { return nil }
-        
-        return conversations[index]
-    }
-
     func conversationDataAtIndex(_ index: Int) -> ConversationCellData? {
         guard let conversation = objectAtIndex(index) else { return nil }
         return ConversationCellData(status: conversation.conversationCellStatus,
@@ -166,17 +152,6 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
     // MARK: - Private methods
 
     fileprivate func setupRxBindings() {
-        chatRepository.chatEvents.filter { event in
-            switch event.type {
-            case .interlocutorMessageSent:
-                return true
-            default:
-                return false
-            }
-        }.bindNext { [weak self] event in
-            self?.delegate?.chatListViewModelShouldReloadData()
-        }.addDisposableTo(disposeBag)
-
         chatRepository.chatStatus.bindNext { [weak self] wsChatStatus in
             guard let strongSelf = self else { return }
             // Reload messages if active, otherwise it will reload when active
@@ -184,21 +159,6 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
                 strongSelf.refresh(completion: nil)
             }
         }.addDisposableTo(disposeBag)
-
-        let conversationsArray: CollectionVariable<ChatConversation>?
-        switch chatsType {
-        case .all:
-            conversationsArray = chatRepository.allConversations
-        case .buying:
-            conversationsArray = chatRepository.buyingConversations
-        case .selling:
-            conversationsArray = chatRepository.sellingConversations
-        case .archived:
-            conversationsArray = nil
-        }
-        conversationsArray?.changesObservable.subscribeNext(onNext: { [weak self] change in
-            self?.delegate?.chatListViewModelShouldReloadData()
-        }).addDisposableTo(disposeBag)
     }
 }
 

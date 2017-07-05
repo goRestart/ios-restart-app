@@ -37,7 +37,7 @@ protocol ChatGroupedListViewModel: class, RxPaginable, ChatGroupedListViewModelT
 }
 
 class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
-    fileprivate let objects: CollectionVariable<T>
+    let objects: CollectionVariable<T>
     let shouldWriteInCollectionVariable: Bool
     fileprivate let tracker: Tracker
     private(set) var status: ViewState {
