@@ -11,7 +11,7 @@ import Foundation
 
 protocol PostProductNavigator: class {
     func cancelPostProduct()
-    func closePostProductAndPostInBackground(params: ListingCreationParams, showConfirmation: Bool,
+    func closePostProductAndPostInBackground(params: ListingCreationParams,
                                              trackingInfo: PostProductTrackingInfo)
     func closePostProductAndPostLater(params: ListingCreationParams, images: [UIImage],
                                       trackingInfo: PostProductTrackingInfo)

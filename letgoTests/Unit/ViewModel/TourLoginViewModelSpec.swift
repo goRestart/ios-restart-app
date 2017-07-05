@@ -59,14 +59,12 @@ class TourLoginViewModelSpec: QuickSpec {
                 context("flags doesn't synchronize") {
                     beforeEach {
                         createTourLoginViewModel()
-                        let _ = self.expectation(description: "Wait for timeout")
-                        self.waitForExpectations(timeout: 0.25, handler: nil)
                     }
                     it("sets default status .active(closeEnabled: true, emailAsField: true)") {
-                        XCTAssertEqual(stateObserver.events, [next(0, .loading), next(0, .active(closeEnabled: true, emailAsField: true))])
+                        expect(stateObserver.eventValues).toEventually(equal([.loading, .active(closeEnabled: true, emailAsField: true)]))
                     }
                     it("sets collapsedEmailTrackingParam as unset in signupViewModel") {
-                        expect(signupViewModel.collapsedEmailTrackingParam) == .notAvailable
+                        expect(signupViewModel.collapsedEmailTrackingParam).toEventually(equal(EventParameterBoolean.notAvailable))
                     }
                 }
                 context("flags syncrhonize") {

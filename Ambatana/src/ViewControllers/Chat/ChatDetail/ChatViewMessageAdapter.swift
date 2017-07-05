@@ -155,7 +155,6 @@ class ChatViewMessageAdapter {
                                          action: (() -> ())?) -> ChatViewMessage {
         let disclaimer = ChatViewMessageType.disclaimer(showAvatar: showAvatar, text: disclaimerText,
                                                         actionTitle: actionTitle, action: action)
-        // TODO: use proper warningStatus once the chat team includes the warning info in the messages
         let disclaimerMessage = ChatViewMessage(objectId: nil, talkerId: "", sentAt: nil, receivedAt: nil, readAt: nil,
                                                 type: disclaimer, status: nil, warningStatus: .normal)
         return disclaimerMessage

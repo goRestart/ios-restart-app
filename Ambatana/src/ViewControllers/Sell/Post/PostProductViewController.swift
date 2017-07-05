@@ -305,7 +305,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
                 strongSelf.showCarYears()
             case .year:
                 strongSelf.carDetailsView.updateYear(withYear: categoryDetail.name)
-                delay(0.3) { [weak self] in // requested by designers
+                delay(0.3) { _ in // requested by designers
                     strongSelf.didFinishEnteringDetails()
                 }
             }
@@ -330,6 +330,9 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
             self?.galleryButtonPressed()
         }.addDisposableTo(disposeBag)
         cameraView.takePhotoEnabled.asObservable().bindTo(footer.cameraButton.rx.isEnabled).addDisposableTo(disposeBag)
+        if let galleryButton = footer.galleryButton {
+            cameraView.takePhotoEnabled.asObservable().bindTo(galleryButton.rx.isEnabled).addDisposableTo(disposeBag)
+        }
         footer.cameraButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
             self?.cameraButtonPressed()
         }.addDisposableTo(disposeBag)

@@ -741,7 +741,6 @@ enum EventParameterProfileType: String {
 }
 
 enum EventParameterNotificationType: String {
-    case welcome = "welcome"
     case favorite = "favorite"
     case productSold = "favorite-sold"
     case rating = "rating"

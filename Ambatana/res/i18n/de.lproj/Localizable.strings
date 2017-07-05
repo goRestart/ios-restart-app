@@ -23,7 +23,7 @@
 "bump_up_banner_wait_text" = "um es wieder hochzuholen";
 "bump_up_error_bump_generic" = "Wir konnten dein Produkt nicht nach oben holen. Bitte versuche es erneut.";
 "bump_up_error_bump_token" = "Deine Zahlung wurde verarbeitet, aber das Produkt wurde noch nicht nach oben geholt.";
-"bump_up_error_payment_failed" = "Beim Hochholen deines Produkts ist ein Fehler aufgetreten. Deine Zahlung wurde nicht verarbeitet. Bitte versuche es erneut.";
+"bump_up_error_payment_failed" = "Es konnte keine Verbindung zum App Store hergestellt werden. Deine Zahlung wurde nicht verarbeitet. Bitte versuche es erneut.";
 "bump_up_free_success" = "Ganz oben! Hole dein Angebot nach oben und mache es damit noch sichtbarer.";
 "bump_up_pay_success" = "Ganz oben! Dein Produkt ist nun besonders sichtbar.";
 "bump_up_processing_free_text" = "Angebot wird hochgeholt...";
@@ -331,6 +331,7 @@
 "forced_update_message" = "Eine neue Version von letgo ist verfügbar. Bitte aktualisiere sie jetzt.";
 "forced_update_title" = "Neue Version verfügbar";
 "forced_update_update_button" = "Neue Version";
+"help_terms_conditions_privacy_part" = "Datenschutz";
 "help_title" = "Hilfe";
 "hidden_email_tag" = "[E-MAIL-ADRESSE VERSTECKT]";
 "hidden_phone_tag" = "[TELEFONNUMMER VERSTECKT]";
@@ -345,7 +346,7 @@
 "log_in_email_email_field_hint" = "E-Mail";
 "log_in_email_footer" = "Du hast noch kein Benutzerkonto? Registrieren";
 "log_in_email_footer_sign_up_kw" = "Registrieren";
-"log_in_email_forgot_password_alert_cancel_action" = "Try Again";
+"log_in_email_forgot_password_alert_cancel_action" = "Versuch's noch einmal";
 "log_in_email_forgot_password_alert_message" = "Wir können eine E-Mail an %@ schicken, um dir zu helfen, wieder auf dein Benutzerkonto zugreifen zu können.";
 "log_in_email_forgot_password_alert_remember_action" = "E-Mail schicken";
 "log_in_email_forgot_password_alert_title" = "Kennwort vergessen?";
@@ -354,7 +355,7 @@
 "log_in_email_log_in_button" = "Anmelden";
 "log_in_email_password_field_hint" = "Kennwort";
 "log_in_email_title" = "Anmelden";
-"log_in_email_wrong_password_alert_cancel_action" = "Try Again";
+"log_in_email_wrong_password_alert_cancel_action" = "Versuch's noch einmal";
 "log_in_email_wrong_password_alert_message" = "Das von dir eingegebene Kennwort für %@ ist falsch.";
 "log_in_email_wrong_password_alert_title" = "Kennwort falsch";
 "log_in_error_send_error_generic" = "Beim Anmelden ist ein Fehler aufgetreten. Bitte versuche es erneut.";
@@ -439,9 +440,17 @@
 "nps_survey_title" = "WIR MÖCHTEN GERNE WISSEN...";
 "nps_survey_very_bad" = "Unwahrscheinlich";
 "nps_survey_very_good" = "Sehr wahrscheinlich";
+"onboarding_alert_no" = "Nein";
+"onboarding_alert_yes" = "Ja";
 "onboarding_direct_camera_alert_subtitle" = "Stelle dein erstes Produkt ein und verkaufe es an Leute aus deiner Gegend";
 "onboarding_direct_camera_alert_title" = "Verdiene bares Geld!";
+"onboarding_location_permissions_alert_subtitle" = "Dir werden dann Artikel aus allen Regionen angezeigt, nicht nur in deiner Nähe";
+"onboarding_location_permissions_alert_title" = "Bist du sicher?";
 "onboarding_login_skip" = "Überspringen";
+"onboarding_notifications_permissions_alert_subtitle" = "Du musst dann letgo öffnen, um zu sehen, ob du neue Nachrichten bekommen hast";
+"onboarding_notifications_permissions_alert_title" = "Bist du sicher?";
+"onboarding_posting_alert_subtitle" = "Du kannst den Artikel anschließend wieder löschen, wenn du ihn nicht wirklich verkaufen möchtest";
+"onboarding_posting_alert_title" = "Möchtest du es ausprobieren, indem du ein Buch, eine Uhr, deine Brille oder etwas anderes einstellst...?";
 "onboarding_posting_button_a" = "Verkaufe deine Dinge";
 "onboarding_posting_button_b" = "Leg los";
 "onboarding_posting_button_c" = "Ja, ich möchte Sachen verkaufen";
@@ -544,6 +553,12 @@
 "product_more_info_tooltip_part_1" = "Drücke";
 "product_more_info_tooltip_part_2" = "%@ für weitere Infos";
 "product_negotiable_price" = "Verhandelbar";
+"product_new_onboarding_finger_keep_swipe_highlighted_label" = "Wische";
+"product_new_onboarding_finger_keep_swipe_label" = "%@ vor oder zurück, um zum nächsten oder letzten Artikel zu gelangen";
+"product_new_onboarding_finger_swipe_highlighted_label" = "Wische";
+"product_new_onboarding_finger_swipe_label" = "%@, um mehr Bilder zu sehen";
+"product_new_onboarding_finger_tap_highlighted_label" = "Drücke";
+"product_new_onboarding_finger_tap_label" = "%@, um zum nächsten Artikel zu gelangen";
 "product_onboarding_finger_scroll_label" = "Scrolle, um mehr Bilder zu sehen";
 "product_onboarding_finger_swipe_label" = "Wische, um zum nächsten oder vorherigen Produkt zu gelangen";
 "product_onboarding_finger_tap_label" = "Drücke hier, um zum nächsten Produkt zu gelangen";

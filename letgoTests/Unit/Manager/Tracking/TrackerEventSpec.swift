@@ -854,8 +854,6 @@ class TrackerEventSpec: QuickSpec {
             }
             
             describe("productListVertical") {
-                let categories: [ListingCategory] = [.homeAndGarden, .motorsAndAccessories]
-                let searchQuery = "iPhone"
                 beforeEach {
                     sut = TrackerEvent.productListVertical(category: .cars,
                                                            keywords: ["kw1", "kw2"],
@@ -3254,26 +3252,6 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("notification-center-start"))
-                }
-            }
-            describe("Notification center complete type welcome") {
-                beforeEach {
-                    sut = TrackerEvent.notificationCenterComplete(.welcome, source: .main, cardAction: "profile-visit", notificationCampaign: nil)
-                }
-                it("has its event name") {
-                    expect(sut.name.rawValue).to(equal("notification-center-complete"))
-                }
-                it("contains notification-type param") {
-                    let param = sut.params!.stringKeyParams["notification-type"] as? String
-                    expect(param) == "welcome"
-                }
-                it("contains click-area param") {
-                    let param = sut.params!.stringKeyParams["notification-click-area"] as? String
-                    expect(param) == "main"
-                }
-                it("contains action param") {
-                    let param = sut.params!.stringKeyParams["notification-action"] as? String
-                    expect(param) == "profile-visit"
                 }
             }
             describe("Notification center complete type buyersInterested") {

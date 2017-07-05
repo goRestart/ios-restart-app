@@ -12,14 +12,18 @@ class TokenUserDefaultsDAO: TokenDAO {
 
     static let installationKey = "InstallationToken"
     static let userKey = "UserToken"
-    let userDefaults: UserDefaults
+    let userDefaults: UserDefaultable
 
-    lazy var token: Token = {
-        return self.fetch()
-    }()
+    var currentInstallationToken: Token?
+    var currentUserToken: Token?
 
-    init(userDefaults: UserDefaults) {
+    var token: Token {
+        return currentUserToken ?? currentInstallationToken ?? Token(value: nil, level: .nonexistent)
+    }
+
+    init(userDefaults: UserDefaultable) {
         self.userDefaults = userDefaults
+        self.fetch()
     }
 
     func save(_ token: Token) {
@@ -31,11 +35,10 @@ class TokenUserDefaultsDAO: TokenDAO {
         storeToken(token)
         if token.level < self.token.level {
             logMessage(.warning, type: [CoreLoggingOptions.token],
-                       message: "UD: Token won't be saved as its level \(token.level) < current \(self.token.level), value: \(token.value)")
+                       message: "UD: Token won't be saved as its level \(token.level) < current \(self.token.level), value: \(String(describing: token.value))")
             return
         }
         logMessage(.verbose, type: [CoreLoggingOptions.token], message: "UD: \(token.level) token saved in-memory")
-        self.token = token
     }
 
     func get(level: AuthLevel) -> Token? {
@@ -43,29 +46,24 @@ class TokenUserDefaultsDAO: TokenDAO {
         case .nonexistent:
             return Token(value: nil, level: .nonexistent)
         case .installation:
-            if let installationToken = userDefaults.string(forKey: TokenUserDefaultsDAO.installationKey) {
-                return Token(value: installationToken, level: .installation)
-            }
+            return currentInstallationToken
         case .user:
-            if let userToken = userDefaults.string(forKey: TokenUserDefaultsDAO.userKey) {
-                return Token(value: userToken, level: .user)
-            }
+            return currentUserToken
         }
-        return nil
     }
 
     func deleteInstallationToken() {
+        currentInstallationToken = nil
         userDefaults.removeObject(forKey: TokenUserDefaultsDAO.installationKey)
         logMessage(.verbose, type: [CoreLoggingOptions.persistence, CoreLoggingOptions.token],
                    message: "Deleted \(AuthLevel.installation) token from UserDefaults")
-        token = fetch()
     }
 
     func deleteUserToken() {
+        currentUserToken = nil
         userDefaults.removeObject(forKey: TokenUserDefaultsDAO.userKey)
         logMessage(.verbose, type: [CoreLoggingOptions.persistence, CoreLoggingOptions.token],
                    message: "Deleted \(AuthLevel.user) token from UserDefaults")
-        token = fetch()
     }
 
     private func storeToken(_ token: Token) {
@@ -77,8 +75,10 @@ class TokenUserDefaultsDAO: TokenDAO {
             return
         case .installation:
             key = TokenUserDefaultsDAO.installationKey
+            currentInstallationToken = token
         case .user:
             key = TokenUserDefaultsDAO.userKey
+            currentUserToken = token
         }
 
         userDefaults.set(tokenString, forKey: key)
@@ -86,19 +86,20 @@ class TokenUserDefaultsDAO: TokenDAO {
                    message: "Stored \(token.level) token in UserDefaults")
     }
 
-    private func fetch() -> Token {
-        if let userToken = get(level: .user) {
+    private func fetch() {
+        if let userTokenValue = userDefaults.string(forKey: TokenUserDefaultsDAO.userKey) {
+            let userToken = Token(value: userTokenValue, level: .user)
+            currentUserToken = userToken
             logMessage(.verbose, type: [CoreLoggingOptions.persistence, CoreLoggingOptions.token],
-                       message: "Fetched \(userToken.level) token: \(userToken.value) from UserDefaults")
-            return userToken
+                       message: "Fetched \(userToken.level) token: \(String(describing: userToken.value)) from UserDefaults")
         }
-        if let installationToken = get(level: .installation) {
+        if let installationTokenValue = userDefaults.string(forKey: TokenUserDefaultsDAO.installationKey) {
+            let installationToken = Token(value: installationTokenValue, level: .installation)
+            currentInstallationToken = installationToken
             logMessage(.verbose, type: [CoreLoggingOptions.persistence, CoreLoggingOptions.token],
-                       message: "Fetched \(installationToken.level) token: \(installationToken.value) from UserDefaults")
-            return installationToken
+                       message: "Fetched \(installationToken.level) token: \(String(describing: installationToken.value)) from UserDefaults")
         }
         logMessage(.verbose, type: [CoreLoggingOptions.persistence, CoreLoggingOptions.token],
                    message: "No fetched token from UserDefaults")
-        return Token(value: nil, level: .nonexistent)
     }
 }

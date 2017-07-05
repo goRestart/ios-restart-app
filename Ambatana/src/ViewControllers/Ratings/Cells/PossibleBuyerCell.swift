@@ -84,9 +84,9 @@ class PossibleBuyerCell: UITableViewCell, ReusableCell {
         
         switch disclouseDirection {
         case .down:
-            disclosureImage.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
+            disclosureImage.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi/2))
         case .up:
-            disclosureImage.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
+            disclosureImage.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi/2))
         case .right:
             break
         }

@@ -180,7 +180,7 @@ class PostProductViewModel: BaseViewModel {
                                                        sellButtonPosition: postingSource.sellButtonPosition,
                                                        imageSource: uploadedImageSource,
                                                        price: postDetailViewModel.price.value)
-            navigator?.closePostProductAndPostInBackground(params: params, showConfirmation: false,
+            navigator?.closePostProductAndPostInBackground(params: params,
                                                            trackingInfo: trackingInfo)
         }
     }
@@ -355,7 +355,6 @@ fileprivate extension PostProductViewModel {
             guard let images = state.value.lastImagesUploadResult?.value,
                 let productParams = makeProductCreationParams(images: images) else { return }
             navigator?.closePostProductAndPostInBackground(params: ListingCreationParams.product(productParams),
-                                                           showConfirmation: true,
                                                            trackingInfo: trackingInfo)
         } else if let images = state.value.pendingToUploadImages {
             let loggedInAction = { [weak self] in
@@ -365,7 +364,7 @@ fileprivate extension PostProductViewModel {
                                                               trackingInfo: trackingInfo)
             }
             let cancelAction = { [weak self] in
-                guard let state = self?.state.value else { return }
+                guard let _ = self?.state.value else { return }
                 self?.revertToPreviousStep()
             }
             navigator?.openLoginIfNeededFromProductPosted(from: .sell, loggedInAction: loggedInAction, cancelAction: cancelAction)
@@ -381,7 +380,6 @@ fileprivate extension PostProductViewModel {
             guard let images = state.value.lastImagesUploadResult?.value,
                 let carParams = makeCarCreationParams(images: images) else { return }
             navigator?.closePostProductAndPostInBackground(params: ListingCreationParams.car(carParams),
-                                                           showConfirmation: true,
                                                            trackingInfo: trackingInfo)
         } else if let images = state.value.pendingToUploadImages {
             let loggedInAction = { [weak self] in

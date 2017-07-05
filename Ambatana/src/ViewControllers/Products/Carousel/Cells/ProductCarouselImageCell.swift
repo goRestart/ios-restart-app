@@ -35,7 +35,7 @@ class ProductCarouselImageCell: UICollectionViewCell {
         self.scrollView = UIScrollView()
         self.imageView = UIImageView()
         self.backgroundImage = UIImageView()
-        let effect = UIBlurEffect(style: .light)
+        let effect = UIBlurEffect(style: .dark)
         self.effectsView = UIVisualEffectView(effect: effect)
         super.init(frame: frame)
         setupUI()

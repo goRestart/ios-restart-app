@@ -784,7 +784,8 @@ extension EditListingViewModel {
         if (initialListing.name ?? "") != (listing.name ?? "") {
             editedFields.append(.title)
         }
-        if initialListing.priceString() != listing.priceString() {
+        if initialListing.priceString(freeModeAllowed: featureFlags.freePostingModeAllowed) !=
+            listing.priceString(freeModeAllowed: featureFlags.freePostingModeAllowed) {
             editedFields.append(.price)
         }
         if (initialListing.descr ?? "") != (listing.descr ?? "") {

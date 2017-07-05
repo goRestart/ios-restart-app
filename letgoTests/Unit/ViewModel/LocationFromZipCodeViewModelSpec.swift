@@ -17,31 +17,29 @@ class LocationFromZipCodeViewModelSpec: BaseViewModelSpec {
         describe("LocationFromZipCodeViewModelSpec") {
 
             var locationManager: LocationManager!
-            var searchService: MockSearchLocationSuggestionsService!
-            var postalAddressService: MockPostalAddressRetrievalService!
-            var tracker: MockTracker!
+            var locationRepository: MockLocationRepository!
+            var tracker: Tracker!
 
             var sut: LocationFromZipCodeViewModel!
 
             context ("no initial place") {
-                context ("services work ok") {
+                context ("location repository works ok") {
                     beforeEach {
                         locationManager = MockLocationManager()
-
+                        locationRepository = MockLocationRepository()
                         let postalAddress = PostalAddress(address: "", city: "New York", zipCode: "12345", state: "", countryCode: "us", country: "")
                         let location = LGLocationCoordinates2D(latitude: 41.38, longitude: 2.18)
                         let place = Place(postalAddress: postalAddress, location: location)
 
-                        searchService = MockSearchLocationSuggestionsService(value: [place])
-
-                        postalAddressService = MockPostalAddressRetrievalService(value: place)
+                        locationRepository.postalAddressResult = PostalAddressLocationRepositoryResult(value: place)
+                        locationRepository.suggestionsResult = SuggestionsLocationRepositoryResult(value: [place])
+                        tracker = MockTracker()
 
                         sut = LocationFromZipCodeViewModel(initialPlace: nil,
                                                            distanceRadius: nil,
                                                            locationManager: locationManager,
-                                                           searchService: searchService,
-                                                           postalAddressService: postalAddressService,
-                                                           tracker: MockTracker())
+                                                           locationRepository: locationRepository,
+                                                           tracker: tracker)
                     }
                     context ("zip code has a correct format") {
                         beforeEach {
@@ -91,21 +89,16 @@ class LocationFromZipCodeViewModelSpec: BaseViewModelSpec {
                 context ("services don't work") {
                     beforeEach {
                         locationManager = MockLocationManager()
-
-                        let postalAddress = PostalAddress(address: "", city: "New York", zipCode: "12345", state: "", countryCode: "us", country: "")
-                        let location = LGLocationCoordinates2D(latitude: 41.38, longitude: 2.18)
-                        let place = Place(postalAddress: postalAddress, location: location)
-
-                        searchService = MockSearchLocationSuggestionsService(error: .notFound)
-
-                        postalAddressService = MockPostalAddressRetrievalService(error: .network)
+                        locationRepository = MockLocationRepository()
+                        
+                        locationRepository.postalAddressResult = PostalAddressLocationRepositoryResult(error: LocationError.notFound)
+                        locationRepository.suggestionsResult = SuggestionsLocationRepositoryResult(error: LocationError.notFound)
 
                         sut = LocationFromZipCodeViewModel(initialPlace: nil,
                                                            distanceRadius: nil,
                                                            locationManager: locationManager,
-                                                           searchService: searchService,
-                                                           postalAddressService: postalAddressService,
-                                                           tracker: MockTracker())
+                                                           locationRepository: locationRepository,
+                                                           tracker: tracker)
                     }
                     context ("zip code has a correct format") {
                         beforeEach {
@@ -136,6 +129,7 @@ class LocationFromZipCodeViewModelSpec: BaseViewModelSpec {
                 context ("services work OK") {
                     beforeEach {
                         locationManager = MockLocationManager()
+                        locationRepository = MockLocationRepository()
 
                         let initialPostalAddress = PostalAddress(address: "", city: "Palo Bajo", zipCode: "06660", state: "", countryCode: "us", country: "")
                         let initialLocation = LGLocationCoordinates2D(latitude: 43.38, longitude: 12.18)
@@ -144,17 +138,15 @@ class LocationFromZipCodeViewModelSpec: BaseViewModelSpec {
                         let postalAddress = PostalAddress(address: "", city: "New York", zipCode: "12345", state: "", countryCode: "us", country: "")
                         let location = LGLocationCoordinates2D(latitude: 41.38, longitude: 2.18)
                         let resultPlace = Place(postalAddress: postalAddress, location: location)
-
-                        searchService = MockSearchLocationSuggestionsService(value: [resultPlace])
-
-                        postalAddressService = MockPostalAddressRetrievalService(value: resultPlace)
+                        
+                        locationRepository.suggestionsResult = SuggestionsLocationRepositoryResult(value: [resultPlace])
+                        locationRepository.postalAddressResult = PostalAddressLocationRepositoryResult(value: resultPlace)
 
                         sut = LocationFromZipCodeViewModel(initialPlace: initialPlace,
                                                            distanceRadius: nil,
                                                            locationManager: locationManager,
-                                                           searchService: searchService,
-                                                           postalAddressService: postalAddressService,
-                                                           tracker: MockTracker())
+                                                           locationRepository: locationRepository,
+                                                           tracker: tracker)
                     }
                     context ("zip code has a correct format") {
                         beforeEach {
@@ -204,25 +196,19 @@ class LocationFromZipCodeViewModelSpec: BaseViewModelSpec {
                 context ("services don't work") {
                     beforeEach {
                         locationManager = MockLocationManager()
-
+                        locationRepository = MockLocationRepository()
                         let initialPostalAddress = PostalAddress(address: "", city: "Palo Bajo", zipCode: "06660", state: "", countryCode: "us", country: "")
                         let initialLocation = LGLocationCoordinates2D(latitude: 43.38, longitude: 12.18)
                         let initialPlace = Place(postalAddress: initialPostalAddress, location: initialLocation)
 
-                        let postalAddress = PostalAddress(address: "", city: "New York", zipCode: "12345", state: "", countryCode: "us", country: "")
-                        let location = LGLocationCoordinates2D(latitude: 41.38, longitude: 2.18)
-                        let place = Place(postalAddress: postalAddress, location: location)
-
-                        searchService = MockSearchLocationSuggestionsService(error: .notFound)
-
-                        postalAddressService = MockPostalAddressRetrievalService(error: .network)
+                        locationRepository.suggestionsResult = SuggestionsLocationRepositoryResult(error: LocationError.internalError)
+                        locationRepository.postalAddressResult = PostalAddressLocationRepositoryResult(error: LocationError.notFound)
 
                         sut = LocationFromZipCodeViewModel(initialPlace: initialPlace,
                                                            distanceRadius: nil,
                                                            locationManager: locationManager,
-                                                           searchService: searchService,
-                                                           postalAddressService: postalAddressService,
-                                                           tracker: MockTracker())
+                                                           locationRepository: locationRepository,
+                                                           tracker: tracker)
                     }
                     context ("zip code has a correct format") {
                         beforeEach {

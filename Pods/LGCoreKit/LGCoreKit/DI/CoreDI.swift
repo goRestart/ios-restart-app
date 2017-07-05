@@ -15,10 +15,13 @@ final class CoreDI: InternalDI {
     // MARK: - Lifecycle
     
     init() {
+        let userAgentBuilder = LGUserAgentBuilder()
         if ProcessInfo.processInfo.environment["isRunningUnitTests"] != nil {
-            networkManager = Alamofire.SessionManager.lgManager(false)
+            networkManager = Alamofire.SessionManager.make(backgroundEnabled: false,
+                                                           userAgentBuilder: userAgentBuilder)
         } else {
-            networkManager = Alamofire.SessionManager.lgManager(true)
+            networkManager = Alamofire.SessionManager.make(backgroundEnabled: true,
+                                                           userAgentBuilder: userAgentBuilder)
         }
         
         keychain = KeychainSwift()
@@ -52,20 +55,18 @@ final class CoreDI: InternalDI {
         let chatDataSource = ChatWebSocketDataSource(webSocketClient: webSocketClient, apiClient: apiClient)
         let chatRepository = LGChatRepository(dataSource: chatDataSource, myUserRepository: myUserRepository)
         self.chatRepository = chatRepository
-        
-        let sensorLocationService = CLLocationManager()
-        sensorLocationService.distance = LGCoreKitConstants.locationDistanceFilter
-        sensorLocationService.accuracy = LGCoreKitConstants.locationDesiredAccuracy
-        let ipLookupLocationService = LGIPLookupLocationService(apiClient: apiClient)
-        let postalAddressRetrievalService = CLPostalAddressRetrievalService()
+
+        let locationDataSource = CoreLocationDataSource(apiClient: apiClient)
+        let locationRepository = LGLocationRepository(dataSource: locationDataSource, locationManager: CLLocationManager())
+        locationRepository.distance = LGCoreKitConstants.locationDistanceFilter
+        locationRepository.accuracy = LGCoreKitConstants.locationDesiredAccuracy
         let deviceLocationDAO = DeviceLocationUDDAO()
 
         let countryInfoDAO: CountryInfoDAO = CountryInfoPlistDAO()
         let countryHelper = CountryHelper(locale: locale, countryInfoDAO: countryInfoDAO)
         
         let locationManager = LGLocationManager(myUserRepository: myUserRepository,
-            sensorLocationService: sensorLocationService, ipLookupLocationService: ipLookupLocationService,
-            postalAddressRetrievalService: postalAddressRetrievalService, deviceLocationDAO: deviceLocationDAO,
+            locationRepository: locationRepository, deviceLocationDAO: deviceLocationDAO,
             countryHelper: countryHelper)
         
         let favoritesDAO = FavoritesUDDAO(userDefaults: userDefaults)
@@ -209,6 +210,10 @@ final class CoreDI: InternalDI {
     lazy var monetizationRepository: MonetizationRepository = {
         let dataSource = MonetizationApiDataSource(apiClient: self.apiClient)
         return LGMonetizationRepository(dataSource: dataSource, listingsLimboDAO: self.listingsLimboDAO)
+    }()
+    lazy var locationRepository: LocationRepository = {
+        let dataSource = CoreLocationDataSource(apiClient: self.apiClient)
+        return LGLocationRepository(dataSource: dataSource, locationManager: CLLocationManager())
     }()
 
     // MARK: > DAO

@@ -80,7 +80,7 @@
 "bump_up_error_bump_token" = "Your payment has been processed but your item hasn't been featured.";
 
 // Error shown when payment fails
-"bump_up_error_payment_failed" = "An error occurred while Bumping Up your item. Your payment hasn't been processed. Please try again.";
+"bump_up_error_payment_failed" = "Couldn't connect to the App Store. Your payment hasn't been processed. Please try again.";
 
 // Text for loading view while processing free bump
 "bump_up_processing_free_text" = "Processing Bump Up...";
@@ -101,10 +101,10 @@
 "bump_up_view_free_subtitle" = "The more you share, the more visibility your listing will have.";
 
 // Title for payment bump up view
-"bump_up_view_pay_title" = "BUMP UP TO SELL FASTER";
+"bump_up_view_pay_title" = "SELL FASTER";
 
 // Subtitle for payment bump up view
-"bump_up_view_pay_subtitle" = "Give your listing higher visibility by moving it to the top.";
+"bump_up_view_pay_subtitle" = "Attract more buyers by giving your listing more visibility.";
 
 // Button title for payment bump up view
 "bump_up_view_pay_button_title" = "Activate for %@";
@@ -491,7 +491,7 @@
 "chat_related_products_title" = "YOU MIGHT BE INTERESTED IN:";
 
 // Chat safety tips.
-"chat_safety_tips" = "Safety tips";
+"chat_safety_tips" = "Safety Tips";
 
 // Chat safety tips full message
 "chat_safety_tips_message" = "• Meet in person and pay in cash.\n\n• Keep conversations in the letgo chat.\n\n• Too good to be true? Find another buyer/seller!";
@@ -991,6 +991,9 @@
 // Forced update appstore button.
 "forced_update_update_button" = "Update";
 
+// Privacy Policy button link
+"help_terms_conditions_privacy_part" = "Privacy Policy";
+
 // Help title.
 "help_title" = "Help";
 
@@ -1402,6 +1405,30 @@
 // Onboarding incentivize posting variant C button
 "onboarding_posting_button_c" = "Yes, I have things to sell";
 
+// Onboarding shows alert if user click on close permission request. 
+"onboarding_location_permissions_alert_title" = "Are you sure?";
+
+// Onboarding shows alert if user click on close permission request. 
+"onboarding_location_permissions_alert_subtitle" = "You'll see items posted in all locations instead of near you";
+
+// Onboarding shows alert if user click on close permission request. 
+"onboarding_notifications_permissions_alert_title" = "Are you sure?";
+
+// Onboarding shows alert if user click on close permission request. 
+"onboarding_notifications_permissions_alert_subtitle" = "You'll have to open letgo to see if you have new messages";
+
+// Onboarding shows alert if user click on close permission request. 
+"onboarding_posting_alert_title" = "Want to try it out by posting a book, a watch, your glasses...?";
+
+// Onboarding shows alert if user click on close permission request. 
+"onboarding_posting_alert_subtitle" = "You can delete it later if you don't really want to sell it";
+
+// Onboarding shows alert if user click on close permission request. 
+"onboarding_alert_yes" = "Yes";
+
+// Onboarding shows alert if user click on close permission request. 
+"onboarding_alert_no" = "No";
+
 // Passive buyers screen for seller
 "passive_buyers_title" = "THESE BUYERS MIGHT BE INTERESTED";
 
@@ -1707,6 +1734,24 @@
 
 // Button to show again the Onboarding in the new Product Detail
 "product_onboarding_show_again_button_title" = "How to Browse";
+
+// Product new onboarding, keep swipping to see gallery highlighted text
+"product_new_onboarding_finger_keep_swipe_highlighted_label" = "Keep swiping";
+
+// Product new onboarding, keep swipping to go to next or previous product regular text
+"product_new_onboarding_finger_keep_swipe_label" = "%@ back or forward to go to the previous or next item";
+
+// Product new onboarding, swipe to go to next or previous product label highlighted text
+"product_new_onboarding_finger_swipe_highlighted_label" = "Swipe";
+
+// Product new onboarding, swipe to see more pictures label regular text
+"product_new_onboarding_finger_swipe_label" = "%@ to see more pictures";
+
+// Product new onboarding, tap to go to next product label regular text
+"product_new_onboarding_finger_tap_highlighted_label" = "Tap";
+
+// Product new onboarding, tap to go to next product label regular text
+"product_new_onboarding_finger_tap_label" = "%@ to go to the next item";
 
 // Button to open the Commercial of a product inside the product detail
 "product_open_commercial_button" = "Commercial";

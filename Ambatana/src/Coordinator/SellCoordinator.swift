@@ -91,7 +91,7 @@ extension SellCoordinator: PostProductNavigator {
         }
     }
 
-    func closePostProductAndPostInBackground(params: ListingCreationParams, showConfirmation: Bool,
+    func closePostProductAndPostInBackground(params: ListingCreationParams,
                                              trackingInfo: PostProductTrackingInfo) {
         dismissViewController(animated: true) { [weak self] in
             switch params {
@@ -101,11 +101,11 @@ extension SellCoordinator: PostProductNavigator {
                         let listing = Listing.product(value)
                         self?.trackPost(withListing: listing, trackingInfo: trackingInfo)
                         self?.keyValueStorage.userPostProductPostedPreviously = true
-                        self?.showConfirmation(showConfirmation, listingResult: ListingResult(value: listing),
+                        self?.showConfirmation(listingResult: ListingResult(value: listing),
                                                trackingInfo: trackingInfo)
                     } else if let error = result.error {
                         self?.trackListingPostedInBackground(withError: error)
-                        self?.showConfirmation(showConfirmation, listingResult: ListingResult(error: error),
+                        self?.showConfirmation(listingResult: ListingResult(error: error),
                                                trackingInfo: trackingInfo)
                     }
                 }
@@ -115,11 +115,11 @@ extension SellCoordinator: PostProductNavigator {
                         let listing = Listing.car(value)
                         self?.trackPost(withListing: listing, trackingInfo: trackingInfo)
                         self?.keyValueStorage.userPostProductPostedPreviously = true
-                        self?.showConfirmation(showConfirmation, listingResult: ListingResult(value: listing),
+                        self?.showConfirmation(listingResult: ListingResult(value: listing),
                                                trackingInfo: trackingInfo)
                     } else if let error = result.error {
                         self?.trackListingPostedInBackground(withError: error)
-                        self?.showConfirmation(showConfirmation, listingResult: ListingResult(error: error),
+                        self?.showConfirmation(listingResult: ListingResult(error: error),
                                                trackingInfo: trackingInfo)
                     }
                 }
@@ -141,25 +141,14 @@ extension SellCoordinator: PostProductNavigator {
         TrackerProxy.sharedInstance.trackEvent(sellErrorDataEvent)
     }
 
-    fileprivate func showConfirmation(_ showConfirmation: Bool, listingResult: ListingResult, trackingInfo: PostProductTrackingInfo) {
-        if showConfirmation {
-            guard let parentVC = parentViewController else { return }
-            
-            let productPostedVM = ProductPostedViewModel(listingResult: listingResult, trackingInfo: trackingInfo)
-            productPostedVM.navigator = self
-            let productPostedVC = ProductPostedViewController(viewModel: productPostedVM)
-            viewController = productPostedVC
-            parentVC.present(productPostedVC, animated: true, completion: nil)
-        } else {
-            closeCoordinator(animated: false) { [weak self] in
-                guard let strongSelf = self else { return }
-                if let listing = listingResult.value {
-                    strongSelf.delegate?.sellCoordinator(strongSelf, didFinishWithListing: listing)
-                } else {
-                    strongSelf.delegate?.sellCoordinatorDidCancel(strongSelf)
-                }
-            }
-        }
+    fileprivate func showConfirmation(listingResult: ListingResult, trackingInfo: PostProductTrackingInfo) {
+        guard let parentVC = parentViewController else { return }
+        
+        let productPostedVM = ProductPostedViewModel(listingResult: listingResult, trackingInfo: trackingInfo)
+        productPostedVM.navigator = self
+        let productPostedVC = ProductPostedViewController(viewModel: productPostedVM)
+        viewController = productPostedVC
+        parentVC.present(productPostedVC, animated: true, completion: nil)
     }
 
     func closePostProductAndPostLater(params: ListingCreationParams, images: [UIImage],
@@ -205,7 +194,7 @@ extension SellCoordinator: ProductPostedNavigator {
         dismissViewController(animated: true) { [weak self] in
             guard let parentVC = self?.parentViewController else { return }
 
-            // TODO: Open EditProductCoordinator, refactor this completion with a EditProductCoordinatorDelegate func
+            // Open a coordinator @ ABIOS-2719
             let editVM = EditListingViewModel(listing: listing)
             editVM.closeCompletion = { editedListing in
                 self?.closeCoordinator(animated: false) {

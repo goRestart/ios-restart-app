@@ -526,7 +526,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         }
                         context("update after upload Sucess") {
                             beforeEach{
-                                sut.updatingAfterUploadingSuccess()
+                                _ = sut.updatingAfterUploadingSuccess()
                             }
                             it("updates the step to upload sucess") {
                                 expect(sut.step) == PostListingStep.uploadSuccess

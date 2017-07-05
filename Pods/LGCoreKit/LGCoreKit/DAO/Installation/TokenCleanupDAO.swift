@@ -10,6 +10,12 @@
 
 /// Proxy token dao that will use primaryDAO and will remove all tokens from toDeleteDAO
 class TokenCleanupDAO: TokenDAO {
+    var currentInstallationToken: Token? {
+        return primaryDAO.currentInstallationToken
+    }
+    var currentUserToken: Token? {
+        return primaryDAO.currentUserToken
+    }
 
     private let primaryDAO: TokenDAO
 

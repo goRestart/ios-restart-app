@@ -16,8 +16,7 @@ protocol LocationFromZipCodeViewModelDelegate: BaseViewModelDelegate { }
 class LocationFromZipCodeViewModel: BaseViewModel {
 
     private let locationManager: LocationManager
-    private let searchService: SearchLocationSuggestionsService
-    private let postalAddressService: PostalAddressRetrievalService
+    private let locationRepository: LocationRepository
     private let tracker: Tracker
 
     weak var locationDelegate: EditLocationDelegate?
@@ -51,20 +50,17 @@ class LocationFromZipCodeViewModel: BaseViewModel {
         self.init(initialPlace: initialPlace,
                   distanceRadius: distanceRadius,
                   locationManager: Core.locationManager,
-                  searchService: CLSearchLocationSuggestionsService(),
-                  postalAddressService: CLPostalAddressRetrievalService(),
+                  locationRepository: Core.locationRepository,
                   tracker: TrackerProxy.sharedInstance)
     }
 
     init(initialPlace: Place?,
          distanceRadius: Int?,
          locationManager: LocationManager,
-         searchService: SearchLocationSuggestionsService,
-         postalAddressService: PostalAddressRetrievalService,
+         locationRepository: LocationRepository,
          tracker: Tracker) {
         self.locationManager = locationManager
-        self.searchService = searchService
-        self.postalAddressService = postalAddressService
+        self.locationRepository = locationRepository
         self.tracker = tracker
         self.distanceRadius = distanceRadius
         if let cCode = locationManager.currentLocation?.countryCode {
@@ -124,7 +120,7 @@ class LocationFromZipCodeViewModel: BaseViewModel {
 
         isResolvingAddress.value = true
 
-        postalAddressService.retrieveAddressForLocation(location) { [weak self] result in
+        locationRepository.retrieveAddressForLocation(location) { [weak self] result in
             self?.isResolvingAddress.value = false
             if let place = result.value {
                 if let zipCode = place.postalAddress?.zipCode {
@@ -144,7 +140,7 @@ class LocationFromZipCodeViewModel: BaseViewModel {
 
         isResolvingAddress.value = true
 
-        searchService.retrieveAddressForLocation(zip) { [weak self] result in
+        locationRepository.retrieveAddressForLocation(zip) { [weak self] result in
             self?.isResolvingAddress.value = false
             if let value = result.value, !value.isEmpty {
                 guard let place = value.first else { return }

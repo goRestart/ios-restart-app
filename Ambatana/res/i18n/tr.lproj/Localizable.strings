@@ -23,7 +23,7 @@
 "bump_up_banner_wait_text" = "tekrar üste çıkarmak için";
 "bump_up_error_bump_generic" = "Ürünün öne çıkarılırken bir hata oluştu. Lütfen tekrar dene.";
 "bump_up_error_bump_token" = "Ödemen gerçekleştirildi fakat ürünün henüz öne çıkarılmadı.";
-"bump_up_error_payment_failed" = "Ürünün öne çıkarılırken bir hata oluştu. Ödeme işlemi gerçekleşmedi. Lütfen tekrar dene.";
+"bump_up_error_payment_failed" = "App Store ile bağlantı gerçekleştirilemedi. Ödeme işlemin tamamlanmadı. Lütfen tekrar dene.";
 "bump_up_free_success" = "Öne çıkarıldı! İlanını öne çıkarmaya devam et ki daha da çok kişi görsün.";
 "bump_up_pay_success" = "Öne çıkarıldı! Şimdi ürününü daha fazla kişi görebilir.";
 "bump_up_processing_free_text" = "Üste çıkarma işlemi gerçekleştiriliyor...";
@@ -168,7 +168,7 @@
 "chat_not_verified_state_title" = "HESABINI DOĞRULADIN MI?";
 "chat_product_sold_label" = "Ürün Satıldı";
 "chat_related_products_title" = "ŞU ÜRÜNLER DE İLGİNİ ÇEKEBİLİR:";
-"chat_safety_tips" = "Güvenlik önerilerimiz";
+"chat_safety_tips" = "Güvenlik Önerilerimiz";
 "chat_safety_tips_message" = "• Birebir görüş ve elden nakit öde.\n\n• Mesajlaşmayı letgo sistemi içerisinde yap.\n\n• Kulağa gerçek olamayacak kadar hoş geliyorsa, başka bir alıcı/satıcı bul.";
 "chat_safety_tips_title" = "TAVSİYELER";
 "chat_send_button" = "Gönder";
@@ -331,6 +331,7 @@
 "forced_update_message" = "Yeni bir letgo sürümü mevcut. Lütfen şimdi güncelle.";
 "forced_update_title" = "Yeni bir güncelleme mevcut";
 "forced_update_update_button" = "Güncelle";
+"help_terms_conditions_privacy_part" = "Gizlilik Politikası";
 "help_title" = "Yardım";
 "hidden_email_tag" = "[E-POSTA GİZLENMİŞTİR]";
 "hidden_phone_tag" = "[TELEFON NUMARASI GİZLENMİŞTİR]";
@@ -345,7 +346,7 @@
 "log_in_email_email_field_hint" = "E-posta";
 "log_in_email_footer" = "Bir hesabın yok mu? Üye ol";
 "log_in_email_footer_sign_up_kw" = "Üye ol";
-"log_in_email_forgot_password_alert_cancel_action" = "Try Again";
+"log_in_email_forgot_password_alert_cancel_action" = "Tekrar dene";
 "log_in_email_forgot_password_alert_message" = "Hesabına tekrar ulaşmana yardımcı olmak için %@ adresine bir e-posta gönderebiliriz.";
 "log_in_email_forgot_password_alert_remember_action" = "E-posta gönder";
 "log_in_email_forgot_password_alert_title" = "Şifremi unuttum";
@@ -354,7 +355,7 @@
 "log_in_email_log_in_button" = "Giriş";
 "log_in_email_password_field_hint" = "Şifre";
 "log_in_email_title" = "Giriş";
-"log_in_email_wrong_password_alert_cancel_action" = "Try Again";
+"log_in_email_wrong_password_alert_cancel_action" = "Tekrar dene";
 "log_in_email_wrong_password_alert_message" = "%@ için girmiş olduğun şifre yanlıştır.";
 "log_in_email_wrong_password_alert_title" = "Yanlış şifre";
 "log_in_error_send_error_generic" = "Giriş esnasında bir hata oluştu. Lütfen tekrar dene.";
@@ -439,9 +440,17 @@
 "nps_survey_title" = "GÖRÜŞLERİNİ BİLMEK İSTERİZ...";
 "nps_survey_very_bad" = "Muhtemel değil";
 "nps_survey_very_good" = "Son derece muhtemel";
+"onboarding_alert_no" = "Hayır";
+"onboarding_alert_yes" = "Evet";
 "onboarding_direct_camera_alert_subtitle" = "İlk ürününü yükleyerek yakınındakilere satış yapmaya başla";
 "onboarding_direct_camera_alert_title" = "Nakit Kazanmaya Başla!";
+"onboarding_location_permissions_alert_subtitle" = "Yakın çevrendekiler yerine her yerde yayınlanmış ürünleri göreceksin";
+"onboarding_location_permissions_alert_title" = "Emin misin?";
 "onboarding_login_skip" = "Geç";
+"onboarding_notifications_permissions_alert_subtitle" = "Yeni mesajlarını görebilmek için letgo'yu açman gerekecek.";
+"onboarding_notifications_permissions_alert_title" = "Emin misin?";
+"onboarding_posting_alert_subtitle" = "Gerçekten satmak istemiyorsan sonra silebilirsin";
+"onboarding_posting_alert_title" = "Bir kitap, saat ya da bilgisayarını yükleyerek denemeye ne dersin?";
 "onboarding_posting_button_a" = "Eşyalarını Sat";
 "onboarding_posting_button_b" = "Başla";
 "onboarding_posting_button_c" = "Evet, satılık eşyalarım var";
@@ -544,6 +553,12 @@
 "product_more_info_tooltip_part_1" = "dokun";
 "product_more_info_tooltip_part_2" = "Daha fazla bilgi için %@";
 "product_negotiable_price" = "Pazarlık edilebilir";
+"product_new_onboarding_finger_keep_swipe_highlighted_label" = "kaydırmaya devam et";
+"product_new_onboarding_finger_keep_swipe_label" = "Önceki veya sonraki ürünü görmek için ileri ya da geri %@";
+"product_new_onboarding_finger_swipe_highlighted_label" = "kaydır";
+"product_new_onboarding_finger_swipe_label" = "Daha fazla fotoğraf görmek için %@";
+"product_new_onboarding_finger_tap_highlighted_label" = "tıkla";
+"product_new_onboarding_finger_tap_label" = "Sonraki ürüne geçmek için %@";
 "product_onboarding_finger_scroll_label" = "Daha fazla fotoğraf görmek için sürükle";
 "product_onboarding_finger_swipe_label" = "Bir önceki veya sonraki ürüne gitmek için ekranı kaydır";
 "product_onboarding_finger_tap_label" = "Bir sonraki ürüne gitmek için dokun";
@@ -607,7 +622,7 @@
 "product_post_product_posted" = "Ürünün yayınlandı. Tebrikler!";
 "product_post_product_posted_not_logged" = "Fotoğraf Yüklendi!";
 "product_post_retake" = "Tekrar Çek";
-"product_post_retry_button" = "Yeniden Dene";
+"product_post_retry_button" = "Tekrar dene";
 "product_post_select_category_cars" = "Araba";
 "product_post_select_category_motors_and_accessories" = "Diğer Araçlar ve Yedek Parça";
 "product_post_select_category_or" = "VEYA";

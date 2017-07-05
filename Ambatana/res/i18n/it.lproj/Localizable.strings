@@ -23,7 +23,7 @@
 "bump_up_banner_wait_text" = "per promuovere di nuovo";
 "bump_up_error_bump_generic" = "Si è verificato un errore durante il tentativo di promuovere il tuo prodotto. Riprova.";
 "bump_up_error_bump_token" = "Il pagamento è stato elaborato, ma l'articolo non è ancora stato messo in primo piano.";
-"bump_up_error_payment_failed" = "Si è verificato un errore durante la promozione del tuo articolo. Il tuo pagamento non è andato a buon fine. Riprova.";
+"bump_up_error_payment_failed" = "Impossibile connettersi all'App Store. Il tuo pagamento non è andato a buon fine. Riprova.";
 "bump_up_free_success" = "Promosso! Continua a promuovere il tuo annuncio e sarà sempre più visibile.";
 "bump_up_pay_success" = "Promosso! Adesso il tuo articolo gode di una visibilità extra.";
 "bump_up_processing_free_text" = "Elaborazione promozione...";
@@ -331,6 +331,7 @@
 "forced_update_message" = "È disponibile una nuova versione di letgo. Aggiornalo adesso.";
 "forced_update_title" = "Aggiornamento disponibile";
 "forced_update_update_button" = "Aggiorna";
+"help_terms_conditions_privacy_part" = "Informativa sulla Privacy";
 "help_title" = "Aiuto";
 "hidden_email_tag" = "[INDIRIZZO EMAIL NASCOSTO]";
 "hidden_phone_tag" = "[NUMERO DI TELEFONO NASCOSTO]";
@@ -439,9 +440,17 @@
 "nps_survey_title" = "CI PIACEREBBE SAPERE...";
 "nps_survey_very_bad" = "Poco probabilmente";
 "nps_survey_very_good" = "Molto probabilmente";
+"onboarding_alert_no" = "No";
+"onboarding_alert_yes" = "Sì";
 "onboarding_direct_camera_alert_subtitle" = "Pubblica il tuo primo prodotto e inizia a vendere a persone nella tua zona";
 "onboarding_direct_camera_alert_title" = "Inizia a guadagnare!";
+"onboarding_location_permissions_alert_subtitle" = "Vedrai articoli pubblicati ovunque, anziché solo nella tua zona";
+"onboarding_location_permissions_alert_title" = "Sei sicuro?";
 "onboarding_login_skip" = "Salta";
+"onboarding_notifications_permissions_alert_subtitle" = "Dovrai aprire letgo per controllare se hai nuovi messaggi";
+"onboarding_notifications_permissions_alert_title" = "Sei sicuro?";
+"onboarding_posting_alert_subtitle" = "Puoi eliminarlo successivamente se non hai proprio intenzione di venderlo";
+"onboarding_posting_alert_title" = "Vuoi fare una prova pubblicando un libro, un orologio o degli occhiali?";
 "onboarding_posting_button_a" = "Vendi le tue cose";
 "onboarding_posting_button_b" = "Inizia";
 "onboarding_posting_button_c" = "Sì, ho qualcosa da vendere";
@@ -544,6 +553,12 @@
 "product_more_info_tooltip_part_1" = "Tocca";
 "product_more_info_tooltip_part_2" = "%@ per vedere maggiori informazioni";
 "product_negotiable_price" = "Trattabile";
+"product_new_onboarding_finger_keep_swipe_highlighted_label" = "Continua a scorrere";
+"product_new_onboarding_finger_keep_swipe_label" = "%@ avanti o indietro per passare all'articolo precedente o successivo";
+"product_new_onboarding_finger_swipe_highlighted_label" = "Scorri";
+"product_new_onboarding_finger_swipe_label" = "%@ per vedere altre foto";
+"product_new_onboarding_finger_tap_highlighted_label" = "Tocca";
+"product_new_onboarding_finger_tap_label" = "%@ per andare all'articolo successivo";
 "product_onboarding_finger_scroll_label" = "Scorri per vedere altre foto";
 "product_onboarding_finger_swipe_label" = "Striscia il dito per passare al prodotto successivo o a quello precendente";
 "product_onboarding_finger_tap_label" = "Tocca per passare al prodotto successivo";

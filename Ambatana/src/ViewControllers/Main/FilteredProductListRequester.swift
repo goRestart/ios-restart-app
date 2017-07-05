@@ -15,6 +15,7 @@ class FilteredProductListRequester: ProductListRequester {
     let itemsPerPage: Int
     fileprivate let listingRepository: ListingRepository
     fileprivate let locationManager: LocationManager
+    fileprivate let featureFlags: FeatureFlaggeable
     fileprivate var queryFirstCallCoordinates: LGLocationCoordinates2D?
     fileprivate var queryFirstCallCountryCode: String?
     fileprivate var offset: Int = 0
@@ -24,13 +25,13 @@ class FilteredProductListRequester: ProductListRequester {
     var filters: ProductFilters?
 
     convenience init(itemsPerPage: Int, offset: Int = 0) {
-        self.init(listingRepository: Core.listingRepository, locationManager: Core.locationManager,
-                  itemsPerPage: itemsPerPage, offset: offset)
+        self.init(listingRepository: Core.listingRepository, locationManager: Core.locationManager, featureFlags: FeatureFlags.sharedInstance, itemsPerPage: itemsPerPage, offset: offset)
     }
 
-    init(listingRepository: ListingRepository, locationManager: LocationManager, itemsPerPage: Int, offset: Int) {
+    init(listingRepository: ListingRepository, locationManager: LocationManager, featureFlags: FeatureFlaggeable, itemsPerPage: Int, offset: Int) {
         self.listingRepository = listingRepository
         self.locationManager = locationManager
+        self.featureFlags = featureFlags
         self.initialOffset = offset
         self.itemsPerPage = itemsPerPage
     }
@@ -212,6 +213,7 @@ fileprivate extension FilteredProductListRequester {
         params.modelId = filters?.carModelId
         params.startYear = filters?.carYearStart
         params.endYear = filters?.carYearEnd
+        params.abtest = featureFlags.searchParamDisc24.stringValue
 
         if let priceRange = filters?.priceRange {
             switch priceRange {
@@ -285,5 +287,26 @@ fileprivate extension FilteredProductListRequester {
         }
 
         return VerticalTrackingInfo(category: vertical, keywords: keywords, matchingFields: matchingFields, nonMatchingFields: nonMatchingFields)
+    }
+}
+
+extension SearchParamDisc24 {
+    var stringValue: String {
+        switch self {
+        case .disc24a:
+            return "disc24-a"
+        case .disc24b:
+            return "disc24-b"
+        case .disc24c:
+            return "disc24-c"
+        case .disc24d:
+            return "disc24-d"
+        case .disc24e:
+            return "disc24-e"
+        case .disc24f:
+            return "disc24-f"
+        case .disc24g:
+            return "disc24-g"
+        }
     }
 }

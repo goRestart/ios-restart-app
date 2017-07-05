@@ -195,7 +195,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
 
     func requestFreeBumpUp(forListingId listingId: String, paymentItemId: String, shareNetwork: EventParameterShareNetwork) {
         delegate?.freeBumpDidStart()
-        monetizationRepository.freeBump(forProduct: listingId, itemId: paymentItemId) { [weak self] result in
+        monetizationRepository.freeBump(forListingId: listingId, itemId: paymentItemId) { [weak self] result in
             if let _ = result.value {
                 self?.delegate?.freeBumpDidSucceed(withNetwork: shareNetwork)
             } else if let _ = result.error {
@@ -256,7 +256,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         let idfa = ASIdentifierManager.shared().advertisingIdentifier.uuidString
         let bundleId = Bundle.main.bundleIdentifier
 
-        monetizationRepository.pricedBump(forProduct: listingId, receiptData: receiptData,
+        monetizationRepository.pricedBump(forListingId: listingId, receiptData: receiptData,
                                           itemId: transaction.payment.productIdentifier, itemPrice: price ?? "0",
                                           itemCurrency: currency ?? "", amplitudeId: amplitudeId, appsflyerId: appsflyerId,
                                           idfa: idfa, bundleId: bundleId) { [weak self] result in
@@ -370,7 +370,7 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
             case .failed:
                 delegate?.pricedBumpPaymentDidFail()
                 queue.finishTransaction(transaction)
-                logMessage(.info, type: [.monetization], message: "Purchase failed with error: \(transaction.error?.localizedDescription)")
+                logMessage(.info, type: [.monetization], message: "Purchase failed with error: \(String(describing: transaction.error?.localizedDescription))")
             }
         }
     }
@@ -395,7 +395,7 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
             case .failed:
                 delegate?.pricedBumpPaymentDidFail()
                 queue.finishTransaction(transaction)
-                logMessage(.info, type: [.monetization], message: "Purchase restore failed with error: \(transaction.error?.localizedDescription)")
+                logMessage(.info, type: [.monetization], message: "Purchase restore failed with error: \(String(describing: transaction.error?.localizedDescription))")
             }
         }
     }

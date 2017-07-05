@@ -23,7 +23,7 @@
 "bump_up_banner_wait_text" = "a következő ugrasztásig";
 "bump_up_error_bump_generic" = "Hiba történt a hirdetésed felugrasztása során. Próbálkozz újra.";
 "bump_up_error_bump_token" = "A tranzakciót feldolgoztuk, de portékád nincs felugrasztva.";
-"bump_up_error_payment_failed" = "Hiba történt portékát feljebb ugrasztása során. Feldolgozatlan befizetés. Próbálkozz újra.";
+"bump_up_error_payment_failed" = "Nem sikerült kapcsolódni az App Store-hoz. Feldolgozatlan befizetés. Próbálkozz újra.";
 "bump_up_free_success" = "Felugrasztva! Ugraszd fel többször, hogy még láthatóbb legyen.";
 "bump_up_pay_success" = "Felugrasztva! Portékád mostantól sokkal láthatóbb.";
 "bump_up_processing_free_text" = "Ugrasztás feldolgozása...";
@@ -331,6 +331,7 @@
 "forced_update_message" = "Elérhető a letgo új verziója. Kérjük, frissíts!";
 "forced_update_title" = "Frissítés elérhető";
 "forced_update_update_button" = "Frissítés";
+"help_terms_conditions_privacy_part" = "Adatkezelési nyilatkozat";
 "help_title" = "Segítség";
 "hidden_email_tag" = "[E-MAIL REJTVE]";
 "hidden_phone_tag" = "[TELEFONSZÁM REJTVE]";
@@ -345,7 +346,7 @@
 "log_in_email_email_field_hint" = "EMAIL";
 "log_in_email_footer" = "Még nincs fiókod? Regisztráció";
 "log_in_email_footer_sign_up_kw" = "Regisztráció";
-"log_in_email_forgot_password_alert_cancel_action" = "Újra";
+"log_in_email_forgot_password_alert_cancel_action" = "Próbálkozz újra";
 "log_in_email_forgot_password_alert_message" = "E-mailt küldhetünk a(z) %@ címre, hogy segítsünk fiókod visszaállításában.";
 "log_in_email_forgot_password_alert_remember_action" = "E-mail küldése";
 "log_in_email_forgot_password_alert_title" = "Elfelejtetted a jelszavad?";
@@ -354,7 +355,7 @@
 "log_in_email_log_in_button" = "Bejelentkezés";
 "log_in_email_password_field_hint" = "Jelszó";
 "log_in_email_title" = "Bejelentkezés";
-"log_in_email_wrong_password_alert_cancel_action" = "Újra";
+"log_in_email_wrong_password_alert_cancel_action" = "Próbálkozz újra";
 "log_in_email_wrong_password_alert_message" = "A következő címhez megadott jelszó helytelen: %@";
 "log_in_email_wrong_password_alert_title" = "Hibás jelszó";
 "log_in_error_send_error_generic" = "Hiba történt a belépés során. Próbálkozz újra!";
@@ -439,9 +440,17 @@
 "nps_survey_title" = "TUDNI SZERETNÉNK...";
 "nps_survey_very_bad" = "Nem szívesen";
 "nps_survey_very_good" = "Nagyon szívesen";
+"onboarding_alert_no" = "Nem";
+"onboarding_alert_yes" = "Igen";
 "onboarding_direct_camera_alert_subtitle" = "Tedd közzé első portékádat, és már kereskedhetsz is a környékbeliekkel";
 "onboarding_direct_camera_alert_title" = "Kezdj pénzt keresni!";
+"onboarding_location_permissions_alert_subtitle" = "Minden hirdetés meg fog jelenni, nem csak a közeliek";
+"onboarding_location_permissions_alert_title" = "Biztos vagy benne?";
 "onboarding_login_skip" = "Kihagy";
+"onboarding_notifications_permissions_alert_subtitle" = "Meg kell majd nyitnod a letgo alkalmazást, ha tudni szeretnéd, hogy vannak-e új üzeneteid";
+"onboarding_notifications_permissions_alert_title" = "Biztos vagy benne?";
+"onboarding_posting_alert_subtitle" = "Később törölheted, ha igazából nem is szeretnéd eladni";
+"onboarding_posting_alert_title" = "Kipróbálod egy könyv, óra, napszemüveg... vagy valami más meghirdetésével?";
 "onboarding_posting_button_a" = "Add el a dolgaid";
 "onboarding_posting_button_b" = "Kezdés";
 "onboarding_posting_button_c" = "Igen, vannak eladó dolgaim";
@@ -544,6 +553,12 @@
 "product_more_info_tooltip_part_1" = "Koppints";
 "product_more_info_tooltip_part_2" = "%@ a részletekért";
 "product_negotiable_price" = "Alkudható";
+"product_new_onboarding_finger_keep_swipe_highlighted_label" = "Suhints tovább";
+"product_new_onboarding_finger_keep_swipe_label" = "%@ balra vagy jobbra, az előző vagy a következő hirdetés felé";
+"product_new_onboarding_finger_swipe_highlighted_label" = "Suhints";
+"product_new_onboarding_finger_swipe_label" = "%@ a további képekért";
+"product_new_onboarding_finger_tap_highlighted_label" = "Koppints";
+"product_new_onboarding_finger_tap_label" = "%@ a következő hirdetéshez";
 "product_onboarding_finger_scroll_label" = "Csúsztatással további képeket jeleníthetsz meg";
 "product_onboarding_finger_swipe_label" = "Suhintással a következő vagy az előző portékára ugorhatsz";
 "product_onboarding_finger_tap_label" = "Koppintással a következő portékára ugorhatsz";

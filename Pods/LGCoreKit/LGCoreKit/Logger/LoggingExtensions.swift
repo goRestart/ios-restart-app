@@ -32,9 +32,9 @@ extension URLRequest {
         let httpHeaders: String? = allHTTPHeaderFields?.description
 
         var output  = "\n"
-        output     += "Request:          " + "\(httpMethod) \(url?.absoluteString)\n"
-        output     += " >          Body: " + "\(httpBody)\n"
-        output     += " >       Headers: " + "\(httpHeaders)\n"
+        output     += "Request:          " + "\(String(describing: httpMethod)) \(String(describing: url?.absoluteString))\n"
+        output     += " >          Body: " + "\(String(describing: httpBody))\n"
+        output     += " >       Headers: " + "\(String(describing: httpHeaders))\n"
         return output
     }
 }
@@ -60,11 +60,11 @@ extension DataResponse {
         let httpHeaders: String? = response?.allHeaderFields.description
 
         var output  = "\n"
-        output     += "Response:         " + "\(httpMethod) \(urlString)\n"
-        output     += " >   Status code: " + "\(statusCode)\n"
-        output     += " >         Error: " + "\(error)\n"
-        output     += " >          Body: " + "\(httpBody)\n"
-        output     += " >       Headers: " + "\(httpHeaders)\n"
+        output     += "Response:         " + "\(String(describing: httpMethod)) \(String(describing: urlString))\n"
+        output     += " >   Status code: " + "\(String(describing: statusCode))\n"
+        output     += " >         Error: " + "\(String(describing: error))\n"
+        output     += " >          Body: " + "\(String(describing: httpBody))\n"
+        output     += " >       Headers: " + "\(String(describing: httpHeaders))\n"
         return output
     }
 }

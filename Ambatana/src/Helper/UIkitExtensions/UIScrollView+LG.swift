@@ -16,27 +16,23 @@ extension UIScrollView {
         case left
     }
     
-    func showRubberBandEffect(_ direction: RubberBandDirection) {
-        let offsetMargin = CGFloat(50.0)
+    func showRubberBandEffect(_ direction: RubberBandDirection, offset: CGFloat) {
         let originalOffset = contentOffset
         var newOffset = originalOffset
         switch direction {
         case .top:
-            newOffset.y -= offsetMargin
+            newOffset.y -= offset
         case .bottom:
-            newOffset.y += offsetMargin
+            newOffset.y += offset
         case .left:
-            newOffset.x -= offsetMargin
+            newOffset.x -= offset
         case .right:
-            newOffset.x += offsetMargin
+            newOffset.x += offset
         }
-        
-        UIView.animate(withDuration: 0.15, delay: 0, options: .curveEaseOut, animations: {
-            self.contentOffset = newOffset
-            }, completion: nil)
-        
-        UIView.animate(withDuration: 0.15, delay: 0.15, options: .curveEaseIn, animations: {
-            self.contentOffset = originalOffset
-            }, completion: nil)
+
+        setContentOffset(newOffset, animated: true)
+        delay(0.15) { 
+            self.setContentOffset(originalOffset, animated: true)
+        }
     }
 }

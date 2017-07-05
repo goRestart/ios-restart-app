@@ -23,7 +23,7 @@
 "bump_up_banner_wait_text" = "to Bump Up again";
 "bump_up_error_bump_generic" = "An error occurred while Bumping Up your item. Please try again.";
 "bump_up_error_bump_token" = "Your payment has been processed but your item hasn't been featured.";
-"bump_up_error_payment_failed" = "An error occurred while Bumping Up your item. Your payment hasn't been processed. Please try again.";
+"bump_up_error_payment_failed" = "Couldn't connect to the App Store. Your payment hasn't been processed. Please try again.";
 "bump_up_free_success" = "Bumped Up! Keep Bumping Up your listing and it'll be even more visible.";
 "bump_up_pay_success" = "Bumped Up! Now your item has extra visibility.";
 "bump_up_processing_free_text" = "Processing Bump Up...";
@@ -34,8 +34,8 @@
 "bump_up_view_free_title" = "BUMP UP YOUR LISTING";
 "bump_up_view_pay_bumps_left_text" = "You have %i Bump Ups left.";
 "bump_up_view_pay_button_title" = "Activate for %@";
-"bump_up_view_pay_subtitle" = "Give your listing higher visibility by moving it to the top.";
-"bump_up_view_pay_title" = "BUMP UP TO SELL FASTER";
+"bump_up_view_pay_subtitle" = "Attract more buyers by giving your listing more visibility.";
+"bump_up_view_pay_title" = "SELL FASTER";
 "categories_baby_and_child" = "Baby and Child";
 "categories_car" = "Cars";
 "categories_cars_and_motors" = "Other Vehicles and Parts";
@@ -168,7 +168,7 @@
 "chat_not_verified_state_title" = "ARE YOU VERIFIED?";
 "chat_product_sold_label" = "Product sold";
 "chat_related_products_title" = "YOU MIGHT BE INTERESTED IN:";
-"chat_safety_tips" = "Safety tips";
+"chat_safety_tips" = "Safety Tips";
 "chat_safety_tips_message" = "• Meet in person and pay in cash.\n\n• Keep conversations in the letgo chat.\n\n• Too good to be true? Find another buyer/seller!";
 "chat_safety_tips_title" = "STAY SAFE";
 "chat_send_button" = "Send";
@@ -331,6 +331,7 @@
 "forced_update_message" = "A new version of letgo is available. Please update now!";
 "forced_update_title" = "Update Available";
 "forced_update_update_button" = "Update";
+"help_terms_conditions_privacy_part" = "Privacy Policy";
 "help_title" = "Help";
 "hidden_email_tag" = "[EMAIL HIDDEN]";
 "hidden_phone_tag" = "[PHONE NUMBER HIDDEN]";
@@ -439,9 +440,17 @@
 "nps_survey_title" = "WE'D LIKE TO KNOW...";
 "nps_survey_very_bad" = "Not likely";
 "nps_survey_very_good" = "Extremely likely";
+"onboarding_alert_no" = "No";
+"onboarding_alert_yes" = "Yes";
 "onboarding_direct_camera_alert_subtitle" = "Post your first product and start selling to people near you";
 "onboarding_direct_camera_alert_title" = "Start Making Cash!";
+"onboarding_location_permissions_alert_subtitle" = "You'll see items posted in all locations instead of near you";
+"onboarding_location_permissions_alert_title" = "Are you sure?";
 "onboarding_login_skip" = "Skip";
+"onboarding_notifications_permissions_alert_subtitle" = "You'll have to open letgo to see if you have new messages";
+"onboarding_notifications_permissions_alert_title" = "Are you sure?";
+"onboarding_posting_alert_subtitle" = "You can delete it later if you don't really want to sell it";
+"onboarding_posting_alert_title" = "Want to try it out by posting a book, a watch, your glasses...?";
 "onboarding_posting_button_a" = "Sell Your Stuff";
 "onboarding_posting_button_b" = "Start";
 "onboarding_posting_button_c" = "Yes, I have things to sell";
@@ -544,6 +553,12 @@
 "product_more_info_tooltip_part_1" = "Tap";
 "product_more_info_tooltip_part_2" = "%@ to see more info";
 "product_negotiable_price" = "Negotiable";
+"product_new_onboarding_finger_keep_swipe_highlighted_label" = "Keep swiping";
+"product_new_onboarding_finger_keep_swipe_label" = "%@ back or forward to go to the previous or next item";
+"product_new_onboarding_finger_swipe_highlighted_label" = "Swipe";
+"product_new_onboarding_finger_swipe_label" = "%@ to see more pictures";
+"product_new_onboarding_finger_tap_highlighted_label" = "Tap";
+"product_new_onboarding_finger_tap_label" = "%@ to go to the next item";
 "product_onboarding_finger_scroll_label" = "Scroll to see more pictures";
 "product_onboarding_finger_swipe_label" = "Swipe to go to the next product or to the previous one";
 "product_onboarding_finger_tap_label" = "Tap to go to the next product";

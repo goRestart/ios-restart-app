@@ -37,6 +37,7 @@ public struct RetrieveListingParams {
     public var modelId: RetrieveListingParam<String>?
     public var startYear: RetrieveListingParam<Int>?
     public var endYear: RetrieveListingParam<Int>?
+    public var abtest: String?
     
     public init() { }
     
@@ -53,12 +54,13 @@ public struct RetrieveListingParams {
         params["num_results"] = numProducts
         params["offset"] = offset
         params["country_code"] = countryCode
-        
-        // TODO: Think twice about this :-P
-        if self.statuses == [.sold, .soldOld] {
-            params["status"] = UserListingStatus.sold.rawValue
-        } else {
-            params["status"] = UserListingStatus.selling.rawValue
+
+        if let statuses = statuses {
+            if statuses.contains(.sold) || statuses.contains(.soldOld) {
+                params["status"] = UserListingStatus.sold.rawValue
+            } else {
+                params["status"] = UserListingStatus.selling.rawValue
+            }
         }
         return params
     }
@@ -86,6 +88,7 @@ public struct RetrieveListingParams {
         params["offset"] = offset
         params["sort"] = sortCriteria?.string
         params["since"] = timeCriteria?.string
+        params["abtest"] = abtest
         
         // Car attributes
         var carsPositiveAttrs = [String: Any]()
@@ -175,15 +178,21 @@ public class ProductEditionParams: ProductCreationParams {
         case let .product(product):
             editedProduct = product
         }
-        self.init(product: editedProduct, productId: productId, userId: userId)
+        self.init(product: editedProduct,
+                  productId: productId,
+                  userId: userId)
     }
 
     public convenience init?(product: Product) {
         guard let productId = product.objectId, let userId = product.user.objectId else { return nil }
-        self.init(product: product, productId: productId, userId: userId)
+        self.init(product: product,
+                  productId: productId,
+                  userId: userId)
     }
 
-    init(product: Product, productId: String, userId: String) {
+    init(product: Product,
+         productId: String,
+         userId: String) {
         self.productId = productId
         self.userId = userId
         super.init(name: product.name,
@@ -193,6 +202,7 @@ public class ProductEditionParams: ProductCreationParams {
                    currency: product.currency,
                    location: product.location,
                    postalAddress: product.postalAddress,
+                   languageCode: product.languageCode ?? Locale.current.identifier,
                    images: product.images)
         if let languageCode = product.languageCode {
             self.languageCode = languageCode
@@ -225,8 +235,34 @@ public class ProductCreationParams {
     public var images: [File]
     var languageCode: String
 
-    public init(name: String?, description: String?, price: ListingPrice, category: ListingCategory,
-         currency: Currency, location: LGLocationCoordinates2D, postalAddress: PostalAddress, images: [File]) {
+    public convenience init(name: String?,
+                            description: String?,
+                            price: ListingPrice,
+                            category: ListingCategory,
+                            currency: Currency,
+                            location: LGLocationCoordinates2D,
+                            postalAddress: PostalAddress,
+                            images: [File]) {
+        self.init(name: name,
+                  description: description,
+                  price: price,
+                  category: category,
+                  currency: currency,
+                  location: location,
+                  postalAddress: postalAddress,
+                  languageCode: Locale.current.identifier,
+                  images: images)
+    }
+    
+    public init(name: String?,
+                description: String?,
+                price: ListingPrice,
+                category: ListingCategory,
+                currency: Currency,
+                location: LGLocationCoordinates2D,
+                postalAddress: PostalAddress,
+                languageCode: String,
+                images: [File]) {
         self.name = name
         self.descr = description
         self.price = price
@@ -234,8 +270,7 @@ public class ProductCreationParams {
         self.currency = currency
         self.location = location
         self.postalAddress = postalAddress
-        // TODO: inject locale
-        self.languageCode = Locale.current.identifier
+        self.languageCode = languageCode
         self.images = images
     }
 

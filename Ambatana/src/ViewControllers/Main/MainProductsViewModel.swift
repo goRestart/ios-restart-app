@@ -154,6 +154,7 @@ class MainProductsViewModel: BaseViewModel {
     fileprivate let myUserRepository: MyUserRepository
     fileprivate let trendingSearchesRepository: TrendingSearchesRepository
     fileprivate let listingRepository: ListingRepository
+    fileprivate let monetizationRepository: MonetizationRepository
     fileprivate let locationManager: LocationManager
     fileprivate let currencyHelper: CurrencyHelper
     fileprivate let bubbleTextGenerator: DistanceBubbleTextGenerator
@@ -208,7 +209,7 @@ class MainProductsViewModel: BaseViewModel {
     // MARK: - Lifecycle
     
     init(sessionManager: SessionManager, myUserRepository: MyUserRepository, trendingSearchesRepository: TrendingSearchesRepository,
-         listingRepository: ListingRepository, locationManager: LocationManager, currencyHelper: CurrencyHelper, tracker: Tracker,
+         listingRepository: ListingRepository, monetizationRepository: MonetizationRepository, locationManager: LocationManager, currencyHelper: CurrencyHelper, tracker: Tracker,
          searchType: SearchType? = nil, filters: ProductFilters, keyValueStorage: KeyValueStorageable, featureFlags: FeatureFlaggeable,
          bubbleTextGenerator: DistanceBubbleTextGenerator) {
         
@@ -216,6 +217,7 @@ class MainProductsViewModel: BaseViewModel {
         self.myUserRepository = myUserRepository
         self.trendingSearchesRepository = trendingSearchesRepository
         self.listingRepository = listingRepository
+        self.monetizationRepository = monetizationRepository
         self.locationManager = locationManager
         self.currencyHelper = currencyHelper
         self.tracker = tracker
@@ -250,6 +252,7 @@ class MainProductsViewModel: BaseViewModel {
         let myUserRepository = Core.myUserRepository
         let trendingSearchesRepository = Core.trendingSearchesRepository
         let listingRepository = Core.listingRepository
+        let monetizationRepository = Core.monetizationRepository
         let locationManager = Core.locationManager
         let currencyHelper = Core.currencyHelper
         let tracker = TrackerProxy.sharedInstance
@@ -257,7 +260,7 @@ class MainProductsViewModel: BaseViewModel {
         let featureFlags = FeatureFlags.sharedInstance
         let bubbleTextGenerator = DistanceBubbleTextGenerator()
         self.init(sessionManager: sessionManager,myUserRepository: myUserRepository, trendingSearchesRepository: trendingSearchesRepository,
-                  listingRepository: listingRepository, locationManager: locationManager, currencyHelper: currencyHelper, tracker: tracker,
+                  listingRepository: listingRepository, monetizationRepository: monetizationRepository, locationManager: locationManager, currencyHelper: currencyHelper, tracker: tracker,
                   searchType: searchType, filters: filters, keyValueStorage: keyValueStorage, featureFlags: featureFlags,
                   bubbleTextGenerator: bubbleTextGenerator)
     }
@@ -507,6 +510,13 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
                 break
             }
         }.addDisposableTo(disposeBag)
+        
+        monetizationRepository.events.bindNext { [weak self] event in
+            switch event {
+            case .freeBump, .pricedBump:
+                self?.listViewModel.refresh()
+            }
+            }.addDisposableTo(disposeBag)
     }
 
     // MARK: > ProductListViewCellsDelegate
