@@ -79,6 +79,7 @@ class ChatViewModel: BaseViewModel {
     var shouldTrackFirstMessage: Bool = false
     let shouldShowExpressBanner = Variable<Bool>(false)
     let relatedProductsState = Variable<ChatRelatedItemsState>(.loading)
+    let placeholderMessage = Variable<String>("")
 
     var keyForTextCaching: String { return userDefaultsSubKey }
     
@@ -182,7 +183,7 @@ class ChatViewModel: BaseViewModel {
         }
     }
 
-    convenience init(conversation: ChatConversation, navigator: ChatDetailNavigator?, source: EventParameterTypePage) {
+    convenience init(conversation: ChatConversation, navigator: ChatDetailNavigator?, source: EventParameterTypePage, placeholderMessage: String) {
         let myUserRepository = Core.myUserRepository
         let chatRepository = Core.chatRepository
         let listingRepository = Core.listingRepository
@@ -195,12 +196,13 @@ class ChatViewModel: BaseViewModel {
         let keyValueStorage = KeyValueStorage.sharedInstance
         let ratingManager = LGRatingManager.sharedInstance
         let pushPermissionsManager = LGPushPermissionsManager.sharedInstance
+        let placeholderMessage = placeholderMessage
 
         self.init(conversation: conversation, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   listingRepository: listingRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository, tracker: tracker, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
-                  source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager)
+                  source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager, placeholderMessage: placeholderMessage)
     }
     
     convenience init?(listing: Listing, navigator: ChatDetailNavigator?, source: EventParameterTypePage) {
@@ -226,7 +228,7 @@ class ChatViewModel: BaseViewModel {
                   listingRepository: listingRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository ,tracker: tracker, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
-                  source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager)
+                  source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager, placeholderMessage: "")
         self.setupConversationFrom(listing: listing)
     }
     
@@ -234,7 +236,7 @@ class ChatViewModel: BaseViewModel {
           listingRepository: ListingRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
           tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, keyValueStorage: KeyValueStorageable,
           navigator: ChatDetailNavigator?, featureFlags: FeatureFlaggeable, source: EventParameterTypePage,
-          ratingManager: RatingManager, pushPermissionsManager: PushPermissionsManager) {
+          ratingManager: RatingManager, pushPermissionsManager: PushPermissionsManager, placeholderMessage: String) {
         self.conversation = Variable<ChatConversation>(conversation)
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
@@ -252,6 +254,7 @@ class ChatViewModel: BaseViewModel {
         self.chatViewMessageAdapter = ChatViewMessageAdapter()
         self.navigator = navigator
         self.source = source
+        self.placeholderMessage.value = placeholderMessage
         super.init()
         setupRx()
         loadStickers()

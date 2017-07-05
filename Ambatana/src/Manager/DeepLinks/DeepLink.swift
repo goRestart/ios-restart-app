@@ -43,6 +43,7 @@ enum DeepLinkAction {
     case user(userId: String)
     case conversations
     case conversation(data: ConversationData)
+    case conversationWithMessage(data: ConversationData, message: String)
     case message(messageType: DeepLinkMessageType, data: ConversationData)
     case search(query: String, categories: String?)
     case resetPassword(token: String)

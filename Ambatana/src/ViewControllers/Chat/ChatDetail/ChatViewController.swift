@@ -433,6 +433,8 @@ fileprivate extension ChatViewController {
                 break
             }
             }.addDisposableTo(disposeBag)
+        
+        viewModel.placeholderMessage.asObservable().bindTo(self.textView.rx.placeholder).addDisposableTo(disposeBag)
 
         Observable.combineLatest(viewModel.shouldShowReviewButton.asObservable(),
         viewModel.userReviewTooltipVisible.asObservable()) { $0 }

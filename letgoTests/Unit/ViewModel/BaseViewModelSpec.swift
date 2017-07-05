@@ -105,7 +105,7 @@ class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
     func openUser(_ data: UserDetailData) {}
     func openListing(_ data: ListingDetailData, source: EventParameterProductVisitSource,
                      showKeyboard: Bool, showShareSheet: Bool) {}
-    func openChat(_ data: ChatDetailData, source: EventParameterTypePage) {}
+    func openChat(_ data: ChatDetailData, source: EventParameterTypePage, placeholderMessage: String) {}
     func openVerifyAccounts(_ types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?) {}
     func openAppInvite() {}
     func canOpenAppInvite() -> Bool { return false }

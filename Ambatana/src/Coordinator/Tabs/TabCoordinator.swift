@@ -128,16 +128,16 @@ extension TabCoordinator: TabNavigator {
         }
     }
 
-    func openChat(_ data: ChatDetailData, source: EventParameterTypePage) {
+    func openChat(_ data: ChatDetailData, source: EventParameterTypePage, placeholderMessage: String) {
         switch data {
         case let .chatAPI(chat):
             openChat(chat, source: source)
         case let .conversation(conversation):
-            openConversation(conversation, source: source)
+            openConversation(conversation, source: source, placeholderMessage: placeholderMessage)
         case let .listingAPI(listing):
             openListingChat(listing)
         case let .dataIds(data):
-            openChatFromConversationData(data, source: source)
+            openChatFromConversationData(data, source: source, placeholderMessage: placeholderMessage)
         }
     }
 
@@ -311,8 +311,8 @@ fileprivate extension TabCoordinator {
         navigationController.pushViewController(vc, animated: true)
     }
 
-    func openConversation(_ conversation: ChatConversation, source: EventParameterTypePage) {
-        let vm = ChatViewModel(conversation: conversation, navigator: self, source: source)
+    func openConversation(_ conversation: ChatConversation, source: EventParameterTypePage, placeholderMessage: String) {
+        let vm = ChatViewModel(conversation: conversation, navigator: self, source: source, placeholderMessage: placeholderMessage)
         let vc = ChatViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
@@ -330,14 +330,14 @@ fileprivate extension TabCoordinator {
         }
     }
 
-    func openChatFromConversationData(_ data: ConversationData, source: EventParameterTypePage) {
+    func openChatFromConversationData(_ data: ConversationData, source: EventParameterTypePage, placeholderMessage: String) {
         navigationController.showLoadingMessageAlert()
 
         if featureFlags.websocketChat {
             let completion: ChatConversationCompletion = { [weak self] result in
                 self?.navigationController.dismissLoadingMessageAlert { [weak self] in
                     if let conversation = result.value {
-                        self?.openConversation(conversation, source: source)
+                        self?.openConversation(conversation, source: source, placeholderMessage: placeholderMessage)
                     } else if let error = result.error {
                         self?.showChatRetrieveError(error)
                     }
