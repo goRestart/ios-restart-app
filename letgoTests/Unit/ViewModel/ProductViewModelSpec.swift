@@ -196,7 +196,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                         listingRepository.productResult = ProductResult(savedProduct)
                         buildProductViewModel()
                         sut.switchFavorite()
-                        expect(isFavoriteObserver.eventValues.count).toEventually(equal(2))
+                        expect(isFavoriteObserver.eventValues).toEventually(equal([false, true]))
                     }
                     it("shows bubble up") {
                         expect(self.shownFavoriteBubble) == true
@@ -213,7 +213,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                         listingRepository.productResult = ProductResult(savedProduct)
                         buildProductViewModel()
                         sut.switchFavorite()
-                        expect(isFavoriteObserver.eventValues.count).toEventually(equal(2))
+                        expect(isFavoriteObserver.eventValues).toEventually(equal([true, false]))
                     }
                     it("does not show bubble up") {
                         expect(self.shownFavoriteBubble) == false
