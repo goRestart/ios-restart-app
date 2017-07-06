@@ -30,7 +30,6 @@ protocol FeatureFlaggeable: class {
     var pricedBumpUpEnabled: Bool { get }
     var productDetailNextRelated: Bool { get }
     var signUpLoginImprovement: SignUpLoginImprovement { get }
-    var periscopeRemovePredefinedText: Bool { get }
     var hideTabBarOnFirstSessionV2: Bool { get }
     var postingGallery: PostingGallery { get }
     var quickAnswersRepeatedTextField: Bool { get }
@@ -195,13 +194,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.signUpLoginImprovement
         }
         return SignUpLoginImprovement.fromPosition(abTests.signUpLoginImprovement.value)
-    }
-    
-    var periscopeRemovePredefinedText: Bool {
-        if Bumper.enabled {
-            return Bumper.periscopeRemovePredefinedText
-        }
-        return abTests.periscopeRemovePredefinedText.value
     }
     
     var postingGallery: PostingGallery {
