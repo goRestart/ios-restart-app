@@ -31,7 +31,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var pricedBumpUpEnabled: Bool = false
     var productDetailNextRelated: Bool = false
     var signUpLoginImprovement: SignUpLoginImprovement = .v1
-    var periscopeRemovePredefinedText: Bool = false
     var hideTabBarOnFirstSessionV2: Bool = false
     var postingGallery: PostingGallery = .singleSelection
     var quickAnswersRepeatedTextField: Bool = false

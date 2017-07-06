@@ -24,7 +24,6 @@ extension Bumper  {
         flags.append(OnboardingReview.self)
         flags.append(ProductDetailNextRelated.self)
         flags.append(SignUpLoginImprovement.self)
-        flags.append(PeriscopeRemovePredefinedText.self)
         flags.append(HideTabBarOnFirstSessionV2.self)
         flags.append(PostingGallery.self)
         flags.append(QuickAnswersRepeatedTextField.self)
@@ -92,11 +91,6 @@ extension Bumper  {
     static var signUpLoginImprovement: SignUpLoginImprovement {
         guard let value = Bumper.value(for: SignUpLoginImprovement.key) else { return .v1 }
         return SignUpLoginImprovement(rawValue: value) ?? .v1 
-    }
-
-    static var periscopeRemovePredefinedText: Bool {
-        guard let value = Bumper.value(for: PeriscopeRemovePredefinedText.key) else { return false }
-        return PeriscopeRemovePredefinedText(rawValue: value)?.asBool ?? false
     }
 
     static var hideTabBarOnFirstSessionV2: Bool {
@@ -268,15 +262,6 @@ enum SignUpLoginImprovement: String, BumperFeature  {
             default: return .v1
         }
     }
-}
-
-enum PeriscopeRemovePredefinedText: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return PeriscopeRemovePredefinedText.no.rawValue }
-    static var enumValues: [PeriscopeRemovePredefinedText] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Product detail remove chat text on tap" } 
-    var asBool: Bool { return self == .yes }
 }
 
 enum HideTabBarOnFirstSessionV2: String, BumperFeature  {
