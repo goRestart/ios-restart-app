@@ -26,7 +26,6 @@ extension Bumper  {
         flags.append(SignUpLoginImprovement.self)
         flags.append(HideTabBarOnFirstSessionV2.self)
         flags.append(PostingGallery.self)
-        flags.append(QuickAnswersRepeatedTextField.self)
         flags.append(CarsVerticalEnabled.self)
         flags.append(CarsCategoryAfterPicture.self)
         flags.append(NewMarkAsSoldFlow.self)
@@ -101,11 +100,6 @@ extension Bumper  {
     static var postingGallery: PostingGallery {
         guard let value = Bumper.value(for: PostingGallery.key) else { return .singleSelection }
         return PostingGallery(rawValue: value) ?? .singleSelection 
-    }
-
-    static var quickAnswersRepeatedTextField: Bool {
-        guard let value = Bumper.value(for: QuickAnswersRepeatedTextField.key) else { return false }
-        return QuickAnswersRepeatedTextField(rawValue: value)?.asBool ?? false
     }
 
     static var carsVerticalEnabled: Bool {
@@ -289,15 +283,6 @@ enum PostingGallery: String, BumperFeature  {
             default: return .singleSelection
         }
     }
-}
-
-enum QuickAnswersRepeatedTextField: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return QuickAnswersRepeatedTextField.no.rawValue }
-    static var enumValues: [QuickAnswersRepeatedTextField] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Quick anwers periscope include the one as textfield placeholder" } 
-    var asBool: Bool { return self == .yes }
 }
 
 enum CarsVerticalEnabled: String, BumperFeature  {

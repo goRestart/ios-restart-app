@@ -32,7 +32,6 @@ protocol FeatureFlaggeable: class {
     var signUpLoginImprovement: SignUpLoginImprovement { get }
     var hideTabBarOnFirstSessionV2: Bool { get }
     var postingGallery: PostingGallery { get }
-    var quickAnswersRepeatedTextField: Bool { get }
     var carsVerticalEnabled: Bool { get }
     var carsCategoryAfterPicture: Bool { get }
     var newMarkAsSoldFlow: Bool { get }
@@ -208,13 +207,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.hideTabBarOnFirstSessionV2
         }
         return abTests.hideTabBarOnFirstSessionV2.value
-    }
-    
-    var quickAnswersRepeatedTextField: Bool {
-        if Bumper.enabled {
-            return Bumper.quickAnswersRepeatedTextField
-        }
-        return abTests.quickAnswersRepeatedTextField.value
     }
     
     var carsVerticalEnabled: Bool {
