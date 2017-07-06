@@ -21,25 +21,13 @@ final class TourLoginViewModel: BaseViewModel {
     weak var delegate: TourLoginViewModelDelegate?
 
     private let signUpViewModel: SignUpViewModel
-    private let featureFlags: FeatureFlaggeable
-    private let abTestSyncTimeout: TimeInterval
 
     private let disposeBag = DisposeBag()
 
-    convenience init(signUpViewModel: SignUpViewModel, featureFlags: FeatureFlaggeable) {
-        self.init(signUpViewModel: signUpViewModel, featureFlags: featureFlags, syncTimeout: Constants.abTestSyncTimeout)
-    }
-
-    init(signUpViewModel: SignUpViewModel, featureFlags: FeatureFlaggeable, syncTimeout: TimeInterval) {
+    init(signUpViewModel: SignUpViewModel) {
         self.signUpViewModel = signUpViewModel
-        self.featureFlags = featureFlags
-        self.abTestSyncTimeout = syncTimeout
         super.init()
         self.signUpViewModel.delegate = self
-    }
-
-    func closeButtonPressed() {
-        nextStep()
     }
 
     func facebookButtonPressed() {
@@ -57,26 +45,14 @@ final class TourLoginViewModel: BaseViewModel {
     func textUrlPressed(url: URL) {
         delegate?.vmOpenInternalURL(url)
     }
-
-
-    // MARK: - Private
-
-    fileprivate func nextStep() {
-        navigator?.tourLoginFinish()
-    }
 }
 
 
 // MARK: - SignUpViewModelDelegate
 
 extension TourLoginViewModel: SignUpViewModelDelegate {
-    func vmPop() {
-        nextStep()
-    }
-    func vmDismiss(_ completion: (() -> Void)?) {
-        nextStep()
-        completion?()
-    }
+    func vmPop() { }
+    func vmDismiss(_ completion: (() -> Void)?) { }
 
     // BaseViewModelDelegate forwarding methods
 

@@ -60,7 +60,7 @@ final class OnboardingCoordinator: Coordinator, ChangePasswordPresenter {
             let signUpVM = SignUpViewModel(appearance: .dark,
                                            source: .install)
             signUpVM.navigator = strongSelf
-            let tourVM = TourLoginViewModel(signUpViewModel: signUpVM, featureFlags: strongSelf.featureFlags)
+            let tourVM = TourLoginViewModel(signUpViewModel: signUpVM)
             tourVM.navigator = strongSelf
             let tourVC = TourLoginViewController(viewModel: tourVM)
             strongSelf.presentedViewControllers.append(tourVC)

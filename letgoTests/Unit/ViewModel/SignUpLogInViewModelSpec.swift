@@ -47,7 +47,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                 sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository: installationRepository,
                     locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                     fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
-                    locale: locale, source: .install, collapsedEmailParam: nil, action: .signup)
+                    locale: locale, source: .install, action: .signup)
                 sut.delegate = self
                 sut.navigator = self
 
@@ -88,7 +88,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                         sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
                             locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
-                            locale: locale, source: .install, collapsedEmailParam: nil, action: .signup)
+                            locale: locale, source: .install, action: .signup)
                     }
 
                     it("has an email") {
@@ -111,7 +111,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                         sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
                             locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
-                            locale: locale , source: .install, collapsedEmailParam: nil, action: .signup)
+                            locale: locale , source: .install, action: .signup)
                     }
 
                     it("has an empty email") {
@@ -134,7 +134,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                         sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
                             locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
-                            locale: locale , source: .install, collapsedEmailParam: nil, action: .signup)
+                            locale: locale , source: .install, action: .signup)
                     }
 
                     it("has an empty email") {
@@ -154,7 +154,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                         sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
                             locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
-                            locale: locale , source: .install, collapsedEmailParam: nil, action: .signup)
+                            locale: locale , source: .install, action: .signup)
                     }
 
                     it("has terms and conditions enabled") {
@@ -169,7 +169,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                         sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
                             locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
-                            locale: locale , source: .install, collapsedEmailParam: nil, action: .signup)
+                            locale: locale , source: .install, action: .signup)
                     }
 
                     it("has terms and conditions enabled") {
@@ -184,7 +184,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                         sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
                             locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
-                            locale: locale , source: .install, collapsedEmailParam: nil, action: .signup)
+                            locale: locale , source: .install, action: .signup)
                     }
 
                     it("has terms and conditions false") {

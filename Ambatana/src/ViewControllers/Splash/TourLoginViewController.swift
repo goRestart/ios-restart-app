@@ -47,10 +47,6 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
         self.viewModel.delegate = self
         modalPresentationStyle = .overCurrentContext
         modalTransitionStyle = .crossDissolve
-
-        let closeButton = UIBarButtonItem(image: UIImage(named: "ic_close"), style: .plain, target: self,
-            action: #selector(TourLoginViewController.closeButtonPressed(_:)))
-        navigationItem.leftBarButtonItem = closeButton
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -79,10 +75,6 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
 
     // MARK: - IBActions
     
-    @IBAction func closeButtonPressed(_ sender: AnyObject) {
-        viewModel.closeButtonPressed()
-    }
-
     @IBAction func facebookButtonPressed(_ sender: AnyObject) {
         viewModel.facebookButtonPressed()
     }

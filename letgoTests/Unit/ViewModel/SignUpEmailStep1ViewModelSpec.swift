@@ -41,7 +41,6 @@ class SignUpEmailStep1ViewModelSpec: BaseViewModelSpec {
                 sut = SignUpEmailStep1ViewModel(email: nil,
                                                 isRememberedEmail: false,
                                                 source: .sell,
-                                                collapsedEmail: nil,
                                                 keyValueStorage: keyValueStorage,
                                                 tracker: tracker)
                 sut.email.asObservable().subscribeNext { newEmail in

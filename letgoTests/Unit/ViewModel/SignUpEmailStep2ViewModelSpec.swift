@@ -52,7 +52,7 @@ class SignUpEmailStep2ViewModelSpec: BaseViewModelSpec {
                 installationRepository = MockInstallationRepository()
                 installationRepository.installationVar.value = MockInstallation.makeMock()
                 sut = SignUpEmailStep2ViewModel(email: email, isRememberedEmail: false, password: "654321",
-                                                source: .sell, collapsedEmail: nil,
+                                                source: .sell,
                                                 sessionManager: sessionManager,
                                                 installationRepository: installationRepository,
                                                 keyValueStorage: keyValueStorage,
