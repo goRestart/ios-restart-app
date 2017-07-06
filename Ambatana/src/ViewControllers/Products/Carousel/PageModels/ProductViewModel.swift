@@ -727,10 +727,7 @@ fileprivate extension ProductViewModel {
                 }
                 strongSelf.favoriteButtonState.value = .enabled
             }
-
-            if featureFlags.shouldContactSellerOnFavorite {
-                navigator?.showProductFavoriteBubble(with: favoriteBubbleNotificationData())
-            }
+            navigator?.showProductFavoriteBubble(with: favoriteBubbleNotificationData())
         }
     }
   

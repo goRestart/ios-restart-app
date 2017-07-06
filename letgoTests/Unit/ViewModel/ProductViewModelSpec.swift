@@ -195,33 +195,14 @@ class ProductViewModelSpec: BaseViewModelSpec {
                         savedProduct.favorite = true
                         listingRepository.productResult = ProductResult(savedProduct)
                         buildProductViewModel()
+                        sut.switchFavorite()
+                        expect(isFavoriteObserver.eventValues.count).toEventually(equal(2))
                     }
-                    context("Contact the seller AB test enabled"){
-                        beforeEach {
-                            featureFlags.shouldContactSellerOnFavorite = true
-                            sut.switchFavorite()
-                            expect(isFavoriteObserver.eventValues.count).toEventually(equal(2))
-                        }
-                        it("shows bubble up") {
-                            expect(self.shownFavoriteBubble) == true
-                        }
-                        it("favorite value is true") {
-                            expect(isFavoriteObserver.lastValue) == true
-                        }
+                    it("shows bubble up") {
+                        expect(self.shownFavoriteBubble) == true
                     }
-                    context("Contact the seller AB test disabled"){
-                        beforeEach {
-                            featureFlags.shouldContactSellerOnFavorite = false
-                            sut.switchFavorite()
-                            expect(isFavoriteObserver.eventValues.count).toEventually(equal(2))
-                        }
-
-                        it("does not show bubble up") {
-                            expect(self.shownFavoriteBubble) == false
-                        }
-                        it("favorite value is true") {
-                            expect(isFavoriteObserver.lastValue) == true
-                        }
+                    it("favorite value is true") {
+                        expect(isFavoriteObserver.lastValue) == true
                     }
                 }
 
@@ -231,36 +212,14 @@ class ProductViewModelSpec: BaseViewModelSpec {
                         savedProduct.favorite = false
                         listingRepository.productResult = ProductResult(savedProduct)
                         buildProductViewModel()
+                        sut.switchFavorite()
+                        expect(isFavoriteObserver.eventValues.count).toEventually(equal(2))
                     }
-
-                    context("Contact the seller AB test enabled"){
-                        beforeEach {
-                            featureFlags.shouldContactSellerOnFavorite = true
-                            sut.switchFavorite()
-                            expect(isFavoriteObserver.eventValues.count).toEventually(equal(2))
-                        }
-                        
-                        it("does not show bubble up") {
-                            expect(self.shownFavoriteBubble) == false
-                        }
-                        it("favorite value is true") {
-                            expect(isFavoriteObserver.lastValue) == false
-                        }
+                    it("does not show bubble up") {
+                        expect(self.shownFavoriteBubble) == false
                     }
-
-                    context("Contact the seller AB test disabled"){
-                        beforeEach {
-                            featureFlags.shouldContactSellerOnFavorite = false
-                            sut.switchFavorite()
-                            expect(isFavoriteObserver.eventValues.count).toEventually(equal(2))
-                        }
-
-                        it("does not show bubble up") {
-                            expect(self.shownFavoriteBubble) == false
-                        }
-                        it("favorite value is true") {
-                            expect(isFavoriteObserver.lastValue) == false
-                        }
+                    it("favorite value is true") {
+                        expect(isFavoriteObserver.lastValue) == false
                     }
                 }
             }
