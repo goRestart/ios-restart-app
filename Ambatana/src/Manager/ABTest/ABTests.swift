@@ -21,7 +21,6 @@ class ABTests {
 
     let websocketChat = BoolABDynamicVar(key: "websocketChat20170609", defaultValue: false)
     let userReviews = BoolABDynamicVar(key: "userReviews", defaultValue: false)
-    let contactSellerOnFavorite = BoolABDynamicVar(key: "contactSellerOnFavorite", defaultValue: false)
     let captchaTransparent = BoolABDynamicVar(key: "captchaTransparent", defaultValue: false)
     let passiveBuyersShowKeyboard = BoolABDynamicVar(key: "passiveBuyersShowKeyboard", defaultValue: false)
     let onboardingReview = IntABDynamicVar(key: "onboardingReview", defaultValue: 0)
@@ -56,7 +55,6 @@ class ABTests {
 
         result.append(websocketChat)
         result.append(userReviews)
-        result.append(contactSellerOnFavorite)
         result.append(passiveBuyersShowKeyboard)
         result.append(captchaTransparent)
         result.append(onboardingReview)

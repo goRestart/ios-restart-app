@@ -24,7 +24,6 @@ class MockFeatureFlags: FeatureFlaggeable {
 
     var websocketChat: Bool = false
     var userReviews: Bool = false
-    var shouldContactSellerOnFavorite: Bool = false
     var captchaTransparent: Bool = false
     var passiveBuyersShowKeyboard: Bool = false
     var onboardingReview: OnboardingReview = .testA
