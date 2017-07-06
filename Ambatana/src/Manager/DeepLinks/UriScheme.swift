@@ -65,7 +65,7 @@ struct UriScheme {
                 source: source, cardActionParameter: cardActionParameter))
         case .chat:
             if let conversationId = params["c"], let message = params["m"] {
-                // letgo://chat/?p=12345&m=abcde where p=product_id, m=message
+                // letgo://chat/?c=12345&m=abcde where c=conversation_id, m=message
                 return UriScheme(deepLink: DeepLink.link(.conversationWithMessage(data: .conversation(conversationId: conversationId), message: message),
                                                          campaign: campaign, medium: medium, source: source, cardActionParameter: cardActionParameter))
             } else if let conversationId = params["c"] {
@@ -113,9 +113,9 @@ enum UriSchemeHost: String {
     case sell = "sell"
     case product = "product"
     case products = "products"
-    case productShare = "product_share"
-    case productBumpUp = "product_bump_up"
-    case productMarkAsSold = "product_mark_as_sold"
+    case productShare = "products_share"
+    case productBumpUp = "products_bump_up"
+    case productMarkAsSold = "products_mark_as_sold"
     case user = "users"
     case chat = "chat"
     case chats = "chats"
