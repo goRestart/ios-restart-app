@@ -893,11 +893,9 @@ struct EventParameters {
         }
     }
     
-    internal mutating func addLoginParams(_ source: EventParameterLoginSourceValue, rememberedAccount: Bool? = nil,
-                                          collapsedEmail: EventParameterBoolean? = nil) {
+    internal mutating func addLoginParams(_ source: EventParameterLoginSourceValue, rememberedAccount: Bool? = nil) {
         params[.loginSource] = source.rawValue
         params[.loginRememberedAccount] = rememberedAccount
-        params[.collapsedEmailField] = collapsedEmail?.rawValue
     }
     
     internal mutating func addProductParams(_ product: Product) {

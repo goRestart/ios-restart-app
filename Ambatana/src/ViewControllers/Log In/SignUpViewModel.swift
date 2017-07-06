@@ -62,7 +62,6 @@ class SignUpViewModel: BaseViewModel {
     fileprivate let tracker: Tracker
     let appearance: LoginAppearance
     fileprivate let loginSource: EventParameterLoginSourceValue
-    var collapsedEmailTrackingParam: EventParameterBoolean? = nil
 
     private let googleLoginHelper: ExternalAuthHelper
     private let fbLoginHelper: ExternalAuthHelper
@@ -130,11 +129,11 @@ class SignUpViewModel: BaseViewModel {
     }
 
     func signUpButtonPressed() {
-        navigator?.openSignUpEmailFromMainSignUp(collapsedEmailParam: collapsedEmailTrackingParam)
+        navigator?.openSignUpEmailFromMainSignUp()
     }
 
     func logInButtonPressed() {
-        navigator?.openLogInEmailFromMainSignUp(collapsedEmailParam: collapsedEmailTrackingParam)
+        navigator?.openLogInEmailFromMainSignUp()
     }
 
     func helpButtonPressed() {
@@ -221,8 +220,7 @@ class SignUpViewModel: BaseViewModel {
 
     private func trackLoginFBOK() {
         let rememberedAccount = previousFacebookUsername.value != nil
-        tracker.trackEvent(TrackerEvent.loginFB(loginSource, rememberedAccount: rememberedAccount,
-                                                collapsedEmail: collapsedEmailTrackingParam))
+        tracker.trackEvent(TrackerEvent.loginFB(loginSource, rememberedAccount: rememberedAccount))
     }
 
     private func trackLoginFBFailedWithError(_ error: EventParameterLoginError) {
@@ -231,8 +229,7 @@ class SignUpViewModel: BaseViewModel {
 
     private func trackLoginGoogleOK() {
         let rememberedAccount = previousGoogleUsername.value != nil
-        tracker.trackEvent(TrackerEvent.loginGoogle(loginSource, rememberedAccount: rememberedAccount,
-                                                    collapsedEmail: collapsedEmailTrackingParam))
+        tracker.trackEvent(TrackerEvent.loginGoogle(loginSource, rememberedAccount: rememberedAccount))
     }
 
     private func trackLoginGoogleFailedWithError(_ error: EventParameterLoginError) {

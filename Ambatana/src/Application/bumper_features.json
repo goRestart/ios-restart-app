@@ -41,11 +41,6 @@
         "description": "Passive buyers products suggested notification opens product with keyboard opened"
     },
     {
-        "name": "OnboardingReview",
-        "values": ["testA", "testB", "testC", "testD"],
-        "description": "Onboarding Review A/B/C/D"
-    },
-    {
         "name": "ProductDetailNextRelated",
         "values": ["no", "yes"],
         "description": "Item page next item related"

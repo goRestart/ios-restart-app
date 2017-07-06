@@ -25,7 +25,6 @@ protocol FeatureFlaggeable: class {
     var userReviews: Bool { get }
     var captchaTransparent: Bool { get }
     var passiveBuyersShowKeyboard: Bool { get }
-    var onboardingReview: OnboardingReview { get }
     var freeBumpUpEnabled: Bool { get }
     var pricedBumpUpEnabled: Bool { get }
     var productDetailNextRelated: Bool { get }
@@ -158,13 +157,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.passiveBuyersShowKeyboard
         }
         return abTests.passiveBuyersShowKeyboard.value
-    }
-
-    var onboardingReview: OnboardingReview {
-        if Bumper.enabled {
-            return Bumper.onboardingReview
-        }
-        return OnboardingReview.fromPosition(abTests.onboardingReview.value)
     }
 
     var freeBumpUpEnabled: Bool {
