@@ -23,7 +23,6 @@ protocol FeatureFlaggeable: class {
 
     var websocketChat: Bool { get }
     var userReviews: Bool { get }
-    var shouldContactSellerOnFavorite: Bool { get }
     var captchaTransparent: Bool { get }
     var passiveBuyersShowKeyboard: Bool { get }
     var onboardingReview: OnboardingReview { get }
@@ -31,10 +30,8 @@ protocol FeatureFlaggeable: class {
     var pricedBumpUpEnabled: Bool { get }
     var productDetailNextRelated: Bool { get }
     var signUpLoginImprovement: SignUpLoginImprovement { get }
-    var periscopeRemovePredefinedText: Bool { get }
     var hideTabBarOnFirstSessionV2: Bool { get }
     var postingGallery: PostingGallery { get }
-    var quickAnswersRepeatedTextField: Bool { get }
     var carsVerticalEnabled: Bool { get }
     var carsCategoryAfterPicture: Bool { get }
     var newMarkAsSoldFlow: Bool { get }
@@ -148,13 +145,6 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return abTests.surveyEnabled.value
     }
-    
-    var shouldContactSellerOnFavorite: Bool {
-        if Bumper.enabled {
-            return Bumper.contactSellerOnFavorite
-        }
-        return abTests.contactSellerOnFavorite.value
-    }
 
     var captchaTransparent: Bool {
         if Bumper.enabled {
@@ -205,13 +195,6 @@ class FeatureFlags: FeatureFlaggeable {
         return SignUpLoginImprovement.fromPosition(abTests.signUpLoginImprovement.value)
     }
     
-    var periscopeRemovePredefinedText: Bool {
-        if Bumper.enabled {
-            return Bumper.periscopeRemovePredefinedText
-        }
-        return abTests.periscopeRemovePredefinedText.value
-    }
-    
     var postingGallery: PostingGallery {
         if Bumper.enabled {
             return Bumper.postingGallery
@@ -224,13 +207,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.hideTabBarOnFirstSessionV2
         }
         return abTests.hideTabBarOnFirstSessionV2.value
-    }
-    
-    var quickAnswersRepeatedTextField: Bool {
-        if Bumper.enabled {
-            return Bumper.quickAnswersRepeatedTextField
-        }
-        return abTests.quickAnswersRepeatedTextField.value
     }
     
     var carsVerticalEnabled: Bool {

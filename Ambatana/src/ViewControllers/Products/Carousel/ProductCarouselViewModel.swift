@@ -61,8 +61,6 @@ class ProductCarouselViewModel: BaseViewModel {
     var shouldShowMoreInfoTooltip: Bool {
         return !keyValueStorage[.productMoreInfoTooltipDismissed]
     }
-
-    let shouldClearTextWhenBeginEditing: Bool
     
     let actionOnFirstAppear: ProductCarouselActionOnFirstAppear
 
@@ -219,7 +217,6 @@ class ProductCarouselViewModel: BaseViewModel {
         self.productListRequester = productListRequester
         self.source = source
         self.actionOnFirstAppear = actionOnFirstAppear
-        self.shouldClearTextWhenBeginEditing = featureFlags.periscopeRemovePredefinedText
         self.quickAnswersCollapsed = Variable<Bool>(keyValueStorage[.productDetailQuickAnswersHidden])
         self.keyValueStorage = keyValueStorage
         self.imageDownloader = imageDownloader

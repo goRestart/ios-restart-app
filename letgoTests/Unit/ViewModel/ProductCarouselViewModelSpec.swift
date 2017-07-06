@@ -279,7 +279,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                                 expect(quickAnswersAvailableObserver.eventValues) == [true] //first product
                             }
                             it("correct quick answers are present") {
-                                let expectedAnswers: [QuickAnswer] = [.interested, .likeToBuy, .isNegotiable, .meetUp]
+                                let expectedAnswers: [QuickAnswer] = [.stillAvailable, .isNegotiable, .productCondition]
                                 expect(quickAnswersObserver.lastValue?.map { $0.text }) == expectedAnswers.map { $0.text }
                             }
                         }
