@@ -137,21 +137,13 @@ extension LoginCoordinator: MainSignUpNavigator {
 
     func openSignUpEmailFromMainSignUp() {
         let vc: UIViewController
-
-        switch featureFlags.signUpLoginImprovement {
-        case .v1, .v1WImprovements:
-            let vm = SignUpLogInViewModel(source: source, action: .signup)
-            vm.navigator = self
-            vc = SignUpLogInViewController(viewModel: vm,
+        let vm = SignUpLogInViewModel(source: source, action: .signup)
+        vm.navigator = self
+        vc = SignUpLogInViewController(viewModel: vm,
                                            appearance: .light,
                                            keyboardFocus: false)
-            recaptchaTokenDelegate = vm
-        case .v2:
-            let vm = SignUpEmailStep1ViewModel(source: source)
-            vm.navigator = self
+        recaptchaTokenDelegate = vm
 
-            vc = SignUpEmailStep1ViewController(viewModel: vm, appearance: .light, backgroundImage: nil)
-        }
 
         switch style {
         case .fullScreen:
@@ -171,20 +163,11 @@ extension LoginCoordinator: MainSignUpNavigator {
     func openLogInEmailFromMainSignUp() {
         let vc: UIViewController
 
-        switch featureFlags.signUpLoginImprovement {
-        case .v1, .v1WImprovements:
-            let vm = SignUpLogInViewModel(source: source, action: .login)
-            vm.navigator = self
-            vc = SignUpLogInViewController(viewModel: vm, appearance: .light, keyboardFocus: false)
+        let vm = SignUpLogInViewModel(source: source, action: .login)
+        vm.navigator = self
+        vc = SignUpLogInViewController(viewModel: vm, appearance: .light, keyboardFocus: false)
 
-            recaptchaTokenDelegate = vm
-        case .v2:
-            let vm = LogInEmailViewModel(source: source)
-            vm.navigator = self
-            vc = LogInEmailViewController(viewModel: vm,
-                                          appearance: .light,
-                                          backgroundImage: nil)
-        }
+        recaptchaTokenDelegate = vm
 
         switch style {
         case .fullScreen:

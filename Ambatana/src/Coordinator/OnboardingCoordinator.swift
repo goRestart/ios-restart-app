@@ -211,22 +211,12 @@ extension OnboardingCoordinator: MainSignUpNavigator {
     func openSignUpEmailFromMainSignUp() {
         let vc: UIViewController
 
-        switch featureFlags.signUpLoginImprovement {
-        case .v1, .v1WImprovements:
-            let vm = SignUpLogInViewModel(source: .install, action: .signup)
-            vm.navigator = self
-            vc = SignUpLogInViewController(viewModel: vm,
+        let vm = SignUpLogInViewModel(source: .install, action: .signup)
+        vm.navigator = self
+        vc = SignUpLogInViewController(viewModel: vm,
                                            appearance: .dark,
                                            keyboardFocus: true)
-            recaptchaTokenDelegate = vm
-        case .v2:
-            let vm = SignUpEmailStep1ViewModel(source: .install)
-            vm.navigator = self
-
-            vc = SignUpEmailStep1ViewController(viewModel: vm,
-                                                appearance: .dark,
-                                                backgroundImage: loginV2BackgroundImage)
-        }
+        recaptchaTokenDelegate = vm
 
         let navCtl = UINavigationController(rootViewController: vc)
         navCtl.modalPresentationStyle = .custom
