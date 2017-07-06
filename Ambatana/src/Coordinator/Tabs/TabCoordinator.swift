@@ -128,16 +128,16 @@ extension TabCoordinator: TabNavigator {
         }
     }
 
-    func openChat(_ data: ChatDetailData, source: EventParameterTypePage, placeholderMessage: String) {
+    func openChat(_ data: ChatDetailData, source: EventParameterTypePage, predefinedMessage: String) {
         switch data {
         case let .chatAPI(chat):
             openChat(chat, source: source)
         case let .conversation(conversation):
-            openConversation(conversation, source: source, placeholderMessage: placeholderMessage)
+            openConversation(conversation, source: source, predefinedMessage: predefinedMessage)
         case let .listingAPI(listing):
             openListingChat(listing)
         case let .dataIds(data):
-            openChatFromConversationData(data, source: source, placeholderMessage: placeholderMessage)
+            openChatFromConversationData(data, source: source, predefinedMessage: predefinedMessage)
         }
     }
 
@@ -311,8 +311,8 @@ fileprivate extension TabCoordinator {
         navigationController.pushViewController(vc, animated: true)
     }
 
-    func openConversation(_ conversation: ChatConversation, source: EventParameterTypePage, placeholderMessage: String) {
-        let vm = ChatViewModel(conversation: conversation, navigator: self, source: source, placeholderMessage: placeholderMessage)
+    func openConversation(_ conversation: ChatConversation, source: EventParameterTypePage, predefinedMessage: String) {
+        let vm = ChatViewModel(conversation: conversation, navigator: self, source: source, predefinedMessage: predefinedMessage)
         let vc = ChatViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
@@ -330,14 +330,14 @@ fileprivate extension TabCoordinator {
         }
     }
 
-    func openChatFromConversationData(_ data: ConversationData, source: EventParameterTypePage, placeholderMessage: String) {
+    func openChatFromConversationData(_ data: ConversationData, source: EventParameterTypePage, predefinedMessage: String) {
         navigationController.showLoadingMessageAlert()
 
         if featureFlags.websocketChat {
             let completion: ChatConversationCompletion = { [weak self] result in
                 self?.navigationController.dismissLoadingMessageAlert { [weak self] in
                     if let conversation = result.value {
-                        self?.openConversation(conversation, source: source, placeholderMessage: placeholderMessage)
+                        self?.openConversation(conversation, source: source, predefinedMessage: predefinedMessage)
                     } else if let error = result.error {
                         self?.showChatRetrieveError(error)
                     }

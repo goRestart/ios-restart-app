@@ -91,13 +91,13 @@ class ChatViewModelSpec: BaseViewModelSpec {
                 userRepository.emptyResult = UserVoidResult(value: Void())
 
                 conversation = chatConversation
-                let placeholderMessage = String.makeRandom()
+                let predefinedMessage = String.makeRandom()
                 sut = ChatViewModel(conversation: conversation, myUserRepository: myUserRepository,
                                     chatRepository: chatRepository, listingRepository: listingRepository,
                                     userRepository: userRepository, stickersRepository: stickersRepository,
                                     tracker: tracker, configManager: configManager, sessionManager: sessionManager,
                                     keyValueStorage: keyValueStorage, navigator: nil, featureFlags: featureFlags,
-                                    source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionManager, placeholderMessage: placeholderMessage)
+                                    source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionManager, predefinedMessage: predefinedMessage)
                 
                 sut.delegate = self
                 disposeBag = DisposeBag()

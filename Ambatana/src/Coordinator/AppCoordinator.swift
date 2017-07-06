@@ -602,19 +602,19 @@ fileprivate extension AppCoordinator {
         case let .conversation(data):
             afterDelayClosure = { [weak self] in
                 self?.openTab(.chats, force: false) { [weak self] in
-                    self?.chatsTabBarCoordinator.openChat(.dataIds(data: data), source:.external, placeholderMessage: "")
+                    self?.chatsTabBarCoordinator.openChat(.dataIds(data: data), source:.external, predefinedMessage: "")
                 }
             }
         case let .conversationWithMessage(data: data, message: message):
             afterDelayClosure = { [weak self] in
                 self?.openTab(.chats, force: false) { [weak self] in
-                    self?.chatsTabBarCoordinator.openChat(.dataIds(data: data), source:.external, placeholderMessage: message)
+                    self?.chatsTabBarCoordinator.openChat(.dataIds(data: data), source:.external, predefinedMessage: message)
                 }
             }
         case .message(_, let data):
             afterDelayClosure = { [weak self] in
                 self?.openTab(.chats, force: false) { [weak self] in
-                    self?.chatsTabBarCoordinator.openChat(.dataIds(data: data), source: .external, placeholderMessage: "")
+                    self?.chatsTabBarCoordinator.openChat(.dataIds(data: data), source: .external, predefinedMessage: "")
                 }
             }
         case .search(let query, let categories):
@@ -743,7 +743,7 @@ fileprivate extension AppCoordinator {
                 let action = UIAction(interface: .text(LGLocalizedString.appNotificationReply), action: { [weak self] in
                     self?.tracker.trackEvent(TrackerEvent.inappChatNotificationComplete())
                     self?.openTab(.chats, force: false) { [weak self] in
-                        self?.selectedTabCoordinator?.openChat(.conversation(conversation: conversation), source: .inAppNotification, placeholderMessage: "")
+                        self?.selectedTabCoordinator?.openChat(.conversation(conversation: conversation), source: .inAppNotification, predefinedMessage: "")
                     }
                 })
                 let data = BubbleNotificationData(tagGroup: conversationId,
@@ -758,7 +758,7 @@ fileprivate extension AppCoordinator {
             let action = UIAction(interface: .text(LGLocalizedString.appNotificationReply), action: { [weak self] in
                 self?.tracker.trackEvent(TrackerEvent.inappChatNotificationComplete())
                 self?.openTab(.chats, force: false) { [weak self] in
-                    self?.selectedTabCoordinator?.openChat(.dataIds(data: data), source: .inAppNotification, placeholderMessage: "")
+                    self?.selectedTabCoordinator?.openChat(.dataIds(data: data), source: .inAppNotification, predefinedMessage: "")
                 }
             })
             let data = BubbleNotificationData(tagGroup: conversationId,
