@@ -33,7 +33,7 @@ struct DeepLink {
     }
 }
 
-enum DeepLinkAction {
+enum DeepLinkAction: Equatable {
     case home
     case sell
     case product(productId: String)
@@ -51,6 +51,47 @@ enum DeepLinkAction {
     case userRating(ratingId: String)
     case passiveBuyers(productId: String)
     case notificationCenter
+    
+    static public func ==(lhs: DeepLinkAction, rhs: DeepLinkAction) -> Bool {
+        switch (lhs, rhs) {
+        case (.home, .home):
+            return true
+        case (.sell, .sell):
+            return true
+        case (.product(let lhsDetail), .product(let rhsDetail)):
+            return lhsDetail == rhsDetail
+        case (.productShare(let lhsDetail), .productShare(let rhsDetail)):
+            return lhsDetail == rhsDetail
+        case (.productBumpUp(let lhsDetail), .productBumpUp(let rhsDetail)):
+            return lhsDetail == rhsDetail
+        case (.productMarkAsSold(let lhsDetail), .productMarkAsSold(let rhsDetail)):
+            return lhsDetail == rhsDetail
+        case (.user(let lhsUser), .user(let rhsUser)):
+            return lhsUser == rhsUser
+        case (.conversations, .conversations):
+            return true
+        case (.conversation(let lhsData), .conversation(let rhsData)):
+            return lhsData == rhsData
+        case (.conversationWithMessage(let lhsData, let lhsMessage), .conversationWithMessage(let rhsData, let rhsMessage)):
+            return lhsData == rhsData && lhsMessage == rhsMessage
+        case (.message(let lhsMessageType, let lhsData), .message(let rhsMessageType, let rhsData)):
+            return lhsMessageType == rhsMessageType && lhsData == rhsData
+        case (.search(let lhsQuery, let lhsCategories), .search(let rhsQuery, let rhsCategories)):
+            return lhsQuery == rhsQuery && lhsCategories == rhsCategories
+        case (.resetPassword(let lhsToken), .resetPassword(let rhsToken)):
+            return lhsToken == rhsToken
+        case (.userRatings, .userRatings):
+            return true
+        case (.userRating(let lhsRatingId), .userRating(let rhsRatingId)):
+            return lhsRatingId == rhsRatingId
+        case (.passiveBuyers(let lhsProductId), .passiveBuyers(let rhsProductId)):
+            return lhsProductId == rhsProductId
+        case (.notificationCenter, .notificationCenter):
+            return true
+        default:
+            return false
+        }
+    }
 }
 
 enum DeepLinkOrigin {
@@ -100,6 +141,17 @@ enum DeepLinkSource {
 enum ConversationData {
     case conversation(conversationId: String)
     case productBuyer(productId: String, buyerId: String)
+    
+    static public func ==(lhs: ConversationData, rhs: ConversationData) -> Bool {
+        switch (lhs, rhs) {
+        case (.conversation(let lhsConversationId), .conversation(let rhsConversationId)):
+            return lhsConversationId == rhsConversationId
+        case (.productBuyer(let lhsProductId, let lhsBuyerId), .productBuyer(let rhsProductId, let rhsBuyerId)):
+            return lhsProductId == rhsProductId && lhsBuyerId == rhsBuyerId
+        default:
+            return false
+        }
+    }
 }
 
 protocol ConversationDataDisplayer {

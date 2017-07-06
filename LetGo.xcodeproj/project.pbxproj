@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0178CBD81F0E463D00620BA6 /* UriSchemeSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0178CBD71F0E463D00620BA6 /* UriSchemeSpec.swift */; };
 		017E35481F0D2AD200B84AEC /* UITextView+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017E35471F0D2AD200B84AEC /* UITextView+Rx.swift */; };
 		017E35491F0D2AD200B84AEC /* UITextView+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017E35471F0D2AD200B84AEC /* UITextView+Rx.swift */; };
 		2E06EAED1D7051BA00A40704 /* FilterPriceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E06EAEB1D7051BA00A40704 /* FilterPriceCell.swift */; };
@@ -1492,6 +1493,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0178CBD71F0E463D00620BA6 /* UriSchemeSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UriSchemeSpec.swift; path = DeepLinks/UriSchemeSpec.swift; sourceTree = "<group>"; };
 		017E35471F0D2AD200B84AEC /* UITextView+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextView+Rx.swift"; sourceTree = "<group>"; };
 		2E06EAEB1D7051BA00A40704 /* FilterPriceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterPriceCell.swift; sourceTree = "<group>"; };
 		2E06EAEC1D7051BA00A40704 /* FilterPriceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterPriceCell.xib; sourceTree = "<group>"; };
@@ -2390,6 +2392,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0178CBD61F0E462700620BA6 /* DeepLinks */ = {
+			isa = PBXGroup;
+			children = (
+				0178CBD71F0E463D00620BA6 /* UriSchemeSpec.swift */,
+			);
+			name = DeepLinks;
+			sourceTree = "<group>";
+		};
 		2E00C4DE1D00364C00B95010 /* LGAlertViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -3300,6 +3310,7 @@
 		50D08D801E69AF14009CC260 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				0178CBD61F0E462700620BA6 /* DeepLinks */,
 				50D08D811E69AF14009CC260 /* ConfigFileManagerSpec.swift */,
 				50D08D821E69AF14009CC260 /* CrashManagerSpec.swift */,
 				50D08D831E69AF14009CC260 /* GodModeManagerSpec.swift */,
@@ -5228,6 +5239,7 @@
 				509F79B21EDC01E400AF2F70 /* RateUserViewModelSpec.swift in Sources */,
 				50D08DB91E69AF14009CC260 /* MockPurchaseableProduct+MockFactory.swift in Sources */,
 				2EC653B81E71767A00E23DDF /* MockReceiptURLProvider.swift in Sources */,
+				0178CBD81F0E463D00620BA6 /* UriSchemeSpec.swift in Sources */,
 				50D08DB41E69AF14009CC260 /* MockKeyValueStorage.swift in Sources */,
 				50D08DDE1E69AF14009CC260 /* LogInEmailViewModelSpec.swift in Sources */,
 				50D08DD81E69AF14009CC260 /* LGConfigDAOSpec.swift in Sources */,
