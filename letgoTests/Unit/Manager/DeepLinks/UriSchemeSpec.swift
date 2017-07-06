@@ -18,7 +18,7 @@ class UriSchemeSpec: QuickSpec {
         var message: String!
         var conversationData: ConversationData!
         
-        fdescribe("UriScheme") {
+        describe("UriScheme") {
             describe("notification center") {
                 context("notification center tab") {
                     beforeEach {
