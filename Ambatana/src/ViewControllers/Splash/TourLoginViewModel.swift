@@ -11,17 +11,11 @@ import RxSwift
 protocol TourLoginViewModelDelegate: BaseViewModelDelegate {
 }
 
-enum TourLoginState {
-    case loading
-    case active(closeEnabled: Bool, emailAsField: Bool)
-}
-
 final class TourLoginViewModel: BaseViewModel {
 
     var attributedLegalText: NSAttributedString {
         return signUpViewModel.attributedLegalText
     }
-    let state = Variable<TourLoginState>(.loading)
 
     weak var navigator: TourLoginNavigator?
     weak var delegate: TourLoginViewModelDelegate?
@@ -42,7 +36,6 @@ final class TourLoginViewModel: BaseViewModel {
         self.abTestSyncTimeout = syncTimeout
         super.init()
         self.signUpViewModel.delegate = self
-        setupRxBindings()
     }
 
     func closeButtonPressed() {
@@ -67,10 +60,6 @@ final class TourLoginViewModel: BaseViewModel {
 
 
     // MARK: - Private
-
-    func setupRxBindings() {
-        state.value = .active(closeEnabled: false, emailAsField: false)
-    }
 
     fileprivate func nextStep() {
         navigator?.tourLoginFinish()
