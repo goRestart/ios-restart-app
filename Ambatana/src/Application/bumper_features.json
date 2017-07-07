@@ -46,11 +46,6 @@
         "description": "Item page next item related"
     },
     {
-        "name": "SignUpLoginImprovement",
-        "values": ["V1", "V1WImprovements", "V2"],
-        "description": "SignUp LogIn A/B/C"
-    },
-    {
         "name": "HideTabBarOnFirstSessionV2",
         "values": ["no", "yes"],
         "description": "hide tab bar with incentivise scroll banner v2"

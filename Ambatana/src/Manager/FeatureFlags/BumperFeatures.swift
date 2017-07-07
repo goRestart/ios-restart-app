@@ -22,7 +22,6 @@ extension Bumper  {
         flags.append(CaptchaTransparent.self)
         flags.append(PassiveBuyersShowKeyboard.self)
         flags.append(ProductDetailNextRelated.self)
-        flags.append(SignUpLoginImprovement.self)
         flags.append(HideTabBarOnFirstSessionV2.self)
         flags.append(PostingGallery.self)
         flags.append(CarsVerticalEnabled.self)
@@ -79,11 +78,6 @@ extension Bumper  {
     static var productDetailNextRelated: Bool {
         guard let value = Bumper.value(for: ProductDetailNextRelated.key) else { return false }
         return ProductDetailNextRelated(rawValue: value)?.asBool ?? false
-    }
-
-    static var signUpLoginImprovement: SignUpLoginImprovement {
-        guard let value = Bumper.value(for: SignUpLoginImprovement.key) else { return .v1 }
-        return SignUpLoginImprovement(rawValue: value) ?? .v1 
     }
 
     static var hideTabBarOnFirstSessionV2: Bool {
@@ -217,22 +211,6 @@ enum ProductDetailNextRelated: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Item page next item related" } 
     var asBool: Bool { return self == .yes }
-}
-
-enum SignUpLoginImprovement: String, BumperFeature  {
-    case v1, v1WImprovements, v2
-    static var defaultValue: String { return SignUpLoginImprovement.v1.rawValue }
-    static var enumValues: [SignUpLoginImprovement] { return [.v1, .v1WImprovements, .v2]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "SignUp LogIn A/B/C" } 
-    static func fromPosition(_ position: Int) -> SignUpLoginImprovement {
-        switch position { 
-            case 0: return .v1
-            case 1: return .v1WImprovements
-            case 2: return .v2
-            default: return .v1
-        }
-    }
 }
 
 enum HideTabBarOnFirstSessionV2: String, BumperFeature  {
