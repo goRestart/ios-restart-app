@@ -82,10 +82,10 @@
 		2E4436311BF389E000814624 /* LGNavBarSearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4436301BF389E000814624 /* LGNavBarSearchField.swift */; };
 		2E4436331BF389EE00814624 /* LGNavBarSearchField.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E4436321BF389EE00814624 /* LGNavBarSearchField.xib */; };
 		2E4562161BE0F76D00C485D7 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E4562151BE0F76D00C485D7 /* Accelerate.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		2E4627331EF9719C007F7380 /* PillPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4627321EF9719C007F7380 /* PillPageControl.swift */; };
-		2E4627341EF9719C007F7380 /* PillPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4627321EF9719C007F7380 /* PillPageControl.swift */; };
 		2E4627301EF80758007F7380 /* AnimatedPageCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E46272F1EF80758007F7380 /* AnimatedPageCollectionViewLayout.swift */; };
 		2E4627311EF80758007F7380 /* AnimatedPageCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E46272F1EF80758007F7380 /* AnimatedPageCollectionViewLayout.swift */; };
+		2E4627331EF9719C007F7380 /* PillPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4627321EF9719C007F7380 /* PillPageControl.swift */; };
+		2E4627341EF9719C007F7380 /* PillPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4627321EF9719C007F7380 /* PillPageControl.swift */; };
 		2E47610B1EF0343B003F15F2 /* ProductDetailOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E47610A1EF0343B003F15F2 /* ProductDetailOnboardingViewModel.swift */; };
 		2E47610C1EF0343B003F15F2 /* ProductDetailOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E47610A1EF0343B003F15F2 /* ProductDetailOnboardingViewModel.swift */; };
 		2E4952E31E26810D00188880 /* BumpUpFreeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4952DE1E26810D00188880 /* BumpUpFreeViewController.swift */; };
@@ -470,7 +470,6 @@
 		50D08DC61E69AF14009CC260 /* ShowFeaturedStripeHelperSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D7C1E69AF14009CC260 /* ShowFeaturedStripeHelperSpec.swift */; };
 		50D08DC71E69AF14009CC260 /* String+LGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D7D1E69AF14009CC260 /* String+LGSpec.swift */; };
 		50D08DC81E69AF14009CC260 /* TestableObserver+LGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D7E1E69AF14009CC260 /* TestableObserver+LGSpec.swift */; };
-		50D08DC91E69AF14009CC260 /* TourLoginState+LGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D7F1E69AF14009CC260 /* TourLoginState+LGSpec.swift */; };
 		50D08DCA1E69AF14009CC260 /* ConfigFileManagerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D811E69AF14009CC260 /* ConfigFileManagerSpec.swift */; };
 		50D08DCB1E69AF14009CC260 /* CrashManagerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D821E69AF14009CC260 /* CrashManagerSpec.swift */; };
 		50D08DCC1E69AF14009CC260 /* GodModeManagerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D831E69AF14009CC260 /* GodModeManagerSpec.swift */; };
@@ -499,7 +498,6 @@
 		50D08DE41E69AF14009CC260 /* SignUpEmailStep2ViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08DA01E69AF14009CC260 /* SignUpEmailStep2ViewModelSpec.swift */; };
 		50D08DE51E69AF14009CC260 /* SignUpLogInViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08DA11E69AF14009CC260 /* SignUpLogInViewModelSpec.swift */; };
 		50D08DE61E69AF14009CC260 /* SignUpViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08DA21E69AF14009CC260 /* SignUpViewModelSpec.swift */; };
-		50D08DE71E69AF14009CC260 /* TourLoginViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08DA31E69AF14009CC260 /* TourLoginViewModelSpec.swift */; };
 		50D08DE81E69AF14009CC260 /* MockChatWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08DA51E69AF14009CC260 /* MockChatWrapper.swift */; };
 		50D250041DAFB68600B45EC2 /* UIApplication+PushNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D250031DAFB68600B45EC2 /* UIApplication+PushNotification.swift */; };
 		50D250051DAFB68600B45EC2 /* UIApplication+PushNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D250031DAFB68600B45EC2 /* UIApplication+PushNotification.swift */; };
@@ -1526,8 +1524,8 @@
 		2E4436301BF389E000814624 /* LGNavBarSearchField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGNavBarSearchField.swift; sourceTree = "<group>"; };
 		2E4436321BF389EE00814624 /* LGNavBarSearchField.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LGNavBarSearchField.xib; sourceTree = "<group>"; };
 		2E4562151BE0F76D00C485D7 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
-		2E4627321EF9719C007F7380 /* PillPageControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PillPageControl.swift; path = PillPageControl/PillPageControl.swift; sourceTree = "<group>"; };
 		2E46272F1EF80758007F7380 /* AnimatedPageCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnimatedPageCollectionViewLayout.swift; path = AnimatedLayout/AnimatedPageCollectionViewLayout.swift; sourceTree = "<group>"; };
+		2E4627321EF9719C007F7380 /* PillPageControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PillPageControl.swift; path = PillPageControl/PillPageControl.swift; sourceTree = "<group>"; };
 		2E47610A1EF0343B003F15F2 /* ProductDetailOnboardingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDetailOnboardingViewModel.swift; sourceTree = "<group>"; };
 		2E4952DE1E26810D00188880 /* BumpUpFreeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BumpUpFreeViewController.swift; path = Monetization/BumpUpFreeViewController.swift; sourceTree = "<group>"; };
 		2E4952DF1E26810D00188880 /* BumpUpFreeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = BumpUpFreeViewController.xib; path = Monetization/BumpUpFreeViewController.xib; sourceTree = "<group>"; };
@@ -1788,7 +1786,6 @@
 		50D08D7C1E69AF14009CC260 /* ShowFeaturedStripeHelperSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowFeaturedStripeHelperSpec.swift; sourceTree = "<group>"; };
 		50D08D7D1E69AF14009CC260 /* String+LGSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+LGSpec.swift"; sourceTree = "<group>"; };
 		50D08D7E1E69AF14009CC260 /* TestableObserver+LGSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TestableObserver+LGSpec.swift"; sourceTree = "<group>"; };
-		50D08D7F1E69AF14009CC260 /* TourLoginState+LGSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TourLoginState+LGSpec.swift"; sourceTree = "<group>"; };
 		50D08D811E69AF14009CC260 /* ConfigFileManagerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigFileManagerSpec.swift; sourceTree = "<group>"; };
 		50D08D821E69AF14009CC260 /* CrashManagerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashManagerSpec.swift; sourceTree = "<group>"; };
 		50D08D831E69AF14009CC260 /* GodModeManagerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GodModeManagerSpec.swift; sourceTree = "<group>"; };
@@ -1817,7 +1814,6 @@
 		50D08DA01E69AF14009CC260 /* SignUpEmailStep2ViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpEmailStep2ViewModelSpec.swift; sourceTree = "<group>"; };
 		50D08DA11E69AF14009CC260 /* SignUpLogInViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpLogInViewModelSpec.swift; sourceTree = "<group>"; };
 		50D08DA21E69AF14009CC260 /* SignUpViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewModelSpec.swift; sourceTree = "<group>"; };
-		50D08DA31E69AF14009CC260 /* TourLoginViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourLoginViewModelSpec.swift; sourceTree = "<group>"; };
 		50D08DA51E69AF14009CC260 /* MockChatWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockChatWrapper.swift; sourceTree = "<group>"; };
 		50D08DE91E69AF6F009CC260 /* letgoTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "letgoTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		50D250031DAFB68600B45EC2 /* UIApplication+PushNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+PushNotification.swift"; sourceTree = "<group>"; };
@@ -3288,7 +3284,6 @@
 				50D08D7C1E69AF14009CC260 /* ShowFeaturedStripeHelperSpec.swift */,
 				50D08D7D1E69AF14009CC260 /* String+LGSpec.swift */,
 				50D08D7E1E69AF14009CC260 /* TestableObserver+LGSpec.swift */,
-				50D08D7F1E69AF14009CC260 /* TourLoginState+LGSpec.swift */,
 				2EC653B21E716C8800E23DDF /* Dictionary+FilterSpec.swift */,
 			);
 			path = Helpers;
@@ -3369,7 +3364,6 @@
 				50D08DA01E69AF14009CC260 /* SignUpEmailStep2ViewModelSpec.swift */,
 				50D08DA11E69AF14009CC260 /* SignUpLogInViewModelSpec.swift */,
 				50D08DA21E69AF14009CC260 /* SignUpViewModelSpec.swift */,
-				50D08DA31E69AF14009CC260 /* TourLoginViewModelSpec.swift */,
 				C7AFFB0F1E7176BC0052A9CA /* WebSurveyViewModelSpec.swift */,
 				2E4BDE7E1EDEC7DC00CBDC8C /* LocationFromZipCodeViewModelSpec.swift */,
 			);
@@ -5258,13 +5252,11 @@
 				C765EE4B1E7FEEE200063750 /* MockChatEvent.swift in Sources */,
 				504C63B91ECAE0AB00D33BFA /* PushManagerSpec.swift in Sources */,
 				50D08DD01E69AF14009CC260 /* TrackerProxySpec.swift in Sources */,
-				50D08DE71E69AF14009CC260 /* TourLoginViewModelSpec.swift in Sources */,
 				C7AFFB101E7176BC0052A9CA /* WebSurveyViewModelSpec.swift in Sources */,
 				50D08DBD1E69AF14009CC260 /* MockPurchaseableProductsRequestFactory.swift in Sources */,
 				2E4BDE7F1EDEC7DC00CBDC8C /* LocationFromZipCodeViewModelSpec.swift in Sources */,
 				50D08DC41E69AF14009CC260 /* MultiPageRequesterSpec.swift in Sources */,
 				50D08DCF1E69AF14009CC260 /* TrackerEventSpec.swift in Sources */,
-				50D08DC91E69AF14009CC260 /* TourLoginState+LGSpec.swift in Sources */,
 				2EC653B31E716C8800E23DDF /* Dictionary+FilterSpec.swift in Sources */,
 				50D08DB11E69AF14009CC260 /* MockCountryHelper.swift in Sources */,
 				50D08DB61E69AF14009CC260 /* MockPurchasesShopper.swift in Sources */,

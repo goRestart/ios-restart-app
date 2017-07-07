@@ -26,7 +26,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var userReviews: Bool = false
     var captchaTransparent: Bool = false
     var passiveBuyersShowKeyboard: Bool = false
-    var onboardingReview: OnboardingReview = .testA
     var freeBumpUpEnabled: Bool = false
     var pricedBumpUpEnabled: Bool = false
     var productDetailNextRelated: Bool = false

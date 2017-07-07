@@ -65,7 +65,7 @@ class LogInEmailViewModelSpec: BaseViewModelSpec {
                 sessionManager.logInResult = LoginResult(value: myUser)
 
                 sut = LogInEmailViewModel(email: nil, isRememberedEmail: false,
-                                          source: .sell, collapsedEmail: nil,
+                                          source: .sell,
                                           sessionManager: sessionManager,
                                           installationRepository: installationRepository,
                                           keyValueStorage: keyValueStorage, tracker: tracker)
@@ -86,7 +86,7 @@ class LogInEmailViewModelSpec: BaseViewModelSpec {
                 context("did not log in previously") {
                     beforeEach {
                         sut = LogInEmailViewModel(email: nil, isRememberedEmail: false,
-                                                  source: .sell, collapsedEmail: nil,
+                                                  source: .sell,
                                                   sessionManager: sessionManager,
                                                   installationRepository: installationRepository,
                                                   keyValueStorage: keyValueStorage, tracker: tracker)
@@ -108,7 +108,7 @@ class LogInEmailViewModelSpec: BaseViewModelSpec {
                         keyValueStorage[.previousUserAccountProvider] = "letgo"
                         keyValueStorage[.previousUserEmailOrName] = "albert@letgo.com"
 
-                        sut = LogInEmailViewModel(source: .sell, collapsedEmail: nil, keyValueStorage: keyValueStorage)
+                        sut = LogInEmailViewModel(source: .sell, keyValueStorage: keyValueStorage)
                     }
 
                     it("has an email") {
@@ -127,7 +127,7 @@ class LogInEmailViewModelSpec: BaseViewModelSpec {
                         keyValueStorage[.previousUserAccountProvider] = "facebook"
                         keyValueStorage[.previousUserEmailOrName] = "Albert FB"
 
-                        sut = LogInEmailViewModel(source: .sell, collapsedEmail: nil, keyValueStorage: keyValueStorage)
+                        sut = LogInEmailViewModel(source: .sell, keyValueStorage: keyValueStorage)
                     }
 
                     it("has no email") {
@@ -146,7 +146,7 @@ class LogInEmailViewModelSpec: BaseViewModelSpec {
                         keyValueStorage[.previousUserAccountProvider] = "google"
                         keyValueStorage[.previousUserEmailOrName] = "Albert Google"
 
-                        sut = LogInEmailViewModel(source: .sell, collapsedEmail: nil, keyValueStorage: keyValueStorage)
+                        sut = LogInEmailViewModel(source: .sell, keyValueStorage: keyValueStorage)
                     }
 
                     it("has no email") {
@@ -593,7 +593,7 @@ extension LogInEmailViewModelSpec: LogInEmailNavigator {
     }
 
     func openSignUpEmailFromLogInEmail(email: String?,
-                                       isRememberedEmail: Bool, collapsedEmail: EventParameterBoolean?) {
+                                       isRememberedEmail: Bool) {
         navigatorReceivedOpenSignUp = true
     }
 

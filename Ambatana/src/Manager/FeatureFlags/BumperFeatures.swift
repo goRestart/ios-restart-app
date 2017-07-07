@@ -21,7 +21,6 @@ extension Bumper  {
         flags.append(PricedBumpUpEnabled.self)
         flags.append(CaptchaTransparent.self)
         flags.append(PassiveBuyersShowKeyboard.self)
-        flags.append(OnboardingReview.self)
         flags.append(ProductDetailNextRelated.self)
         flags.append(SignUpLoginImprovement.self)
         flags.append(HideTabBarOnFirstSessionV2.self)
@@ -75,11 +74,6 @@ extension Bumper  {
     static var passiveBuyersShowKeyboard: Bool {
         guard let value = Bumper.value(for: PassiveBuyersShowKeyboard.key) else { return false }
         return PassiveBuyersShowKeyboard(rawValue: value)?.asBool ?? false
-    }
-
-    static var onboardingReview: OnboardingReview {
-        guard let value = Bumper.value(for: OnboardingReview.key) else { return .testA }
-        return OnboardingReview(rawValue: value) ?? .testA 
     }
 
     static var productDetailNextRelated: Bool {
@@ -214,23 +208,6 @@ enum PassiveBuyersShowKeyboard: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Passive buyers products suggested notification opens product with keyboard opened" } 
     var asBool: Bool { return self == .yes }
-}
-
-enum OnboardingReview: String, BumperFeature  {
-    case testA, testB, testC, testD
-    static var defaultValue: String { return OnboardingReview.testA.rawValue }
-    static var enumValues: [OnboardingReview] { return [.testA, .testB, .testC, .testD]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Onboarding Review A/B/C/D" } 
-    static func fromPosition(_ position: Int) -> OnboardingReview {
-        switch position { 
-            case 0: return .testA
-            case 1: return .testB
-            case 2: return .testC
-            case 3: return .testD
-            default: return .testA
-        }
-    }
 }
 
 enum ProductDetailNextRelated: String, BumperFeature  {
