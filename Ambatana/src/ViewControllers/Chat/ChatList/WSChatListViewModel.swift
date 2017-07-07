@@ -61,7 +61,7 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
 
     func conversationSelectedAtIndex(_ index: Int) {
         guard let conversation = objectAtIndex(index) else { return }
-        tabNavigator?.openChat(.conversation(conversation: conversation), source: .chatList, predefinedMessage: "")
+        tabNavigator?.openChat(.conversation(conversation: conversation), source: .chatList, predefinedMessage: nil)
     }
 
     func conversationDataAtIndex(_ index: Int) -> ConversationCellData? {

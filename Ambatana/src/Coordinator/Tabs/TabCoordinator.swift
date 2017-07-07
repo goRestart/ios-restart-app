@@ -128,7 +128,7 @@ extension TabCoordinator: TabNavigator {
         }
     }
 
-    func openChat(_ data: ChatDetailData, source: EventParameterTypePage, predefinedMessage: String) {
+    func openChat(_ data: ChatDetailData, source: EventParameterTypePage, predefinedMessage: String?) {
         switch data {
         case let .chatAPI(chat):
             openChat(chat, source: source)
@@ -311,7 +311,7 @@ fileprivate extension TabCoordinator {
         navigationController.pushViewController(vc, animated: true)
     }
 
-    func openConversation(_ conversation: ChatConversation, source: EventParameterTypePage, predefinedMessage: String) {
+    func openConversation(_ conversation: ChatConversation, source: EventParameterTypePage, predefinedMessage: String?) {
         let vm = ChatViewModel(conversation: conversation, navigator: self, source: source, predefinedMessage: predefinedMessage)
         let vc = ChatViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
@@ -330,7 +330,7 @@ fileprivate extension TabCoordinator {
         }
     }
 
-    func openChatFromConversationData(_ data: ConversationData, source: EventParameterTypePage, predefinedMessage: String) {
+    func openChatFromConversationData(_ data: ConversationData, source: EventParameterTypePage, predefinedMessage: String?) {
         navigationController.showLoadingMessageAlert()
 
         if featureFlags.websocketChat {

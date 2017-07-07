@@ -79,7 +79,7 @@ class ChatViewModel: BaseViewModel {
     var shouldTrackFirstMessage: Bool = false
     let shouldShowExpressBanner = Variable<Bool>(false)
     let relatedProductsState = Variable<ChatRelatedItemsState>(.loading)
-    let predefinedMessage = Variable<String>("")
+    let predefinedMessage = Variable<String?>(nil)
 
     var keyForTextCaching: String { return userDefaultsSubKey }
     
@@ -183,7 +183,7 @@ class ChatViewModel: BaseViewModel {
         }
     }
 
-    convenience init(conversation: ChatConversation, navigator: ChatDetailNavigator?, source: EventParameterTypePage, predefinedMessage: String) {
+    convenience init(conversation: ChatConversation, navigator: ChatDetailNavigator?, source: EventParameterTypePage, predefinedMessage: String?) {
         let myUserRepository = Core.myUserRepository
         let chatRepository = Core.chatRepository
         let listingRepository = Core.listingRepository
@@ -196,7 +196,6 @@ class ChatViewModel: BaseViewModel {
         let keyValueStorage = KeyValueStorage.sharedInstance
         let ratingManager = LGRatingManager.sharedInstance
         let pushPermissionsManager = LGPushPermissionsManager.sharedInstance
-        let predefinedMessage = predefinedMessage
 
         self.init(conversation: conversation, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   listingRepository: listingRepository, userRepository: userRepository,
@@ -228,7 +227,7 @@ class ChatViewModel: BaseViewModel {
                   listingRepository: listingRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository ,tracker: tracker, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
-                  source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager, predefinedMessage: "")
+                  source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager, predefinedMessage: nil)
         self.setupConversationFrom(listing: listing)
     }
     
@@ -236,7 +235,7 @@ class ChatViewModel: BaseViewModel {
           listingRepository: ListingRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
           tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, keyValueStorage: KeyValueStorageable,
           navigator: ChatDetailNavigator?, featureFlags: FeatureFlaggeable, source: EventParameterTypePage,
-          ratingManager: RatingManager, pushPermissionsManager: PushPermissionsManager, predefinedMessage: String) {
+          ratingManager: RatingManager, pushPermissionsManager: PushPermissionsManager, predefinedMessage: String?) {
         self.conversation = Variable<ChatConversation>(conversation)
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
