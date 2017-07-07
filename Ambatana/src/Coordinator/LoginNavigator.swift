@@ -40,8 +40,6 @@ protocol LogInEmailNavigator: class {
     func cancelLogInEmail()
     func openHelpFromLogInEmail()
     func openRememberPasswordFromLogInEmail(email: String?)
-    func openSignUpEmailFromLogInEmail(email: String?,
-                                       isRememberedEmail: Bool)
     func openScammerAlertFromLogInEmail(contactURL: URL)
     func openDeviceNotAllowedAlertFromLogInEmail(contactURL: URL)
     func closeAfterLogInSuccessful()

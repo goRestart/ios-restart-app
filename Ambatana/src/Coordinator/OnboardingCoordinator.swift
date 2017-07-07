@@ -288,72 +288,6 @@ extension OnboardingCoordinator: SignUpLogInNavigator {
 
 }
 
-// MARK: - V2
-// MARK: - SignUpEmailStep1Navigator
-
-extension OnboardingCoordinator: SignUpEmailStep1Navigator {
-    func cancelSignUpEmailStep1() {
-        dismissCurrentNavigationController()
-    }
-
-    func openHelpFromSignUpEmailStep1() {
-        openHelp()
-    }
-
-    func openNextStepFromSignUpEmailStep1(email: String, password: String,
-                                          isRememberedEmail: Bool) {
-        guard let navCtl = currentNavigationController() else { return }
-
-        let vm = SignUpEmailStep2ViewModel(email: email, isRememberedEmail: isRememberedEmail,
-                                           password: password, source: .install)
-        vm.navigator = self
-        let vc = SignUpEmailStep2ViewController(viewModel: vm, appearance: .dark,
-                                                backgroundImage: loginV2BackgroundImage)
-        navCtl.pushViewController(vc, animated: true)
-
-        recaptchaTokenDelegate = vm
-    }
-
-    func openLogInFromSignUpEmailStep1(email: String?,
-                                       isRememberedEmail: Bool) {
-        guard let navCtl = currentNavigationController() else { return }
-
-        let vm = LogInEmailViewModel(email: email, isRememberedEmail: isRememberedEmail,
-                                     source: .install)
-        vm.navigator = self
-        let vc = LogInEmailViewController(viewModel: vm, appearance: .dark,
-                                          backgroundImage: loginV2BackgroundImage)
-        let navCtlVCs: [UIViewController] = navCtl.viewControllers.dropLast() + [vc]
-        navCtl.setViewControllers(navCtlVCs, animated: false)
-    }
-}
-
-
-// MARK: - SignUpEmailStep2Navigator
-
-extension OnboardingCoordinator: SignUpEmailStep2Navigator {
-    func openHelpFromSignUpEmailStep2() {
-        openHelp()
-    }
-
-    func openRecaptchaFromSignUpEmailStep2(transparentMode: Bool) {
-        openRecaptcha(transparentMode: transparentMode)
-    }
-
-    func openScammerAlertFromSignUpEmailStep2(contactURL: URL) {
-        // scammer alert is ignored in on-boarding
-        dismissCurrentNavigationController { [weak self] in
-            self?.tourLoginFinish()
-        }
-    }
-
-    func closeAfterSignUpSuccessful() {
-        dismissCurrentNavigationController { [weak self] in
-            self?.tourLoginFinish()
-        }
-    }
-}
-
 
 // MARK: - LogInEmailNavigator
 
@@ -369,22 +303,6 @@ extension OnboardingCoordinator: LogInEmailNavigator {
 
     func openRememberPasswordFromLogInEmail(email: String?) {
         openRememberPassword(email: email)
-    }
-
-    func openSignUpEmailFromLogInEmail(email: String?,
-                                       isRememberedEmail: Bool) {
-        guard let navCtl = currentNavigationController() else { return }
-
-        let vm = SignUpEmailStep1ViewModel(email: email,
-                                           isRememberedEmail: isRememberedEmail,
-                                           source: .install)
-        vm.navigator = self
-
-        let vc = SignUpEmailStep1ViewController(viewModel: vm,
-                                                appearance: .dark,
-                                                backgroundImage: loginV2BackgroundImage)
-        let navCtlVCs: [UIViewController] = navCtl.viewControllers.dropLast() + [vc]
-        navCtl.setViewControllers(navCtlVCs, animated: false)
     }
 
     func openScammerAlertFromLogInEmail(contactURL: URL) {
