@@ -67,6 +67,7 @@ class ABTests {
         result.append(newCarsMultiRequesterEnabled)
         result.append(newCarouselNavigationEnabled)
         result.append(newOnboardingPhase1)
+        result.append(searchParamDisc24)
 
         return result
     }
