@@ -114,6 +114,7 @@ protocol InternalChatRepository: ChatRepository {
     
     func internalSendMessage(_ conversationId: String, messageId: String, type: ChatMessageType, text: String,
                              completion: ChatCommandCompletion?)
+    func internalConfirmRead(_ conversationId: String, messageIds: [String], completion: ChatCommandCompletion?)
     func internalArchiveConversations(_ conversationIds: [String], completion: ChatCommandCompletion?)
     func internalUnarchiveConversation(_ conversationId: String, completion: ChatCommandCompletion?)
 }
@@ -126,23 +127,30 @@ extension InternalChatRepository {
             guard let strongSelf = self,
                   let newConversations = result.value else { return }
             
-            var conversations: CollectionVariable<ChatConversation>?
+            let conversationsCollectionVariable: CollectionVariable<ChatConversation>?
             switch filter {
             case .all:
-                conversations = strongSelf.allConversations
+                conversationsCollectionVariable = strongSelf.allConversations
             case .archived:
-                break
+                conversationsCollectionVariable = nil
             case .asBuyer:
-                conversations = strongSelf.buyingConversations
+                conversationsCollectionVariable = strongSelf.buyingConversations
             case .asSeller:
-                conversations = strongSelf.sellingConversations
+                conversationsCollectionVariable = strongSelf.sellingConversations
             }
+            guard let conversations = conversationsCollectionVariable else { return }
            
             let isFirstPage = offset == 0
             if isFirstPage {
-                conversations?.removeAll()
+                if conversations.value.isEmpty {
+                    conversations.appendContentsOf(newConversations)
+                } else {
+                    conversations.replace(0..<conversations.value.count,
+                                          with: newConversations)
+                }
+            } else {
+                conversations.appendContentsOf(newConversations)
             }
-            conversations?.appendContentsOf(newConversations)
         }
     }
     
@@ -199,8 +207,7 @@ extension InternalChatRepository {
                 let updatedConversation = chatConversation.updating(interlocutor: updatedInterlocutor)
                 
                 if let index = conversations.value.index(where: { $0.objectId == updatedConversation.objectId }) {
-                    conversations.removeAtIndex(index)
-                    conversations.insert(updatedConversation, atIndex: index)
+                    conversations.replace(index, with: updatedConversation)
                 }
             }
         }
@@ -214,15 +221,26 @@ extension InternalChatRepository {
             conversationsArrays = [allConversations, buyingConversations]
         }
         conversationsArrays.forEach { conversations in
-            var insertIndex: Int? = nil
-            if let removeIndex = conversations.value.index(where: { $0.objectId == updatedConversation.objectId }) {
+            let insertIndex: Int?
+            let removeIndex = conversations.value.index(where: { $0.objectId == updatedConversation.objectId })
+            if let removeIndex = removeIndex {
                 insertIndex = moveToTop ? 0 : removeIndex
-                conversations.removeAtIndex(removeIndex)
             } else if moveToTop {
                 insertIndex = 0
+            } else {
+                insertIndex = nil
             }
-            if let insertIndex = insertIndex {
+            
+            if let insertIndex = insertIndex, let removeIndex = removeIndex {
+                if insertIndex == removeIndex {
+                    conversations.replace(insertIndex, with: updatedConversation)
+                } else {
+                    conversations.move(fromIndex: removeIndex, toIndex: insertIndex, replacingWith: updatedConversation)
+                }
+            } else if let insertIndex = insertIndex {
                 conversations.insert(updatedConversation, atIndex: insertIndex)
+            } else if let removeIndex = removeIndex {
+                conversations.removeAtIndex(removeIndex)
             }
         }
     }
@@ -235,40 +253,33 @@ extension InternalChatRepository {
             
             strongSelf.conversationsLock.lock()
             
-            // Remove if was in place before
+            // Remove if was in place before & ordered (by date) insert
             let findById: (ChatConversation) -> Bool = { $0.objectId == conversationId }
-            if let index = strongSelf.allConversations.value.index(where: findById) {
-                strongSelf.allConversations.removeAtIndex(index)
-            }
-            if updatedConversation.amISelling {
-                if let index = strongSelf.sellingConversations.value.index(where: findById) {
-                    strongSelf.sellingConversations.removeAtIndex(index)
-                }
-            } else {
-                if let index = strongSelf.buyingConversations.value.index(where: findById) {
-                    strongSelf.buyingConversations.removeAtIndex(index)
-                }
-            }
-            
-            // Ordered (by date) insert
             let findPositionByDate: (ChatConversation) -> Bool = { conversation in
                 guard let lDate = conversation.lastMessageSentAt else { return true }
                 return lDate.compare(updatedlastMessageSentAt) == .orderedAscending
             }
             
-            if let index = strongSelf.allConversations.value.index(where: findPositionByDate) {
+            if let index = strongSelf.allConversations.value.index(where: findById) {
+                strongSelf.allConversations.replace(index, with: updatedConversation)
+            } else if let index = strongSelf.allConversations.value.index(where: findPositionByDate) {
                 strongSelf.allConversations.insert(updatedConversation, atIndex: index)
             } else {
                 strongSelf.allConversations.append(updatedConversation)
             }
+            
             if updatedConversation.amISelling {
-                if let index = strongSelf.sellingConversations.value.index(where: findPositionByDate) {
+                if let index = strongSelf.sellingConversations.value.index(where: findById) {
+                    strongSelf.sellingConversations.replace(index, with: updatedConversation)
+                } else if let index = strongSelf.sellingConversations.value.index(where: findPositionByDate) {
                     strongSelf.sellingConversations.insert(updatedConversation, atIndex: index)
                 } else {
                     strongSelf.sellingConversations.append(updatedConversation)
                 }
             } else {
-                if let index = strongSelf.buyingConversations.value.index(where: findPositionByDate) {
+                if let index = strongSelf.buyingConversations.value.index(where: findById) {
+                    strongSelf.buyingConversations.replace(index, with: updatedConversation)
+                } else if let index = strongSelf.buyingConversations.value.index(where: findPositionByDate) {
                     strongSelf.buyingConversations.insert(updatedConversation, atIndex: index)
                 } else {
                     strongSelf.buyingConversations.append(updatedConversation)
@@ -309,13 +320,25 @@ extension InternalChatRepository {
         }
     }
     
+    public func confirmRead(_ conversationId: String, messageIds: [String], completion: ChatCommandCompletion?) {
+        internalConfirmRead(conversationId, messageIds: messageIds) { [weak self] confirmReadResult in
+            defer {
+                completion?(confirmReadResult)
+            }
+            guard let _ = confirmReadResult.value else { return }
+            
+            self?.updateLocalConversationByFetching(conversationId: conversationId, moveToTop: false)
+        }
+    }
+    
+    
     public func archiveConversations(_ conversationIds: [String], completion: ChatCommandCompletion?) {
         internalArchiveConversations(conversationIds) { [weak self] archiveResult in
             defer { completion?(archiveResult) }
             self?.removeLocalConversations(ids: conversationIds)
         }
     }
-    
+
     public func unarchiveConversation(_ conversationId: String, completion: ChatCommandCompletion?) {
         internalUnarchiveConversation(conversationId) { [weak self] unarchiveResult in
             defer { completion?(unarchiveResult) }

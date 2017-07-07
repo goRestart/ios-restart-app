@@ -102,7 +102,7 @@ open class MockChatRepository: InternalChatRepository {
         delay(result: sendMessageCommandResult, completion: completion)
     }
 
-    public func confirmRead(_ conversationId: String,
+    public func internalConfirmRead(_ conversationId: String,
                             messageIds: [String],
                             completion: ChatCommandCompletion?) {
         delay(result: confirmReadCommandResult, completion: completion)

@@ -159,7 +159,7 @@ class LGChatRepository: InternalChatRepository {
         }
     }
 
-    func confirmRead(_ conversationId: String, messageIds: [String], completion: ChatCommandCompletion?) {
+    func internalConfirmRead(_ conversationId: String, messageIds: [String], completion: ChatCommandCompletion?) {
         dataSource.confirmRead(conversationId, messageIds: messageIds) { result in
             handleWebSocketResult(result, completion: completion)
         }

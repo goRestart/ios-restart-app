@@ -15,6 +15,8 @@ import RxSwift
 public enum CollectionChange<T> {
     case remove(Int, T)
     case insert(Int, T)
+    case swap(from: Int, to: Int, replacingWith: T?)
+    case move(from: Int, to: Int, replacingWith: T?)
     case composite([CollectionChange])
     
     public func index() -> Int? {
@@ -33,7 +35,6 @@ public enum CollectionChange<T> {
         }
     }
 }
-
 
 public final class CollectionVariable<T> {
     
@@ -73,7 +74,7 @@ public final class CollectionVariable<T> {
     
     
     // MARK: - Public
-    
+        
     public func removeFirst() {
         if (_value.count == 0) { return }
         _lock.lock()
@@ -142,18 +143,55 @@ public final class CollectionVariable<T> {
     
     public func replace(_ subRange: CountableRange<Int>, with elements: [T]) {
         _lock.lock()
-        precondition(subRange.lowerBound + subRange.count <= _value.count, "Range out of bounds")
+        let minIndex = subRange.lowerBound
+        let removeMaxIndex = subRange.lowerBound + subRange.count
+        precondition(minIndex >= 0 && removeMaxIndex <= _value.count, "Range out of bounds")
         
         var compositeChanges: [CollectionChange<T>] = []
-        
-        for (index, element) in elements.enumerated() {
-            let replacedElement = _value[subRange.lowerBound+index]
-            let range = subRange.lowerBound+index..<subRange.lowerBound+index+1
-            _value.replaceSubrange(range, with: [element])
-            compositeChanges.append(.remove(subRange.lowerBound + index, replacedElement))
-            compositeChanges.append(.insert(subRange.lowerBound + index, element))
+        // remove the specified range
+        for index in minIndex..<removeMaxIndex {
+            let element = _value[index]
+            compositeChanges.append(.remove(index, element))
         }
+        // insert the new array in that range
+        let insertMaxIndex = minIndex + elements.count
+        for index in minIndex..<insertMaxIndex {
+            let elementsIndex = index - minIndex
+            let element = elements[elementsIndex]
+            compositeChanges.append(.insert(index, element))
+        }
+        
+        _value.replaceSubrange(subRange, with: elements)
         _changesSubject.onNext(.composite(compositeChanges))
+        _subject.onNext(_value)
+        _lock.unlock()
+    }
+    
+    public func swap(fromIndex: Int, toIndex: Int, replacingWith element: T? = nil) {
+        let range = 0..<_value.count
+        precondition(fromIndex != toIndex, "Cannot move to same index")
+        precondition(range ~= fromIndex && range ~= toIndex, "Range out of bounds")
+        
+        _lock.lock()
+        Swift.swap(&_value[fromIndex], &_value[toIndex])
+        if let replaceElement = element {
+            _value[toIndex] = replaceElement
+        }
+        _changesSubject.onNext(.swap(from: fromIndex, to: toIndex, replacingWith: element))
+        _subject.onNext(_value)
+        _lock.unlock()
+    }
+    
+    public func move(fromIndex: Int, toIndex: Int, replacingWith element: T? = nil) {
+        let range = 0..<_value.count
+        precondition(range ~= fromIndex && range ~= toIndex, "Range out of bounds")
+        
+        _lock.lock()
+        _value.move(fromIndex: fromIndex, toIndex: toIndex)
+        if let element = element {
+            _value.replaceSubrange(toIndex..<(toIndex+1), with: [element])
+        }
+        _changesSubject.onNext(.move(from: fromIndex, to: toIndex, replacingWith: element))
         _subject.onNext(_value)
         _lock.unlock()
     }
@@ -172,6 +210,10 @@ public final class CollectionVariable<T> {
             insert(value, atIndex: index)
         case let .remove(index, _):
             removeAtIndex(index)
+        case let .swap(fromIndex, toIndex, replacingWith):
+            swap(fromIndex: fromIndex, toIndex: toIndex, replacingWith: replacingWith)
+        case let .move(fromIndex, toIndex, replacingWith):
+            move(fromIndex: fromIndex, toIndex: toIndex, replacingWith: replacingWith)
         case let .composite(changes):
             for change in changes {
                 handleChange(change: change)
