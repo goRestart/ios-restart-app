@@ -102,6 +102,8 @@ class ProductViewModel: BaseViewModel {
 
     fileprivate var alreadyTrackedFirstMessageSent: Bool = false
     fileprivate static let bubbleTagGroup = "favorite.bubble.group"
+    
+    var showMarkAsSoldFlow = Variable<Bool>(false)
 
     // UI - Input
     let moreInfoState = Variable<MoreInfoState>(.hidden)
@@ -254,6 +256,11 @@ class ProductViewModel: BaseViewModel {
             strongSelf.directChatEnabled.value = status.directChatsAvailable
         }.addDisposableTo(disposeBag)
 
+        showMarkAsSoldFlow.asObservable().distinctUntilChanged().filter { $0 == true }.subscribeNext { [weak self] _ in
+            self?.confirmToMarkAsSold()
+            self?.showMarkAsSoldFlow.value = false
+        }.addDisposableTo(disposeBag)
+        
         // bumpeable listing check
         status.asObservable().bindNext { [weak self] status in
             if status.isBumpeable {
@@ -472,10 +479,7 @@ extension ProductViewModel {
     func descriptionURLPressed(_ url: URL) {
         showItemHiddenIfNeededFor(url: url)
     }
-    
-    func triggerMarkAsSoldFlow() {
-        confirmToMarkAsSold()
-    }
+
 }
 
 

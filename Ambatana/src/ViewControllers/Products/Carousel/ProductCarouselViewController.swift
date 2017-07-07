@@ -185,7 +185,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         case .triggerBumpUp:
             bumpUpBanner.bumpUp()
         case .triggerMarkAsSold:
-            viewModel.currentProductViewModel?.confirmToMarkAsSold()
+            viewModel.markAsSold()
         default:
             break
         }
