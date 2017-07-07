@@ -140,8 +140,8 @@ extension LoginCoordinator: MainSignUpNavigator {
         let vm = SignUpLogInViewModel(source: source, action: .signup)
         vm.navigator = self
         vc = SignUpLogInViewController(viewModel: vm,
-                                           appearance: .light,
-                                           keyboardFocus: false)
+                                       appearance: .light,
+                                       keyboardFocus: false)
         recaptchaTokenDelegate = vm
 
 
@@ -165,7 +165,9 @@ extension LoginCoordinator: MainSignUpNavigator {
 
         let vm = SignUpLogInViewModel(source: source, action: .login)
         vm.navigator = self
-        vc = SignUpLogInViewController(viewModel: vm, appearance: .light, keyboardFocus: false)
+        vc = SignUpLogInViewController(viewModel: vm,
+                                       appearance: .light,
+                                       keyboardFocus: false)
 
         recaptchaTokenDelegate = vm
 
@@ -231,36 +233,6 @@ extension LoginCoordinator: SignUpLogInNavigator {
 
     func openHelpFromSignUpLogin() {
         openHelp()
-    }
-}
-
-
-// MARK: - LogInEmailNavigator
-
-extension LoginCoordinator: LogInEmailNavigator {
-    func cancelLogInEmail() {
-        // called when closing from popup login so it's not closing root only presented controller
-        dismissLastPresented(animated: true, completion: nil)
-    }
-
-    func openHelpFromLogInEmail() {
-        openHelp()
-    }
-
-    func openRememberPasswordFromLogInEmail(email: String?) {
-        openRememberPassword(email: email)
-    }
-
-    func openScammerAlertFromLogInEmail(contactURL: URL) {
-        closeRootAndOpenScammerAlert(contactURL: contactURL, network: .email)
-    }
-
-    func openDeviceNotAllowedAlertFromLogInEmail(contactURL: URL) {
-        closeRootAndOpenDeviceNotAllowedAlert(contactURL: contactURL, network: .email)
-    }
-
-    func closeAfterLogInSuccessful() {
-        closeRoot(didLogIn: true)
     }
 }
 

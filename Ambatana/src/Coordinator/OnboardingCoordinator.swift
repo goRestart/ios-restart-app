@@ -214,8 +214,8 @@ extension OnboardingCoordinator: MainSignUpNavigator {
         let vm = SignUpLogInViewModel(source: .install, action: .signup)
         vm.navigator = self
         vc = SignUpLogInViewController(viewModel: vm,
-                                           appearance: .dark,
-                                           keyboardFocus: true)
+                                       appearance: .dark,
+                                       keyboardFocus: true)
         recaptchaTokenDelegate = vm
 
         let navCtl = UINavigationController(rootViewController: vc)
@@ -286,44 +286,6 @@ extension OnboardingCoordinator: SignUpLogInNavigator {
         openHelp()
     }
 
-}
-
-
-// MARK: - LogInEmailNavigator
-
-extension OnboardingCoordinator: LogInEmailNavigator {
-
-    func cancelLogInEmail() {
-        dismissCurrentNavigationController()
-    }
-
-    func openHelpFromLogInEmail() {
-        openHelp()
-    }
-
-    func openRememberPasswordFromLogInEmail(email: String?) {
-        openRememberPassword(email: email)
-    }
-
-    func openScammerAlertFromLogInEmail(contactURL: URL) {
-        // scammer alert is ignored in on-boarding
-        dismissCurrentNavigationController { [weak self] in
-            self?.tourLoginFinish()
-        }
-    }
-
-    func openDeviceNotAllowedAlertFromLogInEmail(contactURL: URL) {
-        // device not allowed alert is ignored in on-boarding
-        dismissCurrentNavigationController { [weak self] in
-            self?.tourLoginFinish()
-        }
-    }
-
-    func closeAfterLogInSuccessful() {
-        dismissCurrentNavigationController { [weak self] in
-            self?.tourLoginFinish()
-        }
-    }
 }
 
 
