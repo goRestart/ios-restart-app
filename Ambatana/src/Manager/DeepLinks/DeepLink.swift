@@ -46,6 +46,7 @@ enum DeepLinkAction {
     case userRatings
     case userRating(ratingId: String)
     case passiveBuyers(productId: String)
+    case appStore
 }
 
 enum DeepLinkOrigin {
