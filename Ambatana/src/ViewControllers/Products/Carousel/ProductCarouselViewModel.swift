@@ -404,6 +404,10 @@ class ProductCarouselViewModel: BaseViewModel {
                 self?.directChatMessages.insert(value, atIndex: index)
             case let .remove(index, _):
                 self?.directChatMessages.removeAtIndex(index)
+            case let .swap(fromIndex, toIndex, replacingWith):
+                self?.directChatMessages.swap(fromIndex: fromIndex, toIndex: toIndex, replacingWith: replacingWith)
+            case let .move(fromIndex, toIndex, replacingWith):
+                self?.directChatMessages.move(fromIndex: fromIndex, toIndex: toIndex, replacingWith: replacingWith)
             case .composite:
                 break
             }

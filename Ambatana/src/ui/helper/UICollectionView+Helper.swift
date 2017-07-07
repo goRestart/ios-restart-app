@@ -30,6 +30,12 @@ extension UICollectionView {
         case .insert(let index, _):
             let indexPath = IndexPath(row: index, section: 0)
             insertItems(at: [indexPath])
+        case let .swap(from, to, _):
+            let indexPaths = [IndexPath(row: from, section: 0), IndexPath(row: to, section: 0)]
+            reloadItems(at: indexPaths)
+        case let .move(from, to, _):
+            let indexPaths = [IndexPath(row: from, section: 0), IndexPath(row: to, section: 0)]
+            reloadItems(at: indexPaths)
         case .composite(let changes):
             changes.forEach { [weak self] change in
                 self?.handleChange(change)

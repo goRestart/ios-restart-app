@@ -472,6 +472,8 @@ class ChatViewModel: BaseViewModel {
             } else if message.talkerId == otherUserId {
                 otherMessagesCount.value += 1
             }
+        case .swap, .move:
+            break
         case let .composite(changes):
             changes.forEach { [weak self] change in
                 self?.updateMessagesCounts(change)
