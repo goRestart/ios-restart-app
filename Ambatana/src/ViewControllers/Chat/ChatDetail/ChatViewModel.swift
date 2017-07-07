@@ -79,13 +79,13 @@ class ChatViewModel: BaseViewModel {
     var shouldTrackFirstMessage: Bool = false
     let shouldShowExpressBanner = Variable<Bool>(false)
     let relatedProductsState = Variable<ChatRelatedItemsState>(.loading)
-    let predefinedMessage = Variable<String?>(nil)
 
     var keyForTextCaching: String { return userDefaultsSubKey }
     
     let showStickerBadge = Variable<Bool>(!KeyValueStorage.sharedInstance[.stickersBadgeAlreadyShown])
-
     
+    var predefinedMessage: String?
+
     // fileprivate
     fileprivate let myUserRepository: MyUserRepository
     fileprivate let chatRepository: ChatRepository
@@ -253,7 +253,7 @@ class ChatViewModel: BaseViewModel {
         self.chatViewMessageAdapter = ChatViewMessageAdapter()
         self.navigator = navigator
         self.source = source
-        self.predefinedMessage.value = predefinedMessage
+        self.predefinedMessage = predefinedMessage
         super.init()
         setupRx()
         loadStickers()

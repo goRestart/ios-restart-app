@@ -536,8 +536,10 @@ fileprivate extension AppCoordinator {
         }
     }
 
-    func openLogin(_ style: LoginStyle, source: EventParameterLoginSourceValue, afterLogInSuccessful: @escaping () -> (), cancelAction: (() -> Void)?) {
-        let coordinator = LoginCoordinator(source: source, style: style, loggedInAction: afterLogInSuccessful, cancelAction: cancelAction)
+    func openLogin(_ style: LoginStyle, source: EventParameterLoginSourceValue, afterLogInSuccessful: @escaping () -> (),
+                   cancelAction: (() -> Void)?) {
+        let coordinator = LoginCoordinator(source: source, style: style, loggedInAction: afterLogInSuccessful,
+                                           cancelAction: cancelAction)
         openChild(coordinator: coordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
     }
 
@@ -567,25 +569,29 @@ fileprivate extension AppCoordinator {
         case let .product(productId):
             tabBarCtl.clearAllPresented(nil)
             afterDelayClosure = { [weak self] in
-                self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: productId), source: .openApp, actionOnFirstAppear: .nonexistent)
+                self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: productId), source: .openApp,
+                                                          actionOnFirstAppear: .nonexistent)
             }
         case let .productShare(productId):
             tabBarCtl.clearAllPresented(nil)
             afterDelayClosure = { [weak self] in
-                self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: productId), source: .openApp, actionOnFirstAppear: .showShareSheet)
+                self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: productId), source: .openApp,
+                                                          actionOnFirstAppear: .showShareSheet)
             }
         case let .productBumpUp(productId):
             tabBarCtl.clearAllPresented(nil)
             afterDelayClosure = { [weak self] in
                 self?.openTab(.profile, force: false) { [weak self] in
-                    self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: productId), source: .openApp, actionOnFirstAppear: .triggerBumpUp)
+                    self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: productId),
+                                                              source: .openApp, actionOnFirstAppear: .triggerBumpUp)
                 }
             }
         case let .productMarkAsSold(productId):
             tabBarCtl.clearAllPresented(nil)
             afterDelayClosure = { [weak self] in
                 self?.openTab(.profile, force: false) { [weak self] in
-                    self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: productId), source: .openApp, actionOnFirstAppear: .triggerMarkAsSold)
+                    self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: productId),
+                                                              source: .openApp, actionOnFirstAppear: .triggerMarkAsSold)
                 }
             }
         case let .user(userId):
@@ -602,19 +608,22 @@ fileprivate extension AppCoordinator {
         case let .conversation(data):
             afterDelayClosure = { [weak self] in
                 self?.openTab(.chats, force: false) { [weak self] in
-                    self?.chatsTabBarCoordinator.openChat(.dataIds(data: data), source:.external, predefinedMessage: nil)
+                    self?.chatsTabBarCoordinator.openChat(.dataIds(data: data), source: .external,
+                                                          predefinedMessage: nil)
                 }
             }
         case let .conversationWithMessage(data: data, message: message):
             afterDelayClosure = { [weak self] in
                 self?.openTab(.chats, force: false) { [weak self] in
-                    self?.chatsTabBarCoordinator.openChat(.dataIds(data: data), source:.external, predefinedMessage: message)
+                    self?.chatsTabBarCoordinator.openChat(.dataIds(data: data), source: .external,
+                                                          predefinedMessage: message)
                 }
             }
         case .message(_, let data):
             afterDelayClosure = { [weak self] in
                 self?.openTab(.chats, force: false) { [weak self] in
-                    self?.chatsTabBarCoordinator.openChat(.dataIds(data: data), source: .external, predefinedMessage: nil)
+                    self?.chatsTabBarCoordinator.openChat(.dataIds(data: data), source: .external,
+                                                          predefinedMessage: nil)
                 }
             }
         case .search(let query, let categories):

@@ -138,7 +138,7 @@ enum DeepLinkSource {
  - Conversation: By conversation id
  - ProductBuyer: By productId and buyerId 
  */
-enum ConversationData {
+enum ConversationData: Equatable {
     case conversation(conversationId: String)
     case productBuyer(productId: String, buyerId: String)
     
