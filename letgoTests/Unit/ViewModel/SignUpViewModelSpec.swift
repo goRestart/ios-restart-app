@@ -321,8 +321,8 @@ extension SignUpViewModelSpec: MainSignUpNavigator {
         finishedSuccessfully = false
         finishedDeviceNotAllowed = true
     }
-    func openSignUpEmailFromMainSignUp(collapsedEmailParam: EventParameterBoolean?) {}
-    func openLogInEmailFromMainSignUp(collapsedEmailParam: EventParameterBoolean?) {}
+    func openSignUpEmailFromMainSignUp() {}
+    func openLogInEmailFromMainSignUp() {}
 
     func openHelpFromMainSignUp() {}
     func open(url: URL) {}

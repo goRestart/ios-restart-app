@@ -41,29 +41,14 @@
         "description": "Passive buyers products suggested notification opens product with keyboard opened"
     },
     {
-        "name": "OnboardingReview",
-        "values": ["testA", "testB", "testC", "testD"],
-        "description": "Onboarding Review A/B/C/D"
-    },
-    {
         "name": "ProductDetailNextRelated",
         "values": ["no", "yes"],
         "description": "Item page next item related"
     },
     {
-        "name": "ContactSellerOnFavorite",
-        "values": ["no", "yes"],
-        "description": "Send a message when user clicks on contact the seller after favorite"
-    },
-    {
         "name": "SignUpLoginImprovement",
         "values": ["V1", "V1WImprovements", "V2"],
         "description": "SignUp LogIn A/B/C"
-    },
-    {
-        "name": "PeriscopeRemovePredefinedText",
-        "values": ["no", "yes"],
-        "description": "Product detail remove chat text on tap"
     },
     {
         "name": "HideTabBarOnFirstSessionV2",
@@ -74,11 +59,6 @@
         "name": "PostingGallery",
         "values": ["SingleSelection", "MultiSelection", "MultiSelectionWhiteButton", "MultiSelectionTabs", "MultiSelectionPostBottom"],
         "description": "Posting Gallery A/B/C/D/E"
-    },
-    {
-        "name": "QuickAnswersRepeatedTextField",
-        "values": ["no", "yes"],
-        "description": "Quick anwers periscope include the one as textfield placeholder"
     },
     {
         "name": "CarsVerticalEnabled",

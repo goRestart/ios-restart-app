@@ -13,8 +13,8 @@ protocol MainSignUpNavigator: class {
     func closeMainSignUpSuccessful(with myUser: MyUser)
     func closeMainSignUpAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork)
     func closeMainSignUpAndOpenDeviceNotAllowedAlert(contactURL: URL, network: EventParameterAccountNetwork)
-    func openSignUpEmailFromMainSignUp(collapsedEmailParam: EventParameterBoolean?)
-    func openLogInEmailFromMainSignUp(collapsedEmailParam: EventParameterBoolean?)
+    func openSignUpEmailFromMainSignUp()
+    func openLogInEmailFromMainSignUp()
 
     func openHelpFromMainSignUp()
     func open(url: URL)
@@ -41,7 +41,7 @@ protocol LogInEmailNavigator: class {
     func openHelpFromLogInEmail()
     func openRememberPasswordFromLogInEmail(email: String?)
     func openSignUpEmailFromLogInEmail(email: String?,
-                                       isRememberedEmail: Bool, collapsedEmail: EventParameterBoolean?)
+                                       isRememberedEmail: Bool)
     func openScammerAlertFromLogInEmail(contactURL: URL)
     func openDeviceNotAllowedAlertFromLogInEmail(contactURL: URL)
     func closeAfterLogInSuccessful()
@@ -51,9 +51,9 @@ protocol SignUpEmailStep1Navigator: class {
     func cancelSignUpEmailStep1()
     func openHelpFromSignUpEmailStep1()
     func openNextStepFromSignUpEmailStep1(email: String, password: String,
-                                          isRememberedEmail: Bool, collapsedEmail: EventParameterBoolean?)
+                                          isRememberedEmail: Bool)
     func openLogInFromSignUpEmailStep1(email: String?,
-                                       isRememberedEmail: Bool, collapsedEmail: EventParameterBoolean?)
+                                       isRememberedEmail: Bool)
 }
 
 protocol SignUpEmailStep2Navigator: class {

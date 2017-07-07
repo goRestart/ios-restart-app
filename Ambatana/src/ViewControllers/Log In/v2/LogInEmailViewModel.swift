@@ -40,7 +40,6 @@ final class LogInEmailViewModel: BaseViewModel {
     fileprivate var unauthorizedErrorCount: Int
     fileprivate let suggestedEmailVar: Variable<String?>
     fileprivate let source: EventParameterLoginSourceValue
-    fileprivate let collapsedEmail: EventParameterBoolean?
 
     fileprivate let sessionManager: SessionManager
     fileprivate let installationRepository: InstallationRepository
@@ -52,22 +51,18 @@ final class LogInEmailViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
 
-    convenience init(source: EventParameterLoginSourceValue,
-                     collapsedEmail: EventParameterBoolean?) {
+    convenience init(source: EventParameterLoginSourceValue) {
         self.init(source: source,
-                  collapsedEmail: collapsedEmail,
                   keyValueStorage: KeyValueStorage.sharedInstance)
     }
 
     convenience init(source: EventParameterLoginSourceValue,
-                     collapsedEmail: EventParameterBoolean?,
                      keyValueStorage: KeyValueStorageable) {
         let email = LogInEmailViewModel.readPreviousEmail(fromKeyValueStorageable: keyValueStorage)
         let isRememberedEmail = email != nil
         self.init(email: email,
                   isRememberedEmail: isRememberedEmail,
                   source: source,
-                  collapsedEmail: collapsedEmail,
                   sessionManager: Core.sessionManager,
                   installationRepository: Core.installationRepository,
                   keyValueStorage: keyValueStorage,
@@ -76,12 +71,10 @@ final class LogInEmailViewModel: BaseViewModel {
 
     convenience init(email: String?,
                      isRememberedEmail: Bool,
-                     source: EventParameterLoginSourceValue,
-                     collapsedEmail: EventParameterBoolean?) {
+                     source: EventParameterLoginSourceValue) {
         self.init(email: email,
                   isRememberedEmail: isRememberedEmail,
                   source: source,
-                  collapsedEmail: collapsedEmail,
                   sessionManager: Core.sessionManager,
                   installationRepository: Core.installationRepository,
                   keyValueStorage: KeyValueStorage.sharedInstance,
@@ -91,7 +84,6 @@ final class LogInEmailViewModel: BaseViewModel {
     init(email: String?,
          isRememberedEmail: Bool,
          source: EventParameterLoginSourceValue,
-         collapsedEmail: EventParameterBoolean?,
          sessionManager: SessionManager,
          installationRepository: InstallationRepository,
          keyValueStorage: KeyValueStorageable,
@@ -103,7 +95,6 @@ final class LogInEmailViewModel: BaseViewModel {
         self.unauthorizedErrorCount = 0
         self.suggestedEmailVar = Variable<String?>(nil)
         self.source = source
-        self.collapsedEmail = collapsedEmail
 
         self.sessionManager = sessionManager
         self.installationRepository = installationRepository
@@ -341,7 +332,7 @@ fileprivate extension LogInEmailViewModel {
     }
 
     func trackLogInSucceeded() {
-        let event = TrackerEvent.loginEmail(source, rememberedAccount: isRememberedEmail, collapsedEmail: collapsedEmail)
+        let event = TrackerEvent.loginEmail(source, rememberedAccount: isRememberedEmail)
         tracker.trackEvent(event)
     }
 
@@ -381,8 +372,7 @@ fileprivate extension LogInEmailViewModel {
 
     func openSignUp(email: String?, password: String?) {
         navigator?.openSignUpEmailFromLogInEmail(email: email, 
-                                                 isRememberedEmail: isRememberedEmail,
-                                                 collapsedEmail: collapsedEmail)
+                                                 isRememberedEmail: isRememberedEmail)
     }
 }
 

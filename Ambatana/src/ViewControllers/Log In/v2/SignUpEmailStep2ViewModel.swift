@@ -49,7 +49,6 @@ final class SignUpEmailStep2ViewModel: BaseViewModel {
     fileprivate let isRememberedEmail: Bool
     fileprivate let password: String
     fileprivate let source: EventParameterLoginSourceValue
-    fileprivate let collapsedEmail: EventParameterBoolean?
     fileprivate let signUpEnabledVar: Variable<Bool>
 
     fileprivate let sessionManager: SessionManager
@@ -63,12 +62,11 @@ final class SignUpEmailStep2ViewModel: BaseViewModel {
     // MARK : - Lifecycle
 
     convenience init(email: String, isRememberedEmail: Bool, password: String,
-                     source: EventParameterLoginSourceValue, collapsedEmail: EventParameterBoolean?) {
+                     source: EventParameterLoginSourceValue) {
         self.init(email: email,
                   isRememberedEmail: isRememberedEmail,
                   password: password,
                   source: source,
-                  collapsedEmail: collapsedEmail,
                   sessionManager: Core.sessionManager,
                   installationRepository: Core.installationRepository,
                   keyValueStorage: KeyValueStorage.sharedInstance,
@@ -80,7 +78,6 @@ final class SignUpEmailStep2ViewModel: BaseViewModel {
          isRememberedEmail: Bool,
          password: String,
          source: EventParameterLoginSourceValue,
-         collapsedEmail: EventParameterBoolean?,
          sessionManager: SessionManager,
          installationRepository: InstallationRepository,
          keyValueStorage: KeyValueStorageable,
@@ -95,7 +92,6 @@ final class SignUpEmailStep2ViewModel: BaseViewModel {
         self.isRememberedEmail = isRememberedEmail
         self.password = password
         self.source = source
-        self.collapsedEmail = collapsedEmail
         self.signUpEnabledVar = Variable<Bool>(!(username ?? "").isEmpty)
 
         self.sessionManager = sessionManager
@@ -306,7 +302,7 @@ fileprivate extension SignUpEmailStep2ViewModel {
         } else {
             newsletterTrackingParam = .notAvailable
         }
-        let event = TrackerEvent.signupEmail(source, newsletter: newsletterTrackingParam, collapsedEmail: collapsedEmail)
+        let event = TrackerEvent.signupEmail(source, newsletter: newsletterTrackingParam)
         tracker.trackEvent(event)
     }
 
@@ -316,7 +312,7 @@ fileprivate extension SignUpEmailStep2ViewModel {
     }
 
     func trackLogIn() {
-        let event = TrackerEvent.loginEmail(source, rememberedAccount: isRememberedEmail, collapsedEmail: collapsedEmail)
+        let event = TrackerEvent.loginEmail(source, rememberedAccount: isRememberedEmail)
         tracker.trackEvent(event)
     }
 }

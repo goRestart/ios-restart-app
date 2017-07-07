@@ -21,14 +21,10 @@ extension Bumper  {
         flags.append(PricedBumpUpEnabled.self)
         flags.append(CaptchaTransparent.self)
         flags.append(PassiveBuyersShowKeyboard.self)
-        flags.append(OnboardingReview.self)
         flags.append(ProductDetailNextRelated.self)
-        flags.append(ContactSellerOnFavorite.self)
         flags.append(SignUpLoginImprovement.self)
-        flags.append(PeriscopeRemovePredefinedText.self)
         flags.append(HideTabBarOnFirstSessionV2.self)
         flags.append(PostingGallery.self)
-        flags.append(QuickAnswersRepeatedTextField.self)
         flags.append(CarsVerticalEnabled.self)
         flags.append(CarsCategoryAfterPicture.self)
         flags.append(NewMarkAsSoldFlow.self)
@@ -80,29 +76,14 @@ extension Bumper  {
         return PassiveBuyersShowKeyboard(rawValue: value)?.asBool ?? false
     }
 
-    static var onboardingReview: OnboardingReview {
-        guard let value = Bumper.value(for: OnboardingReview.key) else { return .testA }
-        return OnboardingReview(rawValue: value) ?? .testA 
-    }
-
     static var productDetailNextRelated: Bool {
         guard let value = Bumper.value(for: ProductDetailNextRelated.key) else { return false }
         return ProductDetailNextRelated(rawValue: value)?.asBool ?? false
     }
 
-    static var contactSellerOnFavorite: Bool {
-        guard let value = Bumper.value(for: ContactSellerOnFavorite.key) else { return false }
-        return ContactSellerOnFavorite(rawValue: value)?.asBool ?? false
-    }
-
     static var signUpLoginImprovement: SignUpLoginImprovement {
         guard let value = Bumper.value(for: SignUpLoginImprovement.key) else { return .v1 }
         return SignUpLoginImprovement(rawValue: value) ?? .v1 
-    }
-
-    static var periscopeRemovePredefinedText: Bool {
-        guard let value = Bumper.value(for: PeriscopeRemovePredefinedText.key) else { return false }
-        return PeriscopeRemovePredefinedText(rawValue: value)?.asBool ?? false
     }
 
     static var hideTabBarOnFirstSessionV2: Bool {
@@ -113,11 +94,6 @@ extension Bumper  {
     static var postingGallery: PostingGallery {
         guard let value = Bumper.value(for: PostingGallery.key) else { return .singleSelection }
         return PostingGallery(rawValue: value) ?? .singleSelection 
-    }
-
-    static var quickAnswersRepeatedTextField: Bool {
-        guard let value = Bumper.value(for: QuickAnswersRepeatedTextField.key) else { return false }
-        return QuickAnswersRepeatedTextField(rawValue: value)?.asBool ?? false
     }
 
     static var carsVerticalEnabled: Bool {
@@ -234,38 +210,12 @@ enum PassiveBuyersShowKeyboard: String, BumperFeature  {
     var asBool: Bool { return self == .yes }
 }
 
-enum OnboardingReview: String, BumperFeature  {
-    case testA, testB, testC, testD
-    static var defaultValue: String { return OnboardingReview.testA.rawValue }
-    static var enumValues: [OnboardingReview] { return [.testA, .testB, .testC, .testD]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Onboarding Review A/B/C/D" } 
-    static func fromPosition(_ position: Int) -> OnboardingReview {
-        switch position { 
-            case 0: return .testA
-            case 1: return .testB
-            case 2: return .testC
-            case 3: return .testD
-            default: return .testA
-        }
-    }
-}
-
 enum ProductDetailNextRelated: String, BumperFeature  {
     case no, yes
     static var defaultValue: String { return ProductDetailNextRelated.no.rawValue }
     static var enumValues: [ProductDetailNextRelated] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Item page next item related" } 
-    var asBool: Bool { return self == .yes }
-}
-
-enum ContactSellerOnFavorite: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return ContactSellerOnFavorite.no.rawValue }
-    static var enumValues: [ContactSellerOnFavorite] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Send a message when user clicks on contact the seller after favorite" } 
     var asBool: Bool { return self == .yes }
 }
 
@@ -283,15 +233,6 @@ enum SignUpLoginImprovement: String, BumperFeature  {
             default: return .v1
         }
     }
-}
-
-enum PeriscopeRemovePredefinedText: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return PeriscopeRemovePredefinedText.no.rawValue }
-    static var enumValues: [PeriscopeRemovePredefinedText] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Product detail remove chat text on tap" } 
-    var asBool: Bool { return self == .yes }
 }
 
 enum HideTabBarOnFirstSessionV2: String, BumperFeature  {
@@ -319,15 +260,6 @@ enum PostingGallery: String, BumperFeature  {
             default: return .singleSelection
         }
     }
-}
-
-enum QuickAnswersRepeatedTextField: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return QuickAnswersRepeatedTextField.no.rawValue }
-    static var enumValues: [QuickAnswersRepeatedTextField] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Quick anwers periscope include the one as textfield placeholder" } 
-    var asBool: Bool { return self == .yes }
 }
 
 enum CarsVerticalEnabled: String, BumperFeature  {

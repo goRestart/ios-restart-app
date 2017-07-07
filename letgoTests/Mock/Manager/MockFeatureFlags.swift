@@ -24,18 +24,14 @@ class MockFeatureFlags: FeatureFlaggeable {
 
     var websocketChat: Bool = false
     var userReviews: Bool = false
-    var shouldContactSellerOnFavorite: Bool = false
     var captchaTransparent: Bool = false
     var passiveBuyersShowKeyboard: Bool = false
-    var onboardingReview: OnboardingReview = .testA
     var freeBumpUpEnabled: Bool = false
     var pricedBumpUpEnabled: Bool = false
     var productDetailNextRelated: Bool = false
     var signUpLoginImprovement: SignUpLoginImprovement = .v1
-    var periscopeRemovePredefinedText: Bool = false
     var hideTabBarOnFirstSessionV2: Bool = false
     var postingGallery: PostingGallery = .singleSelection
-    var quickAnswersRepeatedTextField: Bool = false
     var carsVerticalEnabled: Bool = false
     var carsCategoryAfterPicture: Bool = false
     var newMarkAsSoldFlow: Bool = false

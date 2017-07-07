@@ -64,7 +64,6 @@ class ChatTextView: UIView {
     fileprivate let sendButton = UIButton(type: .custom)
     fileprivate let focus = Variable<Bool>(false)
     fileprivate var initialTextActive = false
-    var shouldClearWhenBeginEditing = false
 
     private static let elementsMargin: CGFloat = 10
     private static let textViewMaxHeight: CGFloat = 120
@@ -211,7 +210,7 @@ extension ChatTextView: UITextFieldDelegate {
 
     func textFieldDidBeginEditing(_ textField: UITextField) {
         focus.value = true
-        if initialTextActive && shouldClearWhenBeginEditing {
+        if initialTextActive {
             clear()
         }
         initialTextActive = false

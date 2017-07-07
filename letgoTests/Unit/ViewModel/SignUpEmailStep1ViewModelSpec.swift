@@ -41,7 +41,6 @@ class SignUpEmailStep1ViewModelSpec: BaseViewModelSpec {
                 sut = SignUpEmailStep1ViewModel(email: nil,
                                                 isRememberedEmail: false,
                                                 source: .sell,
-                                                collapsedEmail: nil,
                                                 keyValueStorage: keyValueStorage,
                                                 tracker: tracker)
                 sut.email.asObservable().subscribeNext { newEmail in
@@ -59,7 +58,7 @@ class SignUpEmailStep1ViewModelSpec: BaseViewModelSpec {
             describe("initialization") {
                 context("did not log in previously") {
                     beforeEach {
-                        sut = SignUpEmailStep1ViewModel(source: .sell, collapsedEmail: nil, keyValueStorage: keyValueStorage)
+                        sut = SignUpEmailStep1ViewModel(source: .sell, keyValueStorage: keyValueStorage)
                     }
 
                     it("has no email") {
@@ -78,7 +77,7 @@ class SignUpEmailStep1ViewModelSpec: BaseViewModelSpec {
                         keyValueStorage[.previousUserAccountProvider] = "letgo"
                         keyValueStorage[.previousUserEmailOrName] = "albert@letgo.com"
 
-                        sut = SignUpEmailStep1ViewModel(source: .sell, collapsedEmail: nil, keyValueStorage: keyValueStorage)
+                        sut = SignUpEmailStep1ViewModel(source: .sell, keyValueStorage: keyValueStorage)
                     }
 
                     it("has an email") {
@@ -97,7 +96,7 @@ class SignUpEmailStep1ViewModelSpec: BaseViewModelSpec {
                         keyValueStorage[.previousUserAccountProvider] = "facebook"
                         keyValueStorage[.previousUserEmailOrName] = "Albert FB"
 
-                        sut = SignUpEmailStep1ViewModel(source: .sell, collapsedEmail: nil, keyValueStorage: keyValueStorage)
+                        sut = SignUpEmailStep1ViewModel(source: .sell, keyValueStorage: keyValueStorage)
                     }
 
                     it("has no email") {
@@ -116,7 +115,7 @@ class SignUpEmailStep1ViewModelSpec: BaseViewModelSpec {
                         keyValueStorage[.previousUserAccountProvider] = "google"
                         keyValueStorage[.previousUserEmailOrName] = "Albert Google"
 
-                        sut = SignUpEmailStep1ViewModel(source: .sell, collapsedEmail: nil, keyValueStorage: keyValueStorage)
+                        sut = SignUpEmailStep1ViewModel(source: .sell, keyValueStorage: keyValueStorage)
                     }
 
                     it("has no email") {
@@ -343,12 +342,12 @@ extension SignUpEmailStep1ViewModelSpec: SignUpEmailStep1Navigator {
     }
 
     func openNextStepFromSignUpEmailStep1(email: String, password: String,
-                                          isRememberedEmail: Bool, collapsedEmail: EventParameterBoolean?) {
+                                          isRememberedEmail: Bool) {
         navigatorReceivedOpenNextStep = true
     }
 
     func openLogInFromSignUpEmailStep1(email: String?,
-                                       isRememberedEmail: Bool, collapsedEmail: EventParameterBoolean?) {
+                                       isRememberedEmail: Bool) {
         navigatorReceivedOpenLogIn = true
     }
 }

@@ -101,6 +101,7 @@ class LGWebSocketClient: WebSocketClient, WebSocketLibraryDelegate {
     var socketStatus = Variable<WebSocketStatus>(.closed)
     
     private let enqueueOperationLock = NSLock()
+    private let activeRequestsLock = NSLock()
     
     private var endpointURL: URL?
     private var endpoint: String {
@@ -608,6 +609,11 @@ class LGWebSocketClient: WebSocketClient, WebSocketLibraryDelegate {
     }
     
     private func addActiveRequest(_ request: WebSocketRequestConvertible) {
+        // ensure this method is not executed from different threads at the same time (attempt to fix ABIOS-2782)
+        activeRequestsLock.lock()
+        defer {
+            activeRequestsLock.unlock()
+        }
         let key = request.uuid.lowercased()
         activeRequests[key] = request
         logMessage(LogLevel.debug, type: .webSockets,
@@ -615,6 +621,11 @@ class LGWebSocketClient: WebSocketClient, WebSocketLibraryDelegate {
     }
     
     private func removeActiveRequest(forKey key: String) {
+        // ensure this method is not executed from different threads at the same time (attempt to fix ABIOS-2782)
+        activeRequestsLock.lock()
+        defer {
+            activeRequestsLock.unlock()
+        }
         let keyValue = key.lowercased()
         guard activeRequests[keyValue] != nil else { return }
         activeRequests.removeValue(forKey: keyValue)

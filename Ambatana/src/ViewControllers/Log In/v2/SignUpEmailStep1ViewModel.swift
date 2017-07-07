@@ -32,7 +32,6 @@ final class SignUpEmailStep1ViewModel: BaseViewModel {
     fileprivate let isRememberedEmail: Bool
     fileprivate let suggestedEmailVar: Variable<String?>
     fileprivate let source: EventParameterLoginSourceValue
-    fileprivate let collapsedEmail: EventParameterBoolean?
     fileprivate let keyValueStorage: KeyValueStorageable
     fileprivate let nextStepEnabledVar: Variable<Bool>
     fileprivate let tracker: Tracker
@@ -41,34 +40,28 @@ final class SignUpEmailStep1ViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
 
-    convenience init(source: EventParameterLoginSourceValue,
-                     collapsedEmail: EventParameterBoolean?) {
+    convenience init(source: EventParameterLoginSourceValue) {
         self.init(source: source,
-                  collapsedEmail: collapsedEmail,
                   keyValueStorage: KeyValueStorage.sharedInstance)
     }
 
     convenience init(source: EventParameterLoginSourceValue,
-                     collapsedEmail: EventParameterBoolean?,
                      keyValueStorage: KeyValueStorageable) {
         let email = SignUpEmailStep1ViewModel.readPreviousEmail(fromKeyValueStorageable: keyValueStorage)
         let isRememberedEmail = email != nil
         self.init(email: email,
                   isRememberedEmail: isRememberedEmail,
                   source: source,
-                  collapsedEmail: collapsedEmail,
                   keyValueStorage: keyValueStorage,
                   tracker: TrackerProxy.sharedInstance)
     }
 
     convenience init(email: String?,
                      isRememberedEmail: Bool,
-                     source: EventParameterLoginSourceValue,
-                     collapsedEmail: EventParameterBoolean?) {
+                     source: EventParameterLoginSourceValue) {
         self.init(email: email,
                   isRememberedEmail: isRememberedEmail,
                   source: source,
-                  collapsedEmail: collapsedEmail,
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   tracker: TrackerProxy.sharedInstance)
     }
@@ -76,7 +69,6 @@ final class SignUpEmailStep1ViewModel: BaseViewModel {
     init(email: String?,
          isRememberedEmail: Bool,
          source: EventParameterLoginSourceValue,
-         collapsedEmail: EventParameterBoolean?,
          keyValueStorage: KeyValueStorageable,
          tracker: Tracker) {
         self.email = Variable<String?>(email)
@@ -85,7 +77,6 @@ final class SignUpEmailStep1ViewModel: BaseViewModel {
         self.isRememberedEmail = isRememberedEmail
         self.suggestedEmailVar = Variable<String?>(nil)
         self.source = source
-        self.collapsedEmail = collapsedEmail
         self.keyValueStorage = keyValueStorage
         self.nextStepEnabledVar = Variable<Bool>(false)
         self.tracker = tracker
@@ -210,13 +201,11 @@ fileprivate extension SignUpEmailStep1FormErrors {
 fileprivate extension SignUpEmailStep1ViewModel {
     func openNextStep(email: String, password: String) {
         navigator?.openNextStepFromSignUpEmailStep1(email: email, password: password,
-                                                    isRememberedEmail: isRememberedEmail,
-                                                    collapsedEmail: collapsedEmail)
+                                                    isRememberedEmail: isRememberedEmail)
     }
 
     func openLogIn(email: String?) {
         navigator?.openLogInFromSignUpEmailStep1(email: email,
-                                                 isRememberedEmail: isRememberedEmail,
-                                                 collapsedEmail: collapsedEmail)
+                                                 isRememberedEmail: isRememberedEmail)
     }
 }
