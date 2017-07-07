@@ -29,7 +29,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var freeBumpUpEnabled: Bool = false
     var pricedBumpUpEnabled: Bool = false
     var productDetailNextRelated: Bool = false
-    var postingGallery: PostingGallery = .singleSelection
     var carsVerticalEnabled: Bool = false
     var carsCategoryAfterPicture: Bool = false
     var newMarkAsSoldFlow: Bool = false
