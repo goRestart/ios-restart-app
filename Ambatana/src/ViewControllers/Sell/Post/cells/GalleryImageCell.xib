@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1212" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -33,36 +33,27 @@
                         <rect key="frame" x="0.0" y="0.0" width="131" height="130"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Qis-wv-WZj">
-                        <rect key="frame" x="0.0" y="0.0" width="131" height="130"/>
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.54000000000000004" colorSpace="custom" customColorSpace="sRGB"/>
-                    </imageView>
                 </subviews>
             </view>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="Qis-wv-WZj" secondAttribute="trailing" id="9R8-I4-8Fi"/>
                 <constraint firstAttribute="trailing" secondItem="6iW-HO-UUd" secondAttribute="trailing" id="BGl-KR-qVt"/>
                 <constraint firstItem="on6-kw-wa9" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Ml2-yt-vbS"/>
                 <constraint firstItem="6iW-HO-UUd" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="N2f-Gu-ckB"/>
                 <constraint firstItem="6iW-HO-UUd" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="POd-Bi-Q9k"/>
-                <constraint firstItem="Qis-wv-WZj" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="VjD-jy-9eX"/>
                 <constraint firstAttribute="bottom" secondItem="6iW-HO-UUd" secondAttribute="bottom" id="ZAU-JC-eZ7"/>
                 <constraint firstAttribute="trailing" secondItem="on6-kw-wa9" secondAttribute="trailing" id="cRx-bM-8wP"/>
                 <constraint firstItem="dHz-qY-kZd" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="ch7-mw-Fp1"/>
                 <constraint firstAttribute="bottom" secondItem="dHz-qY-kZd" secondAttribute="bottom" id="f4W-iJ-DOM"/>
                 <constraint firstItem="dHz-qY-kZd" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="iTI-lx-rS2"/>
-                <constraint firstItem="Qis-wv-WZj" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="m4S-id-3Bx"/>
                 <constraint firstAttribute="bottom" secondItem="on6-kw-wa9" secondAttribute="bottom" id="oai-6Q-4rd"/>
                 <constraint firstItem="on6-kw-wa9" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="qt0-kb-UUN"/>
                 <constraint firstAttribute="trailing" secondItem="dHz-qY-kZd" secondAttribute="trailing" id="vsL-KH-jQt"/>
-                <constraint firstAttribute="bottom" secondItem="Qis-wv-WZj" secondAttribute="bottom" id="zUY-kf-7l7"/>
             </constraints>
             <size key="customSize" width="131" height="130"/>
             <connections>
                 <outlet property="disabledView" destination="dHz-qY-kZd" id="bk8-pM-YS3"/>
                 <outlet property="image" destination="on6-kw-wa9" id="PPM-CT-dS4"/>
                 <outlet property="multipleSelectionCountLabel" destination="6iW-HO-UUd" id="2dI-6m-Uh7"/>
-                <outlet property="singleSelectionCheck" destination="Qis-wv-WZj" id="bgN-d5-UVU"/>
             </connections>
             <point key="canvasLocation" x="782.5" y="508"/>
         </collectionViewCell>

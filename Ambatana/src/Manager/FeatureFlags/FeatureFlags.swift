@@ -28,8 +28,6 @@ protocol FeatureFlaggeable: class {
     var freeBumpUpEnabled: Bool { get }
     var pricedBumpUpEnabled: Bool { get }
     var productDetailNextRelated: Bool { get }
-    var hideTabBarOnFirstSessionV2: Bool { get }
-    var postingGallery: PostingGallery { get }
     var carsVerticalEnabled: Bool { get }
     var carsCategoryAfterPicture: Bool { get }
     var newMarkAsSoldFlow: Bool { get }
@@ -177,20 +175,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.productDetailNextRelated
         }
         return abTests.productDetailNextRelated.value
-    }
-    
-    var postingGallery: PostingGallery {
-        if Bumper.enabled {
-            return Bumper.postingGallery
-        }
-        return PostingGallery.fromPosition(abTests.postingGallery.value)
-    }
-
-    var hideTabBarOnFirstSessionV2: Bool {
-        if Bumper.enabled {
-            return Bumper.hideTabBarOnFirstSessionV2
-        }
-        return abTests.hideTabBarOnFirstSessionV2.value
     }
     
     var carsVerticalEnabled: Bool {

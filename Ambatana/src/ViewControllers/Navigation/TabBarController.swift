@@ -28,7 +28,6 @@ final class TabBarController: UITabBarController {
     fileprivate let viewModel: TabBarViewModel
     fileprivate var tooltip: Tooltip?
     fileprivate var featureFlags: FeatureFlaggeable
-    fileprivate var incentiviseScrollBanner: IncentiviseScrollBanner
     
     // Rx
     fileprivate let disposeBag = DisposeBag()
@@ -44,7 +43,6 @@ final class TabBarController: UITabBarController {
     }
     
     init(viewModel: TabBarViewModel, featureFlags: FeatureFlaggeable) {
-        self.incentiviseScrollBanner = IncentiviseScrollBanner()
         self.floatingSellButton = FloatingButton(with: LGLocalizedString.tabBarToolTip, image: UIImage(named: "ic_sell_white"), position: .left)
         self.viewModel = viewModel
         self.featureFlags = featureFlags
@@ -60,9 +58,7 @@ final class TabBarController: UITabBarController {
         super.viewDidLoad()
 
         setupAdminAccess()
-        setupIncentiviseScrollBanner()
         setupSellButton()
-        setupScrollBannerRx()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -157,9 +153,7 @@ final class TabBarController: UITabBarController {
     override func setTabBarHidden(_ hidden:Bool, animated:Bool, completion: ((Bool) -> Void)? = nil) {
         let floatingOffset : CGFloat = (hidden ? -15 : -(tabBar.frame.height + 15))
         floatingSellButtonMarginConstraint.constant = floatingOffset
-        super.setTabBarHidden(hidden, animated: animated, completion: { [weak self] _ in
-            self?.viewModel.tabBarChangeVisibility(hidden: hidden)
-        })
+        super.setTabBarHidden(hidden, animated: animated)
     }
 
 
@@ -184,15 +178,6 @@ final class TabBarController: UITabBarController {
             vc.tabBarItem = tabBarItem
         }
         setupBadgesRx()
-    }
-    
-    private func setupIncentiviseScrollBanner() {
-        guard viewModel.shouldSetupScrollBanner else { return }
-        incentiviseScrollBanner.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(incentiviseScrollBanner)
-        view.bringSubview(toFront: incentiviseScrollBanner)
-        incentiviseScrollBanner.layout(with: tabBar).bottom().left().right()
-        incentiviseScrollBanner.layout().height(tabBar.frame.height*2)
     }
 
     private func setupSellButton() {
@@ -221,12 +206,6 @@ final class TabBarController: UITabBarController {
         }
     }
     
-    private func setupScrollBannerRx() {
-        viewModel.hideScrollBanner.asObservable().bindNext({ [weak self] hidden in
-            self?.incentiviseScrollBanner.isHidden = hidden
-        }).addDisposableTo(disposeBag)
-    }
-
     
     // MARK: > UI
 }

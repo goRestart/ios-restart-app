@@ -477,7 +477,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         case .available, .blocked, .blockedBy, .productSold, .userPendingDelete, .userDeleted:
             delegate?.vmHideKeyboard(animated: false)
             let data = ListingDetailData.listingAPI(listing: listing, thumbnailImage: nil, originFrame: nil)
-            navigator?.openListing(data, source: .chat, showKeyboardOnFirstAppearIfNeeded: false)
+            navigator?.openListing(data, source: .chat, actionOnFirstAppear: .nonexistent)
         }
     }
     
@@ -1314,7 +1314,7 @@ extension OldChatViewModel: ChatRelatedProductsViewDelegate {
         let data = ListingDetailData.listingList(listing: listing, cellModels: productListModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame,
                                                  showRelated: false, index: 0)
-        navigator?.openListing(data, source: .chat, showKeyboardOnFirstAppearIfNeeded: false)
+        navigator?.openListing(data, source: .chat, actionOnFirstAppear: .nonexistent)
     }
 }
 

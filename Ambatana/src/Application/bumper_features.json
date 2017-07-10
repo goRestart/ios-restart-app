@@ -46,16 +46,6 @@
         "description": "Item page next item related"
     },
     {
-        "name": "HideTabBarOnFirstSessionV2",
-        "values": ["no", "yes"],
-        "description": "hide tab bar with incentivise scroll banner v2"
-    },
-    {
-        "name": "PostingGallery",
-        "values": ["SingleSelection", "MultiSelection", "MultiSelectionWhiteButton", "MultiSelectionTabs", "MultiSelectionPostBottom"],
-        "description": "Posting Gallery A/B/C/D/E"
-    },
-    {
         "name": "CarsVerticalEnabled",
         "values": ["no", "yes"],
         "description": "Cars vertical enabled"

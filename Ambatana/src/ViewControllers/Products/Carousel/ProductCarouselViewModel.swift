@@ -61,8 +61,8 @@ class ProductCarouselViewModel: BaseViewModel {
     var shouldShowMoreInfoTooltip: Bool {
         return !keyValueStorage[.productMoreInfoTooltipDismissed]
     }
-
-    let showKeyboardOnFirstAppearance: Bool
+    
+    let actionOnFirstAppear: ProductCarouselActionOnFirstAppear
 
     let productInfo = Variable<ProductVMProductInfo?>(nil)
     let productImageURLs = Variable<[URL]>([])
@@ -144,14 +144,14 @@ class ProductCarouselViewModel: BaseViewModel {
     convenience init(listing: Listing,
                      productListRequester: ProductListRequester,
                      source: EventParameterProductVisitSource,
-                     showKeyboardOnFirstAppearIfNeeded: Bool,
+                     actionOnFirstAppear: ProductCarouselActionOnFirstAppear,
                      trackingIndex: Int?) {
         self.init(productListModels: nil,
                   initialListing: listing,
                   thumbnailImage: nil,
                   productListRequester: productListRequester,
                   source: source,
-                  showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded,
+                  actionOnFirstAppear: actionOnFirstAppear,
                   trackingIndex: trackingIndex,
                   firstProductSyncRequired: true)
     }
@@ -160,14 +160,14 @@ class ProductCarouselViewModel: BaseViewModel {
                      thumbnailImage: UIImage?,
                      productListRequester: ProductListRequester,
                      source: EventParameterProductVisitSource,
-                     showKeyboardOnFirstAppearIfNeeded: Bool,
+                     actionOnFirstAppear: ProductCarouselActionOnFirstAppear,
                      trackingIndex: Int?) {
         self.init(productListModels: nil,
                   initialListing: listing,
                   thumbnailImage: thumbnailImage,
                   productListRequester: productListRequester,
                   source: source,
-                  showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded,
+                  actionOnFirstAppear: actionOnFirstAppear,
                   trackingIndex: trackingIndex,
                   firstProductSyncRequired: false)
     }
@@ -177,7 +177,7 @@ class ProductCarouselViewModel: BaseViewModel {
          thumbnailImage: UIImage?,
          productListRequester: ProductListRequester,
          source: EventParameterProductVisitSource,
-         showKeyboardOnFirstAppearIfNeeded: Bool,
+         actionOnFirstAppear: ProductCarouselActionOnFirstAppear,
          trackingIndex: Int?,
          firstProductSyncRequired: Bool) {
         self.init(productListModels: productListModels,
@@ -185,7 +185,7 @@ class ProductCarouselViewModel: BaseViewModel {
                   thumbnailImage: thumbnailImage,
                   productListRequester: productListRequester,
                   source: source,
-                  showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded,
+                  actionOnFirstAppear: actionOnFirstAppear,
                   trackingIndex: trackingIndex,
                   firstProductSyncRequired: firstProductSyncRequired,
                   featureFlags: FeatureFlags.sharedInstance,
@@ -199,7 +199,7 @@ class ProductCarouselViewModel: BaseViewModel {
          thumbnailImage: UIImage?,
          productListRequester: ProductListRequester,
          source: EventParameterProductVisitSource,
-         showKeyboardOnFirstAppearIfNeeded: Bool,
+         actionOnFirstAppear: ProductCarouselActionOnFirstAppear,
          trackingIndex: Int?,
          firstProductSyncRequired: Bool,
          featureFlags: FeatureFlaggeable,
@@ -216,7 +216,7 @@ class ProductCarouselViewModel: BaseViewModel {
         self.initialThumbnail = thumbnailImage
         self.productListRequester = productListRequester
         self.source = source
-        self.showKeyboardOnFirstAppearance = source == .notifications && showKeyboardOnFirstAppearIfNeeded && featureFlags.passiveBuyersShowKeyboard
+        self.actionOnFirstAppear = actionOnFirstAppear
         self.quickAnswersCollapsed = Variable<Bool>(keyValueStorage[.productDetailQuickAnswersHidden])
         self.keyValueStorage = keyValueStorage
         self.imageDownloader = imageDownloader
