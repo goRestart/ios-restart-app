@@ -108,7 +108,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
         self.multipageRequester = MultiPageRequester() { [weak self] (page, completion) in
             self?.index(page, completion: completion)
         }
-        setupPaginableRxBindings()
+        setupRx()
     }
 
 
@@ -135,9 +135,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     }
 
     func didFinishLoading() {
-        if active {
-            notificationsManager.updateChatCounters()
-        }
+        notificationsManager.updateChatCounters()
     }
 
     var activityIndicatorAnimating: Bool {
@@ -313,7 +311,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
 // MARK: - Rx
 
 extension BaseChatGroupedListViewModel {
-    fileprivate func setupPaginableRxBindings() {
+    fileprivate func setupRx() {
         objects.observable.map { messages in
             return messages.count
         }.bindTo(rx_objectCount).addDisposableTo(disposeBag)
@@ -323,8 +321,9 @@ extension BaseChatGroupedListViewModel {
         }.addDisposableTo(disposeBag)
         
         if shouldWriteInCollectionVariable {
-            objects.changesObservable.subscribeNext { [weak self] editing in
+            objects.changesObservable.subscribeNext { [weak self] _ in
                 self?.chatGroupedDelegate?.chatGroupedListViewModelShouldUpdateStatus()
+                self?.notificationsManager.updateChatCounters()
             }.addDisposableTo(disposeBag)
         }
     }
