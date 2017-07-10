@@ -83,8 +83,9 @@ class ChatViewModel: BaseViewModel {
     var keyForTextCaching: String { return userDefaultsSubKey }
     
     let showStickerBadge = Variable<Bool>(!KeyValueStorage.sharedInstance[.stickersBadgeAlreadyShown])
-
     
+    var predefinedMessage: String?
+
     // fileprivate
     fileprivate let myUserRepository: MyUserRepository
     fileprivate let chatRepository: ChatRepository
@@ -182,7 +183,7 @@ class ChatViewModel: BaseViewModel {
         }
     }
 
-    convenience init(conversation: ChatConversation, navigator: ChatDetailNavigator?, source: EventParameterTypePage) {
+    convenience init(conversation: ChatConversation, navigator: ChatDetailNavigator?, source: EventParameterTypePage, predefinedMessage: String?) {
         let myUserRepository = Core.myUserRepository
         let chatRepository = Core.chatRepository
         let listingRepository = Core.listingRepository
@@ -200,7 +201,7 @@ class ChatViewModel: BaseViewModel {
                   listingRepository: listingRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository, tracker: tracker, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
-                  source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager)
+                  source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager, predefinedMessage: predefinedMessage)
     }
     
     convenience init?(listing: Listing, navigator: ChatDetailNavigator?, source: EventParameterTypePage) {
@@ -226,7 +227,7 @@ class ChatViewModel: BaseViewModel {
                   listingRepository: listingRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository ,tracker: tracker, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
-                  source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager)
+                  source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager, predefinedMessage: nil)
         self.setupConversationFrom(listing: listing)
     }
     
@@ -234,7 +235,7 @@ class ChatViewModel: BaseViewModel {
           listingRepository: ListingRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
           tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, keyValueStorage: KeyValueStorageable,
           navigator: ChatDetailNavigator?, featureFlags: FeatureFlaggeable, source: EventParameterTypePage,
-          ratingManager: RatingManager, pushPermissionsManager: PushPermissionsManager) {
+          ratingManager: RatingManager, pushPermissionsManager: PushPermissionsManager, predefinedMessage: String?) {
         self.conversation = Variable<ChatConversation>(conversation)
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
@@ -252,6 +253,7 @@ class ChatViewModel: BaseViewModel {
         self.chatViewMessageAdapter = ChatViewMessageAdapter()
         self.navigator = navigator
         self.source = source
+        self.predefinedMessage = predefinedMessage
         super.init()
         setupRx()
         loadStickers()
@@ -510,7 +512,7 @@ class ChatViewModel: BaseViewModel {
         case .pending, .approved, .discarded, .sold, .soldOld:
             delegate?.vmHideKeyboard(false)
             let data = ListingDetailData.listingChat(chatConversation: conversation.value)
-            navigator?.openListing(data, source: .chat, showKeyboardOnFirstAppearIfNeeded: false)
+            navigator?.openListing(data, source: .chat, actionOnFirstAppear: .nonexistent)
         }
     }
     
@@ -1356,7 +1358,7 @@ extension ChatViewModel: ChatRelatedProductsViewDelegate {
         let data = ListingDetailData.listingList(listing: listing, cellModels: productListModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame,
                                                  showRelated: false, index: 0)
-        navigator?.openListing(data, source: .chat, showKeyboardOnFirstAppearIfNeeded: false)
+        navigator?.openListing(data, source: .chat, actionOnFirstAppear: .nonexistent)
     }
 }
 

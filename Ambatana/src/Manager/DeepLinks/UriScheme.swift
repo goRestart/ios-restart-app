@@ -47,12 +47,28 @@ struct UriScheme {
             guard let productId = components.first else { return nil }
             return UriScheme(deepLink: DeepLink.link(.product(productId: productId), campaign: campaign, medium: medium,
                 source: source, cardActionParameter: cardActionParameter))
+        case .productShare:
+            guard let productId = components.first else { return nil }
+            return UriScheme(deepLink: DeepLink.link(.productShare(productId: productId), campaign: campaign, medium: medium,
+                                                     source: source, cardActionParameter: cardActionParameter))
+        case .productBumpUp:
+            guard let productId = components.first else { return nil }
+            return UriScheme(deepLink: DeepLink.link(.productBumpUp(productId: productId), campaign: campaign, medium: medium,
+                                                     source: source, cardActionParameter: cardActionParameter))
+        case .productMarkAsSold:
+            guard let productId = components.first else { return nil }
+            return UriScheme(deepLink: DeepLink.link(.productMarkAsSold(productId: productId), campaign: campaign, medium: medium,
+                                                     source: source, cardActionParameter: cardActionParameter))
         case .user:
             guard let userId = components.first else { return nil }
             return UriScheme(deepLink: DeepLink.link(.user(userId: userId), campaign: campaign, medium: medium,
                 source: source, cardActionParameter: cardActionParameter))
         case .chat:
-            if let conversationId = params["c"] {
+            if let conversationId = params["c"], let message = params["m"] {
+                // letgo://chat/?c=12345&m=abcde where c=conversation_id, m=message
+                return UriScheme(deepLink: DeepLink.link(.conversationWithMessage(data: .conversation(conversationId: conversationId), message: message),
+                                                         campaign: campaign, medium: medium, source: source, cardActionParameter: cardActionParameter))
+            } else if let conversationId = params["c"] {
                 // letgo://chat/?c=12345 where c=conversation_id
                 return UriScheme(deepLink: DeepLink.link(.conversation(data: .conversation(conversationId: conversationId)),
                     campaign: campaign, medium: medium, source: source, cardActionParameter: cardActionParameter))
@@ -85,6 +101,9 @@ struct UriScheme {
             guard let productId = components.first else { return nil }
             return UriScheme(deepLink: DeepLink.link(.passiveBuyers(productId: productId), campaign: campaign, medium: medium,
                 source: source, cardActionParameter: cardActionParameter))
+        case .notificationCenter:
+            return UriScheme(deepLink: DeepLink.link(.notificationCenter, campaign: campaign, medium: medium,
+                                                     source: source, cardActionParameter: cardActionParameter))
         }
     }
 }
@@ -94,6 +113,9 @@ enum UriSchemeHost: String {
     case sell = "sell"
     case product = "product"
     case products = "products"
+    case productShare = "products_share"
+    case productBumpUp = "products_bump_up"
+    case productMarkAsSold = "products_mark_as_sold"
     case user = "users"
     case chat = "chat"
     case chats = "chats"
@@ -102,4 +124,5 @@ enum UriSchemeHost: String {
     case userRatings = "userreviews"
     case userRating = "userreview"
     case passiveBuyers = "passive_buyers"
+    case notificationCenter = "notification_center"
 }
