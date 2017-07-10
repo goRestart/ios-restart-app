@@ -62,14 +62,6 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
         chatRepository.index(chatsType, page: page, numResults: resultsPerPage, completion: completion)
     }
 
-    override func didFinishLoading() {
-        super.didFinishLoading()
-
-        if active {
-            LGNotificationsManager.sharedInstance.updateChatCounters()
-        }
-    }
-
     func conversationSelectedAtIndex(_ index: Int) {
         guard let chat = objectAtIndex(index) else { return }
         tabNavigator?.openChat(.chatAPI(chat: chat), source: .chatList)

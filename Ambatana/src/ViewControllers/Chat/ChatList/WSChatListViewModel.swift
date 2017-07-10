@@ -73,14 +73,6 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
                                           completion: completion)
     }
 
-    override func didFinishLoading() {
-        super.didFinishLoading()
-
-        if active {
-            LGNotificationsManager.sharedInstance.updateChatCounters()
-        }
-    }
-
     func conversationSelectedAtIndex(_ index: Int) {
         guard let conversation = objectAtIndex(index) else { return }
         tabNavigator?.openChat(.conversation(conversation: conversation), source: .chatList)

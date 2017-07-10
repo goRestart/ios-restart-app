@@ -39,6 +39,7 @@ protocol ChatGroupedListViewModel: class, RxPaginable, ChatGroupedListViewModelT
 class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     let objects: CollectionVariable<T>
     let shouldWriteInCollectionVariable: Bool
+    let notificationsManager: NotificationsManager
     fileprivate let tracker: Tracker
     private(set) var status: ViewState {
         didSet {
@@ -82,22 +83,25 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
 
     convenience init(objects: [T],
                      tabNavigator: TabNavigator?,
+                     notificationsManager: NotificationsManager = LGNotificationsManager.sharedInstance,
                      tracker: Tracker = TrackerProxy.sharedInstance) {
         self.init(collectionVariable: CollectionVariable(objects),
                   shouldWriteInCollectionVariable: false,
                   tabNavigator: tabNavigator,
+                  notificationsManager: notificationsManager,
                   tracker: tracker)
     }
     
     init(collectionVariable: CollectionVariable<T>,
          shouldWriteInCollectionVariable: Bool,
          tabNavigator: TabNavigator?,
+         notificationsManager: NotificationsManager = LGNotificationsManager.sharedInstance,
          tracker: Tracker = TrackerProxy.sharedInstance) {
-        
         self.objects = collectionVariable
         self.shouldWriteInCollectionVariable = shouldWriteInCollectionVariable
         self.status = .loading
         self.tabNavigator = tabNavigator
+        self.notificationsManager = notificationsManager
         self.tracker = tracker
         super.init()
         
@@ -131,7 +135,9 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     }
 
     func didFinishLoading() {
-        // Must be implemented in subclasses
+        if active {
+            notificationsManager.updateChatCounters()
+        }
     }
 
     var activityIndicatorAnimating: Bool {
@@ -315,6 +321,12 @@ extension BaseChatGroupedListViewModel {
         editing.asObservable().subscribeNext { [weak self] editing in
             self?.chatGroupedDelegate?.chatGroupedListViewModelSetEditing(editing)
         }.addDisposableTo(disposeBag)
+        
+        if shouldWriteInCollectionVariable {
+            objects.changesObservable.subscribeNext { [weak self] editing in
+                self?.chatGroupedDelegate?.chatGroupedListViewModelShouldUpdateStatus()
+            }.addDisposableTo(disposeBag)
+        }
     }
 }
 
