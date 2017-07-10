@@ -22,7 +22,6 @@ extension Bumper  {
         flags.append(CaptchaTransparent.self)
         flags.append(PassiveBuyersShowKeyboard.self)
         flags.append(ProductDetailNextRelated.self)
-        flags.append(PostingGallery.self)
         flags.append(CarsVerticalEnabled.self)
         flags.append(CarsCategoryAfterPicture.self)
         flags.append(NewMarkAsSoldFlow.self)
@@ -77,11 +76,6 @@ extension Bumper  {
     static var productDetailNextRelated: Bool {
         guard let value = Bumper.value(for: ProductDetailNextRelated.key) else { return false }
         return ProductDetailNextRelated(rawValue: value)?.asBool ?? false
-    }
-
-    static var postingGallery: PostingGallery {
-        guard let value = Bumper.value(for: PostingGallery.key) else { return .singleSelection }
-        return PostingGallery(rawValue: value) ?? .singleSelection 
     }
 
     static var carsVerticalEnabled: Bool {
@@ -205,24 +199,6 @@ enum ProductDetailNextRelated: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Item page next item related" } 
     var asBool: Bool { return self == .yes }
-}
-
-enum PostingGallery: String, BumperFeature  {
-    case singleSelection, multiSelection, multiSelectionWhiteButton, multiSelectionTabs, multiSelectionPostBottom
-    static var defaultValue: String { return PostingGallery.singleSelection.rawValue }
-    static var enumValues: [PostingGallery] { return [.singleSelection, .multiSelection, .multiSelectionWhiteButton, .multiSelectionTabs, .multiSelectionPostBottom]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Posting Gallery A/B/C/D/E" } 
-    static func fromPosition(_ position: Int) -> PostingGallery {
-        switch position { 
-            case 0: return .singleSelection
-            case 1: return .multiSelection
-            case 2: return .multiSelectionWhiteButton
-            case 3: return .multiSelectionTabs
-            case 4: return .multiSelectionPostBottom
-            default: return .singleSelection
-        }
-    }
 }
 
 enum CarsVerticalEnabled: String, BumperFeature  {

@@ -28,7 +28,6 @@ protocol FeatureFlaggeable: class {
     var freeBumpUpEnabled: Bool { get }
     var pricedBumpUpEnabled: Bool { get }
     var productDetailNextRelated: Bool { get }
-    var postingGallery: PostingGallery { get }
     var carsVerticalEnabled: Bool { get }
     var carsCategoryAfterPicture: Bool { get }
     var newMarkAsSoldFlow: Bool { get }
@@ -176,13 +175,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.productDetailNextRelated
         }
         return abTests.productDetailNextRelated.value
-    }
-    
-    var postingGallery: PostingGallery {
-        if Bumper.enabled {
-            return Bumper.postingGallery
-        }
-        return PostingGallery.fromPosition(abTests.postingGallery.value)
     }
     
     var carsVerticalEnabled: Bool {
