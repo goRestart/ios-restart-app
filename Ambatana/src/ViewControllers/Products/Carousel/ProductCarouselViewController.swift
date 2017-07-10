@@ -183,7 +183,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         case .showShareSheet:
             viewModel.shareButtonPressed()
         case .triggerBumpUp:
-            bumpUpBanner.bannerTouched()
+            bumpUpBanner.executeBannerInteractionBlock()
         case .triggerMarkAsSold:
             viewModel.currentProductViewModel?.markAsSold()
         default:
