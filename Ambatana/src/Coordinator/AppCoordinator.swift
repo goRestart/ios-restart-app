@@ -201,7 +201,12 @@ extension AppCoordinator: AppNavigator {
 
     func openAppRating(_ source: EventParameterRatingSource) {
         guard ratingManager.shouldShowRating else { return }
-        tabBarCtl.showAppRatingView(source)
+        if #available(iOS 10.3, *) {
+            // new rating
+            
+        } else {
+            tabBarCtl.showAppRatingView(source)
+        }
     }
 
     func openUserRating(_ source: RateUserSource, data: RateUserData) {

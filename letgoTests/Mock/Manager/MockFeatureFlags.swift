@@ -39,6 +39,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var newCarouselNavigationEnabled: Bool = false
     var newOnboardingPhase1: Bool = false
     var searchParamDisc24: SearchParamDisc24 = .disc24a
+    var inAppRatingIOS10: Bool = false
 
     // Country dependant features
     var freePostingModeAllowed = false
