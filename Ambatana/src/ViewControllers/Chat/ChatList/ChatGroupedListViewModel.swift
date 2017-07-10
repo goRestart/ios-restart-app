@@ -190,6 +190,55 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     func retrievePage(_ page: Int) {
         retrievePage(page, completion: nil)
     }
+    
+    func retrievePage(_ page: Int, completion: (() -> Void)?) {
+        let firstPage = (page == 1)
+        isLoading = true
+        var hasToRetrieveFirstPage: Bool = false
+        chatGroupedDelegate?.chatGroupedListViewModelDidStartRetrievingObjectList()
+        
+        index(page) { [weak self] result in
+            guard let strongSelf = self else { return }
+            if let value = result.value {
+                
+                if firstPage {
+                    strongSelf.updateObjects(newObjects: value)
+                } else {
+                    strongSelf.updateObjects(newObjects: strongSelf.objects.value + value)
+                }
+                
+                strongSelf.isLastPage = value.count < strongSelf.resultsPerPage
+                strongSelf.nextPage = page + 1
+                
+                if let emptyVM = strongSelf.emptyStatusViewModel, firstPage && strongSelf.objectCount == 0 {
+                    strongSelf.status = .empty(emptyVM)
+                } else {
+                    strongSelf.status = .data
+                }
+                strongSelf.chatGroupedDelegate?.chatGroupedListViewModelShouldUpdateStatus()
+                strongSelf.chatGroupedDelegate?.chatGroupedListViewModelDidSucceedRetrievingObjectList(page)
+            } else if let error = result.error {
+                
+                if firstPage && strongSelf.objectCount == 0 {
+                    if let emptyVM = strongSelf.emptyViewModelForError(error) {
+                        strongSelf.status = .error(emptyVM)
+                    } else {
+                        hasToRetrieveFirstPage = true
+                    }
+                } else {
+                    strongSelf.status = .data
+                }
+                strongSelf.chatGroupedDelegate?.chatGroupedListViewModelShouldUpdateStatus()
+                strongSelf.chatGroupedDelegate?.chatGroupedListViewModelDidFailRetrievingObjectList(page)
+            }
+            strongSelf.isLoading = false
+            if hasToRetrieveFirstPage {
+                strongSelf.retrieveFirstPage()
+            }
+            completion?()
+        }
+        didFinishLoading()
+    }
 
 
     // MARK: - Private methods
@@ -232,55 +281,6 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
 
             completion?()
         }
-    }
-
-    private func retrievePage(_ page: Int, completion: (() -> Void)?) {
-        let firstPage = (page == 1)
-        isLoading = true
-        var hasToRetrieveFirstPage: Bool = false
-        chatGroupedDelegate?.chatGroupedListViewModelDidStartRetrievingObjectList()
-
-        index(page) { [weak self] result in
-            guard let strongSelf = self else { return }
-            if let value = result.value {
-
-                if firstPage {
-                    strongSelf.updateObjects(newObjects: value)
-                } else {
-                    strongSelf.updateObjects(newObjects: strongSelf.objects.value + value)
-                }
-
-                strongSelf.isLastPage = value.count < strongSelf.resultsPerPage
-                strongSelf.nextPage = page + 1
-
-                if let emptyVM = strongSelf.emptyStatusViewModel, firstPage && strongSelf.objectCount == 0 {
-                    strongSelf.status = .empty(emptyVM)
-                } else {
-                    strongSelf.status = .data
-                }
-                strongSelf.chatGroupedDelegate?.chatGroupedListViewModelShouldUpdateStatus()
-                strongSelf.chatGroupedDelegate?.chatGroupedListViewModelDidSucceedRetrievingObjectList(page)
-            } else if let error = result.error {
-
-                if firstPage && strongSelf.objectCount == 0 {
-                    if let emptyVM = strongSelf.emptyViewModelForError(error) {
-                        strongSelf.status = .error(emptyVM)
-                    } else {
-                        hasToRetrieveFirstPage = true
-                    }
-                } else {
-                    strongSelf.status = .data
-                }
-                strongSelf.chatGroupedDelegate?.chatGroupedListViewModelShouldUpdateStatus()
-                strongSelf.chatGroupedDelegate?.chatGroupedListViewModelDidFailRetrievingObjectList(page)
-            }
-            strongSelf.isLoading = false
-            if hasToRetrieveFirstPage {
-                strongSelf.retrieveFirstPage()
-            }
-            completion?()
-        }
-        didFinishLoading()
     }
 
     private func emptyViewModelForError(_ error: RepositoryError) -> LGEmptyViewModel? {

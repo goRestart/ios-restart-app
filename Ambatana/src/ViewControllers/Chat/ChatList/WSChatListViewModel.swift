@@ -63,7 +63,7 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
     // MARK: - Public methods
 
     override func refresh(completion: (() -> Void)?) {
-        retrieveFirstPage()
+        retrievePage(firstPage, completion: completion)
     }
     
     override func index(_ page: Int, completion: ((Result<[ChatConversation], RepositoryError>) -> ())?) {
