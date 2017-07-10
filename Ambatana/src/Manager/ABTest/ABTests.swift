@@ -26,7 +26,6 @@ class ABTests {
     let freeBumpUpEnabled = BoolABDynamicVar(key: "freeBumpUpEnabled", defaultValue: false)
     let pricedBumpUpEnabled = BoolABDynamicVar(key: "pricedBumpUpEnabled", defaultValue: false)
     let productDetailNextRelated = BoolABDynamicVar(key: "productDetailNextRelated", defaultValue: false)
-    let signUpLoginImprovement = IntABDynamicVar(key: "signUpLoginImprovement", defaultValue: 0)
     let hideTabBarOnFirstSessionV2 = BoolABDynamicVar(key: "hideTabBarOnFirstSessionV2", defaultValue: false)
     let postingGallery = IntABDynamicVar(key: "postingGallery", defaultValue: 0)
     let carsVerticalEnabled = BoolABDynamicVar(key: "carsVerticalEnabled", defaultValue: false)
@@ -57,7 +56,6 @@ class ABTests {
         result.append(freeBumpUpEnabled)
         result.append(pricedBumpUpEnabled)
         result.append(productDetailNextRelated)
-        result.append(signUpLoginImprovement)
         result.append(hideTabBarOnFirstSessionV2)
         result.append(postingGallery)
         result.append(carsVerticalEnabled)
@@ -67,6 +65,7 @@ class ABTests {
         result.append(newCarsMultiRequesterEnabled)
         result.append(newCarouselNavigationEnabled)
         result.append(newOnboardingPhase1)
+        result.append(searchParamDisc24)
 
         return result
     }

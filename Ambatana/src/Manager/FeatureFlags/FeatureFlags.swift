@@ -28,7 +28,6 @@ protocol FeatureFlaggeable: class {
     var freeBumpUpEnabled: Bool { get }
     var pricedBumpUpEnabled: Bool { get }
     var productDetailNextRelated: Bool { get }
-    var signUpLoginImprovement: SignUpLoginImprovement { get }
     var hideTabBarOnFirstSessionV2: Bool { get }
     var postingGallery: PostingGallery { get }
     var carsVerticalEnabled: Bool { get }
@@ -178,13 +177,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.productDetailNextRelated
         }
         return abTests.productDetailNextRelated.value
-    }
-
-    var signUpLoginImprovement: SignUpLoginImprovement {
-        if Bumper.enabled {
-            return Bumper.signUpLoginImprovement
-        }
-        return SignUpLoginImprovement.fromPosition(abTests.signUpLoginImprovement.value)
     }
     
     var postingGallery: PostingGallery {

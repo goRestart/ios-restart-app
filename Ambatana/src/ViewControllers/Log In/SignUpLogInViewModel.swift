@@ -192,14 +192,8 @@ class SignUpLogInViewModel: BaseViewModel {
 
     func acceptSuggestedEmail() -> Bool {
         guard let suggestedEmail = suggestedEmailVar.value else { return false }
-        
-        switch featureFlags.signUpLoginImprovement {
-        case .v1, .v2:
-            return false
-        case .v1WImprovements:
-            email = suggestedEmail
-            return true
-        }
+        email = suggestedEmail
+        return true
     }
 
     func erasePassword() {
@@ -377,16 +371,11 @@ class SignUpLogInViewModel: BaseViewModel {
                 self?.showDeviceNotAllowedAlert(self?.email, network: .email)
             }
         case .unauthorized:
-            switch featureFlags.signUpLoginImprovement {
-            case .v1WImprovements:
-                unauthorizedErrorCount = unauthorizedErrorCount + 1
-                if unauthorizedErrorCount >= SignUpLogInViewModel.unauthorizedErrorCountRememberPwd {
-                    afterMessageCompletion = { [weak self] in
-                        self?.showRememberPasswordAlert()
-                    }
+            unauthorizedErrorCount = unauthorizedErrorCount + 1
+            if unauthorizedErrorCount >= SignUpLogInViewModel.unauthorizedErrorCountRememberPwd {
+                afterMessageCompletion = { [weak self] in
+                    self?.showRememberPasswordAlert()
                 }
-            case .v1, .v2:
-                break
             }
         case .network, .badRequest, .notFound, .forbidden, .conflict, .tooManyRequests, .userNotVerified, .internalError:
             break
@@ -539,12 +528,7 @@ fileprivate extension SignUpLogInViewModel {
 
 fileprivate extension SignUpLogInViewModel {
     func suggest(emailText: String) {
-        switch featureFlags.signUpLoginImprovement {
-        case .v1, .v2:
-            return
-        case .v1WImprovements:
-            suggestedEmailVar.value = emailText.suggestEmail(domains: Constants.emailSuggestedDomains)
-        }
+        suggestedEmailVar.value = emailText.suggestEmail(domains: Constants.emailSuggestedDomains)
     }
 }
 
