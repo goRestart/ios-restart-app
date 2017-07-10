@@ -356,8 +356,7 @@ class ProductViewModel: BaseViewModel {
     }
 
     fileprivate func createBumpeableBanner(forListingId listingId: String, withPrice: String?, paymentItemId: String?, bumpUpType: BumpUpType) {
-
-        var primaryBlock: () -> Void
+        var bannerInteractionBlock: () -> Void
         var buttonBlock: () -> Void
         switch bumpUpType {
         case .free:
@@ -368,11 +367,11 @@ class ProductViewModel: BaseViewModel {
                 self?.navigator?.openFreeBumpUp(forListing: listing, socialMessage: socialMessage,
                                                 paymentItemId: paymentItemId)
             }
-            primaryBlock = freeBlock
+            bannerInteractionBlock = freeBlock
             buttonBlock = freeBlock
         case .priced:
             guard let paymentItemId = paymentItemId else { return }
-            primaryBlock = { [weak self] in
+            bannerInteractionBlock = { [weak self] in
                 guard let listing = self?.listing.value else { return }
                 guard let purchaseableProduct = self?.bumpUpPurchaseableProduct else { return }
                 self?.navigator?.openPayBumpUp(forListing: listing, purchaseableProduct: purchaseableProduct,
@@ -386,12 +385,12 @@ class ProductViewModel: BaseViewModel {
                 logMessage(.info, type: [.monetization], message: "TRY TO Restore Bump for listing: \(listingId)")
                 self?.purchasesShopper.requestPricedBumpUp(forListingId: listingId)
             }
-            primaryBlock = restoreBlock
+            bannerInteractionBlock = restoreBlock
             buttonBlock = restoreBlock
         }
 
         bumpUpBannerInfo.value = BumpUpInfo(type: bumpUpType, timeSinceLastBump: timeSinceLastBump, price: withPrice,
-                                      primaryBlock: primaryBlock, buttonBlock: buttonBlock)
+                                      bannerInteractionBlock: bannerInteractionBlock, buttonBlock: buttonBlock)
     }
 }
 
