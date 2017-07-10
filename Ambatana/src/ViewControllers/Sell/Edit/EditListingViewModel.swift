@@ -852,7 +852,7 @@ private enum ProductCreateValidationError: Error {
 
     init(repoError: RepositoryError) {
         switch repoError {
-        case .internalError:
+        case .internalError, .wsChatError:
             self = .internalError
         case .network:
             self = .network

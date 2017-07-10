@@ -921,8 +921,14 @@ fileprivate extension ProductViewModel {
                     strongSelf.delegate?.vmShowAutoFadingMessage(LGLocalizedString.productChatDirectErrorBlockedUserMessage, completion: nil)
                 case .network, .internalError, .notFound, .unauthorized, .tooManyRequests, .userNotVerified, .serverError:
                     strongSelf.delegate?.vmShowAutoFadingMessage(LGLocalizedString.chatSendErrorGeneric, completion: nil)
+                case let .wsChatError(chatRepositoryError):
+                    switch chatRepositoryError {
+                    case .userBlocked:
+                        strongSelf.delegate?.vmShowAutoFadingMessage(LGLocalizedString.productChatDirectErrorBlockedUserMessage, completion: nil)
+                    case .internalError, .notAuthenticated, .userNotVerified, .network, .apiError:
+                        strongSelf.delegate?.vmShowAutoFadingMessage(LGLocalizedString.chatSendErrorGeneric, completion: nil)
+                    }
                 }
-
                 //Removing in case of failure
                 if let indexToRemove = strongSelf.directChatMessages.value.index(where: { $0.objectId == messageView.objectId }) {
                     strongSelf.directChatMessages.removeAtIndex(indexToRemove)
