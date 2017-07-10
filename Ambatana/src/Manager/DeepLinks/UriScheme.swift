@@ -104,7 +104,7 @@ struct UriScheme {
         case .notificationCenter:
             return UriScheme(deepLink: DeepLink.link(.notificationCenter, campaign: campaign, medium: medium,
                                                      source: source, cardActionParameter: cardActionParameter))
-        case .appStore:
+        case .updateApp:
             return UriScheme(deepLink: DeepLink.link(.appStore, campaign: campaign, medium: medium,
                                                      source: source, cardActionParameter: cardActionParameter))
         }
@@ -128,5 +128,5 @@ enum UriSchemeHost: String {
     case userRating = "userreview"
     case passiveBuyers = "passive_buyers"
     case notificationCenter = "notification_center"
-    case appStore = "update_app"
+    case updateApp = "update_app"
 }

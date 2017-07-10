@@ -89,6 +89,8 @@ enum DeepLinkAction: Equatable {
             return lhsProductId == rhsProductId
         case (.notificationCenter, .notificationCenter):
             return true
+        case (.appStore, .appStore):
+            return true
         default:
             return false
         }
