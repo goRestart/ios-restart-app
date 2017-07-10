@@ -22,7 +22,6 @@ extension Bumper  {
         flags.append(CaptchaTransparent.self)
         flags.append(PassiveBuyersShowKeyboard.self)
         flags.append(ProductDetailNextRelated.self)
-        flags.append(HideTabBarOnFirstSessionV2.self)
         flags.append(PostingGallery.self)
         flags.append(CarsVerticalEnabled.self)
         flags.append(CarsCategoryAfterPicture.self)
@@ -78,11 +77,6 @@ extension Bumper  {
     static var productDetailNextRelated: Bool {
         guard let value = Bumper.value(for: ProductDetailNextRelated.key) else { return false }
         return ProductDetailNextRelated(rawValue: value)?.asBool ?? false
-    }
-
-    static var hideTabBarOnFirstSessionV2: Bool {
-        guard let value = Bumper.value(for: HideTabBarOnFirstSessionV2.key) else { return false }
-        return HideTabBarOnFirstSessionV2(rawValue: value)?.asBool ?? false
     }
 
     static var postingGallery: PostingGallery {
@@ -210,15 +204,6 @@ enum ProductDetailNextRelated: String, BumperFeature  {
     static var enumValues: [ProductDetailNextRelated] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Item page next item related" } 
-    var asBool: Bool { return self == .yes }
-}
-
-enum HideTabBarOnFirstSessionV2: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return HideTabBarOnFirstSessionV2.no.rawValue }
-    static var enumValues: [HideTabBarOnFirstSessionV2] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "hide tab bar with incentivise scroll banner v2" } 
     var asBool: Bool { return self == .yes }
 }
 
