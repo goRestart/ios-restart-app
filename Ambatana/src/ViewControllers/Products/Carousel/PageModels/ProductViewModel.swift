@@ -102,8 +102,6 @@ class ProductViewModel: BaseViewModel {
 
     fileprivate var alreadyTrackedFirstMessageSent: Bool = false
     fileprivate static let bubbleTagGroup = "favorite.bubble.group"
-    
-    var showMarkAsSoldFlow = Variable<Bool>(false)
 
     // UI - Input
     let moreInfoState = Variable<MoreInfoState>(.hidden)
@@ -256,11 +254,6 @@ class ProductViewModel: BaseViewModel {
             strongSelf.directChatEnabled.value = status.directChatsAvailable
         }.addDisposableTo(disposeBag)
 
-        showMarkAsSoldFlow.asObservable().distinctUntilChanged().filter { $0 == true }.subscribeNext { [weak self] _ in
-            self?.confirmToMarkAsSold()
-            self?.showMarkAsSoldFlow.value = false
-        }.addDisposableTo(disposeBag)
-        
         // bumpeable listing check
         status.asObservable().bindNext { [weak self] status in
             if status.isBumpeable {
@@ -480,6 +473,28 @@ extension ProductViewModel {
         showItemHiddenIfNeededFor(url: url)
     }
 
+    func markAsSold() {
+        delegate?.vmShowLoading(nil)
+        listingRepository.markAsSold(listing: listing.value) { [weak self] result in
+            guard let strongSelf = self else { return }
+            
+            if let value = result.value {
+                strongSelf.listing.value = value
+                strongSelf.trackHelper.trackMarkSoldCompleted(isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value)
+                
+                if strongSelf.featureFlags.newMarkAsSoldFlow {
+                    strongSelf.selectBuyerToMarkAsSold(sourceRateBuyers: .markAsSold)
+                } else {
+                    strongSelf.delegate?.vmHideLoading(nil, afterMessageCompletion: {
+                        strongSelf.navigator?.openAppRating(.markedSold)
+                    })
+                }
+            } else {
+                let message = LGLocalizedString.productMarkAsSoldErrorGeneric
+                strongSelf.delegate?.vmHideLoading(message, afterMessageCompletion: nil)
+            }
+        }
+    }
 }
 
 
@@ -862,29 +877,6 @@ fileprivate extension ProductViewModel {
             }
 
             self?.delegate?.vmHideLoading(message, afterMessageCompletion: afterMessageAction)
-        }
-    }
-
-    func markAsSold() {
-        delegate?.vmShowLoading(nil)
-        listingRepository.markAsSold(listing: listing.value) { [weak self] result in
-            guard let strongSelf = self else { return }
-            
-            if let value = result.value {
-                strongSelf.listing.value = value
-                strongSelf.trackHelper.trackMarkSoldCompleted(isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value)
-                
-                if strongSelf.featureFlags.newMarkAsSoldFlow {
-                    strongSelf.selectBuyerToMarkAsSold(sourceRateBuyers: .markAsSold)
-                } else {
-                    strongSelf.delegate?.vmHideLoading(nil, afterMessageCompletion: {
-                        strongSelf.navigator?.openAppRating(.markedSold)
-                    })
-                }
-            } else {
-                let message = LGLocalizedString.productMarkAsSoldErrorGeneric
-                strongSelf.delegate?.vmHideLoading(message, afterMessageCompletion: nil)
-            }
         }
     }
 

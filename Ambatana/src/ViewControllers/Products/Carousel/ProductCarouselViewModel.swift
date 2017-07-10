@@ -32,9 +32,9 @@ class ProductCarouselViewModel: BaseViewModel {
     var isLastPage: Bool
     var isLoading: Bool = false
 
+    var currentProductViewModel: ProductViewModel?
     let currentViewModelIsBeingUpdated = Variable<Bool>(false)
     let startIndex: Int
-    fileprivate var currentProductViewModel: ProductViewModel?
     fileprivate(set) var currentIndex: Int = 0 {
         didSet {
             // Just for pagination
@@ -338,10 +338,6 @@ class ProductCarouselViewModel: BaseViewModel {
 
     func descriptionURLPressed(_ url: URL) {
         currentProductViewModel?.descriptionURLPressed(url)
-    }
-    
-    func markAsSold() {
-        currentProductViewModel?.showMarkAsSoldFlow.value = true
     }
     
     // MARK: - Private Methods
