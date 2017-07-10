@@ -209,7 +209,6 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
     }
     
     fileprivate func updateTopRightButton(state: GalleryState) {
-        topRightButton.isHidden = false
         switch state {
         case .empty, .pendingAskPermissions, .missingPermissions, .loading:
             topRightButton.isEnabled = false
