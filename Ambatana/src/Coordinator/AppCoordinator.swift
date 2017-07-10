@@ -250,6 +250,12 @@ extension AppCoordinator: AppNavigator {
     func openDeepLink(deepLink: DeepLink) {
         triggerDeepLink(deepLink, initialDeepLink: false)
     }
+    
+    func openAppStore() {
+        if let url = URL(string: Constants.appStoreURL) {
+            UIApplication.shared.openURL(url)
+        }
+    }
 }
 
 
@@ -622,7 +628,9 @@ fileprivate extension AppCoordinator {
                 })
             }
         case .appStore:
-            break
+            afterDelayClosure = { [weak self] in
+                self?.openAppStore()
+            }
         }
         
         if let afterDelayClosure = afterDelayClosure {
