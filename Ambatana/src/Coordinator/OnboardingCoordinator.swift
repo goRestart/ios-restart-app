@@ -60,7 +60,7 @@ final class OnboardingCoordinator: Coordinator, ChangePasswordPresenter {
             let signUpVM = SignUpViewModel(appearance: .dark,
                                            source: .install)
             signUpVM.navigator = strongSelf
-            let tourVM = TourLoginViewModel(signUpViewModel: signUpVM, featureFlags: strongSelf.featureFlags)
+            let tourVM = TourLoginViewModel(signUpViewModel: signUpVM)
             tourVM.navigator = strongSelf
             let tourVC = TourLoginViewController(viewModel: tourVM)
             strongSelf.presentedViewControllers.append(tourVC)
@@ -208,25 +208,15 @@ extension OnboardingCoordinator: MainSignUpNavigator {
         tourLoginFinish()
     }
 
-    func openSignUpEmailFromMainSignUp(collapsedEmailParam: EventParameterBoolean?) {
+    func openSignUpEmailFromMainSignUp() {
         let vc: UIViewController
 
-        switch featureFlags.signUpLoginImprovement {
-        case .v1, .v1WImprovements:
-            let vm = SignUpLogInViewModel(source: .install, collapsedEmailParam: collapsedEmailParam, action: .signup)
-            vm.navigator = self
-            vc = SignUpLogInViewController(viewModel: vm,
-                                           appearance: .dark,
-                                           keyboardFocus: true)
-            recaptchaTokenDelegate = vm
-        case .v2:
-            let vm = SignUpEmailStep1ViewModel(source: .install, collapsedEmail: collapsedEmailParam)
-            vm.navigator = self
-
-            vc = SignUpEmailStep1ViewController(viewModel: vm,
-                                                appearance: .dark,
-                                                backgroundImage: loginV2BackgroundImage)
-        }
+        let vm = SignUpLogInViewModel(source: .install, action: .signup)
+        vm.navigator = self
+        vc = SignUpLogInViewController(viewModel: vm,
+                                       appearance: .dark,
+                                       keyboardFocus: true)
+        recaptchaTokenDelegate = vm
 
         let navCtl = UINavigationController(rootViewController: vc)
         navCtl.modalPresentationStyle = .custom
@@ -236,7 +226,7 @@ extension OnboardingCoordinator: MainSignUpNavigator {
         topVC.present(navCtl, animated: true, completion: nil)
     }
 
-    func openLogInEmailFromMainSignUp(collapsedEmailParam: EventParameterBoolean?) {
+    func openLogInEmailFromMainSignUp() {
         // log in should not be opened in on-boarding
     }
 
@@ -296,127 +286,6 @@ extension OnboardingCoordinator: SignUpLogInNavigator {
         openHelp()
     }
 
-}
-
-// MARK: - V2
-// MARK: - SignUpEmailStep1Navigator
-
-extension OnboardingCoordinator: SignUpEmailStep1Navigator {
-    func cancelSignUpEmailStep1() {
-        dismissCurrentNavigationController()
-    }
-
-    func openHelpFromSignUpEmailStep1() {
-        openHelp()
-    }
-
-    func openNextStepFromSignUpEmailStep1(email: String, password: String,
-                                          isRememberedEmail: Bool, collapsedEmail: EventParameterBoolean?) {
-        guard let navCtl = currentNavigationController() else { return }
-
-        let vm = SignUpEmailStep2ViewModel(email: email, isRememberedEmail: isRememberedEmail,
-                                           password: password, source: .install, collapsedEmail: collapsedEmail)
-        vm.navigator = self
-        let vc = SignUpEmailStep2ViewController(viewModel: vm, appearance: .dark,
-                                                backgroundImage: loginV2BackgroundImage)
-        navCtl.pushViewController(vc, animated: true)
-
-        recaptchaTokenDelegate = vm
-    }
-
-    func openLogInFromSignUpEmailStep1(email: String?,
-                                       isRememberedEmail: Bool, collapsedEmail: EventParameterBoolean?) {
-        guard let navCtl = currentNavigationController() else { return }
-
-        let vm = LogInEmailViewModel(email: email, isRememberedEmail: isRememberedEmail,
-                                     source: .install, collapsedEmail: collapsedEmail)
-        vm.navigator = self
-        let vc = LogInEmailViewController(viewModel: vm, appearance: .dark,
-                                          backgroundImage: loginV2BackgroundImage)
-        let navCtlVCs: [UIViewController] = navCtl.viewControllers.dropLast() + [vc]
-        navCtl.setViewControllers(navCtlVCs, animated: false)
-    }
-}
-
-
-// MARK: - SignUpEmailStep2Navigator
-
-extension OnboardingCoordinator: SignUpEmailStep2Navigator {
-    func openHelpFromSignUpEmailStep2() {
-        openHelp()
-    }
-
-    func openRecaptchaFromSignUpEmailStep2(transparentMode: Bool) {
-        openRecaptcha(transparentMode: transparentMode)
-    }
-
-    func openScammerAlertFromSignUpEmailStep2(contactURL: URL) {
-        // scammer alert is ignored in on-boarding
-        dismissCurrentNavigationController { [weak self] in
-            self?.tourLoginFinish()
-        }
-    }
-
-    func closeAfterSignUpSuccessful() {
-        dismissCurrentNavigationController { [weak self] in
-            self?.tourLoginFinish()
-        }
-    }
-}
-
-
-// MARK: - LogInEmailNavigator
-
-extension OnboardingCoordinator: LogInEmailNavigator {
-
-    func cancelLogInEmail() {
-        dismissCurrentNavigationController()
-    }
-
-    func openHelpFromLogInEmail() {
-        openHelp()
-    }
-
-    func openRememberPasswordFromLogInEmail(email: String?) {
-        openRememberPassword(email: email)
-    }
-
-    func openSignUpEmailFromLogInEmail(email: String?,
-                                       isRememberedEmail: Bool, collapsedEmail: EventParameterBoolean?) {
-        guard let navCtl = currentNavigationController() else { return }
-
-        let vm = SignUpEmailStep1ViewModel(email: email,
-                                           isRememberedEmail: isRememberedEmail,
-                                           source: .install,
-                                           collapsedEmail: collapsedEmail)
-        vm.navigator = self
-
-        let vc = SignUpEmailStep1ViewController(viewModel: vm,
-                                                appearance: .dark,
-                                                backgroundImage: loginV2BackgroundImage)
-        let navCtlVCs: [UIViewController] = navCtl.viewControllers.dropLast() + [vc]
-        navCtl.setViewControllers(navCtlVCs, animated: false)
-    }
-
-    func openScammerAlertFromLogInEmail(contactURL: URL) {
-        // scammer alert is ignored in on-boarding
-        dismissCurrentNavigationController { [weak self] in
-            self?.tourLoginFinish()
-        }
-    }
-
-    func openDeviceNotAllowedAlertFromLogInEmail(contactURL: URL) {
-        // device not allowed alert is ignored in on-boarding
-        dismissCurrentNavigationController { [weak self] in
-            self?.tourLoginFinish()
-        }
-    }
-
-    func closeAfterLogInSuccessful() {
-        dismissCurrentNavigationController { [weak self] in
-            self?.tourLoginFinish()
-        }
-    }
 }
 
 

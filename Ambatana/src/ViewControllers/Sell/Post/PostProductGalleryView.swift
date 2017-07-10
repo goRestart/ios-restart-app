@@ -45,15 +45,6 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var albumButton: UIButton!
     @IBOutlet weak var topRightButton: UIButton!
-    fileprivate let postingGallery: PostingGallery
-    fileprivate var topRightButtonIsUsePhoto: Bool {
-        switch postingGallery {
-        case .singleSelection, .multiSelection, .multiSelectionWhiteButton, .multiSelectionTabs:
-            return true
-        case .multiSelectionPostBottom:
-            return false
-        }
-    }
 
     fileprivate var albumButtonTick = UIImageView()
 
@@ -89,11 +80,9 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
     
     var usePhotoButtonText: String? {
         get {
-            guard topRightButtonIsUsePhoto else { return nil }
             return topRightButton?.title(for: .normal)
         }
         set {
-            guard topRightButtonIsUsePhoto else { return }
             topRightButton?.setTitle(newValue, for: .normal)
         }
     }
@@ -110,26 +99,22 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
 
     // MARK: - Lifecycle
 
-    convenience init(postingGallery: PostingGallery) {
+    convenience init() {
         let viewModel = PostProductGalleryViewModel()
-        self.init(viewModel: viewModel, frame: CGRect.zero, postingGallery: postingGallery)
+        self.init(viewModel: viewModel, frame: CGRect.zero)
     }
 
     init(viewModel: PostProductGalleryViewModel,
-         frame: CGRect,
-         postingGallery: PostingGallery) {
+         frame: CGRect) {
         self.viewModel = viewModel
-        self.postingGallery = postingGallery
         super.init(viewModel: viewModel, frame: frame)
         self.viewModel.delegate = self
         setupUI()
     }
 
     init?(viewModel: PostProductGalleryViewModel,
-          postingGallery: PostingGallery,
           coder aDecoder: NSCoder) {
         self.viewModel = viewModel
-        self.postingGallery = postingGallery
         super.init(viewModel: viewModel, coder: aDecoder)
         self.viewModel.delegate = self
         setupUI()
@@ -169,11 +154,7 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
     }
     
     @IBAction func topRightButtonPressed(_ sender: AnyObject) {
-        if topRightButtonIsUsePhoto {
-            postButtonPressed()
-        } else {
-            delegate?.productGallerySwitchToCamera()
-        }
+        postButtonPressed()
     }
 
 
@@ -186,27 +167,11 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
         contentView.backgroundColor = UIColor.black
         addSubview(contentView)
 
-        if topRightButtonIsUsePhoto {
-            topRightButton.setStyle(.primary(fontSize: .small))
-        } else {
-            topRightButton.setImage(#imageLiteral(resourceName: "ic_post_gallery_back_to_cam"), for: .normal)
-            topRightButton.setTitle(LGLocalizedString.productPostGalleryTopRightButtonCamera, for: .normal)
-            topRightButton.titleLabel?.font = UIFont.mediumButtonFont
-            topRightButton.titleLabel?.textColor = UIColor.white
-            let iconMargin: CGFloat = 8
-            topRightButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -iconMargin)
-            topRightButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: iconMargin)
-            
-            // http://stackoverflow.com/questions/7100976/how-do-i-put-the-image-on-the-right-side-of-the-text-in-a-uibutton
-            topRightButton.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
-            topRightButton.titleLabel?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
-            topRightButton.imageView?.transform = CGAffineTransform(scaleX: -1.0, y: 1.0)
-        }
-        
+        topRightButton.setStyle(.primary(fontSize: .small))
         let cellNib = UINib(nibName: GalleryImageCell.reusableID, bundle: nil)
         collectionView.register(cellNib, forCellWithReuseIdentifier: GalleryImageCell.reusableID)
         collectionView.alwaysBounceVertical = true
-        collectionView.allowsMultipleSelection = viewModel.multipleSelectionEnabled
+        collectionView.allowsMultipleSelection = true
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.minimumInteritemSpacing = 4.0
         }
@@ -246,29 +211,9 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
     fileprivate func updateTopRightButton(state: GalleryState) {
         switch state {
         case .empty, .pendingAskPermissions, .missingPermissions, .loading:
-            switch postingGallery {
-            case .singleSelection, .multiSelection:
-                topRightButton.isEnabled = false
-                topRightButton.isHidden = false
-            case .multiSelectionWhiteButton, .multiSelectionTabs:
-                topRightButton.isEnabled = false
-                topRightButton.isHidden = true
-            case .multiSelectionPostBottom:
-                topRightButton.isEnabled = true
-                topRightButton.isHidden = false
-            }
+            topRightButton.isEnabled = false
         case .normal, .loadImageError:
-            switch postingGallery {
-            case .singleSelection, .multiSelection:
-                topRightButton.isEnabled = viewModel.imagesSelectedCount != 0
-                topRightButton.isHidden = false
-            case .multiSelectionWhiteButton, .multiSelectionTabs:
-                topRightButton.isEnabled = true
-                topRightButton.isHidden = viewModel.imagesSelectedCount == 0
-            case .multiSelectionPostBottom:
-                topRightButton.isEnabled = true
-                topRightButton.isHidden = false
-            }
+            topRightButton.isEnabled = viewModel.imagesSelectedCount != 0
         }
     }
 }
@@ -316,36 +261,26 @@ extension PostProductGalleryView: UICollectionViewDataSource, UICollectionViewDe
         -> UICollectionViewCell {
             guard let galleryCell = collectionView.dequeueReusableCell(withReuseIdentifier: GalleryImageCell.reusableID,
                                                                        for: indexPath) as? GalleryImageCell else { return UICollectionViewCell() }
-
+            
             galleryCell.tag = indexPath.row
             viewModel.imageForCellAtIndex(indexPath.row) { image in
                 guard galleryCell.tag == indexPath.row else { return }
                 galleryCell.image.image = image
             }
-            galleryCell.multipleSelectionEnabled = viewModel.multipleSelectionEnabled
             let selectedIndexes: [Int] = viewModel.imagesSelected.value.map { $0.index }
-            if viewModel.multipleSelectionEnabled {
-                if selectedIndexes.contains(indexPath.item) {
-                    galleryCell.disabled = false
-                    galleryCell.isSelected = true
-                    collectionView.selectItem(at: indexPath, animated: false, scrollPosition: UICollectionViewScrollPosition())
-                    if let position = selectedIndexes.index(of: indexPath.item) {
-                        galleryCell.multipleSelectionCountLabel.text = "\(position + 1)"
-                    }
-                } else if viewModel.imagesSelectedCount >= viewModel.maxImagesSelected {
-                    galleryCell.disabled = true
-                    galleryCell.isSelected = false
-                } else {
-                    galleryCell.isSelected = false
-                    galleryCell.disabled = false
+            if selectedIndexes.contains(indexPath.item) {
+                galleryCell.disabled = false
+                galleryCell.isSelected = true
+                collectionView.selectItem(at: indexPath, animated: false, scrollPosition: UICollectionViewScrollPosition())
+                if let position = selectedIndexes.index(of: indexPath.item) {
+                    galleryCell.multipleSelectionCountLabel.text = "\(position + 1)"
                 }
+            } else if viewModel.imagesSelectedCount >= viewModel.maxImagesSelected {
+                galleryCell.disabled = true
+                galleryCell.isSelected = false
             } else {
-                if selectedIndexes.contains(indexPath.item) {
-                    galleryCell.isSelected = true
-                    collectionView.selectItem(at: indexPath, animated: false, scrollPosition: UICollectionViewScrollPosition())
-                } else {
-                    galleryCell.isSelected = false
-                }
+                galleryCell.isSelected = false
+                galleryCell.disabled = false
             }
             return galleryCell
     }
@@ -410,7 +345,7 @@ extension PostProductGalleryView {
             case .normal:
                 strongSelf.infoContainer.isHidden = true
                 // multi selection shows a "choose photos" text in loadImageErrorView at start instead of the 1st image
-                strongSelf.topRightButton.isEnabled = !strongSelf.topRightButtonIsUsePhoto || strongSelf.viewModel.imagesSelectedCount != 0
+                strongSelf.topRightButton.isEnabled = strongSelf.viewModel.imagesSelectedCount != 0
                 strongSelf.loadImageErrorView.isHidden = strongSelf.viewModel.imagesSelectedCount != 0
             case .loadImageError:
                 strongSelf.infoContainer.isHidden = true

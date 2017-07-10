@@ -68,7 +68,7 @@ class ProductViewModel: BaseViewModel {
     var quickAnswers: [QuickAnswer] {
         guard !isMine else { return [] }
         let isFree = listing.value.price.free && featureFlags.freePostingModeAllowed
-        return QuickAnswer.quickAnswersForPeriscope(isFree: isFree, repeatingPlaceholderText: featureFlags.quickAnswersRepeatedTextField)
+        return QuickAnswer.quickAnswersForPeriscope(isFree: isFree)
     }
 
     let navBarButtons = Variable<[UIAction]>([])
@@ -727,10 +727,7 @@ fileprivate extension ProductViewModel {
                 }
                 strongSelf.favoriteButtonState.value = .enabled
             }
-
-            if featureFlags.shouldContactSellerOnFavorite {
-                navigator?.showProductFavoriteBubble(with: favoriteBubbleNotificationData())
-            }
+            navigator?.showProductFavoriteBubble(with: favoriteBubbleNotificationData())
         }
     }
   

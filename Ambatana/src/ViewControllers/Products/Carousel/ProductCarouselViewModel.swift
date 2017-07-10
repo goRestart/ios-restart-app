@@ -33,6 +33,7 @@ class ProductCarouselViewModel: BaseViewModel {
     var isLoading: Bool = false
 
     var currentProductViewModel: ProductViewModel?
+    let currentViewModelIsBeingUpdated = Variable<Bool>(false)
     let startIndex: Int
     fileprivate(set) var currentIndex: Int = 0 {
         didSet {
@@ -62,7 +63,6 @@ class ProductCarouselViewModel: BaseViewModel {
     }
 
     let showKeyboardOnFirstAppearance: Bool
-    let shouldClearTextWhenBeginEditing: Bool
 
     let productInfo = Variable<ProductVMProductInfo?>(nil)
     let productImageURLs = Variable<[URL]>([])
@@ -113,6 +113,10 @@ class ProductCarouselViewModel: BaseViewModel {
     }
 
     let horizontalImageNavigationEnabled = Variable<Bool>(false)
+
+    var isMyListing: Bool {
+        return currentProductViewModel?.isMine ?? false
+    }
 
     fileprivate var trackingIndex: Int?
     fileprivate var initialThumbnail: UIImage?
@@ -213,7 +217,6 @@ class ProductCarouselViewModel: BaseViewModel {
         self.productListRequester = productListRequester
         self.source = source
         self.showKeyboardOnFirstAppearance = source == .notifications && showKeyboardOnFirstAppearIfNeeded && featureFlags.passiveBuyersShowKeyboard
-        self.shouldClearTextWhenBeginEditing = featureFlags.periscopeRemovePredefinedText
         self.quickAnswersCollapsed = Variable<Bool>(keyValueStorage[.productDetailQuickAnswersHidden])
         self.keyValueStorage = keyValueStorage
         self.imageDownloader = imageDownloader
@@ -379,7 +382,9 @@ class ProductCarouselViewModel: BaseViewModel {
         guard let currentVM = currentProductViewModel else { return }
         currentVM.listing.asObservable().skip(1).bindNext { [weak self] updatedListing in
             guard let strongSelf = self else { return }
+            strongSelf.currentViewModelIsBeingUpdated.value = true
             strongSelf.objects.replace(index, with: ProductCarouselCellModel(listing:updatedListing))
+            strongSelf.currentViewModelIsBeingUpdated.value = false
         }.addDisposableTo(activeDisposeBag)
 
         currentVM.status.asObservable().bindTo(status).addDisposableTo(activeDisposeBag)

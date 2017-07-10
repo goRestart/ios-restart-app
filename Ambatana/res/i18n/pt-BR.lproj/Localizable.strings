@@ -34,8 +34,8 @@
 "bump_up_view_free_title" = "BUMP UP YOUR LISTING";
 "bump_up_view_pay_bumps_left_text" = "You have %i Bump Ups left.";
 "bump_up_view_pay_button_title" = "Activate for %@";
-"bump_up_view_pay_subtitle" = "Give your listing higher visibility by moving it to the top.";
-"bump_up_view_pay_title" = "BUMP UP TO SELL FASTER";
+"bump_up_view_pay_subtitle" = "Attract more buyers by giving your listing more visibility.";
+"bump_up_view_pay_title" = "SELL FASTER";
 "categories_baby_and_child" = "Baby and Child";
 "categories_car" = "Cars";
 "categories_cars_and_motors" = "Other Vehicles and Parts";
@@ -168,7 +168,7 @@
 "chat_not_verified_state_title" = "ARE YOU VERIFIED?";
 "chat_product_sold_label" = "Product sold";
 "chat_related_products_title" = "YOU MIGHT BE INTERESTED IN:";
-"chat_safety_tips" = "Safety tips";
+"chat_safety_tips" = "Safety Tips";
 "chat_safety_tips_message" = "• Meet in person and pay in cash.\n\n• Keep conversations in the letgo chat.\n\n• Too good to be true? Find another buyer/seller!";
 "chat_safety_tips_title" = "STAY SAFE";
 "chat_send_button" = "Send";

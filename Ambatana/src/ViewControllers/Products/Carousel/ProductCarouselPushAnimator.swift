@@ -92,7 +92,7 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
         let backgroundImage = UIImageView(image: originThumbnail)
         backgroundImage.contentMode = .scaleAspectFill
         
-        let effect = UIBlurEffect(style: .light)
+        let effect = UIBlurEffect(style: .dark)
         let effectsView = UIVisualEffectView(effect: effect)
         let effectViewContainer = UIView(frame: CGRect.zero)
         effectViewContainer.alpha = 0

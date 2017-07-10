@@ -20,6 +20,7 @@ public enum RepositoryError: Error, ApiErrorConvertible, WebSocketErrorConvertib
     case forbidden(cause: ForbiddenCause)
     case tooManyRequests
     case userNotVerified
+    case wsChatError(error: ChatRepositoryError)
 
     case serverError(code: Int?)
 
@@ -49,23 +50,12 @@ public enum RepositoryError: Error, ApiErrorConvertible, WebSocketErrorConvertib
     }
     
     init(webSocketError: WebSocketError) {
-        switch webSocketError {
-        case .notAuthenticated:
-            self = .unauthorized(code: nil)
-        case .internalError:
-            self = .internalError(message: "")
-        case .userNotVerified:
-            self = .userNotVerified
-        case .userBlocked:
-            self = .forbidden(cause: .userBlocked)
-        case .suspended(let code):
-            self = .network(errorCode: code, onBackground: false)
-        }
+        self = .wsChatError(error: ChatRepositoryError(webSocketError: webSocketError))
     }
 
     public var errorCode: Int? {
         switch self {
-        case .network, .internalError:
+        case .network, .internalError, .wsChatError:
             return nil
         case let .unauthorized(code):
             return code
@@ -107,6 +97,36 @@ protocol ApiErrorConvertible {
 
 protocol WebSocketErrorConvertible {
     init(webSocketError: WebSocketError)
+}
+
+public enum ChatRepositoryError: Error, ApiErrorConvertible, WebSocketErrorConvertible {
+
+    case notAuthenticated
+    case userNotVerified
+    case userBlocked
+    case internalError(message: String)
+    case network(wsCode: Int, onBackground: Bool)
+    case apiError(httpCode: Int)
+
+    init(webSocketError: WebSocketError) {
+        switch webSocketError {
+        case .notAuthenticated:
+            self = .notAuthenticated
+        case .internalError(let code):
+            self = .internalError(message: "\(code)")
+        case .userNotVerified:
+            self = .userNotVerified
+        case .userBlocked:
+            self = .userBlocked
+        case .suspended(let code):
+            self = .network(wsCode: code, onBackground: false)
+        }
+    }
+
+    // unread count sends an api error
+    init(apiError: ApiError) {
+        self = .apiError(httpCode: apiError.httpStatusCode ?? 0)
+    }
 }
 
 

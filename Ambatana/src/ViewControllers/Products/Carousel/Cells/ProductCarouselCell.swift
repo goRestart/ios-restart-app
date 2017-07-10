@@ -29,6 +29,7 @@ class ProductCarouselCell: UICollectionViewCell {
     var placeholderImage: UIImage?
     fileprivate var currentPage = 0
     fileprivate var imageScrollDirection: UICollectionViewScrollDirection = .vertical
+    fileprivate var verticalScrollCounter: CGFloat = 0.0  // USed to prevent more info overscroll down with horizontal images navigator
 
     fileprivate var numberOfImages: Int {
         return productImages.count
@@ -160,7 +161,20 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let pageSize = imageScrollDirection == .horizontal ? collectionView.frame.size.width : collectionView.frame.size.height
         guard pageSize > 0, numberOfImages > 0 else { return }
-        let collectionContentOffset = imageScrollDirection == .horizontal ? collectionView.contentOffset.x : collectionView.contentOffset.y
+        
+        let collectionContentOffset: CGFloat
+
+        if imageScrollDirection == .horizontal {
+            verticalScrollCounter = verticalScrollCounter + scrollView.contentOffset.y
+            collectionContentOffset = scrollView.contentOffset.x
+            // in horizontal image scrolling, collection should not be able to move upwards.
+            if verticalScrollCounter > 0 {
+                scrollView.setContentOffset(CGPoint(x: scrollView.contentOffset.x, y: 0.0), animated: false)
+            }
+        } else {
+            collectionContentOffset = scrollView.contentOffset.y
+        }
+        
         let page = Int(round(collectionContentOffset / pageSize)) % numberOfImages
         if page != currentPage {
             currentPage = page
@@ -169,15 +183,23 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
         }
 
         if let delegate = delegate {
+            // informs the delegate how much to move the carousel elements "more info", chat textfield & buttons.
             delegate.didPullFromCellWith(scrollView.contentOffset.y, bottomLimit: bottomScrollLimit)
 
             if !delegate.canScrollToNextPage() {
-                scrollView.contentOffset = CGPoint(x: 0, y: 0)
+                // setting the contentOffset.y = 0 prevents the collection of going down when scrolling for the "more info"
+                if imageScrollDirection == .horizontal {
+                    // we want to stay in the current picture
+                    scrollView.contentOffset = CGPoint(x: scrollView.contentOffset.x, y: 0)
+                } else {
+                    scrollView.contentOffset = CGPoint(x: 0, y: 0)
+                }
             }
         }
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        verticalScrollCounter = 0.0
         delegate?.didEndDraggingCell()
     }
 
