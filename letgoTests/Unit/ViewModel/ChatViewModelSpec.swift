@@ -74,7 +74,13 @@ class ChatViewModelSpec: BaseViewModelSpec {
                 chatRepository.indexMessagesResult = ChatMessagesResult(value: chatMessages)
                 chatRepository.chatStatusPublishSubject.onNext(.openAuthenticated)
                 chatRepository.showConversationResult = ChatConversationResult(value: chatConversation)
-                chatRepository.commandResult = commandSuccess ? ChatCommandResult(value: Void()) : ChatCommandResult(error: .internalError(message: "test"))
+                let commandResult: ChatCommandResult = commandSuccess ? ChatCommandResult(value: Void()) : ChatCommandResult(error: .internalError(message: "test"))
+                chatRepository.sendMessageCommandResult = commandResult
+                chatRepository.archiveCommandResult = commandResult
+                chatRepository.unarchiveCommandResult = commandResult
+                chatRepository.confirmReadCommandResult = commandResult
+                chatRepository.confirmReceptionCommandResult = commandResult
+                
 
                 let productA = Listing.product(MockProduct.makeMock())
                 let productB = Listing.product(MockProduct.makeMock())
@@ -432,7 +438,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                             expect(tracker.trackedEvents.count).toEventually(equal(2))
                         }
                         it("adds one element on messages") {
-                            expect(messages.lastValue?.last?.value) == "text"
+                            expect(messages.lastValue?.last?.value).notTo(beNil())
                         }
                         it("tracks sent first message + message sent") {
                             expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "user-sent-message"]
