@@ -195,33 +195,14 @@ class ProductViewModelSpec: BaseViewModelSpec {
                         savedProduct.favorite = true
                         listingRepository.productResult = ProductResult(savedProduct)
                         buildProductViewModel()
+                        sut.switchFavorite()
+                        expect(isFavoriteObserver.eventValues).toEventually(equal([false, true]))
                     }
-                    context("Contact the seller AB test enabled"){
-                        beforeEach {
-                            featureFlags.shouldContactSellerOnFavorite = true
-                            sut.switchFavorite()
-                            expect(isFavoriteObserver.eventValues.count).toEventually(equal(2))
-                        }
-                        it("shows bubble up") {
-                            expect(self.shownFavoriteBubble) == true
-                        }
-                        it("favorite value is true") {
-                            expect(isFavoriteObserver.lastValue) == true
-                        }
+                    it("shows bubble up") {
+                        expect(self.shownFavoriteBubble) == true
                     }
-                    context("Contact the seller AB test disabled"){
-                        beforeEach {
-                            featureFlags.shouldContactSellerOnFavorite = false
-                            sut.switchFavorite()
-                            expect(isFavoriteObserver.eventValues.count).toEventually(equal(2))
-                        }
-
-                        it("does not show bubble up") {
-                            expect(self.shownFavoriteBubble) == false
-                        }
-                        it("favorite value is true") {
-                            expect(isFavoriteObserver.lastValue) == true
-                        }
+                    it("favorite value is true") {
+                        expect(isFavoriteObserver.lastValue) == true
                     }
                 }
 
@@ -231,36 +212,14 @@ class ProductViewModelSpec: BaseViewModelSpec {
                         savedProduct.favorite = false
                         listingRepository.productResult = ProductResult(savedProduct)
                         buildProductViewModel()
+                        sut.switchFavorite()
+                        expect(isFavoriteObserver.eventValues).toEventually(equal([true, false]))
                     }
-
-                    context("Contact the seller AB test enabled"){
-                        beforeEach {
-                            featureFlags.shouldContactSellerOnFavorite = true
-                            sut.switchFavorite()
-                            expect(isFavoriteObserver.eventValues.count).toEventually(equal(2))
-                        }
-                        
-                        it("does not show bubble up") {
-                            expect(self.shownFavoriteBubble) == false
-                        }
-                        it("favorite value is true") {
-                            expect(isFavoriteObserver.lastValue) == false
-                        }
+                    it("does not show bubble up") {
+                        expect(self.shownFavoriteBubble) == false
                     }
-
-                    context("Contact the seller AB test disabled"){
-                        beforeEach {
-                            featureFlags.shouldContactSellerOnFavorite = false
-                            sut.switchFavorite()
-                            expect(isFavoriteObserver.eventValues.count).toEventually(equal(2))
-                        }
-
-                        it("does not show bubble up") {
-                            expect(self.shownFavoriteBubble) == false
-                        }
-                        it("favorite value is true") {
-                            expect(isFavoriteObserver.lastValue) == false
-                        }
+                    it("favorite value is true") {
+                        expect(isFavoriteObserver.lastValue) == false
                     }
                 }
             }
@@ -550,8 +509,8 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                 it ("banner info type is free") {
                                     expect(sut.bumpUpBannerInfo.value?.type) == .free
                                 }
-                                it ("banner primary block opens free bump up view") {
-                                    sut.bumpUpBannerInfo.value?.primaryBlock()
+                                it ("banner interaction block opens free bump up view") {
+                                    sut.bumpUpBannerInfo.value?.bannerInteractionBlock()
                                     expect(self.calledOpenFreeBumpUpView).toEventually(beTrue())
                                 }
                                 it ("banner button block open free bump up view") {
@@ -587,8 +546,8 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                 it ("banner info type is priced") {
                                     expect(sut.bumpUpBannerInfo.value?.type) == .priced
                                 }
-                                it ("banner primary block opens priced bump up view") {
-                                    sut.bumpUpBannerInfo.value?.primaryBlock()
+                                it ("banner interaction block opens priced bump up view") {
+                                    sut.bumpUpBannerInfo.value?.bannerInteractionBlock()
                                     expect(self.calledOpenPricedBumpUpView).toEventually(beTrue())
                                 }
                                 it ("banner button block tries to bump up the product") {
@@ -625,9 +584,9 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                 it ("banner info type is restore") {
                                     expect(sut.bumpUpBannerInfo.value?.type) == .restore
                                 }
-                                it ("banner primary block tres to restore the bump") {
+                                it ("banner interaction block tres to restore the bump") {
                                     // "tries to" because the result of the bump up feature is tested in another context
-                                    sut.bumpUpBannerInfo.value?.primaryBlock()
+                                    sut.bumpUpBannerInfo.value?.bannerInteractionBlock()
                                     expect(self.delegateReceivedShowLoading).toEventually(beTrue())
                                 }
                                 it ("banner button block tries to restore the bump") {

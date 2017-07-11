@@ -48,6 +48,8 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     fileprivate var userViewBottomConstraint: NSLayoutConstraint?
     fileprivate var userViewRightConstraint: NSLayoutConstraint?
 
+    fileprivate let mainViewBlurEffectView: UIVisualEffectView
+
     fileprivate var userViewRightMargin: CGFloat = CarouselUI.itemsMargin {
         didSet {
             userViewRightConstraint?.constant = -userViewRightMargin
@@ -78,6 +80,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     fileprivate let collectionContentOffset = Variable<CGPoint>(CGPoint.zero)
     fileprivate let itemsAlpha = Variable<CGFloat>(1)
     fileprivate let cellZooming = Variable<Bool>(false)
+    fileprivate let cellAnimating = Variable<Bool>(false)
 
     fileprivate var activeDisposeBag = DisposeBag()
     private var productInfoConstraintOffset: CGFloat = 0
@@ -101,6 +104,11 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
 
     fileprivate let carouselImageDownloader: ImageDownloaderType
     fileprivate let imageDownloader: ImageDownloaderType
+
+    fileprivate var usesHorizontalNavigation: Bool {
+        return viewModel.horizontalImageNavigationEnabled.value
+    }
+
 
     // MARK: - Lifecycle
 
@@ -128,6 +136,8 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         self.directAnswersView = DirectAnswersHorizontalView(answers: [], sideMargin: CarouselUI.itemsMargin,
                                                              collapsed: viewModel.quickAnswersCollapsed.value)
         self.moreInfoView = ProductCarouselMoreInfoView.moreInfoView()
+        let mainBlurEffect = UIBlurEffect(style: .light)
+        self.mainViewBlurEffectView = UIVisualEffectView(effect: mainBlurEffect)
         super.init(viewModel: viewModel, nibName: "ProductCarouselViewController", statusBarStyle: .lightContent,
                    navBarBackgroundStyle: .transparent(substyle: .dark), swipeBackGestureEnabled: false)
         self.viewModel.delegate = self
@@ -166,9 +176,20 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
 
     override func viewDidFirstAppear(_ animated: Bool) {
         super.viewDidFirstAppear(animated)
-        if viewModel.showKeyboardOnFirstAppearance {
+        
+        switch viewModel.actionOnFirstAppear {
+        case .showKeyboard:
             chatTextView.becomeFirstResponder()
+        case .showShareSheet:
+            viewModel.shareButtonPressed()
+        case .triggerBumpUp:
+            bumpUpBanner.executeBannerInteractionBlock()
+        case .triggerMarkAsSold:
+            viewModel.currentProductViewModel?.markAsSold()
+        default:
+            break
         }
+
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -237,6 +258,8 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     // MARK: Setup
     
     func addSubviews() {
+        mainViewBlurEffectView.translatesAutoresizingMaskIntoConstraints = false
+        imageBackground.addSubview(mainViewBlurEffectView)
         view.addSubview(pageControl)
         customPageControl.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(customPageControl)
@@ -250,7 +273,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     
     func setupUI() {
 
-        if viewModel.imageScrollDirection == .horizontal {
+        if usesHorizontalNavigation {
             flowLayout.animator = PageAttributesAnimator()
         }
         
@@ -270,7 +293,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         CarouselUIHelper.setupPageControl(pageControl, topBarHeight: topBarHeight)
 
         customPageControl.layout(with: view).leading(by: CarouselUI.itemsMargin).trailing(by: -CarouselUI.itemsMargin)
-        if viewModel.imageScrollDirection == .horizontal {
+        if usesHorizontalNavigation {
             customPageControl.layout().height(CarouselUI.customPageControlHeight)
             customPageControl.layout(with: buttonTop)
                 .above(by: -CarouselUI.itemsMargin, constraintBlock: { [weak self] in
@@ -284,6 +307,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
                 })
         }
 
+        mainViewBlurEffectView.layout(with: imageBackground).fill()
         fullScreenAvatarEffectView.layout(with: view).fill()
 
         userView.delegate = self
@@ -387,9 +411,21 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
 
     private func setupCollectionRx() {
         viewModel.objectChanges.observeOn(MainScheduler.instance).bindNext { [weak self] change in
+            guard let strongSelf = self else { return }
+
             self?.imageBackground.isHidden = true
-            self?.collectionView.handleCollectionChange(change) { _ in
+
+            if strongSelf.usesHorizontalNavigation && strongSelf.viewModel.isMyListing {
+                // when an item is updated, we have to reload all the items
+                // to reassign the right zIndexes to the cells
+                UIView.performWithoutAnimation {
+                    self?.collectionView.reloadData()
+                }
                 self?.imageBackground.isHidden = false
+            } else {
+                self?.collectionView.handleCollectionChange(change) { _ in
+                    self?.imageBackground.isHidden = false
+                }
             }
         }.addDisposableTo(disposeBag)
     }
@@ -474,6 +510,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
                 if movement == .tap {
                     self?.finishedTransition()
                 }
+                strongSelf.returnCellToFirstImage()
             }
             .addDisposableTo(disposeBag)
 
@@ -483,6 +520,14 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
             .bindNext { [weak self] _ in
             self?.finishedTransition()
         }.addDisposableTo(disposeBag)
+    }
+
+    private func returnCellToFirstImage() {
+        let visibleCells = collectionView.visibleCells.flatMap { $0 as? ProductCarouselCell }
+        visibleCells.filter {
+            guard let index = collectionView.indexPath(for: $0) else { return false }
+            return index.row != viewModel.currentIndex
+            }.forEach { $0.returnToFirstImage() }
     }
 }
 
@@ -502,6 +547,9 @@ extension ProductCarouselViewController {
         setupFavoriteButtonRx()
         setupShareButtonRx()
         setupBumpUpBannerRx()
+        setupUserInteractionRxBindings()
+        setupBackgroundRx()
+        setupNavigationAnimationsRx()
     }
 
     private func setupMoreInfoRx() {
@@ -711,6 +759,34 @@ extension ProductCarouselViewController {
         }.addDisposableTo(disposeBag)
     }
 
+    private func setupUserInteractionRxBindings(){
+        cellAnimating.asObservable().map { !$0 } .bindTo(view.rx.userInteractionEnabled).addDisposableTo(disposeBag)
+    }
+
+    private func setupBackgroundRx() {
+        viewModel.horizontalImageNavigationEnabled.asObservable()
+            .distinctUntilChanged().map { !$0 }
+            .bindTo(mainViewBlurEffectView.rx.isHidden)
+            .addDisposableTo(disposeBag)
+    }
+
+    private func setupNavigationAnimationsRx() {
+        viewModel.currentViewModelIsBeingUpdated.asObservable().bindNext { [weak self] updatingVM in
+            guard let strongSelf = self else { return }
+            if strongSelf.usesHorizontalNavigation {
+                if !updatingVM {
+                    strongSelf.collectionView.translatesAutoresizingMaskIntoConstraints = false
+                    strongSelf.flowLayout.animator = PageAttributesAnimator()
+                } else {
+                    strongSelf.collectionView.translatesAutoresizingMaskIntoConstraints = true
+                    strongSelf.flowLayout.animator = nil
+                }
+            } else {
+                strongSelf.flowLayout.animator = nil
+            }
+            }.addDisposableTo(disposeBag)
+    }
+
     fileprivate func resetMoreInfoState() {
         moreInfoView.frame = view.bounds
         moreInfoView.height = view.height + CarouselUI.moreInfoExtraHeight
@@ -772,19 +848,27 @@ extension ProductCarouselViewController: UserViewDelegate {
 // MARK: > ProductCarousel Cell Delegate
 
 extension ProductCarouselViewController: ProductCarouselCellDelegate {
+
+    static let animatedLayoutRubberBandOffset: CGFloat = 100
+    static let defaultRubberBandOffset: CGFloat = 50
+
     func didTapOnCarouselCell(_ cell: UICollectionViewCell) {
         guard !chatTextView.isFirstResponder else {
             chatTextView.resignFirstResponder()
             return
         }
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
+        cellAnimating.value = true
         let newIndexRow = indexPath.row + 1
         if newIndexRow < collectionView.numberOfItems(inSection: 0) {
             pendingMovement = .tap
             let nextIndexPath = IndexPath(item: newIndexRow, section: 0)
             collectionView.scrollToItem(at: nextIndexPath, at: .right, animated: true)
         } else {
-            collectionView.showRubberBandEffect(.right)
+            collectionView.showRubberBandEffect(.right,
+                                                offset: usesHorizontalNavigation ?
+                                                    ProductCarouselViewController.animatedLayoutRubberBandOffset :
+                                                    ProductCarouselViewController.defaultRubberBandOffset)
         }
     }
 
@@ -1005,9 +1089,8 @@ extension ProductCarouselViewController: UICollectionViewDataSource, UICollectio
         collectionContentOffset.value = scrollView.contentOffset
     }
 
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard let carouselCell = cell as? ProductCarouselCell else { return }
-        carouselCell.returnToFirstImage()
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        cellAnimating.value = false
     }
 }
 
@@ -1030,7 +1113,6 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
         directAnswersView.layout(with: chatContainer).leading().trailing().top()
 
         chatTextView.translatesAutoresizingMaskIntoConstraints = false
-        chatTextView.shouldClearWhenBeginEditing = viewModel.shouldClearTextWhenBeginEditing
         chatContainer.addSubview(chatTextView)
         chatTextView.layout(with: chatContainer).leading(by: CarouselUI.itemsMargin).trailing(by: -CarouselUI.itemsMargin).bottom()
         let directAnswersBottom: CGFloat = viewModel.quickAnswersCollapsed.value ? 0 : CarouselUI.itemsMargin

@@ -25,7 +25,6 @@ class SignUpLogInViewModel: BaseViewModel {
     fileprivate static let unauthorizedErrorCountRememberPwd = 2
 
     let loginSource: EventParameterLoginSourceValue
-    let collapsedEmailParam: EventParameterBoolean?
     let googleLoginHelper: ExternalAuthHelper
     let fbLoginHelper: ExternalAuthHelper
     let tracker: Tracker
@@ -124,15 +123,13 @@ class SignUpLogInViewModel: BaseViewModel {
     
     init(sessionManager: SessionManager, installationRepository: InstallationRepository, locationManager: LocationManager,
          keyValueStorage: KeyValueStorageable, googleLoginHelper: ExternalAuthHelper, fbLoginHelper: ExternalAuthHelper,
-         tracker: Tracker, featureFlags: FeatureFlaggeable, locale: Locale, source: EventParameterLoginSourceValue,
-         collapsedEmailParam: EventParameterBoolean?, action: LoginActionType) {
+         tracker: Tracker, featureFlags: FeatureFlaggeable, locale: Locale, source: EventParameterLoginSourceValue, action: LoginActionType) {
         self.sessionManager = sessionManager
         self.installationRepository = installationRepository
         self.locationManager = locationManager
         self.keyValueStorage = keyValueStorage
         self.featureFlags = featureFlags
         self.loginSource = source
-        self.collapsedEmailParam = collapsedEmailParam
         self.googleLoginHelper = googleLoginHelper
         self.fbLoginHelper = fbLoginHelper
         self.tracker = tracker
@@ -159,8 +156,7 @@ class SignUpLogInViewModel: BaseViewModel {
         }
     }
     
-    convenience init(source: EventParameterLoginSourceValue, collapsedEmailParam: EventParameterBoolean?,
-                     action: LoginActionType) {
+    convenience init(source: EventParameterLoginSourceValue, action: LoginActionType) {
         let sessionManager = Core.sessionManager
         let installationRepository = Core.installationRepository
         let locationManager = Core.locationManager
@@ -172,8 +168,7 @@ class SignUpLogInViewModel: BaseViewModel {
         let locale = Locale.current
         self.init(sessionManager: sessionManager, installationRepository: installationRepository, locationManager: locationManager,
                   keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper,
-                  tracker: tracker, featureFlags: featureFlags, locale: locale, source: source,
-                  collapsedEmailParam: collapsedEmailParam, action: action)
+                  tracker: tracker, featureFlags: featureFlags, locale: locale, source: source, action: action)
     }
     
     
@@ -197,14 +192,8 @@ class SignUpLogInViewModel: BaseViewModel {
 
     func acceptSuggestedEmail() -> Bool {
         guard let suggestedEmail = suggestedEmailVar.value else { return false }
-        
-        switch featureFlags.signUpLoginImprovement {
-        case .v1, .v2:
-            return false
-        case .v1WImprovements:
-            email = suggestedEmail
-            return true
-        }
+        email = suggestedEmail
+        return true
     }
 
     func erasePassword() {
@@ -245,8 +234,7 @@ class SignUpLogInViewModel: BaseViewModel {
 
                     // Tracking
                     self?.tracker.trackEvent(
-                        TrackerEvent.signupEmail(strongSelf.loginSource, newsletter: strongSelf.newsletterParameter,
-                                                 collapsedEmail: strongSelf.collapsedEmailParam))
+                        TrackerEvent.signupEmail(strongSelf.loginSource, newsletter: strongSelf.newsletterParameter))
 
                     strongSelf.delegate?.vmHideLoading(nil) { [weak self] in
                         self?.navigator?.closeSignUpLogInSuccessful(with: user)
@@ -258,8 +246,7 @@ class SignUpLogInViewModel: BaseViewModel {
                             if let myUser = loginResult.value {
                                 let rememberedAccount = strongSelf.previousEmail.value != nil
                                 let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource,
-                                                                           rememberedAccount: rememberedAccount,
-                                                                           collapsedEmail: strongSelf.collapsedEmailParam)
+                                                                           rememberedAccount: rememberedAccount)
                                 self?.tracker.trackEvent(trackerEvent)
                                 self?.delegate?.vmHideLoading(nil) { [weak self] in
                                     self?.navigator?.closeSignUpLogInSuccessful(with: myUser)
@@ -307,8 +294,7 @@ class SignUpLogInViewModel: BaseViewModel {
                     self?.savePreviousEmailOrUsername(.email, userEmailOrName: user.email)
 
                     let rememberedAccount = strongSelf.previousEmail.value != nil
-                    let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource, rememberedAccount: rememberedAccount,
-                                                               collapsedEmail: strongSelf.collapsedEmailParam)
+                    let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource, rememberedAccount: rememberedAccount)
                     self?.tracker.trackEvent(trackerEvent)
 
                     self?.delegate?.vmHideLoading(nil) { [weak self] in
@@ -385,16 +371,11 @@ class SignUpLogInViewModel: BaseViewModel {
                 self?.showDeviceNotAllowedAlert(self?.email, network: .email)
             }
         case .unauthorized:
-            switch featureFlags.signUpLoginImprovement {
-            case .v1WImprovements:
-                unauthorizedErrorCount = unauthorizedErrorCount + 1
-                if unauthorizedErrorCount >= SignUpLogInViewModel.unauthorizedErrorCountRememberPwd {
-                    afterMessageCompletion = { [weak self] in
-                        self?.showRememberPasswordAlert()
-                    }
+            unauthorizedErrorCount = unauthorizedErrorCount + 1
+            if unauthorizedErrorCount >= SignUpLogInViewModel.unauthorizedErrorCountRememberPwd {
+                afterMessageCompletion = { [weak self] in
+                    self?.showRememberPasswordAlert()
                 }
-            case .v1, .v2:
-                break
             }
         case .network, .badRequest, .notFound, .forbidden, .conflict, .tooManyRequests, .userNotVerified, .internalError:
             break
@@ -472,8 +453,7 @@ class SignUpLogInViewModel: BaseViewModel {
 
     private func trackLoginFBOK() {
         let rememberedAccount = previousFacebookUsername.value != nil
-        tracker.trackEvent(TrackerEvent.loginFB(loginSource, rememberedAccount: rememberedAccount,
-                                                collapsedEmail: collapsedEmailParam))
+        tracker.trackEvent(TrackerEvent.loginFB(loginSource, rememberedAccount: rememberedAccount))
     }
 
     private func trackLoginFBFailedWithError(_ error: EventParameterLoginError) {
@@ -482,8 +462,7 @@ class SignUpLogInViewModel: BaseViewModel {
 
     private func trackLoginGoogleOK() {
         let rememberedAccount = previousGoogleUsername.value != nil
-        tracker.trackEvent(TrackerEvent.loginGoogle(loginSource, rememberedAccount: rememberedAccount,
-                                                    collapsedEmail: collapsedEmailParam))
+        tracker.trackEvent(TrackerEvent.loginGoogle(loginSource, rememberedAccount: rememberedAccount))
     }
 
     private func trackLoginGoogleFailedWithError(_ error: EventParameterLoginError) {
@@ -549,12 +528,7 @@ fileprivate extension SignUpLogInViewModel {
 
 fileprivate extension SignUpLogInViewModel {
     func suggest(emailText: String) {
-        switch featureFlags.signUpLoginImprovement {
-        case .v1, .v2:
-            return
-        case .v1WImprovements:
-            suggestedEmailVar.value = emailText.suggestEmail(domains: Constants.emailSuggestedDomains)
-        }
+        suggestedEmailVar.value = emailText.suggestEmail(domains: Constants.emailSuggestedDomains)
     }
 }
 

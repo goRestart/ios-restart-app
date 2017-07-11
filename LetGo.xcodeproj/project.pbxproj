@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0178CBD81F0E463D00620BA6 /* UriSchemeSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0178CBD71F0E463D00620BA6 /* UriSchemeSpec.swift */; };
 		2E06EAED1D7051BA00A40704 /* FilterPriceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E06EAEB1D7051BA00A40704 /* FilterPriceCell.swift */; };
 		2E06EAEE1D7051BA00A40704 /* FilterPriceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E06EAEC1D7051BA00A40704 /* FilterPriceCell.xib */; };
 		2E06EAEF1D70595900A40704 /* FilterPriceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E06EAEB1D7051BA00A40704 /* FilterPriceCell.swift */; };
@@ -215,12 +216,6 @@
 		5007279D1B32CE660058DA76 /* UIApplication+TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5007279C1B32CE660058DA76 /* UIApplication+TopViewController.swift */; };
 		5009F83E1E5B01890064ED22 /* Metrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5009F83D1E5B01890064ED22 /* Metrics.swift */; };
 		5009F83F1E5B01890064ED22 /* Metrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5009F83D1E5B01890064ED22 /* Metrics.swift */; };
-		5009F8411E5B24F30064ED22 /* LogInEmailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5009F8401E5B24F30064ED22 /* LogInEmailView.swift */; };
-		5009F8421E5B24F30064ED22 /* LogInEmailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5009F8401E5B24F30064ED22 /* LogInEmailView.swift */; };
-		5009F8441E5B25030064ED22 /* SignUpEmailStep1View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5009F8431E5B25030064ED22 /* SignUpEmailStep1View.swift */; };
-		5009F8451E5B25030064ED22 /* SignUpEmailStep1View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5009F8431E5B25030064ED22 /* SignUpEmailStep1View.swift */; };
-		5009F8471E5B25140064ED22 /* SignUpEmailStep2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5009F8461E5B25140064ED22 /* SignUpEmailStep2View.swift */; };
-		5009F8481E5B25140064ED22 /* SignUpEmailStep2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5009F8461E5B25140064ED22 /* SignUpEmailStep2View.swift */; };
 		500DC12B1BDA1C4C00B494FA /* ios-devel.json in Resources */ = {isa = PBXBuildFile; fileRef = 500DC1291BDA1C4C00B494FA /* ios-devel.json */; };
 		500DC12C1BDA1C4C00B494FA /* ios-prod.json in Resources */ = {isa = PBXBuildFile; fileRef = 500DC12A1BDA1C4C00B494FA /* ios-prod.json */; };
 		5013403E1E0D359400AD27CA /* BuyersInterestedNotificationCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5013403D1E0D359400AD27CA /* BuyersInterestedNotificationCellDrawer.swift */; };
@@ -393,18 +388,6 @@
 		50C2E1A51E6FFB09006639BB /* PostProductPostFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C2E1A31E6FFB09006639BB /* PostProductPostFooter.swift */; };
 		50C2E1A71E701BE8006639BB /* PostProductFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C2E1A61E701BE8006639BB /* PostProductFooter.swift */; };
 		50C2E1A81E701BE8006639BB /* PostProductFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C2E1A61E701BE8006639BB /* PostProductFooter.swift */; };
-		50C43D9C1E26463100F10E53 /* LogInEmailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C43D9B1E26463100F10E53 /* LogInEmailViewModel.swift */; };
-		50C43D9D1E26463100F10E53 /* LogInEmailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C43D9B1E26463100F10E53 /* LogInEmailViewModel.swift */; };
-		50C43D9F1E26465E00F10E53 /* SignUpEmailStep1ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C43D9E1E26465E00F10E53 /* SignUpEmailStep1ViewModel.swift */; };
-		50C43DA01E26465E00F10E53 /* SignUpEmailStep1ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C43D9E1E26465E00F10E53 /* SignUpEmailStep1ViewModel.swift */; };
-		50C43DA21E26466E00F10E53 /* LogInEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C43DA11E26466E00F10E53 /* LogInEmailViewController.swift */; };
-		50C43DA31E26466E00F10E53 /* LogInEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C43DA11E26466E00F10E53 /* LogInEmailViewController.swift */; };
-		50C43DA51E26467C00F10E53 /* SignUpEmailStep1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C43DA41E26467C00F10E53 /* SignUpEmailStep1ViewController.swift */; };
-		50C43DA61E26467C00F10E53 /* SignUpEmailStep1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C43DA41E26467C00F10E53 /* SignUpEmailStep1ViewController.swift */; };
-		50C43DA81E26472600F10E53 /* SignUpEmailStep2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C43DA71E26472600F10E53 /* SignUpEmailStep2ViewController.swift */; };
-		50C43DA91E26472600F10E53 /* SignUpEmailStep2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C43DA71E26472600F10E53 /* SignUpEmailStep2ViewController.swift */; };
-		50C43DAB1E26473200F10E53 /* SignUpEmailStep2ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C43DAA1E26473200F10E53 /* SignUpEmailStep2ViewModel.swift */; };
-		50C43DAC1E26473200F10E53 /* SignUpEmailStep2ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C43DAA1E26473200F10E53 /* SignUpEmailStep2ViewModel.swift */; };
 		50C59BD41CE0DB4400377124 /* KeyValueStorageable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C59BD11CE0DB4400377124 /* KeyValueStorageable.swift */; };
 		50C59BD51CE0DB4400377124 /* KeyValueStorageable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C59BD11CE0DB4400377124 /* KeyValueStorageable.swift */; };
 		50C59BD81CE0DB4400377124 /* UserDefaultsUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C59BD31CE0DB4400377124 /* UserDefaultsUser.swift */; };
@@ -469,7 +452,6 @@
 		50D08DC61E69AF14009CC260 /* ShowFeaturedStripeHelperSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D7C1E69AF14009CC260 /* ShowFeaturedStripeHelperSpec.swift */; };
 		50D08DC71E69AF14009CC260 /* String+LGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D7D1E69AF14009CC260 /* String+LGSpec.swift */; };
 		50D08DC81E69AF14009CC260 /* TestableObserver+LGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D7E1E69AF14009CC260 /* TestableObserver+LGSpec.swift */; };
-		50D08DC91E69AF14009CC260 /* TourLoginState+LGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D7F1E69AF14009CC260 /* TourLoginState+LGSpec.swift */; };
 		50D08DCA1E69AF14009CC260 /* ConfigFileManagerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D811E69AF14009CC260 /* ConfigFileManagerSpec.swift */; };
 		50D08DCB1E69AF14009CC260 /* CrashManagerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D821E69AF14009CC260 /* CrashManagerSpec.swift */; };
 		50D08DCC1E69AF14009CC260 /* GodModeManagerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D831E69AF14009CC260 /* GodModeManagerSpec.swift */; };
@@ -489,16 +471,12 @@
 		50D08DDA1E69AF14009CC260 /* BaseChatGroupedListViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D961E69AF14009CC260 /* BaseChatGroupedListViewModelSpec.swift */; };
 		50D08DDB1E69AF14009CC260 /* BaseViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D971E69AF14009CC260 /* BaseViewModelSpec.swift */; };
 		50D08DDC1E69AF14009CC260 /* ChangeEmailViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D981E69AF14009CC260 /* ChangeEmailViewModelSpec.swift */; };
-		50D08DDE1E69AF14009CC260 /* LogInEmailViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D9A1E69AF14009CC260 /* LogInEmailViewModelSpec.swift */; };
 		50D08DDF1E69AF14009CC260 /* MainProductsViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D9B1E69AF14009CC260 /* MainProductsViewModelSpec.swift */; };
 		50D08DE01E69AF14009CC260 /* NotificationsViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D9C1E69AF14009CC260 /* NotificationsViewModelSpec.swift */; };
 		50D08DE11E69AF14009CC260 /* ProductCarouselViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D9D1E69AF14009CC260 /* ProductCarouselViewModelSpec.swift */; };
 		50D08DE21E69AF14009CC260 /* ProductViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D9E1E69AF14009CC260 /* ProductViewModelSpec.swift */; };
-		50D08DE31E69AF14009CC260 /* SignUpEmailStep1ViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D9F1E69AF14009CC260 /* SignUpEmailStep1ViewModelSpec.swift */; };
-		50D08DE41E69AF14009CC260 /* SignUpEmailStep2ViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08DA01E69AF14009CC260 /* SignUpEmailStep2ViewModelSpec.swift */; };
 		50D08DE51E69AF14009CC260 /* SignUpLogInViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08DA11E69AF14009CC260 /* SignUpLogInViewModelSpec.swift */; };
 		50D08DE61E69AF14009CC260 /* SignUpViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08DA21E69AF14009CC260 /* SignUpViewModelSpec.swift */; };
-		50D08DE71E69AF14009CC260 /* TourLoginViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08DA31E69AF14009CC260 /* TourLoginViewModelSpec.swift */; };
 		50D08DE81E69AF14009CC260 /* MockChatWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08DA51E69AF14009CC260 /* MockChatWrapper.swift */; };
 		50D250041DAFB68600B45EC2 /* UIApplication+PushNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D250031DAFB68600B45EC2 /* UIApplication+PushNotification.swift */; };
 		50D250051DAFB68600B45EC2 /* UIApplication+PushNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D250031DAFB68600B45EC2 /* UIApplication+PushNotification.swift */; };
@@ -695,8 +673,6 @@
 		72A83F651DD222100043EB3B /* Leanplum+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A83F631DD222100043EB3B /* Leanplum+LG.swift */; };
 		72AAA5A21DEEDE19008DD329 /* EscrowEnviroment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72AAA5A11DEEDE19008DD329 /* EscrowEnviroment.swift */; };
 		72AAA5A31DEEDE19008DD329 /* EscrowEnviroment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72AAA5A11DEEDE19008DD329 /* EscrowEnviroment.swift */; };
-		72AC69951E71940B00944CE5 /* IncentiviseScrollBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72AC69941E71940B00944CE5 /* IncentiviseScrollBanner.swift */; };
-		72AC69961E71940B00944CE5 /* IncentiviseScrollBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72AC69941E71940B00944CE5 /* IncentiviseScrollBanner.swift */; };
 		72B76C831DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B76C821DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift */; };
 		72B76C841DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B76C821DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift */; };
 		72B935F61E3F917500F93F73 /* UserProduct+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B935F51E3F917500F93F73 /* UserProduct+LG.swift */; };
@@ -1487,6 +1463,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0178CBD71F0E463D00620BA6 /* UriSchemeSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UriSchemeSpec.swift; path = DeepLinks/UriSchemeSpec.swift; sourceTree = "<group>"; };
 		2E06EAEB1D7051BA00A40704 /* FilterPriceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterPriceCell.swift; sourceTree = "<group>"; };
 		2E06EAEC1D7051BA00A40704 /* FilterPriceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterPriceCell.xib; sourceTree = "<group>"; };
 		2E0C96441DEDCAFA00068B6D /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
@@ -1602,9 +1579,6 @@
 		500210B51CF5D94F0034519F /* ChatDisclaimerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatDisclaimerCell.swift; path = ../ChatDisclaimerCell.swift; sourceTree = "<group>"; };
 		5007279C1B32CE660058DA76 /* UIApplication+TopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+TopViewController.swift"; sourceTree = "<group>"; };
 		5009F83D1E5B01890064ED22 /* Metrics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Metrics.swift; sourceTree = "<group>"; };
-		5009F8401E5B24F30064ED22 /* LogInEmailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInEmailView.swift; sourceTree = "<group>"; };
-		5009F8431E5B25030064ED22 /* SignUpEmailStep1View.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpEmailStep1View.swift; sourceTree = "<group>"; };
-		5009F8461E5B25140064ED22 /* SignUpEmailStep2View.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpEmailStep2View.swift; sourceTree = "<group>"; };
 		500DC1291BDA1C4C00B494FA /* ios-devel.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "ios-devel.json"; sourceTree = "<group>"; };
 		500DC12A1BDA1C4C00B494FA /* ios-prod.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "ios-prod.json"; sourceTree = "<group>"; };
 		5013403D1E0D359400AD27CA /* BuyersInterestedNotificationCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyersInterestedNotificationCellDrawer.swift; sourceTree = "<group>"; };
@@ -1671,7 +1645,7 @@
 		506DC19B1BBE7D8A00E59D27 /* levelup.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = levelup.caf; sourceTree = "<group>"; };
 		50731FDE1DB6236C00EDE04B /* fr-CA */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "fr-CA"; path = "fr-CA.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		50731FDF1DB6236C00EDE04B /* fr-CA */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "fr-CA"; path = "fr-CA.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		507440DD1E3F97EB006976F7 /* LoginAppearance+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LoginAppearance+Helper.swift"; sourceTree = "<group>"; };
+		507440DD1E3F97EB006976F7 /* LoginAppearance+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "LoginAppearance+Helper.swift"; path = "v2/LoginAppearance+Helper.swift"; sourceTree = "<group>"; };
 		507622861CD0EB1D004E5D0D /* AppCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		507622871CD0EB1D004E5D0D /* Coordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		507F1BFA1C89DDF9001F0A95 /* PostalAddress+String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PostalAddress+String.swift"; sourceTree = "<group>"; };
@@ -1718,12 +1692,6 @@
 		50C2E1A01E6FFAF2006639BB /* PostProductTabsFooter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostProductTabsFooter.swift; sourceTree = "<group>"; };
 		50C2E1A31E6FFB09006639BB /* PostProductPostFooter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostProductPostFooter.swift; sourceTree = "<group>"; };
 		50C2E1A61E701BE8006639BB /* PostProductFooter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostProductFooter.swift; sourceTree = "<group>"; };
-		50C43D9B1E26463100F10E53 /* LogInEmailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInEmailViewModel.swift; sourceTree = "<group>"; };
-		50C43D9E1E26465E00F10E53 /* SignUpEmailStep1ViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpEmailStep1ViewModel.swift; sourceTree = "<group>"; };
-		50C43DA11E26466E00F10E53 /* LogInEmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInEmailViewController.swift; sourceTree = "<group>"; };
-		50C43DA41E26467C00F10E53 /* SignUpEmailStep1ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpEmailStep1ViewController.swift; sourceTree = "<group>"; };
-		50C43DA71E26472600F10E53 /* SignUpEmailStep2ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpEmailStep2ViewController.swift; sourceTree = "<group>"; };
-		50C43DAA1E26473200F10E53 /* SignUpEmailStep2ViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpEmailStep2ViewModel.swift; sourceTree = "<group>"; };
 		50C59BD11CE0DB4400377124 /* KeyValueStorageable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyValueStorageable.swift; sourceTree = "<group>"; };
 		50C59BD31CE0DB4400377124 /* UserDefaultsUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsUser.swift; sourceTree = "<group>"; };
 		50C59BDA1CE0DB6400377124 /* NSUserDefaults+KeyValueStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSUserDefaults+KeyValueStorage.swift"; sourceTree = "<group>"; };
@@ -1784,7 +1752,6 @@
 		50D08D7C1E69AF14009CC260 /* ShowFeaturedStripeHelperSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowFeaturedStripeHelperSpec.swift; sourceTree = "<group>"; };
 		50D08D7D1E69AF14009CC260 /* String+LGSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+LGSpec.swift"; sourceTree = "<group>"; };
 		50D08D7E1E69AF14009CC260 /* TestableObserver+LGSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TestableObserver+LGSpec.swift"; sourceTree = "<group>"; };
-		50D08D7F1E69AF14009CC260 /* TourLoginState+LGSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TourLoginState+LGSpec.swift"; sourceTree = "<group>"; };
 		50D08D811E69AF14009CC260 /* ConfigFileManagerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigFileManagerSpec.swift; sourceTree = "<group>"; };
 		50D08D821E69AF14009CC260 /* CrashManagerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashManagerSpec.swift; sourceTree = "<group>"; };
 		50D08D831E69AF14009CC260 /* GodModeManagerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GodModeManagerSpec.swift; sourceTree = "<group>"; };
@@ -1804,16 +1771,12 @@
 		50D08D961E69AF14009CC260 /* BaseChatGroupedListViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseChatGroupedListViewModelSpec.swift; sourceTree = "<group>"; };
 		50D08D971E69AF14009CC260 /* BaseViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewModelSpec.swift; sourceTree = "<group>"; };
 		50D08D981E69AF14009CC260 /* ChangeEmailViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeEmailViewModelSpec.swift; sourceTree = "<group>"; };
-		50D08D9A1E69AF14009CC260 /* LogInEmailViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInEmailViewModelSpec.swift; sourceTree = "<group>"; };
 		50D08D9B1E69AF14009CC260 /* MainProductsViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainProductsViewModelSpec.swift; sourceTree = "<group>"; };
 		50D08D9C1E69AF14009CC260 /* NotificationsViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsViewModelSpec.swift; sourceTree = "<group>"; };
 		50D08D9D1E69AF14009CC260 /* ProductCarouselViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCarouselViewModelSpec.swift; sourceTree = "<group>"; };
 		50D08D9E1E69AF14009CC260 /* ProductViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductViewModelSpec.swift; sourceTree = "<group>"; };
-		50D08D9F1E69AF14009CC260 /* SignUpEmailStep1ViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpEmailStep1ViewModelSpec.swift; sourceTree = "<group>"; };
-		50D08DA01E69AF14009CC260 /* SignUpEmailStep2ViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpEmailStep2ViewModelSpec.swift; sourceTree = "<group>"; };
 		50D08DA11E69AF14009CC260 /* SignUpLogInViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpLogInViewModelSpec.swift; sourceTree = "<group>"; };
 		50D08DA21E69AF14009CC260 /* SignUpViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewModelSpec.swift; sourceTree = "<group>"; };
-		50D08DA31E69AF14009CC260 /* TourLoginViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourLoginViewModelSpec.swift; sourceTree = "<group>"; };
 		50D08DA51E69AF14009CC260 /* MockChatWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockChatWrapper.swift; sourceTree = "<group>"; };
 		50D08DE91E69AF6F009CC260 /* letgoTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "letgoTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		50D250031DAFB68600B45EC2 /* UIApplication+PushNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+PushNotification.swift"; sourceTree = "<group>"; };
@@ -1926,7 +1889,6 @@
 		729A7F061E979106003B34A5 /* OldChatViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OldChatViewModelSpec.swift; sourceTree = "<group>"; };
 		72A83F631DD222100043EB3B /* Leanplum+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Leanplum+LG.swift"; sourceTree = "<group>"; };
 		72AAA5A11DEEDE19008DD329 /* EscrowEnviroment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EscrowEnviroment.swift; sourceTree = "<group>"; };
-		72AC69941E71940B00944CE5 /* IncentiviseScrollBanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncentiviseScrollBanner.swift; sourceTree = "<group>"; };
 		72B76C821DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CTTelephonyNetworkInfo+CountryConfigurable.swift"; path = "../FoundationExtensions/CTTelephonyNetworkInfo+CountryConfigurable.swift"; sourceTree = "<group>"; };
 		72B935F51E3F917500F93F73 /* UserProduct+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserProduct+LG.swift"; sourceTree = "<group>"; };
 		72C99E9B1DED7417006361C1 /* ChangePasswordCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordCoordinator.swift; sourceTree = "<group>"; };
@@ -2382,6 +2344,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0178CBD61F0E462700620BA6 /* DeepLinks */ = {
+			isa = PBXGroup;
+			children = (
+				0178CBD71F0E463D00620BA6 /* UriSchemeSpec.swift */,
+			);
+			name = DeepLinks;
+			sourceTree = "<group>";
+		};
 		2E00C4DE1D00364C00B95010 /* LGAlertViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -2705,7 +2675,7 @@
 		50560B8A1B25D18F0021D8D9 /* Log In */ = {
 			isa = PBXGroup;
 			children = (
-				50C43D9A1E26460E00F10E53 /* v2 */,
+				507440DD1E3F97EB006976F7 /* LoginAppearance+Helper.swift */,
 				C71589B21C4F8E1C00E7563E /* PopupSignUpViewController.swift */,
 				C71589B31C4F8E1C00E7563E /* PopupSignUpViewController.xib */,
 				50F0BAA71B28938D00E50A68 /* MainSignUpViewController.swift */,
@@ -2798,7 +2768,6 @@
 				502B705A1BAAC3AE00C5D465 /* FloatingButton.swift */,
 				50BCE92B1BF6356B00C130CD /* ToastView.swift */,
 				50BCE92D1BF6357600C130CD /* ToastView.xib */,
-				72AC69941E71940B00944CE5 /* IncentiviseScrollBanner.swift */,
 				C7B89CB81C20271E00536A6C /* SocialShareView.swift */,
 				C784FDFE1C21B45B00846AB7 /* LoadingIndicator.swift */,
 				5015881A1C7396A8006AEFC8 /* UserView.swift */,
@@ -3003,23 +2972,6 @@
 				50C2E1A31E6FFB09006639BB /* PostProductPostFooter.swift */,
 			);
 			path = PostProductFooter;
-			sourceTree = "<group>";
-		};
-		50C43D9A1E26460E00F10E53 /* v2 */ = {
-			isa = PBXGroup;
-			children = (
-				5009F8401E5B24F30064ED22 /* LogInEmailView.swift */,
-				50C43DA11E26466E00F10E53 /* LogInEmailViewController.swift */,
-				50C43D9B1E26463100F10E53 /* LogInEmailViewModel.swift */,
-				5009F8431E5B25030064ED22 /* SignUpEmailStep1View.swift */,
-				50C43DA41E26467C00F10E53 /* SignUpEmailStep1ViewController.swift */,
-				50C43D9E1E26465E00F10E53 /* SignUpEmailStep1ViewModel.swift */,
-				5009F8461E5B25140064ED22 /* SignUpEmailStep2View.swift */,
-				50C43DA71E26472600F10E53 /* SignUpEmailStep2ViewController.swift */,
-				50C43DAA1E26473200F10E53 /* SignUpEmailStep2ViewModel.swift */,
-				507440DD1E3F97EB006976F7 /* LoginAppearance+Helper.swift */,
-			);
-			path = v2;
 			sourceTree = "<group>";
 		};
 		50C59BD01CE0DB4400377124 /* KeyValueStorage */ = {
@@ -3282,7 +3234,6 @@
 				50D08D7C1E69AF14009CC260 /* ShowFeaturedStripeHelperSpec.swift */,
 				50D08D7D1E69AF14009CC260 /* String+LGSpec.swift */,
 				50D08D7E1E69AF14009CC260 /* TestableObserver+LGSpec.swift */,
-				50D08D7F1E69AF14009CC260 /* TourLoginState+LGSpec.swift */,
 				2EC653B21E716C8800E23DDF /* Dictionary+FilterSpec.swift */,
 			);
 			path = Helpers;
@@ -3291,6 +3242,7 @@
 		50D08D801E69AF14009CC260 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				0178CBD61F0E462700620BA6 /* DeepLinks */,
 				50D08D811E69AF14009CC260 /* ConfigFileManagerSpec.swift */,
 				50D08D821E69AF14009CC260 /* CrashManagerSpec.swift */,
 				50D08D831E69AF14009CC260 /* GodModeManagerSpec.swift */,
@@ -3352,18 +3304,14 @@
 				50D08D981E69AF14009CC260 /* ChangeEmailViewModelSpec.swift */,
 				729A7F061E979106003B34A5 /* OldChatViewModelSpec.swift */,
 				72D928D71E83D1C60030F4C3 /* ChatViewModelSpec.swift */,
-				50D08D9A1E69AF14009CC260 /* LogInEmailViewModelSpec.swift */,
 				50D08D9B1E69AF14009CC260 /* MainProductsViewModelSpec.swift */,
 				50D08D9C1E69AF14009CC260 /* NotificationsViewModelSpec.swift */,
 				50D934D61E803C9E00BDD5FF /* PostProductStateSpec.swift */,
 				50D08D9D1E69AF14009CC260 /* ProductCarouselViewModelSpec.swift */,
 				50D08D9E1E69AF14009CC260 /* ProductViewModelSpec.swift */,
 				509F79B11EDC01E400AF2F70 /* RateUserViewModelSpec.swift */,
-				50D08D9F1E69AF14009CC260 /* SignUpEmailStep1ViewModelSpec.swift */,
-				50D08DA01E69AF14009CC260 /* SignUpEmailStep2ViewModelSpec.swift */,
 				50D08DA11E69AF14009CC260 /* SignUpLogInViewModelSpec.swift */,
 				50D08DA21E69AF14009CC260 /* SignUpViewModelSpec.swift */,
-				50D08DA31E69AF14009CC260 /* TourLoginViewModelSpec.swift */,
 				C7AFFB0F1E7176BC0052A9CA /* WebSurveyViewModelSpec.swift */,
 				2E4BDE7E1EDEC7DC00CBDC8C /* LocationFromZipCodeViewModelSpec.swift */,
 			);
@@ -5217,8 +5165,8 @@
 				509F79B21EDC01E400AF2F70 /* RateUserViewModelSpec.swift in Sources */,
 				50D08DB91E69AF14009CC260 /* MockPurchaseableProduct+MockFactory.swift in Sources */,
 				2EC653B81E71767A00E23DDF /* MockReceiptURLProvider.swift in Sources */,
+				0178CBD81F0E463D00620BA6 /* UriSchemeSpec.swift in Sources */,
 				50D08DB41E69AF14009CC260 /* MockKeyValueStorage.swift in Sources */,
-				50D08DDE1E69AF14009CC260 /* LogInEmailViewModelSpec.swift in Sources */,
 				50D08DD81E69AF14009CC260 /* LGConfigDAOSpec.swift in Sources */,
 				2EEDC5881E71B0D6008779D8 /* HOF.swift in Sources */,
 				502047201EEA98D8006C0EC2 /* MockCountryConfigurable.swift in Sources */,
@@ -5226,7 +5174,6 @@
 				50D08DAA1E69AF14009CC260 /* MockConfigFileDAO.swift in Sources */,
 				50D08DB71E69AF14009CC260 /* MockTracker.swift in Sources */,
 				50D08DE61E69AF14009CC260 /* SignUpViewModelSpec.swift in Sources */,
-				50D08DE31E69AF14009CC260 /* SignUpEmailStep1ViewModelSpec.swift in Sources */,
 				502047221EEA9A2F006C0EC2 /* MockFeatureFlagsDAO.swift in Sources */,
 				50D08DC01E69AF14009CC260 /* CGFloat+LGSpec.swift in Sources */,
 				72D928D81E83D1C60030F4C3 /* ChatViewModelSpec.swift in Sources */,
@@ -5250,13 +5197,11 @@
 				C765EE4B1E7FEEE200063750 /* MockChatEvent.swift in Sources */,
 				504C63B91ECAE0AB00D33BFA /* PushManagerSpec.swift in Sources */,
 				50D08DD01E69AF14009CC260 /* TrackerProxySpec.swift in Sources */,
-				50D08DE71E69AF14009CC260 /* TourLoginViewModelSpec.swift in Sources */,
 				C7AFFB101E7176BC0052A9CA /* WebSurveyViewModelSpec.swift in Sources */,
 				50D08DBD1E69AF14009CC260 /* MockPurchaseableProductsRequestFactory.swift in Sources */,
 				2E4BDE7F1EDEC7DC00CBDC8C /* LocationFromZipCodeViewModelSpec.swift in Sources */,
 				50D08DC41E69AF14009CC260 /* MultiPageRequesterSpec.swift in Sources */,
 				50D08DCF1E69AF14009CC260 /* TrackerEventSpec.swift in Sources */,
-				50D08DC91E69AF14009CC260 /* TourLoginState+LGSpec.swift in Sources */,
 				2EC653B31E716C8800E23DDF /* Dictionary+FilterSpec.swift in Sources */,
 				50D08DB11E69AF14009CC260 /* MockCountryHelper.swift in Sources */,
 				50D08DB61E69AF14009CC260 /* MockPurchasesShopper.swift in Sources */,
@@ -5271,7 +5216,6 @@
 				50D08DCE1E69AF14009CC260 /* PurchasesShopperSpec.swift in Sources */,
 				50D08DD91E69AF14009CC260 /* LGConfigRetrieveServiceSpec.swift in Sources */,
 				50D08DA61E69AF14009CC260 /* RatingManagerSpec.swift in Sources */,
-				50D08DE41E69AF14009CC260 /* SignUpEmailStep2ViewModelSpec.swift in Sources */,
 				50D08DB51E69AF14009CC260 /* MockNotificationsManager.swift in Sources */,
 				50D08DBE1E69AF14009CC260 /* MockPurchaseableProductsResponse+MockFactory.swift in Sources */,
 				50D08DE01E69AF14009CC260 /* NotificationsViewModelSpec.swift in Sources */,
@@ -5341,7 +5285,6 @@
 				C71C5D5E1D958974006EB3CE /* BumperFeatures.swift in Sources */,
 				504C63BC1ECAF18F00D33BFA /* Application.swift in Sources */,
 				C78F9DB61DC9ED1300884064 /* LocalProduct.swift in Sources */,
-				50C43D9F1E26465E00F10E53 /* SignUpEmailStep1ViewModel.swift in Sources */,
 				6A12E0521C63988100C1BFE3 /* TourNotificationsViewController.swift in Sources */,
 				2E8ED6A21EC1B60800A2B4AE /* NHRangeSlider.swift in Sources */,
 				2E1F0D971D65F4B80021EDBE /* BubbleNotification.swift in Sources */,
@@ -5350,7 +5293,6 @@
 				C7AFFB011E7054590052A9CA /* WebSurveyViewController.swift in Sources */,
 				50AB5F221ED4447200E9909D /* UserRatingTag.swift in Sources */,
 				C711A1A71CDC99E5002D30D9 /* NotificationCellDrawer.swift in Sources */,
-				50C43DA21E26466E00F10E53 /* LogInEmailViewController.swift in Sources */,
 				508D48671CCF4FFC00C52BE3 /* ImageDownloaderType.swift in Sources */,
 				C7B5886B1CE1DE1C009B3975 /* ChatGroupedViewModel.swift in Sources */,
 				C74BC2421E0D7FFB00381D96 /* PassiveBuyerCell.swift in Sources */,
@@ -5433,9 +5375,7 @@
 				50C9E4B91B71FBB7001E4E92 /* Tracker.swift in Sources */,
 				508E4CEA1B41A5D2007BD301 /* ListingCategory+LG.swift in Sources */,
 				6A5E19E21D548F5400F92692 /* GoogleLoginHelper.swift in Sources */,
-				5009F8471E5B25140064ED22 /* SignUpEmailStep2View.swift in Sources */,
 				2ED5E52D1EC5BAFB00B6D4F6 /* FilterProductListRequesterFactory.swift in Sources */,
-				50C43DAB1E26473200F10E53 /* SignUpEmailStep2ViewModel.swift in Sources */,
 				6AEF66B31C5A155C0025D43C /* Paginable.swift in Sources */,
 				6A5E1A001D548F5400F92692 /* MapZoomBlocker.swift in Sources */,
 				2EF4E3B01D3688AB00A09DFD /* ConfigDAO.swift in Sources */,
@@ -5467,7 +5407,6 @@
 				5095988D1C8733B70026AE2D /* CrashlyticsReporter.swift in Sources */,
 				C7B5885D1CE1DE1C009B3975 /* OldChatViewModel.swift in Sources */,
 				C7363FBC1BFA449A00A4BF6F /* ProductSortCriteria+LG.swift in Sources */,
-				5009F8441E5B25030064ED22 /* SignUpEmailStep1View.swift in Sources */,
 				C7B588A61CE1E025009B3975 /* ChatListViewModel.swift in Sources */,
 				8E1139E21EC9AD5B00A9D772 /* FilterDescriptionHeaderView.swift in Sources */,
 				503996D61C60C258004D2E09 /* LGViewPager.swift in Sources */,
@@ -5547,7 +5486,6 @@
 				C7732F6F1D87FA4600EAD5B7 /* TourPostingViewModel.swift in Sources */,
 				2EBC92151E0ABC73007F0F82 /* PurchaseableProductsResponse.swift in Sources */,
 				2E2A5E121D5C784B0047ED45 /* ExpressChatCoordinator.swift in Sources */,
-				50C43D9C1E26463100F10E53 /* LogInEmailViewModel.swift in Sources */,
 				2EBC92121E0ABC4A007F0F82 /* PurchaseableProduct.swift in Sources */,
 				D412E0861B4F179F00683FFD /* ProductListView.swift in Sources */,
 				C7E73E8D1CD20A49000F2591 /* ViewState.swift in Sources */,
@@ -5556,7 +5494,6 @@
 				C749C78F1C10836C00F7118E /* BaseCellDrawer.swift in Sources */,
 				C7111EFF1CA4389C000C5C5A /* PushNotification.swift in Sources */,
 				C7B5885F1CE1DE1C009B3975 /* RelationInfoView.swift in Sources */,
-				50C43DA51E26467C00F10E53 /* SignUpEmailStep1ViewController.swift in Sources */,
 				C749C78D1C10830600F7118E /* CellDrawer.swift in Sources */,
 				6A879D9F1C8D89A400E0C868 /* PushPrePermissionsSettingsViewController.swift in Sources */,
 				72D928EE1E83F0BD0030F4C3 /* LGPushPermissionsManager.swift in Sources */,
@@ -5573,7 +5510,6 @@
 				C743FEB01E449F2E00B4E912 /* RateBuyersHeader.swift in Sources */,
 				8E1139E51EC9AD7100A9D772 /* FilterTitleHeaderView.swift in Sources */,
 				2EBC92051E0A77A5007F0F82 /* AppstoreProductsRequest.swift in Sources */,
-				72AC69951E71940B00944CE5 /* IncentiviseScrollBanner.swift in Sources */,
 				50C63B711DC3A79100836D85 /* SocialMessage.swift in Sources */,
 				C7B5884B1CE1DE1C009B3975 /* ChatViewModel.swift in Sources */,
 				7EA1474D1E12769500C3F462 /* LGLayout.swift in Sources */,
@@ -5624,7 +5560,6 @@
 				C7740DF41DC386EC00988036 /* ProductSoldNotificationCellDrawer.swift in Sources */,
 				50C2E1A11E6FFAF2006639BB /* PostProductTabsFooter.swift in Sources */,
 				72E8A58A1EB34D93000524E6 /* CategoriesHeaderCell.swift in Sources */,
-				5009F8411E5B24F30064ED22 /* LogInEmailView.swift in Sources */,
 				C7111EFC1CA43885000C5C5A /* DeepLink.swift in Sources */,
 				C7E590321E5EC9F1002921B2 /* MultiPageRequester.swift in Sources */,
 				6A5E19DC1D548F5400F92692 /* ExternalServiceAuthResult.swift in Sources */,
@@ -5796,7 +5731,6 @@
 				C7126BE11E6596B200038CC4 /* ProductVMProductInfo.swift in Sources */,
 				2E373FA81D3D01AE00AC811C /* UserRatingListViewModel.swift in Sources */,
 				C735101E1D942B5000D67040 /* FeatureFlags.swift in Sources */,
-				50C43DA81E26472600F10E53 /* SignUpEmailStep2ViewController.swift in Sources */,
 				C7B6FA8A1D182F4200DAA19D /* LocalChat.swift in Sources */,
 				6ACC24C41D2A90400064B165 /* GridDrawerManager.swift in Sources */,
 				C703BE021C7F1AF900EC8EF2 /* EditLocationViewModel.swift in Sources */,
@@ -5880,7 +5814,6 @@
 				6A12E0531C63988100C1BFE3 /* TourNotificationsViewController.swift in Sources */,
 				C78F9DB71DC9ED1400884064 /* LocalProduct.swift in Sources */,
 				2E8ED6A31EC1B60800A2B4AE /* NHRangeSlider.swift in Sources */,
-				50C43DA01E26465E00F10E53 /* SignUpEmailStep1ViewModel.swift in Sources */,
 				2E2D53E11D369B0500348D12 /* ConfigRetrieveService.swift in Sources */,
 				2E4B43EB1E7810C00048214B /* PaymentEnqueuable.swift in Sources */,
 				C7AFFB021E7054590052A9CA /* WebSurveyViewController.swift in Sources */,
@@ -5888,7 +5821,6 @@
 				2E1F0D981D65F4B80021EDBE /* BubbleNotification.swift in Sources */,
 				C711A1A81CDC99E5002D30D9 /* NotificationCellDrawer.swift in Sources */,
 				508D48681CCF4FFC00C52BE3 /* ImageDownloaderType.swift in Sources */,
-				50C43DA31E26466E00F10E53 /* LogInEmailViewController.swift in Sources */,
 				C7B5886C1CE1DE1C009B3975 /* ChatGroupedViewModel.swift in Sources */,
 				C7AFFAFF1E7053EF0052A9CA /* NPSViewModel.swift in Sources */,
 				C7DB419B1C5138B500400945 /* ProductCell.swift in Sources */,
@@ -5969,11 +5901,9 @@
 				C72794471D549342009C25AB /* HelpViewModel.swift in Sources */,
 				2E52CCD51CBD54F3003B7A96 /* ABTests.swift in Sources */,
 				6A3C73101CF346CB00A062E0 /* ChatStickerGridCell.swift in Sources */,
-				5009F8481E5B25140064ED22 /* SignUpEmailStep2View.swift in Sources */,
 				2ED5E52E1EC5BAFB00B6D4F6 /* FilterProductListRequesterFactory.swift in Sources */,
 				6A5E19E31D548F5400F92692 /* GoogleLoginHelper.swift in Sources */,
 				2E3047F61CA4526E0099C0BC /* CommercialDisplayPageView.swift in Sources */,
-				50C43DAC1E26473200F10E53 /* SignUpEmailStep2ViewModel.swift in Sources */,
 				6A5E1A011D548F5400F92692 /* MapZoomBlocker.swift in Sources */,
 				C7DB41B81C5138B500400945 /* Tracker.swift in Sources */,
 				2E2D53E01D369B0500348D12 /* ConfigDAO.swift in Sources */,
@@ -6004,7 +5934,6 @@
 				6A5E1A171D548F5400F92692 /* UITextField+LG.swift in Sources */,
 				C79643121D4F5AFA000C5FCE /* RelatedProductsView.swift in Sources */,
 				C749316F1D34FD0200E117F1 /* RateUserViewController.swift in Sources */,
-				5009F8451E5B25030064ED22 /* SignUpEmailStep1View.swift in Sources */,
 				8E1139E31EC9AD5B00A9D772 /* FilterDescriptionHeaderView.swift in Sources */,
 				C727FBC41CCFC545002BC643 /* NotificationsViewModel.swift in Sources */,
 				C7AFFAFB1E7053EF0052A9CA /* NPSViewController.swift in Sources */,
@@ -6086,7 +6015,6 @@
 				C7B588841CE1DFA6009B3975 /* ChatMyMessageCellDrawer.swift in Sources */,
 				C7732F701D87FA4600EAD5B7 /* TourPostingViewModel.swift in Sources */,
 				2EBC92161E0ABC73007F0F82 /* PurchaseableProductsResponse.swift in Sources */,
-				50C43D9D1E26463100F10E53 /* LogInEmailViewModel.swift in Sources */,
 				C7DB41EF1C5138B500400945 /* ProductListView.swift in Sources */,
 				50C2E1A51E6FFB09006639BB /* PostProductPostFooter.swift in Sources */,
 				C7890A861E55B96D0079964C /* MotionDeviceOrientation.swift in Sources */,
@@ -6096,7 +6024,6 @@
 				C7111F001CA4389C000C5C5A /* PushNotification.swift in Sources */,
 				2E9716A71D5A2840009B3A32 /* ExpressChatViewModel.swift in Sources */,
 				72D928EF1E83F0BD0030F4C3 /* LGPushPermissionsManager.swift in Sources */,
-				50C43DA61E26467C00F10E53 /* SignUpEmailStep1ViewController.swift in Sources */,
 				C7DB41F51C5138B500400945 /* CellDrawer.swift in Sources */,
 				C7B588601CE1DE1C009B3975 /* RelationInfoView.swift in Sources */,
 				C765EE801E84036400063750 /* SessionErrors+LG.swift in Sources */,
@@ -6110,7 +6037,6 @@
 				8E1139E61EC9AD7100A9D772 /* FilterTitleHeaderView.swift in Sources */,
 				C743FEB11E449F2E00B4E912 /* RateBuyersHeader.swift in Sources */,
 				C79895C91DE43D5100DD58BF /* SessionEvent+LG.swift in Sources */,
-				72AC69961E71940B00944CE5 /* IncentiviseScrollBanner.swift in Sources */,
 				C7E73E8B1CD1F77E000F2591 /* NotificationData.swift in Sources */,
 				72A83F651DD222100043EB3B /* Leanplum+LG.swift in Sources */,
 				2EBC92061E0A77A5007F0F82 /* AppstoreProductsRequest.swift in Sources */,
@@ -6160,7 +6086,6 @@
 				C727943D1D549342009C25AB /* ChangeUsernameViewController.swift in Sources */,
 				50C2E1A21E6FFAF2006639BB /* PostProductTabsFooter.swift in Sources */,
 				72E8A58B1EB34D93000524E6 /* CategoriesHeaderCell.swift in Sources */,
-				5009F8421E5B24F30064ED22 /* LogInEmailView.swift in Sources */,
 				6A672C171CCFB76E00AB9175 /* UIFont+LG.swift in Sources */,
 				C7E590331E5EC9F1002921B2 /* MultiPageRequester.swift in Sources */,
 				C7F3F1E21DE5A95F00652447 /* ChatRelatedProductsView.swift in Sources */,
@@ -6332,7 +6257,6 @@
 				C7126BE21E6596B200038CC4 /* ProductVMProductInfo.swift in Sources */,
 				C7F4CBA71C92CC5A008E40D6 /* LGViewPagerPage.swift in Sources */,
 				C735101F1D942B5000D67040 /* FeatureFlags.swift in Sources */,
-				50C43DA91E26472600F10E53 /* SignUpEmailStep2ViewController.swift in Sources */,
 				C7B6FA8B1D182F4200DAA19D /* LocalChat.swift in Sources */,
 				6ACC24C51D2A90400064B165 /* GridDrawerManager.swift in Sources */,
 				C703BE031C7F1AF900EC8EF2 /* EditLocationViewModel.swift in Sources */,

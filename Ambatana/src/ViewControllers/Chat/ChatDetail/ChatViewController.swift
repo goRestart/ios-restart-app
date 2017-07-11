@@ -170,8 +170,8 @@ class ChatViewController: TextViewController {
         textView.placeholderColor = UIColor.gray
         textView.placeholderFont = UIFont.systemFont(ofSize: 17)
         textView.backgroundColor = UIColor.white
+        textView.text = viewModel.predefinedMessage
         textViewFont = UIFont.systemFont(ofSize: 17)
-        textView.backgroundColor = UIColor.white
         textViewBarColor = UIColor.white
         sendButton.setTitle(LGLocalizedString.chatSendButton, for: .normal)
         sendButton.tintColor = UIColor.primaryColor

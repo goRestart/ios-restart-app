@@ -11,4 +11,7 @@
 // Crypto functions
 #import <CommonCrypto/CommonCrypto.h>
 
+// Fix implicit bridging header warnings https://bugs.swift.org/browse/SR-3801
+#import "letgo-Bridging-Header.h"
+
 #endif

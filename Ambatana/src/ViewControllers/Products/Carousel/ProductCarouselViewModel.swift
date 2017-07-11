@@ -33,6 +33,7 @@ class ProductCarouselViewModel: BaseViewModel {
     var isLoading: Bool = false
 
     var currentProductViewModel: ProductViewModel?
+    let currentViewModelIsBeingUpdated = Variable<Bool>(false)
     let startIndex: Int
     fileprivate(set) var currentIndex: Int = 0 {
         didSet {
@@ -60,9 +61,8 @@ class ProductCarouselViewModel: BaseViewModel {
     var shouldShowMoreInfoTooltip: Bool {
         return !keyValueStorage[.productMoreInfoTooltipDismissed]
     }
-
-    let showKeyboardOnFirstAppearance: Bool
-    let shouldClearTextWhenBeginEditing: Bool
+    
+    let actionOnFirstAppear: ProductCarouselActionOnFirstAppear
 
     let productInfo = Variable<ProductVMProductInfo?>(nil)
     let productImageURLs = Variable<[URL]>([])
@@ -114,6 +114,10 @@ class ProductCarouselViewModel: BaseViewModel {
 
     let horizontalImageNavigationEnabled = Variable<Bool>(false)
 
+    var isMyListing: Bool {
+        return currentProductViewModel?.isMine ?? false
+    }
+
     fileprivate var trackingIndex: Int?
     fileprivate var initialThumbnail: UIImage?
 
@@ -140,14 +144,14 @@ class ProductCarouselViewModel: BaseViewModel {
     convenience init(listing: Listing,
                      productListRequester: ProductListRequester,
                      source: EventParameterProductVisitSource,
-                     showKeyboardOnFirstAppearIfNeeded: Bool,
+                     actionOnFirstAppear: ProductCarouselActionOnFirstAppear,
                      trackingIndex: Int?) {
         self.init(productListModels: nil,
                   initialListing: listing,
                   thumbnailImage: nil,
                   productListRequester: productListRequester,
                   source: source,
-                  showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded,
+                  actionOnFirstAppear: actionOnFirstAppear,
                   trackingIndex: trackingIndex,
                   firstProductSyncRequired: true)
     }
@@ -156,14 +160,14 @@ class ProductCarouselViewModel: BaseViewModel {
                      thumbnailImage: UIImage?,
                      productListRequester: ProductListRequester,
                      source: EventParameterProductVisitSource,
-                     showKeyboardOnFirstAppearIfNeeded: Bool,
+                     actionOnFirstAppear: ProductCarouselActionOnFirstAppear,
                      trackingIndex: Int?) {
         self.init(productListModels: nil,
                   initialListing: listing,
                   thumbnailImage: thumbnailImage,
                   productListRequester: productListRequester,
                   source: source,
-                  showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded,
+                  actionOnFirstAppear: actionOnFirstAppear,
                   trackingIndex: trackingIndex,
                   firstProductSyncRequired: false)
     }
@@ -173,7 +177,7 @@ class ProductCarouselViewModel: BaseViewModel {
          thumbnailImage: UIImage?,
          productListRequester: ProductListRequester,
          source: EventParameterProductVisitSource,
-         showKeyboardOnFirstAppearIfNeeded: Bool,
+         actionOnFirstAppear: ProductCarouselActionOnFirstAppear,
          trackingIndex: Int?,
          firstProductSyncRequired: Bool) {
         self.init(productListModels: productListModels,
@@ -181,7 +185,7 @@ class ProductCarouselViewModel: BaseViewModel {
                   thumbnailImage: thumbnailImage,
                   productListRequester: productListRequester,
                   source: source,
-                  showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded,
+                  actionOnFirstAppear: actionOnFirstAppear,
                   trackingIndex: trackingIndex,
                   firstProductSyncRequired: firstProductSyncRequired,
                   featureFlags: FeatureFlags.sharedInstance,
@@ -195,7 +199,7 @@ class ProductCarouselViewModel: BaseViewModel {
          thumbnailImage: UIImage?,
          productListRequester: ProductListRequester,
          source: EventParameterProductVisitSource,
-         showKeyboardOnFirstAppearIfNeeded: Bool,
+         actionOnFirstAppear: ProductCarouselActionOnFirstAppear,
          trackingIndex: Int?,
          firstProductSyncRequired: Bool,
          featureFlags: FeatureFlaggeable,
@@ -212,8 +216,7 @@ class ProductCarouselViewModel: BaseViewModel {
         self.initialThumbnail = thumbnailImage
         self.productListRequester = productListRequester
         self.source = source
-        self.showKeyboardOnFirstAppearance = source == .notifications && showKeyboardOnFirstAppearIfNeeded && featureFlags.passiveBuyersShowKeyboard
-        self.shouldClearTextWhenBeginEditing = featureFlags.periscopeRemovePredefinedText
+        self.actionOnFirstAppear = actionOnFirstAppear
         self.quickAnswersCollapsed = Variable<Bool>(keyValueStorage[.productDetailQuickAnswersHidden])
         self.keyValueStorage = keyValueStorage
         self.imageDownloader = imageDownloader
@@ -379,7 +382,9 @@ class ProductCarouselViewModel: BaseViewModel {
         guard let currentVM = currentProductViewModel else { return }
         currentVM.listing.asObservable().skip(1).bindNext { [weak self] updatedListing in
             guard let strongSelf = self else { return }
+            strongSelf.currentViewModelIsBeingUpdated.value = true
             strongSelf.objects.replace(index, with: ProductCarouselCellModel(listing:updatedListing))
+            strongSelf.currentViewModelIsBeingUpdated.value = false
         }.addDisposableTo(activeDisposeBag)
 
         currentVM.status.asObservable().bindTo(status).addDisposableTo(activeDisposeBag)

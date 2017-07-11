@@ -15,18 +15,15 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
     @IBOutlet weak var kenBurnsView: JBKenBurnsView!
 
     @IBOutlet weak var topLogoImage: UIImageView!
-    @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var claimLabel: UILabel!
     @IBOutlet weak var claimLabelTopConstraint: NSLayoutConstraint!
 
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var facebookButton: UIButton!
     @IBOutlet weak var googleButton: UIButton!
     @IBOutlet var orDividerViews: [UIView]!
     @IBOutlet weak var orUseEmailLabel: UILabel!
     @IBOutlet weak var orUseEmailLabelTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var emailButton: UIButton!
     @IBOutlet weak var emailButtonJustText: UIButton!
     @IBOutlet weak var emailButtonTopContraint: NSLayoutConstraint!
     @IBOutlet weak var mainViewBottomConstraint: NSLayoutConstraint!
@@ -50,10 +47,6 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
         self.viewModel.delegate = self
         modalPresentationStyle = .overCurrentContext
         modalTransitionStyle = .crossDissolve
-
-        let closeButton = UIBarButtonItem(image: UIImage(named: "ic_close"), style: .plain, target: self,
-            action: #selector(TourLoginViewController.closeButtonPressed(_:)))
-        navigationItem.leftBarButtonItem = closeButton
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -63,7 +56,6 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        setupRxBindings()
         setupAccessibilityIds()
 
         if DeviceFamily.current == .iPhone4 {
@@ -83,10 +75,6 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
 
     // MARK: - IBActions
     
-    @IBAction func closeButtonPressed(_ sender: AnyObject) {
-        viewModel.closeButtonPressed()
-    }
-
     @IBAction func facebookButtonPressed(_ sender: AnyObject) {
         viewModel.facebookButtonPressed()
     }
@@ -139,13 +127,13 @@ fileprivate extension TourLoginViewController {
 
         // UI
         kenBurnsView.clipsToBounds = true
-
+        
         facebookButton.setStyle(.facebook)
         googleButton.setStyle(.google)
-        emailButton.setStyle(.darkField)
         orUseEmailLabel.text = LGLocalizedString.tourOrLabel
         orUseEmailLabel.font = UIFont.smallBodyFont
-        emailButton.layer.cornerRadius = LGUIKitConstants.textfieldCornerRadius
+        
+        emailButtonJustText.isHidden = false
 
         footerTextView.textAlignment = .center
         footerTextView.delegate = self
@@ -154,7 +142,6 @@ fileprivate extension TourLoginViewController {
         claimLabel.text = LGLocalizedString.tourClaimLabel
         facebookButton.setTitle(LGLocalizedString.tourFacebookButton, for: .normal)
         googleButton.setTitle(LGLocalizedString.tourGoogleButton, for: .normal)
-        emailButton.setTitle(LGLocalizedString.tourEmailButton, for: .normal)
         emailButtonJustText.setTitle(LGLocalizedString.tourContinueWEmail, for: .normal)
         footerTextView.attributedText = viewModel.attributedLegalText
     }
@@ -168,10 +155,8 @@ fileprivate extension TourLoginViewController {
     }
 
     func setupAccessibilityIds() {
-        closeButton.accessibilityId = .tourLoginCloseButton
         facebookButton.accessibilityId = .tourFacebookButton
         googleButton.accessibilityId = .tourGoogleButton
-        emailButton.accessibilityId = .tourEmailButton
         emailButtonJustText.accessibilityId = .tourEmailButton
     }
 
@@ -187,22 +172,5 @@ fileprivate extension TourLoginViewController {
         let admin = AdminViewController()
         let nav = UINavigationController(rootViewController: admin)
         present(nav, animated: true, completion: nil)
-    }
-
-    func setupRxBindings() {
-        viewModel.state.asObservable().bindNext { [weak self] status in
-            switch status {
-            case .loading:
-                self?.activityIndicator.startAnimating()
-                self?.mainView.isHidden = true
-                self?.closeButton.isHidden = true
-            case let .active(closeEnabled, emailAsField):
-                self?.activityIndicator.stopAnimating()
-                self?.closeButton.isHidden = !closeEnabled
-                self?.emailButton.isHidden = !emailAsField
-                self?.emailButtonJustText.isHidden = emailAsField
-                self?.mainView.isHidden = false
-            }
-        }.addDisposableTo(disposeBag)
     }
 }

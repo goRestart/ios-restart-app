@@ -68,7 +68,7 @@ class ProductViewModel: BaseViewModel {
     var quickAnswers: [QuickAnswer] {
         guard !isMine else { return [] }
         let isFree = listing.value.price.free && featureFlags.freePostingModeAllowed
-        return QuickAnswer.quickAnswersForPeriscope(isFree: isFree, repeatingPlaceholderText: featureFlags.quickAnswersRepeatedTextField)
+        return QuickAnswer.quickAnswersForPeriscope(isFree: isFree)
     }
 
     let navBarButtons = Variable<[UIAction]>([])
@@ -356,8 +356,7 @@ class ProductViewModel: BaseViewModel {
     }
 
     fileprivate func createBumpeableBanner(forListingId listingId: String, withPrice: String?, paymentItemId: String?, bumpUpType: BumpUpType) {
-
-        var primaryBlock: () -> Void
+        var bannerInteractionBlock: () -> Void
         var buttonBlock: () -> Void
         switch bumpUpType {
         case .free:
@@ -368,11 +367,11 @@ class ProductViewModel: BaseViewModel {
                 self?.navigator?.openFreeBumpUp(forListing: listing, socialMessage: socialMessage,
                                                 paymentItemId: paymentItemId)
             }
-            primaryBlock = freeBlock
+            bannerInteractionBlock = freeBlock
             buttonBlock = freeBlock
         case .priced:
             guard let paymentItemId = paymentItemId else { return }
-            primaryBlock = { [weak self] in
+            bannerInteractionBlock = { [weak self] in
                 guard let listing = self?.listing.value else { return }
                 guard let purchaseableProduct = self?.bumpUpPurchaseableProduct else { return }
                 self?.navigator?.openPayBumpUp(forListing: listing, purchaseableProduct: purchaseableProduct,
@@ -386,12 +385,12 @@ class ProductViewModel: BaseViewModel {
                 logMessage(.info, type: [.monetization], message: "TRY TO Restore Bump for listing: \(listingId)")
                 self?.purchasesShopper.requestPricedBumpUp(forListingId: listingId)
             }
-            primaryBlock = restoreBlock
+            bannerInteractionBlock = restoreBlock
             buttonBlock = restoreBlock
         }
 
         bumpUpBannerInfo.value = BumpUpInfo(type: bumpUpType, timeSinceLastBump: timeSinceLastBump, price: withPrice,
-                                      primaryBlock: primaryBlock, buttonBlock: buttonBlock)
+                                      bannerInteractionBlock: bannerInteractionBlock, buttonBlock: buttonBlock)
     }
 }
 
@@ -471,6 +470,29 @@ extension ProductViewModel {
 
     func descriptionURLPressed(_ url: URL) {
         showItemHiddenIfNeededFor(url: url)
+    }
+
+    func markAsSold() {
+        delegate?.vmShowLoading(nil)
+        listingRepository.markAsSold(listing: listing.value) { [weak self] result in
+            guard let strongSelf = self else { return }
+            
+            if let value = result.value {
+                strongSelf.listing.value = value
+                strongSelf.trackHelper.trackMarkSoldCompleted(isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value)
+                
+                if strongSelf.featureFlags.newMarkAsSoldFlow {
+                    strongSelf.selectBuyerToMarkAsSold(sourceRateBuyers: .markAsSold)
+                } else {
+                    strongSelf.delegate?.vmHideLoading(nil, afterMessageCompletion: {
+                        strongSelf.navigator?.openAppRating(.markedSold)
+                    })
+                }
+            } else {
+                let message = LGLocalizedString.productMarkAsSoldErrorGeneric
+                strongSelf.delegate?.vmHideLoading(message, afterMessageCompletion: nil)
+            }
+        }
     }
 }
 
@@ -727,10 +749,7 @@ fileprivate extension ProductViewModel {
                 }
                 strongSelf.favoriteButtonState.value = .enabled
             }
-
-            if featureFlags.shouldContactSellerOnFavorite {
-                navigator?.showProductFavoriteBubble(with: favoriteBubbleNotificationData())
-            }
+            navigator?.showProductFavoriteBubble(with: favoriteBubbleNotificationData())
         }
     }
   
@@ -770,7 +789,7 @@ fileprivate extension ProductViewModel {
             }
         }
     }
-
+    
     fileprivate func confirmToMarkAsSold() {
         guard isMine && status.value.isAvailable else { return }
         let free = status.value.isFree
@@ -800,7 +819,6 @@ fileprivate extension ProductViewModel {
         alertActions.append(markAsSoldAction)
         delegate?.vmShowAlert(title, message: message, cancelLabel: cancel, actions: alertActions)
     }
-    
     
     func confirmToMarkAsUnSold(free: Bool) {
         let okButton = free ? LGLocalizedString.productSellAgainFreeConfirmOkButton : LGLocalizedString.productSellAgainConfirmOkButton
@@ -858,29 +876,6 @@ fileprivate extension ProductViewModel {
             }
 
             self?.delegate?.vmHideLoading(message, afterMessageCompletion: afterMessageAction)
-        }
-    }
-
-    func markAsSold() {
-        delegate?.vmShowLoading(nil)
-        listingRepository.markAsSold(listing: listing.value) { [weak self] result in
-            guard let strongSelf = self else { return }
-            
-            if let value = result.value {
-                strongSelf.listing.value = value
-                strongSelf.trackHelper.trackMarkSoldCompleted(isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value)
-                
-                if strongSelf.featureFlags.newMarkAsSoldFlow {
-                    strongSelf.selectBuyerToMarkAsSold(sourceRateBuyers: .markAsSold)
-                } else {
-                    strongSelf.delegate?.vmHideLoading(nil, afterMessageCompletion: {
-                        strongSelf.navigator?.openAppRating(.markedSold)
-                    })
-                }
-            } else {
-                let message = LGLocalizedString.productMarkAsSoldErrorGeneric
-                strongSelf.delegate?.vmHideLoading(message, afterMessageCompletion: nil)
-            }
         }
     }
 
