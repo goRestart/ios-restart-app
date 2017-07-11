@@ -63,7 +63,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                                     product: MockProduct,
                                     chatConversation: MockChatConversation,
                                     commandSuccess: Bool = true,
-                                    user: MockUser) {
+                                    user: MockUser, chatRepoError: ChatRepositoryError? = nil) {
                 
                 safetyTipsShown = false
                 textFieldCleaned = false
@@ -74,7 +74,13 @@ class ChatViewModelSpec: BaseViewModelSpec {
                 chatRepository.indexMessagesResult = ChatMessagesResult(value: chatMessages)
                 chatRepository.chatStatusPublishSubject.onNext(.openAuthenticated)
                 chatRepository.showConversationResult = ChatConversationResult(value: chatConversation)
-                chatRepository.commandResult = commandSuccess ? ChatCommandResult(value: Void()) : ChatCommandResult(error: .internalError(message: "test"))
+                let repositoryError: RepositoryError
+                if let chatRepoError = chatRepoError {
+                    repositoryError = .wsChatError(error: chatRepoError)
+                } else {
+                    repositoryError = .internalError(message: "test")
+                }
+                chatRepository.commandResult = commandSuccess ? ChatCommandResult(value: Void()) : ChatCommandResult(error: repositoryError)
 
                 let productA = Listing.product(MockProduct.makeMock())
                 let productB = Listing.product(MockProduct.makeMock())
@@ -501,6 +507,188 @@ class ChatViewModelSpec: BaseViewModelSpec {
                         }
                         it("tracks sent message error") {
                             expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "user-sent-message-error"]
+                        }
+                    }
+                }
+                describe("ws chat errors are tracked separately") {
+                    context("ws network error") {
+                        beforeEach {
+                            mockMyUser = self.makeMockMyUser(with: .active, isDummy: false)
+                            productResult = self.makeMockProduct(with: .approved)
+                            chatInterlocutor = self.makeChatInterlocutor(with: .active, isMuted: false, isBanned: false, hasMutedYou: false)
+                            user = self.makeUser(with: .active, isDummy: false, userId: mockMyUser.objectId!)
+                            chatMessages = self.makeChatMessages(with: mockMyUser.objectId!, myMessagesNumber: 1, interlocutorId: chatInterlocutor.objectId!, interlocutorNumberMessages: 1)
+                            chatConversation = self.makeChatConversation(with: chatInterlocutor, unreadMessageCount: 0, lastMessageSentAt: Date(), amISelling: false)
+                            buildChatViewModel(myUser: mockMyUser,
+                                               chatMessages: chatMessages,
+                                               product: productResult,
+                                               chatConversation: chatConversation,
+                                               commandSuccess: false,
+                                               user: user, chatRepoError: .network(wsCode: 6000, onBackground: false))
+                            sut.active = true
+                            sut.send(text: "text")
+                            expect(tracker.trackedEvents.count).toEventually(equal(2))
+                        }
+                        it("tracks sent message error") {
+                            expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "user-sent-message-error"]
+                        }
+                        it("error Details is 6000") {
+                            let msgErrorEvent = tracker.trackedEvents.filter { $0.actualName == "user-sent-message-error" }[0]
+                            expect(msgErrorEvent.params?[.errorDetails] as? String) == "6000"
+                        }
+                        it("error Description is chat Network") {
+                            let msgErrorEvent = tracker.trackedEvents.filter { $0.actualName == "user-sent-message-error" }[0]
+                            expect(msgErrorEvent.params?[.errorDescription] as? String) == "chat-network"
+                        }
+                    }
+                    context("ws api error") {
+                        beforeEach {
+                            mockMyUser = self.makeMockMyUser(with: .active, isDummy: false)
+                            productResult = self.makeMockProduct(with: .approved)
+                            chatInterlocutor = self.makeChatInterlocutor(with: .active, isMuted: false, isBanned: false, hasMutedYou: false)
+                            user = self.makeUser(with: .active, isDummy: false, userId: mockMyUser.objectId!)
+                            chatMessages = self.makeChatMessages(with: mockMyUser.objectId!, myMessagesNumber: 1, interlocutorId: chatInterlocutor.objectId!, interlocutorNumberMessages: 1)
+                            chatConversation = self.makeChatConversation(with: chatInterlocutor, unreadMessageCount: 0, lastMessageSentAt: Date(), amISelling: false)
+                            buildChatViewModel(myUser: mockMyUser,
+                                               chatMessages: chatMessages,
+                                               product: productResult,
+                                               chatConversation: chatConversation,
+                                               commandSuccess: false,
+                                               user: user, chatRepoError: .apiError(httpCode: 500))
+                            sut.active = true
+                            sut.send(text: "text")
+                            expect(tracker.trackedEvents.count).toEventually(equal(2))
+                        }
+                        it("tracks sent message error") {
+                            expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "user-sent-message-error"]
+                        }
+                        it("error Details is 500") {
+                            let msgErrorEvent = tracker.trackedEvents.filter { $0.actualName == "user-sent-message-error" }[0]
+                            expect(msgErrorEvent.params?[.errorDetails] as? String) == "500"
+                        }
+                        it("error Description is chat server") {
+                            let msgErrorEvent = tracker.trackedEvents.filter { $0.actualName == "user-sent-message-error" }[0]
+                            expect(msgErrorEvent.params?[.errorDescription] as? String) == "chat-server"
+                        }
+                    }
+                    context("ws notAuthenticated error") {
+                        beforeEach {
+                            mockMyUser = self.makeMockMyUser(with: .active, isDummy: false)
+                            productResult = self.makeMockProduct(with: .approved)
+                            chatInterlocutor = self.makeChatInterlocutor(with: .active, isMuted: false, isBanned: false, hasMutedYou: false)
+                            user = self.makeUser(with: .active, isDummy: false, userId: mockMyUser.objectId!)
+                            chatMessages = self.makeChatMessages(with: mockMyUser.objectId!, myMessagesNumber: 1, interlocutorId: chatInterlocutor.objectId!, interlocutorNumberMessages: 1)
+                            chatConversation = self.makeChatConversation(with: chatInterlocutor, unreadMessageCount: 0, lastMessageSentAt: Date(), amISelling: false)
+                            buildChatViewModel(myUser: mockMyUser,
+                                               chatMessages: chatMessages,
+                                               product: productResult,
+                                               chatConversation: chatConversation,
+                                               commandSuccess: false,
+                                               user: user, chatRepoError: .notAuthenticated)
+                            sut.active = true
+                            sut.send(text: "text")
+                            expect(tracker.trackedEvents.count).toEventually(equal(2))
+                        }
+                        it("tracks sent message error") {
+                            expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "user-sent-message-error"]
+                        }
+                        it("error Details is 'user not authenticated'") {
+                            let msgErrorEvent = tracker.trackedEvents.filter { $0.actualName == "user-sent-message-error" }[0]
+                            expect(msgErrorEvent.params?[.errorDetails] as? String) == "User not authenticated"
+                        }
+                        it("error Description is chat internal") {
+                            let msgErrorEvent = tracker.trackedEvents.filter { $0.actualName == "user-sent-message-error" }[0]
+                            expect(msgErrorEvent.params?[.errorDescription] as? String) == "chat-internal"
+                        }
+                    }
+                    context("ws userNotVerified error") {
+                        beforeEach {
+                            mockMyUser = self.makeMockMyUser(with: .active, isDummy: false)
+                            productResult = self.makeMockProduct(with: .approved)
+                            chatInterlocutor = self.makeChatInterlocutor(with: .active, isMuted: false, isBanned: false, hasMutedYou: false)
+                            user = self.makeUser(with: .active, isDummy: false, userId: mockMyUser.objectId!)
+                            chatMessages = self.makeChatMessages(with: mockMyUser.objectId!, myMessagesNumber: 1, interlocutorId: chatInterlocutor.objectId!, interlocutorNumberMessages: 1)
+                            chatConversation = self.makeChatConversation(with: chatInterlocutor, unreadMessageCount: 0, lastMessageSentAt: Date(), amISelling: false)
+                            buildChatViewModel(myUser: mockMyUser,
+                                               chatMessages: chatMessages,
+                                               product: productResult,
+                                               chatConversation: chatConversation,
+                                               commandSuccess: false,
+                                               user: user, chatRepoError: .userNotVerified)
+                            sut.active = true
+                            sut.send(text: "text")
+                            expect(tracker.trackedEvents.count).toEventually(equal(2))
+                        }
+                        it("tracks sent message error") {
+                            expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "user-sent-message-error"]
+                        }
+                        it("error Details is 'user not verified'") {
+                            let msgErrorEvent = tracker.trackedEvents.filter { $0.actualName == "user-sent-message-error" }[0]
+                            expect(msgErrorEvent.params?[.errorDetails] as? String) == "User not verified"
+                        }
+                        it("error Description is chat internal") {
+                            let msgErrorEvent = tracker.trackedEvents.filter { $0.actualName == "user-sent-message-error" }[0]
+                            expect(msgErrorEvent.params?[.errorDescription] as? String) == "chat-internal"
+                        }
+                    }
+                    context("ws userBlocked error") {
+                        beforeEach {
+                            mockMyUser = self.makeMockMyUser(with: .active, isDummy: false)
+                            productResult = self.makeMockProduct(with: .approved)
+                            chatInterlocutor = self.makeChatInterlocutor(with: .active, isMuted: false, isBanned: false, hasMutedYou: false)
+                            user = self.makeUser(with: .active, isDummy: false, userId: mockMyUser.objectId!)
+                            chatMessages = self.makeChatMessages(with: mockMyUser.objectId!, myMessagesNumber: 1, interlocutorId: chatInterlocutor.objectId!, interlocutorNumberMessages: 1)
+                            chatConversation = self.makeChatConversation(with: chatInterlocutor, unreadMessageCount: 0, lastMessageSentAt: Date(), amISelling: false)
+                            buildChatViewModel(myUser: mockMyUser,
+                                               chatMessages: chatMessages,
+                                               product: productResult,
+                                               chatConversation: chatConversation,
+                                               commandSuccess: false,
+                                               user: user, chatRepoError: .userBlocked)
+                            sut.active = true
+                            sut.send(text: "text")
+                            expect(tracker.trackedEvents.count).toEventually(equal(2))
+                        }
+                        it("tracks sent message error") {
+                            expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "user-sent-message-error"]
+                        }
+                        it("error Details is 'user blocked'") {
+                            let msgErrorEvent = tracker.trackedEvents.filter { $0.actualName == "user-sent-message-error" }[0]
+                            expect(msgErrorEvent.params?[.errorDetails] as? String) == "User blocked"
+                        }
+                        it("error Description is chat internal") {
+                            let msgErrorEvent = tracker.trackedEvents.filter { $0.actualName == "user-sent-message-error" }[0]
+                            expect(msgErrorEvent.params?[.errorDescription] as? String) == "chat-internal"
+                        }
+                    }
+                    context("ws internal error") {
+                        beforeEach {
+                            mockMyUser = self.makeMockMyUser(with: .active, isDummy: false)
+                            productResult = self.makeMockProduct(with: .approved)
+                            chatInterlocutor = self.makeChatInterlocutor(with: .active, isMuted: false, isBanned: false, hasMutedYou: false)
+                            user = self.makeUser(with: .active, isDummy: false, userId: mockMyUser.objectId!)
+                            chatMessages = self.makeChatMessages(with: mockMyUser.objectId!, myMessagesNumber: 1, interlocutorId: chatInterlocutor.objectId!, interlocutorNumberMessages: 1)
+                            chatConversation = self.makeChatConversation(with: chatInterlocutor, unreadMessageCount: 0, lastMessageSentAt: Date(), amISelling: false)
+                            buildChatViewModel(myUser: mockMyUser,
+                                               chatMessages: chatMessages,
+                                               product: productResult,
+                                               chatConversation: chatConversation,
+                                               commandSuccess: false,
+                                               user: user, chatRepoError: .internalError(message: "there's some weird bad stuff going on"))
+                            sut.active = true
+                            sut.send(text: "text")
+                            expect(tracker.trackedEvents.count).toEventually(equal(2))
+                        }
+                        it("tracks sent message error") {
+                            expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "user-sent-message-error"]
+                        }
+                        it("error Details is the error message") {
+                            let msgErrorEvent = tracker.trackedEvents.filter { $0.actualName == "user-sent-message-error" }[0]
+                            expect(msgErrorEvent.params?[.errorDetails] as? String) == "there's some weird bad stuff going on"
+                        }
+                        it("error Description is chat internal") {
+                            let msgErrorEvent = tracker.trackedEvents.filter { $0.actualName == "user-sent-message-error" }[0]
+                            expect(msgErrorEvent.params?[.errorDescription] as? String) == "chat-internal"
                         }
                     }
                 }
