@@ -234,11 +234,8 @@ extension TabBarController: UIGestureRecognizerDelegate {
 }
 
 extension TabBarController: AppRatingViewDelegate {
-
     func appRatingViewDidSelectRating(_ rating: Int) {
-        if let url = URL(string: Constants.appStoreURL) {
-            UIApplication.shared.openURL(url)
-        }
+        viewModel.navigator?.openAppStore()
     }
 }
 

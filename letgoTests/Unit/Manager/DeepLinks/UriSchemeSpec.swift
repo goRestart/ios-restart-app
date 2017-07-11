@@ -94,6 +94,19 @@ class UriSchemeSpec: QuickSpec {
                     expect(sut.deepLink.action) == DeepLinkAction.conversationWithMessage(data: conversationData, message: message)
                 }
             }
+            
+            context("with an App Store URL") {
+                beforeEach {
+                    url = URL(string: "letgo://update_app")
+                    sut = UriScheme.buildFromUrl(url)
+                }
+                it("is not nil") {
+                    expect(sut).toNot(beNil())
+                }
+                it("has a deep link with an app store action") {
+                    expect(sut.deepLink.action) == DeepLinkAction.appStore
+                }
+            }
         }
     }
 }
