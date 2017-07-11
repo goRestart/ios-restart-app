@@ -8,25 +8,46 @@
 
 import Alamofire
 import DeviceGuru
+import SocketRocket
+
+enum NetworkLibrary {
+    case alamofire, socketRocket
+    
+    func makeHTTPLibraryUserAgentValue() -> String {
+        let httpLibName: String
+        let bundle: Bundle
+        switch self {
+        case .alamofire:
+            httpLibName = "Alamofire"
+            bundle = Bundle(for: Alamofire.SessionManager.self)
+        case .socketRocket:
+            httpLibName = "SocketRocket"
+            bundle = Bundle(for: SocketRocket.SRWebSocket.self)
+        }
+        guard let info = bundle.infoDictionary else { return LGUserAgentBuilder.unknown }
+        let build = info["CFBundleShortVersionString"] as? String ?? LGUserAgentBuilder.unknown
+        return "\(httpLibName)/\(build)"
+    }
+}
 
 protocol UserAgentBuilder {
-    func make(appBundle: Bundle) -> String
+    func make(appBundle: Bundle, networkLibrary: NetworkLibrary) -> String
 }
 
 final class LGUserAgentBuilder: UserAgentBuilder {
-    private static let unknown = "Unknown"
+    fileprivate static let unknown = "Unknown"
     
     // Makes a User-Agent with the following the format:
     // target:LetGoGodMode; appVersion:1.17.5; bundle:com.letgo.ios; build:250; os:iOS 10.2.0;
     // device:Apple iPhone 6 Plus; httpLibrary:Alamofire/4.2.0
-    func make(appBundle: Bundle) -> String {
-        return "target:\(makeTarget(appBundle: appBundle)); " +
-            "appVersion:\(makeAppVersion(appBundle: appBundle)); " +
-            "bundle:\(makeBundle(appBundle: appBundle)); " +
-            "build:\(makeBuild(appBundle: appBundle)); " +
-            "os:\(makeOS()); " +
-            "device:\(makeDevice()); " +
-        "httpLibrary:\(makeHTTPLibrary())"
+    func make(appBundle: Bundle, networkLibrary: NetworkLibrary) -> String {
+        return "target=\(makeTarget(appBundle: appBundle)); " +
+            "appVersion=\(makeAppVersion(appBundle: appBundle)); " +
+            "bundle=\(makeBundle(appBundle: appBundle)); " +
+            "build=\(makeBuild(appBundle: appBundle)); " +
+            "os=\(makeOS()); " +
+            "device=\(makeDevice()); " +
+            "httpLibrary=\(networkLibrary.makeHTTPLibraryUserAgentValue())"
     }
     
     private func makeTarget(appBundle: Bundle) -> String {
@@ -73,11 +94,5 @@ final class LGUserAgentBuilder: UserAgentBuilder {
     private func makeDevice() -> String {
         let model = DeviceGuru.hardwareDescription() ?? LGUserAgentBuilder.unknown
         return "Apple \(model)"
-    }
-    
-    private func makeHTTPLibrary() -> String {
-        guard let info = Bundle(for: Alamofire.SessionManager.self).infoDictionary else { return LGUserAgentBuilder.unknown }
-        let build = info["CFBundleShortVersionString"] as? String ?? LGUserAgentBuilder.unknown
-        return "Alamofire/\(build)"
     }
 }
