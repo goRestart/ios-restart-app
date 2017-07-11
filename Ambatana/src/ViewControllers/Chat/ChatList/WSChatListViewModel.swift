@@ -22,6 +22,7 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
 
     private let disposeBag = DisposeBag()
 
+    
     // MARK: - Lifecycle
 
     convenience init(chatsType: ChatsType,
