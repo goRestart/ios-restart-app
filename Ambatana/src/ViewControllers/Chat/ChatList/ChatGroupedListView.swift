@@ -246,7 +246,7 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
     func setupRx() {
         guard let viewModel = viewModel as? BaseChatGroupedListViewModel<ChatConversation> else { return }
         viewModel.objects.changesObservable.subscribeNext { [weak self] change in
-            self?.tableView.handleCollectionChange(change)
+            self?.tableView.reloadData()
         }.addDisposableTo(disposeBag)
     }
 
