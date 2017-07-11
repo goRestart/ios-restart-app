@@ -162,53 +162,43 @@ extension InternalChatRepository {
     }
     
     public func updateLocalConversations(listing: Listing) {
-        let filterQuery: ((index: Int, conversation: ChatConversation)) -> Bool = {
-            $0.conversation.listing?.objectId == listing.objectId
-        }
-        allConversations.value.enumerated().filter(filterQuery).forEach { (index, conversation) in
-            let updatedConversation = conversation.updating(listing: listing)
-            allConversations.replace(index, with: updatedConversation)
-        }
-        buyingConversations.value.enumerated().filter(filterQuery).forEach { (index, conversation) in
-            let updatedConversation = conversation.updating(listing: listing)
-            buyingConversations.replace(index, with: updatedConversation)
-        }
-        sellingConversations.value.enumerated().filter(filterQuery).forEach { (index, conversation) in
-            let updatedConversation = conversation.updating(listing: listing)
-            sellingConversations.replace(index, with: updatedConversation)
+        updateLocalConversations(listingId: listing.objectId) { conversation in
+            return conversation.updating(listing: listing)
         }
     }
     
     public func updateLocalConversations(listingId: String, status: ListingStatus) {
-        let filterQuery: ((index: Int, conversation: ChatConversation)) -> Bool = {
-            $0.conversation.listing?.objectId == listingId
-        }
-        allConversations.value.enumerated().filter(filterQuery).forEach { (index, conversation) in
-            let updatedConversation = conversation.updating(listingStatus: status)
-            allConversations.replace(index, with: updatedConversation)
-        }
-        buyingConversations.value.enumerated().filter(filterQuery).forEach { (index, conversation) in
-            let updatedConversation = conversation.updating(listingStatus: status)
-            buyingConversations.replace(index, with: updatedConversation)
-        }
-        sellingConversations.value.enumerated().filter(filterQuery).forEach { (index, conversation) in
-            let updatedConversation = conversation.updating(listingStatus: status)
-            sellingConversations.replace(index, with: updatedConversation)
+        updateLocalConversations(listingId: listingId) { conversation in
+            return conversation.updating(listingStatus: status)
         }
     }
     
     public func updateLocalConversation(interlocutorId: String, isBlocked: Bool) {
-        let conversationsArrays = [allConversations, sellingConversations, buyingConversations]
-        conversationsArrays.forEach { (conversations) in
-            let matchingConversations = conversations.value.filter { $0.interlocutor?.objectId == interlocutorId }
-            matchingConversations.forEach { (chatConversation) in
-                guard let interlocutor = chatConversation.interlocutor else { return }
-                let updatedInterlocutor = interlocutor.updating(isMuted: isBlocked)
-                let updatedConversation = chatConversation.updating(interlocutor: updatedInterlocutor)
-                
-                if let index = conversations.value.index(where: { $0.objectId == updatedConversation.objectId }) {
-                    conversations.replace(index, with: updatedConversation)
-                }
+        let filterByInterlocutorId: ((index: Int, conversation: ChatConversation)) -> Bool = {
+            $0.conversation.interlocutor?.objectId == interlocutorId
+        }
+        updateLocalConversations(filterQuery: filterByInterlocutorId) { conversation in
+            guard let interlocutor = conversation.interlocutor else { return nil }
+            let updatedInterlocutor = interlocutor.updating(isMuted: isBlocked)
+            return conversation.updating(interlocutor: updatedInterlocutor)
+        }
+    }
+    
+    private func updateLocalConversations(listingId: String?,
+                                          updatingConversation: (ChatConversation) -> ChatConversation?) {
+        let filterByListingId: ((index: Int, conversation: ChatConversation)) -> Bool = {
+            $0.conversation.listing?.objectId == listingId
+        }
+        updateLocalConversations(filterQuery: filterByListingId, updatingConversation: updatingConversation)
+    }
+    
+    private func updateLocalConversations(filterQuery: ((index: Int, conversation: ChatConversation)) -> Bool,
+                                          updatingConversation: (ChatConversation) -> ChatConversation?) {
+        let conversationsArrays = [allConversations, buyingConversations, sellingConversations]
+        conversationsArrays.forEach { conversations in
+            conversations.value.enumerated().filter(filterQuery).forEach { (index, conversation) in
+                guard let updatedConversation = updatingConversation(conversation) else { return }
+                conversations.replace(index, with: updatedConversation)
             }
         }
     }

@@ -10,8 +10,8 @@ import Foundation
 
 extension Array {
     mutating func move(fromIndex: Int, toIndex: Int) {
-        let actualToIndex = fromIndex < toIndex ? toIndex - 1 : toIndex
         let element = remove(at: fromIndex)
-        insert(element, at: actualToIndex)
+        insert(element, at: toIndex)
     }
 }
+ 
