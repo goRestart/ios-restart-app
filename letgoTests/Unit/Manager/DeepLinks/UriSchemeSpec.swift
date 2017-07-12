@@ -18,7 +18,7 @@ class UriSchemeSpec: QuickSpec {
         var message: String!
         var conversationData: ConversationData!
         
-        fdescribe("build from URL") {
+        describe("build from URL") {
             context("with a notification center URL") {
                 beforeEach {
                     url = URL(string: "letgo://notification_center")
