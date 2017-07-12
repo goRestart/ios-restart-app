@@ -136,7 +136,7 @@ extension SellCoordinator: PostProductNavigator {
             sellError = .forbidden(cause: cause)
         case .serverError, .notFound, .unauthorized, .tooManyRequests, .userNotVerified:
             sellError = .serverError(code: error.errorCode)
-        case .internalError:
+        case .internalError, .wsChatError:
             sellError = .internalError
         }
         let sellErrorDataEvent = TrackerEvent.productSellErrorData(sellError)

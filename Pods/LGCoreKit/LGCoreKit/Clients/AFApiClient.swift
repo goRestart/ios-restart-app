@@ -52,7 +52,7 @@ public enum BadRequestCause {
     }
 }
 
-public enum ForbiddenCause {
+public enum ForbiddenCause: Equatable {
     
     case emailTaken
     case userBlocked

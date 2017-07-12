@@ -51,6 +51,7 @@ enum DeepLinkAction: Equatable {
     case userRating(ratingId: String)
     case passiveBuyers(productId: String)
     case notificationCenter
+    case appStore
     
     static public func ==(lhs: DeepLinkAction, rhs: DeepLinkAction) -> Bool {
         switch (lhs, rhs) {
@@ -87,6 +88,8 @@ enum DeepLinkAction: Equatable {
         case (.passiveBuyers(let lhsProductId), .passiveBuyers(let rhsProductId)):
             return lhsProductId == rhsProductId
         case (.notificationCenter, .notificationCenter):
+            return true
+        case (.appStore, .appStore):
             return true
         default:
             return false

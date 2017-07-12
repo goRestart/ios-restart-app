@@ -182,7 +182,8 @@ fileprivate extension TabCoordinator {
                 switch error {
                 case .network:
                     message = LGLocalizedString.commonErrorConnectionFailed
-                case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
+                case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError,
+                     .wsChatError:
                     message = LGLocalizedString.commonProductNotAvailable
                 }
                 self?.navigationController.dismissLoadingMessageAlert {
@@ -276,7 +277,8 @@ fileprivate extension TabCoordinator {
                 switch error {
                 case .network:
                     message = LGLocalizedString.commonErrorConnectionFailed
-                case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
+                case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError,
+                     .wsChatError:
                     message = LGLocalizedString.commonUserNotAvailable
                 }
                 self?.navigationController.dismissLoadingMessageAlert {
@@ -375,7 +377,8 @@ fileprivate extension TabCoordinator {
         switch error {
         case .network:
             message = LGLocalizedString.commonErrorConnectionFailed
-        case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
+        case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError,
+             .wsChatError:
             message = LGLocalizedString.commonChatNotAvailable
         }
         navigationController.showAutoFadingOutMessageAlert(message)
@@ -538,7 +541,7 @@ extension TabCoordinator {
     func trackProductNotAvailable(source: EventParameterProductVisitSource, repositoryError: RepositoryError) {
         var reason: EventParameterNotAvailableReason
         switch repositoryError {
-        case .internalError:
+        case .internalError, .wsChatError:
             reason = .internalError
         case .notFound:
             reason = .notFound

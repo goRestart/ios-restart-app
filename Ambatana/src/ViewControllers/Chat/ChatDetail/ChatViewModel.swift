@@ -32,7 +32,22 @@ struct EmptyConversation: ChatConversation {
     var lastMessageSentAt: Date? = nil
     var listing: ChatListing? = nil
     var interlocutor: ChatInterlocutor? = nil
-    var amISelling: Bool 
+    var amISelling: Bool
+    
+    init(objectId: String?,
+         unreadMessageCount: Int,
+         lastMessageSentAt: Date?,
+         amISelling: Bool,
+         listing: ChatListing?,
+         interlocutor: ChatInterlocutor?) {
+        
+        self.objectId = objectId
+        self.unreadMessageCount = unreadMessageCount
+        self.lastMessageSentAt = lastMessageSentAt
+        self.listing = listing
+        self.interlocutor = interlocutor
+        self.amISelling = amISelling
+    }
 }
 
 
@@ -221,8 +236,8 @@ class ChatViewModel: BaseViewModel {
         let pushPermissionsManager = LGPushPermissionsManager.sharedInstance
         
         let amISelling = myUserRepository.myUser?.objectId == sellerId
-        let empty = EmptyConversation(objectId: nil, unreadMessageCount: 0, lastMessageSentAt: nil, listing: nil,
-                                      interlocutor: nil, amISelling: amISelling)
+        let empty = EmptyConversation(objectId: nil, unreadMessageCount: 0, lastMessageSentAt: nil, amISelling: amISelling,
+                                      listing: nil, interlocutor: nil)
         self.init(conversation: empty, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   listingRepository: listingRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository ,tracker: tracker, configManager: configManager,
@@ -253,7 +268,7 @@ class ChatViewModel: BaseViewModel {
         self.chatViewMessageAdapter = ChatViewMessageAdapter()
         self.navigator = navigator
         self.source = source
-        self.predefinedMessage = predefinedMessage
+        self.predefinedMessage = predefinedMessage?.stringByRemovingEmoji()
         super.init()
         setupRx()
         loadStickers()
@@ -459,6 +474,8 @@ class ChatViewModel: BaseViewModel {
             } else if message.talkerId == otherUserId {
                 otherMessagesCount.value += 1
             }
+        case .swap, .move:
+            break
         case let .composite(changes):
             changes.forEach { [weak self] change in
                 self?.updateMessagesCounts(change)
@@ -637,6 +654,13 @@ extension ChatViewModel {
                 // Removing message until we implement the retry-message state behavior
                 strongSelf.removeMessage(messageId: messageId)
                 switch error {
+                case let .wsChatError(chatRepositoryError):
+                    switch chatRepositoryError {
+                    case .userNotVerified:
+                        self?.showUserNotVerifiedAlert()
+                    case .notAuthenticated, .userBlocked, .internalError, .network, .apiError:
+                        self?.showSendMessageError()
+                    }
                 case .userNotVerified:
                     self?.showUserNotVerifiedAlert()
                 case .forbidden, .internalError, .network, .notFound, .tooManyRequests, .unauthorized, .serverError:
@@ -696,7 +720,7 @@ extension ChatViewModel {
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailTooManyRequests, completion: nil)
                 case .network:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorNetworkBody, completion: nil)
-                case .forbidden, .internalError, .notFound, .unauthorized, .userNotVerified, .serverError:
+                case .forbidden, .internalError, .notFound, .unauthorized, .userNotVerified, .serverError, .wsChatError:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorGenericBody, completion: nil)
                 }
             } else {

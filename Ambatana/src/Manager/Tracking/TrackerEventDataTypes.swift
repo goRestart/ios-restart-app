@@ -559,7 +559,7 @@ enum EventParameterPostProductError {
 }
 
 enum EventParameterChatError {
-    case network
+    case network(code: Int?)
     case internalError(description: String?)
     case serverError(code: Int?)
 
@@ -576,8 +576,10 @@ enum EventParameterChatError {
 
     var details: String? {
         switch self {
-        case .network:
-            break
+        case let .network(errorCode):
+            if let errorCode = errorCode {
+                return String(errorCode)
+            }
         case let .internalError(description):
             return description
         case let .serverError(errorCode):

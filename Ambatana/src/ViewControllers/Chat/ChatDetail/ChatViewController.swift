@@ -446,7 +446,7 @@ fileprivate extension ChatViewController {
             switch change {
             case .composite(let changes) where changes.count > 2:
                 self?.tableView.reloadData()
-            case .insert, .remove, .composite:
+            case .insert, .remove, .composite, .swap, .move:
                 self?.tableView.handleCollectionChange(change)
             }
             }.addDisposableTo(disposeBag)
