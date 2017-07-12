@@ -23,7 +23,7 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
 
     private let disposeBag = DisposeBag()
 
-
+    
     // MARK: - Lifecycle
 
     convenience init(chatsType: ChatsType, tabNavigator: TabNavigator?) {
@@ -42,34 +42,30 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
         self.chatRepository = chatRepository
         self.deepLinksRouter = deepLinksRouter
         self.chatsType = chatsType
-        super.init(objects: chats, tabNavigator: tabNavigator)
+        super.init(collectionVariable: CollectionVariable(chats),
+                   shouldWriteInCollectionVariable: false,
+                   tabNavigator: tabNavigator)
     }
-
-    // MARK: - Public methods
 
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
+        refresh(completion: nil)
         if firstTime {
             setupRxBindings()
         }
     }
+    
+    
+    // MARK: - Public methods
 
     override func index(_ page: Int, completion: ((Result<[Chat], RepositoryError>) -> ())?) {
         super.index(page, completion: completion)
         chatRepository.index(chatsType, page: page, numResults: resultsPerPage, completion: completion)
     }
 
-    override func didFinishLoading() {
-        super.didFinishLoading()
-
-        if active {
-            LGNotificationsManager.sharedInstance.updateChatCounters()
-        }
-    }
-
     func conversationSelectedAtIndex(_ index: Int) {
         guard let chat = objectAtIndex(index) else { return }
-        tabNavigator?.openChat(.chatAPI(chat: chat), source: .chatList)
+        tabNavigator?.openChat(.chatAPI(chat: chat), source: .chatList, predefinedMessage: nil)
     }
 
     func conversationDataAtIndex(_ index: Int) -> ConversationCellData? {

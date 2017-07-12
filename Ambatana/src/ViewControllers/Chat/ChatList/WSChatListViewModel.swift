@@ -22,17 +22,35 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
 
     private let disposeBag = DisposeBag()
 
+    
     // MARK: - Lifecycle
 
-    convenience init(chatsType: ChatsType, tabNavigator: TabNavigator?) {
+    convenience init(chatsType: ChatsType,
+                     tabNavigator: TabNavigator?) {
         self.init(chatRepository: Core.chatRepository, chats: [], chatsType: chatsType, tabNavigator: tabNavigator)
     }
 
-    required init(chatRepository: ChatRepository, chats: [ChatConversation], chatsType: ChatsType,
-                  tabNavigator: TabNavigator?) {
+    required init(chatRepository: ChatRepository,
+                     chats: [ChatConversation],
+                     chatsType: ChatsType,
+                     tabNavigator: TabNavigator?) {
         self.chatRepository = chatRepository
         self.chatsType = chatsType
-        super.init(objects: chats, tabNavigator: tabNavigator)
+        
+        let collectionVariable: CollectionVariable<ChatConversation>
+        switch chatsType {
+        case .all:
+            collectionVariable = chatRepository.allConversations
+        case .buying:
+            collectionVariable = chatRepository.buyingConversations
+        case .selling:
+            collectionVariable = chatRepository.sellingConversations
+        case .archived:
+            collectionVariable = CollectionVariable<ChatConversation>([])
+        }
+        super.init(collectionVariable: collectionVariable,
+                   shouldWriteInCollectionVariable: true,
+                   tabNavigator: tabNavigator)
     }
 
     override func didBecomeActive(_ firstTime: Bool) {
@@ -42,8 +60,13 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
         }
     }
 
+    
     // MARK: - Public methods
 
+    override func refresh(completion: (() -> Void)?) {
+        retrievePage(firstPage, completion: completion)
+    }
+    
     override func index(_ page: Int, completion: ((Result<[ChatConversation], RepositoryError>) -> ())?) {
         let offset = max(0, page - 1) * resultsPerPage
         
@@ -51,22 +74,13 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
                                           completion: completion)
     }
 
-    override func didFinishLoading() {
-        super.didFinishLoading()
-
-        if active {
-            LGNotificationsManager.sharedInstance.updateChatCounters()
-        }
-    }
-
     func conversationSelectedAtIndex(_ index: Int) {
         guard let conversation = objectAtIndex(index) else { return }
-        tabNavigator?.openChat(.conversation(conversation: conversation), source: .chatList)
+        tabNavigator?.openChat(.conversation(conversation: conversation), source: .chatList, predefinedMessage: nil)
     }
-
+    
     func conversationDataAtIndex(_ index: Int) -> ConversationCellData? {
         guard let conversation = objectAtIndex(index) else { return nil }
-
         return ConversationCellData(status: conversation.conversationCellStatus,
                                     userName: conversation.interlocutor?.name ?? "",
                                     userImageUrl: conversation.interlocutor?.avatar?.fileURL,
@@ -131,20 +145,9 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
     // MARK: - Private methods
 
     fileprivate func setupRxBindings() {
-        chatRepository.chatEvents.filter { event in
-            switch event.type {
-            case .interlocutorMessageSent:
-                return true
-            default:
-                return false
-            }
-        }.bindNext { [weak self] event in
-            self?.refresh(completion: nil)
-        }.addDisposableTo(disposeBag)
-
         chatRepository.chatStatus.bindNext { [weak self] wsChatStatus in
             guard let strongSelf = self else { return }
-            //Reload messages if active, otherwise it will reload when active
+            // Reload messages if active, otherwise it will reload when active
             if wsChatStatus == .openAuthenticated && strongSelf.active {
                 strongSelf.refresh(completion: nil)
             }
@@ -161,7 +164,7 @@ fileprivate extension ChatsType {
         case .selling: return .asSeller
         case .buying: return .asBuyer
         case .archived: return .archived
-        case .all: return .none
+        case .all: return .all
         }
     }
 }

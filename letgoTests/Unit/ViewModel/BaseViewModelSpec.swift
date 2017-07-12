@@ -103,9 +103,8 @@ class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
     func openAppRating(_ source: EventParameterRatingSource) {}
     func openUserRating(_ source: RateUserSource, data: RateUserData) {}
     func openUser(_ data: UserDetailData) {}
-    func openListing(_ data: ListingDetailData, source: EventParameterProductVisitSource,
-                     showKeyboardOnFirstAppearIfNeeded: Bool) {}
-    func openChat(_ data: ChatDetailData, source: EventParameterTypePage) {}
+    func openListing(_ data: ListingDetailData, source: EventParameterProductVisitSource, actionOnFirstAppear: ProductCarouselActionOnFirstAppear) {}
+    func openChat(_ data: ChatDetailData, source: EventParameterTypePage, predefinedMessage: String?) {}
     func openVerifyAccounts(_ types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?) {}
     func openAppInvite() {}
     func canOpenAppInvite() -> Bool { return false }

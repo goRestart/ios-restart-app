@@ -19,7 +19,7 @@ class ABTests {
     let surveyURL = StringABDynamicVar(key: "surveyURL", defaultValue: "")
     let surveyEnabled = BoolABDynamicVar(key: "surveyEnabled", defaultValue: false)
 
-    let websocketChat = BoolABDynamicVar(key: "websocketChat20170609", defaultValue: false)
+    let websocketChat = BoolABDynamicVar(key: "websocketChat20170609", defaultValue: true)
     let userReviews = BoolABDynamicVar(key: "userReviews", defaultValue: false)
     let captchaTransparent = BoolABDynamicVar(key: "captchaTransparent", defaultValue: false)
     let passiveBuyersShowKeyboard = BoolABDynamicVar(key: "passiveBuyersShowKeyboard", defaultValue: false)

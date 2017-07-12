@@ -63,7 +63,8 @@ class ChatViewModelSpec: BaseViewModelSpec {
                                     product: MockProduct,
                                     chatConversation: MockChatConversation,
                                     commandSuccess: Bool = true,
-                                    user: MockUser, chatRepoError: ChatRepositoryError? = nil) {
+                                    user: MockUser,
+                                    chatRepoError: ChatRepositoryError? = nil) {
                 
                 safetyTipsShown = false
                 textFieldCleaned = false
@@ -80,7 +81,13 @@ class ChatViewModelSpec: BaseViewModelSpec {
                 } else {
                     repositoryError = .internalError(message: "test")
                 }
-                chatRepository.commandResult = commandSuccess ? ChatCommandResult(value: Void()) : ChatCommandResult(error: repositoryError)
+
+                let commandResult: ChatCommandResult = commandSuccess ? ChatCommandResult(value: Void()) : ChatCommandResult(error: repositoryError)
+                chatRepository.sendMessageCommandResult = commandResult
+                chatRepository.archiveCommandResult = commandResult
+                chatRepository.unarchiveCommandResult = commandResult
+                chatRepository.confirmReadCommandResult = commandResult
+                chatRepository.confirmReceptionCommandResult = commandResult
 
                 let productA = Listing.product(MockProduct.makeMock())
                 let productB = Listing.product(MockProduct.makeMock())
@@ -97,12 +104,13 @@ class ChatViewModelSpec: BaseViewModelSpec {
                 userRepository.emptyResult = UserVoidResult(value: Void())
 
                 conversation = chatConversation
+                let predefinedMessage = String.makeRandom()
                 sut = ChatViewModel(conversation: conversation, myUserRepository: myUserRepository,
                                     chatRepository: chatRepository, listingRepository: listingRepository,
                                     userRepository: userRepository, stickersRepository: stickersRepository,
                                     tracker: tracker, configManager: configManager, sessionManager: sessionManager,
                                     keyValueStorage: keyValueStorage, navigator: nil, featureFlags: featureFlags,
-                                    source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionManager)
+                                    source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionManager, predefinedMessage: predefinedMessage)
                 
                 sut.delegate = self
                 disposeBag = DisposeBag()
@@ -419,13 +427,12 @@ class ChatViewModelSpec: BaseViewModelSpec {
                     context("quick answer") {
                         beforeEach {
                             sut.send(quickAnswer: .meetUp)
-                            expect(tracker.trackedEvents.count).toEventually(equal(2))
                         }
                         it("adds one element on messages") {
-                            expect(messages.lastValue?.last?.value) == QuickAnswer.meetUp.text
+                            expect(messages.lastValue?.first?.value) == QuickAnswer.meetUp.text
                         }
                         it("tracks sent first message + message sent") {
-                            expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "user-sent-message"]
+                            expect(tracker.trackedEvents.map { $0.actualName }).toEventually(equal(["chat-window-open", "user-sent-message"]))
                         }
                         it("should not clean textField") {
                             expect(self.textFieldCleaned) == false
@@ -434,13 +441,12 @@ class ChatViewModelSpec: BaseViewModelSpec {
                     context("custom text") {
                         beforeEach {
                             sut.send(text: "text")
-                            expect(tracker.trackedEvents.count).toEventually(equal(2))
                         }
                         it("adds one element on messages") {
-                            expect(messages.lastValue?.last?.value) == "text"
+                            expect(messages.lastValue?.first?.value) == "text"
                         }
                         it("tracks sent first message + message sent") {
-                            expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "user-sent-message"]
+                            expect(tracker.trackedEvents.map { $0.actualName }).toEventually(equal(["chat-window-open", "user-sent-message"]))
                         }
                         it("should clean textField") {
                             expect(self.textFieldCleaned) == true
@@ -451,13 +457,12 @@ class ChatViewModelSpec: BaseViewModelSpec {
                         beforeEach {
                             sticker = MockSticker.makeMock()
                             sut.send(sticker: sticker)
-                            expect(tracker.trackedEvents.count).toEventually(equal(2))
                         }
                         it("adds one element on messages") {
-                            expect(messages.lastValue?.last?.value) == sticker.name
+                            expect(messages.lastValue?.first?.value) == sticker.name
                         }
                         it("tracks sent first message + message sent") {
-                            expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "user-sent-message"]
+                            expect(tracker.trackedEvents.map { $0.actualName }).toEventually(equal(["chat-window-open", "user-sent-message"]))
                         }
                         it("should clean textField") {
                             expect(self.textFieldCleaned) == false

@@ -84,11 +84,11 @@ PODS:
     - GoogleSymbolUtilities (~> 1.1)
   - GTMOAuth2 (1.1.4):
     - GTMSessionFetcher (~> 1.1)
-  - GTMSessionFetcher (1.1.10):
-    - GTMSessionFetcher/Full (= 1.1.10)
-  - GTMSessionFetcher/Core (1.1.10)
-  - GTMSessionFetcher/Full (1.1.10):
-    - GTMSessionFetcher/Core (= 1.1.10)
+  - GTMSessionFetcher (1.1.11):
+    - GTMSessionFetcher/Full (= 1.1.11)
+  - GTMSessionFetcher/Core (1.1.11)
+  - GTMSessionFetcher/Full (1.1.11):
+    - GTMSessionFetcher/Core (= 1.1.11)
   - JBKenBurnsView (1.0)
   - JSONWebToken (2.0.2):
     - CryptoSwift (~> 0.6.1)
@@ -261,7 +261,7 @@ SPEC CHECKSUMS:
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
   GoogleUtilities: 8bbc733218aad26306f9d4a253823986110e3358
   GTMOAuth2: 7fc9c10f5c745f4d9850419ea88889fe3baa6b7d
-  GTMSessionFetcher: 30d874b96d0d76028f61fbd122801e3f030d47db
+  GTMSessionFetcher: 5ad62e8200fa00ed011fe5e08d27fef72c5b1429
   JBKenBurnsView: e40d10fcd4fbeb652c29fa431d4748780a4672ff
   JSONWebToken: ca86f02eeb3d1f58ba5197ec2cd53c7de915ecc1
   KeychainSwift: b6947435dd78cc442c64a84ae648dd0e871cf448

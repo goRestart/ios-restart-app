@@ -25,4 +25,5 @@ protocol AppNavigator: class {
     func openAppInvite()
     func canOpenAppInvite() -> Bool
     func openDeepLink(deepLink: DeepLink)
+    func openAppStore()
 }
