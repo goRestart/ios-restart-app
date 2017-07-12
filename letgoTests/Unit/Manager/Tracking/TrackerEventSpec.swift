@@ -2036,7 +2036,8 @@ class TrackerEventSpec: QuickSpec {
                     product.price = .negotiable(20)
                     product.images = MockFile.makeMocks(count: 2)
                     product.descr = String.makeRandom()
-                    sut = TrackerEvent.productSellComplete(Listing.product(product), buttonName: .done, sellButtonPosition: .floatingButton, negotiable: .yes,
+                    sut = TrackerEvent.productSellComplete(Listing.product(product), buttonName: .done,
+                                                           sellButtonPosition: .floatingButton, negotiable: .yes,
                                                            pictureSource: .gallery, freePostingModeAllowed: true)
                 }
                 it("has its event name") {
