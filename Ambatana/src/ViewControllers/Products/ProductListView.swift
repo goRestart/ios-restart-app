@@ -408,8 +408,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             }
         } else if self.viewModel.isLastPage {
             // Last page
-            // Reload in order to be able to reload the footer
-            
             refreshFooter()
         } else if !indexes.isEmpty {
             // Middle pages
