@@ -488,7 +488,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         }
     }
     
-    func refreshFooter() {
+    fileprivate func refreshFooter() {
         guard let footer = collectionViewFooter else { return }
         if viewModel.isOnErrorState {
             footer.status = .error
