@@ -26,7 +26,8 @@ class PostProductDetailViewModel: BaseViewModel {
     
     // Out variables
     var productPrice: ListingPrice {
-        return isFree.value ? .free : .normal(price.value.toPriceDouble())
+        guard !isFree.value else { return .free }
+        return price.value.toPriceDouble() > 0 ? .normal(price.value.toPriceDouble()) : .negotiable(price.value.toPriceDouble())
     }
     var productTitle: String? {
         return title.value.isEmpty ? nil : title.value

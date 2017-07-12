@@ -485,7 +485,17 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         editParams.category = category
         editParams.name = title ?? ""
         editParams.descr = (descr ?? "").stringByRemovingEmoji()
-        editParams.price = isFreePosting.value && featureFlags.freePostingModeAllowed ? ListingPrice.free : ListingPrice.normal((price ?? "0").toPriceDouble())
+
+        let updatedPrice: ListingPrice
+        if isFreePosting.value && featureFlags.freePostingModeAllowed {
+            updatedPrice = .free
+        } else if let actualPrice = price, actualPrice.toPriceDouble() > 0 {
+            updatedPrice = .normal(actualPrice.toPriceDouble())
+        } else {
+            updatedPrice = .negotiable(0.0)
+        }
+        editParams.price = updatedPrice
+
         if let updatedLocation = location, let updatedPostalAddress = postalAddress {
             editParams.location = updatedLocation
             editParams.postalAddress = updatedPostalAddress
@@ -523,7 +533,17 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         editParams.category = .cars
         editParams.name = generateCarTitle()
         editParams.descr = (descr ?? "").stringByRemovingEmoji()
-        editParams.price = isFreePosting.value && featureFlags.freePostingModeAllowed ? ListingPrice.free : ListingPrice.normal((price ?? "0").toPriceDouble())
+
+        let updatedPrice: ListingPrice
+        if isFreePosting.value && featureFlags.freePostingModeAllowed {
+            updatedPrice = .free
+        } else if let actualPrice = price, actualPrice.toPriceDouble() > 0 {
+            updatedPrice = .normal(actualPrice.toPriceDouble())
+        } else {
+            updatedPrice = .negotiable(0.0)
+        }
+        editParams.price = updatedPrice
+
         if let updatedLocation = location, let updatedPostalAddress = postalAddress {
             editParams.location = updatedLocation
             editParams.postalAddress = updatedPostalAddress
