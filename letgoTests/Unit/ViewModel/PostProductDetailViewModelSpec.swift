@@ -37,7 +37,7 @@ class PostProductDetailViewModelSpec: BaseViewModelSpec {
                         sut.isFree.value = false
                         sut.price.value = "0"
                     }
-                    it ("productPrice is free") {
+                    it ("productPrice is negotiable") {
                         expect(sut.productPrice) == ListingPrice.negotiable(0.0)
                     }
                 }
@@ -46,7 +46,7 @@ class PostProductDetailViewModelSpec: BaseViewModelSpec {
                         sut.isFree.value = false
                         sut.price.value = "10"
                     }
-                    it ("productPrice is free") {
+                    it ("productPrice is normal") {
                         expect(sut.productPrice) == ListingPrice.normal(10.0)
                     }
                 }
@@ -64,7 +64,7 @@ class PostProductDetailViewModelSpec: BaseViewModelSpec {
                     beforeEach {
                         sut.title.value = "cool thing"
                     }
-                    it ("productTitle is nil") {
+                    it ("productTitle has a value") {
                         expect(sut.productTitle) == "cool thing"
                     }
                 }
@@ -82,7 +82,7 @@ class PostProductDetailViewModelSpec: BaseViewModelSpec {
                     beforeEach {
                         sut.description.value = "this cool thing does stuff"
                     }
-                    it ("productDescription is nil") {
+                    it ("productDescription has a value") {
                         expect(sut.productDescription) == "this cool thing does stuff"
                     }
                 }
