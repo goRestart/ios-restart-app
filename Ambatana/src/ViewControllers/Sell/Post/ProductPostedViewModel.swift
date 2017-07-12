@@ -25,8 +25,6 @@ protocol ProductPostedViewModelDelegate: class {
 class ProductPostedViewModel: BaseViewModel {
     weak var navigator: ProductPostedNavigator?
     weak var delegate: ProductPostedViewModelDelegate?
-    
-    var mainButtonVisibility = Variable<Bool>(true)
 
     private var status: ListingPostedStatus
     private let trackingInfo: PostProductTrackingInfo
