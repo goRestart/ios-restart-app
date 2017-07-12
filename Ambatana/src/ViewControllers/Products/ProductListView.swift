@@ -40,6 +40,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     @IBOutlet weak var dataView: UIView!
     var refreshControl = UIRefreshControl()
     @IBOutlet weak var collectionView: UICollectionView!
+    weak var collectionViewFooter: CollectionViewFooter?
     
     private var lastContentOffset: CGFloat
     private var scrollingDown: Bool
@@ -330,19 +331,8 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             guard let footer: CollectionViewFooter = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                     withReuseIdentifier: CollectionViewFooter.reusableID, for: indexPath) as? CollectionViewFooter
                     else { return UICollectionReusableView() }
-            if viewModel.isOnErrorState {
-                footer.status = .error
-            } else if viewModel.isLastPage {
-                footer.status = .lastPage
-            } else {
-                footer.status = .loading
-            }
-            footer.retryButtonBlock = { [weak self] in
-                if let strongSelf = self {
-                    strongSelf.viewModel.retrieveProductsNextPage()
-                    strongSelf.reloadData()
-                }
-            }
+            collectionViewFooter = footer
+            refreshFooter()
             return footer
         case CHTCollectionElementKindSectionHeader, UICollectionElementKindSectionHeader:
             guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
@@ -419,17 +409,16 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         } else if self.viewModel.isLastPage {
             // Last page
             // Reload in order to be able to reload the footer
-            reloadData()
+            
+            refreshFooter()
         } else if !indexes.isEmpty {
             // Middle pages
             // Insert animated
             let indexPaths = indexes.map{ IndexPath(item: $0, section: 0) }
             collectionView.insertItems(at: indexPaths)
+            refreshFooter()
         } else {
-            // delay added because reload is ignored if too fast after insertItems
-            delay(0.4) { _ in
-                self.collectionView.reloadSections(IndexSet(integer: 0))
-            }
+            reloadData()
         }
     }
 
@@ -496,6 +485,23 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         
         if #available(iOS 10, *) {
             setupPrefetching()
+        }
+    }
+    
+    func refreshFooter() {
+        guard let footer = collectionViewFooter else { return }
+        if viewModel.isOnErrorState {
+            footer.status = .error
+        } else if viewModel.isLastPage {
+            footer.status = .lastPage
+        } else {
+            footer.status = .loading
+        }
+        footer.retryButtonBlock = { [weak self] in
+            if let strongSelf = self {
+                strongSelf.viewModel.retrieveProductsNextPage()
+                strongSelf.reloadData()
+            }
         }
     }
     
