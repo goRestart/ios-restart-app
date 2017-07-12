@@ -594,7 +594,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                         }
                         it("error Details is 'user not authenticated'") {
                             let msgErrorEvent = tracker.trackedEvents.filter { $0.actualName == "user-sent-message-error" }[0]
-                            expect(msgErrorEvent.params?[.errorDetails] as? String) == "User not authenticated"
+                            expect(msgErrorEvent.params?[.errorDetails] as? String) == "3000 - User not authenticated"
                         }
                         it("error Description is chat internal") {
                             let msgErrorEvent = tracker.trackedEvents.filter { $0.actualName == "user-sent-message-error" }[0]
@@ -624,7 +624,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                         }
                         it("error Details is 'user not verified'") {
                             let msgErrorEvent = tracker.trackedEvents.filter { $0.actualName == "user-sent-message-error" }[0]
-                            expect(msgErrorEvent.params?[.errorDetails] as? String) == "User not verified"
+                            expect(msgErrorEvent.params?[.errorDetails] as? String) == "6013 - User not verified"
                         }
                         it("error Description is chat internal") {
                             let msgErrorEvent = tracker.trackedEvents.filter { $0.actualName == "user-sent-message-error" }[0]
@@ -654,7 +654,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                         }
                         it("error Details is 'user blocked'") {
                             let msgErrorEvent = tracker.trackedEvents.filter { $0.actualName == "user-sent-message-error" }[0]
-                            expect(msgErrorEvent.params?[.errorDetails] as? String) == "User blocked"
+                            expect(msgErrorEvent.params?[.errorDetails] as? String) == "3014 - User blocked"
                         }
                         it("error Description is chat internal") {
                             let msgErrorEvent = tracker.trackedEvents.filter { $0.actualName == "user-sent-message-error" }[0]

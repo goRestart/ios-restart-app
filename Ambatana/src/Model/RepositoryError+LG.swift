@@ -24,11 +24,11 @@ extension RepositoryError {
             case let .apiError(code):
                 return .serverError(code: code)
             case .notAuthenticated:
-                return .internalError(description: "User not authenticated")
+                return .internalError(description: "3000 - User not authenticated")
             case .userNotVerified:
-                return .internalError(description: "User not verified")
+                return .internalError(description: "6013 - User not verified")
             case .userBlocked:
-                return .internalError(description: "User blocked")
+                return .internalError(description: "3014 - User blocked")
             case let .internalError(message):
                 return .internalError(description: message)
             }
