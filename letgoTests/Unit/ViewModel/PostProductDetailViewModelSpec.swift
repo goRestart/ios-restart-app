@@ -15,7 +15,7 @@ import Nimble
 class PostProductDetailViewModelSpec: BaseViewModelSpec {
 
     override func spec() {
-        fdescribe("PostProductDetailViewModel") {
+        describe("PostProductDetailViewModel") {
             var sut: PostProductDetailViewModel!
 
             beforeEach {
