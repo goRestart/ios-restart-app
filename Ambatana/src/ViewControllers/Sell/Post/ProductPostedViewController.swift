@@ -109,6 +109,7 @@ class ProductPostedViewController: BaseViewController, ProductPostedViewModelDel
     private func setupView() {
         setStatusBarHidden(true)
         mainButton.setStyle(.primary(fontSize: .big))
+        mainButton.isHidden = viewModel.mainButtonHidden
         editOrLabel.text = LGLocalizedString.productPostConfirmationAnother.uppercase
         editButton.setTitle(LGLocalizedString.productPostConfirmationEdit, for: .normal)
         loadingIndicator.color = UIColor.primaryColor
