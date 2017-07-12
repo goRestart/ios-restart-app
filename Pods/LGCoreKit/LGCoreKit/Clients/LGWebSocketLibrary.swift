@@ -10,12 +10,19 @@ import SocketRocket
 
 class LGWebSocketLibrary: NSObject, WebSocketLibraryProtocol, SRWebSocketDelegate {
     private var ws: SRWebSocket?
+    private let userAgentBuilder: UserAgentBuilder
+    
     
     // MARK: - WebSocketLibraryProtocol
     
     weak var delegate: WebSocketLibraryDelegate?
     
-    override init() {
+    override convenience init() {
+        self.init(userAgentBuilder: LGUserAgentBuilder())
+    }
+    
+    init(userAgentBuilder: UserAgentBuilder) {
+        self.userAgentBuilder = userAgentBuilder
         super.init()
     }
     
@@ -28,7 +35,10 @@ class LGWebSocketLibrary: NSObject, WebSocketLibraryProtocol, SRWebSocketDelegat
     func open(withEndpointURL endpointURL: URL) {
         ws?.delegate = nil
         ws?.close()
-        ws = SRWebSocket(url: endpointURL)
+        var urlRequest = URLRequest(url: endpointURL)
+        urlRequest.setValue(userAgentBuilder.make(appBundle: Bundle.main, networkLibrary: .socketRocket),
+                            forHTTPHeaderField: "User-Agent")
+        ws = SRWebSocket(urlRequest: urlRequest)
         ws?.delegate = self
         ws?.open()
     }

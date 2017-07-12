@@ -106,7 +106,7 @@ public enum ChatRepositoryError: Error, ApiErrorConvertible, WebSocketErrorConve
     case userBlocked
     case internalError(message: String)
     case network(wsCode: Int, onBackground: Bool)
-    case apiError(httpCode: Int)
+    case apiError(httpCode: Int?)
 
     init(webSocketError: WebSocketError) {
         switch webSocketError {
@@ -125,7 +125,7 @@ public enum ChatRepositoryError: Error, ApiErrorConvertible, WebSocketErrorConve
 
     // unread count sends an api error
     init(apiError: ApiError) {
-        self = .apiError(httpCode: apiError.httpStatusCode ?? 0)
+        self = .apiError(httpCode: apiError.httpStatusCode)
     }
 }
 
