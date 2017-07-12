@@ -485,16 +485,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         editParams.category = category
         editParams.name = title ?? ""
         editParams.descr = (descr ?? "").stringByRemovingEmoji()
-
-        let updatedPrice: ListingPrice
-        if isFreePosting.value && featureFlags.freePostingModeAllowed {
-            updatedPrice = .free
-        } else if let actualPrice = price, actualPrice.toPriceDouble() > 0 {
-            updatedPrice = .normal(actualPrice.toPriceDouble())
-        } else {
-            updatedPrice = .negotiable(0.0)
-        }
-        editParams.price = updatedPrice
+        editParams.price = generatePrice()
 
         if let updatedLocation = location, let updatedPostalAddress = postalAddress {
             editParams.location = updatedLocation
@@ -533,16 +524,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         editParams.category = .cars
         editParams.name = generateCarTitle()
         editParams.descr = (descr ?? "").stringByRemovingEmoji()
-
-        let updatedPrice: ListingPrice
-        if isFreePosting.value && featureFlags.freePostingModeAllowed {
-            updatedPrice = .free
-        } else if let actualPrice = price, actualPrice.toPriceDouble() > 0 {
-            updatedPrice = .normal(actualPrice.toPriceDouble())
-        } else {
-            updatedPrice = .negotiable(0.0)
-        }
-        editParams.price = updatedPrice
+        editParams.price = generatePrice()
 
         if let updatedLocation = location, let updatedPostalAddress = postalAddress {
             editParams.location = updatedLocation
@@ -578,6 +560,13 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
             return carAttributes.generatedCarName()
         }
         return title
+    }
+
+    private func generatePrice() -> ListingPrice {
+        guard !(isFreePosting.value && featureFlags.freePostingModeAllowed) else { return .free }
+        guard let actualPrice = price else { return .negotiable(0.0) }
+        let priceValue = actualPrice.toPriceDouble()
+        return priceValue > 0 ? .normal(priceValue) : .negotiable(priceValue)
     }
 
     private func finishedSaving() {
