@@ -250,6 +250,12 @@ extension AppCoordinator: AppNavigator {
     func openDeepLink(deepLink: DeepLink) {
         triggerDeepLink(deepLink, initialDeepLink: false)
     }
+    
+    func openAppStore() {
+        if let url = URL(string: Constants.appStoreURL) {
+            UIApplication.shared.openURL(url)
+        }
+    }
 }
 
 
@@ -324,6 +330,11 @@ extension AppCoordinator: TabCoordinatorDelegate {
 extension AppCoordinator: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController,
                           shouldSelect viewController: UIViewController) -> Bool {
+        
+        defer {
+            chatsTabBarCoordinator.setNeedsRefreshConversations()
+        }
+        
         let topVC = topViewControllerInController(viewController)
         let selectedViewController = tabBarController.selectedViewController
 
@@ -656,6 +667,10 @@ fileprivate extension AppCoordinator {
             }
         case .notificationCenter:
             openTab(.notifications, force: false, completion: nil)
+        case .appStore:
+            afterDelayClosure = { [weak self] in
+                self?.openAppStore()
+            }
         }
         
         if let afterDelayClosure = afterDelayClosure {
@@ -677,7 +692,7 @@ fileprivate extension AppCoordinator {
 
         switch deepLink.action {
         case .home, .sell, .product, .productShare, .productBumpUp, .productMarkAsSold, .user, .conversations, .conversationWithMessage, .search, .resetPassword, .userRatings, .userRating,
-             .passiveBuyers, .notificationCenter:
+             .passiveBuyers, .notificationCenter, .appStore:
             return // Do nothing
         case let .conversation(data):
             showInappChatNotification(data, message: deepLink.origin.message)

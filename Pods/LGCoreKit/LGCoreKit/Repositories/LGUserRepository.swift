@@ -7,8 +7,11 @@
 //
 
 import Result
+import RxSwift
 
-final class LGUserRepository: UserRepository {
+final class LGUserRepository: InternalUserRepository {
+
+    var eventsPublishSubject = PublishSubject<UserRepositoryEvent>()
     let dataSource: UserDataSource
     let myUserRepository: MyUserRepository
 
@@ -74,7 +77,7 @@ final class LGUserRepository: UserRepository {
      - parameter user:       user to block
      - parameter completion: Completion closure
      */
-    func blockUserWithId(_ userId: String, completion: UserVoidCompletion?) {
+    func internalBlockUserWithId(_ userId: String, completion: UserVoidCompletion?) {
         guard let myUserId = myUserRepository.myUser?.objectId else {
             completion?(UserVoidResult(error: .internalError(message: "Missing objectId in MyUser")))
             return
@@ -96,7 +99,7 @@ final class LGUserRepository: UserRepository {
      - parameter completion: Completion closure
      */
 
-    func unblockUserWithId(_ userId: String, completion: UserVoidCompletion?) {
+    func internalUnblockUserWithId(_ userId: String, completion: UserVoidCompletion?) {
         guard let myUserId = myUserRepository.myUser?.objectId else {
             completion?(UserVoidResult(error: .internalError(message: "Missing objectId in MyUser")))
             return
@@ -110,54 +113,6 @@ final class LGUserRepository: UserRepository {
             }
         }
     }
-
-    /**
-     Unblocks users
-     NOTE: if one single unblock fails, the entire response will be a failure
-
-     - parameter userIds:       users to unblock
-     - parameter completion: Completion closure
-     */
-
-    func unblockUsersWithIds(_ userIds: [String], completion: UserVoidCompletion?) {
-
-        guard !userIds.isEmpty else {
-            completion?(UserVoidResult(error: .internalError(message: "Missing users to unblock")))
-            return
-        }
-
-        let unblockUsersQueue = DispatchQueue(label: "UnblockUsersQueue", attributes: [])
-        unblockUsersQueue.async(execute: {
-            for userId in userIds {
-                let unblockResult = synchronize({ [weak self] synchCompletion in
-                    guard let strongSelf = self else {
-                        synchCompletion(UserVoidResult(error: .internalError(message: "self deallocated")))
-                        return
-                    }
-                    strongSelf.unblockUserWithId(userId) { result in
-                        synchCompletion(result)
-                    }
-                    }, timeoutWith: UserVoidResult(error: .internalError(message: "Timeout blocking")))
-
-                guard let _ = unblockResult.value else {
-                    DispatchQueue.main.async {
-                        completion?(unblockResult)
-                    }
-                    return
-                }
-            }
-
-            DispatchQueue.main.async {
-                completion?(UserVoidResult(value: Void()))
-            }
-        })
-    }
-
-
-    /*
-
-
-     */
 
     /**
      Reports a 'bad' user
