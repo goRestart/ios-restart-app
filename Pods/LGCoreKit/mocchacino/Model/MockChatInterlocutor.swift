@@ -7,6 +7,23 @@ public struct MockChatInterlocutor: ChatInterlocutor {
     public var hasMutedYou: Bool
     public var status: UserStatus
     
+    public init(objectId: String?,
+                name: String,
+                avatar: File?,
+                isBanned: Bool,
+                isMuted: Bool,
+                hasMutedYou: Bool,
+                status: UserStatus) {
+        
+        self.objectId = objectId
+        self.name = name
+        self.avatar = avatar
+        self.isBanned = isBanned
+        self.isMuted = isMuted
+        self.hasMutedYou = hasMutedYou
+        self.status = status
+    }
+    
     func makeDictionary() -> [String: Any] {
         var result = [String: Any]()
         result["id"] = objectId

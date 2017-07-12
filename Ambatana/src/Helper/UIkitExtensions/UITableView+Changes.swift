@@ -7,6 +7,8 @@
 //
 
 
+import LGCoreKit
+
 extension UITableView {
     func handleCollectionChange<T>(_ change: CollectionChange<T>, animation: UITableViewRowAnimation = .none, completion: (() -> Void)? = nil) {
         beginUpdates()
@@ -17,12 +19,18 @@ extension UITableView {
 
     private func handleChange<T>(_ change: CollectionChange<T>, animation: UITableViewRowAnimation) {
         switch change {
-        case .remove(let index, _):
+        case let .remove(index, _):
             let indexPath = IndexPath(row: index, section: 0)
             deleteRows(at: [indexPath], with: animation)
-        case .insert(let index, _):
+        case let .insert(index, _):
             let indexPath = IndexPath(row: index, section: 0)
             insertRows(at: [indexPath], with: animation)
+        case let .swap(from, to, _):
+            let indexPaths = [IndexPath(row: from, section: 0), IndexPath(row: to, section: 0)]
+            reloadRows(at: indexPaths, with: .automatic)
+        case let .move(from, to, _):
+            let indexPaths = (from...to).map { IndexPath(row: $0, section: 0) }
+            reloadRows(at: indexPaths, with: .automatic)
         case .composite(let changes):
             changes.forEach { [weak self] change in
                 self?.handleChange(change, animation: animation)

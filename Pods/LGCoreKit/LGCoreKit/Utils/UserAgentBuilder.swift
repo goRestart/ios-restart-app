@@ -38,8 +38,8 @@ final class LGUserAgentBuilder: UserAgentBuilder {
     fileprivate static let unknown = "Unknown"
     
     // Makes a User-Agent with the following the format:
-    // target:LetGoGodMode; appVersion:1.17.5; bundle:com.letgo.ios; build:250; os:iOS 10.2.0;
-    // device:Apple iPhone 6 Plus; httpLibrary:Alamofire/4.2.0
+    // target=LetGoGodMode; appVersion=1.17.5; bundle:com.letgo.ios; build:250; os=iOS 10.2.0;
+    // device=Apple iPhone 6 Plus; httpLibrary=Alamofire/4.2.0
     func make(appBundle: Bundle, networkLibrary: NetworkLibrary) -> String {
         return "target=\(makeTarget(appBundle: appBundle)); " +
             "appVersion=\(makeAppVersion(appBundle: appBundle)); " +

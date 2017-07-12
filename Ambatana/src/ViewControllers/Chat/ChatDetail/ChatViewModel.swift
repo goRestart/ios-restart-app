@@ -32,7 +32,22 @@ struct EmptyConversation: ChatConversation {
     var lastMessageSentAt: Date? = nil
     var listing: ChatListing? = nil
     var interlocutor: ChatInterlocutor? = nil
-    var amISelling: Bool 
+    var amISelling: Bool
+    
+    init(objectId: String?,
+         unreadMessageCount: Int,
+         lastMessageSentAt: Date?,
+         amISelling: Bool,
+         listing: ChatListing?,
+         interlocutor: ChatInterlocutor?) {
+        
+        self.objectId = objectId
+        self.unreadMessageCount = unreadMessageCount
+        self.lastMessageSentAt = lastMessageSentAt
+        self.listing = listing
+        self.interlocutor = interlocutor
+        self.amISelling = amISelling
+    }
 }
 
 
@@ -221,8 +236,8 @@ class ChatViewModel: BaseViewModel {
         let pushPermissionsManager = LGPushPermissionsManager.sharedInstance
         
         let amISelling = myUserRepository.myUser?.objectId == sellerId
-        let empty = EmptyConversation(objectId: nil, unreadMessageCount: 0, lastMessageSentAt: nil, listing: nil,
-                                      interlocutor: nil, amISelling: amISelling)
+        let empty = EmptyConversation(objectId: nil, unreadMessageCount: 0, lastMessageSentAt: nil, amISelling: amISelling,
+                                      listing: nil, interlocutor: nil)
         self.init(conversation: empty, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   listingRepository: listingRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository ,tracker: tracker, configManager: configManager,
@@ -459,6 +474,8 @@ class ChatViewModel: BaseViewModel {
             } else if message.talkerId == otherUserId {
                 otherMessagesCount.value += 1
             }
+        case .swap, .move:
+            break
         case let .composite(changes):
             changes.forEach { [weak self] change in
                 self?.updateMessagesCounts(change)

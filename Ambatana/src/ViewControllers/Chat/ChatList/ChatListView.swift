@@ -18,6 +18,7 @@ protocol ChatListViewDelegate: class {
 }
 
 class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
+
     // Constants
     private static let tabBarBottomInset: CGFloat = 44
 
@@ -48,10 +49,6 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    deinit {
-        NotificationCenter.default.removeObserver(self)
     }
 
     override func setupUI() {
@@ -118,7 +115,7 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
         }
     }
 
-
+    
     // MARK: - UITableViewDataSource
 
     override func cellForRowAtIndexPath(_ indexPath: IndexPath) -> UITableViewCell {
