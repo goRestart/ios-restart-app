@@ -7,6 +7,7 @@
 //
 
 import LGCoreKit
+import RxSwift
 
 
 // MARK: - ProductPostedViewModelDelegate
@@ -111,6 +112,22 @@ class ProductPostedViewModel: BaseViewModel {
             return LGLocalizedString.productPostRetryButton
         }
     }
+    
+    var mainButtonHidden: Bool {
+        switch status {
+        case .posting:
+            return false
+        case .success:
+            return false
+        case let .error(error):
+            switch error {
+            case .forbidden(cause: .differentCountry):
+                return true
+            default:
+                return false
+            }
+        }
+    }
 
     var mainText: String? {
         switch status {
@@ -131,6 +148,8 @@ class ProductPostedViewModel: BaseViewModel {
             return wasFreePosting ? LGLocalizedString.productPostIncentiveSubtitleFree : LGLocalizedString.productPostIncentiveSubtitle
         case let .error(error):
             switch error {
+            case .forbidden(cause: .differentCountry):
+                return LGLocalizedString.productPostDifferentCountryError
             case .network:
                 return LGLocalizedString.productPostNetworkError
             default:
@@ -343,6 +362,8 @@ enum ListingPostedStatus {
             switch error {
             case .network:
                 self = .error(error: .network)
+            case let .forbidden(cause: cause):
+                self = .error(error: .forbidden(cause: cause))
             default:
                 self = .error(error: .internalError)
             }

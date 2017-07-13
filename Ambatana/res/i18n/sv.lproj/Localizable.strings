@@ -34,8 +34,8 @@
 "bump_up_view_free_title" = "PUFFA DIN VARA UPPÅT";
 "bump_up_view_pay_bumps_left_text" = "Du har %i puffar uppåt kvar.";
 "bump_up_view_pay_button_title" = "Aktivera för %@";
-"bump_up_view_pay_subtitle" = "Ge din produkt mera synlighet genom att flytta den högst upp.";
-"bump_up_view_pay_title" = "PUFFA UPPÅT FÖR ATT SÄLJA SNABBARE";
+"bump_up_view_pay_subtitle" = "Nå ut till flera köpare genom att ge din produkt mera synlighet.";
+"bump_up_view_pay_title" = "SÄLJ SNABBARE";
 "categories_baby_and_child" = "Bebis och barn";
 "categories_car" = "Bilar";
 "categories_cars_and_motors" = "Motorer och tillbehör";
@@ -582,6 +582,7 @@
 "product_post_confirmation_another" = "Eller";
 "product_post_confirmation_another_button" = "Lägg upp en till vara";
 "product_post_confirmation_edit" = "Lägg till mer information";
+"product_post_different_country_error" = "You can’t post in a country where you’re not currently located.";
 "product_post_done" = "Klar";
 "product_post_empty_gallery_button" = "Ta bild";
 "product_post_empty_gallery_subtitle" = "Ta en bild på den produkt du vill lägga upp";
@@ -729,6 +730,13 @@
 "rate_user_positive_quick_responses" = "Snabb respons";
 "rate_user_positive_showed_up_on_time" = "Punktlig";
 "rate_user_positive_trustworthy" = "Pålitlig";
+"rating_app_enjoying_alert_title" = "Uppskattar du letgo?";
+"rating_app_feedback_no_button" = "Nej tack";
+"rating_app_feedback_title" = "Vill du ge oss lite feedback?";
+"rating_app_feedback_yes_button" = "Visst!";
+"rating_app_rate_alert_no_button" = "Nej tack";
+"rating_app_rate_alert_title" = "Skulle du vilja betygsätta oss? Det tar bara några sekunder";
+"rating_app_rate_alert_yes_button" = "Visst!";
 "rating_list_action_report_review" = "Rapportera omdöme";
 "rating_list_action_report_review_error_message" = "Ett fel uppstod när din rapport skulle skickas.";
 "rating_list_action_report_review_success_message" = "Din rapport har skickats!";
