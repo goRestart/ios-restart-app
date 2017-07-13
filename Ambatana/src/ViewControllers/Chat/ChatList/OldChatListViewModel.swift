@@ -15,6 +15,7 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
     private var deepLinksRouter: DeepLinksRouter
 
     private(set) var chatsType: ChatsType
+    private var selectedConversationIds: Set<String>
     weak var delegate: ChatListViewModelDelegate?
     
     var titleForDeleteButton: String {
@@ -42,6 +43,7 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
         self.chatRepository = chatRepository
         self.deepLinksRouter = deepLinksRouter
         self.chatsType = chatsType
+        self.selectedConversationIds = Set<String>()
         super.init(collectionVariable: CollectionVariable(chats),
                    shouldWriteInCollectionVariable: false,
                    tabNavigator: tabNavigator)
@@ -63,7 +65,26 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
         chatRepository.index(chatsType, page: page, numResults: resultsPerPage, completion: completion)
     }
 
-    func conversationSelectedAtIndex(_ index: Int) {
+    func isConversationSelected(index: Int) -> Bool {
+        guard let conversation = objectAtIndex(index), let id = conversation.objectId else { return false }
+        return selectedConversationIds.contains(id)
+    }
+    
+    func selectConversation(index: Int) {
+        guard let conversation = objectAtIndex(index), let id = conversation.objectId else { return }
+        selectedConversationIds.insert(id)
+    }
+    
+    func deselectConversation(index: Int) {
+        guard let conversation = objectAtIndex(index), let id = conversation.objectId else { return }
+        selectedConversationIds.remove(id)
+    }
+    
+    func deselectAllConversations() {
+        selectedConversationIds.removeAll()
+    }
+    
+    func openConversation(index: Int) {
         guard let chat = objectAtIndex(index) else { return }
         tabNavigator?.openChat(.chatAPI(chat: chat), source: .chatList, predefinedMessage: nil)
     }
