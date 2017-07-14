@@ -34,8 +34,8 @@
 "bump_up_view_free_title" = "PROMOTER DIN ANNONSE";
 "bump_up_view_pay_bumps_left_text" = "Du har %i promoteringer igjen.";
 "bump_up_view_pay_button_title" = "Aktiver i %@";
-"bump_up_view_pay_subtitle" = "Gi din annonse høyere synlighet i 24 timer ved å flytte den til toppen.";
-"bump_up_view_pay_title" = "PROMOTER DITT PRODUKT FOR ET RASKERE SALG";
+"bump_up_view_pay_subtitle" = "Tiltrekk flere kjøpere ved å gi din annonse mer synlighet.";
+"bump_up_view_pay_title" = "SELG RASKERE";
 "categories_baby_and_child" = "Baby og barn";
 "categories_car" = "Biler";
 "categories_cars_and_motors" = "Andre kjøretøyer og bildeler";
@@ -582,6 +582,7 @@
 "product_post_confirmation_another" = "Eller";
 "product_post_confirmation_another_button" = "Publiser enda et produkt";
 "product_post_confirmation_edit" = "Legg til flere detaljer";
+"product_post_different_country_error" = "Du kan ikke publisere i et land du ikke befinner deg i.";
 "product_post_done" = "Fullfør";
 "product_post_empty_gallery_button" = "Ta bilde";
 "product_post_empty_gallery_subtitle" = "Ta et bilde av det du ønsker å publisere";
@@ -729,6 +730,13 @@
 "rate_user_positive_quick_responses" = "Raske svar";
 "rate_user_positive_showed_up_on_time" = "Møtte opp i tide";
 "rate_user_positive_trustworthy" = "Troverdig";
+"rating_app_enjoying_alert_title" = "Liker du letgo?";
+"rating_app_feedback_no_button" = "Nei, takk";
+"rating_app_feedback_title" = "Ønsker du å gi oss tilbakemelding?";
+"rating_app_feedback_yes_button" = "Ja!";
+"rating_app_rate_alert_no_button" = "Nei, takk";
+"rating_app_rate_alert_title" = "Ønsker du å vurdere oss? Det tar kun 2 sekunder";
+"rating_app_rate_alert_yes_button" = "Ja!";
 "rating_list_action_report_review" = "Rapporter vurdering";
 "rating_list_action_report_review_error_message" = "En feil oppstod ved sending av din rapport.";
 "rating_list_action_report_review_success_message" = "Din rapport ble sendt!";
@@ -859,6 +867,7 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Opprett ny konto";
 "sign_up_username_field_hint" = "Fullt navn";
+"suggested_searches_title" = "Suggested Searches";
 "suggestions_last_searches_clear_button" = "Tøm";
 "suggestions_last_searches_title" = "Siste søkeord";
 "survey_confirmation" = "Tusen takk! Din tilbakemelding hjelper oss med å forbedre oss";
@@ -869,14 +878,14 @@
 "tab_bar_tool_tip" = "Selg tingene dine";
 "toast_error_internal" = "Oops! En feil oppstod.";
 "toast_no_network" = "Ingen internett-tilkobling";
-"tour_claim_label" = "Kjøp og selg raskt, sikkert og lokalt.";
+"tour_claim_label" = "Knips, post, chat og selg. Det er på tide å letgo!";
 "tour_continue_w_email" = "Fortsett med e-post";
 "tour_email_button" = "E-post";
 "tour_facebook_button" = "Fortsett med Facebook";
 "tour_google_button" = "Fortsett med Google";
 "tour_help_button" = "Hjelp";
 "tour_or_label" = "ELLER BRUK DIN E-POST";
-"tour_page_1_body" = "Kjøp og selg raskt, sikkert og lokalt.";
+"tour_page_1_body" = "Knips, post, chat og selg. Det er på tide å letgo!";
 "trending_searches_Title" = "Populære søk";
 "unblock_user_error_generic" = "En feil oppstod ved oppheving av blokkering for denne brukeren.";
 "user_rating_add_comment_button" = "Legg til kommentar";

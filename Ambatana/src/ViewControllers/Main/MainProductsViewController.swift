@@ -581,8 +581,7 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
         switch sectionType {
         case .suggestive:
             clearButton.isHidden = true
-            //# warning  Localize
-            suggestionTitleLabel.text = "Suggestive"
+            suggestionTitleLabel.text = LGLocalizedString.suggestedSearchesTitle.uppercase
         case .lastSearch:
             suggestionTitleLabel.text = LGLocalizedString.suggestionsLastSearchesTitle.uppercase
         case .trending:

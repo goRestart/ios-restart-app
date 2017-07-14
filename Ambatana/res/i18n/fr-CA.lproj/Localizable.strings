@@ -34,8 +34,8 @@
 "bump_up_view_free_title" = "RENVOYEZ VOTRE ANNONCE VERS LE HAUT";
 "bump_up_view_pay_bumps_left_text" = "Il vous reste %i renvois vers le haut à effectuer.";
 "bump_up_view_pay_button_title" = "Activer pour %@";
-"bump_up_view_pay_subtitle" = "Donnez plus de visibilité à votre annonce en la renvoyant vers le haut.";
-"bump_up_view_pay_title" = "RENVOYER VERS LE HAUT POUR VENDRE PLUS VITE";
+"bump_up_view_pay_subtitle" = "Attirez plus d'acheteurs en donnant plus de visibilité à vos annonces.";
+"bump_up_view_pay_title" = "VENDEZ PLUS VITE";
 "categories_baby_and_child" = "Bébé et Enfant";
 "categories_car" = "Voitures";
 "categories_cars_and_motors" = "Autres Véhicules et Accessoires";
@@ -582,6 +582,7 @@
 "product_post_confirmation_another" = "Ou";
 "product_post_confirmation_another_button" = "Publiez un autre produit";
 "product_post_confirmation_edit" = "Ajouter plus de détails";
+"product_post_different_country_error" = "Vous ne pouvez pas poster une annonce dans un pays où vous n'êtes pas situé.";
 "product_post_done" = "Terminé";
 "product_post_empty_gallery_button" = "Prendre une Photo";
 "product_post_empty_gallery_subtitle" = "Prenez une photo du produit que vous souhaitez proposer";
@@ -729,6 +730,13 @@
 "rate_user_positive_quick_responses" = "Réponses rapides";
 "rate_user_positive_showed_up_on_time" = "S'est présenté(e) à l'heure";
 "rate_user_positive_trustworthy" = "Fiable";
+"rating_app_enjoying_alert_title" = "Appréciez-vous letgo ?";
+"rating_app_feedback_no_button" = "Non, merci";
+"rating_app_feedback_title" = "Souhaitez-vous nous faire part de vos impressions ?";
+"rating_app_feedback_yes_button" = "Bien sûr !";
+"rating_app_rate_alert_no_button" = "Non, merci";
+"rating_app_rate_alert_title" = "Pourriez-vous nous évaluer ? Cela ne prendra que deux secondes";
+"rating_app_rate_alert_yes_button" = "Bien sûr !";
 "rating_list_action_report_review" = "Signaler une évaluation";
 "rating_list_action_report_review_error_message" = "Une erreur est survenue lors de l'envoi du signalement.";
 "rating_list_action_report_review_success_message" = "Votre signalement a été envoyé !";
@@ -859,6 +867,7 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Créer un nouveau compte";
 "sign_up_username_field_hint" = "Nom complet";
+"suggested_searches_title" = "Suggested Searches";
 "suggestions_last_searches_clear_button" = "Effacer";
 "suggestions_last_searches_title" = "Recherches Récentes";
 "survey_confirmation" = "Merci ! Vos commentaires nous aident à nous améliorer";
@@ -869,14 +878,14 @@
 "tab_bar_tool_tip" = "Vendez Vos Objets";
 "toast_error_internal" = "Oups ! Ça n'a pas fonctionné.";
 "toast_no_network" = "Pas de Connexion Internet";
-"tour_claim_label" = "Achetez et vendez rapidement, de manière sécuritaire et localement. C'est parti avec letgo !";
+"tour_claim_label" = "À go, on capte, on publie, on clavarde et on vend. À go on letgo.";
 "tour_continue_w_email" = "Continuer avec votre courriel";
 "tour_email_button" = "Courriel";
 "tour_facebook_button" = "Continuer avec Facebook";
 "tour_google_button" = "Continuer avec Google";
 "tour_help_button" = "Aide";
 "tour_or_label" = "OU UTILISEZ VOTRE COURRIEL";
-"tour_page_1_body" = "Achetez et vendez rapidement, de manière sécuritaire et localement. C'est parti avec letgo !";
+"tour_page_1_body" = "À go, on capte, on publie, on clavarde et on vend. À go on letgo.";
 "trending_searches_Title" = "Recherches Populaires";
 "unblock_user_error_generic" = "Une erreur est survenue lors du déblocage de cet utilisateur.";
 "user_rating_add_comment_button" = "Ajouter un commentaire";

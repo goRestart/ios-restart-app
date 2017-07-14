@@ -34,8 +34,8 @@
 "bump_up_view_free_title" = "ĐẨY BÀI ĐĂNG CỦA BẠN LÊN";
 "bump_up_view_pay_bumps_left_text" = "Bạn còn %i lượt đẩy lên.";
 "bump_up_view_pay_button_title" = "Kích hoạt cho %@";
-"bump_up_view_pay_subtitle" = "Để bài đăng của bạn dễ nhìn hơn bằng cách đẩy lên đầu trang.";
-"bump_up_view_pay_title" = "ĐẨY BÀI ĐĂNG ĐỂ BÁN NHANH HƠN";
+"bump_up_view_pay_subtitle" = "Thu hút nhiều người mua hơn bằng cách làm cho bài đăng của bạn dễ nhìn hơn.";
+"bump_up_view_pay_title" = "BÁN NHANH HƠN";
 "categories_baby_and_child" = "Trẻ sơ sinh và Trẻ nhỏ";
 "categories_car" = "Xe hơi";
 "categories_cars_and_motors" = "Xe máy và Phụ kiện";
@@ -582,6 +582,7 @@
 "product_post_confirmation_another" = "Hoặc";
 "product_post_confirmation_another_button" = "Đăng sản phẩm khác";
 "product_post_confirmation_edit" = "Thêm thông tin";
+"product_post_different_country_error" = "Bạn không thể đăng tại một quốc gia mà hiện bạn không cư trú.";
 "product_post_done" = "Hoàn thành";
 "product_post_empty_gallery_button" = "Chụp Ảnh";
 "product_post_empty_gallery_subtitle" = "Hãy chụp ảnh sản phẩm bạn muốn đăng";
@@ -729,6 +730,13 @@
 "rate_user_positive_quick_responses" = "Trả lời nhanh";
 "rate_user_positive_showed_up_on_time" = "Đúng giờ";
 "rate_user_positive_trustworthy" = "Đáng tin";
+"rating_app_enjoying_alert_title" = "Bạn có đang sử dụng letgo?";
+"rating_app_feedback_no_button" = "Không, cảm ơn";
+"rating_app_feedback_title" = "Muốn gửi phản hồi cho chúng tôi?";
+"rating_app_feedback_yes_button" = "Chắc chắn rồi!";
+"rating_app_rate_alert_no_button" = "Không, cảm ơn";
+"rating_app_rate_alert_title" = "Bạn có muốn đánh giá chúng tôi? Sẽ chỉ mất hai giây";
+"rating_app_rate_alert_yes_button" = "Chắc chắn rồi!";
 "rating_list_action_report_review" = "Báo cáo đánh giá";
 "rating_list_action_report_review_error_message" = "Có lỗi xảy ra trong khi gửi báo cáo.";
 "rating_list_action_report_review_success_message" = "Báo cáo của bạn đã được gửi đi!";
@@ -859,6 +867,7 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Tạo tài khoản mới";
 "sign_up_username_field_hint" = "Họ tên";
+"suggested_searches_title" = "Suggested Searches";
 "suggestions_last_searches_clear_button" = "Xóa";
 "suggestions_last_searches_title" = "Tìm kiếm Gần đây";
 "survey_confirmation" = "Cảm ơn bạn! Phản hồi của bạn sẽ giúp chúng tôi cải thiện hơn";

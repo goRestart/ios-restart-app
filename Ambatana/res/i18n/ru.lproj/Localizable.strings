@@ -34,8 +34,8 @@
 "bump_up_view_free_title" = "ПОДНИМИТЕ ВАШЕ ОБЪЯВЛЕНИЕ";
 "bump_up_view_pay_bumps_left_text" = "У вас осталось %i продвижений.";
 "bump_up_view_pay_button_title" = "Активировать за %@";
-"bump_up_view_pay_subtitle" = "Повысьте количество просмотров вашего объявления, поднимая его наверх в списке.";
-"bump_up_view_pay_title" = "ПОДНИМИТЕ ДЛЯ БЫСТРОЙ ПРОДАЖИ";
+"bump_up_view_pay_subtitle" = "Привлекайте больше покупателей, поднимая количество просмотров вашего объявления.";
+"bump_up_view_pay_title" = "ПРОДАВАЙТЕ БЫСТРЕЕ";
 "categories_baby_and_child" = "Все для детей";
 "categories_car" = "Машины";
 "categories_cars_and_motors" = "Запчасти и Аксессуары";
@@ -582,6 +582,7 @@
 "product_post_confirmation_another" = "Или";
 "product_post_confirmation_another_button" = "Разместить другой товар";
 "product_post_confirmation_edit" = "Добавить еще детали";
+"product_post_different_country_error" = "Вы не можете размещать объявления в стране, в которой вы не находитесь в текущий момент.";
 "product_post_done" = "Готово";
 "product_post_empty_gallery_button" = "Сделать фото";
 "product_post_empty_gallery_subtitle" = "Сделайте фото товара, который хотите разместить";
@@ -729,6 +730,13 @@
 "rate_user_positive_quick_responses" = "Быстро отвечал";
 "rate_user_positive_showed_up_on_time" = "Пришел вовремя";
 "rate_user_positive_trustworthy" = "Надежный";
+"rating_app_enjoying_alert_title" = "Вам нравится letgo?";
+"rating_app_feedback_no_button" = "Нет, спасибо";
+"rating_app_feedback_title" = "Хотите оставить нам отзыв?";
+"rating_app_feedback_yes_button" = "Конечно!";
+"rating_app_rate_alert_no_button" = "Нет, спасибо";
+"rating_app_rate_alert_title" = "Хотите оценить нас? Этой займет всего 2 секунды";
+"rating_app_rate_alert_yes_button" = "Конечно!";
 "rating_list_action_report_review" = "Пожаловаться на отзыв";
 "rating_list_action_report_review_error_message" = "При отправке произошла ошибка.";
 "rating_list_action_report_review_success_message" = "Ваша жалоба была отправлена!";
@@ -859,6 +867,7 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Создать новый аккаунт";
 "sign_up_username_field_hint" = "Полное имя";
+"suggested_searches_title" = "Предлагаемые запросы";
 "suggestions_last_searches_clear_button" = "Стереть";
 "suggestions_last_searches_title" = "Недавний Поиск";
 "survey_confirmation" = "Спасибо! Ваши отзывы помогают нам быть лучше";

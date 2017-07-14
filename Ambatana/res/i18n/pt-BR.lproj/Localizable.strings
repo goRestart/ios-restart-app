@@ -582,6 +582,7 @@
 "product_post_confirmation_another" = "Or";
 "product_post_confirmation_another_button" = "Post another item";
 "product_post_confirmation_edit" = "Add more details";
+"product_post_different_country_error" = "You can’t post in a country where you’re not currently located.";
 "product_post_done" = "Done";
 "product_post_empty_gallery_button" = "Take Photo";
 "product_post_empty_gallery_subtitle" = "Take a photo of the product you want to post";
@@ -729,6 +730,13 @@
 "rate_user_positive_quick_responses" = "Quick responses";
 "rate_user_positive_showed_up_on_time" = "Showed up on time";
 "rate_user_positive_trustworthy" = "Trustworthy";
+"rating_app_enjoying_alert_title" = "Are you enjoying letgo?";
+"rating_app_feedback_no_button" = "No, thanks";
+"rating_app_feedback_title" = "Want to give us some feedback?";
+"rating_app_feedback_yes_button" = "Sure!";
+"rating_app_rate_alert_no_button" = "No, thanks";
+"rating_app_rate_alert_title" = "Would you like to rate us? It'll only take two seconds";
+"rating_app_rate_alert_yes_button" = "Sure!";
 "rating_list_action_report_review" = "Report review";
 "rating_list_action_report_review_error_message" = "An error occurred while sending your report.";
 "rating_list_action_report_review_success_message" = "Your report has been sent!";
@@ -859,6 +867,7 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Create new account";
 "sign_up_username_field_hint" = "Full name";
+"suggested_searches_title" = "Suggested Searches";
 "suggestions_last_searches_clear_button" = "Clear";
 "suggestions_last_searches_title" = "Recent Searches";
 "survey_confirmation" = "Thank you! Your feedback helps us improve";

@@ -34,8 +34,8 @@
 "bump_up_view_free_title" = "NOSTA TUOTTEESI";
 "bump_up_view_pay_bumps_left_text" = "Sinulla on %i nostoa jäljellä.";
 "bump_up_view_pay_button_title" = "Aktivoi hintaan %@";
-"bump_up_view_pay_subtitle" = "Hanki tuotteellesi enemmän näkyvyyttä siirtämällä se listan kärkeen.";
-"bump_up_view_pay_title" = "NOSTA MYYDÄKSESI NOPEAMMIN";
+"bump_up_view_pay_subtitle" = "Houkuttele enemmän ostajia antamalla tuotteellesi enemmän näkyvyyttä.";
+"bump_up_view_pay_title" = "MYY NOPEAMMIN";
 "categories_baby_and_child" = "Vauvat ja lapset";
 "categories_car" = "Autot";
 "categories_cars_and_motors" = "Ajoneuvot ja varusteet";
@@ -582,6 +582,7 @@
 "product_post_confirmation_another" = "Tai";
 "product_post_confirmation_another_button" = "Julkaise toinen tuote";
 "product_post_confirmation_edit" = "Lisää tietoja";
+"product_post_different_country_error" = "Et voi julkaista maassa, jossa et ole tällä hetkellä.";
 "product_post_done" = "Valmis";
 "product_post_empty_gallery_button" = "Ota kuva";
 "product_post_empty_gallery_subtitle" = "Ota kuva tuotteesta, jonka haluat julkaista";
@@ -729,6 +730,13 @@
 "rate_user_positive_quick_responses" = "Nopeat vastaukset";
 "rate_user_positive_showed_up_on_time" = "Saapui ajallaan";
 "rate_user_positive_trustworthy" = "Luotettava";
+"rating_app_enjoying_alert_title" = "Pidätkö letgosta?";
+"rating_app_feedback_no_button" = "Ei kiitos";
+"rating_app_feedback_title" = "Haluatko antaa meille palautetta?";
+"rating_app_feedback_yes_button" = "Toki!";
+"rating_app_rate_alert_no_button" = "Ei kiitos";
+"rating_app_rate_alert_title" = "Haluaisitko arvostella meidät? Se vie vain pari sekuntia";
+"rating_app_rate_alert_yes_button" = "Toki!";
 "rating_list_action_report_review" = "Ilmianna arvostelu";
 "rating_list_action_report_review_error_message" = "Ilmiantoasi lähetettäessä tapahtui virhe.";
 "rating_list_action_report_review_success_message" = "Ilmiantosi on lähetetty!";
@@ -859,6 +867,7 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Luo uusi tili";
 "sign_up_username_field_hint" = "Koko nimi";
+"suggested_searches_title" = "Suggested Searches";
 "suggestions_last_searches_clear_button" = "Tyhjennä";
 "suggestions_last_searches_title" = "Viimeisimmät haut";
 "survey_confirmation" = "Kiitos! Palautteesi auttaa meitä suoriutumaan paremmin";

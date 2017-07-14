@@ -34,8 +34,8 @@
 "bump_up_view_free_title" = "ÜRÜNÜNÜ ÜSTE ÇIKAR";
 "bump_up_view_pay_bumps_left_text" = "%i adet üste çıkarma hakkın kaldı.";
 "bump_up_view_pay_button_title" = "%@ karşılığında etkinleştir";
-"bump_up_view_pay_subtitle" = "Ürününü üste çıkararak daha fazla kişiye göster.";
-"bump_up_view_pay_title" = "DAHA HIZLI SATMAK İÇİN ÜSTE ÇIKAR";
+"bump_up_view_pay_subtitle" = "Ürününe daha çok görünürlük kazandır daha çok alıcı çek.";
+"bump_up_view_pay_title" = "DAHA HIZLI SAT";
 "categories_baby_and_child" = "Bebek ve Çocuk";
 "categories_car" = "Araba";
 "categories_cars_and_motors" = "Diğer Araçlar ve Yedek Parça";
@@ -582,6 +582,7 @@
 "product_post_confirmation_another" = "veya";
 "product_post_confirmation_another_button" = "Başka bir ürün listele";
 "product_post_confirmation_edit" = "Daha fazla bilgi gir";
+"product_post_different_country_error" = "Şu anda ikamet etmediğin bir ülkeden ürün yükleyemezsin.";
 "product_post_done" = "Onayla";
 "product_post_empty_gallery_button" = "Fotoğraf Çek";
 "product_post_empty_gallery_subtitle" = "Yüklemek istediğin ürünün fotoğrafını çek";
@@ -729,6 +730,13 @@
 "rate_user_positive_quick_responses" = "Çabuk cevaplıyor";
 "rate_user_positive_showed_up_on_time" = "Buluşmaya zamanında geldi";
 "rate_user_positive_trustworthy" = "Güvenilir";
+"rating_app_enjoying_alert_title" = "letgo'dan memnun musun?";
+"rating_app_feedback_no_button" = "Hayır, teşekkürler";
+"rating_app_feedback_title" = "Bizi değerlendirmek ister misin?";
+"rating_app_feedback_yes_button" = "Tabii ki!";
+"rating_app_rate_alert_no_button" = "Hayır, teşekkürler";
+"rating_app_rate_alert_title" = "Bize puan vermek ister misin? Sadece bir kaç saniye sürecek";
+"rating_app_rate_alert_yes_button" = "Tabii ki!";
 "rating_list_action_report_review" = "Yorumu bildir";
 "rating_list_action_report_review_error_message" = "Şikayetin gönderilirken bir hata oluştu.";
 "rating_list_action_report_review_success_message" = "Şikayetin bildirildi!";
@@ -859,6 +867,7 @@
 "sign_up_terms_conditions_terms_part" = "Şartlar ve Koşullarını";
 "sign_up_title" = "Yeni hesap oluştur";
 "sign_up_username_field_hint" = "İsim";
+"suggested_searches_title" = "Önerilen aramalar";
 "suggestions_last_searches_clear_button" = "Temizle";
 "suggestions_last_searches_title" = "Son aramalar";
 "survey_confirmation" = "Teşekkürler! Görüşleriniz letgo'yu geliştirmemize yardımcı oluyor";
@@ -869,14 +878,14 @@
 "tab_bar_tool_tip" = "Eşyalarını Sat";
 "toast_error_internal" = "Oops! Bir şeyler ters gitti.";
 "toast_no_network" = "İnternet bağlantısı yok";
-"tour_claim_label" = "Bulunduğun çevrede hızlı ve güvenli bir şekilde al ve sat.";
+"tour_claim_label" = "Çek, yükle, mesaj at, letgo ile kolay sat!";
 "tour_continue_w_email" = "E-posta ile devam et";
 "tour_email_button" = "e-posta";
 "tour_facebook_button" = "Facebook ile devam et";
 "tour_google_button" = "Google ile devam et";
 "tour_help_button" = "Yardım";
 "tour_or_label" = "veya e-postanı kullan";
-"tour_page_1_body" = "Bulunduğun çevrede hızlı ve güvenli bir şekilde al ve sat.";
+"tour_page_1_body" = "Çek, yükle, mesaj at, letgo ile kolay sat!";
 "trending_searches_Title" = "Popüler Aramalar";
 "unblock_user_error_generic" = "Kullanıcı engeli kaldırılırken bir hata oluştu.";
 "user_rating_add_comment_button" = "Yorum ekle";

@@ -34,8 +34,8 @@
 "bump_up_view_free_title" = "HOLE DEIN ANGEBOT HOCH";
 "bump_up_view_pay_bumps_left_text" = "Du kannst noch %i Angebote hochholen.";
 "bump_up_view_pay_button_title" = "Für %@ aktivieren";
-"bump_up_view_pay_subtitle" = "Mache dein Angebot besonders sichtbar, indem du es ganz nach oben holst.";
-"bump_up_view_pay_title" = "NACH OBEN HOLEN, UM SCHNELLER ZU VERKAUFEN";
+"bump_up_view_pay_subtitle" = "Ziehe mehr Käufer an, indem du dein Angebot sichtbarer machst.";
+"bump_up_view_pay_title" = "SCHNELLER VERKAUFEN";
 "categories_baby_and_child" = "Baby und Kind";
 "categories_car" = "Autos";
 "categories_cars_and_motors" = "Fahrzeuge und Zubehör";
@@ -582,6 +582,7 @@
 "product_post_confirmation_another" = "Oder";
 "product_post_confirmation_another_button" = "Stell noch ein Produkt ein";
 "product_post_confirmation_edit" = "Details hinzufügen";
+"product_post_different_country_error" = "Du kannst keine Produkte in einem Land einstellen, in dem du dich momentan nicht befindest.";
 "product_post_done" = "Fertig";
 "product_post_empty_gallery_button" = "Foto aufnehmen";
 "product_post_empty_gallery_subtitle" = "Mache ein Foto von dem Produkt, das du verkaufen möchtest";
@@ -729,6 +730,13 @@
 "rate_user_positive_quick_responses" = "Antwortete schnell";
 "rate_user_positive_showed_up_on_time" = "War pünktlich";
 "rate_user_positive_trustworthy" = "Vertrauenswürdig";
+"rating_app_enjoying_alert_title" = "Gefällt dir letgo?";
+"rating_app_feedback_no_button" = "Nein, danke";
+"rating_app_feedback_title" = "Möchtest du uns Feedback geben?";
+"rating_app_feedback_yes_button" = "Klar!";
+"rating_app_rate_alert_no_button" = "Nein, danke";
+"rating_app_rate_alert_title" = "Möchtest du uns bewerten? Es dauert nur zwei Sekunden";
+"rating_app_rate_alert_yes_button" = "Klar!";
 "rating_list_action_report_review" = "Bewertung melden";
 "rating_list_action_report_review_error_message" = "Beim Abschicken deiner Nachricht ist ein Fehler aufgetreten.";
 "rating_list_action_report_review_success_message" = "Deine Nachricht wurde abgeschickt!";
@@ -859,6 +867,7 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Neues Benutzerkonto anlegen";
 "sign_up_username_field_hint" = "Vollständiger Name";
+"suggested_searches_title" = "Suggested Searches";
 "suggestions_last_searches_clear_button" = "Löschen";
 "suggestions_last_searches_title" = "Zuletzt gesucht";
 "survey_confirmation" = "Vielen Dank! Dein Feedback hilft uns, letgo zu verbessern";
