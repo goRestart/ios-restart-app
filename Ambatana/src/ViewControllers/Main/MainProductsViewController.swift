@@ -523,12 +523,12 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         guard let sectionType = getSearchSuggestionType(section) else { return 0 }
         switch sectionType {
+        case .suggestive:
+            return viewModel.suggestiveCounter > 0 ? sectionHeight : 0
         case .lastSearch:
             return viewModel.lastSearchesCounter > 0 ? sectionHeight : 0
         case .trending:
             return viewModel.trendingCounter > 0 ? sectionHeight : 0
-        case .suggestive:
-            return viewModel.suggestiveCounter > 0 ? sectionHeight : 0
         }
     }
     
@@ -572,15 +572,15 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
         
         guard let sectionType = getSearchSuggestionType(section) else { return UIView() }
         switch sectionType {
+        case .suggestive:
+            clearButton.isHidden = true
+            //# warning  Localize
+            suggestionTitleLabel.text = "Suggestive"
         case .lastSearch:
             suggestionTitleLabel.text = LGLocalizedString.suggestionsLastSearchesTitle.uppercase
         case .trending:
             clearButton.isHidden = true
             suggestionTitleLabel.text = LGLocalizedString.trendingSearchesTitle.uppercase
-        case .suggestive:
-            clearButton.isHidden = true
-            //# warning  Localize
-            suggestionTitleLabel.text = "Suggestive"
         }
         return container
     }
@@ -615,12 +615,12 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let sectionType = getSearchSuggestionType(section) else { return 0 }
         switch sectionType {
+        case .suggestive:
+            return viewModel.suggestiveCounter
         case .lastSearch:
             return viewModel.lastSearchesCounter
         case .trending:
             return viewModel.trendingCounter
-        case .suggestive:
-            return viewModel.suggestiveCounter
         }
     }
 
@@ -629,15 +629,15 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
         guard let cell = tableView.dequeueReusableCell(withIdentifier: SuggestionSearchCell.reusableID,
                             for: indexPath) as? SuggestionSearchCell else { return UITableViewCell() }
         switch sectionType {
+        case .suggestive:
+            guard let suggestiveSearch = viewModel.suggestiveSearchAtIndex(indexPath.row) else { return UITableViewCell() }
+            cell.suggestionText.text = suggestiveSearch.name
         case .lastSearch:
             guard let lastSearch = viewModel.lastSearchAtIndex(indexPath.row) else { return UITableViewCell() }
             cell.suggestionText.text = lastSearch
         case .trending:
             guard let trendingSearch = viewModel.trendingSearchAtIndex(indexPath.row) else { return UITableViewCell() }
             cell.suggestionText.text = trendingSearch
-        case .suggestive:
-            guard let suggestiveSearch = viewModel.suggestiveSearchAtIndex(indexPath.row) else { return UITableViewCell() }
-            cell.suggestionText.text = suggestiveSearch.name
         }
         return cell
     }
@@ -645,12 +645,12 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let sectionType = getSearchSuggestionType(indexPath.section) else { return }
         switch sectionType {
+        case .suggestive:
+            viewModel.selectedSuggestiveSearchAtIndex(indexPath.row)
         case .lastSearch:
             viewModel.selectedLastSearchAtIndex(indexPath.row)
         case .trending:
             viewModel.selectedTrendingSearchAtIndex(indexPath.row)
-        case .suggestive:
-            viewModel.selectedSuggestiveSearchAtIndex(indexPath.row)
         }
     }
 }
@@ -659,11 +659,11 @@ fileprivate extension MainProductsViewController {
     func getSearchSuggestionType(_ section: Int) -> SearchSuggestionType? {
         switch section {
         case 0:
-            return .lastSearch
-        case 1:
-            return .trending
-        case 2:
             return .suggestive
+        case 1:
+            return .lastSearch
+        case 2:
+            return .trending
         default:
             return nil
         }
