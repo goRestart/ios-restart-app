@@ -16,6 +16,7 @@ import RxSwift
 enum SearchSuggestionType {
     case lastSearch
     case trending
+    case suggestive
 }
 
 class MainProductsViewController: BaseViewController, ProductListViewScrollDelegate, MainProductsViewModelDelegate,
@@ -41,7 +42,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     fileprivate let horizontalMarginHeaderView: CGFloat = 16
     fileprivate let sectionHeight: CGFloat = 54
     fileprivate let firstSectionMarginTop: CGFloat = -36
-    fileprivate let numberOfSuggestionSections = 2
+    fileprivate let numberOfSuggestionSections = 3
     @IBOutlet weak var infoBubbleLabel: UILabel!
     @IBOutlet weak var infoBubbleShadow: UIView!
     @IBOutlet weak var infoBubbleArrow: UIImageView!
@@ -505,8 +506,8 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
                                                toItem: topLayoutGuide, attribute: .bottom, multiplier: 1.0, constant: 0)
         view.addConstraint(topConstraint)
         
-        Observable.combineLatest(viewModel.trendingSearches.asObservable(), viewModel.lastSearches.asObservable()) { trendings, lastSearches in
-            return trendings.count + lastSearches.count
+        Observable.combineLatest(viewModel.trendingSearches.asObservable(), viewModel.suggestiveSearches.asObservable(), viewModel.lastSearches.asObservable()) { trendings, suggestiveSearches, lastSearches in
+            return trendings.count + suggestiveSearches.count + lastSearches.count
             }.bindNext { [weak self] totalCount in
                 self?.suggestionsSearchesTable.reloadData()
                 self?.suggestionsSearchesTable.isHidden = totalCount == 0
@@ -526,6 +527,8 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
             return viewModel.lastSearchesCounter > 0 ? sectionHeight : 0
         case .trending:
             return viewModel.trendingCounter > 0 ? sectionHeight : 0
+        case .suggestive:
+            return viewModel.suggestiveCounter > 0 ? sectionHeight : 0
         }
     }
     
@@ -574,6 +577,10 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
         case .trending:
             clearButton.isHidden = true
             suggestionTitleLabel.text = LGLocalizedString.trendingSearchesTitle.uppercase
+        case .suggestive:
+            clearButton.isHidden = true
+            //# warning  Localize
+            suggestionTitleLabel.text = "Suggestive"
         }
         return container
     }
@@ -612,6 +619,8 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
             return viewModel.lastSearchesCounter
         case .trending:
             return viewModel.trendingCounter
+        case .suggestive:
+            return viewModel.suggestiveCounter
         }
     }
 
@@ -626,6 +635,9 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
         case .trending:
             guard let trendingSearch = viewModel.trendingSearchAtIndex(indexPath.row) else { return UITableViewCell() }
             cell.suggestionText.text = trendingSearch
+        case .suggestive:
+            guard let suggestiveSearch = viewModel.suggestiveSearchAtIndex(indexPath.row) else { return UITableViewCell() }
+            cell.suggestionText.text = suggestiveSearch.name
         }
         return cell
     }
@@ -637,6 +649,8 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
             viewModel.selectedLastSearchAtIndex(indexPath.row)
         case .trending:
             viewModel.selectedTrendingSearchAtIndex(indexPath.row)
+        case .suggestive:
+            viewModel.selectedSuggestiveSearchAtIndex(indexPath.row)
         }
     }
 }
@@ -648,6 +662,8 @@ fileprivate extension MainProductsViewController {
             return .lastSearch
         case 1:
             return .trending
+        case 2:
+            return .suggestive
         default:
             return nil
         }

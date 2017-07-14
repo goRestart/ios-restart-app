@@ -16,4 +16,5 @@ struct ProductionEnvironment: Environment {
     let notificationsBaseURL = "https://notifications.letgo.com/api"
     let passiveBuyersBaseURL = "https://passivebuyers.letgo.com/api"
     let paymentsBaseURL = "https://payment.letgo.com/payment"
+    let suggestiveSearchesBaseURL = "https://suggestivesearch.letgo.com"
 }

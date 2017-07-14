@@ -1,5 +1,5 @@
 //
-//  ProductsViewModel.swift
+//  MainProductsViewModel.swift
 //  letgo
 //
 //  Created by AHL on 3/5/15.
@@ -37,7 +37,7 @@ class MainProductsViewModel: BaseViewModel {
         switch searchType {
         case .collection:
             return true
-        case .user, .trending, .lastSearch:
+        case .user, .trending, .suggestive, .lastSearch:
             return false
         }
     }
@@ -195,12 +195,16 @@ class MainProductsViewModel: BaseViewModel {
     let lastSearchesSavedMaximum = 10
     let lastSearchesShowMaximum = 3
     let trendingSearches = Variable<[String]>([])
+    let suggestiveSearches = Variable<[SuggestiveSearch]>([])
     let lastSearches = Variable<[String]>([])
     var lastSearchesCounter: Int {
         return lastSearches.value.count
     }
     var trendingCounter: Int {
         return trendingSearches.value.count
+    }
+    var suggestiveCounter: Int {
+        return suggestiveSearches.value.count
     }
 
     fileprivate let disposeBag = DisposeBag()
@@ -282,6 +286,7 @@ class MainProductsViewModel: BaseViewModel {
             retrieveProductsIfNeededWithNewLocation(currentLocation)
             retrieveLastUserSearch()
             retrieveTrendingSearches()
+            retrieveSuggestiveSearches()
         }
     }
 
@@ -711,6 +716,7 @@ extension MainProductsViewModel {
         retrieveProductsIfNeededWithNewLocation(newLocation)
         retrieveLastUserSearch()
         retrieveTrendingSearches()
+        retrieveSuggestiveSearches()
     }
 
     fileprivate func retrieveProductsIfNeededWithNewLocation(_ newLocation: LGLocation) {
@@ -761,6 +767,11 @@ extension MainProductsViewModel {
         return trendingSearches.value[index]
     }
     
+    func suggestiveSearchAtIndex(_ index: Int) -> SuggestiveSearch? {
+        guard  0..<suggestiveSearches.value.count ~= index else { return nil }
+        return suggestiveSearches.value[index]
+    }
+    
     func lastSearchAtIndex(_ index: Int) -> String? {
         guard 0..<lastSearches.value.count ~= index else { return nil }
         return lastSearches.value[index]
@@ -770,6 +781,13 @@ extension MainProductsViewModel {
         guard let trendingSearch = trendingSearchAtIndex(index), !trendingSearch.isEmpty else { return }
         delegate?.vmDidSearch()
         navigator?.openMainProduct(withSearchType: .trending(query: trendingSearch), productFilters: filters)
+    }
+    
+    func selectedSuggestiveSearchAtIndex(_ index: Int) {
+        guard let suggestiveSearch = suggestiveSearchAtIndex(index) else { return }
+        guard let suggestiveSearchName = suggestiveSearch.name else { return }
+        delegate?.vmDidSearch()
+        navigator?.openMainProduct(withSearchType: .suggestive(query: suggestiveSearchName), productFilters: filters)
     }
     
     func selectedLastSearchAtIndex(_ index: Int) {
@@ -800,6 +818,14 @@ extension MainProductsViewModel {
 
         suggestedSearchesRepository.index(currentCountryCode) { [weak self] result in
             self?.trendingSearches.value = result.value ?? []
+        }
+    }
+    
+    fileprivate func retrieveSuggestiveSearches() {
+        guard let currentCountryCode = locationManager.currentLocation?.countryCode else { return }
+        
+        suggestedSearchesRepository.retrieveSuggestiveSearches(currentCountryCode, limit: 20, term: "do") { [weak self] result in
+            self?.suggestiveSearches.value = result.value ?? []
         }
     }
     
@@ -918,7 +944,7 @@ fileprivate extension MainProductsViewModel {
             switch searchType {
             case .collection:
                 return .collection
-            case .user, .trending, .lastSearch:
+            case .user, .trending, .suggestive, .lastSearch:
                 if !hasFilters {
                     return .search
                 } else {

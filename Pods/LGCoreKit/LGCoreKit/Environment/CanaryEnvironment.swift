@@ -16,4 +16,5 @@ struct CanaryEnvironment: Environment {
     let notificationsBaseURL = "http://notifications.canary.letgo.com/api"
     let passiveBuyersBaseURL = "http://passivebuyers.letgo.com/api"
     let paymentsBaseURL = "https://payment.canary.letgo.com/payment"
+    let suggestiveSearchesBaseURL = "https://suggestivesearch.letgo.com"
 }

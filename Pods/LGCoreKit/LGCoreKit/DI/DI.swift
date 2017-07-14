@@ -30,7 +30,7 @@ public protocol DI: class {
     var chatRepository: ChatRepository { get }
     var notificationsRepository: NotificationsRepository { get }
     var stickersRepository: StickersRepository { get }
-    var trendingSearchesRepository: TrendingSearchesRepository { get }
+    var suggestedSearchesRepository: SuggestedSearchesRepository { get }
     var categoryRepository: CategoryRepository { get }
     var userRatingRepository: UserRatingRepository { get }
     var monetizationRepository: MonetizationRepository { get }

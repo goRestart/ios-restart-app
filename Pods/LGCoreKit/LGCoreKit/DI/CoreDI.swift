@@ -143,8 +143,8 @@ final class CoreDI: InternalDI {
         self.stickersRepository = LGStickersRepository(dataSource: stickersDataSoruce,
                                                        stickersDAO: stickersDAO)
 
-        let trendingSearchesDataSource = TrendingSearchesApiDataSource(apiClient: self.apiClient)
-        self.trendingSearchesRepository = LGTrendingSearchesRepository(dataSource: trendingSearchesDataSource)
+        let suggestedSearchesDataSource = SuggestedSearchesApiDataSource(apiClient: self.apiClient)
+        self.suggestedSearchesRepository = LGSuggestedSearchesRepository(dataSource: suggestedSearchesDataSource)
 
         let userRatingDataSource = UserRatingApiDataSource(apiClient: self.apiClient)
         self.userRatingRepository = LGUserRatingRepository(dataSource: userRatingDataSource,
@@ -216,7 +216,7 @@ final class CoreDI: InternalDI {
     let chatRepository: ChatRepository
     let notificationsRepository: NotificationsRepository
     let stickersRepository: StickersRepository
-    let trendingSearchesRepository: TrendingSearchesRepository
+    let suggestedSearchesRepository: SuggestedSearchesRepository
     let userRatingRepository: UserRatingRepository
     let passiveBuyersRepository: PassiveBuyersRepository
     let carsInfoRepository: CarsInfoRepository
