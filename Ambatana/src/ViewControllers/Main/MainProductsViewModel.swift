@@ -42,6 +42,7 @@ class MainProductsViewModel: BaseViewModel {
         }
     }
     let bannerCellPosition: Int = 8
+    let suggestedSearchesLimit: Int = 10
     var filters: ProductFilters
     var queryString: String?
 
@@ -822,7 +823,7 @@ extension MainProductsViewModel {
     func retrieveSuggestiveSearches(term: String) {
         guard let currentCountryCode = locationManager.currentLocation?.countryCode else { return }
         
-        suggestedSearchesRepository.retrieveSuggestiveSearches(currentCountryCode, limit: 5, term: term) { [weak self] result in
+        suggestedSearchesRepository.retrieveSuggestiveSearches(currentCountryCode, limit: 10, term: term) { [weak self] result in
             self?.suggestiveSearches.value = result.value ?? []
         }
     }

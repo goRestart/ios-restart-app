@@ -637,7 +637,9 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
         switch sectionType {
         case .suggestive:
             guard let suggestiveSearch = viewModel.suggestiveSearchAtIndex(indexPath.row) else { return UITableViewCell() }
-            cell.suggestionText.text = suggestiveSearch.name
+            var suggestiveSearchBoldAttributed = NSAttributedString(string: suggestiveSearch.name!)
+            suggestiveSearchBoldAttributed = suggestiveSearchBoldAttributed.setBoldPartFromTerm(navbarSearch.searchTextField.text!)
+            cell.suggestionText.attributedText = suggestiveSearchBoldAttributed
         case .lastSearch:
             guard let lastSearch = viewModel.lastSearchAtIndex(indexPath.row) else { return UITableViewCell() }
             cell.suggestionText.text = lastSearch
