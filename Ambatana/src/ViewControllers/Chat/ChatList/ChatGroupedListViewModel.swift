@@ -115,7 +115,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     // MARK: - Public methods
 
     func objectAtIndex(_ index: Int) -> T? {
-        guard index < objectCount else { return nil }
+        guard index < objects.value.count else { return nil }
         return objects.value[index]
     }
 

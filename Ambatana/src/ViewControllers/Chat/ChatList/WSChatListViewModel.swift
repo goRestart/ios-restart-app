@@ -14,6 +14,7 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
     private var chatRepository: ChatRepository
 
     private(set) var chatsType: ChatsType
+    private var selectedConversationIds: Set<String>
     weak var delegate: ChatListViewModelDelegate?
 
     var titleForDeleteButton: String {
@@ -36,6 +37,7 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
                      tabNavigator: TabNavigator?) {
         self.chatRepository = chatRepository
         self.chatsType = chatsType
+        self.selectedConversationIds = Set<String>()
         
         let collectionVariable: CollectionVariable<ChatConversation>
         switch chatsType {
@@ -74,7 +76,26 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
                                           completion: completion)
     }
 
-    func conversationSelectedAtIndex(_ index: Int) {
+    func isConversationSelected(index: Int) -> Bool {
+        guard let conversation = objectAtIndex(index), let id = conversation.objectId else { return false }
+        return selectedConversationIds.contains(id)
+    }
+    
+    func selectConversation(index: Int) {
+        guard let conversation = objectAtIndex(index), let id = conversation.objectId else { return }
+        selectedConversationIds.insert(id)
+    }
+    
+    func deselectConversation(index: Int) {
+        guard let conversation = objectAtIndex(index), let id = conversation.objectId else { return }
+        selectedConversationIds.remove(id)
+    }
+    
+    func deselectAllConversations() {
+        selectedConversationIds.removeAll()
+    }
+    
+    func openConversation(index: Int) {
         guard let conversation = objectAtIndex(index) else { return }
         tabNavigator?.openChat(.conversation(conversation: conversation), source: .chatList, predefinedMessage: nil)
     }
@@ -106,7 +127,17 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
     // MARK: > Send
 
     func deleteButtonPressed() {
-        delegate?.vmDeleteSelectedChats()
+        guard !selectedConversationIds.isEmpty else { return }
+
+        let conversationIds = Array(selectedConversationIds)
+        chatRepository.archiveConversations(conversationIds) { [weak self] result in
+            guard let strongSelf = self else { return }
+            if let _ = result.error {
+                strongSelf.delegate?.chatListViewModelDidFailArchivingChats(strongSelf)
+            } else {
+                strongSelf.delegate?.chatListViewModelDidSucceedArchivingChats(strongSelf)
+            }
+        }
     }
 
     func deleteConfirmationTitle(_ itemCount: Int) -> String {
@@ -125,20 +156,6 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
 
     func deleteConfirmationSendButton() -> String {
         return LGLocalizedString.chatListDeleteAlertSend
-    }
-
-    func deleteChatsAtIndexes(_ indexes: [Int]) {
-        let conversationIds: [String] = indexes.filter { $0 < objectCount && $0 >= 0 }.flatMap {
-            objectAtIndex($0)?.objectId
-        }
-        chatRepository.archiveConversations(conversationIds) { [weak self] result in
-            guard let strongSelf = self else { return }
-            if let _ = result.error {
-                strongSelf.delegate?.chatListViewModelDidFailArchivingChats(strongSelf)
-            } else {
-                strongSelf.delegate?.chatListViewModelDidSucceedArchivingChats(strongSelf)
-            }
-        }
     }
 
 
