@@ -46,6 +46,7 @@ final class AppCoordinator: NSObject, Coordinator {
     fileprivate let userRatingRepository: UserRatingRepository
     fileprivate let featureFlags: FeatureFlaggeable
     fileprivate let locationManager: LocationManager
+    fileprivate let installationRepository: InstallationRepository
 
     weak var delegate: AppNavigatorDelegate?
 
@@ -71,6 +72,7 @@ final class AppCoordinator: NSObject, Coordinator {
                   oldChatRepository: Core.oldChatRepository,
                   chatRepository: Core.chatRepository,
                   userRatingRepository: Core.userRatingRepository,
+                  installationRepository: Core.installationRepository,
                   locationManager: Core.locationManager,
                   featureFlags: FeatureFlags.sharedInstance)
         tabBarViewModel.navigator = self
@@ -91,6 +93,7 @@ final class AppCoordinator: NSObject, Coordinator {
          oldChatRepository: OldChatRepository,
          chatRepository: ChatRepository,
          userRatingRepository: UserRatingRepository,
+         installationRepository: InstallationRepository,
          locationManager: LocationManager,
          featureFlags: FeatureFlaggeable) {
 
@@ -120,6 +123,7 @@ final class AppCoordinator: NSObject, Coordinator {
         self.oldChatRepository = oldChatRepository
         self.chatRepository = chatRepository
         self.userRatingRepository = userRatingRepository
+        self.installationRepository = installationRepository
         
         self.featureFlags = featureFlags
         self.locationManager = locationManager
@@ -194,20 +198,127 @@ extension AppCoordinator: AppNavigator {
     }
 
     func openSell(_ source: PostingSource) {
+        openAppRating(.chat)
+        return
         let sellCoordinator = SellCoordinator(source: source)
         sellCoordinator.delegate = self
         openChild(coordinator: sellCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
     }
 
+    // MARK: App Review
+    
     func openAppRating(_ source: EventParameterRatingSource) {
-        guard ratingManager.shouldShowRating else { return }
+        //guard ratingManager.shouldShowRating else { return }
+        
         if #available(iOS 10.3, *) {
-            // new rating
-            
+            switch source {
+            case .markedSold:
+                
+                break
+            case .chat, .favorite, .productSellComplete:
+                guard canOpenAppStoreWriteReviewWebsite() else { return }
+                askUserIsEnjoyingLetgo()
+            }
         } else {
             tabBarCtl.showAppRatingView(source)
         }
     }
+    
+    private func askUserIsEnjoyingLetgo() {
+        let yesButtonInterface = UIActionInterface.image(UIImage(named: "ic_emoji_yes"), nil)
+        let rateAppAlertAction = UIAction(interface: yesButtonInterface, action: { [weak self] in
+            self?.askUserToRateApp()
+        })
+        let noButtonInterface = UIActionInterface.image(UIImage(named: "ic_emoji_no"), nil)
+        let feedbackAlertAction = UIAction(interface: noButtonInterface, action: { [weak self] in
+            self?.askUserToGiveFeedback()
+        })
+        openCustomAlert(title: LGLocalizedString.ratingAppEnjoyingAlertTitle,
+                        text: "",
+                        alertType: .plainAlert,
+                        buttonsLayout: .emojis,
+                        actions: [feedbackAlertAction, rateAppAlertAction],
+                        simulatePushTransitionOnDismiss: true)
+    }
+    
+    private func askUserToRateApp() {
+        let rateAppInterface = UIActionInterface.button(LGLocalizedString.ratingAppRateAlertYesButton,
+                                                             ButtonStyle.primary(fontSize: .medium))
+        let rateAppAction = UIAction(interface: rateAppInterface, action: { [weak self] in
+            self?.openAppStoreWriteReviewWebsite()
+        })
+        let exitInterface = UIActionInterface.button(LGLocalizedString.ratingAppRateAlertNoButton,
+                                                     ButtonStyle.secondary(fontSize: .medium,
+                                                                           withBorder: true))
+        let exitAction = UIAction(interface: exitInterface, action: {})
+        openCustomAlert(title: LGLocalizedString.ratingAppRateAlertTitle,
+                        text: "",
+                        alertType: .plainAlert,
+                        buttonsLayout: .vertical,
+                        actions: [rateAppAction, exitAction],
+                        simulatePushTransitionOnPresent: true)
+    }
+    
+    private func askUserToGiveFeedback() {
+        let giveFeedbackInterface = UIActionInterface.button(LGLocalizedString.ratingAppFeedbackYesButton,
+                                                             ButtonStyle.primary(fontSize: .medium))
+        let giveFeedbackAction = UIAction(interface: giveFeedbackInterface, action: { [weak self] in
+            self?.openAppStoreWriteReviewInApp()
+        })
+        let exitInterface = UIActionInterface.button(LGLocalizedString.ratingAppFeedbackNoButton,
+                                                     ButtonStyle.secondary(fontSize: .medium,
+                                                                           withBorder: true))
+        let exitAction = UIAction(interface: exitInterface, action: {})
+        tabBarCtl.showAlertWithTitle(LGLocalizedString.ratingAppFeedbackTitle,
+                                           text: "",
+                                           alertType: .plainAlert,
+                                           buttonsLayout: .vertical,
+                                           actions: [giveFeedbackAction, exitAction])
+    }
+    
+    private func canOpenAppStoreWriteReviewWebsite() -> Bool {
+        if let url = URL(string: Constants.appStoreWriteReviewURL) {
+            return UIApplication.shared.canOpenURL(url)
+        }
+        return false
+    }
+    
+    private func openAppStoreWriteReviewWebsite() {
+        if let url = URL(string: Constants.appStoreWriteReviewURL) {
+            UIApplication.shared.openURL(url)
+        }
+    }
+    
+    private func openAppStoreWriteReviewInApp() {
+        guard let email = myUserRepository.myUser?.email,
+            let installation = installationRepository.installation,
+            let contactURL = LetgoURLHelper.buildContactUsURL(userEmail: email, installation: installation) else {
+                return
+        }
+        viewController.openInternalUrl(contactURL)
+    }
+    
+    private func openCustomAlert(title: String?,
+                                 text: String,
+                                 alertType: AlertType,
+                                 buttonsLayout: AlertButtonsLayout = .horizontal,
+                                 actions: [UIAction]?,
+                                 simulatePushTransitionOnPresent: Bool = false,
+                                 simulatePushTransitionOnDismiss: Bool = false,
+                                 dismissAction: (() -> ())? = nil) {
+        
+        guard let alert = LGAlertViewController(title: title,
+                                                text: text,
+                                                alertType: alertType,
+                                                buttonsLayout: buttonsLayout,
+                                                actions: actions,
+                                                dismissAction: dismissAction) else { return }
+        alert.simulatePushTransitionOnPresent = simulatePushTransitionOnPresent
+        alert.simulatePushTransitionOnDismiss = simulatePushTransitionOnDismiss
+        tabBarCtl.present(alert, animated: true, completion: nil)
+    }
+    
+    // MARK -
 
     func openUserRating(_ source: RateUserSource, data: RateUserData) {
         let userRatingCoordinator = UserRatingCoordinator(source: source, data: data)

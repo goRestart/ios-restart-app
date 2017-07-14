@@ -2248,6 +2248,27 @@
 // Rate user quick response positive
 "rate_user_positive_trustworthy" = "Trustworthy";
 
+// Alert asking if the user is enjoying Letgo
+"rating_app_enjoying_alert_title" = "Are you enjoying letgo?";
+
+// Alert asking to rate the Letgo app
+"rating_app_rate_alert_title" = "Would you like to rate us? It'll only take two seconds";
+
+// Alert asking to rate the Letgo app - button Yes
+"rating_app_rate_alert_yes_button" = "Sure!";
+
+// Alert asking to rate the Letgo app - button No
+"rating_app_rate_alert_no_button" = "No, thanks";
+
+// Alert asking is user would like to give feedback for the app
+"rating_app_feedback_title" = "Want to give us some feedback?";
+
+// Alert asking is user would like to give feedback for the app - button Yes
+"rating_app_feedback_yes_button" = "Sure!";
+
+// Alert asking is user would like to give feedback for the app - button No
+"rating_app_feedback_no_button" = "No, thanks";
+
 // action for user to report a review by another user
 "rating_list_action_report_review" = "Report review";
 

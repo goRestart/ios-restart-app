@@ -587,7 +587,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
         delegate?.vmHideKeyboard()
         delegate?.vmShowAlertWithTitle(nil, text: LGLocalizedString.editProductUnsavedChangesAlert,
-                                       alertType: .plainAlert, actions: [cancelAction, discardAction])
+                                       alertType: .plainAlertOld, actions: [cancelAction, discardAction])
     }
 
     private func closeEdit() {

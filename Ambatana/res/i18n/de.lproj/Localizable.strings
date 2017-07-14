@@ -34,8 +34,8 @@
 "bump_up_view_free_title" = "HOLE DEIN ANGEBOT HOCH";
 "bump_up_view_pay_bumps_left_text" = "Du kannst noch %i Angebote hochholen.";
 "bump_up_view_pay_button_title" = "Für %@ aktivieren";
-"bump_up_view_pay_subtitle" = "Mache dein Angebot besonders sichtbar, indem du es ganz nach oben holst.";
-"bump_up_view_pay_title" = "NACH OBEN HOLEN, UM SCHNELLER ZU VERKAUFEN";
+"bump_up_view_pay_subtitle" = "Ziehe mehr Käufer an, indem du dein Angebot sichtbarer machst.";
+"bump_up_view_pay_title" = "SCHNELLER VERKAUFEN";
 "categories_baby_and_child" = "Baby und Kind";
 "categories_car" = "Autos";
 "categories_cars_and_motors" = "Fahrzeuge und Zubehör";
@@ -729,6 +729,13 @@
 "rate_user_positive_quick_responses" = "Antwortete schnell";
 "rate_user_positive_showed_up_on_time" = "War pünktlich";
 "rate_user_positive_trustworthy" = "Vertrauenswürdig";
+"rating_app_enjoying_alert_title" = "Are you enjoying letgo?";
+"rating_app_feedback_no_button" = "No, thanks";
+"rating_app_feedback_title" = "Want to give us some feedback?";
+"rating_app_feedback_yes_button" = "Sure!";
+"rating_app_rate_alert_no_button" = "No, thanks";
+"rating_app_rate_alert_title" = "Would you like to rate us? It'll only take two seconds";
+"rating_app_rate_alert_yes_button" = "Sure!";
 "rating_list_action_report_review" = "Bewertung melden";
 "rating_list_action_report_review_error_message" = "Beim Abschicken deiner Nachricht ist ein Fehler aufgetreten.";
 "rating_list_action_report_review_success_message" = "Deine Nachricht wurde abgeschickt!";

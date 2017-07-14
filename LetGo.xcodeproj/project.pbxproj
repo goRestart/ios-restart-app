@@ -6585,7 +6585,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/3rd-Party/**",
 				);
-				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
+				OTHER_SWIFT_FLAGS = "-Xfrontend -debug-time-function-bodies";
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
 				PRODUCT_NAME = LetGo;
 				PROVISIONING_PROFILE = "e9244d98-cc36-4d89-bf26-51c0bff66ef8";
@@ -6619,7 +6619,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/3rd-Party/**",
 				);
-				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
+				OTHER_SWIFT_FLAGS = "-Xfrontend -debug-time-function-bodies";
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
 				PRODUCT_NAME = LetGo;
 				PROVISIONING_PROFILE = "3c1f5276-ba35-49ab-b57d-9a0a2335a4ce";
@@ -6802,7 +6802,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/3rd-Party/**",
 				);
-				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG -D GOD_MODE";
+				OTHER_SWIFT_FLAGS = "-Xfrontend -debug-time-function-bodies";
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "e9244d98-cc36-4d89-bf26-51c0bff66ef8";
@@ -6836,7 +6836,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/3rd-Party/**",
 				);
-				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D GOD_MODE";
+				OTHER_SWIFT_FLAGS = "-Xfrontend -debug-time-function-bodies";
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "3c1f5276-ba35-49ab-b57d-9a0a2335a4ce";
@@ -6869,7 +6869,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/3rd-Party/**",
 				);
-				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D GOD_MODE";
+				OTHER_SWIFT_FLAGS = "-Xfrontend -debug-time-function-bodies";
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "3004d0f2-16fa-430c-a26b-8b41c2987936";
@@ -6943,7 +6943,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/3rd-Party/**",
 				);
-				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
+				OTHER_SWIFT_FLAGS = "-Xfrontend -debug-time-function-bodies";
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
 				PRODUCT_NAME = LetGo;
 				PROVISIONING_PROFILE = "3004d0f2-16fa-430c-a26b-8b41c2987936";

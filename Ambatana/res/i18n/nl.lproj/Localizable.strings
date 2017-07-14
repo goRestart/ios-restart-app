@@ -34,8 +34,8 @@
 "bump_up_view_free_title" = "JE ITEM OMHOOG PLAATSEN";
 "bump_up_view_pay_bumps_left_text" = "Je kunt nog %i keer omhoog plaatsen.";
 "bump_up_view_pay_button_title" = "Activeren voor %@";
-"bump_up_view_pay_subtitle" = "Geef je item meer zichtbaarheid door het bovenaan te verplaatsen.";
-"bump_up_view_pay_title" = "OMHOOG PLAATSEN OM SNELLER TE VERKOPEN";
+"bump_up_view_pay_subtitle" = "Trek meer kopers aan door je advertentie meer zichtbaarheid te geven.";
+"bump_up_view_pay_title" = "SNELLER VERKOPEN";
 "categories_baby_and_child" = "Baby en kind";
 "categories_car" = "Auto's";
 "categories_cars_and_motors" = "Motors en Accessoires";
@@ -729,6 +729,13 @@
 "rate_user_positive_quick_responses" = "Snelle antwoorden";
 "rate_user_positive_showed_up_on_time" = "Kwam op tijd";
 "rate_user_positive_trustworthy" = "Betrouwbaar";
+"rating_app_enjoying_alert_title" = "Are you enjoying letgo?";
+"rating_app_feedback_no_button" = "No, thanks";
+"rating_app_feedback_title" = "Want to give us some feedback?";
+"rating_app_feedback_yes_button" = "Sure!";
+"rating_app_rate_alert_no_button" = "No, thanks";
+"rating_app_rate_alert_title" = "Would you like to rate us? It'll only take two seconds";
+"rating_app_rate_alert_yes_button" = "Sure!";
 "rating_list_action_report_review" = "Rapporteer beoordeling";
 "rating_list_action_report_review_error_message" = "Er is een fout opgetreden tijdens het versturen van jouw melding.";
 "rating_list_action_report_review_success_message" = "Jouw melding is verzonden!";

@@ -34,8 +34,8 @@
 "bump_up_view_free_title" = "ПОДНИМИТЕ ВАШЕ ОБЪЯВЛЕНИЕ";
 "bump_up_view_pay_bumps_left_text" = "У вас осталось %i продвижений.";
 "bump_up_view_pay_button_title" = "Активировать за %@";
-"bump_up_view_pay_subtitle" = "Повысьте количество просмотров вашего объявления, поднимая его наверх в списке.";
-"bump_up_view_pay_title" = "ПОДНИМИТЕ ДЛЯ БЫСТРОЙ ПРОДАЖИ";
+"bump_up_view_pay_subtitle" = "Привлекайте больше покупателей, поднимая количество просмотров вашего объявления.";
+"bump_up_view_pay_title" = "ПРОДАВАЙТЕ БЫСТРЕЕ";
 "categories_baby_and_child" = "Все для детей";
 "categories_car" = "Машины";
 "categories_cars_and_motors" = "Запчасти и Аксессуары";
@@ -729,6 +729,13 @@
 "rate_user_positive_quick_responses" = "Быстро отвечал";
 "rate_user_positive_showed_up_on_time" = "Пришел вовремя";
 "rate_user_positive_trustworthy" = "Надежный";
+"rating_app_enjoying_alert_title" = "Are you enjoying letgo?";
+"rating_app_feedback_no_button" = "No, thanks";
+"rating_app_feedback_title" = "Want to give us some feedback?";
+"rating_app_feedback_yes_button" = "Sure!";
+"rating_app_rate_alert_no_button" = "No, thanks";
+"rating_app_rate_alert_title" = "Would you like to rate us? It'll only take two seconds";
+"rating_app_rate_alert_yes_button" = "Sure!";
 "rating_list_action_report_review" = "Пожаловаться на отзыв";
 "rating_list_action_report_review_error_message" = "При отправке произошла ошибка.";
 "rating_list_action_report_review_success_message" = "Ваша жалоба была отправлена!";

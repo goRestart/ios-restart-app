@@ -34,8 +34,8 @@
 "bump_up_view_free_title" = "리스팅 강조하기";
 "bump_up_view_pay_bumps_left_text" = "사용자께서는 강조 기회가 %번 남으셨습니다.";
 "bump_up_view_pay_button_title" = "%@ 활성화";
-"bump_up_view_pay_subtitle" = "귀하의 목록이 더 잘 보일수 있도록 상단으로 옮겨주세요.";
-"bump_up_view_pay_title" = "빠른 판매를 위해 강조하세요";
+"bump_up_view_pay_subtitle" = "귀하의 목록이 더 잘 보일 수 있도록 옮겨 좀 더 많은 구매자를 끌어내세요.";
+"bump_up_view_pay_title" = "더 빨리 판매하세요";
 "categories_baby_and_child" = "유아동";
 "categories_car" = "자동차";
 "categories_cars_and_motors" = "다른 운송 수단들과 부품들";
@@ -729,6 +729,13 @@
 "rate_user_positive_quick_responses" = "빠른 응답";
 "rate_user_positive_showed_up_on_time" = "제 시간에 나왔습니다";
 "rate_user_positive_trustworthy" = "신뢰할 수 있음";
+"rating_app_enjoying_alert_title" = "Are you enjoying letgo?";
+"rating_app_feedback_no_button" = "No, thanks";
+"rating_app_feedback_title" = "Want to give us some feedback?";
+"rating_app_feedback_yes_button" = "Sure!";
+"rating_app_rate_alert_no_button" = "No, thanks";
+"rating_app_rate_alert_title" = "Would you like to rate us? It'll only take two seconds";
+"rating_app_rate_alert_yes_button" = "Sure!";
 "rating_list_action_report_review" = "리뷰 신고하기";
 "rating_list_action_report_review_error_message" = "신고를 발송하는동안 오류가 발생했습니다.";
 "rating_list_action_report_review_success_message" = "신고가 발송되었습니다!";

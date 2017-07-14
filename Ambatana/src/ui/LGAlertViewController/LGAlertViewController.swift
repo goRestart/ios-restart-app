@@ -10,13 +10,15 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+
 enum AlertType {
     case plainAlert
+    case plainAlertOld
     case iconAlert(icon: UIImage?)
 
     var titleTopSeparation: CGFloat {
         switch self {
-        case .plainAlert:
+        case .plainAlertOld, .plainAlert:
             return 20
         case let .iconAlert(icon):
             return icon == nil ? 20 : 75
@@ -25,7 +27,7 @@ enum AlertType {
 
     var contentTopSeparation: CGFloat {
         switch self {
-        case .plainAlert:
+        case .plainAlertOld, .plainAlert:
             return 0
         case let .iconAlert(icon):
             return icon == nil ? 0 : 55
@@ -38,12 +40,40 @@ enum AlertType {
 }
 
 enum AlertButtonsLayout {
-    case horizontal, vertical
+    case horizontal
+    case vertical
+    case emojis
+    
+    var buttonsHeight: CGFloat {
+        switch self {
+        case .horizontal, .vertical:
+            return LGUIKitConstants.mediumButtonHeight
+        case .emojis:
+            return 60
+        }
+    }
+    
+    var buttonsMargin: CGFloat {
+        switch self {
+        case .horizontal, .vertical:
+            return 10
+        case .emojis:
+            return 50
+        }
+    }
+    
+    var topButtonMargin: CGFloat {
+        switch self {
+        case .horizontal:
+            return 0
+        case .emojis, .vertical:
+            return 25
+        }
+    }
 }
 
 class LGAlertViewController: UIViewController {
 
-    static let buttonsMargin: CGFloat = 5
     static let buttonsContainerTopSeparation: CGFloat = 20
 
     @IBOutlet weak var alertIcon: UIImageView!
@@ -65,9 +95,10 @@ class LGAlertViewController: UIViewController {
     private let alertActions: [UIAction]?
     private let dismissAction: (() -> ())?
 
-    // Rx
     private let disposeBag = DisposeBag()
-
+    
+    var simulatePushTransitionOnPresent: Bool = false
+    var simulatePushTransitionOnDismiss: Bool = false
 
     // MARK: - Lifecycle
 
@@ -93,6 +124,33 @@ class LGAlertViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        if simulatePushTransitionOnPresent {
+            let animation = CATransition()
+            animation.type = kCATransitionPush
+            animation.subtype = kCATransitionFromRight
+            animation.duration = 0.2
+            animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+            alertContentView.layer.add(animation, forKey: kCATransition)
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if simulatePushTransitionOnDismiss {
+            let animation = CATransition()
+            animation.type = kCATransitionPush
+            animation.subtype = kCATransitionFromRight
+            animation.duration = 0.2
+            animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+            self.alertContentView.layer.add(animation, forKey: kCATransition)
+            self.alertContentView.alpha = 0
+        }
+    }
 
 
     // MARK: - Private Methods
@@ -102,9 +160,18 @@ class LGAlertViewController: UIViewController {
         switch alertType {
         case .plainAlert:
             alertIcon.image = nil
+            alertTitleLabel.font = UIFont.systemBoldFont(size: 23)
+            alertTitleLabel.textAlignment = .left
+        case .plainAlertOld:
+            alertIcon.image = nil
+            alertTitleLabel.font = UIFont.systemMediumFont(size: 17)
         case let .iconAlert(icon):
             alertIcon.image = icon
+            alertTitleLabel.font = UIFont.systemMediumFont(size: 17)
         }
+        alertTextLabel.font = UIFont.systemRegularFont(size: 15)
+        alertTitleLabel.text = alertTitle
+        alertTextLabel.text = alertText
 
         alertContentTopSeparationConstraint.constant = alertType.contentTopSeparation
         alertTitleTopSeparationConstraint.constant = alertType.titleTopSeparation
@@ -114,11 +181,6 @@ class LGAlertViewController: UIViewController {
         view.addGestureRecognizer(tapRecognizer)
 
         alertContentView.layer.cornerRadius = LGUIKitConstants.alertCornerRadius
-
-        alertTitleLabel.text = alertTitle
-        alertTitleLabel.font = UIFont.systemMediumFont(size: 17)
-        alertTextLabel.text = alertText
-        alertTextLabel.font = UIFont.systemRegularFont(size: 15)
         
         setupButtons(alertActions)
     }
@@ -128,7 +190,7 @@ class LGAlertViewController: UIViewController {
         buttonsContainer.subviews.forEach { $0.removeFromSuperview() }
 
         // Actions must have interface == .button
-        let buttonActions: [UIAction] = actions?.filter { $0.buttonStyle != nil } ?? []
+        guard let buttonActions = actions else { return }
         // No actions -> No buttons
         guard buttonActions.count > 0 else {
             buttonsContainerViewTopSeparationConstraint.constant = 0
@@ -141,26 +203,68 @@ class LGAlertViewController: UIViewController {
             buildButtonsHorizontally(buttonActions)
         case .vertical:
             buildButtonsVertically(buttonActions)
+        case .emojis:
+            buildEmojiButtons(actions: buttonActions)
         }
     }
 
+    private func buildEmojiButtons(actions: [UIAction]) {
+        
+        let centeredContainer = UIView()
+        centeredContainer.translatesAutoresizingMaskIntoConstraints = false
+        buttonsContainer.addSubview(centeredContainer)
+        centeredContainer.layout(with: buttonsContainer)
+            .top()
+            .bottom()
+            .centerX()
+        var previous: UIView? = nil
+        for action in actions {
+            let button = UIButton(type: .custom)
+            button.imageView?.contentMode = .scaleAspectFit
+            button.translatesAutoresizingMaskIntoConstraints = false
+            centeredContainer.addSubview(button)
+            button.layout(with: centeredContainer)
+                .top(by: AlertButtonsLayout.emojis.topButtonMargin)
+                .bottom()
+            button.layout()
+                .width(AlertButtonsLayout.emojis.buttonsHeight)
+                .widthProportionalToHeight()
+            if let previous = previous {
+                button.layout(with: previous)
+                    .left(to: .right, by: AlertButtonsLayout.emojis.buttonsMargin)
+            } else {
+                button.layout(with: centeredContainer)
+                    .left()
+            }
+            previous = button
+            styleButton(button, action: action)
+        }
+        if let lastBtn = previous {
+            lastBtn.layout(with: centeredContainer).right()
+        }
+        _ = buttonsContainer.addTopBorderWithWidth(1, color: UIColor.gray)
+    }
+    
     private func buildButtonsHorizontally(_ buttonActions: [UIAction]) {
         let widthMultiplier: CGFloat = 1 / CGFloat(buttonActions.count)
-        let widthConstant: CGFloat = buttonActions.count == 1 ? 0 : -(LGAlertViewController.buttonsMargin/2)
+        let widthConstant: CGFloat = buttonActions.count == 1 ? 0 : -(AlertButtonsLayout.horizontal.buttonsMargin/2)
         var previous: UIView? = nil
         for action in buttonActions {
             let button = UIButton(type: .custom)
             button.translatesAutoresizingMaskIntoConstraints = false
             buttonsContainer.addSubview(button)
-            button.layout(with: buttonsContainer).fillVertical().width(widthConstant, multiplier: widthMultiplier)
-            button.layout().height(LGUIKitConstants.mediumButtonHeight)
+            button.layout(with: buttonsContainer)
+                .top(by: AlertButtonsLayout.horizontal.topButtonMargin)
+                .bottom()
+                .width(widthConstant, multiplier: widthMultiplier)
+            button.layout().height(AlertButtonsLayout.horizontal.buttonsHeight)
             if let previous = previous {
-                button.layout(with: previous).left(to: .right, by: LGAlertViewController.buttonsMargin)
+                button.layout(with: previous).left(to: .right, by: AlertButtonsLayout.horizontal.buttonsMargin)
             } else {
                 button.layout(with: buttonsContainer).left()
             }
-            bindButtonWithAction(button, action: action)
             previous = button
+            styleButton(button, action: action)
         }
         if let lastBtn = previous {
             lastBtn.layout(with: buttonsContainer).right()
@@ -174,27 +278,34 @@ class LGAlertViewController: UIViewController {
             button.translatesAutoresizingMaskIntoConstraints = false
             buttonsContainer.addSubview(button)
             button.layout(with: buttonsContainer).fillHorizontal()
-            button.layout().height(LGUIKitConstants.mediumButtonHeight)
+            button.layout().height(AlertButtonsLayout.vertical.buttonsHeight)
             if let previous = previous {
-                button.layout(with: previous).top(to: .bottom, by: LGAlertViewController.buttonsMargin)
+                button.layout(with: previous).top(to: .bottom, by: AlertButtonsLayout.vertical.buttonsMargin)
             } else {
-                button.layout(with: buttonsContainer).top()
+                button.layout(with: buttonsContainer).top(by: AlertButtonsLayout.vertical.topButtonMargin)
             }
-            bindButtonWithAction(button, action: action)
             previous = button
+            styleButton(button, action: action)
         }
         if let lastBtn = previous {
             lastBtn.layout(with: buttonsContainer).bottom()
         }
+        _ = buttonsContainer.addTopBorderWithWidth(1, color: UIColor.gray)
     }
 
-    private func bindButtonWithAction(_ button: UIButton, action: UIAction) {
-        button.titleLabel?.numberOfLines = 2
-        button.titleLabel?.textAlignment = .center
-        button.titleLabel?.adjustsFontSizeToFitWidth = true
-        button.setTitle(action.text, for: .normal)
-        button.accessibilityId = action.accessibilityId
-        button.setStyle(action.buttonStyle ?? .primary(fontSize: .medium))
+    private func styleButton(_ button: UIButton, action: UIAction) {
+        switch action.interface {
+        case let .image(image, _):
+            button.setImage(image, for: .normal)
+        case .button, .styledText, .text, .textImage:
+            button.titleLabel?.numberOfLines = 2
+            button.titleLabel?.textAlignment = .center
+            button.titleLabel?.adjustsFontSizeToFitWidth = true
+            button.setTitle(action.text, for: .normal)
+            button.accessibilityId = action.accessibilityId
+            button.setStyle(action.buttonStyle ?? .primary(fontSize: .medium))
+        }
+        
         button.rx.tap.bindNext { [weak self] _ in
             self?.closeWithFadeOutWithCompletion {
                 action.action()
@@ -209,6 +320,19 @@ class LGAlertViewController: UIViewController {
     }
 
     private func closeWithFadeOutWithCompletion(_ completion: (() -> Void)?) {
-        dismiss(animated: true, completion: completion)
+//        if simulatePushTransitionOnDismiss {
+//            UIView.animate(withDuration: 0.2, animations: {
+//                let animation = CATransition()
+//                animation.type = kCATransitionPush
+//                animation.subtype = kCATransitionFromRight
+//                animation.duration = 0.2
+//                animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+//                self.alertContentView.layer.add(animation, forKey: kCATransition)
+//            }, completion: { (completed) in
+//                self.dismiss(animated: false, completion: completion)
+//            })
+//        } else {
+            dismiss(animated: true, completion: completion)
+//        }
     }
 }

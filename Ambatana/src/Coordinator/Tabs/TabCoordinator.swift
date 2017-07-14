@@ -413,7 +413,7 @@ extension TabCoordinator: ProductDetailNavigator {
             }, accessibilityId: .postDeleteAlertButton)
         navigationController.showAlertWithTitle(LGLocalizedString.productDeletePostTitle,
                                                 text: LGLocalizedString.productDeletePostSubtitle,
-                                                alertType: .plainAlert, actions: [action])
+                                                alertType: .plainAlertOld, actions: [action])
     }
 
     func openFreeBumpUp(forListing listing: Listing, socialMessage: SocialMessage, paymentItemId: String) {

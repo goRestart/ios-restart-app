@@ -34,8 +34,8 @@
 "bump_up_view_free_title" = "UGRASZD FEL HIRDETÉSEDET";
 "bump_up_view_pay_bumps_left_text" = "%i ugrasztásod maradt.";
 "bump_up_view_pay_button_title" = "Aktiválás: %@";
-"bump_up_view_pay_subtitle" = "A lista elejére ugrasztva nagyobb láthatóságot adhatsz portékádnak.";
-"bump_up_view_pay_title" = "FELUGRASZTVA GYORSABBAN ELADHATSZ";
+"bump_up_view_pay_subtitle" = "Több érdeklődőt találhatsz, ha nagyobb láthatóságot adsz hirdetésednek.";
+"bump_up_view_pay_title" = "ADD EL GYORSABBAN";
 "categories_baby_and_child" = "Baba és gyerek";
 "categories_car" = "Autók";
 "categories_cars_and_motors" = "Motorok és kiegészítők";
@@ -729,6 +729,13 @@
 "rate_user_positive_quick_responses" = "Gyorsan válaszolt";
 "rate_user_positive_showed_up_on_time" = "Időben ott volt";
 "rate_user_positive_trustworthy" = "Megbízható";
+"rating_app_enjoying_alert_title" = "Are you enjoying letgo?";
+"rating_app_feedback_no_button" = "No, thanks";
+"rating_app_feedback_title" = "Want to give us some feedback?";
+"rating_app_feedback_yes_button" = "Sure!";
+"rating_app_rate_alert_no_button" = "No, thanks";
+"rating_app_rate_alert_title" = "Would you like to rate us? It'll only take two seconds";
+"rating_app_rate_alert_yes_button" = "Sure!";
 "rating_list_action_report_review" = "Értékelés jelentése";
 "rating_list_action_report_review_error_message" = "Hiba történt jelentésed beküldése során.";
 "rating_list_action_report_review_success_message" = "Jelentésed beküldve!";

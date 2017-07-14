@@ -34,8 +34,8 @@
 "bump_up_view_free_title" = "NOSTA TUOTTEESI";
 "bump_up_view_pay_bumps_left_text" = "Sinulla on %i nostoa jäljellä.";
 "bump_up_view_pay_button_title" = "Aktivoi hintaan %@";
-"bump_up_view_pay_subtitle" = "Hanki tuotteellesi enemmän näkyvyyttä siirtämällä se listan kärkeen.";
-"bump_up_view_pay_title" = "NOSTA MYYDÄKSESI NOPEAMMIN";
+"bump_up_view_pay_subtitle" = "Houkuttele enemmän ostajia antamalla tuotteellesi enemmän näkyvyyttä.";
+"bump_up_view_pay_title" = "MYY NOPEAMMIN";
 "categories_baby_and_child" = "Vauvat ja lapset";
 "categories_car" = "Autot";
 "categories_cars_and_motors" = "Ajoneuvot ja varusteet";
@@ -729,6 +729,13 @@
 "rate_user_positive_quick_responses" = "Nopeat vastaukset";
 "rate_user_positive_showed_up_on_time" = "Saapui ajallaan";
 "rate_user_positive_trustworthy" = "Luotettava";
+"rating_app_enjoying_alert_title" = "Are you enjoying letgo?";
+"rating_app_feedback_no_button" = "No, thanks";
+"rating_app_feedback_title" = "Want to give us some feedback?";
+"rating_app_feedback_yes_button" = "Sure!";
+"rating_app_rate_alert_no_button" = "No, thanks";
+"rating_app_rate_alert_title" = "Would you like to rate us? It'll only take two seconds";
+"rating_app_rate_alert_yes_button" = "Sure!";
 "rating_list_action_report_review" = "Ilmianna arvostelu";
 "rating_list_action_report_review_error_message" = "Ilmiantoasi lähetettäessä tapahtui virhe.";
 "rating_list_action_report_review_success_message" = "Ilmiantosi on lähetetty!";
