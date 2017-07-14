@@ -66,26 +66,6 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
 
     // MARK: - ChatListViewModelDelegate Methods
 
-    func vmDeleteSelectedChats() {
-        guard let indexPaths = tableView.indexPathsForSelectedRows else { return }
-        let indexes: [Int] = indexPaths.map({ $0.row })
-        guard !indexes.isEmpty else { return }
-
-        let title = viewModel.deleteConfirmationTitle(indexPaths.count)
-        let message = viewModel.deleteConfirmationMessage(indexPaths.count)
-        let cancelText = viewModel.deleteConfirmationCancelTitle()
-        let actionText = viewModel.deleteConfirmationSendButton()
-
-        delegate?.chatListView(self, showDeleteConfirmationWithTitle: title, message: message, cancelText: cancelText,
-            actionText: actionText, action: { [weak self] in
-                guard let strongSelf = self else { return }
-                guard let delegate = strongSelf.delegate else { return }
-
-                delegate.chatListViewDidStartArchiving(strongSelf)
-                strongSelf.viewModel.deleteChatsAtIndexes(indexes)
-            })
-    }
-
     func chatListViewModelDidFailArchivingChats(_ viewModel: ChatListViewModel) {
         viewModel.refresh { [weak self] in
             guard let strongSelf = self else { return }
@@ -127,6 +107,13 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
 
         chatCell.tag = (indexPath as NSIndexPath).hash // used for cell reuse on "setupCellWithData"
         chatCell.setupCellWithData(chatData, indexPath: indexPath)
+        
+        let isSelected = viewModel.isConversationSelected(index: indexPath.row)
+        if isSelected {
+            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+        } else {
+            tableView.deselectRow(at: indexPath, animated: false)
+        }
         return chatCell
     }
 
@@ -135,9 +122,18 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
 
     override func didSelectRowAtIndex(_ index: Int, editing: Bool) {
         super.didSelectRowAtIndex(index, editing: editing)
-
+        viewModel.selectConversation(index: index)
+    }
+    
+    override func didDeselectRowAtIndex(_ index: Int, editing: Bool) {
+        super.didDeselectRowAtIndex(index, editing: editing)
+        viewModel.deselectConversation(index: index)
+    }
+    
+    override func setEditing(_ editing: Bool) {
+        super.setEditing(editing)
         guard !editing else { return }
-        viewModel.conversationSelectedAtIndex(index)
+        viewModel.deselectAllConversations()
     }
 
 
