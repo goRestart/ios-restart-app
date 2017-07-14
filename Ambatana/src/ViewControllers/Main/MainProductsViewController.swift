@@ -438,6 +438,13 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
             let tagsHeight = strongSelf.tagsShowing ? MainProductsViewController.filterTagsViewHeight : 0
             strongSelf.topInset.value = strongSelf.topBarHeight + tagsHeight + strongSelf.filterHeadersHeight
         }.addDisposableTo(disposeBag)
+        
+        navbarSearch.searchTextField?.rx.text.asObservable()
+            .filter { ($0?.characters.count)! > 0 }
+            .debounce(0.3, scheduler: MainScheduler.instance)
+            .subscribeNext { [weak self] text in
+                self?.viewModel.retrieveSuggestiveSearches(term: text!)
+        }
     }
 }
 

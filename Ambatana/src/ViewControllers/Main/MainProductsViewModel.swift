@@ -286,7 +286,6 @@ class MainProductsViewModel: BaseViewModel {
             retrieveProductsIfNeededWithNewLocation(currentLocation)
             retrieveLastUserSearch()
             retrieveTrendingSearches()
-            retrieveSuggestiveSearches()
         }
     }
 
@@ -716,7 +715,6 @@ extension MainProductsViewModel {
         retrieveProductsIfNeededWithNewLocation(newLocation)
         retrieveLastUserSearch()
         retrieveTrendingSearches()
-        retrieveSuggestiveSearches()
     }
 
     fileprivate func retrieveProductsIfNeededWithNewLocation(_ newLocation: LGLocation) {
@@ -813,7 +811,7 @@ extension MainProductsViewModel {
         lastSearches.value = searchesToShow.reversed()
     }
 
-    fileprivate func retrieveTrendingSearches() {
+    func retrieveTrendingSearches() {
         guard let currentCountryCode = locationManager.currentLocation?.countryCode else { return }
 
         suggestedSearchesRepository.index(currentCountryCode) { [weak self] result in
@@ -821,10 +819,10 @@ extension MainProductsViewModel {
         }
     }
     
-    fileprivate func retrieveSuggestiveSearches() {
+    func retrieveSuggestiveSearches(term: String) {
         guard let currentCountryCode = locationManager.currentLocation?.countryCode else { return }
         
-        suggestedSearchesRepository.retrieveSuggestiveSearches(currentCountryCode, limit: 20, term: "do") { [weak self] result in
+        suggestedSearchesRepository.retrieveSuggestiveSearches(currentCountryCode, limit: 5, term: term) { [weak self] result in
             self?.suggestiveSearches.value = result.value ?? []
         }
     }
