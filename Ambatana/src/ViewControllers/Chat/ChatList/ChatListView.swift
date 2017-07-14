@@ -66,26 +66,6 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
 
     // MARK: - ChatListViewModelDelegate Methods
 
-    func vmDeleteSelectedChats() {
-        guard let indexPaths = tableView.indexPathsForSelectedRows else { return }
-        let indexes: [Int] = indexPaths.map({ $0.row })
-        guard !indexes.isEmpty else { return }
-
-        let title = viewModel.deleteConfirmationTitle(indexPaths.count)
-        let message = viewModel.deleteConfirmationMessage(indexPaths.count)
-        let cancelText = viewModel.deleteConfirmationCancelTitle()
-        let actionText = viewModel.deleteConfirmationSendButton()
-
-        delegate?.chatListView(self, showDeleteConfirmationWithTitle: title, message: message, cancelText: cancelText,
-            actionText: actionText, action: { [weak self] in
-                guard let strongSelf = self else { return }
-                guard let delegate = strongSelf.delegate else { return }
-
-                delegate.chatListViewDidStartArchiving(strongSelf)
-                strongSelf.viewModel.deleteChatsAtIndexes(indexes)
-            })
-    }
-
     func chatListViewModelDidFailArchivingChats(_ viewModel: ChatListViewModel) {
         viewModel.refresh { [weak self] in
             guard let strongSelf = self else { return }

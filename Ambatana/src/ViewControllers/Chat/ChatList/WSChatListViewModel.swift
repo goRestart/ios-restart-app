@@ -127,7 +127,17 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
     // MARK: > Send
 
     func deleteButtonPressed() {
-        delegate?.vmDeleteSelectedChats()
+        guard !selectedConversationIds.isEmpty else { return }
+
+        let conversationIds = Array(selectedConversationIds)
+        chatRepository.archiveConversations(conversationIds) { [weak self] result in
+            guard let strongSelf = self else { return }
+            if let _ = result.error {
+                strongSelf.delegate?.chatListViewModelDidFailArchivingChats(strongSelf)
+            } else {
+                strongSelf.delegate?.chatListViewModelDidSucceedArchivingChats(strongSelf)
+            }
+        }
     }
 
     func deleteConfirmationTitle(_ itemCount: Int) -> String {
@@ -146,20 +156,6 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
 
     func deleteConfirmationSendButton() -> String {
         return LGLocalizedString.chatListDeleteAlertSend
-    }
-
-    func deleteChatsAtIndexes(_ indexes: [Int]) {
-        let conversationIds: [String] = indexes.filter { $0 < objectCount && $0 >= 0 }.flatMap {
-            objectAtIndex($0)?.objectId
-        }
-        chatRepository.archiveConversations(conversationIds) { [weak self] result in
-            guard let strongSelf = self else { return }
-            if let _ = result.error {
-                strongSelf.delegate?.chatListViewModelDidFailArchivingChats(strongSelf)
-            } else {
-                strongSelf.delegate?.chatListViewModelDidSucceedArchivingChats(strongSelf)
-            }
-        }
     }
 
 
