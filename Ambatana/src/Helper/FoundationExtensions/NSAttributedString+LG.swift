@@ -10,10 +10,10 @@ import Foundation
 
 extension NSAttributedString {
     
-    func setBoldPartFromTerm(_ text: String) -> NSAttributedString {
-        let attributedString = NSMutableAttributedString(string:self.string, attributes: [NSFontAttributeName:UIFont.systemFont(ofSize: 15.0)])
-        let boldFontAttribute = [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 15.0)]
-        attributedString.addAttributes(boldFontAttribute, range:(self.string as NSString).range(of: text))
+    func setBoldPartFromTerm(_ text: String, font: UIFont) -> NSAttributedString {
+        let attributedString = NSMutableAttributedString(string:self.string, attributes: [NSFontAttributeName: font])
+        let boldFontAttribute = [NSFontAttributeName: UIFont.boldSystemFont(ofSize: font.pointSize)]
+        attributedString.addAttributes(boldFontAttribute, range:NSMakeRange(text.characters.count, self.string.characters.count-text.characters.count))
         return attributedString
     }
     

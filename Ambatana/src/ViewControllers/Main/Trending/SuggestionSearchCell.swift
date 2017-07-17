@@ -12,11 +12,13 @@ class SuggestionSearchCell: UITableViewCell, ReusableCell {
     @IBOutlet weak var suggestionText: UILabel!
 
     static let cellHeight: CGFloat = 44
+    let labelFont = UIFont.systemFont(size: 17)
     
     override func awakeFromNib() {
         super.awakeFromNib()
         backgroundColor = UIColor.clear
         setAccessibilityIds()
+        suggestionText.font = labelFont
     }
 
     private func setAccessibilityIds() {
