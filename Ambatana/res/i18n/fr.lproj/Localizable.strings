@@ -582,7 +582,7 @@
 "product_post_confirmation_another" = "Ou";
 "product_post_confirmation_another_button" = "Postez un autre bien";
 "product_post_confirmation_edit" = "Ajouter plus de détails";
-"product_post_different_country_error" = "You can’t post in a country where you’re not currently located.";
+"product_post_different_country_error" = "Vous ne pouvez pas poster une annonce dans un pays où vous n'êtes pas situé.";
 "product_post_done" = "Terminé";
 "product_post_empty_gallery_button" = "Prendre une Photo";
 "product_post_empty_gallery_subtitle" = "Prenez une photo du bien que vous souhaitez vendre";
@@ -730,13 +730,13 @@
 "rate_user_positive_quick_responses" = "Réponses rapides";
 "rate_user_positive_showed_up_on_time" = "S'est présenté(e) à l'heure";
 "rate_user_positive_trustworthy" = "Fiable";
-"rating_app_enjoying_alert_title" = "Are you enjoying letgo?";
-"rating_app_feedback_no_button" = "No, thanks";
-"rating_app_feedback_title" = "Want to give us some feedback?";
-"rating_app_feedback_yes_button" = "Sure!";
-"rating_app_rate_alert_no_button" = "No, thanks";
-"rating_app_rate_alert_title" = "Would you like to rate us? It'll only take two seconds";
-"rating_app_rate_alert_yes_button" = "Sure!";
+"rating_app_enjoying_alert_title" = "Appréciez-vous letgo ?";
+"rating_app_feedback_no_button" = "Non, merci";
+"rating_app_feedback_title" = "Souhaitez-vous nous faire part de vos impressions ?";
+"rating_app_feedback_yes_button" = "Bien sûr !";
+"rating_app_rate_alert_no_button" = "Non, merci";
+"rating_app_rate_alert_title" = "Pourriez-vous nous noter ? Cela ne prendra que deux secondes";
+"rating_app_rate_alert_yes_button" = "Bien sûr !";
 "rating_list_action_report_review" = "Signaler une note";
 "rating_list_action_report_review_error_message" = "Une erreur est survenue lors de l'envoi du signalement.";
 "rating_list_action_report_review_success_message" = "Votre signalement a été envoyé !";
@@ -867,6 +867,7 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Créer un nouveau compte";
 "sign_up_username_field_hint" = "Nom complet";
+"suggested_searches_title" = "Recherches suggérées";
 "suggestions_last_searches_clear_button" = "Effacer";
 "suggestions_last_searches_title" = "Recherches Récentes";
 "survey_confirmation" = "Merci ! Votre retour nous aide à nous améliorer.";

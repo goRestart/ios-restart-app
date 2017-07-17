@@ -582,7 +582,7 @@
 "product_post_confirmation_another" = "O";
 "product_post_confirmation_another_button" = "Pubblica un altro oggetto";
 "product_post_confirmation_edit" = "Aggiungi altri dati";
-"product_post_different_country_error" = "You can’t post in a country where you’re not currently located.";
+"product_post_different_country_error" = "Non puoi pubblicare oggetti in paesi diversi da quello in cui risiedi.";
 "product_post_done" = "Fatto";
 "product_post_empty_gallery_button" = "Scatta Foto";
 "product_post_empty_gallery_subtitle" = "Scatta una foto del prodotto che vuoi pubblicare";
@@ -730,13 +730,13 @@
 "rate_user_positive_quick_responses" = "Risposte veloci";
 "rate_user_positive_showed_up_on_time" = "In orario";
 "rate_user_positive_trustworthy" = "Affidabile";
-"rating_app_enjoying_alert_title" = "Are you enjoying letgo?";
-"rating_app_feedback_no_button" = "No, thanks";
-"rating_app_feedback_title" = "Want to give us some feedback?";
-"rating_app_feedback_yes_button" = "Sure!";
-"rating_app_rate_alert_no_button" = "No, thanks";
-"rating_app_rate_alert_title" = "Would you like to rate us? It'll only take two seconds";
-"rating_app_rate_alert_yes_button" = "Sure!";
+"rating_app_enjoying_alert_title" = "Ti piace letgo?";
+"rating_app_feedback_no_button" = "No, grazie";
+"rating_app_feedback_title" = "Vuoi lasciarci un feedback?";
+"rating_app_feedback_yes_button" = "Certo!";
+"rating_app_rate_alert_no_button" = "No, grazie";
+"rating_app_rate_alert_title" = "Ti andrebbe di lasciarci un giudizio? Ci vorranno solo due secondi";
+"rating_app_rate_alert_yes_button" = "Certo!";
 "rating_list_action_report_review" = "Segnala utente";
 "rating_list_action_report_review_error_message" = "Si è verificato un errore durante l'invio della tua segnalazione.";
 "rating_list_action_report_review_success_message" = "La tua segnalazione è stata inviata!";
@@ -867,6 +867,7 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Crea nuovo account";
 "sign_up_username_field_hint" = "Nome e Cognome";
+"suggested_searches_title" = "Suggested Searches";
 "suggestions_last_searches_clear_button" = "Cancella";
 "suggestions_last_searches_title" = "Ricerche recenti";
 "survey_confirmation" = "Grazie! Il tuo feedback ci permette di migliorare";

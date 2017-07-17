@@ -582,7 +582,7 @@
 "product_post_confirmation_another" = "Ou";
 "product_post_confirmation_another_button" = "Publique outro item";
 "product_post_confirmation_edit" = "Adicionar mais detalhes";
-"product_post_different_country_error" = "You can’t post in a country where you’re not currently located.";
+"product_post_different_country_error" = "Não pode publicar num país onde não está atualmente localizado.";
 "product_post_done" = "Feito";
 "product_post_empty_gallery_button" = "Tire uma Foto";
 "product_post_empty_gallery_subtitle" = "Tire uma foto do produto que quer publicar";
@@ -730,15 +730,6 @@
 "rate_user_positive_quick_responses" = "Respostas rápidas";
 "rate_user_positive_showed_up_on_time" = "Apareceu a horas";
 "rate_user_positive_trustworthy" = "Fidedigno";
-<<<<<<< HEAD
-"rating_app_enjoying_alert_title" = "Are you enjoying letgo?";
-"rating_app_feedback_no_button" = "No, thanks";
-"rating_app_feedback_title" = "Want to give us some feedback?";
-"rating_app_feedback_yes_button" = "Sure!";
-"rating_app_rate_alert_no_button" = "No, thanks";
-"rating_app_rate_alert_title" = "Would you like to rate us? It'll only take two seconds";
-"rating_app_rate_alert_yes_button" = "Sure!";
-=======
 "rating_app_enjoying_alert_title" = "Está a gostar do letgo?";
 "rating_app_feedback_no_button" = "Não. Obrigado.";
 "rating_app_feedback_title" = "Deseja deixar-nos o seu feedback?";
@@ -746,7 +737,6 @@
 "rating_app_rate_alert_no_button" = "Não. Obrigado.";
 "rating_app_rate_alert_title" = "Deseja avaliar-nos? Demora apenas 2 segundos.";
 "rating_app_rate_alert_yes_button" = "Claro!";
->>>>>>> develop
 "rating_list_action_report_review" = "Denunciar comentário";
 "rating_list_action_report_review_error_message" = "Ocorreu um erro no envio da sua denúncia.";
 "rating_list_action_report_review_success_message" = "A sua denuncia foi enviada!";
@@ -877,6 +867,7 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Criar uma nova conta";
 "sign_up_username_field_hint" = "Nome completo";
+"suggested_searches_title" = "Pesquisas sugeridas";
 "suggestions_last_searches_clear_button" = "Limpar";
 "suggestions_last_searches_title" = "Pesquisas recentes";
 "survey_confirmation" = "Obrigado! O seu feedback ajuda-nos a melhorar";

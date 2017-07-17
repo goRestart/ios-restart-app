@@ -582,7 +582,7 @@
 "product_post_confirmation_another" = "O";
 "product_post_confirmation_another_button" = "Publica otro producto";
 "product_post_confirmation_edit" = "Añade más detalles";
-"product_post_different_country_error" = "You can’t post in a country where you’re not currently located.";
+"product_post_different_country_error" = "No puedes publicar en un país distinto al que te encuentras actualmente.";
 "product_post_done" = "Hecho";
 "product_post_empty_gallery_button" = "Hacer foto";
 "product_post_empty_gallery_subtitle" = "Haz una foto del producto que quieres publicar";
@@ -730,15 +730,6 @@
 "rate_user_positive_quick_responses" = "Respuestas rápidas";
 "rate_user_positive_showed_up_on_time" = "Puntual";
 "rate_user_positive_trustworthy" = "Digno de confianza";
-<<<<<<< HEAD
-"rating_app_enjoying_alert_title" = "Are you enjoying letgo?";
-"rating_app_feedback_no_button" = "No, thanks";
-"rating_app_feedback_title" = "Want to give us some feedback?";
-"rating_app_feedback_yes_button" = "Sure!";
-"rating_app_rate_alert_no_button" = "No, thanks";
-"rating_app_rate_alert_title" = "Would you like to rate us? It'll only take two seconds";
-"rating_app_rate_alert_yes_button" = "Sure!";
-=======
 "rating_app_enjoying_alert_title" = "¿Estás disfrutando de letgo?";
 "rating_app_feedback_no_button" = "No, gracias";
 "rating_app_feedback_title" = "¿Hay algo que nos quieras comentar?";
@@ -746,7 +737,6 @@
 "rating_app_rate_alert_no_button" = "No, gracias";
 "rating_app_rate_alert_title" = "¿Quieres valorarnos? Solo te llevará dos segundos";
 "rating_app_rate_alert_yes_button" = "¡Claro!";
->>>>>>> develop
 "rating_list_action_report_review" = "Denunciar valoración";
 "rating_list_action_report_review_error_message" = "Se ha producido un error al enviar tu denuncia.";
 "rating_list_action_report_review_success_message" = "¡Tu denuncia ha sido enviada!";
@@ -877,6 +867,7 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Crear nueva cuenta";
 "sign_up_username_field_hint" = "Nombre y apellido";
+"suggested_searches_title" = "Búsquedas sugeridas";
 "suggestions_last_searches_clear_button" = "Eliminar";
 "suggestions_last_searches_title" = "Búsquedas recientes";
 "survey_confirmation" = "¡Gracias! Tus opiniones nos ayudan a mejorar";

@@ -582,7 +582,7 @@
 "product_post_confirmation_another" = "veya";
 "product_post_confirmation_another_button" = "Başka bir ürün listele";
 "product_post_confirmation_edit" = "Daha fazla bilgi gir";
-"product_post_different_country_error" = "You can’t post in a country where you’re not currently located.";
+"product_post_different_country_error" = "Şu anda ikamet etmediğin bir ülkeden ürün yükleyemezsin.";
 "product_post_done" = "Onayla";
 "product_post_empty_gallery_button" = "Fotoğraf Çek";
 "product_post_empty_gallery_subtitle" = "Yüklemek istediğin ürünün fotoğrafını çek";
@@ -730,15 +730,6 @@
 "rate_user_positive_quick_responses" = "Çabuk cevaplıyor";
 "rate_user_positive_showed_up_on_time" = "Buluşmaya zamanında geldi";
 "rate_user_positive_trustworthy" = "Güvenilir";
-<<<<<<< HEAD
-"rating_app_enjoying_alert_title" = "Are you enjoying letgo?";
-"rating_app_feedback_no_button" = "No, thanks";
-"rating_app_feedback_title" = "Want to give us some feedback?";
-"rating_app_feedback_yes_button" = "Sure!";
-"rating_app_rate_alert_no_button" = "No, thanks";
-"rating_app_rate_alert_title" = "Would you like to rate us? It'll only take two seconds";
-"rating_app_rate_alert_yes_button" = "Sure!";
-=======
 "rating_app_enjoying_alert_title" = "letgo'dan memnun musun?";
 "rating_app_feedback_no_button" = "Hayır, teşekkürler";
 "rating_app_feedback_title" = "Bizi değerlendirmek ister misin?";
@@ -746,7 +737,6 @@
 "rating_app_rate_alert_no_button" = "Hayır, teşekkürler";
 "rating_app_rate_alert_title" = "Bize puan vermek ister misin? Sadece bir kaç saniye sürecek";
 "rating_app_rate_alert_yes_button" = "Tabii ki!";
->>>>>>> develop
 "rating_list_action_report_review" = "Yorumu bildir";
 "rating_list_action_report_review_error_message" = "Şikayetin gönderilirken bir hata oluştu.";
 "rating_list_action_report_review_success_message" = "Şikayetin bildirildi!";
@@ -877,6 +867,7 @@
 "sign_up_terms_conditions_terms_part" = "Şartlar ve Koşullarını";
 "sign_up_title" = "Yeni hesap oluştur";
 "sign_up_username_field_hint" = "İsim";
+"suggested_searches_title" = "Önerilen aramalar";
 "suggestions_last_searches_clear_button" = "Temizle";
 "suggestions_last_searches_title" = "Son aramalar";
 "survey_confirmation" = "Teşekkürler! Görüşleriniz letgo'yu geliştirmemize yardımcı oluyor";

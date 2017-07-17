@@ -3579,6 +3579,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("trending_searches_Title", comment: "")
 	}
 
+	static var suggestedSearchesTitle: String {
+		return NSLocalizedString("suggested_searches_title", comment: "")
+	}
+
 	static var unblockUserErrorGeneric: String {
 		return NSLocalizedString("unblock_user_error_generic", comment: "")
 	}

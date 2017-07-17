@@ -582,7 +582,7 @@
 "product_post_confirmation_another" = "vagy";
 "product_post_confirmation_another_button" = "Mást is meghirdetek";
 "product_post_confirmation_edit" = "Részletek hozzáadása";
-"product_post_different_country_error" = "You can’t post in a country where you’re not currently located.";
+"product_post_different_country_error" = "Csak abban az országban tehetsz fel hirdetést, amelyben tartózkodsz";
 "product_post_done" = "Kész";
 "product_post_empty_gallery_button" = "Fotó készítése";
 "product_post_empty_gallery_subtitle" = "Készítsd fotót a meghirdetni kívánt portékáról";
@@ -730,13 +730,13 @@
 "rate_user_positive_quick_responses" = "Gyorsan válaszolt";
 "rate_user_positive_showed_up_on_time" = "Időben ott volt";
 "rate_user_positive_trustworthy" = "Megbízható";
-"rating_app_enjoying_alert_title" = "Are you enjoying letgo?";
-"rating_app_feedback_no_button" = "No, thanks";
-"rating_app_feedback_title" = "Want to give us some feedback?";
-"rating_app_feedback_yes_button" = "Sure!";
-"rating_app_rate_alert_no_button" = "No, thanks";
-"rating_app_rate_alert_title" = "Would you like to rate us? It'll only take two seconds";
-"rating_app_rate_alert_yes_button" = "Sure!";
+"rating_app_enjoying_alert_title" = "Tetszik a letgo piaca?";
+"rating_app_feedback_no_button" = "Inkább nem";
+"rating_app_feedback_title" = "Van kedved visszajelzést küldeni?";
+"rating_app_feedback_yes_button" = "Persze!";
+"rating_app_rate_alert_no_button" = "Inkább nem";
+"rating_app_rate_alert_title" = "Van kedved értékelni minket? Csak pár másodperc!";
+"rating_app_rate_alert_yes_button" = "Persze!";
 "rating_list_action_report_review" = "Értékelés jelentése";
 "rating_list_action_report_review_error_message" = "Hiba történt jelentésed beküldése során.";
 "rating_list_action_report_review_success_message" = "Jelentésed beküldve!";
@@ -867,6 +867,7 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Új fiók létrehozása";
 "sign_up_username_field_hint" = "Teljes név";
+"suggested_searches_title" = "Javasolt keresések";
 "suggestions_last_searches_clear_button" = "Törlés";
 "suggestions_last_searches_title" = "Legutóbbi keresések";
 "survey_confirmation" = "Köszönjük! Visszajelzésed sokat segít!";
