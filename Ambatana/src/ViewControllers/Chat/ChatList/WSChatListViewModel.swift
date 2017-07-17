@@ -81,14 +81,20 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
         return selectedConversationIds.contains(id)
     }
     
-    func selectConversation(index: Int) {
+    func selectConversation(index: Int, editing: Bool) {
         guard let conversation = objectAtIndex(index), let id = conversation.objectId else { return }
-        selectedConversationIds.insert(id)
+        if editing {
+            selectedConversationIds.insert(id)
+        } else {
+            tabNavigator?.openChat(.conversation(conversation: conversation), source: .chatList, predefinedMessage: nil)
+        }
     }
     
-    func deselectConversation(index: Int) {
+    func deselectConversation(index: Int, editing: Bool) {
         guard let conversation = objectAtIndex(index), let id = conversation.objectId else { return }
-        selectedConversationIds.remove(id)
+        if editing {
+            selectedConversationIds.remove(id)
+        }
     }
     
     func deselectAllConversations() {
