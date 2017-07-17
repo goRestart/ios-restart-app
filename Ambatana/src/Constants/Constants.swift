@@ -127,9 +127,10 @@ struct Constants {
     static let imagesUrlCacheMemoryCapacity = 20 * 1024 * 1024 // 20 MB
     static let imagesUrlCacheDiskCapacity = 150 * 1024 * 1024 // 150 MB
 
-    // Bubbles
+    // Alerts
     static let bubbleChatDuration: TimeInterval = 3         // seconds
     static let bubbleFavoriteDuration: TimeInterval = 5
+    static let autocloseMessageDefaultTime: TimeInterval = 2.5
 
     // NewRelic
     static let newRelicGodModeToken = "AAfcb13d44209d7454436d2efa9974174d063a8d1d"

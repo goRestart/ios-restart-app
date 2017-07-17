@@ -129,26 +129,17 @@ class LGAlertViewController: UIViewController {
         super.viewWillAppear(animated)
 
         if simulatePushTransitionOnPresent {
+            view.alpha = 0
+            UIView.animate(withDuration: 0.2) { [weak self] in
+                self?.view.alpha = 1
+            }
+            
             let animation = CATransition()
             animation.type = kCATransitionPush
             animation.subtype = kCATransitionFromRight
             animation.duration = 0.2
             animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
             alertContentView.layer.add(animation, forKey: kCATransition)
-        }
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        if simulatePushTransitionOnDismiss {
-            let animation = CATransition()
-            animation.type = kCATransitionPush
-            animation.subtype = kCATransitionFromRight
-            animation.duration = 0.2
-            animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-            self.alertContentView.layer.add(animation, forKey: kCATransition)
-            self.alertContentView.alpha = 0
         }
     }
 
@@ -307,32 +298,39 @@ class LGAlertViewController: UIViewController {
         }
         
         button.rx.tap.bindNext { [weak self] _ in
-            self?.closeWithFadeOutWithCompletion {
+            self?.dismissAlert(pushTransition: true) {
                 action.action()
             }
         }.addDisposableTo(disposeBag)
     }
 
     dynamic private func tapOutside() {
-        closeWithFadeOutWithCompletion { [weak self] in
+        dismissAlert(pushTransition: false) { [weak self] in
             self?.dismissAction?()
         }
     }
 
-    private func closeWithFadeOutWithCompletion(_ completion: (() -> Void)?) {
-//        if simulatePushTransitionOnDismiss {
-//            UIView.animate(withDuration: 0.2, animations: {
-//                let animation = CATransition()
-//                animation.type = kCATransitionPush
-//                animation.subtype = kCATransitionFromRight
-//                animation.duration = 0.2
-//                animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-//                self.alertContentView.layer.add(animation, forKey: kCATransition)
-//            }, completion: { (completed) in
-//                self.dismiss(animated: false, completion: completion)
-//            })
-//        } else {
+    private func dismissAlert(pushTransition: Bool, completion: (() -> Void)?) {
+        if pushTransition && simulatePushTransitionOnDismiss {
+            let animation = CATransition()
+            animation.type = kCATransitionPush
+            animation.subtype = kCATransitionFromRight
+            animation.duration = 0.2
+            animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+            alertContentView.layer.add(animation, forKey: kCATransition)
+            
+            // modalTransitionStyle = .crossDissolve will add a layer animation on dismiss and you will see
+            // twice the alertContentView, 1 from our push animation and 2 from the crossDisolve animation.
+            // we set the alpha to 0 to prevent any weirdness
+            alertContentView.alpha = 0
+            
+            UIView.animate(withDuration: 0.2, animations: { [weak self] in
+                self?.view.alpha = 0 // to prevent flickering from one controller to another
+            }, completion: { (completed) in
+                self.dismiss(animated: false, completion: completion)
+            })
+        } else {
             dismiss(animated: true, completion: completion)
-//        }
+        }
     }
 }

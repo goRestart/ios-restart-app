@@ -10,6 +10,7 @@ import FBSDKCoreKit
 import LGCoreKit
 import RxSwift
 import UIKit
+import StoreKit
 
 final class AppCoordinator: NSObject, Coordinator {
     var child: Coordinator?
@@ -198,8 +199,6 @@ extension AppCoordinator: AppNavigator {
     }
 
     func openSell(_ source: PostingSource) {
-        openAppRating(.chat)
-        return
         let sellCoordinator = SellCoordinator(source: source)
         sellCoordinator.delegate = self
         openChild(coordinator: sellCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
@@ -208,12 +207,12 @@ extension AppCoordinator: AppNavigator {
     // MARK: App Review
     
     func openAppRating(_ source: EventParameterRatingSource) {
-        //guard ratingManager.shouldShowRating else { return }
+        guard ratingManager.shouldShowRating else { return }
         
         if #available(iOS 10.3, *) {
             switch source {
             case .markedSold:
-                
+                SKStoreReviewController.requestReview()
                 break
             case .chat, .favorite, .productSellComplete:
                 guard canOpenAppStoreWriteReviewWebsite() else { return }
@@ -233,17 +232,17 @@ extension AppCoordinator: AppNavigator {
         let feedbackAlertAction = UIAction(interface: noButtonInterface, action: { [weak self] in
             self?.askUserToGiveFeedback()
         })
-        openCustomAlert(title: LGLocalizedString.ratingAppEnjoyingAlertTitle,
-                        text: "",
-                        alertType: .plainAlert,
-                        buttonsLayout: .emojis,
-                        actions: [feedbackAlertAction, rateAppAlertAction],
-                        simulatePushTransitionOnDismiss: true)
+        openTransitionAlert(title: LGLocalizedString.ratingAppEnjoyingAlertTitle,
+                            text: "",
+                            alertType: .plainAlert,
+                            buttonsLayout: .emojis,
+                            actions: [feedbackAlertAction, rateAppAlertAction],
+                            simulatePushTransitionOnDismiss: true)
     }
     
     private func askUserToRateApp() {
         let rateAppInterface = UIActionInterface.button(LGLocalizedString.ratingAppRateAlertYesButton,
-                                                             ButtonStyle.primary(fontSize: .medium))
+                                                        ButtonStyle.primary(fontSize: .medium))
         let rateAppAction = UIAction(interface: rateAppInterface, action: { [weak self] in
             self?.openAppStoreWriteReviewWebsite()
         })
@@ -251,12 +250,12 @@ extension AppCoordinator: AppNavigator {
                                                      ButtonStyle.secondary(fontSize: .medium,
                                                                            withBorder: true))
         let exitAction = UIAction(interface: exitInterface, action: {})
-        openCustomAlert(title: LGLocalizedString.ratingAppRateAlertTitle,
-                        text: "",
-                        alertType: .plainAlert,
-                        buttonsLayout: .vertical,
-                        actions: [rateAppAction, exitAction],
-                        simulatePushTransitionOnPresent: true)
+        openTransitionAlert(title: LGLocalizedString.ratingAppRateAlertTitle,
+                            text: "",
+                            alertType: .plainAlert,
+                            buttonsLayout: .vertical,
+                            actions: [rateAppAction, exitAction],
+                            simulatePushTransitionOnPresent: true)
     }
     
     private func askUserToGiveFeedback() {
@@ -269,11 +268,12 @@ extension AppCoordinator: AppNavigator {
                                                      ButtonStyle.secondary(fontSize: .medium,
                                                                            withBorder: true))
         let exitAction = UIAction(interface: exitInterface, action: {})
-        tabBarCtl.showAlertWithTitle(LGLocalizedString.ratingAppFeedbackTitle,
-                                           text: "",
-                                           alertType: .plainAlert,
-                                           buttonsLayout: .vertical,
-                                           actions: [giveFeedbackAction, exitAction])
+        openTransitionAlert(title: LGLocalizedString.ratingAppFeedbackTitle,
+                            text: "",
+                            alertType: .plainAlert,
+                            buttonsLayout: .vertical,
+                            actions: [giveFeedbackAction, exitAction],
+                            simulatePushTransitionOnPresent: true)
     }
     
     private func canOpenAppStoreWriteReviewWebsite() -> Bool {
@@ -298,14 +298,14 @@ extension AppCoordinator: AppNavigator {
         viewController.openInternalUrl(contactURL)
     }
     
-    private func openCustomAlert(title: String?,
-                                 text: String,
-                                 alertType: AlertType,
-                                 buttonsLayout: AlertButtonsLayout = .horizontal,
-                                 actions: [UIAction]?,
-                                 simulatePushTransitionOnPresent: Bool = false,
-                                 simulatePushTransitionOnDismiss: Bool = false,
-                                 dismissAction: (() -> ())? = nil) {
+    private func openTransitionAlert(title: String?,
+                                     text: String,
+                                     alertType: AlertType,
+                                     buttonsLayout: AlertButtonsLayout,
+                                     actions: [UIAction]?,
+                                     simulatePushTransitionOnPresent: Bool = false,
+                                     simulatePushTransitionOnDismiss: Bool = false,
+                                     dismissAction: (() -> ())? = nil) {
         
         guard let alert = LGAlertViewController(title: title,
                                                 text: text,
@@ -315,7 +315,7 @@ extension AppCoordinator: AppNavigator {
                                                 dismissAction: dismissAction) else { return }
         alert.simulatePushTransitionOnPresent = simulatePushTransitionOnPresent
         alert.simulatePushTransitionOnDismiss = simulatePushTransitionOnDismiss
-        tabBarCtl.present(alert, animated: true, completion: nil)
+        tabBarCtl.present(alert, animated: false, completion: nil)
     }
     
     // MARK -
