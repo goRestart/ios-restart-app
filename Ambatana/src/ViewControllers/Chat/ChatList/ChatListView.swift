@@ -122,12 +122,12 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
 
     override func didSelectRowAtIndex(_ index: Int, editing: Bool) {
         super.didSelectRowAtIndex(index, editing: editing)
-        viewModel.selectConversation(index: index)
+        viewModel.selectConversation(index: index, editing: editing)
     }
     
     override func didDeselectRowAtIndex(_ index: Int, editing: Bool) {
         super.didDeselectRowAtIndex(index, editing: editing)
-        viewModel.deselectConversation(index: index)
+        viewModel.deselectConversation(index: index, editing: editing)
     }
     
     override func setEditing(_ editing: Bool) {

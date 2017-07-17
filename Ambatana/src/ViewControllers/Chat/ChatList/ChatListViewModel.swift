@@ -33,7 +33,7 @@ protocol ChatListViewModel: class, ChatGroupedListViewModel {
     func conversationDataAtIndex(_ index: Int) -> ConversationCellData?
     func isConversationSelected(index: Int) -> Bool
     func deselectAllConversations()
-    func deselectConversation(index: Int)
-    func selectConversation(index: Int)
+    func deselectConversation(index: Int, editing: Bool)
+    func selectConversation(index: Int, editing: Bool)
     func openConversation(index: Int)
 }
