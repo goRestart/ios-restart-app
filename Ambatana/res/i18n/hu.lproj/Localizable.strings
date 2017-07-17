@@ -582,6 +582,7 @@
 "product_post_confirmation_another" = "vagy";
 "product_post_confirmation_another_button" = "Mást is meghirdetek";
 "product_post_confirmation_edit" = "Részletek hozzáadása";
+"product_post_different_country_error" = "You can’t post in a country where you’re not currently located.";
 "product_post_done" = "Kész";
 "product_post_empty_gallery_button" = "Fotó készítése";
 "product_post_empty_gallery_subtitle" = "Készítsd fotót a meghirdetni kívánt portékáról";

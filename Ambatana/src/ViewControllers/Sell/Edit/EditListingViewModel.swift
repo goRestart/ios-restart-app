@@ -485,7 +485,8 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         editParams.category = category
         editParams.name = title ?? ""
         editParams.descr = (descr ?? "").stringByRemovingEmoji()
-        editParams.price = isFreePosting.value && featureFlags.freePostingModeAllowed ? ListingPrice.free : ListingPrice.normal((price ?? "0").toPriceDouble())
+        editParams.price = generatePrice()
+
         if let updatedLocation = location, let updatedPostalAddress = postalAddress {
             editParams.location = updatedLocation
             editParams.postalAddress = updatedPostalAddress
@@ -523,7 +524,8 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         editParams.category = .cars
         editParams.name = generateCarTitle()
         editParams.descr = (descr ?? "").stringByRemovingEmoji()
-        editParams.price = isFreePosting.value && featureFlags.freePostingModeAllowed ? ListingPrice.free : ListingPrice.normal((price ?? "0").toPriceDouble())
+        editParams.price = generatePrice()
+
         if let updatedLocation = location, let updatedPostalAddress = postalAddress {
             editParams.location = updatedLocation
             editParams.postalAddress = updatedPostalAddress
@@ -558,6 +560,13 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
             return carAttributes.generatedCarName()
         }
         return title
+    }
+
+    private func generatePrice() -> ListingPrice {
+        guard !(isFreePosting.value && featureFlags.freePostingModeAllowed) else { return .free }
+        guard let actualPrice = price else { return .negotiable(0.0) }
+        let priceValue = actualPrice.toPriceDouble()
+        return priceValue > 0 ? .normal(priceValue) : .negotiable(priceValue)
     }
 
     private func finishedSaving() {
@@ -852,7 +861,7 @@ private enum ProductCreateValidationError: Error {
 
     init(repoError: RepositoryError) {
         switch repoError {
-        case .internalError:
+        case .internalError, .wsChatError:
             self = .internalError
         case .network:
             self = .network

@@ -582,6 +582,7 @@
 "product_post_confirmation_another" = "'Η";
 "product_post_confirmation_another_button" = "Δημοσιεύστε άλλο προϊόν";
 "product_post_confirmation_edit" = "Προσθέστε λεπτομέρειες";
+"product_post_different_country_error" = "You can’t post in a country where you’re not currently located.";
 "product_post_done" = "Έτοιμο";
 "product_post_empty_gallery_button" = "Τραβήξτε Φωτογραφία";
 "product_post_empty_gallery_subtitle" = "Τραβήξτε φωτογραφία του προϊόντος που θέλετε να δημοσιεύσετε";
@@ -729,6 +730,7 @@
 "rate_user_positive_quick_responses" = "Άμεσες απαντήσεις";
 "rate_user_positive_showed_up_on_time" = "Συνεπής";
 "rate_user_positive_trustworthy" = "Έμπιστος";
+<<<<<<< HEAD
 "rating_app_enjoying_alert_title" = "Are you enjoying letgo?";
 "rating_app_feedback_no_button" = "No, thanks";
 "rating_app_feedback_title" = "Want to give us some feedback?";
@@ -736,6 +738,15 @@
 "rating_app_rate_alert_no_button" = "No, thanks";
 "rating_app_rate_alert_title" = "Would you like to rate us? It'll only take two seconds";
 "rating_app_rate_alert_yes_button" = "Sure!";
+=======
+"rating_app_enjoying_alert_title" = "Διασκεδάζετε με το letgo;";
+"rating_app_feedback_no_button" = "Όχι, ευχαριστώ";
+"rating_app_feedback_title" = "Θέλετε να μας πείτε τη γνώμη σας;";
+"rating_app_feedback_yes_button" = "Φυσικά!";
+"rating_app_rate_alert_no_button" = "Όχι, ευχαριστώ";
+"rating_app_rate_alert_title" = "Θα θέλατε να μας βαθμολογήσετε; Θα πάρει μόνο 2 δευτερόλεπτα";
+"rating_app_rate_alert_yes_button" = "Φυσικά!";
+>>>>>>> develop
 "rating_list_action_report_review" = "Κάντε αναφορά μιας κριτικής";
 "rating_list_action_report_review_error_message" = "Παρουσιάστηκε σφάλμα κατά την αποστολή της αναφοράς σας.";
 "rating_list_action_report_review_success_message" = "Η αναφορά σας έχει σταλεί";

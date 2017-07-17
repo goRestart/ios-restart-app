@@ -18,13 +18,31 @@ struct LGChatListing: ChatListing {
     let price: ListingPrice
     let currency: Currency
     
-    init(objectId: String?, name: String?, status: Int, image: File?, price: Double?, priceFlag: ListingPriceFlag?,
+    init(objectId: String?,
+         name: String?,
+         status: Int,
+         image: File?,
+         price: Double?, priceFlag: ListingPriceFlag?,
          currency: Currency) {
         self.objectId = objectId
         self.name = name
         self.status = ListingStatus(rawValue: status) ?? .pending
         self.image = image
         self.price = ListingPrice.fromPrice(price, andFlag: priceFlag)
+        self.currency = currency
+    }
+    
+    init(objectId: String?,
+         name: String?,
+         status: ListingStatus,
+         image: File?,
+         price: ListingPrice,
+         currency: Currency) {
+        self.objectId = objectId
+        self.name = name
+        self.status = status
+        self.image = image
+        self.price = price
         self.currency = currency
     }
 }

@@ -356,8 +356,7 @@ class ProductViewModel: BaseViewModel {
     }
 
     fileprivate func createBumpeableBanner(forListingId listingId: String, withPrice: String?, paymentItemId: String?, bumpUpType: BumpUpType) {
-
-        var primaryBlock: () -> Void
+        var bannerInteractionBlock: () -> Void
         var buttonBlock: () -> Void
         switch bumpUpType {
         case .free:
@@ -368,11 +367,11 @@ class ProductViewModel: BaseViewModel {
                 self?.navigator?.openFreeBumpUp(forListing: listing, socialMessage: socialMessage,
                                                 paymentItemId: paymentItemId)
             }
-            primaryBlock = freeBlock
+            bannerInteractionBlock = freeBlock
             buttonBlock = freeBlock
         case .priced:
             guard let paymentItemId = paymentItemId else { return }
-            primaryBlock = { [weak self] in
+            bannerInteractionBlock = { [weak self] in
                 guard let listing = self?.listing.value else { return }
                 guard let purchaseableProduct = self?.bumpUpPurchaseableProduct else { return }
                 self?.navigator?.openPayBumpUp(forListing: listing, purchaseableProduct: purchaseableProduct,
@@ -386,12 +385,12 @@ class ProductViewModel: BaseViewModel {
                 logMessage(.info, type: [.monetization], message: "TRY TO Restore Bump for listing: \(listingId)")
                 self?.purchasesShopper.requestPricedBumpUp(forListingId: listingId)
             }
-            primaryBlock = restoreBlock
+            bannerInteractionBlock = restoreBlock
             buttonBlock = restoreBlock
         }
 
         bumpUpBannerInfo.value = BumpUpInfo(type: bumpUpType, timeSinceLastBump: timeSinceLastBump, price: withPrice,
-                                      primaryBlock: primaryBlock, buttonBlock: buttonBlock)
+                                      bannerInteractionBlock: bannerInteractionBlock, buttonBlock: buttonBlock)
     }
 }
 
@@ -471,6 +470,29 @@ extension ProductViewModel {
 
     func descriptionURLPressed(_ url: URL) {
         showItemHiddenIfNeededFor(url: url)
+    }
+
+    func markAsSold() {
+        delegate?.vmShowLoading(nil)
+        listingRepository.markAsSold(listing: listing.value) { [weak self] result in
+            guard let strongSelf = self else { return }
+            
+            if let value = result.value {
+                strongSelf.listing.value = value
+                strongSelf.trackHelper.trackMarkSoldCompleted(isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value)
+                
+                if strongSelf.featureFlags.newMarkAsSoldFlow {
+                    strongSelf.selectBuyerToMarkAsSold(sourceRateBuyers: .markAsSold)
+                } else {
+                    strongSelf.delegate?.vmHideLoading(nil, afterMessageCompletion: {
+                        strongSelf.navigator?.openAppRating(.markedSold)
+                    })
+                }
+            } else {
+                let message = LGLocalizedString.productMarkAsSoldErrorGeneric
+                strongSelf.delegate?.vmHideLoading(message, afterMessageCompletion: nil)
+            }
+        }
     }
 }
 
@@ -767,7 +789,7 @@ fileprivate extension ProductViewModel {
             }
         }
     }
-
+    
     fileprivate func confirmToMarkAsSold() {
         guard isMine && status.value.isAvailable else { return }
         let free = status.value.isFree
@@ -797,7 +819,6 @@ fileprivate extension ProductViewModel {
         alertActions.append(markAsSoldAction)
         delegate?.vmShowAlert(title, message: message, cancelLabel: cancel, actions: alertActions)
     }
-    
     
     func confirmToMarkAsUnSold(free: Bool) {
         let okButton = free ? LGLocalizedString.productSellAgainFreeConfirmOkButton : LGLocalizedString.productSellAgainConfirmOkButton
@@ -858,29 +879,6 @@ fileprivate extension ProductViewModel {
         }
     }
 
-    func markAsSold() {
-        delegate?.vmShowLoading(nil)
-        listingRepository.markAsSold(listing: listing.value) { [weak self] result in
-            guard let strongSelf = self else { return }
-            
-            if let value = result.value {
-                strongSelf.listing.value = value
-                strongSelf.trackHelper.trackMarkSoldCompleted(isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value)
-                
-                if strongSelf.featureFlags.newMarkAsSoldFlow {
-                    strongSelf.selectBuyerToMarkAsSold(sourceRateBuyers: .markAsSold)
-                } else {
-                    strongSelf.delegate?.vmHideLoading(nil, afterMessageCompletion: {
-                        strongSelf.navigator?.openAppRating(.markedSold)
-                    })
-                }
-            } else {
-                let message = LGLocalizedString.productMarkAsSoldErrorGeneric
-                strongSelf.delegate?.vmHideLoading(message, afterMessageCompletion: nil)
-            }
-        }
-    }
-
     func markUnsold() {
         delegate?.vmShowLoading(nil)
         listingRepository.markAsUnsold(listing: listing.value) { [weak self] result in
@@ -918,8 +916,14 @@ fileprivate extension ProductViewModel {
                     strongSelf.delegate?.vmShowAutoFadingMessage(LGLocalizedString.productChatDirectErrorBlockedUserMessage, completion: nil)
                 case .network, .internalError, .notFound, .unauthorized, .tooManyRequests, .userNotVerified, .serverError:
                     strongSelf.delegate?.vmShowAutoFadingMessage(LGLocalizedString.chatSendErrorGeneric, completion: nil)
+                case let .wsChatError(chatRepositoryError):
+                    switch chatRepositoryError {
+                    case .userBlocked:
+                        strongSelf.delegate?.vmShowAutoFadingMessage(LGLocalizedString.productChatDirectErrorBlockedUserMessage, completion: nil)
+                    case .internalError, .notAuthenticated, .userNotVerified, .network, .apiError:
+                        strongSelf.delegate?.vmShowAutoFadingMessage(LGLocalizedString.chatSendErrorGeneric, completion: nil)
+                    }
                 }
-
                 //Removing in case of failure
                 if let indexToRemove = strongSelf.directChatMessages.value.index(where: { $0.objectId == messageView.objectId }) {
                     strongSelf.directChatMessages.removeAtIndex(indexToRemove)

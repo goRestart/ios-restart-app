@@ -582,6 +582,7 @@
 "product_post_confirmation_another" = "Or";
 "product_post_confirmation_another_button" = "Post another item";
 "product_post_confirmation_edit" = "Add more details";
+"product_post_different_country_error" = "You can’t post in a country where you’re not currently located.";
 "product_post_done" = "Done";
 "product_post_empty_gallery_button" = "Take Photo";
 "product_post_empty_gallery_subtitle" = "Take a photo of the product you want to post";

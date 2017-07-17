@@ -2575,6 +2575,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_post_login_message", comment: "")
 	}
 
+	static var productPostDifferentCountryError: String {
+		return NSLocalizedString("product_post_different_country_error", comment: "")
+	}
+
 	static var productPostNetworkError: String {
 		return NSLocalizedString("product_post_network_error", comment: "")
 	}

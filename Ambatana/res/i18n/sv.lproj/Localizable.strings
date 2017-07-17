@@ -582,6 +582,7 @@
 "product_post_confirmation_another" = "Eller";
 "product_post_confirmation_another_button" = "Lägg upp en till vara";
 "product_post_confirmation_edit" = "Lägg till mer information";
+"product_post_different_country_error" = "You can’t post in a country where you’re not currently located.";
 "product_post_done" = "Klar";
 "product_post_empty_gallery_button" = "Ta bild";
 "product_post_empty_gallery_subtitle" = "Ta en bild på den produkt du vill lägga upp";
@@ -729,6 +730,7 @@
 "rate_user_positive_quick_responses" = "Snabb respons";
 "rate_user_positive_showed_up_on_time" = "Punktlig";
 "rate_user_positive_trustworthy" = "Pålitlig";
+<<<<<<< HEAD
 "rating_app_enjoying_alert_title" = "Are you enjoying letgo?";
 "rating_app_feedback_no_button" = "No, thanks";
 "rating_app_feedback_title" = "Want to give us some feedback?";
@@ -736,6 +738,15 @@
 "rating_app_rate_alert_no_button" = "No, thanks";
 "rating_app_rate_alert_title" = "Would you like to rate us? It'll only take two seconds";
 "rating_app_rate_alert_yes_button" = "Sure!";
+=======
+"rating_app_enjoying_alert_title" = "Uppskattar du letgo?";
+"rating_app_feedback_no_button" = "Nej tack";
+"rating_app_feedback_title" = "Vill du ge oss lite feedback?";
+"rating_app_feedback_yes_button" = "Visst!";
+"rating_app_rate_alert_no_button" = "Nej tack";
+"rating_app_rate_alert_title" = "Skulle du vilja betygsätta oss? Det tar bara några sekunder";
+"rating_app_rate_alert_yes_button" = "Visst!";
+>>>>>>> develop
 "rating_list_action_report_review" = "Rapportera omdöme";
 "rating_list_action_report_review_error_message" = "Ett fel uppstod när din rapport skulle skickas.";
 "rating_list_action_report_review_success_message" = "Din rapport har skickats!";

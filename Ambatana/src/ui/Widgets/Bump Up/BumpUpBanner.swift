@@ -41,14 +41,15 @@ struct BumpUpInfo {
     var type: BumpUpType
     var timeSinceLastBump: TimeInterval
     var price: String?
-    var primaryBlock: () -> Void
+    var bannerInteractionBlock: () -> Void
     var buttonBlock: () -> Void
 
-    init(type: BumpUpType, timeSinceLastBump: TimeInterval, price: String?, primaryBlock: @escaping () -> Void, buttonBlock: @escaping () -> Void ) {
+    init(type: BumpUpType, timeSinceLastBump: TimeInterval, price: String?, bannerInteractionBlock: @escaping () -> Void,
+         buttonBlock: @escaping () -> Void ) {
         self.type = type
         self.timeSinceLastBump = timeSinceLastBump
         self.price = price
-        self.primaryBlock = primaryBlock
+        self.bannerInteractionBlock = bannerInteractionBlock
         self.buttonBlock = buttonBlock
     }
 }
@@ -77,7 +78,7 @@ class BumpUpBanner: UIView {
 
     private(set) var type: BumpUpType = .free
 
-    private var primaryBlock: () -> Void = {}
+    private var bannerInteractionBlock: () -> Void = {}
     private var buttonBlock: () -> Void = {}
 
     private let featureFlags: FeatureFlags = FeatureFlags.sharedInstance
@@ -134,7 +135,7 @@ class BumpUpBanner: UIView {
         bumpButton.isEnabled = timeIntervalLeft.value < 1
 
         buttonBlock = info.buttonBlock
-        primaryBlock = info.primaryBlock
+        bannerInteractionBlock = info.bannerInteractionBlock
     }
 
     func resetCountdown() {
@@ -151,6 +152,11 @@ class BumpUpBanner: UIView {
     func stopCountdown() {
         timer.invalidate()
     }
+    
+    func executeBannerInteractionBlock() {
+        guard readyToBump.value else { return }
+        bannerInteractionBlock()
+    }
 
     private func startCountdown() {
         timer.invalidate()
@@ -158,13 +164,11 @@ class BumpUpBanner: UIView {
     }
 
     dynamic private func bannerTapped() {
-        guard readyToBump.value else { return }
-        primaryBlock()
+        executeBannerInteractionBlock()
     }
 
     dynamic private func bannerSwipped() {
-        guard readyToBump.value else { return }
-        primaryBlock()
+        executeBannerInteractionBlock()
     }
 
     dynamic private func bumpButtonPressed() {

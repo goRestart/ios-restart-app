@@ -582,6 +582,7 @@
 "product_post_confirmation_another" = "혹은";
 "product_post_confirmation_another_button" = "다른 상품 게시하기";
 "product_post_confirmation_edit" = "세부사항 추가하기";
+"product_post_different_country_error" = "You can’t post in a country where you’re not currently located.";
 "product_post_done" = "완료되었습니다";
 "product_post_empty_gallery_button" = "사진 촬영";
 "product_post_empty_gallery_subtitle" = "게시하고자 하는 상품의 사진을 촬영합니다";

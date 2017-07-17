@@ -1915,6 +1915,9 @@
 // Login message when asking for login
 "product_post_login_message" = "To sell your stuff, you have to log in";
 
+// When posting failed due to ip and location countriesare different 
+"product_post_different_country_error" = "You can’t post in a country where you’re not currently located.";
+
 // When posting failed due to network connection errors
 "product_post_network_error" = "Your product hasn't been posted.\nPlease check your network settings.";
 

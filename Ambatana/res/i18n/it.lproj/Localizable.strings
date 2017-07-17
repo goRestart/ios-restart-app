@@ -582,6 +582,7 @@
 "product_post_confirmation_another" = "O";
 "product_post_confirmation_another_button" = "Pubblica un altro oggetto";
 "product_post_confirmation_edit" = "Aggiungi altri dati";
+"product_post_different_country_error" = "You can’t post in a country where you’re not currently located.";
 "product_post_done" = "Fatto";
 "product_post_empty_gallery_button" = "Scatta Foto";
 "product_post_empty_gallery_subtitle" = "Scatta una foto del prodotto che vuoi pubblicare";

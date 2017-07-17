@@ -112,15 +112,13 @@ extension TabCoordinator: TabNavigator {
         }
     }
 
-    func openListing(_ data: ListingDetailData, source: EventParameterProductVisitSource,
-                     showKeyboardOnFirstAppearIfNeeded: Bool) {
+    func openListing(_ data: ListingDetailData, source: EventParameterProductVisitSource, actionOnFirstAppear: ProductCarouselActionOnFirstAppear) {
         switch data {
         case let .id(listingId):
-            openListing(listingId: listingId, source: source,
-                        showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded)
+            openListing(listingId: listingId, source: source, actionOnFirstAppear: actionOnFirstAppear)
         case let .listingAPI(listing, thumbnailImage, originFrame):
             openListing(listing: listing, thumbnailImage: thumbnailImage, originFrame: originFrame, source: source,
-                        index: 0, discover: false, showKeyboardOnFirstAppearIfNeeded: false)
+                        index: 0, discover: false, actionOnFirstAppear: actionOnFirstAppear)
         case let .listingList(listing, cellModels, requester, thumbnailImage, originFrame, showRelated, index):
             openListing(listing, cellModels: cellModels, requester: requester, thumbnailImage: thumbnailImage,
                         originFrame: originFrame, showRelated: showRelated, source: source,
@@ -130,16 +128,16 @@ extension TabCoordinator: TabNavigator {
         }
     }
 
-    func openChat(_ data: ChatDetailData, source: EventParameterTypePage) {
+    func openChat(_ data: ChatDetailData, source: EventParameterTypePage, predefinedMessage: String?) {
         switch data {
         case let .chatAPI(chat):
             openChat(chat, source: source)
         case let .conversation(conversation):
-            openConversation(conversation, source: source)
+            openConversation(conversation, source: source, predefinedMessage: predefinedMessage)
         case let .listingAPI(listing):
             openListingChat(listing)
         case let .dataIds(data):
-            openChatFromConversationData(data, source: source)
+            openChatFromConversationData(data, source: source, predefinedMessage: predefinedMessage)
         }
     }
 
@@ -171,21 +169,21 @@ extension TabCoordinator: TabNavigator {
 }
 
 fileprivate extension TabCoordinator {
-    func openListing(listingId: String, source: EventParameterProductVisitSource,
-                     showKeyboardOnFirstAppearIfNeeded: Bool) {
+    func openListing(listingId: String, source: EventParameterProductVisitSource, actionOnFirstAppear: ProductCarouselActionOnFirstAppear) {
         navigationController.showLoadingMessageAlert()
         listingRepository.retrieve(listingId) { [weak self] result in
             if let listing = result.value {
                 self?.navigationController.dismissLoadingMessageAlert {
                     self?.openListing(listing: listing, source: source, index: 0, discover: false,
-                                      showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded)
+                                      actionOnFirstAppear: actionOnFirstAppear)
                 }
             } else if let error = result.error {
                 let message: String
                 switch error {
                 case .network:
                     message = LGLocalizedString.commonErrorConnectionFailed
-                case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
+                case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError,
+                     .wsChatError:
                     message = LGLocalizedString.commonProductNotAvailable
                 }
                 self?.navigationController.dismissLoadingMessageAlert {
@@ -198,7 +196,7 @@ fileprivate extension TabCoordinator {
 
     func openListing(listing: Listing, thumbnailImage: UIImage? = nil, originFrame: CGRect? = nil,
                              source: EventParameterProductVisitSource, requester: ProductListRequester? = nil, index: Int,
-                             discover: Bool, showKeyboardOnFirstAppearIfNeeded: Bool) {
+                             discover: Bool, actionOnFirstAppear: ProductCarouselActionOnFirstAppear) {
         guard let listingId = listing.objectId else { return }
 
         var requestersArray: [ProductListRequester] = []
@@ -222,7 +220,7 @@ fileprivate extension TabCoordinator {
 
         let vm = ProductCarouselViewModel(listing: listing, thumbnailImage: thumbnailImage,
                                           productListRequester: requester, source: source,
-                                          showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded, trackingIndex: index)
+                                          actionOnFirstAppear: actionOnFirstAppear, trackingIndex: index)
         vm.navigator = self
         openListing(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, listingId: listingId)
     }
@@ -235,11 +233,11 @@ fileprivate extension TabCoordinator {
             let discover = !featureFlags.productDetailNextRelated
             openListing(listing: listing, thumbnailImage: thumbnailImage, originFrame: originFrame,
                         source: source, requester: requester, index: index, discover: discover,
-                        showKeyboardOnFirstAppearIfNeeded: false)
+                        actionOnFirstAppear: .nonexistent)
         } else {
             let vm = ProductCarouselViewModel(productListModels: cellModels, initialListing: listing,
                                               thumbnailImage: thumbnailImage, productListRequester: requester, source: source,
-                                              showKeyboardOnFirstAppearIfNeeded: false, trackingIndex: index,
+                                              actionOnFirstAppear: .nonexistent, trackingIndex: index,
                                               firstProductSyncRequired: false)
             vm.navigator = self
             openListing(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, listingId: listing.objectId)
@@ -253,7 +251,7 @@ fileprivate extension TabCoordinator {
         let filteredRequester = FilteredProductListRequester( itemsPerPage: Constants.numProductsPerPageDefault, offset: 0)
         let requester = ProductListMultiRequester(requesters: [relatedRequester, filteredRequester])
         let vm = ProductCarouselViewModel(listing: .product(localProduct), productListRequester: requester,
-                                          source: source, showKeyboardOnFirstAppearIfNeeded: false, trackingIndex: nil)
+                                          source: source, actionOnFirstAppear: .nonexistent, trackingIndex: nil)
         vm.navigator = self
         openListing(vm, thumbnailImage: nil, originFrame: nil, listingId: productId)
     }
@@ -279,7 +277,8 @@ fileprivate extension TabCoordinator {
                 switch error {
                 case .network:
                     message = LGLocalizedString.commonErrorConnectionFailed
-                case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
+                case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError,
+                     .wsChatError:
                     message = LGLocalizedString.commonUserNotAvailable
                 }
                 self?.navigationController.dismissLoadingMessageAlert {
@@ -314,8 +313,8 @@ fileprivate extension TabCoordinator {
         navigationController.pushViewController(vc, animated: true)
     }
 
-    func openConversation(_ conversation: ChatConversation, source: EventParameterTypePage) {
-        let vm = ChatViewModel(conversation: conversation, navigator: self, source: source)
+    func openConversation(_ conversation: ChatConversation, source: EventParameterTypePage, predefinedMessage: String?) {
+        let vm = ChatViewModel(conversation: conversation, navigator: self, source: source, predefinedMessage: predefinedMessage)
         let vc = ChatViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
@@ -333,14 +332,14 @@ fileprivate extension TabCoordinator {
         }
     }
 
-    func openChatFromConversationData(_ data: ConversationData, source: EventParameterTypePage) {
+    func openChatFromConversationData(_ data: ConversationData, source: EventParameterTypePage, predefinedMessage: String?) {
         navigationController.showLoadingMessageAlert()
 
         if featureFlags.websocketChat {
             let completion: ChatConversationCompletion = { [weak self] result in
                 self?.navigationController.dismissLoadingMessageAlert { [weak self] in
                     if let conversation = result.value {
-                        self?.openConversation(conversation, source: source)
+                        self?.openConversation(conversation, source: source, predefinedMessage: predefinedMessage)
                     } else if let error = result.error {
                         self?.showChatRetrieveError(error)
                     }
@@ -378,7 +377,8 @@ fileprivate extension TabCoordinator {
         switch error {
         case .network:
             message = LGLocalizedString.commonErrorConnectionFailed
-        case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
+        case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError,
+             .wsChatError:
             message = LGLocalizedString.commonChatNotAvailable
         }
         navigationController.showAutoFadingOutMessageAlert(message)
@@ -541,7 +541,7 @@ extension TabCoordinator {
     func trackProductNotAvailable(source: EventParameterProductVisitSource, repositoryError: RepositoryError) {
         var reason: EventParameterNotAvailableReason
         switch repositoryError {
-        case .internalError:
+        case .internalError, .wsChatError:
             reason = .internalError
         case .notFound:
             reason = .notFound

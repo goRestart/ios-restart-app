@@ -15,6 +15,7 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
     private var deepLinksRouter: DeepLinksRouter
 
     private(set) var chatsType: ChatsType
+    private var selectedConversationIds: Set<String>
     weak var delegate: ChatListViewModelDelegate?
     
     var titleForDeleteButton: String {
@@ -23,7 +24,7 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
 
     private let disposeBag = DisposeBag()
 
-
+    
     // MARK: - Lifecycle
 
     convenience init(chatsType: ChatsType, tabNavigator: TabNavigator?) {
@@ -42,34 +43,56 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
         self.chatRepository = chatRepository
         self.deepLinksRouter = deepLinksRouter
         self.chatsType = chatsType
-        super.init(objects: chats, tabNavigator: tabNavigator)
+        self.selectedConversationIds = Set<String>()
+        super.init(collectionVariable: CollectionVariable(chats),
+                   shouldWriteInCollectionVariable: false,
+                   tabNavigator: tabNavigator)
     }
-
-    // MARK: - Public methods
 
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
+        refresh(completion: nil)
         if firstTime {
             setupRxBindings()
         }
     }
+    
+    
+    // MARK: - Public methods
 
     override func index(_ page: Int, completion: ((Result<[Chat], RepositoryError>) -> ())?) {
         super.index(page, completion: completion)
         chatRepository.index(chatsType, page: page, numResults: resultsPerPage, completion: completion)
     }
 
-    override func didFinishLoading() {
-        super.didFinishLoading()
-
-        if active {
-            LGNotificationsManager.sharedInstance.updateChatCounters()
+    func isConversationSelected(index: Int) -> Bool {
+        guard let conversation = objectAtIndex(index), let id = conversation.objectId else { return false }
+        return selectedConversationIds.contains(id)
+    }
+    
+    func selectConversation(index: Int, editing: Bool) {
+        guard let conversation = objectAtIndex(index), let id = conversation.objectId else { return }
+        if editing {
+            selectedConversationIds.insert(id)
+        } else {
+            tabNavigator?.openChat(.chatAPI(chat: conversation), source: .chatList, predefinedMessage: nil)
+        }
+    }
+    
+    func deselectConversation(index: Int, editing: Bool) {
+        guard let conversation = objectAtIndex(index), let id = conversation.objectId else { return }
+        if editing {
+            selectedConversationIds.remove(id)
         }
     }
 
-    func conversationSelectedAtIndex(_ index: Int) {
+    func deselectAllConversations() {
+        selectedConversationIds.removeAll()
+    }
+    
+    func openConversation(index: Int) {
         guard let chat = objectAtIndex(index) else { return }
-        tabNavigator?.openChat(.chatAPI(chat: chat), source: .chatList)
+        tabNavigator?.openChat(.chatAPI(chat: chat), source: .chatList, predefinedMessage: nil)
     }
 
     func conversationDataAtIndex(_ index: Int) -> ConversationCellData? {
@@ -105,7 +128,17 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
     // MARK: > Send
 
     func deleteButtonPressed() {
-        delegate?.vmDeleteSelectedChats()
+        guard !selectedConversationIds.isEmpty else { return }
+        
+        let chatIds = Array(selectedConversationIds)
+        chatRepository.archiveChatsWithIds(chatIds) { [weak self] result in
+            guard let strongSelf = self else { return }
+            if let _ = result.error {
+                strongSelf.delegate?.chatListViewModelDidFailArchivingChats(strongSelf)
+            } else {
+                strongSelf.delegate?.chatListViewModelDidSucceedArchivingChats(strongSelf)
+            }
+        }
     }
 
     func deleteConfirmationTitle(_ itemCount: Int) -> String {
@@ -124,21 +157,6 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
 
     func deleteConfirmationSendButton() -> String {
         return LGLocalizedString.chatListDeleteAlertSend
-    }
-
-    func deleteChatsAtIndexes(_ indexes: [Int]) {
-        let chatIds: [String] = indexes.filter { $0 < objectCount && $0 >= 0 }.flatMap {
-            objectAtIndex($0)?.objectId
-        }
-
-        chatRepository.archiveChatsWithIds(chatIds) { [weak self] result in
-            guard let strongSelf = self else { return }
-            if let _ = result.error {
-                strongSelf.delegate?.chatListViewModelDidFailArchivingChats(strongSelf)
-            } else {
-                strongSelf.delegate?.chatListViewModelDidSucceedArchivingChats(strongSelf)
-            }
-        }
     }
 
 

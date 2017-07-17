@@ -63,7 +63,7 @@ class MainProductsViewModel: BaseViewModel {
         case .inactive:
             return LGLocalizedString.productPopularNearYou
         case .zipCode, .map:
-            let distance = filters.distanceRadius ?? Constants.productListMaxDistanceLabel
+            let distance = filters.distanceRadius ?? 0
             let type = filters.distanceType
             return bubbleTextGenerator.bubbleInfoText(forDistance: distance, type: type, distanceRadius: filters.distanceRadius, place: filters.place)
         }
@@ -628,7 +628,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
             switch error {
             case .network:
                 errorString = LGLocalizedString.toastNoNetwork
-            case .internalError, .notFound, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
+            case .internalError, .notFound, .forbidden, .tooManyRequests, .userNotVerified, .serverError, .wsChatError:
                 errorString = LGLocalizedString.toastErrorInternal
             case .unauthorized:
                 errorString = nil
@@ -647,8 +647,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
         let data = ListingDetailData.listingList(listing: listing, cellModels: cellModels,
                                                  requester: productListRequester, thumbnailImage: thumbnailImage,
                                                  originFrame: originFrame, showRelated: showRelated, index: index)
-        navigator?.openListing(data, source: productVisitSource,
-                               showKeyboardOnFirstAppearIfNeeded: false)
+        navigator?.openListing(data, source: productVisitSource, actionOnFirstAppear: .nonexistent)
     }
 
     func vmProcessReceivedProductPage(_ products: [ListingCellModel], page: UInt) -> [ListingCellModel] {

@@ -70,6 +70,7 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
         viewModel.chatGroupedDelegate = self
         setupUI()
         resetUI()
+        setupRx()
     }
 
     init?<T: BaseViewModel>(viewModel: T, sessionManager: SessionManager, coder aDecoder: NSCoder) where T: ChatGroupedListViewModel {
@@ -80,6 +81,7 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
         viewModel.chatGroupedDelegate = self
         setupUI()
         resetUI()
+        setupRx()
     }
 
     required init?(coder: NSCoder) {
@@ -239,6 +241,13 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
         emptyView.isHidden = viewModel.emptyViewHidden
         tableView.isHidden = viewModel.tableViewHidden
         tableView.reloadData()
+    }
+    
+    func setupRx() {
+        guard let viewModel = viewModel as? BaseChatGroupedListViewModel<ChatConversation> else { return }
+        viewModel.objects.changesObservable.subscribeNext { [weak self] change in
+            self?.tableView.reloadData()
+        }.addDisposableTo(disposeBag)
     }
 
     func setFooterHidden(_ hidden: Bool, animated: Bool, completion: ((Bool) -> (Void))? = nil) {

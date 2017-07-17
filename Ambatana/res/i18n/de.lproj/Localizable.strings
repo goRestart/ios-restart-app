@@ -582,6 +582,7 @@
 "product_post_confirmation_another" = "Oder";
 "product_post_confirmation_another_button" = "Stell noch ein Produkt ein";
 "product_post_confirmation_edit" = "Details hinzufügen";
+"product_post_different_country_error" = "You can’t post in a country where you’re not currently located.";
 "product_post_done" = "Fertig";
 "product_post_empty_gallery_button" = "Foto aufnehmen";
 "product_post_empty_gallery_subtitle" = "Mache ein Foto von dem Produkt, das du verkaufen möchtest";
@@ -729,6 +730,7 @@
 "rate_user_positive_quick_responses" = "Antwortete schnell";
 "rate_user_positive_showed_up_on_time" = "War pünktlich";
 "rate_user_positive_trustworthy" = "Vertrauenswürdig";
+<<<<<<< HEAD
 "rating_app_enjoying_alert_title" = "Are you enjoying letgo?";
 "rating_app_feedback_no_button" = "No, thanks";
 "rating_app_feedback_title" = "Want to give us some feedback?";
@@ -736,6 +738,15 @@
 "rating_app_rate_alert_no_button" = "No, thanks";
 "rating_app_rate_alert_title" = "Would you like to rate us? It'll only take two seconds";
 "rating_app_rate_alert_yes_button" = "Sure!";
+=======
+"rating_app_enjoying_alert_title" = "Gefällt dir letgo?";
+"rating_app_feedback_no_button" = "Nein, danke";
+"rating_app_feedback_title" = "Möchtest du uns Feedback geben?";
+"rating_app_feedback_yes_button" = "Klar!";
+"rating_app_rate_alert_no_button" = "Nein, danke";
+"rating_app_rate_alert_title" = "Möchtest du uns bewerten? Es dauert nur zwei Sekunden";
+"rating_app_rate_alert_yes_button" = "Klar!";
+>>>>>>> develop
 "rating_list_action_report_review" = "Bewertung melden";
 "rating_list_action_report_review_error_message" = "Beim Abschicken deiner Nachricht ist ein Fehler aufgetreten.";
 "rating_list_action_report_review_success_message" = "Deine Nachricht wurde abgeschickt!";

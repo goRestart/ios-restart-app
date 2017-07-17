@@ -582,6 +582,7 @@
 "product_post_confirmation_another" = "Eller";
 "product_post_confirmation_another_button" = "Publiser enda et produkt";
 "product_post_confirmation_edit" = "Legg til flere detaljer";
+"product_post_different_country_error" = "You can’t post in a country where you’re not currently located.";
 "product_post_done" = "Fullfør";
 "product_post_empty_gallery_button" = "Ta bilde";
 "product_post_empty_gallery_subtitle" = "Ta et bilde av det du ønsker å publisere";

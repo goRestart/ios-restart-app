@@ -37,8 +37,9 @@ protocol ChatGroupedListViewModel: class, RxPaginable, ChatGroupedListViewModelT
 }
 
 class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
-
-    fileprivate let objects: Variable<[T]>
+    let objects: CollectionVariable<T>
+    let shouldWriteInCollectionVariable: Bool
+    let notificationsManager: NotificationsManager
     fileprivate let tracker: Tracker
     private(set) var status: ViewState {
         didSet {
@@ -67,44 +68,59 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     var isLoading: Bool = false
 
     var objectCount: Int {
-        return objects.value.count
+        return rx_objectCount.value
     }
     let rx_objectCount = Variable<Int>(0)
     let editing = Variable<Bool>(false)
     fileprivate let disposeBag = DisposeBag()
 
     private var multipageRequester: MultiPageRequester<T>?
+    
+    var shouldRefreshConversations: Bool = true
 
+    
     // MARK: - Lifecycle
 
-    init(objects: [T], tabNavigator: TabNavigator?, tracker: Tracker = TrackerProxy.sharedInstance) {
-        self.objects = Variable<[T]>(objects)
+    convenience init(objects: [T],
+                     tabNavigator: TabNavigator?,
+                     notificationsManager: NotificationsManager = LGNotificationsManager.sharedInstance,
+                     tracker: Tracker = TrackerProxy.sharedInstance) {
+        self.init(collectionVariable: CollectionVariable(objects),
+                  shouldWriteInCollectionVariable: false,
+                  tabNavigator: tabNavigator,
+                  notificationsManager: notificationsManager,
+                  tracker: tracker)
+    }
+    
+    init(collectionVariable: CollectionVariable<T>,
+         shouldWriteInCollectionVariable: Bool,
+         tabNavigator: TabNavigator?,
+         notificationsManager: NotificationsManager = LGNotificationsManager.sharedInstance,
+         tracker: Tracker = TrackerProxy.sharedInstance) {
+        self.objects = collectionVariable
+        self.shouldWriteInCollectionVariable = shouldWriteInCollectionVariable
         self.status = .loading
         self.tabNavigator = tabNavigator
+        self.notificationsManager = notificationsManager
         self.tracker = tracker
         super.init()
+        
         self.multipageRequester = MultiPageRequester() { [weak self] (page, completion) in
             self?.index(page, completion: completion)
         }
-
-        setupPaginableRxBindings()
-    }
-
-
-    override func didBecomeActive(_ firstTime: Bool) {
-        refresh(completion: nil)
+        setupRx()
     }
 
 
     // MARK: - Public methods
 
     func objectAtIndex(_ index: Int) -> T? {
-        guard index < objectCount else { return nil }
+        guard index < objects.value.count else { return nil }
         return objects.value[index]
     }
 
     func clear() {
-        objects.value = []
+        updateObjects(newObjects: [])
         nextPage = 1
         isLastPage = false
         isLoading = false
@@ -119,7 +135,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     }
 
     func didFinishLoading() {
-        // Must be implemented in subclasses
+        notificationsManager.updateChatCounters()
     }
 
     var activityIndicatorAnimating: Bool {
@@ -178,6 +194,55 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     func retrievePage(_ page: Int) {
         retrievePage(page, completion: nil)
     }
+    
+    func retrievePage(_ page: Int, completion: (() -> Void)?) {
+        let firstPage = (page == 1)
+        isLoading = true
+        var hasToRetrieveFirstPage: Bool = false
+        chatGroupedDelegate?.chatGroupedListViewModelDidStartRetrievingObjectList()
+        
+        index(page) { [weak self] result in
+            guard let strongSelf = self else { return }
+            if let value = result.value {
+                
+                if firstPage {
+                    strongSelf.updateObjects(newObjects: value)
+                } else {
+                    strongSelf.updateObjects(newObjects: strongSelf.objects.value + value)
+                }
+                
+                strongSelf.isLastPage = value.count < strongSelf.resultsPerPage
+                strongSelf.nextPage = page + 1
+                
+                if let emptyVM = strongSelf.emptyStatusViewModel, firstPage && strongSelf.objectCount == 0 {
+                    strongSelf.status = .empty(emptyVM)
+                } else {
+                    strongSelf.status = .data
+                }
+                strongSelf.chatGroupedDelegate?.chatGroupedListViewModelShouldUpdateStatus()
+                strongSelf.chatGroupedDelegate?.chatGroupedListViewModelDidSucceedRetrievingObjectList(page)
+            } else if let error = result.error {
+                
+                if firstPage && strongSelf.objectCount == 0 {
+                    if let emptyVM = strongSelf.emptyViewModelForError(error) {
+                        strongSelf.status = .error(emptyVM)
+                    } else {
+                        hasToRetrieveFirstPage = true
+                    }
+                } else {
+                    strongSelf.status = .data
+                }
+                strongSelf.chatGroupedDelegate?.chatGroupedListViewModelShouldUpdateStatus()
+                strongSelf.chatGroupedDelegate?.chatGroupedListViewModelDidFailRetrievingObjectList(page)
+            }
+            strongSelf.isLoading = false
+            if hasToRetrieveFirstPage {
+                strongSelf.retrieveFirstPage()
+            }
+            completion?()
+        }
+        didFinishLoading()
+    }
 
 
     // MARK: - Private methods
@@ -202,7 +267,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
                 } else {
                     strongSelf.status = .data
                 }
-                strongSelf.objects.value = reloadedData
+                strongSelf.updateObjects(newObjects: reloadedData)
                 strongSelf.chatGroupedDelegate?.chatGroupedListViewModelDidSucceedRetrievingObjectList(strongSelf.nextPage)
             } else if let error = result.error {
                 if let emptyVM = strongSelf.emptyViewModelForError(error) {
@@ -211,7 +276,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
                     strongSelf.retrieveFirstPage()
                 }
 
-                strongSelf.objects.value = []
+                strongSelf.updateObjects(newObjects: [])
                 strongSelf.chatGroupedDelegate?.chatGroupedListViewModelDidFailRetrievingObjectList(strongSelf.nextPage)
             }
 
@@ -222,56 +287,6 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
         }
     }
 
-
-    private func retrievePage(_ page: Int, completion: (() -> Void)?) {
-        let firstPage = (page == 1)
-        isLoading = true
-        var hasToRetrieveFirstPage: Bool = false
-        chatGroupedDelegate?.chatGroupedListViewModelDidStartRetrievingObjectList()
-
-        index(page) { [weak self] result in
-            guard let strongSelf = self else { return }
-            if let value = result.value {
-
-                if firstPage {
-                    strongSelf.objects.value = value
-                } else {
-                    strongSelf.objects.value = strongSelf.objects.value + value
-                }
-
-                strongSelf.isLastPage = value.count < strongSelf.resultsPerPage
-                strongSelf.nextPage = page + 1
-
-                if let emptyVM = strongSelf.emptyStatusViewModel, firstPage && strongSelf.objectCount == 0 {
-                    strongSelf.status = .empty(emptyVM)
-                } else {
-                    strongSelf.status = .data
-                }
-                strongSelf.chatGroupedDelegate?.chatGroupedListViewModelShouldUpdateStatus()
-                strongSelf.chatGroupedDelegate?.chatGroupedListViewModelDidSucceedRetrievingObjectList(page)
-            } else if let error = result.error {
-
-                if firstPage && strongSelf.objectCount == 0 {
-                    if let emptyVM = strongSelf.emptyViewModelForError(error) {
-                        strongSelf.status = .error(emptyVM)
-                    } else {
-                        hasToRetrieveFirstPage = true
-                    }
-                } else {
-                    strongSelf.status = .data
-                }
-                strongSelf.chatGroupedDelegate?.chatGroupedListViewModelShouldUpdateStatus()
-                strongSelf.chatGroupedDelegate?.chatGroupedListViewModelDidFailRetrievingObjectList(page)
-            }
-            strongSelf.isLoading = false
-            if hasToRetrieveFirstPage {
-                strongSelf.retrieveFirstPage()
-            }
-            completion?()
-        }
-        didFinishLoading()
-    }
-
     private func emptyViewModelForError(_ error: RepositoryError) -> LGEmptyViewModel? {
         let retryAction: () -> () = { [weak self] in
             self?.retrieveFirstPage()
@@ -280,10 +295,22 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
         switch error {
         case let .network(_, onBackground):
             emptyVM = onBackground ? nil : LGEmptyViewModel.networkErrorWithRetry(retryAction)
+        case let .wsChatError(chatRepositoryError):
+            switch chatRepositoryError {
+            case let .network(_, onBackground):
+                emptyVM = onBackground ? nil : LGEmptyViewModel.networkErrorWithRetry(retryAction)
+            case .internalError, .notAuthenticated, .userNotVerified, .userBlocked, .apiError:
+                emptyVM = LGEmptyViewModel.genericErrorWithRetry(retryAction)
+            }
         case .internalError, .notFound, .forbidden, .unauthorized, .tooManyRequests, .userNotVerified, .serverError:
             emptyVM = LGEmptyViewModel.genericErrorWithRetry(retryAction)
         }
         return emptyVM
+    }
+    
+    private func updateObjects(newObjects: [T]) {
+        guard !shouldWriteInCollectionVariable else { return }
+        objects.value = newObjects
     }
 }
 
@@ -291,14 +318,21 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
 // MARK: - Rx
 
 extension BaseChatGroupedListViewModel {
-    fileprivate func setupPaginableRxBindings() {
-        objects.asObservable().map { messages in
+    fileprivate func setupRx() {
+        objects.observable.map { messages in
             return messages.count
-            }.bindTo(rx_objectCount).addDisposableTo(disposeBag)
+        }.bindTo(rx_objectCount).addDisposableTo(disposeBag)
         
         editing.asObservable().subscribeNext { [weak self] editing in
             self?.chatGroupedDelegate?.chatGroupedListViewModelSetEditing(editing)
+        }.addDisposableTo(disposeBag)
+        
+        if shouldWriteInCollectionVariable {
+            objects.changesObservable.subscribeNext { [weak self] _ in
+                self?.chatGroupedDelegate?.chatGroupedListViewModelShouldUpdateStatus()
+                self?.notificationsManager.updateChatCounters()
             }.addDisposableTo(disposeBag)
+        }
     }
 }
 

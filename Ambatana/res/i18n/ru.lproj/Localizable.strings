@@ -582,6 +582,7 @@
 "product_post_confirmation_another" = "Или";
 "product_post_confirmation_another_button" = "Разместить другой товар";
 "product_post_confirmation_edit" = "Добавить еще детали";
+"product_post_different_country_error" = "You can’t post in a country where you’re not currently located.";
 "product_post_done" = "Готово";
 "product_post_empty_gallery_button" = "Сделать фото";
 "product_post_empty_gallery_subtitle" = "Сделайте фото товара, который хотите разместить";
@@ -729,6 +730,7 @@
 "rate_user_positive_quick_responses" = "Быстро отвечал";
 "rate_user_positive_showed_up_on_time" = "Пришел вовремя";
 "rate_user_positive_trustworthy" = "Надежный";
+<<<<<<< HEAD
 "rating_app_enjoying_alert_title" = "Are you enjoying letgo?";
 "rating_app_feedback_no_button" = "No, thanks";
 "rating_app_feedback_title" = "Want to give us some feedback?";
@@ -736,6 +738,15 @@
 "rating_app_rate_alert_no_button" = "No, thanks";
 "rating_app_rate_alert_title" = "Would you like to rate us? It'll only take two seconds";
 "rating_app_rate_alert_yes_button" = "Sure!";
+=======
+"rating_app_enjoying_alert_title" = "Вам нравится letgo?";
+"rating_app_feedback_no_button" = "Нет, спасибо";
+"rating_app_feedback_title" = "Хотите оставить нам отзыв?";
+"rating_app_feedback_yes_button" = "Конечно!";
+"rating_app_rate_alert_no_button" = "Нет, спасибо";
+"rating_app_rate_alert_title" = "Хотите оценить нас? Этой займет всего 2 секунды";
+"rating_app_rate_alert_yes_button" = "Конечно!";
+>>>>>>> develop
 "rating_list_action_report_review" = "Пожаловаться на отзыв";
 "rating_list_action_report_review_error_message" = "При отправке произошла ошибка.";
 "rating_list_action_report_review_success_message" = "Ваша жалоба была отправлена!";

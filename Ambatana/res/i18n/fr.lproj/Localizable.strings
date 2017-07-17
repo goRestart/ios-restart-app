@@ -582,6 +582,7 @@
 "product_post_confirmation_another" = "Ou";
 "product_post_confirmation_another_button" = "Postez un autre bien";
 "product_post_confirmation_edit" = "Ajouter plus de détails";
+"product_post_different_country_error" = "You can’t post in a country where you’re not currently located.";
 "product_post_done" = "Terminé";
 "product_post_empty_gallery_button" = "Prendre une Photo";
 "product_post_empty_gallery_subtitle" = "Prenez une photo du bien que vous souhaitez vendre";

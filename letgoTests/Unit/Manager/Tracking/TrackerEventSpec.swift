@@ -2003,7 +2003,29 @@ class TrackerEventSpec: QuickSpec {
                     expect(productId).to(equal(product.objectId))
                 }
             }
+            
 
+            describe("productSellError") {
+                beforeEach {
+                    var product = MockProduct.makeMock()
+                    product.objectId = "r4nd0m1D"
+                    product.name = "name"
+                    product.descr = nil
+                    product.category = .homeAndGarden
+                    product.price = .negotiable(20)
+                    product.images = MockFile.makeMocks(count: 2)
+                    product.descr = String.makeRandom()
+                    sut = TrackerEvent.productSellError(.forbidden(cause: .differentCountry))
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-sell-error"))
+                }
+                it("contains errorDescription") {
+                    let errorDescription = sut.params!.stringKeyParams["error-description"] as? String
+                    expect(errorDescription).to(equal("product-sell-different-country-error"))
+                }
+            }
+            
             describe("productSellComplete") {
                 beforeEach {
                     var product = MockProduct.makeMock()
@@ -2014,8 +2036,9 @@ class TrackerEventSpec: QuickSpec {
                     product.price = .negotiable(20)
                     product.images = MockFile.makeMocks(count: 2)
                     product.descr = String.makeRandom()
-                    sut = TrackerEvent.productSellComplete(Listing.product(product), buttonName: .done, sellButtonPosition: .floatingButton, negotiable: .yes,
-                        pictureSource: .gallery, freePostingModeAllowed: true)
+                    sut = TrackerEvent.productSellComplete(Listing.product(product), buttonName: .done,
+                                                           sellButtonPosition: .floatingButton, negotiable: .yes,
+                                                           pictureSource: .gallery, freePostingModeAllowed: true)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-complete"))
