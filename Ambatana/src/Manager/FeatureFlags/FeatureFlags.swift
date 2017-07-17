@@ -36,6 +36,7 @@ protocol FeatureFlaggeable: class {
     var newCarouselNavigationEnabled: Bool { get }
     var newOnboardingPhase1: Bool { get }
     var searchParamDisc24: SearchParamDisc24 { get }
+    var suggestedSearches: SuggestedSearches { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -231,6 +232,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.searchParamDisc24
         }
         return SearchParamDisc24.fromPosition(abTests.searchParamDisc24.value)
+    }
+    
+    var suggestedSearches: SuggestedSearches {
+        if Bumper.enabled {
+            return Bumper.suggestedSearches
+        }
+        return SuggestedSearches.fromPosition(abTests.suggestedSearches.value)
     }
     
     // MARK: - Country features

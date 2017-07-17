@@ -84,5 +84,11 @@
         "name": "SearchParamDisc24",
         "values": ["disc24a", "disc24b", "disc24c", "disc24d", "disc24e", "disc24f", "disc24g"],
         "description": "Diferent search approach"
- }
+    },
+    {
+        "name": "SuggestedSearches",
+        "values": ["control", "baseline", "active"],
+        "description": "New suggested searches section"
+    }
+ 
 ]

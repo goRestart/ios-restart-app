@@ -58,6 +58,15 @@ class MainProductsViewModel: BaseViewModel {
             return true
         }
     }
+    
+    var isSuggestedSearchesEnabled: Bool {
+        switch featureFlags.suggestedSearches {
+        case .control, .baseline:
+            return false
+        case .active:
+            return true
+        }
+    }
 
     var defaultBubbleText: String {
         switch featureFlags.editLocationBubble {
