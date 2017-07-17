@@ -830,6 +830,7 @@ extension MainProductsViewModel {
     }
     
     func retrieveSuggestiveSearches(term: String) {
+        guard isSuggestedSearchesEnabled else { return }
         guard let currentCountryCode = locationManager.currentLocation?.countryCode else { return }
         
         suggestedSearchesRepository.retrieveSuggestiveSearches(currentCountryCode, limit: 10, term: term) { [weak self] result in

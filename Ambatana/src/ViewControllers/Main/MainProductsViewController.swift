@@ -42,7 +42,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     fileprivate let horizontalMarginHeaderView: CGFloat = 16
     fileprivate let sectionHeight: CGFloat = 54
     fileprivate let firstSectionMarginTop: CGFloat = -36
-    fileprivate let numberOfSuggestionSections = 3
+
     @IBOutlet weak var infoBubbleLabel: UILabel!
     @IBOutlet weak var infoBubbleShadow: UIView!
     @IBOutlet weak var infoBubbleArrow: UIImageView!
@@ -72,6 +72,13 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     }
     fileprivate var collectionViewHeadersHeight: CGFloat {
         return productListView.headerDelegate?.totalHeaderHeight() ?? 0
+    }
+    fileprivate var numberOfSuggestionSections: Int {
+        if (viewModel.isSuggestedSearchesEnabled) {
+            return 3
+        } else {
+            return 2
+        }
     }
     
     // MARK: - Lifecycle
@@ -439,11 +446,13 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
             strongSelf.topInset.value = strongSelf.topBarHeight + tagsHeight + strongSelf.filterHeadersHeight
         }.addDisposableTo(disposeBag)
         
-        navbarSearch.searchTextField?.rx.text.asObservable()
-            .filter { ($0?.characters.count)! > 0 }
-            .debounce(0.3, scheduler: MainScheduler.instance)
-            .subscribeNext { [weak self] text in
-                self?.viewModel.retrieveSuggestiveSearches(term: text!)
+        if (viewModel.isSuggestedSearchesEnabled) {
+            navbarSearch.searchTextField?.rx.text.asObservable()
+                .filter { ($0?.characters.count)! > 0 }
+                .debounce(0.3, scheduler: MainScheduler.instance)
+                .subscribeNext { [weak self] text in
+                    self?.viewModel.retrieveSuggestiveSearches(term: text!)
+            }
         }
     }
 }
@@ -667,9 +676,17 @@ fileprivate extension MainProductsViewController {
     func getSearchSuggestionType(_ section: Int) -> SearchSuggestionType? {
         switch section {
         case 0:
-            return .suggestive
+            if (viewModel.isSuggestedSearchesEnabled) {
+                return .suggestive
+            } else {
+                return .lastSearch
+            }
         case 1:
-            return .lastSearch
+            if (viewModel.isSuggestedSearchesEnabled) {
+                return .lastSearch
+            } else {
+                return .trending
+            }
         case 2:
             return .trending
         default:
