@@ -83,8 +83,6 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
         guard let conversation = objectAtIndex(index), let id = conversation.objectId else { return }
         if editing {
             selectedConversationIds.remove(id)
-        } else {
-            tabNavigator?.openChat(.chatAPI(chat: conversation), source: .chatList, predefinedMessage: nil)
         }
     }
 
