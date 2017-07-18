@@ -885,6 +885,7 @@ extension ChatViewModel {
             self?.blockUser(buttonPosition: buttonPosition) { [weak self] success in
                 if success {
                     self?.interlocutorIsMuted.value = true
+                    self?.chatStatus.value = .blocked
                     self?.refreshChat()
                 } else {
                     self?.delegate?.vmShowMessage(LGLocalizedString.blockUserErrorGeneric, completion: nil)
@@ -914,11 +915,13 @@ extension ChatViewModel {
     
     private func unblockUserAction() {
         unBlockUser() { [weak self] success in
+            guard let strongSelf = self else { return }
             if success {
-                self?.interlocutorIsMuted.value = false
-                self?.refreshChat()
+                strongSelf.interlocutorIsMuted.value = false
+                strongSelf.refreshChat()
+                strongSelf.chatStatus.value = strongSelf.recoverConversationChatStatusForUnblock()
             } else {
-                self?.delegate?.vmShowMessage(LGLocalizedString.unblockUserErrorGeneric, completion: nil)
+                strongSelf.delegate?.vmShowMessage(LGLocalizedString.unblockUserErrorGeneric, completion: nil)
             }
         }
     }
@@ -933,6 +936,39 @@ extension ChatViewModel {
         
         self.userRepository.unblockUserWithId(userId) { result -> Void in
             completion(result.value != nil)
+        }
+    }
+
+    /**
+     Checks the same conditions as the chatStatus ChatConversation extension, except if the interlocutor is muted
+     NEVER returns blocked
+     */
+    private func recoverConversationChatStatusForUnblock() -> ChatInfoViewStatus {
+        let actualConversation = conversation.value
+        guard let interlocutor = actualConversation.interlocutor else { return .available }
+        guard let listing = actualConversation.listing else { return .available }
+
+        switch interlocutor.status {
+        case .scammer:
+            return .forbidden
+        case .pendingDelete:
+            return .userPendingDelete
+        case .deleted:
+            return .userDeleted
+        case .active, .inactive, .notFound:
+            break // In this case we rely on the rest of states
+        }
+
+        if interlocutor.isBanned { return .forbidden }
+        if interlocutor.hasMutedYou { return .blockedBy }
+
+        switch listing.status {
+        case .deleted, .discarded:
+            return .productDeleted
+        case .sold, .soldOld:
+            return .productSold
+        case .approved, .pending:
+            return .available
         }
     }
 }
