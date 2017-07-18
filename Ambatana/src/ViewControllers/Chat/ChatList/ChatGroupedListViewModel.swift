@@ -115,7 +115,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     // MARK: - Public methods
 
     func objectAtIndex(_ index: Int) -> T? {
-        guard index < objectCount else { return nil }
+        guard index < objects.value.count else { return nil }
         return objects.value[index]
     }
 
@@ -295,6 +295,13 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
         switch error {
         case let .network(_, onBackground):
             emptyVM = onBackground ? nil : LGEmptyViewModel.networkErrorWithRetry(retryAction)
+        case let .wsChatError(chatRepositoryError):
+            switch chatRepositoryError {
+            case let .network(_, onBackground):
+                emptyVM = onBackground ? nil : LGEmptyViewModel.networkErrorWithRetry(retryAction)
+            case .internalError, .notAuthenticated, .userNotVerified, .userBlocked, .apiError:
+                emptyVM = LGEmptyViewModel.genericErrorWithRetry(retryAction)
+            }
         case .internalError, .notFound, .forbidden, .unauthorized, .tooManyRequests, .userNotVerified, .serverError:
             emptyVM = LGEmptyViewModel.genericErrorWithRetry(retryAction)
         }

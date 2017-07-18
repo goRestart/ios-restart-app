@@ -54,6 +54,10 @@ enum UserRouter: URLRequestAuthenticable {
             return [Int](200..<400)
         }
     }
+    
+    var errorDecoderType: ErrorDecoderType? {
+        return .apiUsersError
+    }
 
     var reportingBlacklistedApiError: Array<ApiError> { return [.scammer] }
 

@@ -73,7 +73,7 @@ class MainProductsViewModel: BaseViewModel {
         case .inactive:
             return LGLocalizedString.productPopularNearYou
         case .zipCode, .map:
-            let distance = filters.distanceRadius ?? Constants.productListMaxDistanceLabel
+            let distance = filters.distanceRadius ?? 0
             let type = filters.distanceType
             return bubbleTextGenerator.bubbleInfoText(forDistance: distance, type: type, distanceRadius: filters.distanceRadius, place: filters.place)
         }
@@ -642,7 +642,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
             switch error {
             case .network:
                 errorString = LGLocalizedString.toastNoNetwork
-            case .internalError, .notFound, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
+            case .internalError, .notFound, .forbidden, .tooManyRequests, .userNotVerified, .serverError, .wsChatError:
                 errorString = LGLocalizedString.toastErrorInternal
             case .unauthorized:
                 errorString = nil

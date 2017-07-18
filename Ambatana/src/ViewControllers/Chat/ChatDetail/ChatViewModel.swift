@@ -268,7 +268,7 @@ class ChatViewModel: BaseViewModel {
         self.chatViewMessageAdapter = ChatViewMessageAdapter()
         self.navigator = navigator
         self.source = source
-        self.predefinedMessage = predefinedMessage
+        self.predefinedMessage = predefinedMessage?.stringByRemovingEmoji()
         super.init()
         setupRx()
         loadStickers()
@@ -654,6 +654,13 @@ extension ChatViewModel {
                 // Removing message until we implement the retry-message state behavior
                 strongSelf.removeMessage(messageId: messageId)
                 switch error {
+                case let .wsChatError(chatRepositoryError):
+                    switch chatRepositoryError {
+                    case .userNotVerified:
+                        self?.showUserNotVerifiedAlert()
+                    case .notAuthenticated, .userBlocked, .internalError, .network, .apiError:
+                        self?.showSendMessageError()
+                    }
                 case .userNotVerified:
                     self?.showUserNotVerifiedAlert()
                 case .forbidden, .internalError, .network, .notFound, .tooManyRequests, .unauthorized, .serverError:
@@ -713,7 +720,7 @@ extension ChatViewModel {
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailTooManyRequests, completion: nil)
                 case .network:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorNetworkBody, completion: nil)
-                case .forbidden, .internalError, .notFound, .unauthorized, .userNotVerified, .serverError:
+                case .forbidden, .internalError, .notFound, .unauthorized, .userNotVerified, .serverError, .wsChatError:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorGenericBody, completion: nil)
                 }
             } else {

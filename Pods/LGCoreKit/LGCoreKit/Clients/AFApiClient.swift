@@ -52,11 +52,12 @@ public enum BadRequestCause {
     }
 }
 
-public enum ForbiddenCause {
+public enum ForbiddenCause: Equatable {
     
     case emailTaken
     case userBlocked
     case notSpecified
+    case differentCountry
     case other(code: Int)
     
     static func causeWithCode(_ code: Int?) -> ForbiddenCause {
@@ -64,12 +65,24 @@ public enum ForbiddenCause {
         switch code {
         case 1010:
             return .emailTaken
+        case 11001, 12001:
+            return .differentCountry
         default:
             return .other(code: code)
         }
     }
 }
 
+public func ==(lhs: ForbiddenCause, rhs: ForbiddenCause) -> Bool {
+    switch (lhs, rhs) {
+    case (.emailTaken, .emailTaken): return true
+    case (.userBlocked, .userBlocked): return true
+    case (.notSpecified, .notSpecified): return true
+    case (.differentCountry, .differentCountry): return true
+    case (.other(let a), .other(let b)) where a == b: return true
+    default: return false
+    }
+}
 
 public enum ApiError: Error {
     // errorCode references URLError codes (i.e. URLErrorUnknown)
@@ -150,14 +163,24 @@ public enum ApiError: Error {
     }
 }
 
+enum ErrorDecoderType {
+    case apiUsersError
+    case apiProductsError
+}
+
 protocol URLRequestAuthenticable: URLRequestConvertible, ReportableRequest {
     var requiredAuthLevel: AuthLevel { get }
     var acceptedStatus: Array<Int> { get }
+    var errorDecoderType: ErrorDecoderType? { get }
 }
 
 extension URLRequestAuthenticable {
     var acceptedStatus: Array<Int> {
         return [Int](200..<400)
+    }
+    
+    var errorDecoderType: ErrorDecoderType? {
+        return nil
     }
 }
 
@@ -221,7 +244,7 @@ class AFApiClient: ApiClient {
                 case let .success(upload, _, _):
                     let dataRequest = upload.validate(statusCode: 200..<400)
                         .responseObject(decoder) { [weak self] (response: DataResponse<T>) in
-                            if let actualError = self?.errorFromAlamofireResponse(response) {
+                            if let actualError = self?.errorFromAlamofireResponse(errorDecoderType: request.errorDecoderType, response: response) {
                                 logMessage(.info, type: CoreLoggingOptions.networking, message: response.logMessage)
                                 completion?(ResultResult<T, ApiError>.t(error: actualError))
                             } else if let uploadFileResponse = response.result.value {

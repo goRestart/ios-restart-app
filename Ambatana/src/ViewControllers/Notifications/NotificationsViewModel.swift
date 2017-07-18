@@ -126,7 +126,7 @@ class NotificationsViewModel: BaseViewModel {
             } else if let error = result.error {
                 switch error {
                     case .forbidden, .internalError, .notFound, .serverError, .tooManyRequests, .unauthorized, .userNotVerified,
-                    .network(errorCode: _, onBackground: false):
+                         .network(errorCode: _, onBackground: false), .wsChatError:
                         if let emptyViewModel = LGEmptyViewModel.respositoryErrorWithRetry(error,
                             action: { [weak self] in
                                 self?.viewState.value = .loading

@@ -9,7 +9,6 @@
 import LGCoreKit
 
 protocol ChatListViewModelDelegate: class {
-    func vmDeleteSelectedChats()
     func chatListViewModelDidFailArchivingChats(_ viewModel: ChatListViewModel)
     func chatListViewModelDidSucceedArchivingChats(_ viewModel: ChatListViewModel)
     func chatListViewModelDidFailUnarchivingChats(_ viewModel: ChatListViewModel)
@@ -29,9 +28,12 @@ protocol ChatListViewModel: class, ChatGroupedListViewModel {
     func deleteConfirmationCancelTitle() -> String
     func deleteConfirmationSendButton() -> String
 
-    func deleteChatsAtIndexes(_ indexes: [Int])
     func deleteButtonPressed()
 
     func conversationDataAtIndex(_ index: Int) -> ConversationCellData?
-    func conversationSelectedAtIndex(_ index: Int)
+    func isConversationSelected(index: Int) -> Bool
+    func deselectAllConversations()
+    func deselectConversation(index: Int, editing: Bool)
+    func selectConversation(index: Int, editing: Bool)
+    func openConversation(index: Int)
 }
