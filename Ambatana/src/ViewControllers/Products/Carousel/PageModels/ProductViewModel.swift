@@ -96,6 +96,7 @@ class ProductViewModel: BaseViewModel {
 
     let bumpUpBannerInfo = Variable<BumpUpInfo?>(nil)
     fileprivate var timeSinceLastBump: TimeInterval = 0
+    fileprivate var bumpMaxCountdown: TimeInterval = 0
     var bumpUpPurchaseableProduct: PurchaseableProduct?
     fileprivate var isUpdatingBumpUpBanner: Bool = false
     fileprivate var paymentItemId: String?
@@ -336,6 +337,7 @@ class ProductViewModel: BaseViewModel {
                 guard let bumpeableProduct = result.value else { return }
 
                 strongSelf.timeSinceLastBump = bumpeableProduct.timeSinceLastBump
+                strongSelf.bumpMaxCountdown = bumpeableProduct.maxCountdown
                 let freeItems = bumpeableProduct.paymentItems.filter { $0.provider == .letgo }
                 let paymentItems = bumpeableProduct.paymentItems.filter { $0.provider == .apple }
                 if !paymentItems.isEmpty, strongSelf.featureFlags.pricedBumpUpEnabled {
@@ -389,8 +391,12 @@ class ProductViewModel: BaseViewModel {
             buttonBlock = restoreBlock
         }
 
-        bumpUpBannerInfo.value = BumpUpInfo(type: bumpUpType, timeSinceLastBump: timeSinceLastBump, price: withPrice,
-                                      bannerInteractionBlock: bannerInteractionBlock, buttonBlock: buttonBlock)
+        bumpUpBannerInfo.value = BumpUpInfo(type: bumpUpType,
+                                            timeSinceLastBump: timeSinceLastBump,
+                                            maxCountdown: bumpMaxCountdown,
+                                            price: withPrice,
+                                            bannerInteractionBlock: bannerInteractionBlock,
+                                            buttonBlock: buttonBlock)
     }
 }
 
