@@ -209,7 +209,7 @@ extension AppCoordinator: AppNavigator {
     func openAppRating(_ source: EventParameterRatingSource) {
         guard ratingManager.shouldShowRating else { return }
         
-        if #available(iOS 10.3, *) {
+        if featureFlags.inAppRatingIOS10, #available(iOS 10.3, *) {
             switch source {
             case .markedSold:
                 SKStoreReviewController.requestReview()
