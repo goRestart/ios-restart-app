@@ -40,14 +40,16 @@ enum BumpUpType {
 struct BumpUpInfo {
     var type: BumpUpType
     var timeSinceLastBump: TimeInterval
+    var maxCountdown: TimeInterval
     var price: String?
     var bannerInteractionBlock: () -> Void
     var buttonBlock: () -> Void
 
-    init(type: BumpUpType, timeSinceLastBump: TimeInterval, price: String?, bannerInteractionBlock: @escaping () -> Void,
+    init(type: BumpUpType, timeSinceLastBump: TimeInterval, maxCountdown: TimeInterval, price: String?, bannerInteractionBlock: @escaping () -> Void,
          buttonBlock: @escaping () -> Void ) {
         self.type = type
         self.timeSinceLastBump = timeSinceLastBump
+        self.maxCountdown = maxCountdown
         self.price = price
         self.bannerInteractionBlock = bannerInteractionBlock
         self.buttonBlock = buttonBlock
@@ -73,7 +75,7 @@ class BumpUpBanner: UIView {
     private var marginBetweenLabelsConstraint: NSLayoutConstraint = NSLayoutConstraint()
     private var timeLabelWidthConstraint: NSLayoutConstraint = NSLayoutConstraint()
     
-
+    private var maxCountdown: TimeInterval = Constants.bumpUpFreeTimeLimit
     private var timer: Timer = Timer()
 
     private(set) var type: BumpUpType = .free
@@ -110,22 +112,23 @@ class BumpUpBanner: UIView {
 
     func updateInfo(info: BumpUpInfo) {
         type = info.type
+        maxCountdown = info.maxCountdown
 
         var waitingTime: TimeInterval = 0
 
         switch type {
         case .free:
-            waitingTime = Constants.bumpUpFreeTimeLimit
+            waitingTime = info.maxCountdown
             bumpButton.setTitle(LGLocalizedString.bumpUpBannerFreeButtonTitle, for: .normal)
         case .priced:
-            waitingTime = Constants.bumpUpPaidTimeLimit
+            waitingTime = info.maxCountdown
             if let price = info.price {
                 bumpButton.setTitle(price, for: .normal)
             } else {
                 bumpButton.setTitle(LGLocalizedString.bumpUpBannerFreeButtonTitle, for: .normal)
             }
         case .restore:
-            waitingTime = Constants.bumpUpPaidTimeLimit
+            waitingTime = info.maxCountdown
             bumpButton.setTitle(LGLocalizedString.commonErrorRetryButton, for: .normal)
         }
 
@@ -142,9 +145,9 @@ class BumpUpBanner: UIView {
         // Update countdown with full waiting time
         switch type {
         case .free:
-            timeIntervalLeft.value = Constants.bumpUpFreeTimeLimit
+            timeIntervalLeft.value = maxCountdown
         case .priced, .restore:
-            timeIntervalLeft.value = Constants.bumpUpPaidTimeLimit
+            timeIntervalLeft.value = maxCountdown
         }
         startCountdown()
     }
