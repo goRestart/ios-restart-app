@@ -31,14 +31,12 @@ extension LGTransaction : Decodable {
      }     */
     
     static func decode(_ j: JSON) -> Decoded<LGTransaction> {
-        let init1 = curry(LGTransaction.init)
-            <^> j <| "transaction_id"
-            <*> j <| "closed"
-        
-        if let error = init1.error {
+        let result1 = curry(LGTransaction.init)
+        let result2 = result1 <^> j <| "transaction_id"
+        let result  = result2 <*> j <| "closed"
+        if let error = result.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGTransaction parse error: \(error)")
         }
-        
-        return init1
+        return result
     }
 }

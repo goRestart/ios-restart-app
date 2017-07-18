@@ -64,24 +64,20 @@ extension LGCommercializer : Decodable {
      
      */
     static func decode(_ j: JSON) -> Decoded<LGCommercializer> {
-        
-        let init1 = curry(LGCommercializer.newLGCommercializer)
-                            <^> LGArgo.parseCommercializerStatus(j, key: "status")
-                            <*> j <|? "video_high_url"
-                            <*> j <|? "video_low_url"
-                            <*> j <|? "thumb_url"
-        let init2 = init1   <*> j <|? "share_url"
-                            <*> j <|? "template_id"
-                            <*> j <|? "video_title"
-                            <*> j <|? "video_duration"
-                            <*> j <|? "updated_at"
-         let result = init2 <*> j <|? "created_at"
-        
-        
+        let result01 = curry(LGCommercializer.newLGCommercializer)
+        let result02 = result01 <^> LGArgo.parseCommercializerStatus(j, key: "status")
+        let result03 = result02 <*> j <|? "video_high_url"
+        let result04 = result03 <*> j <|? "video_low_url"
+        let result05 = result04 <*> j <|? "thumb_url"
+        let result06 = result05 <*> j <|? "share_url"
+        let result07 = result06 <*> j <|? "template_id"
+        let result08 = result07 <*> j <|? "video_title"
+        let result09 = result08 <*> j <|? "video_duration"
+        let result10 = result09 <*> j <|? "updated_at"
+        let result   = result10 <*> j <|? "created_at"
         if let error = result.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGCommercializer parse error: \(error)")
-        }
-        
+        }        
         return result
     }
 }

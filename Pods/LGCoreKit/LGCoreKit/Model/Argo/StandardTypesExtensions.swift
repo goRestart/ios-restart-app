@@ -10,7 +10,7 @@ import Argo
 import Curry
 import Runes
 
-extension LGSize : Decodable {
+extension LGSize: Decodable {
 
     /**
     Expects a json in the form:
@@ -21,9 +21,13 @@ extension LGSize : Decodable {
     }
     */
     public static func decode(_ j: JSON) -> Decoded<LGSize> {
-        return curry(LGSize.init)
-            <^> j <| "width"
-            <*> j <| "height"
+        let result1 = curry(LGSize.init)
+        let result2 = result1 <^> j <| "width"
+        let result  = result2 <*> j <| "height"
+        if let error = result.error {
+            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGSize parse error: \(error)")
+        }
+        return result
     }
 }
 

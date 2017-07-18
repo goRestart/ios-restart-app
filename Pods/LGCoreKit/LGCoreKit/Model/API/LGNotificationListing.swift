@@ -30,11 +30,15 @@ extension LGNotificationListing: Decodable {
          "product_image": "Ms.",
          "product_title": "Miss",
          }
-         */
-        return curry(LGNotificationListing.init)
-            <^> j <| JSONKeys.productId
-            <*> j <|? JSONKeys.productTitle
-            <*> j <|? JSONKeys.productImage
+         */       
+        let result1 = curry(LGNotificationListing.init)
+        let result2 = result1 <^> j <| JSONKeys.productId
+        let result3 = result2 <*> j <|? JSONKeys.productTitle
+        let result  = result3 <*> j <|? JSONKeys.productImage
+        if let error = result.error {
+            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGNotificationListing parse error: \(error)")
+        }
+        return result
     }
 }
 

@@ -32,15 +32,13 @@ extension LGSticker : Decodable {
      }
      */
     static func decode(_ j: JSON) -> Decoded<LGSticker> {
-        let result = curry(LGSticker.init)
-            <^> j <| "url"
-            <*> j <| "name"
-            <*> j <|? "type"
-        
+        let result1 = curry(LGSticker.init)
+        let result2 = result1 <^> j <| "url"
+        let result3 = result2 <*> j <| "name"
+        let result  = result3 <*> j <|? "type"
         if let error = result.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGSticker parse error: \(error)")
-        }
-        
+        }        
         return result
     }
 }

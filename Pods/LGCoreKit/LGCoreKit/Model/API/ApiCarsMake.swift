@@ -39,12 +39,10 @@ extension ApiCarsMake: Decodable {
      }
      */
     public static func decode(_ j: JSON) -> Decoded<ApiCarsMake> {
-
-        let result = curry(ApiCarsMake.init)
-            <^> j <| "id"
-            <*> j <| "name"
-            <*> j <|| "models"
-
+        let result1 = curry(ApiCarsMake.init)
+        let result2 = result1 <^> j <| "id"
+        let result3 = result2 <*> j <| "name"
+        let result  = result3 <*> j <|| "models"
         if let error = result.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "ApiCarsMake parse error: \(error)")
         }

@@ -25,8 +25,7 @@ struct LGChatInterlocutor: ChatInterlocutor {
          isBanned: Bool,
          isMuted: Bool,
          hasMutedYou: Bool,
-         status: UserStatus) {
-        
+         status: UserStatus){
         self.objectId = objectId
         self.name = name
         self.avatar = avatar
@@ -34,6 +33,22 @@ struct LGChatInterlocutor: ChatInterlocutor {
         self.isMuted = isMuted
         self.hasMutedYou = hasMutedYou
         self.status = status
+    }
+    
+    fileprivate static func make(objectId: String?,
+                                 name: String,
+                                 avatar: LGFile?,
+                                 isBanned: Bool,
+                                 isMuted: Bool,
+                                 hasMutedYou: Bool,
+                                 status: UserStatus) -> LGChatInterlocutor {
+        return LGChatInterlocutor(objectId: objectId,
+                                  name: name,
+                                  avatar: avatar,
+                                  isBanned: isBanned,
+                                  isMuted: isMuted,
+                                  hasMutedYou: hasMutedYou,
+                                  status: status)
     }
 }
 
@@ -50,19 +65,18 @@ extension LGChatInterlocutor: Decodable {
     }
     
     static func decode(_ j: JSON) -> Decoded<LGChatInterlocutor> {
-        let init1 = curry(LGChatInterlocutor.init)
-            <^> j <|? JSONKeys.objectId
-            <*> j <| JSONKeys.name
-            <*> LGArgo.jsonToAvatarFile(j, avatarKey: JSONKeys.avatar)
-            <*> j <| JSONKeys.isBanned
-            <*> j <| JSONKeys.isMuted
-            <*> j <| JSONKeys.hasMutedYou
-            <*> j <| JSONKeys.status
-
-        if let error = init1.error {
+        let result1 = curry(LGChatInterlocutor.make)
+        let result2 = result1 <^> j <|? JSONKeys.objectId
+        let result3 = result2 <*> j <| JSONKeys.name
+        let result4 = result3 <*> LGArgo.jsonToAvatarFile(j, avatarKey: JSONKeys.avatar)
+        let result5 = result4 <*> j <| JSONKeys.isBanned
+        let result6 = result5 <*> j <| JSONKeys.isMuted
+        let result7 = result6 <*> j <| JSONKeys.hasMutedYou
+        let result  = result7 <*> j <| JSONKeys.status
+        if let error = result.error {
             logMessage(.error, type: .parsing, message: "LGChatInterlocutor parse error: \(error)")
         }
-        return init1
+        return result
     }
     
     static func decodeOptional(_ json: JSON?) -> Decoded<LGChatInterlocutor?> {

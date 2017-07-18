@@ -61,22 +61,19 @@ extension LGChat : Decodable {
     
     */
     static func decode(_ j: JSON) -> Decoded<LGChat> {
-        
-        let init1 = curry(LGChat.newLGChat)
-                            <^> j <|? "id"
-                            <*> j <|? "updated_at"
-                            <*> j <| "product"
-                            <*> j <| "user_from"
-                            <*> j <| "user_to"
-        let result = init1  <*> LGArgo.mandatoryWithFallback(json: j, key: "unread_count", fallback: 0)
-                            <*> j <||? "messages"
-                            <*> j <| "forbidden"
-                            <*> j <| "status"
-        
+        let result1 = curry(LGChat.newLGChat)
+        let result2 = result1 <^> j <|? "id"
+        let result3 = result2 <*> j <|? "updated_at"
+        let result4 = result3 <*> j <| "product"
+        let result5 = result4 <*> j <| "user_from"
+        let result6 = result5 <*> j <| "user_to"
+        let result7 = result6 <*> LGArgo.mandatoryWithFallback(json: j, key: "unread_count", fallback: 0)
+        let result8 = result7 <*> j <||? "messages"
+        let result9 = result8 <*> j <| "forbidden"
+        let result  = result9 <*> j <| "status"
         if let error = result.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGChat parse error: \(error)")
         }
-
         return result
     }
 }
