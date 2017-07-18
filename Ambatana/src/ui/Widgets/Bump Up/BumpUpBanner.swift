@@ -75,7 +75,7 @@ class BumpUpBanner: UIView {
     private var marginBetweenLabelsConstraint: NSLayoutConstraint = NSLayoutConstraint()
     private var timeLabelWidthConstraint: NSLayoutConstraint = NSLayoutConstraint()
     
-    private var maxCountdown: TimeInterval = Constants.bumpUpFreeTimeLimit
+    private var maxCountdown: TimeInterval = 0
     private var timer: Timer = Timer()
 
     private(set) var type: BumpUpType = .free

@@ -96,7 +96,7 @@ class ProductViewModel: BaseViewModel {
 
     let bumpUpBannerInfo = Variable<BumpUpInfo?>(nil)
     fileprivate var timeSinceLastBump: TimeInterval = 0
-    fileprivate var bumpMaxCountdown: TimeInterval = Constants.bumpUpFreeTimeLimit
+    fileprivate var bumpMaxCountdown: TimeInterval = 0
     var bumpUpPurchaseableProduct: PurchaseableProduct?
     fileprivate var isUpdatingBumpUpBanner: Bool = false
     fileprivate var paymentItemId: String?
