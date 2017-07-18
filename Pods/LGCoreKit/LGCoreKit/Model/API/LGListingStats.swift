@@ -27,9 +27,12 @@ extension LGListingStats: Decodable {
      }
      */
     public static func decode(_ j: JSON) -> Decoded<LGListingStats> {
-
-        return curry(LGListingStats.init)
-            <^> j <| "count_views"
-            <*> j <| "count_favs"
+        let result1 = curry(LGListingStats.init)
+        let result2 = result1 <^> j <| "count_views"
+        let result  = result2 <*> j <| "count_favs"
+        if let error = result.error {
+            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGListingStats parse error: \(error)")
+        }
+        return result
     }
 }

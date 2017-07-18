@@ -11,10 +11,6 @@ import Curry
 import Runes
 
 struct LGSuggestiveSearch: SuggestiveSearch {
-    
-    // Global iVars
-    var objectId: String?
-    
     var name: String?
     var type: String?
     
@@ -22,32 +18,26 @@ struct LGSuggestiveSearch: SuggestiveSearch {
         self.name = name
         self.type = type
     }
-    
 }
 
 extension LGSuggestiveSearch : Decodable {
-    
-    static func newLGSuggestiveSearch(_ name: String?, type: String?)
-        -> LGSuggestiveSearch {
-            return LGSuggestiveSearch(name: name, type: type)
-    }
     
     /**
      Expects a json in the form:
      
      {
-     "items":[
-     {
-     "name":"door",
-     "type":"suggestion",
-     "attributes":{}
-     },
-     ...
+     "items":[{
+        "name":"door",
+        "type":"suggestion",
+        "attributes":{}
+        },
+        ...
      ],
      }
      */
+    
     static func decode(_ j: JSON) -> Decoded<LGSuggestiveSearch> {
-        let result1 = curry(LGSuggestiveSearch.newLGSuggestiveSearch)
+        let result1 = curry(LGSuggestiveSearch.init)
         let result2 = result1 <^> j <|? "name"
         let result = result2 <*> j <|? "type"
         
@@ -57,5 +47,4 @@ extension LGSuggestiveSearch : Decodable {
         
         return result
     }
-    
 }

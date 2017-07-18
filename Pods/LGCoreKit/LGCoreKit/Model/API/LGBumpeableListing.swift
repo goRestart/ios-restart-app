@@ -58,16 +58,14 @@ extension LGBumpeableListing: Decodable {
 
      */
     public static func decode(_ j: JSON) -> Decoded<LGBumpeableListing> {
-
-        let result = curry(LGBumpeableListing.init)
-            <^> j <| "is_bumpeable"
-            <*> j <| "countdown"
-            <*> j <| "max_countdown"
-            <*> j <| "total_bumps"
-            <*> j <| "remaining_bumps"
-            <*> j <| "millis_since_last_bump_up"
-            <*> j <|| "payment_items"
-
+        let result1 = curry(LGBumpeableListing.init)
+        let result2 = result1 <^> j <| "is_bumpeable"
+        let result3 = result2 <*> j <| "countdown"
+        let result4 = result3 <*> j <| "max_countdown"
+        let result5 = result4 <*> j <| "total_bumps"
+        let result6 = result5 <*> j <| "remaining_bumps"
+        let result7 = result6 <*> j <| "millis_since_last_bump_up"
+        let result  = result7 <*> j <|| "payment_items"
         if let error = result.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGBumpeableListing parse error: \(error)")
         }

@@ -1,5 +1,5 @@
 //
-//  SuggestedSearchesRouter.swift
+//  SearchRouter.swift
 //  LGCoreKit
 //
 //  Created by Eli Kohen on 06/06/16.
@@ -8,10 +8,10 @@
 
 import Foundation
 
-enum SuggestedSearchesRouter: URLRequestAuthenticable {
+enum SearchRouter: URLRequestAuthenticable {
 
     static let trendingSearchesBaseUrl = "/api/trending_searches"
-    static let suggestiveSearchesBaseUrl = "/search"
+    static let suggestiveSearchBaseUrl = "/search"
 
     case index(params: [String: Any])
     case retrieveSuggestiveSearches(params: [String: Any])
@@ -25,9 +25,9 @@ enum SuggestedSearchesRouter: URLRequestAuthenticable {
     func asURLRequest() throws -> URLRequest {
         switch self {
         case .index(let params):
-            return try Router<APIBaseURL>.index(endpoint: SuggestedSearchesRouter.trendingSearchesBaseUrl, params: params).asURLRequest()
+            return try Router<APIBaseURL>.index(endpoint: SearchRouter.trendingSearchesBaseUrl, params: params).asURLRequest()
         case .retrieveSuggestiveSearches(let params):
-            return try Router<SuggestiveSearchesBaseURL>.index(endpoint: SuggestedSearchesRouter.suggestiveSearchesBaseUrl, params: params).asURLRequest()
+            return try Router<SuggestiveSearchBaseURL>.index(endpoint: SearchRouter.suggestiveSearchBaseUrl, params: params).asURLRequest()
         }
     }
 }

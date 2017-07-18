@@ -1,9 +1,9 @@
 import Result
 import RxSwift
 
-open class MockSuggestedSearchesRepository: SuggestedSearchesRepository {
-    public var indexResult: SuggestedSearchesResult!
-    public var retrieveSuggestiveSearchesResult: SuggestiveSearchesResult!
+open class MockSearchRepository: SearchRepository {
+    public var indexResult: TrendingSearchesResult!
+    public var retrieveSuggestiveSearchResult: SuggestiveSearchesResult!
 
     
     // MARK: - Lifecycle
@@ -15,11 +15,11 @@ open class MockSuggestedSearchesRepository: SuggestedSearchesRepository {
 
     // MARK: - SuggestedSearchesRepository {
 
-    public func index(_ countryCode: String, completion: SuggestedSearchesCompletion?) {
+    public func index(_ countryCode: String, completion: TrendingSearchesCompletion?) {
         delay(result: indexResult, completion: completion)
     }
     
     public func retrieveSuggestiveSearches(_ countryCode: String, limit: Int, term: String, completion: SuggestiveSearchesCompletion?) {
-        delay(result: retrieveSuggestiveSearchesResult, completion: completion)
+        delay(result: retrieveSuggestiveSearchResult, completion: completion)
     }
 }

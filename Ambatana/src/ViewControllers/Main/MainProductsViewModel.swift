@@ -162,7 +162,7 @@ class MainProductsViewModel: BaseViewModel {
     // Manager & repositories
     fileprivate let sessionManager: SessionManager
     fileprivate let myUserRepository: MyUserRepository
-    fileprivate let suggestedSearchesRepository: SuggestedSearchesRepository
+    fileprivate let suggestedSearchesRepository: SearchRepository
     fileprivate let listingRepository: ListingRepository
     fileprivate let monetizationRepository: MonetizationRepository
     fileprivate let locationManager: LocationManager
@@ -222,7 +222,7 @@ class MainProductsViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
     
-    init(sessionManager: SessionManager, myUserRepository: MyUserRepository, suggestedSearchesRepository: SuggestedSearchesRepository,
+    init(sessionManager: SessionManager, myUserRepository: MyUserRepository, suggestedSearchesRepository: SearchRepository,
          listingRepository: ListingRepository, monetizationRepository: MonetizationRepository, locationManager: LocationManager, currencyHelper: CurrencyHelper, tracker: Tracker,
          searchType: SearchType? = nil, filters: ProductFilters, keyValueStorage: KeyValueStorageable, featureFlags: FeatureFlaggeable,
          bubbleTextGenerator: DistanceBubbleTextGenerator) {
@@ -264,7 +264,7 @@ class MainProductsViewModel: BaseViewModel {
     convenience init(searchType: SearchType? = nil, filters: ProductFilters) {
         let sessionManager = Core.sessionManager
         let myUserRepository = Core.myUserRepository
-        let suggestedSearchesRepository = Core.suggestedSearchesRepository
+        let suggestedSearchesRepository = Core.searchRepository
         let listingRepository = Core.listingRepository
         let monetizationRepository = Core.monetizationRepository
         let locationManager = Core.locationManager
@@ -809,6 +809,10 @@ extension MainProductsViewModel {
         lastSearches.value = keyValueStorage[.lastSearches]
     }
     
+    func cleanUpSuggestiveSearches() {
+        suggestiveSearches.value = []
+    }
+    
     func retrieveLastUserSearch() {
         // We saved up to lastSearchesSavedMaximum(10) but we show only lastSearchesShowMaximum(3)
         var searchesToShow = [String]()
@@ -831,9 +835,9 @@ extension MainProductsViewModel {
     
     func retrieveSuggestiveSearches(term: String) {
         guard isSuggestedSearchesEnabled else { return }
-        guard let currentCountryCode = locationManager.currentLocation?.countryCode else { return }
+        guard let languageCode = Locale.current.languageCode else { return }
         
-        suggestedSearchesRepository.retrieveSuggestiveSearches(currentCountryCode, limit: 10, term: term) { [weak self] result in
+        suggestedSearchesRepository.retrieveSuggestiveSearches(languageCode, limit: 10, term: term) { [weak self] result in
             self?.suggestiveSearches.value = result.value ?? []
         }
     }

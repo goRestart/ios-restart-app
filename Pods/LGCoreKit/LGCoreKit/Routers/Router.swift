@@ -63,8 +63,8 @@ struct PaymentsBaseURL: BaseURL {
     static let contentTypeHeader: String? = nil
 }
 
-struct SuggestiveSearchesBaseURL: BaseURL {
-    static var baseURL: String = EnvironmentProxy.sharedInstance.suggestiveSearchesBaseURL
+struct SuggestiveSearchBaseURL: BaseURL {
+    static var baseURL: String = EnvironmentProxy.sharedInstance.suggestiveSearchBaseURL
     static let acceptHeader: String? = nil
     static let contentTypeHeader: String? = nil
 }

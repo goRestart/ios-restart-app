@@ -6,7 +6,7 @@
 //  Copyright © 2017 Ambatana Inc. All rights reserved.
 //
 
-public protocol SuggestiveSearch: BaseModel {
+public protocol SuggestiveSearch {
     var name: String? { get }
     var type: String? { get }
 }

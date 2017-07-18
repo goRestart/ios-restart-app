@@ -448,11 +448,16 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         
         if (viewModel.isSuggestedSearchesEnabled) {
             navbarSearch.searchTextField?.rx.text.asObservable()
-                .filter { ($0?.characters.count)! > 0 }
                 .debounce(0.3, scheduler: MainScheduler.instance)
                 .subscribeNext { [weak self] text in
-                    self?.viewModel.retrieveSuggestiveSearches(term: text!)
-            }
+                    guard let term = text else { return }
+                    guard let charactersCount = text?.characters.count else { return }
+                    if (charactersCount > 0) {
+                        self?.viewModel.retrieveSuggestiveSearches(term: term)
+                    } else {
+                        self?.viewModel.cleanUpSuggestiveSearches()
+                    }
+            }.addDisposableTo(disposeBag)
         }
     }
 }

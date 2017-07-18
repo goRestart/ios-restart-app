@@ -31,9 +31,13 @@ extension LGNotificationUser: Decodable {
          "username": "Prof."
          }
          */
-        return curry(LGNotificationUser.init)
-            <^> j <| JSONKeys.userId
-            <*> j <|? JSONKeys.userName
-            <*> j <|? JSONKeys.userImage
+        let result1 = curry(LGNotificationUser.init)
+        let result2 = result1 <^> j <| JSONKeys.userId
+        let result3 = result2 <*> j <|? JSONKeys.userName
+        let result  = result3 <*> j <|? JSONKeys.userImage
+        if let error = result.error {
+            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGNotificationUser parse error: \(error)")
+        }
+        return result
     }
 }

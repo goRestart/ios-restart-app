@@ -201,33 +201,31 @@ extension LGCar : Decodable {
                 return Decoded<LGCar>.failure(DecodeError.custom("category_id: is not valid"))
         }
         let geo: JSON? = j.decode("geo")
-        let init1 = curry(LGCar.carWithId)
-                            <^> j <|? "id"                                          // objectId : String?
-                            <*> j <|? "updated_at"                                  // updatedAt : Date?
-                            <*> j <|? "created_at"                                  // createdAt : Date?
-        let init2 = init1   <*> j <|? "name"                                        // name : String?
-                            <*> j <|? "image_information"                           // nameAuto : String?
-                            <*> j <|? "description"                                 // descr : String?
-                            <*> j <|? "price"                                       // price : Float?
-        let init3 = init2   <*> j <|? "price_flag"
-                            <*> j <| "currency"                                    // currency : String?
-                            <*> LGArgo.jsonToCoordinates(geo, latKey: "lat", lonKey: "lng") // location : LGLocationCoordinates2D?
-                            <*> j <| "geo"                                          // postalAddress : PostalAddress
-        let init4 = init3   <*> j <|? "language_code"                               // languageCode : String?
-                            <*> j <| "category_id"                                  // category_id : Int
-                            <*> j <| "status"                                       // status : Int
-                            <*> j <|? ["thumb", "url"]                              // thumbnail : String?
-        let result = init4  <*> j <|? "thumb"                                       // thumbnailSize : LGSize?
-                            <*> (j <||? "images" >>- LGArgo.jsonArrayToFileArray)   // images : [LGFile]
-                            <*> j <| "owner"                                        // user : LGUserListing?
-                            <*> j <|? "featured"                                    // featured : Bool
-        let car = result    <*> j <|? "attributes"                                  // carAttributes : CarAttributes
-        
-        if let error = car.error {
+        let result01 = curry(LGCar.carWithId)
+        let result02 = result01 <^> j <|? "id"                                          // objectId : String?
+        let result03 = result02 <*> j <|? "updated_at"                                  // updatedAt : Date?
+        let result04 = result03 <*> j <|? "created_at"                                  // createdAt : Date?
+        let result05 = result04 <*> j <|? "name"                                        // name : String?
+        let result06 = result05 <*> j <|? "image_information"                           // nameAuto : String?
+        let result07 = result06 <*> j <|? "description"                                 // descr : String?
+        let result08 = result07 <*> j <|? "price"                                       // price : Float?
+        let result09 = result08 <*> j <|? "price_flag"
+        let result10 = result09 <*> j <| "currency"                                    // currency : String?
+        let result11 = result10 <*> LGArgo.jsonToCoordinates(geo, latKey: "lat", lonKey: "lng") // location : LGLocationCoordinates2D?
+        let result12 = result11 <*> j <| "geo"                                          // postalAddress : PostalAddress
+        let result13 = result12 <*> j <|? "language_code"                               // languageCode : String?
+        let result14 = result13 <*> j <| "category_id"                                  // category_id : Int
+        let result15 = result14 <*> j <| "status"                                       // status : Int
+        let result16 = result15 <*> j <|? ["thumb", "url"]                              // thumbnail : String?
+        let result17 = result16 <*> j <|? "thumb"                                       // thumbnailSize : LGSize?
+        let result18 = result17 <*> (j <||? "images" >>- LGArgo.jsonArrayToFileArray)   // images : [LGFile]
+        let result19 = result18 <*> j <| "owner"                                        // user : LGUserListing?
+        let result20 = result19 <*> j <|? "featured"                                    // featured : Bool
+        let result   = result20 <*> j <|? "attributes"                                  // carAttributes : CarAttributes
+        if let error = result.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGCar parse error: \(error)")
         }
-        
-        return car
+        return result
     }
 }
 

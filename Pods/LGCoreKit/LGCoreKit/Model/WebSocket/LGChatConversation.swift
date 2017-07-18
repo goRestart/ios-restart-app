@@ -32,6 +32,21 @@ struct LGChatConversation: ChatConversation {
         self.interlocutor = interlocutor
         self.amISelling = amISelling
     }
+    
+    fileprivate static func make(objectId: String?,
+                                 unreadMessageCount: Int,
+                                 lastMessageSentAt: Date?,
+                                 amISelling: Bool,
+                                 listing: LGChatListing?,
+                                 interlocutor: LGChatInterlocutor?) -> LGChatConversation {
+        return LGChatConversation(objectId: objectId,
+                                  unreadMessageCount: unreadMessageCount,
+                                  lastMessageSentAt: lastMessageSentAt,
+                                  amISelling: amISelling,
+                                  listing: listing,
+                                  interlocutor: interlocutor)
+    }
+    
 }
 
 extension LGChatConversation: Decodable {
@@ -46,17 +61,16 @@ extension LGChatConversation: Decodable {
     }
     
     static func decode(_ j: JSON) -> Decoded<LGChatConversation> {
-        let init1 = curry(LGChatConversation.init)
-            <^> j <|? JSONKeys.objectId
-            <*> j <| JSONKeys.unreadMessageCount
-            <*> j <|? JSONKeys.lastMessageSentAt
-            <*> j <| JSONKeys.amISelling
-            <*> (j <|? JSONKeys.product >>- LGChatListing.decodeOptional)
-            <*> (j <|? JSONKeys.interlocutor >>- LGChatInterlocutor.decodeOptional)
-
-        if let error = init1.error {
+        let result1 = curry(LGChatConversation.make)
+        let result2 = result1 <^> j <|? JSONKeys.objectId
+        let result3 = result2 <*> j <| JSONKeys.unreadMessageCount
+        let result4 = result3 <*> j <|? JSONKeys.lastMessageSentAt
+        let result5 = result4 <*> j <| JSONKeys.amISelling
+        let result6 = result5 <*> (j <|? JSONKeys.product >>- LGChatListing.decodeOptional)
+        let result  = result6 <*> (j <|? JSONKeys.interlocutor >>- LGChatInterlocutor.decodeOptional)
+        if let error = result.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGChatConversation parse error: \(error)")
         }
-        return init1
+        return result
     }
 }

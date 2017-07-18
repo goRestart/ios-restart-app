@@ -1,8 +1,8 @@
 
-extension MockSuggestedSearchesRepository: MockFactory {
+extension MockSearchRepository: MockFactory {
     public static func makeMock() -> Self {
-        let mockSuggestedSearchesRepository = self.init()
-        mockSuggestedSearchesRepository.indexResult = SuggestedSearchesResult(value: [String].makeRandom())
-        return mockSuggestedSearchesRepository
+        let mockSearchRepository = self.init()
+        mockSearchRepository.indexResult = TrendingSearchesResult(value: [String].makeRandom())
+        return mockSearchRepository
     }
 }
