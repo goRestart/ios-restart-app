@@ -582,7 +582,7 @@
 "product_post_confirmation_another" = "Oder";
 "product_post_confirmation_another_button" = "Stell noch ein Produkt ein";
 "product_post_confirmation_edit" = "Details hinzufügen";
-"product_post_different_country_error" = "You can’t post in a country where you’re not currently located.";
+"product_post_different_country_error" = "Du kannst keine Produkte in einem Land einstellen, in dem du dich momentan nicht befindest.";
 "product_post_done" = "Fertig";
 "product_post_empty_gallery_button" = "Foto aufnehmen";
 "product_post_empty_gallery_subtitle" = "Mache ein Foto von dem Produkt, das du verkaufen möchtest";
@@ -867,6 +867,7 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Neues Benutzerkonto anlegen";
 "sign_up_username_field_hint" = "Vollständiger Name";
+"suggested_searches_title" = "Empfohlene Suchbegriffe";
 "suggestions_last_searches_clear_button" = "Löschen";
 "suggestions_last_searches_title" = "Zuletzt gesucht";
 "survey_confirmation" = "Vielen Dank! Dein Feedback hilft uns, letgo zu verbessern";

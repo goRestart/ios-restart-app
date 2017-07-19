@@ -33,7 +33,6 @@ extension FilterSection {
     }
     
     static var allValues: [FilterSection] {
-        return [.location, .categories, .carsInfo, .distance, .sortBy, .within, .price]
+        return [.location, .price, .categories, .carsInfo, .distance, .sortBy, .within]
     }
-    
 }

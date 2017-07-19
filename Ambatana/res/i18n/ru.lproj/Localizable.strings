@@ -582,7 +582,7 @@
 "product_post_confirmation_another" = "Или";
 "product_post_confirmation_another_button" = "Разместить другой товар";
 "product_post_confirmation_edit" = "Добавить еще детали";
-"product_post_different_country_error" = "You can’t post in a country where you’re not currently located.";
+"product_post_different_country_error" = "Вы не можете размещать объявления в стране, в которой вы не находитесь в текущий момент.";
 "product_post_done" = "Готово";
 "product_post_empty_gallery_button" = "Сделать фото";
 "product_post_empty_gallery_subtitle" = "Сделайте фото товара, который хотите разместить";
@@ -867,6 +867,7 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Создать новый аккаунт";
 "sign_up_username_field_hint" = "Полное имя";
+"suggested_searches_title" = "Предлагаемые запросы";
 "suggestions_last_searches_clear_button" = "Стереть";
 "suggestions_last_searches_title" = "Недавний Поиск";
 "survey_confirmation" = "Спасибо! Ваши отзывы помогают нам быть лучше";

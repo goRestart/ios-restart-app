@@ -155,6 +155,8 @@ class FiltersViewModel: BaseViewModel {
     private var maxPrice: Int? {
         return productFilter.priceRange.max
     }
+    
+    fileprivate var priceRangeAvailable: Bool = true
 
     var minPriceString: String? {
         guard let minPrice = minPrice else { return nil }
@@ -369,7 +371,7 @@ class FiltersViewModel: BaseViewModel {
         guard index < numOfWithinTimes else { return }
         
         productFilter.selectedWithin = withinTimes[index]
-        self.delegate?.vmDidUpdate()
+        delegate?.vmDidUpdate()
     }
     
     func withinTimeNameAtIndex(_ index: Int) -> String? {
@@ -395,7 +397,7 @@ class FiltersViewModel: BaseViewModel {
         } else {
             productFilter.selectedOrdering = selected
         }
-        self.delegate?.vmDidUpdate()
+        delegate?.vmDidUpdate()
     }
 
     func sortOptionTextAtIndex(_ index: Int) -> String? {
@@ -412,6 +414,10 @@ class FiltersViewModel: BaseViewModel {
 
     // MARK: Price
 
+    var numberOfPriceRows: Int {
+        return priceRangeAvailable ? 2 : 1
+    }
+    
     func setMinPrice(_ value: String?) {
         guard let value = value, !productFilter.priceRange.free else { return }
         productFilter.priceRange = .priceRange(min: Int(value), max: maxPrice)
@@ -473,5 +479,14 @@ extension FiltersViewModel: CarAttributeSelectionDelegate {
     }
 
     func didSelectYear(year: Int) { }
+}
+
+// MARK: FilterFreeCellDelegate
+
+extension FiltersViewModel: FilterFreeCellDelegate {
+    func freeSwitchChanged(on: Bool) {
+        priceRangeAvailable = !on
+        delegate?.vmDidUpdate()
+    }
 }
 

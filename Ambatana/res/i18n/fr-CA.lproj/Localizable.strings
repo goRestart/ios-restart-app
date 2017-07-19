@@ -582,7 +582,7 @@
 "product_post_confirmation_another" = "Ou";
 "product_post_confirmation_another_button" = "Publiez un autre produit";
 "product_post_confirmation_edit" = "Ajouter plus de détails";
-"product_post_different_country_error" = "You can’t post in a country where you’re not currently located.";
+"product_post_different_country_error" = "Vous ne pouvez pas poster une annonce dans un pays où vous n'êtes pas situé.";
 "product_post_done" = "Terminé";
 "product_post_empty_gallery_button" = "Prendre une Photo";
 "product_post_empty_gallery_subtitle" = "Prenez une photo du produit que vous souhaitez proposer";
@@ -867,6 +867,7 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Créer un nouveau compte";
 "sign_up_username_field_hint" = "Nom complet";
+"suggested_searches_title" = "Recherches suggérées";
 "suggestions_last_searches_clear_button" = "Effacer";
 "suggestions_last_searches_title" = "Recherches Récentes";
 "survey_confirmation" = "Merci ! Vos commentaires nous aident à nous améliorer";

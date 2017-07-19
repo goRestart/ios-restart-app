@@ -582,7 +582,7 @@
 "product_post_confirmation_another" = "Eller";
 "product_post_confirmation_another_button" = "Publiser enda et produkt";
 "product_post_confirmation_edit" = "Legg til flere detaljer";
-"product_post_different_country_error" = "You can’t post in a country where you’re not currently located.";
+"product_post_different_country_error" = "Du kan ikke publisere i et land du ikke befinner deg i.";
 "product_post_done" = "Fullfør";
 "product_post_empty_gallery_button" = "Ta bilde";
 "product_post_empty_gallery_subtitle" = "Ta et bilde av det du ønsker å publisere";
@@ -730,13 +730,13 @@
 "rate_user_positive_quick_responses" = "Raske svar";
 "rate_user_positive_showed_up_on_time" = "Møtte opp i tide";
 "rate_user_positive_trustworthy" = "Troverdig";
-"rating_app_enjoying_alert_title" = "Are you enjoying letgo?";
-"rating_app_feedback_no_button" = "No, thanks";
-"rating_app_feedback_title" = "Want to give us some feedback?";
-"rating_app_feedback_yes_button" = "Sure!";
-"rating_app_rate_alert_no_button" = "No, thanks";
-"rating_app_rate_alert_title" = "Would you like to rate us? It'll only take two seconds";
-"rating_app_rate_alert_yes_button" = "Sure!";
+"rating_app_enjoying_alert_title" = "Liker du letgo?";
+"rating_app_feedback_no_button" = "Nei, takk";
+"rating_app_feedback_title" = "Ønsker du å gi oss tilbakemelding?";
+"rating_app_feedback_yes_button" = "Ja!";
+"rating_app_rate_alert_no_button" = "Nei, takk";
+"rating_app_rate_alert_title" = "Ønsker du å vurdere oss? Det tar kun 2 sekunder";
+"rating_app_rate_alert_yes_button" = "Ja!";
 "rating_list_action_report_review" = "Rapporter vurdering";
 "rating_list_action_report_review_error_message" = "En feil oppstod ved sending av din rapport.";
 "rating_list_action_report_review_success_message" = "Din rapport ble sendt!";
@@ -867,6 +867,7 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Opprett ny konto";
 "sign_up_username_field_hint" = "Fullt navn";
+"suggested_searches_title" = "Foreslåtte søk";
 "suggestions_last_searches_clear_button" = "Tøm";
 "suggestions_last_searches_title" = "Siste søkeord";
 "survey_confirmation" = "Tusen takk! Din tilbakemelding hjelper oss med å forbedre oss";

@@ -582,7 +582,7 @@
 "product_post_confirmation_another" = "veya";
 "product_post_confirmation_another_button" = "Başka bir ürün listele";
 "product_post_confirmation_edit" = "Daha fazla bilgi gir";
-"product_post_different_country_error" = "You can’t post in a country where you’re not currently located.";
+"product_post_different_country_error" = "Şu anda ikamet etmediğin bir ülkeden ürün yükleyemezsin.";
 "product_post_done" = "Onayla";
 "product_post_empty_gallery_button" = "Fotoğraf Çek";
 "product_post_empty_gallery_subtitle" = "Yüklemek istediğin ürünün fotoğrafını çek";
@@ -867,6 +867,7 @@
 "sign_up_terms_conditions_terms_part" = "Şartlar ve Koşullarını";
 "sign_up_title" = "Yeni hesap oluştur";
 "sign_up_username_field_hint" = "İsim";
+"suggested_searches_title" = "Önerilen aramalar";
 "suggestions_last_searches_clear_button" = "Temizle";
 "suggestions_last_searches_title" = "Son aramalar";
 "survey_confirmation" = "Teşekkürler! Görüşleriniz letgo'yu geliştirmemize yardımcı oluyor";

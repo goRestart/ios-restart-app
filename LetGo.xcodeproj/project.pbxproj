@@ -660,6 +660,10 @@
 		721A83141E82B52C00507E47 /* MockMediaPermissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721A83131E82B52C00507E47 /* MockMediaPermissions.swift */; };
 		7226F0FB1E962CA200B54D01 /* ChatRelatedItemsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7226F0FA1E962CA200B54D01 /* ChatRelatedItemsState.swift */; };
 		7226F0FC1E962CA200B54D01 /* ChatRelatedItemsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7226F0FA1E962CA200B54D01 /* ChatRelatedItemsState.swift */; };
+		722FEA351F1E36E300838116 /* FilterFreeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 722FEA341F1E36E300838116 /* FilterFreeCell.swift */; };
+		722FEA361F1E36E300838116 /* FilterFreeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 722FEA341F1E36E300838116 /* FilterFreeCell.swift */; };
+		722FEA381F1E3BD500838116 /* FilterFreeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 722FEA371F1E3BD500838116 /* FilterFreeCell.xib */; };
+		722FEA391F1E3BD500838116 /* FilterFreeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 722FEA371F1E3BD500838116 /* FilterFreeCell.xib */; };
 		723A45C91DDC4D470001D02C /* UILabel+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723A45C81DDC4D470001D02C /* UILabel+LG.swift */; };
 		723A45CA1DDC4D470001D02C /* UILabel+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723A45C81DDC4D470001D02C /* UILabel+LG.swift */; };
 		727EF0691E0AF0220037DA4E /* LocationManager+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727EF0681E0AF0220037DA4E /* LocationManager+LG.swift */; };
@@ -1884,6 +1888,8 @@
 		721A83101E827FD300507E47 /* MediaPermissions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaPermissions.swift; path = Ambatana/src/Manager/MediaPermissions.swift; sourceTree = SOURCE_ROOT; };
 		721A83131E82B52C00507E47 /* MockMediaPermissions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockMediaPermissions.swift; sourceTree = "<group>"; };
 		7226F0FA1E962CA200B54D01 /* ChatRelatedItemsState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatRelatedItemsState.swift; sourceTree = "<group>"; };
+		722FEA341F1E36E300838116 /* FilterFreeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterFreeCell.swift; sourceTree = "<group>"; };
+		722FEA371F1E3BD500838116 /* FilterFreeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterFreeCell.xib; sourceTree = "<group>"; };
 		723A45C81DDC4D470001D02C /* UILabel+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+LG.swift"; sourceTree = "<group>"; };
 		727EF0681E0AF0220037DA4E /* LocationManager+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LocationManager+LG.swift"; sourceTree = "<group>"; };
 		727EF06B1E0BE16D0037DA4E /* CountryCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryCode.swift; sourceTree = "<group>"; };
@@ -3919,6 +3925,8 @@
 				C75B55F71C7E12C90001F5CD /* FilterLocationCell.swift */,
 				C75B55F81C7E12C90001F5CD /* FilterLocationCell.xib */,
 				2E06EAEB1D7051BA00A40704 /* FilterPriceCell.swift */,
+				722FEA341F1E36E300838116 /* FilterFreeCell.swift */,
+				722FEA371F1E3BD500838116 /* FilterFreeCell.xib */,
 				2E06EAEC1D7051BA00A40704 /* FilterPriceCell.xib */,
 				8E04C7471ED81F2C0014F58B /* DistanceSlider */,
 			);
@@ -4655,6 +4663,7 @@
 				508C3F7C1C984BEC00CF431F /* UserViewHeader.xib in Resources */,
 				C75B5DC31D59E09500112368 /* ProductCarouselViewController.xib in Resources */,
 				2E9716A41D5A0535009B3A32 /* ExpressChatCell.xib in Resources */,
+				722FEA381F1E3BD500838116 /* FilterFreeCell.xib in Resources */,
 				C783D98B1C64C15B000EE5CA /* ReportUserCell.xib in Resources */,
 				C7B588551CE1DE1C009B3975 /* DirectAnswersCloseCell.xib in Resources */,
 				C77593E61BF0BD310097D62F /* FilterCategoryCell.xib in Resources */,
@@ -4797,6 +4806,7 @@
 				C73C163E1D06C1B500DFC67D /* SuggestionSearchCell.xib in Resources */,
 				508C3F7D1C984BEC00CF431F /* UserViewHeader.xib in Resources */,
 				C75B5DC41D59E09500112368 /* ProductCarouselViewController.xib in Resources */,
+				722FEA391F1E3BD500838116 /* FilterFreeCell.xib in Resources */,
 				C783D98C1C64C15B000EE5CA /* ReportUserCell.xib in Resources */,
 				C7B588561CE1DE1C009B3975 /* DirectAnswersCloseCell.xib in Resources */,
 				C7DB426F1C5138B500400945 /* FilterCategoryCell.xib in Resources */,
@@ -5690,6 +5700,7 @@
 				721A83111E827FD300507E47 /* MediaPermissions.swift in Sources */,
 				D4912A831B08E12C00DACD5A /* UIImage+Tint.swift in Sources */,
 				C7841AF41E07DFFA004A8242 /* UIView+Rating.swift in Sources */,
+				722FEA351F1E36E300838116 /* FilterFreeCell.swift in Sources */,
 				C70BC6881E16B3C100EC74E9 /* UISwitch+Rx.swift in Sources */,
 				C7E5902D1E5D973C002921B2 /* CollectionType+Merge.swift in Sources */,
 				C74931791D3533DE00E117F1 /* UserRatingNavigator.swift in Sources */,
@@ -6216,6 +6227,7 @@
 				721A83121E827FD300507E47 /* MediaPermissions.swift in Sources */,
 				C7DB42211C5138B500400945 /* LGLocalizedString.swift in Sources */,
 				6A5E19F11D548F5400F92692 /* String+LG.swift in Sources */,
+				722FEA361F1E36E300838116 /* FilterFreeCell.swift in Sources */,
 				C7DB42221C5138B500400945 /* LGNavBarSearchField.swift in Sources */,
 				C7E5902E1E5D973C002921B2 /* CollectionType+Merge.swift in Sources */,
 				C7841AF51E07DFFA004A8242 /* UIView+Rating.swift in Sources */,

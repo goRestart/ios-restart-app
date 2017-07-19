@@ -101,7 +101,7 @@ FilterCarInfoYearCellDelegate, UICollectionViewDataSource, UICollectionViewDeleg
         guard let priceSectionIndex = viewModel.sections.index(of: .price) else { return }
         let indexPath = IndexPath(item: 1,section: priceSectionIndex)
         guard let maxPriceCell = collectionView.cellForItem(at: indexPath) as? FilterPriceCell else { return }
-        maxPriceCell.textField.becomeFirstResponder()
+        maxPriceCell.textFieldTo.becomeFirstResponder()
 
         // move to "to price" cell
         collectionView.scrollRectToVisible(priceToCellFrame, animated: false)
@@ -136,6 +136,7 @@ FilterCarInfoYearCellDelegate, UICollectionViewDataSource, UICollectionViewDeleg
     func priceTextFieldValueActive() {
         updateTapRecognizer(true)
     }
+    
 
     // MARK: - UICollectionViewDelegate & DataSource methods
     
@@ -181,7 +182,7 @@ FilterCarInfoYearCellDelegate, UICollectionViewDataSource, UICollectionViewDeleg
         case .sortBy:
             return viewModel.numOfSortOptions
         case .price:
-            return  2
+            return  viewModel.numberOfPriceRows
         }
     }
     
@@ -279,19 +280,28 @@ FilterCarInfoYearCellDelegate, UICollectionViewDataSource, UICollectionViewDeleg
                 cell.bottomSeparator.isHidden = indexPath.row != (viewModel.numOfSortOptions - 1)
                 return cell
             case .price:
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterPriceCell",
-                    for: indexPath) as? FilterPriceCell else { return UICollectionViewCell() }
-                cell.tag = indexPath.row
-                cell.titleLabel.text = indexPath.row == 0 ? LGLocalizedString.filtersPriceFrom :
-                    LGLocalizedString.filtersPriceTo
-                cell.bottomSeparator.isHidden =  indexPath.row == 0
-                cell.topSeparator.isHidden =  indexPath.row != 0
-                cell.textField.text = indexPath.row == 0 ? viewModel.minPriceString : viewModel.maxPriceString
-                cell.delegate = self
-                if indexPath.row == 1 {
-                    priceToCellFrame = cell.frame
+                if indexPath.row == 0 {
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterFreeCell",
+                                                                        for: indexPath) as? FilterFreeCell else { return UICollectionViewCell() }
+                    cell.bottomSeparator.isHidden = true
+                    cell.topSeparator.isHidden = false
+                    cell.titleLabel.text = LGLocalizedString.filtersSectionPriceFreeTitle
+                    cell.delegate = viewModel
+                    return cell
+                } else if indexPath.row == 1 {
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterPriceCell",
+                                                                        for: indexPath) as? FilterPriceCell else { return UICollectionViewCell() }
+                    cell.titleLabelFrom.text = LGLocalizedString.filtersPriceFrom
+                    cell.titleLabelTo.text = LGLocalizedString.filtersPriceTo
+                    cell.bottomSeparator.isHidden =  false
+                    cell.topSeparator.isHidden =  false
+                    cell.textFieldFrom.text = viewModel.minPriceString
+                    cell.textFieldTo.text = viewModel.maxPriceString
+                    cell.delegate = self
+                    return cell
+                } else {
+                    return UICollectionViewCell()
                 }
-                return cell
             }
     }
     
@@ -351,6 +361,8 @@ FilterCarInfoYearCellDelegate, UICollectionViewDataSource, UICollectionViewDeleg
             withReuseIdentifier: "FilterHeaderCell")
         let priceNib = UINib(nibName: "FilterPriceCell", bundle: nil)
         self.collectionView.register(priceNib, forCellWithReuseIdentifier: "FilterPriceCell")
+        let freeNib = UINib(nibName: "FilterFreeCell", bundle: nil)
+        self.collectionView.register(freeNib, forCellWithReuseIdentifier: "FilterFreeCell")
 
         // Navbar
         setNavBarTitle(LGLocalizedString.filtersTitle)

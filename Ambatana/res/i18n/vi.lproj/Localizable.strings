@@ -582,7 +582,7 @@
 "product_post_confirmation_another" = "Hoặc";
 "product_post_confirmation_another_button" = "Đăng sản phẩm khác";
 "product_post_confirmation_edit" = "Thêm thông tin";
-"product_post_different_country_error" = "You can’t post in a country where you’re not currently located.";
+"product_post_different_country_error" = "Bạn không thể đăng tại một quốc gia mà hiện bạn không cư trú.";
 "product_post_done" = "Hoàn thành";
 "product_post_empty_gallery_button" = "Chụp Ảnh";
 "product_post_empty_gallery_subtitle" = "Hãy chụp ảnh sản phẩm bạn muốn đăng";
@@ -867,6 +867,7 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Tạo tài khoản mới";
 "sign_up_username_field_hint" = "Họ tên";
+"suggested_searches_title" = "Tìm kiếm được Đề xuất";
 "suggestions_last_searches_clear_button" = "Xóa";
 "suggestions_last_searches_title" = "Tìm kiếm Gần đây";
 "survey_confirmation" = "Cảm ơn bạn! Phản hồi của bạn sẽ giúp chúng tôi cải thiện hơn";
