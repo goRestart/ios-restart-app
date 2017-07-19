@@ -162,7 +162,7 @@ class MainProductsViewModel: BaseViewModel {
     // Manager & repositories
     fileprivate let sessionManager: SessionManager
     fileprivate let myUserRepository: MyUserRepository
-    fileprivate let suggestedSearchesRepository: SearchRepository
+    fileprivate let searchRepository: SearchRepository
     fileprivate let listingRepository: ListingRepository
     fileprivate let monetizationRepository: MonetizationRepository
     fileprivate let locationManager: LocationManager
@@ -222,14 +222,14 @@ class MainProductsViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
     
-    init(sessionManager: SessionManager, myUserRepository: MyUserRepository, suggestedSearchesRepository: SearchRepository,
+    init(sessionManager: SessionManager, myUserRepository: MyUserRepository, searchRepository: SearchRepository,
          listingRepository: ListingRepository, monetizationRepository: MonetizationRepository, locationManager: LocationManager, currencyHelper: CurrencyHelper, tracker: Tracker,
          searchType: SearchType? = nil, filters: ProductFilters, keyValueStorage: KeyValueStorageable, featureFlags: FeatureFlaggeable,
          bubbleTextGenerator: DistanceBubbleTextGenerator) {
         
         self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
-        self.suggestedSearchesRepository = suggestedSearchesRepository
+        self.searchRepository = searchRepository
         self.listingRepository = listingRepository
         self.monetizationRepository = monetizationRepository
         self.locationManager = locationManager
@@ -264,7 +264,7 @@ class MainProductsViewModel: BaseViewModel {
     convenience init(searchType: SearchType? = nil, filters: ProductFilters) {
         let sessionManager = Core.sessionManager
         let myUserRepository = Core.myUserRepository
-        let suggestedSearchesRepository = Core.searchRepository
+        let searchRepository = Core.searchRepository
         let listingRepository = Core.listingRepository
         let monetizationRepository = Core.monetizationRepository
         let locationManager = Core.locationManager
@@ -273,7 +273,7 @@ class MainProductsViewModel: BaseViewModel {
         let keyValueStorage = KeyValueStorage.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
         let bubbleTextGenerator = DistanceBubbleTextGenerator()
-        self.init(sessionManager: sessionManager,myUserRepository: myUserRepository, suggestedSearchesRepository: suggestedSearchesRepository,
+        self.init(sessionManager: sessionManager,myUserRepository: myUserRepository, searchRepository: searchRepository,
                   listingRepository: listingRepository, monetizationRepository: monetizationRepository, locationManager: locationManager, currencyHelper: currencyHelper, tracker: tracker,
                   searchType: searchType, filters: filters, keyValueStorage: keyValueStorage, featureFlags: featureFlags,
                   bubbleTextGenerator: bubbleTextGenerator)
@@ -828,7 +828,7 @@ extension MainProductsViewModel {
     func retrieveTrendingSearches() {
         guard let currentCountryCode = locationManager.currentLocation?.countryCode else { return }
 
-        suggestedSearchesRepository.index(currentCountryCode) { [weak self] result in
+        searchRepository.index(currentCountryCode) { [weak self] result in
             self?.trendingSearches.value = result.value ?? []
         }
     }
@@ -837,7 +837,7 @@ extension MainProductsViewModel {
         guard isSuggestedSearchesEnabled else { return }
         guard let languageCode = Locale.current.languageCode else { return }
         
-        suggestedSearchesRepository.retrieveSuggestiveSearches(languageCode, limit: 10, term: term) { [weak self] result in
+        searchRepository.retrieveSuggestiveSearches(languageCode, limit: 10, term: term) { [weak self] result in
             self?.suggestiveSearches.value = result.value ?? []
         }
     }
