@@ -10,6 +10,7 @@
 		0178CBD81F0E463D00620BA6 /* UriSchemeSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0178CBD71F0E463D00620BA6 /* UriSchemeSpec.swift */; };
 		0181D5A51F19185F00F112BD /* NSAttributedString+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0181D5A41F19185F00F112BD /* NSAttributedString+LG.swift */; };
 		0181D5A61F191B6B00F112BD /* NSAttributedString+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0181D5A41F19185F00F112BD /* NSAttributedString+LG.swift */; };
+		0183D5991F1F7296003094FC /* NSAttributedString+LGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0183D5981F1F7296003094FC /* NSAttributedString+LGSpec.swift */; };
 		2E06EAED1D7051BA00A40704 /* FilterPriceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E06EAEB1D7051BA00A40704 /* FilterPriceCell.swift */; };
 		2E06EAEE1D7051BA00A40704 /* FilterPriceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E06EAEC1D7051BA00A40704 /* FilterPriceCell.xib */; };
 		2E06EAEF1D70595900A40704 /* FilterPriceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E06EAEB1D7051BA00A40704 /* FilterPriceCell.swift */; };
@@ -1468,6 +1469,7 @@
 /* Begin PBXFileReference section */
 		0178CBD71F0E463D00620BA6 /* UriSchemeSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UriSchemeSpec.swift; path = DeepLinks/UriSchemeSpec.swift; sourceTree = "<group>"; };
 		0181D5A41F19185F00F112BD /* NSAttributedString+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+LG.swift"; sourceTree = "<group>"; };
+		0183D5981F1F7296003094FC /* NSAttributedString+LGSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+LGSpec.swift"; sourceTree = "<group>"; };
 		2E06EAEB1D7051BA00A40704 /* FilterPriceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterPriceCell.swift; sourceTree = "<group>"; };
 		2E06EAEC1D7051BA00A40704 /* FilterPriceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterPriceCell.xib; sourceTree = "<group>"; };
 		2E0C96441DEDCAFA00068B6D /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
@@ -3240,6 +3242,7 @@
 				50D08D7D1E69AF14009CC260 /* String+LGSpec.swift */,
 				50D08D7E1E69AF14009CC260 /* TestableObserver+LGSpec.swift */,
 				2EC653B21E716C8800E23DDF /* Dictionary+FilterSpec.swift */,
+				0183D5981F1F7296003094FC /* NSAttributedString+LGSpec.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -5161,6 +5164,7 @@
 				50D08DB21E69AF14009CC260 /* MockFeatureFlags.swift in Sources */,
 				50D08DBA1E69AF14009CC260 /* MockPurchaseableProduct.swift in Sources */,
 				729A7F071E979106003B34A5 /* OldChatViewModelSpec.swift in Sources */,
+				0183D5991F1F7296003094FC /* NSAttributedString+LGSpec.swift in Sources */,
 				C765EE471E7FE58200063750 /* MockDeepLinksRouter.swift in Sources */,
 				50D08DDF1E69AF14009CC260 /* MainProductsViewModelSpec.swift in Sources */,
 				50D08DDA1E69AF14009CC260 /* BaseChatGroupedListViewModelSpec.swift in Sources */,

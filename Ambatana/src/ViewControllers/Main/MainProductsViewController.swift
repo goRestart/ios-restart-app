@@ -14,9 +14,26 @@ import RxSwift
 
 
 enum SearchSuggestionType {
+    case suggestive
     case lastSearch
     case trending
-    case suggestive
+    
+    static func sectionType(index: Int, isSuggestedSearchesEnabled: Bool) -> SearchSuggestionType? {
+        switch index {
+        case 0:
+            return isSuggestedSearchesEnabled ? .suggestive : .lastSearch
+        case 1:
+            return isSuggestedSearchesEnabled ? .lastSearch : .trending
+        case 2:
+            return isSuggestedSearchesEnabled ? .trending : nil
+        default:
+            return nil
+        }
+    }
+    
+    static func numberOfSections(isSuggestedSearchesEnabled: Bool) -> Int {
+        return isSuggestedSearchesEnabled ? 3 : 2
+    }
 }
 
 class MainProductsViewController: BaseViewController, ProductListViewScrollDelegate, MainProductsViewModelDelegate,
@@ -542,7 +559,8 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        guard let sectionType = getSearchSuggestionType(section) else { return 0 }
+        guard let sectionType = SearchSuggestionType.sectionType(index: section,
+                                                                 isSuggestedSearchesEnabled: viewModel.isSuggestedSearchesEnabled) else { return 0 }
         switch sectionType {
         case .suggestive:
             return viewModel.suggestiveCounter > 0 ? sectionHeight : 0
@@ -591,7 +609,8 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
         container.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:[clear]-horizontalMarginHeaderView-|",
             options: [], metrics: metrics, views: views))
         
-        guard let sectionType = getSearchSuggestionType(section) else { return UIView() }
+        guard let sectionType = SearchSuggestionType.sectionType(index: section,
+                                                                 isSuggestedSearchesEnabled: viewModel.isSuggestedSearchesEnabled) else { return UIView() }
         switch sectionType {
         case .suggestive:
             clearButton.isHidden = true
@@ -625,7 +644,7 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
     // MARK: > TableView
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return numberOfSuggestionSections
+        return SearchSuggestionType.numberOfSections(isSuggestedSearchesEnabled: viewModel.isSuggestedSearchesEnabled)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -633,7 +652,9 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let sectionType = getSearchSuggestionType(section) else { return 0 }
+        guard let sectionType = SearchSuggestionType.sectionType(index: section,
+                                                                 isSuggestedSearchesEnabled: viewModel.isSuggestedSearchesEnabled)
+            else { return 0 }
         switch sectionType {
         case .suggestive:
             return viewModel.suggestiveCounter
@@ -645,7 +666,9 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let sectionType = getSearchSuggestionType(indexPath.section) else { return UITableViewCell() }
+        guard let sectionType = SearchSuggestionType.sectionType(index: indexPath.section,
+                                                                 isSuggestedSearchesEnabled: viewModel.isSuggestedSearchesEnabled)
+            else { return UITableViewCell() }
         guard let cell = tableView.dequeueReusableCell(withIdentifier: SuggestionSearchCell.reusableID,
                             for: indexPath) as? SuggestionSearchCell else { return UITableViewCell() }
         switch sectionType {
@@ -665,7 +688,8 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let sectionType = getSearchSuggestionType(indexPath.section) else { return }
+        guard let sectionType = SearchSuggestionType.sectionType(index: indexPath.section,
+                                                                 isSuggestedSearchesEnabled: viewModel.isSuggestedSearchesEnabled) else { return }
         switch sectionType {
         case .suggestive:
             viewModel.selectedSuggestiveSearchAtIndex(indexPath.row)
@@ -673,29 +697,6 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
             viewModel.selectedLastSearchAtIndex(indexPath.row)
         case .trending:
             viewModel.selectedTrendingSearchAtIndex(indexPath.row)
-        }
-    }
-}
-
-fileprivate extension MainProductsViewController {
-    func getSearchSuggestionType(_ section: Int) -> SearchSuggestionType? {
-        switch section {
-        case 0:
-            if (viewModel.isSuggestedSearchesEnabled) {
-                return .suggestive
-            } else {
-                return .lastSearch
-            }
-        case 1:
-            if (viewModel.isSuggestedSearchesEnabled) {
-                return .lastSearch
-            } else {
-                return .trending
-            }
-        case 2:
-            return .trending
-        default:
-            return nil
         }
     }
 }
