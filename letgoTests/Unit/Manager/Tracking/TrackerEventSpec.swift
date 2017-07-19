@@ -3581,6 +3581,22 @@ class TrackerEventSpec: QuickSpec {
                     expect(param).to(equal(4))
                 }
             }
+            describe("category header filter") {
+                beforeEach {
+                    sut = TrackerEvent.filterCategoryHeader(position: 1, name: "cars")
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("filter-bubble"))
+                }
+                it("contains bubble position parameter") {
+                    let param = sut.params!.stringKeyParams["bubble-position"] as? Int
+                    expect(param) == 1
+                }
+                it("contains bubble name parameter") {
+                    let param = sut.params!.stringKeyParams["bubble-name"] as? String
+                    expect(param) == "cars"
+                }
+            }
         }
     }
 }
