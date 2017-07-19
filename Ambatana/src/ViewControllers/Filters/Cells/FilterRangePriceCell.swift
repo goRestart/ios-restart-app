@@ -8,22 +8,24 @@
 
 import UIKit
 
-protocol FilterPriceCellDelegate: class {
+protocol FilterRangePriceCellDelegate: class {
     func priceTextFieldValueActive()
     func priceTextFieldValueChanged(_ value: String?, tag: Int)
 }
 
-class FilterPriceCell: UICollectionViewCell {
+class FilterRangePriceCell: UICollectionViewCell {
 
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var textField: UITextField!
+    @IBOutlet weak var titleLabelFrom: UILabel!
+    @IBOutlet weak var titleLabelTo: UILabel!
+    @IBOutlet weak var textFieldFrom: UITextField!
+    @IBOutlet weak var textFieldTo: UITextField!
     @IBOutlet weak var topSeparator: UIView!
     @IBOutlet weak var bottomSeparator: UIView!
     
     @IBOutlet weak var bottomSeparatorHeight: NSLayoutConstraint!
     @IBOutlet weak var topSeparatorHeight: NSLayoutConstraint!
 
-    weak var delegate: FilterPriceCellDelegate?
+    weak var delegate: FilterRangePriceCellDelegate?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -40,25 +42,35 @@ class FilterPriceCell: UICollectionViewCell {
     private func setupUI() {
         bottomSeparatorHeight.constant = LGUIKitConstants.onePixelSize
         topSeparatorHeight.constant = LGUIKitConstants.onePixelSize
-        titleLabel.textColor = UIColor.blackText
-        textField.tintColor = UIColor.primaryColor
-        textField.placeholder = LGLocalizedString.filtersSectionPrice
-        textField.delegate = self
+        titleLabelFrom.textColor = UIColor.blackText
+        titleLabelTo.textColor = UIColor.blackText
+        textFieldFrom.tintColor = UIColor.primaryColor
+        textFieldTo.tintColor = UIColor.primaryColor
+        textFieldFrom.placeholder = LGLocalizedString.filtersSectionPrice
+        textFieldTo.placeholder = LGLocalizedString.filtersSectionPrice
+        textFieldFrom.delegate = self
+        textFieldTo.delegate = self
+        textFieldFrom.tag = 0
+        textFieldTo.tag = 1
     }
 
     private func resetUI() {
-        textField.text = nil
-        titleLabel.text = nil
+        textFieldFrom.text = nil
+        titleLabelFrom.text = nil
+        textFieldTo.text = nil
+        titleLabelTo.text = nil
     }
 
     private func setAccessibilityIds() {
         self.accessibilityId =  .filterPriceCell
-        titleLabel.accessibilityId =  .filterPriceCellTitleLabel
-        textField.accessibilityId =  .filterPriceCellTextField
+        titleLabelFrom.accessibilityId =  .filterPriceCellTitleLabelFrom
+        titleLabelTo.accessibilityId =  .filterPriceCellTitleLabelTo
+        textFieldFrom.accessibilityId =  .filterPriceCellTextFieldFrom
+        textFieldTo.accessibilityId =  .filterPriceCellTextFieldTo
     }
 }
 
-extension FilterPriceCell: UITextFieldDelegate {
+extension FilterRangePriceCell: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         delegate?.priceTextFieldValueActive()
     }
@@ -67,7 +79,7 @@ extension FilterPriceCell: UITextFieldDelegate {
                    replacementString string: String) -> Bool {
         guard textField.shouldChangePriceInRange(range, replacementString: string, acceptsSeparator: false) else { return false }
         let updatedText = textField.textReplacingCharactersInRange(range, replacementString: string)
-        delegate?.priceTextFieldValueChanged(updatedText, tag: tag)
+        delegate?.priceTextFieldValueChanged(updatedText, tag: textField.tag)
         return true
     }
 }

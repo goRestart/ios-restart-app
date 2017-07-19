@@ -132,7 +132,11 @@ class FiltersViewModel: BaseViewModel {
     }
 
     var priceCellsDisabled: Bool {
-        return self.productFilter.priceRange.free
+        if featureFlags.addSuperKewordsOnFeed {
+            return false
+        } else {
+            return self.productFilter.priceRange.free
+        }
     }
 
     var carsInfoCellsDisabled: Bool {
@@ -156,7 +160,9 @@ class FiltersViewModel: BaseViewModel {
         return productFilter.priceRange.max
     }
     
-    fileprivate var priceRangeAvailable: Bool = true
+    fileprivate var priceRangeAvailable: Bool {
+        return productFilter.priceRange != .freePrice
+    }
 
     var minPriceString: String? {
         guard let minPrice = minPrice else { return nil }
@@ -165,6 +171,10 @@ class FiltersViewModel: BaseViewModel {
     var maxPriceString: String? {
         guard let maxPrice = maxPrice else { return nil }
         return String(maxPrice)
+    }
+    
+    var isFreeActive: Bool {
+        return productFilter.priceRange.free
     }
 
     fileprivate var productFilter : ProductFilters
@@ -200,7 +210,7 @@ class FiltersViewModel: BaseViewModel {
     // MARK: - Actions
 
     private func generateSections() -> [FilterSection] {
-        var updatedSections = FilterSection.allValues
+        var updatedSections = FilterSection.allValues(priceAsLast: !featureFlags.addSuperKewordsOnFeed)
 
         // Don't show price cells if necessary
         if let idx = updatedSections.index(of: FilterSection.price), priceCellsDisabled {
@@ -292,7 +302,7 @@ class FiltersViewModel: BaseViewModel {
     private func buildFilterCategoryItemsWithCategories(_ categories: [ListingCategory]) -> [FilterCategoryItem] {
 
         var filterCatItems: [FilterCategoryItem] = featureFlags.carsVerticalEnabled ? [.category(category: .cars)] : []
-        if featureFlags.freePostingModeAllowed {
+        if featureFlags.freePostingModeAllowed && !featureFlags.addSuperKewordsOnFeed {
             filterCatItems.append(.free)
         }
         let builtCategories = categories.map { FilterCategoryItem(category: $0) }
@@ -485,7 +495,7 @@ extension FiltersViewModel: CarAttributeSelectionDelegate {
 
 extension FiltersViewModel: FilterFreeCellDelegate {
     func freeSwitchChanged(on: Bool) {
-        priceRangeAvailable = !on
+        productFilter.priceRange = on ? .freePrice : .priceRange(min: nil, max: nil)
         delegate?.vmDidUpdate()
     }
 }

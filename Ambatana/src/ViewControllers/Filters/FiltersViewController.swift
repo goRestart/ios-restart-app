@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 
 class FiltersViewController: BaseViewController, FiltersViewModelDelegate, FilterDistanceSliderDelegate, FilterPriceCellDelegate,
-FilterCarInfoYearCellDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
+    FilterRangePriceCellDelegate, FilterCarInfoYearCellDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
 
     // Outlets & buttons
     @IBOutlet weak var collectionView: UICollectionView!
@@ -21,7 +21,7 @@ FilterCarInfoYearCellDelegate, UICollectionViewDataSource, UICollectionViewDeleg
     
     // ViewModel
     private var viewModel : FiltersViewModel
-    
+    private var featureFlags: FeatureFlags
     private let keyboardHelper: KeyboardHelper
     private var tapRec: UITapGestureRecognizer?
 
@@ -42,12 +42,19 @@ FilterCarInfoYearCellDelegate, UICollectionViewDataSource, UICollectionViewDeleg
     // MARK: - Lifecycle
     
     convenience init(viewModel: FiltersViewModel) {
-        self.init(viewModel: viewModel, nibName: "FiltersViewController", keyboardHelper: KeyboardHelper())
+        self.init(viewModel: viewModel,
+                  nibName: "FiltersViewController",
+                  keyboardHelper: KeyboardHelper(),
+                  featureFlags: FeatureFlags.sharedInstance)
     }
     
-    required init(viewModel: FiltersViewModel, nibName nibNameOrNil: String?, keyboardHelper: KeyboardHelper) {
+    required init(viewModel: FiltersViewModel,
+                  nibName nibNameOrNil: String?,
+                  keyboardHelper: KeyboardHelper,
+                  featureFlags: FeatureFlags) {
         self.keyboardHelper = keyboardHelper
         self.viewModel = viewModel
+        self.featureFlags = featureFlags
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         self.viewModel.delegate = self
     }
@@ -100,8 +107,13 @@ FilterCarInfoYearCellDelegate, UICollectionViewDataSource, UICollectionViewDeleg
         // make sure the "to price" cell exists
         guard let priceSectionIndex = viewModel.sections.index(of: .price) else { return }
         let indexPath = IndexPath(item: 1,section: priceSectionIndex)
-        guard let maxPriceCell = collectionView.cellForItem(at: indexPath) as? FilterPriceCell else { return }
-        maxPriceCell.textFieldTo.becomeFirstResponder()
+        if featureFlags.addSuperKewordsOnFeed {
+            guard let maxPriceCell = collectionView.cellForItem(at: indexPath) as? FilterRangePriceCell else { return }
+            maxPriceCell.textFieldTo.becomeFirstResponder()
+        } else {
+            guard let maxPriceCell = collectionView.cellForItem(at: indexPath) as? FilterPriceCell else { return }
+            maxPriceCell.textField.becomeFirstResponder()
+        }
 
         // move to "to price" cell
         collectionView.scrollRectToVisible(priceToCellFrame, animated: false)
@@ -280,27 +292,44 @@ FilterCarInfoYearCellDelegate, UICollectionViewDataSource, UICollectionViewDeleg
                 cell.bottomSeparator.isHidden = indexPath.row != (viewModel.numOfSortOptions - 1)
                 return cell
             case .price:
-                if indexPath.row == 0 {
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterFreeCell",
-                                                                        for: indexPath) as? FilterFreeCell else { return UICollectionViewCell() }
-                    cell.bottomSeparator.isHidden = true
-                    cell.topSeparator.isHidden = false
-                    cell.titleLabel.text = LGLocalizedString.filtersSectionPriceFreeTitle
-                    cell.delegate = viewModel
-                    return cell
-                } else if indexPath.row == 1 {
+                if featureFlags.addSuperKewordsOnFeed {
+                    if indexPath.row == 0 {
+                        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterFreeCell",
+                                                                            for: indexPath) as? FilterFreeCell else { return UICollectionViewCell() }
+                        cell.bottomSeparator.isHidden = true
+                        cell.topSeparator.isHidden = false
+                        cell.titleLabel.text = LGLocalizedString.filtersSectionPriceFreeTitle
+                        cell.delegate = viewModel
+                        cell.freeSwitch.setOn(viewModel.isFreeActive, animated: false)
+                        return cell
+                    } else if indexPath.row == 1 {
+                        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterRangePriceCell",
+                                                                            for: indexPath) as? FilterRangePriceCell else { return UICollectionViewCell() }
+                        cell.titleLabelFrom.text = LGLocalizedString.filtersPriceFrom
+                        cell.titleLabelTo.text = LGLocalizedString.filtersPriceTo
+                        cell.bottomSeparator.isHidden =  false
+                        cell.topSeparator.isHidden =  false
+                        cell.textFieldFrom.text = viewModel.minPriceString
+                        cell.textFieldTo.text = viewModel.maxPriceString
+                        cell.delegate = self
+                        return cell
+                    } else {
+                        return UICollectionViewCell()
+                    }
+                } else {
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterPriceCell",
                                                                         for: indexPath) as? FilterPriceCell else { return UICollectionViewCell() }
-                    cell.titleLabelFrom.text = LGLocalizedString.filtersPriceFrom
-                    cell.titleLabelTo.text = LGLocalizedString.filtersPriceTo
-                    cell.bottomSeparator.isHidden =  false
-                    cell.topSeparator.isHidden =  false
-                    cell.textFieldFrom.text = viewModel.minPriceString
-                    cell.textFieldTo.text = viewModel.maxPriceString
+                    cell.tag = indexPath.row
+                    cell.titleLabel.text = indexPath.row == 0 ? LGLocalizedString.filtersPriceFrom :
+                        LGLocalizedString.filtersPriceTo
+                    cell.bottomSeparator.isHidden =  indexPath.row == 0
+                    cell.topSeparator.isHidden =  indexPath.row != 0
+                    cell.textField.text = indexPath.row == 0 ? viewModel.minPriceString : viewModel.maxPriceString
                     cell.delegate = self
+                    if indexPath.row == 1 {
+                        priceToCellFrame = cell.frame
+                    }
                     return cell
-                } else {
-                    return UICollectionViewCell()
                 }
             }
     }
@@ -359,6 +388,8 @@ FilterCarInfoYearCellDelegate, UICollectionViewDataSource, UICollectionViewDeleg
         let headerNib = UINib(nibName: "FilterHeaderCell", bundle: nil)
         self.collectionView.register(headerNib, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader,
             withReuseIdentifier: "FilterHeaderCell")
+        let rangePriceNib = UINib(nibName: "FilterRangePriceCell", bundle: nil)
+        self.collectionView.register(rangePriceNib, forCellWithReuseIdentifier: "FilterRangePriceCell")
         let priceNib = UINib(nibName: "FilterPriceCell", bundle: nil)
         self.collectionView.register(priceNib, forCellWithReuseIdentifier: "FilterPriceCell")
         let freeNib = UINib(nibName: "FilterFreeCell", bundle: nil)

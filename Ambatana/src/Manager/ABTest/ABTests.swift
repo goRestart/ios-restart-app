@@ -34,6 +34,7 @@ class ABTests {
     let newCarouselNavigationEnabled = BoolABDynamicVar(key: "newCarouselNavigationEnabled20170606", defaultValue: false)
     let newOnboardingPhase1 = BoolABDynamicVar(key: "newOnboardingPhase1", defaultValue: false)
     let searchParamDisc24 = IntABDynamicVar(key: "searchParamDisc24", defaultValue: 0)
+    let addSuperKeywordsOnFeed = BoolABDynamicVar(key: "20170719AddSuperKeywordsOnFeed", defaultValue: false)
 
     init() {
     }
@@ -62,6 +63,7 @@ class ABTests {
         result.append(newCarouselNavigationEnabled)
         result.append(newOnboardingPhase1)
         result.append(searchParamDisc24)
+        result.append(addSuperKeywordsOnFeed)
 
         return result
     }

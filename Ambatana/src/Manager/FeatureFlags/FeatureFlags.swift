@@ -36,6 +36,7 @@ protocol FeatureFlaggeable: class {
     var newCarouselNavigationEnabled: Bool { get }
     var newOnboardingPhase1: Bool { get }
     var searchParamDisc24: SearchParamDisc24 { get }
+    var addSuperKewordsOnFeed: Bool { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -232,6 +233,14 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return SearchParamDisc24.fromPosition(abTests.searchParamDisc24.value)
     }
+    
+    var addSuperKewordsOnFeed: Bool {
+        if Bumper.enabled {
+            return Bumper.addSuperKeywordsOnFeed
+        }
+        return abTests.addSuperKeywordsOnFeed.value
+    }
+    
     
     // MARK: - Country features
 

@@ -30,6 +30,7 @@ extension Bumper  {
         flags.append(NewCarouselNavigationEnabled.self)
         flags.append(NewOnboardingPhase1.self)
         flags.append(SearchParamDisc24.self)
+        flags.append(AddSuperKeywordsOnFeed.self)
         Bumper.initialize(flags)
     } 
 
@@ -116,6 +117,11 @@ extension Bumper  {
     static var searchParamDisc24: SearchParamDisc24 {
         guard let value = Bumper.value(for: SearchParamDisc24.key) else { return .disc24a }
         return SearchParamDisc24(rawValue: value) ?? .disc24a 
+    }
+
+    static var addSuperKeywordsOnFeed: Bool {
+        guard let value = Bumper.value(for: AddSuperKeywordsOnFeed.key) else { return false }
+        return AddSuperKeywordsOnFeed(rawValue: value)?.asBool ?? false
     } 
 }
 
@@ -289,5 +295,14 @@ enum SearchParamDisc24: String, BumperFeature  {
             default: return .disc24a
         }
     }
+}
+
+enum AddSuperKeywordsOnFeed: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return AddSuperKeywordsOnFeed.no.rawValue }
+    static var enumValues: [AddSuperKeywordsOnFeed] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Add super keywords in feed and filters" } 
+    var asBool: Bool { return self == .yes }
 }
 

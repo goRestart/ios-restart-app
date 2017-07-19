@@ -84,5 +84,10 @@
         "name": "SearchParamDisc24",
         "values": ["disc24a", "disc24b", "disc24c", "disc24d", "disc24e", "disc24f", "disc24g"],
         "description": "Diferent search approach"
- }
+    },
+    {
+        "name": "AddSuperKeywordsOnFeed",
+        "values": ["no", "yes"],
+        "description": "Add super keywords in feed and filters"
+    }
 ]
