@@ -6,6 +6,7 @@
 //  Copyright © 2017 Ambatana. All rights reserved.
 //
 
+import RxSwift
 
 protocol FilterFreeCellDelegate: class {
     func freeSwitchChanged(on: Bool)
@@ -23,10 +24,12 @@ class FilterFreeCell: UICollectionViewCell {
     @IBOutlet weak var topSeparatorHeight: NSLayoutConstraint!
     
     weak var delegate: FilterFreeCellDelegate?
+    var disposeBag = DisposeBag()
     
     override func awakeFromNib() {
         super.awakeFromNib()
         setupUI()
+        setupRx()
         resetUI()
         setAccessibilityIds()
     }
@@ -41,8 +44,17 @@ class FilterFreeCell: UICollectionViewCell {
         topSeparatorHeight.constant = LGUIKitConstants.onePixelSize
         titleLabel.textColor = UIColor.blackText
         freeSwitch.onTintColor = UIColor.primaryColor
-        
     }
+    
+    private func setupRx() {
+        freeSwitch.rx.value.asObservable().bindNext { [weak self] isOn in
+            if let imageView = self?.freeSwitch.firstSubview(ofType: UIImageView.self) {
+                imageView.contentMode = .center
+                imageView.image = isOn ? #imageLiteral(resourceName: "free_switch_active") : #imageLiteral(resourceName: "free_switch_inactive")
+            }
+        }.addDisposableTo(disposeBag)
+    }
+    
     
     private func resetUI() {
         titleLabel.text = nil
