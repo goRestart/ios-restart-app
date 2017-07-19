@@ -136,10 +136,6 @@ struct Constants {
     static let newRelicGodModeToken = "AAfcb13d44209d7454436d2efa9974174d063a8d1d"
     static let newRelicProductionToken = "AA448d0966d24653a9a1c92e2d37f86ef5ec61cc7c"
 
-    // Bump Up
-    static let bumpUpPaidTimeLimit: TimeInterval = TimeInterval.make(minutes: 15)
-    static let bumpUpFreeTimeLimit: TimeInterval = TimeInterval.make(hours: 8)
-
     // Cars
     static let filterMinCarYear: Int = 1990
 }

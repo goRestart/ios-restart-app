@@ -121,7 +121,7 @@ class ChatGroupedViewModel: BaseViewModel {
     // MARK: - Public methods
     
     func setNeedsRefreshConversations() {
-        chatListViewModels.forEach { $0.shouldRefreshConversations = true }
+        chatListViewModels.forEach { $0.shouldRefreshConversationsTabTrigger = true }
     }
     
     // MARK: > Tab
