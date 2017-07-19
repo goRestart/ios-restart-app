@@ -1069,7 +1069,7 @@ struct TrackerEvent {
         return TrackerEvent(name: .userRatingReport, params: params)
     }
     
-    static func filterCategoryHeader(position: Int, name: String) -> TrackerEvent {
+    static func filterCategoryHeaderSelected(position: Int, name: String) -> TrackerEvent {
         var params = EventParameters()
         params[.bubblePosition] = position
         params[.bubbleName] = name

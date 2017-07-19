@@ -3583,7 +3583,7 @@ class TrackerEventSpec: QuickSpec {
             }
             describe("category header filter") {
                 beforeEach {
-                    sut = TrackerEvent.filterCategoryHeader(position: 1, name: "cars")
+                    sut = TrackerEvent.filterCategoryHeaderSelected(position: 1, name: "cars")
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("filter-bubble"))

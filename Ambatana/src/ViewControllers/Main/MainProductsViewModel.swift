@@ -421,7 +421,7 @@ class MainProductsViewModel: BaseViewModel {
         delegate?.vmShowTags(tags)
         updateCategoriesHeader()
         updateListView()
-        tracker.trackEvent(TrackerEvent.filterCategoryHeader(position: categoryHeaderInfo.position,
+        tracker.trackEvent(TrackerEvent.filterCategoryHeaderSelected(position: categoryHeaderInfo.position,
                                                              name: categoryHeaderInfo.name))
     }
 
