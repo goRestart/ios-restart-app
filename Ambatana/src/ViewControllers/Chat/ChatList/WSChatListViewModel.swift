@@ -54,14 +54,7 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
                    shouldWriteInCollectionVariable: true,
                    tabNavigator: tabNavigator)
     }
-
-    override func didBecomeActive(_ firstTime: Bool) {
-        super.didBecomeActive(firstTime)
-        if firstTime {
-            setupRxBindings()
-        }
-    }
-
+    
     
     // MARK: - Public methods
 
@@ -162,19 +155,6 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
 
     func deleteConfirmationSendButton() -> String {
         return LGLocalizedString.chatListDeleteAlertSend
-    }
-
-
-    // MARK: - Private methods
-
-    fileprivate func setupRxBindings() {
-        chatRepository.chatStatus.bindNext { [weak self] wsChatStatus in
-            guard let strongSelf = self else { return }
-            // Reload messages if active, otherwise it will reload when active
-            if wsChatStatus == .openAuthenticated && strongSelf.active {
-                strongSelf.refresh(completion: nil)
-            }
-        }.addDisposableTo(disposeBag)
     }
 }
 
