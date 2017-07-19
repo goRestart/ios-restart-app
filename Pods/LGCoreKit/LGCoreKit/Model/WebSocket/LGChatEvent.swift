@@ -26,15 +26,13 @@ extension LGChatEvent: Decodable {
      }
      */
     static func decode(_ j: JSON) -> Decoded<LGChatEvent> {
-        let result = curry(LGChatEvent.init)
-            <^> j <|? "id"
-            <*> j <|? ["data", "conversation_id"]
-            <*> ChatEventType.decode(j)
-        
+        let result1 = curry(LGChatEvent.init)
+        let result2 = result1 <^> j <|? "id"
+        let result3 = result2 <*> j <|? ["data", "conversation_id"]
+        let result  = result3 <*> ChatEventType.decode(j)
         if let error = result.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGChatEvent parse error: \(error)")
         }
-        
         return result
     }
 }
@@ -75,11 +73,11 @@ extension ChatEventType: Decodable {
              "text": [string]
              }
              */
-            result = curry(ChatEventType.interlocutorMessageSent)
-                <^> j <| ["data", "message_id"]
-                <*> j <| ["data", "sent_at"]
-                <*> j <| ["data", "text"]
-                <*> LGArgo.parseChatMessageType(j, key: ["data", "message_type"])
+            let result1 = curry(ChatEventType.interlocutorMessageSent)
+            let result2 = result1 <^> j <| ["data", "message_id"]
+            let result3 = result2 <*> j <| ["data", "sent_at"]
+            let result4 = result3 <*> j <| ["data", "text"]
+            result      = result4 <*> LGArgo.parseChatMessageType(j, key: ["data", "message_type"])
 
         case "interlocutor_reception_confirmed":
             /**
@@ -89,8 +87,8 @@ extension ChatEventType: Decodable {
              "message_ids": [ [uuid], … ]
              }
              */
-            result = curry(ChatEventType.interlocutorReceptionConfirmed)
-                <^> j <|| ["data", "message_ids"]
+            let result1 = curry(ChatEventType.interlocutorReceptionConfirmed)
+            result      = result1 <^> j <|| ["data", "message_ids"]
 
         case "interlocutor_read_confirmed":
             /**
@@ -100,8 +98,8 @@ extension ChatEventType: Decodable {
              "message_ids": [ [uuid], … ]
              }
              */
-            result = curry(ChatEventType.interlocutorReadConfirmed)
-                <^> j <|| ["data", "message_ids"]
+            let result1 = curry(ChatEventType.interlocutorReadConfirmed)
+            result      = result1 <^> j <|| ["data", "message_ids"]
 
         case "authentication_token_expired":
             result = Decoded<ChatEventType>.success(.authenticationTokenExpired)

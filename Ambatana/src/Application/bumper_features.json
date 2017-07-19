@@ -84,5 +84,10 @@
         "name": "SearchParamDisc24",
         "values": ["disc24a", "disc24b", "disc24c", "disc24d", "disc24e", "disc24f", "disc24g"],
         "description": "Diferent search approach"
- }
+    },
+    {
+        "name": "InAppRatingIOS10",
+        "values": ["no", "yes"],
+        "description": "New in-app rating for iOS 10.3+"
+    }
 ]

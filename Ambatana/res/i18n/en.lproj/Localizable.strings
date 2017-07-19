@@ -2666,6 +2666,9 @@
 // Title for trending searches screen (background view when searching)
 "trending_searches_Title" = "Trending Searches";
 
+// Title for suggested searches screen (background view when searching)
+"suggested_searches_title" = "Suggested Searches";
+
 // Text for unsuccessful user unblock
 "unblock_user_error_generic" = "An error occurred while unblocking this user.";
 

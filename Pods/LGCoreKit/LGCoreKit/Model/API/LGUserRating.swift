@@ -64,21 +64,18 @@ extension LGUserRating: Decodable {
      */
     static func decode(_ j: JSON) -> Decoded<LGUserRating> {
         let result1 = curry(LGUserRating.init)
-            <^> j <| "uuid"
-            <*> j <| "user_to_id"
-            <*> j <| "user_from"
-            <*> UserRatingType.decode(j)
-            <*> j <| "value"
-        let result = result1
-            <*> j <|? "comment"
-            <*> j <| "status"
-            <*> j <| "created_at"
-            <*> j <| "updated_at"
-
+        let result2 = result1 <^> j <| "uuid"
+        let result3 = result2 <*> j <| "user_to_id"
+        let result4 = result3 <*> j <| "user_from"
+        let result5 = result4 <*> UserRatingType.decode(j)
+        let result6 = result5 <*> j <| "value"
+        let result7 = result6 <*> j <|? "comment"
+        let result8 = result7 <*> j <| "status"
+        let result9 = result8 <*> j <| "created_at"
+        let result  = result9 <*> j <| "updated_at"
         if let error = result.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGUserRating parse error: \(error)")
         }
-
         return result
     }
 }
@@ -95,13 +92,12 @@ extension UserRatingType: Decodable {
         case .conversation:
             result = Decoded<UserRatingType>.fromOptional(.conversation)
         case .seller:
-            result = curry(UserRatingType.seller)
-                <^> j <| "product_id"
+            let result1 = curry(UserRatingType.seller)
+            result      = result1 <^> j <| "product_id"
         case .buyer:
-            result = curry(UserRatingType.buyer)
-                <^> j <| "product_id"
+            let result1 = curry(UserRatingType.buyer)
+            result      = result1 <^> j <| "product_id"
         }
-
         if let error = result.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "UserRatingType parse error: \(error)")
         }

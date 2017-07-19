@@ -582,7 +582,7 @@
 "product_post_confirmation_another" = "혹은";
 "product_post_confirmation_another_button" = "다른 상품 게시하기";
 "product_post_confirmation_edit" = "세부사항 추가하기";
-"product_post_different_country_error" = "You can’t post in a country where you’re not currently located.";
+"product_post_different_country_error" = "현재 거주하고 계신 국가로만 게시글을 작성하실 수 있습니다";
 "product_post_done" = "완료되었습니다";
 "product_post_empty_gallery_button" = "사진 촬영";
 "product_post_empty_gallery_subtitle" = "게시하고자 하는 상품의 사진을 촬영합니다";
@@ -730,13 +730,13 @@
 "rate_user_positive_quick_responses" = "빠른 응답";
 "rate_user_positive_showed_up_on_time" = "제 시간에 나왔습니다";
 "rate_user_positive_trustworthy" = "신뢰할 수 있음";
-"rating_app_enjoying_alert_title" = "Are you enjoying letgo?";
-"rating_app_feedback_no_button" = "No, thanks";
-"rating_app_feedback_title" = "Want to give us some feedback?";
-"rating_app_feedback_yes_button" = "Sure!";
-"rating_app_rate_alert_no_button" = "No, thanks";
-"rating_app_rate_alert_title" = "Would you like to rate us? It'll only take two seconds";
-"rating_app_rate_alert_yes_button" = "Sure!";
+"rating_app_enjoying_alert_title" = "letgo를 즐기고 있습니까?";
+"rating_app_feedback_no_button" = "고맙지만, 괜찮습니다";
+"rating_app_feedback_title" = "저희에게 피드백을 주고 싶습니까?";
+"rating_app_feedback_yes_button" = "물론이죠!";
+"rating_app_rate_alert_no_button" = "감사하지만 괜찮습니다";
+"rating_app_rate_alert_title" = "저희를 평가 해주시고 싶으신가요? 딱 2초 정도 소요될 것입니다.";
+"rating_app_rate_alert_yes_button" = "물론이죠!";
 "rating_list_action_report_review" = "리뷰 신고하기";
 "rating_list_action_report_review_error_message" = "신고를 발송하는동안 오류가 발생했습니다.";
 "rating_list_action_report_review_success_message" = "신고가 발송되었습니다!";
@@ -867,6 +867,7 @@
 "sign_up_terms_conditions_terms_part" = "사용약관";
 "sign_up_title" = "새 계정 만들기";
 "sign_up_username_field_hint" = "이름";
+"suggested_searches_title" = "제안되는 검색";
 "suggestions_last_searches_clear_button" = "삭제";
 "suggestions_last_searches_title" = "최근 검색";
 "survey_confirmation" = "감사합니다! 남겨주신 피드백은 저희에게 많은 도움이 될 것입니다";

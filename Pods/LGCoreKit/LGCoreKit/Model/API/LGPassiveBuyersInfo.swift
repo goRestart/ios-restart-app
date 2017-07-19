@@ -47,11 +47,10 @@ extension LGPassiveBuyersInfo: Decodable {
     }
      */
     static func decode(_ j: JSON) -> Decoded<LGPassiveBuyersInfo> {
-        let result = curry(LGPassiveBuyersInfo.init)
-            <^> j <|? "product_id"
-            <*> j <|? "product_image"
-            <*> j <|| "passive_buyer_users"
-
+        let result1 = curry(LGPassiveBuyersInfo.init)
+        let result2 = result1 <^> j <|? "product_id"
+        let result3 = result2 <*> j <|? "product_image"
+        let result  = result3 <*> j <|| "passive_buyer_users"
         if let error = result.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGPassiveBuyersInfo parse error: \(error)")
         }

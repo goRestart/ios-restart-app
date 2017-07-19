@@ -582,7 +582,7 @@
 "product_post_confirmation_another" = "'Η";
 "product_post_confirmation_another_button" = "Δημοσιεύστε άλλο προϊόν";
 "product_post_confirmation_edit" = "Προσθέστε λεπτομέρειες";
-"product_post_different_country_error" = "You can’t post in a country where you’re not currently located.";
+"product_post_different_country_error" = "Δεν μπορείτε να δημοσιεύσετε σε χώρα στην οποία δε βρίσκεστε πια.";
 "product_post_done" = "Έτοιμο";
 "product_post_empty_gallery_button" = "Τραβήξτε Φωτογραφία";
 "product_post_empty_gallery_subtitle" = "Τραβήξτε φωτογραφία του προϊόντος που θέλετε να δημοσιεύσετε";
@@ -867,6 +867,7 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Δημιουργία νέου λογαριασμού";
 "sign_up_username_field_hint" = "Ονοματεπώνυμο";
+"suggested_searches_title" = "Προτεινόμενες Αναζητήσεις";
 "suggestions_last_searches_clear_button" = "Εκκαθάριση";
 "suggestions_last_searches_title" = "Πρόσφατες Αναζητήσεις";
 "survey_confirmation" = "Ευχαριστούμε πολύ! Τα σχόλιά σας μας βοηθούν να βελτιωνόμαστε";

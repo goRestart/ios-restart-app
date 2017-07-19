@@ -30,6 +30,7 @@ extension Bumper  {
         flags.append(NewCarouselNavigationEnabled.self)
         flags.append(NewOnboardingPhase1.self)
         flags.append(SearchParamDisc24.self)
+        flags.append(InAppRatingIOS10.self)
         Bumper.initialize(flags)
     } 
 
@@ -116,6 +117,11 @@ extension Bumper  {
     static var searchParamDisc24: SearchParamDisc24 {
         guard let value = Bumper.value(for: SearchParamDisc24.key) else { return .disc24a }
         return SearchParamDisc24(rawValue: value) ?? .disc24a 
+    }
+
+    static var inAppRatingIOS10: Bool {
+        guard let value = Bumper.value(for: InAppRatingIOS10.key) else { return false }
+        return InAppRatingIOS10(rawValue: value)?.asBool ?? false
     } 
 }
 
@@ -289,5 +295,14 @@ enum SearchParamDisc24: String, BumperFeature  {
             default: return .disc24a
         }
     }
+}
+
+enum InAppRatingIOS10: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return InAppRatingIOS10.no.rawValue }
+    static var enumValues: [InAppRatingIOS10] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "New in-app rating for iOS 10.3+" } 
+    var asBool: Bool { return self == .yes }
 }
 

@@ -30,11 +30,9 @@ extension ApiCarsModel: Decodable {
      }
      */
     public static func decode(_ j: JSON) -> Decoded<ApiCarsModel> {
-
-        let result = curry(ApiCarsModel.init)
-            <^> j <| "id"
-            <*> j <| "name"
-
+        let result1 = curry(ApiCarsModel.init)
+        let result2 = result1 <^> j <| "id"
+        let result  = result2 <*> j <| "name"
         if let error = result.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "ApiCarsModel parse error: \(error)")
         }

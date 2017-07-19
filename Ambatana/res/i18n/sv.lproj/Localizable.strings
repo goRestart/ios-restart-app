@@ -582,7 +582,7 @@
 "product_post_confirmation_another" = "Eller";
 "product_post_confirmation_another_button" = "Lägg upp en till vara";
 "product_post_confirmation_edit" = "Lägg till mer information";
-"product_post_different_country_error" = "You can’t post in a country where you’re not currently located.";
+"product_post_different_country_error" = "Du kan inte lägga upp produkter i ett land som du inte befinner dig i.";
 "product_post_done" = "Klar";
 "product_post_empty_gallery_button" = "Ta bild";
 "product_post_empty_gallery_subtitle" = "Ta en bild på den produkt du vill lägga upp";
@@ -867,6 +867,7 @@
 "sign_up_terms_conditions_terms_part" = "Villkor";
 "sign_up_title" = "Skapa nytt konto";
 "sign_up_username_field_hint" = "Fullständigt namn";
+"suggested_searches_title" = "Rekommenderade Sökningar";
 "suggestions_last_searches_clear_button" = "Rensa";
 "suggestions_last_searches_title" = "Senaste sökningarna";
 "survey_confirmation" = "Tack! Din feedback hjälper oss att förbättra letgo";

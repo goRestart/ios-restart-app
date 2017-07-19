@@ -39,17 +39,15 @@ extension LGNotification : Decodable {
      }
      */
     static func decode(_ j: JSON) -> Decoded<LGNotification> {
-        let result = curry(LGNotification.init)
-            <^> j <|? "uuid"
-            <*> j <| "created_at"
-            <*> j <| "is_read"
-            <*> NotificationType.decode(j)
-            <*> j <|? "campaign_type"
-
+        let result1 = curry(LGNotification.init)
+        let result2 = result1 <^> j <|? "uuid"
+        let result3 = result2 <*> j <| "created_at"
+        let result4 = result3 <*> j <| "is_read"
+        let result5 = result4 <*> NotificationType.decode(j)
+        let result  = result5 <*> j <|? "campaign_type"
         if let error = result.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGNotification parse error: \(error)")
         }
-
         return result
     }
 }
@@ -79,9 +77,9 @@ extension NotificationType: Decodable {
                  "username": "Prof."
              }
              */
-            result = curry(NotificationType.like)
-                <^> LGNotificationListing.decode(data)
-                <*> LGNotificationUser.decode(data)
+            let result1 = curry(NotificationType.makeLike)
+            let result2 = result1 <^> LGNotificationListing.decode(data)
+            result      = result2 <*> LGNotificationUser.decode(data)
         case "sold":
             /**
              "data" : {
@@ -93,9 +91,9 @@ extension NotificationType: Decodable {
                  "username": "Prof."
              }
              */
-            result = curry(NotificationType.sold)
-                <^> LGNotificationListing.decode(data)
-                <*> LGNotificationUser.decode(data)
+            let result1 = curry(NotificationType.makeSold)
+            let result2 = result1 <^> LGNotificationListing.decode(data)
+            result      = result2 <*> LGNotificationUser.decode(data)
         case "review":
             /**
              "data" : {
@@ -106,10 +104,10 @@ extension NotificationType: Decodable {
                  "comments": "Super!"
              }
              */
-            result = curry(NotificationType.rating)
-                <^> LGNotificationUser.decode(data)
-                <*> data <| JSONKeys.ratingValue
-                <*> data <|? JSONKeys.comments
+            let result1 = curry(NotificationType.makeRating)
+            let result2 = result1 <^> LGNotificationUser.decode(data)
+            let result3 = result2 <*> data <| JSONKeys.ratingValue
+            result      = result3 <*> data <|? JSONKeys.comments
         case "review_updated":
             /**
              "data" : {
@@ -120,10 +118,10 @@ extension NotificationType: Decodable {
                  "comments": "Super!"
              }
              */
-            result = curry(NotificationType.ratingUpdated)
-                <^> LGNotificationUser.decode(data)
-                <*> data <| JSONKeys.ratingValue
-                <*> data <|? JSONKeys.comments
+            let result1 = curry(NotificationType.makeRatingUpdated)
+            let result2 = result1 <^> LGNotificationUser.decode(data)
+            let result3 = result2 <*> data <| JSONKeys.ratingValue
+            result      = result3 <*> data <|? JSONKeys.comments
         case "buyers_interested":
             /*
              "data": {
@@ -137,9 +135,9 @@ extension NotificationType: Decodable {
                 },...]
              }
              */
-            result = curry(buildBuyersInterested)
-                <^> LGNotificationListing.decode(data)
-                <*> data <|| JSONKeys.buyers
+            let result1 = curry(NotificationType.makeBuyersInterested)
+            let result2 = result1 <^> LGNotificationListing.decode(data)
+            result      = result2 <*> data <|| JSONKeys.buyers
         case "product_suggested":
             /*
              "data": {
@@ -151,9 +149,9 @@ extension NotificationType: Decodable {
                 "product_image": "http://cdn.letgo.com/images\/ba\/16\/08\/b4\/c3b3200dee3a8fd0906680fd255779a6.jpg"
              }
             */
-            result = curry(NotificationType.productSuggested)
-                <^> LGNotificationListing.decode(data)
-                <*> LGNotificationUser.decode(data)
+            let result1 = curry(NotificationType.makeProductSuggested)
+            let result2 = result1 <^> LGNotificationListing.decode(data)
+            result      = result2 <*> LGNotificationUser.decode(data)
         case "facebook_friendship_created":
             /*
              "data": {
@@ -163,13 +161,12 @@ extension NotificationType: Decodable {
                 "user_image": "http://cdn.letgo.com/images\/ba\/16\/08\/b4\/c3b3200dee3a8fd0906680fd255779a6.jpg"
              }
             */
-            result = curry(NotificationType.facebookFriendshipCreated)
-                <^> LGNotificationUser.decode(data)
-                <*> data <| "facebook_username"
-            
-        case "modular": 
-            result = curry(NotificationType.modular)
-                <^> LGNotificationModular.decode(data)
+            let result1 = curry(NotificationType.makeFacebookFriendshipCreated)
+            let result2 = result1 <^> LGNotificationUser.decode(data)
+            result      = result2 <*> data <| "facebook_username"
+        case "modular":
+            let result1 = curry(NotificationType.makeModular)
+            result      = result1 <^> LGNotificationModular.decode(data)
         default:
             return Decoded<NotificationType>.fromOptional(nil)
         }
@@ -179,8 +176,56 @@ extension NotificationType: Decodable {
         }
         return result
     }
+}
 
-    private static func buildBuyersInterested(_ product: NotificationListing, buyers: [LGNotificationUser]) -> NotificationType {
-        return NotificationType.buyersInterested(product: product, buyers: buyers.flatMap({$0}))
+fileprivate extension NotificationType {
+    static func makeLike(product: LGNotificationListing,
+                         user: LGNotificationUser) -> NotificationType {
+        return .like(product: product,
+                     user: user)
+    }
+    
+    static func makeSold(product: LGNotificationListing,
+                         user: LGNotificationUser) -> NotificationType {
+        return .sold(product: product,
+                     user: user)
+    }
+    
+    static func makeRating(user: LGNotificationUser,
+                           value: Int,
+                           comments: String?) -> NotificationType {
+        return .rating(user: user,
+                       value: value,
+                       comments: comments)
+    }
+    
+    static func makeRatingUpdated(user: LGNotificationUser,
+                                  value: Int,
+                                  comments: String?) -> NotificationType {
+        return .ratingUpdated(user: user,
+                              value: value,
+                              comments: comments)
+    }
+    
+    static func makeBuyersInterested(product: LGNotificationListing,
+                                     buyers: [LGNotificationUser]) -> NotificationType {
+        return .buyersInterested(product: product,
+                                 buyers: buyers)
+    }
+    
+    static func makeProductSuggested(product: LGNotificationListing,
+                                     seller: LGNotificationUser) -> NotificationType {
+        return .productSuggested(product: product,
+                                 seller: seller)
+    }
+    
+    static func makeFacebookFriendshipCreated(user: LGNotificationUser,
+                                              facebookUsername: String) -> NotificationType {
+        return .facebookFriendshipCreated(user: user,
+                                          facebookUsername: facebookUsername)
+    }
+    
+    static func makeModular(modules: LGNotificationModular) -> NotificationType {
+        return .modular(modules: modules)
     }
 }

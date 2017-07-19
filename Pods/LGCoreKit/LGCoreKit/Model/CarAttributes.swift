@@ -96,10 +96,13 @@ extension CarAttributes : Decodable {
      
      */
     public static func decode(_ j: JSON) -> Decoded<CarAttributes> {
-        let init1 = curry(CarAttributes.initWith)
-            <^> j <|? "make"
-            <*> j <|? "model"
-            <*> j <|? "year"
-        return init1
+        let result1 = curry(CarAttributes.initWith)
+        let result2 = result1 <^> j <|? "make"
+        let result3 = result2 <*> j <|? "model"
+        let result  = result3 <*> j <|? "year"
+        if let error = result.error {
+            logMessage(.error, type: CoreLoggingOptions.parsing, message: "CarAttributes parse error: \(error)")
+        }
+        return result
     }
 }
