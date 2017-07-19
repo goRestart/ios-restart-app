@@ -416,11 +416,13 @@ class MainProductsViewModel: BaseViewModel {
     /**
      Called when a filter gets removed
      */
-    func updateFiltersFromHeaderCategories(_ category: ListingCategory) {
-        filters.selectedCategories = [category]
+    func updateFiltersFromHeaderCategories(_ categoryHeaderInfo: CategoryHeaderInfo) {
+        filters.selectedCategories = [categoryHeaderInfo.listingCategory]
         delegate?.vmShowTags(tags)
         updateCategoriesHeader()
         updateListView()
+        tracker.trackEvent(TrackerEvent.filterCategoryHeader(position: categoryHeaderInfo.position,
+                                                             name: categoryHeaderInfo.name))
     }
 
     func bubbleTapped() {

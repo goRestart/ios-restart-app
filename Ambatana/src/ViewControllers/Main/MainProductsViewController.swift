@@ -468,8 +468,8 @@ extension MainProductsViewController: ProductListViewHeaderDelegate, PushPermiss
             let screenWidth: CGFloat = UIScreen.main.bounds.size.width
             categoriesHeader = CategoriesHeaderCollectionView(categories: ListingCategory.visibleValuesInFeed(),
                                                               frame: CGRect(x: 0, y: 0, width: screenWidth, height: CategoriesHeaderCollectionView.viewHeight))
-            categoriesHeader?.categorySelected.asObservable().bindNext { [weak self] category in
-                guard let category = category else { return }
+            categoriesHeader?.categorySelected.asObservable().bindNext { [weak self] categoryHeaderInfo in
+                guard let category = categoryHeaderInfo else { return }
                 self?.viewModel.updateFiltersFromHeaderCategories(category)
             }.addDisposableTo(disposeBag)
             if let categoriesHeader = categoriesHeader {

@@ -156,15 +156,17 @@ enum EventName: String {
 
     case marketingPushNotifications         = "marketing-push-notifications"
     
-    case passiveBuyerStart                 = "passive-buyer-start"
-    case passiveBuyerComplete              = "passive-buyer-complete"
-    case passiveBuyerAbandon               = "passive-buyer-abandon"
+    case passiveBuyerStart                  = "passive-buyer-start"
+    case passiveBuyerComplete               = "passive-buyer-complete"
+    case passiveBuyerAbandon                = "passive-buyer-abandon"
 
     case bumpUpStart                        = "bump-up-start"
     case bumpUpComplete                     = "bump-up-complete"
-    case chatWindowVisit                     = "chat-window-open"
+    case chatWindowVisit                    = "chat-window-open"
     
     case emptyStateError                    = "empty-state-error"
+    
+    case filterBubble                       = "filter-bubble"
     
 
     // Constants
@@ -298,6 +300,8 @@ enum EventParameterName: String {
     case verticalMatchingFields     = "vertical-matching-fields"
     case verticalNoMatchingFields   = "vertical-no-matching-fields"
     case verticalFields             = "vertical-fields"
+    case bubblePosition       = "bubble-position"
+    case bubbleName           = "bubble-name"
 }
 
 enum EventParameterBoolean: String {

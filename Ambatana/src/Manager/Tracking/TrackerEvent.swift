@@ -1068,6 +1068,13 @@ struct TrackerEvent {
         params[.userFromId] = userFromId
         return TrackerEvent(name: .userRatingReport, params: params)
     }
+    
+    static func filterCategoryHeader(position: Int, name: String) -> TrackerEvent {
+        var params = EventParameters()
+        params[.bubblePosition] = position
+        params[.bubbleName] = name
+        return TrackerEvent(name: .filterBubble, params: params)
+    }
 
 
     // MARK: - Private methods
