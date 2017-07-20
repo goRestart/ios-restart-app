@@ -463,7 +463,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
             strongSelf.topInset.value = strongSelf.topBarHeight + tagsHeight + strongSelf.filterHeadersHeight
         }.addDisposableTo(disposeBag)
         
-        if (viewModel.isSuggestedSearchesEnabled) {
+        if viewModel.isSuggestedSearchesEnabled {
             navbarSearch.searchTextField?.rx.text.asObservable()
                 .debounce(0.3, scheduler: MainScheduler.instance)
                 .subscribeNext { [weak self] text in
@@ -673,10 +673,11 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
                             for: indexPath) as? SuggestionSearchCell else { return UITableViewCell() }
         switch sectionType {
         case .suggestive:
-            guard let suggestiveSearch = viewModel.suggestiveSearchAtIndex(indexPath.row) else { return UITableViewCell() }
-            var suggestiveSearchBoldAttributed = NSAttributedString(string: suggestiveSearch.name!)
-            suggestiveSearchBoldAttributed = suggestiveSearchBoldAttributed.setBold(ignoreText: navbarSearch.searchTextField.text!, font: cell.labelFont)
-            cell.suggestionText.attributedText = suggestiveSearchBoldAttributed
+            guard let suggestiveSearchName = viewModel.suggestiveSearchAtIndex(indexPath.row)?.name else { return UITableViewCell() }
+            var attributedString = NSAttributedString(string: suggestiveSearchName)
+            attributedString = attributedString.setBold(ignoreText: navbarSearch.searchTextField.text,
+                                                        font: cell.labelFont)
+            cell.suggestionText.attributedText = attributedString
         case .lastSearch:
             guard let lastSearch = viewModel.lastSearchAtIndex(indexPath.row) else { return UITableViewCell() }
             cell.suggestionText.text = lastSearch

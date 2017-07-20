@@ -9,10 +9,16 @@
 import Foundation
 
 extension NSAttributedString {
-    func setBold(ignoreText: String, font: UIFont) -> NSAttributedString {
-        let attributedString = NSMutableAttributedString(string: string, attributes: [NSFontAttributeName: font])
-        let boldFontAttribute = [NSFontAttributeName: UIFont.boldSystemFont(ofSize: font.pointSize)]
-        attributedString.addAttributes(boldFontAttribute, range: NSMakeRange(ignoreText.characters.count, string.characters.count-ignoreText.characters.count))
+    func setBold(ignoreText: String?, font: UIFont?) -> NSAttributedString {
+        var attributedString = NSMutableAttributedString(string: string,
+                                                         attributes: [NSFontAttributeName:
+                                                            font ?? UIFont.bigBodyFont])
+        let ignoreTextCount = ignoreText?.characters.count ?? 0
+        attributedString.addAttribute(
+            NSFontAttributeName,
+            value: UIFont.boldSystemFont(ofSize: font?.pointSize ?? 17),
+            range: NSMakeRange(ignoreTextCount, string.characters.count-ignoreTextCount)
+        )
         return attributedString
     }
 }
