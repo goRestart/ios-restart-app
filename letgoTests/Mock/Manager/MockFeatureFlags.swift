@@ -38,6 +38,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var newOnboardingPhase1: Bool = false
     var searchParamDisc24: SearchParamDisc24 = .disc24a
     var inAppRatingIOS10: Bool = false
+    var suggestedSearches: SuggestedSearches = .control
 
     // Country dependant features
     var freePostingModeAllowed = false

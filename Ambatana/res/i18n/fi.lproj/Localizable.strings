@@ -316,6 +316,7 @@
 "filters_section_distance" = "Etäisyys";
 "filters_section_location" = "Sijainti";
 "filters_section_price" = "Hinta";
+"filters_section_price_free_title" = "Show only free items";
 "filters_section_sortby" = "Lajittele";
 "filters_section_within" = "Julkaisusta aikaa";
 "filters_sort_closest" = "Lähin ensin";

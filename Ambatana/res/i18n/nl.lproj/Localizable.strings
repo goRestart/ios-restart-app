@@ -316,6 +316,7 @@
 "filters_section_distance" = "Afstand";
 "filters_section_location" = "Plaats";
 "filters_section_price" = "Prijs";
+"filters_section_price_free_title" = "Show only free items";
 "filters_section_sortby" = "Sorteer op";
 "filters_section_within" = "Gepost in";
 "filters_sort_closest" = "Dichtstbijzijnde eerst";

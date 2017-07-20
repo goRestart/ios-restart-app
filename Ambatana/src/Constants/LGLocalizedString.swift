@@ -1255,6 +1255,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("filters_section_within", comment: "")
 	}
 
+	static var filtersSectionPriceFreeTitle: String {
+		return NSLocalizedString("filters_section_price_free_title", comment: "")
+	}
+
 	static var filtersPriceFrom: String {
 		return NSLocalizedString("filters_price_from", comment: "")
 	}

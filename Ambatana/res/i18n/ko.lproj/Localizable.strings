@@ -316,6 +316,7 @@
 "filters_section_distance" = "거리";
 "filters_section_location" = "위치";
 "filters_section_price" = "가격";
+"filters_section_price_free_title" = "Show only free items";
 "filters_section_sortby" = "분류하기";
 "filters_section_within" = "안에 입력하세요";
 "filters_sort_closest" = "가장 가까운 순서대로";
