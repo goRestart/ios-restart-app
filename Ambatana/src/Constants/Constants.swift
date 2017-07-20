@@ -25,6 +25,7 @@ struct Constants {
     
     // URLs
     static let appStoreURL = "itms-apps://itunes.apple.com/app/id986339882?mt=8"
+    static let appStoreWriteReviewURL = "itms-apps://itunes.apple.com/app/id986339882?action=write-review&mt=8"
     static let playStoreURL = "https://play.google.com/store/apps/details?id=com.abtnprojects.ambatana"
 
     // Branch
@@ -126,17 +127,14 @@ struct Constants {
     static let imagesUrlCacheMemoryCapacity = 20 * 1024 * 1024 // 20 MB
     static let imagesUrlCacheDiskCapacity = 150 * 1024 * 1024 // 150 MB
 
-    // Bubbles
+    // Alerts
     static let bubbleChatDuration: TimeInterval = 3         // seconds
     static let bubbleFavoriteDuration: TimeInterval = 5
+    static let autocloseMessageDefaultTime: TimeInterval = 2.5
 
     // NewRelic
     static let newRelicGodModeToken = "AAfcb13d44209d7454436d2efa9974174d063a8d1d"
     static let newRelicProductionToken = "AA448d0966d24653a9a1c92e2d37f86ef5ec61cc7c"
-
-    // Bump Up
-    static let bumpUpPaidTimeLimit: TimeInterval = TimeInterval.make(minutes: 15)
-    static let bumpUpFreeTimeLimit: TimeInterval = TimeInterval.make(hours: 8)
 
     // Cars
     static let filterMinCarYear: Int = 1990

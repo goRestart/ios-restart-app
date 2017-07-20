@@ -21,7 +21,7 @@ protocol ChatListViewModel: class, ChatGroupedListViewModel {
 
     var titleForDeleteButton: String { get }
     var hasMessagesToRead: Bool { get }
-    var shouldRefreshConversations: Bool { get set }
+    var shouldRefreshConversationsTabTrigger: Bool { get set }
 
     func deleteConfirmationTitle(_ itemCount: Int) -> String
     func deleteConfirmationMessage(_ itemCount: Int) -> String
