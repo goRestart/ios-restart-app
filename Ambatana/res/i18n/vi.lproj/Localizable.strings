@@ -316,6 +316,7 @@
 "filters_section_distance" = "Khoảng cách";
 "filters_section_location" = "Địa điểm";
 "filters_section_price" = "Giá";
+"filters_section_price_free_title" = "Show only free items";
 "filters_section_sortby" = "Sắp xếp theo";
 "filters_section_within" = "Được đăng trong vòng";
 "filters_sort_closest" = "Gần nhất trước tiên";

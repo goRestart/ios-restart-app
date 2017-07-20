@@ -316,6 +316,7 @@
 "filters_section_distance" = "Avstand";
 "filters_section_location" = "Sted";
 "filters_section_price" = "Pris";
+"filters_section_price_free_title" = "Show only free items";
 "filters_section_sortby" = "Sorter etter";
 "filters_section_within" = "Publisert";
 "filters_sort_closest" = "Nærmest først";
@@ -867,7 +868,7 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Opprett ny konto";
 "sign_up_username_field_hint" = "Fullt navn";
-"suggested_searches_title" = "Suggested Searches";
+"suggested_searches_title" = "Foreslåtte søk";
 "suggestions_last_searches_clear_button" = "Tøm";
 "suggestions_last_searches_title" = "Siste søkeord";
 "survey_confirmation" = "Tusen takk! Din tilbakemelding hjelper oss med å forbedre oss";

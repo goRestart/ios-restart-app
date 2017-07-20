@@ -316,6 +316,7 @@
 "filters_section_distance" = "Mesafe";
 "filters_section_location" = "Konum";
 "filters_section_price" = "Fiyat";
+"filters_section_price_free_title" = "Sadece ücretsiz ürünleri göster";
 "filters_section_sortby" = "Sırala";
 "filters_section_within" = "YAYINLANMA ZAMANI";
 "filters_sort_closest" = "İlk önce en yakını";

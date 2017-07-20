@@ -90,13 +90,6 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     fileprivate var collectionViewHeadersHeight: CGFloat {
         return productListView.headerDelegate?.totalHeaderHeight() ?? 0
     }
-    fileprivate var numberOfSuggestionSections: Int {
-        if (viewModel.isSuggestedSearchesEnabled) {
-            return 3
-        } else {
-            return 2
-        }
-    }
     
     // MARK: - Lifecycle
 

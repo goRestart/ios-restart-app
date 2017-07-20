@@ -316,6 +316,7 @@
 "filters_section_distance" = "Расстояние";
 "filters_section_location" = "Местоположение";
 "filters_section_price" = "Цена";
+"filters_section_price_free_title" = "Показывать только бесплатные товары";
 "filters_section_sortby" = "Сортировка по";
 "filters_section_within" = "Размещено за";
 "filters_sort_closest" = "Сначала ближайшее";

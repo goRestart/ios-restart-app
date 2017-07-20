@@ -316,6 +316,7 @@
 "filters_section_distance" = "Distanza";
 "filters_section_location" = "Posizione";
 "filters_section_price" = "Prezzo";
+"filters_section_price_free_title" = "Show only free items";
 "filters_section_sortby" = "Ordina per";
 "filters_section_within" = "Periodo di pubblicazione";
 "filters_sort_closest" = "Prima i più vicini";
@@ -867,7 +868,7 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Crea nuovo account";
 "sign_up_username_field_hint" = "Nome e Cognome";
-"suggested_searches_title" = "Suggested Searches";
+"suggested_searches_title" = "Ricerche consigliate";
 "suggestions_last_searches_clear_button" = "Cancella";
 "suggestions_last_searches_title" = "Ricerche recenti";
 "survey_confirmation" = "Grazie! Il tuo feedback ci permette di migliorare";

@@ -316,6 +316,7 @@
 "filters_section_distance" = "Entfernung";
 "filters_section_location" = "Standort";
 "filters_section_price" = "Preis";
+"filters_section_price_free_title" = "Nur kostenlose Artikel anzeigen";
 "filters_section_sortby" = "Sortiert nach";
 "filters_section_within" = "Eingestellt innerhalb";
 "filters_sort_closest" = "Nächste zuerst";
