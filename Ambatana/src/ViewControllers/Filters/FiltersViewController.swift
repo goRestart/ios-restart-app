@@ -21,7 +21,6 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
     
     // ViewModel
     private var viewModel : FiltersViewModel
-    private var featureFlags: FeatureFlags
     private let keyboardHelper: KeyboardHelper
     private var tapRec: UITapGestureRecognizer?
 
@@ -44,17 +43,14 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
     convenience init(viewModel: FiltersViewModel) {
         self.init(viewModel: viewModel,
                   nibName: "FiltersViewController",
-                  keyboardHelper: KeyboardHelper(),
-                  featureFlags: FeatureFlags.sharedInstance)
+                  keyboardHelper: KeyboardHelper())
     }
     
     required init(viewModel: FiltersViewModel,
                   nibName nibNameOrNil: String?,
-                  keyboardHelper: KeyboardHelper,
-                  featureFlags: FeatureFlags) {
+                  keyboardHelper: KeyboardHelper) {
         self.keyboardHelper = keyboardHelper
         self.viewModel = viewModel
-        self.featureFlags = featureFlags
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         self.viewModel.delegate = self
     }
@@ -107,7 +103,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
         // make sure the "to price" cell exists
         guard let priceSectionIndex = viewModel.sections.index(of: .price) else { return }
         let indexPath = IndexPath(item: 1,section: priceSectionIndex)
-        if featureFlags.addSuperKewordsOnFeed {
+        if viewModel.isSuperKeywordsActive {
             guard let maxPriceCell = collectionView.cellForItem(at: indexPath) as? FilterRangePriceCell else { return }
             maxPriceCell.textFieldTo.becomeFirstResponder()
         } else {
@@ -186,7 +182,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
         case .distance:
             return 1
         case .categories:
-            return viewModel.numOfCategories
+            return viewModel.isSuperKeywordsActive ? 1 : viewModel.numOfCategories
         case .carsInfo:
             return 3
         case .within:
@@ -221,9 +217,10 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
             // ABIOS-2721: CellDrawer pattern
             switch viewModel.sections[indexPath.section] {
             case .location:
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterLocationCell",
-                    for: indexPath) as? FilterLocationCell else { return UICollectionViewCell() }
-                cell.locationLabel.text = viewModel.place?.fullText(showAddress: false)
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterDisclosureCell",
+                    for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
+                cell.titleLabel.text = LGLocalizedString.changeLocationTitle
+                cell.subtitleLabel.text = viewModel.place?.fullText(showAddress: false)
                 return cell
             case .distance:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterDistanceCell",
@@ -233,36 +230,44 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                 cell.setupWithDistance(viewModel.currentDistanceRadius)
                 return cell
             case .categories:
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterCategoryCell",
-                    for: indexPath) as? FilterCategoryCell else { return UICollectionViewCell() }
-                cell.titleLabel.text = viewModel.categoryTextAtIndex(indexPath.row)
-                cell.categoryIcon.image = viewModel.categoryIconAtIndex(indexPath.row)
-                let colorText = viewModel.categoryColorAtIndex(indexPath.row)
-                let colorIcon = viewModel.categoryIconColorAtIndex(indexPath.row)
-                cell.categoryIcon.tintColor = colorIcon
-                cell.titleLabel.textColor = colorText
-                cell.rightSeparator.isHidden = indexPath.row % 2 == 1
-                cell.isSelected = viewModel.categorySelectedAtIndex(indexPath.row)
-                return cell
+                if viewModel.isSuperKeywordsActive {
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterDisclosureCell",
+                                                                        for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
+                    cell.titleLabel.text = LGLocalizedString.categoriesTitle
+                    return cell
+                } else {
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterCategoryCell",
+                                                                        for: indexPath) as? FilterCategoryCell else { return UICollectionViewCell() }
+                    cell.titleLabel.text = viewModel.categoryTextAtIndex(indexPath.row)
+                    cell.categoryIcon.image = viewModel.categoryIconAtIndex(indexPath.row)
+                    let colorText = viewModel.categoryColorAtIndex(indexPath.row)
+                    let colorIcon = viewModel.categoryIconColorAtIndex(indexPath.row)
+                    cell.categoryIcon.tintColor = colorIcon
+                    cell.titleLabel.textColor = colorText
+                    cell.rightSeparator.isHidden = indexPath.row % 2 == 1
+                    cell.isSelected = viewModel.categorySelectedAtIndex(indexPath.row)
+                    return cell
+                }
+                
             case .carsInfo:
                 switch indexPath.item {
                 case 0:
                     // make
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterCarInfoMakeModelCell",
-                                                                        for: indexPath) as? FilterCarInfoMakeModelCell else { return UICollectionViewCell() }
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterDisclosureCell",
+                                                                        for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
                     cell.isUserInteractionEnabled = true
                     cell.titleLabel.isEnabled = true
                     cell.titleLabel.text = LGLocalizedString.postCategoryDetailCarMake
-                    cell.infoLabel.text = viewModel.currentCarMakeName ?? LGLocalizedString.filtersCarMakeNotSet
+                    cell.subtitleLabel.text = viewModel.currentCarMakeName ?? LGLocalizedString.filtersCarMakeNotSet
                     return cell
                 case 1:
                     // Model
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterCarInfoMakeModelCell",
-                                                                        for: indexPath) as? FilterCarInfoMakeModelCell else { return UICollectionViewCell() }
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterDisclosureCell",
+                                                                        for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
                     cell.isUserInteractionEnabled = viewModel.modelCellEnabled
                     cell.titleLabel.isEnabled = viewModel.modelCellEnabled
                     cell.titleLabel.text = LGLocalizedString.postCategoryDetailCarModel
-                    cell.infoLabel.text = viewModel.currentCarModelName ?? LGLocalizedString.filtersCarModelNotSet
+                    cell.subtitleLabel.text = viewModel.currentCarModelName ?? LGLocalizedString.filtersCarModelNotSet
                     return cell
                 case 2:
                     // Year
@@ -292,7 +297,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                 cell.bottomSeparator.isHidden = indexPath.row != (viewModel.numOfSortOptions - 1)
                 return cell
             case .price:
-                if featureFlags.addSuperKewordsOnFeed {
+                if viewModel.isSuperKeywordsActive {
                     if indexPath.row == 0 {
                         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterFreeCell",
                                                                             for: indexPath) as? FilterFreeCell else { return UICollectionViewCell() }
@@ -343,7 +348,11 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
             //Do nothing on distance
             break
         case .categories:
-            viewModel.selectCategoryAtIndex(indexPath.row)
+            if viewModel.isSuperKeywordsActive {
+                viewModel.categoriesButtonPressed()
+            } else {
+                viewModel.selectCategoryAtIndex(indexPath.row)
+            }
         case .carsInfo:
             switch indexPath.item {
             case 0:
@@ -379,10 +388,8 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
         self.collectionView.register(sortByNib, forCellWithReuseIdentifier: "FilterSingleCheckCell")
         let distanceNib = UINib(nibName: "FilterDistanceCell", bundle: nil)
         self.collectionView.register(distanceNib, forCellWithReuseIdentifier: "FilterDistanceCell")
-        let locationNib = UINib(nibName: "FilterLocationCell", bundle: nil)
-        self.collectionView.register(locationNib, forCellWithReuseIdentifier: "FilterLocationCell")
-        let carMakeModelNib = UINib(nibName: "FilterCarInfoMakeModelCell", bundle: nil)
-        self.collectionView.register(carMakeModelNib, forCellWithReuseIdentifier: "FilterCarInfoMakeModelCell")
+        let disclosureNib = UINib(nibName: "FilterDisclosureCell", bundle: nil)
+        self.collectionView.register(disclosureNib, forCellWithReuseIdentifier: "FilterDisclosureCell")
         let carYearNib = UINib(nibName: "FilterCarInfoYearCell", bundle: nil)
         self.collectionView.register(carYearNib, forCellWithReuseIdentifier: "FilterCarInfoYearCell")
         let headerNib = UINib(nibName: "FilterHeaderCell", bundle: nil)
@@ -409,7 +416,8 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
         // Cells sizes
         let screenWidth = UIScreen.main.bounds.size.width
         distanceCellSize = CGSize(width: screenWidth, height: 78.0)
-        categoryCellSize = CGSize(width: screenWidth * 0.5, height: 50.0)
+        let categoryWidth = viewModel.isSuperKeywordsActive ? screenWidth : screenWidth * 0.5
+        categoryCellSize = CGSize(width: categoryWidth, height: 50.0)
         singleCheckCellSize = CGSize(width: screenWidth, height: 50.0)
         priceCellSize = CGSize(width: screenWidth, height: 50.0)
         yearRangeCellSize = CGSize(width: screenWidth, height: 100.0)

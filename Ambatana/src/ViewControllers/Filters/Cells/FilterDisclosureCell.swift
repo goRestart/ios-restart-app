@@ -8,12 +8,12 @@
 
 import UIKit
 
-class FilterLocationCell: UICollectionViewCell {
+class FilterDisclosureCell: UICollectionViewCell {
 
     @IBOutlet weak var topSeparator: UIView!
     @IBOutlet weak var separatorHeight: NSLayoutConstraint!
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var locationLabel: UILabel!
+    @IBOutlet weak var subtitleLabel: UILabel!
 
 
     // MARK: - Lifecycle
@@ -35,17 +35,17 @@ class FilterLocationCell: UICollectionViewCell {
 
     private func setupUI() {
         separatorHeight.constant = LGUIKitConstants.onePixelSize
-        titleLabel.text = LGLocalizedString.changeLocationTitle
     }
 
     // Resets the UI to the initial state
     private func resetUI() {
-        locationLabel.text = nil
+        titleLabel.text = nil
+        subtitleLabel.text = nil
     }
 
     private func setAccessibilityIds() {
-        self.accessibilityId = .filterLocationCell
-        titleLabel.accessibilityId = .filterLocationCellTitleLabel
-        locationLabel.accessibilityId = .filterLocationCellLocationLabel
+        self.accessibilityId = .filterDisclosureCell
+        titleLabel.accessibilityId = .filterDisclosureCellTitleLabel
+        subtitleLabel.accessibilityId = .filterDisclosureCellSubtitleLabel
     }
 }

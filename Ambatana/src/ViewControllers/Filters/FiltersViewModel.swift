@@ -176,6 +176,10 @@ class FiltersViewModel: BaseViewModel {
     var isFreeActive: Bool {
         return productFilter.priceRange.free
     }
+    
+    var isSuperKeywordsActive: Bool {
+        return featureFlags.addSuperKewordsOnFeed
+    }
 
     fileprivate var productFilter : ProductFilters
     
@@ -229,6 +233,12 @@ class FiltersViewModel: BaseViewModel {
                                                distanceRadius: productFilter.distanceRadius)
         locationVM.locationDelegate = self
         navigator?.openEditLocation(withViewModel: locationVM)
+    }
+    
+    func categoriesButtonPressed() {
+//        let categoriesVM = CategoriesViewModel()
+//        locationVM.locationDelegate = self
+//        navigator?.openEditLocation(withViewModel: locationVM)
     }
 
     func makeButtonPressed() {
