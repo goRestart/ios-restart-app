@@ -537,12 +537,14 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
                                                toItem: topLayoutGuide, attribute: .bottom, multiplier: 1.0, constant: 0)
         view.addConstraint(topConstraint)
         
-        Observable.combineLatest(viewModel.trendingSearches.asObservable(), viewModel.suggestiveSearches.asObservable(), viewModel.lastSearches.asObservable()) { trendings, suggestiveSearches, lastSearches in
+        Observable.combineLatest(viewModel.trendingSearches.asObservable(),
+                                 viewModel.suggestiveSearches.asObservable(),
+                                 viewModel.lastSearches.asObservable()) { trendings, suggestiveSearches, lastSearches in
             return trendings.count + suggestiveSearches.count + lastSearches.count
             }.bindNext { [weak self] totalCount in
                 self?.suggestionsSearchesTable.reloadData()
                 self?.suggestionsSearchesTable.isHidden = totalCount == 0
-            }.addDisposableTo(disposeBag)
+        }.addDisposableTo(disposeBag)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)),
                                                          name: NSNotification.Name.UIKeyboardWillShow, object: nil)
