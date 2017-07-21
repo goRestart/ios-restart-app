@@ -29,7 +29,7 @@ def shared_pods
 
     # Tracking
     pod "Amplitude-iOS",        "3.8.5"  # Obj-c
-    pod "AppsFlyerFramework",   "4.6.5"  # Obj-c
+    pod "AppsFlyerFramework",   "4.7.11"  # Obj-c
 #    pod "Leanplum-iOS-SDK",     "2.0.1"  # Obj-c
     pod "Leanplum-iOS-SDK", :git => 'https://github.com/Leanplum/Leanplum-iOS-SDK-internal', :tag => '2.0.1.1'
     
@@ -37,7 +37,7 @@ def shared_pods
 
     # letgo Core
 
-#    pod "LGCoreKit",             "3.9.0"
+#    pod "LGCoreKit",             "3.10.0"
 #    pod "LGCoreKit",            :path => "../lgcorekit"
     pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => '72e9281206c196f273f8aaf3cdaf64fb95bf1844'
 

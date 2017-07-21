@@ -316,6 +316,7 @@
 "filters_section_distance" = "Απόσταση";
 "filters_section_location" = "Τοποθεσία";
 "filters_section_price" = "Τιμή";
+"filters_section_price_free_title" = "Show only free items";
 "filters_section_sortby" = "Ταξινόμηση κατά";
 "filters_section_within" = "Δημοσιεύτηκε μεταξύ";
 "filters_sort_closest" = "Κοντινότερο";

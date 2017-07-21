@@ -36,7 +36,9 @@ protocol FeatureFlaggeable: class {
     var newCarouselNavigationEnabled: Bool { get }
     var newOnboardingPhase1: Bool { get }
     var searchParamDisc24: SearchParamDisc24 { get }
-    var addSuperKewordsOnFeed: Bool { get }
+    var inAppRatingIOS10: Bool { get }
+    var suggestedSearches: SuggestedSearches { get }
+    var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -234,11 +236,25 @@ class FeatureFlags: FeatureFlaggeable {
         return SearchParamDisc24.fromPosition(abTests.searchParamDisc24.value)
     }
     
-    var addSuperKewordsOnFeed: Bool {
+    var inAppRatingIOS10: Bool {
+        if Bumper.enabled {
+            return Bumper.inAppRatingIOS10
+        }
+        return abTests.inAppRatingIOS10.value
+    }
+    
+    var suggestedSearches: SuggestedSearches {
+        if Bumper.enabled {
+            return Bumper.suggestedSearches
+        }
+        return SuggestedSearches.fromPosition(abTests.suggestedSearches.value)
+    }
+    
+    var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed {
         if Bumper.enabled {
             return Bumper.addSuperKeywordsOnFeed
         }
-        return abTests.addSuperKeywordsOnFeed.value
+        return AddSuperKeywordsOnFeed.fromPosition(abTests.addSuperKeywordsOnFeed.value)
     }
     
     
@@ -303,6 +319,7 @@ class FeatureFlags: FeatureFlaggeable {
             return false
         }
     }
+    
     
     // MARK: - Private
     

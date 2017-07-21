@@ -316,6 +316,7 @@
 "filters_section_distance" = "Távolság";
 "filters_section_location" = "Tartózkodási hely";
 "filters_section_price" = "Ár";
+"filters_section_price_free_title" = "Show only free items";
 "filters_section_sortby" = "Rendezés";
 "filters_section_within" = "Közzétéve";
 "filters_sort_closest" = "Legközelebbiek elöl";

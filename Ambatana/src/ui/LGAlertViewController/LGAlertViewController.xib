@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -29,25 +29,25 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vQP-kW-TwI" userLabel="Location Alert Container View">
-                    <rect key="frame" x="53" y="184" width="270" height="300"/>
+                    <rect key="frame" x="53" y="176.5" width="270" height="315"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BbW-3n-dOK">
-                            <rect key="frame" x="0.0" y="55" width="270" height="245"/>
+                            <rect key="frame" x="0.0" y="55" width="270" height="260"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_CHANGE LOCATION" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0gQ-Gj-Fic">
-                                    <rect key="frame" x="15" y="75" width="240" height="21"/>
+                                    <rect key="frame" x="25" y="75" width="220" height="21"/>
                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_ To change where your product is posted, allow access to your location" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3G5-xS-3su">
-                                    <rect key="frame" x="15" y="105" width="240" height="61"/>
+                                    <rect key="frame" x="25" y="105" width="220" height="61"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bRn-kI-uhG">
-                                    <rect key="frame" x="15" y="186" width="240" height="44"/>
+                                    <rect key="frame" x="25" y="191" width="220" height="44"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" placeholder="YES" id="8uh-eP-iSF"/>
                                     </constraints>
@@ -55,18 +55,18 @@
                             </subviews>
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
-                                <constraint firstItem="0gQ-Gj-Fic" firstAttribute="leading" secondItem="BbW-3n-dOK" secondAttribute="leading" constant="15" id="Mne-nj-ing"/>
-                                <constraint firstItem="bRn-kI-uhG" firstAttribute="leading" secondItem="BbW-3n-dOK" secondAttribute="leading" constant="15" id="Rdn-9Z-Qs4"/>
+                                <constraint firstItem="0gQ-Gj-Fic" firstAttribute="leading" secondItem="BbW-3n-dOK" secondAttribute="leading" constant="25" id="Mne-nj-ing"/>
+                                <constraint firstItem="bRn-kI-uhG" firstAttribute="leading" secondItem="BbW-3n-dOK" secondAttribute="leading" constant="25" id="Rdn-9Z-Qs4"/>
                                 <constraint firstItem="3G5-xS-3su" firstAttribute="top" secondItem="0gQ-Gj-Fic" secondAttribute="bottom" constant="9" id="SwB-XS-82N"/>
-                                <constraint firstItem="3G5-xS-3su" firstAttribute="leading" secondItem="BbW-3n-dOK" secondAttribute="leading" constant="15" id="bCH-t5-xzA"/>
-                                <constraint firstAttribute="trailing" secondItem="0gQ-Gj-Fic" secondAttribute="trailing" constant="15" id="ilB-na-dFv"/>
-                                <constraint firstAttribute="trailing" secondItem="3G5-xS-3su" secondAttribute="trailing" constant="15" id="joF-1K-4oh"/>
+                                <constraint firstItem="3G5-xS-3su" firstAttribute="leading" secondItem="BbW-3n-dOK" secondAttribute="leading" constant="25" id="bCH-t5-xzA"/>
+                                <constraint firstAttribute="trailing" secondItem="0gQ-Gj-Fic" secondAttribute="trailing" constant="25" id="ilB-na-dFv"/>
+                                <constraint firstAttribute="trailing" secondItem="3G5-xS-3su" secondAttribute="trailing" constant="25" id="joF-1K-4oh"/>
                                 <constraint firstItem="3G5-xS-3su" firstAttribute="centerX" secondItem="BbW-3n-dOK" secondAttribute="centerX" id="pWf-YR-wW3"/>
-                                <constraint firstAttribute="bottom" secondItem="bRn-kI-uhG" secondAttribute="bottom" constant="15" id="qNk-DH-Ef7"/>
-                                <constraint firstAttribute="trailing" secondItem="bRn-kI-uhG" secondAttribute="trailing" constant="15" id="u9d-Gr-9ra"/>
+                                <constraint firstAttribute="bottom" secondItem="bRn-kI-uhG" secondAttribute="bottom" constant="25" id="qNk-DH-Ef7"/>
+                                <constraint firstAttribute="trailing" secondItem="bRn-kI-uhG" secondAttribute="trailing" constant="25" id="u9d-Gr-9ra"/>
                                 <constraint firstItem="0gQ-Gj-Fic" firstAttribute="top" secondItem="BbW-3n-dOK" secondAttribute="top" constant="75" id="vDC-MR-otL"/>
                                 <constraint firstItem="0gQ-Gj-Fic" firstAttribute="centerX" secondItem="BbW-3n-dOK" secondAttribute="centerX" id="vve-WQ-IYI"/>
-                                <constraint firstItem="bRn-kI-uhG" firstAttribute="top" secondItem="3G5-xS-3su" secondAttribute="bottom" constant="20" id="woX-z2-s9S"/>
+                                <constraint firstItem="bRn-kI-uhG" firstAttribute="top" secondItem="3G5-xS-3su" secondAttribute="bottom" constant="25" id="woX-z2-s9S"/>
                             </constraints>
                         </view>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="LocationAlert Icon" image="ic_location_alert" translatesAutoresizingMaskIntoConstraints="NO" id="xSZ-TZ-E8g">

@@ -9,11 +9,16 @@
 import RxSwift
 import LGCoreKit
 
+struct CategoryHeaderInfo {
+    let listingCategory: ListingCategory
+    let position: Int
+    let name: String
+}
 
 class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource {
     
     private var categories: [ListingCategory]
-    var categorySelected = Variable<ListingCategory?>(nil)
+    var categorySelected = Variable<CategoryHeaderInfo?>(nil)
     
     static let viewHeight: CGFloat = CategoryHeaderCell.cellSize().height
     
@@ -57,7 +62,10 @@ class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        categorySelected.value = categories[indexPath.row]
+        let listingCategory = categories[indexPath.row]
+        categorySelected.value = CategoryHeaderInfo(listingCategory: listingCategory,
+                                                    position: indexPath.row + 1,
+                                                    name: listingCategory.nameInFeed)
     }
 
     

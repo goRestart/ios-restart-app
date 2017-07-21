@@ -57,25 +57,27 @@ class DistanceBubbleTextGenerator {
                 maxDistance = filterDistanceRadius
             }
 
-            var distanceString = String(format: "%d %@", arguments: [min(maxDistance, distance), type.string])
-
-            if distance > maxDistance && distanceRadius == nil {
-                distanceString = LGLocalizedString.productDistanceMoreThan(distanceString)
+            var distanceString: String? = nil
+            if distance > 0 {
+                distanceString = String(format: "%d %@", arguments: [min(maxDistance, distance), type.string])
+                if let distanceValue = distanceString, distance > maxDistance && distanceRadius == nil {
+                    distanceString = LGLocalizedString.productDistanceMoreThan(distanceValue)
+                }
             }
 
             if let customPlace = place {
                 if let city = customPlace.postalAddress?.city, !city.isEmpty {
-                    return city + " - " + distanceString
+                    return String.make(components: [city, distanceString], separator: " - ")
                 } else if let zip = customPlace.postalAddress?.zipCode, !zip.isEmpty {
-                    return zip + " - " + distanceString
+                    return String.make(components: [zip, distanceString], separator: " - ")
                 } else {
-                    return LGLocalizedString.productDistanceCustomLocation + " - " + distanceString
+                    return String.make(components: [LGLocalizedString.productDistanceCustomLocation, distanceString], separator: " - ")
                 }
             } else {
                 if let realLocationCity = locationManager.currentLocation?.postalAddress?.city, !realLocationCity.isEmpty {
-                    return realLocationCity + " - " + distanceString
+                    return String.make(components: [realLocationCity, distanceString], separator: " - ")
                 } else {
-                    return LGLocalizedString.productDistanceNearYou + " - " + distanceString
+                    return String.make(components: [LGLocalizedString.productDistanceNearYou, distanceString], separator: " - ")
                 }
             }
         }

@@ -86,8 +86,18 @@
         "description": "Diferent search approach"
     },
     {
-        "name": "AddSuperKeywordsOnFeed",
+        "name": "InAppRatingIOS10",
         "values": ["no", "yes"],
+        "description": "New in-app rating for iOS 10.3+"
+    },
+    {
+        "name": "SuggestedSearches",
+        "values": ["control", "baseline", "active"],
+        "description": "New suggested searches section"
+    },
+    {
+        "name": "AddSuperKeywordsOnFeed",
+        "values": ["control", "baseline", "active"],
         "description": "Add super keywords in feed and filters"
     }
 ]

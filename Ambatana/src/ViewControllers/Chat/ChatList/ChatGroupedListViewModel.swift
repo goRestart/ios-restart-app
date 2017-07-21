@@ -33,6 +33,7 @@ protocol ChatGroupedListViewModel: class, RxPaginable, ChatGroupedListViewModelT
     var emptyViewModel: LGEmptyViewModel? { get }
     var emptyViewHidden: Bool { get }
     var tableViewHidden: Bool { get }
+    var shouldRefreshConversationsTabTrigger: Bool { get set }
     func clear()
 }
 
@@ -76,7 +77,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
 
     private var multipageRequester: MultiPageRequester<T>?
     
-    var shouldRefreshConversations: Bool = true
+    var shouldRefreshConversationsTabTrigger: Bool = true
 
     
     // MARK: - Lifecycle
@@ -115,7 +116,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     // MARK: - Public methods
 
     func objectAtIndex(_ index: Int) -> T? {
-        guard index < objectCount else { return nil }
+        guard index < objects.value.count else { return nil }
         return objects.value[index]
     }
 

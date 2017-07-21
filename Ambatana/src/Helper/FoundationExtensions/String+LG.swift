@@ -273,8 +273,9 @@ extension String {
         return make(components: components, separator: ". ")
     }
     
-    static func make(components: [String], separator: String) -> String {
-        return components.joined(separator: separator)
+    static func make(components: [String?], separator: String) -> String {
+        let allValues = components.flatMap { $0 }
+        return allValues.joined(separator: separator)
     }
     
     var isOnlyDigits: Bool {

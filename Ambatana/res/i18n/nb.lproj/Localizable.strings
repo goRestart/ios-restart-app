@@ -316,6 +316,7 @@
 "filters_section_distance" = "Avstand";
 "filters_section_location" = "Sted";
 "filters_section_price" = "Pris";
+"filters_section_price_free_title" = "Show only free items";
 "filters_section_sortby" = "Sorter etter";
 "filters_section_within" = "Publisert";
 "filters_sort_closest" = "Nærmest først";

@@ -101,6 +101,8 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
             }.addDisposableTo(disposeBag)
             
             viewModel.retrieveFirstPage()
+        } else if viewModel.shouldRefreshConversationsTabTrigger {
+            viewModel.retrieveFirstPage()
         }
     }
 
