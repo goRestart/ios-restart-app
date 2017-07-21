@@ -458,7 +458,6 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         
         if viewModel.isSuggestedSearchesEnabled {
             navbarSearch.searchTextField?.rx.text.asObservable()
-                .debounce(0.3, scheduler: MainScheduler.instance)
                 .subscribeNext { [weak self] text in
                     guard let term = text else { return }
                     guard let charactersCount = text?.characters.count else { return }
