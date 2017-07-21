@@ -236,9 +236,24 @@ class FiltersViewModel: BaseViewModel {
     }
     
     func categoriesButtonPressed() {
-//        let categoriesVM = CategoriesViewModel()
-//        locationVM.locationDelegate = self
-//        navigator?.openEditLocation(withViewModel: locationVM)
+        let url = URL(string: "")
+        let child1 = LGTaxonomyChild(id: 1, type: .category, name: "elect1", highlightOrder: 0, highlightIcon: url)
+        let child2 = LGTaxonomyChild(id: 2, type: .category, name: "elect1", highlightOrder: 0, highlightIcon: url)
+        let child3 = LGTaxonomyChild(id: 3, type: .category, name: "elect1", highlightOrder: 0, highlightIcon: url)
+        let taxonomy1 = LGTaxonomy(name: "electronics", icon: URL(string:"https://image.flaticon.com/teams/slug/freepik.jpg"), children: [child1, child2, child3])
+        let child21 = LGTaxonomyChild(id: 1, type: .category, name: "elect1", highlightOrder: 0, highlightIcon: url)
+        let child22 = LGTaxonomyChild(id: 2, type: .category, name: "elect1", highlightOrder: 0, highlightIcon: url)
+        let child23 = LGTaxonomyChild(id: 3, type: .category, name: "elect1", highlightOrder: 0, highlightIcon: url)
+        let taxonomy2 = LGTaxonomy(name: "electronics", icon: URL(string:"https://image.flaticon.com/teams/slug/freepik.jpg"), children: [child21, child22, child23])
+        let child31 = LGTaxonomyChild(id: 1, type: .category, name: "elect1", highlightOrder: 0, highlightIcon: url)
+        let child32 = LGTaxonomyChild(id: 2, type: .category, name: "elect1", highlightOrder: 0, highlightIcon: url)
+        let child33 = LGTaxonomyChild(id: 3, type: .category, name: "elect1", highlightOrder: 0, highlightIcon: url)
+        let child34 = LGTaxonomyChild(id: 2, type: .category, name: "elect1", highlightOrder: 0, highlightIcon: url)
+        let child35 = LGTaxonomyChild(id: 3, type: .category, name: "elect1", highlightOrder: 0, highlightIcon: url)
+        let taxonomy3 = LGTaxonomy(name: "electronics", icon: URL(string:"https://image.flaticon.com/teams/slug/freepik.jpg"), children: [child31, child32, child33, child34, child35])
+        let taxonomiesVM = TaxonomiesViewModel(taxonomies: [taxonomy1, taxonomy2, taxonomy3])
+        //taxonomiesVM.taxonomiesDelegate = self
+        navigator?.openTaxonomyList(withViewModel: taxonomiesVM)
     }
 
     func makeButtonPressed() {
