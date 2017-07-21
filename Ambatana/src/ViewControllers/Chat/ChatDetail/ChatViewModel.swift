@@ -886,6 +886,7 @@ extension ChatViewModel {
                 if success {
                     self?.interlocutorIsMuted.value = true
                     self?.chatStatus.value = .blocked
+                    self?.chatEnabled.value = false
                     self?.refreshChat()
                 } else {
                     self?.delegate?.vmShowMessage(LGLocalizedString.blockUserErrorGeneric, completion: nil)
@@ -920,6 +921,12 @@ extension ChatViewModel {
                 strongSelf.interlocutorIsMuted.value = false
                 strongSelf.refreshChat()
                 strongSelf.chatStatus.value = strongSelf.recoverConversationChatStatusForUnblock()
+                switch strongSelf.chatStatus.value {
+                case .forbidden, .blocked, .blockedBy, .userPendingDelete, .userDeleted:
+                    strongSelf.chatEnabled.value = false
+                case .available, .productSold, .productDeleted:
+                    strongSelf.chatEnabled.value =  true
+                }
             } else {
                 strongSelf.delegate?.vmShowMessage(LGLocalizedString.unblockUserErrorGeneric, completion: nil)
             }
