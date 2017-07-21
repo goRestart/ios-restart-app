@@ -52,7 +52,9 @@ class TaxonomiesRealmDAO: TaxonomiesDAO {
 
         do {
             let cacheFileUrl = URL(fileURLWithPath: cacheFilePath, isDirectory: false)
-            let config = Realm.Configuration(fileURL: cacheFileUrl, readOnly: false)
+            let config = Realm.Configuration(fileURL: cacheFileUrl,
+                                             readOnly: false,
+                                             objectTypes: [RealmTaxonomy.self, RealmTaxonomyChild.self])
 
             let dataBase = try Realm(configuration: config)
             self.init(realm: dataBase)
