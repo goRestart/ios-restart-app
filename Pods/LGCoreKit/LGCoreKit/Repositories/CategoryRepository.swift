@@ -8,9 +8,15 @@
 
 import Result
 
+public typealias TaxonomiesResult = Result<[Taxonomy], RepositoryError>
+public typealias TaxonomiesCompletion = (TaxonomiesResult) -> Void
+
 public typealias CategoriesResult = Result<[ListingCategory], RepositoryError>
 public typealias CategoriesCompletion = (CategoriesResult) -> Void
 
 public protocol CategoryRepository {
     func index(filterVisible filtered: Bool, completion: CategoriesCompletion?)
+    func indexTaxonomies(withCompletion completion: TaxonomiesCompletion?)
+    func loadFirstRunCacheIfNeeded(jsonURL: URL)
+    func refreshTaxonomiesCache()
 }

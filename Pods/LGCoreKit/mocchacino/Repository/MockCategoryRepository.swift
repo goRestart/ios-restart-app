@@ -1,8 +1,9 @@
 import Result
 
 open class MockCategoryRepository: CategoryRepository {
-    public var indexResult: CategoriesResult!
 
+    public var categoriesIndexResult: CategoriesResult!
+    public var taxonomiesIndexResult: TaxonomiesResult!
 
     // MARK: - Lifecycle
 
@@ -14,6 +15,18 @@ open class MockCategoryRepository: CategoryRepository {
     // MARK: - CategoryRepository
 
     public func index(filterVisible filter: Bool, completion: CategoriesCompletion?) {
-        delay(result: indexResult, completion: completion)
+        delay(result: categoriesIndexResult, completion: completion)
+    }
+
+    public func indexTaxonomies(withCompletion completion: TaxonomiesCompletion?) {
+        delay(result: taxonomiesIndexResult, completion: completion)
+    }
+
+    public func loadFirstRunCacheIfNeeded(jsonURL: URL) {
+
+    }
+    
+    public func refreshTaxonomiesCache() {
+
     }
 }

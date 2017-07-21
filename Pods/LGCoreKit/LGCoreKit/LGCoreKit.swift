@@ -31,6 +31,9 @@ public class LGCoreKit {
 
         // Cars Info cache
         InternalCore.carsInfoRepository.loadFirstRunCacheIfNeeded(jsonURL: config.carsInfoAppJSONURL)
+
+        // Taxonomies cache
+        InternalCore.categoryRepository.loadFirstRunCacheIfNeeded(jsonURL: config.taxonomiesAppJSONURL)
     }
 
     public static func start() {
@@ -38,6 +41,7 @@ public class LGCoreKit {
         InternalCore.listingRepository.indexFavorites(userId, completion: nil)
         InternalCore.stickersRepository.show(nil) // Sync stickers to UserDefaults
         InternalCore.carsInfoRepository.refreshCarsInfoFile()
+        InternalCore.categoryRepository.refreshTaxonomiesCache()
     }
 
     public static func applicationDidEnterBackground() {

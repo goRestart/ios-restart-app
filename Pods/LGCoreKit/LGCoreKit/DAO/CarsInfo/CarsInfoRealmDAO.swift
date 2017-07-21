@@ -54,7 +54,7 @@ class CarsInfoRealmDAO: CarsInfoDAO {
             let dataBase = try Realm(configuration: config)
             self.init(realm: dataBase)
         } catch let error {
-            logMessage(.verbose, type: CoreLoggingOptions.database, message: "Could not create DB: \(error)")
+            logMessage(.verbose, type: CoreLoggingOptions.database, message: "Could not create Cars Info DB: \(error)")
             return nil
         }
     }
@@ -66,16 +66,16 @@ class CarsInfoRealmDAO: CarsInfoDAO {
         clean()
 
         let realmArray = carsInfo.map { convertToRealmCarsMake(carsMake: $0) }
-        let realmList = convertArrayToRealmList(inputArray: realmArray)
+        let realmList = RealmHelper.convertArrayToRealmList(inputArray: realmArray)
 
-        cancelWriteTransactionsIfNeeded()
+        dataBase.cancelWriteTransactionsIfNeeded()
         do {
             try dataBase.write ({ [weak self] _ in
                 guard let strongSelf = self else { return }
                 strongSelf.dataBase.add(realmList)
             })
         } catch let error {
-            logMessage(.verbose, type: CoreLoggingOptions.database, message: "Could not write in DB: \(error)")
+            logMessage(.verbose, type: CoreLoggingOptions.database, message: "Could not write in Cars Info DB: \(error)")
         }
     }
 
@@ -84,20 +84,20 @@ class CarsInfoRealmDAO: CarsInfoDAO {
         let queryPredicate = NSPredicate(format: "makeId == '\(makeId)'")
         guard let rmMake = makes.filter(queryPredicate).first else { return [] }
 
-        let modelsArray = convertRealmListToArray(realmList: rmMake.models).map { convertToLGCarsModel(carsModel: $0) }
+        let modelsArray = RealmHelper.convertRealmListToArray(realmList: rmMake.models).map { convertToLGCarsModel(carsModel: $0) }
 
         return modelsArray
     }
 
     func clean() {
-        cancelWriteTransactionsIfNeeded()
+        dataBase.cancelWriteTransactionsIfNeeded()
         do {
             try dataBase.write ({ [weak self] _ in
                 guard let strongSelf = self else { return }
                 strongSelf.dataBase.deleteAll()
             })
         } catch let error {
-            logMessage(.verbose, type: CoreLoggingOptions.database, message: "Could not clean the DB: \(error)")
+            logMessage(.verbose, type: CoreLoggingOptions.database, message: "Could not clean the Cars Info DB: \(error)")
         }
     }
 
@@ -110,7 +110,7 @@ class CarsInfoRealmDAO: CarsInfoDAO {
             guard let carsMakeList = decoder(jsonCarsMakesList) else { return }
             save(carsInfo: carsMakeList)
         } catch let error {
-            logMessage(.verbose, type: CoreLoggingOptions.database, message: "Failed to create first run cache: \(error)")
+            logMessage(.verbose, type: CoreLoggingOptions.database, message: "Failed to create Cars Info first run cache: \(error)")
         }
     }
     
@@ -133,21 +133,11 @@ class CarsInfoRealmDAO: CarsInfoDAO {
         let apiCarsMakeList: [ApiCarsMake]? = decode(object)
         return apiCarsMakeList
     }
-    
-}
 
 
-// MARK: - Private Methods
+    // MARK: - Private Methods
 
-extension CarsInfoRealmDAO {
-    
-    fileprivate func cancelWriteTransactionsIfNeeded() {
-        if dataBase.isInWriteTransaction {
-            dataBase.cancelWrite()
-        }
-    }
-
-    // LG to Realm
+    // MARK: > LG to Realm
 
     fileprivate func convertToRealmCarsMake(carsMake: CarsMakeWithModels) -> RealmCarsMakeWithModels {
         let resultMake = RealmCarsMakeWithModels()
@@ -168,7 +158,7 @@ extension CarsInfoRealmDAO {
     }
 
 
-    // Realm to LG
+    // MARK: > Realm to LG
 
     fileprivate func convertToLGCarsMake(carsMake: RealmCarsMakeWithModels) -> LGCarsMake {
         let resultMake = LGCarsMake(makeId: carsMake.makeId, makeName: carsMake.makeName)
@@ -178,18 +168,5 @@ extension CarsInfoRealmDAO {
     fileprivate func convertToLGCarsModel(carsModel: RealmCarsModel) -> LGCarsModel {
         let resultModel = LGCarsModel(modelId: carsModel.modelId, modelName: carsModel.modelName)
         return resultModel
-    }
-
-
-    fileprivate func convertArrayToRealmList<T: Object>(inputArray: [T]) -> List<T> {
-        let resultList = List<T>()
-        inputArray.forEach { item in
-            resultList.append(item)
-        }
-        return resultList
-    }
-
-    fileprivate func convertRealmListToArray<T>(realmList: List<T>) -> [T] {
-        return Array(realmList)
     }
 }
