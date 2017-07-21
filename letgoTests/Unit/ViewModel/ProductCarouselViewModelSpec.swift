@@ -71,7 +71,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
             func buildSut(productListModels: [ListingCellModel]? = nil,
                           initialProduct: Product? = nil,
                           source: EventParameterProductVisitSource = .productList,
-                          showKeyboardOnFirstAppearIfNeeded: Bool = false,
+                          actionOnFirstAppear: ProductCarouselActionOnFirstAppear = .nonexistent,
                           trackingIndex: Int? = nil,
                           firstProductSyncRequired: Bool = false) {
 
@@ -84,7 +84,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                                                thumbnailImage: nil,
                                                productListRequester: productListRequester,
                                                source: source,
-                                               showKeyboardOnFirstAppearIfNeeded: showKeyboardOnFirstAppearIfNeeded,
+                                               actionOnFirstAppear: actionOnFirstAppear,
                                                trackingIndex: trackingIndex,
                                                firstProductSyncRequired: firstProductSyncRequired,
                                                featureFlags: featureFlags,

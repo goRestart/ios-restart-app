@@ -7,6 +7,7 @@
 //
 
 import Result
+import RxSwift
 
 public typealias UsersResult = Result<[User], RepositoryError>
 public typealias UsersCompletion = (UsersResult) -> Void
@@ -21,8 +22,15 @@ public typealias UserVoidResult = Result<Void, RepositoryError>
 public typealias UserVoidCompletion = (UserVoidResult) -> Void
 
 
-public protocol UserRepository {
+public enum UserRepositoryEvent {
+    case block(userId: String)
+    case unblock(userId: String)
+}
 
+public protocol UserRepository: class {
+
+    var events: Observable<UserRepositoryEvent> { get }
+    
     /**
     Retrieves the user for the given ID.
     - parameter userId: User identifier.
@@ -82,4 +90,67 @@ public protocol UserRepository {
     func saveReport(_ reportedUser: User, params: ReportUserParams, completion: UserCompletion?)
     
     func saveReport(_ reportedUserId: String, params: ReportUserParams, completion: UserVoidCompletion?)
+}
+
+protocol InternalUserRepository: UserRepository {
+    var eventsPublishSubject: PublishSubject<UserRepositoryEvent> { get }
+
+    func internalBlockUserWithId(_ userId: String, completion: UserVoidCompletion?)
+    func internalUnblockUserWithId(_ userId: String, completion: UserVoidCompletion?)
+}
+
+extension InternalUserRepository {
+    public var events: Observable<UserRepositoryEvent> {
+        return eventsPublishSubject.asObservable()
+    }
+    
+    public func blockUserWithId(_ userId: String, completion: UserVoidCompletion?) {
+        internalBlockUserWithId(userId) { [weak self] blockResult in
+            defer { completion?(blockResult) }
+            guard let _ = blockResult.value else { return }
+            self?.eventsPublishSubject.onNext(.block(userId: userId))
+        }
+    }
+    
+    public func unblockUserWithId(_ userId: String, completion: UserVoidCompletion?) {
+        internalUnblockUserWithId(userId) { [weak self] unblockResult in
+            defer { completion?(unblockResult) }
+            guard let _ = unblockResult.value else { return }
+            self?.eventsPublishSubject.onNext(.unblock(userId: userId))
+        }
+    }
+    
+    /// NOTE: if one single unblock fails, the entire response will be a failure
+    public func unblockUsersWithIds(_ userIds: [String], completion: UserVoidCompletion?) {
+        guard !userIds.isEmpty else {
+            completion?(UserVoidResult(error: .internalError(message: "Missing users to unblock")))
+            return
+        }
+        
+        let unblockUsersQueue = DispatchQueue(label: "UnblockUsersQueue", attributes: [])
+        unblockUsersQueue.async(execute: {
+            for userId in userIds {
+                let unblockResult = synchronize({ [weak self] synchCompletion in
+                    guard let strongSelf = self else {
+                        synchCompletion(UserVoidResult(error: .internalError(message: "self deallocated")))
+                        return
+                    }
+                    strongSelf.unblockUserWithId(userId) { result in
+                        synchCompletion(result)
+                    }
+                    }, timeoutWith: UserVoidResult(error: .internalError(message: "Timeout blocking")))
+                
+                guard let _ = unblockResult.value else {
+                    DispatchQueue.main.async {
+                        completion?(unblockResult)
+                    }
+                    return
+                }
+            }
+            
+            DispatchQueue.main.async {
+                completion?(UserVoidResult(value: Void()))
+            }
+        })
+    }
 }

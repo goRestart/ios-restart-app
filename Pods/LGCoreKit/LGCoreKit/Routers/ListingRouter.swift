@@ -87,6 +87,10 @@ enum ListingRouter: URLRequestAuthenticable {
             return .nonexistent
         }
     }
+    
+    var errorDecoderType: ErrorDecoderType? {
+        return .apiProductsError
+    }
 
     var reportingBlacklistedApiError: Array<ApiError> { return [.scammer] }
 

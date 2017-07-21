@@ -121,7 +121,7 @@ extension ApiClient {
                 logMessage(.error, type: [CoreLoggingOptions.networking], message: response.logMessage)
                 completion?(ResultResult<T, ApiError>.t(error: .unauthorized))
             }
-        } else if let error = errorFromAlamofireResponse(response) {
+        } else if let error = errorFromAlamofireResponse(errorDecoderType: req.errorDecoderType, response: response) {
             logMessage(.verbose, type: [CoreLoggingOptions.networking], message: response.logMessage)
 
             handlePrivateApiErrorResponse(error, response: response)
@@ -135,10 +135,11 @@ extension ApiClient {
 
     /**
      Returns an `ApiError` from the given response.
+     - parameter errorDecoderType: The errorDecoder accepted for the response.
      - parameter response: The request response.
      - returns An `ApiError`.
      */
-    func errorFromAlamofireResponse<T>(_ response: DataResponse<T>) -> ApiError? {
+    func errorFromAlamofireResponse<T>(errorDecoderType: ErrorDecoderType?, response: DataResponse<T>) -> ApiError? {
         guard let error = response.result.error else { return nil }
         if let afError = error as? AFError, let urlError = afError.underlyingError as? URLError {
             let onBackground = urlError.errorCode == -997
@@ -147,7 +148,7 @@ extension ApiClient {
             let onBackground = urlError.errorCode == -997
             return .network(errorCode: urlError.errorCode, onBackground: onBackground)
         } else if let statusCode = response.response?.statusCode {
-            return ApiError.errorForCode(statusCode, apiCode: response.apiErrorCode)
+            return ApiError.errorForCode(statusCode, apiCode: response.apiErrorCode(errorDecoderType: errorDecoderType))
         } else {
             return ApiError.internalError(description: error.localizedDescription)
         }
@@ -446,11 +447,17 @@ private extension Token {
 // MARK: - Custom api error
 
 extension DataResponse {
-    var apiErrorCode: Int? {
+    func apiErrorCode(errorDecoderType: ErrorDecoderType?) -> Int? {
+        guard let errorDecoderType = errorDecoderType else { return nil }
         guard let data = self.data, data.count > 0 else { return nil }
         guard let value = try? JSONSerialization.jsonObject(with: data, options: []) else { return nil }
-        let code: LGApiErrorCode? = decode(value)
-        guard let codeString = code?.code else { return nil }
-        return Int(codeString)
+        switch errorDecoderType {
+        case .apiProductsError:
+            guard let code: LGApiProductsErrorCode = decode(value) else { return nil }
+            return code.code
+        case .apiUsersError:
+            guard let code: LGApiUsersErrorCode = decode(value) else { return nil }
+            return Int(code.code)
+        }
     }
 }

@@ -509,8 +509,8 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                 it ("banner info type is free") {
                                     expect(sut.bumpUpBannerInfo.value?.type) == .free
                                 }
-                                it ("banner primary block opens free bump up view") {
-                                    sut.bumpUpBannerInfo.value?.primaryBlock()
+                                it ("banner interaction block opens free bump up view") {
+                                    sut.bumpUpBannerInfo.value?.bannerInteractionBlock()
                                     expect(self.calledOpenFreeBumpUpView).toEventually(beTrue())
                                 }
                                 it ("banner button block open free bump up view") {
@@ -546,8 +546,8 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                 it ("banner info type is priced") {
                                     expect(sut.bumpUpBannerInfo.value?.type) == .priced
                                 }
-                                it ("banner primary block opens priced bump up view") {
-                                    sut.bumpUpBannerInfo.value?.primaryBlock()
+                                it ("banner interaction block opens priced bump up view") {
+                                    sut.bumpUpBannerInfo.value?.bannerInteractionBlock()
                                     expect(self.calledOpenPricedBumpUpView).toEventually(beTrue())
                                 }
                                 it ("banner button block tries to bump up the product") {
@@ -584,9 +584,9 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                 it ("banner info type is restore") {
                                     expect(sut.bumpUpBannerInfo.value?.type) == .restore
                                 }
-                                it ("banner primary block tres to restore the bump") {
+                                it ("banner interaction block tres to restore the bump") {
                                     // "tries to" because the result of the bump up feature is tested in another context
-                                    sut.bumpUpBannerInfo.value?.primaryBlock()
+                                    sut.bumpUpBannerInfo.value?.bannerInteractionBlock()
                                     expect(self.delegateReceivedShowLoading).toEventually(beTrue())
                                 }
                                 it ("banner button block tries to restore the bump") {

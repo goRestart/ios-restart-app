@@ -137,21 +137,13 @@ extension LoginCoordinator: MainSignUpNavigator {
 
     func openSignUpEmailFromMainSignUp() {
         let vc: UIViewController
+        let vm = SignUpLogInViewModel(source: source, action: .signup)
+        vm.navigator = self
+        vc = SignUpLogInViewController(viewModel: vm,
+                                       appearance: .light,
+                                       keyboardFocus: false)
+        recaptchaTokenDelegate = vm
 
-        switch featureFlags.signUpLoginImprovement {
-        case .v1, .v1WImprovements:
-            let vm = SignUpLogInViewModel(source: source, action: .signup)
-            vm.navigator = self
-            vc = SignUpLogInViewController(viewModel: vm,
-                                           appearance: .light,
-                                           keyboardFocus: false)
-            recaptchaTokenDelegate = vm
-        case .v2:
-            let vm = SignUpEmailStep1ViewModel(source: source)
-            vm.navigator = self
-
-            vc = SignUpEmailStep1ViewController(viewModel: vm, appearance: .light, backgroundImage: nil)
-        }
 
         switch style {
         case .fullScreen:
@@ -171,20 +163,13 @@ extension LoginCoordinator: MainSignUpNavigator {
     func openLogInEmailFromMainSignUp() {
         let vc: UIViewController
 
-        switch featureFlags.signUpLoginImprovement {
-        case .v1, .v1WImprovements:
-            let vm = SignUpLogInViewModel(source: source, action: .login)
-            vm.navigator = self
-            vc = SignUpLogInViewController(viewModel: vm, appearance: .light, keyboardFocus: false)
+        let vm = SignUpLogInViewModel(source: source, action: .login)
+        vm.navigator = self
+        vc = SignUpLogInViewController(viewModel: vm,
+                                       appearance: .light,
+                                       keyboardFocus: false)
 
-            recaptchaTokenDelegate = vm
-        case .v2:
-            let vm = LogInEmailViewModel(source: source)
-            vm.navigator = self
-            vc = LogInEmailViewController(viewModel: vm,
-                                          appearance: .light,
-                                          backgroundImage: nil)
-        }
+        recaptchaTokenDelegate = vm
 
         switch style {
         case .fullScreen:
@@ -248,124 +233,6 @@ extension LoginCoordinator: SignUpLogInNavigator {
 
     func openHelpFromSignUpLogin() {
         openHelp()
-    }
-}
-
-
-// MARK: - V2
-// MARK: - SignUpEmailStep1Navigator
-
-extension LoginCoordinator: SignUpEmailStep1Navigator {
-    func cancelSignUpEmailStep1() {
-        // called when closing from popup login so it's not closing root only presented controller
-        dismissLastPresented(animated: true, completion: nil)
-    }
-
-    func openHelpFromSignUpEmailStep1() {
-        openHelp()
-    }
-
-    func openNextStepFromSignUpEmailStep1(email: String, password: String,
-                                          isRememberedEmail: Bool) {
-        guard let navCtl = currentNavigationController() else { return }
-
-        let vm = SignUpEmailStep2ViewModel(email: email, isRememberedEmail: isRememberedEmail,
-                                           password: password, source: source)
-        vm.navigator = self
-        let vc = SignUpEmailStep2ViewController(viewModel: vm, appearance: .light, backgroundImage: nil)
-        navCtl.pushViewController(vc, animated: true)
-
-        recaptchaTokenDelegate = vm
-    }
-
-    func openLogInFromSignUpEmailStep1(email: String?,
-                                       isRememberedEmail: Bool) {
-        guard let navCtl = currentNavigationController() else { return }
-
-        let vm = LogInEmailViewModel(email: email, isRememberedEmail: isRememberedEmail,
-                                     source: source)
-        vm.navigator = self
-        let vc = LogInEmailViewController(viewModel: vm, appearance: .light, backgroundImage: nil)
-        // In popup mode we want to replace the first VC and it's not possible with pop + push
-        let navCtlVCs: [UIViewController] = navCtl.viewControllers.dropLast() + [vc]
-        navCtl.setViewControllers(navCtlVCs, animated: false)
-    }
-}
-
-
-// MARK: - SignUpEmailStep2Navigator
-
-extension LoginCoordinator: SignUpEmailStep2Navigator {
-    func openHelpFromSignUpEmailStep2() {
-        openHelp()
-    }
-
-    func openRecaptchaFromSignUpEmailStep2(transparentMode: Bool) {
-        let topVC = topViewController()
-
-        let vm = RecaptchaViewModel(transparentMode: transparentMode)
-        vm.navigator = self
-        let backgroundImage: UIImage? = transparentMode ? viewController.presentingViewController?.view.takeSnapshot() : nil
-        let vc = RecaptchaViewController(viewModel: vm, backgroundImage: backgroundImage)
-        if transparentMode {
-            vc.modalTransitionStyle = .crossDissolve
-        }
-        presentedViewControllers.append(vc)
-        topVC.present(vc, animated: true, completion: nil)
-    }
-
-    func openScammerAlertFromSignUpEmailStep2(contactURL: URL) {
-        closeRootAndOpenScammerAlert(contactURL: contactURL, network: .email)
-    }
-
-    func closeAfterSignUpSuccessful() {
-        closeRoot(didLogIn: true)
-    }
-}
-
-
-// MARK: - LogInEmailNavigator
-
-extension LoginCoordinator: LogInEmailNavigator {
-    func cancelLogInEmail() {
-        // called when closing from popup login so it's not closing root only presented controller
-        dismissLastPresented(animated: true, completion: nil)
-    }
-
-    func openHelpFromLogInEmail() {
-        openHelp()
-    }
-
-    func openRememberPasswordFromLogInEmail(email: String?) {
-        openRememberPassword(email: email)
-    }
-
-    func openSignUpEmailFromLogInEmail(email: String?,
-                                       isRememberedEmail: Bool) {
-        guard let navCtl = currentNavigationController() else { return }
-
-        let vm = SignUpEmailStep1ViewModel(email: email,
-                                           isRememberedEmail: isRememberedEmail,
-                                           source: source)
-        vm.navigator = self
-
-        let vc = SignUpEmailStep1ViewController(viewModel: vm,
-                                                appearance: .light,
-                                                backgroundImage: nil)
-        let navCtlVCs: [UIViewController] = navCtl.viewControllers.dropLast() + [vc]
-        navCtl.setViewControllers(navCtlVCs, animated: false)
-    }
-
-    func openScammerAlertFromLogInEmail(contactURL: URL) {
-        closeRootAndOpenScammerAlert(contactURL: contactURL, network: .email)
-    }
-
-    func openDeviceNotAllowedAlertFromLogInEmail(contactURL: URL) {
-        closeRootAndOpenDeviceNotAllowedAlert(contactURL: contactURL, network: .email)
-    }
-
-    func closeAfterLogInSuccessful() {
-        closeRoot(didLogIn: true)
     }
 }
 

@@ -34,8 +34,8 @@
 "bump_up_view_free_title" = "RENVOYEZ VOTRE ANNONCE VERS LE HAUT";
 "bump_up_view_pay_bumps_left_text" = "Il vous reste %i renvois vers le haut.";
 "bump_up_view_pay_button_title" = "Activer pour %@";
-"bump_up_view_pay_subtitle" = "Donnez plus de visibilité à votre annonce en la renvoyant vers le haut.";
-"bump_up_view_pay_title" = "RENVOYER VERS LE HAUT POUR VENDRE PLUS RAPIDEMENT";
+"bump_up_view_pay_subtitle" = "Attirez plus d'acheteurs en donnant plus de visibilité à votre annonce";
+"bump_up_view_pay_title" = "VENDEZ PLUS RAPIDEMENT";
 "categories_baby_and_child" = "Bébé et Enfant";
 "categories_car" = "Voitures";
 "categories_cars_and_motors" = "Véhicules et accessoires";
@@ -582,6 +582,7 @@
 "product_post_confirmation_another" = "Ou";
 "product_post_confirmation_another_button" = "Postez un autre bien";
 "product_post_confirmation_edit" = "Ajouter plus de détails";
+"product_post_different_country_error" = "You can’t post in a country where you’re not currently located.";
 "product_post_done" = "Terminé";
 "product_post_empty_gallery_button" = "Prendre une Photo";
 "product_post_empty_gallery_subtitle" = "Prenez une photo du bien que vous souhaitez vendre";
@@ -729,6 +730,13 @@
 "rate_user_positive_quick_responses" = "Réponses rapides";
 "rate_user_positive_showed_up_on_time" = "S'est présenté(e) à l'heure";
 "rate_user_positive_trustworthy" = "Fiable";
+"rating_app_enjoying_alert_title" = "Are you enjoying letgo?";
+"rating_app_feedback_no_button" = "No, thanks";
+"rating_app_feedback_title" = "Want to give us some feedback?";
+"rating_app_feedback_yes_button" = "Sure!";
+"rating_app_rate_alert_no_button" = "No, thanks";
+"rating_app_rate_alert_title" = "Would you like to rate us? It'll only take two seconds";
+"rating_app_rate_alert_yes_button" = "Sure!";
 "rating_list_action_report_review" = "Signaler une note";
 "rating_list_action_report_review_error_message" = "Une erreur est survenue lors de l'envoi du signalement.";
 "rating_list_action_report_review_success_message" = "Votre signalement a été envoyé !";
@@ -869,7 +877,7 @@
 "tab_bar_tool_tip" = "Vendez Vos Biens";
 "toast_error_internal" = "Oops ! Quelque chose s'est produit.";
 "toast_no_network" = "Pas de connection Internet";
-"tour_claim_label" = "Achetez et vendez rapidement, de manière sûre et localement";
+"tour_claim_label" = "Achetez et vendez rapidement, de manière sûre et localement.";
 "tour_continue_w_email" = "Continuer avec email";
 "tour_email_button" = "Email";
 "tour_facebook_button" = "Continuer avec Facebook";

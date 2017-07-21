@@ -32,7 +32,22 @@ struct EmptyConversation: ChatConversation {
     var lastMessageSentAt: Date? = nil
     var listing: ChatListing? = nil
     var interlocutor: ChatInterlocutor? = nil
-    var amISelling: Bool 
+    var amISelling: Bool
+    
+    init(objectId: String?,
+         unreadMessageCount: Int,
+         lastMessageSentAt: Date?,
+         amISelling: Bool,
+         listing: ChatListing?,
+         interlocutor: ChatInterlocutor?) {
+        
+        self.objectId = objectId
+        self.unreadMessageCount = unreadMessageCount
+        self.lastMessageSentAt = lastMessageSentAt
+        self.listing = listing
+        self.interlocutor = interlocutor
+        self.amISelling = amISelling
+    }
 }
 
 
@@ -83,8 +98,9 @@ class ChatViewModel: BaseViewModel {
     var keyForTextCaching: String { return userDefaultsSubKey }
     
     let showStickerBadge = Variable<Bool>(!KeyValueStorage.sharedInstance[.stickersBadgeAlreadyShown])
-
     
+    var predefinedMessage: String?
+
     // fileprivate
     fileprivate let myUserRepository: MyUserRepository
     fileprivate let chatRepository: ChatRepository
@@ -182,7 +198,7 @@ class ChatViewModel: BaseViewModel {
         }
     }
 
-    convenience init(conversation: ChatConversation, navigator: ChatDetailNavigator?, source: EventParameterTypePage) {
+    convenience init(conversation: ChatConversation, navigator: ChatDetailNavigator?, source: EventParameterTypePage, predefinedMessage: String?) {
         let myUserRepository = Core.myUserRepository
         let chatRepository = Core.chatRepository
         let listingRepository = Core.listingRepository
@@ -200,7 +216,7 @@ class ChatViewModel: BaseViewModel {
                   listingRepository: listingRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository, tracker: tracker, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
-                  source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager)
+                  source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager, predefinedMessage: predefinedMessage)
     }
     
     convenience init?(listing: Listing, navigator: ChatDetailNavigator?, source: EventParameterTypePage) {
@@ -220,13 +236,13 @@ class ChatViewModel: BaseViewModel {
         let pushPermissionsManager = LGPushPermissionsManager.sharedInstance
         
         let amISelling = myUserRepository.myUser?.objectId == sellerId
-        let empty = EmptyConversation(objectId: nil, unreadMessageCount: 0, lastMessageSentAt: nil, listing: nil,
-                                      interlocutor: nil, amISelling: amISelling)
+        let empty = EmptyConversation(objectId: nil, unreadMessageCount: 0, lastMessageSentAt: nil, amISelling: amISelling,
+                                      listing: nil, interlocutor: nil)
         self.init(conversation: empty, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   listingRepository: listingRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository ,tracker: tracker, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
-                  source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager)
+                  source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager, predefinedMessage: nil)
         self.setupConversationFrom(listing: listing)
     }
     
@@ -234,7 +250,7 @@ class ChatViewModel: BaseViewModel {
           listingRepository: ListingRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
           tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, keyValueStorage: KeyValueStorageable,
           navigator: ChatDetailNavigator?, featureFlags: FeatureFlaggeable, source: EventParameterTypePage,
-          ratingManager: RatingManager, pushPermissionsManager: PushPermissionsManager) {
+          ratingManager: RatingManager, pushPermissionsManager: PushPermissionsManager, predefinedMessage: String?) {
         self.conversation = Variable<ChatConversation>(conversation)
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
@@ -252,6 +268,7 @@ class ChatViewModel: BaseViewModel {
         self.chatViewMessageAdapter = ChatViewMessageAdapter()
         self.navigator = navigator
         self.source = source
+        self.predefinedMessage = predefinedMessage?.stringByRemovingEmoji()
         super.init()
         setupRx()
         loadStickers()
@@ -457,6 +474,8 @@ class ChatViewModel: BaseViewModel {
             } else if message.talkerId == otherUserId {
                 otherMessagesCount.value += 1
             }
+        case .swap, .move:
+            break
         case let .composite(changes):
             changes.forEach { [weak self] change in
                 self?.updateMessagesCounts(change)
@@ -510,7 +529,7 @@ class ChatViewModel: BaseViewModel {
         case .pending, .approved, .discarded, .sold, .soldOld:
             delegate?.vmHideKeyboard(false)
             let data = ListingDetailData.listingChat(chatConversation: conversation.value)
-            navigator?.openListing(data, source: .chat, showKeyboardOnFirstAppearIfNeeded: false)
+            navigator?.openListing(data, source: .chat, actionOnFirstAppear: .nonexistent)
         }
     }
     
@@ -635,6 +654,13 @@ extension ChatViewModel {
                 // Removing message until we implement the retry-message state behavior
                 strongSelf.removeMessage(messageId: messageId)
                 switch error {
+                case let .wsChatError(chatRepositoryError):
+                    switch chatRepositoryError {
+                    case .userNotVerified:
+                        self?.showUserNotVerifiedAlert()
+                    case .notAuthenticated, .userBlocked, .internalError, .network, .apiError:
+                        self?.showSendMessageError()
+                    }
                 case .userNotVerified:
                     self?.showUserNotVerifiedAlert()
                 case .forbidden, .internalError, .network, .notFound, .tooManyRequests, .unauthorized, .serverError:
@@ -694,7 +720,7 @@ extension ChatViewModel {
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailTooManyRequests, completion: nil)
                 case .network:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorNetworkBody, completion: nil)
-                case .forbidden, .internalError, .notFound, .unauthorized, .userNotVerified, .serverError:
+                case .forbidden, .internalError, .notFound, .unauthorized, .userNotVerified, .serverError, .wsChatError:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorGenericBody, completion: nil)
                 }
             } else {
@@ -859,6 +885,8 @@ extension ChatViewModel {
             self?.blockUser(buttonPosition: buttonPosition) { [weak self] success in
                 if success {
                     self?.interlocutorIsMuted.value = true
+                    self?.chatStatus.value = .blocked
+                    self?.chatEnabled.value = false
                     self?.refreshChat()
                 } else {
                     self?.delegate?.vmShowMessage(LGLocalizedString.blockUserErrorGeneric, completion: nil)
@@ -888,11 +916,19 @@ extension ChatViewModel {
     
     private func unblockUserAction() {
         unBlockUser() { [weak self] success in
+            guard let strongSelf = self else { return }
             if success {
-                self?.interlocutorIsMuted.value = false
-                self?.refreshChat()
+                strongSelf.interlocutorIsMuted.value = false
+                strongSelf.refreshChat()
+                strongSelf.chatStatus.value = strongSelf.recoverConversationChatStatusForUnblock()
+                switch strongSelf.chatStatus.value {
+                case .forbidden, .blocked, .blockedBy, .userPendingDelete, .userDeleted:
+                    strongSelf.chatEnabled.value = false
+                case .available, .productSold, .productDeleted:
+                    strongSelf.chatEnabled.value =  true
+                }
             } else {
-                self?.delegate?.vmShowMessage(LGLocalizedString.unblockUserErrorGeneric, completion: nil)
+                strongSelf.delegate?.vmShowMessage(LGLocalizedString.unblockUserErrorGeneric, completion: nil)
             }
         }
     }
@@ -907,6 +943,39 @@ extension ChatViewModel {
         
         self.userRepository.unblockUserWithId(userId) { result -> Void in
             completion(result.value != nil)
+        }
+    }
+
+    /**
+     Checks the same conditions as the chatStatus ChatConversation extension, except if the interlocutor is muted
+     NEVER returns blocked
+     */
+    private func recoverConversationChatStatusForUnblock() -> ChatInfoViewStatus {
+        let actualConversation = conversation.value
+        guard let interlocutor = actualConversation.interlocutor else { return .available }
+        guard let listing = actualConversation.listing else { return .available }
+
+        switch interlocutor.status {
+        case .scammer:
+            return .forbidden
+        case .pendingDelete:
+            return .userPendingDelete
+        case .deleted:
+            return .userDeleted
+        case .active, .inactive, .notFound:
+            break // In this case we rely on the rest of states
+        }
+
+        if interlocutor.isBanned { return .forbidden }
+        if interlocutor.hasMutedYou { return .blockedBy }
+
+        switch listing.status {
+        case .deleted, .discarded:
+            return .productDeleted
+        case .sold, .soldOld:
+            return .productSold
+        case .approved, .pending:
+            return .available
         }
     }
 }
@@ -1356,7 +1425,7 @@ extension ChatViewModel: ChatRelatedProductsViewDelegate {
         let data = ListingDetailData.listingList(listing: listing, cellModels: productListModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame,
                                                  showRelated: false, index: 0)
-        navigator?.openListing(data, source: .chat, showKeyboardOnFirstAppearIfNeeded: false)
+        navigator?.openListing(data, source: .chat, actionOnFirstAppear: .nonexistent)
     }
 }
 

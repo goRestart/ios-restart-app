@@ -19,7 +19,7 @@ extension Alamofire.SessionManager {
         }
         var headers = Alamofire.SessionManager.defaultHTTPHeaders
         if let userAgentBuilder = userAgentBuilder {
-            headers["User-Agent"] = userAgentBuilder.make(appBundle: Bundle.main)
+            headers["User-Agent"] = userAgentBuilder.make(appBundle: Bundle.main, networkLibrary: .alamofire)
         }
         configuration.httpAdditionalHeaders = headers
         configuration.requestCachePolicy = .reloadIgnoringLocalCacheData

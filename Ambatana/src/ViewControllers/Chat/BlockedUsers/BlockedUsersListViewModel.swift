@@ -30,7 +30,9 @@ class BlockedUsersListViewModel: BaseChatGroupedListViewModel<User> {
 
     required init(userRepository: UserRepository, blockedUsers: [User]) {
         self.userRepository = userRepository
-        super.init(objects: blockedUsers, tabNavigator: nil)
+        super.init(collectionVariable: CollectionVariable(blockedUsers),
+                   shouldWriteInCollectionVariable: false,
+                   tabNavigator: nil)
     }
 
 

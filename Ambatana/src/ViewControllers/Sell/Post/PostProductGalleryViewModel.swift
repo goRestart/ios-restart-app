@@ -91,15 +91,6 @@ class PostProductGalleryViewModel: BaseViewModel {
         return imagesSelected.value.count
     }
 
-    var multipleSelectionEnabled: Bool {
-        switch featureFlags.postingGallery {
-        case .singleSelection:
-            return false
-        case .multiSelection, .multiSelectionWhiteButton, .multiSelectionTabs, .multiSelectionPostBottom:
-            return true
-        }
-    }
-
     let disposeBag = DisposeBag()
 
 
@@ -154,11 +145,7 @@ class PostProductGalleryViewModel: BaseViewModel {
     }
 
     func imageSelectedAtIndex(_ index: Int) {
-        if multipleSelectionEnabled {
-            selectImageAtIndex(index, autoScroll: true)
-        } else {
-            singleSelectImageAtIndex(index, autoScroll: true)
-        }
+        selectImageAtIndex(index, autoScroll: true)
     }
 
     func imageDeselectedAtIndex(_ index: Int) {
@@ -212,7 +199,7 @@ class PostProductGalleryViewModel: BaseViewModel {
         let hasImagesSelected = imagesSelected.asObservable().map { $0.count > 0 }
         Observable.combineLatest(galleryStateIsNormal, hasImagesSelected) { $0 && !$1 }.bindNext { [weak self] in
             guard let strongSelf = self else { return }
-            strongSelf.albumIconState.value = !strongSelf.multipleSelectionEnabled || $0 ? .down : .hidden
+            strongSelf.albumIconState.value = $0 ? .down : .hidden
         }.addDisposableTo(disposeBag)
 
         galleryState.asObservable().subscribeNext{ [weak self] state in
@@ -231,7 +218,7 @@ class PostProductGalleryViewModel: BaseViewModel {
         imagesSelected.asObservable().bindNext { [weak self] imgsSelected in
             let numImgs = imgsSelected.count
             guard let strongSelf = self else { return }
-            if !strongSelf.multipleSelectionEnabled || numImgs < 1 {
+            if numImgs < 1 {
                 if let title = strongSelf.keyValueStorage[.postProductLastGalleryAlbumSelected] {
                     strongSelf.albumTitle.value = title
                     strongSelf.albumButtonEnabled.value = true
@@ -356,15 +343,11 @@ class PostProductGalleryViewModel: BaseViewModel {
         userAlbumsOptions.predicate = NSPredicate(format: "mediaType == %d", PHAssetMediaType.image.rawValue)
         userAlbumsOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         photosAsset = PHAsset.fetchAssets(in: assetCollection, options: userAlbumsOptions)
-
-        if multipleSelectionEnabled {
-            if photosAsset?.count == 0 {
-                galleryState.value = .empty
-            } else {
-                galleryState.value = .normal
-            }
+        
+        if photosAsset?.count == 0 {
+            galleryState.value = .empty
         } else {
-            singleSelectImageAtIndex(0, autoScroll: true)
+            galleryState.value = .normal
         }
     }
 
@@ -397,23 +380,6 @@ class PostProductGalleryViewModel: BaseViewModel {
                 }
                 strongSelf.galleryState.value = .loadImageError
             }
-        }
-        if let lastId = lastImageRequestId, imageRequestId != lastId {
-            PHImageManager.default().cancelImageRequest(lastId)
-        }
-        lastImageRequestId = imageRequestId
-    }
-
-    private func singleSelectImageAtIndex(_ index: Int, autoScroll: Bool) {
-        galleryState.value = .loading
-        lastImageSelected.value = nil
-        delegate?.vmDidSelectItemAtIndex(index, shouldScroll: autoScroll)
-
-        let imageRequestId = imageAtIndex(index, size: nil) { [weak self] image in
-            self?.imagesSelected.value = []
-            self?.imagesSelected.value.append(ImageSelected(image: image, index: index))
-            self?.lastImageSelected.value = image
-            self?.galleryState.value = image != nil ? .normal : .loadImageError
         }
         if let lastId = lastImageRequestId, imageRequestId != lastId {
             PHImageManager.default().cancelImageRequest(lastId)

@@ -30,7 +30,7 @@ class CoreLocationDataSource: LocationDataSource {
         geocoder.geocodeAddressString(searchText, completionHandler: { (placemarks, error) -> Void in
             
             if let actualPlacemarks = placemarks {
-                var suggestedResults: [Place] = actualPlacemarks.flatMap { $0.place() }
+                let suggestedResults: [Place] = actualPlacemarks.flatMap { $0.place() }
                 completion?(SuggestionsLocationDataSourceResult(value: suggestedResults))
             } else if let actualError = error {
                 if actualError._code == CLError.Code.geocodeFoundNoResult.rawValue {

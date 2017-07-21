@@ -38,12 +38,10 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
     
     fileprivate var footer: PostProductFooter
     fileprivate var footerView: UIView
-    fileprivate let gradientView = UIView()
     fileprivate let gradientLayer = CAGradientLayer.gradientWithColor(UIColor.black,
                                                                       alphas: [0, 0.6],
                                                                       locations: [0, 1])
     fileprivate let keyboardHelper: KeyboardHelper
-    fileprivate let postingGallery: PostingGallery
     fileprivate var isLoading: Bool = false
     private var viewDidAppear: Bool = false
 
@@ -67,45 +65,24 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
                      forceCamera: Bool) {
         self.init(viewModel: viewModel,
                   forceCamera: forceCamera,
-                  keyboardHelper: KeyboardHelper(),
-                  postingGallery: FeatureFlags.sharedInstance.postingGallery)
+                  keyboardHelper: KeyboardHelper())
     }
 
     required init(viewModel: PostProductViewModel,
                   forceCamera: Bool,
-                  keyboardHelper: KeyboardHelper,
-                  postingGallery: PostingGallery) {
+                  keyboardHelper: KeyboardHelper) {
         
         let tabPosition: LGViewPagerTabPosition
-        switch postingGallery {
-        case .singleSelection, .multiSelection:
-            tabPosition = .hidden
-            let postFooter = PostProductRedCamButtonFooter()
-            self.footer = postFooter
-            self.footerView = postFooter
-        case .multiSelectionWhiteButton:
-            tabPosition = .hidden
-            let postFooter = PostProductWhiteCamButtonFooter()
-            self.footer = postFooter
-            self.footerView = postFooter
-        case .multiSelectionTabs:
-            tabPosition = .bottom(tabsOverPages: true)
-            let postFooter = PostProductTabsFooter()
-            self.footer = postFooter
-            self.footerView = postFooter
-        case .multiSelectionPostBottom:
-            tabPosition = .hidden
-            let postFooter = PostProductPostFooter()
-            self.footer = postFooter
-            self.footerView = postFooter
-        }
-        
+        tabPosition = .hidden
+        let postFooter = PostProductRedCamButtonFooter()
+        self.footer = postFooter
+        self.footerView = postFooter
         self.closeButton = UIButton()
         
         let viewPagerConfig = LGViewPagerConfig(tabPosition: tabPosition, tabLayout: .fixed, tabHeight: 50)
         self.viewPager = LGViewPager(config: viewPagerConfig, frame: CGRect.zero)
         self.cameraView = PostProductCameraView(viewModel: viewModel.postProductCameraViewModel)
-        self.galleryView = PostProductGalleryView(postingGallery: postingGallery)
+        self.galleryView = PostProductGalleryView()
         self.keyboardHelper = keyboardHelper
         self.viewModel = viewModel
         self.forceCamera = forceCamera
@@ -117,8 +94,6 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         } else {
             self.carDetailsView = PostCarDetailsView(withPriceRow: false)
         }
-        
-        self.postingGallery = postingGallery
         super.init(viewModel: viewModel, nibName: "PostProductViewController",
                    statusBarStyle: UIApplication.shared.statusBarStyle)
         modalPresentationStyle = .overCurrentContext
@@ -148,13 +123,6 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
             viewPager.delegate = self
             viewPager.selectTabAtIndex(initialTab)
             footer.update(scroll: CGFloat(initialTab))
-        }
-        
-        switch postingGallery {
-        case .singleSelection, .multiSelection, .multiSelectionWhiteButton, .multiSelectionPostBottom:
-            break
-        case .multiSelectionTabs:
-            gradientLayer.frame = gradientView.bounds
         }
     }
 
@@ -641,14 +609,6 @@ extension PostProductViewController: PostProductCameraViewDelegate {
 
     func productCameraRequestHideTabs(_ hide: Bool) {
         footer.isHidden = hide
-        
-        switch postingGallery {
-        case .singleSelection, .multiSelection, .multiSelectionWhiteButton, .multiSelectionPostBottom:
-            break
-        case .multiSelectionTabs:
-            gradientView.isHidden = hide
-            viewPager.tabsHidden = hide
-        }
     }
 
     func productCameraRequestsScrollLock(_ lock: Bool) {
@@ -682,22 +642,8 @@ extension PostProductViewController: PostProductGalleryViewDelegate {
     }
 
     func productGallerySelection(selection: ImageSelection) {
-        switch (selection, postingGallery) {
-        case (.nothing, .singleSelection), (.nothing, .multiSelection),
-             (.nothing, .multiSelectionWhiteButton), (.nothing, .multiSelectionTabs),
-             (.any, .singleSelection), (.any, .multiSelection),
-             (.any, .multiSelectionWhiteButton), (.any, .multiSelectionTabs),
-             (.all, .singleSelection), (.all, .multiSelection),
-             (.all, .multiSelectionWhiteButton), (.all, .multiSelectionTabs):
             footer.cameraButton.isHidden = false
             footer.postButton?.isHidden = true
-        case (.nothing, .multiSelectionPostBottom):
-            footer.cameraButton.alpha = 0
-            footer.postButton?.isHidden = true
-        case (.any, .multiSelectionPostBottom), (.all, .multiSelectionPostBottom):
-            footer.cameraButton.alpha = 0
-            footer.postButton?.isHidden = false
-        }
     }
     
     func productGallerySwitchToCamera() {
@@ -717,23 +663,6 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate,
         viewPager.tabsSeparatorColor = UIColor.clear
         viewPager.translatesAutoresizingMaskIntoConstraints = false
         cameraGalleryContainer.insertSubview(viewPager, at: 0)
-        
-        switch postingGallery {
-        case .singleSelection, .multiSelection, .multiSelectionWhiteButton, .multiSelectionPostBottom:
-            break
-        case .multiSelectionTabs:
-            gradientView.translatesAutoresizingMaskIntoConstraints = false
-            gradientView.isUserInteractionEnabled = false
-            gradientView.layer.insertSublayer(gradientLayer, at: 0)
-            // This is a bit hackish... if this variant is the winner add it as option @ LGViewPager
-            viewPager.insertSubview(gradientView, belowSubview: viewPager.tabsScrollView)
-            
-            gradientView.layout(with: viewPager)
-                .leading()
-                .trailing()
-                .bottom()
-            gradientView.layout().height(150)
-        }
         
         setupViewPagerConstraints()
         viewPager.reloadData()

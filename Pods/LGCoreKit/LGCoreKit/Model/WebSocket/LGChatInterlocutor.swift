@@ -18,6 +18,23 @@ struct LGChatInterlocutor: ChatInterlocutor {
     let isMuted: Bool
     let hasMutedYou: Bool
     let status: UserStatus
+    
+    init(objectId: String?,
+         name: String,
+         avatar: File?,
+         isBanned: Bool,
+         isMuted: Bool,
+         hasMutedYou: Bool,
+         status: UserStatus) {
+        
+        self.objectId = objectId
+        self.name = name
+        self.avatar = avatar
+        self.isBanned = isBanned
+        self.isMuted = isMuted
+        self.hasMutedYou = hasMutedYou
+        self.status = status
+    }
 }
 
 extension LGChatInterlocutor: Decodable {

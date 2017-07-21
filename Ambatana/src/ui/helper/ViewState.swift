@@ -62,6 +62,14 @@ extension LGEmptyViewModel {
             return onBackground ? nil : LGEmptyViewModel.networkErrorWithRetry(action)
         case .internalError, .forbidden, .unauthorized, .notFound, .tooManyRequests, .userNotVerified, .serverError:
             return LGEmptyViewModel.genericErrorWithRetry(action)
+        case let .wsChatError(chatRepositoryError):
+            switch chatRepositoryError {
+            case let .network(_, onBackground):
+                return onBackground ? nil : LGEmptyViewModel.networkErrorWithRetry(action)
+            case .userBlocked, .userNotVerified, .notAuthenticated, .apiError, .internalError:
+                return LGEmptyViewModel.genericErrorWithRetry(action)
+            }
+
         }
     }
 }

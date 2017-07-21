@@ -34,8 +34,8 @@
 "bump_up_view_free_title" = "JE ITEM OMHOOG PLAATSEN";
 "bump_up_view_pay_bumps_left_text" = "Je kunt nog %i keer omhoog plaatsen.";
 "bump_up_view_pay_button_title" = "Activeren voor %@";
-"bump_up_view_pay_subtitle" = "Geef je item meer zichtbaarheid door het bovenaan te verplaatsen.";
-"bump_up_view_pay_title" = "OMHOOG PLAATSEN OM SNELLER TE VERKOPEN";
+"bump_up_view_pay_subtitle" = "Trek meer kopers aan door je advertentie meer zichtbaarheid te geven.";
+"bump_up_view_pay_title" = "SNELLER VERKOPEN";
 "categories_baby_and_child" = "Baby en kind";
 "categories_car" = "Auto's";
 "categories_cars_and_motors" = "Motors en Accessoires";
@@ -582,6 +582,7 @@
 "product_post_confirmation_another" = "Of";
 "product_post_confirmation_another_button" = "Plaats een ander item";
 "product_post_confirmation_edit" = "Voeg meer details toe";
+"product_post_different_country_error" = "You can’t post in a country where you’re not currently located.";
 "product_post_done" = "Klaar";
 "product_post_empty_gallery_button" = "Foto maken";
 "product_post_empty_gallery_subtitle" = "Maak een foto van het product dat je wilt plaatsen";
@@ -729,6 +730,13 @@
 "rate_user_positive_quick_responses" = "Snelle antwoorden";
 "rate_user_positive_showed_up_on_time" = "Kwam op tijd";
 "rate_user_positive_trustworthy" = "Betrouwbaar";
+"rating_app_enjoying_alert_title" = "Vind je letgo leuk?";
+"rating_app_feedback_no_button" = "Nee, bedankt";
+"rating_app_feedback_title" = "Wil je ons feedback geven?";
+"rating_app_feedback_yes_button" = "Jazeker!";
+"rating_app_rate_alert_no_button" = "Nee, bedankt";
+"rating_app_rate_alert_title" = "Wil je ons een beoordeling geven? Het duurt slechts 2 seconden.";
+"rating_app_rate_alert_yes_button" = "Jazeker!";
 "rating_list_action_report_review" = "Rapporteer beoordeling";
 "rating_list_action_report_review_error_message" = "Er is een fout opgetreden tijdens het versturen van jouw melding.";
 "rating_list_action_report_review_success_message" = "Jouw melding is verzonden!";

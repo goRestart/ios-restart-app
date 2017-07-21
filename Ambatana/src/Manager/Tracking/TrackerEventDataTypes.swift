@@ -532,6 +532,7 @@ enum EventParameterLoginError {
 enum EventParameterPostProductError {
     case network
     case internalError
+    case forbidden(cause: ForbiddenCause)
     case serverError(code: Int?)
 
     var description: String {
@@ -540,6 +541,8 @@ enum EventParameterPostProductError {
             return "product-sell-network"
         case .internalError:
             return "product-sell-internal"
+        case let .forbidden(cause):
+            return  cause == .differentCountry ? "product-sell-different-country-error" : "product-sell-server-error"
         case .serverError:
             return "product-sell-server-error"
         }
@@ -547,7 +550,7 @@ enum EventParameterPostProductError {
 
     var details: Int? {
         switch self {
-        case .network, .internalError:
+        case .network, .internalError, .forbidden:
             return nil
         case let .serverError(errorCode):
             return errorCode
@@ -556,7 +559,7 @@ enum EventParameterPostProductError {
 }
 
 enum EventParameterChatError {
-    case network
+    case network(code: Int?)
     case internalError(description: String?)
     case serverError(code: Int?)
 
@@ -573,8 +576,10 @@ enum EventParameterChatError {
 
     var details: String? {
         switch self {
-        case .network:
-            break
+        case let .network(errorCode):
+            if let errorCode = errorCode {
+                return String(errorCode)
+            }
         case let .internalError(description):
             return description
         case let .serverError(errorCode):

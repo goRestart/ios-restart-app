@@ -162,7 +162,7 @@ final class PostListingState {
         guard step == .uploadingImage else { return self }
         let message: String
         switch uploadError {
-        case .internalError, .unauthorized, .notFound, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
+        case .internalError, .unauthorized, .notFound, .forbidden, .tooManyRequests, .userNotVerified, .serverError, .wsChatError:
             message = LGLocalizedString.productPostGenericError
         case .network:
             message = LGLocalizedString.productPostNetworkError

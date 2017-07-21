@@ -144,6 +144,8 @@ extension LoginError: ApiErrorConvertible {
             self = .internalError(message: message)
         case .serverError:
             self = .internalError(message: "Internal Server Error")
+        case .wsChatError:
+            self = .internalError(message: "WebSocket Error")
         }
     }
 }

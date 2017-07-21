@@ -27,7 +27,7 @@ enum ChangePasswordError: Error {
             } else {
                 self = .internalError
             }
-        case .internalError, .forbidden, .tooManyRequests, .userNotVerified, .serverError, .notFound:
+        case .internalError, .forbidden, .tooManyRequests, .userNotVerified, .serverError, .notFound, .wsChatError:
             self = .internalError
         }
     }

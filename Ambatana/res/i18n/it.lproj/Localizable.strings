@@ -34,8 +34,8 @@
 "bump_up_view_free_title" = "PROMUOVI IL TUO ANNUNCIO";
 "bump_up_view_pay_bumps_left_text" = "Puoi promuovere il tuo prodotto ancora per %i volte.";
 "bump_up_view_pay_button_title" = "Attiva per %@";
-"bump_up_view_pay_subtitle" = "Offri una maggiore visibilità al tuo annuncio spostandolo in alto.";
-"bump_up_view_pay_title" = "PROMUOVI PER VENDERE PIÙ RAPIDAMENTE";
+"bump_up_view_pay_subtitle" = "Attira più acquirenti offrendo una maggiore visibilità al tuo annuncio.";
+"bump_up_view_pay_title" = "VENDI PIÙ RAPIDAMENTE";
 "categories_baby_and_child" = "Bambino e Ragazzo";
 "categories_car" = "Auto";
 "categories_cars_and_motors" = "Auto e accessori";
@@ -582,6 +582,7 @@
 "product_post_confirmation_another" = "O";
 "product_post_confirmation_another_button" = "Pubblica un altro oggetto";
 "product_post_confirmation_edit" = "Aggiungi altri dati";
+"product_post_different_country_error" = "You can’t post in a country where you’re not currently located.";
 "product_post_done" = "Fatto";
 "product_post_empty_gallery_button" = "Scatta Foto";
 "product_post_empty_gallery_subtitle" = "Scatta una foto del prodotto che vuoi pubblicare";
@@ -729,6 +730,13 @@
 "rate_user_positive_quick_responses" = "Risposte veloci";
 "rate_user_positive_showed_up_on_time" = "In orario";
 "rate_user_positive_trustworthy" = "Affidabile";
+"rating_app_enjoying_alert_title" = "Are you enjoying letgo?";
+"rating_app_feedback_no_button" = "No, thanks";
+"rating_app_feedback_title" = "Want to give us some feedback?";
+"rating_app_feedback_yes_button" = "Sure!";
+"rating_app_rate_alert_no_button" = "No, thanks";
+"rating_app_rate_alert_title" = "Would you like to rate us? It'll only take two seconds";
+"rating_app_rate_alert_yes_button" = "Sure!";
 "rating_list_action_report_review" = "Segnala utente";
 "rating_list_action_report_review_error_message" = "Si è verificato un errore durante l'invio della tua segnalazione.";
 "rating_list_action_report_review_success_message" = "La tua segnalazione è stata inviata!";

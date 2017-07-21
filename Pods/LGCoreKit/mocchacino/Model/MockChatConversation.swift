@@ -6,6 +6,21 @@ public struct MockChatConversation: ChatConversation {
     public var interlocutor: ChatInterlocutor?
     public var amISelling: Bool
     
+    public init(objectId: String?,
+                unreadMessageCount: Int,
+                lastMessageSentAt: Date?,
+                amISelling: Bool,
+                listing: ChatListing?,
+                interlocutor: ChatInterlocutor?) {
+        
+        self.objectId = objectId
+        self.unreadMessageCount = unreadMessageCount
+        self.lastMessageSentAt = lastMessageSentAt
+        self.listing = listing
+        self.interlocutor = interlocutor
+        self.amISelling = amISelling
+    }
+    
     func makeDictionary() -> [String: Any] {
         var result = [String: Any]()
         result["conversation_id"] = objectId

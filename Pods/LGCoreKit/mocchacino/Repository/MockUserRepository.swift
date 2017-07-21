@@ -1,7 +1,9 @@
 import Result
 import RxSwift
 
-open class MockUserRepository: UserRepository {
+open class MockUserRepository: InternalUserRepository {
+
+    public var eventsPublishSubject = PublishSubject<UserRepositoryEvent>()
     public var indexResult: UsersResult!
     public var userResult: UserResult!
     public var userUserRelationResult: UserUserRelationResult!
@@ -29,15 +31,11 @@ open class MockUserRepository: UserRepository {
         delay(result: indexResult, completion: completion)
     }
 
-    public func blockUserWithId(_ userId: String, completion: UserVoidCompletion?) {
+    public func internalBlockUserWithId(_ userId: String, completion: UserVoidCompletion?) {
         delay(result: emptyResult, completion: completion)
     }
 
-    public func unblockUserWithId(_ userId: String, completion: UserVoidCompletion?) {
-        delay(result: emptyResult, completion: completion)
-    }
-
-    public func unblockUsersWithIds(_ userIds: [String], completion: UserVoidCompletion?) {
+    public func internalUnblockUserWithId(_ userId: String, completion: UserVoidCompletion?) {
         delay(result: emptyResult, completion: completion)
     }
 

@@ -17,6 +17,21 @@ struct LGChatConversation: ChatConversation {
     let amISelling: Bool
     let listing: ChatListing?
     let interlocutor: ChatInterlocutor?
+    
+    init(objectId: String?,
+         unreadMessageCount: Int,
+         lastMessageSentAt: Date?,
+         amISelling: Bool,
+         listing: ChatListing?,
+         interlocutor: ChatInterlocutor?) {
+        
+        self.objectId = objectId
+        self.unreadMessageCount = unreadMessageCount
+        self.lastMessageSentAt = lastMessageSentAt
+        self.listing = listing
+        self.interlocutor = interlocutor
+        self.amISelling = amISelling
+    }
 }
 
 extension LGChatConversation: Decodable {

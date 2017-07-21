@@ -10,7 +10,13 @@ import LGCoreKit
 
 final class ChatsTabCoordinator: TabCoordinator {
 
+    let chatGroupedViewModel: ChatGroupedViewModel
+    
     convenience init() {
+        self.init(chatGroupedViewModel: ChatGroupedViewModel())
+    }
+    
+    init(chatGroupedViewModel: ChatGroupedViewModel) {
         let listingRepository = Core.listingRepository
         let userRepository = Core.userRepository
         let chatRepository = Core.chatRepository
@@ -20,25 +26,33 @@ final class ChatsTabCoordinator: TabCoordinator {
         let keyValueStorage = KeyValueStorage.sharedInstance
         let tracker = TrackerProxy.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
-        let chatGroupedVM = ChatGroupedViewModel()
-        let rootViewController = ChatGroupedViewController(viewModel: chatGroupedVM)
+        self.chatGroupedViewModel = chatGroupedViewModel
+        let rootViewController = ChatGroupedViewController(viewModel: chatGroupedViewModel)
         let sessionManager = Core.sessionManager
-        self.init(listingRepository: listingRepository, userRepository: userRepository,
-                  chatRepository: chatRepository, oldChatRepository: oldChatRepository,
+        super.init(listingRepository: listingRepository,
+                  userRepository: userRepository,
+                  chatRepository: chatRepository,
+                  oldChatRepository: oldChatRepository,
                   myUserRepository: myUserRepository,
                   bubbleNotificationManager: bubbleNotificationManager,
-                  keyValueStorage: keyValueStorage, tracker: tracker,
-                  rootViewController: rootViewController, featureFlags: featureFlags,
+                  keyValueStorage: keyValueStorage,
+                  tracker: tracker,
+                  rootViewController: rootViewController,
+                  featureFlags: featureFlags,
                   sessionManager: sessionManager)
-
-        chatGroupedVM.tabNavigator = self
+        
+        chatGroupedViewModel.tabNavigator = self
     }
 
     override func shouldHideSellButtonAtViewController(_ viewController: UIViewController) -> Bool {
         return true
     }
+    
+    func setNeedsRefreshConversations() {
+        chatGroupedViewModel.setNeedsRefreshConversations()
+    }
 }
 
 extension ChatsTabCoordinator: ChatsTabNavigator {
-
+    
 }

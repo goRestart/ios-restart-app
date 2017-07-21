@@ -2575,6 +2575,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_post_login_message", comment: "")
 	}
 
+	static var productPostDifferentCountryError: String {
+		return NSLocalizedString("product_post_different_country_error", comment: "")
+	}
+
 	static var productPostNetworkError: String {
 		return NSLocalizedString("product_post_network_error", comment: "")
 	}
@@ -3017,6 +3021,34 @@ struct LGLocalizedString {
 
 	static var rateUserPositiveTrustworthy: String {
 		return NSLocalizedString("rate_user_positive_trustworthy", comment: "")
+	}
+
+	static var ratingAppEnjoyingAlertTitle: String {
+		return NSLocalizedString("rating_app_enjoying_alert_title", comment: "")
+	}
+
+	static var ratingAppRateAlertTitle: String {
+		return NSLocalizedString("rating_app_rate_alert_title", comment: "")
+	}
+
+	static var ratingAppRateAlertYesButton: String {
+		return NSLocalizedString("rating_app_rate_alert_yes_button", comment: "")
+	}
+
+	static var ratingAppRateAlertNoButton: String {
+		return NSLocalizedString("rating_app_rate_alert_no_button", comment: "")
+	}
+
+	static var ratingAppFeedbackTitle: String {
+		return NSLocalizedString("rating_app_feedback_title", comment: "")
+	}
+
+	static var ratingAppFeedbackYesButton: String {
+		return NSLocalizedString("rating_app_feedback_yes_button", comment: "")
+	}
+
+	static var ratingAppFeedbackNoButton: String {
+		return NSLocalizedString("rating_app_feedback_no_button", comment: "")
 	}
 
 	static var ratingListActionReportReview: String {

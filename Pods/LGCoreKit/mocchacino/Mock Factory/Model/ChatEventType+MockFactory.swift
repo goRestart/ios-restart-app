@@ -6,10 +6,7 @@ extension ChatEventType: MockFactory {
         case 1:
             return .interlocutorTypingStopped
         case 2:
-            return .interlocutorMessageSent(messageId: String.makeRandom(),
-                                            sentAt: Date.makeRandom(),
-                                            text: String.makeRandom(),
-                                            type: ChatMessageType.makeMock())
+            return makeMockInterlocutorMessageSent()
         case 3:
             return .interlocutorReceptionConfirmed(messagesIds: [String].makeRandom())
         case 4:
@@ -19,5 +16,12 @@ extension ChatEventType: MockFactory {
         default:
             return .authenticationTokenExpired
         }
+    }
+    
+    public static func makeMockInterlocutorMessageSent() -> ChatEventType {
+        return .interlocutorMessageSent(messageId: String.makeRandom(),
+                                        sentAt: Date.makeRandom(),
+                                        text: String.makeRandom(),
+                                        type: ChatMessageType.makeMock())
     }
 }

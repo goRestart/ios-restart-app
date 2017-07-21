@@ -6,6 +6,20 @@ public struct MockChatListing: ChatListing {
     public var price: ListingPrice
     public var currency: Currency
     
+    public init(objectId: String?,
+                name: String?,
+                status: ListingStatus,
+                image: File?,
+                price: ListingPrice,
+                currency: Currency) {
+        self.objectId = objectId
+        self.name = name
+        self.status = status
+        self.image = image
+        self.price = price
+        self.currency = currency
+    }
+    
     func makeDictionary() -> [String: Any] {
         var result = [String: Any]()
         result["id"] = objectId

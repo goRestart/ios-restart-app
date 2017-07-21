@@ -170,8 +170,8 @@ class ChatViewController: TextViewController {
         textView.placeholderColor = UIColor.gray
         textView.placeholderFont = UIFont.systemFont(ofSize: 17)
         textView.backgroundColor = UIColor.white
+        textView.text = viewModel.predefinedMessage
         textViewFont = UIFont.systemFont(ofSize: 17)
-        textView.backgroundColor = UIColor.white
         textViewBarColor = UIColor.white
         sendButton.setTitle(LGLocalizedString.chatSendButton, for: .normal)
         sendButton.tintColor = UIColor.primaryColor
@@ -446,7 +446,7 @@ fileprivate extension ChatViewController {
             switch change {
             case .composite(let changes) where changes.count > 2:
                 self?.tableView.reloadData()
-            case .insert, .remove, .composite:
+            case .insert, .remove, .composite, .swap, .move:
                 self?.tableView.handleCollectionChange(change)
             }
             }.addDisposableTo(disposeBag)
