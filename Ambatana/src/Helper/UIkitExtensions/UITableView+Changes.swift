@@ -33,7 +33,7 @@ extension UITableView {
             reloadRows(at: indexPaths, with: .automatic)
         case .composite(let changes):
             changes.forEach { [weak self] change in
-                self?.handleChange(change, animation: animation)
+                self?.handleChange(change, animation: .none)
             }
         }
     }
