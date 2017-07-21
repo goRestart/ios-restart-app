@@ -56,7 +56,7 @@ struct LGMyUser: MyUser {
     var location: LGLocation?
     var localeIdentifier: String?
 
-    init(objectId: String?, name: String?, avatar: File?, accounts: [LGAccount],
+    init(objectId: String?, name: String?, avatar: LGFile?, accounts: [LGAccount],
          ratingAverage: Float?, ratingCount: Int, status: UserStatus?, email: String?, location: LGLocation?,
          localeIdentifier: String?) {
         self.objectId = objectId
@@ -135,23 +135,21 @@ extension LGMyUser: Decodable {
     }
 
     static func decode(_ j: JSON, keys: LGMyUserApiKeys) -> Decoded<LGMyUser> {
-        let init1 = curry(LGMyUser.init)
-            <^> j <|? keys.objectId
-            <*> j <|? keys.name
-            <*> LGArgo.jsonToAvatarFile(j, avatarKey: keys.avatar)
-        let init2 = init1   <*> j <|| keys.accounts
-            <*> j <|? keys.ratingAverage
-            <*> j <| keys.ratingCount
-            <*> j <|? keys.status
-        let init3 = init2   <*> j <|? keys.email
-            <*> LGArgo.jsonToLocation(j, latKey: keys.latitude, lonKey: keys.longitude,
-                                      typeKey: keys.locationType)
-            <*> j <|? keys.localeIdentifier
-        
-        
-        if let error = init3.error {
+        let result01 = curry(LGMyUser.init)
+        let result02 = result01 <^> j <|? keys.objectId
+        let result03 = result02 <*> j <|? keys.name
+        let result04 = result03 <*> LGArgo.jsonToAvatarFile(j, avatarKey: keys.avatar)
+        let result05 = result04 <*> j <|| keys.accounts
+        let result06 = result05 <*> j <|? keys.ratingAverage
+        let result07 = result06 <*> j <| keys.ratingCount
+        let result08 = result07 <*> j <|? keys.status
+        let result09 = result08 <*> j <|? keys.email
+        let result10 = result09 <*> LGArgo.jsonToLocation(j, latKey: keys.latitude, lonKey: keys.longitude,
+                                                          typeKey: keys.locationType)
+        let result   = result10 <*> j <|? keys.localeIdentifier
+        if let error = result.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGMyUser parse error: \(error)")
         }
-        return init3
+        return result
     }
 }

@@ -18,12 +18,13 @@ public struct LGCommercializerProduct: CommercializerProduct {
 
 extension LGCommercializerProduct: Decodable {
     public static func decode(_ j: JSON) -> Decoded<LGCommercializerProduct> {
-        
-        let init1 = curry(LGCommercializerProduct.init)
-            <^> j <|? "id"
-            <*> j <|? ["thumb", "url"]
-            <*> j <|? "country_code"
-        
-        return init1
+        let result1 = curry(LGCommercializerProduct.init)
+        let result2 = result1 <^> j <|? "id"
+        let result3 = result2 <*> j <|? ["thumb", "url"]
+        let result  = result3 <*> j <|? "country_code"
+        if let error = result.error {
+            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGCommercializerProduct parse error: \(error)")
+        }
+        return result
     }
 }

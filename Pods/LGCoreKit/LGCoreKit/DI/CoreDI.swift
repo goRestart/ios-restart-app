@@ -81,7 +81,14 @@ final class CoreDI: InternalDI {
                                                       cache: carsInfoCache,
                                                       locationManager: locationManager)
         self.carsInfoRepository = carsInfoRepository
-        
+
+        let taxonomiesCache: TaxonomiesDAO = TaxonomiesRealmDAO() ?? TaxonomiesMemoryDAO()
+        let taxonomiesDataSource = TaxonomiesApiDataSource(apiClient: apiClient)
+        let categoryRepository = LGCategoryRepository(dataSource: taxonomiesDataSource,
+                                                      taxonomiesCache: taxonomiesCache,
+                                                      locationManager: locationManager)
+        self.categoryRepository = categoryRepository
+
         let listingDataSource = ListingApiDataSource(apiClient: apiClient)
         let favoritesDAO = FavoritesUDDAO(userDefaults: userDefaults)
         let listingsLimboDAO = ListingsLimboUDDAO(userDefaults: userDefaults)
@@ -143,8 +150,8 @@ final class CoreDI: InternalDI {
         self.stickersRepository = LGStickersRepository(dataSource: stickersDataSoruce,
                                                        stickersDAO: stickersDAO)
 
-        let trendingSearchesDataSource = TrendingSearchesApiDataSource(apiClient: self.apiClient)
-        self.trendingSearchesRepository = LGTrendingSearchesRepository(dataSource: trendingSearchesDataSource)
+        let searchDataSource = SearchApiDataSource(apiClient: self.apiClient)
+        self.searchRepository = LGSearchRepository(dataSource: searchDataSource)
 
         let userRatingDataSource = UserRatingApiDataSource(apiClient: self.apiClient)
         self.userRatingRepository = LGUserRatingRepository(dataSource: userRatingDataSource,
@@ -216,13 +223,11 @@ final class CoreDI: InternalDI {
     let chatRepository: ChatRepository
     let notificationsRepository: NotificationsRepository
     let stickersRepository: StickersRepository
-    let trendingSearchesRepository: TrendingSearchesRepository
+    let searchRepository: SearchRepository
     let userRatingRepository: UserRatingRepository
     let passiveBuyersRepository: PassiveBuyersRepository
     let carsInfoRepository: CarsInfoRepository
-    lazy var categoryRepository: CategoryRepository = {
-        return LGCategoryRepository()
-    }()
+    let categoryRepository: CategoryRepository
 
     let listingRepository: ListingRepository
     lazy var fileRepository: FileRepository = {

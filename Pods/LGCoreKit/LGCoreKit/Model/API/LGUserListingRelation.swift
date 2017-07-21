@@ -28,9 +28,12 @@ extension LGUserListingRelation: Decodable {
         }
     */
     public static func decode(_ j: JSON) -> Decoded<LGUserListingRelation> {
-
-        return curry(LGUserListingRelation.init)
-            <^> LGArgo.mandatoryWithFallback(json: j, key: "is_favorited", fallback: false)
-            <*> LGArgo.mandatoryWithFallback(json: j, key: "is_reported", fallback: false)
+        let result1 = curry(LGUserListingRelation.init)
+        let result2 = result1 <^> LGArgo.mandatoryWithFallback(json: j, key: "is_favorited", fallback: false)
+        let result  = result2 <*> LGArgo.mandatoryWithFallback(json: j, key: "is_reported", fallback: false)
+        if let error = result.error {
+            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGUserListingRelation parse error: \(error)")
+        }
+        return result
     }
 }

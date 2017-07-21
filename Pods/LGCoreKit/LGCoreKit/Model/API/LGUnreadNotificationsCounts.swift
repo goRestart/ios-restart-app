@@ -50,21 +50,19 @@ extension LGUnreadNotificationsCounts: Decodable {
      }
      */
     static func decode(_ j: JSON) -> Decoded<LGUnreadNotificationsCounts> {
-        let result = curry(LGUnreadNotificationsCounts.init)
-            <^> j <|? "total"
-            <*> j <|? "sold"
-            <*> j <|? "like"
-            <*> j <|? "review"
-            <*> j <|? "review_updated"
-            <*> j <|? "buyers_interested"
-            <*> j <|? "product_suggested"
-            <*> j <|? "facebook_friendship_created"
-            <*> j <|? "modular"
-
+        let result1 = curry(LGUnreadNotificationsCounts.init)
+        let result2 = result1 <^> j <|? "total"
+        let result3 = result2 <*> j <|? "sold"
+        let result4 = result3 <*> j <|? "like"
+        let result5 = result4 <*> j <|? "review"
+        let result6 = result5 <*> j <|? "review_updated"
+        let result7 = result6 <*> j <|? "buyers_interested"
+        let result8 = result7 <*> j <|? "product_suggested"
+        let result9 = result8 <*> j <|? "facebook_friendship_created"
+        let result  = result9 <*> j <|? "modular"
         if let error = result.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGUnreadNotificationsCounts parse error: \(error)")
         }
-
         return result
     }
 }

@@ -288,10 +288,14 @@ fileprivate extension AppDelegate {
         let coreEnvironment = environmentHelper.coreEnvironment
         let shouldUseWebSocketChat = featureFlags.websocketChat
         let carsInfoJSONPath = Bundle.main.path(forResource: "CarsInfo", ofType: "json") ?? ""
+        
+        let taxonomiesJSONPath = Bundle.main.path(forResource: "Taxonomies", ofType: "json") ?? ""
 
         let coreKitConfig = LGCoreKitConfig(environmentType: coreEnvironment,
                                             shouldUseChatWithWebSocket: shouldUseWebSocketChat,
-                                            carsInfoAppJSONURL: URL(fileURLWithPath: carsInfoJSONPath))
+                                            carsInfoAppJSONURL: URL(fileURLWithPath: carsInfoJSONPath),
+                                            taxonomiesAppJSONURL: URL(fileURLWithPath: taxonomiesJSONPath))
+        
         LGCoreKit.initialize(config: coreKitConfig)
 
         // Branch.io

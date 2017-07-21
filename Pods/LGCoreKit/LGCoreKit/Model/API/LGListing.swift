@@ -63,28 +63,22 @@ extension Listing: Decodable  {
      */
 
     public static func decode(_ j: JSON) -> Decoded<Listing> {
-
-        // to guarantee compatibility with future categories
-        var category: ListingCategory = .unassigned
-
+        let category: ListingCategory
         if let categoryId: Int = j.decode("category_id"),
             let listingCategory: ListingCategory = ListingCategory(rawValue: categoryId) {
             category = listingCategory
+        } else {
+            // to guarantee compatibility with future categories
+            category = .unassigned
         }
 
         let result: Decoded<Listing>
         switch category {
-            // Products or unknown categories
         case .unassigned, .electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden, .moviesBooksAndMusic,
              .fashionAndAccesories, .babyAndChild, .other:
-            result = curry(Listing.product)
-                <^> LGProduct.decode(j)
-            break
-            // Cars
+            result = curry(Listing.product) <^> LGProduct.decode(j)
         case .cars:
-            result = curry(Listing.car)
-                <^> LGCar.decode(j)
-            break
+            result = curry(Listing.car) <^> LGCar.decode(j)
         }
         if let error = result.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "Listing parse error: \(error)")

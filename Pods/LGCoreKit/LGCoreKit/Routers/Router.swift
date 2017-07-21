@@ -63,6 +63,12 @@ struct PaymentsBaseURL: BaseURL {
     static let contentTypeHeader: String? = nil
 }
 
+struct SuggestiveSearchBaseURL: BaseURL {
+    static var baseURL: String = EnvironmentProxy.sharedInstance.suggestiveSearchBaseURL
+    static let acceptHeader: String? = nil
+    static let contentTypeHeader: String? = nil
+}
+
 enum Encoding {
     case json, url
 }

@@ -41,16 +41,16 @@ extension LGNotificationModular: Decodable {
     }
     
     public static func decode(_ j: JSON) -> Decoded<LGNotificationModular> {
-        
-        let init1 = curry(LGNotificationModular.init)
-            <^> j <| JSONKeys.text
-            <*> j <|| JSONKeys.callToAction
-            <*> j <|? JSONKeys.basicImage
-        let init2 = init1
-            <*> j <|? JSONKeys.iconImage
-            <*> j <|? JSONKeys.userImage
-        let result = init2
-            <*> j <||? JSONKeys.thumbnails
+        let result1 = curry(LGNotificationModular.init)
+        let result2 = result1 <^> j <| JSONKeys.text
+        let result3 = result2 <*> j <|| JSONKeys.callToAction
+        let result4 = result3 <*> j <|? JSONKeys.basicImage
+        let result5 = result4 <*> j <|? JSONKeys.iconImage
+        let result6 = result5 <*> j <|? JSONKeys.userImage
+        let result  = result6 <*> j <||? JSONKeys.thumbnails
+        if let error = result.error {
+            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGNotificationModular parse error: \(error)")
+        }
         return result
     }
 }

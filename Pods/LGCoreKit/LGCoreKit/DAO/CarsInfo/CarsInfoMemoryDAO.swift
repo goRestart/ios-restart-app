@@ -36,7 +36,7 @@ class CarsInfoMemoryDAO: CarsInfoDAO {
             guard let carsMakeList = decoder(jsonCarsMakesList) else { return }
             save(carsInfo: carsMakeList)
         } catch let error {
-            logMessage(.verbose, type: CoreLoggingOptions.database, message: "Failed to create first run memory cache: \(error)")
+            logMessage(.verbose, type: CoreLoggingOptions.database, message: "Failed to create Cars Info first run memory cache: \(error)")
         }
     }
 
