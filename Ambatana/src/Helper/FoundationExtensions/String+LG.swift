@@ -282,4 +282,16 @@ extension String {
         let nonNumberCharacters = CharacterSet.decimalDigits.inverted
         return rangeOfCharacter(from: nonNumberCharacters) == nil
     }
+    
+    func makeBold(ignoringText: String, font: UIFont = UIFont.bigBodyFont) -> NSAttributedString {
+        let attributedString = NSMutableAttributedString(string: self,
+                                                         attributes: [NSFontAttributeName: font])
+        let ignoreTextCount = contains(ignoringText) ? ignoringText.characters.count : 0
+        attributedString.addAttribute(
+            NSFontAttributeName,
+            value: UIFont.boldSystemFont(ofSize: font.pointSize),
+            range: NSMakeRange(ignoreTextCount, characters.count-ignoreTextCount)
+        )
+        return attributedString
+    }
 }

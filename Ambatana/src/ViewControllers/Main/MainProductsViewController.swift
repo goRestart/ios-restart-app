@@ -538,7 +538,7 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
         view.addConstraint(topConstraint)
         
         Observable.combineLatest(viewModel.trendingSearches.asObservable(),
-                                 viewModel.suggestiveSearches.asObservable(),
+                                 viewModel.suggestiveSearchInfo.asObservable(),
                                  viewModel.lastSearches.asObservable()) { trendings, suggestiveSearches, lastSearches in
             return trendings.count + suggestiveSearches.count + lastSearches.count
             }.bindNext { [weak self] totalCount in
@@ -668,11 +668,12 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
                             for: indexPath) as? SuggestionSearchCell else { return UITableViewCell() }
         switch sectionType {
         case .suggestive:
-            guard let suggestiveSearchName = viewModel.suggestiveSearchAtIndex(indexPath.row)?.name else { return UITableViewCell() }
-            var attributedString = NSAttributedString(string: suggestiveSearchName)
-            attributedString = attributedString.setBold(ignoreText: navbarSearch.searchTextField.text,
-                                                        font: cell.labelFont)
-            cell.suggestionText.attributedText = attributedString
+            guard let (suggestiveSearch, sourceText) = viewModel.suggestiveSearchAtIndex(indexPath.row),
+                let suggestiveSearchName = suggestiveSearch.name else {
+                    return UITableViewCell()
+            }
+            cell.suggestionText.attributedText = suggestiveSearchName.makeBold(ignoringText: sourceText,
+                                                                               font: cell.labelFont)
         case .lastSearch:
             guard let lastSearch = viewModel.lastSearchAtIndex(indexPath.row) else { return UITableViewCell() }
             cell.suggestionText.text = lastSearch
