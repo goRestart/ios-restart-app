@@ -283,7 +283,7 @@ extension String {
         return rangeOfCharacter(from: nonNumberCharacters) == nil
     }
     
-    func makeBold(ignoringText: String, font: UIFont = UIFont.bigBodyFont) -> NSAttributedString {
+    func makeBold(ignoringText: String, font: UIFont) -> NSAttributedString {
         let attributedString = NSMutableAttributedString(string: self,
                                                          attributes: [NSFontAttributeName: font])
         let ignoreTextCount = contains(ignoringText) ? ignoringText.characters.count : 0
