@@ -55,6 +55,17 @@ extension FeatureFlaggeable {
     }
 }
 
+extension AddSuperKeywordsOnFeed {
+    var isActive: Bool {
+        switch self {
+        case .control, .baseline:
+            return false
+        case .active:
+            return true
+        }
+    }
+}
+
 
 class FeatureFlags: FeatureFlaggeable {
 
