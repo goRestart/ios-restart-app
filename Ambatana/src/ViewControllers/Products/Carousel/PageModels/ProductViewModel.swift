@@ -407,23 +407,6 @@ class ProductViewModel: BaseViewModel {
                                                bumpUpType: .hidden)
             }
             buttonBlock = { [weak self] in
-                // 🦄 Show fake alert!
-
-                /*
-                 let cancelAction = UIAction(
-                 interface: .button(LGLocalizedString.settingsMarketingNotificationsAlertCancel, .secondary(fontSize: .medium, withBorder: true)),
-                 action: { [weak self] in
-                 self?.forceMarketingNotifications(enabled: true)
-                 })
-                 let  deactivateAction = UIAction(
-                 interface: .button(LGLocalizedString.settingsMarketingNotificationsAlertDeactivate, .secondary(fontSize: .medium, withBorder: true)),
-                 action: { [weak self] in
-                 self?.setMarketingNotification(enabled: false)
-                 })
-                 delegate?.vmShowAlertWithTitle(nil, text: LGLocalizedString.settingsMarketingNotificationsAlertMessage,
-                 alertType: .plainAlert, actions: [cancelAction, deactivateAction], dismissAction: cancelAction.action)
-
-                 */
                 self?.trackBumpUpNotAllowed(reason: .notAllowedInternal)
                 let contactUsInterface = UIActionInterface.button(LGLocalizedString.bumpUpNotAllowedAlertContactButton,
                                                                   .primary(fontSize: .medium))
