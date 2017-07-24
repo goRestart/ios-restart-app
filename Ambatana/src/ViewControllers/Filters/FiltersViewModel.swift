@@ -182,7 +182,7 @@ class FiltersViewModel: BaseViewModel {
     }
     
     var currentTaxonomyChildSelected: TaxonomyChild? {
-        return productFilter.selectedTaxonomyChild
+        return productFilter.selectedTaxonomyChildren.last
     }
 
     fileprivate var productFilter : ProductFilters
@@ -509,7 +509,7 @@ extension FiltersViewModel: CarAttributeSelectionDelegate {
 // MARK: TaxonomiesDelegate
 extension FiltersViewModel: TaxonomiesDelegate {
     func didSelectTaxonomyChild(taxonomyChild: TaxonomyChild) {
-        productFilter.selectedTaxonomyChild = taxonomyChild
+        productFilter.selectedTaxonomyChildren = [taxonomyChild]
         delegate?.vmDidUpdate()
     }
     

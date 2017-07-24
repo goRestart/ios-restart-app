@@ -96,7 +96,7 @@ class MainProductsViewModel: BaseViewModel {
             }
         }
         
-        if let taxonomyChild = filters.selectedTaxonomyChild {
+        if let taxonomyChild = filters.selectedTaxonomyChildren.last {
             resultTags.append(.taxonomyChild(taxonomyChild))
         }
 
@@ -335,7 +335,7 @@ class MainProductsViewModel: BaseViewModel {
 
         var place: Place? = nil
         var categories: [FilterCategoryItem] = []
-        var taxonomyChild: TaxonomyChild?
+        var taxonomyChild: TaxonomyChild? = nil
         var orderBy = ListingSortCriteria.defaultOption
         var within = ListingTimeCriteria.defaultOption
         var minPrice: Int? = nil
@@ -397,8 +397,12 @@ class MainProductsViewModel: BaseViewModel {
             }
         }
         
-        filters.selectedTaxonomyChild = taxonomyChild
-        
+        if let taxonomyChildValue = taxonomyChild {
+            filters.selectedTaxonomyChildren = [taxonomyChildValue]
+        } else {
+            filters.selectedTaxonomyChildren = []
+        }
+    
         filters.selectedOrdering = orderBy
         filters.selectedWithin = within
         if free {
