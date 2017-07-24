@@ -213,7 +213,7 @@ extension AppCoordinator: AppNavigator {
             switch source {
             case .markedSold:
                 SKStoreReviewController.requestReview()
-                break
+                LGRatingManager.sharedInstance.userDidRate()
             case .chat, .favorite, .productSellComplete:
                 guard canOpenAppStoreWriteReviewWebsite() else { return }
                 askUserIsEnjoyingLetgo()
@@ -245,6 +245,7 @@ extension AppCoordinator: AppNavigator {
                                                         ButtonStyle.primary(fontSize: .medium))
         let rateAppAction = UIAction(interface: rateAppInterface, action: { [weak self] in
             self?.openAppStoreWriteReviewWebsite()
+            LGRatingManager.sharedInstance.userDidRate()
         })
         let exitInterface = UIActionInterface.button(LGLocalizedString.ratingAppRateAlertNoButton,
                                                      ButtonStyle.secondary(fontSize: .medium,
@@ -262,7 +263,8 @@ extension AppCoordinator: AppNavigator {
         let giveFeedbackInterface = UIActionInterface.button(LGLocalizedString.ratingAppFeedbackYesButton,
                                                              ButtonStyle.primary(fontSize: .medium))
         let giveFeedbackAction = UIAction(interface: giveFeedbackInterface, action: { [weak self] in
-            self?.openAppStoreWriteReviewInApp()
+            self?.openGiveFeedback()
+            LGRatingManager.sharedInstance.userDidRate()
         })
         let exitInterface = UIActionInterface.button(LGLocalizedString.ratingAppFeedbackNoButton,
                                                      ButtonStyle.secondary(fontSize: .medium,
@@ -289,7 +291,7 @@ extension AppCoordinator: AppNavigator {
         }
     }
     
-    private func openAppStoreWriteReviewInApp() {
+    private func openGiveFeedback() {
         guard let email = myUserRepository.myUser?.email,
             let installation = installationRepository.installation,
             let contactURL = LetgoURLHelper.buildContactUsURL(userEmail: email, installation: installation) else {
