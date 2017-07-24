@@ -72,7 +72,6 @@ enum AccessibilityId: String {
     case filterTagCellTagLabel
     
     // Taxonomies
-    
     case taxonomiesTableView
     
     // CategoriesHeader Cells

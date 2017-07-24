@@ -171,13 +171,15 @@ extension Place: Equatable {
 
 extension ProductFilters: Equatable {
     static func ==(a: ProductFilters, b: ProductFilters) -> Bool {
-        //let taxonomyChildEqual = a.selectedTaxonomyChild == b.selectedTaxonomyChild
+        guard a.selectedTaxonomyChildren.count == b.selectedTaxonomyChildren.count else { return false }
+        for (index, element) in a.selectedTaxonomyChildren.enumerated() {
+            guard element == b.selectedTaxonomyChildren[index] else { return false }
+        }
         
         return a.place == b.place &&
         a.distanceRadius == b.distanceRadius &&
         a.distanceType == b.distanceType &&
         a.selectedCategories == b.selectedCategories &&
-       // taxonomyChildEqual &&
         a.selectedWithin == b.selectedWithin &&
         a.selectedOrdering == b.selectedOrdering &&
         a.filterCoordinates == b.filterCoordinates &&
