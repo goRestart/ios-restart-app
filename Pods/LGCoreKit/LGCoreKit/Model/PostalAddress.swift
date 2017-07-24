@@ -52,12 +52,16 @@ extension PostalAddress : Decodable {
         }
     */
     public static func decode(_ j: JSON) -> Decoded<PostalAddress> {
-        return curry(PostalAddress.init)
-            <^> j <|? "address"
-            <*> j <|? "city"
-            <*> j <|? "zip_code"
-            <*> j <|? "state"
-            <*> j <|? "country_code"
-            <*> j <|? "country"
+        let result1 = curry(PostalAddress.init)
+        let result2 = result1 <^> j <|? "address"
+        let result3 = result2 <*> j <|? "city"
+        let result4 = result3 <*> j <|? "zip_code"
+        let result5 = result4 <*> j <|? "state"
+        let result6 = result5 <*> j <|? "country_code"
+        let result  = result6 <*> j <|? "country"
+        if let error = result.error {
+            logMessage(.error, type: CoreLoggingOptions.parsing, message: "PostalAddress parse error: \(error)")
+        }
+        return result
     }
 }

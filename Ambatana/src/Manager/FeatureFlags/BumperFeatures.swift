@@ -30,6 +30,8 @@ extension Bumper  {
         flags.append(NewCarouselNavigationEnabled.self)
         flags.append(NewOnboardingPhase1.self)
         flags.append(SearchParamDisc24.self)
+        flags.append(InAppRatingIOS10.self)
+        flags.append(SuggestedSearches.self)
         Bumper.initialize(flags)
     } 
 
@@ -116,7 +118,17 @@ extension Bumper  {
     static var searchParamDisc24: SearchParamDisc24 {
         guard let value = Bumper.value(for: SearchParamDisc24.key) else { return .disc24a }
         return SearchParamDisc24(rawValue: value) ?? .disc24a 
-    } 
+    }
+
+    static var inAppRatingIOS10: Bool {
+        guard let value = Bumper.value(for: InAppRatingIOS10.key) else { return false }
+        return InAppRatingIOS10(rawValue: value)?.asBool ?? false
+    }
+    
+    static var suggestedSearches: SuggestedSearches {
+        guard let value = Bumper.value(for: SuggestedSearches.key) else { return .control }
+        return SuggestedSearches(rawValue: value) ?? .control
+    }
 }
 
 
@@ -287,6 +299,31 @@ enum SearchParamDisc24: String, BumperFeature  {
             case 5: return .disc24f
             case 6: return .disc24g
             default: return .disc24a
+        }
+    }
+}
+
+enum InAppRatingIOS10: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return InAppRatingIOS10.no.rawValue }
+    static var enumValues: [InAppRatingIOS10] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "New in-app rating for iOS 10.3+" } 
+    var asBool: Bool { return self == .yes }
+}
+
+enum SuggestedSearches: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return SuggestedSearches.control.rawValue }
+    static var enumValues: [SuggestedSearches] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "New suggested searches section" } 
+    static func fromPosition(_ position: Int) -> SuggestedSearches {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
         }
     }
 }

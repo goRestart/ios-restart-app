@@ -9,6 +9,7 @@
 enum SearchType {
     case user(query: String)
     case trending(query: String)
+    case suggestive(query: String)
     case lastSearch(query: String)
     case collection(type: CollectionCellType, query: String)
 
@@ -17,6 +18,8 @@ enum SearchType {
         case let .user(query):
             return query
         case let .trending(query):
+            return query
+        case let .suggestive(query):
             return query
         case let .lastSearch(query):
             return query
@@ -31,6 +34,8 @@ enum SearchType {
             return query
         case let .trending(query):
             return query
+        case let .suggestive(query):
+            return query
         case let .lastSearch(query):
             return query
         case let .collection(_ , query):
@@ -40,16 +45,25 @@ enum SearchType {
 
     var isTrending: Bool {
         switch self {
-        case .user, .collection, .lastSearch:
+        case .user, .suggestive, .collection, .lastSearch:
             return false
         case .trending:
+            return true
+        }
+    }
+    
+    var isSuggestive: Bool {
+        switch self {
+        case .user, .trending, .collection, .lastSearch:
+            return false
+        case .suggestive:
             return true
         }
     }
 
     var isCollection: Bool {
         switch self {
-        case .user, .trending, .lastSearch:
+        case .user, .suggestive, .trending, .lastSearch:
             return false
         case .collection:
             return true
@@ -58,7 +72,7 @@ enum SearchType {
     
     var isLastSearch: Bool {
         switch self {
-        case .user, .trending, .collection:
+        case .user, .suggestive, .trending, .collection:
             return false
         case .lastSearch:
             return true

@@ -230,7 +230,7 @@ class SettingsViewModel: BaseViewModel {
             let negative = UIAction(interface: .styledText(LGLocalizedString.commonCancel, .cancel),
                                     action: {}, accessibilityId: .settingsLogoutAlertCancel)
             delegate?.vmShowAlertWithTitle(nil, text: LGLocalizedString.settingsLogoutAlertMessage,
-                                           alertType: .plainAlert, actions: [positive, negative])
+                                           alertType: .plainAlertOld, actions: [positive, negative])
         case .versionInfo, .marketingNotifications:
             break
         }
@@ -280,7 +280,7 @@ class SettingsViewModel: BaseViewModel {
         })
         
         delegate?.vmShowAlertWithTitle(nil, text: LGLocalizedString.settingsGeneralNotificationsAlertMessage,
-                                       alertType: .plainAlert, actions: [cancelAction, activateAction])
+                                       alertType: .plainAlertOld, actions: [cancelAction, activateAction])
     }
     
     private func showDeactivateConfirmation() {
@@ -295,7 +295,7 @@ class SettingsViewModel: BaseViewModel {
                 self?.setMarketingNotification(enabled: false)
         })
         delegate?.vmShowAlertWithTitle(nil, text: LGLocalizedString.settingsMarketingNotificationsAlertMessage,
-                                       alertType: .plainAlert, actions: [cancelAction, deactivateAction], dismissAction: cancelAction.action)
+                                       alertType: .plainAlertOld, actions: [cancelAction, deactivateAction], dismissAction: cancelAction.action)
     }
     
     private func forceMarketingNotifications(enabled: Bool) {

@@ -30,9 +30,13 @@ extension LGNotificationCTAModule: Decodable {
          "deeplink": "some deeplink that can't be null"
          }
          */
-        return curry(LGNotificationCTAModule.init)
-            <^> j <| JSONKeys.text
-            <*> j <| JSONKeys.deeplink
+        let result1 = curry(LGNotificationCTAModule.init)
+        let result2 = result1 <^> j <| JSONKeys.text
+        let result  = result2 <*> j <| JSONKeys.deeplink
+        if let error = result.error {
+            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGNotificationCTAModule parse error: \(error)")
+        }
+        return result
     }
 }
 

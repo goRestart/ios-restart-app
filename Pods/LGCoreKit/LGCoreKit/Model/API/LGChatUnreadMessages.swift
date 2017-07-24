@@ -27,14 +27,11 @@ extension LGChatUnreadMessages : Decodable {
      }
      */
     static func decode(_ j: JSON) -> Decoded<LGChatUnreadMessages> {
-
-        let result = curry(LGChatUnreadMessages.init)
-            <^> j <| "total_unread_messages_count"
-
+        let result1 = curry(LGChatUnreadMessages.init)
+        let result  = result1 <^> j <| "total_unread_messages_count"
         if let error = result.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGChatUnreadMessages parse error: \(error)")
         }
-
         return result
     }
 }

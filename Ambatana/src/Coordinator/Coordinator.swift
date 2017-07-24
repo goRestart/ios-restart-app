@@ -54,15 +54,6 @@ protocol Coordinator: CoordinatorDelegate {
 }
 
 
-// MARK: - Bubble
-
-extension Coordinator {
-    func showBubble(with data: BubbleNotificationData, duration: TimeInterval) {
-        bubbleNotificationManager.showBubble(data, duration: duration, view: viewController.view)
-    }
-}
-
-
 // MARK: - CoordinatorDelegate
 
 extension Coordinator {
@@ -132,56 +123,7 @@ extension Coordinator {
 }
 
 
-// MARK: - Loading
-
-extension Coordinator {
-    func openLoading(message: String? = LGLocalizedString.commonLoading,
-                     animated: Bool = true,
-                     completion: (() -> Void)? = nil) {
-        let finalMessage = (message ?? LGLocalizedString.commonLoading) + "\n\n\n"
-        let alert = UIAlertController(title: finalMessage, message: nil, preferredStyle: .alert)
-        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
-        activityIndicator.color = UIColor.black
-        activityIndicator.center = CGPoint(x: 130.5, y: 85.5)
-        alert.view.addSubview(activityIndicator)
-        activityIndicator.startAnimating()
-        openAlertController(alert, animated: animated, completion: completion)
-    }
-
-    func closeLoading(animated: Bool = true,
-                      completion: (() -> Void)? = nil) {
-        closePresentedAlertController(animated: animated, completion: completion)
-    }
-
-    func closeLoading(animated: Bool = true,
-                      withAutocloseMessage message: String,
-                      autocloseMessageCompletion: (() -> Void)? = nil) {
-        closeLoading(animated: animated) { [weak self] in
-            self?.openAutocloseMessage(animated: animated, message: message, completion: autocloseMessageCompletion)
-        }
-    }
-}
-
-
-// MARK: - Autoclose message
-
-private let autocloseMessageDefaultTime: Double = 2.5
-
-extension Coordinator {
-    func openAutocloseMessage(animated: Bool = true,
-                              message: String,
-                              time: Double = autocloseMessageDefaultTime,
-                              completion: ((Void) -> Void)? = nil) {
-        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        openAlertController(alert)
-        delay(time) { [weak self] in
-            self?.closePresentedAlertController(animated: animated, completion: completion)
-        }
-    }
-}
-
-
-// MARK: - Alerts w UIAction
+// MARK: - Alerts
 
 extension Coordinator {
     func openAlert(animated: Bool = true, title: String?, message: String?,
@@ -205,6 +147,8 @@ extension Coordinator {
         openAlert(animated: animated, title: title, message: message, actions: actualActions, completion: completion)
     }
 
+    // MARK: > Action sheet
+    
     func openActionSheet(animated: Bool = true, title: String?, message: String?,
                                   actions: [UIAction], completion: (() -> Void)? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
@@ -225,23 +169,67 @@ extension Coordinator {
         openActionSheet(animated: animated, title: title, message: message, actions: actualActions,
                         completion: completion)
     }
-}
-
-
-// MARK: - Private methods
-
-fileprivate extension Coordinator {
+    
+    // MARK: > Autoclousure message
+    
+    func openAutocloseMessage(animated: Bool = true,
+                              message: String,
+                              time: TimeInterval = Constants.autocloseMessageDefaultTime,
+                              completion: ((Void) -> Void)? = nil) {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        openAlertController(alert)
+        delay(time) { [weak self] in
+            self?.closePresentedAlertController(animated: animated, completion: completion)
+        }
+    }
+    
+    // MARK: > Loading indicators
+    
+    func openLoading(message: String? = LGLocalizedString.commonLoading,
+                     animated: Bool = true,
+                     completion: (() -> Void)? = nil) {
+        let finalMessage = (message ?? LGLocalizedString.commonLoading) + "\n\n\n"
+        let alert = UIAlertController(title: finalMessage, message: nil, preferredStyle: .alert)
+        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+        activityIndicator.color = UIColor.black
+        activityIndicator.center = CGPoint(x: 130.5, y: 85.5)
+        alert.view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+        openAlertController(alert, animated: animated, completion: completion)
+    }
+    
+    func closeLoading(animated: Bool = true,
+                      completion: (() -> Void)? = nil) {
+        closePresentedAlertController(animated: animated, completion: completion)
+    }
+    
+    func closeLoading(animated: Bool = true,
+                      withAutocloseMessage message: String,
+                      autocloseMessageCompletion: (() -> Void)? = nil) {
+        closeLoading(animated: animated) { [weak self] in
+            self?.openAutocloseMessage(animated: animated, message: message, completion: autocloseMessageCompletion)
+        }
+    }
+    
+    // MARK: > Bubble
+    
+    func showBubble(with data: BubbleNotificationData, duration: TimeInterval) {
+        bubbleNotificationManager.showBubble(data, duration: duration, view: viewController.view)
+    }
+    
+    // MARK: > Helpers
+    
     func openAlertController(_ alert: UIAlertController, animated: Bool = true, completion: (() -> Void)? = nil) {
         guard presentedAlertController == nil else { return }
-
+        
         presentedAlertController = alert
         viewController.present(alert, animated: animated, completion: completion)
     }
-
+    
     func closePresentedAlertController(animated: Bool = true,
-                                                completion: (() -> Void)? = nil) {
+                                               completion: (() -> Void)? = nil) {
         guard let presentedAlertController = presentedAlertController else { return }
-
+        
         presentedAlertController.dismiss(animated: animated) { [weak self] in
             self?.presentedAlertController = nil
             completion?()

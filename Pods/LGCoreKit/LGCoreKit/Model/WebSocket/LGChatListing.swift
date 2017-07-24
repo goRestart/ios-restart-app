@@ -22,7 +22,8 @@ struct LGChatListing: ChatListing {
          name: String?,
          status: Int,
          image: File?,
-         price: Double?, priceFlag: ListingPriceFlag?,
+         price: Double?,
+         priceFlag: ListingPriceFlag?,
          currency: Currency) {
         self.objectId = objectId
         self.name = name
@@ -45,6 +46,23 @@ struct LGChatListing: ChatListing {
         self.price = price
         self.currency = currency
     }
+    
+    fileprivate static func make(objectId: String?,
+                                 name: String?,
+                                 status: Int,
+                                 image: LGFile?,
+                                 price: Double?,
+                                 priceFlag: ListingPriceFlag?,
+                                 currency: Currency) -> LGChatListing {
+        return LGChatListing(objectId: objectId,
+                             name: name,
+                             status: status,
+                             image: image,
+                             price: price,
+                             priceFlag: priceFlag,
+                             currency: currency)
+    }
+        
 }
 
 extension LGChatListing: Decodable {
@@ -60,19 +78,18 @@ extension LGChatListing: Decodable {
     }
     
     static func decode(_ j: JSON) -> Decoded<LGChatListing> {
-        let init1 = curry(LGChatListing.init)
-            <^> j <|? JSONKeys.objectId
-            <*> j <|? JSONKeys.name
-            <*> j <| JSONKeys.status
-            <*> LGArgo.jsonToAvatarFile(j, avatarKey: JSONKeys.image)
-            <*> j <|? JSONKeys.price
-            <*> j <|? JSONKeys.priceFlag
-            <*> LGArgo.jsonToCurrency(j, currencyKey: JSONKeys.currency)
-
-        if let error = init1.error {
+        let result1 = curry(LGChatListing.make)
+        let result2 = result1 <^> j <|? JSONKeys.objectId
+        let result3 = result2 <*> j <|? JSONKeys.name
+        let result4 = result3 <*> j <| JSONKeys.status
+        let result5 = result4 <*> LGArgo.jsonToAvatarFile(j, avatarKey: JSONKeys.image)
+        let result6 = result5 <*> j <|? JSONKeys.price
+        let result7 = result6 <*> j <|? JSONKeys.priceFlag
+        let result  = result7 <*> LGArgo.jsonToCurrency(j, currencyKey: JSONKeys.currency)
+        if let error = result.error {
             logMessage(.error, type: .parsing, message: "LGChatListing parse error: \(error)")
         }
-        return init1
+        return result
     }
     
     static func decodeOptional(_ json: JSON?) -> Decoded<LGChatListing?> {

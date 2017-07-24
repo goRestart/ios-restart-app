@@ -42,7 +42,6 @@ extension LGPaymentItem: Decodable {
             <^> j <| "provider"
             <*> j <| "item_id"
             <*> j <| "provider_item_id"
-
         if let error = result.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGPaymentItem parse error: \(error)")
         }

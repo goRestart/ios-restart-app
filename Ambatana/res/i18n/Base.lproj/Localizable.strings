@@ -927,6 +927,9 @@
 // Filters secion within (within which time we want the products)
 "filters_section_within" = "Posted within";
 
+// Label to select only free items
+"filters_section_price_free_title" = "Show only free items";
+
 // Filters Section From price
 "filters_price_from" = "From";
 
@@ -2665,6 +2668,9 @@
 
 // Title for trending searches screen (background view when searching)
 "trending_searches_Title" = "Trending Searches";
+
+// Title for suggested searches screen (background view when searching)
+"suggested_searches_title" = "Suggested Searches";
 
 // Text for unsuccessful user unblock
 "unblock_user_error_generic" = "An error occurred while unblocking this user.";

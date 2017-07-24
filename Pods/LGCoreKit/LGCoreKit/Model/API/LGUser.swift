@@ -82,22 +82,19 @@ extension LGUser : Decodable {
     }
     */
     static func decode(_ j: JSON) -> Decoded<LGUser> {
-        let init1 = curry(LGUser.init)
-            <^> j <|? "id"
-            <*> j <|? "name"
-            <*> j <|? "avatar_url"
-            <*> PostalAddress.decode(j)
-        let result = init1
-            <*> j <|? "rating_value"
-            <*> j <| "num_ratings"
-            <*> j <|| "accounts"
-            <*> j <|? "status"
-            <*> LGArgo.mandatoryWithFallback(json: j, key: "is_richy", fallback: false)
-
+        let result1 = curry(LGUser.init)
+        let result2 = result1 <^> j <|? "id"
+        let result3 = result2 <*> j <|? "name"
+        let result4 = result3 <*> j <|? "avatar_url"
+        let result5 = result4 <*> PostalAddress.decode(j)
+        let result6 = result5 <*> j <|? "rating_value"
+        let result7 = result6 <*> j <| "num_ratings"
+        let result8 = result7 <*> j <|| "accounts"
+        let result9 = result8 <*> j <|? "status"
+        let result  = result9 <*> LGArgo.mandatoryWithFallback(json: j, key: "is_richy", fallback: false)
         if let error = result.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGUser parse error: \(error)")
         }
-
         return result
     }
 }

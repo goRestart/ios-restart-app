@@ -64,21 +64,17 @@ extension LGUserListing : Decodable {
      },     */
     
     static func decode(_ j: JSON) -> Decoded<LGUserListing> {
-        let init1 = curry(LGUserListing.init)
-            <^> j <|? "id"
-            <*> j <|? "name"
-            <*> j <|? "avatar_url"
-            <*> PostalAddress.decode(j)
-        let result = init1
-            <*> LGArgo.mandatoryWithFallback(json: j, key: "is_richy", fallback: false)
-            <*> j <|? "banned"
-            <*> j <|? "status"
-
-        
+        let result1 = curry(LGUserListing.init)
+        let result2 = result1 <^> j <|? "id"
+        let result3 = result2 <*> j <|? "name"
+        let result4 = result3 <*> j <|? "avatar_url"
+        let result5 = result4 <*> PostalAddress.decode(j)
+        let result6 = result5 <*> LGArgo.mandatoryWithFallback(json: j, key: "is_richy", fallback: false)
+        let result7 = result6 <*> j <|? "banned"
+        let result  = result7 <*> j <|? "status"
         if let error = result.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGUserListing parse error: \(error)")
         }
-        
         return result
     }
 }

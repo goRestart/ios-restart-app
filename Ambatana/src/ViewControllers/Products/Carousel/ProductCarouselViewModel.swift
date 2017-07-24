@@ -402,7 +402,7 @@ class ProductCarouselViewModel: BaseViewModel {
         currentVM.directChatEnabled.asObservable().bindTo(quickAnswersAvailable).addDisposableTo(activeDisposeBag)
 
         currentVM.directChatEnabled.asObservable().bindTo(directChatEnabled).addDisposableTo(activeDisposeBag)
-        directChatMessages.value = currentVM.directChatMessages.value
+        directChatMessages.removeAll()
         currentVM.directChatMessages.changesObservable.subscribeNext { [weak self] change in
             switch change {
             case let .insert(index, value):

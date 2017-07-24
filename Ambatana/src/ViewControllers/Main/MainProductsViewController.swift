@@ -14,8 +14,26 @@ import RxSwift
 
 
 enum SearchSuggestionType {
+    case suggestive
     case lastSearch
     case trending
+    
+    static func sectionType(index: Int, isSuggestedSearchesEnabled: Bool) -> SearchSuggestionType? {
+        switch index {
+        case 0:
+            return isSuggestedSearchesEnabled ? .suggestive : .lastSearch
+        case 1:
+            return isSuggestedSearchesEnabled ? .lastSearch : .trending
+        case 2:
+            return isSuggestedSearchesEnabled ? .trending : nil
+        default:
+            return nil
+        }
+    }
+    
+    static func numberOfSections(isSuggestedSearchesEnabled: Bool) -> Int {
+        return isSuggestedSearchesEnabled ? 3 : 2
+    }
 }
 
 class MainProductsViewController: BaseViewController, ProductListViewScrollDelegate, MainProductsViewModelDelegate,
@@ -41,7 +59,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     fileprivate let horizontalMarginHeaderView: CGFloat = 16
     fileprivate let sectionHeight: CGFloat = 54
     fileprivate let firstSectionMarginTop: CGFloat = -36
-    fileprivate let numberOfSuggestionSections = 2
+
     @IBOutlet weak var infoBubbleLabel: UILabel!
     @IBOutlet weak var infoBubbleShadow: UIView!
     @IBOutlet weak var infoBubbleArrow: UIImageView!
@@ -437,6 +455,20 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
             let tagsHeight = strongSelf.tagsShowing ? MainProductsViewController.filterTagsViewHeight : 0
             strongSelf.topInset.value = strongSelf.topBarHeight + tagsHeight + strongSelf.filterHeadersHeight
         }.addDisposableTo(disposeBag)
+        
+        if viewModel.isSuggestedSearchesEnabled {
+            navbarSearch.searchTextField?.rx.text.asObservable()
+                .debounce(0.3, scheduler: MainScheduler.instance)
+                .subscribeNext { [weak self] text in
+                    guard let term = text else { return }
+                    guard let charactersCount = text?.characters.count else { return }
+                    if (charactersCount > 0) {
+                        self?.viewModel.retrieveSuggestiveSearches(term: term)
+                    } else {
+                        self?.viewModel.cleanUpSuggestiveSearches()
+                    }
+            }.addDisposableTo(disposeBag)
+        }
     }
 }
 
@@ -468,8 +500,8 @@ extension MainProductsViewController: ProductListViewHeaderDelegate, PushPermiss
             let screenWidth: CGFloat = UIScreen.main.bounds.size.width
             categoriesHeader = CategoriesHeaderCollectionView(categories: ListingCategory.visibleValuesInFeed(),
                                                               frame: CGRect(x: 0, y: 0, width: screenWidth, height: CategoriesHeaderCollectionView.viewHeight))
-            categoriesHeader?.categorySelected.asObservable().bindNext { [weak self] category in
-                guard let category = category else { return }
+            categoriesHeader?.categorySelected.asObservable().bindNext { [weak self] categoryHeaderInfo in
+                guard let category = categoryHeaderInfo else { return }
                 self?.viewModel.updateFiltersFromHeaderCategories(category)
             }.addDisposableTo(disposeBag)
             if let categoriesHeader = categoriesHeader {
@@ -505,12 +537,14 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
                                                toItem: topLayoutGuide, attribute: .bottom, multiplier: 1.0, constant: 0)
         view.addConstraint(topConstraint)
         
-        Observable.combineLatest(viewModel.trendingSearches.asObservable(), viewModel.lastSearches.asObservable()) { trendings, lastSearches in
-            return trendings.count + lastSearches.count
+        Observable.combineLatest(viewModel.trendingSearches.asObservable(),
+                                 viewModel.suggestiveSearches.asObservable(),
+                                 viewModel.lastSearches.asObservable()) { trendings, suggestiveSearches, lastSearches in
+            return trendings.count + suggestiveSearches.count + lastSearches.count
             }.bindNext { [weak self] totalCount in
                 self?.suggestionsSearchesTable.reloadData()
                 self?.suggestionsSearchesTable.isHidden = totalCount == 0
-            }.addDisposableTo(disposeBag)
+        }.addDisposableTo(disposeBag)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)),
                                                          name: NSNotification.Name.UIKeyboardWillShow, object: nil)
@@ -520,8 +554,11 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        guard let sectionType = getSearchSuggestionType(section) else { return 0 }
+        guard let sectionType = SearchSuggestionType.sectionType(index: section,
+                                                                 isSuggestedSearchesEnabled: viewModel.isSuggestedSearchesEnabled) else { return 0 }
         switch sectionType {
+        case .suggestive:
+            return viewModel.suggestiveCounter > 0 ? sectionHeight : 0
         case .lastSearch:
             return viewModel.lastSearchesCounter > 0 ? sectionHeight : 0
         case .trending:
@@ -567,8 +604,12 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
         container.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:[clear]-horizontalMarginHeaderView-|",
             options: [], metrics: metrics, views: views))
         
-        guard let sectionType = getSearchSuggestionType(section) else { return UIView() }
+        guard let sectionType = SearchSuggestionType.sectionType(index: section,
+                                                                 isSuggestedSearchesEnabled: viewModel.isSuggestedSearchesEnabled) else { return UIView() }
         switch sectionType {
+        case .suggestive:
+            clearButton.isHidden = true
+            suggestionTitleLabel.text = LGLocalizedString.suggestedSearchesTitle.uppercase
         case .lastSearch:
             suggestionTitleLabel.text = LGLocalizedString.suggestionsLastSearchesTitle.uppercase
         case .trending:
@@ -598,7 +639,7 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
     // MARK: > TableView
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return numberOfSuggestionSections
+        return SearchSuggestionType.numberOfSections(isSuggestedSearchesEnabled: viewModel.isSuggestedSearchesEnabled)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -606,8 +647,12 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let sectionType = getSearchSuggestionType(section) else { return 0 }
+        guard let sectionType = SearchSuggestionType.sectionType(index: section,
+                                                                 isSuggestedSearchesEnabled: viewModel.isSuggestedSearchesEnabled)
+            else { return 0 }
         switch sectionType {
+        case .suggestive:
+            return viewModel.suggestiveCounter
         case .lastSearch:
             return viewModel.lastSearchesCounter
         case .trending:
@@ -616,10 +661,18 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let sectionType = getSearchSuggestionType(indexPath.section) else { return UITableViewCell() }
+        guard let sectionType = SearchSuggestionType.sectionType(index: indexPath.section,
+                                                                 isSuggestedSearchesEnabled: viewModel.isSuggestedSearchesEnabled)
+            else { return UITableViewCell() }
         guard let cell = tableView.dequeueReusableCell(withIdentifier: SuggestionSearchCell.reusableID,
                             for: indexPath) as? SuggestionSearchCell else { return UITableViewCell() }
         switch sectionType {
+        case .suggestive:
+            guard let suggestiveSearchName = viewModel.suggestiveSearchAtIndex(indexPath.row)?.name else { return UITableViewCell() }
+            var attributedString = NSAttributedString(string: suggestiveSearchName)
+            attributedString = attributedString.setBold(ignoreText: navbarSearch.searchTextField.text,
+                                                        font: cell.labelFont)
+            cell.suggestionText.attributedText = attributedString
         case .lastSearch:
             guard let lastSearch = viewModel.lastSearchAtIndex(indexPath.row) else { return UITableViewCell() }
             cell.suggestionText.text = lastSearch
@@ -631,25 +684,15 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let sectionType = getSearchSuggestionType(indexPath.section) else { return }
+        guard let sectionType = SearchSuggestionType.sectionType(index: indexPath.section,
+                                                                 isSuggestedSearchesEnabled: viewModel.isSuggestedSearchesEnabled) else { return }
         switch sectionType {
+        case .suggestive:
+            viewModel.selectedSuggestiveSearchAtIndex(indexPath.row)
         case .lastSearch:
             viewModel.selectedLastSearchAtIndex(indexPath.row)
         case .trending:
             viewModel.selectedTrendingSearchAtIndex(indexPath.row)
-        }
-    }
-}
-
-fileprivate extension MainProductsViewController {
-    func getSearchSuggestionType(_ section: Int) -> SearchSuggestionType? {
-        switch section {
-        case 0:
-            return .lastSearch
-        case 1:
-            return .trending
-        default:
-            return nil
         }
     }
 }
