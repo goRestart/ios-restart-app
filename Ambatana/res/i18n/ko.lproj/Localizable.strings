@@ -25,6 +25,8 @@
 "bump_up_error_bump_token" = "결제가 진행되었지만, 상품이 강조되지 않았습니다.";
 "bump_up_error_payment_failed" = "앱 스토어에 연결할 수 없습니다. 귀하의 결제가 진행되지 않았습니다. 다시 시도해주세요.";
 "bump_up_free_success" = "상품이 강조되었습니다! 리스트를 계속 강조하시면 사람들이 확인할 수 있습니다.";
+"bump_up_not_allowed_alert_contact_button" = "Contact Us";
+"bump_up_not_allowed_alert_text" = "Bumping Up this item isn't possible at this time.  For more information, contact us.";
 "bump_up_pay_success" = "상품이 강조되었습니다! 이제 상품이 다른 사람들에게 더 잘보입니다.";
 "bump_up_processing_free_text" = "강조 진행중...";
 "bump_up_processing_priced_text" = "결제 처리중...";
@@ -316,7 +318,7 @@
 "filters_section_distance" = "거리";
 "filters_section_location" = "위치";
 "filters_section_price" = "가격";
-"filters_section_price_free_title" = "Show only free items";
+"filters_section_price_free_title" = "무료 제품만 보기";
 "filters_section_sortby" = "분류하기";
 "filters_section_within" = "안에 입력하세요";
 "filters_sort_closest" = "가장 가까운 순서대로";

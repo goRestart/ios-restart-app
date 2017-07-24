@@ -57,7 +57,10 @@ protocol ProductDetailNavigator: TabNavigator {
     func openListingChat(_ listing: Listing)
     func closeAfterDelete()
     func openFreeBumpUp(forListing listing: Listing, socialMessage: SocialMessage, paymentItemId: String)
-    func openPayBumpUp(forListing listing: Listing, purchaseableProduct: PurchaseableProduct, paymentItemId: String)
+    func openPayBumpUp(forListing listing: Listing,
+                       purchaseableProduct: PurchaseableProduct,
+                       paymentItemId: String,
+                       bumpUpType: BumpUpType)
     func selectBuyerToRate(source: RateUserSource,
                            buyers: [UserListing],
                            listingId: String,

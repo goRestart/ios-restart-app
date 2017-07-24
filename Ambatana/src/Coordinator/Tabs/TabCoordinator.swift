@@ -421,9 +421,12 @@ extension TabCoordinator: ProductDetailNavigator {
         openChild(coordinator: bumpCoordinator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
     }
 
-    func openPayBumpUp(forListing listing: Listing, purchaseableProduct: PurchaseableProduct, paymentItemId: String) {
+    func openPayBumpUp(forListing listing: Listing,
+                       purchaseableProduct: PurchaseableProduct,
+                       paymentItemId: String,
+                       bumpUpType: BumpUpType) {
         let bumpCoordinator = BumpUpCoordinator(listing: listing, purchaseableProduct: purchaseableProduct,
-                                                paymentItemId: paymentItemId)
+                                                paymentItemId: paymentItemId, bumpUpType: bumpUpType)
         openChild(coordinator: bumpCoordinator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
     }
 

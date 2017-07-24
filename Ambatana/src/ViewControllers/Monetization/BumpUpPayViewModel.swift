@@ -17,6 +17,7 @@ class BumpUpPayViewModel: BaseViewModel {
 
     var listing: Listing
     let paymentItemId: String?
+    let bumpUpType: BumpUpType
 
     var price: String {
         return purchaseableProduct.formattedCurrencyPrice
@@ -30,27 +31,38 @@ class BumpUpPayViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
 
-    convenience init(listing: Listing, purchaseableProduct: PurchaseableProduct, paymentItemId: String?) {
+    convenience init(listing: Listing, purchaseableProduct: PurchaseableProduct, paymentItemId: String?, bumpUpType: BumpUpType) {
         let purchasesShopper = LGPurchasesShopper.sharedInstance
         self.init(listing: listing, purchaseableProduct: purchaseableProduct,
-                  purchasesShopper: purchasesShopper, paymentItemId: paymentItemId)
+                  purchasesShopper: purchasesShopper, paymentItemId: paymentItemId, bumpUpType: bumpUpType)
     }
 
     init(listing: Listing, purchaseableProduct: PurchaseableProduct, purchasesShopper: PurchasesShopper,
-         paymentItemId: String?) {
+         paymentItemId: String?, bumpUpType: BumpUpType) {
         self.listing = listing
         self.purchaseableProduct = purchaseableProduct
         self.purchasesShopper = purchasesShopper
         self.paymentItemId = paymentItemId
+        self.bumpUpType = bumpUpType
     }
 
 
     // MARK: - Public methods
 
     func bumpUpPressed() {
-        navigator?.bumpUpDidFinish(completion: { [weak self] in
-            self?.bumpUpProduct()
-        })
+
+        switch bumpUpType {
+        case .priced:
+            navigator?.bumpUpDidFinish(completion: { [weak self] in
+                self?.bumpUpProduct()
+            })
+        case .hidden:
+            // 🦄
+        //        func showAlertWithTitle(_ title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout = .horizontal, actions: [UIAction]?, dismissAction: (() -> ())? = nil) {
+            break
+        case .free, .restore:
+            break
+        }
     }
 
     func closeActionPressed() {
