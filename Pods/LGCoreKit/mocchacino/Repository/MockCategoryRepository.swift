@@ -29,4 +29,7 @@ open class MockCategoryRepository: CategoryRepository {
     public func refreshTaxonomiesCache() {
 
     }
+    public func indexTaxonomies() -> [Taxonomy] {
+        return []
+    }
 }

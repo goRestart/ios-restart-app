@@ -18,7 +18,9 @@ public protocol TaxonomyChild {
     var image: URL? { get }
 }
 
-public func ==(lhs: TaxonomyChild, rhs: TaxonomyChild) -> Bool {
+public func ==(lhs: TaxonomyChild?, rhs: TaxonomyChild?) -> Bool {
+    guard let lhs = lhs else { return rhs != nil }
+    guard let rhs = rhs else { return true }
     return lhs.id == rhs.id &&
         lhs.name == rhs.name &&
         lhs.type == rhs.type &&

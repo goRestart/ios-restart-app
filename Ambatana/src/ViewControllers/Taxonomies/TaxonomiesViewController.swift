@@ -57,10 +57,8 @@ class TaxonomiesViewController : BaseViewController, TaxonomiesViewModelDelegate
         // Rx to select info
         tableView.itemSelected.asObservable().bindNext { [weak self] taxonomyChild in
             guard let strongSelf = self else { return }
-            guard let selectedId = taxonomyChild?.id,
-                let selectedName = taxonomyChild?.name,
-                let selectedType = taxonomyChild?.type else { return }
-            strongSelf.viewModel.taxonomyChildSelected(id: selectedId, name: selectedName, type: selectedType)
+            guard let taxonomyChild = taxonomyChild else { return }
+            strongSelf.viewModel.taxonomyChildSelected(taxonomyChild: taxonomyChild)
             }.addDisposableTo(disposeBag)
     }
 }

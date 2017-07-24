@@ -30,6 +30,10 @@ final class LGCategoryRepository: CategoryRepository {
     func indexTaxonomies(withCompletion completion: TaxonomiesCompletion?) {
         completion?(TaxonomiesResult(value: taxonomiesCache.taxonomies))
     }
+    
+    func indexTaxonomies() -> [Taxonomy] {
+        return taxonomiesCache.taxonomies
+    }
 
     func loadFirstRunCacheIfNeeded(jsonURL: URL) {
         taxonomiesCache.loadFirstRunCacheIfNeeded(jsonURL: jsonURL)

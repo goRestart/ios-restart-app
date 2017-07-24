@@ -39,6 +39,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var searchParamDisc24: SearchParamDisc24 = .disc24a
     var inAppRatingIOS10: Bool = false
     var suggestedSearches: SuggestedSearches = .control
+    var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed = .control
 
     // Country dependant features
     var freePostingModeAllowed = false

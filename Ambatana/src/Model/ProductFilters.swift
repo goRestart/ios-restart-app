@@ -54,6 +54,7 @@ struct ProductFilters {
     var distanceRadius: Int?
     var distanceType: DistanceType
     var selectedCategories: [ListingCategory]
+    var selectedTaxonomyChild: TaxonomyChild?
     var selectedWithin: ListingTimeCriteria
     var selectedOrdering: ListingSortCriteria?
     var filterCoordinates: LGLocationCoordinates2D? {
@@ -74,6 +75,7 @@ struct ProductFilters {
             distanceRadius: Constants.distanceSliderDefaultPosition,
             distanceType: DistanceType.systemDistanceType(),
             selectedCategories: [],
+            selectedTaxonomyChild: nil,
             selectedWithin: ListingTimeCriteria.defaultOption,
             selectedOrdering: ListingSortCriteria.defaultOption,
             priceRange: .priceRange(min: nil, max: nil),
@@ -86,14 +88,14 @@ struct ProductFilters {
         )
     }
     
-    init(place: Place?, distanceRadius: Int, distanceType: DistanceType, selectedCategories: [ListingCategory],
-         selectedWithin: ListingTimeCriteria, selectedOrdering: ListingSortCriteria?, priceRange: FilterPriceRange,
+    init(place: Place?, distanceRadius: Int, distanceType: DistanceType, selectedCategories: [ListingCategory], selectedTaxonomyChild: TaxonomyChild?, selectedWithin: ListingTimeCriteria, selectedOrdering: ListingSortCriteria?, priceRange: FilterPriceRange,
          carMakeId: RetrieveListingParam<String>?, carMakeName: String?, carModelId: RetrieveListingParam<String>?,
          carModelName: String?, carYearStart: RetrieveListingParam<Int>?, carYearEnd: RetrieveListingParam<Int>?){
         self.place = place
         self.distanceRadius = distanceRadius > 0 ? distanceRadius : nil
         self.distanceType = distanceType
         self.selectedCategories = selectedCategories
+        self.selectedTaxonomyChild = selectedTaxonomyChild
         self.selectedWithin = selectedWithin
         self.selectedOrdering = selectedOrdering
         self.priceRange = priceRange
@@ -134,6 +136,7 @@ struct ProductFilters {
         if let _ = place { return false } //Default is nil
         if let _ = distanceRadius { return false } //Default is nil
         if !selectedCategories.isEmpty { return false }
+        if selectedTaxonomyChild != nil { return false }
         if selectedWithin != ListingTimeCriteria.defaultOption { return false }
         if selectedOrdering != ListingSortCriteria.defaultOption { return false }
         if priceRange != .priceRange(min: nil, max: nil) { return false }
@@ -168,11 +171,13 @@ extension Place: Equatable {
 
 extension ProductFilters: Equatable {
     static func ==(a: ProductFilters, b: ProductFilters) -> Bool {
-
+        let taxonomyChildEqual = a.selectedTaxonomyChild == b.selectedTaxonomyChild
+        
         return a.place == b.place &&
         a.distanceRadius == b.distanceRadius &&
         a.distanceType == b.distanceType &&
         a.selectedCategories == b.selectedCategories &&
+        taxonomyChildEqual &&
         a.selectedWithin == b.selectedWithin &&
         a.selectedOrdering == b.selectedOrdering &&
         a.filterCoordinates == b.filterCoordinates &&

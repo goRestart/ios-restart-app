@@ -7,6 +7,7 @@
 //
 
 import RxSwift
+import LGCoreKit
 
 final class TaxonomiesTableView: UIView, UITableViewDelegate, UITableViewDataSource {
     

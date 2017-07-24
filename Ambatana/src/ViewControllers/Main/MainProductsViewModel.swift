@@ -95,6 +95,10 @@ class MainProductsViewModel: BaseViewModel {
                 resultTags.removeLast()
             }
         }
+        
+        if let taxonomyChild = filters.selectedTaxonomyChild {
+            resultTags.append(.taxonomyChild(taxonomyChild))
+        }
 
         switch featureFlags.editLocationBubble {
         case .inactive:
@@ -331,6 +335,7 @@ class MainProductsViewModel: BaseViewModel {
 
         var place: Place? = nil
         var categories: [FilterCategoryItem] = []
+        var taxonomyChild: TaxonomyChild?
         var orderBy = ListingSortCriteria.defaultOption
         var within = ListingTimeCriteria.defaultOption
         var minPrice: Int? = nil
@@ -350,6 +355,8 @@ class MainProductsViewModel: BaseViewModel {
                 place = thePlace
             case .category(let prodCategory):
                 categories.append(FilterCategoryItem(category: prodCategory))
+            case .taxonomyChild(let taxonomyChildSelected):
+                taxonomyChild = taxonomyChildSelected
             case .orderBy(let prodSortOption):
                 orderBy = prodSortOption
             case .within(let prodTimeOption):
@@ -389,6 +396,9 @@ class MainProductsViewModel: BaseViewModel {
                 return cat
             }
         }
+        
+        filters.selectedTaxonomyChild = taxonomyChild
+        
         filters.selectedOrdering = orderBy
         filters.selectedWithin = within
         if free {
