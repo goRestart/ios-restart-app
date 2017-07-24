@@ -27,8 +27,8 @@ final class LGCategoryRepository: CategoryRepository {
         completion?(CategoriesResult(value: ListingCategory.visibleValues(filtered: filtered)))
     }
 
-    func indexTaxonomies(withCompletion completion: TaxonomiesCompletion?) {
-        completion?(TaxonomiesResult(value: taxonomiesCache.taxonomies))
+    func indexTaxonomies() -> [Taxonomy] {
+        return taxonomiesCache.taxonomies
     }
 
     func loadFirstRunCacheIfNeeded(jsonURL: URL) {
