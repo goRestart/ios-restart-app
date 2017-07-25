@@ -132,9 +132,9 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
 
     func priceTextFieldValueChanged(_ value: String?, tag: Int) {
         switch tag {
-        case 0:
+        case TextFieldPriceType.priceFrom.rawValue:
             viewModel.setMinPrice(value)
-        case 1:
+        case TextFieldPriceType.priceFrom.rawValue:
             viewModel.setMaxPrice(value)
         default:
             break

@@ -13,7 +13,6 @@ final class TaxonomiesTableView: UIView, UITableViewDelegate, UITableViewDataSou
     
     static let cellIdentifier = "taxonomyCell"
     
-    
     private let tableView = UITableView(frame: CGRect.zero, style: .grouped)
     private var taxonomies: [Taxonomy] = [] {
         didSet {
@@ -55,7 +54,7 @@ final class TaxonomiesTableView: UIView, UITableViewDelegate, UITableViewDataSou
         addSubview(tableView)
         
         tableView.layout(with: self)
-            .top()
+            .top(by: 10)
             .bottom()
             .leading()
             .trailing()
@@ -72,7 +71,6 @@ final class TaxonomiesTableView: UIView, UITableViewDelegate, UITableViewDataSou
     // MARK: - UITableView delegate
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(taxonomies)
         return taxonomies[section].children.count
     }
     

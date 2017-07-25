@@ -9,7 +9,7 @@
 import RxSwift
 
 protocol FilterFreeCellDelegate: class {
-    func freeSwitchChanged(on: Bool)
+    func freeSwitchChanged(isOn: Bool)
 }
 
 
@@ -61,7 +61,7 @@ class FilterFreeCell: UICollectionViewCell {
     }
     
     @IBAction func freeSwitchChanged(_ sender: Any) {
-        delegate?.freeSwitchChanged(on: freeSwitch.isOn)
+        delegate?.freeSwitchChanged(isOn: freeSwitch.isOn)
     }
     
     private func setAccessibilityIds() {

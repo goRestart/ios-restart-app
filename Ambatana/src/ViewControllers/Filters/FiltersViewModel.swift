@@ -507,22 +507,20 @@ extension FiltersViewModel: CarAttributeSelectionDelegate {
 
 
 // MARK: TaxonomiesDelegate
+
 extension FiltersViewModel: TaxonomiesDelegate {
     func didSelectTaxonomyChild(taxonomyChild: TaxonomyChild) {
         productFilter.selectedTaxonomyChildren = [taxonomyChild]
         delegate?.vmDidUpdate()
     }
-    
 }
-
 
 
 // MARK: FilterFreeCellDelegate
 
 extension FiltersViewModel: FilterFreeCellDelegate {
-    func freeSwitchChanged(on: Bool) {
-        productFilter.priceRange = on ? .freePrice : .priceRange(min: nil, max: nil)
+    func freeSwitchChanged(isOn: Bool) {
+        productFilter.priceRange = isOn ? .freePrice : .priceRange(min: nil, max: nil)
         delegate?.vmDidUpdate()
     }
 }
-

@@ -13,7 +13,7 @@ import RxSwift
 class TaxonomiesViewController : BaseViewController, TaxonomiesViewModelDelegate {
     
     private let tableView = TaxonomiesTableView()
-    fileprivate let viewModel: TaxonomiesViewModel
+    private let viewModel: TaxonomiesViewModel
     
     let disposeBag = DisposeBag()
     
@@ -23,8 +23,8 @@ class TaxonomiesViewController : BaseViewController, TaxonomiesViewModelDelegate
     init(viewModel: TaxonomiesViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
-        self.viewModel.delegate = self
-        self.title = viewModel.title
+        viewModel.delegate = self
+        title = viewModel.title
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -56,9 +56,8 @@ class TaxonomiesViewController : BaseViewController, TaxonomiesViewModelDelegate
     private func setupRx() {
         // Rx to select info
         tableView.itemSelected.asObservable().bindNext { [weak self] taxonomyChild in
-            guard let strongSelf = self else { return }
             guard let taxonomyChild = taxonomyChild else { return }
-            strongSelf.viewModel.taxonomyChildSelected(taxonomyChild: taxonomyChild)
-            }.addDisposableTo(disposeBag)
+            self?.viewModel.taxonomyChildSelected(taxonomyChild: taxonomyChild)
+        }.addDisposableTo(disposeBag)
     }
 }

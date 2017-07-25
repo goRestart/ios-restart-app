@@ -35,7 +35,7 @@ class TaxonomiesViewModel : BaseViewModel {
         backTo()
     }
     
-    fileprivate func backTo() {
+    private func backTo() {
         delegate?.vmPop()
     }
 }
