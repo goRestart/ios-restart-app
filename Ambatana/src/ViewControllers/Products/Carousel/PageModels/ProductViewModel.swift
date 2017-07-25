@@ -383,8 +383,7 @@ class ProductViewModel: BaseViewModel {
                 guard let purchaseableProduct = self?.bumpUpPurchaseableProduct else { return }
                 self?.navigator?.openPayBumpUp(forListing: listing,
                                                purchaseableProduct: purchaseableProduct,
-                                               paymentItemId: paymentItemId,
-                                               bumpUpType: .priced)
+                                               paymentItemId: paymentItemId)
             }
             buttonBlock = { [weak self] in
                 self?.bumpUpProduct(productId: listingId)
@@ -397,23 +396,14 @@ class ProductViewModel: BaseViewModel {
             bannerInteractionBlock = restoreBlock
             buttonBlock = restoreBlock
         case .hidden:
-            guard let paymentItemId = paymentItemId else { return }
-            bannerInteractionBlock = { [weak self] in
-                guard let listing = self?.listing.value else { return }
-                guard let purchaseableProduct = self?.bumpUpPurchaseableProduct else { return }
-                self?.navigator?.openPayBumpUp(forListing: listing,
-                                               purchaseableProduct: purchaseableProduct,
-                                               paymentItemId: paymentItemId,
-                                               bumpUpType: .hidden)
-            }
-            buttonBlock = { [weak self] in
+            let hiddenBlock: () -> Void = { [weak self] in
                 self?.trackBumpUpNotAllowed(reason: .notAllowedInternal)
                 let contactUsInterface = UIActionInterface.button(LGLocalizedString.bumpUpNotAllowedAlertContactButton,
                                                                   .primary(fontSize: .medium))
                 let contactUsAction: UIAction = UIAction(interface: contactUsInterface,
                                                          action: { [weak self] in
                                                             self?.bumpUpHiddenProductContactUs()
-                                                         },
+                    },
                                                          accessibilityId: .bumpUpHiddenProductAlertContactButton)
 
                 let cancelInterface = UIActionInterface.button(LGLocalizedString.commonCancel,
@@ -428,6 +418,8 @@ class ProductViewModel: BaseViewModel {
                                                      buttonsLayout: .vertical,
                                                      actions: [contactUsAction, cancelAction])
             }
+            bannerInteractionBlock = hiddenBlock
+            buttonBlock = hiddenBlock
         }
 
         bumpUpBannerInfo.value = BumpUpInfo(type: bumpUpType,
@@ -439,10 +431,8 @@ class ProductViewModel: BaseViewModel {
     }
 
     func bumpUpHiddenProductContactUs() {
-        // 🦄
-        // navigator should open url -> see appcoordinator
-//        LetgoURLHelper.buildContactUsURL(user: myUserRepository.myUser, installation: <#T##Installation?#>, listing: listing.value, type: .bumpUpNotAllowed)
         trackBumpUpNotAllowedContactUs(reason: .notAllowedInternal)
+        navigator?.openContactUs(forListing: listing.value, contactUstype: .bumpUpNotAllowed)
     }
 }
 

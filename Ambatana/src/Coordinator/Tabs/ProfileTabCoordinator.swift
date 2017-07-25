@@ -18,6 +18,7 @@ final class ProfileTabCoordinator: TabCoordinator {
         let chatRepository = Core.chatRepository
         let oldChatRepository = Core.oldChatRepository
         let myUserRepository = Core.myUserRepository
+        let installationRepository = Core.installationRepository
         let bubbleNotificationManager =  LGBubbleNotificationManager.sharedInstance
         let keyValueStorage = KeyValueStorage.sharedInstance
         let tracker = TrackerProxy.sharedInstance
@@ -28,13 +29,13 @@ final class ProfileTabCoordinator: TabCoordinator {
         self.init(listingRepository: listingRepository, userRepository: userRepository,
                   chatRepository: chatRepository, oldChatRepository: oldChatRepository,
                   myUserRepository: myUserRepository,
+                  installationRepository: installationRepository,
                   bubbleNotificationManager: bubbleNotificationManager,
                   keyValueStorage: keyValueStorage, tracker: tracker,
                   rootViewController: rootViewController, featureFlags: featureFlags,
                   sessionManager: sessionManager)
 
         viewModel.profileNavigator = self
-
     }
 }
 

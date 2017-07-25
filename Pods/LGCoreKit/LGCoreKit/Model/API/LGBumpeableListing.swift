@@ -48,7 +48,7 @@ extension LGBumpeableListing: Decodable {
         "millis_since_last_bump_up", //milliseconds ellapsed since last bump up
         "payment_items": [
             {
-                "provider": "free",  // string, possible values ["letgo", "apple", "google"]
+                "provider": "free",  // string, possible values, last one has a special 'ⅼ' for hidden items ["letgo", "apple", "google", "letgo.apple"]
                 "item_id": "4c72134c5-6586-798" // string, uuid4
                 "provider_item_id": "com.letgo.tier1" // string, external provider ID, depending on google, apple, etc.
             },

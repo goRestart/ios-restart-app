@@ -160,7 +160,7 @@ class LetgoURLHelper {
         case .deviceNotAllowed:
             param["device_not_allowed"] = "true"
         case .bumpUpNotAllowed:
-            param["bump_up"] = "true"
+            param["bumpup"] = "true"
             param["product_id"] = listingId ?? ""
         }
         return param.map{"\($0)=\($1)"}
