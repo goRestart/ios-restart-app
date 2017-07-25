@@ -11,10 +11,15 @@ public struct LGCoreKitConfig {
     public var environmentType: EnvironmentType
     public var shouldUseChatWithWebSocket: Bool
     public var carsInfoAppJSONURL: URL
+    public var taxonomiesAppJSONURL: URL
 
-    public init(environmentType: EnvironmentType, shouldUseChatWithWebSocket: Bool, carsInfoAppJSONURL: URL) {
+    public init(environmentType: EnvironmentType,
+                shouldUseChatWithWebSocket: Bool,
+                carsInfoAppJSONURL: URL,
+                taxonomiesAppJSONURL: URL) {
         self.environmentType = environmentType
         self.shouldUseChatWithWebSocket = shouldUseChatWithWebSocket
         self.carsInfoAppJSONURL = carsInfoAppJSONURL
+        self.taxonomiesAppJSONURL = taxonomiesAppJSONURL
     }
 }
