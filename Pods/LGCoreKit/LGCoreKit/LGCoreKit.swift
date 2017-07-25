@@ -29,11 +29,17 @@ public class LGCoreKit {
         InternalCore.internalSessionManager.initialize()
         InternalCore.locationManager.initialize()
 
-        // Cars Info cache
+        // Fill cars Info cache with local data
         InternalCore.carsInfoRepository.loadFirstRunCacheIfNeeded(jsonURL: config.carsInfoAppJSONURL)
+
+        // Fill taxonomies cache with local data
+        InternalCore.categoryRepository.loadFirstRunCacheIfNeeded(jsonURL: config.taxonomiesAppJSONURL)
     }
 
     public static func start() {
+        // taxonomies are independent of user
+        InternalCore.categoryRepository.refreshTaxonomiesCache()
+
         guard let userId = InternalCore.myUserRepository.myUser?.objectId else { return }
         InternalCore.listingRepository.indexFavorites(userId, completion: nil)
         InternalCore.stickersRepository.show(nil) // Sync stickers to UserDefaults
