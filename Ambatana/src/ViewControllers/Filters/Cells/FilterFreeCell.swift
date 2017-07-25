@@ -24,7 +24,7 @@ class FilterFreeCell: UICollectionViewCell {
     @IBOutlet weak var topSeparatorHeight: NSLayoutConstraint!
     
     weak var delegate: FilterFreeCellDelegate?
-    var disposeBag = DisposeBag()
+    let disposeBag = DisposeBag()
     
     override func awakeFromNib() {
         super.awakeFromNib()
