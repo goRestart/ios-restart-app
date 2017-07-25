@@ -498,7 +498,11 @@ extension MainProductsViewController: ProductListViewHeaderDelegate, PushPermiss
         }
         if shouldShowCategoryCollectionBanner {
             let screenWidth: CGFloat = UIScreen.main.bounds.size.width
-            categoriesHeader = CategoriesHeaderCollectionView(categories: ListingCategory.visibleValuesInFeed(),
+            if viewModel.isAddSuperKeywordsEnabled {
+               
+            }
+            
+            categoriesHeader = CategoriesHeaderCollectionView(categories: viewModel.categoryHeaderElements,
                                                               frame: CGRect(x: 0, y: 0, width: screenWidth, height: CategoriesHeaderCollectionView.viewHeight))
             categoriesHeader?.categorySelected.asObservable().bindNext { [weak self] categoryHeaderInfo in
                 guard let category = categoryHeaderInfo else { return }

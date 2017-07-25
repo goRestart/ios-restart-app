@@ -67,6 +67,10 @@ class MainProductsViewModel: BaseViewModel {
             return true
         }
     }
+    
+    var isAddSuperKeywordsEnabled: Bool {
+        return featureFlags.addSuperKeywordsOnFeed.isActive
+    }
 
     var defaultBubbleText: String {
         switch featureFlags.editLocationBubble {
@@ -78,6 +82,8 @@ class MainProductsViewModel: BaseViewModel {
             return bubbleTextGenerator.bubbleInfoText(forDistance: distance, type: type, distanceRadius: filters.distanceRadius, place: filters.place)
         }
     }
+    
+    var taxonomyChildren: [TaxonomyChild] = []
 
     let infoBubbleVisible = Variable<Bool>(false)
     let infoBubbleText = Variable<String>(LGLocalizedString.productPopularNearYou)
@@ -172,6 +178,7 @@ class MainProductsViewModel: BaseViewModel {
     fileprivate let locationManager: LocationManager
     fileprivate let currencyHelper: CurrencyHelper
     fileprivate let bubbleTextGenerator: DistanceBubbleTextGenerator
+    fileprivate let categoryRepository: CategoryRepository
 
     fileprivate let tracker: Tracker
     fileprivate let searchType: SearchType? // The initial search
@@ -227,15 +234,17 @@ class MainProductsViewModel: BaseViewModel {
     // MARK: - Lifecycle
     
     init(sessionManager: SessionManager, myUserRepository: MyUserRepository, searchRepository: SearchRepository,
-         listingRepository: ListingRepository, monetizationRepository: MonetizationRepository, locationManager: LocationManager, currencyHelper: CurrencyHelper, tracker: Tracker,
-         searchType: SearchType? = nil, filters: ProductFilters, keyValueStorage: KeyValueStorageable, featureFlags: FeatureFlaggeable,
-         bubbleTextGenerator: DistanceBubbleTextGenerator) {
+         listingRepository: ListingRepository, monetizationRepository: MonetizationRepository, categoryRepository: CategoryRepository,
+         locationManager: LocationManager, currencyHelper: CurrencyHelper, tracker: Tracker,
+         searchType: SearchType? = nil, filters: ProductFilters, keyValueStorage: KeyValueStorageable,
+         featureFlags: FeatureFlaggeable, bubbleTextGenerator: DistanceBubbleTextGenerator) {
         
         self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
         self.searchRepository = searchRepository
         self.listingRepository = listingRepository
         self.monetizationRepository = monetizationRepository
+        self.categoryRepository = categoryRepository
         self.locationManager = locationManager
         self.currencyHelper = currencyHelper
         self.tracker = tracker
@@ -271,6 +280,7 @@ class MainProductsViewModel: BaseViewModel {
         let searchRepository = Core.searchRepository
         let listingRepository = Core.listingRepository
         let monetizationRepository = Core.monetizationRepository
+        let categoryRepository = Core.categoryRepository
         let locationManager = Core.locationManager
         let currencyHelper = Core.currencyHelper
         let tracker = TrackerProxy.sharedInstance
@@ -278,9 +288,10 @@ class MainProductsViewModel: BaseViewModel {
         let featureFlags = FeatureFlags.sharedInstance
         let bubbleTextGenerator = DistanceBubbleTextGenerator()
         self.init(sessionManager: sessionManager,myUserRepository: myUserRepository, searchRepository: searchRepository,
-                  listingRepository: listingRepository, monetizationRepository: monetizationRepository, locationManager: locationManager, currencyHelper: currencyHelper, tracker: tracker,
-                  searchType: searchType, filters: filters, keyValueStorage: keyValueStorage, featureFlags: featureFlags,
-                  bubbleTextGenerator: bubbleTextGenerator)
+                  listingRepository: listingRepository, monetizationRepository: monetizationRepository,
+                  categoryRepository: categoryRepository, locationManager: locationManager,
+                  currencyHelper: currencyHelper, tracker: tracker, searchType: searchType, filters: filters,
+                  keyValueStorage: keyValueStorage, featureFlags: featureFlags, bubbleTextGenerator: bubbleTextGenerator)
     }
     
     convenience init(searchType: SearchType? = nil, tabNavigator: TabNavigator?) {
@@ -294,6 +305,7 @@ class MainProductsViewModel: BaseViewModel {
 
     override func didBecomeActive(_ firstTime: Bool) {
         updatePermissionsWarning()
+        taxonomyChildren = getTaxonomyChildren()
         updateCategoriesHeader()
         setupRx()
         if let currentLocation = locationManager.currentLocation {
@@ -445,7 +457,12 @@ class MainProductsViewModel: BaseViewModel {
      Called when a filter gets removed
      */
     func updateFiltersFromHeaderCategories(_ categoryHeaderInfo: CategoryHeaderInfo) {
-        filters.selectedCategories = [categoryHeaderInfo.listingCategory]
+        switch categoryHeaderInfo.categoryHeaderElement {
+        case .listingCategory(let listingCategory):
+            filters.selectedCategories = [listingCategory]
+        case .superKewword(let taxonomyChild):
+            filters.selectedTaxonomyChildren = [taxonomyChild]
+        }
         delegate?.vmShowTags(tags)
         updateCategoriesHeader()
         updateListView()
@@ -505,6 +522,32 @@ class MainProductsViewModel: BaseViewModel {
         errorMessage.value = nil
         listViewModel.resetUI()
         listViewModel.refresh()
+    }
+    
+    
+    // MARK: - Taxonomies
+    
+    private func getTaxonomyChildren() -> [TaxonomyChild] {
+        let taxonomies = categoryRepository.indexTaxonomies()
+        let highlightedTaxonomies: [TaxonomyChild] = taxonomies.flatMap { $0.children }.filter { $0.highlightOrder != nil }
+        return highlightedTaxonomies.sorted(by: {
+            guard let firstValue = $0.highlightOrder, let secondValue = $1.highlightOrder else { return false }
+            return firstValue < secondValue
+        })
+    }
+    
+    var categoryHeaderElements: [CategoryHeaderElement] {
+        var categoryHeaderElements: [CategoryHeaderElement] = []
+        if isAddSuperKeywordsEnabled {
+            taxonomyChildren.forEach {
+                categoryHeaderElements.append(CategoryHeaderElement.superKewword($0))
+            }
+        } else {
+            ListingCategory.visibleValuesInFeed().forEach {
+                categoryHeaderElements.append(CategoryHeaderElement.listingCategory($0))
+            }
+        }
+        return categoryHeaderElements
     }
 }
 
