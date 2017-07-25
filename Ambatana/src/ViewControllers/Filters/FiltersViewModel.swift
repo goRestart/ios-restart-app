@@ -140,7 +140,8 @@ class FiltersViewModel: BaseViewModel {
     }
 
     var carsInfoCellsDisabled: Bool {
-        return !(featureFlags.carsVerticalEnabled && productFilter.selectedCategories.contains(.cars))
+        let isTaxonomyCars = productFilter.selectedTaxonomyChildren.contains(where: { $0.isCarsCategory == true })
+        return !(featureFlags.carsVerticalEnabled && (productFilter.selectedCategories.contains(.cars) || isTaxonomyCars))
     }
 
     var numOfWithinTimes : Int {
@@ -217,7 +218,7 @@ class FiltersViewModel: BaseViewModel {
 
     // MARK: - Actions
 
-    private func generateSections() -> [FilterSection] {
+    fileprivate func generateSections() -> [FilterSection] {
         var updatedSections = FilterSection.allValues(priceAsLast: !featureFlags.addSuperKeywordsOnFeed.isActive)
 
         // Don't show price cells if necessary
@@ -341,7 +342,7 @@ class FiltersViewModel: BaseViewModel {
             productFilter.toggleCategory(cat, carVerticalEnabled: featureFlags.carsVerticalEnabled)
         }
         sections = generateSections()
-        self.delegate?.vmDidUpdate()
+        delegate?.vmDidUpdate()
     }
     
     func categoryTextAtIndex(_ index: Int) -> String? {
@@ -511,6 +512,7 @@ extension FiltersViewModel: CarAttributeSelectionDelegate {
 extension FiltersViewModel: TaxonomiesDelegate {
     func didSelectTaxonomyChild(taxonomyChild: TaxonomyChild) {
         productFilter.selectedTaxonomyChildren = [taxonomyChild]
+        sections = generateSections()
         delegate?.vmDidUpdate()
     }
 }
