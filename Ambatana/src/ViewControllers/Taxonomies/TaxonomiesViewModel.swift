@@ -32,10 +32,10 @@ class TaxonomiesViewModel : BaseViewModel {
     
     func taxonomyChildSelected(taxonomyChild: TaxonomyChild) {
         taxonomiesDelegate?.didSelectTaxonomyChild(taxonomyChild: taxonomyChild)
-        backTo()
+        goBack()
     }
     
-    fileprivate func backTo() {
+    private func goBack() {
         delegate?.vmPop()
     }
 }

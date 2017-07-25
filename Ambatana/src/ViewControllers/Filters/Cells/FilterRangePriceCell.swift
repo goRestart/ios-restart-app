@@ -13,6 +13,11 @@ protocol FilterRangePriceCellDelegate: class {
     func priceTextFieldValueChanged(_ value: String?, tag: Int)
 }
 
+enum TextFieldPriceType: Int {
+    case priceFrom = 0
+    case priceTo = 1
+}
+
 class FilterRangePriceCell: UICollectionViewCell {
 
     @IBOutlet weak var titleLabelFrom: UILabel!
@@ -50,8 +55,8 @@ class FilterRangePriceCell: UICollectionViewCell {
         textFieldTo.placeholder = LGLocalizedString.filtersSectionPrice
         textFieldFrom.delegate = self
         textFieldTo.delegate = self
-        textFieldFrom.tag = 0
-        textFieldTo.tag = 1
+        textFieldFrom.tag = TextFieldPriceType.priceFrom.rawValue
+        textFieldTo.tag = TextFieldPriceType.priceTo.rawValue
     }
 
     private func resetUI() {
@@ -62,7 +67,7 @@ class FilterRangePriceCell: UICollectionViewCell {
     }
 
     private func setAccessibilityIds() {
-        self.accessibilityId =  .filterPriceCell
+        accessibilityId =  .filterPriceCell
         titleLabelFrom.accessibilityId =  .filterPriceCellTitleLabelFrom
         titleLabelTo.accessibilityId =  .filterPriceCellTitleLabelTo
         textFieldFrom.accessibilityId =  .filterPriceCellTextFieldFrom

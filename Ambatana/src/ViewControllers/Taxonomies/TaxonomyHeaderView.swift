@@ -48,7 +48,7 @@ class TaxonomyHeaderView: UIView {
         setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: [containerView, iconView, label])
         
         addSubview(containerView)
-        addSubviews([iconView, label])
+        containerView.addSubviews([iconView, label])
         
         containerView.layout(with: self).fill()
         
