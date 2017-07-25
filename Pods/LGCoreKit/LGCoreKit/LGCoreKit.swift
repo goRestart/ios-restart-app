@@ -37,12 +37,13 @@ public class LGCoreKit {
     }
 
     public static func start() {
-        InternalCore.carsInfoRepository.refreshCarsInfoFile()
+        // taxonomies are independent of user
         InternalCore.categoryRepository.refreshTaxonomiesCache()
-        if let userId = InternalCore.myUserRepository.myUser?.objectId {
-            InternalCore.listingRepository.indexFavorites(userId, completion: nil)
-            InternalCore.stickersRepository.show(nil) // Sync stickers to UserDefaults
-        }
+
+        guard let userId = InternalCore.myUserRepository.myUser?.objectId else { return }
+        InternalCore.listingRepository.indexFavorites(userId, completion: nil)
+        InternalCore.stickersRepository.show(nil) // Sync stickers to UserDefaults
+        InternalCore.carsInfoRepository.refreshCarsInfoFile()
     }
 
     public static func applicationDidEnterBackground() {
