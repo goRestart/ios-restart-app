@@ -100,6 +100,7 @@ class ProductViewModel: BaseViewModel {
     var bumpUpPurchaseableProduct: PurchaseableProduct?
     fileprivate var isUpdatingBumpUpBanner: Bool = false
     fileprivate var paymentItemId: String?
+    fileprivate var userIsSoftBlocked: Bool = false
 
     fileprivate var alreadyTrackedFirstMessageSent: Bool = false
     fileprivate static let bubbleTagGroup = "favorite.bubble.group"
@@ -342,6 +343,7 @@ class ProductViewModel: BaseViewModel {
                 let paymentItems = bumpeableProduct.paymentItems.filter { $0.provider == .apple }
                 let hiddenItems = bumpeableProduct.paymentItems.filter { $0.provider == .hidden }
                 if !paymentItems.isEmpty, strongSelf.featureFlags.pricedBumpUpEnabled {
+                    strongSelf.userIsSoftBlocked = false
                     // will be considered bumpeable ONCE WE GOT THE PRICES of the products, not before.
                     strongSelf.paymentItemId = paymentItems.first?.itemId
                     // if "paymentItemId" is nil, the banner creation will fail, so we check this here to avoid
@@ -354,9 +356,14 @@ class ProductViewModel: BaseViewModel {
                     strongSelf.createBumpeableBanner(forListingId: listingId, withPrice: nil,
                                                         paymentItemId: strongSelf.paymentItemId, bumpUpType: .free)
                 } else if !hiddenItems.isEmpty, strongSelf.featureFlags.pricedBumpUpEnabled {
+                    strongSelf.userIsSoftBlocked = true
+                    // for hidden items we follow THE SAME FLOW we do for PAID items
                     strongSelf.paymentItemId = hiddenItems.first?.itemId
-                    strongSelf.createBumpeableBanner(forListingId: listingId, withPrice: nil,
-                                                     paymentItemId: strongSelf.paymentItemId, bumpUpType: .hidden)
+                    // if "paymentItemId" is nil, the banner creation will fail, so we check this here to avoid
+                    // a useless request to apple
+                    if let _ = strongSelf.paymentItemId {
+                        strongSelf.purchasesShopper.productsRequestStartForProduct(listingId, withIds: hiddenItems.map { $0.providerItemId })
+                    }
                 }
             })
         }
@@ -1053,8 +1060,9 @@ extension ProductViewModel: PurchasesShopperDelegate {
         guard let purchase = products.first else { return }
 
         bumpUpPurchaseableProduct = purchase
+        let bumpUpType: BumpUpType = userIsSoftBlocked ? .hidden : .priced
         createBumpeableBanner(forListingId: requestProdId, withPrice: bumpUpPurchaseableProduct?.formattedCurrencyPrice,
-                              paymentItemId: paymentItemId, bumpUpType: .priced)
+                              paymentItemId: paymentItemId, bumpUpType: bumpUpType)
     }
 
 
