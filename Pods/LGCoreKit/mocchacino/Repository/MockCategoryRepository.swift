@@ -3,7 +3,7 @@ import Result
 open class MockCategoryRepository: CategoryRepository {
 
     public var categoriesIndexResult: CategoriesResult!
-    public var taxonomiesIndexResult: TaxonomiesResult!
+    public var taxonomies: [Taxonomy]!
 
     // MARK: - Lifecycle
 
@@ -18,8 +18,8 @@ open class MockCategoryRepository: CategoryRepository {
         delay(result: categoriesIndexResult, completion: completion)
     }
 
-    public func indexTaxonomies(withCompletion completion: TaxonomiesCompletion?) {
-        delay(result: taxonomiesIndexResult, completion: completion)
+    public func indexTaxonomies() -> [Taxonomy] {
+       return taxonomies
     }
 
     public func loadFirstRunCacheIfNeeded(jsonURL: URL) {
@@ -28,8 +28,5 @@ open class MockCategoryRepository: CategoryRepository {
     
     public func refreshTaxonomiesCache() {
 
-    }
-    public func indexTaxonomies() -> [Taxonomy] {
-        return []
     }
 }

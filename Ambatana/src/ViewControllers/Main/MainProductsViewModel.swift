@@ -530,10 +530,11 @@ class MainProductsViewModel: BaseViewModel {
     private func getTaxonomyChildren() -> [TaxonomyChild] {
         let taxonomies = categoryRepository.indexTaxonomies()
         let highlightedTaxonomies: [TaxonomyChild] = taxonomies.flatMap { $0.children }.filter { $0.highlightOrder != nil }
-        return highlightedTaxonomies.sorted(by: {
+        let sortedArray = highlightedTaxonomies.sorted(by: {
             guard let firstValue = $0.highlightOrder, let secondValue = $1.highlightOrder else { return false }
             return firstValue < secondValue
         })
+        return sortedArray
     }
     
     var categoryHeaderElements: [CategoryHeaderElement] {

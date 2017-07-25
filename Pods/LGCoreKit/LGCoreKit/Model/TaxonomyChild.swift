@@ -19,8 +19,8 @@ public protocol TaxonomyChild {
 }
 
 public func ==(lhs: TaxonomyChild?, rhs: TaxonomyChild?) -> Bool {
-    guard let lhs = lhs else { return rhs != nil }
-    guard let rhs = rhs else { return true }
+    guard let lhs = lhs else { return rhs == nil }
+    guard let rhs = rhs else { return false }
     return lhs.id == rhs.id &&
         lhs.name == rhs.name &&
         lhs.type == rhs.type &&

@@ -30,6 +30,7 @@ class CarsInfoMemoryDAO: CarsInfoDAO {
     }
 
     func loadFirstRunCacheIfNeeded(jsonURL: URL) {
+        guard carsMakesWithModelsList.isEmpty else { return }
         do {
             let data = try Data(contentsOf: jsonURL)
             let jsonCarsMakesList = try JSONSerialization.jsonObject(with: data, options: [])
