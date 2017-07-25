@@ -671,8 +671,10 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
                 let suggestiveSearchName = suggestiveSearch.name else {
                     return UITableViewCell()
             }
-            cell.suggestionText.attributedText = suggestiveSearchName.makeBold(ignoringText: sourceText,
-                                                                               font: cell.labelFont)
+            if navbarSearch.searchTextField.text == sourceText {
+                cell.suggestionText.attributedText = suggestiveSearchName.makeBold(ignoringText: sourceText,
+                                                                                   font: cell.labelFont)
+            }
         case .lastSearch:
             guard let lastSearch = viewModel.lastSearchAtIndex(indexPath.row) else { return UITableViewCell() }
             cell.suggestionText.text = lastSearch

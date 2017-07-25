@@ -124,11 +124,11 @@ extension Bumper  {
         guard let value = Bumper.value(for: InAppRatingIOS10.key) else { return false }
         return InAppRatingIOS10(rawValue: value)?.asBool ?? false
     }
-    
+
     static var suggestedSearches: SuggestedSearches {
         guard let value = Bumper.value(for: SuggestedSearches.key) else { return .control }
-        return SuggestedSearches(rawValue: value) ?? .control
-    }
+        return SuggestedSearches(rawValue: value) ?? .control 
+    } 
 }
 
 
