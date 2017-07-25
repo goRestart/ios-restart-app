@@ -19,9 +19,9 @@ class RealmTaxonomyChild: Object {
     dynamic var taxonomyChildId: Int = 0
     dynamic var taxonomyChildType: String = ""
     dynamic var taxonomyChildName: String = ""
-    var taxonomyChildHighlightOrder: Int? = nil
-    dynamic var taxonomyChildHighlightIcon: String? = nil
-    dynamic var taxonomyChildImage: String? = nil
+    let taxonomyChildHighlightOrder = RealmOptional<Int>()
+    dynamic var taxonomyChildHighlightIcon: String?
+    dynamic var taxonomyChildImage: String?
 }
 
 class TaxonomiesRealmDAO: TaxonomiesDAO {
@@ -65,7 +65,6 @@ class TaxonomiesRealmDAO: TaxonomiesDAO {
     }
 
     func save(taxonomies: [Taxonomy]) {
-        print(Realm.Configuration.defaultConfiguration.fileURL!)
         clean()
 
         let realmArray = taxonomies.map { convertToRealmTaxonomy(taxonomy: $0) }
@@ -126,8 +125,9 @@ class TaxonomiesRealmDAO: TaxonomiesDAO {
         resultTaxonomyChild.taxonomyChildId = taxonomyChild.id
         resultTaxonomyChild.taxonomyChildType = taxonomyChild.type.rawValue
         resultTaxonomyChild.taxonomyChildName = taxonomyChild.name
-        resultTaxonomyChild.taxonomyChildHighlightOrder = taxonomyChild.highlightOrder
+        resultTaxonomyChild.taxonomyChildHighlightOrder.value = taxonomyChild.highlightOrder
         resultTaxonomyChild.taxonomyChildHighlightIcon = taxonomyChild.highlightIcon?.absoluteString
+        resultTaxonomyChild.taxonomyChildImage = taxonomyChild.image?.absoluteString
         return resultTaxonomyChild
     }
 
@@ -145,7 +145,7 @@ class TaxonomiesRealmDAO: TaxonomiesDAO {
         let resultChild = LGTaxonomyChild(id: taxonomyChild.taxonomyChildId,
                                           type: taxonomyChild.taxonomyChildType,
                                           name: taxonomyChild.taxonomyChildName,
-                                          highlightOrder: taxonomyChild.taxonomyChildHighlightOrder,
+                                          highlightOrder: taxonomyChild.taxonomyChildHighlightOrder.value,
                                           highlightIcon: taxonomyChild.taxonomyChildHighlightIcon,
                                           image: taxonomyChild.taxonomyChildImage)
         return resultChild

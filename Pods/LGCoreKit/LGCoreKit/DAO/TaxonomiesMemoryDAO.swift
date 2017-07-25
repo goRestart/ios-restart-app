@@ -21,6 +21,7 @@ class TaxonomiesMemoryDAO: TaxonomiesDAO {
     }
 
     func loadFirstRunCacheIfNeeded(jsonURL: URL) {
+        guard taxonomies.isEmpty else { return }
         do {
             let data = try Data(contentsOf: jsonURL)
             let jsonTaxonomiesList = try JSONSerialization.jsonObject(with: data, options: [])
