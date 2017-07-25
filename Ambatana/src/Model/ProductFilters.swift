@@ -88,7 +88,9 @@ struct ProductFilters {
         )
     }
     
-    init(place: Place?, distanceRadius: Int, distanceType: DistanceType, selectedCategories: [ListingCategory], selectedTaxonomyChildren: [TaxonomyChild], selectedWithin: ListingTimeCriteria, selectedOrdering: ListingSortCriteria?, priceRange: FilterPriceRange,
+    init(place: Place?, distanceRadius: Int, distanceType: DistanceType, selectedCategories: [ListingCategory],
+         selectedTaxonomyChildren: [TaxonomyChild], selectedWithin: ListingTimeCriteria,
+         selectedOrdering: ListingSortCriteria?, priceRange: FilterPriceRange,
          carMakeId: RetrieveListingParam<String>?, carMakeName: String?, carModelId: RetrieveListingParam<String>?,
          carModelName: String?, carYearStart: RetrieveListingParam<Int>?, carYearEnd: RetrieveListingParam<Int>?){
         self.place = place
