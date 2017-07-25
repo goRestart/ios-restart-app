@@ -419,11 +419,12 @@ class ProductViewModel: BaseViewModel {
                                                       action: {},
                                                       accessibilityId: .bumpUpHiddenProductAlertCancelButton)
 
-                self?.delegate?.vmShowAlertWithTitle(LGLocalizedString.commonErrorTitle,
-                                                     text: LGLocalizedString.bumpUpNotAllowedAlertText,
-                                                     alertType: .plainAlert,
-                                                     buttonsLayout: .vertical,
-                                                     actions: [contactUsAction, cancelAction])
+
+                self?.navigator?.showBumpUpNotAvailableAlertWithTitle(title: LGLocalizedString.commonErrorTitle,
+                                                                      text: LGLocalizedString.bumpUpNotAllowedAlertText,
+                                                                      alertType: .plainAlert,
+                                                                      buttonsLayout: .vertical,
+                                                                      actions: [contactUsAction, cancelAction])
             }
             bannerInteractionBlock = hiddenBlock
             buttonBlock = hiddenBlock

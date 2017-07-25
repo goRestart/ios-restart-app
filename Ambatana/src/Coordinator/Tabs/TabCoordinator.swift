@@ -455,6 +455,18 @@ extension TabCoordinator: ProductDetailNavigator {
         openLoginIfNeeded(from: from, style: .popup(infoMessage), loggedInAction: loggedInAction, cancelAction: nil)
     }
 
+    func showBumpUpNotAvailableAlertWithTitle(title: String,
+                                              text: String,
+                                              alertType: AlertType,
+                                              buttonsLayout: AlertButtonsLayout,
+                                              actions: [UIAction]) {
+        navigationController.showAlertWithTitle(title,
+                                                text: text,
+                                                alertType: alertType,
+                                                buttonsLayout: buttonsLayout,
+                                                actions: actions)
+    }
+
     func openContactUs(forListing listing: Listing, contactUstype: ContactUsType) {
         guard let user = myUserRepository.myUser,
             let installation = installationRepository.installation,

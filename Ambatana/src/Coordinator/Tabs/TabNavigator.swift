@@ -68,6 +68,11 @@ protocol ProductDetailNavigator: TabNavigator {
     func showProductFavoriteBubble(with data: BubbleNotificationData)
     func openLoginIfNeededFromProductDetail(from: EventParameterLoginSourceValue, infoMessage: String,
                                             loggedInAction: @escaping (() -> Void))
+    func showBumpUpNotAvailableAlertWithTitle(title: String,
+                                              text: String,
+                                              alertType: AlertType,
+                                              buttonsLayout: AlertButtonsLayout,
+                                              actions: [UIAction])
     func openContactUs(forListing listing: Listing, contactUstype: ContactUsType)
 }
 
