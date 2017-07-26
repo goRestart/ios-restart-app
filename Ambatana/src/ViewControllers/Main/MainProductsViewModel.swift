@@ -221,16 +221,18 @@ class MainProductsViewModel: BaseViewModel {
     let trendingSearches = Variable<[String]>([])
     let suggestiveSearchInfo = Variable<SuggestiveSearchInfo>(SuggestiveSearchInfo.empty())
     let lastSearches = Variable<[String]>([])
+    let searchText = Variable<String?>(nil)
     var lastSearchesCounter: Int {
         return lastSearches.value.count
     }
     var trendingCounter: Int {
         return trendingSearches.value.count
     }
+    
     var suggestiveCounter: Int {
         return suggestiveSearchInfo.value.count
     }
-
+    
     fileprivate let disposeBag = DisposeBag()
     
     
@@ -854,8 +856,9 @@ extension MainProductsViewModel {
         guard let languageCode = Locale.current.languageCode else { return }
         
         searchRepository.retrieveSuggestiveSearches(languageCode, limit: 10, term: term) { [weak self] result in
+            guard term == self?.searchText.value else { return }
             self?.suggestiveSearchInfo.value = SuggestiveSearchInfo(suggestiveSearches: result.value ?? [],
-                                                                    sourceText: term)
+                                                                        sourceText: term)
         }
     }
     
