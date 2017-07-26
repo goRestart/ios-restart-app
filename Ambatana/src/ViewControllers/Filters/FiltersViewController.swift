@@ -287,7 +287,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                     for: indexPath) as? FilterSingleCheckCell else { return UICollectionViewCell() }
                 cell.titleLabel.text = viewModel.withinTimeNameAtIndex(indexPath.row)
                 cell.isSelected = viewModel.withinTimeSelectedAtIndex(indexPath.row)
-                cell.bottomSeparator.isHidden = true
+                cell.bottomSeparator.isHidden = indexPath.row != (viewModel.numOfWithinTimes - 1)
                 return cell
                 
             case .sortBy:
