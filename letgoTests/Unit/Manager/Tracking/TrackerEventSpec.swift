@@ -3421,11 +3421,25 @@ class TrackerEventSpec: QuickSpec {
                     expect(param) == true
                 }
             }
+            describe("bump banner show") {
+                beforeEach {
+                    sut = TrackerEvent.bumpBannerShow(type: .paid, listingId: "1122")
+                }
+                it("has its event name ") {
+                    expect(sut.name.rawValue).to(equal("bump-banner-show"))
+                }
+                it("type matches") {
+                    expect(sut.params?.stringKeyParams["bump-type"] as? String) == "paid"
+                }
+                it("product id matches") {
+                    expect(sut.params?.stringKeyParams["product-id"] as? String) == "1122"
+                }
+            }
             describe("bump up start") {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "12345"
-                    sut = TrackerEvent.productBumpUpStart(.product(product), price: .free)
+                    sut = TrackerEvent.productBumpUpStart(.product(product), price: .free, type: .free)
                 }
                 it("has its event name ") {
                     expect(sut.name.rawValue).to(equal("bump-up-start"))
@@ -3436,12 +3450,15 @@ class TrackerEventSpec: QuickSpec {
                 it("price matches") {
                     expect(sut.params?.stringKeyParams["price"] as? String) == "free"
                 }
+                it("type matches") {
+                    expect(sut.params?.stringKeyParams["bump-type"] as? String) == "free"
+                }
             }
             describe("bump up complete") {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "12345"
-                    sut = TrackerEvent.productBumpUpComplete(.product(product), price: .free, network: .facebook)
+                    sut = TrackerEvent.productBumpUpComplete(.product(product), price: .free, type: .free, network: .facebook)
                 }
                 it("has its event name ") {
                     expect(sut.name.rawValue).to(equal("bump-up-complete"))
@@ -3452,8 +3469,75 @@ class TrackerEventSpec: QuickSpec {
                 it("price matches") {
                     expect(sut.params?.stringKeyParams["price"] as? String) == "free"
                 }
+                it("type matches") {
+                    expect(sut.params?.stringKeyParams["bump-type"] as? String) == "free"
+                }
                 it("network matches") {
                     expect(sut.params?.stringKeyParams["share-network"] as? String) == "facebook"
+                }
+            }
+            describe("bump up fail") {
+                beforeEach {
+                    sut = TrackerEvent.productBumpUpFail(type: .paid, listingId: "1122")
+                }
+                it("has its event name ") {
+                    expect(sut.name.rawValue).to(equal("bump-up-fail"))
+                }
+                it("type matches") {
+                    expect(sut.params?.stringKeyParams["bump-type"] as? String) == "paid"
+                }
+                it("product id matches") {
+                    expect(sut.params?.stringKeyParams["product-id"] as? String) == "1122"
+                }
+            }
+            describe("mobile payment complete") {
+                beforeEach {
+                    sut = TrackerEvent.mobilePaymentComplete(paymentId: "007", listingId: "1122")
+                }
+                it("has its event name ") {
+                    expect(sut.name.rawValue).to(equal("mobile-payment-complete"))
+                }
+                it("payment id matches") {
+                    expect(sut.params?.stringKeyParams["payment-id"] as? String) == "007"
+                }
+                it("product id matches") {
+                    expect(sut.params?.stringKeyParams["product-id"] as? String) == "1122"
+                }
+            }
+            describe("mobile payment fail") {
+                beforeEach {
+                    sut = TrackerEvent.mobilePaymentFail(reason: nil, listingId: "1122")
+                }
+                it("has its event name ") {
+                    expect(sut.name.rawValue).to(equal("mobile-payment-fail"))
+                }
+                it("reason matches") {
+                    expect(sut.params?.stringKeyParams["reason"] as? String) == ""
+                }
+                it("product id matches") {
+                    expect(sut.params?.stringKeyParams["product-id"] as? String) == "1122"
+                }
+            }
+            describe("bump up not allowed") {
+                beforeEach {
+                    sut = TrackerEvent.bumpUpNotAllowed(.notAllowedInternal)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("bump-up-not-allowed"))
+                }
+                it("reason matches") {
+                    expect(sut.params?.stringKeyParams["reason"] as? String) == "internal"
+                }
+            }
+            describe("bump up not allowed contact us") {
+                beforeEach {
+                    sut = TrackerEvent.bumpUpNotAllowedContactUs(.notAllowedInternal)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("bump-up-not-allowed-contact-us"))
+                }
+                it("reason matches") {
+                    expect(sut.params?.stringKeyParams["reason"] as? String) == "internal"
                 }
             }
             describe("Passive buyer start") {

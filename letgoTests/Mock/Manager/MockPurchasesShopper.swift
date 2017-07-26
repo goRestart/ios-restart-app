@@ -36,7 +36,7 @@ class MockPurchasesShopper: PurchasesShopper {
         delegate?.shopperFinishedProductsRequestForProductId(productId, withProducts: purchaseableProducts)
     }
 
-    func requestPayment(forListingId listingId: String, appstoreProduct: PurchaseableProduct, paymentItemId: String, type: BumpUpType) {
+    func requestPayment(forListingId listingId: String, appstoreProduct: PurchaseableProduct, paymentItemId: String) {
         delegate?.pricedBumpDidStart()
 
         performAfterDelayWithCompletion { [weak self] in
@@ -46,10 +46,10 @@ class MockPurchasesShopper: PurchasesShopper {
                 strongSelf.delegate?.pricedBumpPaymentDidFail(withReason: nil)
             } else if strongSelf.pricedBumpSucceeds {
                 // payment works and bump works
-                strongSelf.delegate?.pricedBumpDidSucceed(type: type)
+                strongSelf.delegate?.pricedBumpDidSucceed(type: .priced)
             } else {
                 // payment works but bump fails
-                strongSelf.delegate?.pricedBumpDidFail(type: type)
+                strongSelf.delegate?.pricedBumpDidFail(type: .priced)
             }
         }
     }
