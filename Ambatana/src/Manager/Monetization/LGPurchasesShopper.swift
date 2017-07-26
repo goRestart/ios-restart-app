@@ -24,9 +24,11 @@ protocol PurchasesShopperDelegate: class {
     func freeBumpDidFail(withNetwork network: EventParameterShareNetwork)
 
     func pricedBumpDidStart()
-    func pricedBumpDidSucceed()
-    func pricedBumpDidFail()
+    func pricedBumpDidSucceed(type: BumpUpType)
+    func pricedBumpDidFail(type: BumpUpType)
     func pricedBumpPaymentDidFail(withReason reason: String?)
+
+    func restoreBumpDidStart()
 }
 
 class LGPurchasesShopper: NSObject, PurchasesShopper {
@@ -207,7 +209,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
     /**
      Method to request bumps already paid.  Transaction info is saved at keyValueStorage and in the payments queue
      */
-    func requestPricedBumpUp(forListingId listingId: String) {
+    func restorePaidBumpUp(forListingId listingId: String) {
         guard canMakePayments else { return }
         guard let receiptString = receiptString else { return }
 
@@ -226,10 +228,10 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         }
 
         // try to restore the product pending bumps
-        delegate?.freeBumpDidStart()
+        delegate?.restoreBumpDidStart()
 
         for transaction in pendingTransactionsForProductId {
-            requestPricedBumpUp(forListingId: listingId, receiptData: receiptString, transaction: transaction)
+            requestPricedBumpUp(forListingId: listingId, receiptData: receiptString, transaction: transaction, type: .restore)
         }
     }
 
@@ -240,7 +242,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
      - parameter receiptData: post payment apple's receipt data
      - transaction: the app store transaction info
      */
-    fileprivate func requestPricedBumpUp(forListingId listingId: String, receiptData: String, transaction: SKPaymentTransaction) {
+    fileprivate func requestPricedBumpUp(forListingId listingId: String, receiptData: String, transaction: SKPaymentTransaction, type: BumpUpType) {
 
         var price: String?
         var currency: String?
@@ -256,6 +258,8 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         let idfa = ASIdentifierManager.shared().advertisingIdentifier.uuidString
         let bundleId = Bundle.main.bundleIdentifier
 
+        // 🦄 track payment success!!!!  generate payment id and send it to the repo
+        
         monetizationRepository.pricedBump(forListingId: listingId, receiptData: receiptData,
                                           itemId: transaction.payment.productIdentifier, itemPrice: price ?? "0",
                                           itemCurrency: currency ?? "", amplitudeId: amplitudeId, appsflyerId: appsflyerId,
@@ -263,9 +267,9 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
             if let _ = result.value {
                 self?.remove(transaction: transaction.transactionIdentifier)
                 self?.paymentQueue.finishTransaction(transaction)
-                self?.delegate?.pricedBumpDidSucceed()
+                self?.delegate?.pricedBumpDidSucceed(type: type)
             } else if let _ = result.error {
-                self?.delegate?.pricedBumpDidFail()
+                self?.delegate?.pricedBumpDidFail(type: type)
             }
         }
     }
@@ -361,12 +365,12 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
                 save(transaction: transaction, forProduct: paymentProcessingProductId)
 
                 guard let receiptString = receiptString, let paymentProcessingProductId = paymentProcessingProductId else {
-                    delegate?.pricedBumpDidFail()
+                    delegate?.pricedBumpDidFail(type: .priced)
                     continue
                 }
 
                 requestPricedBumpUp(forListingId: paymentProcessingProductId, receiptData: receiptString,
-                                    transaction: transaction)
+                                    transaction: transaction, type: .priced)
             case .failed:
                 delegate?.pricedBumpPaymentDidFail(withReason: transaction.error?.localizedDescription)
                 queue.finishTransaction(transaction)
@@ -375,6 +379,7 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
         }
     }
 
+    // Is not OUR restore (with a different banner) is apple's restore
     private func restorePaymentQueue(queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         for transaction in transactions {
             switch transaction.transactionState {
@@ -386,12 +391,11 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
                 guard let productId = transactionProductId, let receiptString = receiptString else {
                     remove(transaction: transaction.transactionIdentifier)
                     queue.finishTransaction(transaction)
-                    delegate?.pricedBumpDidFail()
+                    delegate?.pricedBumpDidFail(type: .priced)
                     continue
                 }
-
                 requestPricedBumpUp(forListingId: productId, receiptData: receiptString,
-                                              transaction: transaction)
+                                              transaction: transaction, type: .priced)
             case .failed:
                 delegate?.pricedBumpPaymentDidFail(withReason: transaction.error?.localizedDescription)
                 queue.finishTransaction(transaction)

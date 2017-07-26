@@ -63,6 +63,10 @@ extension ProductViewModel {
         trackHelper.trackBumpUpCompleted(price, type: type, network: network)
     }
 
+    func trackBumpUpFail(type: BumpUpType) {
+        trackHelper.trackBumpUpFail(type: type)
+    }
+
     func trackMobilePaymentFail(withReason reason: String?) {
         trackHelper.trackMobilePaymentFail(withReason: reason)
     }
@@ -117,6 +121,11 @@ extension ProductVMTrackHelper {
         let trackerEvent = TrackerEvent.productBumpUpComplete(listing, price: price,
                                                               type: EventParameterBumpUpType(bumpType: type),
                                                               network: network)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func trackBumpUpFail(type: BumpUpType) {
+        let trackerEvent = TrackerEvent.productBumpUpFail(type: EventParameterBumpUpType(bumpType: type))
         tracker.trackEvent(trackerEvent)
     }
 

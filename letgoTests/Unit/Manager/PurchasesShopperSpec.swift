@@ -313,15 +313,18 @@ extension PurchasesShopperSpec: PurchasesShopperDelegate {
     func pricedBumpDidStart() {
     }
 
-    func pricedBumpDidSucceed() {
+    func pricedBumpDidSucceed(type: BumpUpType) {
         self.mockBumpResult = .success
     }
 
-    func pricedBumpDidFail() {
+    func pricedBumpDidFail(type: BumpUpType) {
         self.mockBumpResult = .fail
     }
 
     func pricedBumpPaymentDidFail(withReason: String?) {
         self.mockBumpResult = .paymentFail
+    }
+
+    func restoreBumpDidStart() {
     }
 }
