@@ -232,12 +232,16 @@ extension AppCoordinator: AppNavigator {
         let feedbackAlertAction = UIAction(interface: noButtonInterface, action: { [weak self] in
             self?.askUserToGiveFeedback()
         })
+        let dismissAction: (() -> ()) = { _ in
+            LGRatingManager.sharedInstance.userDidRemindLater()
+        }
         openTransitionAlert(title: LGLocalizedString.ratingAppEnjoyingAlertTitle,
                             text: "",
                             alertType: .plainAlert,
                             buttonsLayout: .emojis,
                             actions: [feedbackAlertAction, rateAppAlertAction],
-                            simulatePushTransitionOnDismiss: true)
+                            simulatePushTransitionOnDismiss: true,
+                            dismissAction: dismissAction)
     }
     
     private func askUserToRateApp() {
@@ -247,18 +251,26 @@ extension AppCoordinator: AppNavigator {
             self?.openAppStoreWriteReviewWebsite()
             LGRatingManager.sharedInstance.userDidRate()
         })
+        
+        let dismissAction: (() -> ()) = { _ in
+            LGRatingManager.sharedInstance.userDidRemindLater()
+        }
         let exitInterface = UIActionInterface.button(LGLocalizedString.ratingAppRateAlertNoButton,
                                                      ButtonStyle.secondary(fontSize: .medium,
                                                                            withBorder: true))
         let exitAction = UIAction(interface: exitInterface, action: {
-            LGRatingManager.sharedInstance.userDidRemindLater()
+            dismissAction()
         })
+        
+       
+        
         openTransitionAlert(title: LGLocalizedString.ratingAppRateAlertTitle,
                             text: "",
                             alertType: .plainAlert,
                             buttonsLayout: .vertical,
                             actions: [rateAppAction, exitAction],
-                            simulatePushTransitionOnPresent: true)
+                            simulatePushTransitionOnPresent: true,
+                            dismissAction: dismissAction)
     }
     
     private func askUserToGiveFeedback() {
@@ -274,12 +286,18 @@ extension AppCoordinator: AppNavigator {
         let exitAction = UIAction(interface: exitInterface, action: {
             LGRatingManager.sharedInstance.userDidRemindLater()
         })
+        
+        let dismissAction: (() -> ()) = { _ in
+            LGRatingManager.sharedInstance.userDidRemindLater()
+        }
+        
         openTransitionAlert(title: LGLocalizedString.ratingAppFeedbackTitle,
                             text: "",
                             alertType: .plainAlert,
                             buttonsLayout: .vertical,
                             actions: [giveFeedbackAction, exitAction],
-                            simulatePushTransitionOnPresent: true)
+                            simulatePushTransitionOnPresent: true,
+                            dismissAction: dismissAction)
     }
     
     private func canOpenAppStoreWriteReviewWebsite() -> Bool {
