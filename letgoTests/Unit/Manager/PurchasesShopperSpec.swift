@@ -321,7 +321,7 @@ extension PurchasesShopperSpec: PurchasesShopperDelegate {
         self.mockBumpResult = .fail
     }
 
-    func pricedBumpPaymentDidFail() {
+    func pricedBumpPaymentDidFail(withReason: String?) {
         self.mockBumpResult = .paymentFail
     }
 }

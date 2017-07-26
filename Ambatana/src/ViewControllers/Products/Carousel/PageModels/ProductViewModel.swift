@@ -365,7 +365,7 @@ class ProductViewModel: BaseViewModel {
             guard let paymentItemId = paymentItemId else { return }
             let freeBlock = { [weak self] in
                 guard let listing = self?.listing.value, let socialMessage = self?.freeBumpUpShareMessage else { return }
-                self?.trackBumpUpStarted(.free)
+                self?.trackBumpUpStarted(.free, type: bumpUpType)
                 self?.navigator?.openFreeBumpUp(forListing: listing, socialMessage: socialMessage,
                                                 paymentItemId: paymentItemId)
             }
@@ -391,6 +391,7 @@ class ProductViewModel: BaseViewModel {
             buttonBlock = restoreBlock
         }
 
+//        bumpBannerShow
         bumpUpBannerInfo.value = BumpUpInfo(type: bumpUpType,
                                             timeSinceLastBump: timeSinceLastBump,
                                             maxCountdown: bumpMaxCountdown,
@@ -1028,7 +1029,7 @@ extension ProductViewModel: PurchasesShopperDelegate {
     }
 
     func freeBumpDidSucceed(withNetwork network: EventParameterShareNetwork) {
-        trackHelper.trackBumpUpCompleted(.free, network: network)
+        trackHelper.trackBumpUpCompleted(.free, type: .free, network: network)
         delegate?.vmHideLoading(LGLocalizedString.bumpUpFreeSuccess, afterMessageCompletion: { [weak self] in
             self?.delegate?.vmResetBumpUpBannerCountdown()
         })
@@ -1040,13 +1041,14 @@ extension ProductViewModel: PurchasesShopperDelegate {
 
     // Priced Bump Up
     func pricedBumpDidStart() {
-        trackBumpUpStarted(.pay(price: bumpUpPurchaseableProduct?.formattedCurrencyPrice ?? ""))
+        trackBumpUpStarted(.pay(price: bumpUpPurchaseableProduct?.formattedCurrencyPrice ?? ""), type: .priced)
         delegate?.vmShowLoading(LGLocalizedString.bumpUpProcessingPricedText)
     }
 
     func pricedBumpDidSucceed() {
-        trackHelper.trackBumpUpCompleted(.pay(price: bumpUpPurchaseableProduct?.formattedCurrencyPrice ?? ""),
-                                         network: .notAvailable)
+        trackBumpUpCompleted(.pay(price: bumpUpPurchaseableProduct?.formattedCurrencyPrice ?? ""),
+                             type: .priced,
+                             network: .notAvailable)
         delegate?.vmHideLoading(LGLocalizedString.bumpUpPaySuccess, afterMessageCompletion: { [weak self] in
             self?.delegate?.vmResetBumpUpBannerCountdown()
         })
@@ -1058,7 +1060,8 @@ extension ProductViewModel: PurchasesShopperDelegate {
         })
     }
 
-    func pricedBumpPaymentDidFail() {
+    func pricedBumpPaymentDidFail(withReason reason: String?) {
+        trackMobilePaymentFail(withReason: reason)
         delegate?.vmHideLoading(LGLocalizedString.bumpUpErrorPaymentFailed, afterMessageCompletion: nil)
     }
 }

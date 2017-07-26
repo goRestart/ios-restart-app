@@ -26,7 +26,7 @@ protocol PurchasesShopperDelegate: class {
     func pricedBumpDidStart()
     func pricedBumpDidSucceed()
     func pricedBumpDidFail()
-    func pricedBumpPaymentDidFail()
+    func pricedBumpPaymentDidFail(withReason reason: String?)
 }
 
 class LGPurchasesShopper: NSObject, PurchasesShopper {
@@ -368,7 +368,7 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
                 requestPricedBumpUp(forListingId: paymentProcessingProductId, receiptData: receiptString,
                                     transaction: transaction)
             case .failed:
-                delegate?.pricedBumpPaymentDidFail()
+                delegate?.pricedBumpPaymentDidFail(withReason: transaction.error?.localizedDescription)
                 queue.finishTransaction(transaction)
                 logMessage(.info, type: [.monetization], message: "Purchase failed with error: \(String(describing: transaction.error?.localizedDescription))")
             }
@@ -393,7 +393,7 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
                 requestPricedBumpUp(forListingId: productId, receiptData: receiptString,
                                               transaction: transaction)
             case .failed:
-                delegate?.pricedBumpPaymentDidFail()
+                delegate?.pricedBumpPaymentDidFail(withReason: transaction.error?.localizedDescription)
                 queue.finishTransaction(transaction)
                 logMessage(.info, type: [.monetization], message: "Purchase restore failed with error: \(String(describing: transaction.error?.localizedDescription))")
             }

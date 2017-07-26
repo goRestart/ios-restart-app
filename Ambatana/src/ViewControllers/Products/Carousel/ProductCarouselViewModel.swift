@@ -339,6 +339,10 @@ class ProductCarouselViewModel: BaseViewModel {
     func descriptionURLPressed(_ url: URL) {
         currentProductViewModel?.descriptionURLPressed(url)
     }
+
+    func bumpUpBannerShown(type: BumpUpType) {
+        currentProductViewModel?.trackBumpUpBannerShown(type: type)
+    }
     
     // MARK: - Private Methods
 

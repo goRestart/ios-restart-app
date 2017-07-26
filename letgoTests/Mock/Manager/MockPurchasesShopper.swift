@@ -43,7 +43,7 @@ class MockPurchasesShopper: PurchasesShopper {
             guard let strongSelf = self else { return }
             if !strongSelf.paymentSucceeds {
                 // payment fails
-                strongSelf.delegate?.pricedBumpPaymentDidFail()
+                strongSelf.delegate?.pricedBumpPaymentDidFail(withReason: nil)
             } else if strongSelf.pricedBumpSucceeds {
                 // payment works and bump works
                 strongSelf.delegate?.pricedBumpDidSucceed()
