@@ -57,6 +57,14 @@ extension ProductViewModel {
     func trackBumpUpCompleted(_ price: EventParameterBumpUpPrice, network: EventParameterShareNetwork) {
         trackHelper.trackBumpUpCompleted(price, network: network)
     }
+
+    func trackBumpUpNotAllowed(reason: EventParameterBumpUpNotAllowedReason) {
+        trackHelper.trackBumpUpNotAllowed(reason: reason)
+    }
+
+    func trackBumpUpNotAllowedContactUs(reason: EventParameterBumpUpNotAllowedReason) {
+        trackHelper.trackBumpUpNotAllowedContactUs(reason: reason)
+    }
 }
 
 
@@ -100,6 +108,16 @@ extension ProductVMTrackHelper {
 
     func trackBumpUpCompleted(_ price: EventParameterBumpUpPrice, network: EventParameterShareNetwork) {
         let trackerEvent = TrackerEvent.productBumpUpComplete(listing, price: price, network: network)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func trackBumpUpNotAllowed(reason: EventParameterBumpUpNotAllowedReason) {
+        let trackerEvent = TrackerEvent.bumpUpNotAllowed(reason)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func trackBumpUpNotAllowedContactUs(reason: EventParameterBumpUpNotAllowedReason) {
+        let trackerEvent = TrackerEvent.bumpUpNotAllowedContactUs(reason)
         tracker.trackEvent(trackerEvent)
     }
 }

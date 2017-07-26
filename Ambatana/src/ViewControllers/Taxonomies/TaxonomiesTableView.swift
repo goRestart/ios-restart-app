@@ -118,8 +118,8 @@ final class TaxonomiesTableView: UIView, UITableViewDelegate, UITableViewDataSou
         return 50
     }
 
-    func setupTableView(values: [Taxonomy], selectedValueIndex: Int?) {
+    func setupTableView(values: [Taxonomy]) {
         taxonomies = values
-        layoutIfNeeded()
+        tableView.reloadData()
     }
 }

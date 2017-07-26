@@ -162,6 +162,9 @@ enum EventName: String {
 
     case bumpUpStart                        = "bump-up-start"
     case bumpUpComplete                     = "bump-up-complete"
+    case bumpNotAllowed                     = "bump-up-not-allowed"
+    case bumpNotAllowedContactUs            = "bump-up-not-allowed-contact-us"
+
     case chatWindowVisit                    = "chat-window-open"
     
     case emptyStateError                    = "empty-state-error"
@@ -832,6 +835,10 @@ enum EventParameterBumpUpPrice {
             return price
         }
     }
+}
+
+enum EventParameterBumpUpNotAllowedReason: String {
+    case notAllowedInternal = "internal"
 }
 
 enum EventParameterEmptyReason: String {

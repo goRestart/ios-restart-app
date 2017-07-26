@@ -292,7 +292,7 @@ extension AppCoordinator: AppNavigator {
     private func openAppStoreWriteReviewInApp() {
         guard let email = myUserRepository.myUser?.email,
             let installation = installationRepository.installation,
-            let contactURL = LetgoURLHelper.buildContactUsURL(userEmail: email, installation: installation) else {
+            let contactURL = LetgoURLHelper.buildContactUsURL(userEmail: email, installation: installation, listing: nil) else {
                 return
         }
         viewController.openInternalUrl(contactURL)

@@ -25,6 +25,8 @@
 "bump_up_error_bump_token" = "Din betalning har genomförts men din produkt har ännu inte lagts upp.";
 "bump_up_error_payment_failed" = "Anslutningen till App Store misslyckades. Din betalning har inte genomförts. Vänligen försök igen.";
 "bump_up_free_success" = "Puffad! Fortsätt att puffa upp din vara så blir den ännu mer synlig.";
+"bump_up_not_allowed_alert_contact_button" = "Contact Us";
+"bump_up_not_allowed_alert_text" = "Bumping Up this item isn't possible at this time.  For more information, contact us.";
 "bump_up_pay_success" = "Puffad! Nu har din produkt fått extra synlighet.";
 "bump_up_processing_free_text" = "Bearbetar puff...";
 "bump_up_processing_priced_text" = "Bearbetar betalning...";
@@ -316,7 +318,7 @@
 "filters_section_distance" = "Avstånd";
 "filters_section_location" = "Plats";
 "filters_section_price" = "Pris";
-"filters_section_price_free_title" = "Show only free items";
+"filters_section_price_free_title" = "Visa endast gratis produkter";
 "filters_section_sortby" = "Sortera efter";
 "filters_section_within" = "Annonserade under";
 "filters_sort_closest" = "Närmaste först";
