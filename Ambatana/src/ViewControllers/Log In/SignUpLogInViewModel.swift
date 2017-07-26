@@ -427,6 +427,7 @@ class SignUpLogInViewModel: BaseViewModel {
     private func showScammerAlert(_ userEmail: String?, network: EventParameterAccountNetwork) {
         guard let contactURL = LetgoURLHelper.buildContactUsURL(userEmail: userEmail,
                                                                 installation: installationRepository.installation,
+                                                                listing: nil,
                                                                 type: .scammer) else {
             navigator?.cancelSignUpLogIn()
             return
@@ -437,6 +438,7 @@ class SignUpLogInViewModel: BaseViewModel {
     private func showDeviceNotAllowedAlert(_ userEmail: String?, network: EventParameterAccountNetwork) {
         guard let contactURL = LetgoURLHelper.buildContactUsURL(userEmail: userEmail,
                                                                 installation: installationRepository.installation,
+                                                                listing: nil,
                                                                 type: .deviceNotAllowed) else {
                                                                     navigator?.cancelSignUpLogIn()
                                                                     return

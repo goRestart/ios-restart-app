@@ -70,6 +70,14 @@ extension ProductViewModel {
     func trackMobilePaymentFail(withReason reason: String?) {
         trackHelper.trackMobilePaymentFail(withReason: reason)
     }
+
+    func trackBumpUpNotAllowed(reason: EventParameterBumpUpNotAllowedReason) {
+        trackHelper.trackBumpUpNotAllowed(reason: reason)
+    }
+
+    func trackBumpUpNotAllowedContactUs(reason: EventParameterBumpUpNotAllowedReason) {
+        trackHelper.trackBumpUpNotAllowedContactUs(reason: reason)
+    }
 }
 
 
@@ -131,6 +139,16 @@ extension ProductVMTrackHelper {
 
     func trackMobilePaymentFail(withReason reason: String?) {
         let trackerEvent = TrackerEvent.mobilePaymentFail(reason: reason)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func trackBumpUpNotAllowed(reason: EventParameterBumpUpNotAllowedReason) {
+        let trackerEvent = TrackerEvent.bumpUpNotAllowed(reason)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func trackBumpUpNotAllowedContactUs(reason: EventParameterBumpUpNotAllowedReason) {
+        let trackerEvent = TrackerEvent.bumpUpNotAllowedContactUs(reason)
         tracker.trackEvent(trackerEvent)
     }
 }

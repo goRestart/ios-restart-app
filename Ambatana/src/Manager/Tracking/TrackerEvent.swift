@@ -1074,6 +1074,18 @@ struct TrackerEvent {
         return TrackerEvent(name: .mobilePaymentFail, params: params)
     }
 
+    static func bumpUpNotAllowed(_ reason: EventParameterBumpUpNotAllowedReason) -> TrackerEvent {
+        var params = EventParameters()
+        params[.reason] = reason.rawValue
+        return TrackerEvent(name: .bumpNotAllowed, params: params)
+    }
+
+    static func bumpUpNotAllowedContactUs(_ reason: EventParameterBumpUpNotAllowedReason) -> TrackerEvent {
+        var params = EventParameters()
+        params[.reason] = reason.rawValue
+        return TrackerEvent(name: .bumpNotAllowedContactUs, params: params)
+    }
+
     static func chatWindowVisit(_ typePage: EventParameterTypePage, chatEnabled: Bool) -> TrackerEvent {
         var params = EventParameters()
         params[.typePage] = typePage.rawValue

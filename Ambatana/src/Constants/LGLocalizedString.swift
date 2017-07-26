@@ -159,6 +159,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("bump_up_view_pay_bumps_left_text", comment: "")
 	}
 
+	static var bumpUpNotAllowedAlertText: String {
+		return NSLocalizedString("bump_up_not_allowed_alert_text", comment: "")
+	}
+
+	static var bumpUpNotAllowedAlertContactButton: String {
+		return NSLocalizedString("bump_up_not_allowed_alert_contact_button", comment: "")
+	}
+
 	static var categoriesBabyAndChild: String {
 		return NSLocalizedString("categories_baby_and_child", comment: "")
 	}

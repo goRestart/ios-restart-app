@@ -166,6 +166,8 @@ enum EventName: String {
     case bumpUpFail                         = "bump-up-fail"
     case mobilePaymentComplete              = "mobile-payment-complete" // triggered when the payment has been confirmed by Apple/Google. (this event is triggered before the bump-up-complete event)
     case mobilePaymentFail                  = "mobile-payment-fail"
+    case bumpNotAllowed                     = "bump-up-not-allowed"
+    case bumpNotAllowedContactUs            = "bump-up-not-allowed-contact-us"
 
     case chatWindowVisit                    = "chat-window-open"
     
@@ -856,6 +858,10 @@ enum EventParameterBumpUpType: String {
             self = .retry
         }
     }
+}
+
+enum EventParameterBumpUpNotAllowedReason: String {
+    case notAllowedInternal = "internal"
 }
 
 enum EventParameterEmptyReason: String {
