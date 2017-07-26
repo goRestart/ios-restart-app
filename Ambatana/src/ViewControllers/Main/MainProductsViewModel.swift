@@ -26,6 +26,20 @@ struct MainProductsHeader: OptionSet {
     static let CategoriesCollectionBanner = MainProductsHeader(rawValue:4)
 }
 
+struct SuggestiveSearchInfo {
+    let suggestiveSearches: [SuggestiveSearch]
+    let sourceText: String
+    
+    var count: Int {
+        return suggestiveSearches.count
+    }
+    
+    static func empty() -> SuggestiveSearchInfo {
+        return SuggestiveSearchInfo(suggestiveSearches: [],
+                                    sourceText: "")
+    }
+}
+
 class MainProductsViewModel: BaseViewModel {
     
     // > Input
@@ -209,18 +223,20 @@ class MainProductsViewModel: BaseViewModel {
     let lastSearchesSavedMaximum = 10
     let lastSearchesShowMaximum = 3
     let trendingSearches = Variable<[String]>([])
-    let suggestiveSearches = Variable<[SuggestiveSearch]>([])
+    let suggestiveSearchInfo = Variable<SuggestiveSearchInfo>(SuggestiveSearchInfo.empty())
     let lastSearches = Variable<[String]>([])
+    let searchText = Variable<String?>(nil)
     var lastSearchesCounter: Int {
         return lastSearches.value.count
     }
     var trendingCounter: Int {
         return trendingSearches.value.count
     }
+    
     var suggestiveCounter: Int {
-        return suggestiveSearches.value.count
+        return suggestiveSearchInfo.value.count
     }
-
+    
     fileprivate let disposeBag = DisposeBag()
     
     
@@ -791,9 +807,9 @@ extension MainProductsViewModel {
         return trendingSearches.value[index]
     }
     
-    func suggestiveSearchAtIndex(_ index: Int) -> SuggestiveSearch? {
-        guard  0..<suggestiveSearches.value.count ~= index else { return nil }
-        return suggestiveSearches.value[index]
+    func suggestiveSearchAtIndex(_ index: Int) -> (suggestiveSearch: SuggestiveSearch, sourceText: String)? {
+        guard  0..<suggestiveSearchInfo.value.count ~= index else { return nil }
+        return (suggestiveSearchInfo.value.suggestiveSearches[index], suggestiveSearchInfo.value.sourceText)
     }
     
     func lastSearchAtIndex(_ index: Int) -> String? {
@@ -808,7 +824,7 @@ extension MainProductsViewModel {
     }
     
     func selectedSuggestiveSearchAtIndex(_ index: Int) {
-        guard let suggestiveSearch = suggestiveSearchAtIndex(index) else { return }
+        guard let (suggestiveSearch, _) = suggestiveSearchAtIndex(index) else { return }
         guard let suggestiveSearchName = suggestiveSearch.name else { return }
         delegate?.vmDidSearch()
         navigator?.openMainProduct(withSearchType: .suggestive(query: suggestiveSearchName), productFilters: filters)
@@ -826,7 +842,7 @@ extension MainProductsViewModel {
     }
     
     func cleanUpSuggestiveSearches() {
-        suggestiveSearches.value = []
+        suggestiveSearchInfo.value = SuggestiveSearchInfo.empty()
     }
     
     func retrieveLastUserSearch() {
@@ -854,7 +870,9 @@ extension MainProductsViewModel {
         guard let languageCode = Locale.current.languageCode else { return }
         
         searchRepository.retrieveSuggestiveSearches(languageCode, limit: 10, term: term) { [weak self] result in
-            self?.suggestiveSearches.value = result.value ?? []
+            guard term == self?.searchText.value else { return }
+            self?.suggestiveSearchInfo.value = SuggestiveSearchInfo(suggestiveSearches: result.value ?? [],
+                                                                        sourceText: term)
         }
     }
     
