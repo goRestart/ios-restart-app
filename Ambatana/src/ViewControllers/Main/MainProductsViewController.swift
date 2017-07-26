@@ -674,7 +674,7 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
         case .suggestive:
             guard let (suggestiveSearch, sourceText) = viewModel.suggestiveSearchAtIndex(indexPath.row),
                 let suggestiveSearchName = suggestiveSearch.name else { return UITableViewCell() }
-            cell.suggestionText.attributedText = suggestiveSearchName.makeBold(ignoringText: sourceText,
+            cell.suggestionText.attributedText = suggestiveSearchName.makeBold(ignoringText: sourceText.lowercased(),
                                                                                    font: cell.labelFont)
         case .lastSearch:
             guard let lastSearch = viewModel.lastSearchAtIndex(indexPath.row) else { return UITableViewCell() }
