@@ -68,20 +68,17 @@ extension LGMessage : Decodable {
         }
     */
     public static func decode(_ j: JSON) -> Decoded<LGMessage> {
-        
-        let init1 = curry(LGMessage.init)
-                            <^> j <|? "id"
-                            <*> j <|? "created_at"
-                            <*> j <| "text"
-                            <*> j <|? "type"
-                            <*> j <| "user_id"
-        let result = init1  <*> j <|? "status"
-                            <*> j <|? "is_read"
-        
+        let result1 = curry(LGMessage.init)
+        let result2 = result1 <^> j <|? "id"
+        let result3 = result2 <*> j <|? "created_at"
+        let result4 = result3 <*> j <| "text"
+        let result5 = result4 <*> j <|? "type"
+        let result6 = result5 <*> j <| "user_id"
+        let result7 = result6 <*> j <|? "status"
+        let result  = result7 <*> j <|? "is_read"
         if let error = result.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGMessage parse error: \(error)")
         }
-
         return result
     }
 }

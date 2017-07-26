@@ -1,5 +1,5 @@
 //
-//  SearchesDataSource.swift
+//  SearchDataSource.swift
 //  LGCoreKit
 //
 //  Created by Eli Kohen on 06/06/16.
@@ -9,8 +9,12 @@
 import Result
 
 typealias TrendingSearchesDataSourceResult = Result<[String], ApiError>
-typealias TrendingSearchesDataSourceCompletion = (TrendingSearchesDataSourceResult) -> Void
+typealias SuggestiveSearchesDataSourceResult = Result<[SuggestiveSearch], ApiError>
 
-protocol TrendingSearchesDataSource {
+typealias TrendingSearchesDataSourceCompletion = (TrendingSearchesDataSourceResult) -> Void
+typealias SuggestiveSearchesDataSourceCompletion = (SuggestiveSearchesDataSourceResult) -> Void
+
+protocol SearchDataSource {
     func index(_ countryCode: String, completion: TrendingSearchesDataSourceCompletion?)
+    func retrieveSuggestiveSearches(_ countryCode: String, limit: Int, term: String, completion: SuggestiveSearchesDataSourceCompletion?)
 }

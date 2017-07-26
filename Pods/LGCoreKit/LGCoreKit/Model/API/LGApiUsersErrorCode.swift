@@ -25,9 +25,9 @@ extension LGApiUsersErrorCode : Decodable {
         }
      */
     static func decode(_ j: JSON) -> Decoded<LGApiUsersErrorCode> {
-        let result =  curry(LGApiUsersErrorCode.init)
-            <^> j <| "code"
-            <*> j <| "title"
+        let result1 = curry(LGApiUsersErrorCode.init)
+        let result2 = result1 <^> j <| "code"
+        let result  = result2 <*> j <| "title"
         if let error = result.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGApiUsersErrorCode parse error: \(error)")
         }

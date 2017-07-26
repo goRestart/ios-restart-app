@@ -31,11 +31,10 @@ extension LGPassiveBuyersUser: Decodable {
      }
      */
     static func decode(_ j: JSON) -> Decoded<LGPassiveBuyersUser> {
-        let result = curry(LGPassiveBuyersUser.init)
-            <^> j <|? "user_id"
-            <*> j <|? "username"
-            <*> j <|? "avatar"
-
+        let result1 = curry(LGPassiveBuyersUser.init)
+        let result2 = result1 <^> j <|? "user_id"
+        let result3 = result2 <*> j <|? "username"
+        let result  = result3 <*> j <|? "avatar"
         if let error = result.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGPassiveBuyersUser parse error: \(error)")
         }

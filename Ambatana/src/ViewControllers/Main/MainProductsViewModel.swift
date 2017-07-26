@@ -1,5 +1,5 @@
 //
-//  ProductsViewModel.swift
+//  MainProductsViewModel.swift
 //  letgo
 //
 //  Created by AHL on 3/5/15.
@@ -26,6 +26,20 @@ struct MainProductsHeader: OptionSet {
     static let CategoriesCollectionBanner = MainProductsHeader(rawValue:4)
 }
 
+struct SuggestiveSearchInfo {
+    let suggestiveSearches: [SuggestiveSearch]
+    let sourceText: String
+    
+    var count: Int {
+        return suggestiveSearches.count
+    }
+    
+    static func empty() -> SuggestiveSearchInfo {
+        return SuggestiveSearchInfo(suggestiveSearches: [],
+                                    sourceText: "")
+    }
+}
+
 class MainProductsViewModel: BaseViewModel {
     
     // > Input
@@ -37,11 +51,12 @@ class MainProductsViewModel: BaseViewModel {
         switch searchType {
         case .collection:
             return true
-        case .user, .trending, .lastSearch:
+        case .user, .trending, .suggestive, .lastSearch:
             return false
         }
     }
     let bannerCellPosition: Int = 8
+    let suggestedSearchesLimit: Int = 10
     var filters: ProductFilters
     var queryString: String?
 
@@ -57,13 +72,22 @@ class MainProductsViewModel: BaseViewModel {
             return true
         }
     }
+    
+    var isSuggestedSearchesEnabled: Bool {
+        switch featureFlags.suggestedSearches {
+        case .control, .baseline:
+            return false
+        case .active:
+            return true
+        }
+    }
 
     var defaultBubbleText: String {
         switch featureFlags.editLocationBubble {
         case .inactive:
             return LGLocalizedString.productPopularNearYou
         case .zipCode, .map:
-            let distance = filters.distanceRadius ?? Constants.productListMaxDistanceLabel
+            let distance = filters.distanceRadius ?? 0
             let type = filters.distanceType
             return bubbleTextGenerator.bubbleInfoText(forDistance: distance, type: type, distanceRadius: filters.distanceRadius, place: filters.place)
         }
@@ -152,7 +176,7 @@ class MainProductsViewModel: BaseViewModel {
     // Manager & repositories
     fileprivate let sessionManager: SessionManager
     fileprivate let myUserRepository: MyUserRepository
-    fileprivate let trendingSearchesRepository: TrendingSearchesRepository
+    fileprivate let searchRepository: SearchRepository
     fileprivate let listingRepository: ListingRepository
     fileprivate let monetizationRepository: MonetizationRepository
     fileprivate let locationManager: LocationManager
@@ -195,27 +219,33 @@ class MainProductsViewModel: BaseViewModel {
     let lastSearchesSavedMaximum = 10
     let lastSearchesShowMaximum = 3
     let trendingSearches = Variable<[String]>([])
+    let suggestiveSearchInfo = Variable<SuggestiveSearchInfo>(SuggestiveSearchInfo.empty())
     let lastSearches = Variable<[String]>([])
+    let searchText = Variable<String?>(nil)
     var lastSearchesCounter: Int {
         return lastSearches.value.count
     }
     var trendingCounter: Int {
         return trendingSearches.value.count
     }
-
+    
+    var suggestiveCounter: Int {
+        return suggestiveSearchInfo.value.count
+    }
+    
     fileprivate let disposeBag = DisposeBag()
     
     
     // MARK: - Lifecycle
     
-    init(sessionManager: SessionManager, myUserRepository: MyUserRepository, trendingSearchesRepository: TrendingSearchesRepository,
+    init(sessionManager: SessionManager, myUserRepository: MyUserRepository, searchRepository: SearchRepository,
          listingRepository: ListingRepository, monetizationRepository: MonetizationRepository, locationManager: LocationManager, currencyHelper: CurrencyHelper, tracker: Tracker,
          searchType: SearchType? = nil, filters: ProductFilters, keyValueStorage: KeyValueStorageable, featureFlags: FeatureFlaggeable,
          bubbleTextGenerator: DistanceBubbleTextGenerator) {
         
         self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
-        self.trendingSearchesRepository = trendingSearchesRepository
+        self.searchRepository = searchRepository
         self.listingRepository = listingRepository
         self.monetizationRepository = monetizationRepository
         self.locationManager = locationManager
@@ -250,7 +280,7 @@ class MainProductsViewModel: BaseViewModel {
     convenience init(searchType: SearchType? = nil, filters: ProductFilters) {
         let sessionManager = Core.sessionManager
         let myUserRepository = Core.myUserRepository
-        let trendingSearchesRepository = Core.trendingSearchesRepository
+        let searchRepository = Core.searchRepository
         let listingRepository = Core.listingRepository
         let monetizationRepository = Core.monetizationRepository
         let locationManager = Core.locationManager
@@ -259,7 +289,7 @@ class MainProductsViewModel: BaseViewModel {
         let keyValueStorage = KeyValueStorage.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
         let bubbleTextGenerator = DistanceBubbleTextGenerator()
-        self.init(sessionManager: sessionManager,myUserRepository: myUserRepository, trendingSearchesRepository: trendingSearchesRepository,
+        self.init(sessionManager: sessionManager,myUserRepository: myUserRepository, searchRepository: searchRepository,
                   listingRepository: listingRepository, monetizationRepository: monetizationRepository, locationManager: locationManager, currencyHelper: currencyHelper, tracker: tracker,
                   searchType: searchType, filters: filters, keyValueStorage: keyValueStorage, featureFlags: featureFlags,
                   bubbleTextGenerator: bubbleTextGenerator)
@@ -416,11 +446,13 @@ class MainProductsViewModel: BaseViewModel {
     /**
      Called when a filter gets removed
      */
-    func updateFiltersFromHeaderCategories(_ category: ListingCategory) {
-        filters.selectedCategories = [category]
+    func updateFiltersFromHeaderCategories(_ categoryHeaderInfo: CategoryHeaderInfo) {
+        filters.selectedCategories = [categoryHeaderInfo.listingCategory]
         delegate?.vmShowTags(tags)
         updateCategoriesHeader()
         updateListView()
+        tracker.trackEvent(TrackerEvent.filterCategoryHeaderSelected(position: categoryHeaderInfo.position,
+                                                             name: categoryHeaderInfo.name))
     }
 
     func bubbleTapped() {
@@ -761,6 +793,11 @@ extension MainProductsViewModel {
         return trendingSearches.value[index]
     }
     
+    func suggestiveSearchAtIndex(_ index: Int) -> (suggestiveSearch: SuggestiveSearch, sourceText: String)? {
+        guard  0..<suggestiveSearchInfo.value.count ~= index else { return nil }
+        return (suggestiveSearchInfo.value.suggestiveSearches[index], suggestiveSearchInfo.value.sourceText)
+    }
+    
     func lastSearchAtIndex(_ index: Int) -> String? {
         guard 0..<lastSearches.value.count ~= index else { return nil }
         return lastSearches.value[index]
@@ -772,6 +809,13 @@ extension MainProductsViewModel {
         navigator?.openMainProduct(withSearchType: .trending(query: trendingSearch), productFilters: filters)
     }
     
+    func selectedSuggestiveSearchAtIndex(_ index: Int) {
+        guard let (suggestiveSearch, _) = suggestiveSearchAtIndex(index) else { return }
+        guard let suggestiveSearchName = suggestiveSearch.name else { return }
+        delegate?.vmDidSearch()
+        navigator?.openMainProduct(withSearchType: .suggestive(query: suggestiveSearchName), productFilters: filters)
+    }
+    
     func selectedLastSearchAtIndex(_ index: Int) {
         guard let lastSearch = lastSearchAtIndex(index), !lastSearch.isEmpty else { return }
         delegate?.vmDidSearch()
@@ -781,6 +825,10 @@ extension MainProductsViewModel {
     func cleanUpLastSearches() {
         keyValueStorage[.lastSearches] = []
         lastSearches.value = keyValueStorage[.lastSearches]
+    }
+    
+    func cleanUpSuggestiveSearches() {
+        suggestiveSearchInfo.value = SuggestiveSearchInfo.empty()
     }
     
     func retrieveLastUserSearch() {
@@ -795,11 +843,22 @@ extension MainProductsViewModel {
         lastSearches.value = searchesToShow.reversed()
     }
 
-    fileprivate func retrieveTrendingSearches() {
+    func retrieveTrendingSearches() {
         guard let currentCountryCode = locationManager.currentLocation?.countryCode else { return }
 
-        trendingSearchesRepository.index(currentCountryCode) { [weak self] result in
+        searchRepository.index(currentCountryCode) { [weak self] result in
             self?.trendingSearches.value = result.value ?? []
+        }
+    }
+    
+    func retrieveSuggestiveSearches(term: String) {
+        guard isSuggestedSearchesEnabled else { return }
+        guard let languageCode = Locale.current.languageCode else { return }
+        
+        searchRepository.retrieveSuggestiveSearches(languageCode, limit: 10, term: term) { [weak self] result in
+            guard term == self?.searchText.value else { return }
+            self?.suggestiveSearchInfo.value = SuggestiveSearchInfo(suggestiveSearches: result.value ?? [],
+                                                                        sourceText: term)
         }
     }
     
@@ -918,7 +977,7 @@ fileprivate extension MainProductsViewModel {
             switch searchType {
             case .collection:
                 return .collection
-            case .user, .trending, .lastSearch:
+            case .user, .trending, .suggestive, .lastSearch:
                 if !hasFilters {
                     return .search
                 } else {

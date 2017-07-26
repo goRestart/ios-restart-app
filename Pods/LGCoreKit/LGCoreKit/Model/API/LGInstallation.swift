@@ -66,19 +66,17 @@ extension LGInstallation : Decodable {
     }
 
     static func decode(_ j: JSON, keys: LGInstallationKeys) -> Decoded<LGInstallation> {
-        let init1 = curry(LGInstallation.init)
-                            <^> j <|? keys.objectId
-                            <*> j <| keys.appIdentifier
-                            <*> j <| keys.appVersion
-                            <*> j <| keys.deviceType
-        let result = init1  <*> j <|? keys.timeZone
-                            <*> j <|? keys.localeIdentifier
-                            <*> j <|? keys.deviceToken
-
+        let result1 = curry(LGInstallation.init)
+        let result2 = result1 <^> j <|? keys.objectId
+        let result3 = result2 <*> j <| keys.appIdentifier
+        let result4 = result3 <*> j <| keys.appVersion
+        let result5 = result4 <*> j <| keys.deviceType
+        let result6 = result5 <*> j <|? keys.timeZone
+        let result7 = result6 <*> j <|? keys.localeIdentifier
+        let result  = result7 <*> j <|? keys.deviceToken
         if let error = result.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGInstallation parse error: \(error)")
         }
-
         return result
     }
 }

@@ -40,19 +40,18 @@ extension LGChatMessage: Decodable {
     }
     
     static func decode(_ j: JSON) -> Decoded<LGChatMessage> {
-        let init1 = curry(LGChatMessage.init)
-            <^> j <|? JSONKeys.objectId
-            <*> j <| JSONKeys.talkerId
-            <*> j <| JSONKeys.text
-            <*> j <|? JSONKeys.sentAt
-            <*> j <|? JSONKeys.receivedAt
-            <*> j <|? JSONKeys.readAt
-            <*> LGArgo.parseChatMessageType(j, key: [JSONKeys.type])
-            <*> j <|| JSONKeys.warnings
-
-        if let error = init1.error {
-            logMessage(.error, type: .parsing, message: "LGChatListing parse error: \(error)")
+        let result1 = curry(LGChatMessage.init)
+        let result2 = result1 <^> j <|? JSONKeys.objectId
+        let result3 = result2 <*> j <| JSONKeys.talkerId
+        let result4 = result3 <*> j <| JSONKeys.text
+        let result5 = result4 <*> j <|? JSONKeys.sentAt
+        let result6 = result5 <*> j <|? JSONKeys.receivedAt
+        let result7 = result6 <*> j <|? JSONKeys.readAt
+        let result8 = result7 <*> LGArgo.parseChatMessageType(j, key: [JSONKeys.type])
+        let result  = result8 <*> j <|| JSONKeys.warnings
+        if let error = result.error {
+            logMessage(.error, type: .parsing, message: "LGChatMessage parse error: \(error)")
         }
-        return init1
+        return result
     }
 }

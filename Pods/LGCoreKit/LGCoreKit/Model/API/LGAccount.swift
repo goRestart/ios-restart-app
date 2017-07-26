@@ -25,8 +25,12 @@ extension LGAccount : Decodable {
      }
      */
     static func decode(_ j: JSON) -> Decoded<LGAccount> {
-        return curry(LGAccount.init)
-            <^> j <| "type"
-            <*> j <| "verified"
+        let result1 = curry(LGAccount.init)
+        let result2 = result1 <^> j <| "type"
+        let result  = result2 <*> j <| "verified"
+        if let error = result.error {
+            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGAccount parse error: \(error)")
+        }
+        return result
     }
 }

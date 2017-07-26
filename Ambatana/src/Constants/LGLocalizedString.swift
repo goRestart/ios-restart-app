@@ -1255,6 +1255,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("filters_section_within", comment: "")
 	}
 
+	static var filtersSectionPriceFreeTitle: String {
+		return NSLocalizedString("filters_section_price_free_title", comment: "")
+	}
+
 	static var filtersPriceFrom: String {
 		return NSLocalizedString("filters_price_from", comment: "")
 	}
@@ -3577,6 +3581,10 @@ struct LGLocalizedString {
 
 	static var trendingSearchesTitle: String {
 		return NSLocalizedString("trending_searches_Title", comment: "")
+	}
+
+	static var suggestedSearchesTitle: String {
+		return NSLocalizedString("suggested_searches_title", comment: "")
 	}
 
 	static var unblockUserErrorGeneric: String {

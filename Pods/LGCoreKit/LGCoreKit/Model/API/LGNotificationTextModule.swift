@@ -31,9 +31,13 @@ extension LGNotificationTextModule: Decodable {
          "deeplink": "THIS MIGHT BE NULL"
          }
          */
-        return curry(LGNotificationTextModule.init)
-            <^> j <|? JSONKeys.title
-            <*> j <| JSONKeys.body
-            <*> j <|? JSONKeys.deeplink
+        let result1 = curry(LGNotificationTextModule.init)
+        let result2 = result1 <^> j <|? JSONKeys.title
+        let result3 = result2 <*> j <| JSONKeys.body
+        let result  = result3 <*> j <|? JSONKeys.deeplink
+        if let error = result.error {
+            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGNotificationTextModule parse error: \(error)")
+        }
+        return result
     }
 }
