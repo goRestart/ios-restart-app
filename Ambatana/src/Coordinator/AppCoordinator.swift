@@ -250,7 +250,9 @@ extension AppCoordinator: AppNavigator {
         let exitInterface = UIActionInterface.button(LGLocalizedString.ratingAppRateAlertNoButton,
                                                      ButtonStyle.secondary(fontSize: .medium,
                                                                            withBorder: true))
-        let exitAction = UIAction(interface: exitInterface, action: {})
+        let exitAction = UIAction(interface: exitInterface, action: {
+            LGRatingManager.sharedInstance.userDidRemindLater()
+        })
         openTransitionAlert(title: LGLocalizedString.ratingAppRateAlertTitle,
                             text: "",
                             alertType: .plainAlert,
@@ -269,7 +271,9 @@ extension AppCoordinator: AppNavigator {
         let exitInterface = UIActionInterface.button(LGLocalizedString.ratingAppFeedbackNoButton,
                                                      ButtonStyle.secondary(fontSize: .medium,
                                                                            withBorder: true))
-        let exitAction = UIAction(interface: exitInterface, action: {})
+        let exitAction = UIAction(interface: exitInterface, action: {
+            LGRatingManager.sharedInstance.userDidRemindLater()
+        })
         openTransitionAlert(title: LGLocalizedString.ratingAppFeedbackTitle,
                             text: "",
                             alertType: .plainAlert,
