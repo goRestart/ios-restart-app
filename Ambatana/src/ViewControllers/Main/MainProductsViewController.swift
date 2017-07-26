@@ -91,10 +91,6 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         return productListView.headerDelegate?.totalHeaderHeight() ?? 0
     }
     
-    fileprivate var searchBarText: String? {
-        return navbarSearch.searchTextField.text
-    }
-    
     // MARK: - Lifecycle
 
     convenience init(viewModel: MainProductsViewModel) {
