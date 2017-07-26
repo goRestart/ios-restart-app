@@ -35,7 +35,7 @@ class TaxonomiesViewController : BaseViewController, TaxonomiesViewModelDelegate
         super.viewDidLoad()
         setupUI()
         setupRx()
-        updateTableView(values: viewModel.taxonomies, selectedValueIndex: nil)
+        updateTableView(values: viewModel.taxonomies)
     }
     
      // MARK: - UI
@@ -48,9 +48,8 @@ class TaxonomiesViewController : BaseViewController, TaxonomiesViewModelDelegate
         tableView.layout(with: view).fill()
     }
     
-    private func updateTableView(values: [Taxonomy], selectedValueIndex: Int?) {
-        tableView.setupTableView(values: values,
-                                 selectedValueIndex: selectedValueIndex)
+    private func updateTableView(values: [Taxonomy]) {
+        tableView.setupTableView(values: values)
     }
     
     private func setupRx() {

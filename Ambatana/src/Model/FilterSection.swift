@@ -36,7 +36,7 @@ extension FilterSection {
         if priceAsLast {
             return [.location, .categories, .carsInfo, .distance, .sortBy, .within, .price]
         } else {
-            return [.location, .price, .categories, .carsInfo, .distance, .sortBy, .within]
+            return [.location, .distance, .categories, .price, .carsInfo, .sortBy, .within]
         }
     }
 }
