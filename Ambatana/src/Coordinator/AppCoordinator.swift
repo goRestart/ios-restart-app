@@ -283,13 +283,12 @@ extension AppCoordinator: AppNavigator {
         let exitInterface = UIActionInterface.button(LGLocalizedString.ratingAppFeedbackNoButton,
                                                      ButtonStyle.secondary(fontSize: .medium,
                                                                            withBorder: true))
-        let exitAction = UIAction(interface: exitInterface, action: {
-            LGRatingManager.sharedInstance.userDidRemindLater()
-        })
-        
         let dismissAction: (() -> ()) = { _ in
             LGRatingManager.sharedInstance.userDidRemindLater()
         }
+        let exitAction = UIAction(interface: exitInterface, action: {
+            dismissAction()
+        })
         
         openTransitionAlert(title: LGLocalizedString.ratingAppFeedbackTitle,
                             text: "",
