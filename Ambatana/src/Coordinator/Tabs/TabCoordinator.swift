@@ -31,6 +31,7 @@ class TabCoordinator: NSObject, Coordinator {
     let chatRepository: ChatRepository
     let oldChatRepository: OldChatRepository
     let myUserRepository: MyUserRepository
+    let installationRepository: InstallationRepository
     let keyValueStorage: KeyValueStorage
     let tracker: Tracker
     let featureFlags: FeatureFlaggeable
@@ -43,7 +44,7 @@ class TabCoordinator: NSObject, Coordinator {
     // MARK: - Lifecycle
 
     init(listingRepository: ListingRepository, userRepository: UserRepository, chatRepository: ChatRepository,
-         oldChatRepository: OldChatRepository, myUserRepository: MyUserRepository,
+         oldChatRepository: OldChatRepository, myUserRepository: MyUserRepository, installationRepository: InstallationRepository,
          bubbleNotificationManager: BubbleNotificationManager,
          keyValueStorage: KeyValueStorage, tracker: Tracker, rootViewController: UIViewController,
          featureFlags: FeatureFlaggeable, sessionManager: SessionManager) {
@@ -52,6 +53,7 @@ class TabCoordinator: NSObject, Coordinator {
         self.chatRepository = chatRepository
         self.oldChatRepository = oldChatRepository
         self.myUserRepository = myUserRepository
+        self.installationRepository = installationRepository
         self.bubbleNotificationManager = bubbleNotificationManager
         self.keyValueStorage = keyValueStorage
         self.tracker = tracker
@@ -421,8 +423,11 @@ extension TabCoordinator: ProductDetailNavigator {
         openChild(coordinator: bumpCoordinator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
     }
 
-    func openPayBumpUp(forListing listing: Listing, purchaseableProduct: PurchaseableProduct, paymentItemId: String) {
-        let bumpCoordinator = BumpUpCoordinator(listing: listing, purchaseableProduct: purchaseableProduct,
+    func openPayBumpUp(forListing listing: Listing,
+                       purchaseableProduct: PurchaseableProduct,
+                       paymentItemId: String) {
+        let bumpCoordinator = BumpUpCoordinator(listing: listing,
+                                                purchaseableProduct: purchaseableProduct,
                                                 paymentItemId: paymentItemId)
         openChild(coordinator: bumpCoordinator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
     }
@@ -448,6 +453,27 @@ extension TabCoordinator: ProductDetailNavigator {
     func openLoginIfNeededFromProductDetail(from: EventParameterLoginSourceValue, infoMessage: String,
                                             loggedInAction: @escaping (() -> Void)) {
         openLoginIfNeeded(from: from, style: .popup(infoMessage), loggedInAction: loggedInAction, cancelAction: nil)
+    }
+
+    func showBumpUpNotAvailableAlertWithTitle(title: String,
+                                              text: String,
+                                              alertType: AlertType,
+                                              buttonsLayout: AlertButtonsLayout,
+                                              actions: [UIAction]) {
+        navigationController.showAlertWithTitle(title,
+                                                text: text,
+                                                alertType: alertType,
+                                                buttonsLayout: buttonsLayout,
+                                                actions: actions)
+    }
+
+    func openContactUs(forListing listing: Listing, contactUstype: ContactUsType) {
+        guard let user = myUserRepository.myUser,
+            let installation = installationRepository.installation,
+            let contactURL = LetgoURLHelper.buildContactUsURL(user: user, installation: installation, listing: listing, type: contactUstype) else {
+                return
+        }
+        rootViewController.openInternalUrl(contactURL)
     }
 }
 

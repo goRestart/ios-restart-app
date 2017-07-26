@@ -13,12 +13,13 @@ enum BumpUpType {
     case free
     case priced
     case restore
+    case hidden
 
     var bannerText: String {
         switch self {
         case .free:
             return LGLocalizedString.bumpUpBannerFreeText
-        case .priced:
+        case .priced, .hidden:
             return LGLocalizedString.bumpUpBannerPayText
         case .restore:
             return LGLocalizedString.bumpUpErrorBumpToken
@@ -29,7 +30,7 @@ enum BumpUpType {
         switch self {
         case .free:
             return UIImage(named: "red_chevron_up")
-        case .priced:
+        case .priced, .hidden:
             return UIImage(named: "red_chevron_up")
         case .restore:
             return nil
@@ -120,7 +121,7 @@ class BumpUpBanner: UIView {
         case .free:
             waitingTime = info.maxCountdown
             bumpButton.setTitle(LGLocalizedString.bumpUpBannerFreeButtonTitle, for: .normal)
-        case .priced:
+        case .priced, .hidden:
             waitingTime = info.maxCountdown
             if let price = info.price {
                 bumpButton.setTitle(price, for: .normal)
@@ -146,7 +147,7 @@ class BumpUpBanner: UIView {
         switch type {
         case .free:
             timeIntervalLeft.value = maxCountdown
-        case .priced, .restore:
+        case .priced, .restore, .hidden:
             timeIntervalLeft.value = maxCountdown
         }
         startCountdown()
