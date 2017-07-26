@@ -1094,6 +1094,10 @@ extension ProductViewModel: PurchasesShopperDelegate {
         delegate?.vmShowLoading(LGLocalizedString.bumpUpProcessingPricedText)
     }
 
+    func paymentDidSucceed(paymentId: String) {
+        trackMobilePaymentComplete(withPaymentId: paymentId)
+    }
+
     func pricedBumpDidSucceed(type: BumpUpType) {
         trackBumpUpCompleted(.pay(price: bumpUpPurchaseableProduct?.formattedCurrencyPrice ?? ""),
                              type: type,

@@ -67,6 +67,10 @@ extension ProductViewModel {
         trackHelper.trackBumpUpFail(type: type)
     }
 
+    func trackMobilePaymentComplete(withPaymentId paymentId: String) {
+        trackHelper.trackMobilePaymentComplete(withPaymentId: paymentId)
+    }
+
     func trackMobilePaymentFail(withReason reason: String?) {
         trackHelper.trackMobilePaymentFail(withReason: reason)
     }
@@ -115,7 +119,7 @@ extension ProductVMTrackHelper {
 
 extension ProductVMTrackHelper {
     func trackBumpUpBannerShown(type: BumpUpType) {
-        let trackerEvent = TrackerEvent.bumpBannerShow(type: EventParameterBumpUpType(bumpType: type))
+        let trackerEvent = TrackerEvent.bumpBannerShow(type: EventParameterBumpUpType(bumpType: type), listingId: listing.objectId)
         tracker.trackEvent(trackerEvent)
     }
 
@@ -133,12 +137,17 @@ extension ProductVMTrackHelper {
     }
 
     func trackBumpUpFail(type: BumpUpType) {
-        let trackerEvent = TrackerEvent.productBumpUpFail(type: EventParameterBumpUpType(bumpType: type))
+        let trackerEvent = TrackerEvent.productBumpUpFail(type: EventParameterBumpUpType(bumpType: type), listingId: listing.objectId)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func trackMobilePaymentComplete(withPaymentId paymentId: String) {
+        let trackerEvent = TrackerEvent.mobilePaymentComplete(paymentId: paymentId, listingId: listing.objectId)
         tracker.trackEvent(trackerEvent)
     }
 
     func trackMobilePaymentFail(withReason reason: String?) {
-        let trackerEvent = TrackerEvent.mobilePaymentFail(reason: reason)
+        let trackerEvent = TrackerEvent.mobilePaymentFail(reason: reason, listingId: listing.objectId)
         tracker.trackEvent(trackerEvent)
     }
 

@@ -24,6 +24,7 @@ protocol PurchasesShopperDelegate: class {
     func freeBumpDidFail(withNetwork network: EventParameterShareNetwork)
 
     func pricedBumpDidStart()
+    func paymentDidSucceed(paymentId: String)
     func pricedBumpDidSucceed(type: BumpUpType)
     func pricedBumpDidFail(type: BumpUpType)
     func pricedBumpPaymentDidFail(withReason reason: String?)
@@ -258,9 +259,9 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         let idfa = ASIdentifierManager.shared().advertisingIdentifier.uuidString
         let bundleId = Bundle.main.bundleIdentifier
 
-        // 🦄 track payment success!!!!  generate payment id and send it to the repo
-        
-        monetizationRepository.pricedBump(forListingId: listingId, receiptData: receiptData,
+        let paymentId = UUID().uuidString.lowercased()
+        delegate?.paymentDidSucceed(paymentId: paymentId)
+        monetizationRepository.pricedBump(forListingId: listingId, paymentId: paymentId, receiptData: receiptData,
                                           itemId: transaction.payment.productIdentifier, itemPrice: price ?? "0",
                                           itemCurrency: currency ?? "", amplitudeId: amplitudeId, appsflyerId: appsflyerId,
                                           idfa: idfa, bundleId: bundleId) { [weak self] result in
