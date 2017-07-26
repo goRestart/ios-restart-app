@@ -25,6 +25,8 @@
 "bump_up_error_bump_token" = "Thanh toán của bạn đã được tiến hành nhưng sản phẩm chưa được đẩy lên.";
 "bump_up_error_payment_failed" = "Không thể kết nối với Cửa hàng của Ứng dụng. Thanh toán của bạn chưa được tiến hành. Xin vui lòng thử lại.";
 "bump_up_free_success" = "Đẩy lên! Hãy liên tục đẩy sản phẩm lên để dễ thấy hơn nữa.";
+"bump_up_not_allowed_alert_contact_button" = "Contact Us";
+"bump_up_not_allowed_alert_text" = "Bumping Up this item isn't possible at this time.  For more information, contact us.";
 "bump_up_pay_success" = "Đẩy lên! Sản phẩm của bạn hiện đã dễ thấy hơn.";
 "bump_up_processing_free_text" = "Đang tiến hành đẩy lên...";
 "bump_up_processing_priced_text" = "Đang tiến hành thanh toán...";
@@ -316,7 +318,7 @@
 "filters_section_distance" = "Khoảng cách";
 "filters_section_location" = "Địa điểm";
 "filters_section_price" = "Giá";
-"filters_section_price_free_title" = "Show only free items";
+"filters_section_price_free_title" = "Chỉ hiện các sản phẩm miễn phí";
 "filters_section_sortby" = "Sắp xếp theo";
 "filters_section_within" = "Được đăng trong vòng";
 "filters_sort_closest" = "Gần nhất trước tiên";

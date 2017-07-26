@@ -100,6 +100,7 @@ class ProductViewModel: BaseViewModel {
     var bumpUpPurchaseableProduct: PurchaseableProduct?
     fileprivate var isUpdatingBumpUpBanner: Bool = false
     fileprivate var paymentItemId: String?
+    fileprivate var userIsSoftBlocked: Bool = false
 
     fileprivate var alreadyTrackedFirstMessageSent: Bool = false
     fileprivate static let bubbleTagGroup = "favorite.bubble.group"
@@ -340,7 +341,9 @@ class ProductViewModel: BaseViewModel {
                 strongSelf.bumpMaxCountdown = bumpeableProduct.maxCountdown
                 let freeItems = bumpeableProduct.paymentItems.filter { $0.provider == .letgo }
                 let paymentItems = bumpeableProduct.paymentItems.filter { $0.provider == .apple }
+                let hiddenItems = bumpeableProduct.paymentItems.filter { $0.provider == .hidden }
                 if !paymentItems.isEmpty, strongSelf.featureFlags.pricedBumpUpEnabled {
+                    strongSelf.userIsSoftBlocked = false
                     // will be considered bumpeable ONCE WE GOT THE PRICES of the products, not before.
                     strongSelf.paymentItemId = paymentItems.first?.itemId
                     // if "paymentItemId" is nil, the banner creation will fail, so we check this here to avoid
@@ -352,6 +355,15 @@ class ProductViewModel: BaseViewModel {
                     strongSelf.paymentItemId = freeItems.first?.itemId
                     strongSelf.createBumpeableBanner(forListingId: listingId, withPrice: nil,
                                                         paymentItemId: strongSelf.paymentItemId, bumpUpType: .free)
+                } else if !hiddenItems.isEmpty, strongSelf.featureFlags.pricedBumpUpEnabled {
+                    strongSelf.userIsSoftBlocked = true
+                    // for hidden items we follow THE SAME FLOW we do for PAID items
+                    strongSelf.paymentItemId = hiddenItems.first?.itemId
+                    // if "paymentItemId" is nil, the banner creation will fail, so we check this here to avoid
+                    // a useless request to apple
+                    if let _ = strongSelf.paymentItemId {
+                        strongSelf.purchasesShopper.productsRequestStartForProduct(listingId, withIds: hiddenItems.map { $0.providerItemId })
+                    }
                 }
             })
         }
@@ -376,7 +388,8 @@ class ProductViewModel: BaseViewModel {
             bannerInteractionBlock = { [weak self] in
                 guard let listing = self?.listing.value else { return }
                 guard let purchaseableProduct = self?.bumpUpPurchaseableProduct else { return }
-                self?.navigator?.openPayBumpUp(forListing: listing, purchaseableProduct: purchaseableProduct,
+                self?.navigator?.openPayBumpUp(forListing: listing,
+                                               purchaseableProduct: purchaseableProduct,
                                                paymentItemId: paymentItemId)
             }
             buttonBlock = { [weak self] in
@@ -389,6 +402,32 @@ class ProductViewModel: BaseViewModel {
             }
             bannerInteractionBlock = restoreBlock
             buttonBlock = restoreBlock
+        case .hidden:
+            let hiddenBlock: () -> Void = { [weak self] in
+                self?.trackBumpUpNotAllowed(reason: .notAllowedInternal)
+                let contactUsInterface = UIActionInterface.button(LGLocalizedString.bumpUpNotAllowedAlertContactButton,
+                                                                  .primary(fontSize: .medium))
+                let contactUsAction: UIAction = UIAction(interface: contactUsInterface,
+                                                         action: { [weak self] in
+                                                            self?.bumpUpHiddenProductContactUs()
+                    },
+                                                         accessibilityId: .bumpUpHiddenProductAlertContactButton)
+
+                let cancelInterface = UIActionInterface.button(LGLocalizedString.commonCancel,
+                                                               .secondary(fontSize: .medium, withBorder: true))
+                let cancelAction: UIAction = UIAction(interface: cancelInterface,
+                                                      action: {},
+                                                      accessibilityId: .bumpUpHiddenProductAlertCancelButton)
+
+
+                self?.navigator?.showBumpUpNotAvailableAlertWithTitle(title: LGLocalizedString.commonErrorTitle,
+                                                                      text: LGLocalizedString.bumpUpNotAllowedAlertText,
+                                                                      alertType: .plainAlert,
+                                                                      buttonsLayout: .vertical,
+                                                                      actions: [contactUsAction, cancelAction])
+            }
+            bannerInteractionBlock = hiddenBlock
+            buttonBlock = hiddenBlock
         }
 
         bumpUpBannerInfo.value = BumpUpInfo(type: bumpUpType,
@@ -397,6 +436,11 @@ class ProductViewModel: BaseViewModel {
                                             price: withPrice,
                                             bannerInteractionBlock: bannerInteractionBlock,
                                             buttonBlock: buttonBlock)
+    }
+
+    func bumpUpHiddenProductContactUs() {
+        trackBumpUpNotAllowedContactUs(reason: .notAllowedInternal)
+        navigator?.openContactUs(forListing: listing.value, contactUstype: .bumpUpNotAllowed)
     }
 }
 
@@ -1017,8 +1061,9 @@ extension ProductViewModel: PurchasesShopperDelegate {
         guard let purchase = products.first else { return }
 
         bumpUpPurchaseableProduct = purchase
+        let bumpUpType: BumpUpType = userIsSoftBlocked ? .hidden : .priced
         createBumpeableBanner(forListingId: requestProdId, withPrice: bumpUpPurchaseableProduct?.formattedCurrencyPrice,
-                              paymentItemId: paymentItemId, bumpUpType: .priced)
+                              paymentItemId: paymentItemId, bumpUpType: bumpUpType)
     }
 
 

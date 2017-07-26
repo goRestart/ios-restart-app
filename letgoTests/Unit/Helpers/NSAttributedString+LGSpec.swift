@@ -13,7 +13,7 @@ import Nimble
 class NSAttributedStringLGSpec: QuickSpec {
     override func spec() {
         
-        fdescribe("NSAttributedString + LG methods") {
+        describe("NSAttributedString + LG methods") {
             context("setBold:ignoreText:font") {
                 var sut: NSAttributedString!
                 var string: String!

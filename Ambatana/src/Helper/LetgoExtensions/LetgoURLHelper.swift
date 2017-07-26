@@ -14,6 +14,7 @@ enum ContactUsType {
     case standard
     case scammer
     case deviceNotAllowed
+    case bumpUpNotAllowed
 }
 
 class LetgoURLHelper {
@@ -71,7 +72,9 @@ class LetgoURLHelper {
     static func buildHelpURL(_ user: MyUser?, installation: Installation?) -> URL? {
         guard let url = LetgoURLHelper.composeLocalizedURL(Constants.websiteHelpEndpoint) else { return nil }
         guard var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return nil }
-        urlComponents.percentEncodedQuery = LetgoURLHelper.buildContactParameters(user, installation: installation,
+        urlComponents.percentEncodedQuery = LetgoURLHelper.buildContactParameters(user,
+                                                                                  installation: installation,
+                                                                                  listing: nil,
                                                                                   type: .standard)
         return urlComponents.url
     }
@@ -84,19 +87,22 @@ class LetgoURLHelper {
         return LetgoURLHelper.composeLocalizedURL(Constants.websitePrivacyEndpoint)
     }
 
-    static func buildContactUsURL(user: MyUser?, installation: Installation?, type: ContactUsType = .standard) -> URL? {
+    static func buildContactUsURL(user: MyUser?, installation: Installation?, listing: Listing?, type: ContactUsType = .standard) -> URL? {
         guard let url = LetgoURLHelper.composeLocalizedURL(Constants.websiteContactUsEndpoint) else { return nil }
         guard var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return nil }
-        urlComponents.percentEncodedQuery = LetgoURLHelper.buildContactParameters(user, installation: installation,
+        urlComponents.percentEncodedQuery = LetgoURLHelper.buildContactParameters(user,
+                                                                                  installation: installation,
+                                                                                  listing: listing,
                                                                                   type: type)
         return urlComponents.url
     }
 
-    static func buildContactUsURL(userEmail email: String?, installation: Installation?, type: ContactUsType = .standard) -> URL? {
+    static func buildContactUsURL(userEmail email: String?, installation: Installation?, listing: Listing?, type: ContactUsType = .standard) -> URL? {
         guard let url = LetgoURLHelper.composeLocalizedURL(Constants.websiteContactUsEndpoint) else { return nil }
         guard var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return nil }
         urlComponents.percentEncodedQuery = LetgoURLHelper.buildContactParameters(nil, userName: nil, email: email,
                                                                                   installationId: installation?.objectId,
+                                                                                  listingId: listing?.objectId,
                                                                                   type: type)
         return urlComponents.url
     }
@@ -131,13 +137,13 @@ class LetgoURLHelper {
         return LetgoURLHelper.defaultLang
     }
 
-    private static func buildContactParameters(_ user: MyUser?, installation: Installation?, type: ContactUsType) -> String? {
+    private static func buildContactParameters(_ user: MyUser?, installation: Installation?, listing: Listing?, type: ContactUsType) -> String? {
         return buildContactParameters(user?.objectId, userName: user?.name, email: user?.email,
-                                      installationId: installation?.objectId, type: type)
+                                      installationId: installation?.objectId, listingId: listing?.objectId, type: type)
     }
     
     private static func buildContactParameters(_ userId: String?, userName: String?, email: String?, installationId: String?
-        , type: ContactUsType) -> String? {
+        , listingId: String?, type: ContactUsType) -> String? {
         var param: [String: String] = [:]
         param["app_version"] = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
         param["os_version"] = UIDevice.current.systemVersion
@@ -153,6 +159,9 @@ class LetgoURLHelper {
             param["moderation"] = "true"
         case .deviceNotAllowed:
             param["device_not_allowed"] = "true"
+        case .bumpUpNotAllowed:
+            param["bumpup"] = "true"
+            param["product_id"] = listingId ?? ""
         }
         return param.map{"\($0)=\($1)"}
             .joined(separator: "&")
