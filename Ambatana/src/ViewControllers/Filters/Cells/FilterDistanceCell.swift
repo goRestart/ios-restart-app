@@ -58,7 +58,7 @@ class FilterDistanceCell: UICollectionViewCell {
         separatorHeight.constant = LGUIKitConstants.onePixelSize
         filterDistanceSlider.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(filterDistanceSlider)
-        filterDistanceSlider.layout(with: contentView).fill()
+        filterDistanceSlider.layout(with: contentView).top(by: 1).right().left().bottom()
     }
     
     private func resetUI() {

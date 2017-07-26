@@ -38,6 +38,7 @@ protocol FeatureFlaggeable: class {
     var searchParamDisc24: SearchParamDisc24 { get }
     var inAppRatingIOS10: Bool { get }
     var suggestedSearches: SuggestedSearches { get }
+    var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -51,6 +52,17 @@ protocol FeatureFlaggeable: class {
 extension FeatureFlaggeable {
     var syncedData: Observable<Bool> {
         return trackingData.map { $0 != nil }
+    }
+}
+
+extension AddSuperKeywordsOnFeed {
+    var isActive: Bool {
+        switch self {
+        case .control, .baseline:
+            return false
+        case .active:
+            return true
+        }
     }
 }
 
@@ -249,6 +261,14 @@ class FeatureFlags: FeatureFlaggeable {
         return SuggestedSearches.fromPosition(abTests.suggestedSearches.value)
     }
     
+    var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed {
+        if Bumper.enabled {
+            return Bumper.addSuperKeywordsOnFeed
+        }
+        return AddSuperKeywordsOnFeed.fromPosition(abTests.addSuperKeywordsOnFeed.value)
+    }
+    
+    
     // MARK: - Country features
 
     var freePostingModeAllowed: Bool {
@@ -310,6 +330,7 @@ class FeatureFlags: FeatureFlaggeable {
             return false
         }
     }
+    
     
     // MARK: - Private
     

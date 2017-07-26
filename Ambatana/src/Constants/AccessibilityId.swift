@@ -71,6 +71,9 @@ enum AccessibilityId: String {
     case filterTagCellTagIcon
     case filterTagCellTagLabel
     
+    // Taxonomies
+    case taxonomiesTableView
+    
     // CategoriesHeader Cells
     case categoriesHeaderCollectionView
     case categoryHeaderCell
@@ -111,13 +114,20 @@ enum AccessibilityId: String {
     case filterHeaderCell
     case filterHeaderCellTitleLabel
 
-    case filterLocationCell
-    case filterLocationCellTitleLabel
-    case filterLocationCellLocationLabel
+    case filterDisclosureCell
+    case filterDisclosureCellTitleLabel
+    case filterDisclosureCellSubtitleLabel
 
     case filterPriceCell
     case filterPriceCellTitleLabel
     case filterPriceCellTextField
+    case filterPriceCellTitleLabelFrom
+    case filterPriceCellTitleLabelTo
+    case filterPriceCellTextFieldFrom
+    case filterPriceCellTextFieldTo
+    
+    case filterFreeCell
+    case filterFreeCellTitleLabel
 
     // Product Detail
     case productDetailOnboarding
