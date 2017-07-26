@@ -468,6 +468,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
                     }
             }.addDisposableTo(disposeBag)
         }
+        navbarSearch.searchTextField.rx.text.asObservable().bindTo(viewModel.searchText).addDisposableTo(disposeBag)
     }
 }
 
@@ -668,13 +669,9 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
         switch sectionType {
         case .suggestive:
             guard let (suggestiveSearch, sourceText) = viewModel.suggestiveSearchAtIndex(indexPath.row),
-                let suggestiveSearchName = suggestiveSearch.name else {
-                    return UITableViewCell()
-            }
-            if navbarSearch.searchTextField.text == sourceText {
-                cell.suggestionText.attributedText = suggestiveSearchName.makeBold(ignoringText: sourceText,
+                let suggestiveSearchName = suggestiveSearch.name else { return UITableViewCell() }
+            cell.suggestionText.attributedText = suggestiveSearchName.makeBold(ignoringText: sourceText.lowercased(),
                                                                                    font: cell.labelFont)
-            }
         case .lastSearch:
             guard let lastSearch = viewModel.lastSearchAtIndex(indexPath.row) else { return UITableViewCell() }
             cell.suggestionText.text = lastSearch
