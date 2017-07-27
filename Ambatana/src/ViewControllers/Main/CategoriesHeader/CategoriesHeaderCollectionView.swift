@@ -16,9 +16,17 @@ struct CategoryHeaderInfo {
     let name: String
 }
 
+protocol CategoriesHeaderCollectionViewDelegate: class {
+    func openTaxonomyList()
+}
+
 class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource {
     
-    private var categoryHeaderElements: [CategoryHeaderElement]
+    fileprivate var categoryHeaderElements: [CategoryHeaderElement]
+    weak var delegateCategoryHeader: CategoriesHeaderCollectionViewDelegate?
+    fileprivate var isShowingSuperKeywords: Bool {
+        return categoryHeaderElements.first?.isSuperKeyword ?? false
+    }
     var categorySelected = Variable<CategoryHeaderInfo?>(nil)
     
     static let viewHeight: CGFloat = CategoryHeaderCell.cellSize().height
@@ -32,6 +40,10 @@ class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate
         self.categoryHeaderElements = categories
         super.init(frame: frame, collectionViewLayout: layout)
         //Setup
+        
+        if isShowingSuperKeywords {
+            categoryHeaderElements.append(CategoryHeaderElement.other)
+        }
         setup()
         setAccessibilityIds()
     }
@@ -53,28 +65,33 @@ class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryHeaderCell.reuseIdentifier, for: indexPath) as? CategoryHeaderCell else { return UICollectionViewCell() }
-        let categoryHeaderElement = categoryHeaderElements[indexPath.row]
-        cell.categoryTitle.text = categoryHeaderElement.name.uppercase
-        switch categoryHeaderElement {
-        case .listingCategory:
-            cell.categoryIcon.image = categoryHeaderElement.imageIcon
-        case .superKewword:
-            if let url = categoryHeaderElement.imageIconURL {
-                cell.categoryIcon.lg_setImageWithURL(url)
+            let categoryHeaderElement = categoryHeaderElements[indexPath.row]
+            cell.categoryTitle.text = categoryHeaderElement.name.uppercase
+            switch categoryHeaderElement {
+            case .listingCategory, .other:
+                cell.categoryIcon.image = categoryHeaderElement.imageIcon
+            case .superKeyword:
+                if let url = categoryHeaderElement.imageIconURL {
+                    cell.categoryIcon.lg_setImageWithURL(url)
+                }
             }
-        }
-        if categoryHeaderElement.isCarCategory {
-            cell.addNewTagToCategory()
-        }
+            if categoryHeaderElement.isCarCategory {
+                cell.addNewTagToCategory()
+            }
         return cell
     }
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+       
         let categoryHeaderElement = categoryHeaderElements[indexPath.row]
-        categorySelected.value = CategoryHeaderInfo(categoryHeaderElement: categoryHeaderElement,
-                                                    position: indexPath.row + 1,
-                                                    name: categoryHeaderElement.name)
+        if categoryHeaderElement.isOther {
+            delegateCategoryHeader?.openTaxonomyList()
+        } else {
+            categorySelected.value = CategoryHeaderInfo(categoryHeaderElement: categoryHeaderElement,
+                                                        position: indexPath.row + 1,
+                                                        name: categoryHeaderElement.name)
+        }
     }
 
     

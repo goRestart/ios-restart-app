@@ -500,6 +500,7 @@ extension MainProductsViewController: ProductListViewHeaderDelegate, PushPermiss
             let screenWidth: CGFloat = UIScreen.main.bounds.size.width
             categoriesHeader = CategoriesHeaderCollectionView(categories: viewModel.categoryHeaderElements,
                                                               frame: CGRect(x: 0, y: 0, width: screenWidth, height: CategoriesHeaderCollectionView.viewHeight))
+            categoriesHeader?.delegateCategoryHeader = viewModel
             categoriesHeader?.categorySelected.asObservable().bindNext { [weak self] categoryHeaderInfo in
                 guard let category = categoryHeaderInfo else { return }
                 self?.viewModel.updateFiltersFromHeaderCategories(category)

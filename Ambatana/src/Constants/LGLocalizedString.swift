@@ -255,6 +255,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("categories_inFeed_cars", comment: "")
 	}
 
+	static var categoriesSuperKeywordsInfeedShowMore: String {
+		return NSLocalizedString("categories_super_keywords_inFeed_show_more", comment: "")
+	}
+
 	static var changeLocationApplyButton: String {
 		return NSLocalizedString("change_location_apply_button", comment: "")
 	}

@@ -16,4 +16,5 @@ protocol MainTabNavigator: TabNavigator {
     func openLocationSelection(initialPlace: Place?,
                                distanceRadius: Int?,
                                locationDelegate: EditLocationDelegate)
+    func openTaxonomyList(withViewModel viewModel: TaxonomiesViewModel)
 }

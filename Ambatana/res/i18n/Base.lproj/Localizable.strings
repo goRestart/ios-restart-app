@@ -184,6 +184,9 @@
 // Category "Cars"
 "categories_inFeed_cars" = "Cars";
 
+// Show more header element
+"categories_super_keywords_inFeed_show_more" = "Show more";
+
 // Change location apply button. Check image @ "change_location_title" segment
 "change_location_apply_button" = "Set location";
 

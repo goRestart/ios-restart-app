@@ -10,22 +10,25 @@ import LGCoreKit
 
 enum CategoryHeaderElement {
     case listingCategory(ListingCategory)
-    case superKewword(TaxonomyChild)
+    case superKeyword(TaxonomyChild)
+    case other
     
     var name: String {
         switch self {
         case .listingCategory(let listingCategory):
             return listingCategory.nameInFeed
-        case .superKewword(let taxonomyChild):
+        case .superKeyword(let taxonomyChild):
             return taxonomyChild.name
+        case .other:
+            return LGLocalizedString.categoriesSuperKeywordsInfeedShowMore
         }
     }
     
     var imageIconURL: URL? {
         switch self {
-        case .listingCategory:
+        case .listingCategory, .other:
             return nil
-        case .superKewword(let taxonomyChild):
+        case .superKeyword(let taxonomyChild):
             return taxonomyChild.highlightIcon
         }
     }
@@ -34,8 +37,10 @@ enum CategoryHeaderElement {
         switch self {
         case .listingCategory(let listingCategory):
             return listingCategory.imageInFeed
-        case .superKewword:
+        case .superKeyword:
             return nil
+        case .other:
+            return #imageLiteral(resourceName: "showMore")
         }
     }
     
@@ -43,8 +48,35 @@ enum CategoryHeaderElement {
         switch self {
         case .listingCategory(let listingCategory):
             return listingCategory.isCar
-        case .superKewword:
+        case .superKeyword, .other:
             return false
+        }
+    }
+    
+    var isCategory: Bool {
+        switch self {
+        case .listingCategory:
+            return true
+        case .superKeyword, .other:
+            return false
+        }
+    }
+    
+    var isSuperKeyword: Bool {
+        switch self {
+        case .listingCategory, .other:
+            return false
+        case .superKeyword:
+            return true
+        }
+    }
+    
+    var isOther: Bool {
+        switch self {
+        case .listingCategory, .superKeyword:
+            return false
+        case .other:
+            return true
         }
     }
 }

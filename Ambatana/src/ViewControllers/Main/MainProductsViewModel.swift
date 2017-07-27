@@ -305,7 +305,7 @@ class MainProductsViewModel: BaseViewModel {
 
     override func didBecomeActive(_ firstTime: Bool) {
         updatePermissionsWarning()
-        taxonomyChildren = getTaxonomyChildren()
+        taxonomyChildren = filterSuperKeywordsHighlighted(taxonomies: getTaxonomyChildren())
         updateCategoriesHeader()
         setupRx()
         if let currentLocation = locationManager.currentLocation {
@@ -457,17 +457,20 @@ class MainProductsViewModel: BaseViewModel {
      Called when a filter gets removed
      */
     func updateFiltersFromHeaderCategories(_ categoryHeaderInfo: CategoryHeaderInfo) {
+        tracker.trackEvent(TrackerEvent.filterCategoryHeaderSelected(position: categoryHeaderInfo.position,
+                                                                     name: categoryHeaderInfo.name))
         switch categoryHeaderInfo.categoryHeaderElement {
         case .listingCategory(let listingCategory):
             filters.selectedCategories = [listingCategory]
-        case .superKewword(let taxonomyChild):
+        case .superKeyword(let taxonomyChild):
             filters.selectedTaxonomyChildren = [taxonomyChild]
+        case .other:
+            return
         }
         delegate?.vmShowTags(tags)
         updateCategoriesHeader()
         updateListView()
-        tracker.trackEvent(TrackerEvent.filterCategoryHeaderSelected(position: categoryHeaderInfo.position,
-                                                             name: categoryHeaderInfo.name))
+        
     }
 
     func bubbleTapped() {
@@ -527,9 +530,16 @@ class MainProductsViewModel: BaseViewModel {
     
     // MARK: - Taxonomies
     
+    fileprivate func getTaxonomies() -> [Taxonomy] {
+        return categoryRepository.indexTaxonomies()
+    }
+    
     private func getTaxonomyChildren() -> [TaxonomyChild] {
-        let taxonomies = categoryRepository.indexTaxonomies()
-        let highlightedTaxonomies: [TaxonomyChild] = taxonomies.flatMap { $0.children }.filter { $0.highlightOrder != nil }
+        return getTaxonomies().flatMap { $0.children }
+    }
+    
+    private func filterSuperKeywordsHighlighted(taxonomies: [TaxonomyChild]) ->  [TaxonomyChild] {
+        let highlightedTaxonomies: [TaxonomyChild] = taxonomies.filter { $0.highlightOrder != nil }
         let sortedArray = highlightedTaxonomies.sorted(by: {
             guard let firstValue = $0.highlightOrder, let secondValue = $1.highlightOrder else { return false }
             return firstValue < secondValue
@@ -541,7 +551,7 @@ class MainProductsViewModel: BaseViewModel {
         var categoryHeaderElements: [CategoryHeaderElement] = []
         if isAddSuperKeywordsEnabled {
             taxonomyChildren.forEach {
-                categoryHeaderElements.append(CategoryHeaderElement.superKewword($0))
+                categoryHeaderElements.append(CategoryHeaderElement.superKeyword($0))
             }
         } else {
             ListingCategory.visibleValuesInFeed().forEach {
@@ -1106,5 +1116,28 @@ extension MainProductsViewModel: EditLocationDelegate {
         filters.distanceRadius = distanceRadius
         updateListView()
         delegate?.vmFiltersChanged()
+    }
+}
+
+
+//MARK: CategoriesHeaderCollectionViewDelegate
+
+extension MainProductsViewModel: CategoriesHeaderCollectionViewDelegate {
+    func openTaxonomyList() {
+        let vm = TaxonomiesViewModel(taxonomies: getTaxonomies())
+        vm.taxonomiesDelegate = self
+        navigator?.openTaxonomyList(withViewModel: vm)
+    }
+}
+
+
+// MARK: TaxonomiesDelegate
+
+extension MainProductsViewModel: TaxonomiesDelegate {
+    func didSelectTaxonomyChild(taxonomyChild: TaxonomyChild) {
+        filters.selectedTaxonomyChildren = [taxonomyChild]
+        delegate?.vmShowTags(tags)
+        updateCategoriesHeader()
+        updateListView()
     }
 }
