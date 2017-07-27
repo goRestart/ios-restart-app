@@ -456,21 +456,27 @@ class MainProductsViewModel: BaseViewModel {
     /**
      Called when a filter gets removed
      */
-    func updateFiltersFromHeaderCategories(_ categoryHeaderInfo: CategoryHeaderInfo) {
+    func applyFilters(_ categoryHeaderInfo: CategoryHeaderInfo) {
         tracker.trackEvent(TrackerEvent.filterCategoryHeaderSelected(position: categoryHeaderInfo.position,
                                                                      name: categoryHeaderInfo.name))
+        delegate?.vmShowTags(tags)
+        updateCategoriesHeader()
+        updateListView()
+        
+    }
+    
+    func updateFiltersFromHeaderCategories(_ categoryHeaderInfo: CategoryHeaderInfo) {
         switch categoryHeaderInfo.categoryHeaderElement {
         case .listingCategory(let listingCategory):
             filters.selectedCategories = [listingCategory]
         case .superKeyword(let taxonomyChild):
             filters.selectedTaxonomyChildren = [taxonomyChild]
         case .other:
-            return
+            tracker.trackEvent(TrackerEvent.filterCategoryHeaderSelected(position: categoryHeaderInfo.position,
+                                                                         name: categoryHeaderInfo.name))
+            return // do not update any filters
         }
-        delegate?.vmShowTags(tags)
-        updateCategoriesHeader()
-        updateListView()
-        
+        applyFilters(categoryHeaderInfo)
     }
 
     func bubbleTapped() {
