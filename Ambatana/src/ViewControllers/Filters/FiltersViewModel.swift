@@ -132,11 +132,16 @@ class FiltersViewModel: BaseViewModel {
     }
 
     var priceCellsDisabled: Bool {
-        return self.productFilter.priceRange.free
+        if featureFlags.addSuperKeywordsOnFeed.isActive {
+            return false
+        } else {
+            return self.productFilter.priceRange.free
+        }
     }
 
     var carsInfoCellsDisabled: Bool {
-        return !(featureFlags.carsVerticalEnabled && productFilter.selectedCategories.contains(.cars))
+        let isTaxonomyCars = productFilter.selectedTaxonomyChildren.contains(where: { $0.isCarsCategory == true })
+        return !(featureFlags.carsVerticalEnabled && (productFilter.selectedCategories.contains(.cars) || isTaxonomyCars))
     }
 
     var numOfWithinTimes : Int {
@@ -155,6 +160,10 @@ class FiltersViewModel: BaseViewModel {
     private var maxPrice: Int? {
         return productFilter.priceRange.max
     }
+    
+    fileprivate var priceRangeAvailable: Bool {
+        return productFilter.priceRange != .freePrice
+    }
 
     var minPriceString: String? {
         guard let minPrice = minPrice else { return nil }
@@ -163,6 +172,18 @@ class FiltersViewModel: BaseViewModel {
     var maxPriceString: String? {
         guard let maxPrice = maxPrice else { return nil }
         return String(maxPrice)
+    }
+    
+    var isFreeActive: Bool {
+        return productFilter.priceRange.free
+    }
+    
+    var isSuperKeywordsActive: Bool {
+        return featureFlags.addSuperKeywordsOnFeed.isActive
+    }
+    
+    var currentTaxonomyChildSelected: TaxonomyChild? {
+        return productFilter.selectedTaxonomyChildren.last
     }
 
     fileprivate var productFilter : ProductFilters
@@ -197,8 +218,8 @@ class FiltersViewModel: BaseViewModel {
 
     // MARK: - Actions
 
-    private func generateSections() -> [FilterSection] {
-        var updatedSections = FilterSection.allValues
+    fileprivate func generateSections() -> [FilterSection] {
+        var updatedSections = FilterSection.allValues(priceAsLast: !featureFlags.addSuperKeywordsOnFeed.isActive)
 
         // Don't show price cells if necessary
         if let idx = updatedSections.index(of: FilterSection.price), priceCellsDisabled {
@@ -217,6 +238,12 @@ class FiltersViewModel: BaseViewModel {
                                                distanceRadius: productFilter.distanceRadius)
         locationVM.locationDelegate = self
         navigator?.openEditLocation(withViewModel: locationVM)
+    }
+    
+    func categoriesButtonPressed() {
+        let taxonomiesVM = TaxonomiesViewModel(taxonomies: categoryRepository.indexTaxonomies())
+        taxonomiesVM.taxonomiesDelegate = self
+        navigator?.openTaxonomyList(withViewModel: taxonomiesVM)
     }
 
     func makeButtonPressed() {
@@ -290,7 +317,7 @@ class FiltersViewModel: BaseViewModel {
     private func buildFilterCategoryItemsWithCategories(_ categories: [ListingCategory]) -> [FilterCategoryItem] {
 
         var filterCatItems: [FilterCategoryItem] = featureFlags.carsVerticalEnabled ? [.category(category: .cars)] : []
-        if featureFlags.freePostingModeAllowed {
+        if featureFlags.freePostingModeAllowed && !featureFlags.addSuperKeywordsOnFeed.isActive {
             filterCatItems.append(.free)
         }
         let builtCategories = categories.map { FilterCategoryItem(category: $0) }
@@ -315,7 +342,7 @@ class FiltersViewModel: BaseViewModel {
             productFilter.toggleCategory(cat, carVerticalEnabled: featureFlags.carsVerticalEnabled)
         }
         sections = generateSections()
-        self.delegate?.vmDidUpdate()
+        delegate?.vmDidUpdate()
     }
     
     func categoryTextAtIndex(_ index: Int) -> String? {
@@ -369,7 +396,7 @@ class FiltersViewModel: BaseViewModel {
         guard index < numOfWithinTimes else { return }
         
         productFilter.selectedWithin = withinTimes[index]
-        self.delegate?.vmDidUpdate()
+        delegate?.vmDidUpdate()
     }
     
     func withinTimeNameAtIndex(_ index: Int) -> String? {
@@ -395,7 +422,7 @@ class FiltersViewModel: BaseViewModel {
         } else {
             productFilter.selectedOrdering = selected
         }
-        self.delegate?.vmDidUpdate()
+        delegate?.vmDidUpdate()
     }
 
     func sortOptionTextAtIndex(_ index: Int) -> String? {
@@ -412,6 +439,10 @@ class FiltersViewModel: BaseViewModel {
 
     // MARK: Price
 
+    var numberOfPriceRows: Int {
+        return priceRangeAvailable ? 2 : 1
+    }
+    
     func setMinPrice(_ value: String?) {
         guard let value = value, !productFilter.priceRange.free else { return }
         productFilter.priceRange = .priceRange(min: Int(value), max: maxPrice)
@@ -475,3 +506,23 @@ extension FiltersViewModel: CarAttributeSelectionDelegate {
     func didSelectYear(year: Int) { }
 }
 
+
+// MARK: TaxonomiesDelegate
+
+extension FiltersViewModel: TaxonomiesDelegate {
+    func didSelectTaxonomyChild(taxonomyChild: TaxonomyChild) {
+        productFilter.selectedTaxonomyChildren = [taxonomyChild]
+        sections = generateSections()
+        delegate?.vmDidUpdate()
+    }
+}
+
+
+// MARK: FilterFreeCellDelegate
+
+extension FiltersViewModel: FilterFreeCellDelegate {
+    func freeSwitchChanged(isOn: Bool) {
+        productFilter.priceRange = isOn ? .freePrice : .priceRange(min: nil, max: nil)
+        delegate?.vmDidUpdate()
+    }
+}

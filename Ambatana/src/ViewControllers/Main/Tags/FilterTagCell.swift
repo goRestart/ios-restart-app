@@ -40,6 +40,8 @@ class FilterTagCell: UICollectionViewCell {
             return FilterTagCell.sizeForText(timeOption.name)
         case .category:
             return CGSize(width: iconWidth+fixedWidthSpace, height: FilterTagCell.cellHeight)
+        case .taxonomyChild(let taxonomyChild):
+            return FilterTagCell.sizeForText(taxonomyChild.name)
         case .priceRange(let minPrice, let maxPrice, let currency):
             let priceRangeString  = FilterTagCell.stringForPriceRange(minPrice, max: maxPrice, withCurrency: currency)
             return FilterTagCell.sizeForText(priceRangeString)
@@ -138,27 +140,29 @@ class FilterTagCell: UICollectionViewCell {
         
         switch tag {
         case .location(let place):
-            self.tagLabel.text = place.fullText(showAddress: false)
+            tagLabel.text = place.fullText(showAddress: false)
         case .orderBy(let sortOption):
-            self.tagLabel.text = sortOption.name
+            tagLabel.text = sortOption.name
         case .within(let timeOption):
-            self.tagLabel.text = timeOption.name
+            tagLabel.text = timeOption.name
         case .category(let category):
-            self.tagIconWidth.constant = FilterTagCell.iconWidth
-            self.tagIcon.image = category.imageTag
+            tagIconWidth.constant = FilterTagCell.iconWidth
+            tagIcon.image = category.imageTag
+        case .taxonomyChild(let taxonomyChild):
+            tagLabel.text = taxonomyChild.name
         case .priceRange(let minPrice, let maxPrice, let currency):
-            self.tagLabel.text = FilterTagCell.stringForPriceRange(minPrice, max: maxPrice, withCurrency: currency)
+            tagLabel.text = FilterTagCell.stringForPriceRange(minPrice, max: maxPrice, withCurrency: currency)
         case .freeStuff:
-            self.tagIconWidth.constant = FilterTagCell.iconWidth
-            self.tagIcon.image = UIImage(named: "categories_free_tag")
+            tagIconWidth.constant = FilterTagCell.iconWidth
+            tagIcon.image = UIImage(named: "categories_free_tag")
         case .distance(let distance):
-            self.tagLabel.text = distance.intToDistanteFormat()
+            tagLabel.text = distance.intToDistanteFormat()
         case .make(_, let name):
-            self.tagLabel.text = name
+            tagLabel.text = name
         case .model(_, let name):
-            self.tagLabel.text = name
+            tagLabel.text = name
         case .yearsRange(let startYear, let endYear):
-            self.tagLabel.text = FilterTagCell.stringForYearsRange(startYear, endYear: endYear)
+            tagLabel.text = FilterTagCell.stringForYearsRange(startYear, endYear: endYear)
         }
     }
 
