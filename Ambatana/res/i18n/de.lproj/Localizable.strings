@@ -25,8 +25,8 @@
 "bump_up_error_bump_token" = "Deine Zahlung wurde verarbeitet, aber das Produkt wurde noch nicht nach oben geholt.";
 "bump_up_error_payment_failed" = "Es konnte keine Verbindung zum App Store hergestellt werden. Deine Zahlung wurde nicht verarbeitet. Bitte versuche es erneut.";
 "bump_up_free_success" = "Ganz oben! Hole dein Angebot nach oben und mache es damit noch sichtbarer.";
-"bump_up_not_allowed_alert_contact_button" = "Contact Us";
-"bump_up_not_allowed_alert_text" = "Bumping Up this item isn't possible at this time.  For more information, contact us.";
+"bump_up_not_allowed_alert_contact_button" = "Schreib uns";
+"bump_up_not_allowed_alert_text" = "Es ist im Moment nicht möglich, diesen Artikel nach oben zu holen. Bitte kontaktiere uns für weitere Informationen.";
 "bump_up_pay_success" = "Ganz oben! Dein Produkt ist nun besonders sichtbar.";
 "bump_up_processing_free_text" = "Angebot wird hochgeholt...";
 "bump_up_processing_priced_text" = "Zahlung wird verarbeitet...";
@@ -58,6 +58,7 @@
 "categories_old_cars_and_motors" = "Autos und Fahrzeuge";
 "categories_other" = "Sonstige";
 "categories_sports_leisure_and_games" = "Sport und Freizeit";
+"categories_super_keywords_inFeed_show_more" = "Show more";
 "categories_title" = "Kategorien";
 "categories_unassigned" = "Nichts ausgewählt";
 "change_email_current_email_label" = "AKTUELLE E-MAIL-ADRESSE:";

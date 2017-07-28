@@ -25,8 +25,8 @@
 "bump_up_error_bump_token" = "Din betaling er behandlet, men ditt produkt er ikke promotert enda.";
 "bump_up_error_payment_failed" = "Kunne ikke koble til App Store. Din betaling har ikke blitt prosessert. Vennligst prøv igjen.";
 "bump_up_free_success" = "Produktet er promotert! Fortsett å fremme din annonse, og den vil bli enda mer synlig.";
-"bump_up_not_allowed_alert_contact_button" = "Contact Us";
-"bump_up_not_allowed_alert_text" = "Bumping Up this item isn't possible at this time.  For more information, contact us.";
+"bump_up_not_allowed_alert_contact_button" = "Kontakt oss";
+"bump_up_not_allowed_alert_text" = "Promotering av dette produktet er ikke tilgjengelig for øyeblikket. Kontakt oss for mer informasjon.";
 "bump_up_pay_success" = "Produktet er promotert! Ditt produkt har nå ekstra synlighet.";
 "bump_up_processing_free_text" = "Prosesserer promotering...";
 "bump_up_processing_priced_text" = "Prosesserer betaling...";
@@ -58,6 +58,7 @@
 "categories_old_cars_and_motors" = "Bil og motor";
 "categories_other" = "Annet";
 "categories_sports_leisure_and_games" = "Sport, fritid og spill";
+"categories_super_keywords_inFeed_show_more" = "Show more";
 "categories_title" = "Kategorier";
 "categories_unassigned" = "Ikke valgt";
 "change_email_current_email_label" = "NÅVÆRENDE E-POSTADRESSE:";
