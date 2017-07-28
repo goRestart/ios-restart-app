@@ -1030,21 +1030,52 @@ struct TrackerEvent {
         return TrackerEvent(name: .passiveBuyerAbandon, params: params)
     }
 
-    static func productBumpUpStart(_ listing: Listing, price: EventParameterBumpUpPrice) -> TrackerEvent {
+    static func bumpBannerShow(type: EventParameterBumpUpType, listingId: String?) -> TrackerEvent {
+        var params = EventParameters()
+        params[.bumpUpType] = type.rawValue
+        params[.productId] = listingId ?? ""
+        return TrackerEvent(name: .bumpBannerShow, params: params)
+    }
+
+    static func productBumpUpStart(_ listing: Listing, price: EventParameterBumpUpPrice,
+                                   type: EventParameterBumpUpType) -> TrackerEvent {
         var params = EventParameters()
         params.addListingParams(listing)
 
         params[.bumpUpPrice] = price.description
+        params[.bumpUpType] = type.rawValue
         return TrackerEvent(name: .bumpUpStart, params: params)
     }
 
     static func productBumpUpComplete(_ listing: Listing, price: EventParameterBumpUpPrice,
-                                      network: EventParameterShareNetwork) -> TrackerEvent {
+                                      type: EventParameterBumpUpType, network: EventParameterShareNetwork) -> TrackerEvent {
         var params = EventParameters()
         params.addListingParams(listing)
         params[.bumpUpPrice] = price.description
+        params[.bumpUpType] = type.rawValue
         params[.shareNetwork] = network.rawValue
         return TrackerEvent(name: .bumpUpComplete, params: params)
+    }
+
+    static func productBumpUpFail(type: EventParameterBumpUpType, listingId: String?) -> TrackerEvent {
+        var params = EventParameters()
+        params[.bumpUpType] = type.rawValue
+        params[.productId] = listingId ?? ""
+        return TrackerEvent(name: .bumpUpFail, params: params)
+    }
+
+    static func mobilePaymentComplete(paymentId: String, listingId: String?) -> TrackerEvent {
+        var params = EventParameters()
+        params[.paymentId] = paymentId
+        params[.productId] = listingId ?? ""
+        return TrackerEvent(name: .mobilePaymentComplete, params: params)
+    }
+
+    static func mobilePaymentFail(reason: String?, listingId: String?) -> TrackerEvent {
+        var params = EventParameters()
+        params[.reason] = reason ?? ""
+        params[.productId] = listingId ?? ""
+        return TrackerEvent(name: .mobilePaymentFail, params: params)
     }
 
     static func bumpUpNotAllowed(_ reason: EventParameterBumpUpNotAllowedReason) -> TrackerEvent {
