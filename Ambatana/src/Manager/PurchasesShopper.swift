@@ -31,5 +31,5 @@ protocol PurchasesShopper: class {
 
     func isBumpUpPending(forListingId: String) -> Bool
     func requestFreeBumpUp(forListingId listingId: String, paymentItemId: String, shareNetwork: EventParameterShareNetwork)
-    func requestPricedBumpUp(forListingId listingId: String)
+    func restorePaidBumpUp(forListingId listingId: String)
 }

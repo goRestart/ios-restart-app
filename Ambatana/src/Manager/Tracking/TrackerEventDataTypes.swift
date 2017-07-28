@@ -160,8 +160,12 @@ enum EventName: String {
     case passiveBuyerComplete               = "passive-buyer-complete"
     case passiveBuyerAbandon                = "passive-buyer-abandon"
 
+    case bumpBannerShow                     = "bump-banner-show"
     case bumpUpStart                        = "bump-up-start"
     case bumpUpComplete                     = "bump-up-complete"
+    case bumpUpFail                         = "bump-up-fail"
+    case mobilePaymentComplete              = "mobile-payment-complete" // triggered when the payment has been confirmed by Apple/Google. (this event is triggered before the bump-up-complete event)
+    case mobilePaymentFail                  = "mobile-payment-fail"
     case bumpNotAllowed                     = "bump-up-not-allowed"
     case bumpNotAllowedContactUs            = "bump-up-not-allowed-contact-us"
 
@@ -279,6 +283,8 @@ enum EventParameterName: String {
     case expressChatTrigger   = "express-chat-trigger"
     case numberPhotosPosting  = "number-photos-posting"
     case bumpUpPrice          = "price"
+    case bumpUpType           = "bump-type"
+    case paymentId            = "payment-id"
     case passiveConversations = "passive-conversations"
     case feedPosition         = "feed-position"
     case feedSource           = "feed-source"
@@ -833,6 +839,23 @@ enum EventParameterBumpUpPrice {
             return "free"
         case let .pay(price):
             return price
+        }
+    }
+}
+
+enum EventParameterBumpUpType: String {
+    case free = "free"
+    case paid = "paid"
+    case retry = "retry"
+
+    init(bumpType: BumpUpType) {
+        switch bumpType {
+        case .free:
+            self = .free
+        case .priced, .hidden:
+            self = .paid
+        case .restore:
+            self = .retry
         }
     }
 }
