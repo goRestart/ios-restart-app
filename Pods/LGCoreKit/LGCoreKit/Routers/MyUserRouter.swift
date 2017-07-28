@@ -39,6 +39,9 @@ enum MyUserRouter: URLRequestAuthenticable {
         }
     }
     
+    var errorDecoderType: ErrorDecoderType?
+    { return .apiUsersError }
+    
     var reportingBlacklistedApiError: Array<ApiError> { return [.scammer] }
     
     func asURLRequest() throws -> URLRequest {

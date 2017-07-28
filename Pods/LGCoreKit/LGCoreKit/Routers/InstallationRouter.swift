@@ -23,6 +23,10 @@ enum InstallationRouter: URLRequestAuthenticable {
             return .installation
         }
     }
+    
+    var errorDecoderType: ErrorDecoderType? {
+        return .apiUsersError
+    }
 
     var reportingBlacklistedApiError: Array<ApiError> { return [.scammer] }
 
