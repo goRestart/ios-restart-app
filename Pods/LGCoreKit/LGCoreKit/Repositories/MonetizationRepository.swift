@@ -34,7 +34,7 @@ public protocol MonetizationRepository {
     
     func retrieveBumpeableProductInfo(productId: String, completion: BumpeableListingCompletion?)
     func freeBump(forListingId listingId: String, itemId: String, completion: BumpCompletion?)
-    func pricedBump(forListingId listingId: String, receiptData: String, itemId: String, itemPrice: String,
+    func pricedBump(forListingId listingId: String, paymentId: String, receiptData: String, itemId: String, itemPrice: String,
                     itemCurrency: String, amplitudeId: String?, appsflyerId: String?, idfa: String?, bundleId: String?,
                     completion: BumpCompletion?)
 }
