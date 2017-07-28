@@ -255,6 +255,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("categories_inFeed_cars", comment: "")
 	}
 
+	static var categoriesSuperKeywordsInfeedShowMore: String {
+		return NSLocalizedString("categories_super_keywords_inFeed_show_more", comment: "")
+	}
+
 	static var changeLocationApplyButton: String {
 		return NSLocalizedString("change_location_apply_button", comment: "")
 	}
@@ -1857,6 +1861,22 @@ struct LGLocalizedString {
 
 	static var surveyConfirmation: String {
 		return NSLocalizedString("survey_confirmation", comment: "")
+	}
+
+	static var onboardingCategoriesTitle: String {
+		return NSLocalizedString("onboarding_categories_title", comment: "")
+	}
+
+	static var onboardingCategoriesButtonTitleInitial: String {
+		return NSLocalizedString("onboarding_categories_button_title_initial", comment: "")
+	}
+
+	static var onboardingCategoriesButtonCountdown: String {
+		return NSLocalizedString("onboarding_categories_button_countdown", comment: "")
+	}
+
+	static var onboardingCategoriesButtonTitleFinish: String {
+		return NSLocalizedString("onboarding_categories_button_title_finish", comment: "")
 	}
 
 	static var onboardingDirectCameraAlertTitle: String {

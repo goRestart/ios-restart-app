@@ -25,8 +25,8 @@
 "bump_up_error_bump_token" = "Η πληρωμή σας έχει προχωρήσει, αλλά το αντικείμενό σας δεν έχει προταθεί.";
 "bump_up_error_payment_failed" = "Η σύνδεση στο App Store απέτυχε. Η πληρωμή σας δεν έχει προχωρήσει. Παρακαλώ δοκιμάστε ξανά.";
 "bump_up_free_success" = "Επιτυχής προώθηση! Συνεχίστε την προώθηση και οι καταχωρήσεις σας θα είναι ακόμη πιο ορατές.";
-"bump_up_not_allowed_alert_contact_button" = "Contact Us";
-"bump_up_not_allowed_alert_text" = "Bumping Up this item isn't possible at this time.  For more information, contact us.";
+"bump_up_not_allowed_alert_contact_button" = "Επικοινωνία";
+"bump_up_not_allowed_alert_text" = "Η προώθηση αυτού του αντικειμένου δεν είναι δυνατή αυτήν τη στιγμή. Για περισσότερες πληροφορίες, επικοινωνήστε μαζί μας.";
 "bump_up_pay_success" = "Επιτυχής προώθηση! Τώρα το αντικείμενό σας έχει επιπλέον προβολή.";
 "bump_up_processing_free_text" = "Επεξεργασία προώθησης...";
 "bump_up_processing_priced_text" = "Επεξεργασία πληρωμής...";
@@ -58,6 +58,7 @@
 "categories_old_cars_and_motors" = "Αυτοκίνητα και Μηχανές";
 "categories_other" = "Άλλα";
 "categories_sports_leisure_and_games" = "Αθλητικά, Ψυχαγωγία και Παιχνίδια";
+"categories_super_keywords_inFeed_show_more" = "Δείτε Περισσότερα";
 "categories_title" = "Κατηγορίες";
 "categories_unassigned" = "Δεν έχει επιλεχθεί";
 "change_email_current_email_label" = "ΤΡΕΧΟΝ EMAIL:";
@@ -377,7 +378,7 @@
 "login_scammer_alert_title" = "ΛΟΓΑΡΙΑΣΜΟΣ ΥΠΟ ΕΛΕΓΧΟ";
 "main_products_filter_navigation_bar_button" = "Φιλτράρετε";
 "main_products_invite_navigation_bar_button" = "Προσκαλέστε";
-"main_sign_up_claim_label" = "Ξεκίνα να πουλάς και να αγοράζεις - μέσω chat!";
+"main_sign_up_claim_label" = "Κάντε αγοραπωλησίες στην περιοχή σας γρήγορα και ευκολα.";
 "main_sign_up_error_request_already_sent" = "Το αίτημά σας έχει ήδη προχωρήσει. Παρακαλώ περιμένετε πριν προσπαθήσετε ξανά.";
 "main_sign_up_error_user_rejected" = "Το email που εισάγατε είναι λανθασμένο. Παρακαλώ ελέγξτε το και δοκιμάστε ξανά.";
 "main_sign_up_facebook_connect_button" = "Συνέχεια με το Facebook";

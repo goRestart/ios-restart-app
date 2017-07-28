@@ -25,8 +25,8 @@
 "bump_up_error_bump_token" = "Ваш платеж обработан, но товар еще не поднят.";
 "bump_up_error_payment_failed" = "Невозможно подключиться к App Store. Ваш платеж не обработан. Пожалуйста, попробуйте еще раз.";
 "bump_up_free_success" = "Поднято! Продолжайте поднимать ваше объявление, и его будет видно еще лучше.";
-"bump_up_not_allowed_alert_contact_button" = "Contact Us";
-"bump_up_not_allowed_alert_text" = "Bumping Up this item isn't possible at this time.  For more information, contact us.";
+"bump_up_not_allowed_alert_contact_button" = "Контакты";
+"bump_up_not_allowed_alert_text" = "В данный момент поднять этот товар невозможно. Свяжитесь с нами для подробной информации.";
 "bump_up_pay_success" = "Поднято! Теперь ваш товар лучше виден.";
 "bump_up_processing_free_text" = "Обрабатываем продвижение объявления...";
 "bump_up_processing_priced_text" = "Обрабатываем платеж...";
@@ -58,6 +58,7 @@
 "categories_old_cars_and_motors" = "Автомобили и Запчасти";
 "categories_other" = "Другое";
 "categories_sports_leisure_and_games" = "Спорт и Развлечения";
+"categories_super_keywords_inFeed_show_more" = "Показать еще";
 "categories_title" = "Категории";
 "categories_unassigned" = "Не выбрана";
 "change_email_current_email_label" = "ТЕКУЩИЙ Е-МЕЙЛ:";
@@ -377,7 +378,7 @@
 "login_scammer_alert_title" = "АККАУНТ НА ПРОВЕРКЕ";
 "main_products_filter_navigation_bar_button" = "Фильтр";
 "main_products_invite_navigation_bar_button" = "Пригласить";
-"main_sign_up_claim_label" = "Начните продавать и покупать в чате!";
+"main_sign_up_claim_label" = "Покупайте и продавайте быстро, безопасно и удобно.";
 "main_sign_up_error_request_already_sent" = "Ваш запрос обрабатывается. Пожалуйста, подождите перед следующей попыткой.";
 "main_sign_up_error_user_rejected" = "Указанный е-мейл или пароль некорректен. Пожалуйста, проверьте их и попробуйте еще раз.";
 "main_sign_up_facebook_connect_button" = "Вход через Facebook";

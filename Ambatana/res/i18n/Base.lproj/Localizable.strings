@@ -184,6 +184,9 @@
 // Category "Cars"
 "categories_inFeed_cars" = "Cars";
 
+// Show more header element
+"categories_super_keywords_inFeed_show_more" = "Show more";
+
 // Change location apply button. Check image @ "change_location_title" segment
 "change_location_apply_button" = "Set location";
 
@@ -1172,7 +1175,7 @@
 "sign_up_email_step2_sign_up_button" = "Sign Up";
 
 // Main sign up claim label. Check image @ "main_sign_up_already_registered_label" segment
-"main_sign_up_claim_label" = "Start to sell and buy—by chat!";
+"main_sign_up_claim_label" = "Buy and sell quickly, safely and locally. It’s time to letgo!";
 
 // Main sign up facebook connect button. Check image @ "main_sign_up_already_registered_label" segment
 "main_sign_up_facebook_connect_button" = "Continue with Facebook";
@@ -1377,6 +1380,18 @@
 
 // Survey confirmation message
 "survey_confirmation" = "Thank you! Your feedback helps us improve";
+
+// Title to select categories on onboarding
+"onboarding_categories_title" = "What kind of products are you interested in?";
+
+// Button title when no category selected
+"onboarding_categories_button_title_initial" = "Pick at least %i categories";
+
+// Button title when at least one  category is selected
+"onboarding_categories_button_countdown" = "Pick at least %i more";
+
+// Button title when all categories needed are selected.
+"onboarding_categories_button_title_finish" = "Next";
 
 // Onboarding direct camera title
 "onboarding_direct_camera_alert_title" = "Start Making Cash!";

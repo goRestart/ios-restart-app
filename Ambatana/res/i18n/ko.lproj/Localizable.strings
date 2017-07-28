@@ -25,8 +25,8 @@
 "bump_up_error_bump_token" = "결제가 진행되었지만, 상품이 강조되지 않았습니다.";
 "bump_up_error_payment_failed" = "앱 스토어에 연결할 수 없습니다. 귀하의 결제가 진행되지 않았습니다. 다시 시도해주세요.";
 "bump_up_free_success" = "상품이 강조되었습니다! 리스트를 계속 강조하시면 사람들이 확인할 수 있습니다.";
-"bump_up_not_allowed_alert_contact_button" = "Contact Us";
-"bump_up_not_allowed_alert_text" = "Bumping Up this item isn't possible at this time.  For more information, contact us.";
+"bump_up_not_allowed_alert_contact_button" = "문의하기";
+"bump_up_not_allowed_alert_text" = "이번에 이 제품을 올리기는 가능하지 않습니다. 좀 더 자세한 정보에 대해서는, 저희에게 연락 부탁드립니다.";
 "bump_up_pay_success" = "상품이 강조되었습니다! 이제 상품이 다른 사람들에게 더 잘보입니다.";
 "bump_up_processing_free_text" = "강조 진행중...";
 "bump_up_processing_priced_text" = "결제 처리중...";
@@ -58,6 +58,7 @@
 "categories_old_cars_and_motors" = "자동차 및 모터류";
 "categories_other" = "기타";
 "categories_sports_leisure_and_games" = "스포츠,레저 및 게임";
+"categories_super_keywords_inFeed_show_more" = "더보기";
 "categories_title" = "항목";
 "categories_unassigned" = "선택되지 않음";
 "change_email_current_email_label" = "현재 이메일:";
@@ -377,7 +378,7 @@
 "login_scammer_alert_title" = "계정을 검토하고 있습니다";
 "main_products_filter_navigation_bar_button" = "필터링하기";
 "main_products_invite_navigation_bar_button" = "초대하기";
-"main_sign_up_claim_label" = "판매, 구매 그리고 -채팅을 시작하세요";
+"main_sign_up_claim_label" = "구매와 판매를 빠르고 안전하고 지역적으로 진행하세요.";
 "main_sign_up_error_request_already_sent" = "사용자의 요청은 이미 진행되었습니다. 다시 시도하기 전에 잠시만 기다려주세요.";
 "main_sign_up_error_user_rejected" = "입력하신 이메일이 일치하지 않습니다. 다시 확인하시고 입력해주세요.";
 "main_sign_up_facebook_connect_button" = "페이스북과 연결하기";

@@ -25,8 +25,8 @@
 "bump_up_error_bump_token" = "Din betalning har genomförts men din produkt har ännu inte lagts upp.";
 "bump_up_error_payment_failed" = "Anslutningen till App Store misslyckades. Din betalning har inte genomförts. Vänligen försök igen.";
 "bump_up_free_success" = "Puffad! Fortsätt att puffa upp din vara så blir den ännu mer synlig.";
-"bump_up_not_allowed_alert_contact_button" = "Contact Us";
-"bump_up_not_allowed_alert_text" = "Bumping Up this item isn't possible at this time.  For more information, contact us.";
+"bump_up_not_allowed_alert_contact_button" = "Kontakta Oss";
+"bump_up_not_allowed_alert_text" = "Det går inte att puffa upp denna produkt för tillfället. Var god kontakta oss för mer information.";
 "bump_up_pay_success" = "Puffad! Nu har din produkt fått extra synlighet.";
 "bump_up_processing_free_text" = "Bearbetar puff...";
 "bump_up_processing_priced_text" = "Bearbetar betalning...";
@@ -58,6 +58,7 @@
 "categories_old_cars_and_motors" = "Bil och motor";
 "categories_other" = "Övrigt";
 "categories_sports_leisure_and_games" = "Sport, fritid och spel";
+"categories_super_keywords_inFeed_show_more" = "Visa mer";
 "categories_title" = "Kategorier";
 "categories_unassigned" = "Inte vald";
 "change_email_current_email_label" = "BEFINTLIG E-POST:";
@@ -377,7 +378,7 @@
 "login_scammer_alert_title" = "KONTOT ÄR UNDER GRANSKNING";
 "main_products_filter_navigation_bar_button" = "Filtrera";
 "main_products_invite_navigation_bar_button" = "Bjud in";
-"main_sign_up_claim_label" = "Börja sälja och köpa - via chatt!";
+"main_sign_up_claim_label" = "Köp och sälj snabbt, säkert och lokalt.";
 "main_sign_up_error_request_already_sent" = "Din begäran har redan registrerats. Vänligen vänta innan du försöker igen.";
 "main_sign_up_error_user_rejected" = "Den e-postadress du skrev in är inte korrekt. Kolla den och försök igen.";
 "main_sign_up_facebook_connect_button" = "Fortsätt med Facebook";

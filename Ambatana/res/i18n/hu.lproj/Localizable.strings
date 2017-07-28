@@ -25,8 +25,8 @@
 "bump_up_error_bump_token" = "A tranzakciót feldolgoztuk, de portékád nincs felugrasztva.";
 "bump_up_error_payment_failed" = "Nem sikerült kapcsolódni az App Store-hoz. Feldolgozatlan befizetés. Próbálkozz újra.";
 "bump_up_free_success" = "Felugrasztva! Ugraszd fel többször, hogy még láthatóbb legyen.";
-"bump_up_not_allowed_alert_contact_button" = "Contact Us";
-"bump_up_not_allowed_alert_text" = "Bumping Up this item isn't possible at this time.  For more information, contact us.";
+"bump_up_not_allowed_alert_contact_button" = "Kapcsolat";
+"bump_up_not_allowed_alert_text" = "A hirdetés felugrasztása jelenleg nem lehetséges. További információkért lépj velünk kapcsolatba.";
 "bump_up_pay_success" = "Felugrasztva! Portékád mostantól sokkal láthatóbb.";
 "bump_up_processing_free_text" = "Ugrasztás feldolgozása...";
 "bump_up_processing_priced_text" = "Fizetés feldolgozása...";
@@ -58,6 +58,7 @@
 "categories_old_cars_and_motors" = "Autók és motorok";
 "categories_other" = "Egyéb";
 "categories_sports_leisure_and_games" = "Sport, szabadidő, játékok";
+"categories_super_keywords_inFeed_show_more" = "Többet";
 "categories_title" = "Kategóriák";
 "categories_unassigned" = "Nincs megadva";
 "change_email_current_email_label" = "JELENLEGI E-MAIL:";
@@ -377,7 +378,7 @@
 "login_scammer_alert_title" = "FIÓK ELLENŐRZÉS ALATT";
 "main_products_filter_navigation_bar_button" = "Szűrés";
 "main_products_invite_navigation_bar_button" = "Meghívás";
-"main_sign_up_claim_label" = "Ideje vásárolni és eladni – csevegve!";
+"main_sign_up_claim_label" = "Vásárolj és adj el gyorsan, biztonságosan – a környékeden.";
 "main_sign_up_error_request_already_sent" = "Kérésed már feldolgozás alatt van. Várj egy kicsit, mielőtt újra próbálkoznál.";
 "main_sign_up_error_user_rejected" = "A megadott e-mail cím helytelen. Ellenőrizd, majd próbálkozz újra.";
 "main_sign_up_facebook_connect_button" = "Folytatás a Facebookkal";

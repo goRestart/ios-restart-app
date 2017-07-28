@@ -58,6 +58,7 @@
 "categories_old_cars_and_motors" = "Cars and Motors";
 "categories_other" = "Other";
 "categories_sports_leisure_and_games" = "Sports, Leisure and Games";
+"categories_super_keywords_inFeed_show_more" = "Show more";
 "categories_title" = "Categories";
 "categories_unassigned" = "Not selected";
 "change_email_current_email_label" = "CURRENT EMAIL:";
@@ -377,7 +378,7 @@
 "login_scammer_alert_title" = "ACCOUNT UNDER REVIEW";
 "main_products_filter_navigation_bar_button" = "Filter";
 "main_products_invite_navigation_bar_button" = "Invite";
-"main_sign_up_claim_label" = "Start to sell and buy—by chat!";
+"main_sign_up_claim_label" = "Buy and sell quickly, safely and locally. It’s time to letgo!";
 "main_sign_up_error_request_already_sent" = "Your request has already been processed. Please wait before trying again.";
 "main_sign_up_error_user_rejected" = "The email you entered is incorrect. Please check it and try again.";
 "main_sign_up_facebook_connect_button" = "Continue with Facebook";

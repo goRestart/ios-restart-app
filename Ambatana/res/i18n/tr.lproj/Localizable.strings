@@ -25,8 +25,8 @@
 "bump_up_error_bump_token" = "Ödemen gerçekleştirildi fakat ürünün henüz öne çıkarılmadı.";
 "bump_up_error_payment_failed" = "App Store ile bağlantı gerçekleştirilemedi. Ödeme işlemin tamamlanmadı. Lütfen tekrar dene.";
 "bump_up_free_success" = "Öne çıkarıldı! İlanını öne çıkarmaya devam et ki daha da çok kişi görsün.";
-"bump_up_not_allowed_alert_contact_button" = "Contact Us";
-"bump_up_not_allowed_alert_text" = "Bumping Up this item isn't possible at this time.  For more information, contact us.";
+"bump_up_not_allowed_alert_contact_button" = "Bize Ulaş";
+"bump_up_not_allowed_alert_text" = "Bu ürünün Üste Çıkarılması şu an için mümkün değildir. Daha fazla bilgi için bizimle iletişime geçebilirsin.";
 "bump_up_pay_success" = "Öne çıkarıldı! Şimdi ürününü daha fazla kişi görebilir.";
 "bump_up_processing_free_text" = "Üste çıkarma işlemi gerçekleştiriliyor...";
 "bump_up_processing_priced_text" = "Ödeme işlemi gerçekleştiriliyor...";
@@ -58,6 +58,7 @@
 "categories_old_cars_and_motors" = "Araba ve Motosikletler";
 "categories_other" = "Diğer";
 "categories_sports_leisure_and_games" = "Spor, Eğlence ve Oyunlar";
+"categories_super_keywords_inFeed_show_more" = "Daha fazla göster";
 "categories_title" = "Kategoriler";
 "categories_unassigned" = "Seçilmedi";
 "change_email_current_email_label" = "ŞU ANKİ E-POSTAN:";
@@ -377,7 +378,7 @@
 "login_scammer_alert_title" = "HESAP İNCELEME ALTINDA";
 "main_products_filter_navigation_bar_button" = "Filtrele";
 "main_products_invite_navigation_bar_button" = "Davet Et";
-"main_sign_up_claim_label" = "Mesajlaşarak almaya ve satmaya başla!";
+"main_sign_up_claim_label" = "Çek, yükle, mesaj at, letgo ile kolay sat!";
 "main_sign_up_error_request_already_sent" = "İsteğin işleme alınmıştır. Tekrar denemeden önce lütfen bekle.";
 "main_sign_up_error_user_rejected" = "Girmiş olduğun email hatalıdır. Lütfen kontrol edip tekrar dene.";
 "main_sign_up_facebook_connect_button" = "Facebook ile devam et";
