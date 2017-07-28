@@ -40,6 +40,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var inAppRatingIOS10: Bool = false
     var suggestedSearches: SuggestedSearches = .control
     var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed = .control
+    var superKeywordsOnOnboarding: AddSuperKeywordsOnFeed = .control
 
     // Country dependant features
     var freePostingModeAllowed = false

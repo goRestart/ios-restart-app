@@ -131,6 +131,29 @@ final class OnboardingCoordinator: Coordinator, ChangePasswordPresenter {
         presentedViewControllers.append(vc)
         topVC.present(vc, animated: true, completion: nil)
     }
+    
+    fileprivate func openTourCategories() {
+        let topVC = topViewController()
+        let vm = TourCategoriesViewModel()
+        vm.navigator = self
+        let vc = TourCategoriesViewController(viewModel: vm)
+        hideVC(topVC)
+        presentedViewControllers.append(vc)
+        topVC.present(vc, animated: true, completion: nil)
+    }
+    
+    fileprivate func openTourPermissions() {
+        let pushPermissionsManager = LGPushPermissionsManager.sharedInstance
+        let canAskForPushPermissions = pushPermissionsManager.shouldShowPushPermissionsAlertFromViewController(.onboarding)
+        
+        if canAskForPushPermissions {
+            openTourNotifications()
+        } else if locationManager.shouldAskForLocationPermissions() {
+            openTourLocation()
+        } else {
+            openTourPosting()
+        }
+    }
 }
 
 
@@ -138,15 +161,10 @@ final class OnboardingCoordinator: Coordinator, ChangePasswordPresenter {
 
 extension OnboardingCoordinator: TourLoginNavigator {
     func tourLoginFinish() {
-        let pushPermissionsManager = LGPushPermissionsManager.sharedInstance
-        let canAskForPushPermissions = pushPermissionsManager.shouldShowPushPermissionsAlertFromViewController(.onboarding)
-
-        if canAskForPushPermissions {
-            openTourNotifications()
-        } else if locationManager.shouldAskForLocationPermissions() {
-            openTourLocation()
+        if featureFlags.superKeywordsOnOnboarding.isActive {
+            openTourCategories()
         } else {
-            openTourPosting()
+            openTourPermissions()
         }
     }
 }
@@ -186,6 +204,14 @@ extension OnboardingCoordinator: TourPostingNavigator {
     }
 }
 
+
+// MARK: - TourCategoriesNavigator
+
+extension OnboardingCoordinator: TourCategoriesNavigator {
+    func tourCategoriesFinish(withCategories categories: [TaxonomyChild]) {
+        openTourPermissions()
+    }
+}
 
 // MARK: - MainSignUpNavigator
 

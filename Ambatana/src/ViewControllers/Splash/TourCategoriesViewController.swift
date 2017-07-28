@@ -8,6 +8,7 @@
 
 import Foundation
 import LGCoreKit
+import RxSwift
 
 final class TourCategoriesViewController: BaseViewController {
     
@@ -16,13 +17,15 @@ final class TourCategoriesViewController: BaseViewController {
     private let titleLabel = UILabel()
     private let containerButton = UIView()
     private let okButton = UIButton()
+    private let disposeBag = DisposeBag()
     
     // MARK: - Lifecycle
     
     init(viewModel: TourCategoriesViewModel) {
         self.viewModel = viewModel
         self.collectionView = TourCategoriesCollectionView(categories: viewModel.categories, frame: CGRect.zero)
-        self.viewModel.delegate = self
+        super.init(viewModel: viewModel, nibName: nil)
+        viewModel.delegate = self
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -49,10 +52,12 @@ final class TourCategoriesViewController: BaseViewController {
     
     private func setupUI() {
         
+        view.setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: [containerButton, okButton, titleLabel, collectionView, containerButton])
         containerButton.addSubview(okButton)
         view.addSubviews([titleLabel, collectionView, containerButton])
         
         titleLabel.text = LGLocalizedString.onboardingCategoriesTitle
+        titleLabel.font = UIFont.systemBoldFont(size: 15)
     }
     
     private func setupLayout() {
@@ -68,12 +73,12 @@ final class TourCategoriesViewController: BaseViewController {
     }
     
     private func setupRx() {
-        viewModel.okButtonText.asObservable().bindTo(okButton.rx.title)
+        viewModel.okButtonText.asObservable().bindTo(okButton.rx.title).addDisposableTo(disposeBag)
     }
     
     private func setupAccessibilityIds() {
-        okButton.accessibilityId = .tourCategoriesOkButton
-        titleLabel.accesibilityId = .tourCategoriesTitleLabel
+        okButton.accessibilityId = .tourCategoriesTitleOkButton
+        titleLabel.accessibilityId = .tourCategoriesTitleLabel
     }
 }
 

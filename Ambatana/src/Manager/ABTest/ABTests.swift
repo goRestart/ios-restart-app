@@ -37,7 +37,8 @@ class ABTests {
     let inAppRatingIOS10 = BoolABDynamicVar(key: "20170711inAppRatingIOS10", defaultValue: false)
     let suggestedSearches = IntABDynamicVar(key: "20170717suggestedSearches", defaultValue: 0)
     let addSuperKeywordsOnFeed = IntABDynamicVar(key: "20170719AddSuperKeywordsOnFeed", defaultValue: 0)
-
+    let superKeywordsOnOnboarding = IntABDynamicVar(key: "20170728SuperKeywordsOnOnboarding", defaultValue: 0)
+    
     init() {
     }
     
@@ -68,7 +69,8 @@ class ABTests {
         result.append(inAppRatingIOS10)
         result.append(suggestedSearches)
         result.append(addSuperKeywordsOnFeed)
-
+        result.append(superKeywordsOnOnboarding)
+        
         return result
     }
 
