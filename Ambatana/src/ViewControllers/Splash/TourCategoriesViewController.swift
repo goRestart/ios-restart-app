@@ -40,6 +40,10 @@ final class TourCategoriesViewController: BaseViewController {
         setupAccessibilityIds()
     }
     
+    override func viewDidLayoutSubviews() {
+        okButton.cornerRadius = okButton.height/2
+    }
+    
     
     // MARK: - IBActions
     
@@ -54,25 +58,31 @@ final class TourCategoriesViewController: BaseViewController {
         
         view.setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: [containerButton, okButton, titleLabel, collectionView, containerButton])
         containerButton.addSubview(okButton)
+        
         view.addSubviews([titleLabel, collectionView, containerButton])
         
         titleLabel.text = LGLocalizedString.onboardingCategoriesTitle
-        titleLabel.font = UIFont.systemBoldFont(size: 15)
+        titleLabel.font = UIFont.systemBoldFont(size: 30)
+        titleLabel.numberOfLines = 0
+        
+        okButton.setStyle(.primary(fontSize: .medium))
     }
     
     private func setupLayout() {
         containerButton.layout(with: view).bottom().right().left()
-        containerButton.layout().height(40)
-        okButton.layout(with: containerButton).fill()
+        containerButton.layout().height(80)
+        okButton.layout().height(Metrics.buttonHeight)
+        okButton.layout(with: containerButton).right(by: -20).left(by: 20).centerY()
         
-        titleLabel.layout(with: view).top().right().left()
+        titleLabel.layout(with: view).top(by: 2*Metrics.bigMargin).right(by: -20).left(by: 20)
         
-        collectionView.layout(with: titleLabel).below()
+        collectionView.layout(with: titleLabel).below(by:30)
         collectionView.layout(with: view).right().left()
         collectionView.layout(with: containerButton).above()
     }
     
     private func setupRx() {
+        collectionView.categoriesSelected.asObservable().bindTo(viewModel.categoriesSelected).addDisposableTo(disposeBag)
         viewModel.okButtonText.asObservable().bindTo(okButton.rx.title).addDisposableTo(disposeBag)
     }
     

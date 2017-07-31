@@ -18,10 +18,14 @@ class TourCategoriesCollectionView: UICollectionView, UICollectionViewDelegate, 
     
     init(categories: [TaxonomyChild], frame: CGRect) {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        layout.minimumInteritemSpacing = 0
-        layout.minimumLineSpacing = 0
-        layout.itemSize = CategoryHeaderCell.cellSize()
+        layout.sectionInset = UIEdgeInsets(top: Metrics.shortMargin,
+                                           left: Metrics.shortMargin,
+                                           bottom: Metrics.shortMargin,
+                                           right: Metrics.shortMargin)
+        layout.minimumInteritemSpacing = Metrics.shortMargin
+        layout.minimumLineSpacing = Metrics.shortMargin
+        layout.itemSize = TourCategoriesCollectionViewCell.cellSize()
+        
         self.categories = categories
         super.init(frame: frame, collectionViewLayout: layout)
         //Setup
@@ -58,6 +62,12 @@ class TourCategoriesCollectionView: UICollectionView, UICollectionViewDelegate, 
         categoriesSelected.value.append(categorySelected)
     }
     
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        let categorySelected = categories[indexPath.row]
+        guard let index = categoriesSelected.value.index(where: { $0 == categorySelected }) else { return }
+        categoriesSelected.value.remove(at: index)
+    }
+    
     
     // MARK: - Private methods
     
@@ -66,13 +76,14 @@ class TourCategoriesCollectionView: UICollectionView, UICollectionViewDelegate, 
         delegate = self
         scrollsToTop = false
         showsHorizontalScrollIndicator = false
+        allowsMultipleSelection = true
         
         backgroundColor = UIColor.clear
         
         // CollectionView cells
         register(TourCategoriesCollectionViewCell.self, forCellWithReuseIdentifier: TourCategoriesCollectionViewCell.reuseIdentifier)
         if let layout = collectionViewLayout as? UICollectionViewFlowLayout {
-            layout.scrollDirection = UICollectionViewScrollDirection.horizontal
+            layout.scrollDirection = UICollectionViewScrollDirection.vertical
         }
     }
     

@@ -31,4 +31,8 @@ extension TaxonomyChild {
             return false
         }
     }
+    
+    var isOthers: Bool {
+        return id == 90
+    }
 }

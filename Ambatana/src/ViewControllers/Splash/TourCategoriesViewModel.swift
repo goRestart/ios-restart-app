@@ -35,12 +35,12 @@ class TourCategoriesViewModel: BaseViewModel {
     
     init(categoryRepository: CategoryRepository) {
         self.categoryRepository = categoryRepository
+        self.categories = categoryRepository.indexTaxonomies().flatMap { $0.children }.filter { !$0.isOthers }
         super.init()
     }
     
     override func didBecomeActive(_ firstTime: Bool) {
         setupRx()
-        categories = categoryRepository.indexTaxonomies().flatMap { $0.children }
     }
     
     convenience override init() {
