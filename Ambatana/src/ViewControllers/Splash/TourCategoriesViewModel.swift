@@ -13,15 +13,17 @@ protocol TourCategoriesViewModelDelegate: BaseViewModelDelegate { }
 
 class TourCategoriesViewModel: BaseViewModel {
     
-    static let minimumImageSelected: Int = 3
+    static let minimumImageNeeded: Int = 3
     
     weak var navigator: TourCategoriesNavigator?
     private let categoryRepository: CategoryRepository
     var categories: [TaxonomyChild] = []
     let categoriesSelected = Variable<[TaxonomyChild]>([])
     var categoriesMissingCounter: Int {
-        return TourCategoriesViewModel.minimumImageSelected - categoriesSelectedCounter
+        return TourCategoriesViewModel.minimumImageNeeded - categoriesSelectedCounter
     }
+    var minimumCategoriesSelected = Variable<Bool>(false)
+    
     private var categoriesSelectedCounter: Int {
         return categoriesSelected.value.count
     }
@@ -55,13 +57,14 @@ class TourCategoriesViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
             var okText: String
             if categoriesSelected.count == 0 {
-                okText = String(format: LGLocalizedString.onboardingCategoriesButtonTitleInitial, Int(TourCategoriesViewModel.minimumImageSelected))
-            } else if categoriesSelected.count < TourCategoriesViewModel.minimumImageSelected {
+                okText = String(format: LGLocalizedString.onboardingCategoriesButtonTitleInitial, Int(TourCategoriesViewModel.minimumImageNeeded))
+            } else if categoriesSelected.count < TourCategoriesViewModel.minimumImageNeeded {
                 okText =  String(format: LGLocalizedString.onboardingCategoriesButtonCountdown, Int(strongSelf.categoriesMissingCounter))
             } else {
                 okText = LGLocalizedString.onboardingCategoriesButtonTitleFinish
             }
             strongSelf.okButtonText.value = okText
+            strongSelf.minimumCategoriesSelected.value = categoriesSelected.count >= TourCategoriesViewModel.minimumImageNeeded
         }.addDisposableTo(disposeBag)
     }
     

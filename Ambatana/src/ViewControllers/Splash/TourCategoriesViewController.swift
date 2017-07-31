@@ -84,6 +84,10 @@ final class TourCategoriesViewController: BaseViewController {
     private func setupRx() {
         collectionView.categoriesSelected.asObservable().bindTo(viewModel.categoriesSelected).addDisposableTo(disposeBag)
         viewModel.okButtonText.asObservable().bindTo(okButton.rx.title).addDisposableTo(disposeBag)
+        okButton.rx.tap.asObservable().bindNext { [weak self] in
+            self?.viewModel.okButtonPressed()
+        }.addDisposableTo(disposeBag)
+        viewModel.minimumCategoriesSelected.asObservable().bindTo(okButton.rx.isEnabled).addDisposableTo(disposeBag)
     }
     
     private func setupAccessibilityIds() {
