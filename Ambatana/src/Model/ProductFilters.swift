@@ -77,7 +77,7 @@ struct ProductFilters {
             distanceType: DistanceType.systemDistanceType(),
             selectedCategories: [],
             selectedTaxonomyChildren: [],
-            hiddenFilters: [],
+            onboardingFilters: [],
             selectedWithin: ListingTimeCriteria.defaultOption,
             selectedOrdering: ListingSortCriteria.defaultOption,
             priceRange: .priceRange(min: nil, max: nil),
@@ -91,7 +91,7 @@ struct ProductFilters {
     }
     
     init(place: Place?, distanceRadius: Int, distanceType: DistanceType, selectedCategories: [ListingCategory],
-         selectedTaxonomyChildren: [TaxonomyChild], hiddenFilters: [TaxonomyChild], selectedWithin: ListingTimeCriteria,
+         selectedTaxonomyChildren: [TaxonomyChild], onboardingFilters: [TaxonomyChild], selectedWithin: ListingTimeCriteria,
          selectedOrdering: ListingSortCriteria?, priceRange: FilterPriceRange,
          carMakeId: RetrieveListingParam<String>?, carMakeName: String?, carModelId: RetrieveListingParam<String>?,
          carModelName: String?, carYearStart: RetrieveListingParam<Int>?, carYearEnd: RetrieveListingParam<Int>?){
@@ -100,7 +100,7 @@ struct ProductFilters {
         self.distanceType = distanceType
         self.selectedCategories = selectedCategories
         self.selectedTaxonomyChildren = selectedTaxonomyChildren
-        self.onboardingFilters = hiddenFilters
+        self.onboardingFilters = onboardingFilters
         self.selectedWithin = selectedWithin
         self.selectedOrdering = selectedOrdering
         self.priceRange = priceRange

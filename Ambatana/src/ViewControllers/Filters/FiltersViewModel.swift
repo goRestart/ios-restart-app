@@ -296,7 +296,6 @@ class FiltersViewModel: BaseViewModel {
                                                         carYearStart: productFilter.carYearStart?.value,
                                                         carYearEnd: productFilter.carYearEnd?.value)
         TrackerProxy.sharedInstance.trackEvent(trackingEvent)
-        productFilter.onboardingFilters = []
         dataDelegate?.viewModelDidUpdateFilters(self, filters: productFilter)
     }
     

@@ -469,7 +469,6 @@ class MainProductsViewModel: BaseViewModel {
             filters.carYearEnd = nil
         }
         
-        filters.onboardingFilters = []
         
         updateCategoriesHeader()
         updateListView()
@@ -482,6 +481,7 @@ class MainProductsViewModel: BaseViewModel {
         tracker.trackEvent(TrackerEvent.filterCategoryHeaderSelected(position: categoryHeaderInfo.position,
                                                                      name: categoryHeaderInfo.name))
         delegate?.vmShowTags(tags)
+        filters.onboardingFilters = []
         updateCategoriesHeader()
         updateListView()
         
@@ -606,6 +606,7 @@ extension MainProductsViewModel: FiltersViewModelDataDelegate {
 
     func viewModelDidUpdateFilters(_ viewModel: FiltersViewModel, filters: ProductFilters) {
         self.filters = filters
+        self.filters.onboardingFilters = []
         delegate?.vmShowTags(tags)
         updateListView()
     }
