@@ -446,6 +446,10 @@
 "nps_survey_very_good" = "Très certainement";
 "onboarding_alert_no" = "Non";
 "onboarding_alert_yes" = "Oui";
+"onboarding_categories_button_countdown" = "Pick at least %i more";
+"onboarding_categories_button_title_finish" = "Next";
+"onboarding_categories_button_title_initial" = "Pick at least %i categories";
+"onboarding_categories_title" = "What kind of items are you interested in?";
 "onboarding_direct_camera_alert_subtitle" = "Publiez votre premier objet et commencez à vendre aux personnes près de chez vous";
 "onboarding_direct_camera_alert_title" = "Commencez à Gagner de l'Argent !";
 "onboarding_location_permissions_alert_subtitle" = "Vous verrez des produits publiés partout plutôt que près de chez vous";

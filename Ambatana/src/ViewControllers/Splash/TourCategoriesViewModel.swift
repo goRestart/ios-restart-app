@@ -14,6 +14,7 @@ protocol TourCategoriesViewModelDelegate: BaseViewModelDelegate { }
 class TourCategoriesViewModel: BaseViewModel {
     
     static let minimumImageNeeded: Int = 3
+    static let categoriesIdentifier = "categories"
     
     weak var navigator: TourCategoriesNavigator?
     private let categoryRepository: CategoryRepository
@@ -72,6 +73,13 @@ class TourCategoriesViewModel: BaseViewModel {
     // MARK: Actions
     
     func okButtonPressed() {
+        let categoriesSelectedDict:[String: [TaxonomyChild]] = [TourCategoriesViewModel.categoriesIdentifier: categoriesSelected.value]
+        NotificationCenter.default.post(name: .onboardingCategories, object: nil, userInfo: categoriesSelectedDict)
         navigator?.tourCategoriesFinish(withCategories: categoriesSelected.value)
     }
+}
+
+
+extension Notification.Name {
+    static let onboardingCategories = Notification.Name("onboardingCategories")
 }

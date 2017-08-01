@@ -446,6 +446,10 @@
 "nps_survey_very_good" = "Erittäin todennäköisesti";
 "onboarding_alert_no" = "Ei";
 "onboarding_alert_yes" = "Kyllä";
+"onboarding_categories_button_countdown" = "Pick at least %i more";
+"onboarding_categories_button_title_finish" = "Next";
+"onboarding_categories_button_title_initial" = "Pick at least %i categories";
+"onboarding_categories_title" = "What kind of items are you interested in?";
 "onboarding_direct_camera_alert_subtitle" = "Julkaise ensimmäinen tuotteesi ja aloita lähistöllä oleville ihmisille myyminen";
 "onboarding_direct_camera_alert_title" = "Aloita tienaaminen!";
 "onboarding_location_permissions_alert_subtitle" = "Näet kaikista paikoista julkaistut tuotteet sinua lähellä olevien sijaan";

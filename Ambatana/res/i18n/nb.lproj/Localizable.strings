@@ -446,6 +446,10 @@
 "nps_survey_very_good" = "Ekstremt sannsynlig";
 "onboarding_alert_no" = "Nei";
 "onboarding_alert_yes" = "Ja";
+"onboarding_categories_button_countdown" = "Pick at least %i more";
+"onboarding_categories_button_title_finish" = "Next";
+"onboarding_categories_button_title_initial" = "Pick at least %i categories";
+"onboarding_categories_title" = "What kind of items are you interested in?";
 "onboarding_direct_camera_alert_subtitle" = "Publiser ditt første produkt og sett i gang å selge til personer i ditt nærområde";
 "onboarding_direct_camera_alert_title" = "Begynn inntjeningen!";
 "onboarding_location_permissions_alert_subtitle" = "Du vil se produkter publisert i alle områder i stedet for ditt nærområde";

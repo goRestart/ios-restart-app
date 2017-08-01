@@ -446,6 +446,10 @@
 "nps_survey_very_good" = "전혀 그렇지 않음";
 "onboarding_alert_no" = "아니오";
 "onboarding_alert_yes" = "네";
+"onboarding_categories_button_countdown" = "Pick at least %i more";
+"onboarding_categories_button_title_finish" = "Next";
+"onboarding_categories_button_title_initial" = "Pick at least %i categories";
+"onboarding_categories_title" = "What kind of items are you interested in?";
 "onboarding_direct_camera_alert_subtitle" = "첫번째 상품을 게시하고 근처의 사람들이게 상품을 판매해보세요";
 "onboarding_direct_camera_alert_title" = "현찰을 벌어보세요!";
 "onboarding_location_permissions_alert_subtitle" = "귀하 근처 대신에 모든 위치에 게시된 제품들을 볼 수 있습니다.";

@@ -446,6 +446,10 @@
 "nps_survey_very_good" = "Meest waarschijnlijk";
 "onboarding_alert_no" = "Nee";
 "onboarding_alert_yes" = "Ja";
+"onboarding_categories_button_countdown" = "Pick at least %i more";
+"onboarding_categories_button_title_finish" = "Next";
+"onboarding_categories_button_title_initial" = "Pick at least %i categories";
+"onboarding_categories_title" = "What kind of items are you interested in?";
 "onboarding_direct_camera_alert_subtitle" = "Plaats je eerste product en begin met verkopen aan mensen in jouw omgeving";
 "onboarding_direct_camera_alert_title" = "Begin met geld te verdienen!";
 "onboarding_location_permissions_alert_subtitle" = "Je zult items zien die geplaatst zijn in alle locaties in plaats van bij jou in de buurt";

@@ -36,3 +36,9 @@ extension TaxonomyChild {
         return id == 90
     }
 }
+
+extension Array where Element == TaxonomyChild {
+    func getIds(withType type: TaxonomyChildType) -> [Int] {
+       return self.filter { $0.type == type }.flatMap { $0.id }
+    }
+}

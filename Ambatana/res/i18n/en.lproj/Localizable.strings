@@ -1382,7 +1382,7 @@
 "survey_confirmation" = "Thank you! Your feedback helps us improve";
 
 // Title to select categories on onboarding
-"onboarding_categories_title" = "What kind of products are you interested in?";
+"onboarding_categories_title" = "What kind of items are you interested in?";
 
 // Button title when no category selected
 "onboarding_categories_button_title_initial" = "Pick at least %i categories";

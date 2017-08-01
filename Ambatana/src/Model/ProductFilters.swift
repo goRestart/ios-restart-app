@@ -55,6 +55,7 @@ struct ProductFilters {
     var distanceType: DistanceType
     var selectedCategories: [ListingCategory]
     var selectedTaxonomyChildren: [TaxonomyChild]
+    var onboardingFilters: [TaxonomyChild]
     var selectedWithin: ListingTimeCriteria
     var selectedOrdering: ListingSortCriteria?
     var filterCoordinates: LGLocationCoordinates2D? {
@@ -76,6 +77,7 @@ struct ProductFilters {
             distanceType: DistanceType.systemDistanceType(),
             selectedCategories: [],
             selectedTaxonomyChildren: [],
+            hiddenFilters: [],
             selectedWithin: ListingTimeCriteria.defaultOption,
             selectedOrdering: ListingSortCriteria.defaultOption,
             priceRange: .priceRange(min: nil, max: nil),
@@ -89,7 +91,7 @@ struct ProductFilters {
     }
     
     init(place: Place?, distanceRadius: Int, distanceType: DistanceType, selectedCategories: [ListingCategory],
-         selectedTaxonomyChildren: [TaxonomyChild], selectedWithin: ListingTimeCriteria,
+         selectedTaxonomyChildren: [TaxonomyChild], hiddenFilters: [TaxonomyChild], selectedWithin: ListingTimeCriteria,
          selectedOrdering: ListingSortCriteria?, priceRange: FilterPriceRange,
          carMakeId: RetrieveListingParam<String>?, carMakeName: String?, carModelId: RetrieveListingParam<String>?,
          carModelName: String?, carYearStart: RetrieveListingParam<Int>?, carYearEnd: RetrieveListingParam<Int>?){
@@ -98,6 +100,7 @@ struct ProductFilters {
         self.distanceType = distanceType
         self.selectedCategories = selectedCategories
         self.selectedTaxonomyChildren = selectedTaxonomyChildren
+        self.onboardingFilters = hiddenFilters
         self.selectedWithin = selectedWithin
         self.selectedOrdering = selectedOrdering
         self.priceRange = priceRange

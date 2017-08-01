@@ -446,6 +446,10 @@
 "nps_survey_very_good" = "Son derece muhtemel";
 "onboarding_alert_no" = "Hayır";
 "onboarding_alert_yes" = "Evet";
+"onboarding_categories_button_countdown" = "Pick at least %i more";
+"onboarding_categories_button_title_finish" = "Next";
+"onboarding_categories_button_title_initial" = "Pick at least %i categories";
+"onboarding_categories_title" = "What kind of items are you interested in?";
 "onboarding_direct_camera_alert_subtitle" = "İlk ürününü yükleyerek yakınındakilere satış yapmaya başla";
 "onboarding_direct_camera_alert_title" = "Nakit Kazanmaya Başla!";
 "onboarding_location_permissions_alert_subtitle" = "Yakın çevrendekiler yerine her yerde yayınlanmış ürünleri göreceksin";

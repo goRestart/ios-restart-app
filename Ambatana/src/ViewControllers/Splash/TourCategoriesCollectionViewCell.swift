@@ -19,7 +19,8 @@ class TourCategoriesCollectionViewCell: UICollectionViewCell {
     var categoryIcon: UIImageView = UIImageView()
     var categoryTitle: UILabel = UILabel()
     var selectedIcon: UIImageView = UIImageView()
-    var gradientView: UIView = UIView()
+    var gradientView: UIImageView = UIImageView()
+    var selectedBackground: UIImageView = UIImageView()
     
     static func cellSize() -> CGSize {
         return CGSize(width: 110, height: 110)
@@ -28,6 +29,7 @@ class TourCategoriesCollectionViewCell: UICollectionViewCell {
     override var isSelected: Bool {
         didSet {
             selectedIcon.isHidden = !isSelected
+            selectedBackground.isHidden = !isSelected
         }
     }
 
@@ -42,7 +44,8 @@ class TourCategoriesCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(gradientView)
         contentView.addSubview(categoryTitle)
         contentView.addSubview(selectedIcon)
-        contentView.addSubviews([categoryIcon, gradientView, categoryTitle, selectedIcon])
+        contentView.addSubview(selectedBackground)
+        contentView.addSubviews([categoryIcon, gradientView, selectedBackground, categoryTitle, selectedIcon])
         self.setupUI()
         self.resetUI()
         self.setAccessibilityIds()
@@ -62,7 +65,7 @@ class TourCategoriesCollectionViewCell: UICollectionViewCell {
         
         backgroundColor = UIColor.clear
         
-        setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: [categoryTitle, gradientView, categoryIcon, selectedIcon])
+        setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: [categoryTitle, gradientView, selectedBackground, categoryIcon, selectedIcon])
         
         categoryTitle.font = UIFont.boldSystemFont(ofSize: 15)
         categoryTitle.textColor = UIColor.white
@@ -70,7 +73,7 @@ class TourCategoriesCollectionViewCell: UICollectionViewCell {
         categoryIcon.layout().height(TourCategoriesCollectionViewCell.cellSize().height).width(TourCategoriesCollectionViewCell.cellSize().width)
         categoryIcon.layout(with: contentView).fill()
         layoutIfNeeded()
-        categoryIcon.setRoundedCorners([.allCorners], cornerRadius: 10)
+        contentView.setRoundedCorners([.allCorners], cornerRadius: 10)
         categoryTitle.layout(with: contentView).bottom(by: -Metrics.shortMargin).left(by: Metrics.shortMargin).right()
         categoryTitle.numberOfLines = 0
         
@@ -78,9 +81,10 @@ class TourCategoriesCollectionViewCell: UICollectionViewCell {
         selectedIcon.layout().height(20).width(20)
         
         gradientView.layout(with: contentView).fill()
-        let shadowLayer = CAGradientLayer.gradientWithColor(UIColor.black, alphas:[0, 1], locations: [0, 1])
-        shadowLayer.frame = gradientView.bounds
-        gradientView.layer.insertSublayer(shadowLayer, at: 0)
+        gradientView.image = #imageLiteral(resourceName: "gradient_onboarding_categories")
+        
+        selectedBackground.layout(with: contentView).fill()
+        selectedBackground.image = #imageLiteral(resourceName: "onboarding_category_selected")
     }
     
     private func resetUI() {
@@ -88,6 +92,7 @@ class TourCategoriesCollectionViewCell: UICollectionViewCell {
         categoryIcon.image = nil
         selectedIcon.image = #imageLiteral(resourceName: "category_selected")
         selectedIcon.isHidden = true
+        selectedBackground.isHidden = true
     }
     
     private func setAccessibilityIds() {

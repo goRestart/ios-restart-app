@@ -446,6 +446,10 @@
 "nps_survey_very_good" = "Очень вероятно";
 "onboarding_alert_no" = "Нет";
 "onboarding_alert_yes" = "Да";
+"onboarding_categories_button_countdown" = "Pick at least %i more";
+"onboarding_categories_button_title_finish" = "Next";
+"onboarding_categories_button_title_initial" = "Pick at least %i categories";
+"onboarding_categories_title" = "What kind of items are you interested in?";
 "onboarding_direct_camera_alert_subtitle" = "Опубликуйте свой первый товар и начинайте продавать";
 "onboarding_direct_camera_alert_title" = "Начинайте получать деньги!";
 "onboarding_location_permissions_alert_subtitle" = "Вы увидите товары со всеми адресами, а не только рядом с вами";

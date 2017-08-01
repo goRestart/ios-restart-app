@@ -446,6 +446,10 @@
 "nps_survey_very_good" = "Nagyon szívesen";
 "onboarding_alert_no" = "Nem";
 "onboarding_alert_yes" = "Igen";
+"onboarding_categories_button_countdown" = "Pick at least %i more";
+"onboarding_categories_button_title_finish" = "Next";
+"onboarding_categories_button_title_initial" = "Pick at least %i categories";
+"onboarding_categories_title" = "What kind of items are you interested in?";
 "onboarding_direct_camera_alert_subtitle" = "Tedd közzé első portékádat, és már kereskedhetsz is a környékbeliekkel";
 "onboarding_direct_camera_alert_title" = "Kezdj pénzt keresni!";
 "onboarding_location_permissions_alert_subtitle" = "Minden hirdetés meg fog jelenni, nem csak a közeliek";

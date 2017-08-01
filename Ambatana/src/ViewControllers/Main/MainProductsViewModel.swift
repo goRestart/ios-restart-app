@@ -309,6 +309,10 @@ class MainProductsViewModel: BaseViewModel {
     }
 
     override func didBecomeActive(_ firstTime: Bool) {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.updateFiltersWithOnboardingCategories(_:)),
+                                               name: .onboardingCategories,
+                                               object: nil)
         updatePermissionsWarning()
         updateCategoriesHeader()
         setupRx()
@@ -452,7 +456,9 @@ class MainProductsViewModel: BaseViewModel {
         } else {
             filters.carYearEnd = nil
         }
-
+        
+        filters.onboardingFilters = []
+        
         updateCategoriesHeader()
         updateListView()
     }
@@ -462,6 +468,7 @@ class MainProductsViewModel: BaseViewModel {
      */
     func updateFiltersFromHeaderCategories(_ categoryHeaderInfo: CategoryHeaderInfo) {
         filters.selectedCategories = [categoryHeaderInfo.listingCategory]
+        filters.onboardingFilters = []
         delegate?.vmShowTags(tags)
         updateCategoriesHeader()
         updateListView()
@@ -521,6 +528,15 @@ class MainProductsViewModel: BaseViewModel {
         errorMessage.value = nil
         listViewModel.resetUI()
         listViewModel.refresh()
+    }
+    
+    
+    // MARK: - Categories From Onboarding
+    
+    @objc func updateFiltersWithOnboardingCategories(_ notification: NSNotification) {
+        guard let taxonomiesSelected = notification.userInfo?[TourCategoriesViewModel.categoriesIdentifier] as? [TaxonomyChild] else { return }
+        filters.onboardingFilters = taxonomiesSelected
+        updateListView()
     }
 }
 

@@ -446,6 +446,10 @@
 "nps_survey_very_good" = "Πάρα πολύ";
 "onboarding_alert_no" = "Όχι";
 "onboarding_alert_yes" = "Ναι";
+"onboarding_categories_button_countdown" = "Pick at least %i more";
+"onboarding_categories_button_title_finish" = "Next";
+"onboarding_categories_button_title_initial" = "Pick at least %i categories";
+"onboarding_categories_title" = "What kind of items are you interested in?";
 "onboarding_direct_camera_alert_subtitle" = "Δημοσιεύστε το πρώτο σας προϊόν και ξεκινήστε να πουλάτε σε ανθρώπους δίπλα σας";
 "onboarding_direct_camera_alert_title" = "Ξεκινήστε να κερδίζετε μετρητά!";
 "onboarding_location_permissions_alert_subtitle" = "Θα δείτε αντικείμενα από όλες τις περιοχές αντί για κοντά σας";
