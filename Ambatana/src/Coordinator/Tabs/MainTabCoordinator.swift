@@ -82,4 +82,9 @@ extension MainTabCoordinator: MainTabNavigator {
                   forceCloseChild: true,
                   completion: nil)
     }
+    
+    func openTaxonomyList(withViewModel viewModel: TaxonomiesViewModel) {
+        let vc = TaxonomiesViewController(viewModel: viewModel)
+        navigationController.pushViewController(vc, animated: true)
+    }
 }
