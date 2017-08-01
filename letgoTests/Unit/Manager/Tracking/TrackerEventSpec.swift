@@ -866,7 +866,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
             
-            fdescribe("searchComplete isLastSearch") {
+            describe("searchComplete isLastSearch") {
                 context("success"){
                     beforeEach {
                         sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .success, isLastSearch: true, isSuggestiveSearch: false, suggestiveSearchIndex: nil)
@@ -909,7 +909,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
             
-            fdescribe("searchComplete isSuggestiveSearch") {
+            describe("searchComplete isSuggestiveSearch") {
                 context("success"){
                     beforeEach {
                         sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .success, isLastSearch: false, isSuggestiveSearch: true, suggestiveSearchIndex: 0)
