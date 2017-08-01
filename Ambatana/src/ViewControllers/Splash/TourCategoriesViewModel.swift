@@ -18,6 +18,8 @@ class TourCategoriesViewModel: BaseViewModel {
     
     weak var navigator: TourCategoriesNavigator?
     private let categoryRepository: CategoryRepository
+    private let tracker: Tracker
+    
     var categories: [TaxonomyChild] = []
     let categoriesSelected = Variable<[TaxonomyChild]>([])
     var categoriesMissingCounter: Int {
@@ -36,18 +38,19 @@ class TourCategoriesViewModel: BaseViewModel {
     
     // MARK: Lifecycle
     
-    init(categoryRepository: CategoryRepository) {
+    init(tracker: Tracker, categoryRepository: CategoryRepository) {
         self.categoryRepository = categoryRepository
+        self.tracker = tracker
         self.categories = categoryRepository.indexTaxonomies().flatMap { $0.children }.filter { !$0.isOthers }
         super.init()
     }
     
-    override func didBecomeActive(_ firstTime: Bool) {
-        setupRx()
+    convenience override init() {
+        self.init(tracker: TrackerProxy.sharedInstance, categoryRepository: Core.categoryRepository)
     }
     
-    convenience override init() {
-        self.init(categoryRepository: Core.categoryRepository)
+    override func didBecomeActive(_ firstTime: Bool) {
+        setupRx()
     }
     
     
@@ -74,6 +77,8 @@ class TourCategoriesViewModel: BaseViewModel {
     
     func okButtonPressed() {
         let categoriesSelectedDict:[String: [TaxonomyChild]] = [TourCategoriesViewModel.categoriesIdentifier: categoriesSelected.value]
+        let event = TrackerEvent.onboardingInterestsComplete(superKeywords: categoriesSelected.value.map { $0.name })
+        tracker.trackEvent(event)
         NotificationCenter.default.post(name: .onboardingCategories, object: nil, userInfo: categoriesSelectedDict)
         navigator?.tourCategoriesFinish(withCategories: categoriesSelected.value)
     }

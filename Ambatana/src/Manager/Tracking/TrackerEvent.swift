@@ -1118,6 +1118,13 @@ struct TrackerEvent {
         params[.bubbleName] = name
         return TrackerEvent(name: .filterBubble, params: params)
     }
+    
+    static func onboardingInterestsComplete(superKeywords: [String]) -> TrackerEvent {
+        var params = EventParameters()
+        params[.superKeywordsTotal] = superKeywords.count
+        params[.superKeywordsNames] = superKeywords
+        return TrackerEvent(name: .onboardingInterestsComplete, params: params)
+    }
 
 
     // MARK: - Private methods

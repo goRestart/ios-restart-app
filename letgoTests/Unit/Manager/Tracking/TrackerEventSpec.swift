@@ -3681,6 +3681,22 @@ class TrackerEventSpec: QuickSpec {
                     expect(param) == "cars"
                 }
             }
+            describe("onboarding interests complete") {
+                beforeEach {
+                    sut = TrackerEvent.onboardingInterestsComplete(superKeywords: ["electronics", "cars"])
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("onboarding-interests-complete"))
+                }
+                it("contains superkeyword-total parameter") {
+                    let param = sut.params!.stringKeyParams["superkeyword-total"] as? Int
+                    expect(param) == 2
+                }
+                it("contains superkeyword-name parameter") {
+                    let param = sut.params!.stringKeyParams["superkeyword-names"] as? [String]
+                    expect(param) == ["electronics", "cars"]
+                }
+            }
         }
     }
 }
