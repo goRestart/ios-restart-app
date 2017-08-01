@@ -866,7 +866,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
             
-            describe("searchComplete") {
+            fdescribe("searchComplete isLastSearch") {
                 context("success"){
                     beforeEach {
                         sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .success, isLastSearch: true, isSuggestiveSearch: false, suggestiveSearchIndex: nil)
@@ -882,6 +882,13 @@ class TrackerEventSpec: QuickSpec {
                         let searchQuery = sut.params!.stringKeyParams["last-search"] as? Bool
                         expect(searchQuery) == true
                     }
+                    it("contains the isSuggestiveSearch parameter") {
+                        let searchQuery = sut.params!.stringKeyParams["search-suggestion"] as? Bool
+                        expect(searchQuery) == false
+                    }
+                    it("does not contain the suggestiveSearchIndex parameter") {
+                        expect(sut.params!.stringKeyParams["search-suggestion-position"]).to(beNil())
+                    }
                     it("contains the search keyword related params when passing by the search query") {
                         let searchQuery = sut.params!.stringKeyParams["search-keyword"] as? String
                         expect(searchQuery) == "iPhone"
@@ -895,7 +902,51 @@ class TrackerEventSpec: QuickSpec {
                     beforeEach {
                         sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .fail, isLastSearch: true, isSuggestiveSearch: false, suggestiveSearchIndex: nil)
                     }
-                    it("search si no success") {
+                    it("search with no success") {
+                        let searchSuccess = sut.params!.stringKeyParams["search-success"] as? String
+                        expect(searchSuccess) == "no"
+                    }
+                }
+            }
+            
+            fdescribe("searchComplete isSuggestiveSearch") {
+                context("success"){
+                    beforeEach {
+                        sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .success, isLastSearch: false, isSuggestiveSearch: true, suggestiveSearchIndex: 0)
+                    }
+                    it("has its event name") {
+                        expect(sut.name.rawValue).to(equal("search-complete"))
+                    }
+                    it("contains the isTrending parameter") {
+                        let searchQuery = sut.params!.stringKeyParams["trending-search"] as? Bool
+                        expect(searchQuery) == false
+                    }
+                    it("contains the isLastSearch parameter") {
+                        let searchQuery = sut.params!.stringKeyParams["last-search"] as? Bool
+                        expect(searchQuery) == false
+                    }
+                    it("contains the isSuggestiveSearch parameter") {
+                        let searchQuery = sut.params!.stringKeyParams["search-suggestion"] as? Bool
+                        expect(searchQuery) == true
+                    }
+                    it("contains the suggestiveSearchIndex parameter") {
+                        let suggestiveSearchIndex = sut.params!.stringKeyParams["search-suggestion-position"] as? Int
+                        expect(suggestiveSearchIndex) == 0
+                    }
+                    it("contains the search keyword related params when passing by the search query") {
+                        let searchQuery = sut.params!.stringKeyParams["search-keyword"] as? String
+                        expect(searchQuery) == "iPhone"
+                    }
+                    it("search is success") {
+                        let searchSuccess = sut.params!.stringKeyParams["search-success"] as? String
+                        expect(searchSuccess) == "yes"
+                    }
+                }
+                context("failure") {
+                    beforeEach {
+                        sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .fail, isLastSearch: false, isSuggestiveSearch: true, suggestiveSearchIndex: 0)
+                    }
+                    it("search with no success") {
                         let searchSuccess = sut.params!.stringKeyParams["search-success"] as? String
                         expect(searchSuccess) == "no"
                     }
