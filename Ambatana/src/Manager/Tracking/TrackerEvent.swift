@@ -223,13 +223,17 @@ struct TrackerEvent {
         return TrackerEvent(name: .searchStart, params: params)
     }
 
-    static func searchComplete(_ user: User?, searchQuery: String, isTrending: Bool, success: EventParameterSearchCompleteSuccess, isLastSearch: Bool)
+    static func searchComplete(_ user: User?, searchQuery: String, isTrending: Bool, success: EventParameterSearchCompleteSuccess, isLastSearch: Bool, isSuggestiveSearch: Bool, suggestiveSearchIndex: Int?)
         -> TrackerEvent {
             var params = EventParameters()
             params[.searchString] = searchQuery
             params[.searchSuccess] = success.rawValue
             params[.trendingSearch] = isTrending
             params[.lastSearch] = isLastSearch
+            params[.searchSuggestion] = isSuggestiveSearch
+            if let suggestiveSearchPosition = suggestiveSearchIndex {
+                params[.searchSuggestionPosition] = suggestiveSearchPosition
+            }
             return TrackerEvent(name: .searchComplete, params: params)
     }
 
