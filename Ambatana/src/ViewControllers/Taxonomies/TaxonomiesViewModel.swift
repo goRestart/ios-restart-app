@@ -28,7 +28,7 @@ class TaxonomiesViewModel : BaseViewModel {
     let source: EventParameterTypePage
     
     
-    // MARK: -LifeCycle
+    // MARK: - LifeCycle
     
     init(taxonomies: [Taxonomy], source: EventParameterTypePage, tracker: Tracker) {
         title = LGLocalizedString.categoriesTitle

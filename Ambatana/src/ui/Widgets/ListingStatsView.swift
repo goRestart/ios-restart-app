@@ -31,7 +31,7 @@ class ListingStatsView: UIView {
     private let timeViewMinWidth: CGFloat = 55
 
 
-    // MARK: -Lifecycle
+    // MARK: - Lifecycle
 
     static func ListingStatsView() -> ListingStatsView? {
         let view = Bundle.main.loadNibNamed("ListingStatsView", owner: self, options: nil)?.first as? ListingStatsView

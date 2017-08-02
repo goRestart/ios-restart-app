@@ -175,7 +175,7 @@ enum EventName: String {
     
     case filterBubble                       = "filter-bubble"
     case categoriesStart                    = "categories-start"
-    case categoriesComplete                    = "categories-complete"
+    case categoriesComplete                 = "categories-complete"
     
 
     // Constants
