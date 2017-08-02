@@ -491,6 +491,96 @@ class SignUpLogInViewModelSpec: QuickSpec {
                     }
                 }
             }
+            
+            fdescribe("log in button press with invalid form") {
+                var errors: LogInEmailFormErrors!
+                
+                describe("empty") {
+                    beforeEach {
+                        sut.email = ""
+                        sut.password = ""
+                        errors = sut.logIn()
+                    }
+                    
+                    it("has log in disabled") {
+                        expect(sut.sendButtonEnabled) == false
+                    }
+                    it("does not return any error") {
+                        expect(errors) == .invalidEmail
+                    }
+                    it("does not call close because after login in navigator") {
+                        expect(self.finishedSuccessfully) == false
+                    }
+                    it("does not track any event") {
+                        //let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                        //expect(trackedEventNames) == []
+                        expect(tracker.trackedEvents.flatMap { $0.name }).toEventually(equal([.loginEmailError]))
+                    }
+                }
+                
+                describe("with email non-valid & short password") {
+                    beforeEach {
+                        sut.email = "a"
+                        sut.password = "a"
+                        errors = sut.logIn()
+                    }
+                    
+//                    it("has log in enabled") {
+//                        expect(sut.sendButtonEnabled) == true
+//                    }
+                    it("returns that the email is invalid") {
+                        expect(errors) == [.invalidEmail]
+                    }
+                    it("does not call close because after login in navigator") {
+                        expect(self.finishedSuccessfully) == false
+                    }
+                    it("tracks a loginEmailError event") {
+                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                        expect(trackedEventNames) == [EventName.loginEmailError]
+                    }
+                }
+
+                describe("with valid email & long password") {
+                    beforeEach {
+                        sut.email = "albert@letgo.com"
+                        sut.password = "abcdefghijklmnopqrstuvwxyz"
+                        errors = sut.logIn()
+                    }
+                    
+//                    it("has log in enabled") {
+//                        expect(sut.sendButtonEnabled).toEventually(equal(true))
+//                    }
+                    it("returns that the password is long") {
+                        expect(errors) = []
+                    }
+//                    it("does not call close because after login in navigator") {
+//                        expect(self.finishedSuccessfully) == false
+//                    }
+                    it("tracks a loginEmailError event") {
+                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                        expect(trackedEventNames) == []
+                    }
+                }
+
+                describe("with valid email & password") {
+                    beforeEach {
+                        sut.email = "albert@letgo.com"
+                        sut.password = "letitgo"
+                        errors = sut.logIn()
+                    }
+                    
+                    it("has log in enabled") {
+                        expect(sut.sendButtonEnabled) == true
+                    }
+                    it("returns no errors") {
+                        expect(errors) == []
+                    }
+                    it("does not track any event") {
+                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                        expect(trackedEventNames) == []
+                    }
+                }
+            }
         }
     }
 }

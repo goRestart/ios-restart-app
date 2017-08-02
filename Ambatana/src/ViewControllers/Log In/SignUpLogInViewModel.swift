@@ -15,6 +15,14 @@ enum LoginActionType: Int{
     case signup, login
 }
 
+struct LogInEmailFormErrors: OptionSet {
+    let rawValue: Int
+    
+    static let invalidEmail     = LogInEmailFormErrors(rawValue: 1 << 0)
+    static let shortPassword    = LogInEmailFormErrors(rawValue: 1 << 1)
+    static let longPassword     = LogInEmailFormErrors(rawValue: 1 << 2)
+}
+
 protocol SignUpLogInViewModelDelegate: BaseViewModelDelegate {
     func vmUpdateSendButtonEnabledState(_ enabled: Bool)
     func vmUpdateShowPasswordVisible(_ visible: Bool)
@@ -71,7 +79,7 @@ class SignUpLogInViewModel: BaseViewModel {
         return password.characters.count > 0
     }
 
-    fileprivate var sendButtonEnabled: Bool {
+    var sendButtonEnabled: Bool {
         return  email.characters.count > 0 && password.characters.count > 0 &&
             (currentActionType == .login || ( currentActionType == .signup && username.characters.count > 0))
     }
@@ -272,18 +280,22 @@ class SignUpLogInViewModel: BaseViewModel {
         }
     }
 
-    func logIn() {
+    func logIn() -> LogInEmailFormErrors? {
+        var errors: LogInEmailFormErrors = []
+        
         if email == "admin" && password == "wat" {
             delegate?.vmShowHiddenPasswordAlert()
-            return
+            return errors
         }
 
         delegate?.vmShowLoading(nil)
 
         if !email.isEmail() {
+            errors.insert(.invalidEmail)
             delegate?.vmHideLoading(LGLocalizedString.logInErrorSendErrorInvalidEmail, afterMessageCompletion: nil)
             trackLoginEmailFailedWithError(.invalidEmail)
         } else if password.characters.count < Constants.passwordMinLength {
+            errors.insert(.shortPassword)
             delegate?.vmHideLoading(LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword, afterMessageCompletion: nil)
             trackLoginEmailFailedWithError(.invalidPassword)
         } else {
@@ -305,6 +317,7 @@ class SignUpLogInViewModel: BaseViewModel {
                 }
             }
         }
+        return errors
     }
     
     func godLogIn(_ password: String) {

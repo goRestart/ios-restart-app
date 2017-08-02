@@ -217,7 +217,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         case .signup:
             viewModel.signUp()
         case .login:
-            viewModel.logIn()
+            _ = viewModel.logIn()
         }
     }
     
