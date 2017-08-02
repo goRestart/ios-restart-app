@@ -33,6 +33,7 @@ extension Bumper  {
         flags.append(InAppRatingIOS10.self)
         flags.append(SuggestedSearches.self)
         flags.append(AddSuperKeywordsOnFeed.self)
+        flags.append(CopiesImprovementOnboarding.self)
         Bumper.initialize(flags)
     } 
 
@@ -134,6 +135,11 @@ extension Bumper  {
     static var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed {
         guard let value = Bumper.value(for: AddSuperKeywordsOnFeed.key) else { return .control }
         return AddSuperKeywordsOnFeed(rawValue: value) ?? .control 
+    }
+
+    static var copiesImprovementOnboarding: CopiesImprovementOnboarding {
+        guard let value = Bumper.value(for: CopiesImprovementOnboarding.key) else { return .control }
+        return CopiesImprovementOnboarding(rawValue: value) ?? .control 
     } 
 }
 
@@ -345,6 +351,26 @@ enum AddSuperKeywordsOnFeed: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum CopiesImprovementOnboarding: String, BumperFeature  {
+    case control, baseline, b, c, d, e, f
+    static var defaultValue: String { return CopiesImprovementOnboarding.control.rawValue }
+    static var enumValues: [CopiesImprovementOnboarding] { return [.control, .baseline, .b, .c, .d, .e, .f]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "new copies on last step of onboarding" } 
+    static func fromPosition(_ position: Int) -> CopiesImprovementOnboarding {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .b
+            case 3: return .c
+            case 4: return .d
+            case 5: return .e
+            case 6: return .f
             default: return .control
         }
     }

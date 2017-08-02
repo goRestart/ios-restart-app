@@ -13,7 +13,22 @@ protocol TourPostingViewModelDelegate: BaseViewModelDelegate { }
 class TourPostingViewModel: BaseViewModel {
     weak var navigator: TourPostingNavigator?
 
-    let titleText: String
+    var titleText: String {
+        switch featureFlags.copiesImprovementOnboarding {
+        case .control, .baseline:
+            return LGLocalizedString.onboardingPostingTitleB
+        case .b:
+            return "Option B"
+        case .c:
+            return "Option C"
+        case .d:
+            return "Option D"
+        case .e:
+            return "Option E"
+        case .f:
+            return "Option F"
+        }
+    }
     let subtitleText: String
     let okButtonText: String
     
@@ -22,7 +37,10 @@ class TourPostingViewModel: BaseViewModel {
      weak var delegate: TourPostingViewModelDelegate?
     
     init(featureFlags: FeatureFlaggeable) {
-        titleText = LGLocalizedString.onboardingPostingTitleB
+        
+        
+        
+        //titleText = LGLocalizedString.onboardingPostingTitleB
         subtitleText = LGLocalizedString.onboardingPostingSubtitleB
         okButtonText = LGLocalizedString.onboardingPostingButtonB
         self.featureFlags = featureFlags

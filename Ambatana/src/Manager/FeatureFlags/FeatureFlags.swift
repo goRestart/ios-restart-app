@@ -39,6 +39,7 @@ protocol FeatureFlaggeable: class {
     var inAppRatingIOS10: Bool { get }
     var suggestedSearches: SuggestedSearches { get }
     var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed { get }
+    var copiesImprovementOnboarding: CopiesImprovementOnboarding { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -268,6 +269,12 @@ class FeatureFlags: FeatureFlaggeable {
         return AddSuperKeywordsOnFeed.fromPosition(abTests.addSuperKeywordsOnFeed.value)
     }
     
+    var copiesImprovementOnboarding: CopiesImprovementOnboarding {
+        if Bumper.enabled {
+            return Bumper.copiesImprovementOnboarding
+        }
+        return CopiesImprovementOnboarding.fromPosition(abTests.copiesImprovementOnboarding.value)
+    }
     
     // MARK: - Country features
 
