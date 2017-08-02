@@ -49,10 +49,6 @@ class AppRatingView: UIView {
         ratUslabel.text = LGLocalizedString.ratingViewRateUsLabel
         dismissButton.setTitle(LGLocalizedString.ratingViewRemindLaterButton.uppercase, for: .normal)
 
-        guard let source = ratingSource else { return }
-        let trackerEvent = TrackerEvent.appRatingStart(source)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-
         setAccesibilityIds()
     }
     
