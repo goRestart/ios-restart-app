@@ -56,7 +56,7 @@ class AppRatingView: UIView {
     @IBAction func ratePressed(_ sender: AnyObject) {
         userRatesOrGivesFeedback()
         if let tag = (sender as? UIButton)?.tag {
-            let trackerEvent = TrackerEvent.appRatingRate(rating: tag)
+            let trackerEvent = TrackerEvent.appRatingRate()
             TrackerProxy.sharedInstance.trackEvent(trackerEvent)
         }
         closeWithFadeOut()
@@ -115,7 +115,6 @@ class AppRatingView: UIView {
     private func userWantsRemindLater() {
         let event = TrackerEvent.appRatingRemindMeLater()
         TrackerProxy.sharedInstance.trackEvent(event)
-
         LGRatingManager.sharedInstance.userDidRemindLater()
     }
 }

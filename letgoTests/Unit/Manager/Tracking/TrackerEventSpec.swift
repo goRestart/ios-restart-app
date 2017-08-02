@@ -3674,14 +3674,10 @@ class TrackerEventSpec: QuickSpec {
             }
             describe("app rating rate") {
                 beforeEach {
-                    sut = TrackerEvent.appRatingRate(rating: 3)
+                    sut = TrackerEvent.appRatingRate()
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("app-rating-rate"))
-                }
-                it("contains rating source param") {
-                    let param = sut.params!.stringKeyParams["rating"] as? Int
-                    expect(param).to(equal(3))
                 }
             }
             
