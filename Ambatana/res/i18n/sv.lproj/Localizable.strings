@@ -58,7 +58,7 @@
 "categories_old_cars_and_motors" = "Bil och motor";
 "categories_other" = "Övrigt";
 "categories_sports_leisure_and_games" = "Sport, fritid och spel";
-"categories_super_keywords_inFeed_show_more" = "Show more";
+"categories_super_keywords_inFeed_show_more" = "Visa mer";
 "categories_title" = "Kategorier";
 "categories_unassigned" = "Inte vald";
 "change_email_current_email_label" = "BEFINTLIG E-POST:";
@@ -378,7 +378,7 @@
 "login_scammer_alert_title" = "KONTOT ÄR UNDER GRANSKNING";
 "main_products_filter_navigation_bar_button" = "Filtrera";
 "main_products_invite_navigation_bar_button" = "Bjud in";
-"main_sign_up_claim_label" = "Börja sälja och köpa - via chatt!";
+"main_sign_up_claim_label" = "Köp och sälj snabbt, säkert och lokalt.";
 "main_sign_up_error_request_already_sent" = "Din begäran har redan registrerats. Vänligen vänta innan du försöker igen.";
 "main_sign_up_error_user_rejected" = "Den e-postadress du skrev in är inte korrekt. Kolla den och försök igen.";
 "main_sign_up_facebook_connect_button" = "Fortsätt med Facebook";
@@ -446,6 +446,10 @@
 "nps_survey_very_good" = "Mycket troligt";
 "onboarding_alert_no" = "Nej";
 "onboarding_alert_yes" = "Ja";
+"onboarding_categories_button_countdown" = "Pick at least %i more";
+"onboarding_categories_button_title_finish" = "Next";
+"onboarding_categories_button_title_initial" = "Pick at least %i categories";
+"onboarding_categories_title" = "What kind of items are you interested in?";
 "onboarding_direct_camera_alert_subtitle" = "Lägg upp din första produkt och börja sälja till folk nära dig";
 "onboarding_direct_camera_alert_title" = "Börja tjäna pengar!";
 "onboarding_location_permissions_alert_subtitle" = "Du kommer att se produkter från samtliga platser istället för i din närhet";

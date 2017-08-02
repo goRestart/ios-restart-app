@@ -1175,7 +1175,7 @@
 "sign_up_email_step2_sign_up_button" = "Sign Up";
 
 // Main sign up claim label. Check image @ "main_sign_up_already_registered_label" segment
-"main_sign_up_claim_label" = "Start to sell and buy—by chat!";
+"main_sign_up_claim_label" = "Buy and sell quickly, safely and locally. It’s time to letgo!";
 
 // Main sign up facebook connect button. Check image @ "main_sign_up_already_registered_label" segment
 "main_sign_up_facebook_connect_button" = "Continue with Facebook";
@@ -1381,6 +1381,18 @@
 // Survey confirmation message
 "survey_confirmation" = "Thank you! Your feedback helps us improve";
 
+// Title to select categories on onboarding
+"onboarding_categories_title" = "What kind of items are you interested in?";
+
+// Button title when no category selected
+"onboarding_categories_button_title_initial" = "Pick at least %i categories";
+
+// Button title when at least one  category is selected
+"onboarding_categories_button_countdown" = "Pick at least %i more";
+
+// Button title when all categories needed are selected.
+"onboarding_categories_button_title_finish" = "Next";
+
 // Onboarding direct camera title
 "onboarding_direct_camera_alert_title" = "Start Making Cash!";
 
@@ -1416,6 +1428,24 @@
 
 // Onboarding incentivize posting variant C button
 "onboarding_posting_button_c" = "Yes, I have things to sell";
+
+// Onbarding improvement copies variant B title
+"onboarding_posting_improvement_b_title" = "Selling is easy. Give it a try!";
+
+// Onbarding improvement copies variant C title
+"onboarding_posting_improvement_c_title" = "Selling is easy. Give it a try!";
+
+// Onbarding improvement copies variant D title
+"onboarding_posting_improvement_d_title" = "Post in one step: just take a picture!";
+
+// Onbarding improvement copies variant E title
+"onboarding_posting_improvement_e_title" = "Selling is easy just take a picture and we'll do the rest!";
+
+// Onbarding improvement copies variant F title
+"onboarding_posting_improvement_f_title" = "Post an item in just seconds!";
+
+// Onbarding improvement copies variant C button
+"onboarding_posting_improvement_c_button" = "Try it out";
 
 // Onboarding shows alert if user click on close permission request. 
 "onboarding_location_permissions_alert_title" = "Are you sure?";

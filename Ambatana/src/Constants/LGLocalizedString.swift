@@ -1863,6 +1863,22 @@ struct LGLocalizedString {
 		return NSLocalizedString("survey_confirmation", comment: "")
 	}
 
+	static var onboardingCategoriesTitle: String {
+		return NSLocalizedString("onboarding_categories_title", comment: "")
+	}
+
+	static var onboardingCategoriesButtonTitleInitial: String {
+		return NSLocalizedString("onboarding_categories_button_title_initial", comment: "")
+	}
+
+	static var onboardingCategoriesButtonCountdown: String {
+		return NSLocalizedString("onboarding_categories_button_countdown", comment: "")
+	}
+
+	static var onboardingCategoriesButtonTitleFinish: String {
+		return NSLocalizedString("onboarding_categories_button_title_finish", comment: "")
+	}
+
 	static var onboardingDirectCameraAlertTitle: String {
 		return NSLocalizedString("onboarding_direct_camera_alert_title", comment: "")
 	}
@@ -1909,6 +1925,30 @@ struct LGLocalizedString {
 
 	static var onboardingPostingButtonC: String {
 		return NSLocalizedString("onboarding_posting_button_c", comment: "")
+	}
+
+	static var onboardingPostingImprovementBTitle: String {
+		return NSLocalizedString("onboarding_posting_improvement_b_title", comment: "")
+	}
+
+	static var onboardingPostingImprovementCTitle: String {
+		return NSLocalizedString("onboarding_posting_improvement_c_title", comment: "")
+	}
+
+	static var onboardingPostingImprovementDTitle: String {
+		return NSLocalizedString("onboarding_posting_improvement_d_title", comment: "")
+	}
+
+	static var onboardingPostingImprovementETitle: String {
+		return NSLocalizedString("onboarding_posting_improvement_e_title", comment: "")
+	}
+
+	static var onboardingPostingImprovementFTitle: String {
+		return NSLocalizedString("onboarding_posting_improvement_f_title", comment: "")
+	}
+
+	static var onboardingPostingImprovementCButton: String {
+		return NSLocalizedString("onboarding_posting_improvement_c_button", comment: "")
 	}
 
 	static var onboardingLocationPermissionsAlertTitle: String {

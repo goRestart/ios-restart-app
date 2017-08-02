@@ -58,7 +58,7 @@
 "categories_old_cars_and_motors" = "Autos und Fahrzeuge";
 "categories_other" = "Sonstige";
 "categories_sports_leisure_and_games" = "Sport und Freizeit";
-"categories_super_keywords_inFeed_show_more" = "Show more";
+"categories_super_keywords_inFeed_show_more" = "Mehr anzeigen";
 "categories_title" = "Kategorien";
 "categories_unassigned" = "Nichts ausgewählt";
 "change_email_current_email_label" = "AKTUELLE E-MAIL-ADRESSE:";
@@ -378,7 +378,7 @@
 "login_scammer_alert_title" = "BENUTZERKONTO WIRD ÜBERPRÜFT";
 "main_products_filter_navigation_bar_button" = "Filtern";
 "main_products_invite_navigation_bar_button" = "Einladen";
-"main_sign_up_claim_label" = "Kaufe, verkaufe und plausche!";
+"main_sign_up_claim_label" = "Verkaufe schnell, sicher und lokal.";
 "main_sign_up_error_request_already_sent" = "Deine Anfrage wurde bereits bearbeitet. Bitte warte ein wenig, bevor du es erneut versuchst.";
 "main_sign_up_error_user_rejected" = "Die eingegebene E-Mail-Adresse ist falsch. Bitte überprüfe deine Eingabe und versuche es erneut.";
 "main_sign_up_facebook_connect_button" = "Mit Facebook anmelden";
@@ -446,6 +446,10 @@
 "nps_survey_very_good" = "Sehr wahrscheinlich";
 "onboarding_alert_no" = "Nein";
 "onboarding_alert_yes" = "Ja";
+"onboarding_categories_button_countdown" = "Wähle mindestens %i weitere aus";
+"onboarding_categories_button_title_finish" = "Weiter";
+"onboarding_categories_button_title_initial" = "Wähle mindestens %i Kategorien aus";
+"onboarding_categories_title" = "An welcher Art von Artikel bist du interessiert?";
 "onboarding_direct_camera_alert_subtitle" = "Stelle dein erstes Produkt ein und verkaufe es an Leute aus deiner Gegend";
 "onboarding_direct_camera_alert_title" = "Verdiene bares Geld!";
 "onboarding_location_permissions_alert_subtitle" = "Dir werden dann Artikel aus allen Regionen angezeigt, nicht nur in deiner Nähe";

@@ -18,31 +18,40 @@ class TourPostingViewModel: BaseViewModel {
         case .control, .baseline:
             return LGLocalizedString.onboardingPostingTitleB
         case .b:
-            return "Option B"
+            return LGLocalizedString.onboardingPostingImprovementBTitle
         case .c:
-            return "Option C"
+            return LGLocalizedString.onboardingPostingImprovementCTitle
         case .d:
-            return "Option D"
+            return LGLocalizedString.onboardingPostingImprovementDTitle
         case .e:
-            return "Option E"
+            return LGLocalizedString.onboardingPostingImprovementETitle
         case .f:
-            return "Option F"
+            return LGLocalizedString.onboardingPostingImprovementFTitle
         }
     }
-    let subtitleText: String
-    let okButtonText: String
+    var subtitleText: String {
+        switch featureFlags.copiesImprovementOnboarding {
+        case .control, .baseline:
+            return LGLocalizedString.onboardingPostingSubtitleB
+        case .b, .c, .d, .e, .f:
+            return ""
+        }
+    }
+    
+    var okButtonText: String  {
+        switch featureFlags.copiesImprovementOnboarding {
+        case .control, .baseline, .b, .d, .e, .f:
+            return LGLocalizedString.onboardingPostingButtonB
+        case  .c:
+            return LGLocalizedString.onboardingPostingButtonB
+        }
+    }
     
     let featureFlags: FeatureFlaggeable
 
      weak var delegate: TourPostingViewModelDelegate?
     
     init(featureFlags: FeatureFlaggeable) {
-        
-        
-        
-        //titleText = LGLocalizedString.onboardingPostingTitleB
-        subtitleText = LGLocalizedString.onboardingPostingSubtitleB
-        okButtonText = LGLocalizedString.onboardingPostingButtonB
         self.featureFlags = featureFlags
         super.init()
     }

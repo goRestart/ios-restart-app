@@ -58,7 +58,7 @@
 "categories_old_cars_and_motors" = "Autók és motorok";
 "categories_other" = "Egyéb";
 "categories_sports_leisure_and_games" = "Sport, szabadidő, játékok";
-"categories_super_keywords_inFeed_show_more" = "Show more";
+"categories_super_keywords_inFeed_show_more" = "Többet";
 "categories_title" = "Kategóriák";
 "categories_unassigned" = "Nincs megadva";
 "change_email_current_email_label" = "JELENLEGI E-MAIL:";
@@ -378,7 +378,7 @@
 "login_scammer_alert_title" = "FIÓK ELLENŐRZÉS ALATT";
 "main_products_filter_navigation_bar_button" = "Szűrés";
 "main_products_invite_navigation_bar_button" = "Meghívás";
-"main_sign_up_claim_label" = "Ideje vásárolni és eladni – csevegve!";
+"main_sign_up_claim_label" = "Vásárolj és adj el gyorsan, biztonságosan – a környékeden.";
 "main_sign_up_error_request_already_sent" = "Kérésed már feldolgozás alatt van. Várj egy kicsit, mielőtt újra próbálkoznál.";
 "main_sign_up_error_user_rejected" = "A megadott e-mail cím helytelen. Ellenőrizd, majd próbálkozz újra.";
 "main_sign_up_facebook_connect_button" = "Folytatás a Facebookkal";
@@ -446,6 +446,10 @@
 "nps_survey_very_good" = "Nagyon szívesen";
 "onboarding_alert_no" = "Nem";
 "onboarding_alert_yes" = "Igen";
+"onboarding_categories_button_countdown" = "Válassz még legalább %i kategóriát";
+"onboarding_categories_button_title_finish" = "Tovább";
+"onboarding_categories_button_title_initial" = "Válassz legalább %i kategóriát";
+"onboarding_categories_title" = "Mik érdekelnek?";
 "onboarding_direct_camera_alert_subtitle" = "Tedd közzé első portékádat, és már kereskedhetsz is a környékbeliekkel";
 "onboarding_direct_camera_alert_title" = "Kezdj pénzt keresni!";
 "onboarding_location_permissions_alert_subtitle" = "Minden hirdetés meg fog jelenni, nem csak a közeliek";

@@ -58,7 +58,7 @@
 "categories_old_cars_and_motors" = "Auto's en Motors";
 "categories_other" = "Overige";
 "categories_sports_leisure_and_games" = "Sport, vrije tijd en games";
-"categories_super_keywords_inFeed_show_more" = "Show more";
+"categories_super_keywords_inFeed_show_more" = "Toon meer";
 "categories_title" = "Categorieën";
 "categories_unassigned" = "Niet geselecteerd ";
 "change_email_current_email_label" = "HUIDIGE E-MAIL:";
@@ -378,7 +378,7 @@
 "login_scammer_alert_title" = "ACCOUNT WORDT BEOORDEELD";
 "main_products_filter_navigation_bar_button" = "Filteren";
 "main_products_invite_navigation_bar_button" = "Uitnodigen";
-"main_sign_up_claim_label" = "Start met verkopen en kopen - door te chatten!";
+"main_sign_up_claim_label" = "Koop en verkoop snel, veilig en lokaal.";
 "main_sign_up_error_request_already_sent" = "Je aanvraag is al verwerkt. Gelieve te wachten voordat je het opnieuw probeert.";
 "main_sign_up_error_user_rejected" = "Het e-mailadres dat je hebt ingevoerd is onjuist. Controleer het en probeer het opnieuw.";
 "main_sign_up_facebook_connect_button" = "Doorgaan met Facebook";
@@ -446,6 +446,10 @@
 "nps_survey_very_good" = "Meest waarschijnlijk";
 "onboarding_alert_no" = "Nee";
 "onboarding_alert_yes" = "Ja";
+"onboarding_categories_button_countdown" = "Kies ten minste %i meer";
+"onboarding_categories_button_title_finish" = "Volgende";
+"onboarding_categories_button_title_initial" = "Kies ten minste %i categorieën";
+"onboarding_categories_title" = "In wat voor soort items ben je geïnteresseerd?";
 "onboarding_direct_camera_alert_subtitle" = "Plaats je eerste product en begin met verkopen aan mensen in jouw omgeving";
 "onboarding_direct_camera_alert_title" = "Begin met geld te verdienen!";
 "onboarding_location_permissions_alert_subtitle" = "Je zult items zien die geplaatst zijn in alle locaties in plaats van bij jou in de buurt";

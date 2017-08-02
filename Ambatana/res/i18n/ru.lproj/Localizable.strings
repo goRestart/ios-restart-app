@@ -58,7 +58,7 @@
 "categories_old_cars_and_motors" = "Автомобили и Запчасти";
 "categories_other" = "Другое";
 "categories_sports_leisure_and_games" = "Спорт и Развлечения";
-"categories_super_keywords_inFeed_show_more" = "Show more";
+"categories_super_keywords_inFeed_show_more" = "Показать еще";
 "categories_title" = "Категории";
 "categories_unassigned" = "Не выбрана";
 "change_email_current_email_label" = "ТЕКУЩИЙ Е-МЕЙЛ:";
@@ -378,7 +378,7 @@
 "login_scammer_alert_title" = "АККАУНТ НА ПРОВЕРКЕ";
 "main_products_filter_navigation_bar_button" = "Фильтр";
 "main_products_invite_navigation_bar_button" = "Пригласить";
-"main_sign_up_claim_label" = "Начните продавать и покупать в чате!";
+"main_sign_up_claim_label" = "Покупайте и продавайте быстро, безопасно и удобно.";
 "main_sign_up_error_request_already_sent" = "Ваш запрос обрабатывается. Пожалуйста, подождите перед следующей попыткой.";
 "main_sign_up_error_user_rejected" = "Указанный е-мейл или пароль некорректен. Пожалуйста, проверьте их и попробуйте еще раз.";
 "main_sign_up_facebook_connect_button" = "Вход через Facebook";
@@ -446,6 +446,10 @@
 "nps_survey_very_good" = "Очень вероятно";
 "onboarding_alert_no" = "Нет";
 "onboarding_alert_yes" = "Да";
+"onboarding_categories_button_countdown" = "Pick at least %i more";
+"onboarding_categories_button_title_finish" = "Next";
+"onboarding_categories_button_title_initial" = "Pick at least %i categories";
+"onboarding_categories_title" = "What kind of items are you interested in?";
 "onboarding_direct_camera_alert_subtitle" = "Опубликуйте свой первый товар и начинайте продавать";
 "onboarding_direct_camera_alert_title" = "Начинайте получать деньги!";
 "onboarding_location_permissions_alert_subtitle" = "Вы увидите товары со всеми адресами, а не только рядом с вами";

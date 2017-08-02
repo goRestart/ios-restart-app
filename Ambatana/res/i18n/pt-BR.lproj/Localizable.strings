@@ -378,7 +378,7 @@
 "login_scammer_alert_title" = "ACCOUNT UNDER REVIEW";
 "main_products_filter_navigation_bar_button" = "Filter";
 "main_products_invite_navigation_bar_button" = "Invite";
-"main_sign_up_claim_label" = "Start to sell and buy—by chat!";
+"main_sign_up_claim_label" = "Buy and sell quickly, safely and locally. It’s time to letgo!";
 "main_sign_up_error_request_already_sent" = "Your request has already been processed. Please wait before trying again.";
 "main_sign_up_error_user_rejected" = "The email you entered is incorrect. Please check it and try again.";
 "main_sign_up_facebook_connect_button" = "Continue with Facebook";
@@ -446,6 +446,10 @@
 "nps_survey_very_good" = "Extremely likely";
 "onboarding_alert_no" = "No";
 "onboarding_alert_yes" = "Yes";
+"onboarding_categories_button_countdown" = "Pick at least %i more";
+"onboarding_categories_button_title_finish" = "Next";
+"onboarding_categories_button_title_initial" = "Pick at least %i categories";
+"onboarding_categories_title" = "What kind of items are you interested in?";
 "onboarding_direct_camera_alert_subtitle" = "Post your first product and start selling to people near you";
 "onboarding_direct_camera_alert_title" = "Start Making Cash!";
 "onboarding_location_permissions_alert_subtitle" = "You'll see items posted in all locations instead of near you";

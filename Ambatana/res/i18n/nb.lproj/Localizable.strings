@@ -58,7 +58,7 @@
 "categories_old_cars_and_motors" = "Bil og motor";
 "categories_other" = "Annet";
 "categories_sports_leisure_and_games" = "Sport, fritid og spill";
-"categories_super_keywords_inFeed_show_more" = "Show more";
+"categories_super_keywords_inFeed_show_more" = "Vis mer";
 "categories_title" = "Kategorier";
 "categories_unassigned" = "Ikke valgt";
 "change_email_current_email_label" = "NÅVÆRENDE E-POSTADRESSE:";
@@ -378,7 +378,7 @@
 "login_scammer_alert_title" = "KONTO GJENNOMGÅS";
 "main_products_filter_navigation_bar_button" = "Filtrer";
 "main_products_invite_navigation_bar_button" = "Inviter";
-"main_sign_up_claim_label" = "Sett i gang med salg, kjøp og chat";
+"main_sign_up_claim_label" = "Knips, post, chat og selg. Det er på tide å letgo!";
 "main_sign_up_error_request_already_sent" = "Din forespørsel er allerede prosessert. Vennligst vent før du prøver igjen.";
 "main_sign_up_error_user_rejected" = "E-postadressen du valgte er ugyldig. Vennligst sjekk og prøv igjen.";
 "main_sign_up_facebook_connect_button" = "Fortsett med Facebook";
@@ -446,6 +446,10 @@
 "nps_survey_very_good" = "Ekstremt sannsynlig";
 "onboarding_alert_no" = "Nei";
 "onboarding_alert_yes" = "Ja";
+"onboarding_categories_button_countdown" = "Velg minst %i mer";
+"onboarding_categories_button_title_finish" = "Neste";
+"onboarding_categories_button_title_initial" = "Velg minst %i kategorier";
+"onboarding_categories_title" = "Hvilke produkter er du interessert i?";
 "onboarding_direct_camera_alert_subtitle" = "Publiser ditt første produkt og sett i gang å selge til personer i ditt nærområde";
 "onboarding_direct_camera_alert_title" = "Begynn inntjeningen!";
 "onboarding_location_permissions_alert_subtitle" = "Du vil se produkter publisert i alle områder i stedet for ditt nærområde";
