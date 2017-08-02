@@ -174,6 +174,8 @@ enum EventName: String {
     case emptyStateError                    = "empty-state-error"
     
     case filterBubble                       = "filter-bubble"
+    case categoriesStart                    = "categories-start"
+    case categoriesComplete                    = "categories-complete"
     
 
     // Constants
@@ -313,6 +315,7 @@ enum EventParameterName: String {
     case verticalFields             = "vertical-fields"
     case bubblePosition       = "bubble-position"
     case bubbleName           = "bubble-name"
+    case keywordName           = "keyword-name"
 }
 
 enum EventParameterBoolean: String {
@@ -647,6 +650,7 @@ enum EventParameterTypePage: String {
     case productDelete = "product-delete"
     case productSold = "product-sold"
     case inAppNotification = "in-app-notification"
+    case filter = "filter"
 }
 
 enum EventParameterPermissionType: String {

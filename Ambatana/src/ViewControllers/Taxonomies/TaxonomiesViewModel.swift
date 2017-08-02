@@ -24,13 +24,31 @@ class TaxonomiesViewModel : BaseViewModel {
     var title: String
     
     let taxonomies: [Taxonomy]
+    let tracker: Tracker
+    let source: EventParameterTypePage
     
-    init(taxonomies: [Taxonomy]) {
+    
+    // MARK: -LifeCycle
+    
+    init(taxonomies: [Taxonomy], source: EventParameterTypePage, tracker: Tracker) {
         title = LGLocalizedString.categoriesTitle
         self.taxonomies = taxonomies
+        self.source = source
+        self.tracker = tracker
+    }
+    
+    convenience init(taxonomies: [Taxonomy], source: EventParameterTypePage) {
+        self.init(taxonomies: taxonomies, source: source, tracker: TrackerProxy.sharedInstance)
+    }
+    
+    override func didBecomeActive(_ firstTime: Bool) {
+        let event = TrackerEvent.categoriesStart(source: source)
+        tracker.trackEvent(event)
     }
     
     func taxonomyChildSelected(taxonomyChild: TaxonomyChild) {
+        let event = TrackerEvent.categoriesComplete(keywordName: taxonomyChild.name, source: source)
+        tracker.trackEvent(event)
         taxonomiesDelegate?.didSelectTaxonomyChild(taxonomyChild: taxonomyChild)
         goBack()
     }

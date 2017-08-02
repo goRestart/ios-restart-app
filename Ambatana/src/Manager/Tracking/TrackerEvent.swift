@@ -1122,6 +1122,19 @@ struct TrackerEvent {
         params[.bubbleName] = name
         return TrackerEvent(name: .filterBubble, params: params)
     }
+    
+    static func categoriesStart(source: EventParameterTypePage) -> TrackerEvent {
+        var params = EventParameters()
+        params[.typePage] = source.rawValue
+        return TrackerEvent(name: .categoriesStart, params: params)
+    }
+    
+    static func categoriesComplete(keywordName: String, source: EventParameterTypePage) -> TrackerEvent {
+        var params = EventParameters()
+        params[.keywordName] = keywordName
+        params[.typePage] = source.rawValue
+        return TrackerEvent(name: .categoriesComplete, params: params)
+    }
 
 
     // MARK: - Private methods
