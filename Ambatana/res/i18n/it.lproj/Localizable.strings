@@ -462,6 +462,12 @@
 "onboarding_posting_button_a" = "Vendi le tue cose";
 "onboarding_posting_button_b" = "Inizia";
 "onboarding_posting_button_c" = "Sì, ho qualcosa da vendere";
+"onboarding_posting_improvement_b_title" = "Selling is easy. Give it a try!";
+"onboarding_posting_improvement_c_button" = "Try it out";
+"onboarding_posting_improvement_c_title" = "Selling is easy. Give it a try!";
+"onboarding_posting_improvement_d_title" = "Post in one step: just take a picture!";
+"onboarding_posting_improvement_e_title" = "Selling is easy: just take a picture and we'll do the rest!";
+"onboarding_posting_improvement_f_title" = "Post an item in just seconds!";
 "onboarding_posting_subtitle_a" = "Pubblica il tuo primo prodotto e inizia a vendere a persone nella tua zona";
 "onboarding_posting_subtitle_b" = "Vendi oggetti di cui non hai più bisogno e guadagna soldi extra";
 "onboarding_posting_subtitle_c" = "Persone nelle vicinanze stanno cercando questi oggetti";

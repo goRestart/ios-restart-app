@@ -462,6 +462,12 @@
 "onboarding_posting_button_a" = "Vendez vos biens";
 "onboarding_posting_button_b" = "Commencer";
 "onboarding_posting_button_c" = "Oui, j'ai des choses à vendre";
+"onboarding_posting_improvement_b_title" = "Selling is easy. Give it a try!";
+"onboarding_posting_improvement_c_button" = "Try it out";
+"onboarding_posting_improvement_c_title" = "Selling is easy. Give it a try!";
+"onboarding_posting_improvement_d_title" = "Post in one step: just take a picture!";
+"onboarding_posting_improvement_e_title" = "Selling is easy: just take a picture and we'll do the rest!";
+"onboarding_posting_improvement_f_title" = "Post an item in just seconds!";
 "onboarding_posting_subtitle_a" = "Postez votre premier bien et commencez à vendre aux personnes près de chez vous";
 "onboarding_posting_subtitle_b" = "Vendez les affaires dont vous n'avez plus besoin et gagnez de l'argent !";
 "onboarding_posting_subtitle_c" = "Des gens près de chez vous recherchent ces biens";

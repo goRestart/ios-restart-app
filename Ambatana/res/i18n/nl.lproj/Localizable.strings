@@ -462,6 +462,12 @@
 "onboarding_posting_button_a" = "Verkoop Je Spullen";
 "onboarding_posting_button_b" = "Start";
 "onboarding_posting_button_c" = "Ja, ik heb spullen om te verkopen";
+"onboarding_posting_improvement_b_title" = "Selling is easy. Give it a try!";
+"onboarding_posting_improvement_c_button" = "Try it out";
+"onboarding_posting_improvement_c_title" = "Selling is easy. Give it a try!";
+"onboarding_posting_improvement_d_title" = "Post in one step: just take a picture!";
+"onboarding_posting_improvement_e_title" = "Selling is easy: just take a picture and we'll do the rest!";
+"onboarding_posting_improvement_f_title" = "Post an item in just seconds!";
 "onboarding_posting_subtitle_a" = "Plaats je eerste product en begin met verkopen aan mensen in jouw omgeving";
 "onboarding_posting_subtitle_b" = "Verkoop spullen die je niet meer nodig hebt en verdien extra geld";
 "onboarding_posting_subtitle_c" = "Mensen in jouw buurt zijn op zoek naar deze items";

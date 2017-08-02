@@ -58,7 +58,7 @@ class TourPostingViewModel: BaseViewModel {
     
     let featureFlags: FeatureFlaggeable
 
-     weak var delegate: TourPostingViewModelDelegate?
+    weak var delegate: TourPostingViewModelDelegate?
     
     init(featureFlags: FeatureFlaggeable) {
         self.featureFlags = featureFlags

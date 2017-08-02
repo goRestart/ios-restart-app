@@ -462,6 +462,12 @@
 "onboarding_posting_button_a" = "Add el a dolgaid";
 "onboarding_posting_button_b" = "Kezdés";
 "onboarding_posting_button_c" = "Igen, vannak eladó dolgaim";
+"onboarding_posting_improvement_b_title" = "Selling is easy. Give it a try!";
+"onboarding_posting_improvement_c_button" = "Try it out";
+"onboarding_posting_improvement_c_title" = "Selling is easy. Give it a try!";
+"onboarding_posting_improvement_d_title" = "Post in one step: just take a picture!";
+"onboarding_posting_improvement_e_title" = "Selling is easy: just take a picture and we'll do the rest!";
+"onboarding_posting_improvement_f_title" = "Post an item in just seconds!";
 "onboarding_posting_subtitle_a" = "Tedd közzé első portékádat, és már kereskedhetsz is a környékbeliekkel";
 "onboarding_posting_subtitle_b" = "Váltsd pénzre szükségtelenné vált dolgaidat!";
 "onboarding_posting_subtitle_c" = "A környékbeli emberek a következőket böngészik";
