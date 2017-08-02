@@ -47,6 +47,15 @@ class TourPostingViewModel: BaseViewModel {
         }
     }
     
+    var hasSubtitle: Bool {
+        switch featureFlags.copiesImprovementOnboarding {
+        case .control, .baseline:
+            return true
+        case .b, .c, .d, .e, .f:
+            return false
+        }
+    }
+    
     let featureFlags: FeatureFlaggeable
 
      weak var delegate: TourPostingViewModelDelegate?
