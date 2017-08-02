@@ -3733,6 +3733,34 @@ class TrackerEventSpec: QuickSpec {
                     expect(param) == "cars"
                 }
             }
+            describe("categories start") {
+                beforeEach {
+                    sut = TrackerEvent.categoriesStart(source: .filter)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("categories-start"))
+                }
+                it("contains type parameter") {
+                    let param = sut.params!.stringKeyParams["type-page"] as? String
+                    expect(param) == "filter"
+                }
+            }
+            describe("categories complete") {
+                beforeEach {
+                    sut = TrackerEvent.categoriesComplete(keywordName: "electronics", source: .productList)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("categories-complete"))
+                }
+                it("contains type parameter") {
+                    let param = sut.params!.stringKeyParams["type-page"] as? String
+                    expect(param) == "product-list"
+                }
+                it("contains keyword name parameter") {
+                    let param = sut.params!.stringKeyParams["keyword-name"] as? String
+                    expect(param) == "electronics"
+                }
+            }
         }
     }
 }

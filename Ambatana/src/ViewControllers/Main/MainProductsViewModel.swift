@@ -1149,7 +1149,7 @@ extension MainProductsViewModel: EditLocationDelegate {
 
 extension MainProductsViewModel: CategoriesHeaderCollectionViewDelegate {
     func openTaxonomyList() {
-        let vm = TaxonomiesViewModel(taxonomies: getTaxonomies())
+        let vm = TaxonomiesViewModel(taxonomies: getTaxonomies(), source: .productList)
         vm.taxonomiesDelegate = self
         navigator?.openTaxonomyList(withViewModel: vm)
     }
