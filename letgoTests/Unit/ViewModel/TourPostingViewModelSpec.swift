@@ -11,7 +11,6 @@
 import LGCoreKit
 import Quick
 import Nimble
-import Result
 
 
 class TourPostingViewModelSpec: BaseViewModelSpec {
@@ -20,7 +19,7 @@ class TourPostingViewModelSpec: BaseViewModelSpec {
         describe("TourPostingViewModelSpec") {
             var sut: TourPostingViewModel!
             let featureFlags = MockFeatureFlags()
-            fdescribe("texts on screen") {
+            describe("texts on screen") {
                 context("feature flags copiesImprovementOnboarding = B") {
                     beforeEach {
                         featureFlags.copiesImprovementOnboarding = .b
