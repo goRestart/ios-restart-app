@@ -58,7 +58,7 @@
 "categories_old_cars_and_motors" = "Autot ja muut ajoneuvot";
 "categories_other" = "Muut";
 "categories_sports_leisure_and_games" = "Urheilu, vapaa-aika ja pelit";
-"categories_super_keywords_inFeed_show_more" = "Show more";
+"categories_super_keywords_inFeed_show_more" = "Näytä enemmän";
 "categories_title" = "Kategoriat";
 "categories_unassigned" = "Ei valittu";
 "change_email_current_email_label" = "NYKYINEN SÄHKÖPOSTI:";
@@ -378,7 +378,7 @@
 "login_scammer_alert_title" = "TILI TARKASTUKSEN ALAISENA";
 "main_products_filter_navigation_bar_button" = "Suodata";
 "main_products_invite_navigation_bar_button" = "Kutsu";
-"main_sign_up_claim_label" = "Aloita myyminen ja ostaminen - keskustelemalla!";
+"main_sign_up_claim_label" = "Osta ja myy nopeasti, turvallisesti ja paikallisesti.";
 "main_sign_up_error_request_already_sent" = "Pyyntösi on jo käsitelty. Ole hyvä ja odota, ennen kuin yrität uudelleen.";
 "main_sign_up_error_user_rejected" = "Syöttämäsi sähköposti on väärä. Tarkista osoite ja yritä uudelleen.";
 "main_sign_up_facebook_connect_button" = "Jatka Facebookin avulla";
@@ -446,6 +446,10 @@
 "nps_survey_very_good" = "Erittäin todennäköisesti";
 "onboarding_alert_no" = "Ei";
 "onboarding_alert_yes" = "Kyllä";
+"onboarding_categories_button_countdown" = "Valitse vähintään %i lisää";
+"onboarding_categories_button_title_finish" = "Seuraava";
+"onboarding_categories_button_title_initial" = "Valitse vähintään %i kategoriaa";
+"onboarding_categories_title" = "Millaisista tuotteista olet kiinnostunut?";
 "onboarding_direct_camera_alert_subtitle" = "Julkaise ensimmäinen tuotteesi ja aloita lähistöllä oleville ihmisille myyminen";
 "onboarding_direct_camera_alert_title" = "Aloita tienaaminen!";
 "onboarding_location_permissions_alert_subtitle" = "Näet kaikista paikoista julkaistut tuotteet sinua lähellä olevien sijaan";
@@ -458,6 +462,12 @@
 "onboarding_posting_button_a" = "Myy tavarasi";
 "onboarding_posting_button_b" = "Aloita";
 "onboarding_posting_button_c" = "Kyllä, minulla on myytävää";
+"onboarding_posting_improvement_b_title" = "Selling is easy. Give it a try!";
+"onboarding_posting_improvement_c_button" = "Try it out";
+"onboarding_posting_improvement_c_title" = "Selling is easy. Give it a try!";
+"onboarding_posting_improvement_d_title" = "Post in one step: just take a picture!";
+"onboarding_posting_improvement_e_title" = "Selling is easy: just take a picture and we'll do the rest!";
+"onboarding_posting_improvement_f_title" = "Post an item in just seconds!";
 "onboarding_posting_subtitle_a" = "Julkaise ensimmäinen tuotteesi ja aloita lähistöllä oleville ihmisille myyminen";
 "onboarding_posting_subtitle_b" = "Myy tavaroita, joita et enää tarvitse, ja tienaa ylimääräistä rahaa";
 "onboarding_posting_subtitle_c" = "Lähistöllä olevat ihmiset etsivät näitä tuotteita";

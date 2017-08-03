@@ -58,7 +58,7 @@
 "categories_old_cars_and_motors" = "Coches y Motos";
 "categories_other" = "Otros";
 "categories_sports_leisure_and_games" = "Deporte, Ocio y Juegos";
-"categories_super_keywords_inFeed_show_more" = "Show more";
+"categories_super_keywords_inFeed_show_more" = "Ver más";
 "categories_title" = "Categorías";
 "categories_unassigned" = "No seleccionada";
 "change_email_current_email_label" = "EMAIL ACTUAL:";
@@ -378,7 +378,7 @@
 "login_scammer_alert_title" = "CUENTA EN REVISIÓN";
 "main_products_filter_navigation_bar_button" = "Filtrar";
 "main_products_invite_navigation_bar_button" = "Invitar";
-"main_sign_up_claim_label" = "Empieza a vender y comprar por chat";
+"main_sign_up_claim_label" = "Compra y vende rápidamente y con seguridad, cerca de ti.";
 "main_sign_up_error_request_already_sent" = "Tu petición ya ha sido procesada. Por favor, espera antes de volver a intentarlo.";
 "main_sign_up_error_user_rejected" = "El email que has introducido es erróneo. Por favor, revísalo e inténtalo de nuevo.";
 "main_sign_up_facebook_connect_button" = "Continuar con Facebook";
@@ -446,6 +446,10 @@
 "nps_survey_very_good" = "Definitivamente lo recomendaría";
 "onboarding_alert_no" = "No";
 "onboarding_alert_yes" = "Sí";
+"onboarding_categories_button_countdown" = "Elige al menos %i más";
+"onboarding_categories_button_title_finish" = "Siguiente";
+"onboarding_categories_button_title_initial" = "Elige al menos %i categorías";
+"onboarding_categories_title" = "¿Qué tipo de artículos te interesan?";
 "onboarding_direct_camera_alert_subtitle" = "Publica tu primer artículo y empieza a vender cerca de ti";
 "onboarding_direct_camera_alert_title" = "¡Empieza a ganar dinero!";
 "onboarding_location_permissions_alert_subtitle" = "Verás artículos de todas las ubicaciónes, no solo cerca de ti";
@@ -458,6 +462,12 @@
 "onboarding_posting_button_a" = "Empieza a vender";
 "onboarding_posting_button_b" = "Empieza";
 "onboarding_posting_button_c" = "Sí, tengo cosas para vender";
+"onboarding_posting_improvement_b_title" = "Selling is easy. Give it a try!";
+"onboarding_posting_improvement_c_button" = "Try it out";
+"onboarding_posting_improvement_c_title" = "Selling is easy. Give it a try!";
+"onboarding_posting_improvement_d_title" = "Post in one step: just take a picture!";
+"onboarding_posting_improvement_e_title" = "Selling is easy: just take a picture and we'll do the rest!";
+"onboarding_posting_improvement_f_title" = "Post an item in just seconds!";
 "onboarding_posting_subtitle_a" = "Publica tu primer artículo y empieza a vender cerca de ti";
 "onboarding_posting_subtitle_b" = "Vende cosas que no necesitas y gana dinero extra";
 "onboarding_posting_subtitle_c" = "Compradores cerca de ti buscan estos artículos";

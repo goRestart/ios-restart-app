@@ -58,7 +58,7 @@
 "categories_old_cars_and_motors" = "Αυτοκίνητα και Μηχανές";
 "categories_other" = "Άλλα";
 "categories_sports_leisure_and_games" = "Αθλητικά, Ψυχαγωγία και Παιχνίδια";
-"categories_super_keywords_inFeed_show_more" = "Show more";
+"categories_super_keywords_inFeed_show_more" = "Δείτε Περισσότερα";
 "categories_title" = "Κατηγορίες";
 "categories_unassigned" = "Δεν έχει επιλεχθεί";
 "change_email_current_email_label" = "ΤΡΕΧΟΝ EMAIL:";
@@ -378,7 +378,7 @@
 "login_scammer_alert_title" = "ΛΟΓΑΡΙΑΣΜΟΣ ΥΠΟ ΕΛΕΓΧΟ";
 "main_products_filter_navigation_bar_button" = "Φιλτράρετε";
 "main_products_invite_navigation_bar_button" = "Προσκαλέστε";
-"main_sign_up_claim_label" = "Ξεκίνα να πουλάς και να αγοράζεις - μέσω chat!";
+"main_sign_up_claim_label" = "Κάντε αγοραπωλησίες στην περιοχή σας γρήγορα και ευκολα.";
 "main_sign_up_error_request_already_sent" = "Το αίτημά σας έχει ήδη προχωρήσει. Παρακαλώ περιμένετε πριν προσπαθήσετε ξανά.";
 "main_sign_up_error_user_rejected" = "Το email που εισάγατε είναι λανθασμένο. Παρακαλώ ελέγξτε το και δοκιμάστε ξανά.";
 "main_sign_up_facebook_connect_button" = "Συνέχεια με το Facebook";
@@ -446,6 +446,10 @@
 "nps_survey_very_good" = "Πάρα πολύ";
 "onboarding_alert_no" = "Όχι";
 "onboarding_alert_yes" = "Ναι";
+"onboarding_categories_button_countdown" = "Pick at least %i more";
+"onboarding_categories_button_title_finish" = "Next";
+"onboarding_categories_button_title_initial" = "Pick at least %i categories";
+"onboarding_categories_title" = "What kind of items are you interested in?";
 "onboarding_direct_camera_alert_subtitle" = "Δημοσιεύστε το πρώτο σας προϊόν και ξεκινήστε να πουλάτε σε ανθρώπους δίπλα σας";
 "onboarding_direct_camera_alert_title" = "Ξεκινήστε να κερδίζετε μετρητά!";
 "onboarding_location_permissions_alert_subtitle" = "Θα δείτε αντικείμενα από όλες τις περιοχές αντί για κοντά σας";
@@ -458,6 +462,12 @@
 "onboarding_posting_button_a" = "Πούλα τα Πράγματά Σου";
 "onboarding_posting_button_b" = "Ξεκινήστε";
 "onboarding_posting_button_c" = "Ναι, έχω πράγματα να πουλήσω";
+"onboarding_posting_improvement_b_title" = "Selling is easy. Give it a try!";
+"onboarding_posting_improvement_c_button" = "Try it out";
+"onboarding_posting_improvement_c_title" = "Selling is easy. Give it a try!";
+"onboarding_posting_improvement_d_title" = "Post in one step: just take a picture!";
+"onboarding_posting_improvement_e_title" = "Selling is easy: just take a picture and we'll do the rest!";
+"onboarding_posting_improvement_f_title" = "Post an item in just seconds!";
 "onboarding_posting_subtitle_a" = "Δημοσιεύστε το πρώτο σας προϊόν και ξεκινήστε να πουλάτε σε ανθρώπους δίπλα σας";
 "onboarding_posting_subtitle_b" = "Πουλήστε πράγματα που δε χρειάζεστε πια και κερδίστε μετρητά";
 "onboarding_posting_subtitle_c" = "Άνθρωποι κοντά σας ψάχνουν για τα ίδια αντικείμενα";
