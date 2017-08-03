@@ -134,7 +134,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
         switch tag {
         case TextFieldPriceType.priceFrom.rawValue:
             viewModel.setMinPrice(value)
-        case TextFieldPriceType.priceFrom.rawValue:
+        case TextFieldPriceType.priceTo.rawValue:
             viewModel.setMaxPrice(value)
         default:
             break

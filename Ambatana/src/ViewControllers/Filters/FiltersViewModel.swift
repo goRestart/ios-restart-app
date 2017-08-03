@@ -241,7 +241,7 @@ class FiltersViewModel: BaseViewModel {
     }
     
     func categoriesButtonPressed() {
-        let taxonomiesVM = TaxonomiesViewModel(taxonomies: categoryRepository.indexTaxonomies())
+        let taxonomiesVM = TaxonomiesViewModel(taxonomies: categoryRepository.indexTaxonomies(), source: .filter)
         taxonomiesVM.taxonomiesDelegate = self
         navigator?.openTaxonomyList(withViewModel: taxonomiesVM)
     }
