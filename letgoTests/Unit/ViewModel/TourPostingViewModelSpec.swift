@@ -99,8 +99,3 @@ class TourPostingViewModelSpec: BaseViewModelSpec {
         }
     }
 }
-
-extension TourPostingViewModelSpec: TourPostingNavigator {
-    func tourPostingClose() {}
-    func tourPostingPost(fromCamera: Bool) {}
-}
