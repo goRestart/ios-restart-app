@@ -43,7 +43,7 @@ class TourPostingViewModel: BaseViewModel {
         case .control, .baseline, .b, .d, .e, .f:
             return LGLocalizedString.onboardingPostingButtonB
         case  .c:
-            return LGLocalizedString.onboardingPostingButtonB
+            return LGLocalizedString.onboardingPostingImprovementCButton
         }
     }
     
