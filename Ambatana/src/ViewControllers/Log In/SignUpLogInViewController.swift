@@ -177,9 +177,9 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
             return
         }
         viewModel.erasePassword()
-        emailTextField.text = viewModel.email
-        passwordTextField.text = viewModel.password
-        usernameTextField.text = viewModel.username
+        emailTextField.text = viewModel.email.value
+        passwordTextField.text = viewModel.password.value
+        usernameTextField.text = viewModel.username 
         
         emailTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()
@@ -217,7 +217,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         case .signup:
             viewModel.signUp()
         case .login:
-            _ = viewModel.logIn()
+            loginButtonPressed()
         }
     }
     
@@ -309,7 +309,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         if textField.returnKeyType == .next {
             guard let actualNextView = nextView else { return true }
             if tag == TextFieldTag.email.rawValue && viewModel.acceptSuggestedEmail() {
-                emailTextField.text = viewModel.email
+                emailTextField.text = viewModel.email.value
             }
             actualNextView.becomeFirstResponder()
             return false
@@ -319,7 +319,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
             case .signup:
                 viewModel.signUp()
             case .login:
-                viewModel.logIn()
+                loginButtonPressed()
             }
             return true
         }
@@ -368,7 +368,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
 
         emailTextField.clearButtonOffset = 0
         emailTextField.pixelCorrection = -1
-        emailTextField.text = viewModel.email
+        emailTextField.text = viewModel.email.value
         passwordTextField.clearButtonOffset = 0
         usernameTextField.clearButtonOffset = 0
 
@@ -424,7 +424,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         emailIconImageView.isHidden = false
         emailTextField.isHidden = false
 
-        showPasswordButton.isHidden = !(viewModel.showPasswordVisible)
+        //showPasswordButton.isHidden = !(viewModel.showPasswordVisible.value)
     }
 
     private func setupRx() {
@@ -454,6 +454,15 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         viewModel.suggestedEmail.subscribeNext { [weak self] suggestion in
             self?.emailTextField.suggestion = suggestion
         }.addDisposableTo(disposeBag)
+        
+        // Send button enable
+        viewModel.logInEnabled.bindTo(sendButton.rx.isEnabled).addDisposableTo(disposeBag)
+        
+        // Show password hide
+        viewModel.password.asObservable().map { password -> Bool in
+            guard let password = password else { return true }
+            return password.isEmpty
+        }.bindTo(showPasswordButton.rx.isHidden).addDisposableTo(disposeBag)
     }
 
     private func updateUI() {
@@ -603,9 +612,24 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         case .username:
             viewModel.username = text
         case .email:
-            viewModel.email = text
+            viewModel.email.value = text
         case .password:
-            viewModel.password = text
+            viewModel.password.value = text
+        }
+    }
+    
+    func loginButtonPressed() {
+        let errors = viewModel.logIn()
+        openAlertWithFormErrors(errors: errors)
+    }
+    
+    func openAlertWithFormErrors(errors: LogInEmailFormErrors) {
+        guard !errors.isEmpty else { return }
+        
+        if errors.contains(.invalidEmail) {
+            showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorInvalidEmail)
+        } else if errors.contains(.shortPassword) || errors.contains(.longPassword) {
+            showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword)
         }
     }
 }

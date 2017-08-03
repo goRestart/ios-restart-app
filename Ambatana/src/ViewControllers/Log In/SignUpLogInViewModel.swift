@@ -56,32 +56,42 @@ class SignUpLogInViewModel: BaseViewModel {
             delegate?.vmUpdateSendButtonEnabledState(sendButtonEnabled)
         }
     }
-    var email: String {
-        didSet {
-            suggest(emailText: email)
-            email = email.trim
-            delegate?.vmUpdateSendButtonEnabledState(sendButtonEnabled)
-        }
-    }
+//    var email: String {
+//        didSet {
+//            suggest(emailText: email)
+//            email = email.trim
+//            delegate?.vmUpdateSendButtonEnabledState(sendButtonEnabled)
+//        }
+//    }
+//    var suggestedEmail: Observable<String?> {
+//        return suggestedEmailVar.asObservable()
+//    }
+//    var password: String {
+//        didSet {
+//            delegate?.vmUpdateSendButtonEnabledState(sendButtonEnabled)
+//            delegate?.vmUpdateShowPasswordVisible(showPasswordVisible)
+//        }
+//    }
+    var termsAccepted: Bool
+    var newsletterAccepted: Bool
+    
+    var email: Variable<String?>
     var suggestedEmail: Observable<String?> {
         return suggestedEmailVar.asObservable()
     }
-    var password: String {
-        didSet {
-            delegate?.vmUpdateSendButtonEnabledState(sendButtonEnabled)
-            delegate?.vmUpdateShowPasswordVisible(showPasswordVisible)
-        }
+    var password: Variable<String?>
+    var logInEnabled: Observable<Bool> {
+        return logInEnabledVar.asObservable()
     }
-    var termsAccepted: Bool
-    var newsletterAccepted: Bool
 
-    var showPasswordVisible : Bool {
-        return password.characters.count > 0
-    }
+    var showPasswordVisible : Variable<Bool>
 
     var sendButtonEnabled: Bool {
-        return  email.characters.count > 0 && password.characters.count > 0 &&
-            (currentActionType == .login || ( currentActionType == .signup && username.characters.count > 0))
+        if let email = email.value, let password = password.value {
+            return  email.characters.count > 0 && password.characters.count > 0 &&
+                (currentActionType == .login || ( currentActionType == .signup && username.characters.count > 0))
+        }
+        return false
     }
 
     var termsAndConditionsEnabled: Bool
@@ -107,17 +117,19 @@ class SignUpLogInViewModel: BaseViewModel {
         return attributtedLegalText
     }
 
-    private var termsAndConditionsURL: URL? {
+    fileprivate var termsAndConditionsURL: URL? {
         return LetgoURLHelper.buildTermsAndConditionsURL()
     }
-    private var privacyURL: URL? {
+    fileprivate var privacyURL: URL? {
         return LetgoURLHelper.buildPrivacyURL()
     }
 
     fileprivate let sessionManager: SessionManager
     private let installationRepository: InstallationRepository
     private let locationManager: LocationManager
-
+    fileprivate let logInEnabledVar: Variable<Bool>
+    fileprivate let disposeBag: DisposeBag
+    
     private var newsletterParameter: EventParameterBoolean {
         if !termsAndConditionsEnabled {
             return .notAvailable
@@ -143,8 +155,8 @@ class SignUpLogInViewModel: BaseViewModel {
         self.tracker = tracker
         self.locale = locale
         self.username = ""
-        self.email = ""
-        self.password = ""
+        self.email = Variable<String?>("")
+        self.password = Variable<String?>("")
         self.termsAccepted = false
         self.newsletterAccepted = false
         self.currentActionType = action
@@ -154,14 +166,19 @@ class SignUpLogInViewModel: BaseViewModel {
         self.previousEmail = Variable<String?>(nil)
         self.previousFacebookUsername = Variable<String?>(nil)
         self.previousGoogleUsername = Variable<String?>(nil)
+        self.logInEnabledVar = Variable<Bool>(false)
+        self.showPasswordVisible = Variable<Bool>(false)
+        self.disposeBag = DisposeBag()
         super.init()
 
         checkTermsAndConditionsEnabled()
         updatePreviousEmailAndUsernamesFromKeyValueStorage()
 
         if let previousEmail = previousEmail.value {
-            self.email = previousEmail
+            self.email.value = previousEmail
         }
+        
+        setupRx()
     }
     
     convenience init(source: EventParameterLoginSourceValue, action: LoginActionType) {
@@ -191,7 +208,7 @@ class SignUpLogInViewModel: BaseViewModel {
     }
 
     func openRememberPassword() {
-        navigator?.openRememberPasswordFromSignUpLogIn(email: email)
+        navigator?.openRememberPasswordFromSignUpLogIn(email: email.value)
     }
 
     func open(url: URL) {
@@ -200,12 +217,12 @@ class SignUpLogInViewModel: BaseViewModel {
 
     func acceptSuggestedEmail() -> Bool {
         guard let suggestedEmail = suggestedEmailVar.value else { return false }
-        email = suggestedEmail
+        email.value = suggestedEmail
         return true
     }
 
     func erasePassword() {
-        password = ""
+        password.value = ""
     }
 
     func signUp() {
@@ -222,14 +239,18 @@ class SignUpLogInViewModel: BaseViewModel {
         } else if trimmedUsername.characters.count < Constants.fullNameMinLength {
             delegate?.vmHideLoading(LGLocalizedString.signUpSendErrorInvalidUsername(Constants.fullNameMinLength), afterMessageCompletion: nil)
             trackSignupEmailFailedWithError(.invalidUsername)
-        } else if !email.isEmail() {
-            delegate?.vmHideLoading(LGLocalizedString.signUpSendErrorInvalidEmail, afterMessageCompletion: nil)
-            trackSignupEmailFailedWithError(.invalidEmail)
-        } else if password.characters.count < Constants.passwordMinLength ||
-            password.characters.count > Constants.passwordMaxLength {
-            delegate?.vmHideLoading(LGLocalizedString.signUpSendErrorInvalidPasswordWithMax(Constants.passwordMinLength,
+        } else if let email = email.value {
+            if !email.isEmail() {
+                delegate?.vmHideLoading(LGLocalizedString.signUpSendErrorInvalidEmail, afterMessageCompletion: nil)
+                trackSignupEmailFailedWithError(.invalidEmail)
+            }
+        } else if let password = password.value {
+            if password.characters.count < Constants.passwordMinLength ||
+                password.characters.count > Constants.passwordMaxLength {
+                delegate?.vmHideLoading(LGLocalizedString.signUpSendErrorInvalidPasswordWithMax(Constants.passwordMinLength,
                 Constants.passwordMaxLength), afterMessageCompletion: nil)
                 trackSignupEmailFailedWithError(.invalidPassword)
+            }
         } else if termsAndConditionsEnabled && !termsAccepted {
             delegate?.vmHideLoading(LGLocalizedString.signUpAcceptanceError, afterMessageCompletion: nil)
             trackSignupEmailFailedWithError(.termsNotAccepted)
@@ -249,18 +270,20 @@ class SignUpLogInViewModel: BaseViewModel {
                     }
                 } else if let signUpError = signUpResult.error {
                     if signUpError.isUserExists {
-                        strongSelf.sessionManager.login(strongSelf.email, password: strongSelf.password) { [weak self] loginResult in
-                            guard let strongSelf = self else { return }
-                            if let myUser = loginResult.value {
-                                let rememberedAccount = strongSelf.previousEmail.value != nil
-                                let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource,
-                                                                           rememberedAccount: rememberedAccount)
-                                self?.tracker.trackEvent(trackerEvent)
-                                self?.delegate?.vmHideLoading(nil) { [weak self] in
-                                    self?.navigator?.closeSignUpLogInSuccessful(with: myUser)
+                        if let email = strongSelf.email.value, let password = strongSelf.password.value {
+                            strongSelf.sessionManager.login(email, password: password) { [weak self] loginResult in
+                                guard let strongSelf = self else { return }
+                                if let myUser = loginResult.value {
+                                    let rememberedAccount = strongSelf.previousEmail.value != nil
+                                    let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource,
+                                                                               rememberedAccount: rememberedAccount)
+                                    self?.tracker.trackEvent(trackerEvent)
+                                    self?.delegate?.vmHideLoading(nil) { [weak self] in
+                                        self?.navigator?.closeSignUpLogInSuccessful(with: myUser)
+                                    }
+                                } else {
+                                    strongSelf.process(signupError: signUpError)
                                 }
-                            } else {
-                                strongSelf.process(signupError: signUpError)
                             }
                         }
                     } else {
@@ -271,44 +294,60 @@ class SignUpLogInViewModel: BaseViewModel {
 
             let newsletter: Bool? = termsAndConditionsEnabled ? self.newsletterAccepted : nil
             if let recaptchaToken = recaptchaToken  {
-                sessionManager.signUp(email.lowercased(), password: password, name: trimmedUsername, newsletter: newsletter,
-                                      recaptchaToken: recaptchaToken, completion: completion)
+                if let email = email.value, let password = password.value {
+                    sessionManager.signUp(email.lowercased(), password: password, name: trimmedUsername, newsletter: newsletter,
+                                          recaptchaToken: recaptchaToken, completion: completion)
+                }
             } else {
-                sessionManager.signUp(email.lowercased(), password: password, name: trimmedUsername,
-                                      newsletter: newsletter, completion: completion)
+                if let email = email.value, let password = password.value {
+                    sessionManager.signUp(email.lowercased(), password: password, name: trimmedUsername,
+                                          newsletter: newsletter, completion: completion)
+                }
             }
         }
     }
 
-    func logIn() -> LogInEmailFormErrors? {
+    func logIn() -> LogInEmailFormErrors {
         var errors: LogInEmailFormErrors = []
+        guard logInEnabledVar.value else { return errors }
         
-        if email == "admin" && password == "wat" {
+        if email.value == "admin" && password.value == "wat" {
             delegate?.vmShowHiddenPasswordAlert()
             return errors
         }
 
         delegate?.vmShowLoading(nil)
-
-        if !email.isEmail() {
-            errors.insert(.invalidEmail)
-            delegate?.vmHideLoading(LGLocalizedString.logInErrorSendErrorInvalidEmail, afterMessageCompletion: nil)
-            trackLoginEmailFailedWithError(.invalidEmail)
-        } else if password.characters.count < Constants.passwordMinLength {
-            errors.insert(.shortPassword)
-            delegate?.vmHideLoading(LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword, afterMessageCompletion: nil)
-            trackLoginEmailFailedWithError(.invalidPassword)
+        
+        // Form validation
+        if let email = email.value {
+            if !email.isEmail() {
+                errors.insert(.invalidEmail)
+            }
         } else {
+            errors.insert(.invalidEmail)
+        }
+        if let password = password.value {
+            if password.characters.count < Constants.passwordMinLength {
+                errors.insert(.shortPassword)
+            } else if password.characters.count > Constants.passwordMaxLength {
+                errors.insert(.longPassword)
+            }
+        } else {
+            errors.insert(.shortPassword)
+        }
+        
+        if let email = email.value, let password = password.value, errors.isEmpty {
+            //logIn(email: email, password: password)
             sessionManager.login(email, password: password) { [weak self] loginResult in
                 guard let strongSelf = self else { return }
-
+                
                 if let user = loginResult.value {
                     self?.savePreviousEmailOrUsername(.email, userEmailOrName: user.email)
-
+                    
                     let rememberedAccount = strongSelf.previousEmail.value != nil
                     let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource, rememberedAccount: rememberedAccount)
                     self?.tracker.trackEvent(trackerEvent)
-
+                    
                     self?.delegate?.vmHideLoading(nil) { [weak self] in
                         self?.navigator?.closeSignUpLogInSuccessful(with: user)
                     }
@@ -316,8 +355,47 @@ class SignUpLogInViewModel: BaseViewModel {
                     strongSelf.processLoginSessionError(sessionManagerError)
                 }
             }
+        } else {
+            delegate?.vmHideLoading(LGLocalizedString.logInErrorSendErrorInvalidEmail, afterMessageCompletion: nil)
+            trackFormValidationFailed(errors: errors)
         }
         return errors
+
+//        // TODO: Fix if statements
+//        if let email = email.value {
+//            if !email.isEmail() {
+//                errors.insert(.invalidEmail)
+//                delegate?.vmHideLoading(LGLocalizedString.logInErrorSendErrorInvalidEmail, afterMessageCompletion: nil)
+//                trackLoginEmailFailedWithError(.invalidEmail)
+//            }
+//        } else if let password = password.value {
+//            if password.characters.count < Constants.passwordMinLength {
+//                errors.insert(.shortPassword)
+//                delegate?.vmHideLoading(LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword, afterMessageCompletion: nil)
+//                trackLoginEmailFailedWithError(.invalidPassword)
+//            }
+//        } else {
+//            if let email = email.value, let password = password.value {
+//                sessionManager.login(email, password: password) { [weak self] loginResult in
+//                    guard let strongSelf = self else { return }
+//
+//                    if let user = loginResult.value {
+//                        self?.savePreviousEmailOrUsername(.email, userEmailOrName: user.email)
+//
+//                        let rememberedAccount = strongSelf.previousEmail.value != nil
+//                        let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource, rememberedAccount: rememberedAccount)
+//                        self?.tracker.trackEvent(trackerEvent)
+//
+//                        self?.delegate?.vmHideLoading(nil) { [weak self] in
+//                            self?.navigator?.closeSignUpLogInSuccessful(with: user)
+//                        }
+//                    } else if let sessionManagerError = loginResult.error {
+//                        strongSelf.processLoginSessionError(sessionManagerError)
+//                    }
+//                }
+//            }
+//        }
+//        return errors
     }
     
     func godLogIn(_ password: String) {
@@ -357,6 +435,85 @@ class SignUpLogInViewModel: BaseViewModel {
 
 
     // MARK: - Private methods
+    // MARK: > Rx
+    
+    fileprivate func setupRx() {
+        // Next step is enabled when email & password are not empty
+        Observable.combineLatest(email.asObservable(), password.asObservable()) { (email, password) -> Bool in
+            guard let email = email, let password = password else { return false }
+            return email.characters.count > 0 && password.characters.count > 0
+            }.bindTo(logInEnabledVar).addDisposableTo(disposeBag)
+        
+    //        viewModel.password.asObservable().map { password -> Bool in
+    //            guard let password = password else { return true }
+    //            return password.isEmpty
+    //            }.bindTo(logInEmailView.showPasswordButton.rx.isHidden).addDisposableTo(disposeBag)
+        
+        // Email auto suggest
+        email.asObservable()
+            .map { $0?.suggestEmail(domains: Constants.emailSuggestedDomains) }
+            .bindTo(suggestedEmailVar)
+            .addDisposableTo(disposeBag)
+    }
+//    func setupRx() {
+//        logInEmailView.emailButton.rx.tap.subscribeNext { [weak self] _ in
+//            self?.makeEmailTextFieldFirstResponder()
+//            }.addDisposableTo(disposeBag)
+//        
+//        logInEmailView.emailTextField.rx.text.bindTo(viewModel.email).addDisposableTo(disposeBag)
+//        
+//        viewModel.suggestedEmail.asObservable().subscribeNext { [weak self] suggestedEmail in
+//            self?.logInEmailView.emailTextField.suggestion = suggestedEmail
+//            }.addDisposableTo(disposeBag)
+//        
+//        logInEmailView.passwordButton.rx.tap.subscribeNext { [weak self] _ in
+//            self?.makePasswordTextFieldFirstResponder()
+//            }.addDisposableTo(disposeBag)
+//        
+//        logInEmailView.passwordTextField.rx.text.bindTo(viewModel.password).addDisposableTo(disposeBag)
+//        
+//        viewModel.password.asObservable().map { password -> Bool in
+//            guard let password = password else { return true }
+//            return password.isEmpty
+//            }.bindTo(logInEmailView.showPasswordButton.rx.isHidden).addDisposableTo(disposeBag)
+//        
+//        viewModel.logInEnabled.bindTo(logInEmailView.loginButton.rx.isEnabled).addDisposableTo(disposeBag)
+//        
+//        logInEmailView.rememberPasswordButton.rx.tap.subscribeNext { [weak self] _ in
+//            self?.viewModel.rememberPasswordButtonPressed()
+//            }.addDisposableTo(disposeBag)
+//        
+//        logInEmailView.showPasswordButton.rx.tap.subscribeNext { [weak self] _ in
+//            self?.showPasswordPressed()
+//            }.addDisposableTo(disposeBag)
+//        
+//        logInEmailView.loginButton.rx.tap.subscribeNext { [weak self] _ in
+//            self?.loginButtonPressed()
+//            }.addDisposableTo(disposeBag)
+//        
+//        logInEmailView.footerButton.rx.tap.subscribeNext { [weak self] _ in
+//            self?.viewModel.footerButtonPressed()
+//            }.addDisposableTo(disposeBag)
+//        
+//        // Login button is visible depending on current content offset & keyboard visibility
+//        Observable.combineLatest(logInEmailView.scrollView.rx.contentOffset.asObservable(),
+//                                 keyboardChanges.asObservable()) { ($0, $1) }
+//            .map { [weak self] (offset, keyboardChanges) -> Bool in
+//                guard let strongSelf = self else { return false }
+//                let scrollY = offset.y
+//                let scrollHeight = strongSelf.logInEmailView.scrollView.frame.height
+//                let scrollMaxY = scrollY + scrollHeight
+//                
+//                let scrollVisibleMaxY: CGFloat
+//                if keyboardChanges.visible {
+//                    scrollVisibleMaxY = scrollMaxY - keyboardChanges.height
+//                } else {
+//                    scrollVisibleMaxY = scrollMaxY
+//                }
+//                let buttonMaxY = strongSelf.logInEmailView.loginButton.frame.maxY
+//                return scrollVisibleMaxY > buttonMaxY
+//            }.bindTo(logInEmailView.loginButtonVisible).addDisposableTo(disposeBag)
+//    }
 
     /**
     Right now terms and conditions will be enabled just for Turkey so it will appear depending on location country code 
@@ -377,11 +534,11 @@ class SignUpLogInViewModel: BaseViewModel {
         switch error {
         case .scammer:
             afterMessageCompletion = { [weak self] in
-                self?.showScammerAlert(self?.email, network: .email)
+                self?.showScammerAlert(self?.email.value, network: .email)
             }
         case .deviceNotAllowed:
             afterMessageCompletion = { [weak self] in
-                self?.showDeviceNotAllowedAlert(self?.email, network: .email)
+                self?.showDeviceNotAllowedAlert(self?.email.value, network: .email)
             }
         case .unauthorized:
             unauthorizedErrorCount = unauthorizedErrorCount + 1
@@ -403,7 +560,7 @@ class SignUpLogInViewModel: BaseViewModel {
         case .scammer:
             trackSignupEmailFailedWithError(signupError.trackingError)
             delegate?.vmHideLoading(nil) { [weak self] in
-                self?.showScammerAlert(self?.email, network: .email)
+                self?.showScammerAlert(self?.email.value, network: .email)
             }
         case .userNotVerified:
             delegate?.vmHideLoading(nil) { [weak self] in
@@ -412,7 +569,7 @@ class SignUpLogInViewModel: BaseViewModel {
         case .network, .badRequest, .notFound, .forbidden, .unauthorized, .conflict, .nonExistingEmail,
              .tooManyRequests, .internalError:
             trackSignupEmailFailedWithError(signupError.trackingError)
-            let message = signupError.errorMessage(userEmail: email)
+            let message = signupError.errorMessage(userEmail: email.value)
             delegate?.vmHideLoading(message, afterMessageCompletion: nil)
         }
     }
@@ -426,11 +583,11 @@ class SignUpLogInViewModel: BaseViewModel {
             }
         case .scammer:
             delegate?.vmHideLoading(nil) { [weak self] in
-                self?.showScammerAlert(self?.email, network: accountProvider.accountNetwork)
+                self?.showScammerAlert(self?.email.value, network: accountProvider.accountNetwork)
             }
         case .deviceNotAllowed:
             delegate?.vmHideLoading(nil) { [weak self] in
-                self?.showDeviceNotAllowedAlert(self?.email, network: accountProvider.accountNetwork)
+                self?.showDeviceNotAllowedAlert(self?.email.value, network: accountProvider.accountNetwork)
             }
         case .cancelled, .network, .notFound, .conflict, .badRequest, .internalError, .loginError:
             delegate?.vmHideLoading(result.errorMessage, afterMessageCompletion: nil)
@@ -492,8 +649,42 @@ class SignUpLogInViewModel: BaseViewModel {
         let event = TrackerEvent.passwordResetError(error.trackingError)
         tracker.trackEvent(event)
     }
+    
+    func trackFormValidationFailed(errors: LogInEmailFormErrors) {
+        guard let trackingError = errors.trackingError else { return }
+        let event = TrackerEvent.loginEmailError(trackingError)
+        tracker.trackEvent(event)
+    }
+
+//        func trackLogInSucceeded() {
+//            let event = TrackerEvent.loginEmail(source, rememberedAccount: isRememberedEmail, collapsedEmail: collapsedEmail)
+//            tracker.trackEvent(event)
+//        }
+//        
+//        func trackLogInFailed(error: LoginError) {
+//            let event = TrackerEvent.loginEmailError(error.trackingError)
+//            tracker.trackEvent(event)
+//        }
+//        
+//        func trackPasswordRecoverFailed(error: RecoverPasswordError) {
+//            let event = TrackerEvent.passwordResetError(error.trackingError)
+//            tracker.trackEvent(event)
+//        }
 }
 
+fileprivate extension LogInEmailFormErrors {
+    var trackingError: EventParameterLoginError? {
+        let error: EventParameterLoginError?
+        if contains(.invalidEmail) {
+            error = .invalidEmail
+        } else if contains(.shortPassword) || contains(.longPassword) {
+            error = .invalidPassword
+        } else {
+            error = nil
+        }
+        return error
+    }
+}
 
 // MARK: - RecaptchaTokenDelegate
 
@@ -553,13 +744,18 @@ fileprivate extension SignUpLogInViewModel {
 fileprivate extension SignUpLogInViewModel {
     func showRememberPasswordAlert() {
         let title = LGLocalizedString.logInEmailForgotPasswordAlertTitle
-        let message = LGLocalizedString.logInEmailForgotPasswordAlertMessage(email)
+        var message = ""
+        if let email = email.value {
+            message = LGLocalizedString.logInEmailForgotPasswordAlertMessage(email)
+        }
         let cancelAction = UIAction(interface: .styledText(LGLocalizedString.logInEmailForgotPasswordAlertCancelAction, .cancel),
                                     action: {})
         let recoverPasswordAction = UIAction(interface: .styledText(LGLocalizedString.logInEmailForgotPasswordAlertRememberAction, .destructive),
                                              action: { [weak self] in
-            guard let email = self?.email else { return }
-            self?.recoverPassword(email: email)
+                                                guard let email = self?.email else { return }
+                                                if let email = email.value {
+                                                    self?.recoverPassword(email: email)
+                                                }
         })
         let actions = [cancelAction, recoverPasswordAction]
         delegate?.vmShowAlert(title, message: message, actions: actions)
@@ -577,8 +773,10 @@ fileprivate extension SignUpLogInViewModel {
     }
 
     func recoverPasswordSucceeded() {
-        let message = LGLocalizedString.resetPasswordSendOk(email)
-        delegate?.vmHideLoading(message, afterMessageCompletion: nil)
+        if let email = email.value {
+            let message = LGLocalizedString.resetPasswordSendOk(email)
+            delegate?.vmHideLoading(message, afterMessageCompletion: nil)
+        }
     }
 
     func recoverPasswordFailed(error: RecoverPasswordError) {
@@ -589,7 +787,9 @@ fileprivate extension SignUpLogInViewModel {
         case .network:
             message = LGLocalizedString.commonErrorConnectionFailed
         case .notFound:
-            message = LGLocalizedString.resetPasswordSendErrorUserNotFoundOrWrongPassword(email)
+            if let email = email.value {
+                message = LGLocalizedString.resetPasswordSendErrorUserNotFoundOrWrongPassword(email)
+            }
         case .conflict, .tooManyRequests:
             message = LGLocalizedString.resetPasswordSendTooManyRequests
         case .badRequest, .scammer, .internalError, .userNotVerified, .forbidden, .unauthorized, .nonExistingEmail:
