@@ -361,7 +361,6 @@ class SignUpLogInViewModel: BaseViewModel {
         }
         return errors
 
-//        // TODO: Fix if statements
 //        if let email = email.value {
 //            if !email.isEmail() {
 //                errors.insert(.invalidEmail)

@@ -13,14 +13,18 @@ import Nimble
 import Result
 import RxSwift
 
-class SignUpLogInViewModelSpec: QuickSpec {
-    var loading: Bool = false
+class SignUpLogInViewModelSpec: BaseViewModelSpec {
+    //var loading: Bool = false
     var finishedSuccessfully: Bool = false
     var finishedScammer: Bool = false
     var finishedDeviceNotAllowed: Bool = false
+    
+    var delegateReceivedShowGodModeAlert = false
+    var navigatorReceivedOpenRememberPassword = false
+    var navigatorReceivedOpenHelp = false
 
     override func spec() {
-        describe("SignUpLogInViewModelSpec") {
+        fdescribe("SignUpLogInViewModelSpec") {
             var sut: SignUpLogInViewModel!
 
             var sessionManager: MockSessionManager!
@@ -54,10 +58,14 @@ class SignUpLogInViewModelSpec: QuickSpec {
                 sut.delegate = self
                 sut.navigator = self
 
-                self.loading = false
+                //self.loading = false
                 self.finishedSuccessfully = false
                 self.finishedScammer = false
                 self.finishedDeviceNotAllowed = false
+                
+                self.delegateReceivedShowGodModeAlert = false
+                self.navigatorReceivedOpenRememberPassword = false
+                self.navigatorReceivedOpenHelp = false
                 
                 disposeBag = DisposeBag()
                 sut.logInEnabled.subscribeNext { enabled in
@@ -216,8 +224,9 @@ class SignUpLogInViewModelSpec: QuickSpec {
                         sut.email.value = email
                         sut.password.value = "123456"
 
+                        self.delegateReceivedHideLoading = false
                         _ = sut.logIn()
-                        expect(self.loading).toEventually(beFalse())
+                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
 
                     it("saves letgo as previous user account provider") {
@@ -241,8 +250,9 @@ class SignUpLogInViewModelSpec: QuickSpec {
 
                             sut.email.value = email
                             sut.password.value = "123456"
+                            self.delegateReceivedHideLoading = false
                             _ = sut.logIn()
-                            expect(self.loading).toEventually(beFalse())
+                            expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                         }
 
                         it("does not save a user account provider") {
@@ -264,8 +274,9 @@ class SignUpLogInViewModelSpec: QuickSpec {
 
                             sut.email.value = email
                             sut.password.value = "123456"
+                            self.delegateReceivedHideLoading = false
                             _ = sut.logIn()
-                            expect(self.loading).toEventually(beFalse())
+                            expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                         }
 
                         it("does not save a user account provider") {
@@ -280,7 +291,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                             expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-error"]
                         }
                         it("asks to show scammer error alert") {
-                            expect(self.finishedScammer).to(beTrue())
+                            expect(self.finishedScammer).toEventually(beTrue())
                         }
                     }
                     context("device not allowed") {
@@ -290,8 +301,9 @@ class SignUpLogInViewModelSpec: QuickSpec {
 
                             sut.email.value = email
                             sut.password.value = "123456"
+                            self.delegateReceivedHideLoading = false
                             _ = sut.logIn()
-                            expect(self.loading).toEventually(beFalse())
+                            expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                         }
 
                         it("does not save a user account provider") {
@@ -306,7 +318,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                             expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-error"]
                         }
                         it("asks to show device not allowed error alert") {
-                            expect(self.finishedDeviceNotAllowed).to(beTrue())
+                            expect(self.finishedDeviceNotAllowed).toEventually(beTrue())
                         }
                     }
                 }
@@ -323,7 +335,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                         googleLoginHelper.loginResult = .success(myUser: myUser)
 
                         sut.logInWithGoogle()
-                        expect(self.loading).toEventually(beFalse())
+                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
 
                     it("saves google as previous user account provider") {
@@ -344,7 +356,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                         beforeEach {
                             googleLoginHelper.loginResult = .notFound
                             sut.logInWithGoogle()
-                            expect(self.loading).toEventually(beFalse())
+                            expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                         }
 
                         it("does not save a user account provider") {
@@ -362,8 +374,9 @@ class SignUpLogInViewModelSpec: QuickSpec {
                     context("scammer") {
                         beforeEach {
                             googleLoginHelper.loginResult = .scammer
+                            self.delegateReceivedHideLoading = false
                             sut.logInWithGoogle()
-                            expect(self.loading).toEventually(beFalse())
+                            expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                         }
 
                         it("does not save a user account provider") {
@@ -378,14 +391,15 @@ class SignUpLogInViewModelSpec: QuickSpec {
                             expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-signup-error-google"]
                         }
                         it("asks to show scammer error alert") {
-                            expect(self.finishedScammer).to(beTrue())
+                            expect(self.finishedScammer).toEventually(beTrue())
                         }
                     }
                     context("device not allowed") {
                         beforeEach {
                             googleLoginHelper.loginResult = .deviceNotAllowed
+                            self.delegateReceivedHideLoading = false
                             sut.logInWithGoogle()
-                            expect(self.loading).toEventually(beFalse())
+                            expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                         }
 
                         it("does not save a user account provider") {
@@ -400,7 +414,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                             expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-signup-error-google"]
                         }
                         it("asks to show device not allowed error alert") {
-                            expect(self.finishedDeviceNotAllowed).to(beTrue())
+                            expect(self.finishedDeviceNotAllowed).toEventually(beTrue())
                         }
                     }
                 }
@@ -417,7 +431,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                         fbLoginHelper.loginResult = .success(myUser: myUser)
 
                         sut.logInWithFacebook()
-                        expect(self.loading).toEventually(beFalse())
+                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
 
                     it("saves google as previous user account provider") {
@@ -438,7 +452,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                         beforeEach {
                             fbLoginHelper.loginResult = .notFound
                             sut.logInWithFacebook()
-                            expect(self.loading).toEventually(beFalse())
+                            expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                         }
 
                         it("does not save a user account provider") {
@@ -457,7 +471,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                         beforeEach {
                             fbLoginHelper.loginResult = .scammer
                             sut.logInWithFacebook()
-                            expect(self.loading).toEventually(beFalse())
+                            expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                         }
 
                         it("does not save a user account provider") {
@@ -472,14 +486,14 @@ class SignUpLogInViewModelSpec: QuickSpec {
                             expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-signup-error-facebook"]
                         }
                         it("asks to show scammer error alert") {
-                            expect(self.finishedScammer).to(beTrue())
+                            expect(self.finishedScammer).toEventually(beTrue())
                         }
                     }
                     context("device not allowed") {
                         beforeEach {
                             fbLoginHelper.loginResult = .deviceNotAllowed
                             sut.logInWithFacebook()
-                            expect(self.loading).toEventually(beFalse())
+                            expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                         }
 
                         it("does not save a user account provider") {
@@ -494,7 +508,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                             expect(tracker.trackedEvents.map({ $0.actualName })) == ["login-signup-error-facebook"]
                         }
                         it("asks to show device not allowed error alert") {
-                            expect(self.finishedDeviceNotAllowed).to(beTrue())
+                            expect(self.finishedDeviceNotAllowed).toEventually(beTrue())
                         }
                     }
                 }
@@ -588,6 +602,255 @@ class SignUpLogInViewModelSpec: QuickSpec {
                     }
                 }
             }
+            
+            describe("log in button press with valid form") {
+                var errors: LogInEmailFormErrors!
+                
+                beforeEach {
+                    sut.email.value = "albert@letgo.com"
+                    sut.password.value = "letitgo"
+                    errors = sut.logIn()
+                }
+                
+                it("has log in enabled") {
+                    expect(logInEnabled) == true
+                }
+                it("returns no errors") {
+                    expect(errors) == []
+                }
+                it("does not track any event") {
+                    let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                    expect(trackedEventNames) == []
+                }
+//                it("calls show and hide loading in delegate") {
+//                    expect(self.delegateReceivedShowLoading).toEventually(beTrue())
+//                    expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+//                }
+            }
+            
+            context("valid form") {
+                beforeEach {
+                    sut.email.value = "albert@letgo.com"
+                    sut.password.value = "letitgo"
+                }
+                
+                describe("log in fails once with unauthorized error") {
+                    beforeEach {
+                        sessionManager.logInResult = LoginResult(error: .unauthorized)
+                        self.delegateReceivedHideLoading = false
+                        _ = sut.logIn()
+                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                    }
+                    
+                    it("tracks a loginEmailError event") {
+                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                        expect(trackedEventNames) == [EventName.loginEmailError]
+                    }
+                    it("does not call close after login in navigator") {
+                        expect(self.finishedSuccessfully) == false
+                    }
+                    it("does not call show alert in the delegate to suggest reset pwd") {
+                        expect(self.delegateReceivedShowAlert) == false
+                    }
+                }
+                
+                describe("log in fails twice with unauthorized error") {
+                    beforeEach {
+                        sessionManager.logInResult = LoginResult(error: .unauthorized)
+                        self.delegateReceivedHideLoading = false
+                        _ = sut.logIn()
+                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                        self.delegateReceivedHideLoading = false
+                        
+                        _ = sut.logIn()
+                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                    }
+                    
+                    it("tracks two loginEmailError event") {
+                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                        expect(trackedEventNames) == [EventName.loginEmailError, EventName.loginEmailError]
+                    }
+                    it("does not call close after login in navigator") {
+                        expect(self.finishedSuccessfully) == false
+                    }
+                    it("calls show alert in the delegate to suggest reset pwd") {
+                        expect(self.delegateReceivedShowAlert).toEventually(beTrue())
+                    }
+                }
+                
+                describe("log in fails twice with another error") {
+                    beforeEach {
+                        sessionManager.logInResult = LoginResult(error: .network)
+                        self.delegateReceivedHideLoading = false
+                        self.delegateReceivedShowAlert = false
+                        _ = sut.logIn()
+                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                        self.delegateReceivedHideLoading = false
+                        self.delegateReceivedShowAlert = false
+                        _ = sut.logIn()
+                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                    }
+                    
+                    it("tracks two loginEmailError event") {
+                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                        expect(trackedEventNames) == [EventName.loginEmailError, EventName.loginEmailError]
+                    }
+                    it("does not call close after login in navigator") {
+                        expect(self.finishedSuccessfully) == false
+                    }
+                    it("does not call show alert in the delegate to suggest reset pwd") {
+                        expect(self.delegateReceivedShowAlert) == false
+                    }
+                }
+                
+                describe("log in fails with scammer error") {
+                    beforeEach {
+                        sessionManager.logInResult = LoginResult(error: .scammer)
+                        self.delegateReceivedHideLoading = false
+                        _ = sut.logIn()
+                        
+                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                    }
+                    
+                    it("tracks a loginEmailError event") {
+                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                        expect(trackedEventNames) == [EventName.loginEmailError]
+                    }
+                    it("does not call close after login in navigator") {
+                        expect(self.finishedSuccessfully) == false
+                    }
+                    it("calls open scammer alert in the navigator") {
+                        expect(self.finishedScammer).toEventually(beTrue())
+                    }
+                }
+                
+                describe("log in fails with device not allowed error") {
+                    beforeEach {
+                        self.delegateReceivedHideLoading = false
+                        sessionManager.logInResult = LoginResult(error: .deviceNotAllowed)
+                        _ = sut.logIn()
+                        
+                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                    }
+                    
+                    it("tracks a loginEmailError event") {
+                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                        expect(trackedEventNames) == [EventName.loginEmailError]
+                    }
+                    it("does not call close after login in navigator") {
+                        expect(self.finishedSuccessfully) == false
+                    }
+                    it("calls open device not allowed alert in the navigator") {
+                        expect(self.finishedDeviceNotAllowed).toEventually(beTrue())
+                    }
+                }
+                
+                describe("log in succeeds") {
+                    let email = "albert.hernandez@gmail.com"
+                    
+                    beforeEach {
+                        var myUser = MockMyUser.makeMock()
+                        myUser.email = email
+                        sessionManager.logInResult = LoginResult(value: myUser)
+                        self.delegateReceivedHideLoading = false
+                        _ = sut.logIn()
+                        
+                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                    }
+                    
+                    it("tracks a loginEmail event") {
+                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                        expect(trackedEventNames) == [EventName.loginEmail]
+                    }
+                    it("calls close after login in navigator when signup succeeds") {
+                        expect(self.finishedSuccessfully).toEventually(beTrue())
+                    }
+                    it("saves letgo as previous user account provider") {
+                        let provider = keyValueStorage[.previousUserAccountProvider]
+                        expect(provider) == "letgo"
+                    }
+                    it("saves the user email as previous email") {
+                        let username = keyValueStorage[.previousUserEmailOrName]
+                        expect(username) == email
+                    }
+                }
+            }
+            
+            context("god mode") {
+                describe("fill form with admin values") {
+                    beforeEach {
+                        sut.email.value = "admin"
+                        sut.password.value = "wat"
+                        _ = sut.logIn()
+                    }
+                    
+                    it("calls show god mode alert in delegate") {
+                        expect(self.delegateReceivedShowGodModeAlert) == true
+                    }
+                }
+                
+//                describe("enable god mode") {
+//                    context("wrong password") {
+//                        beforeEach {
+//                            sut.godLogIn("whatever")
+//                        }
+//                        
+//                        it("does not enable god mode") {
+//                            expect(KeyValueStorage.sharedInstance[.isGod]).notTo(beTrue())
+//                        }
+//                    }
+//                    
+//                    context("correct password") {
+//                        beforeEach {
+//                            sut.godLogIn("mellongod")
+//                        }
+//                        
+//                        it("enables god mode") {
+//                            expect(KeyValueStorage.sharedInstance[.isGod]) == true
+//                        }
+//                    }
+//                }
+                
+                describe("remember password press") {
+                    beforeEach {
+                        sut.openRememberPassword()
+                    }
+                    
+                    it("calls open remember password in navigator") {
+                        expect(self.navigatorReceivedOpenRememberPassword) == true
+                    }
+                }
+            }
+            
+//            describe("footer button press") {
+//                beforeEach {
+//                    sut.footerButtonPressed()
+//                }
+//                
+//                it("calls open sign up navigator") {
+//                    expect(self.navigatorReceivedOpenSignUp) == true
+//                }
+//            }
+            
+            describe("help button press") {
+                beforeEach {
+                    sut.openHelp()
+                }
+                
+                it("calls open help in navigator") {
+                    expect(self.navigatorReceivedOpenHelp) == true
+                }
+            }
+            
+            describe("close button press") {
+                beforeEach {
+                    sut.cancel()
+                }
+                
+                it("calls cancel in navigator") {
+                    expect(self.finishedSuccessfully) == false
+                }
+            }
         }
     }
 }
@@ -609,38 +872,19 @@ extension SignUpLogInViewModelSpec: SignUpLogInNavigator {
     }
     func openRecaptcha(transparentMode: Bool) {}
 
-    func openRememberPasswordFromSignUpLogIn(email: String?) {}
-    func openHelpFromSignUpLogin() {}
+    func openRememberPasswordFromSignUpLogIn(email: String?) {
+        navigatorReceivedOpenRememberPassword = true
+    }
+    func openHelpFromSignUpLogin() {
+        navigatorReceivedOpenHelp = true
+    }
     func open(url: URL) {}
 }
 
 extension SignUpLogInViewModelSpec: SignUpLogInViewModelDelegate {
     func vmUpdateSendButtonEnabledState(_ enabled: Bool) {}
     func vmUpdateShowPasswordVisible(_ visible: Bool) {}
-    func vmShowHiddenPasswordAlert() {}
-
-    // BaseViewModelDelegate
-    func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?) {}
-    func vmShowLoading(_ loadingMessage: String?) {
-        loading = true
+    func vmShowHiddenPasswordAlert() {
+        delegateReceivedShowGodModeAlert = true
     }
-    func vmHideLoading(_ finishedMessage: String?, afterMessageCompletion: (() -> ())?) {
-        loading = false
-        afterMessageCompletion?()
-    }
-    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, actions: [UIAction]?) {}
-    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout, actions: [UIAction]?) {}
-    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, actions: [UIAction]?, dismissAction: (() -> ())?) {}
-    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout, actions: [UIAction]?, dismissAction: (() -> ())?) {}
-    func vmShowAlert(_ title: String?, message: String?, actions: [UIAction]) {}
-    func vmShowAlert(_ title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {}
-    func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction]) {}
-    func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction]) {}
-    func ifLoggedInThen(_ source: EventParameterLoginSourceValue, loggedInAction: () -> Void,
-                        elsePresentSignUpWithSuccessAction afterLogInAction: @escaping () -> Void) {}
-    func ifLoggedInThen(_ source: EventParameterLoginSourceValue, loginStyle: LoginStyle, loggedInAction: () -> Void,
-                        elsePresentSignUpWithSuccessAction afterLogInAction: @escaping () -> Void) {}
-    func vmPop() {}
-    func vmDismiss(_ completion: (() -> Void)?){}
-    func vmOpenInternalURL(_ url: URL) {}
 }
