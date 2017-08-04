@@ -323,7 +323,7 @@
 "filters_section_sortby" = "Ordina per";
 "filters_section_within" = "Periodo di pubblicazione";
 "filters_sort_closest" = "Prima i più vicini";
-"filters_sort_newest" = "Prima i più nuovi";
+"filters_sort_newest" = "Prima i più recenti";
 "filters_sort_price_asc" = "Dal prezzo più basso al più alto";
 "filters_sort_price_desc" = "Dal prezzo più alto al più basso";
 "filters_tag_location_selected" = "Posizione selezionata";
@@ -462,12 +462,12 @@
 "onboarding_posting_button_a" = "Vendi le tue cose";
 "onboarding_posting_button_b" = "Inizia";
 "onboarding_posting_button_c" = "Sì, ho qualcosa da vendere";
-"onboarding_posting_improvement_b_title" = "Selling is easy. Give it a try!";
-"onboarding_posting_improvement_c_button" = "Try it out";
-"onboarding_posting_improvement_c_title" = "Selling is easy. Give it a try!";
-"onboarding_posting_improvement_d_title" = "Post in one step: just take a picture!";
-"onboarding_posting_improvement_e_title" = "Selling is easy: just take a picture and we'll do the rest!";
-"onboarding_posting_improvement_f_title" = "Post an item in just seconds!";
+"onboarding_posting_improvement_b_title" = "Vendere è facile. Prova subito!";
+"onboarding_posting_improvement_c_button" = "Prova";
+"onboarding_posting_improvement_c_title" = "Vendere è facile. Prova subito!";
+"onboarding_posting_improvement_d_title" = "Pubblica in un attimo: scatta semplicemente una foto!";
+"onboarding_posting_improvement_e_title" = "Vendere è facile: scatta semplicemente una foto e noi faremo il resto!";
+"onboarding_posting_improvement_f_title" = "Pubblica un articolo in un batter d'occhio!";
 "onboarding_posting_subtitle_a" = "Pubblica il tuo primo prodotto e inizia a vendere a persone nella tua zona";
 "onboarding_posting_subtitle_b" = "Vendi oggetti di cui non hai più bisogno e guadagna soldi extra";
 "onboarding_posting_subtitle_c" = "Persone nelle vicinanze stanno cercando questi oggetti";

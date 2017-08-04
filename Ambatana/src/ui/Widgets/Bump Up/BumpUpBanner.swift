@@ -15,12 +15,12 @@ enum BumpUpType {
     case restore
     case hidden
 
-    var bannerText: String {
+    func bannerText(textsImprovements: Bool) -> String {
         switch self {
         case .free:
             return LGLocalizedString.bumpUpBannerFreeText
         case .priced, .hidden:
-            return LGLocalizedString.bumpUpBannerPayText
+            return textsImprovements ? ("⚡️" + LGLocalizedString.bumpUpBannerPayTextImprovement) : LGLocalizedString.bumpUpBannerPayText
         case .restore:
             return LGLocalizedString.bumpUpErrorBumpToken
         }
@@ -120,8 +120,10 @@ class BumpUpBanner: UIView {
         switch type {
         case .free:
             waitingTime = info.maxCountdown
+            bumpButton.isHidden = featureFlags.bumpUpImprovementBanner.isActive
             bumpButton.setTitle(LGLocalizedString.bumpUpBannerFreeButtonTitle, for: .normal)
         case .priced, .hidden:
+            bumpButton.isHidden = featureFlags.bumpUpImprovementBanner.isActive
             waitingTime = info.maxCountdown
             if let price = info.price {
                 bumpButton.setTitle(price, for: .normal)
@@ -129,6 +131,7 @@ class BumpUpBanner: UIView {
                 bumpButton.setTitle(LGLocalizedString.bumpUpBannerFreeButtonTitle, for: .normal)
             }
         case .restore:
+            bumpButton.isHidden = !featureFlags.bumpUpImprovementBanner.isActive
             waitingTime = info.maxCountdown
             bumpButton.setTitle(LGLocalizedString.commonErrorRetryButton, for: .normal)
         }
@@ -184,6 +187,7 @@ class BumpUpBanner: UIView {
     // - Private Methods
 
     private func setupRx() {
+        
         timeIntervalLeft.asObservable().map { $0 <= 1 }.bindTo(readyToBump).addDisposableTo(disposeBag)
 
         timeIntervalLeft.asObservable().skip(1).bindNext { [weak self] secondsLeft in
@@ -191,7 +195,7 @@ class BumpUpBanner: UIView {
             let localizedText: String
             if secondsLeft <= 0 {
                 strongSelf.timer.invalidate()
-                localizedText = strongSelf.type.bannerText
+                localizedText = strongSelf.type.bannerText(textsImprovements: strongSelf.featureFlags.bumpUpImprovementBanner.isActive)
                 strongSelf.iconImageView.image = strongSelf.type.bannerIcon
                 strongSelf.bumpButton.isEnabled = true
             } else {
