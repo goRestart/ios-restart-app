@@ -38,6 +38,7 @@ class ABTests {
     let suggestedSearches = IntABDynamicVar(key: "20170717suggestedSearches", defaultValue: 0)
     let addSuperKeywordsOnFeed = IntABDynamicVar(key: "20170719AddSuperKeywordsOnFeed", defaultValue: 0)
     let copiesImprovementOnboarding = IntABDynamicVar(key: "20170803CopiesImprovementOnboarding", defaultValue: 0)
+    let bumpUpImprovementBanner = IntABDynamicVar(key: "20170804BumpUpImprovementBanner", defaultValue: 0)
 
     init() {
     }
@@ -70,6 +71,7 @@ class ABTests {
         result.append(suggestedSearches)
         result.append(addSuperKeywordsOnFeed)
         result.append(copiesImprovementOnboarding)
+        result.append(bumpUpImprovementBanner)
 
         return result
     }

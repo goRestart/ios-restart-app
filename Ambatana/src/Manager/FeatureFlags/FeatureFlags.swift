@@ -276,6 +276,13 @@ class FeatureFlags: FeatureFlaggeable {
         return CopiesImprovementOnboarding.fromPosition(abTests.copiesImprovementOnboarding.value)
     }
     
+    var bumpUpImprovementBanner: BumpUpImprovementBanner {
+        if Bumper.enabled {
+            return Bumper.bumpUpImprovementBanner
+        }
+        return BumpUpImprovementBanner.fromPosition(abTests.bumpUpImprovementBanner.value)
+    }
+    
     // MARK: - Country features
 
     var freePostingModeAllowed: Bool {

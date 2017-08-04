@@ -34,6 +34,7 @@ extension Bumper  {
         flags.append(SuggestedSearches.self)
         flags.append(AddSuperKeywordsOnFeed.self)
         flags.append(CopiesImprovementOnboarding.self)
+        flags.append(BumpUpImprovementBanner.self)
         Bumper.initialize(flags)
     } 
 
@@ -140,6 +141,11 @@ extension Bumper  {
     static var copiesImprovementOnboarding: CopiesImprovementOnboarding {
         guard let value = Bumper.value(for: CopiesImprovementOnboarding.key) else { return .control }
         return CopiesImprovementOnboarding(rawValue: value) ?? .control 
+    }
+
+    static var bumpUpImprovementBanner: BumpUpImprovementBanner {
+        guard let value = Bumper.value(for: BumpUpImprovementBanner.key) else { return .control }
+        return BumpUpImprovementBanner(rawValue: value) ?? .control 
     } 
 }
 
@@ -371,6 +377,22 @@ enum CopiesImprovementOnboarding: String, BumperFeature  {
             case 4: return .d
             case 5: return .e
             case 6: return .f
+            default: return .control
+        }
+    }
+}
+
+enum BumpUpImprovementBanner: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return BumpUpImprovementBanner.control.rawValue }
+    static var enumValues: [BumpUpImprovementBanner] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "new copies on bump up banner" } 
+    static func fromPosition(_ position: Int) -> BumpUpImprovementBanner {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
             default: return .control
         }
     }
