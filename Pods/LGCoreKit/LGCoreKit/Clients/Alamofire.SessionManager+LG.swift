@@ -23,6 +23,7 @@ extension Alamofire.SessionManager {
         }
         configuration.httpAdditionalHeaders = headers
         configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
+        configuration.timeoutIntervalForResource = 15
         return Alamofire.SessionManager(configuration: configuration)
     }
 }

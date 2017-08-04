@@ -132,6 +132,13 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         cameraView.active = true
         galleryView.active = true
     }
+    
+    override func viewWillAppearFromBackground(_ fromBackground: Bool) {
+        super.viewWillAppearFromBackground(fromBackground)
+        if viewModel.state.value.isLoading {
+            customLoadingView.startAnimating()
+        }
+    }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
