@@ -152,7 +152,7 @@ class MainProductsViewModel: BaseViewModel {
             }
         }
 
-        if filters.selectedCategories.contains(.cars) {
+        if filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsCategory {
             if let makeId = filters.carMakeId, let makeName = filters.carMakeName {
                 resultTags.append(.make(id: makeId.value, name: makeName.uppercase))
                 if let modelId = filters.carModelId, let modelName = filters.carModelName {
@@ -172,7 +172,7 @@ class MainProductsViewModel: BaseViewModel {
     }
 
     fileprivate var shouldShowNoExactMatchesDisclaimer: Bool {
-        guard filters.selectedCategories.contains(.cars) else { return false }
+        guard filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsCategory else { return false }
         if filters.carMakeId != nil || filters.carModelId != nil || filters.carYearStart != nil || filters.carYearEnd != nil {
             return true
         }

@@ -106,23 +106,23 @@ class FilteredProductListRequester: ProductListRequester {
     }
 
     private var requesterTitle: String? {
-        guard let _ = filters?.selectedCategories.contains(.cars) else { return nil }
+        guard let filters = filters, filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsCategory  else { return nil }
         var titleFromFilters: String = ""
 
-        if let makeName = filters?.carMakeName {
+        if let makeName = filters.carMakeName {
             titleFromFilters += makeName
         }
-        if let modelName = filters?.carModelName {
+        if let modelName = filters.carModelName {
             titleFromFilters += " " + modelName
         }
         if let rangeYearTitle = rangeYearTitle(forFilters: filters) {
             titleFromFilters += " " + rangeYearTitle
         }
 
-        let filtersHasAnyCarAttributes: Bool = filters?.carMakeId != nil ||
-                                            filters?.carModelId != nil ||
-                                            filters?.carYearStart != nil ||
-                                            filters?.carYearEnd != nil
+        let filtersHasAnyCarAttributes: Bool = filters.carMakeId != nil ||
+                                            filters.carModelId != nil ||
+                                            filters.carYearStart != nil ||
+                                            filters.carYearEnd != nil
 
         if  filtersHasAnyCarAttributes && titleFromFilters.isEmpty {
             // if there's a make filter active but no title, is "Other Results"
