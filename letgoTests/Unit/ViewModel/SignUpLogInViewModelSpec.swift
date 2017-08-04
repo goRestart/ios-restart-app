@@ -11,7 +11,7 @@ import LGCoreKit
 import Quick
 import Nimble
 import Result
-
+import RxSwift
 
 class SignUpLogInViewModelSpec: QuickSpec {
     var loading: Bool = false
@@ -31,7 +31,10 @@ class SignUpLogInViewModelSpec: QuickSpec {
             var featureFlags: MockFeatureFlags!
             var googleLoginHelper: MockExternalAuthHelper!
             var fbLoginHelper: MockExternalAuthHelper!
-
+            
+            var logInEnabled: Bool!
+            var disposeBag: DisposeBag!
+            
             beforeEach {
                 sessionManager = MockSessionManager()
                 installationRepository = MockInstallationRepository()
@@ -55,6 +58,11 @@ class SignUpLogInViewModelSpec: QuickSpec {
                 self.finishedSuccessfully = false
                 self.finishedScammer = false
                 self.finishedDeviceNotAllowed = false
+                
+                disposeBag = DisposeBag()
+                sut.logInEnabled.subscribeNext { enabled in
+                    logInEnabled = enabled
+                    }.addDisposableTo(disposeBag)
             }
 
             describe("initialization") {
@@ -492,7 +500,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                 }
             }
             
-            fdescribe("log in button press with invalid form") {
+            describe("log in button press with invalid form") {
                 var errors: LogInEmailFormErrors!
                 
                 describe("empty") {
@@ -503,18 +511,17 @@ class SignUpLogInViewModelSpec: QuickSpec {
                     }
                     
                     it("has log in disabled") {
-                        expect(sut.sendButtonEnabled) == false
+                        expect(logInEnabled) == false
                     }
                     it("does not return any error") {
-                        expect(errors) == .invalidEmail
+                        expect(errors) == []
                     }
                     it("does not call close because after login in navigator") {
                         expect(self.finishedSuccessfully) == false
                     }
                     it("does not track any event") {
-                        //let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
-                        //expect(trackedEventNames) == []
-                        expect(tracker.trackedEvents.flatMap { $0.name }).toEventually(equal([.loginEmailError]))
+                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                        expect(trackedEventNames) == []
                     }
                 }
                 
@@ -525,11 +532,11 @@ class SignUpLogInViewModelSpec: QuickSpec {
                         errors = sut.logIn()
                     }
                     
-//                    it("has log in enabled") {
-//                        expect(sut.sendButtonEnabled) == true
-//                    }
-                    it("returns that the email is invalid") {
-                        expect(errors) == [.invalidEmail]
+                    it("has log in enabled") {
+                        expect(logInEnabled) == true
+                    }
+                    it("returns that the email is invalid and the password is short") {
+                        expect(errors) == [.invalidEmail, .shortPassword]
                     }
                     it("does not call close because after login in navigator") {
                         expect(self.finishedSuccessfully) == false
@@ -547,18 +554,18 @@ class SignUpLogInViewModelSpec: QuickSpec {
                         errors = sut.logIn()
                     }
                     
-//                    it("has log in enabled") {
-//                        expect(sut.sendButtonEnabled).toEventually(equal(true))
-//                    }
-//                    it("returns that the password is long") {
-//                        expect(errors) = []
-//                    }
-//                    it("does not call close because after login in navigator") {
-//                        expect(self.finishedSuccessfully) == false
-//                    }
+                    it("has log in enabled") {
+                        expect(logInEnabled) == true
+                    }
+                    it("returns that the password is long") {
+                        expect(errors) == [.longPassword]
+                    }
+                    it("does not call close because after login in navigator") {
+                        expect(self.finishedSuccessfully) == false
+                    }
                     it("tracks a loginEmailError event") {
                         let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
-                        expect(trackedEventNames) == []
+                        expect(trackedEventNames) == [EventName.loginEmailError]
                     }
                 }
 
@@ -570,7 +577,7 @@ class SignUpLogInViewModelSpec: QuickSpec {
                     }
                     
                     it("has log in enabled") {
-                        expect(sut.sendButtonEnabled) == true
+                        expect(logInEnabled) == true
                     }
                     it("returns no errors") {
                         expect(errors) == []
