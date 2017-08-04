@@ -81,7 +81,14 @@ final class CoreDI: InternalDI {
                                                       cache: carsInfoCache,
                                                       locationManager: locationManager)
         self.carsInfoRepository = carsInfoRepository
-        
+
+        let taxonomiesCache: TaxonomiesDAO = TaxonomiesRealmDAO() ?? TaxonomiesMemoryDAO()
+        let taxonomiesDataSource = TaxonomiesApiDataSource(apiClient: apiClient)
+        let categoryRepository = LGCategoryRepository(dataSource: taxonomiesDataSource,
+                                                      taxonomiesCache: taxonomiesCache,
+                                                      locationManager: locationManager)
+        self.categoryRepository = categoryRepository
+
         let listingDataSource = ListingApiDataSource(apiClient: apiClient)
         let favoritesDAO = FavoritesUDDAO(userDefaults: userDefaults)
         let listingsLimboDAO = ListingsLimboUDDAO(userDefaults: userDefaults)
@@ -220,9 +227,7 @@ final class CoreDI: InternalDI {
     let userRatingRepository: UserRatingRepository
     let passiveBuyersRepository: PassiveBuyersRepository
     let carsInfoRepository: CarsInfoRepository
-    lazy var categoryRepository: CategoryRepository = {
-        return LGCategoryRepository()
-    }()
+    let categoryRepository: CategoryRepository
 
     let listingRepository: ListingRepository
     lazy var fileRepository: FileRepository = {

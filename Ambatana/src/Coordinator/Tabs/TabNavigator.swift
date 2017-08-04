@@ -57,7 +57,9 @@ protocol ProductDetailNavigator: TabNavigator {
     func openListingChat(_ listing: Listing)
     func closeAfterDelete()
     func openFreeBumpUp(forListing listing: Listing, socialMessage: SocialMessage, paymentItemId: String)
-    func openPayBumpUp(forListing listing: Listing, purchaseableProduct: PurchaseableProduct, paymentItemId: String)
+    func openPayBumpUp(forListing listing: Listing,
+                       purchaseableProduct: PurchaseableProduct,
+                       paymentItemId: String)
     func selectBuyerToRate(source: RateUserSource,
                            buyers: [UserListing],
                            listingId: String,
@@ -66,6 +68,12 @@ protocol ProductDetailNavigator: TabNavigator {
     func showProductFavoriteBubble(with data: BubbleNotificationData)
     func openLoginIfNeededFromProductDetail(from: EventParameterLoginSourceValue, infoMessage: String,
                                             loggedInAction: @escaping (() -> Void))
+    func showBumpUpNotAvailableAlertWithTitle(title: String,
+                                              text: String,
+                                              alertType: AlertType,
+                                              buttonsLayout: AlertButtonsLayout,
+                                              actions: [UIAction])
+    func openContactUs(forListing listing: Listing, contactUstype: ContactUsType)
 }
 
 protocol SimpleProductsNavigator: class {

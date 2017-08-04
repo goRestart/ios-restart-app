@@ -12,4 +12,5 @@ import LGCoreKit
 protocol FiltersNavigator: class {
     func openEditLocation(withViewModel viewModel: EditLocationViewModel)
     func openCarAttributeSelection(withViewModel viewModel: CarAttributeSelectionViewModel)
+    func openTaxonomyList(withViewModel viewModel: TaxonomiesViewModel)
 }

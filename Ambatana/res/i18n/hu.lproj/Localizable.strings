@@ -25,6 +25,8 @@
 "bump_up_error_bump_token" = "A tranzakciót feldolgoztuk, de portékád nincs felugrasztva.";
 "bump_up_error_payment_failed" = "Nem sikerült kapcsolódni az App Store-hoz. Feldolgozatlan befizetés. Próbálkozz újra.";
 "bump_up_free_success" = "Felugrasztva! Ugraszd fel többször, hogy még láthatóbb legyen.";
+"bump_up_not_allowed_alert_contact_button" = "Kapcsolat";
+"bump_up_not_allowed_alert_text" = "A hirdetés felugrasztása jelenleg nem lehetséges. További információkért lépj velünk kapcsolatba.";
 "bump_up_pay_success" = "Felugrasztva! Portékád mostantól sokkal láthatóbb.";
 "bump_up_processing_free_text" = "Ugrasztás feldolgozása...";
 "bump_up_processing_priced_text" = "Fizetés feldolgozása...";
@@ -56,6 +58,7 @@
 "categories_old_cars_and_motors" = "Autók és motorok";
 "categories_other" = "Egyéb";
 "categories_sports_leisure_and_games" = "Sport, szabadidő, játékok";
+"categories_super_keywords_inFeed_show_more" = "Show more";
 "categories_title" = "Kategóriák";
 "categories_unassigned" = "Nincs megadva";
 "change_email_current_email_label" = "JELENLEGI E-MAIL:";
@@ -316,7 +319,7 @@
 "filters_section_distance" = "Távolság";
 "filters_section_location" = "Tartózkodási hely";
 "filters_section_price" = "Ár";
-"filters_section_price_free_title" = "Show only free items";
+"filters_section_price_free_title" = "Csak ingyenes portékák";
 "filters_section_sortby" = "Rendezés";
 "filters_section_within" = "Közzétéve";
 "filters_sort_closest" = "Legközelebbiek elöl";

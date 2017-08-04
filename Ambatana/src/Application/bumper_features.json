@@ -94,5 +94,10 @@
         "name": "SuggestedSearches",
         "values": ["control", "baseline", "active"],
         "description": "New suggested searches section"
+    },
+    {
+        "name": "AddSuperKeywordsOnFeed",
+        "values": ["control", "baseline", "active"],
+        "description": "Add super keywords in feed and filters"
     }
 ]

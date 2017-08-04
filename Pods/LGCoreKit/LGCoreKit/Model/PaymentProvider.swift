@@ -11,8 +11,9 @@ import Argo
 public enum PaymentProvider: String {
     case letgo = "letgo"
     case apple = "apple"
+    case hidden = "letgo.apple"
 
-    public static let allValues: [PaymentProvider] = [.letgo, .apple]
+    public static let allValues: [PaymentProvider] = [.letgo, .apple, .hidden]
 }
 
 extension PaymentProvider: Decodable {}

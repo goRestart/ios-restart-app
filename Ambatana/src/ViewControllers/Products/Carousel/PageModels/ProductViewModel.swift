@@ -100,6 +100,7 @@ class ProductViewModel: BaseViewModel {
     var bumpUpPurchaseableProduct: PurchaseableProduct?
     fileprivate var isUpdatingBumpUpBanner: Bool = false
     fileprivate var paymentItemId: String?
+    fileprivate var userIsSoftBlocked: Bool = false
 
     fileprivate var alreadyTrackedFirstMessageSent: Bool = false
     fileprivate static let bubbleTagGroup = "favorite.bubble.group"
@@ -340,7 +341,9 @@ class ProductViewModel: BaseViewModel {
                 strongSelf.bumpMaxCountdown = bumpeableProduct.maxCountdown
                 let freeItems = bumpeableProduct.paymentItems.filter { $0.provider == .letgo }
                 let paymentItems = bumpeableProduct.paymentItems.filter { $0.provider == .apple }
+                let hiddenItems = bumpeableProduct.paymentItems.filter { $0.provider == .hidden }
                 if !paymentItems.isEmpty, strongSelf.featureFlags.pricedBumpUpEnabled {
+                    strongSelf.userIsSoftBlocked = false
                     // will be considered bumpeable ONCE WE GOT THE PRICES of the products, not before.
                     strongSelf.paymentItemId = paymentItems.first?.itemId
                     // if "paymentItemId" is nil, the banner creation will fail, so we check this here to avoid
@@ -352,6 +355,15 @@ class ProductViewModel: BaseViewModel {
                     strongSelf.paymentItemId = freeItems.first?.itemId
                     strongSelf.createBumpeableBanner(forListingId: listingId, withPrice: nil,
                                                         paymentItemId: strongSelf.paymentItemId, bumpUpType: .free)
+                } else if !hiddenItems.isEmpty, strongSelf.featureFlags.pricedBumpUpEnabled {
+                    strongSelf.userIsSoftBlocked = true
+                    // for hidden items we follow THE SAME FLOW we do for PAID items
+                    strongSelf.paymentItemId = hiddenItems.first?.itemId
+                    // if "paymentItemId" is nil, the banner creation will fail, so we check this here to avoid
+                    // a useless request to apple
+                    if let _ = strongSelf.paymentItemId {
+                        strongSelf.purchasesShopper.productsRequestStartForProduct(listingId, withIds: hiddenItems.map { $0.providerItemId })
+                    }
                 }
             })
         }
@@ -365,7 +377,7 @@ class ProductViewModel: BaseViewModel {
             guard let paymentItemId = paymentItemId else { return }
             let freeBlock = { [weak self] in
                 guard let listing = self?.listing.value, let socialMessage = self?.freeBumpUpShareMessage else { return }
-                self?.trackBumpUpStarted(.free)
+                self?.trackBumpUpStarted(.free, type: bumpUpType)
                 self?.navigator?.openFreeBumpUp(forListing: listing, socialMessage: socialMessage,
                                                 paymentItemId: paymentItemId)
             }
@@ -376,7 +388,8 @@ class ProductViewModel: BaseViewModel {
             bannerInteractionBlock = { [weak self] in
                 guard let listing = self?.listing.value else { return }
                 guard let purchaseableProduct = self?.bumpUpPurchaseableProduct else { return }
-                self?.navigator?.openPayBumpUp(forListing: listing, purchaseableProduct: purchaseableProduct,
+                self?.navigator?.openPayBumpUp(forListing: listing,
+                                               purchaseableProduct: purchaseableProduct,
                                                paymentItemId: paymentItemId)
             }
             buttonBlock = { [weak self] in
@@ -385,18 +398,50 @@ class ProductViewModel: BaseViewModel {
         case .restore:
             let restoreBlock = { [weak self] in
                 logMessage(.info, type: [.monetization], message: "TRY TO Restore Bump for listing: \(listingId)")
-                self?.purchasesShopper.requestPricedBumpUp(forListingId: listingId)
+                self?.purchasesShopper.restorePaidBumpUp(forListingId: listingId)
             }
             bannerInteractionBlock = restoreBlock
             buttonBlock = restoreBlock
+        case .hidden:
+            let hiddenBlock: () -> Void = { [weak self] in
+                self?.trackBumpUpNotAllowed(reason: .notAllowedInternal)
+                let contactUsInterface = UIActionInterface.button(LGLocalizedString.bumpUpNotAllowedAlertContactButton,
+                                                                  .primary(fontSize: .medium))
+                let contactUsAction: UIAction = UIAction(interface: contactUsInterface,
+                                                         action: { [weak self] in
+                                                            self?.bumpUpHiddenProductContactUs()
+                    },
+                                                         accessibilityId: .bumpUpHiddenProductAlertContactButton)
+
+                let cancelInterface = UIActionInterface.button(LGLocalizedString.commonCancel,
+                                                               .secondary(fontSize: .medium, withBorder: true))
+                let cancelAction: UIAction = UIAction(interface: cancelInterface,
+                                                      action: {},
+                                                      accessibilityId: .bumpUpHiddenProductAlertCancelButton)
+
+
+                self?.navigator?.showBumpUpNotAvailableAlertWithTitle(title: LGLocalizedString.commonErrorTitle,
+                                                                      text: LGLocalizedString.bumpUpNotAllowedAlertText,
+                                                                      alertType: .plainAlert,
+                                                                      buttonsLayout: .vertical,
+                                                                      actions: [contactUsAction, cancelAction])
+            }
+            bannerInteractionBlock = hiddenBlock
+            buttonBlock = hiddenBlock
         }
 
+//        bumpBannerShow
         bumpUpBannerInfo.value = BumpUpInfo(type: bumpUpType,
                                             timeSinceLastBump: timeSinceLastBump,
                                             maxCountdown: bumpMaxCountdown,
                                             price: withPrice,
                                             bannerInteractionBlock: bannerInteractionBlock,
                                             buttonBlock: buttonBlock)
+    }
+
+    func bumpUpHiddenProductContactUs() {
+        trackBumpUpNotAllowedContactUs(reason: .notAllowedInternal)
+        navigator?.openContactUs(forListing: listing.value, contactUstype: .bumpUpNotAllowed)
     }
 }
 
@@ -1017,48 +1062,67 @@ extension ProductViewModel: PurchasesShopperDelegate {
         guard let purchase = products.first else { return }
 
         bumpUpPurchaseableProduct = purchase
+        let bumpUpType: BumpUpType = userIsSoftBlocked ? .hidden : .priced
         createBumpeableBanner(forListingId: requestProdId, withPrice: bumpUpPurchaseableProduct?.formattedCurrencyPrice,
-                              paymentItemId: paymentItemId, bumpUpType: .priced)
+                              paymentItemId: paymentItemId, bumpUpType: bumpUpType)
     }
 
 
     // Free Bump Up
+
     func freeBumpDidStart() {
         delegate?.vmShowLoading(LGLocalizedString.bumpUpProcessingFreeText)
     }
 
     func freeBumpDidSucceed(withNetwork network: EventParameterShareNetwork) {
-        trackHelper.trackBumpUpCompleted(.free, network: network)
+        trackBumpUpCompleted(.free, type: .free, network: network)
         delegate?.vmHideLoading(LGLocalizedString.bumpUpFreeSuccess, afterMessageCompletion: { [weak self] in
             self?.delegate?.vmResetBumpUpBannerCountdown()
         })
     }
 
     func freeBumpDidFail(withNetwork network: EventParameterShareNetwork) {
+        trackBumpUpFail(type: .free)
         delegate?.vmHideLoading(LGLocalizedString.bumpUpErrorBumpGeneric, afterMessageCompletion: nil)
     }
 
-    // Priced Bump Up
+
+    // Paid Bump Up
+
     func pricedBumpDidStart() {
-        trackBumpUpStarted(.pay(price: bumpUpPurchaseableProduct?.formattedCurrencyPrice ?? ""))
+        trackBumpUpStarted(.pay(price: bumpUpPurchaseableProduct?.formattedCurrencyPrice ?? ""), type: .priced)
         delegate?.vmShowLoading(LGLocalizedString.bumpUpProcessingPricedText)
     }
 
-    func pricedBumpDidSucceed() {
-        trackHelper.trackBumpUpCompleted(.pay(price: bumpUpPurchaseableProduct?.formattedCurrencyPrice ?? ""),
-                                         network: .notAvailable)
+    func paymentDidSucceed(paymentId: String) {
+        trackMobilePaymentComplete(withPaymentId: paymentId)
+    }
+
+    func pricedBumpDidSucceed(type: BumpUpType) {
+        trackBumpUpCompleted(.pay(price: bumpUpPurchaseableProduct?.formattedCurrencyPrice ?? ""),
+                             type: type,
+                             network: .notAvailable)
         delegate?.vmHideLoading(LGLocalizedString.bumpUpPaySuccess, afterMessageCompletion: { [weak self] in
             self?.delegate?.vmResetBumpUpBannerCountdown()
         })
     }
 
-    func pricedBumpDidFail() {
+    func pricedBumpDidFail(type: BumpUpType) {
+        trackBumpUpFail(type: type)
         delegate?.vmHideLoading(LGLocalizedString.bumpUpErrorBumpGeneric, afterMessageCompletion: { [weak self] in
             self?.refreshBumpeableBanner()
         })
     }
 
-    func pricedBumpPaymentDidFail() {
+    func pricedBumpPaymentDidFail(withReason reason: String?) {
+        trackMobilePaymentFail(withReason: reason)
         delegate?.vmHideLoading(LGLocalizedString.bumpUpErrorPaymentFailed, afterMessageCompletion: nil)
+    }
+
+    // Restore Bump
+
+    func restoreBumpDidStart() {
+        trackBumpUpStarted(.pay(price: bumpUpPurchaseableProduct?.formattedCurrencyPrice ?? ""), type: .restore)
+        delegate?.vmShowLoading(LGLocalizedString.bumpUpProcessingFreeText)
     }
 }

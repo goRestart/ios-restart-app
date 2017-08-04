@@ -25,6 +25,8 @@
 "bump_up_error_bump_token" = "Maksusi on käsitelty, mutta tuotettasi ei ole nostettu.";
 "bump_up_error_payment_failed" = "App Storeen ei saatu yhteyttä. Maksuasi ei ole käsitelty. Ole hyvä ja yritä uudelleen.";
 "bump_up_free_success" = "Nostettu! Nosta tuotettasi useamminkin listalla ylöspäin, jolloin se saa vielä enemmän näkyvyyttä.";
+"bump_up_not_allowed_alert_contact_button" = "Ota meihin yhteyttä";
+"bump_up_not_allowed_alert_text" = "Tämän tuotteen nostaminen esiin ei ole tällä hetkellä mahdollista. Jos haluat lisätietoja, ota meihin yhteyttä.";
 "bump_up_pay_success" = "Nostettu! Nyt tuotteesi saa lisänäkyvyyttä.";
 "bump_up_processing_free_text" = "Käsitellään nostoa...";
 "bump_up_processing_priced_text" = "Käsitellään maksua...";
@@ -56,6 +58,7 @@
 "categories_old_cars_and_motors" = "Autot ja muut ajoneuvot";
 "categories_other" = "Muut";
 "categories_sports_leisure_and_games" = "Urheilu, vapaa-aika ja pelit";
+"categories_super_keywords_inFeed_show_more" = "Show more";
 "categories_title" = "Kategoriat";
 "categories_unassigned" = "Ei valittu";
 "change_email_current_email_label" = "NYKYINEN SÄHKÖPOSTI:";
@@ -316,7 +319,7 @@
 "filters_section_distance" = "Etäisyys";
 "filters_section_location" = "Sijainti";
 "filters_section_price" = "Hinta";
-"filters_section_price_free_title" = "Show only free items";
+"filters_section_price_free_title" = "Näytä vain ilmaiset tuotteet";
 "filters_section_sortby" = "Lajittele";
 "filters_section_within" = "Julkaisusta aikaa";
 "filters_sort_closest" = "Lähin ensin";

@@ -737,4 +737,14 @@ extension ProductViewModelSpec: ProductDetailNavigator {
         calledLogin = true
         loggedInAction()
     }
+    func showBumpUpNotAvailableAlertWithTitle(title: String,
+                                              text: String,
+                                              alertType: AlertType,
+                                              buttonsLayout: AlertButtonsLayout,
+                                              actions: [UIAction]) {
+
+    }
+    func openContactUs(forListing listing: Listing, contactUstype: ContactUsType) {
+
+    }
 }

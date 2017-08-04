@@ -31,9 +31,12 @@ extension FilterSection {
             return LGLocalizedString.filtersSectionPrice.uppercase
         }
     }
-    
-    static var allValues: [FilterSection] {
-        return [.location, .categories, .carsInfo, .distance, .sortBy, .within, .price]
+
+    static func allValues(priceAsLast: Bool) -> [FilterSection] {
+        if priceAsLast {
+            return [.location, .categories, .carsInfo, .distance, .sortBy, .within, .price]
+        } else {
+            return [.location, .distance, .categories, .price, .carsInfo, .sortBy, .within]
+        }
     }
-    
 }

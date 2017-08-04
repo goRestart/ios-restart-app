@@ -30,7 +30,7 @@ extension LGPaymentItem: Decodable {
      Expects a json in the form:
 
      {
-     "provider": "free",  // string, possible values ["letgo", "apple", "google"]
+     "provider": "letgo",  // string, possible values, "letgo.apple" is used for hidden items ["letgo", "apple", "google", "letgo.apple"]
      "item_id": "4c72134c5-6586-798" // string, uuid4
      "provider_item_id": "com.letgo.tier1" // string, external provider ID, depending on google, apple, etc.
      }

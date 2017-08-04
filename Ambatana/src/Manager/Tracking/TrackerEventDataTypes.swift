@@ -160,13 +160,22 @@ enum EventName: String {
     case passiveBuyerComplete               = "passive-buyer-complete"
     case passiveBuyerAbandon                = "passive-buyer-abandon"
 
+    case bumpBannerShow                     = "bump-banner-show"
     case bumpUpStart                        = "bump-up-start"
     case bumpUpComplete                     = "bump-up-complete"
+    case bumpUpFail                         = "bump-up-fail"
+    case mobilePaymentComplete              = "mobile-payment-complete" // triggered when the payment has been confirmed by Apple/Google. (this event is triggered before the bump-up-complete event)
+    case mobilePaymentFail                  = "mobile-payment-fail"
+    case bumpNotAllowed                     = "bump-up-not-allowed"
+    case bumpNotAllowedContactUs            = "bump-up-not-allowed-contact-us"
+
     case chatWindowVisit                    = "chat-window-open"
     
     case emptyStateError                    = "empty-state-error"
     
     case filterBubble                       = "filter-bubble"
+    case categoriesStart                    = "categories-start"
+    case categoriesComplete                 = "categories-complete"
     
 
     // Constants
@@ -213,6 +222,8 @@ enum EventParameterName: String {
     case userZipCode          = "user-zipcode"
     case searchString         = "search-keyword"
     case searchSuccess        = "search-success"
+    case searchSuggestion     = "search-suggestion"
+    case searchSuggestionPosition = "search-suggestion-position"
     case trendingSearch       = "trending-search"
     case description          = "description"           // error description: why form validation failure.
     case loginSource          = "login-type"            // the login source
@@ -276,6 +287,8 @@ enum EventParameterName: String {
     case expressChatTrigger   = "express-chat-trigger"
     case numberPhotosPosting  = "number-photos-posting"
     case bumpUpPrice          = "price"
+    case bumpUpType           = "bump-type"
+    case paymentId            = "payment-id"
     case passiveConversations = "passive-conversations"
     case feedPosition         = "feed-position"
     case feedSource           = "feed-source"
@@ -302,6 +315,7 @@ enum EventParameterName: String {
     case verticalFields             = "vertical-fields"
     case bubblePosition       = "bubble-position"
     case bubbleName           = "bubble-name"
+    case keywordName           = "keyword-name"
 }
 
 enum EventParameterBoolean: String {
@@ -636,6 +650,7 @@ enum EventParameterTypePage: String {
     case productDelete = "product-delete"
     case productSold = "product-sold"
     case inAppNotification = "in-app-notification"
+    case filter = "filter"
 }
 
 enum EventParameterPermissionType: String {
@@ -832,6 +847,27 @@ enum EventParameterBumpUpPrice {
             return price
         }
     }
+}
+
+enum EventParameterBumpUpType: String {
+    case free = "free"
+    case paid = "paid"
+    case retry = "retry"
+
+    init(bumpType: BumpUpType) {
+        switch bumpType {
+        case .free:
+            self = .free
+        case .priced, .hidden:
+            self = .paid
+        case .restore:
+            self = .retry
+        }
+    }
+}
+
+enum EventParameterBumpUpNotAllowedReason: String {
+    case notAllowedInternal = "internal"
 }
 
 enum EventParameterEmptyReason: String {

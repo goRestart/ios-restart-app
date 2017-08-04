@@ -81,6 +81,10 @@ class MainProductsViewModel: BaseViewModel {
             return true
         }
     }
+    
+    var isAddSuperKeywordsEnabled: Bool {
+        return featureFlags.addSuperKeywordsOnFeed.isActive
+    }
 
     var defaultBubbleText: String {
         switch featureFlags.editLocationBubble {
@@ -92,6 +96,8 @@ class MainProductsViewModel: BaseViewModel {
             return bubbleTextGenerator.bubbleInfoText(forDistance: distance, type: type, distanceRadius: filters.distanceRadius, place: filters.place)
         }
     }
+    
+    var taxonomyChildren: [TaxonomyChild] = []
 
     let infoBubbleVisible = Variable<Bool>(false)
     let infoBubbleText = Variable<String>(LGLocalizedString.productPopularNearYou)
@@ -108,6 +114,10 @@ class MainProductsViewModel: BaseViewModel {
             if prodCat == .cars && !featureFlags.carsVerticalEnabled {
                 resultTags.removeLast()
             }
+        }
+        
+        if let taxonomyChild = filters.selectedTaxonomyChildren.last {
+            resultTags.append(.taxonomyChild(taxonomyChild))
         }
 
         switch featureFlags.editLocationBubble {
@@ -142,7 +152,7 @@ class MainProductsViewModel: BaseViewModel {
             }
         }
 
-        if filters.selectedCategories.contains(.cars) {
+        if filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsCategory {
             if let makeId = filters.carMakeId, let makeName = filters.carMakeName {
                 resultTags.append(.make(id: makeId.value, name: makeName.uppercase))
                 if let modelId = filters.carModelId, let modelName = filters.carModelName {
@@ -162,7 +172,7 @@ class MainProductsViewModel: BaseViewModel {
     }
 
     fileprivate var shouldShowNoExactMatchesDisclaimer: Bool {
-        guard filters.selectedCategories.contains(.cars) else { return false }
+        guard filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsCategory else { return false }
         if filters.carMakeId != nil || filters.carModelId != nil || filters.carYearStart != nil || filters.carYearEnd != nil {
             return true
         }
@@ -182,6 +192,7 @@ class MainProductsViewModel: BaseViewModel {
     fileprivate let locationManager: LocationManager
     fileprivate let currencyHelper: CurrencyHelper
     fileprivate let bubbleTextGenerator: DistanceBubbleTextGenerator
+    fileprivate let categoryRepository: CategoryRepository
 
     fileprivate let tracker: Tracker
     fileprivate let searchType: SearchType? // The initial search
@@ -239,15 +250,17 @@ class MainProductsViewModel: BaseViewModel {
     // MARK: - Lifecycle
     
     init(sessionManager: SessionManager, myUserRepository: MyUserRepository, searchRepository: SearchRepository,
-         listingRepository: ListingRepository, monetizationRepository: MonetizationRepository, locationManager: LocationManager, currencyHelper: CurrencyHelper, tracker: Tracker,
-         searchType: SearchType? = nil, filters: ProductFilters, keyValueStorage: KeyValueStorageable, featureFlags: FeatureFlaggeable,
-         bubbleTextGenerator: DistanceBubbleTextGenerator) {
+         listingRepository: ListingRepository, monetizationRepository: MonetizationRepository, categoryRepository: CategoryRepository,
+         locationManager: LocationManager, currencyHelper: CurrencyHelper, tracker: Tracker,
+         searchType: SearchType? = nil, filters: ProductFilters, keyValueStorage: KeyValueStorageable,
+         featureFlags: FeatureFlaggeable, bubbleTextGenerator: DistanceBubbleTextGenerator) {
         
         self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
         self.searchRepository = searchRepository
         self.listingRepository = listingRepository
         self.monetizationRepository = monetizationRepository
+        self.categoryRepository = categoryRepository
         self.locationManager = locationManager
         self.currencyHelper = currencyHelper
         self.tracker = tracker
@@ -283,6 +296,7 @@ class MainProductsViewModel: BaseViewModel {
         let searchRepository = Core.searchRepository
         let listingRepository = Core.listingRepository
         let monetizationRepository = Core.monetizationRepository
+        let categoryRepository = Core.categoryRepository
         let locationManager = Core.locationManager
         let currencyHelper = Core.currencyHelper
         let tracker = TrackerProxy.sharedInstance
@@ -290,9 +304,10 @@ class MainProductsViewModel: BaseViewModel {
         let featureFlags = FeatureFlags.sharedInstance
         let bubbleTextGenerator = DistanceBubbleTextGenerator()
         self.init(sessionManager: sessionManager,myUserRepository: myUserRepository, searchRepository: searchRepository,
-                  listingRepository: listingRepository, monetizationRepository: monetizationRepository, locationManager: locationManager, currencyHelper: currencyHelper, tracker: tracker,
-                  searchType: searchType, filters: filters, keyValueStorage: keyValueStorage, featureFlags: featureFlags,
-                  bubbleTextGenerator: bubbleTextGenerator)
+                  listingRepository: listingRepository, monetizationRepository: monetizationRepository,
+                  categoryRepository: categoryRepository, locationManager: locationManager,
+                  currencyHelper: currencyHelper, tracker: tracker, searchType: searchType, filters: filters,
+                  keyValueStorage: keyValueStorage, featureFlags: featureFlags, bubbleTextGenerator: bubbleTextGenerator)
     }
     
     convenience init(searchType: SearchType? = nil, tabNavigator: TabNavigator?) {
@@ -306,6 +321,7 @@ class MainProductsViewModel: BaseViewModel {
 
     override func didBecomeActive(_ firstTime: Bool) {
         updatePermissionsWarning()
+        taxonomyChildren = filterSuperKeywordsHighlighted(taxonomies: getTaxonomyChildren())
         updateCategoriesHeader()
         setupRx()
         if let currentLocation = locationManager.currentLocation {
@@ -347,6 +363,7 @@ class MainProductsViewModel: BaseViewModel {
 
         var place: Place? = nil
         var categories: [FilterCategoryItem] = []
+        var taxonomyChild: TaxonomyChild? = nil
         var orderBy = ListingSortCriteria.defaultOption
         var within = ListingTimeCriteria.defaultOption
         var minPrice: Int? = nil
@@ -366,6 +383,8 @@ class MainProductsViewModel: BaseViewModel {
                 place = thePlace
             case .category(let prodCategory):
                 categories.append(FilterCategoryItem(category: prodCategory))
+            case .taxonomyChild(let taxonomyChildSelected):
+                taxonomyChild = taxonomyChildSelected
             case .orderBy(let prodSortOption):
                 orderBy = prodSortOption
             case .within(let prodTimeOption):
@@ -405,6 +424,13 @@ class MainProductsViewModel: BaseViewModel {
                 return cat
             }
         }
+        
+        if let taxonomyChildValue = taxonomyChild {
+            filters.selectedTaxonomyChildren = [taxonomyChildValue]
+        } else {
+            filters.selectedTaxonomyChildren = []
+        }
+    
         filters.selectedOrdering = orderBy
         filters.selectedWithin = within
         if free {
@@ -446,13 +472,27 @@ class MainProductsViewModel: BaseViewModel {
     /**
      Called when a filter gets removed
      */
-    func updateFiltersFromHeaderCategories(_ categoryHeaderInfo: CategoryHeaderInfo) {
-        filters.selectedCategories = [categoryHeaderInfo.listingCategory]
+    func applyFilters(_ categoryHeaderInfo: CategoryHeaderInfo) {
+        tracker.trackEvent(TrackerEvent.filterCategoryHeaderSelected(position: categoryHeaderInfo.position,
+                                                                     name: categoryHeaderInfo.name))
         delegate?.vmShowTags(tags)
         updateCategoriesHeader()
         updateListView()
-        tracker.trackEvent(TrackerEvent.filterCategoryHeaderSelected(position: categoryHeaderInfo.position,
-                                                             name: categoryHeaderInfo.name))
+        
+    }
+    
+    func updateFiltersFromHeaderCategories(_ categoryHeaderInfo: CategoryHeaderInfo) {
+        switch categoryHeaderInfo.categoryHeaderElement {
+        case .listingCategory(let listingCategory):
+            filters.selectedCategories = [listingCategory]
+        case .superKeyword(let taxonomyChild):
+            filters.selectedTaxonomyChildren = [taxonomyChild]
+        case .other:
+            tracker.trackEvent(TrackerEvent.filterCategoryHeaderSelected(position: categoryHeaderInfo.position,
+                                                                         name: categoryHeaderInfo.name))
+            return // do not update any filters
+        }
+        applyFilters(categoryHeaderInfo)
     }
 
     func bubbleTapped() {
@@ -507,6 +547,40 @@ class MainProductsViewModel: BaseViewModel {
         errorMessage.value = nil
         listViewModel.resetUI()
         listViewModel.refresh()
+    }
+    
+    
+    // MARK: - Taxonomies
+    
+    fileprivate func getTaxonomies() -> [Taxonomy] {
+        return categoryRepository.indexTaxonomies()
+    }
+    
+    private func getTaxonomyChildren() -> [TaxonomyChild] {
+        return getTaxonomies().flatMap { $0.children }
+    }
+    
+    private func filterSuperKeywordsHighlighted(taxonomies: [TaxonomyChild]) ->  [TaxonomyChild] {
+        let highlightedTaxonomies: [TaxonomyChild] = taxonomies.filter { $0.highlightOrder != nil }
+        let sortedArray = highlightedTaxonomies.sorted(by: {
+            guard let firstValue = $0.highlightOrder, let secondValue = $1.highlightOrder else { return false }
+            return firstValue < secondValue
+        })
+        return sortedArray
+    }
+    
+    var categoryHeaderElements: [CategoryHeaderElement] {
+        var categoryHeaderElements: [CategoryHeaderElement] = []
+        if isAddSuperKeywordsEnabled {
+            taxonomyChildren.forEach {
+                categoryHeaderElements.append(CategoryHeaderElement.superKeyword($0))
+            }
+        } else {
+            ListingCategory.visibleValuesInFeed().forEach {
+                categoryHeaderElements.append(CategoryHeaderElement.listingCategory($0))
+            }
+        }
+        return categoryHeaderElements
     }
 }
 
@@ -813,7 +887,7 @@ extension MainProductsViewModel {
         guard let (suggestiveSearch, _) = suggestiveSearchAtIndex(index) else { return }
         guard let suggestiveSearchName = suggestiveSearch.name else { return }
         delegate?.vmDidSearch()
-        navigator?.openMainProduct(withSearchType: .suggestive(query: suggestiveSearchName), productFilters: filters)
+        navigator?.openMainProduct(withSearchType: .suggestive(query: suggestiveSearchName, indexSelected: index), productFilters: filters)
     }
     
     func selectedLastSearchAtIndex(_ index: Int) {
@@ -1030,7 +1104,8 @@ fileprivate extension MainProductsViewModel {
             let successValue = hasProducts ? EventParameterSearchCompleteSuccess.success : EventParameterSearchCompleteSuccess.fail
             tracker.trackEvent(TrackerEvent.searchComplete(myUserRepository.myUser, searchQuery: searchType.query,
                                                            isTrending: searchType.isTrending,
-                                                           success: successValue, isLastSearch: searchType.isLastSearch))
+                                                           success: successValue, isLastSearch: searchType.isLastSearch,
+                                                           isSuggestiveSearch: searchType.isSuggestive, suggestiveSearchIndex: searchType.indexSelected))
         }
     }
 
@@ -1066,5 +1141,28 @@ extension MainProductsViewModel: EditLocationDelegate {
         filters.distanceRadius = distanceRadius
         updateListView()
         delegate?.vmFiltersChanged()
+    }
+}
+
+
+//MARK: CategoriesHeaderCollectionViewDelegate
+
+extension MainProductsViewModel: CategoriesHeaderCollectionViewDelegate {
+    func openTaxonomyList() {
+        let vm = TaxonomiesViewModel(taxonomies: getTaxonomies(), source: .productList)
+        vm.taxonomiesDelegate = self
+        navigator?.openTaxonomyList(withViewModel: vm)
+    }
+}
+
+
+// MARK: TaxonomiesDelegate
+
+extension MainProductsViewModel: TaxonomiesDelegate {
+    func didSelectTaxonomyChild(taxonomyChild: TaxonomyChild) {
+        filters.selectedTaxonomyChildren = [taxonomyChild]
+        delegate?.vmShowTags(tags)
+        updateCategoriesHeader()
+        updateListView()
     }
 }

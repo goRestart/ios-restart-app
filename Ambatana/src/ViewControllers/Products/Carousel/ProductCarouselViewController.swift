@@ -1179,6 +1179,7 @@ extension ProductCarouselViewController {
             return
         }
 
+        viewModel.bumpUpBannerShown(type: bumpInfo.type)
         bannerContainer.bringSubview(toFront: bumpUpBanner)
         bumpUpBannerIsVisible = true
         bannerContainer.isHidden = false

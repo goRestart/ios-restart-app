@@ -23,6 +23,7 @@ public struct RetrieveListingParams {
     public var coordinates: LGLocationCoordinates2D?
     public var countryCode: String?
     public var categoryIds: [Int]?
+    public var superKeywordIds: [Int]?
     public var sortCriteria: ListingSortCriteria?
     public var timeCriteria: ListingTimeCriteria?
     public var offset: Int?                 // skip results
@@ -76,6 +77,10 @@ public struct RetrieveListingParams {
         let categories = categoryIds?.map { String($0) }.joined(separator: ",")
         if categories != "" {
             params["categories"] = categories
+        }
+        let superKeywords = superKeywordIds?.map { String($0) }.joined(separator: ",")
+        if superKeywords != "" {
+            params["keyword_category"] = superKeywords
         }
         if let freePrice = freePrice, freePrice {
             params["price_flag"] = ListingPriceFlag.free.rawValue

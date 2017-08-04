@@ -71,6 +71,9 @@ enum AccessibilityId: String {
     case filterTagCellTagIcon
     case filterTagCellTagLabel
     
+    // Taxonomies
+    case taxonomiesTableView
+    
     // CategoriesHeader Cells
     case categoriesHeaderCollectionView
     case categoryHeaderCell
@@ -111,13 +114,20 @@ enum AccessibilityId: String {
     case filterHeaderCell
     case filterHeaderCellTitleLabel
 
-    case filterLocationCell
-    case filterLocationCellTitleLabel
-    case filterLocationCellLocationLabel
+    case filterDisclosureCell
+    case filterDisclosureCellTitleLabel
+    case filterDisclosureCellSubtitleLabel
 
     case filterPriceCell
     case filterPriceCellTitleLabel
     case filterPriceCellTextField
+    case filterPriceCellTitleLabelFrom
+    case filterPriceCellTitleLabelTo
+    case filterPriceCellTextFieldFrom
+    case filterPriceCellTextFieldTo
+    
+    case filterFreeCell
+    case filterFreeCellTitleLabel
 
     // Product Detail
     case productDetailOnboarding
@@ -545,22 +555,29 @@ enum AccessibilityId: String {
     case bubbleButton
 
     // Monetization
+
     // Bubble
     case bumpUpBanner
     case bumpUpBannerButton
     case bumpUpBannerLabel
+
     // Free bump up screen
     case freeBumpUpCloseButton
     case freeBumpUpImage
     case freeBumpUpTitleLabel
     case freeBumpUpSubtitleLabel
     case freeBumpUpSocialShareView
+
     // Payment bump up screen
     case paymentBumpUpCloseButton
     case paymentBumpUpImage
     case paymentBumpUpTitleLabel
     case paymentBumpUpSubtitleLabel
     case paymentBumpUpButton
+
+    // Bump Up Hidden Alert
+    case bumpUpHiddenProductAlertContactButton
+    case bumpUpHiddenProductAlertCancelButton
 }
 
 extension UIAccessibilityIdentification {

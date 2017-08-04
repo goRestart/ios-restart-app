@@ -36,6 +36,7 @@ extension ProductViewModel {
         trackHelper.trackVisitMoreInfo()
     }
 
+
     // MARK: Share
 
     func trackShareStarted(_ shareType: ShareType?, buttonPosition: EventParameterButtonPosition) {
@@ -50,12 +51,36 @@ extension ProductViewModel {
 
     // MARK: Bump Up
 
-    func trackBumpUpStarted(_ price: EventParameterBumpUpPrice) {
-        trackHelper.trackBumpUpStarted(price)
+    func trackBumpUpBannerShown(type: BumpUpType) {
+        trackHelper.trackBumpUpBannerShown(type: type)
     }
 
-    func trackBumpUpCompleted(_ price: EventParameterBumpUpPrice, network: EventParameterShareNetwork) {
-        trackHelper.trackBumpUpCompleted(price, network: network)
+    func trackBumpUpStarted(_ price: EventParameterBumpUpPrice, type: BumpUpType) {
+        trackHelper.trackBumpUpStarted(price, type: type)
+    }
+
+    func trackBumpUpCompleted(_ price: EventParameterBumpUpPrice, type: BumpUpType, network: EventParameterShareNetwork) {
+        trackHelper.trackBumpUpCompleted(price, type: type, network: network)
+    }
+
+    func trackBumpUpFail(type: BumpUpType) {
+        trackHelper.trackBumpUpFail(type: type)
+    }
+
+    func trackMobilePaymentComplete(withPaymentId paymentId: String) {
+        trackHelper.trackMobilePaymentComplete(withPaymentId: paymentId)
+    }
+
+    func trackMobilePaymentFail(withReason reason: String?) {
+        trackHelper.trackMobilePaymentFail(withReason: reason)
+    }
+
+    func trackBumpUpNotAllowed(reason: EventParameterBumpUpNotAllowedReason) {
+        trackHelper.trackBumpUpNotAllowed(reason: reason)
+    }
+
+    func trackBumpUpNotAllowedContactUs(reason: EventParameterBumpUpNotAllowedReason) {
+        trackHelper.trackBumpUpNotAllowedContactUs(reason: reason)
     }
 }
 
@@ -93,13 +118,46 @@ extension ProductVMTrackHelper {
 // MARK: - Bump Up
 
 extension ProductVMTrackHelper {
-    func trackBumpUpStarted(_ price: EventParameterBumpUpPrice) {
-        let trackerEvent = TrackerEvent.productBumpUpStart(listing, price: price)
+    func trackBumpUpBannerShown(type: BumpUpType) {
+        let trackerEvent = TrackerEvent.bumpBannerShow(type: EventParameterBumpUpType(bumpType: type), listingId: listing.objectId)
         tracker.trackEvent(trackerEvent)
     }
 
-    func trackBumpUpCompleted(_ price: EventParameterBumpUpPrice, network: EventParameterShareNetwork) {
-        let trackerEvent = TrackerEvent.productBumpUpComplete(listing, price: price, network: network)
+    func trackBumpUpStarted(_ price: EventParameterBumpUpPrice, type: BumpUpType) {
+        let trackerEvent = TrackerEvent.productBumpUpStart(listing, price: price,
+                                                           type: EventParameterBumpUpType(bumpType: type))
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func trackBumpUpCompleted(_ price: EventParameterBumpUpPrice, type: BumpUpType, network: EventParameterShareNetwork) {
+        let trackerEvent = TrackerEvent.productBumpUpComplete(listing, price: price,
+                                                              type: EventParameterBumpUpType(bumpType: type),
+                                                              network: network)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func trackBumpUpFail(type: BumpUpType) {
+        let trackerEvent = TrackerEvent.productBumpUpFail(type: EventParameterBumpUpType(bumpType: type), listingId: listing.objectId)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func trackMobilePaymentComplete(withPaymentId paymentId: String) {
+        let trackerEvent = TrackerEvent.mobilePaymentComplete(paymentId: paymentId, listingId: listing.objectId)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func trackMobilePaymentFail(withReason reason: String?) {
+        let trackerEvent = TrackerEvent.mobilePaymentFail(reason: reason, listingId: listing.objectId)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func trackBumpUpNotAllowed(reason: EventParameterBumpUpNotAllowedReason) {
+        let trackerEvent = TrackerEvent.bumpUpNotAllowed(reason)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func trackBumpUpNotAllowedContactUs(reason: EventParameterBumpUpNotAllowedReason) {
+        let trackerEvent = TrackerEvent.bumpUpNotAllowedContactUs(reason)
         tracker.trackEvent(trackerEvent)
     }
 }

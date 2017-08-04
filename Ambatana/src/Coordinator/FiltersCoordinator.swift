@@ -65,5 +65,10 @@ extension FiltersCoordinator: FiltersNavigator {
         let vc = CarAttributeSelectionViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: true)
     }
+    
+    func openTaxonomyList(withViewModel viewModel: TaxonomiesViewModel) {
+        let vc = TaxonomiesViewController(viewModel: viewModel)
+        navigationController.pushViewController(vc, animated: true)
+    }
 }
 

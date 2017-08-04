@@ -25,6 +25,8 @@
 "bump_up_error_bump_token" = "Din betalning har genomförts men din produkt har ännu inte lagts upp.";
 "bump_up_error_payment_failed" = "Anslutningen till App Store misslyckades. Din betalning har inte genomförts. Vänligen försök igen.";
 "bump_up_free_success" = "Puffad! Fortsätt att puffa upp din vara så blir den ännu mer synlig.";
+"bump_up_not_allowed_alert_contact_button" = "Kontakta Oss";
+"bump_up_not_allowed_alert_text" = "Det går inte att puffa upp denna produkt för tillfället. Var god kontakta oss för mer information.";
 "bump_up_pay_success" = "Puffad! Nu har din produkt fått extra synlighet.";
 "bump_up_processing_free_text" = "Bearbetar puff...";
 "bump_up_processing_priced_text" = "Bearbetar betalning...";
@@ -56,6 +58,7 @@
 "categories_old_cars_and_motors" = "Bil och motor";
 "categories_other" = "Övrigt";
 "categories_sports_leisure_and_games" = "Sport, fritid och spel";
+"categories_super_keywords_inFeed_show_more" = "Show more";
 "categories_title" = "Kategorier";
 "categories_unassigned" = "Inte vald";
 "change_email_current_email_label" = "BEFINTLIG E-POST:";
@@ -316,7 +319,7 @@
 "filters_section_distance" = "Avstånd";
 "filters_section_location" = "Plats";
 "filters_section_price" = "Pris";
-"filters_section_price_free_title" = "Show only free items";
+"filters_section_price_free_title" = "Visa endast gratis produkter";
 "filters_section_sortby" = "Sortera efter";
 "filters_section_within" = "Annonserade under";
 "filters_sort_closest" = "Närmaste först";

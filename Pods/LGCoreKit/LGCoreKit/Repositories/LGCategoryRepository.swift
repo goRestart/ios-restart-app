@@ -10,7 +10,40 @@
 
 final class LGCategoryRepository: CategoryRepository {
 
+    static private let defaultCountryCode = "us"
+
+    private let dataSource: TaxonomiesDataSource
+    private let taxonomiesCache: TaxonomiesDAO
+    private let locationManager: LocationManager
+
+
+    init(dataSource: TaxonomiesDataSource, taxonomiesCache: TaxonomiesDAO, locationManager: LocationManager) {
+        self.dataSource = dataSource
+        self.taxonomiesCache = taxonomiesCache
+        self.locationManager = locationManager
+    }
+
     func index(filterVisible filtered: Bool, completion: CategoriesCompletion?) {
         completion?(CategoriesResult(value: ListingCategory.visibleValues(filtered: filtered)))
+    }
+
+    func indexTaxonomies() -> [Taxonomy] {
+        return taxonomiesCache.taxonomies
+    }
+
+    func loadFirstRunCacheIfNeeded(jsonURL: URL) {
+        taxonomiesCache.loadFirstRunCacheIfNeeded(jsonURL: jsonURL)
+    }
+
+    func refreshTaxonomiesCache() {
+        let countryCode = locationManager.currentLocation?.postalAddress?.countryCode ?? LGCategoryRepository.defaultCountryCode
+        let locale = Locale.current
+        dataSource.index(countryCode: countryCode, locale: locale) { [weak self] result in
+            if let value = result.value {
+                if !value.isEmpty {
+                    self?.taxonomiesCache.save(taxonomies: value)
+                }
+            }
+        }
     }
 }

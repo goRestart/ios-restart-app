@@ -223,13 +223,17 @@ struct TrackerEvent {
         return TrackerEvent(name: .searchStart, params: params)
     }
 
-    static func searchComplete(_ user: User?, searchQuery: String, isTrending: Bool, success: EventParameterSearchCompleteSuccess, isLastSearch: Bool)
+    static func searchComplete(_ user: User?, searchQuery: String, isTrending: Bool, success: EventParameterSearchCompleteSuccess, isLastSearch: Bool, isSuggestiveSearch: Bool, suggestiveSearchIndex: Int?)
         -> TrackerEvent {
             var params = EventParameters()
             params[.searchString] = searchQuery
             params[.searchSuccess] = success.rawValue
             params[.trendingSearch] = isTrending
             params[.lastSearch] = isLastSearch
+            params[.searchSuggestion] = isSuggestiveSearch
+            if let suggestiveSearchPosition = suggestiveSearchIndex {
+                params[.searchSuggestionPosition] = suggestiveSearchPosition
+            }
             return TrackerEvent(name: .searchComplete, params: params)
     }
 
@@ -729,10 +733,8 @@ struct TrackerEvent {
         return TrackerEvent(name: .appRatingStart, params: params)
     }
 
-    static func appRatingRate(rating: Int) -> TrackerEvent {
-        var params = EventParameters()
-        params[.rating] = rating
-        return TrackerEvent(name: .appRatingRate, params: params)
+    static func appRatingRate() -> TrackerEvent {
+        return TrackerEvent(name: .appRatingRate, params: nil)
     }
 
     static func appRatingSuggest() -> TrackerEvent {
@@ -1030,23 +1032,66 @@ struct TrackerEvent {
         return TrackerEvent(name: .passiveBuyerAbandon, params: params)
     }
 
-    static func productBumpUpStart(_ listing: Listing, price: EventParameterBumpUpPrice) -> TrackerEvent {
+    static func bumpBannerShow(type: EventParameterBumpUpType, listingId: String?) -> TrackerEvent {
+        var params = EventParameters()
+        params[.bumpUpType] = type.rawValue
+        params[.productId] = listingId ?? ""
+        return TrackerEvent(name: .bumpBannerShow, params: params)
+    }
+
+    static func productBumpUpStart(_ listing: Listing, price: EventParameterBumpUpPrice,
+                                   type: EventParameterBumpUpType) -> TrackerEvent {
         var params = EventParameters()
         params.addListingParams(listing)
 
         params[.bumpUpPrice] = price.description
+        params[.bumpUpType] = type.rawValue
         return TrackerEvent(name: .bumpUpStart, params: params)
     }
 
     static func productBumpUpComplete(_ listing: Listing, price: EventParameterBumpUpPrice,
-                                      network: EventParameterShareNetwork) -> TrackerEvent {
+                                      type: EventParameterBumpUpType, network: EventParameterShareNetwork) -> TrackerEvent {
         var params = EventParameters()
         params.addListingParams(listing)
         params[.bumpUpPrice] = price.description
+        params[.bumpUpType] = type.rawValue
         params[.shareNetwork] = network.rawValue
         return TrackerEvent(name: .bumpUpComplete, params: params)
     }
-    
+
+    static func productBumpUpFail(type: EventParameterBumpUpType, listingId: String?) -> TrackerEvent {
+        var params = EventParameters()
+        params[.bumpUpType] = type.rawValue
+        params[.productId] = listingId ?? ""
+        return TrackerEvent(name: .bumpUpFail, params: params)
+    }
+
+    static func mobilePaymentComplete(paymentId: String, listingId: String?) -> TrackerEvent {
+        var params = EventParameters()
+        params[.paymentId] = paymentId
+        params[.productId] = listingId ?? ""
+        return TrackerEvent(name: .mobilePaymentComplete, params: params)
+    }
+
+    static func mobilePaymentFail(reason: String?, listingId: String?) -> TrackerEvent {
+        var params = EventParameters()
+        params[.reason] = reason ?? ""
+        params[.productId] = listingId ?? ""
+        return TrackerEvent(name: .mobilePaymentFail, params: params)
+    }
+
+    static func bumpUpNotAllowed(_ reason: EventParameterBumpUpNotAllowedReason) -> TrackerEvent {
+        var params = EventParameters()
+        params[.reason] = reason.rawValue
+        return TrackerEvent(name: .bumpNotAllowed, params: params)
+    }
+
+    static func bumpUpNotAllowedContactUs(_ reason: EventParameterBumpUpNotAllowedReason) -> TrackerEvent {
+        var params = EventParameters()
+        params[.reason] = reason.rawValue
+        return TrackerEvent(name: .bumpNotAllowedContactUs, params: params)
+    }
+
     static func chatWindowVisit(_ typePage: EventParameterTypePage, chatEnabled: Bool) -> TrackerEvent {
         var params = EventParameters()
         params[.typePage] = typePage.rawValue
@@ -1074,6 +1119,19 @@ struct TrackerEvent {
         params[.bubblePosition] = position
         params[.bubbleName] = name
         return TrackerEvent(name: .filterBubble, params: params)
+    }
+    
+    static func categoriesStart(source: EventParameterTypePage) -> TrackerEvent {
+        var params = EventParameters()
+        params[.typePage] = source.rawValue
+        return TrackerEvent(name: .categoriesStart, params: params)
+    }
+    
+    static func categoriesComplete(keywordName: String, source: EventParameterTypePage) -> TrackerEvent {
+        var params = EventParameters()
+        params[.keywordName] = keywordName
+        params[.typePage] = source.rawValue
+        return TrackerEvent(name: .categoriesComplete, params: params)
     }
 
 

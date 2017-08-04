@@ -25,6 +25,8 @@
 "bump_up_error_bump_token" = "Tu pago ha sido procesado pero tu artículo no ha sido destacado.";
 "bump_up_error_payment_failed" = "No ha sido posible conectar con la App Store. Tu pago no ha sido procesado. Inténtalo de nuevo.";
 "bump_up_free_success" = "¡Destacado! Sigue destacando tu anuncio y tendrá aún más visibilidad.";
+"bump_up_not_allowed_alert_contact_button" = "Contáctanos";
+"bump_up_not_allowed_alert_text" = "No hemos podido destacar este artículo. Para más información, contáctanos.";
 "bump_up_pay_success" = "¡Destacado! Ahora tu producto tiene más visibilidad.";
 "bump_up_processing_free_text" = "Procesando destacado...";
 "bump_up_processing_priced_text" = "Procesando el pago...";
@@ -56,6 +58,7 @@
 "categories_old_cars_and_motors" = "Coches y Motos";
 "categories_other" = "Otros";
 "categories_sports_leisure_and_games" = "Deporte, Ocio y Juegos";
+"categories_super_keywords_inFeed_show_more" = "Show more";
 "categories_title" = "Categorías";
 "categories_unassigned" = "No seleccionada";
 "change_email_current_email_label" = "EMAIL ACTUAL:";
@@ -316,7 +319,7 @@
 "filters_section_distance" = "Distancia";
 "filters_section_location" = "Ubicación";
 "filters_section_price" = "Precio";
-"filters_section_price_free_title" = "Show only free items";
+"filters_section_price_free_title" = "Mostrar sólo productos gratuitos";
 "filters_section_sortby" = "Ordenar por";
 "filters_section_within" = "Publicado en";
 "filters_sort_closest" = "Más cercanos primero";

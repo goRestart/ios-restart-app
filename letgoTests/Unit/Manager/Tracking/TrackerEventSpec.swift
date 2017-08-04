@@ -867,37 +867,89 @@ class TrackerEventSpec: QuickSpec {
             }
             
             describe("searchComplete") {
-                context("success"){
-                    beforeEach {
-                        sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .success, isLastSearch: true)
+                context("isLastSearch") {
+                    context("success") {
+                        beforeEach {
+                            sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .success, isLastSearch: true, isSuggestiveSearch: false, suggestiveSearchIndex: nil)
+                        }
+                        it("has its event name") {
+                            expect(sut.name.rawValue).to(equal("search-complete"))
+                        }
+                        it("contains the isTrending parameter") {
+                            let searchQuery = sut.params!.stringKeyParams["trending-search"] as? Bool
+                            expect(searchQuery) == false
+                        }
+                        it("contains the isLastSearch parameter") {
+                            let searchQuery = sut.params!.stringKeyParams["last-search"] as? Bool
+                            expect(searchQuery) == true
+                        }
+                        it("contains the isSuggestiveSearch parameter") {
+                            let searchQuery = sut.params!.stringKeyParams["search-suggestion"] as? Bool
+                            expect(searchQuery) == false
+                        }
+                        it("does not contain the suggestiveSearchIndex parameter") {
+                            expect(sut.params!.stringKeyParams["search-suggestion-position"]).to(beNil())
+                        }
+                        it("contains the search keyword related params when passing by the search query") {
+                            let searchQuery = sut.params!.stringKeyParams["search-keyword"] as? String
+                            expect(searchQuery) == "iPhone"
+                        }
+                        it("search is success") {
+                            let searchSuccess = sut.params!.stringKeyParams["search-success"] as? String
+                            expect(searchSuccess) == "yes"
+                        }
                     }
-                    it("has its event name") {
-                        expect(sut.name.rawValue).to(equal("search-complete"))
-                    }
-                    it("contains the isTrending parameter") {
-                        let searchQuery = sut.params!.stringKeyParams["trending-search"] as? Bool
-                        expect(searchQuery) == false
-                    }
-                    it("contains the isLastSearch parameter") {
-                        let searchQuery = sut.params!.stringKeyParams["last-search"] as? Bool
-                        expect(searchQuery) == true
-                    }
-                    it("contains the search keyword related params when passing by the search query") {
-                        let searchQuery = sut.params!.stringKeyParams["search-keyword"] as? String
-                        expect(searchQuery) == "iPhone"
-                    }
-                    it("search is success") {
-                        let searchSuccess = sut.params!.stringKeyParams["search-success"] as? String
-                        expect(searchSuccess) == "yes"
+                    context("failure") {
+                        beforeEach {
+                            sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .fail, isLastSearch: true, isSuggestiveSearch: false, suggestiveSearchIndex: nil)
+                        }
+                        it("search with no success") {
+                            let searchSuccess = sut.params!.stringKeyParams["search-success"] as? String
+                            expect(searchSuccess) == "no"
+                        }
                     }
                 }
-                context("failure") {
-                    beforeEach {
-                        sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .fail, isLastSearch: true)
+                context("isSuggestiveSearch") {
+                    context("success") {
+                        beforeEach {
+                            sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .success, isLastSearch: false, isSuggestiveSearch: true, suggestiveSearchIndex: 0)
+                        }
+                        it("has its event name") {
+                            expect(sut.name.rawValue).to(equal("search-complete"))
+                        }
+                        it("contains the isTrending parameter") {
+                            let searchQuery = sut.params!.stringKeyParams["trending-search"] as? Bool
+                            expect(searchQuery) == false
+                        }
+                        it("contains the isLastSearch parameter") {
+                            let searchQuery = sut.params!.stringKeyParams["last-search"] as? Bool
+                            expect(searchQuery) == false
+                        }
+                        it("contains the isSuggestiveSearch parameter") {
+                            let searchQuery = sut.params!.stringKeyParams["search-suggestion"] as? Bool
+                            expect(searchQuery) == true
+                        }
+                        it("contains the suggestiveSearchIndex parameter") {
+                            let suggestiveSearchIndex = sut.params!.stringKeyParams["search-suggestion-position"] as? Int
+                            expect(suggestiveSearchIndex) == 0
+                        }
+                        it("contains the search keyword related params when passing by the search query") {
+                            let searchQuery = sut.params!.stringKeyParams["search-keyword"] as? String
+                            expect(searchQuery) == "iPhone"
+                        }
+                        it("search is success") {
+                            let searchSuccess = sut.params!.stringKeyParams["search-success"] as? String
+                            expect(searchSuccess) == "yes"
+                        }
                     }
-                    it("search si no success") {
-                        let searchSuccess = sut.params!.stringKeyParams["search-success"] as? String
-                        expect(searchSuccess) == "no"
+                    context("failure") {
+                        beforeEach {
+                            sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone", isTrending: false, success: .fail, isLastSearch: false, isSuggestiveSearch: true, suggestiveSearchIndex: 0)
+                        }
+                        it("search with no success") {
+                            let searchSuccess = sut.params!.stringKeyParams["search-success"] as? String
+                            expect(searchSuccess) == "no"
+                        }
                     }
                 }
             }
@@ -3421,11 +3473,25 @@ class TrackerEventSpec: QuickSpec {
                     expect(param) == true
                 }
             }
+            describe("bump banner show") {
+                beforeEach {
+                    sut = TrackerEvent.bumpBannerShow(type: .paid, listingId: "1122")
+                }
+                it("has its event name ") {
+                    expect(sut.name.rawValue).to(equal("bump-banner-show"))
+                }
+                it("type matches") {
+                    expect(sut.params?.stringKeyParams["bump-type"] as? String) == "paid"
+                }
+                it("product id matches") {
+                    expect(sut.params?.stringKeyParams["product-id"] as? String) == "1122"
+                }
+            }
             describe("bump up start") {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "12345"
-                    sut = TrackerEvent.productBumpUpStart(.product(product), price: .free)
+                    sut = TrackerEvent.productBumpUpStart(.product(product), price: .free, type: .free)
                 }
                 it("has its event name ") {
                     expect(sut.name.rawValue).to(equal("bump-up-start"))
@@ -3436,12 +3502,15 @@ class TrackerEventSpec: QuickSpec {
                 it("price matches") {
                     expect(sut.params?.stringKeyParams["price"] as? String) == "free"
                 }
+                it("type matches") {
+                    expect(sut.params?.stringKeyParams["bump-type"] as? String) == "free"
+                }
             }
             describe("bump up complete") {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "12345"
-                    sut = TrackerEvent.productBumpUpComplete(.product(product), price: .free, network: .facebook)
+                    sut = TrackerEvent.productBumpUpComplete(.product(product), price: .free, type: .free, network: .facebook)
                 }
                 it("has its event name ") {
                     expect(sut.name.rawValue).to(equal("bump-up-complete"))
@@ -3452,8 +3521,75 @@ class TrackerEventSpec: QuickSpec {
                 it("price matches") {
                     expect(sut.params?.stringKeyParams["price"] as? String) == "free"
                 }
+                it("type matches") {
+                    expect(sut.params?.stringKeyParams["bump-type"] as? String) == "free"
+                }
                 it("network matches") {
                     expect(sut.params?.stringKeyParams["share-network"] as? String) == "facebook"
+                }
+            }
+            describe("bump up fail") {
+                beforeEach {
+                    sut = TrackerEvent.productBumpUpFail(type: .paid, listingId: "1122")
+                }
+                it("has its event name ") {
+                    expect(sut.name.rawValue).to(equal("bump-up-fail"))
+                }
+                it("type matches") {
+                    expect(sut.params?.stringKeyParams["bump-type"] as? String) == "paid"
+                }
+                it("product id matches") {
+                    expect(sut.params?.stringKeyParams["product-id"] as? String) == "1122"
+                }
+            }
+            describe("mobile payment complete") {
+                beforeEach {
+                    sut = TrackerEvent.mobilePaymentComplete(paymentId: "007", listingId: "1122")
+                }
+                it("has its event name ") {
+                    expect(sut.name.rawValue).to(equal("mobile-payment-complete"))
+                }
+                it("payment id matches") {
+                    expect(sut.params?.stringKeyParams["payment-id"] as? String) == "007"
+                }
+                it("product id matches") {
+                    expect(sut.params?.stringKeyParams["product-id"] as? String) == "1122"
+                }
+            }
+            describe("mobile payment fail") {
+                beforeEach {
+                    sut = TrackerEvent.mobilePaymentFail(reason: nil, listingId: "1122")
+                }
+                it("has its event name ") {
+                    expect(sut.name.rawValue).to(equal("mobile-payment-fail"))
+                }
+                it("reason matches") {
+                    expect(sut.params?.stringKeyParams["reason"] as? String) == ""
+                }
+                it("product id matches") {
+                    expect(sut.params?.stringKeyParams["product-id"] as? String) == "1122"
+                }
+            }
+            describe("bump up not allowed") {
+                beforeEach {
+                    sut = TrackerEvent.bumpUpNotAllowed(.notAllowedInternal)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("bump-up-not-allowed"))
+                }
+                it("reason matches") {
+                    expect(sut.params?.stringKeyParams["reason"] as? String) == "internal"
+                }
+            }
+            describe("bump up not allowed contact us") {
+                beforeEach {
+                    sut = TrackerEvent.bumpUpNotAllowedContactUs(.notAllowedInternal)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("bump-up-not-allowed-contact-us"))
+                }
+                it("reason matches") {
+                    expect(sut.params?.stringKeyParams["reason"] as? String) == "internal"
                 }
             }
             describe("Passive buyer start") {
@@ -3538,14 +3674,10 @@ class TrackerEventSpec: QuickSpec {
             }
             describe("app rating rate") {
                 beforeEach {
-                    sut = TrackerEvent.appRatingRate(rating: 3)
+                    sut = TrackerEvent.appRatingRate()
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("app-rating-rate"))
-                }
-                it("contains rating source param") {
-                    let param = sut.params!.stringKeyParams["rating"] as? Int
-                    expect(param).to(equal(3))
                 }
             }
             
@@ -3595,6 +3727,34 @@ class TrackerEventSpec: QuickSpec {
                 it("contains bubble name parameter") {
                     let param = sut.params!.stringKeyParams["bubble-name"] as? String
                     expect(param) == "cars"
+                }
+            }
+            describe("categories start") {
+                beforeEach {
+                    sut = TrackerEvent.categoriesStart(source: .filter)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("categories-start"))
+                }
+                it("contains type parameter") {
+                    let param = sut.params!.stringKeyParams["type-page"] as? String
+                    expect(param) == "filter"
+                }
+            }
+            describe("categories complete") {
+                beforeEach {
+                    sut = TrackerEvent.categoriesComplete(keywordName: "electronics", source: .productList)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("categories-complete"))
+                }
+                it("contains type parameter") {
+                    let param = sut.params!.stringKeyParams["type-page"] as? String
+                    expect(param) == "product-list"
+                }
+                it("contains keyword name parameter") {
+                    let param = sut.params!.stringKeyParams["keyword-name"] as? String
+                    expect(param) == "electronics"
                 }
             }
         }

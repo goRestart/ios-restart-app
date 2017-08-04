@@ -51,10 +51,9 @@ class LGMonetizationRepository : MonetizationRepository {
         }
     }
 
-    func pricedBump(forListingId listingId: String, receiptData: String, itemId: String, itemPrice: String, itemCurrency: String,
+    func pricedBump(forListingId listingId: String, paymentId: String, receiptData: String, itemId: String, itemPrice: String, itemCurrency: String,
                     amplitudeId: String?, appsflyerId: String?, idfa: String?, bundleId: String?,
                     completion: BumpCompletion?) {
-        let paymentId = LGUUID().UUIDString
         dataSource.pricedBump(forListingId: listingId, receiptData: receiptData, itemId: itemId, itemPrice: itemPrice,
                               itemCurrency: itemCurrency, paymentId: paymentId, amplitudeId: amplitudeId, appsflyerId: appsflyerId,
                               idfa: idfa, bundleId: bundleId) { [weak self] result in
