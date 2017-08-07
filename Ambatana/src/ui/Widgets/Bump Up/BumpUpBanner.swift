@@ -28,9 +28,7 @@ enum BumpUpType {
 
     var bannerIcon: UIImage? {
         switch self {
-        case .free:
-            return UIImage(named: "red_chevron_up")
-        case .priced, .hidden:
+        case .free, .priced, .hidden:
             return UIImage(named: "red_chevron_up")
         case .restore:
             return nil

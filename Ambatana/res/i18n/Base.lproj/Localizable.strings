@@ -62,7 +62,7 @@
 "bump_up_banner_pay_text" = "Bump Up to sell faster";
 
 // Text for bubble in payment bump improvement.
-"bump_up_banner_pay_text_improvement" = "Sell faster";
+"bump_up_banner_pay_text_improvement" = "Sell faster now";
 
 // Text for bubble while waiting for next bump
 "bump_up_banner_wait_text" = "to Bump Up again";
