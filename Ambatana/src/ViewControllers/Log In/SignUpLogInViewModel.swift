@@ -399,7 +399,7 @@ class SignUpLogInViewModel: BaseViewModel {
     
     func godLogIn(_ password: String) {
         if password == "mellongod" {
-            KeyValueStorage.sharedInstance[.isGod] = true
+            keyValueStorage[.isGod] = true
         } else {
             delegate?.vmShowAutoFadingMessage("You are not worthy", completion: nil)
         }

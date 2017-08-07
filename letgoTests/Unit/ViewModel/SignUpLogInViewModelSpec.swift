@@ -789,27 +789,27 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     }
                 }
                 
-//                describe("enable god mode") {
-//                    context("wrong password") {
-//                        beforeEach {
-//                            sut.godLogIn("whatever")
-//                        }
-//                        
-//                        it("does not enable god mode") {
-//                            expect(KeyValueStorage.sharedInstance[.isGod]).notTo(beTrue())
-//                        }
-//                    }
-//                    
-//                    context("correct password") {
-//                        beforeEach {
-//                            sut.godLogIn("mellongod")
-//                        }
-//                        
-//                        it("enables god mode") {
-//                            expect(KeyValueStorage.sharedInstance[.isGod]) == true
-//                        }
-//                    }
-//                }
+                describe("enable god mode") {
+                    context("wrong password") {
+                        beforeEach {
+                            sut.godLogIn("whatever")
+                        }
+                        
+                        it("does not enable god mode") {
+                            expect(keyValueStorage[.isGod]) == false
+                        }
+                    }
+                    
+                    context("correct password") {
+                        beforeEach {
+                            sut.godLogIn("mellongod")
+                        }
+                        
+                        it("enables god mode") {
+                            expect(keyValueStorage[.isGod]) == true
+                        }
+                    }
+                }
                 
                 describe("remember password press") {
                     beforeEach {
