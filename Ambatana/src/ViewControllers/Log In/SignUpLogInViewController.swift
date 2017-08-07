@@ -423,8 +423,6 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         emailButton.isHidden = false
         emailIconImageView.isHidden = false
         emailTextField.isHidden = false
-
-        //showPasswordButton.isHidden = !(viewModel.showPasswordVisible.value)
     }
 
     private func setupRx() {
@@ -638,10 +636,6 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
 // MARK: - SignUpLogInViewModelDelegate
 
 extension SignUpLogInViewController: SignUpLogInViewModelDelegate {
-    func vmUpdateShowPasswordVisible(_ visible: Bool) {
-        showPasswordButton.isHidden = !visible
-    }
-
     func vmShowHiddenPasswordAlert() {
         let alertController = UIAlertController(title: "🔑", message: "Speak friend and enter", preferredStyle: .alert)
         alertController.addTextField { textField in

@@ -24,7 +24,6 @@ struct LogInEmailFormErrors: OptionSet {
 }
 
 protocol SignUpLogInViewModelDelegate: BaseViewModelDelegate {
-    func vmUpdateShowPasswordVisible(_ visible: Bool)
     func vmShowHiddenPasswordAlert()
 }
 
@@ -43,11 +42,7 @@ class SignUpLogInViewModel: BaseViewModel {
     weak var navigator: SignUpLogInNavigator?
     
     // Action Type
-    var currentActionType : LoginActionType {
-        didSet {
-            //delegate?.vmUpdateSendButtonEnabledState(sendButtonEnabled)
-        }
-    }
+    var currentActionType : LoginActionType
     
     // Input
     var username: Variable<String?>
@@ -55,14 +50,6 @@ class SignUpLogInViewModel: BaseViewModel {
 //        didSet {
 //            suggest(emailText: email)
 //            email = email.trim
-//        }
-//    }
-//    var suggestedEmail: Observable<String?> {
-//        return suggestedEmailVar.asObservable()
-//    }
-//    var password: String {
-//        didSet {
-//            delegate?.vmUpdateShowPasswordVisible(showPasswordVisible)
 //        }
 //    }
     var termsAccepted: Bool
@@ -323,7 +310,6 @@ class SignUpLogInViewModel: BaseViewModel {
         }
         
         if let email = email.value, let password = password.value, errors.isEmpty {
-            //logIn(email: email, password: password)
             sessionManager.login(email, password: password) { [weak self] loginResult in
                 guard let strongSelf = self else { return }
                 
@@ -346,41 +332,6 @@ class SignUpLogInViewModel: BaseViewModel {
             trackFormValidationFailed(errors: errors)
         }
         return errors
-
-//        if let email = email.value {
-//            if !email.isEmail() {
-//                errors.insert(.invalidEmail)
-//                delegate?.vmHideLoading(LGLocalizedString.logInErrorSendErrorInvalidEmail, afterMessageCompletion: nil)
-//                trackLoginEmailFailedWithError(.invalidEmail)
-//            }
-//        } else if let password = password.value {
-//            if password.characters.count < Constants.passwordMinLength {
-//                errors.insert(.shortPassword)
-//                delegate?.vmHideLoading(LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword, afterMessageCompletion: nil)
-//                trackLoginEmailFailedWithError(.invalidPassword)
-//            }
-//        } else {
-//            if let email = email.value, let password = password.value {
-//                sessionManager.login(email, password: password) { [weak self] loginResult in
-//                    guard let strongSelf = self else { return }
-//
-//                    if let user = loginResult.value {
-//                        self?.savePreviousEmailOrUsername(.email, userEmailOrName: user.email)
-//
-//                        let rememberedAccount = strongSelf.previousEmail.value != nil
-//                        let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource, rememberedAccount: rememberedAccount)
-//                        self?.tracker.trackEvent(trackerEvent)
-//
-//                        self?.delegate?.vmHideLoading(nil) { [weak self] in
-//                            self?.navigator?.closeSignUpLogInSuccessful(with: user)
-//                        }
-//                    } else if let sessionManagerError = loginResult.error {
-//                        strongSelf.processLoginSessionError(sessionManagerError)
-//                    }
-//                }
-//            }
-//        }
-//        return errors
     }
     
     func godLogIn(_ password: String) {
@@ -423,22 +374,18 @@ class SignUpLogInViewModel: BaseViewModel {
     // MARK: > Rx
     
     fileprivate func setupRx() {
-        // Next step is enabled when email & password are not empty
+        // Send is enabled when email & password are not empty
         Observable.combineLatest(email.asObservable(), password.asObservable(), username.asObservable()) { [weak self] (email, password, username) -> Bool in
             guard let strongSelf = self else { return false }
+            guard let email = email, let password = password else { return false }
             switch strongSelf.currentActionType {
             case .login:
-                guard let email = email, let password = password else { return false }
                 return email.characters.count > 0 && password.characters.count > 0
             case .signup:
-                guard let email = email, let password = password, let username = username else { return false }
+                guard let username = username else { return false }
                 return email.characters.count > 0 && password.characters.count > 0 && username.characters.count > 0
             }
         }.bindTo(logInEnabledVar).addDisposableTo(disposeBag)
-    //        viewModel.password.asObservable().map { password -> Bool in
-    //            guard let password = password else { return true }
-    //            return password.isEmpty
-    //            }.bindTo(logInEmailView.showPasswordButton.rx.isHidden).addDisposableTo(disposeBag)
         
         // Email auto suggest
         email.asObservable()
@@ -446,65 +393,6 @@ class SignUpLogInViewModel: BaseViewModel {
             .bindTo(suggestedEmailVar)
             .addDisposableTo(disposeBag)
     }
-//    func setupRx() {
-//        logInEmailView.emailButton.rx.tap.subscribeNext { [weak self] _ in
-//            self?.makeEmailTextFieldFirstResponder()
-//            }.addDisposableTo(disposeBag)
-//        
-//        logInEmailView.emailTextField.rx.text.bindTo(viewModel.email).addDisposableTo(disposeBag)
-//        
-//        viewModel.suggestedEmail.asObservable().subscribeNext { [weak self] suggestedEmail in
-//            self?.logInEmailView.emailTextField.suggestion = suggestedEmail
-//            }.addDisposableTo(disposeBag)
-//        
-//        logInEmailView.passwordButton.rx.tap.subscribeNext { [weak self] _ in
-//            self?.makePasswordTextFieldFirstResponder()
-//            }.addDisposableTo(disposeBag)
-//        
-//        logInEmailView.passwordTextField.rx.text.bindTo(viewModel.password).addDisposableTo(disposeBag)
-//        
-//        viewModel.password.asObservable().map { password -> Bool in
-//            guard let password = password else { return true }
-//            return password.isEmpty
-//            }.bindTo(logInEmailView.showPasswordButton.rx.isHidden).addDisposableTo(disposeBag)
-//        
-//        viewModel.logInEnabled.bindTo(logInEmailView.loginButton.rx.isEnabled).addDisposableTo(disposeBag)
-//        
-//        logInEmailView.rememberPasswordButton.rx.tap.subscribeNext { [weak self] _ in
-//            self?.viewModel.rememberPasswordButtonPressed()
-//            }.addDisposableTo(disposeBag)
-//        
-//        logInEmailView.showPasswordButton.rx.tap.subscribeNext { [weak self] _ in
-//            self?.showPasswordPressed()
-//            }.addDisposableTo(disposeBag)
-//        
-//        logInEmailView.loginButton.rx.tap.subscribeNext { [weak self] _ in
-//            self?.loginButtonPressed()
-//            }.addDisposableTo(disposeBag)
-//        
-//        logInEmailView.footerButton.rx.tap.subscribeNext { [weak self] _ in
-//            self?.viewModel.footerButtonPressed()
-//            }.addDisposableTo(disposeBag)
-//        
-//        // Login button is visible depending on current content offset & keyboard visibility
-//        Observable.combineLatest(logInEmailView.scrollView.rx.contentOffset.asObservable(),
-//                                 keyboardChanges.asObservable()) { ($0, $1) }
-//            .map { [weak self] (offset, keyboardChanges) -> Bool in
-//                guard let strongSelf = self else { return false }
-//                let scrollY = offset.y
-//                let scrollHeight = strongSelf.logInEmailView.scrollView.frame.height
-//                let scrollMaxY = scrollY + scrollHeight
-//                
-//                let scrollVisibleMaxY: CGFloat
-//                if keyboardChanges.visible {
-//                    scrollVisibleMaxY = scrollMaxY - keyboardChanges.height
-//                } else {
-//                    scrollVisibleMaxY = scrollMaxY
-//                }
-//                let buttonMaxY = strongSelf.logInEmailView.loginButton.frame.maxY
-//                return scrollVisibleMaxY > buttonMaxY
-//            }.bindTo(logInEmailView.loginButtonVisible).addDisposableTo(disposeBag)
-//    }
 
     /**
     Right now terms and conditions will be enabled just for Turkey so it will appear depending on location country code 
@@ -647,20 +535,7 @@ class SignUpLogInViewModel: BaseViewModel {
         tracker.trackEvent(event)
     }
 
-//        func trackLogInSucceeded() {
-//            let event = TrackerEvent.loginEmail(source, rememberedAccount: isRememberedEmail, collapsedEmail: collapsedEmail)
-//            tracker.trackEvent(event)
-//        }
-//        
-//        func trackLogInFailed(error: LoginError) {
-//            let event = TrackerEvent.loginEmailError(error.trackingError)
-//            tracker.trackEvent(event)
-//        }
-//        
-//        func trackPasswordRecoverFailed(error: RecoverPasswordError) {
-//            let event = TrackerEvent.passwordResetError(error.trackingError)
-//            tracker.trackEvent(event)
-//        }
+    // MARK: - TODO: Add login email success tracker?
 }
 
 fileprivate extension LogInEmailFormErrors {

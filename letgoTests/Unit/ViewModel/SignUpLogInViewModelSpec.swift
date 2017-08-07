@@ -898,7 +898,6 @@ extension SignUpLogInViewModelSpec: SignUpLogInNavigator {
 }
 
 extension SignUpLogInViewModelSpec: SignUpLogInViewModelDelegate {
-    func vmUpdateShowPasswordVisible(_ visible: Bool) {}
     func vmShowHiddenPasswordAlert() {
         delegateReceivedShowGodModeAlert = true
     }
