@@ -76,7 +76,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
             describe("initialization") {
                 context("common") {
                     it("has an empty username") {
-                        expect(sut.username) == ""
+                        expect(sut.username.value) == ""
                     }
                     it("has an empty password") {
                         expect(sut.password.value) == ""
@@ -221,6 +221,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         myUser.email = email
                         sessionManager.logInResult = LoginResult(value: myUser)
 
+                        sut.currentActionType = .login
                         sut.email.value = email
                         sut.password.value = "123456"
 
@@ -245,11 +246,13 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                 context("error") {
                     context("standard") {
                         beforeEach {
+                            sut.currentActionType = .login
                             let email = "albert@letgo.com"
                             sessionManager.logInResult = LoginResult(error: .network)
 
                             sut.email.value = email
                             sut.password.value = "123456"
+                            sut.currentActionType = .login
                             self.delegateReceivedHideLoading = false
                             _ = sut.logIn()
                             expect(self.delegateReceivedHideLoading).toEventually(beTrue())
@@ -269,6 +272,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     }
                     context("scammer") {
                         beforeEach {
+                            sut.currentActionType = .login
                             let email = "albert@letgo.com"
                             sessionManager.logInResult = LoginResult(error: .scammer)
 
@@ -296,6 +300,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     }
                     context("device not allowed") {
                         beforeEach {
+                            sut.currentActionType = .login
                             let email = "albert@letgo.com"
                             sessionManager.logInResult = LoginResult(error: .deviceNotAllowed)
 
@@ -541,6 +546,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                 
                 describe("with email non-valid & short password") {
                     beforeEach {
+                        sut.currentActionType = .login
                         sut.email.value = "a"
                         sut.password.value = "a"
                         errors = sut.logIn()
@@ -563,6 +569,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
 
                 describe("with valid email & long password") {
                     beforeEach {
+                        sut.currentActionType = .login
                         sut.email.value = "albert@letgo.com"
                         sut.password.value = "abcdefghijklmnopqrstuvwxyz"
                         errors = sut.logIn()
@@ -585,6 +592,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
 
                 describe("with valid email & password") {
                     beforeEach {
+                        sut.currentActionType = .login
                         sut.email.value = "albert@letgo.com"
                         sut.password.value = "letitgo"
                         errors = sut.logIn()
@@ -607,6 +615,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                 var errors: LogInEmailFormErrors!
                 
                 beforeEach {
+                    sut.currentActionType = .login
                     sut.email.value = "albert@letgo.com"
                     sut.password.value = "letitgo"
                     errors = sut.logIn()
@@ -630,6 +639,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
             
             context("valid form") {
                 beforeEach {
+                    sut.currentActionType = .login
                     sut.email.value = "albert@letgo.com"
                     sut.password.value = "letitgo"
                 }
@@ -656,6 +666,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                 
                 describe("log in fails twice with unauthorized error") {
                     beforeEach {
+                        sut.currentActionType = .login
                         sessionManager.logInResult = LoginResult(error: .unauthorized)
                         self.delegateReceivedHideLoading = false
                         _ = sut.logIn()
@@ -680,6 +691,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                 
                 describe("log in fails twice with another error") {
                     beforeEach {
+                        sut.currentActionType = .login
                         sessionManager.logInResult = LoginResult(error: .network)
                         self.delegateReceivedHideLoading = false
                         self.delegateReceivedShowAlert = false
@@ -705,6 +717,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                 
                 describe("log in fails with scammer error") {
                     beforeEach {
+                        sut.currentActionType = .login
                         sessionManager.logInResult = LoginResult(error: .scammer)
                         self.delegateReceivedHideLoading = false
                         _ = sut.logIn()
@@ -726,6 +739,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                 
                 describe("log in fails with device not allowed error") {
                     beforeEach {
+                        sut.currentActionType = .login
                         self.delegateReceivedHideLoading = false
                         sessionManager.logInResult = LoginResult(error: .deviceNotAllowed)
                         _ = sut.logIn()
@@ -749,6 +763,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     let email = "albert.hernandez@gmail.com"
                     
                     beforeEach {
+                        sut.currentActionType = .login
                         var myUser = MockMyUser.makeMock()
                         myUser.email = email
                         sessionManager.logInResult = LoginResult(value: myUser)
@@ -779,6 +794,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
             context("god mode") {
                 describe("fill form with admin values") {
                     beforeEach {
+                        sut.currentActionType = .login
                         sut.email.value = "admin"
                         sut.password.value = "wat"
                         _ = sut.logIn()
@@ -882,7 +898,6 @@ extension SignUpLogInViewModelSpec: SignUpLogInNavigator {
 }
 
 extension SignUpLogInViewModelSpec: SignUpLogInViewModelDelegate {
-    func vmUpdateSendButtonEnabledState(_ enabled: Bool) {}
     func vmUpdateShowPasswordVisible(_ visible: Bool) {}
     func vmShowHiddenPasswordAlert() {
         delegateReceivedShowGodModeAlert = true

@@ -179,7 +179,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         viewModel.erasePassword()
         emailTextField.text = viewModel.email.value
         passwordTextField.text = viewModel.password.value
-        usernameTextField.text = viewModel.username 
+        usernameTextField.text = viewModel.username.value
         
         emailTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()
@@ -610,7 +610,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
 
         switch (tag) {
         case .username:
-            viewModel.username = text
+            viewModel.username.value = text
         case .email:
             viewModel.email.value = text
         case .password:
@@ -638,10 +638,6 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
 // MARK: - SignUpLogInViewModelDelegate
 
 extension SignUpLogInViewController: SignUpLogInViewModelDelegate {
-    func vmUpdateSendButtonEnabledState(_ enabled: Bool) {
-        sendButton.isEnabled = enabled
-    }
-
     func vmUpdateShowPasswordVisible(_ visible: Bool) {
         showPasswordButton.isHidden = !visible
     }

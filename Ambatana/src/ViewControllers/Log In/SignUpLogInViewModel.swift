@@ -24,7 +24,6 @@ struct LogInEmailFormErrors: OptionSet {
 }
 
 protocol SignUpLogInViewModelDelegate: BaseViewModelDelegate {
-    func vmUpdateSendButtonEnabledState(_ enabled: Bool)
     func vmUpdateShowPasswordVisible(_ visible: Bool)
     func vmShowHiddenPasswordAlert()
 }
@@ -46,21 +45,16 @@ class SignUpLogInViewModel: BaseViewModel {
     // Action Type
     var currentActionType : LoginActionType {
         didSet {
-            delegate?.vmUpdateSendButtonEnabledState(sendButtonEnabled)
+            //delegate?.vmUpdateSendButtonEnabledState(sendButtonEnabled)
         }
     }
     
     // Input
-    var username: String {
-        didSet {
-            delegate?.vmUpdateSendButtonEnabledState(sendButtonEnabled)
-        }
-    }
+    var username: Variable<String?>
 //    var email: String {
 //        didSet {
 //            suggest(emailText: email)
 //            email = email.trim
-//            delegate?.vmUpdateSendButtonEnabledState(sendButtonEnabled)
 //        }
 //    }
 //    var suggestedEmail: Observable<String?> {
@@ -68,7 +62,6 @@ class SignUpLogInViewModel: BaseViewModel {
 //    }
 //    var password: String {
 //        didSet {
-//            delegate?.vmUpdateSendButtonEnabledState(sendButtonEnabled)
 //            delegate?.vmUpdateShowPasswordVisible(showPasswordVisible)
 //        }
 //    }
@@ -85,14 +78,6 @@ class SignUpLogInViewModel: BaseViewModel {
     }
 
     var showPasswordVisible : Variable<Bool>
-
-    var sendButtonEnabled: Bool {
-        if let email = email.value, let password = password.value {
-            return  email.characters.count > 0 && password.characters.count > 0 &&
-                (currentActionType == .login || ( currentActionType == .signup && username.characters.count > 0))
-        }
-        return false
-    }
 
     var termsAndConditionsEnabled: Bool
 
@@ -154,7 +139,7 @@ class SignUpLogInViewModel: BaseViewModel {
         self.fbLoginHelper = fbLoginHelper
         self.tracker = tracker
         self.locale = locale
-        self.username = ""
+        self.username = Variable<String?>("")
         self.email = Variable<String?>("")
         self.password = Variable<String?>("")
         self.termsAccepted = false
@@ -231,7 +216,8 @@ class SignUpLogInViewModel: BaseViewModel {
     
     func signUp(_ recaptchaToken: String?) {
         delegate?.vmShowLoading(nil)
-
+        
+        guard let username = username.value else { return }
         let trimmedUsername = username.trim
         if trimmedUsername.containsLetgo() {
             delegate?.vmHideLoading(LGLocalizedString.signUpSendErrorGeneric, afterMessageCompletion: nil)
@@ -438,11 +424,17 @@ class SignUpLogInViewModel: BaseViewModel {
     
     fileprivate func setupRx() {
         // Next step is enabled when email & password are not empty
-        Observable.combineLatest(email.asObservable(), password.asObservable()) { (email, password) -> Bool in
-            guard let email = email, let password = password else { return false }
-            return email.characters.count > 0 && password.characters.count > 0
-            }.bindTo(logInEnabledVar).addDisposableTo(disposeBag)
-        
+        Observable.combineLatest(email.asObservable(), password.asObservable(), username.asObservable()) { [weak self] (email, password, username) -> Bool in
+            guard let strongSelf = self else { return false }
+            switch strongSelf.currentActionType {
+            case .login:
+                guard let email = email, let password = password else { return false }
+                return email.characters.count > 0 && password.characters.count > 0
+            case .signup:
+                guard let email = email, let password = password, let username = username else { return false }
+                return email.characters.count > 0 && password.characters.count > 0 && username.characters.count > 0
+            }
+        }.bindTo(logInEnabledVar).addDisposableTo(disposeBag)
     //        viewModel.password.asObservable().map { password -> Bool in
     //            guard let password = password else { return true }
     //            return password.isEmpty
