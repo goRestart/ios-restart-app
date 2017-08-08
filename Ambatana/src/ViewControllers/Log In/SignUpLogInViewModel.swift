@@ -389,9 +389,17 @@ class SignUpLogInViewModel: BaseViewModel {
         
         // Email auto suggest
         email.asObservable()
-            .map { $0?.suggestEmail(domains: Constants.emailSuggestedDomains) }
+            .map {
+                $0?.suggestEmail(domains: Constants.emailSuggestedDomains)
+            }
             .bindTo(suggestedEmailVar)
             .addDisposableTo(disposeBag)
+
+//        // Email trim
+//        email.asObservable()
+//            .map {
+//                $0?.trim
+//            }
     }
 
     /**
@@ -592,15 +600,6 @@ fileprivate extension SignUpLogInViewModel {
     func savePreviousEmailOrUsername(_ accountProvider: AccountProvider, userEmailOrName: String?) {
         keyValueStorage[.previousUserAccountProvider] = accountProvider.rawValue
         keyValueStorage[.previousUserEmailOrName] = userEmailOrName
-    }
-}
-
-
-// MARK: > Autosuggest
-
-fileprivate extension SignUpLogInViewModel {
-    func suggest(emailText: String) {
-        suggestedEmailVar.value = emailText.suggestEmail(domains: Constants.emailSuggestedDomains)
     }
 }
 
