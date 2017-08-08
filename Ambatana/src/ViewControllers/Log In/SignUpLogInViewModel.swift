@@ -209,18 +209,18 @@ class SignUpLogInViewModel: BaseViewModel {
     }
 
     func signUp() {
-        signUp(nil)
+        _ = signUp(nil)
     }
     
-    func signUp(_ recaptchaToken: String?) {
+    func signUp(_ recaptchaToken: String?) -> SignUpFormErrors {
         var errors: SignUpFormErrors = []
-        guard logInEnabledVar.value else { return }
+        guard logInEnabledVar.value else { return errors }
 
         delegate?.vmShowLoading(nil)
         
-        guard let username = username.value else { return }
-        guard let email = email.value else { return }
-        guard let password = password.value else { return }
+        guard let username = username.value else { return errors }
+        guard let email = email.value else { return errors }
+        guard let password = password.value else { return errors }
         
         let trimmedUsername = username.trim
         if trimmedUsername.containsLetgo() {
@@ -290,6 +290,8 @@ class SignUpLogInViewModel: BaseViewModel {
                                           newsletter: newsletter, completion: completion)
             }
         }
+        
+        return errors
     }
 
     func logIn() -> LogInEmailFormErrors {

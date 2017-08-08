@@ -522,7 +522,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
             describe("log in button press with invalid form") {
                 var errors: LogInEmailFormErrors!
                 
-                describe("empty") {
+                context("empty") {
                     beforeEach {
                         sut.email.value = ""
                         sut.password.value = ""
@@ -544,7 +544,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     }
                 }
                 
-                describe("with email non-valid & short password") {
+                context("with email non-valid & short password") {
                     beforeEach {
                         sut.currentActionType = .login
                         sut.email.value = "a"
@@ -567,7 +567,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     }
                 }
 
-                describe("with valid email & long password") {
+                context("with valid email & long password") {
                     beforeEach {
                         sut.currentActionType = .login
                         sut.email.value = "albert@letgo.com"
@@ -590,7 +590,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     }
                 }
 
-                describe("with valid email & password") {
+                context("with valid email & password") {
                     beforeEach {
                         sut.currentActionType = .login
                         sut.email.value = "albert@letgo.com"
@@ -637,14 +637,14 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                 }
             }
             
-            context("valid form") {
+            describe("log in valid form") {
                 beforeEach {
                     sut.currentActionType = .login
                     sut.email.value = "albert@letgo.com"
                     sut.password.value = "letitgo"
                 }
                 
-                describe("log in fails once with unauthorized error") {
+                context("log in fails once with unauthorized error") {
                     beforeEach {
                         sessionManager.logInResult = LoginResult(error: .unauthorized)
                         self.delegateReceivedHideLoading = false
@@ -664,7 +664,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     }
                 }
                 
-                describe("log in fails twice with unauthorized error") {
+                context("log in fails twice with unauthorized error") {
                     beforeEach {
                         sut.currentActionType = .login
                         sessionManager.logInResult = LoginResult(error: .unauthorized)
@@ -689,7 +689,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     }
                 }
                 
-                describe("log in fails twice with another error") {
+                context("log in fails twice with another error") {
                     beforeEach {
                         sut.currentActionType = .login
                         sessionManager.logInResult = LoginResult(error: .network)
@@ -715,7 +715,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     }
                 }
                 
-                describe("log in fails with scammer error") {
+                context("log in fails with scammer error") {
                     beforeEach {
                         sut.currentActionType = .login
                         sessionManager.logInResult = LoginResult(error: .scammer)
@@ -737,7 +737,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     }
                 }
                 
-                describe("log in fails with device not allowed error") {
+                context("log in fails with device not allowed error") {
                     beforeEach {
                         sut.currentActionType = .login
                         self.delegateReceivedHideLoading = false
@@ -759,7 +759,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     }
                 }
                 
-                describe("log in succeeds") {
+                context("log in succeeds") {
                     let email = "albert.hernandez@gmail.com"
                     
                     beforeEach {
@@ -792,97 +792,102 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
             }
             
             
-//            describe("sign up button press with invalid form") {
-//                var errors: LogInEmailFormErrors!
-//                
-//                describe("empty") {
-//                    beforeEach {
-//                        sut.email.value = ""
-//                        sut.password.value = ""
-//                        errors = sut.logIn()
-//                    }
-//                    
-//                    it("has log in disabled") {
-//                        expect(logInEnabled) == false
-//                    }
-//                    it("does not return any error") {
-//                        expect(errors) == []
-//                    }
-//                    it("does not call close because after login in navigator") {
-//                        expect(self.finishedSuccessfully) == false
-//                    }
-//                    it("does not track any event") {
-//                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
-//                        expect(trackedEventNames) == []
-//                    }
-//                }
-//                
-//                describe("with email non-valid & short password") {
-//                    beforeEach {
-//                        sut.currentActionType = .login
-//                        sut.email.value = "a"
-//                        sut.password.value = "a"
-//                        errors = sut.logIn()
-//                    }
-//                    
-//                    it("has log in enabled") {
-//                        expect(logInEnabled) == true
-//                    }
-//                    it("returns that the email is invalid and the password is short") {
-//                        expect(errors) == [.invalidEmail, .shortPassword]
-//                    }
-//                    it("does not call close because after login in navigator") {
-//                        expect(self.finishedSuccessfully) == false
-//                    }
-//                    it("tracks a loginEmailError event") {
-//                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
-//                        expect(trackedEventNames) == [EventName.loginEmailError]
-//                    }
-//                }
-//                
-//                describe("with valid email & long password") {
-//                    beforeEach {
-//                        sut.currentActionType = .login
-//                        sut.email.value = "albert@letgo.com"
-//                        sut.password.value = "abcdefghijklmnopqrstuvwxyz"
-//                        errors = sut.logIn()
-//                    }
-//                    
-//                    it("has log in enabled") {
-//                        expect(logInEnabled) == true
-//                    }
-//                    it("returns that the password is long") {
-//                        expect(errors) == [.longPassword]
-//                    }
-//                    it("does not call close because after login in navigator") {
-//                        expect(self.finishedSuccessfully) == false
-//                    }
-//                    it("tracks a loginEmailError event") {
-//                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
-//                        expect(trackedEventNames) == [EventName.loginEmailError]
-//                    }
-//                }
-//                
-//                describe("with valid email & password") {
-//                    beforeEach {
-//                        sut.currentActionType = .login
-//                        sut.email.value = "albert@letgo.com"
-//                        sut.password.value = "letitgo"
-//                        errors = sut.logIn()
-//                    }
-//                    
-//                    it("has log in enabled") {
-//                        expect(logInEnabled) == true
-//                    }
-//                    it("returns no errors") {
-//                        expect(errors) == []
-//                    }
-//                    it("does not track any event") {
-//                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
-//                        expect(trackedEventNames) == []
-//                    }
-//                }
-//            }
+            describe("sign up button press with invalid form") {
+                var errors: SignUpFormErrors!
+                
+                beforeEach {
+                    sut.currentActionType = .signup
+                }
+                
+                context("empty") {
+                    beforeEach {
+                        sut.email.value = ""
+                        sut.password.value = ""
+                        sut.username.value = ""
+                        errors = sut.signUp(nil)
+                    }
+                    
+                    it("has log in disabled") {
+                        expect(logInEnabled) == false
+                    }
+                    it("does not return any error") {
+                        expect(errors) == []
+                    }
+                    it("does not call close because after login in navigator") {
+                        expect(self.finishedSuccessfully) == false
+                    }
+                    it("does not track any event") {
+                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                        expect(trackedEventNames) == []
+                    }
+                }
+                
+                context("with email non-valid & short password") {
+                    beforeEach {
+                        sut.email.value = "a"
+                        sut.password.value = "a"
+                        sut.username.value = "a"
+                        errors = sut.signUp(nil)
+                    }
+                    
+                    it("has log in enabled") {
+                        expect(logInEnabled) == true
+                    }
+                    it("returns that the email is invalid, the password is short and the user is invalid") {
+                        expect(errors) == [.invalidEmail, .shortPassword, .invalidUsername]
+                    }
+                    it("does not call close because after login in navigator") {
+                        expect(self.finishedSuccessfully) == false
+                    }
+                    it("tracks a signupError event") {
+                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                        expect(trackedEventNames) == [EventName.signupError]
+                    }
+                }
+                
+                context("with valid email, valid username but long password") {
+                    beforeEach {
+                        sut.email.value = "albert@letgo.com"
+                        sut.password.value = "abcdefghijklmnopqrstuvwxyz"
+                        sut.username.value = "albert"
+                        errors = sut.signUp(nil)
+                    }
+                    
+                    it("has log in enabled") {
+                        expect(logInEnabled) == true
+                    }
+                    it("returns that the password is long") {
+                        expect(errors) == [.longPassword]
+                    }
+                    it("does not call close because after login in navigator") {
+                        expect(self.finishedSuccessfully) == false
+                    }
+                    it("tracks a loginEmailError event") {
+                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                        expect(trackedEventNames) == [EventName.signupError]
+                    }
+                }
+                
+                context("with valid email, password and username") {
+                    beforeEach {
+                        sut.email.value = "albert@letgo.com"
+                        sut.password.value = "letitgo"
+                        sut.username.value = "albert"
+                        errors = sut.signUp(nil)
+                    }
+                    
+                    it("has log in enabled") {
+                        expect(logInEnabled) == true
+                    }
+                    it("returns no errors") {
+                        expect(errors) == []
+                    }
+                    it("does not track any event") {
+                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                        expect(trackedEventNames) == []
+                    }
+                }
+            }
             
 //            describe("log in button press with valid form") {
 //                var errors: LogInEmailFormErrors!
