@@ -91,8 +91,16 @@ struct LGLocalizedString {
 		return NSLocalizedString("bump_up_banner_pay_text", comment: "")
 	}
 
+	static var bumpUpBannerPayTextImprovement: String {
+		return NSLocalizedString("bump_up_banner_pay_text_improvement", comment: "")
+	}
+
 	static var bumpUpBannerWaitText: String {
 		return NSLocalizedString("bump_up_banner_wait_text", comment: "")
+	}
+
+	static var bumpUpBannerWaitTextImprovement: String {
+		return NSLocalizedString("bump_up_banner_wait_text_improvement", comment: "")
 	}
 
 	static var bumpUpBannerFreeButtonTitle: String {

@@ -41,7 +41,8 @@ class MockFeatureFlags: FeatureFlaggeable {
     var suggestedSearches: SuggestedSearches = .control
     var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed = .control
     var copiesImprovementOnboarding: CopiesImprovementOnboarding = .control
-
+    var bumpUpImprovementBanner: BumpUpImprovementBanner = .control
+    
     // Country dependant features
     var freePostingModeAllowed = false
     var locationRequiresManualChangeSuggestion = false

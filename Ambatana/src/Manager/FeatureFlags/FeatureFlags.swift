@@ -40,6 +40,7 @@ protocol FeatureFlaggeable: class {
     var suggestedSearches: SuggestedSearches { get }
     var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed { get }
     var copiesImprovementOnboarding: CopiesImprovementOnboarding { get }
+    var bumpUpImprovementBanner: BumpUpImprovementBanner { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -57,6 +58,17 @@ extension FeatureFlaggeable {
 }
 
 extension AddSuperKeywordsOnFeed {
+    var isActive: Bool {
+        switch self {
+        case .control, .baseline:
+            return false
+        case .active:
+            return true
+        }
+    }
+}
+
+extension BumpUpImprovementBanner {
     var isActive: Bool {
         switch self {
         case .control, .baseline:
@@ -274,6 +286,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.copiesImprovementOnboarding
         }
         return CopiesImprovementOnboarding.fromPosition(abTests.copiesImprovementOnboarding.value)
+    }
+    
+    var bumpUpImprovementBanner: BumpUpImprovementBanner {
+        if Bumper.enabled {
+            return Bumper.bumpUpImprovementBanner
+        }
+        return BumpUpImprovementBanner.fromPosition(abTests.bumpUpImprovementBanner.value)
     }
     
     // MARK: - Country features
