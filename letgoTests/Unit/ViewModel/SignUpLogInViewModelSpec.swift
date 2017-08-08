@@ -1077,27 +1077,17 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         }
                     }
                 }
-                
-                describe("remember password press") {
-                    beforeEach {
-                        sut.openRememberPassword()
-                    }
-                    
-                    it("calls open remember password in navigator") {
-                        expect(self.navigatorReceivedOpenRememberPassword) == true
-                    }
-                }
             }
             
-//            describe("footer button press") {
-//                beforeEach {
-//                    sut.footerButtonPressed()
-//                }
-//                
-//                it("calls open sign up navigator") {
-//                    expect(self.navigatorReceivedOpenSignUp) == true
-//                }
-//            }
+            describe("forgot password press") {
+                beforeEach {
+                    sut.openRememberPassword()
+                }
+                
+                it("calls open remember password in navigator") {
+                    expect(self.navigatorReceivedOpenRememberPassword) == true
+                }
+            }
             
             describe("help button press") {
                 beforeEach {
