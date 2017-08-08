@@ -618,10 +618,10 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
     
     func loginButtonPressed() {
         let errors = viewModel.logIn()
-        openAlertWithFormErrors(errors: errors)
+        openAlertWithLogInFormErrors(errors: errors)
     }
     
-    func openAlertWithFormErrors(errors: LogInEmailFormErrors) {
+    func openAlertWithLogInFormErrors(errors: LogInEmailFormErrors) {
         guard !errors.isEmpty else { return }
         
         if errors.contains(.invalidEmail) {

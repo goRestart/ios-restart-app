@@ -15,6 +15,17 @@ enum LoginActionType: Int{
     case signup, login
 }
 
+struct SignUpFormErrors: OptionSet {
+    let rawValue: Int
+    
+    static let invalidEmail     = SignUpFormErrors(rawValue: 1 << 0)
+    static let shortPassword    = SignUpFormErrors(rawValue: 1 << 1)
+    static let longPassword     = SignUpFormErrors(rawValue: 1 << 2)
+    static let usernameTaken    = SignUpFormErrors(rawValue: 1 << 3)
+    static let invalidUsername  = SignUpFormErrors(rawValue: 1 << 4)
+    static let termsNotAccepted = SignUpFormErrors(rawValue: 1 << 5)
+}
+
 struct LogInEmailFormErrors: OptionSet {
     let rawValue: Int
     
@@ -202,42 +213,47 @@ class SignUpLogInViewModel: BaseViewModel {
     }
     
     func signUp(_ recaptchaToken: String?) {
+        var errors: SignUpFormErrors = []
+        guard logInEnabledVar.value else { return }
+
         delegate?.vmShowLoading(nil)
         
         guard let username = username.value else { return }
+        guard let email = email.value else { return }
+        guard let password = password.value else { return }
+        
         let trimmedUsername = username.trim
         if trimmedUsername.containsLetgo() {
-            delegate?.vmHideLoading(LGLocalizedString.signUpSendErrorGeneric, afterMessageCompletion: nil)
-            trackSignupEmailFailedWithError(.usernameTaken)
+            errors.insert(.usernameTaken)
         } else if trimmedUsername.characters.count < Constants.fullNameMinLength {
-            delegate?.vmHideLoading(LGLocalizedString.signUpSendErrorInvalidUsername(Constants.fullNameMinLength), afterMessageCompletion: nil)
-            trackSignupEmailFailedWithError(.invalidUsername)
-        } else if let email = email.value {
-            if !email.isEmail() {
-                delegate?.vmHideLoading(LGLocalizedString.signUpSendErrorInvalidEmail, afterMessageCompletion: nil)
-                trackSignupEmailFailedWithError(.invalidEmail)
-            }
-        } else if let password = password.value {
-            if password.characters.count < Constants.passwordMinLength ||
-                password.characters.count > Constants.passwordMaxLength {
-                delegate?.vmHideLoading(LGLocalizedString.signUpSendErrorInvalidPasswordWithMax(Constants.passwordMinLength,
-                Constants.passwordMaxLength), afterMessageCompletion: nil)
-                trackSignupEmailFailedWithError(.invalidPassword)
-            }
-        } else if termsAndConditionsEnabled && !termsAccepted {
-            delegate?.vmHideLoading(LGLocalizedString.signUpAcceptanceError, afterMessageCompletion: nil)
-            trackSignupEmailFailedWithError(.termsNotAccepted)
+            errors.insert(.invalidUsername)
+        }
+        if !email.isEmail() {
+            errors.insert(.invalidEmail)
+        }
+        if password.characters.count < Constants.passwordMinLength {
+            errors.insert(.shortPassword)
+        } else if password.characters.count > Constants.passwordMaxLength {
+            errors.insert(.longPassword)
+        }
+        if termsAndConditionsEnabled && !termsAccepted {
+            errors.insert(.termsNotAccepted)
+        }
+        
+        if !errors.isEmpty {
+            delegate?.vmHideLoading(errors.errorMessage, afterMessageCompletion: nil)
+            trackFormSignUpValidationFailed(errors: errors)
         } else {
             let completion: (Result<MyUser, SignupError>) -> () = { [weak self] signUpResult in
                 guard let strongSelf = self else { return }
-
+                
                 if let user = signUpResult.value {
                     self?.savePreviousEmailOrUsername(.email, userEmailOrName: user.email)
-
+                    
                     // Tracking
                     self?.tracker.trackEvent(
                         TrackerEvent.signupEmail(strongSelf.loginSource, newsletter: strongSelf.newsletterParameter))
-
+                    
                     strongSelf.delegate?.vmHideLoading(nil) { [weak self] in
                         self?.navigator?.closeSignUpLogInSuccessful(with: user)
                     }
@@ -264,18 +280,14 @@ class SignUpLogInViewModel: BaseViewModel {
                     }
                 }
             }
-
+        
             let newsletter: Bool? = termsAndConditionsEnabled ? self.newsletterAccepted : nil
             if let recaptchaToken = recaptchaToken  {
-                if let email = email.value, let password = password.value {
-                    sessionManager.signUp(email.lowercased(), password: password, name: trimmedUsername, newsletter: newsletter,
+                sessionManager.signUp(email.lowercased(), password: password, name: trimmedUsername, newsletter: newsletter,
                                           recaptchaToken: recaptchaToken, completion: completion)
-                }
             } else {
-                if let email = email.value, let password = password.value {
-                    sessionManager.signUp(email.lowercased(), password: password, name: trimmedUsername,
+                sessionManager.signUp(email.lowercased(), password: password, name: trimmedUsername,
                                           newsletter: newsletter, completion: completion)
-                }
             }
         }
     }
@@ -329,7 +341,7 @@ class SignUpLogInViewModel: BaseViewModel {
             }
         } else {
             delegate?.vmHideLoading(LGLocalizedString.logInErrorSendErrorInvalidEmail, afterMessageCompletion: nil)
-            trackFormValidationFailed(errors: errors)
+            trackFormLogInValidationFailed(errors: errors)
         }
         return errors
     }
@@ -537,13 +549,17 @@ class SignUpLogInViewModel: BaseViewModel {
         tracker.trackEvent(event)
     }
     
-    func trackFormValidationFailed(errors: LogInEmailFormErrors) {
+    func trackFormLogInValidationFailed(errors: LogInEmailFormErrors) {
         guard let trackingError = errors.trackingError else { return }
         let event = TrackerEvent.loginEmailError(trackingError)
         tracker.trackEvent(event)
     }
-
-    // MARK: - TODO: Add login email success tracker?
+    
+    func trackFormSignUpValidationFailed(errors: SignUpFormErrors) {
+        guard let trackingError = errors.trackingError else { return }
+        let event = TrackerEvent.signupError(trackingError)
+        tracker.trackEvent(event)
+    }
 }
 
 fileprivate extension LogInEmailFormErrors {
@@ -560,11 +576,51 @@ fileprivate extension LogInEmailFormErrors {
     }
 }
 
+fileprivate extension SignUpFormErrors {
+    var trackingError: EventParameterLoginError? {
+        let error: EventParameterLoginError?
+        if contains(.invalidEmail) {
+            error = .invalidEmail
+        } else if contains(.shortPassword) || contains(.longPassword) {
+            error = .invalidPassword
+        } else if contains(.usernameTaken) {
+            error = .usernameTaken
+        } else if contains(.invalidUsername) {
+            error = .invalidUsername
+        } else if contains(.termsNotAccepted) {
+            error = .termsNotAccepted
+        } else {
+            error = nil
+        }
+        return error
+    }
+    
+    var errorMessage: String? {
+        let message: String?
+        if contains(.invalidEmail) {
+            message = LGLocalizedString.signUpSendErrorInvalidEmail
+        } else if contains(.shortPassword) || contains(.longPassword) {
+            message = LGLocalizedString.signUpSendErrorInvalidPasswordWithMax(Constants.passwordMinLength,
+                                                                             Constants.passwordMaxLength)
+        } else if contains(.usernameTaken) {
+            message = LGLocalizedString.signUpSendErrorGeneric
+        } else if contains(.invalidUsername) {
+            message = LGLocalizedString.signUpSendErrorInvalidUsername(Constants.fullNameMinLength)
+        } else if contains(.termsNotAccepted) {
+            message = LGLocalizedString.signUpAcceptanceError
+        } else {
+            message = nil
+        }
+        return message
+    }
+}
+
+
 // MARK: - RecaptchaTokenDelegate
 
 extension SignUpLogInViewModel: RecaptchaTokenDelegate {
     func recaptchaTokenObtained(token: String) {
-        signUp(token)
+        _ = signUp(token)
     }
 }
 

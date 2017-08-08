@@ -24,7 +24,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
     var navigatorReceivedOpenHelp = false
 
     override func spec() {
-        fdescribe("SignUpLogInViewModelSpec") {
+        describe("SignUpLogInViewModelSpec") {
             var sut: SignUpLogInViewModel!
 
             var sessionManager: MockSessionManager!
@@ -631,10 +631,10 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
                     expect(trackedEventNames) == []
                 }
-//                it("calls show and hide loading in delegate") {
-//                    expect(self.delegateReceivedShowLoading).toEventually(beTrue())
-//                    expect(self.delegateReceivedHideLoading).toEventually(beTrue())
-//                }
+                it("calls show and hide loading in delegate") {
+                    expect(self.delegateReceivedShowLoading).toEventually(beTrue())
+                    expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                }
             }
             
             context("valid form") {
@@ -790,6 +790,279 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     }
                 }
             }
+            
+            
+//            describe("sign up button press with invalid form") {
+//                var errors: LogInEmailFormErrors!
+//                
+//                describe("empty") {
+//                    beforeEach {
+//                        sut.email.value = ""
+//                        sut.password.value = ""
+//                        errors = sut.logIn()
+//                    }
+//                    
+//                    it("has log in disabled") {
+//                        expect(logInEnabled) == false
+//                    }
+//                    it("does not return any error") {
+//                        expect(errors) == []
+//                    }
+//                    it("does not call close because after login in navigator") {
+//                        expect(self.finishedSuccessfully) == false
+//                    }
+//                    it("does not track any event") {
+//                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+//                        expect(trackedEventNames) == []
+//                    }
+//                }
+//                
+//                describe("with email non-valid & short password") {
+//                    beforeEach {
+//                        sut.currentActionType = .login
+//                        sut.email.value = "a"
+//                        sut.password.value = "a"
+//                        errors = sut.logIn()
+//                    }
+//                    
+//                    it("has log in enabled") {
+//                        expect(logInEnabled) == true
+//                    }
+//                    it("returns that the email is invalid and the password is short") {
+//                        expect(errors) == [.invalidEmail, .shortPassword]
+//                    }
+//                    it("does not call close because after login in navigator") {
+//                        expect(self.finishedSuccessfully) == false
+//                    }
+//                    it("tracks a loginEmailError event") {
+//                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+//                        expect(trackedEventNames) == [EventName.loginEmailError]
+//                    }
+//                }
+//                
+//                describe("with valid email & long password") {
+//                    beforeEach {
+//                        sut.currentActionType = .login
+//                        sut.email.value = "albert@letgo.com"
+//                        sut.password.value = "abcdefghijklmnopqrstuvwxyz"
+//                        errors = sut.logIn()
+//                    }
+//                    
+//                    it("has log in enabled") {
+//                        expect(logInEnabled) == true
+//                    }
+//                    it("returns that the password is long") {
+//                        expect(errors) == [.longPassword]
+//                    }
+//                    it("does not call close because after login in navigator") {
+//                        expect(self.finishedSuccessfully) == false
+//                    }
+//                    it("tracks a loginEmailError event") {
+//                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+//                        expect(trackedEventNames) == [EventName.loginEmailError]
+//                    }
+//                }
+//                
+//                describe("with valid email & password") {
+//                    beforeEach {
+//                        sut.currentActionType = .login
+//                        sut.email.value = "albert@letgo.com"
+//                        sut.password.value = "letitgo"
+//                        errors = sut.logIn()
+//                    }
+//                    
+//                    it("has log in enabled") {
+//                        expect(logInEnabled) == true
+//                    }
+//                    it("returns no errors") {
+//                        expect(errors) == []
+//                    }
+//                    it("does not track any event") {
+//                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+//                        expect(trackedEventNames) == []
+//                    }
+//                }
+//            }
+            
+//            describe("log in button press with valid form") {
+//                var errors: LogInEmailFormErrors!
+//                
+//                beforeEach {
+//                    sut.currentActionType = .login
+//                    sut.email.value = "albert@letgo.com"
+//                    sut.password.value = "letitgo"
+//                    errors = sut.logIn()
+//                }
+//                
+//                it("has log in enabled") {
+//                    expect(logInEnabled) == true
+//                }
+//                it("returns no errors") {
+//                    expect(errors) == []
+//                }
+//                it("does not track any event") {
+//                    let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+//                    expect(trackedEventNames) == []
+//                }
+//                it("calls show and hide loading in delegate") {
+//                    expect(self.delegateReceivedShowLoading).toEventually(beTrue())
+//                    expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+//                }
+//            }
+//            
+//            context("valid form") {
+//                beforeEach {
+//                    sut.currentActionType = .login
+//                    sut.email.value = "albert@letgo.com"
+//                    sut.password.value = "letitgo"
+//                }
+//                
+//                describe("log in fails once with unauthorized error") {
+//                    beforeEach {
+//                        sessionManager.logInResult = LoginResult(error: .unauthorized)
+//                        self.delegateReceivedHideLoading = false
+//                        _ = sut.logIn()
+//                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+//                    }
+//                    
+//                    it("tracks a loginEmailError event") {
+//                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+//                        expect(trackedEventNames) == [EventName.loginEmailError]
+//                    }
+//                    it("does not call close after login in navigator") {
+//                        expect(self.finishedSuccessfully) == false
+//                    }
+//                    it("does not call show alert in the delegate to suggest reset pwd") {
+//                        expect(self.delegateReceivedShowAlert) == false
+//                    }
+//                }
+//                
+//                describe("log in fails twice with unauthorized error") {
+//                    beforeEach {
+//                        sut.currentActionType = .login
+//                        sessionManager.logInResult = LoginResult(error: .unauthorized)
+//                        self.delegateReceivedHideLoading = false
+//                        _ = sut.logIn()
+//                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+//                        self.delegateReceivedHideLoading = false
+//                        
+//                        _ = sut.logIn()
+//                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+//                    }
+//                    
+//                    it("tracks two loginEmailError event") {
+//                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+//                        expect(trackedEventNames) == [EventName.loginEmailError, EventName.loginEmailError]
+//                    }
+//                    it("does not call close after login in navigator") {
+//                        expect(self.finishedSuccessfully) == false
+//                    }
+//                    it("calls show alert in the delegate to suggest reset pwd") {
+//                        expect(self.delegateReceivedShowAlert).toEventually(beTrue())
+//                    }
+//                }
+//                
+//                describe("log in fails twice with another error") {
+//                    beforeEach {
+//                        sut.currentActionType = .login
+//                        sessionManager.logInResult = LoginResult(error: .network)
+//                        self.delegateReceivedHideLoading = false
+//                        self.delegateReceivedShowAlert = false
+//                        _ = sut.logIn()
+//                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+//                        self.delegateReceivedHideLoading = false
+//                        self.delegateReceivedShowAlert = false
+//                        _ = sut.logIn()
+//                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+//                    }
+//                    
+//                    it("tracks two loginEmailError event") {
+//                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+//                        expect(trackedEventNames) == [EventName.loginEmailError, EventName.loginEmailError]
+//                    }
+//                    it("does not call close after login in navigator") {
+//                        expect(self.finishedSuccessfully) == false
+//                    }
+//                    it("does not call show alert in the delegate to suggest reset pwd") {
+//                        expect(self.delegateReceivedShowAlert) == false
+//                    }
+//                }
+//                
+//                describe("log in fails with scammer error") {
+//                    beforeEach {
+//                        sut.currentActionType = .login
+//                        sessionManager.logInResult = LoginResult(error: .scammer)
+//                        self.delegateReceivedHideLoading = false
+//                        _ = sut.logIn()
+//                        
+//                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+//                    }
+//                    
+//                    it("tracks a loginEmailError event") {
+//                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+//                        expect(trackedEventNames) == [EventName.loginEmailError]
+//                    }
+//                    it("does not call close after login in navigator") {
+//                        expect(self.finishedSuccessfully) == false
+//                    }
+//                    it("calls open scammer alert in the navigator") {
+//                        expect(self.finishedScammer).toEventually(beTrue())
+//                    }
+//                }
+//                
+//                describe("log in fails with device not allowed error") {
+//                    beforeEach {
+//                        sut.currentActionType = .login
+//                        self.delegateReceivedHideLoading = false
+//                        sessionManager.logInResult = LoginResult(error: .deviceNotAllowed)
+//                        _ = sut.logIn()
+//                        
+//                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+//                    }
+//                    
+//                    it("tracks a loginEmailError event") {
+//                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+//                        expect(trackedEventNames) == [EventName.loginEmailError]
+//                    }
+//                    it("does not call close after login in navigator") {
+//                        expect(self.finishedSuccessfully) == false
+//                    }
+//                    it("calls open device not allowed alert in the navigator") {
+//                        expect(self.finishedDeviceNotAllowed).toEventually(beTrue())
+//                    }
+//                }
+//                
+//                describe("log in succeeds") {
+//                    let email = "albert.hernandez@gmail.com"
+//                    
+//                    beforeEach {
+//                        sut.currentActionType = .login
+//                        var myUser = MockMyUser.makeMock()
+//                        myUser.email = email
+//                        sessionManager.logInResult = LoginResult(value: myUser)
+//                        self.delegateReceivedHideLoading = false
+//                        _ = sut.logIn()
+//                        
+//                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+//                    }
+//                    
+//                    it("tracks a loginEmail event") {
+//                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+//                        expect(trackedEventNames) == [EventName.loginEmail]
+//                    }
+//                    it("calls close after login in navigator when signup succeeds") {
+//                        expect(self.finishedSuccessfully).toEventually(beTrue())
+//                    }
+//                    it("saves letgo as previous user account provider") {
+//                        let provider = keyValueStorage[.previousUserAccountProvider]
+//                        expect(provider) == "letgo"
+//                    }
+//                    it("saves the user email as previous email") {
+//                        let username = keyValueStorage[.previousUserEmailOrName]
+//                        expect(username) == email
+//                    }
+//                }
+//            }
             
             context("god mode") {
                 describe("fill form with admin values") {
