@@ -65,8 +65,8 @@ class SignUpLogInViewModel: BaseViewModel {
         return suggestedEmailVar.asObservable()
     }
     var password: Variable<String?>
-    var logInEnabled: Observable<Bool> {
-        return logInEnabledVar.asObservable()
+    var sendButtonEnabled: Observable<Bool> {
+        return sendButtonEnabledVar.asObservable()
     }
 
     var showPasswordVisible : Variable<Bool>
@@ -105,7 +105,7 @@ class SignUpLogInViewModel: BaseViewModel {
     fileprivate let sessionManager: SessionManager
     private let installationRepository: InstallationRepository
     private let locationManager: LocationManager
-    fileprivate let logInEnabledVar: Variable<Bool>
+    fileprivate let sendButtonEnabledVar: Variable<Bool>
     fileprivate let disposeBag: DisposeBag
     
     private var newsletterParameter: EventParameterBoolean {
@@ -145,7 +145,7 @@ class SignUpLogInViewModel: BaseViewModel {
         self.previousEmail = Variable<String?>(nil)
         self.previousFacebookUsername = Variable<String?>(nil)
         self.previousGoogleUsername = Variable<String?>(nil)
-        self.logInEnabledVar = Variable<Bool>(false)
+        self.sendButtonEnabledVar = Variable<Bool>(false)
         self.showPasswordVisible = Variable<Bool>(false)
         self.disposeBag = DisposeBag()
         super.init()
@@ -213,7 +213,7 @@ class SignUpLogInViewModel: BaseViewModel {
     
     func validateSignUpForm() -> SignUpFormErrors {
         var errors: SignUpFormErrors = []
-        guard logInEnabledVar.value else { return errors }
+        guard sendButtonEnabledVar.value else { return errors }
         
         guard let username = username.value else { return errors }
         guard let emailTrimmed = emailTrimmed.value else { return errors }
@@ -309,7 +309,7 @@ class SignUpLogInViewModel: BaseViewModel {
     
     func validateLogInForm() -> LogInEmailFormErrors {
         var errors: LogInEmailFormErrors = []
-        guard logInEnabledVar.value else { return errors }
+        guard sendButtonEnabledVar.value else { return errors }
         
         if emailTrimmed.value == "admin" && password.value == "wat" {
             delegate?.vmShowHiddenPasswordAlert()
@@ -417,7 +417,7 @@ class SignUpLogInViewModel: BaseViewModel {
                 guard let username = username else { return false }
                 return email.characters.count > 0 && password.characters.count > 0 && username.characters.count > 0
             }
-        }.bindTo(logInEnabledVar).addDisposableTo(disposeBag)
+        }.bindTo(sendButtonEnabledVar).addDisposableTo(disposeBag)
         
         // Email trim
         email.asObservable()

@@ -454,7 +454,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         }.addDisposableTo(disposeBag)
         
         // Send button enable
-        viewModel.logInEnabled.bindTo(sendButton.rx.isEnabled).addDisposableTo(disposeBag)
+        viewModel.sendButtonEnabled.bindTo(sendButton.rx.isEnabled).addDisposableTo(disposeBag)
         
         // Show password hide
         viewModel.password.asObservable().map { password -> Bool in

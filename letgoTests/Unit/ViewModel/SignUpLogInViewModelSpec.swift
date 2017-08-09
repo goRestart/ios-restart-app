@@ -36,7 +36,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
             var googleLoginHelper: MockExternalAuthHelper!
             var fbLoginHelper: MockExternalAuthHelper!
             
-            var logInEnabled: Bool!
+            var sendButtonEnabled: Bool!
             var disposeBag: DisposeBag!
             
             beforeEach {
@@ -68,8 +68,8 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                 self.navigatorReceivedOpenHelp = false
                 
                 disposeBag = DisposeBag()
-                sut.logInEnabled.subscribeNext { enabled in
-                    logInEnabled = enabled
+                sut.sendButtonEnabled.subscribeNext { enabled in
+                    sendButtonEnabled = enabled
                 }.addDisposableTo(disposeBag)
             }
 
@@ -533,8 +533,8 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         errors = sut.validateLogInForm()
                     }
                     
-                    it("has log in disabled") {
-                        expect(logInEnabled) == false
+                    it("has send button enabled") {
+                        expect(sendButtonEnabled) == false
                     }
                     it("does not return any error") {
                         expect(errors) == []
@@ -555,8 +555,8 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         errors = sut.validateLogInForm()
                     }
                     
-                    it("has log in enabled") {
-                        expect(logInEnabled) == true
+                    it("has send button enabled") {
+                        expect(sendButtonEnabled) == true
                     }
                     it("returns that the email is invalid and the password is short") {
                         expect(errors) == [.invalidEmail, .shortPassword]
@@ -577,8 +577,8 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         errors = sut.validateLogInForm()
                     }
                     
-                    it("has log in enabled") {
-                        expect(logInEnabled) == true
+                    it("has send button enabled") {
+                        expect(sendButtonEnabled) == true
                     }
                     it("returns that the password is long") {
                         expect(errors) == [.longPassword]
@@ -599,8 +599,8 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         errors = sut.validateLogInForm()
                     }
                     
-                    it("has log in enabled") {
-                        expect(logInEnabled) == true
+                    it("has send button enabled") {
+                        expect(sendButtonEnabled) == true
                     }
                     it("returns no errors") {
                         expect(errors) == []
@@ -622,8 +622,8 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     errors = sut.validateLogInForm()
                 }
                 
-                it("has log in enabled") {
-                    expect(logInEnabled) == true
+                it("has send button enabled") {
+                    expect(sendButtonEnabled) == true
                 }
                 it("returns no errors") {
                     expect(errors) == []
@@ -803,8 +803,8 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         errors = sut.validateSignUpForm()
                     }
                     
-                    it("has log in disabled") {
-                        expect(logInEnabled) == false
+                    it("has send button disabled") {
+                        expect(sendButtonEnabled) == false
                     }
                     it("does not return any error") {
                         expect(errors) == []
@@ -826,8 +826,8 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         errors = sut.validateSignUpForm()
                     }
                     
-                    it("has log in enabled") {
-                        expect(logInEnabled) == true
+                    it("has send button enabled") {
+                        expect(sendButtonEnabled) == true
                     }
                     it("returns that the email is invalid, the password is short and the user is invalid") {
                         expect(errors) == [.invalidEmail, .shortPassword, .invalidUsername]
@@ -849,8 +849,8 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         errors = sut.validateSignUpForm()
                     }
                     
-                    it("has log in enabled") {
-                        expect(logInEnabled) == true
+                    it("has send button enabled") {
+                        expect(sendButtonEnabled) == true
                     }
                     it("returns that the password is long") {
                         expect(errors) == [.longPassword]
@@ -872,8 +872,8 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         errors = sut.validateSignUpForm()
                     }
                     
-                    it("has log in enabled") {
-                        expect(logInEnabled) == true
+                    it("has send button enabled") {
+                        expect(sendButtonEnabled) == true
                     }
                     it("returns no errors") {
                         expect(errors) == []
@@ -896,8 +896,8 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     errors = sut.validateSignUpForm()
                 }
                 
-                it("has log in enabled") {
-                    expect(logInEnabled) == true
+                it("has send button enabled") {
+                    expect(sendButtonEnabled) == true
                 }
                 it("returns no errors") {
                     expect(errors) == []
