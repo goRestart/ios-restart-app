@@ -70,7 +70,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                 disposeBag = DisposeBag()
                 sut.logInEnabled.subscribeNext { enabled in
                     logInEnabled = enabled
-                    }.addDisposableTo(disposeBag)
+                }.addDisposableTo(disposeBag)
             }
 
             describe("initialization") {
@@ -530,7 +530,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     beforeEach {
                         sut.email.value = ""
                         sut.password.value = ""
-                        errors = sut.logIn()
+                        errors = sut.validateLogInForm()
                     }
                     
                     it("has log in disabled") {
@@ -552,7 +552,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     beforeEach {
                         sut.email.value = "a"
                         sut.password.value = "a"
-                        errors = sut.logIn()
+                        errors = sut.validateLogInForm()
                     }
                     
                     it("has log in enabled") {
@@ -574,7 +574,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     beforeEach {
                         sut.email.value = "albert@letgo.com"
                         sut.password.value = "abcdefghijklmnopqrstuvwxyz"
-                        errors = sut.logIn()
+                        errors = sut.validateLogInForm()
                     }
                     
                     it("has log in enabled") {
@@ -596,7 +596,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     beforeEach {
                         sut.email.value = "albert@letgo.com"
                         sut.password.value = "letitgo"
-                        errors = sut.logIn()
+                        errors = sut.validateLogInForm()
                     }
                     
                     it("has log in enabled") {
@@ -619,7 +619,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     sut.currentActionType = .login
                     sut.email.value = "albert@letgo.com"
                     sut.password.value = "letitgo"
-                    errors = sut.logIn()
+                    errors = sut.validateLogInForm()
                 }
                 
                 it("has log in enabled") {
@@ -764,7 +764,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         myUser.email = email
                         sessionManager.logInResult = LoginResult(value: myUser)
                         self.delegateReceivedHideLoading = false
-                        _ = sut.logIn()
+                        sut.logIn()
                         
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
@@ -800,7 +800,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         sut.email.value = ""
                         sut.password.value = ""
                         sut.username.value = ""
-                        errors = sut.signUp(nil)
+                        errors = sut.validateSignUpForm()
                     }
                     
                     it("has log in disabled") {
@@ -823,7 +823,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         sut.email.value = "a"
                         sut.password.value = "a"
                         sut.username.value = "a"
-                        errors = sut.signUp(nil)
+                        errors = sut.validateSignUpForm()
                     }
                     
                     it("has log in enabled") {
@@ -846,7 +846,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         sut.email.value = "albert@letgo.com"
                         sut.password.value = "abcdefghijklmnopqrstuvwxyz"
                         sut.username.value = "albert"
-                        errors = sut.signUp(nil)
+                        errors = sut.validateSignUpForm()
                     }
                     
                     it("has log in enabled") {
@@ -869,7 +869,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         sut.email.value = "albert@letgo.com"
                         sut.password.value = "letitgo"
                         sut.username.value = "albert"
-                        errors = sut.signUp(nil)
+                        errors = sut.validateSignUpForm()
                     }
                     
                     it("has log in enabled") {
@@ -893,7 +893,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     sut.email.value = "albert@letgo.com"
                     sut.password.value = "letitgo"
                     sut.username.value = "albert"
-                    errors = sut.signUp(nil)
+                    errors = sut.validateSignUpForm()
                 }
                 
                 it("has log in enabled") {
@@ -924,7 +924,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     beforeEach {
                         sessionManager.signUpResult = SignupResult(error: .unauthorized)
                         self.delegateReceivedHideLoading = false
-                        _ = sut.signUp(nil)
+                        sut.signUp(nil)
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
                     
@@ -944,11 +944,11 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     beforeEach {
                         sessionManager.signUpResult = SignupResult(error: .unauthorized)
                         self.delegateReceivedHideLoading = false
-                        _ = sut.signUp()
+                        sut.signUp(nil)
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                         self.delegateReceivedHideLoading = false
                         
-                        _ = sut.signUp()
+                        sut.signUp(nil)
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
                     
@@ -966,11 +966,11 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         sessionManager.signUpResult = SignupResult(error: .network)
                         self.delegateReceivedHideLoading = false
                         self.delegateReceivedShowAlert = false
-                        _ = sut.signUp()
+                        sut.signUp(nil)
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                         self.delegateReceivedHideLoading = false
                         self.delegateReceivedShowAlert = false
-                        _ = sut.signUp()
+                        sut.signUp(nil)
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
                     
@@ -990,7 +990,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     beforeEach {
                         sessionManager.signUpResult = SignupResult(error: .scammer)
                         self.delegateReceivedHideLoading = false
-                        _ = sut.signUp()
+                        sut.signUp(nil)
                         
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
@@ -1015,7 +1015,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         myUser.email = email
                         sessionManager.signUpResult = SignupResult(value: myUser)
                         self.delegateReceivedHideLoading = false
-                        _ = sut.signUp()
+                        sut.signUp(nil)
                         
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
@@ -1044,7 +1044,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         sut.currentActionType = .login
                         sut.email.value = "admin"
                         sut.password.value = "wat"
-                        _ = sut.logIn()
+                        sut.logIn()
                     }
                     
                     it("calls show god mode alert in delegate") {
