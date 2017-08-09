@@ -1104,6 +1104,54 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     expect(self.finishedSuccessfully) == false
                 }
             }
+            
+            describe("erase password") {
+                beforeEach {
+                    sut.password.value = "r4ndom_password"
+                    sut.erasePassword()
+                }
+                
+                it("sets password string to empty") {
+                    expect(sut.password.value) == ""
+                }
+            }
+            
+            describe("accept suggested email") {
+                
+                var isSuggestedEmail = false
+                
+                context("email with available suggestion") {
+                    let inputEmail = "raul@g"
+                    
+                    beforeEach {
+                        sut.email.value = inputEmail
+                        isSuggestedEmail = sut.acceptSuggestedEmail()
+                    }
+                    
+                    it("applies the email change ") {
+                        expect(isSuggestedEmail).to(beTrue())
+                    }
+                    it("changes the email string") {
+                        expect(sut.email.value) != inputEmail
+                    }
+                }
+                
+                context("email without available suggestion") {
+                    let inputEmail = "raul"
+                    
+                    beforeEach {
+                        sut.email.value = inputEmail
+                        isSuggestedEmail = sut.acceptSuggestedEmail()
+                    }
+                    
+                    it("does not apply any email change ") {
+                        expect(isSuggestedEmail).to(beFalse())
+                    }
+                    it("does not change the email string") {
+                        expect(sut.email.value) == inputEmail
+                    }
+                }
+            }
         }
     }
 }
