@@ -226,7 +226,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         sut.password.value = "123456"
 
                         self.delegateReceivedHideLoading = false
-                        _ = sut.logIn()
+                        sut.logIn()
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
 
@@ -254,7 +254,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                             sut.password.value = "123456"
                             sut.currentActionType = .login
                             self.delegateReceivedHideLoading = false
-                            _ = sut.logIn()
+                            sut.logIn()
                             expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                         }
 
@@ -279,7 +279,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                             sut.email.value = email
                             sut.password.value = "123456"
                             self.delegateReceivedHideLoading = false
-                            _ = sut.logIn()
+                            sut.logIn()
                             expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                         }
 
@@ -307,7 +307,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                             sut.email.value = email
                             sut.password.value = "123456"
                             self.delegateReceivedHideLoading = false
-                            _ = sut.logIn()
+                            sut.logIn()
                             expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                         }
 
@@ -519,7 +519,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                 }
             }
             
-            describe("log in button press with invalid form") {
+            describe("log in validation with invalid form") {
                 var errors: LogInEmailFormErrors!
                 
                 beforeEach {
@@ -612,7 +612,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                 }
             }
             
-            describe("log in button press with valid form") {
+            describe("log in validation with valid form") {
                 var errors: LogInEmailFormErrors!
                 
                 beforeEach {
@@ -638,7 +638,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                 }
             }
             
-            describe("log in valid form") {
+            describe("log in send valid form") {
                 beforeEach {
                     sut.currentActionType = .login
                     sut.email.value = "albert@letgo.com"
@@ -649,7 +649,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     beforeEach {
                         sessionManager.logInResult = LoginResult(error: .unauthorized)
                         self.delegateReceivedHideLoading = false
-                        _ = sut.logIn()
+                        sut.logIn()
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
                     
@@ -669,11 +669,11 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     beforeEach {
                         sessionManager.logInResult = LoginResult(error: .unauthorized)
                         self.delegateReceivedHideLoading = false
-                        _ = sut.logIn()
+                        sut.logIn()
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                         self.delegateReceivedHideLoading = false
                         
-                        _ = sut.logIn()
+                        sut.logIn()
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
                     
@@ -694,11 +694,11 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         sessionManager.logInResult = LoginResult(error: .network)
                         self.delegateReceivedHideLoading = false
                         self.delegateReceivedShowAlert = false
-                        _ = sut.logIn()
+                        sut.logIn()
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                         self.delegateReceivedHideLoading = false
                         self.delegateReceivedShowAlert = false
-                        _ = sut.logIn()
+                        sut.logIn()
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
                     
@@ -718,7 +718,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     beforeEach {
                         sessionManager.logInResult = LoginResult(error: .scammer)
                         self.delegateReceivedHideLoading = false
-                        _ = sut.logIn()
+                        sut.logIn()
                         
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
@@ -739,7 +739,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     beforeEach {
                         self.delegateReceivedHideLoading = false
                         sessionManager.logInResult = LoginResult(error: .deviceNotAllowed)
-                        _ = sut.logIn()
+                        sut.logIn()
                         
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
@@ -788,7 +788,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
             }
             
             
-            describe("sign up button press with invalid form") {
+            describe("sign up validation with invalid form") {
                 var errors: SignUpFormErrors!
                 
                 beforeEach {
@@ -885,7 +885,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                 }
             }
             
-            describe("sign up button press with valid form") {
+            describe("sign up validation with valid form") {
                 var errors: SignUpFormErrors!
                 
                 beforeEach {
@@ -912,7 +912,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                 }
             }
 
-            describe("sign up valid form") {
+            describe("sign up send valid form") {
                 beforeEach {
                     sut.currentActionType = .signup
                     sut.email.value = "albert@letgo.com"
@@ -986,7 +986,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     }
                 }
                 
-                context("log in fails with scammer error") {
+                context("sign up fails with scammer error") {
                     beforeEach {
                         sessionManager.signUpResult = SignupResult(error: .scammer)
                         self.delegateReceivedHideLoading = false
@@ -1007,7 +1007,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     }
                 }
                 
-                context("log in succeeds") {
+                context("sign up succeeds") {
                     let email = "albert.hernandez@gmail.com"
                     
                     beforeEach {
