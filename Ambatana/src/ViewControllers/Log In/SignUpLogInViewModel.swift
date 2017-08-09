@@ -34,6 +34,13 @@ struct LogInEmailFormErrors: OptionSet {
     static let longPassword     = LogInEmailFormErrors(rawValue: 1 << 2)
 }
 
+struct SignUpForm {
+    var username: String = ""
+    var email: String = ""
+    var password: String = ""
+    var errors: SignUpFormErrors = []
+}
+
 protocol SignUpLogInViewModelDelegate: BaseViewModelDelegate {
     func vmShowHiddenPasswordAlert()
 }
@@ -205,51 +212,64 @@ class SignUpLogInViewModel: BaseViewModel {
     }
 
     func signUp(_ recaptchaToken: String?) {
-        let errors = validateSignUpForm()
-        if errors.isEmpty {
-            sendSignUp(recaptchaToken)
+        let signUpForm = validateSignUpForm()
+        if signUpForm.errors.isEmpty {
+            sendSignUp(signUpForm, recaptchaToken: recaptchaToken)
+        } else {
+            delegate?.vmHideLoading(signUpForm.errors.errorMessage, afterMessageCompletion: nil)
+            trackFormSignUpValidationFailed(errors: signUpForm.errors)
         }
     }
     
-    func validateSignUpForm() -> SignUpFormErrors {
-        var errors: SignUpFormErrors = []
-        guard sendButtonEnabledVar.value else { return errors }
+    func validateSignUpForm() -> SignUpForm {
+        var signUpForm = SignUpForm()
+
+        guard sendButtonEnabledVar.value else { return signUpForm }
         
-        guard let username = username.value else { return errors }
-        guard let emailTrimmed = emailTrimmed.value else { return errors }
-        guard let password = password.value else { return errors }
+        guard let username = username.value else {
+            signUpForm.errors.insert(.invalidUsername)
+            return signUpForm
+        }
+        guard let emailTrimmed = emailTrimmed.value else {
+            signUpForm.errors.insert(.invalidEmail)
+            return signUpForm
+        }
+        guard let password = password.value else {
+            signUpForm.errors.insert(.shortPassword)
+            return signUpForm
+        }
         
         let trimmedUsername = username.trim
         if trimmedUsername.containsLetgo() {
-            errors.insert(.usernameTaken)
+            signUpForm.errors.insert(.usernameTaken)
         } else if trimmedUsername.characters.count < Constants.fullNameMinLength {
-            errors.insert(.invalidUsername)
+            signUpForm.errors.insert(.invalidUsername)
+        } else {
+            signUpForm.username = trimmedUsername
         }
+        
         if !emailTrimmed.isEmail() {
-            errors.insert(.invalidEmail)
+            signUpForm.errors.insert(.invalidEmail)
+        } else {
+            signUpForm.email = emailTrimmed
         }
+        
         if password.characters.count < Constants.passwordMinLength {
-            errors.insert(.shortPassword)
+            signUpForm.errors.insert(.shortPassword)
         } else if password.characters.count > Constants.passwordMaxLength {
-            errors.insert(.longPassword)
+            signUpForm.errors.insert(.longPassword)
+        } else {
+            signUpForm.password = password
         }
+        
         if termsAndConditionsEnabled && !termsAccepted {
-            errors.insert(.termsNotAccepted)
+            signUpForm.errors.insert(.termsNotAccepted)
         }
         
-        if !errors.isEmpty {
-            delegate?.vmHideLoading(errors.errorMessage, afterMessageCompletion: nil)
-            trackFormSignUpValidationFailed(errors: errors)
-        }
-        
-        return errors
+        return signUpForm
     }
     
-    func sendSignUp(_ recaptchaToken: String?) {
-        guard let username = username.value else { return }
-        guard let emailTrimmed = emailTrimmed.value else { return }
-        guard let password = password.value else { return }
-        
+    func sendSignUp(_ signUpForm: SignUpForm, recaptchaToken: String?) {
         delegate?.vmShowLoading(nil)
 
         let completion: (Result<MyUser, SignupError>) -> () = { [weak self] signUpResult in
@@ -267,20 +287,18 @@ class SignUpLogInViewModel: BaseViewModel {
                 }
             } else if let signUpError = signUpResult.error {
                 if signUpError.isUserExists {
-                    if let emailTrimmed = strongSelf.emailTrimmed.value, let password = strongSelf.password.value {
-                        strongSelf.sessionManager.login(emailTrimmed, password: password) { [weak self] loginResult in
-                            guard let strongSelf = self else { return }
-                            if let myUser = loginResult.value {
-                                let rememberedAccount = strongSelf.previousEmail.value != nil
-                                let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource,
-                                                                           rememberedAccount: rememberedAccount)
-                                self?.tracker.trackEvent(trackerEvent)
-                                self?.delegate?.vmHideLoading(nil) { [weak self] in
-                                    self?.navigator?.closeSignUpLogInSuccessful(with: myUser)
-                                }
-                            } else {
-                                strongSelf.process(signupError: signUpError)
+                    strongSelf.sessionManager.login(signUpForm.email, password: signUpForm.password) { [weak self] loginResult in
+                        guard let strongSelf = self else { return }
+                        if let myUser = loginResult.value {
+                            let rememberedAccount = strongSelf.previousEmail.value != nil
+                            let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource,
+                                                                       rememberedAccount: rememberedAccount)
+                            self?.tracker.trackEvent(trackerEvent)
+                            self?.delegate?.vmHideLoading(nil) { [weak self] in
+                                self?.navigator?.closeSignUpLogInSuccessful(with: myUser)
                             }
+                        } else {
+                            strongSelf.process(signupError: signUpError)
                         }
                     }
                 } else {
@@ -290,12 +308,12 @@ class SignUpLogInViewModel: BaseViewModel {
         }
     
         let newsletter: Bool? = termsAndConditionsEnabled ? self.newsletterAccepted : nil
-        let trimmedUsername = username.trim
+        let trimmedUsername = signUpForm.username.trim
         if let recaptchaToken = recaptchaToken {
-            sessionManager.signUp(emailTrimmed.lowercased(), password: password, name: trimmedUsername, newsletter: newsletter,
+            sessionManager.signUp(signUpForm.email.lowercased(), password: signUpForm.password, name: trimmedUsername, newsletter: newsletter,
                                       recaptchaToken: recaptchaToken, completion: completion)
         } else {
-            sessionManager.signUp(emailTrimmed.lowercased(), password: password, name: trimmedUsername,
+            sessionManager.signUp(signUpForm.email.lowercased(), password: signUpForm.password, name: trimmedUsername,
                                       newsletter: newsletter, completion: completion)
         }
     }
@@ -303,6 +321,7 @@ class SignUpLogInViewModel: BaseViewModel {
     func logIn() {
         let errors = validateLogInForm()
         if errors.isEmpty {
+            
             sendLogIn()
         }
     }

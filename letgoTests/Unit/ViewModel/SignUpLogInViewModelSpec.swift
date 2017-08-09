@@ -24,7 +24,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
     var navigatorReceivedOpenHelp = false
 
     override func spec() {
-        describe("SignUpLogInViewModelSpec") {
+        fdescribe("SignUpLogInViewModelSpec") {
             var sut: SignUpLogInViewModel!
 
             var sessionManager: MockSessionManager!
@@ -789,7 +789,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
             
             
             describe("sign up validation with invalid form") {
-                var errors: SignUpFormErrors!
+                var signUpForm: SignUpForm!
                 
                 beforeEach {
                     sut.currentActionType = .signup
@@ -800,14 +800,15 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         sut.email.value = ""
                         sut.password.value = ""
                         sut.username.value = ""
-                        errors = sut.validateSignUpForm()
+                        signUpForm = sut.validateSignUpForm()
+                        sut.signUp(nil)
                     }
                     
                     it("has send button disabled") {
                         expect(sendButtonEnabled) == false
                     }
                     it("does not return any error") {
-                        expect(errors) == []
+                        expect(signUpForm.errors) == []
                     }
                     it("does not call close because after login in navigator") {
                         expect(self.finishedSuccessfully) == false
@@ -823,14 +824,15 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         sut.email.value = "a"
                         sut.password.value = "a"
                         sut.username.value = "a"
-                        errors = sut.validateSignUpForm()
+                        signUpForm = sut.validateSignUpForm()
+                        sut.signUp(nil)
                     }
                     
                     it("has send button enabled") {
                         expect(sendButtonEnabled) == true
                     }
                     it("returns that the email is invalid, the password is short and the user is invalid") {
-                        expect(errors) == [.invalidEmail, .shortPassword, .invalidUsername]
+                        expect(signUpForm.errors) == [.invalidEmail, .shortPassword, .invalidUsername]
                     }
                     it("does not call close because after login in navigator") {
                         expect(self.finishedSuccessfully) == false
@@ -846,14 +848,15 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         sut.email.value = "albert@letgo.com"
                         sut.password.value = "abcdefghijklmnopqrstuvwxyz"
                         sut.username.value = "albert"
-                        errors = sut.validateSignUpForm()
+                        signUpForm = sut.validateSignUpForm()
+                        sut.signUp(nil)
                     }
                     
                     it("has send button enabled") {
                         expect(sendButtonEnabled) == true
                     }
                     it("returns that the password is long") {
-                        expect(errors) == [.longPassword]
+                        expect(signUpForm.errors) == [.longPassword]
                     }
                     it("does not call close because after login in navigator") {
                         expect(self.finishedSuccessfully) == false
@@ -869,14 +872,15 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         sut.email.value = "albert@letgo.com"
                         sut.password.value = "letitgo"
                         sut.username.value = "albert"
-                        errors = sut.validateSignUpForm()
+                        signUpForm = sut.validateSignUpForm()
+                        sut.signUp(nil)
                     }
                     
                     it("has send button enabled") {
                         expect(sendButtonEnabled) == true
                     }
                     it("returns no errors") {
-                        expect(errors) == []
+                        expect(signUpForm.errors) == []
                     }
                     it("does not track any event") {
                         let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
@@ -886,21 +890,22 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
             }
             
             describe("sign up validation with valid form") {
-                var errors: SignUpFormErrors!
+                var signUpForm: SignUpForm!
                 
                 beforeEach {
                     sut.currentActionType = .signup
                     sut.email.value = "albert@letgo.com"
                     sut.password.value = "letitgo"
                     sut.username.value = "albert"
-                    errors = sut.validateSignUpForm()
+                    signUpForm = sut.validateSignUpForm()
+                    sut.signUp(nil)
                 }
                 
                 it("has send button enabled") {
                     expect(sendButtonEnabled) == true
                 }
                 it("returns no errors") {
-                    expect(errors) == []
+                    expect(signUpForm.errors) == []
                 }
                 it("does not track any event") {
                     let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
