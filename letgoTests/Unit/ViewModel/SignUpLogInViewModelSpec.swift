@@ -616,6 +616,64 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                 }
             }
             
+            describe("log in tracking with invalid form") {
+                beforeEach {
+                    sut.currentActionType = .login
+                }
+                
+                context("empty") {
+                    beforeEach {
+                        sut.email.value = ""
+                        sut.password.value = ""
+                        sut.logIn()
+                    }
+                    
+                    it("does not track any event") {
+                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                        expect(trackedEventNames) == []
+                    }
+                }
+                
+                context("with email non-valid & short password") {
+                    beforeEach {
+                        sut.email.value = "a"
+                        sut.password.value = "a"
+                        sut.logIn()
+                    }
+                    
+                    it("tracks a loginEmailError event") {
+                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                        expect(trackedEventNames) == [EventName.loginEmailError]
+                    }
+                }
+                
+                context("with valid email & long password") {
+                    beforeEach {
+                        sut.email.value = "albert@letgo.com"
+                        sut.password.value = "abcdefghijklmnopqrstuvwxyz"
+                        sut.logIn()
+                    }
+                    
+                    it("tracks a loginEmailError event") {
+                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                        expect(trackedEventNames) == [EventName.loginEmailError]
+                    }
+                }
+                
+                context("with valid email & password") {
+                    beforeEach {
+                        sut.email.value = "albert@letgo.com"
+                        sut.password.value = "letitgo"
+                        sut.logIn()
+                    }
+                    
+                    it("does not track any event") {
+                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                        expect(trackedEventNames) == []
+                    }
+                }
+            }
+            
             describe("log in validation with valid form") {
                 var logInEmailForm: LogInEmailForm!
                 
@@ -624,7 +682,6 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     sut.email.value = "albert@letgo.com"
                     sut.password.value = "letitgo"
                     logInEmailForm = sut.validateLogInForm()
-                    sut.logIn()
                 }
                 
                 it("has send button enabled") {
@@ -637,9 +694,19 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
                     expect(trackedEventNames) == []
                 }
-                it("calls show and hide loading in delegate") {
-                    expect(self.delegateReceivedShowLoading).toEventually(beTrue())
-                    expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+            }
+            
+            describe("log in tracking with valid form") {
+                beforeEach {
+                    sut.currentActionType = .login
+                    sut.email.value = "albert@letgo.com"
+                    sut.password.value = "letitgo"
+                    sut.logIn()
+                }
+                
+                it("does not track any event") {
+                    let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                    expect(trackedEventNames) == []
                 }
             }
             
@@ -668,6 +735,10 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     it("does not call show alert in the delegate to suggest reset pwd") {
                         expect(self.delegateReceivedShowAlert) == false
                     }
+                    it("calls show and hide loading in delegate") {
+                        expect(self.delegateReceivedShowLoading).toEventually(beTrue())
+                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                    }
                 }
                 
                 context("log in fails twice with unauthorized error") {
@@ -691,6 +762,10 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     }
                     it("calls show alert in the delegate to suggest reset pwd") {
                         expect(self.delegateReceivedShowAlert).toEventually(beTrue())
+                    }
+                    it("calls show and hide loading in delegate") {
+                        expect(self.delegateReceivedShowLoading).toEventually(beTrue())
+                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
                 }
                 
@@ -717,6 +792,10 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     it("does not call show alert in the delegate to suggest reset pwd") {
                         expect(self.delegateReceivedShowAlert) == false
                     }
+                    it("calls show and hide loading in delegate") {
+                        expect(self.delegateReceivedShowLoading).toEventually(beTrue())
+                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                    }
                 }
                 
                 context("log in fails with scammer error") {
@@ -738,6 +817,10 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     it("calls open scammer alert in the navigator") {
                         expect(self.finishedScammer).toEventually(beTrue())
                     }
+                    it("calls show and hide loading in delegate") {
+                        expect(self.delegateReceivedShowLoading).toEventually(beTrue())
+                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                    }
                 }
                 
                 context("log in fails with device not allowed error") {
@@ -758,6 +841,10 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     }
                     it("calls open device not allowed alert in the navigator") {
                         expect(self.finishedDeviceNotAllowed).toEventually(beTrue())
+                    }
+                    it("calls show and hide loading in delegate") {
+                        expect(self.delegateReceivedShowLoading).toEventually(beTrue())
+                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
                 }
                 
@@ -789,9 +876,12 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         let username = keyValueStorage[.previousUserEmailOrName]
                         expect(username) == email
                     }
+                    it("calls show and hide loading in delegate") {
+                        expect(self.delegateReceivedShowLoading).toEventually(beTrue())
+                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                    }
                 }
             }
-            
             
             describe("sign up validation with invalid form") {
                 var signUpForm: SignUpForm!
@@ -806,7 +896,6 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         sut.password.value = ""
                         sut.username.value = ""
                         signUpForm = sut.validateSignUpForm()
-                        sut.signUp(nil)
                     }
                     
                     it("has send button disabled") {
@@ -818,10 +907,6 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     it("does not call close because after login in navigator") {
                         expect(self.finishedSuccessfully) == false
                     }
-                    it("does not track any event") {
-                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
-                        expect(trackedEventNames) == []
-                    }
                 }
                 
                 context("with email non-valid & short password") {
@@ -830,7 +915,6 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         sut.password.value = "a"
                         sut.username.value = "a"
                         signUpForm = sut.validateSignUpForm()
-                        sut.signUp(nil)
                     }
                     
                     it("has send button enabled") {
@@ -842,10 +926,6 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     it("does not call close because after login in navigator") {
                         expect(self.finishedSuccessfully) == false
                     }
-                    it("tracks a signupError event") {
-                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
-                        expect(trackedEventNames) == [EventName.signupError]
-                    }
                 }
                 
                 context("with valid email, valid username but long password") {
@@ -854,7 +934,6 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         sut.password.value = "abcdefghijklmnopqrstuvwxyz"
                         sut.username.value = "albert"
                         signUpForm = sut.validateSignUpForm()
-                        sut.signUp(nil)
                     }
                     
                     it("has send button enabled") {
@@ -866,6 +945,66 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     it("does not call close because after login in navigator") {
                         expect(self.finishedSuccessfully) == false
                     }
+                }
+                
+                context("with valid email, password and username") {
+                    beforeEach {
+                        sut.email.value = "albert@letgo.com"
+                        sut.password.value = "letitgo"
+                        sut.username.value = "albert"
+                        signUpForm = sut.validateSignUpForm()
+                    }
+                    
+                    it("has send button enabled") {
+                        expect(sendButtonEnabled) == true
+                    }
+                    it("returns no errors") {
+                        expect(signUpForm.errors) == []
+                    }
+                }
+            }
+            
+            describe("sign up tracking with invalid form") {
+                beforeEach {
+                    sut.currentActionType = .signup
+                }
+                
+                context("empty") {
+                    beforeEach {
+                        sut.email.value = ""
+                        sut.password.value = ""
+                        sut.username.value = ""
+                        sut.signUp(nil)
+                    }
+                    
+                    it("does not track any event") {
+                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                        expect(trackedEventNames) == []
+                    }
+                }
+                
+                context("with email non-valid & short password") {
+                    beforeEach {
+                        sut.email.value = "a"
+                        sut.password.value = "a"
+                        sut.username.value = "a"
+                        sut.signUp(nil)
+                    }
+                    
+                    it("tracks a signupError event") {
+                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                        expect(trackedEventNames) == [EventName.signupError]
+                    }
+                }
+                
+                context("with valid email, valid username but long password") {
+                    beforeEach {
+                        sut.email.value = "albert@letgo.com"
+                        sut.password.value = "abcdefghijklmnopqrstuvwxyz"
+                        sut.username.value = "albert"
+                        sut.signUp(nil)
+                    }
+                    
                     it("tracks a loginEmailError event") {
                         let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
                         expect(trackedEventNames) == [EventName.signupError]
@@ -877,16 +1016,9 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         sut.email.value = "albert@letgo.com"
                         sut.password.value = "letitgo"
                         sut.username.value = "albert"
-                        signUpForm = sut.validateSignUpForm()
                         sut.signUp(nil)
                     }
-                    
-                    it("has send button enabled") {
-                        expect(sendButtonEnabled) == true
-                    }
-                    it("returns no errors") {
-                        expect(signUpForm.errors) == []
-                    }
+
                     it("does not track any event") {
                         let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
                         expect(trackedEventNames) == []
@@ -903,7 +1035,6 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     sut.password.value = "letitgo"
                     sut.username.value = "albert"
                     signUpForm = sut.validateSignUpForm()
-                    sut.signUp(nil)
                 }
                 
                 it("has send button enabled") {
@@ -912,13 +1043,20 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                 it("returns no errors") {
                     expect(signUpForm.errors) == []
                 }
+            }
+            
+            describe("sign up tracking with valid form") {
+                beforeEach {
+                    sut.currentActionType = .signup
+                    sut.email.value = "albert@letgo.com"
+                    sut.password.value = "letitgo"
+                    sut.username.value = "albert"
+                    sut.signUp(nil)
+                }
+                
                 it("does not track any event") {
                     let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
                     expect(trackedEventNames) == []
-                }
-                it("calls show and hide loading in delegate") {
-                    expect(self.delegateReceivedShowLoading).toEventually(beTrue())
-                    expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                 }
             }
 
@@ -948,6 +1086,10 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     it("does not call show alert in the delegate to suggest reset pwd") {
                         expect(self.delegateReceivedShowAlert) == false
                     }
+                    it("calls show and hide loading in delegate") {
+                        expect(self.delegateReceivedShowLoading).toEventually(beTrue())
+                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                    }
                 }
                 
                 context("sign up fails twice with unauthorized error") {
@@ -968,6 +1110,10 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     }
                     it("does not call close after login in navigator") {
                         expect(self.finishedSuccessfully) == false
+                    }
+                    it("calls show and hide loading in delegate") {
+                        expect(self.delegateReceivedShowLoading).toEventually(beTrue())
+                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
                 }
                 
@@ -994,6 +1140,10 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     it("does not call show alert in the delegate to suggest reset pwd") {
                         expect(self.delegateReceivedShowAlert) == false
                     }
+                    it("calls show and hide loading in delegate") {
+                        expect(self.delegateReceivedShowLoading).toEventually(beTrue())
+                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                    }
                 }
                 
                 context("sign up fails with scammer error") {
@@ -1014,6 +1164,10 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     }
                     it("calls open scammer alert in the navigator") {
                         expect(self.finishedScammer).toEventually(beTrue())
+                    }
+                    it("calls show and hide loading in delegate") {
+                        expect(self.delegateReceivedShowLoading).toEventually(beTrue())
+                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
                 }
                 
@@ -1044,6 +1198,10 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     it("saves the user email as previous email") {
                         let username = keyValueStorage[.previousUserEmailOrName]
                         expect(username) == email
+                    }
+                    it("calls show and hide loading in delegate") {
+                        expect(self.delegateReceivedShowLoading).toEventually(beTrue())
+                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
                 }
             }
