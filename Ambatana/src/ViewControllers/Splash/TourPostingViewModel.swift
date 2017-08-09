@@ -13,18 +13,54 @@ protocol TourPostingViewModelDelegate: BaseViewModelDelegate { }
 class TourPostingViewModel: BaseViewModel {
     weak var navigator: TourPostingNavigator?
 
-    let titleText: String
-    let subtitleText: String
-    let okButtonText: String
+    var titleText: String {
+        switch featureFlags.copiesImprovementOnboarding {
+        case .control, .baseline:
+            return LGLocalizedString.onboardingPostingTitleB
+        case .b:
+            return LGLocalizedString.onboardingPostingImprovementBTitle
+        case .c:
+            return LGLocalizedString.onboardingPostingImprovementCTitle
+        case .d:
+            return LGLocalizedString.onboardingPostingImprovementDTitle
+        case .e:
+            return LGLocalizedString.onboardingPostingImprovementETitle
+        case .f:
+            return LGLocalizedString.onboardingPostingImprovementFTitle
+        }
+    }
+    var subtitleText: String {
+        switch featureFlags.copiesImprovementOnboarding {
+        case .control, .baseline:
+            return LGLocalizedString.onboardingPostingSubtitleB
+        case .b, .c, .d, .e, .f:
+            return ""
+        }
+    }
+    
+    var okButtonText: String  {
+        switch featureFlags.copiesImprovementOnboarding {
+        case .control, .baseline, .b, .d, .e, .f:
+            return LGLocalizedString.onboardingPostingButtonB
+        case  .c:
+            return LGLocalizedString.onboardingPostingImprovementCButton
+        }
+    }
+    
+    var hasSubtitle: Bool {
+        switch featureFlags.copiesImprovementOnboarding {
+        case .control, .baseline:
+            return true
+        case .b, .c, .d, .e, .f:
+            return false
+        }
+    }
     
     let featureFlags: FeatureFlaggeable
 
-     weak var delegate: TourPostingViewModelDelegate?
+    weak var delegate: TourPostingViewModelDelegate?
     
     init(featureFlags: FeatureFlaggeable) {
-        titleText = LGLocalizedString.onboardingPostingTitleB
-        subtitleText = LGLocalizedString.onboardingPostingSubtitleB
-        okButtonText = LGLocalizedString.onboardingPostingButtonB
         self.featureFlags = featureFlags
         super.init()
     }

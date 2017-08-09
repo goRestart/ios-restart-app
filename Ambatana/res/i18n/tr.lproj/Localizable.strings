@@ -58,7 +58,7 @@
 "categories_old_cars_and_motors" = "Araba ve Motosikletler";
 "categories_other" = "Diğer";
 "categories_sports_leisure_and_games" = "Spor, Eğlence ve Oyunlar";
-"categories_super_keywords_inFeed_show_more" = "Show more";
+"categories_super_keywords_inFeed_show_more" = "Daha fazla göster";
 "categories_title" = "Kategoriler";
 "categories_unassigned" = "Seçilmedi";
 "change_email_current_email_label" = "ŞU ANKİ E-POSTAN:";
@@ -378,7 +378,7 @@
 "login_scammer_alert_title" = "HESAP İNCELEME ALTINDA";
 "main_products_filter_navigation_bar_button" = "Filtrele";
 "main_products_invite_navigation_bar_button" = "Davet Et";
-"main_sign_up_claim_label" = "Mesajlaşarak almaya ve satmaya başla!";
+"main_sign_up_claim_label" = "Çek, yükle, mesaj at, letgo ile kolay sat!";
 "main_sign_up_error_request_already_sent" = "İsteğin işleme alınmıştır. Tekrar denemeden önce lütfen bekle.";
 "main_sign_up_error_user_rejected" = "Girmiş olduğun email hatalıdır. Lütfen kontrol edip tekrar dene.";
 "main_sign_up_facebook_connect_button" = "Facebook ile devam et";
@@ -446,6 +446,10 @@
 "nps_survey_very_good" = "Son derece muhtemel";
 "onboarding_alert_no" = "Hayır";
 "onboarding_alert_yes" = "Evet";
+"onboarding_categories_button_countdown" = "En az %i kategori daha seçmelisin";
+"onboarding_categories_button_title_finish" = "İleri";
+"onboarding_categories_button_title_initial" = "En az %i kategori seçmelisin";
+"onboarding_categories_title" = "Hangi ürünler ilgini çekiyor?";
 "onboarding_direct_camera_alert_subtitle" = "İlk ürününü yükleyerek yakınındakilere satış yapmaya başla";
 "onboarding_direct_camera_alert_title" = "Nakit Kazanmaya Başla!";
 "onboarding_location_permissions_alert_subtitle" = "Yakın çevrendekiler yerine her yerde yayınlanmış ürünleri göreceksin";
@@ -458,6 +462,12 @@
 "onboarding_posting_button_a" = "Eşyalarını Sat";
 "onboarding_posting_button_b" = "Başla";
 "onboarding_posting_button_c" = "Evet, satılık eşyalarım var";
+"onboarding_posting_improvement_b_title" = "Satış yapmak çok kolay! Hemen dene!";
+"onboarding_posting_improvement_c_button" = "Şimdi dene";
+"onboarding_posting_improvement_c_title" = "Satış yapmak çok kolay! Hemen dene!";
+"onboarding_posting_improvement_d_title" = "Tek adımda ilan ver: Bir fotoğraf çekmen yeterli!";
+"onboarding_posting_improvement_e_title" = "Satış yapmak çok kolay: Bir fotoğraf çek ve gerisini bize bırak!";
+"onboarding_posting_improvement_f_title" = "Birkaç saniye içinde ilan verebilirsin!";
 "onboarding_posting_subtitle_a" = "İlk ürününü yayınlayarak yakınındakilere satış yapmaya başla";
 "onboarding_posting_subtitle_b" = "İhtiyacın olmayan eşyaları sat ve para kazan";
 "onboarding_posting_subtitle_c" = "Yakın çevrendeki insanlar bu ürünleri arıyor";

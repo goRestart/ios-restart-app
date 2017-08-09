@@ -58,7 +58,7 @@
 "categories_old_cars_and_motors" = "Autók és motorok";
 "categories_other" = "Egyéb";
 "categories_sports_leisure_and_games" = "Sport, szabadidő, játékok";
-"categories_super_keywords_inFeed_show_more" = "Show more";
+"categories_super_keywords_inFeed_show_more" = "Többet";
 "categories_title" = "Kategóriák";
 "categories_unassigned" = "Nincs megadva";
 "change_email_current_email_label" = "JELENLEGI E-MAIL:";
@@ -310,8 +310,8 @@
 "filters_car_year_before_year" = "%i előtti";
 "filters_distance_not_set" = "nincs megadva";
 "filters_navbar_reset" = "Mégse";
-"filters_price_from" = "Ettől:";
-"filters_price_to" = "Eddig:";
+"filters_price_from" = "Ettől";
+"filters_price_to" = "Eddig";
 "filters_price_wrong_range_error" = "A minimális ár nem lehet magasabb a maximális árnál.";
 "filters_save_button" = "Szűrők mentése";
 "filters_section_car_info" = "Autóinfók";
@@ -378,7 +378,7 @@
 "login_scammer_alert_title" = "FIÓK ELLENŐRZÉS ALATT";
 "main_products_filter_navigation_bar_button" = "Szűrés";
 "main_products_invite_navigation_bar_button" = "Meghívás";
-"main_sign_up_claim_label" = "Ideje vásárolni és eladni – csevegve!";
+"main_sign_up_claim_label" = "Vásárolj és adj el gyorsan, biztonságosan – a környékeden.";
 "main_sign_up_error_request_already_sent" = "Kérésed már feldolgozás alatt van. Várj egy kicsit, mielőtt újra próbálkoznál.";
 "main_sign_up_error_user_rejected" = "A megadott e-mail cím helytelen. Ellenőrizd, majd próbálkozz újra.";
 "main_sign_up_facebook_connect_button" = "Folytatás a Facebookkal";
@@ -446,6 +446,10 @@
 "nps_survey_very_good" = "Nagyon szívesen";
 "onboarding_alert_no" = "Nem";
 "onboarding_alert_yes" = "Igen";
+"onboarding_categories_button_countdown" = "Válassz még legalább %i kategóriát";
+"onboarding_categories_button_title_finish" = "Tovább";
+"onboarding_categories_button_title_initial" = "Válassz legalább %i kategóriát";
+"onboarding_categories_title" = "Mik érdekelnek?";
 "onboarding_direct_camera_alert_subtitle" = "Tedd közzé első portékádat, és már kereskedhetsz is a környékbeliekkel";
 "onboarding_direct_camera_alert_title" = "Kezdj pénzt keresni!";
 "onboarding_location_permissions_alert_subtitle" = "Minden hirdetés meg fog jelenni, nem csak a közeliek";
@@ -458,6 +462,12 @@
 "onboarding_posting_button_a" = "Add el a dolgaid";
 "onboarding_posting_button_b" = "Kezdés";
 "onboarding_posting_button_c" = "Igen, vannak eladó dolgaim";
+"onboarding_posting_improvement_b_title" = "Eladni könnyű. Próbáld ki!";
+"onboarding_posting_improvement_c_button" = "Próbáld ki";
+"onboarding_posting_improvement_c_title" = "Eladni könnyű. Próbáld ki!";
+"onboarding_posting_improvement_d_title" = "Hirdetés egyetlen lépéssel: csak készíts egy fotót!";
+"onboarding_posting_improvement_e_title" = "Eladni könnyű: csak készíts egy fotót, a többit mi elintézzük!";
+"onboarding_posting_improvement_f_title" = "Tölts fel hirdetést másodpercek alatt!";
 "onboarding_posting_subtitle_a" = "Tedd közzé első portékádat, és már kereskedhetsz is a környékbeliekkel";
 "onboarding_posting_subtitle_b" = "Váltsd pénzre szükségtelenné vált dolgaidat!";
 "onboarding_posting_subtitle_c" = "A környékbeli emberek a következőket böngészik";

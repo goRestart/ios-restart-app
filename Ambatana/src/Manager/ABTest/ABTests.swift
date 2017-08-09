@@ -29,7 +29,7 @@ class ABTests {
     let carsVerticalEnabled = BoolABDynamicVar(key: "carsVerticalEnabled", defaultValue: false)
     let carsCategoryAfterPicture = BoolABDynamicVar(key: "carsCategoryAfterPicture", defaultValue: false)
     let newMarkAsSoldFlow = BoolABDynamicVar(key: "newMarkAsSoldFlow", defaultValue: false)
-    let editLocationBubble = IntABDynamicVar(key: "editLocationBubble20170525", defaultValue: 0)
+    let editLocationBubble = IntABDynamicVar(key: "editLocationBubble20170525", defaultValue: 1)
     let newCarsMultiRequesterEnabled = BoolABDynamicVar(key: "newCarsMultiRequesterEnabled", defaultValue: false)
     let newCarouselNavigationEnabled = BoolABDynamicVar(key: "newCarouselNavigationEnabled20170606", defaultValue: false)
     let newOnboardingPhase1 = BoolABDynamicVar(key: "newOnboardingPhase1", defaultValue: false)
@@ -37,6 +37,8 @@ class ABTests {
     let inAppRatingIOS10 = BoolABDynamicVar(key: "20170711inAppRatingIOS10", defaultValue: false)
     let suggestedSearches = IntABDynamicVar(key: "20170717suggestedSearches", defaultValue: 0)
     let addSuperKeywordsOnFeed = IntABDynamicVar(key: "20170719AddSuperKeywordsOnFeed", defaultValue: 0)
+    let copiesImprovementOnboarding = IntABDynamicVar(key: "20170803CopiesImprovementOnboarding", defaultValue: 0)
+    let bumpUpImprovementBanner = IntABDynamicVar(key: "20170804BumpUpImprovementBanner", defaultValue: 0)
 
     init() {
     }
@@ -68,6 +70,8 @@ class ABTests {
         result.append(inAppRatingIOS10)
         result.append(suggestedSearches)
         result.append(addSuperKeywordsOnFeed)
+        result.append(copiesImprovementOnboarding)
+        result.append(bumpUpImprovementBanner)
 
         return result
     }

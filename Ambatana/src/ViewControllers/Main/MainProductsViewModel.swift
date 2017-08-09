@@ -152,7 +152,7 @@ class MainProductsViewModel: BaseViewModel {
             }
         }
 
-        if filters.selectedCategories.contains(.cars) {
+        if filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsCategory {
             if let makeId = filters.carMakeId, let makeName = filters.carMakeName {
                 resultTags.append(.make(id: makeId.value, name: makeName.uppercase))
                 if let modelId = filters.carModelId, let modelName = filters.carModelName {
@@ -172,7 +172,7 @@ class MainProductsViewModel: BaseViewModel {
     }
 
     fileprivate var shouldShowNoExactMatchesDisclaimer: Bool {
-        guard filters.selectedCategories.contains(.cars) else { return false }
+        guard filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsCategory else { return false }
         if filters.carMakeId != nil || filters.carModelId != nil || filters.carYearStart != nil || filters.carYearEnd != nil {
             return true
         }
@@ -887,7 +887,7 @@ extension MainProductsViewModel {
         guard let (suggestiveSearch, _) = suggestiveSearchAtIndex(index) else { return }
         guard let suggestiveSearchName = suggestiveSearch.name else { return }
         delegate?.vmDidSearch()
-        navigator?.openMainProduct(withSearchType: .suggestive(query: suggestiveSearchName), productFilters: filters)
+        navigator?.openMainProduct(withSearchType: .suggestive(query: suggestiveSearchName, indexSelected: index), productFilters: filters)
     }
     
     func selectedLastSearchAtIndex(_ index: Int) {
@@ -1104,7 +1104,8 @@ fileprivate extension MainProductsViewModel {
             let successValue = hasProducts ? EventParameterSearchCompleteSuccess.success : EventParameterSearchCompleteSuccess.fail
             tracker.trackEvent(TrackerEvent.searchComplete(myUserRepository.myUser, searchQuery: searchType.query,
                                                            isTrending: searchType.isTrending,
-                                                           success: successValue, isLastSearch: searchType.isLastSearch))
+                                                           success: successValue, isLastSearch: searchType.isLastSearch,
+                                                           isSuggestiveSearch: searchType.isSuggestive, suggestiveSearchIndex: searchType.indexSelected))
         }
     }
 
@@ -1148,7 +1149,7 @@ extension MainProductsViewModel: EditLocationDelegate {
 
 extension MainProductsViewModel: CategoriesHeaderCollectionViewDelegate {
     func openTaxonomyList() {
-        let vm = TaxonomiesViewModel(taxonomies: getTaxonomies())
+        let vm = TaxonomiesViewModel(taxonomies: getTaxonomies(), source: .productList)
         vm.taxonomiesDelegate = self
         navigator?.openTaxonomyList(withViewModel: vm)
     }

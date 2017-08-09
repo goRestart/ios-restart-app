@@ -208,11 +208,13 @@ extension AppCoordinator: AppNavigator {
     
     func openAppRating(_ source: EventParameterRatingSource) {
         guard ratingManager.shouldShowRating else { return }
-        
+        let trackerEvent = TrackerEvent.appRatingStart(source)
+        tracker.trackEvent(trackerEvent)
         if featureFlags.inAppRatingIOS10, #available(iOS 10.3, *) {
             switch source {
             case .markedSold:
                 SKStoreReviewController.requestReview()
+                trackUserDidRate()
                 LGRatingManager.sharedInstance.userDidRate()
             case .chat, .favorite, .productSellComplete:
                 guard canOpenAppStoreWriteReviewWebsite() else { return }
@@ -232,12 +234,17 @@ extension AppCoordinator: AppNavigator {
         let feedbackAlertAction = UIAction(interface: noButtonInterface, action: { [weak self] in
             self?.askUserToGiveFeedback()
         })
+        let dismissAction: (() -> ()) = { [weak self] in
+            self?.trackUserDidRemindLater()
+            LGRatingManager.sharedInstance.userDidRemindLater()
+        }
         openTransitionAlert(title: LGLocalizedString.ratingAppEnjoyingAlertTitle,
                             text: "",
                             alertType: .plainAlert,
                             buttonsLayout: .emojis,
                             actions: [feedbackAlertAction, rateAppAlertAction],
-                            simulatePushTransitionOnDismiss: true)
+                            simulatePushTransitionOnDismiss: true,
+                            dismissAction: dismissAction)
     }
     
     private func askUserToRateApp() {
@@ -245,20 +252,30 @@ extension AppCoordinator: AppNavigator {
                                                         ButtonStyle.primary(fontSize: .medium))
         let rateAppAction = UIAction(interface: rateAppInterface, action: { [weak self] in
             self?.openAppStoreWriteReviewWebsite()
+            self?.trackUserDidRate()
             LGRatingManager.sharedInstance.userDidRate()
         })
+        
+        let dismissAction: (() -> ()) = { [weak self] in
+            self?.trackUserDidRemindLater()
+            LGRatingManager.sharedInstance.userDidRemindLater()
+        }
         let exitInterface = UIActionInterface.button(LGLocalizedString.ratingAppRateAlertNoButton,
                                                      ButtonStyle.secondary(fontSize: .medium,
                                                                            withBorder: true))
         let exitAction = UIAction(interface: exitInterface, action: {
-            LGRatingManager.sharedInstance.userDidRemindLater()
+            dismissAction()
         })
+        
+       
+        
         openTransitionAlert(title: LGLocalizedString.ratingAppRateAlertTitle,
                             text: "",
                             alertType: .plainAlert,
                             buttonsLayout: .vertical,
                             actions: [rateAppAction, exitAction],
-                            simulatePushTransitionOnPresent: true)
+                            simulatePushTransitionOnPresent: true,
+                            dismissAction: dismissAction)
     }
     
     private func askUserToGiveFeedback() {
@@ -266,20 +283,27 @@ extension AppCoordinator: AppNavigator {
                                                              ButtonStyle.primary(fontSize: .medium))
         let giveFeedbackAction = UIAction(interface: giveFeedbackInterface, action: { [weak self] in
             self?.openGiveFeedback()
+            self?.trackUserDidRate()
             LGRatingManager.sharedInstance.userDidRate()
         })
         let exitInterface = UIActionInterface.button(LGLocalizedString.ratingAppFeedbackNoButton,
                                                      ButtonStyle.secondary(fontSize: .medium,
                                                                            withBorder: true))
-        let exitAction = UIAction(interface: exitInterface, action: {
+        let dismissAction: (() -> ()) = { [weak self] _ in
+            self?.trackUserDidRemindLater()
             LGRatingManager.sharedInstance.userDidRemindLater()
+        }
+        let exitAction = UIAction(interface: exitInterface, action: {
+            dismissAction()
         })
+        
         openTransitionAlert(title: LGLocalizedString.ratingAppFeedbackTitle,
                             text: "",
                             alertType: .plainAlert,
                             buttonsLayout: .vertical,
                             actions: [giveFeedbackAction, exitAction],
-                            simulatePushTransitionOnPresent: true)
+                            simulatePushTransitionOnPresent: true,
+                            dismissAction: dismissAction)
     }
     
     private func canOpenAppStoreWriteReviewWebsite() -> Bool {
@@ -293,6 +317,16 @@ extension AppCoordinator: AppNavigator {
         if let url = URL(string: Constants.appStoreWriteReviewURL) {
             UIApplication.shared.openURL(url)
         }
+    }
+    
+    private func trackUserDidRate() {
+        let trackerEvent = TrackerEvent.appRatingRate()
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+    }
+    
+    private func trackUserDidRemindLater() {
+        let event = TrackerEvent.appRatingRemindMeLater()
+        TrackerProxy.sharedInstance.trackEvent(event)
     }
     
     private func openGiveFeedback() {
