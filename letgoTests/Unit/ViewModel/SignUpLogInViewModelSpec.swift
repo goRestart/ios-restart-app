@@ -520,7 +520,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
             }
             
             describe("log in validation with invalid form") {
-                var errors: LogInEmailFormErrors!
+                var logInEmailForm: LogInEmailForm!
                 
                 beforeEach {
                     sut.currentActionType = .login
@@ -530,14 +530,15 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     beforeEach {
                         sut.email.value = ""
                         sut.password.value = ""
-                        errors = sut.validateLogInForm()
+                        logInEmailForm = sut.validateLogInForm()
+                        sut.logIn()
                     }
                     
                     it("has send button enabled") {
                         expect(sendButtonEnabled) == false
                     }
                     it("does not return any error") {
-                        expect(errors) == []
+                        expect(logInEmailForm.errors) == []
                     }
                     it("does not call close because after login in navigator") {
                         expect(self.finishedSuccessfully) == false
@@ -552,14 +553,15 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     beforeEach {
                         sut.email.value = "a"
                         sut.password.value = "a"
-                        errors = sut.validateLogInForm()
+                        logInEmailForm = sut.validateLogInForm()
+                        sut.logIn()
                     }
                     
                     it("has send button enabled") {
                         expect(sendButtonEnabled) == true
                     }
                     it("returns that the email is invalid and the password is short") {
-                        expect(errors) == [.invalidEmail, .shortPassword]
+                        expect(logInEmailForm.errors) == [.invalidEmail, .shortPassword]
                     }
                     it("does not call close because after login in navigator") {
                         expect(self.finishedSuccessfully) == false
@@ -574,14 +576,15 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     beforeEach {
                         sut.email.value = "albert@letgo.com"
                         sut.password.value = "abcdefghijklmnopqrstuvwxyz"
-                        errors = sut.validateLogInForm()
+                        logInEmailForm = sut.validateLogInForm()
+                        sut.logIn()
                     }
                     
                     it("has send button enabled") {
                         expect(sendButtonEnabled) == true
                     }
                     it("returns that the password is long") {
-                        expect(errors) == [.longPassword]
+                        expect(logInEmailForm.errors) == [.longPassword]
                     }
                     it("does not call close because after login in navigator") {
                         expect(self.finishedSuccessfully) == false
@@ -596,14 +599,15 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     beforeEach {
                         sut.email.value = "albert@letgo.com"
                         sut.password.value = "letitgo"
-                        errors = sut.validateLogInForm()
+                        logInEmailForm = sut.validateLogInForm()
+                        sut.logIn()
                     }
                     
                     it("has send button enabled") {
                         expect(sendButtonEnabled) == true
                     }
                     it("returns no errors") {
-                        expect(errors) == []
+                        expect(logInEmailForm.errors) == []
                     }
                     it("does not track any event") {
                         let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
@@ -613,20 +617,21 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
             }
             
             describe("log in validation with valid form") {
-                var errors: LogInEmailFormErrors!
+                var logInEmailForm: LogInEmailForm!
                 
                 beforeEach {
                     sut.currentActionType = .login
                     sut.email.value = "albert@letgo.com"
                     sut.password.value = "letitgo"
-                    errors = sut.validateLogInForm()
+                    logInEmailForm = sut.validateLogInForm()
+                    sut.logIn()
                 }
                 
                 it("has send button enabled") {
                     expect(sendButtonEnabled) == true
                 }
                 it("returns no errors") {
-                    expect(errors) == []
+                    expect(logInEmailForm.errors) == []
                 }
                 it("does not track any event") {
                     let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }

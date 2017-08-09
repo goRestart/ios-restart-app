@@ -41,6 +41,12 @@ struct SignUpForm {
     var errors: SignUpFormErrors = []
 }
 
+struct LogInEmailForm {
+    var email: String = ""
+    var password: String = ""
+    var errors: LogInEmailFormErrors = []
+}
+
 protocol SignUpLogInViewModelDelegate: BaseViewModelDelegate {
     func vmShowHiddenPasswordAlert()
 }
@@ -226,6 +232,8 @@ class SignUpLogInViewModel: BaseViewModel {
 
         guard sendButtonEnabledVar.value else { return signUpForm }
         
+        delegate?.vmShowLoading(nil)
+        
         guard let username = username.value else {
             signUpForm.errors.insert(.invalidUsername)
             return signUpForm
@@ -319,68 +327,69 @@ class SignUpLogInViewModel: BaseViewModel {
     }
     
     func logIn() {
-        let errors = validateLogInForm()
-        if errors.isEmpty {
-            
-            sendLogIn()
+        let logInEmailForm = validateLogInForm()
+        if logInEmailForm.errors.isEmpty {
+            sendLogIn(logInEmailForm)
+        } else {
+            delegate?.vmHideLoading(logInEmailForm.errors.errorMessage, afterMessageCompletion: nil)
+            trackFormLogInValidationFailed(errors: logInEmailForm.errors)
         }
     }
     
-    func validateLogInForm() -> LogInEmailFormErrors {
-        var errors: LogInEmailFormErrors = []
-        guard sendButtonEnabledVar.value else { return errors }
+    func validateLogInForm() -> LogInEmailForm {
+        var logInEmailForm = LogInEmailForm()
+        
+        guard sendButtonEnabledVar.value else { return logInEmailForm }
         
         if emailTrimmed.value == "admin" && password.value == "wat" {
             delegate?.vmShowHiddenPasswordAlert()
-            return errors
+            return logInEmailForm
         }
         
         delegate?.vmShowLoading(nil)
         
         // Form validation
         if let emailTrimmed = emailTrimmed.value {
-            if !emailTrimmed.isEmail() {
-                errors.insert(.invalidEmail)
+            if emailTrimmed.isEmail() {
+                logInEmailForm.email = emailTrimmed
+            } else {
+                logInEmailForm.errors.insert(.invalidEmail)
             }
         } else {
-            errors.insert(.invalidEmail)
+            logInEmailForm.errors.insert(.invalidEmail)
         }
+        
         if let password = password.value {
             if password.characters.count < Constants.passwordMinLength {
-                errors.insert(.shortPassword)
+                logInEmailForm.errors.insert(.shortPassword)
             } else if password.characters.count > Constants.passwordMaxLength {
-                errors.insert(.longPassword)
+                logInEmailForm.errors.insert(.longPassword)
+            } else {
+                logInEmailForm.password = password
             }
         } else {
-            errors.insert(.shortPassword)
+            logInEmailForm.errors.insert(.shortPassword)
         }
         
-        if !errors.isEmpty {
-            delegate?.vmHideLoading(errors.errorMessage, afterMessageCompletion: nil)
-            trackFormLogInValidationFailed(errors: errors)
-        }
-        
-        return errors
+        return logInEmailForm
     }
     
-    func sendLogIn() {
-        if let emailTrimmed = emailTrimmed.value, let password = password.value {
-            sessionManager.login(emailTrimmed, password: password) { [weak self] loginResult in
-                guard let strongSelf = self else { return }
+    func sendLogIn(_ logInForm: LogInEmailForm) {
+        sessionManager.login(logInForm.email, password: logInForm.password) { [weak self] loginResult in
+            guard let strongSelf = self else { return }
+            
+            if let user = loginResult.value {
+                self?.savePreviousEmailOrUsername(.email, userEmailOrName: user.email)
                 
-                if let user = loginResult.value {
-                    self?.savePreviousEmailOrUsername(.email, userEmailOrName: user.email)
-                    
-                    let rememberedAccount = strongSelf.previousEmail.value != nil
-                    let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource, rememberedAccount: rememberedAccount)
-                    self?.tracker.trackEvent(trackerEvent)
-                    
-                    self?.delegate?.vmHideLoading(nil) { [weak self] in
-                        self?.navigator?.closeSignUpLogInSuccessful(with: user)
-                    }
-                } else if let sessionManagerError = loginResult.error {
-                    strongSelf.processLoginSessionError(sessionManagerError)
+                let rememberedAccount = strongSelf.previousEmail.value != nil
+                let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource, rememberedAccount: rememberedAccount)
+                self?.tracker.trackEvent(trackerEvent)
+                
+                self?.delegate?.vmHideLoading(nil) { [weak self] in
+                    self?.navigator?.closeSignUpLogInSuccessful(with: user)
                 }
+            } else if let sessionManagerError = loginResult.error {
+                strongSelf.processLoginSessionError(sessionManagerError)
             }
         }
     }
