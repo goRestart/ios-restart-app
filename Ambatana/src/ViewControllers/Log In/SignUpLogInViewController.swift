@@ -215,7 +215,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         
         switch (viewModel.currentActionType) {
         case .signup:
-            viewModel.signUp()
+            viewModel.signUp(nil)
         case .login:
             loginButtonPressed()
         }
@@ -317,7 +317,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         else {            
             switch (viewModel.currentActionType) {
             case .signup:
-                viewModel.signUp()
+                viewModel.signUp(nil)
             case .login:
                 loginButtonPressed()
             }
@@ -617,8 +617,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
     }
     
     func loginButtonPressed() {
-        let errors = viewModel.logIn()
-        openAlertWithLogInFormErrors(errors: errors)
+        viewModel.logIn()
     }
     
     func openAlertWithLogInFormErrors(errors: LogInEmailFormErrors) {
