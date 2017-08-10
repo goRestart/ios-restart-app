@@ -87,12 +87,6 @@ class FeatureFlagsSpec: QuickSpec {
                 it("returns edit location bubble ab test dao value") {
                     expect(sut.editLocationBubble) == dao.editLocationBubble
                 }
-                it("saves cars vertical enabled ab test value in dao") {
-                    expect(dao.carsVerticalEnabled) == abTests.carsVerticalEnabled.value
-                }
-                it("returns cars vertical enabled ab test dao value") {
-                    expect(sut.carsVerticalEnabled) == dao.carsVerticalEnabled
-                }
             }
         }
     }

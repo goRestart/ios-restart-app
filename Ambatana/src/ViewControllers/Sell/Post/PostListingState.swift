@@ -24,14 +24,10 @@ final class PostListingState {
     
     convenience init(featureFlags: FeatureFlaggeable) {
         let step: PostListingStep
-        if featureFlags.carsVerticalEnabled {
-            if featureFlags.carsCategoryAfterPicture {
-                step = .imageSelection
-            } else {
-                step = .categorySelection
-            }
-        } else {
+        if featureFlags.carsCategoryAfterPicture {
             step = .imageSelection
+        } else {
+            step = .categorySelection
         }
         self.init(step: step,
                   previousStep: nil,
@@ -63,7 +59,7 @@ final class PostListingState {
     }
     
     func updating(category: PostCategory) -> PostListingState {
-        guard featureFlags.carsVerticalEnabled, step == .categorySelection else { return self }
+        guard step == .categorySelection else { return self }
         let newStep: PostListingStep
         if featureFlags.carsCategoryAfterPicture {
             switch category {
@@ -181,7 +177,7 @@ final class PostListingState {
     func updating(price: ListingPrice) -> PostListingState {
         guard step == .detailsSelection else { return self }
         let newStep: PostListingStep
-        if featureFlags.carsVerticalEnabled, featureFlags.carsCategoryAfterPicture {
+        if featureFlags.carsCategoryAfterPicture {
             newStep = .categorySelection
         } else {
             newStep = .finished
