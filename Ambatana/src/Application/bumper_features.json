@@ -46,11 +46,6 @@
         "description": "Item page next item related"
     },
     {
-        "name": "CarsVerticalEnabled",
-        "values": ["no", "yes"],
-        "description": "Cars vertical enabled"
-    },
-    {
         "name": "CarsCategoryAfterPicture",
         "values": ["no", "yes"],
         "description": "When cars vertical enabled, select category after image selection"
@@ -104,5 +99,10 @@
         "name": "CopiesImprovementOnboarding",
         "values": ["control", "baseline", "B", "C", "D", "E", "F"],
         "description": "new copies on last step of onboarding"
+    },
+    {
+        "name": "BumpUpImprovementBanner",
+        "values": ["control", "baseline", "active"],
+        "description": "new copies on bump up banner"
     }
 ]

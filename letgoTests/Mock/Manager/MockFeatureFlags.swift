@@ -29,7 +29,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var freeBumpUpEnabled: Bool = false
     var pricedBumpUpEnabled: Bool = false
     var productDetailNextRelated: Bool = false
-    var carsVerticalEnabled: Bool = false
     var carsCategoryAfterPicture: Bool = false
     var newMarkAsSoldFlow: Bool = false
     var editLocationBubble: EditLocationBubble = .inactive
@@ -41,7 +40,8 @@ class MockFeatureFlags: FeatureFlaggeable {
     var suggestedSearches: SuggestedSearches = .control
     var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed = .control
     var copiesImprovementOnboarding: CopiesImprovementOnboarding = .control
-
+    var bumpUpImprovementBanner: BumpUpImprovementBanner = .control
+    
     // Country dependant features
     var freePostingModeAllowed = false
     var locationRequiresManualChangeSuggestion = false

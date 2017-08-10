@@ -132,6 +132,13 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         cameraView.active = true
         galleryView.active = true
     }
+    
+    override func viewWillAppearFromBackground(_ fromBackground: Bool) {
+        super.viewWillAppearFromBackground(fromBackground)
+        if viewModel.state.value.isLoading {
+            customLoadingView.startAnimating()
+        }
+    }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -185,7 +192,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
 
         galleryView.delegate = self
         galleryView.usePhotoButtonText = viewModel.usePhotoButtonText
-        galleryView.collectionViewBottomInset = Metrics.margin + Metrics.sellCameraIconMaxSide
+        galleryView.collectionViewBottomInset = Metrics.margin + PostProductRedCamButtonFooter.cameraIconSide
         
         detailsContainerBottomConstraint.constant = 0
         
@@ -294,19 +301,13 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
             .trailing()
             .bottom()
         
-        footer.galleryButton?.rx.tap.asObservable().subscribeNext { [weak self] _ in
+        footer.galleryButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
             self?.galleryButtonPressed()
         }.addDisposableTo(disposeBag)
         cameraView.takePhotoEnabled.asObservable().bindTo(footer.cameraButton.rx.isEnabled).addDisposableTo(disposeBag)
-        if let galleryButton = footer.galleryButton {
-            cameraView.takePhotoEnabled.asObservable().bindTo(galleryButton.rx.isEnabled).addDisposableTo(disposeBag)
-        }
+        cameraView.takePhotoEnabled.asObservable().bindTo(footer.galleryButton.rx.isEnabled).addDisposableTo(disposeBag)
         footer.cameraButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
             self?.cameraButtonPressed()
-        }.addDisposableTo(disposeBag)
-        footer.postButton?.setTitle(viewModel.usePhotoButtonText, for: .normal)
-        footer.postButton?.rx.tap.asObservable().subscribeNext { [weak self] _ in
-            self?.galleryPostButtonPressed()
         }.addDisposableTo(disposeBag)
     }
 
@@ -642,8 +643,7 @@ extension PostProductViewController: PostProductGalleryViewDelegate {
     }
 
     func productGallerySelection(selection: ImageSelection) {
-            footer.cameraButton.isHidden = false
-            footer.postButton?.isHidden = true
+        footer.cameraButton.isHidden = false
     }
     
     func productGallerySwitchToCamera() {
