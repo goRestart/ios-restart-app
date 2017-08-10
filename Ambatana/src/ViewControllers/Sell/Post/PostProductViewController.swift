@@ -232,7 +232,6 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
             .bottom()
         
         carDetailsView.updateProgress(withPercentage: viewModel.currentCarDetailsProgress)
-        carDetailsView.backButtonHidden(false)
         
         carDetailsView.navigationBackButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
             self?.carDetailsNavigationBackButtonPressed()

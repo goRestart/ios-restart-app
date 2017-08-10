@@ -311,10 +311,6 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
                                  addOtherString: addOtherString)
     }
     
-    func backButtonHidden(_ hidden: Bool) {
-        navigationBackButton.isHidden = hidden
-    }
-    
     // MARK: UI Actions
     
     dynamic func navigationButtonOkPressed() {
