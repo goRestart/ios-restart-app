@@ -67,6 +67,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                 self.navigatorReceivedOpenRememberPassword = false
                 self.navigatorReceivedOpenHelp = false
                 
+                sendButtonEnabled = false
                 disposeBag = DisposeBag()
                 sut.sendButtonEnabled.subscribeNext { enabled in
                     sendButtonEnabled = enabled
