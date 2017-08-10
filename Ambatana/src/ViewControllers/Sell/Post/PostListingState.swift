@@ -59,7 +59,7 @@ final class PostListingState {
         let newStep: PostListingStep
         switch category {
         case .car:
-            newStep = .carDetailsSelection(includePrice: false)
+            newStep = .carDetailsSelection
         case .other:
             newStep = .finished
         }
@@ -99,7 +99,7 @@ final class PostListingState {
         }
         let nextStep: PostListingStep
         if let category = category, category == .car {
-            nextStep = .carDetailsSelection(includePrice: true)
+            nextStep = .carDetailsSelection
         } else {
             nextStep = .detailsSelection
         }
@@ -118,7 +118,7 @@ final class PostListingState {
         guard step == .uploadSuccess else { return self }
         let nextStep: PostListingStep
         if let category = category, category == .car {
-            nextStep = .carDetailsSelection(includePrice: true)
+            nextStep = .carDetailsSelection
         } else {
             nextStep = .detailsSelection
         }
@@ -180,7 +180,7 @@ final class PostListingState {
     }
     
     func updating(carInfo: CarAttributes) -> PostListingState {
-        guard step == .carDetailsSelection(includePrice: false) else { return self }
+        guard step == .carDetailsSelection else { return self }
         return PostListingState(step: .finished,
                                 previousStep: step,
                                 category: category,
@@ -192,7 +192,7 @@ final class PostListingState {
     }
     
     func updating(price: ListingPrice, carInfo: CarAttributes) -> PostListingState {
-        guard step == .carDetailsSelection(includePrice: true) else { return self }
+        guard step == .carDetailsSelection else { return self }
         return PostListingState(step: .finished,
                                 previousStep: step,
                                 category: category,
@@ -224,7 +224,7 @@ enum PostListingStep: Equatable {
     case uploadSuccess
     
     case categorySelection
-    case carDetailsSelection(includePrice: Bool)
+    case carDetailsSelection
     
     case finished
 }
@@ -236,8 +236,8 @@ func ==(lhs: PostListingStep, rhs: PostListingStep) -> Bool {
         return true
     case (let .errorUpload(lMessage), let .errorUpload(rMessage)):
         return lMessage == rMessage
-    case (let .carDetailsSelection(lIncludePrice), let .carDetailsSelection(rIncludePrice)):
-        return lIncludePrice == rIncludePrice
+    case (.carDetailsSelection, .carDetailsSelection):
+        return true
     default:
         return false
     }
