@@ -269,8 +269,8 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         return images[index]
     }
     
-    func getCategoryName(isCarsEnabled: Bool) -> String? {
-        return category.value?.getName(isCarsEnabled: isCarsEnabled)
+    var categoryName: String? {
+        return category.value?.name
     }
 
     var carAttributes: CarAttributes {
@@ -632,7 +632,7 @@ extension EditListingViewModel {
 
     func categoryNameAtIndex(_ index: Int) -> String {
         guard 0..<categories.count ~= index else { return "" }
-        return categories[index].getName(isCarsEnabled: featureFlags.carsVerticalEnabled)
+        return categories[index].name
     }
 
     func selectCategoryAtIndex(_ index: Int) {
@@ -641,7 +641,7 @@ extension EditListingViewModel {
     }
 
     fileprivate func setupCategories() {
-        categoryRepository.index(filterVisible: !featureFlags.carsVerticalEnabled) { [weak self] result in
+        categoryRepository.index(filterVisible: false) { [weak self] result in
             guard let categories = result.value else { return }
             self?.categories = categories
         }

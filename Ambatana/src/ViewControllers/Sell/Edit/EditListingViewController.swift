@@ -422,7 +422,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         setLocationTitleLabel.text = LGLocalizedString.settingsChangeLocationButton
 
         categoryTitleLabel.text = LGLocalizedString.sellCategorySelectionLabel
-        categorySelectedLabel.text = viewModel.getCategoryName(isCarsEnabled: featureFlags.carsVerticalEnabled) ?? ""
+        categorySelectedLabel.text = viewModel.categoryName ?? ""
 
         carsMakeTitleLabel.text = LGLocalizedString.postCategoryDetailCarMake
         carsModelTitleLabel.text = LGLocalizedString.postCategoryDetailCarModel
@@ -539,7 +539,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
                 strongSelf.updateCarsFields(isCar: false)
                 return
             }
-            strongSelf.categorySelectedLabel.text = category.getName(isCarsEnabled: strongSelf.featureFlags.carsVerticalEnabled)
+            strongSelf.categorySelectedLabel.text = category.name
             strongSelf.updateCarsFields(isCar: category == .cars)
         }.addDisposableTo(disposeBag)
 
