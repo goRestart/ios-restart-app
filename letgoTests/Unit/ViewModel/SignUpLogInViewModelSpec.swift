@@ -14,7 +14,6 @@ import Result
 import RxSwift
 
 class SignUpLogInViewModelSpec: BaseViewModelSpec {
-    //var loading: Bool = false
     var finishedSuccessfully: Bool = false
     var finishedScammer: Bool = false
     var finishedDeviceNotAllowed: Bool = false
@@ -24,7 +23,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
     var navigatorReceivedOpenHelp = false
 
     override func spec() {
-        fdescribe("SignUpLogInViewModelSpec") {
+        describe("SignUpLogInViewModelSpec") {
             var sut: SignUpLogInViewModel!
 
             var sessionManager: MockSessionManager!
@@ -58,12 +57,13 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                 sut.delegate = self
                 sut.navigator = self
 
-                //self.loading = false
                 self.finishedSuccessfully = false
                 self.finishedScammer = false
                 self.finishedDeviceNotAllowed = false
                 
                 self.delegateReceivedShowGodModeAlert = false
+                self.delegateReceivedHideLoading = false
+                self.delegateReceivedShowAlert = false
                 self.navigatorReceivedOpenRememberPassword = false
                 self.navigatorReceivedOpenHelp = false
                 
@@ -225,7 +225,6 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         sut.email.value = email
                         sut.password.value = "123456"
 
-                        self.delegateReceivedHideLoading = false
                         sut.logIn()
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
@@ -253,7 +252,6 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                             sut.email.value = email
                             sut.password.value = "123456"
                             sut.currentActionType = .login
-                            self.delegateReceivedHideLoading = false
                             sut.logIn()
                             expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                         }
@@ -278,7 +276,6 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
 
                             sut.email.value = email
                             sut.password.value = "123456"
-                            self.delegateReceivedHideLoading = false
                             sut.logIn()
                             expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                         }
@@ -306,7 +303,6 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
 
                             sut.email.value = email
                             sut.password.value = "123456"
-                            self.delegateReceivedHideLoading = false
                             sut.logIn()
                             expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                         }
@@ -379,7 +375,6 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     context("scammer") {
                         beforeEach {
                             googleLoginHelper.loginResult = .scammer
-                            self.delegateReceivedHideLoading = false
                             sut.logInWithGoogle()
                             expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                         }
@@ -402,7 +397,6 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     context("device not allowed") {
                         beforeEach {
                             googleLoginHelper.loginResult = .deviceNotAllowed
-                            self.delegateReceivedHideLoading = false
                             sut.logInWithGoogle()
                             expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                         }
@@ -720,7 +714,6 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                 context("log in fails once with unauthorized error") {
                     beforeEach {
                         sessionManager.logInResult = LoginResult(error: .unauthorized)
-                        self.delegateReceivedHideLoading = false
                         sut.logIn()
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
@@ -744,7 +737,6 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                 context("log in fails twice with unauthorized error") {
                     beforeEach {
                         sessionManager.logInResult = LoginResult(error: .unauthorized)
-                        self.delegateReceivedHideLoading = false
                         sut.logIn()
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                         self.delegateReceivedHideLoading = false
@@ -772,12 +764,9 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                 context("log in fails twice with another error") {
                     beforeEach {
                         sessionManager.logInResult = LoginResult(error: .network)
-                        self.delegateReceivedHideLoading = false
-                        self.delegateReceivedShowAlert = false
                         sut.logIn()
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                         self.delegateReceivedHideLoading = false
-                        self.delegateReceivedShowAlert = false
                         sut.logIn()
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
@@ -801,7 +790,6 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                 context("log in fails with scammer error") {
                     beforeEach {
                         sessionManager.logInResult = LoginResult(error: .scammer)
-                        self.delegateReceivedHideLoading = false
                         sut.logIn()
                         
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
@@ -825,7 +813,6 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                 
                 context("log in fails with device not allowed error") {
                     beforeEach {
-                        self.delegateReceivedHideLoading = false
                         sessionManager.logInResult = LoginResult(error: .deviceNotAllowed)
                         sut.logIn()
                         
@@ -855,7 +842,6 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         var myUser = MockMyUser.makeMock()
                         myUser.email = email
                         sessionManager.logInResult = LoginResult(value: myUser)
-                        self.delegateReceivedHideLoading = false
                         sut.logIn()
                         
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
@@ -1071,7 +1057,6 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                 context("sign up fails once with unauthorized error") {
                     beforeEach {
                         sessionManager.signUpResult = SignupResult(error: .unauthorized)
-                        self.delegateReceivedHideLoading = false
                         sut.signUp(nil)
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
@@ -1095,7 +1080,6 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                 context("sign up fails twice with unauthorized error") {
                     beforeEach {
                         sessionManager.signUpResult = SignupResult(error: .unauthorized)
-                        self.delegateReceivedHideLoading = false
                         sut.signUp(nil)
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                         self.delegateReceivedHideLoading = false
@@ -1120,12 +1104,9 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                 context("sign up fails twice with another error") {
                     beforeEach {
                         sessionManager.signUpResult = SignupResult(error: .network)
-                        self.delegateReceivedHideLoading = false
-                        self.delegateReceivedShowAlert = false
                         sut.signUp(nil)
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                         self.delegateReceivedHideLoading = false
-                        self.delegateReceivedShowAlert = false
                         sut.signUp(nil)
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
                     }
@@ -1149,7 +1130,6 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                 context("sign up fails with scammer error") {
                     beforeEach {
                         sessionManager.signUpResult = SignupResult(error: .scammer)
-                        self.delegateReceivedHideLoading = false
                         sut.signUp(nil)
                         
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
@@ -1178,7 +1158,6 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         var myUser = MockMyUser.makeMock()
                         myUser.email = email
                         sessionManager.signUpResult = SignupResult(value: myUser)
-                        self.delegateReceivedHideLoading = false
                         sut.signUp(nil)
                         
                         expect(self.delegateReceivedHideLoading).toEventually(beTrue())
