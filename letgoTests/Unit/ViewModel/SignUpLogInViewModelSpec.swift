@@ -23,7 +23,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
     var navigatorReceivedOpenHelp = false
 
     override func spec() {
-        describe("SignUpLogInViewModelSpec") {
+        fdescribe("SignUpLogInViewModelSpec") {
             var sut: SignUpLogInViewModel!
 
             var sessionManager: MockSessionManager!
@@ -870,318 +870,343 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                 }
             }
             
-            describe("sign up validation with invalid form") {
-                var signUpForm: SignUpForm!
-                
-                beforeEach {
-                    sut.currentActionType = .signup
-                }
-                
-                context("empty") {
+            describe("sign up") {
+                describe("form validation") {
+                    
+                    var signUpForm: SignUpForm!
+                    var errors: SignUpFormErrors!
+                    
                     beforeEach {
-                        sut.email.value = ""
-                        sut.password.value = ""
-                        sut.username.value = ""
-                        signUpForm = sut.validateSignUpForm()
+                        sut.currentActionType = .signup
+                        errors = []
                     }
                     
-                    it("has send button disabled") {
-                        expect(sendButtonEnabled) == false
-                    }
-                    it("does not return any error") {
-                        expect(signUpForm.errors) == []
-                    }
-                    it("does not call close because after login in navigator") {
-                        expect(self.finishedSuccessfully) == false
-                    }
-                }
-                
-                context("with email non-valid & short password") {
-                    beforeEach {
-                        sut.email.value = "a"
-                        sut.password.value = "a"
-                        sut.username.value = "a"
-                        signUpForm = sut.validateSignUpForm()
+                    context("empty") {
+                        beforeEach {
+                            signUpForm = SignUpForm(username: "",
+                                                    email: "",
+                                                    password: "",
+                                                    termsAndConditionsEnabled: true,
+                                                    termsAccepted: false)
+                            errors = signUpForm.checkErrors()
+                        }
+                        
+                        it("returns that the email is invalid, the password is short and the user is invalid") {
+                            expect(errors) == [.invalidEmail, .shortPassword, .invalidUsername, .termsNotAccepted]
+                        }
                     }
                     
-                    it("has send button enabled") {
-                        expect(sendButtonEnabled) == true
-                    }
-                    it("returns that the email is invalid, the password is short and the user is invalid") {
-                        expect(signUpForm.errors) == [.invalidEmail, .shortPassword, .invalidUsername]
-                    }
-                    it("does not call close because after login in navigator") {
-                        expect(self.finishedSuccessfully) == false
-                    }
-                }
-                
-                context("with valid email, valid username but long password") {
-                    beforeEach {
-                        sut.email.value = "albert@letgo.com"
-                        sut.password.value = "abcdefghijklmnopqrstuvwxyz"
-                        sut.username.value = "albert"
-                        signUpForm = sut.validateSignUpForm()
+                    context("invalid username, invalid email and invalid password") {
+                        beforeEach {
+                            signUpForm = SignUpForm(username: "a",
+                                                    email: "a",
+                                                    password: "a",
+                                                    termsAndConditionsEnabled: true,
+                                                    termsAccepted: false)
+                            errors = signUpForm.checkErrors()
+                        }
+                        
+                        it("returns that the email is invalid, the password is short and the user is invalid") {
+                            expect(errors) == [.invalidEmail, .shortPassword, .invalidUsername, .termsNotAccepted]
+                        }
                     }
                     
-                    it("has send button enabled") {
-                        expect(sendButtonEnabled) == true
+                    context("valid username, valid email and long password") {
+                        beforeEach {
+                            signUpForm = SignUpForm(username: "albert",
+                                                    email: "albert@letgo.com",
+                                                    password: "abcdefghijklmnopqrstuvwxyz",
+                                                    termsAndConditionsEnabled: true,
+                                                    termsAccepted: true)
+                            errors = signUpForm.checkErrors()
+                        }
+                        
+                        it("returns that the password is long") {
+                            expect(errors) == [.longPassword]
+                        }
                     }
-                    it("returns that the password is long") {
-                        expect(signUpForm.errors) == [.longPassword]
-                    }
-                    it("does not call close because after login in navigator") {
-                        expect(self.finishedSuccessfully) == false
+                    
+                    context("with valid email, password and username") {
+                        beforeEach {
+                            signUpForm = SignUpForm(username: "albert",
+                                                    email: "albert@letgo.com",
+                                                    password: "letitgo",
+                                                    termsAndConditionsEnabled: true,
+                                                    termsAccepted: true)
+                            errors = signUpForm.checkErrors()
+                        }
+                        
+                        it("returns no errors") {
+                            expect(errors) == []
+                        }
                     }
                 }
                 
-                context("with valid email, password and username") {
+                describe("sign up process") {
                     beforeEach {
+                        sut.currentActionType = .signup
+                    }
+                    
+                    context("empty") {
+                        beforeEach {
+                            sut.email.value = ""
+                            sut.password.value = ""
+                            sut.username.value = ""
+                            sut.signUp(recaptchaToken: nil)
+                        }
+                        
+                        it("has send button disabled") {
+                            expect(sendButtonEnabled) == false
+                        }
+                        it("does not call close because after login in navigator") {
+                            expect(self.finishedSuccessfully) == false
+                        }
+                    }
+                    
+                    context("with email non-valid & short password") {
+                        beforeEach {
+                            sut.email.value = "a"
+                            sut.password.value = "a"
+                            sut.username.value = "a"
+                            sut.signUp(recaptchaToken: nil)
+                        }
+                        
+                        it("has send button enabled") {
+                            expect(sendButtonEnabled) == true
+                        }
+                        it("does not call close because after login in navigator") {
+                            expect(self.finishedSuccessfully) == false
+                        }
+                    }
+
+                    context("with valid email, valid username but long password") {
+                        beforeEach {
+                            sut.email.value = "albert@letgo.com"
+                            sut.password.value = "abcdefghijklmnopqrstuvwxyz"
+                            sut.username.value = "albert"
+                            sut.signUp(recaptchaToken: nil)
+                        }
+                        
+                        it("has send button enabled") {
+                            expect(sendButtonEnabled) == true
+                        }
+                        it("does not call close because after login in navigator") {
+                            expect(self.finishedSuccessfully) == false
+                        }
+                    }
+                    
+                    context("with valid email, password and username") {
+                        beforeEach {
+                            sut.email.value = "albert@letgo.com"
+                            sut.password.value = "letitgo"
+                            sut.username.value = "albert"
+                            sut.signUp(recaptchaToken: nil)
+                        }
+                        
+                        it("has send button enabled") {
+                            expect(sendButtonEnabled) == true
+                        }
+                    }
+                }
+                
+                describe("tracking") {
+                    beforeEach {
+                        sut.currentActionType = .signup
+                    }
+                    
+                    context("empty") {
+                        beforeEach {
+                            sut.email.value = ""
+                            sut.password.value = ""
+                            sut.username.value = ""
+                            sut.signUp(recaptchaToken: nil)
+                        }
+                        
+                        it("does not track any event") {
+                            let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                            expect(trackedEventNames) == []
+                        }
+                    }
+                    
+                    context("with email non-valid & short password") {
+                        beforeEach {
+                            sut.email.value = "a"
+                            sut.password.value = "a"
+                            sut.username.value = "a"
+                            sut.signUp(recaptchaToken: nil)
+                        }
+                        
+                        it("tracks a signupError event") {
+                            let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                            expect(trackedEventNames) == [EventName.signupError]
+                        }
+                    }
+                    
+                    context("with valid email, valid username but long password") {
+                        beforeEach {
+                            sut.email.value = "albert@letgo.com"
+                            sut.password.value = "abcdefghijklmnopqrstuvwxyz"
+                            sut.username.value = "albert"
+                            sut.signUp(recaptchaToken: nil)
+                        }
+                        
+                        it("tracks a loginEmailError event") {
+                            let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                            expect(trackedEventNames) == [EventName.signupError]
+                        }
+                    }
+                    
+                    context("with valid email, password and username") {
+                        beforeEach {
+                            sut.email.value = "albert@letgo.com"
+                            sut.password.value = "letitgo"
+                            sut.username.value = "albert"
+                            sut.signUp(recaptchaToken: nil)
+                        }
+
+                        it("does not track any event") {
+                            let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                            expect(trackedEventNames) == []
+                        }
+                    }
+                }
+
+                describe("send sign up") {
+                    beforeEach {
+                        sut.currentActionType = .signup
                         sut.email.value = "albert@letgo.com"
                         sut.password.value = "letitgo"
                         sut.username.value = "albert"
-                        signUpForm = sut.validateSignUpForm()
                     }
                     
-                    it("has send button enabled") {
-                        expect(sendButtonEnabled) == true
-                    }
-                    it("returns no errors") {
-                        expect(signUpForm.errors) == []
-                    }
-                }
-            }
-            
-            describe("sign up tracking with invalid form") {
-                beforeEach {
-                    sut.currentActionType = .signup
-                }
-                
-                context("empty") {
-                    beforeEach {
-                        sut.email.value = ""
-                        sut.password.value = ""
-                        sut.username.value = ""
-                        sut.signUp(nil)
-                    }
-                    
-                    it("does not track any event") {
-                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
-                        expect(trackedEventNames) == []
-                    }
-                }
-                
-                context("with email non-valid & short password") {
-                    beforeEach {
-                        sut.email.value = "a"
-                        sut.password.value = "a"
-                        sut.username.value = "a"
-                        sut.signUp(nil)
-                    }
-                    
-                    it("tracks a signupError event") {
-                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
-                        expect(trackedEventNames) == [EventName.signupError]
-                    }
-                }
-                
-                context("with valid email, valid username but long password") {
-                    beforeEach {
-                        sut.email.value = "albert@letgo.com"
-                        sut.password.value = "abcdefghijklmnopqrstuvwxyz"
-                        sut.username.value = "albert"
-                        sut.signUp(nil)
-                    }
-                    
-                    it("tracks a loginEmailError event") {
-                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
-                        expect(trackedEventNames) == [EventName.signupError]
-                    }
-                }
-                
-                context("with valid email, password and username") {
-                    beforeEach {
-                        sut.email.value = "albert@letgo.com"
-                        sut.password.value = "letitgo"
-                        sut.username.value = "albert"
-                        sut.signUp(nil)
-                    }
-
-                    it("does not track any event") {
-                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
-                        expect(trackedEventNames) == []
-                    }
-                }
-            }
-            
-            describe("sign up validation with valid form") {
-                var signUpForm: SignUpForm!
-                
-                beforeEach {
-                    sut.currentActionType = .signup
-                    sut.email.value = "albert@letgo.com"
-                    sut.password.value = "letitgo"
-                    sut.username.value = "albert"
-                    signUpForm = sut.validateSignUpForm()
-                }
-                
-                it("has send button enabled") {
-                    expect(sendButtonEnabled) == true
-                }
-                it("returns no errors") {
-                    expect(signUpForm.errors) == []
-                }
-            }
-            
-            describe("sign up tracking with valid form") {
-                beforeEach {
-                    sut.currentActionType = .signup
-                    sut.email.value = "albert@letgo.com"
-                    sut.password.value = "letitgo"
-                    sut.username.value = "albert"
-                    sut.signUp(nil)
-                }
-                
-                it("does not track any event") {
-                    let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
-                    expect(trackedEventNames) == []
-                }
-            }
-
-            describe("sign up send valid form") {
-                beforeEach {
-                    sut.currentActionType = .signup
-                    sut.email.value = "albert@letgo.com"
-                    sut.password.value = "letitgo"
-                    sut.username.value = "albert"
-                }
-                
-                context("sign up fails once with unauthorized error") {
-                    beforeEach {
-                        sessionManager.signUpResult = SignupResult(error: .unauthorized)
-                        sut.signUp(nil)
-                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
-                    }
-                    
-                    it("tracks a loginEmailError event") {
-                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
-                        expect(trackedEventNames) == [EventName.signupError]
-                    }
-                    it("does not call close after login in navigator") {
-                        expect(self.finishedSuccessfully) == false
-                    }
-                    it("does not call show alert in the delegate to suggest reset pwd") {
-                        expect(self.delegateReceivedShowAlert) == false
-                    }
-                    it("calls show and hide loading in delegate") {
-                        expect(self.delegateReceivedShowLoading).toEventually(beTrue())
-                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
-                    }
-                }
-                
-                context("sign up fails twice with unauthorized error") {
-                    beforeEach {
-                        sessionManager.signUpResult = SignupResult(error: .unauthorized)
-                        sut.signUp(nil)
-                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
-                        self.delegateReceivedHideLoading = false
+                    context("sign up fails once with unauthorized error") {
+                        beforeEach {
+                            sessionManager.signUpResult = SignupResult(error: .unauthorized)
+                            sut.signUp(recaptchaToken: nil)
+                            expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                        }
                         
-                        sut.signUp(nil)
-                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                        it("tracks a loginEmailError event") {
+                            let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                            expect(trackedEventNames) == [EventName.signupError]
+                        }
+                        it("does not call close after login in navigator") {
+                            expect(self.finishedSuccessfully) == false
+                        }
+                        it("does not call show alert in the delegate to suggest reset pwd") {
+                            expect(self.delegateReceivedShowAlert) == false
+                        }
+                        it("calls show and hide loading in delegate") {
+                            expect(self.delegateReceivedShowLoading).toEventually(beTrue())
+                            expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                        }
                     }
                     
-                    it("tracks two signupError event") {
-                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
-                        expect(trackedEventNames) == [EventName.signupError, EventName.signupError]
-                    }
-                    it("does not call close after login in navigator") {
-                        expect(self.finishedSuccessfully) == false
-                    }
-                    it("calls show and hide loading in delegate") {
-                        expect(self.delegateReceivedShowLoading).toEventually(beTrue())
-                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
-                    }
-                }
-                
-                context("sign up fails twice with another error") {
-                    beforeEach {
-                        sessionManager.signUpResult = SignupResult(error: .network)
-                        sut.signUp(nil)
-                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
-                        self.delegateReceivedHideLoading = false
-                        sut.signUp(nil)
-                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
-                    }
-                    
-                    it("tracks two loginEmailError event") {
-                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
-                        expect(trackedEventNames) == [EventName.signupError, EventName.signupError]
-                    }
-                    it("does not call close after login in navigator") {
-                        expect(self.finishedSuccessfully) == false
-                    }
-                    it("does not call show alert in the delegate to suggest reset pwd") {
-                        expect(self.delegateReceivedShowAlert) == false
-                    }
-                    it("calls show and hide loading in delegate") {
-                        expect(self.delegateReceivedShowLoading).toEventually(beTrue())
-                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
-                    }
-                }
-                
-                context("sign up fails with scammer error") {
-                    beforeEach {
-                        sessionManager.signUpResult = SignupResult(error: .scammer)
-                        sut.signUp(nil)
+                    context("sign up fails twice with unauthorized error") {
+                        beforeEach {
+                            sessionManager.signUpResult = SignupResult(error: .unauthorized)
+                            sut.signUp(recaptchaToken: nil)
+                            expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                            self.delegateReceivedHideLoading = false
+                            
+                            sut.signUp(recaptchaToken: nil)
+                            expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                        }
                         
-                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                        it("tracks two signupError event") {
+                            let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                            expect(trackedEventNames) == [EventName.signupError, EventName.signupError]
+                        }
+                        it("does not call close after login in navigator") {
+                            expect(self.finishedSuccessfully) == false
+                        }
+                        it("calls show and hide loading in delegate") {
+                            expect(self.delegateReceivedShowLoading).toEventually(beTrue())
+                            expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                        }
                     }
                     
-                    it("tracks a loginEmailError event") {
-                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
-                        expect(trackedEventNames) == [EventName.signupError]
-                    }
-                    it("does not call close after login in navigator") {
-                        expect(self.finishedSuccessfully) == false
-                    }
-                    it("calls open scammer alert in the navigator") {
-                        expect(self.finishedScammer).toEventually(beTrue())
-                    }
-                    it("calls show and hide loading in delegate") {
-                        expect(self.delegateReceivedShowLoading).toEventually(beTrue())
-                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
-                    }
-                }
-                
-                context("sign up succeeds") {
-                    let email = "albert.hernandez@gmail.com"
-                    
-                    beforeEach {
-                        var myUser = MockMyUser.makeMock()
-                        myUser.email = email
-                        sessionManager.signUpResult = SignupResult(value: myUser)
-                        sut.signUp(nil)
+                    context("sign up fails twice with another error") {
+                        beforeEach {
+                            sessionManager.signUpResult = SignupResult(error: .network)
+                            sut.signUp(recaptchaToken: nil)
+                            expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                            self.delegateReceivedHideLoading = false
+                            sut.signUp(recaptchaToken: nil)
+                            expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                        }
                         
-                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                        it("tracks two loginEmailError event") {
+                            let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                            expect(trackedEventNames) == [EventName.signupError, EventName.signupError]
+                        }
+                        it("does not call close after login in navigator") {
+                            expect(self.finishedSuccessfully) == false
+                        }
+                        it("does not call show alert in the delegate to suggest reset pwd") {
+                            expect(self.delegateReceivedShowAlert) == false
+                        }
+                        it("calls show and hide loading in delegate") {
+                            expect(self.delegateReceivedShowLoading).toEventually(beTrue())
+                            expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                        }
                     }
                     
-                    it("tracks a signupEmail event") {
-                        let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
-                        expect(trackedEventNames) == [EventName.signupEmail]
+                    context("sign up fails with scammer error") {
+                        beforeEach {
+                            sessionManager.signUpResult = SignupResult(error: .scammer)
+                            sut.signUp(recaptchaToken: nil)
+                            
+                            expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                        }
+                        
+                        it("tracks a loginEmailError event") {
+                            let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                            expect(trackedEventNames) == [EventName.signupError]
+                        }
+                        it("does not call close after login in navigator") {
+                            expect(self.finishedSuccessfully) == false
+                        }
+                        it("calls open scammer alert in the navigator") {
+                            expect(self.finishedScammer).toEventually(beTrue())
+                        }
+                        it("calls show and hide loading in delegate") {
+                            expect(self.delegateReceivedShowLoading).toEventually(beTrue())
+                            expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                        }
                     }
-                    it("calls close after login in navigator when signup succeeds") {
-                        expect(self.finishedSuccessfully).toEventually(beTrue())
-                    }
-                    it("saves letgo as previous user account provider") {
-                        let provider = keyValueStorage[.previousUserAccountProvider]
-                        expect(provider) == "letgo"
-                    }
-                    it("saves the user email as previous email") {
-                        let username = keyValueStorage[.previousUserEmailOrName]
-                        expect(username) == email
-                    }
-                    it("calls show and hide loading in delegate") {
-                        expect(self.delegateReceivedShowLoading).toEventually(beTrue())
-                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                    
+                    context("sign up succeeds") {
+                        let email = "albert.hernandez@gmail.com"
+                        
+                        beforeEach {
+                            var myUser = MockMyUser.makeMock()
+                            myUser.email = email
+                            sessionManager.signUpResult = SignupResult(value: myUser)
+                            sut.signUp(recaptchaToken: nil)
+                            
+                            expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                        }
+                        
+                        it("tracks a signupEmail event") {
+                            let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                            expect(trackedEventNames) == [EventName.signupEmail]
+                        }
+                        it("calls close after login in navigator when signup succeeds") {
+                            expect(self.finishedSuccessfully).toEventually(beTrue())
+                        }
+                        it("saves letgo as previous user account provider") {
+                            let provider = keyValueStorage[.previousUserAccountProvider]
+                            expect(provider) == "letgo"
+                        }
+                        it("saves the user email as previous email") {
+                            let username = keyValueStorage[.previousUserEmailOrName]
+                            expect(username) == email
+                        }
+                        it("calls show and hide loading in delegate") {
+                            expect(self.delegateReceivedShowLoading).toEventually(beTrue())
+                            expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                        }
                     }
                 }
             }

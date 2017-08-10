@@ -215,7 +215,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         
         switch (viewModel.currentActionType) {
         case .signup:
-            viewModel.signUp(nil)
+            viewModel.signUp(recaptchaToken: nil)
         case .login:
             loginButtonPressed()
         }
@@ -317,7 +317,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         else {            
             switch (viewModel.currentActionType) {
             case .signup:
-                viewModel.signUp(nil)
+                viewModel.signUp(recaptchaToken: nil)
             case .login:
                 loginButtonPressed()
             }
