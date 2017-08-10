@@ -86,9 +86,32 @@ struct SignUpForm {
 }
 
 struct LogInEmailForm {
-    var email: String = ""
-    var password: String = ""
-    var errors: LogInEmailFormErrors = []
+    let email: String
+    let password: String
+    
+    func checkErrors() -> LogInEmailFormErrors {
+        var errors: LogInEmailFormErrors = []
+        errors.insert(checkEmail())
+        errors.insert(checkPassword())
+        return errors
+    }
+    
+    private func checkEmail() -> LogInEmailFormErrors {
+        if email.isEmpty || !email.isEmail() {
+            return LogInEmailFormErrors.invalidEmail
+        }
+        return []
+    }
+    
+    private func checkPassword() -> LogInEmailFormErrors {
+        var errors: LogInEmailFormErrors = []
+        if password.characters.count < Constants.passwordMinLength {
+            errors.insert(.shortPassword)
+        } else if password.characters.count > Constants.passwordMaxLength {
+            errors.insert(.longPassword)
+        }
+        return errors
+    }
 }
 
 protocol SignUpLogInViewModelDelegate: BaseViewModelDelegate {
@@ -328,55 +351,26 @@ class SignUpLogInViewModel: BaseViewModel {
     }
     
     func logIn() {
-        let logInEmailForm = validateLogInForm()
-        if logInEmailForm.errors.isEmpty {
-            sendLogIn(logInEmailForm)
-        } else {
-            delegate?.vmHideLoading(logInEmailForm.errors.errorMessage, afterMessageCompletion: nil)
-            trackFormLogInValidationFailed(errors: logInEmailForm.errors)
-        }
-    }
-    
-    func validateLogInForm() -> LogInEmailForm {
-        var logInEmailForm = LogInEmailForm()
-        
-        guard sendButtonEnabledVar.value else { return logInEmailForm }
+        guard sendButtonEnabledVar.value else { return }
         
         if emailTrimmed.value == "admin" && password.value == "wat" {
             delegate?.vmShowHiddenPasswordAlert()
-            return logInEmailForm
+            return
         }
         
-        delegate?.vmShowLoading(nil)
+        let logInEmailForm = LogInEmailForm(email: email.value ?? "",
+                                            password: password.value ?? "")
+        let errors = logInEmailForm.checkErrors()
         
-        // Form validation
-        if let emailTrimmed = emailTrimmed.value {
-            if emailTrimmed.isEmail() {
-                logInEmailForm.email = emailTrimmed
-            } else {
-                logInEmailForm.errors.insert(.invalidEmail)
-            }
+        if errors.isEmpty {
+            sendLogIn(logInEmailForm)
         } else {
-            logInEmailForm.errors.insert(.invalidEmail)
+            trackFormLogInValidationFailed(errors: errors)
         }
-        
-        if let password = password.value {
-            if password.characters.count < Constants.passwordMinLength {
-                logInEmailForm.errors.insert(.shortPassword)
-            } else if password.characters.count > Constants.passwordMaxLength {
-                logInEmailForm.errors.insert(.longPassword)
-            } else {
-                logInEmailForm.password = password
-            }
-        } else {
-            logInEmailForm.errors.insert(.shortPassword)
-        }
-        
-        return logInEmailForm
     }
     
     func sendLogIn(_ logInForm: LogInEmailForm) {
-        
+        delegate?.vmShowLoading(nil)
         
         sessionManager.login(logInForm.email, password: logInForm.password) { [weak self] loginResult in
             guard let strongSelf = self else { return }
