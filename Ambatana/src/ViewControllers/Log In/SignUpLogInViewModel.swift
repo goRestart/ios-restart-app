@@ -308,10 +308,10 @@ class SignUpLogInViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
             
             if let user = signUpResult.value {
-                self?.savePreviousEmailOrUsername(.email, userEmailOrName: user.email)
+                strongSelf.savePreviousEmailOrUsername(.email, userEmailOrName: user.email)
                 
                 // Tracking
-                self?.tracker.trackEvent(
+                strongSelf.tracker.trackEvent(
                     TrackerEvent.signupEmail(strongSelf.loginSource, newsletter: strongSelf.newsletterParameter))
                 
                 strongSelf.delegate?.vmHideLoading(nil) { [weak self] in
@@ -325,8 +325,8 @@ class SignUpLogInViewModel: BaseViewModel {
                             let rememberedAccount = strongSelf.previousEmail.value != nil
                             let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource,
                                                                        rememberedAccount: rememberedAccount)
-                            self?.tracker.trackEvent(trackerEvent)
-                            self?.delegate?.vmHideLoading(nil) { [weak self] in
+                            strongSelf.tracker.trackEvent(trackerEvent)
+                            strongSelf.delegate?.vmHideLoading(nil) { [weak self] in
                                 self?.navigator?.closeSignUpLogInSuccessful(with: myUser)
                             }
                         } else {
@@ -431,7 +431,6 @@ class SignUpLogInViewModel: BaseViewModel {
     // MARK: > Rx
     
     fileprivate func setupRx() {
-        // Send is enabled when email & password are not empty
         Observable.combineLatest(email.asObservable(), password.asObservable(), username.asObservable()) { [weak self] (email, password, username) -> Bool in
             guard let strongSelf = self else { return false }
             guard let email = email, let password = password else { return false }
@@ -720,7 +719,7 @@ fileprivate extension SignUpLogInViewModel {
 fileprivate extension SignUpLogInViewModel {
     func showRememberPasswordAlert() {
         let title = LGLocalizedString.logInEmailForgotPasswordAlertTitle
-        var message = ""
+        var message: String?
         if let emailTrimmed = emailTrimmed.value {
             message = LGLocalizedString.logInEmailForgotPasswordAlertMessage(emailTrimmed)
         }
@@ -728,8 +727,7 @@ fileprivate extension SignUpLogInViewModel {
                                     action: {})
         let recoverPasswordAction = UIAction(interface: .styledText(LGLocalizedString.logInEmailForgotPasswordAlertRememberAction, .destructive),
                                              action: { [weak self] in
-                                                guard let emailTrimmed = self?.emailTrimmed else { return }
-                                                if let emailTrimmed = emailTrimmed.value {
+                                                if let emailTrimmed = self?.emailTrimmed.value {
                                                     self?.recoverPassword(email: emailTrimmed)
                                                 }
         })
