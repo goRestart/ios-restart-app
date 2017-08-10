@@ -9,9 +9,8 @@
 import UIKit
 
 protocol PostProductFooter {
-    var galleryButton: UIButton? { get }
+    var galleryButton: UIButton { get }
     var cameraButton: UIButton { get }
-    var postButton: UIButton? { get }
     var isHidden: Bool { get set }
     func update(scroll: CGFloat)
 }
