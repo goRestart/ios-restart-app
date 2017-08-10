@@ -16,7 +16,9 @@ protocol LGSliderDataSource: class {
 
 
 class LGSliderSelector {
+    static let shadowRadius: CGFloat = 1.5
     private var transformBackUp: CGAffineTransform = CGAffineTransform.identity
+    let touchableView = UIView()
     let imageView: UIImageView
     var constraint = NSLayoutConstraint()
     var isDragging = false {
@@ -43,14 +45,17 @@ class LGSliderSelector {
     // MARK: - Lifecycle
     
     init(image: UIImage, rotate: Bool = false) {
-        let shadowRadius: CGFloat = 1.5
+        touchableView.isUserInteractionEnabled = true
+        
         imageView = UIImageView(image: image)
-        imageView.isUserInteractionEnabled = true
         imageView.layer.masksToBounds = false
-        imageView.layer.shadowOffset = CGSize(width: 0, height: rotate ? -shadowRadius : shadowRadius)
-        imageView.layer.shadowRadius = shadowRadius
+        imageView.layer.shadowOffset = CGSize(width: 0,
+                                              height: rotate ? -LGSliderSelector.shadowRadius : 
+                                                LGSliderSelector.shadowRadius)
+        imageView.layer.shadowRadius = LGSliderSelector.shadowRadius
         imageView.layer.shadowOpacity = 0.3
         imageView.transform = rotate ? CGAffineTransform(rotationAngle: .pi) : CGAffineTransform.identity
+        
         transformBackUp = imageView.transform
     }
 }

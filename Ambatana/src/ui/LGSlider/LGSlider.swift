@@ -17,7 +17,7 @@ protocol LGSliderDelegate: class {
 
 class LGSlider: UIView, LGSliderDataSource {
     
-    static let selectorSize: CGFloat = 34
+    static let selectorSize: CGFloat = 30
     private let viewModel: LGSliderViewModel
     
     private let leftSelector = LGSliderSelector(image: #imageLiteral(resourceName: "ic_chevron_right"))
@@ -42,6 +42,7 @@ class LGSlider: UIView, LGSliderDataSource {
         super.init(frame: CGRect.zero)
         setupUI()
         setupConstraints()
+        setupGestures()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -55,13 +56,7 @@ class LGSlider: UIView, LGSliderDataSource {
         backgroundColor = UIColor.white
         
         leftSelector.dataSource = self
-        let leftGesture = UILongPressGestureRecognizer(target: self, action: #selector(didPressSelector(gesture:)))
-        leftGesture.minimumPressDuration = 0
-        leftSelector.imageView.addGestureRecognizer(leftGesture)
         rightSelector.dataSource = self
-        let rightGesture = UILongPressGestureRecognizer(target: self, action: #selector(didPressSelector(gesture:)))
-        rightGesture.minimumPressDuration = 0
-        rightSelector.imageView.addGestureRecognizer(rightGesture)
         
         disabledBarView.backgroundColor = UIColor.gray
         enabledBarView.backgroundColor = UIColor.primaryColor
@@ -124,6 +119,30 @@ class LGSlider: UIView, LGSliderDataSource {
             .left(to: .right) { [weak self] in
                 self?.rightSelector.constraint = $0
         }
+    }
+    
+    private func setupGestures() {
+        let views = [leftSelector.touchableView, rightSelector.touchableView]
+        setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: views)
+        addSubviews(views)
+        leftSelector.touchableView.layout(with: leftSelector.imageView)
+            .left(by: -15)
+            .right()
+            .top(by: -10)
+            .bottom(by: 10)
+        rightSelector.touchableView.layout(with: rightSelector.imageView)
+            .left()
+            .right(by: 15)
+            .top(by: -10)
+            .bottom(by: 10)
+        
+        let leftGesture = UILongPressGestureRecognizer(target: self, action: #selector(didPressSelector(gesture:)))
+        leftGesture.minimumPressDuration = 0
+        leftSelector.touchableView.addGestureRecognizer(leftGesture)
+        
+        let rightGesture = UILongPressGestureRecognizer(target: self, action: #selector(didPressSelector(gesture:)))
+        rightGesture.minimumPressDuration = 0
+        rightSelector.touchableView.addGestureRecognizer(rightGesture)
     }
     
     private func updateUI() {
@@ -236,18 +255,19 @@ class LGSlider: UIView, LGSliderDataSource {
     dynamic func didPressSelector(gesture: UILongPressGestureRecognizer) {
         guard let viewPressed = gesture.view else { return }
         guard let selector: LGSliderSelector =
-            viewPressed == leftSelector.imageView ? leftSelector :
-            viewPressed == rightSelector.imageView ? rightSelector : nil
+            viewPressed == leftSelector.touchableView ? leftSelector :
+            viewPressed == rightSelector.touchableView ? rightSelector : nil
             else { return }
 
         switch gesture.state {
         case .began:
             selector.isDragging = true
+            previousLocationInView = gesture.location(in: self)
         case .changed:
-            previousLocationInView = selector.imageView.center
             let locationInView = gesture.location(in: self)
             let movementAcrossXAxis = locationInView.x - previousLocationInView.x
             handleSelectorTouch(selector: selector, movementAcrossXAxis: movementAcrossXAxis)
+            previousLocationInView = locationInView
         case .ended, .cancelled, .failed:
             selector.isDragging = false
         default:
