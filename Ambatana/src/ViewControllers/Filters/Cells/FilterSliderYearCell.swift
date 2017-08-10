@@ -36,15 +36,19 @@ class FilterSliderYearCell: UICollectionViewCell, LGSliderDelegate {
         resetUI()
     }
 
-    func setupSlider(minimumValue: Int?, maximumValue: Int?) {
-        let minimumValue = minimumValue ?? Constants.filterMinCarYear
-        let maximumValue = maximumValue ?? Date().year
+    func setupSlider(minimumValue: Int,
+                     maximumValue: Int,
+                     minimumValueSelected: Int?,
+                     maximumValueSelected: Int?) {
+        
         let vm = LGSliderViewModel(title: LGLocalizedString.postCategoryDetailCarYear,
                                    minimumValueNotSelectedText: String(format: LGLocalizedString.filtersCarYearBeforeYear, minimumValue),
                                    maximumValueNotSelectedText: String(maximumValue),
                                    minimumAndMaximumValuesNotSelectedText: LGLocalizedString.filtersCarYearAnyYear,
                                    minimumValue: minimumValue,
-                                   maximumValue: maximumValue)
+                                   maximumValue: maximumValue,
+                                   minimumValueSelected: minimumValueSelected,
+                                   maximumValueSelected: maximumValueSelected)
         slider = LGSlider(viewModel: vm)
         guard let slider = self.slider else { return }
         slider.delegate = self
@@ -61,7 +65,8 @@ class FilterSliderYearCell: UICollectionViewCell, LGSliderDelegate {
     // MARK: - UI
     
     private func setupUI() {
-        // add borders
+        _ = addTopBorderWithWidth(LGUIKitConstants.onePixelSize, color: UIColor.gray)
+        _ = addBottomBorderWithWidth(LGUIKitConstants.onePixelSize, color: UIColor.gray)
         backgroundColor = UIColor.white
     }
     

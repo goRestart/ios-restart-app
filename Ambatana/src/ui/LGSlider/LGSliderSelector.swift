@@ -20,11 +20,12 @@ class LGSliderSelector {
     private var transformBackUp: CGAffineTransform = CGAffineTransform.identity
     let touchableView = UIView()
     let imageView: UIImageView
+    var previousLocationInView = CGPoint.zero
     var constraint = NSLayoutConstraint()
     var isDragging = false {
         didSet {
             if isDragging {
-                imageView.transform = CGAffineTransform(scaleX: 1.05, y: 1.05).concatenating(transformBackUp)
+                imageView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2).concatenating(transformBackUp)
             } else {
                 imageView.transform = transformBackUp
             }

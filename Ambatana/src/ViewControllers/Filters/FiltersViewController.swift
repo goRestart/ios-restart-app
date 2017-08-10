@@ -124,8 +124,12 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
     // MARK: FilterCarInfoYearCellDelegate
 
     func filterYearChanged(withStartYear startYear: Int?, endYear: Int?) {
-        viewModel.carYearStart = startYear
-        viewModel.carYearEnd = endYear
+        if let startYear = startYear {
+            viewModel.carYearStart = startYear
+        }
+        if let endYear = endYear {
+            viewModel.carYearEnd = endYear
+        }
     }
 
     // MARK: FilterPriceCellDelegate
@@ -274,7 +278,10 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                     // Year
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterCarInfoYearCell",
                                                                         for: indexPath) as? FilterSliderYearCell else { return UICollectionViewCell() }
-                    cell.setupSlider(minimumValue: viewModel.carYearStart, maximumValue: viewModel.carYearEnd)
+                    cell.setupSlider(minimumValue: Constants.filterMinCarYear, 
+                                     maximumValue: Date().year,
+                                     minimumValueSelected: viewModel.carYearStart,
+                                     maximumValueSelected: viewModel.carYearEnd)
                     cell.delegate = self
                     cell.isUserInteractionEnabled = true
                     return cell
@@ -419,7 +426,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
         categoryCellSize = CGSize(width: categoryWidth, height: 50.0)
         singleCheckCellSize = CGSize(width: screenWidth, height: 50.0)
         priceCellSize = CGSize(width: screenWidth, height: 50.0)
-        yearRangeCellSize = CGSize(width: screenWidth, height: 100.0)
+        yearRangeCellSize = CGSize(width: screenWidth, height: 90)
 
         // Rounded save button
         saveFiltersBtn.setStyle(.primary(fontSize: .medium))

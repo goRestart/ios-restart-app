@@ -29,11 +29,9 @@ class LGSlider: UIView, LGSliderDataSource {
     private let titleLabel = UILabel()
     private let selectionLabel = UILabel()
     
-    private var shouldUpdateSelectorConstraints: Bool = false
+    private var shouldUpdateSelectorConstraints: Bool = true
     
     weak var delegate: LGSliderDelegate?
-    
-    private var previousLocationInView = CGPoint.zero
     
     // MARK: - Lifecycle
     
@@ -80,8 +78,6 @@ class LGSlider: UIView, LGSliderDataSource {
             .top(by: 10)
         titleLabel.layout(with: selectionLabel)
             .left(to: .right, by: -10, relatedBy: .lessThanOrEqual)
-        titleLabel.layout(with: disabledBarView)
-            .bottom(to: .top, by: -25)
         selectionLabel.layout(with: self)
             .right()
             .top(by: 10)
@@ -262,14 +258,14 @@ class LGSlider: UIView, LGSliderDataSource {
         switch gesture.state {
         case .began:
             selector.isDragging = true
-            previousLocationInView = gesture.location(in: self)
+            selector.previousLocationInView = gesture.location(in: self)
         case .changed:
             let locationInView = gesture.location(in: self)
-            let movementAcrossXAxis = locationInView.x - previousLocationInView.x
+            let movementAcrossXAxis = locationInView.x - selector.previousLocationInView.x
             handleSelectorTouch(selector: selector, movementAcrossXAxis: movementAcrossXAxis)
-            previousLocationInView = locationInView
+            selector.previousLocationInView = locationInView
         case .ended, .cancelled, .failed:
-            selector.isDragging = false
+            stopDragging()
         default:
             break
         }

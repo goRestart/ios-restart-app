@@ -26,7 +26,9 @@ class LGSliderViewModel {
          maximumValueNotSelectedText: String,
          minimumAndMaximumValuesNotSelectedText: String,
          minimumValue: Int,
-         maximumValue: Int) {
+         maximumValue: Int,
+         minimumValueSelected: Int?,
+         maximumValueSelected: Int?) {
         
         self.title = title
         self.minimumValueNotSelectedText = minimumValueNotSelectedText
@@ -35,8 +37,8 @@ class LGSliderViewModel {
         self.minimumValue = minimumValue
         self.maximumValue = maximumValue
         
-        minimumValueSelected = minimumValue
-        maximumValueSelected = maximumValue
+        self.minimumValueSelected = minimumValueSelected ?? minimumValue
+        self.maximumValueSelected = maximumValueSelected ?? maximumValue
     }
     
     
