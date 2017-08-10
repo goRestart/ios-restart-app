@@ -42,6 +42,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed = .control
     var copiesImprovementOnboarding: CopiesImprovementOnboarding = .control
     var bumpUpImprovementBanner: BumpUpImprovementBanner = .control
+    var openGalleryInPosting: OpenGalleryInPosting = .control
     
     // Country dependant features
     var freePostingModeAllowed = false

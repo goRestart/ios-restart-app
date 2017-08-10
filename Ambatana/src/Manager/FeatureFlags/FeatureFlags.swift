@@ -41,6 +41,7 @@ protocol FeatureFlaggeable: class {
     var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed { get }
     var copiesImprovementOnboarding: CopiesImprovementOnboarding { get }
     var bumpUpImprovementBanner: BumpUpImprovementBanner { get }
+    var openGalleryInPosting: OpenGalleryInPosting { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -294,6 +295,14 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return BumpUpImprovementBanner.fromPosition(abTests.bumpUpImprovementBanner.value)
     }
+    
+    var openGalleryInPosting: OpenGalleryInPosting {
+        if Bumper.enabled {
+            return Bumper.openGalleryInPosting
+        }
+        return OpenGalleryInPosting.fromPosition(abTests.openGalleryInPosting.value)
+    }
+    
     
     // MARK: - Country features
 
