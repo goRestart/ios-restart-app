@@ -283,7 +283,6 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                                      minimumValueSelected: viewModel.carYearStart,
                                      maximumValueSelected: viewModel.carYearEnd)
                     cell.delegate = self
-                    cell.isUserInteractionEnabled = true
                     return cell
                 default:
                     return UICollectionViewCell()
@@ -477,10 +476,6 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
         saveFiltersBtn.accessibilityId = .filtersSaveFiltersButton
         self.navigationItem.rightBarButtonItem?.accessibilityId = .filtersResetButton
         self.navigationItem.leftBarButtonItem?.accessibilityId = .filtersCancelButton
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        collectionView.isScrollEnabled = false
     }
 }
 
