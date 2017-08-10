@@ -49,7 +49,7 @@ class FilterSliderYearCell: UICollectionViewCell, LGSliderDelegate {
         guard let slider = self.slider else { return }
         slider.delegate = self
         slider.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(slider)
+        contentView.addSubview(slider)
         slider.layout(with: contentView)
             .left(by: Metrics.margin)
             .right(by: -Metrics.margin)

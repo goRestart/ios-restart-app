@@ -33,6 +33,7 @@ class LGSlider: UIView, LGSliderDataSource {
     
     weak var delegate: LGSliderDelegate?
     
+    private var previousLocationInView = CGPoint.zero
     
     // MARK: - Lifecycle
     
@@ -54,13 +55,13 @@ class LGSlider: UIView, LGSliderDataSource {
         backgroundColor = UIColor.white
         
         leftSelector.dataSource = self
-        leftSelector.addTarget(self, action: #selector(didPressSelector(_:)), for: UIControlEvents.allEvents)
+        let leftGesture = UILongPressGestureRecognizer(target: self, action: #selector(didPressSelector(gesture:)))
+        leftGesture.minimumPressDuration = 0
+        leftSelector.imageView.addGestureRecognizer(leftGesture)
         rightSelector.dataSource = self
-//        let button = UIButton(type: .custom)
-//        button.addTarget(self, action: #selector(didPressSelector(_:)), for: UIControlEvents.allEvents)
-//        button.translatesAutoresizingMaskIntoConstraints = false
-//        addSubview(button)
-//        button.layout(with: self).fill()
+        let rightGesture = UILongPressGestureRecognizer(target: self, action: #selector(didPressSelector(gesture:)))
+        rightGesture.minimumPressDuration = 0
+        rightSelector.imageView.addGestureRecognizer(rightGesture)
         
         disabledBarView.backgroundColor = UIColor.gray
         enabledBarView.backgroundColor = UIColor.primaryColor
@@ -75,7 +76,7 @@ class LGSlider: UIView, LGSliderDataSource {
     private func setupConstraints() {
         let allViews = [titleLabel, selectionLabel,
                         disabledBarView, enabledBarView,
-                        leftSelector.imageView!, rightSelector.imageView!]
+                        leftSelector.imageView, rightSelector.imageView]
         setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: allViews)
         addSubviews(allViews)
         
@@ -98,27 +99,27 @@ class LGSlider: UIView, LGSliderDataSource {
         enabledBarView.layout(with: disabledBarView)
             .top()
             .bottom()
-        enabledBarView.layout(with: leftSelector.imageView!)
+        enabledBarView.layout(with: leftSelector.imageView)
             .left(to: .right)
-        enabledBarView.layout(with: rightSelector.imageView!)
+        enabledBarView.layout(with: rightSelector.imageView)
             .right(to: .left)
         
-        leftSelector.imageView!.layout()
+        leftSelector.imageView.layout()
             .width(LGSlider.selectorSize)
             .widthProportionalToHeight()
-        leftSelector.imageView!.layout(with: disabledBarView)
+        leftSelector.imageView.layout(with: disabledBarView)
             .centerY()
             .right(to: .left) { [weak self] in
                 self?.leftSelector.constraint = $0
         }
         
-        leftSelector.imageView!.layout(with: rightSelector.imageView!)
+        leftSelector.imageView.layout(with: rightSelector.imageView)
             .right(to: .left, relatedBy: .lessThanOrEqual)
         
-        rightSelector.imageView!.layout()
+        rightSelector.imageView.layout()
             .width(LGSlider.selectorSize)
             .widthProportionalToHeight()
-        rightSelector.imageView!.layout(with: disabledBarView)
+        rightSelector.imageView.layout(with: disabledBarView)
             .centerY()
             .left(to: .right) { [weak self] in
                 self?.rightSelector.constraint = $0
@@ -217,13 +218,13 @@ class LGSlider: UIView, LGSliderDataSource {
         if sliderSelector === leftSelector {
             return 0
         } else {
-            return -(disabledBarView.frame.maxX - leftSelector.imageView!.frame.maxX)
+            return -(disabledBarView.frame.maxX - leftSelector.imageView.frame.maxX)
         }
     }
     
     func maximumConstraintConstant(sliderSelector: LGSliderSelector) -> CGFloat {
         if sliderSelector === leftSelector {
-            return rightSelector.imageView!.frame.minX - disabledBarView.frame.minX
+            return rightSelector.imageView.frame.minX - disabledBarView.frame.minX
         } else {
             return 0
         }
@@ -232,55 +233,25 @@ class LGSlider: UIView, LGSliderDataSource {
     
     // MARK: - UIResponderStandardEditActions
     
-    dynamic func didPressSelector(_ sliderSelector: LGSliderSelector) {
-        stopDragging()
-        if sliderSelector === leftSelector {
-            leftSelector.isDragging = true
-        }
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        //stopDragging()
-//        if let touch = touches.first {
-//            let locationInView = touch.location(in: self)
-//            var leftSelectorTouchableFrame = leftSelector.imageView!.frame
-//            leftSelectorTouchableFrame.origin.y -= 10
-//            leftSelectorTouchableFrame.size.height += 20
-//            leftSelectorTouchableFrame.origin.x -= 10
-//            leftSelectorTouchableFrame.size.width += 10
-//            
-//            var rightSelectorTouchableFrame = rightSelector.imageView!.frame
-//            rightSelectorTouchableFrame.origin.y -= 10
-//            rightSelectorTouchableFrame.size.height += 20
-//            rightSelectorTouchableFrame.size.width += 10
-//            
-//            if leftSelectorTouchableFrame.contains(locationInView) {
-//                leftSelector.isDragging = true
-//            } else if rightSelectorTouchableFrame.contains(locationInView) {
-//                rightSelector.isDragging = true
-//            }
-//        }
-    }
-    
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let touch = touches.first {
-            let locationInView = touch.location(in: self)
-            let previousLocationInView = touch.previousLocation(in: self)
+    dynamic func didPressSelector(gesture: UILongPressGestureRecognizer) {
+        guard let viewPressed = gesture.view else { return }
+        guard let selector: LGSliderSelector =
+            viewPressed == leftSelector.imageView ? leftSelector :
+            viewPressed == rightSelector.imageView ? rightSelector : nil
+            else { return }
+
+        switch gesture.state {
+        case .began:
+            selector.isDragging = true
+        case .changed:
+            previousLocationInView = selector.imageView.center
+            let locationInView = gesture.location(in: self)
             let movementAcrossXAxis = locationInView.x - previousLocationInView.x
-            
-            if leftSelector.isDragging {
-                handleSelectorTouch(selector: leftSelector, movementAcrossXAxis: movementAcrossXAxis)
-            } else if rightSelector.isDragging {
-                handleSelectorTouch(selector: rightSelector, movementAcrossXAxis: movementAcrossXAxis)
-            }
+            handleSelectorTouch(selector: selector, movementAcrossXAxis: movementAcrossXAxis)
+        case .ended, .cancelled, .failed:
+            selector.isDragging = false
+        default:
+            break
         }
-    }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        stopDragging()
-    }
-    
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        stopDragging()
     }
 }
