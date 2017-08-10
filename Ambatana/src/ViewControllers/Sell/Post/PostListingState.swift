@@ -23,12 +23,8 @@ final class PostListingState {
     // MARK: - Lifecycle
     
     convenience init(featureFlags: FeatureFlaggeable) {
-        let step: PostListingStep
-        if featureFlags.carsCategoryAfterPicture {
-            step = .imageSelection
-        } else {
-            step = .categorySelection
-        }
+        let step: PostListingStep = .imageSelection
+        
         self.init(step: step,
                   previousStep: nil,
                   category: nil,
@@ -61,15 +57,11 @@ final class PostListingState {
     func updating(category: PostCategory) -> PostListingState {
         guard step == .categorySelection else { return self }
         let newStep: PostListingStep
-        if featureFlags.carsCategoryAfterPicture {
-            switch category {
-            case .car:
-                newStep = .carDetailsSelection(includePrice: false)
-            case .other:
-                newStep = .finished
-            }
-        } else {
-            newStep = .imageSelection
+        switch category {
+        case .car:
+            newStep = .carDetailsSelection(includePrice: false)
+        case .other:
+            newStep = .finished
         }
         return PostListingState(step: newStep,
                                 previousStep: step,
@@ -176,12 +168,7 @@ final class PostListingState {
     
     func updating(price: ListingPrice) -> PostListingState {
         guard step == .detailsSelection else { return self }
-        let newStep: PostListingStep
-        if featureFlags.carsCategoryAfterPicture {
-            newStep = .categorySelection
-        } else {
-            newStep = .finished
-        }
+        let newStep: PostListingStep = .categorySelection
         return PostListingState(step: newStep,
                                 previousStep: step,
                                 category: category,

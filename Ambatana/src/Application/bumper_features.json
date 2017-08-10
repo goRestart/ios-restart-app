@@ -46,11 +46,6 @@
         "description": "Item page next item related"
     },
     {
-        "name": "CarsCategoryAfterPicture",
-        "values": ["no", "yes"],
-        "description": "When cars vertical enabled, select category after image selection"
-    },
-    {
         "name": "NewMarkAsSoldFlow",
         "values": ["no", "yes"],
         "description": "New mark as sold flow active. alert + showing buyer list"

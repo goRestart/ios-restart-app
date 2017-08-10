@@ -28,7 +28,6 @@ protocol FeatureFlaggeable: class {
     var freeBumpUpEnabled: Bool { get }
     var pricedBumpUpEnabled: Bool { get }
     var productDetailNextRelated: Bool { get }
-    var carsCategoryAfterPicture: Bool { get }
     var newMarkAsSoldFlow: Bool { get }
     var editLocationBubble: EditLocationBubble { get }
     var newCarsMultiRequesterEnabled: Bool { get }
@@ -200,13 +199,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.productDetailNextRelated
         }
         return abTests.productDetailNextRelated.value
-    }
-    
-    var carsCategoryAfterPicture: Bool {
-        if Bumper.enabled {
-            return Bumper.carsCategoryAfterPicture
-        }
-        return abTests.carsCategoryAfterPicture.value
     }
     
     var newMarkAsSoldFlow: Bool {
