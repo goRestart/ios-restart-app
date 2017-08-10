@@ -26,8 +26,8 @@ class LGSlider: UIView, LGSliderDataSource {
     private let disabledBarView = UIView()
     private let enabledBarView = UIView()
     
-    private let titleLabel = UILabel()
-    private let selectionLabel = UILabel()
+    let titleLabel = UILabel()
+    let selectionLabel = UILabel()
     
     private var shouldUpdateSelectorConstraints: Bool = true
     
