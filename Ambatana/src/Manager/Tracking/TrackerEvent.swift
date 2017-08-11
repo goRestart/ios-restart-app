@@ -178,7 +178,7 @@ struct TrackerEvent {
         return TrackerEvent(name: .loginBlockedAccountKeepBrowsing, params: params)
     }
 
-    static func productList(_ user: User?, categories: [ListingCategory]?, searchQuery: String?,
+    static func productList(_ user: User?, categories: [ListingCategory]?, taxonomies: [TaxonomyChild]?, searchQuery: String?,
                             feedSource: EventParameterFeedSource, success: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
 
@@ -191,6 +191,11 @@ struct TrackerEvent {
         }
         params[.feedSource] = feedSource.rawValue
         params[.categoryId] = categoryIds.isEmpty ? "0" : categoryIds.joined(separator: ",")
+        if let superkeyword = taxonomies?.last?.name {
+            params[.keywordName] = superkeyword
+        } else {
+            params[.keywordName] = EventParameterBoolean.notAvailable
+        }
 
         // Search query
         if let actualSearchQuery = searchQuery {
