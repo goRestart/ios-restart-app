@@ -433,8 +433,6 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
 
         // hide keyboard on tap
         tapRec = UITapGestureRecognizer(target: self, action: #selector(collectionTapped))
-        
-        collectionView.canCancelContentTouches = false
     }
 
     private func setupRx() {

@@ -737,8 +737,8 @@
 		8E814F3A1F3472C000C88432 /* LGSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E814F381F3472C000C88432 /* LGSlider.swift */; };
 		8E814F3C1F3472E800C88432 /* LGSliderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E814F3B1F3472E800C88432 /* LGSliderViewModel.swift */; };
 		8E814F3D1F3472E800C88432 /* LGSliderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E814F3B1F3472E800C88432 /* LGSliderViewModel.swift */; };
-		8E814F3F1F34732F00C88432 /* LGSliderSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E814F3E1F34732F00C88432 /* LGSliderSelector.swift */; };
-		8E814F401F34732F00C88432 /* LGSliderSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E814F3E1F34732F00C88432 /* LGSliderSelector.swift */; };
+		8E814F3F1F34732F00C88432 /* LGSliderThumb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E814F3E1F34732F00C88432 /* LGSliderThumb.swift */; };
+		8E814F401F34732F00C88432 /* LGSliderThumb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E814F3E1F34732F00C88432 /* LGSliderThumb.swift */; };
 		8E814F421F3475AB00C88432 /* FilterSliderYearCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E814F411F3475AB00C88432 /* FilterSliderYearCell.swift */; };
 		8E814F431F3475AB00C88432 /* FilterSliderYearCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E814F411F3475AB00C88432 /* FilterSliderYearCell.swift */; };
 		8EBEF9791F3CA50500473822 /* LGSliderViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBEF9781F3CA50500473822 /* LGSliderViewModelSpec.swift */; };
@@ -1945,7 +1945,7 @@
 		8E69F3F11E9E30EE00E14F12 /* CategoryDetailTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryDetailTableView.swift; sourceTree = "<group>"; };
 		8E814F381F3472C000C88432 /* LGSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LGSlider.swift; path = LGSlider/LGSlider.swift; sourceTree = "<group>"; };
 		8E814F3B1F3472E800C88432 /* LGSliderViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LGSliderViewModel.swift; path = LGSlider/LGSliderViewModel.swift; sourceTree = "<group>"; };
-		8E814F3E1F34732F00C88432 /* LGSliderSelector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LGSliderSelector.swift; path = LGSlider/LGSliderSelector.swift; sourceTree = "<group>"; };
+		8E814F3E1F34732F00C88432 /* LGSliderThumb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LGSliderThumb.swift; path = LGSlider/LGSliderThumb.swift; sourceTree = "<group>"; };
 		8E814F411F3475AB00C88432 /* FilterSliderYearCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterSliderYearCell.swift; sourceTree = "<group>"; };
 		8EBEF9781F3CA50500473822 /* LGSliderViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSliderViewModelSpec.swift; sourceTree = "<group>"; };
 		8EC2051D1EAE52F000E4E5EC /* UIView+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+LG.swift"; sourceTree = "<group>"; };
@@ -3640,7 +3640,7 @@
 			children = (
 				8E814F381F3472C000C88432 /* LGSlider.swift */,
 				8E814F3B1F3472E800C88432 /* LGSliderViewModel.swift */,
-				8E814F3E1F34732F00C88432 /* LGSliderSelector.swift */,
+				8E814F3E1F34732F00C88432 /* LGSliderThumb.swift */,
 			);
 			name = LGSlider;
 			sourceTree = "<group>";
@@ -5423,7 +5423,7 @@
 				6A5E19E21D548F5400F92692 /* GoogleLoginHelper.swift in Sources */,
 				2ED5E52D1EC5BAFB00B6D4F6 /* FilterProductListRequesterFactory.swift in Sources */,
 				6AEF66B31C5A155C0025D43C /* Paginable.swift in Sources */,
-				8E814F3F1F34732F00C88432 /* LGSliderSelector.swift in Sources */,
+				8E814F3F1F34732F00C88432 /* LGSliderThumb.swift in Sources */,
 				6A5E1A001D548F5400F92692 /* MapZoomBlocker.swift in Sources */,
 				2EF4E3B01D3688AB00A09DFD /* ConfigDAO.swift in Sources */,
 				C7132A3F1BF246D40000747A /* ProductFilters.swift in Sources */,
@@ -5954,7 +5954,7 @@
 				6A3C73101CF346CB00A062E0 /* ChatStickerGridCell.swift in Sources */,
 				2ED5E52E1EC5BAFB00B6D4F6 /* FilterProductListRequesterFactory.swift in Sources */,
 				6A5E19E31D548F5400F92692 /* GoogleLoginHelper.swift in Sources */,
-				8E814F401F34732F00C88432 /* LGSliderSelector.swift in Sources */,
+				8E814F401F34732F00C88432 /* LGSliderThumb.swift in Sources */,
 				2E3047F61CA4526E0099C0BC /* CommercialDisplayPageView.swift in Sources */,
 				6A5E1A011D548F5400F92692 /* MapZoomBlocker.swift in Sources */,
 				C7DB41B81C5138B500400945 /* Tracker.swift in Sources */,

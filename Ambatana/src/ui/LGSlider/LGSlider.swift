@@ -17,11 +17,11 @@ protocol LGSliderDelegate: class {
 
 class LGSlider: UIView, LGSliderDataSource {
     
-    static let selectorSize: CGFloat = 30
+    static let thumbSize: CGFloat = 30
     private let viewModel: LGSliderViewModel
     
-    private let leftSelector = LGSliderSelector(image: #imageLiteral(resourceName: "ic_chevron_right"))
-    private let rightSelector = LGSliderSelector(image: #imageLiteral(resourceName: "ic_chevron_right"), rotate: true)
+    private let leftThumb = LGSliderThumb(image: #imageLiteral(resourceName: "ic_chevron_right"))
+    private let rightThumb = LGSliderThumb(image: #imageLiteral(resourceName: "ic_chevron_right"), rotate: true)
     
     private let disabledBarView = UIView()
     private let enabledBarView = UIView()
@@ -29,7 +29,7 @@ class LGSlider: UIView, LGSliderDataSource {
     let titleLabel = UILabel()
     let selectionLabel = UILabel()
     
-    private var shouldUpdateSelectorConstraints: Bool = true
+    private var shouldUpdateThumbConstraints: Bool = true
     
     weak var delegate: LGSliderDelegate?
     
@@ -53,8 +53,8 @@ class LGSlider: UIView, LGSliderDataSource {
     private func setupUI() {
         backgroundColor = UIColor.white
         
-        leftSelector.dataSource = self
-        rightSelector.dataSource = self
+        leftThumb.dataSource = self
+        rightThumb.dataSource = self
         
         disabledBarView.backgroundColor = UIColor.gray
         enabledBarView.backgroundColor = UIColor.primaryColor
@@ -69,7 +69,7 @@ class LGSlider: UIView, LGSliderDataSource {
     private func setupConstraints() {
         let allViews = [titleLabel, selectionLabel,
                         disabledBarView, enabledBarView,
-                        leftSelector.imageView, rightSelector.imageView]
+                        leftThumb.imageView, rightThumb.imageView]
         setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: allViews)
         addSubviews(allViews)
         
@@ -84,61 +84,61 @@ class LGSlider: UIView, LGSliderDataSource {
         
         disabledBarView.layout().height(2)
         disabledBarView.layout(with: self)
-            .left(by: LGSlider.selectorSize)
-            .right(by: -LGSlider.selectorSize)
+            .left(by: LGSlider.thumbSize)
+            .right(by: -LGSlider.thumbSize)
             .bottom(by: -25)
         enabledBarView.layout(with: disabledBarView)
             .top()
             .bottom()
-        enabledBarView.layout(with: leftSelector.imageView)
+        enabledBarView.layout(with: leftThumb.imageView)
             .left(to: .right)
-        enabledBarView.layout(with: rightSelector.imageView)
+        enabledBarView.layout(with: rightThumb.imageView)
             .right(to: .left)
         
-        leftSelector.imageView.layout()
-            .width(LGSlider.selectorSize)
+        leftThumb.imageView.layout()
+            .width(LGSlider.thumbSize)
             .widthProportionalToHeight()
-        leftSelector.imageView.layout(with: disabledBarView)
+        leftThumb.imageView.layout(with: disabledBarView)
             .centerY()
             .right(to: .left) { [weak self] in
-                self?.leftSelector.constraint = $0
+                self?.leftThumb.constraint = $0
         }
         
-        leftSelector.imageView.layout(with: rightSelector.imageView)
+        leftThumb.imageView.layout(with: rightThumb.imageView)
             .right(to: .left, relatedBy: .lessThanOrEqual)
         
-        rightSelector.imageView.layout()
-            .width(LGSlider.selectorSize)
+        rightThumb.imageView.layout()
+            .width(LGSlider.thumbSize)
             .widthProportionalToHeight()
-        rightSelector.imageView.layout(with: disabledBarView)
+        rightThumb.imageView.layout(with: disabledBarView)
             .centerY()
             .left(to: .right) { [weak self] in
-                self?.rightSelector.constraint = $0
+                self?.rightThumb.constraint = $0
         }
     }
     
     private func setupGestures() {
-        let views = [leftSelector.touchableView, rightSelector.touchableView]
+        let views = [leftThumb.touchableView, rightThumb.touchableView]
         setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: views)
         addSubviews(views)
-        leftSelector.touchableView.layout(with: leftSelector.imageView)
+        leftThumb.touchableView.layout(with: leftThumb.imageView)
             .left(by: -15)
             .right()
             .top(by: -10)
             .bottom(by: 10)
-        rightSelector.touchableView.layout(with: rightSelector.imageView)
+        rightThumb.touchableView.layout(with: rightThumb.imageView)
             .left()
             .right(by: 15)
             .top(by: -10)
             .bottom(by: 10)
         
-        let leftGesture = UILongPressGestureRecognizer(target: self, action: #selector(didPressSelector(gesture:)))
+        let leftGesture = UILongPressGestureRecognizer(target: self, action: #selector(didPressThumb(gesture:)))
         leftGesture.minimumPressDuration = 0
-        leftSelector.touchableView.addGestureRecognizer(leftGesture)
+        leftThumb.touchableView.addGestureRecognizer(leftGesture)
         
-        let rightGesture = UILongPressGestureRecognizer(target: self, action: #selector(didPressSelector(gesture:)))
+        let rightGesture = UILongPressGestureRecognizer(target: self, action: #selector(didPressThumb(gesture:)))
         rightGesture.minimumPressDuration = 0
-        rightSelector.touchableView.addGestureRecognizer(rightGesture)
+        rightThumb.touchableView.addGestureRecognizer(rightGesture)
     }
     
     private func updateUI() {
@@ -148,24 +148,47 @@ class LGSlider: UIView, LGSliderDataSource {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        updateSelectorConstraintsIfNeeded()
+        updateThumbConstraintsIfNeeded()
     }
     
     
     // MARK: - Actions
     
-    private func handleSelectorTouch(selector: LGSliderSelector, movementAcrossXAxis movement: CGFloat) {
-        var constant = selector.constraint.constant + movement
-        let minimumConstant = selector.minimumConstraintConstant
-        let maximumConstant = selector.maximumConstraintConstant
+    dynamic func didPressThumb(gesture: UILongPressGestureRecognizer) {
+        guard let viewPressed = gesture.view else { return }
+        guard let thumb: LGSliderThumb =
+            viewPressed == leftThumb.touchableView ? leftThumb :
+                viewPressed == rightThumb.touchableView ? rightThumb : nil
+            else { return }
+        
+        switch gesture.state {
+        case .began:
+            thumb.isDragging = true
+            thumb.previousLocationInView = gesture.location(in: self)
+        case .changed:
+            let locationInView = gesture.location(in: self)
+            let movementAcrossXAxis = locationInView.x - thumb.previousLocationInView.x
+            handleThumbTouch(thumb: thumb, movementAcrossXAxis: movementAcrossXAxis)
+            thumb.previousLocationInView = locationInView
+        case .ended, .cancelled, .failed:
+            stopDragging()
+        default:
+            break
+        }
+    }
+    
+    private func handleThumbTouch(thumb: LGSliderThumb, movementAcrossXAxis movement: CGFloat) {
+        var constant = thumb.constraint.constant + movement
+        let minimumConstant = thumb.minimumConstraintConstant
+        let maximumConstant = thumb.maximumConstraintConstant
         if constant < minimumConstant {
             constant = minimumConstant
         } else if constant > maximumConstant {
             constant = maximumConstant
         }
-        selector.constraint.constant = constant
+        thumb.constraint.constant = constant
         
-        if selector === leftSelector {
+        if thumb === leftThumb {
             viewModel.minimumValueSelected = viewModel.value(forConstant: constant,
                                                              minimumConstant: 0,
                                                              maximumConstant: disabledBarView.frame.width)
@@ -181,8 +204,8 @@ class LGSlider: UIView, LGSliderDataSource {
     // MARK: - Helpers
     
     func resetSelection() {
-        leftSelector.constraint.constant = 0
-        rightSelector.constraint.constant = 0
+        leftThumb.constraint.constant = 0
+        rightThumb.constraint.constant = 0
         viewModel.resetSelection()
         updateUI()
     }
@@ -191,7 +214,7 @@ class LGSlider: UIView, LGSliderDataSource {
         viewModel.minimumValueSelected = value
         updateUI()
         
-        shouldUpdateSelectorConstraints = true
+        shouldUpdateThumbConstraints = true
         setNeedsLayout()
     }
     
@@ -199,75 +222,48 @@ class LGSlider: UIView, LGSliderDataSource {
         viewModel.maximumValueSelected = value
         updateUI()
         
-        shouldUpdateSelectorConstraints = true
+        shouldUpdateThumbConstraints = true
         setNeedsLayout()
     }
     
     private func stopDragging() {
-        if leftSelector.isDragging {
-            leftSelector.isDragging = false
+        if leftThumb.isDragging {
+            leftThumb.isDragging = false
             delegate?.slider(self, didSelectMinimumValue: viewModel.minimumValueSelected)
         }
-        if rightSelector.isDragging {
-            rightSelector.isDragging = false
+        if rightThumb.isDragging {
+            rightThumb.isDragging = false
             delegate?.slider(self, didSelectMaximumValue: viewModel.maximumValueSelected)
         }
     }
     
-    private func updateSelectorConstraintsIfNeeded() {
-        if shouldUpdateSelectorConstraints {
-            shouldUpdateSelectorConstraints = false
-            leftSelector.constraint.constant = viewModel.constant(forValue: viewModel.minimumValueSelected,
-                                                                  minimumConstant: 0,
-                                                                  maximumConstant: disabledBarView.frame.width)
-            rightSelector.constraint.constant = viewModel.constant(forValue: viewModel.maximumValueSelected,
-                                                                   minimumConstant: -disabledBarView.frame.width,
-                                                                   maximumConstant: 0)
-        }
+    private func updateThumbConstraintsIfNeeded() {
+        guard shouldUpdateThumbConstraints else { return }
+        shouldUpdateThumbConstraints = false
+        leftThumb.constraint.constant = viewModel.constant(forValue: viewModel.minimumValueSelected,
+                                                              minimumConstant: 0,
+                                                              maximumConstant: disabledBarView.frame.width)
+        rightThumb.constraint.constant = viewModel.constant(forValue: viewModel.maximumValueSelected,
+                                                               minimumConstant: -disabledBarView.frame.width,
+                                                               maximumConstant: 0)
     }
     
     
     // MARK: - LGSliderDataSource
     
-    func minimumConstraintConstant(sliderSelector: LGSliderSelector) -> CGFloat {
-        if sliderSelector === leftSelector {
+    func minimumConstraintConstant(sliderThumb: LGSliderThumb) -> CGFloat {
+        if sliderThumb === leftThumb {
             return 0
         } else {
-            return -(disabledBarView.frame.maxX - leftSelector.imageView.frame.maxX)
+            return -(disabledBarView.frame.maxX - leftThumb.imageView.frame.maxX)
         }
     }
     
-    func maximumConstraintConstant(sliderSelector: LGSliderSelector) -> CGFloat {
-        if sliderSelector === leftSelector {
-            return rightSelector.imageView.frame.minX - disabledBarView.frame.minX
+    func maximumConstraintConstant(sliderThumb: LGSliderThumb) -> CGFloat {
+        if sliderThumb === leftThumb {
+            return rightThumb.imageView.frame.minX - disabledBarView.frame.minX
         } else {
             return 0
-        }
-    }
-    
-    
-    // MARK: - UIResponderStandardEditActions
-    
-    dynamic func didPressSelector(gesture: UILongPressGestureRecognizer) {
-        guard let viewPressed = gesture.view else { return }
-        guard let selector: LGSliderSelector =
-            viewPressed == leftSelector.touchableView ? leftSelector :
-            viewPressed == rightSelector.touchableView ? rightSelector : nil
-            else { return }
-
-        switch gesture.state {
-        case .began:
-            selector.isDragging = true
-            selector.previousLocationInView = gesture.location(in: self)
-        case .changed:
-            let locationInView = gesture.location(in: self)
-            let movementAcrossXAxis = locationInView.x - selector.previousLocationInView.x
-            handleSelectorTouch(selector: selector, movementAcrossXAxis: movementAcrossXAxis)
-            selector.previousLocationInView = locationInView
-        case .ended, .cancelled, .failed:
-            stopDragging()
-        default:
-            break
         }
     }
 }

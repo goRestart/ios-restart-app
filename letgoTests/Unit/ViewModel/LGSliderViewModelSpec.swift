@@ -249,7 +249,7 @@ class LGSliderViewModelSpec: QuickSpec {
                         sut = LGSliderViewModel(title: "",
                                                 minimumValueNotSelectedText: "",
                                                 maximumValueNotSelectedText: "",
-                                                minimumAndMaximumValuesNotSelectedText: "",
+                                                    minimumAndMaximumValuesNotSelectedText: "",
                                                 minimumValue: 10,
                                                 maximumValue: 20,
                                                 minimumValueSelected: nil,

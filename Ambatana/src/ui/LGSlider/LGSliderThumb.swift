@@ -1,5 +1,5 @@
 //
-//  LGSliderSelector.swift
+//  LGSliderThumb.swift
 //  LetGo
 //
 //  Created by Nestor on 04/08/2017.
@@ -10,12 +10,12 @@ import UIKit
 
 
 protocol LGSliderDataSource: class {
-    func minimumConstraintConstant(sliderSelector: LGSliderSelector) -> CGFloat
-    func maximumConstraintConstant(sliderSelector: LGSliderSelector) -> CGFloat
+    func minimumConstraintConstant(sliderThumb: LGSliderThumb) -> CGFloat
+    func maximumConstraintConstant(sliderThumb: LGSliderThumb) -> CGFloat
 }
 
 
-class LGSliderSelector {
+class LGSliderThumb {
     static let shadowRadius: CGFloat = 1.5
     private var transformBackUp: CGAffineTransform = CGAffineTransform.identity
     let touchableView = UIView()
@@ -35,11 +35,11 @@ class LGSliderSelector {
     weak var dataSource: LGSliderDataSource?
     
     var minimumConstraintConstant: CGFloat {
-        return dataSource?.minimumConstraintConstant(sliderSelector: self) ?? 0
+        return dataSource?.minimumConstraintConstant(sliderThumb: self) ?? 0
     }
     
     var maximumConstraintConstant: CGFloat {
-        return dataSource?.maximumConstraintConstant(sliderSelector: self) ?? 0
+        return dataSource?.maximumConstraintConstant(sliderThumb: self) ?? 0
     }
     
     
@@ -51,9 +51,9 @@ class LGSliderSelector {
         imageView = UIImageView(image: image)
         imageView.layer.masksToBounds = false
         imageView.layer.shadowOffset = CGSize(width: 0,
-                                              height: rotate ? -LGSliderSelector.shadowRadius : 
-                                                LGSliderSelector.shadowRadius)
-        imageView.layer.shadowRadius = LGSliderSelector.shadowRadius
+                                              height: rotate ? -LGSliderThumb.shadowRadius : 
+                                                LGSliderThumb.shadowRadius)
+        imageView.layer.shadowRadius = LGSliderThumb.shadowRadius
         imageView.layer.shadowOpacity = 0.3
         imageView.transform = rotate ? CGAffineTransform(rotationAngle: .pi) : CGAffineTransform.identity
         
