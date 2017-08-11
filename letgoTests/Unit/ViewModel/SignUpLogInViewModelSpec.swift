@@ -548,18 +548,6 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         }
                     }
                     
-                    context("with valid email & long password") {
-                        beforeEach {
-                            logInEmailForm = LogInEmailForm(email: "albert@letgo.com",
-                                                            password: "abcdefghijklmnopqrstuvwxyz")
-                            errors = logInEmailForm.checkErrors()
-                        }
-                        
-                        it("returns that the password is long") {
-                            expect(errors) == [.longPassword]
-                        }
-                    }
-                    
                     context("with valid email & password") {
                         beforeEach {
                             logInEmailForm = LogInEmailForm(email: "albert@letgo.com",
@@ -617,25 +605,6 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         }
                     }
 
-                    context("with valid email & long password") {
-                        beforeEach {
-                            sut.email.value = "albert@letgo.com"
-                            sut.password.value = "abcdefghijklmnopqrstuvwxyz"
-                            sut.logIn()
-                        }
-                        
-                        it("has send button enabled") {
-                            expect(sendButtonEnabled) == true
-                        }
-                        it("does not call close because after login in navigator") {
-                            expect(self.finishedSuccessfully) == false
-                        }
-                        it("tracks a loginEmailError event") {
-                            let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
-                            expect(trackedEventNames) == [EventName.loginEmailError]
-                        }
-                    }
-
                     context("with valid email & password") {
                         beforeEach {
                             sut.email.value = "albert@letgo.com"
@@ -675,19 +644,6 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         beforeEach {
                             sut.email.value = "a"
                             sut.password.value = "a"
-                            sut.logIn()
-                        }
-                        
-                        it("tracks a loginEmailError event") {
-                            let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
-                            expect(trackedEventNames) == [EventName.loginEmailError]
-                        }
-                    }
-                    
-                    context("with valid email & long password") {
-                        beforeEach {
-                            sut.email.value = "albert@letgo.com"
-                            sut.password.value = "abcdefghijklmnopqrstuvwxyz"
                             sut.logIn()
                         }
                         

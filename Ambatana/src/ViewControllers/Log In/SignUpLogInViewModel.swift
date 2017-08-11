@@ -31,7 +31,6 @@ struct LogInEmailFormErrors: OptionSet {
     
     static let invalidEmail     = LogInEmailFormErrors(rawValue: 1 << 0)
     static let shortPassword    = LogInEmailFormErrors(rawValue: 1 << 1)
-    static let longPassword     = LogInEmailFormErrors(rawValue: 1 << 2)
 }
 
 struct SignUpForm {
@@ -107,8 +106,6 @@ struct LogInEmailForm {
         var errors: LogInEmailFormErrors = []
         if password.characters.count < Constants.passwordMinLength {
             errors.insert(.shortPassword)
-        } else if password.characters.count > Constants.passwordMaxLength {
-            errors.insert(.longPassword)
         }
         return errors
     }
@@ -609,7 +606,7 @@ fileprivate extension LogInEmailFormErrors {
         let error: EventParameterLoginError?
         if contains(.invalidEmail) {
             error = .invalidEmail
-        } else if contains(.shortPassword) || contains(.longPassword) {
+        } else if contains(.shortPassword) {
             error = .invalidPassword
         } else {
             error = nil
@@ -621,7 +618,7 @@ fileprivate extension LogInEmailFormErrors {
         let message: String?
         if contains(.invalidEmail) {
             message = LGLocalizedString.logInErrorSendErrorInvalidEmail
-        } else if contains(.shortPassword) || contains(.longPassword) {
+        } else if contains(.shortPassword) {
             message = LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
         } else {
             message = nil

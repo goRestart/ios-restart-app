@@ -619,16 +619,6 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
     func loginButtonPressed() {
         viewModel.logIn()
     }
-    
-    func openAlertWithLogInFormErrors(errors: LogInEmailFormErrors) {
-        guard !errors.isEmpty else { return }
-        
-        if errors.contains(.invalidEmail) {
-            showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorInvalidEmail)
-        } else if errors.contains(.shortPassword) || errors.contains(.longPassword) {
-            showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword)
-        }
-    }
 }
 
 
