@@ -306,7 +306,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         }
                         
                         it("updates the step to car details w/o price") {
-                            expect(sut.step) == PostListingStep.carDetailsSelection(includePrice: false)
+                            expect(sut.step) == PostListingStep.carDetailsSelection
                         }
                     }
                     
