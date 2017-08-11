@@ -191,18 +191,6 @@ final class PostListingState {
                                 featureFlags: featureFlags)
     }
     
-    func updating(price: ListingPrice, carInfo: CarAttributes) -> PostListingState {
-        guard step == .carDetailsSelection else { return self }
-        return PostListingState(step: .finished,
-                                previousStep: step,
-                                category: category,
-                                pendingToUploadImages: pendingToUploadImages,
-                                lastImagesUploadResult: lastImagesUploadResult,
-                                price: price,
-                                carInfo: carInfo,
-                                featureFlags: featureFlags)
-    }
-    
     func revertToPreviousStep() -> PostListingState {
         guard let previousStep = previousStep else { return self }
         return PostListingState(step: previousStep,
