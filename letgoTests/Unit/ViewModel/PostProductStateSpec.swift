@@ -102,10 +102,6 @@ class PostProductStateSpec: BaseViewModelSpec {
                     it("returns the same state when updating car info") {
                         expect(sut.updating(carInfo: CarAttributes.emptyCarAttributes())) === sut    
                     }
-                    
-                    it("returns the same state when updating price & car info") {
-                        expect(sut.updating(price: ListingPrice.makeMock(), carInfo: CarAttributes.emptyCarAttributes())) === sut
-                    }
                 }
                 
                 context("uploading images") {
@@ -163,10 +159,6 @@ class PostProductStateSpec: BaseViewModelSpec {
                     it("returns the same state when updating car info") {
                         expect(sut.updating(carInfo: CarAttributes.emptyCarAttributes())) === sut    
                     }
-                    
-                    it("returns the same state when updating price & car info") {
-                        expect(sut.updating(price: ListingPrice.makeMock(), carInfo: CarAttributes.emptyCarAttributes())) === sut
-                    }
                 }
                 
                 context("upload error") {
@@ -213,10 +205,6 @@ class PostProductStateSpec: BaseViewModelSpec {
                     
                     it("returns the same state when updating car info") {
                         expect(sut.updating(carInfo: CarAttributes.emptyCarAttributes())) === sut    
-                    }
-                    
-                    it("returns the same state when updating price & car info") {
-                        expect(sut.updating(price: ListingPrice.makeMock(), carInfo: CarAttributes.emptyCarAttributes())) === sut
                     }
                 }
                 
@@ -266,10 +254,6 @@ class PostProductStateSpec: BaseViewModelSpec {
                     it("returns the same state when updating car info") {
                         expect(sut.updating(carInfo: CarAttributes.emptyCarAttributes())) === sut    
                     }
-                    
-                    it("returns the same state when updating price & car info") {
-                        expect(sut.updating(price: ListingPrice.makeMock(), carInfo: CarAttributes.emptyCarAttributes())) === sut
-                    }
                 }
                 
                 context("category selection") {
@@ -306,7 +290,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         }
                         
                         it("updates the step to car details w/o price") {
-                            expect(sut.step) == PostListingStep.carDetailsSelection(includePrice: false)
+                            expect(sut.step) == PostListingStep.carDetailsSelection
                         }
                     }
                     
@@ -332,10 +316,6 @@ class PostProductStateSpec: BaseViewModelSpec {
                     
                     it("returns the same state when updating car info") {
                         expect(sut.updating(carInfo: CarAttributes.emptyCarAttributes())) === sut    
-                    }
-                    
-                    it("returns the same state when updating price & car info") {
-                        expect(sut.updating(price: ListingPrice.makeMock(), carInfo: CarAttributes.emptyCarAttributes())) === sut
                     }
                 }
                 
@@ -386,10 +366,6 @@ class PostProductStateSpec: BaseViewModelSpec {
                         it("updates the step to finished") {
                             expect(sut.step) == PostListingStep.finished
                         }
-                    }
-                    
-                    it("returns the same state when updating price & car info") {
-                        expect(sut.updating(price: ListingPrice.makeMock(), carInfo: CarAttributes.emptyCarAttributes())) === sut
                     }
                 }
             }
