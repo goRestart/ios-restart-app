@@ -51,7 +51,7 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
     
     // MARK: - Lifecycle
 
-    init() {
+    init(summaryAfter: Bool, initialValues: [CarInfoWrapper]) {
         
         super.init(frame: CGRect.zero)
         
@@ -61,6 +61,11 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
         let gesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         gesture.delegate = self
         contentView.addGestureRecognizer(gesture)
+        if summaryAfter {
+            showSelectDetailValue(forDetail: .make, values: initialValues, selectedValueIndex: nil)
+        }
+        
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
