@@ -342,11 +342,9 @@ extension PostProductViewController {
     dynamic func carDetailsNavigationBackButtonPressed() {
         if viewModel.shouldShowSummaryAfter {
             switch carDetailsView.state {
-            case .selectDetailValue(forDetail: .make):
+            case .selectDetail, .selectDetailValue(forDetail: .make):
                 carDetailsView.hideKeyboard()
                 viewModel.revertToPreviousStep()
-            case .selectDetail:
-                showCarYears()
             case .selectDetailValue(forDetail: .model):
                 showCarMakes()
             case .selectDetailValue(forDetail: .year):
