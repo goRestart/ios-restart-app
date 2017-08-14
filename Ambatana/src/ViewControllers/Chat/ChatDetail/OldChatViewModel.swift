@@ -1207,6 +1207,9 @@ extension OldChatViewModel: DirectAnswersPresenterDelegate {
              .productStillForSale, .whatsOffer, .negotiableYes, .negotiableNo, .freeStillHave, .freeYours,
              .freeAvailable:
             clearProductSoldDirectAnswer()
+//FIXME TODO warning To fix
+        default:
+            break
         }
         send(quickAnswer: answer)
     }

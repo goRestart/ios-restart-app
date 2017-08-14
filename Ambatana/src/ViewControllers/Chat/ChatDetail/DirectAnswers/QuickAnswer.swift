@@ -178,7 +178,7 @@ enum QuickAnswer {
         var result = [QuickAnswer]()
         if isDynamic {
             if isFree {
-                result.append(.interested)
+                result.append(randomAvailabilityQA())
                 result.append(.meetUp)
                 result.append(.productCondition)
             } else {
@@ -188,11 +188,11 @@ enum QuickAnswer {
             }
         } else {
             if isFree {
-                result.append(.interested)
+                result.append(randomAvailabilityQA())
                 result.append(.meetUp)
                 result.append(.productCondition)
             } else {
-                result.append(.stillAvailable)
+                result.append(randomAvailabilityQA())
                 result.append(.isNegotiable)
                 result.append(.productCondition)
             }
@@ -200,24 +200,33 @@ enum QuickAnswer {
         return result
     }
     
-    enum StillAvailable {
-        case isStillAvailable
-        case isStillForSale
-        case stillHaveIt
-        
-        var title: String {
-            return "Availability"
-        }
-        
-        var message: String {
-            switch self {
-            case .isStillAvailable:
-                return LGLocalizedString.directAnswerStillAvailable
-            case .isStillForSale:
-                return "for sale"
-            case .stillHaveIt:
-                return "still have it"
-            }
-        }
+    static func randomAvailabilityQA() -> QuickAnswer {
+        let qas : [QuickAnswer]!
+        qas = [.stillAvailable, .stillForSale, .freeStillHave]
+        return qas.random() ?? .stillAvailable
+    }
+    
+    static func randomPriceQA() -> QuickAnswer {
+        let qas : [QuickAnswer]!
+        qas = [.isNegotiable, .priceFirm, .priceWillingToNegotiate, .priceAsking]
+        return qas.random() ?? .isNegotiable
+    }
+    
+    static func randomConditionQA() -> QuickAnswer {
+        let qas : [QuickAnswer]!
+        qas = [.productCondition, .productConditionGood, .productConditionDescribe]
+        return qas.random() ?? .productCondition
+    }
+    
+    static func randomMeetUpQA() -> QuickAnswer {
+        let qas : [QuickAnswer]!
+        qas = [.meetUp, .meetUpLocated, .meetUpWhereYouWant]
+        return qas.random() ?? .meetUp
+    }
+    
+    static func randomNegotiableQA() -> QuickAnswer {
+        let qas : [QuickAnswer]!
+        qas = [.negotiableYes, .productSold]
+        return qas.random() ?? .negotiableYes
     }
 }
