@@ -8,22 +8,31 @@
 
 enum QuickAnswer {
 
-    case interested
-    case notInterested
-    case meetUp
-    case stillAvailable
-    case isNegotiable
+    case interested // Interested ! Yes, I'm interested vs I'm interested
+    case notInterested // Not interested 
+    case meetUp // Meet up
+    case stillAvailable // Availability ! Is it still available?
+    case isNegotiable // Price
     case likeToBuy
-    case productCondition
-    case productStillForSale
-    case productSold
-    case whatsOffer
-    case negotiableYes
-    case negotiableNo
-    case freeStillHave
+    case productCondition // Condition ! "What condition is the item in?" vs "What condition is this item in?"
+    case productStillForSale // Yes, it's still for sale
+    case productSold // Seller. Availability !. Sorry, it has been sold vs Sorry, the product has been sold!"
+    case whatsOffer // Negotiable. Seller
+    case negotiableYes // Negotiable. Seller
+    case negotiableNo // Not negotiable
+    case freeStillHave // Availability ! Do you still have it? vs Still have it?
     case freeYours
-    case freeAvailable
+    case freeAvailable // Seller. Availability
     case freeNotAvailable
+    
+    case stillForSale // Availability. Is it still for sale?
+    case priceFirm // Price. Is the price firm?
+    case priceWillingToNegotiate // Price. Would you be willing to negotiate?
+    case priceAsking // Price. Negotiable only. How much are you asking?
+    case productConditionGood // Condition. Is it in good condition?
+    case productConditionDescribe // Condition. Can you describe the condition?
+    case meetUpWhereYouWant // Meet up. Where do you want to meet up?
+    case meetUpLocated // Meet up. Where are you located?
 
     var text: String {
         switch self {
@@ -59,6 +68,22 @@ enum QuickAnswer {
             return LGLocalizedString.directAnswerFreeAvailable
         case .freeNotAvailable:
             return LGLocalizedString.directAnswerFreeNoAvailable
+        case .stillForSale:
+            return "Is it still for sale?"
+        case .priceFirm:
+            return "Is the price firm?"
+        case .priceWillingToNegotiate:
+            return "Would you be willing to negotiate?"
+        case .priceAsking:
+            return "How much are you asking?"
+        case .productConditionGood:
+            return "Is it in good condition?"
+        case .productConditionDescribe:
+            return "Can you describe the condition?"
+        case .meetUpWhereYouWant:
+            return "Where do you want to meet up?"
+        case .meetUpLocated:
+            return "Where are you located?"
         }
     }
 
@@ -96,6 +121,23 @@ enum QuickAnswer {
             return .freeAvailable
         case .freeNotAvailable:
             return .freeNotAvailable
+//FIXME TODO warning Dummy values. To fix
+        case .stillForSale:
+            return .interested
+        case .priceFirm:
+            return .interested
+        case .priceWillingToNegotiate:
+            return .interested
+        case .priceAsking:
+            return .interested
+        case .productConditionGood:
+            return .interested
+        case .productConditionDescribe:
+            return .interested
+        case .meetUpWhereYouWant:
+            return .interested
+        case .meetUpLocated:
+            return .interested
         }
     }
 
@@ -132,17 +174,50 @@ enum QuickAnswer {
         return result
     }
 
-    static func quickAnswersForPeriscope(isFree: Bool) -> [QuickAnswer] {
+    static func quickAnswersForPeriscope(isFree: Bool, isDynamic: Bool) -> [QuickAnswer] {
         var result = [QuickAnswer]()
-        if isFree {
-            result.append(.interested)
-            result.append(.meetUp)
-            result.append(.productCondition)
+        if isDynamic {
+            if isFree {
+                result.append(.interested)
+                result.append(.meetUp)
+                result.append(.productCondition)
+            } else {
+                result.append(.stillAvailable)
+                result.append(.isNegotiable)
+                result.append(.productCondition)
+            }
         } else {
-            result.append(.stillAvailable)
-            result.append(.isNegotiable)
-            result.append(.productCondition)
+            if isFree {
+                result.append(.interested)
+                result.append(.meetUp)
+                result.append(.productCondition)
+            } else {
+                result.append(.stillAvailable)
+                result.append(.isNegotiable)
+                result.append(.productCondition)
+            }
         }
         return result
+    }
+    
+    enum StillAvailable {
+        case isStillAvailable
+        case isStillForSale
+        case stillHaveIt
+        
+        var title: String {
+            return "Availability"
+        }
+        
+        var message: String {
+            switch self {
+            case .isStillAvailable:
+                return LGLocalizedString.directAnswerStillAvailable
+            case .isStillForSale:
+                return "for sale"
+            case .stillHaveIt:
+                return "still have it"
+            }
+        }
     }
 }
