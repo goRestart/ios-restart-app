@@ -11,15 +11,24 @@ import RxSwift
 
 enum PostCarDetailState {
     case selectDetail
-    case selectDetailValue(forDetail: CarDetailType)
+    case selectDetailValue(forDetail: CarDetailType, fromSummary: Bool)
+    
+    var isFromSummary: Bool {
+        switch self {
+        case .selectDetail:
+            return false
+        case .selectDetailValue(_, let fromSummary):
+            return fromSummary
+        }
+    }
 }
 
 func ==(lhs: PostCarDetailState, rhs: PostCarDetailState) -> Bool {
     switch (lhs, rhs) {
     case (.selectDetail, .selectDetail):
         return true
-    case (.selectDetailValue(let lhsDetail), .selectDetailValue(let rhsDetail)):
-        return lhsDetail == rhsDetail
+    case (.selectDetailValue(let lhsDetail, let lhsFromSummary), .selectDetailValue(let rhsDetail, let rhsFromSummary)):
+        return lhsFromSummary == rhsFromSummary && lhsDetail == rhsDetail
     default:
         return false
     }
@@ -62,7 +71,7 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
         gesture.delegate = self
         contentView.addGestureRecognizer(gesture)
         if summaryAfter {
-            showSelectDetailValue(forDetail: .make, values: initialValues, selectedValueIndex: nil)
+            showSelectDetailValue(forDetail: .make, values: initialValues, selectedValueIndex: nil, fromSummary: false)
         }
     }
     
@@ -355,9 +364,9 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
         }, completion: nil)
     }
     
-    func showSelectDetailValue(forDetail detail: CarDetailType, values: [CarInfoWrapper], selectedValueIndex: Int?) {
+    func showSelectDetailValue(forDetail detail: CarDetailType, values: [CarInfoWrapper], selectedValueIndex: Int?, fromSummary: Bool) {
         defer {
-            state = .selectDetailValue(forDetail: detail)
+            state = .selectDetailValue(forDetail: detail, fromSummary: fromSummary)
         }
         
         updateNavigationButtons(forDetail: detail)
