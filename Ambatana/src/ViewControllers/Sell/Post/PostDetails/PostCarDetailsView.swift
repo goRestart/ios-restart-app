@@ -64,8 +64,6 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
         if summaryAfter {
             showSelectDetailValue(forDetail: .make, values: initialValues, selectedValueIndex: nil)
         }
-        
-        
     }
     
     required init?(coder aDecoder: NSCoder) {

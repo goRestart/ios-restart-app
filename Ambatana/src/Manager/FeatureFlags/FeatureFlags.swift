@@ -290,7 +290,6 @@ class FeatureFlags: FeatureFlaggeable {
         return BumpUpImprovementBanner.fromPosition(abTests.bumpUpImprovementBanner.value)
     }
     
-    
     var tweaksCarPostingFlow: TweaksCarPostingFlow {
         if Bumper.enabled {
             return Bumper.tweaksCarPostingFlow
