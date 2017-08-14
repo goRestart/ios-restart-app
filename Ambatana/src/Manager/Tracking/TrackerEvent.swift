@@ -194,7 +194,7 @@ struct TrackerEvent {
         if let superkeyword = taxonomies?.last?.name {
             params[.keywordName] = superkeyword
         } else {
-            params[.keywordName] = EventParameterBoolean.notAvailable.rawValue
+            params[.keywordName] = "N/A"
         }
         // Search query
         if let actualSearchQuery = searchQuery {
