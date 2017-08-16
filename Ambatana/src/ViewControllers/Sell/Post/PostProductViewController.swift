@@ -47,9 +47,11 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
 
     fileprivate static let detailTopMarginPrice: CGFloat = 100
 
-    private let forceCamera: Bool
+    private let forcedInitialTab: Int?
     private var initialTab: Int {
-        if forceCamera { return 1 }
+        if let forcedInitialTab = forcedInitialTab {
+            return forcedInitialTab
+        }
         return KeyValueStorage.sharedInstance.userPostProductLastTabSelected
     }
 
@@ -62,14 +64,14 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
     // MARK: - Lifecycle
 
     convenience init(viewModel: PostProductViewModel,
-                     forceCamera: Bool) {
+                     forcedInitialTab: Int?) {
         self.init(viewModel: viewModel,
-                  forceCamera: forceCamera,
+                  forcedInitialTab: forcedInitialTab,
                   keyboardHelper: KeyboardHelper())
     }
 
     required init(viewModel: PostProductViewModel,
-                  forceCamera: Bool,
+                  forcedInitialTab: Int?,
                   keyboardHelper: KeyboardHelper) {
         
         let tabPosition: LGViewPagerTabPosition
@@ -85,7 +87,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         self.galleryView = PostProductGalleryView()
         self.keyboardHelper = keyboardHelper
         self.viewModel = viewModel
-        self.forceCamera = forceCamera
+        self.forcedInitialTab = forcedInitialTab
         
         self.priceView = PostProductDetailPriceView(viewModel: viewModel.postDetailViewModel)
         self.categorySelectionView = PostCategorySelectionView()
