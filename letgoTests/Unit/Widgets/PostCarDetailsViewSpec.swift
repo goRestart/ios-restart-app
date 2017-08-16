@@ -60,7 +60,7 @@ class PostCarDetailsViewSpec: QuickSpec {
                     sut.state = .selectDetail
                 }
                 it("previous state is summary") {
-                    expect(sut.previousState) == PostCarDetailState.selectDetailValue(forDetail: CarDetailType.make)
+                    expect(sut.previousState) == PostCarDetailState.selectDetail
                 }
                 it("is select detail value make") {
                     expect(sut.state) == PostCarDetailState.selectDetail
