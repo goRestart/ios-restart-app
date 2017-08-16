@@ -345,15 +345,13 @@ extension PostProductViewController {
         } else {
             if viewModel.shouldShowSummaryAfter {
                 switch carDetailsView.state {
-                case .selectDetailValue(forDetail: .make, _):
+                    case .selectDetail, .selectDetailValue(forDetail: .make):
                     carDetailsView.hideKeyboard()
                     viewModel.revertToPreviousStep()
-                case .selectDetail:
-                    showCarYears(fromSummary: true)
-                case .selectDetailValue(forDetail: .model, let fromSummary):
-                    showCarMakes(fromSummary: fromSummary)
-                case .selectDetailValue(forDetail: .year, let fromSummary):
-                    showCarModels(fromSummary: fromSummary)
+                    case .selectDetailValue(forDetail: .model):
+                    showCarMakes()
+                    case .selectDetailValue(forDetail: .year):
+                    showCarModels()
                 }
             } else {
                 switch carDetailsView.state {
