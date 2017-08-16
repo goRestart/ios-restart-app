@@ -12,7 +12,6 @@ final class FeatureFlagsUDDAO: FeatureFlagsDAO {
     fileprivate enum Key: String {
         case websocketChatEnabled = "websocketChatEnabled"
         case editLocationBubble = "editLocationBubble"
-        case carsVerticalEnabled = "carsVerticalEnabled"
     }
     
     fileprivate var dictionary: [String: Any]
@@ -49,15 +48,6 @@ final class FeatureFlagsUDDAO: FeatureFlagsDAO {
     
     func save(editLocationBubble: EditLocationBubble) {
         save(key: .editLocationBubble, value: editLocationBubble.rawValue)
-        sync()
-    }
-    
-    func retrieveCarsVerticalEnabled() -> Bool? {
-        return retrieve(key: .carsVerticalEnabled)
-    }
-    
-    func save(carsVerticalEnabled: Bool) {
-        save(key: .carsVerticalEnabled, value: carsVerticalEnabled)
         sync()
     }
 }

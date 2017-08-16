@@ -22,8 +22,6 @@ extension Bumper  {
         flags.append(CaptchaTransparent.self)
         flags.append(PassiveBuyersShowKeyboard.self)
         flags.append(ProductDetailNextRelated.self)
-        flags.append(CarsVerticalEnabled.self)
-        flags.append(CarsCategoryAfterPicture.self)
         flags.append(NewMarkAsSoldFlow.self)
         flags.append(EditLocationBubble.self)
         flags.append(NewCarsMultiRequesterEnabled.self)
@@ -82,16 +80,6 @@ extension Bumper  {
     static var productDetailNextRelated: Bool {
         guard let value = Bumper.value(for: ProductDetailNextRelated.key) else { return false }
         return ProductDetailNextRelated(rawValue: value)?.asBool ?? false
-    }
-
-    static var carsVerticalEnabled: Bool {
-        guard let value = Bumper.value(for: CarsVerticalEnabled.key) else { return false }
-        return CarsVerticalEnabled(rawValue: value)?.asBool ?? false
-    }
-
-    static var carsCategoryAfterPicture: Bool {
-        guard let value = Bumper.value(for: CarsCategoryAfterPicture.key) else { return false }
-        return CarsCategoryAfterPicture(rawValue: value)?.asBool ?? false
     }
 
     static var newMarkAsSoldFlow: Bool {
@@ -234,24 +222,6 @@ enum ProductDetailNextRelated: String, BumperFeature  {
     static var enumValues: [ProductDetailNextRelated] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Item page next item related" } 
-    var asBool: Bool { return self == .yes }
-}
-
-enum CarsVerticalEnabled: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return CarsVerticalEnabled.no.rawValue }
-    static var enumValues: [CarsVerticalEnabled] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Cars vertical enabled" } 
-    var asBool: Bool { return self == .yes }
-}
-
-enum CarsCategoryAfterPicture: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return CarsCategoryAfterPicture.no.rawValue }
-    static var enumValues: [CarsCategoryAfterPicture] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "When cars vertical enabled, select category after image selection" } 
     var asBool: Bool { return self == .yes }
 }
 
