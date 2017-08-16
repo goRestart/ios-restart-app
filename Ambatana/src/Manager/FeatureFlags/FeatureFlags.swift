@@ -39,6 +39,7 @@ protocol FeatureFlaggeable: class {
     var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed { get }
     var copiesImprovementOnboarding: CopiesImprovementOnboarding { get }
     var bumpUpImprovementBanner: BumpUpImprovementBanner { get }
+    var dynamicQuickAnswers: DynamicQuickAnswers { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -276,6 +277,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.bumpUpImprovementBanner
         }
         return BumpUpImprovementBanner.fromPosition(abTests.bumpUpImprovementBanner.value)
+    }
+    
+    var dynamicQuickAnswers: DynamicQuickAnswers {
+        if Bumper.enabled {
+            return Bumper.dynamicQuickAnswers
+        }
+        return DynamicQuickAnswers.fromPosition(abTests.dynamicQuickAnswers.value)
     }
     
     // MARK: - Country features

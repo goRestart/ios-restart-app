@@ -33,6 +33,7 @@ extension Bumper  {
         flags.append(AddSuperKeywordsOnFeed.self)
         flags.append(CopiesImprovementOnboarding.self)
         flags.append(BumpUpImprovementBanner.self)
+        flags.append(DynamicQuickAnswers.self)
         Bumper.initialize(flags)
     } 
 
@@ -134,6 +135,11 @@ extension Bumper  {
     static var bumpUpImprovementBanner: BumpUpImprovementBanner {
         guard let value = Bumper.value(for: BumpUpImprovementBanner.key) else { return .control }
         return BumpUpImprovementBanner(rawValue: value) ?? .control 
+    }
+
+    static var dynamicQuickAnswers: DynamicQuickAnswers {
+        guard let value = Bumper.value(for: DynamicQuickAnswers.key) else { return .control }
+        return DynamicQuickAnswers(rawValue: value) ?? .control 
     } 
 }
 
@@ -363,6 +369,23 @@ enum BumpUpImprovementBanner: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum DynamicQuickAnswers: String, BumperFeature  {
+    case control, baseline, a, b
+    static var defaultValue: String { return DynamicQuickAnswers.control.rawValue }
+    static var enumValues: [DynamicQuickAnswers] { return [.control, .baseline, .a, .b]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Random quick answers with different approaches" } 
+    static func fromPosition(_ position: Int) -> DynamicQuickAnswers {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .a
+            case 3: return .b
             default: return .control
         }
     }

@@ -99,5 +99,10 @@
         "name": "BumpUpImprovementBanner",
         "values": ["control", "baseline", "active"],
         "description": "new copies on bump up banner"
+    },
+    {
+        "name": "DynamicQuickAnswers",
+        "values": ["control", "baseline", "A", "B"],
+        "description": "Random quick answers with different approaches"
     }
 ]
