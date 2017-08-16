@@ -269,10 +269,10 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
             case .make:
                 strongSelf.carDetailsView.updateMake(withMake: categoryDetail.name)
                 strongSelf.carDetailsView.updateModel(withModel: nil)
-                strongSelf.showCarModels(fromSummary: false)
+                strongSelf.showCarModels()
             case .model:
                 strongSelf.carDetailsView.updateModel(withModel: categoryDetail.name)
-                strongSelf.showCarYears(fromSummary: false)
+                strongSelf.showCarYears()
             case .year:
                 strongSelf.carDetailsView.updateYear(withYear: categoryDetail.name)
                 delay(0.3) { _ in // requested by designers
@@ -340,42 +340,42 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
 extension PostProductViewController {
     
     dynamic func carDetailsNavigationBackButtonPressed() {
-        if carDetailsView.state.isFromSummary {
+        if let previousState = carDetailsView.previousState, previousState.isSummary {
             didFinishEnteringDetails()
         } else {
             if viewModel.shouldShowSummaryAfter {
                 switch carDetailsView.state {
-                    case .selectDetail, .selectDetailValue(forDetail: .make, _):
+                    case .selectDetail, .selectDetailValue(forDetail: .make):
                     carDetailsView.hideKeyboard()
                     viewModel.revertToPreviousStep()
-                    case .selectDetailValue(forDetail: .model, let fromSummary):
-                    showCarMakes(fromSummary: fromSummary)
-                    case .selectDetailValue(forDetail: .year, let fromSummary):
-                    showCarModels(fromSummary: fromSummary)
+                    case .selectDetailValue(forDetail: .model):
+                    showCarMakes()
+                    case .selectDetailValue(forDetail: .year):
+                    showCarModels()
                 }
             } else {
                 switch carDetailsView.state {
-                case .selectDetail, .selectDetailValue(forDetail: .make, _):
+                case .selectDetail, .selectDetailValue(forDetail: .make):
                     didFinishEnteringDetails()
-                case .selectDetailValue(forDetail: .model, let fromSummary):
-                    showCarMakes(fromSummary: fromSummary)
-                case .selectDetailValue(forDetail: .year, let fromSummary):
-                    showCarModels(fromSummary: fromSummary)
+                case .selectDetailValue(forDetail: .model):
+                    showCarMakes()
+                case .selectDetailValue(forDetail: .year):
+                    showCarModels()
                 }
             }
         }
     }
     
     dynamic func carMakeButtonPressed() {
-        showCarMakes(fromSummary: true)
+        showCarMakes()
     }
     
     dynamic func carModelButtonPressed() {
-        showCarModels(fromSummary: true)
+        showCarModels()
     }
     
     dynamic func carYearButtonPressed() {
-        showCarYears(fromSummary: true)
+        showCarYears()
     }
     
     dynamic func carDetailsDoneButtonPressed() {
@@ -394,25 +394,25 @@ extension PostProductViewController {
         }
     }
     
-    fileprivate func showCarMakes(fromSummary: Bool) {
+    fileprivate func showCarMakes() {
         let (values, selectedIndex) = viewModel.carInfo(forDetail: .make)
-        showSelectCarDetailValue(forDetail: .make, values: values, selectedValueIndex: selectedIndex, fromSummary: fromSummary)
+        showSelectCarDetailValue(forDetail: .make, values: values, selectedValueIndex: selectedIndex)
     }
     
-    fileprivate func showCarModels(fromSummary: Bool) {
+    fileprivate func showCarModels() {
         let (values, selectedIndex) = viewModel.carInfo(forDetail: .model)
-        showSelectCarDetailValue(forDetail: .model, values: values, selectedValueIndex: selectedIndex, fromSummary: fromSummary)
+        showSelectCarDetailValue(forDetail: .model, values: values, selectedValueIndex: selectedIndex)
     }
     
-    fileprivate func showCarYears(fromSummary: Bool) {
+    fileprivate func showCarYears() {
         let (values, selectedIndex) = viewModel.carInfo(forDetail: .year)
-        showSelectCarDetailValue(forDetail: .year, values: values, selectedValueIndex: selectedIndex, fromSummary: fromSummary)
+        showSelectCarDetailValue(forDetail: .year, values: values, selectedValueIndex: selectedIndex)
     }
     
-    private func showSelectCarDetailValue(forDetail detail: CarDetailType, values: [CarInfoWrapper], selectedValueIndex: Int?, fromSummary: Bool) {
+    private func showSelectCarDetailValue(forDetail detail: CarDetailType, values: [CarInfoWrapper], selectedValueIndex: Int?) {
         carDetailsView.hideKeyboard()
         delay(0.3) { [weak self] in // requested by designers
-            self?.carDetailsView.showSelectDetailValue(forDetail: detail, values: values, selectedValueIndex: selectedValueIndex, fromSummary: fromSummary)
+            self?.carDetailsView.showSelectDetailValue(forDetail: detail, values: values, selectedValueIndex: selectedValueIndex)
         }
     }
 }
