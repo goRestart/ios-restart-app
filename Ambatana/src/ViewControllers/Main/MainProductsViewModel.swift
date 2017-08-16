@@ -1091,7 +1091,7 @@ fileprivate extension MainProductsViewModel {
         let successParameter: EventParameterBoolean = hasProducts ? .trueParameter : .falseParameter
         let trackerEvent = TrackerEvent.productList(myUserRepository.myUser,
                                                     categories: filters.selectedCategories,
-                                                    taxonomies: filters.selectedTaxonomyChildren,
+                                                    taxonomy: filters.selectedTaxonomyChildren.first,
                                                     searchQuery: queryString, feedSource: feedSource,
                                                     success: successParameter)
         tracker.trackEvent(trackerEvent)

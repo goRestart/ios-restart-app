@@ -808,10 +808,10 @@ class TrackerEventSpec: QuickSpec {
             
             describe("productList") {
                 let categories: [ListingCategory] = [.homeAndGarden, .motorsAndAccessories]
-                let taxonomies: [TaxonomyChild] = [MockTaxonomyChild.makeMock()]
+                let taxonomy: TaxonomyChild = MockTaxonomyChild.makeMock()
                 let searchQuery = "iPhone"
                 beforeEach {
-                    sut = TrackerEvent.productList(nil, categories: categories, taxonomies: taxonomies, searchQuery: searchQuery, feedSource: .home, success: .trueParameter)
+                    sut = TrackerEvent.productList(nil, categories: categories, taxonomy: taxonomy, searchQuery: searchQuery, feedSource: .home, success: .trueParameter)
                 }
                 
                 it("has its event name") {
@@ -833,7 +833,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(listSuccess).to(equal("true"))
                 }
                 it("contains keyword-name parameter") {
-                    expect(sut.params!.stringKeyParams["keyword-name"] as? String).to(equal(taxonomies.first?.name))
+                    expect(sut.params!.stringKeyParams["keyword-name"] as? String).to(equal(taxonomy.name))
                 }
             }
             
