@@ -89,7 +89,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         
         self.priceView = PostProductDetailPriceView(viewModel: viewModel.postDetailViewModel)
         self.categorySelectionView = PostCategorySelectionView()
-        self.carDetailsView = PostCarDetailsView(summaryAfter: viewModel.shouldShowSummaryAfter,
+        self.carDetailsView = PostCarDetailsView(shouldShowSummaryAfter: viewModel.shouldShowSummaryAfter,
                                                  initialValues: viewModel.carInfo(forDetail: .make).carInfoWrappers)
         super.init(viewModel: viewModel, nibName: "PostProductViewController",
                    statusBarStyle: UIApplication.shared.statusBarStyle)
@@ -342,11 +342,9 @@ extension PostProductViewController {
     dynamic func carDetailsNavigationBackButtonPressed() {
         if viewModel.shouldShowSummaryAfter {
             switch carDetailsView.state {
-            case .selectDetailValue(forDetail: .make):
+            case .selectDetail, .selectDetailValue(forDetail: .make):
                 carDetailsView.hideKeyboard()
                 viewModel.revertToPreviousStep()
-            case .selectDetail:
-                showCarYears()
             case .selectDetailValue(forDetail: .model):
                 showCarMakes()
             case .selectDetailValue(forDetail: .year):
