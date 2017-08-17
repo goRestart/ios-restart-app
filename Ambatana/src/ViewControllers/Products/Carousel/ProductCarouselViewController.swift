@@ -674,12 +674,14 @@ extension ProductCarouselViewController {
 
     private func setupDirectChatElementsRx() {
         viewModel.directChatPlaceholder.asObservable().bindTo(chatTextView.rx.placeholder).addDisposableTo(disposeBag)
-        chatTextView.setInitialText(LGLocalizedString.chatExpressTextFieldText)
-
+        if viewModel.currentProductViewModel?.areQuickAnswersDynamic != true {
+            chatTextView.setInitialText(LGLocalizedString.chatExpressTextFieldText)
+        }
+        
         viewModel.directChatEnabled.asObservable().bindNext { [weak self] enabled in
             self?.buttonBottomBottomConstraint.constant = enabled ? CarouselUI.itemsMargin : 0
             self?.chatContainerHeight.constant = enabled ? CarouselUI.chatContainerMaxHeight : 0
-            }.addDisposableTo(disposeBag)
+        }.addDisposableTo(disposeBag)
 
         viewModel.quickAnswers.asObservable().bindNext { [weak self] quickAnswers in
             self?.directAnswersView.update(answers: quickAnswers, isDynamic: self?.viewModel.currentProductViewModel?.areQuickAnswersDynamic)
