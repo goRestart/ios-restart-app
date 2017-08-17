@@ -315,7 +315,7 @@ enum EventParameterName: String {
     case verticalFields             = "vertical-fields"
     case bubblePosition       = "bubble-position"
     case bubbleName           = "bubble-name"
-    case keywordName           = "keyword-name"
+    case keywordName          = "keyword-name"
 }
 
 enum EventParameterBoolean: String {
@@ -532,7 +532,6 @@ enum EventParameterLoginError {
         case .badRequest:
             return "BadRequest"
         }
-
     }
 
     var details: String? {
