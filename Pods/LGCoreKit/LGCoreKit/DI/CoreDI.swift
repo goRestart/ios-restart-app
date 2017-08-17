@@ -83,9 +83,11 @@ final class CoreDI: InternalDI {
         self.carsInfoRepository = carsInfoRepository
 
         let taxonomiesCache: TaxonomiesDAO = TaxonomiesRealmDAO() ?? TaxonomiesMemoryDAO()
+        let taxonomiesOnboardingCache: TaxonomiesDAO = TaxonomiesMemoryDAO()
         let taxonomiesDataSource = TaxonomiesApiDataSource(apiClient: apiClient)
         let categoryRepository = LGCategoryRepository(dataSource: taxonomiesDataSource,
                                                       taxonomiesCache: taxonomiesCache,
+                                                      taxonomiesOnboardingCache: taxonomiesOnboardingCache,
                                                       locationManager: locationManager)
         self.categoryRepository = categoryRepository
 

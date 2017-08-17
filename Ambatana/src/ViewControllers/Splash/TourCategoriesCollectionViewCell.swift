@@ -6,11 +6,8 @@
 //  Copyright © 2017 Ambatana. All rights reserved.
 //
 
-
-
 import UIKit
 import LGCoreKit
-
 
 class TourCategoriesCollectionViewCell: UICollectionViewCell {
     
@@ -40,11 +37,6 @@ class TourCategoriesCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         categoryIcon.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         categoryIcon.contentMode = .scaleAspectFit
-        contentView.addSubview(categoryIcon)
-        contentView.addSubview(gradientView)
-        contentView.addSubview(categoryTitle)
-        contentView.addSubview(selectedIcon)
-        contentView.addSubview(selectedBackground)
         contentView.addSubviews([categoryIcon, gradientView, selectedBackground, categoryTitle, selectedIcon])
         self.setupUI()
         self.resetUI()
@@ -94,6 +86,7 @@ class TourCategoriesCollectionViewCell: UICollectionViewCell {
         selectedIcon.isHidden = true
         selectedBackground.isHidden = true
     }
+    
     
     private func setAccessibilityIds() {
         self.accessibilityId = .tourCategoriesCollectionViewCell

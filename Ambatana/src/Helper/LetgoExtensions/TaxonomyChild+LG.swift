@@ -31,10 +31,6 @@ extension TaxonomyChild {
             return false
         }
     }
-    
-    var isOthers: Bool {
-        return id == 90
-    }
 }
 
 extension Array where Element == TaxonomyChild {

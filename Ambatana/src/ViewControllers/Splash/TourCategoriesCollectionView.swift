@@ -48,7 +48,6 @@ class TourCategoriesCollectionView: UICollectionView, UICollectionViewDelegate, 
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TourCategoriesCollectionViewCell.reuseIdentifier, for: indexPath) as? TourCategoriesCollectionViewCell else { return UICollectionViewCell() }
         cell.categoryTitle.text = categories[indexPath.row].name
         if let url = categories[indexPath.row].image {

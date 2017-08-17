@@ -13,17 +13,16 @@ protocol TourCategoriesViewModelDelegate: BaseViewModelDelegate { }
 
 class TourCategoriesViewModel: BaseViewModel {
     
-    static let minimumImageNeeded: Int = 3
+    static let minimumTaxonomiesNeeded: Int = 3
     static let categoriesIdentifier = "categories"
     
     weak var navigator: TourCategoriesNavigator?
-    private let categoryRepository: CategoryRepository
     private let tracker: Tracker
     
     var categories: [TaxonomyChild] = []
     let categoriesSelected = Variable<[TaxonomyChild]>([])
     var categoriesMissingCounter: Int {
-        return TourCategoriesViewModel.minimumImageNeeded - categoriesSelectedCounter
+        return TourCategoriesViewModel.minimumTaxonomiesNeeded - categoriesSelectedCounter
     }
     var minimumCategoriesSelected = Variable<Bool>(false)
     
@@ -38,15 +37,14 @@ class TourCategoriesViewModel: BaseViewModel {
     
     // MARK: Lifecycle
     
-    init(tracker: Tracker, categoryRepository: CategoryRepository) {
-        self.categoryRepository = categoryRepository
+    init(tracker: Tracker, taxonomies: [Taxonomy]) {
         self.tracker = tracker
-        self.categories = categoryRepository.indexTaxonomies().flatMap { $0.children }.filter { !$0.isOthers }
+        self.categories = taxonomies.flatMap { $0.children }
         super.init()
     }
     
-    convenience override init() {
-        self.init(tracker: TrackerProxy.sharedInstance, categoryRepository: Core.categoryRepository)
+    convenience init(taxonomies: [Taxonomy]) {
+        self.init(tracker: TrackerProxy.sharedInstance, taxonomies: taxonomies)
     }
     
     override func didBecomeActive(_ firstTime: Bool) {
@@ -61,14 +59,14 @@ class TourCategoriesViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
             var okText: String
             if categoriesSelected.count == 0 {
-                okText = String(format: LGLocalizedString.onboardingCategoriesButtonTitleInitial, Int(TourCategoriesViewModel.minimumImageNeeded))
-            } else if categoriesSelected.count < TourCategoriesViewModel.minimumImageNeeded {
+                okText = String(format: LGLocalizedString.onboardingCategoriesButtonTitleInitial, Int(TourCategoriesViewModel.minimumTaxonomiesNeeded))
+            } else if categoriesSelected.count < TourCategoriesViewModel.minimumTaxonomiesNeeded {
                 okText =  String(format: LGLocalizedString.onboardingCategoriesButtonCountdown, Int(strongSelf.categoriesMissingCounter))
             } else {
                 okText = LGLocalizedString.onboardingCategoriesButtonTitleFinish
             }
             strongSelf.okButtonText.value = okText
-            strongSelf.minimumCategoriesSelected.value = categoriesSelected.count >= TourCategoriesViewModel.minimumImageNeeded
+            strongSelf.minimumCategoriesSelected.value = categoriesSelected.count >= TourCategoriesViewModel.minimumTaxonomiesNeeded
         }.addDisposableTo(disposeBag)
     }
     

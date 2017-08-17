@@ -27,7 +27,7 @@ final class OnboardingCoordinator: Coordinator, ChangePasswordPresenter {
     fileprivate var presentedViewControllers: [UIViewController] = []
     
     fileprivate let featureFlags: FeatureFlaggeable
-
+    fileprivate let categoryRepository: CategoryRepository
     fileprivate weak var recaptchaTokenDelegate: RecaptchaTokenDelegate?
 
 
@@ -37,16 +37,19 @@ final class OnboardingCoordinator: Coordinator, ChangePasswordPresenter {
     convenience init() {
         self.init(locationManager: Core.locationManager,
                   bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
+                  categoryRepository: Core.categoryRepository,
                   featureFlags: FeatureFlags.sharedInstance,
                   sessionManager: Core.sessionManager)
     }
 
     init(locationManager: LocationManager,
          bubbleNotificationManager: BubbleNotificationManager,
+         categoryRepository: CategoryRepository,
          featureFlags: FeatureFlaggeable,
          sessionManager: SessionManager) {
         self.locationManager = locationManager
         self.bubbleNotificationManager = bubbleNotificationManager
+        self.categoryRepository = categoryRepository
         self.featureFlags = featureFlags
         self.sessionManager = sessionManager
         viewController = TourBlurBackgroundViewController()
@@ -132,9 +135,9 @@ final class OnboardingCoordinator: Coordinator, ChangePasswordPresenter {
         topVC.present(vc, animated: true, completion: nil)
     }
     
-    fileprivate func openTourCategories() {
+    fileprivate func openTourCategories(taxonomies: [Taxonomy]) {
         let topVC = topViewController()
-        let vm = TourCategoriesViewModel()
+        let vm = TourCategoriesViewModel(taxonomies: taxonomies)
         vm.navigator = self
         let vc = TourCategoriesViewController(viewModel: vm)
         hideVC(topVC)
@@ -161,8 +164,9 @@ final class OnboardingCoordinator: Coordinator, ChangePasswordPresenter {
 
 extension OnboardingCoordinator: TourLoginNavigator {
     func tourLoginFinish() {
-        if featureFlags.superKeywordsOnOnboarding.isActive {
-            openTourCategories()
+        let taxonomiesOnboarding = categoryRepository.indexOnboardingTaxonomies()
+        if featureFlags.superKeywordsOnOnboarding.isActive && taxonomiesOnboarding.count > TourCategoriesViewModel.minimumTaxonomiesNeeded {
+            openTourCategories(taxonomies: taxonomiesOnboarding)
         } else {
             openTourPermissions()
         }
