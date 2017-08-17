@@ -199,12 +199,12 @@ extension AppCoordinator: AppNavigator {
     }
 
     func openSell(source: PostingSource) {
-        let forcedInitialTab: Int?
+        let forcedInitialTab: PostProductViewController.Tab?
         switch source {
         case .tabBar, .sellButton, .deepLink, .notifications, .deleteProduct:
             forcedInitialTab = nil
         case .onboardingButton, .onboardingCamera:
-            forcedInitialTab = 0
+            forcedInitialTab = .camera
         }
         
         let sellCoordinator = SellCoordinator(source: source,

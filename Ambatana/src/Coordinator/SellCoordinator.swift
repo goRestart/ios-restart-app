@@ -37,7 +37,7 @@ final class SellCoordinator: Coordinator {
     // MARK: - Lifecycle
 
     convenience init(source: PostingSource,
-                     forcedInitialTab: Int?) {
+                     forcedInitialTab: PostProductViewController.Tab?) {
         self.init(source: source,
                   forcedInitialTab: forcedInitialTab,
                   listingRepository: Core.listingRepository,
@@ -49,7 +49,7 @@ final class SellCoordinator: Coordinator {
     }
 
     init(source: PostingSource,
-         forcedInitialTab: Int?,
+         forcedInitialTab: PostProductViewController.Tab?,
          listingRepository: ListingRepository,
          bubbleNotificationManager: BubbleNotificationManager,
          keyValueStorage: KeyValueStorage,
