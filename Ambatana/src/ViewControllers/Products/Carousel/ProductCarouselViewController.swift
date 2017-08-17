@@ -1160,7 +1160,15 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
     }
 
     func directAnswersHorizontalViewDidSelect(answer: QuickAnswer) {
-        viewModel.send(quickAnswer: answer)
+        if viewModel.currentProductViewModel?.showKeyboardWhenQuickAnswer == true {
+            chatTextView.setText(answer.text)
+        } else {
+            viewModel.send(quickAnswer: answer)
+        }
+        
+        if viewModel.currentProductViewModel?.areQuickAnswersDynamic == true {
+            // Send QA to the end
+        }
     }
 
     func directAnswersHorizontalViewDidSelectClose() {
