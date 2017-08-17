@@ -200,7 +200,7 @@ class MainProductsViewModel: BaseViewModel {
         guard keyValueStorage[.lastSearches].count >= minimumSearchesSavedToShowCollection else { return [] }
         return [.You]
     }
-    fileprivate let keyValueStorage: KeyValueStorageable
+    fileprivate let keyValueStorage: KeyValueStorage
     fileprivate let featureFlags: FeatureFlaggeable
     
     // > Delegate
@@ -252,7 +252,7 @@ class MainProductsViewModel: BaseViewModel {
     init(sessionManager: SessionManager, myUserRepository: MyUserRepository, searchRepository: SearchRepository,
          listingRepository: ListingRepository, monetizationRepository: MonetizationRepository, categoryRepository: CategoryRepository,
          locationManager: LocationManager, currencyHelper: CurrencyHelper, tracker: Tracker,
-         searchType: SearchType? = nil, filters: ProductFilters, keyValueStorage: KeyValueStorageable,
+         searchType: SearchType? = nil, filters: ProductFilters, keyValueStorage: KeyValueStorage,
          featureFlags: FeatureFlaggeable, bubbleTextGenerator: DistanceBubbleTextGenerator) {
         
         self.sessionManager = sessionManager
@@ -320,10 +320,6 @@ class MainProductsViewModel: BaseViewModel {
     }
 
     override func didBecomeActive(_ firstTime: Bool) {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(self.updateFiltersWithOnboardingCategories(_:)),
-                                               name: .onboardingCategories,
-                                               object: nil)
         updatePermissionsWarning()
         taxonomyChildren = filterSuperKeywordsHighlighted(taxonomies: getTaxonomyChildren())
         updateCategoriesHeader()
@@ -523,6 +519,9 @@ class MainProductsViewModel: BaseViewModel {
         listViewModel.isProductListEmpty.asObservable().bindNext { [weak self] _ in
             self?.updateCategoriesHeader()
         }.addDisposableTo(disposeBag)
+        keyValueStorage.newPreferedCategoriesSelected.asObservable().map { $0 }.bindNext { [weak self] _ in
+            self?.updateFiltersWithOnboardingTaxonomies(taxonomiesIds: self?.keyValueStorage[.userCategoriesPrefered] ?? [])
+        }.addDisposableTo(disposeBag)
     }
     
     /**
@@ -558,9 +557,8 @@ class MainProductsViewModel: BaseViewModel {
     
     // MARK: - Categories From Onboarding
     
-    @objc func updateFiltersWithOnboardingCategories(_ notification: NSNotification) {
-        guard let taxonomiesSelected = notification.userInfo?[TourCategoriesViewModel.categoriesIdentifier] as? [TaxonomyChild] else { return }
-        filters.onboardingFilters = taxonomiesSelected
+    @objc func updateFiltersWithOnboardingTaxonomies(taxonomiesIds: [Int]) {
+        filters.onboardingFilters = taxonomiesIds
         updateListView()
     }
     

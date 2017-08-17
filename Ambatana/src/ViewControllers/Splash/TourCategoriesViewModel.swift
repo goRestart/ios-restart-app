@@ -17,6 +17,7 @@ class TourCategoriesViewModel: BaseViewModel {
     static let categoriesIdentifier = "categories"
     
     weak var navigator: TourCategoriesNavigator?
+    fileprivate let keyValueStorage: KeyValueStorage
     private let tracker: Tracker
     
     var categories: [TaxonomyChild] = []
@@ -37,14 +38,17 @@ class TourCategoriesViewModel: BaseViewModel {
     
     // MARK: Lifecycle
     
-    init(tracker: Tracker, taxonomies: [Taxonomy]) {
+    init(tracker: Tracker, keyValueStorage: KeyValueStorage, taxonomies: [Taxonomy]) {
         self.tracker = tracker
+        self.keyValueStorage = keyValueStorage
         self.categories = taxonomies.flatMap { $0.children }
         super.init()
     }
     
     convenience init(taxonomies: [Taxonomy]) {
-        self.init(tracker: TrackerProxy.sharedInstance, taxonomies: taxonomies)
+        self.init(tracker: TrackerProxy.sharedInstance,
+                  keyValueStorage: KeyValueStorage.sharedInstance,
+                  taxonomies: taxonomies)
     }
     
     override func didBecomeActive(_ firstTime: Bool) {
@@ -74,15 +78,10 @@ class TourCategoriesViewModel: BaseViewModel {
     // MARK: Actions
     
     func okButtonPressed() {
-        let categoriesSelectedDict:[String: [TaxonomyChild]] = [TourCategoriesViewModel.categoriesIdentifier: categoriesSelected.value]
         let event = TrackerEvent.onboardingInterestsComplete(superKeywords: categoriesSelected.value.map { $0.name })
         tracker.trackEvent(event)
-        NotificationCenter.default.post(name: .onboardingCategories, object: nil, userInfo: categoriesSelectedDict)
+        keyValueStorage[.userCategoriesPrefered] = categoriesSelected.value.map { $0.id }
+        keyValueStorage.newPreferedCategoriesSelected.value = true
         navigator?.tourCategoriesFinish(withCategories: categoriesSelected.value)
     }
-}
-
-
-extension Notification.Name {
-    static let onboardingCategories = Notification.Name("onboardingCategories")
 }

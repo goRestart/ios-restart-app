@@ -8,6 +8,7 @@
 
 import LGCoreKit
 import SwiftyUserDefaults
+import RxSwift
 
 /**
  NSUserDefaults key-value structure:
@@ -36,6 +37,7 @@ extension DefaultsKeys {
     static let didShowHorizontalProductDetailOnboarding = DefaultsKey<Bool>("didShowHorizontalProductDetailOnboarding")
     static let productDetailQuickAnswersHidden = DefaultsKey<Bool>("productDetailQuickAnswers")
     static let productMoreInfoTooltipDismissed = DefaultsKey<Bool>("showMoreInfoTooltip")
+    static let userCategoriesPrefered = DefaultsKey<[Int]>("userCategoriesPrefered")
 
     static let pushPermissionsDailyDate = DefaultsKey<Date?>("dailyPermissionDate")
     static let pushPermissionsDidShowNativeAlert = DefaultsKey<Bool>("didShowNativePushPermissionsDialog")
@@ -74,6 +76,8 @@ class KeyValueStorage {
         guard let currentUserId = currentUserId else { return nil }
         return DefaultsKey<UserDefaultsUser>(currentUserId)
     }
+    
+    var newPreferedCategoriesSelected = Variable<Bool>(false)
 
 
     // MARK: - Lifecycle
@@ -320,6 +324,10 @@ extension KeyValueStorage: KeyValueStorageable {
         set { storage[key] = newValue }
     }
     subscript(key: DefaultsKey<[String]>) -> [String] {
+        get { return storage[key] }
+        set { storage[key] = newValue }
+    }
+    subscript(key: DefaultsKey<[Int]>) -> [Int] {
         get { return storage[key] }
         set { storage[key] = newValue }
     }

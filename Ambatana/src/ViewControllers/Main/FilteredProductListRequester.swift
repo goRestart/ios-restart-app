@@ -209,10 +209,7 @@ fileprivate extension FilteredProductListRequester {
         params.categoryIds?.append(contentsOf: idCategoriesFromTaxonomies ?? [])
         params.superKeywordIds = filters?.selectedTaxonomyChildren.getIds(withType: .superKeyword)
         
-        let idCategoriesFromOnboarding = filters?.onboardingFilters.getIds(withType: .category) ?? []
-        params.categoryIds?.append(contentsOf: idCategoriesFromOnboarding)
-            
-        let idSuperKeywordsFromOnboarding = filters?.onboardingFilters.getIds(withType: .superKeyword) ?? []
+        let idSuperKeywordsFromOnboarding = filters?.onboardingFilters ?? []
         params.superKeywordIds?.append(contentsOf: idSuperKeywordsFromOnboarding)
         
         params.timeCriteria = filters?.selectedWithin
