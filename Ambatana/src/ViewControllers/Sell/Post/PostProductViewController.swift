@@ -340,24 +340,28 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
 extension PostProductViewController {
     
     dynamic func carDetailsNavigationBackButtonPressed() {
-        if viewModel.shouldShowSummaryAfter {
-            switch carDetailsView.state {
-            case .selectDetail, .selectDetailValue(forDetail: .make):
-                carDetailsView.hideKeyboard()
-                viewModel.revertToPreviousStep()
-            case .selectDetailValue(forDetail: .model):
-                showCarMakes()
-            case .selectDetailValue(forDetail: .year):
-                showCarModels()
-            }
+        if let previousState = carDetailsView.previousState, previousState.isSummary {
+            didFinishEnteringDetails()
         } else {
-            switch carDetailsView.state {
-            case .selectDetail, .selectDetailValue(forDetail: .make):
-                didFinishEnteringDetails()
-            case .selectDetailValue(forDetail: .model):
-                showCarMakes()
-            case .selectDetailValue(forDetail: .year):
-                showCarModels()
+            if viewModel.shouldShowSummaryAfter {
+                switch carDetailsView.state {
+                    case .selectDetail, .selectDetailValue(forDetail: .make):
+                    carDetailsView.hideKeyboard()
+                    viewModel.revertToPreviousStep()
+                    case .selectDetailValue(forDetail: .model):
+                    showCarMakes()
+                    case .selectDetailValue(forDetail: .year):
+                    showCarModels()
+                }
+            } else {
+                switch carDetailsView.state {
+                case .selectDetail, .selectDetailValue(forDetail: .make):
+                    didFinishEnteringDetails()
+                case .selectDetailValue(forDetail: .model):
+                    showCarMakes()
+                case .selectDetailValue(forDetail: .year):
+                    showCarModels()
+                }
             }
         }
     }

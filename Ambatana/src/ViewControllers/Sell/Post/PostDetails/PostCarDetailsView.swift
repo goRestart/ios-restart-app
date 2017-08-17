@@ -9,9 +9,18 @@
 import UIKit
 import RxSwift
 
-enum PostCarDetailState {
+enum PostCarDetailState: Equatable {
     case selectDetail
     case selectDetailValue(forDetail: CarDetailType)
+    
+    var isSummary: Bool {
+        switch self {
+        case .selectDetail:
+            return true
+        case .selectDetailValue:
+            return false
+        }
+    }
 }
 
 func ==(lhs: PostCarDetailState, rhs: PostCarDetailState) -> Bool {
@@ -45,7 +54,12 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
     private var progressTopConstraint: NSLayoutConstraint = NSLayoutConstraint()
     private static var progressTopConstraintConstantSelectDetail = Metrics.screenHeight/3.5
     
-    var state: PostCarDetailState = .selectDetail
+    var state: PostCarDetailState = .selectDetail {
+        willSet {
+            previousState = state
+        }
+    }
+    var previousState: PostCarDetailState?
     
     let tableView = CategoryDetailTableView(withStyle: .lightContent)
     
