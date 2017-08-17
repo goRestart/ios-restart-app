@@ -42,6 +42,7 @@ class DirectAnswersHorizontalView: UIView {
     fileprivate var heightConstraint = NSLayoutConstraint()
     fileprivate let collectionView: UICollectionView
     fileprivate var answers: [QuickAnswer]
+    fileprivate var isDynamic: Bool = false
 
     // MARK: - Lifecycle
 
@@ -72,8 +73,11 @@ class DirectAnswersHorizontalView: UIView {
         heightConstraint.constant = collapsed ? 0 : DirectAnswersHorizontalView.defaultHeight
     }
 
-    func update(answers: [QuickAnswer]) {
+    func update(answers: [QuickAnswer], isDynamic: Bool?) {
         self.answers = answers
+        if let isDynamic = isDynamic {
+            self.isDynamic = isDynamic
+        }
         collectionView.reloadData()
     }
 
@@ -136,7 +140,7 @@ extension DirectAnswersHorizontalView: UICollectionViewDelegate, UICollectionVie
         if indexPath.row == answers.count {
             return DirectAnswersCloseCell.size()
         } else {
-            return DirectAnswerCell.sizeForDirectAnswer(answers[indexPath.row])
+            return DirectAnswerCell.sizeForDirectAnswer(answers[indexPath.row], isDynamic: isDynamic)
         }
     }
 
@@ -155,7 +159,7 @@ extension DirectAnswersHorizontalView: UICollectionViewDelegate, UICollectionVie
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DirectAnswerCell.reusableID,
                                                                 for: indexPath) as? DirectAnswerCell else { return UICollectionViewCell() }
 
-            cell.setupWithDirectAnswer(answers[indexPath.row])
+            cell.setupWithDirectAnswer(answers[indexPath.row], isDynamic: isDynamic)
 
             return cell
         }

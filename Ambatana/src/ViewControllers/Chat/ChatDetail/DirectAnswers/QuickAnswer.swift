@@ -245,8 +245,8 @@ enum QuickAnswer {
         if isDynamic {
             if isFree {
                 result.append(randomAvailabilityQA())
-                result.append(.meetUp)
-                result.append(.productCondition)
+                result.append(randomMeetUpQA())
+                result.append(randomConditionQA())
             } else {
                 result.append(randomAvailabilityQA())
                 result.append(randomMeetUpQA())
@@ -254,11 +254,11 @@ enum QuickAnswer {
             }
         } else {
             if isFree {
-                result.append(randomAvailabilityQA())
+                result.append(.stillAvailable)
                 result.append(.meetUp)
                 result.append(.productCondition)
             } else {
-                result.append(randomAvailabilityQA())
+                result.append(.stillAvailable)
                 result.append(.isNegotiable)
                 result.append(.productCondition)
             }

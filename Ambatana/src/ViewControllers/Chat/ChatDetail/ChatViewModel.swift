@@ -1371,6 +1371,15 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
         return QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree)
     }
     
+    var areQuickAnswersDynamic: Bool {
+        switch featureFlags.dynamicQuickAnswers {
+        case .control, .baseline:
+            return false
+        case .a, .b:
+            return true
+        }
+    }
+    
     func directAnswersDidTapAnswer(_ controller: DirectAnswersPresenter, answer: QuickAnswer) {
         switch answer {
         case .productSold, .freeNotAvailable:

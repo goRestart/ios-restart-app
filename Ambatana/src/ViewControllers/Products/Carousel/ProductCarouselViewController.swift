@@ -682,7 +682,7 @@ extension ProductCarouselViewController {
             }.addDisposableTo(disposeBag)
 
         viewModel.quickAnswers.asObservable().bindNext { [weak self] quickAnswers in
-            self?.directAnswersView.update(answers: quickAnswers)
+            self?.directAnswersView.update(answers: quickAnswers, isDynamic: self?.viewModel.currentProductViewModel?.areQuickAnswersDynamic)
         }.addDisposableTo(disposeBag)
 
         viewModel.directChatMessages.changesObservable.bindNext { [weak self] change in

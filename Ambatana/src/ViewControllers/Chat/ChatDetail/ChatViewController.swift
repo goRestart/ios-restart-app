@@ -243,7 +243,7 @@ class ChatViewController: TextViewController {
 
     fileprivate func setupDirectAnswers() {
         directAnswersPresenter.hidden = viewModel.directAnswersState.value != .visible
-        directAnswersPresenter.setDirectAnswers(viewModel.directAnswers)
+        directAnswersPresenter.setDirectAnswers(viewModel.directAnswers, isDynamic: viewModel.areQuickAnswersDynamic)
         directAnswersPresenter.setupOnTopOfView(relatedProductsView)
         directAnswersPresenter.delegate = viewModel
     }

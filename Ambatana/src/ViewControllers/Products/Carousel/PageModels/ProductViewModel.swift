@@ -70,6 +70,22 @@ class ProductViewModel: BaseViewModel {
         let isFree = listing.value.price.free && featureFlags.freePostingModeAllowed
         return QuickAnswer.quickAnswersForPeriscope(isFree: isFree, isDynamic: true)
     }
+    var areQuickAnswersDynamic: Bool {
+        switch featureFlags.dynamicQuickAnswers {
+        case .control, .baseline:
+            return false
+        case .a, .b:
+            return true
+        }
+    }
+    var showKeyboardWhenQuickAnswer: Bool {
+        switch featureFlags.dynamicQuickAnswers {
+        case .control, .baseline, .a:
+            return false
+        case .b:
+            return true
+        }
+    }
 
     let navBarButtons = Variable<[UIAction]>([])
     let actionButtons = Variable<[UIAction]>([])
