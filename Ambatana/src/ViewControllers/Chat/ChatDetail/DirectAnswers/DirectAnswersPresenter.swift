@@ -75,7 +75,7 @@ class DirectAnswersPresenter {
 
 
 extension DirectAnswersPresenter: DirectAnswersHorizontalViewDelegate {
-    func directAnswersHorizontalViewDidSelect(answer: QuickAnswer) {
+    func directAnswersHorizontalViewDidSelect(answer: QuickAnswer, index: Int) {
         delegate?.directAnswersDidTapAnswer(self, answer: answer)
     }
 

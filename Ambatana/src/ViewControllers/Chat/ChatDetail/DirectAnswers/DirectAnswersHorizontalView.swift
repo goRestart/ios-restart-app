@@ -9,7 +9,7 @@
 import Foundation
 
 protocol DirectAnswersHorizontalViewDelegate: class {
-    func directAnswersHorizontalViewDidSelect(answer: QuickAnswer)
+    func directAnswersHorizontalViewDidSelect(answer: QuickAnswer, index: Int)
     func directAnswersHorizontalViewDidSelectClose()
 }
 
@@ -181,7 +181,7 @@ extension DirectAnswersHorizontalView: UICollectionViewDelegate, UICollectionVie
         if indexPath.row == answers.count {
             delegate?.directAnswersHorizontalViewDidSelectClose()
         } else {
-            delegate?.directAnswersHorizontalViewDidSelect(answer: answers[indexPath.row])
+            delegate?.directAnswersHorizontalViewDidSelect(answer: answers[indexPath.row], index: indexPath.row)
         }
     }
 

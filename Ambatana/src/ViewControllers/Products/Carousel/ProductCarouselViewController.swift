@@ -1159,20 +1159,28 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
         return cell
     }
 
-    func directAnswersHorizontalViewDidSelect(answer: QuickAnswer) {
+    func directAnswersHorizontalViewDidSelect(answer: QuickAnswer, index: Int) {
         if viewModel.currentProductViewModel?.showKeyboardWhenQuickAnswer == true {
             chatTextView.setText(answer.text)
         } else {
             viewModel.send(quickAnswer: answer)
         }
         
-        if viewModel.currentProductViewModel?.areQuickAnswersDynamic == true {
-            // Send QA to the end
+        if viewModel.currentProductViewModel?.areQuickAnswersDynamic == true { // Send to the end of the collection
+            viewModel.quickAnswers.value.move(fromIndex: index, toIndex: viewModel.quickAnswers.value.count-1)
         }
     }
 
     func directAnswersHorizontalViewDidSelectClose() {
         viewModel.quickAnswersCloseButtonPressed()
+    }
+}
+
+// MARK > TEMP. WARNING TODO. TO DELETE
+extension Array {
+    mutating func move(fromIndex: Int, toIndex: Int) {
+        let element = remove(at: fromIndex)
+        insert(element, at: toIndex)
     }
 }
 
