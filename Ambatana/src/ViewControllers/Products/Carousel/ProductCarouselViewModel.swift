@@ -244,14 +244,9 @@ class ProductCarouselViewModel: BaseViewModel {
         }
 
         // Tracking
-        if let trackingIndex = trackingIndex, currentIndex == startIndex {
-            currentProductViewModel?.trackVisit(.none, source: source, feedPosition: .position(index: trackingIndex))
-        } else {
-            currentProductViewModel?.trackVisit(.none, source: source, feedPosition: .none)
-        }
+        currentProductViewModel?.trackVisit(.none, source: source, feedPosition: trackingFeedPosition)
     }
-    
-    
+        
     private func syncFirstListing() {
         currentProductViewModel?.syncListing() { [weak self] in
             guard let strongSelf = self else { return }
@@ -525,6 +520,14 @@ extension ProductCarouselViewModel: ProductViewModelDelegate {
         return delegate.vmShareViewControllerAndItem()
     }
 
+    var trackingFeedPosition: EventParameterFeedPosition {
+        if let trackingIndex = trackingIndex, currentIndex == startIndex {
+            return .position(index: trackingIndex)
+        } else {
+            return .none
+        }
+    }
+    
     func vmResetBumpUpBannerCountdown() {
         delegate?.vmResetBumpUpBannerCountdown()
     }
