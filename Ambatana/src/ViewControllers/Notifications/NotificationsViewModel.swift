@@ -112,7 +112,7 @@ class NotificationsViewModel: BaseViewModel {
                     let emptyViewModel = LGEmptyViewModel(icon: UIImage(named: "ic_notifications_empty" ),
                         title:  LGLocalizedString.notificationsEmptyTitle,
                         body: LGLocalizedString.notificationsEmptySubtitle, buttonTitle: LGLocalizedString.tabBarToolTip,
-                        action: { [weak self] in self?.navigator?.openSell(.notifications) },
+                        action: { [weak self] in self?.navigator?.openSell(source: .notifications) },
                         secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: .emptyResults)
 
                     strongSelf.viewState.value = .empty(emptyViewModel)

@@ -99,5 +99,10 @@
         "name": "BumpUpImprovementBanner",
         "values": ["control", "baseline", "active"],
         "description": "new copies on bump up banner"
+    },
+    {
+        "name": "OpenGalleryInPosting",
+        "values": ["control", "baseline", "openGallery"],
+        "description": "Opens gallery in posting as default option"
     }
 ]

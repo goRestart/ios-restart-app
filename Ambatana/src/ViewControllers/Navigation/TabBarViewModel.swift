@@ -40,7 +40,7 @@ class TabBarViewModel: BaseViewModel {
     // MARK: - Public methods
 
     func sellButtonPressed() {
-        navigator?.openSell(.sellButton)
+        navigator?.openSell(source: .sellButton)
     }
 
 
