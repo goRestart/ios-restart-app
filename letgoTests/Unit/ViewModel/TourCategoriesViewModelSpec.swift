@@ -19,16 +19,18 @@ class TourCategoriesViewModelSpec: BaseViewModelSpec {
         var keyValueStorage: KeyValueStorage!
         var tracker: MockTracker!
         
-        describe("TourCategoriesViewModelSpec") {
+        fdescribe("TourCategoriesViewModelSpec") {
             
             beforeEach {
                 keyValueStorage = KeyValueStorage()
+                keyValueStorage[.favoriteCategories] = []
+                keyValueStorage.favoriteCategoriesSelected.value = false
                 tracker = MockTracker()
                 let taxonomies = [MockTaxonomy.makeMock(), MockTaxonomy.makeMock()]
                 sut = TourCategoriesViewModel(tracker: tracker, keyValueStorage: keyValueStorage, taxonomies: taxonomies)
             }
             
-            describe("initialization") {
+            fdescribe("initialization") {
                 context("no items selected") {
                     it("categoriesSelected is 0") {
                         expect(sut.categoriesSelected.value.count) == 0
@@ -36,12 +38,12 @@ class TourCategoriesViewModelSpec: BaseViewModelSpec {
                     it("keyValueStorage does not contain favoriteCategories") {
                         expect(keyValueStorage[.favoriteCategories]) == []
                     }
-                    it("keyValueStorage does not contain favoriteCategories") {
+                    it("keyValueStorage favoriteCategoriesSelected is false") {
                         expect(keyValueStorage.favoriteCategoriesSelected.value) == false
                     }
                 }
             }
-            describe("press okButton with 4 selected") {
+            fdescribe("press okButton with 4 selected") {
                 beforeEach {
                     sut.categoriesSelected.value = MockTaxonomyChild.makeMocks(count: 4)
                     sut.okButtonPressed()
@@ -49,10 +51,10 @@ class TourCategoriesViewModelSpec: BaseViewModelSpec {
                 it("categoriesSelected is 4") {
                     expect(sut.categoriesSelected.value.count) == 4
                 }
-                it("keyValueStorage does not contain favoriteCategories") {
+                it("keyValueStorage does contain favoriteCategories") {
                     expect(keyValueStorage[.favoriteCategories]) == sut.categoriesSelected.value.flatMap{ $0.id }
                 }
-                it("keyValueStorage does not contain favoriteCategories") {
+                it("keyValueStorage favoriteCategoriesSelected is true") {
                     expect(keyValueStorage.favoriteCategoriesSelected.value) == true
                 }
             }
