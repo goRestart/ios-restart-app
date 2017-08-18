@@ -488,7 +488,7 @@ extension MainProductsViewController: ProductListViewHeaderDelegate, PushPermiss
         return totalHeight
     }
 
-    func setupViewsInHeader(_ header: ListHeaderContainer) {
+    func setupViewsInHeader(header: ListHeaderContainer) {
         header.clear()
         if shouldShowPermissionsBanner {
             let pushHeader = PushPermissionsHeader()

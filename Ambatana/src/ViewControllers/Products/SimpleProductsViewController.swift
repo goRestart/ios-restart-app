@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SimpleProductsViewController: BaseViewController {
+class SimpleProductsViewController: BaseViewController, ProductListViewHeaderDelegate {
 
     private let viewModel: SimpleProductsViewModel
     private let productList: ProductListView
@@ -18,7 +18,8 @@ class SimpleProductsViewController: BaseViewController {
         self.productList = ProductListView(viewModel: viewModel.productListViewModel,
                                            featureFlags: viewModel.featureFlags, frame: CGRect.zero)
         super.init(viewModel: viewModel, nibName: "SimpleProductsViewController")
-        hidesBottomBarWhenPushed = false
+        self.productList.headerDelegate = self
+        hidesBottomBarWhenPushed = viewModel.productsListMode.hideBottomBar
     }
 
     required init?(coder: NSCoder) {
@@ -48,4 +49,30 @@ class SimpleProductsViewController: BaseViewController {
 
         productList.collectionViewContentInset.top = topBarHeight
     }
+
+
+    // MARK: ProductListViewHeaderDelegate
+
+    func totalHeaderHeight() -> CGFloat {
+        var totalHeight: CGFloat = 0
+        switch viewModel.productsListMode {
+        case .standard:
+            break
+        case .notFound:
+            totalHeight = ItemNotAvailableHeader.viewHeight
+        }
+        return totalHeight
+    }
+
+    func setupViewsInHeader(header: ListHeaderContainer) {
+        header.clear()
+        switch viewModel.productsListMode {
+        case .standard:
+            break
+        case .notFound:
+            let itemNotAvailableHeader = ItemNotAvailableHeader()
+            header.addHeader(itemNotAvailableHeader, height: ItemNotAvailableHeader.viewHeight)
+        }
+    }
+
 }

@@ -81,6 +81,10 @@ protocol SimpleProductsNavigator: class {
     func openListing(_ data: ListingDetailData, source: EventParameterProductVisitSource, actionOnFirstAppear: ProductCarouselActionOnFirstAppear)
 }
 
+protocol ListingUnavailableNavigator: class {
+    func retrySucceeded(withListing listing: Listing, source: EventParameterProductVisitSource, actionOnFirstAppear: ProductCarouselActionOnFirstAppear)
+}
+
 protocol ChatDetailNavigator: TabNavigator {
     func closeChatDetail()
     func openExpressChat(_ listings: [Listing], sourceListingId: String, manualOpen: Bool)
