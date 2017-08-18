@@ -446,10 +446,10 @@
 "nps_survey_very_good" = "Erittäin todennäköisesti";
 "onboarding_alert_no" = "Ei";
 "onboarding_alert_yes" = "Kyllä";
-"onboarding_categories_button_countdown" = "Pick at least %i more";
-"onboarding_categories_button_title_finish" = "Next";
-"onboarding_categories_button_title_initial" = "Pick at least %i categories";
-"onboarding_categories_title" = "What kind of items are you interested in?";
+"onboarding_categories_button_countdown" = "Valitse vähintään %i lisää";
+"onboarding_categories_button_title_finish" = "Seuraava";
+"onboarding_categories_button_title_initial" = "Valitse vähintään %i kategoriaa";
+"onboarding_categories_title" = "Millaisista tuotteista olet kiinnostunut?";
 "onboarding_direct_camera_alert_subtitle" = "Julkaise ensimmäinen tuotteesi ja aloita lähistöllä oleville ihmisille myyminen";
 "onboarding_direct_camera_alert_title" = "Aloita tienaaminen!";
 "onboarding_location_permissions_alert_subtitle" = "Näet kaikista paikoista julkaistut tuotteet sinua lähellä olevien sijaan";
@@ -462,6 +462,12 @@
 "onboarding_posting_button_a" = "Myy tavarasi";
 "onboarding_posting_button_b" = "Aloita";
 "onboarding_posting_button_c" = "Kyllä, minulla on myytävää";
+"onboarding_posting_improvement_b_title" = "Myyminen on helppoa. Kokeile!";
+"onboarding_posting_improvement_c_button" = "Kokeile";
+"onboarding_posting_improvement_c_title" = "Myyminen on helppoa. Kokeile!";
+"onboarding_posting_improvement_d_title" = "Julkaise yhdellä askeleella: otat vain kuvan!";
+"onboarding_posting_improvement_e_title" = "Myyminen on helppoa: otat vain kuvan ja me teemme loput!";
+"onboarding_posting_improvement_f_title" = "Julkaise tuote muutamassa sekunnissa!";
 "onboarding_posting_subtitle_a" = "Julkaise ensimmäinen tuotteesi ja aloita lähistöllä oleville ihmisille myyminen";
 "onboarding_posting_subtitle_b" = "Myy tavaroita, joita et enää tarvitse, ja tienaa ylimääräistä rahaa";
 "onboarding_posting_subtitle_c" = "Lähistöllä olevat ihmiset etsivät näitä tuotteita";

@@ -446,10 +446,10 @@
 "nps_survey_very_good" = "Son derece muhtemel";
 "onboarding_alert_no" = "Hayır";
 "onboarding_alert_yes" = "Evet";
-"onboarding_categories_button_countdown" = "Pick at least %i more";
-"onboarding_categories_button_title_finish" = "Next";
-"onboarding_categories_button_title_initial" = "Pick at least %i categories";
-"onboarding_categories_title" = "What kind of items are you interested in?";
+"onboarding_categories_button_countdown" = "En az %i kategori daha seçmelisin";
+"onboarding_categories_button_title_finish" = "İleri";
+"onboarding_categories_button_title_initial" = "En az %i kategori seçmelisin";
+"onboarding_categories_title" = "Hangi ürünler ilgini çekiyor?";
 "onboarding_direct_camera_alert_subtitle" = "İlk ürününü yükleyerek yakınındakilere satış yapmaya başla";
 "onboarding_direct_camera_alert_title" = "Nakit Kazanmaya Başla!";
 "onboarding_location_permissions_alert_subtitle" = "Yakın çevrendekiler yerine her yerde yayınlanmış ürünleri göreceksin";
@@ -462,6 +462,12 @@
 "onboarding_posting_button_a" = "Eşyalarını Sat";
 "onboarding_posting_button_b" = "Başla";
 "onboarding_posting_button_c" = "Evet, satılık eşyalarım var";
+"onboarding_posting_improvement_b_title" = "Satış yapmak çok kolay. Hemen dene!";
+"onboarding_posting_improvement_c_button" = "Şimdi dene";
+"onboarding_posting_improvement_c_title" = "Satış yapmak çok kolay. Hemen dene!";
+"onboarding_posting_improvement_d_title" = "Tek adımda ilan ver: Bir fotoğraf çekmen yeterli!";
+"onboarding_posting_improvement_e_title" = "Satış yapmak çok kolay: Bir fotoğraf çek ve gerisini bize bırak!";
+"onboarding_posting_improvement_f_title" = "Birkaç saniye içinde ilan verebilirsin!";
 "onboarding_posting_subtitle_a" = "İlk ürününü yayınlayarak yakınındakilere satış yapmaya başla";
 "onboarding_posting_subtitle_b" = "İhtiyacın olmayan eşyaları sat ve para kazan";
 "onboarding_posting_subtitle_c" = "Yakın çevrendeki insanlar bu ürünleri arıyor";

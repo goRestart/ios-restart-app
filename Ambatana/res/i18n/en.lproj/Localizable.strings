@@ -61,8 +61,14 @@
 // Text for bubble in payment bump
 "bump_up_banner_pay_text" = "Bump Up to sell faster";
 
+// Text for bubble in payment bump improvement.
+"bump_up_banner_pay_text_improvement" = "Sell faster now";
+
 // Text for bubble while waiting for next bump
 "bump_up_banner_wait_text" = "to Bump Up again";
+
+// Text for bubble while waiting for next bump improvement
+"bump_up_banner_wait_text_improvement" = "to feature again";
 
 // Title for bubble button
 "bump_up_banner_free_button_title" = "Bump Up";
@@ -722,7 +728,7 @@
 "common_or" = "OR";
 
 // Common product not available.
-"common_product_not_available" = "This product is no longer available.";
+"common_product_not_available" = "Ooops! This item is no longer available";
 
 // Common product sold.
 "common_product_sold" = "This product has been sold.";
@@ -1428,6 +1434,24 @@
 
 // Onboarding incentivize posting variant C button
 "onboarding_posting_button_c" = "Yes, I have things to sell";
+
+// Onbarding improvement copies variant B title
+"onboarding_posting_improvement_b_title" = "Selling is easy. Give it a try!";
+
+// Onbarding improvement copies variant C title
+"onboarding_posting_improvement_c_title" = "Selling is easy. Give it a try!";
+
+// Onbarding improvement copies variant D title
+"onboarding_posting_improvement_d_title" = "Post in one step: just take a picture!";
+
+// Onbarding improvement copies variant E title
+"onboarding_posting_improvement_e_title" = "Selling is easy: just take a picture and we'll do the rest!";
+
+// Onbarding improvement copies variant F title
+"onboarding_posting_improvement_f_title" = "Post an item in just seconds!";
+
+// Onbarding improvement copies variant C button
+"onboarding_posting_improvement_c_button" = "Try it out";
 
 // Onboarding shows alert if user click on close permission request. 
 "onboarding_location_permissions_alert_title" = "Are you sure?";

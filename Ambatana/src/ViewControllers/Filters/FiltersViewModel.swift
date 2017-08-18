@@ -18,10 +18,10 @@ enum FilterCategoryItem: Equatable {
         self = .category(category: category)
     }
     
-    func getName(isCarsEnabled: Bool) -> String {
+    var name: String {
         switch self {
         case let .category(category: category):
-            return category.getName(isCarsEnabled: isCarsEnabled)
+            return category.name
         case .free:
             return LGLocalizedString.categoriesFree
         }
@@ -141,7 +141,7 @@ class FiltersViewModel: BaseViewModel {
 
     var carsInfoCellsDisabled: Bool {
         let isTaxonomyCars = productFilter.selectedTaxonomyChildren.contains(where: { $0.isCarsCategory == true })
-        return !(featureFlags.carsVerticalEnabled && (productFilter.selectedCategories.contains(.cars) || isTaxonomyCars))
+        return !(productFilter.selectedCategories.contains(.cars) || isTaxonomyCars)
     }
 
     var numOfWithinTimes : Int {
@@ -241,7 +241,7 @@ class FiltersViewModel: BaseViewModel {
     }
     
     func categoriesButtonPressed() {
-        let taxonomiesVM = TaxonomiesViewModel(taxonomies: categoryRepository.indexTaxonomies())
+        let taxonomiesVM = TaxonomiesViewModel(taxonomies: categoryRepository.indexTaxonomies(), source: .filter)
         taxonomiesVM.taxonomiesDelegate = self
         navigator?.openTaxonomyList(withViewModel: taxonomiesVM)
     }
@@ -315,7 +315,7 @@ class FiltersViewModel: BaseViewModel {
 
     private func buildFilterCategoryItemsWithCategories(_ categories: [ListingCategory]) -> [FilterCategoryItem] {
 
-        var filterCatItems: [FilterCategoryItem] = featureFlags.carsVerticalEnabled ? [.category(category: .cars)] : []
+        var filterCatItems: [FilterCategoryItem] = [.category(category: .cars)]
         if featureFlags.freePostingModeAllowed && !featureFlags.addSuperKeywordsOnFeed.isActive {
             filterCatItems.append(.free)
         }
@@ -338,7 +338,7 @@ class FiltersViewModel: BaseViewModel {
             if cat != .cars {
                 resetCarsInfo()
             }
-            productFilter.toggleCategory(cat, carVerticalEnabled: featureFlags.carsVerticalEnabled)
+            productFilter.toggleCategory(cat)
         }
         sections = generateSections()
         delegate?.vmDidUpdate()
@@ -346,7 +346,7 @@ class FiltersViewModel: BaseViewModel {
     
     func categoryTextAtIndex(_ index: Int) -> String? {
         guard isValidCategory(index) else { return nil }
-        return categories[index].getName(isCarsEnabled: featureFlags.carsVerticalEnabled)
+        return categories[index].name
     }
     
     func categoryIconAtIndex(_ index: Int) -> UIImage? {

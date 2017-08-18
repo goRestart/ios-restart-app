@@ -45,10 +45,8 @@ final class LGCategoryRepository: CategoryRepository {
         let countryCode = locationManager.currentLocation?.postalAddress?.countryCode ?? LGCategoryRepository.defaultCountryCode
         let locale = Locale.current
         dataSource.index(countryCode: countryCode, locale: locale) { [weak self] result in
-            if let value = result.value {
-                if !value.isEmpty {
-                    self?.taxonomiesCache.save(taxonomies: value)
-                }
+            if let value = result.value, !value.isEmpty {
+                self?.taxonomiesCache.save(taxonomies: value)
             }
         }
     }
@@ -57,10 +55,8 @@ final class LGCategoryRepository: CategoryRepository {
         let countryCode = locationManager.currentLocation?.postalAddress?.countryCode ?? LGCategoryRepository.defaultCountryCode
         let locale = Locale.current
         dataSource.indexOnboarding(countryCode: countryCode, locale: locale) { [weak self] result in
-            if let value = result.value {
-                if !value.isEmpty {
-                    self?.taxonomiesOnboardingCache?.save(taxonomies: value)
-                }
+            if let value = result.value, !value.isEmpty {
+                self?.taxonomiesOnboardingCache?.save(taxonomies: value)
             }
         }
     }

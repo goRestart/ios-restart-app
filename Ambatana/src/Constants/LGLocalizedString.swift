@@ -91,8 +91,16 @@ struct LGLocalizedString {
 		return NSLocalizedString("bump_up_banner_pay_text", comment: "")
 	}
 
+	static var bumpUpBannerPayTextImprovement: String {
+		return NSLocalizedString("bump_up_banner_pay_text_improvement", comment: "")
+	}
+
 	static var bumpUpBannerWaitText: String {
 		return NSLocalizedString("bump_up_banner_wait_text", comment: "")
+	}
+
+	static var bumpUpBannerWaitTextImprovement: String {
+		return NSLocalizedString("bump_up_banner_wait_text_improvement", comment: "")
 	}
 
 	static var bumpUpBannerFreeButtonTitle: String {
@@ -1925,6 +1933,30 @@ struct LGLocalizedString {
 
 	static var onboardingPostingButtonC: String {
 		return NSLocalizedString("onboarding_posting_button_c", comment: "")
+	}
+
+	static var onboardingPostingImprovementBTitle: String {
+		return NSLocalizedString("onboarding_posting_improvement_b_title", comment: "")
+	}
+
+	static var onboardingPostingImprovementCTitle: String {
+		return NSLocalizedString("onboarding_posting_improvement_c_title", comment: "")
+	}
+
+	static var onboardingPostingImprovementDTitle: String {
+		return NSLocalizedString("onboarding_posting_improvement_d_title", comment: "")
+	}
+
+	static var onboardingPostingImprovementETitle: String {
+		return NSLocalizedString("onboarding_posting_improvement_e_title", comment: "")
+	}
+
+	static var onboardingPostingImprovementFTitle: String {
+		return NSLocalizedString("onboarding_posting_improvement_f_title", comment: "")
+	}
+
+	static var onboardingPostingImprovementCButton: String {
+		return NSLocalizedString("onboarding_posting_improvement_c_button", comment: "")
 	}
 
 	static var onboardingLocationPermissionsAlertTitle: String {

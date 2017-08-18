@@ -230,7 +230,6 @@ enum AccessibilityId: String {
     case postingCloseButton
     case postingGalleryButton
     case postingPhotoButton
-    case postingFooterPostButton
     case postingLoading
     case postingRetryButton
     case postingDoneButton

@@ -10,7 +10,6 @@ import UIKit
 import RxSwift
 
 class PostProductViewController: BaseViewController, PostProductViewModelDelegate {
-    
     @IBOutlet weak var cameraGalleryContainer: UIView!
     
     @IBOutlet weak var otherStepsContainer: UIView!
@@ -47,10 +46,12 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
 
     fileprivate static let detailTopMarginPrice: CGFloat = 100
 
-    private let forceCamera: Bool
-    private var initialTab: Int {
-        if forceCamera { return 1 }
-        return KeyValueStorage.sharedInstance.userPostProductLastTabSelected
+    private let forcedInitialTab: Tab?
+    private var initialTab: Tab {
+        if let forcedInitialTab = forcedInitialTab {
+            return forcedInitialTab
+        }
+        return Tab(rawValue: KeyValueStorage.sharedInstance.userPostProductLastTabSelected) ?? .gallery
     }
 
     private let disposeBag = DisposeBag()
@@ -62,14 +63,14 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
     // MARK: - Lifecycle
 
     convenience init(viewModel: PostProductViewModel,
-                     forceCamera: Bool) {
+                     forcedInitialTab: Tab?) {
         self.init(viewModel: viewModel,
-                  forceCamera: forceCamera,
+                  forcedInitialTab: forcedInitialTab,
                   keyboardHelper: KeyboardHelper())
     }
 
     required init(viewModel: PostProductViewModel,
-                  forceCamera: Bool,
+                  forcedInitialTab: Tab?,
                   keyboardHelper: KeyboardHelper) {
         
         let tabPosition: LGViewPagerTabPosition
@@ -85,15 +86,11 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         self.galleryView = PostProductGalleryView()
         self.keyboardHelper = keyboardHelper
         self.viewModel = viewModel
-        self.forceCamera = forceCamera
+        self.forcedInitialTab = forcedInitialTab
         
         self.priceView = PostProductDetailPriceView(viewModel: viewModel.postDetailViewModel)
         self.categorySelectionView = PostCategorySelectionView()
-        if viewModel.shouldAddPriceRowInCarDetails() {
-            self.carDetailsView = PostCarDetailsView(withPriceRow: true)
-        } else {
-            self.carDetailsView = PostCarDetailsView(withPriceRow: false)
-        }
+        self.carDetailsView = PostCarDetailsView()
         super.init(viewModel: viewModel, nibName: "PostProductViewController",
                    statusBarStyle: UIApplication.shared.statusBarStyle)
         modalPresentationStyle = .overCurrentContext
@@ -121,8 +118,8 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         super.viewDidLayoutSubviews()
         if !viewDidAppear {
             viewPager.delegate = self
-            viewPager.selectTabAtIndex(initialTab)
-            footer.update(scroll: CGFloat(initialTab))
+            viewPager.selectTabAtIndex(initialTab.index)
+            footer.update(scroll: CGFloat(initialTab.index))
         }
     }
 
@@ -131,6 +128,13 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         setStatusBarHidden(true)
         cameraView.active = true
         galleryView.active = true
+    }
+    
+    override func viewWillAppearFromBackground(_ fromBackground: Bool) {
+        super.viewWillAppearFromBackground(fromBackground)
+        if viewModel.state.value.isLoading {
+            customLoadingView.startAnimating()
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -156,7 +160,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
 
     dynamic func galleryButtonPressed() {
         guard viewPager.scrollEnabled else { return }
-        viewPager.selectTabAtIndex(0, animated: true)
+        viewPager.selectTabAtIndex(Tab.gallery.index, animated: true)
     }
     
     dynamic func galleryPostButtonPressed() {
@@ -164,10 +168,10 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
     }
 
     dynamic func cameraButtonPressed() {
-        if viewPager.currentPage == 1 {
+        if viewPager.currentPage == Tab.camera.index {
             cameraView.takePhoto()
         } else {
-            viewPager.selectTabAtIndex(1, animated: true)
+            viewPager.selectTabAtIndex(Tab.camera.index, animated: true)
         }
     }
 
@@ -185,7 +189,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
 
         galleryView.delegate = self
         galleryView.usePhotoButtonText = viewModel.usePhotoButtonText
-        galleryView.collectionViewBottomInset = Metrics.margin + Metrics.sellCameraIconMaxSide
+        galleryView.collectionViewBottomInset = Metrics.margin + PostProductRedCamButtonFooter.cameraIconSide
         
         detailsContainerBottomConstraint.constant = 0
         
@@ -229,8 +233,6 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
             .bottom()
         
         carDetailsView.updateProgress(withPercentage: viewModel.currentCarDetailsProgress)
-        carDetailsView.setCurrencySymbol(viewModel.postDetailViewModel.currencySymbol)
-        carDetailsView.backButtonHidden(!viewModel.shouldShowBackButtonInCarDetails())
         
         carDetailsView.navigationBackButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
             self?.carDetailsNavigationBackButtonPressed()
@@ -279,11 +281,6 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
             }
             strongSelf.carDetailsView.updateProgress(withPercentage: strongSelf.viewModel.currentCarDetailsProgress)
         }.addDisposableTo(disposeBag)
-        
-        carDetailsView.priceRowView.textInput.asObservable().subscribeNext { [weak self] (text) in
-            guard let text = text else { return }
-            self?.viewModel.postDetailViewModel.price.value = text
-        }.addDisposableTo(disposeBag)
     }
     
     private func setupFooter() {
@@ -294,19 +291,13 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
             .trailing()
             .bottom()
         
-        footer.galleryButton?.rx.tap.asObservable().subscribeNext { [weak self] _ in
+        footer.galleryButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
             self?.galleryButtonPressed()
         }.addDisposableTo(disposeBag)
         cameraView.takePhotoEnabled.asObservable().bindTo(footer.cameraButton.rx.isEnabled).addDisposableTo(disposeBag)
-        if let galleryButton = footer.galleryButton {
-            cameraView.takePhotoEnabled.asObservable().bindTo(galleryButton.rx.isEnabled).addDisposableTo(disposeBag)
-        }
+        cameraView.takePhotoEnabled.asObservable().bindTo(footer.galleryButton.rx.isEnabled).addDisposableTo(disposeBag)
         footer.cameraButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
             self?.cameraButtonPressed()
-        }.addDisposableTo(disposeBag)
-        footer.postButton?.setTitle(viewModel.usePhotoButtonText, for: .normal)
-        footer.postButton?.rx.tap.asObservable().subscribeNext { [weak self] _ in
-            self?.galleryPostButtonPressed()
         }.addDisposableTo(disposeBag)
     }
 
@@ -414,10 +405,10 @@ extension PostProductViewController {
 // MARK: - State selection
 
 fileprivate extension PostListingState {
-    func closeButtonAlpha(carDetailsBackButtonEnabled: Bool) -> CGFloat {
+    var closeButtonAlpha: CGFloat {
         switch step {
         case .carDetailsSelection:
-            return carDetailsBackButtonEnabled ? 0 : 1
+            return 0
         case .imageSelection, .uploadingImage, .errorUpload, .detailsSelection, .categorySelection, .finished, .uploadSuccess:
             return 1
         }
@@ -538,7 +529,7 @@ extension PostProductViewController {
         }
         let updateVisibility: () -> () = { [weak self] in
             guard let strongSelf = self else { return }
-            strongSelf.closeButton.alpha = state.closeButtonAlpha(carDetailsBackButtonEnabled: strongSelf.viewModel.shouldShowBackButtonInCarDetails())
+            strongSelf.closeButton.alpha = state.closeButtonAlpha
             strongSelf.otherStepsContainer.alpha = state.isOtherStepsContainerAlpha
             strongSelf.customLoadingView.alpha = state.customLoadingViewAlpha
             strongSelf.postedInfoLabel.alpha = state.postedInfoLabelAlpha
@@ -633,7 +624,7 @@ extension PostProductViewController: PostProductGalleryViewDelegate {
     }
 
     func productGalleryDidPressTakePhoto() {
-        viewPager.selectTabAtIndex(1)
+        viewPager.selectTabAtIndex(Tab.camera.index)
     }
 
     func productGalleryShowActionSheet(_ cancelAction: UIAction, actions: [UIAction]) {
@@ -642,12 +633,11 @@ extension PostProductViewController: PostProductGalleryViewDelegate {
     }
 
     func productGallerySelection(selection: ImageSelection) {
-            footer.cameraButton.isHidden = false
-            footer.postButton?.isHidden = true
+        footer.cameraButton.isHidden = false
     }
     
     func productGallerySwitchToCamera() {
-        viewPager.selectTabAtIndex(1, animated: true)
+        viewPager.selectTabAtIndex(Tab.camera.index, animated: true)
     }
 }
 
@@ -690,14 +680,13 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate,
     }
 
     func viewPagerNumberOfTabs(_ viewPager: LGViewPager) -> Int {
-        return 2
+        return Tab.allValues.count
     }
 
     func viewPager(_ viewPager: LGViewPager, viewForTabAtIndex index: Int) -> UIView {
-        if index == 0 {
+        if index == Tab.gallery.index {
             return galleryView
-        }
-        else {
+        } else {
             return cameraView
         }
     }
@@ -722,7 +711,7 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate,
         let text: String
         let icon: UIImage?
         let attributes = tabTitleTextAttributes()
-        if index == 0 {
+        if index == Tab.gallery.index {
             icon = #imageLiteral(resourceName: "ic_post_tab_gallery")
             text = LGLocalizedString.productPostGalleryTab
         } else {
@@ -763,5 +752,20 @@ extension PostProductViewController {
         closeButton.accessibilityId = .postingCloseButton
         customLoadingView.accessibilityId = .postingLoading
         retryButton.accessibilityId = .postingRetryButton
+    }
+}
+
+
+// MARK: - Tab
+
+extension PostProductViewController {
+    enum Tab: Int {
+        case gallery, camera
+        
+        static var allValues: [Tab] = [.gallery, .camera]
+        
+        var index: Int {
+            return rawValue
+        }
     }
 }

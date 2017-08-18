@@ -28,8 +28,6 @@ protocol FeatureFlaggeable: class {
     var freeBumpUpEnabled: Bool { get }
     var pricedBumpUpEnabled: Bool { get }
     var productDetailNextRelated: Bool { get }
-    var carsVerticalEnabled: Bool { get }
-    var carsCategoryAfterPicture: Bool { get }
     var newMarkAsSoldFlow: Bool { get }
     var editLocationBubble: EditLocationBubble { get }
     var newCarsMultiRequesterEnabled: Bool { get }
@@ -40,7 +38,10 @@ protocol FeatureFlaggeable: class {
     var suggestedSearches: SuggestedSearches { get }
     var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed { get }
     var superKeywordsOnOnboarding: SuperKeywordsOnOnboarding { get }
-    
+    var copiesImprovementOnboarding: CopiesImprovementOnboarding { get }
+    var bumpUpImprovementBanner: BumpUpImprovementBanner { get }
+    var openGalleryInPosting: OpenGalleryInPosting { get }
+
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
     var locationRequiresManualChangeSuggestion: Bool { get }
@@ -68,6 +69,16 @@ extension AddSuperKeywordsOnFeed {
 }
 
 extension SuperKeywordsOnOnboarding {
+    var isActive: Bool {
+        switch self {
+        case .control, .baseline:
+            return false
+        case .active:
+            return true
+        }
+    }
+}
+extension BumpUpImprovementBanner {
     var isActive: Bool {
         switch self {
         case .control, .baseline:
@@ -136,7 +147,6 @@ class FeatureFlags: FeatureFlaggeable {
     func variablesUpdated() {
         dao.save(websocketChatEnabled: abTests.websocketChat.value)
         dao.save(editLocationBubble: EditLocationBubble.fromPosition(abTests.editLocationBubble.value))
-        dao.save(carsVerticalEnabled: abTests.carsVerticalEnabled.value)
         abTests.variablesUpdated()
     }
 
@@ -203,20 +213,6 @@ class FeatureFlags: FeatureFlaggeable {
         return abTests.productDetailNextRelated.value
     }
     
-    var carsVerticalEnabled: Bool {
-        if Bumper.enabled {
-            return Bumper.carsVerticalEnabled
-        }
-        return dao.retrieveCarsVerticalEnabled() ?? abTests.carsVerticalEnabled.value
-    }
-    
-    var carsCategoryAfterPicture: Bool {
-        if Bumper.enabled {
-            return Bumper.carsCategoryAfterPicture
-        }
-        return abTests.carsCategoryAfterPicture.value
-    }
-    
     var newMarkAsSoldFlow: Bool {
         if Bumper.enabled {
             return Bumper.newMarkAsSoldFlow
@@ -280,11 +276,25 @@ class FeatureFlags: FeatureFlaggeable {
         return AddSuperKeywordsOnFeed.fromPosition(abTests.addSuperKeywordsOnFeed.value)
     }
     
-    var superKeywordsOnOnboarding: SuperKeywordsOnOnboarding {
+    var copiesImprovementOnboarding: CopiesImprovementOnboarding {
         if Bumper.enabled {
-            return Bumper.superKeywordsOnOnboarding
+            return Bumper.copiesImprovementOnboarding
         }
-        return SuperKeywordsOnOnboarding.fromPosition(abTests.superKeywordsOnOnboarding.value)
+        return CopiesImprovementOnboarding.fromPosition(abTests.copiesImprovementOnboarding.value)
+    }
+    
+    var bumpUpImprovementBanner: BumpUpImprovementBanner {
+        if Bumper.enabled {
+            return Bumper.bumpUpImprovementBanner
+        }
+        return BumpUpImprovementBanner.fromPosition(abTests.bumpUpImprovementBanner.value)
+    }
+    
+    var openGalleryInPosting: OpenGalleryInPosting {
+        if Bumper.enabled {
+            return Bumper.openGalleryInPosting
+        }
+        return OpenGalleryInPosting.fromPosition(abTests.openGalleryInPosting.value)
     }
     
     

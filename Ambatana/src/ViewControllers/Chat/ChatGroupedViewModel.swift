@@ -224,7 +224,7 @@ class ChatGroupedViewModel: BaseViewModel {
             title: LGLocalizedString.chatListAllEmptyTitle,
             body: nil, buttonTitle: LGLocalizedString.chatListSellingEmptyButton,
             action: { [weak self] in
-                self?.tabNavigator?.openSell(.sellButton)
+                self?.tabNavigator?.openSell(source: .sellButton)
             },
             secondaryButtonTitle: LGLocalizedString.chatListBuyingEmptyButton,
             secondaryAction: { [weak self] in
@@ -247,7 +247,7 @@ class ChatGroupedViewModel: BaseViewModel {
             title: LGLocalizedString.chatListSellingEmptyTitle,
             body: nil, buttonTitle: LGLocalizedString.chatListSellingEmptyButton,
             action: { [weak self] in
-                self?.tabNavigator?.openSell(.sellButton)
+                self?.tabNavigator?.openSell(source: .sellButton)
             },
             secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: nil
         )

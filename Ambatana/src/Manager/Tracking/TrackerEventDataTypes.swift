@@ -175,6 +175,8 @@ enum EventName: String {
     
     case filterBubble                       = "filter-bubble"
     case onboardingInterestsComplete        = "onboarding-interests-complete"
+    case categoriesStart                    = "categories-start"
+    case categoriesComplete                 = "categories-complete"
     
 
     // Constants
@@ -221,6 +223,8 @@ enum EventParameterName: String {
     case userZipCode          = "user-zipcode"
     case searchString         = "search-keyword"
     case searchSuccess        = "search-success"
+    case searchSuggestion     = "search-suggestion"
+    case searchSuggestionPosition = "search-suggestion-position"
     case trendingSearch       = "trending-search"
     case description          = "description"           // error description: why form validation failure.
     case loginSource          = "login-type"            // the login source
@@ -314,6 +318,7 @@ enum EventParameterName: String {
     case bubbleName           = "bubble-name"
     case superKeywordsTotal   = "superkeyword-total"
     case superKeywordsNames   = "superkeyword-names"
+    case keywordName          = "keyword-name"
 }
 
 enum EventParameterBoolean: String {
@@ -530,7 +535,6 @@ enum EventParameterLoginError {
         case .badRequest:
             return "BadRequest"
         }
-
     }
 
     var details: String? {
@@ -648,6 +652,7 @@ enum EventParameterTypePage: String {
     case productDelete = "product-delete"
     case productSold = "product-sold"
     case inAppNotification = "in-app-notification"
+    case filter = "filter"
 }
 
 enum EventParameterPermissionType: String {

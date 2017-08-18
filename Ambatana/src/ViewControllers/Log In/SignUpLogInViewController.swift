@@ -177,9 +177,9 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
             return
         }
         viewModel.erasePassword()
-        emailTextField.text = viewModel.email
-        passwordTextField.text = viewModel.password
-        usernameTextField.text = viewModel.username
+        emailTextField.text = viewModel.email.value
+        passwordTextField.text = viewModel.password.value
+        usernameTextField.text = viewModel.username.value
         
         emailTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()
@@ -215,9 +215,9 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         
         switch (viewModel.currentActionType) {
         case .signup:
-            viewModel.signUp()
+            viewModel.signUp(recaptchaToken: nil)
         case .login:
-            viewModel.logIn()
+            loginButtonPressed()
         }
     }
     
@@ -309,7 +309,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         if textField.returnKeyType == .next {
             guard let actualNextView = nextView else { return true }
             if tag == TextFieldTag.email.rawValue && viewModel.acceptSuggestedEmail() {
-                emailTextField.text = viewModel.email
+                emailTextField.text = viewModel.email.value
             }
             actualNextView.becomeFirstResponder()
             return false
@@ -317,9 +317,9 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         else {            
             switch (viewModel.currentActionType) {
             case .signup:
-                viewModel.signUp()
+                viewModel.signUp(recaptchaToken: nil)
             case .login:
-                viewModel.logIn()
+                loginButtonPressed()
             }
             return true
         }
@@ -368,7 +368,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
 
         emailTextField.clearButtonOffset = 0
         emailTextField.pixelCorrection = -1
-        emailTextField.text = viewModel.email
+        emailTextField.text = viewModel.email.value
         passwordTextField.clearButtonOffset = 0
         usernameTextField.clearButtonOffset = 0
 
@@ -423,8 +423,6 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         emailButton.isHidden = false
         emailIconImageView.isHidden = false
         emailTextField.isHidden = false
-
-        showPasswordButton.isHidden = !(viewModel.showPasswordVisible)
     }
 
     private func setupRx() {
@@ -454,6 +452,15 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         viewModel.suggestedEmail.subscribeNext { [weak self] suggestion in
             self?.emailTextField.suggestion = suggestion
         }.addDisposableTo(disposeBag)
+        
+        // Send button enable
+        viewModel.sendButtonEnabled.bindTo(sendButton.rx.isEnabled).addDisposableTo(disposeBag)
+        
+        // Show password hide
+        viewModel.password.asObservable().map { password -> Bool in
+            guard let password = password else { return true }
+            return password.isEmpty
+        }.bindTo(showPasswordButton.rx.isHidden).addDisposableTo(disposeBag)
     }
 
     private func updateUI() {
@@ -601,12 +608,16 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
 
         switch (tag) {
         case .username:
-            viewModel.username = text
+            viewModel.username.value = text
         case .email:
-            viewModel.email = text
+            viewModel.email.value = text
         case .password:
-            viewModel.password = text
+            viewModel.password.value = text
         }
+    }
+    
+    func loginButtonPressed() {
+        viewModel.logIn()
     }
 }
 
@@ -614,14 +625,6 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
 // MARK: - SignUpLogInViewModelDelegate
 
 extension SignUpLogInViewController: SignUpLogInViewModelDelegate {
-    func vmUpdateSendButtonEnabledState(_ enabled: Bool) {
-        sendButton.isEnabled = enabled
-    }
-
-    func vmUpdateShowPasswordVisible(_ visible: Bool) {
-        showPasswordButton.isHidden = !visible
-    }
-
     func vmShowHiddenPasswordAlert() {
         let alertController = UIAlertController(title: "🔑", message: "Speak friend and enter", preferredStyle: .alert)
         alertController.addTextField { textField in

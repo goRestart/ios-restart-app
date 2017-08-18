@@ -311,7 +311,7 @@
 "filters_distance_not_set" = "Aucun";
 "filters_navbar_reset" = "Reset";
 "filters_price_from" = "De";
-"filters_price_to" = "à";
+"filters_price_to" = "À";
 "filters_price_wrong_range_error" = "Le prix minimum ne peux pas être supérieur au prix maximum.";
 "filters_save_button" = "Sauvegarder les filtres";
 "filters_section_car_info" = "Informations sur la voiture";
@@ -446,10 +446,10 @@
 "nps_survey_very_good" = "Très certainement";
 "onboarding_alert_no" = "Non";
 "onboarding_alert_yes" = "Oui";
-"onboarding_categories_button_countdown" = "Pick at least %i more";
-"onboarding_categories_button_title_finish" = "Next";
-"onboarding_categories_button_title_initial" = "Pick at least %i categories";
-"onboarding_categories_title" = "What kind of items are you interested in?";
+"onboarding_categories_button_countdown" = "Choisissez au moins %i de plus";
+"onboarding_categories_button_title_finish" = "Suivant";
+"onboarding_categories_button_title_initial" = "Choisissez au moins %i catégories";
+"onboarding_categories_title" = "Quels genres de biens vous intéressent ?";
 "onboarding_direct_camera_alert_subtitle" = "Publiez votre premier objet et commencez à vendre aux personnes près de chez vous";
 "onboarding_direct_camera_alert_title" = "Commencez à Gagner de l'Argent !";
 "onboarding_location_permissions_alert_subtitle" = "Vous verrez des biens publiés partout plutôt que près de chez vous";
@@ -462,6 +462,12 @@
 "onboarding_posting_button_a" = "Vendez vos biens";
 "onboarding_posting_button_b" = "Commencer";
 "onboarding_posting_button_c" = "Oui, j'ai des choses à vendre";
+"onboarding_posting_improvement_b_title" = "Vendre, c'est facile. Faites un essai !";
+"onboarding_posting_improvement_c_button" = "Faites l'essai !";
+"onboarding_posting_improvement_c_title" = "Vendre, c'est facile. Faites un essai !";
+"onboarding_posting_improvement_d_title" = "Une seule étape pour publier : prenez simplement une photo !";
+"onboarding_posting_improvement_e_title" = "Vendre, c'est facile : prenez simplement une photo et nous ferons le reste !";
+"onboarding_posting_improvement_f_title" = "Publiez un bien en quelques secondes seulement !";
 "onboarding_posting_subtitle_a" = "Postez votre premier bien et commencez à vendre aux personnes près de chez vous";
 "onboarding_posting_subtitle_b" = "Vendez les affaires dont vous n'avez plus besoin et gagnez de l'argent !";
 "onboarding_posting_subtitle_c" = "Des gens près de chez vous recherchent ces biens";

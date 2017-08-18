@@ -446,10 +446,10 @@
 "nps_survey_very_good" = "Đặc biệt thích";
 "onboarding_alert_no" = "Không";
 "onboarding_alert_yes" = "Có";
-"onboarding_categories_button_countdown" = "Pick at least %i more";
-"onboarding_categories_button_title_finish" = "Next";
-"onboarding_categories_button_title_initial" = "Pick at least %i categories";
-"onboarding_categories_title" = "What kind of items are you interested in?";
+"onboarding_categories_button_countdown" = "Chọn thêm ít nhất %i";
+"onboarding_categories_button_title_finish" = "Tiếp theo";
+"onboarding_categories_button_title_initial" = "Chọn ít nhất %i thể loại";
+"onboarding_categories_title" = "Bạn quan tâm đến loại sản phẩm nào?";
 "onboarding_direct_camera_alert_subtitle" = "Đăng sản phẩm đầu tiên và bắt đầu bán cho những người quanh bạn!";
 "onboarding_direct_camera_alert_title" = "Bắt đầu Kiếm Tiền mặt!";
 "onboarding_location_permissions_alert_subtitle" = "Bạn sẽ xem sản phẩm được đăng tại tất cả địa điểm thay vì tại địa điểm gần bạn";
@@ -462,6 +462,12 @@
 "onboarding_posting_button_a" = "Bán Đồ của Bạn";
 "onboarding_posting_button_b" = "Bắt đầu";
 "onboarding_posting_button_c" = "Có, tôi có đồ để bán";
+"onboarding_posting_improvement_b_title" = "Bán hàng thật dễ dàng. Hãy thử ngay!";
+"onboarding_posting_improvement_c_button" = "Hãy thử ngay";
+"onboarding_posting_improvement_c_title" = "Bán hàng thật dễ dàng. Hãy thử ngay!";
+"onboarding_posting_improvement_d_title" = "Đăng trong một bước: chỉ cần chụp một bức ảnh!";
+"onboarding_posting_improvement_e_title" = "Bán hàng thật dễ dàng: chỉ cần chụp một bức ảnh và chúng tôi sẽ làm phần còn lại!";
+"onboarding_posting_improvement_f_title" = "Đăng sản phẩm chỉ trong vài giây!";
 "onboarding_posting_subtitle_a" = "Đăng sản phẩm đầu tiên của bạn và bắt đầu bán cho những người xung quanh";
 "onboarding_posting_subtitle_b" = "Bán những món đồ bạn không còn cần đến và kiếm thêm tiền";
 "onboarding_posting_subtitle_c" = "Những người quanh bạn đang tìm kiếm những sản phẩm này";

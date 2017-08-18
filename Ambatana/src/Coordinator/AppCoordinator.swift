@@ -198,8 +198,17 @@ extension AppCoordinator: AppNavigator {
         openTab(.home, completion: nil)
     }
 
-    func openSell(_ source: PostingSource) {
-        let sellCoordinator = SellCoordinator(source: source)
+    func openSell(source: PostingSource) {
+        let forcedInitialTab: PostProductViewController.Tab?
+        switch source {
+        case .tabBar, .sellButton, .deepLink, .notifications, .deleteProduct:
+            forcedInitialTab = nil
+        case .onboardingButton, .onboardingCamera:
+            forcedInitialTab = .camera
+        }
+        
+        let sellCoordinator = SellCoordinator(source: source,
+                                              forcedInitialTab: forcedInitialTab)
         sellCoordinator.delegate = self
         openChild(coordinator: sellCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
     }
@@ -208,11 +217,13 @@ extension AppCoordinator: AppNavigator {
     
     func openAppRating(_ source: EventParameterRatingSource) {
         guard ratingManager.shouldShowRating else { return }
-        
+        let trackerEvent = TrackerEvent.appRatingStart(source)
+        tracker.trackEvent(trackerEvent)
         if featureFlags.inAppRatingIOS10, #available(iOS 10.3, *) {
             switch source {
             case .markedSold:
                 SKStoreReviewController.requestReview()
+                trackUserDidRate()
                 LGRatingManager.sharedInstance.userDidRate()
             case .chat, .favorite, .productSellComplete:
                 guard canOpenAppStoreWriteReviewWebsite() else { return }
@@ -232,7 +243,8 @@ extension AppCoordinator: AppNavigator {
         let feedbackAlertAction = UIAction(interface: noButtonInterface, action: { [weak self] in
             self?.askUserToGiveFeedback()
         })
-        let dismissAction: (() -> ()) = { _ in
+        let dismissAction: (() -> ()) = { [weak self] in
+            self?.trackUserDidRemindLater()
             LGRatingManager.sharedInstance.userDidRemindLater()
         }
         openTransitionAlert(title: LGLocalizedString.ratingAppEnjoyingAlertTitle,
@@ -249,10 +261,12 @@ extension AppCoordinator: AppNavigator {
                                                         ButtonStyle.primary(fontSize: .medium))
         let rateAppAction = UIAction(interface: rateAppInterface, action: { [weak self] in
             self?.openAppStoreWriteReviewWebsite()
+            self?.trackUserDidRate()
             LGRatingManager.sharedInstance.userDidRate()
         })
         
-        let dismissAction: (() -> ()) = { _ in
+        let dismissAction: (() -> ()) = { [weak self] in
+            self?.trackUserDidRemindLater()
             LGRatingManager.sharedInstance.userDidRemindLater()
         }
         let exitInterface = UIActionInterface.button(LGLocalizedString.ratingAppRateAlertNoButton,
@@ -278,12 +292,14 @@ extension AppCoordinator: AppNavigator {
                                                              ButtonStyle.primary(fontSize: .medium))
         let giveFeedbackAction = UIAction(interface: giveFeedbackInterface, action: { [weak self] in
             self?.openGiveFeedback()
+            self?.trackUserDidRate()
             LGRatingManager.sharedInstance.userDidRate()
         })
         let exitInterface = UIActionInterface.button(LGLocalizedString.ratingAppFeedbackNoButton,
                                                      ButtonStyle.secondary(fontSize: .medium,
                                                                            withBorder: true))
-        let dismissAction: (() -> ()) = { _ in
+        let dismissAction: (() -> ()) = { [weak self] _ in
+            self?.trackUserDidRemindLater()
             LGRatingManager.sharedInstance.userDidRemindLater()
         }
         let exitAction = UIAction(interface: exitInterface, action: {
@@ -310,6 +326,16 @@ extension AppCoordinator: AppNavigator {
         if let url = URL(string: Constants.appStoreWriteReviewURL) {
             UIApplication.shared.openURL(url)
         }
+    }
+    
+    private func trackUserDidRate() {
+        let trackerEvent = TrackerEvent.appRatingRate()
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+    }
+    
+    private func trackUserDidRemindLater() {
+        let event = TrackerEvent.appRatingRemindMeLater()
+        TrackerProxy.sharedInstance.trackEvent(event)
     }
     
     private func openGiveFeedback() {
@@ -417,7 +443,7 @@ extension AppCoordinator: OnboardingCoordinatorDelegate {
     func onboardingCoordinator(_ coordinator: OnboardingCoordinator, didFinishPosting posting: Bool, source: PostingSource?) {
         delegate?.appNavigatorDidOpenApp()
         if let source = source, posting {
-            openSell(source)
+            openSell(source: source)
         }
     }
 }
@@ -490,7 +516,7 @@ extension AppCoordinator: UITabBarControllerDelegate {
         case .home, .notifications, .chats, .profile:
             afterLogInSuccessful = { [weak self] in self?.openTab(tab, force: true, completion: nil) }
         case .sell:
-            afterLogInSuccessful = { [weak self] in self?.openSell(.tabBar) }
+            afterLogInSuccessful = { [weak self] in self?.openSell(source: .tabBar) }
         }
 
         if let source = tab.logInSource, shouldOpenLogin {
@@ -502,7 +528,7 @@ extension AppCoordinator: UITabBarControllerDelegate {
                 // tab is changed after returning from this method
                 return !shouldOpenLogin
             case .sell:
-                openSell(.tabBar)
+                openSell(source: .tabBar)
                 return false
             }
         }
@@ -714,7 +740,7 @@ fileprivate extension AppCoordinator {
             }
         case .sell:
             afterDelayClosure = { [weak self] in
-                self?.openSell(.deepLink)
+                self?.openSell(source: .deepLink)
             }
         case let .product(productId):
             tabBarCtl.clearAllPresented(nil)

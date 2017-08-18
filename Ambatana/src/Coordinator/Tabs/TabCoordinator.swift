@@ -91,8 +91,8 @@ extension TabCoordinator: TabNavigator {
         appNavigator?.openHome()
     }
 
-    func openSell(_ source: PostingSource) {
-        appNavigator?.openSell(source)
+    func openSell(source: PostingSource) {
+        appNavigator?.openSell(source: source)
     }
 
     func openAppRating(_ source: EventParameterRatingSource) {
@@ -411,7 +411,7 @@ extension TabCoordinator: ProductDetailNavigator {
         closeProductDetail()
         let action = UIAction(interface: .button(LGLocalizedString.productDeletePostButtonTitle,
                                                  .primary(fontSize: .medium)), action: { [weak self] in
-                                                    self?.openSell(.deleteProduct)
+                                                    self?.openSell(source: .deleteProduct)
             }, accessibilityId: .postDeleteAlertButton)
         navigationController.showAlertWithTitle(LGLocalizedString.productDeletePostTitle,
                                                 text: LGLocalizedString.productDeletePostSubtitle,

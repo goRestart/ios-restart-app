@@ -310,7 +310,7 @@
 "filters_car_year_before_year" = "Voor %i";
 "filters_distance_not_set" = "Niet ingesteld";
 "filters_navbar_reset" = "Reset";
-"filters_price_from" = "Vanaf";
+"filters_price_from" = "Van";
 "filters_price_to" = "Tot";
 "filters_price_wrong_range_error" = "De minimumprijs mag niet hoger zijn dan de maximumprijs.";
 "filters_save_button" = "Filters opslaan";
@@ -446,10 +446,10 @@
 "nps_survey_very_good" = "Meest waarschijnlijk";
 "onboarding_alert_no" = "Nee";
 "onboarding_alert_yes" = "Ja";
-"onboarding_categories_button_countdown" = "Pick at least %i more";
-"onboarding_categories_button_title_finish" = "Next";
-"onboarding_categories_button_title_initial" = "Pick at least %i categories";
-"onboarding_categories_title" = "What kind of items are you interested in?";
+"onboarding_categories_button_countdown" = "Kies ten minste %i meer";
+"onboarding_categories_button_title_finish" = "Volgende";
+"onboarding_categories_button_title_initial" = "Kies ten minste %i categorieën";
+"onboarding_categories_title" = "In wat voor soort items ben je geïnteresseerd?";
 "onboarding_direct_camera_alert_subtitle" = "Plaats je eerste product en begin met verkopen aan mensen in jouw omgeving";
 "onboarding_direct_camera_alert_title" = "Begin met geld te verdienen!";
 "onboarding_location_permissions_alert_subtitle" = "Je zult items zien die geplaatst zijn in alle locaties in plaats van bij jou in de buurt";
@@ -462,6 +462,12 @@
 "onboarding_posting_button_a" = "Verkoop Je Spullen";
 "onboarding_posting_button_b" = "Start";
 "onboarding_posting_button_c" = "Ja, ik heb spullen om te verkopen";
+"onboarding_posting_improvement_b_title" = "Verkopen is makkelijk. Probeer het eens!";
+"onboarding_posting_improvement_c_button" = "Probeer het eens";
+"onboarding_posting_improvement_c_title" = "Verkopen is makkelijk. Probeer het eens!";
+"onboarding_posting_improvement_d_title" = "Plaatsen in één stap: maak een foto!";
+"onboarding_posting_improvement_e_title" = "Verkopen is makkelijk: maak een foto en wij doen de rest!";
+"onboarding_posting_improvement_f_title" = "Plaats een item in enkele seconden!";
 "onboarding_posting_subtitle_a" = "Plaats je eerste product en begin met verkopen aan mensen in jouw omgeving";
 "onboarding_posting_subtitle_b" = "Verkoop spullen die je niet meer nodig hebt en verdien extra geld";
 "onboarding_posting_subtitle_c" = "Mensen in jouw buurt zijn op zoek naar deze items";

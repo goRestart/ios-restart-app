@@ -38,3 +38,12 @@ extension Array where Element == TaxonomyChild {
        return self.filter { $0.type == type }.flatMap { $0.id }
     }
 }
+
+extension Array where Element == TaxonomyChild {
+    var containsCarsCategory: Bool {
+        return self.reduce(false) { (result, taxonomyChild) -> Bool in
+            let isCarsCategory = taxonomyChild.isCarsCategory
+            return result || isCarsCategory
+        }
+    }
+}

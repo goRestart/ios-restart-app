@@ -178,7 +178,7 @@ struct TrackerEvent {
         return TrackerEvent(name: .loginBlockedAccountKeepBrowsing, params: params)
     }
 
-    static func productList(_ user: User?, categories: [ListingCategory]?, searchQuery: String?,
+    static func productList(_ user: User?, categories: [ListingCategory]?, taxonomy: TaxonomyChild?, searchQuery: String?,
                             feedSource: EventParameterFeedSource, success: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
 
@@ -191,7 +191,7 @@ struct TrackerEvent {
         }
         params[.feedSource] = feedSource.rawValue
         params[.categoryId] = categoryIds.isEmpty ? "0" : categoryIds.joined(separator: ",")
-
+        params[.keywordName] = taxonomy?.name ?? "N/A"
         // Search query
         if let actualSearchQuery = searchQuery {
             params[.searchString] = actualSearchQuery
@@ -223,13 +223,17 @@ struct TrackerEvent {
         return TrackerEvent(name: .searchStart, params: params)
     }
 
-    static func searchComplete(_ user: User?, searchQuery: String, isTrending: Bool, success: EventParameterSearchCompleteSuccess, isLastSearch: Bool)
+    static func searchComplete(_ user: User?, searchQuery: String, isTrending: Bool, success: EventParameterSearchCompleteSuccess, isLastSearch: Bool, isSuggestiveSearch: Bool, suggestiveSearchIndex: Int?)
         -> TrackerEvent {
             var params = EventParameters()
             params[.searchString] = searchQuery
             params[.searchSuccess] = success.rawValue
             params[.trendingSearch] = isTrending
             params[.lastSearch] = isLastSearch
+            params[.searchSuggestion] = isSuggestiveSearch
+            if let suggestiveSearchPosition = suggestiveSearchIndex {
+                params[.searchSuggestionPosition] = suggestiveSearchPosition
+            }
             return TrackerEvent(name: .searchComplete, params: params)
     }
 
@@ -607,9 +611,12 @@ struct TrackerEvent {
         return TrackerEvent(name: .productDeleteComplete, params: params)
     }
 
-    static func firstMessage(info: SendMessageTrackingInfo, productVisitSource: EventParameterProductVisitSource) -> TrackerEvent {
+    static func firstMessage(info: SendMessageTrackingInfo,
+                             productVisitSource: EventParameterProductVisitSource,
+                             feedPosition: EventParameterFeedPosition) -> TrackerEvent {
         var params = info.params
         params[.productVisitSource] = productVisitSource.rawValue
+        params[.feedPosition] = feedPosition.value
         return TrackerEvent(name: .firstMessage, params: params)
     }
 
@@ -729,10 +736,8 @@ struct TrackerEvent {
         return TrackerEvent(name: .appRatingStart, params: params)
     }
 
-    static func appRatingRate(rating: Int) -> TrackerEvent {
-        var params = EventParameters()
-        params[.rating] = rating
-        return TrackerEvent(name: .appRatingRate, params: params)
+    static func appRatingRate() -> TrackerEvent {
+        return TrackerEvent(name: .appRatingRate, params: nil)
     }
 
     static func appRatingSuggest() -> TrackerEvent {
@@ -1124,6 +1129,19 @@ struct TrackerEvent {
         params[.superKeywordsTotal] = superKeywords.count
         params[.superKeywordsNames] = superKeywords
         return TrackerEvent(name: .onboardingInterestsComplete, params: params)
+    }
+    
+    static func categoriesStart(source: EventParameterTypePage) -> TrackerEvent {
+        var params = EventParameters()
+        params[.typePage] = source.rawValue
+        return TrackerEvent(name: .categoriesStart, params: params)
+    }
+    
+    static func categoriesComplete(keywordName: String, source: EventParameterTypePage) -> TrackerEvent {
+        var params = EventParameters()
+        params[.keywordName] = keywordName
+        params[.typePage] = source.rawValue
+        return TrackerEvent(name: .categoriesComplete, params: params)
     }
 
 

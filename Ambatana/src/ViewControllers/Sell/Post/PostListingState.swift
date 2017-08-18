@@ -23,16 +23,8 @@ final class PostListingState {
     // MARK: - Lifecycle
     
     convenience init(featureFlags: FeatureFlaggeable) {
-        let step: PostListingStep
-        if featureFlags.carsVerticalEnabled {
-            if featureFlags.carsCategoryAfterPicture {
-                step = .imageSelection
-            } else {
-                step = .categorySelection
-            }
-        } else {
-            step = .imageSelection
-        }
+        let step: PostListingStep = .imageSelection
+        
         self.init(step: step,
                   previousStep: nil,
                   category: nil,
@@ -63,17 +55,13 @@ final class PostListingState {
     }
     
     func updating(category: PostCategory) -> PostListingState {
-        guard featureFlags.carsVerticalEnabled, step == .categorySelection else { return self }
+        guard step == .categorySelection else { return self }
         let newStep: PostListingStep
-        if featureFlags.carsCategoryAfterPicture {
-            switch category {
-            case .car:
-                newStep = .carDetailsSelection(includePrice: false)
-            case .other:
-                newStep = .finished
-            }
-        } else {
-            newStep = .imageSelection
+        switch category {
+        case .car:
+            newStep = .carDetailsSelection
+        case .other:
+            newStep = .finished
         }
         return PostListingState(step: newStep,
                                 previousStep: step,
@@ -111,7 +99,7 @@ final class PostListingState {
         }
         let nextStep: PostListingStep
         if let category = category, category == .car {
-            nextStep = .carDetailsSelection(includePrice: true)
+            nextStep = .carDetailsSelection
         } else {
             nextStep = .detailsSelection
         }
@@ -130,7 +118,7 @@ final class PostListingState {
         guard step == .uploadSuccess else { return self }
         let nextStep: PostListingStep
         if let category = category, category == .car {
-            nextStep = .carDetailsSelection(includePrice: true)
+            nextStep = .carDetailsSelection
         } else {
             nextStep = .detailsSelection
         }
@@ -180,12 +168,7 @@ final class PostListingState {
     
     func updating(price: ListingPrice) -> PostListingState {
         guard step == .detailsSelection else { return self }
-        let newStep: PostListingStep
-        if featureFlags.carsVerticalEnabled, featureFlags.carsCategoryAfterPicture {
-            newStep = .categorySelection
-        } else {
-            newStep = .finished
-        }
+        let newStep: PostListingStep = .categorySelection
         return PostListingState(step: newStep,
                                 previousStep: step,
                                 category: category,
@@ -197,19 +180,7 @@ final class PostListingState {
     }
     
     func updating(carInfo: CarAttributes) -> PostListingState {
-        guard step == .carDetailsSelection(includePrice: false) else { return self }
-        return PostListingState(step: .finished,
-                                previousStep: step,
-                                category: category,
-                                pendingToUploadImages: pendingToUploadImages,
-                                lastImagesUploadResult: lastImagesUploadResult,
-                                price: price,
-                                carInfo: carInfo,
-                                featureFlags: featureFlags)
-    }
-    
-    func updating(price: ListingPrice, carInfo: CarAttributes) -> PostListingState {
-        guard step == .carDetailsSelection(includePrice: true) else { return self }
+        guard step == .carDetailsSelection else { return self }
         return PostListingState(step: .finished,
                                 previousStep: step,
                                 category: category,
@@ -241,7 +212,7 @@ enum PostListingStep: Equatable {
     case uploadSuccess
     
     case categorySelection
-    case carDetailsSelection(includePrice: Bool)
+    case carDetailsSelection
     
     case finished
 }
@@ -253,8 +224,8 @@ func ==(lhs: PostListingStep, rhs: PostListingStep) -> Bool {
         return true
     case (let .errorUpload(lMessage), let .errorUpload(rMessage)):
         return lMessage == rMessage
-    case (let .carDetailsSelection(lIncludePrice), let .carDetailsSelection(rIncludePrice)):
-        return lIncludePrice == rIncludePrice
+    case (.carDetailsSelection, .carDetailsSelection):
+        return true
     default:
         return false
     }

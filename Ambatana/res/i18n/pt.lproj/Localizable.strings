@@ -238,7 +238,7 @@
 "common_no" = "No";
 "common_ok" = "OK";
 "common_or" = "OR";
-"common_product_not_available" = "This product is no longer available.";
+"common_product_not_available" = "Ooops! This item is no longer available";
 "common_product_sold" = "This product has been sold.";
 "common_settings" = "Settings";
 "common_short_time_day_ago_label" = "%d day";
@@ -462,6 +462,12 @@
 "onboarding_posting_button_a" = "Sell Your Stuff";
 "onboarding_posting_button_b" = "Start";
 "onboarding_posting_button_c" = "Yes, I have things to sell";
+"onboarding_posting_improvement_b_title" = "Selling is easy. Give it a try!";
+"onboarding_posting_improvement_c_button" = "Try it out";
+"onboarding_posting_improvement_c_title" = "Selling is easy. Give it a try!";
+"onboarding_posting_improvement_d_title" = "Post in one step: just take a picture!";
+"onboarding_posting_improvement_e_title" = "Selling is easy: just take a picture and we'll do the rest!";
+"onboarding_posting_improvement_f_title" = "Post an item in just seconds!";
 "onboarding_posting_subtitle_a" = "Post your first product and start selling to people near you";
 "onboarding_posting_subtitle_b" = "Sell stuff you no longer need and make extra cash";
 "onboarding_posting_subtitle_c" = "People near you are looking for these items";
