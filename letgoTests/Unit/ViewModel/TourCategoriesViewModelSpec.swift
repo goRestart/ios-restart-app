@@ -31,8 +31,29 @@ class TourCategoriesViewModelSpec: BaseViewModelSpec {
             describe("initialization") {
                 context("no items selected") {
                     it("categoriesSelected is 0") {
-                        expect(sut.categoriesSelected.count) == 0
+                        expect(sut.categoriesSelected.value.count) == 0
                     }
+                    it("keyValueStorage does not contain favoriteCategories") {
+                        expect(keyValueStorage[.favoriteCategories]) == []
+                    }
+                    it("keyValueStorage does not contain favoriteCategories") {
+                        expect(keyValueStorage.favoriteCategoriesSelected.value) == false
+                    }
+                }
+            }
+            describe("press okButton with 4 selected") {
+                beforeEach {
+                    sut.categoriesSelected.value = MockTaxonomyChild.makeMocks(count: 4)
+                    sut.okButtonPressed()
+                }
+                it("categoriesSelected is 4") {
+                    expect(sut.categoriesSelected.value.count) == 4
+                }
+                it("keyValueStorage does not contain favoriteCategories") {
+                    expect(keyValueStorage[.favoriteCategories]) == sut.categoriesSelected.value.flatMap{ $0.id }
+                }
+                it("keyValueStorage does not contain favoriteCategories") {
+                    expect(keyValueStorage.favoriteCategoriesSelected.value) == true
                 }
             }
         }
