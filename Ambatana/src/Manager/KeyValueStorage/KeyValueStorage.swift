@@ -37,7 +37,7 @@ extension DefaultsKeys {
     static let didShowHorizontalProductDetailOnboarding = DefaultsKey<Bool>("didShowHorizontalProductDetailOnboarding")
     static let productDetailQuickAnswersHidden = DefaultsKey<Bool>("productDetailQuickAnswers")
     static let productMoreInfoTooltipDismissed = DefaultsKey<Bool>("showMoreInfoTooltip")
-    static let userCategoriesPrefered = DefaultsKey<[Int]>("userCategoriesPrefered")
+    static let favoriteCategories = DefaultsKey<[Int]>("favoriteCategories")
 
     static let pushPermissionsDailyDate = DefaultsKey<Date?>("dailyPermissionDate")
     static let pushPermissionsDidShowNativeAlert = DefaultsKey<Bool>("didShowNativePushPermissionsDialog")
@@ -77,7 +77,7 @@ class KeyValueStorage {
         return DefaultsKey<UserDefaultsUser>(currentUserId)
     }
     
-    var newPreferedCategoriesSelected = Variable<Bool>(false)
+    var favoriteCategoriesSelected = Variable<Bool>(false)
 
 
     // MARK: - Lifecycle

@@ -323,7 +323,9 @@ class MainProductsViewModel: BaseViewModel {
         updatePermissionsWarning()
         taxonomyChildren = filterSuperKeywordsHighlighted(taxonomies: getTaxonomyChildren())
         updateCategoriesHeader()
-        setupRx()
+        if firstTime {
+            setupRx()
+        }
         if let currentLocation = locationManager.currentLocation {
             retrieveProductsIfNeededWithNewLocation(currentLocation)
             retrieveLastUserSearch()
@@ -519,8 +521,8 @@ class MainProductsViewModel: BaseViewModel {
         listViewModel.isProductListEmpty.asObservable().bindNext { [weak self] _ in
             self?.updateCategoriesHeader()
         }.addDisposableTo(disposeBag)
-        keyValueStorage.newPreferedCategoriesSelected.asObservable().map { $0 }.bindNext { [weak self] _ in
-            self?.updateFiltersWithOnboardingTaxonomies(taxonomiesIds: self?.keyValueStorage[.userCategoriesPrefered] ?? [])
+        keyValueStorage.favoriteCategoriesSelected.asObservable().filter { $0 }.bindNext { [weak self] _ in
+            self?.updateFiltersWithOnboardingTaxonomies(taxonomiesIds: self?.keyValueStorage[.favoriteCategories] ?? [])
         }.addDisposableTo(disposeBag)
     }
     
@@ -557,7 +559,7 @@ class MainProductsViewModel: BaseViewModel {
     
     // MARK: - Categories From Onboarding
     
-    @objc func updateFiltersWithOnboardingTaxonomies(taxonomiesIds: [Int]) {
+    func updateFiltersWithOnboardingTaxonomies(taxonomiesIds: [Int]) {
         filters.onboardingFilters = taxonomiesIds
         updateListView()
     }

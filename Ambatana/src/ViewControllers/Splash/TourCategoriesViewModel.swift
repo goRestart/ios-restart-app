@@ -80,8 +80,8 @@ class TourCategoriesViewModel: BaseViewModel {
     func okButtonPressed() {
         let event = TrackerEvent.onboardingInterestsComplete(superKeywords: categoriesSelected.value.map { $0.name })
         tracker.trackEvent(event)
-        keyValueStorage[.userCategoriesPrefered] = categoriesSelected.value.map { $0.id }
-        keyValueStorage.newPreferedCategoriesSelected.value = true
+        keyValueStorage[.favoriteCategories] = categoriesSelected.value.map { $0.id }
+        keyValueStorage.favoriteCategoriesSelected.value = true
         navigator?.tourCategoriesFinish(withCategories: categoriesSelected.value)
     }
 }
