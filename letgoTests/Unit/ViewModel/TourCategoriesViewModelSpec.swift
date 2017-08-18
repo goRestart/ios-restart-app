@@ -30,7 +30,7 @@ class TourCategoriesViewModelSpec: BaseViewModelSpec {
                 sut = TourCategoriesViewModel(tracker: tracker, keyValueStorage: keyValueStorage, taxonomies: taxonomies)
             }
             
-            fdescribe("initialization") {
+            describe("initialization") {
                 context("no items selected") {
                     it("categoriesSelected is 0") {
                         expect(sut.categoriesSelected.value.count) == 0
@@ -43,7 +43,7 @@ class TourCategoriesViewModelSpec: BaseViewModelSpec {
                     }
                 }
             }
-            fdescribe("press okButton with 4 selected") {
+            describe("press okButton with 4 selected") {
                 beforeEach {
                     sut.categoriesSelected.value = MockTaxonomyChild.makeMocks(count: 4)
                     sut.okButtonPressed()
