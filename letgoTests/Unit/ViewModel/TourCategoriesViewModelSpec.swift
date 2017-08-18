@@ -19,7 +19,7 @@ class TourCategoriesViewModelSpec: BaseViewModelSpec {
         var keyValueStorage: KeyValueStorage!
         var tracker: MockTracker!
         
-        fdescribe("TourCategoriesViewModelSpec") {
+        describe("TourCategoriesViewModelSpec") {
             
             beforeEach {
                 keyValueStorage = KeyValueStorage()
