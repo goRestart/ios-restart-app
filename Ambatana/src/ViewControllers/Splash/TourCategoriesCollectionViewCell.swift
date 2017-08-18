@@ -12,7 +12,7 @@ import LGCoreKit
 class TourCategoriesCollectionViewCell: UICollectionViewCell {
     
     static let reuseIdentifier = "TourCategoriesCollectionViewCell"
-    
+    private static let cellSide: CGFloat = 110
     var categoryIcon: UIImageView = UIImageView()
     var categoryTitle: UILabel = UILabel()
     var selectedIcon: UIImageView = UIImageView()
@@ -20,7 +20,7 @@ class TourCategoriesCollectionViewCell: UICollectionViewCell {
     var selectedBackground: UIImageView = UIImageView()
     
     static func cellSize() -> CGSize {
-        return CGSize(width: 110, height: 110)
+        return CGSize(width: TourCategoriesCollectionViewCell.cellSide, height: TourCategoriesCollectionViewCell.cellSide)
     }
     
     override var isSelected: Bool {

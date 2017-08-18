@@ -23,12 +23,11 @@ class TourCategoriesCollectionView: UICollectionView, UICollectionViewDelegate, 
                                            bottom: Metrics.shortMargin,
                                            right: Metrics.shortMargin)
         layout.minimumInteritemSpacing = Metrics.shortMargin
-        layout.minimumLineSpacing = Metrics.shortMargin
+        layout.minimumLineSpacing = Metrics.collectionItemSpacing
         layout.itemSize = TourCategoriesCollectionViewCell.cellSize()
         
         self.categories = categories
         super.init(frame: frame, collectionViewLayout: layout)
-        //Setup
         setup()
         setAccessibilityIds()
     }
@@ -79,7 +78,6 @@ class TourCategoriesCollectionView: UICollectionView, UICollectionViewDelegate, 
         
         backgroundColor = UIColor.clear
         
-        // CollectionView cells
         register(TourCategoriesCollectionViewCell.self, forCellWithReuseIdentifier: TourCategoriesCollectionViewCell.reuseIdentifier)
         if let layout = collectionViewLayout as? UICollectionViewFlowLayout {
             layout.scrollDirection = UICollectionViewScrollDirection.vertical

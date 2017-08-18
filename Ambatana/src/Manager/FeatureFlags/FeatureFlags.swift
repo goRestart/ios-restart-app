@@ -276,6 +276,13 @@ class FeatureFlags: FeatureFlaggeable {
         return AddSuperKeywordsOnFeed.fromPosition(abTests.addSuperKeywordsOnFeed.value)
     }
     
+    var superKeywordsOnOnboarding: SuperKeywordsOnOnboarding {
+        if Bumper.enabled {
+            return Bumper.superKeywordsOnOnboarding
+        }
+        return SuperKeywordsOnOnboarding.fromPosition(abTests.superKeywordsOnOnboarding.value)
+    }
+    
     var copiesImprovementOnboarding: CopiesImprovementOnboarding {
         if Bumper.enabled {
             return Bumper.copiesImprovementOnboarding
