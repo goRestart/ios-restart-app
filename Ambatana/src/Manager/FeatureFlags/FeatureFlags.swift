@@ -22,7 +22,6 @@ protocol FeatureFlaggeable: class {
     var surveyEnabled: Bool { get }
 
     var websocketChat: Bool { get }
-    var userReviews: Bool { get }
     var captchaTransparent: Bool { get }
     var passiveBuyersShowKeyboard: Bool { get }
     var freeBumpUpEnabled: Bool { get }
@@ -137,13 +136,6 @@ class FeatureFlags: FeatureFlaggeable {
         dao.save(websocketChatEnabled: abTests.websocketChat.value)
         dao.save(editLocationBubble: EditLocationBubble.fromPosition(abTests.editLocationBubble.value))
         abTests.variablesUpdated()
-    }
-
-    var userReviews: Bool {
-        if Bumper.enabled {
-            return Bumper.userReviews
-        }
-        return abTests.userReviews.value
     }
 
     var showNPSSurvey: Bool {

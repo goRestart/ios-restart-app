@@ -116,10 +116,6 @@ struct Constants {
     static let defaultConfigTimeOut: Double = 3    // seconds
     static let defaultQuadKeyZoomLevel: Int = 13
 
-    // user rating from chat
-    static let myMessagesCountForRating = 2
-    static let otherMessagesCountForRating = 2
-
     // FBSDK
     static let fbSdkRequiredDelay: TimeInterval = 0.25 // FBSdk calls callback before dismissing view so delay is required prior to any alert
 

@@ -12,12 +12,9 @@ import LGCoreKit
 protocol ChatProductViewDelegate: class {
     func productViewDidTapUserAvatar()
     func productViewDidTapProductImage()
-    func productViewDidTapUserReview()
-    func productViewDidCloseUserReviewTooltip()
 }
 
 class ChatProductView: UIView {
-    
     @IBOutlet weak var userAvatar: UIImageView!
     @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var productName: UILabel!
@@ -27,10 +24,6 @@ class ChatProductView: UIView {
 
     @IBOutlet weak var productButton: UIButton!
     @IBOutlet weak var userButton: UIButton!
-    @IBOutlet weak var reviewButton: UIButton!
-
-    var userRatingTooltip: Tooltip?
-    var showUserReviews: Bool = false
     
     let imageHeight: CGFloat = 64
     let imageWidth: CGFloat = 64
@@ -40,10 +33,9 @@ class ChatProductView: UIView {
     weak var delegate: ChatProductViewDelegate?
     
 
-    static func chatProductView(_ showUserReviews: Bool) -> ChatProductView {
+    static func chatProductView() -> ChatProductView {
         guard let view = Bundle.main.loadNibNamed("ChatProductView", owner: self, options: nil)?.first as? ChatProductView
             else { return ChatProductView() }
-        view.showUserReviews = showUserReviews
         view.setupUI()
         view.setAccessibilityIds()
         return view
@@ -70,18 +62,6 @@ class ChatProductView: UIView {
         productPrice.font = UIFont.chatProductViewPriceFont
         
         userAvatar.layer.minificationFilter = kCAFilterTrilinear
-
-        reviewButton.setStyle(.review)
-        reviewButton.isHidden = true
-        reviewButton.setTitle(LGLocalizedString.chatUserRatingButtonTitle, for: .normal)
-    }
-
-    func showReviewButton(_ showButton: Bool, withTooltip: Bool) {
-        userName.isHidden = showButton && showUserReviews
-        reviewButton.isHidden = !showButton || !showUserReviews
-        if showButton && withTooltip && showUserReviews {
-            showUserRatingTooltip()
-        }
     }
 
     func disableProductInteraction() {
@@ -95,7 +75,6 @@ class ChatProductView: UIView {
         userAvatar.alpha = 0.3
         userName.alpha = 0.3
         userButton.isEnabled = false
-        reviewButton.isEnabled = false
     }
     
     // MARK: - Actions
@@ -107,75 +86,10 @@ class ChatProductView: UIView {
     @IBAction func userButtonPressed(_ sender: AnyObject) {
         delegate?.productViewDidTapUserAvatar()
     }
-
-    @IBAction func reviewButtonPressed(_ sender: AnyObject) {
-        delegate?.productViewDidTapUserReview()
-    }
 }
 
 
-// MARK: - Tooltip
-
-extension ChatProductView {
-    fileprivate func showUserRatingTooltip() {
-        guard userRatingTooltip == nil else { return }
-        guard let superView = superview else { return }
-
-        userRatingTooltip = Tooltip(targetView: reviewButton, superView: superView, title: tooltipText(),
-                                    style: .black(closeEnabled: true), peakOnTop: true, actionBlock: { [weak self] in
-                                        self?.delegate?.productViewDidTapUserReview()
-            }, closeBlock: { [weak self] in
-                self?.delegate?.productViewDidCloseUserReviewTooltip()
-        })
-
-        guard let tooltip = userRatingTooltip else { return }
-        self.addSubview(tooltip)
-        setupExternalConstraintsForTooltip(tooltip, targetView: reviewButton, containerView: self)
-
-        self.layoutIfNeeded()
-    }
-
-    private func tooltipText() -> NSAttributedString {
-        var newTextAttributes = [String : Any]()
-        newTextAttributes[NSForegroundColorAttributeName] = UIColor.primaryColorHighlighted
-        newTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(size: 17)
-
-        let newText = NSAttributedString(string: LGLocalizedString.commonNew, attributes: newTextAttributes)
-
-        var titleTextAttributes = [String : Any]()
-        titleTextAttributes[NSForegroundColorAttributeName] = UIColor.white
-        titleTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(size: 17)
-
-        let titleText = NSAttributedString(string: LGLocalizedString.chatUserRatingButtonTooltip,
-                                           attributes: titleTextAttributes)
-
-        let fullTitle: NSMutableAttributedString = NSMutableAttributedString(attributedString: newText)
-        fullTitle.append(NSAttributedString(string: " "))
-        fullTitle.append(titleText)
-
-        return fullTitle
-    }
-
-    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        // As userRatingTooltip titleLabel & close button are out of boundaries we intercept touches to handle manually
-        let superResult = super.hitTest(point, with: event)
-        guard let userRatingTooltip = userRatingTooltip, superResult == nil else { return superResult }
-
-        
-        let tooltipTitleConvertedPoint = userRatingTooltip.titleLabel.convert(point, from: self)
-        let insideTooltipTitle = userRatingTooltip.titleLabel.point(inside: tooltipTitleConvertedPoint, with: event)
-        let tooltipCloseButtonConvertedPoint = userRatingTooltip.closeButton.convert(point, from: self)
-        let insideTooltipCloseButton = userRatingTooltip.closeButton.point(inside: tooltipCloseButtonConvertedPoint,
-                                                                                 with: event)
-        if insideTooltipTitle {
-            return userRatingTooltip.titleLabel
-        } else if insideTooltipCloseButton {
-            return userRatingTooltip.closeButton
-        } else {
-            return nil
-        }
-    }
-}
+// MARK: - Accessibility
 
 extension ChatProductView {
     func setAccessibilityIds() {
@@ -185,6 +99,5 @@ extension ChatProductView {
         productPrice.accessibilityId = .chatProductViewProductPriceLabel
         productButton.accessibilityId = .chatProductViewProductButton
         userButton.accessibilityId = .chatProductViewUserButton
-        reviewButton.accessibilityId = .chatProductViewReviewButton
     }
 }

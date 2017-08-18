@@ -14,7 +14,6 @@ extension Bumper  {
     static func initialize() {
         var flags = [BumperFeature.Type]()
         flags.append(WebsocketChat.self)
-        flags.append(UserReviews.self)
         flags.append(ShowNPSSurvey.self)
         flags.append(SurveyEnabled.self)
         flags.append(FreeBumpUpEnabled.self)
@@ -40,11 +39,6 @@ extension Bumper  {
     static var websocketChat: Bool {
         guard let value = Bumper.value(for: WebsocketChat.key) else { return false }
         return WebsocketChat(rawValue: value)?.asBool ?? false
-    }
-
-    static var userReviews: Bool {
-        guard let value = Bumper.value(for: UserReviews.key) else { return true }
-        return UserReviews(rawValue: value)?.asBool ?? true
     }
 
     static var showNPSSurvey: Bool {
@@ -150,15 +144,6 @@ enum WebsocketChat: String, BumperFeature  {
     static var enumValues: [WebsocketChat] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "New Websocket Chat" } 
-    var asBool: Bool { return self == .yes }
-}
-
-enum UserReviews: String, BumperFeature  {
-    case yes, no
-    static var defaultValue: String { return UserReviews.yes.rawValue }
-    static var enumValues: [UserReviews] { return [.yes, .no]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "User Reviews Feature" } 
     var asBool: Bool { return self == .yes }
 }
 

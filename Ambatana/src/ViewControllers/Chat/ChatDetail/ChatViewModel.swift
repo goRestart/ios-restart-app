@@ -88,8 +88,6 @@ class ChatViewModel: BaseViewModel {
     let directAnswersState = Variable<DirectAnswersState>(.notAvailable)
     let interlocutorTyping = Variable<Bool>(false)
     let messages = CollectionVariable<ChatViewMessage>([])
-    let shouldShowReviewButton = Variable<Bool>(false)
-    let userReviewTooltipVisible = Variable<Bool>(false)
     var relatedListings: [Listing] = []
     var shouldTrackFirstMessage: Bool = false
     let shouldShowExpressBanner = Variable<Bool>(false)
@@ -130,7 +128,6 @@ class ChatViewModel: BaseViewModel {
     private let myMessagesCount = Variable<Int>(0)
     private let otherMessagesCount = Variable<Int>(0)
     fileprivate let isEmptyConversation = Variable<Bool>(true)
-    private let reviewTooltipVisible = Variable<Bool>(!KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown])
     fileprivate let userDirectAnswersEnabled = Variable<Bool>(false)
 
     fileprivate var isDeleted = false
@@ -385,24 +382,11 @@ class ChatViewModel: BaseViewModel {
             return didntAnswer ? .visible(listingId: listingId) : .hidden
         }.bindTo(relatedProductsState).addDisposableTo(disposeBag)
         
-       
-
-        let cfgManager = configManager
-        let myMessagesReviewable = myMessagesCount.asObservable().map { $0 >= cfgManager.myMessagesCountForRating }
-        let otherMessagesReviewable = otherMessagesCount.asObservable().map { $0 >= cfgManager.otherMessagesCountForRating }
-        let chatStatusReviewable = chatStatus.asObservable().map { $0.userReviewEnabled }
-        Observable.combineLatest(myMessagesReviewable, otherMessagesReviewable, chatStatusReviewable) { $0 && $1 && $2 }
-            .distinctUntilChanged().bindTo(shouldShowReviewButton).addDisposableTo(disposeBag)
-
         messages.changesObservable.subscribeNext { [weak self] change in
             self?.updateMessagesCounts(change)
         }.addDisposableTo(disposeBag)
         
-        reviewTooltipVisible.asObservable().bindNext { [weak self] reviewTooltipVisible in
-            self?.userReviewTooltipVisible.value = reviewTooltipVisible
-        }.addDisposableTo(disposeBag)
-        
-        conversation.asObservable().map{ $0.lastMessageSentAt == nil }.bindNext{ [weak self] result in
+        conversation.asObservable().map { $0.lastMessageSentAt == nil }.bindNext{ [weak self] result in
             self?.shouldTrackFirstMessage = result
         }.addDisposableTo(disposeBag)
 
@@ -537,19 +521,6 @@ class ChatViewModel: BaseViewModel {
         guard let interlocutor = conversation.value.interlocutor else { return }
         let data = UserDetailData.userChat(user: interlocutor)
         navigator?.openUser(data)
-    }
-
-    func reviewUserPressed() {
-        keyValueStorage[.userRatingTooltipAlreadyShown] = true
-        reviewTooltipVisible.value = false
-        guard let interlocutor = conversation.value.interlocutor, let reviewData = RateUserData(interlocutor: interlocutor)
-            else { return }
-        navigator?.openUserRating(.chat, data: reviewData)
-    }
-
-    func closeReviewTooltipPressed() {
-        keyValueStorage[.userRatingTooltipAlreadyShown] = true
-        reviewTooltipVisible.value = false
     }
 
     func safetyTipsDismissed() {
@@ -1350,16 +1321,6 @@ fileprivate extension ChatConversation {
     }
 }
 
-fileprivate extension ChatInfoViewStatus {
-    var userReviewEnabled: Bool {
-        switch self {
-        case .forbidden, .blocked, .blockedBy, .userPendingDelete, .userDeleted:
-            return false
-        case .available, .productSold, .productDeleted:
-            return true
-        }
-    }
-}
 
 // MARK: - DirectAnswers
 

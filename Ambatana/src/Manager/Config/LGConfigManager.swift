@@ -38,14 +38,6 @@ class LGConfigManager: ConfigManager {
         return false
     }
 
-    var myMessagesCountForRating: Int {
-        return config?.myMessagesCountForRating ?? Constants.myMessagesCountForRating
-    }
-
-    var otherMessagesCountForRating: Int {
-        return config?.otherMessagesCountForRating ?? Constants.otherMessagesCountForRating
-    }
-
 
     // MARK: - Lifecycle
 

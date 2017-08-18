@@ -183,7 +183,6 @@ extension UserViewModel {
     }
     
     func ratingsButtonPressed() {
-        guard featureFlags.userReviews else { return }
         openRatings()
     }
     
@@ -486,10 +485,8 @@ fileprivate extension UserViewModel {
     
     func updateRatings(_ user: User?) {
         guard let user = user else { return }
-        if featureFlags.userReviews {
-            userRatingAverage.value = user.ratingAverage?.roundNearest(0.5)
-            userRatingCount.value = user.ratingCount
-        }
+        userRatingAverage.value = user.ratingAverage?.roundNearest(0.5)
+        userRatingCount.value = user.ratingCount
     }
     
     func setupUserRelationRxBindings() {
