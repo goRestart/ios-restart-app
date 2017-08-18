@@ -1176,14 +1176,6 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
     }
 }
 
-// MARK > TEMP. WARNING TODO. TO DELETE
-extension Array {
-    mutating func move(fromIndex: Int, toIndex: Int) {
-        let element = remove(at: fromIndex)
-        insert(element, at: toIndex)
-    }
-}
-
 
 // MARK: > Bump Up bubble
 

@@ -68,7 +68,8 @@ class ProductViewModel: BaseViewModel {
     var quickAnswers: [QuickAnswer] {
         guard !isMine else { return [] }
         let isFree = listing.value.price.free && featureFlags.freePostingModeAllowed
-        return QuickAnswer.quickAnswersForPeriscope(isFree: isFree, isDynamic: true)
+        let isNegotiable = listing.value.price.negotiable
+        return QuickAnswer.quickAnswersForPeriscope(isFree: isFree, isDynamic: areQuickAnswersDynamic, isNegotiable: isNegotiable)
     }
     var areQuickAnswersDynamic: Bool {
         switch featureFlags.dynamicQuickAnswers {

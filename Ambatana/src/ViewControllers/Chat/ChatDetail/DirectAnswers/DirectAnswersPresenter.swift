@@ -69,7 +69,7 @@ class DirectAnswersPresenter {
 
     func setDirectAnswers(_ answers: [QuickAnswer], isDynamic: Bool) {
         self.answers = answers
-        self.horizontalView?.update(answers: answers, isDynamic: false)
+        self.horizontalView?.update(answers: answers, isDynamic: isDynamic)
     }
 }
 

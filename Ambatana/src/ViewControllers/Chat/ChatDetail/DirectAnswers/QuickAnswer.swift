@@ -8,23 +8,24 @@
 
 enum QuickAnswer {
 
-    case interested // Interested ! Yes, I'm interested vs I'm interested
+    case interested // Interested. I'm interested
     case notInterested // Not interested 
     case meetUp // Meet up
-    case stillAvailable // Availability ! Is it still available?
+    case stillAvailable // Availability. Is it still available?
     case isNegotiable // Price
     case likeToBuy
-    case productCondition // Condition ! "What condition is the item in?" vs "What condition is this item in?"
+    case productCondition // Condition. What condition is this item in?
     case productStillForSale // Yes, it's still for sale
-    case productSold // Seller. Availability !. Sorry, it has been sold vs Sorry, the product has been sold!"
+    case productSold // Seller. Availability. Sorry, the product has been sold!"
     case whatsOffer // Negotiable. Seller
     case negotiableYes // Negotiable. Seller
     case negotiableNo // Not negotiable
-    case freeStillHave // Availability ! Do you still have it? vs Still have it?
+    case freeStillHave // Availability. Still have it?
     case freeYours
     case freeAvailable // Seller. Availability
     case freeNotAvailable
     
+    // New dynamic quick answers feature flag
     case stillForSale // Availability. Is it still for sale?
     case priceFirm // Price. Is the price firm?
     case priceWillingToNegotiate // Price. Would you be willing to negotiate?
@@ -207,50 +208,93 @@ enum QuickAnswer {
         }
     }
 
-    static func quickAnswersForChatWith(buyer: Bool, isFree: Bool) -> [QuickAnswer] {
+    static func quickAnswersForChatWith(buyer: Bool, isFree: Bool, isDynamic: Bool, isNegotiable: Bool) -> [QuickAnswer] {
         var result = [QuickAnswer]()
-        if isFree {
-            if buyer {
-                result.append(.interested)
-                result.append(.freeStillHave)
-                result.append(.meetUp)
-                result.append(.notInterested)
+        if isDynamic {
+            if isFree {
+                if buyer {
+                    result.append(randomAvailabilityQA())
+                    result.append(randomConditionQA())
+                    result.append(randomMeetUpQA())
+                    result.append(.interested)
+                    result.append(.notInterested)
+                } else {
+                    result.append(.freeAvailable)
+                    result.append(.freeNotAvailable)
+                    result.append(.interested)
+                    result.append(.notInterested)
+                    result.append(randomMeetUpQA())
+                }
             } else {
-                result.append(.freeYours)
-                result.append(.freeAvailable)
-                result.append(.meetUp)
-                result.append(.freeNotAvailable)
+                if buyer {
+                    result.append(randomAvailabilityQA())
+                    if isNegotiable {
+                        result.append(.priceAsking)
+                    } else {
+                        result.append(randomNoNegotiablePriceQA())
+                    }
+                    result.append(randomConditionQA())
+                    result.append(randomMeetUpQA())
+                    result.append(.interested)
+                    result.append(.notInterested)
+                } else {
+                    result.append(.freeAvailable)
+                    result.append(.productSold)
+                    if isNegotiable {
+                        result.append(randomNegotiablePriceSellerQA())
+                    } else {
+                        result.append(.negotiableNo)
+                    }
+                    result.append(.interested)
+                    result.append(.notInterested)
+                    result.append(randomMeetUpQA())
+                }
             }
         } else {
-            if buyer {
-                result.append(.interested)
-                result.append(.isNegotiable)
-                result.append(.likeToBuy)
-                result.append(.meetUp)
-                result.append(.notInterested)
+            if isFree {
+                if buyer {
+                    result.append(.interested)
+                    result.append(.freeStillHave)
+                    result.append(.meetUp)
+                    result.append(.notInterested)
+                } else {
+                    result.append(.freeYours)
+                    result.append(.freeAvailable)
+                    result.append(.meetUp)
+                    result.append(.freeNotAvailable)
+                }
             } else {
-                result.append(.productStillForSale)
-                result.append(.whatsOffer)
-                result.append(.negotiableYes)
-                result.append(.negotiableNo)
-                result.append(.notInterested)
-                result.append(.productSold)
+                if buyer {
+                    result.append(.interested)
+                    result.append(.isNegotiable)
+                    result.append(.likeToBuy)
+                    result.append(.meetUp)
+                    result.append(.notInterested)
+                } else {
+                    result.append(.productStillForSale)
+                    result.append(.whatsOffer)
+                    result.append(.negotiableYes)
+                    result.append(.negotiableNo)
+                    result.append(.notInterested)
+                    result.append(.productSold)
+                }
             }
         }
         return result
     }
 
-    static func quickAnswersForPeriscope(isFree: Bool, isDynamic: Bool) -> [QuickAnswer] {
+    static func quickAnswersForPeriscope(isFree: Bool, isDynamic: Bool, isNegotiable: Bool) -> [QuickAnswer] {
         var result = [QuickAnswer]()
         if isDynamic {
-            if isFree {
-                result.append(randomAvailabilityQA())
-                result.append(randomMeetUpQA())
-                result.append(randomConditionQA())
-            } else {
-                result.append(randomAvailabilityQA())
-                result.append(randomMeetUpQA())
-                result.append(randomConditionQA())
+            result.append(randomAvailabilityQA())
+            result.append(randomMeetUpQA())
+            result.append(randomConditionQA())
+            if !isFree {
+                if isNegotiable {
+                    result.append(.priceAsking)
+                } else {
+                    result.append(randomNoNegotiablePriceQA())
+                }
             }
         } else {
             if isFree {
@@ -272,9 +316,9 @@ enum QuickAnswer {
         return qas.random() ?? .stillAvailable
     }
     
-    static func randomPriceQA() -> QuickAnswer {
+    static func randomNoNegotiablePriceQA() -> QuickAnswer {
         let qas : [QuickAnswer]
-        qas = [.isNegotiable, .priceFirm, .priceWillingToNegotiate, .priceAsking]
+        qas = [.isNegotiable, .priceFirm, .priceWillingToNegotiate]
         return qas.random() ?? .isNegotiable
     }
     
@@ -290,9 +334,9 @@ enum QuickAnswer {
         return qas.random() ?? .meetUp
     }
     
-    static func randomNegotiableQA() -> QuickAnswer {
+    static func randomNegotiablePriceSellerQA() -> QuickAnswer {
         let qas : [QuickAnswer]
-        qas = [.negotiableYes, .productSold]
+        qas = [.negotiableYes, .whatsOffer]
         return qas.random() ?? .negotiableYes
     }
 }

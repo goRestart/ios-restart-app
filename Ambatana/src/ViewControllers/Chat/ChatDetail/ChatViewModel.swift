@@ -79,6 +79,7 @@ class ChatViewModel: BaseViewModel {
     let productImageUrl = Variable<URL?>(nil)
     let productPrice = Variable<String>("")
     let productIsFree = Variable<Bool>(false)
+    let productIsNegotiable = Variable<Bool>(false)
     let interlocutorAvatarURL = Variable<URL?>(nil)
     let interlocutorName = Variable<String>("")
     let interlocutorId = Variable<String?>(nil)
@@ -358,6 +359,7 @@ class ChatViewModel: BaseViewModel {
                 self?.productPrice.value = conversation.listing?.priceString(freeModeAllowed: featureFlags.freePostingModeAllowed) ?? ""
             }
             self?.productIsFree.value = conversation.listing?.price.free ?? false
+            self?.productIsNegotiable.value = conversation.listing?.price.negotiable ?? false
             self?.interlocutorAvatarURL.value = conversation.interlocutor?.avatar?.fileURL
             self?.interlocutorName.value = conversation.interlocutor?.name ?? ""
             self?.interlocutorId.value = conversation.interlocutor?.objectId
@@ -1368,7 +1370,8 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
     var directAnswers: [QuickAnswer] {
         let isFree = featureFlags.freePostingModeAllowed && productIsFree.value
         let isBuyer = !conversation.value.amISelling
-        return QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree)
+        let isNegotiable = productIsNegotiable.value
+        return QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: areQuickAnswersDynamic, isNegotiable: isNegotiable)
     }
     
     var areQuickAnswersDynamic: Bool {

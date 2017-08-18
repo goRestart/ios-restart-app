@@ -1196,7 +1196,17 @@ extension OldChatViewModel: DirectAnswersPresenterDelegate {
     
     var directAnswers: [QuickAnswer] {
         let isFree = featureFlags.freePostingModeAllowed && listing.price.free
-        return QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree)
+        let isNegotiable = listing.price.negotiable
+        return QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: areQuickAnswersDynamic, isNegotiable: isNegotiable)
+    }
+    
+    var areQuickAnswersDynamic: Bool {
+        switch featureFlags.dynamicQuickAnswers {
+        case .control, .baseline:
+            return false
+        case .a, .b:
+            return true
+        }
     }
     
     func directAnswersDidTapAnswer(_ controller: DirectAnswersPresenter, answer: QuickAnswer) {
