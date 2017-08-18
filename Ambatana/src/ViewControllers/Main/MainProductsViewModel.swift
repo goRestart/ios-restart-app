@@ -556,7 +556,7 @@ class MainProductsViewModel: BaseViewModel {
     // MARK: - Categories From Onboarding
     
     func updateFiltersWithOnboardingTaxonomies(taxonomiesIds: [Int]) {
-        filters.onboardingFilters = taxonomiesIds
+        filters.onboardingFilters = categoryRepository.retrieveTaxonomyChildren(withIds: taxonomiesIds)
         updateListView()
     }
     

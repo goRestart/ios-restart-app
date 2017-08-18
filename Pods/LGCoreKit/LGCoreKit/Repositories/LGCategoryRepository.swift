@@ -37,6 +37,12 @@ final class LGCategoryRepository: CategoryRepository {
         return taxonomiesOnboardingCache?.taxonomies ?? []
     }
 
+    func retrieveTaxonomyChildren(withIds ids: [Int]) -> [TaxonomyChild] {
+        let taxonomyChildren = taxonomiesOnboardingCache?.taxonomies.flatMap { $0.children } ?? []
+        return taxonomyChildren.filter { ids.contains($0.id) }
+        
+    }
+    
     func loadFirstRunCacheIfNeeded(jsonURL: URL) {
         taxonomiesCache.loadFirstRunCacheIfNeeded(jsonURL: jsonURL)
     }

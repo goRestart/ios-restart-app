@@ -27,6 +27,10 @@ open class MockCategoryRepository: CategoryRepository {
         return taxonomies
     }
     
+    public func retrieveTaxonomyChildren(withIds ids: [Int]) -> [TaxonomyChild] {
+        return []
+    }
+    
     public func loadFirstRunCacheIfNeeded(jsonURL: URL) {
 
     }

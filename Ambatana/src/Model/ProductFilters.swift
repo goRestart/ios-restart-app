@@ -55,7 +55,7 @@ struct ProductFilters {
     var distanceType: DistanceType
     var selectedCategories: [ListingCategory]
     var selectedTaxonomyChildren: [TaxonomyChild]
-    var onboardingFilters: [Int]
+    var onboardingFilters: [TaxonomyChild]
     var selectedWithin: ListingTimeCriteria
     var selectedOrdering: ListingSortCriteria?
     var filterCoordinates: LGLocationCoordinates2D? {
@@ -91,7 +91,7 @@ struct ProductFilters {
     }
     
     init(place: Place?, distanceRadius: Int, distanceType: DistanceType, selectedCategories: [ListingCategory],
-         selectedTaxonomyChildren: [TaxonomyChild], onboardingFilters: [Int], selectedWithin: ListingTimeCriteria,
+         selectedTaxonomyChildren: [TaxonomyChild], onboardingFilters: [TaxonomyChild], selectedWithin: ListingTimeCriteria,
          selectedOrdering: ListingSortCriteria?, priceRange: FilterPriceRange,
          carMakeId: RetrieveListingParam<String>?, carMakeName: String?, carModelId: RetrieveListingParam<String>?,
          carModelName: String?, carYearStart: RetrieveListingParam<Int>?, carYearEnd: RetrieveListingParam<Int>?){

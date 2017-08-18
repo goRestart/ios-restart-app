@@ -22,7 +22,7 @@ class TourCategoriesCollectionView: UICollectionView, UICollectionViewDelegate, 
                                            left: Metrics.shortMargin,
                                            bottom: Metrics.shortMargin,
                                            right: Metrics.shortMargin)
-        layout.minimumInteritemSpacing = Metrics.shortMargin
+        layout.minimumInteritemSpacing = Metrics.collectionItemSpacing
         layout.minimumLineSpacing = Metrics.collectionItemSpacing
         layout.itemSize = TourCategoriesCollectionViewCell.cellSize()
         
