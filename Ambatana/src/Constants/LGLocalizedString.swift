@@ -983,6 +983,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("common_product_not_available", comment: "")
 	}
 
+	static var commonErrorLoadingListing: String {
+		return NSLocalizedString("common_error_loading_listing", comment: "")
+	}
+
 	static var commonProductSold: String {
 		return NSLocalizedString("common_product_sold", comment: "")
 	}

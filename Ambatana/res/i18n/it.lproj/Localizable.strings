@@ -227,6 +227,7 @@
 "common_error_connection_failed" = "Si è verificato un errore. Verifica la tua connessione Internet.";
 "common_error_generic_body" = "Si è verificato un errore.";
 "common_error_list_retry_button" = "Riprova";
+"common_error_loading_listing" = "An error occurred while loading this listing";
 "common_error_network_body" = "Controlla le tue impostazioni di rete e riprova";
 "common_error_retry_button" = "Riprova";
 "common_error_title" = "OPS!";

@@ -227,6 +227,7 @@
 "common_error_connection_failed" = "Ocorreu um erro. Por favor verifique a sua ligação à internet.";
 "common_error_generic_body" = "Ocorreu um erro.";
 "common_error_list_retry_button" = "Tente novamente";
+"common_error_loading_listing" = "An error occurred while loading this listing";
 "common_error_network_body" = "Por favor verifique a configuração da sua internet e tente novamente";
 "common_error_retry_button" = "Tente novamente";
 "common_error_title" = "OPS!";

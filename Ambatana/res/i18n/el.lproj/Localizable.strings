@@ -227,6 +227,7 @@
 "common_error_connection_failed" = "Παρουσιάστηκε σφάλμα. Παρακαλώ, ελέγξτε τη σύνδεσή σας στο Ίντερνετ.";
 "common_error_generic_body" = "Παρουσιάστηκε σφάλμα.";
 "common_error_list_retry_button" = "Προσπαθήστε ξανά";
+"common_error_loading_listing" = "An error occurred while loading this listing";
 "common_error_network_body" = "Παρακαλώ ελέγξτε τις ρυθμίσεις δικτύου και προσπαθήστε ξανά";
 "common_error_retry_button" = "Προσπαθήστε ξανά";
 "common_error_title" = "ΟΠΑ!";

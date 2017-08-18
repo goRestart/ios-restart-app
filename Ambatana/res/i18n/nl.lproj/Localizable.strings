@@ -227,6 +227,7 @@
 "common_error_connection_failed" = "Er is een fout opgetreden. Gelieve je internetverbinding te controleren.";
 "common_error_generic_body" = "Er is een fout opgetreden.";
 "common_error_list_retry_button" = "Probeer het nogmaals";
+"common_error_loading_listing" = "An error occurred while loading this listing";
 "common_error_network_body" = "Controleer je netwerkinstellingen en probeer het opnieuw";
 "common_error_retry_button" = "Probeer opnieuw";
 "common_error_title" = "OEPS!";

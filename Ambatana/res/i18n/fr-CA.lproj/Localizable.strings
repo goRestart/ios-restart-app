@@ -227,6 +227,7 @@
 "common_error_connection_failed" = "Une erreur est survenue. Veuillez vérifier votre connexion Internet.";
 "common_error_generic_body" = "Une erreur est survenue.";
 "common_error_list_retry_button" = "Réessayer";
+"common_error_loading_listing" = "An error occurred while loading this listing";
 "common_error_network_body" = "Veuillez vérifier votre connexion et réessayez";
 "common_error_retry_button" = "Réessayez";
 "common_error_title" = "OUPS !";

@@ -227,6 +227,7 @@
 "common_error_connection_failed" = "Bir hata oluştu. Lütfen, İnternet bağlantını kontrol et.";
 "common_error_generic_body" = "Bir hata oluştu.";
 "common_error_list_retry_button" = "Tekrar dene";
+"common_error_loading_listing" = "An error occurred while loading this listing";
 "common_error_network_body" = "Lütfen internet bağlantını kontrol et ve tekrar dene";
 "common_error_retry_button" = "Tekrar dene";
 "common_error_title" = "OOPS!";
@@ -462,9 +463,9 @@
 "onboarding_posting_button_a" = "Eşyalarını Sat";
 "onboarding_posting_button_b" = "Başla";
 "onboarding_posting_button_c" = "Evet, satılık eşyalarım var";
-"onboarding_posting_improvement_b_title" = "Satış yapmak çok kolay! Hemen dene!";
+"onboarding_posting_improvement_b_title" = "Satış yapmak çok kolay. Hemen dene!";
 "onboarding_posting_improvement_c_button" = "Şimdi dene";
-"onboarding_posting_improvement_c_title" = "Satış yapmak çok kolay! Hemen dene!";
+"onboarding_posting_improvement_c_title" = "Satış yapmak çok kolay. Hemen dene!";
 "onboarding_posting_improvement_d_title" = "Tek adımda ilan ver: Bir fotoğraf çekmen yeterli!";
 "onboarding_posting_improvement_e_title" = "Satış yapmak çok kolay: Bir fotoğraf çek ve gerisini bize bırak!";
 "onboarding_posting_improvement_f_title" = "Birkaç saniye içinde ilan verebilirsin!";

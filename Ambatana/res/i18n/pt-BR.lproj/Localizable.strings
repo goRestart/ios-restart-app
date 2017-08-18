@@ -227,6 +227,7 @@
 "common_error_connection_failed" = "An error has occurred. Please check your Internet connection.";
 "common_error_generic_body" = "An error occurred.";
 "common_error_list_retry_button" = "Retry";
+"common_error_loading_listing" = "An error occurred while loading this listing";
 "common_error_network_body" = "Please check your network settings and try again";
 "common_error_retry_button" = "Try again";
 "common_error_title" = "OOPS!";
@@ -238,7 +239,7 @@
 "common_no" = "No";
 "common_ok" = "OK";
 "common_or" = "OR";
-"common_product_not_available" = "This product is no longer available.";
+"common_product_not_available" = "Ooops! This item is no longer available";
 "common_product_sold" = "This product has been sold.";
 "common_settings" = "Settings";
 "common_short_time_day_ago_label" = "%d day";

@@ -227,6 +227,7 @@
 "common_error_connection_failed" = "Tapahtui virhe. Ole hyvä ja tarkista Internet-yhteytesi.";
 "common_error_generic_body" = "Tapahtui virhe.";
 "common_error_list_retry_button" = "Yritä uudelleen";
+"common_error_loading_listing" = "An error occurred while loading this listing";
 "common_error_network_body" = "Ole hyvä ja tarkista verkkoasetuksesi ja yritä uudelleen";
 "common_error_retry_button" = "Yritä uudelleen";
 "common_error_title" = "HUPS!";

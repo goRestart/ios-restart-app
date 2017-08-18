@@ -227,6 +227,7 @@
 "common_error_connection_failed" = "En feil har oppstått. Vennligst sjekk din internett-tilkobling.";
 "common_error_generic_body" = "En feil oppstod.";
 "common_error_list_retry_button" = "Prøv igjen";
+"common_error_loading_listing" = "An error occurred while loading this listing";
 "common_error_network_body" = "Vennligst sjekk dine nettverksinnstillinger og prøv igjen";
 "common_error_retry_button" = "Prøv igjen";
 "common_error_title" = "OOPS!";
