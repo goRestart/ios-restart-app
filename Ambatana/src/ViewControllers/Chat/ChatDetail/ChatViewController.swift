@@ -602,6 +602,14 @@ extension ChatViewController: ChatViewModelDelegate {
     func vmShowMessage(_ message: String, completion: (() -> ())?) {
         showAutoFadingOutMessageAlert(message, completion: completion)
     }
+    
+    
+    // MARK: > Direct answers
+    
+    func vmShowKeyboard(quickAnswerText: String) {
+        textView.text = quickAnswerText
+        textView.becomeFirstResponder()
+    }
 }
 
 

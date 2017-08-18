@@ -7,7 +7,7 @@
 //
 
 protocol DirectAnswersPresenterDelegate: class {
-    func directAnswersDidTapAnswer(_ presenter: DirectAnswersPresenter, answer: QuickAnswer)
+    func directAnswersDidTapAnswer(_ presenter: DirectAnswersPresenter, answer: QuickAnswer, index: Int)
     func directAnswersDidTapClose(_ presenter: DirectAnswersPresenter)
 }
 
@@ -76,7 +76,7 @@ class DirectAnswersPresenter {
 
 extension DirectAnswersPresenter: DirectAnswersHorizontalViewDelegate {
     func directAnswersHorizontalViewDidSelect(answer: QuickAnswer, index: Int) {
-        delegate?.directAnswersDidTapAnswer(self, answer: answer)
+        delegate?.directAnswersDidTapAnswer(self, answer: answer, index: index)
     }
 
     func directAnswersHorizontalViewDidSelectClose() {

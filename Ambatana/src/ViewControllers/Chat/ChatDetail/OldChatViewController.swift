@@ -536,6 +536,14 @@ extension OldChatViewController: OldChatViewModelDelegate {
     func vmUpdateReviewButton() {
         updateReviewButton()
     }
+    
+    
+    // MARK: > Direct answers
+    
+    func vmShowKeyboard(quickAnswerText: String) {
+        textView.text = quickAnswerText
+        textView.becomeFirstResponder()
+    }
 }
 
 // MARK: - Copy/Paste feature
