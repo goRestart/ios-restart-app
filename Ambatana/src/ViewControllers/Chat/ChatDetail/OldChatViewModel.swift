@@ -1201,7 +1201,7 @@ extension OldChatViewModel: DirectAnswersPresenterDelegate {
     var directAnswers: [QuickAnswer] {
         get {
             let isFree = featureFlags.freePostingModeAllowed && listing.price.free
-            let isNegotiable = listing.price.negotiable
+            let isNegotiable = listing.isNegotiable(freeModeAllowed: featureFlags.freePostingModeAllowed)
             return QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: areQuickAnswersDynamic, isNegotiable: isNegotiable)
         } set { }
     }

@@ -8,21 +8,21 @@
 
 enum QuickAnswer {
 
-    case interested // Interested. I'm interested
-    case notInterested // Not interested 
-    case meetUp // Meet up
-    case stillAvailable // Availability. Is it still available?
-    case isNegotiable // Price
+    case interested
+    case notInterested
+    case meetUp
+    case stillAvailable
+    case isNegotiable
     case likeToBuy
-    case productCondition // Condition. What condition is this item in?
-    case productStillForSale // Yes, it's still for sale
-    case productSold // Seller. Availability. Sorry, the product has been sold!"
-    case whatsOffer // Negotiable. Seller
-    case negotiableYes // Negotiable. Seller
-    case negotiableNo // Not negotiable
-    case freeStillHave // Availability. Still have it?
+    case productCondition
+    case productStillForSale
+    case productSold
+    case whatsOffer
+    case negotiableYes
+    case negotiableNo
+    case freeStillHave
     case freeYours
-    case freeAvailable // Seller. Availability
+    case freeAvailable
     case freeNotAvailable
     
     // New dynamic quick answers feature flag
@@ -36,16 +36,41 @@ enum QuickAnswer {
     case meetUpLocated // Meet up. Where are you located?
     
     enum QuickAnswerType: String {
-        case availability = "Availability"
-        case price = "Price"
-        case condition = "Condition"
-        case meetUp = "Meet up"
-        case interested = "Interested"
-        case notInterested = "Not interested"
-        case sold = "Sold"
-        case notAvailable = "Not available"
-        case negotiable = "Negotiable"
-        case notNegotiable = "Not negotiable"
+        case availability
+        case price
+        case condition
+        case meetUp
+        case interested
+        case notInterested
+        case sold
+        case givenAway
+        case negotiable
+        case notNegotiable
+        
+        var name: String {
+            switch self {
+            case .availability:
+                return LGLocalizedString.directAnswerAvailabilityTitle
+            case .price:
+                return LGLocalizedString.directAnswerPriceTitle
+            case .condition:
+                return LGLocalizedString.directAnswerConditionTitle
+            case .meetUp:
+                return LGLocalizedString.directAnswerMeetUpTitle
+            case .interested:
+                return LGLocalizedString.directAnswerInterestedTitle
+            case .notInterested:
+                return LGLocalizedString.directAnswerNotInterestedTitle
+            case .sold:
+                return LGLocalizedString.directAnswerSoldTitle
+            case .givenAway:
+                return LGLocalizedString.directAnswerGivenAwayTitle
+            case .negotiable:
+                return LGLocalizedString.directAnswerNegotiableTitle
+            case .notNegotiable:
+                return LGLocalizedString.directAnswerNotNegotiableTitle
+            }
+        }
     }
 
     var text: String {
@@ -158,53 +183,53 @@ enum QuickAnswer {
     var title: String {
         switch self {
         case .interested:
-            return QuickAnswerType.interested.rawValue
+            return QuickAnswerType.interested.name
         case .notInterested:
-            return QuickAnswerType.notInterested.rawValue
+            return QuickAnswerType.notInterested.name
         case .meetUp:
-            return QuickAnswerType.meetUp.rawValue
+            return QuickAnswerType.meetUp.name
         case .stillAvailable:
-            return QuickAnswerType.availability.rawValue
+            return QuickAnswerType.availability.name
         case .isNegotiable:
-            return QuickAnswerType.negotiable.rawValue
+            return QuickAnswerType.negotiable.name
         case .likeToBuy:
-            return "unknown"
+            return ""
         case .productCondition:
-            return QuickAnswerType.condition.rawValue
+            return QuickAnswerType.condition.name
         case .productStillForSale:
-            return QuickAnswerType.availability.rawValue
+            return QuickAnswerType.availability.name
         case .productSold:
-            return QuickAnswerType.sold.rawValue
+            return QuickAnswerType.sold.name
         case .whatsOffer:
-            return QuickAnswerType.negotiable.rawValue
+            return QuickAnswerType.negotiable.name
         case .negotiableYes:
-            return QuickAnswerType.negotiable.rawValue
+            return QuickAnswerType.negotiable.name
         case .negotiableNo:
-            return QuickAnswerType.notNegotiable.rawValue
+            return QuickAnswerType.notNegotiable.name
         case .freeStillHave:
-            return QuickAnswerType.availability.rawValue
+            return QuickAnswerType.availability.name
         case .freeYours:
-            return "unknown"
+            return ""
         case .freeAvailable:
-            return QuickAnswerType.availability.rawValue
+            return QuickAnswerType.availability.name
         case .freeNotAvailable:
-            return "unknown"
+            return QuickAnswerType.givenAway.name
         case .stillForSale:
-            return QuickAnswerType.availability.rawValue
+            return QuickAnswerType.availability.name
         case .priceFirm:
-            return QuickAnswerType.price.rawValue
+            return QuickAnswerType.price.name
         case .priceWillingToNegotiate:
-            return QuickAnswerType.price.rawValue
+            return QuickAnswerType.price.name
         case .priceAsking:
-            return QuickAnswerType.price.rawValue
+            return QuickAnswerType.price.name
         case .productConditionGood:
-            return QuickAnswerType.condition.rawValue
+            return QuickAnswerType.condition.name
         case .productConditionDescribe:
-            return QuickAnswerType.condition.rawValue
+            return QuickAnswerType.condition.name
         case .meetUpWhereYouWant:
-            return QuickAnswerType.meetUp.rawValue
+            return QuickAnswerType.meetUp.name
         case .meetUpLocated:
-            return QuickAnswerType.meetUp.rawValue
+            return QuickAnswerType.meetUp.name
         }
     }
 

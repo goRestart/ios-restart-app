@@ -359,9 +359,9 @@ class ChatViewModel: BaseViewModel {
             self?.productImageUrl.value = conversation.listing?.image?.fileURL
             if let featureFlags = self?.featureFlags {
                 self?.productPrice.value = conversation.listing?.priceString(freeModeAllowed: featureFlags.freePostingModeAllowed) ?? ""
+                self?.productIsNegotiable.value = conversation.listing?.isNegotiable(freeModeAllowed: featureFlags.freePostingModeAllowed) ?? false
             }
             self?.productIsFree.value = conversation.listing?.price.free ?? false
-            self?.productIsNegotiable.value = conversation.listing?.price.negotiable ?? false
             self?.interlocutorAvatarURL.value = conversation.interlocutor?.avatar?.fileURL
             self?.interlocutorName.value = conversation.interlocutor?.name ?? ""
             self?.interlocutorId.value = conversation.interlocutor?.objectId
