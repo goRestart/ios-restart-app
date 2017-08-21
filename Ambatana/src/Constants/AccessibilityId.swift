@@ -577,12 +577,6 @@ enum AccessibilityId: String {
     // Bump Up Hidden Alert
     case bumpUpHiddenProductAlertContactButton
     case bumpUpHiddenProductAlertCancelButton
-
-    // Listing Not Available Error
-    case listingNotAvailableCloseButton
-    case listingNotAvailableIcon
-    case listingNotAvailableTextLabel
-    case listingNotAvailableRetryButton
 }
 
 extension UIAccessibilityIdentification {

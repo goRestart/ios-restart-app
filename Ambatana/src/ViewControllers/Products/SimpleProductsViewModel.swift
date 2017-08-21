@@ -9,17 +9,6 @@
 import Foundation
 import LGCoreKit
 
-enum SimpleProductsListMode {
-    case standard
-    case notFound
-
-    var hideBottomBar: Bool {
-        switch self {
-        case .standard, .notFound:
-            return true
-        }
-    }
-}
 
 class SimpleProductsViewModel: BaseViewModel {
 
@@ -30,46 +19,39 @@ class SimpleProductsViewModel: BaseViewModel {
     let productListRequester: ProductListRequester
     let productListViewModel: ProductListViewModel
     let featureFlags: FeatureFlaggeable
-    let productsListMode: SimpleProductsListMode
 
     convenience init(relatedProductId: String,
-                     productVisitSource: EventParameterProductVisitSource,
-                     productsListMode: SimpleProductsListMode) {
+                     productVisitSource: EventParameterProductVisitSource) {
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         let itemsPerPage = show3Columns ? Constants.numProductsPerPageBig : Constants.numProductsPerPageDefault
         let requester = RelatedProductListRequester(productId: relatedProductId, itemsPerPage: itemsPerPage)
         self.init(requester: requester,
                   title: LGLocalizedString.relatedItemsTitle,
-                  productVisitSource: productVisitSource,
-                  productsListMode: productsListMode)
+                  productVisitSource: productVisitSource)
     }
 
     convenience init(requester: ProductListRequester,
                      title: String,
-                     productVisitSource: EventParameterProductVisitSource,
-                     productsListMode: SimpleProductsListMode) {
+                     productVisitSource: EventParameterProductVisitSource) {
         self.init(requester: requester,
                   listings: nil,
                   title: title,
                   productVisitSource: productVisitSource,
-                  featureFlags: FeatureFlags.sharedInstance,
-                  productsListMode: productsListMode)
+                  featureFlags: FeatureFlags.sharedInstance)
     }
 
     convenience init(requester: ProductListRequester,
                      listings: [Listing],
-                     productVisitSource: EventParameterProductVisitSource,
-                     productsListMode: SimpleProductsListMode) {
+                     productVisitSource: EventParameterProductVisitSource) {
         self.init(requester: requester,
                   listings: listings,
                   title: LGLocalizedString.relatedItemsTitle,
                   productVisitSource: productVisitSource,
-                  featureFlags: FeatureFlags.sharedInstance,
-                  productsListMode: productsListMode)
+                  featureFlags: FeatureFlags.sharedInstance)
     }
 
     init(requester: ProductListRequester, listings: [Listing]?, title: String, productVisitSource: EventParameterProductVisitSource,
-         featureFlags: FeatureFlaggeable, productsListMode: SimpleProductsListMode) {
+         featureFlags: FeatureFlaggeable) {
         self.title = title
         self.productVisitSource = productVisitSource
         self.productListRequester = requester
@@ -77,7 +59,6 @@ class SimpleProductsViewModel: BaseViewModel {
         let columns = show3Columns ? 3 : 2
         self.productListViewModel = ProductListViewModel(requester: requester, listings: listings, numberOfColumns: columns)
         self.featureFlags = featureFlags
-        self.productsListMode = productsListMode
         super.init()
         productListViewModel.dataDelegate = self
     }

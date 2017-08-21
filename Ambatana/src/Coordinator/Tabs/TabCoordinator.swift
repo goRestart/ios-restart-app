@@ -184,22 +184,20 @@ fileprivate extension TabCoordinator {
                 case .network:
                     self?.navigationController.dismissLoadingMessageAlert {
                         self?.navigationController.showAutoFadingOutMessageAlert(LGLocalizedString.commonErrorConnectionFailed)
-                        self?.trackProductNotAvailable(source: source, repositoryError: error)
                     }
                 case .internalError, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError,
                      .wsChatError:
                     self?.navigationController.dismissLoadingMessageAlert {
-                        self?.trackProductNotAvailable(source: source, repositoryError: error)
-                        self?.openOpenListingError(forListingId: listingId, source: source, actionOnFirstAppear: actionOnFirstAppear)
+                        self?.navigationController.showAutoFadingOutMessageAlert(LGLocalizedString.commonProductNotAvailable)
                     }
                 case .notFound:
-                    self?.trackProductNotAvailable(source: source, repositoryError: error)
                     let relatedRequester = RelatedProductListRequester(productId: listingId,
                                                                        itemsPerPage: Constants.numProductsPerPageDefault)
                     relatedRequester.retrieveFirstPage { result in
                         if let value = result.listingsResult.value, !value.isEmpty {
                             self?.navigationController.dismissLoadingMessageAlert {
                                 self?.openRelatedProductsForNonExistentListing(requester: relatedRequester, listings: value)
+                                self?.navigationController.showAutoFadingOutMessageAlert(LGLocalizedString.commonProductNotAvailable)
                             }
                         } else {
                             self?.navigationController.dismissLoadingMessageAlert {
@@ -208,6 +206,7 @@ fileprivate extension TabCoordinator {
                         }
                     }
                 }
+                self?.trackProductNotAvailable(source: source, repositoryError: error)
             }
         }
     }
@@ -286,21 +285,10 @@ fileprivate extension TabCoordinator {
     func openRelatedProductsForNonExistentListing(requester: ProductListRequester, listings: [Listing]) {
         let simpleRelatedListingsVM = SimpleProductsViewModel(requester: requester,
                                                               listings: listings,
-                                                              productVisitSource: .notifications,
-                                                              productsListMode: .notFound)
+                                                              productVisitSource: .notifications)
         simpleRelatedListingsVM.navigator = self
         let simpleRelatedListingsVC = SimpleProductsViewController(viewModel: simpleRelatedListingsVM)
         navigationController.pushViewController(simpleRelatedListingsVC, animated: true)
-    }
-
-    func openOpenListingError(forListingId listingId: String,
-                              source: EventParameterProductVisitSource,
-                              actionOnFirstAppear: ProductCarouselActionOnFirstAppear) {
-
-        let listingErrorVM = OpenListingErrorViewModel(listingId: listingId, source: source, actionOnFirstAppear: actionOnFirstAppear)
-        let listingErrorVC = OpenListingErrorViewController(viewModel: listingErrorVM)
-        listingErrorVM.navigator = self
-        navigationController.present(listingErrorVC, animated: true, completion: nil)
     }
 
     func openUser(userId: String, source: UserSource) {
