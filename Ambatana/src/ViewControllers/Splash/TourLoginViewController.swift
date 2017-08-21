@@ -34,26 +34,19 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
     fileprivate var lines: [CALayer] = []
 
     fileprivate let viewModel: TourLoginViewModel
-    fileprivate let categoryRepository: CategoryRepository
     fileprivate let disposeBag = DisposeBag()
     
     
     // MARK: - Lifecycle
 
-    init(viewModel: TourLoginViewModel, categoryRepository: CategoryRepository) {
+    init(viewModel: TourLoginViewModel) {
         self.viewModel = viewModel
-        self.categoryRepository = categoryRepository
         super.init(viewModel: viewModel, nibName: "TourLoginViewController", statusBarStyle: .lightContent,
                    navBarBackgroundStyle: .transparent(substyle: .dark))
 
         self.viewModel.delegate = self
         modalPresentationStyle = .overCurrentContext
         modalTransitionStyle = .crossDissolve
-    }
-    
-    convenience init(viewModel: TourLoginViewModel) {
-        let categoryRepository = Core.categoryRepository
-        self.init(viewModel: viewModel, categoryRepository: categoryRepository)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -68,7 +61,7 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
         if DeviceFamily.current == .iPhone4 {
             adaptConstraintsToiPhone4()
         }
-        categoryRepository.refreshTaxonomiesOnboardingCache()
+        viewModel.refreshTaxonomiesOnboardingCache()
     }
 
     override func viewDidFirstAppear(_ animated: Bool) {
