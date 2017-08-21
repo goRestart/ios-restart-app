@@ -178,7 +178,7 @@ struct TrackerEvent {
         return TrackerEvent(name: .loginBlockedAccountKeepBrowsing, params: params)
     }
 
-    static func productList(_ user: User?, categories: [ListingCategory]?, searchQuery: String?,
+    static func productList(_ user: User?, categories: [ListingCategory]?, taxonomy: TaxonomyChild?, searchQuery: String?,
                             feedSource: EventParameterFeedSource, success: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
 
@@ -191,7 +191,7 @@ struct TrackerEvent {
         }
         params[.feedSource] = feedSource.rawValue
         params[.categoryId] = categoryIds.isEmpty ? "0" : categoryIds.joined(separator: ",")
-
+        params[.keywordName] = taxonomy?.name ?? "N/A"
         // Search query
         if let actualSearchQuery = searchQuery {
             params[.searchString] = actualSearchQuery
@@ -611,9 +611,12 @@ struct TrackerEvent {
         return TrackerEvent(name: .productDeleteComplete, params: params)
     }
 
-    static func firstMessage(info: SendMessageTrackingInfo, productVisitSource: EventParameterProductVisitSource) -> TrackerEvent {
+    static func firstMessage(info: SendMessageTrackingInfo,
+                             productVisitSource: EventParameterProductVisitSource,
+                             feedPosition: EventParameterFeedPosition) -> TrackerEvent {
         var params = info.params
         params[.productVisitSource] = productVisitSource.rawValue
+        params[.feedPosition] = feedPosition.value
         return TrackerEvent(name: .firstMessage, params: params)
     }
 

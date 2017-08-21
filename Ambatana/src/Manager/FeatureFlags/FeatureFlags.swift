@@ -39,6 +39,7 @@ protocol FeatureFlaggeable: class {
     var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed { get }
     var copiesImprovementOnboarding: CopiesImprovementOnboarding { get }
     var bumpUpImprovementBanner: BumpUpImprovementBanner { get }
+    var openGalleryInPosting: OpenGalleryInPosting { get }
     var dynamicQuickAnswers: DynamicQuickAnswers { get }
 
     // Country dependant features
@@ -278,6 +279,14 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return BumpUpImprovementBanner.fromPosition(abTests.bumpUpImprovementBanner.value)
     }
+    
+    var openGalleryInPosting: OpenGalleryInPosting {
+        if Bumper.enabled {
+            return Bumper.openGalleryInPosting
+        }
+        return OpenGalleryInPosting.fromPosition(abTests.openGalleryInPosting.value)
+    }
+    
     
     var dynamicQuickAnswers: DynamicQuickAnswers {
         if Bumper.enabled {

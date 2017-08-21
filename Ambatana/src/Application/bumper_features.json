@@ -101,6 +101,11 @@
         "description": "new copies on bump up banner"
     },
     {
+        "name": "OpenGalleryInPosting",
+        "values": ["control", "baseline", "openGallery"],
+        "description": "Opens gallery in posting as default option"
+    },
+    {
         "name": "DynamicQuickAnswers",
         "values": ["control", "baseline", "A", "B"],
         "description": "Random quick answers with different approaches"
