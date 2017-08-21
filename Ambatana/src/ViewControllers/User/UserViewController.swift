@@ -579,7 +579,7 @@ extension UserViewController: ProductListViewHeaderDelegate, PushPermissionsHead
         return PushPermissionsHeader.viewHeight
     }
 
-    func setupViewsInHeader(header: ListHeaderContainer) {
+    func setupViewsIn(header: ListHeaderContainer) {
         if showHeader {
             let pushHeader = PushPermissionsHeader()
             pushHeader.delegate = self
