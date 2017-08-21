@@ -46,7 +46,7 @@ def shared_pods
     # letgo bumper (feature flags)
     pod "bumper",               "1.1.0"     #:path => "../bumper"
 
-    	# Collection View Custom Layout
+    # Collection View Custom Layout
     pod "CHTCollectionViewWaterfallLayout", "0.9.5"  # Obj-c
 
     # Device info helper

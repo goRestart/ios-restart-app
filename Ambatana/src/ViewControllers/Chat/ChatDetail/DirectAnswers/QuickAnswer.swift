@@ -29,7 +29,7 @@ enum QuickAnswer {
     case stillForSale // Availability. Is it still for sale?
     case priceFirm // Price. Is the price firm?
     case priceWillingToNegotiate // Price. Would you be willing to negotiate?
-    case priceAsking // Price. Negotiable only. How much are you asking?
+    case priceAsking // Price. Negotiable only. What's your asking price?
     case productConditionGood // Condition. Is it in good condition?
     case productConditionDescribe // Condition. Can you describe the condition?
     case meetUpWhereYouWant // Meet up. Where do you want to meet up?
