@@ -90,7 +90,8 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         
         self.priceView = PostProductDetailPriceView(viewModel: viewModel.postDetailViewModel)
         self.categorySelectionView = PostCategorySelectionView()
-        self.carDetailsView = PostCarDetailsView()
+        self.carDetailsView = PostCarDetailsView(shouldShowSummaryAfter: viewModel.shouldShowSummaryAfter,
+                                                 initialValues: viewModel.carInfo(forDetail: .make).carInfoWrappers)
         super.init(viewModel: viewModel, nibName: "PostProductViewController",
                    statusBarStyle: UIApplication.shared.statusBarStyle)
         modalPresentationStyle = .overCurrentContext
@@ -340,13 +341,29 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
 extension PostProductViewController {
     
     dynamic func carDetailsNavigationBackButtonPressed() {
-        switch carDetailsView.state {
-        case .selectDetail, .selectDetailValue(forDetail: .make):
+        if let previousState = carDetailsView.previousState, previousState.isSummary {
             didFinishEnteringDetails()
-        case .selectDetailValue(forDetail: .model):
-            showCarMakes()
-        case .selectDetailValue(forDetail: .year):
-            showCarModels()
+        } else {
+            if viewModel.shouldShowSummaryAfter {
+                switch carDetailsView.state {
+                    case .selectDetail, .selectDetailValue(forDetail: .make):
+                    carDetailsView.hideKeyboard()
+                    viewModel.revertToPreviousStep()
+                    case .selectDetailValue(forDetail: .model):
+                    showCarMakes()
+                    case .selectDetailValue(forDetail: .year):
+                    showCarModels()
+                }
+            } else {
+                switch carDetailsView.state {
+                case .selectDetail, .selectDetailValue(forDetail: .make):
+                    didFinishEnteringDetails()
+                case .selectDetailValue(forDetail: .model):
+                    showCarMakes()
+                case .selectDetailValue(forDetail: .year):
+                    showCarModels()
+                }
+            }
         }
     }
     
