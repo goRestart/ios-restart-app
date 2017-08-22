@@ -1203,6 +1203,78 @@ struct LGLocalizedString {
 		return NSLocalizedString("direct_answer_given_away_question_title", comment: "")
 	}
 
+	static var directAnswerStillForSaleBuyer: String {
+		return NSLocalizedString("direct_answer_still_for_sale_buyer", comment: "")
+	}
+
+	static var directAnswerPriceFirm: String {
+		return NSLocalizedString("direct_answer_price_firm", comment: "")
+	}
+
+	static var directAnswerWillingToNegotiate: String {
+		return NSLocalizedString("direct_answer_willing_to_negotiate", comment: "")
+	}
+
+	static var directAnswerHowMuchAsking: String {
+		return NSLocalizedString("direct_answer_how_much_asking", comment: "")
+	}
+
+	static var directAnswerGoodCondition: String {
+		return NSLocalizedString("direct_answer_good_condition", comment: "")
+	}
+
+	static var directAnswerDescribeCondition: String {
+		return NSLocalizedString("direct_answer_describe_condition", comment: "")
+	}
+
+	static var directAnswerWhereMeetUp: String {
+		return NSLocalizedString("direct_answer_where_meet_up", comment: "")
+	}
+
+	static var directAnswerWhereLocated: String {
+		return NSLocalizedString("direct_answer_where_located", comment: "")
+	}
+
+	static var directAnswerAvailabilityTitle: String {
+		return NSLocalizedString("direct_answer_availability_title", comment: "")
+	}
+
+	static var directAnswerPriceTitle: String {
+		return NSLocalizedString("direct_answer_price_title", comment: "")
+	}
+
+	static var directAnswerConditionTitle: String {
+		return NSLocalizedString("direct_answer_condition_title", comment: "")
+	}
+
+	static var directAnswerMeetUpTitle: String {
+		return NSLocalizedString("direct_answer_meet_up_title", comment: "")
+	}
+
+	static var directAnswerInterestedTitle: String {
+		return NSLocalizedString("direct_answer_interested_title", comment: "")
+	}
+
+	static var directAnswerNotInterestedTitle: String {
+		return NSLocalizedString("direct_answer_not_interested_title", comment: "")
+	}
+
+	static var directAnswerSoldTitle: String {
+		return NSLocalizedString("direct_answer_sold_title", comment: "")
+	}
+
+	static var directAnswerGivenAwayTitle: String {
+		return NSLocalizedString("direct_answer_given_away_title", comment: "")
+	}
+
+	static var directAnswerNegotiableTitle: String {
+		return NSLocalizedString("direct_answer_negotiable_title", comment: "")
+	}
+
+	static var directAnswerNotNegotiableTitle: String {
+		return NSLocalizedString("direct_answer_not_negotiable_title", comment: "")
+	}
+
 	static var editProductLocationAlertText: String {
 		return NSLocalizedString("edit_product_location_alert_text", comment: "")
 	}
