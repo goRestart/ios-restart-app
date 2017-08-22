@@ -394,7 +394,6 @@ enum AccessibilityId: String {
     case chatProductViewProductPriceLabel
     case chatProductViewProductButton
     case chatProductViewUserButton
-    case chatProductViewReviewButton
 
     // Chat
     case chatViewTableView

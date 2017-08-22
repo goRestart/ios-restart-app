@@ -23,7 +23,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var surveyEnabled: Bool = false
 
     var websocketChat: Bool = false
-    var userReviews: Bool = false
     var captchaTransparent: Bool = false
     var passiveBuyersShowKeyboard: Bool = false
     var freeBumpUpEnabled: Bool = false
