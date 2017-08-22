@@ -35,6 +35,7 @@ extension Bumper  {
         flags.append(CopiesImprovementOnboarding.self)
         flags.append(BumpUpImprovementBanner.self)
         flags.append(OpenGalleryInPosting.self)
+        flags.append(TweaksCarPostingFlow.self)
         Bumper.initialize(flags)
     } 
 
@@ -146,6 +147,11 @@ extension Bumper  {
     static var openGalleryInPosting: OpenGalleryInPosting {
         guard let value = Bumper.value(for: OpenGalleryInPosting.key) else { return .control }
         return OpenGalleryInPosting(rawValue: value) ?? .control 
+    }
+
+    static var tweaksCarPostingFlow: TweaksCarPostingFlow {
+        guard let value = Bumper.value(for: TweaksCarPostingFlow.key) else { return .control }
+        return TweaksCarPostingFlow(rawValue: value) ?? .control 
     } 
 }
 
@@ -407,6 +413,22 @@ enum OpenGalleryInPosting: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .openGallery
+            default: return .control
+        }
+    }
+}
+
+enum TweaksCarPostingFlow: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return TweaksCarPostingFlow.control.rawValue }
+    static var enumValues: [TweaksCarPostingFlow] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "car posting summary only at the end" } 
+    static func fromPosition(_ position: Int) -> TweaksCarPostingFlow {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
             default: return .control
         }
     }

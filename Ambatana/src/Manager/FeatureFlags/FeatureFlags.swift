@@ -41,6 +41,7 @@ protocol FeatureFlaggeable: class {
     var copiesImprovementOnboarding: CopiesImprovementOnboarding { get }
     var bumpUpImprovementBanner: BumpUpImprovementBanner { get }
     var openGalleryInPosting: OpenGalleryInPosting { get }
+    var tweaksCarPostingFlow: TweaksCarPostingFlow { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -79,6 +80,17 @@ extension SuperKeywordsOnOnboarding {
     }
 }
 extension BumpUpImprovementBanner {
+    var isActive: Bool {
+        switch self {
+        case .control, .baseline:
+            return false
+        case .active:
+            return true
+        }
+    }
+}
+
+extension TweaksCarPostingFlow {
     var isActive: Bool {
         switch self {
         case .control, .baseline:
@@ -304,7 +316,14 @@ class FeatureFlags: FeatureFlaggeable {
         return OpenGalleryInPosting.fromPosition(abTests.openGalleryInPosting.value)
     }
     
+    var tweaksCarPostingFlow: TweaksCarPostingFlow {
+        if Bumper.enabled {
+            return Bumper.tweaksCarPostingFlow
+        }
+        return TweaksCarPostingFlow.fromPosition(abTests.tweaksCarPostingFlow.value)
+    }
     
+
     // MARK: - Country features
 
     var freePostingModeAllowed: Bool {
