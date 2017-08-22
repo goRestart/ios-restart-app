@@ -316,6 +316,13 @@ class FeatureFlags: FeatureFlaggeable {
         return TweaksCarPostingFlow.fromPosition(abTests.tweaksCarPostingFlow.value)
     }
     
+    var dynamicQuickAnswers: DynamicQuickAnswers {
+        if Bumper.enabled {
+            return Bumper.dynamicQuickAnswers
+        }
+        return DynamicQuickAnswers.fromPosition(abTests.dynamicQuickAnswers.value)
+    }
+    
 
     // MARK: - Country features
 
