@@ -164,7 +164,7 @@ class NotificationsManagerSpec: QuickSpec {
                             it("unreadNotificationsCount emits and then the 16") {
                                 expect(unreadNotificationsObserver.eventValues).toEventually(equal([nil, 16]))
                             }
-                            it("globalCount is 22") {
+                            it("globalCount is 26") {
                                 expect(globalCountObserver.events.last?.value.element!).toEventually(equal(26))
                             }
                         }
@@ -293,7 +293,7 @@ class NotificationsManagerSpec: QuickSpec {
                         it("unreadNotificationsCount emits and then the 16") {
                             expect(unreadNotificationsObserver.eventValues).toEventually(equal([nil, 16]))
                         }
-                        it("globalCount is 22") {
+                        it("globalCount is 26") {
                             expect(globalCountObserver.events.last?.value.element!).toEventually(equal(26))
                         }
                     }
