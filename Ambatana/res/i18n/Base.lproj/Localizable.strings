@@ -65,7 +65,7 @@
 "bump_up_banner_pay_text_improvement" = "Sell faster now";
 
 // Text for bubble while waiting for next bump
-"bump_up_banner_wait_text" = "to Bump Up again";
+"bump_up_banner_wait_text" = "to feature again";
 
 // Text for bubble while waiting for next bump improvement
 "bump_up_banner_wait_text_improvement" = "to feature again";
@@ -728,7 +728,10 @@
 "common_or" = "OR";
 
 // Common product not available.
-"common_product_not_available" = "This product is no longer available.";
+"common_product_not_available" = "Oops! This item is no longer available";
+
+// Common error loading listing
+"common_error_loading_listing" = "An error occurred while loading this listing";
 
 // Common product sold.
 "common_product_sold" = "This product has been sold.";
@@ -884,6 +887,60 @@
 
 // Alert to ask the user to mark the product as given away - title
 "direct_answer_given_away_question_title" = "Already gave it away?";
+
+// Chat direct answer as buyer
+"direct_answer_still_for_sale_buyer" = "Is it still for sale?";
+
+// Chat direct answer as buyer
+"direct_answer_price_firm" = "Is the price firm?";
+
+// Chat direct answer as buyer
+"direct_answer_willing_to_negotiate" = "Would you be willing to negotiate?";
+
+// Chat direct answer as buyer
+"direct_answer_how_much_asking" = "What's your asking price?";
+
+// Chat direct answer as buyer
+"direct_answer_good_condition" = "Is it in good condition?";
+
+// Chat direct answer as buyer
+"direct_answer_describe_condition" = "Can you describe its condition?";
+
+// Chat direct answer a buyer or seller
+"direct_answer_where_meet_up" = "Where do you want to meet up?";
+
+// Chat direct answer a buyer or seller
+"direct_answer_where_located" = "Where are you located?";
+
+// Chat direct availability title
+"direct_answer_availability_title" = "Availability";
+
+// Chat direct price title
+"direct_answer_price_title" = "Price";
+
+// Chat direct condition title
+"direct_answer_condition_title" = "Condition";
+
+// Chat direct meet up title
+"direct_answer_meet_up_title" = "Meet up";
+
+// Chat direct interested title
+"direct_answer_interested_title" = "Interested";
+
+// Chat direct not interested title
+"direct_answer_not_interested_title" = "Not interested";
+
+// Chat direct sold title
+"direct_answer_sold_title" = "Sold";
+
+// Chat direct given away title
+"direct_answer_given_away_title" = "Given away";
+
+// Chat direct negotiable title
+"direct_answer_negotiable_title" = "Negotiable";
+
+// Chat direct not negotiable title
+"direct_answer_not_negotiable_title" = "Not negotiable";
 
 // Text for Edit Product Location Alert
 "edit_product_location_alert_text" = "To change where your product is posted, allow access to your location";
