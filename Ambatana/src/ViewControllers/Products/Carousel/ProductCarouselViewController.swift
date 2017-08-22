@@ -1167,7 +1167,7 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
         }
         
         if viewModel.currentProductViewModel?.areQuickAnswersDynamic == true { // Send to the end of the collection
-            viewModel.quickAnswers.value.move(fromIndex: index, toIndex: viewModel.quickAnswers.value.count-1)
+            viewModel.moveQuickAnswerToTheEnd(index)
         }
     }
 

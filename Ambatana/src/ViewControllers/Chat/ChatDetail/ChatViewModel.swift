@@ -198,6 +198,9 @@ class ChatViewModel: BaseViewModel {
             return true
         }
     }
+    
+    
+    // MARK: - Lifecycle
 
     convenience init(conversation: ChatConversation, navigator: ChatDetailNavigator?, source: EventParameterTypePage, predefinedMessage: String?) {
         let myUserRepository = Core.myUserRepository

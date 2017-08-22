@@ -339,6 +339,10 @@ class ProductCarouselViewModel: BaseViewModel {
         currentProductViewModel?.trackBumpUpBannerShown(type: type)
     }
     
+    func moveQuickAnswerToTheEnd(_ index: Int) {
+        quickAnswers.value.move(fromIndex: index, toIndex: quickAnswers.value.count-1)
+    }
+    
     // MARK: - Private Methods
 
     fileprivate func listingAt(index: Int) -> Listing? {
