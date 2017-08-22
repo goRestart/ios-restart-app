@@ -47,9 +47,9 @@ enum BumpUpType {
     func bannerFont(textsImprovements: Bool) -> UIFont {
         switch self {
         case .restore:
-            return UIFont.systemMediumFont(size: 15)
+            return BumpUpBanner.bannerDefaultFont
         case .free, .priced, .hidden:
-            return textsImprovements ? UIFont.systemSemiBoldFont(size: 17) : UIFont.systemMediumFont(size: 15)
+            return textsImprovements ? UIFont.systemSemiBoldFont(size: 17) : BumpUpBanner.bannerDefaultFont
         }
     }
 }
@@ -259,7 +259,7 @@ class BumpUpBanner: UIView {
         descriptionLabel.numberOfLines = 0
         descriptionLabel.textColor = UIColor.blackText
         descriptionLabel.textAlignment = .center
-        descriptionLabel.font = UIFont.systemMediumFont(size: 15)
+        descriptionLabel.font = BumpUpBanner.bannerDefaultFont
         
         leftIconImageView.image = UIImage(named: "red_chevron_up")
         leftIconImageView.contentMode = .scaleAspectFit
@@ -326,9 +326,6 @@ class BumpUpBanner: UIView {
         }).height(BumpUpBanner.iconSize)
         textIconImageView.layout(with: improvedTextContainerView).left()
         textIconImageView.layout(with: improvedTextContainerView).centerY()
-//        textIconImageView.layout(with: descriptionLabel).trailing(to: .leading, by: Metrics.shortMargin, constraintBlock: { [weak self] in
-//            self?.textIconLeftMarginConstraint = $0
-//        })
         textIconImageView.layout(with: descriptionLabel).right(to: .left, by: -Metrics.shortMargin, constraintBlock: { [weak self] in
             self?.textIconLeftMarginConstraint = $0
         })
