@@ -66,6 +66,10 @@ class PostProductViewModel: BaseViewModel {
     let selectedDetail = Variable<CategoryDetailSelectedInfo?>(nil)
     var selectedCarAttributes: CarAttributes = CarAttributes.emptyCarAttributes()
     
+    var shouldShowSummaryAfter: Bool {
+        return featureFlags.tweaksCarPostingFlow.isActive
+    }
+    
     fileprivate let disposeBag: DisposeBag
 
     

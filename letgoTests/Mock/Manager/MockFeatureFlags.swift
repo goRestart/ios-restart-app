@@ -40,6 +40,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var copiesImprovementOnboarding: CopiesImprovementOnboarding = .control
     var bumpUpImprovementBanner: BumpUpImprovementBanner = .control
     var openGalleryInPosting: OpenGalleryInPosting = .control
+    var tweaksCarPostingFlow: TweaksCarPostingFlow = .control
     
     // Country dependant features
     var freePostingModeAllowed = false
