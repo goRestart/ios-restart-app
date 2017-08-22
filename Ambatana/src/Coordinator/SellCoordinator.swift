@@ -36,8 +36,10 @@ final class SellCoordinator: Coordinator {
 
     // MARK: - Lifecycle
 
-    convenience init(source: PostingSource) {
+    convenience init(source: PostingSource,
+                     forcedInitialTab: PostProductViewController.Tab?) {
         self.init(source: source,
+                  forcedInitialTab: forcedInitialTab,
                   listingRepository: Core.listingRepository,
                   bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
                   keyValueStorage: KeyValueStorage.sharedInstance,
@@ -47,6 +49,7 @@ final class SellCoordinator: Coordinator {
     }
 
     init(source: PostingSource,
+         forcedInitialTab: PostProductViewController.Tab?,
          listingRepository: ListingRepository,
          bubbleNotificationManager: BubbleNotificationManager,
          keyValueStorage: KeyValueStorage,
@@ -61,7 +64,8 @@ final class SellCoordinator: Coordinator {
         self.featureFlags = featureFlags
         self.sessionManager = sessionManager
         let postProductVM = PostProductViewModel(source: source)
-        let postProductVC = PostProductViewController(viewModel: postProductVM, forceCamera: false)
+        let postProductVC = PostProductViewController(viewModel: postProductVM,
+                                                      forcedInitialTab: forcedInitialTab)
         self.viewController = postProductVC
 
         postProductVM.navigator = self
@@ -214,7 +218,8 @@ extension SellCoordinator: ProductPostedNavigator {
         dismissViewController(animated: true) { [weak self] in
             guard let strongSelf = self, let parentVC = strongSelf.parentViewController else { return }
             let postProductVM = PostProductViewModel(source: strongSelf.postingSource)
-            let postProductVC = PostProductViewController(viewModel: postProductVM, forceCamera: false)
+            let postProductVC = PostProductViewController(viewModel: postProductVM,
+                                                          forcedInitialTab: nil)
             strongSelf.viewController = postProductVC
             postProductVM.navigator = self
 

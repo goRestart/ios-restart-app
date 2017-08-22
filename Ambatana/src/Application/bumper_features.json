@@ -6,11 +6,6 @@
 		"description": "New Websocket Chat"
 	},
     {
-        "name": "UserReviews",
-        "values": ["Yes", "No"],
-        "description": "User Reviews Feature"
-	},
-    {
 		"name": "ShowNPSSurvey",
 		"values": ["No", "Yes"],
 		"description": "Show nps survey"
@@ -91,6 +86,11 @@
         "description": "Add super keywords in feed and filters"
     },
     {
+        "name": "SuperKeywordsOnOnboarding",
+        "values": ["control", "baseline", "active"],
+        "description": "Add a step to select categories on onboarding"
+    },
+    {
         "name": "CopiesImprovementOnboarding",
         "values": ["control", "baseline", "B", "C", "D", "E", "F"],
         "description": "new copies on last step of onboarding"
@@ -99,5 +99,15 @@
         "name": "BumpUpImprovementBanner",
         "values": ["control", "baseline", "active"],
         "description": "new copies on bump up banner"
+    },
+    {
+        "name": "OpenGalleryInPosting",
+        "values": ["control", "baseline", "openGallery"],
+        "description": "Opens gallery in posting as default option"
+    },
+    {
+        "name": "TweaksCarPostingFlow",
+        "values": ["control", "baseline", "active"],
+        "description": "car posting summary only at the end"
     }
 ]

@@ -20,6 +20,8 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
 
     func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?)
 
+    var trackingFeedPosition: EventParameterFeedPosition { get }
+    
     // Bump Up
     func vmResetBumpUpBannerCountdown()
 }
@@ -955,10 +957,12 @@ fileprivate extension ProductViewModel {
         chatWrapper.sendMessageFor(listing: listing.value, type: type) { [weak self] result in
             guard let strongSelf = self else { return }
             if let firstMessage = result.value {
+                let feedPosition = strongSelf.delegate?.trackingFeedPosition ?? .none
                 strongSelf.trackHelper.trackMessageSent(isFirstMessage: firstMessage && !strongSelf.alreadyTrackedFirstMessageSent,
                                                         messageType: type,
                                                         isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value,
-                                                        productVisitSource: strongSelf.visitSource)
+                                                        productVisitSource: strongSelf.visitSource,
+                                                        feedPosition: feedPosition)
                 strongSelf.alreadyTrackedFirstMessageSent = true
             } else if let error = result.error {
                 strongSelf.trackHelper.trackMessageSentError(messageType: type, isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value, error: error)

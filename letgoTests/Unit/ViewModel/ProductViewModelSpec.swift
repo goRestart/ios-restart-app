@@ -699,6 +699,10 @@ extension ProductViewModelSpec: ProductViewModelDelegate {
         return (UIViewController(), nil)
     }
 
+    var trackingFeedPosition: EventParameterFeedPosition {
+        return .none
+    }
+    
     // Bump Up
     func vmResetBumpUpBannerCountdown() {}
 }

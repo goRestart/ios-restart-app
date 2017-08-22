@@ -14,7 +14,6 @@ extension Bumper  {
     static func initialize() {
         var flags = [BumperFeature.Type]()
         flags.append(WebsocketChat.self)
-        flags.append(UserReviews.self)
         flags.append(ShowNPSSurvey.self)
         flags.append(SurveyEnabled.self)
         flags.append(FreeBumpUpEnabled.self)
@@ -31,19 +30,17 @@ extension Bumper  {
         flags.append(InAppRatingIOS10.self)
         flags.append(SuggestedSearches.self)
         flags.append(AddSuperKeywordsOnFeed.self)
+        flags.append(SuperKeywordsOnOnboarding.self)
         flags.append(CopiesImprovementOnboarding.self)
         flags.append(BumpUpImprovementBanner.self)
+        flags.append(OpenGalleryInPosting.self)
+        flags.append(TweaksCarPostingFlow.self)
         Bumper.initialize(flags)
     } 
 
     static var websocketChat: Bool {
         guard let value = Bumper.value(for: WebsocketChat.key) else { return false }
         return WebsocketChat(rawValue: value)?.asBool ?? false
-    }
-
-    static var userReviews: Bool {
-        guard let value = Bumper.value(for: UserReviews.key) else { return true }
-        return UserReviews(rawValue: value)?.asBool ?? true
     }
 
     static var showNPSSurvey: Bool {
@@ -126,6 +123,11 @@ extension Bumper  {
         return AddSuperKeywordsOnFeed(rawValue: value) ?? .control 
     }
 
+    static var superKeywordsOnOnboarding: SuperKeywordsOnOnboarding {
+        guard let value = Bumper.value(for: SuperKeywordsOnOnboarding.key) else { return .control }
+        return SuperKeywordsOnOnboarding(rawValue: value) ?? .control 
+    }
+
     static var copiesImprovementOnboarding: CopiesImprovementOnboarding {
         guard let value = Bumper.value(for: CopiesImprovementOnboarding.key) else { return .control }
         return CopiesImprovementOnboarding(rawValue: value) ?? .control 
@@ -134,6 +136,16 @@ extension Bumper  {
     static var bumpUpImprovementBanner: BumpUpImprovementBanner {
         guard let value = Bumper.value(for: BumpUpImprovementBanner.key) else { return .control }
         return BumpUpImprovementBanner(rawValue: value) ?? .control 
+    }
+
+    static var openGalleryInPosting: OpenGalleryInPosting {
+        guard let value = Bumper.value(for: OpenGalleryInPosting.key) else { return .control }
+        return OpenGalleryInPosting(rawValue: value) ?? .control 
+    }
+
+    static var tweaksCarPostingFlow: TweaksCarPostingFlow {
+        guard let value = Bumper.value(for: TweaksCarPostingFlow.key) else { return .control }
+        return TweaksCarPostingFlow(rawValue: value) ?? .control 
     } 
 }
 
@@ -144,15 +156,6 @@ enum WebsocketChat: String, BumperFeature  {
     static var enumValues: [WebsocketChat] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "New Websocket Chat" } 
-    var asBool: Bool { return self == .yes }
-}
-
-enum UserReviews: String, BumperFeature  {
-    case yes, no
-    static var defaultValue: String { return UserReviews.yes.rawValue }
-    static var enumValues: [UserReviews] { return [.yes, .no]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "User Reviews Feature" } 
     var asBool: Bool { return self == .yes }
 }
 
@@ -332,6 +335,22 @@ enum AddSuperKeywordsOnFeed: String, BumperFeature  {
     }
 }
 
+enum SuperKeywordsOnOnboarding: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return SuperKeywordsOnOnboarding.control.rawValue }
+    static var enumValues: [SuperKeywordsOnOnboarding] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Add a step to select categories on onboarding" } 
+    static func fromPosition(_ position: Int) -> SuperKeywordsOnOnboarding {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
 enum CopiesImprovementOnboarding: String, BumperFeature  {
     case control, baseline, b, c, d, e, f
     static var defaultValue: String { return CopiesImprovementOnboarding.control.rawValue }
@@ -359,6 +378,38 @@ enum BumpUpImprovementBanner: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "new copies on bump up banner" } 
     static func fromPosition(_ position: Int) -> BumpUpImprovementBanner {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum OpenGalleryInPosting: String, BumperFeature  {
+    case control, baseline, openGallery
+    static var defaultValue: String { return OpenGalleryInPosting.control.rawValue }
+    static var enumValues: [OpenGalleryInPosting] { return [.control, .baseline, .openGallery]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Opens gallery in posting as default option" } 
+    static func fromPosition(_ position: Int) -> OpenGalleryInPosting {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .openGallery
+            default: return .control
+        }
+    }
+}
+
+enum TweaksCarPostingFlow: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return TweaksCarPostingFlow.control.rawValue }
+    static var enumValues: [TweaksCarPostingFlow] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "car posting summary only at the end" } 
+    static func fromPosition(_ position: Int) -> TweaksCarPostingFlow {
         switch position { 
             case 0: return .control
             case 1: return .baseline

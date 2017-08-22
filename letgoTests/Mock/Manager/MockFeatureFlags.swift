@@ -23,7 +23,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var surveyEnabled: Bool = false
 
     var websocketChat: Bool = false
-    var userReviews: Bool = false
     var captchaTransparent: Bool = false
     var passiveBuyersShowKeyboard: Bool = false
     var freeBumpUpEnabled: Bool = false
@@ -38,8 +37,11 @@ class MockFeatureFlags: FeatureFlaggeable {
     var inAppRatingIOS10: Bool = false
     var suggestedSearches: SuggestedSearches = .control
     var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed = .control
+    var superKeywordsOnOnboarding: SuperKeywordsOnOnboarding = .control
     var copiesImprovementOnboarding: CopiesImprovementOnboarding = .control
     var bumpUpImprovementBanner: BumpUpImprovementBanner = .control
+    var openGalleryInPosting: OpenGalleryInPosting = .control
+    var tweaksCarPostingFlow: TweaksCarPostingFlow = .control
     
     // Country dependant features
     var freePostingModeAllowed = false

@@ -611,9 +611,12 @@ struct TrackerEvent {
         return TrackerEvent(name: .productDeleteComplete, params: params)
     }
 
-    static func firstMessage(info: SendMessageTrackingInfo, productVisitSource: EventParameterProductVisitSource) -> TrackerEvent {
+    static func firstMessage(info: SendMessageTrackingInfo,
+                             productVisitSource: EventParameterProductVisitSource,
+                             feedPosition: EventParameterFeedPosition) -> TrackerEvent {
         var params = info.params
         params[.productVisitSource] = productVisitSource.rawValue
+        params[.feedPosition] = feedPosition.value
         return TrackerEvent(name: .firstMessage, params: params)
     }
 
@@ -1119,6 +1122,13 @@ struct TrackerEvent {
         params[.bubblePosition] = position
         params[.bubbleName] = name
         return TrackerEvent(name: .filterBubble, params: params)
+    }
+    
+    static func onboardingInterestsComplete(superKeywords: [String]) -> TrackerEvent {
+        var params = EventParameters()
+        params[.superKeywordsTotal] = superKeywords.count
+        params[.superKeywordsNames] = superKeywords
+        return TrackerEvent(name: .onboardingInterestsComplete, params: params)
     }
     
     static func categoriesStart(source: EventParameterTypePage) -> TrackerEvent {

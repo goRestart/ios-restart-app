@@ -6,6 +6,8 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
+import LGCoreKit
+
 protocol TourLoginNavigator: class {
     func tourLoginFinish()
 }
@@ -21,4 +23,8 @@ protocol TourLocationNavigator: class {
 protocol TourPostingNavigator: class {
     func tourPostingClose()
     func tourPostingPost(fromCamera: Bool)
+}
+
+protocol TourCategoriesNavigator: class {
+    func tourCategoriesFinish(withCategories categories: [TaxonomyChild])
 }

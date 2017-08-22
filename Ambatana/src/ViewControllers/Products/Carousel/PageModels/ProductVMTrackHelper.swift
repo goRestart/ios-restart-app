@@ -228,12 +228,18 @@ extension ProductVMTrackHelper {
         tracker.trackEvent(trackerEvent)
     }
 
-    func trackMessageSent(isFirstMessage: Bool, messageType: ChatWrapperMessageType, isShowingFeaturedStripe: Bool,
-                          productVisitSource: EventParameterProductVisitSource) {
-        guard let info = buildSendMessageInfo(withType: messageType, isShowingFeaturedStripe: isShowingFeaturedStripe,
+    func trackMessageSent(isFirstMessage: Bool,
+                          messageType: ChatWrapperMessageType,
+                          isShowingFeaturedStripe: Bool,
+                          productVisitSource: EventParameterProductVisitSource,
+                          feedPosition: EventParameterFeedPosition) {
+        guard let info = buildSendMessageInfo(withType: messageType,
+                                              isShowingFeaturedStripe: isShowingFeaturedStripe,
                                               error: nil) else { return }
         if isFirstMessage {
-            tracker.trackEvent(TrackerEvent.firstMessage(info: info, productVisitSource: productVisitSource))
+            tracker.trackEvent(TrackerEvent.firstMessage(info: info,
+                                                         productVisitSource: productVisitSource,
+                                                         feedPosition: feedPosition))
         }
         tracker.trackEvent(TrackerEvent.userMessageSent(info: info))
     }

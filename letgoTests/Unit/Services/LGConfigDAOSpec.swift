@@ -85,8 +85,10 @@ class LGConfigDAOSpec: QuickSpec {
                 sut = LGConfigDAO(bundle: Bundle(for: LGConfigDAOSpec.self), configFileName: "unexisting")
                 expect(sut.retrieve()).to(beNil())
                 
-                configFile = Config(buildNumber: 3, forceUpdateVersions : [1,2,3], configURL: "http://yahoo.com",
-                                    quadKeyZoomLevel: 15, myMessagesCountForRating: 2, otherMessagesCountForRating: 2)
+                configFile = Config(buildNumber: 3,
+                                    forceUpdateVersions : [1,2,3],
+                                    configURL: "http://yahoo.com",
+                                    quadKeyZoomLevel: 15)
                 sut.save(configFile)
             }
             it("should return a file when retrieving") {
