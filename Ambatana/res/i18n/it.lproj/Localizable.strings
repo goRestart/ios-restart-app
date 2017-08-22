@@ -20,7 +20,9 @@
 "bump_up_banner_free_button_title" = "Promuovi";
 "bump_up_banner_free_text" = "Promuovi gratuitamente per vendere più velocemente";
 "bump_up_banner_pay_text" = "Promuovi per vendere più rapidamente";
+"bump_up_banner_pay_text_improvement" = "Sell faster now";
 "bump_up_banner_wait_text" = "per promuovere di nuovo";
+"bump_up_banner_wait_text_improvement" = "to feature again";
 "bump_up_error_bump_generic" = "Si è verificato un errore durante il tentativo di promuovere il tuo prodotto. Riprova.";
 "bump_up_error_bump_token" = "Il pagamento è stato elaborato, ma l'articolo non è ancora stato messo in primo piano.";
 "bump_up_error_payment_failed" = "Impossibile connettersi all'App Store. Il tuo pagamento non è andato a buon fine. Riprova.";
