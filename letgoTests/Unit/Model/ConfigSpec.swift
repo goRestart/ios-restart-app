@@ -41,12 +41,6 @@ class ConfigSpec: QuickSpec {
                 it("should have configURL set") {
                     expect(sut.configURL).notTo(beNil())
                 }
-                it("should have the num of my messages to be able to rate an user") {
-                    expect(sut.myMessagesCountForRating) == 1
-                }
-                it("should have the num of other messages to be able to rate an user") {
-                    expect(sut.otherMessagesCountForRating) == 1
-                }
             }
             context("object to json") {
                 

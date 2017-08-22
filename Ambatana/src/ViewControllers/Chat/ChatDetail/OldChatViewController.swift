@@ -55,7 +55,7 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
     required init(viewModel: OldChatViewModel, featureFlags: FeatureFlags, hidesBottomBar: Bool) {
         self.viewModel = viewModel
         self.featureFlags = featureFlags
-        self.productView = ChatProductView.chatProductView(featureFlags.userReviews)
+        self.productView = ChatProductView.chatProductView()
         self.directAnswersPresenter = DirectAnswersPresenter(websocketChatActive: featureFlags.websocketChat)
         self.relatedProductsView = ChatRelatedProductsView()
         self.stickersView = ChatStickersView()
@@ -98,10 +98,6 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
         updateChatInteraction(viewModel.chatEnabled)
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        removeIgnoreTouchesForTooltip()
-    }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         viewModel.didAppear()
@@ -331,14 +327,6 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
         case .available, .blocked, .blockedBy, .productSold:
             break
         }
-
-        updateReviewButton()
-    }
-    
-    fileprivate func updateReviewButton() {
-        productView.showReviewButton(viewModel.userIsReviewable, withTooltip: viewModel.shouldShowUserReviewTooltip)
-        guard let tooltip = productView.userRatingTooltip else { return }
-        navigationController?.navigationBar.forceTouchesFor(tooltip)
     }
     
     fileprivate func showActivityIndicator(_ show: Bool) {
@@ -363,11 +351,6 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
     fileprivate func configureBottomMargin(animated: Bool) {
         let total = directAnswersPresenter.height + relatedProductsView.visibleHeight.value
         setTableBottomMargin(total, animated: animated)
-    }
-    
-    func removeIgnoreTouchesForTooltip() {
-        guard let tooltip = self.productView.userRatingTooltip else { return }
-        self.navigationController?.navigationBar.endForceTouchesFor(tooltip)
     }
 
     
@@ -532,10 +515,6 @@ extension OldChatViewController: OldChatViewModelDelegate {
     func vmClose() {
         navigationController?.popBackViewController()
     }
-
-    func vmUpdateReviewButton() {
-        updateReviewButton()
-    }
     
     
     // MARK: > Direct answers
@@ -640,15 +619,6 @@ extension OldChatViewController: ChatProductViewDelegate {
     
     func productViewDidTapUserAvatar() {
         viewModel.userInfoPressed()
-    }
-
-    func productViewDidTapUserReview() {
-        showKeyboard(false, animated: true)
-        viewModel.reviewUserPressed()
-    }
-
-    func productViewDidCloseUserReviewTooltip() {
-        viewModel.closeReviewTooltipPressed()
     }
 }
 

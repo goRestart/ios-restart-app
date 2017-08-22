@@ -41,8 +41,6 @@ protocol OldChatViewModelDelegate: BaseViewModelDelegate {
     
     func vmDidUpdateStickers()
     func vmClearText()
-
-    func vmUpdateReviewButton()
     
     func vmShowKeyboard(quickAnswerText: String)
 }
@@ -206,19 +204,6 @@ class OldChatViewModel: BaseViewModel, Paginable {
             self?.blockUser(position: .safetyPopup)
         }
     }
-
-    var userIsReviewable: Bool {
-        switch chatStatus {
-        case .available, .productSold:
-            return enoughMessagesForUserRating
-        case .productDeleted, .forbidden, .userPendingDelete, .userDeleted, .blocked, .blockedBy:
-            return false
-        }
-    }
-
-    var shouldShowUserReviewTooltip: Bool {
-        return !keyValueStorage[.userRatingTooltipAlreadyShown]
-    }
     
     var shouldShowStickerBadge: Bool
 
@@ -287,25 +272,6 @@ class OldChatViewModel: BaseViewModel, Paginable {
         guard let myUserId = myUserRepository.myUser?.objectId else { return false }
         for message in loadedMessages {
             if message.talkerId == myUserId {
-                return true
-            }
-        }
-        return false
-    }
-    private var enoughMessagesForUserRating: Bool {
-        guard let myUserId = myUserRepository.myUser?.objectId else { return false }
-        guard let otherUserId = otherUser?.objectId else { return false }
-
-        var myMessagesCount = 0
-        var otherMessagesCount = 0
-        for message in loadedMessages {
-            if message.talkerId == myUserId {
-                myMessagesCount += 1
-            } else if message.talkerId == otherUserId {
-                otherMessagesCount += 1
-            }
-            if myMessagesCount >= configManager.myMessagesCountForRating &&
-                otherMessagesCount >= configManager.otherMessagesCountForRating {
                 return true
             }
         }
@@ -492,16 +458,6 @@ class OldChatViewModel: BaseViewModel, Paginable {
             let data = UserDetailData.userAPI(user: user, source: .chat)
             navigator?.openUser(data)
         }
-    }
-
-    func reviewUserPressed() {
-        keyValueStorage[.userRatingTooltipAlreadyShown] = true
-        guard let otherUser = otherUser, let reviewData = RateUserData(user: otherUser) else { return }
-        navigator?.openUserRating(.chat, data: reviewData)
-    }
-
-    func closeReviewTooltipPressed() {
-        keyValueStorage[.userRatingTooltipAlreadyShown] = true
     }
     
     func safetyTipsDismissed() {
@@ -784,7 +740,6 @@ class OldChatViewModel: BaseViewModel, Paginable {
                 self?.navigator?.openAppRating(.chat)
             }
         }
-        delegate?.vmUpdateReviewButton()
     }
 
     private func setStickerBadge() {
@@ -938,7 +893,6 @@ class OldChatViewModel: BaseViewModel, Paginable {
             completion(success)
             
             if success {
-                self?.delegate?.vmUpdateReviewButton()
                 self?.updateDisclaimers()
             }
         }
@@ -967,7 +921,6 @@ class OldChatViewModel: BaseViewModel, Paginable {
             completion(success)
             
             if success {
-                self?.delegate?.vmUpdateReviewButton()
                 self?.updateDisclaimers()
             }
         }
@@ -1155,7 +1108,6 @@ class OldChatViewModel: BaseViewModel, Paginable {
         if shouldShowSafetyTips {
             delegate?.vmShowSafetyTips()
         }
-        delegate?.vmUpdateReviewButton()
     }
 
     private func checkSellerDidntAnswer(_ messages: [Message], page: Int) {

@@ -62,7 +62,7 @@ class ChatViewController: TextViewController {
                   pushPermissionManager: PushPermissionsManager,
                   hidesBottomBar: Bool) {
         self.viewModel = viewModel
-        self.productView = ChatProductView.chatProductView(featureFlags.userReviews)
+        self.productView = ChatProductView.chatProductView()
         self.relatedProductsView = ChatRelatedProductsView()
         self.directAnswersPresenter = DirectAnswersPresenter(websocketChatActive: featureFlags.websocketChat)
         self.stickersView = ChatStickersView()
@@ -97,12 +97,6 @@ class ChatViewController: TextViewController {
                                                          name: NSNotification.Name.UIMenuControllerWillShowMenu, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(ChatViewController.menuControllerWillHide(_:)),
                                                          name: NSNotification.Name.UIMenuControllerWillHideMenu, object: nil)
-    }
-
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        removeIgnoreTouchesForTooltip()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -262,12 +256,6 @@ class ChatViewController: TextViewController {
         let total = directAnswersPresenter.height + relatedProductsView.visibleHeight.value
         setTableBottomMargin(total, animated: animated)
     }
-    
-    func removeIgnoreTouchesForTooltip() {
-        guard let tooltip = self.productView.userRatingTooltip else { return }
-        self.navigationController?.navigationBar.endForceTouchesFor(tooltip)
-    }
-
 
 
     // MARK: > Navigation
@@ -432,14 +420,6 @@ fileprivate extension ChatViewController {
             case .available, .blocked, .blockedBy, .productSold:
                 break
             }
-            }.addDisposableTo(disposeBag)
-
-        Observable.combineLatest(viewModel.shouldShowReviewButton.asObservable(),
-        viewModel.userReviewTooltipVisible.asObservable()) { $0 }
-            .subscribeNext { [weak self] (showReviewButton, showReviewTooltip) in
-                self?.productView.showReviewButton(showReviewButton, withTooltip: showReviewTooltip)
-                guard let tooltip = self?.productView.userRatingTooltip else { return }
-                self?.navigationController?.navigationBar.forceTouchesFor(tooltip)
             }.addDisposableTo(disposeBag)
 
         viewModel.messages.changesObservable.subscribeNext { [weak self] change in
@@ -704,15 +684,6 @@ extension ChatViewController: ChatProductViewDelegate {
     
     func productViewDidTapUserAvatar() {
         viewModel.userInfoPressed()
-    }
-
-    func productViewDidTapUserReview() {
-        showKeyboard(false, animated: true)
-        viewModel.reviewUserPressed()
-    }
-
-    func productViewDidCloseUserReviewTooltip() {
-        viewModel.closeReviewTooltipPressed()
     }
 }
 

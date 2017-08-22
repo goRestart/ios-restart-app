@@ -196,7 +196,7 @@ class MainProductsViewModel: BaseViewModel {
         guard keyValueStorage[.lastSearches].count >= minimumSearchesSavedToShowCollection else { return [] }
         return [.You]
     }
-    fileprivate let keyValueStorage: KeyValueStorageable
+    fileprivate let keyValueStorage: KeyValueStorage
     fileprivate let featureFlags: FeatureFlaggeable
     
     // > Delegate
@@ -248,7 +248,7 @@ class MainProductsViewModel: BaseViewModel {
     init(sessionManager: SessionManager, myUserRepository: MyUserRepository, searchRepository: SearchRepository,
          listingRepository: ListingRepository, monetizationRepository: MonetizationRepository, categoryRepository: CategoryRepository,
          locationManager: LocationManager, currencyHelper: CurrencyHelper, tracker: Tracker,
-         searchType: SearchType? = nil, filters: ProductFilters, keyValueStorage: KeyValueStorageable,
+         searchType: SearchType? = nil, filters: ProductFilters, keyValueStorage: KeyValueStorage,
          featureFlags: FeatureFlaggeable, bubbleTextGenerator: DistanceBubbleTextGenerator) {
         
         self.sessionManager = sessionManager
@@ -319,7 +319,9 @@ class MainProductsViewModel: BaseViewModel {
         updatePermissionsWarning()
         taxonomyChildren = filterSuperKeywordsHighlighted(taxonomies: getTaxonomyChildren())
         updateCategoriesHeader()
-        setupRx()
+        if firstTime {
+            setupRx()
+        }
         if let currentLocation = locationManager.currentLocation {
             retrieveProductsIfNeededWithNewLocation(currentLocation)
             retrieveLastUserSearch()
@@ -460,7 +462,8 @@ class MainProductsViewModel: BaseViewModel {
         } else {
             filters.carYearEnd = nil
         }
-
+        
+        
         updateCategoriesHeader()
         updateListView()
     }
@@ -472,6 +475,7 @@ class MainProductsViewModel: BaseViewModel {
         tracker.trackEvent(TrackerEvent.filterCategoryHeaderSelected(position: categoryHeaderInfo.position,
                                                                      name: categoryHeaderInfo.name))
         delegate?.vmShowTags(tags)
+        filters.onboardingFilters = []
         updateCategoriesHeader()
         updateListView()
         
@@ -513,6 +517,9 @@ class MainProductsViewModel: BaseViewModel {
         listViewModel.isProductListEmpty.asObservable().bindNext { [weak self] _ in
             self?.updateCategoriesHeader()
         }.addDisposableTo(disposeBag)
+        keyValueStorage.favoriteCategoriesSelected.asObservable().filter { $0 }.bindNext { [weak self] _ in
+            self?.updateFiltersWithOnboardingTaxonomies(taxonomiesIds: self?.keyValueStorage[.favoriteCategories] ?? [])
+        }.addDisposableTo(disposeBag)
     }
     
     /**
@@ -543,6 +550,14 @@ class MainProductsViewModel: BaseViewModel {
         errorMessage.value = nil
         listViewModel.resetUI()
         listViewModel.refresh()
+    }
+    
+    
+    // MARK: - Categories From Onboarding
+    
+    func updateFiltersWithOnboardingTaxonomies(taxonomiesIds: [Int]) {
+        filters.onboardingFilters = categoryRepository.retrieveTaxonomyChildren(withIds: taxonomiesIds)
+        updateListView()
     }
     
     
@@ -587,6 +602,7 @@ extension MainProductsViewModel: FiltersViewModelDataDelegate {
 
     func viewModelDidUpdateFilters(_ viewModel: FiltersViewModel, filters: ProductFilters) {
         self.filters = filters
+        self.filters.onboardingFilters = []
         delegate?.vmShowTags(tags)
         updateListView()
     }

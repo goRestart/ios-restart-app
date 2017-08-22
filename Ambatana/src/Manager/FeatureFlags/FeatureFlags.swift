@@ -22,7 +22,6 @@ protocol FeatureFlaggeable: class {
     var surveyEnabled: Bool { get }
 
     var websocketChat: Bool { get }
-    var userReviews: Bool { get }
     var captchaTransparent: Bool { get }
     var passiveBuyersShowKeyboard: Bool { get }
     var freeBumpUpEnabled: Bool { get }
@@ -37,9 +36,11 @@ protocol FeatureFlaggeable: class {
     var inAppRatingIOS10: Bool { get }
     var suggestedSearches: SuggestedSearches { get }
     var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed { get }
+    var superKeywordsOnOnboarding: SuperKeywordsOnOnboarding { get }
     var copiesImprovementOnboarding: CopiesImprovementOnboarding { get }
     var bumpUpImprovementBanner: BumpUpImprovementBanner { get }
     var openGalleryInPosting: OpenGalleryInPosting { get }
+    var tweaksCarPostingFlow: TweaksCarPostingFlow { get }
     var dynamicQuickAnswers: DynamicQuickAnswers { get }
 
     // Country dependant features
@@ -68,7 +69,28 @@ extension AddSuperKeywordsOnFeed {
     }
 }
 
+extension SuperKeywordsOnOnboarding {
+    var isActive: Bool {
+        switch self {
+        case .control, .baseline:
+            return false
+        case .active:
+            return true
+        }
+    }
+}
 extension BumpUpImprovementBanner {
+    var isActive: Bool {
+        switch self {
+        case .control, .baseline:
+            return false
+        case .active:
+            return true
+        }
+    }
+}
+
+extension TweaksCarPostingFlow {
     var isActive: Bool {
         switch self {
         case .control, .baseline:
@@ -138,13 +160,6 @@ class FeatureFlags: FeatureFlaggeable {
         dao.save(websocketChatEnabled: abTests.websocketChat.value)
         dao.save(editLocationBubble: EditLocationBubble.fromPosition(abTests.editLocationBubble.value))
         abTests.variablesUpdated()
-    }
-
-    var userReviews: Bool {
-        if Bumper.enabled {
-            return Bumper.userReviews
-        }
-        return abTests.userReviews.value
     }
 
     var showNPSSurvey: Bool {
@@ -266,6 +281,13 @@ class FeatureFlags: FeatureFlaggeable {
         return AddSuperKeywordsOnFeed.fromPosition(abTests.addSuperKeywordsOnFeed.value)
     }
     
+    var superKeywordsOnOnboarding: SuperKeywordsOnOnboarding {
+        if Bumper.enabled {
+            return Bumper.superKeywordsOnOnboarding
+        }
+        return SuperKeywordsOnOnboarding.fromPosition(abTests.superKeywordsOnOnboarding.value)
+    }
+    
     var copiesImprovementOnboarding: CopiesImprovementOnboarding {
         if Bumper.enabled {
             return Bumper.copiesImprovementOnboarding
@@ -287,14 +309,14 @@ class FeatureFlags: FeatureFlaggeable {
         return OpenGalleryInPosting.fromPosition(abTests.openGalleryInPosting.value)
     }
     
-    
-    var dynamicQuickAnswers: DynamicQuickAnswers {
+    var tweaksCarPostingFlow: TweaksCarPostingFlow {
         if Bumper.enabled {
-            return Bumper.dynamicQuickAnswers
+            return Bumper.tweaksCarPostingFlow
         }
-        return DynamicQuickAnswers.fromPosition(abTests.dynamicQuickAnswers.value)
+        return TweaksCarPostingFlow.fromPosition(abTests.tweaksCarPostingFlow.value)
     }
     
+
     // MARK: - Country features
 
     var freePostingModeAllowed: Bool {

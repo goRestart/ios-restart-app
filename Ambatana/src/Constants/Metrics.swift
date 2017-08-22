@@ -23,6 +23,8 @@ struct Metrics {
     static let buttonHeight: CGFloat        = 50
     static let closeButtonWidth: CGFloat    = 54
     static let closeButtonHeight: CGFloat   = 44
+    
+    static let collectionItemSpacing: CGFloat = 10
 
     // Login
     static let loginContentTop: CGFloat     = 30

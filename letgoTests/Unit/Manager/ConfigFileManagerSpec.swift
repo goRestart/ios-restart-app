@@ -36,10 +36,10 @@ class ConfigFileManagerSpec: QuickSpec {
             }
             context("with dao that loads data with a config that does not have the current app version as a force update version") {
                 beforeEach {
-                    let config = Config(buildNumber: 0, forceUpdateVersions: [1,2,3,4,5], configURL: "",
-                                        quadKeyZoomLevel: Constants.defaultQuadKeyZoomLevel,
-                                        myMessagesCountForRating: Constants.myMessagesCountForRating,
-                                        otherMessagesCountForRating: Constants.otherMessagesCountForRating)
+                    let config = Config(buildNumber: 0,
+                                        forceUpdateVersions: [1,2,3,4,5],
+                                        configURL: "",
+                                        quadKeyZoomLevel: Constants.defaultQuadKeyZoomLevel)
                     dao.config = config
                     sut = LGConfigManager(service: service, dao: dao, appCurrentVersion: "18")
                 }
@@ -49,42 +49,15 @@ class ConfigFileManagerSpec: QuickSpec {
             }
             context("with dao that loads data with a config that has the current app version as a force update version") {
                 beforeEach {
-                    let config = Config(buildNumber: 0, forceUpdateVersions: [1,2,3,4,18], configURL: "",
-                                        quadKeyZoomLevel: Constants.defaultQuadKeyZoomLevel,
-                                        myMessagesCountForRating: Constants.myMessagesCountForRating,
-                                        otherMessagesCountForRating: Constants.otherMessagesCountForRating)
+                    let config = Config(buildNumber: 0,
+                                        forceUpdateVersions: [1,2,3,4,18],
+                                        configURL: "",
+                                        quadKeyZoomLevel: Constants.defaultQuadKeyZoomLevel)
                     dao.config = config
                     sut = LGConfigManager(service: service, dao: dao, appCurrentVersion: "18")
                 }
                 it("should force an update") {
                     expect(sut.shouldForceUpdate).to(beTrue())
-                }
-            }
-            context("messages count with dao that cannot load any data") {
-                beforeEach {
-                    sut = LGConfigManager(service: service, dao: dao, appCurrentVersion: "18")
-                }
-                it("should have default value for my messages") {
-                    expect(sut.myMessagesCountForRating) == Constants.myMessagesCountForRating
-                }
-                it("should have default value for other user messages") {
-                    expect(sut.otherMessagesCountForRating) == Constants.otherMessagesCountForRating
-                }
-            }
-            context("messages count with dao that worked ok") {
-                beforeEach {
-                    let config = Config(buildNumber: 0, forceUpdateVersions: [], configURL: "",
-                           quadKeyZoomLevel: Constants.defaultQuadKeyZoomLevel,
-                           myMessagesCountForRating: 2,
-                           otherMessagesCountForRating: 3)
-                    dao.config = config
-                    sut = LGConfigManager(service: service, dao: dao, appCurrentVersion: "18")
-                }
-                it("should have default value for my messages") {
-                    expect(sut.myMessagesCountForRating) == 2
-                }
-                it("should have default value for other user messages") {
-                    expect(sut.otherMessagesCountForRating) == 3
                 }
             }
         }
@@ -132,10 +105,10 @@ class ConfigFileManagerSpec: QuickSpec {
             }
             context("with service that cannot load any data and did have a force update before") {
                 beforeEach {
-                    let config = Config(buildNumber: 0, forceUpdateVersions: [1,2,3,18], configURL: "www.letgo.com",
-                                        quadKeyZoomLevel: Constants.defaultQuadKeyZoomLevel,
-                                        myMessagesCountForRating: Constants.myMessagesCountForRating,
-                                        otherMessagesCountForRating: Constants.otherMessagesCountForRating)
+                    let config = Config(buildNumber: 0,
+                                        forceUpdateVersions: [1,2,3,18],
+                                        configURL: "www.letgo.com",
+                                        quadKeyZoomLevel: Constants.defaultQuadKeyZoomLevel)
                     dao.config = config
                     
                     service.mockResult = ConfigRetrieveServiceResult(error: .network)
@@ -154,10 +127,10 @@ class ConfigFileManagerSpec: QuickSpec {
                 beforeEach {
                     dao.config = Config()
                     
-                    let config = Config(buildNumber: 0, forceUpdateVersions: [1,2,3,24], configURL: "www.letgo.com",
-                                        quadKeyZoomLevel: Constants.defaultQuadKeyZoomLevel,
-                                        myMessagesCountForRating: Constants.myMessagesCountForRating,
-                                        otherMessagesCountForRating: Constants.otherMessagesCountForRating)
+                    let config = Config(buildNumber: 0,
+                                        forceUpdateVersions: [1,2,3,24],
+                                        configURL: "www.letgo.com",
+                                        quadKeyZoomLevel: Constants.defaultQuadKeyZoomLevel)
                     service.mockResult = ConfigRetrieveServiceResult(value: config)
                     
                     sut = LGConfigManager(service: service, dao: dao, appCurrentVersion: "18")
@@ -174,10 +147,10 @@ class ConfigFileManagerSpec: QuickSpec {
                 beforeEach {
                     dao.config = Config()
                     
-                    let config = Config(buildNumber: 0, forceUpdateVersions: [1,2,3,18], configURL: "www.letgo.com",
-                                        quadKeyZoomLevel: Constants.defaultQuadKeyZoomLevel,
-                                        myMessagesCountForRating: Constants.myMessagesCountForRating,
-                                        otherMessagesCountForRating: Constants.otherMessagesCountForRating)
+                    let config = Config(buildNumber: 0,
+                                        forceUpdateVersions: [1,2,3,18],
+                                        configURL: "www.letgo.com",
+                                        quadKeyZoomLevel: Constants.defaultQuadKeyZoomLevel)
                     service.mockResult = ConfigRetrieveServiceResult(value: config)
                     
                     sut = LGConfigManager(service: service, dao: dao, appCurrentVersion: "18")

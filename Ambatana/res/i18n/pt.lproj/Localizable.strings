@@ -239,7 +239,11 @@
 "common_no" = "No";
 "common_ok" = "OK";
 "common_or" = "OR";
+<<<<<<< HEAD
 "common_product_not_available" = "Oops! This item is no longer available";
+=======
+"common_product_not_available" = "Ooops! This item is no longer available";
+>>>>>>> origin/develop
 "common_product_sold" = "This product has been sold.";
 "common_settings" = "Settings";
 "common_short_time_day_ago_label" = "%d day";

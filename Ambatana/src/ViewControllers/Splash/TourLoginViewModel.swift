@@ -6,6 +6,7 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
+import LGCoreKit
 import RxSwift
 
 protocol TourLoginViewModelDelegate: BaseViewModelDelegate {
@@ -21,13 +22,19 @@ final class TourLoginViewModel: BaseViewModel {
     weak var delegate: TourLoginViewModelDelegate?
 
     private let signUpViewModel: SignUpViewModel
+    private let categoryRepository: CategoryRepository
 
     private let disposeBag = DisposeBag()
 
-    init(signUpViewModel: SignUpViewModel) {
+    init(signUpViewModel: SignUpViewModel, categoryRepository:CategoryRepository) {
+        self.categoryRepository = categoryRepository
         self.signUpViewModel = signUpViewModel
         super.init()
         self.signUpViewModel.delegate = self
+    }
+    
+    convenience init(signUpViewModel: SignUpViewModel) {
+        self.init(signUpViewModel: signUpViewModel, categoryRepository: Core.categoryRepository)
     }
 
     func facebookButtonPressed() {
@@ -44,6 +51,10 @@ final class TourLoginViewModel: BaseViewModel {
 
     func textUrlPressed(url: URL) {
         delegate?.vmOpenInternalURL(url)
+    }
+    
+    func refreshTaxonomiesOnboardingCache() {
+        categoryRepository.refreshTaxonomiesOnboardingCache()
     }
 }
 

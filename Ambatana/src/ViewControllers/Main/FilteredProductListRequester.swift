@@ -205,11 +205,13 @@ fileprivate extension FilteredProductListRequester {
         params.queryString = queryString
         params.countryCode = countryCode
         params.categoryIds = filters?.selectedCategories.flatMap { $0.rawValue }
-        let idCategoriesFromTaxonomies = filters?.selectedTaxonomyChildren.filter {
-            $0.type == .category
-        }.flatMap { $0.id } ?? []
-        params.categoryIds?.append(contentsOf: idCategoriesFromTaxonomies)
-        params.superKeywordIds = filters?.selectedTaxonomyChildren.filter { $0.type == .superKeyword }.flatMap { $0.id }
+        let idCategoriesFromTaxonomies = filters?.selectedTaxonomyChildren.getIds(withType: .category)
+        params.categoryIds?.append(contentsOf: idCategoriesFromTaxonomies ?? [])
+        params.superKeywordIds = filters?.selectedTaxonomyChildren.getIds(withType: .superKeyword)
+        
+        let idSuperKeywordsFromOnboarding = filters?.onboardingFilters.getIds(withType: .superKeyword)
+        params.superKeywordIds?.append(contentsOf: idSuperKeywordsFromOnboarding ?? [])
+        
         params.timeCriteria = filters?.selectedWithin
         params.sortCriteria = filters?.selectedOrdering
         params.distanceRadius = filters?.distanceRadius
