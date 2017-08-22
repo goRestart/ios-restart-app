@@ -174,6 +174,7 @@ enum EventName: String {
     case emptyStateError                    = "empty-state-error"
     
     case filterBubble                       = "filter-bubble"
+    case onboardingInterestsComplete        = "onboarding-interests-complete"
     case categoriesStart                    = "categories-start"
     case categoriesComplete                 = "categories-complete"
     
@@ -315,6 +316,8 @@ enum EventParameterName: String {
     case verticalFields             = "vertical-fields"
     case bubblePosition       = "bubble-position"
     case bubbleName           = "bubble-name"
+    case superKeywordsTotal   = "superkeyword-total"
+    case superKeywordsNames   = "superkeyword-names"
     case keywordName          = "keyword-name"
 }
 
