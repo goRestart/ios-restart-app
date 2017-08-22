@@ -20,7 +20,9 @@
 "bump_up_banner_free_button_title" = "Felugrasztás";
 "bump_up_banner_free_text" = "Ingyenesen felugraszthatva gyorsabban eladhatsz";
 "bump_up_banner_pay_text" = "Felugrasztva gyorsabban eladhatod";
+"bump_up_banner_pay_text_improvement" = "Sell faster now";
 "bump_up_banner_wait_text" = "a következő ugrasztásig";
+"bump_up_banner_wait_text_improvement" = "to feature again";
 "bump_up_error_bump_generic" = "Hiba történt a hirdetésed felugrasztása során. Próbálkozz újra.";
 "bump_up_error_bump_token" = "A tranzakciót feldolgoztuk, de portékád nincs felugrasztva.";
 "bump_up_error_payment_failed" = "Nem sikerült kapcsolódni az App Store-hoz. Feldolgozatlan befizetés. Próbálkozz újra.";

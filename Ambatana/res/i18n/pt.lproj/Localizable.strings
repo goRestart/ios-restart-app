@@ -20,7 +20,9 @@
 "bump_up_banner_free_button_title" = "Bump Up";
 "bump_up_banner_free_text" = "Bump Up for free to sell faster";
 "bump_up_banner_pay_text" = "Bump Up to sell faster";
-"bump_up_banner_wait_text" = "to Bump Up again";
+"bump_up_banner_pay_text_improvement" = "Sell faster now";
+"bump_up_banner_wait_text" = "to feature again";
+"bump_up_banner_wait_text_improvement" = "to feature again";
 "bump_up_error_bump_generic" = "An error occurred while Bumping Up your item. Please try again.";
 "bump_up_error_bump_token" = "Your payment has been processed but your item hasn't been featured.";
 "bump_up_error_payment_failed" = "Couldn't connect to the App Store. Your payment hasn't been processed. Please try again.";
@@ -239,11 +241,7 @@
 "common_no" = "No";
 "common_ok" = "OK";
 "common_or" = "OR";
-<<<<<<< HEAD
 "common_product_not_available" = "Oops! This item is no longer available";
-=======
-"common_product_not_available" = "Ooops! This item is no longer available";
->>>>>>> origin/develop
 "common_product_sold" = "This product has been sold.";
 "common_settings" = "Settings";
 "common_short_time_day_ago_label" = "%d day";
@@ -301,7 +299,7 @@
 "direct_answer_not_negotiable_title" = "Not negotiable";
 "direct_answer_price_firm" = "Is the price firm?";
 "direct_answer_price_title" = "Price";
-"direct_answer_product_sold" = "Sorry, the item has been sold!";
+"direct_answer_product_sold" = "Sorry, the product has been sold!";
 "direct_answer_sold_question_message" = "Mark your product as sold so all letgo users know";
 "direct_answer_sold_question_ok" = "Mark as sold";
 "direct_answer_sold_question_title" = "Already sold it?";
