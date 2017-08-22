@@ -20,7 +20,9 @@
 "bump_up_banner_free_button_title" = "Προωθήστε";
 "bump_up_banner_free_text" = "Προωθήστε δωρεάν για να πουλήσετε γρηγορότερα";
 "bump_up_banner_pay_text" = "Προωθήστε για να πουλάτε γρηγορότερα";
+"bump_up_banner_pay_text_improvement" = "Sell faster now";
 "bump_up_banner_wait_text" = "για να προωθήσετε ξανά";
+"bump_up_banner_wait_text_improvement" = "to feature again";
 "bump_up_error_bump_generic" = "Παρουσιάστηκε σφάλμα κατά την προώθηση του αντικειμένου σας. Παρακαλώ δοκιμάστε ξανά.";
 "bump_up_error_bump_token" = "Η πληρωμή σας έχει προχωρήσει, αλλά το αντικείμενό σας δεν έχει προταθεί.";
 "bump_up_error_payment_failed" = "Η σύνδεση στο App Store απέτυχε. Η πληρωμή σας δεν έχει προχωρήσει. Παρακαλώ δοκιμάστε ξανά.";

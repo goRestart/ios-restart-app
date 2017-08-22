@@ -20,7 +20,9 @@
 "bump_up_banner_free_button_title" = "Поднять";
 "bump_up_banner_free_text" = "Поднять бесплатно для быстрой продажи";
 "bump_up_banner_pay_text" = "Поднять, чтобы продать быстрее";
+"bump_up_banner_pay_text_improvement" = "Sell faster now";
 "bump_up_banner_wait_text" = "до нового продвижения";
+"bump_up_banner_wait_text_improvement" = "to feature again";
 "bump_up_error_bump_generic" = "При продвижении товара произошла ошибка. Пожалуйста, попробуйте еще раз.";
 "bump_up_error_bump_token" = "Ваш платеж обработан, но товар еще не поднят.";
 "bump_up_error_payment_failed" = "Невозможно подключиться к App Store. Ваш платеж не обработан. Пожалуйста, попробуйте еще раз.";

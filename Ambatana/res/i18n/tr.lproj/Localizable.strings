@@ -20,7 +20,9 @@
 "bump_up_banner_free_button_title" = "Üste çıkar";
 "bump_up_banner_free_text" = "Daha hızlı satmak için üste çıkar";
 "bump_up_banner_pay_text" = "Daha hızlı satmak için üste çıkar";
+"bump_up_banner_pay_text_improvement" = "Sell faster now";
 "bump_up_banner_wait_text" = "tekrar üste çıkarmak için";
+"bump_up_banner_wait_text_improvement" = "to feature again";
 "bump_up_error_bump_generic" = "Ürünün öne çıkarılırken bir hata oluştu. Lütfen tekrar dene.";
 "bump_up_error_bump_token" = "Ödemen gerçekleştirildi fakat ürünün henüz öne çıkarılmadı.";
 "bump_up_error_payment_failed" = "App Store ile bağlantı gerçekleştirilemedi. Ödeme işlemin tamamlanmadı. Lütfen tekrar dene.";

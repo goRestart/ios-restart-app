@@ -20,7 +20,9 @@
 "bump_up_banner_free_button_title" = "Renvoyer vers le haut";
 "bump_up_banner_free_text" = "Renvoyez vers le haut gratuitement pour vendre plus vite";
 "bump_up_banner_pay_text" = "Renvoyer vers le haut pour vendre plus vite";
+"bump_up_banner_pay_text_improvement" = "Sell faster now";
 "bump_up_banner_wait_text" = "à attendre";
+"bump_up_banner_wait_text_improvement" = "to feature again";
 "bump_up_error_bump_generic" = "Une erreur est survenue lors du renvoi vers le haut de votre produit. Veuillez réessayer.";
 "bump_up_error_bump_token" = "Votre paiement a été effectué, mais votre produit n'a pas encore été renvoyé vers le haut.";
 "bump_up_error_payment_failed" = "Impossible de se connecter à l'App Store. Votre paiement n'a pas été traité. Veuillez réessayer.";
