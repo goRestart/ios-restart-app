@@ -108,25 +108,26 @@ enum QuickAnswer {
         case .freeNotAvailable:
             return LGLocalizedString.directAnswerFreeNoAvailable
         case .stillForSale:
-            return "Is it still for sale?"
+            return LGLocalizedString.directAnswerStillForSale
         case .priceFirm:
-            return "Is the price firm?"
+            return LGLocalizedString.directAnswerPriceFirm
         case .priceWillingToNegotiate:
-            return "Would you be willing to negotiate?"
+            return LGLocalizedString.directAnswerWillingToNegotiate
         case .priceAsking:
-            return "How much are you asking?"
+            return LGLocalizedString.directAnswerHowMuchAsking
         case .productConditionGood:
-            return "Is it in good condition?"
+            return LGLocalizedString.directAnswerGoodCondition
         case .productConditionDescribe:
-            return "Can you describe the condition?"
+            return LGLocalizedString.directAnswerDescribeCondition
         case .meetUpWhereYouWant:
-            return "Where do you want to meet up?"
+            return LGLocalizedString.directAnswerWhereMeetUp
         case .meetUpLocated:
-            return "Where are you located?"
+            return LGLocalizedString.directAnswerWhereLocated
         }
     }
 
-    var quickAnswerType: EventParameterQuickAnswerType {
+    // Delete nilable when Dynamic QA ABTest no longer exists OR existing tracking for new QAs
+    var quickAnswerType: EventParameterQuickAnswerType? {
         switch self {
         case .interested:
             return .interested
@@ -160,23 +161,8 @@ enum QuickAnswer {
             return .freeAvailable
         case .freeNotAvailable:
             return .freeNotAvailable
-//FIXME TODO warning Dummy values. To fix
-        case .stillForSale:
-            return .interested
-        case .priceFirm:
-            return .interested
-        case .priceWillingToNegotiate:
-            return .interested
-        case .priceAsking:
-            return .interested
-        case .productConditionGood:
-            return .interested
-        case .productConditionDescribe:
-            return .interested
-        case .meetUpWhereYouWant:
-            return .interested
-        case .meetUpLocated:
-            return .interested
+        default: // New dynamic quick answers
+            return nil
         }
     }
     
@@ -323,7 +309,7 @@ enum QuickAnswer {
             }
         } else {
             if isFree {
-                result.append(.stillAvailable)
+                result.append(.interested)
                 result.append(.meetUp)
                 result.append(.productCondition)
             } else {

@@ -71,6 +71,11 @@ class DirectAnswersPresenter {
         self.answers = answers
         self.horizontalView?.update(answers: answers, isDynamic: isDynamic)
     }
+    
+    func moveDirectAnswerToTheEnd(_ index: Int) {
+        answers.move(fromIndex: index, toIndex: answers.count-1)
+        self.horizontalView?.update(answers: answers, isDynamic: nil)
+    }
 }
 
 

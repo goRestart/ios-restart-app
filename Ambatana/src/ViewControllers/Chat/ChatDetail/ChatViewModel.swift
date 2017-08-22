@@ -26,6 +26,7 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmShowMessage(_ message: String, completion: (() -> ())?)
     
     func vmShowKeyboard(quickAnswerText: String)
+    func vmMoveDirectAnswerToTheEnd(_ index: Int)
 }
 
 struct EmptyConversation: ChatConversation {
@@ -1338,7 +1339,7 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
             let isBuyer = !conversation.value.amISelling
             let isNegotiable = productIsNegotiable.value
             return QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: areQuickAnswersDynamic, isNegotiable: isNegotiable)
-        } set { }
+        }
     }
     var areQuickAnswersDynamic: Bool {
         switch featureFlags.dynamicQuickAnswers {
@@ -1363,11 +1364,9 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
             onProductSoldDirectAnswer()
         case .interested, .notInterested, .meetUp, .stillAvailable, .isNegotiable, .likeToBuy, .productCondition,
              .productStillForSale, .whatsOffer, .negotiableYes, .negotiableNo, .freeStillHave, .freeYours,
-             .freeAvailable:
+             .freeAvailable, .stillForSale, .priceFirm, .priceWillingToNegotiate, .priceAsking, .productConditionGood,
+             .productConditionDescribe, .meetUpLocated, .meetUpWhereYouWant:
             clearProductSoldDirectAnswer()
-//FIXME TODO warning To fix
-        default:
-            break
         }
         
         if showKeyboardWhenQuickAnswer == true {
@@ -1376,7 +1375,7 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
             send(quickAnswer: answer)
         }
         if areQuickAnswersDynamic == true { // Send to the end of the collection
-            directAnswers.move(fromIndex: index, toIndex: directAnswers.count-1)
+            delegate?.vmMoveDirectAnswerToTheEnd(index)
         }
     }
     

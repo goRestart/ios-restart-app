@@ -42,7 +42,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var bumpUpImprovementBanner: BumpUpImprovementBanner = .control
     var openGalleryInPosting: OpenGalleryInPosting = .control
     var tweaksCarPostingFlow: TweaksCarPostingFlow = .control
-    var dynamicQuickAnswers = DynamicQuickAnswers = .control
+    var dynamicQuickAnswers: DynamicQuickAnswers = .control
     
     // Country dependant features
     var freePostingModeAllowed = false

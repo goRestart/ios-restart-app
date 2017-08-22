@@ -651,6 +651,9 @@ extension ChatViewModelSpec: ChatViewModelDelegate {
     func vmAskForRating() { }
     func vmShowPrePermissions(_ type: PrePermissionType) {}
     func vmShowMessage(_ message: String, completion: (() -> ())?) {}
+    
+    func vmShowKeyboard(quickAnswerText: String) {}
+    func vmMoveDirectAnswerToTheEnd(_ index: Int) {}
 }
 
 extension ChatViewModelSpec {

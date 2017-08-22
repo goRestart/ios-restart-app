@@ -290,6 +290,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                                 product.status = .approved
                                 product.price = .free
                                 featureFlags.freePostingModeAllowed = true
+                                featureFlags.dynamicQuickAnswers = .control
                                 buildSut(initialProduct: product)
                                 sut.active = true
                             }

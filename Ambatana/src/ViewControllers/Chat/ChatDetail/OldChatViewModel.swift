@@ -43,6 +43,7 @@ protocol OldChatViewModelDelegate: BaseViewModelDelegate {
     func vmClearText()
     
     func vmShowKeyboard(quickAnswerText: String)
+    func vmMoveDirectAnswerToTheEnd(_ index: Int)
 }
 
 enum AskQuestionSource {
@@ -1180,11 +1181,9 @@ extension OldChatViewModel: DirectAnswersPresenterDelegate {
             onProductSoldDirectAnswer()
         case .interested, .notInterested, .meetUp, .stillAvailable, .isNegotiable, .likeToBuy, .productCondition,
              .productStillForSale, .whatsOffer, .negotiableYes, .negotiableNo, .freeStillHave, .freeYours,
-             .freeAvailable:
+             .freeAvailable, .stillForSale, .priceFirm, .priceWillingToNegotiate, .priceAsking, .productConditionGood,
+             .productConditionDescribe, .meetUpLocated, .meetUpWhereYouWant:
             clearProductSoldDirectAnswer()
-//FIXME TODO warning To fix
-        default:
-            break
         }
         
         if showKeyboardWhenQuickAnswer == true {
@@ -1193,7 +1192,7 @@ extension OldChatViewModel: DirectAnswersPresenterDelegate {
             send(quickAnswer: answer)
         }
         if areQuickAnswersDynamic == true { // Send to the end of the collection
-            directAnswers.move(fromIndex: index, toIndex: directAnswers.count-1)
+            delegate?.vmMoveDirectAnswerToTheEnd(index)
         }
     }
     

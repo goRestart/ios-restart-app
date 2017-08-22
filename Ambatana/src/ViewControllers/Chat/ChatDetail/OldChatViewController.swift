@@ -523,6 +523,10 @@ extension OldChatViewController: OldChatViewModelDelegate {
         textView.text = quickAnswerText
         textView.becomeFirstResponder()
     }
+    
+    func vmMoveDirectAnswerToTheEnd(_ index: Int) {
+        directAnswersPresenter.moveDirectAnswerToTheEnd(index)
+    }
 }
 
 // MARK: - Copy/Paste feature
