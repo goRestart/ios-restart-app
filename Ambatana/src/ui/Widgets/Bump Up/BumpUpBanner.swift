@@ -78,7 +78,6 @@ class BumpUpBanner: UIView {
     static let bannerDefaultFont: UIFont = UIFont.systemMediumFont(size: 15)
 
     static let timeLabelWidth: CGFloat = 80
-    static let bumpUpButtonWidth: CGFloat = 60
     static let iconSize: CGFloat = 20
     static let iconLeftMargin: CGFloat = 15
     static let timerUpdateInterval: TimeInterval = 1
@@ -97,7 +96,9 @@ class BumpUpBanner: UIView {
     private var textIconLeftMarginConstraint: NSLayoutConstraint = NSLayoutConstraint()
     private var timeLabelRightMarginConstraint: NSLayoutConstraint = NSLayoutConstraint()
     private var timeLabelWidthConstraint: NSLayoutConstraint = NSLayoutConstraint()
-    
+    private var textContainerCenterConstraint: NSLayoutConstraint = NSLayoutConstraint()
+    private var bumpButtonWidthConstraint: NSLayoutConstraint = NSLayoutConstraint()
+
     private var maxCountdown: TimeInterval = 0
     private var timer: Timer = Timer()
 
@@ -143,9 +144,11 @@ class BumpUpBanner: UIView {
         case .free:
             waitingTime = info.maxCountdown
             bumpButton.isHidden = featureFlags.bumpUpImprovementBanner.isActive
+            bumpButtonWidthConstraint.isActive = !featureFlags.bumpUpImprovementBanner.isActive
             bumpButton.setTitle(LGLocalizedString.bumpUpBannerFreeButtonTitle, for: .normal)
         case .priced, .hidden:
             bumpButton.isHidden = featureFlags.bumpUpImprovementBanner.isActive
+            bumpButtonWidthConstraint.isActive = !featureFlags.bumpUpImprovementBanner.isActive
             waitingTime = info.maxCountdown
             if let price = info.price {
                 bumpButton.setTitle(price, for: .normal)
@@ -153,7 +156,8 @@ class BumpUpBanner: UIView {
                 bumpButton.setTitle(LGLocalizedString.bumpUpBannerFreeButtonTitle, for: .normal)
             }
         case .restore:
-            bumpButton.isHidden = !featureFlags.bumpUpImprovementBanner.isActive
+            bumpButton.isHidden = false
+            bumpButtonWidthConstraint.isActive = true
             waitingTime = info.maxCountdown
             bumpButton.setTitle(LGLocalizedString.commonErrorRetryButton, for: .normal)
         }
@@ -234,10 +238,18 @@ class BumpUpBanner: UIView {
                 strongSelf.timeLabelText.value = Int(secondsLeft).secondsToCountdownFormat()
                 strongSelf.timeLabelRightMarginConstraint.constant = -Metrics.shortMargin
                 strongSelf.timeLabelWidthConstraint.constant = BumpUpBanner.timeLabelWidth
+                if strongSelf.featureFlags.bumpUpImprovementBanner.isActive || strongSelf.type == .restore {
+                    strongSelf.textContainerCenterConstraint.isActive = false
+                }
             } else {
                 strongSelf.timeLabelText.value = nil
                 strongSelf.timeLabelRightMarginConstraint.constant = 0
                 strongSelf.timeLabelWidthConstraint.constant = 0
+                if strongSelf.type == .restore {
+                    strongSelf.textContainerCenterConstraint.isActive = false
+                } else if strongSelf.featureFlags.bumpUpImprovementBanner.isActive {
+                    strongSelf.textContainerCenterConstraint.isActive = true
+                }
             }
             strongSelf.descriptionLabelText.value = localizedText
             strongSelf.descriptionLabel.font = descriptionFont
@@ -306,10 +318,7 @@ class BumpUpBanner: UIView {
         timeLabel.layout().width(BumpUpBanner.timeLabelWidth, relatedBy: .greaterThanOrEqual, constraintBlock: { [weak self] in
             self?.timeLabelWidthConstraint = $0
         })
-        timeLabel.layout(with: improvedTextContainerView).right(to: .left,
-                                                                by: -Metrics.shortMargin,
-                                                                relatedBy: .greaterThanOrEqual,
-                                                                constraintBlock: { [weak self] in
+        timeLabel.layout(with: improvedTextContainerView).right(to: .left, by: -Metrics.shortMargin, constraintBlock: { [weak self] in
             self?.timeLabelRightMarginConstraint = $0
         })
         timeLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
@@ -317,28 +326,35 @@ class BumpUpBanner: UIView {
         improvedTextContainerView.layout(with: containerView).top()
         improvedTextContainerView.layout(with: containerView).bottom()
         if featureFlags.bumpUpImprovementBanner.isActive {
-              improvedTextContainerView.layout(with: containerView).centerX()
+            improvedTextContainerView.layout(with: containerView).centerX(constraintBlock: { [weak self] in
+                self?.textContainerCenterConstraint = $0
+            })
         }
         improvedTextContainerView.layout(with: bumpButton).right(to: .left, by: -10, relatedBy: .lessThanOrEqual)
+        improvedTextContainerView.setContentHuggingPriority(UILayoutPriorityDefaultLow, for: .horizontal)
+
 
         textIconImageView.layout().width(BumpUpBanner.iconSize, constraintBlock: { [weak self] in
             self?.textIconWidthConstraint = $0
         }).height(BumpUpBanner.iconSize)
         textIconImageView.layout(with: improvedTextContainerView).left()
         textIconImageView.layout(with: improvedTextContainerView).centerY()
-        textIconImageView.layout(with: descriptionLabel).right(to: .left, by: -Metrics.shortMargin, constraintBlock: { [weak self] in
+        textIconImageView.layout(with: descriptionLabel).right(to: .left, by: -Metrics.shortMargin, constraintBlock:{ [weak self] in
             self?.textIconLeftMarginConstraint = $0
         })
 
         descriptionLabel.layout(with: improvedTextContainerView).top()
         descriptionLabel.layout(with: improvedTextContainerView).bottom()
         descriptionLabel.layout(with: improvedTextContainerView).right()
-        descriptionLabel.setContentHuggingPriority(UILayoutPriorityDefaultLow, for: .horizontal)
+        let huggingPriority: UILayoutPriority = featureFlags.bumpUpImprovementBanner.isActive ? UILayoutPriorityRequired : UILayoutPriorityDefaultLow
+        descriptionLabel.setContentHuggingPriority(huggingPriority, for: .horizontal)
+        
 
         bumpButton.layout(with: containerView).top(by: 10).bottom(by: -10).right(by: -15)
-        bumpButton.layout().width(BumpUpBanner.timeLabelWidth, relatedBy: .greaterThanOrEqual)
+        bumpButton.layout().width(BumpUpBanner.timeLabelWidth, relatedBy: .greaterThanOrEqual, constraintBlock: { [weak self] in
+            self?.bumpButtonWidthConstraint = $0
+        })
         bumpButton.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
-        
     }
 
     private func updateIconsConstraints() {
@@ -350,7 +366,7 @@ class BumpUpBanner: UIView {
         leftIconLeftMarginConstraint.constant = leftIconLeftMargin
 
         let textIconWidth: CGFloat = textIconImageView.image != nil ? BumpUpBanner.iconSize : 0
-        let textIconLeftMargin: CGFloat = textIconImageView.image != nil ? BumpUpBanner.iconLeftMargin : 0
+        let textIconLeftMargin: CGFloat = textIconImageView.image != nil ? -Metrics.shortMargin : 0
 
         textIconWidthConstraint.constant = textIconWidth
         textIconLeftMarginConstraint.constant = textIconLeftMargin
