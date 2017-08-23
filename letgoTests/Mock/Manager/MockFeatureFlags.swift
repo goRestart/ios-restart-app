@@ -23,14 +23,12 @@ class MockFeatureFlags: FeatureFlaggeable {
     var surveyEnabled: Bool = false
 
     var websocketChat: Bool = false
-    var userReviews: Bool = false
     var captchaTransparent: Bool = false
     var passiveBuyersShowKeyboard: Bool = false
     var freeBumpUpEnabled: Bool = false
     var pricedBumpUpEnabled: Bool = false
     var productDetailNextRelated: Bool = false
     var newMarkAsSoldFlow: Bool = false
-    var editLocationBubble: EditLocationBubble = .inactive
     var newCarsMultiRequesterEnabled: Bool = false
     var newCarouselNavigationEnabled: Bool = false
     var newOnboardingPhase1: Bool = false
@@ -38,8 +36,10 @@ class MockFeatureFlags: FeatureFlaggeable {
     var inAppRatingIOS10: Bool = false
     var suggestedSearches: SuggestedSearches = .control
     var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed = .control
+    var superKeywordsOnOnboarding: SuperKeywordsOnOnboarding = .control
     var copiesImprovementOnboarding: CopiesImprovementOnboarding = .control
     var bumpUpImprovementBanner: BumpUpImprovementBanner = .control
+    var openGalleryInPosting: OpenGalleryInPosting = .control
     var tweaksCarPostingFlow: TweaksCarPostingFlow = .control
     
     // Country dependant features

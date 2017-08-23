@@ -91,8 +91,8 @@ extension TabCoordinator: TabNavigator {
         appNavigator?.openHome()
     }
 
-    func openSell(_ source: PostingSource) {
-        appNavigator?.openSell(source)
+    func openSell(source: PostingSource) {
+        appNavigator?.openSell(source: source)
     }
 
     func openAppRating(_ source: EventParameterRatingSource) {
@@ -180,18 +180,29 @@ fileprivate extension TabCoordinator {
                                       actionOnFirstAppear: actionOnFirstAppear)
                 }
             } else if let error = result.error {
-                let message: String
                 switch error {
                 case .network:
-                    message = LGLocalizedString.commonErrorConnectionFailed
-                case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError,
+                    self?.navigationController.dismissLoadingMessageAlert {
+                        self?.navigationController.showAutoFadingOutMessageAlert(LGLocalizedString.commonErrorConnectionFailed)
+                    }
+                case .internalError, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError,
                      .wsChatError:
-                    message = LGLocalizedString.commonProductNotAvailable
+                    self?.navigationController.dismissLoadingMessageAlert {
+                        self?.navigationController.showAutoFadingOutMessageAlert(LGLocalizedString.commonProductNotAvailable)
+                    }
+                case .notFound:
+                    let relatedRequester = RelatedProductListRequester(productId: listingId,
+                                                                       itemsPerPage: Constants.numProductsPerPageDefault)
+                    relatedRequester.retrieveFirstPage { result in
+                        self?.navigationController.dismissLoadingMessageAlert {
+                            if let value = result.listingsResult.value, !value.isEmpty {
+                                self?.openRelatedProductsForNonExistentListing(requester: relatedRequester, listings: value)
+                            }
+                            self?.navigationController.showAutoFadingOutMessageAlert(LGLocalizedString.commonProductNotAvailable)
+                        }
+                    }
                 }
-                self?.navigationController.dismissLoadingMessageAlert {
-                    self?.navigationController.showAutoFadingOutMessageAlert(message)
-                    self?.trackProductNotAvailable(source: source, repositoryError: error)
-                }
+                self?.trackProductNotAvailable(source: source, repositoryError: error)
             }
         }
     }
@@ -249,7 +260,7 @@ fileprivate extension TabCoordinator {
     func openListing(chatConversation: ChatConversation, source: EventParameterProductVisitSource) {
         guard let localProduct = LocalProduct(chatConversation: chatConversation, myUser: myUserRepository.myUser),
             let productId = localProduct.objectId else { return }
-        let relatedRequester = RelatedProductListRequester(productId: productId,  itemsPerPage: Constants.numProductsPerPageDefault)
+        let relatedRequester = RelatedProductListRequester(productId: productId, itemsPerPage: Constants.numProductsPerPageDefault)
         let filteredRequester = FilteredProductListRequester( itemsPerPage: Constants.numProductsPerPageDefault, offset: 0)
         let requester = ProductListMultiRequester(requesters: [relatedRequester, filteredRequester])
         let vm = ProductCarouselViewModel(listing: .product(localProduct), productListRequester: requester,
@@ -385,6 +396,18 @@ fileprivate extension TabCoordinator {
         }
         navigationController.showAutoFadingOutMessageAlert(message)
     }
+
+
+    // MARK: Private methods
+
+    private func openRelatedProductsForNonExistentListing(requester: ProductListRequester, listings: [Listing]) {
+        let simpleRelatedListingsVM = SimpleProductsViewModel(requester: requester,
+                                                              listings: listings,
+                                                              productVisitSource: .notifications)
+        simpleRelatedListingsVM.navigator = self
+        let simpleRelatedListingsVC = SimpleProductsViewController(viewModel: simpleRelatedListingsVM)
+        navigationController.pushViewController(simpleRelatedListingsVC, animated: true)
+    }
 }
 
 
@@ -411,7 +434,7 @@ extension TabCoordinator: ProductDetailNavigator {
         closeProductDetail()
         let action = UIAction(interface: .button(LGLocalizedString.productDeletePostButtonTitle,
                                                  .primary(fontSize: .medium)), action: { [weak self] in
-                                                    self?.openSell(.deleteProduct)
+                                                    self?.openSell(source: .deleteProduct)
             }, accessibilityId: .postDeleteAlertButton)
         navigationController.showAlertWithTitle(LGLocalizedString.productDeletePostTitle,
                                                 text: LGLocalizedString.productDeletePostSubtitle,

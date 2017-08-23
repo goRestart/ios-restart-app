@@ -81,12 +81,6 @@ class FeatureFlagsSpec: QuickSpec {
                 it("saves websocket ab test value in dao") {
                     expect(dao.websocketChatEnabled) == abTests.websocketChat.value
                 }
-                it("saves edit location bubble ab test value in dao") {
-                    expect(dao.editLocationBubble) == EditLocationBubble.fromPosition(abTests.editLocationBubble.value)
-                }
-                it("returns edit location bubble ab test dao value") {
-                    expect(sut.editLocationBubble) == dao.editLocationBubble
-                }
             }
         }
     }

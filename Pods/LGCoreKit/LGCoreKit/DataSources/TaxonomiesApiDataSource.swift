@@ -32,6 +32,15 @@ final class TaxonomiesApiDataSource: TaxonomiesDataSource {
         let request = TaxonomiesRouter.index(params: params)
         apiClient.request(request, decoder: TaxonomiesApiDataSource.decoderArray, completion: completion)
     }
+    
+    func indexOnboarding(countryCode: String, locale: Locale?, completion: TaxonomiesDataSourceCompletion?) {
+        var params: [String: Any] = ["country_code" : countryCode]
+        if let localeId = locale?.identifier {
+            params["locale"] = localeId
+        }
+        let request = TaxonomiesRouter.indexOnboarding(params: params)
+        apiClient.request(request, decoder: TaxonomiesApiDataSource.decoderArray, completion: completion)
+    }
 
 
     // MARK: - Decoders

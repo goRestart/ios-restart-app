@@ -17,7 +17,10 @@ struct UserDefaultsUser {
     static let ratingAlreadyRatedDefaultValue = false
     static let ratingRemindMeLaterDateDefaultValue: Date? = nil
     static let postProductLastGalleryAlbumSelectedDefaultValue: String? = nil
-    static let postProductLastTabSelectedDefaultValue = 1
+    // ABIOS-2879: when removing this AB test we should set 0 or 1 and remove this non-injected FeatureFlags ref
+    static var postProductLastTabSelectedDefaultValue: Int {
+        return FeatureFlags.sharedInstance.openGalleryInPosting == .openGallery ? 0 : 1
+    }
     static let postProductPostedPreviouslyDefaultValue = false
     static let trackingProductSellComplete24hTrackedDefaultValue = false
     static let shouldShowExpressChatDefaultValue = true
