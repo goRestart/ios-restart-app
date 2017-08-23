@@ -151,7 +151,7 @@ class EditLocationViewModel: BaseViewModel {
     }
 
     var shouldShowDistanceSlider: Bool {
-        return mode == .quickFilterLocation && featureFlags.editLocationBubble == .map
+        return mode == .quickFilterLocation
     }
     
     var shouldShowCustomNavigationBar: Bool {
