@@ -20,9 +20,9 @@
 "bump_up_banner_free_button_title" = "Destacar";
 "bump_up_banner_free_text" = "Destaca gratis para vender más rápido";
 "bump_up_banner_pay_text" = "Destaca para vender más rápido";
-"bump_up_banner_pay_text_improvement" = "Sell faster now";
+"bump_up_banner_pay_text_improvement" = "Vender más rápido";
 "bump_up_banner_wait_text" = "para destacar de nuevo";
-"bump_up_banner_wait_text_improvement" = "to feature again";
+"bump_up_banner_wait_text_improvement" = "para destacar de nuevo";
 "bump_up_error_bump_generic" = "Se ha producido un error al destacar tu producto. Por favor, inténtalo de nuevo.";
 "bump_up_error_bump_token" = "Tu pago ha sido procesado pero tu artículo no ha sido destacado.";
 "bump_up_error_payment_failed" = "No ha sido posible conectar con la App Store. Tu pago no ha sido procesado. Inténtalo de nuevo.";
