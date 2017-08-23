@@ -238,7 +238,7 @@ class BumpUpBanner: UIView {
                 strongSelf.timeLabelText.value = Int(secondsLeft).secondsToCountdownFormat()
                 strongSelf.timeLabelRightMarginConstraint.constant = -Metrics.shortMargin
                 strongSelf.timeLabelWidthConstraint.constant = BumpUpBanner.timeLabelWidth
-                if strongSelf.featureFlags.bumpUpImprovementBanner.isActive || strongSelf.type == .restore{
+                if strongSelf.featureFlags.bumpUpImprovementBanner.isActive || strongSelf.type == .restore {
                     strongSelf.textContainerCenterConstraint.isActive = false
                 }
             } else {
@@ -318,8 +318,7 @@ class BumpUpBanner: UIView {
         timeLabel.layout().width(BumpUpBanner.timeLabelWidth, relatedBy: .greaterThanOrEqual, constraintBlock: { [weak self] in
             self?.timeLabelWidthConstraint = $0
         })
-
-        timeLabel.layout(with: improvedTextContainerView).trailing(to: .leading, by: -Metrics.shortMargin, constraintBlock: { [weak self] in
+        timeLabel.layout(with: improvedTextContainerView).right(to: .left, by: -Metrics.shortMargin, constraintBlock: { [weak self] in
             self?.timeLabelRightMarginConstraint = $0
         })
         timeLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
@@ -331,7 +330,7 @@ class BumpUpBanner: UIView {
                 self?.textContainerCenterConstraint = $0
             })
         }
-        improvedTextContainerView.layout(with: bumpButton).trailing(to: .leading, by: -10, relatedBy: .lessThanOrEqual)
+        improvedTextContainerView.layout(with: bumpButton).right(to: .left, by: -10, relatedBy: .lessThanOrEqual)
         improvedTextContainerView.setContentHuggingPriority(UILayoutPriorityDefaultLow, for: .horizontal)
 
 
@@ -340,7 +339,7 @@ class BumpUpBanner: UIView {
         }).height(BumpUpBanner.iconSize)
         textIconImageView.layout(with: improvedTextContainerView).left()
         textIconImageView.layout(with: improvedTextContainerView).centerY()
-        textIconImageView.layout(with: descriptionLabel).trailing(to: .leading, by: -Metrics.shortMargin, constraintBlock:{ [weak self] in
+        textIconImageView.layout(with: descriptionLabel).right(to: .left, by: -Metrics.shortMargin, constraintBlock:{ [weak self] in
             self?.textIconLeftMarginConstraint = $0
         })
 
