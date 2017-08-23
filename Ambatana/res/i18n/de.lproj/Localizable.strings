@@ -20,11 +20,11 @@
 "bump_up_banner_free_button_title" = "Hochholen";
 "bump_up_banner_free_text" = "Kostenlos hochholen, um schneller zu verkaufen";
 "bump_up_banner_pay_text" = "Hochholen, um schneller zu verkaufen";
-"bump_up_banner_pay_text_improvement" = "Sell faster now";
-"bump_up_banner_wait_text" = "um es wieder hochzuholen";
-"bump_up_banner_wait_text_improvement" = "to feature again";
+"bump_up_banner_pay_text_improvement" = "Jetzt schneller verkaufen";
+"bump_up_banner_wait_text" = "um es wieder zu empfehlen";
+"bump_up_banner_wait_text_improvement" = "um es wieder zu empfehlen";
 "bump_up_error_bump_generic" = "Wir konnten dein Produkt nicht nach oben holen. Bitte versuche es erneut.";
-"bump_up_error_bump_token" = "Deine Zahlung wurde verarbeitet, aber das Produkt wurde noch nicht nach oben geholt.";
+"bump_up_error_bump_token" = "Deine Zahlung wurde verarbeitet, aber das Produkt wurde noch nicht empfohlen.";
 "bump_up_error_payment_failed" = "Es konnte keine Verbindung zum App Store hergestellt werden. Deine Zahlung wurde nicht verarbeitet. Bitte versuche es erneut.";
 "bump_up_free_success" = "Ganz oben! Hole dein Angebot nach oben und mache es damit noch sichtbarer.";
 "bump_up_not_allowed_alert_contact_button" = "Schreib uns";

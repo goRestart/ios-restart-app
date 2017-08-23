@@ -20,9 +20,9 @@
 "bump_up_banner_free_button_title" = "Đẩy lên";
 "bump_up_banner_free_text" = "Đẩy lên miễn phí để bán nhanh hơn";
 "bump_up_banner_pay_text" = "Đẩy lên để bán nhanh hơn";
-"bump_up_banner_pay_text_improvement" = "Sell faster now";
-"bump_up_banner_wait_text" = "để đẩy lên lại";
-"bump_up_banner_wait_text_improvement" = "to feature again";
+"bump_up_banner_pay_text_improvement" = "Bán nhanh hơn bây giờ";
+"bump_up_banner_wait_text" = "để làm nổi bật lại";
+"bump_up_banner_wait_text_improvement" = "để làm nổi bật lại";
 "bump_up_error_bump_generic" = "Có lỗi trong khi đẩy sản phẩm của bạn lên. Xin vui lòng thử lại.";
 "bump_up_error_bump_token" = "Thanh toán của bạn đã được tiến hành nhưng sản phẩm chưa được đẩy lên.";
 "bump_up_error_payment_failed" = "Không thể kết nối với Cửa hàng của Ứng dụng. Thanh toán của bạn chưa được tiến hành. Xin vui lòng thử lại.";

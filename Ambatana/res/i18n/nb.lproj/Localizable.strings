@@ -22,7 +22,7 @@
 "bump_up_banner_pay_text" = "Promoter ditt produkt for et raskere salg";
 "bump_up_banner_pay_text_improvement" = "Sell faster now";
 "bump_up_banner_wait_text" = "for å promotere ditt produkt igjen";
-"bump_up_banner_wait_text_improvement" = "to feature again";
+"bump_up_banner_wait_text_improvement" = "for å promotere ditt produkt igjen";
 "bump_up_error_bump_generic" = "En feil oppstod ved promotering av produktet ditt. Vennligst prøv igjen.";
 "bump_up_error_bump_token" = "Din betaling er behandlet, men ditt produkt er ikke promotert enda.";
 "bump_up_error_payment_failed" = "Kunne ikke koble til App Store. Din betaling har ikke blitt prosessert. Vennligst prøv igjen.";

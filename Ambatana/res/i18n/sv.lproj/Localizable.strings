@@ -20,9 +20,9 @@
 "bump_up_banner_free_button_title" = "Puffa uppåt";
 "bump_up_banner_free_text" = "Puffa uppåt gratis för att sälja snabbare";
 "bump_up_banner_pay_text" = "Puffa uppåt för att sälja snabbare";
-"bump_up_banner_pay_text_improvement" = "Sell faster now";
-"bump_up_banner_wait_text" = "till nästa puff";
-"bump_up_banner_wait_text_improvement" = "to feature again";
+"bump_up_banner_pay_text_improvement" = "Sälj snabbare nu";
+"bump_up_banner_wait_text" = "till nästa topplistning";
+"bump_up_banner_wait_text_improvement" = "till nästa topplistning";
 "bump_up_error_bump_generic" = "Ett fel uppstod när din produkt skulle puffas uppåt. Vänligen försök igen.";
 "bump_up_error_bump_token" = "Din betalning har genomförts men din produkt har ännu inte lagts upp.";
 "bump_up_error_payment_failed" = "Anslutningen till App Store misslyckades. Din betalning har inte genomförts. Vänligen försök igen.";
