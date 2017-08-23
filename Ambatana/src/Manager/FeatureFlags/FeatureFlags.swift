@@ -41,6 +41,7 @@ protocol FeatureFlaggeable: class {
     var bumpUpImprovementBanner: BumpUpImprovementBanner { get }
     var openGalleryInPosting: OpenGalleryInPosting { get }
     var tweaksCarPostingFlow: TweaksCarPostingFlow { get }
+    var userReviewsReportEnabled: Bool { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -92,7 +93,6 @@ extension TweaksCarPostingFlow {
 
 
 class FeatureFlags: FeatureFlaggeable {
-
     static let sharedInstance: FeatureFlags = FeatureFlags()
     
     let websocketChat: Bool
@@ -303,6 +303,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.tweaksCarPostingFlow
         }
         return TweaksCarPostingFlow.fromPosition(abTests.tweaksCarPostingFlow.value)
+    }
+    
+    var userReviewsReportEnabled: Bool {
+        if Bumper.enabled {
+            return Bumper.userReviewsReportEnabled
+        }
+        return abTests.userReviewsReportEnabled.value
     }
     
 

@@ -109,5 +109,10 @@
         "name": "TweaksCarPostingFlow",
         "values": ["control", "baseline", "active"],
         "description": "car posting summary only at the end"
+    },
+    {
+        "name": "UserReviewsReportEnabled",
+        "values": ["no", "yes"],
+        "description": "User reviews report enabled"
     }
 ]
