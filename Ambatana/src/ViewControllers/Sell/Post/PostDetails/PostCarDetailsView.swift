@@ -9,9 +9,18 @@
 import UIKit
 import RxSwift
 
-enum PostCarDetailState {
+enum PostCarDetailState: Equatable {
     case selectDetail
     case selectDetailValue(forDetail: CarDetailType)
+    
+    var isSummary: Bool {
+        switch self {
+        case .selectDetail:
+            return true
+        case .selectDetailValue:
+            return false
+        }
+    }
 }
 
 func ==(lhs: PostCarDetailState, rhs: PostCarDetailState) -> Bool {
@@ -40,21 +49,23 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
     let makeRowView = PostCategoryDetailRowView(withTitle: LGLocalizedString.postCategoryDetailCarMake)
     let modelRowView = PostCategoryDetailRowView(withTitle: LGLocalizedString.postCategoryDetailCarModel)
     let yearRowView = PostCategoryDetailRowView(withTitle: LGLocalizedString.postCategoryDetailCarYear)
-    let priceRowView = PostCategoryDetailRowView(withTitle: "", type: .textEntryRow)
     let doneButton = UIButton(type: .custom)
-    private let priceRowEnabled: Bool
     
     private var progressTopConstraint: NSLayoutConstraint = NSLayoutConstraint()
     private static var progressTopConstraintConstantSelectDetail = Metrics.screenHeight/3.5
     
-    var state: PostCarDetailState = .selectDetail
+    var state: PostCarDetailState = .selectDetail {
+        willSet {
+            previousState = state
+        }
+    }
+    var previousState: PostCarDetailState?
     
     let tableView = CategoryDetailTableView(withStyle: .lightContent)
     
     // MARK: - Lifecycle
 
-    init(withPriceRow priceRowEnabled: Bool) {
-        self.priceRowEnabled = priceRowEnabled
+    init(shouldShowSummaryAfter: Bool, initialValues: [CarInfoWrapper]) {
         
         super.init(frame: CGRect.zero)
         
@@ -64,6 +75,9 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
         let gesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         gesture.delegate = self
         contentView.addGestureRecognizer(gesture)
+        if shouldShowSummaryAfter {
+            showSelectDetailValue(forDetail: .make, values: initialValues, selectedValueIndex: nil)
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -119,9 +133,6 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
         descriptionLabel.text = LGLocalizedString.postCategoryDetailsDescription
         descriptionLabel.numberOfLines = 0
         
-        priceRowView.isHidden = !priceRowEnabled
-        priceRowView.placeholder = LGLocalizedString.productNegotiablePrice
-        
         doneButton.setStyle(.primary(fontSize: .big))
         doneButton.setTitle(LGLocalizedString.productPostDone, for: .normal)
         doneButton.isEnabled = false
@@ -135,7 +146,7 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
         let navigationSubviews = [navigationBackButton, navigationTitle, navigationMakeButton, navigationModelButton,
                                   navigationYearButton, navigationOkButton]
         let contentSubviews = [descriptionLabel, progressView, makeRowView,
-                               modelRowView, yearRowView, priceRowView, doneButton, tableView]
+                               modelRowView, yearRowView, doneButton, tableView]
         setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: rootViews)
         setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: navigationSubviews)
         setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: contentSubviews)
@@ -222,22 +233,8 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
         yearRowView.layout(with: contentView)
             .leadingMargin()
             .trailingMargin()
-        
-        if priceRowEnabled {
-            priceRowView.layout(with: yearRowView)
-                .below()
-            priceRowView.layout()
-                .height(50)
-            priceRowView.layout(with: contentView)
-                .leadingMargin()
-                .trailingMargin()
-            doneButton.layout(with: priceRowView)
-                .below(by: Metrics.margin)
-        } else {
-            doneButton.layout(with: yearRowView)
-                .below(by: Metrics.margin)
-        }
-        
+        doneButton.layout(with: yearRowView)
+            .below(by: Metrics.margin)
         doneButton.layout()
             .height(Metrics.buttonHeight)
         doneButton.layout(with: contentView)
@@ -272,10 +269,14 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
             doneButton.isEnabled = true
             modelRowView.isEnabled = true
             yearRowView.isEnabled = true
+            navigationModelButton.isEnabled = true
+            navigationYearButton.isEnabled = true
         } else {
             doneButton.isEnabled = false
             modelRowView.isEnabled = false
             yearRowView.isEnabled = false
+            navigationModelButton.isEnabled = false
+            navigationYearButton.isEnabled = false
         }
         navigationMakeButton.setTitle(buttonTitle, for: .normal)
         makeRowView.value = make
@@ -301,11 +302,6 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
     
     func hideKeyboard() {
         tableView.hideKeyboard()
-        priceRowView.hideKeyboard()
-    }
-    
-    func setCurrencySymbol(_ symbol: String?) {
-        priceRowView.title = symbol
     }
     
     func updateProgress(withPercentage percentage: Float) {
@@ -336,15 +332,10 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
                                  addOtherString: addOtherString)
     }
     
-    func backButtonHidden(_ hidden: Bool) {
-        navigationBackButton.isHidden = hidden
-    }
-    
     // MARK: UI Actions
     
     dynamic func navigationButtonOkPressed() {
         tableView.hideKeyboard()
-        priceRowView.hideKeyboard()
         showSelectDetail()
     }
     
@@ -360,7 +351,7 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
     }
     
     private func selectDetailVisibleViews() -> [UIView] {
-        return [navigationTitle, descriptionLabel, makeRowView, modelRowView, yearRowView, priceRowView, doneButton]
+        return [navigationTitle, descriptionLabel, makeRowView, modelRowView, yearRowView, doneButton]
     }
     
     private func selectDetailValueVisibleViews() -> [UIView] {

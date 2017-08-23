@@ -16,7 +16,7 @@ enum RateBuyersSection: Int {
 
 class RateBuyersViewController: BaseViewController, RateBuyersViewModelDelegate {
     
-    static fileprivate let headerTableViewHeight: CGFloat = 10
+    static fileprivate let headerTableViewHeight: CGFloat = 200
     static fileprivate let numberOfSections = 2
     static fileprivate let numberOfExtraButtons = 2
     static fileprivate let topContentInsetTableView: CGFloat = 80
@@ -66,7 +66,6 @@ class RateBuyersViewController: BaseViewController, RateBuyersViewModelDelegate 
                                               bottom: Metrics.shortMargin,
                                               right: 0)
         tableView.sectionHeaderHeight = UITableViewAutomaticDimension
-        tableView.estimatedSectionHeaderHeight = RateBuyersViewController.headerTableViewHeight
 
         let cellNib = UINib(nibName: PossibleBuyerCell.reusableID, bundle: nil)
         tableView.register(cellNib, forCellReuseIdentifier: PossibleBuyerCell.reusableID)
@@ -152,10 +151,18 @@ extension RateBuyersViewController: UITableViewDelegate, UITableViewDataSource {
             view.backgroundColor = UIColor.grayBackground
             return view
         }
-       
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+        guard let rateBuyersSection = RateBuyersSection(rawValue: section) else { return 0 }
+        switch rateBuyersSection {
+        case .possibleBuyers:
+            return RateBuyersViewController.headerTableViewHeight
+        case .otherActions:
+            return 0
+        }
     }
 
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let rateBuyersSection = RateBuyersSection(rawValue: indexPath.section) else { return }
         switch rateBuyersSection {

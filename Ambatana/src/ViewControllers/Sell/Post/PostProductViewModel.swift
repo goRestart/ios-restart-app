@@ -66,6 +66,10 @@ class PostProductViewModel: BaseViewModel {
     let selectedDetail = Variable<CategoryDetailSelectedInfo?>(nil)
     var selectedCarAttributes: CarAttributes = CarAttributes.emptyCarAttributes()
     
+    var shouldShowSummaryAfter: Bool {
+        return featureFlags.tweaksCarPostingFlow.isActive
+    }
+    
     fileprivate let disposeBag: DisposeBag
 
     
@@ -190,14 +194,6 @@ class PostProductViewModel: BaseViewModel {
 
 extension PostProductViewModel {
     
-    func shouldShowBackButtonInCarDetails() -> Bool {
-        return featureFlags.carsCategoryAfterPicture
-    }
-    
-    func shouldAddPriceRowInCarDetails() -> Bool {
-        return !featureFlags.carsCategoryAfterPicture
-    }
-    
     fileprivate var carMakes: [CarsMake] {
         return carsInfoRepository.retrieveCarsMakes()
     }
@@ -275,12 +271,7 @@ extension PostProductViewModel {
     }
     
     func postCarDetailDone() {
-        if !featureFlags.carsCategoryAfterPicture {
-            state.value = state.value.updating(price: postDetailViewModel.productPrice, carInfo: selectedCarAttributes)
-        } else {
-            state.value = state.value.updating(carInfo: selectedCarAttributes)
-        }
-        
+        state.value = state.value.updating(carInfo: selectedCarAttributes)
     }
     
     // MARK: - Setup rx

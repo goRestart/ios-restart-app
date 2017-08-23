@@ -89,11 +89,8 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         
         self.priceView = PostProductDetailPriceView(viewModel: viewModel.postDetailViewModel)
         self.categorySelectionView = PostCategorySelectionView()
-        if viewModel.shouldAddPriceRowInCarDetails() {
-            self.carDetailsView = PostCarDetailsView(withPriceRow: true)
-        } else {
-            self.carDetailsView = PostCarDetailsView(withPriceRow: false)
-        }
+        self.carDetailsView = PostCarDetailsView(shouldShowSummaryAfter: viewModel.shouldShowSummaryAfter,
+                                                 initialValues: viewModel.carInfo(forDetail: .make).carInfoWrappers)
         super.init(viewModel: viewModel, nibName: "PostProductViewController",
                    statusBarStyle: UIApplication.shared.statusBarStyle)
         modalPresentationStyle = .overCurrentContext
@@ -131,6 +128,13 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         setStatusBarHidden(true)
         cameraView.active = true
         galleryView.active = true
+    }
+    
+    override func viewWillAppearFromBackground(_ fromBackground: Bool) {
+        super.viewWillAppearFromBackground(fromBackground)
+        if viewModel.state.value.isLoading {
+            customLoadingView.startAnimating()
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -185,7 +189,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
 
         galleryView.delegate = self
         galleryView.usePhotoButtonText = viewModel.usePhotoButtonText
-        galleryView.collectionViewBottomInset = Metrics.margin + Metrics.sellCameraIconMaxSide
+        galleryView.collectionViewBottomInset = Metrics.margin + PostProductRedCamButtonFooter.cameraIconSide
         
         detailsContainerBottomConstraint.constant = 0
         
@@ -229,8 +233,6 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
             .bottom()
         
         carDetailsView.updateProgress(withPercentage: viewModel.currentCarDetailsProgress)
-        carDetailsView.setCurrencySymbol(viewModel.postDetailViewModel.currencySymbol)
-        carDetailsView.backButtonHidden(!viewModel.shouldShowBackButtonInCarDetails())
         
         carDetailsView.navigationBackButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
             self?.carDetailsNavigationBackButtonPressed()
@@ -279,11 +281,6 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
             }
             strongSelf.carDetailsView.updateProgress(withPercentage: strongSelf.viewModel.currentCarDetailsProgress)
         }.addDisposableTo(disposeBag)
-        
-        carDetailsView.priceRowView.textInput.asObservable().subscribeNext { [weak self] (text) in
-            guard let text = text else { return }
-            self?.viewModel.postDetailViewModel.price.value = text
-        }.addDisposableTo(disposeBag)
     }
     
     private func setupFooter() {
@@ -294,19 +291,13 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
             .trailing()
             .bottom()
         
-        footer.galleryButton?.rx.tap.asObservable().subscribeNext { [weak self] _ in
+        footer.galleryButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
             self?.galleryButtonPressed()
         }.addDisposableTo(disposeBag)
         cameraView.takePhotoEnabled.asObservable().bindTo(footer.cameraButton.rx.isEnabled).addDisposableTo(disposeBag)
-        if let galleryButton = footer.galleryButton {
-            cameraView.takePhotoEnabled.asObservable().bindTo(galleryButton.rx.isEnabled).addDisposableTo(disposeBag)
-        }
+        cameraView.takePhotoEnabled.asObservable().bindTo(footer.galleryButton.rx.isEnabled).addDisposableTo(disposeBag)
         footer.cameraButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
             self?.cameraButtonPressed()
-        }.addDisposableTo(disposeBag)
-        footer.postButton?.setTitle(viewModel.usePhotoButtonText, for: .normal)
-        footer.postButton?.rx.tap.asObservable().subscribeNext { [weak self] _ in
-            self?.galleryPostButtonPressed()
         }.addDisposableTo(disposeBag)
     }
 
@@ -349,13 +340,29 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
 extension PostProductViewController {
     
     dynamic func carDetailsNavigationBackButtonPressed() {
-        switch carDetailsView.state {
-        case .selectDetail, .selectDetailValue(forDetail: .make):
+        if let previousState = carDetailsView.previousState, previousState.isSummary {
             didFinishEnteringDetails()
-        case .selectDetailValue(forDetail: .model):
-            showCarMakes()
-        case .selectDetailValue(forDetail: .year):
-            showCarModels()
+        } else {
+            if viewModel.shouldShowSummaryAfter {
+                switch carDetailsView.state {
+                    case .selectDetail, .selectDetailValue(forDetail: .make):
+                    carDetailsView.hideKeyboard()
+                    viewModel.revertToPreviousStep()
+                    case .selectDetailValue(forDetail: .model):
+                    showCarMakes()
+                    case .selectDetailValue(forDetail: .year):
+                    showCarModels()
+                }
+            } else {
+                switch carDetailsView.state {
+                case .selectDetail, .selectDetailValue(forDetail: .make):
+                    didFinishEnteringDetails()
+                case .selectDetailValue(forDetail: .model):
+                    showCarMakes()
+                case .selectDetailValue(forDetail: .year):
+                    showCarModels()
+                }
+            }
         }
     }
     
@@ -414,10 +421,10 @@ extension PostProductViewController {
 // MARK: - State selection
 
 fileprivate extension PostListingState {
-    func closeButtonAlpha(carDetailsBackButtonEnabled: Bool) -> CGFloat {
+    var closeButtonAlpha: CGFloat {
         switch step {
         case .carDetailsSelection:
-            return carDetailsBackButtonEnabled ? 0 : 1
+            return 0
         case .imageSelection, .uploadingImage, .errorUpload, .detailsSelection, .categorySelection, .finished, .uploadSuccess:
             return 1
         }
@@ -538,7 +545,7 @@ extension PostProductViewController {
         }
         let updateVisibility: () -> () = { [weak self] in
             guard let strongSelf = self else { return }
-            strongSelf.closeButton.alpha = state.closeButtonAlpha(carDetailsBackButtonEnabled: strongSelf.viewModel.shouldShowBackButtonInCarDetails())
+            strongSelf.closeButton.alpha = state.closeButtonAlpha
             strongSelf.otherStepsContainer.alpha = state.isOtherStepsContainerAlpha
             strongSelf.customLoadingView.alpha = state.customLoadingViewAlpha
             strongSelf.postedInfoLabel.alpha = state.postedInfoLabelAlpha
@@ -642,8 +649,7 @@ extension PostProductViewController: PostProductGalleryViewDelegate {
     }
 
     func productGallerySelection(selection: ImageSelection) {
-            footer.cameraButton.isHidden = false
-            footer.postButton?.isHidden = true
+        footer.cameraButton.isHidden = false
     }
     
     func productGallerySwitchToCamera() {

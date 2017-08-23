@@ -91,8 +91,16 @@ struct LGLocalizedString {
 		return NSLocalizedString("bump_up_banner_pay_text", comment: "")
 	}
 
+	static var bumpUpBannerPayTextImprovement: String {
+		return NSLocalizedString("bump_up_banner_pay_text_improvement", comment: "")
+	}
+
 	static var bumpUpBannerWaitText: String {
 		return NSLocalizedString("bump_up_banner_wait_text", comment: "")
+	}
+
+	static var bumpUpBannerWaitTextImprovement: String {
+		return NSLocalizedString("bump_up_banner_wait_text_improvement", comment: "")
 	}
 
 	static var bumpUpBannerFreeButtonTitle: String {
@@ -975,6 +983,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("common_product_not_available", comment: "")
 	}
 
+	static var commonErrorLoadingListing: String {
+		return NSLocalizedString("common_error_loading_listing", comment: "")
+	}
+
 	static var commonProductSold: String {
 		return NSLocalizedString("common_product_sold", comment: "")
 	}
@@ -1189,6 +1201,78 @@ struct LGLocalizedString {
 
 	static var directAnswerGivenAwayQuestionTitle: String {
 		return NSLocalizedString("direct_answer_given_away_question_title", comment: "")
+	}
+
+	static var directAnswerStillForSaleBuyer: String {
+		return NSLocalizedString("direct_answer_still_for_sale_buyer", comment: "")
+	}
+
+	static var directAnswerPriceFirm: String {
+		return NSLocalizedString("direct_answer_price_firm", comment: "")
+	}
+
+	static var directAnswerWillingToNegotiate: String {
+		return NSLocalizedString("direct_answer_willing_to_negotiate", comment: "")
+	}
+
+	static var directAnswerHowMuchAsking: String {
+		return NSLocalizedString("direct_answer_how_much_asking", comment: "")
+	}
+
+	static var directAnswerGoodCondition: String {
+		return NSLocalizedString("direct_answer_good_condition", comment: "")
+	}
+
+	static var directAnswerDescribeCondition: String {
+		return NSLocalizedString("direct_answer_describe_condition", comment: "")
+	}
+
+	static var directAnswerWhereMeetUp: String {
+		return NSLocalizedString("direct_answer_where_meet_up", comment: "")
+	}
+
+	static var directAnswerWhereLocated: String {
+		return NSLocalizedString("direct_answer_where_located", comment: "")
+	}
+
+	static var directAnswerAvailabilityTitle: String {
+		return NSLocalizedString("direct_answer_availability_title", comment: "")
+	}
+
+	static var directAnswerPriceTitle: String {
+		return NSLocalizedString("direct_answer_price_title", comment: "")
+	}
+
+	static var directAnswerConditionTitle: String {
+		return NSLocalizedString("direct_answer_condition_title", comment: "")
+	}
+
+	static var directAnswerMeetUpTitle: String {
+		return NSLocalizedString("direct_answer_meet_up_title", comment: "")
+	}
+
+	static var directAnswerInterestedTitle: String {
+		return NSLocalizedString("direct_answer_interested_title", comment: "")
+	}
+
+	static var directAnswerNotInterestedTitle: String {
+		return NSLocalizedString("direct_answer_not_interested_title", comment: "")
+	}
+
+	static var directAnswerSoldTitle: String {
+		return NSLocalizedString("direct_answer_sold_title", comment: "")
+	}
+
+	static var directAnswerGivenAwayTitle: String {
+		return NSLocalizedString("direct_answer_given_away_title", comment: "")
+	}
+
+	static var directAnswerNegotiableTitle: String {
+		return NSLocalizedString("direct_answer_negotiable_title", comment: "")
+	}
+
+	static var directAnswerNotNegotiableTitle: String {
+		return NSLocalizedString("direct_answer_not_negotiable_title", comment: "")
 	}
 
 	static var editProductLocationAlertText: String {
@@ -1863,6 +1947,22 @@ struct LGLocalizedString {
 		return NSLocalizedString("survey_confirmation", comment: "")
 	}
 
+	static var onboardingCategoriesTitle: String {
+		return NSLocalizedString("onboarding_categories_title", comment: "")
+	}
+
+	static var onboardingCategoriesButtonTitleInitial: String {
+		return NSLocalizedString("onboarding_categories_button_title_initial", comment: "")
+	}
+
+	static var onboardingCategoriesButtonCountdown: String {
+		return NSLocalizedString("onboarding_categories_button_countdown", comment: "")
+	}
+
+	static var onboardingCategoriesButtonTitleFinish: String {
+		return NSLocalizedString("onboarding_categories_button_title_finish", comment: "")
+	}
+
 	static var onboardingDirectCameraAlertTitle: String {
 		return NSLocalizedString("onboarding_direct_camera_alert_title", comment: "")
 	}
@@ -1909,6 +2009,30 @@ struct LGLocalizedString {
 
 	static var onboardingPostingButtonC: String {
 		return NSLocalizedString("onboarding_posting_button_c", comment: "")
+	}
+
+	static var onboardingPostingImprovementBTitle: String {
+		return NSLocalizedString("onboarding_posting_improvement_b_title", comment: "")
+	}
+
+	static var onboardingPostingImprovementCTitle: String {
+		return NSLocalizedString("onboarding_posting_improvement_c_title", comment: "")
+	}
+
+	static var onboardingPostingImprovementDTitle: String {
+		return NSLocalizedString("onboarding_posting_improvement_d_title", comment: "")
+	}
+
+	static var onboardingPostingImprovementETitle: String {
+		return NSLocalizedString("onboarding_posting_improvement_e_title", comment: "")
+	}
+
+	static var onboardingPostingImprovementFTitle: String {
+		return NSLocalizedString("onboarding_posting_improvement_f_title", comment: "")
+	}
+
+	static var onboardingPostingImprovementCButton: String {
+		return NSLocalizedString("onboarding_posting_improvement_c_button", comment: "")
 	}
 
 	static var onboardingLocationPermissionsAlertTitle: String {

@@ -9,9 +9,11 @@
 import UIKit
 
 final class PostProductRedCamButtonFooter: UIView {
-    let galleryButton: UIButton? = UIButton()
+    static let galleryIconSide: CGFloat = 70
+    static let cameraIconSide: CGFloat = 84
+    
+    let galleryButton = UIButton()
     let cameraButton = UIButton()
-    let postButton: UIButton? = nil
     fileprivate var cameraButtonCenterXConstraint: NSLayoutConstraint?
     
     
@@ -33,7 +35,7 @@ final class PostProductRedCamButtonFooter: UIView {
     // MARK: - Overrides
 
     override open func point(inside point: CGPoint, with event: UIEvent?) -> Bool {       
-        return [galleryButton, cameraButton, postButton].flatMap { $0 }.reduce(false) { (result, view) -> Bool in
+        return [galleryButton, cameraButton].flatMap { $0 }.reduce(false) { (result, view) -> Bool in
             let convertedPoint = view.convert(point, from: self)
             return result || (!view.isHidden && view.point(inside: convertedPoint, with: event))
         }
@@ -45,7 +47,7 @@ final class PostProductRedCamButtonFooter: UIView {
 
 extension PostProductRedCamButtonFooter: PostProductFooter {
     func update(scroll: CGFloat) {
-        galleryButton?.alpha = scroll
+        galleryButton.alpha = scroll
         
         let rightOffset = cameraButton.frame.width/2 + Metrics.margin
         let movement = width/2 - rightOffset
@@ -58,11 +60,9 @@ extension PostProductRedCamButtonFooter: PostProductFooter {
 
 fileprivate extension PostProductRedCamButtonFooter {
     func setupUI() {
-        if let galleryButton = galleryButton {
-            galleryButton.translatesAutoresizingMaskIntoConstraints = false
-            galleryButton.setImage(#imageLiteral(resourceName: "ic_post_gallery"), for: .normal)
-            addSubview(galleryButton)
-        }
+        galleryButton.translatesAutoresizingMaskIntoConstraints = false
+        galleryButton.setImage(#imageLiteral(resourceName: "ic_post_gallery"), for: .normal)
+        addSubview(galleryButton)
         
         cameraButton.translatesAutoresizingMaskIntoConstraints = false
         cameraButton.setImage(#imageLiteral(resourceName: "ic_post_take_photo_icon"), for: .normal)
@@ -71,22 +71,23 @@ fileprivate extension PostProductRedCamButtonFooter {
     }
     
     func setupAccessibilityIds() {
-        galleryButton?.accessibilityId = .postingGalleryButton
+        galleryButton.accessibilityId = .postingGalleryButton
         cameraButton.accessibilityId = .postingPhotoButton
-        postButton?.accessibilityId = .postingFooterPostButton
     }
     
     func setupLayout() {
-        galleryButton?.layout(with: self)
+        galleryButton.layout(with: self)
             .leading()
             .top(relatedBy: .greaterThanOrEqual)
             .bottom()
-        galleryButton?.layout().width(Metrics.sellGalleryIconSide).widthProportionalToHeight()
+        galleryButton.layout()
+            .width(PostProductRedCamButtonFooter.galleryIconSide)
+            .widthProportionalToHeight()
         
         cameraButton.layout(with: self)
             .centerX(constraintBlock: { [weak self] constraint in self?.cameraButtonCenterXConstraint = constraint })
             .top(relatedBy: .greaterThanOrEqual)
             .bottom(by: -Metrics.margin)
-        cameraButton.layout().width(Metrics.sellCameraIconMaxSide).widthProportionalToHeight()
+        cameraButton.layout().width(PostProductRedCamButtonFooter.cameraIconSide).widthProportionalToHeight()
     }
 }

@@ -124,8 +124,12 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
     // MARK: FilterCarInfoYearCellDelegate
 
     func filterYearChanged(withStartYear startYear: Int?, endYear: Int?) {
-        viewModel.carYearStart = startYear
-        viewModel.carYearEnd = endYear
+        if let startYear = startYear {
+            viewModel.carYearStart = startYear
+        }
+        if let endYear = endYear {
+            viewModel.carYearEnd = endYear
+        }
     }
 
     // MARK: FilterPriceCellDelegate
@@ -190,7 +194,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
         case .sortBy:
             return viewModel.numOfSortOptions
         case .price:
-            return  viewModel.numberOfPriceRows
+            return viewModel.numberOfPriceRows
         }
     }
     
@@ -273,11 +277,12 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                 case 2:
                     // Year
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterCarInfoYearCell",
-                                                                        for: indexPath) as? FilterCarInfoYearCell else { return UICollectionViewCell() }
-                    cell.isUserInteractionEnabled = true
+                                                                        for: indexPath) as? FilterSliderYearCell else { return UICollectionViewCell() }
+                    cell.setupSlider(minimumValue: Constants.filterMinCarYear, 
+                                     maximumValue: Date().year,
+                                     minimumValueSelected: viewModel.carYearStart,
+                                     maximumValueSelected: viewModel.carYearEnd)
                     cell.delegate = self
-                    cell.titleLabel.text = LGLocalizedString.postCategoryDetailCarYear
-                    cell.drawSlider(withStartingYear: viewModel.carYearStart, endYear: viewModel.carYearEnd)
                     return cell
                 default:
                     return UICollectionViewCell()
@@ -384,24 +389,23 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
     private func setupUI(){
         // CollectionView cells
         let categoryNib = UINib(nibName: "FilterCategoryCell", bundle: nil)
-        self.collectionView.register(categoryNib, forCellWithReuseIdentifier: "FilterCategoryCell")
+        collectionView.register(categoryNib, forCellWithReuseIdentifier: "FilterCategoryCell")
         let sortByNib = UINib(nibName: "FilterSingleCheckCell", bundle: nil)
-        self.collectionView.register(sortByNib, forCellWithReuseIdentifier: "FilterSingleCheckCell")
+        collectionView.register(sortByNib, forCellWithReuseIdentifier: "FilterSingleCheckCell")
         let distanceNib = UINib(nibName: "FilterDistanceCell", bundle: nil)
-        self.collectionView.register(distanceNib, forCellWithReuseIdentifier: "FilterDistanceCell")
+        collectionView.register(distanceNib, forCellWithReuseIdentifier: "FilterDistanceCell")
         let disclosureNib = UINib(nibName: "FilterDisclosureCell", bundle: nil)
-        self.collectionView.register(disclosureNib, forCellWithReuseIdentifier: "FilterDisclosureCell")
-        let carYearNib = UINib(nibName: "FilterCarInfoYearCell", bundle: nil)
-        self.collectionView.register(carYearNib, forCellWithReuseIdentifier: "FilterCarInfoYearCell")
+        collectionView.register(disclosureNib, forCellWithReuseIdentifier: "FilterDisclosureCell")
+        collectionView.register(FilterSliderYearCell.self, forCellWithReuseIdentifier: "FilterCarInfoYearCell")
         let headerNib = UINib(nibName: "FilterHeaderCell", bundle: nil)
-        self.collectionView.register(headerNib, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader,
+        collectionView.register(headerNib, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader,
             withReuseIdentifier: "FilterHeaderCell")
         let rangePriceNib = UINib(nibName: "FilterRangePriceCell", bundle: nil)
-        self.collectionView.register(rangePriceNib, forCellWithReuseIdentifier: "FilterRangePriceCell")
+        collectionView.register(rangePriceNib, forCellWithReuseIdentifier: "FilterRangePriceCell")
         let priceNib = UINib(nibName: "FilterPriceCell", bundle: nil)
-        self.collectionView.register(priceNib, forCellWithReuseIdentifier: "FilterPriceCell")
+        collectionView.register(priceNib, forCellWithReuseIdentifier: "FilterPriceCell")
         let freeNib = UINib(nibName: "FilterFreeCell", bundle: nil)
-        self.collectionView.register(freeNib, forCellWithReuseIdentifier: "FilterFreeCell")
+        collectionView.register(freeNib, forCellWithReuseIdentifier: "FilterFreeCell")
 
         // Navbar
         setNavBarTitle(LGLocalizedString.filtersTitle)
@@ -421,7 +425,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
         categoryCellSize = CGSize(width: categoryWidth, height: 50.0)
         singleCheckCellSize = CGSize(width: screenWidth, height: 50.0)
         priceCellSize = CGSize(width: screenWidth, height: 50.0)
-        yearRangeCellSize = CGSize(width: screenWidth, height: 100.0)
+        yearRangeCellSize = CGSize(width: screenWidth, height: 90)
 
         // Rounded save button
         saveFiltersBtn.setStyle(.primary(fontSize: .medium))

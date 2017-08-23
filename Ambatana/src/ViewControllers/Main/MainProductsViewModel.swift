@@ -110,10 +110,6 @@ class MainProductsViewModel: BaseViewModel {
         var resultTags : [FilterTag] = []
         for prodCat in filters.selectedCategories {
             resultTags.append(.category(prodCat))
-            // Category 9 (.cars) tag only shown when carVerticalEnabled.
-            if prodCat == .cars && !featureFlags.carsVerticalEnabled {
-                resultTags.removeLast()
-            }
         }
         
         if let taxonomyChild = filters.selectedTaxonomyChildren.last {
@@ -957,7 +953,7 @@ extension MainProductsViewModel {
 extension MainProductsViewModel {
 
     var showCategoriesCollectionBanner: Bool {
-        return featureFlags.carsVerticalEnabled && tags.isEmpty && !listViewModel.isProductListEmpty.value
+        return tags.isEmpty && !listViewModel.isProductListEmpty.value
     }
 
     func pushPermissionsHeaderPressed() {

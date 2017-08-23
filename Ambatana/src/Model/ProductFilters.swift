@@ -109,24 +109,14 @@ struct ProductFilters {
         self.carYearEnd = carYearEnd
     }
     
-    mutating func toggleCategory(_ category: ListingCategory, carVerticalEnabled: Bool) {
+    mutating func toggleCategory(_ category: ListingCategory) {
 
         if let categoryIndex = indexForCategory(category) {
             // DESELECT
             selectedCategories.remove(at: categoryIndex)
-            if !carVerticalEnabled && category == .motorsAndAccessories {
-                // deselect .cars category too if was prevously automatically selected
-                if let categoryCarsIndex = indexForCategory(.cars) {
-                    selectedCategories.remove(at: categoryCarsIndex)
-                }
-            }
         } else {
             // SELECT
             selectedCategories = [category]
-            // with .motorsAndAccesories if carVertical is not enabled we also add .cars included to motorsAndAccessories
-            if category == .motorsAndAccessories && !carVerticalEnabled {
-                selectedCategories.append(.cars)
-            }
         }
     }
     

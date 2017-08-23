@@ -28,8 +28,6 @@ protocol FeatureFlaggeable: class {
     var freeBumpUpEnabled: Bool { get }
     var pricedBumpUpEnabled: Bool { get }
     var productDetailNextRelated: Bool { get }
-    var carsVerticalEnabled: Bool { get }
-    var carsCategoryAfterPicture: Bool { get }
     var newMarkAsSoldFlow: Bool { get }
     var editLocationBubble: EditLocationBubble { get }
     var newCarsMultiRequesterEnabled: Bool { get }
@@ -39,6 +37,9 @@ protocol FeatureFlaggeable: class {
     var inAppRatingIOS10: Bool { get }
     var suggestedSearches: SuggestedSearches { get }
     var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed { get }
+    var copiesImprovementOnboarding: CopiesImprovementOnboarding { get }
+    var bumpUpImprovementBanner: BumpUpImprovementBanner { get }
+    var tweaksCarPostingFlow: TweaksCarPostingFlow { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -56,6 +57,28 @@ extension FeatureFlaggeable {
 }
 
 extension AddSuperKeywordsOnFeed {
+    var isActive: Bool {
+        switch self {
+        case .control, .baseline:
+            return false
+        case .active:
+            return true
+        }
+    }
+}
+
+extension BumpUpImprovementBanner {
+    var isActive: Bool {
+        switch self {
+        case .control, .baseline:
+            return false
+        case .active:
+            return true
+        }
+    }
+}
+
+extension TweaksCarPostingFlow {
     var isActive: Bool {
         switch self {
         case .control, .baseline:
@@ -124,7 +147,6 @@ class FeatureFlags: FeatureFlaggeable {
     func variablesUpdated() {
         dao.save(websocketChatEnabled: abTests.websocketChat.value)
         dao.save(editLocationBubble: EditLocationBubble.fromPosition(abTests.editLocationBubble.value))
-        dao.save(carsVerticalEnabled: abTests.carsVerticalEnabled.value)
         abTests.variablesUpdated()
     }
 
@@ -191,20 +213,6 @@ class FeatureFlags: FeatureFlaggeable {
         return abTests.productDetailNextRelated.value
     }
     
-    var carsVerticalEnabled: Bool {
-        if Bumper.enabled {
-            return Bumper.carsVerticalEnabled
-        }
-        return dao.retrieveCarsVerticalEnabled() ?? abTests.carsVerticalEnabled.value
-    }
-    
-    var carsCategoryAfterPicture: Bool {
-        if Bumper.enabled {
-            return Bumper.carsCategoryAfterPicture
-        }
-        return abTests.carsCategoryAfterPicture.value
-    }
-    
     var newMarkAsSoldFlow: Bool {
         if Bumper.enabled {
             return Bumper.newMarkAsSoldFlow
@@ -268,6 +276,26 @@ class FeatureFlags: FeatureFlaggeable {
         return AddSuperKeywordsOnFeed.fromPosition(abTests.addSuperKeywordsOnFeed.value)
     }
     
+    var copiesImprovementOnboarding: CopiesImprovementOnboarding {
+        if Bumper.enabled {
+            return Bumper.copiesImprovementOnboarding
+        }
+        return CopiesImprovementOnboarding.fromPosition(abTests.copiesImprovementOnboarding.value)
+    }
+    
+    var bumpUpImprovementBanner: BumpUpImprovementBanner {
+        if Bumper.enabled {
+            return Bumper.bumpUpImprovementBanner
+        }
+        return BumpUpImprovementBanner.fromPosition(abTests.bumpUpImprovementBanner.value)
+    }
+    
+    var tweaksCarPostingFlow: TweaksCarPostingFlow {
+        if Bumper.enabled {
+            return Bumper.tweaksCarPostingFlow
+        }
+        return TweaksCarPostingFlow.fromPosition(abTests.tweaksCarPostingFlow.value)
+    }
     
     // MARK: - Country features
 

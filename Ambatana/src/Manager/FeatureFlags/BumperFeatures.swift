@@ -22,8 +22,6 @@ extension Bumper  {
         flags.append(CaptchaTransparent.self)
         flags.append(PassiveBuyersShowKeyboard.self)
         flags.append(ProductDetailNextRelated.self)
-        flags.append(CarsVerticalEnabled.self)
-        flags.append(CarsCategoryAfterPicture.self)
         flags.append(NewMarkAsSoldFlow.self)
         flags.append(EditLocationBubble.self)
         flags.append(NewCarsMultiRequesterEnabled.self)
@@ -33,6 +31,9 @@ extension Bumper  {
         flags.append(InAppRatingIOS10.self)
         flags.append(SuggestedSearches.self)
         flags.append(AddSuperKeywordsOnFeed.self)
+        flags.append(CopiesImprovementOnboarding.self)
+        flags.append(BumpUpImprovementBanner.self)
+        flags.append(TweaksCarPostingFlow.self)
         Bumper.initialize(flags)
     } 
 
@@ -81,16 +82,6 @@ extension Bumper  {
         return ProductDetailNextRelated(rawValue: value)?.asBool ?? false
     }
 
-    static var carsVerticalEnabled: Bool {
-        guard let value = Bumper.value(for: CarsVerticalEnabled.key) else { return false }
-        return CarsVerticalEnabled(rawValue: value)?.asBool ?? false
-    }
-
-    static var carsCategoryAfterPicture: Bool {
-        guard let value = Bumper.value(for: CarsCategoryAfterPicture.key) else { return false }
-        return CarsCategoryAfterPicture(rawValue: value)?.asBool ?? false
-    }
-
     static var newMarkAsSoldFlow: Bool {
         guard let value = Bumper.value(for: NewMarkAsSoldFlow.key) else { return false }
         return NewMarkAsSoldFlow(rawValue: value)?.asBool ?? false
@@ -134,6 +125,21 @@ extension Bumper  {
     static var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed {
         guard let value = Bumper.value(for: AddSuperKeywordsOnFeed.key) else { return .control }
         return AddSuperKeywordsOnFeed(rawValue: value) ?? .control 
+    }
+
+    static var copiesImprovementOnboarding: CopiesImprovementOnboarding {
+        guard let value = Bumper.value(for: CopiesImprovementOnboarding.key) else { return .control }
+        return CopiesImprovementOnboarding(rawValue: value) ?? .control 
+    }
+
+    static var bumpUpImprovementBanner: BumpUpImprovementBanner {
+        guard let value = Bumper.value(for: BumpUpImprovementBanner.key) else { return .control }
+        return BumpUpImprovementBanner(rawValue: value) ?? .control 
+    }
+
+    static var tweaksCarPostingFlow: TweaksCarPostingFlow {
+        guard let value = Bumper.value(for: TweaksCarPostingFlow.key) else { return .control }
+        return TweaksCarPostingFlow(rawValue: value) ?? .control 
     } 
 }
 
@@ -216,24 +222,6 @@ enum ProductDetailNextRelated: String, BumperFeature  {
     static var enumValues: [ProductDetailNextRelated] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Item page next item related" } 
-    var asBool: Bool { return self == .yes }
-}
-
-enum CarsVerticalEnabled: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return CarsVerticalEnabled.no.rawValue }
-    static var enumValues: [CarsVerticalEnabled] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Cars vertical enabled" } 
-    var asBool: Bool { return self == .yes }
-}
-
-enum CarsCategoryAfterPicture: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return CarsCategoryAfterPicture.no.rawValue }
-    static var enumValues: [CarsCategoryAfterPicture] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "When cars vertical enabled, select category after image selection" } 
     var asBool: Bool { return self == .yes }
 }
 
@@ -341,6 +329,58 @@ enum AddSuperKeywordsOnFeed: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Add super keywords in feed and filters" } 
     static func fromPosition(_ position: Int) -> AddSuperKeywordsOnFeed {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum CopiesImprovementOnboarding: String, BumperFeature  {
+    case control, baseline, b, c, d, e, f
+    static var defaultValue: String { return CopiesImprovementOnboarding.control.rawValue }
+    static var enumValues: [CopiesImprovementOnboarding] { return [.control, .baseline, .b, .c, .d, .e, .f]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "new copies on last step of onboarding" } 
+    static func fromPosition(_ position: Int) -> CopiesImprovementOnboarding {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .b
+            case 3: return .c
+            case 4: return .d
+            case 5: return .e
+            case 6: return .f
+            default: return .control
+        }
+    }
+}
+
+enum BumpUpImprovementBanner: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return BumpUpImprovementBanner.control.rawValue }
+    static var enumValues: [BumpUpImprovementBanner] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "new copies on bump up banner" } 
+    static func fromPosition(_ position: Int) -> BumpUpImprovementBanner {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum TweaksCarPostingFlow: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return TweaksCarPostingFlow.control.rawValue }
+    static var enumValues: [TweaksCarPostingFlow] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "car posting summary only at the end" } 
+    static func fromPosition(_ position: Int) -> TweaksCarPostingFlow {
         switch position { 
             case 0: return .control
             case 1: return .baseline
