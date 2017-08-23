@@ -20,9 +20,9 @@
 "bump_up_banner_free_button_title" = "Omhoog plaatsen";
 "bump_up_banner_free_text" = "Gratis omhoog plaatsen om sneller te verkopen";
 "bump_up_banner_pay_text" = "Omhoog plaatsen om sneller te verkopen";
-"bump_up_banner_pay_text_improvement" = "Sell faster now";
-"bump_up_banner_wait_text" = "opnieuw omhoog plaatsen";
-"bump_up_banner_wait_text_improvement" = "to feature again";
+"bump_up_banner_pay_text_improvement" = "Verkoop nu sneller";
+"bump_up_banner_wait_text" = "opnieuw plaatsen";
+"bump_up_banner_wait_text_improvement" = "opnieuw plaatsen";
 "bump_up_error_bump_generic" = "Er is een fout opgetreden tijdens het omhoog plaatsen van jouw item. Probeer het opnieuw.";
 "bump_up_error_bump_token" = "Je betaling is verwerkt, maar je item is nog niet omhoog geplaatst.";
 "bump_up_error_payment_failed" = "Kan geen verbinding maken met de App Store. Je betaling is niet verwerkt. Probeer het opnieuw.";

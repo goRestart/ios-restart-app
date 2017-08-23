@@ -22,7 +22,7 @@
 "bump_up_banner_pay_text" = "Dê prioridade para vender mais rápido";
 "bump_up_banner_pay_text_improvement" = "Sell faster now";
 "bump_up_banner_wait_text" = "para priorizar de novo";
-"bump_up_banner_wait_text_improvement" = "to feature again";
+"bump_up_banner_wait_text_improvement" = "para priorizar de novo";
 "bump_up_error_bump_generic" = "Surgiu um erro ao dar prioridade ao seu item. Tente de novo.";
 "bump_up_error_bump_token" = "O seu pagamento está a ser processado mas o item ainda não foi destacado.";
 "bump_up_error_payment_failed" = "Impossível conectar com a App Store. O seu pagamento não foi processado. Tente novamente.";

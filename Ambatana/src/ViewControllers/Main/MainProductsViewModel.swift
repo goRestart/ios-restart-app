@@ -63,15 +63,6 @@ class MainProductsViewModel: BaseViewModel {
     var hasFilters: Bool {
         return !filters.isDefault()
     }
-
-    var hasInteractiveBubble: Bool {
-        switch featureFlags.editLocationBubble {
-        case .inactive:
-            return false
-        case .map, .zipCode:
-            return true
-        }
-    }
     
     var isSuggestedSearchesEnabled: Bool {
         switch featureFlags.suggestedSearches {
@@ -87,14 +78,9 @@ class MainProductsViewModel: BaseViewModel {
     }
 
     var defaultBubbleText: String {
-        switch featureFlags.editLocationBubble {
-        case .inactive:
-            return LGLocalizedString.productPopularNearYou
-        case .zipCode, .map:
-            let distance = filters.distanceRadius ?? 0
-            let type = filters.distanceType
-            return bubbleTextGenerator.bubbleInfoText(forDistance: distance, type: type, distanceRadius: filters.distanceRadius, place: filters.place)
-        }
+        let distance = filters.distanceRadius ?? 0
+        let type = filters.distanceType
+        return bubbleTextGenerator.bubbleInfoText(forDistance: distance, type: type, distanceRadius: filters.distanceRadius, place: filters.place)
     }
     
     var taxonomyChildren: [TaxonomyChild] = []
@@ -114,18 +100,6 @@ class MainProductsViewModel: BaseViewModel {
         
         if let taxonomyChild = filters.selectedTaxonomyChildren.last {
             resultTags.append(.taxonomyChild(taxonomyChild))
-        }
-
-        switch featureFlags.editLocationBubble {
-        case .inactive:
-            if let place = filters.place {
-                resultTags.append(.location(place))
-            }
-            if let distance = filters.distanceRadius {
-                resultTags.append(.distance(distance: distance))
-            }
-        case .map, .zipCode:
-            break
         }
 
         if filters.selectedWithin != ListingTimeCriteria.defaultOption {
@@ -404,14 +378,6 @@ class MainProductsViewModel: BaseViewModel {
                 carYearStart = startYear
                 carYearEnd = endYear
             }
-        }
-
-        switch featureFlags.editLocationBubble {
-        case .inactive:
-            filters.place = place
-            filters.distanceRadius = distance
-        case .map, .zipCode:
-            break
         }
 
         filters.selectedCategories = categories.flatMap{ filterCategoryItem in

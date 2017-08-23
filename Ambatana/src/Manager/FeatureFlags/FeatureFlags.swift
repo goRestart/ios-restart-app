@@ -28,7 +28,6 @@ protocol FeatureFlaggeable: class {
     var pricedBumpUpEnabled: Bool { get }
     var productDetailNextRelated: Bool { get }
     var newMarkAsSoldFlow: Bool { get }
-    var editLocationBubble: EditLocationBubble { get }
     var newCarsMultiRequesterEnabled: Bool { get }
     var newCarouselNavigationEnabled: Bool { get }
     var newOnboardingPhase1: Bool { get }
@@ -157,7 +156,6 @@ class FeatureFlags: FeatureFlaggeable {
     
     func variablesUpdated() {
         dao.save(websocketChatEnabled: abTests.websocketChat.value)
-        dao.save(editLocationBubble: EditLocationBubble.fromPosition(abTests.editLocationBubble.value))
         abTests.variablesUpdated()
     }
 
@@ -222,13 +220,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.newMarkAsSoldFlow
         }
         return abTests.newMarkAsSoldFlow.value
-    }
-
-    var editLocationBubble: EditLocationBubble {
-        if Bumper.enabled {
-            return Bumper.editLocationBubble
-        }
-        return dao.retrieveEditLocationBubble() ?? EditLocationBubble.fromPosition(abTests.editLocationBubble.value)
     }
 
     var newCarsMultiRequesterEnabled: Bool {

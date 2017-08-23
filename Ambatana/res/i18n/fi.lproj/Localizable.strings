@@ -20,9 +20,9 @@
 "bump_up_banner_free_button_title" = "Nosta";
 "bump_up_banner_free_text" = "Nosta ilmaiseksi myydäksesi tuotteesi nopeammin";
 "bump_up_banner_pay_text" = "Nosta myydäksesi nopeammin";
-"bump_up_banner_pay_text_improvement" = "Sell faster now";
+"bump_up_banner_pay_text_improvement" = "Myy nopeammin nyt";
 "bump_up_banner_wait_text" = "seuraavaan nostoon";
-"bump_up_banner_wait_text_improvement" = "to feature again";
+"bump_up_banner_wait_text_improvement" = "seuraavaan nostoon";
 "bump_up_error_bump_generic" = "Tuotettasi nostettaessa tapahtui virhe. Ole hyvä ja yritä uudelleen.";
 "bump_up_error_bump_token" = "Maksusi on käsitelty, mutta tuotettasi ei ole nostettu.";
 "bump_up_error_payment_failed" = "App Storeen ei saatu yhteyttä. Maksuasi ei ole käsitelty. Ole hyvä ja yritä uudelleen.";

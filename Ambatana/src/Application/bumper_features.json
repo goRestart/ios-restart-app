@@ -46,11 +46,6 @@
         "description": "New mark as sold flow active. alert + showing buyer list"
     },
     {
-        "name": "EditLocationBubble",
-        "values": ["inactive", "map", "zipCode"],
-        "description": "Location Edit A/B/C"
-    },
-    {
         "name": "NewCarsMultiRequesterEnabled",
         "values": ["no", "yes"],
         "description": "Cars multi requester enabled"
