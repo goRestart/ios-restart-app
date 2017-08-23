@@ -125,10 +125,10 @@ class UserViewModel: BaseViewModel {
         self.featureFlags = featureFlags
         self.notificationsManager = notificationsManager
         self.sellingProductListRequester = UserStatusesProductListRequester(statuses: [.pending, .approved],
-                                                                            itemsPerPage: Constants.numProductsPerPageDefault)
+                                                                            itemsPerPage: Constants.numListingsPerPageDefault)
         self.sellingProductListViewModel = ProductListViewModel(requester: self.sellingProductListRequester)
         self.soldProductListRequester = UserStatusesProductListRequester(statuses: [.sold, .soldOld],
-                                                                         itemsPerPage: Constants.numProductsPerPageDefault)
+                                                                         itemsPerPage: Constants.numListingsPerPageDefault)
         self.soldProductListViewModel = ProductListViewModel(requester: self.soldProductListRequester)
         self.favoritesProductListRequester = UserFavoritesProductListRequester()
         self.favoritesProductListViewModel = ProductListViewModel(requester: self.favoritesProductListRequester)

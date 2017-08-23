@@ -1,5 +1,5 @@
 public struct MockListingFavourite: ListingFavourite {
     public var objectId: String?
-    public var product: Product
+    public var listing: Listing
     public var user: UserListing
 }

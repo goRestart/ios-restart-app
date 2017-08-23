@@ -8,6 +8,6 @@
 
 protocol NotificationsTabNavigator: TabNavigator {
     func openMyRatingList()
-    func openPassiveBuyers(_ productId: String, actionCompletedBlock: (() -> Void)?)
+    func openPassiveBuyers(_ listingId: String, actionCompletedBlock: (() -> Void)?)
     func openNotificationDeepLink(deepLink: DeepLink)
 }

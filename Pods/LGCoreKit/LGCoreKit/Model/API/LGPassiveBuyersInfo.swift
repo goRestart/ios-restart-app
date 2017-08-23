@@ -12,12 +12,12 @@ import Runes
 
 struct LGPassiveBuyersInfo: PassiveBuyersInfo {
     let objectId: String?
-    let productImage: File?
+    let listingImage: File?
     let passiveBuyers: [PassiveBuyersUser]
 
-    init(objectId: String?, productImage: String?, passiveBuyers: [LGPassiveBuyersUser]) {
+    init(objectId: String?, listingImage: String?, passiveBuyers: [LGPassiveBuyersUser]) {
         self.objectId = objectId
-        self.productImage = LGFile(id: nil, urlString: productImage)
+        self.listingImage = LGFile(id: nil, urlString: listingImage)
         self.passiveBuyers = passiveBuyers.flatMap { $0 }
     }
 }

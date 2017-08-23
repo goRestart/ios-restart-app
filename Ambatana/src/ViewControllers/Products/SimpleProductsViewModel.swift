@@ -23,7 +23,7 @@ class SimpleProductsViewModel: BaseViewModel {
     convenience init(relatedProductId: String,
                      productVisitSource: EventParameterProductVisitSource) {
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
-        let itemsPerPage = show3Columns ? Constants.numProductsPerPageBig : Constants.numProductsPerPageDefault
+        let itemsPerPage = show3Columns ? Constants.numListingsPerPageBig : Constants.numListingsPerPageDefault
         let requester = RelatedProductListRequester(productId: relatedProductId, itemsPerPage: itemsPerPage)
         self.init(requester: requester,
                   title: LGLocalizedString.relatedItemsTitle,

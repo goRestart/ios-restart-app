@@ -23,15 +23,15 @@ class LGOldChatRepository: OldChatRepository {
 
     // MARK: Public methods
 
-    func newChatWithProduct(_ product: Product) -> Chat? {
+    func newChatWithListing(_ listing: Listing) -> Chat? {
         if let myUser = myUserRepository.myUser {
-            let myUserProduct = LGUserListing(user: myUser)
+            let myUserListing = LGUserListing(user: myUser)
             return LGChat(
                 objectId: nil,
                 updatedAt: Date(),
-                listing: Listing.product(product),
-                userFrom: myUserProduct,
-                userTo: product.user,
+                listing: listing,
+                userFrom: myUserListing,
+                userTo: listing.user,
                 msgUnreadCount: 0,
                 messages: [],
                 forbidden: false,
@@ -52,19 +52,19 @@ class LGOldChatRepository: OldChatRepository {
 
     // MARK: Show Methods
 
-    func retrieveMessagesWithProduct(_ product: Product, buyer: User, page: Int, numResults: Int,
+    func retrieveMessagesWithListing(_ listing: Listing, buyer: User, page: Int, numResults: Int,
                                      completion: ChatCompletion?) {
-        if let productId = product.objectId, let buyerId = buyer.objectId {
-            retrieveMessagesWithProductId(productId, buyerId: buyerId, page: page, numResults: numResults,
+        if let listingId = listing.objectId, let buyerId = buyer.objectId {
+            retrieveMessagesWithListingId(listingId, buyerId: buyerId, page: page, numResults: numResults,
                                           completion: completion)
         } else {
             completion?(ChatResult(error: .notFound))
         }
     }
 
-    func retrieveMessagesWithProductId(_ productId: String, buyerId: String, page: Int, numResults: Int,
+    func retrieveMessagesWithListingId(_ listingId: String, buyerId: String, page: Int, numResults: Int,
                                        completion: ChatCompletion?) {
-        dataSource.retrieveMessagesWithProductId(productId, buyerId: buyerId, offset: page * numResults,
+        dataSource.retrieveMessagesWithListingId(listingId, buyerId: buyerId, offset: page * numResults,
                                                  numResults: numResults) { result in
                                                     handleApiResult(result, completion: completion)
         }
@@ -87,36 +87,36 @@ class LGOldChatRepository: OldChatRepository {
 
     // MARK: Post methods
 
-    func sendText(_ message: String, product: Product, recipient: User, completion: MessageCompletion?) {
-        guard let recipientId = recipient.objectId, let productId = product.objectId else {
+    func sendText(_ message: String, listing: Listing, recipient: User, completion: MessageCompletion?) {
+        guard let recipientId = recipient.objectId, let listingId = listing.objectId else {
             completion?(Result<Message, RepositoryError>(error: .notFound))
             return
         }
-        sendText(message, listingId: productId, recipientId: recipientId, completion: completion)
+        sendText(message, listingId: listingId, recipientId: recipientId, completion: completion)
     }
 
     func sendText(_ message: String, listingId: String, recipientId: String, completion: MessageCompletion?) {
         sendMessage(.text, message: message, listingId: listingId, recipientId: recipientId, completion: completion)
     }
 
-    func sendOffer(_ message: String, product: Product, recipient: User, completion: MessageCompletion?) {
-        guard let recipientId = recipient.objectId, let productId = product.objectId else {
+    func sendOffer(_ message: String, listing: Listing, recipient: User, completion: MessageCompletion?) {
+        guard let recipientId = recipient.objectId, let listingId = listing.objectId else {
             completion?(Result<Message, RepositoryError>(error: .notFound))
             return
         }
-        sendOffer(message, listingId: productId, recipientId: recipientId, completion: completion)
+        sendOffer(message, listingId: listingId, recipientId: recipientId, completion: completion)
     }
 
     func sendOffer(_ message: String, listingId: String, recipientId: String, completion: MessageCompletion?) {
         sendMessage(.offer, message: message, listingId: listingId, recipientId: recipientId, completion: completion)
     }
 
-    func sendSticker(_ sticker: Sticker, product: Product, recipient: User, completion: MessageCompletion?) {
-        guard let recipientId = recipient.objectId, let productId = product.objectId else {
+    func sendSticker(_ sticker: Sticker, listing: Listing, recipient: User, completion: MessageCompletion?) {
+        guard let recipientId = recipient.objectId, let listingId = listing.objectId else {
             completion?(Result<Message, RepositoryError>(error: .notFound))
             return
         }
-        sendSticker(sticker, listingId: productId, recipientId: recipientId, completion: completion)
+        sendSticker(sticker, listingId: listingId, recipientId: recipientId, completion: completion)
     }
 
     func sendSticker(_ sticker: Sticker, listingId: String, recipientId: String, completion: MessageCompletion?) {
@@ -149,7 +149,7 @@ class LGOldChatRepository: OldChatRepository {
             return
         }
 
-        dataSource.sendMessageTo(recipientId, productId: listingId, message: message, type: messageType) {
+        dataSource.sendMessageTo(recipientId, listingId: listingId, message: message, type: messageType) {
             result in
             if let error = result.error {
                 completion?(Result<Message, RepositoryError>(error: RepositoryError(apiError: error)))

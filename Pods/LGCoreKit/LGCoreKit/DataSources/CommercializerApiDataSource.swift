@@ -21,8 +21,8 @@ class CommercializerApiDataSource: CommercializerDataSource {
         self.apiClient = apiClient
     }
 
-    func index(_ productId: String, completion: CommercializersDataSourceCompletion?) {
-        let request = CommercializerRouter.index(productId: productId)
+    func index(_ listingId: String, completion: CommercializersDataSourceCompletion?) {
+        let request = CommercializerRouter.index(listingId: listingId)
         apiClient.request(request, decoder: CommercializerApiDataSource.decoderArray, completion: completion)
     }
     

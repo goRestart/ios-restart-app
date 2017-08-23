@@ -169,7 +169,7 @@ fileprivate extension RelatedProductsView {
 
     func loadProducts(_ productId: String) {
         clear()
-        requester = RelatedProductListRequester(productId: productId, itemsPerPage: Constants.numProductsPerPageDefault)
+        requester = RelatedProductListRequester(productId: productId, itemsPerPage: Constants.numListingsPerPageDefault)
         requester?.retrieveFirstPage { [weak self] result in
             guard let listings = result.listingsResult.value else { return }
             if !listings.isEmpty {

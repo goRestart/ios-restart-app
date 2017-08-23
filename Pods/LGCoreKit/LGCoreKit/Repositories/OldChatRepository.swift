@@ -24,11 +24,11 @@ public protocol OldChatRepository {
     // MARK: Public methods
 
     /**
-     Factory method. Will build a new chat from the provided product. Will use myUser as 'userFrom'.
+     Factory method. Will build a new chat from the provided listing. Will use myUser as 'userFrom'.
 
-     - returns: Chat in case myUser and product.user have values. nil otherwise
+     - returns: Chat in case myUser and listing.user have values. nil otherwise
      */
-    func newChatWithProduct(_ product: Product) -> Chat?
+    func newChatWithListing(_ listing: Listing) -> Chat?
 
 
     // MARK: Index methods
@@ -48,16 +48,16 @@ public protocol OldChatRepository {
     // MARK: Show Methods
 
     /**
-     Retrieves a chat for the given product and buyer.
+     Retrieves a chat for the given listing and buyer.
 
-     - parameter product: The product.
+     - parameter listing: The listing.
      - parameter buyer: The buyer.
      - parameter completion: The completion closure.
      */
-    func retrieveMessagesWithProduct(_ product: Product, buyer: User, page: Int, numResults: Int,
+    func retrieveMessagesWithListing(_ listing: Listing, buyer: User, page: Int, numResults: Int,
                                             completion: ChatCompletion?)
 
-    func retrieveMessagesWithProductId(_ productId: String, buyerId: String, page: Int, numResults: Int,
+    func retrieveMessagesWithListingId(_ listingId: String, buyerId: String, page: Int, numResults: Int,
                                               completion: ChatCompletion?)
 
     func retrieveMessagesWithConversationId(_ conversationId: String, page: Int, numResults: Int,
@@ -74,36 +74,36 @@ public protocol OldChatRepository {
     // MARK: Post methods
 
     /**
-     Sends a text message to given recipient for the given product.
+     Sends a text message to given recipient for the given listing.
 
      - parameter message: The message.
-     - parameter product: The product.
+     - parameter listing: The listing.
      - parameter recipient: The recipient user.
      - parameter completion: The completion closure.
      */
-    func sendText(_ message: String, product: Product, recipient: User, completion: MessageCompletion?)
+    func sendText(_ message: String, listing: Listing, recipient: User, completion: MessageCompletion?)
     func sendText(_ message: String, listingId: String, recipientId: String, completion: MessageCompletion?)
 
     /**
-     Sends an offer to given recipient for the given product.
+     Sends an offer to given recipient for the given listing.
 
      - parameter message: The message.
-     - parameter product: The product.
+     - parameter listing: The listing.
      - parameter recipient: The recipient user.
      - parameter completion: The completion closure.
      */
-    func sendOffer(_ message: String, product: Product, recipient: User, completion: MessageCompletion?)
+    func sendOffer(_ message: String, listing: Listing, recipient: User, completion: MessageCompletion?)
     func sendOffer(_ message: String, listingId: String, recipientId: String, completion: MessageCompletion?)
 
     /**
-     Sends a sticker to given recipient for the given product.
+     Sends a sticker to given recipient for the given listing.
 
      - parameter sticker: The sticker object to send.
-     - parameter product: The product.
+     - parameter listing: The listing.
      - parameter recipient: The recipient user.
      - parameter completion: The completion closure.
      */
-    func sendSticker(_ sticker: Sticker, product: Product, recipient: User, completion: MessageCompletion?)
+    func sendSticker(_ sticker: Sticker, listing: Listing, recipient: User, completion: MessageCompletion?)
     func sendSticker(_ sticker: Sticker, listingId: String, recipientId: String, completion: MessageCompletion?)
 
     /**
@@ -129,12 +129,12 @@ public protocol OldChatRepository {
     // MARK: - Private methods
 
     /**
-     Sends a message to given recipient for the given product.
+     Sends a message to given recipient for the given listing.
 
      - parameter messageType: The message type.
      - parameter message: The message.
-     - parameter product: The product.
-     - parameter recipient: The recipient user.
+     - parameter listingId: The listingId.
+     - parameter recipientId: The recipient user id.
      - parameter completion: The completion closure.
      */
     func sendMessage(_ messageType: MessageType, message: String, listingId: String, recipientId: String,

@@ -76,7 +76,7 @@ fileprivate extension DiscoverProductListRequester {
     var retrieveProductsParams: RetrieveListingParams {
         var params = RetrieveListingParams()
         params.offset = offset
-        params.numProducts = itemsPerPage
+        params.numListings = itemsPerPage
         return params
     }
 

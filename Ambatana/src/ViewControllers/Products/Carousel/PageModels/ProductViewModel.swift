@@ -334,7 +334,7 @@ class ProductViewModel: BaseViewModel {
             createBumpeableBanner(forListingId: listingId, withPrice: nil, paymentItemId: nil, bumpUpType: .restore)
         } else {
             isUpdatingBumpUpBanner = true
-            monetizationRepository.retrieveBumpeableProductInfo(productId: listingId, completion: { [weak self] result in
+            monetizationRepository.retrieveBumpeableListingInfo(listingId: listingId, completion: { [weak self] result in
                 guard let strongSelf = self else { return }
                 strongSelf.isUpdatingBumpUpBanner = false
                 guard let bumpeableProduct = result.value else { return }
@@ -808,7 +808,7 @@ fileprivate extension ProductViewModel {
   
     func favoriteBubbleNotificationData() -> BubbleNotificationData {
         let action = UIAction(interface: .text(LGLocalizedString.productBubbleFavoriteButton), action: { [weak self] in
-            self?.sendMessage(type: .favoritedProduct(LGLocalizedString.productFavoriteDirectMessage))
+            self?.sendMessage(type: .favoritedListing(LGLocalizedString.productFavoriteDirectMessage))
         }, accessibilityId: .bubbleButton)
         let data = BubbleNotificationData(tagGroup: ProductViewModel.bubbleTagGroup,
                                           text: LGLocalizedString.productBubbleFavoriteButton,

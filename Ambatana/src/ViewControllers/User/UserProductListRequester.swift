@@ -150,7 +150,7 @@ class UserStatusesProductListRequester: UserProductListRequester {
     private var retrieveProductsParams: RetrieveListingParams {
         var params: RetrieveListingParams = RetrieveListingParams()
         params.offset = offset
-        params.numProducts = itemsPerPage
+        params.numListings = itemsPerPage
         if let currentLocation = locationManager.currentLocation {
             params.coordinates = LGLocationCoordinates2D(location: currentLocation)
         }

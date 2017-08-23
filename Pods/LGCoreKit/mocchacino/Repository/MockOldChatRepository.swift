@@ -17,9 +17,9 @@ open class MockOldChatRepository: OldChatRepository {
 
     // MARK: - OldChatRepository
 
-    public func newChatWithProduct(_ product: Product) -> Chat? {
+    public func newChatWithListing(_ listing: Listing) -> Chat? {
         var chat = MockChat.makeMock()
-        chat.listing = Listing.product(product)
+        chat.listing = Listing.makeMock()
         return chat
     }
 
@@ -30,7 +30,7 @@ open class MockOldChatRepository: OldChatRepository {
         delay(result: indexResult, completion: completion)
     }
 
-    public func retrieveMessagesWithProduct(_ product: Product,
+    public func retrieveMessagesWithListing(_ listing: Listing,
                                             buyer: User,
                                             page: Int,
                                             numResults: Int,
@@ -38,7 +38,7 @@ open class MockOldChatRepository: OldChatRepository {
         delay(result: retrieveResult, completion: completion)
     }
 
-    public func retrieveMessagesWithProductId(_ productId: String,
+    public func retrieveMessagesWithListingId(_ listingId: String,
                                               buyerId: String,
                                               page: Int,
                                               numResults: Int,
@@ -58,7 +58,7 @@ open class MockOldChatRepository: OldChatRepository {
     }
 
     public func sendText(_ message: String,
-                         product: Product,
+                         listing: Listing,
                          recipient: User,
                          completion: MessageCompletion?) {
         delay(result: sendMsgResult, completion: completion)
@@ -72,7 +72,7 @@ open class MockOldChatRepository: OldChatRepository {
     }
 
     public func sendOffer(_ message: String,
-                          product: Product,
+                          listing: Listing,
                           recipient: User,
                           completion: MessageCompletion?) {
         delay(result: sendMsgResult, completion: completion)
@@ -86,7 +86,7 @@ open class MockOldChatRepository: OldChatRepository {
     }
 
     public func sendSticker(_ sticker: Sticker,
-                            product: Product,
+                            listing: Listing,
                             recipient: User,
                             completion: MessageCompletion?) {
         delay(result: sendMsgResult, completion: completion)

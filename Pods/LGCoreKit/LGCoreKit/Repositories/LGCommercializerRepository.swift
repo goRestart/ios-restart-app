@@ -20,8 +20,8 @@ final class LGCommercializerRepository: CommercializerRepository {
 
     // MARK: - Public methods
 
-    func index(_ productId: String, completion: CommercializersCompletion?) {
-        dataSource.index(productId) { result in
+    func index(_ listingId: String, completion: CommercializersCompletion?) {
+        dataSource.index(listingId) { result in
             handleApiResult(result, completion: completion)
         }
     }

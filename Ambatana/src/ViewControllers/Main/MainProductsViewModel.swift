@@ -268,7 +268,7 @@ class MainProductsViewModel: BaseViewModel {
         self.bubbleTextGenerator = bubbleTextGenerator
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         let columns = show3Columns ? 3 : 2
-        let itemsPerPage = show3Columns ? Constants.numProductsPerPageBig : Constants.numProductsPerPageDefault
+        let itemsPerPage = show3Columns ? Constants.numListingsPerPageBig : Constants.numListingsPerPageDefault
         self.productListRequester = FilterProductListRequesterFactory.generateRequester(withFilters: filters,
                                                                                         queryString: searchType?.query,
                                                                                         itemsPerPage: itemsPerPage,

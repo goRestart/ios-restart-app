@@ -83,7 +83,7 @@ open class MockChatRepository: InternalChatRepository {
     }
 
     public func showConversation(_ sellerId: String,
-                                 productId: String,
+                                 listingId: String,
                                  completion: ChatConversationCompletion?) {
         delay(result: showConversationResult, completion: completion)
     }

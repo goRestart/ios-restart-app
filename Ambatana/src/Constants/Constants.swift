@@ -61,8 +61,8 @@ struct Constants {
     static let productListFooterHeight: CGFloat = 70
     static let productListFixedInsets: CGFloat = 6
     static let productListNewLabelThreshold = TimeInterval.make(days: 1)
-    static let numProductsPerPageDefault = 50
-    static let numProductsPerPageBig = 50
+    static let numListingsPerPageDefault = 50
+    static let numListingsPerPageBig = 50
     static let productsPagingThresholdPercentage: Float = 0.4 // Percentage of page to check bottom threshold to paginate
     static let maxSelectedForYouQueryTerms = 15
     

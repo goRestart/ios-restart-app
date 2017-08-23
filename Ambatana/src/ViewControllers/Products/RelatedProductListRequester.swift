@@ -16,7 +16,7 @@ class RelatedProductListRequester: ProductListRequester {
 
     private var retrieveProductParams: RetrieveListingParams {
         var params = RetrieveListingParams()
-        params.numProducts = itemsPerPage
+        params.numListings = itemsPerPage
         params.offset = offset
         return params
     }

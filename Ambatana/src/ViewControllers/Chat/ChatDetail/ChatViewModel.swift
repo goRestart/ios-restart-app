@@ -314,7 +314,7 @@ class ChatViewModel: BaseViewModel {
     }
 
     func syncConversation(_ listingId: String, sellerId: String) {
-        chatRepository.showConversation(sellerId, productId: listingId) { [weak self] result in
+        chatRepository.showConversation(sellerId, listingId: listingId) { [weak self] result in
             if let value = result.value {
                 self?.conversation.value = value
                 self?.refreshMessages()

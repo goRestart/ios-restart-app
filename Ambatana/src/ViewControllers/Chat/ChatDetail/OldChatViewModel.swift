@@ -758,7 +758,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         guard canRetrieve else { return }
         
         isLoading = true
-        chatRepository.retrieveMessagesWithProductId(listingId, buyerId: userBuyerId, page: 0, numResults: numResults) {
+        chatRepository.retrieveMessagesWithListingId(listingId, buyerId: userBuyerId, page: 0, numResults: numResults) {
             [weak self] result in
             guard let strongSelf = self else { return }
             if let chat = result.value {
@@ -842,7 +842,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
     private func markForbiddenAsRead() {
         guard let listingId = listing.objectId, let userBuyerId = buyer?.objectId else { return }
         //We just get the last one as backend will mark all of them as read
-        chatRepository.retrieveMessagesWithProductId(listingId, buyerId: userBuyerId, page: 0, numResults: 1, completion: nil)
+        chatRepository.retrieveMessagesWithListingId(listingId, buyerId: userBuyerId, page: 0, numResults: 1, completion: nil)
     }
     
     fileprivate func onProductSoldDirectAnswer() {
@@ -1046,7 +1046,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         
         delegate?.vmDidStartRetrievingChatMessages(hasData: !loadedMessages.isEmpty)
         isLoading = true
-        chatRepository.retrieveMessagesWithProductId(listingId, buyerId: userBuyerId, page: page, numResults: resultsPerPage) {
+        chatRepository.retrieveMessagesWithListingId(listingId, buyerId: userBuyerId, page: page, numResults: resultsPerPage) {
             [weak self] result in
             guard let strongSelf = self else { return }
             if let chat = result.value {

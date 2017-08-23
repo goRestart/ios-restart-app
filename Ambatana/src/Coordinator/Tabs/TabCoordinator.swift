@@ -192,7 +192,7 @@ fileprivate extension TabCoordinator {
                     }
                 case .notFound:
                     let relatedRequester = RelatedProductListRequester(productId: listingId,
-                                                                       itemsPerPage: Constants.numProductsPerPageDefault)
+                                                                       itemsPerPage: Constants.numListingsPerPageDefault)
                     relatedRequester.retrieveFirstPage { result in
                         self?.navigationController.dismissLoadingMessageAlert {
                             if let value = result.listingsResult.value, !value.isEmpty {
@@ -214,8 +214,8 @@ fileprivate extension TabCoordinator {
 
         var requestersArray: [ProductListRequester] = []
         let relatedRequester: ProductListRequester = discover ?
-            DiscoverProductListRequester(productId: listingId, itemsPerPage: Constants.numProductsPerPageDefault) :
-            RelatedProductListRequester(productId: listingId, itemsPerPage: Constants.numProductsPerPageDefault)
+            DiscoverProductListRequester(productId: listingId, itemsPerPage: Constants.numListingsPerPageDefault) :
+            RelatedProductListRequester(productId: listingId, itemsPerPage: Constants.numListingsPerPageDefault)
         requestersArray.append(relatedRequester)
 
         // Adding product list after related
@@ -225,7 +225,7 @@ fileprivate extension TabCoordinator {
             requesterCopy.updateInitialOffset(listOffset)
             requestersArray.append(requesterCopy)
         } else {
-            let filteredRequester = FilteredProductListRequester(itemsPerPage: Constants.numProductsPerPageDefault, offset: listOffset)
+            let filteredRequester = FilteredProductListRequester(itemsPerPage: Constants.numListingsPerPageDefault, offset: listOffset)
             requestersArray.append(filteredRequester)
         }
 
@@ -260,8 +260,8 @@ fileprivate extension TabCoordinator {
     func openListing(chatConversation: ChatConversation, source: EventParameterProductVisitSource) {
         guard let localProduct = LocalProduct(chatConversation: chatConversation, myUser: myUserRepository.myUser),
             let productId = localProduct.objectId else { return }
-        let relatedRequester = RelatedProductListRequester(productId: productId, itemsPerPage: Constants.numProductsPerPageDefault)
-        let filteredRequester = FilteredProductListRequester( itemsPerPage: Constants.numProductsPerPageDefault, offset: 0)
+        let relatedRequester = RelatedProductListRequester(productId: productId, itemsPerPage: Constants.numListingsPerPageDefault)
+        let filteredRequester = FilteredProductListRequester( itemsPerPage: Constants.numListingsPerPageDefault, offset: 0)
         let requester = ProductListMultiRequester(requesters: [relatedRequester, filteredRequester])
         let vm = ProductCarouselViewModel(listing: .product(localProduct), productListRequester: requester,
                                           source: source, actionOnFirstAppear: .nonexistent, trackingIndex: nil)
@@ -378,8 +378,8 @@ fileprivate extension TabCoordinator {
             case let .conversation(conversationId):
                 oldChatRepository.retrieveMessagesWithConversationId(conversationId, page: 0,
                                                     numResults: Constants.numMessagesPerPage, completion: completion)
-            case let .productBuyer(productId, buyerId):
-                oldChatRepository.retrieveMessagesWithProductId(productId, buyerId: buyerId, page: 0,
+            case let .productBuyer(listingId, buyerId):
+                oldChatRepository.retrieveMessagesWithListingId(listingId, buyerId: buyerId, page: 0,
                                                     numResults: Constants.numMessagesPerPage, completion: completion)
             }
         }

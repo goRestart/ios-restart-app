@@ -27,7 +27,7 @@ public struct RetrieveListingParams {
     public var sortCriteria: ListingSortCriteria?
     public var timeCriteria: ListingTimeCriteria?
     public var offset: Int?                 // skip results
-    public var numProducts: Int?            // number products to return
+    public var numListings: Int?            // number listings to return
     public var statuses: [ListingStatus]?   // Default 1,3
     public var maxPrice: Int?
     public var minPrice: Int?
@@ -44,7 +44,7 @@ public struct RetrieveListingParams {
     
     var relatedProductsApiParams: Dictionary<String, Any> {
         var params = Dictionary<String, Any>()
-        params["num_results"] = numProducts
+        params["num_results"] = numListings
         params["offset"] = offset
         return params
     }
@@ -52,7 +52,7 @@ public struct RetrieveListingParams {
     var userListingApiParams: Dictionary<String, Any> {
         var params = Dictionary<String, Any>()
         
-        params["num_results"] = numProducts
+        params["num_results"] = numListings
         params["offset"] = offset
         params["country_code"] = countryCode
 
@@ -89,7 +89,7 @@ public struct RetrieveListingParams {
         params["min_price"] = minPrice
         params["distance_radius"] = distanceRadius
         params["distance_type"] = distanceType?.string
-        params["num_results"] = numProducts
+        params["num_results"] = numListings
         params["offset"] = offset
         params["sort"] = sortCriteria?.string
         params["since"] = timeCriteria?.string
@@ -145,26 +145,26 @@ public struct RetrieveListingParams {
 public struct IndexTrendingListingsParams {
     let countryCode: String?
     let coordinates: LGLocationCoordinates2D?
-    let numProducts: Int?            // number products to return
+    let numListings: Int?            // number listings to return
     let offset: Int                  // skip results
 
     public init(countryCode: String?, coordinates: LGLocationCoordinates2D?, numProducts: Int? = nil, offset: Int = 0) {
         self.countryCode = countryCode
         self.coordinates = coordinates
-        self.numProducts = numProducts
+        self.numListings = numProducts
         self.offset = offset
     }
 
     public func paramsWithOffset(_ offset: Int) -> IndexTrendingListingsParams {
         return IndexTrendingListingsParams(countryCode: countryCode, coordinates: coordinates,
-                                           numProducts: numProducts, offset: offset)
+                                           numProducts: numListings, offset: offset)
     }
     
     var letgoApiParams: Dictionary<String, Any> {
         var params = Dictionary<String, Any>()
         params["quadkey"] = coordinates?.coordsToQuadKey(LGCoreKit.quadKeyZoomLevel)
         params["country_code"] = countryCode
-        params["num_results"] = numProducts
+        params["num_results"] = numListings
         params["offset"] = offset
         return params
     }

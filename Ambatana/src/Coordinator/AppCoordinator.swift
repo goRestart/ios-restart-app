@@ -824,10 +824,10 @@ fileprivate extension AppCoordinator {
                     self?.openUserRatingForUserFromRating(ratingId)
                 }
             }
-        case let .passiveBuyers(productId):
+        case let .passiveBuyers(listingId):
             afterDelayClosure = { [weak self] in
                 self?.openTab(.notifications, completion: {
-                    self?.openPassiveBuyers(productId)
+                    self?.openPassiveBuyers(listingId)
                 })
             }
         case .notificationCenter:
@@ -956,9 +956,9 @@ fileprivate extension AppCoordinator {
         }
     }
 
-    func openPassiveBuyers(_ productId: String) {
+    func openPassiveBuyers(_ listingId: String) {
         guard let notificationsTabCoordinator = selectedTabCoordinator as? NotificationsTabCoordinator else { return }
-        notificationsTabCoordinator.openPassiveBuyers(productId, actionCompletedBlock: nil)
+        notificationsTabCoordinator.openPassiveBuyers(listingId, actionCompletedBlock: nil)
     }
 }
 

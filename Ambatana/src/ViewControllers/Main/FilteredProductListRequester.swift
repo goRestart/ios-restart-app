@@ -199,7 +199,7 @@ fileprivate extension FilteredProductListRequester {
 
     var retrieveProductsParams: RetrieveListingParams {
         var params: RetrieveListingParams = RetrieveListingParams()
-        params.numProducts = itemsPerPage
+        params.numListings = itemsPerPage
         params.offset = offset
         params.coordinates = queryCoordinates
         params.queryString = queryString

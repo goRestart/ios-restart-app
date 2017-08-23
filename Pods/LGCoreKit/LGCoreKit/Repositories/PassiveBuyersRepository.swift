@@ -17,15 +17,15 @@ public typealias PassiveBuyersEmptyCompletion = (PassiveBuyersEmptyResult) -> Vo
 
 public protocol PassiveBuyersRepository {
     /**
-     Retrieves a product passive buyers info.
+     Retrieves a listing passive buyers info.
      
-     - parameter productId:     The product id
+     - parameter listingId:     The listing id
      - parameter completion:    The completion closure
     */
-    func show(productId: String, completion: PassiveBuyersCompletion?)
+    func show(listingId: String, completion: PassiveBuyersCompletion?)
 
     /**
-     Contacts all potential buyers for a given product passive buyers info.
+     Contacts all potential buyers for a given listing passive buyers info.
 
      - parameter passiveBuyersInfo: The passive buyers info
      - parameter completion:        The completion closure

@@ -213,7 +213,7 @@ fileprivate extension NotificationsViewModel {
                 })
             }
             return data
-        case let .productSuggested(product, seller):
+        case let .listingSuggested(product, seller):
             return NotificationData(id: notification.objectId,
                                     type: .productSuggested(product: product, seller: seller),
                                     date: notification.createdAt, isRead: notification.isRead,
