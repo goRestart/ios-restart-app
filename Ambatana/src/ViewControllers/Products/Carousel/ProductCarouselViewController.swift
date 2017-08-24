@@ -674,7 +674,7 @@ extension ProductCarouselViewController {
 
     private func setupDirectChatElementsRx() {
         viewModel.directChatPlaceholder.asObservable().bindTo(chatTextView.rx.placeholder).addDisposableTo(disposeBag)
-        if viewModel.currentProductViewModel?.areQuickAnswersDynamic != true {
+        if let productVM = viewModel.currentProductViewModel, !productVM.areQuickAnswersDynamic {
             chatTextView.setInitialText(LGLocalizedString.chatExpressTextFieldText)
         }
         
@@ -1160,13 +1160,13 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
     }
 
     func directAnswersHorizontalViewDidSelect(answer: QuickAnswer, index: Int) {
-        if viewModel.currentProductViewModel?.showKeyboardWhenQuickAnswer == true {
+        if let productVM = viewModel.currentProductViewModel, productVM.showKeyboardWhenQuickAnswer {
             chatTextView.setText(answer.text)
         } else {
             viewModel.send(quickAnswer: answer)
         }
         
-        if viewModel.currentProductViewModel?.areQuickAnswersDynamic == true { // Send to the end of the collection
+        if let productVM = viewModel.currentProductViewModel, productVM.areQuickAnswersDynamic {
             viewModel.moveQuickAnswerToTheEnd(index)
         }
     }

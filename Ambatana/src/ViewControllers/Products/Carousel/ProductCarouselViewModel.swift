@@ -340,8 +340,10 @@ class ProductCarouselViewModel: BaseViewModel {
     }
     
     func moveQuickAnswerToTheEnd(_ index: Int) {
+        guard index >= 0 else { return }
         quickAnswers.value.move(fromIndex: index, toIndex: quickAnswers.value.count-1)
     }
+    
     
     // MARK: - Private Methods
 

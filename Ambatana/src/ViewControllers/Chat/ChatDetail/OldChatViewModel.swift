@@ -1184,12 +1184,12 @@ extension OldChatViewModel: DirectAnswersPresenterDelegate {
             clearProductSoldDirectAnswer()
         }
         
-        if showKeyboardWhenQuickAnswer == true {
+        if showKeyboardWhenQuickAnswer {
             delegate?.vmShowKeyboard(quickAnswerText: answer.text)
         } else {
             send(quickAnswer: answer)
         }
-        if areQuickAnswersDynamic == true { // Send to the end of the collection
+        if areQuickAnswersDynamic {
             delegate?.vmMoveDirectAnswerToTheEnd(index)
         }
     }
