@@ -38,11 +38,13 @@ class DirectAnswersPresenter {
             horizontalView?.answersEnabled = enabled
         }
     }
-    private weak var horizontalView: DirectAnswersHorizontalView?
+    fileprivate weak var horizontalView: DirectAnswersHorizontalView?
 
-    private var answers: [QuickAnswer] = []
+    fileprivate var answers: [QuickAnswer] = []
     private let websocketChatActive: Bool
     private static let disabledAlpha: CGFloat = 0.6
+    
+    var isDynamic: Bool = false
 
 
     // MARK: - Public methods
@@ -69,18 +71,18 @@ class DirectAnswersPresenter {
 
     func setDirectAnswers(_ answers: [QuickAnswer], isDynamic: Bool) {
         self.answers = answers
-        self.horizontalView?.update(answers: answers, isDynamic: isDynamic)
-    }
-    
-    func moveDirectAnswerToTheEnd(_ index: Int) {
-        answers.move(fromIndex: index, toIndex: answers.count-1)
-        self.horizontalView?.update(answers: answers, isDynamic: nil)
+        self.isDynamic = isDynamic
+        horizontalView?.update(answers: answers, isDynamic: isDynamic)
     }
 }
 
 
 extension DirectAnswersPresenter: DirectAnswersHorizontalViewDelegate {
     func directAnswersHorizontalViewDidSelect(answer: QuickAnswer, index: Int) {
+        if isDynamic {
+            answers.move(fromIndex: index, toIndex: answers.count-1)
+            horizontalView?.update(answers: answers, isDynamic: nil)
+        }
         delegate?.directAnswersDidTapAnswer(self, answer: answer, index: index)
     }
 

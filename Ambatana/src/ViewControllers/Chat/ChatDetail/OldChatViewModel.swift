@@ -43,7 +43,6 @@ protocol OldChatViewModelDelegate: BaseViewModelDelegate {
     func vmClearText()
     
     func vmShowKeyboard(quickAnswerText: String)
-    func vmMoveDirectAnswerToTheEnd(_ index: Int)
 }
 
 enum AskQuestionSource {
@@ -1188,9 +1187,6 @@ extension OldChatViewModel: DirectAnswersPresenterDelegate {
             delegate?.vmShowKeyboard(quickAnswerText: answer.text)
         } else {
             send(quickAnswer: answer)
-        }
-        if areQuickAnswersDynamic {
-            delegate?.vmMoveDirectAnswerToTheEnd(index)
         }
     }
     

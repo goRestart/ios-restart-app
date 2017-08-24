@@ -26,7 +26,6 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmShowMessage(_ message: String, completion: (() -> ())?)
     
     func vmShowKeyboard(quickAnswerText: String)
-    func vmMoveDirectAnswerToTheEnd(_ index: Int)
 }
 
 struct EmptyConversation: ChatConversation {
@@ -1374,9 +1373,6 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
             delegate?.vmShowKeyboard(quickAnswerText: answer.text)
         } else {
             send(quickAnswer: answer)
-        }
-        if areQuickAnswersDynamic == true { // Send to the end of the collection
-            delegate?.vmMoveDirectAnswerToTheEnd(index)
         }
     }
     

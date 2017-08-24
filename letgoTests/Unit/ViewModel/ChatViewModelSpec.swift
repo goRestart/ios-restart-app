@@ -653,7 +653,6 @@ extension ChatViewModelSpec: ChatViewModelDelegate {
     func vmShowMessage(_ message: String, completion: (() -> ())?) {}
     
     func vmShowKeyboard(quickAnswerText: String) {}
-    func vmMoveDirectAnswerToTheEnd(_ index: Int) {}
 }
 
 extension ChatViewModelSpec {

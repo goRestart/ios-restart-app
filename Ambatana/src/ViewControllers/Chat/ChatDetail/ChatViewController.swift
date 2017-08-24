@@ -590,10 +590,6 @@ extension ChatViewController: ChatViewModelDelegate {
         textView.text = quickAnswerText
         textView.becomeFirstResponder()
     }
-    
-    func vmMoveDirectAnswerToTheEnd(_ index: Int) {
-        directAnswersPresenter.moveDirectAnswerToTheEnd(index)
-    }
 }
 
 
