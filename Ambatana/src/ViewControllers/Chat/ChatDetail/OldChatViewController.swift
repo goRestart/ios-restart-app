@@ -15,7 +15,7 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
     let navBarHeight: CGFloat = 64
     let inputBarHeight: CGFloat = 44
     let expressBannerHeight: CGFloat = 44
-    var productView: ChatProductView
+    var listingView: ChatListingView
     var selectedCellIndexPath: IndexPath?
     var viewModel: OldChatViewModel
     var keyboardShown: Bool = false
@@ -25,9 +25,9 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
     let expressChatBanner: ChatBanner
     var bannerTopConstraint: NSLayoutConstraint = NSLayoutConstraint()
     var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
-    var relationInfoView = RelationInfoView.relationInfoView()   // informs if the user is blocked, or the product sold or inactive
+    var relationInfoView = RelationInfoView.relationInfoView()   // informs if the user is blocked, or the listing sold or inactive
     var directAnswersPresenter: DirectAnswersPresenter
-    let relatedProductsView: ChatRelatedProductsView
+    let relatedListingsView: ChatRelatedListingsView
     let featureFlags: FeatureFlaggeable
     let disposeBag = DisposeBag()
 
@@ -55,9 +55,9 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
     required init(viewModel: OldChatViewModel, featureFlags: FeatureFlags, hidesBottomBar: Bool) {
         self.viewModel = viewModel
         self.featureFlags = featureFlags
-        self.productView = ChatProductView.chatProductView()
+        self.listingView = ChatListingView.chatListingView()
         self.directAnswersPresenter = DirectAnswersPresenter(websocketChatActive: featureFlags.websocketChat)
-        self.relatedProductsView = ChatRelatedProductsView()
+        self.relatedListingsView = ChatRelatedListingsView()
         self.stickersView = ChatStickersView()
         self.expressChatBanner = ChatBanner()
         super.init(viewModel: viewModel, nibName: nil)
@@ -79,7 +79,7 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
         super.viewDidLoad()
         ChatCellDrawerFactory.registerCells(tableView)
         setupUI()
-        setupRelatedProducts()
+        setupRelatedListings()
         setupDirectAnswers()
         setupStickersView()
         initStickersWindow()
@@ -133,8 +133,8 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
 
     /**
      Slack Caches the text in the textView if you close the view before sending
-     Need to override this method to set the cache key to the product id
-     so the cache is not shared between products chats
+     Need to override this method to set the cache key to the listing id
+     so the cache is not shared between listings chats
      
      - returns: Cache key String
      */
@@ -219,7 +219,7 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
             view.backgroundColor = patternBackground
         }
         
-        updateProductView()
+        updateListingView()
 
         let action = UIAction(interface: .button(LGLocalizedString.chatExpressBannerButtonTitle,
             .secondary(fontSize: .small, withBorder: true)), action: { [weak self] in
@@ -235,21 +235,21 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
     }
     
     private func setupRx() {
-        viewModel.relatedProductsState.asObservable().bindNext { [weak self] state in
+        viewModel.relatedListingsState.asObservable().bindNext { [weak self] state in
             switch state {
-            case .visible(let productId):
-                self?.relatedProductsView.productId.value = productId
+            case .visible(let listingId):
+                self?.relatedListingsView.listingId.value = listingId
             case .hidden, .loading:
-                self?.relatedProductsView.productId.value = nil
+                self?.relatedListingsView.listingId.value = nil
             }
             }.addDisposableTo(disposeBag)
     }
 
     private func setupNavigationBar() {
-        productView.height = navigationBarHeight
-        productView.layoutIfNeeded()
+        listingView.height = navigationBarHeight
+        listingView.layoutIfNeeded()
 
-        setNavBarTitleStyle(.custom(productView))
+        setNavBarTitleStyle(.custom(listingView))
         setLetGoRightButtonWith(imageName: "ic_more_options", selector: "optionsBtnPressed")
     }
     
@@ -279,18 +279,18 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
         expressChatBanner.layout(with: relationInfoView).below(by: -relationInfoView.height, constraintBlock: { [weak self] in self?.bannerTopConstraint = $0 })
     }
 
-    private func setupRelatedProducts() {
-        relatedProductsView.setupOnTopOfView(textViewBar)
-        relatedProductsView.title.value = LGLocalizedString.chatRelatedProductsTitle
-        relatedProductsView.delegate = viewModel
-        relatedProductsView.visibleHeight.asObservable().distinctUntilChanged().bindNext { [weak self] _ in
+    private func setupRelatedListings() {
+        relatedListingsView.setupOnTopOfView(textViewBar)
+        relatedListingsView.title.value = LGLocalizedString.chatRelatedProductsTitle
+        relatedListingsView.delegate = viewModel
+        relatedListingsView.visibleHeight.asObservable().distinctUntilChanged().bindNext { [weak self] _ in
             self?.configureBottomMargin(animated: true)
         }.addDisposableTo(disposeBag)
     }
 
     private func setupDirectAnswers() {
         directAnswersPresenter.hidden = viewModel.directAnswersState.value != .visible
-        directAnswersPresenter.setupOnTopOfView(relatedProductsView)
+        directAnswersPresenter.setupOnTopOfView(relatedListingsView)
         directAnswersPresenter.setDirectAnswers(viewModel.directAnswers)
         directAnswersPresenter.delegate = viewModel
 
@@ -302,29 +302,29 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
         }.addDisposableTo(disposeBag)
     }
 
-    fileprivate func updateProductView() {
-        productView.delegate = self
-        productView.userName.text = viewModel.otherUserName
-        productView.productName.text = viewModel.productName
-        productView.productPrice.text = viewModel.productPrice
+    fileprivate func updateListingView() {
+        listingView.delegate = self
+        listingView.userName.text = viewModel.otherUserName
+        listingView.listingName.text = viewModel.listingName
+        listingView.listingPrice.text = viewModel.listingPrice
         
-        if let thumbURL = viewModel.productImageUrl {
-            productView.productImage.lg_setImageWithURL(thumbURL)
+        if let thumbURL = viewModel.listingImageUrl {
+            listingView.listingImage.lg_setImageWithURL(thumbURL)
         }
         
         let placeholder = LetgoAvatar.avatarWithID(viewModel.otherUserID, name: viewModel.otherUserName)
-        productView.userAvatar.image = placeholder
+        listingView.userAvatar.image = placeholder
         if let avatar = viewModel.otherUserAvatarUrl {
-            productView.userAvatar.lg_setImageWithURL(avatar, placeholderImage: placeholder)
+            listingView.userAvatar.lg_setImageWithURL(avatar, placeholderImage: placeholder)
         }
 
         switch viewModel.chatStatus {
         case .forbidden, .userDeleted, .userPendingDelete:
-            productView.disableUserProfileInteraction()
-            productView.disableProductInteraction()
-        case .productDeleted:
-            productView.disableProductInteraction()
-        case .available, .blocked, .blockedBy, .productSold:
+            listingView.disableUserProfileInteraction()
+            listingView.disableListingInteraction()
+        case .listingDeleted:
+            listingView.disableListingInteraction()
+        case .available, .blocked, .blockedBy, .listingSold:
             break
         }
     }
@@ -349,15 +349,15 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
     }
 
     fileprivate func configureBottomMargin(animated: Bool) {
-        let total = directAnswersPresenter.height + relatedProductsView.visibleHeight.value
+        let total = directAnswersPresenter.height + relatedListingsView.visibleHeight.value
         setTableBottomMargin(total, animated: animated)
     }
 
     
     // MARK: > Navigation
     
-    dynamic private func productInfoPressed() {
-        viewModel.productInfoPressed()
+    dynamic private func listingInfoPressed() {
+        viewModel.listingInfoPressed()
     }
     
     dynamic private func optionsBtnPressed() {
@@ -433,10 +433,10 @@ extension OldChatViewController: OldChatViewModelDelegate {
         tableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.top, animated: true)
     }
 
-    // MARK: > Product
+    // MARK: > Listing
 
-    func vmDidUpdateProduct(messageToShow message: String?) {
-        updateProductView()
+    func vmDidUpdateListing(messageToShow message: String?) {
+        updateListingView()
         guard let message = message else { return }
         showAutoFadingOutMessageAlert(message)
     }
@@ -602,14 +602,14 @@ extension OldChatViewController {
 }
 
 
-// MARK: - ChatProductViewDelegate
+// MARK: - ChatListingViewDelegate
 
-extension OldChatViewController: ChatProductViewDelegate {  
-    func productViewDidTapProductImage() {
-        viewModel.productInfoPressed()
+extension OldChatViewController: ChatListingViewDelegate {
+    func listingViewDidTapListingImage() {
+        viewModel.listingInfoPressed()
     }
     
-    func productViewDidTapUserAvatar() {
+    func listingViewDidTapUserAvatar() {
         viewModel.userInfoPressed()
     }
 }

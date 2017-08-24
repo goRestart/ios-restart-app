@@ -26,7 +26,7 @@ class ProductVMTrackHelper {
 
 extension ProductViewModel {
 
-    func trackVisit(_ visitUserAction: ProductVisitUserAction, source: EventParameterProductVisitSource, feedPosition: EventParameterFeedPosition) {
+    func trackVisit(_ visitUserAction: ListingVisitUserAction, source: EventParameterListingVisitSource, feedPosition: EventParameterFeedPosition) {
         let isBumpedUp = isShowingFeaturedStripe.value ? EventParameterBoolean.trueParameter :
                                                    EventParameterBoolean.falseParameter
         trackHelper.trackVisit(visitUserAction, source: source, feedPosition: feedPosition, isShowingFeaturedStripe: isBumpedUp)
@@ -90,8 +90,8 @@ extension ProductViewModel {
 extension ProductVMTrackHelper {
     func trackShareStarted(_ shareType: ShareType?, buttonPosition: EventParameterButtonPosition,
                            isBumpedUp: EventParameterBoolean) {
-        let trackerEvent = TrackerEvent.productShare(listing, network: shareType?.trackingShareNetwork,
-                                                     buttonPosition: buttonPosition, typePage: .productDetail,
+        let trackerEvent = TrackerEvent.listingShare(listing, network: shareType?.trackingShareNetwork,
+                                                     buttonPosition: buttonPosition, typePage: .listingDetail,
                                                      isBumpedUp: isBumpedUp)
         tracker.trackEvent(trackerEvent)
     }
@@ -100,13 +100,13 @@ extension ProductVMTrackHelper {
         let event: TrackerEvent?
         switch state {
         case .completed:
-            event = TrackerEvent.productShareComplete(listing, network: shareType.trackingShareNetwork,
-                                                      typePage: .productDetail)
+            event = TrackerEvent.listingShareComplete(listing, network: shareType.trackingShareNetwork,
+                                                      typePage: .listingDetail)
         case .failed:
             event = nil
         case .cancelled:
-            event = TrackerEvent.productShareCancel(listing, network: shareType.trackingShareNetwork,
-                                                    typePage: .productDetail)
+            event = TrackerEvent.listingShareCancel(listing, network: shareType.trackingShareNetwork,
+                                                    typePage: .listingDetail)
         }
         if let event = event {
             tracker.trackEvent(event)
@@ -124,20 +124,20 @@ extension ProductVMTrackHelper {
     }
 
     func trackBumpUpStarted(_ price: EventParameterBumpUpPrice, type: BumpUpType) {
-        let trackerEvent = TrackerEvent.productBumpUpStart(listing, price: price,
+        let trackerEvent = TrackerEvent.listingBumpUpStart(listing, price: price,
                                                            type: EventParameterBumpUpType(bumpType: type))
         tracker.trackEvent(trackerEvent)
     }
 
     func trackBumpUpCompleted(_ price: EventParameterBumpUpPrice, type: BumpUpType, network: EventParameterShareNetwork) {
-        let trackerEvent = TrackerEvent.productBumpUpComplete(listing, price: price,
+        let trackerEvent = TrackerEvent.listingBumpUpComplete(listing, price: price,
                                                               type: EventParameterBumpUpType(bumpType: type),
                                                               network: network)
         tracker.trackEvent(trackerEvent)
     }
 
     func trackBumpUpFail(type: BumpUpType) {
-        let trackerEvent = TrackerEvent.productBumpUpFail(type: EventParameterBumpUpType(bumpType: type), listingId: listing.objectId)
+        let trackerEvent = TrackerEvent.listingBumpUpFail(type: EventParameterBumpUpType(bumpType: type), listingId: listing.objectId)
         tracker.trackEvent(trackerEvent)
     }
 
@@ -167,28 +167,28 @@ extension ProductVMTrackHelper {
 
 extension ProductVMTrackHelper {
 
-    func trackVisit(_ visitUserAction: ProductVisitUserAction, source: EventParameterProductVisitSource, feedPosition: EventParameterFeedPosition, isShowingFeaturedStripe: EventParameterBoolean) {
-        let trackerEvent = TrackerEvent.productDetailVisit(listing, visitUserAction: visitUserAction, source: source, feedPosition: feedPosition, isBumpedUp: isShowingFeaturedStripe)
+    func trackVisit(_ visitUserAction: ListingVisitUserAction, source: EventParameterListingVisitSource, feedPosition: EventParameterFeedPosition, isShowingFeaturedStripe: EventParameterBoolean) {
+        let trackerEvent = TrackerEvent.listingDetailVisit(listing, visitUserAction: visitUserAction, source: source, feedPosition: feedPosition, isBumpedUp: isShowingFeaturedStripe)
         tracker.trackEvent(trackerEvent)
     }
 
     func trackVisitMoreInfo() {
-        let trackerEvent = TrackerEvent.productDetailVisitMoreInfo(listing)
+        let trackerEvent = TrackerEvent.listingDetailVisitMoreInfo(listing)
         tracker.trackEvent(trackerEvent)
     }
 
     func trackReportCompleted() {
-        let trackerEvent = TrackerEvent.productReport(listing)
+        let trackerEvent = TrackerEvent.listingReport(listing)
         tracker.trackEvent(trackerEvent)
     }
 
     func trackDeleteStarted() {
-        let trackerEvent = TrackerEvent.productDeleteStart(listing)
+        let trackerEvent = TrackerEvent.listingDeleteStart(listing)
         tracker.trackEvent(trackerEvent)
     }
 
     func trackDeleteCompleted() {
-        let trackerEvent = TrackerEvent.productDeleteComplete(listing)
+        let trackerEvent = TrackerEvent.listingDeleteComplete(listing)
         tracker.trackEvent(trackerEvent)
     }
 
@@ -197,48 +197,48 @@ extension ProductVMTrackHelper {
         return MarkAsSoldTrackingInfo.make(listing: listing,
                                            isBumpedUp: isBumpedUp,
                                            isFreePostingModeAllowed: featureFlags.freePostingModeAllowed,
-                                           typePage: .productDetail)
+                                           typePage: .listingDetail)
     }
     
     func trackMarkSoldCompleted(isShowingFeaturedStripe: Bool) {
         let trackingInfo = makeMarkAsSoldTrackingInfo(isShowingFeaturedStripe: isShowingFeaturedStripe)
-        let markAsSold = TrackerEvent.productMarkAsSold(trackingInfo: trackingInfo)
+        let markAsSold = TrackerEvent.listingMarkAsSold(trackingInfo: trackingInfo)
         tracker.trackEvent(markAsSold)
     }
 
     func trackMarkUnsoldCompleted() {
-        let trackerEvent = TrackerEvent.productMarkAsUnsold(listing)
+        let trackerEvent = TrackerEvent.listingMarkAsUnsold(listing)
         tracker.trackEvent(trackerEvent)
     }
 
     func trackSaveFavoriteCompleted(_ isShowingFeaturedStripe: Bool) {
         let isBumpedUp = isShowingFeaturedStripe ? EventParameterBoolean.trueParameter :
             EventParameterBoolean.falseParameter
-        let trackerEvent = TrackerEvent.productFavorite(listing, typePage: .productDetail, isBumpedUp: isBumpedUp)
+        let trackerEvent = TrackerEvent.listingFavorite(listing, typePage: .listingDetail, isBumpedUp: isBumpedUp)
         tracker.trackEvent(trackerEvent)
     }
 
     func trackChatWithSeller(_ source: EventParameterTypePage) {
-        let trackerEvent = TrackerEvent.productDetailOpenChat(listing, typePage: source)
+        let trackerEvent = TrackerEvent.listingDetailOpenChat(listing, typePage: source)
         tracker.trackEvent(trackerEvent)
     }
 
     func trackCommercializerStart() {
-        let trackerEvent = TrackerEvent.commercializerStart(listing.objectId, typePage: .productDetail)
+        let trackerEvent = TrackerEvent.commercializerStart(listing.objectId, typePage: .listingDetail)
         tracker.trackEvent(trackerEvent)
     }
 
     func trackMessageSent(isFirstMessage: Bool,
                           messageType: ChatWrapperMessageType,
                           isShowingFeaturedStripe: Bool,
-                          productVisitSource: EventParameterProductVisitSource,
+                          listingVisitSource: EventParameterListingVisitSource,
                           feedPosition: EventParameterFeedPosition) {
         guard let info = buildSendMessageInfo(withType: messageType,
                                               isShowingFeaturedStripe: isShowingFeaturedStripe,
                                               error: nil) else { return }
         if isFirstMessage {
             tracker.trackEvent(TrackerEvent.firstMessage(info: info,
-                                                         productVisitSource: productVisitSource,
+                                                         listingVisitSource: listingVisitSource,
                                                          feedPosition: feedPosition))
         }
         tracker.trackEvent(TrackerEvent.userMessageSent(info: info))
@@ -259,7 +259,7 @@ extension ProductVMTrackHelper {
             .set(listing: listing, freePostingModeAllowed: featureFlags.freePostingModeAllowed)
             .set(messageType: messageType.chatTrackerType)
             .set(quickAnswerType: messageType.quickAnswerType)
-            .set(typePage: .productDetail)
+            .set(typePage: .listingDetail)
             .set(isBumpedUp: isBumpedUp)
         if let error = error {
             sendMessageInfo.set(error: error.chatError)

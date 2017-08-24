@@ -1,5 +1,5 @@
 //
-//  FilterProductListRequesterFactory.swift
+//  FilterListingListRequesterFactory.swift
 //  LetGo
 //
 //  Created by Dídac on 12/05/17.
@@ -9,25 +9,25 @@
 import Foundation
 import LGCoreKit
 
-class FilterProductListRequesterFactory {
+class FilterListingListRequesterFactory {
 
-    static func generateRequester(withFilters filters: ProductFilters, queryString: String?, itemsPerPage: Int, multiRequesterEnabled: Bool) -> ProductListMultiRequester {
+    static func generateRequester(withFilters filters: ProductFilters, queryString: String?, itemsPerPage: Int, multiRequesterEnabled: Bool) -> ListingListMultiRequester {
 
         var filtersArray: [ProductFilters] = [filters]
-        var requestersArray: [ProductListRequester] = []
+        var requestersArray: [ListingListRequester] = []
 
         if multiRequesterEnabled && (filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsCategory) {
-            filtersArray = FilterProductListRequesterFactory.generateCarsNegativeFilters(fromFilters: filters)
+            filtersArray = FilterListingListRequesterFactory.generateCarsNegativeFilters(fromFilters: filters)
         }
 
         for filter in filtersArray {
-            let filteredRequester = FilteredProductListRequester(itemsPerPage: itemsPerPage, offset: 0)
+            let filteredRequester = FilteredListingListRequester(itemsPerPage: itemsPerPage, offset: 0)
             filteredRequester.filters = filter
             filteredRequester.queryString = queryString
             requestersArray.append(filteredRequester)
         }
 
-        let multiRequester = ProductListMultiRequester(requesters: requestersArray)
+        let multiRequester = ListingListMultiRequester(requesters: requestersArray)
 
         return multiRequester
     }

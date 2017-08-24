@@ -1,5 +1,5 @@
 //
-//  FilteredProductListRequester.swift
+//  FilteredListingListRequester.swift
 //  LetGo
 //
 //  Created by Eli Kohen on 20/04/16.
@@ -10,7 +10,7 @@ import LGCoreKit
 import CoreLocation
 
 
-class FilteredProductListRequester: ProductListRequester {
+class FilteredListingListRequester: ListingListRequester {
 
     let itemsPerPage: Int
     fileprivate let listingRepository: ListingRepository
@@ -37,7 +37,7 @@ class FilteredProductListRequester: ProductListRequester {
     }
 
 
-    // MARK: - ProductListRequester
+    // MARK: - ListingListRequester
 
     func canRetrieve() -> Bool { return queryCoordinates != nil }
     
@@ -85,8 +85,8 @@ class FilteredProductListRequester: ProductListRequester {
         initialOffset = newOffset
     }
 
-    func duplicate() -> ProductListRequester {
-        let requester = FilteredProductListRequester(itemsPerPage: itemsPerPage)
+    func duplicate() -> ListingListRequester {
+        let requester = FilteredListingListRequester(itemsPerPage: itemsPerPage)
         requester.offset = offset
         requester.queryFirstCallCoordinates = queryFirstCallCoordinates
         requester.queryFirstCallCountryCode = queryFirstCallCountryCode
@@ -96,7 +96,7 @@ class FilteredProductListRequester: ProductListRequester {
     }
 
 
-    // MARK: - MainProductListRequester
+    // MARK: - MainListingListRequester
 
     var countryCode: String? {
         if let countryCode = filters?.place?.postalAddress?.countryCode {
@@ -162,19 +162,19 @@ class FilteredProductListRequester: ProductListRequester {
         }
     }
 
-    func distanceFromProductCoordinates(_ productCoords: LGLocationCoordinates2D) -> Double? {
+    func distanceFromListingCoordinates(_ listingCoords: LGLocationCoordinates2D) -> Double? {
 
         var meters = 0.0
         if let coordinates = queryCoordinates {
             let quadKeyStr = coordinates.coordsToQuadKey(LGCoreKitConstants.defaultQuadKeyPrecision)
             let actualQueryCoords = LGLocationCoordinates2D(fromCenterOfQuadKey: quadKeyStr)
-            meters = productCoords.distanceTo(actualQueryCoords)
+            meters = listingCoords.distanceTo(actualQueryCoords)
         }
         return meters
     }
 
-    func isEqual(toRequester requester: ProductListRequester) -> Bool {
-        guard let requester = requester as? FilteredProductListRequester else { return false }
+    func isEqual(toRequester requester: ListingListRequester) -> Bool {
+        guard let requester = requester as? FilteredListingListRequester else { return false }
         return queryString == requester.queryString && filters == requester.filters
     }
 }
@@ -182,7 +182,7 @@ class FilteredProductListRequester: ProductListRequester {
 
 // MARK: - Private methods
 
-fileprivate extension FilteredProductListRequester {
+fileprivate extension FilteredListingListRequester {
 
     var queryCoordinates: LGLocationCoordinates2D? {
         if let coordinates = filters?.place?.location {
@@ -247,7 +247,7 @@ fileprivate extension FilteredProductListRequester {
 
 // Tracking Helpers
 
-fileprivate extension FilteredProductListRequester {
+fileprivate extension FilteredListingListRequester {
 
     func generateVerticalTrackingInfo() -> VerticalTrackingInfo? {
         let vertical: ListingCategory = ListingCategory.cars

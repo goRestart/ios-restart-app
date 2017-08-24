@@ -224,8 +224,8 @@ extension ProductCarouselCell: ProductCarouselImageCellDelegate {
 
 fileprivate extension ProductCarouselCell {
     func setAccessibilityIds() {
-        self.accessibilityId = .productCarouselCell
-        collectionView.accessibilityId = .productCarouselCellCollectionView
-        placeholderImage?.accessibilityId = .productCarouselCellPlaceholderImage
+        self.accessibilityId = .listingCarouselCell
+        collectionView.accessibilityId = .listingCarouselCellCollectionView
+        placeholderImage?.accessibilityId = .listingCarouselCellPlaceholderImage
     }
 }

@@ -91,7 +91,7 @@ class MainProductsViewModelSpec: QuickSpec {
                 
                 beforeEach {
                     mockTracker = MockTracker()
-                    productListViewModel = ProductListViewModel(requester: MockProductListRequester(canRetrieve: true, offset: 0, pageSize: 20))
+                    productListViewModel = ProductListViewModel(requester: MockListingListRequester(canRetrieve: true, offset: 0, pageSize: 20))
                 }
                
                 context("with no filter and no search") {
@@ -105,7 +105,7 @@ class MainProductsViewModelSpec: QuickSpec {
                     }
                     it("fires product list event") {
                         let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
-                        expect(eventNames) == [.productList]
+                        expect(eventNames) == [.listingList]
                     }
                     it("fires product list event and feed source parameter is .home") {
                         let eventParams = mockTracker.trackedEvents.flatMap { $0.params }.first
@@ -122,11 +122,11 @@ class MainProductsViewModelSpec: QuickSpec {
                         sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, searchRepository: Core.searchRepository, listingRepository: Core.listingRepository, monetizationRepository: Core.monetizationRepository, categoryRepository: Core.categoryRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: mockTracker, searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags, bubbleTextGenerator: DistanceBubbleTextGenerator())
                         sut.productListVM(productListViewModel, didSucceedRetrievingProductsPage: 0, hasProducts: true)
                     }
-                    it("fires product list event and search complete") {
+                    it("fires listing list event and search complete") {
                         let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
-                        expect(eventNames) == [.productList, .searchComplete]
+                        expect(eventNames) == [.listingList, .searchComplete]
                     }
-                    it("fires product list event and feed source parameter is .search") {
+                    it("fires listing list event and feed source parameter is .search") {
                         let eventParams = mockTracker.trackedEvents.flatMap { $0.params }.first
                         expect(eventParams?.stringKeyParams["feed-source"] as? String) == "search"
                     }
@@ -142,7 +142,7 @@ class MainProductsViewModelSpec: QuickSpec {
                     }
                     it("fires product list event") {
                         let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
-                        expect(eventNames) == [.productList]
+                        expect(eventNames) == [.listingList]
                     }
                     it("fires product list event and feed source parameter is .filter") {
                         let eventParams = mockTracker.trackedEvents.flatMap { $0.params }.first
@@ -160,7 +160,7 @@ class MainProductsViewModelSpec: QuickSpec {
                     }
                     it("fires product list event and search complete") {
                         let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
-                        expect(eventNames) == [.productList, .searchComplete]
+                        expect(eventNames) == [.listingList, .searchComplete]
                     }
                     it("fires product list event and feed source parameter is .search&filter") {
                         let eventParams = mockTracker.trackedEvents.flatMap { $0.params }.first
@@ -183,7 +183,7 @@ class MainProductsViewModelSpec: QuickSpec {
                     }
                     it("fires product list event") {
                         let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
-                        expect(eventNames) == [.productList]
+                        expect(eventNames) == [.listingList]
                     }
                     it("fires product list event and feed source parameter is .collection") {
                         let eventParams = mockTracker.trackedEvents.flatMap { $0.params }.first
@@ -197,7 +197,7 @@ class MainProductsViewModelSpec: QuickSpec {
                 
                 beforeEach {
                     mockTracker = MockTracker()
-                    productListViewModel = ProductListViewModel(requester: MockProductListRequester(canRetrieve: true, offset: 0, pageSize: 20))
+                    productListViewModel = ProductListViewModel(requester: MockListingListRequester(canRetrieve: true, offset: 0, pageSize: 20))
                     sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository,
                                                 searchRepository: Core.searchRepository,
                                                 listingRepository: Core.listingRepository, monetizationRepository: Core.monetizationRepository, categoryRepository: Core.categoryRepository,

@@ -1,5 +1,5 @@
 //
-//  UserProductListRequester.swift
+//  UserListingListRequester.swift
 //  LetGo
 //
 //  Created by Eli Kohen on 19/04/16.
@@ -8,12 +8,12 @@
 
 import LGCoreKit
 
-protocol UserProductListRequester: ProductListRequester {
+protocol UserListingListRequester: ListingListRequester {
     var userObjectId: String? { get set }
 }
 
-class UserFavoritesProductListRequester: UserProductListRequester {
-    func distanceFromProductCoordinates(_ productCoords: LGLocationCoordinates2D) -> Double? {
+class UserFavoritesListingListRequester: UserListingListRequester {
+    func distanceFromListingCoordinates(_ listingCoords: LGLocationCoordinates2D) -> Double? {
         // method needed for protocol implementation, not used for user
         return nil
     }
@@ -39,7 +39,7 @@ class UserFavoritesProductListRequester: UserProductListRequester {
     func canRetrieve() -> Bool { return true }
     
     func retrieveFirstPage(_ completion: ListingsRequesterCompletion?) {
-        productsRetrieval { result in
+        listingsRetrieval { result in
             completion?(ListingsRequesterResult(listingsResult: result, context: nil))
         }
     }
@@ -51,7 +51,7 @@ class UserFavoritesProductListRequester: UserProductListRequester {
         return
     }
 
-    private func productsRetrieval(_ completion: ListingsCompletion?) {
+    private func listingsRetrieval(_ completion: ListingsCompletion?) {
         guard let userId = userObjectId else { return }
         listingRepository.indexFavorites(userId, completion: completion)
     }
@@ -63,21 +63,21 @@ class UserFavoritesProductListRequester: UserProductListRequester {
 
     func updateInitialOffset(_ newOffset: Int) { }
 
-    func duplicate() -> ProductListRequester {
-        let r = UserFavoritesProductListRequester()
+    func duplicate() -> ListingListRequester {
+        let r = UserFavoritesListingListRequester()
         r.userObjectId = userObjectId
         return r
     }
 
-    func isEqual(toRequester requester: ProductListRequester) -> Bool {
-        guard let requester = requester as? UserFavoritesProductListRequester else { return false }
+    func isEqual(toRequester requester: ListingListRequester) -> Bool {
+        guard let requester = requester as? UserFavoritesListingListRequester else { return false }
         return userObjectId == requester.userObjectId
     }
 }
 
 
-class UserStatusesProductListRequester: UserProductListRequester {
-    func distanceFromProductCoordinates(_ productCoords: LGLocationCoordinates2D) -> Double? {
+class UserStatusesListingListRequester: UserListingListRequester {
+    func distanceFromListingCoordinates(_ listingCoords: LGLocationCoordinates2D) -> Double? {
         // method needed for protocol implementation, not used for user
         return nil
     }
@@ -110,14 +110,14 @@ class UserStatusesProductListRequester: UserProductListRequester {
 
     func retrieveFirstPage(_ completion: ListingsRequesterCompletion?) {
         offset = 0
-        productsRetrieval(completion)
+        listingsRetrieval(completion)
     }
     
     func retrieveNextPage(_ completion: ListingsRequesterCompletion?) {
-        productsRetrieval(completion)
+        listingsRetrieval(completion)
     }
     
-    private func productsRetrieval(_ completion: ListingsRequesterCompletion?) {
+    private func listingsRetrieval(_ completion: ListingsRequesterCompletion?) {
         guard let userId = userObjectId else { return  }
         listingRepository.index(userId: userId, params: retrieveProductsParams) { [weak self] result in
             if let products = result.value, !products.isEmpty {
@@ -135,15 +135,15 @@ class UserStatusesProductListRequester: UserProductListRequester {
 
     func updateInitialOffset(_ newOffset: Int) { }
 
-    func duplicate() -> ProductListRequester {
-        let r = UserStatusesProductListRequester(statuses: statuses, itemsPerPage: itemsPerPage)
+    func duplicate() -> ListingListRequester {
+        let r = UserStatusesListingListRequester(statuses: statuses, itemsPerPage: itemsPerPage)
         r.offset = offset
         r.userObjectId = userObjectId
         return r
     }
 
-    func isEqual(toRequester requester: ProductListRequester) -> Bool {
-        guard let requester = requester as? UserStatusesProductListRequester else { return false }
+    func isEqual(toRequester requester: ListingListRequester) -> Bool {
+        guard let requester = requester as? UserStatusesListingListRequester else { return false }
         return userObjectId == requester.userObjectId
     }
     

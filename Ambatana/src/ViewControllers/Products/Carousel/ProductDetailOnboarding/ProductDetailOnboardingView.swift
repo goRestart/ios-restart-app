@@ -96,6 +96,6 @@ class ProductDetailOnboardingView: BaseView {
     }
 
     private func setAccessibilityIds() {
-        self.accessibilityId = .productDetailOnboarding
+        self.accessibilityId = .listingDetailOnboarding
     }
 }

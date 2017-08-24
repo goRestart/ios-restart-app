@@ -1077,8 +1077,8 @@ extension ProductCarouselViewController: UICollectionViewDataSource, UICollectio
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifierForIndex(indexPath.row),
                                                                              for: indexPath)
             guard let carouselCell = cell as? ProductCarouselCell else { return UICollectionViewCell() }
-            guard let productCellModel = viewModel.productCellModelAt(index: indexPath.row) else { return carouselCell }
-            carouselCell.configureCellWith(cellModel: productCellModel, placeholderImage: viewModel.thumbnailAtIndex(indexPath.row),
+            guard let listingCellModel = viewModel.listingCellModelAt(index: indexPath.row) else { return carouselCell }
+            carouselCell.configureCellWith(cellModel: listingCellModel, placeholderImage: viewModel.thumbnailAtIndex(indexPath.row),
                                                   indexPath: indexPath, imageDownloader: carouselImageDownloader,
                                                   imageScrollDirection: viewModel.imageScrollDirection)
             carouselCell.delegate = self
@@ -1275,17 +1275,17 @@ extension ProductCarouselViewController: ProductDetailOnboardingViewDelegate {
 
 fileprivate extension ProductCarouselViewController {
     func setAccessibilityIds() {
-        collectionView.accessibilityId = .productCarouselCollectionView
-        buttonBottom.accessibilityId = .productCarouselButtonBottom
-        buttonTop.accessibilityId = .productCarouselButtonTop
-        favoriteButton.accessibilityId = .productCarouselFavoriteButton
-        moreInfoView.accessibilityId = .productCarouselMoreInfoView
-        productStatusLabel.accessibilityId = .productCarouselProductStatusLabel
-        directChatTable.accessibilityId = .productCarouselDirectChatTable
-        fullScreenAvatarView.accessibilityId = .productCarouselFullScreenAvatarView
-        pageControl.accessibilityId = .productCarouselPageControl
-        customPageControl.accessibilityId = .productCarouselCustomPageControl
-        userView.accessibilityId = .productCarouselUserView
-        chatTextView.accessibilityId = .productCarouselChatTextView
+        collectionView.accessibilityId = .listingCarouselCollectionView
+        buttonBottom.accessibilityId = .listingCarouselButtonBottom
+        buttonTop.accessibilityId = .listingCarouselButtonTop
+        favoriteButton.accessibilityId = .listingCarouselFavoriteButton
+        moreInfoView.accessibilityId = .listingCarouselMoreInfoView
+        productStatusLabel.accessibilityId = .listingCarouselListingStatusLabel
+        directChatTable.accessibilityId = .listingCarouselDirectChatTable
+        fullScreenAvatarView.accessibilityId = .listingCarouselFullScreenAvatarView
+        pageControl.accessibilityId = .listingCarouselPageControl
+        customPageControl.accessibilityId = .listingCarouselCustomPageControl
+        userView.accessibilityId = .listingCarouselUserView
+        chatTextView.accessibilityId = .listingCarouselChatTextView
     }
 }

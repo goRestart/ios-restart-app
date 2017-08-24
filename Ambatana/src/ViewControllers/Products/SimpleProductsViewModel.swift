@@ -15,46 +15,46 @@ class SimpleProductsViewModel: BaseViewModel {
     weak var navigator: SimpleProductsNavigator?
 
     let title: String
-    let productVisitSource: EventParameterProductVisitSource
-    let productListRequester: ProductListRequester
+    let listingVisitSource: EventParameterListingVisitSource
+    let listingListRequester: ListingListRequester
     let productListViewModel: ProductListViewModel
     let featureFlags: FeatureFlaggeable
 
-    convenience init(relatedProductId: String,
-                     productVisitSource: EventParameterProductVisitSource) {
+    convenience init(relatedListingId: String,
+                     listingVisitSource: EventParameterListingVisitSource) {
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         let itemsPerPage = show3Columns ? Constants.numListingsPerPageBig : Constants.numListingsPerPageDefault
-        let requester = RelatedProductListRequester(productId: relatedProductId, itemsPerPage: itemsPerPage)
+        let requester = RelatedListingListRequester(listingId: relatedListingId, itemsPerPage: itemsPerPage)
         self.init(requester: requester,
                   title: LGLocalizedString.relatedItemsTitle,
-                  productVisitSource: productVisitSource)
+                  listingVisitSource: listingVisitSource)
     }
 
-    convenience init(requester: ProductListRequester,
+    convenience init(requester: ListingListRequester,
                      title: String,
-                     productVisitSource: EventParameterProductVisitSource) {
+                     listingVisitSource: EventParameterListingVisitSource) {
         self.init(requester: requester,
                   listings: nil,
                   title: title,
-                  productVisitSource: productVisitSource,
+                  listingVisitSource: listingVisitSource,
                   featureFlags: FeatureFlags.sharedInstance)
     }
 
-    convenience init(requester: ProductListRequester,
+    convenience init(requester: ListingListRequester,
                      listings: [Listing],
-                     productVisitSource: EventParameterProductVisitSource) {
+                     listingVisitSource: EventParameterListingVisitSource) {
         self.init(requester: requester,
                   listings: listings,
                   title: LGLocalizedString.relatedItemsTitle,
-                  productVisitSource: productVisitSource,
+                  listingVisitSource: listingVisitSource,
                   featureFlags: FeatureFlags.sharedInstance)
     }
 
-    init(requester: ProductListRequester, listings: [Listing]?, title: String, productVisitSource: EventParameterProductVisitSource,
+    init(requester: ListingListRequester, listings: [Listing]?, title: String, listingVisitSource: EventParameterListingVisitSource,
          featureFlags: FeatureFlaggeable) {
         self.title = title
-        self.productVisitSource = productVisitSource
-        self.productListRequester = requester
+        self.listingVisitSource = listingVisitSource
+        self.listingListRequester = requester
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         let columns = show3Columns ? 3 : 2
         self.productListViewModel = ProductListViewModel(requester: requester, listings: listings, numberOfColumns: columns)
@@ -92,9 +92,9 @@ extension SimpleProductsViewModel: ProductListViewModelDataDelegate {
         guard let listing = viewModel.listingAtIndex(index) else { return }
         let cellModels = viewModel.objects
         let data = ListingDetailData.listingList(listing: listing, cellModels: cellModels,
-                                                 requester: productListRequester, thumbnailImage: thumbnailImage,
+                                                 requester: listingListRequester, thumbnailImage: thumbnailImage,
                                                  originFrame: originFrame, showRelated: false, index: index)
-        navigator?.openListing(data, source: productVisitSource, actionOnFirstAppear: .nonexistent)
+        navigator?.openListing(data, source: listingVisitSource, actionOnFirstAppear: .nonexistent)
     }
 
     func vmProcessReceivedProductPage(_ products: [ListingCellModel], page: UInt) -> [ListingCellModel] {

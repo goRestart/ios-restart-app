@@ -105,9 +105,9 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
                                     userName: conversation.interlocutor?.name ?? "",
                                     userImageUrl: conversation.interlocutor?.avatar?.fileURL,
                                     userImagePlaceholder: LetgoAvatar.avatarWithID(conversation.interlocutor?.objectId,
-                                        name: conversation.interlocutor?.name),
-                                    productName: conversation.listing?.name ?? "",
-                                    productImageUrl: conversation.listing?.image?.fileURL,
+                                    name: conversation.interlocutor?.name),
+                                    listingName: conversation.listing?.name ?? "",
+                                    listingImageUrl: conversation.listing?.image?.fileURL,
                                     unreadCount: conversation.unreadMessageCount,
                                     messageDate: conversation.lastMessageSentAt)
     }
@@ -197,9 +197,9 @@ fileprivate extension ChatConversation {
 
         switch listing.status {
         case .deleted, .discarded:
-            return .productDeleted
+            return .listingDeleted
         case .sold, .soldOld:
-            return .productSold
+            return .listingSold
         case .approved, .pending:
             return .available
         }

@@ -209,7 +209,7 @@ extension KeyValueStorageable {
         }
     }
 
-    var userProductsWithExpressChatMessageSent: [String] {
+    var userListingsWithExpressChatMessageSent: [String] {
         get {
             return currentUserProperties?.productsWithExpressChatMessageSent ??
                 UserDefaultsUser.productsWithExpressChatMessageSentDefaultValue

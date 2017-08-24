@@ -349,7 +349,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     // MARK: - UICollectionViewDelegate
     
     func collectionView(_ cv: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView(cv, cellForItemAt: indexPath) as? ProductCell
+        let cell = collectionView(cv, cellForItemAt: indexPath) as? ListingCell
         let thumbnailImage = cell?.thumbnailImageView.image
         
         var newFrame: CGRect? = nil
@@ -630,13 +630,13 @@ extension ProductListView: UICollectionViewDataSourcePrefetching {
 
 extension ProductListView {
     func setAccessibilityIds() {
-        firstLoadView.accessibilityId = .productListViewFirstLoadView
-        firstLoadActivityIndicator.accessibilityId = .productListViewFirstLoadActivityIndicator
-        collectionView.accessibilityId = .productListViewCollection
-        errorView.accessibilityId = .productListViewErrorView
-        errorImageView.accessibilityId =  .productListErrorImageView
-        errorTitleLabel.accessibilityId = .productListErrorTitleLabel
-        errorBodyLabel.accessibilityId = .productListErrorBodyLabel
-        errorButton.accessibilityId = .productListErrorButton
+        firstLoadView.accessibilityId = .listingListViewFirstLoadView
+        firstLoadActivityIndicator.accessibilityId = .listingListViewFirstLoadActivityIndicator
+        collectionView.accessibilityId = .listingListViewCollection
+        errorView.accessibilityId = .listingListViewErrorView
+        errorImageView.accessibilityId =  .listingListErrorImageView
+        errorTitleLabel.accessibilityId = .listingListErrorTitleLabel
+        errorBodyLabel.accessibilityId = .listingListErrorBodyLabel
+        errorButton.accessibilityId = .listingListErrorButton
     }
 }

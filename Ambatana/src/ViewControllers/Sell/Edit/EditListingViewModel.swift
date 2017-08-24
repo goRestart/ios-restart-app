@@ -332,7 +332,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
     var fbShareContent: FBSDKShareLinkContent? {
         if let listing = savedListing {
-            return ProductSocialMessage(listing: listing, fallbackToStore: false).fbShareContent
+            return ListingSocialMessage(listing: listing, fallbackToStore: false).fbShareContent
         }
         return nil
     }
@@ -750,20 +750,20 @@ extension EditListingViewModel {
 
     fileprivate func trackStart() {
         let myUser = myUserRepository.myUser
-        let event = TrackerEvent.productEditStart(myUser, listing: initialListing)
+        let event = TrackerEvent.listingEditStart(myUser, listing: initialListing)
         trackEvent(event)
     }
 
     fileprivate func trackValidationFailedWithError(_ error: ProductCreateValidationError) {
         let myUser = myUserRepository.myUser
-        let event = TrackerEvent.productEditFormValidationFailed(myUser, listing: initialListing,
+        let event = TrackerEvent.listingEditFormValidationFailed(myUser, listing: initialListing,
                                                                  description: error.description)
         trackEvent(event)
     }
 
     fileprivate func trackSharedFB() {
         let myUser = myUserRepository.myUser
-        let event = TrackerEvent.productEditSharedFB(myUser, listing: savedListing)
+        let event = TrackerEvent.listingEditSharedFB(myUser, listing: savedListing)
         trackEvent(event)
     }
 
@@ -773,7 +773,7 @@ extension EditListingViewModel {
         guard !editedFields.isEmpty  else { return }
 
         let myUser = myUserRepository.myUser
-        let event = TrackerEvent.productEditComplete(myUser, listing: listing, category: category.value,
+        let event = TrackerEvent.listingEditComplete(myUser, listing: listing, category: category.value,
                                                      editedFields: editedFields)
         trackEvent(event)
     }

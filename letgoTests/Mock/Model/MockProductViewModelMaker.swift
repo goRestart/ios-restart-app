@@ -45,7 +45,7 @@ class MockProductViewModelMaker: ProductViewModelMaker {
         self.tracker = tracker
     }
 
-    func make(listing: Listing, visitSource: EventParameterProductVisitSource) -> ProductViewModel {
+    func make(listing: Listing, visitSource: EventParameterListingVisitSource) -> ProductViewModel {
         return ProductViewModel(listing: listing,
                                 visitSource: visitSource,
                                 myUserRepository: myUserRepository,

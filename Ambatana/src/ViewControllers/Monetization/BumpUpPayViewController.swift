@@ -64,7 +64,7 @@ class BumpUpPayViewController: BaseViewController {
             imageContainer.isHidden = true
         }
 
-        productImageView.layer.cornerRadius = LGUIKitConstants.productCellCornerRadius
+        productImageView.layer.cornerRadius = LGUIKitConstants.listingCellCornerRadius
         titleLabel.text = LGLocalizedString.bumpUpViewPayTitle
         subtitleLabel.text = LGLocalizedString.bumpUpViewPaySubtitle
 

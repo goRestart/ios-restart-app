@@ -71,7 +71,7 @@ class UserViewController: BaseViewController {
 
     fileprivate let userBgTintViewAlpha = Variable<CGFloat>(0)
     fileprivate var bottomInset: CGFloat = 0
-    fileprivate let cellDrawer: ProductCellDrawer
+    fileprivate let cellDrawer: ListingCellDrawer
     fileprivate var viewModel: UserViewModel
     fileprivate let socialSharer: SocialSharer
 
@@ -97,7 +97,7 @@ class UserViewController: BaseViewController {
         let socialSharer = SocialSharer()
         socialSharer.delegate = viewModel
         self.socialSharer = socialSharer
-        self.cellDrawer = ProductCellDrawer()
+        self.cellDrawer = ListingCellDrawer()
         self.disposeBag = DisposeBag()
         
         super.init(viewModel: viewModel, nibName: "UserViewController", statusBarStyle: .lightContent,
@@ -249,9 +249,9 @@ extension UserViewController {
         headerContainer?.header.soldButton.accessibilityId = .userSoldTab
         headerContainer?.header.favoritesButton.accessibilityId = .userFavoritesTab
 
-        productListView.firstLoadView.accessibilityId = .userProductsFirstLoad
-        productListView.collectionView.accessibilityId = .userProductsList
-        productListView.errorView.accessibilityId = .userProductsError
+        productListView.firstLoadView.accessibilityId = .userListingsFirstLoad
+        productListView.collectionView.accessibilityId = .userListingsList
+        productListView.errorView.accessibilityId = .userListingsError
     }
 
     private func setupMainView() {

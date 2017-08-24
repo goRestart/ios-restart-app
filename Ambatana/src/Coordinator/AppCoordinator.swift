@@ -225,7 +225,7 @@ extension AppCoordinator: AppNavigator {
                 SKStoreReviewController.requestReview()
                 trackUserDidRate()
                 LGRatingManager.sharedInstance.userDidRate()
-            case .chat, .favorite, .productSellComplete:
+            case .chat, .favorite, .listingSellComplete:
                 guard canOpenAppStoreWriteReviewWebsite() else { return }
                 askUserIsEnjoyingLetgo()
             }
@@ -472,7 +472,7 @@ fileprivate extension AppCoordinator {
         if pushPermissionsManager.shouldShowPushPermissionsAlertFromViewController(.sell) {
             pushPermissionsManager.showPrePermissionsViewFrom(tabBarCtl, type: .sell, completion: nil)
         } else if ratingManager.shouldShowRating {
-            openAppRating(.productSellComplete)
+            openAppRating(.listingSellComplete)
         } else {
             return false
         }
@@ -742,31 +742,31 @@ fileprivate extension AppCoordinator {
             afterDelayClosure = { [weak self] in
                 self?.openSell(source: .deepLink)
             }
-        case let .product(productId):
+        case let .listing(listingId):
             tabBarCtl.clearAllPresented(nil)
             afterDelayClosure = { [weak self] in
-                self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: productId), source: .openApp,
+                self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: listingId), source: .openApp,
                                                           actionOnFirstAppear: .nonexistent)
             }
-        case let .productShare(productId):
+        case let .listingShare(listingId):
             tabBarCtl.clearAllPresented(nil)
             afterDelayClosure = { [weak self] in
-                self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: productId), source: .openApp,
+                self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: listingId), source: .openApp,
                                                           actionOnFirstAppear: .showShareSheet)
             }
-        case let .productBumpUp(productId):
+        case let .listingBumpUp(listingId):
             tabBarCtl.clearAllPresented(nil)
             afterDelayClosure = { [weak self] in
                 self?.openTab(.profile, force: false) { [weak self] in
-                    self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: productId),
+                    self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: listingId),
                                                               source: .openApp, actionOnFirstAppear: .triggerBumpUp)
                 }
             }
-        case let .productMarkAsSold(productId):
+        case let .listingMarkAsSold(listingId):
             tabBarCtl.clearAllPresented(nil)
             afterDelayClosure = { [weak self] in
                 self?.openTab(.profile, force: false) { [weak self] in
-                    self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: productId),
+                    self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: listingId),
                                                               source: .openApp, actionOnFirstAppear: .triggerMarkAsSold)
                 }
             }
@@ -856,7 +856,7 @@ fileprivate extension AppCoordinator {
         if let child = child, child is SellCoordinator { return }
 
         switch deepLink.action {
-        case .home, .sell, .product, .productShare, .productBumpUp, .productMarkAsSold, .user, .conversations, .conversationWithMessage, .search, .resetPassword, .userRatings, .userRating,
+        case .home, .sell, .listing, .listingShare, .listingBumpUp, .listingMarkAsSold, .user, .conversations, .conversationWithMessage, .search, .resetPassword, .userRatings, .userRating,
              .passiveBuyers, .notificationCenter, .appStore:
             return // Do nothing
         case let .conversation(data):

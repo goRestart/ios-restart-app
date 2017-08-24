@@ -1,5 +1,5 @@
 //
-//  ProductListMultiRequester.swift
+//  ListingListMultiRequester.swift
 //  LetGo
 //
 //  Created by Dídac on 07/09/16.
@@ -10,10 +10,10 @@ import Foundation
 import LGCoreKit
 import RxSwift
 
-class ProductListMultiRequester {
+class ListingListMultiRequester {
 
-    fileprivate var requestersArray: [ProductListRequester]
-    fileprivate var activeRequester: ProductListRequester?
+    fileprivate var requestersArray: [ListingListRequester]
+    fileprivate var activeRequester: ListingListRequester?
     var currentIndex: Int // not private for testing reasons
     fileprivate var hasChangedRequester: Bool // use it to ask for 1st page of next requester
     var multiIsFirstPage: Bool
@@ -34,7 +34,7 @@ class ProductListMultiRequester {
         self.init(requesters: [])
     }
 
-    init(requesters: [ProductListRequester]) {
+    init(requesters: [ListingListRequester]) {
         self.requestersArray = requesters
         self.currentIndex = 0
         if !requesters.isEmpty {
@@ -46,7 +46,7 @@ class ProductListMultiRequester {
     }
 }
 
-extension ProductListMultiRequester: ProductListRequester {
+extension ListingListMultiRequester: ListingListRequester {
     func canRetrieve() -> Bool {
         guard let activeRequester = activeRequester else { return false }
         return activeRequester.canRetrieve()
@@ -83,13 +83,13 @@ extension ProductListMultiRequester: ProductListRequester {
         activeRequester?.updateInitialOffset(newOffset)
     }
 
-    func duplicate() -> ProductListRequester {
+    func duplicate() -> ListingListRequester {
         let newArray = requestersArray.map { $0.duplicate() }
-        return ProductListMultiRequester(requesters: newArray)
+        return ListingListMultiRequester(requesters: newArray)
     }
 
-    func isEqual(toRequester requester: ProductListRequester) -> Bool {
-        guard let requester = requester as? ProductListMultiRequester else { return false }
+    func isEqual(toRequester requester: ListingListRequester) -> Bool {
+        guard let requester = requester as? ListingListMultiRequester else { return false }
         guard requestersArray.count == requester.requestersArray.count else { return false }
         for (index, req) in requester.requestersArray.enumerated() {
             guard requestersArray[index].isEqual(toRequester: req) else { return false }
@@ -97,8 +97,8 @@ extension ProductListMultiRequester: ProductListRequester {
         return true
     }
 
-    func distanceFromProductCoordinates(_ productCoords: LGLocationCoordinates2D) -> Double? {
-        return activeRequester?.distanceFromProductCoordinates(productCoords)
+    func distanceFromListingCoordinates(_ listingCoords: LGLocationCoordinates2D) -> Double? {
+        return activeRequester?.distanceFromListingCoordinates(listingCoords)
     }
 
     var countryCode: String? {

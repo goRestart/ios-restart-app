@@ -27,12 +27,12 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
 }
 
 protocol ProductViewModelMaker {
-    func make(listing: Listing, visitSource: EventParameterProductVisitSource) -> ProductViewModel
+    func make(listing: Listing, visitSource: EventParameterListingVisitSource) -> ProductViewModel
 }
 
 class ProductViewModel: BaseViewModel {
     class ConvenienceMaker: ProductViewModelMaker {
-        func make(listing: Listing, visitSource source: EventParameterProductVisitSource) -> ProductViewModel {
+        func make(listing: Listing, visitSource source: EventParameterListingVisitSource) -> ProductViewModel {
             return ProductViewModel(listing: listing,
                                     visitSource: source,
                                     myUserRepository: Core.myUserRepository,
@@ -124,7 +124,7 @@ class ProductViewModel: BaseViewModel {
     fileprivate let purchasesShopper: PurchasesShopper
     fileprivate let monetizationRepository: MonetizationRepository
     fileprivate let showFeaturedStripeHelper: ShowFeaturedStripeHelper
-    fileprivate let visitSource: EventParameterProductVisitSource
+    fileprivate let visitSource: EventParameterListingVisitSource
 
     let isShowingFeaturedStripe = Variable<Bool>(false)
 
@@ -141,7 +141,7 @@ class ProductViewModel: BaseViewModel {
     // MARK: - Lifecycle
 
     init(listing: Listing,
-         visitSource: EventParameterProductVisitSource,
+         visitSource: EventParameterListingVisitSource,
          myUserRepository: MyUserRepository,
          listingRepository: ListingRepository,
          commercializerRepository: CommercializerRepository,
@@ -281,8 +281,8 @@ class ProductViewModel: BaseViewModel {
 
             strongSelf.productIsFavoriteable.value = !isMine
             strongSelf.isFavorite.value = listing.favorite
-            strongSelf.socialMessage.value = ProductSocialMessage(listing: listing, fallbackToStore: false)
-            strongSelf.freeBumpUpShareMessage = ProductSocialMessage(listing: listing, fallbackToStore: true)
+            strongSelf.socialMessage.value = ListingSocialMessage(listing: listing, fallbackToStore: false)
+            strongSelf.freeBumpUpShareMessage = ListingSocialMessage(listing: listing, fallbackToStore: true)
             strongSelf.productImageURLs.value = listing.images.flatMap { return $0.fileURL }
 
             let productInfo = ProductVMProductInfo(listing: listing,
@@ -413,13 +413,13 @@ class ProductViewModel: BaseViewModel {
                                                          action: { [weak self] in
                                                             self?.bumpUpHiddenProductContactUs()
                     },
-                                                         accessibilityId: .bumpUpHiddenProductAlertContactButton)
+                                                         accessibilityId: .bumpUpHiddenListingAlertContactButton)
 
                 let cancelInterface = UIActionInterface.button(LGLocalizedString.commonCancel,
                                                                .secondary(fontSize: .medium, withBorder: true))
                 let cancelAction: UIAction = UIAction(interface: cancelInterface,
                                                       action: {},
-                                                      accessibilityId: .bumpUpHiddenProductAlertCancelButton)
+                                                      accessibilityId: .bumpUpHiddenListingAlertCancelButton)
 
 
                 self?.navigator?.showBumpUpNotAvailableAlertWithTitle(title: LGLocalizedString.commonErrorTitle,
@@ -453,7 +453,7 @@ class ProductViewModel: BaseViewModel {
 extension ProductViewModel {
 
     func openProductOwnerProfile() {
-        let data = UserDetailData.userAPI(user: LocalUser(userListing: listing.value.user), source: .productDetail)
+        let data = UserDetailData.userAPI(user: LocalUser(userListing: listing.value.user), source: .listingDetail)
         navigator?.openUser(data)
     }
 
@@ -470,7 +470,7 @@ extension ProductViewModel {
     }
 
     func chatWithSeller() {
-        let source: EventParameterTypePage = (moreInfoState.value == .shown) ? .productDetailMoreInfo : .productDetail
+        let source: EventParameterTypePage = (moreInfoState.value == .shown) ? .listingDetailMoreInfo : .listingDetail
         trackHelper.trackChatWithSeller(source)
         navigator?.openListingChat(listing.value)
     }
@@ -497,8 +497,8 @@ extension ProductViewModel {
         let readyCommercializers = commercializers.filter {$0.status == .ready }
 
         guard let commercialDisplayVM = CommercialDisplayViewModel(commercializers: readyCommercializers,
-                                                                   productId: listing.value.objectId,
-                                                                   source: .productDetail,
+                                                                   listingId: listing.value.objectId,
+                                                                   source: .listingDetail,
                                                                    isMyVideo: isMine) else { return }
         delegate?.vmOpenCommercialDisplay(commercialDisplayVM)
     }
@@ -582,31 +582,31 @@ extension ProductViewModel {
             .withRenderingMode(.alwaysOriginal)
         return UIAction(interface: .image(icon, nil), action: { [weak self] in
             self?.switchFavorite()
-        }, accessibilityId: .productCarouselNavBarFavoriteButton)
+        }, accessibilityId: .listingCarouselNavBarFavoriteButton)
     }
 
     private func buildEditNavBarAction() -> UIAction {
         let icon = UIImage(named: "navbar_edit")?.withRenderingMode(.alwaysOriginal)
         return UIAction(interface: .image(icon, nil), action: { [weak self] in
             self?.editListing()
-        }, accessibilityId: .productCarouselNavBarEditButton)
+        }, accessibilityId: .listingCarouselNavBarEditButton)
     }
 
     private func buildMoreNavBarAction() -> UIAction {
         let icon = UIImage(named: "navbar_more")?.withRenderingMode(.alwaysOriginal)
         return UIAction(interface: .image(icon, nil), action: { [weak self] in self?.showOptionsMenu() },
-                        accessibilityId: .productCarouselNavBarActionsButton)
+                        accessibilityId: .listingCarouselNavBarActionsButton)
     }
 
     private func buildShareNavBarAction() -> UIAction {
  		if DeviceFamily.current.isWiderOrEqualThan(.iPhone6) {
             return UIAction(interface: .textImage(LGLocalizedString.productShareNavbarButton, UIImage(named:"ic_share")), action: { [weak self] in
                 self?.shareProduct()
-            }, accessibilityId: .productCarouselNavBarShareButton)
+            }, accessibilityId: .listingCarouselNavBarShareButton)
         } else {
             return UIAction(interface: .text(LGLocalizedString.productShareNavbarButton), action: { [weak self] in
                 self?.shareProduct()
-            }, accessibilityId: .productCarouselNavBarShareButton)
+            }, accessibilityId: .listingCarouselNavBarShareButton)
         }
     }
 
@@ -637,13 +637,13 @@ extension ProductViewModel {
     private func buildEditAction() -> UIAction {
         return UIAction(interface: .text(LGLocalizedString.productOptionEdit), action: { [weak self] in
             self?.editListing()
-        }, accessibilityId: .productCarouselNavBarEditButton)
+        }, accessibilityId: .listingCarouselNavBarEditButton)
     }
 
     private func buildShareAction() -> UIAction {
         return UIAction(interface: .text(LGLocalizedString.productOptionShare), action: { [weak self] in
             self?.shareProduct()
-        }, accessibilityId: .productCarouselNavBarShareButton)
+        }, accessibilityId: .listingCarouselNavBarShareButton)
     }
 
     private func buildCommercialAction() -> UIAction {
@@ -716,7 +716,7 @@ extension ProductViewModel {
     }
 
     private var socialShareMessage: SocialMessage {
-        return ProductSocialMessage(listing: listing.value, fallbackToStore: false)
+        return ListingSocialMessage(listing: listing.value, fallbackToStore: false)
     }
 
     private var suggestMarkSoldWhenDeleting: Bool {
@@ -961,7 +961,7 @@ fileprivate extension ProductViewModel {
                 strongSelf.trackHelper.trackMessageSent(isFirstMessage: firstMessage && !strongSelf.alreadyTrackedFirstMessageSent,
                                                         messageType: type,
                                                         isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value,
-                                                        productVisitSource: strongSelf.visitSource,
+                                                        listingVisitSource: strongSelf.visitSource,
                                                         feedPosition: feedPosition)
                 strongSelf.alreadyTrackedFirstMessageSent = true
             } else if let error = result.error {

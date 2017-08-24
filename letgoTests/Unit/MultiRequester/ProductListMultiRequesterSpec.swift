@@ -1,5 +1,5 @@
 //
-//  ProductListMultiRequesterSpec.swift
+//  ListingListMultiRequesterSpec.swift
 //  LetGo
 //
 //  Created by Dídac on 12/09/16.
@@ -11,10 +11,10 @@ import LGCoreKit
 import Quick
 import Nimble
 
-class ProductListMultiRequesterSpec: QuickSpec {
+class ListingListMultiRequesterSpec: QuickSpec {
 
     override func spec() {
-        var sut: ProductListMultiRequester!
+        var sut: ListingListMultiRequester!
         var dataCount: Int = 0
 
         var result: ListingsRequesterResult!
@@ -28,9 +28,9 @@ class ProductListMultiRequesterSpec: QuickSpec {
         describe("last page") {
             context("only one requester, few items") {
                 beforeEach {
-                    let requester = MockProductListRequester(canRetrieve: true, offset: 0, pageSize: 20)
+                    let requester = MockListingListRequester(canRetrieve: true, offset: 0, pageSize: 20)
                     requester.generateItems(5)
-                    sut = ProductListMultiRequester(requesters: [requester])
+                    sut = ListingListMultiRequester(requesters: [requester])
 
                     dataCount = 0
                     sut.currentIndex = 0
@@ -46,9 +46,9 @@ class ProductListMultiRequesterSpec: QuickSpec {
             }
             context("only one requester, lots of items") {
                 beforeEach {
-                    let requester = MockProductListRequester(canRetrieve: true, offset: 0, pageSize: 20)
+                    let requester = MockListingListRequester(canRetrieve: true, offset: 0, pageSize: 20)
                     requester.generateItems(50)
-                    sut = ProductListMultiRequester(requesters: [requester])
+                    sut = ListingListMultiRequester(requesters: [requester])
 
                     dataCount = 0
                     sut.currentIndex = 0
@@ -67,11 +67,11 @@ class ProductListMultiRequesterSpec: QuickSpec {
             }
             context("more than one requester") {
                 beforeEach {
-                    let firstRequester = MockProductListRequester(canRetrieve: true, offset: 0, pageSize: 20)
+                    let firstRequester = MockListingListRequester(canRetrieve: true, offset: 0, pageSize: 20)
                     firstRequester.generateItems(30)
-                    let secondRequester = MockProductListRequester(canRetrieve: true, offset: 0, pageSize: 20)
+                    let secondRequester = MockListingListRequester(canRetrieve: true, offset: 0, pageSize: 20)
                     secondRequester.generateItems(25)
-                    sut = ProductListMultiRequester(requesters: [firstRequester, secondRequester])
+                    sut = ListingListMultiRequester(requesters: [firstRequester, secondRequester])
                 }
                 context("get only 1st page of the multi requester") {
                     beforeEach {

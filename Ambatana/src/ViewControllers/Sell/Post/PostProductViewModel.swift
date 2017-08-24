@@ -440,7 +440,7 @@ fileprivate extension PostProductViewModel {
 
 fileprivate extension PostProductViewModel {
     func trackVisit() {
-        let event = TrackerEvent.productSellStart(postingSource.typePage,buttonName: postingSource.buttonName,
+        let event = TrackerEvent.listingSellStart(postingSource.typePage,buttonName: postingSource.buttonName,
                                                   sellButtonPosition: postingSource.sellButtonPosition)
         tracker.trackEvent(event)
     }
@@ -458,7 +458,7 @@ extension PostingSource {
         case .notifications:
             return .notifications
         case .deleteProduct:
-            return .productDelete
+            return .listingDelete
         }
     }
 

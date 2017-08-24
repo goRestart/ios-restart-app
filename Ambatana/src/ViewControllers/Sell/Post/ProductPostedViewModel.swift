@@ -163,7 +163,7 @@ class ProductPostedViewModel: BaseViewModel {
         case .posting, .error:
             return nil
         case let .success(listing):
-            return ProductSocialMessage(listing: listing, fallbackToStore: false)
+            return ListingSocialMessage(listing: listing, fallbackToStore: false)
         }
     }
     
@@ -174,12 +174,12 @@ class ProductPostedViewModel: BaseViewModel {
         var listing: Listing? = nil
         switch status {
         case let .success(listingPosted):
-            tracker.trackEvent(TrackerEvent.productSellConfirmationClose(listingPosted))
+            tracker.trackEvent(TrackerEvent.listingSellConfirmationClose(listingPosted))
             listing = listingPosted
         case .posting:
             break
         case let .error(error):
-            tracker.trackEvent(TrackerEvent.productSellErrorClose(error))
+            tracker.trackEvent(TrackerEvent.listingSellErrorClose(error))
         }
         
         guard let listingValue = listing else {
@@ -197,7 +197,7 @@ class ProductPostedViewModel: BaseViewModel {
     func editActionPressed() {
         guard let listing = status.listing else { return }
 
-        tracker.trackEvent(TrackerEvent.productSellConfirmationEdit(listing))
+        tracker.trackEvent(TrackerEvent.listingSellConfirmationEdit(listing))
         navigator?.closeProductPostedAndOpenEdit(listing)
     }
 
@@ -206,9 +206,9 @@ class ProductPostedViewModel: BaseViewModel {
         case .posting:
             break
         case let .success(product):
-            tracker.trackEvent(TrackerEvent.productSellConfirmationPost(product, buttonType: .button))
+            tracker.trackEvent(TrackerEvent.listingSellConfirmationPost(product, buttonType: .button))
         case let .error(error):
-            tracker.trackEvent(TrackerEvent.productSellErrorPost(error))
+            tracker.trackEvent(TrackerEvent.listingSellErrorPost(error))
         }
 
         navigator?.closeProductPostedAndOpenPost()
@@ -216,13 +216,13 @@ class ProductPostedViewModel: BaseViewModel {
 
     func incentivateSectionPressed() {
         guard let listing = status.listing else { return }
-        tracker.trackEvent(TrackerEvent.productSellConfirmationPost(listing, buttonType: .itemPicture))
+        tracker.trackEvent(TrackerEvent.listingSellConfirmationPost(listing, buttonType: .itemPicture))
         navigator?.closeProductPostedAndOpenPost()
     }
 
     func shareStartedIn(_ shareType: ShareType) {
         guard let listing = status.listing else { return }
-        tracker.trackEvent(TrackerEvent.productSellConfirmationShare(listing, network: shareType.trackingShareNetwork))
+        tracker.trackEvent(TrackerEvent.listingSellConfirmationShare(listing, network: shareType.trackingShareNetwork))
     }
 
     func shareFinishedIn(_ shareType: ShareType, withState state: SocialShareState) {
@@ -230,9 +230,9 @@ class ProductPostedViewModel: BaseViewModel {
 
         switch state {
         case .completed:
-            tracker.trackEvent(TrackerEvent.productSellConfirmationShareComplete(listing, network: shareType.trackingShareNetwork))
+            tracker.trackEvent(TrackerEvent.listingSellConfirmationShareComplete(listing, network: shareType.trackingShareNetwork))
         case .cancelled:
-            tracker.trackEvent(TrackerEvent.productSellConfirmationShareCancel(listing, network: shareType.trackingShareNetwork))
+            tracker.trackEvent(TrackerEvent.listingSellConfirmationShareCancel(listing, network: shareType.trackingShareNetwork))
         case .failed:
             break;
         }
@@ -284,7 +284,7 @@ class ProductPostedViewModel: BaseViewModel {
         let buttonName = trackingInfo.buttonName
         let negotiable = trackingInfo.negotiablePrice
         let pictureSource = trackingInfo.imageSource
-        let event = TrackerEvent.productSellComplete(postedListing, buttonName: buttonName,
+        let event = TrackerEvent.listingSellComplete(postedListing, buttonName: buttonName,
                                                      sellButtonPosition: trackingInfo.sellButtonPosition,
                                                      negotiable: negotiable, pictureSource: pictureSource,
                                                      freePostingModeAllowed: featureFlags.freePostingModeAllowed)
@@ -294,7 +294,7 @@ class ProductPostedViewModel: BaseViewModel {
         if let firstOpenDate = keyValueStorage[.firstRunDate], NSDate().timeIntervalSince(firstOpenDate as Date) <= 86400 &&
             !keyValueStorage.userTrackingProductSellComplete24hTracked {
             keyValueStorage.userTrackingProductSellComplete24hTracked = true
-            let event = TrackerEvent.productSellComplete24h(postedListing)
+            let event = TrackerEvent.listingSellComplete24h(postedListing)
             tracker.trackEvent(event)
         }
     }
@@ -309,7 +309,7 @@ class ProductPostedViewModel: BaseViewModel {
         case .internalError, .wsChatError:
             sellError = .internalError
         }
-        let sellErrorDataEvent = TrackerEvent.productSellErrorData(sellError)
+        let sellErrorDataEvent = TrackerEvent.listingSellErrorData(sellError)
         tracker.trackEvent(sellErrorDataEvent)
     }
 
@@ -318,9 +318,9 @@ class ProductPostedViewModel: BaseViewModel {
         case .posting:
             break
         case let .success(listing):
-            tracker.trackEvent(TrackerEvent.productSellConfirmation(listing))
+            tracker.trackEvent(TrackerEvent.listingSellConfirmation(listing))
         case let .error(error):
-            tracker.trackEvent(TrackerEvent.productSellError(error))
+            tracker.trackEvent(TrackerEvent.listingSellError(error))
         }
     }
 }

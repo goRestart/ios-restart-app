@@ -1,5 +1,5 @@
 //
-//  ChatProductView.swift
+//  ChatListingView.swift
 //  LetGo
 //
 //  Created by Isaac Roldan on 24/11/15.
@@ -9,20 +9,20 @@
 import UIKit
 import LGCoreKit
 
-protocol ChatProductViewDelegate: class {
-    func productViewDidTapUserAvatar()
-    func productViewDidTapProductImage()
+protocol ChatListingViewDelegate: class {
+    func listingViewDidTapUserAvatar()
+    func listingViewDidTapListingImage()
 }
 
-class ChatProductView: UIView {
+class ChatListingView: UIView {
     @IBOutlet weak var userAvatar: UIImageView!
     @IBOutlet weak var userName: UILabel!
-    @IBOutlet weak var productName: UILabel!
-    @IBOutlet weak var productPrice: UILabel!
-    @IBOutlet weak var productImage: UIImageView!
+    @IBOutlet weak var listingName: UILabel!
+    @IBOutlet weak var listingPrice: UILabel!
+    @IBOutlet weak var listingImage: UIImageView!
     @IBOutlet weak var backgroundView: UIView!
 
-    @IBOutlet weak var productButton: UIButton!
+    @IBOutlet weak var listingButton: UIButton!
     @IBOutlet weak var userButton: UIButton!
     
     let imageHeight: CGFloat = 64
@@ -30,12 +30,12 @@ class ChatProductView: UIView {
     let margin: CGFloat = 8
     let labelHeight: CGFloat = 20
     let separatorHeight: CGFloat = 0.5
-    weak var delegate: ChatProductViewDelegate?
+    weak var delegate: ChatListingViewDelegate?
     
 
-    static func chatProductView() -> ChatProductView {
-        guard let view = Bundle.main.loadNibNamed("ChatProductView", owner: self, options: nil)?.first as? ChatProductView
-            else { return ChatProductView() }
+    static func chatListingView() -> ChatListingView {
+        guard let view = Bundle.main.loadNibNamed("ChatListingView", owner: self, options: nil)?.first as? ChatListingView
+            else { return ChatListingView() }
         view.setupUI()
         view.setAccessibilityIds()
         return view
@@ -55,20 +55,20 @@ class ChatProductView: UIView {
     }
     
     func setupUI() {
-        productImage.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
-        productImage.backgroundColor = UIColor.placeholderBackgroundColor()
-        userName.font = UIFont.chatProductViewUserFont
-        productName.font = UIFont.chatProductViewNameFont
-        productPrice.font = UIFont.chatProductViewPriceFont
+        listingImage.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
+        listingImage.backgroundColor = UIColor.placeholderBackgroundColor()
+        userName.font = UIFont.chatListingViewUserFont
+        listingName.font = UIFont.chatListingViewNameFont
+        listingPrice.font = UIFont.chatListingViewPriceFont
         
         userAvatar.layer.minificationFilter = kCAFilterTrilinear
     }
 
-    func disableProductInteraction() {
-        productName.alpha = 0.3
-        productPrice.alpha = 0.3
-        productImage.alpha = 0.3
-        productButton.isEnabled = false
+    func disableListingInteraction() {
+        listingName.alpha = 0.3
+        listingPrice.alpha = 0.3
+        listingImage.alpha = 0.3
+        listingButton.isEnabled = false
     }
 
     func disableUserProfileInteraction() {
@@ -79,25 +79,25 @@ class ChatProductView: UIView {
     
     // MARK: - Actions
 
-    @IBAction func productButtonPressed(_ sender: AnyObject) {
-        delegate?.productViewDidTapProductImage()
+    @IBAction func listingButtonPressed(_ sender: AnyObject) {
+        delegate?.listingViewDidTapListingImage()
     }
     
     @IBAction func userButtonPressed(_ sender: AnyObject) {
-        delegate?.productViewDidTapUserAvatar()
+        delegate?.listingViewDidTapUserAvatar()
     }
 }
 
 
 // MARK: - Accessibility
 
-extension ChatProductView {
+extension ChatListingView {
     func setAccessibilityIds() {
-        userName.accessibilityId = .chatProductViewUserNameLabel
-        userAvatar.accessibilityId = .chatProductViewUserAvatar
-        productName.accessibilityId = .chatProductViewProductNameLabel
-        productPrice.accessibilityId = .chatProductViewProductPriceLabel
-        productButton.accessibilityId = .chatProductViewProductButton
-        userButton.accessibilityId = .chatProductViewUserButton
+        userName.accessibilityId = .chatListingViewUserNameLabel
+        userAvatar.accessibilityId = .chatListingViewUserAvatar
+        listingName.accessibilityId = .chatListingViewListingNameLabel
+        listingPrice.accessibilityId = .chatListingViewListingPriceLabel
+        listingButton.accessibilityId = .chatListingViewListingButton
+        userButton.accessibilityId = .chatListingViewUserButton
     }
 }

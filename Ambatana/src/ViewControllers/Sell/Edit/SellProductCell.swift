@@ -1,5 +1,5 @@
 //
-//  SellProductCell.swift
+//  SellListingCell.swift
 //  LetGo
 //
 //  Created by Dídac on 27/07/15.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SellProductCell: UICollectionViewCell, ReusableCell {
+class SellListingCell: UICollectionViewCell, ReusableCell {
 
     @IBOutlet weak var imageView : UIImageView!
     @IBOutlet weak var iconImageView : UIImageView!
@@ -79,7 +79,7 @@ class SellProductCell: UICollectionViewCell, ReusableCell {
 
 // MARK: fancy highlight
 
-extension SellProductCell {
+extension SellListingCell {
     func highlight() {
         self.backgroundColor = UIColor.secondaryColorHighlighted
         perform(#selector(resetBgColor), with: nil, afterDelay: 0.2)

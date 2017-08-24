@@ -114,7 +114,7 @@ extension TabCoordinator: TabNavigator {
         }
     }
 
-    func openListing(_ data: ListingDetailData, source: EventParameterProductVisitSource, actionOnFirstAppear: ProductCarouselActionOnFirstAppear) {
+    func openListing(_ data: ListingDetailData, source: EventParameterListingVisitSource, actionOnFirstAppear: ProductCarouselActionOnFirstAppear) {
         switch data {
         case let .id(listingId):
             openListing(listingId: listingId, source: source, actionOnFirstAppear: actionOnFirstAppear)
@@ -171,7 +171,7 @@ extension TabCoordinator: TabNavigator {
 }
 
 fileprivate extension TabCoordinator {
-    func openListing(listingId: String, source: EventParameterProductVisitSource, actionOnFirstAppear: ProductCarouselActionOnFirstAppear) {
+    func openListing(listingId: String, source: EventParameterListingVisitSource, actionOnFirstAppear: ProductCarouselActionOnFirstAppear) {
         navigationController.showLoadingMessageAlert()
         listingRepository.retrieve(listingId) { [weak self] result in
             if let listing = result.value {
@@ -191,7 +191,7 @@ fileprivate extension TabCoordinator {
                         self?.navigationController.showAutoFadingOutMessageAlert(LGLocalizedString.commonProductNotAvailable)
                     }
                 case .notFound:
-                    let relatedRequester = RelatedProductListRequester(productId: listingId,
+                    let relatedRequester = RelatedListingListRequester(listingId: listingId,
                                                                        itemsPerPage: Constants.numListingsPerPageDefault)
                     relatedRequester.retrieveFirstPage { result in
                         self?.navigationController.dismissLoadingMessageAlert {
@@ -208,14 +208,13 @@ fileprivate extension TabCoordinator {
     }
 
     func openListing(listing: Listing, thumbnailImage: UIImage? = nil, originFrame: CGRect? = nil,
-                             source: EventParameterProductVisitSource, requester: ProductListRequester? = nil, index: Int,
+                             source: EventParameterListingVisitSource, requester: ListingListRequester? = nil, index: Int,
                              discover: Bool, actionOnFirstAppear: ProductCarouselActionOnFirstAppear) {
         guard let listingId = listing.objectId else { return }
-
-        var requestersArray: [ProductListRequester] = []
-        let relatedRequester: ProductListRequester = discover ?
-            DiscoverProductListRequester(productId: listingId, itemsPerPage: Constants.numListingsPerPageDefault) :
-            RelatedProductListRequester(productId: listingId, itemsPerPage: Constants.numListingsPerPageDefault)
+        var requestersArray: [ListingListRequester] = []
+        let relatedRequester: ListingListRequester = discover ?
+            DiscoverListingListRequester(listingId: listingId, itemsPerPage: Constants.numListingsPerPageDefault) :
+            RelatedListingListRequester(listingId: listingId, itemsPerPage: Constants.numListingsPerPageDefault)
         requestersArray.append(relatedRequester)
 
         // Adding product list after related
@@ -225,22 +224,22 @@ fileprivate extension TabCoordinator {
             requesterCopy.updateInitialOffset(listOffset)
             requestersArray.append(requesterCopy)
         } else {
-            let filteredRequester = FilteredProductListRequester(itemsPerPage: Constants.numListingsPerPageDefault, offset: listOffset)
+            let filteredRequester = FilteredListingListRequester(itemsPerPage: Constants.numListingsPerPageDefault, offset: listOffset)
             requestersArray.append(filteredRequester)
         }
 
-        let requester = ProductListMultiRequester(requesters: requestersArray)
+        let requester = ListingListMultiRequester(requesters: requestersArray)
 
         let vm = ProductCarouselViewModel(listing: listing, thumbnailImage: thumbnailImage,
-                                          productListRequester: requester, source: source,
+                                          listingListRequester: requester, source: source,
                                           actionOnFirstAppear: actionOnFirstAppear, trackingIndex: index)
         vm.navigator = self
         openListing(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, listingId: listingId)
     }
 
-    func openListing(_ listing: Listing, cellModels: [ListingCellModel], requester: ProductListRequester,
+    func openListing(_ listing: Listing, cellModels: [ListingCellModel], requester: ListingListRequester,
                      thumbnailImage: UIImage?, originFrame: CGRect?, showRelated: Bool,
-                     source: EventParameterProductVisitSource, index: Int) {
+                     source: EventParameterListingVisitSource, index: Int) {
         if showRelated {
             //Same as single product opening
             let discover = !featureFlags.productDetailNextRelated
@@ -249,7 +248,7 @@ fileprivate extension TabCoordinator {
                         actionOnFirstAppear: .nonexistent)
         } else {
             let vm = ProductCarouselViewModel(productListModels: cellModels, initialListing: listing,
-                                              thumbnailImage: thumbnailImage, productListRequester: requester, source: source,
+                                              thumbnailImage: thumbnailImage, listingListRequester: requester, source: source,
                                               actionOnFirstAppear: .nonexistent, trackingIndex: index,
                                               firstProductSyncRequired: false)
             vm.navigator = self
@@ -257,16 +256,16 @@ fileprivate extension TabCoordinator {
         }
     }
 
-    func openListing(chatConversation: ChatConversation, source: EventParameterProductVisitSource) {
+    func openListing(chatConversation: ChatConversation, source: EventParameterListingVisitSource) {
         guard let localProduct = LocalProduct(chatConversation: chatConversation, myUser: myUserRepository.myUser),
-            let productId = localProduct.objectId else { return }
-        let relatedRequester = RelatedProductListRequester(productId: productId, itemsPerPage: Constants.numListingsPerPageDefault)
-        let filteredRequester = FilteredProductListRequester( itemsPerPage: Constants.numListingsPerPageDefault, offset: 0)
-        let requester = ProductListMultiRequester(requesters: [relatedRequester, filteredRequester])
-        let vm = ProductCarouselViewModel(listing: .product(localProduct), productListRequester: requester,
+            let listingId = localProduct.objectId else { return }
+        let relatedRequester = RelatedListingListRequester(listingId: listingId, itemsPerPage: Constants.numListingsPerPageDefault)
+        let filteredRequester = FilteredListingListRequester( itemsPerPage: Constants.numListingsPerPageDefault, offset: 0)
+        let requester = ListingListMultiRequester(requesters: [relatedRequester, filteredRequester])
+        let vm = ProductCarouselViewModel(listing: .product(localProduct), listingListRequester: requester,
                                           source: source, actionOnFirstAppear: .nonexistent, trackingIndex: nil)
         vm.navigator = self
-        openListing(vm, thumbnailImage: nil, originFrame: nil, listingId: productId)
+        openListing(vm, thumbnailImage: nil, originFrame: nil, listingId: listingId)
     }
 
     func openListing(_ viewModel: ProductCarouselViewModel, thumbnailImage: UIImage?, originFrame: CGRect?,
@@ -334,11 +333,11 @@ fileprivate extension TabCoordinator {
 
     func openChatFrom(listing: Listing) {
         if featureFlags.websocketChat {
-            guard let chatVM = ChatViewModel(listing: listing, navigator: self, source: .productDetail) else { return }
+            guard let chatVM = ChatViewModel(listing: listing, navigator: self, source: .listingDetail) else { return }
             let chatVC = ChatViewController(viewModel: chatVM, hidesBottomBar: false)
             navigationController.pushViewController(chatVC, animated: true)
         } else {
-            guard let chatVM = OldChatViewModel(listing: listing, source: .productDetail) else { return }
+            guard let chatVM = OldChatViewModel(listing: listing, source: .listingDetail) else { return }
             chatVM.navigator = self
             let chatVC = OldChatViewController(viewModel: chatVM, hidesBottomBar: false)
             navigationController.pushViewController(chatVC, animated: true)
@@ -361,8 +360,8 @@ fileprivate extension TabCoordinator {
             switch data {
             case let .conversation(conversationId):
                 chatRepository.showConversation(conversationId, completion: completion)
-            case .productBuyer:
-                return //Those are the legacy pushes and new chat doesn't work with Product + buyer
+            case .listingBuyer:
+                return //Those are the legacy pushes and new chat doesn't work with Listing + buyer
             }
         } else {
             let completion: ChatCompletion = { [weak self] result in
@@ -378,7 +377,7 @@ fileprivate extension TabCoordinator {
             case let .conversation(conversationId):
                 oldChatRepository.retrieveMessagesWithConversationId(conversationId, page: 0,
                                                     numResults: Constants.numMessagesPerPage, completion: completion)
-            case let .productBuyer(listingId, buyerId):
+            case let .listingBuyer(listingId, buyerId):
                 oldChatRepository.retrieveMessagesWithListingId(listingId, buyerId: buyerId, page: 0,
                                                     numResults: Constants.numMessagesPerPage, completion: completion)
             }
@@ -400,10 +399,10 @@ fileprivate extension TabCoordinator {
 
     // MARK: Private methods
 
-    private func openRelatedProductsForNonExistentListing(requester: ProductListRequester, listings: [Listing]) {
+    private func openRelatedProductsForNonExistentListing(requester: ListingListRequester, listings: [Listing]) {
         let simpleRelatedListingsVM = SimpleProductsViewModel(requester: requester,
                                                               listings: listings,
-                                                              productVisitSource: .notifications)
+                                                              listingVisitSource: .notifications)
         simpleRelatedListingsVM.navigator = self
         let simpleRelatedListingsVC = SimpleProductsViewController(viewModel: simpleRelatedListingsVM)
         navigationController.pushViewController(simpleRelatedListingsVC, animated: true)
@@ -587,7 +586,7 @@ extension TabCoordinator: UserRatingCoordinatorDelegate {
 // MARK: - Tracking
 
 extension TabCoordinator {
-    func trackProductNotAvailable(source: EventParameterProductVisitSource, repositoryError: RepositoryError) {
+    func trackProductNotAvailable(source: EventParameterListingVisitSource, repositoryError: RepositoryError) {
         var reason: EventParameterNotAvailableReason
         switch repositoryError {
         case .internalError, .wsChatError:
@@ -607,7 +606,7 @@ extension TabCoordinator {
         case .network:
             reason = .network
         }
-        let productNotAvailableEvent = TrackerEvent.productNotAvailable( source, reason: reason)
+        let productNotAvailableEvent = TrackerEvent.listingNotAvailable( source, reason: reason)
         tracker.trackEvent(productNotAvailableEvent)
     }
 }

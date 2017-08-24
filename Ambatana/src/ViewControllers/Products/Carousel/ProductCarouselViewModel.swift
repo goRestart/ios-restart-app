@@ -123,12 +123,12 @@ class ProductCarouselViewModel: BaseViewModel {
 
     private var activeDisposeBag = DisposeBag()
 
-    fileprivate let source: EventParameterProductVisitSource
-    fileprivate let productListRequester: ProductListRequester
+    fileprivate let source: EventParameterListingVisitSource
+    fileprivate let listingListRequester: ListingListRequester
     fileprivate var productsViewModels: [String: ProductViewModel] = [:]
     fileprivate let keyValueStorage: KeyValueStorageable
     fileprivate let imageDownloader: ImageDownloaderType
-    fileprivate let productViewModelMaker: ProductViewModelMaker
+    fileprivate let listingViewModelMaker: ProductViewModelMaker
     fileprivate let featureFlags: FeatureFlaggeable
 
     fileprivate let disposeBag = DisposeBag()
@@ -142,14 +142,14 @@ class ProductCarouselViewModel: BaseViewModel {
     // MARK: - Init
 
     convenience init(listing: Listing,
-                     productListRequester: ProductListRequester,
-                     source: EventParameterProductVisitSource,
+                     listingListRequester: ListingListRequester,
+                     source: EventParameterListingVisitSource,
                      actionOnFirstAppear: ProductCarouselActionOnFirstAppear,
                      trackingIndex: Int?) {
         self.init(productListModels: nil,
                   initialListing: listing,
                   thumbnailImage: nil,
-                  productListRequester: productListRequester,
+                  listingListRequester: listingListRequester,
                   source: source,
                   actionOnFirstAppear: actionOnFirstAppear,
                   trackingIndex: trackingIndex,
@@ -158,14 +158,14 @@ class ProductCarouselViewModel: BaseViewModel {
 
     convenience init(listing: Listing,
                      thumbnailImage: UIImage?,
-                     productListRequester: ProductListRequester,
-                     source: EventParameterProductVisitSource,
+                     listingListRequester: ListingListRequester,
+                     source: EventParameterListingVisitSource,
                      actionOnFirstAppear: ProductCarouselActionOnFirstAppear,
                      trackingIndex: Int?) {
         self.init(productListModels: nil,
                   initialListing: listing,
                   thumbnailImage: thumbnailImage,
-                  productListRequester: productListRequester,
+                  listingListRequester: listingListRequester,
                   source: source,
                   actionOnFirstAppear: actionOnFirstAppear,
                   trackingIndex: trackingIndex,
@@ -175,15 +175,15 @@ class ProductCarouselViewModel: BaseViewModel {
     convenience init(productListModels: [ListingCellModel]?,
          initialListing: Listing?,
          thumbnailImage: UIImage?,
-         productListRequester: ProductListRequester,
-         source: EventParameterProductVisitSource,
+         listingListRequester: ListingListRequester,
+         source: EventParameterListingVisitSource,
          actionOnFirstAppear: ProductCarouselActionOnFirstAppear,
          trackingIndex: Int?,
          firstProductSyncRequired: Bool) {
         self.init(productListModels: productListModels,
                   initialListing: initialListing,
                   thumbnailImage: thumbnailImage,
-                  productListRequester: productListRequester,
+                  listingListRequester: listingListRequester,
                   source: source,
                   actionOnFirstAppear: actionOnFirstAppear,
                   trackingIndex: trackingIndex,
@@ -191,36 +191,36 @@ class ProductCarouselViewModel: BaseViewModel {
                   featureFlags: FeatureFlags.sharedInstance,
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   imageDownloader: ImageDownloader.sharedInstance,
-                  productViewModelMaker: ProductViewModel.ConvenienceMaker())
+                  listingViewModelMaker: ProductViewModel.ConvenienceMaker())
     }
 
     init(productListModels: [ListingCellModel]?,
          initialListing: Listing?,
          thumbnailImage: UIImage?,
-         productListRequester: ProductListRequester,
-         source: EventParameterProductVisitSource,
+         listingListRequester: ListingListRequester,
+         source: EventParameterListingVisitSource,
          actionOnFirstAppear: ProductCarouselActionOnFirstAppear,
          trackingIndex: Int?,
          firstProductSyncRequired: Bool,
          featureFlags: FeatureFlaggeable,
          keyValueStorage: KeyValueStorageable,
          imageDownloader: ImageDownloaderType,
-         productViewModelMaker: ProductViewModelMaker) {
+         listingViewModelMaker: ProductViewModelMaker) {
         if let productListModels = productListModels {
             self.objects.appendContentsOf(productListModels.flatMap(ProductCarouselCellModel.adapter))
-            self.isLastPage = productListRequester.isLastPage(productListModels.count)
+            self.isLastPage = listingListRequester.isLastPage(productListModels.count)
         } else {
             self.objects.appendContentsOf([initialListing].flatMap{$0}.map(ProductCarouselCellModel.init))
             self.isLastPage = false
         }
         self.initialThumbnail = thumbnailImage
-        self.productListRequester = productListRequester
+        self.listingListRequester = listingListRequester
         self.source = source
         self.actionOnFirstAppear = actionOnFirstAppear
         self.quickAnswersCollapsed = Variable<Bool>(keyValueStorage[.productDetailQuickAnswersHidden])
         self.keyValueStorage = keyValueStorage
         self.imageDownloader = imageDownloader
-        self.productViewModelMaker = productViewModelMaker
+        self.listingViewModelMaker = listingViewModelMaker
         self.featureFlags = featureFlags
         if let initialListing = initialListing {
             self.startIndex = objects.value.index(where: { $0.listing.objectId == initialListing.objectId}) ?? 0
@@ -281,7 +281,7 @@ class ProductCarouselViewModel: BaseViewModel {
         }
     }
 
-    func productCellModelAt(index: Int) -> ProductCarouselCellModel? {
+    func listingCellModelAt(index: Int) -> ProductCarouselCellModel? {
         guard 0..<objectCount ~= index else { return nil }
         return objects.value[index]
     }
@@ -342,7 +342,7 @@ class ProductCarouselViewModel: BaseViewModel {
     // MARK: - Private Methods
 
     fileprivate func listingAt(index: Int) -> Listing? {
-        return productCellModelAt(index: index)?.listing
+        return listingCellModelAt(index: index)?.listing
     }
 
     private func viewModelAt(index: Int) -> ProductViewModel? {
@@ -355,7 +355,7 @@ class ProductCarouselViewModel: BaseViewModel {
         if let vm = productsViewModels[listingId] {
             return vm
         }
-        let vm = productViewModelMaker.make(listing: listing, visitSource: source)
+        let vm = listingViewModelMaker.make(listing: listing, visitSource: source)
         vm.navigator = navigator
         productsViewModels[listingId] = vm
         return vm
@@ -442,7 +442,7 @@ extension ProductCarouselViewModel: Paginable {
                 strongSelf.nextPage = strongSelf.nextPage + 1
                 strongSelf.objects.appendContentsOf(newListings.map(ProductCarouselCellModel.init))
                 
-                strongSelf.isLastPage = strongSelf.productListRequester.isLastPage(newListings.count)
+                strongSelf.isLastPage = strongSelf.listingListRequester.isLastPage(newListings.count)
                 if newListings.isEmpty && !strongSelf.isLastPage {
                     strongSelf.retrieveNextPage()
                 }
@@ -450,9 +450,9 @@ extension ProductCarouselViewModel: Paginable {
         }
         
         if isFirstPage {
-            productListRequester.retrieveFirstPage(completion)
+            listingListRequester.retrieveFirstPage(completion)
         } else {
-            productListRequester.retrieveNextPage(completion)
+            listingListRequester.retrieveNextPage(completion)
         }
     }
 }
@@ -583,7 +583,7 @@ extension ProductCarouselViewModel: ProductViewModelDelegate {
 // MARK: - Tracking
 
 extension CarouselMovement {
-    var visitUserAction: ProductVisitUserAction {
+    var visitUserAction: ListingVisitUserAction {
         switch self {
         case .tap:
             return .tap

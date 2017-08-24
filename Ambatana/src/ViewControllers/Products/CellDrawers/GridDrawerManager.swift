@@ -19,7 +19,7 @@ class GridDrawerManager {
     var cellStyle: CellStyle = .small
     var freePostingAllowed: Bool = true
     
-    private let listingDrawer = ProductCellDrawer()
+    private let listingDrawer = ListingCellDrawer()
     private let collectionDrawer = ProductCollectionCellDrawer()
     private let emptyCellDrawer = EmptyCellDrawer()
     private let showFeaturedStripeHelper = ShowFeaturedStripeHelper(featureFlags: FeatureFlags.sharedInstance,
@@ -27,7 +27,7 @@ class GridDrawerManager {
 
 
     func registerCell(inCollectionView collectionView: UICollectionView) {
-        ProductCellDrawer.registerCell(collectionView)
+        ListingCellDrawer.registerCell(collectionView)
         ProductCollectionCellDrawer.registerCell(collectionView)
         EmptyCellDrawer.registerCell(collectionView)
     }
@@ -45,8 +45,8 @@ class GridDrawerManager {
     
     func draw(_ model: ListingCellModel, inCell cell: UICollectionViewCell) {
         switch model {
-        case let .listingCell(listing) where cell is ProductCell:
-            guard let cell = cell as? ProductCell else { return }
+        case let .listingCell(listing) where cell is ListingCell:
+            guard let cell = cell as? ListingCell else { return }
             let isFeatured = showFeaturedStripeHelper.shouldShowFeaturedStripeFor(listing: listing)
             let data = ProductData(productID: listing.objectId, thumbUrl: listing.thumbnail?.fileURL,
                                    isFree: listing.price.free && freePostingAllowed, isFeatured: isFeatured)

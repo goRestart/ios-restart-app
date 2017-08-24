@@ -1,5 +1,5 @@
 //
-//  MockProductListRequester.swift
+//  MockListingListRequester.swift
 //  LetGo
 //
 //  Created by Dídac on 12/09/16.
@@ -11,7 +11,7 @@ import Foundation
 import LGCoreKit
 import Result
 
-class MockProductListRequester: ProductListRequester {
+class MockListingListRequester: ListingListRequester {
     var itemsPerPage: Int
     var offset: Int
     var canRetrieveItems: Bool
@@ -66,14 +66,14 @@ class MockProductListRequester: ProductListRequester {
         offset = newOffset
     }
 
-    func duplicate() -> ProductListRequester {
+    func duplicate() -> ListingListRequester {
         return self
     }
-    func isEqual(toRequester requester: ProductListRequester) -> Bool {
-        guard requester is MockProductListRequester else { return false }
+    func isEqual(toRequester requester: ListingListRequester) -> Bool {
+        guard requester is MockListingListRequester else { return false }
         return true
     }
-    func distanceFromProductCoordinates(_ productCoords: LGLocationCoordinates2D) -> Double? {
+    func distanceFromListingCoordinates(_ listingCoords: LGLocationCoordinates2D) -> Double? {
         return nil
     }
     var countryCode: String? {

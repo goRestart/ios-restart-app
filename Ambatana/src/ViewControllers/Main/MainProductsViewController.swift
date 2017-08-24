@@ -698,12 +698,12 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
 
 extension MainProductsViewController {
     func setAccessibilityIds() {
-        navigationItem.rightBarButtonItem?.accessibilityId = .mainProductsFilterButton
-        productListView.accessibilityId = .mainProductsListView
-        tagsCollectionView.accessibilityId = .mainProductsTagsCollection
-        infoBubbleLabel.accessibilityId = .mainProductsInfoBubbleLabel
-        navbarSearch.accessibilityId = .mainProductsNavBarSearch
-        suggestionsSearchesTable.accessibilityId = .mainProductsSuggestionSearchesTable
-        navigationItem.leftBarButtonItem?.accessibilityId = .mainProductsInviteButton
+        navigationItem.rightBarButtonItem?.accessibilityId = .mainListingsFilterButton
+        productListView.accessibilityId = .mainListingsListView
+        tagsCollectionView.accessibilityId = .mainListingsTagsCollection
+        infoBubbleLabel.accessibilityId = .mainListingsInfoBubbleLabel
+        navbarSearch.accessibilityId = .mainListingsNavBarSearch
+        suggestionsSearchesTable.accessibilityId = .mainListingsSuggestionSearchesTable
+        navigationItem.leftBarButtonItem?.accessibilityId = .mainListingsInviteButton
     }
 }

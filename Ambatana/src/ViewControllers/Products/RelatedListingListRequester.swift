@@ -1,5 +1,5 @@
 //
-//  RelatedProductListRequester.swift
+//  RelatedListingListRequester.swift
 //  LetGo
 //
 //  Created by Dídac on 21/04/16.
@@ -8,25 +8,25 @@
 
 import LGCoreKit
 
-class RelatedProductListRequester: ProductListRequester {
+class RelatedListingListRequester: ListingListRequester {
     let itemsPerPage: Int
-    fileprivate let productObjectId: String
+    fileprivate let listingObjectId: String
     private let listingRepository: ListingRepository
     private var offset: Int = 0
 
-    private var retrieveProductParams: RetrieveListingParams {
+    private var retrieveListingParams: RetrieveListingParams {
         var params = RetrieveListingParams()
         params.numListings = itemsPerPage
         params.offset = offset
         return params
     }
 
-    convenience init(productId: String, itemsPerPage: Int) {
-        self.init(productId: productId, itemsPerPage: itemsPerPage, listingRepository: Core.listingRepository)
+    convenience init(listingId: String, itemsPerPage: Int) {
+        self.init(listingId: listingId, itemsPerPage: itemsPerPage, listingRepository: Core.listingRepository)
     }
 
-    init(productId: String, itemsPerPage: Int, listingRepository: ListingRepository) {
-        self.productObjectId = productId
+    init(listingId: String, itemsPerPage: Int, listingRepository: ListingRepository) {
+        self.listingObjectId = listingId
         self.listingRepository = listingRepository
         self.itemsPerPage = itemsPerPage
     }
@@ -37,15 +37,15 @@ class RelatedProductListRequester: ProductListRequester {
     
     func retrieveFirstPage(_ completion: ListingsRequesterCompletion?) {
         offset = 0
-        productsRetrieval(completion)
+        listingsRetrieval(completion)
     }
     
     func retrieveNextPage(_ completion: ListingsRequesterCompletion?) {
-        productsRetrieval(completion)
+        listingsRetrieval(completion)
     }
 
-    func productsRetrieval(_ completion: ListingsRequesterCompletion?) {
-        listingRepository.indexRelated(listingId: productObjectId, params: retrieveProductParams) {
+    func listingsRetrieval(_ completion: ListingsRequesterCompletion?) {
+        listingRepository.indexRelated(listingId: listingObjectId, params: retrieveListingParams) {
             [weak self] result in
             if let value = result.value {
                 self?.offset += value.count
@@ -60,12 +60,12 @@ class RelatedProductListRequester: ProductListRequester {
 
     func updateInitialOffset(_ newOffset: Int) {}
 
-    func duplicate() -> ProductListRequester {
-        let r = RelatedProductListRequester(productId: productObjectId, itemsPerPage: itemsPerPage)
+    func duplicate() -> ListingListRequester {
+        let r = RelatedListingListRequester(listingId: listingObjectId, itemsPerPage: itemsPerPage)
         r.offset = offset
         return r
     }
-    func distanceFromProductCoordinates(_ productCoords: LGLocationCoordinates2D) -> Double? {
+    func distanceFromListingCoordinates(_ listingCoords: LGLocationCoordinates2D) -> Double? {
         // method needed for protocol implementation, not used for related
         return nil
     }
@@ -74,9 +74,9 @@ class RelatedProductListRequester: ProductListRequester {
         return nil
     }
 
-    func isEqual(toRequester requester: ProductListRequester) -> Bool {
-        guard let requester = requester as? RelatedProductListRequester else { return false }
-        return productObjectId == requester.productObjectId
+    func isEqual(toRequester requester: ListingListRequester) -> Bool {
+        guard let requester = requester as? RelatedListingListRequester else { return false }
+        return listingObjectId == requester.listingObjectId
     }
 }
 

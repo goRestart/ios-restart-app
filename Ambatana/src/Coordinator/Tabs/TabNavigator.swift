@@ -17,7 +17,7 @@ enum UserDetailData {
 enum ListingDetailData {
     case id(listingId: String)
     case listingAPI(listing: Listing, thumbnailImage: UIImage?, originFrame: CGRect?)
-    case listingList(listing: Listing, cellModels: [ListingCellModel], requester: ProductListRequester,
+    case listingList(listing: Listing, cellModels: [ListingCellModel], requester: ListingListRequester,
                      thumbnailImage: UIImage?, originFrame: CGRect?, showRelated: Bool, index: Int)
     case listingChat(chatConversation: ChatConversation)
 }
@@ -43,7 +43,7 @@ protocol TabNavigator: class {
     func openAppRating(_ source: EventParameterRatingSource)
     func openUserRating(_ source: RateUserSource, data: RateUserData)
     func openUser(_ data: UserDetailData)
-    func openListing(_ data: ListingDetailData, source: EventParameterProductVisitSource, actionOnFirstAppear: ProductCarouselActionOnFirstAppear)
+    func openListing(_ data: ListingDetailData, source: EventParameterListingVisitSource, actionOnFirstAppear: ProductCarouselActionOnFirstAppear)
     func openChat(_ data: ChatDetailData, source: EventParameterTypePage, predefinedMessage: String?)
     func openVerifyAccounts(_ types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?)
     func openAppInvite()
@@ -78,7 +78,7 @@ protocol ProductDetailNavigator: TabNavigator {
 
 protocol SimpleProductsNavigator: class {
     func closeSimpleProducts()
-    func openListing(_ data: ListingDetailData, source: EventParameterProductVisitSource, actionOnFirstAppear: ProductCarouselActionOnFirstAppear)
+    func openListing(_ data: ListingDetailData, source: EventParameterListingVisitSource, actionOnFirstAppear: ProductCarouselActionOnFirstAppear)
 }
 
 protocol ChatDetailNavigator: TabNavigator {

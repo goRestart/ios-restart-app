@@ -1,5 +1,5 @@
 //
-//  FilterProductListRequesterFactorySpec.swift
+//  FilterListingListRequesterFactorySpec.swift
 //  LetGo
 //
 //  Created by Dídac on 16/05/17.
@@ -11,10 +11,10 @@ import LGCoreKit
 import Quick
 import Nimble
 
-class FilterProductListRequesterFactorySpec: QuickSpec {
+class FilterListingListRequesterFactorySpec: QuickSpec {
 
-    var finalMultiRequester: ProductListMultiRequester!
-    var expectedRequestersArray: [ProductListRequester]!
+    var finalMultiRequester: ListingListMultiRequester!
+    var expectedRequestersArray: [ListingListRequester]!
 
     override func spec() {
 
@@ -26,17 +26,17 @@ class FilterProductListRequesterFactorySpec: QuickSpec {
                 beforeEach {
                     let filters = ProductFilters()
 
-                    let expectedRequester = FilteredProductListRequester(itemsPerPage: 20, offset: 0)
+                    let expectedRequester = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                     expectedRequester.filters = filters
                     self.expectedRequestersArray = [expectedRequester]
 
-                    self.finalMultiRequester = FilterProductListRequesterFactory.generateRequester(withFilters: filters,
+                    self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                    queryString: nil,
                                                                                                    itemsPerPage: 20,
                                                                                                    multiRequesterEnabled: true)
                 }
                 it ("only one requester, and is the same") {
-                    expect(self.finalMultiRequester.isEqual(toRequester: ProductListMultiRequester(requesters: self.expectedRequestersArray))) == true
+                    expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true
                 }
             }
             context ("car related") {
@@ -46,17 +46,17 @@ class FilterProductListRequesterFactorySpec: QuickSpec {
                             var filters = ProductFilters()
                             filters.selectedCategories = [.cars]
 
-                            let expectedRequester = FilteredProductListRequester(itemsPerPage: 20, offset: 0)
+                            let expectedRequester = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                             expectedRequester.filters = filters
                             self.expectedRequestersArray = [expectedRequester]
 
-                            self.finalMultiRequester = FilterProductListRequesterFactory.generateRequester(withFilters: filters,
+                            self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                            queryString: nil,
                                                                                                            itemsPerPage: 20,
                                                                                                            multiRequesterEnabled: false)
                         }
                         it ("only one requester, and is the same, only cars category") {
-                            expect(self.finalMultiRequester.isEqual(toRequester: ProductListMultiRequester(requesters: self.expectedRequestersArray))) == true
+                            expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true
                         }
                     }
                     context ("multi requester feature enabled") {
@@ -64,17 +64,17 @@ class FilterProductListRequesterFactorySpec: QuickSpec {
                             var filters = ProductFilters()
                             filters.selectedCategories = [.cars]
 
-                            let expectedRequester = FilteredProductListRequester(itemsPerPage: 20, offset: 0)
+                            let expectedRequester = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                             expectedRequester.filters = filters
                             self.expectedRequestersArray = [expectedRequester]
 
-                            self.finalMultiRequester = FilterProductListRequesterFactory.generateRequester(withFilters: filters,
+                            self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                            queryString: nil,
                                                                                                            itemsPerPage: 20,
                                                                                                            multiRequesterEnabled: true)
                         }
                         it ("only one requester, and is the same, only cars category") {
-                            expect(self.finalMultiRequester.isEqual(toRequester: ProductListMultiRequester(requesters: self.expectedRequestersArray))) == true
+                            expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true
                         }
                     }
                 }
@@ -87,17 +87,17 @@ class FilterProductListRequesterFactorySpec: QuickSpec {
                                 filters.carMakeId = RetrieveListingParam<String>(value: "makeId", isNegated: false)
                                 filters.carModelId = RetrieveListingParam<String>(value: "modelId", isNegated: false)
 
-                                let expectedRequester = FilteredProductListRequester(itemsPerPage: 20, offset: 0)
+                                let expectedRequester = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                                 expectedRequester.filters = filters
                                 self.expectedRequestersArray = [expectedRequester]
 
-                                self.finalMultiRequester = FilterProductListRequesterFactory.generateRequester(withFilters: filters,
+                                self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                                queryString: nil,
                                                                                                                itemsPerPage: 20,
                                                                                                                multiRequesterEnabled: false)
                             }
                             it ("only one requester, and is the same, cars category, make and model") {
-                                expect(self.finalMultiRequester.isEqual(toRequester: ProductListMultiRequester(requesters: self.expectedRequestersArray))) == true
+                                expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true
                             }
                         }
                     }
@@ -108,21 +108,21 @@ class FilterProductListRequesterFactorySpec: QuickSpec {
                                 filters.selectedCategories = [.cars]
                                 filters.carMakeId = RetrieveListingParam<String>(value: "makeId", isNegated: false)
 
-                                let expectedRequester1 = FilteredProductListRequester(itemsPerPage: 20, offset: 0)
+                                let expectedRequester1 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                                 expectedRequester1.filters = filters
-                                let expectedRequester2 = FilteredProductListRequester(itemsPerPage: 20, offset: 0)
+                                let expectedRequester2 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                                 var filters2 = filters
                                 filters2.carMakeId = RetrieveListingParam<String>(value: "makeId", isNegated: true)
                                 expectedRequester2.filters = filters2
                                 self.expectedRequestersArray = [expectedRequester1, expectedRequester2]
 
-                                self.finalMultiRequester = FilterProductListRequesterFactory.generateRequester(withFilters: filters,
+                                self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                                queryString: nil,
                                                                                                                itemsPerPage: 20,
                                                                                                                multiRequesterEnabled: true)
                             }
                             it ("requesters with make and negated make") {
-                                expect(self.finalMultiRequester.isEqual(toRequester: ProductListMultiRequester(requesters: self.expectedRequestersArray))) == true
+                                expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true
                             }
                         }
                         context ("only make, custom") {
@@ -131,21 +131,21 @@ class FilterProductListRequesterFactorySpec: QuickSpec {
                                 filters.selectedCategories = [.cars]
                                 filters.carMakeId = RetrieveListingParam<String>(value: "", isNegated: false)
 
-                                let expectedRequester1 = FilteredProductListRequester(itemsPerPage: 20, offset: 0)
+                                let expectedRequester1 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                                 expectedRequester1.filters = filters
-                                let expectedRequester2 = FilteredProductListRequester(itemsPerPage: 20, offset: 0)
+                                let expectedRequester2 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                                 var filters2 = filters
                                 filters2.carMakeId = RetrieveListingParam<String>(value: "", isNegated: true)
                                 expectedRequester2.filters = filters2
                                 self.expectedRequestersArray = [expectedRequester1, expectedRequester2]
 
-                                self.finalMultiRequester = FilterProductListRequesterFactory.generateRequester(withFilters: filters,
+                                self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                                queryString: nil,
                                                                                                                itemsPerPage: 20,
                                                                                                                multiRequesterEnabled: true)
                             }
                             it ("requesters with make 'others' and negated make") {
-                                expect(self.finalMultiRequester.isEqual(toRequester: ProductListMultiRequester(requesters: self.expectedRequestersArray))) == true
+                                expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true
                             }
                         }
                         context ("make & model") {
@@ -155,15 +155,15 @@ class FilterProductListRequesterFactorySpec: QuickSpec {
                                 filters.carMakeId = RetrieveListingParam<String>(value: "makeId", isNegated: false)
                                 filters.carModelId = RetrieveListingParam<String>(value: "modelId", isNegated: false)
 
-                                let expectedRequester1 = FilteredProductListRequester(itemsPerPage: 20, offset: 0)
+                                let expectedRequester1 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                                 expectedRequester1.filters = filters
 
-                                let expectedRequester3 = FilteredProductListRequester(itemsPerPage: 20, offset: 0)
+                                let expectedRequester3 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                                 var filters3 = filters
                                 filters3.carModelId = RetrieveListingParam<String>(value: "modelId", isNegated: true)
                                 expectedRequester3.filters = filters3
 
-                                let expectedRequester4 = FilteredProductListRequester(itemsPerPage: 20, offset: 0)
+                                let expectedRequester4 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                                 var filters4 = filters
                                 filters4.carMakeId = RetrieveListingParam<String>(value: "makeId", isNegated: true)
                                 filters4.carModelId = nil
@@ -171,13 +171,13 @@ class FilterProductListRequesterFactorySpec: QuickSpec {
 
                                 self.expectedRequestersArray = [expectedRequester1, expectedRequester3, expectedRequester4]
 
-                                self.finalMultiRequester = FilterProductListRequesterFactory.generateRequester(withFilters: filters,
+                                self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                                queryString: nil,
                                                                                                                itemsPerPage: 20,
                                                                                                                multiRequesterEnabled: true)
                             }
                             it ("requesters with make and model, negated model and negated make") {
-                                expect(self.finalMultiRequester.isEqual(toRequester: ProductListMultiRequester(requesters: self.expectedRequestersArray))) == true
+                                expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true
                             }
                         }
                         context ("make & custom model") {
@@ -187,15 +187,15 @@ class FilterProductListRequesterFactorySpec: QuickSpec {
                                 filters.carMakeId = RetrieveListingParam<String>(value: "makeId", isNegated: false)
                                 filters.carModelId = RetrieveListingParam<String>(value: "", isNegated: false)
 
-                                let expectedRequester1 = FilteredProductListRequester(itemsPerPage: 20, offset: 0)
+                                let expectedRequester1 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                                 expectedRequester1.filters = filters
 
-                                let expectedRequester3 = FilteredProductListRequester(itemsPerPage: 20, offset: 0)
+                                let expectedRequester3 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                                 var filters3 = filters
                                 filters3.carModelId = RetrieveListingParam<String>(value: "", isNegated: true)
                                 expectedRequester3.filters = filters3
 
-                                let expectedRequester4 = FilteredProductListRequester(itemsPerPage: 20, offset: 0)
+                                let expectedRequester4 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                                 var filters4 = filters
                                 filters4.carMakeId = RetrieveListingParam<String>(value: "makeId", isNegated: true)
                                 filters4.carModelId = nil
@@ -203,13 +203,13 @@ class FilterProductListRequesterFactorySpec: QuickSpec {
 
                                 self.expectedRequestersArray = [expectedRequester1, expectedRequester3, expectedRequester4]
 
-                                self.finalMultiRequester = FilterProductListRequesterFactory.generateRequester(withFilters: filters,
+                                self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                                queryString: nil,
                                                                                                                itemsPerPage: 20,
                                                                                                                multiRequesterEnabled: true)
                             }
                             it ("requesters with make and model 'other', negated model and negated make") {
-                                expect(self.finalMultiRequester.isEqual(toRequester: ProductListMultiRequester(requesters: self.expectedRequestersArray))) == true
+                                expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true
                             }
                         }
                         context ("custom make & custom model") {
@@ -219,15 +219,15 @@ class FilterProductListRequesterFactorySpec: QuickSpec {
                                 filters.carMakeId = RetrieveListingParam<String>(value: "", isNegated: false)
                                 filters.carModelId = RetrieveListingParam<String>(value: "", isNegated: false)
 
-                                let expectedRequester1 = FilteredProductListRequester(itemsPerPage: 20, offset: 0)
+                                let expectedRequester1 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                                 expectedRequester1.filters = filters
 
-                                let expectedRequester3 = FilteredProductListRequester(itemsPerPage: 20, offset: 0)
+                                let expectedRequester3 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                                 var filters3 = filters
                                 filters3.carModelId = RetrieveListingParam<String>(value: "", isNegated: true)
                                 expectedRequester3.filters = filters3
 
-                                let expectedRequester4 = FilteredProductListRequester(itemsPerPage: 20, offset: 0)
+                                let expectedRequester4 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                                 var filters4 = filters
                                 filters4.carMakeId = RetrieveListingParam<String>(value: "", isNegated: true)
                                 filters4.carModelId = nil
@@ -235,13 +235,13 @@ class FilterProductListRequesterFactorySpec: QuickSpec {
 
                                 self.expectedRequestersArray = [expectedRequester1, expectedRequester3, expectedRequester4]
 
-                                self.finalMultiRequester = FilterProductListRequesterFactory.generateRequester(withFilters: filters,
+                                self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                                queryString: nil,
                                                                                                                itemsPerPage: 20,
                                                                                                                multiRequesterEnabled: true)
                             }
                             it ("requesters with make 'others' and model 'other', negated model and negated make") {
-                                expect(self.finalMultiRequester.isEqual(toRequester: ProductListMultiRequester(requesters: self.expectedRequestersArray))) == true
+                                expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true
                             }
                         }
                         context ("make, model & year") {
@@ -252,21 +252,21 @@ class FilterProductListRequesterFactorySpec: QuickSpec {
                                 filters.carModelId = RetrieveListingParam<String>(value: "modelId", isNegated: false)
                                 filters.carYearStart = RetrieveListingParam<Int>(value: 2000, isNegated: false)
 
-                                let expectedRequester1 = FilteredProductListRequester(itemsPerPage: 20, offset: 0)
+                                let expectedRequester1 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                                 expectedRequester1.filters = filters
 
-                                let expectedRequester2 = FilteredProductListRequester(itemsPerPage: 20, offset: 0)
+                                let expectedRequester2 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                                 var filters2 = filters
                                 filters2.carYearStart = RetrieveListingParam<Int>(value: 2000, isNegated: true)
                                 expectedRequester2.filters = filters2
 
-                                let expectedRequester3 = FilteredProductListRequester(itemsPerPage: 20, offset: 0)
+                                let expectedRequester3 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                                 var filters3 = filters
                                 filters3.carModelId = RetrieveListingParam<String>(value: "modelId", isNegated: true)
                                 filters3.carYearStart = nil
                                 expectedRequester3.filters = filters3
 
-                                let expectedRequester4 = FilteredProductListRequester(itemsPerPage: 20, offset: 0)
+                                let expectedRequester4 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                                 var filters4 = filters
                                 filters4.carMakeId = RetrieveListingParam<String>(value: "makeId", isNegated: true)
                                 filters4.carModelId = nil
@@ -275,13 +275,13 @@ class FilterProductListRequesterFactorySpec: QuickSpec {
 
                                 self.expectedRequestersArray = [expectedRequester1, expectedRequester2, expectedRequester3, expectedRequester4]
 
-                                self.finalMultiRequester = FilterProductListRequesterFactory.generateRequester(withFilters: filters,
+                                self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                                queryString: nil,
                                                                                                                itemsPerPage: 20,
                                                                                                                multiRequesterEnabled: true)
                             }
                             it ("requesters with make and model and year, negated year, negated model and negated make") {
-                                expect(self.finalMultiRequester.isEqual(toRequester: ProductListMultiRequester(requesters: self.expectedRequestersArray))) == true
+                                expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true
                             }
                         }
                         context ("make, custom model & year") {
@@ -292,21 +292,21 @@ class FilterProductListRequesterFactorySpec: QuickSpec {
                                 filters.carModelId = RetrieveListingParam<String>(value: "", isNegated: false)
                                 filters.carYearStart = RetrieveListingParam<Int>(value: 2000, isNegated: false)
 
-                                let expectedRequester1 = FilteredProductListRequester(itemsPerPage: 20, offset: 0)
+                                let expectedRequester1 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                                 expectedRequester1.filters = filters
 
-                                let expectedRequester2 = FilteredProductListRequester(itemsPerPage: 20, offset: 0)
+                                let expectedRequester2 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                                 var filters2 = filters
                                 filters2.carYearStart = RetrieveListingParam<Int>(value: 2000, isNegated: true)
                                 expectedRequester2.filters = filters2
 
-                                let expectedRequester3 = FilteredProductListRequester(itemsPerPage: 20, offset: 0)
+                                let expectedRequester3 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                                 var filters3 = filters
                                 filters3.carModelId = RetrieveListingParam<String>(value: "", isNegated: true)
                                 filters3.carYearStart = nil
                                 expectedRequester3.filters = filters3
 
-                                let expectedRequester4 = FilteredProductListRequester(itemsPerPage: 20, offset: 0)
+                                let expectedRequester4 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                                 var filters4 = filters
                                 filters4.carMakeId = RetrieveListingParam<String>(value: "makeId", isNegated: true)
                                 filters4.carModelId = nil
@@ -315,13 +315,13 @@ class FilterProductListRequesterFactorySpec: QuickSpec {
 
                                 self.expectedRequestersArray = [expectedRequester1, expectedRequester2, expectedRequester3, expectedRequester4]
 
-                                self.finalMultiRequester = FilterProductListRequesterFactory.generateRequester(withFilters: filters,
+                                self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                                queryString: nil,
                                                                                                                itemsPerPage: 20,
                                                                                                                multiRequesterEnabled: true)
                             }
                             it ("requesters with make and model 'other' and year, negated year, negated model and negated make") {
-                                expect(self.finalMultiRequester.isEqual(toRequester: ProductListMultiRequester(requesters: self.expectedRequestersArray))) == true
+                                expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true
                             }
                         }
                         context ("custom make, custom model & year") {
@@ -332,21 +332,21 @@ class FilterProductListRequesterFactorySpec: QuickSpec {
                                 filters.carModelId = RetrieveListingParam<String>(value: "", isNegated: false)
                                 filters.carYearStart = RetrieveListingParam<Int>(value: 2000, isNegated: false)
 
-                                let expectedRequester1 = FilteredProductListRequester(itemsPerPage: 20, offset: 0)
+                                let expectedRequester1 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                                 expectedRequester1.filters = filters
 
-                                let expectedRequester2 = FilteredProductListRequester(itemsPerPage: 20, offset: 0)
+                                let expectedRequester2 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                                 var filters2 = filters
                                 filters2.carYearStart = RetrieveListingParam<Int>(value: 2000, isNegated: true)
                                 expectedRequester2.filters = filters2
 
-                                let expectedRequester3 = FilteredProductListRequester(itemsPerPage: 20, offset: 0)
+                                let expectedRequester3 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                                 var filters3 = filters
                                 filters3.carModelId = RetrieveListingParam<String>(value: "", isNegated: true)
                                 filters3.carYearStart = nil
                                 expectedRequester3.filters = filters3
 
-                                let expectedRequester4 = FilteredProductListRequester(itemsPerPage: 20, offset: 0)
+                                let expectedRequester4 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                                 var filters4 = filters
                                 filters4.carMakeId = RetrieveListingParam<String>(value: "", isNegated: true)
                                 filters4.carModelId = nil
@@ -355,13 +355,13 @@ class FilterProductListRequesterFactorySpec: QuickSpec {
 
                                 self.expectedRequestersArray = [expectedRequester1, expectedRequester2, expectedRequester3, expectedRequester4]
 
-                                self.finalMultiRequester = FilterProductListRequesterFactory.generateRequester(withFilters: filters,
+                                self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                                queryString: nil,
                                                                                                                itemsPerPage: 20,
                                                                                                                multiRequesterEnabled: true)
                             }
                             it ("requesters with make 'other', model 'other' and year, negated year, negated model and negated make") {
-                                expect(self.finalMultiRequester.isEqual(toRequester: ProductListMultiRequester(requesters: self.expectedRequestersArray))) == true
+                                expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true
                             }
                         }
                         context ("make, model & year start & end") {
@@ -373,23 +373,23 @@ class FilterProductListRequesterFactorySpec: QuickSpec {
                                 filters.carYearStart = RetrieveListingParam<Int>(value: 2000, isNegated: false)
                                 filters.carYearEnd = RetrieveListingParam<Int>(value: 2015, isNegated: false)
 
-                                let expectedRequester1 = FilteredProductListRequester(itemsPerPage: 20, offset: 0)
+                                let expectedRequester1 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                                 expectedRequester1.filters = filters
 
-                                let expectedRequester2 = FilteredProductListRequester(itemsPerPage: 20, offset: 0)
+                                let expectedRequester2 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                                 var filters2 = filters
                                 filters2.carYearStart = RetrieveListingParam<Int>(value: 2000, isNegated: true)
                                 filters2.carYearEnd = RetrieveListingParam<Int>(value: 2015, isNegated: true)
                                 expectedRequester2.filters = filters2
 
-                                let expectedRequester3 = FilteredProductListRequester(itemsPerPage: 20, offset: 0)
+                                let expectedRequester3 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                                 var filters3 = filters
                                 filters3.carModelId = RetrieveListingParam<String>(value: "modelId", isNegated: true)
                                 filters3.carYearStart = nil
                                 filters3.carYearEnd = nil
                                 expectedRequester3.filters = filters3
 
-                                let expectedRequester4 = FilteredProductListRequester(itemsPerPage: 20, offset: 0)
+                                let expectedRequester4 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                                 var filters4 = filters
                                 filters4.carMakeId = RetrieveListingParam<String>(value: "makeId", isNegated: true)
                                 filters4.carModelId = nil
@@ -400,13 +400,13 @@ class FilterProductListRequesterFactorySpec: QuickSpec {
                                 self.expectedRequestersArray = [expectedRequester1, expectedRequester2, expectedRequester3, expectedRequester4]
 
 
-                                self.finalMultiRequester = FilterProductListRequesterFactory.generateRequester(withFilters: filters,
+                                self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                                queryString: nil,
                                                                                                                itemsPerPage: 20,
                                                                                                                multiRequesterEnabled: true)
                             }
                             it ("requesters with make and model and year, negated year, negated model and negated make") {
-                                expect(self.finalMultiRequester.isEqual(toRequester: ProductListMultiRequester(requesters: self.expectedRequestersArray))) == true
+                                expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true
                             }
                         }
                         context ("only year end") {
@@ -415,23 +415,23 @@ class FilterProductListRequesterFactorySpec: QuickSpec {
                                 filters.selectedCategories = [.cars]
                                 filters.carYearEnd = RetrieveListingParam<Int>(value: 2015, isNegated: false)
 
-                                let expectedRequester1 = FilteredProductListRequester(itemsPerPage: 20, offset: 0)
+                                let expectedRequester1 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                                 expectedRequester1.filters = filters
 
-                                let expectedRequester2 = FilteredProductListRequester(itemsPerPage: 20, offset: 0)
+                                let expectedRequester2 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                                 var filters2 = filters
                                 filters2.carYearEnd = RetrieveListingParam<Int>(value: 2015, isNegated: true)
                                 expectedRequester2.filters = filters2
 
                                 self.expectedRequestersArray = [expectedRequester1, expectedRequester2]
 
-                                self.finalMultiRequester = FilterProductListRequesterFactory.generateRequester(withFilters: filters,
+                                self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                                queryString: nil,
                                                                                                                itemsPerPage: 20,
                                                                                                                multiRequesterEnabled: true)
                             }
                             it ("requesters with year and negated year") {
-                                expect(self.finalMultiRequester.isEqual(toRequester: ProductListMultiRequester(requesters: self.expectedRequestersArray))) == true
+                                expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true
                             }
                         }
                         context ("only year, but start and end") {
@@ -441,10 +441,10 @@ class FilterProductListRequesterFactorySpec: QuickSpec {
                                 filters.carYearStart = RetrieveListingParam<Int>(value: 2000, isNegated: false)
                                 filters.carYearEnd = RetrieveListingParam<Int>(value: 2015, isNegated: false)
 
-                                let expectedRequester1 = FilteredProductListRequester(itemsPerPage: 20, offset: 0)
+                                let expectedRequester1 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                                 expectedRequester1.filters = filters
 
-                                let expectedRequester2 = FilteredProductListRequester(itemsPerPage: 20, offset: 0)
+                                let expectedRequester2 = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                                 var filters2 = filters
                                 filters2.carYearStart = RetrieveListingParam<Int>(value: 2000, isNegated: true)
                                 filters2.carYearEnd = RetrieveListingParam<Int>(value: 2015, isNegated: true)
@@ -452,13 +452,13 @@ class FilterProductListRequesterFactorySpec: QuickSpec {
 
                                 self.expectedRequestersArray = [expectedRequester1, expectedRequester2]
 
-                                self.finalMultiRequester = FilterProductListRequesterFactory.generateRequester(withFilters: filters,
+                                self.finalMultiRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                                                queryString: nil,
                                                                                                                itemsPerPage: 20,
                                                                                                                multiRequesterEnabled: true)
                             }
                             it ("requesters with year and negated year") {
-                                expect(self.finalMultiRequester.isEqual(toRequester: ProductListMultiRequester(requesters: self.expectedRequestersArray))) == true
+                                expect(self.finalMultiRequester.isEqual(toRequester: ListingListMultiRequester(requesters: self.expectedRequestersArray))) == true
                             }
                         }
                     }

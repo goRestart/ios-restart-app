@@ -13,8 +13,8 @@ enum ChatInfoViewStatus: Int {
     case forbidden
     case blocked
     case blockedBy
-    case productDeleted
-    case productSold
+    case listingDeleted
+    case listingSold
     case userPendingDelete
     case userDeleted
     case available
@@ -35,9 +35,9 @@ enum ChatInfoViewStatus: Int {
             }
         case .blockedBy:
             return LGLocalizedString.chatBlockedByOtherLabel
-        case .productDeleted:
+        case .listingDeleted:
             return LGLocalizedString.commonProductNotAvailable
-        case .productSold:
+        case .listingSold:
             return LGLocalizedString.chatProductSoldLabel
         case .userPendingDelete, .userDeleted:
             if let userName = userName {
@@ -57,11 +57,11 @@ enum ChatInfoViewStatus: Int {
 
     var bgColor: UIColor {
         switch self {
-        case .forbidden, .userDeleted, .userPendingDelete, .blockedBy, .productDeleted:
+        case .forbidden, .userDeleted, .userPendingDelete, .blockedBy, .listingDeleted:
             return UIColor.lgBlack
         case .blocked:
             return UIColor.primaryColor
-        case .productSold:
+        case .listingSold:
             return UIColor.soldColor
         case .available:
             return UIColor.clear
@@ -78,9 +78,9 @@ enum ChatInfoViewStatus: Int {
             return UIImage(named: "ic_blocked_white") ?? UIImage()
         case .blockedBy:
             return UIImage(named: "ic_blocked_white_line") ?? UIImage()
-        case .productDeleted:
+        case .listingDeleted:
             return UIImage(named: "ic_alert_yellow_white_inside") ?? UIImage()
-        case .productSold:
+        case .listingSold:
             return UIImage(named: "ic_sold_white") ?? UIImage()
         case .available:
             return UIImage()
@@ -89,7 +89,7 @@ enum ChatInfoViewStatus: Int {
 
     var isHidden: Bool {
         switch self {
-        case .forbidden, .blocked, .blockedBy, .productDeleted, .productSold, .userDeleted, .userPendingDelete:
+        case .forbidden, .blocked, .blockedBy, .listingDeleted, .listingSold, .userDeleted, .userPendingDelete:
             return false
         case .available:
             return true

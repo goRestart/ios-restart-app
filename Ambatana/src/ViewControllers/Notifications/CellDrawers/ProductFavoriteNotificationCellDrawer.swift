@@ -1,5 +1,5 @@
 //
-//  ProductSoldNotificationCellDrawer.swift
+//  ListingFavoriteNotificationCellDrawer.swift
 //  LetGo
 //
 //  Created by Eli Kohen on 27/04/16.
@@ -8,15 +8,15 @@
 
 import LGCoreKit
 
-class ProductFavoriteNotificationCellDrawer: BaseNotificationCellDrawer<NotificationCell> {
+class ListingFavoriteNotificationCellDrawer: BaseNotificationCellDrawer<NotificationCell> {
     
     override func draw(_ cell: NotificationCell, data: NotificationData) {
 
         switch data.type {
-        case let .productFavorite(product, user):
+        case let .listingFavorite(listing, user):
             let userName = user.name
-            if let productTitle = product.title, !productTitle.isEmpty {
-                cell.actionLabel.text = LGLocalizedString.notificationsTypeLikeWNameWTitle(userName ?? "", productTitle)
+            if let listingTitle = listing.title, !listingTitle.isEmpty {
+                cell.actionLabel.text = LGLocalizedString.notificationsTypeLikeWNameWTitle(userName ?? "", listingTitle)
             } else {
                 cell.actionLabel.text = LGLocalizedString.notificationsTypeLikeWName(userName ?? "")
             }

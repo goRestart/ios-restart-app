@@ -1,5 +1,5 @@
 //
-//  ProductCellDrawer.swift
+//  ListingCellDrawer.swift
 //  LetGo
 //
 //  Created by Eli Kohen on 03/12/15.
@@ -8,8 +8,8 @@
 
 import LGCoreKit
 
-class ProductCellDrawer: BaseCollectionCellDrawer<ProductCell>, GridCellDrawer {
-    func draw(_ model: ProductData, style: CellStyle, inCell cell: ProductCell) {
+class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDrawer {
+    func draw(_ model: ProductData, style: CellStyle, inCell cell: ListingCell) {
         if let id = model.productID {
             cell.setBackgroundColor(id: id)
         }

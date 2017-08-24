@@ -43,21 +43,21 @@ struct UriScheme {
         case .sell:
             return UriScheme(deepLink: DeepLink.link(.sell, campaign: campaign, medium: medium,
                                                      source: source, cardActionParameter: cardActionParameter))
-        case .product, .products:
-            guard let productId = components.first else { return nil }
-            return UriScheme(deepLink: DeepLink.link(.product(productId: productId), campaign: campaign, medium: medium,
+        case .listing, .listings:
+            guard let listingId = components.first else { return nil }
+            return UriScheme(deepLink: DeepLink.link(.listing(listingId: listingId), campaign: campaign, medium: medium,
                 source: source, cardActionParameter: cardActionParameter))
-        case .productShare:
-            guard let productId = components.first else { return nil }
-            return UriScheme(deepLink: DeepLink.link(.productShare(productId: productId), campaign: campaign, medium: medium,
+        case .listingShare:
+            guard let listingId = components.first else { return nil }
+            return UriScheme(deepLink: DeepLink.link(.listingShare(listingId: listingId), campaign: campaign, medium: medium,
                                                      source: source, cardActionParameter: cardActionParameter))
-        case .productBumpUp:
-            guard let productId = components.first else { return nil }
-            return UriScheme(deepLink: DeepLink.link(.productBumpUp(productId: productId), campaign: campaign, medium: medium,
+        case .listingBumpUp:
+            guard let listingId = components.first else { return nil }
+            return UriScheme(deepLink: DeepLink.link(.listingBumpUp(listingId: listingId), campaign: campaign, medium: medium,
                                                      source: source, cardActionParameter: cardActionParameter))
-        case .productMarkAsSold:
-            guard let productId = components.first else { return nil }
-            return UriScheme(deepLink: DeepLink.link(.productMarkAsSold(productId: productId), campaign: campaign, medium: medium,
+        case .listingMarkAsSold:
+            guard let listingId = components.first else { return nil }
+            return UriScheme(deepLink: DeepLink.link(.listingMarkAsSold(listingId: listingId), campaign: campaign, medium: medium,
                                                      source: source, cardActionParameter: cardActionParameter))
         case .user:
             guard let userId = components.first else { return nil }
@@ -72,9 +72,9 @@ struct UriScheme {
                 // letgo://chat/?c=12345 where c=conversation_id
                 return UriScheme(deepLink: DeepLink.link(.conversation(data: .conversation(conversationId: conversationId)),
                     campaign: campaign, medium: medium, source: source, cardActionParameter: cardActionParameter))
-            } else if let productId = params["p"], let buyerId = params["b"] {
+            } else if let listingId = params["p"], let buyerId = params["b"] {
                 // letgo://chat/?p=12345&b=abcde where p=product_id, b=buyer_id (user)
-                return UriScheme(deepLink: DeepLink.link(.conversation(data: .productBuyer(productId: productId,
+                return UriScheme(deepLink: DeepLink.link(.conversation(data: .listingBuyer(listingId: listingId,
                     buyerId: buyerId)), campaign: campaign, medium: medium, source: source, cardActionParameter: cardActionParameter))
             } else {
                 return nil
@@ -98,8 +98,8 @@ struct UriScheme {
             return UriScheme(deepLink: DeepLink.link(.userRating(ratingId: ratingId), campaign: campaign, medium: medium,
                 source: source, cardActionParameter: cardActionParameter))
         case .passiveBuyers:
-            guard let productId = components.first else { return nil }
-            return UriScheme(deepLink: DeepLink.link(.passiveBuyers(productId: productId), campaign: campaign, medium: medium,
+            guard let listingId = components.first else { return nil }
+            return UriScheme(deepLink: DeepLink.link(.passiveBuyers(listingId: listingId), campaign: campaign, medium: medium,
                 source: source, cardActionParameter: cardActionParameter))
         case .notificationCenter:
             return UriScheme(deepLink: DeepLink.link(.notificationCenter, campaign: campaign, medium: medium,
@@ -114,11 +114,11 @@ struct UriScheme {
 enum UriSchemeHost: String {
     case home = "home"
     case sell = "sell"
-    case product = "product"
-    case products = "products"
-    case productShare = "products_share"
-    case productBumpUp = "products_bump_up"
-    case productMarkAsSold = "products_mark_as_sold"
+    case listing = "product"
+    case listings = "products"
+    case listingShare = "products_share"
+    case listingBumpUp = "products_bump_up"
+    case listingMarkAsSold = "products_mark_as_sold"
     case user = "users"
     case chat = "chat"
     case chats = "chats"

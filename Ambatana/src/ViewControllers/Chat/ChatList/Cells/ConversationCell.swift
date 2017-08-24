@@ -11,8 +11,8 @@ import UIKit
 enum ConversationCellStatus {
     case available
     case forbidden
-    case productSold
-    case productDeleted
+    case listingSold
+    case listingDeleted
     case userPendingDelete
     case userDeleted
     case userBlocked
@@ -24,8 +24,8 @@ struct ConversationCellData {
     let userName: String
     let userImageUrl: URL?
     let userImagePlaceholder: UIImage?
-    let productName: String
-    let productImageUrl: URL?
+    let listingName: String
+    let listingImageUrl: URL?
     let unreadCount: Int
     let messageDate: Date?
 }
@@ -36,7 +36,7 @@ class ConversationCell: UITableViewCell, ReusableCell {
 
     @IBOutlet weak var thumbnailImageView: UIImageView!
     @IBOutlet weak var userLabel: UILabel!
-    @IBOutlet weak var productLabel: UILabel!
+    @IBOutlet weak var listingLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var badgeView: UIView!
     @IBOutlet weak var badgeLabel: UILabel!
@@ -103,7 +103,7 @@ class ConversationCell: UITableViewCell, ReusableCell {
         let tag = (indexPath as NSIndexPath).hash
 
         // thumbnail
-        if let thumbURL = data.productImageUrl {
+        if let thumbURL = data.listingImageUrl {
             thumbnailImageView.lg_setImageWithURL(thumbURL) {
                 [weak self] (result, url) in
                 // tag check to prevent wrong image placement cos' of recycling
@@ -123,32 +123,32 @@ class ConversationCell: UITableViewCell, ReusableCell {
             }
         }
 
-        productLabel.text = data.productName
+        listingLabel.text = data.listingName
         userLabel.text = data.userName
 
         if data.unreadCount > 0 {
             timeLabel.font = UIFont.conversationTimeUnreadFont
-            productLabel.font = UIFont.conversationProductUnreadFont
+            listingLabel.font = UIFont.conversationProductUnreadFont
             userLabel.font = UIFont.conversationUserNameUnreadFont
         } else {
             timeLabel.font = UIFont.conversationTimeFont
-            productLabel.font = UIFont.conversationProductFont
+            listingLabel.font = UIFont.conversationProductFont
             userLabel.font = UIFont.conversationUserNameFont
         }
 
         switch data.status {
         case .forbidden:
             setInfo(text: LGLocalizedString.accountPendingModeration, icon: UIImage(named: "ic_pending_moderation"))
-        case .productSold:
+        case .listingSold:
             setInfo(text: LGLocalizedString.commonProductSold, icon: UIImage(named: "ic_dollar_sold"))
-        case .productDeleted:
+        case .listingDeleted:
             setInfo(text: LGLocalizedString.commonProductNotAvailable, icon: UIImage(named: "ic_alert_yellow_white_inside"))
         case .userPendingDelete:
             setInfo(text: LGLocalizedString.chatListAccountDeleted, icon: UIImage(named: "ic_alert_yellow_white_inside"))
         case .userDeleted:
             setInfo(text: LGLocalizedString.chatListAccountDeleted, icon: UIImage(named: "ic_alert_yellow_white_inside"))
             userLabel.text = LGLocalizedString.chatListAccountDeletedUsername
-            productLabel.text = nil
+            listingLabel.text = nil
             avatarImageView.image = UIImage(named: "user_placeholder")
         case .available:
             setInfo(text: data.messageDate?.relativeTimeString(false) ?? "", icon: nil)
@@ -170,11 +170,11 @@ class ConversationCell: UITableViewCell, ReusableCell {
         thumbnailImageView.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         avatarImageView.layer.cornerRadius = avatarImageView.width/2
         avatarImageView.clipsToBounds = true
-        productLabel.font = UIFont.conversationProductFont
+        listingLabel.font = UIFont.conversationProductFont
         userLabel.font = UIFont.conversationUserNameFont
         timeLabel.font = UIFont.conversationTimeFont
 
-        productLabel.textColor = UIColor.darkGrayText
+        listingLabel.textColor = UIColor.darkGrayText
         userLabel.textColor = UIColor.blackText
         timeLabel.textColor = UIColor.darkGrayText
         thumbnailImageView.backgroundColor = UIColor.placeholderBackgroundColor()
@@ -184,7 +184,7 @@ class ConversationCell: UITableViewCell, ReusableCell {
     private func resetUI() {
         thumbnailImageView.image = UIImage(named: "product_placeholder")
         avatarImageView.image = nil
-        productLabel.text = ""
+        listingLabel.text = ""
         userLabel.text = ""
         timeLabel.text = ""
         badgeView.isHidden = true
@@ -211,7 +211,7 @@ extension ConversationCell {
         contentView.accessibilityId = AccessibilityId.conversationCellContainer
         userLabel.accessibilityId = AccessibilityId.conversationCellUserLabel
         timeLabel.accessibilityId = AccessibilityId.conversationCellTimeLabel
-        productLabel.accessibilityId = AccessibilityId.conversationCellProductLabel
+        listingLabel.accessibilityId = AccessibilityId.conversationCellListingLabel
         badgeLabel.accessibilityId = AccessibilityId.conversationCellBadgeLabel
         thumbnailImageView.accessibilityId = AccessibilityId.conversationCellThumbnailImageView
         avatarImageView.accessibilityId = AccessibilityId.conversationCellAvatarImageView

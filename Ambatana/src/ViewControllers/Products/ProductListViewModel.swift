@@ -54,16 +54,16 @@ struct VerticalTrackingInfo {
 
 typealias ListingsRequesterCompletion = (ListingsRequesterResult) -> Void
 
-protocol ProductListRequester: class {
+protocol ListingListRequester: class {
     var itemsPerPage: Int { get }
     func canRetrieve() -> Bool
     func retrieveFirstPage(_ completion: ListingsRequesterCompletion?)
     func retrieveNextPage(_ completion: ListingsRequesterCompletion?)
     func isLastPage(_ resultCount: Int) -> Bool
     func updateInitialOffset(_ newOffset: Int)
-    func duplicate() -> ProductListRequester
-    func isEqual(toRequester requester: ProductListRequester) -> Bool
-    func distanceFromProductCoordinates(_ productCoords: LGLocationCoordinates2D) -> Double?
+    func duplicate() -> ListingListRequester
+    func isEqual(toRequester requester: ListingListRequester) -> Bool
+    func distanceFromListingCoordinates(_ listingCoords: LGLocationCoordinates2D) -> Double?
     var countryCode: String? { get }
 }
 
@@ -92,7 +92,7 @@ class ProductListViewModel: BaseViewModel {
     weak var dataDelegate: ProductListViewModelDataDelegate?
     
     // Requester
-    var productListRequester: ProductListRequester?
+    var listingListRequester: ListingListRequester?
     
     let imageDownloader: ImageDownloaderType
 
@@ -118,7 +118,7 @@ class ProductListViewModel: BaseViewModel {
     private(set) var isOnErrorState: Bool = false
     
     var canRetrieveProducts: Bool {
-        let requesterCanRetrieve = productListRequester?.canRetrieve() ?? false
+        let requesterCanRetrieve = listingListRequester?.canRetrieve() ?? false
         return requesterCanRetrieve && !isLoading
     }
     
@@ -146,7 +146,7 @@ class ProductListViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
 
-    init(requester: ProductListRequester?,
+    init(requester: ListingListRequester?,
          listings: [Listing]? = nil,
          numberOfColumns: Int = 2,
          tracker: Tracker = TrackerProxy.sharedInstance,
@@ -156,7 +156,7 @@ class ProductListViewModel: BaseViewModel {
         self.refreshing = false
         self.state = .loading
         self.numberOfColumns = numberOfColumns
-        self.productListRequester = requester
+        self.listingListRequester = requester
         self.defaultCellSize = CGSize.zero
         self.tracker = tracker
         self.imageDownloader = imageDownloader
@@ -167,7 +167,7 @@ class ProductListViewModel: BaseViewModel {
     }
     
     convenience init(listViewModel: ProductListViewModel) {
-        self.init(requester: listViewModel.productListRequester)
+        self.init(requester: listViewModel.listingListRequester)
         self.pageNumber = listViewModel.pageNumber
         self.state = listViewModel.state
         self.objects = listViewModel.objects
@@ -249,7 +249,7 @@ class ProductListViewModel: BaseViewModel {
     
     
     private func retrieveProducts(firstPage: Bool) {
-        guard let productListRequester = productListRequester else { return } //Should not happen
+        guard let listingListRequester = listingListRequester else { return } //Should not happen
 
         isLoading = true
         isOnErrorState = false
@@ -270,8 +270,8 @@ class ProductListViewModel: BaseViewModel {
                 if let verticalTrackingInfo = result.verticalTrackingInfo, !newListings.isEmpty {
                     strongSelf.trackVerticalFilterResults(withVerticalTrackingInfo: verticalTrackingInfo)
                 }
-                let productCellModels = newListings.map(ListingCellModel.init)
-                let cellModels = self?.dataDelegate?.vmProcessReceivedProductPage(productCellModels, page: nextPageNumber) ?? productCellModels
+                let listingCellModels = newListings.map(ListingCellModel.init)
+                let cellModels = self?.dataDelegate?.vmProcessReceivedProductPage(listingCellModels, page: nextPageNumber) ?? listingCellModels
                 let indexes: [Int]
                 if firstPage {
                     strongSelf.objects = cellModels
@@ -284,7 +284,7 @@ class ProductListViewModel: BaseViewModel {
                 }
                 strongSelf.pageNumber = nextPageNumber
                 let hasProducts = strongSelf.numberOfProducts > 0
-                strongSelf.isLastPage = strongSelf.productListRequester?.isLastPage(newListings.count) ?? true
+                strongSelf.isLastPage = strongSelf.listingListRequester?.isLastPage(newListings.count) ?? true
                 //This assignment should be ALWAYS before calling the delegates to give them the option to re-set the state
                 if hasProducts {
                     // to avoid showing "loading footer" when there are no elements
@@ -299,9 +299,9 @@ class ProductListViewModel: BaseViewModel {
         }
 
         if firstPage {
-            productListRequester.retrieveFirstPage(completion)
+            listingListRequester.retrieveFirstPage(completion)
         } else {
-            productListRequester.retrieveNextPage(completion)
+            listingListRequester.retrieveNextPage(completion)
         }
     }
 
@@ -414,7 +414,7 @@ class ProductListViewModel: BaseViewModel {
         - parameter index: The index of the product currently visible on screen.
     */
     func setCurrentItemIndex(_ index: Int) {
-        guard let itemsPerPage = productListRequester?.itemsPerPage, numberOfProducts > 0 else { return }
+        guard let itemsPerPage = listingListRequester?.itemsPerPage, numberOfProducts > 0 else { return }
         let threshold = numberOfProducts - Int(Float(itemsPerPage)*Constants.productsPagingThresholdPercentage)
         let shouldRetrieveProductsNextPage = index >= threshold && !isOnErrorState
         if shouldRetrieveProductsNextPage {
@@ -435,12 +435,12 @@ class ProductListViewModel: BaseViewModel {
 
 extension ProductListViewModel {
     func trackErrorStateShown(reason: EventParameterEmptyReason) {
-        let event = TrackerEvent.emptyStateVisit(typePage: .productList , reason: reason)
+        let event = TrackerEvent.emptyStateVisit(typePage: .listingList , reason: reason)
         tracker.trackEvent(event)
     }
 
     func trackVerticalFilterResults(withVerticalTrackingInfo info: VerticalTrackingInfo) {
-        let event = TrackerEvent.productListVertical(category: info.category,
+        let event = TrackerEvent.listingListVertical(category: info.category,
                                                      keywords: info.keywords,
                                                      matchingFields: info.matchingFields,
                                                      nonMatchingFields: info.nonMatchingFields)

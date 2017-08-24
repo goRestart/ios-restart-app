@@ -1,5 +1,5 @@
 //
-//  RelatedProductsView.swift
+//  RelatedListingsView.swift
 //  LetGo
 //
 //  Created by Eli Kohen on 01/08/16.
@@ -11,31 +11,31 @@ import RxSwift
 import RxCocoa
 
 
-protocol RelatedProductsViewDelegate: class {
-    func relatedProductsView(_ view: RelatedProductsView, showListing listing: Listing, atIndex index: Int,
-                             productListModels: [ListingCellModel], requester: ProductListRequester,
+protocol RelatedListingsViewDelegate: class {
+    func relatedListingsView(_ view: RelatedListingsView, showListing listing: Listing, atIndex index: Int,
+                             listingListModels: [ListingCellModel], requester: ListingListRequester,
                              thumbnailImage: UIImage?, originFrame: CGRect?)
 }
 
 
-class RelatedProductsView: UIView {
+class RelatedListingsView: UIView {
 
-    fileprivate static let defaultProductsDiameter: CGFloat = 100
+    fileprivate static let defaultListingsDiameter: CGFloat = 100
     fileprivate static let elementsMargin: CGFloat = 10
     fileprivate static let itemsSpacing: CGFloat = 5
 
-    let productId = Variable<String?>(nil)
-    let hasProducts = Variable<Bool>(false)
+    let listingId = Variable<String?>(nil)
+    let hasListings = Variable<Bool>(false)
 
-    weak var delegate: RelatedProductsViewDelegate?
+    weak var delegate: RelatedListingsViewDelegate?
 
     fileprivate let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
-    fileprivate let productsDiameter: CGFloat
+    fileprivate let listingsDiameter: CGFloat
 
-    fileprivate var requester: ProductListRequester?
+    fileprivate var requester: ListingListRequester?
     fileprivate var objects: [ListingCellModel] = [] {
         didSet {
-            hasProducts.value = !objects.isEmpty
+            hasListings.value = !objects.isEmpty
         }
     }
     fileprivate let drawerManager = GridDrawerManager()
@@ -46,17 +46,17 @@ class RelatedProductsView: UIView {
     // MARK: - Lifecycle
 
     convenience override init(frame: CGRect) {
-        self.init(productsDiameter: RelatedProductsView.defaultProductsDiameter, frame: frame)
+        self.init(listingsDiameter: RelatedListingsView.defaultListingsDiameter, frame: frame)
     }
 
-    init(productsDiameter: CGFloat, frame: CGRect) {
-        self.productsDiameter = productsDiameter
+    init(listingsDiameter: CGFloat, frame: CGRect) {
+        self.listingsDiameter = listingsDiameter
         super.init(frame: frame)
         setup()
     }
 
     required init?(coder aDecoder: NSCoder) {
-        self.productsDiameter = RelatedProductsView.defaultProductsDiameter
+        self.listingsDiameter = RelatedListingsView.defaultListingsDiameter
         super.init(coder: aDecoder)
         setup()
     }
@@ -84,21 +84,21 @@ class RelatedProductsView: UIView {
     }
 
     private func setupRx() {
-        productId.asObservable().bindNext{ [weak self] productId in
-             guard let productId = productId else {
+        listingId.asObservable().bindNext{ [weak self] listingId in
+             guard let listingId = listingId else {
                 self?.clear()
                 return
             }
-            self?.loadProducts(productId)
+            self?.loadListings(listingId)
         }.addDisposableTo(disposeBag)
-        hasProducts.asObservable().map { !$0 }.bindTo(self.rx.isHidden).addDisposableTo(disposeBag)
+        hasListings.asObservable().map { !$0 }.bindTo(self.rx.isHidden).addDisposableTo(disposeBag)
     }
 }
 
 
 // MARK: - UICollectionView
 
-extension RelatedProductsView: UICollectionViewDelegate, UICollectionViewDataSource {
+extension RelatedListingsView: UICollectionViewDelegate, UICollectionViewDataSource {
 
     fileprivate func setupCollection() {
         drawerManager.cellStyle = .small
@@ -108,12 +108,12 @@ extension RelatedProductsView: UICollectionViewDelegate, UICollectionViewDataSou
         collectionView.dataSource = self
         collectionView.scrollsToTop = false
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.contentInset = UIEdgeInsets(top: 0, left: RelatedProductsView.elementsMargin, bottom: 0,
-                                                   right: RelatedProductsView.elementsMargin)
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: RelatedListingsView.elementsMargin, bottom: 0,
+                                                   right: RelatedListingsView.elementsMargin)
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.scrollDirection = UICollectionViewScrollDirection.horizontal
-            layout.itemSize = CGSize(width: productsDiameter, height: productsDiameter)
-            layout.minimumInteritemSpacing = RelatedProductsView.itemsSpacing
+            layout.itemSize = CGSize(width: listingsDiameter, height: listingsDiameter)
+            layout.minimumInteritemSpacing = RelatedListingsView.itemsSpacing
         }
     }
 
@@ -144,7 +144,7 @@ extension RelatedProductsView: UICollectionViewDelegate, UICollectionViewDataSou
         guard let item = itemAtIndex(indexPath.row) else { return }
         switch item {
         case let .listingCell(listing):
-            let cell = collectionView.cellForItem(at: indexPath) as? ProductCell
+            let cell = collectionView.cellForItem(at: indexPath) as? ListingCell
             let thumbnailImage = cell?.thumbnailImageView.image
 
             var originFrame: CGRect? = nil
@@ -152,8 +152,8 @@ extension RelatedProductsView: UICollectionViewDelegate, UICollectionViewDataSou
                 originFrame = superview?.convert(cellFrame, from: collectionView)
             }
             guard let requester = requester else { return }
-            delegate?.relatedProductsView(self, showListing: listing, atIndex: indexPath.row,
-                                          productListModels: objects, requester: requester,
+            delegate?.relatedListingsView(self, showListing: listing, atIndex: indexPath.row,
+                                          listingListModels: objects, requester: requester,
                                           thumbnailImage: thumbnailImage, originFrame: originFrame)
         case .collectionCell, .emptyCell:
             // No banners or collections here
@@ -165,11 +165,11 @@ extension RelatedProductsView: UICollectionViewDelegate, UICollectionViewDataSou
 
 // MARK: - Data handling
 
-fileprivate extension RelatedProductsView {
+fileprivate extension RelatedListingsView {
 
-    func loadProducts(_ productId: String) {
+    func loadListings(_ listingId: String) {
         clear()
-        requester = RelatedProductListRequester(productId: productId, itemsPerPage: Constants.numListingsPerPageDefault)
+        requester = RelatedListingListRequester(listingId: listingId, itemsPerPage: Constants.numListingsPerPageDefault)
         requester?.retrieveFirstPage { [weak self] result in
             guard let listings = result.listingsResult.value else { return }
             if !listings.isEmpty {

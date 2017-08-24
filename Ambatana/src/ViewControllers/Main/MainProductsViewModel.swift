@@ -181,7 +181,7 @@ class MainProductsViewModel: BaseViewModel {
     
     // List VM
     let listViewModel: ProductListViewModel
-    fileprivate var productListRequester: ProductListMultiRequester
+    fileprivate var listingListRequester: ListingListMultiRequester
     var currentActiveFilters: ProductFilters? {
         return filters
     }
@@ -243,11 +243,11 @@ class MainProductsViewModel: BaseViewModel {
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         let columns = show3Columns ? 3 : 2
         let itemsPerPage = show3Columns ? Constants.numListingsPerPageBig : Constants.numListingsPerPageDefault
-        self.productListRequester = FilterProductListRequesterFactory.generateRequester(withFilters: filters,
+        self.listingListRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                         queryString: searchType?.query,
                                                                                         itemsPerPage: itemsPerPage,
                                                                                         multiRequesterEnabled: featureFlags.newCarsMultiRequesterEnabled)
-        self.listViewModel = ProductListViewModel(requester: self.productListRequester, listings: nil,
+        self.listViewModel = ProductListViewModel(requester: self.listingListRequester, listings: nil,
                                                   numberOfColumns: columns, tracker: tracker)
         self.listViewModel.productListFixedInset = show3Columns ? 6 : 10
 
@@ -503,14 +503,14 @@ class MainProductsViewModel: BaseViewModel {
             infoBubbleText.value = defaultBubbleText
         }
 
-        let currentItemsPerPage = productListRequester.itemsPerPage
+        let currentItemsPerPage = listingListRequester.itemsPerPage
 
-        productListRequester = FilterProductListRequesterFactory.generateRequester(withFilters: filters,
+        listingListRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                    queryString: queryString,
                                                                                    itemsPerPage: currentItemsPerPage,
                                                                                    multiRequesterEnabled: featureFlags.newCarsMultiRequesterEnabled)
 
-        listViewModel.productListRequester = productListRequester
+        listViewModel.listingListRequester = listingListRequester
 
         infoBubbleVisible.value = false
         errorMessage.value = nil
@@ -615,7 +615,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
         switch (sortCriteria) {
         case .distance:
             guard let topListing = listViewModel.listingAtIndex(index) else { return }
-            guard let requesterDistance = productListRequester.distanceFromProductCoordinates(topListing.location) else { return }
+            guard let requesterDistance = listingListRequester.distanceFromListingCoordinates(topListing.location) else { return }
             let distance = Float(requesterDistance)
 
             // instance var max distance or MIN distance to avoid updating the label everytime
@@ -653,12 +653,12 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
             return
         }
 
-        if productListRequester.multiIsFirstPage  {
+        if listingListRequester.multiIsFirstPage  {
             filterDescription.value = !hasProducts && shouldShowNoExactMatchesDisclaimer ? LGLocalizedString.filterResultsCarsNoMatches : nil
         }
 
         if !hasProducts {
-            if productListRequester.multiIsLastPage {
+            if listingListRequester.multiIsLastPage {
                 let errImage: UIImage?
                 let errTitle: String?
                 let errBody: String?
@@ -729,16 +729,16 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
         let cellModels = viewModel.objects
         let showRelated = searchType == nil && !hasFilters
         let data = ListingDetailData.listingList(listing: listing, cellModels: cellModels,
-                                                 requester: productListRequester, thumbnailImage: thumbnailImage,
+                                                 requester: listingListRequester, thumbnailImage: thumbnailImage,
                                                  originFrame: originFrame, showRelated: showRelated, index: index)
-        navigator?.openListing(data, source: productVisitSource, actionOnFirstAppear: .nonexistent)
+        navigator?.openListing(data, source: listingVisitSource, actionOnFirstAppear: .nonexistent)
     }
 
     func vmProcessReceivedProductPage(_ products: [ListingCellModel], page: UInt) -> [ListingCellModel] {
         guard searchType == nil else { return products }
         guard products.count > bannerCellPosition else { return products }
         var cellModels = products
-        if !collections.isEmpty && featureFlags.collectionsAllowedFor(countryCode: productListRequester.countryCode) {
+        if !collections.isEmpty && featureFlags.collectionsAllowedFor(countryCode: listingListRequester.countryCode) {
             let collectionType = collections[Int(page) % collections.count]
             let collectionModel = ListingCellModel.collectionCell(type: collectionType)
             cellModels.insert(collectionModel, at: bannerCellPosition)
@@ -974,7 +974,7 @@ extension MainProductsViewModel {
         let positive = UIAction(interface: .styledText(LGLocalizedString.profilePermissionsAlertOk, .standard),
                                 action: { [weak self] in
                                     self?.trackPushPermissionComplete()
-                                    LGPushPermissionsManager.sharedInstance.showPushPermissionsAlert(prePermissionType: .productListBanner)
+                                    LGPushPermissionsManager.sharedInstance.showPushPermissionsAlert(prePermissionType: .listingListBanner)
             },
                                 accessibilityId: .userPushPermissionOK)
         let negative = UIAction(interface: .styledText(LGLocalizedString.profilePermissionsAlertCancel, .cancel),
@@ -1024,7 +1024,7 @@ fileprivate extension MainProductsViewModel {
 
 fileprivate extension MainProductsViewModel {
 
-    var productVisitSource: EventParameterProductVisitSource {
+    var listingVisitSource: EventParameterListingVisitSource {
         if let searchType = searchType {
             switch searchType {
             case .collection:
@@ -1046,7 +1046,7 @@ fileprivate extension MainProductsViewModel {
             }
         }
 
-        return .productList
+        return .listingList
     }
     
     var feedSource: EventParameterFeedSource {
@@ -1071,7 +1071,7 @@ fileprivate extension MainProductsViewModel {
     func trackRequestSuccess(page: UInt, hasProducts: Bool) {
         guard page == 0 else { return }
         let successParameter: EventParameterBoolean = hasProducts ? .trueParameter : .falseParameter
-        let trackerEvent = TrackerEvent.productList(myUserRepository.myUser,
+        let trackerEvent = TrackerEvent.listingList(myUserRepository.myUser,
                                                     categories: filters.selectedCategories,
                                                     taxonomy: filters.selectedTaxonomyChildren.first,
                                                     searchQuery: queryString, feedSource: feedSource,
@@ -1091,7 +1091,7 @@ fileprivate extension MainProductsViewModel {
     func trackPushPermissionStart() {
         let goToSettings: EventParameterBoolean =
             LGPushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .trueParameter : .notAvailable
-        let trackerEvent = TrackerEvent.permissionAlertStart(.push, typePage: .productListBanner, alertType: .custom,
+        let trackerEvent = TrackerEvent.permissionAlertStart(.push, typePage: .listingListBanner, alertType: .custom,
                                                              permissionGoToSettings: goToSettings)
         tracker.trackEvent(trackerEvent)
     }
@@ -1099,7 +1099,7 @@ fileprivate extension MainProductsViewModel {
     func trackPushPermissionComplete() {
         let goToSettings: EventParameterBoolean =
             LGPushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .trueParameter : .notAvailable
-        let trackerEvent = TrackerEvent.permissionAlertComplete(.push, typePage: .productListBanner, alertType: .custom,
+        let trackerEvent = TrackerEvent.permissionAlertComplete(.push, typePage: .listingListBanner, alertType: .custom,
                                                                 permissionGoToSettings: goToSettings)
         tracker.trackEvent(trackerEvent)
     }
@@ -1107,7 +1107,7 @@ fileprivate extension MainProductsViewModel {
     func trackPushPermissionCancel() {
         let goToSettings: EventParameterBoolean =
             LGPushPermissionsManager.sharedInstance.pushPermissionsSettingsMode ? .trueParameter : .notAvailable
-        let trackerEvent = TrackerEvent.permissionAlertCancel(.push, typePage: .productListBanner, alertType: .custom,
+        let trackerEvent = TrackerEvent.permissionAlertCancel(.push, typePage: .listingListBanner, alertType: .custom,
                                                               permissionGoToSettings: goToSettings)
         tracker.trackEvent(trackerEvent)
     }
@@ -1128,7 +1128,7 @@ extension MainProductsViewModel: EditLocationDelegate {
 
 extension MainProductsViewModel: CategoriesHeaderCollectionViewDelegate {
     func openTaxonomyList() {
-        let vm = TaxonomiesViewModel(taxonomies: getTaxonomies(), source: .productList)
+        let vm = TaxonomiesViewModel(taxonomies: getTaxonomies(), source: .listingList)
         vm.taxonomiesDelegate = self
         navigator?.openTaxonomyList(withViewModel: vm)
     }

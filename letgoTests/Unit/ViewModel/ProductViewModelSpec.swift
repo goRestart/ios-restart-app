@@ -33,7 +33,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
         var locationManager: MockLocationManager!
         var countryHelper: CountryHelper!
         var product: MockProduct!
-        var source: EventParameterProductVisitSource!
+        var source: EventParameterListingVisitSource!
         var featureFlags: MockFeatureFlags!
         var purchasesShopper: MockPurchasesShopper!
         var monetizationRepository: MockMonetizationRepository!
@@ -51,7 +51,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
             func buildProductViewModel() {
                 let socialSharer = SocialSharer()
                 sut = ProductViewModel(listing: .product(product),
-                                       visitSource: .productList,
+                                       visitSource: .listingList,
                                         myUserRepository: myUserRepository,
                                         listingRepository: listingRepository,
                                         commercializerRepository: commercializerRepository,

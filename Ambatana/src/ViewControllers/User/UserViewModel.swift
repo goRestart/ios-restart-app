@@ -11,7 +11,7 @@ import RxSwift
 
 enum UserSource {
     case tabBar
-    case productDetail
+    case listingDetail
     case chat
     case notifications
     case link
@@ -46,11 +46,11 @@ class UserViewModel: BaseViewModel {
     fileprivate var socialMessage: SocialMessage? = nil
     
     fileprivate let sellingProductListViewModel: ProductListViewModel
-    fileprivate let sellingProductListRequester: UserProductListRequester
+    fileprivate let sellingListingListRequester: UserListingListRequester
     fileprivate let soldProductListViewModel: ProductListViewModel
-    fileprivate let soldProductListRequester: UserProductListRequester
+    fileprivate let soldListingListRequester: UserListingListRequester
     fileprivate let favoritesProductListViewModel: ProductListViewModel
-    fileprivate let favoritesProductListRequester: UserProductListRequester
+    fileprivate let favoritesListingListRequester: UserListingListRequester
     
     // Input
     let tab = Variable<UserViewHeaderTab>(.selling)
@@ -124,14 +124,14 @@ class UserViewModel: BaseViewModel {
         self.source = source
         self.featureFlags = featureFlags
         self.notificationsManager = notificationsManager
-        self.sellingProductListRequester = UserStatusesProductListRequester(statuses: [.pending, .approved],
+        self.sellingListingListRequester = UserStatusesListingListRequester(statuses: [.pending, .approved],
                                                                             itemsPerPage: Constants.numListingsPerPageDefault)
-        self.sellingProductListViewModel = ProductListViewModel(requester: self.sellingProductListRequester)
-        self.soldProductListRequester = UserStatusesProductListRequester(statuses: [.sold, .soldOld],
+        self.sellingProductListViewModel = ProductListViewModel(requester: self.sellingListingListRequester)
+        self.soldListingListRequester = UserStatusesListingListRequester(statuses: [.sold, .soldOld],
                                                                          itemsPerPage: Constants.numListingsPerPageDefault)
-        self.soldProductListViewModel = ProductListViewModel(requester: self.soldProductListRequester)
-        self.favoritesProductListRequester = UserFavoritesProductListRequester()
-        self.favoritesProductListViewModel = ProductListViewModel(requester: self.favoritesProductListRequester)
+        self.soldProductListViewModel = ProductListViewModel(requester: self.soldListingListRequester)
+        self.favoritesListingListRequester = UserFavoritesListingListRequester()
+        self.favoritesProductListViewModel = ProductListViewModel(requester: self.favoritesListingListRequester)
         
         self.productListViewModel = Variable<ProductListViewModel>(sellingProductListViewModel)
         self.disposeBag = DisposeBag()
@@ -537,10 +537,10 @@ fileprivate extension UserViewModel {
     
     func setupProductListViewRxBindings() {
         user.asObservable().subscribeNext { [weak self] user in
-            guard self?.sellingProductListRequester.userObjectId != user?.objectId else { return }
-            self?.sellingProductListRequester.userObjectId = user?.objectId
-            self?.soldProductListRequester.userObjectId = user?.objectId
-            self?.favoritesProductListRequester.userObjectId = user?.objectId
+            guard self?.sellingListingListRequester.userObjectId != user?.objectId else { return }
+            self?.sellingListingListRequester.userObjectId = user?.objectId
+            self?.soldListingListRequester.userObjectId = user?.objectId
+            self?.favoritesListingListRequester.userObjectId = user?.objectId
             self?.resetLists()
         }.addDisposableTo(disposeBag)
 
@@ -617,7 +617,7 @@ extension UserViewModel: ProductListViewModelDataDelegate {
     func productListVM(_ viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
                        originFrame: CGRect?) {
         guard viewModel === productListViewModel.value else { return } //guarding view model is the selected one
-        guard let listing = viewModel.listingAtIndex(index), let requester = viewModel.productListRequester else { return }
+        guard let listing = viewModel.listingAtIndex(index), let requester = viewModel.listingListRequester else { return }
         let cellModels = viewModel.objects
         
         let data = ListingDetailData.listingList(listing: listing, cellModels: cellModels, requester: requester,
@@ -672,8 +672,8 @@ extension UserViewModel {
             typePage = .tabBar
         case .chat:
             typePage = .chat
-        case .productDetail:
-            typePage = .productDetail
+        case .listingDetail:
+            typePage = .listingDetail
         case .notifications:
             typePage = .notifications
         case .link:

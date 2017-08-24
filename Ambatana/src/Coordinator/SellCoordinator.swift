@@ -143,7 +143,7 @@ extension SellCoordinator: PostProductNavigator {
         case .internalError, .wsChatError:
             sellError = .internalError
         }
-        let sellErrorDataEvent = TrackerEvent.productSellErrorData(sellError)
+        let sellErrorDataEvent = TrackerEvent.listingSellErrorData(sellError)
         TrackerProxy.sharedInstance.trackEvent(sellErrorDataEvent)
     }
 
@@ -233,7 +233,7 @@ extension SellCoordinator: ProductPostedNavigator {
 
 fileprivate extension SellCoordinator {
     func trackPost(withListing listing: Listing, trackingInfo: PostProductTrackingInfo) {
-        let event = TrackerEvent.productSellComplete(listing, buttonName: trackingInfo.buttonName, sellButtonPosition: trackingInfo.sellButtonPosition,
+        let event = TrackerEvent.listingSellComplete(listing, buttonName: trackingInfo.buttonName, sellButtonPosition: trackingInfo.sellButtonPosition,
                                                      negotiable: trackingInfo.negotiablePrice, pictureSource: trackingInfo.imageSource,
                                                      freePostingModeAllowed: featureFlags.freePostingModeAllowed)
 
@@ -244,7 +244,7 @@ fileprivate extension SellCoordinator {
                 !keyValueStorage.userTrackingProductSellComplete24hTracked {
             keyValueStorage.userTrackingProductSellComplete24hTracked = true
 
-            let event = TrackerEvent.productSellComplete24h(listing)
+            let event = TrackerEvent.listingSellComplete24h(listing)
             tracker.trackEvent(event)
         }
     }

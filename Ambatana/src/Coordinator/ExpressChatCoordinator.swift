@@ -111,17 +111,17 @@ extension ExpressChatCoordinator: ExpressChatNavigator {
 
     // save products which sent messages
     fileprivate func saveProductAsExpressChatMessageSent(_ productId: String) {
-        var productsExpressSent = keyValueStorage.userProductsWithExpressChatMessageSent
+        var productsExpressSent = keyValueStorage.userListingsWithExpressChatMessageSent
 
         for productSentId in productsExpressSent {
             if productSentId == productId { return }
         }
         productsExpressSent.append(productId)
-        keyValueStorage.userProductsWithExpressChatMessageSent = productsExpressSent
+        keyValueStorage.userListingsWithExpressChatMessageSent = productsExpressSent
     }
 
     fileprivate func expressChatMessageSentForProduct(_ productId: String) -> Bool {
-        for productSentId in keyValueStorage.userProductsWithExpressChatMessageSent {
+        for productSentId in keyValueStorage.userListingsWithExpressChatMessageSent {
             if productSentId == productId { return true }
         }
         return false

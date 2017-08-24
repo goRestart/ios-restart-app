@@ -1,5 +1,5 @@
 //
-//  ProductCell.swift
+//  ListingCell.swift
 //  LetGo
 //
 //  Created by AHL on 13/3/15.
@@ -8,9 +8,9 @@
 
 import UIKit
 
-class ProductCell: UICollectionViewCell, ReusableCell {
+class ListingCell: UICollectionViewCell, ReusableCell {
 
-    static let reusableID = "ProductCell"
+    static let reusableID = "listingCell"
     static let buttonsContainerShownHeight: CGFloat = 34
     static let stripeIconWidth: CGFloat = 14
     
@@ -70,7 +70,7 @@ class ProductCell: UICollectionViewCell, ReusableCell {
     }
     
     func setFreeStripe() {
-        stripeIconWidth.constant = ProductCell.stripeIconWidth
+        stripeIconWidth.constant = ListingCell.stripeIconWidth
         stripeImageView.image = UIImage(named: "stripe_white")
         stripeIcon.image = UIImage(named: "ic_heart")
         stripeLabel.text = LGLocalizedString.productFreePrice
@@ -92,7 +92,7 @@ class ProductCell: UICollectionViewCell, ReusableCell {
     
     // Sets up the UI
     private func setupUI() {
-        cellContent.layer.cornerRadius = LGUIKitConstants.productCellCornerRadius
+        cellContent.layer.cornerRadius = LGUIKitConstants.listingCellCornerRadius
         let rotation = CGFloat(Double.pi/4)
         stripeInfoView.transform = CGAffineTransform(rotationAngle: rotation)
         stripeLabel.textColor = UIColor.redText
@@ -112,10 +112,10 @@ class ProductCell: UICollectionViewCell, ReusableCell {
     }
 
     private func setAccessibilityIds() {
-        self.accessibilityId = .productCell
-        thumbnailImageView.accessibilityId = .productCellThumbnailImageView
-        stripeImageView.accessibilityId = .productCellStripeImageView
-        stripeLabel.accessibilityId = .productCellStripeLabel
-        stripeIcon.accessibilityId = .productCellStripeIcon
+        self.accessibilityId = .listingCell
+        thumbnailImageView.accessibilityId = .listingCellThumbnailImageView
+        stripeImageView.accessibilityId = .listingCellStripeImageView
+        stripeLabel.accessibilityId = .listingCellStripeLabel
+        stripeIcon.accessibilityId = .listingCellStripeIcon
     }
 }

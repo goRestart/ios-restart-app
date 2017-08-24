@@ -1,5 +1,5 @@
 //
-//  ChatRelatedProductsView.swift
+//  ChatRelatedListingsView.swift
 //  LetGo
 //
 //  Created by Eli Kohen on 23/11/2016.
@@ -11,31 +11,31 @@ import RxSwift
 import RxCocoa
 
 
-protocol ChatRelatedProductsViewDelegate: class {
-    func relatedProductsViewDidShow(_ view: ChatRelatedProductsView)
-    func relatedProductsView(_ view: ChatRelatedProductsView, showListing listing: Listing, atIndex index: Int,
-                             productListModels: [ListingCellModel], requester: ProductListRequester,
+protocol ChatRelatedListingsViewDelegate: class {
+    func relatedListingsViewDidShow(_ view: ChatRelatedListingsView)
+    func relatedListingsView(_ view: ChatRelatedListingsView, showListing listing: Listing, atIndex index: Int,
+                             listingListModels: [ListingCellModel], requester: ListingListRequester,
                              thumbnailImage: UIImage?, originFrame: CGRect?)
 
 }
 
 
-class ChatRelatedProductsView: UIView {
+class ChatRelatedListingsView: UIView {
 
     private static let defaultWidth = UIScreen.main.bounds.width
-    private static let relatedProductsHeight: CGFloat = 100
+    private static let relatedListingsHeight: CGFloat = 100
     private static let elementsMargin: CGFloat = 10
     private static let itemsSpacing: CGFloat = 5
 
     let title = Variable<String>("")
-    let productId = Variable<String?>(nil)
+    let listingId = Variable<String?>(nil)
     let visibleHeight = Variable<CGFloat>(0)
 
-    weak var delegate: ChatRelatedProductsViewDelegate?
+    weak var delegate: ChatRelatedListingsViewDelegate?
 
     private var topConstraint: NSLayoutConstraint?
     private let infoLabel = UILabel()
-    private let relatedProductsView = RelatedProductsView(productsDiameter: ChatRelatedProductsView.relatedProductsHeight,
+    private let relatedListingsView = RelatedListingsView(listingsDiameter: ChatRelatedListingsView.relatedListingsHeight,
                                                           frame: CGRect.zero)
     private let visible = Variable<Bool>(false)
 
@@ -59,7 +59,7 @@ class ChatRelatedProductsView: UIView {
 
     func setupOnTopOfView(_ sibling: UIView) {
         frame = CGRect(x: 0, y: sibling.top,
-                       width: ChatRelatedProductsView.defaultWidth, height: ChatRelatedProductsView.relatedProductsHeight)
+                       width: ChatRelatedListingsView.defaultWidth, height: ChatRelatedListingsView.relatedListingsHeight)
         translatesAutoresizingMaskIntoConstraints = false
         guard let parentView = sibling.superview else { return }
         parentView.insertSubview(self, belowSubview: sibling)
@@ -86,17 +86,17 @@ class ChatRelatedProductsView: UIView {
         infoLabel.font = UIFont.sectionTitleFont
         addSubview(infoLabel)
 
-        relatedProductsView.delegate = self
-        relatedProductsView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(relatedProductsView)
+        relatedListingsView.delegate = self
+        relatedListingsView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(relatedListingsView)
 
         setupConstraints()
         setupRx()
     }
 
     private func setupConstraints() {
-        let views = ["infoLabel": infoLabel, "relatedView": relatedProductsView]
-        let metrics = ["margin": ChatRelatedProductsView.elementsMargin, "relatedHeight": ChatRelatedProductsView.relatedProductsHeight]
+        let views = ["infoLabel": infoLabel, "relatedView": relatedListingsView]
+        let metrics = ["margin": ChatRelatedListingsView.elementsMargin, "relatedHeight": ChatRelatedListingsView.relatedListingsHeight]
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-margin-[infoLabel]-margin-|", options: [],
             metrics: metrics, views: views))
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[relatedView]|", options: [], metrics: nil,
@@ -110,9 +110,9 @@ class ChatRelatedProductsView: UIView {
         title.asObservable().bindTo(infoLabel.rx.text).addDisposableTo(disposeBag)
         visible.asObservable().map{!$0}.bindTo(self.rx.isHidden).addDisposableTo(disposeBag)
         visible.asObservable().map{ [weak self] in $0 ? self?.height ?? 0 : 0 }.bindTo(visibleHeight).addDisposableTo(disposeBag)
-        productId.asObservable().bindTo(relatedProductsView.productId).addDisposableTo(disposeBag)
-        relatedProductsView.hasProducts.asObservable().bindNext { [weak self] hasProducts in
-            self?.animateToVisible(hasProducts)
+        listingId.asObservable().bindTo(relatedListingsView.listingId).addDisposableTo(disposeBag)
+        relatedListingsView.hasListings.asObservable().bindNext { [weak self] hasListings in
+            self?.animateToVisible(hasListings)
         }.addDisposableTo(disposeBag)
     }
 
@@ -123,15 +123,15 @@ class ChatRelatedProductsView: UIView {
             self?.superview?.layoutIfNeeded()
         }) 
         if visible {
-            delegate?.relatedProductsViewDidShow(self)
+            delegate?.relatedListingsViewDidShow(self)
         }
     }
 }
 
 
-extension ChatRelatedProductsView: RelatedProductsViewDelegate {
-    func relatedProductsView(_ view: RelatedProductsView, showListing listing: Listing, atIndex index: Int,
-                             productListModels: [ListingCellModel], requester: ProductListRequester,
+extension ChatRelatedListingsView: RelatedListingsViewDelegate {
+    func relatedListingsView(_ view: RelatedListingsView, showListing listing: Listing, atIndex index: Int,
+                             listingListModels: [ListingCellModel], requester: ListingListRequester,
                              thumbnailImage: UIImage?, originFrame: CGRect?) {
 
         var realFrame: CGRect? = nil
@@ -139,7 +139,7 @@ extension ChatRelatedProductsView: RelatedProductsViewDelegate {
             realFrame = convert(originFrame, to: parentView)
         }
 
-        delegate?.relatedProductsView(self, showListing: listing, atIndex: index, productListModels: productListModels,
+        delegate?.relatedListingsView(self, showListing: listing, atIndex: index, listingListModels: listingListModels,
                                       requester: requester, thumbnailImage: thumbnailImage, originFrame: realFrame)
     }
 }
