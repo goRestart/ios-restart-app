@@ -426,17 +426,17 @@ enum TweaksCarPostingFlow: String, BumperFeature  {
 }
 
 enum DynamicQuickAnswers: String, BumperFeature  {
-    case control, baseline, a, b
+    case control, baseline, dynamicNoKeyboard, dynamicWithKeyboard
     static var defaultValue: String { return DynamicQuickAnswers.control.rawValue }
-    static var enumValues: [DynamicQuickAnswers] { return [.control, .baseline, .a, .b]}
+    static var enumValues: [DynamicQuickAnswers] { return [.control, .baseline, .dynamicNoKeyboard, .dynamicWithKeyboard]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Random quick answers with different approaches" } 
     static func fromPosition(_ position: Int) -> DynamicQuickAnswers {
         switch position { 
             case 0: return .control
             case 1: return .baseline
-            case 2: return .a
-            case 3: return .b
+            case 2: return .dynamicNoKeyboard
+            case 3: return .dynamicWithKeyboard
             default: return .control
         }
     }

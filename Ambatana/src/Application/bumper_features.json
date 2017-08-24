@@ -112,7 +112,7 @@
     },
     {
         "name": "DynamicQuickAnswers",
-        "values": ["control", "baseline", "A", "B"],
+        "values": ["control", "baseline", "dynamicNoKeyboard", "dynamicWithKeyboard"],
         "description": "Random quick answers with different approaches"
     }
 ]

@@ -1162,15 +1162,15 @@ extension OldChatViewModel: DirectAnswersPresenterDelegate {
         switch featureFlags.dynamicQuickAnswers {
         case .control, .baseline:
             return false
-        case .a, .b:
+        case .dynamicNoKeyboard, .dynamicWithKeyboard:
             return true
         }
     }
     var showKeyboardWhenQuickAnswer: Bool {
         switch featureFlags.dynamicQuickAnswers {
-        case .control, .baseline, .a:
+        case .control, .baseline, .dynamicNoKeyboard:
             return false
-        case .b:
+        case .dynamicWithKeyboard:
             return true
         }
     }
