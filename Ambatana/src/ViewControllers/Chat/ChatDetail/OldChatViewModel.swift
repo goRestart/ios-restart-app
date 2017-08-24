@@ -1152,11 +1152,9 @@ class OldChatViewModel: BaseViewModel, Paginable {
 extension OldChatViewModel: DirectAnswersPresenterDelegate {
     
     var directAnswers: [QuickAnswer] {
-        get {
-            let isFree = featureFlags.freePostingModeAllowed && listing.price.free
-            let isNegotiable = listing.isNegotiable(freeModeAllowed: featureFlags.freePostingModeAllowed)
-            return QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: areQuickAnswersDynamic, isNegotiable: isNegotiable)
-        } set { }
+        let isFree = featureFlags.freePostingModeAllowed && listing.price.free
+        let isNegotiable = listing.isNegotiable(freeModeAllowed: featureFlags.freePostingModeAllowed)
+        return QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: areQuickAnswersDynamic, isNegotiable: isNegotiable)
     }
     var areQuickAnswersDynamic: Bool {
         switch featureFlags.dynamicQuickAnswers {

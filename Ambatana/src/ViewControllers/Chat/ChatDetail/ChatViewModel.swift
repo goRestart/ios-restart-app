@@ -1337,12 +1337,10 @@ fileprivate extension ChatConversation {
 extension ChatViewModel: DirectAnswersPresenterDelegate {
     
     var directAnswers: [QuickAnswer] {
-        get {
-            let isFree = featureFlags.freePostingModeAllowed && productIsFree.value
-            let isBuyer = !conversation.value.amISelling
-            let isNegotiable = productIsNegotiable.value
-            return QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: areQuickAnswersDynamic, isNegotiable: isNegotiable)
-        }
+        let isFree = featureFlags.freePostingModeAllowed && productIsFree.value
+        let isBuyer = !conversation.value.amISelling
+        let isNegotiable = productIsNegotiable.value
+        return QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: areQuickAnswersDynamic, isNegotiable: isNegotiable)
     }
     var areQuickAnswersDynamic: Bool {
         switch featureFlags.dynamicQuickAnswers {
