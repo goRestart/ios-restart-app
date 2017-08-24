@@ -10,7 +10,7 @@ import UIKit
 
 class ListingCell: UICollectionViewCell, ReusableCell {
 
-    static let reusableID = "listingCell"
+    static let reusableID = "ListingCell"
     static let buttonsContainerShownHeight: CGFloat = 34
     static let stripeIconWidth: CGFloat = 14
     
