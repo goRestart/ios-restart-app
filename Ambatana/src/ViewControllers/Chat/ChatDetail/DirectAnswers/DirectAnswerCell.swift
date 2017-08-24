@@ -13,8 +13,11 @@ class DirectAnswerCell: UICollectionViewCell, ReusableCell {
     static let reusableID = "DirectAnswerCell"
 
     @IBOutlet weak var cellText: UILabel!
+    @IBOutlet weak var arrowWhiteImageView: UIImageView?
     
     static let cellHeight: CGFloat = 32
+    static let arrowWidth: CGFloat = 8
+    static let arrowHorizontalMargin: CGFloat = 8
 
     static func sizeForDirectAnswer(_ answer: QuickAnswer, isDynamic: Bool) -> CGSize {
         let constraintRect = CGSize(width: CGFloat.greatestFiniteMagnitude, height: DirectAnswerCell.cellHeight)
@@ -22,7 +25,14 @@ class DirectAnswerCell: UICollectionViewCell, ReusableCell {
         let boundingBox = text.boundingRect(with: constraintRect,
             options: NSStringDrawingOptions.usesFontLeading,
             attributes: [NSFontAttributeName: UIFont.mediumBodyFont], context: nil)
-        return CGSize(width: boundingBox.width+20, height: DirectAnswerCell.cellHeight)
+    
+        var width = boundingBox.width+20
+        if isDynamic {
+            width += DirectAnswerCell.arrowWidth + DirectAnswerCell.arrowHorizontalMargin
+        }
+        let height = DirectAnswerCell.cellHeight
+        
+        return CGSize(width: width, height: height)
     }
 
     override var isHighlighted: Bool {
@@ -59,6 +69,7 @@ class DirectAnswerCell: UICollectionViewCell, ReusableCell {
             cellText.text = answer.title
         } else {
             cellText.text = answer.text
+            arrowWhiteImageView?.removeFromSuperview()
         }
     }
 
