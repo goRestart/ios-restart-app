@@ -166,7 +166,7 @@ enum QuickAnswer {
         }
     }
     
-    var title: String {
+    var title: String? {
         switch self {
         case .interested:
             return QuickAnswerType.interested.name
@@ -179,7 +179,7 @@ enum QuickAnswer {
         case .isNegotiable:
             return QuickAnswerType.negotiable.name
         case .likeToBuy:
-            return ""
+            return nil
         case .productCondition:
             return QuickAnswerType.condition.name
         case .productStillForSale:
@@ -195,7 +195,7 @@ enum QuickAnswer {
         case .freeStillHave:
             return QuickAnswerType.availability.name
         case .freeYours:
-            return ""
+            return nil
         case .freeAvailable:
             return QuickAnswerType.availability.name
         case .freeNotAvailable:
@@ -322,31 +322,31 @@ enum QuickAnswer {
     }
     
     static func randomAvailabilityQA() -> QuickAnswer {
-        let qas : [QuickAnswer]
+        let qas: [QuickAnswer]
         qas = [.stillAvailable, .stillForSale, .freeStillHave]
         return qas.random() ?? .stillAvailable
     }
     
     static func randomNoNegotiablePriceQA() -> QuickAnswer {
-        let qas : [QuickAnswer]
+        let qas: [QuickAnswer]
         qas = [.isNegotiable, .priceFirm, .priceWillingToNegotiate]
         return qas.random() ?? .isNegotiable
     }
     
     static func randomConditionQA() -> QuickAnswer {
-        let qas : [QuickAnswer]
+        let qas: [QuickAnswer]
         qas = [.productCondition, .productConditionGood, .productConditionDescribe]
         return qas.random() ?? .productCondition
     }
     
     static func randomMeetUpQA() -> QuickAnswer {
-        let qas : [QuickAnswer]
+        let qas: [QuickAnswer]
         qas = [.meetUp, .meetUpLocated, .meetUpWhereYouWant]
         return qas.random() ?? .meetUp
     }
     
     static func randomNegotiablePriceSellerQA() -> QuickAnswer {
-        let qas : [QuickAnswer]
+        let qas: [QuickAnswer]
         qas = [.negotiableYes, .whatsOffer]
         return qas.random() ?? .negotiableYes
     }

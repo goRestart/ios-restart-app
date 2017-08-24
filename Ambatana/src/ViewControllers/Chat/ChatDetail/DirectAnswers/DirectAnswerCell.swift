@@ -18,7 +18,7 @@ class DirectAnswerCell: UICollectionViewCell, ReusableCell {
 
     static func sizeForDirectAnswer(_ answer: QuickAnswer, isDynamic: Bool) -> CGSize {
         let constraintRect = CGSize(width: CGFloat.greatestFiniteMagnitude, height: DirectAnswerCell.cellHeight)
-        let text = isDynamic ? answer.title : answer.text
+        guard let text = isDynamic ? answer.title : answer.text else { return CGSize.zero }
         let boundingBox = text.boundingRect(with: constraintRect,
             options: NSStringDrawingOptions.usesFontLeading,
             attributes: [NSFontAttributeName: UIFont.mediumBodyFont], context: nil)
