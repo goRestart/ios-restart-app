@@ -291,7 +291,7 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
     private func setupDirectAnswers() {
         directAnswersPresenter.hidden = viewModel.directAnswersState.value != .visible
         directAnswersPresenter.setupOnTopOfView(relatedProductsView)
-        directAnswersPresenter.setDirectAnswers(viewModel.directAnswers, isDynamic: false)
+        directAnswersPresenter.setDirectAnswers(viewModel.directAnswers, isDynamic: viewModel.areQuickAnswersDynamic)
         directAnswersPresenter.delegate = viewModel
 
         viewModel.directAnswersState.asObservable().bindNext { [weak self] state in
