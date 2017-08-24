@@ -56,7 +56,7 @@ class ChatApiDataSource: OldChatDataSource {
             parameters["offset"] = offset
             parameters["num_results"] = numResults
 
-            let request = OldChatRouter.show(objectId: listingId, params: parameters)
+            let request = OldChatRouter.show(listingId: listingId, params: parameters)
             apiClient.request(request, decoder: chatDecoder, completion: completion)
     }
 
@@ -79,7 +79,7 @@ class ChatApiDataSource: OldChatDataSource {
             parameters["type"] = type.rawValue
             parameters["content"] = message
 
-            let request = OldChatRouter.createMessage(objectId: listingId, params: parameters)
+            let request = OldChatRouter.createMessage(listingId: listingId, params: parameters)
             apiClient.request(request, completion: completion)
     }
 

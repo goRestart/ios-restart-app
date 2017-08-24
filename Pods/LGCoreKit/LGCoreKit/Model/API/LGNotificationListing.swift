@@ -26,9 +26,9 @@ extension LGNotificationListing: Decodable {
     public static func decode(_ j: JSON) -> Decoded<LGNotificationListing> {
         /*
          {
-         "listing_id": "a569527f-17e2-3d22-a513-2fc0c6477ac8",
-         "listing_image": "Ms.",
-         "listing_title": "Miss",
+         "product_id": "a569527f-17e2-3d22-a513-2fc0c6477ac8",
+         "product_title": "Ms.",
+         "product_image": "Miss",
          }
          */       
         let result1 = curry(LGNotificationListing.init)
