@@ -28,9 +28,6 @@ class ProductCarouselCell: UICollectionViewCell {
     weak var delegate: ProductCarouselCellDelegate?
     var placeholderImage: UIImage?
     fileprivate var currentPage = 0
-    fileprivate var imageScrollDirection: UICollectionViewScrollDirection = .vertical
-    fileprivate var verticalScrollCounter: CGFloat = 0.0  // USed to prevent more info overscroll down with horizontal images navigator
-
     fileprivate var numberOfImages: Int {
         return productImages.count
     }
@@ -82,29 +79,18 @@ class ProductCarouselCell: UICollectionViewCell {
     }
 
     func configureCellWith(cellModel: ProductCarouselCellModel, placeholderImage: UIImage?, indexPath: IndexPath,
-                           imageDownloader: ImageDownloaderType, imageScrollDirection: UICollectionViewScrollDirection) {
+                           imageDownloader: ImageDownloaderType) {
         self.tag = (indexPath as NSIndexPath).hash
         self.productImages = cellModel.images
         self.productBackgroundColor = cellModel.backgroundColor
         self.imageDownloader = imageDownloader
         self.placeholderImage = placeholderImage
-        self.imageScrollDirection = imageScrollDirection
-
-        if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            layout.scrollDirection = imageScrollDirection
-        }
 
         if let firstImageUrl = productImages.first, placeholderImage == nil {
             self.placeholderImage = imageDownloader.cachedImageForUrl(firstImageUrl)
         }
         collectionView.setContentOffset(CGPoint.zero, animated: false) //Resetting images
         collectionView.reloadData()
-    }
-
-    func returnToFirstImage() {
-        guard productImages.count > 1 else { return }
-        let scrollPosition = imageScrollDirection == .horizontal ? UICollectionViewScrollPosition.left : UICollectionViewScrollPosition.top
-        collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: scrollPosition, animated: false)
     }
 
     fileprivate func imageAtIndex(_ index: Int) -> URL? {
@@ -159,23 +145,9 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let pageSize = imageScrollDirection == .horizontal ? collectionView.frame.size.width : collectionView.frame.size.height
+        let pageSize = collectionView.frame.size.height
         guard pageSize > 0, numberOfImages > 0 else { return }
-        
-        let collectionContentOffset: CGFloat
-
-        if imageScrollDirection == .horizontal {
-            verticalScrollCounter = verticalScrollCounter + scrollView.contentOffset.y
-            collectionContentOffset = scrollView.contentOffset.x
-            // in horizontal image scrolling, collection should not be able to move upwards.
-            if verticalScrollCounter > 0 {
-                scrollView.setContentOffset(CGPoint(x: scrollView.contentOffset.x, y: 0.0), animated: false)
-            }
-        } else {
-            collectionContentOffset = scrollView.contentOffset.y
-        }
-        
-        let page = Int(round(collectionContentOffset / pageSize)) % numberOfImages
+        let page = Int(round(collectionView.contentOffset.y / pageSize)) % numberOfImages
         if page != currentPage {
             currentPage = page
             delegate?.isZooming(false)
@@ -187,19 +159,12 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
             delegate.didPullFromCellWith(scrollView.contentOffset.y, bottomLimit: bottomScrollLimit)
 
             if !delegate.canScrollToNextPage() {
-                // setting the contentOffset.y = 0 prevents the collection of going down when scrolling for the "more info"
-                if imageScrollDirection == .horizontal {
-                    // we want to stay in the current picture
-                    scrollView.contentOffset = CGPoint(x: scrollView.contentOffset.x, y: 0)
-                } else {
-                    scrollView.contentOffset = CGPoint(x: 0, y: 0)
-                }
+                scrollView.contentOffset = CGPoint(x: 0, y: 0)
             }
         }
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        verticalScrollCounter = 0.0
         delegate?.didEndDraggingCell()
     }
 

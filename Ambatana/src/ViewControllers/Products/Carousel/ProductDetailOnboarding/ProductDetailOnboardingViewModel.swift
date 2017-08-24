@@ -19,10 +19,6 @@ class ProductDetailOnboardingViewModel : BaseViewModel {
     var keyValueStorage: KeyValueStorageable
     weak var delegate: ProductDetailOnboardingViewDelegate?
 
-    var newLabelIsHidden: Bool {
-        return !(featureFlags.newCarouselNavigationEnabled && keyValueStorage[.didShowProductDetailOnboarding])
-    }
-
     var newText: String {
         return LGLocalizedString.commonNew
     }
@@ -31,11 +27,6 @@ class ProductDetailOnboardingViewModel : BaseViewModel {
         return UIImage(named: "finger_tap")
     }
     var firstText: NSAttributedString {
-        if featureFlags.newCarouselNavigationEnabled {
-            let highlightedText = LGLocalizedString.productNewOnboardingFingerTapHighlightedLabel
-            return tipText(textToHighlight: highlightedText,
-                           fullText: LGLocalizedString.productNewOnboardingFingerTapLabel(highlightedText))
-        }
         return tipText(textToHighlight: nil, fullText: LGLocalizedString.productOnboardingFingerTapLabel)
     }
 
@@ -43,26 +34,13 @@ class ProductDetailOnboardingViewModel : BaseViewModel {
         return UIImage(named: "finger_swipe")
     }
     var secondText: NSAttributedString {
-        if featureFlags.newCarouselNavigationEnabled {
-            let highlightedText = LGLocalizedString.productNewOnboardingFingerSwipeHighlightedLabel
-            return tipText(textToHighlight: highlightedText,
-                           fullText: LGLocalizedString.productNewOnboardingFingerSwipeLabel(highlightedText))
-        }
         return tipText(textToHighlight: nil, fullText: LGLocalizedString.productOnboardingFingerSwipeLabel)
     }
 
     var thirdImage: UIImage? {
-        if featureFlags.newCarouselNavigationEnabled {
-            return UIImage(named: "finger_keep_swipe")
-        }
         return UIImage(named: "finger_scroll")
     }
     var thirdText: NSAttributedString {
-        if featureFlags.newCarouselNavigationEnabled {
-            let highlightedText = LGLocalizedString.productNewOnboardingFingerKeepSwipeHighlightedLabel
-            return tipText(textToHighlight: highlightedText,
-                           fullText: LGLocalizedString.productNewOnboardingFingerKeepSwipeLabel(highlightedText))
-        }
         return tipText(textToHighlight: nil, fullText: LGLocalizedString.productOnboardingFingerScrollLabel)
     }
 
@@ -82,11 +60,7 @@ class ProductDetailOnboardingViewModel : BaseViewModel {
     }
 
     func hasBeenShown() {
-        if featureFlags.newCarouselNavigationEnabled {
-            keyValueStorage[.didShowHorizontalProductDetailOnboarding] = true
-        } else {
-            keyValueStorage[.didShowProductDetailOnboarding] = true
-        }
+        keyValueStorage[.didShowProductDetailOnboarding] = true
         delegate?.productDetailOnboardingDidAppear()
     }
 

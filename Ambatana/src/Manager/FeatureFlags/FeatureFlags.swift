@@ -30,7 +30,6 @@ protocol FeatureFlaggeable: class {
     var newMarkAsSoldFlow: Bool { get }
     var editLocationBubble: EditLocationBubble { get }
     var newCarsMultiRequesterEnabled: Bool { get }
-    var newCarouselNavigationEnabled: Bool { get }
     var newOnboardingPhase1: Bool { get }
     var searchParamDisc24: SearchParamDisc24 { get }
     var inAppRatingIOS10: Bool { get }
@@ -236,13 +235,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.newCarsMultiRequesterEnabled
         }
         return abTests.newCarsMultiRequesterEnabled.value
-    }
-
-    var newCarouselNavigationEnabled: Bool {
-        if Bumper.enabled {
-            return Bumper.newCarouselNavigationEnabled
-        }
-        return abTests.newCarouselNavigationEnabled.value
     }
 
     var newOnboardingPhase1: Bool {

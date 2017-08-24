@@ -24,7 +24,6 @@ extension Bumper  {
         flags.append(NewMarkAsSoldFlow.self)
         flags.append(EditLocationBubble.self)
         flags.append(NewCarsMultiRequesterEnabled.self)
-        flags.append(NewCarouselNavigationEnabled.self)
         flags.append(NewOnboardingPhase1.self)
         flags.append(SearchParamDisc24.self)
         flags.append(InAppRatingIOS10.self)
@@ -91,11 +90,6 @@ extension Bumper  {
     static var newCarsMultiRequesterEnabled: Bool {
         guard let value = Bumper.value(for: NewCarsMultiRequesterEnabled.key) else { return false }
         return NewCarsMultiRequesterEnabled(rawValue: value)?.asBool ?? false
-    }
-
-    static var newCarouselNavigationEnabled: Bool {
-        guard let value = Bumper.value(for: NewCarouselNavigationEnabled.key) else { return false }
-        return NewCarouselNavigationEnabled(rawValue: value)?.asBool ?? false
     }
 
     static var newOnboardingPhase1: Bool {
@@ -253,15 +247,6 @@ enum NewCarsMultiRequesterEnabled: String, BumperFeature  {
     static var enumValues: [NewCarsMultiRequesterEnabled] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Cars multi requester enabled" } 
-    var asBool: Bool { return self == .yes }
-}
-
-enum NewCarouselNavigationEnabled: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return NewCarouselNavigationEnabled.no.rawValue }
-    static var enumValues: [NewCarouselNavigationEnabled] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "New carousel navigation enabled" } 
     var asBool: Bool { return self == .yes }
 }
 

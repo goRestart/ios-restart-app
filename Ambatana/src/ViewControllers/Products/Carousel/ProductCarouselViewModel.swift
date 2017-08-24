@@ -100,22 +100,7 @@ class ProductCarouselViewModel: BaseViewModel {
     fileprivate var prefetchingIndexes: [Int] = []
 
     fileprivate var shouldShowOnboarding: Bool {
-        let shouldShowOldOnboarding = !featureFlags.newCarouselNavigationEnabled && !keyValueStorage[.didShowProductDetailOnboarding]
-        let shouldShowNewOnboarding = featureFlags.newCarouselNavigationEnabled && !keyValueStorage[.didShowHorizontalProductDetailOnboarding]
-        return shouldShowOldOnboarding || shouldShowNewOnboarding
-    }
-
-    var imageScrollDirection: UICollectionViewScrollDirection {
-        if featureFlags.newCarouselNavigationEnabled {
-            return .horizontal
-        }
-        return .vertical
-    }
-
-    let horizontalImageNavigationEnabled = Variable<Bool>(false)
-
-    var isMyListing: Bool {
-        return currentProductViewModel?.isMine ?? false
+        return !keyValueStorage[.didShowProductDetailOnboarding]
     }
 
     fileprivate var trackingIndex: Int?
@@ -129,7 +114,6 @@ class ProductCarouselViewModel: BaseViewModel {
     fileprivate let keyValueStorage: KeyValueStorageable
     fileprivate let imageDownloader: ImageDownloaderType
     fileprivate let productViewModelMaker: ProductViewModelMaker
-    fileprivate let featureFlags: FeatureFlaggeable
 
     fileprivate let disposeBag = DisposeBag()
 
@@ -221,7 +205,6 @@ class ProductCarouselViewModel: BaseViewModel {
         self.keyValueStorage = keyValueStorage
         self.imageDownloader = imageDownloader
         self.productViewModelMaker = productViewModelMaker
-        self.featureFlags = featureFlags
         if let initialListing = initialListing {
             self.startIndex = objects.value.index(where: { $0.listing.objectId == initialListing.objectId}) ?? 0
         } else {
@@ -362,9 +345,6 @@ class ProductCarouselViewModel: BaseViewModel {
     }
 
     private func setupRxBindings() {
-
-        horizontalImageNavigationEnabled.value = imageScrollDirection == .horizontal
-
         quickAnswersCollapsed.asObservable().skip(1).bindNext { [weak self] collapsed in
             self?.keyValueStorage[.productDetailQuickAnswersHidden] = collapsed
         }.addDisposableTo(disposeBag)
