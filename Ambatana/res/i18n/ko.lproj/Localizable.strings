@@ -20,9 +20,9 @@
 "bump_up_banner_free_button_title" = "강조하기";
 "bump_up_banner_free_text" = "빠르게 판매하기 위해 무료로 강조해보세요";
 "bump_up_banner_pay_text" = "빠르게 판매하기 위해 상품을 강조해보세요";
-"bump_up_banner_pay_text_improvement" = "Sell faster now";
+"bump_up_banner_pay_text_improvement" = "지금 빨리 판매하기";
 "bump_up_banner_wait_text" = "다시 강조하기";
-"bump_up_banner_wait_text_improvement" = "to feature again";
+"bump_up_banner_wait_text_improvement" = "다시 강조하기";
 "bump_up_error_bump_generic" = "상품을 강조하는 동안에 오류가 발생했습니다. 다시 시도해주세요.";
 "bump_up_error_bump_token" = "결제가 진행되었지만, 상품이 강조되지 않았습니다.";
 "bump_up_error_payment_failed" = "앱 스토어에 연결할 수 없습니다. 귀하의 결제가 진행되지 않았습니다. 다시 시도해주세요.";
