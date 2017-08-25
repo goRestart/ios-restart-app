@@ -174,7 +174,7 @@ class UserViewModel: BaseViewModel {
 
 extension UserViewModel {
     func refreshSelling() {
-        sellingListingListViewModel.retrieveProducts()
+        sellingListingListViewModel.retrieveListings()
     }
     
     func avatarButtonPressed() {
@@ -314,7 +314,7 @@ extension UserViewModel {
         let listVM = listingListViewModel.value
         switch listVM.state {
         case .loading:
-            listVM.retrieveProducts()
+            listVM.retrieveListings()
         case .data, .error, .empty:
             break
         }
@@ -590,7 +590,7 @@ extension UserViewModel: ListingListViewModelDataDelegate {
         }
     }
     
-    func listingListVM(_ viewModel: ListingListViewModel, didSucceedRetrievingListingsPage page: UInt, hasProducts: Bool) {
+    func listingListVM(_ viewModel: ListingListViewModel, didSucceedRetrievingListingsPage page: UInt, hasListings hasProducts: Bool) {
         guard page == 0 && !hasProducts else { return }
         
         let errTitle: String?

@@ -101,7 +101,7 @@ class MainListingsViewModelSpec: QuickSpec {
                         let searchType: SearchType? = nil
                 
                         sut = MainListingsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, searchRepository: Core.searchRepository, listingRepository: Core.listingRepository, monetizationRepository: Core.monetizationRepository, categoryRepository: Core.categoryRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: mockTracker, searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags, bubbleTextGenerator: DistanceBubbleTextGenerator())
-                        sut.listingListVM(listingListViewModel, didSucceedRetrievingProductsPage: 0, hasProducts: true)
+                        sut.listingListVM(listingListViewModel, didSucceedRetrievingListingsPage: 0, hasListings: true)
                     }
                     it("fires product list event") {
                         let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
@@ -120,7 +120,7 @@ class MainListingsViewModelSpec: QuickSpec {
                         let searchType: SearchType = .user(query: "iphone")
                         
                         sut = MainListingsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, searchRepository: Core.searchRepository, listingRepository: Core.listingRepository, monetizationRepository: Core.monetizationRepository, categoryRepository: Core.categoryRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: mockTracker, searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags, bubbleTextGenerator: DistanceBubbleTextGenerator())
-                        sut.listingListVM(listingListViewModel, didSucceedRetrievingProductsPage: 0, hasProducts: true)
+                        sut.listingListVM(listingListViewModel, didSucceedRetrievingListingsPage: 0, hasListings: true)
                     }
                     it("fires listing list event and search complete") {
                         let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
@@ -138,7 +138,7 @@ class MainListingsViewModelSpec: QuickSpec {
                         userFilters.selectedCategories = [.motorsAndAccessories]
                         let searchType: SearchType? = nil
                         sut = MainListingsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, searchRepository: Core.searchRepository, listingRepository: Core.listingRepository, monetizationRepository: Core.monetizationRepository, categoryRepository: Core.categoryRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: mockTracker, searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags, bubbleTextGenerator: DistanceBubbleTextGenerator())
-                        sut.listingListVM(listingListViewModel, didSucceedRetrievingProductsPage: 0, hasProducts: true)
+                        sut.listingListVM(listingListViewModel, didSucceedRetrievingListingsPage: 0, hasListings: true)
                     }
                     it("fires product list event") {
                         let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
@@ -156,7 +156,7 @@ class MainListingsViewModelSpec: QuickSpec {
                         userFilters.selectedCategories = [.motorsAndAccessories]
                         let searchType: SearchType = .user(query: "iphone")
                         sut = MainListingsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, searchRepository: Core.searchRepository, listingRepository: Core.listingRepository, monetizationRepository: Core.monetizationRepository, categoryRepository: Core.categoryRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: mockTracker, searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags, bubbleTextGenerator: DistanceBubbleTextGenerator())
-                        sut.listingListVM(listingListViewModel, didSucceedRetrievingProductsPage: 0, hasProducts: true)
+                        sut.listingListVM(listingListViewModel, didSucceedRetrievingListingsPage: 0, hasListings: true)
                     }
                     it("fires product list event and search complete") {
                         let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
@@ -179,7 +179,7 @@ class MainListingsViewModelSpec: QuickSpec {
                                                     locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: mockTracker,
                                                     searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage,
                                                     featureFlags: mockFeatureFlags, bubbleTextGenerator: DistanceBubbleTextGenerator())
-                        sut.listingListVM(listingListViewModel, didSucceedRetrievingProductsPage: 0, hasProducts: true)
+                        sut.listingListVM(listingListViewModel, didSucceedRetrievingListingsPage: 0, hasListings: true)
                     }
                     it("fires product list event") {
                         let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
@@ -208,7 +208,7 @@ class MainListingsViewModelSpec: QuickSpec {
                 
                 context("with too many requests") {
                     beforeEach {
-                       sut.listingListMV(listingListViewModel, didFailRetrievingProductsPage: 0, hasProducts: false, error:.tooManyRequests)
+                       sut.listingListMV(listingListViewModel, didFailRetrievingListingsPage: 0, hasListings: false, error:.tooManyRequests)
                     }
                     it("fires empty-state-error") {
                         let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
@@ -221,7 +221,7 @@ class MainListingsViewModelSpec: QuickSpec {
                 }
                 context("with internet connection error") {
                     beforeEach {
-                        sut.listingListMV(listingListViewModel, didFailRetrievingProductsPage: 0, hasProducts: false, error:.network(errorCode: -1, onBackground: false))
+                        sut.listingListMV(listingListViewModel, didFailRetrievingListingsPage: 0, hasListings: false, error:.network(errorCode: -1, onBackground: false))
                     }
                     it("fires empty-state-error") {
                         let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
