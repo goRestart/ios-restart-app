@@ -75,7 +75,7 @@ class ProductCarouselViewModel: BaseViewModel {
     let status = Variable<ProductViewModelStatus>(.pending)
     let isFeatured = Variable<Bool>(false)
 
-    let quickAnswers = Variable<[QuickAnswer]>([])
+    let quickAnswers = Variable<[[QuickAnswer]]>([[]])
     let quickAnswersAvailable = Variable<Bool>(false)
     let quickAnswersCollapsed: Variable<Bool>
 

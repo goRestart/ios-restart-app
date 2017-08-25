@@ -19,7 +19,8 @@ class DirectAnswerCell: UICollectionViewCell, ReusableCell {
     static let arrowWidth: CGFloat = 8
     static let arrowHorizontalMargin: CGFloat = 8
 
-    static func sizeForDirectAnswer(_ answer: QuickAnswer, isDynamic: Bool) -> CGSize {
+    static func sizeForDirectAnswer(_ quickAnswer: QuickAnswer?, isDynamic: Bool) -> CGSize {
+        guard let answer = quickAnswer else { return CGSize.zero }
         let constraintRect = CGSize(width: CGFloat.greatestFiniteMagnitude, height: DirectAnswerCell.cellHeight)
         guard let text = isDynamic ? answer.title : answer.text else { return CGSize.zero }
         let boundingBox = text.boundingRect(with: constraintRect,
@@ -64,7 +65,8 @@ class DirectAnswerCell: UICollectionViewCell, ReusableCell {
 
     // MARK: - Public methods
 
-    func setupWithDirectAnswer(_ answer: QuickAnswer, isDynamic: Bool) {
+    func setupWithDirectAnswer(_ quickAnswer: QuickAnswer?, isDynamic: Bool) {
+        guard let answer = quickAnswer else { return }
         if isDynamic {
             cellText.text = answer.title
         } else {

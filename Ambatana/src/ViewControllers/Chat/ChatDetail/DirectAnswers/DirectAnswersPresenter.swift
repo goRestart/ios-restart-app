@@ -40,7 +40,7 @@ class DirectAnswersPresenter {
     }
     fileprivate weak var horizontalView: DirectAnswersHorizontalView?
 
-    fileprivate var answers: [QuickAnswer] = []
+    fileprivate var answers: [[QuickAnswer]] = [[]]
     private let websocketChatActive: Bool
     private static let disabledAlpha: CGFloat = 0.6
     
@@ -69,7 +69,7 @@ class DirectAnswersPresenter {
         horizontalView = directAnswers
     }
 
-    func setDirectAnswers(_ answers: [QuickAnswer], isDynamic: Bool) {
+    func setDirectAnswers(_ answers: [[QuickAnswer]], isDynamic: Bool) {
         self.answers = answers
         self.isDynamic = isDynamic
         horizontalView?.update(answers: answers, isDynamic: isDynamic)

@@ -41,17 +41,17 @@ class DirectAnswersHorizontalView: UIView {
 
     fileprivate var heightConstraint = NSLayoutConstraint()
     fileprivate let collectionView: UICollectionView
-    fileprivate var answers: [QuickAnswer]
+    fileprivate var answers: [[QuickAnswer]]
     fileprivate var isDynamic: Bool = false
 
     // MARK: - Lifecycle
 
-    convenience init(answers: [QuickAnswer], sideMargin: CGFloat = DirectAnswersHorizontalView.defaultSideMargin, collapsed: Bool = false) {
+    convenience init(answers: [[QuickAnswer]], sideMargin: CGFloat = DirectAnswersHorizontalView.defaultSideMargin, collapsed: Bool = false) {
         let frame = CGRect(x: 0, y: 0, width: DirectAnswersHorizontalView.defaultWidth, height: DirectAnswerCell.cellHeight)
         self.init(frame: frame, answers: answers, sideMargin: sideMargin, collapsed: collapsed)
     }
 
-    required init(frame: CGRect, answers: [QuickAnswer], sideMargin: CGFloat = DirectAnswersHorizontalView.defaultSideMargin, collapsed: Bool = false) {
+    required init(frame: CGRect, answers: [[QuickAnswer]], sideMargin: CGFloat = DirectAnswersHorizontalView.defaultSideMargin, collapsed: Bool = false) {
         self.answers = answers
         let collectionFrame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
         self.collectionView = UICollectionView(frame: collectionFrame, collectionViewLayout: UICollectionViewFlowLayout())
@@ -73,7 +73,7 @@ class DirectAnswersHorizontalView: UIView {
         heightConstraint.constant = collapsed ? 0 : DirectAnswersHorizontalView.defaultHeight
     }
 
-    func update(answers: [QuickAnswer], isDynamic: Bool?) {
+    func update(answers: [[QuickAnswer]], isDynamic: Bool?) {
         self.answers = answers
         if let isDynamic = isDynamic {
             self.isDynamic = isDynamic
@@ -140,7 +140,7 @@ extension DirectAnswersHorizontalView: UICollectionViewDelegate, UICollectionVie
         if indexPath.row == answers.count {
             return DirectAnswersCloseCell.size()
         } else {
-            return DirectAnswerCell.sizeForDirectAnswer(answers[indexPath.row], isDynamic: isDynamic)
+            return DirectAnswerCell.sizeForDirectAnswer(answers[indexPath.row].random(), isDynamic: isDynamic)
         }
     }
 
@@ -159,7 +159,7 @@ extension DirectAnswersHorizontalView: UICollectionViewDelegate, UICollectionVie
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DirectAnswerCell.reusableID,
                                                                 for: indexPath) as? DirectAnswerCell else { return UICollectionViewCell() }
 
-            cell.setupWithDirectAnswer(answers[indexPath.row], isDynamic: isDynamic)
+            cell.setupWithDirectAnswer(answers[indexPath.row].random(), isDynamic: isDynamic)
 
             return cell
         }
@@ -174,14 +174,15 @@ extension DirectAnswersHorizontalView: UICollectionViewDelegate, UICollectionVie
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if deselectOnItemTap {
-            collectionView.deselectItem(at: indexPath, animated: true)
-        }
+//        if deselectOnItemTap {
+//            collectionView.deselectItem(at: indexPath, animated: true)
+//        }
         guard answersEnabled else { return }
         if indexPath.row == answers.count {
             delegate?.directAnswersHorizontalViewDidSelectClose()
         } else {
-            delegate?.directAnswersHorizontalViewDidSelect(answer: answers[indexPath.row], index: indexPath.row)
+            guard let quickAnswer = answers[indexPath.row].random() else { return }
+            delegate?.directAnswersHorizontalViewDidSelect(answer: quickAnswer, index: indexPath.row)
         }
     }
 

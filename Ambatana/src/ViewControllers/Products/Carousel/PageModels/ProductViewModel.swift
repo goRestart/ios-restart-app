@@ -67,7 +67,7 @@ class ProductViewModel: BaseViewModel {
     fileprivate var freeBumpUpShareMessage: SocialMessage?
 
     let directChatMessages = CollectionVariable<ChatViewMessage>([])
-    var quickAnswers: [QuickAnswer] {
+    var quickAnswers: [[QuickAnswer]] {
         guard !isMine else { return [] }
         let isFree = listing.value.price.free && featureFlags.freePostingModeAllowed
         let isNegotiable = listing.value.isNegotiable(freeModeAllowed: featureFlags.freePostingModeAllowed)
