@@ -436,13 +436,7 @@ struct TrackerEvent {
         params[.sellButtonPosition] = sellButtonPosition.rawValue
         return TrackerEvent(name: .listingSellStart, params: params)
     }
-
-    static func listingSellSharedFB(_ listing: Listing?) -> TrackerEvent {
-        var params = EventParameters()
-        params[.listingId] = listing?.objectId
-        return TrackerEvent(name: .listingSellSharedFB, params: params)
-    }
-
+    
     static func listingSellComplete(_ listing: Listing, buttonName: EventParameterButtonNameType?,
                                     sellButtonPosition: EventParameterSellButtonPosition?, negotiable: EventParameterNegotiablePrice?,
                                     pictureSource: EventParameterPictureSource?, freePostingModeAllowed: Bool) -> TrackerEvent {

@@ -2090,26 +2090,6 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
-            describe("productSellSharedFB") {
-                it("has its event name") {
-                    let product = MockProduct.makeMock()
-                    sut = TrackerEvent.listingSellSharedFB(product)
-                    expect(sut.name.rawValue).to(equal("product-sell-shared-fb"))
-                }
-                it("contains the product related params when passing by a product") {
-                    var product = MockProduct.makeMock()
-                    product.objectId = "r4nd0m1D"
-                    
-                    sut = TrackerEvent.listingSellSharedFB(product)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
-                    let productId = sut.params!.stringKeyParams["product-id"] as? String
-                    expect(productId).to(equal(product.objectId))
-                }
-            }
-            
-
             describe("productSellError") {
                 beforeEach {
                     var product = MockProduct.makeMock()
