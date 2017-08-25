@@ -1,5 +1,5 @@
 //
-//  ProductViewModel.swift
+//  ListingViewModel.swift
 //  LetGo
 //
 //  Created by Albert Hernández López on 12/08/15.
@@ -13,7 +13,7 @@ import Result
 import RxSwift
 
 
-protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
+protocol ListingViewModelDelegate: class, BaseViewModelDelegate {
 
     func vmOpenCommercialDisplay(_ displayVM: CommercialDisplayViewModel)
     func vmShowProductDetailOptions(_ cancelLabel: String, actions: [UIAction])
@@ -26,14 +26,14 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
     func vmResetBumpUpBannerCountdown()
 }
 
-protocol ProductViewModelMaker {
-    func make(listing: Listing, visitSource: EventParameterListingVisitSource) -> ProductViewModel
+protocol ListingViewModelMaker {
+    func make(listing: Listing, visitSource: EventParameterListingVisitSource) -> ListingViewModel
 }
 
-class ProductViewModel: BaseViewModel {
-    class ConvenienceMaker: ProductViewModelMaker {
-        func make(listing: Listing, visitSource source: EventParameterListingVisitSource) -> ProductViewModel {
-            return ProductViewModel(listing: listing,
+class ListingViewModel: BaseViewModel {
+    class ConvenienceMaker: ListingViewModelMaker {
+        func make(listing: Listing, visitSource source: EventParameterListingVisitSource) -> ListingViewModel {
+            return ListingViewModel(listing: listing,
                                     visitSource: source,
                                     myUserRepository: Core.myUserRepository,
                                     listingRepository: Core.listingRepository,
@@ -51,8 +51,8 @@ class ProductViewModel: BaseViewModel {
     }
 
     // Delegate
-    weak var delegate: ProductViewModelDelegate?
-    weak var navigator: ProductDetailNavigator?
+    weak var delegate: ListingViewModelDelegate?
+    weak var navigator: ListingDetailNavigator?
 
     // Data
     let listing: Variable<Listing>
@@ -84,11 +84,11 @@ class ProductViewModel: BaseViewModel {
     let favoriteButtonState = Variable<ButtonState>(.enabled)
     let shareButtonState = Variable<ButtonState>(.hidden)
 
-    let productInfo = Variable<ProductVMProductInfo?>(nil)
+    let productInfo = Variable<ListingVMProductInfo?>(nil)
     let productImageURLs = Variable<[URL]>([])
-    let userInfo: Variable<ProductVMUserInfo>
+    let userInfo: Variable<ListingVMUserInfo>
 
-    let status = Variable<ProductViewModelStatus>(.pending)
+    let status = Variable<ListingViewModelStatus>(.pending)
     
     fileprivate var isTransactionOpen: Bool = false
 
@@ -170,7 +170,7 @@ class ProductViewModel: BaseViewModel {
         self.purchasesShopper = purchasesShopper
         self.monetizationRepository = monetizationRepository
         self.showFeaturedStripeHelper = ShowFeaturedStripeHelper(featureFlags: featureFlags, myUserRepository: myUserRepository)
-        self.userInfo = Variable<ProductVMUserInfo>(ProductVMUserInfo(userListing: listing.user, myUser: myUserRepository.myUser))
+        self.userInfo = Variable<ListingVMUserInfo>(ListingVMUserInfo(userListing: listing.user, myUser: myUserRepository.myUser))
         self.disposeBag = DisposeBag()
 
         super.init()
@@ -275,7 +275,7 @@ class ProductViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
             strongSelf.trackHelper.listing = listing
             let isMine = listing.isMine(myUserRepository: strongSelf.myUserRepository)
-            strongSelf.status.value = ProductViewModelStatus(listing: listing, isMine: isMine, featureFlags: strongSelf.featureFlags)
+            strongSelf.status.value = ListingViewModelStatus(listing: listing, isMine: isMine, featureFlags: strongSelf.featureFlags)
 
             strongSelf.isShowingFeaturedStripe.value = strongSelf.showFeaturedStripeHelper.shouldShowFeaturedStripeFor(listing: listing) && !strongSelf.status.value.shouldShowStatus
 
@@ -285,7 +285,7 @@ class ProductViewModel: BaseViewModel {
             strongSelf.freeBumpUpShareMessage = ListingSocialMessage(listing: listing, fallbackToStore: true)
             strongSelf.productImageURLs.value = listing.images.flatMap { return $0.fileURL }
 
-            let productInfo = ProductVMProductInfo(listing: listing,
+            let productInfo = ListingVMProductInfo(listing: listing,
                                                    isAutoTranslated: listing.isTitleAutoTranslated(strongSelf.countryHelper),
                                                    distance: strongSelf.distanceString(listing),
                                                    freeModeAllowed: strongSelf.featureFlags.freePostingModeAllowed)
@@ -321,7 +321,7 @@ class ProductViewModel: BaseViewModel {
     }
 
     private func refreshStatus() {
-        status.value = ProductViewModelStatus(listing: listing.value, isMine: isMine, featureFlags: featureFlags)
+        status.value = ListingViewModelStatus(listing: listing.value, isMine: isMine, featureFlags: featureFlags)
     }
 
     func refreshBumpeableBanner() {
@@ -450,7 +450,7 @@ class ProductViewModel: BaseViewModel {
 
 // MARK: - Public actions
 
-extension ProductViewModel {
+extension ListingViewModel {
 
     func openProductOwnerProfile() {
         let data = UserDetailData.userAPI(user: LocalUser(userListing: listing.value.user), source: .listingDetail)
@@ -552,7 +552,7 @@ extension ProductViewModel {
 
 // MARK: - Helper Navbar
 
-extension ProductViewModel {
+extension ListingViewModel {
 
     fileprivate func refreshNavBarButtons() {
         navBarButtons.value = buildNavBarButtons()
@@ -732,13 +732,13 @@ extension ProductViewModel {
 
 // MARK: - Helper Action buttons
 
-extension ProductViewModel {
+extension ListingViewModel {
 
-    fileprivate func refreshActionButtons(_ status: ProductViewModelStatus) {
+    fileprivate func refreshActionButtons(_ status: ListingViewModelStatus) {
         actionButtons.value = buildActionButtons(status)
     }
 
-    private func buildActionButtons(_ status: ProductViewModelStatus) -> [UIAction] {
+    private func buildActionButtons(_ status: ListingViewModelStatus) -> [UIAction] {
         var actionButtons = [UIAction]()
         switch status {
         case .pending, .notAvailable, .otherSold, .otherSoldFree:
@@ -765,7 +765,7 @@ extension ProductViewModel {
 
 // MARK: - Private actions
 
-fileprivate extension ProductViewModel {
+fileprivate extension ListingViewModel {
 
     func showItemHiddenIfNeededFor(url: URL) {
         guard let _ = TextHiddenTags(fromURL: url) else { return }
@@ -810,7 +810,7 @@ fileprivate extension ProductViewModel {
         let action = UIAction(interface: .text(LGLocalizedString.productBubbleFavoriteButton), action: { [weak self] in
             self?.sendMessage(type: .favoritedListing(LGLocalizedString.productFavoriteDirectMessage))
         }, accessibilityId: .bubbleButton)
-        let data = BubbleNotificationData(tagGroup: ProductViewModel.bubbleTagGroup,
+        let data = BubbleNotificationData(tagGroup: ListingViewModel.bubbleTagGroup,
                                           text: LGLocalizedString.productBubbleFavoriteButton,
                                           infoText: LGLocalizedString.productBubbleFavoriteText,
                                           action: action,
@@ -991,7 +991,7 @@ fileprivate extension ProductViewModel {
 
 // MARK: - Logged in checks
 
-extension ProductViewModel {
+extension ListingViewModel {
     fileprivate func ifLoggedInRunActionElseOpenSignUp(from: EventParameterLoginSourceValue,
                                                        infoMessage: String,
                                                        action: @escaping () -> ()) {
@@ -1002,7 +1002,7 @@ extension ProductViewModel {
 
 // MARK: - SocialSharerDelegate
 
-extension ProductViewModel: SocialSharerDelegate {
+extension ListingViewModel: SocialSharerDelegate {
     func shareStartedIn(_ shareType: ShareType) {
         let buttonPosition: EventParameterButtonPosition
 
@@ -1059,7 +1059,7 @@ extension ProductViewModel: SocialSharerDelegate {
 
 // MARK: PurchasesShopperDelegate
 
-extension ProductViewModel: PurchasesShopperDelegate {
+extension ListingViewModel: PurchasesShopperDelegate {
     func shopperFinishedProductsRequestForProductId(_ productId: String?, withProducts products: [PurchaseableProduct]) {
         guard let requestProdId = productId, let currentProdId = listing.value.objectId,
             requestProdId == currentProdId else { return }

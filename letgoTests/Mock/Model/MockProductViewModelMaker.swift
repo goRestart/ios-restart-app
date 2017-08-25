@@ -1,5 +1,5 @@
 //
-//  MockProductViewModelMaker.swift
+//  MockListingViewModelMaker.swift
 //  LetGo
 //
 //  Created by Eli Kohen on 02/03/2017.
@@ -10,7 +10,7 @@
 import LGCoreKit
 
 
-class MockProductViewModelMaker: ProductViewModelMaker {
+class MockListingViewModelMaker: ListingViewModelMaker {
 
     let myUserRepository: MockMyUserRepository
     let listingRepository: MockListingRepository
@@ -45,8 +45,8 @@ class MockProductViewModelMaker: ProductViewModelMaker {
         self.tracker = tracker
     }
 
-    func make(listing: Listing, visitSource: EventParameterListingVisitSource) -> ProductViewModel {
-        return ProductViewModel(listing: listing,
+    func make(listing: Listing, visitSource: EventParameterListingVisitSource) -> ListingViewModel {
+        return ListingViewModel(listing: listing,
                                 visitSource: visitSource,
                                 myUserRepository: myUserRepository,
                                 listingRepository: listingRepository,

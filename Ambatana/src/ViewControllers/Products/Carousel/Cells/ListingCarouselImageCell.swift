@@ -1,18 +1,18 @@
 //
-//  ProductCarouselImageCell.swift
+//  ListingCarouselImageCell.swift
 //  LetGo
 //
 //  Created by Isaac Roldan on 18/4/16.
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-protocol ProductCarouselImageCellDelegate: class {
+protocol ListingCarouselImageCellDelegate: class {
     func isZooming(_ zooming: Bool, pageAtIndex index: Int)
 }
 
-class ProductCarouselImageCell: UICollectionViewCell {
+class ListingCarouselImageCell: UICollectionViewCell {
     
-    static let identifier = "ProductCarouselImageCell"
+    static let identifier = "ListingCarouselImageCell"
     private static let zoomDecimalsRounding: CGFloat = 0.0001
     fileprivate static let minZoomScale: CGFloat = 0.5
     fileprivate static let maxZoomScale: CGFloat = 2
@@ -26,7 +26,7 @@ class ProductCarouselImageCell: UICollectionViewCell {
     fileprivate var effectsView: UIVisualEffectView
     fileprivate var referenceZoomLevel: CGFloat = 1.0
 
-    weak var delegate: ProductCarouselImageCellDelegate?
+    weak var delegate: ListingCarouselImageCellDelegate?
 
 
     // MARK: - Lifecycle
@@ -54,7 +54,7 @@ class ProductCarouselImageCell: UICollectionViewCell {
 
 // MARK: - Public methods
 
-extension ProductCarouselImageCell {
+extension ListingCarouselImageCell {
     func setImage(_ image: UIImage?) {
         guard let img = image else { return }
 
@@ -86,7 +86,7 @@ extension ProductCarouselImageCell {
 
 // MARK: - UIScrollViewDelegate
 
-extension ProductCarouselImageCell: UIScrollViewDelegate {
+extension ListingCarouselImageCell: UIScrollViewDelegate {
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
         let offsetX = max((scrollView.bounds.size.width - scrollView.contentSize.width) * 0.5, 0.0)
         let offsetY = max((scrollView.bounds.size.height - scrollView.contentSize.height) * 0.5, 0.0)
@@ -108,7 +108,7 @@ extension ProductCarouselImageCell: UIScrollViewDelegate {
 // MARK: - Private methods
 // MARK: > Setup
 
-fileprivate extension ProductCarouselImageCell {
+fileprivate extension ListingCarouselImageCell {
     func setupUI() {
         clipsToBounds = true
 
@@ -133,8 +133,8 @@ fileprivate extension ProductCarouselImageCell {
         imageView.isUserInteractionEnabled = true
 
         scrollView.contentSize = imageView.frame.size
-        scrollView.minimumZoomScale = ProductCarouselImageCell.minZoomScale
-        scrollView.maximumZoomScale = ProductCarouselImageCell.maxZoomScale
+        scrollView.minimumZoomScale = ListingCarouselImageCell.minZoomScale
+        scrollView.maximumZoomScale = ListingCarouselImageCell.maxZoomScale
         scrollView.delegate = self
     }
 }
@@ -142,7 +142,7 @@ fileprivate extension ProductCarouselImageCell {
 
 // MARK: > Accessibility
 
-fileprivate extension ProductCarouselImageCell {
+fileprivate extension ListingCarouselImageCell {
     func setAccessibilityIds() {
         accessibilityId = .listingCarouselImageCell
         imageView.accessibilityId = .listingCarouselImageCellImageView

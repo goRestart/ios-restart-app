@@ -1,5 +1,5 @@
 //
-//  ProductCarouselMoreInfoView.swift
+//  ListingCarouselMoreInfoView.swift
 //  LetGo
 //
 //  Created by Isaac Roldan on 4/5/16.
@@ -28,7 +28,7 @@ extension MKMapView {
     @nonobjc static let sharedInstance = MKMapView()
 }
 
-class ProductCarouselMoreInfoView: UIView {
+class ListingCarouselMoreInfoView: UIView {
 
     fileprivate static let relatedItemsHeight: CGFloat = 80
 
@@ -72,12 +72,12 @@ class ProductCarouselMoreInfoView: UIView {
     fileprivate let statsContainerViewTop: CGFloat = 26
     fileprivate var initialDragYposition: CGFloat = 0
 
-    weak var viewModel: ProductCarouselViewModel?
+    weak var viewModel: ListingCarouselViewModel?
     weak var delegate: ProductCarouselMoreInfoDelegate?
 
-    static func moreInfoView() -> ProductCarouselMoreInfoView {
-        guard let view = Bundle.main.loadNibNamed("ProductCarouselMoreInfoView", owner: self, options: nil)?.first
-            as? ProductCarouselMoreInfoView else { return ProductCarouselMoreInfoView() }
+    static func moreInfoView() -> ListingCarouselMoreInfoView {
+        guard let view = Bundle.main.loadNibNamed("ListingCarouselMoreInfoView", owner: self, options: nil)?.first
+            as? ListingCarouselMoreInfoView else { return ListingCarouselMoreInfoView() }
         view.setupUI()
         view.setupStatsView()
         view.setAccessibilityIds()
@@ -93,7 +93,7 @@ class ProductCarouselMoreInfoView: UIView {
         super.init(coder: aDecoder)
     }
 
-    func setupWith(viewModel: ProductCarouselViewModel) {
+    func setupWith(viewModel: ListingCarouselViewModel) {
         setupContentRx(viewModel: viewModel)
         setupMapRx(viewModel: viewModel)
         setupStatsRx(viewModel: viewModel)
@@ -119,7 +119,7 @@ class ProductCarouselMoreInfoView: UIView {
 
 // MARK: - Gesture Intections 
 
-extension ProductCarouselMoreInfoView {
+extension ListingCarouselMoreInfoView {
     func addGestures() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(compressMap))
         visualEffectView.addGestureRecognizer(tap)
@@ -129,7 +129,7 @@ extension ProductCarouselMoreInfoView {
 
 // MARK: - MapView stuff
 
-extension ProductCarouselMoreInfoView: MKMapViewDelegate {
+extension ListingCarouselMoreInfoView: MKMapViewDelegate {
 
     func setupMapViewIfNeeded() {
         let container = mapExpanded ? mapViewContainerExpandable : mapViewContainer
@@ -142,7 +142,7 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
         addMapGestures()
     }
 
-    fileprivate func setupMapRx(viewModel: ProductCarouselViewModel) {
+    fileprivate func setupMapRx(viewModel: ListingCarouselViewModel) {
         let productLocation = viewModel.productInfo.asObservable().map { $0?.location }.unwrap()
         productLocation.bindNext { [weak self] coordinate in
             self?.addRegion(with: coordinate, zoomBlocker: true)
@@ -273,7 +273,7 @@ extension ProductCarouselMoreInfoView: MKMapViewDelegate {
     }
 }
 
-extension ProductCarouselMoreInfoView: UIScrollViewDelegate {
+extension ListingCarouselMoreInfoView: UIScrollViewDelegate {
 
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         initialDragYposition = min(max(scrollView.contentOffset.y, 0), bottomScrollLimit)
@@ -298,7 +298,7 @@ extension ProductCarouselMoreInfoView: UIScrollViewDelegate {
 
 // MARK: - Private
 
-fileprivate extension ProductCarouselMoreInfoView {
+fileprivate extension ListingCarouselMoreInfoView {
     func setupUI() {
         
         setupMapView(inside: mapViewContainer)
@@ -399,7 +399,7 @@ fileprivate extension ProductCarouselMoreInfoView {
 
     // MARK: > Configuration (each view model)
 
-    func setupContentRx(viewModel: ProductCarouselViewModel) {
+    func setupContentRx(viewModel: ListingCarouselViewModel) {
 
         let statusAndChat = Observable.combineLatest(viewModel.status.asObservable(), viewModel.directChatEnabled.asObservable()) { $0 }
         statusAndChat.bindNext { [weak self] (status, chatEnabled) in
@@ -419,7 +419,7 @@ fileprivate extension ProductCarouselMoreInfoView {
         }.addDisposableTo(disposeBag)
     }
 
-    func setupStatsRx(viewModel: ProductCarouselViewModel) {
+    func setupStatsRx(viewModel: ListingCarouselViewModel) {
         let productCreation = viewModel.productInfo.asObservable().map { $0?.creationDate }
         let statsAndCreation = Observable.combineLatest(viewModel.listingStats.asObservable().unwrap(), productCreation) { $0 }
         let statsViewVisible = statsAndCreation.map { (stats, creation) in
@@ -436,7 +436,7 @@ fileprivate extension ProductCarouselMoreInfoView {
         }.addDisposableTo(disposeBag)
     }
 
-    func setupBottomPanelRx(viewModel: ProductCarouselViewModel) {
+    func setupBottomPanelRx(viewModel: ListingCarouselViewModel) {
         viewModel.socialSharer.asObservable().bindNext { [weak self] socialSharer in
             self?.socialShareView.socialSharer = socialSharer
         }.addDisposableTo(disposeBag)
@@ -450,7 +450,7 @@ fileprivate extension ProductCarouselMoreInfoView {
 
 // MARK: - LGCollapsibleLabel
 
-extension ProductCarouselMoreInfoView {
+extension ListingCarouselMoreInfoView {
     func toggleDescriptionState() {
         UIView.animate(withDuration: 0.25, animations: {
             self.descriptionLabel.toggleState()
@@ -462,7 +462,7 @@ extension ProductCarouselMoreInfoView {
 
 // MARK: - UITextViewDelegate
 
-extension ProductCarouselMoreInfoView: UITextViewDelegate {
+extension ListingCarouselMoreInfoView: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange) -> Bool {
         if textView === titleText {
             viewModel?.titleURLPressed(URL)
@@ -476,7 +476,7 @@ extension ProductCarouselMoreInfoView: UITextViewDelegate {
 
 // MARK: - SocialShareViewDelegate
 
-extension ProductCarouselMoreInfoView: SocialShareViewDelegate {
+extension ListingCarouselMoreInfoView: SocialShareViewDelegate {
     func viewController() -> UIViewController? {
         return delegate?.viewControllerToShowShareOptions()
     }
@@ -485,7 +485,7 @@ extension ProductCarouselMoreInfoView: SocialShareViewDelegate {
 
 // MARK: - Accessibility ids
 
-extension ProductCarouselMoreInfoView {
+extension ListingCarouselMoreInfoView {
     fileprivate func setAccessibilityIds() {
         scrollView.accessibilityId = .listingCarouselMoreInfoScrollView
         titleText.accessibilityId = .listingCarouselMoreInfoTitleLabel
@@ -502,7 +502,7 @@ extension ProductCarouselMoreInfoView {
 
 // MARK: - Styled listing info
 
-extension ProductVMProductInfo {
+extension ListingVMProductInfo {
     var styledDescription: NSAttributedString? {
         guard let description = description else { return nil }
         let result = NSMutableAttributedString(attributedString: description)
@@ -525,9 +525,9 @@ extension ProductVMProductInfo {
 }
 
 
-// MARK: - ProductViewModelStatus
+// MARK: - ListingViewModelStatus
 
-fileprivate extension ProductViewModelStatus {
+fileprivate extension ListingViewModelStatus {
     func scrollBottomInset(chatEnabled: Bool) -> CGFloat {
         // Needed to avoid drawing content below the chat button
         switch self {

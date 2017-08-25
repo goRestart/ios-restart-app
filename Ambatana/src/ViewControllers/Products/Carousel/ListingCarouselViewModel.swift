@@ -1,5 +1,5 @@
 //
-//  ProductCarouselViewModel.swift
+//  ListingCarouselViewModel.swift
 //  LetGo
 //
 //  Created by Isaac Roldan on 14/4/16.
@@ -9,11 +9,11 @@
 import LGCoreKit
 import RxSwift
 
-protocol ProductCarouselViewModelDelegate: BaseViewModelDelegate {
+protocol ListingCarouselViewModelDelegate: BaseViewModelDelegate {
     func vmRemoveMoreInfoTooltip()
     func vmShowOnboarding()
 
-    // Forward from ProductViewModelDelegate
+    // Forward from ListingViewModelDelegate
     func vmOpenCommercialDisplay(_ displayVM: CommercialDisplayViewModel)
     func vmShowCarouselOptions(_ cancelLabel: String, actions: [UIAction])
     func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?)
@@ -24,7 +24,7 @@ enum CarouselMovement {
     case tap, swipeLeft, swipeRight, initial
 }
 
-class ProductCarouselViewModel: BaseViewModel {
+class ListingCarouselViewModel: BaseViewModel {
 
     // Paginable
     let firstPage: Int = 0
@@ -32,7 +32,7 @@ class ProductCarouselViewModel: BaseViewModel {
     var isLastPage: Bool
     var isLoading: Bool = false
 
-    var currentProductViewModel: ProductViewModel?
+    var currentListingViewModel: ListingViewModel?
     let currentViewModelIsBeingUpdated = Variable<Bool>(false)
     let startIndex: Int
     fileprivate(set) var currentIndex: Int = 0 {
@@ -42,15 +42,15 @@ class ProductCarouselViewModel: BaseViewModel {
         }
     }
     
-    weak var delegate: ProductCarouselViewModelDelegate?
-    weak var navigator: ProductDetailNavigator? {
+    weak var delegate: ListingCarouselViewModelDelegate?
+    weak var navigator: ListingDetailNavigator? {
         didSet {
-            currentProductViewModel?.navigator = navigator
+            currentListingViewModel?.navigator = navigator
         }
     }
 
-    let objects = CollectionVariable<ProductCarouselCellModel>([])
-    var objectChanges: Observable<CollectionChange<ProductCarouselCellModel>> {
+    let objects = CollectionVariable<ListingCarouselCellModel>([])
+    var objectChanges: Observable<CollectionChange<ListingCarouselCellModel>> {
         return objects.changesObservable
     }
 
@@ -64,15 +64,15 @@ class ProductCarouselViewModel: BaseViewModel {
     
     let actionOnFirstAppear: ProductCarouselActionOnFirstAppear
 
-    let productInfo = Variable<ProductVMProductInfo?>(nil)
+    let productInfo = Variable<ListingVMProductInfo?>(nil)
     let productImageURLs = Variable<[URL]>([])
-    let userInfo = Variable<ProductVMUserInfo?>(nil)
+    let userInfo = Variable<ListingVMUserInfo?>(nil)
     let listingStats = Variable<ListingStats?>(nil)
 
     let navBarButtons = Variable<[UIAction]>([])
     let actionButtons = Variable<[UIAction]>([])
 
-    let status = Variable<ProductViewModelStatus>(.pending)
+    let status = Variable<ListingViewModelStatus>(.pending)
     let isFeatured = Variable<Bool>(false)
 
     let quickAnswers = Variable<[QuickAnswer]>([])
@@ -100,7 +100,7 @@ class ProductCarouselViewModel: BaseViewModel {
     fileprivate var prefetchingIndexes: [Int] = []
 
     fileprivate var shouldShowOnboarding: Bool {
-        let shouldShowOldOnboarding = !featureFlags.newCarouselNavigationEnabled && !keyValueStorage[.didShowProductDetailOnboarding]
+        let shouldShowOldOnboarding = !featureFlags.newCarouselNavigationEnabled && !keyValueStorage[.didShowListingDetailOnboarding]
         let shouldShowNewOnboarding = featureFlags.newCarouselNavigationEnabled && !keyValueStorage[.didShowHorizontalListingDetailOnboarding]
         return shouldShowOldOnboarding || shouldShowNewOnboarding
     }
@@ -115,7 +115,7 @@ class ProductCarouselViewModel: BaseViewModel {
     let horizontalImageNavigationEnabled = Variable<Bool>(false)
 
     var isMyListing: Bool {
-        return currentProductViewModel?.isMine ?? false
+        return currentListingViewModel?.isMine ?? false
     }
 
     fileprivate var trackingIndex: Int?
@@ -125,17 +125,17 @@ class ProductCarouselViewModel: BaseViewModel {
 
     fileprivate let source: EventParameterListingVisitSource
     fileprivate let listingListRequester: ListingListRequester
-    fileprivate var productsViewModels: [String: ProductViewModel] = [:]
+    fileprivate var productsViewModels: [String: ListingViewModel] = [:]
     fileprivate let keyValueStorage: KeyValueStorageable
     fileprivate let imageDownloader: ImageDownloaderType
-    fileprivate let listingViewModelMaker: ProductViewModelMaker
+    fileprivate let listingViewModelMaker: ListingViewModelMaker
     fileprivate let featureFlags: FeatureFlaggeable
 
     fileprivate let disposeBag = DisposeBag()
 
     override var active: Bool {
         didSet {
-            currentProductViewModel?.active = active
+            currentListingViewModel?.active = active
         }
     }
 
@@ -191,7 +191,7 @@ class ProductCarouselViewModel: BaseViewModel {
                   featureFlags: FeatureFlags.sharedInstance,
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   imageDownloader: ImageDownloader.sharedInstance,
-                  listingViewModelMaker: ProductViewModel.ConvenienceMaker())
+                  listingViewModelMaker: ListingViewModel.ConvenienceMaker())
     }
 
     init(productListModels: [ListingCellModel]?,
@@ -205,12 +205,12 @@ class ProductCarouselViewModel: BaseViewModel {
          featureFlags: FeatureFlaggeable,
          keyValueStorage: KeyValueStorageable,
          imageDownloader: ImageDownloaderType,
-         listingViewModelMaker: ProductViewModelMaker) {
+         listingViewModelMaker: ListingViewModelMaker) {
         if let productListModels = productListModels {
-            self.objects.appendContentsOf(productListModels.flatMap(ProductCarouselCellModel.adapter))
+            self.objects.appendContentsOf(productListModels.flatMap(ListingCarouselCellModel.adapter))
             self.isLastPage = listingListRequester.isLastPage(productListModels.count)
         } else {
-            self.objects.appendContentsOf([initialListing].flatMap{$0}.map(ProductCarouselCellModel.init))
+            self.objects.appendContentsOf([initialListing].flatMap{$0}.map(ListingCarouselCellModel.init))
             self.isLastPage = false
         }
         self.initialThumbnail = thumbnailImage
@@ -244,14 +244,14 @@ class ProductCarouselViewModel: BaseViewModel {
         }
 
         // Tracking
-        currentProductViewModel?.trackVisit(.none, source: source, feedPosition: trackingFeedPosition)
+        currentListingViewModel?.trackVisit(.none, source: source, feedPosition: trackingFeedPosition)
     }
         
     private func syncFirstListing() {
-        currentProductViewModel?.syncListing() { [weak self] in
+        currentListingViewModel?.syncListing() { [weak self] in
             guard let strongSelf = self else { return }
-            guard let listing = strongSelf.currentProductViewModel?.listing.value else { return }
-            let newModel = ProductCarouselCellModel(listing: listing)
+            guard let listing = strongSelf.currentListingViewModel?.listing.value else { return }
+            let newModel = ListingCarouselCellModel(listing: listing)
             strongSelf.objects.replace(strongSelf.startIndex, with: newModel)
         }
     }
@@ -265,11 +265,11 @@ class ProductCarouselViewModel: BaseViewModel {
 
     func moveToProductAtIndex(_ index: Int, movement: CarouselMovement) {
         guard let viewModel = viewModelAt(index: index) else { return }
-        currentProductViewModel?.active = false
-        currentProductViewModel?.delegate = nil
-        currentProductViewModel = viewModel
-        currentProductViewModel?.delegate = self
-        currentProductViewModel?.active = active
+        currentListingViewModel?.active = false
+        currentListingViewModel?.delegate = nil
+        currentListingViewModel = viewModel
+        currentListingViewModel?.delegate = self
+        currentListingViewModel?.active = active
         currentIndex = index
         setupCurrentProductVMRxBindings(forIndex: index)
         prefetchNeighborsImages(index, movement: movement)
@@ -277,11 +277,11 @@ class ProductCarouselViewModel: BaseViewModel {
         // Tracking
         if active {
             let feedPosition = movement.feedPosition(for: trackingIndex)
-            currentProductViewModel?.trackVisit(movement.visitUserAction, source: source, feedPosition: feedPosition)
+            currentListingViewModel?.trackVisit(movement.visitUserAction, source: source, feedPosition: feedPosition)
         }
     }
 
-    func listingCellModelAt(index: Int) -> ProductCarouselCellModel? {
+    func listingCellModelAt(index: Int) -> ListingCarouselCellModel? {
         guard 0..<objectCount ~= index else { return nil }
         return objects.value[index]
     }
@@ -292,11 +292,11 @@ class ProductCarouselViewModel: BaseViewModel {
     }
 
     func userAvatarPressed() {
-        currentProductViewModel?.openProductOwnerProfile()
+        currentListingViewModel?.openProductOwnerProfile()
     }
 
     func directMessagesItemPressed() {
-        currentProductViewModel?.chatWithSeller()
+        currentListingViewModel?.chatWithSeller()
     }
 
     func quickAnswersShowButtonPressed() {
@@ -308,35 +308,35 @@ class ProductCarouselViewModel: BaseViewModel {
     }
 
     func send(quickAnswer: QuickAnswer) {
-        currentProductViewModel?.sendQuickAnswer(quickAnswer: quickAnswer)
+        currentListingViewModel?.sendQuickAnswer(quickAnswer: quickAnswer)
     }
 
     func send(directMessage: String, isDefaultText: Bool) {
-        currentProductViewModel?.sendDirectMessage(directMessage, isDefaultText: isDefaultText)
+        currentListingViewModel?.sendDirectMessage(directMessage, isDefaultText: isDefaultText)
     }
 
     func editButtonPressed() {
-        currentProductViewModel?.editListing()
+        currentListingViewModel?.editListing()
     }
 
     func favoriteButtonPressed() {
-        currentProductViewModel?.switchFavorite()
+        currentListingViewModel?.switchFavorite()
     }
 
     func shareButtonPressed() {
-        currentProductViewModel?.shareProduct()
+        currentListingViewModel?.shareProduct()
     }
 
     func titleURLPressed(_ url: URL) {
-        currentProductViewModel?.titleURLPressed(url)
+        currentListingViewModel?.titleURLPressed(url)
     }
 
     func descriptionURLPressed(_ url: URL) {
-        currentProductViewModel?.descriptionURLPressed(url)
+        currentListingViewModel?.descriptionURLPressed(url)
     }
 
     func bumpUpBannerShown(type: BumpUpType) {
-        currentProductViewModel?.trackBumpUpBannerShown(type: type)
+        currentListingViewModel?.trackBumpUpBannerShown(type: type)
     }
     
     // MARK: - Private Methods
@@ -345,12 +345,12 @@ class ProductCarouselViewModel: BaseViewModel {
         return listingCellModelAt(index: index)?.listing
     }
 
-    private func viewModelAt(index: Int) -> ProductViewModel? {
+    private func viewModelAt(index: Int) -> ListingViewModel? {
         guard let listing = listingAt(index: index) else { return nil }
         return viewModelFor(listing: listing)
     }
     
-    private func viewModelFor(listing: Listing) -> ProductViewModel? {
+    private func viewModelFor(listing: Listing) -> ListingViewModel? {
         guard let listingId = listing.objectId else { return nil }
         if let vm = productsViewModels[listingId] {
             return vm
@@ -370,7 +370,7 @@ class ProductCarouselViewModel: BaseViewModel {
         }.addDisposableTo(disposeBag)
 
         moreInfoState.asObservable().map { $0 == .shown }.distinctUntilChanged().filter { $0 }.bindNext { [weak self] _ in
-            self?.currentProductViewModel?.trackVisitMoreInfo()
+            self?.currentListingViewModel?.trackVisitMoreInfo()
             self?.keyValueStorage[.listingMoreInfoTooltipDismissed] = true
             self?.delegate?.vmRemoveMoreInfoTooltip()
         }.addDisposableTo(disposeBag)
@@ -378,11 +378,11 @@ class ProductCarouselViewModel: BaseViewModel {
 
     private func setupCurrentProductVMRxBindings(forIndex index: Int) {
         activeDisposeBag = DisposeBag()
-        guard let currentVM = currentProductViewModel else { return }
+        guard let currentVM = currentListingViewModel else { return }
         currentVM.listing.asObservable().skip(1).bindNext { [weak self] updatedListing in
             guard let strongSelf = self else { return }
             strongSelf.currentViewModelIsBeingUpdated.value = true
-            strongSelf.objects.replace(index, with: ProductCarouselCellModel(listing:updatedListing))
+            strongSelf.objects.replace(index, with: ListingCarouselCellModel(listing:updatedListing))
             strongSelf.currentViewModelIsBeingUpdated.value = false
         }.addDisposableTo(activeDisposeBag)
 
@@ -430,7 +430,7 @@ class ProductCarouselViewModel: BaseViewModel {
     }
 }
 
-extension ProductCarouselViewModel: Paginable {
+extension ListingCarouselViewModel: Paginable {
     func retrievePage(_ page: Int) {
         let isFirstPage = (page == firstPage)
         isLoading = true
@@ -440,7 +440,7 @@ extension ProductCarouselViewModel: Paginable {
             self?.isLoading = false
             if let newListings = result.listingsResult.value {
                 strongSelf.nextPage = strongSelf.nextPage + 1
-                strongSelf.objects.appendContentsOf(newListings.map(ProductCarouselCellModel.init))
+                strongSelf.objects.appendContentsOf(newListings.map(ListingCarouselCellModel.init))
                 
                 strongSelf.isLastPage = strongSelf.listingListRequester.isLastPage(newListings.count)
                 if newListings.isEmpty && !strongSelf.isLastPage {
@@ -460,7 +460,7 @@ extension ProductCarouselViewModel: Paginable {
 
 // MARK: > Image PreCaching
 
-extension ProductCarouselViewModel {
+extension ListingCarouselViewModel {
     func prefetchNeighborsImages(_ index: Int, movement: CarouselMovement) {
         let range: CountableClosedRange<Int>
         switch movement {
@@ -484,10 +484,10 @@ extension ProductCarouselViewModel {
 }
 
 
-// MARK: - ProductViewModelDelegate
+// MARK: - ListingViewModelDelegate
 
-extension ProductCarouselViewModel: ProductViewModelDelegate {
-    // ProductViewModelDelegate forwarding methods
+extension ListingCarouselViewModel: ListingViewModelDelegate {
+    // ListingViewModelDelegate forwarding methods
     func vmOpenCommercialDisplay(_ displayVM: CommercialDisplayViewModel) {
         delegate?.vmOpenCommercialDisplay(displayVM)
     }

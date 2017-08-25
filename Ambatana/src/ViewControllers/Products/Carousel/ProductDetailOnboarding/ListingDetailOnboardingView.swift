@@ -1,5 +1,5 @@
 //
-//  ProductDetailOnboardingView.swift
+//  ListingDetailOnboardingView.swift
 //  LetGo
 //
 //  Created by Dídac on 22/04/16.
@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class ProductDetailOnboardingView: BaseView {
+class ListingDetailOnboardingView: BaseView {
 
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var fingersView: UIVisualEffectView!
@@ -22,7 +22,7 @@ class ProductDetailOnboardingView: BaseView {
     @IBOutlet weak var secondImage: UIImageView!
     @IBOutlet weak var thirdImage: UIImageView!
 
-    private var viewModel: ProductDetailOnboardingViewModel
+    private var viewModel: ListingDetailOnboardingViewModel
 
     private var showChatsStep = false
 
@@ -31,7 +31,7 @@ class ProductDetailOnboardingView: BaseView {
 
     // MARK: - Lifecycle
 
-    init(viewModel: ProductDetailOnboardingViewModel) {
+    init(viewModel: ListingDetailOnboardingViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, frame: CGRect.zero)
     }
@@ -41,7 +41,7 @@ class ProductDetailOnboardingView: BaseView {
     }
 
     func setupUI() {
-        Bundle.main.loadNibNamed("ProductDetailOnboardingView", owner: self, options: nil)
+        Bundle.main.loadNibNamed("ListingDetailOnboardingView", owner: self, options: nil)
         contentView.frame = bounds
         contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         contentView.backgroundColor = UIColor.listBackgroundColor

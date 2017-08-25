@@ -1,5 +1,5 @@
 //
-//  ProductViewModelSpec.swift
+//  ListingViewModelSpec.swift
 //  LetGo
 //
 //  Created by Eli Kohen on 06/02/2017.
@@ -14,7 +14,7 @@ import Quick
 import Nimble
 
 
-class ProductViewModelSpec: BaseViewModelSpec {
+class ListingViewModelSpec: BaseViewModelSpec {
 
     var selectBuyersCalled: Bool?
     var shownAlertText: String?
@@ -24,7 +24,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
     var calledOpenPricedBumpUpView: Bool?
 
     override func spec() {
-        var sut: ProductViewModel!
+        var sut: ListingViewModel!
 
         var myUserRepository: MockMyUserRepository!
         var listingRepository: MockListingRepository!
@@ -46,11 +46,11 @@ class ProductViewModelSpec: BaseViewModelSpec {
         var directChatMessagesObserver: TestableObserver<[ChatViewMessage]>!
 
 
-        describe("ProductViewModelSpec") {
+        describe("ListingViewModelSpec") {
 
-            func buildProductViewModel() {
+            func buildListingViewModel() {
                 let socialSharer = SocialSharer()
-                sut = ProductViewModel(listing: .product(product),
+                sut = ListingViewModel(listing: .product(product),
                                        visitSource: .listingList,
                                         myUserRepository: myUserRepository,
                                         listingRepository: listingRepository,
@@ -120,7 +120,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                         let userListing = MockUserListing.makeMock()
                         listingRepository.listingBuyersResult = ListingBuyersResult([userListing])
                         
-                        buildProductViewModel()
+                        buildListingViewModel()
                         sut.active = true
                         
                         // There should appear one button
@@ -152,7 +152,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                         featureFlags.newMarkAsSoldFlow = true
                         let userListing = MockUserListing.makeMock()
                         listingRepository.listingBuyersResult = ListingBuyersResult([userListing])
-                        buildProductViewModel()
+                        buildListingViewModel()
                         sut.active = true
                         
                         // There should appear one button
@@ -194,7 +194,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                         product.favorite = false
                         savedProduct.favorite = true
                         listingRepository.productResult = ProductResult(savedProduct)
-                        buildProductViewModel()
+                        buildListingViewModel()
                         sut.switchFavorite()
                         expect(isFavoriteObserver.eventValues).toEventually(equal([false, true]))
                     }
@@ -211,7 +211,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                         product.favorite = true
                         savedProduct.favorite = false
                         listingRepository.productResult = ProductResult(savedProduct)
-                        buildProductViewModel()
+                        buildListingViewModel()
                         sut.switchFavorite()
                         expect(isFavoriteObserver.eventValues).toEventually(equal([true, false]))
                     }
@@ -228,7 +228,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     context("success first message") {
                         beforeEach {
                             chatWrapper.results = [ChatWrapperResult(true)]
-                            buildProductViewModel()
+                            buildListingViewModel()
                             sut.sendQuickAnswer(quickAnswer: .meetUp)
 
                             expect(tracker.trackedEvents.count).toEventually(equal(2))
@@ -246,7 +246,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     context("success non first message") {
                         beforeEach {
                             chatWrapper.results = [ChatWrapperResult(false)]
-                            buildProductViewModel()
+                            buildListingViewModel()
                             sut.sendQuickAnswer(quickAnswer: .meetUp)
 
                             expect(tracker.trackedEvents.count).toEventually(equal(1))
@@ -264,7 +264,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     context("failure") {
                         beforeEach {
                             chatWrapper.results = [ChatWrapperResult(error: .notFound)]
-                            buildProductViewModel()
+                            buildListingViewModel()
                             sut.sendQuickAnswer(quickAnswer: .meetUp)
                         }
                         it("requests logged in") {
@@ -290,7 +290,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     context("success first message") {
                         beforeEach {
                             chatWrapper.results = [ChatWrapperResult(true)]
-                            buildProductViewModel()
+                            buildListingViewModel()
                             sut.sendDirectMessage("Hola que tal", isDefaultText: false)
 
                             expect(tracker.trackedEvents.count).toEventually(equal(2))
@@ -308,7 +308,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     context("success non first message") {
                         beforeEach {
                             chatWrapper.results = [ChatWrapperResult(false)]
-                            buildProductViewModel()
+                            buildListingViewModel()
                             sut.sendDirectMessage("Hola que tal", isDefaultText: true)
 
                             expect(tracker.trackedEvents.count).toEventually(equal(1))
@@ -326,7 +326,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     context("failure") {
                         beforeEach {
                             chatWrapper.results = [ChatWrapperResult(error: .notFound)]
-                            buildProductViewModel()
+                            buildListingViewModel()
                             sut.sendDirectMessage("Hola que tal", isDefaultText: true)
                         }
                         it("requests logged in") {
@@ -366,7 +366,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
 
                         purchasesShopper.isBumpUpPending = false
 
-                        buildProductViewModel()
+                        buildListingViewModel()
                         sut.active = true
 
                         expect(sut.bumpUpBannerInfo.value).toEventually(beNil())
@@ -393,7 +393,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
 
                             purchasesShopper.isBumpUpPending = false
 
-                            buildProductViewModel()
+                            buildListingViewModel()
                             sut.active = true
 
                             expect(sut.bumpUpBannerInfo.value).toEventually(beNil())
@@ -415,7 +415,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
 
                                 purchasesShopper.isBumpUpPending = false
 
-                                buildProductViewModel()
+                                buildListingViewModel()
                                 sut.active = true
 
                                 expect(sut.bumpUpBannerInfo.value).toEventually(beNil())
@@ -445,7 +445,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                     bumpeableProduct.paymentItems = [paymentItem]
                                     monetizationRepository.retrieveResult = BumpeableListingResult(error: .notFound)
 
-                                    buildProductViewModel()
+                                    buildListingViewModel()
                                     sut.active = true
 
                                     expect(sut.bumpUpBannerInfo.value).toEventually(beNil())
@@ -472,7 +472,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                     bumpeableProduct.paymentItems = []
                                     monetizationRepository.retrieveResult = BumpeableListingResult(value: bumpeableProduct)
 
-                                    buildProductViewModel()
+                                    buildListingViewModel()
                                     sut.active = true
 
                                     expect(sut.bumpUpBannerInfo.value).toEventually(beNil())
@@ -501,7 +501,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                     bumpeableProduct.paymentItems = [paymentItem]
                                     monetizationRepository.retrieveResult = BumpeableListingResult(value: bumpeableProduct)
 
-                                    buildProductViewModel()
+                                    buildListingViewModel()
                                     sut.active = true
 
                                     expect(sut.bumpUpBannerInfo.value).toEventuallyNot(beNil())
@@ -538,7 +538,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                     bumpeableProduct.paymentItems = [paymentItem]
                                     monetizationRepository.retrieveResult = BumpeableListingResult(value: bumpeableProduct)
 
-                                    buildProductViewModel()
+                                    buildListingViewModel()
                                     sut.active = true
 
                                     expect(sut.bumpUpBannerInfo.value).toEventuallyNot(beNil())
@@ -576,7 +576,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                                     bumpeableProduct.paymentItems = [paymentItem]
                                     monetizationRepository.retrieveResult = BumpeableListingResult(value: bumpeableProduct)
 
-                                    buildProductViewModel()
+                                    buildListingViewModel()
                                     sut.active = true
 
                                     expect(sut.bumpUpBannerInfo.value).toEventuallyNot(beNil())
@@ -623,7 +623,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                     beforeEach {
                         purchasesShopper.paymentSucceeds = false
 
-                        buildProductViewModel()
+                        buildListingViewModel()
                         sut.active = true
 
                         expect(sut.bumpUpPurchaseableProduct).toEventuallyNot(beNil())
@@ -638,7 +638,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                         purchasesShopper.paymentSucceeds = true
                         purchasesShopper.pricedBumpSucceeds = false
 
-                        buildProductViewModel()
+                        buildListingViewModel()
                         sut.active = true
 
                         expect(sut.bumpUpPurchaseableProduct).toEventuallyNot(beNil())
@@ -653,7 +653,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
                         purchasesShopper.paymentSucceeds = true
                         purchasesShopper.pricedBumpSucceeds = true
 
-                        buildProductViewModel()
+                        buildListingViewModel()
                         sut.active = true
 
                         expect(sut.bumpUpPurchaseableProduct).toEventuallyNot(beNil())
@@ -683,7 +683,7 @@ class ProductViewModelSpec: BaseViewModelSpec {
     }
 }
 
-extension ProductViewModelSpec: ProductViewModelDelegate {
+extension ListingViewModelSpec: ListingViewModelDelegate {
 
     func vmOpenMainSignUp(_ signUpVM: SignUpViewModel, afterLoginAction: @escaping () -> ()) {}
 
@@ -707,7 +707,7 @@ extension ProductViewModelSpec: ProductViewModelDelegate {
     func vmResetBumpUpBannerCountdown() {}
 }
 
-extension ProductViewModelSpec: ProductDetailNavigator {
+extension ListingViewModelSpec: ListingDetailNavigator {
     func closeProductDetail() {
 
     }

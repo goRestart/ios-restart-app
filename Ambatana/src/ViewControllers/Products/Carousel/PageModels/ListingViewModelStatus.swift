@@ -1,5 +1,5 @@
 //
-//  ProductViewModelStatus.swift
+//  ListingViewModelStatus.swift
 //  LetGo
 //
 //  Created by Eli Kohen on 06/02/2017.
@@ -8,7 +8,7 @@
 
 import LGCoreKit
 
-enum ProductViewModelStatus {
+enum ListingViewModelStatus {
 
     // When Mine:
     case pending

@@ -51,7 +51,7 @@ protocol TabNavigator: class {
     func openRatingList(_ userId: String)
 }
 
-protocol ProductDetailNavigator: TabNavigator {
+protocol ListingDetailNavigator: TabNavigator {
     func closeProductDetail()
     func editListing(_ listing: Listing)
     func openListingChat(_ listing: Listing)

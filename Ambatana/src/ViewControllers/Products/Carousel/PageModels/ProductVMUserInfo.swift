@@ -1,5 +1,5 @@
 //
-//  ProductVMUserInfo.swift
+//  ListingVMUserInfo.swift
 //  LetGo
 //
 //  Created by Eli Kohen on 28/02/2017.
@@ -9,7 +9,7 @@
 import Foundation
 import LGCoreKit
 
-struct ProductVMUserInfo {
+struct ListingVMUserInfo {
     let userId: String?
     let name: String
     let avatar: URL?

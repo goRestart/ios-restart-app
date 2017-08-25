@@ -1,5 +1,5 @@
 //
-//  ProductCarouselPushAnimator.swift
+//  ListingCarouselPushAnimator.swift
 //  LetGo
 //
 //  Created by Isaac Roldan on 20/4/16.
@@ -23,7 +23,7 @@ protocol AnimatableTransition {
 }
 
 
-class ProductCarouselPushAnimator: NSObject, PushAnimator {
+class ListingCarouselPushAnimator: NSObject, PushAnimator {
     
     let originFrame: CGRect?
     let originThumbnail: UIImage?

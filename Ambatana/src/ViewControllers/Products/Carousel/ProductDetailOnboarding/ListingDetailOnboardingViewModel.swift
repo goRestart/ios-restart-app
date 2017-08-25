@@ -1,5 +1,5 @@
 //
-//  ProductDetailOnboardingViewModel.swift
+//  ListingDetailOnboardingViewModel.swift
 //  LetGo
 //
 //  Created by Dídac on 13/06/17.
@@ -8,19 +8,19 @@
 
 import Foundation
 
-protocol ProductDetailOnboardingViewDelegate: class {
-    func productDetailOnboardingDidAppear()
-    func productDetailOnboardingDidDisappear()
+protocol ListingDetailOnboardingViewDelegate: class {
+    func listingDetailOnboardingDidAppear()
+    func listingDetailOnboardingDidDisappear()
 }
 
-class ProductDetailOnboardingViewModel : BaseViewModel {
+class ListingDetailOnboardingViewModel : BaseViewModel {
 
     var featureFlags: FeatureFlaggeable
     var keyValueStorage: KeyValueStorageable
-    weak var delegate: ProductDetailOnboardingViewDelegate?
+    weak var delegate: ListingDetailOnboardingViewDelegate?
 
     var newLabelIsHidden: Bool {
-        return !(featureFlags.newCarouselNavigationEnabled && keyValueStorage[.didShowProductDetailOnboarding])
+        return !(featureFlags.newCarouselNavigationEnabled && keyValueStorage[.didShowListingDetailOnboarding])
     }
 
     var newText: String {
@@ -85,13 +85,13 @@ class ProductDetailOnboardingViewModel : BaseViewModel {
         if featureFlags.newCarouselNavigationEnabled {
             keyValueStorage[.didShowHorizontalListingDetailOnboarding] = true
         } else {
-            keyValueStorage[.didShowProductDetailOnboarding] = true
+            keyValueStorage[.didShowListingDetailOnboarding] = true
         }
-        delegate?.productDetailOnboardingDidAppear()
+        delegate?.listingDetailOnboardingDidAppear()
     }
 
     func close() {
-        delegate?.productDetailOnboardingDidDisappear()
+        delegate?.listingDetailOnboardingDidDisappear()
     }
 
     private func tipText(textToHighlight: String?, fullText: String) -> NSAttributedString {

@@ -196,7 +196,7 @@ fileprivate extension TabCoordinator {
                     relatedRequester.retrieveFirstPage { result in
                         self?.navigationController.dismissLoadingMessageAlert {
                             if let value = result.listingsResult.value, !value.isEmpty {
-                                self?.openRelatedProductsForNonExistentListing(requester: relatedRequester, listings: value)
+                                self?.openRelatedListingsForNonExistentListing(requester: relatedRequester, listings: value)
                             }
                             self?.navigationController.showAutoFadingOutMessageAlert(LGLocalizedString.commonProductNotAvailable)
                         }
@@ -230,7 +230,7 @@ fileprivate extension TabCoordinator {
 
         let requester = ListingListMultiRequester(requesters: requestersArray)
 
-        let vm = ProductCarouselViewModel(listing: listing, thumbnailImage: thumbnailImage,
+        let vm = ListingCarouselViewModel(listing: listing, thumbnailImage: thumbnailImage,
                                           listingListRequester: requester, source: source,
                                           actionOnFirstAppear: actionOnFirstAppear, trackingIndex: index)
         vm.navigator = self
@@ -247,7 +247,7 @@ fileprivate extension TabCoordinator {
                         source: source, requester: requester, index: index, discover: discover,
                         actionOnFirstAppear: .nonexistent)
         } else {
-            let vm = ProductCarouselViewModel(productListModels: cellModels, initialListing: listing,
+            let vm = ListingCarouselViewModel(productListModels: cellModels, initialListing: listing,
                                               thumbnailImage: thumbnailImage, listingListRequester: requester, source: source,
                                               actionOnFirstAppear: .nonexistent, trackingIndex: index,
                                               firstProductSyncRequired: false)
@@ -262,18 +262,18 @@ fileprivate extension TabCoordinator {
         let relatedRequester = RelatedListingListRequester(listingId: listingId, itemsPerPage: Constants.numListingsPerPageDefault)
         let filteredRequester = FilteredListingListRequester( itemsPerPage: Constants.numListingsPerPageDefault, offset: 0)
         let requester = ListingListMultiRequester(requesters: [relatedRequester, filteredRequester])
-        let vm = ProductCarouselViewModel(listing: .product(localProduct), listingListRequester: requester,
+        let vm = ListingCarouselViewModel(listing: .product(localProduct), listingListRequester: requester,
                                           source: source, actionOnFirstAppear: .nonexistent, trackingIndex: nil)
         vm.navigator = self
         openListing(vm, thumbnailImage: nil, originFrame: nil, listingId: listingId)
     }
 
-    func openListing(_ viewModel: ProductCarouselViewModel, thumbnailImage: UIImage?, originFrame: CGRect?,
+    func openListing(_ viewModel: ListingCarouselViewModel, thumbnailImage: UIImage?, originFrame: CGRect?,
                      listingId: String?) {
         let color = UIColor.placeholderBackgroundColor(listingId)
-        let animator = ProductCarouselPushAnimator(originFrame: originFrame, originThumbnail: thumbnailImage,
+        let animator = ListingCarouselPushAnimator(originFrame: originFrame, originThumbnail: thumbnailImage,
                                                    backgroundColor: color)
-        let vc = ProductCarouselViewController(viewModel: viewModel, pushAnimator: animator)
+        let vc = ListingCarouselViewController(viewModel: viewModel, pushAnimator: animator)
         navigationController.pushViewController(vc, animated: true)
     }
 
@@ -399,7 +399,7 @@ fileprivate extension TabCoordinator {
 
     // MARK: Private methods
 
-    private func openRelatedProductsForNonExistentListing(requester: ListingListRequester, listings: [Listing]) {
+    private func openRelatedListingsForNonExistentListing(requester: ListingListRequester, listings: [Listing]) {
         let simpleRelatedListingsVM = SimpleListingsViewModel(requester: requester,
                                                               listings: listings,
                                                               listingVisitSource: .notifications)
@@ -410,9 +410,9 @@ fileprivate extension TabCoordinator {
 }
 
 
-// MARK: > ProductDetailNavigator
+// MARK: > ListingDetailNavigator
 
-extension TabCoordinator: ProductDetailNavigator {
+extension TabCoordinator: ListingDetailNavigator {
     func closeProductDetail() {
         navigationController.popViewController(animated: true)
     }

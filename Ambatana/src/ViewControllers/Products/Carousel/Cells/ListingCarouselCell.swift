@@ -1,5 +1,5 @@
 //
-//  ProductCarouselCell.swift
+//  ListingCarouselCell.swift
 //  LetGo
 //
 //  Created by Isaac Roldan on 14/4/16.
@@ -9,7 +9,7 @@
 import LGCoreKit
 import RxSwift
 
-protocol ProductCarouselCellDelegate: class {
+protocol ListingCarouselCellDelegate: class {
     func didTapOnCarouselCell(_ cell: UICollectionViewCell)
     func isZooming(_ zooming: Bool)
     func didScrollToPage(_ page: Int)
@@ -18,14 +18,14 @@ protocol ProductCarouselCellDelegate: class {
     func didEndDraggingCell()
 }
 
-class ProductCarouselCell: UICollectionViewCell {
+class ListingCarouselCell: UICollectionViewCell {
 
-    static let identifier = "ProductCarouselCell"
+    static let identifier = "ListingCarouselCell"
     var collectionView: UICollectionView
 
     fileprivate var productImages = [URL]()
     fileprivate var productBackgroundColor: UIColor?
-    weak var delegate: ProductCarouselCellDelegate?
+    weak var delegate: ListingCarouselCellDelegate?
     var placeholderImage: UIImage?
     fileprivate var currentPage = 0
     fileprivate var imageScrollDirection: UICollectionViewScrollDirection = .vertical
@@ -70,8 +70,8 @@ class ProductCarouselCell: UICollectionViewCell {
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.allowsSelection = false
         collectionView.isDirectionalLockEnabled = true
-        collectionView.register(ProductCarouselImageCell.self, forCellWithReuseIdentifier:
-            ProductCarouselImageCell.identifier)
+        collectionView.register(ListingCarouselImageCell.self, forCellWithReuseIdentifier:
+            ListingCarouselImageCell.identifier)
         
         let singleTap = UITapGestureRecognizer(target: self, action: #selector(didSingleTap))
         collectionView.addGestureRecognizer(singleTap)
@@ -81,7 +81,7 @@ class ProductCarouselCell: UICollectionViewCell {
         delegate?.didTapOnCarouselCell(self)
     }
 
-    func configureCellWith(cellModel: ProductCarouselCellModel, placeholderImage: UIImage?, indexPath: IndexPath,
+    func configureCellWith(cellModel: ListingCarouselCellModel, placeholderImage: UIImage?, indexPath: IndexPath,
                            imageDownloader: ImageDownloaderType, imageScrollDirection: UICollectionViewScrollDirection) {
         self.tag = (indexPath as NSIndexPath).hash
         self.productImages = cellModel.images
@@ -116,15 +116,15 @@ class ProductCarouselCell: UICollectionViewCell {
 
 // MARK: - UICollectionViewDataSource & UICollectionViewDelegate 
 
-extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSource {
+extension ListingCarouselCell: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return numberOfImages
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)
         -> UICollectionViewCell {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductCarouselImageCell.identifier, for: indexPath)
-            guard let imageCell = cell as? ProductCarouselImageCell else { return ProductCarouselImageCell() }
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListingCarouselImageCell.identifier, for: indexPath)
+            guard let imageCell = cell as? ListingCarouselImageCell else { return ListingCarouselImageCell() }
             guard let imageURL = imageAtIndex(indexPath.row) else { return imageCell }
 
             //Required to avoid missmatching when downloading images
@@ -154,7 +154,7 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
     }
 
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard let imageCell = cell as? ProductCarouselImageCell else { return }
+        guard let imageCell = cell as? ListingCarouselImageCell else { return }
         imageCell.resetZoom()
     }
 
@@ -209,9 +209,9 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
 }
 
 
-// MARK: - ProductCarouselImageCellDelegate
+// MARK: - ListingCarouselImageCellDelegate
 
-extension ProductCarouselCell: ProductCarouselImageCellDelegate {
+extension ListingCarouselCell: ListingCarouselImageCellDelegate {
     func isZooming(_ zooming: Bool, pageAtIndex index: Int) {
         guard index == currentPage else { return }
         delegate?.isZooming(zooming)
@@ -222,7 +222,7 @@ extension ProductCarouselCell: ProductCarouselImageCellDelegate {
 // MARK: - Private methods
 // MARK: > Accessibility
 
-fileprivate extension ProductCarouselCell {
+fileprivate extension ListingCarouselCell {
     func setAccessibilityIds() {
         self.accessibilityId = .listingCarouselCell
         collectionView.accessibilityId = .listingCarouselCellCollectionView

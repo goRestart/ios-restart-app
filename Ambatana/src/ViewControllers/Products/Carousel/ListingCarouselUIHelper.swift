@@ -1,5 +1,5 @@
 //
-//  ProductCarouselUIHelper.swift
+//  CarouselUIHelper.swift
 //  LetGo
 //
 //  Created by Eli Kohen on 04/11/2016.

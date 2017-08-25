@@ -53,16 +53,16 @@ class MainTabCoordinator: TabCoordinator {
 }
 
 extension MainTabCoordinator: MainTabNavigator {
-    func openMainProduct(withSearchType searchType: SearchType, productFilters: ListingFilters) {
-        let vm = MainListingsViewModel(searchType: searchType, filters: productFilters)
+    func openMainListings(withSearchType searchType: SearchType, listingFilters: ListingFilters) {
+        let vm = MainListingsViewModel(searchType: searchType, filters: listingFilters)
         vm.navigator = self
         let vc = MainListingsViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func openFilters(withListingFilters productFilters: ListingFilters,
+    func openFilters(withListingFilters listingFilters: ListingFilters,
                      filtersVMDataDelegate: FiltersViewModelDataDelegate?) {
-        let vm = FiltersViewModel(currentFilters: productFilters)
+        let vm = FiltersViewModel(currentFilters: listingFilters)
         vm.dataDelegate = filtersVMDataDelegate
         let filtersCoordinator = FiltersCoordinator(viewModel: vm)
         openChild(coordinator: filtersCoordinator, parent: navigationController,

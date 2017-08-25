@@ -22,9 +22,9 @@ class ProductVMTrackHelper {
 }
 
 
-// MARK: - ProductViewModel trackings extension
+// MARK: - ListingViewModel trackings extension
 
-extension ProductViewModel {
+extension ListingViewModel {
 
     func trackVisit(_ visitUserAction: ListingVisitUserAction, source: EventParameterListingVisitSource, feedPosition: EventParameterFeedPosition) {
         let isBumpedUp = isShowingFeaturedStripe.value ? EventParameterBoolean.trueParameter :

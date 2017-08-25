@@ -1,5 +1,5 @@
 //
-//  ProductCarouselCellModel.swift
+//  ListingCarouselCellModel.swift
 //  LetGo
 //
 //  Created by Isaac Roldan on 6/7/16.
@@ -9,7 +9,7 @@
 import Foundation
 import LGCoreKit
 
-enum ProductCarouselCellModel {
+enum ListingCarouselCellModel {
     case listingCell(listing: Listing)
     
     init(listing: Listing) {
@@ -31,10 +31,10 @@ enum ProductCarouselCellModel {
         return UIColor.placeholderBackgroundColor(listing.objectId)
     }
     
-    static func adapter(_ model: ListingCellModel) -> ProductCarouselCellModel? {
+    static func adapter(_ model: ListingCellModel) -> ListingCarouselCellModel? {
         switch model {
         case let .listingCell(listing):
-            return ProductCarouselCellModel.listingCell(listing: listing)
+            return ListingCarouselCellModel.listingCell(listing: listing)
         default:
             return nil
         }

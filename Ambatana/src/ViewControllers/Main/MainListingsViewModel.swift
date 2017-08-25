@@ -313,7 +313,7 @@ class MainListingsViewModel: BaseViewModel {
         guard !query.characters.isEmpty else { return }
     
         delegate?.vmDidSearch()
-        navigator?.openMainProduct(withSearchType: .user(query: query), productFilters: filters)
+        navigator?.openMainListings(withSearchType: .user(query: query), listingFilters: filters)
     }
 
     func showFilters() {
@@ -750,7 +750,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         tracker.trackEvent(TrackerEvent.exploreCollection(type.rawValue))
         let query = queryForCollection(type)
         delegate?.vmDidSearch()
-        navigator?.openMainProduct(withSearchType: .collection(type: type, query: query), productFilters: filters)
+        navigator?.openMainListings(withSearchType: .collection(type: type, query: query), listingFilters: filters)
     }
     
     func vmUserDidTapInvite() {
@@ -858,20 +858,20 @@ extension MainListingsViewModel {
     func selectedTrendingSearchAtIndex(_ index: Int) {
         guard let trendingSearch = trendingSearchAtIndex(index), !trendingSearch.isEmpty else { return }
         delegate?.vmDidSearch()
-        navigator?.openMainProduct(withSearchType: .trending(query: trendingSearch), productFilters: filters)
+        navigator?.openMainListings(withSearchType: .trending(query: trendingSearch), listingFilters: filters)
     }
     
     func selectedSuggestiveSearchAtIndex(_ index: Int) {
         guard let (suggestiveSearch, _) = suggestiveSearchAtIndex(index) else { return }
         guard let suggestiveSearchName = suggestiveSearch.name else { return }
         delegate?.vmDidSearch()
-        navigator?.openMainProduct(withSearchType: .suggestive(query: suggestiveSearchName, indexSelected: index), productFilters: filters)
+        navigator?.openMainListings(withSearchType: .suggestive(query: suggestiveSearchName, indexSelected: index), listingFilters: filters)
     }
     
     func selectedLastSearchAtIndex(_ index: Int) {
         guard let lastSearch = lastSearchAtIndex(index), !lastSearch.isEmpty else { return }
         delegate?.vmDidSearch()
-        navigator?.openMainProduct(withSearchType: .lastSearch(query: lastSearch), productFilters: filters)
+        navigator?.openMainListings(withSearchType: .lastSearch(query: lastSearch), listingFilters: filters)
     }
     
     func cleanUpLastSearches() {

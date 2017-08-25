@@ -1,5 +1,5 @@
 //
-//  ProductCarouselViewModelSpec.swift
+//  ListingCarouselViewModelSpec.swift
 //  LetGo
 //
 //  Created by Eli Kohen on 24/02/2017.
@@ -15,15 +15,15 @@ import Quick
 import Nimble
 
 
-class ProductCarouselViewModelSpec: BaseViewModelSpec {
+class ListingCarouselViewModelSpec: BaseViewModelSpec {
 
     var showOnboardingCalled: Bool?
     var removeMoreInfoTooltipCalled: Bool?
 
     override func spec() {
-        var sut: ProductCarouselViewModel!
+        var sut: ListingCarouselViewModel!
 
-        var listingViewModelMaker: MockProductViewModelMaker!
+        var listingViewModelMaker: MockListingViewModelMaker!
         var listingListRequester: MockListingListRequester!
         var keyValueStorage: MockKeyValueStorage!
         var imageDownloader: MockImageDownloader!
@@ -44,14 +44,14 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
         var disposeBag: DisposeBag!
         var scheduler: TestScheduler!
 
-        var cellModelsObserver: TestableObserver<[ProductCarouselCellModel]>!
-        var productInfoObserver: TestableObserver<ProductVMProductInfo?>!
+        var cellModelsObserver: TestableObserver<[ListingCarouselCellModel]>!
+        var productInfoObserver: TestableObserver<ListingVMProductInfo?>!
         var productImageUrlsObserver: TestableObserver<[URL]>!
-        var userInfoObserver: TestableObserver<ProductVMUserInfo?>!
+        var userInfoObserver: TestableObserver<ListingVMUserInfo?>!
         var productStatsObserver: TestableObserver<ListingStats?>!
         var navBarButtonsObserver: TestableObserver<[UIAction]>!
         var actionButtonsObserver: TestableObserver<[UIAction]>!
-        var statusObserver: TestableObserver<ProductViewModelStatus>!
+        var statusObserver: TestableObserver<ListingViewModelStatus>!
         var isFeaturedObserver: TestableObserver<Bool>!
         var quickAnswersObserver: TestableObserver<[QuickAnswer]>!
         var quickAnswersAvailableObserver: TestableObserver<Bool>!
@@ -66,7 +66,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
         var socialMessageObserver: TestableObserver<SocialMessage?>!
         var socialSharerObserver: TestableObserver<SocialSharer>!
 
-        describe("ProductCarouselViewModelSpec") {
+        describe("ListingCarouselViewModelSpec") {
 
             func buildSut(productListModels: [ListingCellModel]? = nil,
                           initialProduct: Product? = nil,
@@ -79,7 +79,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                 if let initialProduct = initialProduct {
                     initialListing = .product(initialProduct)
                 }
-                sut = ProductCarouselViewModel(productListModels: productListModels,
+                sut = ListingCarouselViewModel(productListModels: productListModels,
                                                initialListing: initialListing,
                                                thumbnailImage: nil,
                                                listingListRequester: listingListRequester,
@@ -135,7 +135,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                 keyValueStorage = MockKeyValueStorage()
                 imageDownloader = MockImageDownloader()
 
-                listingViewModelMaker = MockProductViewModelMaker(myUserRepository: myUserRepository,
+                listingViewModelMaker = MockListingViewModelMaker(myUserRepository: myUserRepository,
                                                                   listingRepository: listingRepository,
                                                                   commercializerRepository: commercializerRepository,
                                                                   chatWrapper: chatWrapper,
@@ -148,14 +148,14 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
 
                 scheduler = TestScheduler(initialClock: 0)
                 scheduler.start()
-                cellModelsObserver = scheduler.createObserver(Array<ProductCarouselCellModel>.self)
-                productInfoObserver = scheduler.createObserver(Optional<ProductVMProductInfo>.self)
+                cellModelsObserver = scheduler.createObserver(Array<ListingCarouselCellModel>.self)
+                productInfoObserver = scheduler.createObserver(Optional<ListingVMProductInfo>.self)
                 productImageUrlsObserver = scheduler.createObserver(Array<URL>.self)
-                userInfoObserver = scheduler.createObserver(Optional<ProductVMUserInfo>.self)
+                userInfoObserver = scheduler.createObserver(Optional<ListingVMUserInfo>.self)
                 productStatsObserver = scheduler.createObserver(Optional<ListingStats>.self)
                 navBarButtonsObserver = scheduler.createObserver(Array<UIAction>.self)
                 actionButtonsObserver = scheduler.createObserver(Array<UIAction>.self)
-                statusObserver = scheduler.createObserver(ProductViewModelStatus.self)
+                statusObserver = scheduler.createObserver(ListingViewModelStatus.self)
                 isFeaturedObserver = scheduler.createObserver(Bool.self)
                 quickAnswersObserver = scheduler.createObserver(Array<QuickAnswer>.self)
                 quickAnswersAvailableObserver = scheduler.createObserver(Bool.self)
@@ -179,7 +179,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
             describe("onboarding") {
                 context("didn't show onboarding previously") {
                     beforeEach {
-                        keyValueStorage[.didShowProductDetailOnboarding] = false
+                        keyValueStorage[.didShowListingDetailOnboarding] = false
                         buildSut(initialProduct: product)
                         sut.active = true
                     }
@@ -189,7 +189,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                 }
                 context("didn't show onboarding previously") {
                     beforeEach {
-                        keyValueStorage[.didShowProductDetailOnboarding] = true
+                        keyValueStorage[.didShowListingDetailOnboarding] = true
                         buildSut(initialProduct: product)
                         sut.active = true
                     }
@@ -1187,7 +1187,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
 }
 
 
-extension ProductCarouselViewModelSpec: ProductCarouselViewModelDelegate {
+extension ListingCarouselViewModelSpec: ListingCarouselViewModelDelegate {
     func vmRemoveMoreInfoTooltip() {
         removeMoreInfoTooltipCalled = true
     }
@@ -1195,7 +1195,7 @@ extension ProductCarouselViewModelSpec: ProductCarouselViewModelDelegate {
         showOnboardingCalled = true
     }
 
-    // Forward from ProductViewModelDelegate
+    // Forward from ListingViewModelDelegate
     func vmOpenCommercialDisplay(_ displayVM: CommercialDisplayViewModel) {}
     func vmAskForRating() {}
     func vmShowCarouselOptions(_ cancelLabel: String, actions: [UIAction]) {}

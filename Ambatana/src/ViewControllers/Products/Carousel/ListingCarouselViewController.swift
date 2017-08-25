@@ -1,5 +1,5 @@
 //
-//  ProductCarouselViewController.swift
+//  ListingCarouselViewController.swift
 //  LetGo
 //
 //  Created by Isaac Roldan on 14/4/16.
@@ -9,7 +9,7 @@
 import LGCoreKit
 import RxSwift
 
-class ProductCarouselViewController: KeyboardViewController, AnimatableTransition {
+class ListingCarouselViewController: KeyboardViewController, AnimatableTransition {
 
     @IBOutlet weak var imageBackground: UIImageView!
     @IBOutlet weak var flowLayout: AnimatedPageCollectionViewLayout!
@@ -43,7 +43,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     fileprivate var fullScreenAvatarHeight: NSLayoutConstraint?
     fileprivate var fullScreenAvatarTop: NSLayoutConstraint?
     fileprivate var fullScreenAvatarLeft: NSLayoutConstraint?
-    fileprivate let viewModel: ProductCarouselViewModel
+    fileprivate let viewModel: ListingCarouselViewModel
     fileprivate let disposeBag: DisposeBag = DisposeBag()
     fileprivate var userViewBottomConstraint: NSLayoutConstraint?
     fileprivate var userViewRightConstraint: NSLayoutConstraint?
@@ -85,10 +85,10 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     fileprivate var activeDisposeBag = DisposeBag()
     private var productInfoConstraintOffset: CGFloat = 0
 
-    fileprivate var productOnboardingView: ProductDetailOnboardingView?
+    fileprivate var productOnboardingView: ListingDetailOnboardingView?
     fileprivate var didSetupAfterLayout = false
     
-    fileprivate let moreInfoView: ProductCarouselMoreInfoView
+    fileprivate let moreInfoView: ListingCarouselMoreInfoView
     fileprivate let moreInfoAlpha = Variable<CGFloat>(1)
     fileprivate let moreInfoState = Variable<MoreInfoState>(.hidden)
 
@@ -112,15 +112,15 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
 
     // MARK: - Lifecycle
 
-    convenience init(viewModel: ProductCarouselViewModel, pushAnimator: ProductCarouselPushAnimator?) {
+    convenience init(viewModel: ListingCarouselViewModel, pushAnimator: ListingCarouselPushAnimator?) {
         self.init(viewModel:viewModel,
                   pushAnimator: pushAnimator,
                   imageDownloader: ImageDownloader.sharedInstance,
                   carouselImageDownloader: ImageDownloader.make(usingImagePool: true))
     }
     
-    init(viewModel: ProductCarouselViewModel,
-         pushAnimator: ProductCarouselPushAnimator?,
+    init(viewModel: ListingCarouselViewModel,
+         pushAnimator: ListingCarouselPushAnimator?,
          imageDownloader: ImageDownloaderType,
          carouselImageDownloader: ImageDownloaderType) {
         self.viewModel = viewModel
@@ -135,10 +135,10 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         self.carouselImageDownloader = carouselImageDownloader
         self.directAnswersView = DirectAnswersHorizontalView(answers: [], sideMargin: CarouselUI.itemsMargin,
                                                              collapsed: viewModel.quickAnswersCollapsed.value)
-        self.moreInfoView = ProductCarouselMoreInfoView.moreInfoView()
+        self.moreInfoView = ListingCarouselMoreInfoView.moreInfoView()
         let mainBlurEffect = UIBlurEffect(style: .light)
         self.mainViewBlurEffectView = UIVisualEffectView(effect: mainBlurEffect)
-        super.init(viewModel: viewModel, nibName: "ProductCarouselViewController", statusBarStyle: .lightContent,
+        super.init(viewModel: viewModel, nibName: "ListingCarouselViewController", statusBarStyle: .lightContent,
                    navBarBackgroundStyle: .transparent(substyle: .dark), swipeBackGestureEnabled: false)
         self.viewModel.delegate = self
         hidesBottomBarWhenPushed = false
@@ -185,7 +185,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         case .triggerBumpUp:
             bumpUpBanner.executeBannerInteractionBlock()
         case .triggerMarkAsSold:
-            viewModel.currentProductViewModel?.markAsSold()
+            viewModel.currentListingViewModel?.markAsSold()
         default:
             break
         }
@@ -283,7 +283,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         collectionView.dataSource = self
         collectionView.delegate = self
         //Duplicating registered cells to avoid reuse of colindant cells
-        registerProductCarouselCells()
+        registerListingCarouselCells()
         collectionView.isDirectionalLockEnabled = true
         collectionView.alwaysBounceVertical = false
         automaticallyAdjustsScrollViewInsets = false
@@ -523,7 +523,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
     }
 
     private func returnCellToFirstImage() {
-        let visibleCells = collectionView.visibleCells.flatMap { $0 as? ProductCarouselCell }
+        let visibleCells = collectionView.visibleCells.flatMap { $0 as? ListingCarouselCell }
         visibleCells.filter {
             guard let index = collectionView.indexPath(for: $0) else { return false }
             return index.row != viewModel.currentIndex
@@ -532,9 +532,9 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
 }
 
 
-// MARK: > Configure Carousel With ProductCarouselViewModel
+// MARK: > Configure Carousel With ListingCarouselViewModel
 
-extension ProductCarouselViewController {
+extension ListingCarouselViewController {
 
     fileprivate func setupOverlayRxBindings() {
         setupMoreInfoRx()
@@ -800,7 +800,7 @@ extension ProductCarouselViewController {
 }
 
 
-extension ProductCarouselViewController: UserViewDelegate {
+extension ListingCarouselViewController: UserViewDelegate {
     func userViewAvatarPressed(_ userView: UserView) {
         viewModel.userAvatarPressed()
     }
@@ -847,7 +847,7 @@ extension ProductCarouselViewController: UserViewDelegate {
 
 // MARK: > ProductCarousel Cell Delegate
 
-extension ProductCarouselViewController: ProductCarouselCellDelegate {
+extension ListingCarouselViewController: ListingCarouselCellDelegate {
 
     static let animatedLayoutRubberBandOffset: CGFloat = 100
     static let defaultRubberBandOffset: CGFloat = 50
@@ -867,8 +867,8 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
         } else {
             collectionView.showRubberBandEffect(.right,
                                                 offset: usesHorizontalNavigation ?
-                                                    ProductCarouselViewController.animatedLayoutRubberBandOffset :
-                                                    ProductCarouselViewController.defaultRubberBandOffset)
+                                                    ListingCarouselViewController.animatedLayoutRubberBandOffset :
+                                                    ListingCarouselViewController.defaultRubberBandOffset)
         }
     }
 
@@ -914,7 +914,7 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
 
 // MARK: > More Info
 
-extension ProductCarouselViewController {
+extension ListingCarouselViewController {
     
     dynamic func didTapMoreInfo() {
         chatTextView.resignFirstResponder()
@@ -1000,7 +1000,7 @@ extension ProductCarouselViewController {
 
 // MARK: More Info Delegate
 
-extension ProductCarouselViewController: ProductCarouselMoreInfoDelegate {
+extension ListingCarouselViewController: ProductCarouselMoreInfoDelegate {
     
     func didEndScrolling(_ topOverScroll: CGFloat, bottomOverScroll: CGFloat) {
         if topOverScroll > CarouselUI.moreInfoDragMargin || bottomOverScroll > CarouselUI.moreInfoDragMargin {
@@ -1030,7 +1030,7 @@ extension ProductCarouselViewController: ProductCarouselMoreInfoDelegate {
 
 // MARK: > ToolTip
 
-extension ProductCarouselViewController {
+extension ListingCarouselViewController {
     
     fileprivate func setupMoreInfoTooltip() {
         guard viewModel.shouldShowMoreInfoTooltip else { return }
@@ -1052,19 +1052,19 @@ extension ProductCarouselViewController {
 
 // MARK: > CollectionView delegates
 
-extension ProductCarouselViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    private static let productCarouselCellCount = 3
+extension ListingCarouselViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    private static let listingCarouselCellCount = 3
 
-    func registerProductCarouselCells() {
-        for i in 0..<ProductCarouselViewController.productCarouselCellCount {
-            collectionView.register(ProductCarouselCell.self,
+    func registerListingCarouselCells() {
+        for i in 0..<ListingCarouselViewController.listingCarouselCellCount {
+            collectionView.register(ListingCarouselCell.self,
                                          forCellWithReuseIdentifier: cellIdentifierForIndex(i))
         }
     }
 
     func cellIdentifierForIndex(_ index: Int) -> String {
-        let extra = String(index % ProductCarouselViewController.productCarouselCellCount)
-        return ProductCarouselCell.identifier+extra
+        let extra = String(index % ListingCarouselViewController.listingCarouselCellCount)
+        return ListingCarouselCell.identifier+extra
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -1076,7 +1076,7 @@ extension ProductCarouselViewController: UICollectionViewDataSource, UICollectio
         -> UICollectionViewCell {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifierForIndex(indexPath.row),
                                                                              for: indexPath)
-            guard let carouselCell = cell as? ProductCarouselCell else { return UICollectionViewCell() }
+            guard let carouselCell = cell as? ListingCarouselCell else { return UICollectionViewCell() }
             guard let listingCellModel = viewModel.listingCellModelAt(index: indexPath.row) else { return carouselCell }
             carouselCell.configureCellWith(cellModel: listingCellModel, placeholderImage: viewModel.thumbnailAtIndex(indexPath.row),
                                                   indexPath: indexPath, imageDownloader: carouselImageDownloader,
@@ -1097,7 +1097,7 @@ extension ProductCarouselViewController: UICollectionViewDataSource, UICollectio
 
 // MARK: > Direct messages and stickers
 
-extension ProductCarouselViewController: UITableViewDataSource, UITableViewDelegate, DirectAnswersHorizontalViewDelegate {
+extension ListingCarouselViewController: UITableViewDataSource, UITableViewDelegate, DirectAnswersHorizontalViewDelegate {
     func setupDirectMessages() {
         ChatCellDrawerFactory.registerCells(directChatTable)
         directChatTable.transform = CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: 0)
@@ -1169,7 +1169,7 @@ extension ProductCarouselViewController: UITableViewDataSource, UITableViewDeleg
 
 // MARK: > Bump Up bubble
 
-extension ProductCarouselViewController {
+extension ListingCarouselViewController {
     func showBumpUpBanner(bumpInfo: BumpUpInfo){
         guard !bumpUpBannerIsVisible else {
             // banner is already visible, but info changes
@@ -1203,9 +1203,9 @@ extension ProductCarouselViewController {
 }
 
 
-// MARK: > ProductCarouselViewModelDelegate
+// MARK: > ListingCarouselViewModelDelegate
 
-extension ProductCarouselViewController: ProductCarouselViewModelDelegate {
+extension ListingCarouselViewController: ListingCarouselViewModelDelegate {
 
     func vmRemoveMoreInfoTooltip() {
         removeMoreInfoTooltip()
@@ -1213,9 +1213,9 @@ extension ProductCarouselViewController: ProductCarouselViewModelDelegate {
 
     func vmShowOnboarding() {
         guard let navigationCtrlView = navigationController?.view ?? view else { return }
-        let onboardingVM = ProductDetailOnboardingViewModel()
+        let onboardingVM = ListingDetailOnboardingViewModel()
         onboardingVM.delegate = self
-        productOnboardingView = ProductDetailOnboardingView(viewModel: onboardingVM)
+        productOnboardingView = ListingDetailOnboardingView(viewModel: onboardingVM)
 
         guard let onboarding = productOnboardingView else { return }
         navigationCtrlView.addSubview(onboarding)
@@ -1255,15 +1255,15 @@ extension ProductCarouselViewController: ProductCarouselViewModelDelegate {
 }
 
 
-// MARK: - ProductDetailOnboardingViewDelegate
+// MARK: - ListingDetailOnboardingViewDelegate
 
-extension ProductCarouselViewController: ProductDetailOnboardingViewDelegate {
-    func productDetailOnboardingDidAppear() {
+extension ListingCarouselViewController: ListingDetailOnboardingViewDelegate {
+    func listingDetailOnboardingDidAppear() {
         // nav bar behaves weird when is hidden in mainproducts list and the onboarding is shown
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
 
-    func productDetailOnboardingDidDisappear() {
+    func listingDetailOnboardingDidDisappear() {
         // nav bar shown again, but under the onboarding
         navigationController?.setNavigationBarHidden(false, animated: false)
         productOnboardingView = nil
@@ -1273,7 +1273,7 @@ extension ProductCarouselViewController: ProductDetailOnboardingViewDelegate {
 
 // MARK: - Accessibility ids
 
-fileprivate extension ProductCarouselViewController {
+fileprivate extension ListingCarouselViewController {
     func setAccessibilityIds() {
         collectionView.accessibilityId = .listingCarouselCollectionView
         buttonBottom.accessibilityId = .listingCarouselButtonBottom
