@@ -201,7 +201,7 @@ extension AppCoordinator: AppNavigator {
     func openSell(source: PostingSource) {
         let forcedInitialTab: PostListingViewController.Tab?
         switch source {
-        case .tabBar, .sellButton, .deepLink, .notifications, .deleteProduct:
+        case .tabBar, .sellButton, .deepLink, .notifications, .deleteListing:
             forcedInitialTab = nil
         case .onboardingButton, .onboardingCamera:
             forcedInitialTab = .camera
@@ -430,7 +430,7 @@ extension AppCoordinator: SellCoordinatorDelegate {
     func sellCoordinatorDidCancel(_ coordinator: SellCoordinator) {}
 
     func sellCoordinator(_ coordinator: SellCoordinator, didFinishWithListing listing: Listing) {
-        refreshSelectedProductsRefreshable()
+        refreshSelectedListingsRefreshable()
 
         openAfterSellDialogIfNeeded()
     }
@@ -462,10 +462,10 @@ extension AppCoordinator: UserRatingCoordinatorDelegate {
 }
 
 fileprivate extension AppCoordinator {
-    func refreshSelectedProductsRefreshable() {
+    func refreshSelectedListingsRefreshable() {
         guard let selectedVC = tabBarCtl.selectedViewController else { return }
-        guard let refreshable = topViewControllerInController(selectedVC) as? ProductsRefreshable else { return }
-        refreshable.productsRefresh()
+        guard let refreshable = topViewControllerInController(selectedVC) as? ListingsRefreshable else { return }
+        refreshable.listingsRefresh()
     }
 
     @discardableResult func openAfterSellDialogIfNeeded() -> Bool {

@@ -83,7 +83,7 @@ class ProductDetailOnboardingViewModel : BaseViewModel {
 
     func hasBeenShown() {
         if featureFlags.newCarouselNavigationEnabled {
-            keyValueStorage[.didShowHorizontalProductDetailOnboarding] = true
+            keyValueStorage[.didShowHorizontalListingDetailOnboarding] = true
         } else {
             keyValueStorage[.didShowProductDetailOnboarding] = true
         }

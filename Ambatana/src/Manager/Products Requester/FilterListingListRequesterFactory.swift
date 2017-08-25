@@ -11,9 +11,9 @@ import LGCoreKit
 
 class FilterListingListRequesterFactory {
 
-    static func generateRequester(withFilters filters: ProductFilters, queryString: String?, itemsPerPage: Int, multiRequesterEnabled: Bool) -> ListingListMultiRequester {
+    static func generateRequester(withFilters filters: ListingFilters, queryString: String?, itemsPerPage: Int, multiRequesterEnabled: Bool) -> ListingListMultiRequester {
 
-        var filtersArray: [ProductFilters] = [filters]
+        var filtersArray: [ListingFilters] = [filters]
         var requestersArray: [ListingListRequester] = []
 
         if multiRequesterEnabled && (filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsCategory) {
@@ -32,9 +32,9 @@ class FilterListingListRequesterFactory {
         return multiRequester
     }
 
-    private static func generateCarsNegativeFilters(fromFilters filters: ProductFilters) -> [ProductFilters] {
+    private static func generateCarsNegativeFilters(fromFilters filters: ListingFilters) -> [ListingFilters] {
 
-        var finalCarFiltersArray: [ProductFilters] = [filters]
+        var finalCarFiltersArray: [ListingFilters] = [filters]
 
         if filters.carYearStart != nil || filters.carYearEnd != nil {
             var noYearFilter = filters

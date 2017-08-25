@@ -219,7 +219,7 @@ class PostListingGalleryViewModel: BaseViewModel {
             let numImgs = imgsSelected.count
             guard let strongSelf = self else { return }
             if numImgs < 1 {
-                if let title = strongSelf.keyValueStorage[.postProductLastGalleryAlbumSelected] {
+                if let title = strongSelf.keyValueStorage[.postListingLastGalleryAlbumSelected] {
                     strongSelf.albumTitle.value = title
                     strongSelf.albumButtonEnabled.value = true
                 }
@@ -315,7 +315,7 @@ class PostListingGalleryViewModel: BaseViewModel {
 
     private func selectLastAlbumSelected() {
         guard !albums.isEmpty else { return }
-        let lastName = keyValueStorage[.postProductLastGalleryAlbumSelected]
+        let lastName = keyValueStorage[.postListingLastGalleryAlbumSelected]
         for assetCollection in albums {
             if let lastName = lastName, let albumName = assetCollection.localizedTitle, lastName == albumName {
                 selectAlbum(assetCollection)
@@ -334,7 +334,7 @@ class PostListingGalleryViewModel: BaseViewModel {
         let title = assetCollection.localizedTitle
         if let title = title {
 
-            keyValueStorage[.postProductLastGalleryAlbumSelected] = title
+            keyValueStorage[.postListingLastGalleryAlbumSelected] = title
             albumTitle.value = title
         } else {
             albumTitle.value = LGLocalizedString.productPostGalleryTab

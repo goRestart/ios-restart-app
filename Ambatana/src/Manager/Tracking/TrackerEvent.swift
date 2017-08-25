@@ -437,9 +437,9 @@ struct TrackerEvent {
         return TrackerEvent(name: .listingSellStart, params: params)
     }
 
-    static func listingSellSharedFB(_ product: Product?) -> TrackerEvent {
+    static func listingSellSharedFB(_ listing: Listing?) -> TrackerEvent {
         var params = EventParameters()
-        params[.listingId] = product?.objectId
+        params[.listingId] = listing?.objectId
         return TrackerEvent(name: .listingSellSharedFB, params: params)
     }
 
@@ -484,25 +484,25 @@ struct TrackerEvent {
         return TrackerEvent(name: .listingSellComplete24h, params: params)
     }
 
-    static func listingSellError(_ error: EventParameterPostProductError) -> TrackerEvent {
+    static func listingSellError(_ error: EventParameterPostListingError) -> TrackerEvent {
         var params = EventParameters()
         params[.errorDescription] = error.description
         return TrackerEvent(name: .listingSellError, params: params)
     }
 
-    static func listingSellErrorClose(_ error: EventParameterPostProductError) -> TrackerEvent {
+    static func listingSellErrorClose(_ error: EventParameterPostListingError) -> TrackerEvent {
         var params = EventParameters()
         params[.errorDescription] = error.description
         return TrackerEvent(name: .listingSellErrorClose, params: params)
     }
 
-    static func listingSellErrorPost(_ error: EventParameterPostProductError) -> TrackerEvent {
+    static func listingSellErrorPost(_ error: EventParameterPostListingError) -> TrackerEvent {
         var params = EventParameters()
         params[.errorDescription] = error.description
         return TrackerEvent(name: .listingSellErrorPost, params: params)
     }
 
-    static func listingSellErrorData(_ error: EventParameterPostProductError) -> TrackerEvent {
+    static func listingSellErrorData(_ error: EventParameterPostListingError) -> TrackerEvent {
         var params = EventParameters()
         params[.errorDescription] = error.description
         params[.errorDetails] = error.details

@@ -10,8 +10,8 @@ import LGCoreKit
 
 protocol MainTabNavigator: TabNavigator {
     func openMainProduct(withSearchType searchType: SearchType,
-                         productFilters: ProductFilters)
-	func openFilters(withProductFilters productFilters: ProductFilters,
+                         productFilters: ListingFilters)
+	func openFilters(withListingFilters productFilters: ListingFilters,
                      filtersVMDataDelegate: FiltersViewModelDataDelegate?)    
     func openLocationSelection(initialPlace: Place?,
                                distanceRadius: Int?,

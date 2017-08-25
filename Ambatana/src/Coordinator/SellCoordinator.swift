@@ -85,10 +85,10 @@ final class SellCoordinator: Coordinator {
 }
 
 
-// MARK: - PostProductNavigator
+// MARK: - PostListingNavigator
 
-extension SellCoordinator: PostProductNavigator {
-    func cancelPostProduct() {
+extension SellCoordinator: PostListingNavigator {
+    func cancelPostListing() {
         closeCoordinator(animated: true) { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.delegate?.sellCoordinatorDidCancel(strongSelf)
@@ -132,7 +132,7 @@ extension SellCoordinator: PostProductNavigator {
     }
     
     fileprivate func trackListingPostedInBackground(withError error: RepositoryError) {
-        let sellError: EventParameterPostProductError
+        let sellError: EventParameterPostListingError
         switch error {
         case .network:
             sellError = .network

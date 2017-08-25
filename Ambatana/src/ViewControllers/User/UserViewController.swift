@@ -168,10 +168,10 @@ class UserViewController: BaseViewController {
 }
 
 
-// MARK: - ProductsRefreshable
+// MARK: - ListingsRefreshable
 
-extension UserViewController: ProductsRefreshable {
-    func productsRefresh() {
+extension UserViewController: ListingsRefreshable {
+    func listingsRefresh() {
         viewModel.refreshSelling()
     }
 }

@@ -201,7 +201,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
             describe("more info tooltip") {
                 context("was never closed before") {
                     beforeEach {
-                        keyValueStorage[.productMoreInfoTooltipDismissed] = false
+                        keyValueStorage[.listingMoreInfoTooltipDismissed] = false
                         buildSut(initialProduct: product)
                         sut.active = true
                     }
@@ -222,7 +222,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                 }
                 context("was closed before") {
                     beforeEach {
-                        keyValueStorage[.productMoreInfoTooltipDismissed] = true
+                        keyValueStorage[.listingMoreInfoTooltipDismissed] = true
                         buildSut(initialProduct: product)
                         sut.active = true
                     }
@@ -306,7 +306,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                 describe("collapsed state") {
                     context("initial value non collapsed") {
                         beforeEach {
-                            keyValueStorage[.productDetailQuickAnswersHidden] = false
+                            keyValueStorage[.listingDetailQuickAnswersHidden] = false
                             product.status = .approved
                             buildSut(initialProduct: product)
                             sut.active = true
@@ -322,13 +322,13 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                                 expect(quickAnswersCollapsedObserver.eventValues) == [false, true]
                             }
                             it("storage is now also true") {
-                                expect(keyValueStorage[.productDetailQuickAnswersHidden]) == true
+                                expect(keyValueStorage[.listingDetailQuickAnswersHidden]) == true
                             }
                         }
                     }
                     context("initial value collapsed") {
                         beforeEach {
-                            keyValueStorage[.productDetailQuickAnswersHidden] = true
+                            keyValueStorage[.listingDetailQuickAnswersHidden] = true
                             product.status = .approved
                             buildSut(initialProduct: product)
                             sut.active = true
@@ -344,7 +344,7 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                                 expect(quickAnswersCollapsedObserver.eventValues) == [true, false]
                             }
                             it("storage is now also true") {
-                                expect(keyValueStorage[.productDetailQuickAnswersHidden]) == false
+                                expect(keyValueStorage[.listingDetailQuickAnswersHidden]) == false
                             }
                         }
                     }

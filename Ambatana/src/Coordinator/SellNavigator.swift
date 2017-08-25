@@ -9,8 +9,8 @@
 import LGCoreKit
 import Foundation
 
-protocol PostProductNavigator: class {
-    func cancelPostProduct()
+protocol PostListingNavigator: class {
+    func cancelPostListing()
     func closePostProductAndPostInBackground(params: ListingCreationParams,
                                              trackingInfo: PostListingTrackingInfo)
     func closePostProductAndPostLater(params: ListingCreationParams, images: [UIImage],

@@ -433,7 +433,7 @@ extension TabCoordinator: ProductDetailNavigator {
         closeProductDetail()
         let action = UIAction(interface: .button(LGLocalizedString.productDeletePostButtonTitle,
                                                  .primary(fontSize: .medium)), action: { [weak self] in
-                                                    self?.openSell(source: .deleteProduct)
+                                                    self?.openSell(source: .deleteListing)
             }, accessibilityId: .postDeleteAlertButton)
         navigationController.showAlertWithTitle(LGLocalizedString.productDeletePostTitle,
                                                 text: LGLocalizedString.productDeletePostSubtitle,

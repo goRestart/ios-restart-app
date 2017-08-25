@@ -19,13 +19,13 @@ class MainListingsViewModelSpec: QuickSpec {
             
             var sut: MainListingsViewModel!
             var keyValueStorage: KeyValueStorage!
-            var filters: ProductFilters!
+            var filters: ListingFilters!
             var mockFeatureFlags: MockFeatureFlags!
             
             beforeEach {
                 keyValueStorage = KeyValueStorage()
                 mockFeatureFlags = MockFeatureFlags()
-                filters = ProductFilters()
+                filters = ListingFilters()
             }
             
             context("Initialization") {
@@ -42,12 +42,12 @@ class MainListingsViewModelSpec: QuickSpec {
             }
             
             context("Filter edition") {
-                var userFilters: ProductFilters!
+                var userFilters: ListingFilters!
                 var filtersViewModel: FiltersViewModel!
                 
                 beforeEach {
                     filtersViewModel = FiltersViewModel()
-                    userFilters = ProductFilters()
+                    userFilters = ListingFilters()
                     userFilters.distanceRadius = 50
                     userFilters.selectedCategories = []
                 }
@@ -73,7 +73,7 @@ class MainListingsViewModelSpec: QuickSpec {
                 
                 context("when user set filters and remove them") {
                     beforeEach {
-                        let userFiltersRemoved = ProductFilters()
+                        let userFiltersRemoved = ListingFilters()
                         sut.viewModelDidUpdateFilters(filtersViewModel, filters: userFiltersRemoved)
                     }
                     it("has not filters set by user") {
@@ -96,7 +96,7 @@ class MainListingsViewModelSpec: QuickSpec {
                
                 context("with no filter and no search") {
                     beforeEach {
-                        var userFilters = ProductFilters()
+                        var userFilters = ListingFilters()
                         userFilters.selectedCategories = []
                         let searchType: SearchType? = nil
                 
@@ -115,7 +115,7 @@ class MainListingsViewModelSpec: QuickSpec {
                 
                 context("with search but no filter") {
                     beforeEach {
-                        var userFilters = ProductFilters()
+                        var userFilters = ListingFilters()
                         userFilters.selectedCategories = []
                         let searchType: SearchType = .user(query: "iphone")
                         
@@ -134,7 +134,7 @@ class MainListingsViewModelSpec: QuickSpec {
                 
                 context("with filter but no search") {
                     beforeEach {
-                        var userFilters = ProductFilters()
+                        var userFilters = ListingFilters()
                         userFilters.selectedCategories = [.motorsAndAccessories]
                         let searchType: SearchType? = nil
                         sut = MainListingsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, searchRepository: Core.searchRepository, listingRepository: Core.listingRepository, monetizationRepository: Core.monetizationRepository, categoryRepository: Core.categoryRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: mockTracker, searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags, bubbleTextGenerator: DistanceBubbleTextGenerator())
@@ -152,7 +152,7 @@ class MainListingsViewModelSpec: QuickSpec {
                 
                 context("with filter & search") {
                     beforeEach {
-                        var userFilters = ProductFilters()
+                        var userFilters = ListingFilters()
                         userFilters.selectedCategories = [.motorsAndAccessories]
                         let searchType: SearchType = .user(query: "iphone")
                         sut = MainListingsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, searchRepository: Core.searchRepository, listingRepository: Core.listingRepository, monetizationRepository: Core.monetizationRepository, categoryRepository: Core.categoryRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: mockTracker, searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags, bubbleTextGenerator: DistanceBubbleTextGenerator())
@@ -170,7 +170,7 @@ class MainListingsViewModelSpec: QuickSpec {
                 
                 context("with search collection") {
                     beforeEach {
-                        var userFilters = ProductFilters()
+                        var userFilters = ListingFilters()
                         userFilters.selectedCategories = []
                         let searchType: SearchType = .collection(type: .You, query: "iphone")
                         sut = MainListingsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository,
@@ -202,7 +202,7 @@ class MainListingsViewModelSpec: QuickSpec {
                                                 searchRepository: Core.searchRepository,
                                                 listingRepository: Core.listingRepository, monetizationRepository: Core.monetizationRepository, categoryRepository: Core.categoryRepository,
                                                 locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: mockTracker,
-                                                searchType: nil, filters: ProductFilters(), keyValueStorage: keyValueStorage,
+                                                searchType: nil, filters: ListingFilters(), keyValueStorage: keyValueStorage,
                                                 featureFlags: mockFeatureFlags, bubbleTextGenerator: DistanceBubbleTextGenerator())
                 }
                 

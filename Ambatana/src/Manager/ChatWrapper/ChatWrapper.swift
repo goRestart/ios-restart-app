@@ -51,16 +51,16 @@ class LGChatWrapper: ChatWrapper {
             completion?(Result(error: .internalError(message: "There's no recipient to send the message")))
             return
         }
-        guard let productId = listing.objectId else {
-            completion?(Result(error: .internalError(message: "There's no product to send the message")))
+        guard let listingId = listing.objectId else {
+            completion?(Result(error: .internalError(message: "There's no listing to send the message")))
             return
         }
 
 
         if featureFlags.websocketChat {
-            sendWebSocketChatMessage(productId, sellerId: sellerId, text: type.text, type: type.chatType, completion: completion)
+            sendWebSocketChatMessage(listingId, sellerId: sellerId, text: type.text, type: type.chatType, completion: completion)
         } else {
-            sendOldChatMessage(productId, sellerId: sellerId, text: type.text, type: type.oldChatType, completion: completion)
+            sendOldChatMessage(listingId, sellerId: sellerId, text: type.text, type: type.oldChatType, completion: completion)
         }
     }
 
@@ -79,10 +79,10 @@ class LGChatWrapper: ChatWrapper {
         }
     }
 
-    private func sendWebSocketChatMessage(_ productId: String, sellerId: String, text: String, type: ChatMessageType,
+    private func sendWebSocketChatMessage(_ listingId: String, sellerId: String, text: String, type: ChatMessageType,
                                           completion: ChatWrapperCompletion?) {
         // get conversation
-        chatRepository.showConversation(sellerId, listingId: productId) { [weak self] result in
+        chatRepository.showConversation(sellerId, listingId: listingId) { [weak self] result in
             if let value = result.value {
                 guard let conversationId = value.objectId else {
                     completion?(Result(error: .internalError(message: "There's no conversation info")))

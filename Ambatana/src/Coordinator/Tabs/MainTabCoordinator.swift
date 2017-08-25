@@ -23,7 +23,7 @@ class MainTabCoordinator: TabCoordinator {
         let featureFlags = FeatureFlags.sharedInstance
         let sessionManager = Core.sessionManager
         let viewModel = MainListingsViewModel(searchType: nil, tabNavigator: nil)
-        let rootViewController = MainProductsViewController(viewModel: viewModel)
+        let rootViewController = MainListingsViewController(viewModel: viewModel)
         self.init(listingRepository: listingRepository, userRepository: userRepository,
                   chatRepository: chatRepository, oldChatRepository: oldChatRepository,
                   myUserRepository: myUserRepository, installationRepository: installationRepository,
@@ -35,32 +35,32 @@ class MainTabCoordinator: TabCoordinator {
     }
 
     func openSearch(_ query: String, categoriesString: String?) {
-        var filters = ProductFilters()
+        var filters = ListingFilters()
         if let categoriesString = categoriesString {
             filters.selectedCategories = ListingCategory.categoriesFromString(categoriesString)
         }
         let viewModel = MainListingsViewModel(searchType: .user(query: query), filters: filters)
         viewModel.navigator = self
-        let vc = MainProductsViewController(viewModel: viewModel)
+        let vc = MainListingsViewController(viewModel: viewModel)
 
         navigationController.pushViewController(vc, animated: true)
     }
 
     // Note: override in subclasses
     override func shouldHideSellButtonAtViewController(_ viewController: UIViewController) -> Bool {
-        return super.shouldHideSellButtonAtViewController(viewController) && !(viewController is MainProductsViewController)
+        return super.shouldHideSellButtonAtViewController(viewController) && !(viewController is MainListingsViewController)
     }
 }
 
 extension MainTabCoordinator: MainTabNavigator {
-    func openMainProduct(withSearchType searchType: SearchType, productFilters: ProductFilters) {
+    func openMainProduct(withSearchType searchType: SearchType, productFilters: ListingFilters) {
         let vm = MainListingsViewModel(searchType: searchType, filters: productFilters)
         vm.navigator = self
-        let vc = MainProductsViewController(viewModel: vm)
+        let vc = MainListingsViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func openFilters(withProductFilters productFilters: ProductFilters,
+    func openFilters(withListingFilters productFilters: ListingFilters,
                      filtersVMDataDelegate: FiltersViewModelDataDelegate?) {
         let vm = FiltersViewModel(currentFilters: productFilters)
         vm.dataDelegate = filtersVMDataDelegate

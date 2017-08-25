@@ -51,7 +51,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         if let forcedInitialTab = forcedInitialTab {
             return forcedInitialTab
         }
-        return Tab(rawValue: KeyValueStorage.sharedInstance.userPostProductLastTabSelected) ?? .gallery
+        return Tab(rawValue: KeyValueStorage.sharedInstance.userPostListingLastTabSelected) ?? .gallery
     }
 
     private let disposeBag = DisposeBag()
@@ -82,7 +82,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         
         let viewPagerConfig = LGViewPagerConfig(tabPosition: tabPosition, tabLayout: .fixed, tabHeight: 50)
         self.viewPager = LGViewPager(config: viewPagerConfig, frame: CGRect.zero)
-        self.cameraView = PostListingCameraView(viewModel: viewModel.postProductCameraViewModel)
+        self.cameraView = PostListingCameraView(viewModel: viewModel.postListingCameraViewModel)
         self.galleryView = PostListingGalleryView()
         self.keyboardHelper = keyboardHelper
         self.viewModel = viewModel
@@ -684,7 +684,7 @@ extension PostListingViewController: LGViewPagerDataSource, LGViewPagerDelegate,
     }
 
     func viewPager(_ viewPager: LGViewPager, willDisplayView view: UIView, atIndex index: Int) {
-        KeyValueStorage.sharedInstance.userPostProductLastTabSelected = index
+        KeyValueStorage.sharedInstance.userPostListingLastTabSelected = index
     }
 
     func viewPager(_ viewPager: LGViewPager, didEndDisplayingView view: UIView, atIndex index: Int) {}

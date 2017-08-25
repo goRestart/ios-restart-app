@@ -57,7 +57,7 @@ class MainListingsViewModel: BaseViewModel {
     }
     let bannerCellPosition: Int = 8
     let suggestedSearchesLimit: Int = 10
-    var filters: ProductFilters
+    var filters: ListingFilters
     var queryString: String?
 
     var hasFilters: Bool {
@@ -182,10 +182,10 @@ class MainListingsViewModel: BaseViewModel {
     // List VM
     let listViewModel: ListingListViewModel
     fileprivate var listingListRequester: ListingListMultiRequester
-    var currentActiveFilters: ProductFilters? {
+    var currentActiveFilters: ListingFilters? {
         return filters
     }
-    var userActiveFilters: ProductFilters? {
+    var userActiveFilters: ListingFilters? {
         return filters
     }
     fileprivate var shouldRetryLoad = false
@@ -222,7 +222,7 @@ class MainListingsViewModel: BaseViewModel {
     init(sessionManager: SessionManager, myUserRepository: MyUserRepository, searchRepository: SearchRepository,
          listingRepository: ListingRepository, monetizationRepository: MonetizationRepository, categoryRepository: CategoryRepository,
          locationManager: LocationManager, currencyHelper: CurrencyHelper, tracker: Tracker,
-         searchType: SearchType? = nil, filters: ProductFilters, keyValueStorage: KeyValueStorage,
+         searchType: SearchType? = nil, filters: ListingFilters, keyValueStorage: KeyValueStorage,
          featureFlags: FeatureFlaggeable, bubbleTextGenerator: DistanceBubbleTextGenerator) {
         
         self.sessionManager = sessionManager
@@ -260,7 +260,7 @@ class MainListingsViewModel: BaseViewModel {
         setup()
     }
     
-    convenience init(searchType: SearchType? = nil, filters: ProductFilters) {
+    convenience init(searchType: SearchType? = nil, filters: ListingFilters) {
         let sessionManager = Core.sessionManager
         let myUserRepository = Core.myUserRepository
         let searchRepository = Core.searchRepository
@@ -281,7 +281,7 @@ class MainListingsViewModel: BaseViewModel {
     }
     
     convenience init(searchType: SearchType? = nil, tabNavigator: TabNavigator?) {
-        let filters = ProductFilters()
+        let filters = ListingFilters()
         self.init(searchType: searchType, filters: filters)
     }
 
@@ -317,7 +317,7 @@ class MainListingsViewModel: BaseViewModel {
     }
 
     func showFilters() {
-        navigator?.openFilters(withProductFilters: filters, filtersVMDataDelegate: self)
+        navigator?.openFilters(withListingFilters: filters, filtersVMDataDelegate: self)
         tracker.trackEvent(TrackerEvent.filterStart())
     }
 
@@ -566,7 +566,7 @@ class MainListingsViewModel: BaseViewModel {
 
 extension MainListingsViewModel: FiltersViewModelDataDelegate {
 
-    func viewModelDidUpdateFilters(_ viewModel: FiltersViewModel, filters: ProductFilters) {
+    func viewModelDidUpdateFilters(_ viewModel: FiltersViewModel, filters: ListingFilters) {
         self.filters = filters
         self.filters.onboardingFilters = []
         delegate?.vmShowTags(tags)
@@ -992,7 +992,7 @@ extension MainListingsViewModel {
 
 // MARK: - Filters & bubble
 
-fileprivate extension ProductFilters {
+fileprivate extension ListingFilters {
     var infoBubblePresent: Bool {
         guard let selectedOrdering = selectedOrdering else { return true }
         switch (selectedOrdering) {

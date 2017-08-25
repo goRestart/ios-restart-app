@@ -24,7 +24,7 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
             }
             context ("not car related") {
                 beforeEach {
-                    let filters = ProductFilters()
+                    let filters = ListingFilters()
 
                     let expectedRequester = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
                     expectedRequester.filters = filters
@@ -43,7 +43,7 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                 context ("car details not specified") {
                     context ("multi requester feature disabled") {
                         beforeEach {
-                            var filters = ProductFilters()
+                            var filters = ListingFilters()
                             filters.selectedCategories = [.cars]
 
                             let expectedRequester = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
@@ -61,7 +61,7 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                     }
                     context ("multi requester feature enabled") {
                         beforeEach {
-                            var filters = ProductFilters()
+                            var filters = ListingFilters()
                             filters.selectedCategories = [.cars]
 
                             let expectedRequester = FilteredListingListRequester(itemsPerPage: 20, offset: 0)
@@ -82,7 +82,7 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                     context ("multi requester feature disabled") {
                         context ("make & model") {
                             beforeEach {
-                                var filters = ProductFilters()
+                                var filters = ListingFilters()
                                 filters.selectedCategories = [.cars]
                                 filters.carMakeId = RetrieveListingParam<String>(value: "makeId", isNegated: false)
                                 filters.carModelId = RetrieveListingParam<String>(value: "modelId", isNegated: false)
@@ -104,7 +104,7 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                     context ("multi requester feature enabled") {
                         context ("only make") {
                             beforeEach {
-                                var filters = ProductFilters()
+                                var filters = ListingFilters()
                                 filters.selectedCategories = [.cars]
                                 filters.carMakeId = RetrieveListingParam<String>(value: "makeId", isNegated: false)
 
@@ -127,7 +127,7 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                         }
                         context ("only make, custom") {
                             beforeEach {
-                                var filters = ProductFilters()
+                                var filters = ListingFilters()
                                 filters.selectedCategories = [.cars]
                                 filters.carMakeId = RetrieveListingParam<String>(value: "", isNegated: false)
 
@@ -150,7 +150,7 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                         }
                         context ("make & model") {
                             beforeEach {
-                                var filters = ProductFilters()
+                                var filters = ListingFilters()
                                 filters.selectedCategories = [.cars]
                                 filters.carMakeId = RetrieveListingParam<String>(value: "makeId", isNegated: false)
                                 filters.carModelId = RetrieveListingParam<String>(value: "modelId", isNegated: false)
@@ -182,7 +182,7 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                         }
                         context ("make & custom model") {
                             beforeEach {
-                                var filters = ProductFilters()
+                                var filters = ListingFilters()
                                 filters.selectedCategories = [.cars]
                                 filters.carMakeId = RetrieveListingParam<String>(value: "makeId", isNegated: false)
                                 filters.carModelId = RetrieveListingParam<String>(value: "", isNegated: false)
@@ -214,7 +214,7 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                         }
                         context ("custom make & custom model") {
                             beforeEach {
-                                var filters = ProductFilters()
+                                var filters = ListingFilters()
                                 filters.selectedCategories = [.cars]
                                 filters.carMakeId = RetrieveListingParam<String>(value: "", isNegated: false)
                                 filters.carModelId = RetrieveListingParam<String>(value: "", isNegated: false)
@@ -246,7 +246,7 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                         }
                         context ("make, model & year") {
                             beforeEach {
-                                var filters = ProductFilters()
+                                var filters = ListingFilters()
                                 filters.selectedCategories = [.cars]
                                 filters.carMakeId = RetrieveListingParam<String>(value: "makeId", isNegated: false)
                                 filters.carModelId = RetrieveListingParam<String>(value: "modelId", isNegated: false)
@@ -286,7 +286,7 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                         }
                         context ("make, custom model & year") {
                             beforeEach {
-                                var filters = ProductFilters()
+                                var filters = ListingFilters()
                                 filters.selectedCategories = [.cars]
                                 filters.carMakeId = RetrieveListingParam<String>(value: "makeId", isNegated: false)
                                 filters.carModelId = RetrieveListingParam<String>(value: "", isNegated: false)
@@ -326,7 +326,7 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                         }
                         context ("custom make, custom model & year") {
                             beforeEach {
-                                var filters = ProductFilters()
+                                var filters = ListingFilters()
                                 filters.selectedCategories = [.cars]
                                 filters.carMakeId = RetrieveListingParam<String>(value: "", isNegated: false)
                                 filters.carModelId = RetrieveListingParam<String>(value: "", isNegated: false)
@@ -366,7 +366,7 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                         }
                         context ("make, model & year start & end") {
                             beforeEach {
-                                var filters = ProductFilters()
+                                var filters = ListingFilters()
                                 filters.selectedCategories = [.cars]
                                 filters.carMakeId = RetrieveListingParam<String>(value: "makeId", isNegated: false)
                                 filters.carModelId = RetrieveListingParam<String>(value: "modelId", isNegated: false)
@@ -411,7 +411,7 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                         }
                         context ("only year end") {
                             beforeEach {
-                                var filters = ProductFilters()
+                                var filters = ListingFilters()
                                 filters.selectedCategories = [.cars]
                                 filters.carYearEnd = RetrieveListingParam<Int>(value: 2015, isNegated: false)
 
@@ -436,7 +436,7 @@ class FilterListingListRequesterFactorySpec: QuickSpec {
                         }
                         context ("only year, but start and end") {
                             beforeEach {
-                                var filters = ProductFilters()
+                                var filters = ListingFilters()
                                 filters.selectedCategories = [.cars]
                                 filters.carYearStart = RetrieveListingParam<Int>(value: 2000, isNegated: false)
                                 filters.carYearEnd = RetrieveListingParam<Int>(value: 2015, isNegated: false)

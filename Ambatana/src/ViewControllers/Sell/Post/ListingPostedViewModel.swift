@@ -300,7 +300,7 @@ class ListingPostedViewModel: BaseViewModel {
     }
 
     private func trackPostSellError(error: RepositoryError) {
-        let sellError: EventParameterPostProductError
+        let sellError: EventParameterPostListingError
         switch error {
         case .network:
             sellError = .network
@@ -331,7 +331,7 @@ class ListingPostedViewModel: BaseViewModel {
 enum ListingPostedStatus {
     case posting(images: [UIImage], params: ListingCreationParams)
     case success(listing: Listing)
-    case error(error: EventParameterPostProductError)
+    case error(error: EventParameterPostListingError)
 
     var listing: Listing? {
         switch self {

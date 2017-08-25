@@ -59,7 +59,7 @@ class ProductCarouselViewModel: BaseViewModel {
     }
 
     var shouldShowMoreInfoTooltip: Bool {
-        return !keyValueStorage[.productMoreInfoTooltipDismissed]
+        return !keyValueStorage[.listingMoreInfoTooltipDismissed]
     }
     
     let actionOnFirstAppear: ProductCarouselActionOnFirstAppear
@@ -101,7 +101,7 @@ class ProductCarouselViewModel: BaseViewModel {
 
     fileprivate var shouldShowOnboarding: Bool {
         let shouldShowOldOnboarding = !featureFlags.newCarouselNavigationEnabled && !keyValueStorage[.didShowProductDetailOnboarding]
-        let shouldShowNewOnboarding = featureFlags.newCarouselNavigationEnabled && !keyValueStorage[.didShowHorizontalProductDetailOnboarding]
+        let shouldShowNewOnboarding = featureFlags.newCarouselNavigationEnabled && !keyValueStorage[.didShowHorizontalListingDetailOnboarding]
         return shouldShowOldOnboarding || shouldShowNewOnboarding
     }
 
@@ -217,7 +217,7 @@ class ProductCarouselViewModel: BaseViewModel {
         self.listingListRequester = listingListRequester
         self.source = source
         self.actionOnFirstAppear = actionOnFirstAppear
-        self.quickAnswersCollapsed = Variable<Bool>(keyValueStorage[.productDetailQuickAnswersHidden])
+        self.quickAnswersCollapsed = Variable<Bool>(keyValueStorage[.listingDetailQuickAnswersHidden])
         self.keyValueStorage = keyValueStorage
         self.imageDownloader = imageDownloader
         self.listingViewModelMaker = listingViewModelMaker
@@ -366,12 +366,12 @@ class ProductCarouselViewModel: BaseViewModel {
         horizontalImageNavigationEnabled.value = imageScrollDirection == .horizontal
 
         quickAnswersCollapsed.asObservable().skip(1).bindNext { [weak self] collapsed in
-            self?.keyValueStorage[.productDetailQuickAnswersHidden] = collapsed
+            self?.keyValueStorage[.listingDetailQuickAnswersHidden] = collapsed
         }.addDisposableTo(disposeBag)
 
         moreInfoState.asObservable().map { $0 == .shown }.distinctUntilChanged().filter { $0 }.bindNext { [weak self] _ in
             self?.currentProductViewModel?.trackVisitMoreInfo()
-            self?.keyValueStorage[.productMoreInfoTooltipDismissed] = true
+            self?.keyValueStorage[.listingMoreInfoTooltipDismissed] = true
             self?.delegate?.vmRemoveMoreInfoTooltip()
         }.addDisposableTo(disposeBag)
     }

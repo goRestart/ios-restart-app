@@ -22,7 +22,7 @@ class FilteredListingListRequester: ListingListRequester {
     fileprivate var initialOffset: Int
 
     var queryString: String?
-    var filters: ProductFilters?
+    var filters: ListingFilters?
 
     convenience init(itemsPerPage: Int, offset: Int = 0) {
         self.init(listingRepository: Core.listingRepository, locationManager: Core.locationManager, featureFlags: FeatureFlags.sharedInstance, itemsPerPage: itemsPerPage, offset: offset)
@@ -132,7 +132,7 @@ class FilteredListingListRequester: ListingListRequester {
         return titleFromFilters.isEmpty ? nil : titleFromFilters.uppercase
     }
 
-    private func rangeYearTitle(forFilters filters: ProductFilters?) -> String? {
+    private func rangeYearTitle(forFilters filters: ListingFilters?) -> String? {
         guard let filters = filters else { return nil }
 
         if let startYear = filters.carYearStart, let endYear = filters.carYearEnd, !startYear.isNegated, !endYear.isNegated {

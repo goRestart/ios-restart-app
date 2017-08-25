@@ -18,7 +18,7 @@ enum PostingSource {
     case onboardingButton
     case onboardingCamera
     case notifications
-    case deleteProduct
+    case deleteListing
 }
 
 
@@ -27,7 +27,7 @@ class PostListingViewModel: BaseViewModel {
     static let carDetailsNumber: Int = 3
     
     weak var delegate: PostListingViewModelDelegate?
-    weak var navigator: PostProductNavigator?
+    weak var navigator: PostListingNavigator?
 
     var usePhotoButtonText: String {
         if sessionManager.loggedIn {
@@ -48,7 +48,7 @@ class PostListingViewModel: BaseViewModel {
     let category: Variable<PostCategory?>
 
     let postDetailViewModel: PostListingDetailViewModel
-    let postProductCameraViewModel: PostListingCameraViewModel
+    let postListingCameraViewModel: PostListingCameraViewModel
     let postingSource: PostingSource
     
     fileprivate let listingRepository: ListingRepository
@@ -104,7 +104,7 @@ class PostListingViewModel: BaseViewModel {
         self.fileRepository = fileRepository
         self.carsInfoRepository = carsInfoRepository
         self.postDetailViewModel = PostListingDetailViewModel()
-        self.postProductCameraViewModel = PostListingCameraViewModel(postingSource: source)
+        self.postListingCameraViewModel = PostListingCameraViewModel(postingSource: source)
         self.tracker = tracker
         self.sessionManager = sessionManager
         self.featureFlags = featureFlags
@@ -161,7 +161,7 @@ class PostListingViewModel: BaseViewModel {
             openPostAbandonAlertNotLoggedIn()
         } else {
             guard let images = state.value.lastImagesUploadResult?.value else {
-                navigator?.cancelPostProduct()
+                navigator?.cancelPostListing()
                 return
             }
             
@@ -170,17 +170,17 @@ class PostListingViewModel: BaseViewModel {
                 if let carParams = makeCarCreationParams(images: images) {
                     listingParams = ListingCreationParams.car(carParams)
                 } else {
-                    navigator?.cancelPostProduct()
+                    navigator?.cancelPostListing()
                 }
             }
             else if let productParams = makeProductCreationParams(images: images) {
                 listingParams = ListingCreationParams.product(productParams)
             } else {
-                navigator?.cancelPostProduct()
+                navigator?.cancelPostListing()
             }
             
             guard let params = listingParams else { return }
-            let trackingInfo = PostProductTrackingInfo(buttonName: .close,
+            let trackingInfo = PostListingTrackingInfo(buttonName: .close,
                                                        sellButtonPosition: postingSource.sellButtonPosition,
                                                        imageSource: uploadedImageSource,
                                                        price: postDetailViewModel.price.value)
@@ -331,7 +331,7 @@ fileprivate extension PostListingViewModel {
         let title = LGLocalizedString.productPostCloseAlertTitle
         let message = LGLocalizedString.productPostCloseAlertDescription
         let cancelAction = UIAction(interface: .text(LGLocalizedString.productPostCloseAlertCloseButton), action: { [weak self] in
-            self?.navigator?.cancelPostProduct()
+            self?.navigator?.cancelPostListing()
         })
         let postAction = UIAction(interface: .text(LGLocalizedString.productPostCloseAlertOkButton), action: { [weak self] in
             self?.postListing()
@@ -340,7 +340,7 @@ fileprivate extension PostListingViewModel {
     }
 
     func postProduct() {
-        let trackingInfo = PostProductTrackingInfo(buttonName: .done, sellButtonPosition: postingSource.sellButtonPosition,
+        let trackingInfo = PostListingTrackingInfo(buttonName: .done, sellButtonPosition: postingSource.sellButtonPosition,
                                                    imageSource: uploadedImageSource, price: postDetailViewModel.price.value)
         if sessionManager.loggedIn {
             guard let images = state.value.lastImagesUploadResult?.value,
@@ -360,12 +360,12 @@ fileprivate extension PostListingViewModel {
             }
             navigator?.openLoginIfNeededFromProductPosted(from: .sell, loggedInAction: loggedInAction, cancelAction: cancelAction)
         } else {
-            navigator?.cancelPostProduct()
+            navigator?.cancelPostListing()
         }
     }
     
     func postCar() {
-        let trackingInfo = PostProductTrackingInfo(buttonName: .done, sellButtonPosition: postingSource.sellButtonPosition,
+        let trackingInfo = PostListingTrackingInfo(buttonName: .done, sellButtonPosition: postingSource.sellButtonPosition,
                                                    imageSource: uploadedImageSource, price: postDetailViewModel.price.value)
         if sessionManager.loggedIn {
             guard let images = state.value.lastImagesUploadResult?.value,
@@ -381,11 +381,11 @@ fileprivate extension PostListingViewModel {
             }
             let cancelAction = { [weak self] in
                 guard let _ = self?.state.value else { return }
-                self?.navigator?.cancelPostProduct()
+                self?.navigator?.cancelPostListing()
             }
             navigator?.openLoginIfNeededFromProductPosted(from: .sell, loggedInAction: loggedInAction, cancelAction: cancelAction)
         } else {
-            navigator?.cancelPostProduct()
+            navigator?.cancelPostListing()
         }
     }
     
@@ -457,14 +457,14 @@ extension PostingSource {
             return .onboarding
         case .notifications:
             return .notifications
-        case .deleteProduct:
+        case .deleteListing:
             return .listingDelete
         }
     }
 
     var buttonName: EventParameterButtonNameType? {
         switch self {
-        case .tabBar, .sellButton, .deepLink, .notifications, .deleteProduct:
+        case .tabBar, .sellButton, .deepLink, .notifications, .deleteListing:
             return nil
         case .onboardingButton:
             return .sellYourStuff
@@ -478,7 +478,7 @@ extension PostingSource {
             return .tabBar
         case .sellButton:
             return .floatingButton
-        case .onboardingButton, .onboardingCamera, .deepLink, .notifications, .deleteProduct:
+        case .onboardingButton, .onboardingCamera, .deepLink, .notifications, .deleteListing:
             return .none
         }
     }

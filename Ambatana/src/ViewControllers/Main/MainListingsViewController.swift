@@ -36,7 +36,7 @@ enum SearchSuggestionType {
     }
 }
 
-class MainProductsViewController: BaseViewController, ListingListViewScrollDelegate, MainListingsViewModelDelegate,
+class MainListingsViewController: BaseViewController, ListingListViewScrollDelegate, MainListingsViewModelDelegate,
     FilterTagsViewControllerDelegate, UITextFieldDelegate, ScrollableToTop {
     
     // ViewModel
@@ -94,7 +94,7 @@ class MainProductsViewController: BaseViewController, ListingListViewScrollDeleg
     // MARK: - Lifecycle
 
     convenience init(viewModel: MainListingsViewModel) {
-        self.init(viewModel: viewModel, nibName: "MainProductsViewController")
+        self.init(viewModel: viewModel, nibName: "MainListingsViewController")
     }
     
     required init(viewModel: MainListingsViewModel, nibName nibNameOrNil: String?) {
@@ -383,10 +383,10 @@ class MainProductsViewController: BaseViewController, ListingListViewScrollDeleg
             tagsCollectionView.isHidden = false
         }
 
-        tagsCollectionHeightConstraint.constant = show ? MainProductsViewController.filterTagsViewHeight : 0
+        tagsCollectionHeightConstraint.constant = show ? MainListingsViewController.filterTagsViewHeight : 0
         if updateInsets {
             topInset.value = show ?
-                topBarHeight + MainProductsViewController.filterTagsViewHeight + filterHeadersHeight
+                topBarHeight + MainListingsViewController.filterTagsViewHeight + filterHeadersHeight
                 : topBarHeight
         }
         view.layoutIfNeeded()
@@ -443,14 +443,14 @@ class MainProductsViewController: BaseViewController, ListingListViewScrollDeleg
         }.bindNext { [weak self] filterTitle in
             guard let strongSelf = self else { return }
             strongSelf.filterTitleHeaderView.text = filterTitle
-            let tagsHeight = strongSelf.tagsShowing ? MainProductsViewController.filterTagsViewHeight : 0
+            let tagsHeight = strongSelf.tagsShowing ? MainListingsViewController.filterTagsViewHeight : 0
             strongSelf.topInset.value = strongSelf.topBarHeight + tagsHeight + strongSelf.filterHeadersHeight
         }.addDisposableTo(disposeBag)
 
         viewModel.filterDescription.asObservable().bindNext { [weak self] filterDescr in
             guard let strongSelf = self else { return }
             strongSelf.filterDescriptionHeaderView.text = filterDescr
-            let tagsHeight = strongSelf.tagsShowing ? MainProductsViewController.filterTagsViewHeight : 0
+            let tagsHeight = strongSelf.tagsShowing ? MainListingsViewController.filterTagsViewHeight : 0
             strongSelf.topInset.value = strongSelf.topBarHeight + tagsHeight + strongSelf.filterHeadersHeight
         }.addDisposableTo(disposeBag)
         
@@ -473,7 +473,7 @@ class MainProductsViewController: BaseViewController, ListingListViewScrollDeleg
 
 // MARK: - ListingListViewHeaderDelegate
 
-extension MainProductsViewController: ListingListViewHeaderDelegate, PushPermissionsHeaderDelegate {
+extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermissionsHeaderDelegate {
 
     func totalHeaderHeight() -> CGFloat {
         var totalHeight: CGFloat = 0
@@ -526,7 +526,7 @@ extension MainProductsViewController: ListingListViewHeaderDelegate, PushPermiss
 
 // MARK: - Trending searches
 
-extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource {
+extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource {
 
     func setupSuggestionsTable() {
         suggestionsSearchesTable.register(UINib(nibName: SuggestionSearchCell.reusableID, bundle: nil),
@@ -696,7 +696,7 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
 }
 
 
-extension MainProductsViewController {
+extension MainListingsViewController {
     func setAccessibilityIds() {
         navigationItem.rightBarButtonItem?.accessibilityId = .mainListingsFilterButton
         listingListView.accessibilityId = .mainListingsListView

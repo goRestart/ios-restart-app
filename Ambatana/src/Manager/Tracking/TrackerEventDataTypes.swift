@@ -549,7 +549,7 @@ enum EventParameterLoginError {
     }
 }
 
-enum EventParameterPostProductError {
+enum EventParameterPostListingError {
     case network
     case internalError
     case forbidden(cause: ForbiddenCause)

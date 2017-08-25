@@ -48,7 +48,7 @@ func ==(a: FilterPriceRange, b: FilterPriceRange) -> Bool {
     }
 }
 
-struct ProductFilters {
+struct ListingFilters {
     
     var place: Place?
     var distanceRadius: Int?
@@ -164,8 +164,8 @@ extension Place: Equatable {
     }
 }
 
-extension ProductFilters: Equatable {
-    static func ==(a: ProductFilters, b: ProductFilters) -> Bool {
+extension ListingFilters: Equatable {
+    static func ==(a: ListingFilters, b: ListingFilters) -> Bool {
         guard a.selectedTaxonomyChildren.count == b.selectedTaxonomyChildren.count else { return false }
         for (index, element) in a.selectedTaxonomyChildren.enumerated() {
             guard element == b.selectedTaxonomyChildren[index] else { return false }
