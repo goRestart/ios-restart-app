@@ -875,7 +875,6 @@ fileprivate extension AppCoordinator {
     }
 
     func openMyUserRatings() {
-        guard featureFlags.userReviews else { return }
         guard let navCtl = selectedNavigationController else { return }
 
         guard let myUserId = myUserRepository.myUser?.objectId else { return }
@@ -888,7 +887,6 @@ fileprivate extension AppCoordinator {
     }
 
     func openUserRatingForUserFromRating(_ ratingId: String) {
-        guard featureFlags.userReviews else { return }
         guard let navCtl = selectedNavigationController else { return }
 
         navCtl.showLoadingMessageAlert()

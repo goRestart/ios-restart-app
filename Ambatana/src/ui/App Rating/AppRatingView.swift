@@ -55,7 +55,7 @@ class AppRatingView: UIView {
     
     @IBAction func ratePressed(_ sender: AnyObject) {
         userRatesOrGivesFeedback()
-        if let tag = (sender as? UIButton)?.tag {
+        if let _ = (sender as? UIButton)?.tag {
             let trackerEvent = TrackerEvent.appRatingRate()
             TrackerProxy.sharedInstance.trackEvent(trackerEvent)
         }

@@ -14,7 +14,6 @@ extension Bumper  {
     static func initialize() {
         var flags = [BumperFeature.Type]()
         flags.append(WebsocketChat.self)
-        flags.append(UserReviews.self)
         flags.append(ShowNPSSurvey.self)
         flags.append(SurveyEnabled.self)
         flags.append(FreeBumpUpEnabled.self)
@@ -23,7 +22,6 @@ extension Bumper  {
         flags.append(PassiveBuyersShowKeyboard.self)
         flags.append(ProductDetailNextRelated.self)
         flags.append(NewMarkAsSoldFlow.self)
-        flags.append(EditLocationBubble.self)
         flags.append(NewCarsMultiRequesterEnabled.self)
         flags.append(NewCarouselNavigationEnabled.self)
         flags.append(NewOnboardingPhase1.self)
@@ -31,6 +29,7 @@ extension Bumper  {
         flags.append(InAppRatingIOS10.self)
         flags.append(SuggestedSearches.self)
         flags.append(AddSuperKeywordsOnFeed.self)
+        flags.append(SuperKeywordsOnOnboarding.self)
         flags.append(CopiesImprovementOnboarding.self)
         flags.append(BumpUpImprovementBanner.self)
         flags.append(OpenGalleryInPosting.self)
@@ -42,11 +41,6 @@ extension Bumper  {
     static var websocketChat: Bool {
         guard let value = Bumper.value(for: WebsocketChat.key) else { return false }
         return WebsocketChat(rawValue: value)?.asBool ?? false
-    }
-
-    static var userReviews: Bool {
-        guard let value = Bumper.value(for: UserReviews.key) else { return true }
-        return UserReviews(rawValue: value)?.asBool ?? true
     }
 
     static var showNPSSurvey: Bool {
@@ -89,11 +83,6 @@ extension Bumper  {
         return NewMarkAsSoldFlow(rawValue: value)?.asBool ?? false
     }
 
-    static var editLocationBubble: EditLocationBubble {
-        guard let value = Bumper.value(for: EditLocationBubble.key) else { return .inactive }
-        return EditLocationBubble(rawValue: value) ?? .inactive 
-    }
-
     static var newCarsMultiRequesterEnabled: Bool {
         guard let value = Bumper.value(for: NewCarsMultiRequesterEnabled.key) else { return false }
         return NewCarsMultiRequesterEnabled(rawValue: value)?.asBool ?? false
@@ -129,6 +118,11 @@ extension Bumper  {
         return AddSuperKeywordsOnFeed(rawValue: value) ?? .control 
     }
 
+    static var superKeywordsOnOnboarding: SuperKeywordsOnOnboarding {
+        guard let value = Bumper.value(for: SuperKeywordsOnOnboarding.key) else { return .control }
+        return SuperKeywordsOnOnboarding(rawValue: value) ?? .control 
+    }
+
     static var copiesImprovementOnboarding: CopiesImprovementOnboarding {
         guard let value = Bumper.value(for: CopiesImprovementOnboarding.key) else { return .control }
         return CopiesImprovementOnboarding(rawValue: value) ?? .control 
@@ -162,15 +156,6 @@ enum WebsocketChat: String, BumperFeature  {
     static var enumValues: [WebsocketChat] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "New Websocket Chat" } 
-    var asBool: Bool { return self == .yes }
-}
-
-enum UserReviews: String, BumperFeature  {
-    case yes, no
-    static var defaultValue: String { return UserReviews.yes.rawValue }
-    static var enumValues: [UserReviews] { return [.yes, .no]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "User Reviews Feature" } 
     var asBool: Bool { return self == .yes }
 }
 
@@ -244,22 +229,6 @@ enum NewMarkAsSoldFlow: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "New mark as sold flow active. alert + showing buyer list" } 
     var asBool: Bool { return self == .yes }
-}
-
-enum EditLocationBubble: String, BumperFeature  {
-    case inactive, map, zipCode
-    static var defaultValue: String { return EditLocationBubble.inactive.rawValue }
-    static var enumValues: [EditLocationBubble] { return [.inactive, .map, .zipCode]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Location Edit A/B/C" } 
-    static func fromPosition(_ position: Int) -> EditLocationBubble {
-        switch position { 
-            case 0: return .inactive
-            case 1: return .map
-            case 2: return .zipCode
-            default: return .inactive
-        }
-    }
 }
 
 enum NewCarsMultiRequesterEnabled: String, BumperFeature  {
@@ -341,6 +310,22 @@ enum AddSuperKeywordsOnFeed: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Add super keywords in feed and filters" } 
     static func fromPosition(_ position: Int) -> AddSuperKeywordsOnFeed {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum SuperKeywordsOnOnboarding: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return SuperKeywordsOnOnboarding.control.rawValue }
+    static var enumValues: [SuperKeywordsOnOnboarding] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Add a step to select categories on onboarding" } 
+    static func fromPosition(_ position: Int) -> SuperKeywordsOnOnboarding {
         switch position { 
             case 0: return .control
             case 1: return .baseline

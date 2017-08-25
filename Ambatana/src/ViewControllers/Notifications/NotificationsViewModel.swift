@@ -167,7 +167,6 @@ fileprivate extension NotificationsViewModel {
     func buildNotification(_ notification: NotificationModel) -> NotificationData? {
         switch notification.type {
         case let .rating(user, _, _):
-            guard featureFlags.userReviews else { return nil }
             return NotificationData(id: notification.objectId,
                                     type: .rating(user: user),
                                     date: notification.createdAt, isRead: notification.isRead,
@@ -176,7 +175,6 @@ fileprivate extension NotificationsViewModel {
                                         self?.navigator?.openMyRatingList()
                                     })
         case let .ratingUpdated(user, _, _):
-            guard featureFlags.userReviews else { return nil }
             return NotificationData(id: notification.objectId,
                                     type: .ratingUpdated(user: user),
                                     date: notification.createdAt, isRead: notification.isRead,

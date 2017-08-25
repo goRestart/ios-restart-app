@@ -6,11 +6,6 @@
 		"description": "New Websocket Chat"
 	},
     {
-        "name": "UserReviews",
-        "values": ["Yes", "No"],
-        "description": "User Reviews Feature"
-	},
-    {
 		"name": "ShowNPSSurvey",
 		"values": ["No", "Yes"],
 		"description": "Show nps survey"
@@ -51,11 +46,6 @@
         "description": "New mark as sold flow active. alert + showing buyer list"
     },
     {
-        "name": "EditLocationBubble",
-        "values": ["inactive", "map", "zipCode"],
-        "description": "Location Edit A/B/C"
-    },
-    {
         "name": "NewCarsMultiRequesterEnabled",
         "values": ["no", "yes"],
         "description": "Cars multi requester enabled"
@@ -89,6 +79,11 @@
         "name": "AddSuperKeywordsOnFeed",
         "values": ["control", "baseline", "active"],
         "description": "Add super keywords in feed and filters"
+    },
+    {
+        "name": "SuperKeywordsOnOnboarding",
+        "values": ["control", "baseline", "active"],
+        "description": "Add a step to select categories on onboarding"
     },
     {
         "name": "CopiesImprovementOnboarding",
