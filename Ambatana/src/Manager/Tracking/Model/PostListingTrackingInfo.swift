@@ -1,12 +1,12 @@
 //
-//  PostProductTrackingInfo.swift
+//  PostListingTrackingInfo.swift
 //  LetGo
 //
 //  Created by Eli Kohen on 10/04/2017.
 //  Copyright © 2017 Ambatana. All rights reserved.
 //
 
-struct PostProductTrackingInfo {
+struct PostListingTrackingInfo {
     var buttonName: EventParameterButtonNameType
     var sellButtonPosition: EventParameterSellButtonPosition
     var imageSource: EventParameterPictureSource
