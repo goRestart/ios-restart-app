@@ -291,7 +291,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.numberOfProducts
+        return viewModel.numberOfListings
     }
 
     func collectionView(_ collectionView: UICollectionView,
@@ -497,7 +497,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         }
         footer.retryButtonBlock = { [weak self] in
             if let strongSelf = self {
-                strongSelf.viewModel.retrieveProductsNextPage()
+                strongSelf.viewModel.retrieveListingsNextPage()
                 strongSelf.reloadData()
             }
         }

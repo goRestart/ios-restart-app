@@ -49,7 +49,7 @@ class BumpUpPayViewController: BaseViewController {
     func setupUI() {
 
         if let imageUrl = viewModel.listing.images.first?.fileURL {
-            productImageView.lg_setImageWithURL(imageUrl, placeholderImage: nil, completion: {
+            listingImageView.lg_setImageWithURL(imageUrl, placeholderImage: nil, completion: {
                 [weak self] (result, url) -> Void in
                 if let _ = result.value {
                     self?.titleVerticalCenterConstraint.constant = BumpUpPayViewController.titleVerticalOffsetWithImage
@@ -64,7 +64,7 @@ class BumpUpPayViewController: BaseViewController {
             imageContainer.isHidden = true
         }
 
-        productImageView.layer.cornerRadius = LGUIKitConstants.listingCellCornerRadius
+        listingImageView.layer.cornerRadius = LGUIKitConstants.listingCellCornerRadius
         titleLabel.text = LGLocalizedString.bumpUpViewPayTitle
         subtitleLabel.text = LGLocalizedString.bumpUpViewPaySubtitle
 
@@ -94,7 +94,7 @@ class BumpUpPayViewController: BaseViewController {
 
     private func setAccessibilityIds() {
         closeButton.accessibilityId = .paymentBumpUpCloseButton
-        productImageView.accessibilityId = .paymentBumpUpImage
+        listingImageView.accessibilityId = .paymentBumpUpImage
         titleLabel.accessibilityId = .paymentBumpUpTitleLabel
         subtitleLabel.accessibilityId = .paymentBumpUpSubtitleLabel
         bumpUpButton.accessibilityId = .paymentBumpUpButton

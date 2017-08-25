@@ -579,7 +579,7 @@ fileprivate extension UserViewModel {
 // MARK: - ListingListViewModelDataDelegate
 
 extension UserViewModel: ListingListViewModelDataDelegate {
-    func productListMV(_ viewModel: ListingListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
+    func listingListMV(_ viewModel: ListingListViewModel, didFailRetrievingListingsPage page: UInt, hasListings hasProducts: Bool,
                        error: RepositoryError) {
         guard page == 0 && !hasProducts else { return }
         
@@ -590,7 +590,7 @@ extension UserViewModel: ListingListViewModelDataDelegate {
         }
     }
     
-    func productListVM(_ viewModel: ListingListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool) {
+    func listingListVM(_ viewModel: ListingListViewModel, didSucceedRetrievingListingsPage page: UInt, hasProducts: Bool) {
         guard page == 0 && !hasProducts else { return }
         
         let errTitle: String?
@@ -614,7 +614,7 @@ extension UserViewModel: ListingListViewModelDataDelegate {
         viewModel.setEmptyState(emptyViewModel)
     }
     
-    func productListVM(_ viewModel: ListingListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
+    func listingListVM(_ viewModel: ListingListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
                        originFrame: CGRect?) {
         guard viewModel === listingListViewModel.value else { return } //guarding view model is the selected one
         guard let listing = viewModel.listingAtIndex(index), let requester = viewModel.listingListRequester else { return }

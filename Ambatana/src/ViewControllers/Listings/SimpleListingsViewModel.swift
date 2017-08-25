@@ -80,14 +80,14 @@ class SimpleListingsViewModel: BaseViewModel {
 
 
 extension SimpleListingsViewModel: ListingListViewModelDataDelegate {
-    func productListMV(_ viewModel: ListingListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
+    func listingListMV(_ viewModel: ListingListViewModel, didFailRetrievingListingsPage page: UInt, hasListings hasProducts: Bool,
                        error: RepositoryError) {
 
     }
-    func productListVM(_ viewModel: ListingListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool) {
+    func listingListVM(_ viewModel: ListingListViewModel, didSucceedRetrievingListingsPage page: UInt, hasListings hasProducts: Bool) {
 
     }
-    func productListVM(_ viewModel: ListingListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
+    func listingListVM(_ viewModel: ListingListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
                        originFrame: CGRect?) {
         guard let listing = viewModel.listingAtIndex(index) else { return }
         let cellModels = viewModel.objects

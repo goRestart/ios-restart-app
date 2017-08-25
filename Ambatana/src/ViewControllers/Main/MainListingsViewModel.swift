@@ -249,7 +249,7 @@ class MainListingsViewModel: BaseViewModel {
                                                                                         multiRequesterEnabled: featureFlags.newCarsMultiRequesterEnabled)
         self.listViewModel = ListingListViewModel(requester: self.listingListRequester, listings: nil,
                                                   numberOfColumns: columns, tracker: tracker)
-        self.listViewModel.productListFixedInset = show3Columns ? 6 : 10
+        self.listViewModel.listingListFixedInset = show3Columns ? 6 : 10
 
         if let search = searchType, !search.isCollection && !search.query.isEmpty {
             self.shouldTrackSearch = true
@@ -480,7 +480,7 @@ class MainListingsViewModel: BaseViewModel {
     }
    
     private func setupRx() {
-        listViewModel.isProductListEmpty.asObservable().bindNext { [weak self] _ in
+        listViewModel.isListingListEmpty.asObservable().bindNext { [weak self] _ in
             self?.updateCategoriesHeader()
         }.addDisposableTo(disposeBag)
         keyValueStorage.favoriteCategoriesSelected.asObservable().filter { $0 }.bindNext { [weak self] _ in
@@ -637,8 +637,8 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
 
     // MARK: > ListingListViewModelDataDelegate
 
-    func productListVM(_ viewModel: ListingListViewModel, didSucceedRetrievingProductsPage page: UInt,
-                              hasProducts: Bool) {
+    func listingListVM(_ viewModel: ListingListViewModel, didSucceedRetrievingListingsPage page: UInt,
+                       hasListings hasProducts: Bool) {
 
         trackRequestSuccess(page: page, hasProducts: hasProducts)
         // Only save the string when there is products and we are not searching a collection
@@ -649,7 +649,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         }
         if shouldRetryLoad {
             shouldRetryLoad = false
-            listViewModel.retrieveProducts()
+            listViewModel.retrieveListings()
             return
         }
 
@@ -681,7 +681,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                 filterDescription.value = nil
                 filterTitle.value = nil
             } else {
-                listViewModel.retrieveProductsNextPage()
+                listViewModel.retrieveListingsNextPage()
             }
         }
 
@@ -692,11 +692,11 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         }
     }
 
-    func productListMV(_ viewModel: ListingListViewModel, didFailRetrievingProductsPage page: UInt,
-                              hasProducts: Bool, error: RepositoryError) {
+    func listingListMV(_ viewModel: ListingListViewModel, didFailRetrievingListingsPage page: UInt,
+                              hasListings hasProducts: Bool, error: RepositoryError) {
         if shouldRetryLoad {
             shouldRetryLoad = false
-            listViewModel.retrieveProducts()
+            listViewModel.retrieveListings()
             return
         }
 
@@ -722,7 +722,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         infoBubbleVisible.value = hasProducts && filters.infoBubblePresent
     }
 
-    func productListVM(_ viewModel: ListingListViewModel, didSelectItemAtIndex index: Int,
+    func listingListVM(_ viewModel: ListingListViewModel, didSelectItemAtIndex index: Int,
                        thumbnailImage: UIImage?, originFrame: CGRect?) {
         
         guard let listing = viewModel.listingAtIndex(index) else { return }
@@ -770,11 +770,11 @@ extension MainListingsViewModel {
     }
 
     fileprivate func sessionDidChange() {
-        guard listViewModel.canRetrieveProducts else {
+        guard listViewModel.canRetrieveListings else {
             shouldRetryLoad = true
             return
         }
-        listViewModel.retrieveProducts()
+        listViewModel.retrieveListings()
     }
 
     private func locationDidChange() {
@@ -800,8 +800,8 @@ extension MainListingsViewModel {
     fileprivate func retrieveProductsIfNeededWithNewLocation(_ newLocation: LGLocation) {
 
         var shouldUpdate = false
-        if listViewModel.canRetrieveProducts {
-            if listViewModel.numberOfProducts == 0 {
+        if listViewModel.canRetrieveListings {
+            if listViewModel.numberOfListings == 0 {
                 // 👆🏾 If there are no products, then refresh
                 shouldUpdate = true
             } else if newLocation.type == .manual || lastReceivedLocation?.type == .manual {
@@ -816,7 +816,7 @@ extension MainListingsViewModel {
                 // in case list loaded with older country code and new location is retrieved with new country code"
                 shouldUpdate = true
             }
-        } else if listViewModel.numberOfProducts == 0 {
+        } else if listViewModel.numberOfListings == 0 {
             if lastReceivedLocation?.type != .sensor && newLocation.type == .sensor {
                 // in case the user allows sensors while loading the product list with the iplookup parameters"
                 shouldRetryLoad = true
@@ -827,7 +827,7 @@ extension MainListingsViewModel {
         }
         
         if shouldUpdate {
-            listViewModel.retrieveProducts()
+            listViewModel.retrieveListings()
         }
 
         // Track the received location
@@ -935,7 +935,7 @@ extension MainListingsViewModel {
 extension MainListingsViewModel {
 
     var showCategoriesCollectionBanner: Bool {
-        return tags.isEmpty && !listViewModel.isProductListEmpty.value
+        return tags.isEmpty && !listViewModel.isListingListEmpty.value
     }
 
     func pushPermissionsHeaderPressed() {
