@@ -15,7 +15,7 @@ class BumpUpPayViewController: BaseViewController {
 
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var imageContainer: UIView!
-    @IBOutlet weak var productImageView: UIImageView!
+    @IBOutlet weak var listingImageView: UIImageView!
     @IBOutlet weak var featuredLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!
