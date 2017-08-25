@@ -26,14 +26,14 @@ enum QuickAnswer {
     case freeNotAvailable
     
     // New dynamic quick answers feature flag
-    case stillForSale // Availability. Is it still for sale?
-    case priceFirm // Price. Is the price firm?
-    case priceWillingToNegotiate // Price. Would you be willing to negotiate?
-    case priceAsking // Price. Negotiable only. What's your asking price?
-    case productConditionGood // Condition. Is it in good condition?
-    case productConditionDescribe // Condition. Can you describe the condition?
-    case meetUpWhereYouWant // Meet up. Where do you want to meet up?
-    case meetUpLocated // Meet up. Where are you located?
+    case stillForSale
+    case priceFirm
+    case priceWillingToNegotiate
+    case priceAsking
+    case productConditionGood
+    case productConditionDescribe
+    case meetUpWhereYouWant
+    case meetUpLocated
     
     enum QuickAnswerType: String {
         case availability
