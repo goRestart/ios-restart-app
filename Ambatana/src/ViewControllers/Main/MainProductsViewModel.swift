@@ -1,5 +1,5 @@
 //
-//  MainProductsViewModel.swift
+//  MainListingsViewModel.swift
 //  letgo
 //
 //  Created by AHL on 3/5/15.
@@ -11,19 +11,19 @@ import LGCoreKit
 import Result
 import RxSwift
 
-protocol MainProductsViewModelDelegate: BaseViewModelDelegate {
+protocol MainListingsViewModelDelegate: BaseViewModelDelegate {
     func vmDidSearch()
     func vmShowTags(_ tags: [FilterTag])
     func vmFiltersChanged()
 }
 
-struct MainProductsHeader: OptionSet {
+struct MainListingsHeader: OptionSet {
     let rawValue : Int
     init(rawValue:Int){ self.rawValue = rawValue}
 
-    static let PushPermissions  = MainProductsHeader(rawValue:1)
-    static let SellButton = MainProductsHeader(rawValue:2)
-    static let CategoriesCollectionBanner = MainProductsHeader(rawValue:4)
+    static let PushPermissions  = MainListingsHeader(rawValue:1)
+    static let SellButton = MainListingsHeader(rawValue:2)
+    static let CategoriesCollectionBanner = MainListingsHeader(rawValue:4)
 }
 
 struct SuggestiveSearchInfo {
@@ -40,7 +40,7 @@ struct SuggestiveSearchInfo {
     }
 }
 
-class MainProductsViewModel: BaseViewModel {
+class MainListingsViewModel: BaseViewModel {
     
     // > Input
     var searchString: String? {
@@ -149,7 +149,7 @@ class MainProductsViewModel: BaseViewModel {
         return false
     }
 
-    let mainProductsHeader = Variable<MainProductsHeader>([])
+    let mainListingsHeader = Variable<MainListingsHeader>([])
     let filterTitle = Variable<String?>(nil)
     let filterDescription = Variable<String?>(nil)
 
@@ -174,13 +174,13 @@ class MainProductsViewModel: BaseViewModel {
     fileprivate let featureFlags: FeatureFlaggeable
     
     // > Delegate
-    weak var delegate: MainProductsViewModelDelegate?
+    weak var delegate: MainListingsViewModelDelegate?
 
     // > Navigator
     weak var navigator: MainTabNavigator?
     
     // List VM
-    let listViewModel: ProductListViewModel
+    let listViewModel: ListingListViewModel
     fileprivate var listingListRequester: ListingListMultiRequester
     var currentActiveFilters: ProductFilters? {
         return filters
@@ -247,7 +247,7 @@ class MainProductsViewModel: BaseViewModel {
                                                                                         queryString: searchType?.query,
                                                                                         itemsPerPage: itemsPerPage,
                                                                                         multiRequesterEnabled: featureFlags.newCarsMultiRequesterEnabled)
-        self.listViewModel = ProductListViewModel(requester: self.listingListRequester, listings: nil,
+        self.listViewModel = ListingListViewModel(requester: self.listingListRequester, listings: nil,
                                                   numberOfColumns: columns, tracker: tracker)
         self.listViewModel.productListFixedInset = show3Columns ? 6 : 10
 
@@ -493,8 +493,8 @@ class MainProductsViewModel: BaseViewModel {
     
         - returns: A view model for search.
     */
-    private func viewModelForSearch(_ searchType: SearchType) -> MainProductsViewModel {
-        return MainProductsViewModel(searchType: searchType, filters: filters)
+    private func viewModelForSearch(_ searchType: SearchType) -> MainListingsViewModel {
+        return MainListingsViewModel(searchType: searchType, filters: filters)
     }
     
     fileprivate func updateListView() {
@@ -564,7 +564,7 @@ class MainProductsViewModel: BaseViewModel {
 
 // MARK: - FiltersViewModelDataDelegate
 
-extension MainProductsViewModel: FiltersViewModelDataDelegate {
+extension MainListingsViewModel: FiltersViewModelDataDelegate {
 
     func viewModelDidUpdateFilters(_ viewModel: FiltersViewModel, filters: ProductFilters) {
         self.filters = filters
@@ -577,7 +577,7 @@ extension MainProductsViewModel: FiltersViewModelDataDelegate {
 
 // MARK: - ProductListView
 
-extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListViewCellsDelegate {
+extension MainListingsViewModel: ListingListViewModelDataDelegate, ProductListViewCellsDelegate {
 
     func setupProductList() {
         listViewModel.dataDelegate = self
@@ -635,9 +635,9 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
     }
     
 
-    // MARK: > ProductListViewModelDataDelegate
+    // MARK: > ListingListViewModelDataDelegate
 
-    func productListVM(_ viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt,
+    func productListVM(_ viewModel: ListingListViewModel, didSucceedRetrievingProductsPage page: UInt,
                               hasProducts: Bool) {
 
         trackRequestSuccess(page: page, hasProducts: hasProducts)
@@ -692,7 +692,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
         }
     }
 
-    func productListMV(_ viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt,
+    func productListMV(_ viewModel: ListingListViewModel, didFailRetrievingProductsPage page: UInt,
                               hasProducts: Bool, error: RepositoryError) {
         if shouldRetryLoad {
             shouldRetryLoad = false
@@ -722,7 +722,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
         infoBubbleVisible.value = hasProducts && filters.infoBubblePresent
     }
 
-    func productListVM(_ viewModel: ProductListViewModel, didSelectItemAtIndex index: Int,
+    func productListVM(_ viewModel: ListingListViewModel, didSelectItemAtIndex index: Int,
                        thumbnailImage: UIImage?, originFrame: CGRect?) {
         
         guard let listing = viewModel.listingAtIndex(index) else { return }
@@ -761,7 +761,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate, ProductListVi
 
 // MARK: - Session & Location handling
 
-extension MainProductsViewModel {
+extension MainListingsViewModel {
     fileprivate func setupSessionAndLocation() {
         sessionManager.sessionEvents.bindNext { [weak self] _ in self?.sessionDidChange() }.addDisposableTo(disposeBag)
         locationManager.locationEvents.filter { $0 == .locationUpdate }.bindNext { [weak self] _ in
@@ -838,7 +838,7 @@ extension MainProductsViewModel {
 
 // MARK: - Suggestions searches
 
-extension MainProductsViewModel {
+extension MainListingsViewModel {
 
     func trendingSearchAtIndex(_ index: Int) -> String? {
         guard  0..<trendingSearches.value.count ~= index else { return nil }
@@ -932,7 +932,7 @@ extension MainProductsViewModel {
 
 // MARK: Push Permissions
 
-extension MainProductsViewModel {
+extension MainListingsViewModel {
 
     var showCategoriesCollectionBanner: Bool {
         return tags.isEmpty && !listViewModel.isProductListEmpty.value
@@ -948,25 +948,25 @@ extension MainProductsViewModel {
     }
 
     fileprivate dynamic func updatePermissionsWarning() {
-        var currentHeader = mainProductsHeader.value
+        var currentHeader = mainListingsHeader.value
         if UIApplication.shared.areRemoteNotificationsEnabled {
-            currentHeader.remove(MainProductsHeader.PushPermissions)
+            currentHeader.remove(MainListingsHeader.PushPermissions)
         } else {
-            currentHeader.insert(MainProductsHeader.PushPermissions)
+            currentHeader.insert(MainListingsHeader.PushPermissions)
         }
-        guard mainProductsHeader.value != currentHeader else { return }
-        mainProductsHeader.value = currentHeader
+        guard mainListingsHeader.value != currentHeader else { return }
+        mainListingsHeader.value = currentHeader
     }
     
     fileprivate dynamic func updateCategoriesHeader() {
-        var currentHeader = mainProductsHeader.value
+        var currentHeader = mainListingsHeader.value
         if showCategoriesCollectionBanner {
-            currentHeader.insert(MainProductsHeader.CategoriesCollectionBanner)
+            currentHeader.insert(MainListingsHeader.CategoriesCollectionBanner)
         } else {
-            currentHeader.remove(MainProductsHeader.CategoriesCollectionBanner)
+            currentHeader.remove(MainListingsHeader.CategoriesCollectionBanner)
         }
-        guard mainProductsHeader.value != currentHeader else { return }
-        mainProductsHeader.value = currentHeader
+        guard mainListingsHeader.value != currentHeader else { return }
+        mainListingsHeader.value = currentHeader
     }
 
     private func openPushPermissionsAlert() {
@@ -1007,7 +1007,7 @@ fileprivate extension ProductFilters {
 
 // MARK: - Queries for Collections
 
-fileprivate extension MainProductsViewModel {
+fileprivate extension MainListingsViewModel {
     func queryForCollection(_ type: CollectionCellType) -> String {
         var query: String
         switch type {
@@ -1022,7 +1022,7 @@ fileprivate extension MainProductsViewModel {
 
 // MARK: - Tracking
 
-fileprivate extension MainProductsViewModel {
+fileprivate extension MainListingsViewModel {
 
     var listingVisitSource: EventParameterListingVisitSource {
         if let searchType = searchType {
@@ -1114,7 +1114,7 @@ fileprivate extension MainProductsViewModel {
 }
 
 
-extension MainProductsViewModel: EditLocationDelegate {
+extension MainListingsViewModel: EditLocationDelegate {
     func editLocationDidSelectPlace(_ place: Place, distanceRadius: Int?) {
         filters.place = place
         filters.distanceRadius = distanceRadius
@@ -1126,7 +1126,7 @@ extension MainProductsViewModel: EditLocationDelegate {
 
 //MARK: CategoriesHeaderCollectionViewDelegate
 
-extension MainProductsViewModel: CategoriesHeaderCollectionViewDelegate {
+extension MainListingsViewModel: CategoriesHeaderCollectionViewDelegate {
     func openTaxonomyList() {
         let vm = TaxonomiesViewModel(taxonomies: getTaxonomies(), source: .listingList)
         vm.taxonomiesDelegate = self
@@ -1137,7 +1137,7 @@ extension MainProductsViewModel: CategoriesHeaderCollectionViewDelegate {
 
 // MARK: TaxonomiesDelegate
 
-extension MainProductsViewModel: TaxonomiesDelegate {
+extension MainListingsViewModel: TaxonomiesDelegate {
     func didSelectTaxonomyChild(taxonomyChild: TaxonomyChild) {
         filters.selectedTaxonomyChildren = [taxonomyChild]
         delegate?.vmShowTags(tags)

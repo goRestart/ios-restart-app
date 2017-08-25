@@ -188,7 +188,7 @@ struct ListingSocialMessage: SocialMessage {
 
     private var letgoUrl: URL? {
         guard !listingId.isEmpty else { return LetgoURLHelper.buildHomeURL() }
-        return LetgoURLHelper.buildProductURL(productId: listingId)
+        return LetgoURLHelper.buildProductURL(listingId: listingId)
     }
 
     private var branchObject: BranchUniversalObject {

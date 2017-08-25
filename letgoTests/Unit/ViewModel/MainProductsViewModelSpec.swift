@@ -1,5 +1,5 @@
 //
-//  MainProductsViewModel.swift
+//  MainListingsViewModel.swift
 //  LetGo
 //
 //  Created by Juan Iglesias on 18/11/16.
@@ -12,12 +12,12 @@ import Quick
 import Nimble
 
 
-class MainProductsViewModelSpec: QuickSpec {
+class MainListingsViewModelSpec: QuickSpec {
     override func spec() {
         
-        describe("MainProductsViewModelSpec") {
+        describe("MainListingsViewModelSpec") {
             
-            var sut: MainProductsViewModel!
+            var sut: MainListingsViewModel!
             var keyValueStorage: KeyValueStorage!
             var filters: ProductFilters!
             var mockFeatureFlags: MockFeatureFlags!
@@ -31,12 +31,12 @@ class MainProductsViewModelSpec: QuickSpec {
             context("Initialization") {
                 it("has firstDate nil (first time in Letgo)") {
                     keyValueStorage[.sessionNumber] = 1
-                    sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, searchRepository: Core.searchRepository, listingRepository: Core.listingRepository, monetizationRepository: Core.monetizationRepository, categoryRepository: Core.categoryRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: TrackerProxy.sharedInstance, filters: filters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags, bubbleTextGenerator: DistanceBubbleTextGenerator())
+                    sut = MainListingsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, searchRepository: Core.searchRepository, listingRepository: Core.listingRepository, monetizationRepository: Core.monetizationRepository, categoryRepository: Core.categoryRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: TrackerProxy.sharedInstance, filters: filters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags, bubbleTextGenerator: DistanceBubbleTextGenerator())
                     expect(sut.currentActiveFilters?.selectedCategories) == []
                 }
                 it("has firstDate no nil (more than one time in Letgo)") {
                     keyValueStorage[.sessionNumber] =  2
-                    sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, searchRepository: Core.searchRepository, listingRepository: Core.listingRepository, monetizationRepository: Core.monetizationRepository, categoryRepository: Core.categoryRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: TrackerProxy.sharedInstance, filters: filters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags, bubbleTextGenerator: DistanceBubbleTextGenerator())
+                    sut = MainListingsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, searchRepository: Core.searchRepository, listingRepository: Core.listingRepository, monetizationRepository: Core.monetizationRepository, categoryRepository: Core.categoryRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: TrackerProxy.sharedInstance, filters: filters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags, bubbleTextGenerator: DistanceBubbleTextGenerator())
                     expect(sut.currentActiveFilters?.selectedCategories) == []
                 }
             }
@@ -53,7 +53,7 @@ class MainProductsViewModelSpec: QuickSpec {
                 }
                 beforeEach {
                     keyValueStorage[.sessionNumber] = 1
-                    sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, searchRepository: Core.searchRepository, listingRepository: Core.listingRepository, monetizationRepository: Core.monetizationRepository, categoryRepository: Core.categoryRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: TrackerProxy.sharedInstance, filters: filters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags, bubbleTextGenerator: DistanceBubbleTextGenerator())
+                    sut = MainListingsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, searchRepository: Core.searchRepository, listingRepository: Core.listingRepository, monetizationRepository: Core.monetizationRepository, categoryRepository: Core.categoryRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: TrackerProxy.sharedInstance, filters: filters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags, bubbleTextGenerator: DistanceBubbleTextGenerator())
                 }
                 context("when user set some filters") {
                     
@@ -87,11 +87,11 @@ class MainProductsViewModelSpec: QuickSpec {
             
             context("Product list VM succeeded retrieving products") {
                 var mockTracker: MockTracker!
-                var productListViewModel: ProductListViewModel!
+                var listingListViewModel: ListingListViewModel!
                 
                 beforeEach {
                     mockTracker = MockTracker()
-                    productListViewModel = ProductListViewModel(requester: MockListingListRequester(canRetrieve: true, offset: 0, pageSize: 20))
+                    listingListViewModel = ListingListViewModel(requester: MockListingListRequester(canRetrieve: true, offset: 0, pageSize: 20))
                 }
                
                 context("with no filter and no search") {
@@ -100,8 +100,8 @@ class MainProductsViewModelSpec: QuickSpec {
                         userFilters.selectedCategories = []
                         let searchType: SearchType? = nil
                 
-                        sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, searchRepository: Core.searchRepository, listingRepository: Core.listingRepository, monetizationRepository: Core.monetizationRepository, categoryRepository: Core.categoryRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: mockTracker, searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags, bubbleTextGenerator: DistanceBubbleTextGenerator())
-                        sut.productListVM(productListViewModel, didSucceedRetrievingProductsPage: 0, hasProducts: true)
+                        sut = MainListingsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, searchRepository: Core.searchRepository, listingRepository: Core.listingRepository, monetizationRepository: Core.monetizationRepository, categoryRepository: Core.categoryRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: mockTracker, searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags, bubbleTextGenerator: DistanceBubbleTextGenerator())
+                        sut.productListVM(listingListViewModel, didSucceedRetrievingProductsPage: 0, hasProducts: true)
                     }
                     it("fires product list event") {
                         let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
@@ -119,8 +119,8 @@ class MainProductsViewModelSpec: QuickSpec {
                         userFilters.selectedCategories = []
                         let searchType: SearchType = .user(query: "iphone")
                         
-                        sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, searchRepository: Core.searchRepository, listingRepository: Core.listingRepository, monetizationRepository: Core.monetizationRepository, categoryRepository: Core.categoryRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: mockTracker, searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags, bubbleTextGenerator: DistanceBubbleTextGenerator())
-                        sut.productListVM(productListViewModel, didSucceedRetrievingProductsPage: 0, hasProducts: true)
+                        sut = MainListingsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, searchRepository: Core.searchRepository, listingRepository: Core.listingRepository, monetizationRepository: Core.monetizationRepository, categoryRepository: Core.categoryRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: mockTracker, searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags, bubbleTextGenerator: DistanceBubbleTextGenerator())
+                        sut.productListVM(listingListViewModel, didSucceedRetrievingProductsPage: 0, hasProducts: true)
                     }
                     it("fires listing list event and search complete") {
                         let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
@@ -137,8 +137,8 @@ class MainProductsViewModelSpec: QuickSpec {
                         var userFilters = ProductFilters()
                         userFilters.selectedCategories = [.motorsAndAccessories]
                         let searchType: SearchType? = nil
-                        sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, searchRepository: Core.searchRepository, listingRepository: Core.listingRepository, monetizationRepository: Core.monetizationRepository, categoryRepository: Core.categoryRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: mockTracker, searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags, bubbleTextGenerator: DistanceBubbleTextGenerator())
-                        sut.productListVM(productListViewModel, didSucceedRetrievingProductsPage: 0, hasProducts: true)
+                        sut = MainListingsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, searchRepository: Core.searchRepository, listingRepository: Core.listingRepository, monetizationRepository: Core.monetizationRepository, categoryRepository: Core.categoryRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: mockTracker, searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags, bubbleTextGenerator: DistanceBubbleTextGenerator())
+                        sut.productListVM(listingListViewModel, didSucceedRetrievingProductsPage: 0, hasProducts: true)
                     }
                     it("fires product list event") {
                         let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
@@ -155,8 +155,8 @@ class MainProductsViewModelSpec: QuickSpec {
                         var userFilters = ProductFilters()
                         userFilters.selectedCategories = [.motorsAndAccessories]
                         let searchType: SearchType = .user(query: "iphone")
-                        sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, searchRepository: Core.searchRepository, listingRepository: Core.listingRepository, monetizationRepository: Core.monetizationRepository, categoryRepository: Core.categoryRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: mockTracker, searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags, bubbleTextGenerator: DistanceBubbleTextGenerator())
-                        sut.productListVM(productListViewModel, didSucceedRetrievingProductsPage: 0, hasProducts: true)
+                        sut = MainListingsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, searchRepository: Core.searchRepository, listingRepository: Core.listingRepository, monetizationRepository: Core.monetizationRepository, categoryRepository: Core.categoryRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: mockTracker, searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags, bubbleTextGenerator: DistanceBubbleTextGenerator())
+                        sut.productListVM(listingListViewModel, didSucceedRetrievingProductsPage: 0, hasProducts: true)
                     }
                     it("fires product list event and search complete") {
                         let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
@@ -173,13 +173,13 @@ class MainProductsViewModelSpec: QuickSpec {
                         var userFilters = ProductFilters()
                         userFilters.selectedCategories = []
                         let searchType: SearchType = .collection(type: .You, query: "iphone")
-                        sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository,
+                        sut = MainListingsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository,
                                                     searchRepository: Core.searchRepository,
                                                     listingRepository: Core.listingRepository, monetizationRepository: Core.monetizationRepository, categoryRepository: Core.categoryRepository,
                                                     locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: mockTracker,
                                                     searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage,
                                                     featureFlags: mockFeatureFlags, bubbleTextGenerator: DistanceBubbleTextGenerator())
-                        sut.productListVM(productListViewModel, didSucceedRetrievingProductsPage: 0, hasProducts: true)
+                        sut.productListVM(listingListViewModel, didSucceedRetrievingProductsPage: 0, hasProducts: true)
                     }
                     it("fires product list event") {
                         let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
@@ -193,12 +193,12 @@ class MainProductsViewModelSpec: QuickSpec {
             }
             context("Product list VM failed retrieving products") {
                 var mockTracker: MockTracker!
-                var productListViewModel: ProductListViewModel!
+                var listingListViewModel: ListingListViewModel!
                 
                 beforeEach {
                     mockTracker = MockTracker()
-                    productListViewModel = ProductListViewModel(requester: MockListingListRequester(canRetrieve: true, offset: 0, pageSize: 20))
-                    sut = MainProductsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository,
+                    listingListViewModel = ListingListViewModel(requester: MockListingListRequester(canRetrieve: true, offset: 0, pageSize: 20))
+                    sut = MainListingsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository,
                                                 searchRepository: Core.searchRepository,
                                                 listingRepository: Core.listingRepository, monetizationRepository: Core.monetizationRepository, categoryRepository: Core.categoryRepository,
                                                 locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: mockTracker,
@@ -208,7 +208,7 @@ class MainProductsViewModelSpec: QuickSpec {
                 
                 context("with too many requests") {
                     beforeEach {
-                       sut.productListMV(productListViewModel, didFailRetrievingProductsPage: 0, hasProducts: false, error:.tooManyRequests)
+                       sut.productListMV(listingListViewModel, didFailRetrievingProductsPage: 0, hasProducts: false, error:.tooManyRequests)
                     }
                     it("fires empty-state-error") {
                         let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
@@ -221,7 +221,7 @@ class MainProductsViewModelSpec: QuickSpec {
                 }
                 context("with internet connection error") {
                     beforeEach {
-                        sut.productListMV(productListViewModel, didFailRetrievingProductsPage: 0, hasProducts: false, error:.network(errorCode: -1, onBackground: false))
+                        sut.productListMV(listingListViewModel, didFailRetrievingProductsPage: 0, hasProducts: false, error:.network(errorCode: -1, onBackground: false))
                     }
                     it("fires empty-state-error") {
                         let eventNames = mockTracker.trackedEvents.flatMap { $0.name }

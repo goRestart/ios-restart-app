@@ -544,7 +544,7 @@ extension UserViewController {
     }
 
     private func setupProductListViewRxBindings() {
-        viewModel.productListViewModel.asObservable().subscribeNext { [weak self] viewModel in
+        viewModel.listingListViewModel.asObservable().subscribeNext { [weak self] viewModel in
             guard let strongSelf = self else { return }
             strongSelf.productListView.switchViewModel(viewModel)
             strongSelf.productListView.refreshDataView()

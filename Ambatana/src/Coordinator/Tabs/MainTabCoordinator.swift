@@ -22,7 +22,7 @@ class MainTabCoordinator: TabCoordinator {
         let tracker = TrackerProxy.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
         let sessionManager = Core.sessionManager
-        let viewModel = MainProductsViewModel(searchType: nil, tabNavigator: nil)
+        let viewModel = MainListingsViewModel(searchType: nil, tabNavigator: nil)
         let rootViewController = MainProductsViewController(viewModel: viewModel)
         self.init(listingRepository: listingRepository, userRepository: userRepository,
                   chatRepository: chatRepository, oldChatRepository: oldChatRepository,
@@ -39,7 +39,7 @@ class MainTabCoordinator: TabCoordinator {
         if let categoriesString = categoriesString {
             filters.selectedCategories = ListingCategory.categoriesFromString(categoriesString)
         }
-        let viewModel = MainProductsViewModel(searchType: .user(query: query), filters: filters)
+        let viewModel = MainListingsViewModel(searchType: .user(query: query), filters: filters)
         viewModel.navigator = self
         let vc = MainProductsViewController(viewModel: viewModel)
 
@@ -54,7 +54,7 @@ class MainTabCoordinator: TabCoordinator {
 
 extension MainTabCoordinator: MainTabNavigator {
     func openMainProduct(withSearchType searchType: SearchType, productFilters: ProductFilters) {
-        let vm = MainProductsViewModel(searchType: searchType, filters: productFilters)
+        let vm = MainListingsViewModel(searchType: searchType, filters: productFilters)
         vm.navigator = self
         let vc = MainProductsViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)

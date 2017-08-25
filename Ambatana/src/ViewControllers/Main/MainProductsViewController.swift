@@ -36,11 +36,11 @@ enum SearchSuggestionType {
     }
 }
 
-class MainProductsViewController: BaseViewController, ProductListViewScrollDelegate, MainProductsViewModelDelegate,
+class MainProductsViewController: BaseViewController, ProductListViewScrollDelegate, MainListingsViewModelDelegate,
     FilterTagsViewControllerDelegate, UITextFieldDelegate, ScrollableToTop {
     
     // ViewModel
-    var viewModel: MainProductsViewModel
+    var viewModel: MainListingsViewModel
     
     // UI
     @IBOutlet weak var productListView: ProductListView!
@@ -93,11 +93,11 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     
     // MARK: - Lifecycle
 
-    convenience init(viewModel: MainProductsViewModel) {
+    convenience init(viewModel: MainListingsViewModel) {
         self.init(viewModel: viewModel, nibName: "MainProductsViewController")
     }
     
-    required init(viewModel: MainProductsViewModel, nibName nibNameOrNil: String?) {
+    required init(viewModel: MainListingsViewModel, nibName nibNameOrNil: String?) {
         self.navbarSearch = LGNavBarSearchField.setupNavBarSearchFieldWithText(viewModel.searchString)
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
@@ -235,7 +235,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     }
     
     
-    // MARK: - MainProductsViewModelDelegate
+    // MARK: - MainListingsViewModelDelegate
 
     func vmDidSearch() {
         suggestionsSearchesContainer.isHidden = true
@@ -425,7 +425,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
                 self?.productListView.collectionViewContentInset.top = topInset
         }.addDisposableTo(disposeBag)
 
-        viewModel.mainProductsHeader.asObservable().bindNext { [weak self] header in
+        viewModel.mainListingsHeader.asObservable().bindNext { [weak self] header in
             self?.productListView.refreshDataView()
         }.addDisposableTo(disposeBag)
 
@@ -511,11 +511,11 @@ extension MainProductsViewController: ProductListViewHeaderDelegate, PushPermiss
     }
 
     private var shouldShowPermissionsBanner: Bool {
-        return viewModel.mainProductsHeader.value.contains(MainProductsHeader.PushPermissions)
+        return viewModel.mainListingsHeader.value.contains(MainListingsHeader.PushPermissions)
     }
     
     private var shouldShowCategoryCollectionBanner: Bool {
-        return viewModel.mainProductsHeader.value.contains(MainProductsHeader.CategoriesCollectionBanner)
+        return viewModel.mainListingsHeader.value.contains(MainListingsHeader.CategoriesCollectionBanner)
     }
 
     func pushPermissionHeaderPressed() {

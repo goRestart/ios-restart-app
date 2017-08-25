@@ -1,5 +1,5 @@
 //
-//  ProductListViewModel.swift
+//  ListingListViewModel.swift
 //  LetGo
 //
 //  Created by AHL on 9/7/15.
@@ -10,24 +10,24 @@ import LGCoreKit
 import Result
 import RxSwift
 
-protocol ProductListViewModelDelegate: class {
-    func vmReloadData(_ vm: ProductListViewModel)
-    func vmDidUpdateState(_ vm: ProductListViewModel, state: ViewState)
-    func vmDidFinishLoading(_ vm: ProductListViewModel, page: UInt, indexes: [Int])
+protocol ListingListViewModelDelegate: class {
+    func vmReloadData(_ vm: ListingListViewModel)
+    func vmDidUpdateState(_ vm: ListingListViewModel, state: ViewState)
+    func vmDidFinishLoading(_ vm: ListingListViewModel, page: UInt, indexes: [Int])
 }
 
-protocol ProductListViewModelDataDelegate: class {
-    func productListMV(_ viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
+protocol ListingListViewModelDataDelegate: class {
+    func productListMV(_ viewModel: ListingListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
                          error: RepositoryError)
-    func productListVM(_ viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool)
-    func productListVM(_ viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
+    func productListVM(_ viewModel: ListingListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool)
+    func productListVM(_ viewModel: ListingListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
                        originFrame: CGRect?)
     func vmProcessReceivedProductPage(_ products: [ListingCellModel], page: UInt) -> [ListingCellModel]
     func vmDidSelectSellBanner(_ type: String)
     func vmDidSelectCollection(_ type: CollectionCellType)
 }
 
-extension ProductListViewModelDataDelegate {
+extension ListingListViewModelDataDelegate {
     func vmProcessReceivedProductPage(_ products: [ListingCellModel], page: UInt) -> [ListingCellModel] { return products }
     func vmDidSelectSellBanner(_ type: String) {}
     func vmDidSelectCollection(_ type: CollectionCellType) {}
@@ -67,7 +67,7 @@ protocol ListingListRequester: class {
     var countryCode: String? { get }
 }
 
-class ProductListViewModel: BaseViewModel {
+class ListingListViewModel: BaseViewModel {
     
     // MARK: - Constants
     private static let cellMinHeight: CGFloat = 80.0
@@ -88,8 +88,8 @@ class ProductListViewModel: BaseViewModel {
     // MARK: - iVars 
 
     // Delegates
-    weak var delegate: ProductListViewModelDelegate?
-    weak var dataDelegate: ProductListViewModelDataDelegate?
+    weak var delegate: ListingListViewModelDelegate?
+    weak var dataDelegate: ListingListViewModelDataDelegate?
     
     // Requester
     var listingListRequester: ListingListRequester?
@@ -162,11 +162,11 @@ class ProductListViewModel: BaseViewModel {
         self.imageDownloader = imageDownloader
         self.indexToTitleMapping = [:]
         super.init()
-        let cellHeight = cellWidth * ProductListViewModel.cellAspectRatio
+        let cellHeight = cellWidth * ListingListViewModel.cellAspectRatio
         self.defaultCellSize = CGSize(width: cellWidth, height: cellHeight)
     }
     
-    convenience init(listViewModel: ProductListViewModel) {
+    convenience init(listViewModel: ListingListViewModel) {
         self.init(requester: listViewModel.listingListRequester)
         self.pageNumber = listViewModel.pageNumber
         self.state = listViewModel.state
@@ -395,12 +395,12 @@ class ProductListViewModel: BaseViewModel {
             guard let thumbnailSize = listing.thumbnailSize, thumbnailSize.height != 0 && thumbnailSize.width != 0
                 else { return defaultCellSize }
             
-            let thumbFactor = min(ProductListViewModel.cellMaxThumbFactor,
+            let thumbFactor = min(ListingListViewModel.cellMaxThumbFactor,
                                   CGFloat(thumbnailSize.height / thumbnailSize.width))
-            let imageFinalHeight = max(ProductListViewModel.cellMinHeight, round(defaultCellSize.width * thumbFactor))
+            let imageFinalHeight = max(ListingListViewModel.cellMinHeight, round(defaultCellSize.width * thumbFactor))
             return CGSize(width: defaultCellSize.width, height: imageFinalHeight)
         case .collectionCell:
-            let height = defaultCellSize.width*ProductListViewModel.cellBannerAspectRatio
+            let height = defaultCellSize.width*ListingListViewModel.cellBannerAspectRatio
             return CGSize(width: defaultCellSize.width, height: height)
         case .emptyCell:
             return CGSize(width: defaultCellSize.width, height: 1)
@@ -415,7 +415,7 @@ class ProductListViewModel: BaseViewModel {
     */
     func setCurrentItemIndex(_ index: Int) {
         guard let itemsPerPage = listingListRequester?.itemsPerPage, numberOfProducts > 0 else { return }
-        let threshold = numberOfProducts - Int(Float(itemsPerPage)*Constants.productsPagingThresholdPercentage)
+        let threshold = numberOfProducts - Int(Float(itemsPerPage)*Constants.listingsPagingThresholdPercentage)
         let shouldRetrieveProductsNextPage = index >= threshold && !isOnErrorState
         if shouldRetrieveProductsNextPage {
             retrieveProductsNextPage()
@@ -433,7 +433,7 @@ class ProductListViewModel: BaseViewModel {
 
 // MARK: - Tracking
 
-extension ProductListViewModel {
+extension ListingListViewModel {
     func trackErrorStateShown(reason: EventParameterEmptyReason) {
         let event = TrackerEvent.emptyStateVisit(typePage: .listingList , reason: reason)
         tracker.trackEvent(event)

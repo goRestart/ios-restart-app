@@ -23,7 +23,7 @@ protocol ProductListViewHeaderDelegate: class {
     func setupViewsIn(header: ListHeaderContainer)
 }
 
-class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout, ProductListViewModelDelegate,
+class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout, ListingListViewModelDelegate,
 UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
     // Constants
@@ -135,7 +135,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     }
     
     // Data
-    internal(set) var viewModel: ProductListViewModel {
+    internal(set) var viewModel: ListingListViewModel {
         didSet {
             drawerManager.cellStyle = viewModel.cellStyle
         }
@@ -155,7 +155,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     
     // MARK: - Lifecycle
     
-    init(viewModel: ProductListViewModel,featureFlags: FeatureFlaggeable, frame: CGRect) {
+    init(viewModel: ListingListViewModel,featureFlags: FeatureFlaggeable, frame: CGRect) {
         self.viewModel = viewModel
         let padding = UIEdgeInsets.zero
         self.dataPadding = padding
@@ -171,7 +171,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         setAccessibilityIds()
     }
     
-    init?(viewModel: ProductListViewModel, featureFlags: FeatureFlaggeable, coder aDecoder: NSCoder) {
+    init?(viewModel: ListingListViewModel, featureFlags: FeatureFlaggeable, coder aDecoder: NSCoder) {
         self.viewModel = viewModel
         let padding = UIEdgeInsets.zero
         self.dataPadding = padding
@@ -188,7 +188,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
-        self.init(viewModel: ProductListViewModel(requester: nil), featureFlags: FeatureFlags.sharedInstance, coder: aDecoder)
+        self.init(viewModel: ListingListViewModel(requester: nil), featureFlags: FeatureFlags.sharedInstance, coder: aDecoder)
     }
 
     internal override func didBecomeActive(_ firstTime: Bool) {
@@ -248,7 +248,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     
     // MARK: > ViewModel
 
-    func switchViewModel(_ vm: ProductListViewModel) {
+    func switchViewModel(_ vm: ListingListViewModel) {
         viewModel.delegate = nil
         viewModel = vm
         viewModel.delegate = self
@@ -268,7 +268,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     
     func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!,
         heightForFooterInSection section: Int) -> CGFloat {
-        return Constants.productListFooterHeight
+        return Constants.listingListFooterHeight
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
@@ -385,19 +385,19 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     }
 
 
-    // MARK: - ProductListViewModelDelegate
+    // MARK: - ListingListViewModelDelegate
 
-    func vmReloadData(_ vm: ProductListViewModel) {
+    func vmReloadData(_ vm: ListingListViewModel) {
         guard viewModel === vm else { return }
         reloadData()
     }
 
-    func vmDidUpdateState(_ vm: ProductListViewModel, state: ViewState) {
+    func vmDidUpdateState(_ vm: ListingListViewModel, state: ViewState) {
         guard viewModel === vm else { return }
         refreshUIWithState(state)
     }
 
-    func vmDidFinishLoading(_ vm: ProductListViewModel, page: UInt, indexes: [Int]) {
+    func vmDidFinishLoading(_ vm: ListingListViewModel, page: UInt, indexes: [Int]) {
         guard viewModel === vm else { return }
         if page == 0 {
             reloadData()

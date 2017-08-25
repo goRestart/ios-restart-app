@@ -17,7 +17,7 @@ class SimpleProductsViewModel: BaseViewModel {
     let title: String
     let listingVisitSource: EventParameterListingVisitSource
     let listingListRequester: ListingListRequester
-    let productListViewModel: ProductListViewModel
+    let listingListViewModel: ListingListViewModel
     let featureFlags: FeatureFlaggeable
 
     convenience init(relatedListingId: String,
@@ -57,17 +57,17 @@ class SimpleProductsViewModel: BaseViewModel {
         self.listingListRequester = requester
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         let columns = show3Columns ? 3 : 2
-        self.productListViewModel = ProductListViewModel(requester: requester, listings: listings, numberOfColumns: columns)
+        self.listingListViewModel = ListingListViewModel(requester: requester, listings: listings, numberOfColumns: columns)
         self.featureFlags = featureFlags
         super.init()
-        productListViewModel.dataDelegate = self
+        listingListViewModel.dataDelegate = self
     }
 
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
 
         if firstTime {
-            productListViewModel.refresh()
+            listingListViewModel.refresh()
         }
     }
 
@@ -79,15 +79,15 @@ class SimpleProductsViewModel: BaseViewModel {
 }
 
 
-extension SimpleProductsViewModel: ProductListViewModelDataDelegate {
-    func productListMV(_ viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
+extension SimpleProductsViewModel: ListingListViewModelDataDelegate {
+    func productListMV(_ viewModel: ListingListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
                        error: RepositoryError) {
 
     }
-    func productListVM(_ viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool) {
+    func productListVM(_ viewModel: ListingListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool) {
 
     }
-    func productListVM(_ viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
+    func productListVM(_ viewModel: ListingListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
                        originFrame: CGRect?) {
         guard let listing = viewModel.listingAtIndex(index) else { return }
         let cellModels = viewModel.objects

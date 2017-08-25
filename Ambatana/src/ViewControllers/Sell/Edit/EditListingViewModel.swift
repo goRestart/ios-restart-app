@@ -279,8 +279,8 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
 
     var descriptionCharCount: Int {
-        guard let descr = descr else { return Constants.productDescriptionMaxLength }
-        return Constants.productDescriptionMaxLength-descr.characters.count
+        guard let descr = descr else { return Constants.listingDescriptionMaxLength }
+        return Constants.listingDescriptionMaxLength-descr.characters.count
     }
     
     func appendImage(_ image: UIImage) {
@@ -915,7 +915,7 @@ private enum ProductCreateValidationError: Error {
         case .noDescription:
             return LGLocalizedString.sellSendErrorInvalidDescription
         case .longDescription:
-            return LGLocalizedString.sellSendErrorInvalidDescriptionTooLong(Constants.productDescriptionMaxLength)
+            return LGLocalizedString.sellSendErrorInvalidDescriptionTooLong(Constants.listingDescriptionMaxLength)
         case .noCategory:
             return LGLocalizedString.sellSendErrorInvalidCategory
         }

@@ -15,7 +15,7 @@ class SimpleProductsViewController: BaseViewController {
 
     required init(viewModel: SimpleProductsViewModel) {
         self.viewModel = viewModel
-        self.productList = ProductListView(viewModel: viewModel.productListViewModel,
+        self.productList = ProductListView(viewModel: viewModel.listingListViewModel,
                                            featureFlags: viewModel.featureFlags, frame: CGRect.zero)
         super.init(viewModel: viewModel, nibName: "SimpleProductsViewController")
         hidesBottomBarWhenPushed = true

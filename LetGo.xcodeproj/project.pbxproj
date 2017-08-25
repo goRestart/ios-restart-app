@@ -1107,10 +1107,10 @@
 		C7B5882A1CE1DE1C009B3975 /* BlockedUsersListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B587FD1CE1DE1C009B3975 /* BlockedUsersListView.swift */; };
 		C7B5882B1CE1DE1C009B3975 /* BlockedUsersListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B587FE1CE1DE1C009B3975 /* BlockedUsersListViewModel.swift */; };
 		C7B5882C1CE1DE1C009B3975 /* BlockedUsersListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B587FE1CE1DE1C009B3975 /* BlockedUsersListViewModel.swift */; };
-		C7B588451CE1DE1C009B3975 /* ChatProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B5880E1CE1DE1C009B3975 /* ChatProductView.swift */; };
-		C7B588461CE1DE1C009B3975 /* ChatProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B5880E1CE1DE1C009B3975 /* ChatProductView.swift */; };
-		C7B588471CE1DE1C009B3975 /* ChatProductView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7B5880F1CE1DE1C009B3975 /* ChatProductView.xib */; };
-		C7B588481CE1DE1C009B3975 /* ChatProductView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7B5880F1CE1DE1C009B3975 /* ChatProductView.xib */; };
+		C7B588451CE1DE1C009B3975 /* ChatListingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B5880E1CE1DE1C009B3975 /* ChatListingView.swift */; };
+		C7B588461CE1DE1C009B3975 /* ChatListingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B5880E1CE1DE1C009B3975 /* ChatListingView.swift */; };
+		C7B588471CE1DE1C009B3975 /* ChatListingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7B5880F1CE1DE1C009B3975 /* ChatListingView.xib */; };
+		C7B588481CE1DE1C009B3975 /* ChatListingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7B5880F1CE1DE1C009B3975 /* ChatListingView.xib */; };
 		C7B588491CE1DE1C009B3975 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B588101CE1DE1C009B3975 /* ChatViewController.swift */; };
 		C7B5884A1CE1DE1C009B3975 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B588101CE1DE1C009B3975 /* ChatViewController.swift */; };
 		C7B5884B1CE1DE1C009B3975 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B588111CE1DE1C009B3975 /* ChatViewModel.swift */; };
@@ -2165,8 +2165,8 @@
 		C7B587FC1CE1DE1C009B3975 /* BlockedUserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BlockedUserCell.xib; sourceTree = "<group>"; };
 		C7B587FD1CE1DE1C009B3975 /* BlockedUsersListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockedUsersListView.swift; sourceTree = "<group>"; };
 		C7B587FE1CE1DE1C009B3975 /* BlockedUsersListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockedUsersListViewModel.swift; sourceTree = "<group>"; };
-		C7B5880E1CE1DE1C009B3975 /* ChatProductView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatProductView.swift; sourceTree = "<group>"; };
-		C7B5880F1CE1DE1C009B3975 /* ChatProductView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatProductView.xib; sourceTree = "<group>"; };
+		C7B5880E1CE1DE1C009B3975 /* ChatListingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatListingView.swift; sourceTree = "<group>"; };
+		C7B5880F1CE1DE1C009B3975 /* ChatListingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatListingView.xib; sourceTree = "<group>"; };
 		C7B588101CE1DE1C009B3975 /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		C7B588111CE1DE1C009B3975 /* ChatViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		C7B588131CE1DE1C009B3975 /* QuickAnswer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickAnswer.swift; sourceTree = "<group>"; };
@@ -4077,8 +4077,8 @@
 				C7B588711CE1DFA6009B3975 /* CellDrawers */,
 				C7B588771CE1DFA6009B3975 /* Cells */,
 				C7B588121CE1DE1C009B3975 /* DirectAnswers */,
-				C7B5880E1CE1DE1C009B3975 /* ChatProductView.swift */,
-				C7B5880F1CE1DE1C009B3975 /* ChatProductView.xib */,
+				C7B5880E1CE1DE1C009B3975 /* ChatListingView.swift */,
+				C7B5880F1CE1DE1C009B3975 /* ChatListingView.xib */,
 				C7B588101CE1DE1C009B3975 /* ChatViewController.swift */,
 				C7B588111CE1DE1C009B3975 /* ChatViewModel.swift */,
 				7226F0FA1E962CA200B54D01 /* ChatRelatedItemsState.swift */,
@@ -4747,7 +4747,7 @@
 				508011171D474ED80073F362 /* Commercializer.xcassets in Resources */,
 				50BA5C081C3C096D00F34042 /* GoogleService-Info.plist in Resources */,
 				5021910E1B2F1DAA00ABD31F /* RememberPasswordViewController.xib in Resources */,
-				C7B588471CE1DE1C009B3975 /* ChatProductView.xib in Resources */,
+				C7B588471CE1DE1C009B3975 /* ChatListingView.xib in Resources */,
 				C7415ED81DE880BD0003D6C1 /* SimpleProductsViewController.xib in Resources */,
 				2E97169F1D59E958009B3A32 /* ExpressChatViewController.xib in Resources */,
 				C74016DC1D6467DB004C1E9D /* PostProductDetailPriceView.xib in Resources */,
@@ -4890,7 +4890,7 @@
 				508011181D474ED80073F362 /* Commercializer.xcassets in Resources */,
 				C7DB427B1C5138B500400945 /* GoogleService-Info.plist in Resources */,
 				C7DB427C1C5138B500400945 /* RememberPasswordViewController.xib in Resources */,
-				C7B588481CE1DE1C009B3975 /* ChatProductView.xib in Resources */,
+				C7B588481CE1DE1C009B3975 /* ChatListingView.xib in Resources */,
 				C7415ED91DE880BD0003D6C1 /* SimpleProductsViewController.xib in Resources */,
 				C74016DD1D6467DB004C1E9D /* PostProductDetailPriceView.xib in Resources */,
 				508011201D474ED80073F362 /* Icons-Launchers.xcassets in Resources */,
@@ -5341,7 +5341,7 @@
 				C7C61E001D631F3200F9505D /* ProductCollectionCellDrawer.swift in Sources */,
 				2E3665691DE4880A00000F68 /* PostIncentivatorView.swift in Sources */,
 				C707D4551E9B7CB200042C03 /* PostProductTrackingInfo.swift in Sources */,
-				C7B588451CE1DE1C009B3975 /* ChatProductView.swift in Sources */,
+				C7B588451CE1DE1C009B3975 /* ChatListingView.swift in Sources */,
 				509F79AC1ED6CD1C00AF2F70 /* UserRatingTagCell.swift in Sources */,
 				50D67B9A1D182EE9003AC0A5 /* SellCoordinator.swift in Sources */,
 				C72794421D549342009C25AB /* HelpViewController.swift in Sources */,
@@ -5871,7 +5871,7 @@
 				6A5E1A091D548F5400F92692 /* LGCollapsibleLabel+Rx.swift in Sources */,
 				5061ACBE1DE36534002E5423 /* ExternalAuthHelper.swift in Sources */,
 				C731B8731CE218C400F31D46 /* OldChatListViewModel.swift in Sources */,
-				C7B588461CE1DE1C009B3975 /* ChatProductView.swift in Sources */,
+				C7B588461CE1DE1C009B3975 /* ChatListingView.swift in Sources */,
 				50D67B9B1D182EE9003AC0A5 /* SellCoordinator.swift in Sources */,
 				C7C61E011D631F3400F9505D /* ProductCollectionCellDrawer.swift in Sources */,
 				2E36656A1DE4880A00000F68 /* PostIncentivatorView.swift in Sources */,
