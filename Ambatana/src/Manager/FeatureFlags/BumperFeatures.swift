@@ -34,6 +34,7 @@ extension Bumper  {
         flags.append(BumpUpImprovementBanner.self)
         flags.append(OpenGalleryInPosting.self)
         flags.append(TweaksCarPostingFlow.self)
+        flags.append(UserReviewsReportEnabled.self)
         Bumper.initialize(flags)
     } 
 
@@ -140,6 +141,11 @@ extension Bumper  {
     static var tweaksCarPostingFlow: TweaksCarPostingFlow {
         guard let value = Bumper.value(for: TweaksCarPostingFlow.key) else { return .control }
         return TweaksCarPostingFlow(rawValue: value) ?? .control 
+    }
+
+    static var userReviewsReportEnabled: Bool {
+        guard let value = Bumper.value(for: UserReviewsReportEnabled.key) else { return false }
+        return UserReviewsReportEnabled(rawValue: value)?.asBool ?? false
     } 
 }
 
@@ -395,5 +401,14 @@ enum TweaksCarPostingFlow: String, BumperFeature  {
             default: return .control
         }
     }
+}
+
+enum UserReviewsReportEnabled: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return UserReviewsReportEnabled.no.rawValue }
+    static var enumValues: [UserReviewsReportEnabled] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "User reviews report enabled" } 
+    var asBool: Bool { return self == .yes }
 }
 
