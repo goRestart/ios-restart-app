@@ -2691,7 +2691,7 @@
 				50560B8D1B25D18F0021D8D9 /* Navigation */,
 				C727FBBB1CCFC4C9002BC643 /* Notifications */,
 				C75C543A1E0D2CD9003F219D /* PassiveBuyers */,
-				50560B8F1B25D18F0021D8D9 /* Products */,
+				50560B8F1B25D18F0021D8D9 /* Listings */,
 				C749316B1D34FCE100E117F1 /* Ratings */,
 				C783D9791C64BB5D000EE5CA /* ReportUsers */,
 				2EE60AF01B60D8CD00E56E7D /* Sell */,
@@ -2736,14 +2736,14 @@
 			path = Navigation;
 			sourceTree = "<group>";
 		};
-		50560B8F1B25D18F0021D8D9 /* Products */ = {
+		50560B8F1B25D18F0021D8D9 /* Listings */ = {
 			isa = PBXGroup;
 			children = (
 				6AA8278F1D2D03720068C39B /* Carousel */,
 				6A5691511D255CF3000B7365 /* Model */,
 				C7B76CEE1C1089DF00863512 /* CellDrawers */,
 				C749C7811C10811B00F7118E /* Cells */,
-				C796430C1D4F5ABA000C5FCE /* RelatedProducts */,
+				C796430C1D4F5ABA000C5FCE /* RelatedListings */,
 				D412E0851B4F179F00683FFD /* ListingListView.swift */,
 				D412E0871B4F17C200683FFD /* ListingListView.xib */,
 				D412E07E1B4EFF2800683FFD /* ListingListViewModel.swift */,
@@ -2753,7 +2753,7 @@
 				C7415ED51DE880BD0003D6C1 /* SimpleListingsViewController.xib */,
 				C7415EDA1DE898580003D6C1 /* SimpleListingsViewModel.swift */,
 			);
-			path = Products;
+			path = Listings;
 			sourceTree = "<group>";
 		};
 		50560B941B25D18F0021D8D9 /* Splash */ = {
@@ -4032,12 +4032,13 @@
 			path = AppShare;
 			sourceTree = "<group>";
 		};
-		C796430C1D4F5ABA000C5FCE /* RelatedProducts */ = {
+		C796430C1D4F5ABA000C5FCE /* RelatedListings */ = {
 			isa = PBXGroup;
 			children = (
 				C79643101D4F5AFA000C5FCE /* RelatedListingsView.swift */,
 			);
-			path = RelatedProducts;
+			name = RelatedListings;
+			path = RelatedLIstings;
 			sourceTree = "<group>";
 		};
 		C7AFFAF51E7053EF0052A9CA /* Surveys */ = {
