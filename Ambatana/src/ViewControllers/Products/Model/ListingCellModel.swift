@@ -1,5 +1,5 @@
 //
-//  ProductListModel.swift
+//  ListingCellModell.swift
 //  LetGo
 //
 //  Created by Isaac Roldan on 30/6/16.

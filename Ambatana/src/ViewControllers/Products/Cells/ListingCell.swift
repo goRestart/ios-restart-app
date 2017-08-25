@@ -14,7 +14,6 @@ class ListingCell: UICollectionViewCell, ReusableCell {
     static let buttonsContainerShownHeight: CGFloat = 34
     static let stripeIconWidth: CGFloat = 14
     
-    @IBOutlet weak var shadowImage: UIImageView!
     @IBOutlet weak var cellContent: UIView!
     @IBOutlet weak var thumbnailBgColorView: UIView!
     @IBOutlet weak var thumbnailImageView: UIImageView!
@@ -112,7 +111,7 @@ class ListingCell: UICollectionViewCell, ReusableCell {
     }
 
     private func setAccessibilityIds() {
-        self.accessibilityId = .listingCell
+        accessibilityId = .listingCell
         thumbnailImageView.accessibilityId = .listingCellThumbnailImageView
         stripeImageView.accessibilityId = .listingCellStripeImageView
         stripeLabel.accessibilityId = .listingCellStripeLabel
