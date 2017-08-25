@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1212" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -20,7 +20,7 @@
                 <outlet property="infoBubbleLabel" destination="6Qi-9b-goZ" id="5CJ-Cs-TP8"/>
                 <outlet property="infoBubbleShadow" destination="xYw-ae-DlH" id="lZk-9m-TGk"/>
                 <outlet property="infoBubbleTopConstraint" destination="KwV-0X-J7L" id="E3C-gn-fSJ"/>
-                <outlet property="productListView" destination="cx9-GQ-2WN" id="qZS-Ea-iYo"/>
+                <outlet property="listingListView" destination="cx9-GQ-2WN" id="6uc-ir-hH8"/>
                 <outlet property="suggestionsSearchesContainer" destination="KVa-du-ATY" id="5ql-Q6-9oI"/>
                 <outlet property="suggestionsSearchesTable" destination="b6O-i4-W4D" id="K0o-NZ-bQ8"/>
                 <outlet property="tagsCollectionHeightConstraint" destination="ghl-ZF-Qem" id="OZt-fo-C4L"/>
@@ -33,7 +33,7 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cx9-GQ-2WN" customClass="ProductListView" customModule="LetGo" customModuleProvider="target">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cx9-GQ-2WN" customClass="ListingListView" customModule="LetGo" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                 </view>
                 <view clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="40" translatesAutoresizingMaskIntoConstraints="NO" id="Bcs-2y-4c3" userLabel="FilterDescriptionHeaderView">

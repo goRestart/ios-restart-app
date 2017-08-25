@@ -1,5 +1,5 @@
 //
-//  PostProductCameraView.swift
+//  PostListingCameraView.swift
 //  LetGo
 //
 //  Created by Eli Kohen on 03/03/16.
@@ -10,14 +10,14 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-protocol PostProductCameraViewDelegate: class {
+protocol PostListingCameraViewDelegate: class {
     func productCameraCloseButton()
     func productCameraDidTakeImage(_ image: UIImage)
     func productCameraRequestsScrollLock(_ lock: Bool)
     func productCameraRequestHideTabs(_ hide: Bool)
 }
 
-class PostProductCameraView: BaseView, LGViewPagerPage {
+class PostListingCameraView: BaseView, LGViewPagerPage {
 
     @IBOutlet var contentView: UIView!
 
@@ -58,12 +58,12 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
         }
     }
 
-    weak var delegate: PostProductCameraViewDelegate? {
+    weak var delegate: PostListingCameraViewDelegate? {
         didSet {
             viewModel.cameraDelegate = delegate
         }
     }
-    fileprivate var viewModel: PostProductCameraViewModel
+    fileprivate var viewModel: PostListingCameraViewModel
 
     fileprivate let cameraWrapper = CameraWrapper()
     private var headerShown = true
@@ -74,17 +74,17 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
 
     // MARK: - View lifecycle
 
-    convenience init(viewModel: PostProductCameraViewModel) {
+    convenience init(viewModel: PostListingCameraViewModel) {
         self.init(viewModel: viewModel, frame: CGRect.zero)
     }
     
-    init(viewModel: PostProductCameraViewModel, frame: CGRect) {
+    init(viewModel: PostListingCameraViewModel, frame: CGRect) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, frame: frame)
         setupUI()
     }
 
-    init?(viewModel: PostProductCameraViewModel, coder aDecoder: NSCoder) {
+    init?(viewModel: PostListingCameraViewModel, coder aDecoder: NSCoder) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, coder: aDecoder)
         setupUI()
@@ -171,7 +171,7 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
 
     private func setupUI() {
 
-        Bundle.main.loadNibNamed("PostProductCameraView", owner: self, options: nil)
+        Bundle.main.loadNibNamed("PostListingCameraView", owner: self, options: nil)
         contentView.frame = bounds
         contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         contentView.backgroundColor = UIColor.black
@@ -234,7 +234,7 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
 
 // MARK: - Camera related
 
-extension PostProductCameraView {
+extension PostListingCameraView {
     
     fileprivate func updateCamera() {
         if viewModel.active && viewModel.cameraState.value.captureMode {
@@ -254,7 +254,7 @@ extension PostProductCameraView {
 
 // MARK: - Info screen
 
-extension PostProductCameraView {
+extension PostListingCameraView {
 
     fileprivate func setupInfoView() {
         infoButton.setStyle(.primary(fontSize: .medium))
@@ -273,7 +273,7 @@ extension PostProductCameraView {
 
 // MARK: - First time alert view
 
-extension PostProductCameraView{
+extension PostListingCameraView{
     func setupFirstTimeAlertView() {
         firstTimeAlert.layer.cornerRadius = LGUIKitConstants.alertCornerRadius
         firstTimeAlertTitle.text = viewModel.firstTimeTitle
@@ -300,7 +300,7 @@ extension CameraFlashState {
 
 // MARK: - Accesibility
 
-extension PostProductCameraView {
+extension PostListingCameraView {
     func setAccesibilityIds() {
         closeButton.accessibilityId = .postingCameraCloseButton
         imagePreview.accessibilityId = .postingCameraImagePreview

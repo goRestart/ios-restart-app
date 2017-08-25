@@ -400,11 +400,11 @@ fileprivate extension TabCoordinator {
     // MARK: Private methods
 
     private func openRelatedProductsForNonExistentListing(requester: ListingListRequester, listings: [Listing]) {
-        let simpleRelatedListingsVM = SimpleProductsViewModel(requester: requester,
+        let simpleRelatedListingsVM = SimpleListingsViewModel(requester: requester,
                                                               listings: listings,
                                                               listingVisitSource: .notifications)
         simpleRelatedListingsVM.navigator = self
-        let simpleRelatedListingsVC = SimpleProductsViewController(viewModel: simpleRelatedListingsVM)
+        let simpleRelatedListingsVC = SimpleListingsViewController(viewModel: simpleRelatedListingsVM)
         navigationController.pushViewController(simpleRelatedListingsVC, animated: true)
     }
 }

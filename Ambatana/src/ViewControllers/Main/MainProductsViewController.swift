@@ -36,14 +36,14 @@ enum SearchSuggestionType {
     }
 }
 
-class MainProductsViewController: BaseViewController, ProductListViewScrollDelegate, MainListingsViewModelDelegate,
+class MainProductsViewController: BaseViewController, ListingListViewScrollDelegate, MainListingsViewModelDelegate,
     FilterTagsViewControllerDelegate, UITextFieldDelegate, ScrollableToTop {
     
     // ViewModel
     var viewModel: MainListingsViewModel
     
     // UI
-    @IBOutlet weak var productListView: ProductListView!
+    @IBOutlet weak var listingListView: ListingListView!
     
     @IBOutlet weak var tagsCollectionView: UICollectionView!
     @IBOutlet weak var tagsCollectionHeightConstraint: NSLayoutConstraint!
@@ -88,7 +88,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         return filterHeadersHeight + tagsCollectionView.height
     }
     fileprivate var collectionViewHeadersHeight: CGFloat {
-        return productListView.headerDelegate?.totalHeaderHeight() ?? 0
+        return listingListView.headerDelegate?.totalHeaderHeight() ?? 0
     }
     
     // MARK: - Lifecycle
@@ -120,22 +120,22 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         
         setupFilterHeaders()
         
-        productListView.collectionViewContentInset.bottom = tabBarHeight
+        listingListView.collectionViewContentInset.bottom = tabBarHeight
             + LGUIKitConstants.tabBarSellFloatingButtonHeight
             + LGUIKitConstants.tabBarSellFloatingButtonDistance
         if let image =  UIImage(named: "pattern_white") {
-            productListView.setErrorViewStyle(bgColor: UIColor(patternImage: image), borderColor: UIColor.lineGray,
+            listingListView.setErrorViewStyle(bgColor: UIColor(patternImage: image), borderColor: UIColor.lineGray,
                                               containerColor: UIColor.white)
         }
-        productListView.scrollDelegate = self
-        productListView.headerDelegate = self
-        productListView.cellsDelegate = viewModel
-        productListView.switchViewModel(viewModel.listViewModel)
+        listingListView.scrollDelegate = self
+        listingListView.headerDelegate = self
+        listingListView.cellsDelegate = viewModel
+        listingListView.switchViewModel(viewModel.listViewModel)
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         if show3Columns {
-            productListView.updateLayoutWithSeparation(6)
+            listingListView.updateLayoutWithSeparation(6)
         }
-        addSubview(productListView)
+        addSubview(listingListView)
         automaticallyAdjustsScrollViewInsets = false
         //Add negative top inset to avoid extra padding adding by "grouped" table style.
         suggestionsSearchesTable.contentInset = UIEdgeInsetsMake(firstSectionMarginTop, 0, 0, 0)
@@ -178,19 +178,19 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     */
     func scrollToTop() {
         guard didCallViewDidLoaded else { return }
-        productListView.scrollToTop(true)
+        listingListView.scrollToTop(true)
     }
     
 
-    // MARK: - ProductListViewScrollDelegate
+    // MARK: - ListingListViewScrollDelegate
     
-    func productListView(_ productListView: ProductListView, didScrollDown scrollDown: Bool) {
+    func listingListView(_ listingListView: ListingListView, didScrollDown scrollDown: Bool) {
         guard viewModel.active else { return }
 
         // Hide tab bar once all headers inside collection are gone
-        let headersCollection = productListView.headerDelegate?.totalHeaderHeight() ?? 0
-        if productListView.collectionView.contentOffset.y > headersCollection ||
-           productListView.collectionView.contentOffset.y <= -topHeadersHeight  {
+        let headersCollection = listingListView.headerDelegate?.totalHeaderHeight() ?? 0
+        if listingListView.collectionView.contentOffset.y > headersCollection ||
+           listingListView.collectionView.contentOffset.y <= -topHeadersHeight  {
             // Move tags view along iwth tab bar
             if let tagsVC = self.tagsViewController, !tagsVC.tags.isEmpty {
                 showTagsView(!scrollDown, updateInsets: false)
@@ -199,7 +199,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         }
     }
 
-    func productListView(_ productListView: ProductListView, didScrollWithContentOffsetY contentOffsetY: CGFloat) {
+    func listingListView(_ listingListView: ListingListView, didScrollWithContentOffsetY contentOffsetY: CGFloat) {
         updateBubbleTopConstraint()
         updateFilterHeaderTopConstraint(withContentOffsetY: contentOffsetY)
     }
@@ -226,7 +226,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     }
 
     private func updateBubbleTopConstraint() {
-        let delta = productListView.headerBottom - topInset.value
+        let delta = listingListView.headerBottom - topInset.value
         if delta > 0 {
                 infoBubbleTopConstraint.constant = infoBubbleTopMargin + delta
         } else {
@@ -422,11 +422,11 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         viewModel.infoBubbleVisible.asObservable().map { !$0 }.bindTo(infoBubbleShadow.rx.isHidden).addDisposableTo(disposeBag)
 
         topInset.asObservable().bindNext { [weak self] topInset in
-                self?.productListView.collectionViewContentInset.top = topInset
+                self?.listingListView.collectionViewContentInset.top = topInset
         }.addDisposableTo(disposeBag)
 
         viewModel.mainListingsHeader.asObservable().bindNext { [weak self] header in
-            self?.productListView.refreshDataView()
+            self?.listingListView.refreshDataView()
         }.addDisposableTo(disposeBag)
 
         viewModel.errorMessage.asObservable().bindNext { [weak self] errorMessage in
@@ -471,9 +471,9 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
 }
 
 
-// MARK: - ProductListViewHeaderDelegate
+// MARK: - ListingListViewHeaderDelegate
 
-extension MainProductsViewController: ProductListViewHeaderDelegate, PushPermissionsHeaderDelegate {
+extension MainProductsViewController: ListingListViewHeaderDelegate, PushPermissionsHeaderDelegate {
 
     func totalHeaderHeight() -> CGFloat {
         var totalHeight: CGFloat = 0
@@ -699,7 +699,7 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
 extension MainProductsViewController {
     func setAccessibilityIds() {
         navigationItem.rightBarButtonItem?.accessibilityId = .mainListingsFilterButton
-        productListView.accessibilityId = .mainListingsListView
+        listingListView.accessibilityId = .mainListingsListView
         tagsCollectionView.accessibilityId = .mainListingsTagsCollection
         infoBubbleLabel.accessibilityId = .mainListingsInfoBubbleLabel
         navbarSearch.accessibilityId = .mainListingsNavBarSearch

@@ -20,7 +20,7 @@ class GridDrawerManager {
     var freePostingAllowed: Bool = true
     
     private let listingDrawer = ListingCellDrawer()
-    private let collectionDrawer = ProductCollectionCellDrawer()
+    private let collectionDrawer = ListingCollectionCellDrawer()
     private let emptyCellDrawer = EmptyCellDrawer()
     private let showFeaturedStripeHelper = ShowFeaturedStripeHelper(featureFlags: FeatureFlags.sharedInstance,
                                                                     myUserRepository: Core.myUserRepository)
@@ -28,7 +28,7 @@ class GridDrawerManager {
 
     func registerCell(inCollectionView collectionView: UICollectionView) {
         ListingCellDrawer.registerCell(collectionView)
-        ProductCollectionCellDrawer.registerCell(collectionView)
+        ListingCollectionCellDrawer.registerCell(collectionView)
         EmptyCellDrawer.registerCell(collectionView)
     }
     

@@ -1,5 +1,5 @@
 //
-//  ProductListViewController.swift
+//  ListingListViewController.swift
 //  LetGo
 //
 //  Created by Eli Kohen on 25/11/2016.
@@ -8,16 +8,16 @@
 
 import UIKit
 
-class SimpleProductsViewController: BaseViewController {
+class SimpleListingsViewController: BaseViewController {
 
-    private let viewModel: SimpleProductsViewModel
-    private let productList: ProductListView
+    private let viewModel: SimpleListingsViewModel
+    private let listingList: ListingListView
 
-    required init(viewModel: SimpleProductsViewModel) {
+    required init(viewModel: SimpleListingsViewModel) {
         self.viewModel = viewModel
-        self.productList = ProductListView(viewModel: viewModel.listingListViewModel,
+        self.listingList = ListingListView(viewModel: viewModel.listingListViewModel,
                                            featureFlags: viewModel.featureFlags, frame: CGRect.zero)
-        super.init(viewModel: viewModel, nibName: "SimpleProductsViewController")
+        super.init(viewModel: viewModel, nibName: "SimpleListingsViewController")
         hidesBottomBarWhenPushed = true
     }
 
@@ -37,15 +37,15 @@ class SimpleProductsViewController: BaseViewController {
         view.backgroundColor = UIColor.listBackgroundColor
         title = viewModel.title
 
-        productList.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(productList)
-        let views: [String : Any] = ["list" : productList, "topGuide" : topLayoutGuide]
+        listingList.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(listingList)
+        let views: [String : Any] = ["list" : listingList, "topGuide" : topLayoutGuide]
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[list]-0-|",
             options: [], metrics: nil, views: views))
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[list]-0-|",
             options: [], metrics: nil, views: views))
-        addSubview(productList)
+        addSubview(listingList)
 
-        productList.collectionViewContentInset.top = topBarHeight
+        listingList.collectionViewContentInset.top = topBarHeight
     }
 }

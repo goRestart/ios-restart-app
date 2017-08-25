@@ -1,5 +1,5 @@
 //
-//  PostProductGalleryViewModel.swift
+//  PostListingGalleryViewModel.swift
 //  LetGo
 //
 //  Created by Eli Kohen on 09/03/16.
@@ -25,7 +25,7 @@ enum ImageSelection {
     case nothing, any, all
 }
 
-protocol PostProductGalleryViewModelDelegate: class {
+protocol PostListingGalleryViewModelDelegate: class {
     func vmDidUpdateGallery()
     func vmDidSelectItemAtIndex(_ index: Int, shouldScroll: Bool)
     func vmDidDeselectItemAtIndex(_ index: Int)
@@ -40,14 +40,14 @@ enum AlbumSelectionIconState {
     case down, up, hidden
 }
 
-class PostProductGalleryViewModel: BaseViewModel {
+class PostListingGalleryViewModel: BaseViewModel {
 
     let maxImagesSelected: Int
     var keyValueStorage: KeyValueStorageable
     var featureFlags: FeatureFlaggeable
     var mediaPermissions: MediaPermissions
 
-    weak var delegate: PostProductGalleryViewModelDelegate?
+    weak var delegate: PostListingGalleryViewModelDelegate?
     weak var galleryDelegate: PostProductGalleryViewDelegate?
 
     let visible = Variable<Bool>(false)
@@ -77,8 +77,8 @@ class PostProductGalleryViewModel: BaseViewModel {
     private static let columnCount: CGFloat = 4
     private static let cellSpacing: CGFloat = 4
     private let cellWidth: CGFloat = (UIScreen.main.bounds.size.width -
-        (PostProductGalleryViewModel.cellSpacing * (PostProductGalleryViewModel.columnCount + 1))) /
-        PostProductGalleryViewModel.columnCount
+        (PostListingGalleryViewModel.cellSpacing * (PostListingGalleryViewModel.columnCount + 1))) /
+        PostListingGalleryViewModel.columnCount
 
     var shouldUpdateDisabledCells: Bool = false
 
@@ -287,23 +287,23 @@ class PostProductGalleryViewModel: BaseViewModel {
     }
 
     private func fetchAlbums() {
-        var newAlbums = PostProductGalleryViewModel.collectAlbumsOfType(.smartAlbum,
+        var newAlbums = PostListingGalleryViewModel.collectAlbumsOfType(.smartAlbum,
                                                                         subtype: .smartAlbumUserLibrary)
-        newAlbums.append(contentsOf: PostProductGalleryViewModel.collectAlbumsOfType(.smartAlbum,
+        newAlbums.append(contentsOf: PostListingGalleryViewModel.collectAlbumsOfType(.smartAlbum,
             subtype: .smartAlbumPanoramas))
-        newAlbums.append(contentsOf: PostProductGalleryViewModel.collectAlbumsOfType(.smartAlbum,
+        newAlbums.append(contentsOf: PostListingGalleryViewModel.collectAlbumsOfType(.smartAlbum,
             subtype: .smartAlbumRecentlyAdded))
-        newAlbums.append(contentsOf: PostProductGalleryViewModel.collectAlbumsOfType(.smartAlbum,
+        newAlbums.append(contentsOf: PostListingGalleryViewModel.collectAlbumsOfType(.smartAlbum,
             subtype: .smartAlbumBursts))
-        newAlbums.append(contentsOf: PostProductGalleryViewModel.collectAlbumsOfType(.smartAlbum,
+        newAlbums.append(contentsOf: PostListingGalleryViewModel.collectAlbumsOfType(.smartAlbum,
             subtype: .smartAlbumFavorites))
         if #available(iOS 9.0, *) {
-            newAlbums.append(contentsOf: PostProductGalleryViewModel.collectAlbumsOfType(.smartAlbum,
+            newAlbums.append(contentsOf: PostListingGalleryViewModel.collectAlbumsOfType(.smartAlbum,
                 subtype: .smartAlbumSelfPortraits))
-            newAlbums.append(contentsOf: PostProductGalleryViewModel.collectAlbumsOfType(.smartAlbum,
+            newAlbums.append(contentsOf: PostListingGalleryViewModel.collectAlbumsOfType(.smartAlbum,
                 subtype: .smartAlbumScreenshots))
         }
-        newAlbums.append(contentsOf: PostProductGalleryViewModel.collectAlbumsOfType(.album))
+        newAlbums.append(contentsOf: PostListingGalleryViewModel.collectAlbumsOfType(.album))
 
         albums = newAlbums
         if albums.isEmpty {

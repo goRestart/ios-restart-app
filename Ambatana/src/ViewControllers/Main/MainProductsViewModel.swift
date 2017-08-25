@@ -575,9 +575,9 @@ extension MainListingsViewModel: FiltersViewModelDataDelegate {
 }
 
 
-// MARK: - ProductListView
+// MARK: - ListingListView
 
-extension MainListingsViewModel: ListingListViewModelDataDelegate, ProductListViewCellsDelegate {
+extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListViewCellsDelegate {
 
     func setupProductList() {
         listViewModel.dataDelegate = self
@@ -603,7 +603,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ProductListVi
             }.addDisposableTo(disposeBag)
     }
 
-    // MARK: > ProductListViewCellsDelegate
+    // MARK: > ListingListViewCellsDelegate
 
     func visibleTopCellWithIndex(_ index: Int, whileScrollingDown scrollingDown: Bool) {
 

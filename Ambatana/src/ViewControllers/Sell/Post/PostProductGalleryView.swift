@@ -93,18 +93,18 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
     var initialDragPosition: CGFloat = 0
     var collapsed = false
 
-    fileprivate var viewModel: PostProductGalleryViewModel
+    fileprivate var viewModel: PostListingGalleryViewModel
 
     fileprivate var disposeBag = DisposeBag()
 
     // MARK: - Lifecycle
 
     convenience init() {
-        let viewModel = PostProductGalleryViewModel()
+        let viewModel = PostListingGalleryViewModel()
         self.init(viewModel: viewModel, frame: CGRect.zero)
     }
 
-    init(viewModel: PostProductGalleryViewModel,
+    init(viewModel: PostListingGalleryViewModel,
          frame: CGRect) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, frame: frame)
@@ -112,7 +112,7 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
         setupUI()
     }
 
-    init?(viewModel: PostProductGalleryViewModel,
+    init?(viewModel: PostListingGalleryViewModel,
           coder aDecoder: NSCoder) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, coder: aDecoder)
@@ -221,7 +221,7 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
 
 // MARK: - PostProductGalleryViewDelegate
 
-extension PostProductGalleryView: PostProductGalleryViewModelDelegate {
+extension PostProductGalleryView: PostListingGalleryViewModelDelegate {
 
     func vmDidUpdateGallery() {
         collectionView.reloadData()

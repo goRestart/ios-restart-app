@@ -1,5 +1,5 @@
 //
-//  PostProductRedCamButtonFooter.swift
+//  PostListingRedCamButtonFooter.swift
 //  LetGo
 //
 //  Created by Albert Hernández López on 08/03/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class PostProductRedCamButtonFooter: UIView {
+final class PostListingRedCamButtonFooter: UIView {
     static let galleryIconSide: CGFloat = 70
     static let cameraIconSide: CGFloat = 84
     
@@ -43,9 +43,9 @@ final class PostProductRedCamButtonFooter: UIView {
 }
 
 
-// MARK: - PostProductFooter
+// MARK: - PostListingFooter
 
-extension PostProductRedCamButtonFooter: PostProductFooter {
+extension PostListingRedCamButtonFooter: PostListingFooter {
     func update(scroll: CGFloat) {
         galleryButton.alpha = scroll
         
@@ -58,7 +58,7 @@ extension PostProductRedCamButtonFooter: PostProductFooter {
 
 // MARK: - Private methods
 
-fileprivate extension PostProductRedCamButtonFooter {
+fileprivate extension PostListingRedCamButtonFooter {
     func setupUI() {
         galleryButton.translatesAutoresizingMaskIntoConstraints = false
         galleryButton.setImage(#imageLiteral(resourceName: "ic_post_gallery"), for: .normal)
@@ -81,13 +81,13 @@ fileprivate extension PostProductRedCamButtonFooter {
             .top(relatedBy: .greaterThanOrEqual)
             .bottom()
         galleryButton.layout()
-            .width(PostProductRedCamButtonFooter.galleryIconSide)
+            .width(PostListingRedCamButtonFooter.galleryIconSide)
             .widthProportionalToHeight()
         
         cameraButton.layout(with: self)
             .centerX(constraintBlock: { [weak self] constraint in self?.cameraButtonCenterXConstraint = constraint })
             .top(relatedBy: .greaterThanOrEqual)
             .bottom(by: -Metrics.margin)
-        cameraButton.layout().width(PostProductRedCamButtonFooter.cameraIconSide).widthProportionalToHeight()
+        cameraButton.layout().width(PostListingRedCamButtonFooter.cameraIconSide).widthProportionalToHeight()
     }
 }

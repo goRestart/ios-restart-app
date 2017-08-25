@@ -424,7 +424,7 @@ fileprivate extension UserViewModel {
         setupUserInfoRxBindings()
         setupUserRelationRxBindings()
         setupTabRxBindings()
-        setupProductListViewRxBindings()
+        setupListingListViewRxBindings()
         setupShareRxBindings()
     }
     
@@ -535,7 +535,7 @@ fileprivate extension UserViewModel {
             }.addDisposableTo(disposeBag)
     }
     
-    func setupProductListViewRxBindings() {
+    func setupListingListViewRxBindings() {
         user.asObservable().subscribeNext { [weak self] user in
             guard self?.sellingListingListRequester.userObjectId != user?.objectId else { return }
             self?.sellingListingListRequester.userObjectId = user?.objectId

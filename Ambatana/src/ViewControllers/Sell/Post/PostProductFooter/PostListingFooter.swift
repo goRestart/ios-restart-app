@@ -1,5 +1,5 @@
 //
-//  PostProductFooter.swift
+//  PostListingFooter.swift
 //  LetGo
 //
 //  Created by Albert Hernández López on 08/03/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol PostProductFooter {
+protocol PostListingFooter {
     var galleryButton: UIButton { get }
     var cameraButton: UIButton { get }
     var isHidden: Bool { get set }

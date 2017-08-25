@@ -1,5 +1,5 @@
 //
-//  PostProductDetailPriceView.swift
+//  PostListingDetailPriceView.swift
 //  LetGo
 //
 //  Created by Eli Kohen on 17/08/16.
@@ -11,7 +11,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class PostProductDetailPriceView: BaseView {
+class PostListingDetailPriceView: BaseView {
 
     @IBOutlet var contentView: UIView!
     @IBOutlet weak var priceTextField: UITextField!
@@ -32,21 +32,21 @@ class PostProductDetailPriceView: BaseView {
     static let containerHeight: CGFloat = 55
     
     @IBOutlet weak var freePostLabel: UILabel!
-    private let viewModel: PostProductDetailViewModel
+    private let viewModel: PostListingDetailViewModel
 
     private let disposeBag = DisposeBag()
     
-    convenience init(viewModel: PostProductDetailViewModel) {
+    convenience init(viewModel: PostListingDetailViewModel) {
         self.init(viewModel: viewModel, frame: CGRect.zero)
     }
 
-    init(viewModel: PostProductDetailViewModel, frame: CGRect) {
+    init(viewModel: PostListingDetailViewModel, frame: CGRect) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, frame: frame)
         setup()
     }
 
-    init?(viewModel: PostProductDetailViewModel, coder aDecoder: NSCoder) {
+    init?(viewModel: PostListingDetailViewModel, coder aDecoder: NSCoder) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, coder: aDecoder)
         setup()
@@ -67,7 +67,7 @@ class PostProductDetailPriceView: BaseView {
     }
 
     private func setup() {
-        loadNibNamed("PostProductDetailPriceView", contentView: { [weak self] in return self?.contentView })
+        loadNibNamed("PostListingDetailPriceView", contentView: { [weak self] in return self?.contentView })
         setupUI()
         setAccesibilityIds()
         setupRx()
@@ -107,8 +107,8 @@ class PostProductDetailPriceView: BaseView {
     
     private func showFreeOption(_ show: Bool) {
         if show {
-            giveAwayContainerHeightConstraint.constant = PostProductDetailPriceView.containerHeight
-            separatorContainerDistanceConstraint.constant = PostProductDetailPriceView.separatorContainerDistance
+            giveAwayContainerHeightConstraint.constant = PostListingDetailPriceView.containerHeight
+            separatorContainerDistanceConstraint.constant = PostListingDetailPriceView.separatorContainerDistance
         } else {
             giveAwayContainerHeightConstraint.constant = 0
             separatorContainerDistanceConstraint.constant = 0
@@ -116,8 +116,8 @@ class PostProductDetailPriceView: BaseView {
     }
     private func showPriceTextContainer(_ show: Bool) {
         if show {
-            priceContainerHeightConstraint.constant = PostProductDetailPriceView.containerHeight
-            separatorContainerDistanceConstraint.constant = PostProductDetailPriceView.separatorContainerDistance
+            priceContainerHeightConstraint.constant = PostListingDetailPriceView.containerHeight
+            separatorContainerDistanceConstraint.constant = PostListingDetailPriceView.separatorContainerDistance
         } else {
             priceContainerHeightConstraint.constant = 0
             separatorContainerDistanceConstraint.constant = 0
@@ -136,7 +136,7 @@ class PostProductDetailPriceView: BaseView {
 
 // MARK: - UITextFieldDelegate
 
-extension PostProductDetailPriceView: UITextFieldDelegate {
+extension PostListingDetailPriceView: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
                    replacementString string: String) -> Bool {
         guard textField == priceTextField else { return true }
@@ -147,7 +147,7 @@ extension PostProductDetailPriceView: UITextFieldDelegate {
 
 // MARK: - Accesibility
 
-extension PostProductDetailPriceView {
+extension PostListingDetailPriceView {
     func setAccesibilityIds() {
         doneButton.accessibilityId = .postingDoneButton
         currencyLabel.accessibilityId = .postingCurrencyLabel

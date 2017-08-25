@@ -27,7 +27,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
 
     // contained in cameraGalleryContainer
     fileprivate var viewPager: LGViewPager
-    fileprivate var cameraView: PostProductCameraView
+    fileprivate var cameraView: PostListingCameraView
     fileprivate var galleryView: PostProductGalleryView
 
     // contained in detailsContainer
@@ -35,7 +35,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
     fileprivate let categorySelectionView: PostCategorySelectionView
     fileprivate let carDetailsView: PostCarDetailsView
     
-    fileprivate var footer: PostProductFooter
+    fileprivate var footer: PostListingFooter
     fileprivate var footerView: UIView
     fileprivate let gradientLayer = CAGradientLayer.gradientWithColor(UIColor.black,
                                                                       alphas: [0, 0.6],
@@ -75,20 +75,20 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         
         let tabPosition: LGViewPagerTabPosition
         tabPosition = .hidden
-        let postFooter = PostProductRedCamButtonFooter()
+        let postFooter = PostListingRedCamButtonFooter()
         self.footer = postFooter
         self.footerView = postFooter
         self.closeButton = UIButton()
         
         let viewPagerConfig = LGViewPagerConfig(tabPosition: tabPosition, tabLayout: .fixed, tabHeight: 50)
         self.viewPager = LGViewPager(config: viewPagerConfig, frame: CGRect.zero)
-        self.cameraView = PostProductCameraView(viewModel: viewModel.postProductCameraViewModel)
+        self.cameraView = PostListingCameraView(viewModel: viewModel.postProductCameraViewModel)
         self.galleryView = PostProductGalleryView()
         self.keyboardHelper = keyboardHelper
         self.viewModel = viewModel
         self.forcedInitialTab = forcedInitialTab
         
-        self.priceView = PostProductDetailPriceView(viewModel: viewModel.postDetailViewModel)
+        self.priceView = PostListingDetailPriceView(viewModel: viewModel.postDetailViewModel)
         self.categorySelectionView = PostCategorySelectionView()
         self.carDetailsView = PostCarDetailsView(shouldShowSummaryAfter: viewModel.shouldShowSummaryAfter,
                                                  initialValues: viewModel.carInfo(forDetail: .make).carInfoWrappers)
@@ -190,7 +190,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
 
         galleryView.delegate = self
         galleryView.usePhotoButtonText = viewModel.usePhotoButtonText
-        galleryView.collectionViewBottomInset = Metrics.margin + PostProductRedCamButtonFooter.cameraIconSide
+        galleryView.collectionViewBottomInset = Metrics.margin + PostListingRedCamButtonFooter.cameraIconSide
         
         detailsContainerBottomConstraint.constant = 0
         
@@ -604,9 +604,9 @@ extension PostProductViewController {
 }
 
 
-// MARK: - PostProductCameraViewDelegate
+// MARK: - PostListingCameraViewDelegate
 
-extension PostProductViewController: PostProductCameraViewDelegate {
+extension PostProductViewController: PostListingCameraViewDelegate {
     func productCameraCloseButton() {
         onCloseButton(cameraView)
     }

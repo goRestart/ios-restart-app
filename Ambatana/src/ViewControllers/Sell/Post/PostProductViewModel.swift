@@ -47,8 +47,8 @@ class PostProductViewModel: BaseViewModel {
     let state: Variable<PostListingState>
     let category: Variable<PostCategory?>
 
-    let postDetailViewModel: PostProductDetailViewModel
-    let postProductCameraViewModel: PostProductCameraViewModel
+    let postDetailViewModel: PostListingDetailViewModel
+    let postProductCameraViewModel: PostListingCameraViewModel
     let postingSource: PostingSource
     
     fileprivate let listingRepository: ListingRepository
@@ -103,8 +103,8 @@ class PostProductViewModel: BaseViewModel {
         self.listingRepository = listingRepository
         self.fileRepository = fileRepository
         self.carsInfoRepository = carsInfoRepository
-        self.postDetailViewModel = PostProductDetailViewModel()
-        self.postProductCameraViewModel = PostProductCameraViewModel(postingSource: source)
+        self.postDetailViewModel = PostListingDetailViewModel()
+        self.postProductCameraViewModel = PostListingCameraViewModel(postingSource: source)
         self.tracker = tracker
         self.sessionManager = sessionManager
         self.featureFlags = featureFlags
@@ -296,10 +296,10 @@ extension PostProductViewModel {
     }
 }
 
-// MARK: - PostProductDetailViewModelDelegate
+// MARK: - PostListingDetailViewModelDelegate
 
-extension PostProductViewModel: PostProductDetailViewModelDelegate {
-    func postProductDetailDone(_ viewModel: PostProductDetailViewModel) {
+extension PostProductViewModel: PostListingDetailViewModelDelegate {
+    func postProductDetailDone(_ viewModel: PostListingDetailViewModel) {
         state.value = state.value.updating(price: viewModel.productPrice)
     }
 }

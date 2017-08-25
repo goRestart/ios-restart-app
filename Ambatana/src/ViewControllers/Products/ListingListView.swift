@@ -1,5 +1,5 @@
 //
-//  ProductListView.swift
+//  ListingListView.swift
 //  LetGo
 //
 //  Created by AHL on 9/7/15.
@@ -9,21 +9,21 @@
 import CHTCollectionViewWaterfallLayout
 import RxSwift
 
-protocol ProductListViewScrollDelegate: class {
-    func productListView(_ productListView: ProductListView, didScrollDown scrollDown: Bool)
-    func productListView(_ productListView: ProductListView, didScrollWithContentOffsetY contentOffsetY: CGFloat)
+protocol ListingListViewScrollDelegate: class {
+    func listingListView(_ listingListView: ListingListView, didScrollDown scrollDown: Bool)
+    func listingListView(_ listingListView: ListingListView, didScrollWithContentOffsetY contentOffsetY: CGFloat)
 }
 
-protocol ProductListViewCellsDelegate: class {
+protocol ListingListViewCellsDelegate: class {
     func visibleTopCellWithIndex(_ index: Int, whileScrollingDown scrollingDown: Bool)
 }
 
-protocol ProductListViewHeaderDelegate: class {
+protocol ListingListViewHeaderDelegate: class {
     func totalHeaderHeight() -> CGFloat
     func setupViewsIn(header: ListHeaderContainer)
 }
 
-class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout, ListingListViewModelDelegate,
+class ListingListView: BaseView, CHTCollectionViewDelegateWaterfallLayout, ListingListViewModelDelegate,
 UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
     // Constants
@@ -143,9 +143,9 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     private let drawerManager = GridDrawerManager()
     
     // Delegate
-    weak var scrollDelegate: ProductListViewScrollDelegate?
-    weak var cellsDelegate: ProductListViewCellsDelegate?
-    weak var headerDelegate: ProductListViewHeaderDelegate? {
+    weak var scrollDelegate: ListingListViewScrollDelegate?
+    weak var cellsDelegate: ListingListViewCellsDelegate?
+    weak var headerDelegate: ListingListViewHeaderDelegate? {
         didSet {
             guard let collectionView = collectionView else { return }
             collectionView.reloadData()
@@ -449,7 +449,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
      */
     private func setupUI() {
         // Load the view, and add it as Subview
-        Bundle.main.loadNibNamed("ProductListView", owner: self, options: nil)
+        Bundle.main.loadNibNamed("ListingListView", owner: self, options: nil)
         contentView.frame = bounds
         contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         addSubview(contentView)
@@ -477,9 +477,9 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         collectionView.addSubview(refreshControl)
 
         // > Error View
-        errorButtonHeightConstraint.constant = ProductListView.defaultErrorButtonHeight
+        errorButtonHeightConstraint.constant = ListingListView.defaultErrorButtonHeight
         errorButton.setStyle(.primary(fontSize: .medium))
-        errorButton.addTarget(self, action: #selector(ProductListView.errorButtonPressed), for: .touchUpInside)
+        errorButton.addTarget(self, action: #selector(ListingListView.errorButtonPressed), for: .touchUpInside)
         
         if #available(iOS 10, *) {
             setupPrefetching()
@@ -544,7 +544,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         errorButton.setTitle(emptyViewModel.buttonTitle, for: .normal)
         // > If there's no button title or action then hide it
         if emptyViewModel.hasAction {
-            errorButtonHeightConstraint.constant = ProductListView.defaultErrorButtonHeight
+            errorButtonHeightConstraint.constant = ListingListView.defaultErrorButtonHeight
         }
         else {
             errorButtonHeightConstraint.constant = 0
@@ -561,7 +561,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     */
     private func informScrollDelegate(_ scrollView: UIScrollView) {
         notifyScrollDownIfNeeded(scrollView: scrollView)
-        scrollDelegate?.productListView(self, didScrollWithContentOffsetY: scrollView.contentOffset.y)
+        scrollDelegate?.listingListView(self, didScrollWithContentOffsetY: scrollView.contentOffset.y)
     }
     
     /**
@@ -590,11 +590,11 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             let limit = (scrollView.contentSize.height - scrollView.frame.size.height + collectionViewContentInset.bottom)
             let offsetLowerThanBouncingLimit = lastContentOffset < limit
             if lastContentOffset > 0.0 && offsetLowerThanBouncingLimit || lastContentOffset < 0.0 && !scrollingDown {
-                scrollDelegate?.productListView(self, didScrollDown: scrollingDown)
+                scrollDelegate?.listingListView(self, didScrollDown: scrollingDown)
             }
         } else if lastContentOffset == -collectionViewContentInset.top {
             // If automatically scrolled to top, we should inform !scrollDown
-            scrollDelegate?.productListView(self, didScrollDown: false)
+            scrollDelegate?.listingListView(self, didScrollDown: false)
         }
     }
     
@@ -614,7 +614,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 }
 
 @available(iOS 10, *)
-extension ProductListView: UICollectionViewDataSourcePrefetching {
+extension ListingListView: UICollectionViewDataSourcePrefetching {
     
     fileprivate func setupPrefetching() {
         collectionView.prefetchDataSource = self
@@ -628,7 +628,7 @@ extension ProductListView: UICollectionViewDataSourcePrefetching {
 
 // UI Testing + accessibility
 
-extension ProductListView {
+extension ListingListView {
     func setAccessibilityIds() {
         firstLoadView.accessibilityId = .listingListViewFirstLoadView
         firstLoadActivityIndicator.accessibilityId = .listingListViewFirstLoadActivityIndicator

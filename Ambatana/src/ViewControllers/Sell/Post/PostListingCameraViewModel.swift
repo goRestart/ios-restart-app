@@ -1,5 +1,5 @@
 //
-//  PostProductCameraViewModel.swift
+//  PostListingCameraViewModel.swift
 //  LetGo
 //
 //  Created by Eli Kohen on 10/03/16.
@@ -15,9 +15,9 @@ enum CameraState {
 
 
 
-class PostProductCameraViewModel: BaseViewModel {
+class PostListingCameraViewModel: BaseViewModel {
 
-    weak var cameraDelegate: PostProductCameraViewDelegate?
+    weak var cameraDelegate: PostListingCameraViewDelegate?
 
     let visible = Variable<Bool>(false)
 

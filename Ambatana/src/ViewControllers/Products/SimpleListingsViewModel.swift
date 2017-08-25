@@ -1,5 +1,5 @@
 //
-//  ProductsViewModel.swift
+//  SimpleListingsViewModel.swift
 //  LetGo
 //
 //  Created by Eli Kohen on 25/11/2016.
@@ -10,7 +10,7 @@ import Foundation
 import LGCoreKit
 
 
-class SimpleProductsViewModel: BaseViewModel {
+class SimpleListingsViewModel: BaseViewModel {
 
     weak var navigator: SimpleProductsNavigator?
 
@@ -79,7 +79,7 @@ class SimpleProductsViewModel: BaseViewModel {
 }
 
 
-extension SimpleProductsViewModel: ListingListViewModelDataDelegate {
+extension SimpleListingsViewModel: ListingListViewModelDataDelegate {
     func productListMV(_ viewModel: ListingListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
                        error: RepositoryError) {
 
