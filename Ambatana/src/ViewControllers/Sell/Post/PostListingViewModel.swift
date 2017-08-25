@@ -1,5 +1,5 @@
 //
-//  PostProductViewModel.swift
+//  PostListingViewModel.swift
 //  LetGo
 //
 //  Created by Eli Kohen on 11/12/15.
@@ -9,7 +9,7 @@
 import LGCoreKit
 import RxSwift
 
-protocol PostProductViewModelDelegate: BaseViewModelDelegate {}
+protocol PostListingViewModelDelegate: BaseViewModelDelegate {}
 
 enum PostingSource {
     case tabBar
@@ -22,11 +22,11 @@ enum PostingSource {
 }
 
 
-class PostProductViewModel: BaseViewModel {
+class PostListingViewModel: BaseViewModel {
     
     static let carDetailsNumber: Int = 3
     
-    weak var delegate: PostProductViewModelDelegate?
+    weak var delegate: PostListingViewModelDelegate?
     weak var navigator: PostProductNavigator?
 
     var usePhotoButtonText: String {
@@ -192,7 +192,7 @@ class PostProductViewModel: BaseViewModel {
 
 // MARK: - Cars vertical
 
-extension PostProductViewModel {
+extension PostListingViewModel {
     
     fileprivate var carMakes: [CarsMake] {
         return carsInfoRepository.retrieveCarsMakes()
@@ -261,7 +261,7 @@ extension PostProductViewModel {
     }
     
     var currentCarDetailsProgress: Float {
-        let details = PostProductViewModel.carDetailsNumber
+        let details = PostListingViewModel.carDetailsNumber
         var detailsFilled = 0
         detailsFilled += selectedCarAttributes.isMakeEmpty ? 0 : 1
         detailsFilled += selectedCarAttributes.isModelEmpty ? 0 : 1
@@ -298,7 +298,7 @@ extension PostProductViewModel {
 
 // MARK: - PostListingDetailViewModelDelegate
 
-extension PostProductViewModel: PostListingDetailViewModelDelegate {
+extension PostListingViewModel: PostListingDetailViewModelDelegate {
     func postProductDetailDone(_ viewModel: PostListingDetailViewModel) {
         state.value = state.value.updating(price: viewModel.productPrice)
     }
@@ -307,7 +307,7 @@ extension PostProductViewModel: PostListingDetailViewModelDelegate {
 
 // MARK: - Private methods
 
-fileprivate extension PostProductViewModel {
+fileprivate extension PostListingViewModel {
     func setupRx() {
         category.asObservable().subscribeNext { [weak self] category in
             guard let strongSelf = self, let category = category else { return }
@@ -438,7 +438,7 @@ fileprivate extension PostProductViewModel {
 
 // MARK: - Tracking
 
-fileprivate extension PostProductViewModel {
+fileprivate extension PostListingViewModel {
     func trackVisit() {
         let event = TrackerEvent.listingSellStart(postingSource.typePage,buttonName: postingSource.buttonName,
                                                   sellButtonPosition: postingSource.sellButtonPosition)

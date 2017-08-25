@@ -37,7 +37,7 @@ final class SellCoordinator: Coordinator {
     // MARK: - Lifecycle
 
     convenience init(source: PostingSource,
-                     forcedInitialTab: PostProductViewController.Tab?) {
+                     forcedInitialTab: PostListingViewController.Tab?) {
         self.init(source: source,
                   forcedInitialTab: forcedInitialTab,
                   listingRepository: Core.listingRepository,
@@ -49,7 +49,7 @@ final class SellCoordinator: Coordinator {
     }
 
     init(source: PostingSource,
-         forcedInitialTab: PostProductViewController.Tab?,
+         forcedInitialTab: PostListingViewController.Tab?,
          listingRepository: ListingRepository,
          bubbleNotificationManager: BubbleNotificationManager,
          keyValueStorage: KeyValueStorage,
@@ -63,20 +63,20 @@ final class SellCoordinator: Coordinator {
         self.postingSource = source
         self.featureFlags = featureFlags
         self.sessionManager = sessionManager
-        let postProductVM = PostProductViewModel(source: source)
-        let postProductVC = PostProductViewController(viewModel: postProductVM,
+        let postListingVM = PostListingViewModel(source: source)
+        let postListingVC = PostListingViewController(viewModel: postListingVM,
                                                       forcedInitialTab: forcedInitialTab)
-        self.viewController = postProductVC
+        self.viewController = postListingVC
 
-        postProductVM.navigator = self
+        postListingVM.navigator = self
     }
 
     func presentViewController(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
-        guard let postProductVC = viewController as? PostProductViewController else { return }
-        guard postProductVC.parent == nil else { return }
+        guard let postListingVC = viewController as? PostListingViewController else { return }
+        guard postListingVC.parent == nil else { return }
 
         parentViewController = parent
-        parent.present(postProductVC, animated: animated, completion: completion)
+        parent.present(postListingVC, animated: animated, completion: completion)
     }
 
     func dismissViewController(animated: Bool, completion: (() -> Void)?) {
@@ -96,7 +96,7 @@ extension SellCoordinator: PostProductNavigator {
     }
 
     func closePostProductAndPostInBackground(params: ListingCreationParams,
-                                             trackingInfo: PostProductTrackingInfo) {
+                                             trackingInfo: PostListingTrackingInfo) {
         dismissViewController(animated: true) { [weak self] in
             switch params {
             case .product(let productParams):
@@ -147,27 +147,27 @@ extension SellCoordinator: PostProductNavigator {
         TrackerProxy.sharedInstance.trackEvent(sellErrorDataEvent)
     }
 
-    fileprivate func showConfirmation(listingResult: ListingResult, trackingInfo: PostProductTrackingInfo) {
+    fileprivate func showConfirmation(listingResult: ListingResult, trackingInfo: PostListingTrackingInfo) {
         guard let parentVC = parentViewController else { return }
         
-        let productPostedVM = ProductPostedViewModel(listingResult: listingResult, trackingInfo: trackingInfo)
-        productPostedVM.navigator = self
-        let productPostedVC = ProductPostedViewController(viewModel: productPostedVM)
-        viewController = productPostedVC
-        parentVC.present(productPostedVC, animated: true, completion: nil)
+        let listingPostedVM = ListingPostedViewModel(listingResult: listingResult, trackingInfo: trackingInfo)
+        listingPostedVM.navigator = self
+        let listingPostedVC = ListingPostedViewController(viewModel: listingPostedVM)
+        viewController = listingPostedVC
+        parentVC.present(listingPostedVC, animated: true, completion: nil)
     }
 
     func closePostProductAndPostLater(params: ListingCreationParams, images: [UIImage],
-                                      trackingInfo: PostProductTrackingInfo) {
+                                      trackingInfo: PostListingTrackingInfo) {
         guard let parentVC = parentViewController else { return }
 
         dismissViewController(animated: true) { [weak self] in
-            let productPostedVM = ProductPostedViewModel(postParams: params, productImages: images,
+            let listingPostedVM = ListingPostedViewModel(postParams: params, productImages: images,
                                                          trackingInfo: trackingInfo)
-            productPostedVM.navigator = self
-            let productPostedVC = ProductPostedViewController(viewModel: productPostedVM)
-            self?.viewController = productPostedVC
-            parentVC.present(productPostedVC, animated: true, completion: nil)
+            listingPostedVM.navigator = self
+            let listingPostedVC = ListingPostedViewController(viewModel: listingPostedVM)
+            self?.viewController = listingPostedVC
+            parentVC.present(listingPostedVC, animated: true, completion: nil)
         }
     }
 
@@ -217,11 +217,11 @@ extension SellCoordinator: ProductPostedNavigator {
     func closeProductPostedAndOpenPost() {
         dismissViewController(animated: true) { [weak self] in
             guard let strongSelf = self, let parentVC = strongSelf.parentViewController else { return }
-            let postProductVM = PostProductViewModel(source: strongSelf.postingSource)
-            let postProductVC = PostProductViewController(viewModel: postProductVM,
+            let postListingVM = PostListingViewModel(source: strongSelf.postingSource)
+            let postListingVC = PostListingViewController(viewModel: postListingVM,
                                                           forcedInitialTab: nil)
-            strongSelf.viewController = postProductVC
-            postProductVM.navigator = self
+            strongSelf.viewController = postListingVC
+            postListingVM.navigator = self
 
             strongSelf.presentViewController(parent: parentVC, animated: true, completion: nil)
         }
@@ -232,7 +232,7 @@ extension SellCoordinator: ProductPostedNavigator {
 // MARK: - Tracking
 
 fileprivate extension SellCoordinator {
-    func trackPost(withListing listing: Listing, trackingInfo: PostProductTrackingInfo) {
+    func trackPost(withListing listing: Listing, trackingInfo: PostListingTrackingInfo) {
         let event = TrackerEvent.listingSellComplete(listing, buttonName: trackingInfo.buttonName, sellButtonPosition: trackingInfo.sellButtonPosition,
                                                      negotiable: trackingInfo.negotiablePrice, pictureSource: trackingInfo.imageSource,
                                                      freePostingModeAllowed: featureFlags.freePostingModeAllowed)

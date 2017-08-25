@@ -1,5 +1,5 @@
 //
-//  PostProductViewController.swift
+//  PostListingViewController.swift
 //  LetGo
 //
 //  Created by Eli Kohen on 11/12/15.
@@ -9,7 +9,7 @@
 import UIKit
 import RxSwift
 
-class PostProductViewController: BaseViewController, PostProductViewModelDelegate {
+class PostListingViewController: BaseViewController, PostListingViewModelDelegate {
     @IBOutlet weak var cameraGalleryContainer: UIView!
     
     @IBOutlet weak var otherStepsContainer: UIView!
@@ -28,7 +28,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
     // contained in cameraGalleryContainer
     fileprivate var viewPager: LGViewPager
     fileprivate var cameraView: PostListingCameraView
-    fileprivate var galleryView: PostProductGalleryView
+    fileprivate var galleryView: PostListingGalleryView
 
     // contained in detailsContainer
     fileprivate let priceView: UIView
@@ -57,19 +57,19 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
     private let disposeBag = DisposeBag()
 
     // ViewModel
-    fileprivate var viewModel: PostProductViewModel
+    fileprivate var viewModel: PostListingViewModel
 
 
     // MARK: - Lifecycle
 
-    convenience init(viewModel: PostProductViewModel,
+    convenience init(viewModel: PostListingViewModel,
                      forcedInitialTab: Tab?) {
         self.init(viewModel: viewModel,
                   forcedInitialTab: forcedInitialTab,
                   keyboardHelper: KeyboardHelper())
     }
 
-    required init(viewModel: PostProductViewModel,
+    required init(viewModel: PostListingViewModel,
                   forcedInitialTab: Tab?,
                   keyboardHelper: KeyboardHelper) {
         
@@ -83,7 +83,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         let viewPagerConfig = LGViewPagerConfig(tabPosition: tabPosition, tabLayout: .fixed, tabHeight: 50)
         self.viewPager = LGViewPager(config: viewPagerConfig, frame: CGRect.zero)
         self.cameraView = PostListingCameraView(viewModel: viewModel.postProductCameraViewModel)
-        self.galleryView = PostProductGalleryView()
+        self.galleryView = PostListingGalleryView()
         self.keyboardHelper = keyboardHelper
         self.viewModel = viewModel
         self.forcedInitialTab = forcedInitialTab
@@ -92,7 +92,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
         self.categorySelectionView = PostCategorySelectionView()
         self.carDetailsView = PostCarDetailsView(shouldShowSummaryAfter: viewModel.shouldShowSummaryAfter,
                                                  initialValues: viewModel.carInfo(forDetail: .make).carInfoWrappers)
-        super.init(viewModel: viewModel, nibName: "PostProductViewController",
+        super.init(viewModel: viewModel, nibName: "PostListingViewController",
                    statusBarStyle: UIApplication.shared.statusBarStyle)
         modalPresentationStyle = .overCurrentContext
         viewModel.delegate = self
@@ -338,7 +338,7 @@ class PostProductViewController: BaseViewController, PostProductViewModelDelegat
 
 // MARK: - Car details
 
-extension PostProductViewController {
+extension PostListingViewController {
     
     dynamic func carDetailsNavigationBackButtonPressed() {
         if let previousState = carDetailsView.previousState, previousState.isSummary {
@@ -538,7 +538,7 @@ fileprivate extension PostListingState {
     }
 }
 
-extension PostProductViewController {
+extension PostListingViewController {
     fileprivate func update(state: PostListingState) {
 
         if let view = viewToAdjustDetailsScrollContentInset(state: state) {
@@ -606,7 +606,7 @@ extension PostProductViewController {
 
 // MARK: - PostListingCameraViewDelegate
 
-extension PostProductViewController: PostListingCameraViewDelegate {
+extension PostListingViewController: PostListingCameraViewDelegate {
     func productCameraCloseButton() {
         onCloseButton(cameraView)
     }
@@ -625,9 +625,9 @@ extension PostProductViewController: PostListingCameraViewDelegate {
 }
 
 
-// MARK: - PostProductGalleryViewDelegate
+// MARK: - PostListingGalleryViewDelegate
 
-extension PostProductViewController: PostProductGalleryViewDelegate {
+extension PostListingViewController: PostListingGalleryViewDelegate {
     func productGalleryCloseButton() {
         onCloseButton(galleryView)
     }
@@ -661,7 +661,7 @@ extension PostProductViewController: PostProductGalleryViewDelegate {
 
 // MARK: - LGViewPager
 
-extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate, LGViewPagerScrollDelegate {
+extension PostListingViewController: LGViewPagerDataSource, LGViewPagerDelegate, LGViewPagerScrollDelegate {
     func setupViewPager() {
         viewPager.dataSource = self
         viewPager.scrollDelegate = self
@@ -764,7 +764,7 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate,
 
 // MARK: - Accesibility
 
-extension PostProductViewController {
+extension PostListingViewController {
     func setAccesibilityIds() {
         closeButton.accessibilityId = .postingCloseButton
         customLoadingView.accessibilityId = .postingLoading
@@ -775,7 +775,7 @@ extension PostProductViewController {
 
 // MARK: - Tab
 
-extension PostProductViewController {
+extension PostListingViewController {
     enum Tab: Int {
         case gallery, camera
         

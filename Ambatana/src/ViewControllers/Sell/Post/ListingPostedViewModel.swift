@@ -1,5 +1,5 @@
 //
-//  ProductPostedViewModel.swift
+//  ListingPostedViewModel.swift
 //  LetGo
 //
 //  Created by Eli Kohen on 14/12/15.
@@ -10,24 +10,24 @@ import LGCoreKit
 import RxSwift
 
 
-// MARK: - ProductPostedViewModelDelegate
+// MARK: - ListingPostedViewModelDelegate
 
-protocol ProductPostedViewModelDelegate: class {
-    func productPostedViewModelSetupLoadingState(_ viewModel: ProductPostedViewModel)
-    func productPostedViewModel(_ viewModel: ProductPostedViewModel, finishedLoadingState correct: Bool)
-    func productPostedViewModel(_ viewModel: ProductPostedViewModel, setupStaticState correct: Bool)
+protocol ListingPostedViewModelDelegate: class {
+    func productPostedViewModelSetupLoadingState(_ viewModel: ListingPostedViewModel)
+    func productPostedViewModel(_ viewModel: ListingPostedViewModel, finishedLoadingState correct: Bool)
+    func productPostedViewModel(_ viewModel: ListingPostedViewModel, setupStaticState correct: Bool)
     func productPostedViewModelShareNative()
 }
 
 
-// MARK: - ProductPostedViewModel
+// MARK: - ListingPostedViewModel
 
-class ProductPostedViewModel: BaseViewModel {
+class ListingPostedViewModel: BaseViewModel {
     weak var navigator: ProductPostedNavigator?
-    weak var delegate: ProductPostedViewModelDelegate?
+    weak var delegate: ListingPostedViewModelDelegate?
 
     private var status: ListingPostedStatus
-    private let trackingInfo: PostProductTrackingInfo
+    private let trackingInfo: PostListingTrackingInfo
     private let featureFlags: FeatureFlaggeable
     private let keyValueStorage: KeyValueStorage
     private let tracker: Tracker
@@ -48,17 +48,17 @@ class ProductPostedViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
 
-    convenience init(listingResult: ListingResult, trackingInfo: PostProductTrackingInfo) {
+    convenience init(listingResult: ListingResult, trackingInfo: PostListingTrackingInfo) {
         self.init(status: ListingPostedStatus(listingResult: listingResult),
                   trackingInfo: trackingInfo)
     }
 
-    convenience init(postParams: ListingCreationParams, productImages: [UIImage], trackingInfo: PostProductTrackingInfo) {
+    convenience init(postParams: ListingCreationParams, productImages: [UIImage], trackingInfo: PostListingTrackingInfo) {
         self.init(status: ListingPostedStatus(images: productImages, params: postParams),
                   trackingInfo: trackingInfo)
     }
 
-    convenience init(status: ListingPostedStatus, trackingInfo: PostProductTrackingInfo) {
+    convenience init(status: ListingPostedStatus, trackingInfo: PostListingTrackingInfo) {
         self.init(status: status,
                   trackingInfo: trackingInfo,
                   listingRepository: Core.listingRepository,
@@ -69,7 +69,7 @@ class ProductPostedViewModel: BaseViewModel {
     }
 
     init(status: ListingPostedStatus,
-         trackingInfo: PostProductTrackingInfo,
+         trackingInfo: PostListingTrackingInfo,
          listingRepository: ListingRepository,
          fileRepository: FileRepository,
          featureFlags: FeatureFlaggeable,

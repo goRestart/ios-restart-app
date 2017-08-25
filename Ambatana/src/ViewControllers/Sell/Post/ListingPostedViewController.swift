@@ -1,5 +1,5 @@
 //
-//  ProductPostedViewController.swift
+//  ListingPostedViewController.swift
 //  LetGo
 //
 //  Created by Eli Kohen on 14/12/15.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ProductPostedViewController: BaseViewController, ProductPostedViewModelDelegate {
+class ListingPostedViewController: BaseViewController, ListingPostedViewModelDelegate {
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var shareButton: UIButton!
     @IBOutlet weak var contentContainer: UIView!
@@ -28,19 +28,19 @@ class ProductPostedViewController: BaseViewController, ProductPostedViewModelDel
     @IBOutlet weak var incentiveContainer: UIView!
 
     private static let contentContainerShownHeight: CGFloat = 80
-    fileprivate let viewModel: ProductPostedViewModel
+    fileprivate let viewModel: ListingPostedViewModel
     private let socialSharer: SocialSharer
 
     // MARK: - View lifecycle
 
-    convenience init(viewModel: ProductPostedViewModel) {
+    convenience init(viewModel: ListingPostedViewModel) {
         self.init(viewModel: viewModel, socialSharer: SocialSharer())
     }
 
-    required init(viewModel: ProductPostedViewModel, socialSharer: SocialSharer) {
+    required init(viewModel: ListingPostedViewModel, socialSharer: SocialSharer) {
         self.viewModel = viewModel
         self.socialSharer = socialSharer
-        super.init(viewModel: viewModel, nibName: "ProductPostedViewController",
+        super.init(viewModel: viewModel, nibName: "ListingPostedViewController",
                    statusBarStyle: UIApplication.shared.statusBarStyle)
         viewModel.delegate = self
         socialSharer.delegate = self
@@ -86,17 +86,17 @@ class ProductPostedViewController: BaseViewController, ProductPostedViewModelDel
     }
 
 
-    // MARK: - ProductPostedViewModelDelegate
+    // MARK: - ListingPostedViewModelDelegate
 
-    func productPostedViewModelSetupLoadingState(_ viewModel: ProductPostedViewModel) {
+    func productPostedViewModelSetupLoadingState(_ viewModel: ListingPostedViewModel) {
         setupLoading()
     }
 
-    func productPostedViewModel(_ viewModel: ProductPostedViewModel, finishedLoadingState correct: Bool) {
+    func productPostedViewModel(_ viewModel: ListingPostedViewModel, finishedLoadingState correct: Bool) {
         finishedLoading(correct)
     }
 
-    func productPostedViewModel(_ viewModel: ProductPostedViewModel, setupStaticState correct: Bool) {
+    func productPostedViewModel(_ viewModel: ListingPostedViewModel, setupStaticState correct: Bool) {
         setupStatic(correct)
     }
     
@@ -158,7 +158,7 @@ class ProductPostedViewController: BaseViewController, ProductPostedViewModelDel
         loadingIndicator.isHidden = true
         loadingIndicator.stopAnimating(correct) { [weak self] in
             if correct {
-                self?.editContainerHeight.constant = ProductPostedViewController.contentContainerShownHeight
+                self?.editContainerHeight.constant = ListingPostedViewController.contentContainerShownHeight
                 self?.incentiveContainer.isHidden = false
             }
             self?.mainButtonHeight.constant = LGUIKitConstants.enabledButtonHeight
@@ -190,7 +190,7 @@ class ProductPostedViewController: BaseViewController, ProductPostedViewModelDel
 
 // MARK: - SocialSharerDelegate
 
-extension ProductPostedViewController: SocialSharerDelegate {
+extension ListingPostedViewController: SocialSharerDelegate {
     func shareStartedIn(_ shareType: ShareType) {
         viewModel.shareStartedIn(shareType)
     }
@@ -203,7 +203,7 @@ extension ProductPostedViewController: SocialSharerDelegate {
 
 // MARK: - Incentivise methods
 
-extension ProductPostedViewController: PostIncentivatorViewDelegate {
+extension ListingPostedViewController: PostIncentivatorViewDelegate {
 
     func incentivatorTapped() {
         viewModel.incentivateSectionPressed()
@@ -213,7 +213,7 @@ extension ProductPostedViewController: PostIncentivatorViewDelegate {
 
 // MARK: - Accesibility
 
-extension ProductPostedViewController {
+extension ListingPostedViewController {
     func setAccesibilityIds() {
         closeButton.accessibilityId = .postingInfoCloseButton
         shareButton.accessibilityId = .postingInfoShareButton

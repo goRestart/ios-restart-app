@@ -48,7 +48,7 @@ class PostListingGalleryViewModel: BaseViewModel {
     var mediaPermissions: MediaPermissions
 
     weak var delegate: PostListingGalleryViewModelDelegate?
-    weak var galleryDelegate: PostProductGalleryViewDelegate?
+    weak var galleryDelegate: PostListingGalleryViewDelegate?
 
     let visible = Variable<Bool>(false)
 

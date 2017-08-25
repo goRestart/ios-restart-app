@@ -199,7 +199,7 @@ extension AppCoordinator: AppNavigator {
     }
 
     func openSell(source: PostingSource) {
-        let forcedInitialTab: PostProductViewController.Tab?
+        let forcedInitialTab: PostListingViewController.Tab?
         switch source {
         case .tabBar, .sellButton, .deepLink, .notifications, .deleteProduct:
             forcedInitialTab = nil

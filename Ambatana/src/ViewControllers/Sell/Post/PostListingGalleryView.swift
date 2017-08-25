@@ -1,5 +1,5 @@
 //
-//  PostProductGalleryView.swift
+//  PostListingGalleryView.swift
 //  LetGo
 //
 //  Created by Eli Kohen on 04/03/16.
@@ -11,7 +11,7 @@ import Photos
 import RxSwift
 import RxCocoa
 
-protocol PostProductGalleryViewDelegate: class {
+protocol PostListingGalleryViewDelegate: class {
     func productGalleryCloseButton()
     func productGalleryDidSelectImages(_ images: [UIImage])
     func productGalleryRequestsScrollLock(_ lock: Bool)
@@ -27,7 +27,7 @@ enum MessageInfoType {
     case wrongImage
 }
 
-class PostProductGalleryView: BaseView, LGViewPagerPage {
+class PostListingGalleryView: BaseView, LGViewPagerPage {
 
     @IBOutlet var contentView: UIView!
 
@@ -54,7 +54,7 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
     @IBOutlet weak var infoSubtitle: UILabel!
     @IBOutlet weak var infoButton: UIButton!
 
-    weak var delegate: PostProductGalleryViewDelegate? {
+    weak var delegate: PostListingGalleryViewDelegate? {
         didSet {
             viewModel.galleryDelegate = delegate
         }
@@ -161,7 +161,7 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
     // MARK: - Private methods
 
     private func setupUI() {
-        Bundle.main.loadNibNamed("PostProductGalleryView", owner: self, options: nil)
+        Bundle.main.loadNibNamed("PostListingGalleryView", owner: self, options: nil)
         contentView.frame = bounds
         contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         contentView.backgroundColor = UIColor.black
@@ -219,9 +219,9 @@ class PostProductGalleryView: BaseView, LGViewPagerPage {
 }
 
 
-// MARK: - PostProductGalleryViewDelegate
+// MARK: - PostListingGalleryViewDelegate
 
-extension PostProductGalleryView: PostListingGalleryViewModelDelegate {
+extension PostListingGalleryView: PostListingGalleryViewModelDelegate {
 
     func vmDidUpdateGallery() {
         collectionView.reloadData()
@@ -247,7 +247,7 @@ extension PostProductGalleryView: PostListingGalleryViewModelDelegate {
 
 // MARK: - UICollectionViewDataSource, UICollectionViewDelegate
 
-extension PostProductGalleryView: UICollectionViewDataSource, UICollectionViewDelegate {
+extension PostListingGalleryView: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.imagesCount
     }
@@ -319,7 +319,7 @@ extension PostProductGalleryView: UICollectionViewDataSource, UICollectionViewDe
 
 // MARK: - Info screen
 
-extension PostProductGalleryView {
+extension PostListingGalleryView {
 
     fileprivate func setupRX() {
         viewModel.galleryState.asObservable().subscribeNext{ [weak self] state in
@@ -396,7 +396,7 @@ extension PostProductGalleryView {
 
 // MARK: - Album selection 
 
-extension PostProductGalleryView {
+extension PostListingGalleryView {
 
     func setupAlbumSelection() {
 
@@ -447,7 +447,7 @@ enum GalleryDragState {
     case none, draggingCollection(Bool), draggingImage
 }
 
-extension PostProductGalleryView: UIGestureRecognizerDelegate {
+extension PostListingGalleryView: UIGestureRecognizerDelegate {
 
     var imageContainerMaxHeight: CGFloat {
         return imageContainer.height-headerContainer.height
@@ -550,7 +550,7 @@ extension PostProductGalleryView: UIGestureRecognizerDelegate {
 
 // MARK: - Accesibility
 
-extension PostProductGalleryView {
+extension PostListingGalleryView {
     func setAccesibilityIds() {
         closeButton.accessibilityId = .postingGalleryCloseButton
         imageContainer.accessibilityId = .postingGalleryImageContainer
