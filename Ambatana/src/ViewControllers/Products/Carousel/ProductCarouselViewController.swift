@@ -684,7 +684,8 @@ extension ProductCarouselViewController {
         }.addDisposableTo(disposeBag)
 
         viewModel.quickAnswers.asObservable().bindNext { [weak self] quickAnswers in
-            self?.directAnswersView.update(answers: quickAnswers, isDynamic: self?.viewModel.currentProductViewModel?.areQuickAnswersDynamic)
+            let isDynamic = self?.viewModel.currentProductViewModel?.areQuickAnswersDynamic ?? false
+            self?.directAnswersView.update(answers: quickAnswers, isDynamic: isDynamic)
         }.addDisposableTo(disposeBag)
 
         viewModel.directChatMessages.changesObservable.bindNext { [weak self] change in

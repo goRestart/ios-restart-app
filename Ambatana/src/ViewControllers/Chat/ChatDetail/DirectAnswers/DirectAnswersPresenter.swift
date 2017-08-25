@@ -81,7 +81,7 @@ extension DirectAnswersPresenter: DirectAnswersHorizontalViewDelegate {
     func directAnswersHorizontalViewDidSelect(answer: QuickAnswer, index: Int) {
         if isDynamic {
             answers.move(fromIndex: index, toIndex: answers.count-1)
-            horizontalView?.update(answers: answers, isDynamic: nil)
+            horizontalView?.update(answers: answers, isDynamic: isDynamic)
         }
         delegate?.directAnswersDidTapAnswer(self, answer: answer, index: index)
     }

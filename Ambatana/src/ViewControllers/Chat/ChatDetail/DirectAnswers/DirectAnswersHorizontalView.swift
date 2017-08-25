@@ -73,11 +73,9 @@ class DirectAnswersHorizontalView: UIView {
         heightConstraint.constant = collapsed ? 0 : DirectAnswersHorizontalView.defaultHeight
     }
 
-    func update(answers: [[QuickAnswer]], isDynamic: Bool?) {
+    func update(answers: [[QuickAnswer]], isDynamic: Bool) {
         self.answers = answers
-        if let isDynamic = isDynamic {
-            self.isDynamic = isDynamic
-        }
+        self.isDynamic = isDynamic
         collectionView.reloadData()
     }
 
