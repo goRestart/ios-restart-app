@@ -547,14 +547,14 @@ extension ChatViewController: ChatViewModelDelegate {
         showAutoFadingOutMessageAlert(message)
     }
     
-    func vmClearText() {
+    func vmDidSendMessage() {
         textView.text = ""
     }
 
     
     // MARK: > Report user
 
-    func vmShowReportUser(_ reportUserViewModel: ReportUsersViewModel) {
+    func vmDidPressReportUser(_ reportUserViewModel: ReportUsersViewModel) {
         let vc = ReportUsersViewController(viewModel: reportUserViewModel)
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -562,31 +562,31 @@ extension ChatViewController: ChatViewModelDelegate {
     
     // MARK: > Alerts and messages
     
-    func vmShowSafetyTips() {
+    func vmDidRequestSafetyTips() {
         showSafetyTips()
     }
     
-    func vmShowPrePermissions(_ type: PrePermissionType) {
+    func vmDidRequestShowPrePermissions(_ type: PrePermissionType) {
         showKeyboard(false, animated: true)
         pushPermissionManager.showPrePermissionsViewFrom(self, type: type, completion: nil)
     }
     
-    func vmShowKeyboard() {
+    func vmDidBeginEditing() {
         showKeyboard(true, animated: true)
     }
 
-    func vmHideKeyboard(_ animated: Bool) {
+    func vmDidEndEditing(animated: Bool) {
         showKeyboard(false, animated: animated)
     }
     
-    func vmShowMessage(_ message: String, completion: (() -> ())?) {
+    func vmDidNotifyMessage(_ message: String, completion: (() -> ())?) {
         showAutoFadingOutMessageAlert(message, completion: completion)
     }
     
     
     // MARK: > Direct answers
     
-    func vmShowKeyboard(quickAnswerText: String) {
+    func vmDidPressDirectAnswer(quickAnswerText: String) {
         textView.text = quickAnswerText
         textView.becomeFirstResponder()
     }

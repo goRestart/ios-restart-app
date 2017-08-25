@@ -519,7 +519,7 @@ extension OldChatViewController: OldChatViewModelDelegate {
     
     // MARK: > Direct answers
     
-    func vmShowKeyboard(quickAnswerText: String) {
+    func vmDidTapDirectAnswer(quickAnswerText: String) {
         textView.text = quickAnswerText
         textView.becomeFirstResponder()
     }

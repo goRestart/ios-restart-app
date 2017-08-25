@@ -14,18 +14,18 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
 
     func vmDidFailRetrievingChatMessages()
     
-    func vmShowReportUser(_ reportUserViewModel: ReportUsersViewModel)
+    func vmDidPressReportUser(_ reportUserViewModel: ReportUsersViewModel)
 
-    func vmShowSafetyTips()
+    func vmDidRequestSafetyTips()
 
-    func vmClearText()
-    func vmHideKeyboard(_ animated: Bool)
-    func vmShowKeyboard()
+    func vmDidSendMessage()
+    func vmDidEndEditing(animated: Bool)
+    func vmDidBeginEditing()
     
-    func vmShowPrePermissions(_ type: PrePermissionType)
-    func vmShowMessage(_ message: String, completion: (() -> ())?)
+    func vmDidRequestShowPrePermissions(_ type: PrePermissionType)
+    func vmDidNotifyMessage(_ message: String, completion: (() -> ())?)
     
-    func vmShowKeyboard(quickAnswerText: String)
+    func vmDidPressDirectAnswer(quickAnswerText: String)
 }
 
 struct EmptyConversation: ChatConversation {
@@ -159,7 +159,7 @@ class ChatViewModel: BaseViewModel {
 
     fileprivate var safetyTipsAction: () -> Void {
         return { [weak self] in
-            self?.delegate?.vmShowSafetyTips()
+            self?.delegate?.vmDidRequestSafetyTips()
         }
     }
     
@@ -291,7 +291,7 @@ class ChatViewModel: BaseViewModel {
 
     func didAppear() {
         if conversation.value.isSaved && chatEnabled.value {
-            delegate?.vmShowKeyboard()
+            delegate?.vmDidBeginEditing()
         }
     }
 
@@ -518,7 +518,7 @@ class ChatViewModel: BaseViewModel {
         case .deleted:
             break
         case .pending, .approved, .discarded, .sold, .soldOld:
-            delegate?.vmHideKeyboard(false)
+            delegate?.vmDidEndEditing(animated: false)
             let data = ListingDetailData.listingChat(chatConversation: conversation.value)
             navigator?.openListing(data, source: .chat, actionOnFirstAppear: .nonexistent)
         }
@@ -614,7 +614,7 @@ extension ChatViewModel {
         guard let userId = myUserRepository.myUser?.objectId else { return }
         
         if type.isUserText {
-            delegate?.vmClearText()
+            delegate?.vmDidSendMessage()
         }
 
         let newMessage = chatRepository.createNewMessage(userId, text: message, type: type.chatType)
@@ -672,11 +672,11 @@ extension ChatViewModel {
                                   cancelLabel: LGLocalizedString.commonCancel,
                                   actions: [action])
         } else if pushPermissionsManager.shouldShowPushPermissionsAlertFromViewController(.chat(buyer: isBuyer)) {
-            delegate?.vmShowPrePermissions(.chat(buyer: isBuyer))
+            delegate?.vmDidRequestShowPrePermissions(.chat(buyer: isBuyer))
         } else if ratingManager.shouldShowRating {
-            delegate?.vmHideKeyboard(true)
+            delegate?.vmDidEndEditing(animated: true)
             delay(1.0) { [weak self] in
-                self?.delegate?.vmHideKeyboard(true)
+                self?.delegate?.vmDidEndEditing(animated: true)
                 self?.navigator?.openAppRating(.chat)
             }
         }
@@ -779,7 +779,7 @@ extension ChatViewModel {
         var actions: [UIAction] = []
         
         let safetyTips = UIAction(interface: UIActionInterface.text(LGLocalizedString.chatSafetyTips), action: { [weak self] in
-            self?.delegate?.vmShowSafetyTips()
+            self?.delegate?.vmDidRequestSafetyTips()
         })
         actions.append(safetyTips)
 
@@ -829,7 +829,7 @@ extension ChatViewModel {
                     self?.isDeleted = true
                 }
                 let message = success ? LGLocalizedString.chatListDeleteOkOne : LGLocalizedString.chatListDeleteErrorOne
-                self?.delegate?.vmShowMessage(message) { [weak self] in
+                self?.delegate?.vmDidNotifyMessage(message) { [weak self] in
                     self?.navigator?.closeChatDetail()
                 }
             }
@@ -853,7 +853,7 @@ extension ChatViewModel {
     private func reportUserAction() {
         guard let userID = conversation.value.interlocutor?.objectId else { return }
         let reportVM = ReportUsersViewModel(origin: .chat, userReportedId: userID)
-        delegate?.vmShowReportUser(reportVM)
+        delegate?.vmDidPressReportUser(reportVM)
     }
     
     fileprivate func blockUserAction(buttonPosition: EventParameterBlockButtonPosition) {
@@ -867,7 +867,7 @@ extension ChatViewModel {
                     self?.chatEnabled.value = false
                     self?.refreshChat()
                 } else {
-                    self?.delegate?.vmShowMessage(LGLocalizedString.blockUserErrorGeneric, completion: nil)
+                    self?.delegate?.vmDidNotifyMessage(LGLocalizedString.blockUserErrorGeneric, completion: nil)
                 }
             }
         })
@@ -906,7 +906,7 @@ extension ChatViewModel {
                     strongSelf.chatEnabled.value =  true
                 }
             } else {
-                strongSelf.delegate?.vmShowMessage(LGLocalizedString.unblockUserErrorGeneric, completion: nil)
+                strongSelf.delegate?.vmDidNotifyMessage(LGLocalizedString.unblockUserErrorGeneric, completion: nil)
             }
         }
     }
@@ -1123,12 +1123,11 @@ extension ChatViewModel {
                                                                  disclaimerMessage: defaultDisclaimerMessage)
         messages.removeAll()
         messages.appendContentsOf(chatMessages)
-
     }
 
     private func afterRetrieveChatMessagesEvents() {
         if shouldShowSafetyTips {
-            delegate?.vmShowSafetyTips()
+            delegate?.vmDidRequestSafetyTips()
         }
 
         afterRetrieveMessagesCompletion?()
@@ -1187,7 +1186,7 @@ fileprivate extension ChatViewModel {
 
         // Configure login + send actions
         preSendMessageCompletion = { [weak self] (type: ChatWrapperMessageType) in
-            self?.delegate?.vmHideKeyboard(false)
+            self?.delegate?.vmDidEndEditing(animated: false)
             self?.navigator?.openLoginIfNeededFromChatDetail(from: .askQuestion, loggedInAction: { [weak self] in
                 guard let strongSelf = self else { return }
                 strongSelf.preSendMessageCompletion = nil
@@ -1370,7 +1369,7 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
         }
         
         if showKeyboardWhenQuickAnswer == true {
-            delegate?.vmShowKeyboard(quickAnswerText: answer.text)
+            delegate?.vmDidPressDirectAnswer(quickAnswerText: answer.text)
         } else {
             send(quickAnswer: answer)
         }

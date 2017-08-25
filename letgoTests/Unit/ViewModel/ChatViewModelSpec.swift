@@ -637,22 +637,21 @@ class ChatViewModelSpec: BaseViewModelSpec {
 extension ChatViewModelSpec: ChatViewModelDelegate {
     
     func vmDidFailRetrievingChatMessages() {}
-    func vmShowReportUser(_ reportUserViewModel: ReportUsersViewModel) {}
+    func vmDidPressReportUser(_ reportUserViewModel: ReportUsersViewModel) {}
     func vmShowUserRating(_ source: RateUserSource, data: RateUserData) {}
-    func vmShowSafetyTips() {
+    func vmDidRequestSafetyTips() {
         safetyTipsShown = true
     }
-    func vmClearText() {
+    func vmDidSendMessage() {
         textFieldCleaned = true
     }
-    func vmHideKeyboard(_ animated: Bool) {}
-    func vmShowKeyboard() {}
+    func vmDidEndEditing(animated: Bool) {}
+    func vmDidBeginEditing() {}
     
-    func vmAskForRating() { }
-    func vmShowPrePermissions(_ type: PrePermissionType) {}
-    func vmShowMessage(_ message: String, completion: (() -> ())?) {}
+    func vmDidRequestShowPrePermissions(_ type: PrePermissionType) {}
+    func vmDidNotifyMessage(_ message: String, completion: (() -> ())?) {}
     
-    func vmShowKeyboard(quickAnswerText: String) {}
+    func vmDidPressDirectAnswer(quickAnswerText: String) {}
 }
 
 extension ChatViewModelSpec {
