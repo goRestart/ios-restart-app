@@ -284,13 +284,13 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                             it("receives 3 groups of quick answers") {
                                 expect(quickAnswersObserver.lastValue?.count) == 3
                             }
-                            it("matches first group as availability group") {
+                            it("matches first group with the right availability quick answers") {
                                 expect(quickAnswersObserver.lastValue?[0]) == [.stillAvailable]
                             }
-                            it("matches second group as negotiable group") {
+                            it("matches second group with the right negotiable quick answers") {
                                 expect(quickAnswersObserver.lastValue?[1]) == [.isNegotiable]
                             }
-                            it("matches third group as condition group") {
+                            it("matches third group with the right condition quick answers") {
                                 expect(quickAnswersObserver.lastValue?[2]) == [.productCondition]
                             }
                         }
@@ -310,13 +310,13 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                             it("receives 3 groups of quick answers") {
                                 expect(quickAnswersObserver.lastValue?.count) == 3
                             }
-                            it("matches first group as interested group") {
+                            it("matches first group with the right interested quick answers") {
                                 expect(quickAnswersObserver.lastValue?[0]) == [.interested]
                             }
-                            it("matches second group as meetUp group") {
+                            it("matches second group with the right meet up quick answers") {
                                 expect(quickAnswersObserver.lastValue?[1]) == [.meetUp]
                             }
-                            it("matches third group as condition group") {
+                            it("matches third group with the right condition quick answers") {
                                 expect(quickAnswersObserver.lastValue?[2]) == [.productCondition]
                             }
                         }
@@ -361,16 +361,16 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                             it("receives 4 groups of quick answers") {
                                 expect(quickAnswersObserver.lastValue?.count) == 4
                             }
-                            it("matches first group as availability group") {
+                            it("matches first group with the right availability quick answers") {
                                 expect(quickAnswersObserver.lastValue?[0]) == [.stillAvailable, .stillForSale, .freeStillHave]
                             }
-                            it("matches second group as meetUp group") {
+                            it("matches second group with the right meet up quick answers") {
                                 expect(quickAnswersObserver.lastValue?[1]) == [.meetUp, .meetUpLocated, .meetUpWhereYouWant]
                             }
-                            it("matches third group as condition group") {
+                            it("matches third group with the right condition quick answers") {
                                 expect(quickAnswersObserver.lastValue?[2]) == [.productCondition, .productConditionGood, .productConditionDescribe]
                             }
-                            it("matches third group as price group") {
+                            it("matches fourth group with the right price quick answers") {
                                 expect(quickAnswersObserver.lastValue?[3]) == [.isNegotiable, .priceFirm, .priceWillingToNegotiate]
                             }
                         }
@@ -390,13 +390,13 @@ class ProductCarouselViewModelSpec: BaseViewModelSpec {
                             it("receives 3 groups of quick answers") {
                                 expect(quickAnswersObserver.lastValue?.count) == 3
                             }
-                            it("matches first group as interested group") {
+                            it("matches first group with the right availability quick answers") {
                                 expect(quickAnswersObserver.lastValue?[0]) == [.stillAvailable, .freeStillHave]
                             }
-                            it("matches second group as meetUp group") {
+                            it("matches second group with the right meet up quick answers") {
                                 expect(quickAnswersObserver.lastValue?[1]) == [.meetUp, .meetUpLocated, .meetUpWhereYouWant]
                             }
-                            it("matches third group as condition group") {
+                            it("matches third group with the right condition quick answers") {
                                 expect(quickAnswersObserver.lastValue?[2]) == [.productCondition, .productConditionGood, .productConditionDescribe]
                             }
                         }

@@ -66,5 +66,4 @@ class ListingNegotiableSpec: QuickSpec {
             }
         }
     }
-    
 }

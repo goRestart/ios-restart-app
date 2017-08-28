@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		012B73E61F54216600068537 /* QuickAnswerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012B73E51F54216600068537 /* QuickAnswerSpec.swift */; };
 		01602CB81F506DE500DDA296 /* Listing+NegotiableSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01602CB71F506DE500DDA296 /* Listing+NegotiableSpec.swift */; };
 		0178CBD81F0E463D00620BA6 /* UriSchemeSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0178CBD71F0E463D00620BA6 /* UriSchemeSpec.swift */; };
 		2E06EAED1D7051BA00A40704 /* FilterRangePriceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E06EAEB1D7051BA00A40704 /* FilterRangePriceCell.swift */; };
@@ -1489,6 +1490,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		012B73E51F54216600068537 /* QuickAnswerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickAnswerSpec.swift; sourceTree = "<group>"; };
 		01602CB71F506DE500DDA296 /* Listing+NegotiableSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Listing+NegotiableSpec.swift"; sourceTree = "<group>"; };
 		0178CBD71F0E463D00620BA6 /* UriSchemeSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UriSchemeSpec.swift; path = DeepLinks/UriSchemeSpec.swift; sourceTree = "<group>"; };
 		2E06EAEB1D7051BA00A40704 /* FilterRangePriceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterRangePriceCell.swift; sourceTree = "<group>"; };
@@ -3309,6 +3311,7 @@
 				50D08D8D1E69AF14009CC260 /* LocalProductSpec.swift */,
 				50D08D8E1E69AF14009CC260 /* LocalUserSpec.swift */,
 				01602CB71F506DE500DDA296 /* Listing+NegotiableSpec.swift */,
+				012B73E51F54216600068537 /* QuickAnswerSpec.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -5283,6 +5286,7 @@
 				01602CB81F506DE500DDA296 /* Listing+NegotiableSpec.swift in Sources */,
 				50D08DC41E69AF14009CC260 /* MultiPageRequesterSpec.swift in Sources */,
 				2E132A1E1F16512D00C20127 /* PostProductDetailViewModelSpec.swift in Sources */,
+				012B73E61F54216600068537 /* QuickAnswerSpec.swift in Sources */,
 				50D08DCF1E69AF14009CC260 /* TrackerEventSpec.swift in Sources */,
 				2EC653B31E716C8800E23DDF /* Dictionary+FilterSpec.swift in Sources */,
 				50D08DB11E69AF14009CC260 /* MockCountryHelper.swift in Sources */,
