@@ -100,7 +100,7 @@ class ListingPostedViewController: BaseViewController, ListingPostedViewModelDel
         setupStatic(correct)
     }
     
-    func productPostedViewModelShareNative() {
+    func listingPostedViewModelShareNative() {
         shareButtonPressed()
     }
 

@@ -579,9 +579,9 @@ fileprivate extension UserViewModel {
 // MARK: - ListingListViewModelDataDelegate
 
 extension UserViewModel: ListingListViewModelDataDelegate {
-    func listingListMV(_ viewModel: ListingListViewModel, didFailRetrievingListingsPage page: UInt, hasListings hasProducts: Bool,
+    func listingListMV(_ viewModel: ListingListViewModel, didFailRetrievingListingsPage page: UInt, hasListings: Bool,
                        error: RepositoryError) {
-        guard page == 0 && !hasProducts else { return }
+        guard page == 0 && !hasListings else { return }
         
         if var emptyViewModel = LGEmptyViewModel.respositoryErrorWithRetry(error,
                                                                            action: { [weak viewModel] in viewModel?.refresh() }) {
@@ -590,8 +590,8 @@ extension UserViewModel: ListingListViewModelDataDelegate {
         }
     }
     
-    func listingListVM(_ viewModel: ListingListViewModel, didSucceedRetrievingListingsPage page: UInt, hasListings hasProducts: Bool) {
-        guard page == 0 && !hasProducts else { return }
+    func listingListVM(_ viewModel: ListingListViewModel, didSucceedRetrievingListingsPage page: UInt, hasListings: Bool) {
+        guard page == 0 && !hasListings else { return }
         
         let errTitle: String?
         let errButTitle: String?

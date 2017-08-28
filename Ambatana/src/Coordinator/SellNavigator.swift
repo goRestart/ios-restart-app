@@ -15,12 +15,12 @@ protocol PostListingNavigator: class {
                                              trackingInfo: PostListingTrackingInfo)
     func closePostProductAndPostLater(params: ListingCreationParams, images: [UIImage],
                                       trackingInfo: PostListingTrackingInfo)
-    func openLoginIfNeededFromProductPosted(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void), cancelAction: (() -> Void)?)
+    func openLoginIfNeededFromListingPosted(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void), cancelAction: (() -> Void)?)
 }
 
 protocol ListingPostedNavigator: class {
-    func cancelProductPosted()
-    func closeProductPosted(_ listing: Listing)
+    func cancelListingPosted()
+    func closeListingPosted(_ listing: Listing)
     func closeListingPostedAndOpenEdit(_ listing: Listing)
     func closeProductPostedAndOpenPost()
 }

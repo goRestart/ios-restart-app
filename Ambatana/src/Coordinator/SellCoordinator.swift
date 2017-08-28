@@ -171,7 +171,7 @@ extension SellCoordinator: PostListingNavigator {
         }
     }
 
-    func openLoginIfNeededFromProductPosted(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void), cancelAction: (() -> Void)?) {
+    func openLoginIfNeededFromListingPosted(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void), cancelAction: (() -> Void)?) {
         openLoginIfNeeded(from: from, style: .popup(LGLocalizedString.productPostLoginMessage), loggedInAction: loggedInAction, cancelAction: cancelAction)
     }
 }
@@ -180,7 +180,7 @@ extension SellCoordinator: PostListingNavigator {
 // MARK: - ListingPostedNavigator
 
 extension SellCoordinator: ListingPostedNavigator {
-    func cancelProductPosted() {
+    func cancelListingPosted() {
         closeCoordinator(animated: true) { [weak self] in
             guard let strongSelf = self, let delegate = strongSelf.delegate else { return }
 
@@ -188,7 +188,7 @@ extension SellCoordinator: ListingPostedNavigator {
         }
     }
 
-    func closeProductPosted(_ listing: Listing) {
+    func closeListingPosted(_ listing: Listing) {
         closeCoordinator(animated: true) { [weak self] in
             guard let strongSelf = self, let delegate = strongSelf.delegate else { return }
 

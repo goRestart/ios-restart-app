@@ -358,7 +358,7 @@ fileprivate extension PostListingViewModel {
                 guard let _ = self?.state.value else { return }
                 self?.revertToPreviousStep()
             }
-            navigator?.openLoginIfNeededFromProductPosted(from: .sell, loggedInAction: loggedInAction, cancelAction: cancelAction)
+            navigator?.openLoginIfNeededFromListingPosted(from: .sell, loggedInAction: loggedInAction, cancelAction: cancelAction)
         } else {
             navigator?.cancelPostListing()
         }
@@ -383,7 +383,7 @@ fileprivate extension PostListingViewModel {
                 guard let _ = self?.state.value else { return }
                 self?.navigator?.cancelPostListing()
             }
-            navigator?.openLoginIfNeededFromProductPosted(from: .sell, loggedInAction: loggedInAction, cancelAction: cancelAction)
+            navigator?.openLoginIfNeededFromListingPosted(from: .sell, loggedInAction: loggedInAction, cancelAction: cancelAction)
         } else {
             navigator?.cancelPostListing()
         }

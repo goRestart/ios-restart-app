@@ -16,7 +16,7 @@ protocol ListingPostedViewModelDelegate: class {
     func productPostedViewModelSetupLoadingState(_ viewModel: ListingPostedViewModel)
     func productPostedViewModel(_ viewModel: ListingPostedViewModel, finishedLoadingState correct: Bool)
     func productPostedViewModel(_ viewModel: ListingPostedViewModel, setupStaticState correct: Bool)
-    func productPostedViewModelShareNative()
+    func listingPostedViewModelShareNative()
 }
 
 
@@ -183,15 +183,15 @@ class ListingPostedViewModel: BaseViewModel {
         }
         
         guard let listingValue = listing else {
-            navigator?.cancelProductPosted()
+            navigator?.cancelListingPosted()
             return
         }
         
-        navigator?.closeProductPosted(listingValue)
+        navigator?.closeListingPosted(listingValue)
     }
     
     func shareActionPressed() {
-        delegate?.productPostedViewModelShareNative()
+        delegate?.listingPostedViewModelShareNative()
     }
 
     func editActionPressed() {
