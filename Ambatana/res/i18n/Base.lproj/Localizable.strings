@@ -2721,7 +2721,7 @@
 "suggestions_last_searches_title" = "Recent Searches";
 
 // Button title when user wants to remove Recent Search
-"suggestions_last_searches_clear_button" = "Clear";
+"suggestions_last_searches_clear_button" = "Clear all";
 
 // Tab bar tool tip. Check attached image "tab_bar.png"
 "tab_bar_tool_tip" = "Sell Your Stuff";

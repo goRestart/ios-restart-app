@@ -59,9 +59,9 @@ extension NotificationsTabCoordinator: NotificationsTabNavigator {
         openRatingList(myUserId)
     }
 
-    func openPassiveBuyers(_ productId: String, actionCompletedBlock: (() -> Void)?) {
+    func openPassiveBuyers(_ listingId: String, actionCompletedBlock: (() -> Void)?) {
         navigationController.showLoadingMessageAlert()
-        passiveBuyersRepository.show(productId: productId) { [weak self] result in
+        passiveBuyersRepository.show(listingId: listingId) { [weak self] result in
             if let passiveBuyersInfo = result.value {
                 self?.navigationController.dismissLoadingMessageAlert {
                     self?.openPassiveBuyers(passiveBuyersInfo, actionCompletedBlock: actionCompletedBlock)

@@ -199,9 +199,9 @@ extension AppCoordinator: AppNavigator {
     }
 
     func openSell(source: PostingSource) {
-        let forcedInitialTab: PostProductViewController.Tab?
+        let forcedInitialTab: PostListingViewController.Tab?
         switch source {
-        case .tabBar, .sellButton, .deepLink, .notifications, .deleteProduct:
+        case .tabBar, .sellButton, .deepLink, .notifications, .deleteListing:
             forcedInitialTab = nil
         case .onboardingButton, .onboardingCamera:
             forcedInitialTab = .camera
@@ -225,7 +225,7 @@ extension AppCoordinator: AppNavigator {
                 SKStoreReviewController.requestReview()
                 trackUserDidRate()
                 LGRatingManager.sharedInstance.userDidRate()
-            case .chat, .favorite, .productSellComplete:
+            case .chat, .favorite, .listingSellComplete:
                 guard canOpenAppStoreWriteReviewWebsite() else { return }
                 askUserIsEnjoyingLetgo()
             }
@@ -430,7 +430,7 @@ extension AppCoordinator: SellCoordinatorDelegate {
     func sellCoordinatorDidCancel(_ coordinator: SellCoordinator) {}
 
     func sellCoordinator(_ coordinator: SellCoordinator, didFinishWithListing listing: Listing) {
-        refreshSelectedProductsRefreshable()
+        refreshSelectedListingsRefreshable()
 
         openAfterSellDialogIfNeeded()
     }
@@ -462,17 +462,17 @@ extension AppCoordinator: UserRatingCoordinatorDelegate {
 }
 
 fileprivate extension AppCoordinator {
-    func refreshSelectedProductsRefreshable() {
+    func refreshSelectedListingsRefreshable() {
         guard let selectedVC = tabBarCtl.selectedViewController else { return }
-        guard let refreshable = topViewControllerInController(selectedVC) as? ProductsRefreshable else { return }
-        refreshable.productsRefresh()
+        guard let refreshable = topViewControllerInController(selectedVC) as? ListingsRefreshable else { return }
+        refreshable.listingsRefresh()
     }
 
     @discardableResult func openAfterSellDialogIfNeeded() -> Bool {
         if pushPermissionsManager.shouldShowPushPermissionsAlertFromViewController(.sell) {
             pushPermissionsManager.showPrePermissionsViewFrom(tabBarCtl, type: .sell, completion: nil)
         } else if ratingManager.shouldShowRating {
-            openAppRating(.productSellComplete)
+            openAppRating(.listingSellComplete)
         } else {
             return false
         }
@@ -742,31 +742,31 @@ fileprivate extension AppCoordinator {
             afterDelayClosure = { [weak self] in
                 self?.openSell(source: .deepLink)
             }
-        case let .product(productId):
+        case let .listing(listingId):
             tabBarCtl.clearAllPresented(nil)
             afterDelayClosure = { [weak self] in
-                self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: productId), source: .openApp,
+                self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: listingId), source: .openApp,
                                                           actionOnFirstAppear: .nonexistent)
             }
-        case let .productShare(productId):
+        case let .listingShare(listingId):
             tabBarCtl.clearAllPresented(nil)
             afterDelayClosure = { [weak self] in
-                self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: productId), source: .openApp,
+                self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: listingId), source: .openApp,
                                                           actionOnFirstAppear: .showShareSheet)
             }
-        case let .productBumpUp(productId):
+        case let .listingBumpUp(listingId):
             tabBarCtl.clearAllPresented(nil)
             afterDelayClosure = { [weak self] in
                 self?.openTab(.profile, force: false) { [weak self] in
-                    self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: productId),
+                    self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: listingId),
                                                               source: .openApp, actionOnFirstAppear: .triggerBumpUp)
                 }
             }
-        case let .productMarkAsSold(productId):
+        case let .listingMarkAsSold(listingId):
             tabBarCtl.clearAllPresented(nil)
             afterDelayClosure = { [weak self] in
                 self?.openTab(.profile, force: false) { [weak self] in
-                    self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: productId),
+                    self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: listingId),
                                                               source: .openApp, actionOnFirstAppear: .triggerMarkAsSold)
                 }
             }
@@ -824,10 +824,10 @@ fileprivate extension AppCoordinator {
                     self?.openUserRatingForUserFromRating(ratingId)
                 }
             }
-        case let .passiveBuyers(productId):
+        case let .passiveBuyers(listingId):
             afterDelayClosure = { [weak self] in
                 self?.openTab(.notifications, completion: {
-                    self?.openPassiveBuyers(productId)
+                    self?.openPassiveBuyers(listingId)
                 })
             }
         case .notificationCenter:
@@ -856,7 +856,7 @@ fileprivate extension AppCoordinator {
         if let child = child, child is SellCoordinator { return }
 
         switch deepLink.action {
-        case .home, .sell, .product, .productShare, .productBumpUp, .productMarkAsSold, .user, .conversations, .conversationWithMessage, .search, .resetPassword, .userRatings, .userRating,
+        case .home, .sell, .listing, .listingShare, .listingBumpUp, .listingMarkAsSold, .user, .conversations, .conversationWithMessage, .search, .resetPassword, .userRatings, .userRating,
              .passiveBuyers, .notificationCenter, .appStore:
             return // Do nothing
         case let .conversation(data):
@@ -956,9 +956,9 @@ fileprivate extension AppCoordinator {
         }
     }
 
-    func openPassiveBuyers(_ productId: String) {
+    func openPassiveBuyers(_ listingId: String) {
         guard let notificationsTabCoordinator = selectedTabCoordinator as? NotificationsTabCoordinator else { return }
-        notificationsTabCoordinator.openPassiveBuyers(productId, actionCompletedBlock: nil)
+        notificationsTabCoordinator.openPassiveBuyers(listingId, actionCompletedBlock: nil)
     }
 }
 

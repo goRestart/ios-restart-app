@@ -37,7 +37,7 @@ class QuickAnswerSpec: QuickSpec {
                     expect(quickAnswers[1]) == [.isNegotiable]
                 }
                 it("matches third group with the right condition quick answers") {
-                    expect(quickAnswers[2]) == [.productCondition]
+                    expect(quickAnswers[2]) == [.listingCondition]
                 }
             }
             context("is not free, is not dynamic, is negotiable") {
@@ -57,7 +57,7 @@ class QuickAnswerSpec: QuickSpec {
                     expect(quickAnswers[1]) == [.isNegotiable]
                 }
                 it("matches third group with the right condition quick answers") {
-                    expect(quickAnswers[2]) == [.productCondition]
+                    expect(quickAnswers[2]) == [.listingCondition]
                 }
             }
             context("is not free, is dynamic, is not negotiable") {
@@ -77,7 +77,7 @@ class QuickAnswerSpec: QuickSpec {
                     expect(quickAnswers[1]) == [.meetUp, .meetUpLocated, .meetUpWhereYouWant]
                 }
                 it("matches third group with the right condition quick answers") {
-                    expect(quickAnswers[2]) == [.productCondition, .productConditionGood, .productConditionDescribe]
+                    expect(quickAnswers[2]) == [.listingCondition, .listingConditionGood, .listingConditionDescribe]
                 }
                 it("matches fourth group with the right negotiable quick answers") {
                     expect(quickAnswers[3]) == [.isNegotiable, .priceFirm, .priceWillingToNegotiate]
@@ -100,7 +100,7 @@ class QuickAnswerSpec: QuickSpec {
                     expect(quickAnswers[1]) == [.meetUp, .meetUpLocated, .meetUpWhereYouWant]
                 }
                 it("matches third group with the right condition quick answers") {
-                    expect(quickAnswers[2]) == [.productCondition, .productConditionGood, .productConditionDescribe]
+                    expect(quickAnswers[2]) == [.listingCondition, .listingConditionGood, .listingConditionDescribe]
                 }
                 it("matches fourth group with the right price quick answers") {
                     expect(quickAnswers[3]) == [.priceAsking]
@@ -123,7 +123,7 @@ class QuickAnswerSpec: QuickSpec {
                     expect(quickAnswers[1]) == [.meetUp]
                 }
                 it("matches third group with the right condition quick answers") {
-                    expect(quickAnswers[2]) == [.productCondition]
+                    expect(quickAnswers[2]) == [.listingCondition]
                 }
             }
             context("is free, is not dynamic, is negotiable") {
@@ -143,7 +143,7 @@ class QuickAnswerSpec: QuickSpec {
                     expect(quickAnswers[1]) == [.meetUp]
                 }
                 it("matches third group with the right condition quick answers") {
-                    expect(quickAnswers[2]) == [.productCondition]
+                    expect(quickAnswers[2]) == [.listingCondition]
                 }
             }
             context("is free, is dynamic, is not negotiable") {
@@ -163,7 +163,7 @@ class QuickAnswerSpec: QuickSpec {
                     expect(quickAnswers[1]) == [.meetUp, .meetUpLocated, .meetUpWhereYouWant]
                 }
                 it("matches third group with the right condition quick answers") {
-                    expect(quickAnswers[2]) == [.productCondition, .productConditionGood, .productConditionDescribe]
+                    expect(quickAnswers[2]) == [.listingCondition, .listingConditionGood, .listingConditionDescribe]
                 }
             }
             context("is free, is dynamic, is negotiable") {
@@ -183,7 +183,7 @@ class QuickAnswerSpec: QuickSpec {
                     expect(quickAnswers[1]) == [.meetUp, .meetUpLocated, .meetUpWhereYouWant]
                 }
                 it("matches third group with the right condition quick answers") {
-                    expect(quickAnswers[2]) == [.productCondition, .productConditionGood, .productConditionDescribe]
+                    expect(quickAnswers[2]) == [.listingCondition, .listingConditionGood, .listingConditionDescribe]
                 }
             }
         }
@@ -204,7 +204,7 @@ class QuickAnswerSpec: QuickSpec {
                     expect(quickAnswers.count) == 6
                 }
                 it("matches first group with the right availability quick answers") {
-                    expect(quickAnswers[0]) == [.productStillForSale]
+                    expect(quickAnswers[0]) == [.listingStillForSale]
                 }
                 it("matches second group with the right negotiable quick answers") {
                     expect(quickAnswers[1]) == [.whatsOffer]
@@ -219,7 +219,7 @@ class QuickAnswerSpec: QuickSpec {
                     expect(quickAnswers[4]) == [.notInterested]
                 }
                 it("matches sixth group with the right product sold quick answers") {
-                    expect(quickAnswers[5]) == [.productSold]
+                    expect(quickAnswers[5]) == [.listingSold]
                 }
             }
             context("is not free, is not buyer, is not dynamic, is negotiable") {
@@ -234,7 +234,7 @@ class QuickAnswerSpec: QuickSpec {
                     expect(quickAnswers.count) == 6
                 }
                 it("matches first group with the right availability quick answers") {
-                    expect(quickAnswers[0]) == [.productStillForSale]
+                    expect(quickAnswers[0]) == [.listingStillForSale]
                 }
                 it("matches second group with the right negotiable quick answers") {
                     expect(quickAnswers[1]) == [.whatsOffer]
@@ -249,7 +249,7 @@ class QuickAnswerSpec: QuickSpec {
                     expect(quickAnswers[4]) == [.notInterested]
                 }
                 it("matches sixth group with the right product sold quick answers") {
-                    expect(quickAnswers[5]) == [.productSold]
+                    expect(quickAnswers[5]) == [.listingSold]
                 }
             }
             context("is not free, is not buyer, is dynamic, is not negotiable") {
@@ -267,7 +267,7 @@ class QuickAnswerSpec: QuickSpec {
                     expect(quickAnswers[0]) == [.freeAvailable]
                 }
                 it("matches second group with the right product sold quick answers") {
-                    expect(quickAnswers[1]) == [.productSold]
+                    expect(quickAnswers[1]) == [.listingSold]
                 }
                 it("matches third group with the right not negotiable quick answers") {
                     expect(quickAnswers[2]) == [.negotiableNo]
@@ -297,7 +297,7 @@ class QuickAnswerSpec: QuickSpec {
                     expect(quickAnswers[0]) == [.freeAvailable]
                 }
                 it("matches second group with the right product sold quick answers") {
-                    expect(quickAnswers[1]) == [.productSold]
+                    expect(quickAnswers[1]) == [.listingSold]
                 }
                 it("matches third group with the right not negotiable quick answers") {
                     expect(quickAnswers[2]) == [.negotiableYes, .whatsOffer]
@@ -384,7 +384,7 @@ class QuickAnswerSpec: QuickSpec {
                     expect(quickAnswers[1]) == [.isNegotiable, .priceFirm, .priceWillingToNegotiate]
                 }
                 it("matches third group with the right condition quick answers") {
-                    expect(quickAnswers[2]) == [.productCondition, .productConditionGood, .productConditionDescribe]
+                    expect(quickAnswers[2]) == [.listingCondition, .listingConditionGood, .listingConditionDescribe]
                 }
                 it("matches fourth group with the right meet up quick answers") {
                     expect(quickAnswers[3]) == [.meetUp, .meetUpLocated, .meetUpWhereYouWant]
@@ -414,7 +414,7 @@ class QuickAnswerSpec: QuickSpec {
                     expect(quickAnswers[1]) == [.priceAsking]
                 }
                 it("matches third group with the right condition quick answers") {
-                    expect(quickAnswers[2]) == [.productCondition, .productConditionGood, .productConditionDescribe]
+                    expect(quickAnswers[2]) == [.listingCondition, .listingConditionGood, .listingConditionDescribe]
                 }
                 it("matches fourth group with the right meet up quick answers") {
                     expect(quickAnswers[3]) == [.meetUp, .meetUpLocated, .meetUpWhereYouWant]
@@ -591,7 +591,7 @@ class QuickAnswerSpec: QuickSpec {
                     expect(quickAnswers[0]) == [.stillAvailable, .freeStillHave]
                 }
                 it("matches second group with the right condition quick answers") {
-                    expect(quickAnswers[1]) == [.productCondition, .productConditionGood, .productConditionDescribe]
+                    expect(quickAnswers[1]) == [.listingCondition, .listingConditionGood, .listingConditionDescribe]
                 }
                 it("matches third group with the right meet up quick answers") {
                     expect(quickAnswers[2]) == [.meetUp, .meetUpLocated, .meetUpWhereYouWant]
@@ -618,7 +618,7 @@ class QuickAnswerSpec: QuickSpec {
                     expect(quickAnswers[0]) == [.stillAvailable, .freeStillHave]
                 }
                 it("matches second group with the right condition quick answers") {
-                    expect(quickAnswers[1]) == [.productCondition, .productConditionGood, .productConditionDescribe]
+                    expect(quickAnswers[1]) == [.listingCondition, .listingConditionGood, .listingConditionDescribe]
                 }
                 it("matches third group with the right meet up quick answers") {
                     expect(quickAnswers[2]) == [.meetUp, .meetUpLocated, .meetUpWhereYouWant]

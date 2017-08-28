@@ -67,8 +67,8 @@ class BumpUpFreeViewModel: BaseViewModel {
 
 extension BumpUpFreeViewModel: SocialSharerDelegate {
     func shareStartedIn(_ shareType: ShareType) {
-        let trackerEvent = TrackerEvent.productShare(listing, network: shareType.trackingShareNetwork,
-                                                     buttonPosition: .bumpUp, typePage: .productDetail,
+        let trackerEvent = TrackerEvent.listingShare(listing, network: shareType.trackingShareNetwork,
+                                                     buttonPosition: .bumpUp, typePage: .listingDetail,
                                                      isBumpedUp: EventParameterBoolean.falseParameter)
         tracker.trackEvent(trackerEvent)
     }
@@ -90,13 +90,13 @@ extension BumpUpFreeViewModel: SocialSharerDelegate {
         let event: TrackerEvent?
         switch state {
         case .completed:
-            event = TrackerEvent.productShareComplete(listing, network: shareType.trackingShareNetwork,
-                                                      typePage: .productDetail)
+            event = TrackerEvent.listingShareComplete(listing, network: shareType.trackingShareNetwork,
+                                                      typePage: .listingDetail)
         case .failed:
             event = nil
         case .cancelled:
-            event = TrackerEvent.productShareCancel(listing, network: shareType.trackingShareNetwork,
-                                                    typePage: .productDetail)
+            event = TrackerEvent.listingShareCancel(listing, network: shareType.trackingShareNetwork,
+                                                    typePage: .listingDetail)
         }
         if let event = event {
             tracker.trackEvent(event)

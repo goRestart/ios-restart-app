@@ -14,9 +14,9 @@ enum QuickAnswer {
     case stillAvailable
     case isNegotiable
     case likeToBuy
-    case productCondition
-    case productStillForSale
-    case productSold
+    case listingCondition
+    case listingStillForSale
+    case listingSold
     case whatsOffer
     case negotiableYes
     case negotiableNo
@@ -30,8 +30,8 @@ enum QuickAnswer {
     case priceFirm
     case priceWillingToNegotiate
     case priceAsking
-    case productConditionGood
-    case productConditionDescribe
+    case listingConditionGood
+    case listingConditionDescribe
     case meetUpWhereYouWant
     case meetUpLocated
     
@@ -87,11 +87,11 @@ enum QuickAnswer {
             return LGLocalizedString.directAnswerIsNegotiable
         case .likeToBuy:
             return LGLocalizedString.directAnswerLikeToBuy
-        case .productCondition:
+        case .listingCondition:
             return LGLocalizedString.directAnswerCondition
-        case .productStillForSale:
+        case .listingStillForSale:
             return LGLocalizedString.directAnswerStillForSale
-        case .productSold:
+        case .listingSold:
             return LGLocalizedString.directAnswerProductSold
         case .whatsOffer:
             return LGLocalizedString.directAnswerWhatsOffer
@@ -115,9 +115,9 @@ enum QuickAnswer {
             return LGLocalizedString.directAnswerWillingToNegotiate
         case .priceAsking:
             return LGLocalizedString.directAnswerHowMuchAsking
-        case .productConditionGood:
+        case .listingConditionGood:
             return LGLocalizedString.directAnswerGoodCondition
-        case .productConditionDescribe:
+        case .listingConditionDescribe:
             return LGLocalizedString.directAnswerDescribeCondition
         case .meetUpWhereYouWant:
             return LGLocalizedString.directAnswerWhereMeetUp
@@ -141,12 +141,12 @@ enum QuickAnswer {
             return .isNegotiable
         case .likeToBuy:
             return .likeToBuy
-        case .productCondition:
-            return .productCondition
-        case .productStillForSale:
-            return .productStillForSale
-        case .productSold:
-            return .productSold
+        case .listingCondition:
+            return .listingCondition
+        case .listingStillForSale:
+            return .listingStillForSale
+        case .listingSold:
+            return .listingSold
         case .whatsOffer:
             return .whatsOffer
         case .negotiableYes:
@@ -178,11 +178,11 @@ enum QuickAnswer {
             return QuickAnswerType.availability.name
         case .isNegotiable:
             return QuickAnswerType.negotiable.name
-        case .productCondition:
+        case .listingCondition:
             return QuickAnswerType.condition.name
-        case .productStillForSale:
+        case .listingStillForSale:
             return QuickAnswerType.availability.name
-        case .productSold:
+        case .listingSold:
             return QuickAnswerType.sold.name
         case .whatsOffer:
             return QuickAnswerType.negotiable.name
@@ -204,9 +204,9 @@ enum QuickAnswer {
             return QuickAnswerType.price.name
         case .priceAsking:
             return QuickAnswerType.price.name
-        case .productConditionGood:
+        case .listingConditionGood:
             return QuickAnswerType.condition.name
-        case .productConditionDescribe:
+        case .listingConditionDescribe:
             return QuickAnswerType.condition.name
         case .meetUpWhereYouWant:
             return QuickAnswerType.meetUp.name
@@ -248,7 +248,7 @@ enum QuickAnswer {
                     result.append([.notInterested])
                 } else {
                     result.append([.freeAvailable])
-                    result.append([.productSold])
+                    result.append([.listingSold])
                     if isNegotiable {
                         result.append(negotiablePriceSellerQuickAnswers())
                     } else {
@@ -280,12 +280,12 @@ enum QuickAnswer {
                     result.append([.meetUp])
                     result.append([.notInterested])
                 } else {
-                    result.append([.productStillForSale])
+                    result.append([.listingStillForSale])
                     result.append([.whatsOffer])
                     result.append([.negotiableYes])
                     result.append([.negotiableNo])
                     result.append([.notInterested])
-                    result.append([.productSold])
+                    result.append([.listingSold])
                 }
             }
         }
@@ -309,11 +309,11 @@ enum QuickAnswer {
             if isFree {
                 result.append([.interested])
                 result.append([.meetUp])
-                result.append([.productCondition])
+                result.append([.listingCondition])
             } else {
                 result.append([.stillAvailable])
                 result.append([.isNegotiable])
-                result.append([.productCondition])
+                result.append([.listingCondition])
             }
         }
         return result
@@ -332,7 +332,7 @@ enum QuickAnswer {
     }
     
     static func conditionQuickAnswers() -> [QuickAnswer] {
-        return [.productCondition, .productConditionGood, .productConditionDescribe]
+        return [.listingCondition, .listingConditionGood, .listingConditionDescribe]
     }
     
     static func meetUpQuickAnswers() -> [QuickAnswer] {

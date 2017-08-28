@@ -11,19 +11,19 @@ import LGCoreKit
 class NotificationCellDrawerFactory {
 
     static let estimatedRowHeight: CGFloat = 80
-
+    // Not updated to Listing as it is going to be remove: ABIOS-2662
     static func drawerForNotificationData(_ notification: NotificationData) -> NotificationCellDrawer {
         switch notification.type {
-        case .productFavorite:
-            return ProductFavoriteNotificationCellDrawer()
-        case .productSold:
-            return ProductSoldNotificationCellDrawer()
+        case .listingFavorite:
+            return ListingFavoriteNotificationCellDrawer()
+        case .listingSold:
+            return ListingSoldNotificationCellDrawer()
         case .rating, .ratingUpdated:
             return RatingNotificationCellDrawer()
         case .buyersInterested:
             return BuyersInterestedNotificationCellDrawer()
-        case .productSuggested:
-            return ProductSuggestedNotificationCellDrawer()
+        case .listingSuggested:
+            return ListingSuggestedNotificationCellDrawer()
         case .facebookFriendshipCreated:
             return FacebookFriendshipNotificationCellDrawer()
         case .modular:

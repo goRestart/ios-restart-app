@@ -115,7 +115,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                 sut.delegate = self
                 disposeBag = DisposeBag()
                 sut.messages.observable.bindTo(messages).addDisposableTo(disposeBag)
-                sut.relatedProductsState.asObservable().bindTo(relatedListingsStateObserver).addDisposableTo(disposeBag)
+                sut.relatedListingsState.asObservable().bindTo(relatedListingsStateObserver).addDisposableTo(disposeBag)
             }
             
             
@@ -651,7 +651,7 @@ extension ChatViewModelSpec: ChatViewModelDelegate {
     func vmDidRequestShowPrePermissions(_ type: PrePermissionType) {}
     func vmDidNotifyMessage(_ message: String, completion: (() -> ())?) {}
     
-    func vmDidPressDirectAnswer(quickAnswerText: QuickAnswer) {}
+    func vmDidPressDirectAnswer(quickAnswer: QuickAnswer) {}
 }
 
 extension ChatViewModelSpec {
