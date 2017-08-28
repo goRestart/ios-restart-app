@@ -1,5 +1,5 @@
 //
-//  ListingCellModell.swift
+//  ListingCellModel.swift
 //  LetGo
 //
 //  Created by Isaac Roldan on 30/6/16.
@@ -32,7 +32,7 @@ enum ListingCellModel {
 // MARK: Product
 
 struct ProductData {
-    var productID: String?
+    var listingId: String?
     var thumbUrl: URL?
     var isFree: Bool
     var isFeatured: Bool

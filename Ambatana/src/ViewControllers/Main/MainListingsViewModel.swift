@@ -638,11 +638,11 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
     // MARK: > ListingListViewModelDataDelegate
 
     func listingListVM(_ viewModel: ListingListViewModel, didSucceedRetrievingListingsPage page: UInt,
-                       hasListings hasProducts: Bool) {
+                       hasListings: Bool) {
 
-        trackRequestSuccess(page: page, hasProducts: hasProducts)
+        trackRequestSuccess(page: page, hasListings: hasListings)
         // Only save the string when there is products and we are not searching a collection
-        if let queryString = queryString, hasProducts {
+        if let queryString = queryString, hasListings {
             if let searchType = searchType, !searchType.isCollection {
                 updateLastSearchStoraged(queryString)
             }
@@ -654,10 +654,10 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         }
 
         if listingListRequester.multiIsFirstPage  {
-            filterDescription.value = !hasProducts && shouldShowNoExactMatchesDisclaimer ? LGLocalizedString.filterResultsCarsNoMatches : nil
+            filterDescription.value = !hasListings && shouldShowNoExactMatchesDisclaimer ? LGLocalizedString.filterResultsCarsNoMatches : nil
         }
 
-        if !hasProducts {
+        if !hasListings {
             if listingListRequester.multiIsLastPage {
                 let errImage: UIImage?
                 let errTitle: String?
@@ -686,7 +686,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         }
 
         errorMessage.value = nil
-        infoBubbleVisible.value = hasProducts && filters.infoBubblePresent
+        infoBubbleVisible.value = hasListings && filters.infoBubblePresent
         if(page == 0) {
             bubbleDistance = 1
         }
@@ -1068,9 +1068,9 @@ fileprivate extension MainListingsViewModel {
     }
     
 
-    func trackRequestSuccess(page: UInt, hasProducts: Bool) {
+    func trackRequestSuccess(page: UInt, hasListings: Bool) {
         guard page == 0 else { return }
-        let successParameter: EventParameterBoolean = hasProducts ? .trueParameter : .falseParameter
+        let successParameter: EventParameterBoolean = hasListings ? .trueParameter : .falseParameter
         let trackerEvent = TrackerEvent.listingList(myUserRepository.myUser,
                                                     categories: filters.selectedCategories,
                                                     taxonomy: filters.selectedTaxonomyChildren.first,
@@ -1080,7 +1080,7 @@ fileprivate extension MainListingsViewModel {
 
         if let searchType = searchType, shouldTrackSearch {
             shouldTrackSearch = false
-            let successValue = hasProducts ? EventParameterSearchCompleteSuccess.success : EventParameterSearchCompleteSuccess.fail
+            let successValue = hasListings ? EventParameterSearchCompleteSuccess.success : EventParameterSearchCompleteSuccess.fail
             tracker.trackEvent(TrackerEvent.searchComplete(myUserRepository.myUser, searchQuery: searchType.query,
                                                            isTrending: searchType.isTrending,
                                                            success: successValue, isLastSearch: searchType.isLastSearch,

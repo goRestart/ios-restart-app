@@ -48,7 +48,7 @@ class GridDrawerManager {
         case let .listingCell(listing) where cell is ListingCell:
             guard let cell = cell as? ListingCell else { return }
             let isFeatured = showFeaturedStripeHelper.shouldShowFeaturedStripeFor(listing: listing)
-            let data = ProductData(productID: listing.objectId, thumbUrl: listing.thumbnail?.fileURL,
+            let data = ProductData(listingId: listing.objectId, thumbUrl: listing.thumbnail?.fileURL,
                                    isFree: listing.price.free && freePostingAllowed, isFeatured: isFeatured)
             return listingDrawer.draw(data, style: cellStyle, inCell: cell)
         case .collectionCell(let style) where cell is CollectionCell:

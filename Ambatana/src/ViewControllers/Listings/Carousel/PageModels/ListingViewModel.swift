@@ -351,7 +351,7 @@ class ListingViewModel: BaseViewModel {
                     // if "paymentItemId" is nil, the banner creation will fail, so we check this here to avoid
                     // a useless request to apple
                     if let _ = strongSelf.paymentItemId {
-                        strongSelf.purchasesShopper.productsRequestStartForProduct(listingId, withIds: paymentItems.map { $0.providerItemId })
+                        strongSelf.purchasesShopper.productsRequestStartForListing(listingId, withIds: paymentItems.map { $0.providerItemId })
                     }
                 } else if !freeItems.isEmpty, strongSelf.featureFlags.freeBumpUpEnabled {
                     strongSelf.paymentItemId = freeItems.first?.itemId
@@ -364,7 +364,7 @@ class ListingViewModel: BaseViewModel {
                     // if "paymentItemId" is nil, the banner creation will fail, so we check this here to avoid
                     // a useless request to apple
                     if let _ = strongSelf.paymentItemId {
-                        strongSelf.purchasesShopper.productsRequestStartForProduct(listingId, withIds: hiddenItems.map { $0.providerItemId })
+                        strongSelf.purchasesShopper.productsRequestStartForListing(listingId, withIds: hiddenItems.map { $0.providerItemId })
                     }
                 }
             })
@@ -1060,8 +1060,8 @@ extension ListingViewModel: SocialSharerDelegate {
 // MARK: PurchasesShopperDelegate
 
 extension ListingViewModel: PurchasesShopperDelegate {
-    func shopperFinishedProductsRequestForProductId(_ productId: String?, withProducts products: [PurchaseableProduct]) {
-        guard let requestProdId = productId, let currentProdId = listing.value.objectId,
+    func shopperFinishedProductsRequestForListingId(_ listingId: String?, withProducts products: [PurchaseableProduct]) {
+        guard let requestProdId = listingId, let currentProdId = listing.value.objectId,
             requestProdId == currentProdId else { return }
         guard let purchase = products.first else { return }
 

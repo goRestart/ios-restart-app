@@ -23,7 +23,7 @@ class MockPurchasesShopper: PurchasesShopper {
 
     }
 
-    func productsRequestStartForProduct(_ productId: String, withIds ids: [String]) {
+    func productsRequestStartForListing(_ listingId: String, withIds ids: [String]) {
 
         var purchaseableProducts: [PurchaseableProduct] = []
 
@@ -33,7 +33,7 @@ class MockPurchasesShopper: PurchasesShopper {
             purchaseableProducts.append(purchaseableProduct)
         }
 
-        delegate?.shopperFinishedProductsRequestForProductId(productId, withProducts: purchaseableProducts)
+        delegate?.shopperFinishedProductsRequestForListingId(listingId, withProducts: purchaseableProducts)
     }
 
     func requestPayment(forListingId listingId: String, appstoreProduct: PurchaseableProduct, paymentItemId: String) {
