@@ -104,5 +104,10 @@
         "name": "SearchParamDisc129",
         "values": ["disc129a", "disc129b", "disc129c", "disc129d"],
         "description": "Diferent search approach follow up"
+    },
+    {
+        "name": "UserReviewsReportEnabled",
+        "values": ["no", "yes"],
+        "description": "User reviews report enabled"
     }
 ]
