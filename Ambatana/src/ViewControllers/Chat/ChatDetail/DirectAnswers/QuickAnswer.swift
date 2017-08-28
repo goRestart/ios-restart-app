@@ -222,7 +222,7 @@ enum QuickAnswer {
         if isDynamic {
             if isFree {
                 if buyer {
-                    result.append(availabilityQuickAnswers())
+                    result.append(availabilityQuickAnswers(isFree: isFree))
                     result.append(conditionQuickAnswers())
                     result.append(meetUpQuickAnswers())
                     result.append([.interested])
@@ -236,7 +236,7 @@ enum QuickAnswer {
                 }
             } else {
                 if buyer {
-                    result.append(availabilityQuickAnswers())
+                    result.append(availabilityQuickAnswers(isFree: isFree))
                     if isNegotiable {
                         result.append([.priceAsking])
                     } else {
@@ -295,7 +295,7 @@ enum QuickAnswer {
     static func quickAnswersForPeriscope(isFree: Bool, isDynamic: Bool, isNegotiable: Bool) -> [[QuickAnswer]] {
         var result = [[QuickAnswer]]()
         if isDynamic {
-            result.append(availabilityQuickAnswers())
+            result.append(availabilityQuickAnswers(isFree: isFree))
             result.append(meetUpQuickAnswers())
             result.append(conditionQuickAnswers())
             if !isFree {
@@ -319,8 +319,12 @@ enum QuickAnswer {
         return result
     }
     
-    static func availabilityQuickAnswers() -> [QuickAnswer] {
-        return [.stillAvailable, .stillForSale, .freeStillHave]
+    static func availabilityQuickAnswers(isFree: Bool) -> [QuickAnswer] {
+        if isFree {
+            return [.stillAvailable, .freeStillHave]
+        } else {
+            return [.stillAvailable, .stillForSale, .freeStillHave]
+        }
     }
     
     static func noNegotiablePriceQuickAnswers() -> [QuickAnswer] {

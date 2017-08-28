@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01602CB81F506DE500DDA296 /* Listing+NegotiableSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01602CB71F506DE500DDA296 /* Listing+NegotiableSpec.swift */; };
 		0178CBD81F0E463D00620BA6 /* UriSchemeSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0178CBD71F0E463D00620BA6 /* UriSchemeSpec.swift */; };
 		2E06EAED1D7051BA00A40704 /* FilterRangePriceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E06EAEB1D7051BA00A40704 /* FilterRangePriceCell.swift */; };
 		2E06EAEE1D7051BA00A40704 /* FilterRangePriceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E06EAEC1D7051BA00A40704 /* FilterRangePriceCell.xib */; };
@@ -641,8 +642,8 @@
 		720A8FAA1F1F94E700DCBAD8 /* FilterPriceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 720A8FA71F1F94E700DCBAD8 /* FilterPriceCell.swift */; };
 		720A8FAB1F1F94E700DCBAD8 /* FilterPriceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 720A8FA81F1F94E700DCBAD8 /* FilterPriceCell.xib */; };
 		720A8FAC1F1F94E700DCBAD8 /* FilterPriceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 720A8FA81F1F94E700DCBAD8 /* FilterPriceCell.xib */; };
-		720C55931F44FB6100554048 /* TourCategoriesViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 720C55921F44FB6100554048 /* TourCategoriesViewModelSpec.swift */; };
 		720C55911F44559400554048 /* PostCarDetailsViewSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 720C55901F44559400554048 /* PostCarDetailsViewSpec.swift */; };
+		720C55931F44FB6100554048 /* TourCategoriesViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 720C55921F44FB6100554048 /* TourCategoriesViewModelSpec.swift */; };
 		720FD0091F322AD900C87551 /* TourPostingViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 720FD0081F322AD900C87551 /* TourPostingViewModelSpec.swift */; };
 		721383FE1F20B224006DB039 /* TaxonomiesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721383FD1F20B224006DB039 /* TaxonomiesViewModel.swift */; };
 		721383FF1F20B224006DB039 /* TaxonomiesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721383FD1F20B224006DB039 /* TaxonomiesViewModel.swift */; };
@@ -1488,6 +1489,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		01602CB71F506DE500DDA296 /* Listing+NegotiableSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Listing+NegotiableSpec.swift"; sourceTree = "<group>"; };
 		0178CBD71F0E463D00620BA6 /* UriSchemeSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UriSchemeSpec.swift; path = DeepLinks/UriSchemeSpec.swift; sourceTree = "<group>"; };
 		2E06EAEB1D7051BA00A40704 /* FilterRangePriceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterRangePriceCell.swift; sourceTree = "<group>"; };
 		2E06EAEC1D7051BA00A40704 /* FilterRangePriceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterRangePriceCell.xib; sourceTree = "<group>"; };
@@ -1898,8 +1900,8 @@
 		7166AA5BA494F5827085F946 /* Pods_LetGoGodMode.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetGoGodMode.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		720A8FA71F1F94E700DCBAD8 /* FilterPriceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterPriceCell.swift; sourceTree = "<group>"; };
 		720A8FA81F1F94E700DCBAD8 /* FilterPriceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterPriceCell.xib; sourceTree = "<group>"; };
-		720C55921F44FB6100554048 /* TourCategoriesViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourCategoriesViewModelSpec.swift; sourceTree = "<group>"; };
 		720C55901F44559400554048 /* PostCarDetailsViewSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostCarDetailsViewSpec.swift; path = Widgets/PostCarDetailsViewSpec.swift; sourceTree = "<group>"; };
+		720C55921F44FB6100554048 /* TourCategoriesViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourCategoriesViewModelSpec.swift; sourceTree = "<group>"; };
 		720FD0081F322AD900C87551 /* TourPostingViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourPostingViewModelSpec.swift; sourceTree = "<group>"; };
 		721383FD1F20B224006DB039 /* TaxonomiesViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TaxonomiesViewModel.swift; path = Ambatana/src/ViewControllers/Taxonomies/TaxonomiesViewModel.swift; sourceTree = SOURCE_ROOT; };
 		721384001F20EB97006DB039 /* TaxonomiesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TaxonomiesViewController.swift; path = Ambatana/src/ViewControllers/Taxonomies/TaxonomiesViewController.swift; sourceTree = SOURCE_ROOT; };
@@ -3306,6 +3308,7 @@
 				50D08D8C1E69AF14009CC260 /* LocalChatSpec.swift */,
 				50D08D8D1E69AF14009CC260 /* LocalProductSpec.swift */,
 				50D08D8E1E69AF14009CC260 /* LocalUserSpec.swift */,
+				01602CB71F506DE500DDA296 /* Listing+NegotiableSpec.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -5277,6 +5280,7 @@
 				C7AFFB101E7176BC0052A9CA /* WebSurveyViewModelSpec.swift in Sources */,
 				50D08DBD1E69AF14009CC260 /* MockPurchaseableProductsRequestFactory.swift in Sources */,
 				2E4BDE7F1EDEC7DC00CBDC8C /* LocationFromZipCodeViewModelSpec.swift in Sources */,
+				01602CB81F506DE500DDA296 /* Listing+NegotiableSpec.swift in Sources */,
 				50D08DC41E69AF14009CC260 /* MultiPageRequesterSpec.swift in Sources */,
 				2E132A1E1F16512D00C20127 /* PostProductDetailViewModelSpec.swift in Sources */,
 				50D08DCF1E69AF14009CC260 /* TrackerEventSpec.swift in Sources */,
