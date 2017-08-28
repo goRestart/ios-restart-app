@@ -1,7 +1,7 @@
 extension MockChat: MockFactory {
     public static func makeMock() -> MockChat {
         return MockChat(objectId: String.makeRandom(),
-                        listing: Listing.product(MockProduct.makeMock()),
+                        listing: Listing.makeMock(),
                         userFrom: MockUserListing.makeMock(),
                         userTo: MockUserListing.makeMock(),
                         msgUnreadCount: Int.makeRandom(),

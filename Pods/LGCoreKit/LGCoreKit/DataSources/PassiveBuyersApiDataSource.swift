@@ -22,14 +22,14 @@ class PassiveBuyersApiDataSource: PassiveBuyersDataSource {
 
     // MARK: - PassiveBuyersDataSource
 
-    func show(productId: String, completion: PassiveBuyersDataSourceCompletion?) {
-        let request = PassiveBuyersRouter.show(productId: productId)
+    func show(listingId: String, completion: PassiveBuyersDataSourceCompletion?) {
+        let request = PassiveBuyersRouter.show(listingId: listingId)
         apiClient.request(request, decoder: decoder, completion: completion)
     }
 
-    func contact(productId: String, buyerIds: [String], completion: PassiveBuyersDataSourceEmptyCompletion?) {
+    func contact(listingId: String, buyerIds: [String], completion: PassiveBuyersDataSourceEmptyCompletion?) {
         let params: [String: Any] = ["buyers": buyerIds]
-        let request = PassiveBuyersRouter.createContacts(productId: productId, params: params)
+        let request = PassiveBuyersRouter.createContacts(listingId: listingId, params: params)
         apiClient.request(request, completion: completion)
     }
 }

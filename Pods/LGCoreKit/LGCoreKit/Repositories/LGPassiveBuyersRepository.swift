@@ -20,14 +20,14 @@ final class LGPassiveBuyersRepository: PassiveBuyersRepository {
 
     // MARK: - PassiveBuyersRepository
 
-    func show(productId: String, completion: PassiveBuyersCompletion?) {
-        dataSource.show(productId: productId) { result in
+    func show(listingId: String, completion: PassiveBuyersCompletion?) {
+        dataSource.show(listingId: listingId) { result in
             handleApiResult(result, completion: completion)
         }
     }
 
     func contactAllBuyers(passiveBuyersInfo: PassiveBuyersInfo, completion: PassiveBuyersEmptyCompletion?) {
-        guard let productId = passiveBuyersInfo.objectId else {
+        guard let listingId = passiveBuyersInfo.objectId else {
             completion?(PassiveBuyersEmptyResult(error: .internalError(message: "Missing objectId in passiveBuyersInfo")))
             return
         }
@@ -37,7 +37,7 @@ final class LGPassiveBuyersRepository: PassiveBuyersRepository {
             return
         }
 
-        dataSource.contact(productId: productId, buyerIds: buyerIds) { result in
+        dataSource.contact(listingId: listingId, buyerIds: buyerIds) { result in
             handleApiResult(result, completion: completion)
         }
     }
