@@ -42,7 +42,7 @@ protocol OldChatViewModelDelegate: BaseViewModelDelegate {
     func vmDidUpdateStickers()
     func vmClearText()
     
-    func vmDidTapDirectAnswer(quickAnswerText: String)
+    func vmDidPressDirectAnswer(quickAnswer: QuickAnswer)
 }
 
 enum AskQuestionSource {
@@ -1184,7 +1184,7 @@ extension OldChatViewModel: DirectAnswersPresenterDelegate {
         }
         
         if showKeyboardWhenQuickAnswer {
-            delegate?.vmDidTapDirectAnswer(quickAnswerText: answer.text)
+            delegate?.vmDidPressDirectAnswer(quickAnswer: answer)
         } else {
             send(quickAnswer: answer)
         }

@@ -30,6 +30,7 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
     let relatedProductsView: ChatRelatedProductsView
     let featureFlags: FeatureFlaggeable
     let disposeBag = DisposeBag()
+    var selectedQuickAnswer: QuickAnswer?
 
     var blockedToastOffset: CGFloat {
         return relationInfoView.isHidden ? 0 : RelationInfoView.defaultHeight
@@ -127,7 +128,11 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
     // MARK: > Slack methods
 
     override func sendButtonPressed() {
-        viewModel.send(text: textView.text)
+        if let quickAnswer = selectedQuickAnswer, textView.text == quickAnswer.text {
+            viewModel.send(quickAnswer: quickAnswer)
+        } else {
+            viewModel.send(text: textView.text)
+        }
     }
 
 
@@ -519,8 +524,9 @@ extension OldChatViewController: OldChatViewModelDelegate {
     
     // MARK: > Direct answers
     
-    func vmDidTapDirectAnswer(quickAnswerText: String) {
-        textView.text = quickAnswerText
+    func vmDidPressDirectAnswer(quickAnswer: QuickAnswer) {
+        selectedQuickAnswer = quickAnswer
+        textView.text = quickAnswer.text
         textView.becomeFirstResponder()
     }
 }

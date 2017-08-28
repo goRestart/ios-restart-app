@@ -651,7 +651,7 @@ extension ChatViewModelSpec: ChatViewModelDelegate {
     func vmDidRequestShowPrePermissions(_ type: PrePermissionType) {}
     func vmDidNotifyMessage(_ message: String, completion: (() -> ())?) {}
     
-    func vmDidPressDirectAnswer(quickAnswerText: String) {}
+    func vmDidPressDirectAnswer(quickAnswerText: QuickAnswer) {}
 }
 
 extension ChatViewModelSpec {

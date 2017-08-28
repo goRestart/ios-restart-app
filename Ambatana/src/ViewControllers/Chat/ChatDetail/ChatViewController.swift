@@ -32,6 +32,7 @@ class ChatViewController: TextViewController {
     var bannerTopConstraint: NSLayoutConstraint = NSLayoutConstraint()
     var featureFlags: FeatureFlaggeable
     var pushPermissionManager: PushPermissionsManager
+    var selectedQuickAnswer: QuickAnswer?
 
     var blockedToastOffset: CGFloat {
         return relationInfoView.isHidden ? 0 : RelationInfoView.defaultHeight
@@ -129,7 +130,11 @@ class ChatViewController: TextViewController {
     
     override func sendButtonPressed() {
         guard let message = textView.text else { return }
-        viewModel.send(text: message)
+        if let quickAnswer = selectedQuickAnswer, message == quickAnswer.text {
+            viewModel.send(quickAnswer: quickAnswer)
+        } else {
+            viewModel.send(text: message)
+        }
     }
 
     /**
@@ -586,8 +591,9 @@ extension ChatViewController: ChatViewModelDelegate {
     
     // MARK: > Direct answers
     
-    func vmDidPressDirectAnswer(quickAnswerText: String) {
-        textView.text = quickAnswerText
+    func vmDidPressDirectAnswer(quickAnswer: QuickAnswer) {
+        selectedQuickAnswer = quickAnswer
+        textView.text = quickAnswer.text
         textView.becomeFirstResponder()
     }
 }

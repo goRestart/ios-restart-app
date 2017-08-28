@@ -25,7 +25,7 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmDidRequestShowPrePermissions(_ type: PrePermissionType)
     func vmDidNotifyMessage(_ message: String, completion: (() -> ())?)
     
-    func vmDidPressDirectAnswer(quickAnswerText: String)
+    func vmDidPressDirectAnswer(quickAnswer: QuickAnswer)
 }
 
 struct EmptyConversation: ChatConversation {
@@ -1369,7 +1369,7 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
         }
         
         if showKeyboardWhenQuickAnswer == true {
-            delegate?.vmDidPressDirectAnswer(quickAnswerText: answer.text)
+            delegate?.vmDidPressDirectAnswer(quickAnswer: answer)
         } else {
             send(quickAnswer: answer)
         }
