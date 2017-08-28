@@ -10,7 +10,7 @@ open class MockListingRepository: ListingRepository {
     public var listingVoidResult: ListingVoidResult!
     public var carResult: CarResult!
     public var productResult: ProductResult!
-    public var deleteProductResult: ListingVoidResult!
+    public var deleteListingResult: ListingVoidResult!
     public var markAsSoldResult: ListingResult!
     public var markAsUnsoldResult: ListingResult!
     public var markAsSoldVoidResult: ListingVoidResult!
@@ -157,7 +157,7 @@ open class MockListingRepository: ListingRepository {
     
     public func delete(listingId: String,
                        completion: ListingVoidCompletion?) {
-        delay(result: deleteProductResult, completion: completion)
+        delay(result: deleteListingResult, completion: completion)
     }
     
     public func markAsSold(listing: Listing, completion: ListingCompletion?) {
