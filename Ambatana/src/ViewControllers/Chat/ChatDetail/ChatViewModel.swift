@@ -617,7 +617,7 @@ extension ChatViewModel {
         guard let convId = conversation.value.objectId else { return }
         guard let userId = myUserRepository.myUser?.objectId else { return }
         
-        if type.isUserText {
+        if type.isUserText || (showKeyboardWhenQuickAnswer && type.isQuickAnswer) {
             delegate?.vmDidSendMessage()
         }
 
