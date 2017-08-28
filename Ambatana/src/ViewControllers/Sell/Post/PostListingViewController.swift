@@ -628,32 +628,32 @@ extension PostListingViewController: PostListingCameraViewDelegate {
 // MARK: - PostListingGalleryViewDelegate
 
 extension PostListingViewController: PostListingGalleryViewDelegate {
-    func productGalleryCloseButton() {
+    func listingGalleryCloseButton() {
         onCloseButton(galleryView)
     }
 
-    func productGalleryDidSelectImages(_ images: [UIImage]) {
+    func listingGalleryDidSelectImages(_ images: [UIImage]) {
         viewModel.imagesSelected(images, source: .gallery)
     }
 
-    func productGalleryRequestsScrollLock(_ lock: Bool) {
+    func listingGalleryRequestsScrollLock(_ lock: Bool) {
         viewPager.scrollEnabled = !lock
     }
 
-    func productGalleryDidPressTakePhoto() {
+    func listingGalleryDidPressTakePhoto() {
         viewPager.selectTabAtIndex(Tab.camera.index)
     }
 
-    func productGalleryShowActionSheet(_ cancelAction: UIAction, actions: [UIAction]) {
+    func listingGalleryShowActionSheet(_ cancelAction: UIAction, actions: [UIAction]) {
         showActionSheet(cancelAction, actions: actions, sourceView: galleryView.albumButton,
                         sourceRect: galleryView.albumButton.frame, completion: nil)
     }
 
-    func productGallerySelection(selection: ImageSelection) {
+    func listingGallerySelection(selection: ImageSelection) {
         footer.cameraButton.isHidden = false
     }
     
-    func productGallerySwitchToCamera() {
+    func listingGallerySwitchToCamera() {
         viewPager.selectTabAtIndex(Tab.camera.index, animated: true)
     }
 }

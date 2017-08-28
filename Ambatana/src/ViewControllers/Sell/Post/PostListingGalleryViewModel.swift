@@ -127,7 +127,7 @@ class PostListingGalleryViewModel: BaseViewModel {
     func postButtonPressed() {
         let okImages = imagesSelected.value.flatMap { $0.image }
         guard !okImages.isEmpty else { return }
-        galleryDelegate?.productGalleryDidSelectImages(okImages)
+        galleryDelegate?.listingGalleryDidSelectImages(okImages)
     }
 
     var imagesCount: Int {
@@ -178,7 +178,7 @@ class PostListingGalleryViewModel: BaseViewModel {
             guard let settingsUrl = URL(string: UIApplicationOpenSettingsURLString) else { return }
             UIApplication.shared.openURL(settingsUrl)
         case .empty:
-            galleryDelegate?.productGalleryDidPressTakePhoto()
+            galleryDelegate?.listingGalleryDidPressTakePhoto()
         case .normal, .loadImageError, .loading:
             break
         }

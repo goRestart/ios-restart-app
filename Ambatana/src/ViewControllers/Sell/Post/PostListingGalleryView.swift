@@ -12,13 +12,13 @@ import RxSwift
 import RxCocoa
 
 protocol PostListingGalleryViewDelegate: class {
-    func productGalleryCloseButton()
-    func productGalleryDidSelectImages(_ images: [UIImage])
-    func productGalleryRequestsScrollLock(_ lock: Bool)
-    func productGalleryDidPressTakePhoto()
-    func productGalleryShowActionSheet(_ cancelAction: UIAction, actions: [UIAction])
-    func productGallerySelection(selection: ImageSelection)
-    func productGallerySwitchToCamera()
+    func listingGalleryCloseButton()
+    func listingGalleryDidSelectImages(_ images: [UIImage])
+    func listingGalleryRequestsScrollLock(_ lock: Bool)
+    func listingGalleryDidPressTakePhoto()
+    func listingGalleryShowActionSheet(_ cancelAction: UIAction, actions: [UIAction])
+    func listingGallerySelection(selection: ImageSelection)
+    func listingGallerySwitchToCamera()
 }
 
 enum MessageInfoType {
@@ -146,7 +146,7 @@ class PostListingGalleryView: BaseView, LGViewPagerPage {
     // MARK: - Actions
 
     @IBAction func closeButtonPressed(_ sender: AnyObject) {
-        delegate?.productGalleryCloseButton()
+        delegate?.listingGalleryCloseButton()
     }
    
     dynamic func postButtonPressed() {
@@ -240,7 +240,7 @@ extension PostListingGalleryView: PostListingGalleryViewModelDelegate {
     }
 
     func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction]) {
-        delegate?.productGalleryShowActionSheet(cancelAction, actions: actions)
+        delegate?.listingGalleryShowActionSheet(cancelAction, actions: actions)
     }
 }
 
@@ -384,7 +384,7 @@ extension PostListingGalleryView {
         }.addDisposableTo(disposeBag)
 
         viewModel.imageSelection.distinctUntilChanged().bindNext { [weak self] selection in
-            self?.delegate?.productGallerySelection(selection: selection)
+            self?.delegate?.listingGallerySelection(selection: selection)
         }.addDisposableTo(disposeBag)
     }
 
@@ -480,12 +480,12 @@ extension PostListingGalleryView: UIGestureRecognizerDelegate {
                 dragState = .draggingCollection(false)
             }
             initialDragPosition = imageContainerTop.constant
-            delegate?.productGalleryRequestsScrollLock(true)
+            delegate?.listingGalleryRequestsScrollLock(true)
         case .ended:
             dragState = .none
             collectionView.isUserInteractionEnabled = true
             finishAnimating()
-            delegate?.productGalleryRequestsScrollLock(false)
+            delegate?.listingGalleryRequestsScrollLock(false)
         default:
             handleDrag(recognizer)
         }

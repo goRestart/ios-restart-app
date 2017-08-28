@@ -74,7 +74,7 @@ class FilteredListingListRequester: ListingListRequester {
     }
     
     private func retrieve(_ completion: ListingsCompletion?) {
-        listingRepository.index(retrieveProductsParams, completion: completion)
+        listingRepository.index(retrieveListingsParams, completion: completion)
     }
 
     func isLastPage(_ resultCount: Int) -> Bool {
@@ -197,7 +197,7 @@ fileprivate extension FilteredListingListRequester {
         return nil
     }
 
-    var retrieveProductsParams: RetrieveListingParams {
+    var retrieveListingsParams: RetrieveListingParams {
         var params: RetrieveListingParams = RetrieveListingParams()
         params.numListings = itemsPerPage
         params.offset = offset

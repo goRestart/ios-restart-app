@@ -18,9 +18,9 @@ protocol PostListingNavigator: class {
     func openLoginIfNeededFromProductPosted(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void), cancelAction: (() -> Void)?)
 }
 
-protocol ProductPostedNavigator: class {
+protocol ListingPostedNavigator: class {
     func cancelProductPosted()
     func closeProductPosted(_ listing: Listing)
-    func closeProductPostedAndOpenEdit(_ listing: Listing)
+    func closeListingPostedAndOpenEdit(_ listing: Listing)
     func closeProductPostedAndOpenPost()
 }

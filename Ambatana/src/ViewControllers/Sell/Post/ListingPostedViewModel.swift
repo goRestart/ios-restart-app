@@ -23,7 +23,7 @@ protocol ListingPostedViewModelDelegate: class {
 // MARK: - ListingPostedViewModel
 
 class ListingPostedViewModel: BaseViewModel {
-    weak var navigator: ProductPostedNavigator?
+    weak var navigator: ListingPostedNavigator?
     weak var delegate: ListingPostedViewModelDelegate?
 
     private var status: ListingPostedStatus
@@ -38,8 +38,8 @@ class ListingPostedViewModel: BaseViewModel {
         switch self.status {
         case let .posting(_, params):
             return params.price.free
-        case let .success(product):
-            return product.price.free
+        case let .success(listing):
+            return listing.price.free
         case .error:
             return false
         }
@@ -53,8 +53,8 @@ class ListingPostedViewModel: BaseViewModel {
                   trackingInfo: trackingInfo)
     }
 
-    convenience init(postParams: ListingCreationParams, productImages: [UIImage], trackingInfo: PostListingTrackingInfo) {
-        self.init(status: ListingPostedStatus(images: productImages, params: postParams),
+    convenience init(postParams: ListingCreationParams, listingImages: [UIImage], trackingInfo: PostListingTrackingInfo) {
+        self.init(status: ListingPostedStatus(images: listingImages, params: postParams),
                   trackingInfo: trackingInfo)
     }
 
@@ -198,15 +198,15 @@ class ListingPostedViewModel: BaseViewModel {
         guard let listing = status.listing else { return }
 
         tracker.trackEvent(TrackerEvent.listingSellConfirmationEdit(listing))
-        navigator?.closeProductPostedAndOpenEdit(listing)
+        navigator?.closeListingPostedAndOpenEdit(listing)
     }
 
     func mainActionPressed() {
         switch status {
         case .posting:
             break
-        case let .success(product):
-            tracker.trackEvent(TrackerEvent.listingSellConfirmationPost(product, buttonType: .button))
+        case let .success(listing):
+            tracker.trackEvent(TrackerEvent.listingSellConfirmationPost(listing, buttonType: .button))
         case let .error(error):
             tracker.trackEvent(TrackerEvent.listingSellErrorPost(error))
         }

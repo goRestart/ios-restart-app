@@ -119,7 +119,7 @@ class UserStatusesListingListRequester: UserListingListRequester {
     
     private func listingsRetrieval(_ completion: ListingsRequesterCompletion?) {
         guard let userId = userObjectId else { return  }
-        listingRepository.index(userId: userId, params: retrieveProductsParams) { [weak self] result in
+        listingRepository.index(userId: userId, params: retrieveListingsParams) { [weak self] result in
             if let products = result.value, !products.isEmpty {
                 self?.offset += products.count
                 //User posted previously -> Store it
@@ -147,7 +147,7 @@ class UserStatusesListingListRequester: UserListingListRequester {
         return userObjectId == requester.userObjectId
     }
     
-    private var retrieveProductsParams: RetrieveListingParams {
+    private var retrieveListingsParams: RetrieveListingParams {
         var params: RetrieveListingParams = RetrieveListingParams()
         params.offset = offset
         params.numListings = itemsPerPage

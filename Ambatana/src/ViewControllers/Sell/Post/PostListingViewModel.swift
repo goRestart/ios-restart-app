@@ -299,8 +299,8 @@ extension PostListingViewModel {
 // MARK: - PostListingDetailViewModelDelegate
 
 extension PostListingViewModel: PostListingDetailViewModelDelegate {
-    func postProductDetailDone(_ viewModel: PostListingDetailViewModel) {
-        state.value = state.value.updating(price: viewModel.productPrice)
+    func postListingDetailDone(_ viewModel: PostListingDetailViewModel) {
+        state.value = state.value.updating(price: viewModel.listingPrice)
     }
 }
 
@@ -399,9 +399,9 @@ fileprivate extension PostListingViewModel {
 
     func makeProductCreationParams(images: [File]) -> ProductCreationParams? {
         guard let location = locationManager.currentLocation?.location else { return nil }
-        let price = postDetailViewModel.productPrice
-        let title = postDetailViewModel.productTitle
-        let description = postDetailViewModel.productDescription
+        let price = postDetailViewModel.listingPrice
+        let title = postDetailViewModel.listingTitle
+        let description = postDetailViewModel.listingDescription
         let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()
         let currency = currencyHelper.currencyWithCountryCode(postalAddress.countryCode ?? "US")
         return ProductCreationParams(name: title,
@@ -416,11 +416,11 @@ fileprivate extension PostListingViewModel {
     
     func makeCarCreationParams(images: [File]) -> CarCreationParams? {
         guard let location = locationManager.currentLocation?.location else { return nil }
-        let price = postDetailViewModel.productPrice
-        var title = postDetailViewModel.productTitle
+        let price = postDetailViewModel.listingPrice
+        var title = postDetailViewModel.listingTitle
         title = title ?? selectedCarAttributes.generatedCarName()
 
-        let description = postDetailViewModel.productDescription
+        let description = postDetailViewModel.listingDescription
         let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()
         let currency = currencyHelper.currencyWithCountryCode(postalAddress.countryCode ?? "US")
         return CarCreationParams(name: title,

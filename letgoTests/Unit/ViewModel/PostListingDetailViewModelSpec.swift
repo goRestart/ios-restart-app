@@ -28,8 +28,8 @@ class PostListingDetailViewModelSpec: BaseViewModelSpec {
                         sut.isFree.value = true
                         sut.price.value = ""
                     }
-                    it ("productPrice is free") {
-                        expect(sut.productPrice) == ListingPrice.free
+                    it ("listingPrice is free") {
+                        expect(sut.listingPrice) == ListingPrice.free
                     }
                 }
                 context("negotiable") {
@@ -37,8 +37,8 @@ class PostListingDetailViewModelSpec: BaseViewModelSpec {
                         sut.isFree.value = false
                         sut.price.value = "0"
                     }
-                    it ("productPrice is negotiable") {
-                        expect(sut.productPrice) == ListingPrice.negotiable(0.0)
+                    it ("listingPrice is negotiable") {
+                        expect(sut.listingPrice) == ListingPrice.negotiable(0.0)
                     }
                 }
                 context("has price") {
@@ -46,8 +46,8 @@ class PostListingDetailViewModelSpec: BaseViewModelSpec {
                         sut.isFree.value = false
                         sut.price.value = "10"
                     }
-                    it ("productPrice is normal") {
-                        expect(sut.productPrice) == ListingPrice.normal(10.0)
+                    it ("listingPrice is normal") {
+                        expect(sut.listingPrice) == ListingPrice.normal(10.0)
                     }
                 }
             }
@@ -56,16 +56,16 @@ class PostListingDetailViewModelSpec: BaseViewModelSpec {
                     beforeEach {
                         sut.title.value = ""
                     }
-                    it ("productTitle is nil") {
-                        expect(sut.productTitle).to(beNil())
+                    it ("listingTitle is nil") {
+                        expect(sut.listingTitle).to(beNil())
                     }
                 }
                 context("title specified") {
                     beforeEach {
                         sut.title.value = "cool thing"
                     }
-                    it ("productTitle has a value") {
-                        expect(sut.productTitle) == "cool thing"
+                    it ("listingTitle has a value") {
+                        expect(sut.listingTitle) == "cool thing"
                     }
                 }
             }
@@ -74,16 +74,16 @@ class PostListingDetailViewModelSpec: BaseViewModelSpec {
                     beforeEach {
                         sut.description.value = ""
                     }
-                    it ("productDescription is nil") {
-                        expect(sut.productDescription).to(beNil())
+                    it ("listingDescription is nil") {
+                        expect(sut.listingDescription).to(beNil())
                     }
                 }
                 context("description specified") {
                     beforeEach {
                         sut.description.value = "this cool thing does stuff"
                     }
-                    it ("productDescription has a value") {
-                        expect(sut.productDescription) == "this cool thing does stuff"
+                    it ("listingDescription has a value") {
+                        expect(sut.listingDescription) == "this cool thing does stuff"
                     }
                 }
             }

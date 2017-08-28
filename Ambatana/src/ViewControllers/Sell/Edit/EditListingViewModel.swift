@@ -451,7 +451,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         saveButtonEnabled.value = hasChanges
     }
 
-    private func validate() -> ProductCreateValidationError? {
+    private func validate() -> ListingCreateValidationError? {
         
         if images.count < 1 {
             return .noImages
@@ -506,11 +506,11 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
                         self?.trackComplete(responseListing)
                         self?.finishedSaving()
                     } else if let error = result.error {
-                        self?.showError(ProductCreateValidationError(repoError: error))
+                        self?.showError(ListingCreateValidationError(repoError: error))
                     }
                 }
             } else if let error = imagesResult.error {
-                self?.showError(ProductCreateValidationError(repoError: error))
+                self?.showError(ListingCreateValidationError(repoError: error))
             }
         }
     }
@@ -545,11 +545,11 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
                         self?.trackComplete(responseListing)
                         self?.finishedSaving()
                     } else if let error = result.error {
-                        self?.showError(ProductCreateValidationError(repoError: error))
+                        self?.showError(ListingCreateValidationError(repoError: error))
                     }
                 }
             } else if let error = imagesResult.error {
-                self?.showError(ProductCreateValidationError(repoError: error))
+                self?.showError(ListingCreateValidationError(repoError: error))
             }
         }
     }
@@ -606,7 +606,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         }
     }
 
-    private func showError(_ error: ProductCreateValidationError) {
+    private func showError(_ error: ListingCreateValidationError) {
         var completion: ((Void) -> Void)? = nil
         if !error.isFieldError {
             shouldTrack = false
@@ -754,7 +754,7 @@ extension EditListingViewModel {
         trackEvent(event)
     }
 
-    fileprivate func trackValidationFailedWithError(_ error: ProductCreateValidationError) {
+    fileprivate func trackValidationFailedWithError(_ error: ListingCreateValidationError) {
         let myUser = myUserRepository.myUser
         let event = TrackerEvent.listingEditFormValidationFailed(myUser, listing: initialListing,
                                                                  description: error.description)
@@ -846,9 +846,9 @@ extension EditListingViewModel {
 }
 
 
-// MARK: - ProductCreateValidationError helper
+// MARK: - ListingCreateValidationError helper
 
-private enum ProductCreateValidationError: Error {
+private enum ListingCreateValidationError: Error {
     case network
     case internalError
     case noImages

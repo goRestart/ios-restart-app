@@ -162,7 +162,7 @@ extension SellCoordinator: PostListingNavigator {
         guard let parentVC = parentViewController else { return }
 
         dismissViewController(animated: true) { [weak self] in
-            let listingPostedVM = ListingPostedViewModel(postParams: params, productImages: images,
+            let listingPostedVM = ListingPostedViewModel(postParams: params, listingImages: images,
                                                          trackingInfo: trackingInfo)
             listingPostedVM.navigator = self
             let listingPostedVC = ListingPostedViewController(viewModel: listingPostedVM)
@@ -177,9 +177,9 @@ extension SellCoordinator: PostListingNavigator {
 }
 
 
-// MARK: - ProductPostedNavigator
+// MARK: - ListingPostedNavigator
 
-extension SellCoordinator: ProductPostedNavigator {
+extension SellCoordinator: ListingPostedNavigator {
     func cancelProductPosted() {
         closeCoordinator(animated: true) { [weak self] in
             guard let strongSelf = self, let delegate = strongSelf.delegate else { return }
@@ -196,7 +196,7 @@ extension SellCoordinator: ProductPostedNavigator {
         }
     }
 
-    func closeProductPostedAndOpenEdit(_ listing: Listing) {
+    func closeListingPostedAndOpenEdit(_ listing: Listing) {
         dismissViewController(animated: true) { [weak self] in
             guard let parentVC = self?.parentViewController else { return }
 

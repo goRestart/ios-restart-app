@@ -10,7 +10,7 @@ import RxSwift
 import LGCoreKit
 
 protocol PostListingDetailViewModelDelegate: class {
-    func postProductDetailDone(_ viewModel: PostListingDetailViewModel)
+    func postListingDetailDone(_ viewModel: PostListingDetailViewModel)
 }
 
 class PostListingDetailViewModel: BaseViewModel {
@@ -25,14 +25,14 @@ class PostListingDetailViewModel: BaseViewModel {
     let isFree = Variable<Bool>(false)
     
     // Out variables
-    var productPrice: ListingPrice {
+    var listingPrice: ListingPrice {
         guard !isFree.value else { return .free }
         return price.value.toPriceDouble() > 0 ? .normal(price.value.toPriceDouble()) : .negotiable(price.value.toPriceDouble())
     }
-    var productTitle: String? {
+    var listingTitle: String? {
         return title.value.isEmpty ? nil : title.value
     }
-    var productDescription: String? {
+    var listingDescription: String? {
         return description.value.isEmpty ? nil : description.value
     }
 
@@ -64,6 +64,6 @@ class PostListingDetailViewModel: BaseViewModel {
     }
 
     func doneButtonPressed() {
-        delegate?.postProductDetailDone(self)
+        delegate?.postListingDetailDone(self)
     }
 }
