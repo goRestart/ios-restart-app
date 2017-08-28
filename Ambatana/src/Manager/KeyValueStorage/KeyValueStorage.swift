@@ -33,8 +33,8 @@ extension DefaultsKeys {
     static let lastRunAppVersion = DefaultsKey<String?>("lastRunAppVersion")
 
     static let didShowOnboarding = DefaultsKey<Bool>("didShowOnboarding")
-    static let didShowListingDetailOnboarding = DefaultsKey<Bool>("didShowListingDetailOnboarding")
-    static let didShowHorizontalListingDetailOnboarding = DefaultsKey<Bool>("didShowHorizontalListingDetailOnboarding")
+    static let didShowListingDetailOnboarding = DefaultsKey<Bool>("didShowProductDetailOnboarding")
+    static let didShowHorizontalListingDetailOnboarding = DefaultsKey<Bool>("didShowHorizontalProductDetailOnboarding")
     static let listingDetailQuickAnswersHidden = DefaultsKey<Bool>("productDetailQuickAnswers")
     static let listingMoreInfoTooltipDismissed = DefaultsKey<Bool>("showMoreInfoTooltip")
     static let favoriteCategories = DefaultsKey<[Int]>("favoriteCategories")
