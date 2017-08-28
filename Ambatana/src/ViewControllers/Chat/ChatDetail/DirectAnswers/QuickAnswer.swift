@@ -14,9 +14,9 @@ enum QuickAnswer {
     case stillAvailable
     case isNegotiable
     case likeToBuy
-    case productCondition
-    case productStillForSale
-    case productSold
+    case listingCondition
+    case listingStillForSale
+    case listingSold
     case whatsOffer
     case negotiableYes
     case negotiableNo
@@ -39,11 +39,11 @@ enum QuickAnswer {
             return LGLocalizedString.directAnswerIsNegotiable
         case .likeToBuy:
             return LGLocalizedString.directAnswerLikeToBuy
-        case .productCondition:
+        case .listingCondition:
             return LGLocalizedString.directAnswerCondition
-        case .productStillForSale:
+        case .listingStillForSale:
             return LGLocalizedString.directAnswerStillForSale
-        case .productSold:
+        case .listingSold:
             return LGLocalizedString.directAnswerProductSold
         case .whatsOffer:
             return LGLocalizedString.directAnswerWhatsOffer
@@ -76,12 +76,12 @@ enum QuickAnswer {
             return .isNegotiable
         case .likeToBuy:
             return .likeToBuy
-        case .productCondition:
-            return .productCondition
-        case .productStillForSale:
-            return .productStillForSale
-        case .productSold:
-            return .productSold
+        case .listingCondition:
+            return .listingCondition
+        case .listingStillForSale:
+            return .listingStillForSale
+        case .listingSold:
+            return .listingSold
         case .whatsOffer:
             return .whatsOffer
         case .negotiableYes:
@@ -121,12 +121,12 @@ enum QuickAnswer {
                 result.append(.meetUp)
                 result.append(.notInterested)
             } else {
-                result.append(.productStillForSale)
+                result.append(.listingStillForSale)
                 result.append(.whatsOffer)
                 result.append(.negotiableYes)
                 result.append(.negotiableNo)
                 result.append(.notInterested)
-                result.append(.productSold)
+                result.append(.listingSold)
             }
         }
         return result
@@ -137,11 +137,11 @@ enum QuickAnswer {
         if isFree {
             result.append(.interested)
             result.append(.meetUp)
-            result.append(.productCondition)
+            result.append(.listingCondition)
         } else {
             result.append(.stillAvailable)
             result.append(.isNegotiable)
-            result.append(.productCondition)
+            result.append(.listingCondition)
         }
         return result
     }

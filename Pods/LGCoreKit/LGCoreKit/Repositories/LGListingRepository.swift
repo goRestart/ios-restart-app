@@ -266,7 +266,7 @@ final class LGListingRepository: ListingRepository {
     }
 
 
-    // MARK: - (un)Favorite product
+    // MARK: - (un)Favorite listing
     
     func saveFavorite(listing: Listing, completion: ListingCompletion?) {
         guard let userId = myUserRepository.myUser?.objectId else {
@@ -430,7 +430,7 @@ final class LGListingRepository: ListingRepository {
 
     func incrementViews(listingId: String, visitSource: String, completion: ListingVoidCompletion?) {
         viewedListings.append((listingId, visitSource))
-        if viewedListings.count >= LGCoreKitConstants.viewedProductsThreshold  {
+        if viewedListings.count >= LGCoreKitConstants.viewedListingsThreshold  {
             updateListingViewsBatch(Array(viewedListings), completion: completion)
             viewedListings = []
         } else {

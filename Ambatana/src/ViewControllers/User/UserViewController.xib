@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -17,9 +17,9 @@
                 <outlet property="headerContainer" destination="3Kp-we-Xh1" id="f4J-GU-py2"/>
                 <outlet property="headerContainerBottom" destination="3Pl-0d-BZp" id="kOk-BW-kKF"/>
                 <outlet property="headerContainerHeight" destination="N3e-nv-cas" id="Gx5-Ol-4oK"/>
+                <outlet property="listingListView" destination="GOJ-t3-gBZ" id="Lhm-iD-c7s"/>
+                <outlet property="listingListViewBackgroundView" destination="qzg-je-AY2" id="5ZZ-0j-7uO"/>
                 <outlet property="patternView" destination="jUL-st-g1H" id="Hvu-DW-u0J"/>
-                <outlet property="productListView" destination="GOJ-t3-gBZ" id="8gJ-Jt-zc1"/>
-                <outlet property="productListViewBackgroundView" destination="qzg-je-AY2" id="tcl-C9-12g"/>
                 <outlet property="userBgEffectView" destination="OrV-Pm-AHl" id="Bpi-oy-bfD"/>
                 <outlet property="userBgImageView" destination="n6I-hr-OoB" id="1X4-xw-BKL"/>
                 <outlet property="userBgTintView" destination="ueY-4k-2z8" id="q0W-e9-I9a"/>
@@ -41,7 +41,7 @@
                     <rect key="frame" x="0.0" y="256" width="375" height="411"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </view>
-                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GOJ-t3-gBZ" userLabel="Product List View" customClass="ProductListView" customModule="LetGo" customModuleProvider="target">
+                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GOJ-t3-gBZ" userLabel="Product List View" customClass="ListingListView" customModule="LetGo" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                 </view>

@@ -58,8 +58,8 @@ struct UniversalLink {
         if components.count > 1 { //the ones with <language_code> part
             switch components[1] {
             case "i":
-                guard components.count > 2, let productId = components.last?.decomposeIdSlug() else { return nil }
-                return UniversalLink(deepLink: DeepLink.link(.product(productId: productId), campaign: campaign, medium: medium, source: source, cardActionParameter: cardAction))
+                guard components.count > 2, let listingId = components.last?.decomposeIdSlug() else { return nil }
+                return UniversalLink(deepLink: DeepLink.link(.listing(listingId: listingId), campaign: campaign, medium: medium, source: source, cardActionParameter: cardAction))
             case "u":
                 guard components.count > 2, let userId = components.last?.decomposeIdSlug() else { return nil }
                 return UniversalLink(deepLink: DeepLink.link(.user(userId: userId), campaign: campaign, medium: medium, source: source, cardActionParameter: cardAction))

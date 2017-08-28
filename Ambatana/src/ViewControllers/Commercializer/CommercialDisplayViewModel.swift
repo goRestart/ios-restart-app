@@ -13,7 +13,7 @@ import LGCoreKit
 class CommercialDisplayViewModel: BaseViewModel {
 
     var commercialsList: [Commercializer]
-    var productId: String
+    var listingId: String
     var isMyVideo: Bool
     var source: EventParameterTypePage
     var selectedCommercial: Commercializer? {
@@ -33,9 +33,9 @@ class CommercialDisplayViewModel: BaseViewModel {
 
     // MARK: - Lifercycle
 
-    init?(commercializers: [Commercializer], productId: String?, source: EventParameterTypePage, isMyVideo: Bool) {
+    init?(commercializers: [Commercializer], listingId: String?, source: EventParameterTypePage, isMyVideo: Bool) {
         self.commercialsList = commercializers
-        self.productId = productId ?? ""
+        self.listingId = listingId ?? ""
         self.source = source
         self.isMyVideo = isMyVideo
         super.init()
@@ -50,7 +50,7 @@ class CommercialDisplayViewModel: BaseViewModel {
         let templateIds: [String] = commercialsList.flatMap { $0.templateId }
         templateIdsString = templateIds.joined(separator: ",")
 
-        let event = TrackerEvent.commercializerOpen(productId, typePage: source, template: templateIdsString)
+        let event = TrackerEvent.commercializerOpen(listingId, typePage: source, template: templateIdsString)
         TrackerProxy.sharedInstance.trackEvent(event)
     }
 
@@ -84,7 +84,7 @@ extension CommercialDisplayViewModel {
     }
 
     func shareStartedIn(_ shareType: ShareType) {
-        let event = TrackerEvent.commercializerShareStart(productId, typePage: .commercializerPlayer,
+        let event = TrackerEvent.commercializerShareStart(listingId, typePage: .commercializerPlayer,
                                                           template: sharedTemplateId,
                                                           shareNetwork: shareType.trackingShareNetwork)
         TrackerProxy.sharedInstance.trackEvent(event)
@@ -92,7 +92,7 @@ extension CommercialDisplayViewModel {
 
     func shareFinishedIn(_ shareType: ShareType, withState state: SocialShareState) {
         guard state == .completed else { return }
-        let event = TrackerEvent.commercializerShareComplete(productId, typePage: .commercializerPlayer,
+        let event = TrackerEvent.commercializerShareComplete(listingId, typePage: .commercializerPlayer,
                                                              template: sharedTemplateId,
                                                              shareNetwork: shareType.trackingShareNetwork)
         TrackerProxy.sharedInstance.trackEvent(event)

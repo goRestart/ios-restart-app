@@ -9,6 +9,6 @@
 import Foundation
 
 public protocol PassiveBuyersInfo: BaseModel {
-    var productImage: File? { get }
+    var listingImage: File? { get }
     var passiveBuyers: [PassiveBuyersUser] { get }
 }

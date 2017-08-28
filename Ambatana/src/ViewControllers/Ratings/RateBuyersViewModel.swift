@@ -229,12 +229,12 @@ class RateBuyersViewModel: BaseViewModel {
 
 fileprivate extension RateBuyersViewModel {
     func trackMarkAsSoldAtLetgo(buyerId: String?) {
-        let event = TrackerEvent.productMarkAsSoldAtLetgo(trackingInfo: trackingInfo.updating(buyerId: buyerId))
+        let event = TrackerEvent.listingMarkAsSoldAtLetgo(trackingInfo: trackingInfo.updating(buyerId: buyerId))
         tracker.trackEvent(event)
     }
     
     func trackMarkAsSoldOutsideLetgo() {
-        let event = TrackerEvent.productMarkAsSoldOutsideLetgo(trackingInfo: trackingInfo)
+        let event = TrackerEvent.listingMarkAsSoldOutsideLetgo(trackingInfo: trackingInfo)
         tracker.trackEvent(event)
     }
 }

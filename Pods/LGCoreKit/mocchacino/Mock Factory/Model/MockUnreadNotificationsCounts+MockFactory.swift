@@ -1,11 +1,11 @@
 extension MockUnreadNotificationsCounts: MockFactory {
     public static func makeMock() -> MockUnreadNotificationsCounts {
-        return MockUnreadNotificationsCounts(productSold: Int.makeRandom(),
-                                             productLike: Int.makeRandom(),
+        return MockUnreadNotificationsCounts(listingSold: Int.makeRandom(),
+                                             listingLike: Int.makeRandom(),
                                              review: Int.makeRandom(),
                                              reviewUpdated: Int.makeRandom(),
                                              buyersInterested: Int.makeRandom(),
-                                             productSuggested: Int.makeRandom(),
+                                             listingSuggested: Int.makeRandom(),
                                              facebookFriendshipCreated: Int.makeRandom(),
                                              modular: Int.makeRandom(),
                                              total: Int.makeRandom())

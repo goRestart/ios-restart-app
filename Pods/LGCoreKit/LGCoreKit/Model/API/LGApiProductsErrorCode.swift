@@ -21,7 +21,7 @@ extension LGApiProductsErrorCode : Decodable {
      Expects a json in the form:
         {
             "code": 11001,
-            "message": "Country code for product sender does not match"
+            "message": "Country code for listing sender does not match"
         }
      */
     static func decode(_ j: JSON) -> Decoded<LGApiProductsErrorCode> {

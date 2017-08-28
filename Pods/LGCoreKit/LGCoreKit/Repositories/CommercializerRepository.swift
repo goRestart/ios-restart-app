@@ -12,5 +12,5 @@ public typealias CommercializersResult = Result<[Commercializer], RepositoryErro
 public typealias CommercializersCompletion = (CommercializersResult) -> Void
 
 public protocol CommercializerRepository {
-    func index(_ productId: String, completion: CommercializersCompletion?)
+    func index(_ listingId: String, completion: CommercializersCompletion?)
 }

@@ -51,7 +51,7 @@ class PassiveBuyersViewModel: BaseViewModel {
     // MARK: - Public info
 
     var productImage: URL? {
-        return passiveBuyers.productImage?.fileURL
+        return passiveBuyers.listingImage?.fileURL
     }
 
     var buyersCount: Int {

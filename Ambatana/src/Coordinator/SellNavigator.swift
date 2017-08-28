@@ -9,18 +9,18 @@
 import LGCoreKit
 import Foundation
 
-protocol PostProductNavigator: class {
-    func cancelPostProduct()
+protocol PostListingNavigator: class {
+    func cancelPostListing()
     func closePostProductAndPostInBackground(params: ListingCreationParams,
-                                             trackingInfo: PostProductTrackingInfo)
+                                             trackingInfo: PostListingTrackingInfo)
     func closePostProductAndPostLater(params: ListingCreationParams, images: [UIImage],
-                                      trackingInfo: PostProductTrackingInfo)
-    func openLoginIfNeededFromProductPosted(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void), cancelAction: (() -> Void)?)
+                                      trackingInfo: PostListingTrackingInfo)
+    func openLoginIfNeededFromListingPosted(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void), cancelAction: (() -> Void)?)
 }
 
-protocol ProductPostedNavigator: class {
-    func cancelProductPosted()
-    func closeProductPosted(_ listing: Listing)
-    func closeProductPostedAndOpenEdit(_ listing: Listing)
+protocol ListingPostedNavigator: class {
+    func cancelListingPosted()
+    func closeListingPosted(_ listing: Listing)
+    func closeListingPostedAndOpenEdit(_ listing: Listing)
     func closeProductPostedAndOpenPost()
 }

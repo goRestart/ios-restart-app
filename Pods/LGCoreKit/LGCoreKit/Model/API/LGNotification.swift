@@ -179,15 +179,15 @@ extension NotificationType: Decodable {
 }
 
 fileprivate extension NotificationType {
-    static func makeLike(product: LGNotificationListing,
+    static func makeLike(listing: LGNotificationListing,
                          user: LGNotificationUser) -> NotificationType {
-        return .like(product: product,
+        return .like(listing: listing,
                      user: user)
     }
     
-    static func makeSold(product: LGNotificationListing,
+    static func makeSold(listing: LGNotificationListing,
                          user: LGNotificationUser) -> NotificationType {
-        return .sold(product: product,
+        return .sold(listing: listing,
                      user: user)
     }
     
@@ -207,15 +207,15 @@ fileprivate extension NotificationType {
                               comments: comments)
     }
     
-    static func makeBuyersInterested(product: LGNotificationListing,
+    static func makeBuyersInterested(listing: LGNotificationListing,
                                      buyers: [LGNotificationUser]) -> NotificationType {
-        return .buyersInterested(product: product,
+        return .buyersInterested(listing: listing,
                                  buyers: buyers)
     }
     
-    static func makeProductSuggested(product: LGNotificationListing,
+    static func makeProductSuggested(listing: LGNotificationListing,
                                      seller: LGNotificationUser) -> NotificationType {
-        return .productSuggested(product: product,
+        return .listingSuggested(listing: listing,
                                  seller: seller)
     }
     

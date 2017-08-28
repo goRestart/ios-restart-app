@@ -7,12 +7,12 @@
 //
 
 public enum NotificationType {
-    case like(product: NotificationListing, user: NotificationUser)
-    case sold(product: NotificationListing, user: NotificationUser)
+    case like(listing: NotificationListing, user: NotificationUser)
+    case sold(listing: NotificationListing, user: NotificationUser)
     case rating(user: NotificationUser, value: Int, comments: String?)
     case ratingUpdated(user: NotificationUser, value: Int, comments: String?)
-    case buyersInterested(product: NotificationListing, buyers: [NotificationUser])
-    case productSuggested(product: NotificationListing, seller: NotificationUser)
+    case buyersInterested(listing: NotificationListing, buyers: [NotificationUser])
+    case listingSuggested(listing: NotificationListing, seller: NotificationUser)
     case facebookFriendshipCreated(user: NotificationUser, facebookUsername: String)
     case modular(modules: NotificationModular)
 }

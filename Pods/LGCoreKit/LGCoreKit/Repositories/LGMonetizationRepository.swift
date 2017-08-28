@@ -32,8 +32,8 @@ class LGMonetizationRepository : MonetizationRepository {
 
     // MARK: - Public methods
 
-    func retrieveBumpeableProductInfo(productId: String, completion: BumpeableListingCompletion?) {
-        dataSource.retrieveBumpeableProductInfo(productId: productId) { result in
+    func retrieveBumpeableListingInfo(listingId: String, completion: BumpeableListingCompletion?) {
+        dataSource.retrieveBumpeableListingInfo(listingId: listingId) { result in
             handleApiResult(result, completion: completion)
         }
     }

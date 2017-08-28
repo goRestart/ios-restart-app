@@ -115,7 +115,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                 sut.delegate = self
                 disposeBag = DisposeBag()
                 sut.messages.observable.bindTo(messages).addDisposableTo(disposeBag)
-                sut.relatedProductsState.asObservable().bindTo(relatedListingsStateObserver).addDisposableTo(disposeBag)
+                sut.relatedListingsState.asObservable().bindTo(relatedListingsStateObserver).addDisposableTo(disposeBag)
             }
             
             

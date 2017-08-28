@@ -8,14 +8,14 @@
 
 enum CommercializerRouter: URLRequestAuthenticable {
 
-    static let productsURL = "/api/products"
+    static let listingsURL = "/api/products"
 
-    case index(productId: String)
+    case index(listingId: String)
     
     var endpoint: String {
         switch self {
         case .index:
-            return CommercializerRouter.productsURL
+            return CommercializerRouter.listingsURL
         }
     }
     
@@ -30,8 +30,8 @@ enum CommercializerRouter: URLRequestAuthenticable {
     
     func asURLRequest() throws -> URLRequest {
         switch self {
-        case let .index(productId):
-            return try Router<CommercializerBaseURL>.show(endpoint: endpoint, objectId: productId).asURLRequest()
+        case let .index(listingId):
+            return try Router<CommercializerBaseURL>.show(endpoint: endpoint, objectId: listingId).asURLRequest()
         }
     }
 }

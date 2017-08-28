@@ -45,11 +45,11 @@ struct PushNotification {
                 .conversation(conversationId: conversationId)), origin: origin, campaign: nil, medium: nil,
                 source: .push, cardActionParameter: nil), badge: badge)
 
-        } else if let productId = userInfo["p"] as? String, let buyerId = userInfo["u"] as? String {
+        } else if let listingId = userInfo["p"] as? String, let buyerId = userInfo["u"] as? String {
             
             let type = DeepLinkMessageType(rawValue: (userInfo["n_t"] as? Int) ?? 0 ) ?? .message
             return PushNotification(deepLink: DeepLink.push(.message(messageType: type, data:
-                .productBuyer(productId: productId, buyerId: buyerId)), origin: origin, campaign: nil, medium: nil,
+                .listingBuyer(listingId: listingId, buyerId: buyerId)), origin: origin, campaign: nil, medium: nil,
                 source: .push, cardActionParameter: nil), badge: badge)
         }
 

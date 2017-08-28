@@ -28,7 +28,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     private static let carsInfoContainerHeight: CGFloat = 134 // (3 x 44 + 2 separators)
 
     enum TextFieldTag: Int {
-        case productTitle = 1000, productPrice, productDescription
+        case listingTitle = 1000, listingPrice, listingDescription
     }
     
     @IBOutlet weak var scrollView: UIScrollView!
@@ -179,7 +179,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
-        guard let tag = TextFieldTag(rawValue: textField.tag), tag == .productTitle else { return }
+        guard let tag = TextFieldTag(rawValue: textField.tag), tag == .listingTitle else { return }
         if let text = textField.text {
             viewModel.userFinishedEditingTitle(text)
         }
@@ -197,7 +197,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         let text = textField.textReplacingCharactersInRange(range, replacementString: cleanReplacement)
         if let tag = TextFieldTag(rawValue: textField.tag) {
             switch (tag) {
-            case .productTitle:
+            case .listingTitle:
                 viewModel.title = text.isEmpty ? nil : text
                 if string.hasEmojis() {
                     //Forcing the new text (without emojis) by returning false
@@ -205,9 +205,9 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
                     return false
                 }
                 viewModel.userWritesTitle(text)
-            case .productPrice:
+            case .listingPrice:
                 viewModel.price = text.isEmpty ? nil : text
-            case .productDescription:
+            case .listingDescription:
                 break
             }
         }
@@ -215,7 +215,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField.tag == TextFieldTag.productTitle.rawValue && !freePostingSwitch.isOn {
+        if textField.tag == TextFieldTag.listingTitle.rawValue && !freePostingSwitch.isOn {
             let nextTag = textField.tag + 1
             if let nextView = view.viewWithTag(nextTag) {
                 nextView.becomeFirstResponder()
@@ -225,7 +225,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     }
 
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
-        if let tag = TextFieldTag(rawValue: textField.tag), tag == .productTitle {
+        if let tag = TextFieldTag(rawValue: textField.tag), tag == .listingTitle {
             viewModel.title = ""
             viewModel.userWritesTitle(textField.text)
         }
@@ -264,8 +264,8 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)
         -> UICollectionViewCell {
         
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SellProductCell.reusableID,
-                for: indexPath) as? SellProductCell else { return UICollectionViewCell() }
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SellListingCell.reusableID,
+                for: indexPath) as? SellListingCell else { return UICollectionViewCell() }
             cell.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
             if indexPath.item < viewModel.numberOfImages {
                 cell.setupCellWithImageType(viewModel.imageAtIndex(indexPath.item))
@@ -285,7 +285,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.item == viewModel.numberOfImages {
             // add image
-            let cell = collectionView.cellForItem(at: indexPath) as? SellProductCell
+            let cell = collectionView.cellForItem(at: indexPath) as? SellListingCell
             cell?.highlight()
             MediaPickerManager.showImagePickerIn(self)
             if indexPath.item > 1 && indexPath.item < 4 {
@@ -298,7 +298,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
             let alert = UIAlertController(title: LGLocalizedString.sellPictureSelectedTitle, message: nil,
                 preferredStyle: .actionSheet)
             
-            let cell = collectionView.cellForItem(at: indexPath) as? SellProductCell
+            let cell = collectionView.cellForItem(at: indexPath) as? SellListingCell
             alert.popoverPresentationController?.sourceView = cell
             alert.popoverPresentationController?.sourceRect = cell?.bounds ?? CGRect.zero
             
@@ -394,7 +394,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         
         titleTextField.placeholder = LGLocalizedString.sellTitleFieldHint
         titleTextField.text = viewModel.title
-        titleTextField.tag = TextFieldTag.productTitle.rawValue
+        titleTextField.tag = TextFieldTag.listingTitle.rawValue
         titleDisclaimer.textColor = UIColor.darkGrayText
         titleDisclaimer.font = UIFont.smallBodyFont
 
@@ -407,7 +407,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
 
         priceTextField.placeholder = LGLocalizedString.productNegotiablePrice
         priceTextField.text = viewModel.price
-        priceTextField.tag = TextFieldTag.productPrice.rawValue
+        priceTextField.tag = TextFieldTag.listingPrice.rawValue
         priceTextField.insetX = 16.0
 
         descriptionTextView.text = viewModel.descr ?? ""
@@ -416,7 +416,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         descriptionTextView.placeholderColor = UIColor.gray
         descriptionTextView.textContainerInset = UIEdgeInsetsMake(12.0, 11.0, 12.0, 11.0)
         descriptionTextView.tintColor = UIColor.primaryColor
-        descriptionTextView.tag = TextFieldTag.productDescription.rawValue
+        descriptionTextView.tag = TextFieldTag.listingDescription.rawValue
         descriptionCharCountLabel.text = "\(viewModel.descriptionCharCount)"
 
         setLocationTitleLabel.text = LGLocalizedString.settingsChangeLocationButton
@@ -445,8 +445,8 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         // CollectionView
         imageCollectionView.delegate = self
         imageCollectionView.dataSource = self
-        let cellNib = UINib(nibName: SellProductCell.reusableID, bundle: nil)
-        self.imageCollectionView.register(cellNib, forCellWithReuseIdentifier: SellProductCell.reusableID)
+        let cellNib = UINib(nibName: SellListingCell.reusableID, bundle: nil)
+        self.imageCollectionView.register(cellNib, forCellWithReuseIdentifier: SellListingCell.reusableID)
         
         loadingLabel.text = LGLocalizedString.sellUploadingLabel
         view.bringSubview(toFront: loadingView)

@@ -30,13 +30,13 @@ protocol OldChatDataSource {
     /**
     Retrieves an specific chat
     
-    parameter productId: the id of the product related to the chat we want to retrieve
+    parameter listingId: the id of the listing related to the chat we want to retrieve
     parameter buyerId: the id of the buyer related to the chat we want to retrieve
     parameter offset: the offset for the messages list
     parameter numResults: the num of messages we want to retrieve
     parameter completion: the completion closure
     */
-    func retrieveMessagesWithProductId(_ productId: String, buyerId: String, offset: Int, numResults: Int?,
+    func retrieveMessagesWithListingId(_ listingId: String, buyerId: String, offset: Int, numResults: Int?,
         completion: ChatDataSourceRetrieveChatCompletion?)
 
     /**
@@ -51,15 +51,15 @@ protocol OldChatDataSource {
         completion: ChatDataSourceRetrieveChatCompletion?)
 
     /**
-    Sends a message to a user about a specific product
+    Sends a message to a user about a specific listing
 
     parameter recipientUserId: the id of the user who will receive the message
-    parameter recipientUserId: the id of the product related to the message
+    parameter listingId: the id of the listing related to the message
     parameter message: the content of the message
     parameter type: the type of message (text or offer)
     parameter completion: the completion closure
     */
-    func sendMessageTo(_ recipientUserId: String, productId: String, message: String, type: MessageType,
+    func sendMessageTo(_ recipientUserId: String, listingId: String, message: String, type: MessageType,
         completion: ChatDataSourceSendMessageCompletion?)
 
     /**

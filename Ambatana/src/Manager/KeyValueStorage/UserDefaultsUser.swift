@@ -16,18 +16,18 @@ struct UserDefaultsUser {
     static let chatShowDirectAnswersDefaultValue = [String:Bool]()
     static let ratingAlreadyRatedDefaultValue = false
     static let ratingRemindMeLaterDateDefaultValue: Date? = nil
-    static let postProductLastGalleryAlbumSelectedDefaultValue: String? = nil
+    static let postListingLastGalleryAlbumSelectedDefaultValue: String? = nil
     // ABIOS-2879: when removing this AB test we should set 0 or 1 and remove this non-injected FeatureFlags ref
-    static var postProductLastTabSelectedDefaultValue: Int {
+    static var postListingLastTabSelectedDefaultValue: Int {
         return FeatureFlags.sharedInstance.openGalleryInPosting == .openGallery ? 0 : 1
     }
-    static let postProductPostedPreviouslyDefaultValue = false
+    static let postListingPostedPreviouslyDefaultValue = false
     static let trackingProductSellComplete24hTrackedDefaultValue = false
     static let shouldShowExpressChatDefaultValue = true
-    static let productsWithExpressChatAlreadyShownDefaultValue: [String] = []
-    static let productsWithExpressChatMessageSentDefaultValue: [String] = []
+    static let listingsWithExpressChatAlreadyShownDefaultValue: [String] = []
+    static let listingsWithExpressChatMessageSentDefaultValue: [String] = []
     static let marketingNotificationsDefaultValue = true
-    static let transactionsProductIdsDefaultValue = [String:String]()
+    static let transactionsListingIdsDefaultValue = [String:String]()
 
     var appShared: Bool
     var userLocationApproximate: Bool
@@ -35,13 +35,13 @@ struct UserDefaultsUser {
     var chatShowDirectAnswers: [String:Bool] // <id>: <value>
     var ratingAlreadyRated: Bool
     var ratingRemindMeLaterDate: Date?
-    var postProductLastGalleryAlbumSelected: String?
-    var postProductLastTabSelected: Int
-    var postProductPostedPreviously: Bool
+    var postListingLastGalleryAlbumSelected: String?
+    var postListingLastTabSelected: Int
+    var postListingPostedPreviously: Bool
     var trackingProductSellComplete24hTracked: Bool
     var shouldShowExpressChat: Bool
-    var productsWithExpressChatAlreadyShown: [String]
-    var productsWithExpressChatMessageSent: [String]
+    var listingsWithExpressChatAlreadyShown: [String]
+    var listingsWithExpressChatMessageSent: [String]
     var marketingNotifications: Bool
     var pendingTransactionsProductIds: [String:String] // [<transactionId> : <productId>]
 
@@ -52,15 +52,15 @@ struct UserDefaultsUser {
                   ratingAlreadyRated: UserDefaultsUser.ratingAlreadyRatedDefaultValue,
                   ratingRemindMeLaterDate: UserDefaultsUser.ratingRemindMeLaterDateDefaultValue,
                   chatShowDirectAnswers: UserDefaultsUser.chatShowDirectAnswersDefaultValue,
-                  postProductLastGalleryAlbumSelected: UserDefaultsUser.postProductLastGalleryAlbumSelectedDefaultValue,
-                  postProductLastTabSelected: UserDefaultsUser.postProductLastTabSelectedDefaultValue,
-                  postProductPostedPreviously: UserDefaultsUser.postProductPostedPreviouslyDefaultValue,
+                  postListingLastGalleryAlbumSelected: UserDefaultsUser.postListingLastGalleryAlbumSelectedDefaultValue,
+                  postListingLastTabSelected: UserDefaultsUser.postListingLastTabSelectedDefaultValue,
+                  postListingPostedPreviously: UserDefaultsUser.postListingPostedPreviouslyDefaultValue,
                   trackingProductSellComplete24hTracked: UserDefaultsUser.trackingProductSellComplete24hTrackedDefaultValue,
                   shouldShowExpressChat: UserDefaultsUser.shouldShowExpressChatDefaultValue,
-                  productsWithExpressChatAlreadyShown: UserDefaultsUser.productsWithExpressChatAlreadyShownDefaultValue,
-                  productsWithExpressChatMessageSent: UserDefaultsUser.productsWithExpressChatMessageSentDefaultValue,
+                  listingsWithExpressChatAlreadyShown: UserDefaultsUser.listingsWithExpressChatAlreadyShownDefaultValue,
+                  listingsWithExpressChatMessageSent: UserDefaultsUser.listingsWithExpressChatMessageSentDefaultValue,
                   marketingNotifications: UserDefaultsUser.marketingNotificationsDefaultValue,
-                  pendingTransactionsProductIds: UserDefaultsUser.transactionsProductIdsDefaultValue)
+                  pendingTransactionsProductIds: UserDefaultsUser.transactionsListingIdsDefaultValue)
     }
 
     init(appShared: Bool,
@@ -69,13 +69,13 @@ struct UserDefaultsUser {
          ratingAlreadyRated: Bool,
          ratingRemindMeLaterDate: Date?,
          chatShowDirectAnswers: [String: Bool],
-         postProductLastGalleryAlbumSelected: String?,
-         postProductLastTabSelected: Int,
-         postProductPostedPreviously: Bool,
+         postListingLastGalleryAlbumSelected: String?,
+         postListingLastTabSelected: Int,
+         postListingPostedPreviously: Bool,
          trackingProductSellComplete24hTracked: Bool,
          shouldShowExpressChat: Bool,
-         productsWithExpressChatAlreadyShown: [String],
-         productsWithExpressChatMessageSent: [String],
+         listingsWithExpressChatAlreadyShown: [String],
+         listingsWithExpressChatMessageSent: [String],
          marketingNotifications: Bool,
          pendingTransactionsProductIds: [String:String]) {
         self.appShared = appShared
@@ -84,13 +84,13 @@ struct UserDefaultsUser {
         self.ratingAlreadyRated = ratingAlreadyRated
         self.ratingRemindMeLaterDate = ratingRemindMeLaterDate
         self.chatShowDirectAnswers = chatShowDirectAnswers
-        self.postProductLastGalleryAlbumSelected = postProductLastGalleryAlbumSelected
-        self.postProductLastTabSelected = postProductLastTabSelected
-        self.postProductPostedPreviously = postProductPostedPreviously
+        self.postListingLastGalleryAlbumSelected = postListingLastGalleryAlbumSelected
+        self.postListingLastTabSelected = postListingLastTabSelected
+        self.postListingPostedPreviously = postListingPostedPreviously
         self.trackingProductSellComplete24hTracked = trackingProductSellComplete24hTracked
         self.shouldShowExpressChat = shouldShowExpressChat
-        self.productsWithExpressChatAlreadyShown = productsWithExpressChatAlreadyShown
-        self.productsWithExpressChatMessageSent = productsWithExpressChatMessageSent
+        self.listingsWithExpressChatAlreadyShown = listingsWithExpressChatAlreadyShown
+        self.listingsWithExpressChatMessageSent = listingsWithExpressChatMessageSent
         self.marketingNotifications = marketingNotifications
         self.pendingTransactionsProductIds = pendingTransactionsProductIds
     }
@@ -113,24 +113,24 @@ extension UserDefaultsUser: UserDefaultsDecodable {
                                                    defaultValue: UserDefaultsUser.ratingAlreadyRatedDefaultValue)
         let ratingRemindMeLaterDate: Date? = dictionary.decode(UserDefaultsUserKey.ratingRemindMeLaterDate.rawValue,
                                                                  defaultValue: UserDefaultsUser.ratingRemindMeLaterDateDefaultValue)
-        let postProductLastGalleryAlbumSelected: String? = dictionary.decode(UserDefaultsUserKey.postProductLastGalleryAlbumSelected.rawValue,
-                                                                             defaultValue: UserDefaultsUser.postProductLastGalleryAlbumSelectedDefaultValue)
-        let postProductLastTabSelected = dictionary.decode(UserDefaultsUserKey.postProductLastTabSelected.rawValue,
-                                                           defaultValue: UserDefaultsUser.postProductLastTabSelectedDefaultValue)
-        let postProductPostedPreviously = dictionary.decode(UserDefaultsUserKey.postProductPostedPreviously.rawValue,
-                                                           defaultValue: UserDefaultsUser.postProductPostedPreviouslyDefaultValue)
+        let postListingLastGalleryAlbumSelected: String? = dictionary.decode(UserDefaultsUserKey.postListingLastGalleryAlbumSelected.rawValue,
+                                                                             defaultValue: UserDefaultsUser.postListingLastGalleryAlbumSelectedDefaultValue)
+        let postListingLastTabSelected = dictionary.decode(UserDefaultsUserKey.postListingLastTabSelected.rawValue,
+                                                           defaultValue: UserDefaultsUser.postListingLastTabSelectedDefaultValue)
+        let postListingPostedPreviously = dictionary.decode(UserDefaultsUserKey.postListingPostedPreviously.rawValue,
+                                                           defaultValue: UserDefaultsUser.postListingPostedPreviouslyDefaultValue)
 
         let trackingProductSellComplete24hTracked = dictionary.decode(UserDefaultsUserKey.trackingProductSellComplete24hTracked.rawValue,
                                                                       defaultValue: UserDefaultsUser.trackingProductSellComplete24hTrackedDefaultValue)
         let shouldShowExpressChat = dictionary.decode(UserDefaultsUserKey.shouldShowExpressChat.rawValue,
                                                       defaultValue: UserDefaultsUser.shouldShowExpressChatDefaultValue)
-        let productsWithExpressChatAlreadyShown = dictionary.decode(UserDefaultsUserKey.productsWithExpressChatAlreadyShown.rawValue,
-                                                                    defaultValue: UserDefaultsUser.productsWithExpressChatAlreadyShownDefaultValue)
-        let productsWithExpressChatMessageSent = dictionary.decode(UserDefaultsUserKey.productsWithExpressChatMessageSent.rawValue,
-                                                                   defaultValue: UserDefaultsUser.productsWithExpressChatMessageSentDefaultValue)
+        let listingsWithExpressChatAlreadyShown = dictionary.decode(UserDefaultsUserKey.listingsWithExpressChatAlreadyShown.rawValue,
+                                                                    defaultValue: UserDefaultsUser.listingsWithExpressChatAlreadyShownDefaultValue)
+        let listingsWithExpressChatMessageSent = dictionary.decode(UserDefaultsUserKey.listingsWithExpressChatMessageSent.rawValue,
+                                                                   defaultValue: UserDefaultsUser.listingsWithExpressChatMessageSentDefaultValue)
         let marketingNotifications = dictionary.decode(UserDefaultsUserKey.marketingNotifications.rawValue,
                                                        defaultValue: UserDefaultsUser.marketingNotificationsDefaultValue)
-        let pendingTransactionsProductIds = dictionary.decode(UserDefaultsUserKey.pendingTransactionsProductIds.rawValue, defaultValue: UserDefaultsUser.transactionsProductIdsDefaultValue)
+        let pendingTransactionsProductIds = dictionary.decode(UserDefaultsUserKey.pendingTransactionsProductIds.rawValue, defaultValue: UserDefaultsUser.transactionsListingIdsDefaultValue)
 
         return UserDefaultsUser(appShared: appShared,
                                 userLocationApproximate: userLocationApproximate,
@@ -138,13 +138,13 @@ extension UserDefaultsUser: UserDefaultsDecodable {
                                 ratingAlreadyRated: ratingAlreadyRated,
                                 ratingRemindMeLaterDate: ratingRemindMeLaterDate,
                                 chatShowDirectAnswers: chatShowDirectAnswers,
-                                postProductLastGalleryAlbumSelected: postProductLastGalleryAlbumSelected,
-                                postProductLastTabSelected: postProductLastTabSelected,
-                                postProductPostedPreviously:  postProductPostedPreviously,
+                                postListingLastGalleryAlbumSelected: postListingLastGalleryAlbumSelected,
+                                postListingLastTabSelected: postListingLastTabSelected,
+                                postListingPostedPreviously:  postListingPostedPreviously,
                                 trackingProductSellComplete24hTracked: trackingProductSellComplete24hTracked,
                                 shouldShowExpressChat: shouldShowExpressChat,
-                                productsWithExpressChatAlreadyShown: productsWithExpressChatAlreadyShown,
-                                productsWithExpressChatMessageSent: productsWithExpressChatMessageSent,
+                                listingsWithExpressChatAlreadyShown: listingsWithExpressChatAlreadyShown,
+                                listingsWithExpressChatMessageSent: listingsWithExpressChatMessageSent,
                                 marketingNotifications: marketingNotifications,
                                 pendingTransactionsProductIds: pendingTransactionsProductIds)
     }
@@ -160,15 +160,15 @@ extension UserDefaultsUser: UserDefaultsDecodable {
             dict.encode(UserDefaultsUserKey.ratingRemindMeLaterDate.rawValue, value: ratingRemindMeLaterDate)
         }
         dict.encode(UserDefaultsUserKey.ratingAlreadyRated.rawValue, value: ratingAlreadyRated)
-        if let postProductLastGalleryAlbumSelected = postProductLastGalleryAlbumSelected {
-            dict.encode(UserDefaultsUserKey.postProductLastGalleryAlbumSelected.rawValue, value: postProductLastGalleryAlbumSelected)
+        if let postListingLastGalleryAlbumSelected = postListingLastGalleryAlbumSelected {
+            dict.encode(UserDefaultsUserKey.postListingLastGalleryAlbumSelected.rawValue, value: postListingLastGalleryAlbumSelected)
         }
-        dict.encode(UserDefaultsUserKey.postProductLastTabSelected.rawValue, value: postProductLastTabSelected)
-        dict.encode(UserDefaultsUserKey.postProductPostedPreviously.rawValue, value: postProductPostedPreviously)
+        dict.encode(UserDefaultsUserKey.postListingLastTabSelected.rawValue, value: postListingLastTabSelected)
+        dict.encode(UserDefaultsUserKey.postListingPostedPreviously.rawValue, value: postListingPostedPreviously)
         dict.encode(UserDefaultsUserKey.trackingProductSellComplete24hTracked.rawValue, value: trackingProductSellComplete24hTracked)
         dict.encode(UserDefaultsUserKey.shouldShowExpressChat.rawValue, value: shouldShowExpressChat)
-        dict.encode(UserDefaultsUserKey.productsWithExpressChatAlreadyShown.rawValue, value: productsWithExpressChatAlreadyShown)
-        dict.encode(UserDefaultsUserKey.productsWithExpressChatMessageSent.rawValue, value: productsWithExpressChatMessageSent)
+        dict.encode(UserDefaultsUserKey.listingsWithExpressChatAlreadyShown.rawValue, value: listingsWithExpressChatAlreadyShown)
+        dict.encode(UserDefaultsUserKey.listingsWithExpressChatMessageSent.rawValue, value: listingsWithExpressChatMessageSent)
         dict.encode(UserDefaultsUserKey.marketingNotifications.rawValue, value: marketingNotifications)
         dict.encode(UserDefaultsUserKey.pendingTransactionsProductIds.rawValue, value: pendingTransactionsProductIds)
         return dict
@@ -190,17 +190,17 @@ private enum UserDefaultsUserKey: String {
     case ratingAlreadyRated = "alreadyRated"
     case ratingRemindMeLaterDate = "remindMeLater"
 
-    case postProductLastGalleryAlbumSelected = "lastGalleryAlbumSelected"
-    case postProductLastTabSelected = "lastPostProductTabSelected"
-    case postProductPostedPreviously = "postProductPostedPreviously"
+    case postListingLastGalleryAlbumSelected = "lastGalleryAlbumSelected"
+    case postListingLastTabSelected = "lastPostProductTabSelected"
+    case postListingPostedPreviously = "postProductPostedPreviously"
 
     case commercializersPending = "pendingCommercializers"
 
     case trackingProductSellComplete24hTracked = "trackingProductSellComplete24hTracked"
 
     case shouldShowExpressChat = "shouldShowExpressChat"
-    case productsWithExpressChatAlreadyShown = "productsWithExpressChatAlreadyShown"
-    case productsWithExpressChatMessageSent = "productsWithExpressChatMessageSent"
+    case listingsWithExpressChatAlreadyShown = "productsWithExpressChatAlreadyShown"
+    case listingsWithExpressChatMessageSent = "productsWithExpressChatMessageSent"
     case marketingNotifications = "marketingNotifications"
 
     case pendingTransactionsProductIds = "pendingTransactionsProductIds"
