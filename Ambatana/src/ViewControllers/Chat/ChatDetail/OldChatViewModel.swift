@@ -640,7 +640,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         let message = type.text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         guard message.characters.count > 0 else { return }
         guard let toUserId = otherUser?.objectId, let listingId = listing.objectId else { return }
-        if type.isUserText {
+        if type.isUserText || (showKeyboardWhenQuickAnswer && type.isQuickAnswer) {
             delegate?.vmClearText()
         }
         isSendingMessage.value = true
