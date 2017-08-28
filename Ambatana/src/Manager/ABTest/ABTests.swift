@@ -27,7 +27,6 @@ class ABTests {
     let pricedBumpUpEnabled = BoolABDynamicVar(key: "pricedBumpUpEnabled", defaultValue: false)
     let productDetailNextRelated = BoolABDynamicVar(key: "productDetailNextRelated", defaultValue: false)
     let newMarkAsSoldFlow = BoolABDynamicVar(key: "newMarkAsSoldFlow", defaultValue: false)
-    let editLocationBubble = IntABDynamicVar(key: "editLocationBubble20170525", defaultValue: 1)
     let newCarsMultiRequesterEnabled = BoolABDynamicVar(key: "newCarsMultiRequesterEnabled", defaultValue: false)
     let newCarouselNavigationEnabled = BoolABDynamicVar(key: "newCarouselNavigationEnabled20170606", defaultValue: false)
     let newOnboardingPhase1 = BoolABDynamicVar(key: "newOnboardingPhase1", defaultValue: false)
@@ -40,6 +39,7 @@ class ABTests {
     let bumpUpImprovementBanner = IntABDynamicVar(key: "20170804BumpUpImprovementBanner", defaultValue: 0)
     let openGalleryInPosting = IntABDynamicVar(key: "20170810OpenGalleryInPosting", defaultValue: 0)
     let tweaksCarPostingFlow = IntABDynamicVar(key: "20170810tweaksCarPostingFlow", defaultValue: 0)
+    let userReviewsReportEnabled = BoolABDynamicVar(key: "20170823userReviewsReportEnabled", defaultValue: true)
     let dynamicQuickAnswers = IntABDynamicVar(key: "20170816DynamicQuickAnswers", defaultValue: 0)
 
     init() {
@@ -62,7 +62,6 @@ class ABTests {
         result.append(pricedBumpUpEnabled)
         result.append(productDetailNextRelated)
         result.append(newMarkAsSoldFlow)
-        result.append(editLocationBubble)
         result.append(newCarsMultiRequesterEnabled)
         result.append(newCarouselNavigationEnabled)
         result.append(newOnboardingPhase1)
@@ -75,6 +74,7 @@ class ABTests {
         result.append(bumpUpImprovementBanner)
         result.append(openGalleryInPosting)
         result.append(tweaksCarPostingFlow)
+        result.append(userReviewsReportEnabled)
         result.append(dynamicQuickAnswers)
 
         return result

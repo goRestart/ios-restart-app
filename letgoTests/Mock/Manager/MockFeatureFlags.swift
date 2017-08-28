@@ -29,7 +29,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var pricedBumpUpEnabled: Bool = false
     var productDetailNextRelated: Bool = false
     var newMarkAsSoldFlow: Bool = false
-    var editLocationBubble: EditLocationBubble = .inactive
     var newCarsMultiRequesterEnabled: Bool = false
     var newCarouselNavigationEnabled: Bool = false
     var newOnboardingPhase1: Bool = false
@@ -42,6 +41,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var bumpUpImprovementBanner: BumpUpImprovementBanner = .control
     var openGalleryInPosting: OpenGalleryInPosting = .control
     var tweaksCarPostingFlow: TweaksCarPostingFlow = .control
+    var userReviewsReportEnabled: Bool = true
     var dynamicQuickAnswers: DynamicQuickAnswers = .control
     
     // Country dependant features

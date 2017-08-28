@@ -129,10 +129,12 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
     }
 
     func vmDidFailFindingSuggestions() {
+        guard suggestionsTableView != nil else { return }
         suggestionsTableView.isHidden = true
     }
 
     func vmDidFailToFindLocationWithError(_ error: String) {
+        guard searchField != nil else { return }
         showAutoFadingOutMessageAlert(error) { [weak self] in
             // Showing keyboard again as the user must update the text
             self?.searchField.becomeFirstResponder()

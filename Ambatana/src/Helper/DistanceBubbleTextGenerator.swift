@@ -40,45 +40,33 @@ class DistanceBubbleTextGenerator {
      */
 
     func bubbleInfoText(forDistance distance: Int, type: DistanceType, distanceRadius: Int?, place: Place?) -> String {
+        var maxDistance = Constants.productListMaxDistanceLabel
 
-        switch featureFlags.editLocationBubble {
-        case .inactive:
-            let distanceString = String(format: "%d %@", arguments: [min(Constants.productListMaxDistanceLabel, distance),
-                                                                     type.string])
-            if distance <= Constants.productListMaxDistanceLabel {
-                return LGLocalizedString.productDistanceXFromYou(distanceString)
+        if let filterDistanceRadius = distanceRadius {
+            maxDistance = filterDistanceRadius
+        }
+
+        var distanceString: String? = nil
+        if distance > 0 {
+            distanceString = String(format: "%d %@", arguments: [min(maxDistance, distance), type.string])
+            if let distanceValue = distanceString, distance > maxDistance && distanceRadius == nil {
+                distanceString = LGLocalizedString.productDistanceMoreThan(distanceValue)
+            }
+        }
+
+        if let customPlace = place {
+            if let city = customPlace.postalAddress?.city, !city.isEmpty {
+                return String.make(components: [city, distanceString], separator: " - ")
+            } else if let zip = customPlace.postalAddress?.zipCode, !zip.isEmpty {
+                return String.make(components: [zip, distanceString], separator: " - ")
             } else {
-                return LGLocalizedString.productDistanceMoreThanFromYou(distanceString)
+                return String.make(components: [LGLocalizedString.productDistanceCustomLocation, distanceString], separator: " - ")
             }
-        case .zipCode, .map:
-            var maxDistance = Constants.productListMaxDistanceLabel
-
-            if let filterDistanceRadius = distanceRadius {
-                maxDistance = filterDistanceRadius
-            }
-
-            var distanceString: String? = nil
-            if distance > 0 {
-                distanceString = String(format: "%d %@", arguments: [min(maxDistance, distance), type.string])
-                if let distanceValue = distanceString, distance > maxDistance && distanceRadius == nil {
-                    distanceString = LGLocalizedString.productDistanceMoreThan(distanceValue)
-                }
-            }
-
-            if let customPlace = place {
-                if let city = customPlace.postalAddress?.city, !city.isEmpty {
-                    return String.make(components: [city, distanceString], separator: " - ")
-                } else if let zip = customPlace.postalAddress?.zipCode, !zip.isEmpty {
-                    return String.make(components: [zip, distanceString], separator: " - ")
-                } else {
-                    return String.make(components: [LGLocalizedString.productDistanceCustomLocation, distanceString], separator: " - ")
-                }
+        } else {
+            if let realLocationCity = locationManager.currentLocation?.postalAddress?.city, !realLocationCity.isEmpty {
+                return String.make(components: [realLocationCity, distanceString], separator: " - ")
             } else {
-                if let realLocationCity = locationManager.currentLocation?.postalAddress?.city, !realLocationCity.isEmpty {
-                    return String.make(components: [realLocationCity, distanceString], separator: " - ")
-                } else {
-                    return String.make(components: [LGLocalizedString.productDistanceNearYou, distanceString], separator: " - ")
-                }
+                return String.make(components: [LGLocalizedString.productDistanceNearYou, distanceString], separator: " - ")
             }
         }
     }
