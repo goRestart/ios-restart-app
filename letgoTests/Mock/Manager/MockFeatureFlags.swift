@@ -32,7 +32,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var newCarsMultiRequesterEnabled: Bool = false
     var newCarouselNavigationEnabled: Bool = false
     var newOnboardingPhase1: Bool = false
-    var searchParamDisc24: SearchParamDisc24 = .disc24a
+    var searchParamDisc129: SearchParamDisc129 = .disc129a
     var inAppRatingIOS10: Bool = false
     var suggestedSearches: SuggestedSearches = .control
     var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed = .control
