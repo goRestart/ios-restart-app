@@ -41,8 +41,9 @@ extension UILabel {
     func setHTMLFromString(htmlText: String) {
         guard let font = self.font else { return }
         let modifiedFont = String(format:"<span style=\"font-family: '-apple-system', '\(font.fontName)'; font-size: \(font.pointSize)\">%@</span>", htmlText)
+        guard let data = modifiedFont.data(using: .unicode, allowLossyConversion: true) else { return }
         let attrStr = try? NSAttributedString(
-            data: modifiedFont.data(using: .unicode, allowLossyConversion: true)!,
+            data: data,
             options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType, NSCharacterEncodingDocumentAttribute: String.Encoding.utf8.rawValue],
             documentAttributes: nil)
         self.attributedText = attrStr
