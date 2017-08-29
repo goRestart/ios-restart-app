@@ -92,7 +92,13 @@ class ProductCarouselCell: UICollectionViewCell {
         collectionView.setContentOffset(CGPoint.zero, animated: false) //Resetting images
         collectionView.reloadData()
     }
-
+    
+    func returnToFirstImage() {
+        guard productImages.count > 1 else { return }
+        let scrollPosition = UICollectionViewScrollPosition.top
+        collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: scrollPosition, animated: false)
+    }
+        
     fileprivate func imageAtIndex(_ index: Int) -> URL? {
         guard 0..<productImages.count ~= index else { return nil }
         return productImages[index]
@@ -147,7 +153,7 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let pageSize = collectionView.frame.size.height
         guard pageSize > 0, numberOfImages > 0 else { return }
-        let page = Int(round(collectionView.contentOffset.y / pageSize)) % numberOfImages
+        let page = Int(round(scrollView.contentOffset.y / pageSize)) % numberOfImages
         if page != currentPage {
             currentPage = page
             delegate?.isZooming(false)

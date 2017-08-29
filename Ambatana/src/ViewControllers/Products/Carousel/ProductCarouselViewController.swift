@@ -281,6 +281,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[ev]|", options: [], metrics: nil, views: views))
 
         mainViewBlurEffectView.layout(with: imageBackground).fill()
+        fullScreenAvatarEffectView.layout(with: view).fill()
 
         userView.delegate = self
 
@@ -468,6 +469,7 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
                 if movement == .tap {
                     self?.finishedTransition()
                 }
+                strongSelf.returnCellToFirstImage()
             }
             .addDisposableTo(disposeBag)
 
@@ -477,6 +479,14 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
             .bindNext { [weak self] _ in
             self?.finishedTransition()
         }.addDisposableTo(disposeBag)
+    }
+    
+    private func returnCellToFirstImage() {
+        let visibleCells = collectionView.visibleCells.flatMap { $0 as? ProductCarouselCell }
+        visibleCells.filter {
+            guard let index = collectionView.indexPath(for: $0) else { return false }
+            return index.row != viewModel.currentIndex
+        }.forEach { $0.returnToFirstImage() }
     }
 }
 
