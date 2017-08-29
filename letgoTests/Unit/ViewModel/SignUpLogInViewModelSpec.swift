@@ -530,31 +530,50 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                             logInEmailForm = LogInEmailForm(email: "", password: "")
                             errors = logInEmailForm.checkErrors()
                         }
-
-                        it("does not return any error") {
+                        it("returns invalid email & short password") {
                             expect(errors) == [.invalidEmail, .shortPassword]
                         }
                     }
                     
-                    context("with email non-valid & short password") {
+                    context("with email non-valid") {
                         beforeEach {
                             logInEmailForm = LogInEmailForm(email: "a",
+                                                            password: "pwdUltr4way")
+                            errors = logInEmailForm.checkErrors()
+                        }
+                        it("returns that the email is invalid") {
+                            expect(errors) == [.invalidEmail]
+                        }
+                    }
+
+                    context("with short password") {
+                        beforeEach {
+                            logInEmailForm = LogInEmailForm(email: "legit@email.com",
                                                             password: "a")
                             errors = logInEmailForm.checkErrors()
                         }
-                        
-                        it("returns that the email is invalid and the password is short") {
+                        it("returns that the password is short") {
+                            expect(errors) == [.shortPassword]
+                        }
+                    }
+
+                    context("with email non-valid & short password") {
+                        beforeEach {
+                            logInEmailForm = LogInEmailForm(email: "a",
+                                                            password: "b")
+                            errors = logInEmailForm.checkErrors()
+                        }
+                        it("returns that the email is invalid") {
                             expect(errors) == [.invalidEmail, .shortPassword]
                         }
                     }
-                    
+
                     context("with valid email & password") {
                         beforeEach {
                             logInEmailForm = LogInEmailForm(email: "albert@letgo.com",
                                                             password: "letitgo")
                             errors = logInEmailForm.checkErrors()
                         }
-                        
                         it("returns no errors") {
                             expect(errors) == []
                         }
@@ -562,22 +581,20 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                 }
                 
                 describe("log in process") {
-                    
                     beforeEach {
                         sut.currentActionType = .login
                     }
-                    
                     context("empty") {
                         beforeEach {
                             sut.email.value = ""
                             sut.password.value = ""
                             sut.logIn()
                         }
-                        
-                        it("has send button enabled") {
+
+                        it("send button is not enabled") {
                             expect(sendButtonEnabled) == false
                         }
-                        it("does not call close because after login in navigator") {
+                        it("does not call close after login in navigator") {
                             expect(self.finishedSuccessfully) == false
                         }
                         it("does not track any event") {
@@ -585,26 +602,48 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                             expect(trackedEventNames) == []
                         }
                     }
-                    
-                    context("with email non-valid & short password") {
+                    context("with email non-valid") {
                         beforeEach {
                             sut.email.value = "a"
-                            sut.password.value = "a"
+                            sut.password.value = "abcd"
                             sut.logIn()
                         }
                         
                         it("has send button enabled") {
                             expect(sendButtonEnabled) == true
                         }
-                        it("does not call close because after login in navigator") {
+                        it("does not call close after login in navigator") {
                             expect(self.finishedSuccessfully) == false
                         }
                         it("tracks a loginEmailError event") {
                             let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
                             expect(trackedEventNames) == [EventName.loginEmailError]
                         }
+                        it("shows error message") {
+                            expect(self.delegateReceivedShowAutoFadingMessage).toEventually(beTrue())
+                        }
                     }
+                    context("with short password") {
+                        beforeEach {
+                            sut.email.value = "legit@email.com"
+                            sut.password.value = "a"
+                            sut.logIn()
+                        }
 
+                        it("has send button enabled") {
+                            expect(sendButtonEnabled) == true
+                        }
+                        it("does not call close after login in navigator") {
+                            expect(self.finishedSuccessfully) == false
+                        }
+                        it("tracks a loginEmailError event") {
+                            let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
+                            expect(trackedEventNames) == [EventName.loginEmailError]
+                        }
+                        it("shows error message") {
+                            expect(self.delegateReceivedShowAutoFadingMessage).toEventually(beTrue())
+                        }
+                    }
                     context("with valid email & password") {
                         beforeEach {
                             sut.email.value = "albert@letgo.com"
@@ -667,7 +706,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     }
                 }
                 
-                describe("log in send") {
+                describe("send log in") {
                     beforeEach {
                         sut.currentActionType = .login
                         sut.email.value = "albert@letgo.com"
@@ -921,7 +960,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         it("has send button disabled") {
                             expect(sendButtonEnabled) == false
                         }
-                        it("does not call close because after login in navigator") {
+                        it("does not call close after login in navigator") {
                             expect(self.finishedSuccessfully) == false
                         }
                     }
@@ -937,8 +976,11 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         it("has send button enabled") {
                             expect(sendButtonEnabled) == true
                         }
-                        it("does not call close because after login in navigator") {
+                        it("does not call close after login in navigator") {
                             expect(self.finishedSuccessfully) == false
+                        }
+                        it("shows error message") {
+                            expect(self.delegateReceivedShowAutoFadingMessage).toEventually(beTrue())
                         }
                     }
 
@@ -953,8 +995,11 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         it("has send button enabled") {
                             expect(sendButtonEnabled) == true
                         }
-                        it("does not call close because after login in navigator") {
+                        it("does not call close after login in navigator") {
                             expect(self.finishedSuccessfully) == false
+                        }
+                        it("shows error message") {
+                            expect(self.delegateReceivedShowAutoFadingMessage).toEventually(beTrue())
                         }
                     }
                     
