@@ -171,7 +171,7 @@ extension ExpressChatViewModel {
                                               error: nil) else { return }
         if shouldSendAskQuestion {
             tracker.trackEvent(TrackerEvent.firstMessage(info: info,
-                                                         productVisitSource: .unknown,
+                                                         listingVisitSource: .unknown,
                                                          feedPosition: .none))
         }
         tracker.trackEvent(TrackerEvent.userMessageSent(info: info))

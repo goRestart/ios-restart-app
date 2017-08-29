@@ -19,27 +19,12 @@ class DistanceBubbleTextGeneratorSpec: QuickSpec {
         var featureFlags: MockFeatureFlags!
 
         describe("bubble text generation") {
-            context ("bubble not interactive") {
-                beforeEach {
-                    locationManager = MockLocationManager()
-                    featureFlags = MockFeatureFlags()
-                    featureFlags.editLocationBubble = .inactive
-                    sut = DistanceBubbleTextGenerator(locationManager: locationManager, featureFlags: featureFlags)
-                }
-                it ("1 Km -> 1 km from you") {
-                    expect(sut.bubbleInfoText(forDistance: 1, type: .km, distanceRadius: nil, place: nil)) == LGLocalizedString.productDistanceXFromYou("1 km")
-                }
-                it ("100 Km -> more than 20 km from you") {
-                    expect(sut.bubbleInfoText(forDistance: 100, type: .km, distanceRadius: nil, place: nil)) == LGLocalizedString.productDistanceMoreThanFromYou("20 km")
-                }
-            }
             context ("bubble interactive") {
                 var place: Place?
                 var radius: Int?
                 beforeEach {
                     locationManager = MockLocationManager()
                     featureFlags = MockFeatureFlags()
-                    featureFlags.editLocationBubble = .map
                     sut = DistanceBubbleTextGenerator(locationManager: locationManager, featureFlags: featureFlags)
                 }
                 context ("location filters not set") {

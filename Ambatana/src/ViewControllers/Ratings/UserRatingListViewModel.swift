@@ -34,6 +34,7 @@ class UserRatingListViewModel: BaseViewModel {
     var userRatingListRequester: UserRatingListRequester
     var myUserRepository: MyUserRepository
     let tracker: Tracker
+    let isReportActionEnabled: Bool
 
     weak var delegate: UserRatingListViewModelDelegate?
     weak var tabNavigator: TabNavigator?
@@ -41,22 +42,34 @@ class UserRatingListViewModel: BaseViewModel {
 
     // MARK: Lifecycle
 
-    convenience init(userId: String, tabNavigator: TabNavigator?) {
+    convenience init(userId: String,
+                     tabNavigator: TabNavigator?) {
         let requester = UserRatingListRequester(userId: userId)
         let myUserRepository = Core.myUserRepository
         let tracker = TrackerProxy.sharedInstance
-        self.init(userIdRated: userId, userRatingListRequester: requester, myUserRepository: myUserRepository,
-                  tabNavigator: tabNavigator, tracker: tracker)
+        let featureFlags = FeatureFlags.sharedInstance
+        self.init(userIdRated: userId,
+                  userRatingListRequester: requester,
+                  myUserRepository: myUserRepository,
+                  tabNavigator: tabNavigator,
+                  tracker: tracker,
+                  isReportActionEnabled: featureFlags.userReviewsReportEnabled)
     }
 
-    required init(userIdRated: String, userRatingListRequester: UserRatingListRequester,
-                  myUserRepository: MyUserRepository, tabNavigator: TabNavigator?, tracker: Tracker) {
+    required init(userIdRated: String,
+                  userRatingListRequester: UserRatingListRequester,
+                  myUserRepository: MyUserRepository,
+                  tabNavigator: TabNavigator?,
+                  tracker: Tracker,
+                  isReportActionEnabled: Bool) {
         self.userRatingListRequester = userRatingListRequester
         self.myUserRepository = myUserRepository
         self.tabNavigator = tabNavigator
         self.userIdRated = userIdRated
         self.ratings = []
         self.tracker = tracker
+        self.isReportActionEnabled = isReportActionEnabled
+        
         super.init()
     }
     
@@ -126,22 +139,24 @@ extension UserRatingListViewModel:  UserRatingCellDelegate {
         }, accessibilityId: .ratingListCellReview)
         actions.append(reviewAction)
 
-        let reportAction = UIAction(interface: .text(LGLocalizedString.ratingListActionReportReview), action: { [weak self] in
-            self?.delegate?.vmShowLoading(nil)
-            self?.userRatingListRequester.reportRating(rating, completion: { result in
-                if let ratingUpdated = result.value {
-                    self?.replaceRating(ratingUpdated)
-                    self?.delegate?.vmRefresh()
-                    self?.delegate?.vmHideLoading(LGLocalizedString.ratingListActionReportReviewSuccessMessage,
-                        afterMessageCompletion: nil)
-                    self?.trackReviewReported(userFromId: rating.userFrom.objectId , ratingStars: rating.value)
-                } else if let _ = result.error {
-                    self?.delegate?.vmHideLoading(LGLocalizedString.ratingListActionReportReviewErrorMessage,
-                        afterMessageCompletion: nil)
-                }
-            })
-        }, accessibilityId: .ratingListCellReport)
-        actions.append(reportAction)
+        if isReportActionEnabled {
+            let reportAction = UIAction(interface: .text(LGLocalizedString.ratingListActionReportReview), action: { [weak self] in
+                self?.delegate?.vmShowLoading(nil)
+                self?.userRatingListRequester.reportRating(rating, completion: { result in
+                    if let ratingUpdated = result.value {
+                        self?.replaceRating(ratingUpdated)
+                        self?.delegate?.vmRefresh()
+                        self?.delegate?.vmHideLoading(LGLocalizedString.ratingListActionReportReviewSuccessMessage,
+                                                      afterMessageCompletion: nil)
+                        self?.trackReviewReported(userFromId: rating.userFrom.objectId , ratingStars: rating.value)
+                    } else if let _ = result.error {
+                        self?.delegate?.vmHideLoading(LGLocalizedString.ratingListActionReportReviewErrorMessage,
+                                                      afterMessageCompletion: nil)
+                    }
+                })
+                }, accessibilityId: .ratingListCellReport)
+            actions.append(reportAction)
+        }
 
         let cancelAction = UIAction(interface: .text(LGLocalizedString.commonCancel), action: {})
         delegate?.vmShowActionSheet(cancelAction, actions: actions)
@@ -151,10 +166,10 @@ extension UserRatingListViewModel:  UserRatingCellDelegate {
         switch receivedRating {
         case .conversation:
             return .conversation
-        case let .seller(productId):
-            return .buyer(productId: productId)
-        case let .buyer(productId):
-            return .seller(productId: productId)
+        case let .seller(listingId):
+            return .buyer(listingId: listingId)
+        case let .buyer(listingId):
+            return .seller(listingId: listingId)
         }
     }
 }

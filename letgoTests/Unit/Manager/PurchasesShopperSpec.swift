@@ -53,11 +53,11 @@ class PurchasesShopperSpec: QuickSpec {
             afterEach {
                 sut.stopObservingTransactions()
             }
-            context("productsRequestStartForProduct") {
+            context("productsRequestStartForListing") {
                 context("the device can't make purchases") {
                     beforeEach {
                         paymentQueue.canMakePayments = false
-                        sut.productsRequestStartForProduct("a_product_id", withIds: ["appstoreId1"])
+                        sut.productsRequestStartForListing("a_product_id", withIds: ["appstoreId1"])
                     }
                     it ("the delegate is never called") {
                         expect(self.requestsFinished).toEventually(equal([]))
@@ -65,7 +65,7 @@ class PurchasesShopperSpec: QuickSpec {
                 }
                 context("on simple call") {
                     beforeEach {
-                        sut.productsRequestStartForProduct("a_product_id", withIds: ["appstoreId1"])
+                        sut.productsRequestStartForListing("a_product_id", withIds: ["appstoreId1"])
                     }
                     it ("the delegate is called with the requested productId") {
                         expect(self.requestsFinished).toEventually(equal(["a_product_id"]))
@@ -74,8 +74,8 @@ class PurchasesShopperSpec: QuickSpec {
                 context("several consecutive quick calls, different product Ids") {
                     beforeEach {
                         requestFactory.responseDelay = 0.05
-                        sut.productsRequestStartForProduct("a_product_id", withIds: ["appstoreId1"])
-                        sut.productsRequestStartForProduct("b_product_id", withIds: ["appstoreId2"])
+                        sut.productsRequestStartForListing("a_product_id", withIds: ["appstoreId1"])
+                        sut.productsRequestStartForListing("b_product_id", withIds: ["appstoreId2"])
                     }
                     it ("calls the delegate only for the last productId") {
                         expect(self.requestsFinished).toEventually(equal(["b_product_id"]))
@@ -84,9 +84,9 @@ class PurchasesShopperSpec: QuickSpec {
                 context("several consecutive quick calls, repeating some product Ids") {
                     beforeEach {
                         requestFactory.responseDelay = 0.05
-                        sut.productsRequestStartForProduct("a_product_id", withIds: ["appstoreId1"])
-                        sut.productsRequestStartForProduct("b_product_id", withIds: ["appstoreId2"])
-                        sut.productsRequestStartForProduct("a_product_id", withIds: ["appstoreId1"])
+                        sut.productsRequestStartForListing("a_product_id", withIds: ["appstoreId1"])
+                        sut.productsRequestStartForListing("b_product_id", withIds: ["appstoreId2"])
+                        sut.productsRequestStartForListing("a_product_id", withIds: ["appstoreId1"])
                     }
                     it ("calls the delegate only for the last productId") {
                         expect(self.requestsFinished).toEventually(equal(["a_product_id"]))
@@ -94,9 +94,9 @@ class PurchasesShopperSpec: QuickSpec {
                 }
                 context("several consecutive spaced calls, different product Ids") {
                     beforeEach {
-                        sut.productsRequestStartForProduct("a_product_id", withIds: ["appstoreId1"])
+                        sut.productsRequestStartForListing("a_product_id", withIds: ["appstoreId1"])
                         expect(self.requestsFinished).toEventually(equal(["a_product_id"]))
-                        sut.productsRequestStartForProduct("b_product_id", withIds: ["appstoreId2"])
+                        sut.productsRequestStartForListing("b_product_id", withIds: ["appstoreId2"])
                     }
                     it ("calls the delegate for both productIds") {
                         expect(self.requestsFinished).toEventually(equal(["a_product_id", "b_product_id"]))
@@ -292,8 +292,8 @@ class MyAppstoreProduct: SKProduct {
 }
 
 extension PurchasesShopperSpec: PurchasesShopperDelegate {
-    func shopperFinishedProductsRequestForProductId(_ productId: String?, withProducts products: [PurchaseableProduct]) {
-        guard let id = productId else { return }
+    func shopperFinishedProductsRequestForListingId(_ listingId: String?, withProducts products: [PurchaseableProduct]) {
+        guard let id = listingId else { return }
         self.requestsFinished.append(id)
     }
 

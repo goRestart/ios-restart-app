@@ -22,8 +22,8 @@ class MainTabCoordinator: TabCoordinator {
         let tracker = TrackerProxy.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
         let sessionManager = Core.sessionManager
-        let viewModel = MainProductsViewModel(searchType: nil, tabNavigator: nil)
-        let rootViewController = MainProductsViewController(viewModel: viewModel)
+        let viewModel = MainListingsViewModel(searchType: nil, tabNavigator: nil)
+        let rootViewController = MainListingsViewController(viewModel: viewModel)
         self.init(listingRepository: listingRepository, userRepository: userRepository,
                   chatRepository: chatRepository, oldChatRepository: oldChatRepository,
                   myUserRepository: myUserRepository, installationRepository: installationRepository,
@@ -35,34 +35,34 @@ class MainTabCoordinator: TabCoordinator {
     }
 
     func openSearch(_ query: String, categoriesString: String?) {
-        var filters = ProductFilters()
+        var filters = ListingFilters()
         if let categoriesString = categoriesString {
             filters.selectedCategories = ListingCategory.categoriesFromString(categoriesString)
         }
-        let viewModel = MainProductsViewModel(searchType: .user(query: query), filters: filters)
+        let viewModel = MainListingsViewModel(searchType: .user(query: query), filters: filters)
         viewModel.navigator = self
-        let vc = MainProductsViewController(viewModel: viewModel)
+        let vc = MainListingsViewController(viewModel: viewModel)
 
         navigationController.pushViewController(vc, animated: true)
     }
 
     // Note: override in subclasses
     override func shouldHideSellButtonAtViewController(_ viewController: UIViewController) -> Bool {
-        return super.shouldHideSellButtonAtViewController(viewController) && !(viewController is MainProductsViewController)
+        return super.shouldHideSellButtonAtViewController(viewController) && !(viewController is MainListingsViewController)
     }
 }
 
 extension MainTabCoordinator: MainTabNavigator {
-    func openMainProduct(withSearchType searchType: SearchType, productFilters: ProductFilters) {
-        let vm = MainProductsViewModel(searchType: searchType, filters: productFilters)
+    func openMainListings(withSearchType searchType: SearchType, listingFilters: ListingFilters) {
+        let vm = MainListingsViewModel(searchType: searchType, filters: listingFilters)
         vm.navigator = self
-        let vc = MainProductsViewController(viewModel: vm)
+        let vc = MainListingsViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func openFilters(withProductFilters productFilters: ProductFilters,
+    func openFilters(withListingFilters listingFilters: ListingFilters,
                      filtersVMDataDelegate: FiltersViewModelDataDelegate?) {
-        let vm = FiltersViewModel(currentFilters: productFilters)
+        let vm = FiltersViewModel(currentFilters: listingFilters)
         vm.dataDelegate = filtersVMDataDelegate
         let filtersCoordinator = FiltersCoordinator(viewModel: vm)
         openChild(coordinator: filtersCoordinator, parent: navigationController,

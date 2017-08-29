@@ -47,16 +47,16 @@ class ChatApiDataSource: OldChatDataSource {
         apiClient.request(request, decoder: chatsDecoder, completion: completion)
     }
 
-    func retrieveMessagesWithProductId(_ productId: String, buyerId: String, offset: Int, numResults: Int?,
+    func retrieveMessagesWithListingId(_ listingId: String, buyerId: String, offset: Int, numResults: Int?,
         completion: ChatDataSourceRetrieveChatCompletion?) {
 
             var parameters: [String : Any] = [:]
             parameters["buyer"] = buyerId
-            parameters["productId"] = productId
+            parameters["productId"] = listingId
             parameters["offset"] = offset
             parameters["num_results"] = numResults
 
-            let request = OldChatRouter.show(objectId: productId, params: parameters)
+            let request = OldChatRouter.show(listingId: listingId, params: parameters)
             apiClient.request(request, decoder: chatDecoder, completion: completion)
     }
 
@@ -71,7 +71,7 @@ class ChatApiDataSource: OldChatDataSource {
             apiClient.request(request, decoder: chatDecoder, completion: completion)
     }
     
-    func sendMessageTo(_ recipientUserId: String, productId: String, message: String, type: MessageType,
+    func sendMessageTo(_ recipientUserId: String, listingId: String, message: String, type: MessageType,
         completion: ChatDataSourceSendMessageCompletion?) {
 
             var parameters: [String : Any] = [:]
@@ -79,7 +79,7 @@ class ChatApiDataSource: OldChatDataSource {
             parameters["type"] = type.rawValue
             parameters["content"] = message
 
-            let request = OldChatRouter.createMessage(objectId: productId, params: parameters)
+            let request = OldChatRouter.createMessage(listingId: listingId, params: parameters)
             apiClient.request(request, completion: completion)
     }
 

@@ -162,9 +162,9 @@ final class TrackerProxy: Tracker {
         setGPSPermission(gpsPermissionEnabled)
 
         if gpsPermissionEnabled {
-            trackEvent(TrackerEvent.permissionSystemComplete(.location, typePage: .productList))
+            trackEvent(TrackerEvent.permissionSystemComplete(.location, typePage: .listingList))
         } else {
-            trackEvent(TrackerEvent.permissionSystemCancel(.location, typePage: .productList))
+            trackEvent(TrackerEvent.permissionSystemCancel(.location, typePage: .listingList))
         }
     }
 

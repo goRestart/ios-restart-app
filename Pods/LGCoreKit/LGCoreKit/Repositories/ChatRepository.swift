@@ -64,7 +64,7 @@ public protocol ChatRepository: class {
 
     func showConversation(_ conversationId: String, completion: ChatConversationCompletion?)
 
-    func showConversation(_ sellerId: String, productId: String, completion: ChatConversationCompletion?)
+    func showConversation(_ sellerId: String, listingId: String, completion: ChatConversationCompletion?)
 
 
     // MARK: > Events

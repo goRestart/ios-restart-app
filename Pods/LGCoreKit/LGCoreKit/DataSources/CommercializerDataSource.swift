@@ -12,5 +12,5 @@ typealias CommercializersDataSourceResult = Result<[Commercializer], ApiError>
 typealias CommercializersDataSourceCompletion = (CommercializersDataSourceResult) -> Void
 
 protocol CommercializerDataSource {
-    func index(_ productId: String, completion: CommercializersDataSourceCompletion?)
+    func index(_ listingId: String, completion: CommercializersDataSourceCompletion?)
 }

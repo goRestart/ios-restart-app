@@ -17,7 +17,7 @@ enum PurchasesShopperState {
 }
 
 protocol PurchasesShopperDelegate: class {
-    func shopperFinishedProductsRequestForProductId(_ productId: String?, withProducts products: [PurchaseableProduct])
+    func shopperFinishedProductsRequestForListingId(_ listingId: String?, withProducts products: [PurchaseableProduct])
 
     func freeBumpDidStart()
     func freeBumpDidSucceed(withNetwork network: EventParameterShareNetwork)
@@ -141,20 +141,20 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
      - parameter productId: ID of the listing for wich will request the appstore products
      - parameter ids: array of ids of the appstore products
      */
-    func productsRequestStartForProduct(_ productId: String, withIds ids: [String]) {
-        guard productId != currentRequestProductId, canMakePayments else { return }
+    func productsRequestStartForListing(_ listingId: String, withIds ids: [String]) {
+        guard listingId != currentRequestProductId, canMakePayments else { return }
 
         // check cached products
         let alreadyChosenProducts = appstoreProductsCache.filter(keys: ids).map { $0.value }
         guard alreadyChosenProducts.isEmpty else {
             // if product has been previously requested, we don't repeat the request, so the banner loads faster
-            letgoProductsDict[productId] = alreadyChosenProducts
-            delegate?.shopperFinishedProductsRequestForProductId(productId, withProducts: alreadyChosenProducts)
+            letgoProductsDict[listingId] = alreadyChosenProducts
+            delegate?.shopperFinishedProductsRequestForListingId(listingId, withProducts: alreadyChosenProducts)
             return
         }
 
         productsRequest.cancel()
-        currentRequestProductId = productId
+        currentRequestProductId = listingId
         productsRequest = requestFactory.generatePurchaseableProductsRequest(ids)
         productsRequest.delegate = self
         productsRequest.start()
@@ -322,7 +322,7 @@ extension LGPurchasesShopper: PurchaseableProductsRequestDelegate {
             appstoreProductsCache[product.productIdentifier] = product
         }
         letgoProductsDict[currentRequestProductId] = appstoreProducts
-        delegate?.shopperFinishedProductsRequestForProductId(currentRequestProductId, withProducts: response.purchaseableProducts)
+        delegate?.shopperFinishedProductsRequestForListingId(currentRequestProductId, withProducts: response.purchaseableProducts)
         self.currentRequestProductId = nil
     }
 

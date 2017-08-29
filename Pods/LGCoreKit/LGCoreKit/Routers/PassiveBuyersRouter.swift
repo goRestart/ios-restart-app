@@ -10,17 +10,17 @@ import Foundation
 
 enum PassiveBuyersRouter: URLRequestAuthenticable {
 
-    static let productsEndpoint = "/products"
+    static let listingsEndpoint = "/products"
 
-    case show(productId: String)
-    case createContacts(productId: String, params: [String : Any])
+    case show(listingId: String)
+    case createContacts(listingId: String, params: [String : Any])
 
     var endpoint: String {
         switch self {
-        case let .show(productId):
-            return PassiveBuyersRouter.productsEndpoint + "/\(productId)/suggested_buyers"
-        case let .createContacts(productId, _):
-            return PassiveBuyersRouter.productsEndpoint + "/\(productId)/suggested_buyers/contacts"
+        case let .show(listingId):
+            return PassiveBuyersRouter.listingsEndpoint + "/\(listingId)/suggested_buyers"
+        case let .createContacts(listingId, _):
+            return PassiveBuyersRouter.listingsEndpoint + "/\(listingId)/suggested_buyers/contacts"
         }
     }
 

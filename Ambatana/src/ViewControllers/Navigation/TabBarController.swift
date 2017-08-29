@@ -15,8 +15,8 @@ protocol ScrollableToTop {
     func scrollToTop()
 }
 
-protocol ProductsRefreshable {
-    func productsRefresh()
+protocol ListingsRefreshable {
+    func listingsRefresh()
 }
 
 final class TabBarController: UITabBarController {

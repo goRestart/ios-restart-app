@@ -59,9 +59,9 @@ struct MarkAsSoldTrackingInfo {
     
     func makeEventParameters() -> EventParameters {
         var params = EventParameters()
-        params[.productId] = listingId
-        params[.productPrice] = price.value
-        params[.productCurrency] = currency.code
+        params[.listingId] = listingId
+        params[.listingPrice] = price.value
+        params[.listingCurrency] = currency.code
         params[.categoryId] = categoryId
         params[.typePage] = typePage.rawValue
         params[.freePosting] = eventParameterFreePostingWithPrice(isFreePostingModeAllowed, price: price).rawValue

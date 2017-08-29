@@ -11,7 +11,7 @@ import RxSwift
 
 enum UserSource {
     case tabBar
-    case productDetail
+    case listingDetail
     case chat
     case notifications
     case link
@@ -45,12 +45,12 @@ class UserViewModel: BaseViewModel {
     fileprivate let source: UserSource
     fileprivate var socialMessage: SocialMessage? = nil
     
-    fileprivate let sellingProductListViewModel: ProductListViewModel
-    fileprivate let sellingProductListRequester: UserProductListRequester
-    fileprivate let soldProductListViewModel: ProductListViewModel
-    fileprivate let soldProductListRequester: UserProductListRequester
-    fileprivate let favoritesProductListViewModel: ProductListViewModel
-    fileprivate let favoritesProductListRequester: UserProductListRequester
+    fileprivate let sellingListingListViewModel: ListingListViewModel
+    fileprivate let sellingListingListRequester: UserListingListRequester
+    fileprivate let soldListingListViewModel: ListingListViewModel
+    fileprivate let soldListingListRequester: UserListingListRequester
+    fileprivate let favoritesListingListViewModel: ListingListViewModel
+    fileprivate let favoritesListingListRequester: UserListingListRequester
     
     // Input
     let tab = Variable<UserViewHeaderTab>(.selling)
@@ -69,7 +69,7 @@ class UserViewModel: BaseViewModel {
     let userAccounts = Variable<UserViewHeaderAccounts?>(nil)
     let pushPermissionsDisabledWarning = Variable<Bool?>(nil)
     
-    let productListViewModel: Variable<ProductListViewModel>
+    let listingListViewModel: Variable<ListingListViewModel>
     
     weak var delegate: UserViewModelDelegate?
     weak var navigator: TabNavigator?
@@ -124,22 +124,22 @@ class UserViewModel: BaseViewModel {
         self.source = source
         self.featureFlags = featureFlags
         self.notificationsManager = notificationsManager
-        self.sellingProductListRequester = UserStatusesProductListRequester(statuses: [.pending, .approved],
-                                                                            itemsPerPage: Constants.numProductsPerPageDefault)
-        self.sellingProductListViewModel = ProductListViewModel(requester: self.sellingProductListRequester)
-        self.soldProductListRequester = UserStatusesProductListRequester(statuses: [.sold, .soldOld],
-                                                                         itemsPerPage: Constants.numProductsPerPageDefault)
-        self.soldProductListViewModel = ProductListViewModel(requester: self.soldProductListRequester)
-        self.favoritesProductListRequester = UserFavoritesProductListRequester()
-        self.favoritesProductListViewModel = ProductListViewModel(requester: self.favoritesProductListRequester)
+        self.sellingListingListRequester = UserStatusesListingListRequester(statuses: [.pending, .approved],
+                                                                            itemsPerPage: Constants.numListingsPerPageDefault)
+        self.sellingListingListViewModel = ListingListViewModel(requester: self.sellingListingListRequester)
+        self.soldListingListRequester = UserStatusesListingListRequester(statuses: [.sold, .soldOld],
+                                                                         itemsPerPage: Constants.numListingsPerPageDefault)
+        self.soldListingListViewModel = ListingListViewModel(requester: self.soldListingListRequester)
+        self.favoritesListingListRequester = UserFavoritesListingListRequester()
+        self.favoritesListingListViewModel = ListingListViewModel(requester: self.favoritesListingListRequester)
         
-        self.productListViewModel = Variable<ProductListViewModel>(sellingProductListViewModel)
+        self.listingListViewModel = Variable<ListingListViewModel>(sellingListingListViewModel)
         self.disposeBag = DisposeBag()
         super.init()
         
-        self.sellingProductListViewModel.dataDelegate = self
-        self.soldProductListViewModel.dataDelegate = self
-        self.favoritesProductListViewModel.dataDelegate = self
+        self.sellingListingListViewModel.dataDelegate = self
+        self.soldListingListViewModel.dataDelegate = self
+        self.favoritesListingListViewModel.dataDelegate = self
         
         setupRxBindings()
         setupPermissionsNotification()
@@ -174,7 +174,7 @@ class UserViewModel: BaseViewModel {
 
 extension UserViewModel {
     func refreshSelling() {
-        sellingProductListViewModel.retrieveProducts()
+        sellingListingListViewModel.retrieveListings()
     }
     
     func avatarButtonPressed() {
@@ -305,16 +305,16 @@ extension UserViewModel {
     }
     
     func resetLists() {
-        sellingProductListViewModel.resetUI()
-        soldProductListViewModel.resetUI()
-        favoritesProductListViewModel.resetUI()
+        sellingListingListViewModel.resetUI()
+        soldListingListViewModel.resetUI()
+        favoritesListingListViewModel.resetUI()
     }
     
     func refreshIfLoading() {
-        let listVM = productListViewModel.value
+        let listVM = listingListViewModel.value
         switch listVM.state {
         case .loading:
-            listVM.retrieveProducts()
+            listVM.retrieveListings()
         case .data, .error, .empty:
             break
         }
@@ -424,7 +424,7 @@ fileprivate extension UserViewModel {
         setupUserInfoRxBindings()
         setupUserRelationRxBindings()
         setupTabRxBindings()
-        setupProductListViewRxBindings()
+        setupListingListViewRxBindings()
         setupShareRxBindings()
     }
     
@@ -519,28 +519,28 @@ fileprivate extension UserViewModel {
     }
     
     func setupTabRxBindings() {
-        tab.asObservable().skip(1).map { [weak self] tab -> ProductListViewModel? in
+        tab.asObservable().skip(1).map { [weak self] tab -> ListingListViewModel? in
             switch tab {
             case .selling:
-                return self?.sellingProductListViewModel
+                return self?.sellingListingListViewModel
             case .sold:
-                return self?.soldProductListViewModel
+                return self?.soldListingListViewModel
             case .favorites:
-                return self?.favoritesProductListViewModel
+                return self?.favoritesListingListViewModel
             }
             }.subscribeNext { [weak self] viewModel in
                 guard let viewModel = viewModel else { return }
-                self?.productListViewModel.value = viewModel
+                self?.listingListViewModel.value = viewModel
                 self?.refreshIfLoading()
             }.addDisposableTo(disposeBag)
     }
     
-    func setupProductListViewRxBindings() {
+    func setupListingListViewRxBindings() {
         user.asObservable().subscribeNext { [weak self] user in
-            guard self?.sellingProductListRequester.userObjectId != user?.objectId else { return }
-            self?.sellingProductListRequester.userObjectId = user?.objectId
-            self?.soldProductListRequester.userObjectId = user?.objectId
-            self?.favoritesProductListRequester.userObjectId = user?.objectId
+            guard self?.sellingListingListRequester.userObjectId != user?.objectId else { return }
+            self?.sellingListingListRequester.userObjectId = user?.objectId
+            self?.soldListingListRequester.userObjectId = user?.objectId
+            self?.favoritesListingListRequester.userObjectId = user?.objectId
             self?.resetLists()
         }.addDisposableTo(disposeBag)
 
@@ -548,17 +548,17 @@ fileprivate extension UserViewModel {
             listingRepository.events.bindNext { [weak self] event in
                 switch event {
                 case let .update(listing):
-                    self?.sellingProductListViewModel.update(listing: listing)
+                    self?.sellingListingListViewModel.update(listing: listing)
                 case .sold, .unSold:
-                    self?.sellingProductListViewModel.refresh()
-                    self?.soldProductListViewModel.refresh()
+                    self?.sellingListingListViewModel.refresh()
+                    self?.soldListingListViewModel.refresh()
                 case .favorite, .unFavorite:
-                    self?.favoritesProductListViewModel.refresh()
+                    self?.favoritesListingListViewModel.refresh()
                 case let .create(listing):
-                    self?.sellingProductListViewModel.prepend(listing: listing)
+                    self?.sellingListingListViewModel.prepend(listing: listing)
                 case let .delete(listingId):
-                    self?.sellingProductListViewModel.delete(listingId: listingId)
-                    self?.soldProductListViewModel.delete(listingId: listingId)
+                    self?.sellingListingListViewModel.delete(listingId: listingId)
+                    self?.soldListingListViewModel.delete(listingId: listingId)
                 }
             }.addDisposableTo(disposeBag)
         }
@@ -576,12 +576,12 @@ fileprivate extension UserViewModel {
 }
 
 
-// MARK: - ProductListViewModelDataDelegate
+// MARK: - ListingListViewModelDataDelegate
 
-extension UserViewModel: ProductListViewModelDataDelegate {
-    func productListMV(_ viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
+extension UserViewModel: ListingListViewModelDataDelegate {
+    func listingListMV(_ viewModel: ListingListViewModel, didFailRetrievingListingsPage page: UInt, hasListings: Bool,
                        error: RepositoryError) {
-        guard page == 0 && !hasProducts else { return }
+        guard page == 0 && !hasListings else { return }
         
         if var emptyViewModel = LGEmptyViewModel.respositoryErrorWithRetry(error,
                                                                            action: { [weak viewModel] in viewModel?.refresh() }) {
@@ -590,19 +590,19 @@ extension UserViewModel: ProductListViewModelDataDelegate {
         }
     }
     
-    func productListVM(_ viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool) {
-        guard page == 0 && !hasProducts else { return }
+    func listingListVM(_ viewModel: ListingListViewModel, didSucceedRetrievingListingsPage page: UInt, hasListings: Bool) {
+        guard page == 0 && !hasListings else { return }
         
         let errTitle: String?
         let errButTitle: String?
         var errButAction: (() -> Void)? = nil
-        if viewModel === sellingProductListViewModel {
+        if viewModel === sellingListingListViewModel {
             errTitle = LGLocalizedString.profileSellingNoProductsLabel
             errButTitle = itsMe ? nil : LGLocalizedString.profileSellingOtherUserNoProductsButton
-        } else if viewModel === soldProductListViewModel {
+        } else if viewModel === soldListingListViewModel {
             errTitle = LGLocalizedString.profileSoldNoProductsLabel
             errButTitle = itsMe ? nil : LGLocalizedString.profileSoldOtherNoProductsButton
-        } else if viewModel === favoritesProductListViewModel {
+        } else if viewModel === favoritesListingListViewModel {
             errTitle = LGLocalizedString.profileFavouritesMyUserNoProductsLabel
             errButTitle = itsMe ? nil : LGLocalizedString.profileFavouritesMyUserNoProductsButton
             errButAction = { [weak self] in self?.navigator?.openHome() }
@@ -614,10 +614,10 @@ extension UserViewModel: ProductListViewModelDataDelegate {
         viewModel.setEmptyState(emptyViewModel)
     }
     
-    func productListVM(_ viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
+    func listingListVM(_ viewModel: ListingListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
                        originFrame: CGRect?) {
-        guard viewModel === productListViewModel.value else { return } //guarding view model is the selected one
-        guard let listing = viewModel.listingAtIndex(index), let requester = viewModel.productListRequester else { return }
+        guard viewModel === listingListViewModel.value else { return } //guarding view model is the selected one
+        guard let listing = viewModel.listingAtIndex(index), let requester = viewModel.listingListRequester else { return }
         let cellModels = viewModel.objects
         
         let data = ListingDetailData.listingList(listing: listing, cellModels: cellModels, requester: requester,
@@ -672,8 +672,8 @@ extension UserViewModel {
             typePage = .tabBar
         case .chat:
             typePage = .chat
-        case .productDetail:
-            typePage = .productDetail
+        case .listingDetail:
+            typePage = .listingDetail
         case .notifications:
             typePage = .notifications
         case .link:

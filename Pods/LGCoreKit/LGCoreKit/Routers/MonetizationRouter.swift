@@ -8,7 +8,7 @@
 
 enum MonetizationRouter: URLRequestAuthenticable {
 
-    case showBumpeable(productId: String, params: [String : Any])
+    case showBumpeable(listingId: String, params: [String : Any])
     case freeBump(params: [String : Any])
     case pricedBump(params: [String : Any])
 
@@ -18,8 +18,8 @@ enum MonetizationRouter: URLRequestAuthenticable {
 
     var endpoint: String {
         switch self {
-        case let .showBumpeable(productId, _):
-            return MonetizationRouter.bumpeableBaseUrl + "/\(productId)"
+        case let .showBumpeable(listingId, _):
+            return MonetizationRouter.bumpeableBaseUrl + "/\(listingId)"
         case .freeBump:
             return MonetizationRouter.freePaymentBaseUrl
         case .pricedBump:

@@ -28,7 +28,6 @@ protocol FeatureFlaggeable: class {
     var pricedBumpUpEnabled: Bool { get }
     var productDetailNextRelated: Bool { get }
     var newMarkAsSoldFlow: Bool { get }
-    var editLocationBubble: EditLocationBubble { get }
     var newCarsMultiRequesterEnabled: Bool { get }
     var newOnboardingPhase1: Bool { get }
     var searchParamDisc24: SearchParamDisc24 { get }
@@ -40,6 +39,8 @@ protocol FeatureFlaggeable: class {
     var bumpUpImprovementBanner: BumpUpImprovementBanner { get }
     var openGalleryInPosting: OpenGalleryInPosting { get }
     var tweaksCarPostingFlow: TweaksCarPostingFlow { get }
+    var userReviewsReportEnabled: Bool { get }
+    var dynamicQuickAnswers: DynamicQuickAnswers { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -101,7 +102,6 @@ extension TweaksCarPostingFlow {
 
 
 class FeatureFlags: FeatureFlaggeable {
-
     static let sharedInstance: FeatureFlags = FeatureFlags()
     
     let websocketChat: Bool
@@ -156,7 +156,6 @@ class FeatureFlags: FeatureFlaggeable {
     
     func variablesUpdated() {
         dao.save(websocketChatEnabled: abTests.websocketChat.value)
-        dao.save(editLocationBubble: EditLocationBubble.fromPosition(abTests.editLocationBubble.value))
         abTests.variablesUpdated()
     }
 
@@ -221,13 +220,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.newMarkAsSoldFlow
         }
         return abTests.newMarkAsSoldFlow.value
-    }
-
-    var editLocationBubble: EditLocationBubble {
-        if Bumper.enabled {
-            return Bumper.editLocationBubble
-        }
-        return dao.retrieveEditLocationBubble() ?? EditLocationBubble.fromPosition(abTests.editLocationBubble.value)
     }
 
     var newCarsMultiRequesterEnabled: Bool {
@@ -305,6 +297,20 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.tweaksCarPostingFlow
         }
         return TweaksCarPostingFlow.fromPosition(abTests.tweaksCarPostingFlow.value)
+    }
+    
+    var userReviewsReportEnabled: Bool {
+        if Bumper.enabled {
+            return Bumper.userReviewsReportEnabled
+        }
+        return abTests.userReviewsReportEnabled.value
+    }
+    
+    var dynamicQuickAnswers: DynamicQuickAnswers {
+        if Bumper.enabled {
+            return Bumper.dynamicQuickAnswers
+        }
+        return DynamicQuickAnswers.fromPosition(abTests.dynamicQuickAnswers.value)
     }
     
 

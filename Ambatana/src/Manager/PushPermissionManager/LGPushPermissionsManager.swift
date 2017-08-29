@@ -9,7 +9,7 @@
 import LGCoreKit
 
 enum PrePermissionType {
-    case productListBanner
+    case listingListBanner
     case sell
     case chat(buyer: Bool)
     case onboarding
@@ -27,7 +27,7 @@ class LGPushPermissionsManager: PushPermissionsManager {
         return UIApplication.shared.areRemoteNotificationsEnabled
     }
     private var didShowSystemPermissions: Bool = false
-    private var prePermissionType: PrePermissionType = .productListBanner
+    private var prePermissionType: PrePermissionType = .listingListBanner
     private var typePage: EventParameterTypePage {
         return prePermissionType.trackingParam
     }
@@ -46,7 +46,7 @@ class LGPushPermissionsManager: PushPermissionsManager {
         switch (prePermissionType) {
         case .chat:
             return shouldAskForDailyPermissions()
-        case .sell, .onboarding, .profile, .productListBanner:
+        case .sell, .onboarding, .profile, .listingListBanner:
             return true
         }
     }
@@ -86,7 +86,7 @@ class LGPushPermissionsManager: PushPermissionsManager {
         switch prePermissionType {
         case .chat, .sell:
             keyValueStorage[.pushPermissionsDailyDate] = pushRepeateDate
-        case .profile, .onboarding, .productListBanner:
+        case .profile, .onboarding, .listingListBanner:
             break
         }
 
@@ -211,7 +211,7 @@ extension PrePermissionType {
             return LGLocalizedString.notificationsPermissions3Title
         case .sell:
             return LGLocalizedString.notificationsPermissions4Title
-        case .profile, .productListBanner:
+        case .profile, .listingListBanner:
             return LGLocalizedString.profilePermissionsAlertTitle
         }
     }
@@ -224,7 +224,7 @@ extension PrePermissionType {
             return LGLocalizedString.notificationsPermissions3Subtitle
         case .sell:
             return LGLocalizedString.notificationsPermissions4Subtitle
-        case .profile, .productListBanner:
+        case .profile, .listingListBanner:
             return LGLocalizedString.profilePermissionsAlertMessage
         }
     }
@@ -237,7 +237,7 @@ extension PrePermissionType {
             return LGLocalizedString.notificationsPermissions3Push
         case .sell:
             return LGLocalizedString.notificationsPermissions4Push
-        case .profile, .productListBanner:
+        case .profile, .listingListBanner:
             return ""
         }
     }
@@ -252,8 +252,8 @@ extension PrePermissionType {
             return .sell
         case .profile:
             return .profile
-        case .productListBanner:
-            return .productListBanner
+        case .listingListBanner:
+            return .listingListBanner
         }
     }
 }

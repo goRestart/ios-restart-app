@@ -13,7 +13,7 @@ open class MockCommercializerRepository: CommercializerRepository {
 
     // MARK: - CommercializerRepository
 
-    public func index(_ productId: String, completion: CommercializersCompletion?) {
+    public func index(_ listingId: String, completion: CommercializersCompletion?) {
         delay(result: indexResult, completion: completion)
     }
 }

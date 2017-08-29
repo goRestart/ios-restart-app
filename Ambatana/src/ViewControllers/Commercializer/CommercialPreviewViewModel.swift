@@ -26,15 +26,15 @@ class CommercialPreviewViewModel: BaseViewModel {
     }
 
     private let commercializer: Commercializer
-    private let productId: String
+    private let listingId: String
     private var templateId: String {
         return commercializer.templateId ?? ""
     }
 
     // MARK: - View lifecycle
 
-    init(productId: String, commercializer: Commercializer) {
-        self.productId = productId
+    init(listingId: String, commercializer: Commercializer) {
+        self.listingId = listingId
         self.commercializer = commercializer
         super.init()
     }
@@ -48,7 +48,7 @@ class CommercialPreviewViewModel: BaseViewModel {
 
     func playButtonPressed() {
         guard let viewModel = CommercialDisplayViewModel(commercializers: [commercializer],
-                                                         productId: productId,
+                                                         listingId: listingId,
                                                          source: .commercializerPreview,
                                                          isMyVideo: true) else { return }
         delegate?.vmShowCommercial(viewModel: viewModel)

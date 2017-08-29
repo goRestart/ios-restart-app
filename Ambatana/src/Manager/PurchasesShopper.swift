@@ -25,7 +25,7 @@ protocol PurchasesShopper: class {
      - parameter productId: ID of the listing for wich will request the appstore products
      - parameter ids: array of ids of the appstore products
      */
-    func productsRequestStartForProduct(_ productId: String, withIds ids: [String])
+    func productsRequestStartForListing(_ listingId: String, withIds ids: [String])
     
     func requestPayment(forListingId listingId: String, appstoreProduct: PurchaseableProduct, paymentItemId: String)
 

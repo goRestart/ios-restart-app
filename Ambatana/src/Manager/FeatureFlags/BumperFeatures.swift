@@ -22,7 +22,6 @@ extension Bumper  {
         flags.append(PassiveBuyersShowKeyboard.self)
         flags.append(ProductDetailNextRelated.self)
         flags.append(NewMarkAsSoldFlow.self)
-        flags.append(EditLocationBubble.self)
         flags.append(NewCarsMultiRequesterEnabled.self)
         flags.append(NewOnboardingPhase1.self)
         flags.append(SearchParamDisc24.self)
@@ -34,6 +33,8 @@ extension Bumper  {
         flags.append(BumpUpImprovementBanner.self)
         flags.append(OpenGalleryInPosting.self)
         flags.append(TweaksCarPostingFlow.self)
+        flags.append(UserReviewsReportEnabled.self)
+        flags.append(DynamicQuickAnswers.self)
         Bumper.initialize(flags)
     } 
 
@@ -80,11 +81,6 @@ extension Bumper  {
     static var newMarkAsSoldFlow: Bool {
         guard let value = Bumper.value(for: NewMarkAsSoldFlow.key) else { return false }
         return NewMarkAsSoldFlow(rawValue: value)?.asBool ?? false
-    }
-
-    static var editLocationBubble: EditLocationBubble {
-        guard let value = Bumper.value(for: EditLocationBubble.key) else { return .inactive }
-        return EditLocationBubble(rawValue: value) ?? .inactive 
     }
 
     static var newCarsMultiRequesterEnabled: Bool {
@@ -140,6 +136,16 @@ extension Bumper  {
     static var tweaksCarPostingFlow: TweaksCarPostingFlow {
         guard let value = Bumper.value(for: TweaksCarPostingFlow.key) else { return .control }
         return TweaksCarPostingFlow(rawValue: value) ?? .control 
+    }
+
+    static var userReviewsReportEnabled: Bool {
+        guard let value = Bumper.value(for: UserReviewsReportEnabled.key) else { return false }
+        return UserReviewsReportEnabled(rawValue: value)?.asBool ?? false
+    }
+
+    static var dynamicQuickAnswers: DynamicQuickAnswers {
+        guard let value = Bumper.value(for: DynamicQuickAnswers.key) else { return .control }
+        return DynamicQuickAnswers(rawValue: value) ?? .control 
     } 
 }
 
@@ -223,22 +229,6 @@ enum NewMarkAsSoldFlow: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "New mark as sold flow active. alert + showing buyer list" } 
     var asBool: Bool { return self == .yes }
-}
-
-enum EditLocationBubble: String, BumperFeature  {
-    case inactive, map, zipCode
-    static var defaultValue: String { return EditLocationBubble.inactive.rawValue }
-    static var enumValues: [EditLocationBubble] { return [.inactive, .map, .zipCode]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Location Edit A/B/C" } 
-    static func fromPosition(_ position: Int) -> EditLocationBubble {
-        switch position { 
-            case 0: return .inactive
-            case 1: return .map
-            case 2: return .zipCode
-            default: return .inactive
-        }
-    }
 }
 
 enum NewCarsMultiRequesterEnabled: String, BumperFeature  {
@@ -399,6 +389,32 @@ enum TweaksCarPostingFlow: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum UserReviewsReportEnabled: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return UserReviewsReportEnabled.no.rawValue }
+    static var enumValues: [UserReviewsReportEnabled] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "User reviews report enabled" } 
+    var asBool: Bool { return self == .yes }
+}
+
+enum DynamicQuickAnswers: String, BumperFeature  {
+    case control, baseline, dynamicNoKeyboard, dynamicWithKeyboard
+    static var defaultValue: String { return DynamicQuickAnswers.control.rawValue }
+    static var enumValues: [DynamicQuickAnswers] { return [.control, .baseline, .dynamicNoKeyboard, .dynamicWithKeyboard]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Random quick answers with different approaches" } 
+    static func fromPosition(_ position: Int) -> DynamicQuickAnswers {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .dynamicNoKeyboard
+            case 3: return .dynamicWithKeyboard
             default: return .control
         }
     }

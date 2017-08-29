@@ -17,7 +17,7 @@ class UserRatingApiDataSource: UserRatingDataSource {
     private let userFilter = "filter[user_rated_id]"
     private let typeFilter = "filter[type]"
     private let userFromFilter = "filter[user_id]"
-    private let productFilter = "filter[product_id]"
+    private let listingFilter = "filter[product_id]"
 
     // MARK: - Lifecycle
 
@@ -47,10 +47,10 @@ class UserRatingApiDataSource: UserRatingDataSource {
         switch type {
         case .conversation:
             break
-        case let .buyer(productId):
-            params[productFilter] = productId
-        case let .seller(productId):
-            params[productFilter] = productId
+        case let .buyer(listingId):
+            params[listingFilter] = listingId
+        case let .seller(listingId):
+            params[listingFilter] = listingId
         }
         let request = UserRatingRouter.index(params: params)
         // UserRating with same (userId, userFromId, type) is unique so result should have one (or zero) results
@@ -111,7 +111,7 @@ class UserRatingApiDataSource: UserRatingDataSource {
         result["user_rated_id"] = userId
         result["value"] = value
         var attributes: [String : Any] = [:]
-        attributes["product_id"] = type?.productId
+        attributes["product_id"] = type?.listingId
         attributes["comment"] = comment
         if !attributes.isEmpty {
             result["attributes"] = attributes
@@ -122,14 +122,14 @@ class UserRatingApiDataSource: UserRatingDataSource {
 
 
 private extension UserRatingType {
-    var productId: String? {
+    var listingId: String? {
         switch self {
         case .conversation:
             return nil
-        case let .seller(productId):
-            return productId
-        case let .buyer(productId):
-            return productId
+        case let .seller(listingId):
+            return listingId
+        case let .buyer(listingId):
+            return listingId
         }
     }
 }
