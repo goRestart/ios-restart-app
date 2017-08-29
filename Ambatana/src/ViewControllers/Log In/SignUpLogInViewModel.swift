@@ -294,7 +294,24 @@ class SignUpLogInViewModel: BaseViewModel {
         if errors.isEmpty {
             sendSignUp(signUpForm, recaptchaToken: recaptchaToken)
         } else {
+            let message: String
             trackFormSignUpValidationFailed(errors: errors)
+
+            if errors.contains(.usernameTaken) {
+                message = LGLocalizedString.signUpSendErrorGeneric
+            } else  if errors.contains(.invalidUsername) {
+                message = LGLocalizedString.signUpSendErrorInvalidUsername(Constants.fullNameMinLength)
+            } else if errors.contains(.invalidEmail) {
+                message = LGLocalizedString.signUpSendErrorInvalidEmail
+            } else if errors.contains(.shortPassword) || errors.contains(.longPassword)  {
+                message = LGLocalizedString.signUpSendErrorInvalidPasswordWithMax(Constants.passwordMinLength,
+                                                                                  Constants.passwordMaxLength)
+            } else if errors.contains(.termsNotAccepted) {
+                message = LGLocalizedString.signUpAcceptanceError
+            } else {
+                message = LGLocalizedString.signUpSendErrorGeneric
+            }
+            delegate?.vmShowAutoFadingMessage(message, completion: nil)
         }
     }
     
@@ -362,7 +379,14 @@ class SignUpLogInViewModel: BaseViewModel {
         if errors.isEmpty {
             sendLogIn(logInEmailForm)
         } else {
+            let message: String
             trackFormLogInValidationFailed(errors: errors)
+            if errors.contains(.invalidEmail) {
+                message = LGLocalizedString.logInErrorSendErrorInvalidEmail
+            } else {
+                message = LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
+            }
+            delegate?.vmShowAutoFadingMessage(message, completion: nil)
         }
     }
     
