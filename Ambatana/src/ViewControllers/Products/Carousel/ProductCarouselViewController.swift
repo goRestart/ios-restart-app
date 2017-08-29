@@ -276,29 +276,20 @@ class ProductCarouselViewController: KeyboardViewController, AnimatableTransitio
 
         CarouselUIHelper.setupPageControl(pageControl, topBarHeight: topBarHeight)
 
-        let views = ["ev": fullScreenAvatarEffectView]
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[ev]|", options: [], metrics: nil, views: views))
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[ev]|", options: [], metrics: nil, views: views))
-
         mainViewBlurEffectView.layout(with: imageBackground).fill()
         fullScreenAvatarEffectView.layout(with: view).fill()
 
         userView.delegate = self
 
-        userView.layout(with: buttonTop)
+        userView.layout(with: view).left(by: CarouselUI.itemsMargin)
+        userView.layout(with: view).right(by: -CarouselUI.itemsMargin, relatedBy: .lessThanOrEqual) { [weak self] in
+            self?.userViewRightConstraint = $0
+        }
+        userView.layout().height(50)
+        userView.layout(with: buttonTop).bottom(to: .top, by: -CarouselUI.itemsMargin) { [weak self] in
+            self?.userViewBottomConstraint = $0
+        }
         
-        let leftMargin = NSLayoutConstraint(item: userView, attribute: .leading, relatedBy: .equal, toItem: view,
-                                            attribute: .leading, multiplier: 1, constant: CarouselUI.itemsMargin)
-        let bottomMargin = NSLayoutConstraint(item: userView, attribute: .bottom, relatedBy: .equal, toItem: buttonTop,
-                                              attribute: .top, multiplier: 1, constant: -CarouselUI.itemsMargin)
-        let rightMargin = NSLayoutConstraint(item: userView, attribute: .trailing, relatedBy: .lessThanOrEqual,
-                                             toItem: view, attribute: .trailing, multiplier: 1, constant: -CarouselUI.itemsMargin)
-        let height = NSLayoutConstraint(item: userView, attribute: .height, relatedBy: .equal, toItem: nil,
-                                        attribute: .notAnAttribute, multiplier: 1, constant: 50)
-        view.addConstraints([leftMargin, rightMargin, bottomMargin, height])
-        userViewBottomConstraint = bottomMargin
-        userViewRightConstraint = rightMargin
-
         // UserView effect
         fullScreenAvatarEffectView.alpha = 0
         fullScreenAvatarView.clipsToBounds = true
