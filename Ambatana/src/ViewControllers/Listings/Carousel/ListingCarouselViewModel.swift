@@ -75,7 +75,7 @@ class ListingCarouselViewModel: BaseViewModel {
     let status = Variable<ListingViewModelStatus>(.pending)
     let isFeatured = Variable<Bool>(false)
 
-    let quickAnswers = Variable<[QuickAnswer]>([])
+    let quickAnswers = Variable<[[QuickAnswer]]>([[]])
     let quickAnswersAvailable = Variable<Bool>(false)
     let quickAnswersCollapsed: Variable<Bool>
 
@@ -338,6 +338,12 @@ class ListingCarouselViewModel: BaseViewModel {
     func bumpUpBannerShown(type: BumpUpType) {
         currentListingViewModel?.trackBumpUpBannerShown(type: type)
     }
+    
+    func moveQuickAnswerToTheEnd(_ index: Int) {
+        guard index >= 0 else { return }
+        quickAnswers.value.move(fromIndex: index, toIndex: quickAnswers.value.count-1)
+    }
+    
     
     // MARK: - Private Methods
 

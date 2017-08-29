@@ -14,16 +14,18 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
 
     func vmDidFailRetrievingChatMessages()
     
-    func vmShowReportUser(_ reportUserViewModel: ReportUsersViewModel)
+    func vmDidPressReportUser(_ reportUserViewModel: ReportUsersViewModel)
 
-    func vmShowSafetyTips()
+    func vmDidRequestSafetyTips()
 
-    func vmClearText()
-    func vmHideKeyboard(_ animated: Bool)
-    func vmShowKeyboard()
+    func vmDidSendMessage()
+    func vmDidEndEditing(animated: Bool)
+    func vmDidBeginEditing()
     
-    func vmShowPrePermissions(_ type: PrePermissionType)
-    func vmShowMessage(_ message: String, completion: (() -> ())?)
+    func vmDidRequestShowPrePermissions(_ type: PrePermissionType)
+    func vmDidNotifyMessage(_ message: String, completion: (() -> ())?)
+    
+    func vmDidPressDirectAnswer(quickAnswer: QuickAnswer)
 }
 
 struct EmptyConversation: ChatConversation {
@@ -79,6 +81,7 @@ class ChatViewModel: BaseViewModel {
     let listingImageUrl = Variable<URL?>(nil)
     let listingPrice = Variable<String>("")
     let listingIsFree = Variable<Bool>(false)
+    let listingIsNegotiable = Variable<Bool>(false)
     let interlocutorAvatarURL = Variable<URL?>(nil)
     let interlocutorName = Variable<String>("")
     let interlocutorId = Variable<String?>(nil)
@@ -156,7 +159,7 @@ class ChatViewModel: BaseViewModel {
 
     fileprivate var safetyTipsAction: () -> Void {
         return { [weak self] in
-            self?.delegate?.vmShowSafetyTips()
+            self?.delegate?.vmDidRequestSafetyTips()
         }
     }
     
@@ -194,6 +197,9 @@ class ChatViewModel: BaseViewModel {
             return true
         }
     }
+    
+    
+    // MARK: - Lifecycle
 
     convenience init(conversation: ChatConversation, navigator: ChatDetailNavigator?, source: EventParameterTypePage, predefinedMessage: String?) {
         let myUserRepository = Core.myUserRepository
@@ -285,7 +291,7 @@ class ChatViewModel: BaseViewModel {
 
     func didAppear() {
         if conversation.value.isSaved && chatEnabled.value {
-            delegate?.vmShowKeyboard()
+            delegate?.vmDidBeginEditing()
         }
     }
 
@@ -353,6 +359,7 @@ class ChatViewModel: BaseViewModel {
             self?.listingImageUrl.value = conversation.listing?.image?.fileURL
             if let featureFlags = self?.featureFlags {
                 self?.listingPrice.value = conversation.listing?.priceString(freeModeAllowed: featureFlags.freePostingModeAllowed) ?? ""
+                self?.listingIsNegotiable.value = conversation.listing?.isNegotiable(freeModeAllowed: featureFlags.freePostingModeAllowed) ?? false
             }
             self?.listingIsFree.value = conversation.listing?.price.free ?? false
             self?.interlocutorAvatarURL.value = conversation.interlocutor?.avatar?.fileURL
@@ -511,7 +518,7 @@ class ChatViewModel: BaseViewModel {
         case .deleted:
             break
         case .pending, .approved, .discarded, .sold, .soldOld:
-            delegate?.vmHideKeyboard(false)
+            delegate?.vmDidEndEditing(animated: false)
             let data = ListingDetailData.listingChat(chatConversation: conversation.value)
             navigator?.openListing(data, source: .chat, actionOnFirstAppear: .nonexistent)
         }
@@ -606,8 +613,8 @@ extension ChatViewModel {
         guard let convId = conversation.value.objectId else { return }
         guard let userId = myUserRepository.myUser?.objectId else { return }
         
-        if type.isUserText {
-            delegate?.vmClearText()
+        if type.isUserText || (showKeyboardWhenQuickAnswer && type.isQuickAnswer) {
+            delegate?.vmDidSendMessage()
         }
 
         let newMessage = chatRepository.createNewMessage(userId, text: message, type: type.chatType)
@@ -665,11 +672,11 @@ extension ChatViewModel {
                                   cancelLabel: LGLocalizedString.commonCancel,
                                   actions: [action])
         } else if pushPermissionsManager.shouldShowPushPermissionsAlertFromViewController(.chat(buyer: isBuyer)) {
-            delegate?.vmShowPrePermissions(.chat(buyer: isBuyer))
+            delegate?.vmDidRequestShowPrePermissions(.chat(buyer: isBuyer))
         } else if ratingManager.shouldShowRating {
-            delegate?.vmHideKeyboard(true)
+            delegate?.vmDidEndEditing(animated: true)
             delay(1.0) { [weak self] in
-                self?.delegate?.vmHideKeyboard(true)
+                self?.delegate?.vmDidEndEditing(animated: true)
                 self?.navigator?.openAppRating(.chat)
             }
         }
@@ -772,7 +779,7 @@ extension ChatViewModel {
         var actions: [UIAction] = []
         
         let safetyTips = UIAction(interface: UIActionInterface.text(LGLocalizedString.chatSafetyTips), action: { [weak self] in
-            self?.delegate?.vmShowSafetyTips()
+            self?.delegate?.vmDidRequestSafetyTips()
         })
         actions.append(safetyTips)
 
@@ -822,7 +829,7 @@ extension ChatViewModel {
                     self?.isDeleted = true
                 }
                 let message = success ? LGLocalizedString.chatListDeleteOkOne : LGLocalizedString.chatListDeleteErrorOne
-                self?.delegate?.vmShowMessage(message) { [weak self] in
+                self?.delegate?.vmDidNotifyMessage(message) { [weak self] in
                     self?.navigator?.closeChatDetail()
                 }
             }
@@ -846,7 +853,7 @@ extension ChatViewModel {
     private func reportUserAction() {
         guard let userID = conversation.value.interlocutor?.objectId else { return }
         let reportVM = ReportUsersViewModel(origin: .chat, userReportedId: userID)
-        delegate?.vmShowReportUser(reportVM)
+        delegate?.vmDidPressReportUser(reportVM)
     }
     
     fileprivate func blockUserAction(buttonPosition: EventParameterBlockButtonPosition) {
@@ -860,7 +867,7 @@ extension ChatViewModel {
                     self?.chatEnabled.value = false
                     self?.refreshChat()
                 } else {
-                    self?.delegate?.vmShowMessage(LGLocalizedString.blockUserErrorGeneric, completion: nil)
+                    self?.delegate?.vmDidNotifyMessage(LGLocalizedString.blockUserErrorGeneric, completion: nil)
                 }
             }
         })
@@ -899,7 +906,7 @@ extension ChatViewModel {
                     strongSelf.chatEnabled.value =  true
                 }
             } else {
-                strongSelf.delegate?.vmShowMessage(LGLocalizedString.unblockUserErrorGeneric, completion: nil)
+                strongSelf.delegate?.vmDidNotifyMessage(LGLocalizedString.unblockUserErrorGeneric, completion: nil)
             }
         }
     }
@@ -1116,12 +1123,11 @@ extension ChatViewModel {
                                                                  disclaimerMessage: defaultDisclaimerMessage)
         messages.removeAll()
         messages.appendContentsOf(chatMessages)
-
     }
 
     private func afterRetrieveChatMessagesEvents() {
         if shouldShowSafetyTips {
-            delegate?.vmShowSafetyTips()
+            delegate?.vmDidRequestSafetyTips()
         }
 
         afterRetrieveMessagesCompletion?()
@@ -1180,7 +1186,7 @@ fileprivate extension ChatViewModel {
 
         // Configure login + send actions
         preSendMessageCompletion = { [weak self] (type: ChatWrapperMessageType) in
-            self?.delegate?.vmHideKeyboard(false)
+            self?.delegate?.vmDidEndEditing(animated: false)
             self?.navigator?.openLoginIfNeededFromChatDetail(from: .askQuestion, loggedInAction: { [weak self] in
                 guard let strongSelf = self else { return }
                 strongSelf.preSendMessageCompletion = nil
@@ -1328,22 +1334,45 @@ fileprivate extension ChatConversation {
 
 extension ChatViewModel: DirectAnswersPresenterDelegate {
     
-    var directAnswers: [QuickAnswer] {
+    var directAnswers: [[QuickAnswer]] {
         let isFree = featureFlags.freePostingModeAllowed && listingIsFree.value
         let isBuyer = !conversation.value.amISelling
-        return QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree)
+        let isNegotiable = listingIsNegotiable.value
+        return QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: areQuickAnswersDynamic, isNegotiable: isNegotiable)
+    }
+    var areQuickAnswersDynamic: Bool {
+        switch featureFlags.dynamicQuickAnswers {
+        case .control, .baseline:
+            return false
+        case .dynamicNoKeyboard, .dynamicWithKeyboard:
+            return true
+        }
+    }
+    var showKeyboardWhenQuickAnswer: Bool {
+        switch featureFlags.dynamicQuickAnswers {
+        case .control, .baseline, .dynamicNoKeyboard:
+            return false
+        case .dynamicWithKeyboard:
+            return true
+        }
     }
     
-    func directAnswersDidTapAnswer(_ controller: DirectAnswersPresenter, answer: QuickAnswer) {
+    func directAnswersDidTapAnswer(_ controller: DirectAnswersPresenter, answer: QuickAnswer, index: Int) {
         switch answer {
         case .listingSold, .freeNotAvailable:
             onListingSoldDirectAnswer()
         case .interested, .notInterested, .meetUp, .stillAvailable, .isNegotiable, .likeToBuy, .listingCondition,
              .listingStillForSale, .whatsOffer, .negotiableYes, .negotiableNo, .freeStillHave, .freeYours,
-             .freeAvailable:
+             .freeAvailable, .stillForSale, .priceFirm, .priceWillingToNegotiate, .priceAsking, .listingConditionGood,
+             .listingConditionDescribe, .meetUpLocated, .meetUpWhereYouWant:
             clearListingSoldDirectAnswer()
         }
-        send(quickAnswer: answer)
+        
+        if showKeyboardWhenQuickAnswer == true {
+            delegate?.vmDidPressDirectAnswer(quickAnswer: answer)
+        } else {
+            send(quickAnswer: answer)
+        }
     }
     
     func directAnswersDidTapClose(_ controller: DirectAnswersPresenter) {

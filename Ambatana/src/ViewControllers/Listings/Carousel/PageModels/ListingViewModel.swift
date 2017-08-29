@@ -67,10 +67,27 @@ class ListingViewModel: BaseViewModel {
     fileprivate var freeBumpUpShareMessage: SocialMessage?
 
     let directChatMessages = CollectionVariable<ChatViewMessage>([])
-    var quickAnswers: [QuickAnswer] {
+    var quickAnswers: [[QuickAnswer]] {
         guard !isMine else { return [] }
         let isFree = listing.value.price.free && featureFlags.freePostingModeAllowed
-        return QuickAnswer.quickAnswersForPeriscope(isFree: isFree)
+        let isNegotiable = listing.value.isNegotiable(freeModeAllowed: featureFlags.freePostingModeAllowed)
+        return QuickAnswer.quickAnswersForPeriscope(isFree: isFree, isDynamic: areQuickAnswersDynamic, isNegotiable: isNegotiable)
+    }
+    var areQuickAnswersDynamic: Bool {
+        switch featureFlags.dynamicQuickAnswers {
+        case .control, .baseline:
+            return false
+        case .dynamicNoKeyboard, .dynamicWithKeyboard:
+            return true
+        }
+    }
+    var showKeyboardWhenQuickAnswer: Bool {
+        switch featureFlags.dynamicQuickAnswers {
+        case .control, .baseline, .dynamicNoKeyboard:
+            return false
+        case .dynamicWithKeyboard:
+            return true
+        }
     }
 
     let navBarButtons = Variable<[UIAction]>([])

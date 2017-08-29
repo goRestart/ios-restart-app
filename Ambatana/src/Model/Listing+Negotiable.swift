@@ -1,5 +1,5 @@
 //
-//  Product+LG.swift
+//  Listing+Negotiable.swift
 //  LetGo
 //
 //  Created by Eli Kohen on 07/12/15.
@@ -14,6 +14,19 @@ extension Priceable {
             return LGLocalizedString.productFreePrice
         } else {
             return price.value > 0 ? formattedPrice() :  LGLocalizedString.productNegotiablePrice
+        }
+    }
+    
+    func isNegotiable(freeModeAllowed: Bool) -> Bool {
+        switch price {
+        case .negotiable:
+            return true
+        case .free:
+            return !freeModeAllowed
+        case .normal(let value):
+            return value == 0
+        case .firmPrice:
+            return false
         }
     }
 }

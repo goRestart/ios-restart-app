@@ -42,6 +42,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var openGalleryInPosting: OpenGalleryInPosting = .control
     var tweaksCarPostingFlow: TweaksCarPostingFlow = .control
     var userReviewsReportEnabled: Bool = true
+    var dynamicQuickAnswers: DynamicQuickAnswers = .control
     
     // Country dependant features
     var freePostingModeAllowed = false

@@ -30,6 +30,7 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
     let relatedListingsView: ChatRelatedListingsView
     let featureFlags: FeatureFlaggeable
     let disposeBag = DisposeBag()
+    var selectedQuickAnswer: QuickAnswer?
 
     var blockedToastOffset: CGFloat {
         return relationInfoView.isHidden ? 0 : RelationInfoView.defaultHeight
@@ -127,7 +128,11 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
     // MARK: > Slack methods
 
     override func sendButtonPressed() {
-        viewModel.send(text: textView.text)
+        if let quickAnswer = selectedQuickAnswer, textView.text == quickAnswer.text {
+            viewModel.send(quickAnswer: quickAnswer)
+        } else {
+            viewModel.send(text: textView.text)
+        }
     }
 
 
@@ -291,7 +296,7 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
     private func setupDirectAnswers() {
         directAnswersPresenter.hidden = viewModel.directAnswersState.value != .visible
         directAnswersPresenter.setupOnTopOfView(relatedListingsView)
-        directAnswersPresenter.setDirectAnswers(viewModel.directAnswers)
+        directAnswersPresenter.setDirectAnswers(viewModel.directAnswers, isDynamic: viewModel.areQuickAnswersDynamic)
         directAnswersPresenter.delegate = viewModel
 
         viewModel.directAnswersState.asObservable().bindNext { [weak self] state in
@@ -514,6 +519,15 @@ extension OldChatViewController: OldChatViewModelDelegate {
     
     func vmClose() {
         navigationController?.popBackViewController()
+    }
+    
+    
+    // MARK: > Direct answers
+    
+    func vmDidPressDirectAnswer(quickAnswer: QuickAnswer) {
+        selectedQuickAnswer = quickAnswer
+        textView.text = quickAnswer.text
+        textView.becomeFirstResponder()
     }
 }
 

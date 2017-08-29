@@ -109,5 +109,10 @@
         "name": "UserReviewsReportEnabled",
         "values": ["no", "yes"],
         "description": "User reviews report enabled"
+    },
+    {
+        "name": "DynamicQuickAnswers",
+        "values": ["control", "baseline", "dynamicNoKeyboard", "dynamicWithKeyboard"],
+        "description": "Random quick answers with different approaches"
     }
 ]

@@ -41,6 +41,7 @@ protocol FeatureFlaggeable: class {
     var openGalleryInPosting: OpenGalleryInPosting { get }
     var tweaksCarPostingFlow: TweaksCarPostingFlow { get }
     var userReviewsReportEnabled: Bool { get }
+    var dynamicQuickAnswers: DynamicQuickAnswers { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -311,6 +312,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.userReviewsReportEnabled
         }
         return abTests.userReviewsReportEnabled.value
+    }
+    
+    var dynamicQuickAnswers: DynamicQuickAnswers {
+        if Bumper.enabled {
+            return Bumper.dynamicQuickAnswers
+        }
+        return DynamicQuickAnswers.fromPosition(abTests.dynamicQuickAnswers.value)
     }
     
 
