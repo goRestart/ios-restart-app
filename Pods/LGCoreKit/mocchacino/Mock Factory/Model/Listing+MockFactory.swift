@@ -17,4 +17,18 @@ extension Listing: MockFactory {
             return .car(MockCar.makeMock())
         }
     }
+    
+    public static func makeListing(price: ListingPrice) -> Listing {
+        let listing = Listing.makeMock()
+        switch listing {
+        case .car(let car):
+            var carMock = MockCar(car: car)
+            carMock.price = price
+            return Listing.car(carMock)
+        case .product(let product):
+            var productMock = MockProduct(product: product)
+            productMock.price = price
+            return Listing.product(productMock)
+        }
+    }
 }
