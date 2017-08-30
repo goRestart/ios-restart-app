@@ -61,11 +61,6 @@
         "description": "New onboarding - alerts on close button"
     },
     {
-        "name": "SearchParamDisc24",
-        "values": ["disc24a", "disc24b", "disc24c", "disc24d", "disc24e", "disc24f", "disc24g"],
-        "description": "Diferent search approach"
-    },
-    {
         "name": "InAppRatingIOS10",
         "values": ["no", "yes"],
         "description": "New in-app rating for iOS 10.3+"
@@ -104,6 +99,11 @@
         "name": "TweaksCarPostingFlow",
         "values": ["control", "baseline", "active"],
         "description": "car posting summary only at the end"
+    },
+    {
+        "name": "SearchParamDisc129",
+        "values": ["disc129a", "disc129b", "disc129c", "disc129d"],
+        "description": "Diferent search approach follow up"
     },
     {
         "name": "UserReviewsReportEnabled",
