@@ -29,7 +29,6 @@ protocol FeatureFlaggeable: class {
     var productDetailNextRelated: Bool { get }
     var newMarkAsSoldFlow: Bool { get }
     var newCarsMultiRequesterEnabled: Bool { get }
-    var newCarouselNavigationEnabled: Bool { get }
     var newOnboardingPhase1: Bool { get }
     var searchParamDisc129: SearchParamDisc129 { get }
     var inAppRatingIOS10: Bool { get }
@@ -228,13 +227,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.newCarsMultiRequesterEnabled
         }
         return abTests.newCarsMultiRequesterEnabled.value
-    }
-
-    var newCarouselNavigationEnabled: Bool {
-        if Bumper.enabled {
-            return Bumper.newCarouselNavigationEnabled
-        }
-        return abTests.newCarouselNavigationEnabled.value
     }
 
     var newOnboardingPhase1: Bool {

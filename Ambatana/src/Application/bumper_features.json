@@ -50,11 +50,6 @@
         "values": ["no", "yes"],
         "description": "Cars multi requester enabled"
     },
-    {
-        "name": "NewCarouselNavigationEnabled",
-        "values": ["no", "yes"],
-        "description": "New carousel navigation enabled"
-    },
     {        
         "name": "NewOnboardingPhase1",
         "values": ["no", "yes"],

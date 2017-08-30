@@ -30,7 +30,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var productDetailNextRelated: Bool = false
     var newMarkAsSoldFlow: Bool = false
     var newCarsMultiRequesterEnabled: Bool = false
-    var newCarouselNavigationEnabled: Bool = false
     var newOnboardingPhase1: Bool = false
     var searchParamDisc129: SearchParamDisc129 = .disc129a
     var inAppRatingIOS10: Bool = false
