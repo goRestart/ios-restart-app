@@ -120,6 +120,19 @@ public enum ListingEditionParams {
         case .car(let carParams): return carParams.apiEditionEncode()
         }
     }
+
+    public func updating(images: [File]) -> ListingEditionParams {
+        switch self {
+        case .product(let productParams):
+            let newParams = productParams
+            newParams.images = images
+            return ListingEditionParams.product(newParams)
+        case .car(let carParams):
+            let newParams = carParams
+            newParams.images = images
+            return ListingEditionParams.car(newParams)
+        }
+    }
 }
 
 public enum ListingCreationParams {

@@ -52,27 +52,30 @@ final class ListingApiDataSource: ListingDataSource {
         let request = ListingRouter.show(listingId: listingId)
         apiClient.request(request, decoder: ListingApiDataSource.decoder, completion: completion)
     }
-    
-    func createProduct(userId: String, productParams: ProductCreationParams, completion: ProductDataSourceCompletion?) {
-        let request = ListingRouter.create(params: productParams.apiCreationEncode(userId: userId))
-        apiClient.request(request, decoder: ListingApiDataSource.productDecoder, completion: completion)
-    }
-    
-    func updateProduct(productParams: ProductEditionParams, completion: ProductDataSourceCompletion?) {
-        let request = ListingRouter.update(listingId: productParams.productId, params: productParams.apiEditionEncode())
-        apiClient.request(request, decoder: ListingApiDataSource.productDecoder, completion: completion)
-    }
-    
-    func createCar(userId: String, carParams: CarCreationParams, completion: CarDataSourceCompletion?) {
-        let request = ListingRouter.create(params: carParams.apiCreationEncode(userId: userId))
-        apiClient.request(request, decoder: ListingApiDataSource.carDecoder, completion: completion)
-    }
-    
-    func updateCar(carParams: CarEditionParams, completion: CarDataSourceCompletion?) {
-        let request = ListingRouter.update(listingId: carParams.carId, params: carParams.apiEditionEncode())
-        apiClient.request(request, decoder: ListingApiDataSource.carDecoder, completion: completion)
+
+    func createListing(userId: String, listingParams: ListingCreationParams, completion: ListingDataSourceCompletion?) {
+        let request: URLRequestAuthenticable
+        switch listingParams {
+        case .car(let carParams):
+            request = ListingRouter.create(params: carParams.apiCreationEncode(userId: userId))
+        case .product(let productParams):
+            request = ListingRouter.create(params: productParams.apiCreationEncode(userId: userId))
+        }
+        apiClient.request(request, decoder: ListingApiDataSource.listingDecoder, completion: completion)
     }
 
+    func updateListing(listingParams: ListingEditionParams, completion: ListingDataSourceCompletion?) {
+        let request: URLRequestAuthenticable
+        switch listingParams {
+        case .car(let carParams):
+            request = ListingRouter.update(listingId: carParams.carId, params: carParams.apiEditionEncode())
+        case .product(let productParams):
+            request = ListingRouter.update(listingId: productParams.productId, params: productParams.apiEditionEncode())
+        }
+        apiClient.request(request, decoder: ListingApiDataSource.listingDecoder, completion: completion)
+    }
+
+    
     // MARK: Sold / unsold
 
     func markAsSold(_ listingId: String, completion: ListingDataSourceEmptyCompletion?) {
@@ -177,17 +180,20 @@ final class ListingApiDataSource: ListingDataSource {
         let listing: Listing? = decode(object)
         return listing
     }
-    
-    private static func productDecoder(_ object: Any) -> Product? {
+
+    private static func listingDecoder(_ object: Any) -> Listing? {
         let product: LGProduct? = decode(object)
-        return product
-    }
-    
-    private static func carDecoder(_ object: Any) -> Car? {
+        if let product = product {
+            return Listing.product(product)
+        }
+
         let car: LGCar? = decode(object)
-        return car
+        if let car = car {
+            return Listing.car(car)
+        }
+        return nil
     }
-    
+
     static func decoderUserRelation(_ object: Any) -> UserListingRelation? {
         let relation: LGUserListingRelation? = decode(object)
         return relation

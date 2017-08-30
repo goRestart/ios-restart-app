@@ -123,76 +123,65 @@ final class LGListingRepository: ListingRepository {
         }
     }
 
-    func create(productParams: ProductCreationParams, completion: ProductCompletion?) {
+
+    func create(listingParams: ListingCreationParams, completion: ListingCompletion?) {
         guard let myUserId = myUserRepository.myUser?.objectId else {
-            completion?(ProductResult(error: .internalError(message: "Missing objectId in MyUser")))
-            return
-        }
-        dataSource.createProduct(userId: myUserId, productParams: productParams) { [weak self] result in
-            if let product = result.value {
-                // Cache the product in the limbo
-                if let productId = product.objectId {
-                    self?.listingsLimboDAO.save(productId)
-                }
-                // Send event
-                self?.eventBus.onNext(.create(Listing.product(product)))
-            }
-            handleApiResult(result, completion: completion)
-        }
-    }
-
-    func update(productParams: ProductEditionParams, completion: ProductCompletion?) {
-        guard productParams.userId == myUserRepository.myUser?.objectId else {
-            completion?(ProductResult(error: .internalError(message: "UserId doesn't match MyUser")))
+            completion?(ListingResult(error: .internalError(message: "Missing objectId in MyUser")))
             return
         }
 
-        dataSource.updateProduct(productParams: productParams) { [weak self] result in
-            if let product = result.value {
-                // Send event
-                self?.eventBus.onNext(.update(Listing.product(product)))
-            }
-            handleApiResult(result, completion: completion)
-        }
-    }
-
-    func create(carParams: CarCreationParams, completion: CarCompletion?) {
-        guard let myUserId = myUserRepository.myUser?.objectId else {
-            completion?(CarResult(error: .internalError(message: "Missing objectId in MyUser")))
-            return
-        }
-        dataSource.createCar(userId: myUserId, carParams: carParams) { [weak self] result in
+        dataSource.createListing(userId: myUserId, listingParams: listingParams) { [weak self] result in
             guard let strongSelf = self else { return }
-            if let car = result.value {
-                // Cache the car in the limbo
-                if let carId = car.objectId {
-                    strongSelf.listingsLimboDAO.save(carId)
+            var carResult: Result<Listing, ApiError>?
+            if let listing = result.value {
+                switch listing {
+                case .car(let car):
+                    // Cache the car in the limbo
+                    if let carId = car.objectId {
+                        strongSelf.listingsLimboDAO.save(carId)
+                    }
+                    let newCar = LGCar(car: car)
+                    let carUpdated = strongSelf.fillCarAttributes(car: newCar)
+                    // Send event
+                    strongSelf.eventBus.onNext(.create(Listing.car(carUpdated)))
+                    carResult = Result(value: Listing.car(carUpdated))
+                case .product(let product):
+                    // Cache the product in the limbo
+                    if let productId = product.objectId {
+                        strongSelf.listingsLimboDAO.save(productId)
+                    }
+                    // Send event
+                    strongSelf.eventBus.onNext(.create(Listing.product(product)))
                 }
-                let newCar = LGCar(car: car)
-                let carUpdated = strongSelf.fillCarAttributes(car: newCar)
-                strongSelf.eventBus.onNext(.create(Listing.car(carUpdated)))
-                handleApiResult(Result(value: carUpdated), completion: completion)
-            } else {
-                handleApiResult(result, completion: completion)
             }
+            handleApiResult(carResult ?? result, completion: completion)
         }
     }
-    func update(carParams: CarEditionParams, completion: CarCompletion?) {
-        guard carParams.userId == myUserRepository.myUser?.objectId else {
-            completion?(CarResult(error: .internalError(message: "UserId doesn't match MyUser")))
+
+    func update(listingParams: ListingEditionParams, completion: ListingCompletion?) {
+        guard listingParams.userId == myUserRepository.myUser?.objectId else {
+            completion?(ListingResult(error: .internalError(message: "UserId doesn't match MyUser")))
             return
         }
-        
-        dataSource.updateCar(carParams: carParams) { [weak self] result in
+
+        dataSource.updateListing(listingParams: listingParams) { [weak self] result in
             guard let strongSelf = self else { return }
-            if let car = result.value {
-                let newCar = LGCar(car: car)
-                let carUpdated = strongSelf.fillCarAttributes(car: newCar)
-                self?.eventBus.onNext(.update(Listing.car(carUpdated)))
-                handleApiResult(Result(value: carUpdated), completion: completion)
-            } else {
-                handleApiResult(result, completion: completion)
+            var carResult: Result<Listing, ApiError>?
+            if let listing = result.value {
+                switch listing {
+                case .car(let car):
+                    let newCar = LGCar(car: car)
+                    let carUpdated = strongSelf.fillCarAttributes(car: newCar)
+                    // Send event
+                    strongSelf.eventBus.onNext(.update(Listing.car(carUpdated)))
+                    carResult = Result(value: Listing.car(carUpdated))
+                case .product(let product):
+                    // Send event
+                    strongSelf.eventBus.onNext(.update(Listing.product(product)))
+                }
             }
+
+            handleApiResult(carResult ?? result, completion: completion)
         }
     }
 
