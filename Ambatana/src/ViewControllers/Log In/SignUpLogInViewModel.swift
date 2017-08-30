@@ -295,6 +295,7 @@ class SignUpLogInViewModel: BaseViewModel {
             sendSignUp(signUpForm, recaptchaToken: recaptchaToken)
         } else {
             trackFormSignUpValidationFailed(errors: errors)
+            delegate?.vmShowAutoFadingMessage(errors.errorMessage, completion: nil)
         }
     }
     
@@ -363,6 +364,7 @@ class SignUpLogInViewModel: BaseViewModel {
             sendLogIn(logInEmailForm)
         } else {
             trackFormLogInValidationFailed(errors: errors)
+            delegate?.vmShowAutoFadingMessage(errors.errorMessage, completion: nil)
         }
     }
     
@@ -614,14 +616,13 @@ fileprivate extension LogInEmailFormErrors {
         return error
     }
     
-    var errorMessage: String? {
-        let message: String?
+    var errorMessage: String {
+        let message: String
         if contains(.invalidEmail) {
             message = LGLocalizedString.logInErrorSendErrorInvalidEmail
-        } else if contains(.shortPassword) {
-            message = LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
         } else {
-            message = nil
+            // message for .shortPassword and default
+            message = LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
         }
         return message
     }
@@ -646,8 +647,8 @@ fileprivate extension SignUpFormErrors {
         return error
     }
     
-    var errorMessage: String? {
-        let message: String?
+    var errorMessage: String {
+        let message: String
         if contains(.invalidEmail) {
             message = LGLocalizedString.signUpSendErrorInvalidEmail
         } else if contains(.shortPassword) || contains(.longPassword) {
@@ -660,7 +661,7 @@ fileprivate extension SignUpFormErrors {
         } else if contains(.termsNotAccepted) {
             message = LGLocalizedString.signUpAcceptanceError
         } else {
-            message = nil
+            message = LGLocalizedString.signUpSendErrorGeneric
         }
         return message
     }
