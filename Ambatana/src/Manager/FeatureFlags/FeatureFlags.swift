@@ -31,7 +31,7 @@ protocol FeatureFlaggeable: class {
     var newCarsMultiRequesterEnabled: Bool { get }
     var newCarouselNavigationEnabled: Bool { get }
     var newOnboardingPhase1: Bool { get }
-    var searchParamDisc24: SearchParamDisc24 { get }
+    var searchParamDisc129: SearchParamDisc129 { get }
     var inAppRatingIOS10: Bool { get }
     var suggestedSearches: SuggestedSearches { get }
     var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed { get }
@@ -40,6 +40,7 @@ protocol FeatureFlaggeable: class {
     var bumpUpImprovementBanner: BumpUpImprovementBanner { get }
     var openGalleryInPosting: OpenGalleryInPosting { get }
     var tweaksCarPostingFlow: TweaksCarPostingFlow { get }
+    var userReviewsReportEnabled: Bool { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -101,7 +102,6 @@ extension TweaksCarPostingFlow {
 
 
 class FeatureFlags: FeatureFlaggeable {
-
     static let sharedInstance: FeatureFlags = FeatureFlags()
     
     let websocketChat: Bool
@@ -243,11 +243,11 @@ class FeatureFlags: FeatureFlaggeable {
         return abTests.newOnboardingPhase1.value
     }
     
-    var searchParamDisc24: SearchParamDisc24 {
+    var searchParamDisc129: SearchParamDisc129 {
         if Bumper.enabled {
-            return Bumper.searchParamDisc24
+            return Bumper.searchParamDisc129
         }
-        return SearchParamDisc24.fromPosition(abTests.searchParamDisc24.value)
+        return SearchParamDisc129.fromPosition(abTests.searchParamDisc129.value)
     }
     
     var inAppRatingIOS10: Bool {
@@ -304,6 +304,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.tweaksCarPostingFlow
         }
         return TweaksCarPostingFlow.fromPosition(abTests.tweaksCarPostingFlow.value)
+    }
+    
+    var userReviewsReportEnabled: Bool {
+        if Bumper.enabled {
+            return Bumper.userReviewsReportEnabled
+        }
+        return abTests.userReviewsReportEnabled.value
     }
     
 
