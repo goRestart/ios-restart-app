@@ -14,7 +14,6 @@ protocol ListingCarouselViewModelDelegate: BaseViewModelDelegate {
     func vmShowOnboarding()
 
     // Forward from ListingViewModelDelegate
-    func vmOpenCommercialDisplay(_ displayVM: CommercialDisplayViewModel)
     func vmShowCarouselOptions(_ cancelLabel: String, actions: [UIAction])
     func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?)
     func vmResetBumpUpBannerCountdown()
@@ -474,9 +473,6 @@ extension ListingCarouselViewModel {
 
 extension ListingCarouselViewModel: ListingViewModelDelegate {
     // ListingViewModelDelegate forwarding methods
-    func vmOpenCommercialDisplay(_ displayVM: CommercialDisplayViewModel) {
-        delegate?.vmOpenCommercialDisplay(displayVM)
-    }
     func vmShowProductDetailOptions(_ cancelLabel: String, actions: [UIAction]) {
         var finalActions: [UIAction] = actions
 

@@ -88,11 +88,4 @@ class LGArgo {
         }
         return Decoded<ChatMessageType>.success(type)
     }
-    
-    static func parseCommercializerStatus(_ json: JSON, key: String) -> Decoded<CommercializerStatus> {
-        guard let raw: Int = json.decode(key), let status = CommercializerStatus(rawValue: raw) else {
-            return Decoded<CommercializerStatus>.success(.unavailable)
-        }
-        return Decoded<CommercializerStatus>.success(status)
-    }
 }

@@ -9,7 +9,6 @@
 struct EscrowEnvironment: Environment {
     let apiBaseURL = "https://api.escrowverification.com"
     let bouncerBaseURL = "https://bouncer.escrowverification.com/api"
-    let commercializerBaseURL = "https://commercializer.escrowverification.com/"
     let userRatingsBaseURL = "http://rating.escrowverification.com/api"
     let chatBaseURL = "chat.escrowverification.com"
     let webSocketURL = "wss://chat.escrowverification.com/socket"

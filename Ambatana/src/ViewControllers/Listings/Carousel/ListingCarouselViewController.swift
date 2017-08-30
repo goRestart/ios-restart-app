@@ -1135,11 +1135,6 @@ extension ListingCarouselViewController: ListingCarouselViewModelDelegate {
         onboarding.layoutIfNeeded()
     }
 
-    func vmOpenCommercialDisplay(_ displayVM: CommercialDisplayViewModel) {
-        let commercialDisplayVC = CommercialDisplayViewController(viewModel: displayVM)
-        navigationController?.present(commercialDisplayVC, animated: true, completion: nil)
-    }
-
     func vmShowCarouselOptions(_ cancelLabel: String, actions: [UIAction]) {
         showActionSheet(cancelLabel, actions: actions, barButtonItem: navigationItem.rightBarButtonItems?.first)
     }

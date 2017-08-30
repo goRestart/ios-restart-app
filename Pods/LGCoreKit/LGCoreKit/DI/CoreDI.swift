@@ -141,10 +141,6 @@ final class CoreDI: InternalDI {
                                                     myUserRepository: myUserRepository)
         self.oldChatRepository = oldchatRepository
 
-        let commercializerDataSource = CommercializerApiDataSource(apiClient: self.apiClient)
-        let commercializerRepository = LGCommercializerRepository(dataSource: commercializerDataSource)
-        self.commercializerRepository = commercializerRepository
-
         let notificationsDataSource = NotificationsApiDataSource(apiClient: self.apiClient)
         self.notificationsRepository = LGNotificationsRepository(dataSource: notificationsDataSource)
         
@@ -221,7 +217,6 @@ final class CoreDI: InternalDI {
     }
     let internalInstallationRepository: InternalInstallationRepository
     let oldChatRepository: OldChatRepository
-    let commercializerRepository: CommercializerRepository
     let chatRepository: ChatRepository
     let notificationsRepository: NotificationsRepository
     let stickersRepository: StickersRepository

@@ -12,7 +12,6 @@ protocol Environment {
     // API
     var apiBaseURL: String { get }
     var bouncerBaseURL: String { get }
-    var commercializerBaseURL: String { get }
     var userRatingsBaseURL: String { get }
     var chatBaseURL: String { get }
     var webSocketURL: String { get }
