@@ -30,7 +30,6 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
 
         var myUserRepository: MockMyUserRepository!
         var listingRepository: MockListingRepository!
-        var commercializerRepository: MockCommercializerRepository!
         var chatWrapper: MockChatWrapper!
         var locationManager: MockLocationManager!
         var countryHelper: CountryHelper!
@@ -120,7 +119,6 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
             beforeEach {
                 myUserRepository = MockMyUserRepository.makeMock()
                 listingRepository = MockListingRepository.makeMock()
-                commercializerRepository = MockCommercializerRepository.makeMock()
                 chatWrapper = MockChatWrapper()
                 locationManager = MockLocationManager()
                 countryHelper = CountryHelper.mock()
@@ -137,7 +135,6 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
 
                 listingViewModelMaker = MockListingViewModelMaker(myUserRepository: myUserRepository,
                                                                   listingRepository: listingRepository,
-                                                                  commercializerRepository: commercializerRepository,
                                                                   chatWrapper: chatWrapper,
                                                                   locationManager: locationManager,
                                                                   countryHelper: countryHelper,
@@ -723,7 +720,6 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                     listingRepository.userProductRelationResult = ListingUserRelationResult(relation)
                     stats = MockListingStats.makeMock()
                     listingRepository.statsResult = ListingStatsResult(stats)
-                    commercializerRepository.indexResult = CommercializersResult([])
                     product.status = .approved
                 }
                 context("user not logged in") {
@@ -1296,7 +1292,6 @@ extension ListingCarouselViewModelSpec: ListingCarouselViewModelDelegate {
     }
 
     // Forward from ListingViewModelDelegate
-    func vmOpenCommercialDisplay(_ displayVM: CommercialDisplayViewModel) {}
     func vmAskForRating() {}
     func vmShowCarouselOptions(_ cancelLabel: String, actions: [UIAction]) {}
     func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?) {

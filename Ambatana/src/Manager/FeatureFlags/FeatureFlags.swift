@@ -48,7 +48,6 @@ protocol FeatureFlaggeable: class {
     var locationRequiresManualChangeSuggestion: Bool { get }
     var signUpEmailNewsletterAcceptRequired: Bool { get }
     var signUpEmailTermsAndConditionsAcceptRequired: Bool { get }
-    func commercialsAllowedFor(productCountryCode: String?) -> Bool
     func collectionsAllowedFor(countryCode: String?) -> Bool
 }
 
@@ -358,16 +357,6 @@ class FeatureFlags: FeatureFlaggeable {
     var signUpEmailTermsAndConditionsAcceptRequired: Bool {
         switch (locationCountryCode, localeCountryCode) {
         case (.turkey?, _), (_, .turkey?):
-            return true
-        default:
-            return false
-        }
-    }
-
-    func commercialsAllowedFor(productCountryCode: String?) -> Bool {
-        guard let code = productCountryCode, let countryCode = CountryCode(string: code) else { return false }
-        switch countryCode {
-        case .usa:
             return true
         default:
             return false

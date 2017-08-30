@@ -223,11 +223,6 @@ extension ProductVMTrackHelper {
         tracker.trackEvent(trackerEvent)
     }
 
-    func trackCommercializerStart() {
-        let trackerEvent = TrackerEvent.commercializerStart(listing.objectId, typePage: .listingDetail)
-        tracker.trackEvent(trackerEvent)
-    }
-
     func trackMessageSent(isFirstMessage: Bool,
                           messageType: ChatWrapperMessageType,
                           isShowingFeaturedStripe: Bool,

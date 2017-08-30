@@ -28,7 +28,6 @@ class ListingViewModelSpec: BaseViewModelSpec {
 
         var myUserRepository: MockMyUserRepository!
         var listingRepository: MockListingRepository!
-        var commercializerRepository: MockCommercializerRepository!
         var chatWrapper: MockChatWrapper!
         var locationManager: MockLocationManager!
         var countryHelper: CountryHelper!
@@ -54,7 +53,6 @@ class ListingViewModelSpec: BaseViewModelSpec {
                                        visitSource: .listingList,
                                         myUserRepository: myUserRepository,
                                         listingRepository: listingRepository,
-                                        commercializerRepository: commercializerRepository,
                                         chatWrapper: chatWrapper,
                                         chatViewMessageAdapter: ChatViewMessageAdapter(),
                                         locationManager: locationManager,
@@ -76,7 +74,6 @@ class ListingViewModelSpec: BaseViewModelSpec {
                 sut = nil
                 myUserRepository = MockMyUserRepository.makeMock()
                 listingRepository = MockListingRepository.makeMock()
-                commercializerRepository = MockCommercializerRepository.makeMock()
                 chatWrapper = MockChatWrapper()
                 locationManager = MockLocationManager()
                 countryHelper = CountryHelper.mock()
@@ -689,7 +686,6 @@ extension ListingViewModelSpec: ListingViewModelDelegate {
 
     func vmOpenStickersSelector(_ stickers: [Sticker]) {}
 
-    func vmOpenCommercialDisplay(_ displayVM: CommercialDisplayViewModel) {}
     func vmAskForRating() {}
     func vmShowOnboarding() {}
     func vmShowProductDetailOptions(_ cancelLabel: String, actions: [UIAction]) {}

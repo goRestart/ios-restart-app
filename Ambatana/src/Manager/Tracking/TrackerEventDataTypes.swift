@@ -120,13 +120,6 @@ enum EventName: String {
 
     case locationMap                        = "location-map"
 
-    case commercializerStart                = "commercializer-start"
-    case commercializerError                = "commercializer-error"
-    case commercializerComplete             = "commercializer-complete"
-    case commercializerOpen                 = "commercializer-open"
-    case commercializerShareStart           = "commercializer-share-start"
-    case commercializerShareComplete        = "commercializer-share-complete"
-
     case userRatingStart                    = "user-rating-start"
     case userRatingComplete                 = "user-rating-complete"
     case userRatingReport                   = "user-rating-report"
@@ -255,7 +248,6 @@ enum EventParameterName: String {
     case quickAnswer          = "quick-answer"
     case reportReason         = "report-reason"
     case tab                  = "tab"
-    case template             = "template"
     case userAction           = "user-action"
     case appRatingSource      = "app-rating-source"
     case messageType          = "message-type"
@@ -637,8 +629,6 @@ enum EventParameterTypePage: String {
     case settings = "settings"
     case install = "install"
     case profile = "profile"
-    case commercializerPlayer = "commercializer-player"
-    case commercializerPreview = "commercializer-preview"
     case pushNotification = "push-notification"
     case email = "email"
     case onboarding = "onboarding"
@@ -687,12 +677,6 @@ enum EventParameterReportReason: String {
     case spammer = "spammer"
     case counterfeitItems = "counterfeit-items"
     case other = "other"
-}
-
-enum EventParameterCommercializerError: String {
-    case network = "commercializer-network"
-    case internalError = "commercializer-internal"
-    case duplicated = "commercializer-duplicated"
 }
 
 enum ListingVisitUserAction: String {
