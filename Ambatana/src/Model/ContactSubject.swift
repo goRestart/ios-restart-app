@@ -7,14 +7,14 @@
 //
 
 enum ContactSubject {
-    case profileEdit, productEdit, location, login, report, other
+    case profileEdit, listingEdit, location, login, report, other
     
     var name: String {
         get {
             switch(self) {
             case .profileEdit:
                 return LGLocalizedString.contactSubjectOptionProfileEdit
-            case .productEdit:
+            case .listingEdit:
                 return LGLocalizedString.contactSubjectOptionProductEdit
             case .location:
                 return LGLocalizedString.contactSubjectOptionLocation
@@ -29,6 +29,6 @@ enum ContactSubject {
     }
     
     static var allValues: [ContactSubject] {
-        return [.profileEdit, .productEdit, .location, .login, .report, .other]
+        return [.profileEdit, .listingEdit, .location, .login, .report, .other]
     }
 }

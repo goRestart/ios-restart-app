@@ -1,14 +1,14 @@
 extension NotificationType: MockFactory {
     public static func makeMock() -> NotificationType {
-        let product = MockNotificationListing.makeMock()
+        let listing = MockNotificationListing.makeMock()
         let user = MockNotificationUser.makeMock()
 
         switch Int.makeRandom(min: 0, max: 6) {
         case 0:
-            return .like(product: product,
+            return .like(listing: listing,
                          user: user)
         case 1:
-            return .sold(product: product,
+            return .sold(listing: listing,
                          user: user)
         case 2:
             return .rating(user: user,
@@ -19,10 +19,10 @@ extension NotificationType: MockFactory {
                                   value: Int.makeRandom(),
                                   comments: String?.makeRandom())
         case 4:
-            return .buyersInterested(product: product,
+            return .buyersInterested(listing: listing,
                                      buyers: MockNotificationUser.makeMocks(count: Int.makeRandom(min: 0, max: 10)))
         case 5:
-            return .productSuggested(product: product,
+            return .listingSuggested(listing: listing,
                                      seller: user)
         default:
             return .facebookFriendshipCreated(user: user,

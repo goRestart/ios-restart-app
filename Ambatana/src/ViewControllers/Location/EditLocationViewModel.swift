@@ -28,6 +28,15 @@ enum EditLocationMode {
     case editListingLocation
     case editFilterLocation
     case quickFilterLocation
+
+    var useApproxLocation: Bool {
+        switch self {
+        case .quickFilterLocation, .editFilterLocation:
+            return false
+        case .editListingLocation, .editUserLocation:
+            return true
+        }
+    }
 }
 
 class EditLocationViewModel: BaseViewModel {
@@ -103,8 +112,7 @@ class EditLocationViewModel: BaseViewModel {
         self.tracker = tracker
         self.featureFlags = featureFlags
 
-        self.approxLocation = Variable<Bool>(KeyValueStorage.sharedInstance.userLocationApproximate &&
-            (mode == .editUserLocation || mode == .editListingLocation))
+        self.approxLocation = Variable<Bool>(KeyValueStorage.sharedInstance.userLocationApproximate && mode.useApproxLocation)
         
         self.predictiveResults = []
         self.currentPlace = Place.newPlace()
@@ -151,7 +159,7 @@ class EditLocationViewModel: BaseViewModel {
     }
 
     var shouldShowDistanceSlider: Bool {
-        return mode == .quickFilterLocation && featureFlags.editLocationBubble == .map
+        return mode == .quickFilterLocation
     }
     
     var shouldShowCustomNavigationBar: Bool {
@@ -290,12 +298,15 @@ class EditLocationViewModel: BaseViewModel {
 
     private func setRxBindings() {
 
-        approxLocation.asObservable().subscribeNext{ [weak self] value in
-            KeyValueStorage.sharedInstance.userLocationApproximate = value
-            self?.updateInfoText()
+        approxLocation.asObservable().skip(1).subscribeNext{ [weak self] value in
+            guard let strongSelf = self else { return }
+            if strongSelf.mode.useApproxLocation {
+                KeyValueStorage.sharedInstance.userLocationApproximate = value
+            }
+            strongSelf.updateInfoText()
         }.addDisposableTo(disposeBag)
 
-        searchText.asObservable()
+        searchText.asObservable().skip(1)
             .debounce(0.3, scheduler: MainScheduler.instance)
             .subscribeNext{ [weak self] searchText, autoSelect in
                 self?.resultsForSearchText(searchText, autoSelectFirst: autoSelect)

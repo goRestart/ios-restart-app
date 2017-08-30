@@ -8,6 +8,7 @@
 
 import LGCoreKit
 import SwiftyUserDefaults
+import RxSwift
 
 /**
  NSUserDefaults key-value structure:
@@ -32,10 +33,11 @@ extension DefaultsKeys {
     static let lastRunAppVersion = DefaultsKey<String?>("lastRunAppVersion")
 
     static let didShowOnboarding = DefaultsKey<Bool>("didShowOnboarding")
-    static let didShowProductDetailOnboarding = DefaultsKey<Bool>("didShowProductDetailOnboarding")
-    static let didShowHorizontalProductDetailOnboarding = DefaultsKey<Bool>("didShowHorizontalProductDetailOnboarding")
-    static let productDetailQuickAnswersHidden = DefaultsKey<Bool>("productDetailQuickAnswers")
-    static let productMoreInfoTooltipDismissed = DefaultsKey<Bool>("showMoreInfoTooltip")
+    static let didShowListingDetailOnboarding = DefaultsKey<Bool>("didShowProductDetailOnboarding")
+    static let didShowHorizontalListingDetailOnboarding = DefaultsKey<Bool>("didShowHorizontalProductDetailOnboarding")
+    static let listingDetailQuickAnswersHidden = DefaultsKey<Bool>("productDetailQuickAnswers")
+    static let listingMoreInfoTooltipDismissed = DefaultsKey<Bool>("showMoreInfoTooltip")
+    static let favoriteCategories = DefaultsKey<[Int]>("favoriteCategories")
 
     static let pushPermissionsDailyDate = DefaultsKey<Date?>("dailyPermissionDate")
     static let pushPermissionsDidShowNativeAlert = DefaultsKey<Bool>("didShowNativePushPermissionsDialog")
@@ -44,7 +46,6 @@ extension DefaultsKeys {
     
     // changing naming as there is no tooltip any more but keeping the string to avoid showing the badge to old users.
     static let stickersBadgeAlreadyShown = DefaultsKey<Bool>("stickersTooltipAlreadyShown")
-    static let userRatingTooltipAlreadyShown = DefaultsKey<Bool>("userRatingTooltipAlreadyShown")
 
     static let isGod = DefaultsKey<Bool>("isGod")
     static let lastSearches = DefaultsKey<[String]>("lastSearches")
@@ -52,7 +53,7 @@ extension DefaultsKeys {
     static let previousUserAccountProvider = DefaultsKey<String?>("previousUserAccountProvider")
     static let previousUserEmailOrName = DefaultsKey<String?>("previousUserEmailOrName")
     static let sessionNumber = DefaultsKey<Int>("sessionNumber")
-    static let postProductLastGalleryAlbumSelected = DefaultsKey<String?>("postProductLastGalleryAlbumSelected")
+    static let postListingLastGalleryAlbumSelected = DefaultsKey<String?>("postProductLastGalleryAlbumSelected")
 
     static let lastShownSurveyDate = DefaultsKey<Date?>("lastShownSurveyDate")
 }
@@ -74,6 +75,8 @@ class KeyValueStorage {
         guard let currentUserId = currentUserId else { return nil }
         return DefaultsKey<UserDefaultsUser>(currentUserId)
     }
+    
+    var favoriteCategoriesSelected = Variable<Bool>(false)
 
 
     // MARK: - Lifecycle
@@ -148,25 +151,25 @@ extension KeyValueStorageable {
             currentUserProperties = userProperties
         }
     }
-    var userPostProductLastTabSelected: Int {
+    var userPostListingLastTabSelected: Int {
         get {
-            return currentUserProperties?.postProductLastTabSelected ??
-                UserDefaultsUser.postProductLastTabSelectedDefaultValue
+            return currentUserProperties?.postListingLastTabSelected ??
+                UserDefaultsUser.postListingLastTabSelectedDefaultValue
         }
         set {
             guard var userProperties = currentUserProperties else { return }
-            userProperties.postProductLastTabSelected = newValue
+            userProperties.postListingLastTabSelected = newValue
             currentUserProperties = userProperties
         }
     }
     var userPostProductPostedPreviously: Bool {
         get {
-            return currentUserProperties?.postProductPostedPreviously ??
-                UserDefaultsUser.postProductPostedPreviouslyDefaultValue
+            return currentUserProperties?.postListingPostedPreviously ??
+                UserDefaultsUser.postListingPostedPreviouslyDefaultValue
         }
         set {
             guard var userProperties = currentUserProperties else { return }
-            userProperties.postProductPostedPreviously = newValue
+            userProperties.postListingPostedPreviously = newValue
             currentUserProperties = userProperties
         }
     }
@@ -196,24 +199,24 @@ extension KeyValueStorageable {
 
     var userProductsWithExpressChatAlreadyShown: [String] {
         get {
-            return currentUserProperties?.productsWithExpressChatAlreadyShown ??
-                UserDefaultsUser.productsWithExpressChatAlreadyShownDefaultValue
+            return currentUserProperties?.listingsWithExpressChatAlreadyShown ??
+                UserDefaultsUser.listingsWithExpressChatAlreadyShownDefaultValue
         }
         set {
             guard var userProperties = currentUserProperties else { return }
-            userProperties.productsWithExpressChatAlreadyShown = newValue
+            userProperties.listingsWithExpressChatAlreadyShown = newValue
             currentUserProperties = userProperties
         }
     }
 
-    var userProductsWithExpressChatMessageSent: [String] {
+    var userListingsWithExpressChatMessageSent: [String] {
         get {
-            return currentUserProperties?.productsWithExpressChatMessageSent ??
-                UserDefaultsUser.productsWithExpressChatMessageSentDefaultValue
+            return currentUserProperties?.listingsWithExpressChatMessageSent ??
+                UserDefaultsUser.listingsWithExpressChatMessageSentDefaultValue
         }
         set {
             guard var userProperties = currentUserProperties else { return }
-            userProperties.productsWithExpressChatMessageSent = newValue
+            userProperties.listingsWithExpressChatMessageSent = newValue
             currentUserProperties = userProperties
         }
     }
@@ -233,7 +236,7 @@ extension KeyValueStorageable {
     var userPendingTransactionsProductIds: [String:String] {
         get {
             return currentUserProperties?.pendingTransactionsProductIds ??
-                UserDefaultsUser.transactionsProductIdsDefaultValue
+                UserDefaultsUser.transactionsListingIdsDefaultValue
         }
         set {
             guard var userProperties = currentUserProperties else { return }
@@ -320,6 +323,10 @@ extension KeyValueStorage: KeyValueStorageable {
         set { storage[key] = newValue }
     }
     subscript(key: DefaultsKey<[String]>) -> [String] {
+        get { return storage[key] }
+        set { storage[key] = newValue }
+    }
+    subscript(key: DefaultsKey<[Int]>) -> [Int] {
         get { return storage[key] }
         set { storage[key] = newValue }
     }

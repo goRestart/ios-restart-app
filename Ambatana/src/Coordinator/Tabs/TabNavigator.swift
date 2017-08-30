@@ -17,7 +17,7 @@ enum UserDetailData {
 enum ListingDetailData {
     case id(listingId: String)
     case listingAPI(listing: Listing, thumbnailImage: UIImage?, originFrame: CGRect?)
-    case listingList(listing: Listing, cellModels: [ListingCellModel], requester: ProductListRequester,
+    case listingList(listing: Listing, cellModels: [ListingCellModel], requester: ListingListRequester,
                      thumbnailImage: UIImage?, originFrame: CGRect?, showRelated: Bool, index: Int)
     case listingChat(chatConversation: ChatConversation)
 }
@@ -39,11 +39,11 @@ enum ProductCarouselActionOnFirstAppear {
 
 protocol TabNavigator: class {
     func openHome()
-    func openSell(_ source: PostingSource)
+    func openSell(source: PostingSource)
     func openAppRating(_ source: EventParameterRatingSource)
     func openUserRating(_ source: RateUserSource, data: RateUserData)
     func openUser(_ data: UserDetailData)
-    func openListing(_ data: ListingDetailData, source: EventParameterProductVisitSource, actionOnFirstAppear: ProductCarouselActionOnFirstAppear)
+    func openListing(_ data: ListingDetailData, source: EventParameterListingVisitSource, actionOnFirstAppear: ProductCarouselActionOnFirstAppear)
     func openChat(_ data: ChatDetailData, source: EventParameterTypePage, predefinedMessage: String?)
     func openVerifyAccounts(_ types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?)
     func openAppInvite()
@@ -51,7 +51,7 @@ protocol TabNavigator: class {
     func openRatingList(_ userId: String)
 }
 
-protocol ProductDetailNavigator: TabNavigator {
+protocol ListingDetailNavigator: TabNavigator {
     func closeProductDetail()
     func editListing(_ listing: Listing)
     func openListingChat(_ listing: Listing)
@@ -78,7 +78,7 @@ protocol ProductDetailNavigator: TabNavigator {
 
 protocol SimpleProductsNavigator: class {
     func closeSimpleProducts()
-    func openListing(_ data: ListingDetailData, source: EventParameterProductVisitSource, actionOnFirstAppear: ProductCarouselActionOnFirstAppear)
+    func openListing(_ data: ListingDetailData, source: EventParameterListingVisitSource, actionOnFirstAppear: ProductCarouselActionOnFirstAppear)
 }
 
 protocol ChatDetailNavigator: TabNavigator {

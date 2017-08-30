@@ -108,8 +108,8 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
                                     userName: otherUser?.name ?? "",
                                     userImageUrl: otherUser?.avatar?.fileURL,
                                     userImagePlaceholder: LetgoAvatar.avatarWithID(otherUser?.objectId, name: otherUser?.name),
-                                    productName: chat.listing.title ?? "",
-                                    productImageUrl: chat.listing.thumbnail?.fileURL,
+                                    listingName: chat.listing.title ?? "",
+                                    listingImageUrl: chat.listing.thumbnail?.fileURL,
                                     unreadCount: chat.msgUnreadCount,
                                     messageDate: chat.updatedAt)
     }
@@ -191,9 +191,9 @@ fileprivate extension Chat {
         case .forbidden:
             return .forbidden
         case .sold:
-            return .productSold
+            return .listingSold
         case .deleted:
-            return .productDeleted
+            return .listingDeleted
         case .available:
             return .available
         }

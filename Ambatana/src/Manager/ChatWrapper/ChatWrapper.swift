@@ -19,7 +19,7 @@ enum ChatWrapperMessageType {
     case chatSticker(Sticker)
     case quickAnswer(QuickAnswer)
     case expressChat(String)
-    case favoritedProduct(String)
+    case favoritedListing(String)
 }
 
 protocol ChatWrapper {
@@ -51,16 +51,16 @@ class LGChatWrapper: ChatWrapper {
             completion?(Result(error: .internalError(message: "There's no recipient to send the message")))
             return
         }
-        guard let productId = listing.objectId else {
-            completion?(Result(error: .internalError(message: "There's no product to send the message")))
+        guard let listingId = listing.objectId else {
+            completion?(Result(error: .internalError(message: "There's no listing to send the message")))
             return
         }
 
 
         if featureFlags.websocketChat {
-            sendWebSocketChatMessage(productId, sellerId: sellerId, text: type.text, type: type.chatType, completion: completion)
+            sendWebSocketChatMessage(listingId, sellerId: sellerId, text: type.text, type: type.chatType, completion: completion)
         } else {
-            sendOldChatMessage(productId, sellerId: sellerId, text: type.text, type: type.oldChatType, completion: completion)
+            sendOldChatMessage(listingId, sellerId: sellerId, text: type.text, type: type.oldChatType, completion: completion)
         }
     }
 
@@ -79,10 +79,10 @@ class LGChatWrapper: ChatWrapper {
         }
     }
 
-    private func sendWebSocketChatMessage(_ productId: String, sellerId: String, text: String, type: ChatMessageType,
+    private func sendWebSocketChatMessage(_ listingId: String, sellerId: String, text: String, type: ChatMessageType,
                                           completion: ChatWrapperCompletion?) {
         // get conversation
-        chatRepository.showConversation(sellerId, productId: productId) { [weak self] result in
+        chatRepository.showConversation(sellerId, listingId: listingId) { [weak self] result in
             if let value = result.value {
                 guard let conversationId = value.objectId else {
                     completion?(Result(error: .internalError(message: "There's no conversation info")))
@@ -125,7 +125,7 @@ extension ChatWrapperMessageType {
             return quickAnswer.text
         case let .expressChat(text):
             return text
-        case let .favoritedProduct(text):
+        case let .favoritedListing(text):
             return text
         case let .periscopeDirect(text):
             return text
@@ -138,7 +138,7 @@ extension ChatWrapperMessageType {
             return .text
         case .chatSticker:
             return .sticker
-        case .quickAnswer, .expressChat, .favoritedProduct, .periscopeDirect: // Legacy chat doesn't use this types
+        case .quickAnswer, .expressChat, .favoritedListing, .periscopeDirect: // Legacy chat doesn't use this types
             return .text
         }
     }
@@ -155,8 +155,8 @@ extension ChatWrapperMessageType {
             return .quickAnswer
         case .expressChat:
             return .expressChat
-        case .favoritedProduct:
-            return .favoritedProduct
+        case .favoritedListing:
+            return .favoritedListing
         }
     }
     
@@ -170,7 +170,7 @@ extension ChatWrapperMessageType {
             return .quickAnswer
         case .expressChat:
             return .expressChat
-        case .favoritedProduct:
+        case .favoritedListing:
             return .favorite
         case .periscopeDirect:
             return .periscopeDirect
@@ -181,7 +181,7 @@ extension ChatWrapperMessageType {
         switch self {
         case let .quickAnswer(quickAnswer):
             return quickAnswer.quickAnswerType
-        case .text, .chatSticker, .expressChat, .favoritedProduct, .periscopeDirect:
+        case .text, .chatSticker, .expressChat, .favoritedListing, .periscopeDirect:
             return nil
         }
     }
@@ -190,7 +190,7 @@ extension ChatWrapperMessageType {
         switch self {
         case .text:
             return true
-        case .quickAnswer, .chatSticker, .expressChat, .favoritedProduct, .periscopeDirect:
+        case .quickAnswer, .chatSticker, .expressChat, .favoritedListing, .periscopeDirect:
             return false
         }
     }
@@ -199,7 +199,7 @@ extension ChatWrapperMessageType {
         switch self {
         case .quickAnswer:
             return true
-        case .text, .chatSticker, .expressChat, .favoritedProduct, .periscopeDirect:
+        case .text, .chatSticker, .expressChat, .favoritedListing, .periscopeDirect:
             return false
         }
     }

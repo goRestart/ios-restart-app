@@ -115,7 +115,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                 sut.delegate = self
                 disposeBag = DisposeBag()
                 sut.messages.observable.bindTo(messages).addDisposableTo(disposeBag)
-                sut.relatedProductsState.asObservable().bindTo(relatedListingsStateObserver).addDisposableTo(disposeBag)
+                sut.relatedListingsState.asObservable().bindTo(relatedListingsStateObserver).addDisposableTo(disposeBag)
             }
             
             
@@ -271,75 +271,6 @@ class ChatViewModelSpec: BaseViewModelSpec {
                         }
                     }
 
-                }
-            }
-            
-            describe("Review button") {
-                beforeEach {
-                    mockMyUser = self.makeMockMyUser(with: .active, isDummy: false)
-                    productResult = self.makeMockProduct(with: .approved)
-                    chatInterlocutor = self.makeChatInterlocutor(with: .active, isMuted: false, isBanned: false, hasMutedYou: false)
-                    user = self.makeUser(with: .active, isDummy: false, userId: mockMyUser.objectId!)
-                }
-                context("there is less than two message for each user") {
-                    beforeEach {
-                        chatMessages = []
-                        chatConversation = self.makeChatConversation(with: chatInterlocutor, unreadMessageCount: 0, lastMessageSentAt: nil, amISelling: true)
-                        buildChatViewModel(myUser: mockMyUser,
-                                           chatMessages: chatMessages,
-                                           product: productResult,
-                                           chatConversation: chatConversation,
-                                           user: user)
-                        sut.active = true
-                    }
-                    it("does not show review button") {
-                        expect(sut.shouldShowReviewButton.value).toEventually(equal(false))
-                    }
-                }
-                context("interlocutor has more than 2 messages.") {
-                    beforeEach {
-                        chatMessages = self.makeChatMessages(with: mockMyUser.objectId!, myMessagesNumber: 10, interlocutorId: chatInterlocutor.objectId!, interlocutorNumberMessages: 10)
-                        chatConversation = self.makeChatConversation(with: chatInterlocutor, unreadMessageCount: 10, lastMessageSentAt: Date(), amISelling: true)
-                        buildChatViewModel(myUser: mockMyUser,
-                                           chatMessages: chatMessages,
-                                           product: productResult,
-                                           chatConversation: chatConversation,
-                                           user: user)
-                        sut.active = true
-                    }
-                    it("show review button") {
-                        expect(sut.shouldShowReviewButton.value).toEventually(equal(true), timeout: 10)
-                    }
-                    context("show tooltip review button") {
-                        context("first time on the screen") {
-                            beforeEach {
-                                keyValueStorage[.userRatingTooltipAlreadyShown] = false
-                                buildChatViewModel(myUser: mockMyUser,
-                                                   chatMessages: chatMessages,
-                                                   product: productResult,
-                                                   chatConversation: chatConversation,
-                                                   user: user)
-                                sut.active = true
-                            }
-                            it("show rating tooltip") {
-                                expect(sut.userReviewTooltipVisible.value).toEventually(equal(true))
-                            }
-                        }
-                        context("no first time with review button") {
-                            beforeEach {
-                                keyValueStorage[.userRatingTooltipAlreadyShown] = true
-                                buildChatViewModel(myUser: mockMyUser,
-                                                   chatMessages: chatMessages,
-                                                   product: productResult,
-                                                   chatConversation: chatConversation,
-                                                   user: user)
-                                sut.active = true
-                            }
-                            it("show rating tooltip") {
-                                expect(sut.userReviewTooltipVisible.value).toEventually(equal(false))
-                            }
-                        }
-                    }
                 }
             }
             
@@ -706,20 +637,21 @@ class ChatViewModelSpec: BaseViewModelSpec {
 extension ChatViewModelSpec: ChatViewModelDelegate {
     
     func vmDidFailRetrievingChatMessages() {}
-    func vmShowReportUser(_ reportUserViewModel: ReportUsersViewModel) {}
+    func vmDidPressReportUser(_ reportUserViewModel: ReportUsersViewModel) {}
     func vmShowUserRating(_ source: RateUserSource, data: RateUserData) {}
-    func vmShowSafetyTips() {
+    func vmDidRequestSafetyTips() {
         safetyTipsShown = true
     }
-    func vmClearText() {
+    func vmDidSendMessage() {
         textFieldCleaned = true
     }
-    func vmHideKeyboard(_ animated: Bool) {}
-    func vmShowKeyboard() {}
+    func vmDidEndEditing(animated: Bool) {}
+    func vmDidBeginEditing() {}
     
-    func vmAskForRating() { }
-    func vmShowPrePermissions(_ type: PrePermissionType) {}
-    func vmShowMessage(_ message: String, completion: (() -> ())?) {}
+    func vmDidRequestShowPrePermissions(_ type: PrePermissionType) {}
+    func vmDidNotifyMessage(_ message: String, completion: (() -> ())?) {}
+    
+    func vmDidPressDirectAnswer(quickAnswer: QuickAnswer) {}
 }
 
 extension ChatViewModelSpec {

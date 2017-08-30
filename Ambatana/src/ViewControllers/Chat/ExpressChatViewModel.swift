@@ -170,7 +170,9 @@ extension ExpressChatViewModel {
         guard let info = buildSendMessageInfo(withListing: listing, freePostingModeAllowed: freePostingModeAllowed,
                                               error: nil) else { return }
         if shouldSendAskQuestion {
-            tracker.trackEvent(TrackerEvent.firstMessage(info: info, productVisitSource: .unknown))
+            tracker.trackEvent(TrackerEvent.firstMessage(info: info,
+                                                         listingVisitSource: .unknown,
+                                                         feedPosition: .none))
         }
         tracker.trackEvent(TrackerEvent.userMessageSent(info: info))
     }

@@ -102,8 +102,8 @@ class ChatWebSocketDataSource: ChatDataSource {
         }
     }
     
-    func showConversation(_ sellerId: String, productId: String, completion: ChatWebSocketConversationCompletion?) {
-        let request = webSocketConversationRouter.show(sellerId, productId: productId)
+    func showConversation(_ sellerId: String, listingId: String, completion: ChatWebSocketConversationCompletion?) {
+        let request = webSocketConversationRouter.show(sellerId, listingId: listingId)
         webSocketClient.sendQuery(request) { result in
             if let value = result.value, let conversation = ChatModelsMapper.conversationFromDict(value) {
                 completion?(ChatWebSocketConversationResult(value: conversation))

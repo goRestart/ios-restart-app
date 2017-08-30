@@ -23,15 +23,15 @@ struct LocalChat: Chat {
         return userFrom.objectId == nil
     }
 
-    init(listing: Listing, myUserProduct: UserListing?) {
+    init(listing: Listing, myUserListing: UserListing?) {
         self.listing = listing
         self.userTo = listing.user
-        self.userFrom = myUserProduct ?? EmptyUserProduct()
+        self.userFrom = myUserListing ?? EmptyUserListing()
     }
 }
 
 
-private struct EmptyUserProduct: UserListing {
+private struct EmptyUserListing: UserListing {
     let objectId: String? = nil
     let name: String? = nil
     let avatar: File? = nil

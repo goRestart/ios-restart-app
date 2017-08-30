@@ -9,9 +9,18 @@
 import UIKit
 import RxSwift
 
-enum PostCarDetailState {
+enum PostCarDetailState: Equatable {
     case selectDetail
     case selectDetailValue(forDetail: CarDetailType)
+    
+    var isSummary: Bool {
+        switch self {
+        case .selectDetail:
+            return true
+        case .selectDetailValue:
+            return false
+        }
+    }
 }
 
 func ==(lhs: PostCarDetailState, rhs: PostCarDetailState) -> Bool {
@@ -45,13 +54,18 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
     private var progressTopConstraint: NSLayoutConstraint = NSLayoutConstraint()
     private static var progressTopConstraintConstantSelectDetail = Metrics.screenHeight/3.5
     
-    var state: PostCarDetailState = .selectDetail
+    var state: PostCarDetailState = .selectDetail {
+        willSet {
+            previousState = state
+        }
+    }
+    var previousState: PostCarDetailState?
     
     let tableView = CategoryDetailTableView(withStyle: .lightContent)
     
     // MARK: - Lifecycle
 
-    init() {
+    init(shouldShowSummaryAfter: Bool, initialValues: [CarInfoWrapper]) {
         
         super.init(frame: CGRect.zero)
         
@@ -61,6 +75,9 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
         let gesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         gesture.delegate = self
         contentView.addGestureRecognizer(gesture)
+        if shouldShowSummaryAfter {
+            showSelectDetailValue(forDetail: .make, values: initialValues, selectedValueIndex: nil)
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -252,10 +269,14 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
             doneButton.isEnabled = true
             modelRowView.isEnabled = true
             yearRowView.isEnabled = true
+            navigationModelButton.isEnabled = true
+            navigationYearButton.isEnabled = true
         } else {
             doneButton.isEnabled = false
             modelRowView.isEnabled = false
             yearRowView.isEnabled = false
+            navigationModelButton.isEnabled = false
+            navigationYearButton.isEnabled = false
         }
         navigationMakeButton.setTitle(buttonTitle, for: .normal)
         makeRowView.value = make

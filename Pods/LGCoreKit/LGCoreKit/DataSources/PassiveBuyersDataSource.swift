@@ -15,6 +15,6 @@ typealias PassiveBuyersDataSourceEmptyResult = Result<Void, ApiError>
 typealias PassiveBuyersDataSourceEmptyCompletion = (PassiveBuyersDataSourceEmptyResult) -> Void
 
 protocol PassiveBuyersDataSource {
-    func show(productId: String, completion: PassiveBuyersDataSourceCompletion?)
-    func contact(productId: String, buyerIds: [String], completion: PassiveBuyersDataSourceEmptyCompletion?)
+    func show(listingId: String, completion: PassiveBuyersDataSourceCompletion?)
+    func contact(listingId: String, buyerIds: [String], completion: PassiveBuyersDataSourceEmptyCompletion?)
 }

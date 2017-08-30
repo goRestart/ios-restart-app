@@ -50,7 +50,7 @@ public protocol UserRatingRepository {
      - parameter userId:     user to rate
      - parameter value:      rating stars value
      - parameter comment:    rating comment
-     - parameter type:       rating type (Conversation, Seller(productId), Buyer(productId))
+     - parameter type:       rating type (Conversation, Seller(listingId), Buyer(listingId))
      - parameter completion: The completion closure
      */
     func createRating(_ userId: String, value: Int, comment: String?, type: UserRatingType,

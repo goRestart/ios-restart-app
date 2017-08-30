@@ -14,16 +14,18 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
 
     func vmDidFailRetrievingChatMessages()
     
-    func vmShowReportUser(_ reportUserViewModel: ReportUsersViewModel)
+    func vmDidPressReportUser(_ reportUserViewModel: ReportUsersViewModel)
 
-    func vmShowSafetyTips()
+    func vmDidRequestSafetyTips()
 
-    func vmClearText()
-    func vmHideKeyboard(_ animated: Bool)
-    func vmShowKeyboard()
+    func vmDidSendMessage()
+    func vmDidEndEditing(animated: Bool)
+    func vmDidBeginEditing()
     
-    func vmShowPrePermissions(_ type: PrePermissionType)
-    func vmShowMessage(_ message: String, completion: (() -> ())?)
+    func vmDidRequestShowPrePermissions(_ type: PrePermissionType)
+    func vmDidNotifyMessage(_ message: String, completion: (() -> ())?)
+    
+    func vmDidPressDirectAnswer(quickAnswer: QuickAnswer)
 }
 
 struct EmptyConversation: ChatConversation {
@@ -75,10 +77,11 @@ class ChatViewModel: BaseViewModel {
 
     // Public Model info
     let title = Variable<String>("")
-    let productName = Variable<String>("")
-    let productImageUrl = Variable<URL?>(nil)
-    let productPrice = Variable<String>("")
-    let productIsFree = Variable<Bool>(false)
+    let listingName = Variable<String>("")
+    let listingImageUrl = Variable<URL?>(nil)
+    let listingPrice = Variable<String>("")
+    let listingIsFree = Variable<Bool>(false)
+    let listingIsNegotiable = Variable<Bool>(false)
     let interlocutorAvatarURL = Variable<URL?>(nil)
     let interlocutorName = Variable<String>("")
     let interlocutorId = Variable<String?>(nil)
@@ -88,12 +91,10 @@ class ChatViewModel: BaseViewModel {
     let directAnswersState = Variable<DirectAnswersState>(.notAvailable)
     let interlocutorTyping = Variable<Bool>(false)
     let messages = CollectionVariable<ChatViewMessage>([])
-    let shouldShowReviewButton = Variable<Bool>(false)
-    let userReviewTooltipVisible = Variable<Bool>(false)
     var relatedListings: [Listing] = []
     var shouldTrackFirstMessage: Bool = false
     let shouldShowExpressBanner = Variable<Bool>(false)
-    let relatedProductsState = Variable<ChatRelatedItemsState>(.loading)
+    let relatedListingsState = Variable<ChatRelatedItemsState>(.loading)
 
     var keyForTextCaching: String { return userDefaultsSubKey }
     
@@ -120,7 +121,7 @@ class ChatViewModel: BaseViewModel {
 
     fileprivate let firstInteractionDone = Variable<Bool>(false)
     fileprivate let expressBannerTimerFinished = Variable<Bool>(false)
-    fileprivate let hasRelatedProducts = Variable<Bool>(false)
+    fileprivate let hasRelatedListings = Variable<Bool>(false)
     fileprivate let expressMessagesAlreadySent = Variable<Bool>(false)
     fileprivate let interlocutorIsMuted = Variable<Bool>(false)
     private let interlocutorHasMutedYou = Variable<Bool>(false)
@@ -130,11 +131,10 @@ class ChatViewModel: BaseViewModel {
     private let myMessagesCount = Variable<Int>(0)
     private let otherMessagesCount = Variable<Int>(0)
     fileprivate let isEmptyConversation = Variable<Bool>(true)
-    private let reviewTooltipVisible = Variable<Bool>(!KeyValueStorage.sharedInstance[.userRatingTooltipAlreadyShown])
     fileprivate let userDirectAnswersEnabled = Variable<Bool>(false)
 
     fileprivate var isDeleted = false
-    fileprivate var shouldAskProductSold: Bool = false
+    fileprivate var shouldAskListingSold: Bool = false
     fileprivate var listingId: String? // Only used when accessing a chat from a listing
     fileprivate var preSendMessageCompletion: ((_ type: ChatWrapperMessageType) -> Void)?
     fileprivate var afterRetrieveMessagesCompletion: (() -> Void)?
@@ -159,7 +159,7 @@ class ChatViewModel: BaseViewModel {
 
     fileprivate var safetyTipsAction: () -> Void {
         return { [weak self] in
-            self?.delegate?.vmShowSafetyTips()
+            self?.delegate?.vmDidRequestSafetyTips()
         }
     }
     
@@ -193,10 +193,13 @@ class ChatViewModel: BaseViewModel {
         switch chatStatus.value {
         case .forbidden, .userDeleted, .userPendingDelete:
             return false
-        case .available, .productSold, .productDeleted, .blocked, .blockedBy:
+        case .available, .listingSold, .listingDeleted, .blocked, .blockedBy:
             return true
         }
     }
+    
+    
+    // MARK: - Lifecycle
 
     convenience init(conversation: ChatConversation, navigator: ChatDetailNavigator?, source: EventParameterTypePage, predefinedMessage: String?) {
         let myUserRepository = Core.myUserRepository
@@ -278,7 +281,7 @@ class ChatViewModel: BaseViewModel {
         super.didBecomeActive(firstTime)
 
         if firstTime {
-            retrieveRelatedProducts()
+            retrieveRelatedListings()
             setupExpressChat()
         }
 
@@ -288,7 +291,7 @@ class ChatViewModel: BaseViewModel {
 
     func didAppear() {
         if conversation.value.isSaved && chatEnabled.value {
-            delegate?.vmShowKeyboard()
+            delegate?.vmDidBeginEditing()
         }
     }
 
@@ -317,7 +320,7 @@ class ChatViewModel: BaseViewModel {
     }
 
     func syncConversation(_ listingId: String, sellerId: String) {
-        chatRepository.showConversation(sellerId, productId: listingId) { [weak self] result in
+        chatRepository.showConversation(sellerId, listingId: listingId) { [weak self] result in
             if let value = result.value {
                 self?.conversation.value = value
                 self?.refreshMessages()
@@ -352,12 +355,13 @@ class ChatViewModel: BaseViewModel {
             self?.interlocutorIsMuted.value = conversation.interlocutor?.isMuted ?? false
             self?.interlocutorHasMutedYou.value = conversation.interlocutor?.hasMutedYou ?? false
             self?.title.value = conversation.listing?.name ?? ""
-            self?.productName.value = conversation.listing?.name ?? ""
-            self?.productImageUrl.value = conversation.listing?.image?.fileURL
+            self?.listingName.value = conversation.listing?.name ?? ""
+            self?.listingImageUrl.value = conversation.listing?.image?.fileURL
             if let featureFlags = self?.featureFlags {
-                self?.productPrice.value = conversation.listing?.priceString(freeModeAllowed: featureFlags.freePostingModeAllowed) ?? ""
+                self?.listingPrice.value = conversation.listing?.priceString(freeModeAllowed: featureFlags.freePostingModeAllowed) ?? ""
+                self?.listingIsNegotiable.value = conversation.listing?.isNegotiable(freeModeAllowed: featureFlags.freePostingModeAllowed) ?? false
             }
-            self?.productIsFree.value = conversation.listing?.price.free ?? false
+            self?.listingIsFree.value = conversation.listing?.price.free ?? false
             self?.interlocutorAvatarURL.value = conversation.interlocutor?.avatar?.fileURL
             self?.interlocutorName.value = conversation.interlocutor?.name ?? ""
             self?.interlocutorId.value = conversation.interlocutor?.objectId
@@ -375,34 +379,21 @@ class ChatViewModel: BaseViewModel {
             }
         }.addDisposableTo(disposeBag)
 
-        let relatedProductsConversation = conversation.asObservable().map { $0.relatedProductsEnabled }
-        Observable.combineLatest(relatedProductsConversation, sellerDidntAnswer.asObservable()) { [weak self] in
+        let relatedListingsConversation = conversation.asObservable().map { $0.relatedListingsEnabled }
+        Observable.combineLatest(relatedListingsConversation, sellerDidntAnswer.asObservable()) { [weak self] in
             guard let strongSelf = self else { return .loading }
-            guard strongSelf.isBuyer else { return .hidden } // Seller doesn't have related products
+            guard strongSelf.isBuyer else { return .hidden } // Seller doesn't have related listings
             guard let listingId = strongSelf.conversation.value.listing?.objectId else {return .hidden }
             if $0 { return .visible(listingId: listingId) }
             guard let didntAnswer = $1 else { return .loading } // If still checking if seller didn't answer. set loading state
             return didntAnswer ? .visible(listingId: listingId) : .hidden
-        }.bindTo(relatedProductsState).addDisposableTo(disposeBag)
+        }.bindTo(relatedListingsState).addDisposableTo(disposeBag)
         
-       
-
-        let cfgManager = configManager
-        let myMessagesReviewable = myMessagesCount.asObservable().map { $0 >= cfgManager.myMessagesCountForRating }
-        let otherMessagesReviewable = otherMessagesCount.asObservable().map { $0 >= cfgManager.otherMessagesCountForRating }
-        let chatStatusReviewable = chatStatus.asObservable().map { $0.userReviewEnabled }
-        Observable.combineLatest(myMessagesReviewable, otherMessagesReviewable, chatStatusReviewable) { $0 && $1 && $2 }
-            .distinctUntilChanged().bindTo(shouldShowReviewButton).addDisposableTo(disposeBag)
-
         messages.changesObservable.subscribeNext { [weak self] change in
             self?.updateMessagesCounts(change)
         }.addDisposableTo(disposeBag)
         
-        reviewTooltipVisible.asObservable().bindNext { [weak self] reviewTooltipVisible in
-            self?.userReviewTooltipVisible.value = reviewTooltipVisible
-        }.addDisposableTo(disposeBag)
-        
-        conversation.asObservable().map{ $0.lastMessageSentAt == nil }.bindNext{ [weak self] result in
+        conversation.asObservable().map { $0.lastMessageSentAt == nil }.bindNext{ [weak self] result in
             self?.shouldTrackFirstMessage = result
         }.addDisposableTo(disposeBag)
 
@@ -415,20 +406,20 @@ class ChatViewModel: BaseViewModel {
                                                               expressBannerTimerFinished.asObservable()) { $0 || $1 }
         /**
             Express chat banner is shown after 3 seconds or 1st interaction if:
-                - the product has related products
-                - we're not showing the related products already over the keyboard
-                - user hasn't SENT messages via express chat for this product
+                - the listing has related listings
+                - we're not showing the related listings already over the keyboard
+                - user hasn't SENT messages via express chat for this listing
          */
         Observable.combineLatest(expressBannerTriggered,
-            hasRelatedProducts.asObservable(),
-            relatedProductsState.asObservable().map { $0.isVisible },
+            hasRelatedListings.asObservable(),
+            relatedListingsState.asObservable().map { $0.isVisible },
         expressMessagesAlreadySent.asObservable()) { $0 && $1 && !$2 && !$3 }
             .distinctUntilChanged().bindTo(shouldShowExpressBanner).addDisposableTo(disposeBag)
 
         userDirectAnswersEnabled.value = keyValueStorage.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
 
         let directAnswers: Observable<DirectAnswersState> = Observable.combineLatest(chatEnabled.asObservable(),
-                                        relatedProductsState.asObservable(),
+                                        relatedListingsState.asObservable(),
                                         userDirectAnswersEnabled.asObservable(),
                                         resultSelector: { chatEnabled, relatedState, directAnswers in
                                             switch relatedState {
@@ -521,13 +512,13 @@ class ChatViewModel: BaseViewModel {
     
     // MARK: - Public Methods
     
-    func productInfoPressed() {
-        guard let product = conversation.value.listing else { return }
-        switch product.status {
+    func listingInfoPressed() {
+        guard let listing = conversation.value.listing else { return }
+        switch listing.status {
         case .deleted:
             break
         case .pending, .approved, .discarded, .sold, .soldOld:
-            delegate?.vmHideKeyboard(false)
+            delegate?.vmDidEndEditing(animated: false)
             let data = ListingDetailData.listingChat(chatConversation: conversation.value)
             navigator?.openListing(data, source: .chat, actionOnFirstAppear: .nonexistent)
         }
@@ -537,19 +528,6 @@ class ChatViewModel: BaseViewModel {
         guard let interlocutor = conversation.value.interlocutor else { return }
         let data = UserDetailData.userChat(user: interlocutor)
         navigator?.openUser(data)
-    }
-
-    func reviewUserPressed() {
-        keyValueStorage[.userRatingTooltipAlreadyShown] = true
-        reviewTooltipVisible.value = false
-        guard let interlocutor = conversation.value.interlocutor, let reviewData = RateUserData(interlocutor: interlocutor)
-            else { return }
-        navigator?.openUserRating(.chat, data: reviewData)
-    }
-
-    func closeReviewTooltipPressed() {
-        keyValueStorage[.userRatingTooltipAlreadyShown] = true
-        reviewTooltipVisible.value = false
     }
 
     func safetyTipsDismissed() {
@@ -589,8 +567,8 @@ extension ChatViewModel {
         switch data {
         case .conversation(let conversationId):
             return conversationId == conversation.value.objectId
-        case let .productBuyer(productId, productBuyerId):
-            return productId == conversation.value.listing?.objectId && productBuyerId == buyerId
+        case let .listingBuyer(listingId, listingBuyerId):
+            return listingId == conversation.value.listing?.objectId && listingBuyerId == buyerId
         }
     }
 
@@ -635,8 +613,8 @@ extension ChatViewModel {
         guard let convId = conversation.value.objectId else { return }
         guard let userId = myUserRepository.myUser?.objectId else { return }
         
-        if type.isUserText {
-            delegate?.vmClearText()
+        if type.isUserText || (showKeyboardWhenQuickAnswer && type.isQuickAnswer) {
+            delegate?.vmDidSendMessage()
         }
 
         let newMessage = chatRepository.createNewMessage(userId, text: message, type: type.chatType)
@@ -672,12 +650,12 @@ extension ChatViewModel {
 
     private func afterSendMessageEvents() {
         firstInteractionDone.value = true
-        if shouldAskProductSold {
+        if shouldAskListingSold {
             var interfaceText: String
             var alertTitle: String
             var soldQuestionText: String
             
-            if productIsFree.value {
+            if listingIsFree.value {
                 interfaceText = LGLocalizedString.directAnswerGivenAwayQuestionOk
                 alertTitle = LGLocalizedString.directAnswerGivenAwayQuestionTitle
                 soldQuestionText = LGLocalizedString.directAnswerGivenAwayQuestionMessage
@@ -686,19 +664,19 @@ extension ChatViewModel {
                 alertTitle = LGLocalizedString.directAnswerSoldQuestionTitle
                 soldQuestionText = LGLocalizedString.directAnswerSoldQuestionMessage
             }
-            shouldAskProductSold = false
+            shouldAskListingSold = false
             let action = UIAction(interface: UIActionInterface.text(interfaceText),
-                                  action: { [weak self] in self?.markProductAsSold() })
+                                  action: { [weak self] in self?.markListingAsSold() })
             delegate?.vmShowAlert(alertTitle,
                                   message: soldQuestionText,
                                   cancelLabel: LGLocalizedString.commonCancel,
                                   actions: [action])
         } else if pushPermissionsManager.shouldShowPushPermissionsAlertFromViewController(.chat(buyer: isBuyer)) {
-            delegate?.vmShowPrePermissions(.chat(buyer: isBuyer))
+            delegate?.vmDidRequestShowPrePermissions(.chat(buyer: isBuyer))
         } else if ratingManager.shouldShowRating {
-            delegate?.vmHideKeyboard(true)
+            delegate?.vmDidEndEditing(animated: true)
             delay(1.0) { [weak self] in
-                self?.delegate?.vmHideKeyboard(true)
+                self?.delegate?.vmDidEndEditing(animated: true)
                 self?.navigator?.openAppRating(.chat)
             }
         }
@@ -771,10 +749,10 @@ extension ChatViewModel {
 }
 
 
-// MARK: - Product Operations
+// MARK: - Listing Operations
 
 extension ChatViewModel {
-    fileprivate func markProductAsSold() {
+    fileprivate func markListingAsSold() {
         guard conversation.value.amISelling else { return }
         guard let listingId = conversation.value.listing?.objectId else { return }
         
@@ -801,7 +779,7 @@ extension ChatViewModel {
         var actions: [UIAction] = []
         
         let safetyTips = UIAction(interface: UIActionInterface.text(LGLocalizedString.chatSafetyTips), action: { [weak self] in
-            self?.delegate?.vmShowSafetyTips()
+            self?.delegate?.vmDidRequestSafetyTips()
         })
         actions.append(safetyTips)
 
@@ -851,7 +829,7 @@ extension ChatViewModel {
                     self?.isDeleted = true
                 }
                 let message = success ? LGLocalizedString.chatListDeleteOkOne : LGLocalizedString.chatListDeleteErrorOne
-                self?.delegate?.vmShowMessage(message) { [weak self] in
+                self?.delegate?.vmDidNotifyMessage(message) { [weak self] in
                     self?.navigator?.closeChatDetail()
                 }
             }
@@ -875,7 +853,7 @@ extension ChatViewModel {
     private func reportUserAction() {
         guard let userID = conversation.value.interlocutor?.objectId else { return }
         let reportVM = ReportUsersViewModel(origin: .chat, userReportedId: userID)
-        delegate?.vmShowReportUser(reportVM)
+        delegate?.vmDidPressReportUser(reportVM)
     }
     
     fileprivate func blockUserAction(buttonPosition: EventParameterBlockButtonPosition) {
@@ -889,7 +867,7 @@ extension ChatViewModel {
                     self?.chatEnabled.value = false
                     self?.refreshChat()
                 } else {
-                    self?.delegate?.vmShowMessage(LGLocalizedString.blockUserErrorGeneric, completion: nil)
+                    self?.delegate?.vmDidNotifyMessage(LGLocalizedString.blockUserErrorGeneric, completion: nil)
                 }
             }
         })
@@ -924,11 +902,11 @@ extension ChatViewModel {
                 switch strongSelf.chatStatus.value {
                 case .forbidden, .blocked, .blockedBy, .userPendingDelete, .userDeleted:
                     strongSelf.chatEnabled.value = false
-                case .available, .productSold, .productDeleted:
+                case .available, .listingSold, .listingDeleted:
                     strongSelf.chatEnabled.value =  true
                 }
             } else {
-                strongSelf.delegate?.vmShowMessage(LGLocalizedString.unblockUserErrorGeneric, completion: nil)
+                strongSelf.delegate?.vmDidNotifyMessage(LGLocalizedString.unblockUserErrorGeneric, completion: nil)
             }
         }
     }
@@ -971,9 +949,9 @@ extension ChatViewModel {
 
         switch listing.status {
         case .deleted, .discarded:
-            return .productDeleted
+            return .listingDeleted
         case .sold, .soldOld:
-            return .productSold
+            return .listingSold
         case .approved, .pending:
             return .available
         }
@@ -1026,7 +1004,7 @@ extension ChatViewModel {
         switch chatStatus.value {
         case .userDeleted, .userPendingDelete:
             return chatViewMessageAdapter.createUserDeletedDisclaimerMessage(conversation.value.interlocutor?.name)
-        case .available, .blocked, .blockedBy, .forbidden, .productDeleted, .productSold:
+        case .available, .blocked, .blockedBy, .forbidden, .listingDeleted, .listingSold:
             return nil
         }
     }
@@ -1145,12 +1123,11 @@ extension ChatViewModel {
                                                                  disclaimerMessage: defaultDisclaimerMessage)
         messages.removeAll()
         messages.appendContentsOf(chatMessages)
-
     }
 
     private func afterRetrieveChatMessagesEvents() {
         if shouldShowSafetyTips {
-            delegate?.vmShowSafetyTips()
+            delegate?.vmDidRequestSafetyTips()
         }
 
         afterRetrieveMessagesCompletion?()
@@ -1198,18 +1175,18 @@ fileprivate extension ChatViewModel {
         guard let listingId = listing.objectId, let sellerId = listing.user.objectId else { return }
         self.listingId = listingId
 
-        // Configure product + user info
+        // Configure listing + user info
         title.value = listing.title ?? ""
-        productName.value = listing.title ?? ""
-        productImageUrl.value = listing.thumbnail?.fileURL
-        productPrice.value = listing.priceString(freeModeAllowed: featureFlags.freePostingModeAllowed)
+        listingName.value = listing.title ?? ""
+        listingImageUrl.value = listing.thumbnail?.fileURL
+        listingPrice.value = listing.priceString(freeModeAllowed: featureFlags.freePostingModeAllowed)
         interlocutorAvatarURL.value = listing.user.avatar?.fileURL
         interlocutorName.value = listing.user.name ?? ""
         interlocutorId.value = sellerId
 
         // Configure login + send actions
         preSendMessageCompletion = { [weak self] (type: ChatWrapperMessageType) in
-            self?.delegate?.vmHideKeyboard(false)
+            self?.delegate?.vmDidEndEditing(animated: false)
             self?.navigator?.openLoginIfNeededFromChatDetail(from: .askQuestion, loggedInAction: { [weak self] in
                 guard let strongSelf = self else { return }
                 strongSelf.preSendMessageCompletion = nil
@@ -1242,7 +1219,9 @@ fileprivate extension ChatViewModel {
 
         if shouldTrackFirstMessage {
             shouldTrackFirstMessage = false
-            tracker.trackEvent(TrackerEvent.firstMessage(info: info, productVisitSource: .unknown))
+            tracker.trackEvent(TrackerEvent.firstMessage(info: info,
+                                                         listingVisitSource: .unknown,
+                                                         feedPosition: .none))
         }
         tracker.trackEvent(TrackerEvent.userMessageSent(info: info))
     }
@@ -1273,7 +1252,7 @@ fileprivate extension ChatViewModel {
                                                        isBumpedUp: .notAvailable,
                                                        isFreePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                        typePage: .chat)
-        let markAsSold = TrackerEvent.productMarkAsSold(trackingInfo: trackingInfo)
+        let markAsSold = TrackerEvent.listingMarkAsSold(trackingInfo: trackingInfo)
         tracker.trackEvent(markAsSold)
     }
 
@@ -1323,9 +1302,9 @@ fileprivate extension ChatConversation {
         if interlocutor.hasMutedYou { return .blockedBy }
         switch listing.status {
         case .deleted, .discarded:
-            return .productDeleted
+            return .listingDeleted
         case .sold, .soldOld:
-            return .productSold
+            return .listingSold
         case .approved, .pending:
             return .available
         }
@@ -1335,14 +1314,14 @@ fileprivate extension ChatConversation {
         switch chatStatus {
         case .forbidden, .blocked, .blockedBy, .userPendingDelete, .userDeleted:
             return false
-        case .available, .productSold, .productDeleted:
+        case .available, .listingSold, .listingDeleted:
             return true
         }
     }
 
-    var relatedProductsEnabled: Bool {
+    var relatedListingsEnabled: Bool {
         switch chatStatus {
-        case .forbidden,  .userPendingDelete, .userDeleted, .productDeleted, .productSold:
+        case .forbidden,  .userPendingDelete, .userDeleted, .listingDeleted, .listingSold:
             return !amISelling
         case .available, .blocked, .blockedBy:
             return false
@@ -1350,37 +1329,50 @@ fileprivate extension ChatConversation {
     }
 }
 
-fileprivate extension ChatInfoViewStatus {
-    var userReviewEnabled: Bool {
-        switch self {
-        case .forbidden, .blocked, .blockedBy, .userPendingDelete, .userDeleted:
-            return false
-        case .available, .productSold, .productDeleted:
-            return true
-        }
-    }
-}
 
 // MARK: - DirectAnswers
 
 extension ChatViewModel: DirectAnswersPresenterDelegate {
     
-    var directAnswers: [QuickAnswer] {
-        let isFree = featureFlags.freePostingModeAllowed && productIsFree.value
+    var directAnswers: [[QuickAnswer]] {
+        let isFree = featureFlags.freePostingModeAllowed && listingIsFree.value
         let isBuyer = !conversation.value.amISelling
-        return QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree)
+        let isNegotiable = listingIsNegotiable.value
+        return QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: areQuickAnswersDynamic, isNegotiable: isNegotiable)
+    }
+    var areQuickAnswersDynamic: Bool {
+        switch featureFlags.dynamicQuickAnswers {
+        case .control, .baseline:
+            return false
+        case .dynamicNoKeyboard, .dynamicWithKeyboard:
+            return true
+        }
+    }
+    var showKeyboardWhenQuickAnswer: Bool {
+        switch featureFlags.dynamicQuickAnswers {
+        case .control, .baseline, .dynamicNoKeyboard:
+            return false
+        case .dynamicWithKeyboard:
+            return true
+        }
     }
     
-    func directAnswersDidTapAnswer(_ controller: DirectAnswersPresenter, answer: QuickAnswer) {
+    func directAnswersDidTapAnswer(_ controller: DirectAnswersPresenter, answer: QuickAnswer, index: Int) {
         switch answer {
-        case .productSold, .freeNotAvailable:
-            onProductSoldDirectAnswer()
-        case .interested, .notInterested, .meetUp, .stillAvailable, .isNegotiable, .likeToBuy, .productCondition,
-             .productStillForSale, .whatsOffer, .negotiableYes, .negotiableNo, .freeStillHave, .freeYours,
-             .freeAvailable:
-            clearProductSoldDirectAnswer()
+        case .listingSold, .freeNotAvailable:
+            onListingSoldDirectAnswer()
+        case .interested, .notInterested, .meetUp, .stillAvailable, .isNegotiable, .likeToBuy, .listingCondition,
+             .listingStillForSale, .whatsOffer, .negotiableYes, .negotiableNo, .freeStillHave, .freeYours,
+             .freeAvailable, .stillForSale, .priceFirm, .priceWillingToNegotiate, .priceAsking, .listingConditionGood,
+             .listingConditionDescribe, .meetUpLocated, .meetUpWhereYouWant:
+            clearListingSoldDirectAnswer()
         }
-        send(quickAnswer: answer)
+        
+        if showKeyboardWhenQuickAnswer == true {
+            delegate?.vmDidPressDirectAnswer(quickAnswer: answer)
+        } else {
+            send(quickAnswer: answer)
+        }
     }
     
     func directAnswersDidTapClose(_ controller: DirectAnswersPresenter) {
@@ -1396,33 +1388,33 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
         userDirectAnswersEnabled.value = show
     }
     
-    private func clearProductSoldDirectAnswer() {
-        shouldAskProductSold = false
+    private func clearListingSoldDirectAnswer() {
+        shouldAskListingSold = false
     }
     
-    private func onProductSoldDirectAnswer() {
+    private func onListingSoldDirectAnswer() {
         if chatStatus.value == .available {
-            shouldAskProductSold = true
+            shouldAskListingSold = true
         }
     }
 }
 
 
-// MARK: - Related products
+// MARK: - Related listings
 
-extension ChatViewModel: ChatRelatedProductsViewDelegate {
+extension ChatViewModel: ChatRelatedListingsViewDelegate {
 
-    func relatedProductsViewDidShow(_ view: ChatRelatedProductsView) {
+    func relatedListingsViewDidShow(_ view: ChatRelatedListingsView) {
         let relatedShownReason = EventParameterRelatedShownReason(chatInfoStatus: chatStatus.value)
         tracker.trackEvent(TrackerEvent.chatRelatedItemsStart(relatedShownReason))
     }
 
-    func relatedProductsView(_ view: ChatRelatedProductsView, showListing listing: Listing, atIndex index: Int,
-                             productListModels: [ListingCellModel], requester: ProductListRequester,
+    func relatedListingsView(_ view: ChatRelatedListingsView, showListing listing: Listing, atIndex index: Int,
+                             listingListModels: [ListingCellModel], requester: ListingListRequester,
                              thumbnailImage: UIImage?, originFrame: CGRect?) {
         let relatedShownReason = EventParameterRelatedShownReason(chatInfoStatus: chatStatus.value)
         tracker.trackEvent(TrackerEvent.chatRelatedItemsComplete(index, shownReason: relatedShownReason))
-        let data = ListingDetailData.listingList(listing: listing, cellModels: productListModels, requester: requester,
+        let data = ListingDetailData.listingList(listing: listing, cellModels: listingListModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame,
                                                  showRelated: false, index: 0)
         navigator?.openListing(data, source: .chat, actionOnFirstAppear: .nonexistent)
@@ -1430,21 +1422,21 @@ extension ChatViewModel: ChatRelatedProductsViewDelegate {
 }
 
 
-// MARK: - Related products for express chat
+// MARK: - Related listings for express chat
 
 extension ChatViewModel {
 
-    static let maxRelatedProductsForExpressChat = 4
+    static let maxRelatedListingsForExpressChat = 4
 
-    fileprivate func retrieveRelatedProducts() {
+    fileprivate func retrieveRelatedListings() {
         guard isBuyer else { return }
-        guard let productId = conversation.value.listing?.objectId else { return }
-        listingRepository.indexRelated(listingId: productId, params: RetrieveListingParams()) {
+        guard let listingId = conversation.value.listing?.objectId else { return }
+        listingRepository.indexRelated(listingId: listingId, params: RetrieveListingParams()) {
             [weak self] result in
             guard let strongSelf = self else { return }
             if let listings = result.value {
                 strongSelf.relatedListings = strongSelf.relatedWithoutMyListings(listings)
-                strongSelf.hasRelatedProducts.value = !strongSelf.relatedListings.isEmpty
+                strongSelf.hasRelatedListings.value = !strongSelf.relatedListings.isEmpty
             }
         }
     }
@@ -1453,7 +1445,7 @@ extension ChatViewModel {
         var cleanRelatedListings: [Listing] = []
         for listing in listings {
             if listing.user.objectId != myUserRepository.myUser?.objectId { cleanRelatedListings.append(listing) }
-            if cleanRelatedListings.count == OldChatViewModel.maxRelatedProductsForExpressChat {
+            if cleanRelatedListings.count == OldChatViewModel.maxRelatedListingsForExpressChat {
                 return cleanRelatedListings
             }
         }
@@ -1464,16 +1456,16 @@ extension ChatViewModel {
     // Express Chat Banner methods
 
     fileprivate func setupExpressChat() {
-        expressMessagesAlreadySent.value = expressChatMessageSentForCurrentProduct()
+        expressMessagesAlreadySent.value = expressChatMessageSentForCurrentListing()
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .seconds(3)) { [weak self] in
             self?.expressBannerTimerFinished.value = true
         }
     }
 
-    private func expressChatMessageSentForCurrentProduct() -> Bool {
+    private func expressChatMessageSentForCurrentListing() -> Bool {
         guard let listingId = conversation.value.listing?.objectId else { return false }
-        for productSentId in keyValueStorage.userProductsWithExpressChatMessageSent {
-            if productSentId == listingId { return true }
+        for listingSentId in keyValueStorage.userListingsWithExpressChatMessageSent {
+            if listingSentId == listingId { return true }
         }
         return false
     }

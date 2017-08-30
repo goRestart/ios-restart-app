@@ -9,7 +9,7 @@
 import Foundation
 
 extension Array {
-    mutating func move(fromIndex: Int, toIndex: Int) {
+    public mutating func move(fromIndex: Int, toIndex: Int) {
         let element = remove(at: fromIndex)
         insert(element, at: toIndex)
     }

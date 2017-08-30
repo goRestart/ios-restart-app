@@ -6,11 +6,6 @@
 		"description": "New Websocket Chat"
 	},
     {
-        "name": "UserReviews",
-        "values": ["Yes", "No"],
-        "description": "User Reviews Feature"
-	},
-    {
 		"name": "ShowNPSSurvey",
 		"values": ["No", "Yes"],
 		"description": "Show nps survey"
@@ -51,11 +46,6 @@
         "description": "New mark as sold flow active. alert + showing buyer list"
     },
     {
-        "name": "EditLocationBubble",
-        "values": ["inactive", "map", "zipCode"],
-        "description": "Location Edit A/B/C"
-    },
-    {
         "name": "NewCarsMultiRequesterEnabled",
         "values": ["no", "yes"],
         "description": "Cars multi requester enabled"
@@ -69,11 +59,6 @@
         "name": "NewOnboardingPhase1",
         "values": ["no", "yes"],
         "description": "New onboarding - alerts on close button"
-    },
-    {
-        "name": "SearchParamDisc24",
-        "values": ["disc24a", "disc24b", "disc24c", "disc24d", "disc24e", "disc24f", "disc24g"],
-        "description": "Diferent search approach"
     },
     {
         "name": "InAppRatingIOS10",
@@ -91,6 +76,11 @@
         "description": "Add super keywords in feed and filters"
     },
     {
+        "name": "SuperKeywordsOnOnboarding",
+        "values": ["control", "baseline", "active"],
+        "description": "Add a step to select categories on onboarding"
+    },
+    {
         "name": "CopiesImprovementOnboarding",
         "values": ["control", "baseline", "B", "C", "D", "E", "F"],
         "description": "new copies on last step of onboarding"
@@ -99,5 +89,30 @@
         "name": "BumpUpImprovementBanner",
         "values": ["control", "baseline", "active"],
         "description": "new copies on bump up banner"
+    },
+    {
+        "name": "OpenGalleryInPosting",
+        "values": ["control", "baseline", "openGallery"],
+        "description": "Opens gallery in posting as default option"
+    },
+    {
+        "name": "TweaksCarPostingFlow",
+        "values": ["control", "baseline", "active"],
+        "description": "car posting summary only at the end"
+    },
+    {
+        "name": "SearchParamDisc129",
+        "values": ["disc129a", "disc129b", "disc129c", "disc129d"],
+        "description": "Diferent search approach follow up"
+    },
+    {
+        "name": "UserReviewsReportEnabled",
+        "values": ["no", "yes"],
+        "description": "User reviews report enabled"
+    },
+    {
+        "name": "DynamicQuickAnswers",
+        "values": ["control", "baseline", "dynamicNoKeyboard", "dynamicWithKeyboard"],
+        "description": "Random quick answers with different approaches"
     }
 ]

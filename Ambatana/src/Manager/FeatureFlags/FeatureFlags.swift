@@ -22,23 +22,26 @@ protocol FeatureFlaggeable: class {
     var surveyEnabled: Bool { get }
 
     var websocketChat: Bool { get }
-    var userReviews: Bool { get }
     var captchaTransparent: Bool { get }
     var passiveBuyersShowKeyboard: Bool { get }
     var freeBumpUpEnabled: Bool { get }
     var pricedBumpUpEnabled: Bool { get }
     var productDetailNextRelated: Bool { get }
     var newMarkAsSoldFlow: Bool { get }
-    var editLocationBubble: EditLocationBubble { get }
     var newCarsMultiRequesterEnabled: Bool { get }
     var newCarouselNavigationEnabled: Bool { get }
     var newOnboardingPhase1: Bool { get }
-    var searchParamDisc24: SearchParamDisc24 { get }
+    var searchParamDisc129: SearchParamDisc129 { get }
     var inAppRatingIOS10: Bool { get }
     var suggestedSearches: SuggestedSearches { get }
     var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed { get }
+    var superKeywordsOnOnboarding: SuperKeywordsOnOnboarding { get }
     var copiesImprovementOnboarding: CopiesImprovementOnboarding { get }
     var bumpUpImprovementBanner: BumpUpImprovementBanner { get }
+    var openGalleryInPosting: OpenGalleryInPosting { get }
+    var tweaksCarPostingFlow: TweaksCarPostingFlow { get }
+    var userReviewsReportEnabled: Bool { get }
+    var dynamicQuickAnswers: DynamicQuickAnswers { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -66,7 +69,28 @@ extension AddSuperKeywordsOnFeed {
     }
 }
 
+extension SuperKeywordsOnOnboarding {
+    var isActive: Bool {
+        switch self {
+        case .control, .baseline:
+            return false
+        case .active:
+            return true
+        }
+    }
+}
 extension BumpUpImprovementBanner {
+    var isActive: Bool {
+        switch self {
+        case .control, .baseline:
+            return false
+        case .active:
+            return true
+        }
+    }
+}
+
+extension TweaksCarPostingFlow {
     var isActive: Bool {
         switch self {
         case .control, .baseline:
@@ -79,7 +103,6 @@ extension BumpUpImprovementBanner {
 
 
 class FeatureFlags: FeatureFlaggeable {
-
     static let sharedInstance: FeatureFlags = FeatureFlags()
     
     let websocketChat: Bool
@@ -134,15 +157,7 @@ class FeatureFlags: FeatureFlaggeable {
     
     func variablesUpdated() {
         dao.save(websocketChatEnabled: abTests.websocketChat.value)
-        dao.save(editLocationBubble: EditLocationBubble.fromPosition(abTests.editLocationBubble.value))
         abTests.variablesUpdated()
-    }
-
-    var userReviews: Bool {
-        if Bumper.enabled {
-            return Bumper.userReviews
-        }
-        return abTests.userReviews.value
     }
 
     var showNPSSurvey: Bool {
@@ -208,13 +223,6 @@ class FeatureFlags: FeatureFlaggeable {
         return abTests.newMarkAsSoldFlow.value
     }
 
-    var editLocationBubble: EditLocationBubble {
-        if Bumper.enabled {
-            return Bumper.editLocationBubble
-        }
-        return dao.retrieveEditLocationBubble() ?? EditLocationBubble.fromPosition(abTests.editLocationBubble.value)
-    }
-
     var newCarsMultiRequesterEnabled: Bool {
         if Bumper.enabled {
             return Bumper.newCarsMultiRequesterEnabled
@@ -236,11 +244,11 @@ class FeatureFlags: FeatureFlaggeable {
         return abTests.newOnboardingPhase1.value
     }
     
-    var searchParamDisc24: SearchParamDisc24 {
+    var searchParamDisc129: SearchParamDisc129 {
         if Bumper.enabled {
-            return Bumper.searchParamDisc24
+            return Bumper.searchParamDisc129
         }
-        return SearchParamDisc24.fromPosition(abTests.searchParamDisc24.value)
+        return SearchParamDisc129.fromPosition(abTests.searchParamDisc129.value)
     }
     
     var inAppRatingIOS10: Bool {
@@ -264,6 +272,13 @@ class FeatureFlags: FeatureFlaggeable {
         return AddSuperKeywordsOnFeed.fromPosition(abTests.addSuperKeywordsOnFeed.value)
     }
     
+    var superKeywordsOnOnboarding: SuperKeywordsOnOnboarding {
+        if Bumper.enabled {
+            return Bumper.superKeywordsOnOnboarding
+        }
+        return SuperKeywordsOnOnboarding.fromPosition(abTests.superKeywordsOnOnboarding.value)
+    }
+    
     var copiesImprovementOnboarding: CopiesImprovementOnboarding {
         if Bumper.enabled {
             return Bumper.copiesImprovementOnboarding
@@ -278,6 +293,35 @@ class FeatureFlags: FeatureFlaggeable {
         return BumpUpImprovementBanner.fromPosition(abTests.bumpUpImprovementBanner.value)
     }
     
+    var openGalleryInPosting: OpenGalleryInPosting {
+        if Bumper.enabled {
+            return Bumper.openGalleryInPosting
+        }
+        return OpenGalleryInPosting.fromPosition(abTests.openGalleryInPosting.value)
+    }
+    
+    var tweaksCarPostingFlow: TweaksCarPostingFlow {
+        if Bumper.enabled {
+            return Bumper.tweaksCarPostingFlow
+        }
+        return TweaksCarPostingFlow.fromPosition(abTests.tweaksCarPostingFlow.value)
+    }
+    
+    var userReviewsReportEnabled: Bool {
+        if Bumper.enabled {
+            return Bumper.userReviewsReportEnabled
+        }
+        return abTests.userReviewsReportEnabled.value
+    }
+    
+    var dynamicQuickAnswers: DynamicQuickAnswers {
+        if Bumper.enabled {
+            return Bumper.dynamicQuickAnswers
+        }
+        return DynamicQuickAnswers.fromPosition(abTests.dynamicQuickAnswers.value)
+    }
+    
+
     // MARK: - Country features
 
     var freePostingModeAllowed: Bool {

@@ -37,9 +37,9 @@ def shared_pods
 
     # letgo Core
 
-#pod "LGCoreKit",             "3.12.3"
+#pod "LGCoreKit",             "3.13.3"
     pod "LGCoreKit",            :path => "../lgcorekit"
-#    pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => '4fb868c80d42966a8d5bc8ee01c4011c87db7e93'
+#    pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => '5cfe3814de79fc38b3a91011ae7b6a9f46abadf8'
 
     # letgo Collapsible label
     pod "LGCollapsibleLabel",   "1.1.0"     # :path => "../collapsiblelabel"
@@ -47,7 +47,7 @@ def shared_pods
     # letgo bumper (feature flags)
     pod "bumper",               "1.1.0"     #:path => "../bumper"
 
-    	# Collection View Custom Layout
+    # Collection View Custom Layout
     pod "CHTCollectionViewWaterfallLayout", "0.9.5"  # Obj-c
 
     # Device info helper

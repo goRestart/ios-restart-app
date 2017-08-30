@@ -14,7 +14,6 @@ extension Bumper  {
     static func initialize() {
         var flags = [BumperFeature.Type]()
         flags.append(WebsocketChat.self)
-        flags.append(UserReviews.self)
         flags.append(ShowNPSSurvey.self)
         flags.append(SurveyEnabled.self)
         flags.append(FreeBumpUpEnabled.self)
@@ -23,27 +22,26 @@ extension Bumper  {
         flags.append(PassiveBuyersShowKeyboard.self)
         flags.append(ProductDetailNextRelated.self)
         flags.append(NewMarkAsSoldFlow.self)
-        flags.append(EditLocationBubble.self)
         flags.append(NewCarsMultiRequesterEnabled.self)
         flags.append(NewCarouselNavigationEnabled.self)
         flags.append(NewOnboardingPhase1.self)
-        flags.append(SearchParamDisc24.self)
         flags.append(InAppRatingIOS10.self)
         flags.append(SuggestedSearches.self)
         flags.append(AddSuperKeywordsOnFeed.self)
+        flags.append(SuperKeywordsOnOnboarding.self)
         flags.append(CopiesImprovementOnboarding.self)
         flags.append(BumpUpImprovementBanner.self)
+        flags.append(OpenGalleryInPosting.self)
+        flags.append(TweaksCarPostingFlow.self)
+        flags.append(SearchParamDisc129.self)
+        flags.append(UserReviewsReportEnabled.self)
+        flags.append(DynamicQuickAnswers.self)
         Bumper.initialize(flags)
     } 
 
     static var websocketChat: Bool {
         guard let value = Bumper.value(for: WebsocketChat.key) else { return false }
         return WebsocketChat(rawValue: value)?.asBool ?? false
-    }
-
-    static var userReviews: Bool {
-        guard let value = Bumper.value(for: UserReviews.key) else { return true }
-        return UserReviews(rawValue: value)?.asBool ?? true
     }
 
     static var showNPSSurvey: Bool {
@@ -86,11 +84,6 @@ extension Bumper  {
         return NewMarkAsSoldFlow(rawValue: value)?.asBool ?? false
     }
 
-    static var editLocationBubble: EditLocationBubble {
-        guard let value = Bumper.value(for: EditLocationBubble.key) else { return .inactive }
-        return EditLocationBubble(rawValue: value) ?? .inactive 
-    }
-
     static var newCarsMultiRequesterEnabled: Bool {
         guard let value = Bumper.value(for: NewCarsMultiRequesterEnabled.key) else { return false }
         return NewCarsMultiRequesterEnabled(rawValue: value)?.asBool ?? false
@@ -104,11 +97,6 @@ extension Bumper  {
     static var newOnboardingPhase1: Bool {
         guard let value = Bumper.value(for: NewOnboardingPhase1.key) else { return false }
         return NewOnboardingPhase1(rawValue: value)?.asBool ?? false
-    }
-
-    static var searchParamDisc24: SearchParamDisc24 {
-        guard let value = Bumper.value(for: SearchParamDisc24.key) else { return .disc24a }
-        return SearchParamDisc24(rawValue: value) ?? .disc24a 
     }
 
     static var inAppRatingIOS10: Bool {
@@ -126,6 +114,11 @@ extension Bumper  {
         return AddSuperKeywordsOnFeed(rawValue: value) ?? .control 
     }
 
+    static var superKeywordsOnOnboarding: SuperKeywordsOnOnboarding {
+        guard let value = Bumper.value(for: SuperKeywordsOnOnboarding.key) else { return .control }
+        return SuperKeywordsOnOnboarding(rawValue: value) ?? .control 
+    }
+
     static var copiesImprovementOnboarding: CopiesImprovementOnboarding {
         guard let value = Bumper.value(for: CopiesImprovementOnboarding.key) else { return .control }
         return CopiesImprovementOnboarding(rawValue: value) ?? .control 
@@ -134,6 +127,31 @@ extension Bumper  {
     static var bumpUpImprovementBanner: BumpUpImprovementBanner {
         guard let value = Bumper.value(for: BumpUpImprovementBanner.key) else { return .control }
         return BumpUpImprovementBanner(rawValue: value) ?? .control 
+    }
+
+    static var openGalleryInPosting: OpenGalleryInPosting {
+        guard let value = Bumper.value(for: OpenGalleryInPosting.key) else { return .control }
+        return OpenGalleryInPosting(rawValue: value) ?? .control 
+    }
+
+    static var tweaksCarPostingFlow: TweaksCarPostingFlow {
+        guard let value = Bumper.value(for: TweaksCarPostingFlow.key) else { return .control }
+        return TweaksCarPostingFlow(rawValue: value) ?? .control 
+    }
+
+    static var searchParamDisc129: SearchParamDisc129 {
+        guard let value = Bumper.value(for: SearchParamDisc129.key) else { return .disc129a }
+        return SearchParamDisc129(rawValue: value) ?? .disc129a 
+    }
+  
+    static var userReviewsReportEnabled: Bool {
+        guard let value = Bumper.value(for: UserReviewsReportEnabled.key) else { return false }
+        return UserReviewsReportEnabled(rawValue: value)?.asBool ?? false
+    }
+
+    static var dynamicQuickAnswers: DynamicQuickAnswers {
+        guard let value = Bumper.value(for: DynamicQuickAnswers.key) else { return .control }
+        return DynamicQuickAnswers(rawValue: value) ?? .control 
     } 
 }
 
@@ -144,15 +162,6 @@ enum WebsocketChat: String, BumperFeature  {
     static var enumValues: [WebsocketChat] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "New Websocket Chat" } 
-    var asBool: Bool { return self == .yes }
-}
-
-enum UserReviews: String, BumperFeature  {
-    case yes, no
-    static var defaultValue: String { return UserReviews.yes.rawValue }
-    static var enumValues: [UserReviews] { return [.yes, .no]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "User Reviews Feature" } 
     var asBool: Bool { return self == .yes }
 }
 
@@ -228,22 +237,6 @@ enum NewMarkAsSoldFlow: String, BumperFeature  {
     var asBool: Bool { return self == .yes }
 }
 
-enum EditLocationBubble: String, BumperFeature  {
-    case inactive, map, zipCode
-    static var defaultValue: String { return EditLocationBubble.inactive.rawValue }
-    static var enumValues: [EditLocationBubble] { return [.inactive, .map, .zipCode]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Location Edit A/B/C" } 
-    static func fromPosition(_ position: Int) -> EditLocationBubble {
-        switch position { 
-            case 0: return .inactive
-            case 1: return .map
-            case 2: return .zipCode
-            default: return .inactive
-        }
-    }
-}
-
 enum NewCarsMultiRequesterEnabled: String, BumperFeature  {
     case no, yes
     static var defaultValue: String { return NewCarsMultiRequesterEnabled.no.rawValue }
@@ -269,26 +262,6 @@ enum NewOnboardingPhase1: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "New onboarding - alerts on close button" } 
     var asBool: Bool { return self == .yes }
-}
-
-enum SearchParamDisc24: String, BumperFeature  {
-    case disc24a, disc24b, disc24c, disc24d, disc24e, disc24f, disc24g
-    static var defaultValue: String { return SearchParamDisc24.disc24a.rawValue }
-    static var enumValues: [SearchParamDisc24] { return [.disc24a, .disc24b, .disc24c, .disc24d, .disc24e, .disc24f, .disc24g]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Diferent search approach" } 
-    static func fromPosition(_ position: Int) -> SearchParamDisc24 {
-        switch position { 
-            case 0: return .disc24a
-            case 1: return .disc24b
-            case 2: return .disc24c
-            case 3: return .disc24d
-            case 4: return .disc24e
-            case 5: return .disc24f
-            case 6: return .disc24g
-            default: return .disc24a
-        }
-    }
 }
 
 enum InAppRatingIOS10: String, BumperFeature  {
@@ -332,6 +305,22 @@ enum AddSuperKeywordsOnFeed: String, BumperFeature  {
     }
 }
 
+enum SuperKeywordsOnOnboarding: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return SuperKeywordsOnOnboarding.control.rawValue }
+    static var enumValues: [SuperKeywordsOnOnboarding] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Add a step to select categories on onboarding" } 
+    static func fromPosition(_ position: Int) -> SuperKeywordsOnOnboarding {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
 enum CopiesImprovementOnboarding: String, BumperFeature  {
     case control, baseline, b, c, d, e, f
     static var defaultValue: String { return CopiesImprovementOnboarding.control.rawValue }
@@ -363,6 +352,81 @@ enum BumpUpImprovementBanner: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum OpenGalleryInPosting: String, BumperFeature  {
+    case control, baseline, openGallery
+    static var defaultValue: String { return OpenGalleryInPosting.control.rawValue }
+    static var enumValues: [OpenGalleryInPosting] { return [.control, .baseline, .openGallery]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Opens gallery in posting as default option" } 
+    static func fromPosition(_ position: Int) -> OpenGalleryInPosting {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .openGallery
+            default: return .control
+        }
+    }
+}
+
+enum TweaksCarPostingFlow: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return TweaksCarPostingFlow.control.rawValue }
+    static var enumValues: [TweaksCarPostingFlow] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "car posting summary only at the end" } 
+    static func fromPosition(_ position: Int) -> TweaksCarPostingFlow {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum SearchParamDisc129: String, BumperFeature  {
+    case disc129a, disc129b, disc129c, disc129d
+    static var defaultValue: String { return SearchParamDisc129.disc129a.rawValue }
+    static var enumValues: [SearchParamDisc129] { return [.disc129a, .disc129b, .disc129c, .disc129d]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Diferent search approach follow up" } 
+    static func fromPosition(_ position: Int) -> SearchParamDisc129 {
+        switch position { 
+            case 0: return .disc129a
+            case 1: return .disc129b
+            case 2: return .disc129c
+            case 3: return .disc129d
+            default: return .disc129a
+        }
+    }
+}
+  
+enum UserReviewsReportEnabled: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return UserReviewsReportEnabled.no.rawValue }
+    static var enumValues: [UserReviewsReportEnabled] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "User reviews report enabled" } 
+    var asBool: Bool { return self == .yes }
+}
+
+enum DynamicQuickAnswers: String, BumperFeature  {
+    case control, baseline, dynamicNoKeyboard, dynamicWithKeyboard
+    static var defaultValue: String { return DynamicQuickAnswers.control.rawValue }
+    static var enumValues: [DynamicQuickAnswers] { return [.control, .baseline, .dynamicNoKeyboard, .dynamicWithKeyboard]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Random quick answers with different approaches" } 
+    static func fromPosition(_ position: Int) -> DynamicQuickAnswers {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .dynamicNoKeyboard
+            case 3: return .dynamicWithKeyboard
             default: return .control
         }
     }

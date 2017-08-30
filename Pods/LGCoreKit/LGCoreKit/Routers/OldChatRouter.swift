@@ -11,9 +11,9 @@ import Foundation
 enum OldChatRouter: URLRequestAuthenticable {
 
     case index(params: [String : Any])
-    case show(objectId: String, params: [String : Any])
+    case show(listingId: String, params: [String : Any])
     case showConversation(objectId: String, params: [String : Any])
-    case createMessage(objectId: String, params: [String : Any])
+    case createMessage(listingId: String, params: [String : Any])
     case unreadCount
     case archive(params: [String : Any])
     case unarchive(params: [String : Any])

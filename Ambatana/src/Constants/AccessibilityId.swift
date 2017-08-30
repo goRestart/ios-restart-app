@@ -22,14 +22,14 @@ enum AccessibilityId: String {
     case tabBarFifthTab
     case tabBarFloatingSellButton
 
-    // Main Products List
-    case mainProductsNavBarSearch
-    case mainProductsFilterButton
-    case mainProductsInviteButton
-    case mainProductsListView
-    case mainProductsTagsCollection
-    case mainProductsInfoBubbleLabel
-    case mainProductsSuggestionSearchesTable
+    // Main Listings List
+    case mainListingsNavBarSearch
+    case mainListingsFilterButton
+    case mainListingsInviteButton
+    case mainListingsListView
+    case mainListingsTagsCollection
+    case mainListingsInfoBubbleLabel
+    case mainListingsSuggestionSearchesTable
 
     // Passive buyers
     case passiveBuyersTitle
@@ -38,22 +38,22 @@ enum AccessibilityId: String {
     case passiveBuyersTable
     case passiveBuyerCellName
 
-    // Product List View
-    case productListViewFirstLoadView
-    case productListViewFirstLoadActivityIndicator
-    case productListViewCollection
-    case productListViewErrorView
-    case productListErrorImageView
-    case productListErrorTitleLabel
-    case productListErrorBodyLabel
-    case productListErrorButton
+    // Listing List View
+    case listingListViewFirstLoadView
+    case listingListViewFirstLoadActivityIndicator
+    case listingListViewCollection
+    case listingListViewErrorView
+    case listingListErrorImageView
+    case listingListErrorTitleLabel
+    case listingListErrorBodyLabel
+    case listingListErrorButton
 
-    // Product Cell
-    case productCell
-    case productCellThumbnailImageView
-    case productCellStripeImageView
-    case productCellStripeLabel
-    case productCellStripeIcon
+    // Listing Cell
+    case listingCell
+    case listingCellThumbnailImageView
+    case listingCellStripeImageView
+    case listingCellStripeLabel
+    case listingCellStripeIcon
 
     // Collection & Banner Cells
     case collectionCell
@@ -73,6 +73,14 @@ enum AccessibilityId: String {
     
     // Taxonomies
     case taxonomiesTableView
+    
+    // Taxonomies Onboarding
+    case tourCategoriesTitleLabel
+    case tourCategoriesTitleOkButton
+    case tourCategoriesCollectionViewCell
+    case tourCategoriesCollectionViewCellTitle
+    case tourCategoriesCollectionViewCellImage
+    case tourCategoriesCollectionViewCellSelectedIcon
     
     // CategoriesHeader Cells
     case categoriesHeaderCollectionView
@@ -129,47 +137,47 @@ enum AccessibilityId: String {
     case filterFreeCell
     case filterFreeCellTitleLabel
 
-    // Product Detail
-    case productDetailOnboarding
+    // Listing Detail
+    case listingDetailOnboarding
 
-    // Product Carousel
-    case productCarouselCollectionView
-    case productCarouselButtonBottom
-    case productCarouselButtonTop
-    case productCarouselFavoriteButton
-    case productCarouselMoreInfoView
-    case productCarouselProductStatusLabel
-    case productCarouselDirectChatTable
-    case productCarouselFullScreenAvatarView
-    case productCarouselPageControl
-    case productCarouselCustomPageControl
-    case productCarouselUserView
-    case productCarouselChatTextView
+    // listing Carousel
+    case listingCarouselCollectionView
+    case listingCarouselButtonBottom
+    case listingCarouselButtonTop
+    case listingCarouselFavoriteButton
+    case listingCarouselMoreInfoView
+    case listingCarouselListingStatusLabel
+    case listingCarouselDirectChatTable
+    case listingCarouselFullScreenAvatarView
+    case listingCarouselPageControl
+    case listingCarouselCustomPageControl
+    case listingCarouselUserView
+    case listingCarouselChatTextView
 
-    case productCarouselNavBarEditButton
-    case productCarouselNavBarShareButton
-    case productCarouselNavBarActionsButton
-    case productCarouselNavBarFavoriteButton
+    case listingCarouselNavBarEditButton
+    case listingCarouselNavBarShareButton
+    case listingCarouselNavBarActionsButton
+    case listingCarouselNavBarFavoriteButton
 
-    case productCarouselMoreInfoScrollView
-    case productCarouselMoreInfoTitleLabel
-    case productCarouselMoreInfoTransTitleLabel
-    case productCarouselMoreInfoAddressLabel
-    case productCarouselMoreInfoDistanceLabel
-    case productCarouselMoreInfoMapView
-    case productCarouselMoreInfoSocialShareTitleLabel
-    case productCarouselMoreInfoSocialShareView
-    case productCarouselMoreInfoDescriptionLabel
+    case listingCarouselMoreInfoScrollView
+    case listingCarouselMoreInfoTitleLabel
+    case listingCarouselMoreInfoTransTitleLabel
+    case listingCarouselMoreInfoAddressLabel
+    case listingCarouselMoreInfoDistanceLabel
+    case listingCarouselMoreInfoMapView
+    case listingCarouselMoreInfoSocialShareTitleLabel
+    case listingCarouselMoreInfoSocialShareView
+    case listingCarouselMoreInfoDescriptionLabel
 
 
-    // Product Carousel Cell
-    case productCarouselCell
-    case productCarouselCellCollectionView
-    case productCarouselCellPlaceholderImage
-    case productCarouselImageCell
-    case productCarouselImageCellImageView
+    // listing Carousel Cell
+    case listingCarouselCell
+    case listingCarouselCellCollectionView
+    case listingCarouselCellPlaceholderImage
+    case listingCarouselImageCell
+    case listingCarouselImageCellImageView
 
-    // Product Carousel Post Delete screens
+    // listing Carousel Post Delete screens
     case postDeleteAlertButton
     case postDeleteFullscreenButton
     case postDeleteFullscreenIncentiveView
@@ -250,7 +258,7 @@ enum AccessibilityId: String {
     case postingCategoryDeatilSearchBar
     case postingCategoryDeatilTableView
 
-    // EditProduct
+    // Editlisting
     case editListingCloseButton
     case editListingScroll
     case editListingTitleField
@@ -366,7 +374,7 @@ enum AccessibilityId: String {
     // ConversationCell
     case conversationCellContainer
     case conversationCellUserLabel
-    case conversationCellProductLabel
+    case conversationCellListingLabel
     case conversationCellTimeLabel
     case conversationCellBadgeLabel
     case conversationCellThumbnailImageView
@@ -379,14 +387,13 @@ enum AccessibilityId: String {
     case blockedUserCellBlockedLabel
     case blockedUserCellBlockedIcon
 
-    // ChatProductView
-    case chatProductViewUserAvatar
-    case chatProductViewUserNameLabel
-    case chatProductViewProductNameLabel
-    case chatProductViewProductPriceLabel
-    case chatProductViewProductButton
-    case chatProductViewUserButton
-    case chatProductViewReviewButton
+    // ChatListingView
+    case chatListingViewUserAvatar
+    case chatListingViewUserNameLabel
+    case chatListingViewListingNameLabel
+    case chatListingViewListingPriceLabel
+    case chatListingViewListingButton
+    case chatListingViewUserButton
 
     // Chat
     case chatViewTableView
@@ -455,9 +462,9 @@ enum AccessibilityId: String {
     case userSellingTab
     case userSoldTab
     case userFavoritesTab
-    case userProductsFirstLoad
-    case userProductsList
-    case userProductsError
+    case userListingsFirstLoad
+    case userListingsList
+    case userListingsError
     case userPushPermissionOK
     case userPushPermissionCancel
 
@@ -538,8 +545,8 @@ enum AccessibilityId: String {
 
     // Express chat cell
     case expressChatCell
-    case expressChatCellProductTitle
-    case expressChatCellProductPrice
+    case expressChatCellListingTitle
+    case expressChatCellListingPrice
     case expressChatCellTickSelected
 
     // ExpressChatBanner
@@ -575,8 +582,8 @@ enum AccessibilityId: String {
     case paymentBumpUpButton
 
     // Bump Up Hidden Alert
-    case bumpUpHiddenProductAlertContactButton
-    case bumpUpHiddenProductAlertCancelButton
+    case bumpUpHiddenListingAlertContactButton
+    case bumpUpHiddenListingAlertCancelButton
 }
 
 extension UIAccessibilityIdentification {

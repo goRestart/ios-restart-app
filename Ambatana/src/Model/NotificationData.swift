@@ -9,12 +9,12 @@
 import LGCoreKit
 
 enum NotificationDataType {
-    case productFavorite(product: NotificationListing, user: NotificationUser)
-    case productSold(productImage: String?)
+    case listingFavorite(listing: NotificationListing, user: NotificationUser)
+    case listingSold(listingImage: String?)
     case rating(user: NotificationUser)
     case ratingUpdated(user: NotificationUser)
-    case buyersInterested(product: NotificationListing, buyers: [NotificationUser])
-    case productSuggested(product: NotificationListing, seller: NotificationUser)
+    case buyersInterested(listing: NotificationListing, buyers: [NotificationUser])
+    case listingSuggested(listing: NotificationListing, seller: NotificationUser)
     case facebookFriendshipCreated(user: NotificationUser, facebookUsername: String)
     case modular(modules: NotificationModular, delegate: ModularNotificationCellDelegate?)
 }

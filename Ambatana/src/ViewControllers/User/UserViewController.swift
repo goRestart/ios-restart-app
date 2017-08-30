@@ -15,7 +15,7 @@ class UserViewController: BaseViewController {
     fileprivate static let navBarUserViewHeight: CGFloat = 36
     private static let userBgViewDefaultHeight: CGFloat = headerExpandedHeight
 
-    fileprivate static let productListViewTopMargin: CGFloat = 64
+    fileprivate static let listingListViewTopMargin: CGFloat = 64
 
     fileprivate static let headerExpandedBottom: CGFloat = -(headerExpandedHeight+userBgViewDefaultHeight)
     fileprivate static let headerExpandedHeight: CGFloat = 150
@@ -57,8 +57,8 @@ class UserViewController: BaseViewController {
     fileprivate let headerGestureRecognizer: UIPanGestureRecognizer
     fileprivate let headerRecognizerDragging = Variable<Bool>(false)
     
-    @IBOutlet weak var productListViewBackgroundView: UIView!
-    @IBOutlet weak var productListView: ProductListView!
+    @IBOutlet weak var listingListViewBackgroundView: UIView!
+    @IBOutlet weak var listingListView: ListingListView!
 
     @IBOutlet weak var userLabelsContainer: UIView!
     @IBOutlet weak var userNameLabel: UILabel!
@@ -71,7 +71,7 @@ class UserViewController: BaseViewController {
 
     fileprivate let userBgTintViewAlpha = Variable<CGFloat>(0)
     fileprivate var bottomInset: CGFloat = 0
-    fileprivate let cellDrawer: ProductCellDrawer
+    fileprivate let cellDrawer: ListingCellDrawer
     fileprivate var viewModel: UserViewModel
     fileprivate let socialSharer: SocialSharer
 
@@ -97,7 +97,7 @@ class UserViewController: BaseViewController {
         let socialSharer = SocialSharer()
         socialSharer.delegate = viewModel
         self.socialSharer = socialSharer
-        self.cellDrawer = ProductCellDrawer()
+        self.cellDrawer = ListingCellDrawer()
         self.disposeBag = DisposeBag()
         
         super.init(viewModel: viewModel, nibName: "UserViewController", statusBarStyle: .lightContent,
@@ -161,29 +161,29 @@ class UserViewController: BaseViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        productListView.minimumContentHeight = productListView.collectionView.frame.height - UserViewController.headerCollapsedHeight
+        listingListView.minimumContentHeight = listingListView.collectionView.frame.height - UserViewController.headerCollapsedHeight
         
         averageRatingView.rounded = true
     }
 }
 
 
-// MARK: - ProductsRefreshable
+// MARK: - ListingsRefreshable
 
-extension UserViewController: ProductsRefreshable {
-    func productsRefresh() {
+extension UserViewController: ListingsRefreshable {
+    func listingsRefresh() {
         viewModel.refreshSelling()
     }
 }
 
 
-// MARK: - ProductListViewScrollDelegate
+// MARK: - ListingListViewScrollDelegate
 
-extension UserViewController: ProductListViewScrollDelegate {
-    func productListView(_ productListView: ProductListView, didScrollDown scrollDown: Bool) {
+extension UserViewController: ListingListViewScrollDelegate {
+    func listingListView(_ listingListView: ListingListView, didScrollDown scrollDown: Bool) {
     }
 
-    func productListView(_ productListView: ProductListView, didScrollWithContentOffsetY contentOffsetY: CGFloat) {
+    func listingListView(_ listingListView: ListingListView, didScrollWithContentOffsetY contentOffsetY: CGFloat) {
         scrollDidChange(contentOffsetY)
     }
 }
@@ -232,7 +232,7 @@ extension UserViewController {
         setupMainView()
         setupHeader()
         setupNavigationBar()
-        setupProductListView()
+        setupListingListView()
     }
 
     fileprivate func setupAccessibilityIds() {
@@ -249,9 +249,9 @@ extension UserViewController {
         headerContainer?.header.soldButton.accessibilityId = .userSoldTab
         headerContainer?.header.favoritesButton.accessibilityId = .userFavoritesTab
 
-        productListView.firstLoadView.accessibilityId = .userProductsFirstLoad
-        productListView.collectionView.accessibilityId = .userProductsList
-        productListView.errorView.accessibilityId = .userProductsError
+        listingListView.firstLoadView.accessibilityId = .userListingsFirstLoad
+        listingListView.collectionView.accessibilityId = .userListingsList
+        listingListView.errorView.accessibilityId = .userListingsError
     }
 
     private func setupMainView() {
@@ -275,23 +275,23 @@ extension UserViewController {
         setNavBarBackButton(backIcon)
     }
 
-    private func setupProductListView() {
-        productListView.headerDelegate = self
-        productListViewBackgroundView.backgroundColor = UIColor.listBackgroundColor
+    private func setupListingListView() {
+        listingListView.headerDelegate = self
+        listingListViewBackgroundView.backgroundColor = UIColor.listBackgroundColor
 
         // Remove pull to refresh
-        productListView.refreshControl.removeFromSuperview()
-        productListView.setErrorViewStyle(bgColor: nil, borderColor: nil, containerColor: nil)
-        productListView.shouldScrollToTopOnFirstPageReload = false
-        productListView.padding = UIEdgeInsets(top: UserViewController.productListViewTopMargin, left: 0, bottom: 0, right: 0)
+        listingListView.refreshControl.removeFromSuperview()
+        listingListView.setErrorViewStyle(bgColor: nil, borderColor: nil, containerColor: nil)
+        listingListView.shouldScrollToTopOnFirstPageReload = false
+        listingListView.padding = UIEdgeInsets(top: UserViewController.listingListViewTopMargin, left: 0, bottom: 0, right: 0)
 
-        let top = abs(UserViewController.headerExpandedBottom + UserViewController.productListViewTopMargin)
+        let top = abs(UserViewController.headerExpandedBottom + UserViewController.listingListViewTopMargin)
         let contentInset = UIEdgeInsets(top: top, left: 0, bottom: bottomInset, right: 0)
-        productListView.collectionViewContentInset = contentInset
-        productListView.collectionView.scrollIndicatorInsets.top = contentInset.top
-        productListView.firstLoadPadding = contentInset
-        productListView.errorPadding = contentInset
-        productListView.scrollDelegate = self
+        listingListView.collectionViewContentInset = contentInset
+        listingListView.collectionView.scrollIndicatorInsets.top = contentInset.top
+        listingListView.firstLoadPadding = contentInset
+        listingListView.errorPadding = contentInset
+        listingListView.scrollDelegate = self
     }
 
     func setupRatingAverage(_ ratingAverage: Float?) {
@@ -310,7 +310,7 @@ extension UserViewController {
         let minBottom = UserViewController.headerExpandedBottom
         let maxBottom = UserViewController.headerCollapsedBottom
 
-        let bottom = min(maxBottom, contentOffsetInsetY - UserViewController.productListViewTopMargin)
+        let bottom = min(maxBottom, contentOffsetInsetY - UserViewController.listingListViewTopMargin)
         headerContainerBottom.constant = bottom
 
         let percentage = min(1, abs(bottom - maxBottom) / abs(maxBottom - minBottom))
@@ -323,19 +323,19 @@ extension UserViewController {
         headerExpandedPercentage.value = headerPercentage
 
         // update top on error/first load views
-        let maxTop = abs(UserViewController.headerExpandedBottom + UserViewController.productListViewTopMargin)
+        let maxTop = abs(UserViewController.headerExpandedBottom + UserViewController.listingListViewTopMargin)
         let minTop = abs(UserViewController.headerCollapsedBottom)
         let top = minTop + percentage * (maxTop - minTop)
         let firstLoadPadding = UIEdgeInsets(top: top,
-                                            left: productListView.firstLoadPadding.left,
-                                            bottom: productListView.firstLoadPadding.bottom,
-                                            right: productListView.firstLoadPadding.right)
-        productListView.firstLoadPadding = firstLoadPadding
+                                            left: listingListView.firstLoadPadding.left,
+                                            bottom: listingListView.firstLoadPadding.bottom,
+                                            right: listingListView.firstLoadPadding.right)
+        listingListView.firstLoadPadding = firstLoadPadding
         let errorPadding = UIEdgeInsets(top: top,
-                                        left: productListView.firstLoadPadding.left,
-                                        bottom: productListView.firstLoadPadding.bottom,
-                                        right: productListView.firstLoadPadding.right)
-        productListView.errorPadding = errorPadding
+                                        left: listingListView.firstLoadPadding.left,
+                                        bottom: listingListView.firstLoadPadding.bottom,
+                                        right: listingListView.firstLoadPadding.right)
+        listingListView.errorPadding = errorPadding
     }
 
     dynamic private func handleHeaderPan(_ gestureRecognizer: UIPanGestureRecognizer) {
@@ -344,9 +344,9 @@ extension UserViewController {
 
         let mininum: CGFloat = -(UserViewController.headerCollapsedHeight + view.frame.width)
         let maximum: CGFloat = -UserViewController.headerCollapsedHeight
-        let y = min(maximum, max(mininum, productListView.collectionView.contentOffset.y  - translation.y))
+        let y = min(maximum, max(mininum, listingListView.collectionView.contentOffset.y  - translation.y))
 
-        productListView.collectionView.contentOffset.y = y
+        listingListView.collectionView.contentOffset.y = y
 
         switch gestureRecognizer.state {
         case .began:
@@ -359,11 +359,11 @@ extension UserViewController {
     }
 
     fileprivate func scrollToTopWithExpandedState(_ expanded: Bool, animated: Bool) {
-        let mininum: CGFloat = UserViewController.headerExpandedBottom + UserViewController.productListViewTopMargin
+        let mininum: CGFloat = UserViewController.headerExpandedBottom + UserViewController.listingListViewTopMargin
         let maximum: CGFloat = -UserViewController.headerCollapsedHeight
         let y = expanded ? mininum : maximum
         let contentOffset = CGPoint(x: 0, y: y)
-        productListView.collectionView.setContentOffset(contentOffset, animated: animated)
+        listingListView.collectionView.setContentOffset(contentOffset, animated: animated)
     }
 }
 
@@ -376,7 +376,7 @@ extension UserViewController {
         setupUserBgViewRxBindings()
         setupNavBarRxBindings()
         setupHeaderRxBindings()
-        setupProductListViewRxBindings()
+        setupListingListViewRxBindings()
         setupPermissionsRx()
         setupUserLabelsContainerRx()
     }
@@ -515,7 +515,7 @@ extension UserViewController {
             }.addDisposableTo(disposeBag)
 
         // Header sticky to expanded/collapsed
-        let listViewDragging = productListView.isDragging.asObservable().distinctUntilChanged()
+        let listViewDragging = listingListView.isDragging.asObservable().distinctUntilChanged()
         let recognizerDragging = headerRecognizerDragging.asObservable().distinctUntilChanged()
         let dragging = Observable.combineLatest(listViewDragging, recognizerDragging){ $0 || $1 }.distinctUntilChanged()
 
@@ -543,11 +543,11 @@ extension UserViewController {
             }.addDisposableTo(disposeBag)
     }
 
-    private func setupProductListViewRxBindings() {
-        viewModel.productListViewModel.asObservable().subscribeNext { [weak self] viewModel in
+    private func setupListingListViewRxBindings() {
+        viewModel.listingListViewModel.asObservable().subscribeNext { [weak self] viewModel in
             guard let strongSelf = self else { return }
-            strongSelf.productListView.switchViewModel(viewModel)
-            strongSelf.productListView.refreshDataView()
+            strongSelf.listingListView.switchViewModel(viewModel)
+            strongSelf.listingListView.refreshDataView()
             let expanded = strongSelf.headerExpandedPercentage.value > 0
             strongSelf.scrollToTopWithExpandedState(expanded, animated: false)
         }.addDisposableTo(disposeBag)
@@ -559,18 +559,18 @@ extension UserViewController {
 
 extension UserViewController: ScrollableToTop {
     func scrollToTop() {
-        productListView?.scrollToTop(true)
+        listingListView?.scrollToTop(true)
     }
 }
 
 
-// MARK: - ProductListViewHeaderDelegate
+// MARK: - ListingListViewHeaderDelegate
 
-extension UserViewController: ProductListViewHeaderDelegate, PushPermissionsHeaderDelegate {
+extension UserViewController: ListingListViewHeaderDelegate, PushPermissionsHeaderDelegate {
 
     func setupPermissionsRx() {
         viewModel.pushPermissionsDisabledWarning.asObservable().filter {$0 != nil} .bindNext { [weak self] _ in
-            self?.productListView.refreshDataView()
+            self?.listingListView.refreshDataView()
         }.addDisposableTo(disposeBag)
     }
 
@@ -579,7 +579,7 @@ extension UserViewController: ProductListViewHeaderDelegate, PushPermissionsHead
         return PushPermissionsHeader.viewHeight
     }
 
-    func setupViewsInHeader(_ header: ListHeaderContainer) {
+    func setupViewsIn(header: ListHeaderContainer) {
         if showHeader {
             let pushHeader = PushPermissionsHeader()
             pushHeader.delegate = self

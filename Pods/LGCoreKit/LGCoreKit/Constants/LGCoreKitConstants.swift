@@ -15,8 +15,8 @@ public struct LGCoreKitConstants {
     static let defaultCurrency = LGCoreKitConstants.usdCurrency
     static let defaultDistanceType = DistanceType.km
     static let defaultCoordinate = CLLocationCoordinate2DMake(38.897746, -77.037741)    // Washington
-    static let productImageMaxSide: CGFloat = 1024
-    static let productImageJPEGQuality: CGFloat = 0.9
+    static let listingImageMaxSide: CGFloat = 1024
+    static let listingImageJPEGQuality: CGFloat = 0.9
 
     static let defaultManualLocationThreshold = 1000.0
     static let locationRetrievalTimeout: TimeInterval = 10    // seconds
@@ -30,7 +30,7 @@ public struct LGCoreKitConstants {
 
     static let defaultShouldShowOnboarding = true
 
-    static let viewedProductsThreshold = 5 // the view counts will be sent in batch when there are
+    static let viewedListingsThreshold = 5 // the view counts will be sent in batch when there are
                                             // at least 5 of them or when app goes to background
     static let websocketPingTimeInterval: TimeInterval = 180
     static let websocketBackgroundDisconnectTimeout: TimeInterval = 15

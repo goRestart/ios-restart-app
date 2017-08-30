@@ -14,12 +14,14 @@ final class LGCategoryRepository: CategoryRepository {
 
     private let dataSource: TaxonomiesDataSource
     private let taxonomiesCache: TaxonomiesDAO
+    private let taxonomiesOnboardingCache: TaxonomiesDAO?
     private let locationManager: LocationManager
 
 
-    init(dataSource: TaxonomiesDataSource, taxonomiesCache: TaxonomiesDAO, locationManager: LocationManager) {
+    init(dataSource: TaxonomiesDataSource, taxonomiesCache: TaxonomiesDAO, taxonomiesOnboardingCache: TaxonomiesDAO, locationManager: LocationManager) {
         self.dataSource = dataSource
         self.taxonomiesCache = taxonomiesCache
+        self.taxonomiesOnboardingCache = taxonomiesOnboardingCache
         self.locationManager = locationManager
     }
 
@@ -30,7 +32,16 @@ final class LGCategoryRepository: CategoryRepository {
     func indexTaxonomies() -> [Taxonomy] {
         return taxonomiesCache.taxonomies
     }
+    
+    func indexOnboardingTaxonomies() -> [Taxonomy] {
+        return taxonomiesOnboardingCache?.taxonomies ?? []
+    }
 
+    func retrieveTaxonomyChildren(withIds ids: [Int]) -> [TaxonomyChild] {
+        let taxonomyChildren = taxonomiesOnboardingCache?.taxonomies.flatMap { $0.children } ?? []
+        return taxonomyChildren.filter { ids.contains($0.id) }
+    }
+    
     func loadFirstRunCacheIfNeeded(jsonURL: URL) {
         taxonomiesCache.loadFirstRunCacheIfNeeded(jsonURL: jsonURL)
     }
@@ -39,10 +50,18 @@ final class LGCategoryRepository: CategoryRepository {
         let countryCode = locationManager.currentLocation?.postalAddress?.countryCode ?? LGCategoryRepository.defaultCountryCode
         let locale = Locale.current
         dataSource.index(countryCode: countryCode, locale: locale) { [weak self] result in
-            if let value = result.value {
-                if !value.isEmpty {
-                    self?.taxonomiesCache.save(taxonomies: value)
-                }
+            if let value = result.value, !value.isEmpty {
+                self?.taxonomiesCache.save(taxonomies: value)
+            }
+        }
+    }
+    
+    func refreshTaxonomiesOnboardingCache() {
+        let countryCode = locationManager.currentLocation?.postalAddress?.countryCode ?? LGCategoryRepository.defaultCountryCode
+        let locale = Locale.current
+        dataSource.indexOnboarding(countryCode: countryCode, locale: locale) { [weak self] result in
+            if let value = result.value, !value.isEmpty {
+                self?.taxonomiesOnboardingCache?.save(taxonomies: value)
             }
         }
     }

@@ -19,10 +19,10 @@ fileprivate extension TrackerEvent {
                  .userMessageSent,
                  .loginEmail, .loginFB, .loginGoogle, .signupEmail,
                  .searchComplete, .filterComplete,
-                 .firstMessage, .productOpenChat, .productFavorite, .productShareComplete,
-                 .productMarkAsSold, .productDetailVisit,
-                 .productSellComplete, .productSellStart,
-                 .profileVisit, .npsStart, .npsComplete, .surveyStart, .surveyCompleted:
+                 .firstMessage, .listingOpenChat, .listingFavorite, .listingShareComplete,
+                 .listingMarkAsSold, .listingDetailVisit,
+                 .listingSellComplete, .listingSellStart,
+                 .profileVisit, .npsStart, .npsComplete, .surveyStart, .surveyCompleted, .onboardingInterestsComplete:
                 return true
             default:
                 return false

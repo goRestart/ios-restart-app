@@ -16,14 +16,14 @@ class ChatViewController: TextViewController {
     let navBarHeight: CGFloat = 64
     let inputBarHeight: CGFloat = 44
     let expressBannerHeight: CGFloat = 44
-    let productView: ChatProductView
+    let listingView: ChatListingView
     var selectedCellIndexPath: IndexPath?
     let viewModel: ChatViewModel
     var keyboardShown: Bool = false
     var showingStickers = false
     let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
     let relationInfoView = RelationInfoView.relationInfoView()   // informs if the user is blocked, or the product sold or inactive
-    let relatedProductsView: ChatRelatedProductsView
+    let relatedListingsView: ChatRelatedListingsView
     let directAnswersPresenter: DirectAnswersPresenter
     let stickersView: ChatStickersView
     var stickersWindow: UIWindow?
@@ -32,6 +32,7 @@ class ChatViewController: TextViewController {
     var bannerTopConstraint: NSLayoutConstraint = NSLayoutConstraint()
     var featureFlags: FeatureFlaggeable
     var pushPermissionManager: PushPermissionsManager
+    var selectedQuickAnswer: QuickAnswer?
 
     var blockedToastOffset: CGFloat {
         return relationInfoView.isHidden ? 0 : RelationInfoView.defaultHeight
@@ -62,8 +63,8 @@ class ChatViewController: TextViewController {
                   pushPermissionManager: PushPermissionsManager,
                   hidesBottomBar: Bool) {
         self.viewModel = viewModel
-        self.productView = ChatProductView.chatProductView(featureFlags.userReviews)
-        self.relatedProductsView = ChatRelatedProductsView()
+        self.listingView = ChatListingView.chatListingView()
+        self.relatedListingsView = ChatRelatedListingsView()
         self.directAnswersPresenter = DirectAnswersPresenter(websocketChatActive: featureFlags.websocketChat)
         self.stickersView = ChatStickersView()
         self.featureFlags = featureFlags
@@ -99,12 +100,6 @@ class ChatViewController: TextViewController {
                                                          name: NSNotification.Name.UIMenuControllerWillHideMenu, object: nil)
     }
 
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        removeIgnoreTouchesForTooltip()
-    }
-
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         viewModel.didAppear()
@@ -135,7 +130,11 @@ class ChatViewController: TextViewController {
     
     override func sendButtonPressed() {
         guard let message = textView.text else { return }
-        viewModel.send(text: message)
+        if let quickAnswer = selectedQuickAnswer, message == quickAnswer.text {
+            viewModel.send(quickAnswer: quickAnswer)
+        } else {
+            viewModel.send(text: message)
+        }
     }
 
     /**
@@ -188,7 +187,7 @@ class ChatViewController: TextViewController {
             view.backgroundColor = patternBackground
         }
         
-        productView.delegate = self
+        listingView.delegate = self
 
         let action = UIAction(interface: .button(LGLocalizedString.chatExpressBannerButtonTitle,
             .secondary(fontSize: .small, withBorder: true)), action: { [weak self] in
@@ -198,10 +197,10 @@ class ChatViewController: TextViewController {
     }
 
     private func setupNavigationBar() {
-        productView.height = navigationBarHeight
-        productView.layoutIfNeeded()
+        listingView.height = navigationBarHeight
+        listingView.layoutIfNeeded()
 
-        setNavBarTitleStyle(.custom(productView))
+        setNavBarTitleStyle(.custom(listingView))
         setLetGoRightButtonWith(imageName: "ic_more_options", selector: "optionsBtnPressed")
     }
     
@@ -233,18 +232,18 @@ class ChatViewController: TextViewController {
     }
 
     fileprivate func setupRelatedProducts() {
-        relatedProductsView.setupOnTopOfView(textViewBar)
-        relatedProductsView.title.value = LGLocalizedString.chatRelatedProductsTitle
-        relatedProductsView.delegate = viewModel
-        relatedProductsView.visibleHeight.asObservable().distinctUntilChanged().bindNext { [weak self] _ in
+        relatedListingsView.setupOnTopOfView(textViewBar)
+        relatedListingsView.title.value = LGLocalizedString.chatRelatedProductsTitle
+        relatedListingsView.delegate = viewModel
+        relatedListingsView.visibleHeight.asObservable().distinctUntilChanged().bindNext { [weak self] _ in
             self?.configureBottomMargin(animated: true)
         }.addDisposableTo(disposeBag)
     }
 
     fileprivate func setupDirectAnswers() {
         directAnswersPresenter.hidden = viewModel.directAnswersState.value != .visible
-        directAnswersPresenter.setDirectAnswers(viewModel.directAnswers)
-        directAnswersPresenter.setupOnTopOfView(relatedProductsView)
+        directAnswersPresenter.setupOnTopOfView(relatedListingsView)
+        directAnswersPresenter.setDirectAnswers(viewModel.directAnswers, isDynamic: viewModel.areQuickAnswersDynamic)
         directAnswersPresenter.delegate = viewModel
     }
 
@@ -259,21 +258,15 @@ class ChatViewController: TextViewController {
     }
 
     fileprivate func configureBottomMargin(animated: Bool) {
-        let total = directAnswersPresenter.height + relatedProductsView.visibleHeight.value
+        let total = directAnswersPresenter.height + relatedListingsView.visibleHeight.value
         setTableBottomMargin(total, animated: animated)
     }
-    
-    func removeIgnoreTouchesForTooltip() {
-        guard let tooltip = self.productView.userRatingTooltip else { return }
-        self.navigationController?.navigationBar.endForceTouchesFor(tooltip)
-    }
-
 
 
     // MARK: > Navigation
     
-    dynamic private func productInfoPressed() {
-        viewModel.productInfoPressed()
+    dynamic private func listingInfoPressed() {
+        viewModel.listingInfoPressed()
     }
 
     dynamic private func optionsBtnPressed() {
@@ -424,22 +417,14 @@ fileprivate extension ChatViewController {
         viewModel.chatStatus.asObservable().bindNext { [weak self] status in
             self?.relationInfoView.setupUIForStatus(status, otherUserName: self?.viewModel.interlocutorName.value)
             switch status {
-            case .productDeleted:
-                self?.productView.disableProductInteraction()
+            case .listingDeleted:
+                self?.listingView.disableListingInteraction()
             case .forbidden, .userPendingDelete, .userDeleted:
-                self?.productView.disableUserProfileInteraction()
-                self?.productView.disableProductInteraction()
-            case .available, .blocked, .blockedBy, .productSold:
+                self?.listingView.disableUserProfileInteraction()
+                self?.listingView.disableListingInteraction()
+            case .available, .blocked, .blockedBy, .listingSold:
                 break
             }
-            }.addDisposableTo(disposeBag)
-
-        Observable.combineLatest(viewModel.shouldShowReviewButton.asObservable(),
-        viewModel.userReviewTooltipVisible.asObservable()) { $0 }
-            .subscribeNext { [weak self] (showReviewButton, showReviewTooltip) in
-                self?.productView.showReviewButton(showReviewButton, withTooltip: showReviewTooltip)
-                guard let tooltip = self?.productView.userRatingTooltip else { return }
-                self?.navigationController?.navigationBar.forceTouchesFor(tooltip)
             }.addDisposableTo(disposeBag)
 
         viewModel.messages.changesObservable.subscribeNext { [weak self] change in
@@ -451,12 +436,12 @@ fileprivate extension ChatViewController {
             }
             }.addDisposableTo(disposeBag)
         
-        viewModel.productName.asObservable().bindTo(productView.productName.rx.text).addDisposableTo(disposeBag)
-        viewModel.interlocutorName.asObservable().bindTo(productView.userName.rx.text).addDisposableTo(disposeBag)
-        viewModel.productPrice.asObservable().bindTo(productView.productPrice.rx.text).addDisposableTo(disposeBag)
-        viewModel.productImageUrl.asObservable().bindNext { [weak self] imageUrl in
+        viewModel.listingName.asObservable().bindTo(listingView.listingName.rx.text).addDisposableTo(disposeBag)
+        viewModel.interlocutorName.asObservable().bindTo(listingView.userName.rx.text).addDisposableTo(disposeBag)
+        viewModel.listingPrice.asObservable().bindTo(listingView.listingPrice.rx.text).addDisposableTo(disposeBag)
+        viewModel.listingImageUrl.asObservable().bindNext { [weak self] imageUrl in
             guard let url = imageUrl else { return }
-            self?.productView.productImage.lg_setImageWithURL(url)
+            self?.listingView.listingImage.lg_setImageWithURL(url)
             }.addDisposableTo(disposeBag)
         
         let placeHolder = Observable.combineLatest(viewModel.interlocutorId.asObservable(),
@@ -467,9 +452,9 @@ fileprivate extension ChatViewController {
         Observable.combineLatest(placeHolder, viewModel.interlocutorAvatarURL.asObservable()) { $0 }
             .bindNext { [weak self] (placeholder, avatarUrl) in
                 if let url = avatarUrl {
-                    self?.productView.userAvatar.lg_setImageWithURL(url, placeholderImage: placeholder)
+                    self?.listingView.userAvatar.lg_setImageWithURL(url, placeholderImage: placeholder)
                 } else {
-                    self?.productView.userAvatar.image = placeholder
+                    self?.listingView.userAvatar.image = placeholder
                 }
             }.addDisposableTo(disposeBag)
 
@@ -498,12 +483,12 @@ fileprivate extension ChatViewController {
             self?.reloadLeftActions()
         }.addDisposableTo(disposeBag)
         
-        viewModel.relatedProductsState.asObservable().bindNext { [weak self] state in
+        viewModel.relatedListingsState.asObservable().bindNext { [weak self] state in
             switch state {
             case .visible(let productId):
-                self?.relatedProductsView.productId.value = productId
+                self?.relatedListingsView.listingId.value = productId
             case .hidden, .loading:
-                self?.relatedProductsView.productId.value = nil
+                self?.relatedListingsView.listingId.value = nil
             }
         }.addDisposableTo(disposeBag)
     }
@@ -567,14 +552,14 @@ extension ChatViewController: ChatViewModelDelegate {
         showAutoFadingOutMessageAlert(message)
     }
     
-    func vmClearText() {
+    func vmDidSendMessage() {
         textView.text = ""
     }
 
     
     // MARK: > Report user
 
-    func vmShowReportUser(_ reportUserViewModel: ReportUsersViewModel) {
+    func vmDidPressReportUser(_ reportUserViewModel: ReportUsersViewModel) {
         let vc = ReportUsersViewController(viewModel: reportUserViewModel)
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -582,25 +567,34 @@ extension ChatViewController: ChatViewModelDelegate {
     
     // MARK: > Alerts and messages
     
-    func vmShowSafetyTips() {
+    func vmDidRequestSafetyTips() {
         showSafetyTips()
     }
     
-    func vmShowPrePermissions(_ type: PrePermissionType) {
+    func vmDidRequestShowPrePermissions(_ type: PrePermissionType) {
         showKeyboard(false, animated: true)
         pushPermissionManager.showPrePermissionsViewFrom(self, type: type, completion: nil)
     }
     
-    func vmShowKeyboard() {
+    func vmDidBeginEditing() {
         showKeyboard(true, animated: true)
     }
 
-    func vmHideKeyboard(_ animated: Bool) {
+    func vmDidEndEditing(animated: Bool) {
         showKeyboard(false, animated: animated)
     }
     
-    func vmShowMessage(_ message: String, completion: (() -> ())?) {
+    func vmDidNotifyMessage(_ message: String, completion: (() -> ())?) {
         showAutoFadingOutMessageAlert(message, completion: completion)
+    }
+    
+    
+    // MARK: > Direct answers
+    
+    func vmDidPressDirectAnswer(quickAnswer: QuickAnswer) {
+        selectedQuickAnswer = quickAnswer
+        textView.text = quickAnswer.text
+        textView.becomeFirstResponder()
     }
 }
 
@@ -687,24 +681,15 @@ extension ChatViewController {
 }
 
 
-// MARK: - ChatProductViewDelegate
+// MARK: - ChatListingViewDelegate
 
-extension ChatViewController: ChatProductViewDelegate {  
-    func productViewDidTapProductImage() {
-        viewModel.productInfoPressed()
+extension ChatViewController: ChatListingViewDelegate {  
+    func listingViewDidTapListingImage() {
+        viewModel.listingInfoPressed()
     }
     
-    func productViewDidTapUserAvatar() {
+    func listingViewDidTapUserAvatar() {
         viewModel.userInfoPressed()
-    }
-
-    func productViewDidTapUserReview() {
-        showKeyboard(false, animated: true)
-        viewModel.reviewUserPressed()
-    }
-
-    func productViewDidCloseUserReviewTooltip() {
-        viewModel.closeReviewTooltipPressed()
     }
 }
 

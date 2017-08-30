@@ -51,7 +51,7 @@ protocol FiltersViewModelDelegate: BaseViewModelDelegate {
 }
 
 protocol FiltersViewModelDataDelegate: class {
-    func viewModelDidUpdateFilters(_ viewModel: FiltersViewModel, filters: ProductFilters)
+    func viewModelDidUpdateFilters(_ viewModel: FiltersViewModel, filters: ListingFilters)
 }
 
 class FiltersViewModel: BaseViewModel {
@@ -186,23 +186,23 @@ class FiltersViewModel: BaseViewModel {
         return productFilter.selectedTaxonomyChildren.last
     }
 
-    fileprivate var productFilter : ProductFilters
+    fileprivate var productFilter : ListingFilters
     
     private let featureFlags: FeatureFlaggeable
     private let carsInfoRepository: CarsInfoRepository
 
     override convenience init() {
-        self.init(currentFilters: ProductFilters())
+        self.init(currentFilters: ListingFilters())
     }
     
-    convenience init(currentFilters: ProductFilters) {
+    convenience init(currentFilters: ListingFilters) {
         self.init(categoryRepository: Core.categoryRepository, categories: [],
             withinTimes: ListingTimeCriteria.allValues(), sortOptions: ListingSortCriteria.allValues(),
             currentFilters: currentFilters, featureFlags: FeatureFlags.sharedInstance, carsInfoRepository: Core.carsInfoRepository)
     }
     
     required init(categoryRepository: CategoryRepository, categories: [FilterCategoryItem],
-                  withinTimes: [ListingTimeCriteria], sortOptions: [ListingSortCriteria], currentFilters: ProductFilters,
+                  withinTimes: [ListingTimeCriteria], sortOptions: [ListingSortCriteria], currentFilters: ListingFilters,
         featureFlags: FeatureFlaggeable, carsInfoRepository: CarsInfoRepository) {
         self.categoryRepository = categoryRepository
         self.categories = categories
@@ -265,7 +265,7 @@ class FiltersViewModel: BaseViewModel {
     }
 
     func resetFilters() {
-        productFilter = ProductFilters()
+        productFilter = ListingFilters()
         sections = generateSections()
         delegate?.vmDidUpdate()
     }
@@ -296,7 +296,6 @@ class FiltersViewModel: BaseViewModel {
                                                         carYearStart: productFilter.carYearStart?.value,
                                                         carYearEnd: productFilter.carYearEnd?.value)
         TrackerProxy.sharedInstance.trackEvent(trackingEvent)
-        
         dataDelegate?.viewModelDidUpdateFilters(self, filters: productFilter)
     }
     

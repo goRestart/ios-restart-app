@@ -55,7 +55,7 @@ extension LGChatConversation: Decodable {
         static let objectId = "conversation_id"
         static let unreadMessageCount = "unread_messages_count"
         static let lastMessageSentAt = "last_message_sent_at"
-        static let product = "product"
+        static let listing = "product"
         static let interlocutor = "interlocutor"
         static let amISelling = "am_i_selling"
     }
@@ -66,7 +66,7 @@ extension LGChatConversation: Decodable {
         let result3 = result2 <*> j <| JSONKeys.unreadMessageCount
         let result4 = result3 <*> j <|? JSONKeys.lastMessageSentAt
         let result5 = result4 <*> j <| JSONKeys.amISelling
-        let result6 = result5 <*> (j <|? JSONKeys.product >>- LGChatListing.decodeOptional)
+        let result6 = result5 <*> (j <|? JSONKeys.listing >>- LGChatListing.decodeOptional)
         let result  = result6 <*> (j <|? JSONKeys.interlocutor >>- LGChatInterlocutor.decodeOptional)
         if let error = result.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGChatConversation parse error: \(error)")

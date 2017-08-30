@@ -14,7 +14,7 @@ open class MockPassiveBuyersRepository: PassiveBuyersRepository {
 
     // MARK: - PassiveBuyersRepository {
 
-    public func show(productId: String, completion: PassiveBuyersCompletion?) {
+    public func show(listingId: String, completion: PassiveBuyersCompletion?) {
         delay(result: showResult, completion: completion)
     }
 

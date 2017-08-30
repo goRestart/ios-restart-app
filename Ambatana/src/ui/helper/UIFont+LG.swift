@@ -96,9 +96,9 @@ extension UIFont {
 // MARK: > Chat Fonts
 extension UIFont {
     // Chat header view
-    static var chatProductViewNameFont: UIFont { return systemFont(size: 13) }
-    static var chatProductViewUserFont: UIFont { return systemBoldFont(size: 13) }
-    static var chatProductViewPriceFont: UIFont { return systemBoldFont(size: 13) }
+    static var chatListingViewNameFont: UIFont { return systemFont(size: 13) }
+    static var chatListingViewUserFont: UIFont { return systemBoldFont(size: 13) }
+    static var chatListingViewPriceFont: UIFont { return systemBoldFont(size: 13) }
 
     // Chat cells
     static var conversationUserNameUnreadFont: UIFont { return systemBoldFont(size: 17) }

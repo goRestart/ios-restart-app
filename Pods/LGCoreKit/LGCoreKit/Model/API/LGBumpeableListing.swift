@@ -43,7 +43,7 @@ extension LGBumpeableListing: Decodable {
         "is_bumpeable": true, // boolean
         "countdown": 213234546675, // milliseconds until can be bumped again
         "max_countdown": 213234546675, // Max countdown for this type of bump (i.e. when has just been bumped)
-        "total_bumps": 3, // int, number of times the the product can be bumped
+        "total_bumps": 3, // int, number of times the listing can be bumped
         "remaining_bumps": 0 // int, remaining bumps,
         "millis_since_last_bump_up", //milliseconds ellapsed since last bump up
         "payment_items": [
