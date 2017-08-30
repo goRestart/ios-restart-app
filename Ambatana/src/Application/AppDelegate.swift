@@ -292,6 +292,7 @@ fileprivate extension AppDelegate {
 
         let coreKitConfig = LGCoreKitConfig(environmentType: coreEnvironment,
                                             shouldUseChatWithWebSocket: shouldUseWebSocketChat,
+                                            locationDataSourceType: .apple(shouldUseRegion: false),
                                             carsInfoAppJSONURL: URL(fileURLWithPath: carsInfoJSONPath),
                                             taxonomiesAppJSONURL: URL(fileURLWithPath: taxonomiesJSONPath))
         LGCoreKit.initialize(config: coreKitConfig)

@@ -128,7 +128,7 @@ class LocationFromZipCodeViewModel: BaseViewModel {
 
         isResolvingAddress.value = true
 
-        locationRepository.retrieveAddressForLocation(location) { [weak self] result in
+        locationRepository.retrievePostalAddress(location: location) { [weak self] result in
             self?.isResolvingAddress.value = false
             if let place = result.value {
                 if let zipCode = place.postalAddress?.zipCode {
@@ -148,7 +148,7 @@ class LocationFromZipCodeViewModel: BaseViewModel {
 
         isResolvingAddress.value = true
 
-        locationRepository.retrieveAddressForLocation(zip) { [weak self] result in
+        locationRepository.retrieveLocationSuggestions(addressString: zip, currentLocation: locationManager.currentLocation) { [weak self] result in
             self?.isResolvingAddress.value = false
             if let value = result.value, !value.isEmpty {
                 guard let place = value.first else { return }
