@@ -9,8 +9,6 @@
 import RxCocoa
 import RxSwift
 
-extension BaseViewModel: ReactiveCompatible { }
-
 extension Reactive where Base: BaseViewModel {
     var active: UIBindingObserver<Base, Bool> {
         return UIBindingObserver<Base, Bool>(UIElement: self.base) { (view, active) -> () in
