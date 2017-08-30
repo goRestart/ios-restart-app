@@ -831,60 +831,6 @@ struct TrackerEvent {
         return TrackerEvent(name: .profileUnblock, params: params)
     }
 
-    static func commercializerStart(_ productId: String?, typePage: EventParameterTypePage) -> TrackerEvent {
-        var params = EventParameters()
-        params[.listingId] = productId ?? ""
-        params[.typePage] = typePage.rawValue
-        return TrackerEvent(name: .commercializerStart, params: params)
-    }
-
-    static func commercializerError(_ productId: String?, typePage: EventParameterTypePage,
-        error: EventParameterCommercializerError) -> TrackerEvent {
-            var params = EventParameters()
-            params[.listingId] = productId ?? ""
-            params[.typePage] = typePage.rawValue
-            params[.errorDescription] = error.rawValue
-            return TrackerEvent(name: .commercializerError, params: params)
-    }
-
-    static func commercializerComplete(_ productId: String?, typePage: EventParameterTypePage,
-        template: String) -> TrackerEvent {
-            var params = EventParameters()
-            params[.listingId] = productId ?? ""
-            params[.typePage] = typePage.rawValue
-            params[.template] = template
-            return TrackerEvent(name: .commercializerComplete, params: params)
-    }
-
-    static func commercializerOpen(_ productId: String?, typePage: EventParameterTypePage,
-        template: String) -> TrackerEvent {
-            var params = EventParameters()
-            params[.listingId] = productId ?? ""
-            params[.typePage] = typePage.rawValue
-            params[.template] = template
-            return TrackerEvent(name: .commercializerOpen, params: params)
-    }
-
-    static func commercializerShareStart(_ productId: String?, typePage: EventParameterTypePage, template: String,
-        shareNetwork: EventParameterShareNetwork) -> TrackerEvent {
-            var params = EventParameters()
-            params[.listingId] = productId ?? ""
-            params[.typePage] = typePage.rawValue
-            params[.template] = template
-            params[.shareNetwork] = shareNetwork.rawValue
-            return TrackerEvent(name: .commercializerShareStart, params: params)
-    }
-
-    static func commercializerShareComplete(_ productId: String?, typePage: EventParameterTypePage, template: String,
-                                                shareNetwork: EventParameterShareNetwork) -> TrackerEvent {
-        var params = EventParameters()
-        params[.listingId] = productId ?? ""
-        params[.typePage] = typePage.rawValue
-        params[.template] = template
-        params[.shareNetwork] = shareNetwork.rawValue
-        return TrackerEvent(name: .commercializerShareComplete, params: params)
-    }
-
     static func userRatingStart(_ userId: String, typePage: EventParameterTypePage) -> TrackerEvent {
         var params = EventParameters()
         params[.userToId] = userId

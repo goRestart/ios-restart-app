@@ -14,7 +14,6 @@ class MockListingViewModelMaker: ListingViewModelMaker {
 
     let myUserRepository: MockMyUserRepository
     let listingRepository: MockListingRepository
-    let commercializerRepository: MockCommercializerRepository
     let chatWrapper: MockChatWrapper
     let locationManager: MockLocationManager
     let countryHelper: CountryHelper
@@ -25,7 +24,6 @@ class MockListingViewModelMaker: ListingViewModelMaker {
 
     init(myUserRepository: MockMyUserRepository,
          listingRepository: MockListingRepository,
-         commercializerRepository: MockCommercializerRepository,
          chatWrapper: MockChatWrapper,
          locationManager: MockLocationManager,
          countryHelper: CountryHelper,
@@ -35,7 +33,6 @@ class MockListingViewModelMaker: ListingViewModelMaker {
          tracker: MockTracker) {
         self.myUserRepository = myUserRepository
         self.listingRepository = listingRepository
-        self.commercializerRepository = commercializerRepository
         self.chatWrapper = chatWrapper
         self.locationManager = locationManager
         self.countryHelper = countryHelper
@@ -50,7 +47,6 @@ class MockListingViewModelMaker: ListingViewModelMaker {
                                 visitSource: visitSource,
                                 myUserRepository: myUserRepository,
                                 listingRepository: listingRepository,
-                                commercializerRepository: commercializerRepository,
                                 chatWrapper: chatWrapper,
                                 chatViewMessageAdapter: ChatViewMessageAdapter(),
                                 locationManager: locationManager,
