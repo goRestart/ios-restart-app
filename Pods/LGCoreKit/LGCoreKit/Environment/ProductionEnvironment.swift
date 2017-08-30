@@ -9,7 +9,6 @@
 struct ProductionEnvironment: Environment {
     let apiBaseURL = "https://letgo-a.akamaihd.net"
     let bouncerBaseURL = "https://bouncer.letgo.com/api"
-    let commercializerBaseURL = "https://commercializer.letgo.com"
     let userRatingsBaseURL = "https://rating.letgo.com/api"
     let chatBaseURL = "https://chat.letgo.com"
     let webSocketURL = "wss://chat.letgo.com/socket"
