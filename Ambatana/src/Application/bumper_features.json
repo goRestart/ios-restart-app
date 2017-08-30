@@ -114,5 +114,10 @@
         "name": "DynamicQuickAnswers",
         "values": ["control", "baseline", "dynamicNoKeyboard", "dynamicWithKeyboard"],
         "description": "Random quick answers with different approaches"
+    },
+    {
+        "name": "LocationDataSource",
+        "values": ["control", "baseline", "appleWithRegion", "niordWithRegion"],
+        "description": "Location data source for geocode and reverse geocode"
     }
 ]

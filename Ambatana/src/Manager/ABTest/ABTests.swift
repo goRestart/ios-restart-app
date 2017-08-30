@@ -41,6 +41,7 @@ class ABTests {
     let tweaksCarPostingFlow = IntABDynamicVar(key: "20170810tweaksCarPostingFlow", defaultValue: 0)
     let userReviewsReportEnabled = BoolABDynamicVar(key: "20170823userReviewsReportEnabled", defaultValue: true)
     let dynamicQuickAnswers = IntABDynamicVar(key: "20170816DynamicQuickAnswers", defaultValue: 0)
+    let locationDataSource = IntABDynamicVar(key: "20170830LocationDataSource", defaultValue: 0)
 
     init() {
     }
@@ -76,6 +77,7 @@ class ABTests {
         result.append(tweaksCarPostingFlow)
         result.append(userReviewsReportEnabled)
         result.append(dynamicQuickAnswers)
+        result.append(locationDataSource)
 
         return result
     }

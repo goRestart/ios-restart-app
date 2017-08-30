@@ -36,6 +36,7 @@ extension Bumper  {
         flags.append(SearchParamDisc129.self)
         flags.append(UserReviewsReportEnabled.self)
         flags.append(DynamicQuickAnswers.self)
+        flags.append(LocationDataSource.self)
         Bumper.initialize(flags)
     } 
 
@@ -143,7 +144,7 @@ extension Bumper  {
         guard let value = Bumper.value(for: SearchParamDisc129.key) else { return .disc129a }
         return SearchParamDisc129(rawValue: value) ?? .disc129a 
     }
-  
+
     static var userReviewsReportEnabled: Bool {
         guard let value = Bumper.value(for: UserReviewsReportEnabled.key) else { return false }
         return UserReviewsReportEnabled(rawValue: value)?.asBool ?? false
@@ -152,6 +153,11 @@ extension Bumper  {
     static var dynamicQuickAnswers: DynamicQuickAnswers {
         guard let value = Bumper.value(for: DynamicQuickAnswers.key) else { return .control }
         return DynamicQuickAnswers(rawValue: value) ?? .control 
+    }
+
+    static var locationDataSource: LocationDataSource {
+        guard let value = Bumper.value(for: LocationDataSource.key) else { return .control }
+        return LocationDataSource(rawValue: value) ?? .control 
     } 
 }
 
@@ -405,7 +411,7 @@ enum SearchParamDisc129: String, BumperFeature  {
         }
     }
 }
-  
+
 enum UserReviewsReportEnabled: String, BumperFeature  {
     case no, yes
     static var defaultValue: String { return UserReviewsReportEnabled.no.rawValue }
@@ -427,6 +433,23 @@ enum DynamicQuickAnswers: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .dynamicNoKeyboard
             case 3: return .dynamicWithKeyboard
+            default: return .control
+        }
+    }
+}
+
+enum LocationDataSource: String, BumperFeature  {
+    case control, baseline, appleWithRegion, niordWithRegion
+    static var defaultValue: String { return LocationDataSource.control.rawValue }
+    static var enumValues: [LocationDataSource] { return [.control, .baseline, .appleWithRegion, .niordWithRegion]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Location data source for geocode and reverse geocode" } 
+    static func fromPosition(_ position: Int) -> LocationDataSource {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .appleWithRegion
+            case 3: return .niordWithRegion
             default: return .control
         }
     }
