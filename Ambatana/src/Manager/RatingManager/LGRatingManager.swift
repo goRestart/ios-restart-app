@@ -14,6 +14,7 @@ class LGRatingManager {
 
     fileprivate let keyValueStorage: KeyValueStorage
     fileprivate let crashManager: CrashManager
+    fileprivate let featureFlags: FeatureFlags
 
     
     // MARK: - Lifecycle
@@ -22,14 +23,17 @@ class LGRatingManager {
         let keyValueStorage = KeyValueStorage.sharedInstance
         let versionChecker = VersionChecker.sharedInstance
         let crashManager = CrashManager.sharedInstance
+        let featureFlags = FeatureFlags.sharedInstance
 
         self.init(keyValueStorage: keyValueStorage, crashManager: crashManager,
-                  versionChange: versionChecker.versionChange)
+                  versionChange: versionChecker.versionChange, featureFlags: featureFlags)
     }
 
-    init(keyValueStorage: KeyValueStorage, crashManager: CrashManager, versionChange: VersionChange) {
+    init(keyValueStorage: KeyValueStorage, crashManager: CrashManager, versionChange: VersionChange,
+         featureFlags: FeatureFlags) {
         self.keyValueStorage = keyValueStorage
         self.crashManager = crashManager
+        self.featureFlags = featureFlags
         switch versionChange {
         case .newInstall, .major, .minor:
             keyValueStorage.userRatingAlreadyRated = false
@@ -50,6 +54,7 @@ extension LGRatingManager: RatingManager {
         guard !crashManager.appCrashed else { return false }
         guard !keyValueStorage.userRatingAlreadyRated else { return false }
         guard let remindMeLaterDate = keyValueStorage.userRatingRemindMeLaterDate else { return true }
+        guard !featureFlags.appRatingDialogInactive else { return false }
         return remindMeLaterDate.timeIntervalSinceNow <= 0
     }
 
