@@ -361,37 +361,6 @@ enum ListingPostedStatus {
         }
     }
 
-    // 🦄
-//    init(productResult: ProductResult) {
-//        if let product = productResult.value {
-//            self = .success(listing: Listing.product(product))
-//        } else if let error = productResult.error {
-//            switch error {
-//            case .network:
-//                self = .error(error: .network)
-//            default:
-//                self = .error(error: .internalError)
-//            }
-//        } else {
-//            self = .error(error: .internalError)
-//        }
-//    }
-//
-//    init(carResult: CarResult) {
-//        if let car = carResult.value {
-//            self = .success(listing: Listing.car(car))
-//        } else if let error = carResult.error {
-//            switch error {
-//            case .network:
-//                self = .error(error: .network)
-//            default:
-//                self = .error(error: .internalError)
-//            }
-//        } else {
-//            self = .error(error: .internalError)
-//        }
-//    }
-
     init(error: RepositoryError) {
         switch error {
         case .network:

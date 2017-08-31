@@ -133,26 +133,22 @@ final class LGListingRepository: ListingRepository {
         dataSource.createListing(userId: myUserId, listingParams: listingParams) { [weak self] result in
             guard let strongSelf = self else { return }
             var carResult: Result<Listing, ApiError>?
-            if let listing = result.value {
+            if var listing = result.value {
+                // Cache the listing in the limbo
+                if let listingId = listing.objectId {
+                    strongSelf.listingsLimboDAO.save(listingId)
+                }
                 switch listing {
                 case .car(let car):
-                    // Cache the car in the limbo
-                    if let carId = car.objectId {
-                        strongSelf.listingsLimboDAO.save(carId)
-                    }
                     let newCar = LGCar(car: car)
                     let carUpdated = strongSelf.fillCarAttributes(car: newCar)
-                    // Send event
-                    strongSelf.eventBus.onNext(.create(Listing.car(carUpdated)))
-                    carResult = Result(value: Listing.car(carUpdated))
-                case .product(let product):
-                    // Cache the product in the limbo
-                    if let productId = product.objectId {
-                        strongSelf.listingsLimboDAO.save(productId)
-                    }
-                    // Send event
-                    strongSelf.eventBus.onNext(.create(Listing.product(product)))
+                    listing = Listing.car(carUpdated)
+                    carResult = Result(value: listing)
+                case .product:
+                    break
                 }
+                // Send event
+                strongSelf.eventBus.onNext(.create(listing))
             }
             handleApiResult(carResult ?? result, completion: completion)
         }
@@ -167,20 +163,19 @@ final class LGListingRepository: ListingRepository {
         dataSource.updateListing(listingParams: listingParams) { [weak self] result in
             guard let strongSelf = self else { return }
             var carResult: Result<Listing, ApiError>?
-            if let listing = result.value {
+            if var listing = result.value {
                 switch listing {
                 case .car(let car):
                     let newCar = LGCar(car: car)
                     let carUpdated = strongSelf.fillCarAttributes(car: newCar)
-                    // Send event
-                    strongSelf.eventBus.onNext(.update(Listing.car(carUpdated)))
-                    carResult = Result(value: Listing.car(carUpdated))
-                case .product(let product):
-                    // Send event
-                    strongSelf.eventBus.onNext(.update(Listing.product(product)))
+                    listing = Listing.car(carUpdated)
+                    carResult = Result(value: listing)
+                case .product:
+                    break
                 }
+                // Send event
+                strongSelf.eventBus.onNext(.update(listing))
             }
-
             handleApiResult(carResult ?? result, completion: completion)
         }
     }

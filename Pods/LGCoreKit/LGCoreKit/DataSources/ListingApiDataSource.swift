@@ -58,10 +58,11 @@ final class ListingApiDataSource: ListingDataSource {
         switch listingParams {
         case .car(let carParams):
             request = ListingRouter.create(params: carParams.apiCreationEncode(userId: userId))
+            apiClient.request(request, decoder: ListingApiDataSource.carDecoder, completion: completion)
         case .product(let productParams):
             request = ListingRouter.create(params: productParams.apiCreationEncode(userId: userId))
+            apiClient.request(request, decoder: ListingApiDataSource.productDecoder, completion: completion)
         }
-        apiClient.request(request, decoder: ListingApiDataSource.listingDecoder, completion: completion)
     }
 
     func updateListing(listingParams: ListingEditionParams, completion: ListingDataSourceCompletion?) {
@@ -69,10 +70,11 @@ final class ListingApiDataSource: ListingDataSource {
         switch listingParams {
         case .car(let carParams):
             request = ListingRouter.update(listingId: carParams.carId, params: carParams.apiEditionEncode())
+            apiClient.request(request, decoder: ListingApiDataSource.carDecoder, completion: completion)
         case .product(let productParams):
             request = ListingRouter.update(listingId: productParams.productId, params: productParams.apiEditionEncode())
+            apiClient.request(request, decoder: ListingApiDataSource.productDecoder, completion: completion)
         }
-        apiClient.request(request, decoder: ListingApiDataSource.listingDecoder, completion: completion)
     }
 
     
@@ -181,15 +183,18 @@ final class ListingApiDataSource: ListingDataSource {
         return listing
     }
 
-    private static func listingDecoder(_ object: Any) -> Listing? {
+    private static func productDecoder(_ object: Any) -> Listing? {
         let product: LGProduct? = decode(object)
         if let product = product {
-            return Listing.product(product)
+            return .product(product)
         }
+        return nil
+    }
 
+    private static func carDecoder(_ object: Any) -> Listing? {
         let car: LGCar? = decode(object)
         if let car = car {
-            return Listing.car(car)
+            return .car(car)
         }
         return nil
     }

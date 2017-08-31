@@ -484,8 +484,6 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
             editParams = .product(productEditParams)
         case .cars:
             guard let carEditParams = CarEditionParams(listing: listing) else { return }
-            delegate?.vmHideKeyboard()
-            loadingProgress.value = 0
             carEditParams.carAttributes = carAttributes
             carEditParams.category = .cars
             carEditParams.name = generateCarTitle()
