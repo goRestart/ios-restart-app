@@ -19,6 +19,7 @@ class RatingManagerSpec: QuickSpec {
         var mockUserProvider: MockMyUserRepository!
         var keyValueStorage: KeyValueStorage!
         var crashManager: CrashManager!
+        var featureFlags: MockFeatureFlags!
 
         describe("Rating Manager") {
             beforeEach {
@@ -28,328 +29,621 @@ class RatingManagerSpec: QuickSpec {
                 myUser.objectId = "12345"
                 mockUserProvider.myUserVar.value = myUser
                 keyValueStorage = KeyValueStorage(storage: mockStorage, myUserRepository: mockUserProvider)
+                
+                featureFlags = MockFeatureFlags()
             }
-
-            describe("app crashed w/o any update") {
+                
+            describe("App rating dialog inactive feature flag is false") {
                 beforeEach {
-                    let versionChange = VersionChange.none
-                    crashManager = CrashManager(appCrashed: true, versionChange: versionChange)
-                    sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
-                        versionChange: versionChange)
+                    featureFlags.appRatingDialogInactive = false
                 }
-                it("should not show rating") {
-                    expect(sut.shouldShowRating) == false
-                }
-            }
-
-            describe("previously not rated, no remind later") {
-                beforeEach {
-                    keyValueStorage.userRatingAlreadyRated = false
-                    keyValueStorage.userRatingRemindMeLaterDate = nil
-                }
-
-                context("new install") {
-                    beforeEach {
-                        let versionChange = VersionChange.newInstall
-                        crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
-                        sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
-                            versionChange: versionChange)
-                    }
-                    it("key storage indicates that user did not rate") {
-                        expect(keyValueStorage.userRatingAlreadyRated) == false
-                    }
-                    it("key storage has not remind me later date") {
-                        expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
-                    }
-                    it("should show rating") {
-                        expect(sut.shouldShowRating) == true
-                    }
-                }
-                context("new session") {
+                describe("app crashed w/o any update") {
                     beforeEach {
                         let versionChange = VersionChange.none
-                        crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
+                        crashManager = CrashManager(appCrashed: true, versionChange: versionChange)
                         sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
-                            versionChange: versionChange)
-                    }
-                    it("key storage indicates that user did not rate") {
-                        expect(keyValueStorage.userRatingAlreadyRated) == false
-                    }
-                    it("key storage has not remind me later date") {
-                        expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
-                    }
-                    it("should show rating") {
-                        expect(sut.shouldShowRating) == true
-                    }
-                }
-                context("major update") {
-                    beforeEach {
-                        let versionChange = VersionChange.major
-                        crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
-                        sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
-                            versionChange: versionChange)
-                    }
-                    it("key storage indicates that user did not rate") {
-                        expect(keyValueStorage.userRatingAlreadyRated) == false
-                    }
-                    it("key storage has not remind me later date") {
-                        expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
-                    }
-                    it("should show rating") {
-                        expect(sut.shouldShowRating) == true
-                    }
-                }
-                context("minor update") {
-                    beforeEach {
-                        let versionChange = VersionChange.minor
-                        crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
-                        sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
-                            versionChange: versionChange)
-                    }
-                    it("key storage indicates that user did not rate") {
-                        expect(keyValueStorage.userRatingAlreadyRated) == false
-                    }
-                    it("key storage has not remind me later date") {
-                        expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
-                    }
-                    it("should show rating") {
-                        expect(sut.shouldShowRating) == true
-                    }
-                }
-                context("patch update") {
-                    beforeEach {
-                        let versionChange = VersionChange.patch
-                        crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
-                        sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
-                            versionChange: versionChange)
-                    }
-                    it("key storage indicates that user did not rate") {
-                        expect(keyValueStorage.userRatingAlreadyRated) == false
-                    }
-                    it("key storage has not remind me later date") {
-                        expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
-                    }
-                    it("should show rating") {
-                        expect(sut.shouldShowRating) == true
-                    }
-                }
-            }
-
-            describe("previously not rated, remind later") {
-                beforeEach {
-                    keyValueStorage.userRatingAlreadyRated = false
-                    keyValueStorage.userRatingRemindMeLaterDate = NSDate.distantPast
-                }
-
-                context("new install") {
-                    beforeEach {
-                        let versionChange = VersionChange.newInstall
-                        crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
-                        sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
-                            versionChange: versionChange)
-                    }
-                    it("key storage indicates that user did not rate") {
-                        expect(keyValueStorage.userRatingAlreadyRated) == false
-                    }
-                    it("key storage has not remind me later date") {
-                        expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
-                    }
-                    it("should show rating") {
-                        expect(sut.shouldShowRating) == true
-                    }
-                }
-                context("new session") {
-                    beforeEach {
-                        let versionChange = VersionChange.none
-                        crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
-                        sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
-                            versionChange: versionChange)
-                    }
-                    it("key storage indicates that user did not rate") {
-                        expect(keyValueStorage.userRatingAlreadyRated) == false
-                    }
-                    it("key storage has a remind me later date") {
-                        expect(keyValueStorage.userRatingRemindMeLaterDate).notTo(beNil())
-                    }
-                    it("should show rating") {
-                        expect(sut.shouldShowRating) == true
-                    }
-                }
-                context("major update") {
-                    beforeEach {
-                        let versionChange = VersionChange.major
-                        crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
-                        sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
-                            versionChange: versionChange)
-                    }
-                    it("key storage indicates that user did not rate") {
-                        expect(keyValueStorage.userRatingAlreadyRated) == false
-                    }
-                    it("key storage has not remind me later date") {
-                        expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
-                    }
-                    it("should show rating") {
-                        expect(sut.shouldShowRating) == true
-                    }
-                }
-                context("minor update") {
-                    beforeEach {
-                        let versionChange = VersionChange.minor
-                        crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
-                        sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
-                            versionChange: versionChange)
-                    }
-                    it("key storage indicates that user did not rate") {
-                        expect(keyValueStorage.userRatingAlreadyRated) == false
-                    }
-                    it("key storage has not remind me later date") {
-                        expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
-                    }
-                    it("should show rating") {
-                        expect(sut.shouldShowRating) == true
-                    }
-                }
-                context("patch update") {
-                    beforeEach {
-                        let versionChange = VersionChange.patch
-                        crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
-                        sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
-                            versionChange: versionChange)
-                    }
-                    it("key storage indicates that user did not rate") {
-                        expect(keyValueStorage.userRatingAlreadyRated) == false
-                    }
-                    it("key storage has not remind me later date") {
-                        expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
-                    }
-                    it("should show rating") {
-                        expect(sut.shouldShowRating) == true
-                    }
-                }
-            }
-
-            describe("previously rated") {
-                beforeEach {
-                    keyValueStorage.userRatingAlreadyRated = true
-                    keyValueStorage.userRatingRemindMeLaterDate = nil
-                }
-
-                context("new install") {
-                    beforeEach {
-                        let versionChange = VersionChange.newInstall
-                        crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
-                        sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
-                            versionChange: versionChange)
-                    }
-                    it("key storage indicates that user did not rate") {
-                        expect(keyValueStorage.userRatingAlreadyRated) == false
-                    }
-                    it("key storage has not remind me later date") {
-                        expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
-                    }
-                    it("should show rating") {
-                        expect(sut.shouldShowRating) == true
-                    }
-                }
-                context("new session") {
-                    beforeEach {
-                        let versionChange = VersionChange.none
-                        crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
-                        sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
-                            versionChange: versionChange)
-                    }
-                    it("key storage indicates that user did rate") {
-                        expect(keyValueStorage.userRatingAlreadyRated) == true
-                    }
-                    it("key storage has not a remind me later date") {
-                        expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
+                                              versionChange: versionChange, featureFlags: featureFlags)
                     }
                     it("should not show rating") {
                         expect(sut.shouldShowRating) == false
                     }
                 }
-                context("major update") {
+                
+                describe("previously not rated, no remind later") {
                     beforeEach {
-                        let versionChange = VersionChange.major
-                        crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
-                        sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
-                            versionChange: versionChange)
+                        keyValueStorage.userRatingAlreadyRated = false
+                        keyValueStorage.userRatingRemindMeLaterDate = nil
                     }
-                    it("key storage indicates that user did not rate") {
-                        expect(keyValueStorage.userRatingAlreadyRated) == false
+                    
+                    context("new install") {
+                        beforeEach {
+                            let versionChange = VersionChange.newInstall
+                            crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
+                            sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                                                  versionChange: versionChange, featureFlags: featureFlags)
+                        }
+                        it("key storage indicates that user did not rate") {
+                            expect(keyValueStorage.userRatingAlreadyRated) == false
+                        }
+                        it("key storage has not remind me later date") {
+                            expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
+                        }
+                        it("should show rating") {
+                            expect(sut.shouldShowRating) == true
+                        }
                     }
-                    it("key storage has not remind me later date") {
-                        expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
+                    context("new session") {
+                        beforeEach {
+                            let versionChange = VersionChange.none
+                            crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
+                            sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                                                  versionChange: versionChange, featureFlags: featureFlags)
+                        }
+                        it("key storage indicates that user did not rate") {
+                            expect(keyValueStorage.userRatingAlreadyRated) == false
+                        }
+                        it("key storage has not remind me later date") {
+                            expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
+                        }
+                        it("should show rating") {
+                            expect(sut.shouldShowRating) == true
+                        }
                     }
-                    it("should show rating") {
-                        expect(sut.shouldShowRating) == true
+                    context("major update") {
+                        beforeEach {
+                            let versionChange = VersionChange.major
+                            crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
+                            sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                                                  versionChange: versionChange, featureFlags: featureFlags)
+                        }
+                        it("key storage indicates that user did not rate") {
+                            expect(keyValueStorage.userRatingAlreadyRated) == false
+                        }
+                        it("key storage has not remind me later date") {
+                            expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
+                        }
+                        it("should show rating") {
+                            expect(sut.shouldShowRating) == true
+                        }
+                    }
+                    context("minor update") {
+                        beforeEach {
+                            let versionChange = VersionChange.minor
+                            crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
+                            sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                                                  versionChange: versionChange, featureFlags: featureFlags)
+                        }
+                        it("key storage indicates that user did not rate") {
+                            expect(keyValueStorage.userRatingAlreadyRated) == false
+                        }
+                        it("key storage has not remind me later date") {
+                            expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
+                        }
+                        it("should show rating") {
+                            expect(sut.shouldShowRating) == true
+                        }
+                    }
+                    context("patch update") {
+                        beforeEach {
+                            let versionChange = VersionChange.patch
+                            crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
+                            sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                                                  versionChange: versionChange, featureFlags: featureFlags)
+                        }
+                        it("key storage indicates that user did not rate") {
+                            expect(keyValueStorage.userRatingAlreadyRated) == false
+                        }
+                        it("key storage has not remind me later date") {
+                            expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
+                        }
+                        it("should show rating") {
+                            expect(sut.shouldShowRating) == true
+                        }
                     }
                 }
-                context("minor update") {
+                
+                describe("previously not rated, remind later") {
                     beforeEach {
-                        let versionChange = VersionChange.minor
-                        crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
-                        sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
-                            versionChange: versionChange)
+                        keyValueStorage.userRatingAlreadyRated = false
+                        keyValueStorage.userRatingRemindMeLaterDate = NSDate.distantPast
                     }
-                    it("key storage indicates that user did not rate") {
-                        expect(keyValueStorage.userRatingAlreadyRated) == false
+                    
+                    context("new install") {
+                        beforeEach {
+                            let versionChange = VersionChange.newInstall
+                            crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
+                            sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                                                  versionChange: versionChange, featureFlags: featureFlags)
+                        }
+                        it("key storage indicates that user did not rate") {
+                            expect(keyValueStorage.userRatingAlreadyRated) == false
+                        }
+                        it("key storage has not remind me later date") {
+                            expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
+                        }
+                        it("should show rating") {
+                            expect(sut.shouldShowRating) == true
+                        }
                     }
-                    it("key storage has not remind me later date") {
-                        expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
+                    context("new session") {
+                        beforeEach {
+                            let versionChange = VersionChange.none
+                            crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
+                            sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                                                  versionChange: versionChange, featureFlags: featureFlags)
+                        }
+                        it("key storage indicates that user did not rate") {
+                            expect(keyValueStorage.userRatingAlreadyRated) == false
+                        }
+                        it("key storage has a remind me later date") {
+                            expect(keyValueStorage.userRatingRemindMeLaterDate).notTo(beNil())
+                        }
+                        it("should show rating") {
+                            expect(sut.shouldShowRating) == true
+                        }
                     }
-                    it("should show rating") {
-                        expect(sut.shouldShowRating) == true
+                    context("major update") {
+                        beforeEach {
+                            let versionChange = VersionChange.major
+                            crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
+                            sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                                                  versionChange: versionChange, featureFlags: featureFlags)
+                        }
+                        it("key storage indicates that user did not rate") {
+                            expect(keyValueStorage.userRatingAlreadyRated) == false
+                        }
+                        it("key storage has not remind me later date") {
+                            expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
+                        }
+                        it("should show rating") {
+                            expect(sut.shouldShowRating) == true
+                        }
+                    }
+                    context("minor update") {
+                        beforeEach {
+                            let versionChange = VersionChange.minor
+                            crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
+                            sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                                                  versionChange: versionChange, featureFlags: featureFlags)
+                        }
+                        it("key storage indicates that user did not rate") {
+                            expect(keyValueStorage.userRatingAlreadyRated) == false
+                        }
+                        it("key storage has not remind me later date") {
+                            expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
+                        }
+                        it("should show rating") {
+                            expect(sut.shouldShowRating) == true
+                        }
+                    }
+                    context("patch update") {
+                        beforeEach {
+                            let versionChange = VersionChange.patch
+                            crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
+                            sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                                                  versionChange: versionChange, featureFlags: featureFlags)
+                        }
+                        it("key storage indicates that user did not rate") {
+                            expect(keyValueStorage.userRatingAlreadyRated) == false
+                        }
+                        it("key storage has not remind me later date") {
+                            expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
+                        }
+                        it("should show rating") {
+                            expect(sut.shouldShowRating) == true
+                        }
                     }
                 }
-                context("patch update") {
+                
+                describe("previously rated") {
                     beforeEach {
-                        let versionChange = VersionChange.patch
+                        keyValueStorage.userRatingAlreadyRated = true
+                        keyValueStorage.userRatingRemindMeLaterDate = nil
+                    }
+                    
+                    context("new install") {
+                        beforeEach {
+                            let versionChange = VersionChange.newInstall
+                            crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
+                            sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                                                  versionChange: versionChange, featureFlags: featureFlags)
+                        }
+                        it("key storage indicates that user did not rate") {
+                            expect(keyValueStorage.userRatingAlreadyRated) == false
+                        }
+                        it("key storage has not remind me later date") {
+                            expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
+                        }
+                        it("should show rating") {
+                            expect(sut.shouldShowRating) == true
+                        }
+                    }
+                    context("new session") {
+                        beforeEach {
+                            let versionChange = VersionChange.none
+                            crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
+                            sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                                                  versionChange: versionChange, featureFlags: featureFlags)
+                        }
+                        it("key storage indicates that user did rate") {
+                            expect(keyValueStorage.userRatingAlreadyRated) == true
+                        }
+                        it("key storage has not a remind me later date") {
+                            expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
+                        }
+                        it("should not show rating") {
+                            expect(sut.shouldShowRating) == false
+                        }
+                    }
+                    context("major update") {
+                        beforeEach {
+                            let versionChange = VersionChange.major
+                            crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
+                            sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                                                  versionChange: versionChange, featureFlags: featureFlags)
+                        }
+                        it("key storage indicates that user did not rate") {
+                            expect(keyValueStorage.userRatingAlreadyRated) == false
+                        }
+                        it("key storage has not remind me later date") {
+                            expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
+                        }
+                        it("should show rating") {
+                            expect(sut.shouldShowRating) == true
+                        }
+                    }
+                    context("minor update") {
+                        beforeEach {
+                            let versionChange = VersionChange.minor
+                            crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
+                            sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                                                  versionChange: versionChange, featureFlags: featureFlags)
+                        }
+                        it("key storage indicates that user did not rate") {
+                            expect(keyValueStorage.userRatingAlreadyRated) == false
+                        }
+                        it("key storage has not remind me later date") {
+                            expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
+                        }
+                        it("should show rating") {
+                            expect(sut.shouldShowRating) == true
+                        }
+                    }
+                    context("patch update") {
+                        beforeEach {
+                            let versionChange = VersionChange.patch
+                            crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
+                            sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                                                  versionChange: versionChange, featureFlags: featureFlags)
+                        }
+                        it("key storage indicates that user did rate") {
+                            expect(keyValueStorage.userRatingAlreadyRated) == true
+                        }
+                        it("key storage has not remind me later date") {
+                            expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
+                        }
+                        it("should show not rating") {
+                            expect(sut.shouldShowRating) == false
+                        }
+                    }
+                }
+                
+                describe("user did rate") {
+                    beforeEach {
+                        keyValueStorage.userRatingAlreadyRated = false
+                        
+                        let versionChange = VersionChange.newInstall
                         crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
                         sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
-                            versionChange: versionChange)
+                                              versionChange: versionChange, featureFlags: featureFlags)
+                        sut.userDidRate()
                     }
-                    it("key storage indicates that user did rate") {
+                    it("updates already rated in storage") {
                         expect(keyValueStorage.userRatingAlreadyRated) == true
                     }
-                    it("key storage has not remind me later date") {
-                        expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
+                }
+                
+                describe("user did remind later") {
+                    beforeEach {
+                        keyValueStorage.userRatingRemindMeLaterDate = nil
+                        
+                        let versionChange = VersionChange.none
+                        crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
+                        sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                                              versionChange: versionChange, featureFlags: featureFlags)
+                        sut.userDidRemindLater()
                     }
-                    it("should show not rating") {
-                        expect(sut.shouldShowRating) == false
+                    it("updates remind me later in storage") {
+                        expect(keyValueStorage.userRatingRemindMeLaterDate).notTo(beNil())
                     }
                 }
             }
-
-            describe("user did rate") {
+            
+            describe("App rating dialog inactive feature flag is true") {
                 beforeEach {
-                    keyValueStorage.userRatingAlreadyRated = false
-
-                    let versionChange = VersionChange.newInstall
-                    crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
-                    sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
-                        versionChange: versionChange)
-                    sut.userDidRate()
+                    featureFlags.appRatingDialogInactive = true
                 }
-                it("updates already rated in storage") {
-                    expect(keyValueStorage.userRatingAlreadyRated) == true
+                
+                describe("previously not rated, no remind later") {
+                    beforeEach {
+                        keyValueStorage.userRatingAlreadyRated = false
+                        keyValueStorage.userRatingRemindMeLaterDate = nil
+                    }
+                    
+                    context("new install") {
+                        beforeEach {
+                            let versionChange = VersionChange.newInstall
+                            crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
+                            sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                                                  versionChange: versionChange, featureFlags: featureFlags)
+                        }
+                        it("key storage indicates that user did not rate") {
+                            expect(keyValueStorage.userRatingAlreadyRated) == false
+                        }
+                        it("key storage has not remind me later date") {
+                            expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
+                        }
+                        it("should not show rating") {
+                            expect(sut.shouldShowRating) == false
+                        }
+                    }
+                    context("new session") {
+                        beforeEach {
+                            let versionChange = VersionChange.none
+                            crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
+                            sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                                                  versionChange: versionChange, featureFlags: featureFlags)
+                        }
+                        it("key storage indicates that user did not rate") {
+                            expect(keyValueStorage.userRatingAlreadyRated) == false
+                        }
+                        it("key storage has not remind me later date") {
+                            expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
+                        }
+                        it("should not show rating") {
+                            expect(sut.shouldShowRating) == false
+                        }
+                    }
+                    context("major update") {
+                        beforeEach {
+                            let versionChange = VersionChange.major
+                            crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
+                            sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                                                  versionChange: versionChange, featureFlags: featureFlags)
+                        }
+                        it("key storage indicates that user did not rate") {
+                            expect(keyValueStorage.userRatingAlreadyRated) == false
+                        }
+                        it("key storage has not remind me later date") {
+                            expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
+                        }
+                        it("should not show rating") {
+                            expect(sut.shouldShowRating) == false
+                        }
+                    }
+                    context("minor update") {
+                        beforeEach {
+                            let versionChange = VersionChange.minor
+                            crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
+                            sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                                                  versionChange: versionChange, featureFlags: featureFlags)
+                        }
+                        it("key storage indicates that user did not rate") {
+                            expect(keyValueStorage.userRatingAlreadyRated) == false
+                        }
+                        it("key storage has not remind me later date") {
+                            expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
+                        }
+                        it("should not show rating") {
+                            expect(sut.shouldShowRating) == false
+                        }
+                    }
+                    context("patch update") {
+                        beforeEach {
+                            let versionChange = VersionChange.patch
+                            crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
+                            sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                                                  versionChange: versionChange, featureFlags: featureFlags)
+                        }
+                        it("key storage indicates that user did not rate") {
+                            expect(keyValueStorage.userRatingAlreadyRated) == false
+                        }
+                        it("key storage has not remind me later date") {
+                            expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
+                        }
+                        it("should not show rating") {
+                            expect(sut.shouldShowRating) == false
+                        }
+                    }
                 }
-            }
-
-            describe("user did remind later") {
-                beforeEach {
-                    keyValueStorage.userRatingRemindMeLaterDate = nil
-
-                    let versionChange = VersionChange.none
-                    crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
-                    sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
-                        versionChange: versionChange)
-                    sut.userDidRemindLater()
+                
+                describe("previously not rated, remind later") {
+                    beforeEach {
+                        keyValueStorage.userRatingAlreadyRated = false
+                        keyValueStorage.userRatingRemindMeLaterDate = NSDate.distantPast
+                    }
+                    
+                    context("new install") {
+                        beforeEach {
+                            let versionChange = VersionChange.newInstall
+                            crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
+                            sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                                                  versionChange: versionChange, featureFlags: featureFlags)
+                        }
+                        it("key storage indicates that user did not rate") {
+                            expect(keyValueStorage.userRatingAlreadyRated) == false
+                        }
+                        it("key storage has not remind me later date") {
+                            expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
+                        }
+                        it("should not show rating") {
+                            expect(sut.shouldShowRating) == false
+                        }
+                    }
+                    context("new session") {
+                        beforeEach {
+                            let versionChange = VersionChange.none
+                            crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
+                            sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                                                  versionChange: versionChange, featureFlags: featureFlags)
+                        }
+                        it("key storage indicates that user did not rate") {
+                            expect(keyValueStorage.userRatingAlreadyRated) == false
+                        }
+                        it("key storage has a remind me later date") {
+                            expect(keyValueStorage.userRatingRemindMeLaterDate).notTo(beNil())
+                        }
+                        it("should not show rating") {
+                            expect(sut.shouldShowRating) == false
+                        }
+                    }
+                    context("major update") {
+                        beforeEach {
+                            let versionChange = VersionChange.major
+                            crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
+                            sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                                                  versionChange: versionChange, featureFlags: featureFlags)
+                        }
+                        it("key storage indicates that user did not rate") {
+                            expect(keyValueStorage.userRatingAlreadyRated) == false
+                        }
+                        it("key storage has not remind me later date") {
+                            expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
+                        }
+                        it("should not show rating") {
+                            expect(sut.shouldShowRating) == false
+                        }
+                    }
+                    context("minor update") {
+                        beforeEach {
+                            let versionChange = VersionChange.minor
+                            crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
+                            sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                                                  versionChange: versionChange, featureFlags: featureFlags)
+                        }
+                        it("key storage indicates that user did not rate") {
+                            expect(keyValueStorage.userRatingAlreadyRated) == false
+                        }
+                        it("key storage has not remind me later date") {
+                            expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
+                        }
+                        it("should not show rating") {
+                            expect(sut.shouldShowRating) == false
+                        }
+                    }
+                    context("patch update") {
+                        beforeEach {
+                            let versionChange = VersionChange.patch
+                            crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
+                            sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                                                  versionChange: versionChange, featureFlags: featureFlags)
+                        }
+                        it("key storage indicates that user did not rate") {
+                            expect(keyValueStorage.userRatingAlreadyRated) == false
+                        }
+                        it("key storage has not remind me later date") {
+                            expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
+                        }
+                        it("should not show rating") {
+                            expect(sut.shouldShowRating) == false
+                        }
+                    }
                 }
-                it("updates remind me later in storage") {
-                    expect(keyValueStorage.userRatingRemindMeLaterDate).notTo(beNil())
+                
+                describe("previously rated") {
+                    beforeEach {
+                        keyValueStorage.userRatingAlreadyRated = true
+                        keyValueStorage.userRatingRemindMeLaterDate = nil
+                    }
+                    
+                    context("new install") {
+                        beforeEach {
+                            let versionChange = VersionChange.newInstall
+                            crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
+                            sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                                                  versionChange: versionChange, featureFlags: featureFlags)
+                        }
+                        it("key storage indicates that user did not rate") {
+                            expect(keyValueStorage.userRatingAlreadyRated) == false
+                        }
+                        it("key storage has not remind me later date") {
+                            expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
+                        }
+                        it("should not show rating") {
+                            expect(sut.shouldShowRating) == false
+                        }
+                    }
+                    context("new session") {
+                        beforeEach {
+                            let versionChange = VersionChange.none
+                            crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
+                            sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                                                  versionChange: versionChange, featureFlags: featureFlags)
+                        }
+                        it("key storage indicates that user did rate") {
+                            expect(keyValueStorage.userRatingAlreadyRated) == true
+                        }
+                        it("key storage has not a remind me later date") {
+                            expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
+                        }
+                        it("should not show rating") {
+                            expect(sut.shouldShowRating) == false
+                        }
+                    }
+                    context("major update") {
+                        beforeEach {
+                            let versionChange = VersionChange.major
+                            crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
+                            sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                                                  versionChange: versionChange, featureFlags: featureFlags)
+                        }
+                        it("key storage indicates that user did not rate") {
+                            expect(keyValueStorage.userRatingAlreadyRated) == false
+                        }
+                        it("key storage has not remind me later date") {
+                            expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
+                        }
+                        it("should show rating") {
+                            expect(sut.shouldShowRating) == false
+                        }
+                    }
+                    context("minor update") {
+                        beforeEach {
+                            let versionChange = VersionChange.minor
+                            crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
+                            sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                                                  versionChange: versionChange, featureFlags: featureFlags)
+                        }
+                        it("key storage indicates that user did not rate") {
+                            expect(keyValueStorage.userRatingAlreadyRated) == false
+                        }
+                        it("key storage has not remind me later date") {
+                            expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
+                        }
+                        it("should show rating") {
+                            expect(sut.shouldShowRating) == false
+                        }
+                    }
+                    context("patch update") {
+                        beforeEach {
+                            let versionChange = VersionChange.patch
+                            crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
+                            sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                                                  versionChange: versionChange, featureFlags: featureFlags)
+                        }
+                        it("key storage indicates that user did rate") {
+                            expect(keyValueStorage.userRatingAlreadyRated) == true
+                        }
+                        it("key storage has not remind me later date") {
+                            expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
+                        }
+                        it("should show not rating") {
+                            expect(sut.shouldShowRating) == false
+                        }
+                    }
                 }
             }
         }
+        
     }
 }
