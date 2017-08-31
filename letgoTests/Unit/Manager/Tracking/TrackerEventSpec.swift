@@ -3792,8 +3792,8 @@ class TrackerEventSpec: QuickSpec {
                     let param = sut.params!.stringKeyParams["superkeyword-total"] as? Int
                     expect(param) == 2
                 }
-                it("contains superkeyword-name parameter") {
-                    let param = sut.params!.stringKeyParams["superkeyword-names"] as? [Int]
+                it("contains superkeyword-ids parameter") {
+                    let param = sut.params!.stringKeyParams["superkeyword-ids"] as? [Int]
                     expect(param) == [2, 3]
                 }
             }
