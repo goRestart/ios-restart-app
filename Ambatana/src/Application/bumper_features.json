@@ -111,7 +111,7 @@
         "description": "Random quick answers with different approaches"
     },
     {
-        "name": "LocationDataSource",
+        "name": "LocationDataSourceEndpoint",
         "values": ["control", "baseline", "appleWithRegion", "niordWithRegion"],
         "description": "Location data source for geocode and reverse geocode"
     }
