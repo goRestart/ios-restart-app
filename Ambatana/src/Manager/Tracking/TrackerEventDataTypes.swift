@@ -317,7 +317,7 @@ enum EventParameterName: String {
     case bubblePosition       = "bubble-position"
     case bubbleName           = "bubble-name"
     case superKeywordsTotal   = "superkeyword-total"
-    case superKeywordsIds   = "superkeyword-ids"
+    case superKeywordsIds     = "superkeyword-ids"
     case keywordName          = "keyword-name"
 }
 
