@@ -109,7 +109,7 @@ final class LeanplumTracker: Tracker {
 
     func trackEvent(_ event: TrackerEvent) {
         guard event.shouldTrack else { return }
-        Leanplum.track(event.actualName, withParameters: event.params?.stringKeyParams)
+        Leanplum.track(event.actualName, withParameters: event.params?.leanplumStringKeyParams)
     }
 
     func setLocation(_ location: LGLocation?, postalAddress: PostalAddress?) {
@@ -129,5 +129,19 @@ final class LeanplumTracker: Tracker {
 
     func setMarketingNotifications(_ enabled: Bool) {
         Leanplum.setUserAttributes([LeanplumTracker.userPropMktNotificationsEnabled : enabled])
+    }
+}
+
+fileprivate extension EventParameters {
+    var leanplumStringKeyParams: [String: Any] {
+        var res = [String: Any]()
+        for (paramName, value) in params {
+            if let stringArray = value as? [Int] {
+                res[paramName.rawValue] = stringArray.map{String($0)}.joined(separator: ",")
+            } else {
+                res[paramName.rawValue] = value
+            }
+        }
+        return res
     }
 }

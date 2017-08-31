@@ -1124,10 +1124,10 @@ struct TrackerEvent {
         return TrackerEvent(name: .filterBubble, params: params)
     }
     
-    static func onboardingInterestsComplete(superKeywords: [String]) -> TrackerEvent {
+    static func onboardingInterestsComplete(superKeywords: [Int]) -> TrackerEvent {
         var params = EventParameters()
         params[.superKeywordsTotal] = superKeywords.count
-        params[.superKeywordsNames] = superKeywords
+        params[.superKeywordsIds] = superKeywords
         return TrackerEvent(name: .onboardingInterestsComplete, params: params)
     }
     
