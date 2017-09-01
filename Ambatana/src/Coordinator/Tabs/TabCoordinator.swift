@@ -185,12 +185,12 @@ fileprivate extension TabCoordinator {
                     self?.navigationController.dismissLoadingMessageAlert {
                         self?.navigationController.showAutoFadingOutMessageAlert(LGLocalizedString.commonErrorConnectionFailed)
                     }
-                case .internalError, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError,
+                case .internalError, .unauthorized, .tooManyRequests, .userNotVerified, .serverError,
                      .wsChatError:
                     self?.navigationController.dismissLoadingMessageAlert {
                         self?.navigationController.showAutoFadingOutMessageAlert(LGLocalizedString.commonProductNotAvailable)
                     }
-                case .notFound:
+                case .notFound, .forbidden:
                     let relatedRequester = RelatedListingListRequester(listingId: listingId,
                                                                        itemsPerPage: Constants.numListingsPerPageDefault)
                     relatedRequester.retrieveFirstPage { result in

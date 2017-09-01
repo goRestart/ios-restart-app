@@ -308,7 +308,7 @@ enum EventParameterName: String {
     case bubblePosition       = "bubble-position"
     case bubbleName           = "bubble-name"
     case superKeywordsTotal   = "superkeyword-total"
-    case superKeywordsNames   = "superkeyword-names"
+    case superKeywordsIds     = "superkeyword-ids"
     case keywordName          = "keyword-name"
 }
 
@@ -909,7 +909,7 @@ enum EventParamenterLocationTypePage: String {
 }
 
 struct EventParameters {
-    private var params: [EventParameterName : Any] = [:]
+    var params: [EventParameterName : Any] = [:]
     
     // transforms the params to [String: Any]
     var stringKeyParams: [String: Any] {
