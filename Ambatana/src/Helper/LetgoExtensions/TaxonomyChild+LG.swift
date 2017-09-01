@@ -34,6 +34,12 @@ extension TaxonomyChild {
 }
 
 extension Array where Element == TaxonomyChild {
+    func getIds(withType type: TaxonomyChildType) -> [Int] {
+       return self.filter { $0.type == type }.flatMap { $0.id }
+    }
+}
+
+extension Array where Element == TaxonomyChild {
     var containsCarsCategory: Bool {
         return self.reduce(false) { (result, taxonomyChild) -> Bool in
             let isCarsCategory = taxonomyChild.isCarsCategory

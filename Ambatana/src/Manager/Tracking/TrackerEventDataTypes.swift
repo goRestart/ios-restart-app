@@ -174,6 +174,7 @@ enum EventName: String {
     case emptyStateError                    = "empty-state-error"
     
     case filterBubble                       = "filter-bubble"
+    case onboardingInterestsComplete        = "onboarding-interests-complete"
     case categoriesStart                    = "categories-start"
     case categoriesComplete                 = "categories-complete"
     
@@ -315,7 +316,9 @@ enum EventParameterName: String {
     case verticalFields             = "vertical-fields"
     case bubblePosition       = "bubble-position"
     case bubbleName           = "bubble-name"
-    case keywordName           = "keyword-name"
+    case superKeywordsTotal   = "superkeyword-total"
+    case superKeywordsIds     = "superkeyword-ids"
+    case keywordName          = "keyword-name"
 }
 
 enum EventParameterBoolean: String {
@@ -532,7 +535,6 @@ enum EventParameterLoginError {
         case .badRequest:
             return "BadRequest"
         }
-
     }
 
     var details: String? {
@@ -924,7 +926,7 @@ enum EventParamenterLocationTypePage: String {
 }
 
 struct EventParameters {
-    private var params: [EventParameterName : Any] = [:]
+    var params: [EventParameterName : Any] = [:]
     
     // transforms the params to [String: Any]
     var stringKeyParams: [String: Any] {

@@ -1,6 +1,6 @@
 {
   "currentVersionInfo": {
-    "buildNumber": 285,
+    "buildNumber": 291,
     "forceUpdateVersions": [
       1,
       2,
@@ -29,9 +29,5 @@
     ]
   },
   "configURL": "http://letgo-images-devel.s3.amazonaws.com/config/ios.json",
-  "quadKeyZoomLevel": 13,
-  "userRating": {
-    "myMessagesCountForRating": 2,
-    "otherMessagesCountForRating": 2
-  }
+  "quadKeyZoomLevel": 13
 }

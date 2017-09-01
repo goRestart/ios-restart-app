@@ -399,14 +399,12 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     private func setupInfoBubble() {
         infoBubbleShadow.applyInfoBubbleShadow()
 
-        infoBubbleArrow.isHidden = !viewModel.hasInteractiveBubble
-        infoBubbleArrowLeadingConstraint.constant = viewModel.hasInteractiveBubble ? Metrics.shortMargin : 0
-        infoBubbleArrowWidthConstraint.constant = viewModel.hasInteractiveBubble ? Metrics.shortMargin : 0
+        infoBubbleArrowLeadingConstraint.constant = Metrics.shortMargin
+        infoBubbleArrowWidthConstraint.constant = Metrics.shortMargin
 
-        if viewModel.hasInteractiveBubble {
-            let bubbleTap = UITapGestureRecognizer(target: self, action: #selector(onBubbleTapped))
-            infoBubbleShadow.addGestureRecognizer(bubbleTap)
-        }
+        let bubbleTap = UITapGestureRecognizer(target: self, action: #selector(onBubbleTapped))
+        infoBubbleShadow.addGestureRecognizer(bubbleTap)
+
     }
 
     dynamic private func onBubbleTapped() {
@@ -488,7 +486,7 @@ extension MainProductsViewController: ProductListViewHeaderDelegate, PushPermiss
         return totalHeight
     }
 
-    func setupViewsInHeader(_ header: ListHeaderContainer) {
+    func setupViewsIn(header: ListHeaderContainer) {
         header.clear()
         if shouldShowPermissionsBanner {
             let pushHeader = PushPermissionsHeader()

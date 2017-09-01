@@ -20,7 +20,7 @@ protocol ProductListViewCellsDelegate: class {
 
 protocol ProductListViewHeaderDelegate: class {
     func totalHeaderHeight() -> CGFloat
-    func setupViewsInHeader(_ header: ListHeaderContainer)
+    func setupViewsIn(header: ListHeaderContainer)
 }
 
 class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout, ProductListViewModelDelegate,
@@ -338,7 +338,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                     withReuseIdentifier: ListHeaderContainer.reusableID, for: indexPath) as? ListHeaderContainer
                     else { return UICollectionReusableView() }
-            headerDelegate?.setupViewsInHeader(header)
+            headerDelegate?.setupViewsIn(header: header)
             return header
         default:
             return UICollectionReusableView()

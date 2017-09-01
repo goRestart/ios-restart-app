@@ -63,15 +63,6 @@ class MainProductsViewModel: BaseViewModel {
     var hasFilters: Bool {
         return !filters.isDefault()
     }
-
-    var hasInteractiveBubble: Bool {
-        switch featureFlags.editLocationBubble {
-        case .inactive:
-            return false
-        case .map, .zipCode:
-            return true
-        }
-    }
     
     var isSuggestedSearchesEnabled: Bool {
         switch featureFlags.suggestedSearches {
@@ -87,14 +78,9 @@ class MainProductsViewModel: BaseViewModel {
     }
 
     var defaultBubbleText: String {
-        switch featureFlags.editLocationBubble {
-        case .inactive:
-            return LGLocalizedString.productPopularNearYou
-        case .zipCode, .map:
-            let distance = filters.distanceRadius ?? 0
-            let type = filters.distanceType
-            return bubbleTextGenerator.bubbleInfoText(forDistance: distance, type: type, distanceRadius: filters.distanceRadius, place: filters.place)
-        }
+        let distance = filters.distanceRadius ?? 0
+        let type = filters.distanceType
+        return bubbleTextGenerator.bubbleInfoText(forDistance: distance, type: type, distanceRadius: filters.distanceRadius, place: filters.place)
     }
     
     var taxonomyChildren: [TaxonomyChild] = []
@@ -114,18 +100,6 @@ class MainProductsViewModel: BaseViewModel {
         
         if let taxonomyChild = filters.selectedTaxonomyChildren.last {
             resultTags.append(.taxonomyChild(taxonomyChild))
-        }
-
-        switch featureFlags.editLocationBubble {
-        case .inactive:
-            if let place = filters.place {
-                resultTags.append(.location(place))
-            }
-            if let distance = filters.distanceRadius {
-                resultTags.append(.distance(distance: distance))
-            }
-        case .map, .zipCode:
-            break
         }
 
         if filters.selectedWithin != ListingTimeCriteria.defaultOption {
@@ -196,7 +170,7 @@ class MainProductsViewModel: BaseViewModel {
         guard keyValueStorage[.lastSearches].count >= minimumSearchesSavedToShowCollection else { return [] }
         return [.You]
     }
-    fileprivate let keyValueStorage: KeyValueStorageable
+    fileprivate let keyValueStorage: KeyValueStorage
     fileprivate let featureFlags: FeatureFlaggeable
     
     // > Delegate
@@ -248,7 +222,7 @@ class MainProductsViewModel: BaseViewModel {
     init(sessionManager: SessionManager, myUserRepository: MyUserRepository, searchRepository: SearchRepository,
          listingRepository: ListingRepository, monetizationRepository: MonetizationRepository, categoryRepository: CategoryRepository,
          locationManager: LocationManager, currencyHelper: CurrencyHelper, tracker: Tracker,
-         searchType: SearchType? = nil, filters: ProductFilters, keyValueStorage: KeyValueStorageable,
+         searchType: SearchType? = nil, filters: ProductFilters, keyValueStorage: KeyValueStorage,
          featureFlags: FeatureFlaggeable, bubbleTextGenerator: DistanceBubbleTextGenerator) {
         
         self.sessionManager = sessionManager
@@ -319,7 +293,9 @@ class MainProductsViewModel: BaseViewModel {
         updatePermissionsWarning()
         taxonomyChildren = filterSuperKeywordsHighlighted(taxonomies: getTaxonomyChildren())
         updateCategoriesHeader()
-        setupRx()
+        if firstTime {
+            setupRx()
+        }
         if let currentLocation = locationManager.currentLocation {
             retrieveProductsIfNeededWithNewLocation(currentLocation)
             retrieveLastUserSearch()
@@ -404,14 +380,6 @@ class MainProductsViewModel: BaseViewModel {
             }
         }
 
-        switch featureFlags.editLocationBubble {
-        case .inactive:
-            filters.place = place
-            filters.distanceRadius = distance
-        case .map, .zipCode:
-            break
-        }
-
         filters.selectedCategories = categories.flatMap{ filterCategoryItem in
             switch filterCategoryItem {
             case .free:
@@ -460,7 +428,8 @@ class MainProductsViewModel: BaseViewModel {
         } else {
             filters.carYearEnd = nil
         }
-
+        
+        
         updateCategoriesHeader()
         updateListView()
     }
@@ -472,6 +441,7 @@ class MainProductsViewModel: BaseViewModel {
         tracker.trackEvent(TrackerEvent.filterCategoryHeaderSelected(position: categoryHeaderInfo.position,
                                                                      name: categoryHeaderInfo.name))
         delegate?.vmShowTags(tags)
+        filters.onboardingFilters = []
         updateCategoriesHeader()
         updateListView()
         
@@ -513,6 +483,9 @@ class MainProductsViewModel: BaseViewModel {
         listViewModel.isProductListEmpty.asObservable().bindNext { [weak self] _ in
             self?.updateCategoriesHeader()
         }.addDisposableTo(disposeBag)
+        keyValueStorage.favoriteCategoriesSelected.asObservable().filter { $0 }.bindNext { [weak self] _ in
+            self?.updateFiltersWithOnboardingTaxonomies(taxonomiesIds: self?.keyValueStorage[.favoriteCategories] ?? [])
+        }.addDisposableTo(disposeBag)
     }
     
     /**
@@ -543,6 +516,14 @@ class MainProductsViewModel: BaseViewModel {
         errorMessage.value = nil
         listViewModel.resetUI()
         listViewModel.refresh()
+    }
+    
+    
+    // MARK: - Categories From Onboarding
+    
+    func updateFiltersWithOnboardingTaxonomies(taxonomiesIds: [Int]) {
+        filters.onboardingFilters = categoryRepository.retrieveTaxonomyChildren(withIds: taxonomiesIds)
+        updateListView()
     }
     
     
@@ -587,6 +568,7 @@ extension MainProductsViewModel: FiltersViewModelDataDelegate {
 
     func viewModelDidUpdateFilters(_ viewModel: FiltersViewModel, filters: ProductFilters) {
         self.filters = filters
+        self.filters.onboardingFilters = []
         delegate?.vmShowTags(tags)
         updateListView()
     }
@@ -1091,6 +1073,7 @@ fileprivate extension MainProductsViewModel {
         let successParameter: EventParameterBoolean = hasProducts ? .trueParameter : .falseParameter
         let trackerEvent = TrackerEvent.productList(myUserRepository.myUser,
                                                     categories: filters.selectedCategories,
+                                                    taxonomy: filters.selectedTaxonomyChildren.first,
                                                     searchQuery: queryString, feedSource: feedSource,
                                                     success: successParameter)
         tracker.trackEvent(trackerEvent)

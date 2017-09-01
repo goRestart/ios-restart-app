@@ -205,11 +205,13 @@ fileprivate extension FilteredProductListRequester {
         params.queryString = queryString
         params.countryCode = countryCode
         params.categoryIds = filters?.selectedCategories.flatMap { $0.rawValue }
-        let idCategoriesFromTaxonomies = filters?.selectedTaxonomyChildren.filter {
-            $0.type == .category
-        }.flatMap { $0.id } ?? []
-        params.categoryIds?.append(contentsOf: idCategoriesFromTaxonomies)
-        params.superKeywordIds = filters?.selectedTaxonomyChildren.filter { $0.type == .superKeyword }.flatMap { $0.id }
+        let idCategoriesFromTaxonomies = filters?.selectedTaxonomyChildren.getIds(withType: .category)
+        params.categoryIds?.append(contentsOf: idCategoriesFromTaxonomies ?? [])
+        params.superKeywordIds = filters?.selectedTaxonomyChildren.getIds(withType: .superKeyword)
+        
+        let idSuperKeywordsFromOnboarding = filters?.onboardingFilters.getIds(withType: .superKeyword)
+        params.superKeywordIds?.append(contentsOf: idSuperKeywordsFromOnboarding ?? [])
+        
         params.timeCriteria = filters?.selectedWithin
         params.sortCriteria = filters?.selectedOrdering
         params.distanceRadius = filters?.distanceRadius
@@ -218,7 +220,7 @@ fileprivate extension FilteredProductListRequester {
         params.modelId = filters?.carModelId
         params.startYear = filters?.carYearStart
         params.endYear = filters?.carYearEnd
-        params.abtest = featureFlags.searchParamDisc24.stringValue
+        params.abtest = featureFlags.searchParamDisc129.stringValue
 
         if let priceRange = filters?.priceRange {
             switch priceRange {
@@ -295,23 +297,17 @@ fileprivate extension FilteredProductListRequester {
     }
 }
 
-extension SearchParamDisc24 {
+extension SearchParamDisc129 {
     var stringValue: String {
         switch self {
-        case .disc24a:
-            return "disc24-a"
-        case .disc24b:
-            return "disc24-b"
-        case .disc24c:
-            return "disc24-c"
-        case .disc24d:
-            return "disc24-d"
-        case .disc24e:
-            return "disc24-e"
-        case .disc24f:
-            return "disc24-f"
-        case .disc24g:
-            return "disc24-g"
+        case .disc129a:
+            return "disc129-a"
+        case .disc129b:
+            return "disc129-b"
+        case .disc129c:
+            return "disc129-c"
+        case .disc129d:
+            return "disc129-d"
         }
     }
 }

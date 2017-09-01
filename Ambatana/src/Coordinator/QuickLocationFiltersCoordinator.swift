@@ -34,30 +34,15 @@ class QuickLocationFiltersCoordinator: Coordinator {
           bubbleNotificationManager: BubbleNotificationManager,
           sessionManager: SessionManager,
           featureFlags: FeatureFlaggeable) {
-        
-        switch featureFlags.editLocationBubble {
-        case .inactive:
-            return nil
-        case .map:
-            let vm = EditLocationViewModel(mode: .quickFilterLocation,
-                                           initialPlace: initialPlace,
-                                           distanceRadius: distanceRadius)
-            vm.locationDelegate = locationDelegate
-            let vc = EditLocationViewController(viewModel: vm)
-            self.viewController = vc
-            self.bubbleNotificationManager = bubbleNotificationManager
-            self.sessionManager = sessionManager
-            vm.quickLocationFiltersNavigator = self
-        case .zipCode:
-            let zipLocationVM = LocationFromZipCodeViewModel(initialPlace: initialPlace,
-                                                             distanceRadius: distanceRadius)
-            zipLocationVM.locationDelegate = locationDelegate
-            let zipLocationVC = LocationFromZipCodeViewController(viewModel: zipLocationVM)
-            self.viewController = zipLocationVC
-            self.bubbleNotificationManager = bubbleNotificationManager
-            self.sessionManager = sessionManager
-            zipLocationVM.navigator = self
-        }
+        let vm = EditLocationViewModel(mode: .quickFilterLocation,
+                                       initialPlace: initialPlace,
+                                       distanceRadius: distanceRadius)
+        vm.locationDelegate = locationDelegate
+        let vc = EditLocationViewController(viewModel: vm)
+        self.viewController = vc
+        self.bubbleNotificationManager = bubbleNotificationManager
+        self.sessionManager = sessionManager
+        vm.quickLocationFiltersNavigator = self
     }
     
     func presentViewController(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
