@@ -7,6 +7,7 @@
 //
 
 import LGCoreKit
+import RxSwift
 
 protocol ChatListViewModelDelegate: class {
     func chatListViewModelDidFailArchivingChats(_ viewModel: ChatListViewModel)
