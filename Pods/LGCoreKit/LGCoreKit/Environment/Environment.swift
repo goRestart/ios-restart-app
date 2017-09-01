@@ -19,4 +19,5 @@ protocol Environment {
     var passiveBuyersBaseURL: String { get }
     var paymentsBaseURL: String { get }
     var suggestiveSearchBaseURL: String { get }
+    var searchProductsBaseURL: String { get }
 }

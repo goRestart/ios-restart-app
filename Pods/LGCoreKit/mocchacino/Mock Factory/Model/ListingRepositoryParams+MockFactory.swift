@@ -8,6 +8,32 @@
 
 import Foundation
 
+extension ListingCreationParams: MockFactory {
+    public static func makeMock() -> ListingCreationParams {
+        switch Int.makeRandom(min: 0, max: 1) {
+        case 0:
+            return .product(MockProductCreationParams.makeMock())
+        case 1:
+            return .car(MockCarCreationParams.makeMock())
+        default:
+            return .car(MockCarCreationParams.makeMock())
+        }
+    }
+}
+
+extension ListingEditionParams: MockFactory {
+    public static func makeMock() -> ListingEditionParams {
+        switch Int.makeRandom(min: 0, max: 1) {
+        case 0:
+            return .product(MockProductEditionParams.makeMock())
+        case 1:
+            return .car(MockCarEditionParams.makeMock())
+        default:
+            return .car(MockCarEditionParams.makeMock())
+        }
+    }
+}
+
 class MockProductCreationParams: ProductCreationParams, MockFactory {
     required init() {
         super.init(name: String?.makeRandom(),
@@ -17,7 +43,6 @@ class MockProductCreationParams: ProductCreationParams, MockFactory {
                    currency: Currency.makeMock(),
                    location: LGLocationCoordinates2D.makeMock(),
                    postalAddress: PostalAddress.makeMock(),
-                   languageCode: Locale.makeRandom().identifier,
                    images: MockFile.makeMocks(count: Int.makeRandom(min: 0, max: 4)))
     }
 

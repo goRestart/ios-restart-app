@@ -98,34 +98,17 @@ extension SellCoordinator: PostListingNavigator {
     func closePostProductAndPostInBackground(params: ListingCreationParams,
                                              trackingInfo: PostListingTrackingInfo) {
         dismissViewController(animated: true) { [weak self] in
-            switch params {
-            case .product(let productParams):
-                self?.listingRepository.create(productParams: productParams) { result in
-                    if let value = result.value {
-                        let listing = Listing.product(value)
-                        self?.trackPost(withListing: listing, trackingInfo: trackingInfo)
-                        self?.keyValueStorage.userPostProductPostedPreviously = true
-                        self?.showConfirmation(listingResult: ListingResult(value: listing),
-                                               trackingInfo: trackingInfo)
-                    } else if let error = result.error {
-                        self?.trackListingPostedInBackground(withError: error)
-                        self?.showConfirmation(listingResult: ListingResult(error: error),
-                                               trackingInfo: trackingInfo)
-                    }
-                }
-            case .car(let carParams):
-                self?.listingRepository.create(carParams: carParams) { result in
-                    if let value = result.value {
-                        let listing = Listing.car(value)
-                        self?.trackPost(withListing: listing, trackingInfo: trackingInfo)
-                        self?.keyValueStorage.userPostProductPostedPreviously = true
-                        self?.showConfirmation(listingResult: ListingResult(value: listing),
-                                               trackingInfo: trackingInfo)
-                    } else if let error = result.error {
-                        self?.trackListingPostedInBackground(withError: error)
-                        self?.showConfirmation(listingResult: ListingResult(error: error),
-                                               trackingInfo: trackingInfo)
-                    }
+
+            self?.listingRepository.create(listingParams: params) { result in
+                if let listing = result.value {
+                    self?.trackPost(withListing: listing, trackingInfo: trackingInfo)
+                    self?.keyValueStorage.userPostProductPostedPreviously = true
+                    self?.showConfirmation(listingResult: ListingResult(value: listing),
+                                           trackingInfo: trackingInfo)
+                } else if let error = result.error {
+                    self?.trackListingPostedInBackground(withError: error)
+                    self?.showConfirmation(listingResult: ListingResult(error: error),
+                                           trackingInfo: trackingInfo)
                 }
             }
         }

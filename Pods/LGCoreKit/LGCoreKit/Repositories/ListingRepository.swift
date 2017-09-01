@@ -89,12 +89,9 @@ public protocol ListingRepository {
     func indexFavorites(_ userId: String, completion: ListingsCompletion?)
     func retrieve(_ listingId: String, completion: ListingCompletion?)
 
-    func create(productParams: ProductCreationParams, completion: ProductCompletion?)
-    func update(productParams: ProductEditionParams, completion: ProductCompletion?)
-    
-    func create(carParams: CarCreationParams, completion: CarCompletion?)
-    func update(carParams: CarEditionParams, completion: CarCompletion?)
-    
+    func create(listingParams: ListingCreationParams, completion: ListingCompletion?)
+    func update(listingParams: ListingEditionParams, completion: ListingCompletion?)
+
     func delete(listingId: String, completion: ListingVoidCompletion?)
     
     
@@ -104,7 +101,8 @@ public protocol ListingRepository {
     func markAsUnsold(listing: Listing, completion: ListingCompletion?)
     func markAsSold(listingId: String, completion: ListingVoidCompletion?)
     func markAsUnsold(listingId: String, completion: ListingVoidCompletion?)
-    
+
+
     // MARK: - (un)Favorite listing
     
     func saveFavorite(listing: Listing, completion: ListingCompletion?)
@@ -137,6 +135,7 @@ public protocol ListingRepository {
     func incrementViews(listingId: String, visitSource: String, completion: ListingVoidCompletion?)
     func updateListingViewCounts()
 
+    
     // MARK: - Possible buyers
 
     func possibleBuyersOf(listingId: String, completion: ListingBuyersCompletion?)

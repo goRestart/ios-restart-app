@@ -16,4 +16,5 @@ struct EscrowEnvironment: Environment {
     let passiveBuyersBaseURL = "https://passivebuyers.escrowverification.com/api"
     let paymentsBaseURL = "https://payment.stg.letgo.com/payment"
     let suggestiveSearchBaseURL = "https://suggestivesearch.letgo.com"
+    let searchProductsBaseURL = "http://search-products.can.letgo.aws"
 }
