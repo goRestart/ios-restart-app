@@ -207,7 +207,6 @@ public class ProductEditionParams: ProductCreationParams {
                    currency: product.currency,
                    location: product.location,
                    postalAddress: product.postalAddress,
-                   languageCode: product.languageCode ?? Locale.current.identifier,
                    images: product.images)
         if let languageCode = product.languageCode {
             self.languageCode = languageCode
@@ -228,27 +227,17 @@ public class ProductEditionParams: ProductCreationParams {
     }
 }
 
-public class ProductCreationParams {
+public class ProductCreationParams: BaseListingParams {
 
-    public var name: String?
-    public var descr: String?
-    public var price: ListingPrice
-    public var category: ListingCategory
-    public var currency: Currency
-    public var location: LGLocationCoordinates2D
-    public var postalAddress: PostalAddress
-    public var images: [File]
-    var languageCode: String
-
-    public convenience init(name: String?,
-                            description: String?,
-                            price: ListingPrice,
-                            category: ListingCategory,
-                            currency: Currency,
-                            location: LGLocationCoordinates2D,
-                            postalAddress: PostalAddress,
-                            images: [File]) {
-        self.init(name: name,
+    public init(name: String?,
+                description: String?,
+                price: ListingPrice,
+                category: ListingCategory,
+                currency: Currency,
+                location: LGLocationCoordinates2D,
+                postalAddress: PostalAddress,
+                images: [File]) {
+        super.init(name: name,
                   description: description,
                   price: price,
                   category: category,
@@ -258,7 +247,16 @@ public class ProductCreationParams {
                   languageCode: Locale.current.identifier,
                   images: images)
     }
-    
+
+    override func apiCreationEncode(userId: String) -> [String: Any] {
+        return super.apiCreationEncode(userId: userId)
+    }
+}
+
+public class CarCreationParams: BaseListingParams {
+
+    public var carAttributes: CarAttributes
+
     public init(name: String?,
                 description: String?,
                 price: ListingPrice,
@@ -266,90 +264,23 @@ public class ProductCreationParams {
                 currency: Currency,
                 location: LGLocationCoordinates2D,
                 postalAddress: PostalAddress,
-                languageCode: String,
-                images: [File]) {
-        self.name = name
-        self.descr = description
-        self.price = price
-        self.category = category
-        self.currency = currency
-        self.location = location
-        self.postalAddress = postalAddress
-        self.languageCode = languageCode
-        self.images = images
-    }
-
-    func apiCreationEncode(userId: String) -> [String: Any] {
-        var params: [String: Any] = [:]
-        params["name"] = name
-        params["category"] = category.rawValue
-        params["languageCode"] = languageCode
-        params["userId"] = userId
-        params["description"] = descr
-        params["price"] = price.value
-        params["price_flag"] = price.priceFlag.rawValue
-        params["currency"] = currency.code
-        params["latitude"] = location.latitude
-        params["longitude"] = location.longitude
-        params["countryCode"] = postalAddress.countryCode
-        params["city"] = postalAddress.city
-        params["address"] = postalAddress.address
-        params["zipCode"] = postalAddress.zipCode
-
-        let tokensString = images.flatMap{$0.objectId}.map{"\"" + $0 + "\""}.joined(separator: ",")
-        params["images"] = "[" + tokensString + "]"
-
-        return params
-    }
-}
-
-public class CarCreationParams {
-    
-    public var name: String?
-    public var descr: String?
-    public var price: ListingPrice
-    public var category: ListingCategory
-    public var currency: Currency
-    public var location: LGLocationCoordinates2D
-    public var postalAddress: PostalAddress
-    public var images: [File]
-    var languageCode: String
-    public var carAttributes: CarAttributes
-    
-    public init(name: String?, description: String?, price: ListingPrice, category: ListingCategory,
-                currency: Currency, location: LGLocationCoordinates2D, postalAddress: PostalAddress, images: [File],
+                images: [File],
                 carAttributes: CarAttributes) {
-        self.name = name
-        self.descr = description
-        self.price = price
-        self.category = category
-        self.currency = currency
-        self.location = location
-        self.postalAddress = postalAddress
-        self.languageCode = Locale.current.identifier
-        self.images = images
         self.carAttributes = carAttributes
+        super.init(name: name,
+                   description: description,
+                   price: price,
+                   category: category,
+                   currency: currency,
+                   location: location,
+                   postalAddress: postalAddress,
+                   languageCode: Locale.current.identifier,
+                   images: images)
     }
     
-    func apiCreationEncode(userId: String) -> [String: Any] {
-        var params: [String:Any] = [:]
-        params["name"] = name
-        params["category"] = category.rawValue
-        params["languageCode"] = languageCode
-        params["userId"] = userId
-        params["description"] = descr
-        params["price"] = price.value
-        params["price_flag"] = price.priceFlag.rawValue
-        params["currency"] = currency.code
-        params["latitude"] = location.latitude
-        params["longitude"] = location.longitude
-        params["countryCode"] = postalAddress.countryCode
-        params["city"] = postalAddress.city
-        params["address"] = postalAddress.address
-        params["zipCode"] = postalAddress.zipCode
-        
-        let tokensString = images.flatMap{$0.objectId}.map{"\"" + $0 + "\""}.joined(separator: ",")
-        params["images"] = "[" + tokensString + "]"
+    override func apiCreationEncode(userId: String) -> [String: Any] {
+
+        var params = super.apiCreationEncode(userId: userId)
 
         var carAttributesDict: [String:Any] = [:]
         carAttributesDict["make"] = carAttributes.makeId ?? ""

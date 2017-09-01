@@ -247,25 +247,14 @@ class ListingPostedViewModel: BaseViewModel {
         fileRepository.upload(images, progress: nil) { [weak self] result in
             if let images = result.value {
                 let updatedParams = params.updating(images: images)
-                switch updatedParams {
-                case .product(let productParams):
-                    self?.listingRepository.create(productParams: productParams) { [weak self] result in
-                        if let postedProduct = result.value {
-                            self?.trackPostSellComplete(postedListing: Listing.product(postedProduct))
-                        } else if let error = result.error {
-                            self?.trackPostSellError(error: error)
-                        }
-                        self?.updateStatusAfterPosting(status: ListingPostedStatus(productResult: result))
+
+                self?.listingRepository.create(listingParams: updatedParams) { [weak self] result in
+                    if let postedListing = result.value {
+                        self?.trackPostSellComplete(postedListing: postedListing)
+                    } else if let error = result.error {
+                        self?.trackPostSellError(error: error)
                     }
-                case .car(let carParams):
-                    self?.listingRepository.create(carParams: carParams) { [weak self] result in
-                        if let postedCar = result.value {
-                            self?.trackPostSellComplete(postedListing: Listing.car(postedCar))
-                        } else if let error = result.error {
-                            self?.trackPostSellError(error: error)
-                        }
-                        self?.updateStatusAfterPosting(status: ListingPostedStatus(carResult: result))
-                    }
+                    self?.updateStatusAfterPosting(status: ListingPostedStatus(listingResult: result))
                 }
             } else if let error = result.error {
                 self?.trackPostSellError(error: error)
@@ -364,36 +353,6 @@ enum ListingPostedStatus {
                 self = .error(error: .network)
             case let .forbidden(cause: cause):
                 self = .error(error: .forbidden(cause: cause))
-            default:
-                self = .error(error: .internalError)
-            }
-        } else {
-            self = .error(error: .internalError)
-        }
-    }
-
-    init(productResult: ProductResult) {
-        if let product = productResult.value {
-            self = .success(listing: Listing.product(product))
-        } else if let error = productResult.error {
-            switch error {
-            case .network:
-                self = .error(error: .network)
-            default:
-                self = .error(error: .internalError)
-            }
-        } else {
-            self = .error(error: .internalError)
-        }
-    }
-
-    init(carResult: CarResult) {
-        if let car = carResult.value {
-            self = .success(listing: Listing.car(car))
-        } else if let error = carResult.error {
-            switch error {
-            case .network:
-                self = .error(error: .network)
             default:
                 self = .error(error: .internalError)
             }
