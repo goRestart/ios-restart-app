@@ -78,7 +78,7 @@ class TourCategoriesViewModel: BaseViewModel {
     // MARK: Actions
     
     func okButtonPressed() {
-        let event = TrackerEvent.onboardingInterestsComplete(superKeywords: categoriesSelected.value.map { $0.name })
+        let event = TrackerEvent.onboardingInterestsComplete(superKeywords: categoriesSelected.value.map { $0.id })
         tracker.trackEvent(event)
         keyValueStorage[.favoriteCategories] = categoriesSelected.value.map { $0.id }
         keyValueStorage.favoriteCategoriesSelected.value = true
