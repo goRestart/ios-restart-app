@@ -23,6 +23,7 @@ class FloatingButton: UIView {
     private let iconPosition: FloatingIconPosition
     private let label: UILabel
     private let button: UIButton
+    private var widthConstraint = NSLayoutConstraint()
 
     var buttonTouchBlock: (() -> ())?
 
@@ -65,6 +66,26 @@ class FloatingButton: UIView {
     func setTitle(with string: String) {
         label.text = string
     }
+    
+    func hideWithAnimation() {
+        let animations = { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.alpha = 0
+            strongSelf.setupConstraintsToHide()
+            strongSelf.layoutIfNeeded()
+        }
+        UIView.animate(withDuration: 0.3, animations: animations, completion: nil)
+    }
+    
+    func showWithAnimation() {
+        let animations = { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.alpha = 1
+            strongSelf.setupConstraintsToShow()
+            strongSelf.layoutIfNeeded()
+        }
+        UIView.animate(withDuration: 0.3, animations: animations, completion: nil)
+    }
 
     // MARK: - Private methods
 
@@ -101,6 +122,16 @@ class FloatingButton: UIView {
             toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: FloatingButton.iconSize))
         containerView.addConstraint(NSLayoutConstraint(item: icon, attribute: .height, relatedBy: .equal,
             toItem: icon, attribute: .width, multiplier: 1, constant: 0))
+    }
+    
+    private func setupConstraintsToHide() {
+        layout().width(60, constraintBlock: { [weak self] constraint in
+            self?.widthConstraint = constraint
+        })
+    }
+    
+    private func setupConstraintsToShow() {
+        removeConstraint(widthConstraint)
     }
 
     private func setupUI() {

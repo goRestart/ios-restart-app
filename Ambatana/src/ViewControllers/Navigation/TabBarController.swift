@@ -9,6 +9,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import LGCoreKit
 
 
 protocol ScrollableToTop {
@@ -23,6 +24,7 @@ final class TabBarController: UITabBarController {
 
     // UI
     fileprivate var floatingSellButton: FloatingButton
+    fileprivate var expandableCategorySelectionView: ExpandableCategorySelectionView?
     fileprivate var floatingSellButtonMarginConstraint = NSLayoutConstraint()
 
     fileprivate let viewModel: TabBarViewModel
@@ -33,7 +35,7 @@ final class TabBarController: UITabBarController {
     fileprivate let disposeBag = DisposeBag()
 
     fileprivate static let appRatingTag = Int.makeRandom()
-
+    fileprivate static let categorySelectionTag = Int.makeRandom()
     
     // MARK: - Lifecycle
 
@@ -43,9 +45,9 @@ final class TabBarController: UITabBarController {
     }
     
     init(viewModel: TabBarViewModel, featureFlags: FeatureFlaggeable) {
-        self.floatingSellButton = FloatingButton(with: LGLocalizedString.tabBarToolTip, image: UIImage(named: "ic_sell_white"), position: .left)
         self.viewModel = viewModel
         self.featureFlags = featureFlags
+        self.floatingSellButton = FloatingButton(with: LGLocalizedString.tabBarToolTip, image: UIImage(named: "ic_sell_white"), position: .left)
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -59,6 +61,7 @@ final class TabBarController: UITabBarController {
 
         setupAdminAccess()
         setupSellButton()
+        setupExpandableCategoriesView()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -182,12 +185,30 @@ final class TabBarController: UITabBarController {
 
     private func setupSellButton() {
         
-        floatingSellButton.buttonTouchBlock = { [weak self] in self?.viewModel.sellButtonPressed() }
+//      floatingSellButton.buttonTouchBlock = { [weak self] in self?.viewModel.sellButtonPressed() }
+        floatingSellButton.buttonTouchBlock = { [weak self] in
+            self?.floatingSellButton.hideWithAnimation()
+            self?.expandableCategorySelectionView?.expand(animated: true)
+        }
+        
         floatingSellButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(floatingSellButton)
         floatingSellButton.layout(with: view).centerX()
         floatingSellButton.layout(with: view).bottom(by: -(tabBar.frame.height + LGUIKitConstants.tabBarSellFloatingButtonDistance), constraintBlock: {[weak self] in self?.floatingSellButtonMarginConstraint = $0 })
         floatingSellButton.layout(with: view).leading(by: LGUIKitConstants.tabBarSellFloatingButtonDistance, relatedBy: .greaterThanOrEqual).trailing(by: -LGUIKitConstants.tabBarSellFloatingButtonDistance, relatedBy: .lessThanOrEqual)
+    }
+    
+    
+    func setupExpandableCategoriesView() {
+        view.subviews.find(where: { $0.tag == TabBarController.categorySelectionTag })?.removeFromSuperview()
+        let vm = ExpandableCategorySelectionViewModel()
+        vm.delegate = self
+        expandableCategorySelectionView = ExpandableCategorySelectionView(frame:view.frame, buttonSpacing: 10, bottomDistance: floatingSellButtonMarginConstraint.constant, viewModel: vm)
+        expandableCategorySelectionView?.tag = TabBarController.categorySelectionTag
+        if let expandableCategorySelectionView = expandableCategorySelectionView {
+            view.addSubview(expandableCategorySelectionView)
+            expandableCategorySelectionView.layoutIfNeeded()
+        }
     }
 
     private func setupBadgesRx() {
@@ -244,6 +265,17 @@ extension TabBarController {
     func setAccessibilityIds() {
         floatingSellButton.isAccessibilityElement = true
         floatingSellButton.accessibilityId = AccessibilityId.tabBarFloatingSellButton
+    }
+}
+
+// MARK: - ExpandableCategorySelectionDelegate
+
+extension TabBarController: ExpandableCategorySelectionDelegate {
+    func closeButtonDidPressed() {
+        floatingSellButton.showWithAnimation()
+    }
+    func categoryButtonDidPressed(listingCategory: ListingCategory) {
+        viewModel.sellButtonPressed()
     }
 }
 
