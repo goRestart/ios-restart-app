@@ -200,11 +200,9 @@ final class TabBarController: UITabBarController {
     
     
     func setupExpandableCategoriesView() {
-        view.subviews.find(where: { $0.tag == TabBarController.categorySelectionTag })?.removeFromSuperview()
         let vm = ExpandableCategorySelectionViewModel()
         vm.delegate = self
         expandableCategorySelectionView = ExpandableCategorySelectionView(frame:view.frame, buttonSpacing: 10, bottomDistance: floatingSellButtonMarginConstraint.constant, viewModel: vm)
-        expandableCategorySelectionView?.tag = TabBarController.categorySelectionTag
         if let expandableCategorySelectionView = expandableCategorySelectionView {
             view.addSubview(expandableCategorySelectionView)
             expandableCategorySelectionView.layoutIfNeeded()
