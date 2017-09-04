@@ -88,7 +88,7 @@ class ExpandableCategorySelectionView: UIView {
         
         let button = UIButton(type: .custom)
         button.setStyle(.secondary(fontSize: .medium, withBorder: false))
-        button.setImage(#imageLiteral(resourceName: "ic_close_dark"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "ic_close_red"), for: .normal)
         button.addTarget(self, action: #selector(closeButtonPressed), for: .touchUpInside)
         button.accessibilityId = .expandableCategorySelectionCloseButton
         button.translatesAutoresizingMaskIntoConstraints = false

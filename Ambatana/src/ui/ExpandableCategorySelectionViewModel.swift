@@ -40,9 +40,7 @@ extension ListingCategory {
     var title: String {
         switch self {
         case .unassigned:
-            // TODO: missing fastlane string (did not work)
-            //return LGLocalizedString.categoriesUnassignedItems
-            return LGLocalizedString.categoriesUnassigned
+            return LGLocalizedString.categoriesUnassignedItems
         case .motorsAndAccessories, .cars, .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames:
             return name
         }
