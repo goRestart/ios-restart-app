@@ -588,6 +588,7 @@ enum AccessibilityId: String {
     // ExpandableSelectionCategoryView
     case expandableCategorySelectionCloseButton
     case expandableCategorySelectionView
+    case expandableCategorySelectionButton
 }
 
 extension UIAccessibilityIdentification {

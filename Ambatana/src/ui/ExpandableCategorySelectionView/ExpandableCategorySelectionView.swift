@@ -65,7 +65,7 @@ class ExpandableCategorySelectionView: UIView {
             button.setImage(category.icon, for: .normal)
             button.setTitle(category.title, for: .normal)
             button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
-            button.accessibilityId = accessibilityId
+            button.accessibilityId = .expandableCategorySelectionButton
             button.translatesAutoresizingMaskIntoConstraints = false
             button.centerTextAndImage(spacing: 10)
             addSubview(button)
@@ -90,7 +90,6 @@ class ExpandableCategorySelectionView: UIView {
         button.setStyle(.secondary(fontSize: .medium, withBorder: false))
         button.setImage(#imageLiteral(resourceName: "ic_close_red"), for: .normal)
         button.addTarget(self, action: #selector(closeButtonPressed), for: .touchUpInside)
-        button.accessibilityId = .expandableCategorySelectionCloseButton
         button.translatesAutoresizingMaskIntoConstraints = false
         closeButton = button
         
@@ -104,6 +103,7 @@ class ExpandableCategorySelectionView: UIView {
         
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapOutside))
         addGestureRecognizer(tapRecognizer)
+        setAccesibilityIds()
     }
     
     fileprivate func updateExpanded(_ expanded: Bool, animated: Bool) {
@@ -123,7 +123,7 @@ class ExpandableCategorySelectionView: UIView {
         }
         if animated {
             if expanded {
-                UIView.animate(withDuration: 0.4, delay: 0.15, usingSpringWithDamping: 0.6, initialSpringVelocity: 5,
+                UIView.animate(withDuration: 0.5, delay: 0.15, usingSpringWithDamping: 0.6, initialSpringVelocity: 4,
                                options: [], animations: animations, completion: nil)
             } else {
                 UIView.animate(withDuration: 0.2, animations: animations, completion: nil)
@@ -139,6 +139,7 @@ class ExpandableCategorySelectionView: UIView {
     
     func setAccesibilityIds() {
         accessibilityId = .expandableCategorySelectionView
+        closeButton.accessibilityId = .expandableCategorySelectionCloseButton
     }
     
     
@@ -172,6 +173,7 @@ class ExpandableCategorySelectionView: UIView {
     fileprivate dynamic func buttonPressed(_ button: UIButton) {
         let buttonIndex = button.tag
         guard 0..<viewModel.categoriesAvailable.count ~= buttonIndex else { return }
+        shrink(animated: true)
         viewModel.categoryButtonDidPressed(listingCategory: viewModel.categoriesAvailable[buttonIndex])
     }
     
