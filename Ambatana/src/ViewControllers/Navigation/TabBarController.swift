@@ -202,7 +202,7 @@ final class TabBarController: UITabBarController {
     func setupExpandableCategoriesView() {
         let vm = ExpandableCategorySelectionViewModel()
         vm.delegate = self
-        expandableCategorySelectionView = ExpandableCategorySelectionView(frame:view.frame, buttonSpacing: 10, bottomDistance: floatingSellButtonMarginConstraint.constant, viewModel: vm)
+        expandableCategorySelectionView = ExpandableCategorySelectionView(frame:view.frame, buttonSpacing: ExpandableCategorySelectionView.distanceBetweenButtons, bottomDistance: floatingSellButtonMarginConstraint.constant, viewModel: vm)
         if let expandableCategorySelectionView = expandableCategorySelectionView {
             view.addSubview(expandableCategorySelectionView)
             expandableCategorySelectionView.layoutIfNeeded()
@@ -273,6 +273,7 @@ extension TabBarController: ExpandableCategorySelectionDelegate {
         floatingSellButton.showWithAnimation()
     }
     func categoryButtonDidPressed(listingCategory: ListingCategory) {
+        floatingSellButton.showWithAnimation()
         viewModel.sellButtonPressed()
     }
 }

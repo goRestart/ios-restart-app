@@ -35,26 +35,3 @@ class ExpandableCategorySelectionViewModel: BaseViewModel {
         delegate?.categoryButtonDidPressed(listingCategory: listingCategory)
     }
 }
-
-extension ListingCategory {
-    var title: String {
-        switch self {
-        case .unassigned:
-            return LGLocalizedString.categoriesUnassignedItems
-        case .motorsAndAccessories, .cars, .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames:
-            return name
-        }
-    }
-    var icon: UIImage? {
-        switch self {
-        case .unassigned:
-            return #imageLiteral(resourceName: "items")
-        case .cars:
-            return #imageLiteral(resourceName: "carIcon")
-        case .motorsAndAccessories:
-            return #imageLiteral(resourceName: "motorsAndAccesories")
-        case .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames:
-            return image
-        }
-    }
-}
