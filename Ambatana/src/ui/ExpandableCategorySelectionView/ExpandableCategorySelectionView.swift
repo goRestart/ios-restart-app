@@ -89,7 +89,7 @@ class ExpandableCategorySelectionView: UIView {
     fileprivate func setupUI() {
         alpha = 0
         clipsToBounds = true
-        backgroundColor = UIColor.grayDark.withAlphaComponent(0.5)
+        backgroundColor = UIColor.black.withAlphaComponent(0.5)
         
         let button = UIButton(type: .custom)
         button.setStyle(.secondary(fontSize: .medium, withBorder: false))
@@ -128,7 +128,7 @@ class ExpandableCategorySelectionView: UIView {
         }
         if animated {
             if expanded {
-                UIView.animate(withDuration: 0.5, delay: 0.15, usingSpringWithDamping: 0.6, initialSpringVelocity: 4,
+                UIView.animate(withDuration: 0.3, delay: 0.1, usingSpringWithDamping: 0.6, initialSpringVelocity: 4,
                                options: [], animations: animations, completion: nil)
             } else {
                 UIView.animate(withDuration: 0.2, animations: animations, completion: nil)

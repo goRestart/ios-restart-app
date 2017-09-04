@@ -74,7 +74,7 @@ class FloatingButton: UIView {
             strongSelf.setupConstraintsToHide()
             strongSelf.layoutIfNeeded()
         }
-        UIView.animate(withDuration: 0.3, animations: animations, completion: nil)
+        UIView.animate(withDuration: 0.2, animations: animations, completion: nil)
     }
     
     func showWithAnimation() {
