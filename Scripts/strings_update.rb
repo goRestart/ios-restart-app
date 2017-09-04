@@ -146,7 +146,7 @@ CREDENTIALS_PATH = Dir.home + '/.locgen/lg_strings_update_v2.json'
 FileUtils.mkdir_p(File.dirname(CREDENTIALS_PATH))
 
 begin 
-  session = GoogleDrive.saved_session(CREDENTIALS_PATH, nil, "680212417077-vj4n4ju8ktnkfsng7buuj1ddho5hn3cd.apps.googleusercontent.com", "hIaVSK5sAFnHl12f4k3S5t4x")
+  session = GoogleDrive.saved_session(CREDENTIALS_PATH, nil, "992995045432-2u7mrinee9u8o4fo3nuaivhjlq7ogpt6.apps.googleusercontent.com", "GhEnWQ2ucBbQHdr-mSUmgltF")
 rescue
   show_error 'Couldn\'t access Google Drive. Check your credentials!'
   exit -1
