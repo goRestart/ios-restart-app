@@ -35,7 +35,11 @@ extension Bumper  {
         flags.append(SearchParamDisc129.self)
         flags.append(UserReviewsReportEnabled.self)
         flags.append(DynamicQuickAnswers.self)
+<<<<<<< HEAD
         flags.append(LocationDataSourceEndpoint.self)
+=======
+        flags.append(AppRatingDialogInactive.self)
+>>>>>>> develop
         Bumper.initialize(flags)
     } 
 
@@ -149,9 +153,15 @@ extension Bumper  {
         return DynamicQuickAnswers(rawValue: value) ?? .control 
     }
 
+<<<<<<< HEAD
     static var locationDataSourceEndpoint: LocationDataSourceEndpoint {
         guard let value = Bumper.value(for: LocationDataSourceEndpoint.key) else { return .control }
         return LocationDataSourceEndpoint(rawValue: value) ?? .control 
+=======
+    static var appRatingDialogInactive: Bool {
+        guard let value = Bumper.value(for: AppRatingDialogInactive.key) else { return false }
+        return AppRatingDialogInactive(rawValue: value)?.asBool ?? false
+>>>>>>> develop
     } 
 }
 
@@ -423,6 +433,7 @@ enum DynamicQuickAnswers: String, BumperFeature  {
     }
 }
 
+<<<<<<< HEAD
 enum LocationDataSourceEndpoint: String, BumperFeature  {
     case control, baseline, appleWithRegion, niordWithRegion
     static var defaultValue: String { return LocationDataSourceEndpoint.control.rawValue }
@@ -438,5 +449,14 @@ enum LocationDataSourceEndpoint: String, BumperFeature  {
             default: return .control
         }
     }
+=======
+enum AppRatingDialogInactive: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return AppRatingDialogInactive.no.rawValue }
+    static var enumValues: [AppRatingDialogInactive] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "App rating dialog inactive to increase user activation" } 
+    var asBool: Bool { return self == .yes }
+>>>>>>> develop
 }
 

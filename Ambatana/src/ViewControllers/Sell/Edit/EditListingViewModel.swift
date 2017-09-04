@@ -468,79 +468,47 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
             showError(.noCategory)
             return
         }
+        let editParams: ListingEditionParams
         switch category {
         case .unassigned, .electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden,
              .moviesBooksAndMusic, .fashionAndAccesories, .babyAndChild, .other:
-            updateProduct(listing: listing, withCategory: category)
-        case .cars:
-            updateCar(listing: listing)
-        }
-    }
-
-    func updateProduct(listing: Listing?, withCategory category: ListingCategory) {
-        guard let listing = listing else { return }
-        guard let editParams = ProductEditionParams(listing: listing) else { return }
-        delegate?.vmHideKeyboard()
-        loadingProgress.value = 0
-        editParams.category = category
-        editParams.name = title ?? ""
-        editParams.descr = (descr ?? "").stringByRemovingEmoji()
-        editParams.price = generatePrice()
-
-        if let updatedLocation = location, let updatedPostalAddress = postalAddress {
-            editParams.location = updatedLocation
-            editParams.postalAddress = updatedPostalAddress
-        }
-
-        let localImages = listingImages.localImages
-        let remoteImages = listingImages.remoteImages
-        fileRepository.upload(localImages, progress: { [weak self] in self?.loadingProgress.value = $0 }) {
-            [weak self] imagesResult in
-            if let newImages = imagesResult.value {
-                editParams.images = remoteImages + newImages
-                self?.listingRepository.update(productParams: editParams) { result in
-                    self?.loadingProgress.value = nil
-                    if let actualProduct = result.value {
-                        let responseListing = Listing.product(actualProduct)
-                        self?.savedListing = responseListing
-                        self?.trackComplete(responseListing)
-                        self?.finishedSaving()
-                    } else if let error = result.error {
-                        self?.showError(ListingCreateValidationError(repoError: error))
-                    }
-                }
-            } else if let error = imagesResult.error {
-                self?.showError(ListingCreateValidationError(repoError: error))
+            guard let productEditParams = ProductEditionParams(listing: listing) else { return }
+            productEditParams.category = category
+            productEditParams.name = title ?? ""
+            productEditParams.descr = (descr ?? "").stringByRemovingEmoji()
+            productEditParams.price = generatePrice()
+            if let updatedLocation = location, let updatedPostalAddress = postalAddress {
+                productEditParams.location = updatedLocation
+                productEditParams.postalAddress = updatedPostalAddress
             }
-        }
-    }
+            editParams = .product(productEditParams)
+        case .cars:
+            guard let carEditParams = CarEditionParams(listing: listing) else { return }
+            carEditParams.carAttributes = carAttributes
+            carEditParams.category = .cars
+            carEditParams.name = generateCarTitle()
+            carEditParams.descr = (descr ?? "").stringByRemovingEmoji()
+            carEditParams.price = generatePrice()
 
-    func updateCar(listing: Listing?) {
-        guard let listing = listing else { return }
-        guard let editParams = CarEditionParams(listing: listing) else { return }
+            if let updatedLocation = location, let updatedPostalAddress = postalAddress {
+                carEditParams.location = updatedLocation
+                carEditParams.postalAddress = updatedPostalAddress
+            }
+            editParams = .car(carEditParams)
+        }
+
         delegate?.vmHideKeyboard()
         loadingProgress.value = 0
-        editParams.carAttributes = carAttributes
-        editParams.category = .cars
-        editParams.name = generateCarTitle()
-        editParams.descr = (descr ?? "").stringByRemovingEmoji()
-        editParams.price = generatePrice()
-
-        if let updatedLocation = location, let updatedPostalAddress = postalAddress {
-            editParams.location = updatedLocation
-            editParams.postalAddress = updatedPostalAddress
-        }
 
         let localImages = listingImages.localImages
         let remoteImages = listingImages.remoteImages
         fileRepository.upload(localImages, progress: { [weak self] in self?.loadingProgress.value = $0 }) {
             [weak self] imagesResult in
             if let newImages = imagesResult.value {
-                editParams.images = remoteImages + newImages
-                self?.listingRepository.update(carParams: editParams) { result in
+                let updatedParams = editParams.updating(images: remoteImages + newImages)
+                self?.listingRepository.update(listingParams: updatedParams) { result in
                     self?.loadingProgress.value = nil
-                    if let actualCar = result.value {
-                        let responseListing = Listing.car(actualCar)
+                    if let responseListing = result.value {
                         self?.savedListing = responseListing
                         self?.trackComplete(responseListing)
                         self?.finishedSaving()

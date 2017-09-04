@@ -114,22 +114,22 @@ enum ListingRouter: URLRequestAuthenticable {
         case let .create(params):
             return try Router<APIBaseURL>.create(endpoint: endpoint, params: params, encoding: .url).asURLRequest()
         case let .indexRelatedListings(_, params):
-            return try Router<APIBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
+            return try Router<SearchProductsBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
         case let .indexDiscoverListings(_, params):
-            return try Router<APIBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
+            return try Router<SearchProductsBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
         case .userRelation(_, _):
             return try Router<APIBaseURL>.read(endpoint: endpoint, params: [:]).asURLRequest()
         case let .saveReport(_, listingId):
             return try Router<APIBaseURL>.update(endpoint: endpoint, objectId: listingId, params: [:],
                                              encoding: nil).asURLRequest()
         case let .index(params):
-            return try Router<APIBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
+            return try Router<SearchProductsBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
         case let .indexForUser(_, params):
-            return try Router<APIBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
+            return try Router<SearchProductsBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
         case .indexFavorites:
             return try Router<APIBaseURL>.read(endpoint: endpoint, params: [:]).asURLRequest()
         case let .indexLimbo(params):
-            return try Router<APIBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
+            return try Router<SearchProductsBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
         case let .indexTrending(params):
             return try Router<APIBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
         case .showStats:

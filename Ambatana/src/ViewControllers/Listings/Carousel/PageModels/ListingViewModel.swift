@@ -1058,6 +1058,7 @@ extension ListingViewModel: PurchasesShopperDelegate {
         trackBumpUpCompleted(.free, type: .free, network: network)
         delegate?.vmHideLoading(LGLocalizedString.bumpUpFreeSuccess, afterMessageCompletion: { [weak self] in
             self?.delegate?.vmResetBumpUpBannerCountdown()
+            self?.isShowingFeaturedStripe.value = true
         })
     }
 
@@ -1084,6 +1085,7 @@ extension ListingViewModel: PurchasesShopperDelegate {
                              network: .notAvailable)
         delegate?.vmHideLoading(LGLocalizedString.bumpUpPaySuccess, afterMessageCompletion: { [weak self] in
             self?.delegate?.vmResetBumpUpBannerCountdown()
+            self?.isShowingFeaturedStripe.value = true
         })
     }
 

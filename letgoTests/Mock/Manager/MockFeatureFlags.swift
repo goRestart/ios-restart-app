@@ -43,6 +43,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var userReviewsReportEnabled: Bool = true
     var dynamicQuickAnswers: DynamicQuickAnswers = .control
     var locationDataSourceEndpoint: LocationDataSourceEndpoint = .control
+    var appRatingDialogInactive: Bool = false
     
     // Country dependant features
     var freePostingModeAllowed = false

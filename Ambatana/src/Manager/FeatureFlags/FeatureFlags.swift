@@ -41,7 +41,11 @@ protocol FeatureFlaggeable: class {
     var tweaksCarPostingFlow: TweaksCarPostingFlow { get }
     var userReviewsReportEnabled: Bool { get }
     var dynamicQuickAnswers: DynamicQuickAnswers { get }
+<<<<<<< HEAD
     var locationDataSourceEndpoint: LocationDataSourceEndpoint { get }
+=======
+    var appRatingDialogInactive: Bool { get }
+>>>>>>> develop
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -313,11 +317,19 @@ class FeatureFlags: FeatureFlaggeable {
         return DynamicQuickAnswers.fromPosition(abTests.dynamicQuickAnswers.value)
     }
     
+<<<<<<< HEAD
     var locationDataSourceEndpoint: LocationDataSourceEndpoint {
         if Bumper.enabled {
             return Bumper.locationDataSourceEndpoint
         }
         return LocationDataSourceEndpoint.fromPosition(abTests.locationDataSourceType.value)
+=======
+    var appRatingDialogInactive: Bool {
+        if Bumper.enabled {
+            return Bumper.appRatingDialogInactive
+        }
+        return abTests.appRatingDialogInactive.value
+>>>>>>> develop
     }
     
 

@@ -34,6 +34,7 @@ protocol ChatGroupedListViewModel: class, RxPaginable, ChatGroupedListViewModelT
     var emptyViewHidden: Bool { get }
     var tableViewHidden: Bool { get }
     var shouldRefreshConversationsTabTrigger: Bool { get set }
+    var shouldScrollToTop: Observable<Bool> { get }
     func clear()
 }
 
@@ -74,10 +75,15 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     let rx_objectCount = Variable<Int>(0)
     let editing = Variable<Bool>(false)
     fileprivate let disposeBag = DisposeBag()
+    fileprivate var inactiveDisposeBag = DisposeBag()
 
     private var multipageRequester: MultiPageRequester<T>?
     
     var shouldRefreshConversationsTabTrigger: Bool = true
+    var shouldScrollToTop: Observable<Bool> {
+        return shouldScrollToTopVar.asObservable().filter { $0 }
+    }
+    fileprivate let shouldScrollToTopVar = Variable<Bool>(false)
 
     
     // MARK: - Lifecycle
@@ -110,6 +116,20 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
             self?.index(page, completion: completion)
         }
         setupRx()
+    }
+    
+    override func didBecomeActive(_ firstTime: Bool) {
+        super.didBecomeActive(firstTime)
+        inactiveDisposeBag = DisposeBag()
+        
+        if shouldScrollToTopVar.value {
+            shouldScrollToTopVar.value = false
+        }
+    }
+    
+    override func didBecomeInactive() {
+        super.didBecomeInactive()
+        setupInactiveRx()
     }
 
 
@@ -318,8 +338,8 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
 
 // MARK: - Rx
 
-extension BaseChatGroupedListViewModel {
-    fileprivate func setupRx() {
+fileprivate extension BaseChatGroupedListViewModel {
+    func setupRx() {
         objects.observable.map { messages in
             return messages.count
         }.bindTo(rx_objectCount).addDisposableTo(disposeBag)
@@ -334,6 +354,25 @@ extension BaseChatGroupedListViewModel {
                 self?.notificationsManager.updateChatCounters()
             }.addDisposableTo(disposeBag)
         }
+    }
+    
+    func setupInactiveRx() {
+        let isFirstObjectUpdated = objects.changesObservable.map { change -> Bool in
+            let index: Int?
+            switch change {
+            case let .insert(atIndex, _):
+                index = atIndex
+            case let .swap(_, toIndex, _):
+                index = toIndex
+            case let .move(_, toIndex, _):
+                index = toIndex
+            case .remove, .composite:
+                index = nil
+            }
+            
+            return index == 0
+        }
+        isFirstObjectUpdated.distinctUntilChanged().bindTo(shouldScrollToTopVar).addDisposableTo(inactiveDisposeBag)
     }
 }
 

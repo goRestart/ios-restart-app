@@ -56,4 +56,5 @@ class EnvironmentProxy: Environment {
     var passiveBuyersBaseURL: String { return environment.passiveBuyersBaseURL }
     var paymentsBaseURL: String { return environment.paymentsBaseURL }
     var suggestiveSearchBaseURL: String { return environment.suggestiveSearchBaseURL }
+    var searchProductsBaseURL: String { return environment.searchProductsBaseURL }
 }
