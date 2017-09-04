@@ -35,6 +35,7 @@ extension Bumper  {
         flags.append(SearchParamDisc129.self)
         flags.append(UserReviewsReportEnabled.self)
         flags.append(DynamicQuickAnswers.self)
+        flags.append(FeedFilterRadiusValues.self)
         Bumper.initialize(flags)
     } 
 
@@ -137,7 +138,7 @@ extension Bumper  {
         guard let value = Bumper.value(for: SearchParamDisc129.key) else { return .disc129a }
         return SearchParamDisc129(rawValue: value) ?? .disc129a 
     }
-  
+
     static var userReviewsReportEnabled: Bool {
         guard let value = Bumper.value(for: UserReviewsReportEnabled.key) else { return false }
         return UserReviewsReportEnabled(rawValue: value)?.asBool ?? false
@@ -146,6 +147,11 @@ extension Bumper  {
     static var dynamicQuickAnswers: DynamicQuickAnswers {
         guard let value = Bumper.value(for: DynamicQuickAnswers.key) else { return .control }
         return DynamicQuickAnswers(rawValue: value) ?? .control 
+    }
+
+    static var feedFilterRadiusValues: FeedFilterRadiusValues {
+        guard let value = Bumper.value(for: FeedFilterRadiusValues.key) else { return .control }
+        return FeedFilterRadiusValues(rawValue: value) ?? .control 
     } 
 }
 
@@ -390,7 +396,7 @@ enum SearchParamDisc129: String, BumperFeature  {
         }
     }
 }
-  
+
 enum UserReviewsReportEnabled: String, BumperFeature  {
     case no, yes
     static var defaultValue: String { return UserReviewsReportEnabled.no.rawValue }
@@ -412,6 +418,22 @@ enum DynamicQuickAnswers: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .dynamicNoKeyboard
             case 3: return .dynamicWithKeyboard
+            default: return .control
+        }
+    }
+}
+
+enum FeedFilterRadiusValues: String, BumperFeature  {
+    case control, baseline, newValues
+    static var defaultValue: String { return FeedFilterRadiusValues.control.rawValue }
+    static var enumValues: [FeedFilterRadiusValues] { return [.control, .baseline, .newValues]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Feed filter radius values" } 
+    static func fromPosition(_ position: Int) -> FeedFilterRadiusValues {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .newValues
             default: return .control
         }
     }

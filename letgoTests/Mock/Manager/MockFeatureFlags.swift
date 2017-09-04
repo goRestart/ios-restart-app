@@ -42,6 +42,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var tweaksCarPostingFlow: TweaksCarPostingFlow = .control
     var userReviewsReportEnabled: Bool = true
     var dynamicQuickAnswers: DynamicQuickAnswers = .control
+    var feedFilterRadiusValues: FeedFilterRadiusValues = .control
     
     // Country dependant features
     var freePostingModeAllowed = false

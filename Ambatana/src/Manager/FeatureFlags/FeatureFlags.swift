@@ -41,6 +41,7 @@ protocol FeatureFlaggeable: class {
     var tweaksCarPostingFlow: TweaksCarPostingFlow { get }
     var userReviewsReportEnabled: Bool { get }
     var dynamicQuickAnswers: DynamicQuickAnswers { get }
+    var feedFilterRadiusValues: FeedFilterRadiusValues { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -310,6 +311,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.dynamicQuickAnswers
         }
         return DynamicQuickAnswers.fromPosition(abTests.dynamicQuickAnswers.value)
+    }
+    
+    var feedFilterRadiusValues: FeedFilterRadiusValues {
+        if Bumper.enabled {
+            return Bumper.feedFilterRadiusValues
+        }
+        return FeedFilterRadiusValues.fromPosition(abTests.feedFilterRadiusValues.value)
     }
     
 
