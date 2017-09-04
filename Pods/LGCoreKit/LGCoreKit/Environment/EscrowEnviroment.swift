@@ -9,7 +9,6 @@
 struct EscrowEnvironment: Environment {
     let apiBaseURL = "https://api.escrowverification.com"
     let bouncerBaseURL = "https://bouncer.escrowverification.com/api"
-    let commercializerBaseURL = "https://commercializer.escrowverification.com/"
     let userRatingsBaseURL = "http://rating.escrowverification.com/api"
     let chatBaseURL = "chat.escrowverification.com"
     let webSocketURL = "wss://chat.escrowverification.com/socket"
@@ -17,4 +16,5 @@ struct EscrowEnvironment: Environment {
     let passiveBuyersBaseURL = "https://passivebuyers.escrowverification.com/api"
     let paymentsBaseURL = "https://payment.stg.letgo.com/payment"
     let suggestiveSearchBaseURL = "https://suggestivesearch.letgo.com"
+    let searchProductsBaseURL = "http://search-products.can.letgo.aws"
 }

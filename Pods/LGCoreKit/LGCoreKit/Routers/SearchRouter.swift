@@ -25,7 +25,7 @@ enum SearchRouter: URLRequestAuthenticable {
     func asURLRequest() throws -> URLRequest {
         switch self {
         case .index(let params):
-            return try Router<APIBaseURL>.index(endpoint: SearchRouter.trendingSearchesBaseUrl, params: params).asURLRequest()
+            return try Router<SearchProductsBaseURL>.index(endpoint: SearchRouter.trendingSearchesBaseUrl, params: params).asURLRequest()
         case .retrieveSuggestiveSearches(let params):
             return try Router<SuggestiveSearchBaseURL>.index(endpoint: SearchRouter.suggestiveSearchBaseUrl, params: params).asURLRequest()
         }

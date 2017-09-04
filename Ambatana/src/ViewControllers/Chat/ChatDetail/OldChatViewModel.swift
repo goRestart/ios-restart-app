@@ -41,6 +41,8 @@ protocol OldChatViewModelDelegate: BaseViewModelDelegate {
     
     func vmDidUpdateStickers()
     func vmClearText()
+    
+    func vmDidPressDirectAnswer(quickAnswer: QuickAnswer)
 }
 
 enum AskQuestionSource {
@@ -638,7 +640,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         let message = type.text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         guard message.characters.count > 0 else { return }
         guard let toUserId = otherUser?.objectId, let listingId = listing.objectId else { return }
-        if type.isUserText {
+        if type.isUserText || (showKeyboardWhenQuickAnswer && type.isQuickAnswer) {
             delegate?.vmClearText()
         }
         isSendingMessage.value = true
@@ -1148,21 +1150,44 @@ class OldChatViewModel: BaseViewModel, Paginable {
 
 extension OldChatViewModel: DirectAnswersPresenterDelegate {
     
-    var directAnswers: [QuickAnswer] {
+    var directAnswers: [[QuickAnswer]] {
         let isFree = featureFlags.freePostingModeAllowed && listing.price.free
-        return QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree)
+        let isNegotiable = listing.isNegotiable(freeModeAllowed: featureFlags.freePostingModeAllowed)
+        return QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: areQuickAnswersDynamic, isNegotiable: isNegotiable)
+    }
+    var areQuickAnswersDynamic: Bool {
+        switch featureFlags.dynamicQuickAnswers {
+        case .control, .baseline:
+            return false
+        case .dynamicNoKeyboard, .dynamicWithKeyboard:
+            return true
+        }
+    }
+    var showKeyboardWhenQuickAnswer: Bool {
+        switch featureFlags.dynamicQuickAnswers {
+        case .control, .baseline, .dynamicNoKeyboard:
+            return false
+        case .dynamicWithKeyboard:
+            return true
+        }
     }
     
-    func directAnswersDidTapAnswer(_ controller: DirectAnswersPresenter, answer: QuickAnswer) {
+    func directAnswersDidTapAnswer(_ controller: DirectAnswersPresenter, answer: QuickAnswer, index: Int) {
         switch answer {
         case .listingSold, .freeNotAvailable:
             onListingSoldDirectAnswer()
         case .interested, .notInterested, .meetUp, .stillAvailable, .isNegotiable, .likeToBuy, .listingCondition,
              .listingStillForSale, .whatsOffer, .negotiableYes, .negotiableNo, .freeStillHave, .freeYours,
-             .freeAvailable:
+             .freeAvailable, .stillForSale, .priceFirm, .priceWillingToNegotiate, .priceAsking, .listingConditionGood,
+             .listingConditionDescribe, .meetUpLocated, .meetUpWhereYouWant:
             clearListingSoldDirectAnswer()
         }
-        send(quickAnswer: answer)
+        
+        if showKeyboardWhenQuickAnswer {
+            delegate?.vmDidPressDirectAnswer(quickAnswer: answer)
+        } else {
+            send(quickAnswer: answer)
+        }
     }
     
     func directAnswersDidTapClose(_ controller: DirectAnswersPresenter) {

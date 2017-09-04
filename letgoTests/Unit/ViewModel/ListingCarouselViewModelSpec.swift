@@ -30,7 +30,6 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
 
         var myUserRepository: MockMyUserRepository!
         var listingRepository: MockListingRepository!
-        var commercializerRepository: MockCommercializerRepository!
         var chatWrapper: MockChatWrapper!
         var locationManager: MockLocationManager!
         var countryHelper: CountryHelper!
@@ -53,7 +52,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
         var actionButtonsObserver: TestableObserver<[UIAction]>!
         var statusObserver: TestableObserver<ListingViewModelStatus>!
         var isFeaturedObserver: TestableObserver<Bool>!
-        var quickAnswersObserver: TestableObserver<[QuickAnswer]>!
+        var quickAnswersObserver: TestableObserver<[[QuickAnswer]]>!
         var quickAnswersAvailableObserver: TestableObserver<Bool>!
         var quickAnswersCollapsedObserver: TestableObserver<Bool>!
         var directChatEnabledObserver: TestableObserver<Bool>!
@@ -120,7 +119,6 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
             beforeEach {
                 myUserRepository = MockMyUserRepository.makeMock()
                 listingRepository = MockListingRepository.makeMock()
-                commercializerRepository = MockCommercializerRepository.makeMock()
                 chatWrapper = MockChatWrapper()
                 locationManager = MockLocationManager()
                 countryHelper = CountryHelper.mock()
@@ -137,7 +135,6 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
 
                 listingViewModelMaker = MockListingViewModelMaker(myUserRepository: myUserRepository,
                                                                   listingRepository: listingRepository,
-                                                                  commercializerRepository: commercializerRepository,
                                                                   chatWrapper: chatWrapper,
                                                                   locationManager: locationManager,
                                                                   countryHelper: countryHelper,
@@ -157,7 +154,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                 actionButtonsObserver = scheduler.createObserver(Array<UIAction>.self)
                 statusObserver = scheduler.createObserver(ListingViewModelStatus.self)
                 isFeaturedObserver = scheduler.createObserver(Bool.self)
-                quickAnswersObserver = scheduler.createObserver(Array<QuickAnswer>.self)
+                quickAnswersObserver = scheduler.createObserver(Array<Array<QuickAnswer>>.self)
                 quickAnswersAvailableObserver = scheduler.createObserver(Bool.self)
                 quickAnswersCollapsedObserver = scheduler.createObserver(Bool.self)
                 directChatEnabledObserver = scheduler.createObserver(Bool.self)
@@ -246,7 +243,10 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                 }
             }
             describe("quick answers") {
-                describe("availability and quickAnswers list") {
+                describe("ab test non-dynamic") {
+                    beforeEach {
+                        featureFlags.dynamicQuickAnswers = .control
+                    }
                     context("product is mine and available") {
                         beforeEach {
                             let myUser = MockMyUser.makeMock()
@@ -278,9 +278,17 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                             it("quick answers are available") {
                                 expect(quickAnswersAvailableObserver.eventValues) == [true] //first product
                             }
-                            it("correct quick answers are present") {
-                                let expectedAnswers: [QuickAnswer] = [.stillAvailable, .isNegotiable, .listingCondition]
-                                expect(quickAnswersObserver.lastValue?.map { $0.text }) == expectedAnswers.map { $0.text }
+                            it("receives 3 groups of quick answers") {
+                                expect(quickAnswersObserver.lastValue?.count) == 3
+                            }
+                            it("matches first group with the right availability quick answers") {
+                                expect(quickAnswersObserver.lastValue?[0]) == [.stillAvailable]
+                            }
+                            it("matches second group with the right negotiable quick answers") {
+                                expect(quickAnswersObserver.lastValue?[1]) == [.isNegotiable]
+                            }
+                            it("matches third group with the right condition quick answers") {
+                                expect(quickAnswersObserver.lastValue?[2]) == [.listingCondition]
                             }
                         }
                         context("free product") {
@@ -296,13 +304,102 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                             it("quick answers are available") {
                                 expect(quickAnswersAvailableObserver.eventValues) == [true] //first product
                             }
-                            it("correct quick answers are present") {
-                                let expectedAnswers: [QuickAnswer] = [.interested, .meetUp, .listingCondition]
-                                expect(quickAnswersObserver.lastValue?.map { $0.text }) == expectedAnswers.map { $0.text }
+                            it("receives 3 groups of quick answers") {
+                                expect(quickAnswersObserver.lastValue?.count) == 3
+                            }
+                            it("matches first group with the right interested quick answers") {
+                                expect(quickAnswersObserver.lastValue?[0]) == [.interested]
+                            }
+                            it("matches second group with the right meet up quick answers") {
+                                expect(quickAnswersObserver.lastValue?[1]) == [.meetUp]
+                            }
+                            it("matches third group with the right condition quick answers") {
+                                expect(quickAnswersObserver.lastValue?[2]) == [.listingCondition]
                             }
                         }
                     }
                 }
+
+                describe("ab test dynamic") {
+                    beforeEach {
+                        featureFlags.dynamicQuickAnswers = .dynamicNoKeyboard
+                    }
+                    context("product is mine and available") {
+                        beforeEach {
+                            let myUser = MockMyUser.makeMock()
+                            myUserRepository.myUserVar.value = myUser
+                            var productUser = MockUserListing.makeMock()
+                            productUser.objectId = myUser.objectId
+                            product.user = productUser
+                            product.status = .approved
+                            buildSut(initialProduct: product)
+                            sut.active = true
+                        }
+                        it("quick answers are not available") {
+                            expect(quickAnswersAvailableObserver.eventValues) == [false] //first product
+                        }
+                        it("quickAnswers are empty") {
+                            expect(quickAnswersObserver.eventValues.map { $0.isEmpty }) == [true] //first product
+                        }
+                    }
+                    context("product is not mine and available") {
+                        context("non free product") {
+                            beforeEach {
+                                let myUser = MockMyUser.makeMock()
+                                myUserRepository.myUserVar.value = myUser
+                                product.status = .approved
+                                product.price = .normal(25)
+                                buildSut(initialProduct: product)
+                                sut.active = true
+                            }
+                            it("quick answers are available") {
+                                expect(quickAnswersAvailableObserver.eventValues) == [true] //first product
+                            }
+                            it("receives 4 groups of quick answers") {
+                                expect(quickAnswersObserver.lastValue?.count) == 4
+                            }
+                            it("matches first group with the right availability quick answers") {
+                                expect(quickAnswersObserver.lastValue?[0]) == [.stillAvailable, .stillForSale, .freeStillHave]
+                            }
+                            it("matches second group with the right meet up quick answers") {
+                                expect(quickAnswersObserver.lastValue?[1]) == [.meetUp, .meetUpLocated, .meetUpWhereYouWant]
+                            }
+                            it("matches third group with the right condition quick answers") {
+                                expect(quickAnswersObserver.lastValue?[2]) == [.listingCondition, .listingConditionGood, .listingConditionDescribe]
+                            }
+                            it("matches fourth group with the right price quick answers") {
+                                expect(quickAnswersObserver.lastValue?[3]) == [.isNegotiable, .priceFirm, .priceWillingToNegotiate]
+                            }
+                        }
+                        context("free product") {
+                            beforeEach {
+                                let myUser = MockMyUser.makeMock()
+                                myUserRepository.myUserVar.value = myUser
+                                product.status = .approved
+                                product.price = .free
+                                featureFlags.freePostingModeAllowed = true
+                                buildSut(initialProduct: product)
+                                sut.active = true
+                            }
+                            it("quick answers are available") {
+                                expect(quickAnswersAvailableObserver.eventValues) == [true] //first product
+                            }
+                            it("receives 3 groups of quick answers") {
+                                expect(quickAnswersObserver.lastValue?.count) == 3
+                            }
+                            it("matches first group with the right availability quick answers") {
+                                expect(quickAnswersObserver.lastValue?[0]) == [.stillAvailable, .freeStillHave]
+                            }
+                            it("matches second group with the right meet up quick answers") {
+                                expect(quickAnswersObserver.lastValue?[1]) == [.meetUp, .meetUpLocated, .meetUpWhereYouWant]
+                            }
+                            it("matches third group with the right condition quick answers") {
+                                expect(quickAnswersObserver.lastValue?[2]) == [.listingCondition, .listingConditionGood, .listingConditionDescribe]
+                            }
+                        }
+                    }
+                }
+
                 describe("collapsed state") {
                     context("initial value non collapsed") {
                         beforeEach {
@@ -623,7 +720,6 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                     listingRepository.userProductRelationResult = ListingUserRelationResult(relation)
                     stats = MockListingStats.makeMock()
                     listingRepository.statsResult = ListingStatsResult(stats)
-                    commercializerRepository.indexResult = CommercializersResult([])
                     product.status = .approved
                 }
                 context("user not logged in") {
@@ -1196,7 +1292,6 @@ extension ListingCarouselViewModelSpec: ListingCarouselViewModelDelegate {
     }
 
     // Forward from ListingViewModelDelegate
-    func vmOpenCommercialDisplay(_ displayVM: CommercialDisplayViewModel) {}
     func vmAskForRating() {}
     func vmShowCarouselOptions(_ cancelLabel: String, actions: [UIAction]) {}
     func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?) {

@@ -106,12 +106,8 @@ open class MockListingRepository: ListingRepository {
         delay(result: listingResult, completion: completion)
     }
 
-    public func create(productParams: ProductCreationParams, completion: ProductCompletion?) {
-        delay(result: productResult, completion: completion)
-    }
-    
-    public func create(carParams: CarCreationParams, completion: CarCompletion?) {
-        delay(result: carResult, completion: completion)
+    public func create(listingParams: ListingCreationParams, completion: ListingCompletion?) {
+        delay(result: listingResult, completion: completion)
     }
 
     public func create(product: Product,
@@ -127,12 +123,8 @@ open class MockListingRepository: ListingRepository {
         delay(result: productResult, completion: completion)
     }
 
-    public func update(productParams: ProductEditionParams, completion: ProductCompletion?) {
-        delay(result: productResult, completion: completion)
-    }
-    
-    public func update(carParams: CarEditionParams, completion: CarCompletion?) {
-        delay(result: carResult, completion: completion)
+    public func update(listingParams: ListingEditionParams, completion: ListingCompletion?) {
+        delay(result: listingResult, completion: completion)
     }
     
     public func update(product: Product,

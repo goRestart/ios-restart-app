@@ -28,9 +28,8 @@ class ABTests {
     let productDetailNextRelated = BoolABDynamicVar(key: "productDetailNextRelated", defaultValue: false)
     let newMarkAsSoldFlow = BoolABDynamicVar(key: "newMarkAsSoldFlow", defaultValue: false)
     let newCarsMultiRequesterEnabled = BoolABDynamicVar(key: "newCarsMultiRequesterEnabled", defaultValue: false)
-    let newCarouselNavigationEnabled = BoolABDynamicVar(key: "newCarouselNavigationEnabled20170606", defaultValue: false)
     let newOnboardingPhase1 = BoolABDynamicVar(key: "newOnboardingPhase1", defaultValue: false)
-    let searchParamDisc24 = IntABDynamicVar(key: "searchParamDisc24", defaultValue: 0)
+    let searchParamDisc129 = IntABDynamicVar(key: "SearchParamDisc129", defaultValue: 0)
     let inAppRatingIOS10 = BoolABDynamicVar(key: "20170711inAppRatingIOS10", defaultValue: false)
     let suggestedSearches = IntABDynamicVar(key: "20170717suggestedSearches", defaultValue: 0)
     let addSuperKeywordsOnFeed = IntABDynamicVar(key: "20170719AddSuperKeywordsOnFeed", defaultValue: 0)
@@ -40,7 +39,8 @@ class ABTests {
     let openGalleryInPosting = IntABDynamicVar(key: "20170810OpenGalleryInPosting", defaultValue: 0)
     let tweaksCarPostingFlow = IntABDynamicVar(key: "20170810tweaksCarPostingFlow", defaultValue: 0)
     let userReviewsReportEnabled = BoolABDynamicVar(key: "20170823userReviewsReportEnabled", defaultValue: true)
-    
+    let dynamicQuickAnswers = IntABDynamicVar(key: "20170816DynamicQuickAnswers", defaultValue: 0)
+
     init() {
     }
     
@@ -62,9 +62,8 @@ class ABTests {
         result.append(productDetailNextRelated)
         result.append(newMarkAsSoldFlow)
         result.append(newCarsMultiRequesterEnabled)
-        result.append(newCarouselNavigationEnabled)
         result.append(newOnboardingPhase1)
-        result.append(searchParamDisc24)
+        result.append(searchParamDisc129)
         result.append(inAppRatingIOS10)
         result.append(suggestedSearches)
         result.append(addSuperKeywordsOnFeed)
@@ -74,6 +73,7 @@ class ABTests {
         result.append(openGalleryInPosting)
         result.append(tweaksCarPostingFlow)
         result.append(userReviewsReportEnabled)
+        result.append(dynamicQuickAnswers)
 
         return result
     }

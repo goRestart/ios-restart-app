@@ -15,7 +15,6 @@ import RxSwift
 
 protocol ListingViewModelDelegate: class, BaseViewModelDelegate {
 
-    func vmOpenCommercialDisplay(_ displayVM: CommercialDisplayViewModel)
     func vmShowProductDetailOptions(_ cancelLabel: String, actions: [UIAction])
 
     func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?)
@@ -37,7 +36,6 @@ class ListingViewModel: BaseViewModel {
                                     visitSource: source,
                                     myUserRepository: Core.myUserRepository,
                                     listingRepository: Core.listingRepository,
-                                    commercializerRepository: Core.commercializerRepository,
                                     chatWrapper: LGChatWrapper(),
                                     chatViewMessageAdapter: ChatViewMessageAdapter(),
                                     locationManager: Core.locationManager,
@@ -67,10 +65,27 @@ class ListingViewModel: BaseViewModel {
     fileprivate var freeBumpUpShareMessage: SocialMessage?
 
     let directChatMessages = CollectionVariable<ChatViewMessage>([])
-    var quickAnswers: [QuickAnswer] {
+    var quickAnswers: [[QuickAnswer]] {
         guard !isMine else { return [] }
         let isFree = listing.value.price.free && featureFlags.freePostingModeAllowed
-        return QuickAnswer.quickAnswersForPeriscope(isFree: isFree)
+        let isNegotiable = listing.value.isNegotiable(freeModeAllowed: featureFlags.freePostingModeAllowed)
+        return QuickAnswer.quickAnswersForPeriscope(isFree: isFree, isDynamic: areQuickAnswersDynamic, isNegotiable: isNegotiable)
+    }
+    var areQuickAnswersDynamic: Bool {
+        switch featureFlags.dynamicQuickAnswers {
+        case .control, .baseline:
+            return false
+        case .dynamicNoKeyboard, .dynamicWithKeyboard:
+            return true
+        }
+    }
+    var showKeyboardWhenQuickAnswer: Bool {
+        switch featureFlags.dynamicQuickAnswers {
+        case .control, .baseline, .dynamicNoKeyboard:
+            return false
+        case .dynamicWithKeyboard:
+            return true
+        }
     }
 
     let navBarButtons = Variable<[UIAction]>([])
@@ -92,9 +107,7 @@ class ListingViewModel: BaseViewModel {
     
     fileprivate var isTransactionOpen: Bool = false
 
-    fileprivate let commercializers: Variable<[Commercializer]?>
     fileprivate let isReported = Variable<Bool>(false)
-    fileprivate let productHasReadyCommercials = Variable<Bool>(false)
 
     let bumpUpBannerInfo = Variable<BumpUpInfo?>(nil)
     fileprivate var timeSinceLastBump: TimeInterval = 0
@@ -115,7 +128,6 @@ class ListingViewModel: BaseViewModel {
 
     fileprivate let myUserRepository: MyUserRepository
     fileprivate let listingRepository: ListingRepository
-    fileprivate let commercializerRepository: CommercializerRepository
     fileprivate let chatWrapper: ChatWrapper
     fileprivate let countryHelper: CountryHelper
     fileprivate let locationManager: LocationManager
@@ -130,9 +142,6 @@ class ListingViewModel: BaseViewModel {
 
     // Retrieval status
     private var relationRetrieved = false
-    private var commercialsRetrieved: Bool {
-        return commercializers.value != nil
-    }
 
     // Rx
     private let disposeBag: DisposeBag
@@ -144,7 +153,6 @@ class ListingViewModel: BaseViewModel {
          visitSource: EventParameterListingVisitSource,
          myUserRepository: MyUserRepository,
          listingRepository: ListingRepository,
-         commercializerRepository: CommercializerRepository,
          chatWrapper: ChatWrapper,
          chatViewMessageAdapter: ChatViewMessageAdapter,
          locationManager: LocationManager,
@@ -161,8 +169,6 @@ class ListingViewModel: BaseViewModel {
         self.listingRepository = listingRepository
         self.countryHelper = countryHelper
         self.trackHelper = ProductVMTrackHelper(tracker: tracker, listing: listing, featureFlags: featureFlags)
-        self.commercializerRepository = commercializerRepository
-        self.commercializers = Variable<[Commercializer]?>(nil)
         self.chatWrapper = chatWrapper
         self.locationManager = locationManager
         self.chatViewMessageAdapter = chatViewMessageAdapter
@@ -201,15 +207,6 @@ class ListingViewModel: BaseViewModel {
             listingRepository.retrieveStats(listingId: listingId) { [weak self] result in
                 guard let stats = result.value else { return }
                 self?.listingStats.value = stats
-            }
-        }
-
-        if !commercialsRetrieved && featureFlags.commercialsAllowedFor(productCountryCode: listing.value.postalAddress.countryCode) {
-            commercializerRepository.index(listingId) { [weak self] result in
-                guard let value = result.value else { return }
-                let readyCommercials = value.filter {$0.status == .ready }
-                self?.productHasReadyCommercials.value = !readyCommercials.isEmpty
-                self?.commercializers.value = value
             }
         }
 
@@ -491,18 +488,6 @@ extension ListingViewModel {
         }
     }
 
-    func openVideo() {
-        guard let commercializers = commercializers.value else { return }
-
-        let readyCommercializers = commercializers.filter {$0.status == .ready }
-
-        guard let commercialDisplayVM = CommercialDisplayViewModel(commercializers: readyCommercializers,
-                                                                   listingId: listing.value.objectId,
-                                                                   source: .listingDetail,
-                                                                   isMyVideo: isMine) else { return }
-        delegate?.vmOpenCommercialDisplay(commercialDisplayVM)
-    }
-
     func switchFavorite() {
         ifLoggedInRunActionElseOpenSignUp(from: .favourite, infoMessage: LGLocalizedString.productFavoriteLoginPopupText) {
             [weak self] in self?.switchFavoriteAction()
@@ -618,9 +603,6 @@ extension ListingViewModel {
             actions.append(buildEditAction())
         }
         actions.append(buildShareAction())
-        if productHasReadyCommercials.value {
-            actions.append(buildCommercialAction())
-        }
         if !isMine {
             actions.append(buildReportAction())
         }
@@ -644,12 +626,6 @@ extension ListingViewModel {
         return UIAction(interface: .text(LGLocalizedString.productOptionShare), action: { [weak self] in
             self?.shareProduct()
         }, accessibilityId: .listingCarouselNavBarShareButton)
-    }
-
-    private func buildCommercialAction() -> UIAction {
-        return UIAction(interface: .text(LGLocalizedString.productOptionShowCommercial), action: { [weak self] in
-            self?.openVideo()
-        })
     }
 
     private func buildReportAction() -> UIAction {
@@ -1082,6 +1058,7 @@ extension ListingViewModel: PurchasesShopperDelegate {
         trackBumpUpCompleted(.free, type: .free, network: network)
         delegate?.vmHideLoading(LGLocalizedString.bumpUpFreeSuccess, afterMessageCompletion: { [weak self] in
             self?.delegate?.vmResetBumpUpBannerCountdown()
+            self?.isShowingFeaturedStripe.value = true
         })
     }
 
@@ -1108,6 +1085,7 @@ extension ListingViewModel: PurchasesShopperDelegate {
                              network: .notAvailable)
         delegate?.vmHideLoading(LGLocalizedString.bumpUpPaySuccess, afterMessageCompletion: { [weak self] in
             self?.delegate?.vmResetBumpUpBannerCountdown()
+            self?.isShowingFeaturedStripe.value = true
         })
     }
 

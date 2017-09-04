@@ -14,7 +14,6 @@ protocol ListingCarouselViewModelDelegate: BaseViewModelDelegate {
     func vmShowOnboarding()
 
     // Forward from ListingViewModelDelegate
-    func vmOpenCommercialDisplay(_ displayVM: CommercialDisplayViewModel)
     func vmShowCarouselOptions(_ cancelLabel: String, actions: [UIAction])
     func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?)
     func vmResetBumpUpBannerCountdown()
@@ -75,7 +74,7 @@ class ListingCarouselViewModel: BaseViewModel {
     let status = Variable<ListingViewModelStatus>(.pending)
     let isFeatured = Variable<Bool>(false)
 
-    let quickAnswers = Variable<[QuickAnswer]>([])
+    let quickAnswers = Variable<[[QuickAnswer]]>([[]])
     let quickAnswersAvailable = Variable<Bool>(false)
     let quickAnswersCollapsed: Variable<Bool>
 
@@ -100,22 +99,7 @@ class ListingCarouselViewModel: BaseViewModel {
     fileprivate var prefetchingIndexes: [Int] = []
 
     fileprivate var shouldShowOnboarding: Bool {
-        let shouldShowOldOnboarding = !featureFlags.newCarouselNavigationEnabled && !keyValueStorage[.didShowListingDetailOnboarding]
-        let shouldShowNewOnboarding = featureFlags.newCarouselNavigationEnabled && !keyValueStorage[.didShowHorizontalListingDetailOnboarding]
-        return shouldShowOldOnboarding || shouldShowNewOnboarding
-    }
-
-    var imageScrollDirection: UICollectionViewScrollDirection {
-        if featureFlags.newCarouselNavigationEnabled {
-            return .horizontal
-        }
-        return .vertical
-    }
-
-    let horizontalImageNavigationEnabled = Variable<Bool>(false)
-
-    var isMyListing: Bool {
-        return currentListingViewModel?.isMine ?? false
+        return !keyValueStorage[.didShowListingDetailOnboarding]
     }
 
     fileprivate var trackingIndex: Int?
@@ -129,7 +113,6 @@ class ListingCarouselViewModel: BaseViewModel {
     fileprivate let keyValueStorage: KeyValueStorageable
     fileprivate let imageDownloader: ImageDownloaderType
     fileprivate let listingViewModelMaker: ListingViewModelMaker
-    fileprivate let featureFlags: FeatureFlaggeable
 
     fileprivate let disposeBag = DisposeBag()
 
@@ -221,7 +204,6 @@ class ListingCarouselViewModel: BaseViewModel {
         self.keyValueStorage = keyValueStorage
         self.imageDownloader = imageDownloader
         self.listingViewModelMaker = listingViewModelMaker
-        self.featureFlags = featureFlags
         if let initialListing = initialListing {
             self.startIndex = objects.value.index(where: { $0.listing.objectId == initialListing.objectId}) ?? 0
         } else {
@@ -339,6 +321,12 @@ class ListingCarouselViewModel: BaseViewModel {
         currentListingViewModel?.trackBumpUpBannerShown(type: type)
     }
     
+    func moveQuickAnswerToTheEnd(_ index: Int) {
+        guard index >= 0 else { return }
+        quickAnswers.value.move(fromIndex: index, toIndex: quickAnswers.value.count-1)
+    }
+    
+    
     // MARK: - Private Methods
 
     fileprivate func listingAt(index: Int) -> Listing? {
@@ -362,9 +350,6 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     private func setupRxBindings() {
-
-        horizontalImageNavigationEnabled.value = imageScrollDirection == .horizontal
-
         quickAnswersCollapsed.asObservable().skip(1).bindNext { [weak self] collapsed in
             self?.keyValueStorage[.listingDetailQuickAnswersHidden] = collapsed
         }.addDisposableTo(disposeBag)
@@ -488,9 +473,6 @@ extension ListingCarouselViewModel {
 
 extension ListingCarouselViewModel: ListingViewModelDelegate {
     // ListingViewModelDelegate forwarding methods
-    func vmOpenCommercialDisplay(_ displayVM: CommercialDisplayViewModel) {
-        delegate?.vmOpenCommercialDisplay(displayVM)
-    }
     func vmShowProductDetailOptions(_ cancelLabel: String, actions: [UIAction]) {
         var finalActions: [UIAction] = actions
 

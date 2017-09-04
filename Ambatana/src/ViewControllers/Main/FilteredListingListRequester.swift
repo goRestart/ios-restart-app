@@ -220,7 +220,7 @@ fileprivate extension FilteredListingListRequester {
         params.modelId = filters?.carModelId
         params.startYear = filters?.carYearStart
         params.endYear = filters?.carYearEnd
-        params.abtest = featureFlags.searchParamDisc24.stringValue
+        params.abtest = featureFlags.searchParamDisc129.stringValue
 
         if let priceRange = filters?.priceRange {
             switch priceRange {
@@ -297,23 +297,17 @@ fileprivate extension FilteredListingListRequester {
     }
 }
 
-extension SearchParamDisc24 {
+extension SearchParamDisc129 {
     var stringValue: String {
         switch self {
-        case .disc24a:
-            return "disc24-a"
-        case .disc24b:
-            return "disc24-b"
-        case .disc24c:
-            return "disc24-c"
-        case .disc24d:
-            return "disc24-d"
-        case .disc24e:
-            return "disc24-e"
-        case .disc24f:
-            return "disc24-f"
-        case .disc24g:
-            return "disc24-g"
+        case .disc129a:
+            return "disc129-a"
+        case .disc129b:
+            return "disc129-b"
+        case .disc129c:
+            return "disc129-c"
+        case .disc129d:
+            return "disc129-d"
         }
     }
 }

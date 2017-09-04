@@ -31,15 +31,14 @@ def shared_pods
     pod "Amplitude-iOS",        "3.8.5"  # Obj-c
     pod "AppsFlyerFramework",   "4.7.11"  # Obj-c
 #    pod "Leanplum-iOS-SDK",     "2.0.1"  # Obj-c
-    pod "Leanplum-iOS-SDK", :git => 'https://github.com/Leanplum/Leanplum-iOS-SDK-internal', :tag => '2.0.1.1'
+    pod "Leanplum-iOS-SDK", :git => 'https://github.com/Leanplum/Leanplum-iOS-SDK-internal', :tag => '2.0.3.95'
     
     pod "NewRelicAgent",        "5.10.1"
 
     # letgo Core
-
-    pod "LGCoreKit",             "3.13.0"
+    pod "LGCoreKit",             "3.15.0"
 #    pod "LGCoreKit",            :path => "../lgcorekit"
-#    pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => 'b049c23d7f0fd0f5fd74404de4907f6b75f2122c'
+#    pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => '6e640569ce49e833258fe6def5d09916975972c1'
 
     # letgo Collapsible label
     pod "LGCollapsibleLabel",   "1.1.0"     # :path => "../collapsiblelabel"
@@ -47,7 +46,7 @@ def shared_pods
     # letgo bumper (feature flags)
     pod "bumper",               "1.1.0"     #:path => "../bumper"
 
-    	# Collection View Custom Layout
+    # Collection View Custom Layout
     pod "CHTCollectionViewWaterfallLayout", "0.9.5"  # Obj-c
 
     # Device info helper

@@ -194,8 +194,6 @@ private enum UserDefaultsUserKey: String {
     case postListingLastTabSelected = "lastPostProductTabSelected"
     case postListingPostedPreviously = "postProductPostedPreviously"
 
-    case commercializersPending = "pendingCommercializers"
-
     case trackingProductSellComplete24hTracked = "trackingProductSellComplete24hTracked"
 
     case shouldShowExpressChat = "shouldShowExpressChat"
