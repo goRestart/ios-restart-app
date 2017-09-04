@@ -35,7 +35,6 @@ final class TabBarController: UITabBarController {
     fileprivate let disposeBag = DisposeBag()
 
     fileprivate static let appRatingTag = Int.makeRandom()
-    fileprivate static let categorySelectionTag = Int.makeRandom()
     
     // MARK: - Lifecycle
 
