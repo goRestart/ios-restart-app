@@ -51,7 +51,7 @@ class ExpandableCategorySelectionView: UIView {
     }
     
 
-//MARK: UI
+    // MARK: - UI
 
     private func addButtons() {
         guard !expanded.value else { return }
@@ -137,7 +137,7 @@ class ExpandableCategorySelectionView: UIView {
          return expanded ? (buttonSpacing * CGFloat(index+1) + buttonHeight * CGFloat(index)) : 0
     }
     
-    func setAccesibilityIds() {
+    fileprivate func setAccesibilityIds() {
         accessibilityId = .expandableCategorySelectionView
         closeButton.accessibilityId = .expandableCategorySelectionCloseButton
     }
