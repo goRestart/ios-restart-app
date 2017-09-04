@@ -90,7 +90,7 @@ class ExpandableCategorySelectionView: UIView {
         button.setStyle(.secondary(fontSize: .medium, withBorder: false))
         button.setImage(#imageLiteral(resourceName: "ic_close_dark"), for: .normal)
         button.addTarget(self, action: #selector(closeButtonPressed), for: .touchUpInside)
-        button.accessibilityId = accessibilityId
+        button.accessibilityId = .expandableCategorySelectionCloseButton
         button.translatesAutoresizingMaskIntoConstraints = false
         closeButton = button
         
@@ -137,6 +137,10 @@ class ExpandableCategorySelectionView: UIView {
          return expanded ? (buttonSpacing * CGFloat(index+1) + buttonHeight * CGFloat(index)) : 0
     }
     
+    func setAccesibilityIds() {
+        accessibilityId = .expandableCategorySelectionView
+    }
+    
     
     // MARK: - Actions
     
@@ -170,4 +174,5 @@ class ExpandableCategorySelectionView: UIView {
         guard 0..<viewModel.categoriesAvailable.count ~= buttonIndex else { return }
         viewModel.categoryButtonDidPressed(listingCategory: viewModel.categoriesAvailable[buttonIndex])
     }
+    
 }
