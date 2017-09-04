@@ -8,6 +8,7 @@
 
 import Foundation
 import LGCoreKit
+import RxSwift
 
 protocol ChatListViewDelegate: class {
     func chatListView(_ chatListView: ChatListView, showDeleteConfirmationWithTitle title: String, message: String,
@@ -25,6 +26,8 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
     // Data
     var viewModel: ChatListViewModel
     weak var delegate: ChatListViewDelegate?
+    
+    private let disposeBag = DisposeBag()
 
 
     // MARK: - Lifecycle
@@ -63,6 +66,16 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
         footerButton.addTarget(self, action: #selector(ChatListView.deleteButtonPressed), for: .touchUpInside)
     }
 
+    override func setupRx() {
+        super.setupRx()
+        
+        viewModel.shouldScrollToTop.subscribeNext { [weak self] shouldScrollToTop in
+            guard let tableView = self?.tableView, tableView.numberOfRows(inSection: 0) > 0 else { return }
+            let indexPath = IndexPath(row: 0, section: 0)
+            tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+        }.addDisposableTo(disposeBag)
+    }
+    
 
     // MARK: - ChatListViewModelDelegate Methods
 
