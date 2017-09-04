@@ -11,7 +11,7 @@ import RxSwift
 import UIKit
 
 enum PostCategory {
-    case car, other
+    case car, unassigned, motorsAndAccessories
 }
 
 final class PostCategorySelectionView: UIView {
@@ -83,7 +83,7 @@ fileprivate extension PostCategorySelectionView {
         motorsAndAccessoriesButton.titleLabel?.lineBreakMode = .byWordWrapping
         motorsAndAccessoriesButton.contentHorizontalAlignment = .left
         motorsAndAccessoriesButton.rx.tap.subscribeNext { [weak self] _ in
-            self?.selectedCategoryPublishSubject.onNext(.other)
+            self?.selectedCategoryPublishSubject.onNext(.motorsAndAccessories)
             }.addDisposableTo(disposeBag)
         categoriesContainerView.addSubview(motorsAndAccessoriesButton)
         
@@ -97,7 +97,7 @@ fileprivate extension PostCategorySelectionView {
         otherCategoryButton.titleLabel?.lineBreakMode = .byWordWrapping
         otherCategoryButton.contentHorizontalAlignment = .left
         otherCategoryButton.rx.tap.subscribeNext { [weak self] _ in
-            self?.selectedCategoryPublishSubject.onNext(.other)
+            self?.selectedCategoryPublishSubject.onNext(.unassigned)
         }.addDisposableTo(disposeBag)
         categoriesContainerView.addSubview(otherCategoryButton)
     }

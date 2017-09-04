@@ -114,5 +114,10 @@
         "name": "AppRatingDialogInactive",
         "values": ["no", "yes"],
         "description": "App rating dialog inactive to increase user activation"
+    },
+    {
+        "name": "ExpandableCategorySelectionMenu",
+        "values": ["control", "baseline", "expandableMenu"],
+        "description": "Show 'salchichas' menu on sell your staff button"
     }
 ]

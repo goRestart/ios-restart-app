@@ -50,6 +50,7 @@ class PostListingViewModel: BaseViewModel {
     let postDetailViewModel: PostListingDetailViewModel
     let postListingCameraViewModel: PostListingCameraViewModel
     let postingSource: PostingSource
+    let postCategory: PostCategory?
     
     fileprivate let listingRepository: ListingRepository
     fileprivate let fileRepository: FileRepository
@@ -75,7 +76,7 @@ class PostListingViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
 
-    convenience init(source: PostingSource) {
+    convenience init(source: PostingSource, postCategory: PostCategory?) {
         self.init(source: source,
                   listingRepository: Core.listingRepository,
                   fileRepository: Core.fileRepository,
@@ -84,7 +85,8 @@ class PostListingViewModel: BaseViewModel {
                   sessionManager: Core.sessionManager,
                   featureFlags: FeatureFlags.sharedInstance,
                   locationManager: Core.locationManager,
-                  currencyHelper: Core.currencyHelper)
+                  currencyHelper: Core.currencyHelper,
+                  postCategory: postCategory)
     }
 
     init(source: PostingSource,
@@ -95,8 +97,9 @@ class PostListingViewModel: BaseViewModel {
          sessionManager: SessionManager,
          featureFlags: FeatureFlaggeable,
          locationManager: LocationManager,
-         currencyHelper: CurrencyHelper) {
-        self.state = Variable<PostListingState>(PostListingState(featureFlags: featureFlags))
+         currencyHelper: CurrencyHelper,
+         postCategory: PostCategory?) {
+        self.state = Variable<PostListingState>(PostListingState(featureFlags: featureFlags, postCategory: postCategory))
         self.category = Variable<PostCategory?>(nil)
         
         self.postingSource = source
@@ -110,6 +113,7 @@ class PostListingViewModel: BaseViewModel {
         self.featureFlags = featureFlags
         self.locationManager = locationManager
         self.currencyHelper = currencyHelper
+        self.postCategory = postCategory
         self.disposeBag = DisposeBag()
         super.init()
         self.postDetailViewModel.delegate = self

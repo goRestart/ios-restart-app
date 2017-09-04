@@ -17,7 +17,7 @@ protocol AppNavigator: class {
     func open()
     func openForceUpdateAlertIfNeeded()
     func openHome()
-    func openSell(source: PostingSource)
+    func openSell(source: PostingSource, postCategory: PostCategory?)
     func openAppRating(_ source: EventParameterRatingSource)
     func openUserRating(_ source: RateUserSource, data: RateUserData)
     func openVerifyAccounts(_ types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?)
