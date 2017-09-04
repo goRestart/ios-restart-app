@@ -111,6 +111,11 @@
         "description": "Random quick answers with different approaches"
     },
     {
+        "name": "AppRatingDialogInactive",
+        "values": ["no", "yes"],
+        "description": "App rating dialog inactive to increase user activation"
+    },
+    {
         "name": "FeedFilterRadiusValues",
         "values": ["control", "baseline", "newValues"],
         "description": "Feed filter radius values"

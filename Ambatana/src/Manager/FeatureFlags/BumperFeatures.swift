@@ -35,6 +35,7 @@ extension Bumper  {
         flags.append(SearchParamDisc129.self)
         flags.append(UserReviewsReportEnabled.self)
         flags.append(DynamicQuickAnswers.self)
+        flags.append(AppRatingDialogInactive.self)
         flags.append(FeedFilterRadiusValues.self)
         Bumper.initialize(flags)
     } 
@@ -147,6 +148,11 @@ extension Bumper  {
     static var dynamicQuickAnswers: DynamicQuickAnswers {
         guard let value = Bumper.value(for: DynamicQuickAnswers.key) else { return .control }
         return DynamicQuickAnswers(rawValue: value) ?? .control 
+    }
+
+    static var appRatingDialogInactive: Bool {
+        guard let value = Bumper.value(for: AppRatingDialogInactive.key) else { return false }
+        return AppRatingDialogInactive(rawValue: value)?.asBool ?? false
     }
 
     static var feedFilterRadiusValues: FeedFilterRadiusValues {
@@ -421,6 +427,15 @@ enum DynamicQuickAnswers: String, BumperFeature  {
             default: return .control
         }
     }
+}
+
+enum AppRatingDialogInactive: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return AppRatingDialogInactive.no.rawValue }
+    static var enumValues: [AppRatingDialogInactive] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "App rating dialog inactive to increase user activation" } 
+    var asBool: Bool { return self == .yes }
 }
 
 enum FeedFilterRadiusValues: String, BumperFeature  {
