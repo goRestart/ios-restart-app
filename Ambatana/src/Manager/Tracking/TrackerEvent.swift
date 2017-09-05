@@ -429,11 +429,14 @@ struct TrackerEvent {
     }
 
     static func listingSellStart(_ typePage: EventParameterTypePage,
-                                 buttonName: EventParameterButtonNameType?, sellButtonPosition: EventParameterSellButtonPosition) -> TrackerEvent {
+                                 buttonName: EventParameterButtonNameType?,
+                                 sellButtonPosition: EventParameterSellButtonPosition,
+                                 category: ListingCategory?) -> TrackerEvent {
         var params = EventParameters()
         params[.typePage] = typePage.rawValue
         params[.buttonName] = buttonName?.rawValue
         params[.sellButtonPosition] = sellButtonPosition.rawValue
+        params[.categoryId] = category?.rawValue ?? "N/A"
         return TrackerEvent(name: .listingSellStart, params: params)
     }
     

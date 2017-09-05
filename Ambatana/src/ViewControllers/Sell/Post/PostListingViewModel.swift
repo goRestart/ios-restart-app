@@ -300,7 +300,7 @@ extension PostListingViewModel {
     }
 }
 
-// MARK: - PostListingDetailViewModelDelegate
+// MARK: - PostListingDetailViewModelDelegateP
 
 extension PostListingViewModel: PostListingDetailViewModelDelegate {
     func postListingDetailDone(_ viewModel: PostListingDetailViewModel) {
@@ -447,7 +447,8 @@ fileprivate extension PostListingViewModel {
 fileprivate extension PostListingViewModel {
     func trackVisit() {
         let event = TrackerEvent.listingSellStart(postingSource.typePage,buttonName: postingSource.buttonName,
-                                                  sellButtonPosition: postingSource.sellButtonPosition)
+                                                  sellButtonPosition: postingSource.sellButtonPosition,
+                                                  category: postCategory?.listingCategory)
         tracker.trackEvent(event)
     }
 }
