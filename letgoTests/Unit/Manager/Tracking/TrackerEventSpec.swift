@@ -3543,7 +3543,7 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "12345"
-                    sut = TrackerEvent.listingBumpUpComplete(.product(product), price: .free, type: .free, network: .facebook)
+                    sut = TrackerEvent.listingBumpUpComplete(.product(product), price: .free, type: .free, restoreRetriesCount: 8, network: .facebook)
                 }
                 it("has its event name ") {
                     expect(sut.name.rawValue).to(equal("bump-up-complete"))
@@ -3556,6 +3556,9 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("type matches") {
                     expect(sut.params?.stringKeyParams["bump-type"] as? String) == "free"
+                }
+                it("retries number matches") {
+                    expect(sut.params?.stringKeyParams["retries-number"] as? Int) == 8
                 }
                 it("network matches") {
                     expect(sut.params?.stringKeyParams["share-network"] as? String) == "facebook"

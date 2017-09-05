@@ -168,6 +168,7 @@ extension AppDelegate: UIApplicationDelegate {
         // observe payment transactions
         if let actualFeatureFlags = featureFlags, actualFeatureFlags.pricedBumpUpEnabled {
             purchasesShopper?.startObservingTransactions()
+            purchasesShopper?.restoreFailedBumps()
         }
     }
 

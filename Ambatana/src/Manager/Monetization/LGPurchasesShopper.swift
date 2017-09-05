@@ -236,7 +236,6 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         self.paymentQueue = paymentQueue
         super.init()
         productsRequest.delegate = self
-        restoreFailedBumps()
         cleanCorruptedData()
     }
 
@@ -259,6 +258,24 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         guard isObservingPaymentsQueue else { return }
         paymentQueue.remove(self)
         isObservingPaymentsQueue = false
+    }
+
+    /**
+     Restore the failed paid bumps (payment was made, but bump failed)
+     */
+    func restoreFailedBumps() {
+        let failedBumps = keyValueStorage.userFailedBumpsInfo
+
+        for (listingId, bumpInfo) in failedBumps {
+            guard let bumpDict = bumpInfo as? [String:String?] else { continue }
+            guard let bump = FailedBumpInfo(dict: bumpDict) else { continue }
+            if bump.numRetries >= Constants.maxRestoreRetries {
+                remove(transaction: bump.transactionId)
+                removeFailedBumpInfoFor(listingId: listingId)
+                continue
+            }
+            requestBumpWithPaymentInfo(listingId: listingId, transaction: nil, type: .restore, currentBump: bump)
+        }
     }
 
     /**
@@ -553,21 +570,6 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         let cleanTransactionIds = cleanTransactions.flatMap { $0.transactionIdentifier }
         let cleanTransactionsDict = savedTransactionsDict.filter(keys: cleanTransactionIds)
         keyValueStorage.userPendingTransactionsProductIds = cleanTransactionsDict
-    }
-
-    private func restoreFailedBumps() {
-        let failedBumps = keyValueStorage.userFailedBumpsInfo
-
-        for (listingId, bumpInfo) in failedBumps {
-            guard let bumpDict = bumpInfo as? [String:String?] else { continue }
-            guard let bump = FailedBumpInfo(dict: bumpDict) else { continue }
-            if bump.numRetries >= Constants.maxRestoreRetries {
-                remove(transaction: bump.transactionId)
-                removeFailedBumpInfoFor(listingId: listingId)
-                continue
-            }
-            requestBumpWithPaymentInfo(listingId: listingId, transaction: nil, type: .restore, currentBump: bump)
-        }
     }
 }
 

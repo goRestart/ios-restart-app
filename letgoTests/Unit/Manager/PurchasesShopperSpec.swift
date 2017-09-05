@@ -23,6 +23,7 @@ class PurchasesShopperSpec: QuickSpec {
     var requestsFinished: [String]!
     var mockBumpResult: MockBumpResult?
     var network: EventParameterShareNetwork!
+    var restoreRetriesCount: Int?
 
     override func spec() {
 
@@ -316,8 +317,9 @@ extension PurchasesShopperSpec: PurchasesShopperDelegate {
     func paymentDidSucceed(paymentId: String) {
     }
 
-    func pricedBumpDidSucceed(type: BumpUpType) {
+    func pricedBumpDidSucceed(type: BumpUpType, restoreRetriesCount: Int) {
         self.mockBumpResult = .success
+        self.restoreRetriesCount = restoreRetriesCount
     }
 
     func pricedBumpDidFail(type: BumpUpType) {
