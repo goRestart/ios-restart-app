@@ -12,6 +12,17 @@ import UIKit
 
 enum PostCategory {
     case car, unassigned, motorsAndAccessories
+    
+    var listingCategory: ListingCategory {
+        switch self {
+        case .car:
+            return .cars
+        case .unassigned:
+            return .unassigned
+        case .motorsAndAccessories:
+            return .motorsAndAccessories
+        }
+    }
 }
 
 final class PostCategorySelectionView: UIView {

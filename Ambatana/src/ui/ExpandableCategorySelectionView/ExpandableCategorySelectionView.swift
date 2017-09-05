@@ -15,8 +15,6 @@ import RxSwift
 
 class ExpandableCategorySelectionView: UIView {
     
-    // UI
-    
     static let distanceBetweenButtons: CGFloat = 10
     
     fileprivate let viewModel: ExpandableCategorySelectionViewModel

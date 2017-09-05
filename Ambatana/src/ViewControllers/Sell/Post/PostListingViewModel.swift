@@ -100,7 +100,7 @@ class PostListingViewModel: BaseViewModel {
          currencyHelper: CurrencyHelper,
          postCategory: PostCategory?) {
         self.state = Variable<PostListingState>(PostListingState(postCategory: postCategory))
-        self.category = Variable<PostCategory?>(nil)
+        self.category = Variable<PostCategory?>(postCategory)
         
         self.postingSource = source
         self.listingRepository = listingRepository
@@ -177,7 +177,7 @@ class PostListingViewModel: BaseViewModel {
                     navigator?.cancelPostListing()
                 }
             }
-            else if let productParams = makeProductCreationParams(images: images) {
+            else if let productParams = makeProductCreationParams(images: images, category: category.value?.listingCategory) {
                 listingParams = ListingCreationParams.product(productParams)
             } else {
                 navigator?.cancelPostListing()
@@ -348,12 +348,13 @@ fileprivate extension PostListingViewModel {
                                                    imageSource: uploadedImageSource, price: postDetailViewModel.price.value)
         if sessionManager.loggedIn {
             guard let images = state.value.lastImagesUploadResult?.value,
-                let productParams = makeProductCreationParams(images: images) else { return }
+                let productParams = makeProductCreationParams(images: images, category: category.value?.listingCategory) else { return }
             navigator?.closePostProductAndPostInBackground(params: ListingCreationParams.product(productParams),
                                                            trackingInfo: trackingInfo)
         } else if let images = state.value.pendingToUploadImages {
             let loggedInAction = { [weak self] in
-                guard let productParams = self?.makeProductCreationParams(images: []) else { return }
+                guard let productParams = self?.makeProductCreationParams(images: [],
+                                                                          category: self?.category.value?.listingCategory) else { return }
                 self?.navigator?.closePostProductAndPostLater(params: ListingCreationParams.product(productParams),
                                                               images: images,
                                                               trackingInfo: trackingInfo)
@@ -401,17 +402,18 @@ fileprivate extension PostListingViewModel {
         }
     }
 
-    func makeProductCreationParams(images: [File]) -> ProductCreationParams? {
+    func makeProductCreationParams(images: [File], category: ListingCategory?) -> ProductCreationParams? {
         guard let location = locationManager.currentLocation?.location else { return nil }
         let price = postDetailViewModel.listingPrice
         let title = postDetailViewModel.listingTitle
         let description = postDetailViewModel.listingDescription
+        let category = category ?? .unassigned
         let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()
         let currency = currencyHelper.currencyWithCountryCode(postalAddress.countryCode ?? "US")
         return ProductCreationParams(name: title,
                                      description: description,
                                      price: price,
-                                     category: .unassigned,
+                                     category: category,
                                      currency: currency,
                                      location: location,
                                      postalAddress: postalAddress,
