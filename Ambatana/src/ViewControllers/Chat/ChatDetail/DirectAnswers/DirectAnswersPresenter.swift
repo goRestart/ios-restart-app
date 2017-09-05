@@ -58,7 +58,6 @@ class DirectAnswersPresenter {
         let initialFrame = CGRect(x: 0, y: sibling.top - DirectAnswersHorizontalView.defaultHeight,
                                   width: DirectAnswersPresenter.defaultWidth, height: DirectAnswersHorizontalView.defaultHeight)
         let directAnswers = DirectAnswersHorizontalView(frame: initialFrame, answers: answers)
-        directAnswers.deselectOnItemTap = websocketChatActive
         directAnswers.delegate = self
         directAnswers.answersEnabled = enabled
         directAnswers.isHidden = hidden
