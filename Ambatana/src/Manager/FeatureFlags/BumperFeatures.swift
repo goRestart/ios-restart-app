@@ -37,6 +37,7 @@ extension Bumper  {
         flags.append(DynamicQuickAnswers.self)
         flags.append(AppRatingDialogInactive.self)
         flags.append(FeedFilterRadiusValues.self)
+        flags.append(ExpandableCategorySelectionMenu.self)
         Bumper.initialize(flags)
     } 
 
@@ -158,6 +159,11 @@ extension Bumper  {
     static var feedFilterRadiusValues: FeedFilterRadiusValues {
         guard let value = Bumper.value(for: FeedFilterRadiusValues.key) else { return .control }
         return FeedFilterRadiusValues(rawValue: value) ?? .control 
+    }
+
+    static var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu {
+        guard let value = Bumper.value(for: ExpandableCategorySelectionMenu.key) else { return .control }
+        return ExpandableCategorySelectionMenu(rawValue: value) ?? .control 
     } 
 }
 
@@ -449,6 +455,22 @@ enum FeedFilterRadiusValues: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .newValues
+            default: return .control
+        }
+    }
+}
+
+enum ExpandableCategorySelectionMenu: String, BumperFeature  {
+    case control, baseline, expandableMenu
+    static var defaultValue: String { return ExpandableCategorySelectionMenu.control.rawValue }
+    static var enumValues: [ExpandableCategorySelectionMenu] { return [.control, .baseline, .expandableMenu]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show 'salchichas' menu on sell your staff button" } 
+    static func fromPosition(_ position: Int) -> ExpandableCategorySelectionMenu {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .expandableMenu
             default: return .control
         }
     }
