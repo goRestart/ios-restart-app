@@ -250,7 +250,7 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
      */
     private func retrieveInitialLocationIfNeeded() {
         if let currentLocationType = currentLocation?.type, currentLocationType > .ipLookup { return }
-        locationRepository.retrieveLocationWithCompletion { [weak self] (result: IPLookupLocationRepositoryResult) -> Void in
+        locationRepository.retrieveIPLookupLocation { [weak self] (result: IPLookupLocationRepositoryResult) -> Void in
             if let strongSelf = self {
                 if let currentLocationType = strongSelf.currentLocation?.type, currentLocationType > .ipLookup { return }
                 // If there's no previous location or is with lower priority. it should update
@@ -274,8 +274,7 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
      */
     private func retrievePostalAddressAndUpdate(_ location: LGLocation,
                                                 completion: ((Result<MyUser, RepositoryError>) -> ())?) {
-        
-        locationRepository.retrieveAddressForLocation(location.location) { [weak self] result in
+        locationRepository.retrievePostalAddress(location: location.location) { [weak self] result in
             let postalAddress = result.value?.postalAddress ?? PostalAddress.emptyAddress()
             let newLocation = location.updating(postalAddress: postalAddress)
             self?.updateLocation(newLocation, userUpdateCompletion: completion)

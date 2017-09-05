@@ -17,4 +17,5 @@ struct EscrowEnvironment: Environment {
     let paymentsBaseURL = "https://payment.stg.letgo.com/payment"
     let suggestiveSearchBaseURL = "https://suggestivesearch.letgo.com"
     let searchProductsBaseURL = "http://search-products.can.letgo.aws"
+    let niordBaseURL = "https://niord.letgo.com"
 }

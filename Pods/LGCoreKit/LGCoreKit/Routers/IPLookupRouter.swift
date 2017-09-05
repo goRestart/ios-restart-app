@@ -1,5 +1,5 @@
 //
-//  LocationRouter.swift
+//  IPLookupRouter.swift
 //  LGCoreKit
 //
 //  Created by Isaac Roldan on 4/12/15.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum LocationRouter: URLRequestAuthenticable {
+enum IPLookupRouter: URLRequestAuthenticable {
 
     case ipLookup
 
@@ -21,6 +21,6 @@ enum LocationRouter: URLRequestAuthenticable {
     var reportingBlacklistedApiError: Array<ApiError> { return [.scammer] }
 
     func asURLRequest() throws -> URLRequest {
-        return try Router<APIBaseURL>.read(endpoint: LocationRouter.endpoint, params: [:]).asURLRequest()
+        return try Router<APIBaseURL>.read(endpoint: IPLookupRouter.endpoint, params: [:]).asURLRequest()
     }
 }

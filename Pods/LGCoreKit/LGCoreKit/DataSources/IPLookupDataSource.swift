@@ -1,19 +1,13 @@
 //
-//  LocationDataSource.swift
+//  IPLookupDataSource.swift
 //  LGCoreKit
 //
-//  Created by Juan Iglesias on 26/06/2017.
+//  Created by Nestor on 28/08/2017.
 //  Copyright © 2017 Ambatana Inc. All rights reserved.
 //
 
-import Foundation
 import Result
-
-public enum LocationError: Error {
-    case network
-    case internalError
-    case notFound
-}
+import CoreLocation
 
 public enum IPLookupLocationError: Error, CustomStringConvertible {
     case network
@@ -39,17 +33,9 @@ public enum IPLookupLocationError: Error, CustomStringConvertible {
     }
 }
 
-public typealias SuggestionsLocationDataSourceResult = Result<[Place], LocationError>
-public typealias SuggestionsLocationDataSourceCompletion = (SuggestionsLocationDataSourceResult) -> Void
-
-public typealias PostalAddressLocationDataSourceResult = Result<Place, LocationError>
-public typealias PostalAddressLocationDataSourceCompletion = (PostalAddressLocationDataSourceResult) -> Void
-
 public typealias IPLookupLocationDataSourceResult = Result<LGLocationCoordinates2D, IPLookupLocationError>
 public typealias IPLookupLocationDataSourceCompletion = (IPLookupLocationDataSourceResult) -> Void
 
-public protocol LocationDataSource {
-    func retrieveAddressForLocation(_ searchText: String, completion: SuggestionsLocationDataSourceCompletion?)
-    func retrieveAddressForLocation(_ location: LGLocationCoordinates2D, completion: PostalAddressLocationDataSourceCompletion?)
-    func retrieveLocationWithCompletion(_ completion: IPLookupLocationDataSourceCompletion?)
+public protocol IPLookupDataSource {
+    func retrieveIPLookupLocation(completion: IPLookupLocationDataSourceCompletion?)
 }
