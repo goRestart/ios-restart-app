@@ -18,6 +18,8 @@ class DirectAnswerCell: UICollectionViewCell, ReusableCell {
     static let cellHeight: CGFloat = 32
     static let arrowWidth: CGFloat = 8
     static let arrowHorizontalMargin: CGFloat = 8
+    
+    fileprivate var isDynamic = false
 
     static func sizeForDirectAnswer(_ quickAnswer: QuickAnswer?, isDynamic: Bool) -> CGSize {
         guard let answer = quickAnswer else { return CGSize.zero }
@@ -67,6 +69,7 @@ class DirectAnswerCell: UICollectionViewCell, ReusableCell {
 
     func setupWithDirectAnswer(_ quickAnswer: QuickAnswer?, isDynamic: Bool) {
         guard let answer = quickAnswer else { return }
+        self.isDynamic = isDynamic
         if isDynamic {
             cellText.text = answer.title
         } else {
@@ -89,6 +92,7 @@ class DirectAnswerCell: UICollectionViewCell, ReusableCell {
     }
 
     private func refreshBckgState() {
+        guard !isDynamic else { return } // Preventing UI bug: after moving item index in the collection, another cell gets highlighted
         let highlighedState = self.isHighlighted || self.isSelected
         contentView.layer.backgroundColor = highlighedState ? UIColor.primaryColorHighlighted.cgColor :
             UIColor.primaryColor.cgColor

@@ -115,6 +115,7 @@ class ChatTextView: UIView {
     func setText(_ text: String) {
         textView.text = text
         textView.becomeFirstResponder()
+        sendButton.isEnabled = true
     }
 
 
