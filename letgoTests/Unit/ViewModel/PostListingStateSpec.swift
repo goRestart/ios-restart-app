@@ -414,7 +414,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         expect(sut) !== oldSut
                     }
                     
-                    it("updates the step to carDetailsSelection") {
+                    it("updates the step to finished") {
                         expect(sut.step) == PostListingStep.finished
                     }
                     
