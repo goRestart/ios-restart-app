@@ -583,6 +583,12 @@ enum AccessibilityId: String {
     // Bump Up Hidden Alert
     case bumpUpHiddenListingAlertContactButton
     case bumpUpHiddenListingAlertCancelButton
+    
+    
+    // ExpandableSelectionCategoryView
+    case expandableCategorySelectionCloseButton
+    case expandableCategorySelectionView
+    case expandableCategorySelectionButton
 }
 
 extension UIAccessibilityIdentification {

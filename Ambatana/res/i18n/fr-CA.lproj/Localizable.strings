@@ -903,7 +903,7 @@
 "sign_up_title" = "Créer un nouveau compte";
 "sign_up_username_field_hint" = "Nom complet";
 "suggested_searches_title" = "Recherches suggérées";
-"suggestions_last_searches_clear_button" = "Effacer";
+"suggestions_last_searches_clear_button" = "Tout effacer";
 "suggestions_last_searches_title" = "Recherches Récentes";
 "survey_confirmation" = "Merci ! Vos commentaires nous aident à nous améliorer";
 "tab_bar_give_away_button" = "Donnez des Objets";
