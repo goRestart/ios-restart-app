@@ -24,7 +24,6 @@ final class TabBarController: UITabBarController {
 
     // UI
     fileprivate var floatingSellButton: FloatingButton
-    fileprivate var expandableCategorySelectionView: ExpandableCategorySelectionView?
     fileprivate var floatingSellButtonMarginConstraint = NSLayoutConstraint()
 
     fileprivate let viewModel: TabBarViewModel
@@ -35,6 +34,8 @@ final class TabBarController: UITabBarController {
     fileprivate let disposeBag = DisposeBag()
 
     fileprivate static let appRatingTag = Int.makeRandom()
+    fileprivate static let categorySelectionTag = Int.makeRandom()
+    
     
     // MARK: - Lifecycle
 
@@ -60,7 +61,6 @@ final class TabBarController: UITabBarController {
 
         setupAdminAccess()
         setupSellButton()
-        setupExpandableCategoriesView()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -186,8 +186,7 @@ final class TabBarController: UITabBarController {
         
         if featureFlags.expandableCategorySelectionMenu.isActive {
             floatingSellButton.buttonTouchBlock = { [weak self] in
-                self?.floatingSellButton.hideWithAnimation()
-                self?.expandableCategorySelectionView?.expand(animated: true)
+                self?.setupExpandableCategoriesView()
             }
         } else {
             floatingSellButton.buttonTouchBlock = { [weak self] in self?.viewModel.sellButtonPressed() }
@@ -201,13 +200,15 @@ final class TabBarController: UITabBarController {
     
     
     func setupExpandableCategoriesView() {
+        view.subviews.find(where: { $0.tag == TabBarController.categorySelectionTag })?.removeFromSuperview()
         let vm = ExpandableCategorySelectionViewModel()
         vm.delegate = self
-        expandableCategorySelectionView = ExpandableCategorySelectionView(frame:view.frame, buttonSpacing: ExpandableCategorySelectionView.distanceBetweenButtons, bottomDistance: floatingSellButtonMarginConstraint.constant, viewModel: vm)
-        if let expandableCategorySelectionView = expandableCategorySelectionView {
-            view.addSubview(expandableCategorySelectionView)
-            expandableCategorySelectionView.layoutIfNeeded()
-        }
+        let expandableCategorySelectionView = ExpandableCategorySelectionView(frame:view.frame, buttonSpacing: ExpandableCategorySelectionView.distanceBetweenButtons, bottomDistance: floatingSellButtonMarginConstraint.constant, viewModel: vm)
+        expandableCategorySelectionView.tag = TabBarController.categorySelectionTag
+        view.addSubview(expandableCategorySelectionView)
+        expandableCategorySelectionView.layoutIfNeeded()
+        floatingSellButton.hideWithAnimation()
+        expandableCategorySelectionView.expand(animated: true)
     }
 
     private func setupBadgesRx() {

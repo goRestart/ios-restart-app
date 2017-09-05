@@ -116,6 +116,11 @@
         "description": "App rating dialog inactive to increase user activation"
     },
     {
+        "name": "FeedFilterRadiusValues",
+        "values": ["control", "baseline", "newValues"],
+        "description": "Feed filter radius values"
+    },
+    {
         "name": "ExpandableCategorySelectionMenu",
         "values": ["control", "baseline", "expandableMenu"],
         "description": "Show 'salchichas' menu on sell your staff button"

@@ -128,7 +128,6 @@ class PostListingGalleryView: BaseView, LGViewPagerPage {
         super.layoutSubviews()
 
         collectionGradientView.layer.sublayers?.forEach{ $0.frame = collectionGradientView.bounds }
-        collectionView.contentInset.top = imageContainer.height
     }
 
 
@@ -497,15 +496,12 @@ extension PostListingGalleryView: UIGestureRecognizerDelegate {
         switch dragState {
         case .draggingImage:
             imageContainerTop.constant = max(min(0, initialDragPosition + translation.y), -imageContainerMaxHeight)
-            syncCollectionWithImage()
         case .draggingCollection(let fromTop):
             if location.y < imageContainer.height+imageContainerTop.constant {
                 imageContainerTop.constant = max(min(0, -(imageContainer.height-20-location.y)), -imageContainerMaxHeight)
-                syncCollectionWithImage()
                 collectionView.isUserInteractionEnabled = false
             } else if (imageContainerTop.constant < 0) && (collectionView.contentOffset.y <= 0 || fromTop) {
                 imageContainerTop.constant = max(min(0, initialDragPosition + translation.y), -imageContainerMaxHeight)
-                syncCollectionWithImage()
                 dragState = .draggingCollection(true)
             } else if !fromTop {
                 recognizer.setTranslation(CGPoint(x:0, y:0), in: contentView)
@@ -532,7 +528,6 @@ extension PostListingGalleryView: UIGestureRecognizerDelegate {
 
         UIView.animate(withDuration: 0.2,
             animations: { [weak self] in
-                self?.syncCollectionWithImage()
                 if hasChanges {
                     self?.contentView.layoutIfNeeded()
                 }
@@ -540,10 +535,6 @@ extension PostListingGalleryView: UIGestureRecognizerDelegate {
                 completion?()
             }
         )
-    }
-
-    private func syncCollectionWithImage() {
-        collectionView.contentInset.top = imageContainer.height + imageContainerTop.constant
     }
 }
 

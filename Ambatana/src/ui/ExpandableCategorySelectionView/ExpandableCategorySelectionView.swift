@@ -118,7 +118,7 @@ class ExpandableCategorySelectionView: UIView {
             topConstraints[idx].constant = -margin
         }
         
-        let animations = { [weak self] in
+        let modifyView = { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.alpha = expanded ? 1.0 : 0.0
             strongSelf.closeButton.alpha = expanded ? 1.0 : 0.0
@@ -127,12 +127,12 @@ class ExpandableCategorySelectionView: UIView {
         if animated {
             if expanded {
                 UIView.animate(withDuration: 0.3, delay: 0.1, usingSpringWithDamping: 0.6, initialSpringVelocity: 4,
-                               options: [], animations: animations, completion: nil)
+                               options: [], animations: modifyView, completion: nil)
             } else {
-                UIView.animate(withDuration: 0.2, animations: animations, completion: nil)
+                UIView.animate(withDuration: 0.2, animations: modifyView, completion: nil)
             }
         } else {
-            animations()
+            modifyView()
         }
     }
     

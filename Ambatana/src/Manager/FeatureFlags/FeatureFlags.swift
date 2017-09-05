@@ -42,6 +42,7 @@ protocol FeatureFlaggeable: class {
     var userReviewsReportEnabled: Bool { get }
     var dynamicQuickAnswers: DynamicQuickAnswers { get }
     var appRatingDialogInactive: Bool { get }
+    var feedFilterRadiusValues: FeedFilterRadiusValues { get }
     var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu { get }
 
     // Country dependant features
@@ -330,6 +331,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.appRatingDialogInactive
         }
         return abTests.appRatingDialogInactive.value
+    }
+    
+    var feedFilterRadiusValues: FeedFilterRadiusValues {
+        if Bumper.enabled {
+            return Bumper.feedFilterRadiusValues
+        }
+        return FeedFilterRadiusValues.fromPosition(abTests.feedFilterRadiusValues.value)
     }
     
     var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu {
