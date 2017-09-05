@@ -17,12 +17,10 @@ final class PostListingState {
     let price: ListingPrice?
     let carInfo: CarAttributes?
     
-    private let featureFlags: FeatureFlaggeable
-    
     
     // MARK: - Lifecycle
     
-    convenience init(featureFlags: FeatureFlaggeable, postCategory: PostCategory?) {
+    convenience init(postCategory: PostCategory?) {
         let step: PostListingStep = .imageSelection
         
         self.init(step: step,
@@ -31,8 +29,7 @@ final class PostListingState {
                   pendingToUploadImages: nil,
                   lastImagesUploadResult: nil,
                   price: nil,
-                  carInfo: nil,
-                  featureFlags: featureFlags)
+                  carInfo: nil)
     }
     
     private init(step: PostListingStep,
@@ -41,8 +38,7 @@ final class PostListingState {
                  pendingToUploadImages: [UIImage]?,
                  lastImagesUploadResult: FilesResult?,
                  price: ListingPrice?,
-                 carInfo: CarAttributes?,
-                 featureFlags: FeatureFlaggeable) {
+                 carInfo: CarAttributes?) {
         self.step = step
         self.previousStep = previousStep
         self.category = category
@@ -50,7 +46,6 @@ final class PostListingState {
         self.lastImagesUploadResult = lastImagesUploadResult
         self.price = price
         self.carInfo = carInfo
-        self.featureFlags = featureFlags
        
     }
     
@@ -69,8 +64,7 @@ final class PostListingState {
                                 pendingToUploadImages: pendingToUploadImages,
                                 lastImagesUploadResult: lastImagesUploadResult,
                                 price: price,
-                                carInfo: carInfo,
-                                featureFlags: featureFlags)
+                                carInfo: carInfo)
     }
     
     func updatingStepToUploadingImages() -> PostListingState {
@@ -86,8 +80,7 @@ final class PostListingState {
                                 pendingToUploadImages: pendingToUploadImages,
                                 lastImagesUploadResult: lastImagesUploadResult,
                                 price: price,
-                                carInfo: carInfo,
-                                featureFlags: featureFlags)
+                                carInfo: carInfo)
     }
     
     func updating(pendingToUploadImages: [UIImage]) -> PostListingState {
@@ -110,8 +103,7 @@ final class PostListingState {
                                 pendingToUploadImages: pendingToUploadImages,
                                 lastImagesUploadResult: lastImagesUploadResult,
                                 price: price,
-                                carInfo: carInfo,
-                                featureFlags: featureFlags)
+                                carInfo: carInfo)
     }
     
     func updatingAfterUploadingSuccess() -> PostListingState {
@@ -129,8 +121,7 @@ final class PostListingState {
                                 pendingToUploadImages: pendingToUploadImages,
                                 lastImagesUploadResult: lastImagesUploadResult,
                                 price: price,
-                                carInfo: carInfo,
-                                featureFlags: featureFlags)
+                                carInfo: carInfo)
     }
     
     
@@ -142,8 +133,7 @@ final class PostListingState {
                                 pendingToUploadImages: pendingToUploadImages,
                                 lastImagesUploadResult: FilesResult(value: uploadedImages),
                                 price: price,
-                                carInfo: carInfo,
-                                featureFlags: featureFlags)
+                                carInfo: carInfo)
     }
     
     func updating(uploadError: RepositoryError) -> PostListingState {
@@ -162,8 +152,7 @@ final class PostListingState {
                                 pendingToUploadImages: pendingToUploadImages,
                                 lastImagesUploadResult: FilesResult(error: uploadError),
                                 price: price,
-                                carInfo: carInfo,
-                                featureFlags: featureFlags)
+                                carInfo: carInfo)
     }
     
     func updating(price: ListingPrice) -> PostListingState {
@@ -184,8 +173,7 @@ final class PostListingState {
                                 pendingToUploadImages: pendingToUploadImages,
                                 lastImagesUploadResult: lastImagesUploadResult,
                                 price: price,
-                                carInfo: carInfo,
-                                featureFlags: featureFlags)
+                                carInfo: carInfo)
     }
     
     func updating(carInfo: CarAttributes) -> PostListingState {
@@ -196,8 +184,7 @@ final class PostListingState {
                                 pendingToUploadImages: pendingToUploadImages,
                                 lastImagesUploadResult: lastImagesUploadResult,
                                 price: price,
-                                carInfo: carInfo,
-                                featureFlags: featureFlags)
+                                carInfo: carInfo)
     }
     
     func revertToPreviousStep() -> PostListingState {
@@ -208,8 +195,7 @@ final class PostListingState {
                                 pendingToUploadImages: pendingToUploadImages,
                                 lastImagesUploadResult: lastImagesUploadResult,
                                 price: price,
-                                carInfo: carInfo,
-                                featureFlags: featureFlags)
+                                carInfo: carInfo)
     }
 }
 

@@ -99,7 +99,7 @@ class PostListingViewModel: BaseViewModel {
          locationManager: LocationManager,
          currencyHelper: CurrencyHelper,
          postCategory: PostCategory?) {
-        self.state = Variable<PostListingState>(PostListingState(featureFlags: featureFlags, postCategory: postCategory))
+        self.state = Variable<PostListingState>(PostListingState(postCategory: postCategory))
         self.category = Variable<PostCategory?>(nil)
         
         self.postingSource = source

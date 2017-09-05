@@ -43,6 +43,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var userReviewsReportEnabled: Bool = true
     var dynamicQuickAnswers: DynamicQuickAnswers = .control
     var appRatingDialogInactive: Bool = false
+    var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu = .control
     
     // Country dependant features
     var freePostingModeAllowed = false

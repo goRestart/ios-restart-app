@@ -15,23 +15,18 @@ import Nimble
 class PostProductStateSpec: BaseViewModelSpec {
    
     override func spec() {
-        describe("PostListingState") {
+        fdescribe("PostListingState") {
             var sut: PostListingState!
-            var featureFlags: MockFeatureFlags!
-            
-            beforeEach {
-                featureFlags = MockFeatureFlags()
-            }
             
             context("cars category after picture") {
                 var oldSut: PostListingState!
                 
                 beforeEach {
-                    sut = PostListingState(featureFlags: featureFlags)
+                    sut = PostListingState(postCategory: nil)
                     oldSut = sut
                 }
                 
-                describe("init with feature flags") {
+                describe("init with no category") {
                     it("has step image selection") {
                         expect(sut.step) == PostListingStep.imageSelection
                     }
@@ -39,10 +34,35 @@ class PostProductStateSpec: BaseViewModelSpec {
                         expect(sut.category).to(beNil())
                     }
                     it("has no pending to upload images") {
-                        expect(sut.category).to(beNil())
+                        expect(sut.pendingToUploadImages).to(beNil())
                     }
                     it("has no result of image upload") {
-                        expect(sut.category).to(beNil())
+                        expect(sut.lastImagesUploadResult).to(beNil())
+                    }
+                    it("has no price") {
+                        expect(sut.price).to(beNil())
+                    }
+                    it("has no car info") {
+                        expect(sut.carInfo).to(beNil())
+                    }
+                }
+
+                describe("init with category car") {
+                    beforeEach {
+                        sut = PostListingState(postCategory: PostCategory.car)
+                        oldSut = sut
+                    }
+                    it("has step image selection") {
+                        expect(sut.step) == PostListingStep.imageSelection
+                    }
+                    it("has no category") {
+                        expect(sut.category) == PostCategory.car
+                    }
+                    it("has no pending to upload images") {
+                        expect(sut.pendingToUploadImages).to(beNil())
+                    }
+                    it("has no result of image upload") {
+                        expect(sut.lastImagesUploadResult).to(beNil())
                     }
                     it("has no price") {
                         expect(sut.price).to(beNil())
@@ -54,7 +74,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                 
                 context("image selection") {
                     it("returns the same state when updating category") {
-                        expect(sut.updating(category: .other)) === sut
+                        expect(sut.updating(category: .unassigned)) === sut
                     }
                     
                     context("update step to uploading images") {
@@ -110,7 +130,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating category") {
-                        expect(sut.updating(category: .other)) === sut
+                        expect(sut.updating(category: .unassigned)) === sut
                     }
                     
                     it("returns the same state when updating step to uploading images") {
@@ -169,7 +189,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating category") {
-                        expect(sut.updating(category: .other)) === sut
+                        expect(sut.updating(category: .unassigned)) === sut
                     }
                     
                     context("update step to uploading images") {
@@ -216,7 +236,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating category") {
-                        expect(sut.updating(category: .other)) === sut
+                        expect(sut.updating(category: .unassigned)) === sut
                     }
                     
                     it("returns the same state when updating step to uploading images") {
@@ -264,10 +284,10 @@ class PostProductStateSpec: BaseViewModelSpec {
                         sut = sut.updating(price: ListingPrice.makeMock())
                     }
                     
-                    context("update category to other") {
+                    context("update category to unassigned") {
                         beforeEach {
                             oldSut = sut
-                            sut = sut.updating(category: .other)
+                            sut = sut.updating(category: .unassigned)
                         }
                         
                         it("returns a new state") {
@@ -330,7 +350,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating category") {
-                        expect(sut.updating(category: .other)) === sut
+                        expect(sut.updating(category: .unassigned)) === sut
                     }
                     
                     it("returns the same state when updating step to uploading images") {
