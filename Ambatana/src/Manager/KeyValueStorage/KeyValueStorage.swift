@@ -243,6 +243,18 @@ extension KeyValueStorageable {
             currentUserProperties = userProperties
         }
     }
+
+    var userFailedBumpsInfo: [String:Any] {
+        get {
+            return currentUserProperties?.failedBumpsInfo ??
+                UserDefaultsUser.failedBumpsInfoDefaultValue
+        }
+        set {
+            guard var userProperties = currentUserProperties else { return }
+            userProperties.failedBumpsInfo = newValue
+            currentUserProperties = userProperties
+        }
+    }
 }
 
 
