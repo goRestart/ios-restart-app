@@ -195,22 +195,19 @@ class EditLocationViewModel: BaseViewModel {
     func selectPlace(_ resultsIndex: Int) {
         guard resultsIndex >= 0 && resultsIndex < predictiveResults.count else { return }
         let place = predictiveResults[resultsIndex]
-        if let detailsStatus = place.detailsStatus {
-            switch detailsStatus {
-            case .shouldRetrieve:
-                guard let placeId = place.placeId else { return }
-                locationRepository.retrieveLocationSuggestionDetails(placeId: placeId) { [weak self] result in
-                    guard let strongSelf = self else { return }
-                    if let updatedPlace = result.value {
-                        strongSelf.setPlace(updatedPlace, forceLocation: true, fromGps: false, enableSave: true)
-                    } else {
-                        strongSelf.delegate?.vmShowAutoFadingMessage(LGLocalizedString.changeLocationErrorUpdatingLocationMessage) {
-                            strongSelf.setMapToPreviousKnownPlace()
-                        }
+        if let shouldRetrieveDetails = place.shouldRetrieveDetails, shouldRetrieveDetails {
+            guard let placeId = place.placeId else { return }
+            delegate?.vmShowLoading(nil)
+            locationRepository.retrieveLocationSuggestionDetails(placeId: placeId) { [weak self] result in
+                guard let strongSelf = self else { return }
+                strongSelf.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
+                if let updatedPlace = result.value {
+                    strongSelf.setPlace(updatedPlace, forceLocation: true, fromGps: false, enableSave: true)
+                } else {
+                    strongSelf.delegate?.vmShowAutoFadingMessage(LGLocalizedString.changeLocationErrorUpdatingLocationMessage) {
+                        strongSelf.setMapToPreviousKnownPlace()
                     }
                 }
-            case .retrieving, .retrieved(_):
-                break
             }
         } else {
             setPlace(place, forceLocation: true, fromGps: false, enableSave: true)
