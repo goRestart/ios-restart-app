@@ -32,7 +32,6 @@ class DirectAnswersHorizontalView: UIView {
             }
         }
     }
-    var deselectOnItemTap: Bool = true
     var style: DirectAnswersStyle = .dark {
         didSet {
             reloadCloseCell()
@@ -172,14 +171,11 @@ extension DirectAnswersHorizontalView: UICollectionViewDelegate, UICollectionVie
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if deselectOnItemTap {
-            collectionView.deselectItem(at: indexPath, animated: true)
-        }
+        defer { collectionView.deselectItem(at: indexPath, animated: true) }
         guard answersEnabled else { return }
         if indexPath.row == answers.count {
             delegate?.directAnswersHorizontalViewDidSelectClose()
-        } else {
-            guard let quickAnswer = answers[indexPath.row].random() else { return }
+        } else if let quickAnswer = answers[indexPath.row].random() {
             delegate?.directAnswersHorizontalViewDidSelect(answer: quickAnswer, index: indexPath.row)
         }
     }
