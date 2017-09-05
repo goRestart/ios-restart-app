@@ -438,7 +438,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         expect(sut.updating(price: ListingPrice.makeMock())) === sut
                     }
                     
-                    it("returns the different state when updating car info") {
+                    it("returns the same state when updating car info") {
                         expect(sut.updating(carInfo: CarAttributes.emptyCarAttributes())) === sut
                     }
                 }
