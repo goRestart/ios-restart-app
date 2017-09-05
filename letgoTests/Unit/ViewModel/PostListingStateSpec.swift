@@ -15,48 +15,20 @@ import Nimble
 class PostProductStateSpec: BaseViewModelSpec {
    
     override func spec() {
-        fdescribe("PostListingState") {
+        describe("PostListingState") {
             var sut: PostListingState!
-            
-            context("cars category after picture") {
-                var oldSut: PostListingState!
-                
+            var oldSut: PostListingState!
+            context("init with postCategory nil") {
                 beforeEach {
                     sut = PostListingState(postCategory: nil)
                     oldSut = sut
                 }
-                
-                describe("init with no category") {
+                describe("init") {
                     it("has step image selection") {
                         expect(sut.step) == PostListingStep.imageSelection
                     }
                     it("has no category") {
                         expect(sut.category).to(beNil())
-                    }
-                    it("has no pending to upload images") {
-                        expect(sut.pendingToUploadImages).to(beNil())
-                    }
-                    it("has no result of image upload") {
-                        expect(sut.lastImagesUploadResult).to(beNil())
-                    }
-                    it("has no price") {
-                        expect(sut.price).to(beNil())
-                    }
-                    it("has no car info") {
-                        expect(sut.carInfo).to(beNil())
-                    }
-                }
-
-                describe("init with category car") {
-                    beforeEach {
-                        sut = PostListingState(postCategory: PostCategory.car)
-                        oldSut = sut
-                    }
-                    it("has step image selection") {
-                        expect(sut.step) == PostListingStep.imageSelection
-                    }
-                    it("has no category") {
-                        expect(sut.category) == PostCategory.car
                     }
                     it("has no pending to upload images") {
                         expect(sut.pendingToUploadImages).to(beNil())
@@ -389,6 +361,89 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                 }
             }
+            describe("after pricing updated") {
+                context("category car setup first") {
+                    beforeEach {
+                        sut = PostListingState(postCategory: .car)
+                        sut = sut.updatingStepToUploadingImages()
+                        sut = sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
+                        sut = sut.updatingAfterUploadingSuccess()
+                        sut = sut.updating(price: ListingPrice.makeMock())
+                    }
+                    it("returns a new state") {
+                        expect(sut) !== oldSut
+                    }
+                    
+                    it("updates the step to carDetailsSelection") {
+                        expect(sut.step) == PostListingStep.carDetailsSelection
+                    }
+                    
+                    it("returns the same state when updating step to uploading images") {
+                        expect(sut.updatingStepToUploadingImages()) === sut
+                    }
+                    
+                    it("returns the same state when updating pending to upload images") {
+                        expect(sut.updating(pendingToUploadImages: [UIImage].makeRandom())) === sut
+                    }
+                    
+                    it("returns the same state when updating uploaded images") {
+                        expect(sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())) === sut
+                    }
+                    
+                    it("returns the same state when updating upload error") {
+                        expect(sut.updating(uploadError: .notFound)) === sut
+                    }
+                    
+                    it("returns the same state when updating price") {
+                        expect(sut.updating(price: ListingPrice.makeMock())) === sut
+                    }
+                    
+                    it("returns the different state when updating car info") {
+                        expect(sut.updating(carInfo: CarAttributes.emptyCarAttributes())) !== sut
+                    }
+                }
+                context("category car setup first") {
+                    beforeEach {
+                        sut = PostListingState(postCategory: .unassigned)
+                        sut = sut.updatingStepToUploadingImages()
+                        sut = sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
+                        sut = sut.updatingAfterUploadingSuccess()
+                        sut = sut.updating(price: ListingPrice.makeMock())
+                    }
+                    it("returns a new state") {
+                        expect(sut) !== oldSut
+                    }
+                    
+                    it("updates the step to carDetailsSelection") {
+                        expect(sut.step) == PostListingStep.finished
+                    }
+                    
+                    it("returns the same state when updating step to uploading images") {
+                        expect(sut.updatingStepToUploadingImages()) === sut
+                    }
+                    
+                    it("returns the same state when updating pending to upload images") {
+                        expect(sut.updating(pendingToUploadImages: [UIImage].makeRandom())) === sut
+                    }
+                    
+                    it("returns the same state when updating uploaded images") {
+                        expect(sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())) === sut
+                    }
+                    
+                    it("returns the same state when updating upload error") {
+                        expect(sut.updating(uploadError: .notFound)) === sut
+                    }
+                    
+                    it("returns the same state when updating price") {
+                        expect(sut.updating(price: ListingPrice.makeMock())) === sut
+                    }
+                    
+                    it("returns the different state when updating car info") {
+                        expect(sut.updating(carInfo: CarAttributes.emptyCarAttributes())) === sut
+                    }
+                }
+            }
+            
         }
     }
 }
