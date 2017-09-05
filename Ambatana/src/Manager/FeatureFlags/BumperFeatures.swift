@@ -36,6 +36,7 @@ extension Bumper  {
         flags.append(UserReviewsReportEnabled.self)
         flags.append(DynamicQuickAnswers.self)
         flags.append(AppRatingDialogInactive.self)
+        flags.append(FeedFilterRadiusValues.self)
         Bumper.initialize(flags)
     } 
 
@@ -152,6 +153,11 @@ extension Bumper  {
     static var appRatingDialogInactive: Bool {
         guard let value = Bumper.value(for: AppRatingDialogInactive.key) else { return false }
         return AppRatingDialogInactive(rawValue: value)?.asBool ?? false
+    }
+
+    static var feedFilterRadiusValues: FeedFilterRadiusValues {
+        guard let value = Bumper.value(for: FeedFilterRadiusValues.key) else { return .control }
+        return FeedFilterRadiusValues(rawValue: value) ?? .control 
     } 
 }
 
@@ -430,5 +436,21 @@ enum AppRatingDialogInactive: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "App rating dialog inactive to increase user activation" } 
     var asBool: Bool { return self == .yes }
+}
+
+enum FeedFilterRadiusValues: String, BumperFeature  {
+    case control, baseline, newValues
+    static var defaultValue: String { return FeedFilterRadiusValues.control.rawValue }
+    static var enumValues: [FeedFilterRadiusValues] { return [.control, .baseline, .newValues]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Feed filter radius values" } 
+    static func fromPosition(_ position: Int) -> FeedFilterRadiusValues {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .newValues
+            default: return .control
+        }
+    }
 }
 
