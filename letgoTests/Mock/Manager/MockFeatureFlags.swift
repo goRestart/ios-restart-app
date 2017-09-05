@@ -44,6 +44,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var dynamicQuickAnswers: DynamicQuickAnswers = .control
     var locationDataSourceEndpoint: LocationDataSourceEndpoint = .control
     var appRatingDialogInactive: Bool = false
+    var feedFilterRadiusValues: FeedFilterRadiusValues = .control
     
     // Country dependant features
     var freePostingModeAllowed = false
