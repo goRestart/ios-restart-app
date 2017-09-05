@@ -348,7 +348,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
     func restorePaidBumpUp(forListingId listingId: String) {
         guard canMakePayments else { return }
 
-        guard var bump = failedBumpInfoFor(listingId: listingId), let bumpTransactionId = bump.transactionId else { return }
+        guard let bump = failedBumpInfoFor(listingId: listingId), let bumpTransactionId = bump.transactionId else { return }
 
         let pendingTransactions = paymentQueue.transactions
         // get the pending SKPaymentTransactions of the product
@@ -473,43 +473,6 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
                                                     self?.delegate?.pricedBumpDidFail(type: type)
                                                 }
         }
-
-
-//        monetizationRepository.pricedBump(forListingId: listingId, paymentId: bump.paymentId, receiptData: bump.receiptData,
-//                                          itemId: transaction?.payment.productIdentifier ?? bump.itemId,
-//                                          itemPrice: bump.itemPrice, itemCurrency: bump.itemCurrency,
-//                                          amplitudeId: bump.amplitudeId, appsflyerId: bump.appsflyerId,
-//                                          idfa: bump.idfa, bundleId: bump.bundleId) { [weak self] result in
-//
-//                                            if let _ = result.value {
-//                                                self?.remove(transaction: transaction?.transactionIdentifier ?? bump.transactionId)
-//                                                self?.removeFailedBumpInfoFor(listingId: listingId)
-//                                                if let transaction = transaction {
-//                                                    self?.paymentQueue.finishTransaction(transaction)
-//                                                }
-//                                                self?.delegate?.pricedBumpDidSucceed(type: type)
-//                                            } else if let error = result.error {
-//                                                switch error {
-//                                                case .serverError(code: let code):
-//                                                    if let code = code {
-//                                                        let bumpError = BumpFailedErrorCode(code: code)
-//                                                        if !bumpError.isUsersFault {
-//                                                            self?.save(bumpUp: bump)
-//                                                        } else {
-//                                                            self?.remove(transaction: transaction?.transactionIdentifier ?? bump.transactionId)
-//                                                            self?.removeFailedBumpInfoFor(listingId: listingId)
-//                                                            if let transaction = transaction {
-//                                                                self?.paymentQueue.finishTransaction(transaction)
-//                                                            }
-//                                                        }
-//                                                    }
-//                                                case .forbidden, .internalError, .network, .notFound, .tooManyRequests,
-//                                                     .unauthorized, .userNotVerified, .wsChatError:
-//                                                    self?.save(bumpUp: bump)
-//                                                }
-//                                                self?.delegate?.pricedBumpDidFail(type: type)
-//                                            }
-//        }
     }
 
     private func recursiveRequestBumpWithPaymentInfo(listingId: String, transaction: SKPaymentTransaction?, type: BumpUpType,
