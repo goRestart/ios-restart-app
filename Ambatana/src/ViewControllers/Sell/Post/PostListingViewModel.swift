@@ -300,7 +300,7 @@ extension PostListingViewModel {
     }
 }
 
-// MARK: - PostListingDetailViewModelDelegateP
+// MARK: - PostListingDetailViewModelDelegate
 
 extension PostListingViewModel: PostListingDetailViewModelDelegate {
     func postListingDetailDone(_ viewModel: PostListingDetailViewModel) {
