@@ -59,8 +59,9 @@ extension ListingViewModel {
         trackHelper.trackBumpUpStarted(price, type: type)
     }
 
-    func trackBumpUpCompleted(_ price: EventParameterBumpUpPrice, type: BumpUpType, network: EventParameterShareNetwork) {
-        trackHelper.trackBumpUpCompleted(price, type: type, network: network)
+    func trackBumpUpCompleted(_ price: EventParameterBumpUpPrice, type: BumpUpType, restoreRetriesCount: Int,
+                              network: EventParameterShareNetwork) {
+        trackHelper.trackBumpUpCompleted(price, type: type, restoreRetriesCount: restoreRetriesCount, network: network)
     }
 
     func trackBumpUpFail(type: BumpUpType) {
@@ -129,9 +130,10 @@ extension ProductVMTrackHelper {
         tracker.trackEvent(trackerEvent)
     }
 
-    func trackBumpUpCompleted(_ price: EventParameterBumpUpPrice, type: BumpUpType, network: EventParameterShareNetwork) {
+    func trackBumpUpCompleted(_ price: EventParameterBumpUpPrice, type: BumpUpType, restoreRetriesCount: Int, network: EventParameterShareNetwork) {
         let trackerEvent = TrackerEvent.listingBumpUpComplete(listing, price: price,
                                                               type: EventParameterBumpUpType(bumpType: type),
+                                                              restoreRetriesCount: restoreRetriesCount,
                                                               network: network)
         tracker.trackEvent(trackerEvent)
     }

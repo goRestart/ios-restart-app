@@ -136,6 +136,6 @@ struct Constants {
     static let filterMinCarYear: Int = 1990
 
     // Bump Ups
-    static let maxRestoreRetrys = 20    // number of retrys of a failed bump (when the app launches)
-    static let bumpNumRetrys = 3        // number of retrys when bumping the 1st time (restores don't retry)
+    static let maxRestoreRetries = 20    // number of retries of a failed bump (when the app launches)
+    static let bumpNumRetries = 3        // number of retries when bumping the 1st time (restores don't retry)
 }
