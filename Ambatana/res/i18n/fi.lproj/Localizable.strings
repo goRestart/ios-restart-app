@@ -63,6 +63,7 @@
 "categories_super_keywords_inFeed_show_more" = "Näytä enemmän";
 "categories_title" = "Kategoriat";
 "categories_unassigned" = "Ei valittu";
+"categories_unassigned_items" = "Other items";
 "change_email_current_email_label" = "NYKYINEN SÄHKÖPOSTI:";
 "change_email_error_already_registered" = "Tämä sähköpostiosoite on jo rekisteröity. Ole hyvä ja syötä eri osoite.";
 "change_email_error_invalid_email" = "Ole hyvä ja syötä toimiva sähköpostiosoite.";

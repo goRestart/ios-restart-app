@@ -63,6 +63,7 @@
 "categories_super_keywords_inFeed_show_more" = "더보기";
 "categories_title" = "항목";
 "categories_unassigned" = "선택되지 않음";
+"categories_unassigned_items" = "Other items";
 "change_email_current_email_label" = "현재 이메일:";
 "change_email_error_already_registered" = "이 이메일 주소는 이미 등록되어 있습니다. 다른 이메일을 입력해주세요.";
 "change_email_error_invalid_email" = "유효한 이메일 주소를 입력해주세요.";

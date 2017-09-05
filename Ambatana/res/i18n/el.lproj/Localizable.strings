@@ -63,6 +63,7 @@
 "categories_super_keywords_inFeed_show_more" = "Δείτε Περισσότερα";
 "categories_title" = "Κατηγορίες";
 "categories_unassigned" = "Δεν έχει επιλεχθεί";
+"categories_unassigned_items" = "Other items";
 "change_email_current_email_label" = "ΤΡΕΧΟΝ EMAIL:";
 "change_email_error_already_registered" = "Αυτή η διεύθυνση email είναι ήδη εγγεγραμμένη. Παρακαλώ εισάγετε μία άλλη.";
 "change_email_error_invalid_email" = "Παρακαλώ εισάγετε ένα έγκυρο email.";

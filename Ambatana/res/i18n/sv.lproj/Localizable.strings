@@ -63,6 +63,7 @@
 "categories_super_keywords_inFeed_show_more" = "Visa mer";
 "categories_title" = "Kategorier";
 "categories_unassigned" = "Inte vald";
+"categories_unassigned_items" = "Other items";
 "change_email_current_email_label" = "BEFINTLIG E-POST:";
 "change_email_error_already_registered" = "Denna e-post är redan registrerat, vänligen prova en annan.";
 "change_email_error_invalid_email" = "Var god ange en giltig e-postadress.";

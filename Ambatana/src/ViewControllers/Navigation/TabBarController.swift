@@ -184,12 +184,13 @@ final class TabBarController: UITabBarController {
 
     private func setupSellButton() {
         
-        floatingSellButton.buttonTouchBlock = { [weak self] in self?.viewModel.sellButtonPressed() }
-        // TODO: Uncomment and ab test to show or not expandable menu: VERTICALS-50
-//        floatingSellButton.buttonTouchBlock = { [weak self] in
-//            self?.setupExpandableCategoriesView()
-//        }
-        
+        if featureFlags.expandableCategorySelectionMenu.isActive {
+            floatingSellButton.buttonTouchBlock = { [weak self] in
+                self?.setupExpandableCategoriesView()
+            }
+        } else {
+            floatingSellButton.buttonTouchBlock = { [weak self] in self?.viewModel.sellButtonPressed() }
+        }
         floatingSellButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(floatingSellButton)
         floatingSellButton.layout(with: view).centerX()
@@ -275,7 +276,7 @@ extension TabBarController: ExpandableCategorySelectionDelegate {
     }
     func categoryButtonDidPressed(listingCategory: ListingCategory) {
         floatingSellButton.showWithAnimation()
-        viewModel.sellButtonPressed()
+        viewModel.expandableButtonPressed(listingCategory: listingCategory)
     }
 }
 
