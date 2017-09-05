@@ -406,19 +406,6 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
                                      appsflyerId: appsflyerId, idfa: idfa, bundleId: bundleId, numRetrys: 0)
 
         requestBumpWithPaymentInfo(listingId: listingId, transaction: transaction, type: type, currentBump: bump)
-
-//        monetizationRepository.pricedBump(forListingId: listingId, paymentId: paymentId, receiptData: receiptData,
-//                                          itemId: transaction.payment.productIdentifier, itemPrice: price ?? "0",
-//                                          itemCurrency: currency ?? "", amplitudeId: amplitudeId, appsflyerId: appsflyerId,
-//                                          idfa: idfa, bundleId: bundleId) { [weak self] result in
-//            if let _ = result.value {
-//                self?.remove(transaction: transaction.transactionIdentifier)
-//                self?.paymentQueue.finishTransaction(transaction)
-//                self?.delegate?.pricedBumpDidSucceed(type: type)
-//            } else if let _ = result.error {
-//                self?.delegate?.pricedBumpDidFail(type: type)
-//            }
-//        }
     }
 
     /**
@@ -441,44 +428,144 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
                                             type: BumpUpType, currentBump: FailedBumpInfo) {
 
         var bump = currentBump
-        if type == .restore {
+        let retryCount: Int
+        switch type {
+        case .priced:
+            retryCount = Constants.bumpNumRetrys
+        case .restore:
+            retryCount = 1
+            // increment the num of restore retrys made at launch
             bump = bump.updatingNumRetrys(newNumRetrys: bump.numRetrys+1)
+        case .hidden, .free:
+            // unlikely to happen
+            retryCount = 1
         }
 
-        monetizationRepository.pricedBump(forListingId: listingId, paymentId: bump.paymentId, receiptData: bump.receiptData,
-                                          itemId: transaction?.payment.productIdentifier ?? bump.itemId,
-                                          itemPrice: bump.itemPrice, itemCurrency: bump.itemCurrency,
-                                          amplitudeId: bump.amplitudeId, appsflyerId: bump.appsflyerId,
-                                          idfa: bump.idfa, bundleId: bump.bundleId) { [weak self] result in
+        recursiveRequestBumpWithPaymentInfo(listingId: listingId, transaction: transaction, type: type, currentBump: bump,
+                                            retryCount: retryCount, previousResult: nil) { [weak self] result in
 
-                                            if let _ = result.value {
-                                                self?.remove(transaction: transaction?.transactionIdentifier ?? bump.transactionId)
-                                                self?.removeFailedBumpInfoFor(listingId: listingId)
-                                                if let transaction = transaction {
-                                                    self?.paymentQueue.finishTransaction(transaction)
-                                                }
-                                                self?.delegate?.pricedBumpDidSucceed(type: type)
-                                            } else if let error = result.error {
-                                                switch error {
-                                                case .serverError(code: let code):
-                                                    if let code = code {
-                                                        let bumpError = BumpFailedErrorCode(code: code)
-                                                        if !bumpError.isUsersFault {
-                                                            self?.save(bumpUp: bump)
-                                                        } else {
-                                                            self?.remove(transaction: transaction?.transactionIdentifier ?? bump.transactionId)
-                                                            self?.removeFailedBumpInfoFor(listingId: listingId)
-                                                            if let transaction = transaction {
-                                                                self?.paymentQueue.finishTransaction(transaction)
+                                                if let _ = result.value {
+                                                    self?.remove(transaction: transaction?.transactionIdentifier ?? bump.transactionId)
+                                                    self?.removeFailedBumpInfoFor(listingId: listingId)
+                                                    if let transaction = transaction {
+                                                        self?.paymentQueue.finishTransaction(transaction)
+                                                    }
+                                                    self?.delegate?.pricedBumpDidSucceed(type: type)
+                                                } else if let error = result.error {
+                                                    switch error {
+                                                    case .serverError(code: let code):
+                                                        if let code = code {
+                                                            let bumpError = BumpFailedErrorCode(code: code)
+                                                            if !bumpError.isUsersFault {
+                                                                self?.save(bumpUp: bump)
+                                                            } else {
+                                                                self?.remove(transaction: transaction?.transactionIdentifier ?? bump.transactionId)
+                                                                self?.removeFailedBumpInfoFor(listingId: listingId)
+                                                                if let transaction = transaction {
+                                                                    self?.paymentQueue.finishTransaction(transaction)
+                                                                }
                                                             }
                                                         }
+                                                    case .forbidden, .internalError, .network, .notFound, .tooManyRequests,
+                                                         .unauthorized, .userNotVerified, .wsChatError:
+                                                        self?.save(bumpUp: bump)
                                                     }
-                                                case .forbidden, .internalError, .network, .notFound, .tooManyRequests,
-                                                     .unauthorized, .userNotVerified, .wsChatError:
-                                                    self?.save(bumpUp: bump)
+                                                    self?.delegate?.pricedBumpDidFail(type: type)
                                                 }
-                                                self?.delegate?.pricedBumpDidFail(type: type)
-                                            }
+        }
+
+
+//        monetizationRepository.pricedBump(forListingId: listingId, paymentId: bump.paymentId, receiptData: bump.receiptData,
+//                                          itemId: transaction?.payment.productIdentifier ?? bump.itemId,
+//                                          itemPrice: bump.itemPrice, itemCurrency: bump.itemCurrency,
+//                                          amplitudeId: bump.amplitudeId, appsflyerId: bump.appsflyerId,
+//                                          idfa: bump.idfa, bundleId: bump.bundleId) { [weak self] result in
+//
+//                                            if let _ = result.value {
+//                                                self?.remove(transaction: transaction?.transactionIdentifier ?? bump.transactionId)
+//                                                self?.removeFailedBumpInfoFor(listingId: listingId)
+//                                                if let transaction = transaction {
+//                                                    self?.paymentQueue.finishTransaction(transaction)
+//                                                }
+//                                                self?.delegate?.pricedBumpDidSucceed(type: type)
+//                                            } else if let error = result.error {
+//                                                switch error {
+//                                                case .serverError(code: let code):
+//                                                    if let code = code {
+//                                                        let bumpError = BumpFailedErrorCode(code: code)
+//                                                        if !bumpError.isUsersFault {
+//                                                            self?.save(bumpUp: bump)
+//                                                        } else {
+//                                                            self?.remove(transaction: transaction?.transactionIdentifier ?? bump.transactionId)
+//                                                            self?.removeFailedBumpInfoFor(listingId: listingId)
+//                                                            if let transaction = transaction {
+//                                                                self?.paymentQueue.finishTransaction(transaction)
+//                                                            }
+//                                                        }
+//                                                    }
+//                                                case .forbidden, .internalError, .network, .notFound, .tooManyRequests,
+//                                                     .unauthorized, .userNotVerified, .wsChatError:
+//                                                    self?.save(bumpUp: bump)
+//                                                }
+//                                                self?.delegate?.pricedBumpDidFail(type: type)
+//                                            }
+//        }
+    }
+
+    private func recursiveRequestBumpWithPaymentInfo(listingId: String, transaction: SKPaymentTransaction?, type: BumpUpType,
+                                                     currentBump: FailedBumpInfo, retryCount: Int, previousResult: BumpResult?,
+                                                     completion: BumpCompletion?) {
+
+        if let value = previousResult?.value {
+            completion?(BumpResult(value: value))
+        } else {
+            if retryCount <= 0 {
+                if let error = previousResult?.error {
+                    completion?(BumpResult(error: error))
+                } else {
+                    completion?(BumpResult(error: .internalError(message: "Bump exceeded number of retrys with unknown result")))
+                }
+            } else {
+
+                monetizationRepository.pricedBump(forListingId: listingId, paymentId: currentBump.paymentId, receiptData: currentBump.receiptData,
+                                                  itemId: transaction?.payment.productIdentifier ?? currentBump.itemId,
+                                                  itemPrice: currentBump.itemPrice, itemCurrency: currentBump.itemCurrency,
+                                                  amplitudeId: currentBump.amplitudeId, appsflyerId: currentBump.appsflyerId,
+                                                  idfa: currentBump.idfa, bundleId: currentBump.bundleId) { [weak self] result in
+
+                                                    if let value = result.value {
+                                                        completion?(BumpResult(value: value))
+                                                    } else if let error = result.error {
+                                                        switch error {
+                                                        case .serverError(code: let code):
+                                                            if let code = code {
+                                                                let bumpError = BumpFailedErrorCode(code: code)
+                                                                if !bumpError.isUsersFault {
+                                                                    self?.recursiveRequestBumpWithPaymentInfo(listingId: listingId,
+                                                                                                              transaction: transaction,
+                                                                                                              type: type,
+                                                                                                              currentBump: currentBump,
+                                                                                                              retryCount: retryCount - 1,
+                                                                                                              previousResult: previousResult,
+                                                                                                              completion: completion)
+                                                                } else {
+                                                                    completion?(BumpResult(error: error))
+                                                                }
+                                                            }
+                                                        case .forbidden, .internalError, .network, .notFound, .tooManyRequests,
+                                                             .unauthorized, .userNotVerified, .wsChatError:
+                                                            self?.recursiveRequestBumpWithPaymentInfo(listingId: listingId,
+                                                                                                      transaction: transaction,
+                                                                                                      type: type,
+                                                                                                      currentBump: currentBump,
+                                                                                                      retryCount: retryCount - 1,
+                                                                                                      previousResult: previousResult,
+                                                                                                      completion: completion)
+                                                        }
+                                                    }
+                }
+            }
+            
         }
     }
 
