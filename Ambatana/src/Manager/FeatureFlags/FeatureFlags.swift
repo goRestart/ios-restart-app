@@ -314,20 +314,12 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return DynamicQuickAnswers.fromPosition(abTests.dynamicQuickAnswers.value)
     }
-    
-<<<<<<< HEAD
-    var locationDataSourceEndpoint: LocationDataSourceEndpoint {
-        if Bumper.enabled {
-            return Bumper.locationDataSourceEndpoint
-        }
-        return LocationDataSourceEndpoint.fromPosition(abTests.locationDataSourceType.value)
-=======
+
     var appRatingDialogInactive: Bool {
         if Bumper.enabled {
             return Bumper.appRatingDialogInactive
         }
         return abTests.appRatingDialogInactive.value
->>>>>>> develop
     }
     
     var feedFilterRadiusValues: FeedFilterRadiusValues {
@@ -335,6 +327,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.feedFilterRadiusValues
         }
         return FeedFilterRadiusValues.fromPosition(abTests.feedFilterRadiusValues.value)
+    }
+    
+    var locationDataSourceEndpoint: LocationDataSourceEndpoint {
+        if Bumper.enabled {
+            return Bumper.locationDataSourceEndpoint
+        }
+        return LocationDataSourceEndpoint.fromPosition(abTests.locationDataSourceType.value)
     }
     
 

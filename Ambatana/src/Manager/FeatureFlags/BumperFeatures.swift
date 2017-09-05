@@ -35,9 +35,9 @@ extension Bumper  {
         flags.append(SearchParamDisc129.self)
         flags.append(UserReviewsReportEnabled.self)
         flags.append(DynamicQuickAnswers.self)
-        flags.append(LocationDataSourceEndpoint.self)
         flags.append(AppRatingDialogInactive.self)
         flags.append(FeedFilterRadiusValues.self)
+        flags.append(LocationDataSourceEndpoint.self)
         Bumper.initialize(flags)
     } 
 
@@ -151,11 +151,6 @@ extension Bumper  {
         return DynamicQuickAnswers(rawValue: value) ?? .control 
     }
 
-<<<<<<< HEAD
-    static var locationDataSourceEndpoint: LocationDataSourceEndpoint {
-        guard let value = Bumper.value(for: LocationDataSourceEndpoint.key) else { return .control }
-        return LocationDataSourceEndpoint(rawValue: value) ?? .control 
-=======
     static var appRatingDialogInactive: Bool {
         guard let value = Bumper.value(for: AppRatingDialogInactive.key) else { return false }
         return AppRatingDialogInactive(rawValue: value)?.asBool ?? false
@@ -164,6 +159,11 @@ extension Bumper  {
     static var feedFilterRadiusValues: FeedFilterRadiusValues {
         guard let value = Bumper.value(for: FeedFilterRadiusValues.key) else { return .control }
         return FeedFilterRadiusValues(rawValue: value) ?? .control 
+    }
+
+    static var locationDataSourceEndpoint: LocationDataSourceEndpoint {
+        guard let value = Bumper.value(for: LocationDataSourceEndpoint.key) else { return .control }
+        return LocationDataSourceEndpoint(rawValue: value) ?? .control 
     } 
 }
 
@@ -435,23 +435,6 @@ enum DynamicQuickAnswers: String, BumperFeature  {
     }
 }
 
-<<<<<<< HEAD
-enum LocationDataSourceEndpoint: String, BumperFeature  {
-    case control, baseline, appleWithRegion, niordWithRegion
-    static var defaultValue: String { return LocationDataSourceEndpoint.control.rawValue }
-    static var enumValues: [LocationDataSourceEndpoint] { return [.control, .baseline, .appleWithRegion, .niordWithRegion]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Location data source for geocode and reverse geocode" } 
-    static func fromPosition(_ position: Int) -> LocationDataSourceEndpoint {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .appleWithRegion
-            case 3: return .niordWithRegion
-            default: return .control
-        }
-    }
-=======
 enum AppRatingDialogInactive: String, BumperFeature  {
     case no, yes
     static var defaultValue: String { return AppRatingDialogInactive.no.rawValue }
@@ -459,7 +442,6 @@ enum AppRatingDialogInactive: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "App rating dialog inactive to increase user activation" } 
     var asBool: Bool { return self == .yes }
->>>>>>> develop
 }
 
 enum FeedFilterRadiusValues: String, BumperFeature  {
@@ -473,6 +455,23 @@ enum FeedFilterRadiusValues: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .newValues
+            default: return .control
+        }
+    }
+}
+
+enum LocationDataSourceEndpoint: String, BumperFeature  {
+    case control, baseline, appleWithRegion, niordWithRegion
+    static var defaultValue: String { return LocationDataSourceEndpoint.control.rawValue }
+    static var enumValues: [LocationDataSourceEndpoint] { return [.control, .baseline, .appleWithRegion, .niordWithRegion]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Location data source for geocode and reverse geocode" } 
+    static func fromPosition(_ position: Int) -> LocationDataSourceEndpoint {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .appleWithRegion
+            case 3: return .niordWithRegion
             default: return .control
         }
     }
