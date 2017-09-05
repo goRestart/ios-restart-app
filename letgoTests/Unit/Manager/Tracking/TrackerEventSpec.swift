@@ -2071,7 +2071,7 @@ class TrackerEventSpec: QuickSpec {
             describe("productSellStart") {
                 beforeEach {
                     sut = TrackerEvent.listingSellStart(.sell, buttonName: .sellYourStuff,
-                        sellButtonPosition: .tabBar)
+                        sellButtonPosition: .tabBar, category: .cars)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-start"))
@@ -2087,6 +2087,10 @@ class TrackerEventSpec: QuickSpec {
                 it("contains button position from which the event has been sent") {
                     let position = sut.params!.stringKeyParams["sell-button-position"] as? String
                     expect(position).to(equal("tabbar-camera"))
+                }
+                it("contains category id param") {
+                    let name = sut.params!.stringKeyParams["category-id"] as? Int
+                    expect(name).to(equal(9))
                 }
             }
 
@@ -3804,6 +3808,15 @@ class TrackerEventSpec: QuickSpec {
                 it("contains keyword name parameter") {
                     let param = sut.params!.stringKeyParams["keyword-name"] as? String
                     expect(param) == "electronics"
+                }
+            }
+            
+            describe("product sell your staff button") {
+                beforeEach {
+                    sut = TrackerEvent.listingSellYourStaffButton()
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-sell-your-staff-button"))
                 }
             }
         }

@@ -1086,6 +1086,11 @@ struct TrackerEvent {
         params[.typePage] = source.rawValue
         return TrackerEvent(name: .categoriesComplete, params: params)
     }
+    
+    static func listingSellYourStaffButton() -> TrackerEvent {
+        let params = EventParameters()
+        return TrackerEvent(name: .listingSellYourStaffButton, params: params)
+    }
 
 
     // MARK: - Private methods
