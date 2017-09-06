@@ -198,7 +198,7 @@ extension AppCoordinator: AppNavigator {
         openTab(.home, completion: nil)
     }
 
-    func openSell(source: PostingSource) {
+    func openSell(source: PostingSource, postCategory: PostCategory?) {
         let forcedInitialTab: PostListingViewController.Tab?
         switch source {
         case .tabBar, .sellButton, .deepLink, .notifications, .deleteListing:
@@ -208,6 +208,7 @@ extension AppCoordinator: AppNavigator {
         }
         
         let sellCoordinator = SellCoordinator(source: source,
+                                              postCategory: postCategory,
                                               forcedInitialTab: forcedInitialTab)
         sellCoordinator.delegate = self
         openChild(coordinator: sellCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
@@ -443,7 +444,7 @@ extension AppCoordinator: OnboardingCoordinatorDelegate {
     func onboardingCoordinator(_ coordinator: OnboardingCoordinator, didFinishPosting posting: Bool, source: PostingSource?) {
         delegate?.appNavigatorDidOpenApp()
         if let source = source, posting {
-            openSell(source: source)
+            openSell(source: source, postCategory: nil)
         }
     }
 }
@@ -516,7 +517,7 @@ extension AppCoordinator: UITabBarControllerDelegate {
         case .home, .notifications, .chats, .profile:
             afterLogInSuccessful = { [weak self] in self?.openTab(tab, force: true, completion: nil) }
         case .sell:
-            afterLogInSuccessful = { [weak self] in self?.openSell(source: .tabBar) }
+            afterLogInSuccessful = { [weak self] in self?.openSell(source: .tabBar, postCategory: nil) }
         }
 
         if let source = tab.logInSource, shouldOpenLogin {
@@ -528,7 +529,7 @@ extension AppCoordinator: UITabBarControllerDelegate {
                 // tab is changed after returning from this method
                 return !shouldOpenLogin
             case .sell:
-                openSell(source: .tabBar)
+                openSell(source: .tabBar, postCategory: nil)
                 return false
             }
         }
@@ -740,7 +741,7 @@ fileprivate extension AppCoordinator {
             }
         case .sell:
             afterDelayClosure = { [weak self] in
-                self?.openSell(source: .deepLink)
+                self?.openSell(source: .deepLink, postCategory: nil)
             }
         case let .listing(listingId):
             tabBarCtl.clearAllPresented(nil)

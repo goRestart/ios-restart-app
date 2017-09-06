@@ -63,6 +63,7 @@
 "categories_super_keywords_inFeed_show_more" = "Mostra Altro";
 "categories_title" = "Categorie";
 "categories_unassigned" = "Non selezionata";
+"categories_unassigned_items" = "Other items";
 "change_email_current_email_label" = "INDIRIZZO EMAIL ATTUALE:";
 "change_email_error_already_registered" = "Questo indirizzo email è già registrato. Inseriscine uno alternativo.";
 "change_email_error_invalid_email" = "Inserisci un indirizzo email valido.";

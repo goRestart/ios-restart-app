@@ -44,6 +44,7 @@ protocol FeatureFlaggeable: class {
     var locationDataSourceEndpoint: LocationDataSourceEndpoint { get }
     var appRatingDialogInactive: Bool { get }
     var feedFilterRadiusValues: FeedFilterRadiusValues { get }
+    var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -80,6 +81,7 @@ extension SuperKeywordsOnOnboarding {
         }
     }
 }
+
 extension BumpUpImprovementBanner {
     var isActive: Bool {
         switch self {
@@ -102,6 +104,16 @@ extension TweaksCarPostingFlow {
     }
 }
 
+extension ExpandableCategorySelectionMenu {
+    var isActive: Bool {
+        switch self {
+        case .control, .baseline:
+            return false
+        case .expandableMenu:
+            return true
+        }
+    }
+}
 
 class FeatureFlags: FeatureFlaggeable {
     static let sharedInstance: FeatureFlags = FeatureFlags()
@@ -327,6 +339,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.feedFilterRadiusValues
         }
         return FeedFilterRadiusValues.fromPosition(abTests.feedFilterRadiusValues.value)
+    }
+    
+    var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu {
+        if Bumper.enabled {
+            return Bumper.expandableCategorySelectionMenu
+        }
+        return ExpandableCategorySelectionMenu.fromPosition(abTests.expandableCategorySelectionMenu.value)
     }
     
     var locationDataSourceEndpoint: LocationDataSourceEndpoint {

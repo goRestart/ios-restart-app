@@ -50,6 +50,7 @@ class PostListingViewModel: BaseViewModel {
     let postDetailViewModel: PostListingDetailViewModel
     let postListingCameraViewModel: PostListingCameraViewModel
     let postingSource: PostingSource
+    let postCategory: PostCategory?
     
     fileprivate let listingRepository: ListingRepository
     fileprivate let fileRepository: FileRepository
@@ -75,7 +76,7 @@ class PostListingViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
 
-    convenience init(source: PostingSource) {
+    convenience init(source: PostingSource, postCategory: PostCategory?) {
         self.init(source: source,
                   listingRepository: Core.listingRepository,
                   fileRepository: Core.fileRepository,
@@ -84,7 +85,8 @@ class PostListingViewModel: BaseViewModel {
                   sessionManager: Core.sessionManager,
                   featureFlags: FeatureFlags.sharedInstance,
                   locationManager: Core.locationManager,
-                  currencyHelper: Core.currencyHelper)
+                  currencyHelper: Core.currencyHelper,
+                  postCategory: postCategory)
     }
 
     init(source: PostingSource,
@@ -95,9 +97,10 @@ class PostListingViewModel: BaseViewModel {
          sessionManager: SessionManager,
          featureFlags: FeatureFlaggeable,
          locationManager: LocationManager,
-         currencyHelper: CurrencyHelper) {
-        self.state = Variable<PostListingState>(PostListingState(featureFlags: featureFlags))
-        self.category = Variable<PostCategory?>(nil)
+         currencyHelper: CurrencyHelper,
+         postCategory: PostCategory?) {
+        self.state = Variable<PostListingState>(PostListingState(postCategory: postCategory))
+        self.category = Variable<PostCategory?>(postCategory)
         
         self.postingSource = source
         self.listingRepository = listingRepository
@@ -110,6 +113,7 @@ class PostListingViewModel: BaseViewModel {
         self.featureFlags = featureFlags
         self.locationManager = locationManager
         self.currencyHelper = currencyHelper
+        self.postCategory = postCategory
         self.disposeBag = DisposeBag()
         super.init()
         self.postDetailViewModel.delegate = self
@@ -173,7 +177,7 @@ class PostListingViewModel: BaseViewModel {
                     navigator?.cancelPostListing()
                 }
             }
-            else if let productParams = makeProductCreationParams(images: images) {
+            else if let productParams = makeProductCreationParams(images: images, category: category.value?.listingCategory) {
                 listingParams = ListingCreationParams.product(productParams)
             } else {
                 navigator?.cancelPostListing()
@@ -344,12 +348,13 @@ fileprivate extension PostListingViewModel {
                                                    imageSource: uploadedImageSource, price: postDetailViewModel.price.value)
         if sessionManager.loggedIn {
             guard let images = state.value.lastImagesUploadResult?.value,
-                let productParams = makeProductCreationParams(images: images) else { return }
+                let productParams = makeProductCreationParams(images: images, category: category.value?.listingCategory) else { return }
             navigator?.closePostProductAndPostInBackground(params: ListingCreationParams.product(productParams),
                                                            trackingInfo: trackingInfo)
         } else if let images = state.value.pendingToUploadImages {
             let loggedInAction = { [weak self] in
-                guard let productParams = self?.makeProductCreationParams(images: []) else { return }
+                guard let productParams = self?.makeProductCreationParams(images: [],
+                                                                          category: self?.category.value?.listingCategory) else { return }
                 self?.navigator?.closePostProductAndPostLater(params: ListingCreationParams.product(productParams),
                                                               images: images,
                                                               trackingInfo: trackingInfo)
@@ -397,17 +402,18 @@ fileprivate extension PostListingViewModel {
         }
     }
 
-    func makeProductCreationParams(images: [File]) -> ProductCreationParams? {
+    func makeProductCreationParams(images: [File], category: ListingCategory?) -> ProductCreationParams? {
         guard let location = locationManager.currentLocation?.location else { return nil }
         let price = postDetailViewModel.listingPrice
         let title = postDetailViewModel.listingTitle
         let description = postDetailViewModel.listingDescription
+        let category = category ?? .unassigned
         let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()
         let currency = currencyHelper.currencyWithCountryCode(postalAddress.countryCode ?? "US")
         return ProductCreationParams(name: title,
                                      description: description,
                                      price: price,
-                                     category: .unassigned,
+                                     category: category,
                                      currency: currency,
                                      location: location,
                                      postalAddress: postalAddress,

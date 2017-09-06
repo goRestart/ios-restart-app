@@ -29,6 +29,7 @@ final class SellCoordinator: Coordinator {
     fileprivate let tracker: Tracker
     fileprivate let featureFlags: FeatureFlaggeable
     fileprivate let postingSource: PostingSource
+    fileprivate let postCategory: PostCategory?
     weak var delegate: SellCoordinatorDelegate?
 
     fileprivate let disposeBag = DisposeBag()
@@ -37,8 +38,10 @@ final class SellCoordinator: Coordinator {
     // MARK: - Lifecycle
 
     convenience init(source: PostingSource,
+                     postCategory: PostCategory?,
                      forcedInitialTab: PostListingViewController.Tab?) {
         self.init(source: source,
+                  postCategory: postCategory,
                   forcedInitialTab: forcedInitialTab,
                   listingRepository: Core.listingRepository,
                   bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
@@ -49,6 +52,7 @@ final class SellCoordinator: Coordinator {
     }
 
     init(source: PostingSource,
+         postCategory: PostCategory?,
          forcedInitialTab: PostListingViewController.Tab?,
          listingRepository: ListingRepository,
          bubbleNotificationManager: BubbleNotificationManager,
@@ -61,9 +65,10 @@ final class SellCoordinator: Coordinator {
         self.keyValueStorage = keyValueStorage
         self.tracker = tracker
         self.postingSource = source
+        self.postCategory = postCategory
         self.featureFlags = featureFlags
         self.sessionManager = sessionManager
-        let postListingVM = PostListingViewModel(source: source)
+        let postListingVM = PostListingViewModel(source: source, postCategory: postCategory)
         let postListingVC = PostListingViewController(viewModel: postListingVM,
                                                       forcedInitialTab: forcedInitialTab)
         self.viewController = postListingVC
@@ -200,7 +205,7 @@ extension SellCoordinator: ListingPostedNavigator {
     func closeProductPostedAndOpenPost() {
         dismissViewController(animated: true) { [weak self] in
             guard let strongSelf = self, let parentVC = strongSelf.parentViewController else { return }
-            let postListingVM = PostListingViewModel(source: strongSelf.postingSource)
+            let postListingVM = PostListingViewModel(source: strongSelf.postingSource, postCategory: nil)
             let postListingVC = PostListingViewController(viewModel: postListingVM,
                                                           forcedInitialTab: nil)
             strongSelf.viewController = postListingVC

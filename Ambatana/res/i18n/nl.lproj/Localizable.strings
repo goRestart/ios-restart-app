@@ -63,6 +63,7 @@
 "categories_super_keywords_inFeed_show_more" = "Toon meer";
 "categories_title" = "Categorieën";
 "categories_unassigned" = "Niet geselecteerd ";
+"categories_unassigned_items" = "Other items";
 "change_email_current_email_label" = "HUIDIGE E-MAIL:";
 "change_email_error_already_registered" = "Dit e-mailadres is al geregistreerd. Gelieve een ander in te voeren.";
 "change_email_error_invalid_email" = "Gelieve een geldig e-mailadres in te vullen.";

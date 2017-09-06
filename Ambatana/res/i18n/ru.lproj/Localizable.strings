@@ -63,6 +63,7 @@
 "categories_super_keywords_inFeed_show_more" = "Показать еще";
 "categories_title" = "Категории";
 "categories_unassigned" = "Не выбрана";
+"categories_unassigned_items" = "Other items";
 "change_email_current_email_label" = "ТЕКУЩИЙ Е-МЕЙЛ:";
 "change_email_error_already_registered" = "Этот адрес уже зарегистрирован. Пожалуйста, введите другой.";
 "change_email_error_invalid_email" = "Пожалуйста, укажите действующий е-мейл.";

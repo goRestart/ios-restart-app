@@ -45,6 +45,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var locationDataSourceEndpoint: LocationDataSourceEndpoint = .control
     var appRatingDialogInactive: Bool = false
     var feedFilterRadiusValues: FeedFilterRadiusValues = .control
+    var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu = .control
     
     // Country dependant features
     var freePostingModeAllowed = false

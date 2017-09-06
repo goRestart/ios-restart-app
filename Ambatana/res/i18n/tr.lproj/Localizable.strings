@@ -63,6 +63,7 @@
 "categories_super_keywords_inFeed_show_more" = "Daha fazla göster";
 "categories_title" = "Kategoriler";
 "categories_unassigned" = "Seçilmedi";
+"categories_unassigned_items" = "Other items";
 "change_email_current_email_label" = "ŞU ANKİ E-POSTAN:";
 "change_email_error_already_registered" = "Bu e-posta adresi zaten kayıtlıdır. Lütfen farklı bir adres seç.";
 "change_email_error_invalid_email" = "Lütfen geçerli bir e-posta adresi gir.";
