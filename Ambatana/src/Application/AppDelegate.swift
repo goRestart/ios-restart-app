@@ -60,7 +60,6 @@ extension AppDelegate: UIApplicationDelegate {
         setupAppearance()
         setupLibraries(application,
                        launchOptions: launchOptions,
-                       locationRepository: Core.locationRepository,
                        featureFlags: featureFlags)
         self.listingRepository = Core.listingRepository
         self.locationManager = Core.locationManager
@@ -248,7 +247,6 @@ fileprivate extension AppDelegate {
 
     func setupLibraries(_ application: UIApplication,
                         launchOptions: [UIApplicationLaunchOptionsKey: Any]?,
-                        locationRepository: LocationRepository,
                         featureFlags: FeatureFlaggeable) {
 
         LGCacheManager().cleanIfNeeded()
@@ -299,7 +297,7 @@ fileprivate extension AppDelegate {
             case .niordWithRegion:
                 locationDataSourceType = .niord
             }
-            locationRepository.setLocationDataSourceType(locationDataSourceType: locationDataSourceType)
+            Core.locationRepository.setLocationDataSourceType(locationDataSourceType: locationDataSourceType)
         }.addDisposableTo(disposeBag)
         
         // LGCoreKit
