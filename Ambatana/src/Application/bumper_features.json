@@ -123,6 +123,6 @@
     {
         "name": "ExpandableCategorySelectionMenu",
         "values": ["control", "baseline", "expandableMenu"],
-        "description": "Show 'salchichas' menu on sell your staff button"
+        "description": "Show 'salchichas' menu on sell your stuff button"
     }
 ]
