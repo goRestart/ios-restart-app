@@ -33,6 +33,7 @@ class PurchasesShopperSpec: QuickSpec {
         var myUserRepository: MockMyUserRepository!
         var installationRepository: InstallationRepository!
         var paymentQueue: MockPaymentQueue!
+        var keyValueStorage: KeyValueStorageable!
 
         describe("PurchasesShopperSpec") {
             beforeEach {
@@ -43,16 +44,21 @@ class PurchasesShopperSpec: QuickSpec {
                 monetizationRepository = MockMonetizationRepository()
                 myUserRepository = MockMyUserRepository()
                 installationRepository = MockInstallationRepository()
+                keyValueStorage = MockKeyValueStorage()
+                let userDefaultsUser = UserDefaultsUser()
+                keyValueStorage.currentUserProperties = userDefaultsUser
                 let mockReceiptURLProvider = MockReceiptURLProvider()
                 paymentQueue = MockPaymentQueue()
                 sut = LGPurchasesShopper(requestFactory: requestFactory, monetizationRepository: monetizationRepository,
                                          myUserRepository: myUserRepository, installationRepository: installationRepository,
-                                         paymentQueue: paymentQueue, receiptURLProvider: mockReceiptURLProvider)
+                                         keyValueStorage: keyValueStorage, paymentQueue: paymentQueue,
+                                         receiptURLProvider: mockReceiptURLProvider)
                 sut.delegate = self
                 sut.startObservingTransactions()
             }
             afterEach {
                 sut.stopObservingTransactions()
+                keyValueStorage.userFailedBumpsInfo.removeAll()
             }
             context("productsRequestStartForListing") {
                 context("the device can't make purchases") {
@@ -186,7 +192,7 @@ class PurchasesShopperSpec: QuickSpec {
                 }
 
             }
-            context("product paid") {
+            context("bump paid") {
                 let transaction = MyPaymentTransaction(myTransactionIdentifier: "123123", myTransactionState: .purchased)
                 context("new purchase") {
                     context("bump succeeds") {
@@ -218,7 +224,7 @@ class PurchasesShopperSpec: QuickSpec {
                         }
                     }
                 }
-                context("restoring purchase") {
+                context("restoring purchase immediately, there are payment transactions in the queue") {
                     beforeEach {
                         sut.paymentProcessingProductId = "product_id_restore"
                         sut.paymentProcessingPaymentId = "payment_id_restore"
@@ -254,6 +260,61 @@ class PurchasesShopperSpec: QuickSpec {
                         }
                         it ("bump request fails") {
                             expect(self.mockBumpResult) == .fail
+                        }
+                    }
+                }
+                context("restoring purchase after app relaunch, there are NO payment transactions in the queue") {
+                    var currentBump: FailedBumpInfo!
+                    beforeEach {
+                        currentBump = FailedBumpInfo(listingId: "listing_id_1", transactionId: "restore_bump",
+                                                         paymentId: "product_id_restore", receiptData: "receipt_data",
+                                                         itemId: "payment_id_restore", itemPrice: "1.99",
+                                                         itemCurrency: "$", amplitudeId: nil, appsflyerId: nil,
+                                                         idfa: nil, bundleId: nil, numRetries: 5)
+
+                        var failedBumpsDict: [String:Any] = [:]
+                        failedBumpsDict[currentBump.listingId] = currentBump.dictionaryValue()
+                        keyValueStorage.userFailedBumpsInfo = failedBumpsDict
+                    }
+                    context("restore fails") {
+                        beforeEach {
+                            monetizationRepository.bumpResult = Result<Void, RepositoryError>(error: .notFound)
+                            sut.restorePaidBumpUp(forListingId: "listing_id_1")
+                            expect(self.mockBumpResult).toEventuallyNot(beNil())
+                        }
+                        it("user defaults still has the bump saved") {
+                            let bump = keyValueStorage.userFailedBumpsInfo["listing_id_1"]
+                            expect(bump).toNot(beNil())
+                        }
+                        it("the bump retries count has incremented") {
+                            let bumpDict = keyValueStorage.userFailedBumpsInfo["listing_id_1"] as! [String:String?]
+                            let bump = FailedBumpInfo(dictionary: bumpDict)
+                            expect(bump!.numRetries) == 6
+                        }
+                    }
+                    context("restore fails for the 20th time") {
+                        beforeEach {
+                            currentBump = currentBump.updatingNumRetries(newNumRetries: 20)
+                            var failedBumpsDict: [String:Any] = [:]
+                            failedBumpsDict[currentBump.listingId] = currentBump.dictionaryValue()
+                            keyValueStorage.userFailedBumpsInfo = failedBumpsDict
+
+                            sut.restorePaidBumpUp(forListingId: "listing_id_1")
+                        }
+                        it("user defaults doesn't have the bump saved anymore") {
+                            let bump = keyValueStorage.userFailedBumpsInfo["listing_id_1"]
+                            expect(bump).to(beNil())
+                        }
+                    }
+                    context("restore succeeds") {
+                        beforeEach {
+                            monetizationRepository.bumpResult = Result<Void, RepositoryError>(value: Void())
+                            sut .restorePaidBumpUp(forListingId: "listing_id_1")
+                            expect(self.mockBumpResult).toEventuallyNot(beNil())
+                        }
+                        it("user defaults doesn't have the bump saved anymore") {
+                            let bump = keyValueStorage.userFailedBumpsInfo["listing_id_1"]
+                            expect(bump).to(beNil())
                         }
                     }
                 }
