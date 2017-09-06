@@ -33,6 +33,7 @@ final class AppDelegate: UIResponder {
 
     fileprivate var listingRepository: ListingRepository?
     fileprivate var locationManager: LocationManager?
+    fileprivate var locationRepository: LocationRepository?
     fileprivate var sessionManager: SessionManager?
     fileprivate var featureFlags: FeatureFlaggeable?
     fileprivate var purchasesShopper: PurchasesShopper?
@@ -63,6 +64,7 @@ extension AppDelegate: UIApplicationDelegate {
                        featureFlags: featureFlags)
         self.listingRepository = Core.listingRepository
         self.locationManager = Core.locationManager
+        self.locationRepository = Core.locationRepository
         self.sessionManager = Core.sessionManager
         self.configManager = LGConfigManager.sharedInstance
     
@@ -287,7 +289,7 @@ fileprivate extension AppDelegate {
         #endif
         
         // Location data source
-        featureFlags.syncedData.filter { $0 }.asObservable().subscribeNext { _ in
+        featureFlags.syncedData.filter { $0 }.asObservable().subscribeNext { [weak self] _ in
             let locationDataSourceType: LocationDataSourceType
             switch featureFlags.locationDataSourceEndpoint {
             case .control, .baseline:
@@ -297,7 +299,7 @@ fileprivate extension AppDelegate {
             case .niordWithRegion:
                 locationDataSourceType = .niord
             }
-            Core.locationRepository.setLocationDataSourceType(locationDataSourceType: locationDataSourceType)
+            self?.locationRepository?.setLocationDataSourceType(locationDataSourceType: locationDataSourceType)
         }.addDisposableTo(disposeBag)
         
         // LGCoreKit
