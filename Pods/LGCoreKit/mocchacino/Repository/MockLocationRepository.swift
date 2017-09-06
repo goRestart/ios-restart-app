@@ -9,13 +9,16 @@
 import CoreLocation
 
 open class MockLocationRepository: LocationRepository {
-
-    public var suggestionsResult: SuggestionsLocationRepositoryResult!
+    
+    public var suggestionsResult: LocationSuggestionsRepositoryResult!
+    public var suggestionDetailsResult: LocationSuggestionDetailsRepositoryResult!
     public var postalAddressResult: PostalAddressLocationRepositoryResult!
     public var ipLookupLocationResult: IPLookupLocationRepositoryResult!
     
     public var locationEnabledValue: Bool = true
     public var authorizationStatusValue: CLAuthorizationStatus = .notDetermined
+    
+    public var locationDataSourceType: LocationDataSourceType = .apple(shouldUseRegion: false)
     
     // MARK: - Lifecycle
     
@@ -28,6 +31,7 @@ open class MockLocationRepository: LocationRepository {
     public var lastKnownLocation: CLLocation?
     
     public func setLocationManagerDelegate(delegate: CLLocationManagerDelegate) {}
+    public func setLocationDataSourceType(locationDataSourceType: LocationDataSourceType) {}
     
     public func locationEnabled() -> Bool {
         return locationEnabledValue
@@ -44,15 +48,19 @@ open class MockLocationRepository: LocationRepository {
     
     public func stopUpdatingLocation() { }
     
-    public func retrieveAddressForLocation(_ location: LGLocationCoordinates2D, completion: PostalAddressLocationRepositoryCompletion?) {
-        delay(result: postalAddressResult, completion: completion)
-    }
-    
-    public func retrieveAddressForLocation(_ searchText: String, completion: SuggestionsLocationRepositoryCompletion?) {
+    public func retrieveLocationSuggestions(addressString: String, currentLocation: LGLocation?, completion: LocationSuggestionsRepositoryCompletion?) {
         delay(result: suggestionsResult, completion: completion)
     }
     
-    public func retrieveLocationWithCompletion(_ completion: IPLookupLocationRepositoryCompletion?) {
+    public func retrieveLocationSuggestionDetails(placeId: String, completion: LocationSuggestionDetailsRepositoryCompletion?) {
+        delay(result: suggestionDetailsResult, completion: completion)
+    }
+    
+    public func retrievePostalAddress(location: LGLocationCoordinates2D, completion: PostalAddressLocationRepositoryCompletion?) {
+        delay(result: postalAddressResult, completion: completion)
+    }
+    
+    public func retrieveIPLookupLocation(completion: IPLookupLocationRepositoryCompletion?) {
         delay(result: ipLookupLocationResult, completion: completion)
     }
 }

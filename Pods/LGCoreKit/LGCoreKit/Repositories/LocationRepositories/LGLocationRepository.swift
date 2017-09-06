@@ -11,18 +11,26 @@ import Result
 
 public class LGLocationRepository: LocationRepository {
 
-    let dataSource: LocationDataSource
+    var locationDataSourceType: LocationDataSourceType = .apple(shouldUseRegion: false)
+    let appleLocationDataSource: LocationDataSource
+    let niordLocationDataSource: LocationDataSource
+    let ipLookupDataSource: IPLookupDataSource
     var clLocationManager: CLLocationManagerProtocol
-
     
     // MARK: - Lifecycle
 
-    public init(dataSource: LocationDataSource, locationManager: CLLocationManagerProtocol) {
-        self.dataSource = dataSource
+    public init(appleLocationDataSource: LocationDataSource,
+                niordLocationDataSource: LocationDataSource,
+                ipLookupDataSource: IPLookupDataSource,
+                locationManager: CLLocationManagerProtocol) {
+        
+        self.appleLocationDataSource = appleLocationDataSource
+        self.niordLocationDataSource = niordLocationDataSource
+        self.ipLookupDataSource = ipLookupDataSource
         self.clLocationManager = locationManager
     }
-
-    // MARK: - Public Methods.
+    
+    // MARK: - LocationRepository
     
     public var distance: CLLocationDistance {
         get {
@@ -73,39 +81,103 @@ public class LGLocationRepository: LocationRepository {
     public func stopUpdatingLocation() {
         clLocationManager.stopUpdatingLocation()
     }
+    
+    public func setLocationDataSourceType(locationDataSourceType: LocationDataSourceType) {
+        self.locationDataSourceType = locationDataSourceType
+    }
 
-    public func retrieveAddressForLocation(_ searchText: String, completion: SuggestionsLocationRepositoryCompletion?) {
-
-        dataSource.retrieveAddressForLocation(searchText) { (result) in
-            if let value = result.value {
-                completion?(SuggestionsLocationRepositoryResult(value: value))
-                
-            } else if let error = result.error {
-                completion?(SuggestionsLocationRepositoryResult(error: error))
+    public func retrieveLocationSuggestions(addressString: String,
+                                            currentLocation: LGLocation?,
+                                            completion: LocationSuggestionsRepositoryCompletion?) {
+        guard !addressString.isEmpty else {
+            completion?(LocationSuggestionsRepositoryResult(error: LocationError.notFound))
+            return
+        }
+        switch locationDataSourceType {
+        case .apple(let shouldUseRegion):
+            var region: CLCircularRegion? = nil
+            if shouldUseRegion {
+                region = makeCircularRegion(withLocation: currentLocation)
+            }
+            appleLocationDataSource.retrieveLocationSuggestions(addressString: addressString, region: region) { result in
+                if let value = result.value {
+                    completion?(LocationSuggestionsRepositoryResult(value: value))
+                } else if let error = result.error {
+                    completion?(LocationSuggestionsRepositoryResult(error: error))
+                }
+            }
+        case .niord:
+            let region = makeCircularRegion(withLocation: currentLocation)
+            niordLocationDataSource.retrieveLocationSuggestions(addressString: addressString, region: region) { result in
+                if let value = result.value {
+                    completion?(LocationSuggestionsRepositoryResult(value: value))
+                } else if let error = result.error {
+                    completion?(LocationSuggestionsRepositoryResult(error: error))
+                }
             }
         }
     }
     
-    public func retrieveAddressForLocation(_ coordinates: LGLocationCoordinates2D, completion: PostalAddressLocationRepositoryCompletion?) {
-        dataSource.retrieveAddressForLocation(coordinates) { (result) in
-            if let value = result.value {
-                completion?(PostalAddressLocationRepositoryResult(value: value))
-                
-            } else if let error = result.error {
-                completion?(PostalAddressLocationRepositoryResult(error: error))
+    public func retrieveLocationSuggestionDetails(placeId: String, 
+                                                  completion: LocationSuggestionDetailsRepositoryCompletion?) {
+        guard !placeId.isEmpty else {
+            completion?(LocationSuggestionDetailsRepositoryResult(error: LocationError.notFound))
+            return
+        }
+        switch locationDataSourceType {
+        case .apple:
+            completion?(LocationSuggestionDetailsRepositoryResult(error: LocationError.notFound))
+            break
+        case .niord:
+            niordLocationDataSource.retrieveLocationSuggestionDetails(placeId: placeId) { result in
+                if let value = result.value {
+                    completion?(LocationSuggestionDetailsRepositoryResult(value: value))
+                } else if let error = result.error {
+                    completion?(LocationSuggestionDetailsRepositoryResult(error: error))
+                }
             }
         }
     }
     
-    public func retrieveLocationWithCompletion(_ completion: IPLookupLocationRepositoryCompletion?) {
-        dataSource.retrieveLocationWithCompletion { (result) in
+    public func retrievePostalAddress(location: LGLocationCoordinates2D,
+                                      completion: PostalAddressLocationRepositoryCompletion?) {
+        switch locationDataSourceType {
+        case .apple:
+            appleLocationDataSource.retrievePostalAddress(location: location) { result in
+                if let value = result.value {
+                    completion?(PostalAddressLocationRepositoryResult(value: value))
+                } else if let error = result.error {
+                    completion?(PostalAddressLocationRepositoryResult(error: error))
+                }
+            }
+        case .niord:
+            niordLocationDataSource.retrievePostalAddress(location: location) { result in
+                if let value = result.value {
+                    completion?(PostalAddressLocationRepositoryResult(value: value))
+                } else if let error = result.error {
+                    completion?(PostalAddressLocationRepositoryResult(error: error))
+                }
+            }
+        }
+    }
+    
+    public func retrieveIPLookupLocation(completion: IPLookupLocationRepositoryCompletion?) {
+        ipLookupDataSource.retrieveIPLookupLocation { (result) in
             if let value = result.value {
                 completion?(IPLookupLocationRepositoryResult(value: value))
-                
             } else if let error = result.error {
                 completion?(IPLookupLocationRepositoryResult(error: error))
             }
         }
+    }
+    
+    // MARK: - Helpers
+    
+    private func makeCircularRegion(withLocation location: LGLocation?) -> CLCircularRegion? {
+        guard let location = location else { return nil }
+        return CLCircularRegion(center: location.coordinate,
+                                radius: LGCoreKitConstants.geocodeRegionRadius,
+                                identifier: "search region")
     }
 }
 

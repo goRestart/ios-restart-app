@@ -42,6 +42,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var tweaksCarPostingFlow: TweaksCarPostingFlow = .control
     var userReviewsReportEnabled: Bool = true
     var dynamicQuickAnswers: DynamicQuickAnswers = .control
+    var locationDataSourceEndpoint: LocationDataSourceEndpoint = .control
     var appRatingDialogInactive: Bool = false
     var feedFilterRadiusValues: FeedFilterRadiusValues = .control
     var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu = .control

@@ -23,6 +23,7 @@ public class LGCoreKit {
 
         LGCoreKit.shouldUseChatWithWebSocket = config.shouldUseChatWithWebSocket
 
+        // Environments setup
         EnvironmentProxy.sharedInstance.setEnvironmentType(config.environmentType)
 
         // Managers setup

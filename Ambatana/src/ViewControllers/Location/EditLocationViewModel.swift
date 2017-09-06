@@ -194,7 +194,24 @@ class EditLocationViewModel: BaseViewModel {
 
     func selectPlace(_ resultsIndex: Int) {
         guard resultsIndex >= 0 && resultsIndex < predictiveResults.count else { return }
-        setPlace(predictiveResults[resultsIndex], forceLocation: true, fromGps: false, enableSave: true)
+        let place = predictiveResults[resultsIndex]
+        if let shouldRetrieveDetails = place.shouldRetrieveDetails, shouldRetrieveDetails {
+            guard let placeId = place.placeId else { return }
+            delegate?.vmShowLoading(nil)
+            locationRepository.retrieveLocationSuggestionDetails(placeId: placeId) { [weak self] result in
+                guard let strongSelf = self else { return }
+                strongSelf.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
+                if let updatedPlace = result.value {
+                    strongSelf.setPlace(updatedPlace, forceLocation: true, fromGps: false, enableSave: true)
+                } else {
+                    strongSelf.delegate?.vmShowAutoFadingMessage(LGLocalizedString.changeLocationErrorUpdatingLocationMessage) {
+                        strongSelf.setMapToPreviousKnownPlace()
+                    }
+                }
+            }
+        } else {
+            setPlace(place, forceLocation: true, fromGps: false, enableSave: true)
+        }
     }
 
     func applyLocation() {
@@ -252,7 +269,7 @@ class EditLocationViewModel: BaseViewModel {
             currentDistanceRadius.value = distanceRadius
         case .editListingLocation:
             if let place = initialPlace, let location = place.location {
-                locationRepository.retrieveAddressForLocation(location) { [weak self] result in
+                locationRepository.retrievePostalAddress(location: location) { [weak self] result in
                     guard let strongSelf = self else { return }
                     if let resolvedPlace = result.value {
                         strongSelf.currentPlace = resolvedPlace.postalAddress?.countryCode != nil ?
@@ -352,7 +369,7 @@ class EditLocationViewModel: BaseViewModel {
     private func resultsForSearchText(_ textToSearch: String, autoSelectFirst: Bool) {
         predictiveResults = []
         delegate?.vmUpdateSearchTableWithResults([])
-        locationRepository.retrieveAddressForLocation(textToSearch) { [weak self] result in
+        locationRepository.retrieveLocationSuggestions(addressString: textToSearch, currentLocation: locationManager.currentLocation) { [weak self] result in
             if autoSelectFirst {
                 if let error = result.error {
                     let errorMsg = error == .notFound ?
@@ -447,7 +464,7 @@ extension LocationRepository {
                 // Change how to return anonymousDisposable http://stackoverflow.com/questions/40936295/what-is-the-rxswift-3-0-equivalent-to-anonymousdisposable-from-rxswift-2-x
                 return Disposables.create()
             }
-            self.retrieveAddressForLocation(LGLocationCoordinates2D(latitude: location.coordinate.latitude,
+            self.retrievePostalAddress(location: LGLocationCoordinates2D(latitude: location.coordinate.latitude,
                 longitude: location.coordinate.longitude)) {
                 (result: PostalAddressLocationRepositoryResult) -> Void in
                 guard let resolvedPlace = result.value else {

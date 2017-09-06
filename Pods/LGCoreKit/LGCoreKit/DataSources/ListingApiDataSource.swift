@@ -154,7 +154,7 @@ final class ListingApiDataSource: ListingDataSource {
         let params : [String : Any] = ["productIds" : listingIds.map({ $0.listingId }),
                                        "sources": listingIds.map({ $0.visitSource }),
                                        "action" : action,
-                                       "userId": userId]
+                                       "userId": userId ?? ""]
         let request = ListingRouter.updateStats(params: params)
         apiClient.request(request, completion: completion)
     }

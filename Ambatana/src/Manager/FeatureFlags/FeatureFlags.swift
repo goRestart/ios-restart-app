@@ -41,6 +41,7 @@ protocol FeatureFlaggeable: class {
     var tweaksCarPostingFlow: TweaksCarPostingFlow { get }
     var userReviewsReportEnabled: Bool { get }
     var dynamicQuickAnswers: DynamicQuickAnswers { get }
+    var locationDataSourceEndpoint: LocationDataSourceEndpoint { get }
     var appRatingDialogInactive: Bool { get }
     var feedFilterRadiusValues: FeedFilterRadiusValues { get }
     var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu { get }
@@ -325,7 +326,7 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return DynamicQuickAnswers.fromPosition(abTests.dynamicQuickAnswers.value)
     }
-    
+
     var appRatingDialogInactive: Bool {
         if Bumper.enabled {
             return Bumper.appRatingDialogInactive
@@ -345,6 +346,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.expandableCategorySelectionMenu
         }
         return ExpandableCategorySelectionMenu.fromPosition(abTests.expandableCategorySelectionMenu.value)
+    }
+    
+    var locationDataSourceEndpoint: LocationDataSourceEndpoint {
+        if Bumper.enabled {
+            return Bumper.locationDataSourceEndpoint
+        }
+        return LocationDataSourceEndpoint.fromPosition(abTests.locationDataSourceType.value)
     }
     
 

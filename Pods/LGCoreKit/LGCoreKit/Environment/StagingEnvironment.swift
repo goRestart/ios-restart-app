@@ -17,4 +17,5 @@ struct StagingEnvironment: Environment {
     let paymentsBaseURL = "https://payment.stg.letgo.com/payment"
     let suggestiveSearchBaseURL = "https://suggestivesearch.letgo.com"
     let searchProductsBaseURL = "https://search-products.stg.letgo.com"
+    let niordBaseURL = "https://niord.stg.letgo.com"
 }

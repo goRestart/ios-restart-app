@@ -43,7 +43,8 @@ class ABTests {
     let appRatingDialogInactive = BoolABDynamicVar(key: "20170831AppRatingDialogInactive", defaultValue: false)
     let feedFilterRadiusValues = IntABDynamicVar(key: "20170904feedFilterRadiusValues", defaultValue: 0)
     let expandableCategorySelectionMenu = IntABDynamicVar(key: "20170904ExpandableCategorySelectionMenu", defaultValue: 0)
-    
+    let locationDataSourceType = IntABDynamicVar(key: "20170830LocationDataSourceType", defaultValue: 0)
+
     init() {
     }
     

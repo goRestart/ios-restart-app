@@ -282,7 +282,7 @@ public class CarCreationParams: BaseListingParams {
 
         var params = super.apiCreationEncode(userId: userId)
 
-        var carAttributesDict: [String:Any] = [:]
+        var carAttributesDict: [String: Any] = [:]
         carAttributesDict["make"] = carAttributes.makeId ?? ""
         carAttributesDict["model"] = carAttributes.modelId ?? ""
         carAttributesDict["year"] = carAttributes.year ?? 0

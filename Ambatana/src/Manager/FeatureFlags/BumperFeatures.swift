@@ -164,6 +164,11 @@ extension Bumper  {
     static var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu {
         guard let value = Bumper.value(for: ExpandableCategorySelectionMenu.key) else { return .control }
         return ExpandableCategorySelectionMenu(rawValue: value) ?? .control 
+    }
+
+    static var locationDataSourceEndpoint: LocationDataSourceEndpoint {
+        guard let value = Bumper.value(for: LocationDataSourceEndpoint.key) else { return .control }
+        return LocationDataSourceEndpoint(rawValue: value) ?? .control 
     } 
 }
 
@@ -471,6 +476,23 @@ enum ExpandableCategorySelectionMenu: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .expandableMenu
+            default: return .control
+        }
+    }
+}
+
+enum LocationDataSourceEndpoint: String, BumperFeature  {
+    case control, baseline, appleWithRegion, niordWithRegion
+    static var defaultValue: String { return LocationDataSourceEndpoint.control.rawValue }
+    static var enumValues: [LocationDataSourceEndpoint] { return [.control, .baseline, .appleWithRegion, .niordWithRegion]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Location data source for geocode and reverse geocode" } 
+    static func fromPosition(_ position: Int) -> LocationDataSourceEndpoint {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .appleWithRegion
+            case 3: return .niordWithRegion
             default: return .control
         }
     }
