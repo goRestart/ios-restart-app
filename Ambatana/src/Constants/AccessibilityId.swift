@@ -514,15 +514,6 @@ enum AccessibilityId: String {
     case editLocationSetLocationButton
     case editLocationApproxLocationSwitch
 
-    // Edit Location From Zip Code
-    case editLocationFromZipCloseButton
-    case editLocationFromZipTitleLabel
-    case editLocationFromZipCurrentLocationButton
-    case editLocationFromZipTextField
-    case editLocationFromZipMinDigitsLabel
-    case editLocationFromZipFullAddressLabel
-    case editLocationFromZipSetLocationButton
-
     // NPS Survey
     case npsCloseButton
     case npsScore1
