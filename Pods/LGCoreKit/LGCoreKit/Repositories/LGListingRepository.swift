@@ -492,7 +492,10 @@ final class LGListingRepository: ListingRepository {
     }
 
     private func updateListingViewsBatch(_ listingIds: [(String, String)], completion: ListingVoidCompletion?) {
-        dataSource.updateStats(listingIds, action: "incr-views") { result in
+        let myUserId = myUserRepository.myUser?.objectId
+        dataSource.updateStats(listingIds,
+                               action: "incr-views",
+                               userId: myUserId) { result in
             if let error = result.error {
                 completion?(ListingVoidResult(error: RepositoryError(apiError: error)))
             } else if let _ = result.value {

@@ -128,7 +128,6 @@ extension ApiClient {
             completion?(ResultResult<T, ApiError>.t(error: error))
         } else if let value = response.result.value {
             logMessage(.info, type: CoreLoggingOptions.networking, message: response.logMessage)
-            updateToken(response)
             completion?(ResultResult<T, ApiError>.t(value: value))
         }
     }
@@ -160,6 +159,45 @@ extension ApiClient {
 // MARK: > Pre-request
 
 private extension ApiClient {
+    /**
+     Decodes the given response's request and returns a token.
+     - parameter response: The request response.
+     - returns: The token with value as `"Bearer <token>"`.
+     */
+    func decodeRequestToken<T>(_ response: DataResponse<T>) -> Token? {
+        guard let authorization = response.request?.allHTTPHeaderFields?["Authorization"] else {
+            return nil
+        }
+        return decodeAuthInfo(authorization)
+    }
+    
+    /**
+     Decodes the given auth info and returns a token.
+     - parameter authInfo: The auth info.
+     - returns: The token with value as `"Bearer <token>"`.
+     */
+    func decodeAuthInfo(_ authInfo: String) -> Token? {
+        guard let token = authInfo.lastComponentSeparatedByCharacter(" ") else {
+            logMessage(.error, type: [CoreLoggingOptions.networking, CoreLoggingOptions.token],
+                       message: "Invalid JWT with wrong format; authentication-info: \(authInfo)")
+            report(CoreReportNetworking.invalidJWT(reason: .wrongFormat),
+                   message: "authentication-info: \(authInfo)")
+            return nil
+        }
+        guard let authLevel = token.tokenAuthLevel else {
+            if !token.isPasswordRecoveryToken {
+                logMessage(.error, type: [CoreLoggingOptions.networking, CoreLoggingOptions.token],
+                           message: "Invalid JWT with unknown auth level; authentication-info: \(authInfo)")
+                report(CoreReportNetworking.invalidJWT(reason: .unknownAuthLevel),
+                       message: "authentication-info: \(authInfo)")
+            }
+            return nil
+        }
+        
+        
+        return Token(value: authInfo, level: authLevel)
+    }
+
     /**
      Renews a token if needed. If a request requires an installation it might create it.
 
@@ -352,82 +390,6 @@ private extension ApiClient {
                 }
             }
         }
-    }
-}
-
-
-// MARK: - Private methods (legacy)
-// ABIOS-2717: to be removed
-
-private extension ApiClient {
-
-    /**
-     Checks the HTTP response headers to check if token should be renewed.
-     - parameter response: The HTTP response.
-     - returns: If token should be renewed.
-     */
-    func updateToken<T>(_ response: DataResponse<T>) {
-        guard let token = decodeToken(response) else { return }
-        if let sessionManager = sessionManager, token.level == .user && !sessionManager.loggedIn {
-            logMessage(.error, type: [CoreLoggingOptions.networking, CoreLoggingOptions.token],
-                        message: "Received user token and the user is not logged in")
-            return
-        }
-        tokenDAO.save(token)
-    }
-
-    /**
-     Decodes the given response and returns a token.
-     - parameter response: The request response.
-     - returns: The token with value as `"Bearer <token>"`.
-     */
-    func decodeToken<T>(_ response: DataResponse<T>) -> Token? {
-        // 👀 Stubs or alamofire somehow change authentication-info by Authentication-Info magically...
-        let authenticationData: Any? = (response.response?.allHeaderFields["authentication-info"] ??
-            response.response?.allHeaderFields["Authentication-Info"])
-        guard let authenticationInfo = authenticationData as? String else {
-            return nil
-        }
-        return decodeAuthInfo(authenticationInfo)
-    }
-
-    /**
-     Decodes the given response's request and returns a token.
-     - parameter response: The request response.
-     - returns: The token with value as `"Bearer <token>"`.
-     */
-    func decodeRequestToken<T>(_ response: DataResponse<T>) -> Token? {
-        guard let authorization = response.request?.allHTTPHeaderFields?["Authorization"] else {
-            return nil
-        }
-        return decodeAuthInfo(authorization)
-    }
-
-    /**
-     Decodes the given auth info and returns a token.
-     - parameter authInfo: The auth info.
-     - returns: The token with value as `"Bearer <token>"`.
-     */
-    func decodeAuthInfo(_ authInfo: String) -> Token? {
-        guard let token = authInfo.lastComponentSeparatedByCharacter(" ") else {
-            logMessage(.error, type: [CoreLoggingOptions.networking, CoreLoggingOptions.token],
-                       message: "Invalid JWT with wrong format; authentication-info: \(authInfo)")
-            report(CoreReportNetworking.invalidJWT(reason: .wrongFormat),
-                   message: "authentication-info: \(authInfo)")
-            return nil
-        }
-        guard let authLevel = token.tokenAuthLevel else {
-            if !token.isPasswordRecoveryToken {
-                logMessage(.error, type: [CoreLoggingOptions.networking, CoreLoggingOptions.token],
-                           message: "Invalid JWT with unknown auth level; authentication-info: \(authInfo)")
-                report(CoreReportNetworking.invalidJWT(reason: .unknownAuthLevel),
-                       message: "authentication-info: \(authInfo)")
-            }
-            return nil
-        }
-
-
-        return Token(value: authInfo, level: authLevel)
     }
 }
 
