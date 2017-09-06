@@ -33,7 +33,6 @@ final class AppDelegate: UIResponder {
 
     fileprivate var listingRepository: ListingRepository?
     fileprivate var locationManager: LocationManager?
-    fileprivate var locationRepository: LocationRepository?
     fileprivate var sessionManager: SessionManager?
     fileprivate var featureFlags: FeatureFlaggeable?
     fileprivate var purchasesShopper: PurchasesShopper?
