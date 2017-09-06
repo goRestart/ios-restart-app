@@ -55,21 +55,21 @@ struct FailedBumpInfo {
         self.numRetries = numRetries
     }
 
-    init?(dict: [String:String?]) {
-        guard let listingId = dict[FailedBumpInfo.listingIdKey] as? String else { return nil }
-        guard let paymentId = dict[FailedBumpInfo.paymentIdKey] as? String else { return nil }
-        guard let receiptData = dict[FailedBumpInfo.receiptDataKey] as? String else { return nil }
-        guard let itemId = dict[FailedBumpInfo.itemIdKey] as? String else { return nil }
-        guard let itemPrice = dict[FailedBumpInfo.itemPriceKey] as? String else { return nil }
-        guard let itemCurrency = dict[FailedBumpInfo.itemCurrencyKey] as? String else { return nil }
-        guard let numRetriesString = dict[FailedBumpInfo.numRetriesKey] as? String, let numRetries = Int(numRetriesString) else { return nil }
+    init?(dictionary: [String:String?]) {
+        guard let listingId = dictionary[FailedBumpInfo.listingIdKey] as? String else { return nil }
+        guard let paymentId = dictionary[FailedBumpInfo.paymentIdKey] as? String else { return nil }
+        guard let receiptData = dictionary[FailedBumpInfo.receiptDataKey] as? String else { return nil }
+        guard let itemId = dictionary[FailedBumpInfo.itemIdKey] as? String else { return nil }
+        guard let itemPrice = dictionary[FailedBumpInfo.itemPriceKey] as? String else { return nil }
+        guard let itemCurrency = dictionary[FailedBumpInfo.itemCurrencyKey] as? String else { return nil }
+        guard let numRetriesString = dictionary[FailedBumpInfo.numRetriesKey] as? String, let numRetries = Int(numRetriesString) else { return nil }
 
-        let transactionId = dict[FailedBumpInfo.transactionIdKey] as? String
+        let transactionId = dictionary[FailedBumpInfo.transactionIdKey] as? String
 
-        let amplitudeId = dict[FailedBumpInfo.amplitudeIdKey] as? String
-        let appsflyerId = dict[FailedBumpInfo.appsflyerIdKey] as? String
-        let idfa = dict[FailedBumpInfo.idfaKey] as? String
-        let bundleId = dict[FailedBumpInfo.bundleIdKey] as? String
+        let amplitudeId = dictionary[FailedBumpInfo.amplitudeIdKey] as? String
+        let appsflyerId = dictionary[FailedBumpInfo.appsflyerIdKey] as? String
+        let idfa = dictionary[FailedBumpInfo.idfaKey] as? String
+        let bundleId = dictionary[FailedBumpInfo.bundleIdKey] as? String
 
         self.init(listingId: listingId,
                   transactionId: transactionId,
@@ -180,7 +180,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
     private var monetizationRepository: MonetizationRepository
     private var myUserRepository: MyUserRepository
     private var installationRepository: InstallationRepository
-    fileprivate let keyValueStorage: KeyValueStorage
+    fileprivate let keyValueStorage: KeyValueStorageable
     private var receiptURLProvider: ReceiptURLProvider
     fileprivate var paymentQueue: PaymentEnqueuable
     fileprivate var appstoreProductsCache: [String : SKProduct] = [:]
@@ -223,7 +223,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
          monetizationRepository: MonetizationRepository,
          myUserRepository: MyUserRepository,
          installationRepository: InstallationRepository,
-         keyValueStorage: KeyValueStorage,
+         keyValueStorage: KeyValueStorageable,
          paymentQueue: PaymentEnqueuable,
          receiptURLProvider: ReceiptURLProvider) {
         self.monetizationRepository = monetizationRepository
@@ -268,12 +268,8 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
 
         for (listingId, bumpInfo) in failedBumps {
             guard let bumpDict = bumpInfo as? [String:String?] else { continue }
-            guard let bump = FailedBumpInfo(dict: bumpDict) else { continue }
-            if bump.numRetries >= Constants.maxRestoreRetries {
-                remove(transaction: bump.transactionId)
-                removeFailedBumpInfoFor(listingId: listingId)
-                continue
-            }
+            guard let bump = FailedBumpInfo(dictionary: bumpDict) else { continue }
+
             requestBumpWithPaymentInfo(listingId: listingId, transaction: nil, type: .restore, currentBump: bump)
         }
     }
@@ -309,8 +305,8 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
     func isBumpUpPending(forListingId listingId: String) -> Bool {
         let failedBumpsDict = keyValueStorage.userFailedBumpsInfo
 
-        if let bumpDict = failedBumpsDict[listingId] as? [String:String?], let bump = FailedBumpInfo(dict: bumpDict) {
-            if bump.numRetries <= Constants.maxRestoreRetries {
+        if let bumpDict = failedBumpsDict[listingId] as? [String:String?], let bump = FailedBumpInfo(dictionary: bumpDict) {
+            if bump.numRetries <= Constants.maxRetriesForBumpUpRestore {
                 return true
             } else {
                 remove(transaction: bump.transactionId)
@@ -444,11 +440,17 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
     private func requestBumpWithPaymentInfo(listingId: String, transaction: SKPaymentTransaction?,
                                             type: BumpUpType, currentBump: FailedBumpInfo) {
 
+        guard currentBump.numRetries < Constants.maxRetriesForBumpUpRestore  else {
+            remove(transaction: currentBump.transactionId)
+            removeFailedBumpInfoFor(listingId: listingId)
+            return
+        }
+
         var bump = currentBump
         let retryCount: Int
         switch type {
         case .priced:
-            retryCount = Constants.bumpNumRetries
+            retryCount = Constants.maxRetriesForFirstTimeBumpUp
         case .restore:
             retryCount = 1
             // increment the num of restore retries made at launch
@@ -526,7 +528,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
                                                                                                               type: type,
                                                                                                               currentBump: currentBump,
                                                                                                               retryCount: retryCount - 1,
-                                                                                                              previousResult: previousResult,
+                                                                                                              previousResult: result,
                                                                                                               completion: completion)
                                                                 } else {
                                                                     completion?(BumpResult(error: error))
@@ -539,7 +541,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
                                                                                                       type: type,
                                                                                                       currentBump: currentBump,
                                                                                                       retryCount: retryCount - 1,
-                                                                                                      previousResult: previousResult,
+                                                                                                      previousResult: result,
                                                                                                       completion: completion)
                                                         }
                                                     }
@@ -714,8 +716,10 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
     }
 
     fileprivate func failedBumpInfoFor(listingId: String) -> FailedBumpInfo? {
+        print(keyValueStorage)
+        print(keyValueStorage.userFailedBumpsInfo)
         guard let dictionary = keyValueStorage.userFailedBumpsInfo[listingId] as? [String:String?] else { return nil }
-        return FailedBumpInfo(dict: dictionary)
+        return FailedBumpInfo(dictionary: dictionary)
     }
 
     fileprivate func removeFailedBumpInfoFor(listingId: String) {
