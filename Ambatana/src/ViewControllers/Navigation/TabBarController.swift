@@ -29,6 +29,7 @@ final class TabBarController: UITabBarController {
     fileprivate let viewModel: TabBarViewModel
     fileprivate var tooltip: Tooltip?
     fileprivate var featureFlags: FeatureFlaggeable
+    fileprivate let tracker: Tracker
     
     // Rx
     fileprivate let disposeBag = DisposeBag()
@@ -41,12 +42,14 @@ final class TabBarController: UITabBarController {
 
     convenience init(viewModel: TabBarViewModel) {
         let featureFlags = FeatureFlags.sharedInstance
-        self.init(viewModel: viewModel, featureFlags: featureFlags)
+        let tracker = TrackerProxy.sharedInstance
+        self.init(viewModel: viewModel, featureFlags: featureFlags, tracker: tracker)
     }
     
-    init(viewModel: TabBarViewModel, featureFlags: FeatureFlaggeable) {
+    init(viewModel: TabBarViewModel, featureFlags: FeatureFlaggeable, tracker: Tracker) {
         self.viewModel = viewModel
         self.featureFlags = featureFlags
+        self.tracker = tracker
         self.floatingSellButton = FloatingButton(with: LGLocalizedString.tabBarToolTip, image: UIImage(named: "ic_sell_white"), position: .left)
         super.init(nibName: nil, bundle: nil)
     }
@@ -276,6 +279,8 @@ extension TabBarController: ExpandableCategorySelectionDelegate {
     }
     func categoryButtonDidPressed(listingCategory: ListingCategory) {
         floatingSellButton.showWithAnimation()
+        let event = TrackerEvent.listingSellYourStuffButton()
+        tracker.trackEvent(event)
         viewModel.expandableButtonPressed(listingCategory: listingCategory)
     }
 }

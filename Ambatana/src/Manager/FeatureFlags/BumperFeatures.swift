@@ -470,7 +470,7 @@ enum ExpandableCategorySelectionMenu: String, BumperFeature  {
     static var defaultValue: String { return ExpandableCategorySelectionMenu.control.rawValue }
     static var enumValues: [ExpandableCategorySelectionMenu] { return [.control, .baseline, .expandableMenu]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show 'salchichas' menu on sell your staff button" } 
+    static var description: String { return "Show 'salchichas' menu on sell your stuff button" } 
     static func fromPosition(_ position: Int) -> ExpandableCategorySelectionMenu {
         switch position { 
             case 0: return .control
