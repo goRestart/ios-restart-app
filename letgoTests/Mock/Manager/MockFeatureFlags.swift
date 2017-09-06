@@ -32,7 +32,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var newOnboardingPhase1: Bool = false
     var searchParamDisc129: SearchParamDisc129 = .disc129a
     var inAppRatingIOS10: Bool = false
-    var suggestedSearches: SuggestedSearches = .control
     var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed = .control
     var superKeywordsOnOnboarding: SuperKeywordsOnOnboarding = .control
     var copiesImprovementOnboarding: CopiesImprovementOnboarding = .control
