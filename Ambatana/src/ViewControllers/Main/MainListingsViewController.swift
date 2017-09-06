@@ -18,21 +18,17 @@ enum SearchSuggestionType {
     case lastSearch
     case trending
     
-    static func sectionType(index: Int, isSuggestedSearchesEnabled: Bool) -> SearchSuggestionType? {
+    static func sectionType(index: Int) -> SearchSuggestionType? {
         switch index {
-        case 0:
-            return isSuggestedSearchesEnabled ? .suggestive : .lastSearch
-        case 1:
-            return isSuggestedSearchesEnabled ? .lastSearch : .trending
-        case 2:
-            return isSuggestedSearchesEnabled ? .trending : nil
-        default:
-            return nil
+        case 0: return .suggestive
+        case 1: return .lastSearch
+        case 2: return .trending
+        default: return nil
         }
     }
     
-    static func numberOfSections(isSuggestedSearchesEnabled: Bool) -> Int {
-        return isSuggestedSearchesEnabled ? 3 : 2
+    static var numberOfSections: Int {
+        return 3
     }
 }
 
@@ -454,18 +450,17 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
             strongSelf.topInset.value = strongSelf.topBarHeight + tagsHeight + strongSelf.filterHeadersHeight
         }.addDisposableTo(disposeBag)
         
-        if viewModel.isSuggestedSearchesEnabled {
-            navbarSearch.searchTextField?.rx.text.asObservable()
-                .subscribeNext { [weak self] text in
-                    guard let term = text else { return }
-                    guard let charactersCount = text?.characters.count else { return }
-                    if (charactersCount > 0) {
-                        self?.viewModel.retrieveSuggestiveSearches(term: term)
-                    } else {
-                        self?.viewModel.cleanUpSuggestiveSearches()
-                    }
-            }.addDisposableTo(disposeBag)
-        }
+        navbarSearch.searchTextField?.rx.text.asObservable()
+            .subscribeNext { [weak self] text in
+                guard let term = text else { return }
+                guard let charactersCount = text?.characters.count else { return }
+                if (charactersCount > 0) {
+                    self?.viewModel.retrieveSuggestiveSearches(term: term)
+                } else {
+                    self?.viewModel.cleanUpSuggestiveSearches()
+                }
+        }.addDisposableTo(disposeBag)
+        
         navbarSearch.searchTextField.rx.text.asObservable().bindTo(viewModel.searchText).addDisposableTo(disposeBag)
     }
 }
@@ -553,8 +548,7 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        guard let sectionType = SearchSuggestionType.sectionType(index: section,
-                                                                 isSuggestedSearchesEnabled: viewModel.isSuggestedSearchesEnabled) else { return 0 }
+        guard let sectionType = SearchSuggestionType.sectionType(index: section) else { return 0 }
         switch sectionType {
         case .suggestive:
             return viewModel.suggestiveCounter > 0 ? sectionHeight : 0
@@ -603,8 +597,7 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
         container.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:[clear]-horizontalMarginHeaderView-|",
             options: [], metrics: metrics, views: views))
         
-        guard let sectionType = SearchSuggestionType.sectionType(index: section,
-                                                                 isSuggestedSearchesEnabled: viewModel.isSuggestedSearchesEnabled) else { return UIView() }
+        guard let sectionType = SearchSuggestionType.sectionType(index: section) else { return UIView() }
         switch sectionType {
         case .suggestive:
             clearButton.isHidden = true
@@ -638,7 +631,7 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
     // MARK: > TableView
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return SearchSuggestionType.numberOfSections(isSuggestedSearchesEnabled: viewModel.isSuggestedSearchesEnabled)
+        return SearchSuggestionType.numberOfSections
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -646,9 +639,7 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let sectionType = SearchSuggestionType.sectionType(index: section,
-                                                                 isSuggestedSearchesEnabled: viewModel.isSuggestedSearchesEnabled)
-            else { return 0 }
+        guard let sectionType = SearchSuggestionType.sectionType(index: section) else { return 0 }
         switch sectionType {
         case .suggestive:
             return viewModel.suggestiveCounter
@@ -660,9 +651,7 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let sectionType = SearchSuggestionType.sectionType(index: indexPath.section,
-                                                                 isSuggestedSearchesEnabled: viewModel.isSuggestedSearchesEnabled)
-            else { return UITableViewCell() }
+        guard let sectionType = SearchSuggestionType.sectionType(index: indexPath.section) else { return UITableViewCell() }
         guard let cell = tableView.dequeueReusableCell(withIdentifier: SuggestionSearchCell.reusableID,
                             for: indexPath) as? SuggestionSearchCell else { return UITableViewCell() }
         switch sectionType {
@@ -682,8 +671,7 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let sectionType = SearchSuggestionType.sectionType(index: indexPath.section,
-                                                                 isSuggestedSearchesEnabled: viewModel.isSuggestedSearchesEnabled) else { return }
+        guard let sectionType = SearchSuggestionType.sectionType(index: indexPath.section) else { return }
         switch sectionType {
         case .suggestive:
             viewModel.selectedSuggestiveSearchAtIndex(indexPath.row)

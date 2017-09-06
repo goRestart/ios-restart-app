@@ -25,7 +25,6 @@ extension Bumper  {
         flags.append(NewCarsMultiRequesterEnabled.self)
         flags.append(NewOnboardingPhase1.self)
         flags.append(InAppRatingIOS10.self)
-        flags.append(SuggestedSearches.self)
         flags.append(AddSuperKeywordsOnFeed.self)
         flags.append(SuperKeywordsOnOnboarding.self)
         flags.append(CopiesImprovementOnboarding.self)
@@ -99,11 +98,6 @@ extension Bumper  {
     static var inAppRatingIOS10: Bool {
         guard let value = Bumper.value(for: InAppRatingIOS10.key) else { return false }
         return InAppRatingIOS10(rawValue: value)?.asBool ?? false
-    }
-
-    static var suggestedSearches: SuggestedSearches {
-        guard let value = Bumper.value(for: SuggestedSearches.key) else { return .control }
-        return SuggestedSearches(rawValue: value) ?? .control 
     }
 
     static var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed {
@@ -279,22 +273,6 @@ enum InAppRatingIOS10: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "New in-app rating for iOS 10.3+" } 
     var asBool: Bool { return self == .yes }
-}
-
-enum SuggestedSearches: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return SuggestedSearches.control.rawValue }
-    static var enumValues: [SuggestedSearches] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "New suggested searches section" } 
-    static func fromPosition(_ position: Int) -> SuggestedSearches {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
 }
 
 enum AddSuperKeywordsOnFeed: String, BumperFeature  {
