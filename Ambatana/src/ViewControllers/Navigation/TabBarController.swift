@@ -279,7 +279,7 @@ extension TabBarController: ExpandableCategorySelectionDelegate {
     }
     func categoryButtonDidPressed(listingCategory: ListingCategory) {
         floatingSellButton.showWithAnimation()
-        let event = TrackerEvent.listingSellYourStaffButton()
+        let event = TrackerEvent.listingSellYourStuffButton()
         tracker.trackEvent(event)
         viewModel.expandableButtonPressed(listingCategory: listingCategory)
     }

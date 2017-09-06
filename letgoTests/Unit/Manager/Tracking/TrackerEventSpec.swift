@@ -3811,12 +3811,12 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
             
-            describe("product sell your staff button") {
+            describe("product sell your stuff button") {
                 beforeEach {
-                    sut = TrackerEvent.listingSellYourStaffButton()
+                    sut = TrackerEvent.listingSellYourStuffButton()
                 }
                 it("has its event name") {
-                    expect(sut.name.rawValue).to(equal("product-sell-your-staff-button"))
+                    expect(sut.name.rawValue).to(equal("product-sell-your-stuff-button"))
                 }
             }
         }

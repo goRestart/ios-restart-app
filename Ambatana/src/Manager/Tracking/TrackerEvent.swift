@@ -1087,9 +1087,9 @@ struct TrackerEvent {
         return TrackerEvent(name: .categoriesComplete, params: params)
     }
     
-    static func listingSellYourStaffButton() -> TrackerEvent {
+    static func listingSellYourStuffButton() -> TrackerEvent {
         let params = EventParameters()
-        return TrackerEvent(name: .listingSellYourStaffButton, params: params)
+        return TrackerEvent(name: .listingSellYourStuffButton, params: params)
     }
 
 

@@ -58,7 +58,7 @@ enum EventName: String {
     
     case listingReport                      = "product-detail-report"
     
-    case listingSellYourStaffButton         = "product-sell-your-staff-button"
+    case listingSellYourStuffButton         = "product-sell-your-stuff-button"
     case listingSellStart                   = "product-sell-start"
     case listingSellComplete                = "product-sell-complete"
     case listingSellComplete24h             = "product-sell-complete-24h"
