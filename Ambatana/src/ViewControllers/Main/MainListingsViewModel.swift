@@ -64,15 +64,6 @@ class MainListingsViewModel: BaseViewModel {
         return !filters.isDefault()
     }
     
-    var isSuggestedSearchesEnabled: Bool {
-        switch featureFlags.suggestedSearches {
-        case .control, .baseline:
-            return false
-        case .active:
-            return true
-        }
-    }
-    
     var isAddSuperKeywordsEnabled: Bool {
         return featureFlags.addSuperKeywordsOnFeed.isActive
     }
@@ -904,7 +895,6 @@ extension MainListingsViewModel {
     }
     
     func retrieveSuggestiveSearches(term: String) {
-        guard isSuggestedSearchesEnabled else { return }
         guard let languageCode = Locale.current.languageCode else { return }
         
         searchRepository.retrieveSuggestiveSearches(languageCode, limit: 10, term: term) { [weak self] result in
