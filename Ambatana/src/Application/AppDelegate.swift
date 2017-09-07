@@ -141,11 +141,6 @@ extension AppDelegate: UIApplicationDelegate {
         LGCoreKit.applicationDidEnterBackground()
         listingRepository?.updateListingViewCounts()
         TrackerProxy.sharedInstance.applicationDidEnterBackground(application)
-
-        // stop observing payment transactions
-        if let actualFeatureFlags = featureFlags, actualFeatureFlags.pricedBumpUpEnabled {
-            purchasesShopper?.stopObservingTransactions()
-        }
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -165,11 +160,6 @@ extension AppDelegate: UIApplicationDelegate {
         PushManager.sharedInstance.applicationDidBecomeActive(application)
         TrackerProxy.sharedInstance.applicationDidBecomeActive(application)
         navigator?.openSurveyIfNeeded()
-        // observe payment transactions
-        if let actualFeatureFlags = featureFlags, actualFeatureFlags.pricedBumpUpEnabled {
-            purchasesShopper?.startObservingTransactions()
-            purchasesShopper?.restoreFailedBumps()
-        }
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -352,6 +342,22 @@ fileprivate extension AppDelegate {
                 self?.navigator?.openForceUpdateAlertIfNeeded()
             }
         }.addDisposableTo(disposeBag)
+
+        if let featureFlags = featureFlags {
+            let featureFlagsSynced = featureFlags.syncedData.asObservable().distinctUntilChanged()
+            Observable.combineLatest(appActive.asObservable(), featureFlagsSynced.asObservable()) { ($0, $1) }
+                .bindNext { [weak self] (appActive, featureFlagsSyncedData) in
+                    guard featureFlags.pricedBumpUpEnabled else { return }
+                    if appActive {
+                        // observe payment transactions
+                        self?.purchasesShopper?.startObservingTransactions()
+                        self?.purchasesShopper?.restoreFailedBumps()
+                    } else {
+                        // stop observing payment transactions
+                        self?.purchasesShopper?.stopObservingTransactions()
+                    }
+                }.addDisposableTo(disposeBag)
+        }
     }
 }
 
