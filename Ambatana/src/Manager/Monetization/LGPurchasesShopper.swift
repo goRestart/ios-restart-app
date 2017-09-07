@@ -62,7 +62,9 @@ struct FailedBumpInfo {
         guard let itemId = dictionary[FailedBumpInfo.itemIdKey] as? String else { return nil }
         guard let itemPrice = dictionary[FailedBumpInfo.itemPriceKey] as? String else { return nil }
         guard let itemCurrency = dictionary[FailedBumpInfo.itemCurrencyKey] as? String else { return nil }
-        guard let numRetriesString = dictionary[FailedBumpInfo.numRetriesKey] as? String, let numRetries = Int(numRetriesString) else { return nil }
+        guard let numRetriesString = dictionary[FailedBumpInfo.numRetriesKey] as? String,
+            let numRetries = Int(numRetriesString)
+            else { return nil }
 
         let transactionId = dictionary[FailedBumpInfo.transactionIdKey] as? String
 
@@ -162,8 +164,9 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
     static let sharedInstance: PurchasesShopper = LGPurchasesShopper()
 
     fileprivate var receiptString: String? {
-        guard let receiptUrl = receiptURLProvider.appStoreReceiptURL else { return nil }
-        guard let receiptData = try? Data(contentsOf: receiptUrl) else { return nil }
+        guard let receiptUrl = receiptURLProvider.appStoreReceiptURL,
+            let receiptData = try? Data(contentsOf: receiptUrl)
+            else { return nil }
         return receiptData.base64EncodedString()
     }
 
@@ -267,8 +270,9 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         let failedBumps = keyValueStorage.userFailedBumpsInfo
 
         for (listingId, bumpInfo) in failedBumps {
-            guard let bumpDict = bumpInfo as? [String:String?] else { continue }
-            guard let bump = FailedBumpInfo(dictionary: bumpDict) else { continue }
+            guard let bumpDict = bumpInfo as? [String:String?],
+                let bump = FailedBumpInfo(dictionary: bumpDict)
+                else { continue }
 
             requestBumpWithPaymentInfo(listingId: listingId, transaction: nil, type: .restore, currentBump: bump)
         }
@@ -305,16 +309,16 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
     func isBumpUpPending(forListingId listingId: String) -> Bool {
         let failedBumpsDict = keyValueStorage.userFailedBumpsInfo
 
-        if let bumpDict = failedBumpsDict[listingId] as? [String:String?], let bump = FailedBumpInfo(dictionary: bumpDict) {
-            if bump.numRetries <= Constants.maxRetriesForBumpUpRestore {
-                return true
-            } else {
-                remove(transaction: bump.transactionId)
-                removeFailedBumpInfoFor(listingId: listingId)
-                return false
-            }
+        guard let bumpDict = failedBumpsDict[listingId] as? [String:String?],
+            let bump = FailedBumpInfo(dictionary: bumpDict) else { return false }
+
+        if bump.numRetries <= Constants.maxRetriesForBumpUpRestore {
+            return true
+        } else {
+            removeFormUserDefaults(transactionId: bump.transactionId)
+            removeFormUserDefaultsBumpUpWithListingId(listingId: listingId)
+            return false
         }
-        return false
     }
 
     /**
@@ -324,8 +328,9 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         guard canMakePayments else { return }
         purchasesShopperState = .purchasing
         guard let appstoreProducts = letgoProductsDict[listingId],
-              let appstoreChosenProduct = appstoreProduct as? SKProduct else { return }
-        guard appstoreProducts.contains(appstoreChosenProduct) else { return }
+            let appstoreChosenProduct = appstoreProduct as? SKProduct,
+            appstoreProducts.contains(appstoreChosenProduct)
+            else { return }
 
         delegate?.pricedBumpDidStart()
 
@@ -361,7 +366,9 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
     func restorePaidBumpUp(forListingId listingId: String) {
         guard canMakePayments else { return }
 
-        guard let bump = failedBumpInfoFor(listingId: listingId), let bumpTransactionId = bump.transactionId else { return }
+        guard let bump = failedBumpInfoFor(listingId: listingId),
+            let bumpTransactionId = bump.transactionId
+            else { return }
 
         let pendingTransactions = paymentQueue.transactions
         // get the pending SKPaymentTransactions of the product
@@ -376,7 +383,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
 
         if pendingTransactionsForProductId.count > 0 {
             // listing id still has SKPaymentTransactions in the paymentQueue
-            // we need to pas the transaction to finish it in case
+            // we need to pass the transaction to finish it in case
             for transaction in pendingTransactionsForProductId {
                 requestBumpWithPaymentInfo(listingId: listingId, transaction: transaction, type: .restore, currentBump: bump)
             }
@@ -441,8 +448,8 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
                                             type: BumpUpType, currentBump: FailedBumpInfo) {
 
         guard currentBump.numRetries < Constants.maxRetriesForBumpUpRestore  else {
-            remove(transaction: currentBump.transactionId)
-            removeFailedBumpInfoFor(listingId: listingId)
+            removeFormUserDefaults(transactionId: currentBump.transactionId)
+            removeFormUserDefaultsBumpUpWithListingId(listingId: listingId)
             return
         }
 
@@ -464,8 +471,8 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
                                             retryCount: retryCount, previousResult: nil) { [weak self] result in
 
                                                 if let _ = result.value {
-                                                    self?.remove(transaction: transaction?.transactionIdentifier ?? bump.transactionId)
-                                                    self?.removeFailedBumpInfoFor(listingId: listingId)
+                                                    self?.removeFormUserDefaults(transactionId: transaction?.transactionIdentifier ?? bump.transactionId)
+                                                    self?.removeFormUserDefaultsBumpUpWithListingId(listingId: listingId)
                                                     if let transaction = transaction {
                                                         self?.paymentQueue.finishTransaction(transaction)
                                                     }
@@ -476,10 +483,10 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
                                                         if let code = code {
                                                             let bumpError = BumpFailedErrorCode(code: code)
                                                             if !bumpError.isUsersFault {
-                                                                self?.save(bumpUp: bump)
+                                                                self?.saveToUserDefaults(bumpUp: bump)
                                                             } else {
-                                                                self?.remove(transaction: transaction?.transactionIdentifier ?? bump.transactionId)
-                                                                self?.removeFailedBumpInfoFor(listingId: listingId)
+                                                                self?.removeFormUserDefaults(transactionId: transaction?.transactionIdentifier ?? bump.transactionId)
+                                                                self?.removeFormUserDefaultsBumpUpWithListingId(listingId: listingId)
                                                                 if let transaction = transaction {
                                                                     self?.paymentQueue.finishTransaction(transaction)
                                                                 }
@@ -487,7 +494,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
                                                         }
                                                     case .forbidden, .internalError, .network, .notFound, .tooManyRequests,
                                                          .unauthorized, .userNotVerified, .wsChatError:
-                                                        self?.save(bumpUp: bump)
+                                                        self?.saveToUserDefaults(bumpUp: bump)
                                                     }
                                                     self?.delegate?.pricedBumpDidFail(type: type)
                                                 }
@@ -555,7 +562,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         // Payments queue cleaning
         let savedTransactions = paymentQueue.transactions
         let savedTransactionIds = savedTransactions.flatMap { $0.transactionIdentifier }
-        let savedTransactionsDict = keyValueStorage.userPendingTransactionsProductIds.filter(keys: savedTransactionIds)
+        let savedTransactionsDict = keyValueStorage.userPendingTransactionsListingIds.filter(keys: savedTransactionIds)
 
         for transaction in savedTransactions {
 
@@ -567,11 +574,11 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
             }
         }
 
-        // with clean payments queue, we do "keyValueStorage.userPendingTransactionsProductIds" cleaning
+        // with clean payments queue, we do "keyValueStorage.userPendingTransactionsListingIds" cleaning
         let cleanTransactions = paymentQueue.transactions
         let cleanTransactionIds = cleanTransactions.flatMap { $0.transactionIdentifier }
         let cleanTransactionsDict = savedTransactionsDict.filter(keys: cleanTransactionIds)
-        keyValueStorage.userPendingTransactionsProductIds = cleanTransactionsDict
+        keyValueStorage.userPendingTransactionsListingIds = cleanTransactionsDict
     }
 }
 
@@ -629,7 +636,7 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
             switch transaction.transactionState {
             case .purchasing:
                 // this avoids duplicated transactions for a product
-                remove(transaction: transaction.transactionIdentifier)
+                removeFormUserDefaults(transactionId: transaction.transactionIdentifier)
             case .deferred, .restored:
                 /*
                  those status will never happen:
@@ -639,7 +646,7 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
                 continue
             case .purchased:
                 purchasesShopperState = .restoring
-                save(transaction: transaction, forProduct: paymentProcessingProductId)
+                saveToUserDefaults(transaction: transaction, forProduct: paymentProcessingProductId)
 
                 guard let receiptString = receiptString, let paymentProcessingProductId = paymentProcessingProductId else {
                     delegate?.pricedBumpDidFail(type: .priced)
@@ -666,7 +673,7 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
                 let transactionProductId = productIdFor(transaction: transaction) ?? paymentProcessingProductId
 
                 guard let productId = transactionProductId, let receiptString = receiptString else {
-                    remove(transaction: transaction.transactionIdentifier)
+                    removeFormUserDefaults(transactionId: transaction.transactionIdentifier)
                     queue.finishTransaction(transaction)
                     delegate?.pricedBumpDidFail(type: .priced)
                     continue
@@ -681,33 +688,33 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
         }
     }
 
-    fileprivate func save(transaction: SKPaymentTransaction, forProduct productId: String?) {
+    fileprivate func saveToUserDefaults(transaction: SKPaymentTransaction, forProduct productId: String?) {
         guard let transactionId = transaction.transactionIdentifier, let productId = productId else { return }
 
-        var transactionsDict = keyValueStorage.userPendingTransactionsProductIds
+        var transactionsDict = keyValueStorage.userPendingTransactionsListingIds
         let alreadySaved = transactionsDict.filter { $0.key == transactionId }.count > 0
 
         if !alreadySaved {
             transactionsDict[transactionId] = productId
-            keyValueStorage.userPendingTransactionsProductIds = transactionsDict
+            keyValueStorage.userPendingTransactionsListingIds = transactionsDict
         }
     }
 
     fileprivate func productIdFor(transaction: SKPaymentTransaction) -> String? {
         guard let transactionId = transaction.transactionIdentifier else { return nil }
-        return keyValueStorage.userPendingTransactionsProductIds[transactionId]
+        return keyValueStorage.userPendingTransactionsListingIds[transactionId]
     }
 
-    fileprivate func remove(transaction transactionId: String?) {
+    fileprivate func removeFormUserDefaults(transactionId: String?) {
         // remove transaction ids (apple's restore)
         guard let transactionId = transactionId else { return }
-        var transactionsDict = keyValueStorage.userPendingTransactionsProductIds
+        var transactionsDict = keyValueStorage.userPendingTransactionsListingIds
         transactionsDict.removeValue(forKey: transactionId)
-        keyValueStorage.userPendingTransactionsProductIds = transactionsDict
+        keyValueStorage.userPendingTransactionsListingIds = transactionsDict
     }
 
 
-    fileprivate func save(bumpUp bumpInfo: FailedBumpInfo?) {
+    fileprivate func saveToUserDefaults(bumpUp bumpInfo: FailedBumpInfo?) {
         guard let bumpInfo = bumpInfo else { return }
 
         var failedBumpsDict = keyValueStorage.userFailedBumpsInfo
@@ -722,7 +729,7 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
         return FailedBumpInfo(dictionary: dictionary)
     }
 
-    fileprivate func removeFailedBumpInfoFor(listingId: String) {
+    fileprivate func removeFormUserDefaultsBumpUpWithListingId(listingId: String) {
         // remove failed bump ups info (letgo's restore)
         var userFailedBumpsDict = keyValueStorage.userFailedBumpsInfo
         userFailedBumpsDict.removeValue(forKey: listingId)
