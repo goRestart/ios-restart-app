@@ -232,14 +232,14 @@ extension KeyValueStorageable {
         }
     }
 
-    var userPendingTransactionsProductIds: [String:String] {
+    var userPendingTransactionsListingIds: [String:String] {
         get {
-            return currentUserProperties?.pendingTransactionsProductIds ??
+            return currentUserProperties?.pendingTransactionsListingIds ??
                 UserDefaultsUser.transactionsListingIdsDefaultValue
         }
         set {
             guard var userProperties = currentUserProperties else { return }
-            userProperties.pendingTransactionsProductIds = newValue
+            userProperties.pendingTransactionsListingIds = newValue
             currentUserProperties = userProperties
         }
     }

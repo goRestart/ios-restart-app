@@ -45,7 +45,7 @@ struct UserDefaultsUser {
     var listingsWithExpressChatAlreadyShown: [String]
     var listingsWithExpressChatMessageSent: [String]
     var marketingNotifications: Bool
-    var pendingTransactionsProductIds: [String:String] // [<transactionId> : <productId>]
+    var pendingTransactionsListingIds: [String:String] // [<transactionId> : <productId>]
 
     var failedBumpsInfo: [String:Any] // [<listingId> : <failedBumpInfo>]
 
@@ -64,7 +64,7 @@ struct UserDefaultsUser {
                   listingsWithExpressChatAlreadyShown: UserDefaultsUser.listingsWithExpressChatAlreadyShownDefaultValue,
                   listingsWithExpressChatMessageSent: UserDefaultsUser.listingsWithExpressChatMessageSentDefaultValue,
                   marketingNotifications: UserDefaultsUser.marketingNotificationsDefaultValue,
-                  pendingTransactionsProductIds: UserDefaultsUser.transactionsListingIdsDefaultValue,
+                  pendingTransactionsListingIds: UserDefaultsUser.transactionsListingIdsDefaultValue,
                   failedBumpsInfo: UserDefaultsUser.failedBumpsInfoDefaultValue)
     }
 
@@ -82,7 +82,7 @@ struct UserDefaultsUser {
          listingsWithExpressChatAlreadyShown: [String],
          listingsWithExpressChatMessageSent: [String],
          marketingNotifications: Bool,
-         pendingTransactionsProductIds: [String:String],
+         pendingTransactionsListingIds: [String:String],
          failedBumpsInfo: [String:Any]) {
         self.appShared = appShared
         self.userLocationApproximate = userLocationApproximate
@@ -98,7 +98,7 @@ struct UserDefaultsUser {
         self.listingsWithExpressChatAlreadyShown = listingsWithExpressChatAlreadyShown
         self.listingsWithExpressChatMessageSent = listingsWithExpressChatMessageSent
         self.marketingNotifications = marketingNotifications
-        self.pendingTransactionsProductIds = pendingTransactionsProductIds
+        self.pendingTransactionsListingIds = pendingTransactionsListingIds
         self.failedBumpsInfo = failedBumpsInfo
     }
 }
@@ -137,7 +137,7 @@ extension UserDefaultsUser: UserDefaultsDecodable {
                                                                    defaultValue: UserDefaultsUser.listingsWithExpressChatMessageSentDefaultValue)
         let marketingNotifications = dictionary.decode(UserDefaultsUserKey.marketingNotifications.rawValue,
                                                        defaultValue: UserDefaultsUser.marketingNotificationsDefaultValue)
-        let pendingTransactionsProductIds = dictionary.decode(UserDefaultsUserKey.pendingTransactionsProductIds.rawValue, defaultValue: UserDefaultsUser.transactionsListingIdsDefaultValue)
+        let pendingTransactionsListingIds = dictionary.decode(UserDefaultsUserKey.pendingTransactionsListingIds.rawValue, defaultValue: UserDefaultsUser.transactionsListingIdsDefaultValue)
 
         let failedBumpsInfo = dictionary.decode(UserDefaultsUserKey.failedBumpsInfo.rawValue, defaultValue: UserDefaultsUser.failedBumpsInfoDefaultValue)
 
@@ -155,7 +155,7 @@ extension UserDefaultsUser: UserDefaultsDecodable {
                                 listingsWithExpressChatAlreadyShown: listingsWithExpressChatAlreadyShown,
                                 listingsWithExpressChatMessageSent: listingsWithExpressChatMessageSent,
                                 marketingNotifications: marketingNotifications,
-                                pendingTransactionsProductIds: pendingTransactionsProductIds,
+                                pendingTransactionsListingIds: pendingTransactionsListingIds,
                                 failedBumpsInfo: failedBumpsInfo)
     }
 
@@ -180,7 +180,7 @@ extension UserDefaultsUser: UserDefaultsDecodable {
         dict.encode(UserDefaultsUserKey.listingsWithExpressChatAlreadyShown.rawValue, value: listingsWithExpressChatAlreadyShown)
         dict.encode(UserDefaultsUserKey.listingsWithExpressChatMessageSent.rawValue, value: listingsWithExpressChatMessageSent)
         dict.encode(UserDefaultsUserKey.marketingNotifications.rawValue, value: marketingNotifications)
-        dict.encode(UserDefaultsUserKey.pendingTransactionsProductIds.rawValue, value: pendingTransactionsProductIds)
+        dict.encode(UserDefaultsUserKey.pendingTransactionsListingIds.rawValue, value: pendingTransactionsListingIds)
         dict.encode(UserDefaultsUserKey.failedBumpsInfo.rawValue, value: failedBumpsInfo)
 
         return dict
@@ -213,7 +213,7 @@ private enum UserDefaultsUserKey: String {
     case listingsWithExpressChatMessageSent = "productsWithExpressChatMessageSent"
     case marketingNotifications = "marketingNotifications"
 
-    case pendingTransactionsProductIds = "pendingTransactionsProductIds"
+    case pendingTransactionsListingIds = "pendingTransactionsListingIds"
 
     case failedBumpsInfo = "failedBumpsInfo"
 }
