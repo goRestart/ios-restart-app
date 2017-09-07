@@ -177,7 +177,7 @@ enum QuickAnswer {
         case .stillAvailable:
             return QuickAnswerType.availability.name
         case .isNegotiable:
-            return QuickAnswerType.negotiable.name
+            return QuickAnswerType.price.name
         case .listingCondition:
             return QuickAnswerType.condition.name
         case .listingStillForSale:
