@@ -38,6 +38,7 @@ extension Bumper  {
         flags.append(AppRatingDialogInactive.self)
         flags.append(FeedFilterRadiusValues.self)
         flags.append(ExpandableCategorySelectionMenu.self)
+        flags.append(LocationDataSourceEndpoint.self)
         Bumper.initialize(flags)
     } 
 
