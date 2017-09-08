@@ -29,7 +29,7 @@ struct UserDefaultsUser {
     static let marketingNotificationsDefaultValue = true
     static let transactionsListingIdsDefaultValue = [String:String]()
 
-    static let failedBumpsInfoDefaultValue = [String:Any]()
+    static let failedBumpsInfoDefaultValue = [String:[String:String?]]()
 
     var appShared: Bool
     var userLocationApproximate: Bool
@@ -47,7 +47,7 @@ struct UserDefaultsUser {
     var marketingNotifications: Bool
     var pendingTransactionsListingIds: [String:String] // [<transactionId> : <productId>]
 
-    var failedBumpsInfo: [String:Any] // [<listingId> : <failedBumpInfo>]
+    var failedBumpsInfo: [String:[String:String?]] // [<listingId> : <failedBumpInfo>]
 
     init() {
         self.init(appShared: UserDefaultsUser.appSharedDefaultValue,
@@ -83,7 +83,7 @@ struct UserDefaultsUser {
          listingsWithExpressChatMessageSent: [String],
          marketingNotifications: Bool,
          pendingTransactionsListingIds: [String:String],
-         failedBumpsInfo: [String:Any]) {
+         failedBumpsInfo: [String:[String:String?]]) {
         self.appShared = appShared
         self.userLocationApproximate = userLocationApproximate
         self.chatSafetyTipsShown = chatSafetyTipsShown

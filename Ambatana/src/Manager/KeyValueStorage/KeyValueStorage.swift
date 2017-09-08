@@ -244,7 +244,7 @@ extension KeyValueStorageable {
         }
     }
 
-    var userFailedBumpsInfo: [String:Any] {
+    var userFailedBumpsInfo: [String:[String:String?]] {
         get {
             return currentUserProperties?.failedBumpsInfo ??
                 UserDefaultsUser.failedBumpsInfoDefaultValue
