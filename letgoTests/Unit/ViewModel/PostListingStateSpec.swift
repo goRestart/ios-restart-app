@@ -366,8 +366,9 @@ class PostProductStateSpec: BaseViewModelSpec {
                 context("with car as postCategory") {
                     beforeEach {
                         sut = PostListingState(postCategory: .car)
+                        sut = sut.updatingStepToUploadingImages()
                         sut = sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
-                            .updatingAfterUploadingSuccess()
+                        sut = sut.updatingAfterUploadingSuccess()
                     }
                     
                     it("updates the step to price selection") {
@@ -377,6 +378,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                 context("with unassigned as postCategory") {
                     beforeEach {
                         sut = PostListingState(postCategory: .unassigned)
+                        sut = sut.updatingStepToUploadingImages()
                         sut = sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
                             .updatingAfterUploadingSuccess()
                     }
