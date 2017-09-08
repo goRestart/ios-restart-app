@@ -14,7 +14,7 @@ class UriSchemeSpec: QuickSpec {
     override func spec() {
         var sut: UriScheme!
         var url: URL!
-        var productId: String!
+        var listingId: String!
         var message: String!
         var conversationData: ConversationData!
         
@@ -34,43 +34,43 @@ class UriSchemeSpec: QuickSpec {
             
             context("with a product share URL") {
                 beforeEach {
-                    productId = String.makeRandom()
-                    url = URL(string: "letgo://products_share/" + productId)
+                    listingId = String.makeRandom()
+                    url = URL(string: "letgo://products_share/" + listingId)
                     sut = UriScheme.buildFromUrl(url)
                 }
                 it("is not nil") {
                     expect(sut).toNot(beNil())
                 }
                 it("has a deep link with product share action") {
-                    expect(sut.deepLink.action) == DeepLinkAction.productShare(productId: productId)
+                    expect(sut.deepLink.action) == DeepLinkAction.listingShare(listingId: listingId)
                 }
             }
             
             context("with a product mark as sold URL") {
                 beforeEach {
-                    productId = String.makeRandom()
-                    url = URL(string: "letgo://products_mark_as_sold/" + productId)
+                    listingId = String.makeRandom()
+                    url = URL(string: "letgo://products_mark_as_sold/" + listingId)
                     sut = UriScheme.buildFromUrl(url)
                 }
                 it("is not nil") {
                     expect(sut).toNot(beNil())
                 }
                 it("has a deep link with product mark as sold action") {
-                    expect(sut.deepLink.action) == DeepLinkAction.productMarkAsSold(productId: productId)
+                    expect(sut.deepLink.action) == DeepLinkAction.listingMarkAsSold(listingId: listingId)
                 }
             }
             
             context("with a product bump up URL") {
                 beforeEach {
-                    productId = String.makeRandom()
-                    url = URL(string: "letgo://products_bump_up/" + productId)
+                    listingId = String.makeRandom()
+                    url = URL(string: "letgo://products_bump_up/" + listingId)
                     sut = UriScheme.buildFromUrl(url)
                 }
                 it("is not nil") {
                     expect(sut).toNot(beNil())
                 }
                 it("has a deep link with product bump up action") {
-                    expect(sut.deepLink.action) == DeepLinkAction.productBumpUp(productId: productId)
+                    expect(sut.deepLink.action) == DeepLinkAction.listingBumpUp(listingId: listingId)
                 }
             }
             

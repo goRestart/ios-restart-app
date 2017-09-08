@@ -7,7 +7,7 @@
 //
 
 protocol DirectAnswersPresenterDelegate: class {
-    func directAnswersDidTapAnswer(_ presenter: DirectAnswersPresenter, answer: QuickAnswer)
+    func directAnswersDidTapAnswer(_ presenter: DirectAnswersPresenter, answer: QuickAnswer, index: Int)
     func directAnswersDidTapClose(_ presenter: DirectAnswersPresenter)
 }
 
@@ -38,11 +38,13 @@ class DirectAnswersPresenter {
             horizontalView?.answersEnabled = enabled
         }
     }
-    private weak var horizontalView: DirectAnswersHorizontalView?
+    fileprivate weak var horizontalView: DirectAnswersHorizontalView?
 
-    private var answers: [QuickAnswer] = []
+    fileprivate var answers: [[QuickAnswer]] = [[]]
     private let websocketChatActive: Bool
     private static let disabledAlpha: CGFloat = 0.6
+    
+    var isDynamic: Bool = false
 
 
     // MARK: - Public methods
@@ -56,7 +58,6 @@ class DirectAnswersPresenter {
         let initialFrame = CGRect(x: 0, y: sibling.top - DirectAnswersHorizontalView.defaultHeight,
                                   width: DirectAnswersPresenter.defaultWidth, height: DirectAnswersHorizontalView.defaultHeight)
         let directAnswers = DirectAnswersHorizontalView(frame: initialFrame, answers: answers)
-        directAnswers.deselectOnItemTap = websocketChatActive
         directAnswers.delegate = self
         directAnswers.answersEnabled = enabled
         directAnswers.isHidden = hidden
@@ -67,16 +68,21 @@ class DirectAnswersPresenter {
         horizontalView = directAnswers
     }
 
-    func setDirectAnswers(_ answers: [QuickAnswer]) {
+    func setDirectAnswers(_ answers: [[QuickAnswer]], isDynamic: Bool) {
         self.answers = answers
-        self.horizontalView?.update(answers: answers)
+        self.isDynamic = isDynamic
+        horizontalView?.update(answers: answers, isDynamic: isDynamic)
     }
 }
 
 
 extension DirectAnswersPresenter: DirectAnswersHorizontalViewDelegate {
-    func directAnswersHorizontalViewDidSelect(answer: QuickAnswer) {
-        delegate?.directAnswersDidTapAnswer(self, answer: answer)
+    func directAnswersHorizontalViewDidSelect(answer: QuickAnswer, index: Int) {
+        if isDynamic {
+            answers.move(fromIndex: index, toIndex: answers.count-1)
+            horizontalView?.update(answers: answers, isDynamic: isDynamic)
+        }
+        delegate?.directAnswersDidTapAnswer(self, answer: answer, index: index)
     }
 
     func directAnswersHorizontalViewDidSelectClose() {

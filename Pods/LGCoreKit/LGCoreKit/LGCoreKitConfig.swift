@@ -7,7 +7,7 @@
 //
 
 public struct LGCoreKitConfig {
-
+    
     public var environmentType: EnvironmentType
     public var shouldUseChatWithWebSocket: Bool
     public var carsInfoAppJSONURL: URL

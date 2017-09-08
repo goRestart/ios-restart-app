@@ -62,56 +62,37 @@ enum ShareSource: String {
 }
 
 
-// MARK: - Product Share
+// MARK: - Listing Share
 
-struct ProductSocialMessage: SocialMessage {
+struct ListingSocialMessage: SocialMessage {
 
     private let title: String
-    private let productUserName: String
-    private let productTitle: String
-    private let productDescription: String
+    private let listingUserName: String
+    private let listingTitle: String
+    private let listingDescription: String
     private let imageURL: URL?
-    private let productId: String
+    private let listingId: String
     private let isMine: Bool
     private let fallbackToStore: Bool
     static var utmCampaignValue = "product-detail-share"
 
-    init(title: String, product: Product, isMine: Bool, fallbackToStore: Bool) {
-        self.title = title
-        self.productUserName = product.user.name ?? ""
-        self.productTitle = product.title ?? ""
-        self.imageURL = product.images.first?.fileURL ?? product.thumbnail?.fileURL
-        self.productId = product.objectId ?? ""
-        self.productDescription = product.description ?? ""
-        self.isMine = isMine
-        self.fallbackToStore = fallbackToStore
-    }
-
-    init(product: Product, fallbackToStore: Bool) {
-        let productIsMine = Core.myUserRepository.myUser?.objectId == product.user.objectId
-        let socialTitleMyProduct = product.price.free ? LGLocalizedString.productIsMineShareBodyFree :
-            LGLocalizedString.productIsMineShareBody
-        let socialTitle = productIsMine ? socialTitleMyProduct : LGLocalizedString.productShareBody
-        self.init(title: socialTitle, product: product, isMine: productIsMine, fallbackToStore: fallbackToStore)
-    }
-
     init(title: String, listing: Listing, isMine: Bool, fallbackToStore: Bool) {
         self.title = title
-        self.productUserName = listing.user.name ?? ""
-        self.productTitle = listing.title ?? ""
+        self.listingUserName = listing.user.name ?? ""
+        self.listingTitle = listing.title ?? ""
         self.imageURL = listing.images.first?.fileURL ?? listing.thumbnail?.fileURL
-        self.productId = listing.objectId ?? ""
-        self.productDescription = listing.description ?? ""
+        self.listingId = listing.objectId ?? ""
+        self.listingDescription = listing.description ?? ""
         self.isMine = isMine
         self.fallbackToStore = fallbackToStore
     }
-
+    
     init(listing: Listing, fallbackToStore: Bool) {
-        let productIsMine = Core.myUserRepository.myUser?.objectId == listing.user.objectId
-        let socialTitleMyProduct = listing.price.free ? LGLocalizedString.productIsMineShareBodyFree :
+        let listingIsMine = Core.myUserRepository.myUser?.objectId == listing.user.objectId
+        let socialTitleMyListing = listing.price.free ? LGLocalizedString.productIsMineShareBodyFree :
             LGLocalizedString.productIsMineShareBody
-        let socialTitle = productIsMine ? socialTitleMyProduct : LGLocalizedString.productShareBody
-        self.init(title: socialTitle, listing: listing, isMine: productIsMine, fallbackToStore: fallbackToStore)
+        let socialTitle = listingIsMine ? socialTitleMyListing : LGLocalizedString.productShareBody
+        self.init(title: socialTitle, listing: listing, isMine: listingIsMine, fallbackToStore: fallbackToStore)
     }
 
     var nativeShareItems: [Any] {
@@ -139,14 +120,14 @@ struct ProductSocialMessage: SocialMessage {
     }
 
     var emailShareSubject: String {
-        return LGLocalizedString.productShareTitleOnLetgo(productTitle)
+        return LGLocalizedString.productShareTitleOnLetgo(listingTitle)
     }
 
     var emailShareBody: String {
         guard let urlString = shareUrl(.email)?.absoluteString else { return title }
         var message = title + " " + urlString
         if !isMine {
-            message += " " + LGLocalizedString.productSharePostedBy(productUserName)
+            message += " " + LGLocalizedString.productSharePostedBy(listingUserName)
         }
         return message
     }
@@ -186,9 +167,9 @@ struct ProductSocialMessage: SocialMessage {
     }
     
     private func body() -> String {
-        var body = productTitle
+        var body = listingTitle
         if !isMine {
-            body += " " + LGLocalizedString.productSharePostedBy(productUserName)
+            body += " " + LGLocalizedString.productSharePostedBy(listingUserName)
         }
         return body
     }
@@ -198,7 +179,7 @@ struct ProductSocialMessage: SocialMessage {
     }
 
     private func branchUrl(_ source: ShareSource?) -> URL? {
-        guard !productId.isEmpty else { return LetgoURLHelper.buildHomeURL() }
+        guard !listingId.isEmpty else { return LetgoURLHelper.buildHomeURL() }
         let linkProperties = branchLinkProperties(source)
         guard let branchUrl = branchObject.getShortUrl(with: linkProperties)
             else { return LetgoURLHelper.buildHomeURL() }
@@ -206,16 +187,16 @@ struct ProductSocialMessage: SocialMessage {
     }
 
     private var letgoUrl: URL? {
-        guard !productId.isEmpty else { return LetgoURLHelper.buildHomeURL() }
-        return LetgoURLHelper.buildProductURL(productId: productId)
+        guard !listingId.isEmpty else { return LetgoURLHelper.buildHomeURL() }
+        return LetgoURLHelper.buildProductURL(listingId: listingId)
     }
 
     private var branchObject: BranchUniversalObject {
         let branchUniversalObject: BranchUniversalObject =
-            BranchUniversalObject(canonicalIdentifier: "products/"+productId)
+            BranchUniversalObject(canonicalIdentifier: "products/"+listingId)
         branchUniversalObject.title = title
         branchUniversalObject.contentDescription = body()
-        branchUniversalObject.canonicalUrl = Constants.branchWebsiteURL+"/products/"+productId
+        branchUniversalObject.canonicalUrl = Constants.branchWebsiteURL+"/products/"+listingId
         if let imageURL = imageURL?.absoluteString {
             branchUniversalObject.imageUrl = imageURL
         }
@@ -229,7 +210,7 @@ struct ProductSocialMessage: SocialMessage {
             linkProperties.channel = source.rawValue
         }
         linkProperties.tags = ["ios_app"]
-        let controlParamString = addCampaignInfoToString("product/"+productId, source: source)
+        let controlParamString = addCampaignInfoToString("product/"+listingId, source: source)
         linkProperties.addControlParam("$deeplink_path", withValue: controlParamString)
         if var letgoUrlString = letgoUrl?.absoluteString {
 
@@ -488,96 +469,5 @@ struct UserSocialMessage: SocialMessage {
         linkProperties.addControlParam("$ios_url", withValue: letgoUrlString)
         linkProperties.addControlParam("$android_url", withValue: letgoUrlString)
         return linkProperties
-    }
-}
-
-
-// MARK: - Commercializer
-
-struct CommercializerSocialMessage: SocialMessage {
-
-    private let shareUrl: URL?
-    private let thumbUrl: URL?
-    static var utmCampaignValue = "product-detail-share"
-
-    init(shareUrl: String, thumbUrl: String?) {
-        self.shareUrl = URL(string: shareUrl)
-        self.thumbUrl = URL(string: thumbUrl ?? "")
-    }
-
-    var nativeShareItems: [Any] {
-        let shareTxt = shareText(nil, includeUrl: false)
-        if let shareUrl = shareUrl {
-            return [shareUrl, shareTxt]
-        } else {
-            return [shareTxt]
-        }
-    }
-
-    var emailShareSubject: String {
-        return LGLocalizedString.commercializerShareSubjectText
-    }
-
-    var emailShareBody: String {
-        var shareBody = LGLocalizedString.commercializerShareMessageText
-        guard let urlString = shareUrl?.absoluteString else { return shareBody }
-        shareBody += ":\n\n"
-        return shareBody + completeURL(urlString, withSource: .email)
-    }
-
-    let emailShareIsHtml = true
-
-    var fbShareContent: FBSDKShareLinkContent {
-        let shareContent = FBSDKShareLinkContent()
-        shareContent.contentURL = completeURL(shareUrl, withSource: .facebook)
-        return shareContent
-    }
-
-    var fbMessengerShareContent: FBSDKShareLinkContent {
-        let shareContent = FBSDKShareLinkContent()
-        shareContent.contentURL = completeURL(shareUrl, withSource: .fbMessenger)
-        return shareContent
-    }
-
-    var twitterComposer: TWTRComposer {
-        let twitterComposer = TWTRComposer()
-        twitterComposer.setText(shareText(.twitter, includeUrl: false))
-        twitterComposer.setURL(completeURL(shareUrl, withSource: .twitter))
-        return twitterComposer
-    }
-
-    var whatsappShareText: String {
-        return shareText(.whatsapp)
-    }
-
-    var telegramShareText: String {
-        return shareText(.telegram)
-    }
-
-    var smsShareText: String {
-        return shareText(.sms)
-    }
-
-    var copyLinkText: String {
-        guard let urlString = shareUrl?.absoluteString else { return "" }
-        return completeURL(urlString, withSource: .copyLink)
-    }
-
-    private func shareText(_ utmSource: ShareSource?, includeUrl: Bool = true) -> String {
-        var shareBody = LGLocalizedString.commercializerShareMessageText
-        guard let urlString = shareUrl?.absoluteString, includeUrl else { return shareBody }
-        shareBody += ":\n"
-        return shareBody + completeURL(urlString, withSource: utmSource)
-    }
-
-    private func completeURL(_ url: URL?, withSource source: ShareSource?) -> URL? {
-        guard let urlString = url?.absoluteString else { return url }
-        return URL(string: completeURL(urlString, withSource: source))
-    }
-
-    private func completeURL(_ url: String, withSource source: ShareSource?) -> String {
-        guard let sourceValue = source?.rawValue else { return url }
-        return  url + "?" + CommercializerSocialMessage.utmMediumKey + "=" + CommercializerSocialMessage.utmMediumValue +
-            "&" + CommercializerSocialMessage.utmSourceKey + "=" + sourceValue
     }
 }

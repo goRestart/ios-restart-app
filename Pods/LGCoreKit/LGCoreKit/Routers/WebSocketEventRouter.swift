@@ -19,7 +19,7 @@ struct WebSocketEventRouter {
     
     func typingStarted(_ conversationId: String) -> WebSocketEventRequest {
         let uuid = uuidGenerator.UUIDString
-        let data: [String:Any]? = ["conversation_id": conversationId]
+        let data: [String: Any]? = ["conversation_id": conversationId]
         let message = WebSocketRouter.request(with: uuid, type: .typingStarted, data: data)
         return WebSocketEventRequest(message: message, uuid: uuid, type: .typingStarted)
     }

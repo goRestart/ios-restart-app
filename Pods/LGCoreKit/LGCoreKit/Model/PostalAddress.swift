@@ -16,7 +16,7 @@ public struct PostalAddress: Equatable {
     public let zipCode: String?
     public let state: String?
     public let countryCode: String?
-    public let country : String?
+    public let country: String?
     public init(address: String?, city: String?, zipCode: String?, state: String?, countryCode: String?, country: String?) {
         self.address = address
         self.city = city

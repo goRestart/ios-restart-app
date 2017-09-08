@@ -79,14 +79,14 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     fileprivate var hasTitle: Bool {
         return (title != nil && title != "")
     }
-    fileprivate var productIsNew: Bool {
+    fileprivate var listingIsNew: Bool {
         guard let creationDate = initialListing.createdAt else { return true }
         return creationDate.isNewerThan(Constants.cloudsightTimeThreshold)
     }
     fileprivate var shouldAskForAutoTitle: Bool {
         // we ask for title if the product has less than 1h (or doesn't has creation date)
         // AND doesn't has one, or the user is editing the field
-        return (!hasTitle || userIsEditingTitle) && productIsNew
+        return (!hasTitle || userIsEditingTitle) && listingIsNew
     }
     fileprivate var requestTitleTimer: Timer?
 
@@ -279,8 +279,8 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
 
     var descriptionCharCount: Int {
-        guard let descr = descr else { return Constants.productDescriptionMaxLength }
-        return Constants.productDescriptionMaxLength-descr.characters.count
+        guard let descr = descr else { return Constants.listingDescriptionMaxLength }
+        return Constants.listingDescriptionMaxLength-descr.characters.count
     }
     
     func appendImage(_ image: UIImage) {
@@ -332,7 +332,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
     var fbShareContent: FBSDKShareLinkContent? {
         if let listing = savedListing {
-            return ProductSocialMessage(listing: listing, fallbackToStore: false).fbShareContent
+            return ListingSocialMessage(listing: listing, fallbackToStore: false).fbShareContent
         }
         return nil
     }
@@ -451,7 +451,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         saveButtonEnabled.value = hasChanges
     }
 
-    private func validate() -> ProductCreateValidationError? {
+    private func validate() -> ListingCreateValidationError? {
         
         if images.count < 1 {
             return .noImages
@@ -468,88 +468,56 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
             showError(.noCategory)
             return
         }
+        let editParams: ListingEditionParams
         switch category {
         case .unassigned, .electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden,
              .moviesBooksAndMusic, .fashionAndAccesories, .babyAndChild, .other:
-            updateProduct(listing: listing, withCategory: category)
-        case .cars:
-            updateCar(listing: listing)
-        }
-    }
-
-    func updateProduct(listing: Listing?, withCategory category: ListingCategory) {
-        guard let listing = listing else { return }
-        guard let editParams = ProductEditionParams(listing: listing) else { return }
-        delegate?.vmHideKeyboard()
-        loadingProgress.value = 0
-        editParams.category = category
-        editParams.name = title ?? ""
-        editParams.descr = (descr ?? "").stringByRemovingEmoji()
-        editParams.price = generatePrice()
-
-        if let updatedLocation = location, let updatedPostalAddress = postalAddress {
-            editParams.location = updatedLocation
-            editParams.postalAddress = updatedPostalAddress
-        }
-
-        let localImages = listingImages.localImages
-        let remoteImages = listingImages.remoteImages
-        fileRepository.upload(localImages, progress: { [weak self] in self?.loadingProgress.value = $0 }) {
-            [weak self] imagesResult in
-            if let newImages = imagesResult.value {
-                editParams.images = remoteImages + newImages
-                self?.listingRepository.update(productParams: editParams) { result in
-                    self?.loadingProgress.value = nil
-                    if let actualProduct = result.value {
-                        let responseListing = Listing.product(actualProduct)
-                        self?.savedListing = responseListing
-                        self?.trackComplete(responseListing)
-                        self?.finishedSaving()
-                    } else if let error = result.error {
-                        self?.showError(ProductCreateValidationError(repoError: error))
-                    }
-                }
-            } else if let error = imagesResult.error {
-                self?.showError(ProductCreateValidationError(repoError: error))
+            guard let productEditParams = ProductEditionParams(listing: listing) else { return }
+            productEditParams.category = category
+            productEditParams.name = title ?? ""
+            productEditParams.descr = (descr ?? "").stringByRemovingEmoji()
+            productEditParams.price = generatePrice()
+            if let updatedLocation = location, let updatedPostalAddress = postalAddress {
+                productEditParams.location = updatedLocation
+                productEditParams.postalAddress = updatedPostalAddress
             }
-        }
-    }
+            editParams = .product(productEditParams)
+        case .cars:
+            guard let carEditParams = CarEditionParams(listing: listing) else { return }
+            carEditParams.carAttributes = carAttributes
+            carEditParams.category = .cars
+            carEditParams.name = generateCarTitle()
+            carEditParams.descr = (descr ?? "").stringByRemovingEmoji()
+            carEditParams.price = generatePrice()
 
-    func updateCar(listing: Listing?) {
-        guard let listing = listing else { return }
-        guard let editParams = CarEditionParams(listing: listing) else { return }
+            if let updatedLocation = location, let updatedPostalAddress = postalAddress {
+                carEditParams.location = updatedLocation
+                carEditParams.postalAddress = updatedPostalAddress
+            }
+            editParams = .car(carEditParams)
+        }
+
         delegate?.vmHideKeyboard()
         loadingProgress.value = 0
-        editParams.carAttributes = carAttributes
-        editParams.category = .cars
-        editParams.name = generateCarTitle()
-        editParams.descr = (descr ?? "").stringByRemovingEmoji()
-        editParams.price = generatePrice()
-
-        if let updatedLocation = location, let updatedPostalAddress = postalAddress {
-            editParams.location = updatedLocation
-            editParams.postalAddress = updatedPostalAddress
-        }
 
         let localImages = listingImages.localImages
         let remoteImages = listingImages.remoteImages
         fileRepository.upload(localImages, progress: { [weak self] in self?.loadingProgress.value = $0 }) {
             [weak self] imagesResult in
             if let newImages = imagesResult.value {
-                editParams.images = remoteImages + newImages
-                self?.listingRepository.update(carParams: editParams) { result in
+                let updatedParams = editParams.updating(images: remoteImages + newImages)
+                self?.listingRepository.update(listingParams: updatedParams) { result in
                     self?.loadingProgress.value = nil
-                    if let actualCar = result.value {
-                        let responseListing = Listing.car(actualCar)
+                    if let responseListing = result.value {
                         self?.savedListing = responseListing
                         self?.trackComplete(responseListing)
                         self?.finishedSaving()
                     } else if let error = result.error {
-                        self?.showError(ProductCreateValidationError(repoError: error))
+                        self?.showError(ListingCreateValidationError(repoError: error))
                     }
                 }
             } else if let error = imagesResult.error {
-                self?.showError(ProductCreateValidationError(repoError: error))
+                self?.showError(ListingCreateValidationError(repoError: error))
             }
         }
     }
@@ -606,7 +574,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         }
     }
 
-    private func showError(_ error: ProductCreateValidationError) {
+    private func showError(_ error: ListingCreateValidationError) {
         var completion: ((Void) -> Void)? = nil
         if !error.isFieldError {
             shouldTrack = false
@@ -702,7 +670,7 @@ extension EditListingViewModel {
      Method called when the title textfield gets the focus
      */
     func userWritesTitle(_ text: String?) {
-        guard productIsNew else { return }
+        guard listingIsNew else { return }
         userIsEditingTitle = true
         titleAutotranslated.value = false
         titleAutogenerated.value = false
@@ -710,7 +678,7 @@ extension EditListingViewModel {
     }
 
     func userFinishedEditingTitle(_ text: String) {
-        guard productIsNew else { return }
+        guard listingIsNew else { return }
         if text.isEmpty {
             titleLeftBlank()
         } else if text == proposedTitle.value {
@@ -728,7 +696,7 @@ extension EditListingViewModel {
      Method called when the title textfield loses the focus, and is empty
      */
     func titleLeftBlank() {
-        guard productIsNew else { return }
+        guard listingIsNew else { return }
         userIsEditingTitle = false
         titleDisclaimerStatus.value = proposedTitle.value.isEmpty ? .loading : .ready
     }
@@ -750,20 +718,20 @@ extension EditListingViewModel {
 
     fileprivate func trackStart() {
         let myUser = myUserRepository.myUser
-        let event = TrackerEvent.productEditStart(myUser, listing: initialListing)
+        let event = TrackerEvent.listingEditStart(myUser, listing: initialListing)
         trackEvent(event)
     }
 
-    fileprivate func trackValidationFailedWithError(_ error: ProductCreateValidationError) {
+    fileprivate func trackValidationFailedWithError(_ error: ListingCreateValidationError) {
         let myUser = myUserRepository.myUser
-        let event = TrackerEvent.productEditFormValidationFailed(myUser, listing: initialListing,
+        let event = TrackerEvent.listingEditFormValidationFailed(myUser, listing: initialListing,
                                                                  description: error.description)
         trackEvent(event)
     }
 
     fileprivate func trackSharedFB() {
         let myUser = myUserRepository.myUser
-        let event = TrackerEvent.productEditSharedFB(myUser, listing: savedListing)
+        let event = TrackerEvent.listingEditSharedFB(myUser, listing: savedListing)
         trackEvent(event)
     }
 
@@ -773,7 +741,7 @@ extension EditListingViewModel {
         guard !editedFields.isEmpty  else { return }
 
         let myUser = myUserRepository.myUser
-        let event = TrackerEvent.productEditComplete(myUser, listing: listing, category: category.value,
+        let event = TrackerEvent.listingEditComplete(myUser, listing: listing, category: category.value,
                                                      editedFields: editedFields)
         trackEvent(event)
     }
@@ -846,9 +814,9 @@ extension EditListingViewModel {
 }
 
 
-// MARK: - ProductCreateValidationError helper
+// MARK: - ListingCreateValidationError helper
 
-private enum ProductCreateValidationError: Error {
+private enum ListingCreateValidationError: Error {
     case network
     case internalError
     case noImages
@@ -915,7 +883,7 @@ private enum ProductCreateValidationError: Error {
         case .noDescription:
             return LGLocalizedString.sellSendErrorInvalidDescription
         case .longDescription:
-            return LGLocalizedString.sellSendErrorInvalidDescriptionTooLong(Constants.productDescriptionMaxLength)
+            return LGLocalizedString.sellSendErrorInvalidDescriptionTooLong(Constants.listingDescriptionMaxLength)
         case .noCategory:
             return LGLocalizedString.sellSendErrorInvalidCategory
         }

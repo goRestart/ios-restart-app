@@ -36,10 +36,10 @@ struct DeepLink {
 enum DeepLinkAction: Equatable {
     case home
     case sell
-    case product(productId: String)
-    case productShare(productId: String)
-    case productBumpUp(productId: String)
-    case productMarkAsSold(productId: String)
+    case listing(listingId: String)
+    case listingShare(listingId: String)
+    case listingBumpUp(listingId: String)
+    case listingMarkAsSold(listingId: String)
     case user(userId: String)
     case conversations
     case conversation(data: ConversationData)
@@ -49,7 +49,7 @@ enum DeepLinkAction: Equatable {
     case resetPassword(token: String)
     case userRatings
     case userRating(ratingId: String)
-    case passiveBuyers(productId: String)
+    case passiveBuyers(listingId: String)
     case notificationCenter
     case appStore
     
@@ -59,13 +59,13 @@ enum DeepLinkAction: Equatable {
             return true
         case (.sell, .sell):
             return true
-        case (.product(let lhsDetail), .product(let rhsDetail)):
+        case (.listing(let lhsDetail), .listing(let rhsDetail)):
             return lhsDetail == rhsDetail
-        case (.productShare(let lhsDetail), .productShare(let rhsDetail)):
+        case (.listingShare(let lhsDetail), .listingShare(let rhsDetail)):
             return lhsDetail == rhsDetail
-        case (.productBumpUp(let lhsDetail), .productBumpUp(let rhsDetail)):
+        case (.listingBumpUp(let lhsDetail), .listingBumpUp(let rhsDetail)):
             return lhsDetail == rhsDetail
-        case (.productMarkAsSold(let lhsDetail), .productMarkAsSold(let rhsDetail)):
+        case (.listingMarkAsSold(let lhsDetail), .listingMarkAsSold(let rhsDetail)):
             return lhsDetail == rhsDetail
         case (.user(let lhsUser), .user(let rhsUser)):
             return lhsUser == rhsUser
@@ -85,8 +85,8 @@ enum DeepLinkAction: Equatable {
             return true
         case (.userRating(let lhsRatingId), .userRating(let rhsRatingId)):
             return lhsRatingId == rhsRatingId
-        case (.passiveBuyers(let lhsProductId), .passiveBuyers(let rhsProductId)):
-            return lhsProductId == rhsProductId
+        case (.passiveBuyers(let lhsListingId), .passiveBuyers(let rhsListingId)):
+            return lhsListingId == rhsListingId
         case (.notificationCenter, .notificationCenter):
             return true
         case (.appStore, .appStore):
@@ -143,14 +143,14 @@ enum DeepLinkSource {
  */
 enum ConversationData: Equatable {
     case conversation(conversationId: String)
-    case productBuyer(productId: String, buyerId: String)
+    case listingBuyer(listingId: String, buyerId: String)
     
     static public func ==(lhs: ConversationData, rhs: ConversationData) -> Bool {
         switch (lhs, rhs) {
         case (.conversation(let lhsConversationId), .conversation(let rhsConversationId)):
             return lhsConversationId == rhsConversationId
-        case (.productBuyer(let lhsProductId, let lhsBuyerId), .productBuyer(let rhsProductId, let rhsBuyerId)):
-            return lhsProductId == rhsProductId && lhsBuyerId == rhsBuyerId
+        case (.listingBuyer(let lhsListingId, let lhsBuyerId), .listingBuyer(let rhsListingId, let rhsBuyerId)):
+            return lhsListingId == rhsListingId && lhsBuyerId == rhsBuyerId
         default:
             return false
         }

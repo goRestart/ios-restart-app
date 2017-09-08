@@ -10,7 +10,7 @@ open class MockListingRepository: ListingRepository {
     public var listingVoidResult: ListingVoidResult!
     public var carResult: CarResult!
     public var productResult: ProductResult!
-    public var deleteProductResult: ListingVoidResult!
+    public var deleteListingResult: ListingVoidResult!
     public var markAsSoldResult: ListingResult!
     public var markAsUnsoldResult: ListingResult!
     public var markAsSoldVoidResult: ListingVoidResult!
@@ -106,12 +106,8 @@ open class MockListingRepository: ListingRepository {
         delay(result: listingResult, completion: completion)
     }
 
-    public func create(productParams: ProductCreationParams, completion: ProductCompletion?) {
-        delay(result: productResult, completion: completion)
-    }
-    
-    public func create(carParams: CarCreationParams, completion: CarCompletion?) {
-        delay(result: carResult, completion: completion)
+    public func create(listingParams: ListingCreationParams, completion: ListingCompletion?) {
+        delay(result: listingResult, completion: completion)
     }
 
     public func create(product: Product,
@@ -127,12 +123,8 @@ open class MockListingRepository: ListingRepository {
         delay(result: productResult, completion: completion)
     }
 
-    public func update(productParams: ProductEditionParams, completion: ProductCompletion?) {
-        delay(result: productResult, completion: completion)
-    }
-    
-    public func update(carParams: CarEditionParams, completion: CarCompletion?) {
-        delay(result: carResult, completion: completion)
+    public func update(listingParams: ListingEditionParams, completion: ListingCompletion?) {
+        delay(result: listingResult, completion: completion)
     }
     
     public func update(product: Product,
@@ -157,7 +149,7 @@ open class MockListingRepository: ListingRepository {
     
     public func delete(listingId: String,
                        completion: ListingVoidCompletion?) {
-        delay(result: deleteProductResult, completion: completion)
+        delay(result: deleteListingResult, completion: completion)
     }
     
     public func markAsSold(listing: Listing, completion: ListingCompletion?) {

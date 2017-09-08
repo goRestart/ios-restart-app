@@ -41,9 +41,9 @@ struct WebSocketConversationRouter {
         return WebSocketConversationRequest(message: message, uuid: uuid, type: .fetchConversationDetails)
     }
     
-    func show(_ sellerId: String, productId: String) -> WebSocketConversationRequest {
+    func show(_ sellerId: String, listingId: String) -> WebSocketConversationRequest {
         let uuid = uuidGenerator.UUIDString
-        let data = ["seller_id": sellerId, "product_id": productId]
+        let data = ["seller_id": sellerId, "product_id": listingId]
         let message = WebSocketRouter.request(with: uuid, type: .fetchConversationID, data: data)
         return WebSocketConversationRequest(message: message, uuid: uuid, type: .fetchConversationID)
     }

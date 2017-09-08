@@ -23,10 +23,8 @@ extension Bumper  {
         flags.append(ProductDetailNextRelated.self)
         flags.append(NewMarkAsSoldFlow.self)
         flags.append(NewCarsMultiRequesterEnabled.self)
-        flags.append(NewCarouselNavigationEnabled.self)
         flags.append(NewOnboardingPhase1.self)
         flags.append(InAppRatingIOS10.self)
-        flags.append(SuggestedSearches.self)
         flags.append(AddSuperKeywordsOnFeed.self)
         flags.append(SuperKeywordsOnOnboarding.self)
         flags.append(CopiesImprovementOnboarding.self)
@@ -35,6 +33,11 @@ extension Bumper  {
         flags.append(TweaksCarPostingFlow.self)
         flags.append(SearchParamDisc129.self)
         flags.append(UserReviewsReportEnabled.self)
+        flags.append(DynamicQuickAnswers.self)
+        flags.append(AppRatingDialogInactive.self)
+        flags.append(FeedFilterRadiusValues.self)
+        flags.append(ExpandableCategorySelectionMenu.self)
+        flags.append(LocationDataSourceEndpoint.self)
         Bumper.initialize(flags)
     } 
 
@@ -88,11 +91,6 @@ extension Bumper  {
         return NewCarsMultiRequesterEnabled(rawValue: value)?.asBool ?? false
     }
 
-    static var newCarouselNavigationEnabled: Bool {
-        guard let value = Bumper.value(for: NewCarouselNavigationEnabled.key) else { return false }
-        return NewCarouselNavigationEnabled(rawValue: value)?.asBool ?? false
-    }
-
     static var newOnboardingPhase1: Bool {
         guard let value = Bumper.value(for: NewOnboardingPhase1.key) else { return false }
         return NewOnboardingPhase1(rawValue: value)?.asBool ?? false
@@ -101,11 +99,6 @@ extension Bumper  {
     static var inAppRatingIOS10: Bool {
         guard let value = Bumper.value(for: InAppRatingIOS10.key) else { return false }
         return InAppRatingIOS10(rawValue: value)?.asBool ?? false
-    }
-
-    static var suggestedSearches: SuggestedSearches {
-        guard let value = Bumper.value(for: SuggestedSearches.key) else { return .control }
-        return SuggestedSearches(rawValue: value) ?? .control 
     }
 
     static var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed {
@@ -142,10 +135,35 @@ extension Bumper  {
         guard let value = Bumper.value(for: SearchParamDisc129.key) else { return .disc129a }
         return SearchParamDisc129(rawValue: value) ?? .disc129a 
     }
-  
+
     static var userReviewsReportEnabled: Bool {
         guard let value = Bumper.value(for: UserReviewsReportEnabled.key) else { return false }
         return UserReviewsReportEnabled(rawValue: value)?.asBool ?? false
+    }
+
+    static var dynamicQuickAnswers: DynamicQuickAnswers {
+        guard let value = Bumper.value(for: DynamicQuickAnswers.key) else { return .control }
+        return DynamicQuickAnswers(rawValue: value) ?? .control 
+    }
+
+    static var appRatingDialogInactive: Bool {
+        guard let value = Bumper.value(for: AppRatingDialogInactive.key) else { return false }
+        return AppRatingDialogInactive(rawValue: value)?.asBool ?? false
+    }
+
+    static var feedFilterRadiusValues: FeedFilterRadiusValues {
+        guard let value = Bumper.value(for: FeedFilterRadiusValues.key) else { return .control }
+        return FeedFilterRadiusValues(rawValue: value) ?? .control 
+    }
+
+    static var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu {
+        guard let value = Bumper.value(for: ExpandableCategorySelectionMenu.key) else { return .control }
+        return ExpandableCategorySelectionMenu(rawValue: value) ?? .control 
+    }
+
+    static var locationDataSourceEndpoint: LocationDataSourceEndpoint {
+        guard let value = Bumper.value(for: LocationDataSourceEndpoint.key) else { return .control }
+        return LocationDataSourceEndpoint(rawValue: value) ?? .control 
     } 
 }
 
@@ -240,15 +258,6 @@ enum NewCarsMultiRequesterEnabled: String, BumperFeature  {
     var asBool: Bool { return self == .yes }
 }
 
-enum NewCarouselNavigationEnabled: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return NewCarouselNavigationEnabled.no.rawValue }
-    static var enumValues: [NewCarouselNavigationEnabled] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "New carousel navigation enabled" } 
-    var asBool: Bool { return self == .yes }
-}
-
 enum NewOnboardingPhase1: String, BumperFeature  {
     case no, yes
     static var defaultValue: String { return NewOnboardingPhase1.no.rawValue }
@@ -265,22 +274,6 @@ enum InAppRatingIOS10: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "New in-app rating for iOS 10.3+" } 
     var asBool: Bool { return self == .yes }
-}
-
-enum SuggestedSearches: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return SuggestedSearches.control.rawValue }
-    static var enumValues: [SuggestedSearches] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "New suggested searches section" } 
-    static func fromPosition(_ position: Int) -> SuggestedSearches {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
 }
 
 enum AddSuperKeywordsOnFeed: String, BumperFeature  {
@@ -399,7 +392,7 @@ enum SearchParamDisc129: String, BumperFeature  {
         }
     }
 }
-  
+
 enum UserReviewsReportEnabled: String, BumperFeature  {
     case no, yes
     static var defaultValue: String { return UserReviewsReportEnabled.no.rawValue }
@@ -407,5 +400,80 @@ enum UserReviewsReportEnabled: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "User reviews report enabled" } 
     var asBool: Bool { return self == .yes }
+}
+
+enum DynamicQuickAnswers: String, BumperFeature  {
+    case control, baseline, dynamicNoKeyboard, dynamicWithKeyboard
+    static var defaultValue: String { return DynamicQuickAnswers.control.rawValue }
+    static var enumValues: [DynamicQuickAnswers] { return [.control, .baseline, .dynamicNoKeyboard, .dynamicWithKeyboard]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Random quick answers with different approaches" } 
+    static func fromPosition(_ position: Int) -> DynamicQuickAnswers {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .dynamicNoKeyboard
+            case 3: return .dynamicWithKeyboard
+            default: return .control
+        }
+    }
+}
+
+enum AppRatingDialogInactive: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return AppRatingDialogInactive.no.rawValue }
+    static var enumValues: [AppRatingDialogInactive] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "App rating dialog inactive to increase user activation" } 
+    var asBool: Bool { return self == .yes }
+}
+
+enum FeedFilterRadiusValues: String, BumperFeature  {
+    case control, baseline, newValues
+    static var defaultValue: String { return FeedFilterRadiusValues.control.rawValue }
+    static var enumValues: [FeedFilterRadiusValues] { return [.control, .baseline, .newValues]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Feed filter radius values" } 
+    static func fromPosition(_ position: Int) -> FeedFilterRadiusValues {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .newValues
+            default: return .control
+        }
+    }
+}
+
+enum ExpandableCategorySelectionMenu: String, BumperFeature  {
+    case control, baseline, expandableMenu
+    static var defaultValue: String { return ExpandableCategorySelectionMenu.control.rawValue }
+    static var enumValues: [ExpandableCategorySelectionMenu] { return [.control, .baseline, .expandableMenu]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show 'salchichas' menu on sell your stuff button" } 
+    static func fromPosition(_ position: Int) -> ExpandableCategorySelectionMenu {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .expandableMenu
+            default: return .control
+        }
+    }
+}
+
+enum LocationDataSourceEndpoint: String, BumperFeature  {
+    case control, baseline, appleWithRegion, niordWithRegion
+    static var defaultValue: String { return LocationDataSourceEndpoint.control.rawValue }
+    static var enumValues: [LocationDataSourceEndpoint] { return [.control, .baseline, .appleWithRegion, .niordWithRegion]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Location data source for geocode and reverse geocode" } 
+    static func fromPosition(_ position: Int) -> LocationDataSourceEndpoint {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .appleWithRegion
+            case 3: return .niordWithRegion
+            default: return .control
+        }
+    }
 }
 

@@ -29,6 +29,7 @@ final class SellCoordinator: Coordinator {
     fileprivate let tracker: Tracker
     fileprivate let featureFlags: FeatureFlaggeable
     fileprivate let postingSource: PostingSource
+    fileprivate let postCategory: PostCategory?
     weak var delegate: SellCoordinatorDelegate?
 
     fileprivate let disposeBag = DisposeBag()
@@ -37,8 +38,10 @@ final class SellCoordinator: Coordinator {
     // MARK: - Lifecycle
 
     convenience init(source: PostingSource,
-                     forcedInitialTab: PostProductViewController.Tab?) {
+                     postCategory: PostCategory?,
+                     forcedInitialTab: PostListingViewController.Tab?) {
         self.init(source: source,
+                  postCategory: postCategory,
                   forcedInitialTab: forcedInitialTab,
                   listingRepository: Core.listingRepository,
                   bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
@@ -49,7 +52,8 @@ final class SellCoordinator: Coordinator {
     }
 
     init(source: PostingSource,
-         forcedInitialTab: PostProductViewController.Tab?,
+         postCategory: PostCategory?,
+         forcedInitialTab: PostListingViewController.Tab?,
          listingRepository: ListingRepository,
          bubbleNotificationManager: BubbleNotificationManager,
          keyValueStorage: KeyValueStorage,
@@ -61,22 +65,23 @@ final class SellCoordinator: Coordinator {
         self.keyValueStorage = keyValueStorage
         self.tracker = tracker
         self.postingSource = source
+        self.postCategory = postCategory
         self.featureFlags = featureFlags
         self.sessionManager = sessionManager
-        let postProductVM = PostProductViewModel(source: source)
-        let postProductVC = PostProductViewController(viewModel: postProductVM,
+        let postListingVM = PostListingViewModel(source: source, postCategory: postCategory)
+        let postListingVC = PostListingViewController(viewModel: postListingVM,
                                                       forcedInitialTab: forcedInitialTab)
-        self.viewController = postProductVC
+        self.viewController = postListingVC
 
-        postProductVM.navigator = self
+        postListingVM.navigator = self
     }
 
     func presentViewController(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
-        guard let postProductVC = viewController as? PostProductViewController else { return }
-        guard postProductVC.parent == nil else { return }
+        guard let postListingVC = viewController as? PostListingViewController else { return }
+        guard postListingVC.parent == nil else { return }
 
         parentViewController = parent
-        parent.present(postProductVC, animated: animated, completion: completion)
+        parent.present(postListingVC, animated: animated, completion: completion)
     }
 
     func dismissViewController(animated: Bool, completion: (() -> Void)?) {
@@ -85,10 +90,10 @@ final class SellCoordinator: Coordinator {
 }
 
 
-// MARK: - PostProductNavigator
+// MARK: - PostListingNavigator
 
-extension SellCoordinator: PostProductNavigator {
-    func cancelPostProduct() {
+extension SellCoordinator: PostListingNavigator {
+    func cancelPostListing() {
         closeCoordinator(animated: true) { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.delegate?.sellCoordinatorDidCancel(strongSelf)
@@ -96,43 +101,26 @@ extension SellCoordinator: PostProductNavigator {
     }
 
     func closePostProductAndPostInBackground(params: ListingCreationParams,
-                                             trackingInfo: PostProductTrackingInfo) {
+                                             trackingInfo: PostListingTrackingInfo) {
         dismissViewController(animated: true) { [weak self] in
-            switch params {
-            case .product(let productParams):
-                self?.listingRepository.create(productParams: productParams) { result in
-                    if let value = result.value {
-                        let listing = Listing.product(value)
-                        self?.trackPost(withListing: listing, trackingInfo: trackingInfo)
-                        self?.keyValueStorage.userPostProductPostedPreviously = true
-                        self?.showConfirmation(listingResult: ListingResult(value: listing),
-                                               trackingInfo: trackingInfo)
-                    } else if let error = result.error {
-                        self?.trackListingPostedInBackground(withError: error)
-                        self?.showConfirmation(listingResult: ListingResult(error: error),
-                                               trackingInfo: trackingInfo)
-                    }
-                }
-            case .car(let carParams):
-                self?.listingRepository.create(carParams: carParams) { result in
-                    if let value = result.value {
-                        let listing = Listing.car(value)
-                        self?.trackPost(withListing: listing, trackingInfo: trackingInfo)
-                        self?.keyValueStorage.userPostProductPostedPreviously = true
-                        self?.showConfirmation(listingResult: ListingResult(value: listing),
-                                               trackingInfo: trackingInfo)
-                    } else if let error = result.error {
-                        self?.trackListingPostedInBackground(withError: error)
-                        self?.showConfirmation(listingResult: ListingResult(error: error),
-                                               trackingInfo: trackingInfo)
-                    }
+
+            self?.listingRepository.create(listingParams: params) { result in
+                if let listing = result.value {
+                    self?.trackPost(withListing: listing, trackingInfo: trackingInfo)
+                    self?.keyValueStorage.userPostProductPostedPreviously = true
+                    self?.showConfirmation(listingResult: ListingResult(value: listing),
+                                           trackingInfo: trackingInfo)
+                } else if let error = result.error {
+                    self?.trackListingPostedInBackground(withError: error)
+                    self?.showConfirmation(listingResult: ListingResult(error: error),
+                                           trackingInfo: trackingInfo)
                 }
             }
         }
     }
     
     fileprivate func trackListingPostedInBackground(withError error: RepositoryError) {
-        let sellError: EventParameterPostProductError
+        let sellError: EventParameterPostListingError
         switch error {
         case .network:
             sellError = .network
@@ -143,44 +131,44 @@ extension SellCoordinator: PostProductNavigator {
         case .internalError, .wsChatError:
             sellError = .internalError
         }
-        let sellErrorDataEvent = TrackerEvent.productSellErrorData(sellError)
+        let sellErrorDataEvent = TrackerEvent.listingSellErrorData(sellError)
         TrackerProxy.sharedInstance.trackEvent(sellErrorDataEvent)
     }
 
-    fileprivate func showConfirmation(listingResult: ListingResult, trackingInfo: PostProductTrackingInfo) {
+    fileprivate func showConfirmation(listingResult: ListingResult, trackingInfo: PostListingTrackingInfo) {
         guard let parentVC = parentViewController else { return }
         
-        let productPostedVM = ProductPostedViewModel(listingResult: listingResult, trackingInfo: trackingInfo)
-        productPostedVM.navigator = self
-        let productPostedVC = ProductPostedViewController(viewModel: productPostedVM)
-        viewController = productPostedVC
-        parentVC.present(productPostedVC, animated: true, completion: nil)
+        let listingPostedVM = ListingPostedViewModel(listingResult: listingResult, trackingInfo: trackingInfo)
+        listingPostedVM.navigator = self
+        let listingPostedVC = ListingPostedViewController(viewModel: listingPostedVM)
+        viewController = listingPostedVC
+        parentVC.present(listingPostedVC, animated: true, completion: nil)
     }
 
     func closePostProductAndPostLater(params: ListingCreationParams, images: [UIImage],
-                                      trackingInfo: PostProductTrackingInfo) {
+                                      trackingInfo: PostListingTrackingInfo) {
         guard let parentVC = parentViewController else { return }
 
         dismissViewController(animated: true) { [weak self] in
-            let productPostedVM = ProductPostedViewModel(postParams: params, productImages: images,
+            let listingPostedVM = ListingPostedViewModel(postParams: params, listingImages: images,
                                                          trackingInfo: trackingInfo)
-            productPostedVM.navigator = self
-            let productPostedVC = ProductPostedViewController(viewModel: productPostedVM)
-            self?.viewController = productPostedVC
-            parentVC.present(productPostedVC, animated: true, completion: nil)
+            listingPostedVM.navigator = self
+            let listingPostedVC = ListingPostedViewController(viewModel: listingPostedVM)
+            self?.viewController = listingPostedVC
+            parentVC.present(listingPostedVC, animated: true, completion: nil)
         }
     }
 
-    func openLoginIfNeededFromProductPosted(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void), cancelAction: (() -> Void)?) {
+    func openLoginIfNeededFromListingPosted(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void), cancelAction: (() -> Void)?) {
         openLoginIfNeeded(from: from, style: .popup(LGLocalizedString.productPostLoginMessage), loggedInAction: loggedInAction, cancelAction: cancelAction)
     }
 }
 
 
-// MARK: - ProductPostedNavigator
+// MARK: - ListingPostedNavigator
 
-extension SellCoordinator: ProductPostedNavigator {
-    func cancelProductPosted() {
+extension SellCoordinator: ListingPostedNavigator {
+    func cancelListingPosted() {
         closeCoordinator(animated: true) { [weak self] in
             guard let strongSelf = self, let delegate = strongSelf.delegate else { return }
 
@@ -188,7 +176,7 @@ extension SellCoordinator: ProductPostedNavigator {
         }
     }
 
-    func closeProductPosted(_ listing: Listing) {
+    func closeListingPosted(_ listing: Listing) {
         closeCoordinator(animated: true) { [weak self] in
             guard let strongSelf = self, let delegate = strongSelf.delegate else { return }
 
@@ -196,7 +184,7 @@ extension SellCoordinator: ProductPostedNavigator {
         }
     }
 
-    func closeProductPostedAndOpenEdit(_ listing: Listing) {
+    func closeListingPostedAndOpenEdit(_ listing: Listing) {
         dismissViewController(animated: true) { [weak self] in
             guard let parentVC = self?.parentViewController else { return }
 
@@ -217,11 +205,11 @@ extension SellCoordinator: ProductPostedNavigator {
     func closeProductPostedAndOpenPost() {
         dismissViewController(animated: true) { [weak self] in
             guard let strongSelf = self, let parentVC = strongSelf.parentViewController else { return }
-            let postProductVM = PostProductViewModel(source: strongSelf.postingSource)
-            let postProductVC = PostProductViewController(viewModel: postProductVM,
+            let postListingVM = PostListingViewModel(source: strongSelf.postingSource, postCategory: nil)
+            let postListingVC = PostListingViewController(viewModel: postListingVM,
                                                           forcedInitialTab: nil)
-            strongSelf.viewController = postProductVC
-            postProductVM.navigator = self
+            strongSelf.viewController = postListingVC
+            postListingVM.navigator = self
 
             strongSelf.presentViewController(parent: parentVC, animated: true, completion: nil)
         }
@@ -232,8 +220,8 @@ extension SellCoordinator: ProductPostedNavigator {
 // MARK: - Tracking
 
 fileprivate extension SellCoordinator {
-    func trackPost(withListing listing: Listing, trackingInfo: PostProductTrackingInfo) {
-        let event = TrackerEvent.productSellComplete(listing, buttonName: trackingInfo.buttonName, sellButtonPosition: trackingInfo.sellButtonPosition,
+    func trackPost(withListing listing: Listing, trackingInfo: PostListingTrackingInfo) {
+        let event = TrackerEvent.listingSellComplete(listing, buttonName: trackingInfo.buttonName, sellButtonPosition: trackingInfo.sellButtonPosition,
                                                      negotiable: trackingInfo.negotiablePrice, pictureSource: trackingInfo.imageSource,
                                                      freePostingModeAllowed: featureFlags.freePostingModeAllowed)
 
@@ -244,7 +232,7 @@ fileprivate extension SellCoordinator {
                 !keyValueStorage.userTrackingProductSellComplete24hTracked {
             keyValueStorage.userTrackingProductSellComplete24hTracked = true
 
-            let event = TrackerEvent.productSellComplete24h(listing)
+            let event = TrackerEvent.listingSellComplete24h(listing)
             tracker.trackEvent(event)
         }
     }

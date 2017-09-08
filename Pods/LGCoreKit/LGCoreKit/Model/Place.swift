@@ -13,16 +13,25 @@ public struct Place {
     public var location : LGLocationCoordinates2D?
 
     public var placeResumedData : String?
+    
+    public var placeId: String?
+    public var shouldRetrieveDetails: Bool?
 }
 
 public extension Place {
 
-    public init(postalAddress: PostalAddress?, location: LGLocationCoordinates2D?){
+    public init(postalAddress: PostalAddress?, location: LGLocationCoordinates2D?) {
         self.postalAddress = postalAddress
         self.location = location
     }
+    
+    public init(placeId: String?, placeResumedData: String?) {
+        self.placeId = placeId
+        self.placeResumedData = placeResumedData
+        shouldRetrieveDetails = true
+    }
 
-    public static func newPlace() -> Place{
+    public static func newPlace() -> Place {
         return Place()
     }
 }

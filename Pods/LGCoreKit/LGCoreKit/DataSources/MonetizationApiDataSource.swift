@@ -17,7 +17,7 @@ class MonetizationApiDataSource : MonetizationDataSource {
 
     static let paymentIdKey = "id"
     static let itemIdKey = "item_id"
-    static let productIdKey = "product_id"
+    static let listingIdKey = "product_id"
     static let receiptDataKey = "receipt_data"
     static let priceAmountKey = "price_amount"
     static let priceCurrencyKey = "price_currency"
@@ -44,8 +44,8 @@ class MonetizationApiDataSource : MonetizationDataSource {
 
     // Public methods
 
-    func retrieveBumpeableProductInfo(productId: String, completion: MonetizationDataSourceBumpeableProductCompletion?) {
-        let request = MonetizationRouter.showBumpeable(productId: productId,
+    func retrieveBumpeableListingInfo(listingId: String, completion: MonetizationDataSourceBumpeableListingCompletion?) {
+        let request = MonetizationRouter.showBumpeable(listingId: listingId,
                                                        params: [MonetizationApiDataSource.platformNameKey:MonetizationApiDataSource.platformNameValue])
         apiClient.request(request, decoder: MonetizationApiDataSource.decoderBumpeableProduct, completion: completion)
     }
@@ -54,7 +54,7 @@ class MonetizationApiDataSource : MonetizationDataSource {
                   completion: MonetizationDataSourceBumpCompletion?) {
         let params: [String : Any] = [MonetizationApiDataSource.paymentIdKey: paymentId,
                                       MonetizationApiDataSource.itemIdKey: itemId,
-                                      MonetizationApiDataSource.productIdKey: listingId]
+                                      MonetizationApiDataSource.listingIdKey: listingId]
         let request = MonetizationRouter.freeBump(params: params)
 
         apiClient.request(request, completion: completion)
@@ -69,7 +69,7 @@ class MonetizationApiDataSource : MonetizationDataSource {
         let params: [String : Any] = [MonetizationApiDataSource.paymentIdKey: paymentId,
                                       MonetizationApiDataSource.receiptDataKey: receiptData,
                                       MonetizationApiDataSource.itemIdKey: itemId,
-                                      MonetizationApiDataSource.productIdKey: listingId,
+                                      MonetizationApiDataSource.listingIdKey: listingId,
                                       MonetizationApiDataSource.priceAmountKey: itemPrice,
                                       MonetizationApiDataSource.priceCurrencyKey: itemCurrency,
                                       MonetizationApiDataSource.analyticsContextKey: analyticsParams]

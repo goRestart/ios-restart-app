@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1212" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -17,7 +17,7 @@
                 <outlet property="closeButton" destination="zGi-8O-6bQ" id="zu7-qa-FWS"/>
                 <outlet property="featuredLabel" destination="Tvk-gx-4wa" id="rbI-b0-z3K"/>
                 <outlet property="imageContainer" destination="R4d-2I-7yM" id="h79-Wl-F4h"/>
-                <outlet property="productImageView" destination="W0X-r6-1Ce" id="oOl-Nx-QiQ"/>
+                <outlet property="listingImageView" destination="W0X-r6-1Ce" id="lMn-q7-IPA"/>
                 <outlet property="subtitleLabel" destination="O3P-mf-7Mw" id="SYe-oa-hwT"/>
                 <outlet property="titleLabel" destination="Eub-LF-5mI" id="CTM-x4-a3J"/>
                 <outlet property="titleVerticalCenterConstraint" destination="b3r-tW-qsf" id="dob-cm-DFa"/>

@@ -9,7 +9,6 @@
 struct ProductionEnvironment: Environment {
     let apiBaseURL = "https://letgo-a.akamaihd.net"
     let bouncerBaseURL = "https://bouncer.letgo.com/api"
-    let commercializerBaseURL = "https://commercializer.letgo.com"
     let userRatingsBaseURL = "https://rating.letgo.com/api"
     let chatBaseURL = "https://chat.letgo.com"
     let webSocketURL = "wss://chat.letgo.com/socket"
@@ -17,4 +16,6 @@ struct ProductionEnvironment: Environment {
     let passiveBuyersBaseURL = "https://passivebuyers.letgo.com/api"
     let paymentsBaseURL = "https://payment.letgo.com/payment"
     let suggestiveSearchBaseURL = "https://suggestivesearch.letgo.com"
+    let niordBaseURL = "https://niord.letgo.com"
+    let searchProductsBaseURL = "https://search-products.letgo.com"
 }

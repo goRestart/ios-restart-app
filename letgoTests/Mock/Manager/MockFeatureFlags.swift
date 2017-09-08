@@ -30,11 +30,9 @@ class MockFeatureFlags: FeatureFlaggeable {
     var productDetailNextRelated: Bool = false
     var newMarkAsSoldFlow: Bool = false
     var newCarsMultiRequesterEnabled: Bool = false
-    var newCarouselNavigationEnabled: Bool = false
     var newOnboardingPhase1: Bool = false
     var searchParamDisc129: SearchParamDisc129 = .disc129a
     var inAppRatingIOS10: Bool = false
-    var suggestedSearches: SuggestedSearches = .control
     var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed = .control
     var superKeywordsOnOnboarding: SuperKeywordsOnOnboarding = .control
     var copiesImprovementOnboarding: CopiesImprovementOnboarding = .control
@@ -42,16 +40,17 @@ class MockFeatureFlags: FeatureFlaggeable {
     var openGalleryInPosting: OpenGalleryInPosting = .control
     var tweaksCarPostingFlow: TweaksCarPostingFlow = .control
     var userReviewsReportEnabled: Bool = true
+    var dynamicQuickAnswers: DynamicQuickAnswers = .control
+    var locationDataSourceEndpoint: LocationDataSourceEndpoint = .control
+    var appRatingDialogInactive: Bool = false
+    var feedFilterRadiusValues: FeedFilterRadiusValues = .control
+    var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu = .control
     
     // Country dependant features
     var freePostingModeAllowed = false
     var locationRequiresManualChangeSuggestion = false
     var signUpEmailNewsletterAcceptRequired = false
     var signUpEmailTermsAndConditionsAcceptRequired = false
-
-    func commercialsAllowedFor(productCountryCode: String?) -> Bool {
-        return false
-    }
 
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false

@@ -389,7 +389,7 @@ fileprivate extension EventParameterTypePage {
         case .userRatingList:
             self = .userRatingList
         case .markAsSold:
-            self = .productSold
+            self = .listingSold
         }
     }
 }

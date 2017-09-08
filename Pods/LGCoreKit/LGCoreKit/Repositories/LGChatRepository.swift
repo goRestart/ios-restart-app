@@ -132,8 +132,8 @@ class LGChatRepository: InternalChatRepository {
         }
     }
 
-    func showConversation(_ sellerId: String, productId: String, completion: ChatConversationCompletion?) {
-        dataSource.showConversation(sellerId, productId: productId) { result in
+    func showConversation(_ sellerId: String, listingId: String, completion: ChatConversationCompletion?) {
+        dataSource.showConversation(sellerId, listingId: listingId) { result in
             handleWebSocketResult(result, completion: completion)
         }
     }

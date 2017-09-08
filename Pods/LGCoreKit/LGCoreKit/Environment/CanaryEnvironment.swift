@@ -9,7 +9,6 @@
 struct CanaryEnvironment: Environment {
     let apiBaseURL = "http://canary.api.letgo.com"
     let bouncerBaseURL = "http://bouncerv2.canary.letgo.com/api"
-    let commercializerBaseURL = "http://commercializer.canary.letgo.com"
     let userRatingsBaseURL = "http://rating.canary.letgo.com/api"
     let chatBaseURL = "https://chat.letgo.com"
     let webSocketURL = "wss://chat.letgo.com/socket"
@@ -17,4 +16,6 @@ struct CanaryEnvironment: Environment {
     let passiveBuyersBaseURL = "http://passivebuyers.letgo.com/api"
     let paymentsBaseURL = "https://payment.canary.letgo.com/payment"
     let suggestiveSearchBaseURL = "https://suggestivesearch.letgo.com"
+    let searchProductsBaseURL = "http://search-products.canary.letgo.com"
+    let niordBaseURL = "https://niord.letgo.com"
 }

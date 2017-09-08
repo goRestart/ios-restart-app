@@ -27,7 +27,7 @@ public struct RetrieveListingParams {
     public var sortCriteria: ListingSortCriteria?
     public var timeCriteria: ListingTimeCriteria?
     public var offset: Int?                 // skip results
-    public var numProducts: Int?            // number products to return
+    public var numListings: Int?            // number listings to return
     public var statuses: [ListingStatus]?   // Default 1,3
     public var maxPrice: Int?
     public var minPrice: Int?
@@ -44,7 +44,7 @@ public struct RetrieveListingParams {
     
     var relatedProductsApiParams: Dictionary<String, Any> {
         var params = Dictionary<String, Any>()
-        params["num_results"] = numProducts
+        params["num_results"] = numListings
         params["offset"] = offset
         return params
     }
@@ -52,7 +52,7 @@ public struct RetrieveListingParams {
     var userListingApiParams: Dictionary<String, Any> {
         var params = Dictionary<String, Any>()
         
-        params["num_results"] = numProducts
+        params["num_results"] = numListings
         params["offset"] = offset
         params["country_code"] = countryCode
 
@@ -89,7 +89,7 @@ public struct RetrieveListingParams {
         params["min_price"] = minPrice
         params["distance_radius"] = distanceRadius
         params["distance_type"] = distanceType?.string
-        params["num_results"] = numProducts
+        params["num_results"] = numListings
         params["offset"] = offset
         params["sort"] = sortCriteria?.string
         params["since"] = timeCriteria?.string
@@ -145,26 +145,26 @@ public struct RetrieveListingParams {
 public struct IndexTrendingListingsParams {
     let countryCode: String?
     let coordinates: LGLocationCoordinates2D?
-    let numProducts: Int?            // number products to return
+    let numListings: Int?            // number listings to return
     let offset: Int                  // skip results
 
     public init(countryCode: String?, coordinates: LGLocationCoordinates2D?, numProducts: Int? = nil, offset: Int = 0) {
         self.countryCode = countryCode
         self.coordinates = coordinates
-        self.numProducts = numProducts
+        self.numListings = numProducts
         self.offset = offset
     }
 
     public func paramsWithOffset(_ offset: Int) -> IndexTrendingListingsParams {
         return IndexTrendingListingsParams(countryCode: countryCode, coordinates: coordinates,
-                                           numProducts: numProducts, offset: offset)
+                                           numProducts: numListings, offset: offset)
     }
     
     var letgoApiParams: Dictionary<String, Any> {
         var params = Dictionary<String, Any>()
         params["quadkey"] = coordinates?.coordsToQuadKey(LGCoreKit.quadKeyZoomLevel)
         params["country_code"] = countryCode
-        params["num_results"] = numProducts
+        params["num_results"] = numListings
         params["offset"] = offset
         return params
     }
@@ -207,7 +207,6 @@ public class ProductEditionParams: ProductCreationParams {
                    currency: product.currency,
                    location: product.location,
                    postalAddress: product.postalAddress,
-                   languageCode: product.languageCode ?? Locale.current.identifier,
                    images: product.images)
         if let languageCode = product.languageCode {
             self.languageCode = languageCode
@@ -228,27 +227,17 @@ public class ProductEditionParams: ProductCreationParams {
     }
 }
 
-public class ProductCreationParams {
+public class ProductCreationParams: BaseListingParams {
 
-    public var name: String?
-    public var descr: String?
-    public var price: ListingPrice
-    public var category: ListingCategory
-    public var currency: Currency
-    public var location: LGLocationCoordinates2D
-    public var postalAddress: PostalAddress
-    public var images: [File]
-    var languageCode: String
-
-    public convenience init(name: String?,
-                            description: String?,
-                            price: ListingPrice,
-                            category: ListingCategory,
-                            currency: Currency,
-                            location: LGLocationCoordinates2D,
-                            postalAddress: PostalAddress,
-                            images: [File]) {
-        self.init(name: name,
+    public init(name: String?,
+                description: String?,
+                price: ListingPrice,
+                category: ListingCategory,
+                currency: Currency,
+                location: LGLocationCoordinates2D,
+                postalAddress: PostalAddress,
+                images: [File]) {
+        super.init(name: name,
                   description: description,
                   price: price,
                   category: category,
@@ -258,7 +247,16 @@ public class ProductCreationParams {
                   languageCode: Locale.current.identifier,
                   images: images)
     }
-    
+
+    override func apiCreationEncode(userId: String) -> [String: Any] {
+        return super.apiCreationEncode(userId: userId)
+    }
+}
+
+public class CarCreationParams: BaseListingParams {
+
+    public var carAttributes: CarAttributes
+
     public init(name: String?,
                 description: String?,
                 price: ListingPrice,
@@ -266,92 +264,25 @@ public class ProductCreationParams {
                 currency: Currency,
                 location: LGLocationCoordinates2D,
                 postalAddress: PostalAddress,
-                languageCode: String,
-                images: [File]) {
-        self.name = name
-        self.descr = description
-        self.price = price
-        self.category = category
-        self.currency = currency
-        self.location = location
-        self.postalAddress = postalAddress
-        self.languageCode = languageCode
-        self.images = images
-    }
-
-    func apiCreationEncode(userId: String) -> [String: Any] {
-        var params: [String: Any] = [:]
-        params["name"] = name
-        params["category"] = category.rawValue
-        params["languageCode"] = languageCode
-        params["userId"] = userId
-        params["description"] = descr
-        params["price"] = price.value
-        params["price_flag"] = price.priceFlag.rawValue
-        params["currency"] = currency.code
-        params["latitude"] = location.latitude
-        params["longitude"] = location.longitude
-        params["countryCode"] = postalAddress.countryCode
-        params["city"] = postalAddress.city
-        params["address"] = postalAddress.address
-        params["zipCode"] = postalAddress.zipCode
-
-        let tokensString = images.flatMap{$0.objectId}.map{"\"" + $0 + "\""}.joined(separator: ",")
-        params["images"] = "[" + tokensString + "]"
-
-        return params
-    }
-}
-
-public class CarCreationParams {
-    
-    public var name: String?
-    public var descr: String?
-    public var price: ListingPrice
-    public var category: ListingCategory
-    public var currency: Currency
-    public var location: LGLocationCoordinates2D
-    public var postalAddress: PostalAddress
-    public var images: [File]
-    var languageCode: String
-    public var carAttributes: CarAttributes
-    
-    public init(name: String?, description: String?, price: ListingPrice, category: ListingCategory,
-                currency: Currency, location: LGLocationCoordinates2D, postalAddress: PostalAddress, images: [File],
+                images: [File],
                 carAttributes: CarAttributes) {
-        self.name = name
-        self.descr = description
-        self.price = price
-        self.category = category
-        self.currency = currency
-        self.location = location
-        self.postalAddress = postalAddress
-        self.languageCode = Locale.current.identifier
-        self.images = images
         self.carAttributes = carAttributes
+        super.init(name: name,
+                   description: description,
+                   price: price,
+                   category: category,
+                   currency: currency,
+                   location: location,
+                   postalAddress: postalAddress,
+                   languageCode: Locale.current.identifier,
+                   images: images)
     }
     
-    func apiCreationEncode(userId: String) -> [String: Any] {
-        var params: [String:Any] = [:]
-        params["name"] = name
-        params["category"] = category.rawValue
-        params["languageCode"] = languageCode
-        params["userId"] = userId
-        params["description"] = descr
-        params["price"] = price.value
-        params["price_flag"] = price.priceFlag.rawValue
-        params["currency"] = currency.code
-        params["latitude"] = location.latitude
-        params["longitude"] = location.longitude
-        params["countryCode"] = postalAddress.countryCode
-        params["city"] = postalAddress.city
-        params["address"] = postalAddress.address
-        params["zipCode"] = postalAddress.zipCode
-        
-        let tokensString = images.flatMap{$0.objectId}.map{"\"" + $0 + "\""}.joined(separator: ",")
-        params["images"] = "[" + tokensString + "]"
+    override func apiCreationEncode(userId: String) -> [String: Any] {
 
-        var carAttributesDict: [String:Any] = [:]
+        var params = super.apiCreationEncode(userId: userId)
+
+        var carAttributesDict: [String: Any] = [:]
         carAttributesDict["make"] = carAttributes.makeId ?? ""
         carAttributesDict["model"] = carAttributes.modelId ?? ""
         carAttributesDict["year"] = carAttributes.year ?? 0

@@ -9,8 +9,16 @@
 import Result
 import CoreLocation
 
-public typealias SuggestionsLocationRepositoryResult = Result<[Place], LocationError>
-public typealias SuggestionsLocationRepositoryCompletion = (SuggestionsLocationRepositoryResult) -> Void
+public enum LocationDataSourceType {
+    case apple(shouldUseRegion: Bool)
+    case niord
+}
+
+public typealias LocationSuggestionsRepositoryResult = Result<[Place], LocationError>
+public typealias LocationSuggestionsRepositoryCompletion = (LocationSuggestionsRepositoryResult) -> Void
+
+public typealias LocationSuggestionDetailsRepositoryResult = Result<Place, LocationError>
+public typealias LocationSuggestionDetailsRepositoryCompletion = (LocationSuggestionDetailsRepositoryResult) -> Void
 
 public typealias PostalAddressLocationRepositoryResult = Result<Place, LocationError>
 public typealias PostalAddressLocationRepositoryCompletion = (PostalAddressLocationRepositoryResult) -> Void
@@ -36,8 +44,11 @@ public protocol LocationRepository {
     func startUpdatingLocation()
     func stopUpdatingLocation()
     
-    func retrieveAddressForLocation(_ searchText: String, completion: SuggestionsLocationRepositoryCompletion?)
-    func retrieveAddressForLocation(_ location: LGLocationCoordinates2D, completion: PostalAddressLocationRepositoryCompletion?)
-    func retrieveLocationWithCompletion(_ completion: IPLookupLocationRepositoryCompletion?)
+    func setLocationDataSourceType(locationDataSourceType: LocationDataSourceType)
+    
+    func retrieveLocationSuggestions(addressString: String, currentLocation: LGLocation?, completion: LocationSuggestionsRepositoryCompletion?)
+    func retrieveLocationSuggestionDetails(placeId: String, completion: LocationSuggestionDetailsRepositoryCompletion?)
+    func retrievePostalAddress(location: LGLocationCoordinates2D, completion: PostalAddressLocationRepositoryCompletion?)
+    func retrieveIPLookupLocation(completion: IPLookupLocationRepositoryCompletion?)
 }
 

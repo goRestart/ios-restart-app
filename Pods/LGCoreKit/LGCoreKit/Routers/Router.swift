@@ -33,12 +33,6 @@ struct ChatBaseURL: BaseURL {
     static let contentTypeHeader: String? = nil
 }
 
-struct CommercializerBaseURL: BaseURL {
-    static var baseURL: String = EnvironmentProxy.sharedInstance.commercializerBaseURL
-    static let acceptHeader: String? = nil
-    static let contentTypeHeader: String? = nil
-}
-
 struct UserRatingsBaseURL: BaseURL {
     static var baseURL: String = EnvironmentProxy.sharedInstance.userRatingsBaseURL
     static let acceptHeader: String? = nil
@@ -65,6 +59,18 @@ struct PaymentsBaseURL: BaseURL {
 
 struct SuggestiveSearchBaseURL: BaseURL {
     static var baseURL: String = EnvironmentProxy.sharedInstance.suggestiveSearchBaseURL
+    static let acceptHeader: String? = nil
+    static let contentTypeHeader: String? = nil
+}
+
+struct SearchProductsBaseURL: BaseURL {
+    static let baseURL = EnvironmentProxy.sharedInstance.searchProductsBaseURL
+    static let acceptHeader: String? = "application/json;version=2"
+    static let contentTypeHeader: String? = nil
+}
+
+struct NiordBaseURL: BaseURL {
+    static var baseURL: String = EnvironmentProxy.sharedInstance.niordBaseURL
     static let acceptHeader: String? = nil
     static let contentTypeHeader: String? = nil
 }

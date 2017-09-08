@@ -11,7 +11,7 @@ struct Constants {
     static let fullNameMinLength = 2
     static let passwordMinLength = 4
     static let passwordMaxLength = 20
-    static let productDescriptionMaxLength = 1500
+    static let listingDescriptionMaxLength = 1500
     static let userRatingDescriptionMaxLength = 255
     static let userRatingMinStarsPositive = 3
     static let emailSuggestedDomains = ["gmail.com", "yahoo.com", "hotmail.com", "aol.com", "icloud.com", "outlook.com",
@@ -38,8 +38,8 @@ struct Constants {
     static let websiteContactUsEndpoint = "/contact_app"
     static let websitePrivacyEndpoint = "/privacy_app"
     static let websiteTermsEndpoint = "/terms_app"
-    static func websiteProductEndpoint(_ productId: String) -> String {
-        return String(format: "/product/%@", arguments: [productId])
+    static func websiteListingEndpoint(_ listingId: String) -> String {
+        return String(format: "/product/%@", arguments: [listingId])
     }
     static func websiteUserEndpoint(_ userId: String) -> String {
         return String(format: "/user/%@", arguments: [userId])
@@ -52,18 +52,18 @@ struct Constants {
     // Onboarding
     static let abTestSyncTimeout: TimeInterval = 5
     
-    // Product List
-    static let productListMaxDistanceLabel = 20
-    static let productListMaxMinsLabel = 60.0
-    static let productListMaxHoursLabel = 24.0
-    static let productListMaxDaysLabel = 30.0
-    static let productListMaxMonthsLabel = 3.0
-    static let productListFooterHeight: CGFloat = 70
-    static let productListFixedInsets: CGFloat = 6
-    static let productListNewLabelThreshold = TimeInterval.make(days: 1)
-    static let numProductsPerPageDefault = 50
-    static let numProductsPerPageBig = 50
-    static let productsPagingThresholdPercentage: Float = 0.4 // Percentage of page to check bottom threshold to paginate
+    // Listing List
+    static let listingListMaxDistanceLabel = 20
+    static let listingListMaxMinsLabel = 60.0
+    static let listingListMaxHoursLabel = 24.0
+    static let listingListMaxDaysLabel = 30.0
+    static let listingListMaxMonthsLabel = 3.0
+    static let listingListFooterHeight: CGFloat = 70
+    static let listingListFixedInsets: CGFloat = 6
+    static let listingListNewLabelThreshold = TimeInterval.make(days: 1)
+    static let numListingsPerPageDefault = 50
+    static let numListingsPerPageBig = 50
+    static let listingsPagingThresholdPercentage: Float = 0.4 // Percentage of page to check bottom threshold to paginate
     static let maxSelectedForYouQueryTerms = 15
     
     // Categories
@@ -72,6 +72,7 @@ struct Constants {
     // Filters
     static var distanceSliderDefaultPosition = 0
     static let distanceSliderPositions = [0, 1, 10, 20, 30, 100]
+    static let distanceSliderPositionsNew = [0, 5, 15, 25, 50, 100]
     
     // App sharing
     static let facebookAppLinkURL = "https://fb.me/900185926729336"
@@ -84,7 +85,7 @@ struct Constants {
     static let surveysMinGapTime = TimeInterval.make(days: 1)
     static let surveyDefaultTestUrl = "https://letgo1.typeform.com/to/e9Ndb4"
 
-    // Product posting
+    // Listing posting
     static let maxImageCount = 5
     static let maxPriceIntegerCharacters = 9
     static let maxPriceFractionalCharacters = 2
@@ -100,7 +101,7 @@ struct Constants {
     // Rating
     static let ratingRepeatTime = TimeInterval.make(days: 3)
 
-    // Product Detail
+    // Listing Detail
     static let minimumStatsCountToShow = 5
     static let maxCharactersOnUserNameChatButton = 12
     static let imageRequestPoolCapacity = 15
@@ -108,7 +109,7 @@ struct Constants {
     // User
     static let maxUserNameLength = 18
 
-    // Edit Product
+    // Edit Listing
     static let cloudsightTimeThreshold = TimeInterval.make(minutes: 15) // just ask for automatic generated name the first 15 mins
     static let cloudsightRequestRepeatInterval: TimeInterval = 2  // repeat the request every 2 seconds
 

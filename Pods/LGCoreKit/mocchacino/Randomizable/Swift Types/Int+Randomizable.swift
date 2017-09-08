@@ -1,6 +1,6 @@
 extension Int: Randomizable {
     public static func makeRandom() -> Int {
-        return makeRandom(min: 0, max: 100)
+        return makeRandom(min: 1, max: 100)
     }
 }
 

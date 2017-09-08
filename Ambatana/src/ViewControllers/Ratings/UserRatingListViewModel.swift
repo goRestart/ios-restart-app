@@ -166,10 +166,10 @@ extension UserRatingListViewModel:  UserRatingCellDelegate {
         switch receivedRating {
         case .conversation:
             return .conversation
-        case let .seller(productId):
-            return .buyer(productId: productId)
-        case let .buyer(productId):
-            return .seller(productId: productId)
+        case let .seller(listingId):
+            return .buyer(listingId: listingId)
+        case let .buyer(listingId):
+            return .seller(listingId: listingId)
         }
     }
 }

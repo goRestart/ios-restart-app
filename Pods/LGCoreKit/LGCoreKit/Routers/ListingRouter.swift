@@ -38,22 +38,22 @@ enum ListingRouter: URLRequestAuthenticable {
     case createTransactionOf(listingId: String, params: [String : Any])
 
 
-    static let productBaseUrl = "/api/products"
+    static let listingBaseUrl = "/api/products"
 
     var endpoint: String {
         switch self {
         case .delete, .update, .patch, .show, .create, .index:
-            return ListingRouter.productBaseUrl
+            return ListingRouter.listingBaseUrl
         case let .indexRelatedListings(listingId, _):
-            return ListingRouter.productBaseUrl + "/\(listingId)/related"
+            return ListingRouter.listingBaseUrl + "/\(listingId)/related"
         case let .indexDiscoverListings(listingId, _):
-            return ListingRouter.productBaseUrl + "/\(listingId)/discover"
+            return ListingRouter.listingBaseUrl + "/\(listingId)/discover"
         case let .deleteFavorite(userId, _):
             return UserRouter.userBaseUrl       + "/\(userId)/favorites/products/"
         case let .saveFavorite(userId, _):
             return UserRouter.userBaseUrl       + "/\(userId)/favorites/products/"
         case let .userRelation(userId, listingId):
-            return ListingRouter.productBaseUrl + "/\(listingId)/users/\(userId)"
+            return ListingRouter.listingBaseUrl + "/\(listingId)/users/\(userId)"
         case let .saveReport(userId, _):
             return UserRouter.userBaseUrl       + "/\(userId)/reports/products/"
         case let .indexForUser(userId, _):
@@ -61,19 +61,19 @@ enum ListingRouter: URLRequestAuthenticable {
         case let .indexFavorites(userId):
             return UserRouter.userBaseUrl       + "/\(userId)/favorites/products"
         case .indexLimbo:
-            return ListingRouter.productBaseUrl + "/limbo"
+            return ListingRouter.listingBaseUrl + "/limbo"
         case .indexTrending:
-            return ListingRouter.productBaseUrl + "/trending"
+            return ListingRouter.listingBaseUrl + "/trending"
         case let .showStats(listingId, _) :
-            return ListingRouter.productBaseUrl + "/\(listingId)/stats"
+            return ListingRouter.listingBaseUrl + "/\(listingId)/stats"
         case .updateStats(_):
-            return ListingRouter.productBaseUrl + "/stats"
+            return ListingRouter.listingBaseUrl + "/stats"
         case let .possibleBuyers(listingId):
-            return ListingRouter.productBaseUrl + "/\(listingId)/conversations/users"
+            return ListingRouter.listingBaseUrl + "/\(listingId)/conversations/users"
         case let .retrieveTransactionsOf(listingId):
-            return ListingRouter.productBaseUrl + "/\(listingId)/transactions"
+            return ListingRouter.listingBaseUrl + "/\(listingId)/transactions"
         case let .createTransactionOf(listingId, _):
-            return ListingRouter.productBaseUrl + "/\(listingId)/transactions"
+            return ListingRouter.listingBaseUrl + "/\(listingId)/transactions"
         }
     }
 
@@ -114,22 +114,22 @@ enum ListingRouter: URLRequestAuthenticable {
         case let .create(params):
             return try Router<APIBaseURL>.create(endpoint: endpoint, params: params, encoding: .url).asURLRequest()
         case let .indexRelatedListings(_, params):
-            return try Router<APIBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
+            return try Router<SearchProductsBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
         case let .indexDiscoverListings(_, params):
-            return try Router<APIBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
+            return try Router<SearchProductsBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
         case .userRelation(_, _):
             return try Router<APIBaseURL>.read(endpoint: endpoint, params: [:]).asURLRequest()
         case let .saveReport(_, listingId):
             return try Router<APIBaseURL>.update(endpoint: endpoint, objectId: listingId, params: [:],
                                              encoding: nil).asURLRequest()
         case let .index(params):
-            return try Router<APIBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
+            return try Router<SearchProductsBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
         case let .indexForUser(_, params):
-            return try Router<APIBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
+            return try Router<SearchProductsBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
         case .indexFavorites:
             return try Router<APIBaseURL>.read(endpoint: endpoint, params: [:]).asURLRequest()
         case let .indexLimbo(params):
-            return try Router<APIBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
+            return try Router<SearchProductsBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
         case let .indexTrending(params):
             return try Router<APIBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
         case .showStats:

@@ -50,11 +50,6 @@
         "values": ["no", "yes"],
         "description": "Cars multi requester enabled"
     },
-    {
-        "name": "NewCarouselNavigationEnabled",
-        "values": ["no", "yes"],
-        "description": "New carousel navigation enabled"
-    },
     {        
         "name": "NewOnboardingPhase1",
         "values": ["no", "yes"],
@@ -64,11 +59,6 @@
         "name": "InAppRatingIOS10",
         "values": ["no", "yes"],
         "description": "New in-app rating for iOS 10.3+"
-    },
-    {
-        "name": "SuggestedSearches",
-        "values": ["control", "baseline", "active"],
-        "description": "New suggested searches section"
     },
     {
         "name": "AddSuperKeywordsOnFeed",
@@ -109,5 +99,30 @@
         "name": "UserReviewsReportEnabled",
         "values": ["no", "yes"],
         "description": "User reviews report enabled"
+    },
+    {
+        "name": "DynamicQuickAnswers",
+        "values": ["control", "baseline", "dynamicNoKeyboard", "dynamicWithKeyboard"],
+        "description": "Random quick answers with different approaches"
+    },
+    {
+        "name": "AppRatingDialogInactive",
+        "values": ["no", "yes"],
+        "description": "App rating dialog inactive to increase user activation"
+    },
+    {
+        "name": "FeedFilterRadiusValues",
+        "values": ["control", "baseline", "newValues"],
+        "description": "Feed filter radius values"
+    },
+    {
+        "name": "ExpandableCategorySelectionMenu",
+        "values": ["control", "baseline", "expandableMenu"],
+        "description": "Show 'salchichas' menu on sell your stuff button"
+    },
+    {
+        "name": "LocationDataSourceEndpoint",
+        "values": ["control", "baseline", "appleWithRegion", "niordWithRegion"],
+        "description": "Location data source for geocode and reverse geocode"
     }
 ]

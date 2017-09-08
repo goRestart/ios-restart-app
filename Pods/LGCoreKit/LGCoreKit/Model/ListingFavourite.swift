@@ -7,6 +7,6 @@
 //
 
 public protocol ListingFavourite: BaseModel {
-    var product: Product { get }
+    var listing: Listing { get }
     var user: UserListing { get }
 }

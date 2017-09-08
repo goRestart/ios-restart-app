@@ -16,7 +16,7 @@ class BumpUpFreeViewController: BaseViewController {
 
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var imageContainer: UIView!
-    @IBOutlet weak var productImageView: UIImageView!
+    @IBOutlet weak var listingImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!
     @IBOutlet weak var shareButtonsContainer: UIView!
@@ -50,7 +50,7 @@ class BumpUpFreeViewController: BaseViewController {
 
     func setupUI() {
         if let imageUrl = viewModel.listing.images.first?.fileURL {
-            productImageView.lg_setImageWithURL(imageUrl, placeholderImage: nil, completion: {
+            listingImageView.lg_setImageWithURL(imageUrl, placeholderImage: nil, completion: {
                 [weak self] (result, url) -> Void in
                 if let _ = result.value {
                     self?.titleVerticalCenterConstraint.constant = BumpUpFreeViewController.titleVerticalOffsetWithImage
@@ -65,7 +65,7 @@ class BumpUpFreeViewController: BaseViewController {
             imageContainer.isHidden = true
         }
 
-        productImageView.layer.cornerRadius = LGUIKitConstants.productCellCornerRadius
+        listingImageView.layer.cornerRadius = LGUIKitConstants.listingCellCornerRadius
         shareButtonsContainerWidth.constant = CGFloat(viewModel.shareTypes.count)*BumpUpFreeViewController.shareButtonWidth
         titleLabel.text = viewModel.title
         subtitleLabel.text = viewModel.subtitle
@@ -96,7 +96,7 @@ class BumpUpFreeViewController: BaseViewController {
 
     private func setAccessibilityIds() {
         closeButton.accessibilityId = .freeBumpUpCloseButton
-        productImageView.accessibilityId = .freeBumpUpImage
+        listingImageView.accessibilityId = .freeBumpUpImage
         titleLabel.accessibilityId = .freeBumpUpTitleLabel
         subtitleLabel.accessibilityId = .freeBumpUpSubtitleLabel
         socialShareView.accessibilityId = .freeBumpUpSocialShareView

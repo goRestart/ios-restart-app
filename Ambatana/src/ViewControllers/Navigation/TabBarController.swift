@@ -9,14 +9,15 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import LGCoreKit
 
 
 protocol ScrollableToTop {
     func scrollToTop()
 }
 
-protocol ProductsRefreshable {
-    func productsRefresh()
+protocol ListingsRefreshable {
+    func listingsRefresh()
 }
 
 final class TabBarController: UITabBarController {
@@ -28,24 +29,28 @@ final class TabBarController: UITabBarController {
     fileprivate let viewModel: TabBarViewModel
     fileprivate var tooltip: Tooltip?
     fileprivate var featureFlags: FeatureFlaggeable
+    fileprivate let tracker: Tracker
     
     // Rx
     fileprivate let disposeBag = DisposeBag()
 
     fileprivate static let appRatingTag = Int.makeRandom()
-
+    fileprivate static let categorySelectionTag = Int.makeRandom()
+    
     
     // MARK: - Lifecycle
 
     convenience init(viewModel: TabBarViewModel) {
         let featureFlags = FeatureFlags.sharedInstance
-        self.init(viewModel: viewModel, featureFlags: featureFlags)
+        let tracker = TrackerProxy.sharedInstance
+        self.init(viewModel: viewModel, featureFlags: featureFlags, tracker: tracker)
     }
     
-    init(viewModel: TabBarViewModel, featureFlags: FeatureFlaggeable) {
-        self.floatingSellButton = FloatingButton(with: LGLocalizedString.tabBarToolTip, image: UIImage(named: "ic_sell_white"), position: .left)
+    init(viewModel: TabBarViewModel, featureFlags: FeatureFlaggeable, tracker: Tracker) {
         self.viewModel = viewModel
         self.featureFlags = featureFlags
+        self.tracker = tracker
+        self.floatingSellButton = FloatingButton(with: LGLocalizedString.tabBarToolTip, image: UIImage(named: "ic_sell_white"), position: .left)
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -182,12 +187,31 @@ final class TabBarController: UITabBarController {
 
     private func setupSellButton() {
         
-        floatingSellButton.buttonTouchBlock = { [weak self] in self?.viewModel.sellButtonPressed() }
+        if featureFlags.expandableCategorySelectionMenu.isActive {
+            floatingSellButton.buttonTouchBlock = { [weak self] in
+                self?.setupExpandableCategoriesView()
+            }
+        } else {
+            floatingSellButton.buttonTouchBlock = { [weak self] in self?.viewModel.sellButtonPressed() }
+        }
         floatingSellButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(floatingSellButton)
         floatingSellButton.layout(with: view).centerX()
         floatingSellButton.layout(with: view).bottom(by: -(tabBar.frame.height + LGUIKitConstants.tabBarSellFloatingButtonDistance), constraintBlock: {[weak self] in self?.floatingSellButtonMarginConstraint = $0 })
         floatingSellButton.layout(with: view).leading(by: LGUIKitConstants.tabBarSellFloatingButtonDistance, relatedBy: .greaterThanOrEqual).trailing(by: -LGUIKitConstants.tabBarSellFloatingButtonDistance, relatedBy: .lessThanOrEqual)
+    }
+    
+    
+    func setupExpandableCategoriesView() {
+        view.subviews.find(where: { $0.tag == TabBarController.categorySelectionTag })?.removeFromSuperview()
+        let vm = ExpandableCategorySelectionViewModel()
+        vm.delegate = self
+        let expandableCategorySelectionView = ExpandableCategorySelectionView(frame:view.frame, buttonSpacing: ExpandableCategorySelectionView.distanceBetweenButtons, bottomDistance: floatingSellButtonMarginConstraint.constant, viewModel: vm)
+        expandableCategorySelectionView.tag = TabBarController.categorySelectionTag
+        view.addSubview(expandableCategorySelectionView)
+        expandableCategorySelectionView.layoutIfNeeded()
+        floatingSellButton.hideWithAnimation()
+        expandableCategorySelectionView.expand(animated: true)
     }
 
     private func setupBadgesRx() {
@@ -244,6 +268,20 @@ extension TabBarController {
     func setAccessibilityIds() {
         floatingSellButton.isAccessibilityElement = true
         floatingSellButton.accessibilityId = AccessibilityId.tabBarFloatingSellButton
+    }
+}
+
+// MARK: - ExpandableCategorySelectionDelegate
+
+extension TabBarController: ExpandableCategorySelectionDelegate {
+    func closeButtonDidPressed() {
+        floatingSellButton.showWithAnimation()
+    }
+    func categoryButtonDidPressed(listingCategory: ListingCategory) {
+        floatingSellButton.showWithAnimation()
+        let event = TrackerEvent.listingSellYourStuffButton()
+        tracker.trackEvent(event)
+        viewModel.expandableButtonPressed(listingCategory: listingCategory)
     }
 }
 

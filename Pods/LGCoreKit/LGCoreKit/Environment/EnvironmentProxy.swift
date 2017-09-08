@@ -49,7 +49,6 @@ class EnvironmentProxy: Environment {
 
     var apiBaseURL: String { return environment.apiBaseURL }
     var bouncerBaseURL: String { return environment.bouncerBaseURL }
-    var commercializerBaseURL: String { return environment.commercializerBaseURL }
     var userRatingsBaseURL: String { return environment.userRatingsBaseURL }
     var chatBaseURL: String { return environment.chatBaseURL }
     var webSocketURL: String { return environment.webSocketURL }
@@ -57,4 +56,6 @@ class EnvironmentProxy: Environment {
     var passiveBuyersBaseURL: String { return environment.passiveBuyersBaseURL }
     var paymentsBaseURL: String { return environment.paymentsBaseURL }
     var suggestiveSearchBaseURL: String { return environment.suggestiveSearchBaseURL }
+    var searchProductsBaseURL: String { return environment.searchProductsBaseURL }
+    var niordBaseURL: String { return environment.niordBaseURL }
 }

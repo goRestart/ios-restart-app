@@ -29,11 +29,9 @@ protocol FeatureFlaggeable: class {
     var productDetailNextRelated: Bool { get }
     var newMarkAsSoldFlow: Bool { get }
     var newCarsMultiRequesterEnabled: Bool { get }
-    var newCarouselNavigationEnabled: Bool { get }
     var newOnboardingPhase1: Bool { get }
     var searchParamDisc129: SearchParamDisc129 { get }
     var inAppRatingIOS10: Bool { get }
-    var suggestedSearches: SuggestedSearches { get }
     var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed { get }
     var superKeywordsOnOnboarding: SuperKeywordsOnOnboarding { get }
     var copiesImprovementOnboarding: CopiesImprovementOnboarding { get }
@@ -41,13 +39,17 @@ protocol FeatureFlaggeable: class {
     var openGalleryInPosting: OpenGalleryInPosting { get }
     var tweaksCarPostingFlow: TweaksCarPostingFlow { get }
     var userReviewsReportEnabled: Bool { get }
+    var dynamicQuickAnswers: DynamicQuickAnswers { get }
+    var locationDataSourceEndpoint: LocationDataSourceEndpoint { get }
+    var appRatingDialogInactive: Bool { get }
+    var feedFilterRadiusValues: FeedFilterRadiusValues { get }
+    var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
     var locationRequiresManualChangeSuggestion: Bool { get }
     var signUpEmailNewsletterAcceptRequired: Bool { get }
     var signUpEmailTermsAndConditionsAcceptRequired: Bool { get }
-    func commercialsAllowedFor(productCountryCode: String?) -> Bool
     func collectionsAllowedFor(countryCode: String?) -> Bool
 }
 
@@ -78,6 +80,7 @@ extension SuperKeywordsOnOnboarding {
         }
     }
 }
+
 extension BumpUpImprovementBanner {
     var isActive: Bool {
         switch self {
@@ -100,6 +103,16 @@ extension TweaksCarPostingFlow {
     }
 }
 
+extension ExpandableCategorySelectionMenu {
+    var isActive: Bool {
+        switch self {
+        case .control, .baseline:
+            return false
+        case .expandableMenu:
+            return true
+        }
+    }
+}
 
 class FeatureFlags: FeatureFlaggeable {
     static let sharedInstance: FeatureFlags = FeatureFlags()
@@ -229,13 +242,6 @@ class FeatureFlags: FeatureFlaggeable {
         return abTests.newCarsMultiRequesterEnabled.value
     }
 
-    var newCarouselNavigationEnabled: Bool {
-        if Bumper.enabled {
-            return Bumper.newCarouselNavigationEnabled
-        }
-        return abTests.newCarouselNavigationEnabled.value
-    }
-
     var newOnboardingPhase1: Bool {
         if Bumper.enabled {
             return Bumper.newOnboardingPhase1
@@ -255,13 +261,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.inAppRatingIOS10
         }
         return abTests.inAppRatingIOS10.value
-    }
-    
-    var suggestedSearches: SuggestedSearches {
-        if Bumper.enabled {
-            return Bumper.suggestedSearches
-        }
-        return SuggestedSearches.fromPosition(abTests.suggestedSearches.value)
     }
     
     var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed {
@@ -313,6 +312,41 @@ class FeatureFlags: FeatureFlaggeable {
         return abTests.userReviewsReportEnabled.value
     }
     
+    var dynamicQuickAnswers: DynamicQuickAnswers {
+        if Bumper.enabled {
+            return Bumper.dynamicQuickAnswers
+        }
+        return DynamicQuickAnswers.fromPosition(abTests.dynamicQuickAnswers.value)
+    }
+
+    var appRatingDialogInactive: Bool {
+        if Bumper.enabled {
+            return Bumper.appRatingDialogInactive
+        }
+        return abTests.appRatingDialogInactive.value
+    }
+    
+    var feedFilterRadiusValues: FeedFilterRadiusValues {
+        if Bumper.enabled {
+            return Bumper.feedFilterRadiusValues
+        }
+        return FeedFilterRadiusValues.fromPosition(abTests.feedFilterRadiusValues.value)
+    }
+    
+    var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu {
+        if Bumper.enabled {
+            return Bumper.expandableCategorySelectionMenu
+        }
+        return ExpandableCategorySelectionMenu.fromPosition(abTests.expandableCategorySelectionMenu.value)
+    }
+    
+    var locationDataSourceEndpoint: LocationDataSourceEndpoint {
+        if Bumper.enabled {
+            return Bumper.locationDataSourceEndpoint
+        }
+        return LocationDataSourceEndpoint.fromPosition(abTests.locationDataSourceType.value)
+    }
+    
 
     // MARK: - Country features
 
@@ -350,16 +384,6 @@ class FeatureFlags: FeatureFlaggeable {
     var signUpEmailTermsAndConditionsAcceptRequired: Bool {
         switch (locationCountryCode, localeCountryCode) {
         case (.turkey?, _), (_, .turkey?):
-            return true
-        default:
-            return false
-        }
-    }
-
-    func commercialsAllowedFor(productCountryCode: String?) -> Bool {
-        guard let code = productCountryCode, let countryCode = CountryCode(string: code) else { return false }
-        switch countryCode {
-        case .usa:
             return true
         default:
             return false

@@ -29,8 +29,8 @@ enum EventName: String {
     case loginBlockedAccountContactUs       = "login-blocked-account-contact-us"
     case loginBlockedAccountKeepBrowsing    = "login-blocked-account-keep-browsing"
 
-    case productList                        = "product-list"
-    case productListVertical                = "product-list-vertical"
+    case listingList                        = "product-list"
+    case listingListVertical                = "product-list-vertical"
     case exploreCollection                  = "explore-collection"
     
     case searchStart                        = "search-start"
@@ -40,47 +40,47 @@ enum EventName: String {
     case filterComplete                     = "filter-complete"
     case filterLocationStart                = "filter-location-start"
     
-    case productDetailVisit                 = "product-detail-visit"
-    case productDetailVisitMoreInfo         = "product-detail-visit-more-info"
-    case productNotAvailable                = "product-not-available"
+    case listingDetailVisit                 = "product-detail-visit"
+    case listingDetailVisitMoreInfo         = "product-detail-visit-more-info"
+    case listingNotAvailable                = "product-not-available"
     
-    case productFavorite                    = "product-detail-favorite"
-    case productShare                       = "product-detail-share"
-    case productShareCancel                 = "product-detail-share-cancel"
-    case productShareComplete               = "product-detail-share-complete"
+    case listingFavorite                    = "product-detail-favorite"
+    case listingShare                       = "product-detail-share"
+    case listingShareCancel                 = "product-detail-share-cancel"
+    case listingShareComplete               = "product-detail-share-complete"
     
     case firstMessage                       = "product-detail-ask-question"
-    case productOpenChat                    = "product-detail-open-chat"
-    case productMarkAsSold                  = "product-detail-sold"
-    case productMarkAsSoldAtLetgo           = "product-detail-sold-at-letgo"
-    case productMarkAsSoldOutsideLetgo      = "product-detail-sold-outside-letgo"
-    case productMarkAsUnsold                = "product-detail-unsold"
+    case listingOpenChat                    = "product-detail-open-chat"
+    case listingMarkAsSold                  = "product-detail-sold"
+    case listingMarkAsSoldAtLetgo           = "product-detail-sold-at-letgo"
+    case listingMarkAsSoldOutsideLetgo      = "product-detail-sold-outside-letgo"
+    case listingMarkAsUnsold                = "product-detail-unsold"
     
-    case productReport                      = "product-detail-report"
+    case listingReport                      = "product-detail-report"
     
-    case productSellStart                   = "product-sell-start"
-    case productSellSharedFB                = "product-sell-shared-fb"
-    case productSellComplete                = "product-sell-complete"
-    case productSellComplete24h             = "product-sell-complete-24h"
-    case productSellError                   = "product-sell-error"
-    case productSellErrorClose              = "product-sell-error-close"
-    case productSellErrorPost               = "product-sell-error-post"
-    case productSellErrorData               = "product-sell-error-data"
-    case productSellConfirmation            = "product-sell-confirmation"
-    case productSellConfirmationPost        = "product-sell-confirmation-post"
-    case productSellConfirmationClose       = "product-sell-confirmation-close"
-    case productSellConfirmationEdit        = "product-sell-confirmation-edit"
-    case productSellConfirmationShare       = "product-sell-confirmation-share"
-    case productSellConfirmationShareCancel = "product-sell-confirmation-share-cancel"
-    case productSellConfirmationShareComplete = "product-sell-confirmation-share-complete"
+    case listingSellYourStuffButton         = "product-sell-your-stuff-button"
+    case listingSellStart                   = "product-sell-start"
+    case listingSellComplete                = "product-sell-complete"
+    case listingSellComplete24h             = "product-sell-complete-24h"
+    case listingSellError                   = "product-sell-error"
+    case listingSellErrorClose              = "product-sell-error-close"
+    case listingSellErrorPost               = "product-sell-error-post"
+    case listingSellErrorData               = "product-sell-error-data"
+    case listingSellConfirmation            = "product-sell-confirmation"
+    case listingSellConfirmationPost        = "product-sell-confirmation-post"
+    case listingSellConfirmationClose       = "product-sell-confirmation-close"
+    case listingSellConfirmationEdit        = "product-sell-confirmation-edit"
+    case listingSellConfirmationShare       = "product-sell-confirmation-share"
+    case listingSellConfirmationShareCancel = "product-sell-confirmation-share-cancel"
+    case listingSellConfirmationShareComplete = "product-sell-confirmation-share-complete"
     
-    case productEditStart                   = "product-edit-start"
-    case productEditFormValidationFailed    = "product-edit-form-validation-failed"
-    case productEditSharedFB                = "product-edit-shared-fb"
-    case productEditComplete                = "product-edit-complete"
+    case listingEditStart                   = "product-edit-start"
+    case listingEditFormValidationFailed    = "product-edit-form-validation-failed"
+    case listingEditSharedFB                = "product-edit-shared-fb"
+    case listingEditComplete                = "product-edit-complete"
     
-    case productDeleteStart                 = "product-delete-start"
-    case productDeleteComplete              = "product-delete-complete"
+    case listingDeleteStart                 = "product-delete-start"
+    case listingDeleteComplete              = "product-delete-complete"
     
     case userMessageSent                    = "user-sent-message"
     case userMessageSentError               = "user-sent-message-error"
@@ -120,13 +120,6 @@ enum EventName: String {
     case permissionSystemComplete           = "permission-system-complete"
 
     case locationMap                        = "location-map"
-
-    case commercializerStart                = "commercializer-start"
-    case commercializerError                = "commercializer-error"
-    case commercializerComplete             = "commercializer-complete"
-    case commercializerOpen                 = "commercializer-open"
-    case commercializerShareStart           = "commercializer-share-start"
-    case commercializerShareComplete        = "commercializer-share-complete"
 
     case userRatingStart                    = "user-rating-start"
     case userRatingComplete                 = "user-rating-complete"
@@ -204,17 +197,17 @@ enum EventName: String {
 
 enum EventParameterName: String {
     case categoryId           = "category-id"           // 0 if there's no category
-    case productId            = "product-id"
-    case productCity          = "product-city"
-    case productCountry       = "product-country"
-    case productZipCode       = "product-zipcode"
-    case productLatitude      = "product-lat"
-    case productLongitude     = "product-lng"
-    case productName          = "product-name"
-    case productPrice         = "product-price"
-    case productCurrency      = "product-currency"
-    case productDescription   = "product-description"
-    case productType          = "item-type"             // real (1) / dummy (0).
+    case listingId            = "product-id"
+    case listingCity          = "product-city"
+    case listingCountry       = "product-country"
+    case listingZipCode       = "product-zipcode"
+    case listingLatitude      = "product-lat"
+    case listingLongitude     = "product-lng"
+    case listingName          = "product-name"
+    case listingPrice         = "product-price"
+    case listingCurrency      = "product-currency"
+    case listingDescription   = "product-description"
+    case listingType          = "item-type"             // real (1) / dummy (0).
     case userId               = "user-id"
     case userToId             = "user-to-id"
     case userEmail            = "user-email"
@@ -256,7 +249,6 @@ enum EventParameterName: String {
     case quickAnswer          = "quick-answer"
     case reportReason         = "report-reason"
     case tab                  = "tab"
-    case template             = "template"
     case userAction           = "user-action"
     case appRatingSource      = "app-rating-source"
     case messageType          = "message-type"
@@ -269,7 +261,7 @@ enum EventParameterName: String {
     case itemPosition         = "item-position"
     case expressConversations = "express-conversations"
     case collectionTitle      = "collection-title"
-    case productVisitSource   = "visit-source"
+    case listingVisitSource   = "visit-source"
     case numberOfUsers        = "number-of-users"
     case priceFrom            = "price-from"
     case priceTo              = "price-to"
@@ -549,7 +541,7 @@ enum EventParameterLoginError {
     }
 }
 
-enum EventParameterPostProductError {
+enum EventParameterPostListingError {
     case network
     case internalError
     case forbidden(cause: ForbiddenCause)
@@ -626,20 +618,18 @@ enum EventParameterEditedFields: String {
 }
 
 enum EventParameterTypePage: String {
-    case productList = "product-list"
-    case productListBanner = "product-list-banner"
+    case listingList = "product-list"
+    case listingListBanner = "product-list-banner"
     case chat = "chat"
     case tabBar = "tab-bar"
     case chatList = "chat-list"
     case sell = "product-sell"
     case edit = "product-edit"
-    case productDetail = "product-detail"
-    case productDetailMoreInfo = "product-detail-more-info"
+    case listingDetail = "product-detail"
+    case listingDetailMoreInfo = "product-detail-more-info"
     case settings = "settings"
     case install = "install"
     case profile = "profile"
-    case commercializerPlayer = "commercializer-player"
-    case commercializerPreview = "commercializer-preview"
     case pushNotification = "push-notification"
     case email = "email"
     case onboarding = "onboarding"
@@ -649,8 +639,8 @@ enum EventParameterTypePage: String {
     case incentivizePosting = "incentivize-posting"
     case userRatingList = "user-rating-list"
     case expressChat = "express-chat"
-    case productDelete = "product-delete"
-    case productSold = "product-sold"
+    case listingDelete = "product-delete"
+    case listingSold = "product-sold"
     case inAppNotification = "in-app-notification"
     case filter = "filter"
 }
@@ -690,13 +680,7 @@ enum EventParameterReportReason: String {
     case other = "other"
 }
 
-enum EventParameterCommercializerError: String {
-    case network = "commercializer-network"
-    case internalError = "commercializer-internal"
-    case duplicated = "commercializer-duplicated"
-}
-
-enum ProductVisitUserAction: String {
+enum ListingVisitUserAction: String {
     case tap = "tap"
     case swipeLeft = "swipe-left"
     case swipeRight = "swipe-right"
@@ -705,13 +689,13 @@ enum ProductVisitUserAction: String {
 
 enum EventParameterRatingSource: String {
     case chat = "chat"
-    case productSellComplete = "product-sell-complete"
+    case listingSellComplete = "product-sell-complete"
     case markedSold = "marked-sold"
     case favorite = "favorite"
 }
 
-enum EventParameterProductVisitSource: String {
-    case productList = "product-list"
+enum EventParameterListingVisitSource: String {
+    case listingList = "product-list"
     case moreInfoRelated = "more-info-related"
     case collection = "collection"
     case search = "search"
@@ -767,11 +751,11 @@ enum EventParameterProfileType: String {
 
 enum EventParameterNotificationType: String {
     case favorite = "favorite"
-    case productSold = "favorite-sold"
+    case listingSold = "favorite-sold"
     case rating = "rating"
     case ratingUpdated = "rating-updated"
     case buyersInterested = "passive-buyer-seller"
-    case productSuggested = "passive-buyer-make-offer"
+    case listingSuggested = "passive-buyer-make-offer"
     case facebookFriendshipCreated = "facebook-friendship-created"
     case modular = "modular"
 }
@@ -794,7 +778,7 @@ enum EventParameterNotificationClickArea: String {
 enum EventParameterNotificationAction: String {
     case home = "product-list"
     case sell = "product-sell-start"
-    case product = "product-detail-visit"
+    case listing = "product-detail-visit"
     case user = "profile-visit"
     case conversations = "conversations"
     case conversation = "conversation"
@@ -808,8 +792,8 @@ enum EventParameterNotificationAction: String {
 }
 
 enum EventParameterRelatedShownReason: String {
-    case productSold = "product-sold"
-    case productDeleted = "product-deleted"
+    case listingSold = "product-sold"
+    case listingDeleted = "product-deleted"
     case userDeleted = "user-deleted"
     case unanswered48h = "unanswered-48h"
     case forbidden = "forbidden"
@@ -820,10 +804,10 @@ enum EventParameterRelatedShownReason: String {
             self = .forbidden
         case .blocked, .blockedBy:
             self = .unanswered48h
-        case .productDeleted:
-            self = .productDeleted
-        case .productSold:
-            self = .productSold
+        case .listingDeleted:
+            self = .listingDeleted
+        case .listingSold:
+            self = .listingSold
         case .userPendingDelete, .userDeleted:
             self = .userDeleted
         case .available:
@@ -887,9 +871,9 @@ enum EventParameterQuickAnswerType: String {
     case stillAvailable = "still-available"
     case isNegotiable = "is-negotiable"
     case likeToBuy = "like-to-buy"
-    case productCondition = "condition"
-    case productStillForSale = "still-for-sale"
-    case productSold = "sold"
+    case listingCondition = "condition"
+    case listingStillForSale = "still-for-sale"
+    case listingSold = "sold"
     case whatsOffer = "whats-offer"
     case negotiableYes = "negotiable-yes"
     case negotiableNo = "negotiable-no"
@@ -944,35 +928,23 @@ struct EventParameters {
         params[.loginRememberedAccount] = rememberedAccount
     }
     
-    internal mutating func addProductParams(_ product: Product) {
-        params[.productId] = product.objectId
-        params[.productLatitude] = product.location.latitude
-        params[.productLongitude] = product.location.longitude
-        params[.productPrice] = product.price.value
-        params[.productCurrency] = product.currency.code
-        params[.categoryId] = product.category.rawValue
-        params[.productType] = product.user.isDummy ?
-            EventParameterProductItemType.dummy.rawValue : EventParameterProductItemType.real.rawValue
-        params[.userToId] = product.user.objectId
-    }
-
     internal mutating func addListingParams(_ listing: Listing) {
-        params[.productId] = listing.objectId
-        params[.productLatitude] = listing.location.latitude
-        params[.productLongitude] = listing.location.longitude
-        params[.productPrice] = listing.price.value
-        params[.productCurrency] = listing.currency.code
+        params[.listingId] = listing.objectId
+        params[.listingLatitude] = listing.location.latitude
+        params[.listingLongitude] = listing.location.longitude
+        params[.listingPrice] = listing.price.value
+        params[.listingCurrency] = listing.currency.code
         params[.categoryId] = listing.category.rawValue
-        params[.productType] = listing.user.isDummy ?
+        params[.listingType] = listing.user.isDummy ?
             EventParameterProductItemType.dummy.rawValue : EventParameterProductItemType.real.rawValue
         params[.userToId] = listing.user.objectId
     }
 
     internal mutating func addChatListingParams(_ listing: ChatListing) {
-        params[.productId] = listing.objectId
-        params[.productPrice] = listing.price.value
-        params[.productCurrency] = listing.currency.code
-        params[.productType] = EventParameterProductItemType.real.rawValue
+        params[.listingId] = listing.objectId
+        params[.listingPrice] = listing.price.value
+        params[.listingCurrency] = listing.currency.code
+        params[.listingType] = EventParameterProductItemType.real.rawValue
     }
 
     internal subscript(paramName: EventParameterName) -> Any? {

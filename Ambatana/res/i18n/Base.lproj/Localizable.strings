@@ -160,6 +160,9 @@
 // Text for non assigned category
 "categories_unassigned" = "Not selected";
 
+// Text for posting with no category assigned
+"categories_unassigned_items" = "Other items";
+
 // Category "Cars"
 "categories_car" = "Cars";
 
@@ -913,34 +916,34 @@
 "direct_answer_where_located" = "Where are you located?";
 
 // Chat direct availability title
-"direct_answer_availability_title" = "Availability";
+"direct_answer_availability_title" = "Availability...";
 
 // Chat direct price title
-"direct_answer_price_title" = "Price";
+"direct_answer_price_title" = "Price...";
 
 // Chat direct condition title
-"direct_answer_condition_title" = "Condition";
+"direct_answer_condition_title" = "Condition...";
 
 // Chat direct meet up title
-"direct_answer_meet_up_title" = "Meet up";
+"direct_answer_meet_up_title" = "Meet up...";
 
 // Chat direct interested title
-"direct_answer_interested_title" = "Interested";
+"direct_answer_interested_title" = "Interested...";
 
 // Chat direct not interested title
-"direct_answer_not_interested_title" = "Not interested";
+"direct_answer_not_interested_title" = "Not interested...";
 
 // Chat direct sold title
-"direct_answer_sold_title" = "Sold";
+"direct_answer_sold_title" = "Sold...";
 
 // Chat direct given away title
-"direct_answer_given_away_title" = "Given away";
+"direct_answer_given_away_title" = "Given away...";
 
 // Chat direct negotiable title
-"direct_answer_negotiable_title" = "Negotiable";
+"direct_answer_negotiable_title" = "Negotiable...";
 
 // Chat direct not negotiable title
-"direct_answer_not_negotiable_title" = "Not negotiable";
+"direct_answer_not_negotiable_title" = "Not negotiable...";
 
 // Text for Edit Product Location Alert
 "edit_product_location_alert_text" = "To change where your product is posted, allow access to your location";
@@ -2721,7 +2724,7 @@
 "suggestions_last_searches_title" = "Recent Searches";
 
 // Button title when user wants to remove Recent Search
-"suggestions_last_searches_clear_button" = "Clear";
+"suggestions_last_searches_clear_button" = "Clear all";
 
 // Tab bar tool tip. Check attached image "tab_bar.png"
 "tab_bar_tool_tip" = "Sell Your Stuff";

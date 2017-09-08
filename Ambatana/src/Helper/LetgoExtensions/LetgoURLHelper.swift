@@ -54,8 +54,8 @@ class LetgoURLHelper {
         return URL(string: buildHomeURLString())  // not localized
     }
 
-    static func buildProductURL(productId: String) -> URL? {
-        return URL(string: environment.websiteUrl(Constants.websiteProductEndpoint(productId)))   // not localized
+    static func buildProductURL(listingId: String) -> URL? {
+        return URL(string: environment.websiteUrl(Constants.websiteListingEndpoint(listingId)))   // not localized
     }
 
     static func buildUserURL(userId: String) -> URL? {

@@ -89,7 +89,7 @@ class AppShareViewController: UIViewController {
         KeyValueStorage.sharedInstance.userAppShared = true
         dismiss()
 
-        let trackerEvent = TrackerEvent.appInviteFriendDontAsk(.productList)
+        let trackerEvent = TrackerEvent.appInviteFriendDontAsk(.listingList)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
@@ -135,7 +135,7 @@ class AppShareViewController: UIViewController {
     }
 
     private func trackShown() {
-        let trackerEvent = TrackerEvent.appInviteFriendStart(.productList)
+        let trackerEvent = TrackerEvent.appInviteFriendStart(.listingList)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
@@ -156,7 +156,7 @@ class AppShareViewController: UIViewController {
 
 extension AppShareViewController: SocialSharerDelegate {
     func shareStartedIn(_ shareType: ShareType) {
-        let trackerEvent = TrackerEvent.appInviteFriend(shareType.trackingShareNetwork, typePage: .productList)
+        let trackerEvent = TrackerEvent.appInviteFriend(shareType.trackingShareNetwork, typePage: .listingList)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
@@ -165,10 +165,10 @@ extension AppShareViewController: SocialSharerDelegate {
         case .completed:
             dismissShowingShareOk()
 
-            let trackerEvent = TrackerEvent.appInviteFriendComplete(shareType.trackingShareNetwork, typePage: .productList)
+            let trackerEvent = TrackerEvent.appInviteFriendComplete(shareType.trackingShareNetwork, typePage: .listingList)
             TrackerProxy.sharedInstance.trackEvent(trackerEvent)
         case .cancelled, .failed:
-            let trackerEvent = TrackerEvent.appInviteFriendCancel(shareType.trackingShareNetwork, typePage: .productList)
+            let trackerEvent = TrackerEvent.appInviteFriendCancel(shareType.trackingShareNetwork, typePage: .listingList)
             TrackerProxy.sharedInstance.trackEvent(trackerEvent)
         }
 
