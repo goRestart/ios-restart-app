@@ -95,6 +95,7 @@ class ChatViewModel: BaseViewModel {
     var shouldTrackFirstMessage: Bool = false
     let shouldShowExpressBanner = Variable<Bool>(false)
     let relatedListingsState = Variable<ChatRelatedItemsState>(.loading)
+    var shouldUpdateQuickAnswers = Variable<Bool>(false)
 
     var keyForTextCaching: String { return userDefaultsSubKey }
     
@@ -362,6 +363,9 @@ class ChatViewModel: BaseViewModel {
                 self?.listingIsNegotiable.value = conversation.listing?.isNegotiable(freeModeAllowed: featureFlags.freePostingModeAllowed) ?? false
             }
             self?.listingIsFree.value = conversation.listing?.price.free ?? false
+            if let _ = conversation.listing {
+                self?.shouldUpdateQuickAnswers.value = true
+            }
             self?.interlocutorAvatarURL.value = conversation.interlocutor?.avatar?.fileURL
             self?.interlocutorName.value = conversation.interlocutor?.name ?? ""
             self?.interlocutorId.value = conversation.interlocutor?.objectId
