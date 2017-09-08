@@ -361,6 +361,34 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                 }
             }
+            
+            describe("after upload success") {
+                context("with car as postCategory") {
+                    beforeEach {
+                        sut = PostListingState(postCategory: .car)
+                        sut = sut.updatingStepToUploadingImages()
+                        sut = sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
+                        sut = sut.updatingAfterUploadingSuccess()
+                    }
+                    
+                    it("updates the step to price selection") {
+                        expect(sut.step) == PostListingStep.detailsSelection
+                    }
+                }
+                context("with unassigned as postCategory") {
+                    beforeEach {
+                        sut = PostListingState(postCategory: .unassigned)
+                        sut = sut.updatingStepToUploadingImages()
+                        sut = sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
+                            .updatingAfterUploadingSuccess()
+                    }
+                    
+                    it("updates the step to price selection") {
+                        expect(sut.step) == PostListingStep.detailsSelection
+                    }
+                }
+            }
+            
             describe("after pricing updated") {
                 context("category car setup first") {
                     beforeEach {
@@ -402,7 +430,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         expect(sut.updating(carInfo: CarAttributes.emptyCarAttributes())) !== sut
                     }
                 }
-                context("category car setup first") {
+                context("category other item setup first") {
                     beforeEach {
                         sut = PostListingState(postCategory: .unassigned)
                         sut = sut.updatingStepToUploadingImages()
