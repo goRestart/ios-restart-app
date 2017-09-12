@@ -108,13 +108,7 @@ final class PostListingState {
     
     func updatingAfterUploadingSuccess() -> PostListingState {
         guard step == .uploadSuccess else { return self }
-        let nextStep: PostListingStep
-        if let category = category, category == .car {
-            nextStep = .carDetailsSelection
-        } else {
-            nextStep = .detailsSelection
-        }
-        
+        let nextStep: PostListingStep = .detailsSelection
         return PostListingState(step: nextStep,
                                 previousStep: step,
                                 category: category,
