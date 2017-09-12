@@ -40,7 +40,11 @@ class TabBarViewModel: BaseViewModel {
     // MARK: - Public methods
 
     func sellButtonPressed() {
-        navigator?.openSell(source: .sellButton)
+        navigator?.openSell(source: .sellButton, postCategory: nil)
+    }
+    
+    func expandableButtonPressed(listingCategory: ListingCategory) {
+        navigator?.openSell(source: .sellButton, postCategory: listingCategory.postCategory)
     }
 
 

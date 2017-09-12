@@ -63,6 +63,7 @@
 "categories_super_keywords_inFeed_show_more" = "더보기";
 "categories_title" = "항목";
 "categories_unassigned" = "선택되지 않음";
+"categories_unassigned_items" = "Other items";
 "change_email_current_email_label" = "현재 이메일:";
 "change_email_error_already_registered" = "이 이메일 주소는 이미 등록되어 있습니다. 다른 이메일을 입력해주세요.";
 "change_email_error_invalid_email" = "유효한 이메일 주소를 입력해주세요.";
@@ -903,7 +904,7 @@
 "sign_up_title" = "새 계정 만들기";
 "sign_up_username_field_hint" = "이름";
 "suggested_searches_title" = "제안되는 검색";
-"suggestions_last_searches_clear_button" = "삭제";
+"suggestions_last_searches_clear_button" = "모두 삭제하기";
 "suggestions_last_searches_title" = "최근 검색";
 "survey_confirmation" = "감사합니다! 남겨주신 피드백은 저희에게 많은 도움이 될 것입니다";
 "tab_bar_give_away_button" = "증정하기";

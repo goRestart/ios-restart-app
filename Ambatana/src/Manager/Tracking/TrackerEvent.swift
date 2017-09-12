@@ -16,7 +16,8 @@ func ==(a: TrackerEvent, b: TrackerEvent) -> Bool {
     return false
 }
 
-struct TrackerEvent {    
+struct TrackerEvent {
+    static let notApply: String = "N/A"
     private(set) var name: EventName
     var actualName: String {
         get {
@@ -191,7 +192,7 @@ struct TrackerEvent {
         }
         params[.feedSource] = feedSource.rawValue
         params[.categoryId] = categoryIds.isEmpty ? "0" : categoryIds.joined(separator: ",")
-        params[.keywordName] = taxonomy?.name ?? "N/A"
+        params[.keywordName] = taxonomy?.name ?? TrackerEvent.notApply
         // Search query
         if let actualSearchQuery = searchQuery {
             params[.searchString] = actualSearchQuery
@@ -204,9 +205,9 @@ struct TrackerEvent {
                                     matchingFields: [String], nonMatchingFields: [String]) -> TrackerEvent {
         var params = EventParameters()
         params[.categoryId] = String(category.rawValue)
-        params[.verticalKeyword] = keywords.isEmpty ? "N/A" : keywords.joined(separator: "_")
-        params[.verticalMatchingFields] = matchingFields.isEmpty ? "N/A" : matchingFields.joined(separator: ",")
-        params[.verticalNoMatchingFields] = nonMatchingFields.isEmpty ? "N/A" : nonMatchingFields.joined(separator: ",")
+        params[.verticalKeyword] = keywords.isEmpty ? TrackerEvent.notApply : keywords.joined(separator: "_")
+        params[.verticalMatchingFields] = matchingFields.isEmpty ? TrackerEvent.notApply : matchingFields.joined(separator: ",")
+        params[.verticalNoMatchingFields] = nonMatchingFields.isEmpty ? TrackerEvent.notApply : nonMatchingFields.joined(separator: ",")
 
         return TrackerEvent(name: .listingListVertical, params: params)
     }
@@ -292,29 +293,29 @@ struct TrackerEvent {
             params[.make] = make
             verticalFields.append(EventParameterName.make.rawValue)
         } else {
-            params[.make] = "N/A"
+            params[.make] = TrackerEvent.notApply
         }
         if let make = carModel {
             params[.model] = make
             verticalFields.append(EventParameterName.model.rawValue)
         } else {
-            params[.model] = "N/A"
+            params[.model] = TrackerEvent.notApply
         }
 
         if let carYearStart = carYearStart {
             params[.yearStart] = String(carYearStart)
             verticalFields.append(EventParameterName.yearStart.rawValue)
         } else {
-            params[.yearStart] = "N/A"
+            params[.yearStart] = TrackerEvent.notApply
         }
         if let carYearEnd = carYearEnd {
             params[.yearEnd] = String(carYearEnd)
             verticalFields.append(EventParameterName.yearEnd.rawValue)
         } else {
-            params[.yearEnd] = "N/A"
+            params[.yearEnd] = TrackerEvent.notApply
         }
 
-        params[.verticalFields] = verticalFields.isEmpty ? "N/A" : verticalFields.joined(separator: ",")
+        params[.verticalFields] = verticalFields.isEmpty ? TrackerEvent.notApply : verticalFields.joined(separator: ",")
 
         return TrackerEvent(name: .filterComplete, params: params)
     }
@@ -429,11 +430,14 @@ struct TrackerEvent {
     }
 
     static func listingSellStart(_ typePage: EventParameterTypePage,
-                                 buttonName: EventParameterButtonNameType?, sellButtonPosition: EventParameterSellButtonPosition) -> TrackerEvent {
+                                 buttonName: EventParameterButtonNameType?,
+                                 sellButtonPosition: EventParameterSellButtonPosition,
+                                 category: ListingCategory?) -> TrackerEvent {
         var params = EventParameters()
         params[.typePage] = typePage.rawValue
         params[.buttonName] = buttonName?.rawValue
         params[.sellButtonPosition] = sellButtonPosition.rawValue
+        params[.categoryId] = category?.rawValue ?? TrackerEvent.notApply
         return TrackerEvent(name: .listingSellStart, params: params)
     }
     
@@ -941,8 +945,8 @@ struct TrackerEvent {
         params[.notificationType] = type.rawValue
         params[.notificationClickArea] = source.rawValue
         // cardAction is passed as string instead of EventParameterCardAction type as retention could send anything on the query parameter.
-        params[.notificationAction] = cardAction ?? "N/A"
-        params[.notificationCampaign] = notificationCampaign ?? "N/A"
+        params[.notificationAction] = cardAction ?? TrackerEvent.notApply
+        params[.notificationCampaign] = notificationCampaign ?? TrackerEvent.notApply
         return TrackerEvent(name: .notificationCenterComplete, params: params)
     }
 
@@ -1084,6 +1088,11 @@ struct TrackerEvent {
         params[.keywordName] = keywordName
         params[.typePage] = source.rawValue
         return TrackerEvent(name: .categoriesComplete, params: params)
+    }
+    
+    static func listingSellYourStuffButton() -> TrackerEvent {
+        let params = EventParameters()
+        return TrackerEvent(name: .listingSellYourStuffButton, params: params)
     }
 
 

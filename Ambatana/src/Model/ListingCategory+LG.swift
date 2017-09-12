@@ -166,4 +166,15 @@ extension ListingCategory {
             return ListingCategory(rawValue: intValue)
         }
     }
+    
+    var postCategory: PostCategory {
+        switch self {
+        case .cars:
+            return .car
+        case .motorsAndAccessories:
+            return .motorsAndAccessories
+        case .babyAndChild, .electronics, .fashionAndAccesories, .homeAndGarden, .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .unassigned:
+            return .unassigned
+        }
+    }
 }

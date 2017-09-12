@@ -63,6 +63,7 @@
 "categories_super_keywords_inFeed_show_more" = "Показать еще";
 "categories_title" = "Категории";
 "categories_unassigned" = "Не выбрана";
+"categories_unassigned_items" = "Other items";
 "change_email_current_email_label" = "ТЕКУЩИЙ Е-МЕЙЛ:";
 "change_email_error_already_registered" = "Этот адрес уже зарегистрирован. Пожалуйста, введите другой.";
 "change_email_error_invalid_email" = "Пожалуйста, укажите действующий е-мейл.";
@@ -903,7 +904,7 @@
 "sign_up_title" = "Создать новый аккаунт";
 "sign_up_username_field_hint" = "Полное имя";
 "suggested_searches_title" = "Предлагаемые запросы";
-"suggestions_last_searches_clear_button" = "Стереть";
+"suggestions_last_searches_clear_button" = "Очистить все";
 "suggestions_last_searches_title" = "Недавний Поиск";
 "survey_confirmation" = "Спасибо! Ваши отзывы помогают нам быть лучше";
 "tab_bar_give_away_button" = "Отдать";

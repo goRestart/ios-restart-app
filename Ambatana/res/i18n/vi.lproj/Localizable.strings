@@ -63,6 +63,7 @@
 "categories_super_keywords_inFeed_show_more" = "Hiện thêm";
 "categories_title" = "Danh mục";
 "categories_unassigned" = "Chưa được chọn";
+"categories_unassigned_items" = "Other items";
 "change_email_current_email_label" = "EMAIL HIỆN TẠI:";
 "change_email_error_already_registered" = "Địa chỉ email này đã được đăng ký, Vui lòng nhập một địa chỉ email khác.";
 "change_email_error_invalid_email" = "Vui lòng nhập một địa chỉ email hợp lệ.";
@@ -903,7 +904,7 @@
 "sign_up_title" = "Tạo tài khoản mới";
 "sign_up_username_field_hint" = "Họ tên";
 "suggested_searches_title" = "Tìm kiếm được Đề xuất";
-"suggestions_last_searches_clear_button" = "Xóa";
+"suggestions_last_searches_clear_button" = "Xóa tất cả";
 "suggestions_last_searches_title" = "Tìm kiếm Gần đây";
 "survey_confirmation" = "Cảm ơn bạn! Phản hồi của bạn sẽ giúp chúng tôi cải thiện hơn";
 "tab_bar_give_away_button" = "Tặng";

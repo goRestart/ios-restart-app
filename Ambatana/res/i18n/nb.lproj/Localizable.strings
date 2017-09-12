@@ -63,6 +63,7 @@
 "categories_super_keywords_inFeed_show_more" = "Vis mer";
 "categories_title" = "Kategorier";
 "categories_unassigned" = "Ikke valgt";
+"categories_unassigned_items" = "Other items";
 "change_email_current_email_label" = "NÅVÆRENDE E-POSTADRESSE:";
 "change_email_error_already_registered" = "Denne er e-postadressen er allerede registrert. Vennligst velg en annen.";
 "change_email_error_invalid_email" = "Vennligst legg inn en gyldig e-postadresse.";
@@ -903,7 +904,7 @@
 "sign_up_title" = "Opprett ny konto";
 "sign_up_username_field_hint" = "Fullt navn";
 "suggested_searches_title" = "Foreslåtte søk";
-"suggestions_last_searches_clear_button" = "Tøm";
+"suggestions_last_searches_clear_button" = "Tøm alle";
 "suggestions_last_searches_title" = "Siste søkeord";
 "survey_confirmation" = "Tusen takk! Din tilbakemelding hjelper oss med å forbedre oss";
 "tab_bar_give_away_button" = "Gi bort";

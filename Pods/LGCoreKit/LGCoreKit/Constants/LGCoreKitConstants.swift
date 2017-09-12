@@ -12,6 +12,7 @@ public struct LGCoreKitConstants {
     static let usdCurrency = Currency(code: "USD", symbol: "$")
     static let eurCurrency = Currency(code: "EUR", symbol: "€")
 
+    static let defaultLanguageCode = "en"
     static let defaultCurrency = LGCoreKitConstants.usdCurrency
     static let defaultDistanceType = DistanceType.km
     static let defaultCoordinate = CLLocationCoordinate2DMake(38.897746, -77.037741)    // Washington
@@ -23,6 +24,8 @@ public struct LGCoreKitConstants {
 
     static let locationDistanceFilter: CLLocationDistance = 250
     static let locationDesiredAccuracy: CLLocationAccuracy = kCLLocationAccuracyHundredMeters
+    
+    static let geocodeRegionRadius: CLLocationDistance = 5_000_000 // meters
 
     static let stickersRetrievalDebounceTime: TimeInterval = 3600 // Seconds (1hour)
 

@@ -91,8 +91,8 @@ extension TabCoordinator: TabNavigator {
         appNavigator?.openHome()
     }
 
-    func openSell(source: PostingSource) {
-        appNavigator?.openSell(source: source)
+    func openSell(source: PostingSource, postCategory: PostCategory?) {
+        appNavigator?.openSell(source: source, postCategory: postCategory)
     }
 
     func openAppRating(_ source: EventParameterRatingSource) {
@@ -242,9 +242,8 @@ fileprivate extension TabCoordinator {
                      source: EventParameterListingVisitSource, index: Int) {
         if showRelated {
             //Same as single product opening
-            let discover = !featureFlags.productDetailNextRelated
             openListing(listing: listing, thumbnailImage: thumbnailImage, originFrame: originFrame,
-                        source: source, requester: requester, index: index, discover: discover,
+                        source: source, requester: requester, index: index, discover: true,
                         actionOnFirstAppear: .nonexistent)
         } else {
             let vm = ListingCarouselViewModel(productListModels: cellModels, initialListing: listing,
@@ -433,7 +432,7 @@ extension TabCoordinator: ListingDetailNavigator {
         closeProductDetail()
         let action = UIAction(interface: .button(LGLocalizedString.productDeletePostButtonTitle,
                                                  .primary(fontSize: .medium)), action: { [weak self] in
-                                                    self?.openSell(source: .deleteListing)
+                                                    self?.openSell(source: .deleteListing, postCategory: nil)
             }, accessibilityId: .postDeleteAlertButton)
         navigationController.showAlertWithTitle(LGLocalizedString.productDeletePostTitle,
                                                 text: LGLocalizedString.productDeletePostSubtitle,

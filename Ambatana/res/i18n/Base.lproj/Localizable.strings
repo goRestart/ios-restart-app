@@ -160,6 +160,9 @@
 // Text for non assigned category
 "categories_unassigned" = "Not selected";
 
+// Text for posting with no category assigned
+"categories_unassigned_items" = "Other items";
+
 // Category "Cars"
 "categories_car" = "Cars";
 

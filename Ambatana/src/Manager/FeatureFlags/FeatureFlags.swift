@@ -26,13 +26,11 @@ protocol FeatureFlaggeable: class {
     var passiveBuyersShowKeyboard: Bool { get }
     var freeBumpUpEnabled: Bool { get }
     var pricedBumpUpEnabled: Bool { get }
-    var productDetailNextRelated: Bool { get }
     var newMarkAsSoldFlow: Bool { get }
     var newCarsMultiRequesterEnabled: Bool { get }
     var newOnboardingPhase1: Bool { get }
     var searchParamDisc129: SearchParamDisc129 { get }
     var inAppRatingIOS10: Bool { get }
-    var suggestedSearches: SuggestedSearches { get }
     var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed { get }
     var superKeywordsOnOnboarding: SuperKeywordsOnOnboarding { get }
     var copiesImprovementOnboarding: CopiesImprovementOnboarding { get }
@@ -41,6 +39,10 @@ protocol FeatureFlaggeable: class {
     var tweaksCarPostingFlow: TweaksCarPostingFlow { get }
     var userReviewsReportEnabled: Bool { get }
     var dynamicQuickAnswers: DynamicQuickAnswers { get }
+    var locationDataSourceEndpoint: LocationDataSourceEndpoint { get }
+    var appRatingDialogInactive: Bool { get }
+    var feedFilterRadiusValues: FeedFilterRadiusValues { get }
+    var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -77,6 +79,7 @@ extension SuperKeywordsOnOnboarding {
         }
     }
 }
+
 extension BumpUpImprovementBanner {
     var isActive: Bool {
         switch self {
@@ -99,6 +102,16 @@ extension TweaksCarPostingFlow {
     }
 }
 
+extension ExpandableCategorySelectionMenu {
+    var isActive: Bool {
+        switch self {
+        case .control, .baseline:
+            return false
+        case .expandableMenu:
+            return true
+        }
+    }
+}
 
 class FeatureFlags: FeatureFlaggeable {
     static let sharedInstance: FeatureFlags = FeatureFlags()
@@ -206,13 +219,6 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return abTests.pricedBumpUpEnabled.value
     }
-
-    var productDetailNextRelated: Bool {
-        if Bumper.enabled {
-            return Bumper.productDetailNextRelated
-        }
-        return abTests.productDetailNextRelated.value
-    }
     
     var newMarkAsSoldFlow: Bool {
         if Bumper.enabled {
@@ -247,13 +253,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.inAppRatingIOS10
         }
         return abTests.inAppRatingIOS10.value
-    }
-    
-    var suggestedSearches: SuggestedSearches {
-        if Bumper.enabled {
-            return Bumper.suggestedSearches
-        }
-        return SuggestedSearches.fromPosition(abTests.suggestedSearches.value)
     }
     
     var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed {
@@ -310,6 +309,34 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.dynamicQuickAnswers
         }
         return DynamicQuickAnswers.fromPosition(abTests.dynamicQuickAnswers.value)
+    }
+
+    var appRatingDialogInactive: Bool {
+        if Bumper.enabled {
+            return Bumper.appRatingDialogInactive
+        }
+        return abTests.appRatingDialogInactive.value
+    }
+    
+    var feedFilterRadiusValues: FeedFilterRadiusValues {
+        if Bumper.enabled {
+            return Bumper.feedFilterRadiusValues
+        }
+        return FeedFilterRadiusValues.fromPosition(abTests.feedFilterRadiusValues.value)
+    }
+    
+    var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu {
+        if Bumper.enabled {
+            return Bumper.expandableCategorySelectionMenu
+        }
+        return ExpandableCategorySelectionMenu.fromPosition(abTests.expandableCategorySelectionMenu.value)
+    }
+    
+    var locationDataSourceEndpoint: LocationDataSourceEndpoint {
+        if Bumper.enabled {
+            return Bumper.locationDataSourceEndpoint
+        }
+        return LocationDataSourceEndpoint.fromPosition(abTests.locationDataSourceType.value)
     }
     
 

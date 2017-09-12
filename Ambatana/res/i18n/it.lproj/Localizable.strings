@@ -63,6 +63,7 @@
 "categories_super_keywords_inFeed_show_more" = "Mostra Altro";
 "categories_title" = "Categorie";
 "categories_unassigned" = "Non selezionata";
+"categories_unassigned_items" = "Other items";
 "change_email_current_email_label" = "INDIRIZZO EMAIL ATTUALE:";
 "change_email_error_already_registered" = "Questo indirizzo email è già registrato. Inseriscine uno alternativo.";
 "change_email_error_invalid_email" = "Inserisci un indirizzo email valido.";
@@ -903,7 +904,7 @@
 "sign_up_title" = "Crea nuovo account";
 "sign_up_username_field_hint" = "Nome e Cognome";
 "suggested_searches_title" = "Ricerche consigliate";
-"suggestions_last_searches_clear_button" = "Cancella";
+"suggestions_last_searches_clear_button" = "Cancella tutto";
 "suggestions_last_searches_title" = "Ricerche recenti";
 "survey_confirmation" = "Grazie! Il tuo feedback ci permette di migliorare";
 "tab_bar_give_away_button" = "Regala";

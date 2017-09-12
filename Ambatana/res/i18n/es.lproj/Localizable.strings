@@ -63,6 +63,7 @@
 "categories_super_keywords_inFeed_show_more" = "Ver más";
 "categories_title" = "Categorías";
 "categories_unassigned" = "No seleccionada";
+"categories_unassigned_items" = "Other items";
 "change_email_current_email_label" = "EMAIL ACTUAL:";
 "change_email_error_already_registered" = "Este email ya está registrado. Por favor, introduce uno distinto.";
 "change_email_error_invalid_email" = "Por favor, introduce un email válido.";
@@ -903,7 +904,7 @@
 "sign_up_title" = "Crear nueva cuenta";
 "sign_up_username_field_hint" = "Nombre y apellido";
 "suggested_searches_title" = "Búsquedas sugeridas";
-"suggestions_last_searches_clear_button" = "Eliminar";
+"suggestions_last_searches_clear_button" = "Eliminar todas";
 "suggestions_last_searches_title" = "Búsquedas recientes";
 "survey_confirmation" = "¡Gracias! Tus opiniones nos ayudan a mejorar";
 "tab_bar_give_away_button" = "Regalar";

@@ -36,11 +36,6 @@
         "description": "Passive buyers products suggested notification opens product with keyboard opened"
     },
     {
-        "name": "ProductDetailNextRelated",
-        "values": ["no", "yes"],
-        "description": "Item page next item related"
-    },
-    {
         "name": "NewMarkAsSoldFlow",
         "values": ["no", "yes"],
         "description": "New mark as sold flow active. alert + showing buyer list"
@@ -59,11 +54,6 @@
         "name": "InAppRatingIOS10",
         "values": ["no", "yes"],
         "description": "New in-app rating for iOS 10.3+"
-    },
-    {
-        "name": "SuggestedSearches",
-        "values": ["control", "baseline", "active"],
-        "description": "New suggested searches section"
     },
     {
         "name": "AddSuperKeywordsOnFeed",
@@ -109,5 +99,25 @@
         "name": "DynamicQuickAnswers",
         "values": ["control", "baseline", "dynamicNoKeyboard", "dynamicWithKeyboard"],
         "description": "Random quick answers with different approaches"
+    },
+    {
+        "name": "AppRatingDialogInactive",
+        "values": ["no", "yes"],
+        "description": "App rating dialog inactive to increase user activation"
+    },
+    {
+        "name": "FeedFilterRadiusValues",
+        "values": ["control", "baseline", "newValues"],
+        "description": "Feed filter radius values"
+    },
+    {
+        "name": "ExpandableCategorySelectionMenu",
+        "values": ["control", "baseline", "expandableMenu"],
+        "description": "Show 'salchichas' menu on sell your stuff button"
+    },
+    {
+        "name": "LocationDataSourceEndpoint",
+        "values": ["control", "baseline", "appleWithRegion", "niordWithRegion"],
+        "description": "Location data source for geocode and reverse geocode"
     }
 ]

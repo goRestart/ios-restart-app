@@ -63,6 +63,7 @@
 "categories_super_keywords_inFeed_show_more" = "Többet";
 "categories_title" = "Kategóriák";
 "categories_unassigned" = "Nincs megadva";
+"categories_unassigned_items" = "Other items";
 "change_email_current_email_label" = "JELENLEGI E-MAIL:";
 "change_email_error_already_registered" = "Ez az e-mail cím már használatban van, adj meg egy másikat.";
 "change_email_error_invalid_email" = "Érvényes e-mail címet adj meg.";
@@ -903,7 +904,7 @@
 "sign_up_title" = "Új fiók létrehozása";
 "sign_up_username_field_hint" = "Teljes név";
 "suggested_searches_title" = "Javasolt keresések";
-"suggestions_last_searches_clear_button" = "Törlés";
+"suggestions_last_searches_clear_button" = "Mind törlése";
 "suggestions_last_searches_title" = "Legutóbbi keresések";
 "survey_confirmation" = "Köszönjük! Visszajelzésed sokat segít!";
 "tab_bar_give_away_button" = "Ajándékozok";

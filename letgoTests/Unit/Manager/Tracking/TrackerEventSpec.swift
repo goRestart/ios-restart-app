@@ -206,7 +206,7 @@ class TrackerEventSpec: QuickSpec {
                                                     distanceRadius: nil)
                     }
                     it("contains zipcode N/A") {
-                        expect(sut.params!.stringKeyParams["zipcode"] as? String) == "N/A"
+                        expect(sut.params!.stringKeyParams["zipcode"] as? String) == TrackerEvent.notApply
                     }
                 }
                 context("zipcode is filled") {
@@ -1079,23 +1079,23 @@ class TrackerEventSpec: QuickSpec {
                         expect(sut.params!.stringKeyParams["price-to"] as? String) == "false"
                     }
                     it("free posting") {
-                        expect(sut.params!.stringKeyParams["free-posting"] as? String) == "N/A"
+                        expect(sut.params!.stringKeyParams["free-posting"] as? String) == TrackerEvent.notApply
                     }
                     it ("make") {
-                        expect(sut.params!.stringKeyParams["product-make"] as? String) == "N/A"
+                        expect(sut.params!.stringKeyParams["product-make"] as? String) == TrackerEvent.notApply
                     }
                     it ("model") {
-                        expect(sut.params!.stringKeyParams["product-model"] as? String) == "N/A"
+                        expect(sut.params!.stringKeyParams["product-model"] as? String) == TrackerEvent.notApply
                     }
                     it ("start") {
-                        expect(sut.params!.stringKeyParams["product-year-start"] as? String) == "N/A"
+                        expect(sut.params!.stringKeyParams["product-year-start"] as? String) == TrackerEvent.notApply
                     }
                     it ("end") {
-                        expect(sut.params!.stringKeyParams["product-year-end"] as? String) == "N/A"
+                        expect(sut.params!.stringKeyParams["product-year-end"] as? String) == TrackerEvent.notApply
                     }
 
                     it ("vertical fields") {
-                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "N/A"
+                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == TrackerEvent.notApply
                     }
                 }
             }
@@ -1127,7 +1127,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains user action") {
                     let userAction = sut.params!.stringKeyParams["user-action"] as? String
-                    expect(userAction) == "N/A"
+                    expect(userAction) == TrackerEvent.notApply
                 }
                 it("contains source") {
                     let source = sut.params!.stringKeyParams["visit-source"] as? String
@@ -2071,7 +2071,7 @@ class TrackerEventSpec: QuickSpec {
             describe("productSellStart") {
                 beforeEach {
                     sut = TrackerEvent.listingSellStart(.sell, buttonName: .sellYourStuff,
-                        sellButtonPosition: .tabBar)
+                        sellButtonPosition: .tabBar, category: .cars)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-start"))
@@ -2087,6 +2087,10 @@ class TrackerEventSpec: QuickSpec {
                 it("contains button position from which the event has been sent") {
                     let position = sut.params!.stringKeyParams["sell-button-position"] as? String
                     expect(position).to(equal("tabbar-camera"))
+                }
+                it("contains category id param") {
+                    let name = sut.params!.stringKeyParams["category-id"] as? Int
+                    expect(name).to(equal(9))
                 }
             }
 
@@ -3463,7 +3467,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains notificationCampaign param") {
                     let param = sut.params!.stringKeyParams["notification-campaign"] as? String
-                    expect(param) == "N/A"
+                    expect(param) == TrackerEvent.notApply
                 }
             }
             describe("Notification center complete type modular") {
@@ -3807,6 +3811,15 @@ class TrackerEventSpec: QuickSpec {
                 it("contains keyword name parameter") {
                     let param = sut.params!.stringKeyParams["keyword-name"] as? String
                     expect(param) == "electronics"
+                }
+            }
+            
+            describe("product sell your stuff button") {
+                beforeEach {
+                    sut = TrackerEvent.listingSellYourStuffButton()
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-sell-your-stuff-button"))
                 }
             }
         }

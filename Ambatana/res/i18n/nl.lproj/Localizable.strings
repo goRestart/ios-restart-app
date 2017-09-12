@@ -63,6 +63,7 @@
 "categories_super_keywords_inFeed_show_more" = "Toon meer";
 "categories_title" = "Categorieën";
 "categories_unassigned" = "Niet geselecteerd ";
+"categories_unassigned_items" = "Other items";
 "change_email_current_email_label" = "HUIDIGE E-MAIL:";
 "change_email_error_already_registered" = "Dit e-mailadres is al geregistreerd. Gelieve een ander in te voeren.";
 "change_email_error_invalid_email" = "Gelieve een geldig e-mailadres in te vullen.";
@@ -903,7 +904,7 @@
 "sign_up_title" = "Nieuw account aanmaken";
 "sign_up_username_field_hint" = "Volledige naam";
 "suggested_searches_title" = "Voorgestelde Zoekopdrachten";
-"suggestions_last_searches_clear_button" = "Wissen";
+"suggestions_last_searches_clear_button" = "Wis alles";
 "suggestions_last_searches_title" = "Recente Zoekopdrachten";
 "survey_confirmation" = "Bedankt! Jouw feedback helpt om ons te verbeteren";
 "tab_bar_give_away_button" = "Weggeven";

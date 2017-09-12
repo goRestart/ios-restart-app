@@ -223,6 +223,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("categories_unassigned", comment: "")
 	}
 
+	static var categoriesUnassignedItems: String {
+		return NSLocalizedString("categories_unassigned_items", comment: "")
+	}
+
 	static var categoriesCar: String {
 		return NSLocalizedString("categories_car", comment: "")
 	}

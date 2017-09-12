@@ -60,15 +60,19 @@ final class CoreDI: InternalDI {
                                                   dao: myUserDAO,
                                                   locale: locale)
         
-        let locationDataSource = CoreLocationDataSource(apiClient: apiClient)
-        let locationRepository = LGLocationRepository(dataSource: locationDataSource,
-                                                      locationManager: CLLocationManager())
+        let countryInfoDAO: CountryInfoDAO = CountryInfoPlistDAO()
+        let countryHelper = CountryHelper(locale: locale, countryInfoDAO: countryInfoDAO)
+        
+        let appleLocationDataSource = LGAppleLocationDataSource()
+        let niordLocationDataSource = LGNiordLocationDataSource(apiClient: apiClient, locale: locale)
+        let ipLookupDataSource = LGIPLookupDataSource(apiClient: apiClient)
+        locationRepository = LGLocationRepository(appleLocationDataSource: appleLocationDataSource,
+                                                  niordLocationDataSource: niordLocationDataSource,
+                                                  ipLookupDataSource: ipLookupDataSource,
+                                                  locationManager: CLLocationManager())
         locationRepository.distance = LGCoreKitConstants.locationDistanceFilter
         locationRepository.accuracy = LGCoreKitConstants.locationDesiredAccuracy
         let deviceLocationDAO = DeviceLocationUDDAO()
-        
-        let countryInfoDAO: CountryInfoDAO = CountryInfoPlistDAO()
-        let countryHelper = CountryHelper(locale: locale, countryInfoDAO: countryInfoDAO)
         
         let locationManager = LGLocationManager(myUserRepository: myUserRepository,
                                                 locationRepository: locationRepository,
@@ -225,6 +229,7 @@ final class CoreDI: InternalDI {
     let passiveBuyersRepository: PassiveBuyersRepository
     let carsInfoRepository: CarsInfoRepository
     let categoryRepository: CategoryRepository
+    var locationRepository: LocationRepository
 
     let listingRepository: ListingRepository
     lazy var fileRepository: FileRepository = {
@@ -240,10 +245,7 @@ final class CoreDI: InternalDI {
         let dataSource = MonetizationApiDataSource(apiClient: self.apiClient)
         return LGMonetizationRepository(dataSource: dataSource, listingsLimboDAO: self.listingsLimboDAO)
     }()
-    lazy var locationRepository: LocationRepository = {
-        let dataSource = CoreLocationDataSource(apiClient: self.apiClient)
-        return LGLocationRepository(dataSource: dataSource, locationManager: CLLocationManager())
-    }()
+    
 
     // MARK: > DAO
     

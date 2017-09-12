@@ -25,13 +25,11 @@ class ABTests {
     let passiveBuyersShowKeyboard = BoolABDynamicVar(key: "passiveBuyersShowKeyboard", defaultValue: false)
     let freeBumpUpEnabled = BoolABDynamicVar(key: "freeBumpUpEnabled", defaultValue: false)
     let pricedBumpUpEnabled = BoolABDynamicVar(key: "pricedBumpUpEnabled", defaultValue: false)
-    let productDetailNextRelated = BoolABDynamicVar(key: "productDetailNextRelated", defaultValue: false)
     let newMarkAsSoldFlow = BoolABDynamicVar(key: "newMarkAsSoldFlow", defaultValue: false)
     let newCarsMultiRequesterEnabled = BoolABDynamicVar(key: "newCarsMultiRequesterEnabled", defaultValue: false)
     let newOnboardingPhase1 = BoolABDynamicVar(key: "newOnboardingPhase1", defaultValue: false)
     let searchParamDisc129 = IntABDynamicVar(key: "SearchParamDisc129", defaultValue: 0)
     let inAppRatingIOS10 = BoolABDynamicVar(key: "20170711inAppRatingIOS10", defaultValue: false)
-    let suggestedSearches = IntABDynamicVar(key: "20170717suggestedSearches", defaultValue: 0)
     let addSuperKeywordsOnFeed = IntABDynamicVar(key: "20170719AddSuperKeywordsOnFeed", defaultValue: 0)
     let superKeywordsOnOnboarding = IntABDynamicVar(key: "20170728SuperKeywordsOnOnboarding", defaultValue: 0)
     let copiesImprovementOnboarding = IntABDynamicVar(key: "20170803CopiesImprovementOnboarding", defaultValue: 0)
@@ -40,6 +38,10 @@ class ABTests {
     let tweaksCarPostingFlow = IntABDynamicVar(key: "20170810tweaksCarPostingFlow", defaultValue: 0)
     let userReviewsReportEnabled = BoolABDynamicVar(key: "20170823userReviewsReportEnabled", defaultValue: true)
     let dynamicQuickAnswers = IntABDynamicVar(key: "20170816DynamicQuickAnswers", defaultValue: 0)
+    let appRatingDialogInactive = BoolABDynamicVar(key: "20170831AppRatingDialogInactive", defaultValue: false)
+    let feedFilterRadiusValues = IntABDynamicVar(key: "20170904feedFilterRadiusValues", defaultValue: 0)
+    let expandableCategorySelectionMenu = IntABDynamicVar(key: "20170904ExpandableCategorySelectionMenu", defaultValue: 0)
+    let locationDataSourceType = IntABDynamicVar(key: "20170830LocationDataSourceType", defaultValue: 0)
 
     init() {
     }
@@ -59,13 +61,11 @@ class ABTests {
         result.append(captchaTransparent)
         result.append(freeBumpUpEnabled)
         result.append(pricedBumpUpEnabled)
-        result.append(productDetailNextRelated)
         result.append(newMarkAsSoldFlow)
         result.append(newCarsMultiRequesterEnabled)
         result.append(newOnboardingPhase1)
         result.append(searchParamDisc129)
         result.append(inAppRatingIOS10)
-        result.append(suggestedSearches)
         result.append(addSuperKeywordsOnFeed)
         result.append(superKeywordsOnOnboarding)
         result.append(copiesImprovementOnboarding)
@@ -74,6 +74,9 @@ class ABTests {
         result.append(tweaksCarPostingFlow)
         result.append(userReviewsReportEnabled)
         result.append(dynamicQuickAnswers)
+        result.append(appRatingDialogInactive)
+        result.append(feedFilterRadiusValues)
+        result.append(expandableCategorySelectionMenu)
 
         return result
     }

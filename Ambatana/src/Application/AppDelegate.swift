@@ -33,6 +33,7 @@ final class AppDelegate: UIResponder {
 
     fileprivate var listingRepository: ListingRepository?
     fileprivate var locationManager: LocationManager?
+    fileprivate var locationRepository: LocationRepository?
     fileprivate var sessionManager: SessionManager?
     fileprivate var featureFlags: FeatureFlaggeable?
     fileprivate var purchasesShopper: PurchasesShopper?
@@ -58,9 +59,12 @@ extension AppDelegate: UIApplicationDelegate {
         self.purchasesShopper = LGPurchasesShopper.sharedInstance
         self.deepLinksRouter = LGDeepLinksRouter.sharedInstance
         setupAppearance()
-        setupLibraries(application, launchOptions: launchOptions, featureFlags: featureFlags)
+        setupLibraries(application,
+                       launchOptions: launchOptions,
+                       featureFlags: featureFlags)
         self.listingRepository = Core.listingRepository
         self.locationManager = Core.locationManager
+        self.locationRepository = Core.locationRepository
         self.sessionManager = Core.sessionManager
         self.configManager = LGConfigManager.sharedInstance
     
@@ -274,19 +278,32 @@ fileprivate extension AppDelegate {
             Core.reporter.addReporter(CrashlyticsReporter())
             DDLog.add(CrashlyticsLogger.sharedInstance)
         #endif
-
+        
+        // Location data source
+        featureFlags.syncedData.filter { $0 }.asObservable().subscribeNext { [weak self] _ in
+            let locationDataSourceType: LocationDataSourceType
+            switch featureFlags.locationDataSourceEndpoint {
+            case .control, .baseline:
+                locationDataSourceType = .apple(shouldUseRegion: false)
+            case .appleWithRegion:
+                locationDataSourceType = .apple(shouldUseRegion: true)
+            case .niordWithRegion:
+                locationDataSourceType = .niord
+            }
+            self?.locationRepository?.setLocationDataSourceType(locationDataSourceType: locationDataSourceType)
+        }.addDisposableTo(disposeBag)
+        
         // LGCoreKit
         let coreEnvironment = environmentHelper.coreEnvironment
         let shouldUseWebSocketChat = featureFlags.websocketChat
         let carsInfoJSONPath = Bundle.main.path(forResource: "CarsInfo", ofType: "json") ?? ""
         let taxonomiesJSONPath = Bundle.main.path(forResource: "Taxonomies", ofType: "json") ?? ""
-
         let coreKitConfig = LGCoreKitConfig(environmentType: coreEnvironment,
                                             shouldUseChatWithWebSocket: shouldUseWebSocketChat,
                                             carsInfoAppJSONURL: URL(fileURLWithPath: carsInfoJSONPath),
                                             taxonomiesAppJSONURL: URL(fileURLWithPath: taxonomiesJSONPath))
         LGCoreKit.initialize(config: coreKitConfig)
-
+        
         // Branch.io
         if let branch = Branch.getInstance() {
             branch.initSession(launchOptions: launchOptions, andRegisterDeepLinkHandlerUsingBranchUniversalObject: {

@@ -63,6 +63,7 @@
 "categories_super_keywords_inFeed_show_more" = "Mehr anzeigen";
 "categories_title" = "Kategorien";
 "categories_unassigned" = "Nichts ausgewählt";
+"categories_unassigned_items" = "Other items";
 "change_email_current_email_label" = "AKTUELLE E-MAIL-ADRESSE:";
 "change_email_error_already_registered" = "Diese E-Mail-Adresse ist bereits registriert. Bitte gib eine andere ein.";
 "change_email_error_invalid_email" = "Bitte gib eine gültige E-Mail-Adresse ein.";
@@ -903,7 +904,7 @@
 "sign_up_title" = "Neues Benutzerkonto anlegen";
 "sign_up_username_field_hint" = "Vollständiger Name";
 "suggested_searches_title" = "Empfohlene Suchbegriffe";
-"suggestions_last_searches_clear_button" = "Löschen";
+"suggestions_last_searches_clear_button" = "Alle löschen";
 "suggestions_last_searches_title" = "Zuletzt gesucht";
 "survey_confirmation" = "Vielen Dank! Dein Feedback hilft uns, letgo zu verbessern";
 "tab_bar_give_away_button" = "Verschenken";
