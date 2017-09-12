@@ -2426,6 +2426,25 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
             
+            describe("related listings") {
+                beforeEach {
+                    sut = TrackerEvent.relatedListings(listingId: "12345",
+                                                       source: .notFound)
+                }
+                
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("related-items-list"))
+                }
+                it("has product-id param") {
+                    let productId = sut.params?.stringKeyParams["product-id"] as? String
+                    expect(productId) == "12345"
+                }
+                it("has related-source param") {
+                    let source = sut.params?.stringKeyParams["related-source"] as? String
+                    expect(source) == "product-not-found"
+                }
+            }
+            
             describe("userMessageSent") {
                 var userListing: MockUserListing!
                 var product: MockProduct!
