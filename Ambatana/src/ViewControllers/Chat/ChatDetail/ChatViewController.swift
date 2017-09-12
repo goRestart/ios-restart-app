@@ -90,7 +90,6 @@ class ChatViewController: TextViewController {
         ChatCellDrawerFactory.registerCells(tableView)
         setupUI()
         setupRelatedProducts()
-        setupDirectAnswers()
         setupRxBindings()
         setupStickersView()
         initStickersWindow()
@@ -443,6 +442,9 @@ fileprivate extension ChatViewController {
             guard let url = imageUrl else { return }
             self?.listingView.listingImage.lg_setImageWithURL(url)
             }.addDisposableTo(disposeBag)
+        viewModel.shouldUpdateQuickAnswers.asObservable().filter{ $0 }.distinctUntilChanged().subscribeNext { [weak self] _ in
+            self?.setupDirectAnswers()
+        }.addDisposableTo(disposeBag)
         
         let placeHolder = Observable.combineLatest(viewModel.interlocutorId.asObservable(),
                                                    viewModel.interlocutorName.asObservable()) {

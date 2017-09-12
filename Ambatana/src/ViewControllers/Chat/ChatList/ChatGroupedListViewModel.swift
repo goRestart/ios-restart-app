@@ -227,6 +227,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
             if let value = result.value {
                 
                 if firstPage {
+                    strongSelf.shouldRefreshConversationsTabTrigger = false
                     strongSelf.updateObjects(newObjects: value)
                 } else {
                     strongSelf.updateObjects(newObjects: strongSelf.objects.value + value)
