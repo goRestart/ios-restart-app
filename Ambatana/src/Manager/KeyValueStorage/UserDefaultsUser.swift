@@ -45,7 +45,7 @@ struct UserDefaultsUser {
     var listingsWithExpressChatAlreadyShown: [String]
     var listingsWithExpressChatMessageSent: [String]
     var marketingNotifications: Bool
-    var pendingTransactionsListingIds: [String:String] // [<transactionId> : <productId>]
+    var pendingTransactionsListingIds: [String:String] // [<transactionId> : <listingId>]
 
     var failedBumpsInfo: [String:[String:String?]] // [<listingId> : <failedBumpInfo>]
 
