@@ -33,7 +33,7 @@ class NotificationsViewController: BaseViewController {
     }
 
     required init(viewModel: NotificationsViewModel, nibName nibNameOrNil: String?) {
-        self.viewModel = viewModel
+         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
 
         hidesBottomBarWhenPushed = false

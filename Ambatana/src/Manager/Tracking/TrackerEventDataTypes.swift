@@ -750,13 +750,6 @@ enum EventParameterProfileType: String {
 }
 
 enum EventParameterNotificationType: String {
-    case favorite = "favorite"
-    case listingSold = "favorite-sold"
-    case rating = "rating"
-    case ratingUpdated = "rating-updated"
-    case buyersInterested = "passive-buyer-seller"
-    case listingSuggested = "passive-buyer-make-offer"
-    case facebookFriendshipCreated = "facebook-friendship-created"
     case modular = "modular"
 }
 

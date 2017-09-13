@@ -80,14 +80,7 @@ class NotificationsManagerSpec: QuickSpec {
                 oldChatRepository.unreadMsgCountResult = Result<Int, RepositoryError>(10)
                 let chatUnread = MockChatUnreadMessages(totalUnreadMessages: 7)
                 chatRepository.unreadMessagesResult = ChatUnreadMessagesResult(chatUnread)
-                let notifications = MockUnreadNotificationsCounts(listingSold: 2,
-                                                                  listingLike: 2,
-                                                                  review: 2,
-                                                                  reviewUpdated: 2,
-                                                                  buyersInterested: 2,
-                                                                  listingSuggested: 2,
-                                                                  facebookFriendshipCreated: 2,
-                                                                  modular: 2,
+                let notifications = MockUnreadNotificationsCounts(modular: 2,
                                                                   total: 16)
                 notificationsRepository.unreadCountResult = NotificationsUnreadCountResult(notifications)
             }
@@ -96,14 +89,7 @@ class NotificationsManagerSpec: QuickSpec {
                 oldChatRepository.unreadMsgCountResult = Result<Int, RepositoryError>(0)
                 let chatUnread = MockChatUnreadMessages(totalUnreadMessages: 0)
                 chatRepository.unreadMessagesResult = ChatUnreadMessagesResult(chatUnread)
-                let notifications = MockUnreadNotificationsCounts(listingSold: 0,
-                                                                  listingLike: 0,
-                                                                  review: 0,
-                                                                  reviewUpdated: 0,
-                                                                  buyersInterested: 0,
-                                                                  listingSuggested: 0,
-                                                                  facebookFriendshipCreated: 0,
-                                                                  modular: 0,
+                let notifications = MockUnreadNotificationsCounts(modular: 0,
                                                                   total: 0)
                 notificationsRepository.unreadCountResult = NotificationsUnreadCountResult(notifications)
             }

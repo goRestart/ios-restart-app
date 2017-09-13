@@ -80,15 +80,6 @@ class NotificationsViewModel: BaseViewModel {
 
     func selectedItemAtIndex(_ index: Int) {
         guard let data = dataAtIndex(index) else { return }
-        // Not track if type is modular as primary action on modular notification includes tracking.
-        switch data.type {
-        case .listingFavorite, .listingSold, .rating, .ratingUpdated, .buyersInterested, .listingSuggested, .facebookFriendshipCreated:
-            // cardAction is passed as string instead of EventParameterCardAction type as retention could send anything on the query parameter.
-            trackItemPressed(type: data.type.eventType, source: .main, cardAction: data.type.notificationAction.rawValue,
-                             notificationCampaign: nil)
-        case .modular:
-            break
-        }
         data.primaryAction?()
     }
     
@@ -166,71 +157,6 @@ fileprivate extension NotificationsViewModel {
 
     func buildNotification(_ notification: NotificationModel) -> NotificationData? {
         switch notification.type {
-        case let .rating(user, _, _):
-            return NotificationData(id: notification.objectId,
-                                    type: .rating(user: user),
-                                    date: notification.createdAt, isRead: notification.isRead,
-                                    campaignType: notification.campaignType,
-                                    primaryAction: { [weak self] in
-                                        self?.navigator?.openMyRatingList()
-                                    })
-        case let .ratingUpdated(user, _, _):
-            return NotificationData(id: notification.objectId,
-                                    type: .ratingUpdated(user: user),
-                                    date: notification.createdAt, isRead: notification.isRead,
-                                    campaignType: notification.campaignType,
-                                    primaryAction: { [weak self] in
-                                        self?.navigator?.openMyRatingList()
-                                    })
-        case let .like(listing, user):
-            return NotificationData(id: notification.objectId,
-                                    type: .listingFavorite(listing: listing, user: user),
-                                    date: notification.createdAt, isRead: notification.isRead,
-                                    campaignType: notification.campaignType,
-                                    primaryAction: { [weak self] in
-                                        let data = UserDetailData.id(userId: user.id, source: .notifications)
-                                        self?.navigator?.openUser(data)
-                                    })
-        case let .sold(listing, _):
-            return NotificationData(id: notification.objectId,
-                                    type: .listingSold(listingImage: listing.image), date: notification.createdAt,
-                                    isRead: notification.isRead,
-                                    campaignType: notification.campaignType,
-                                    primaryAction: { [weak self] in
-                                        let data = ListingDetailData.id(listingId: listing.id)
-                                        self?.navigator?.openListing(data, source: .notifications, actionOnFirstAppear: .nonexistent)
-                                    })
-        case let .buyersInterested(listing, buyers):
-            var data = NotificationData(id: notification.objectId,
-                                    type: .buyersInterested(listing: listing, buyers: buyers),
-                                    date: notification.createdAt, isRead: notification.isRead,
-                                    campaignType: notification.campaignType,
-                                    primaryAction: nil,
-                                    primaryActionCompleted: false)
-            data.primaryAction = { [weak self] in
-                self?.navigator?.openPassiveBuyers(listing.id, actionCompletedBlock: { [weak self] in
-                    self?.markCompleted(data)
-                })
-            }
-            return data
-        case let .listingSuggested(listing, seller):
-            return NotificationData(id: notification.objectId,
-                                    type: .listingSuggested(listing: listing, seller: seller),
-                                    date: notification.createdAt, isRead: notification.isRead,
-                                    campaignType: notification.campaignType,
-                                    primaryAction: { [weak self] in
-                                        let data = ListingDetailData.id(listingId: listing.id)
-                                        self?.navigator?.openListing(data, source: .notifications, actionOnFirstAppear: .nonexistent)
-                                    })
-        case let .facebookFriendshipCreated(user, facebookUsername):
-            return NotificationData(id: notification.objectId,
-                                    type: .facebookFriendshipCreated(user: user, facebookUsername: facebookUsername),
-                                    date: notification.createdAt, isRead: notification.isRead,
-                                    campaignType: notification.campaignType,
-                                    primaryAction: { [weak self] in
-                                        let data = UserDetailData.id(userId: user.id, source: .notifications)
-                                        self?.navigator?.openUser(data)
-            })
         case let .modular(modules):
             return NotificationData(id: notification.objectId,
                                     type: .modular(modules: modules, delegate: self),
@@ -283,20 +209,6 @@ fileprivate extension NotificationsViewModel {
 fileprivate extension NotificationDataType {
     var eventType: EventParameterNotificationType {
         switch self {
-        case .listingSold:
-            return .listingSold
-        case .listingFavorite:
-            return .favorite
-        case .rating:
-            return .rating
-        case .ratingUpdated:
-            return .ratingUpdated
-        case .buyersInterested:
-            return .buyersInterested
-        case .listingSuggested:
-            return .listingSuggested
-        case .facebookFriendshipCreated:
-            return .facebookFriendshipCreated
         case .modular:
             return .modular
         }
@@ -304,20 +216,6 @@ fileprivate extension NotificationDataType {
     
     var notificationAction: EventParameterNotificationAction {
         switch self {
-        case .listingSold:
-            return .listing
-        case .listingFavorite:
-            return .listing
-        case .rating:
-            return .userRating
-        case .ratingUpdated:
-            return .userRating
-        case .buyersInterested:
-            return .passiveBuyers
-        case .listingSuggested:
-            return .listing
-        case .facebookFriendshipCreated:
-            return .user
         case .modular:
             return .unknown // It should not happen never.
         }
