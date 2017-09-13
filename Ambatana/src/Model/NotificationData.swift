@@ -8,26 +8,24 @@
 
 import LGCoreKit
 
-enum NotificationDataType {
-    case modular(modules: NotificationModular, delegate: ModularNotificationCellDelegate?)
-}
-
 struct NotificationData {
     let id: String?
-    let type: NotificationDataType
+    let modules: NotificationModular
     let date: Date
     let isRead: Bool
     let campaignType: String?
+    let delegate: ModularNotificationCellDelegate?
     var primaryAction: (() -> Void)?
     let primaryActionCompleted: Bool?
 
-    init(id: String?, type: NotificationDataType, date: Date, isRead: Bool, campaignType: String?,
-         primaryAction: (() -> Void)?, primaryActionCompleted: Bool? = nil) {
+    init(id: String?, modules: NotificationModular, date: Date, isRead: Bool, campaignType: String?,
+         delegate: ModularNotificationCellDelegate?, primaryAction: (() -> Void)?, primaryActionCompleted: Bool? = nil) {
         self.id = id
-        self.type = type
+        self.modules = modules
         self.date = date
         self.isRead = isRead
         self.campaignType = campaignType
+        self.delegate = delegate
         self.primaryAction = primaryAction
         self.primaryActionCompleted = primaryActionCompleted
     }

@@ -3,5 +3,6 @@ public struct MockNotificationModel: NotificationModel {
     public var createdAt: Date
     public var isRead: Bool
     public var campaignType: String?
-    public var type: NotificationType
+    public var type: String
+    public var modules: NotificationModular
 }

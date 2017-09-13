@@ -123,7 +123,7 @@ extension NotificationsViewController: UITableViewDelegate, UITableViewDataSourc
         guard let cellData = viewModel.dataAtIndex(indexPath.row) else { return UITableViewCell() }
         let cellDrawer = NotificationCellDrawerFactory.drawerForNotificationData(cellData)
         let cell = cellDrawer.cell(tableView, atIndexPath: indexPath)
-        cellDrawer.draw(cell, data: cellData)
+        cellDrawer.draw(cell, data: cellData, delegate: nil)
 
         return cell
     }

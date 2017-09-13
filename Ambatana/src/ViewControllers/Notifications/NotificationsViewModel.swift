@@ -143,8 +143,8 @@ class NotificationsViewModel: BaseViewModel {
         guard let primaryActionCompleted = data.primaryActionCompleted, !primaryActionCompleted else { return }
         guard data.id != nil else { return }
         guard let index = notificationsData.index(where: { $0.id != nil && $0.id == data.id }) else { return }
-        let completedData = NotificationData(id: data.id, type: data.type, date: data.date, isRead: data.isRead,
-                                             campaignType: data.campaignType, primaryAction: nil, primaryActionCompleted: true)
+        let completedData = NotificationData(id: data.id, modules: data.modules, date: data.date, isRead: data.isRead,
+                                             campaignType: data.campaignType, delegate: self, primaryAction: nil, primaryActionCompleted: true)
         notificationsData[index] = completedData
         viewState.value = .data
     }
@@ -156,18 +156,16 @@ class NotificationsViewModel: BaseViewModel {
 fileprivate extension NotificationsViewModel {
 
     func buildNotification(_ notification: NotificationModel) -> NotificationData? {
-        switch notification.type {
-        case let .modular(modules):
-            return NotificationData(id: notification.objectId,
-                                    type: .modular(modules: modules, delegate: self),
-                                    date: notification.createdAt, isRead: notification.isRead,
-                                    campaignType: notification.campaignType,
-                                    primaryAction: { [weak self] in
-                                        guard let deeplink = modules.callToActions.first?.deeplink else { return }
-                                        self?.triggerModularNotificationDeeplink(deeplink: deeplink, source: .main,
-                                                                                 notificationCampaign: notification.campaignType)
-                                    })
-        }
+        return NotificationData(id: notification.objectId,
+                                modules: notification.modules,
+                                date: notification.createdAt, isRead: notification.isRead,
+                                campaignType: notification.campaignType,
+                                delegate: self,
+                                primaryAction: { [weak self] in
+                                    guard let deeplink = notification.modules.callToActions.first?.deeplink else { return }
+                                    self?.triggerModularNotificationDeeplink(deeplink: deeplink, source: .main,
+                                                                             notificationCampaign: notification.campaignType)
+                                })
     }
 }
 
@@ -203,21 +201,5 @@ fileprivate extension NotificationsViewModel {
     func trackErrorStateShown(reason: EventParameterEmptyReason) {
         let event = TrackerEvent.emptyStateVisit(typePage: .notifications, reason: reason)
         tracker.trackEvent(event)
-    }
-}
-
-fileprivate extension NotificationDataType {
-    var eventType: EventParameterNotificationType {
-        switch self {
-        case .modular:
-            return .modular
-        }
-    }
-    
-    var notificationAction: EventParameterNotificationAction {
-        switch self {
-        case .modular:
-            return .unknown // It should not happen never.
-        }
     }
 }

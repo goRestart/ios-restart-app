@@ -18,13 +18,13 @@ class BaseNotificationCellDrawer<T: UITableViewCell>: BaseTableCellDrawer<T>, No
      - parameter cell:     Cell where the notification is going to be draw, must be T
      - parameter data:      data to draw
      */
-    func draw(_ cell: UITableViewCell, data: NotificationData) {
+    func draw(_ cell: UITableViewCell, data: NotificationData, delegate: ModularNotificationCellDelegate?) {
         guard let myCell = cell as? T else { return }
-        draw(myCell, data: data)
+        draw(myCell, data: data, delegate: delegate)
     }
 
     /**
      Abstract method that should be implemented by the subclasses.
      */
-    func draw(_ cell: T, data: NotificationData) {}
+    func draw(_ cell: T, data: NotificationData, delegate: ModularNotificationCellDelegate?) {}
 }

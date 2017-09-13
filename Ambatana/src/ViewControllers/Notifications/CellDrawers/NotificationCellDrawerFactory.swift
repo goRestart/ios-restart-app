@@ -13,10 +13,7 @@ class NotificationCellDrawerFactory {
     static let estimatedRowHeight: CGFloat = 80
     // Not updated to Listing as it is going to be remove: ABIOS-2662
     static func drawerForNotificationData(_ notification: NotificationData) -> NotificationCellDrawer {
-        switch notification.type {
-        case .modular:
-            return ModularNotificationCellDrawer()
-        }
+        return ModularNotificationCellDrawer()
     }
 
     static func registerCells(_ tableView: UITableView) {

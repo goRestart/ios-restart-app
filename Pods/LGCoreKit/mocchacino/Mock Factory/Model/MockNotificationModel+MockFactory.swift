@@ -4,6 +4,7 @@ extension MockNotificationModel: MockFactory {
                                      createdAt: Date.makeRandom(),
                                      isRead: Bool.makeRandom(),
                                      campaignType: String.makeRandom(),
-                                     type: NotificationType.makeMock())
+                                     type: String.makeRandom(),
+                                     modules: MockNotificationModular.makeMock())
     }
 }

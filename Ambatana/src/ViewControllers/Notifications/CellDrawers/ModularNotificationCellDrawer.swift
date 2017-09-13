@@ -11,13 +11,8 @@ import LGCoreKit
 
 class ModularNotificationCellDrawer: BaseNotificationCellDrawer<ModularNotificationCell> {
     
-    override func draw(_ cell: ModularNotificationCell, data: NotificationData) {
-        switch data.type {
-        case let .modular(modules, delegate):
-            cell.addModularData(with: modules, isRead: data.isRead, notificationCampaign: data.campaignType)
-            cell.delegate = delegate
-        default:
-            return
-        }
+    override func draw(_ cell: ModularNotificationCell, data: NotificationData, delegate: ModularNotificationCellDelegate?) {
+        cell.addModularData(with: data.modules, isRead: data.isRead, notificationCampaign: data.campaignType)
+        cell.delegate = delegate
     }
 }
