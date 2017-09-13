@@ -406,6 +406,7 @@ enum EventParameterPostedWithin: String {
 enum EventParameterPostingType: String {
     case car = "car"
     case stuff = "stuff"
+    case realEstate = "real-estate"
     case none = "N/A"
 }
 

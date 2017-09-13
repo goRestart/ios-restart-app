@@ -178,8 +178,8 @@ public class ProductEditionParams: ProductCreationParams {
         guard let productId = listing.objectId, let userId = listing.user.objectId else { return nil }
         let editedProduct: Product
         switch listing {
-        case let .car(car):
-            editedProduct = ProductEditionParams.createProductParams(withCar: car)
+        case .car, .realEstate:
+            editedProduct = ProductEditionParams.createProductParams(withListing: listing)
         case let .product(product):
             editedProduct = product
         }
@@ -217,12 +217,15 @@ public class ProductEditionParams: ProductCreationParams {
         return super.apiCreationEncode(userId: userId)
     }
 
-    static private func createProductParams(withCar car: Car) -> Product {
-        let product = LGProduct(objectId: car.objectId, updatedAt: car.updatedAt, createdAt: car.createdAt, name: car.name,
-                                nameAuto: car.nameAuto, descr: car.descr, price: car.price, currency: car.currency,
-                                location: car.location, postalAddress: car.postalAddress, languageCode: car.languageCode,
-                                category: .motorsAndAccessories, status: car.status, thumbnail: car.thumbnail, thumbnailSize: car.thumbnailSize,
-                                images: car.images, user: car.user, featured: car.featured)
+    static private func createProductParams(withListing listing: Listing) -> Product {
+        let category: ListingCategory = listing.isCar ? .motorsAndAccessories : .unassigned
+        let product = LGProduct(objectId: listing.objectId, updatedAt: listing.updatedAt, createdAt: listing.createdAt,
+                                name: listing.name, nameAuto: listing.nameAuto, descr: listing.descr,
+                                price: listing.price, currency: listing.currency, location: listing.location,
+                                postalAddress: listing.postalAddress, languageCode: listing.languageCode,
+                                category: category, status: listing.status, thumbnail: listing.thumbnail,
+                                thumbnailSize: listing.thumbnailSize, images: listing.images, user: listing.user,
+                                featured: listing.featured)
         return product
     }
 }
@@ -299,13 +302,7 @@ public class CarEditionParams: CarCreationParams {
 
     public convenience init?(listing: Listing) {
         guard let carId = listing.objectId, let userId = listing.user.objectId else { return nil }
-        let editedCar: Car
-        switch listing {
-        case let .car(car):
-            editedCar = car
-        case let .product(product):
-            editedCar = CarEditionParams.createCarParams(withProduct: product)
-        }
+        let editedCar: Car = CarEditionParams.createCarParams(withListing: listing)
         self.init(car: editedCar, carId: carId, userId: userId)
     }
 
@@ -335,12 +332,12 @@ public class CarEditionParams: CarCreationParams {
         return super.apiCreationEncode(userId: userId)
     }
 
-    static private func createCarParams(withProduct product: Product) -> Car {
-        let car = LGCar(objectId: product.objectId, updatedAt: product.updatedAt, createdAt: product.createdAt, name: product.name,
-                        nameAuto: product.nameAuto, descr: product.descr, price: product.price, currency: product.currency,
-                        location: product.location, postalAddress: product.postalAddress, languageCode: product.languageCode,
-                        category: .cars, status: product.status, thumbnail: product.thumbnail, thumbnailSize: product.thumbnailSize,
-                        images: product.images, user: product.user, featured: product.featured, carAttributes: nil)
+    static private func createCarParams(withListing listing: Listing) -> Car {
+        let car = LGCar(objectId: listing.objectId, updatedAt: listing.updatedAt, createdAt: listing.createdAt, name: listing.name,
+                        nameAuto: listing.nameAuto, descr: listing.descr, price: listing.price, currency: listing.currency,
+                        location: listing.location, postalAddress: listing.postalAddress, languageCode: listing.languageCode,
+                        category: .cars, status: listing.status, thumbnail: listing.thumbnail, thumbnailSize: listing.thumbnailSize,
+                        images: listing.images, user: listing.user, featured: listing.featured, carAttributes: listing.car?.carAttributes)
         return car
     }
 }

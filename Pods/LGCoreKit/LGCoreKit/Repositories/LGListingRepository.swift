@@ -118,6 +118,12 @@ final class LGListingRepository: ListingRepository {
                         newCar = self.fillCarAttributes(car: newCar)
                     }
                     completion?(ListingResult(value: Listing.car(newCar)))
+                case .realEstate(let realEstate):
+                    var newRealEstate = LGRealEstate(realEstate: realEstate)
+                    if let objectId = newRealEstate.objectId {
+                        newRealEstate.favorite = favorites.contains(objectId)
+                    }
+                    completion?(ListingResult(value: Listing.realEstate(newRealEstate)))
                 }
             }
         }
@@ -144,7 +150,7 @@ final class LGListingRepository: ListingRepository {
                     let carUpdated = strongSelf.fillCarAttributes(car: newCar)
                     listing = Listing.car(carUpdated)
                     carResult = Result(value: listing)
-                case .product:
+                case .product, .realEstate:
                     break
                 }
                 // Send event
@@ -170,7 +176,7 @@ final class LGListingRepository: ListingRepository {
                     let carUpdated = strongSelf.fillCarAttributes(car: newCar)
                     listing = Listing.car(carUpdated)
                     carResult = Result(value: listing)
-                case .product:
+                case .product, .realEstate:
                     break
                 }
                 // Send event
@@ -277,6 +283,12 @@ final class LGListingRepository: ListingRepository {
                     var newCar = LGCar(car: car)
                     newCar.favorite = true
                     newListing = .car(newCar)
+                case .realEstate(let realEstate):
+                    var newRealEstate = LGRealEstate(realEstate: realEstate)
+                    newRealEstate.favorite = true
+                    newListing = .realEstate(newRealEstate)
+                    // TO BE REMOVED AFTER TASK: https://github.com/letgoapp/letgo-ios-lgcorekit/pull/315
+                    break
                 }
                 self?.favoritesDAO.save(listingId: listingId)
                 self?.eventBus.onNext(.favorite(newListing))
@@ -310,6 +322,10 @@ final class LGListingRepository: ListingRepository {
                     var newCar = LGCar(car: car)
                     newCar.favorite = false
                     newListing = .car(newCar)
+                case .realEstate(let realEstate):
+                    var newRealEstate = LGRealEstate(realEstate: realEstate)
+                    newRealEstate.favorite = false
+                    newListing = .realEstate(newRealEstate)
                 }
                 self?.favoritesDAO.remove(listingId: listingId)
                 self?.eventBus.onNext(.unFavorite(newListing))
@@ -379,8 +395,8 @@ final class LGListingRepository: ListingRepository {
                 for listing in listings {
                     guard let _ = listing.objectId else { continue }
                     switch listing {
-                    case .product(let product):
-                        newListings.append(Listing.product(product))
+                    case .product, .realEstate:
+                        newListings.append(listing)
                     case .car(let car):
                         var newCar = LGCar(car: car)
                         newCar = strongSelf.fillCarAttributes(car: newCar)
@@ -472,6 +488,10 @@ final class LGListingRepository: ListingRepository {
                 newCar.favorite = favorites.contains(listingId)
                 newCar = fillCarAttributes(car: newCar)
                 newListings.append(Listing.car(newCar))
+            case .realEstate(let realEstate):
+                var newRealEstate = LGRealEstate(realEstate: realEstate)
+                newRealEstate.favorite = favorites.contains(listingId)
+                newListings.append(Listing.realEstate(newRealEstate))
             }
         }
         return newListings
