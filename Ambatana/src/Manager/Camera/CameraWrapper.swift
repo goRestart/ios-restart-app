@@ -109,6 +109,7 @@ class CameraWrapper {
     }
 
     func pause() {
+        cameraManager.captureSession?.commitConfiguration()
         cameraManager.stopCaptureSession()
     }
 
