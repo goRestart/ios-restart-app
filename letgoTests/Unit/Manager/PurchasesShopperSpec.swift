@@ -274,7 +274,7 @@ class PurchasesShopperSpec: QuickSpec {
 
                         var failedBumpsDict: [String:Any] = [:]
                         failedBumpsDict[currentBump.listingId] = currentBump.dictionaryValue()
-                        keyValueStorage.userFailedBumpsInfo = failedBumpsDict
+                        keyValueStorage.userFailedBumpsInfo = failedBumpsDict as! [String : [String : String?]]
                     }
                     context("restore fails") {
                         beforeEach {
@@ -287,7 +287,7 @@ class PurchasesShopperSpec: QuickSpec {
                             expect(bump).toNot(beNil())
                         }
                         it("the bump retries count has incremented") {
-                            let bumpDict = keyValueStorage.userFailedBumpsInfo["listing_id_1"] as! [String:String?]
+                            let bumpDict = keyValueStorage.userFailedBumpsInfo["listing_id_1"]!
                             let bump = FailedBumpInfo(dictionary: bumpDict)
                             expect(bump!.numRetries) == 6
                         }
@@ -297,7 +297,7 @@ class PurchasesShopperSpec: QuickSpec {
                             currentBump = currentBump.updatingNumRetries(newNumRetries: 20)
                             var failedBumpsDict: [String:Any] = [:]
                             failedBumpsDict[currentBump.listingId] = currentBump.dictionaryValue()
-                            keyValueStorage.userFailedBumpsInfo = failedBumpsDict
+                            keyValueStorage.userFailedBumpsInfo = failedBumpsDict as! [String : [String : String?]]
 
                             sut.restorePaidBumpUp(forListingId: "listing_id_1")
                         }
