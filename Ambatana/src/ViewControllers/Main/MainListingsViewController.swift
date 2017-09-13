@@ -651,15 +651,18 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let sectionType = SearchSuggestionType.sectionType(index: indexPath.section) else { return UITableViewCell() }
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: SuggestionSearchCell.reusableID,
-                            for: indexPath) as? SuggestionSearchCell else { return UITableViewCell() }
+        guard let sectionType = SearchSuggestionType.sectionType(index: indexPath.section),
+              let cell = tableView.dequeueReusableCell(withIdentifier: SuggestionSearchCell.reusableID,
+                                                 for: indexPath) as? SuggestionSearchCell else {
+                                                    return UITableViewCell()
+        }
         switch sectionType {
         case .suggestive:
-            guard let (suggestiveSearch, sourceText) = viewModel.suggestiveSearchAtIndex(indexPath.row),
-                let suggestiveSearchName = suggestiveSearch.name else { return UITableViewCell() }
-            cell.suggestionText.attributedText = suggestiveSearchName.makeBold(ignoringText: sourceText.lowercased(),
-                                                                                   font: cell.labelFont)
+            guard let (suggestiveSearch, sourceText) = viewModel.suggestiveSearchAtIndex(indexPath.row) else {
+                return UITableViewCell()
+            }
+            cell.suggestionText.attributedText = suggestiveSearch.name.makeBold(ignoringText: sourceText.lowercased(),
+                                                                                font: cell.labelFont)
         case .lastSearch:
             guard let lastSearch = viewModel.lastSearchAtIndex(indexPath.row) else { return UITableViewCell() }
             cell.suggestionText.text = lastSearch
