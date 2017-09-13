@@ -214,8 +214,8 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         if bump.numRetries <= Constants.maxRetriesForBumpUpRestore {
             return true
         } else {
-            removeFormUserDefaults(transactionId: bump.transactionId)
-            removeFormUserDefaultsBumpUpWithListingId(listingId: listingId)
+            removeFromUserDefaults(transactionId: bump.transactionId)
+            removeFromUserDefaultsBumpUpWithListingId(listingId: listingId)
             return false
         }
     }
@@ -329,7 +329,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
 
     /**
      Request a bump to letgo API of the purchase.  We pass all the info needed to validate & track the payment.
-     CAn come form a 1st purchase or form a restore.
+     Can come from a 1st purchase or from a restore.
 
      - parameter listingId: letgo listing Id
      - parameter paymentId: unique id for the payment. Generated in the app
@@ -347,8 +347,8 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
                                             type: BumpUpType, currentBump: FailedBumpInfo) {
 
         guard currentBump.numRetries < Constants.maxRetriesForBumpUpRestore  else {
-            removeFormUserDefaults(transactionId: currentBump.transactionId)
-            removeFormUserDefaultsBumpUpWithListingId(listingId: listingId)
+            removeFromUserDefaults(transactionId: currentBump.transactionId)
+            removeFromUserDefaultsBumpUpWithListingId(listingId: listingId)
             return
         }
 
@@ -370,12 +370,11 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
                                             retryCount: retryCount, previousResult: nil) { [weak self] result in
 
                                                 if let _ = result.value {
-                                                    self?.removeFormUserDefaults(transactionId: transaction?.transactionIdentifier ?? bump.transactionId)
-                                                    self?.removeFormUserDefaultsBumpUpWithListingId(listingId: listingId)
-                                                    if let transaction = transaction {
-                                                        self?.paymentQueue.finishTransaction(transaction)
-                                                    }
-                                                    self?.delegate?.pricedBumpDidSucceed(type: type, restoreRetriesCount: bump.numRetries)
+                                                    self?.finishTransaction(transaction: transaction,
+                                                                            forListingId: listingId,
+                                                                            withBumpUpInfo: bump)
+                                                    self?.delegate?.pricedBumpDidSucceed(type: type,
+                                                                                         restoreRetriesCount: bump.numRetries)
                                                 } else if let error = result.error {
                                                     switch error {
                                                     case .serverError(code: let code):
@@ -384,11 +383,9 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
                                                             if !bumpError.isUsersFault {
                                                                 self?.saveToUserDefaults(bumpUp: bump)
                                                             } else {
-                                                                self?.removeFormUserDefaults(transactionId: transaction?.transactionIdentifier ?? bump.transactionId)
-                                                                self?.removeFormUserDefaultsBumpUpWithListingId(listingId: listingId)
-                                                                if let transaction = transaction {
-                                                                    self?.paymentQueue.finishTransaction(transaction)
-                                                                }
+                                                                self?.finishTransaction(transaction: transaction,
+                                                                                        forListingId: listingId,
+                                                                                        withBumpUpInfo: bump)
                                                             }
                                                         }
                                                     case .forbidden, .internalError, .network, .notFound, .tooManyRequests,
@@ -535,7 +532,7 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
             switch transaction.transactionState {
             case .purchasing:
                 // this avoids duplicated transactions for a listing
-                removeFormUserDefaults(transactionId: transaction.transactionIdentifier)
+                removeFromUserDefaults(transactionId: transaction.transactionIdentifier)
             case .deferred, .restored:
                 /*
                  those status will never happen:
@@ -572,7 +569,7 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
                 let transactionListingId = listingIdFor(transaction: transaction) ?? paymentProcessingListingId
 
                 guard let listingId = transactionListingId, let receiptString = receiptString else {
-                    removeFormUserDefaults(transactionId: transaction.transactionIdentifier)
+                    removeFromUserDefaults(transactionId: transaction.transactionIdentifier)
                     queue.finishTransaction(transaction)
                     delegate?.pricedBumpDidFail(type: .priced)
                     continue
@@ -604,14 +601,13 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
         return keyValueStorage.userPendingTransactionsListingIds[transactionId]
     }
 
-    fileprivate func removeFormUserDefaults(transactionId: String?) {
+    fileprivate func removeFromUserDefaults(transactionId: String?) {
         // remove transaction ids (apple's restore)
         guard let transactionId = transactionId else { return }
         var transactionsDict = keyValueStorage.userPendingTransactionsListingIds
         transactionsDict.removeValue(forKey: transactionId)
         keyValueStorage.userPendingTransactionsListingIds = transactionsDict
     }
-
 
     fileprivate func saveToUserDefaults(bumpUp bumpInfo: FailedBumpInfo?) {
         guard let bumpInfo = bumpInfo else { return }
@@ -624,14 +620,24 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
     fileprivate func failedBumpInfoFor(listingId: String) -> FailedBumpInfo? {
         print(keyValueStorage)
         print(keyValueStorage.userFailedBumpsInfo)
-        guard let dictionary = keyValueStorage.userFailedBumpsInfo[listingId] as? [String:String?] else { return nil }
+        guard let dictionary = keyValueStorage.userFailedBumpsInfo[listingId] else { return nil }
         return FailedBumpInfo(dictionary: dictionary)
     }
 
-    fileprivate func removeFormUserDefaultsBumpUpWithListingId(listingId: String) {
+    fileprivate func removeFromUserDefaultsBumpUpWithListingId(listingId: String) {
         // remove failed bump ups info (letgo's restore)
         var userFailedBumpsDict = keyValueStorage.userFailedBumpsInfo
         userFailedBumpsDict.removeValue(forKey: listingId)
         keyValueStorage.userFailedBumpsInfo = userFailedBumpsDict
+    }
+
+    fileprivate func finishTransaction(transaction: SKPaymentTransaction?,
+                                       forListingId listingId: String,
+                                       withBumpUpInfo bump: FailedBumpInfo) {
+        removeFromUserDefaults(transactionId: transaction?.transactionIdentifier ?? bump.transactionId)
+        removeFromUserDefaultsBumpUpWithListingId(listingId: listingId)
+        if let transaction = transaction {
+            paymentQueue.finishTransaction(transaction)
+        }
     }
 }
