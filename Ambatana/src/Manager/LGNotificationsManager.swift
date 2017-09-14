@@ -178,8 +178,8 @@ class LGNotificationsManager: NotificationsManager {
         requestingNotifications = true
         notificationsRepository.unreadNotificationsCount() { [weak self] result in
             self?.requestingNotifications = false
-            guard let notificationCounts = result.value, let featureFlags = self?.featureFlags else { return }
-            self?.unreadNotificationsCount.value = notificationCounts.totalVisibleCount(featureFlags: featureFlags)
+            guard let notificationCounts = result.value else { return }
+            self?.unreadNotificationsCount.value = notificationCounts.totalVisibleCount()
         }
     }
 }
@@ -209,8 +209,7 @@ fileprivate extension LGNotificationsManager {
 // MARK: - UnreadNotificationsCounts
 
 fileprivate extension UnreadNotificationsCounts {
-    func totalVisibleCount(featureFlags: FeatureFlaggeable) -> Int {
-        let totalWoReviews = modular
-        return totalWoReviews
+    func totalVisibleCount() -> Int {
+        return modular
     }
 }
