@@ -67,7 +67,6 @@ protocol InternalDI: DI {
     var deviceIdDAO: DeviceIdDAO { get }
     var installationDAO: InstallationDAO { get }
     var myUserDAO: MyUserDAO { get }
-    var favoritesDAO: FavoritesDAO { get }
     var listingsLimboDAO: ListingsLimboDAO { get }
     
     // Reachability

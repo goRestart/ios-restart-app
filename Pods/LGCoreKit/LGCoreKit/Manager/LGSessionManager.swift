@@ -39,7 +39,6 @@ class LGSessionManager: InternalSessionManager {
     // DAOs
     private let tokenDAO: TokenDAO
     private let deviceLocationDAO: DeviceLocationDAO
-    private let favoritesDAO: FavoritesDAO
 
     // Router
     let webSocketCommandRouter = WebSocketCommandRouter(uuidGenerator: LGUUID())
@@ -53,16 +52,19 @@ class LGSessionManager: InternalSessionManager {
 
     // MARK: - Lifecycle
 
-    init(apiClient: ApiClient, websocketClient: WebSocketClient, myUserRepository: InternalMyUserRepository,
-         installationRepository: InternalInstallationRepository, tokenDAO: TokenDAO, deviceLocationDAO: DeviceLocationDAO,
-         favoritesDAO: FavoritesDAO) {
+    init(apiClient: ApiClient,
+         websocketClient: WebSocketClient,
+         myUserRepository: InternalMyUserRepository,
+         installationRepository: InternalInstallationRepository,
+         tokenDAO: TokenDAO,
+         deviceLocationDAO: DeviceLocationDAO) {
+        
         self.apiClient = apiClient
         self.websocketClient = websocketClient
         self.myUserRepository = myUserRepository
         self.tokenDAO = tokenDAO
         self.deviceLocationDAO = deviceLocationDAO
         self.installationRepository = installationRepository
-        self.favoritesDAO = favoritesDAO
         
         setupWebSocketRx()
     }
@@ -470,7 +472,6 @@ class LGSessionManager: InternalSessionManager {
         logMessage(.verbose, type: CoreLoggingOptions.session, message: "Session cleaned up")
         tokenDAO.deleteUserToken()
         myUserRepository.deleteUser()
-        favoritesDAO.clean()
     }
     
     
