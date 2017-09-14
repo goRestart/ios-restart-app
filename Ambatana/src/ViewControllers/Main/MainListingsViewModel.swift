@@ -898,10 +898,17 @@ extension MainListingsViewModel {
     func retrieveSuggestiveSearches(term: String) {
         guard let languageCode = Locale.current.languageCode else { return }
         
+        let shouldIncludeCategories: Bool
+        switch featureFlags.searchAutocomplete {
+        case .baseline, .control:
+            shouldIncludeCategories = false
+        case .withCategories:
+            shouldIncludeCategories = true
+        }
         searchRepository.retrieveSuggestiveSearches(language: languageCode,
                                                     limit: 10,
                                                     term: term,
-                                                    shouldIncludeCategories: false) { [weak self] result in
+                                                    shouldIncludeCategories: shouldIncludeCategories) { [weak self] result in
             guard term == self?.searchText.value else { return }
             self?.suggestiveSearchInfo.value = SuggestiveSearchInfo(suggestiveSearches: result.value ?? [],
                                                                         sourceText: term)
