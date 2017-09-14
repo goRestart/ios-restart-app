@@ -277,7 +277,6 @@ class ListingViewModel: BaseViewModel {
             strongSelf.isShowingFeaturedStripe.value = strongSelf.showFeaturedStripeHelper.shouldShowFeaturedStripeFor(listing: listing) && !strongSelf.status.value.shouldShowStatus
 
             strongSelf.productIsFavoriteable.value = !isMine
-            strongSelf.isFavorite.value = listing.favorite
             strongSelf.socialMessage.value = ListingSocialMessage(listing: listing, fallbackToStore: false)
             strongSelf.freeBumpUpShareMessage = ListingSocialMessage(listing: listing, fallbackToStore: true)
             strongSelf.productImageURLs.value = listing.images.flatMap { return $0.fileURL }
