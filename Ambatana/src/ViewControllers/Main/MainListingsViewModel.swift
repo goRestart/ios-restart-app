@@ -898,7 +898,7 @@ extension MainListingsViewModel {
     func retrieveSuggestiveSearches(term: String) {
         guard let languageCode = Locale.current.languageCode else { return }
         
-        searchRepository.retrieveSuggestiveSearches(languageCode: languageCode,
+        searchRepository.retrieveSuggestiveSearches(language: languageCode,
                                                     limit: 10,
                                                     term: term,
                                                     shouldIncludeCategories: false) { [weak self] result in
