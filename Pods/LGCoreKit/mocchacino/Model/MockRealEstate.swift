@@ -17,7 +17,6 @@ public struct MockRealEstate: RealEstate {
     public var updatedAt : Date?
     public var createdAt : Date?
     public var featured: Bool?
-    public var favorite: Bool
     public var realEstateAttributes: RealEstateAttributes
 }
 
@@ -41,7 +40,6 @@ extension MockRealEstate {
                   updatedAt: realEstate.updatedAt,
                   createdAt: realEstate.createdAt,
                   featured: realEstate.featured,
-                  favorite: realEstate.favorite,
                   realEstateAttributes: realEstate.realEstateAttributes)
     }
 }

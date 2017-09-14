@@ -96,11 +96,9 @@ final class CoreDI: InternalDI {
         self.categoryRepository = categoryRepository
 
         let listingDataSource = ListingApiDataSource(apiClient: apiClient)
-        let favoritesDAO = FavoritesUDDAO(userDefaults: userDefaults)
         let listingsLimboDAO = ListingsLimboUDDAO(userDefaults: userDefaults)
         let listingRepository = LGListingRepository(listingDataSource: listingDataSource,
                                                     myUserRepository: myUserRepository,
-                                                    favoritesDAO: favoritesDAO,
                                                     listingsLimboDAO: listingsLimboDAO,
                                                     carsInfoRepository: carsInfoRepository)
         self.listingRepository = listingRepository
@@ -125,8 +123,7 @@ final class CoreDI: InternalDI {
                                               myUserRepository: myUserRepository,
                                               installationRepository: installationRepository,
                                               tokenDAO: tokenDAO,
-                                              deviceLocationDAO: deviceLocationDAO,
-                                              favoritesDAO: favoritesDAO)
+                                              deviceLocationDAO: deviceLocationDAO)
 
         locationManager.observeSessionManager(sessionManager)
 
@@ -164,7 +161,6 @@ final class CoreDI: InternalDI {
         self.deviceIdDAO = deviceIdDAO
         self.installationDAO = installationDAO
         self.myUserDAO = myUserDAO
-        self.favoritesDAO = favoritesDAO
         self.stickersDAO = stickersDAO
         self.listingsLimboDAO = listingsLimboDAO
         
@@ -253,7 +249,6 @@ final class CoreDI: InternalDI {
     let deviceIdDAO: DeviceIdDAO
     let installationDAO: InstallationDAO
     let myUserDAO: MyUserDAO
-    let favoritesDAO: FavoritesDAO
     let stickersDAO: StickersDAO
     let listingsLimboDAO: ListingsLimboDAO
     

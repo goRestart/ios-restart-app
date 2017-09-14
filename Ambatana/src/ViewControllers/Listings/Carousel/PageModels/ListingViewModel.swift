@@ -277,7 +277,6 @@ class ListingViewModel: BaseViewModel {
             strongSelf.isShowingFeaturedStripe.value = strongSelf.showFeaturedStripeHelper.shouldShowFeaturedStripeFor(listing: listing) && !strongSelf.status.value.shouldShowStatus
 
             strongSelf.productIsFavoriteable.value = !isMine
-            strongSelf.isFavorite.value = listing.favorite
             strongSelf.socialMessage.value = ListingSocialMessage(listing: listing, fallbackToStore: false)
             strongSelf.freeBumpUpShareMessage = ListingSocialMessage(listing: listing, fallbackToStore: true)
             strongSelf.productImageURLs.value = listing.images.flatMap { return $0.fileURL }
@@ -1055,7 +1054,7 @@ extension ListingViewModel: PurchasesShopperDelegate {
     }
 
     func freeBumpDidSucceed(withNetwork network: EventParameterShareNetwork) {
-        trackBumpUpCompleted(.free, type: .free, network: network)
+        trackBumpUpCompleted(.free, type: .free, restoreRetriesCount: 0, network: network)
         delegate?.vmHideLoading(LGLocalizedString.bumpUpFreeSuccess, afterMessageCompletion: { [weak self] in
             self?.delegate?.vmResetBumpUpBannerCountdown()
             self?.isShowingFeaturedStripe.value = true
@@ -1079,9 +1078,10 @@ extension ListingViewModel: PurchasesShopperDelegate {
         trackMobilePaymentComplete(withPaymentId: paymentId)
     }
 
-    func pricedBumpDidSucceed(type: BumpUpType) {
+    func pricedBumpDidSucceed(type: BumpUpType, restoreRetriesCount: Int) {
         trackBumpUpCompleted(.pay(price: bumpUpPurchaseableProduct?.formattedCurrencyPrice ?? ""),
                              type: type,
+                             restoreRetriesCount: restoreRetriesCount,
                              network: .notAvailable)
         delegate?.vmHideLoading(LGLocalizedString.bumpUpPaySuccess, afterMessageCompletion: { [weak self] in
             self?.delegate?.vmResetBumpUpBannerCountdown()

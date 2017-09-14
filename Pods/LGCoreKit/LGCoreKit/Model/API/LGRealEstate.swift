@@ -53,7 +53,6 @@ struct LGRealEstate: RealEstate {
                   languageCode: realEstate.languageCode, category: realEstate.category, status: realEstate.status,
                   thumbnail: realEstate.thumbnail, thumbnailSize: realEstate.thumbnailSize, images: realEstate.images,
                   user: realEstate.user, featured: realEstate.featured, realEstateAttributes: realEstate.realEstateAttributes)
-        self.favorite = realEstate.favorite
     }
     
     init(objectId: String?, updatedAt: Date?, createdAt: Date?, name: String?, nameAuto: String?, descr: String?,
@@ -78,7 +77,6 @@ struct LGRealEstate: RealEstate {
         self.images = images
         self.user = user
         self.featured = featured ?? false
-        self.favorite = false
         self.realEstateAttributes = realEstateAttributes ?? RealEstateAttributes.emptyRealEstateAttributes()
     }
     
