@@ -61,7 +61,6 @@ struct Constants {
     static let listingListFooterHeight: CGFloat = 70
     static let listingListFixedInsets: CGFloat = 6
     static let listingListNewLabelThreshold = TimeInterval.make(days: 1)
-    static let numFavoriteListingsPerPage = 20
     static let numListingsPerPageDefault = 50
     static let numListingsPerPageBig = 50
     static let listingsPagingThresholdPercentage: Float = 0.4 // Percentage of page to check bottom threshold to paginate
