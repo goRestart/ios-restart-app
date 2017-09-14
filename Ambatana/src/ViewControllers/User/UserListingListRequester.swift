@@ -22,8 +22,9 @@ class UserFavoritesListingListRequester: UserListingListRequester {
         return nil
     }
 
-    let itemsPerPage: Int = 0 // Not used, favorites doesn't paginate
-    var userObjectId: String? = nil
+    var itemsPerPage: Int = Constants.numListingsPerPageDefault
+    var userObjectId: String?
+    private var offset: Int = 0
     let listingRepository: ListingRepository
     let locationManager: LocationManager
 
@@ -36,32 +37,36 @@ class UserFavoritesListingListRequester: UserListingListRequester {
         self.locationManager = locationManager
     }
 
-    func canRetrieve() -> Bool { return true }
+    func canRetrieve() -> Bool {
+        return userObjectId != nil
+    }
     
     func retrieveFirstPage(_ completion: ListingsRequesterCompletion?) {
-        listingsRetrieval { result in
-            completion?(ListingsRequesterResult(listingsResult: result, context: nil))
-        }
+        updateInitialOffset(0)
+        listingsRetrieval(completion)
     }
     
     func retrieveNextPage(_ completion: ListingsRequesterCompletion?) {
-        //User favorites doesn't have pagination.
-        let listingsResult = ListingsResult(value: [])
-        completion?(ListingsRequesterResult(listingsResult: listingsResult, context: nil))
-        return
+        listingsRetrieval(completion)
     }
 
-    private func listingsRetrieval(_ completion: ListingsCompletion?) {
+    private func listingsRetrieval(_ completion: ListingsRequesterCompletion?) {
         guard let userId = userObjectId else { return }
-        listingRepository.indexFavorites(userId, completion: completion)
+        listingRepository.indexFavorites(userId: userId, numberOfResults: itemsPerPage, resultsOffset: offset) { [weak self] result in
+            if let value = result.value {
+                self?.offset += value.count
+            }
+            completion?(ListingsRequesterResult(listingsResult: result, context: nil))
+        }
     }
 
     func isLastPage(_ resultCount: Int) -> Bool {
-        // favorites has no pagination
-        return true
+        return resultCount == 0
     }
 
-    func updateInitialOffset(_ newOffset: Int) { }
+    func updateInitialOffset(_ newOffset: Int) {
+        offset = newOffset
+    }
 
     func duplicate() -> ListingListRequester {
         let r = UserFavoritesListingListRequester()
@@ -106,7 +111,9 @@ class UserStatusesListingListRequester: UserListingListRequester {
         self.itemsPerPage = itemsPerPage
     }
 
-    func canRetrieve() -> Bool { return userObjectId != nil }
+    func canRetrieve() -> Bool {
+        return userObjectId != nil
+    }
 
     func retrieveFirstPage(_ completion: ListingsRequesterCompletion?) {
         offset = 0
