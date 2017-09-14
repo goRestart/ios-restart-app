@@ -1054,7 +1054,7 @@ extension ListingViewModel: PurchasesShopperDelegate {
     }
 
     func freeBumpDidSucceed(withNetwork network: EventParameterShareNetwork) {
-        trackBumpUpCompleted(.free, type: .free, network: network)
+        trackBumpUpCompleted(.free, type: .free, restoreRetriesCount: 0, network: network)
         delegate?.vmHideLoading(LGLocalizedString.bumpUpFreeSuccess, afterMessageCompletion: { [weak self] in
             self?.delegate?.vmResetBumpUpBannerCountdown()
             self?.isShowingFeaturedStripe.value = true
@@ -1078,9 +1078,10 @@ extension ListingViewModel: PurchasesShopperDelegate {
         trackMobilePaymentComplete(withPaymentId: paymentId)
     }
 
-    func pricedBumpDidSucceed(type: BumpUpType) {
+    func pricedBumpDidSucceed(type: BumpUpType, restoreRetriesCount: Int) {
         trackBumpUpCompleted(.pay(price: bumpUpPurchaseableProduct?.formattedCurrencyPrice ?? ""),
                              type: type,
+                             restoreRetriesCount: restoreRetriesCount,
                              network: .notAvailable)
         delegate?.vmHideLoading(LGLocalizedString.bumpUpPaySuccess, afterMessageCompletion: { [weak self] in
             self?.delegate?.vmResetBumpUpBannerCountdown()

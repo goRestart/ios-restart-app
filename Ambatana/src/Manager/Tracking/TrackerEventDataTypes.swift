@@ -282,6 +282,7 @@ enum EventParameterName: String {
     case bumpUpPrice          = "price"
     case bumpUpType           = "bump-type"
     case paymentId            = "payment-id"
+    case retriesNumber        = "retries-number"
     case passiveConversations = "passive-conversations"
     case feedPosition         = "feed-position"
     case feedSource           = "feed-source"

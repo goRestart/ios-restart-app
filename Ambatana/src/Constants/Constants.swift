@@ -136,4 +136,8 @@ struct Constants {
 
     // Cars
     static let filterMinCarYear: Int = 1990
+
+    // Bump Ups
+    static let maxRetriesForBumpUpRestore = 20
+    static let maxRetriesForFirstTimeBumpUp = 3
 }

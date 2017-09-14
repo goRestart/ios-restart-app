@@ -18,6 +18,11 @@ protocol PurchasesShopper: class {
      Removes itself as the payment transactions observer
      */
     func stopObservingTransactions()
+
+    /**
+     Restore the failed paid bumps (payment was made, but bump failed)
+     */
+    func restoreFailedBumps()
     
     /**
      Checks purchases available on appstore
