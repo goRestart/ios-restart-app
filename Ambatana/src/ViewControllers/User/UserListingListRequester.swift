@@ -22,7 +22,7 @@ class UserFavoritesListingListRequester: UserListingListRequester {
         return nil
     }
 
-    var itemsPerPage: Int = Constant.numFavoriteListingsPerPage
+    var itemsPerPage: Int = Constants.numFavoriteListingsPerPage
     var userObjectId: String?
     private var offset: Int = 0
     let listingRepository: ListingRepository
