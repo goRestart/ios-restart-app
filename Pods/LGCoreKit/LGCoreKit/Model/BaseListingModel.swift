@@ -32,6 +32,4 @@ public protocol BaseListingModel: BaseModel, Priceable {
     var createdAt : Date? { get }
     
     var featured: Bool? { get }
-    
-    var favorite: Bool { get } // Default value false
 }

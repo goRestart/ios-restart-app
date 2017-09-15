@@ -78,8 +78,7 @@ open class MockListingRepository: ListingRepository {
                            user: product.user,
                            updatedAt: product.updatedAt,
                            createdAt: product.createdAt,
-                           featured: product.featured,
-                           favorite: product.favorite)
+                           featured: product.featured)
     }
 
     public func index(_ params: RetrieveListingParams, completion: ListingsCompletion?) {
@@ -98,7 +97,7 @@ open class MockListingRepository: ListingRepository {
         delay(result: indexResult, completion: completion)
     }
 
-    public func indexFavorites(_ userId: String, completion: ListingsCompletion?) {
+    public func indexFavorites(userId: String, numberOfResults: Int?, resultsOffset: Int?, completion: ListingsCompletion?) {
         delay(result: indexResult, completion: completion)
     }
 
@@ -170,12 +169,12 @@ open class MockListingRepository: ListingRepository {
         delay(result: markAsUnsoldVoidResult, completion: completion)
     }
     
-    public func saveFavorite(listing: Listing, completion: ListingCompletion?) {
-        delay(result: listingResult, completion: completion)
+    public func saveFavorite(listing: Listing, completion: ListingVoidCompletion?) {
+        delay(result: listingVoidResult, completion: completion)
     }
     
-    public func deleteFavorite(listing: Listing, completion: ListingCompletion?) {
-        delay(result: listingResult, completion: completion)
+    public func deleteFavorite(listing: Listing, completion: ListingVoidCompletion?) {
+        delay(result: listingVoidResult, completion: completion)
     }
 
     public func retrieveUserListingRelation(_ listingId: String, completion: ListingUserRelationCompletion?) {

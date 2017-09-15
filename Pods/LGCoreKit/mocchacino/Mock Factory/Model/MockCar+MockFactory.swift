@@ -18,7 +18,6 @@ extension MockCar: MockFactory {
                            updatedAt: Date?.makeRandom(),
                            createdAt: Date?.makeRandom(),
                            featured: Bool?.makeRandom(),
-                           favorite: Bool.makeRandom(),
                            carAttributes: CarAttributes.makeMock())
     }
 }
