@@ -608,6 +608,14 @@ struct TrackerEvent {
         params[.listingId] = listing.objectId
         return TrackerEvent(name: .listingDeleteComplete, params: params)
     }
+    
+    static func relatedListings(listingId: String,
+                                source: EventParameterRelatedListingsVisitSource) -> TrackerEvent {
+        var params = EventParameters()
+        params[.listingId] = listingId
+        params[.relatedSource] = source.rawValue
+        return TrackerEvent(name: .relatedListings, params: params)
+    }
 
     static func firstMessage(info: SendMessageTrackingInfo,
                              listingVisitSource: EventParameterListingVisitSource,
@@ -997,11 +1005,13 @@ struct TrackerEvent {
     }
 
     static func listingBumpUpComplete(_ listing: Listing, price: EventParameterBumpUpPrice,
-                                      type: EventParameterBumpUpType, network: EventParameterShareNetwork) -> TrackerEvent {
+                                      type: EventParameterBumpUpType, restoreRetriesCount: Int,
+                                      network: EventParameterShareNetwork) -> TrackerEvent {
         var params = EventParameters()
         params.addListingParams(listing)
         params[.bumpUpPrice] = price.description
         params[.bumpUpType] = type.rawValue
+        params[.retriesNumber] = restoreRetriesCount
         params[.shareNetwork] = network.rawValue
         return TrackerEvent(name: .bumpUpComplete, params: params)
     }

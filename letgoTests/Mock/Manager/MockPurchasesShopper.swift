@@ -14,12 +14,17 @@ class MockPurchasesShopper: PurchasesShopper {
     var isBumpUpPending: Bool = false
     var paymentSucceeds: Bool = false
     var pricedBumpSucceeds: Bool = false
+    var restoreRetriesCount: Int = 0
 
     func startObservingTransactions() {
 
     }
 
     func stopObservingTransactions() {
+
+    }
+
+    func restoreFailedBumps() {
 
     }
 
@@ -46,7 +51,7 @@ class MockPurchasesShopper: PurchasesShopper {
                 strongSelf.delegate?.pricedBumpPaymentDidFail(withReason: nil)
             } else if strongSelf.pricedBumpSucceeds {
                 // payment works and bump works
-                strongSelf.delegate?.pricedBumpDidSucceed(type: .priced)
+                strongSelf.delegate?.pricedBumpDidSucceed(type: .priced, restoreRetriesCount: strongSelf.restoreRetriesCount)
             } else {
                 // payment works but bump fails
                 strongSelf.delegate?.pricedBumpDidFail(type: .priced)
@@ -66,7 +71,7 @@ class MockPurchasesShopper: PurchasesShopper {
         delegate?.pricedBumpDidStart()
         if pricedBumpSucceeds {
             // payment works and bump works
-            delegate?.pricedBumpDidSucceed(type: .restore)
+            delegate?.pricedBumpDidSucceed(type: .restore, restoreRetriesCount: restoreRetriesCount)
         } else {
             // payment works but bump fails
             delegate?.pricedBumpDidFail(type: .restore)
