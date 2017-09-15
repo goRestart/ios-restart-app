@@ -8,10 +8,10 @@
 
 
 final class LGSearchRepository: SearchRepository {
-
     private var searchesByCountry: [String : [String]] = [:]
     private let dataSource: SearchDataSource
 
+    
     // MARK: - Lifecycle
 
     init(dataSource: SearchDataSource) {
@@ -21,13 +21,14 @@ final class LGSearchRepository: SearchRepository {
     
     // MARK: - Public methods
 
-    func index(_ countryCode: String, completion: TrendingSearchesCompletion?) {
+    func index(countryCode: String,
+               completion: TrendingSearchesCompletion?) {
         if let cached = searchesByCountry[countryCode] {
             completion?(TrendingSearchesResult(value: cached))
             return
         }
 
-        dataSource.index(countryCode) { [weak self] result in
+        dataSource.index(countryCode: countryCode) { [weak self] result in
             if let searches = result.value {
                 self?.searchesByCountry[countryCode] = searches
             }
@@ -35,8 +36,15 @@ final class LGSearchRepository: SearchRepository {
         }
     }
     
-    func retrieveSuggestiveSearches(_ language: String, limit: Int, term: String, completion: SuggestiveSearchesCompletion?) {
-        dataSource.retrieveSuggestiveSearches(language, limit: limit, term: term) { result in
+    func retrieveSuggestiveSearches(language: String,
+                                    limit: Int,
+                                    term: String,
+                                    shouldIncludeCategories: Bool,
+                                    completion: SuggestiveSearchesCompletion?) {
+        dataSource.retrieveSuggestiveSearches(language: language,
+                                              limit: limit,
+                                              term: term,
+                                              shouldIncludeCategories: shouldIncludeCategories) { result in
             handleApiResult(result, completion: completion)
         }
     }

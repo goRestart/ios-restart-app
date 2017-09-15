@@ -15,6 +15,11 @@ public typealias TrendingSearchesCompletion = (TrendingSearchesResult) -> Void
 public typealias SuggestiveSearchesCompletion = (SuggestiveSearchesResult) -> Void
 
 public protocol SearchRepository {
-    func index(_ countryCode: String, completion: TrendingSearchesCompletion?)
-    func retrieveSuggestiveSearches(_ language: String, limit: Int, term: String, completion: SuggestiveSearchesCompletion?)
+    func index(countryCode: String,
+               completion: TrendingSearchesCompletion?)
+    func retrieveSuggestiveSearches(language: String,
+                                    limit: Int,
+                                    term: String,
+                                    shouldIncludeCategories: Bool,
+                                    completion: SuggestiveSearchesCompletion?)
 }

@@ -14,15 +14,13 @@ struct LGNotification: NotificationModel {
     let objectId: String?
     let createdAt: Date
     let isRead: Bool
-    let type: String
     let campaignType: String?
     let modules: NotificationModular
     
-    init(objectId: String?, createdAt: Date, isRead: Bool, type: String, campaignType: String?, modules: LGNotificationModular) {
+    init(objectId: String?, createdAt: Date, isRead: Bool, campaignType: String?, modules: LGNotificationModular) {
         self.objectId = objectId
         self.createdAt = createdAt
         self.isRead = isRead
-        self.type = type
         self.campaignType = campaignType
         self.modules = modules
     }
@@ -47,9 +45,8 @@ extension LGNotification : Decodable {
         let result2 = result1 <^> j <|? "uuid"
         let result3 = result2 <*> j <| "created_at"
         let result4 = result3 <*> j <| "is_read"
-        let result5 = result4 <*> j <| "type"
-        let result6 = result5 <*> j <|? "campaign_type"
-        let result  = result6 <*> LGNotificationModular.decode(data)
+        let result5 = result4 <*> j <|? "campaign_type"
+        let result  = result5 <*> LGNotificationModular.decode(data)
         if let error = result.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGNotification parse error: \(error)")
         }

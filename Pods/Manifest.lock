@@ -96,7 +96,7 @@ PODS:
   - KMPlaceholderTextView (1.3.0)
   - Leanplum-iOS-SDK (2.0.3.95)
   - LGCollapsibleLabel (1.1.0)
-  - LGCoreKit (3.18.1):
+  - LGCoreKit (3.19.0):
     - Alamofire (~> 4.2.0)
     - Argo (~> 4.1.1)
     - CocoaLumberjack/Swift (~> 3.0.0)
@@ -178,7 +178,7 @@ DEPENDENCIES:
   - KMPlaceholderTextView (= 1.3.0)
   - Leanplum-iOS-SDK (from `https://github.com/Leanplum/Leanplum-iOS-SDK-internal`, tag `2.0.3.95`)
   - LGCollapsibleLabel (= 1.1.0)
-  - LGCoreKit (from `git@github.com:letgoapp/letgo-ios-lgcorekit.git`, commit `4390b401e35c5948501aff43d7ed5e64e7e7f3ba`)
+  - LGCoreKit (from `git@github.com:letgoapp/letgo-ios-lgcorekit.git`, commit `c9e831185127eba48ab50f35cf001c1f3b1254cc`)
   - NewRelicAgent (= 5.10.1)
   - Nimble (= 5.1.1)
   - OHHTTPStubs (= 5.2.3)
@@ -207,7 +207,7 @@ EXTERNAL SOURCES:
     :git: https://github.com/Leanplum/Leanplum-iOS-SDK-internal
     :tag: 2.0.3.95
   LGCoreKit:
-    :commit: 4390b401e35c5948501aff43d7ed5e64e7e7f3ba
+    :commit: c9e831185127eba48ab50f35cf001c1f3b1254cc
     :git: git@github.com:letgoapp/letgo-ios-lgcorekit.git
   TMReachability:
     :commit: e34782b386307e386348b481c02c176d58ba45e6
@@ -227,7 +227,7 @@ CHECKOUT OPTIONS:
     :git: https://github.com/Leanplum/Leanplum-iOS-SDK-internal
     :tag: 2.0.3.95
   LGCoreKit:
-    :commit: 4390b401e35c5948501aff43d7ed5e64e7e7f3ba
+    :commit: c9e831185127eba48ab50f35cf001c1f3b1254cc
     :git: git@github.com:letgoapp/letgo-ios-lgcorekit.git
   TMReachability:
     :commit: e34782b386307e386348b481c02c176d58ba45e6
@@ -274,7 +274,7 @@ SPEC CHECKSUMS:
   KMPlaceholderTextView: 2bbcd19a273648a80a61e1e48f9743a24d8930e3
   Leanplum-iOS-SDK: 7d5af0a1c6220f33afbcc693348d6fd90231a32c
   LGCollapsibleLabel: db0802fe616737a9dcbdc8ee816819d562b76a6e
-  LGCoreKit: e77ecb337c418b890d4e5e2ab5ef08cc1093e31d
+  LGCoreKit: e0032af702ec3cc63bba0489b9562d376ba47018
   NewRelicAgent: d16c572a3355d3ff9a359a6677e946c7a75a8f76
   Nimble: 415e3aa3267e7bc2c96b05fa814ddea7bb686a29
   OHHTTPStubs: e238cd5b66d8efa51c861db45895de8fe079f4a7
@@ -295,6 +295,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: b552e682e361603a8dfc2a07b0cf8d78e7803cff
+PODFILE CHECKSUM: 3117d8cb78da26bba42ed93028411ff317997a89
 
 COCOAPODS: 1.3.1

@@ -11,12 +11,16 @@ import Curry
 import Runes
 
 struct LGSuggestiveSearch: SuggestiveSearch {
-    var name: String?
-    var type: String?
+    let name: String
+    let category: ListingCategory?
     
-    init(name: String?, type: String?) {
+    init(name: String, categoryId: Int?) {
         self.name = name
-        self.type = type
+        if let categoryId = categoryId {
+            self.category = ListingCategory(rawValue: categoryId)
+        } else {
+            self.category = nil
+        }
     }
 }
 
@@ -24,27 +28,22 @@ extension LGSuggestiveSearch : Decodable {
     
     /**
      Expects a json in the form:
-     
      {
-     "items":[{
-        "name":"door",
-        "type":"suggestion",
-        "attributes":{}
+        "name": "iphone",
+        "attributes": {
+            "categoryId": 1,
+            ...
         },
         ...
-     ],
      }
      */
-    
     static func decode(_ j: JSON) -> Decoded<LGSuggestiveSearch> {
         let result1 = curry(LGSuggestiveSearch.init)
-        let result2 = result1 <^> j <|? "name"
-        let result = result2 <*> j <|? "type"
-        
+        let result2 = result1 <^> j <| "name"
+        let result  = result2 <*> j <|? ["attributes", "categoryId"]
         if let error = result.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGSuggestiveSearch parse error: \(error)")
         }
-        
         return result
     }
 }
