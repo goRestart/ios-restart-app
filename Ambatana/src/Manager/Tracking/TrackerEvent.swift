@@ -608,6 +608,14 @@ struct TrackerEvent {
         params[.listingId] = listing.objectId
         return TrackerEvent(name: .listingDeleteComplete, params: params)
     }
+    
+    static func relatedListings(listingId: String,
+                                source: EventParameterRelatedListingsVisitSource) -> TrackerEvent {
+        var params = EventParameters()
+        params[.listingId] = listingId
+        params[.relatedSource] = source.rawValue
+        return TrackerEvent(name: .relatedListings, params: params)
+    }
 
     static func firstMessage(info: SendMessageTrackingInfo,
                              listingVisitSource: EventParameterListingVisitSource,

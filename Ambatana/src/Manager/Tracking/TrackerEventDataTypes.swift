@@ -55,7 +55,6 @@ enum EventName: String {
     case listingMarkAsSoldAtLetgo           = "product-detail-sold-at-letgo"
     case listingMarkAsSoldOutsideLetgo      = "product-detail-sold-outside-letgo"
     case listingMarkAsUnsold                = "product-detail-unsold"
-    
     case listingReport                      = "product-detail-report"
     
     case listingSellYourStuffButton         = "product-sell-your-stuff-button"
@@ -81,6 +80,8 @@ enum EventName: String {
     
     case listingDeleteStart                 = "product-delete-start"
     case listingDeleteComplete              = "product-delete-complete"
+    
+    case relatedListings                    = "related-items-list"
     
     case userMessageSent                    = "user-sent-message"
     case userMessageSentError               = "user-sent-message-error"
@@ -312,6 +313,7 @@ enum EventParameterName: String {
     case superKeywordsTotal   = "superkeyword-total"
     case superKeywordsIds     = "superkeyword-ids"
     case keywordName          = "keyword-name"
+    case relatedSource        = "related-source"
 }
 
 enum EventParameterBoolean: String {
@@ -707,7 +709,12 @@ enum EventParameterListingVisitSource: String {
     case chat = "chat"
     case openApp = "open-app"
     case notifications = "notifications"
+    case relatedListings = "related-items-list"
     case unknown = "N/A"
+}
+
+enum EventParameterRelatedListingsVisitSource: String {
+    case notFound = "product-not-found"
 }
 
 
