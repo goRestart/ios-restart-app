@@ -86,7 +86,7 @@ public protocol ListingRepository {
     func index(userId: String, params: RetrieveListingParams, completion: ListingsCompletion?)
     func indexRelated(listingId: String, params: RetrieveListingParams, completion: ListingsCompletion?)
     func indexDiscover(listingId: String, params: RetrieveListingParams, completion: ListingsCompletion?)
-    func indexFavorites(_ userId: String, completion: ListingsCompletion?)
+    func indexFavorites(userId: String, numberOfResults: Int?, resultsOffset: Int?, completion: ListingsCompletion?)
     func retrieve(_ listingId: String, completion: ListingCompletion?)
 
     func create(listingParams: ListingCreationParams, completion: ListingCompletion?)
@@ -105,8 +105,8 @@ public protocol ListingRepository {
 
     // MARK: - (un)Favorite listing
     
-    func saveFavorite(listing: Listing, completion: ListingCompletion?)
-    func deleteFavorite(listing: Listing, completion: ListingCompletion?)
+    func saveFavorite(listing: Listing, completion: ListingVoidCompletion?)
+    func deleteFavorite(listing: Listing, completion: ListingVoidCompletion?)
     
     
     // MARK: - User-Listing relation

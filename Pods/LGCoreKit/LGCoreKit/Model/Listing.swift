@@ -148,12 +148,6 @@ public enum Listing: BaseListingModel, Priceable {
         case .car(let car): return car.featured
         }
     }
-    public var favorite: Bool {
-        switch self {
-        case .product(let product): return product.favorite
-        case .car(let car): return car.favorite
-        }
-    }
     
     // Methods
     

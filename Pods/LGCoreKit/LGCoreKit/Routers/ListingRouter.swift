@@ -21,7 +21,7 @@ enum ListingRouter: URLRequestAuthenticable {
     case indexRelatedListings(listingId: String, params: [String : Any])
     case indexDiscoverListings(listingId: String, params: [String : Any])
     case indexForUser(userId: String, params: [String : Any])
-    case indexFavorites(userId: String)
+    case indexFavorites(userId: String, params: [String : Any])
     case indexLimbo(params: [String : Any])
     case indexTrending(params: [String : Any])
 
@@ -58,7 +58,7 @@ enum ListingRouter: URLRequestAuthenticable {
             return UserRouter.userBaseUrl       + "/\(userId)/reports/products/"
         case let .indexForUser(userId, _):
             return UserRouter.userBaseUrl       + "/\(userId)/products"
-        case let .indexFavorites(userId):
+        case let .indexFavorites(userId, _):
             return UserRouter.userBaseUrl       + "/\(userId)/favorites/products"
         case .indexLimbo:
             return ListingRouter.listingBaseUrl + "/limbo"
@@ -126,8 +126,8 @@ enum ListingRouter: URLRequestAuthenticable {
             return try Router<SearchProductsBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
         case let .indexForUser(_, params):
             return try Router<SearchProductsBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
-        case .indexFavorites:
-            return try Router<APIBaseURL>.read(endpoint: endpoint, params: [:]).asURLRequest()
+        case let .indexFavorites(_, params):
+            return try Router<APIBaseURL>.read(endpoint: endpoint, params: params).asURLRequest()
         case let .indexLimbo(params):
             return try Router<SearchProductsBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
         case let .indexTrending(params):

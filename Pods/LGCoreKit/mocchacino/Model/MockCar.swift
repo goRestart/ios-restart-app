@@ -17,7 +17,6 @@ public struct MockCar: Car {
     public var updatedAt : Date?
     public var createdAt : Date?
     public var featured: Bool?
-    public var favorite: Bool
     public var carAttributes: CarAttributes
 }
 
@@ -41,7 +40,6 @@ extension MockCar {
                   updatedAt: car.updatedAt,
                   createdAt: car.createdAt,
                   featured: car.featured,
-                  favorite: car.favorite,
                   carAttributes: car.carAttributes)
     }
 }

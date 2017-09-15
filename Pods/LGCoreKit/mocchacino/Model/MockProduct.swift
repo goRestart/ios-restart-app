@@ -17,7 +17,6 @@ public struct MockProduct: Product {
     public var updatedAt : Date?
     public var createdAt : Date?
     public var featured: Bool?
-    public var favorite: Bool
 }
 
 extension MockProduct {
@@ -39,7 +38,6 @@ extension MockProduct {
                   user: product.user,
                   updatedAt: product.updatedAt,
                   createdAt: product.createdAt,
-                  featured: product.featured,
-                  favorite: product.favorite)
+                  featured: product.featured)
     }
 }
