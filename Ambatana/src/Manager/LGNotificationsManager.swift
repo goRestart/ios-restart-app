@@ -179,7 +179,7 @@ class LGNotificationsManager: NotificationsManager {
         notificationsRepository.unreadNotificationsCount() { [weak self] result in
             self?.requestingNotifications = false
             guard let notificationCounts = result.value else { return }
-            self?.unreadNotificationsCount.value = notificationCounts.totalVisibleCount()
+            self?.unreadNotificationsCount.value = notificationCounts
         }
     }
 }
@@ -202,14 +202,5 @@ fileprivate extension LGNotificationsManager {
                                                                      loggedIn.asObservable(),
             resultSelector: { enabled, loggedIn in return !loggedIn || enabled }).skip(1)
         loggedInMkt.bindTo(loggedInMktNofitications).addDisposableTo(disposeBag)
-    }
-}
-
-
-// MARK: - UnreadNotificationsCounts
-
-fileprivate extension UnreadNotificationsCounts {
-    func totalVisibleCount() -> Int {
-        return modular
     }
 }
