@@ -36,11 +36,6 @@
         "description": "Passive buyers products suggested notification opens product with keyboard opened"
     },
     {
-        "name": "ProductDetailNextRelated",
-        "values": ["no", "yes"],
-        "description": "Item page next item related"
-    },
-    {
         "name": "NewMarkAsSoldFlow",
         "values": ["no", "yes"],
         "description": "New mark as sold flow active. alert + showing buyer list"

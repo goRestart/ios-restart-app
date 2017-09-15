@@ -20,7 +20,6 @@ extension Bumper  {
         flags.append(PricedBumpUpEnabled.self)
         flags.append(CaptchaTransparent.self)
         flags.append(PassiveBuyersShowKeyboard.self)
-        flags.append(ProductDetailNextRelated.self)
         flags.append(NewMarkAsSoldFlow.self)
         flags.append(NewCarsMultiRequesterEnabled.self)
         flags.append(NewOnboardingPhase1.self)
@@ -74,11 +73,6 @@ extension Bumper  {
     static var passiveBuyersShowKeyboard: Bool {
         guard let value = Bumper.value(for: PassiveBuyersShowKeyboard.key) else { return false }
         return PassiveBuyersShowKeyboard(rawValue: value)?.asBool ?? false
-    }
-
-    static var productDetailNextRelated: Bool {
-        guard let value = Bumper.value(for: ProductDetailNextRelated.key) else { return false }
-        return ProductDetailNextRelated(rawValue: value)?.asBool ?? false
     }
 
     static var newMarkAsSoldFlow: Bool {
@@ -228,15 +222,6 @@ enum PassiveBuyersShowKeyboard: String, BumperFeature  {
     static var enumValues: [PassiveBuyersShowKeyboard] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Passive buyers products suggested notification opens product with keyboard opened" } 
-    var asBool: Bool { return self == .yes }
-}
-
-enum ProductDetailNextRelated: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return ProductDetailNextRelated.no.rawValue }
-    static var enumValues: [ProductDetailNextRelated] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Item page next item related" } 
     var asBool: Bool { return self == .yes }
 }
 

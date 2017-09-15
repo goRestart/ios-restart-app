@@ -242,9 +242,8 @@ fileprivate extension TabCoordinator {
                      source: EventParameterListingVisitSource, index: Int) {
         if showRelated {
             //Same as single product opening
-            let discover = !featureFlags.productDetailNextRelated
             openListing(listing: listing, thumbnailImage: thumbnailImage, originFrame: originFrame,
-                        source: source, requester: requester, index: index, discover: discover,
+                        source: source, requester: requester, index: index, discover: true,
                         actionOnFirstAppear: .nonexistent)
         } else {
             let vm = ListingCarouselViewModel(productListModels: cellModels, initialListing: listing,

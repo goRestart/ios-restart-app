@@ -25,7 +25,6 @@ class ABTests {
     let passiveBuyersShowKeyboard = BoolABDynamicVar(key: "passiveBuyersShowKeyboard", defaultValue: false)
     let freeBumpUpEnabled = BoolABDynamicVar(key: "freeBumpUpEnabled", defaultValue: false)
     let pricedBumpUpEnabled = BoolABDynamicVar(key: "pricedBumpUpEnabled", defaultValue: false)
-    let productDetailNextRelated = BoolABDynamicVar(key: "productDetailNextRelated", defaultValue: false)
     let newMarkAsSoldFlow = BoolABDynamicVar(key: "newMarkAsSoldFlow", defaultValue: false)
     let newCarsMultiRequesterEnabled = BoolABDynamicVar(key: "newCarsMultiRequesterEnabled", defaultValue: false)
     let newOnboardingPhase1 = BoolABDynamicVar(key: "newOnboardingPhase1", defaultValue: false)
@@ -62,7 +61,6 @@ class ABTests {
         result.append(captchaTransparent)
         result.append(freeBumpUpEnabled)
         result.append(pricedBumpUpEnabled)
-        result.append(productDetailNextRelated)
         result.append(newMarkAsSoldFlow)
         result.append(newCarsMultiRequesterEnabled)
         result.append(newOnboardingPhase1)
@@ -79,6 +77,7 @@ class ABTests {
         result.append(appRatingDialogInactive)
         result.append(feedFilterRadiusValues)
         result.append(expandableCategorySelectionMenu)
+        result.append(locationDataSourceType)
 
         return result
     }

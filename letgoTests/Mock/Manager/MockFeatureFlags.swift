@@ -27,7 +27,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var passiveBuyersShowKeyboard: Bool = false
     var freeBumpUpEnabled: Bool = false
     var pricedBumpUpEnabled: Bool = false
-    var productDetailNextRelated: Bool = false
     var newMarkAsSoldFlow: Bool = false
     var newCarsMultiRequesterEnabled: Bool = false
     var newOnboardingPhase1: Bool = false
