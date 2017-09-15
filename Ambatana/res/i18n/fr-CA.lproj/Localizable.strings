@@ -21,8 +21,8 @@
 "bump_up_banner_free_text" = "Renvoyez vers le haut gratuitement pour vendre plus vite";
 "bump_up_banner_pay_text" = "Renvoyer vers le haut pour vendre plus vite";
 "bump_up_banner_pay_text_improvement" = "Vendez au plus vite !";
-"bump_up_banner_wait_text" = "Mettre de nouveau en vedette";
-"bump_up_banner_wait_text_improvement" = "Mettre de nouveau en vedette";
+"bump_up_banner_wait_text" = "avant de remettre en vedette";
+"bump_up_banner_wait_text_improvement" = "avant de remettre en vedette";
 "bump_up_error_bump_generic" = "Une erreur est survenue lors du renvoi vers le haut de votre produit. Veuillez réessayer.";
 "bump_up_error_bump_token" = "Votre paiement a été effectué, mais votre produit n'a pas encore été renvoyé vers le haut.";
 "bump_up_error_payment_failed" = "Impossible de se connecter à l'App Store. Votre paiement n'a pas été traité. Veuillez réessayer.";
@@ -63,7 +63,7 @@
 "categories_super_keywords_inFeed_show_more" = "Afficher plus";
 "categories_title" = "Catégories";
 "categories_unassigned" = "Non sélectionnée";
-"categories_unassigned_items" = "Other items";
+"categories_unassigned_items" = "Autres biens";
 "change_email_current_email_label" = "COURRIEL ACTUEL :";
 "change_email_error_already_registered" = "Cette adresse courriel est déjà enregistrée. Veuillez en indiquer une autre.";
 "change_email_error_invalid_email" = "Veuillez entrer une adresse courriel valide.";
