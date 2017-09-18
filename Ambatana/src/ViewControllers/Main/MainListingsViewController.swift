@@ -526,6 +526,8 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
     func setupSuggestionsTable() {
         suggestionsSearchesTable.register(SuggestionSearchCell.self,
                                           forCellReuseIdentifier: SuggestionSearchCell.reusableID)
+        suggestionsSearchesTable.rowHeight = UITableViewAutomaticDimension
+        suggestionsSearchesTable.estimatedRowHeight = SuggestionSearchCell.estimatedHeight
 
         let topConstraint = NSLayoutConstraint(item: suggestionsSearchesContainer, attribute: .top, relatedBy: .equal,
                                                toItem: topLayoutGuide, attribute: .bottom, multiplier: 1.0, constant: 0)
@@ -634,10 +636,6 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
         return SearchSuggestionType.numberOfSections
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return SuggestionSearchCell.cellHeight
-    }
-
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let sectionType = SearchSuggestionType.sectionType(index: section) else { return 0 }
         switch sectionType {

@@ -9,7 +9,7 @@
 import UIKit
 
 class SuggestionSearchCell: UITableViewCell, ReusableCell {
-    static let cellHeight: CGFloat = 44
+    static let estimatedHeight: CGFloat = 44
     
     let suggestionText = UILabel()
     let categoryLabel = UILabel()
@@ -34,13 +34,13 @@ class SuggestionSearchCell: UITableViewCell, ReusableCell {
         suggestionText.layout(with: contentView)
             .leading(by: Metrics.margin)
             .trailing()
-            .top()
+            .top(by: Metrics.shortMargin)
         
         categoryLabel.layout(with: suggestionText).below()
         categoryLabel.layout(with: contentView)
             .leading(by: Metrics.margin)
             .trailing()
-            .bottom()
+            .bottom(by: -Metrics.shortMargin)
     }
 
     private func setAccessibilityIds() {
