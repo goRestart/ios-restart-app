@@ -663,12 +663,15 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
             }
             cell.suggestionText.attributedText = suggestiveSearch.name.makeBold(ignoringText: sourceText.lowercased(),
                                                                                 font: cell.suggestionText.font)
+            cell.categoryLabel.text = suggestiveSearch.category?.name
         case .lastSearch:
             guard let lastSearch = viewModel.lastSearchAtIndex(indexPath.row) else { return UITableViewCell() }
             cell.suggestionText.text = lastSearch
+            cell.categoryLabel.text = nil
         case .trending:
             guard let trendingSearch = viewModel.trendingSearchAtIndex(indexPath.row) else { return UITableViewCell() }
             cell.suggestionText.text = trendingSearch
+            cell.categoryLabel.text = nil
         }
         return cell
     }

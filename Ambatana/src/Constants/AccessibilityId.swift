@@ -91,6 +91,7 @@ enum AccessibilityId: String {
     // SuggestionSearchCell
     case suggestionSearchCell
     case suggestionSearchCellSuggestionText
+    case suggestionSearchCellCategory
 
     // Filters
     case filtersCollectionView

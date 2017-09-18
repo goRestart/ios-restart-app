@@ -12,6 +12,7 @@ class SuggestionSearchCell: UITableViewCell, ReusableCell {
     static let cellHeight: CGFloat = 44
     
     let suggestionText = UILabel()
+    let categoryLabel = UILabel()
     
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
@@ -26,18 +27,25 @@ class SuggestionSearchCell: UITableViewCell, ReusableCell {
     private func setupUI() {
         backgroundColor = UIColor.clear
         
-        suggestionText.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(suggestionText)
+        let subviews = [suggestionText, categoryLabel]
+        setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: subviews)
+        contentView.addSubviews(subviews)
         
         suggestionText.layout(with: contentView)
             .leading(by: Metrics.margin)
             .trailing()
             .top()
+        
+        categoryLabel.layout(with: suggestionText).below()
+        categoryLabel.layout(with: contentView)
+            .leading(by: Metrics.margin)
+            .trailing()
             .bottom()
     }
 
     private func setAccessibilityIds() {
         accessibilityId = .suggestionSearchCell
         suggestionText.accessibilityId = .suggestionSearchCellSuggestionText
+        categoryLabel.accessibilityId = .suggestionSearchCellCategory
     }
 }
