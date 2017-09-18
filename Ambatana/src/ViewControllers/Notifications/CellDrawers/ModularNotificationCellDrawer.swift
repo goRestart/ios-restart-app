@@ -12,12 +12,9 @@ class ModularNotificationCellDrawer: BaseTableCellDrawer<ModularNotificationCell
     
     static let estimatedRowHeight: CGFloat = 80
     
-    func draw(_ cell: ModularNotificationCell, data: NotificationData, delegate: ModularNotificationCellDelegate?) {
-        cell.addModularData(with: data.modules, isRead: data.isRead, notificationCampaign: data.campaignType)
-        cell.delegate = delegate
-    }
-    
-    static func registerCells(_ tableView: UITableView) {
-        BaseTableCellDrawer<ModularNotificationCell>.registerClassCell(tableView)
+    func draw(_ cell: UITableViewCell, data: NotificationData, delegate: ModularNotificationCellDelegate?) {
+        guard let modularNotificationCell = cell as? ModularNotificationCell else { return }
+        modularNotificationCell.addModularData(with: data.modules, isRead: data.isRead, notificationCampaign: data.campaignType)
+        modularNotificationCell.delegate = delegate
     }
 }

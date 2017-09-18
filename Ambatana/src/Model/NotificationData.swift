@@ -14,18 +14,16 @@ struct NotificationData {
     let date: Date
     let isRead: Bool
     let campaignType: String?
-    let delegate: ModularNotificationCellDelegate?
     var primaryAction: (() -> Void)?
     let primaryActionCompleted: Bool?
 
     init(id: String?, modules: NotificationModular, date: Date, isRead: Bool, campaignType: String?,
-         delegate: ModularNotificationCellDelegate?, primaryAction: (() -> Void)?, primaryActionCompleted: Bool? = nil) {
+         primaryAction: (() -> Void)?, primaryActionCompleted: Bool? = nil) {
         self.id = id
         self.modules = modules
         self.date = date
         self.isRead = isRead
         self.campaignType = campaignType
-        self.delegate = delegate
         self.primaryAction = primaryAction
         self.primaryActionCompleted = primaryActionCompleted
     }

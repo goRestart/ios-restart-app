@@ -68,7 +68,7 @@ class NotificationsViewController: BaseViewController {
         tableView.estimatedRowHeight = ModularNotificationCellDrawer.estimatedRowHeight
         tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
 
-        ModularNotificationCellDrawer.registerCells(tableView)
+        ModularNotificationCellDrawer.registerCell(tableView)
     }
 
     private func setupRX() {
@@ -123,7 +123,7 @@ extension NotificationsViewController: UITableViewDelegate, UITableViewDataSourc
         guard let cellData = viewModel.dataAtIndex(indexPath.row) else { return UITableViewCell() }
         let cellDrawer = ModularNotificationCellDrawer()
         let cell = cellDrawer.cell(tableView, atIndexPath: indexPath)
-        cellDrawer.draw(cell as! ModularNotificationCell, data: cellData, delegate: viewModel)
+        cellDrawer.draw(cell, data: cellData, delegate: viewModel)
 
         return cell
     }

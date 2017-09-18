@@ -144,7 +144,7 @@ class NotificationsViewModel: BaseViewModel {
         guard data.id != nil else { return }
         guard let index = notificationsData.index(where: { $0.id != nil && $0.id == data.id }) else { return }
         let completedData = NotificationData(id: data.id, modules: data.modules, date: data.date, isRead: data.isRead,
-                                             campaignType: data.campaignType, delegate: self, primaryAction: nil, primaryActionCompleted: true)
+                                             campaignType: data.campaignType, primaryAction: nil, primaryActionCompleted: true)
         notificationsData[index] = completedData
         viewState.value = .data
     }
@@ -160,7 +160,6 @@ fileprivate extension NotificationsViewModel {
                                 modules: notification.modules,
                                 date: notification.createdAt, isRead: notification.isRead,
                                 campaignType: notification.campaignType,
-                                delegate: self,
                                 primaryAction: { [weak self] in
                                     guard let deeplink = notification.modules.callToActions.first?.deeplink else { return }
                                     self?.triggerModularNotificationDeeplink(deeplink: deeplink, source: .main,
