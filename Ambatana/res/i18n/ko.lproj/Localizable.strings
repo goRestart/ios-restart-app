@@ -19,7 +19,7 @@
 "block_user_error_generic" = "사용자를 차단하는데 오류가 발생했습니다.";
 "bump_up_banner_free_button_title" = "강조하기";
 "bump_up_banner_free_text" = "빠르게 판매하기 위해 무료로 강조해보세요";
-"bump_up_banner_pay_text" = "빠르게 판매하기 위해 상품을 강조해보세요";
+"bump_up_banner_pay_text" = "상품을 빨리 판매해보세요";
 "bump_up_banner_pay_text_improvement" = "지금 빨리 판매하기";
 "bump_up_banner_wait_text" = "다시 강조하기";
 "bump_up_banner_wait_text_improvement" = "다시 강조하기";
@@ -28,10 +28,11 @@
 "bump_up_error_payment_failed" = "앱 스토어에 연결할 수 없습니다. 귀하의 결제가 진행되지 않았습니다. 다시 시도해주세요.";
 "bump_up_free_success" = "상품이 강조되었습니다! 리스트를 계속 강조하시면 사람들이 확인할 수 있습니다.";
 "bump_up_not_allowed_alert_contact_button" = "문의하기";
-"bump_up_not_allowed_alert_text" = "이번에 이 제품을 올리기는 가능하지 않습니다. 좀 더 자세한 정보에 대해서는, 저희에게 연락 부탁드립니다.";
+"bump_up_not_allowed_alert_text" = "이번에 이 제품을 강조하는 기능을 사용할 수 없습니다. 문의사항은 다음 연락처를 통해 연락주시면 신속히 처리해 드리겠습니다.";
 "bump_up_pay_success" = "상품이 강조되었습니다! 이제 상품이 다른 사람들에게 더 잘보입니다.";
 "bump_up_processing_free_text" = "강조 진행중...";
 "bump_up_processing_priced_text" = "결제 처리중...";
+"bump_up_product_cell_chat_now_button" = "Chat Now";
 "bump_up_product_cell_featured_stripe" = "주요";
 "bump_up_product_detail_featured_label" = "주요";
 "bump_up_view_free_subtitle" = "더 많이 공유할 수록, 판매 상품이 더 잘보이게 될 것입니다.";
@@ -63,7 +64,7 @@
 "categories_super_keywords_inFeed_show_more" = "더보기";
 "categories_title" = "항목";
 "categories_unassigned" = "선택되지 않음";
-"categories_unassigned_items" = "Other items";
+"categories_unassigned_items" = "기타 제품";
 "change_email_current_email_label" = "현재 이메일:";
 "change_email_error_already_registered" = "이 이메일 주소는 이미 등록되어 있습니다. 다른 이메일을 입력해주세요.";
 "change_email_error_invalid_email" = "유효한 이메일 주소를 입력해주세요.";

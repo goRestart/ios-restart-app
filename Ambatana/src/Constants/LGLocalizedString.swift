@@ -139,6 +139,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("bump_up_product_cell_featured_stripe", comment: "")
 	}
 
+	static var bumpUpProductCellChatNowButton: String {
+		return NSLocalizedString("bump_up_product_cell_chat_now_button", comment: "")
+	}
+
 	static var bumpUpProductDetailFeaturedLabel: String {
 		return NSLocalizedString("bump_up_product_detail_featured_label", comment: "")
 	}
@@ -211,6 +215,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("categories_other", comment: "")
 	}
 
+	static var categoriesRealEstate: String {
+		return NSLocalizedString("categories_real_estate", comment: "")
+	}
+
 	static var categoriesSportsLeisureAndGames: String {
 		return NSLocalizedString("categories_sports_leisure_and_games", comment: "")
 	}
@@ -265,6 +273,10 @@ struct LGLocalizedString {
 
 	static var categoriesInfeedCars: String {
 		return NSLocalizedString("categories_inFeed_cars", comment: "")
+	}
+
+	static var categoriesInfeedRealEstate: String {
+		return NSLocalizedString("categories_inFeed_real_estate", comment: "")
 	}
 
 	static var categoriesSuperKeywordsInfeedShowMore: String {

@@ -23,15 +23,16 @@
 "bump_up_banner_pay_text_improvement" = "Vender más rápido";
 "bump_up_banner_wait_text" = "para destacar de nuevo";
 "bump_up_banner_wait_text_improvement" = "para destacar de nuevo";
-"bump_up_error_bump_generic" = "Se ha producido un error al destacar tu producto. Por favor, inténtalo de nuevo.";
+"bump_up_error_bump_generic" = "Se ha producido un error al destacar tu artículo. Por favor, inténtalo de nuevo.";
 "bump_up_error_bump_token" = "Tu pago ha sido procesado pero tu artículo no ha sido destacado.";
 "bump_up_error_payment_failed" = "No ha sido posible conectar con la App Store. Tu pago no ha sido procesado. Inténtalo de nuevo.";
 "bump_up_free_success" = "¡Destacado! Sigue destacando tu anuncio y tendrá aún más visibilidad.";
 "bump_up_not_allowed_alert_contact_button" = "Contáctanos";
 "bump_up_not_allowed_alert_text" = "No hemos podido destacar este artículo. Para más información, contáctanos.";
-"bump_up_pay_success" = "¡Destacado! Ahora tu producto tiene más visibilidad.";
+"bump_up_pay_success" = "¡Destacado! Ahora tu artículo tiene más visibilidad.";
 "bump_up_processing_free_text" = "Procesando destacado...";
 "bump_up_processing_priced_text" = "Procesando el pago...";
+"bump_up_product_cell_chat_now_button" = "Chat Now";
 "bump_up_product_cell_featured_stripe" = "Destacado";
 "bump_up_product_detail_featured_label" = "DESTACADO";
 "bump_up_view_free_subtitle" = "Cuanto más compartes, más visibilidad tiene tu anuncio.";
@@ -63,7 +64,7 @@
 "categories_super_keywords_inFeed_show_more" = "Ver más";
 "categories_title" = "Categorías";
 "categories_unassigned" = "No seleccionada";
-"categories_unassigned_items" = "Other items";
+"categories_unassigned_items" = "Otros artículos";
 "change_email_current_email_label" = "EMAIL ACTUAL:";
 "change_email_error_already_registered" = "Este email ya está registrado. Por favor, introduce uno distinto.";
 "change_email_error_invalid_email" = "Por favor, introduce un email válido.";

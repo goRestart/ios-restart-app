@@ -19,7 +19,7 @@
 "block_user_error_generic" = "Kullanıcı engellenirken bir hata oluştu.";
 "bump_up_banner_free_button_title" = "Üste çıkar";
 "bump_up_banner_free_text" = "Daha hızlı satmak için üste çıkar";
-"bump_up_banner_pay_text" = "Daha hızlı satmak için üste çıkar";
+"bump_up_banner_pay_text" = "Daha hızlı sat ";
 "bump_up_banner_pay_text_improvement" = "Hemen sat";
 "bump_up_banner_wait_text" = "tekrar öne çıkarmak için";
 "bump_up_banner_wait_text_improvement" = "tekrar öne çıkarmak için";
@@ -28,10 +28,11 @@
 "bump_up_error_payment_failed" = "App Store ile bağlantı gerçekleştirilemedi. Ödeme işlemin tamamlanmadı. Lütfen tekrar dene.";
 "bump_up_free_success" = "Öne çıkarıldı! İlanını öne çıkarmaya devam et ki daha da çok kişi görsün.";
 "bump_up_not_allowed_alert_contact_button" = "Bize Ulaş";
-"bump_up_not_allowed_alert_text" = "Bu ürünün Üste Çıkarılması şu an için mümkün değildir. Daha fazla bilgi için bizimle iletişime geçebilirsin.";
+"bump_up_not_allowed_alert_text" = "Bu ürünün öne çıkarılması şu an için mümkün değildir. Daha fazla bilgi için bizimle iletişime geçebilirsin.";
 "bump_up_pay_success" = "Öne çıkarıldı! Şimdi ürününü daha fazla kişi görebilir.";
 "bump_up_processing_free_text" = "Üste çıkarma işlemi gerçekleştiriliyor...";
 "bump_up_processing_priced_text" = "Ödeme işlemi gerçekleştiriliyor...";
+"bump_up_product_cell_chat_now_button" = "Chat Now";
 "bump_up_product_cell_featured_stripe" = "Öne çıkan";
 "bump_up_product_detail_featured_label" = "ÖNE ÇIKAN";
 "bump_up_view_free_subtitle" = "Ne kadar çok paylaşırsan ürününü o kadar fazla kişi görür.";
@@ -63,7 +64,7 @@
 "categories_super_keywords_inFeed_show_more" = "Daha fazla göster";
 "categories_title" = "Kategoriler";
 "categories_unassigned" = "Seçilmedi";
-"categories_unassigned_items" = "Other items";
+"categories_unassigned_items" = "Diğer eşyalar";
 "change_email_current_email_label" = "ŞU ANKİ E-POSTAN:";
 "change_email_error_already_registered" = "Bu e-posta adresi zaten kayıtlıdır. Lütfen farklı bir adres seç.";
 "change_email_error_invalid_email" = "Lütfen geçerli bir e-posta adresi gir.";

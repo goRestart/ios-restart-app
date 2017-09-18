@@ -19,7 +19,7 @@
 "block_user_error_generic" = "Si è verificato un errore durante il tentativo di bloccare questo utente.";
 "bump_up_banner_free_button_title" = "Promuovi";
 "bump_up_banner_free_text" = "Promuovi gratuitamente per vendere più velocemente";
-"bump_up_banner_pay_text" = "Promuovi per vendere più rapidamente";
+"bump_up_banner_pay_text" = "Vendi subito più rapidamente";
 "bump_up_banner_pay_text_improvement" = "Vendi più rapidamente";
 "bump_up_banner_wait_text" = "per promuovere di nuovo";
 "bump_up_banner_wait_text_improvement" = "per promuovere di nuovo";
@@ -28,10 +28,11 @@
 "bump_up_error_payment_failed" = "Impossibile connettersi all'App Store. Il tuo pagamento non è andato a buon fine. Riprova.";
 "bump_up_free_success" = "Promosso! Continua a promuovere il tuo annuncio e sarà sempre più visibile.";
 "bump_up_not_allowed_alert_contact_button" = "Contattaci";
-"bump_up_not_allowed_alert_text" = "Al momento non è possibile sponsorizzare questo articolo.  Per maggiori informazioni, contattaci.";
-"bump_up_pay_success" = "Promosso! Adesso il tuo articolo gode di una visibilità extra.";
+"bump_up_not_allowed_alert_text" = "Al momento non è possibile promuovere questo articolo.  Per maggiori informazioni, contattaci.";
+"bump_up_pay_success" = "Promosso! Adesso il tuo articolo gode di una maggiore visibilità.";
 "bump_up_processing_free_text" = "Elaborazione promozione...";
 "bump_up_processing_priced_text" = "Elaborazione pagamento...";
+"bump_up_product_cell_chat_now_button" = "Chat Now";
 "bump_up_product_cell_featured_stripe" = "In evidenza";
 "bump_up_product_detail_featured_label" = "IN EVIDENZA";
 "bump_up_view_free_subtitle" = "Più condivisioni corrispondono a una maggiore visibilità per il tuo annuncio.";
@@ -63,7 +64,7 @@
 "categories_super_keywords_inFeed_show_more" = "Mostra Altro";
 "categories_title" = "Categorie";
 "categories_unassigned" = "Non selezionata";
-"categories_unassigned_items" = "Other items";
+"categories_unassigned_items" = "Altri articoli";
 "change_email_current_email_label" = "INDIRIZZO EMAIL ATTUALE:";
 "change_email_error_already_registered" = "Questo indirizzo email è già registrato. Inseriscine uno alternativo.";
 "change_email_error_invalid_email" = "Inserisci un indirizzo email valido.";
