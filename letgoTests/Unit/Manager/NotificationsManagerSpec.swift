@@ -80,18 +80,14 @@ class NotificationsManagerSpec: QuickSpec {
                 oldChatRepository.unreadMsgCountResult = Result<Int, RepositoryError>(10)
                 let chatUnread = MockChatUnreadMessages(totalUnreadMessages: 7)
                 chatRepository.unreadMessagesResult = ChatUnreadMessagesResult(chatUnread)
-                let notifications = MockUnreadNotificationsCounts(modular: 2,
-                                                                  total: 2)
-                notificationsRepository.unreadCountResult = NotificationsUnreadCountResult(notifications)
+                notificationsRepository.unreadCountResult = NotificationsUnreadCountResult(2)
             }
 
             func populateEmptyCountersResults() {
                 oldChatRepository.unreadMsgCountResult = Result<Int, RepositoryError>(0)
                 let chatUnread = MockChatUnreadMessages(totalUnreadMessages: 0)
                 chatRepository.unreadMessagesResult = ChatUnreadMessagesResult(chatUnread)
-                let notifications = MockUnreadNotificationsCounts(modular: 0,
-                                                                  total: 0)
-                notificationsRepository.unreadCountResult = NotificationsUnreadCountResult(notifications)
+                notificationsRepository.unreadCountResult = NotificationsUnreadCountResult(0)
             }
 
             beforeEach {
