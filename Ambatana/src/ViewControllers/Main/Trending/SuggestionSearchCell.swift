@@ -9,20 +9,35 @@
 import UIKit
 
 class SuggestionSearchCell: UITableViewCell, ReusableCell {
-    @IBOutlet weak var suggestionText: UILabel!
-
     static let cellHeight: CGFloat = 44
-    let labelFont = UIFont.systemFont(size: 17)
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        backgroundColor = UIColor.clear
+    let suggestionText = UILabel()
+    
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)!
+    }
+    
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupUI()
         setAccessibilityIds()
-        suggestionText.font = labelFont
+    }
+    
+    private func setupUI() {
+        backgroundColor = UIColor.clear
+        
+        suggestionText.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(suggestionText)
+        
+        suggestionText.layout(with: contentView)
+            .leading(by: Metrics.margin)
+            .trailing()
+            .top()
+            .bottom()
     }
 
     private func setAccessibilityIds() {
-        self.accessibilityId = .suggestionSearchCell
+        accessibilityId = .suggestionSearchCell
         suggestionText.accessibilityId = .suggestionSearchCellSuggestionText
     }
 }

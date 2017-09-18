@@ -911,7 +911,7 @@ extension MainListingsViewModel {
                                                     shouldIncludeCategories: shouldIncludeCategories) { [weak self] result in
             guard term == self?.searchText.value else { return }
             self?.suggestiveSearchInfo.value = SuggestiveSearchInfo(suggestiveSearches: result.value ?? [],
-                                                                        sourceText: term)
+                                                                    sourceText: term)
         }
     }
     

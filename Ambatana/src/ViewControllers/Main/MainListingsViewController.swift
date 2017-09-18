@@ -51,8 +51,8 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     @IBOutlet weak var filterDescriptionTopConstraint: NSLayoutConstraint!
 
     fileprivate let infoBubbleTopMargin: CGFloat = 8
-    fileprivate let verticalMarginHeaderView: CGFloat = 16
-    fileprivate let horizontalMarginHeaderView: CGFloat = 16
+    fileprivate let verticalMarginHeaderView: CGFloat = Metrics.veryShortMargin
+    fileprivate let horizontalMarginHeaderView: CGFloat = Metrics.margin
     fileprivate let sectionHeight: CGFloat = 54
     fileprivate let firstSectionMarginTop: CGFloat = -36
 
@@ -70,7 +70,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     private var tagsViewController : FilterTagsViewController?
     private var tagsShowing : Bool = false
 
-    private let topInset = Variable<CGFloat> (0)
+    private let topInset = Variable<CGFloat>(0)
 
     fileprivate let disposeBag = DisposeBag()
     
@@ -524,7 +524,7 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
 extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource {
 
     func setupSuggestionsTable() {
-        suggestionsSearchesTable.register(UINib(nibName: SuggestionSearchCell.reusableID, bundle: nil),
+        suggestionsSearchesTable.register(SuggestionSearchCell.self,
                                           forCellReuseIdentifier: SuggestionSearchCell.reusableID)
 
         let topConstraint = NSLayoutConstraint(item: suggestionsSearchesContainer, attribute: .top, relatedBy: .equal,
@@ -662,7 +662,7 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
                 return UITableViewCell()
             }
             cell.suggestionText.attributedText = suggestiveSearch.name.makeBold(ignoringText: sourceText.lowercased(),
-                                                                                font: cell.labelFont)
+                                                                                font: cell.suggestionText.font)
         case .lastSearch:
             guard let lastSearch = viewModel.lastSearchAtIndex(indexPath.row) else { return UITableViewCell() }
             cell.suggestionText.text = lastSearch

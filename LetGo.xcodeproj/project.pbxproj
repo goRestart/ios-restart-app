@@ -858,8 +858,6 @@
 		C739C1D91D11A2FB0014AD6A /* ChatOtherInfoCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739C1D71D11A2FB0014AD6A /* ChatOtherInfoCellDrawer.swift */; };
 		C73C163B1D06C1B500DFC67D /* SuggestionSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73C16391D06C1B500DFC67D /* SuggestionSearchCell.swift */; };
 		C73C163C1D06C1B500DFC67D /* SuggestionSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73C16391D06C1B500DFC67D /* SuggestionSearchCell.swift */; };
-		C73C163D1D06C1B500DFC67D /* SuggestionSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C73C163A1D06C1B500DFC67D /* SuggestionSearchCell.xib */; };
-		C73C163E1D06C1B500DFC67D /* SuggestionSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C73C163A1D06C1B500DFC67D /* SuggestionSearchCell.xib */; };
 		C73FABB61DD37968008F4519 /* SettingsLogoutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73FABB41DD37968008F4519 /* SettingsLogoutCell.swift */; };
 		C73FABB71DD37968008F4519 /* SettingsLogoutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73FABB41DD37968008F4519 /* SettingsLogoutCell.swift */; };
 		C73FABB81DD37968008F4519 /* SettingsLogoutCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C73FABB51DD37968008F4519 /* SettingsLogoutCell.xib */; };
@@ -1995,7 +1993,6 @@
 		C738327F1E029CC2007D0C03 /* AccountProvider+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AccountProvider+LG.swift"; sourceTree = "<group>"; };
 		C739C1D71D11A2FB0014AD6A /* ChatOtherInfoCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatOtherInfoCellDrawer.swift; sourceTree = "<group>"; };
 		C73C16391D06C1B500DFC67D /* SuggestionSearchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestionSearchCell.swift; sourceTree = "<group>"; };
-		C73C163A1D06C1B500DFC67D /* SuggestionSearchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SuggestionSearchCell.xib; sourceTree = "<group>"; };
 		C73FABB41DD37968008F4519 /* SettingsLogoutCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsLogoutCell.swift; sourceTree = "<group>"; };
 		C73FABB51DD37968008F4519 /* SettingsLogoutCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsLogoutCell.xib; sourceTree = "<group>"; };
 		C73FABBA1DD3895E008F4519 /* SettingsInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsInfoCell.swift; sourceTree = "<group>"; };
@@ -3761,7 +3758,6 @@
 			isa = PBXGroup;
 			children = (
 				C73C16391D06C1B500DFC67D /* SuggestionSearchCell.swift */,
-				C73C163A1D06C1B500DFC67D /* SuggestionSearchCell.xib */,
 			);
 			path = Trending;
 			sourceTree = "<group>";
@@ -4622,7 +4618,6 @@
 				508011001D4748120073F362 /* SettingsViewController.xib in Resources */,
 				C77593F21BF0E48D0097D62F /* FilterHeaderCell.xib in Resources */,
 				C7B588611CE1DE1C009B3975 /* RelationInfoView.xib in Resources */,
-				C73C163D1D06C1B500DFC67D /* SuggestionSearchCell.xib in Resources */,
 				508C3F7C1C984BEC00CF431F /* UserViewHeader.xib in Resources */,
 				C75B5DC31D59E09500112368 /* ListingCarouselViewController.xib in Resources */,
 				2E9716A41D5A0535009B3A32 /* ExpressChatCell.xib in Resources */,
@@ -4759,7 +4754,6 @@
 				C7DB42661C5138B500400945 /* FilterHeaderCell.xib in Resources */,
 				508011011D4748120073F362 /* SettingsViewController.xib in Resources */,
 				C7B588621CE1DE1C009B3975 /* RelationInfoView.xib in Resources */,
-				C73C163E1D06C1B500DFC67D /* SuggestionSearchCell.xib in Resources */,
 				508C3F7D1C984BEC00CF431F /* UserViewHeader.xib in Resources */,
 				C75B5DC41D59E09500112368 /* ListingCarouselViewController.xib in Resources */,
 				722FEA391F1E3BD500838116 /* FilterFreeCell.xib in Resources */,
