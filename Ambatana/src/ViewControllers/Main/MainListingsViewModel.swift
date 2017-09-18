@@ -855,9 +855,16 @@ extension MainListingsViewModel {
     func selectedSuggestiveSearchAtIndex(_ index: Int) {
         guard let (suggestiveSearch, _) = suggestiveSearchAtIndex(index) else { return }
         delegate?.vmDidSearch()
+        
+        let newFilters: ListingFilters
+        if let category = suggestiveSearch.category {
+            newFilters = filters.updating(selectedCategories: [category])
+        } else {
+            newFilters = filters
+        }
         navigator?.openMainListings(withSearchType: .suggestive(query: suggestiveSearch.name,
                                                                 indexSelected: index),
-                                    listingFilters: filters)
+                                    listingFilters: newFilters)
     }
     
     func selectedLastSearchAtIndex(_ index: Int) {
