@@ -57,8 +57,13 @@ def generate_ios_constants(target_directory)
 end
 
 #Prints on screen all the unused keys and also marks that keys on spreadsheet as unused
-def check_unused_ios(worksheet, from_row, to_row, target_directory, mark)
-  puts "\nUNUSED IOS KEYS:"
+def check_unused_ios(worksheet, from_row, to_row, target_directory, mark, remove)
+  if(mark) 
+    puts "\nUNUSED IOS KEYS:"  
+  end
+  if(remove)
+    puts "\nRemoving keys:"
+  end
   for row in from_row..to_row
     key = worksheet[row, 1]
     unless key.blank?
@@ -71,6 +76,11 @@ def check_unused_ios(worksheet, from_row, to_row, target_directory, mark)
             if(mark)
               #modifiying key on spreadsheet by prepending [u] to mark key as unused
               worksheet[row, 1] = '[u]'+key
+              worksheet.save()
+            end
+            if(remove)
+              worksheet.delete_rows(row, 1)
+              worksheet.save()
             end
           end
         else
@@ -78,9 +88,6 @@ def check_unused_ios(worksheet, from_row, to_row, target_directory, mark)
         end
       end
     end
-  end
-  if(mark)
-    worksheet.save()
   end
 end
 
@@ -130,6 +137,7 @@ options = Parser.new do |p|
   p.option :keep_keys, 'Whether to maintain original keys or not', :default => true, :short => 'k'
   p.option :check_unused, 'Whether to check unused keys on project', :default => false , :short => 'c'
   p.option :check_unused_mark, 'If checking keys -> mark them on spreadsheet prepending [u]', :default => false , :short => 'm'
+  p.option :check_unused_remove, 'If checking keys -> remove them from spreadsheet', :default => false , :short => 'r'
 end.process!
 
 client_json_path = options[:client]
@@ -137,6 +145,7 @@ ios_path = options[:output_ios]
 spreadsheet = options[:spreadsheet]
 check_unused = options[:check_unused]
 check_unused_mark = options[:check_unused_mark]
+check_unused_remove = options[:check_unused_remove]
 keep_keys = options[:keep_keys]
 
 # Get the spreadsheet from Google Drive
@@ -246,9 +255,9 @@ drive_pull(ios_path)
 
 puts 'Done! - Locale generation went smoothly :)'.green
 
-if(check_unused)
-  puts 'Checking unused'
-  check_unused_ios(worksheet, first_term_row, last_term_row, ios_path, check_unused_mark)
+if(check_unused || check_unused_remove)
+  puts 'Checking unused strings'
+  check_unused_ios(worksheet, first_term_row, last_term_row, ios_path, check_unused_mark, check_unused_remove)
 end
 
 
