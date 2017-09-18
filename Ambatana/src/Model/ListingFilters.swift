@@ -90,11 +90,21 @@ struct ListingFilters {
         )
     }
     
-    init(place: Place?, distanceRadius: Int, distanceType: DistanceType, selectedCategories: [ListingCategory],
-         selectedTaxonomyChildren: [TaxonomyChild], onboardingFilters: [TaxonomyChild], selectedWithin: ListingTimeCriteria,
-         selectedOrdering: ListingSortCriteria?, priceRange: FilterPriceRange,
-         carMakeId: RetrieveListingParam<String>?, carMakeName: String?, carModelId: RetrieveListingParam<String>?,
-         carModelName: String?, carYearStart: RetrieveListingParam<Int>?, carYearEnd: RetrieveListingParam<Int>?){
+    init(place: Place?,
+         distanceRadius: Int,
+         distanceType: DistanceType,
+         selectedCategories: [ListingCategory],
+         selectedTaxonomyChildren: [TaxonomyChild],
+         onboardingFilters: [TaxonomyChild],
+         selectedWithin: ListingTimeCriteria,
+         selectedOrdering: ListingSortCriteria?,
+         priceRange: FilterPriceRange,
+         carMakeId: RetrieveListingParam<String>?,
+         carMakeName: String?,
+         carModelId: RetrieveListingParam<String>?,
+         carModelName: String?,
+         carYearStart: RetrieveListingParam<Int>?,
+         carYearEnd: RetrieveListingParam<Int>?) {
         self.place = place
         self.distanceRadius = distanceRadius > 0 ? distanceRadius : nil
         self.distanceType = distanceType
