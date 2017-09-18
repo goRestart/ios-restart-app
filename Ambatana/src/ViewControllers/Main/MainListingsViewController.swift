@@ -656,8 +656,8 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
                             for: indexPath) as? SuggestionSearchCell else { return UITableViewCell() }
         switch sectionType {
         case .suggestive:
-            guard let (suggestiveSearch, sourceText) = viewModel.suggestiveSearchAtIndex(indexPath.row),
-                let suggestiveSearchName = suggestiveSearch.name else { return UITableViewCell() }
+            guard let (suggestiveSearch, sourceText) = viewModel.suggestiveSearchAtIndex(indexPath.row) else { return UITableViewCell() }
+            let suggestiveSearchName = suggestiveSearch.name
             cell.suggestionText.attributedText = suggestiveSearchName.makeBold(ignoringText: sourceText.lowercased(),
                                                                                    font: cell.labelFont)
         case .lastSearch:
