@@ -117,7 +117,7 @@ extension ChatEventType: Decodable {
             result = Decoded<ChatEventType>.success(.talkerUnauthenticated)
 
         default:
-            result = Decoded<NotificationType>.fromOptional(nil)
+            result = Decoded<ChatEventType>.fromOptional(nil)
         }
 
         if let error = result.error {

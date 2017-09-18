@@ -33,8 +33,7 @@ extension ListingCategory {
         case .cars:
             return LGLocalizedString.categoriesCar
         case .realEstate:
-            //TODO: add realEstate value
-            return LGLocalizedString.categoriesCar
+            return LGLocalizedString.categoriesRealEstate
         }
     }
     
@@ -61,8 +60,7 @@ extension ListingCategory {
         case .cars:
             return LGLocalizedString.categoriesInfeedCars
         case .realEstate:
-            //TODO: add realEstate value
-            return LGLocalizedString.categoriesInfeedCars
+            return LGLocalizedString.categoriesInfeedRealEstate
         }
     }
     
