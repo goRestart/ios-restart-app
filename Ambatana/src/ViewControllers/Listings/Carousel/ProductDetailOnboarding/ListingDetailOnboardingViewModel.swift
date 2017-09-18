@@ -18,6 +18,10 @@ class ListingDetailOnboardingViewModel : BaseViewModel {
     var featureFlags: FeatureFlaggeable
     var keyValueStorage: KeyValueStorageable
     weak var delegate: ListingDetailOnboardingViewDelegate?
+    
+    var newLabelIsHidden: Bool {
+        return !(featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive && keyValueStorage[.didShowListingDetailOnboarding])
+    }
 
     var newText: String {
         return LGLocalizedString.commonNew
@@ -27,6 +31,11 @@ class ListingDetailOnboardingViewModel : BaseViewModel {
         return UIImage(named: "finger_tap")
     }
     var firstText: NSAttributedString {
+        if featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive {
+            let highlightedText = LGLocalizedString.productNewOnboardingFingerTapHighlightedLabel
+            return tipText(textToHighlight: highlightedText,
+                           fullText: LGLocalizedString.productNewOnboardingFingerTapLabel(highlightedText))
+        }
         return tipText(textToHighlight: nil, fullText: LGLocalizedString.productOnboardingFingerTapLabel)
     }
 
@@ -34,13 +43,26 @@ class ListingDetailOnboardingViewModel : BaseViewModel {
         return UIImage(named: "finger_swipe")
     }
     var secondText: NSAttributedString {
+        if featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive {
+            let highlightedText = LGLocalizedString.productNewOnboardingFingerSwipeHighlightedLabel
+            return tipText(textToHighlight: highlightedText,
+                           fullText: LGLocalizedString.productNewOnboardingFingerSwipeLabel(highlightedText))
+        }
         return tipText(textToHighlight: nil, fullText: LGLocalizedString.productOnboardingFingerSwipeLabel)
     }
 
     var thirdImage: UIImage? {
+        if featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive {
+            return UIImage(named: "finger_keep_swipe")
+        }
         return UIImage(named: "finger_scroll")
     }
     var thirdText: NSAttributedString {
+        if featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive {
+            let highlightedText = LGLocalizedString.productNewOnboardingFingerKeepSwipeHighlightedLabel
+            return tipText(textToHighlight: highlightedText,
+                           fullText: LGLocalizedString.productNewOnboardingFingerKeepSwipeLabel(highlightedText))
+        }
         return tipText(textToHighlight: nil, fullText: LGLocalizedString.productOnboardingFingerScrollLabel)
     }
 
@@ -60,7 +82,11 @@ class ListingDetailOnboardingViewModel : BaseViewModel {
     }
 
     func hasBeenShown() {
-        keyValueStorage[.didShowListingDetailOnboarding] = true
+        if featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive {
+            keyValueStorage[.didShowHorizontalListingDetailOnboarding] = true
+        } else {
+            keyValueStorage[.didShowListingDetailOnboarding] = true
+        }
         delegate?.listingDetailOnboardingDidAppear()
     }
 

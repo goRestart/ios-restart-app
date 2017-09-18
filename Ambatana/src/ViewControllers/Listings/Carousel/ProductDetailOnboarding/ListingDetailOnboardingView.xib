@@ -16,6 +16,7 @@
                 <outlet property="fingersView" destination="vsg-Yb-Z1M" id="hAk-Et-ors"/>
                 <outlet property="firstImage" destination="uct-GI-PDh" id="f8q-iU-NQw"/>
                 <outlet property="firstLabel" destination="OtQ-Vk-yjZ" id="hIa-zU-KE3"/>
+                <outlet property="newLabel" destination="a9N-rb-zNe" id="l75-9T-V72"/>
                 <outlet property="secondImage" destination="Fsu-Wf-bHx" id="dbq-Bv-rYA"/>
                 <outlet property="secondLabel" destination="pnC-f6-Coz" id="DNz-wu-FWz"/>
                 <outlet property="thirdImage" destination="gvn-JK-JR4" id="Tka-c9-teb"/>
@@ -40,6 +41,12 @@
                                     <constraint firstAttribute="width" constant="20" id="CDh-y6-x4d"/>
                                 </constraints>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_NEW!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a9N-rb-zNe">
+                                    <rect key="frame" x="274.5" y="30" width="52" height="21"/>
+                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                            </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xI8-jN-PXw" userLabel="top_container">
                                 <rect key="frame" x="0.0" y="50" width="375" height="220"/>
                                 <subviews>
@@ -168,12 +175,16 @@
                             <constraint firstAttribute="trailing" secondItem="xI8-jN-PXw" secondAttribute="trailing" id="Av0-cr-SVU"/>
                             <constraint firstItem="EMC-gg-Ycj" firstAttribute="leading" secondItem="FvB-Ai-p46" secondAttribute="leading" id="CK0-vd-VXa"/>
                             <constraint firstItem="l70-uy-OWP" firstAttribute="leading" secondItem="FvB-Ai-p46" secondAttribute="leading" constant="15" id="IRa-mP-I4H"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="a9N-rb-zNe" secondAttribute="trailing" constant="50" id="JlC-tC-rwf"/>
                             <constraint firstItem="xI8-jN-PXw" firstAttribute="top" secondItem="FvB-Ai-p46" secondAttribute="top" constant="50" id="L5M-Rh-sUP"/>
                             <constraint firstItem="t8d-xu-bvr" firstAttribute="leading" secondItem="FvB-Ai-p46" secondAttribute="leading" id="Mz9-Z6-oVH"/>
                             <constraint firstAttribute="trailing" secondItem="t8d-xu-bvr" secondAttribute="trailing" id="QCi-CR-syP"/>
                             <constraint firstItem="xI8-jN-PXw" firstAttribute="height" secondItem="FvB-Ai-p46" secondAttribute="height" multiplier="0.33" id="UIy-YH-7ip"/>
+                            <constraint firstItem="a9N-rb-zNe" firstAttribute="centerX" secondItem="FvB-Ai-p46" secondAttribute="centerX" id="Ur0-xI-9ex"/>
                             <constraint firstItem="l70-uy-OWP" firstAttribute="top" secondItem="FvB-Ai-p46" secondAttribute="top" constant="30" id="cLS-GE-UUb"/>
+                            <constraint firstItem="a9N-rb-zNe" firstAttribute="centerY" secondItem="l70-uy-OWP" secondAttribute="centerY" id="dG5-4u-P8v"/>
                             <constraint firstItem="EMC-gg-Ycj" firstAttribute="top" secondItem="xI8-jN-PXw" secondAttribute="bottom" id="eVN-KI-ec6"/>
+                            <constraint firstItem="a9N-rb-zNe" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="FvB-Ai-p46" secondAttribute="leading" constant="50" id="drI-6a-Udy"/>
                             <constraint firstItem="t8d-xu-bvr" firstAttribute="height" secondItem="FvB-Ai-p46" secondAttribute="height" multiplier="0.33" id="hfJ-HX-lMg"/>
                             <constraint firstAttribute="bottom" secondItem="t8d-xu-bvr" secondAttribute="bottom" constant="50" id="uWN-bH-gmb"/>
                             <constraint firstAttribute="trailing" secondItem="EMC-gg-Ycj" secondAttribute="trailing" id="wpZ-gG-HPJ"/>

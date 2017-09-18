@@ -114,6 +114,17 @@ extension ExpandableCategorySelectionMenu {
     }
 }
 
+extension NewCarouselTapNextPhotoNavigationEnabled {
+    var isActive: Bool {
+        switch self {
+        case .control, .baseline:
+            return false
+        case .active:
+            return true
+        }
+    }
+}
+
 class FeatureFlags: FeatureFlaggeable {
     static let sharedInstance: FeatureFlags = FeatureFlags()
     
