@@ -854,9 +854,8 @@ extension MainListingsViewModel {
     
     func selectedSuggestiveSearchAtIndex(_ index: Int) {
         guard let (suggestiveSearch, _) = suggestiveSearchAtIndex(index) else { return }
-        guard let suggestiveSearchName = suggestiveSearch.name else { return }
         delegate?.vmDidSearch()
-        navigator?.openMainListings(withSearchType: .suggestive(query: suggestiveSearchName, indexSelected: index), listingFilters: filters)
+        navigator?.openMainListings(withSearchType: .suggestive(query: suggestiveSearch.name, indexSelected: index), listingFilters: filters)
     }
     
     func selectedLastSearchAtIndex(_ index: Int) {
@@ -889,7 +888,7 @@ extension MainListingsViewModel {
     func retrieveTrendingSearches() {
         guard let currentCountryCode = locationManager.currentLocation?.countryCode else { return }
 
-        searchRepository.index(currentCountryCode) { [weak self] result in
+        searchRepository.index(countryCode: currentCountryCode) { [weak self] result in
             self?.trendingSearches.value = result.value ?? []
         }
     }
@@ -897,7 +896,7 @@ extension MainListingsViewModel {
     func retrieveSuggestiveSearches(term: String) {
         guard let languageCode = Locale.current.languageCode else { return }
         
-        searchRepository.retrieveSuggestiveSearches(languageCode, limit: 10, term: term) { [weak self] result in
+        searchRepository.retrieveSuggestiveSearches(language: languageCode, limit: 10, term: term, shouldIncludeCategories: true) { [weak self] result in
             guard term == self?.searchText.value else { return }
             self?.suggestiveSearchInfo.value = SuggestiveSearchInfo(suggestiveSearches: result.value ?? [],
                                                                         sourceText: term)
