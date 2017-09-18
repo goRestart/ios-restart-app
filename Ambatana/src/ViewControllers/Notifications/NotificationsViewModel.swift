@@ -172,10 +172,11 @@ fileprivate extension NotificationsViewModel {
 // MARK: - modularNotificationCellDelegate
 
 extension NotificationsViewModel: ModularNotificationCellDelegate {
-    func triggerModularNotificationDeeplink(deeplink: String, source: EventParameterNotificationClickArea, notificationCampaign: String?) {
+    func triggerModularNotificationDeeplink(deeplink: String, source: EventParameterNotificationClickArea,
+                                            notificationCampaign: String?) {
         guard let deepLinkURL = URL(string: deeplink) else { return }
         guard let deepLink = UriScheme.buildFromUrl(deepLinkURL)?.deepLink else { return }
-        trackItemPressed(type: .modular, source: source, cardAction: deepLink.cardActionParameter,
+        trackItemPressed(source: source, cardAction: deepLink.cardActionParameter,
                          notificationCampaign: notificationCampaign)
         navigator?.openNotificationDeepLink(deepLink: deepLink)
     }
@@ -190,9 +191,8 @@ fileprivate extension NotificationsViewModel {
         tracker.trackEvent(event)
     }
 
-    func trackItemPressed(type: EventParameterNotificationType, source: EventParameterNotificationClickArea,
-                          cardAction: String?, notificationCampaign: String?) {
-        let event = TrackerEvent.notificationCenterComplete(type, source: source, cardAction: cardAction,
+    func trackItemPressed(source: EventParameterNotificationClickArea, cardAction: String?, notificationCampaign: String?) {
+        let event = TrackerEvent.notificationCenterComplete(source: source, cardAction: cardAction,
                                                             notificationCampaign: notificationCampaign)
         tracker.trackEvent(event)
     }

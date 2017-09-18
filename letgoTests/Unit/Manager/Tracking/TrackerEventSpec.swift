@@ -3367,14 +3367,10 @@ class TrackerEventSpec: QuickSpec {
             }
             describe("Notification center complete type modular") {
                 beforeEach {
-                    sut = TrackerEvent.notificationCenterComplete(.modular, source: .cta1, cardAction: "profile-visit", notificationCampaign: "inactive_march_2017")
+                    sut = TrackerEvent.notificationCenterComplete(source: .cta1, cardAction: "profile-visit", notificationCampaign: "inactive_march_2017")
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("notification-center-complete"))
-                }
-                it("contains notification-type param") {
-                    let param = sut.params!.stringKeyParams["notification-type"] as? String
-                    expect(param) == "modular"
                 }
                 it("contains click-area param") {
                     let param = sut.params!.stringKeyParams["notification-click-area"] as? String
