@@ -20,44 +20,30 @@ class SimpleListingsViewModel: BaseViewModel {
     let listingListViewModel: ListingListViewModel
     let featureFlags: FeatureFlaggeable
 
-    convenience init(relatedListingId: String,
-                     listingVisitSource: EventParameterListingVisitSource) {
-        let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
-        let itemsPerPage = show3Columns ? Constants.numListingsPerPageBig : Constants.numListingsPerPageDefault
-        let requester = RelatedListingListRequester(listingId: relatedListingId, itemsPerPage: itemsPerPage)
-        self.init(requester: requester,
-                  title: LGLocalizedString.relatedItemsTitle,
-                  listingVisitSource: listingVisitSource)
-    }
-
     convenience init(requester: ListingListRequester,
+                     listings: [Listing],
                      title: String,
                      listingVisitSource: EventParameterListingVisitSource) {
         self.init(requester: requester,
-                  listings: nil,
+                  listings: listings,
                   title: title,
                   listingVisitSource: listingVisitSource,
                   featureFlags: FeatureFlags.sharedInstance)
     }
 
-    convenience init(requester: ListingListRequester,
-                     listings: [Listing],
-                     listingVisitSource: EventParameterListingVisitSource) {
-        self.init(requester: requester,
-                  listings: listings,
-                  title: LGLocalizedString.relatedItemsTitle,
-                  listingVisitSource: listingVisitSource,
-                  featureFlags: FeatureFlags.sharedInstance)
-    }
-
-    init(requester: ListingListRequester, listings: [Listing]?, title: String, listingVisitSource: EventParameterListingVisitSource,
+    init(requester: ListingListRequester,
+         listings: [Listing]?,
+         title: String,
+         listingVisitSource: EventParameterListingVisitSource,
          featureFlags: FeatureFlaggeable) {
         self.title = title
         self.listingVisitSource = listingVisitSource
         self.listingListRequester = requester
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         let columns = show3Columns ? 3 : 2
-        self.listingListViewModel = ListingListViewModel(requester: requester, listings: listings, numberOfColumns: columns)
+        self.listingListViewModel = ListingListViewModel(requester: requester,
+                                                         listings: listings,
+                                                         numberOfColumns: columns)
         self.featureFlags = featureFlags
         super.init()
         listingListViewModel.dataDelegate = self

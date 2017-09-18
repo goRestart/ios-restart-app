@@ -806,7 +806,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
             
-            describe("productList") {
+            describe("listingList") {
                 let categories: [ListingCategory] = [.homeAndGarden, .motorsAndAccessories]
                 let taxonomy: TaxonomyChild = MockTaxonomyChild.makeMock()
                 let searchQuery = "iPhone"
@@ -837,7 +837,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
             
-            describe("productListVertical") {
+            describe("listingListVertical") {
                 beforeEach {
                     sut = TrackerEvent.listingListVertical(category: .cars,
                                                            keywords: ["kw1", "kw2"],
@@ -1100,7 +1100,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
             
-            describe("productDetailVisit") {
+            describe("listingDetailVisit") {
                 beforeEach {
                     var userListing = MockUserListing.makeMock()
                     userListing.objectId = "56897"
@@ -1173,7 +1173,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
             
-            describe("productDetailVisitMoreInfo") {
+            describe("listingDetailVisitMoreInfo") {
                 beforeEach {
                     var userListing = MockUserListing.makeMock()
                     userListing.objectId = "56897"
@@ -1227,7 +1227,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
             
-            describe("productNotAvailable") {
+            describe("listingNotAvailable") {
                 beforeEach {
                     sut = TrackerEvent.listingNotAvailable(.notifications, reason: .notFound)
                 }
@@ -1244,7 +1244,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
-            describe("productFavorite") {
+            describe("listingFavorite") {
 
                 beforeEach {
                     var userListing = MockUserListing.makeMock()
@@ -1310,7 +1310,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
             
-            describe("productShare") {
+            describe("listingShare") {
                 beforeEach {
                     var userListing = MockUserListing.makeMock()
                     userListing.objectId = "56897"
@@ -1384,7 +1384,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
             
-            describe("productDetailShareCancel") {
+            describe("listingShareCancel") {
                 var product: MockProduct!
                 var event: TrackerEvent!
                 beforeEach {
@@ -1421,7 +1421,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
             
-            describe("productDetailShareComplete") {
+            describe("listingShareComplete") {
                 var product: MockProduct!
                 var event: TrackerEvent!
                 beforeEach {
@@ -1457,7 +1457,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
-            describe("product ask question") {
+            describe("firstMessage") {
                 var listing: Listing!
                 var sendMessageInfo: SendMessageTrackingInfo!
                 beforeEach {
@@ -1618,7 +1618,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
-            describe("product ask question (ChatListing)") {
+            describe("firstMessage (ChatListing)") {
                 var product: ChatListing!
                 var sendMessageInfo: SendMessageTrackingInfo!
                 beforeEach {
@@ -1760,7 +1760,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
-            describe("Product Detail Open Chat") {
+            describe("listingDetailOpenChat") {
                 beforeEach {
                     var mockProduct = MockProduct.makeMock()
                     mockProduct.objectId = "12345"
@@ -1782,7 +1782,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
-            describe("productMarkAsSold") {
+            describe("listingMarkAsSold") {
                 beforeEach {
                     var userListing = MockUserListing.makeMock()
                     userListing.objectId = "56897"
@@ -1843,7 +1843,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
             
-            describe("productMarkAsSoldAtLetgo") {
+            describe("listingMarkAsSoldAtLetgo") {
                 beforeEach {
                     var userListing = MockUserListing.makeMock()
                     userListing.objectId = "56897"
@@ -1900,7 +1900,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
             
-            describe("productMarkAsSoldOutsideLetgo") {
+            describe("listingMarkAsSoldOutsideLetgo") {
                 beforeEach {
                     var userListing = MockUserListing.makeMock()
                     userListing.objectId = "56897"
@@ -1957,7 +1957,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
-            describe("productMarkAsUnsold") {
+            describe("listingMarkAsUnsold") {
                 it("has its event name") {
                     let product = MockProduct.makeMock()
                     sut = TrackerEvent.listingMarkAsUnsold(.product(product))
@@ -2004,7 +2004,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
             
-            describe("productReport") {
+            describe("listingReport") {
                 it("has its event name") {
                     let product = MockProduct.makeMock()
                     sut = TrackerEvent.listingReport(.product(product))
@@ -2068,7 +2068,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
-            describe("productSellStart") {
+            describe("listingSellStart") {
                 beforeEach {
                     sut = TrackerEvent.listingSellStart(.sell, buttonName: .sellYourStuff,
                         sellButtonPosition: .tabBar, category: .cars)
@@ -2094,7 +2094,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
-            describe("productSellError") {
+            describe("listingSellError") {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "r4nd0m1D"
@@ -2115,7 +2115,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
             
-            describe("productSellComplete") {
+            describe("listingSellComplete") {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "r4nd0m1D"
@@ -2174,7 +2174,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
-            describe("productSellConfirmation") {
+            describe("listingSellConfirmation") {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "r4nd0m1D"
@@ -2189,7 +2189,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
-            describe("productSellConfirmationPost") {
+            describe("listingSellConfirmationPost") {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "r4nd0m1D"
@@ -2208,7 +2208,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
-            describe("productSellConfirmationEdit") {
+            describe("listingSellConfirmationEdit") {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "r4nd0m1D"
@@ -2223,7 +2223,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
-            describe("productSellConfirmationClose") {
+            describe("listingSellConfirmationClose") {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "r4nd0m1D"
@@ -2238,7 +2238,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
-            describe("productSellConfirmationShare") {
+            describe("listingSellConfirmationShare") {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "r4nd0m1D"
@@ -2257,7 +2257,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
-            describe("productSellConfirmationShareCancel") {
+            describe("listingSellConfirmationShareCancel") {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "r4nd0m1D"
@@ -2276,7 +2276,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
-            describe("productSellConfirmationShareComplete") {
+            describe("listingSellConfirmationShareComplete") {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "r4nd0m1D"
@@ -2295,7 +2295,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
-            describe("productEditStart") {
+            describe("listingEditStart") {
                 it("has its event name") {
                     let user = MockUser.makeMock()
                     let product = MockProduct.makeMock()
@@ -2314,7 +2314,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
             
-            describe("productEditFormValidationFailed") {
+            describe("listingEditFormValidationFailed") {
                 it("has its event name") {
                     _ = MockUser.makeMock()
                     let product = MockProduct.makeMock()
@@ -2343,7 +2343,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
             
-            describe("productEditSharedFB") {
+            describe("listingEditSharedFB") {
                 it("has its event name") {
                     let product = MockProduct.makeMock()
                     sut = TrackerEvent.listingEditSharedFB(nil, listing: .product(product))
@@ -2361,7 +2361,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
             
-            describe("productEditComplete") {
+            describe("listingEditComplete") {
                 it("has its event name") {
                     let product = MockProduct.makeMock()
                     sut = TrackerEvent.listingEditComplete(nil, listing: .product(product), category: nil, editedFields: [])
@@ -2390,7 +2390,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
             
-            describe("productDeleteStart") {
+            describe("listingDeleteStart") {
                 it("has its event name") {
                     let product = MockProduct.makeMock()
                     sut = TrackerEvent.listingDeleteStart(.product(product))
@@ -2408,7 +2408,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
             
-            describe("productDeleteComplete") {
+            describe("listingDeleteComplete") {
                 it("has its event name") {
                     let product = MockProduct.makeMock()
                     sut = TrackerEvent.listingDeleteComplete(.product(product))
@@ -2423,6 +2423,25 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
                     let productId = sut.params!.stringKeyParams["product-id"] as? String
                     expect(productId).to(equal(product.objectId))
+                }
+            }
+            
+            describe("relatedListings") {
+                beforeEach {
+                    sut = TrackerEvent.relatedListings(listingId: "12345",
+                                                       source: .notFound)
+                }
+                
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("related-items-list"))
+                }
+                it("has product-id param") {
+                    let productId = sut.params?.stringKeyParams["product-id"] as? String
+                    expect(productId) == "12345"
+                }
+                it("has related-source param") {
+                    let source = sut.params?.stringKeyParams["related-source"] as? String
+                    expect(source) == "product-not-found"
                 }
             }
             
