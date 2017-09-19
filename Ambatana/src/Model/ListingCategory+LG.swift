@@ -32,6 +32,8 @@ extension ListingCategory {
             return LGLocalizedString.categoriesOther
         case .cars:
             return LGLocalizedString.categoriesCar
+        case .realEstate:
+            return LGLocalizedString.categoriesRealEstate
         }
     }
     
@@ -57,6 +59,8 @@ extension ListingCategory {
             return LGLocalizedString.categoriesInfeedOthers
         case .cars:
             return LGLocalizedString.categoriesInfeedCars
+        case .realEstate:
+            return LGLocalizedString.categoriesInfeedRealEstate
         }
     }
     
@@ -81,6 +85,9 @@ extension ListingCategory {
         case .other:
             return UIImage(named: "others_feed")
         case .cars:
+            return UIImage(named: "cars_feed")
+        case .realEstate:
+            //TODO: add realEstate value
             return UIImage(named: "cars_feed")
         }
     }
@@ -107,6 +114,9 @@ extension ListingCategory {
             return UIImage(named: "categories_others_inactive")
         case .cars:
             return UIImage(named: "categories_cars_inactive")
+        case .realEstate:
+            //TODO: add real estate value
+            return UIImage(named: "categories_cars_inactive")
         }
     }
     
@@ -131,6 +141,9 @@ extension ListingCategory {
         case .other:
             return UIImage(named: "categories_others_tag")
         case .cars:
+            return UIImage(named: "categories_cars_tag")
+        case .realEstate:
+            //TODO: add real estate value
             return UIImage(named: "categories_cars_tag")
         }
     }
@@ -157,6 +170,9 @@ extension ListingCategory {
             return UIColor.otherCategory
         case .cars:
             return UIColor.carCategory
+        case .realEstate:
+            //TODO: add real estate value
+            return UIColor.carCategory
         }
     }
 
@@ -169,6 +185,9 @@ extension ListingCategory {
     
     var postCategory: PostCategory {
         switch self {
+        case .realEstate:
+            //TODO: add real estate to PostCategory
+            return .unassigned
         case .cars:
             return .car
         case .motorsAndAccessories:

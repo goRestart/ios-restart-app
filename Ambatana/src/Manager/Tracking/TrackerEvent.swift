@@ -467,6 +467,8 @@ struct TrackerEvent {
             params[.postingType] = EventParameterPostingType.car.rawValue
         case .product:
             params[.postingType] = EventParameterPostingType.stuff.rawValue
+        case .realEstate:
+            params[.postingType] = EventParameterPostingType.realEstate.rawValue
         }
 
         params[.make] = EventParameterMake.make(name: listing.car?.carAttributes.make).name
