@@ -80,15 +80,6 @@ class NotificationsViewModel: BaseViewModel {
 
     func selectedItemAtIndex(_ index: Int) {
         guard let data = dataAtIndex(index) else { return }
-        // Not track if type is modular as primary action on modular notification includes tracking.
-        switch data.type {
-        case .listingFavorite, .listingSold, .rating, .ratingUpdated, .buyersInterested, .listingSuggested, .facebookFriendshipCreated:
-            // cardAction is passed as string instead of EventParameterCardAction type as retention could send anything on the query parameter.
-            trackItemPressed(type: data.type.eventType, source: .main, cardAction: data.type.notificationAction.rawValue,
-                             notificationCampaign: nil)
-        case .modular:
-            break
-        }
         data.primaryAction?()
     }
     
@@ -152,7 +143,7 @@ class NotificationsViewModel: BaseViewModel {
         guard let primaryActionCompleted = data.primaryActionCompleted, !primaryActionCompleted else { return }
         guard data.id != nil else { return }
         guard let index = notificationsData.index(where: { $0.id != nil && $0.id == data.id }) else { return }
-        let completedData = NotificationData(id: data.id, type: data.type, date: data.date, isRead: data.isRead,
+        let completedData = NotificationData(id: data.id, modules: data.modules, date: data.date, isRead: data.isRead,
                                              campaignType: data.campaignType, primaryAction: nil, primaryActionCompleted: true)
         notificationsData[index] = completedData
         viewState.value = .data
@@ -165,83 +156,15 @@ class NotificationsViewModel: BaseViewModel {
 fileprivate extension NotificationsViewModel {
 
     func buildNotification(_ notification: NotificationModel) -> NotificationData? {
-        switch notification.type {
-        case let .rating(user, _, _):
-            return NotificationData(id: notification.objectId,
-                                    type: .rating(user: user),
-                                    date: notification.createdAt, isRead: notification.isRead,
-                                    campaignType: notification.campaignType,
-                                    primaryAction: { [weak self] in
-                                        self?.navigator?.openMyRatingList()
-                                    })
-        case let .ratingUpdated(user, _, _):
-            return NotificationData(id: notification.objectId,
-                                    type: .ratingUpdated(user: user),
-                                    date: notification.createdAt, isRead: notification.isRead,
-                                    campaignType: notification.campaignType,
-                                    primaryAction: { [weak self] in
-                                        self?.navigator?.openMyRatingList()
-                                    })
-        case let .like(listing, user):
-            return NotificationData(id: notification.objectId,
-                                    type: .listingFavorite(listing: listing, user: user),
-                                    date: notification.createdAt, isRead: notification.isRead,
-                                    campaignType: notification.campaignType,
-                                    primaryAction: { [weak self] in
-                                        let data = UserDetailData.id(userId: user.id, source: .notifications)
-                                        self?.navigator?.openUser(data)
-                                    })
-        case let .sold(listing, _):
-            return NotificationData(id: notification.objectId,
-                                    type: .listingSold(listingImage: listing.image), date: notification.createdAt,
-                                    isRead: notification.isRead,
-                                    campaignType: notification.campaignType,
-                                    primaryAction: { [weak self] in
-                                        let data = ListingDetailData.id(listingId: listing.id)
-                                        self?.navigator?.openListing(data, source: .notifications, actionOnFirstAppear: .nonexistent)
-                                    })
-        case let .buyersInterested(listing, buyers):
-            var data = NotificationData(id: notification.objectId,
-                                    type: .buyersInterested(listing: listing, buyers: buyers),
-                                    date: notification.createdAt, isRead: notification.isRead,
-                                    campaignType: notification.campaignType,
-                                    primaryAction: nil,
-                                    primaryActionCompleted: false)
-            data.primaryAction = { [weak self] in
-                self?.navigator?.openPassiveBuyers(listing.id, actionCompletedBlock: { [weak self] in
-                    self?.markCompleted(data)
-                })
-            }
-            return data
-        case let .listingSuggested(listing, seller):
-            return NotificationData(id: notification.objectId,
-                                    type: .listingSuggested(listing: listing, seller: seller),
-                                    date: notification.createdAt, isRead: notification.isRead,
-                                    campaignType: notification.campaignType,
-                                    primaryAction: { [weak self] in
-                                        let data = ListingDetailData.id(listingId: listing.id)
-                                        self?.navigator?.openListing(data, source: .notifications, actionOnFirstAppear: .nonexistent)
-                                    })
-        case let .facebookFriendshipCreated(user, facebookUsername):
-            return NotificationData(id: notification.objectId,
-                                    type: .facebookFriendshipCreated(user: user, facebookUsername: facebookUsername),
-                                    date: notification.createdAt, isRead: notification.isRead,
-                                    campaignType: notification.campaignType,
-                                    primaryAction: { [weak self] in
-                                        let data = UserDetailData.id(userId: user.id, source: .notifications)
-                                        self?.navigator?.openUser(data)
-            })
-        case let .modular(modules):
-            return NotificationData(id: notification.objectId,
-                                    type: .modular(modules: modules, delegate: self),
-                                    date: notification.createdAt, isRead: notification.isRead,
-                                    campaignType: notification.campaignType,
-                                    primaryAction: { [weak self] in
-                                        guard let deeplink = modules.callToActions.first?.deeplink else { return }
-                                        self?.triggerModularNotificationDeeplink(deeplink: deeplink, source: .main,
-                                                                                 notificationCampaign: notification.campaignType)
-                                    })
-        }
+        return NotificationData(id: notification.objectId,
+                                modules: notification.modules,
+                                date: notification.createdAt, isRead: notification.isRead,
+                                campaignType: notification.campaignType,
+                                primaryAction: { [weak self] in
+                                    guard let deeplink = notification.modules.callToActions.first?.deeplink else { return }
+                                    self?.triggerModularNotificationDeeplink(deeplink: deeplink, source: .main,
+                                                                             notificationCampaign: notification.campaignType)
+                                })
     }
 }
 
@@ -249,10 +172,11 @@ fileprivate extension NotificationsViewModel {
 // MARK: - modularNotificationCellDelegate
 
 extension NotificationsViewModel: ModularNotificationCellDelegate {
-    func triggerModularNotificationDeeplink(deeplink: String, source: EventParameterNotificationClickArea, notificationCampaign: String?) {
+    func triggerModularNotificationDeeplink(deeplink: String, source: EventParameterNotificationClickArea,
+                                            notificationCampaign: String?) {
         guard let deepLinkURL = URL(string: deeplink) else { return }
         guard let deepLink = UriScheme.buildFromUrl(deepLinkURL)?.deepLink else { return }
-        trackItemPressed(type: .modular, source: source, cardAction: deepLink.cardActionParameter,
+        trackItemPressed(source: source, cardAction: deepLink.cardActionParameter,
                          notificationCampaign: notificationCampaign)
         navigator?.openNotificationDeepLink(deepLink: deepLink)
     }
@@ -267,9 +191,8 @@ fileprivate extension NotificationsViewModel {
         tracker.trackEvent(event)
     }
 
-    func trackItemPressed(type: EventParameterNotificationType, source: EventParameterNotificationClickArea,
-                          cardAction: String?, notificationCampaign: String?) {
-        let event = TrackerEvent.notificationCenterComplete(type, source: source, cardAction: cardAction,
+    func trackItemPressed(source: EventParameterNotificationClickArea, cardAction: String?, notificationCampaign: String?) {
+        let event = TrackerEvent.notificationCenterComplete(source: source, cardAction: cardAction,
                                                             notificationCampaign: notificationCampaign)
         tracker.trackEvent(event)
     }
@@ -277,49 +200,5 @@ fileprivate extension NotificationsViewModel {
     func trackErrorStateShown(reason: EventParameterEmptyReason) {
         let event = TrackerEvent.emptyStateVisit(typePage: .notifications, reason: reason)
         tracker.trackEvent(event)
-    }
-}
-
-fileprivate extension NotificationDataType {
-    var eventType: EventParameterNotificationType {
-        switch self {
-        case .listingSold:
-            return .listingSold
-        case .listingFavorite:
-            return .favorite
-        case .rating:
-            return .rating
-        case .ratingUpdated:
-            return .ratingUpdated
-        case .buyersInterested:
-            return .buyersInterested
-        case .listingSuggested:
-            return .listingSuggested
-        case .facebookFriendshipCreated:
-            return .facebookFriendshipCreated
-        case .modular:
-            return .modular
-        }
-    }
-    
-    var notificationAction: EventParameterNotificationAction {
-        switch self {
-        case .listingSold:
-            return .listing
-        case .listingFavorite:
-            return .listing
-        case .rating:
-            return .userRating
-        case .ratingUpdated:
-            return .userRating
-        case .buyersInterested:
-            return .passiveBuyers
-        case .listingSuggested:
-            return .listing
-        case .facebookFriendshipCreated:
-            return .user
-        case .modular:
-            return .unknown // It should not happen never.
-        }
     }
 }

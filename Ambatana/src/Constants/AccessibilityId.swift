@@ -195,7 +195,6 @@ enum AccessibilityId: String {
     case notificationsTable
     case notificationsLoading
     case notificationsEmptyView
-    case notificationsCellPrimaryImage
     case notificationsCellSecondaryImage
     case notificationsModularTextTitleLabel
     case notificationsModularTextBodyLabel

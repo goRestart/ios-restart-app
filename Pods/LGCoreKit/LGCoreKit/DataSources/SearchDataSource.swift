@@ -15,6 +15,10 @@ typealias TrendingSearchesDataSourceCompletion = (TrendingSearchesDataSourceResu
 typealias SuggestiveSearchesDataSourceCompletion = (SuggestiveSearchesDataSourceResult) -> Void
 
 protocol SearchDataSource {
-    func index(_ countryCode: String, completion: TrendingSearchesDataSourceCompletion?)
-    func retrieveSuggestiveSearches(_ countryCode: String, limit: Int, term: String, completion: SuggestiveSearchesDataSourceCompletion?)
+    func index(countryCode: String, completion: TrendingSearchesDataSourceCompletion?)
+    func retrieveSuggestiveSearches(language: String,
+                                    limit: Int,
+                                    term: String,
+                                    shouldIncludeCategories: Bool,
+                                    completion: SuggestiveSearchesDataSourceCompletion?)
 }
