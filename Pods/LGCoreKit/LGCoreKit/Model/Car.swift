@@ -6,7 +6,6 @@
 //  Copyright © 2017 Ambatana Inc. All rights reserved.
 //
 
-import Foundation
 
 public protocol Car: BaseListingModel {
     var carAttributes: CarAttributes { get }

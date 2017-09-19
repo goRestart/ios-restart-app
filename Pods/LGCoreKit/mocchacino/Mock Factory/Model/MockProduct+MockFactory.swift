@@ -17,7 +17,6 @@ extension MockProduct: MockFactory {
                            user: MockUserListing.makeMock(),
                            updatedAt: Date?.makeRandom(),
                            createdAt: Date?.makeRandom(),
-                           featured: Bool?.makeRandom(),
-                           favorite: Bool.makeRandom())
+                           featured: Bool?.makeRandom())
     }
 }

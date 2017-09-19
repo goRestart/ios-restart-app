@@ -23,13 +23,18 @@ class SearchApiDataSource: SearchDataSource {
 
     // MARK: - Actions
 
-    func index(_ countryCode: String, completion: TrendingSearchesDataSourceCompletion?) {
+    func index(countryCode: String, completion: TrendingSearchesDataSourceCompletion?) {
         let request = SearchRouter.index(params: ["country_code" : countryCode])
         apiClient.request(request, decoder: SearchApiDataSource.decoder, completion: completion)
     }
 
-    func retrieveSuggestiveSearches(_ language: String, limit: Int, term: String, completion: SuggestiveSearchesDataSourceCompletion?) {
-        let request = SearchRouter.retrieveSuggestiveSearches(params: ["language" : language, "limit" : limit, "term" : term])
+    func retrieveSuggestiveSearches(language: String,
+                                    limit: Int,
+                                    term: String,
+                                    shouldIncludeCategories: Bool,
+                                    completion: SuggestiveSearchesDataSourceCompletion?) {
+        let request = SearchRouter.retrieveSuggestiveSearches(params: ["language" : language, "limit" : limit, "term" : term],
+                                                              shouldIncludeCategories: shouldIncludeCategories)
         apiClient.request(request, decoder: SearchApiDataSource.decoderSuggestiveResult, completion: completion)
     }
 

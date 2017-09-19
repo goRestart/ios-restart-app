@@ -80,32 +80,14 @@ class NotificationsManagerSpec: QuickSpec {
                 oldChatRepository.unreadMsgCountResult = Result<Int, RepositoryError>(10)
                 let chatUnread = MockChatUnreadMessages(totalUnreadMessages: 7)
                 chatRepository.unreadMessagesResult = ChatUnreadMessagesResult(chatUnread)
-                let notifications = MockUnreadNotificationsCounts(listingSold: 2,
-                                                                  listingLike: 2,
-                                                                  review: 2,
-                                                                  reviewUpdated: 2,
-                                                                  buyersInterested: 2,
-                                                                  listingSuggested: 2,
-                                                                  facebookFriendshipCreated: 2,
-                                                                  modular: 2,
-                                                                  total: 16)
-                notificationsRepository.unreadCountResult = NotificationsUnreadCountResult(notifications)
+                notificationsRepository.unreadCountResult = NotificationsUnreadCountResult(2)
             }
 
             func populateEmptyCountersResults() {
                 oldChatRepository.unreadMsgCountResult = Result<Int, RepositoryError>(0)
                 let chatUnread = MockChatUnreadMessages(totalUnreadMessages: 0)
                 chatRepository.unreadMessagesResult = ChatUnreadMessagesResult(chatUnread)
-                let notifications = MockUnreadNotificationsCounts(listingSold: 0,
-                                                                  listingLike: 0,
-                                                                  review: 0,
-                                                                  reviewUpdated: 0,
-                                                                  buyersInterested: 0,
-                                                                  listingSuggested: 0,
-                                                                  facebookFriendshipCreated: 0,
-                                                                  modular: 0,
-                                                                  total: 0)
-                notificationsRepository.unreadCountResult = NotificationsUnreadCountResult(notifications)
+                notificationsRepository.unreadCountResult = NotificationsUnreadCountResult(0)
             }
 
             beforeEach {
@@ -158,14 +140,14 @@ class NotificationsManagerSpec: QuickSpec {
                                 featureFlags.websocketChat = false
                                 sut.setup()
                             }
-                            it("unreadMessagesCount emits a nil and then the 10") {
+                            it("unreadMessagesCount emits a nil and then 10") {
                                 expect(unreadMessagesObserver.eventValues).toEventually(equal([nil, 10]))
                             }
-                            it("unreadNotificationsCount emits and then the 16") {
-                                expect(unreadNotificationsObserver.eventValues).toEventually(equal([nil, 16]))
+                            it("unreadNotificationsCount emits and then 2") {
+                                expect(unreadNotificationsObserver.eventValues).toEventually(equal([nil, 2]))
                             }
                             it("globalCount is 26") {
-                                expect(globalCountObserver.events.last?.value.element!).toEventually(equal(26))
+                                expect(globalCountObserver.events.last?.value.element!).toEventually(equal(12))
                             }
                         }
                         context("new chat") {
@@ -173,14 +155,14 @@ class NotificationsManagerSpec: QuickSpec {
                                 featureFlags.websocketChat = true
                                 sut.setup()
                             }
-                            it("unreadMessagesCount emits a nil and then the 7") {
+                            it("unreadMessagesCount emits a nil and then 7") {
                                 expect(unreadMessagesObserver.eventValues).toEventually(equal([nil, 7]))
                             }
-                            it("unreadNotificationsCount emits and then the 14") {
-                                expect(unreadNotificationsObserver.eventValues).toEventually(equal([nil, 16]))
+                            it("unreadNotificationsCount emits and then 2") {
+                                expect(unreadNotificationsObserver.eventValues).toEventually(equal([nil, 2]))
                             }
-                            it("globalCount is 23") {
-                                expect(globalCountObserver.events.last?.value.element!).toEventually(equal(23))
+                            it("globalCount is 9") {
+                                expect(globalCountObserver.events.last?.value.element!).toEventually(equal(9))
                             }
                         }
                     }
@@ -287,14 +269,14 @@ class NotificationsManagerSpec: QuickSpec {
                             sut.setup()
                             doLogin()
                         }
-                        it("unreadMessagesCount emits a nil and then the 10") {
+                        it("unreadMessagesCount emits a nil and then 10") {
                             expect(unreadMessagesObserver.eventValues).toEventually(equal([nil, 10]))
                         }
-                        it("unreadNotificationsCount emits and then the 16") {
-                            expect(unreadNotificationsObserver.eventValues).toEventually(equal([nil, 16]))
+                        it("unreadNotificationsCount emits and then 2") {
+                            expect(unreadNotificationsObserver.eventValues).toEventually(equal([nil, 2]))
                         }
-                        it("globalCount is 26") {
-                            expect(globalCountObserver.events.last?.value.element!).toEventually(equal(26))
+                        it("globalCount is 12") {
+                            expect(globalCountObserver.events.last?.value.element!).toEventually(equal(12))
                         }
                     }
                     context("new chat") {
@@ -307,10 +289,10 @@ class NotificationsManagerSpec: QuickSpec {
                             expect(unreadMessagesObserver.eventValues).toEventually(equal([nil, 7]))
                         }
                         it("unreadNotificationsCount emits and then the 16") {
-                            expect(unreadNotificationsObserver.eventValues).toEventually(equal([nil, 16]))
+                            expect(unreadNotificationsObserver.eventValues).toEventually(equal([nil, 2]))
                         }
-                        it("globalCount is 23") {
-                            expect(globalCountObserver.events.last?.value.element!).toEventually(equal(23))
+                        it("globalCount is 9") {
+                            expect(globalCountObserver.events.last?.value.element!).toEventually(equal(9))
                         }
                     }
                 }
@@ -372,14 +354,14 @@ class NotificationsManagerSpec: QuickSpec {
                             featureFlags.websocketChat = false
                             sut.setup()
                             expect(unreadMessagesObserver.eventValues).toEventually(equal([nil, 10]))
-                            expect(unreadNotificationsObserver.eventValues).toEventually(equal([nil, 16]))
+                            expect(unreadNotificationsObserver.eventValues).toEventually(equal([nil, 2]))
                             doLogout()
                         }
                         it("unreadMessagesCount emits a nil, 10 and 0") {
                             expect(unreadMessagesObserver.eventValues).toEventually(equal([nil, 10, nil]))
                         }
-                        it("unreadNotificationsCount emits nil, 16 and 0") {
-                            expect(unreadNotificationsObserver.eventValues).toEventually(equal([nil, 16, nil]))
+                        it("unreadNotificationsCount emits nil, 2 and 0") {
+                            expect(unreadNotificationsObserver.eventValues).toEventually(equal([nil, 2, nil]))
                         }
                         it("globalCount is 0") {
                             expect(globalCountObserver.events.last?.value.element!) == 0
@@ -390,14 +372,14 @@ class NotificationsManagerSpec: QuickSpec {
                             featureFlags.websocketChat = true
                             sut.setup()
                             expect(unreadMessagesObserver.eventValues).toEventually(equal([nil, 7]))
-                            expect(unreadNotificationsObserver.eventValues).toEventually(equal([nil, 16]))
+                            expect(unreadNotificationsObserver.eventValues).toEventually(equal([nil, 2]))
                             doLogout()
                         }
                         it("unreadMessagesCount emits a nil, 7 and 0") {
                             expect(unreadMessagesObserver.eventValues).toEventually(equal([nil, 7, nil]))
                         }
-                        it("unreadNotificationsCount emits nil, 16 and 0") {
-                            expect(unreadNotificationsObserver.eventValues).toEventually(equal([nil, 16, nil]))
+                        it("unreadNotificationsCount emits nil, 2 and 0") {
+                            expect(unreadNotificationsObserver.eventValues).toEventually(equal([nil, 2, nil]))
                         }
                         it("globalCount is 0") {
                             expect(globalCountObserver.events.last?.value.element!) == 0

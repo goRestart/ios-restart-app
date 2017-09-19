@@ -195,8 +195,11 @@ fileprivate extension TabCoordinator {
                                                                        itemsPerPage: Constants.numListingsPerPageDefault)
                     relatedRequester.retrieveFirstPage { result in
                         self?.navigationController.dismissLoadingMessageAlert {
-                            if let value = result.listingsResult.value, !value.isEmpty {
-                                self?.openRelatedListingsForNonExistentListing(requester: relatedRequester, listings: value)
+                            if let relatedListings = result.listingsResult.value, !relatedListings.isEmpty {
+                                self?.openRelatedListingsForNonExistentListing(listingId: listingId,
+                                                                               source: source,
+                                                                               requester: relatedRequester,
+                                                                               relatedListings: relatedListings)
                             }
                             self?.navigationController.showAutoFadingOutMessageAlert(LGLocalizedString.commonProductNotAvailable)
                         }
@@ -398,13 +401,20 @@ fileprivate extension TabCoordinator {
 
     // MARK: Private methods
 
-    private func openRelatedListingsForNonExistentListing(requester: ListingListRequester, listings: [Listing]) {
+    private func openRelatedListingsForNonExistentListing(listingId: String,
+                                                          source: EventParameterListingVisitSource,
+                                                          requester: ListingListRequester,
+                                                          relatedListings: [Listing]) {
         let simpleRelatedListingsVM = SimpleListingsViewModel(requester: requester,
-                                                              listings: listings,
-                                                              listingVisitSource: .notifications)
+                                                              listings: relatedListings,
+                                                              title: LGLocalizedString.relatedItemsTitle,
+                                                              listingVisitSource: .relatedListings)
         simpleRelatedListingsVM.navigator = self
         let simpleRelatedListingsVC = SimpleListingsViewController(viewModel: simpleRelatedListingsVM)
         navigationController.pushViewController(simpleRelatedListingsVC, animated: true)
+        
+        trackRelatedListings(listingId: listingId,
+                             source: .notFound)
     }
 }
 
@@ -607,5 +617,12 @@ extension TabCoordinator {
         }
         let productNotAvailableEvent = TrackerEvent.listingNotAvailable( source, reason: reason)
         tracker.trackEvent(productNotAvailableEvent)
+    }
+    
+    func trackRelatedListings(listingId: String,
+                              source: EventParameterRelatedListingsVisitSource) {
+        let relatedListings = TrackerEvent.relatedListings(listingId: listingId,
+                                                           source: source)
+        tracker.trackEvent(relatedListings)
     }
 }

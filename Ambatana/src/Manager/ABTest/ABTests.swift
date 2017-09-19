@@ -77,6 +77,7 @@ class ABTests {
         result.append(appRatingDialogInactive)
         result.append(feedFilterRadiusValues)
         result.append(expandableCategorySelectionMenu)
+        result.append(locationDataSourceType)
 
         return result
     }
