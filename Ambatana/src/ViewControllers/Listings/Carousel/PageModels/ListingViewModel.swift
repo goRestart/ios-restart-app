@@ -429,7 +429,6 @@ class ListingViewModel: BaseViewModel {
             buttonBlock = hiddenBlock
         }
 
-//        bumpBannerShow
         bumpUpBannerInfo.value = BumpUpInfo(type: bumpUpType,
                                             timeSinceLastBump: timeSinceLastBump,
                                             maxCountdown: bumpMaxCountdown,

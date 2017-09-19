@@ -27,9 +27,9 @@ class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDrawer {
             }
         } else {
             cell.hideFeaturedListingInfo()
-        }
-        if model.isFree {
-            cell.setFreeStripe()
+            if model.isFree {
+                cell.setFreeStripe()
+            }
         }
     }
 }

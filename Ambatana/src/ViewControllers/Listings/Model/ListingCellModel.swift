@@ -29,7 +29,7 @@ enum ListingCellModel {
 }
 
 
-// MARK: Product
+// MARK: Listing
 
 struct ListingData {
     var listing: Listing?

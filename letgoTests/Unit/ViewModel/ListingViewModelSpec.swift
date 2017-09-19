@@ -710,7 +710,7 @@ extension ListingViewModelSpec: ListingDetailNavigator {
     func editListing(_ listing: Listing) {
 
     }
-    func openListingChat(_ listing: Listing) {
+    func openListingChat(_ listing: Listing, source: EventParameterTypePage) {
 
     }
     func closeAfterDelete() {
