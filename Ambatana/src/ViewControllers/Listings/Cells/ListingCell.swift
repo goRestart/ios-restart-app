@@ -7,12 +7,19 @@
 //
 
 import UIKit
+import LGCoreKit
+
+protocol ListingCellDelegate: class {
+    func chatButtonPressedFor(listing: Listing)
+}
 
 class ListingCell: UICollectionViewCell, ReusableCell {
 
     static let reusableID = "ListingCell"
     static let buttonsContainerShownHeight: CGFloat = 34
     static let stripeIconWidth: CGFloat = 14
+
+    static let featuredListingPriceLabelHeight: CGFloat = 28
     
     @IBOutlet weak var cellContent: UIView!
     @IBOutlet weak var thumbnailBgColorView: UIView!
@@ -25,7 +32,15 @@ class ListingCell: UICollectionViewCell, ReusableCell {
     @IBOutlet weak var stripeIcon: UIImageView!
     @IBOutlet weak var stripeIconWidth: NSLayoutConstraint!
 
+    @IBOutlet weak var featuredListingInfoView: UIView!
+    @IBOutlet weak var featuredListingInfoHeight: NSLayoutConstraint!
+
+    fileprivate var featuredListingPriceLabel: UILabel?
+    fileprivate var featuredListingTitleLabel: UILabel?
+    fileprivate var featuredListingChatButton: UIButton?
+
     private var indexPath: IndexPath?
+    private var listing: Listing?
     
     var likeButtonEnabled: Bool = true
     var chatButtonEnabled: Bool = true
@@ -35,6 +50,8 @@ class ListingCell: UICollectionViewCell, ReusableCell {
             alpha = isHighlighted ? 0.8 : 1.0
         }
     }
+
+    weak var delegate: ListingCellDelegate?
 
 
     // MARK: - Lifecycle
@@ -73,6 +90,7 @@ class ListingCell: UICollectionViewCell, ReusableCell {
         stripeImageView.image = UIImage(named: "stripe_white")
         stripeIcon.image = UIImage(named: "ic_heart")
         stripeLabel.text = LGLocalizedString.productFreePrice
+        stripeLabel.textColor = UIColor.primaryColor
         stripeImageView.isHidden = false
         stripeInfoView.isHidden = false
     }
@@ -82,8 +100,95 @@ class ListingCell: UICollectionViewCell, ReusableCell {
         stripeImageView.image = UIImage(named: "stripe_white")
         stripeIcon.image = nil
         stripeLabel.text = LGLocalizedString.bumpUpProductCellFeaturedStripe
+        stripeLabel.textColor = UIColor.blackText
         stripeImageView.isHidden = false
         stripeInfoView.isHidden = false
+    }
+
+    func setFeaturedListingInfoWith(price: String, title: String?, isMine: Bool, listing: Listing?, delegate: ListingCellDelegate?) {
+
+        if !isMine {
+            self.delegate = delegate
+            self.listing = listing
+        }
+
+        featuredListingPriceLabel = UILabel()
+        featuredListingTitleLabel = UILabel()
+        featuredListingChatButton = UIButton(type: .custom)
+
+        featuredListingInfoView.translatesAutoresizingMaskIntoConstraints = false
+        featuredListingPriceLabel?.translatesAutoresizingMaskIntoConstraints = false
+        featuredListingTitleLabel?.translatesAutoresizingMaskIntoConstraints = false
+        featuredListingChatButton?.translatesAutoresizingMaskIntoConstraints = false
+
+        guard let featuredListingPriceLabel = featuredListingPriceLabel,
+            let featuredListingTitleLabel = featuredListingTitleLabel,
+            let featuredListingChatButton = featuredListingChatButton else {
+                featuredListingInfoHeight.constant = 0
+                return
+        }
+
+        featuredListingInfoView.addSubviews([featuredListingPriceLabel, featuredListingTitleLabel, featuredListingChatButton])
+
+        featuredListingPriceLabel.text = price
+        featuredListingPriceLabel.font = UIFont.systemBoldFont(size: 23)
+        featuredListingPriceLabel.adjustsFontSizeToFitWidth = true
+
+        featuredListingTitleLabel.text = title
+        featuredListingTitleLabel.font = UIFont.mediumBodyFont
+        featuredListingTitleLabel.textColor = UIColor.darkGrayText
+        featuredListingTitleLabel.numberOfLines = 2
+
+        featuredListingChatButton.frame = CGRect(x: 0, y: 0, width: 0, height: LGUIKitConstants.mediumButtonHeight)
+        featuredListingChatButton.setStyle(.primary(fontSize: .medium))
+        featuredListingChatButton.setTitle(LGLocalizedString.bumpUpProductCellChatNowButton, for: .normal)
+        featuredListingChatButton.addTarget(self, action: #selector(openChat), for: .touchUpInside)
+
+        // layouts
+
+        let priceTopMargin = Metrics.shortMargin
+        featuredListingPriceLabel.layout(with: featuredListingInfoView)
+            .top(by: priceTopMargin)
+            .left(by: Metrics.shortMargin)
+            .right(by: -Metrics.shortMargin)
+        featuredListingPriceLabel.layout().height(ListingCell.featuredListingPriceLabelHeight)
+
+        featuredListingTitleLabel.layout(with: featuredListingInfoView)
+            .left(by: Metrics.shortMargin)
+            .right(by: -Metrics.shortMargin)
+
+        var titleHeight: CGFloat = 0.0
+        var titleTopMargin: CGFloat = 0.0
+        if let title = title {
+            let labelWidth = contentView.width - (Metrics.shortMargin * 2.0)
+            titleHeight = title.heightForWidth(width: labelWidth, maxLines: 2, withFont: featuredListingTitleLabel.font)
+            titleTopMargin = Metrics.veryShortMargin
+        }
+        
+        featuredListingTitleLabel.layout(with: featuredListingPriceLabel).below(by: titleTopMargin)
+        featuredListingTitleLabel.layout().height(titleHeight)
+
+        let buttonTopMargin = isMine ? 0.0 : Metrics.shortMargin
+        let buttonHeight = isMine ? 0.0 : LGUIKitConstants.mediumButtonHeight
+        let buttonBottomMargin = Metrics.shortMargin
+
+        featuredListingChatButton.layout().height(buttonHeight)
+        featuredListingChatButton.layout(with: featuredListingInfoView)
+            .left(by: Metrics.shortMargin)
+            .right(by: -Metrics.shortMargin)
+            .bottom(by: -buttonBottomMargin)
+        featuredListingChatButton.layout(with: featuredListingTitleLabel).below(by: buttonTopMargin)
+
+        let totalMarginsHeight = priceTopMargin + titleTopMargin + buttonTopMargin + buttonBottomMargin
+
+        featuredListingInfoHeight.constant = ListingCell.featuredListingPriceLabelHeight + titleHeight + buttonHeight + totalMarginsHeight
+
+        layoutSubviews()
+    }
+
+    func hideFeaturedListingInfo() {
+        featuredListingInfoHeight.constant = 0
+        layoutSubviews()
     }
 
 
@@ -108,6 +213,20 @@ class ListingCell: UICollectionViewCell, ReusableCell {
         stripeLabel.text = ""
         stripeIcon.image = nil
         indexPath = nil
+        featuredListingTitleLabel?.text = nil
+        featuredListingPriceLabel?.text = nil
+
+        self.delegate = nil
+        self.listing = nil
+
+        for featuredInfoSubview in featuredListingInfoView.subviews {
+            featuredInfoSubview.removeFromSuperview()
+        }
+    }
+
+    dynamic private func openChat() {
+        guard let listing = listing else { return }
+        delegate?.chatButtonPressedFor(listing: listing)
     }
 
     private func setAccessibilityIds() {

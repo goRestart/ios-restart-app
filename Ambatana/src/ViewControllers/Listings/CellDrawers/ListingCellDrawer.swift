@@ -9,7 +9,7 @@
 import LGCoreKit
 
 class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDrawer {
-    func draw(_ model: ProductData, style: CellStyle, inCell cell: ListingCell) {
+    func draw(_ model: ListingData, style: CellStyle, inCell cell: ListingCell) {
         if let id = model.listingId {
             cell.setBackgroundColor(id: id)
         }
@@ -18,7 +18,17 @@ class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDrawer {
         }
         if model.isFeatured {
             cell.setFeaturedStripe()
-        } else if model.isFree {
+            switch style {
+            case .mainList:
+                cell.setFeaturedListingInfoWith(price: model.price, title: model.title, isMine: model.isMine,
+                                                listing: model.listing, delegate: model.delegate)
+            case .relatedListings:
+                cell.hideFeaturedListingInfo()
+            }
+        } else {
+            cell.hideFeaturedListingInfo()
+        }
+        if model.isFree {
             cell.setFreeStripe()
         }
     }
