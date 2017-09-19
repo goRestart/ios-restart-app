@@ -59,7 +59,7 @@
 "bump_up_banner_free_text" = "Bump Up for free to sell faster";
 
 // Text for bubble in payment bump
-"bump_up_banner_pay_text" = "Bump Up to sell faster";
+"bump_up_banner_pay_text" = "Sell faster now";
 
 // Text for bubble in payment bump improvement.
 "bump_up_banner_pay_text_improvement" = "Sell faster now";
@@ -77,10 +77,10 @@
 "bump_up_free_success" = "Bumped Up! Keep Bumping Up your listing and it'll be even more visible.";
 
 // Payment bump up success message
-"bump_up_pay_success" = "Bumped Up! Now your item has extra visibility.";
+"bump_up_pay_success" = "Featured! Now your item has extra visibility.";
 
 // Error when bumping
-"bump_up_error_bump_generic" = "An error occurred while Bumping Up your item. Please try again.";
+"bump_up_error_bump_generic" = "An error occurred while featuring your item. Please try again.";
 
 // Token error when bumping
 "bump_up_error_bump_token" = "Your payment has been processed but your item hasn't been featured.";
@@ -96,6 +96,9 @@
 
 // Text for stripe in featured products cells
 "bump_up_product_cell_featured_stripe" = "Featured";
+
+// Text for featured cell Chat button
+"bump_up_product_cell_chat_now_button" = "Chat Now";
 
 // Text for label in featured products detail
 "bump_up_product_detail_featured_label" = "FEATURED";
@@ -119,7 +122,7 @@
 "bump_up_view_pay_bumps_left_text" = "You have %i Bump Ups left.";
 
 // Text for alert when bump is not allowed
-"bump_up_not_allowed_alert_text" = "Bumping Up this item isn't possible at this time.  For more information, contact us.";
+"bump_up_not_allowed_alert_text" = "Featuring this item isn't possible at this time.  For more information, contact us.";
 
 // Conatct Us button for alert when bump is not allowed
 "bump_up_not_allowed_alert_contact_button" = "Contact Us";
@@ -150,6 +153,9 @@
 
 // Categories other. Check image @ "categories_baby_and_child" segment
 "categories_other" = "Other";
+
+// Categories Real Estate: Housing
+"categories_real_estate" = "Housing";
 
 // Categories sports leisure and games. Check image @ "categories_cars_and_motors" segment
 "categories_sports_leisure_and_games" = "Sports, Leisure and Games";
@@ -192,6 +198,9 @@
 
 // Category "Cars"
 "categories_inFeed_cars" = "Cars";
+
+// Category "Housing"
+"categories_inFeed_real_estate" = "Housing";
 
 // Show more header element
 "categories_super_keywords_inFeed_show_more" = "Show more";
