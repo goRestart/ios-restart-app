@@ -269,7 +269,6 @@ enum EventParameterName: String {
     case npsScore             = "nps-score"
     case accountNetwork       = "account-network"
     case profileType          = "profile-type"
-    case notificationType     = "notification-type"
     case notificationClickArea = "notification-click-area"
     case notificationAction   = "notification-action"
     case notificationCampaign = "notification-campaign"
@@ -409,6 +408,7 @@ enum EventParameterPostedWithin: String {
 enum EventParameterPostingType: String {
     case car = "car"
     case stuff = "stuff"
+    case realEstate = "real-estate"
     case none = "N/A"
 }
 
@@ -755,17 +755,6 @@ enum EventParameterBlockedAccountReason: String {
 enum EventParameterProfileType: String {
     case publicParameter = "public"
     case privateParameter = "private"
-}
-
-enum EventParameterNotificationType: String {
-    case favorite = "favorite"
-    case listingSold = "favorite-sold"
-    case rating = "rating"
-    case ratingUpdated = "rating-updated"
-    case buyersInterested = "passive-buyer-seller"
-    case listingSuggested = "passive-buyer-make-offer"
-    case facebookFriendshipCreated = "facebook-friendship-created"
-    case modular = "modular"
 }
 
 enum EventParameterNotificationClickArea: String {

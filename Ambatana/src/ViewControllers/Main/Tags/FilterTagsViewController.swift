@@ -119,7 +119,7 @@ class FilterTagsViewController : NSObject, UICollectionViewDelegate, UICollectio
                     }
                 }
             case .electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden, .moviesBooksAndMusic,
-                 .fashionAndAccesories, .babyAndChild, .other, .unassigned:
+                 .fashionAndAccesories, .babyAndChild, .other, .realEstate, .unassigned:
                 break
             }
         case .make:

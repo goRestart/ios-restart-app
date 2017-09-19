@@ -17,6 +17,7 @@ public enum ListingCategory: Int {
     case babyAndChild = 7
     case other = 8
     case cars = 9
+    case realEstate = 10
 
     
     static func visibleValues(filtered: Bool) -> [ListingCategory] {
@@ -43,12 +44,16 @@ public enum ListingCategory: Int {
         case .unassigned, .electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden,
              .moviesBooksAndMusic, .fashionAndAccesories, .babyAndChild, .other:
             return true
-        case .cars:
+        case .cars, .realEstate:
             return false
         }
     }
     
     public var isCar: Bool {
         return self == .cars
+    }
+    
+    public var isRealEstate: Bool {
+        return self == .realEstate
     }
 }

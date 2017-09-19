@@ -41,8 +41,8 @@ class NotificationsApiDataSource: NotificationsDataSource {
         return notifications.map{ $0 }
     }
 
-    private static func unreadCountDecoder(_ object: Any) -> LGUnreadNotificationsCounts? {
-        let result: Decoded<LGUnreadNotificationsCounts> = JSON(object) <| "counts"
+    private static func unreadCountDecoder(_ object: Any) -> Int? {
+        let result: Decoded<Int> = JSON(object) <| ["counts", "modular"]
         return result.value
     }
 }

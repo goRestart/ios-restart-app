@@ -8,16 +8,13 @@
 
 import LGCoreKit
 
-
-class ModularNotificationCellDrawer: BaseNotificationCellDrawer<ModularNotificationCell> {
+class ModularNotificationCellDrawer: BaseTableCellDrawer<ModularNotificationCell> {
     
-    override func draw(_ cell: ModularNotificationCell, data: NotificationData) {
-        switch data.type {
-        case let .modular(modules, delegate):
-            cell.addModularData(with: modules, isRead: data.isRead, notificationCampaign: data.campaignType)
-            cell.delegate = delegate
-        default:
-            return
-        }
+    static let estimatedRowHeight: CGFloat = 80
+    
+    func draw(_ cell: UITableViewCell, data: NotificationData, delegate: ModularNotificationCellDelegate?) {
+        guard let modularNotificationCell = cell as? ModularNotificationCell else { return }
+        modularNotificationCell.addModularData(with: data.modules, isRead: data.isRead, notificationCampaign: data.campaignType)
+        modularNotificationCell.delegate = delegate
     }
 }

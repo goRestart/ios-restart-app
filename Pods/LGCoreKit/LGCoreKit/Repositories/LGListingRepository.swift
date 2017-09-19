@@ -122,7 +122,7 @@ final class LGListingRepository: ListingRepository {
                     let carUpdated = strongSelf.fillCarAttributes(car: newCar)
                     listing = Listing.car(carUpdated)
                     carResult = Result(value: listing)
-                case .product:
+                case .product, .realEstate:
                     break
                 }
                 // Send event
@@ -148,7 +148,7 @@ final class LGListingRepository: ListingRepository {
                     let carUpdated = strongSelf.fillCarAttributes(car: newCar)
                     listing = Listing.car(carUpdated)
                     carResult = Result(value: listing)
-                case .product:
+                case .product, .realEstate:
                     break
                 }
                 // Send event
@@ -328,8 +328,8 @@ final class LGListingRepository: ListingRepository {
                 for listing in listings {
                     guard let _ = listing.objectId else { continue }
                     switch listing {
-                    case .product(let product):
-                        newListings.append(Listing.product(product))
+                    case .product, .realEstate:
+                        newListings.append(listing)
                     case .car(let car):
                         let updatedCar = strongSelf.fillCarAttributes(car: car)
                         newListings.append(Listing.car(updatedCar))
@@ -413,8 +413,8 @@ final class LGListingRepository: ListingRepository {
                 var updatedListings: [Listing] = []
                 for listing in listings {
                     switch listing {
-                    case .product(let product):
-                        updatedListings.append(Listing.product(product))
+                    case .product, .realEstate:
+                        updatedListings.append(listing)
                     case .car(let car):
                         let updatedCar = strongSelf.fillCarAttributes(car: car)
                         updatedListings.append(Listing.car(updatedCar))
