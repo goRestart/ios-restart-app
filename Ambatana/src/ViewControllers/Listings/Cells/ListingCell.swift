@@ -164,7 +164,7 @@ class ListingCell: UICollectionViewCell, ReusableCell {
             titleHeight = title.heightForWidth(width: labelWidth, maxLines: 2, withFont: featuredListingTitleLabel.font)
             titleTopMargin = Metrics.veryShortMargin
         }
-        
+
         featuredListingTitleLabel.layout(with: featuredListingPriceLabel).below(by: titleTopMargin)
         featuredListingTitleLabel.layout().height(titleHeight)
 
@@ -235,5 +235,9 @@ class ListingCell: UICollectionViewCell, ReusableCell {
         stripeImageView.accessibilityId = .listingCellStripeImageView
         stripeLabel.accessibilityId = .listingCellStripeLabel
         stripeIcon.accessibilityId = .listingCellStripeIcon
+
+        featuredListingPriceLabel?.accessibilityId = .listingCellFeaturedPrice
+        featuredListingTitleLabel?.accessibilityId = .listingCellFeaturedTitle
+        featuredListingChatButton?.accessibilityId = .listingCellFeaturedChatButton
     }
 }
