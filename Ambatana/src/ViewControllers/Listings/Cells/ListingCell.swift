@@ -71,11 +71,11 @@ class ListingCell: UICollectionViewCell, ReusableCell {
 
     // MARK: - Public / internal methods
 
-    func setBackgroundColor(id: String?) {
+    func setupBackgroundColor(id: String?) {
         thumbnailBgColorView.backgroundColor = UIColor.placeholderBackgroundColor(id)
     }
     
-    func setImageUrl(_ imageUrl: URL) {
+    func setupImageUrl(_ imageUrl: URL) {
         thumbnailImageView.lg_setImageWithURL(imageUrl, placeholderImage: nil, completion: {
             [weak self] (result, url) -> Void in
             if let (_, cached) = result.value, !cached {
@@ -85,7 +85,7 @@ class ListingCell: UICollectionViewCell, ReusableCell {
         })
     }
     
-    func setFreeStripe() {
+    func setupFreeStripe() {
         stripeIconWidth.constant = ListingCell.stripeIconWidth
         stripeImageView.image = UIImage(named: "stripe_white")
         stripeIcon.image = UIImage(named: "ic_heart")
@@ -95,7 +95,7 @@ class ListingCell: UICollectionViewCell, ReusableCell {
         stripeInfoView.isHidden = false
     }
 
-    func setFeaturedStripe() {
+    func setupFeaturedStripe() {
         stripeIconWidth.constant = 0
         stripeImageView.image = UIImage(named: "stripe_white")
         stripeIcon.image = nil
@@ -105,8 +105,7 @@ class ListingCell: UICollectionViewCell, ReusableCell {
         stripeInfoView.isHidden = false
     }
 
-    func setFeaturedListingInfoWith(price: String, title: String?, isMine: Bool, listing: Listing?, delegate: ListingCellDelegate?) {
-
+    func setupFeaturedListingInfoWith(price: String, title: String?, isMine: Bool, listing: Listing?, delegate: ListingCellDelegate?) {
         if !isMine {
             self.delegate = delegate
             self.listing = listing
@@ -182,13 +181,10 @@ class ListingCell: UICollectionViewCell, ReusableCell {
         let totalMarginsHeight = priceTopMargin + titleTopMargin + buttonTopMargin + buttonBottomMargin
 
         featuredListingInfoHeight.constant = ListingCell.featuredListingPriceLabelHeight + titleHeight + buttonHeight + totalMarginsHeight
-
-        layoutSubviews()
     }
 
     func hideFeaturedListingInfo() {
         featuredListingInfoHeight.constant = 0
-        layoutSubviews()
     }
 
 
@@ -207,7 +203,7 @@ class ListingCell: UICollectionViewCell, ReusableCell {
 
     // Resets the UI to the initial state
     private func resetUI() {
-        setBackgroundColor(id: nil)
+        setupBackgroundColor(id: nil)
         thumbnailImageView.image = nil
         stripeImageView.image = nil
         stripeLabel.text = ""
