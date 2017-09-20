@@ -326,12 +326,13 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
             strongSelf.loadingViewHidden(showingKeyboard: willShowKeyboard)
         }.addDisposableTo(disposeBag)
     }
-    
+
     private func loadingViewHidden(showingKeyboard: Bool) {
         guard !DeviceFamily.current.isWiderOrEqualThan(.iPhone6) else { return }
         guard !priceView.isHidden else { return }
-        UIView.animate(withDuration: 0.3, animations: { () -> Void in
-            self.customLoadingView.alpha = showingKeyboard ? 0.0 : 1.0
+        UIView.animate(withDuration: 0.3, animations: { [weak self] () -> Void in
+            guard let strongSelf = self else { return }
+            strongSelf.customLoadingView.alpha = showingKeyboard ? 0.0 : strongSelf.viewModel.state.value.customLoadingViewAlpha
         })
     }
 }
