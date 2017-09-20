@@ -672,7 +672,7 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
             subtitle = suggestiveSearch.category?.name
             fillSearchButtonBlock = { [weak self] in
                 self?.navbarSearch.searchTextField?.text = title
-                self?.viewModel.nesearchText.value = title
+                self?.viewModel.searchText.value = title
                 self?.navBarSearchTextFieldUpdated(text: title)
             }
         case .lastSearch:
