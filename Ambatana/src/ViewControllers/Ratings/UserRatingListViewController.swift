@@ -65,8 +65,10 @@ extension UserRatingListViewController: UserRatingListViewModelDelegate {
 
     func vmDidLoadUserRatings(_ ratings: [UserRating]) {
         activityIndicator.stopAnimating()
-        tableView.isHidden = false
-        tableView.reloadData()
+        if !ratings.isEmpty {
+            tableView.isHidden = false
+            tableView.reloadData()
+        }
     }
 
     func vmDidFailLoadingUserRatings(_ firstPage: Bool) {
@@ -108,6 +110,13 @@ extension UserRatingListViewController: UITableViewDelegate, UITableViewDataSour
         cell.setupRatingCellWithData(data, indexPath: indexPath)
         cell.delegate = viewModel
         return cell
+    }
+
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell,
+                   forRowAt indexPath: IndexPath) {
+        DispatchQueue.main.async { [weak self] in
+            self?.viewModel.setCurrentIndex(indexPath.row)
+        }
     }
 }
 
