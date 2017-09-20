@@ -452,16 +452,19 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         
         navbarSearch.searchTextField?.rx.text.asObservable()
             .subscribeNext { [weak self] text in
-                guard let term = text else { return }
-                guard let charactersCount = text?.characters.count else { return }
-                if (charactersCount > 0) {
-                    self?.viewModel.retrieveSuggestiveSearches(term: term)
-                } else {
-                    self?.viewModel.cleanUpSuggestiveSearches()
-                }
+                self?.navBarSearchTextFieldUpdated(text: text ?? "")
         }.addDisposableTo(disposeBag)
         
         navbarSearch.searchTextField.rx.text.asObservable().bindTo(viewModel.searchText).addDisposableTo(disposeBag)
+    }
+    
+    func navBarSearchTextFieldUpdated(text: String) {
+        let charactersCount = text.characters.count
+        if charactersCount > 0 {
+            viewModel.retrieveSuggestiveSearches(term: text)
+        } else {
+            viewModel.cleanUpSuggestiveSearches()
+        }
     }
 }
 
@@ -528,6 +531,7 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
                                           forCellReuseIdentifier: SuggestionSearchCell.reusableID)
         suggestionsSearchesTable.rowHeight = UITableViewAutomaticDimension
         suggestionsSearchesTable.estimatedRowHeight = SuggestionSearchCell.estimatedHeight
+        suggestionsSearchesTable.backgroundColor = UIColor.white
 
         let topConstraint = NSLayoutConstraint(item: suggestionsSearchesContainer, attribute: .top, relatedBy: .equal,
                                                toItem: topLayoutGuide, attribute: .bottom, multiplier: 1.0, constant: 0)
@@ -654,23 +658,40 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
                                                  for: indexPath) as? SuggestionSearchCell else {
                                                     return UITableViewCell()
         }
+        let title: String
+        let titleSkipHighlight: String?
+        let subtitle: String?
+        let fillSearchButtonBlock: (() -> ())?
         switch sectionType {
         case .suggestive:
             guard let (suggestiveSearch, sourceText) = viewModel.suggestiveSearchAtIndex(indexPath.row) else {
                 return UITableViewCell()
             }
-            cell.suggestionText.attributedText = suggestiveSearch.name.makeBold(ignoringText: sourceText.lowercased(),
-                                                                                font: cell.suggestionText.font)
-            cell.categoryLabel.text = suggestiveSearch.category?.name
+            title = suggestiveSearch.name
+            titleSkipHighlight = sourceText
+            subtitle = suggestiveSearch.category?.name
+            fillSearchButtonBlock = { [weak self] in
+                self?.navbarSearch.searchTextField?.text = title
+                self?.viewModel.nesearchText.value = title
+                self?.navBarSearchTextFieldUpdated(text: title)
+            }
         case .lastSearch:
             guard let lastSearch = viewModel.lastSearchAtIndex(indexPath.row) else { return UITableViewCell() }
-            cell.suggestionText.text = lastSearch
-            cell.categoryLabel.text = nil
+            title = lastSearch
+            titleSkipHighlight = nil
+            subtitle = nil
+            fillSearchButtonBlock = nil
         case .trending:
             guard let trendingSearch = viewModel.trendingSearchAtIndex(indexPath.row) else { return UITableViewCell() }
-            cell.suggestionText.text = trendingSearch
-            cell.categoryLabel.text = nil
+            title = trendingSearch
+            titleSkipHighlight = nil
+            subtitle = nil
+            fillSearchButtonBlock = nil
         }
+        cell.set(title: title,
+                 titleSkipHighlight: titleSkipHighlight,
+                 subtitle: subtitle)
+        cell.fillSearchButtonBlock = fillSearchButtonBlock
         return cell
     }
 
