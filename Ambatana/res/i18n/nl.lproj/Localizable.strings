@@ -26,6 +26,7 @@
 "bump_up_pay_success" = "Geplaatst! Je item is nu extra zichtbaar.";
 "bump_up_processing_free_text" = "Bezig met het omhoog plaatsen...";
 "bump_up_processing_priced_text" = "Verwerken van betaling...";
+"bump_up_product_cell_chat_now_button" = "Chat Now";
 "bump_up_product_cell_featured_stripe" = "Aanbevolen";
 "bump_up_product_detail_featured_label" = "AANBEVOLEN";
 "bump_up_view_free_subtitle" = "Hoe vaker gedeeld, hoe meer zichtbaarheid jouw item zal hebben.";

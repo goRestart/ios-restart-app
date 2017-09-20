@@ -55,6 +55,11 @@ Deploys a new version to App Store
 fastlane ios strings
 ```
 Will update Web Translate It with the new validated strings from google drive, download all the changes from wti and generate all not-yet valid strings on base + localizables file
+### ios strings_clean
+```
+fastlane ios strings_clean
+```
+Updates strings with wti and cleans un-used ones, then removes the un-used keys from code
 ### ios bumper
 ```
 fastlane ios bumper

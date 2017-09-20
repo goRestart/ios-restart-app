@@ -14,7 +14,7 @@
 "block_user_error_generic" = "Kullanıcı engellenirken bir hata oluştu.";
 "bump_up_banner_free_button_title" = "Üste çıkar";
 "bump_up_banner_free_text" = "Daha hızlı satmak için üste çıkar";
-"bump_up_banner_pay_text" = "Daha hızlı sat ";
+"bump_up_banner_pay_text" = "Hemen sat";
 "bump_up_banner_pay_text_improvement" = "Hemen sat";
 "bump_up_banner_wait_text" = "tekrar öne çıkarmak için";
 "bump_up_error_bump_generic" = "Ürünün öne çıkarılırken bir hata oluştu. Lütfen tekrar dene.";
@@ -26,6 +26,7 @@
 "bump_up_pay_success" = "Öne çıkarıldı! Şimdi ürününü daha fazla kişi görebilir.";
 "bump_up_processing_free_text" = "Üste çıkarma işlemi gerçekleştiriliyor...";
 "bump_up_processing_priced_text" = "Ödeme işlemi gerçekleştiriliyor...";
+"bump_up_product_cell_chat_now_button" = "Chat Now";
 "bump_up_product_cell_featured_stripe" = "Öne çıkan";
 "bump_up_product_detail_featured_label" = "ÖNE ÇIKAN";
 "bump_up_view_free_subtitle" = "Ne kadar çok paylaşırsan ürününü o kadar fazla kişi görür.";

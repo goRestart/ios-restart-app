@@ -26,6 +26,7 @@
 "bump_up_pay_success" = "Nostettu näyteikkunalle! Nyt tuotteesi saa lisänäkyvyyttä.";
 "bump_up_processing_free_text" = "Käsitellään nostoa...";
 "bump_up_processing_priced_text" = "Käsitellään maksua...";
+"bump_up_product_cell_chat_now_button" = "Chat Now";
 "bump_up_product_cell_featured_stripe" = "Suositeltu";
 "bump_up_product_detail_featured_label" = "SUOSITELTU";
 "bump_up_view_free_subtitle" = "Mitä enemmän jaat, sitä enemmän näkyvyyttä tuotteesi saa.";
@@ -48,11 +49,11 @@
 "categories_inFeed_home" = "Koti";
 "categories_inFeed_motors" = "Ajoneuvot";
 "categories_inFeed_others" = "Muu";
-"categories_inFeed_real_estate" = "Housing";
+"categories_inFeed_real_estate" = "Asunnot";
 "categories_inFeed_sports_leisure_games" = "Vapaa-aika";
 "categories_movies_books_and_music" = "Elokuvat, kirjat ja musiikki";
 "categories_other" = "Muut";
-"categories_real_estate" = "Housing";
+"categories_real_estate" = "Asunnot";
 "categories_sports_leisure_and_games" = "Urheilu, vapaa-aika ja pelit";
 "categories_super_keywords_inFeed_show_more" = "Näytä enemmän";
 "categories_title" = "Kategoriat";
