@@ -11,8 +11,8 @@ import RxSwift
 
 protocol ListingCarouselCellDelegate: class {
     func didTapOnCarouselCell(_ cell: UICollectionViewCell)
-    func didLeftTapFirstImageOnCarouselCell(_ cell: UICollectionViewCell)
-    func didRightTapLastImageTapOnCarouselCell(_ cell: UICollectionViewCell)
+    //func didLeftTapFirstImageOnCarouselCell(_ cell: UICollectionViewCell)
+    //func didRightTapLastImageTapOnCarouselCell(_ cell: UICollectionViewCell)
     func isZooming(_ zooming: Bool)
     func didScrollToPage(_ page: Int)
     func didPullFromCellWith(_ offset: CGFloat, bottomLimit: CGFloat)
@@ -73,6 +73,7 @@ class ListingCarouselCell: UICollectionViewCell {
         collectionView.isDirectionalLockEnabled = true
         collectionView.register(ListingCarouselImageCell.self, forCellWithReuseIdentifier:
             ListingCarouselImageCell.identifier)
+        collectionView.isUserInteractionEnabled = false
     }
     
     func didSingleTap(_ sender: UITapGestureRecognizer) {
@@ -84,7 +85,7 @@ class ListingCarouselCell: UICollectionViewCell {
         guard pageSize > 0, numberOfImages > 0 else { return }
         let collectionContentOffset = collectionView.contentOffset.x - collectionView.width
         if collectionContentOffset < 0 {
-            delegate?.didLeftTapFirstImageOnCarouselCell(self)
+
         } else {
             collectionView.setContentOffset(CGPoint(x: collectionContentOffset, y: 0.0), animated: true)
         }
@@ -95,20 +96,10 @@ class ListingCarouselCell: UICollectionViewCell {
         guard pageSize > 0, numberOfImages > 0 else { return }
         let collectionContentOffset = collectionView.contentOffset.x + collectionView.width
         if collectionContentOffset >= collectionView.width*CGFloat(numberOfImages) {
-            delegate?.didRightTapLastImageTapOnCarouselCell(self)
+            //didRightTapLastImageTapOnCarouselCell(self)
         } else {
             collectionView.setContentOffset(CGPoint(x: collectionContentOffset, y: 0.0), animated: true)
         }
-//        if imageScrollDirection == .horizontal {
-//            verticalScrollCounter = verticalScrollCounter + scrollView.contentOffset.y
-//            collectionContentOffset = scrollView.contentOffset.x
-//            // in horizontal image scrolling, collection should not be able to move upwards.
-//            if verticalScrollCounter > 0 {
-//                scrollView.setContentOffset(CGPoint(x: scrollView.contentOffset.x, y: 0.0), animated: false)
-//            }
-//        } else {
-//            collectionContentOffset = scrollView.contentOffset.y
-//        }
     }
 
     func configureCellWith(cellModel: ListingCarouselCellModel, placeholderImage: UIImage?, indexPath: IndexPath,
@@ -186,16 +177,16 @@ extension ListingCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
                 }
             }
             
-            if imageHorizontalNavigation {
-                let leftTapFrameView = UIView(frame: CGRect(x: 0, y: 0, width: cell.width/4, height: cell.height))
-                let rightTapFrameView = UIView(frame: CGRect(x: cell.width/4, y: 0, width: cell.width*3/4 , height: cell.height))
-                let leftTap = UITapGestureRecognizer(target: self, action: #selector(didLeftTap))
-                let rightTap = UITapGestureRecognizer(target: self, action: #selector(didRightTap))
-                leftTapFrameView.addGestureRecognizer(leftTap)
-                rightTapFrameView.addGestureRecognizer(rightTap)
-                cell.addSubview(leftTapFrameView)
-                cell.addSubview(rightTapFrameView)
-            }
+//            if imageHorizontalNavigation {
+//                let leftTapFrameView = UIView(frame: CGRect(x: 0, y: 0, width: cell.width/4, height: cell.height))
+//                let rightTapFrameView = UIView(frame: CGRect(x: cell.width/4, y: 0, width: cell.width*3/4 , height: cell.height))
+//                let leftTap = UITapGestureRecognizer(target: self, action: #selector(didLeftTap))
+//                let rightTap = UITapGestureRecognizer(target: self, action: #selector(didRightTap))
+//                leftTapFrameView.addGestureRecognizer(leftTap)
+//                rightTapFrameView.addGestureRecognizer(rightTap)
+//                cell.addSubview(leftTapFrameView)
+//                cell.addSubview(rightTapFrameView)
+//            }
             
             return imageCell
     }

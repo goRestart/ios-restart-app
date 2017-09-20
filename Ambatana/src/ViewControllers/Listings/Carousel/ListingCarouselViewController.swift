@@ -285,6 +285,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         registerListingCarouselCells()
         collectionView.isDirectionalLockEnabled = true
         collectionView.alwaysBounceVertical = false
+        collectionView.alwaysBounceHorizontal = false
         automaticallyAdjustsScrollViewInsets = false
         
         customPageControl.backgroundColor = UIColor.clear
@@ -863,28 +864,6 @@ extension ListingCarouselViewController: ListingCarouselCellDelegate {
                                                     ListingCarouselViewController.defaultRubberBandOffset)
         }
     }
-    
-    func didLeftTapFirstImageOnCarouselCell(_ cell: UICollectionViewCell) {
-        let width = view.bounds.width
-        let midPoint = width/2
-        let index = Int((collectionContentOffset.value.x + width/2) / width) - 1
-        if index >= 0 {
-            collectionView.contentOffset.x -= collectionView.width
-            viewModel.moveToProductAtIndex(index, movement: .swipeLeft)
-        }
-    }
-    
-    func didRightTapLastImageTapOnCarouselCell(_ cell: UICollectionViewCell) {
-        let width = view.bounds.width
-        let midPoint = width/2
-        let index = Int((collectionContentOffset.value.x + width/2) / width) + 1
-        
-        collectionView.contentOffset.x += collectionView.width
-        viewModel.moveToProductAtIndex(index, movement: .swipeRight)
-        //collectionView.reloadData()
-        //finishedTransition()
-        //returnCellToFirstImage()
-    }
 
     func isZooming(_ zooming: Bool) {
         cellZooming.value = zooming
@@ -1096,6 +1075,16 @@ extension ListingCarouselViewController: UICollectionViewDataSource, UICollectio
                                            indexPath: indexPath, imageDownloader: carouselImageDownloader,
                                            imageHorizontalNavigation: viewModel.imageHorizontalNavigation)
             carouselCell.delegate = self
+            
+            let leftTapFrameView = UIView(frame: CGRect(x: 0, y: 0, width: cell.width/4, height: cell.height))
+            let rightTapFrameView = UIView(frame: CGRect(x: cell.width/4, y: 0, width: cell.width*3/4 , height: cell.height))
+            let leftTap = UITapGestureRecognizer(target: carouselCell, action: #selector(ListingCarouselCell.didLeftTap))
+            let rightTap = UITapGestureRecognizer(target: carouselCell, action: #selector(ListingCarouselCell.didRightTap))
+            leftTapFrameView.addGestureRecognizer(leftTap)
+            rightTapFrameView.addGestureRecognizer(rightTap)
+            cell.addSubview(leftTapFrameView)
+            cell.addSubview(rightTapFrameView)
+            
             return carouselCell
     }
 
