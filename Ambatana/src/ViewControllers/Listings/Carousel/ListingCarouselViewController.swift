@@ -863,6 +863,28 @@ extension ListingCarouselViewController: ListingCarouselCellDelegate {
                                                     ListingCarouselViewController.defaultRubberBandOffset)
         }
     }
+    
+    func didLeftTapFirstImageOnCarouselCell(_ cell: UICollectionViewCell) {
+        let width = view.bounds.width
+        let midPoint = width/2
+        let index = Int((collectionContentOffset.value.x + width/2) / width) - 1
+        if index >= 0 {
+            collectionView.contentOffset.x -= collectionView.width
+            viewModel.moveToProductAtIndex(index, movement: .swipeLeft)
+        }
+    }
+    
+    func didRightTapLastImageTapOnCarouselCell(_ cell: UICollectionViewCell) {
+        let width = view.bounds.width
+        let midPoint = width/2
+        let index = Int((collectionContentOffset.value.x + width/2) / width) + 1
+        
+        collectionView.contentOffset.x += collectionView.width
+        viewModel.moveToProductAtIndex(index, movement: .swipeRight)
+        //collectionView.reloadData()
+        //finishedTransition()
+        //returnCellToFirstImage()
+    }
 
     func isZooming(_ zooming: Bool) {
         cellZooming.value = zooming
@@ -1072,7 +1094,7 @@ extension ListingCarouselViewController: UICollectionViewDataSource, UICollectio
             guard let listingCellModel = viewModel.listingCellModelAt(index: indexPath.row) else { return carouselCell }
             carouselCell.configureCellWith(cellModel: listingCellModel, placeholderImage: viewModel.thumbnailAtIndex(indexPath.row),
                                            indexPath: indexPath, imageDownloader: carouselImageDownloader,
-                                           imageScrollDirection: viewModel.imageScrollDirection)
+                                           imageHorizontalNavigation: viewModel.imageHorizontalNavigation)
             carouselCell.delegate = self
             return carouselCell
     }

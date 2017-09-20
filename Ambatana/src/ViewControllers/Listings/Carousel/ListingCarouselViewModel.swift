@@ -106,11 +106,18 @@ class ListingCarouselViewModel: BaseViewModel {
         return shouldShowOldOnboarding || shouldShowNewOnboarding
     }
 
+    // !! Clean
     var imageScrollDirection: UICollectionViewScrollDirection {
         if featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive {
             return .horizontal
         }
         return .vertical
+    }
+    var imageHorizontalNavigation: Bool {
+        if featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive {
+            return true
+        }
+        return false
     }
 
     let horizontalImageNavigationEnabled = Variable<Bool>(false)
