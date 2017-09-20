@@ -18,7 +18,11 @@ class SuggestionSearchCell: UITableViewCell, ReusableCell {
     private var titleSubtitleSpacing: NSLayoutConstraint?
     private let fillSearchButton = UIButton()
     
-    var fillSearchButtonBlock: (() -> ())?
+    var fillSearchButtonBlock: (() -> ())? {
+        didSet {
+            fillSearchButton.isHidden = fillSearchButtonBlock == nil
+        }
+    }
     
     
     // MARK: - Lifecycle
@@ -30,7 +34,13 @@ class SuggestionSearchCell: UITableViewCell, ReusableCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
+        resetUI()
         setAccessibilityIds()
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        resetUI()
     }
     
     
@@ -45,12 +55,10 @@ class SuggestionSearchCell: UITableViewCell, ReusableCell {
         fillSearchButton.contentVerticalAlignment = .top
         fillSearchButton.setImage(#imageLiteral(resourceName: "ic_search_fill"), for: .normal)
         
-        titleLabel.text = nil
         titleLabel.textColor = UIColor.lgBlack
         titleLabel.font = UIFont.systemBoldFont(size: 21)
         
         titleLabel.numberOfLines = 1
-        subtitleLabel.text = nil
         subtitleLabel.textColor = UIColor.gray
         subtitleLabel.font = UIFont.systemFont(size: 15)
         subtitleLabel.numberOfLines = 1
@@ -99,6 +107,12 @@ class SuggestionSearchCell: UITableViewCell, ReusableCell {
         accessibilityId = .suggestionSearchCell
         titleLabel.accessibilityId = .suggestionSearchCellTitle
         subtitleLabel.accessibilityId = .suggestionSearchCellSubtitle
+    }
+    
+    private func resetUI() {
+        titleLabel.text = nil
+        subtitleLabel.text = nil
+        fillSearchButton.isHidden = true
     }
     
     dynamic private func fillSearchButtonPressed(sender: AnyObject) {
