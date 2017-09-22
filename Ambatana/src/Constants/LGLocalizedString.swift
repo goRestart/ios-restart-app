@@ -115,6 +115,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("bump_up_product_cell_featured_stripe", comment: "")
 	}
 
+	static var bumpUpProductCellChatNowButton: String {
+		return NSLocalizedString("bump_up_product_cell_chat_now_button", comment: "")
+	}
+
 	static var bumpUpProductDetailFeaturedLabel: String {
 		return NSLocalizedString("bump_up_product_detail_featured_label", comment: "")
 	}
