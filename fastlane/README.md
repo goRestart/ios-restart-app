@@ -60,6 +60,11 @@ Will update Web Translate It with the new validated strings from google drive, d
 fastlane ios strings_clean
 ```
 Updates strings with wti and cleans un-used ones, then removes the un-used keys from code
+### ios assets_clean
+```
+fastlane ios assets_clean
+```
+Clean un-used assets
 ### ios bumper
 ```
 fastlane ios bumper
