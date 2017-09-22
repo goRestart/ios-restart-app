@@ -818,6 +818,7 @@ extension MainListingsViewModel {
         }
         
         if shouldUpdate {
+            infoBubbleText.value = defaultBubbleText
             listViewModel.retrieveListings()
         }
 
