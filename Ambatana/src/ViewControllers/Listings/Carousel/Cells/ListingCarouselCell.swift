@@ -11,8 +11,8 @@ import RxSwift
 
 protocol ListingCarouselCellDelegate: class {
     func didTapOnCarouselCell(_ cell: UICollectionViewCell)
-    //func didLeftTapFirstImageOnCarouselCell(_ cell: UICollectionViewCell)
-    //func didRightTapLastImageTapOnCarouselCell(_ cell: UICollectionViewCell)
+    func didLeftTapFirstImageOnCarouselCell(_ cell: UICollectionViewCell)
+    func didRightTapLastImageTapOnCarouselCell(_ cell: UICollectionViewCell)
     func isZooming(_ zooming: Bool)
     func didScrollToPage(_ page: Int)
     func didPullFromCellWith(_ offset: CGFloat, bottomLimit: CGFloat)
@@ -85,7 +85,7 @@ class ListingCarouselCell: UICollectionViewCell {
         guard pageSize > 0, numberOfImages > 0 else { return }
         let collectionContentOffset = collectionView.contentOffset.x - collectionView.width
         if collectionContentOffset < 0 {
-
+            delegate?.didLeftTapFirstImageOnCarouselCell(self)
         } else {
             collectionView.setContentOffset(CGPoint(x: collectionContentOffset, y: 0.0), animated: true)
         }
@@ -96,7 +96,7 @@ class ListingCarouselCell: UICollectionViewCell {
         guard pageSize > 0, numberOfImages > 0 else { return }
         let collectionContentOffset = collectionView.contentOffset.x + collectionView.width
         if collectionContentOffset >= collectionView.width*CGFloat(numberOfImages) {
-            //didRightTapLastImageTapOnCarouselCell(self)
+            delegate?.didRightTapLastImageTapOnCarouselCell(self)
         } else {
             collectionView.setContentOffset(CGPoint(x: collectionContentOffset, y: 0.0), animated: true)
         }

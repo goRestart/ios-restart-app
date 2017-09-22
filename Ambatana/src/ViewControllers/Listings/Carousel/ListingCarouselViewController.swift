@@ -838,7 +838,7 @@ extension ListingCarouselViewController: UserViewDelegate {
 }
 
 
-// MARK: > ProductCarousel Cell Delegate
+// MARK: > ListingCarousel Cell Delegate
 
 extension ListingCarouselViewController: ListingCarouselCellDelegate {
 
@@ -901,6 +901,22 @@ extension ListingCarouselViewController: ListingCarouselCellDelegate {
     
     func canScrollToNextPage() -> Bool {
         return moreInfoState.value == .hidden
+    }
+    
+    func didLeftTapFirstImageOnCarouselCell(_ cell: UICollectionViewCell) {
+        var contentOffset = collectionContentOffset.value
+        contentOffset.x -= collectionView.width
+        if contentOffset.x >= 0 {
+            collectionView.setContentOffset(contentOffset, animated: true)
+            collectionContentOffset.value = contentOffset
+        }
+    }
+    
+    func didRightTapLastImageTapOnCarouselCell(_ cell: UICollectionViewCell) {
+        var contentOffset = collectionContentOffset.value
+        contentOffset.x += collectionView.width
+        collectionView.setContentOffset(contentOffset, animated: true)
+        collectionContentOffset.value = contentOffset
     }
 }
 
