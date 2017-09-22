@@ -267,6 +267,17 @@ platform :ios do
     )
   end
 
+  desc "Updates strings with wti and cleans un-used ones, then removes the un-used keys from code"
+  lane :strings_clean do
+    lg_strings(
+      repository_path: "./",
+      remove_unused_strings: true
+    )
+    lg_strings(
+      repository_path: "./"
+    )
+  end
+
   desc "Will generate BumperFlags.switf based on the sources json"
   lane :bumper do
     lg_bumper(

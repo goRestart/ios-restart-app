@@ -8,30 +8,19 @@
 
 import LGCoreKit
 
-enum NotificationDataType {
-    case listingFavorite(listing: NotificationListing, user: NotificationUser)
-    case listingSold(listingImage: String?)
-    case rating(user: NotificationUser)
-    case ratingUpdated(user: NotificationUser)
-    case buyersInterested(listing: NotificationListing, buyers: [NotificationUser])
-    case listingSuggested(listing: NotificationListing, seller: NotificationUser)
-    case facebookFriendshipCreated(user: NotificationUser, facebookUsername: String)
-    case modular(modules: NotificationModular, delegate: ModularNotificationCellDelegate?)
-}
-
 struct NotificationData {
     let id: String?
-    let type: NotificationDataType
+    let modules: NotificationModular
     let date: Date
     let isRead: Bool
     let campaignType: String?
     var primaryAction: (() -> Void)?
     let primaryActionCompleted: Bool?
 
-    init(id: String?, type: NotificationDataType, date: Date, isRead: Bool, campaignType: String?,
+    init(id: String?, modules: NotificationModular, date: Date, isRead: Bool, campaignType: String?,
          primaryAction: (() -> Void)?, primaryActionCompleted: Bool? = nil) {
         self.id = id
-        self.type = type
+        self.modules = modules
         self.date = date
         self.isRead = isRead
         self.campaignType = campaignType

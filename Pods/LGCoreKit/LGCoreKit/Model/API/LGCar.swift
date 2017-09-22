@@ -42,17 +42,12 @@ struct LGCar: Car {
     
     let carAttributes: CarAttributes
     
-    // This parameters is not included in the API, we set a default value that must be changed if needed once
-    // the object is created after the decoding.
-    var favorite: Bool = false
-    
     init(car: Car) {
         self.init(objectId: car.objectId, updatedAt: car.updatedAt, createdAt: car.createdAt, name: car.name,
                   nameAuto: car.nameAuto, descr: car.descr, price: car.price, currency: car.currency,
                   location: car.location, postalAddress: car.postalAddress, languageCode: car.languageCode,
                   category: car.category, status: car.status, thumbnail: car.thumbnail, thumbnailSize: car.thumbnailSize,
                   images: car.images, user: car.user, featured: car.featured, carAttributes: car.carAttributes)
-        self.favorite = car.favorite
     }
     
     init(objectId: String?, updatedAt: Date?, createdAt: Date?, name: String?, nameAuto: String?, descr: String?,
@@ -77,7 +72,6 @@ struct LGCar: Car {
         self.images = images
         self.user = user
         self.featured = featured ?? false
-        self.favorite = false
         self.carAttributes = carAttributes ?? CarAttributes.emptyCarAttributes()
     }
     

@@ -11,6 +11,32 @@ import StoreKit
 import AdSupport
 import AppsFlyerLib
 
+enum BumpFailedErrorCode {
+    case receiptInvalid
+    case paymentAlreadyProcessed
+    case notUsersFault
+
+    init(code: Int) {
+        switch code {
+        case 400:
+            self = .receiptInvalid
+        case 409:
+            self = .paymentAlreadyProcessed
+        default:
+            self = .notUsersFault
+        }
+    }
+
+    var isUsersFault: Bool {
+        switch self {
+        case .notUsersFault:
+            return false
+        case .paymentAlreadyProcessed, .receiptInvalid:
+            return true
+        }
+    }
+}
+
 enum PurchasesShopperState {
     case restoring
     case purchasing
@@ -25,7 +51,7 @@ protocol PurchasesShopperDelegate: class {
 
     func pricedBumpDidStart()
     func paymentDidSucceed(paymentId: String)
-    func pricedBumpDidSucceed(type: BumpUpType)
+    func pricedBumpDidSucceed(type: BumpUpType, restoreRetriesCount: Int)
     func pricedBumpDidFail(type: BumpUpType)
     func pricedBumpPaymentDidFail(withReason reason: String?)
 
@@ -37,8 +63,9 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
     static let sharedInstance: PurchasesShopper = LGPurchasesShopper()
 
     fileprivate var receiptString: String? {
-        guard let receiptUrl = receiptURLProvider.appStoreReceiptURL else { return nil }
-        guard let receiptData = try? Data(contentsOf: receiptUrl) else { return nil }
+        guard let receiptUrl = receiptURLProvider.appStoreReceiptURL,
+            let receiptData = try? Data(contentsOf: receiptUrl)
+            else { return nil }
         return receiptData.base64EncodedString()
     }
 
@@ -48,14 +75,14 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
 
     var purchasesShopperState: PurchasesShopperState = .restoring
 
-    fileprivate(set) var currentRequestProductId: String?
+    fileprivate(set) var currentRequestListingId: String?
     private var productsRequest: PurchaseableProductsRequest
 
     private var requestFactory: PurchaseableProductsRequestFactory
     private var monetizationRepository: MonetizationRepository
     private var myUserRepository: MyUserRepository
     private var installationRepository: InstallationRepository
-    fileprivate let keyValueStorage: KeyValueStorage
+    fileprivate let keyValueStorage: KeyValueStorageable
     private var receiptURLProvider: ReceiptURLProvider
     fileprivate var paymentQueue: PaymentEnqueuable
     fileprivate var appstoreProductsCache: [String : SKProduct] = [:]
@@ -68,7 +95,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
     }
 
     var letgoProductsDict: [String : [SKProduct]] = [:]
-    var paymentProcessingProductId: String?
+    var paymentProcessingListingId: String?
     var paymentProcessingPaymentId: String?
 
     override convenience init() {
@@ -98,7 +125,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
          monetizationRepository: MonetizationRepository,
          myUserRepository: MyUserRepository,
          installationRepository: InstallationRepository,
-         keyValueStorage: KeyValueStorage,
+         keyValueStorage: KeyValueStorageable,
          paymentQueue: PaymentEnqueuable,
          receiptURLProvider: ReceiptURLProvider) {
         self.monetizationRepository = monetizationRepository
@@ -136,13 +163,28 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
     }
 
     /**
+     Restore the failed paid bumps (payment was made, but bump failed)
+     */
+    func restoreFailedBumps() {
+        let failedBumps = keyValueStorage.userFailedBumpsInfo
+
+        for (listingId, bumpInfo) in failedBumps {
+            guard let bumpDict = bumpInfo as? [String:String?],
+                let bump = FailedBumpInfo(dictionary: bumpDict)
+                else { continue }
+
+            requestBumpWithPaymentInfo(listingId: listingId, transaction: nil, type: .restore, currentBump: bump)
+        }
+    }
+
+    /**
     Checks purchases available on appstore
 
-     - parameter productId: ID of the listing for wich will request the appstore products
+     - parameter listingId: ID of the listing for wich will request the appstore products
      - parameter ids: array of ids of the appstore products
      */
     func productsRequestStartForListing(_ listingId: String, withIds ids: [String]) {
-        guard listingId != currentRequestProductId, canMakePayments else { return }
+        guard listingId != currentRequestListingId, canMakePayments else { return }
 
         // check cached products
         let alreadyChosenProducts = appstoreProductsCache.filter(keys: ids).map { $0.value }
@@ -154,20 +196,28 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         }
 
         productsRequest.cancel()
-        currentRequestProductId = listingId
+        currentRequestListingId = listingId
         productsRequest = requestFactory.generatePurchaseableProductsRequest(ids)
         productsRequest.delegate = self
         productsRequest.start()
     }
 
     /**
-     Checks if the product has a bump up pending
+     Checks if the listing has a bump up pending
      */
     func isBumpUpPending(forListingId listingId: String) -> Bool {
-        let transactionsDict = keyValueStorage.userPendingTransactionsProductIds
+        let failedBumpsDict = keyValueStorage.userFailedBumpsInfo
 
-        let matchingProductIds = transactionsDict.filter { $0.value == listingId }
-        return matchingProductIds.count > 0 && numPendingTransactions > 0
+        guard let bumpDict = failedBumpsDict[listingId],
+            let bump = FailedBumpInfo(dictionary: bumpDict) else { return false }
+
+        if bump.numRetries <= Constants.maxRetriesForBumpUpRestore {
+            return true
+        } else {
+            removeFromUserDefaults(transactionId: bump.transactionId)
+            removeFromUserDefaultsBumpUpWithListingId(listingId: listingId)
+            return false
+        }
     }
 
     /**
@@ -177,12 +227,13 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         guard canMakePayments else { return }
         purchasesShopperState = .purchasing
         guard let appstoreProducts = letgoProductsDict[listingId],
-              let appstoreChosenProduct = appstoreProduct as? SKProduct else { return }
-        guard appstoreProducts.contains(appstoreChosenProduct) else { return }
+            let appstoreChosenProduct = appstoreProduct as? SKProduct,
+            appstoreProducts.contains(appstoreChosenProduct)
+            else { return }
 
         delegate?.pricedBumpDidStart()
 
-        paymentProcessingProductId = listingId
+        paymentProcessingListingId = listingId
         paymentProcessingPaymentId = paymentItemId
         
         // request payment to appstore with "appstoreChosenProduct"
@@ -206,42 +257,48 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
             }
         }
     }
+    
 
     /**
      Method to request bumps already paid.  Transaction info is saved at keyValueStorage and in the payments queue
      */
     func restorePaidBumpUp(forListingId listingId: String) {
         guard canMakePayments else { return }
-        guard let receiptString = receiptString else { return }
 
-        let transactionsDict = keyValueStorage.userPendingTransactionsProductIds
-
-        // get the product pending transaction ids saved in keyValueStorage
-        let productPendingTransactionIds : [String] = transactionsDict.filter { $0.value == listingId }.map { $0.key }
+        guard let bump = failedBumpInfoFor(listingId: listingId),
+            let bumpTransactionId = bump.transactionId
+            else { return }
 
         let pendingTransactions = paymentQueue.transactions
-        guard productPendingTransactionIds.count > 0, pendingTransactions.count > 0 else { return }
-
-        // get the pending SKPaymentTransactions of the product
-        let pendingTransactionsForProductId = pendingTransactions.filter { transaction -> Bool in
+        // get the pending SKPaymentTransactions of the listing
+        let pendingTransactionsForListingId = pendingTransactions.filter { transaction -> Bool in
             guard let transactionId = transaction.transactionIdentifier else { return false }
-            return productPendingTransactionIds.contains(transactionId)
+            return bumpTransactionId == transactionId
         }
 
-        // try to restore the product pending bumps
+        // try to restore the listing pending bumps
         delegate?.restoreBumpDidStart()
 
-        for transaction in pendingTransactionsForProductId {
-            requestPricedBumpUp(forListingId: listingId, receiptData: receiptString, transaction: transaction, type: .restore)
+
+        if pendingTransactionsForListingId.count > 0 {
+            // listing id still has SKPaymentTransactions in the paymentQueue
+            // we need to pass the transaction to finish it in case
+            for transaction in pendingTransactionsForListingId {
+                requestBumpWithPaymentInfo(listingId: listingId, transaction: transaction, type: .restore, currentBump: bump)
+            }
+        } else {
+            // listing id doesn't have SKPaymentTransactions in the paymentQueue
+            requestBumpWithPaymentInfo(listingId: listingId, transaction: nil, type: .restore, currentBump: bump)
         }
     }
 
     /**
-     Notify letgo API of the purchase
+     User paid successfully, notify letgo API of the purchase.
 
      - parameter listingId: letgo listing Id
      - parameter receiptData: post payment apple's receipt data
-     - transaction: the app store transaction info
+     - parameter transaction: the app store transaction info
+     - parameter type: the type of bump
      */
     fileprivate func requestPricedBumpUp(forListingId listingId: String, receiptData: String, transaction: SKPaymentTransaction, type: BumpUpType) {
 
@@ -261,17 +318,139 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
 
         let paymentId = UUID().uuidString.lowercased()
         delegate?.paymentDidSucceed(paymentId: paymentId)
-        monetizationRepository.pricedBump(forListingId: listingId, paymentId: paymentId, receiptData: receiptData,
-                                          itemId: transaction.payment.productIdentifier, itemPrice: price ?? "0",
-                                          itemCurrency: currency ?? "", amplitudeId: amplitudeId, appsflyerId: appsflyerId,
-                                          idfa: idfa, bundleId: bundleId) { [weak self] result in
-            if let _ = result.value {
-                self?.remove(transaction: transaction.transactionIdentifier)
-                self?.paymentQueue.finishTransaction(transaction)
-                self?.delegate?.pricedBumpDidSucceed(type: type)
-            } else if let _ = result.error {
-                self?.delegate?.pricedBumpDidFail(type: type)
+
+        let bump = FailedBumpInfo(listingId: listingId, transactionId: transaction.transactionIdentifier,
+                                     paymentId: paymentId, receiptData: receiptData, itemId: transaction.payment.productIdentifier,
+                                     itemPrice: price ?? "0", itemCurrency: currency ?? "", amplitudeId: amplitudeId,
+                                     appsflyerId: appsflyerId, idfa: idfa, bundleId: bundleId, numRetries: 0)
+
+        requestBumpWithPaymentInfo(listingId: listingId, transaction: transaction, type: type, currentBump: bump)
+    }
+
+    /**
+     Request a bump to letgo API of the purchase.  We pass all the info needed to validate & track the payment.
+     Can come from a 1st purchase or from a restore.
+
+     - parameter listingId: letgo listing Id
+     - parameter paymentId: unique id for the payment. Generated in the app
+     - parameter receiptData: post payment apple's receipt data
+     - parameter transaction: the app store transaction info
+     - parameter itemPrice: price of the bump (used for revenue calc on BE)
+     - parameter itemCurrency: currency of the bump (used for revenue calc on BE)
+     - parameter amplitudeId: letgo listing Id (used for tracking in BE)
+     - parameter appsflyerId: letgo listing Id (used for tracking in BE)
+     - parameter idfa: letgo listing Id (used for tracking in BE)
+     - parameter bundleId: the app bundle Id (used for tracking in BE)
+     - parameter type: the type of bump
+     */
+    private func requestBumpWithPaymentInfo(listingId: String, transaction: SKPaymentTransaction?,
+                                            type: BumpUpType, currentBump: FailedBumpInfo) {
+
+        guard currentBump.numRetries < Constants.maxRetriesForBumpUpRestore  else {
+            removeFromUserDefaults(transactionId: currentBump.transactionId)
+            removeFromUserDefaultsBumpUpWithListingId(listingId: listingId)
+            return
+        }
+
+        var bump = currentBump
+        let retryCount: Int
+        switch type {
+        case .priced:
+            retryCount = Constants.maxRetriesForFirstTimeBumpUp
+        case .restore:
+            retryCount = 1
+            // increment the num of restore retries made at launch
+            bump = bump.updatingNumRetries(newNumRetries: bump.numRetries+1)
+        case .hidden, .free:
+            // unlikely to happen
+            retryCount = 1
+        }
+
+        recursiveRequestBumpWithPaymentInfo(listingId: listingId, transaction: transaction, type: type, currentBump: bump,
+                                            retryCount: retryCount, previousResult: nil) { [weak self] result in
+
+                                                if let _ = result.value {
+                                                    self?.finishTransaction(transaction: transaction,
+                                                                            forListingId: listingId,
+                                                                            withBumpUpInfo: bump)
+                                                    self?.delegate?.pricedBumpDidSucceed(type: type,
+                                                                                         restoreRetriesCount: bump.numRetries)
+                                                } else if let error = result.error {
+                                                    switch error {
+                                                    case .serverError(code: let code):
+                                                        if let code = code {
+                                                            let bumpError = BumpFailedErrorCode(code: code)
+                                                            if !bumpError.isUsersFault {
+                                                                self?.saveToUserDefaults(bumpUp: bump)
+                                                            } else {
+                                                                self?.finishTransaction(transaction: transaction,
+                                                                                        forListingId: listingId,
+                                                                                        withBumpUpInfo: bump)
+                                                            }
+                                                        }
+                                                    case .forbidden, .internalError, .network, .notFound, .tooManyRequests,
+                                                         .unauthorized, .userNotVerified, .wsChatError:
+                                                        self?.saveToUserDefaults(bumpUp: bump)
+                                                    }
+                                                    self?.delegate?.pricedBumpDidFail(type: type)
+                                                }
+        }
+    }
+
+    private func recursiveRequestBumpWithPaymentInfo(listingId: String, transaction: SKPaymentTransaction?, type: BumpUpType,
+                                                     currentBump: FailedBumpInfo, retryCount: Int, previousResult: BumpResult?,
+                                                     completion: BumpCompletion?) {
+
+        if let value = previousResult?.value {
+            completion?(BumpResult(value: value))
+        } else {
+            if retryCount <= 0 {
+                if let error = previousResult?.error {
+                    completion?(BumpResult(error: error))
+                } else {
+                    completion?(BumpResult(error: .internalError(message: "Bump exceeded number of retries with unknown result")))
+                }
+            } else {
+
+                monetizationRepository.pricedBump(forListingId: listingId, paymentId: currentBump.paymentId, receiptData: currentBump.receiptData,
+                                                  itemId: transaction?.payment.productIdentifier ?? currentBump.itemId,
+                                                  itemPrice: currentBump.itemPrice, itemCurrency: currentBump.itemCurrency,
+                                                  amplitudeId: currentBump.amplitudeId, appsflyerId: currentBump.appsflyerId,
+                                                  idfa: currentBump.idfa, bundleId: currentBump.bundleId) { [weak self] result in
+
+                                                    if let value = result.value {
+                                                        completion?(BumpResult(value: value))
+                                                    } else if let error = result.error {
+                                                        switch error {
+                                                        case .serverError(code: let code):
+                                                            if let code = code {
+                                                                let bumpError = BumpFailedErrorCode(code: code)
+                                                                if !bumpError.isUsersFault {
+                                                                    self?.recursiveRequestBumpWithPaymentInfo(listingId: listingId,
+                                                                                                              transaction: transaction,
+                                                                                                              type: type,
+                                                                                                              currentBump: currentBump,
+                                                                                                              retryCount: retryCount - 1,
+                                                                                                              previousResult: result,
+                                                                                                              completion: completion)
+                                                                } else {
+                                                                    completion?(BumpResult(error: error))
+                                                                }
+                                                            }
+                                                        case .forbidden, .internalError, .network, .notFound, .tooManyRequests,
+                                                             .unauthorized, .userNotVerified, .wsChatError:
+                                                            self?.recursiveRequestBumpWithPaymentInfo(listingId: listingId,
+                                                                                                      transaction: transaction,
+                                                                                                      type: type,
+                                                                                                      currentBump: currentBump,
+                                                                                                      retryCount: retryCount - 1,
+                                                                                                      previousResult: result,
+                                                                                                      completion: completion)
+                                                        }
+                                                    }
+                }
             }
+            
         }
     }
 
@@ -279,7 +458,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         // Payments queue cleaning
         let savedTransactions = paymentQueue.transactions
         let savedTransactionIds = savedTransactions.flatMap { $0.transactionIdentifier }
-        let savedTransactionsDict = keyValueStorage.userPendingTransactionsProductIds.filter(keys: savedTransactionIds)
+        let savedTransactionsDict = keyValueStorage.userPendingTransactionsListingIds.filter(keys: savedTransactionIds)
 
         for transaction in savedTransactions {
 
@@ -291,11 +470,11 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
             }
         }
 
-        // with clean payments queue, we do "keyValueStorage.userPendingTransactionsProductIds" cleaning
+        // with clean payments queue, we do "keyValueStorage.userPendingTransactionsListingIds" cleaning
         let cleanTransactions = paymentQueue.transactions
         let cleanTransactionIds = cleanTransactions.flatMap { $0.transactionIdentifier }
         let cleanTransactionsDict = savedTransactionsDict.filter(keys: cleanTransactionIds)
-        keyValueStorage.userPendingTransactionsProductIds = cleanTransactionsDict
+        keyValueStorage.userPendingTransactionsListingIds = cleanTransactionsDict
     }
 }
 
@@ -305,7 +484,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
 extension LGPurchasesShopper: PurchaseableProductsRequestDelegate {
     func productsRequest(_ request: PurchaseableProductsRequest, didReceiveResponse response: PurchaseableProductsResponse) {
 
-        guard let currentRequestProductId = currentRequestProductId else { return }
+        guard let currentRequestListingId = currentRequestListingId else { return }
 
         let invalidIds = response.invalidProductIdentifiers
         if !invalidIds.isEmpty {
@@ -321,14 +500,14 @@ extension LGPurchasesShopper: PurchaseableProductsRequestDelegate {
         appstoreProducts.forEach { product in
             appstoreProductsCache[product.productIdentifier] = product
         }
-        letgoProductsDict[currentRequestProductId] = appstoreProducts
-        delegate?.shopperFinishedProductsRequestForListingId(currentRequestProductId, withProducts: response.purchaseableProducts)
-        self.currentRequestProductId = nil
+        letgoProductsDict[currentRequestListingId] = appstoreProducts
+        delegate?.shopperFinishedProductsRequestForListingId(currentRequestListingId, withProducts: response.purchaseableProducts)
+        self.currentRequestListingId = nil
     }
 
     func productsRequest(_ request: PurchaseableProductsRequest, didFailWithError error: Error) {
         // noo need to update any UI, we just don't show the banner
-        self.currentRequestProductId = nil
+        self.currentRequestListingId = nil
         logMessage(.info, type: [.monetization], message: "Products request failed with error: \(error)")
     }
 }
@@ -352,8 +531,8 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
         for transaction in transactions {
             switch transaction.transactionState {
             case .purchasing:
-                // this avoids duplicated transactions for a product
-                remove(transaction: transaction.transactionIdentifier)
+                // this avoids duplicated transactions for a listing
+                removeFromUserDefaults(transactionId: transaction.transactionIdentifier)
             case .deferred, .restored:
                 /*
                  those status will never happen:
@@ -363,14 +542,14 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
                 continue
             case .purchased:
                 purchasesShopperState = .restoring
-                save(transaction: transaction, forProduct: paymentProcessingProductId)
+                saveToUserDefaults(transaction: transaction, forListing: paymentProcessingListingId)
 
-                guard let receiptString = receiptString, let paymentProcessingProductId = paymentProcessingProductId else {
+                guard let receiptString = receiptString, let paymentProcessingListingId = paymentProcessingListingId else {
                     delegate?.pricedBumpDidFail(type: .priced)
                     continue
                 }
 
-                requestPricedBumpUp(forListingId: paymentProcessingProductId, receiptData: receiptString,
+                requestPricedBumpUp(forListingId: paymentProcessingListingId, receiptData: receiptString,
                                     transaction: transaction, type: .priced)
             case .failed:
                 delegate?.pricedBumpPaymentDidFail(withReason: transaction.error?.localizedDescription)
@@ -387,15 +566,15 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
             case .purchasing, .deferred:
                 continue
             case .purchased, .restored:
-                let transactionProductId = productIdFor(transaction: transaction) ?? paymentProcessingProductId
+                let transactionListingId = listingIdFor(transaction: transaction) ?? paymentProcessingListingId
 
-                guard let productId = transactionProductId, let receiptString = receiptString else {
-                    remove(transaction: transaction.transactionIdentifier)
+                guard let listingId = transactionListingId, let receiptString = receiptString else {
+                    removeFromUserDefaults(transactionId: transaction.transactionIdentifier)
                     queue.finishTransaction(transaction)
                     delegate?.pricedBumpDidFail(type: .priced)
                     continue
                 }
-                requestPricedBumpUp(forListingId: productId, receiptData: receiptString,
+                requestPricedBumpUp(forListingId: listingId, receiptData: receiptString,
                                               transaction: transaction, type: .priced)
             case .failed:
                 delegate?.pricedBumpPaymentDidFail(withReason: transaction.error?.localizedDescription)
@@ -405,27 +584,60 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
         }
     }
 
-    fileprivate func save(transaction: SKPaymentTransaction, forProduct productId: String?) {
-        guard let transactionId = transaction.transactionIdentifier, let productId = productId else { return }
+    fileprivate func saveToUserDefaults(transaction: SKPaymentTransaction, forListing listingId: String?) {
+        guard let transactionId = transaction.transactionIdentifier, let listingId = listingId else { return }
 
-        var transactionsDict = keyValueStorage.userPendingTransactionsProductIds
+        var transactionsDict = keyValueStorage.userPendingTransactionsListingIds
         let alreadySaved = transactionsDict.filter { $0.key == transactionId }.count > 0
 
         if !alreadySaved {
-            transactionsDict[transactionId] = productId
-            keyValueStorage.userPendingTransactionsProductIds = transactionsDict
+            transactionsDict[transactionId] = listingId
+            keyValueStorage.userPendingTransactionsListingIds = transactionsDict
         }
     }
 
-    fileprivate func productIdFor(transaction: SKPaymentTransaction) -> String? {
+    fileprivate func listingIdFor(transaction: SKPaymentTransaction) -> String? {
         guard let transactionId = transaction.transactionIdentifier else { return nil }
-        return keyValueStorage.userPendingTransactionsProductIds[transactionId]
+        return keyValueStorage.userPendingTransactionsListingIds[transactionId]
     }
 
-    fileprivate func remove(transaction transactionId: String?) {
+    fileprivate func removeFromUserDefaults(transactionId: String?) {
+        // remove transaction ids (apple's restore)
         guard let transactionId = transactionId else { return }
-        var transactionsDict = keyValueStorage.userPendingTransactionsProductIds
+        var transactionsDict = keyValueStorage.userPendingTransactionsListingIds
         transactionsDict.removeValue(forKey: transactionId)
-        keyValueStorage.userPendingTransactionsProductIds = transactionsDict
+        keyValueStorage.userPendingTransactionsListingIds = transactionsDict
+    }
+
+    fileprivate func saveToUserDefaults(bumpUp bumpInfo: FailedBumpInfo?) {
+        guard let bumpInfo = bumpInfo else { return }
+
+        var failedBumpsDict = keyValueStorage.userFailedBumpsInfo
+        failedBumpsDict[bumpInfo.listingId] = bumpInfo.dictionaryValue()
+        keyValueStorage.userFailedBumpsInfo = failedBumpsDict
+    }
+
+    fileprivate func failedBumpInfoFor(listingId: String) -> FailedBumpInfo? {
+        print(keyValueStorage)
+        print(keyValueStorage.userFailedBumpsInfo)
+        guard let dictionary = keyValueStorage.userFailedBumpsInfo[listingId] else { return nil }
+        return FailedBumpInfo(dictionary: dictionary)
+    }
+
+    fileprivate func removeFromUserDefaultsBumpUpWithListingId(listingId: String) {
+        // remove failed bump ups info (letgo's restore)
+        var userFailedBumpsDict = keyValueStorage.userFailedBumpsInfo
+        userFailedBumpsDict.removeValue(forKey: listingId)
+        keyValueStorage.userFailedBumpsInfo = userFailedBumpsDict
+    }
+
+    fileprivate func finishTransaction(transaction: SKPaymentTransaction?,
+                                       forListingId listingId: String,
+                                       withBumpUpInfo bump: FailedBumpInfo) {
+        removeFromUserDefaults(transactionId: transaction?.transactionIdentifier ?? bump.transactionId)
+        removeFromUserDefaultsBumpUpWithListingId(listingId: listingId)
+        if let transaction = transaction {
+            paymentQueue.finishTransaction(transaction)
+        }
     }
 }

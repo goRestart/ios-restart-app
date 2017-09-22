@@ -40,10 +40,6 @@ struct LGProduct: Product {
 
     let featured: Bool?
 
-    // This parameters is not included in the API, we set a default value that must be changed if needed once 
-    // the object is created after the decoding.
-    var favorite: Bool = false
-
     init(product: Product) {
         self.init(objectId: product.objectId, updatedAt: product.updatedAt, createdAt: product.createdAt,
                   name: product.name, nameAuto: product.nameAuto, descr: product.descr, price: product.price,
@@ -51,7 +47,6 @@ struct LGProduct: Product {
                   languageCode: product.languageCode, category: product.category, status: product.status,
                   thumbnail: product.thumbnail, thumbnailSize: product.thumbnailSize,
                   images: product.images, user: product.user, featured: product.featured)
-        self.favorite = product.favorite
     }
 
     init(objectId: String?, updatedAt: Date?, createdAt: Date?, name: String?, nameAuto: String?, descr: String?,
@@ -76,7 +71,6 @@ struct LGProduct: Product {
         self.images = images
         self.user = user
         self.featured = featured ?? false
-        self.favorite = false
     }
     
     init(chatListing: ChatListing, chatInterlocutor: ChatInterlocutor) {
