@@ -26,6 +26,7 @@
 "bump_up_pay_success" = "Promosso! Adesso il tuo articolo gode di una maggiore visibilità.";
 "bump_up_processing_free_text" = "Elaborazione promozione...";
 "bump_up_processing_priced_text" = "Elaborazione pagamento...";
+"bump_up_product_cell_chat_now_button" = "Chat Now";
 "bump_up_product_cell_featured_stripe" = "In evidenza";
 "bump_up_product_detail_featured_label" = "IN EVIDENZA";
 "bump_up_view_free_subtitle" = "Più condivisioni corrispondono a una maggiore visibilità per il tuo annuncio.";
@@ -48,11 +49,11 @@
 "categories_inFeed_home" = "Casa";
 "categories_inFeed_motors" = "Motori";
 "categories_inFeed_others" = "Altro";
-"categories_inFeed_real_estate" = "Housing";
+"categories_inFeed_real_estate" = "Alloggi";
 "categories_inFeed_sports_leisure_games" = "tempo libero";
 "categories_movies_books_and_music" = "Film, Libri e Musica";
 "categories_other" = "Altro";
-"categories_real_estate" = "Housing";
+"categories_real_estate" = "Alloggi";
 "categories_sports_leisure_and_games" = "Sport, Tempo libero e Giochi";
 "categories_super_keywords_inFeed_show_more" = "Mostra Altro";
 "categories_title" = "Categorie";

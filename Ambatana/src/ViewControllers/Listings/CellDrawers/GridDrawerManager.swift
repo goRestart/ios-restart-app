@@ -11,12 +11,12 @@ import UIKit
 import LGCoreKit
 
 enum CellStyle {
-    case small, big
+    case mainList, relatedListings
 }
 
 class GridDrawerManager {
 
-    var cellStyle: CellStyle = .small
+    var cellStyle: CellStyle = .mainList
     var freePostingAllowed: Bool = true
     
     private let listingDrawer = ListingCellDrawer()
@@ -24,7 +24,12 @@ class GridDrawerManager {
     private let emptyCellDrawer = EmptyCellDrawer()
     private let showFeaturedStripeHelper = ShowFeaturedStripeHelper(featureFlags: FeatureFlags.sharedInstance,
                                                                     myUserRepository: Core.myUserRepository)
+    private let myUserRepository: MyUserRepository
 
+
+    init(myUserRepository: MyUserRepository) {
+        self.myUserRepository = myUserRepository
+    }
 
     func registerCell(inCollectionView collectionView: UICollectionView) {
         ListingCellDrawer.registerCell(collectionView)
@@ -43,13 +48,23 @@ class GridDrawerManager {
         }
     }
     
-    func draw(_ model: ListingCellModel, inCell cell: UICollectionViewCell) {
+    func draw(_ model: ListingCellModel, inCell cell: UICollectionViewCell, delegate: ListingCellDelegate?) {
         switch model {
         case let .listingCell(listing) where cell is ListingCell:
             guard let cell = cell as? ListingCell else { return }
             let isFeatured = showFeaturedStripeHelper.shouldShowFeaturedStripeFor(listing: listing)
-            let data = ProductData(listingId: listing.objectId, thumbUrl: listing.thumbnail?.fileURL,
-                                   isFree: listing.price.free && freePostingAllowed, isFeatured: isFeatured)
+            var isMine = false
+            if let listingUserId = listing.user.objectId,
+                let myUserId = myUserRepository.myUser?.objectId,
+                listingUserId == myUserId {
+                isMine = true
+            }
+            let data = ListingData(listing: listing,
+                                   delegate: delegate,
+                                   isFree: listing.price.free && freePostingAllowed,
+                                   isFeatured: isFeatured,
+                                   isMine: isMine,
+                                   price: listing.priceString(freeModeAllowed: freePostingAllowed))
             return listingDrawer.draw(data, style: cellStyle, inCell: cell)
         case .collectionCell(let style) where cell is CollectionCell:
             guard let cell = cell as? CollectionCell else { return }

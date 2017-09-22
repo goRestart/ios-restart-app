@@ -8,6 +8,7 @@
 
 import CHTCollectionViewWaterfallLayout
 import RxSwift
+import LGCoreKit
 
 protocol ListingListViewScrollDelegate: class {
     func listingListView(_ listingListView: ListingListView, didScrollDown scrollDown: Bool)
@@ -140,7 +141,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             drawerManager.cellStyle = viewModel.cellStyle
         }
     }
-    private let drawerManager = GridDrawerManager()
+    private let drawerManager = GridDrawerManager(myUserRepository: Core.myUserRepository)
     
     // Delegate
     weak var scrollDelegate: ListingListViewScrollDelegate?
@@ -298,7 +299,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
                                cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let item = viewModel.itemAtIndex(indexPath.row) else { return UICollectionViewCell() }
         let cell = drawerManager.cell(item, collectionView: collectionView, atIndexPath: indexPath)
-        drawerManager.draw(item, inCell: cell)
+        drawerManager.draw(item, inCell: cell, delegate: viewModel.listingCellDelegate)
         cell.tag = (indexPath as NSIndexPath).hash
         return cell
     }
