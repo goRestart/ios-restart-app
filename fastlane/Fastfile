@@ -278,6 +278,30 @@ platform :ios do
     )
   end
 
+  desc "Clean un-used assets"
+  lane :assets_clean do
+    lg_assets(
+      repository_path: "./"
+    )
+  end
+
+  desc "Clean project"
+  lane :clean do
+    # update strings and remove un-used ones
+    lg_strings(
+      repository_path: "./",
+      remove_unused_strings: true
+    )
+    # update strings
+    lg_strings(
+      repository_path: "./"
+    )
+    # clean assets
+    lg_assets(
+      repository_path: "./"
+    )
+  end
+
   desc "Will generate BumperFlags.switf based on the sources json"
   lane :bumper do
     lg_bumper(
