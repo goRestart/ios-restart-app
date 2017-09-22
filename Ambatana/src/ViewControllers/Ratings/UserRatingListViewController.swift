@@ -114,9 +114,7 @@ extension UserRatingListViewController: UITableViewDelegate, UITableViewDataSour
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell,
                    forRowAt indexPath: IndexPath) {
-        DispatchQueue.main.async { [weak self] in
-            self?.viewModel.setCurrentIndex(indexPath.row)
-        }
+        viewModel.setCurrentIndex(indexPath.row)
     }
 }
 
