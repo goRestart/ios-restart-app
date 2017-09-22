@@ -248,6 +248,7 @@ class MainListingsViewModel: BaseViewModel {
         
         super.init()
 
+        self.listViewModel.listingCellDelegate = self
         setup()
     }
     
@@ -818,6 +819,7 @@ extension MainListingsViewModel {
         }
         
         if shouldUpdate {
+            infoBubbleText.value = defaultBubbleText
             listViewModel.retrieveListings()
         }
 
@@ -1132,5 +1134,16 @@ extension MainListingsViewModel: TaxonomiesDelegate {
         delegate?.vmShowTags(tags)
         updateCategoriesHeader()
         updateListView()
+    }
+}
+
+// MARK: ListingCellDelegate
+
+extension MainListingsViewModel: ListingCellDelegate {
+    func chatButtonPressedFor(listing: Listing) {
+        
+        navigator?.openChat(.listingAPI(listing: listing),
+                            source: .listingListFeatured,
+                            predefinedMessage: nil)
     }
 }

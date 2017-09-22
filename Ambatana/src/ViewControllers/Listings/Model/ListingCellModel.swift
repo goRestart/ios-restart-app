@@ -29,13 +29,27 @@ enum ListingCellModel {
 }
 
 
-// MARK: Product
+// MARK: Listing
 
-struct ProductData {
-    var listingId: String?
-    var thumbUrl: URL?
+struct ListingData {
+    var listing: Listing?
+    var delegate: ListingCellDelegate?
     var isFree: Bool
     var isFeatured: Bool
+    var isMine: Bool
+    var price: String
+
+    var listingId: String? {
+        return listing?.objectId
+    }
+
+    var thumbUrl: URL? {
+        return listing?.thumbnail?.fileURL
+    }
+
+    var title: String? {
+        return listing?.title
+    }
 }
 
 enum CollectionCellType: String {
