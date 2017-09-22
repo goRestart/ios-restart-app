@@ -565,13 +565,10 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
         }
     }
     
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        // Needed to avoid footer on grouped tableView.
-        return 1.0
-    }
-    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let container = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: sectionHeight))
+        container.clipsToBounds = true
+        container.backgroundColor = UIColor.white
         let suggestionTitleLabel = UILabel()
         suggestionTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         suggestionTitleLabel.textAlignment = .left
@@ -609,6 +606,7 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
             clearButton.isHidden = true
             suggestionTitleLabel.text = LGLocalizedString.suggestedSearchesTitle.uppercase
         case .lastSearch:
+            clearButton.isHidden = false
             suggestionTitleLabel.text = LGLocalizedString.suggestionsLastSearchesTitle.uppercase
         case .trending:
             clearButton.isHidden = true
