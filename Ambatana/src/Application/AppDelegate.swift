@@ -104,6 +104,9 @@ extension AppDelegate: UIApplicationDelegate {
 
         appCoordinator.open()
 
+
+        AppsFlyerTracker.shared().delegate = self
+
         return deepLinksRouterContinuation || fbSdkContinuation
     }
 
@@ -420,5 +423,28 @@ fileprivate extension AppDelegate {
             keyValueStorage[.didCrash] = true
             crashManager.appCrashed = true
         }
+    }
+}
+
+extension AppDelegate: AppsFlyerTrackerDelegate {
+    // TODO: move to another object
+
+    func onConversionDataReceived(_ installData: [AnyHashable : Any]!) {
+        func onFacebookConversionReceived(_ installData: [AnyHashable : Any]!) {
+
+        }
+        func onConversionReceived(_ installData: [AnyHashable : Any]!) {
+
+        }
+
+        if let isFacebook = installData["is_fb"] as? Bool, isFacebook {
+            onFacebookConversionReceived(installData)
+        } else {
+            onConversionReceived(installData)
+        }
+    }
+
+    func onConversionDataRequestFailure(_ error: Error!) {
+        
     }
 }
