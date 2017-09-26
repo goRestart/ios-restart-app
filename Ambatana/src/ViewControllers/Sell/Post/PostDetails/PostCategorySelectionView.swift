@@ -11,7 +11,7 @@ import RxSwift
 import UIKit
 
 enum PostCategory {
-    case car, unassigned, motorsAndAccessories
+    case car, unassigned, motorsAndAccessories, realEstate
     
     var listingCategory: ListingCategory {
         switch self {
@@ -21,6 +21,8 @@ enum PostCategory {
             return .unassigned
         case .motorsAndAccessories:
             return .motorsAndAccessories
+        case .realEstate:
+            return .realEstate
         }
     }
 }

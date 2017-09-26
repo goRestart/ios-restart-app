@@ -125,6 +125,7 @@ extension UIColor {
     static var babyChildCategory: UIColor { return cornflower }
     static var otherCategory: UIColor { return desert }
     static var carCategory: UIColor { return desert }
+    static var realEstateCategory: UIColor { return desert }
 }
 
 // MARK: > Text colors
