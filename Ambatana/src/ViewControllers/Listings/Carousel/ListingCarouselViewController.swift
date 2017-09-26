@@ -106,7 +106,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     fileprivate let imageDownloader: ImageDownloaderType
     
     fileprivate var usesHorizontalNavigation: Bool {
-        return viewModel.horizontalImageNavigationEnabled.value
+        return viewModel.imageHorizontalNavigationEnabled.value
     }
 
 
@@ -444,7 +444,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         itemsAlpha.asObservable().bindTo(buttonTop.rx.alpha).addDisposableTo(disposeBag)
         itemsAlpha.asObservable().bindTo(userView.rx.alpha).addDisposableTo(disposeBag)
             
-        Observable.combineLatest(viewModel.horizontalImageNavigationEnabled.asObservable(), itemsAlpha.asObservable()) { ($0, $1) }
+        Observable.combineLatest(viewModel.imageHorizontalNavigationEnabled.asObservable(), itemsAlpha.asObservable()) { ($0, $1) }
             .bindNext { [weak self] (horizontalNavigation, itemsAlpha) in
                 self?.pageControl.alpha = horizontalNavigation ? 0 : itemsAlpha
                 self?.customPageControl.alpha = horizontalNavigation ? itemsAlpha : 0
@@ -639,7 +639,7 @@ extension ListingCarouselViewController {
 
     private func setupBottomButtonsRx() {
         Observable.combineLatest(viewModel.actionButtons.asObservable(),
-                                 viewModel.horizontalImageNavigationEnabled.asObservable()) { $0 }
+                                 viewModel.imageHorizontalNavigationEnabled.asObservable()) { $0 }
             .bindNext { [weak self] (actionButtons, horizontalImageNavigationEnabled) in
                 guard let strongSelf = self else { return }
                 strongSelf.buttonBottomHeight.constant = actionButtons.isEmpty ? 0 : CarouselUI.buttonHeight
@@ -757,7 +757,7 @@ extension ListingCarouselViewController {
     }
     
     private func setupBackgroundRx() {
-        viewModel.horizontalImageNavigationEnabled.asObservable()
+        viewModel.imageHorizontalNavigationEnabled.asObservable()
             .distinctUntilChanged().map { !$0 }
             .bindTo(mainViewBlurEffectView.rx.isHidden)
             .addDisposableTo(disposeBag)
@@ -845,23 +845,31 @@ extension ListingCarouselViewController: ListingCarouselCellDelegate {
     static let animatedLayoutRubberBandOffset: CGFloat = 100
     static let defaultRubberBandOffset: CGFloat = 50
 
-    func didTapOnCarouselCell(_ cell: UICollectionViewCell) {
+    func didTapOnCarouselCell(_ cell: UICollectionViewCell, tapSide: ListingCarouselTapSide?) {
         guard !chatTextView.isFirstResponder else {
             chatTextView.resignFirstResponder()
             return
         }
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
         cellAnimating.value = true
-        let newIndexRow = indexPath.row + 1
-        if newIndexRow < collectionView.numberOfItems(inSection: 0) {
-            pendingMovement = .tap
-            let nextIndexPath = IndexPath(item: newIndexRow, section: 0)
-            collectionView.scrollToItem(at: nextIndexPath, at: .right, animated: true)
+        if tapSide == .left {
+            var contentOffset = collectionContentOffset.value
+            contentOffset.x -= cell.width
+            if contentOffset.x >= 0 {
+                collectionView.setContentOffset(contentOffset, animated: true)
+            }
         } else {
-            collectionView.showRubberBandEffect(.right,
-                                                offset: usesHorizontalNavigation ?
-                                                    ListingCarouselViewController.animatedLayoutRubberBandOffset :
-                                                    ListingCarouselViewController.defaultRubberBandOffset)
+            let newIndexRow = indexPath.row + 1
+            if newIndexRow < collectionView.numberOfItems(inSection: 0) {
+                pendingMovement = .tap
+                let nextIndexPath = IndexPath(item: newIndexRow, section: 0)
+                collectionView.scrollToItem(at: nextIndexPath, at: .right, animated: true)
+            } else {
+                collectionView.showRubberBandEffect(.right,
+                                                    offset: usesHorizontalNavigation ?
+                                                        ListingCarouselViewController.animatedLayoutRubberBandOffset :
+                                                        ListingCarouselViewController.defaultRubberBandOffset)
+            }
         }
     }
 
@@ -870,7 +878,7 @@ extension ListingCarouselViewController: ListingCarouselCellDelegate {
     }
 
     func didScrollToPage(_ page: Int) {
-        if viewModel.horizontalImageNavigationEnabled.value {
+        if viewModel.imageHorizontalNavigationEnabled.value {
             customPageControl.progress = CGFloat(page)
         } else {
             pageControl.currentPage = page
@@ -907,7 +915,8 @@ extension ListingCarouselViewController: ListingCarouselCellDelegate {
         var contentOffset = collectionContentOffset.value
         contentOffset.x -= collectionView.width
         if contentOffset.x >= 0 {
-            collectionView.setContentOffset(contentOffset, animated: true)
+            //collectionView.setContentOffset(contentOffset, animated: true)
+            collectionView.contentOffset = contentOffset
             collectionContentOffset.value = contentOffset
         }
     }
@@ -915,7 +924,8 @@ extension ListingCarouselViewController: ListingCarouselCellDelegate {
     func didRightTapLastImageTapOnCarouselCell(_ cell: UICollectionViewCell) {
         var contentOffset = collectionContentOffset.value
         contentOffset.x += collectionView.width
-        collectionView.setContentOffset(contentOffset, animated: true)
+        //collectionView.setContentOffset(contentOffset, animated: true)
+        collectionView.contentOffset = contentOffset
         collectionContentOffset.value = contentOffset
     }
 }
@@ -1089,17 +1099,19 @@ extension ListingCarouselViewController: UICollectionViewDataSource, UICollectio
             guard let listingCellModel = viewModel.listingCellModelAt(index: indexPath.row) else { return carouselCell }
             carouselCell.configureCellWith(cellModel: listingCellModel, placeholderImage: viewModel.thumbnailAtIndex(indexPath.row),
                                            indexPath: indexPath, imageDownloader: carouselImageDownloader,
-                                           imageHorizontalNavigation: viewModel.imageHorizontalNavigation)
+                                           imageScrollDirection: viewModel.imageScrollDirection)
             carouselCell.delegate = self
             
-            let leftTapFrameView = UIView(frame: CGRect(x: 0, y: 0, width: cell.width/4, height: cell.height))
-            let rightTapFrameView = UIView(frame: CGRect(x: cell.width/4, y: 0, width: cell.width*3/4 , height: cell.height))
-            let leftTap = UITapGestureRecognizer(target: carouselCell, action: #selector(ListingCarouselCell.didLeftTap))
-            let rightTap = UITapGestureRecognizer(target: carouselCell, action: #selector(ListingCarouselCell.didRightTap))
-            leftTapFrameView.addGestureRecognizer(leftTap)
-            rightTapFrameView.addGestureRecognizer(rightTap)
-            cell.addSubview(leftTapFrameView)
-            cell.addSubview(rightTapFrameView)
+            if usesHorizontalNavigation {
+                let leftTapFrameView = UIView(frame: CGRect(x: 0, y: 0, width: cell.width/4, height: cell.height))
+                let rightTapFrameView = UIView(frame: CGRect(x: cell.width/4, y: 0, width: cell.width*3/4 , height: cell.height))
+                let leftTap = UITapGestureRecognizer(target: carouselCell, action: #selector(ListingCarouselCell.didLeftTap))
+                let rightTap = UITapGestureRecognizer(target: carouselCell, action: #selector(ListingCarouselCell.didRightTap))
+                leftTapFrameView.addGestureRecognizer(leftTap)
+                rightTapFrameView.addGestureRecognizer(rightTap)
+                cell.addSubview(leftTapFrameView)
+                cell.addSubview(rightTapFrameView)
+            }
             
             return carouselCell
     }

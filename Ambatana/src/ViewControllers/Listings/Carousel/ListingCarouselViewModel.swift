@@ -106,21 +106,14 @@ class ListingCarouselViewModel: BaseViewModel {
         return shouldShowOldOnboarding || shouldShowNewOnboarding
     }
 
-    // !! Clean
     var imageScrollDirection: UICollectionViewScrollDirection {
         if featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive {
             return .horizontal
         }
         return .vertical
     }
-    var imageHorizontalNavigation: Bool {
-        if featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive {
-            return true
-        }
-        return false
-    }
 
-    let horizontalImageNavigationEnabled = Variable<Bool>(false)
+    let imageHorizontalNavigationEnabled = Variable<Bool>(false)
 
     var isMyListing: Bool {
         return currentListingViewModel?.isMine ?? false
@@ -376,7 +369,7 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     private func setupRxBindings() {
-        horizontalImageNavigationEnabled.value = imageScrollDirection == .horizontal
+        imageHorizontalNavigationEnabled.value = imageScrollDirection == .horizontal
         
         quickAnswersCollapsed.asObservable().skip(1).bindNext { [weak self] collapsed in
             self?.keyValueStorage[.listingDetailQuickAnswersHidden] = collapsed
