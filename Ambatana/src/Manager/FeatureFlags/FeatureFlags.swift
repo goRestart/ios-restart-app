@@ -43,6 +43,7 @@ protocol FeatureFlaggeable: class {
     var appRatingDialogInactive: Bool { get }
     var feedFilterRadiusValues: FeedFilterRadiusValues { get }
     var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu { get }
+    var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -337,6 +338,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.locationDataSourceEndpoint
         }
         return LocationDataSourceEndpoint.fromPosition(abTests.locationDataSourceType.value)
+    }
+
+    var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed {
+        if Bumper.enabled {
+            return Bumper.defaultRadiusDistanceFeed
+        }
+        return DefaultRadiusDistanceFeed.fromPosition(abTests.defaultRadiusDistanceFeed.value)
     }
     
 
