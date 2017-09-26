@@ -38,7 +38,7 @@ module Fastlane
           " && git pull && git push)"
         UI.message pushChangeCommand
         Actions.sh pushChangeCommand
-        UI.success "Version changes pushed successfully!"
+        UI.success "Assets cleaning pushed successfully!"
       end
 
       #####################################################
