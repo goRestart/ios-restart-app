@@ -16,7 +16,7 @@ class LocalSuggestiveSearchSpec: QuickSpec {
         var sut : LocalSuggestiveSearch!
         
         describe("LocalSuggestiveSearch") {
-            describe("init") {
+            describe("init with parameters") {
                 var name: String!
                 var category: ListingCategory!
                 
@@ -32,6 +32,22 @@ class LocalSuggestiveSearchSpec: QuickSpec {
                 }
                 it("has the same category passed into initializer") {
                     expect(sut.category!.rawValue) == category.rawValue
+                }
+            }
+            
+            describe("init with suggestive search") {
+                var suggestiveSearch: SuggestiveSearch!
+                beforeEach {
+                    suggestiveSearch = LocalSuggestiveSearch(name: String.makeRandom(),
+                                                             category: ListingCategory.makeMock())
+                    sut = LocalSuggestiveSearch(suggestiveSearch: suggestiveSearch)
+                }
+                
+                it("has the same name suggestiveSearch has") {
+                    expect(sut.name) == suggestiveSearch.name
+                }
+                it("has the same category suggestiveSearch has") {
+                    expect(sut.category!.rawValue) == suggestiveSearch.category!.rawValue
                 }
             }
             

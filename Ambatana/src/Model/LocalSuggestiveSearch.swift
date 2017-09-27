@@ -8,6 +8,7 @@
 
 import Foundation
 import LGCoreKit
+import SwiftyUserDefaults
 
 final class LocalSuggestiveSearch: NSObject, SuggestiveSearch, NSCoding {
     private static let nameKey = "name"
@@ -23,6 +24,11 @@ final class LocalSuggestiveSearch: NSObject, SuggestiveSearch, NSCoding {
          category: ListingCategory?) {
         self.name = name
         self.category = category
+    }
+    
+    init(suggestiveSearch: SuggestiveSearch) {
+        self.name = suggestiveSearch.name
+        self.category = suggestiveSearch.category
     }
     
     
@@ -43,3 +49,12 @@ final class LocalSuggestiveSearch: NSObject, SuggestiveSearch, NSCoding {
     }
 }
 
+
+// MARK: - UserDefaults
+
+extension UserDefaults {
+    subscript(key: DefaultsKey<LocalSuggestiveSearch?>) -> LocalSuggestiveSearch? {
+        get { return unarchive(key) }
+        set { archive(key, newValue) }
+    }
+}
