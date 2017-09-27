@@ -28,6 +28,8 @@ enum PostCategory {
 }
 
 final class PostCategorySelectionView: UIView {
+    fileprivate let categoryButtonHeight: CGFloat = 55
+
     fileprivate let titleLabel = UILabel()
     fileprivate let categoriesContainerView = UIView()
     fileprivate let carsCategoryButton = UIButton()
@@ -151,7 +153,7 @@ fileprivate extension PostCategorySelectionView {
             .centerY()
         
         carsCategoryButton.layout()
-            .height(55)
+            .height(categoryButtonHeight)
         carsCategoryButton.layout(with: categoriesContainerView)
             .leading(by: Metrics.bigMargin)
             .trailing(by: -Metrics.bigMargin)
@@ -160,7 +162,7 @@ fileprivate extension PostCategorySelectionView {
             .above(by: -Metrics.bigMargin)
         
         motorsAndAccessoriesButton.layout()
-            .height(55)
+            .height(categoryButtonHeight)
         motorsAndAccessoriesButton.layout(with: categoriesContainerView)
             .leading(by: Metrics.bigMargin)
             .trailing(by: -Metrics.bigMargin)
@@ -168,7 +170,7 @@ fileprivate extension PostCategorySelectionView {
             .above(by: -Metrics.bigMargin)
         
         otherCategoryButton.layout()
-            .height(55)
+            .height(categoryButtonHeight)
         otherCategoryButton.layout(with: categoriesContainerView)
             .leading(by: Metrics.bigMargin)
             .trailing(by: -Metrics.bigMargin)
@@ -176,7 +178,7 @@ fileprivate extension PostCategorySelectionView {
             .above(by: -Metrics.bigMargin)
         
         realEstateCategoryButton.layout()
-            .height(55)
+            .height(categoryButtonHeight)
         realEstateCategoryButton.layout(with: categoriesContainerView)
             .leading(by: Metrics.bigMargin)
             .trailing(by: -Metrics.bigMargin)
