@@ -38,7 +38,7 @@ class RelatedListingsView: UIView {
             hasListings.value = !objects.isEmpty
         }
     }
-    fileprivate let drawerManager = GridDrawerManager()
+    fileprivate let drawerManager = GridDrawerManager(myUserRepository: Core.myUserRepository)
 
     fileprivate let disposeBag = DisposeBag()
 
@@ -101,7 +101,7 @@ class RelatedListingsView: UIView {
 extension RelatedListingsView: UICollectionViewDelegate, UICollectionViewDataSource {
 
     fileprivate func setupCollection() {
-        drawerManager.cellStyle = .small
+        drawerManager.cellStyle = .relatedListings
         drawerManager.registerCell(inCollectionView: collectionView)
         collectionView.backgroundColor = UIColor.clear
         collectionView.delegate = self
@@ -135,7 +135,7 @@ extension RelatedListingsView: UICollectionViewDelegate, UICollectionViewDataSou
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
             guard let item = itemAtIndex(indexPath.row) else { return UICollectionViewCell() }
             let cell = drawerManager.cell(item, collectionView: collectionView, atIndexPath: indexPath)
-            drawerManager.draw(item, inCell: cell)
+            drawerManager.draw(item, inCell: cell, delegate: nil)
             cell.tag = (indexPath as NSIndexPath).hash
             return cell
     }

@@ -27,10 +27,10 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     @IBOutlet weak var gradientShadowBottomView: UIView!
     @IBOutlet weak var favoriteButton: UIButton!
     @IBOutlet weak var shareButton: UIButton!
-    
+
     @IBOutlet weak var productStatusView: UIView!
     @IBOutlet weak var productStatusLabel: UILabel!
-    
+
     @IBOutlet weak var directChatTable: CustomTouchesTableView!
 
     @IBOutlet weak var bannerContainer: UIView!
@@ -55,7 +55,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
             userViewRightConstraint?.constant = -userViewRightMargin
         }
     }
-    
+
     fileprivate var bottomItemsMargin: CGFloat = CarouselUI.itemsMargin {
         didSet {
             chatContainerBottomConstraint?.constant = bottomItemsMargin
@@ -87,7 +87,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
 
     fileprivate var productOnboardingView: ListingDetailOnboardingView?
     fileprivate var didSetupAfterLayout = false
-    
+
     fileprivate let moreInfoView: ListingCarouselMoreInfoView
     fileprivate let moreInfoAlpha = Variable<CGFloat>(1)
     fileprivate let moreInfoState = Variable<MoreInfoState>(.hidden)
@@ -118,7 +118,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
                   imageDownloader: ImageDownloader.sharedInstance,
                   carouselImageDownloader: ImageDownloader.make(usingImagePool: true))
     }
-    
+
     init(viewModel: ListingCarouselViewModel,
          pushAnimator: ListingCarouselPushAnimator?,
          imageDownloader: ImageDownloaderType,
@@ -143,18 +143,18 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         self.viewModel.delegate = self
         hidesBottomBarWhenPushed = false
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         gradientShadowView.layer.sublayers?.forEach{ $0.frame = gradientShadowView.bounds }
         gradientShadowBottomView.layer.sublayers?.forEach{ $0.frame = gradientShadowBottomView.bounds }
     }
 
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         addSubviews()
@@ -165,10 +165,10 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         setupZoomRx()
         setAccessibilityIds()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         if moreInfoState.value == .shown {
             moreInfoView.viewWillShow()
         }
@@ -176,7 +176,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
 
     override func viewDidFirstAppear(_ animated: Bool) {
         super.viewDidFirstAppear(animated)
-        
+
         switch viewModel.actionOnFirstAppear {
         case .showKeyboard:
             chatTextView.becomeFirstResponder()
@@ -204,7 +204,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
             closeBumpUpBanner()
         }
     }
-    
+
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
         guard didSetupAfterLayout else { return }
@@ -256,7 +256,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
 
 
     // MARK: Setup
-    
+
     func addSubviews() {
         mainViewBlurEffectView.translatesAutoresizingMaskIntoConstraints = false
         imageBackground.addSubview(mainViewBlurEffectView)
@@ -270,7 +270,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         fullScreenAvatarView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(fullScreenAvatarView)
     }
-    
+
     func setupUI() {
         if usesHorizontalNavigation {
             flowLayout.animator = PageAttributesAnimator()
@@ -329,17 +329,17 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         fullScreenAvatarView.contentMode = .scaleAspectFill
         fullScreenAvatarView.alpha = 0
         let fullAvatarWidth = NSLayoutConstraint(item: fullScreenAvatarView, attribute: .width, relatedBy: .equal, toItem: nil,
-                                              attribute: .notAnAttribute, multiplier: 1, constant: 0)
+                                                 attribute: .notAnAttribute, multiplier: 1, constant: 0)
         fullScreenAvatarWidth = fullAvatarWidth
         let fullAvatarHeight = NSLayoutConstraint(item: fullScreenAvatarView, attribute: .height, relatedBy: .equal, toItem: nil,
-                                               attribute: .notAnAttribute, multiplier: 1, constant: 0)
+                                                  attribute: .notAnAttribute, multiplier: 1, constant: 0)
         fullScreenAvatarHeight = fullAvatarHeight
         fullScreenAvatarView.addConstraints([fullAvatarWidth, fullAvatarHeight])
         let fullAvatarTop = NSLayoutConstraint(item: fullScreenAvatarView, attribute: .top, relatedBy: .equal,
-                                              toItem: view, attribute: .top, multiplier: 1, constant: 0)
+                                               toItem: view, attribute: .top, multiplier: 1, constant: 0)
         fullScreenAvatarTop = fullAvatarTop
         let fullAvatarLeft = NSLayoutConstraint(item: fullScreenAvatarView, attribute: .left, relatedBy: .equal,
-                                               toItem: view, attribute: .left, multiplier: 1, constant: 0)
+                                                toItem: view, attribute: .left, multiplier: 1, constant: 0)
         fullScreenAvatarLeft = fullAvatarLeft
         view.addConstraints([fullAvatarTop, fullAvatarLeft])
         userView.showShadow(false)
@@ -384,7 +384,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
                                          target: self, action: #selector(backButtonClose))
         self.navigationItem.leftBarButtonItem = backButton
     }
-    
+
     dynamic private func backButtonClose() {
         close()
     }
@@ -397,12 +397,12 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
             moreInfoView.mapExpanded ? compressMap() : hideMoreInfo()
         }
     }
-    
+
     private func setupGradientView() {
         let shadowLayer = CAGradientLayer.gradientWithColor(UIColor.black, alphas:[0.4, 0], locations: [0, 1])
         shadowLayer.frame = gradientShadowView.bounds
         gradientShadowView.layer.insertSublayer(shadowLayer, at: 0)
-        
+
         let shadowLayer2 = CAGradientLayer.gradientWithColor(UIColor.black, alphas:[0, 0.4], locations: [0, 1])
         shadowLayer.frame = gradientShadowBottomView.bounds
         gradientShadowBottomView.layer.insertSublayer(shadowLayer2, at: 0)
@@ -425,7 +425,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
                     self?.imageBackground.isHidden = false
                 }
             }
-        }.addDisposableTo(disposeBag)
+            }.addDisposableTo(disposeBag)
     }
 
     private func setupZoomRx() {
@@ -436,9 +436,9 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
                 self?.moreInfoAlpha.value = zooming ? 0 : 1
                 self?.navigationController?.navigationBar.alpha = zooming ? 0 : 1
             }
-        }.addDisposableTo(disposeBag)
+            }.addDisposableTo(disposeBag)
     }
-    
+
     private func setupAlphaRxBindings() {
         itemsAlpha.asObservable().bindTo(buttonBottom.rx.alpha).addDisposableTo(disposeBag)
         itemsAlpha.asObservable().bindTo(buttonTop.rx.alpha).addDisposableTo(disposeBag)
@@ -454,8 +454,26 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         itemsAlpha.asObservable().bindTo(directChatTable.rx.alpha).addDisposableTo(disposeBag)
         itemsAlpha.asObservable().bindTo(chatContainer.rx.alpha).addDisposableTo(disposeBag)
         itemsAlpha.asObservable().bindTo(shareButton.rx.alpha).addDisposableTo(disposeBag)
-        itemsAlpha.asObservable().bindTo(favoriteButton.rx.alpha).addDisposableTo(disposeBag)
         itemsAlpha.asObservable().bindTo(bannerContainer.rx.alpha).addDisposableTo(disposeBag)
+
+        Observable.combineLatest(viewModel.favoriteButtonState.asObservable(), itemsAlpha.asObservable()) { ($0, $1) }
+            .bindNext { [weak self] (buttonState, itemsAlpha) in
+                guard let strongButton = self?.favoriteButton else { return }
+                guard itemsAlpha != 0 else {
+                    strongButton.alpha = 0
+                    return
+                }
+                switch buttonState {
+                case .hidden:
+                    strongButton.isHidden = true
+                case .enabled:
+                    strongButton.isHidden = false
+                    strongButton.alpha = itemsAlpha
+                case .disabled:
+                    strongButton.isHidden = false
+                    strongButton.alpha = 0.6
+                }
+            }.addDisposableTo(disposeBag)
 
         let width = view.bounds.width
         let midPoint = width/2
@@ -475,14 +493,14 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
 
         alphaSignal.bindNext{ [weak self] alpha in
             self?.moreInfoTooltip?.alpha = alpha
-        }.addDisposableTo(disposeBag)
-        
+            }.addDisposableTo(disposeBag)
+
         if let navBar = navigationController?.navigationBar {
             alphaSignal.bindTo(navBar.rx.alpha).addDisposableTo(disposeBag)
         }
-        
+
         var indexSignal: Observable<Int> = collectionContentOffset.asObservable().map { Int(($0.x + midPoint) / width) }
-        
+
         if viewModel.startIndex != 0 {
             indexSignal = indexSignal.skip(1)
         }
@@ -515,16 +533,16 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         alphaSignal.map { $0 == 1 }.distinctUntilChanged().filter { $0 }
             .debounce(0.5, scheduler: MainScheduler.instance)
             .bindNext { [weak self] _ in
-            self?.finishedTransition()
-        }.addDisposableTo(disposeBag)
+                self?.finishedTransition()
+            }.addDisposableTo(disposeBag)
     }
-    
+
     private func returnCellToFirstImage() {
         let visibleCells = collectionView.visibleCells.flatMap { $0 as? ListingCarouselCell }
         visibleCells.filter {
             guard let index = collectionView.indexPath(for: $0) else { return false }
             return index.row != viewModel.currentIndex
-        }.forEach { $0.returnToFirstImage() }
+            }.forEach { $0.returnToFirstImage() }
     }
 }
 
@@ -582,7 +600,7 @@ extension ListingCarouselViewController {
                                      productTitle: productInfo?.title,
                                      productPrice: productInfo?.price,
                                      userId: userInfo?.userId)
-        }.addDisposableTo(disposeBag)
+            }.addDisposableTo(disposeBag)
 
         viewModel.userInfo.asObservable().bindNext { [weak self] userInfo in
             self?.fullScreenAvatarView.alpha = 0
@@ -593,7 +611,7 @@ extension ListingCarouselViewController {
                     self?.fullScreenAvatarView.image = imageWithSource.image
                 }
             }
-        }.addDisposableTo(disposeBag)
+            }.addDisposableTo(disposeBag)
     }
 
 
@@ -611,16 +629,16 @@ extension ListingCarouselViewController {
                     rightItem.style = .plain
                     shareButton.rx.tap.takeUntil(takeUntilAction).bindNext{
                         action.action()
-                    }.addDisposableTo(strongSelf.disposeBag)
+                        }.addDisposableTo(strongSelf.disposeBag)
                     strongSelf.navigationItem.rightBarButtonItems = nil
                     strongSelf.navigationItem.rightBarButtonItem = rightItem
                 default:
                     strongSelf.setLetGoRightButtonWith(action, buttonTintColor: UIColor.white,
                                                        tapBlock: { tapEvent in
-                                                                tapEvent.takeUntil(takeUntilAction).bindNext{
-                                                                    action.action()
-                                                                }.addDisposableTo(strongSelf.disposeBag)
-                                                        })
+                                                        tapEvent.takeUntil(takeUntilAction).bindNext{
+                                                            action.action()
+                                                            }.addDisposableTo(strongSelf.disposeBag)
+                    })
                 }
             } else if navBarButtons.count > 1 {
                 var buttons = [UIButton]()
@@ -667,26 +685,26 @@ extension ListingCarouselViewController {
         if let productVM = viewModel.currentListingViewModel, !productVM.areQuickAnswersDynamic {
             chatTextView.setInitialText(LGLocalizedString.chatExpressTextFieldText)
         }
-        
+
         viewModel.directChatEnabled.asObservable().bindNext { [weak self] enabled in
             self?.buttonBottomBottomConstraint.constant = enabled ? CarouselUI.itemsMargin : 0
             self?.chatContainerHeight.constant = enabled ? CarouselUI.chatContainerMaxHeight : 0
-        }.addDisposableTo(disposeBag)
+            }.addDisposableTo(disposeBag)
 
         viewModel.quickAnswers.asObservable().bindNext { [weak self] quickAnswers in
             let isDynamic = self?.viewModel.currentListingViewModel?.areQuickAnswersDynamic ?? false
             self?.directAnswersView.update(answers: quickAnswers, isDynamic: isDynamic)
-        }.addDisposableTo(disposeBag)
+            }.addDisposableTo(disposeBag)
 
         viewModel.directChatMessages.changesObservable.bindNext { [weak self] change in
             self?.directChatTable.handleCollectionChange(change, animation: .top)
-        }.addDisposableTo(disposeBag)
+            }.addDisposableTo(disposeBag)
 
         chatTextView.rx.send.bindNext { [weak self] textToSend in
             guard let strongSelf = self else { return }
             strongSelf.viewModel.send(directMessage: textToSend, isDefaultText: strongSelf.chatTextView.isInitialText)
             strongSelf.chatTextView.clear()
-        }.addDisposableTo(disposeBag)
+            }.addDisposableTo(disposeBag)
     }
 
     private func setupProductStatusLabelRx() {
@@ -703,26 +721,10 @@ extension ListingCarouselViewController {
                 self?.productStatusLabel.textColor = status.labelColor
             }
             self?.productStatusView.isHidden = self?.productStatusLabel.text?.isEmpty ?? true
-        }.addDisposableTo(disposeBag)
+            }.addDisposableTo(disposeBag)
     }
 
     private func setupFavoriteButtonRx() {
-        viewModel.favoriteButtonState.asObservable()
-            .bindNext { [weak self] (buttonState) in
-                guard let strongButton = self?.favoriteButton else { return }
-                switch buttonState {
-                case .hidden:
-                    strongButton.isHidden = true
-                case .enabled:
-                    strongButton.isHidden = false
-                    strongButton.alpha = 1
-                case .disabled:
-                    strongButton.isHidden = false
-                    strongButton.alpha = 0.6
-                }
-            }
-            .addDisposableTo(disposeBag)
-
         viewModel.isFavorite.asObservable()
             .map { UIImage(named: $0 ? "ic_favorite_big_on" : "ic_favorite_big_off") }
             .bindTo(favoriteButton.rx.image).addDisposableTo(disposeBag)
@@ -737,7 +739,7 @@ extension ListingCarouselViewController {
 
         shareButton.rx.tap.bindNext { [weak self] in
             self?.viewModel.shareButtonPressed()
-        }.addDisposableTo(disposeBag)
+            }.addDisposableTo(disposeBag)
     }
 
     private func setupBumpUpBannerRx() {
@@ -749,7 +751,7 @@ extension ListingCarouselViewController {
             } else {
                 self?.closeBumpUpBanner()
             }
-        }.addDisposableTo(disposeBag)
+            }.addDisposableTo(disposeBag)
     }
 
     private func setupUserInteractionRxBindings() {
@@ -797,7 +799,7 @@ extension ListingCarouselViewController: UserViewDelegate {
     func userViewAvatarPressed(_ userView: UserView) {
         viewModel.userAvatarPressed()
     }
-    
+
     func userViewTextInfoContainerPressed(_ userView: UserView) {
         showMoreInfo()
     }
@@ -820,7 +822,7 @@ extension ListingCarouselViewController: UserViewDelegate {
             self?.fullScreenAvatarEffectView.alpha = 1
             self?.fullScreenAvatarView.alpha = 1
             self?.view.layoutIfNeeded()
-        }) 
+        })
     }
 
     func userViewAvatarLongPressEnded(_ userView: UserView) {
@@ -833,7 +835,7 @@ extension ListingCarouselViewController: UserViewDelegate {
             self?.fullScreenAvatarEffectView.alpha = 0
             self?.fullScreenAvatarView.alpha = 0
             self?.view.layoutIfNeeded()
-        }) 
+        })
     }
 }
 
@@ -890,7 +892,7 @@ extension ListingCarouselViewController: ListingCarouselCellDelegate {
             pageControl.currentPage = page
         }
     }
-    
+
     func didPullFromCellWith(_ offset: CGFloat, bottomLimit: CGFloat) {
         guard moreInfoState.value != .shown && !cellZooming.value else { return }
         if moreInfoView.frame.origin.y-offset > -view.frame.height {
@@ -904,7 +906,7 @@ extension ListingCarouselViewController: ListingCarouselCellDelegate {
         let bottomOverScroll = max(offset-bottomLimit, 0)
         bottomItemsMargin = CarouselUI.itemsMargin + bottomOverScroll
     }
-    
+
     func didEndDraggingCell() {
         if moreInfoView.frame.bottom > CarouselUI.moreInfoDragMargin*2 {
             showMoreInfo()
@@ -912,7 +914,7 @@ extension ListingCarouselViewController: ListingCarouselCellDelegate {
             hideMoreInfo()
         }
     }
-    
+
     func canScrollToNextPage() -> Bool {
         return moreInfoState.value == .hidden
     }
@@ -940,30 +942,30 @@ extension ListingCarouselViewController: ListingCarouselCellDelegate {
 // MARK: > More Info
 
 extension ListingCarouselViewController {
-    
+
     dynamic func didTapMoreInfo() {
         chatTextView.resignFirstResponder()
     }
-    
+
     func setupMoreInfoDragging() {
         guard let button = moreInfoView.dragView else { return }
         self.navigationController?.navigationBar.ignoreTouchesFor(button)
-        
+
         let pan = UIPanGestureRecognizer(target: self, action: #selector(dragMoreInfoButton))
         button.addGestureRecognizer(pan)
-        
+
         let tap = UITapGestureRecognizer(target: self, action: #selector(dragViewTapped))
         button.addGestureRecognizer(tap)
         moreInfoView.delegate = self
     }
-    
+
     func dragMoreInfoButton(_ pan: UIPanGestureRecognizer) {
         let point = pan.location(in: view)
-        
+
         if point.y >= CarouselUI.moreInfoExtraHeight { // start dragging when point is below the navbar
             moreInfoView.frame.bottom = point.y
         }
-        
+
         switch pan.state {
         case .ended:
             if point.y > CarouselUI.moreInfoDragMargin {
@@ -975,11 +977,11 @@ extension ListingCarouselViewController {
             break
         }
     }
-    
+
     func dragViewTapped(_ tap: UITapGestureRecognizer) {
         showMoreInfo()
     }
-    
+
     @IBAction func showMoreInfo() {
         guard moreInfoState.value == .hidden || moreInfoState.value == .moving else { return }
 
@@ -988,9 +990,9 @@ extension ListingCarouselViewController {
         moreInfoState.value = .shown
 
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 5, options: [],
-                                   animations: { [weak self] in
-                                    self?.moreInfoView.frame.origin.y = 0
-                                    }, completion: nil)
+                       animations: { [weak self] in
+                        self?.moreInfoView.frame.origin.y = 0
+            }, completion: nil)
     }
 
     func hideMoreInfo() {
@@ -998,11 +1000,11 @@ extension ListingCarouselViewController {
 
         moreInfoState.value = .hidden
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 5, options: [],
-                                   animations: { [weak self] in
-            guard let `self` = self else { return }
-            self.moreInfoView.frame.origin.y = -self.view.bounds.height
-        }, completion: { [weak self] _ in
-            self?.moreInfoView.dismissed()
+                       animations: { [weak self] in
+                        guard let `self` = self else { return }
+                        self.moreInfoView.frame.origin.y = -self.view.bounds.height
+            }, completion: { [weak self] _ in
+                self?.moreInfoView.dismissed()
         })
     }
 
@@ -1026,7 +1028,7 @@ extension ListingCarouselViewController {
 // MARK: More Info Delegate
 
 extension ListingCarouselViewController: ProductCarouselMoreInfoDelegate {
-    
+
     func didEndScrolling(_ topOverScroll: CGFloat, bottomOverScroll: CGFloat) {
         if topOverScroll > CarouselUI.moreInfoDragMargin || bottomOverScroll > CarouselUI.moreInfoDragMargin {
             hideMoreInfo()
@@ -1056,7 +1058,7 @@ extension ListingCarouselViewController: ProductCarouselMoreInfoDelegate {
 // MARK: > ToolTip
 
 extension ListingCarouselViewController {
-    
+
     fileprivate func setupMoreInfoTooltip() {
         guard viewModel.shouldShowMoreInfoTooltip else { return }
         let tooltipText = CarouselUIHelper.buildMoreInfoTooltipText()
@@ -1067,7 +1069,7 @@ extension ListingCarouselViewController {
         setupExternalConstraintsForTooltip(moreInfoTooltip, targetView: moreInfoView, containerView: view)
         self.moreInfoTooltip = moreInfoTooltip
     }
-    
+
     fileprivate func removeMoreInfoTooltip() {
         moreInfoTooltip?.removeFromSuperview()
         moreInfoTooltip = nil
@@ -1083,7 +1085,7 @@ extension ListingCarouselViewController: UICollectionViewDataSource, UICollectio
     func registerListingCarouselCells() {
         for i in 0..<ListingCarouselViewController.listingCarouselCellCount {
             collectionView.register(ListingCarouselCell.self,
-                                         forCellWithReuseIdentifier: cellIdentifierForIndex(i))
+                                    forCellWithReuseIdentifier: cellIdentifierForIndex(i))
         }
     }
 
@@ -1096,11 +1098,11 @@ extension ListingCarouselViewController: UICollectionViewDataSource, UICollectio
         guard didSetupAfterLayout else { return 0 }
         return viewModel.objectCount
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)
         -> UICollectionViewCell {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifierForIndex(indexPath.row),
-                                                                             for: indexPath)
+                                                          for: indexPath)
             guard let carouselCell = cell as? ListingCarouselCell else { return UICollectionViewCell() }
             guard let listingCellModel = viewModel.listingCellModelAt(index: indexPath.row) else { return carouselCell }
             carouselCell.configureCellWith(cellModel: listingCellModel, placeholderImage: viewModel.thumbnailAtIndex(indexPath.row),
@@ -1152,7 +1154,7 @@ extension ListingCarouselViewController: UITableViewDataSource, UITableViewDeleg
             UIView.animate(withDuration: Double(change.animationTime)) {
                 strongSelf.view.layoutIfNeeded()
             }
-        }.addDisposableTo(disposeBag)
+            }.addDisposableTo(disposeBag)
 
         viewModel.quickAnswersCollapsed.asObservable().skip(1).bindNext { [weak self] collapsed in
             if !collapsed {
@@ -1163,7 +1165,7 @@ extension ListingCarouselViewController: UITableViewDataSource, UITableViewDeleg
             UIView.animate(withDuration: LGUIKitConstants.defaultAnimationTime) {
                 self?.chatContainer.superview?.layoutIfNeeded()
             }
-        }.addDisposableTo(disposeBag)
+            }.addDisposableTo(disposeBag)
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -1189,7 +1191,7 @@ extension ListingCarouselViewController: UITableViewDataSource, UITableViewDeleg
         } else {
             viewModel.send(quickAnswer: answer)
         }
-        
+
         if let productVM = viewModel.currentListingViewModel, productVM.areQuickAnswersDynamic {
             viewModel.moveQuickAnswerToTheEnd(index)
         }

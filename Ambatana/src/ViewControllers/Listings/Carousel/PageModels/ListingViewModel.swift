@@ -277,7 +277,6 @@ class ListingViewModel: BaseViewModel {
             strongSelf.isShowingFeaturedStripe.value = strongSelf.showFeaturedStripeHelper.shouldShowFeaturedStripeFor(listing: listing) && !strongSelf.status.value.shouldShowStatus
 
             strongSelf.productIsFavoriteable.value = !isMine
-            strongSelf.isFavorite.value = listing.favorite
             strongSelf.socialMessage.value = ListingSocialMessage(listing: listing, fallbackToStore: false)
             strongSelf.freeBumpUpShareMessage = ListingSocialMessage(listing: listing, fallbackToStore: true)
             strongSelf.productImageURLs.value = listing.images.flatMap { return $0.fileURL }
@@ -429,7 +428,6 @@ class ListingViewModel: BaseViewModel {
             buttonBlock = hiddenBlock
         }
 
-//        bumpBannerShow
         bumpUpBannerInfo.value = BumpUpInfo(type: bumpUpType,
                                             timeSinceLastBump: timeSinceLastBump,
                                             maxCountdown: bumpMaxCountdown,
@@ -469,7 +467,7 @@ extension ListingViewModel {
     func chatWithSeller() {
         let source: EventParameterTypePage = (moreInfoState.value == .shown) ? .listingDetailMoreInfo : .listingDetail
         trackHelper.trackChatWithSeller(source)
-        navigator?.openListingChat(listing.value)
+        navigator?.openListingChat(listing.value, source: .listingDetail)
     }
 
     func sendDirectMessage(_ text: String, isDefaultText: Bool) {

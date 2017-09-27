@@ -137,7 +137,7 @@ extension TabCoordinator: TabNavigator {
         case let .conversation(conversation):
             openConversation(conversation, source: source, predefinedMessage: predefinedMessage)
         case let .listingAPI(listing):
-            openListingChat(listing)
+            openListingChat(listing, source: source)
         case let .dataIds(data):
             openChatFromConversationData(data, source: source, predefinedMessage: predefinedMessage)
         }
@@ -195,8 +195,11 @@ fileprivate extension TabCoordinator {
                                                                        itemsPerPage: Constants.numListingsPerPageDefault)
                     relatedRequester.retrieveFirstPage { result in
                         self?.navigationController.dismissLoadingMessageAlert {
-                            if let value = result.listingsResult.value, !value.isEmpty {
-                                self?.openRelatedListingsForNonExistentListing(requester: relatedRequester, listings: value)
+                            if let relatedListings = result.listingsResult.value, !relatedListings.isEmpty {
+                                self?.openRelatedListingsForNonExistentListing(listingId: listingId,
+                                                                               source: source,
+                                                                               requester: relatedRequester,
+                                                                               relatedListings: relatedListings)
                             }
                             self?.navigationController.showAutoFadingOutMessageAlert(LGLocalizedString.commonProductNotAvailable)
                         }
@@ -330,10 +333,10 @@ fileprivate extension TabCoordinator {
         navigationController.pushViewController(vc, animated: true)
     }
 
-    func openChatFrom(listing: Listing) {
+    func openChatFrom(listing: Listing, source: EventParameterTypePage) {
         if featureFlags.websocketChat {
-            guard let chatVM = ChatViewModel(listing: listing, navigator: self, source: .listingDetail) else { return }
-            let chatVC = ChatViewController(viewModel: chatVM, hidesBottomBar: false)
+            guard let chatVM = ChatViewModel(listing: listing, navigator: self, source: source) else { return }
+            let chatVC = ChatViewController(viewModel: chatVM, hidesBottomBar: source == .listingListFeatured)
             navigationController.pushViewController(chatVC, animated: true)
         } else {
             guard let chatVM = OldChatViewModel(listing: listing, source: .listingDetail) else { return }
@@ -398,13 +401,20 @@ fileprivate extension TabCoordinator {
 
     // MARK: Private methods
 
-    private func openRelatedListingsForNonExistentListing(requester: ListingListRequester, listings: [Listing]) {
+    private func openRelatedListingsForNonExistentListing(listingId: String,
+                                                          source: EventParameterListingVisitSource,
+                                                          requester: ListingListRequester,
+                                                          relatedListings: [Listing]) {
         let simpleRelatedListingsVM = SimpleListingsViewModel(requester: requester,
-                                                              listings: listings,
-                                                              listingVisitSource: .notifications)
+                                                              listings: relatedListings,
+                                                              title: LGLocalizedString.relatedItemsTitle,
+                                                              listingVisitSource: .relatedListings)
         simpleRelatedListingsVM.navigator = self
         let simpleRelatedListingsVC = SimpleListingsViewController(viewModel: simpleRelatedListingsVM)
         navigationController.pushViewController(simpleRelatedListingsVC, animated: true)
+        
+        trackRelatedListings(listingId: listingId,
+                             source: .notFound)
     }
 }
 
@@ -424,8 +434,8 @@ extension TabCoordinator: ListingDetailNavigator {
         navigationController.present(navCtl, animated: true, completion: nil)
     }
 
-    func openListingChat(_ listing: Listing) {
-        openChatFrom(listing: listing)
+    func openListingChat(_ listing: Listing, source: EventParameterTypePage) {
+        openChatFrom(listing: listing, source: source)
     }
 
     func closeAfterDelete() {
@@ -607,5 +617,12 @@ extension TabCoordinator {
         }
         let productNotAvailableEvent = TrackerEvent.listingNotAvailable( source, reason: reason)
         tracker.trackEvent(productNotAvailableEvent)
+    }
+    
+    func trackRelatedListings(listingId: String,
+                              source: EventParameterRelatedListingsVisitSource) {
+        let relatedListings = TrackerEvent.relatedListings(listingId: listingId,
+                                                           source: source)
+        tracker.trackEvent(relatedListings)
     }
 }

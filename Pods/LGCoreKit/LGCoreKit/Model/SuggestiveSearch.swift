@@ -7,6 +7,6 @@
 //
 
 public protocol SuggestiveSearch {
-    var name: String? { get }
-    var type: String? { get }
+    var name: String { get }
+    var category: ListingCategory? { get }
 }

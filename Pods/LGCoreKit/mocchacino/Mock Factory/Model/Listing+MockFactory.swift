@@ -25,6 +25,10 @@ extension Listing: MockFactory {
             var carMock = MockCar(car: car)
             carMock.price = price
             return Listing.car(carMock)
+        case .realEstate(let realEstate):
+            var realEstate = MockRealEstate(realEstate: realEstate)
+            realEstate.price = price
+            return Listing.realEstate(realEstate)
         case .product(let product):
             var productMock = MockProduct(product: product)
             productMock.price = price

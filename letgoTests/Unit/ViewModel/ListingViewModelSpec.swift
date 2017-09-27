@@ -188,8 +188,6 @@ class ListingViewModelSpec: BaseViewModelSpec {
                 }
                 describe("add to favorites") {
                     beforeEach {
-                        product.favorite = false
-                        savedProduct.favorite = true
                         listingRepository.productResult = ProductResult(savedProduct)
                         buildListingViewModel()
                         sut.switchFavorite()
@@ -205,12 +203,11 @@ class ListingViewModelSpec: BaseViewModelSpec {
 
                 describe("remove from favorites") {
                     beforeEach {
-                        product.favorite = true
-                        savedProduct.favorite = false
                         listingRepository.productResult = ProductResult(savedProduct)
                         buildListingViewModel()
+                        sut.isFavorite.value = true
                         sut.switchFavorite()
-                        expect(isFavoriteObserver.eventValues).toEventually(equal([true, false]))
+                        expect(isFavoriteObserver.eventValues).toEventually(equal([false, true, false]))
                     }
                     it("does not show bubble up") {
                         expect(self.shownFavoriteBubble) == false
@@ -710,7 +707,7 @@ extension ListingViewModelSpec: ListingDetailNavigator {
     func editListing(_ listing: Listing) {
 
     }
-    func openListingChat(_ listing: Listing) {
+    func openListingChat(_ listing: Listing, source: EventParameterTypePage) {
 
     }
     func closeAfterDelete() {

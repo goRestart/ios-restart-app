@@ -33,8 +33,14 @@ final class ListingApiDataSource: ListingDataSource {
         apiClient.request(request, decoder: ListingApiDataSource.decoderArray, completion: completion)
     }
     
-    func indexFavorites(_ userId: String, completion: ListingsDataSourceCompletion?) {
-        let request = ListingRouter.indexFavorites(userId: userId)
+    func indexFavorites(userId: String,
+                        numberOfResults: Int?,
+                        resultsOffset: Int?,
+                        completion: ListingsDataSourceCompletion?) {
+        var params = [String: Any]()
+        params["num_results"] = numberOfResults
+        params["offset"] = resultsOffset
+        let request = ListingRouter.indexFavorites(userId: userId, params: params)
         apiClient.request(request, decoder: ListingApiDataSource.decoderArray, completion: completion)
     }
 

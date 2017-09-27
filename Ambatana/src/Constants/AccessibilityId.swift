@@ -54,6 +54,9 @@ enum AccessibilityId: String {
     case listingCellStripeImageView
     case listingCellStripeLabel
     case listingCellStripeIcon
+    case listingCellFeaturedPrice
+    case listingCellFeaturedTitle
+    case listingCellFeaturedChatButton
 
     // Collection & Banner Cells
     case collectionCell
@@ -196,7 +199,6 @@ enum AccessibilityId: String {
     case notificationsTable
     case notificationsLoading
     case notificationsEmptyView
-    case notificationsCellPrimaryImage
     case notificationsCellSecondaryImage
     case notificationsModularTextTitleLabel
     case notificationsModularTextBodyLabel

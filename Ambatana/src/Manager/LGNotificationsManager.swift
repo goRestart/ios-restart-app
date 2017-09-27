@@ -178,8 +178,8 @@ class LGNotificationsManager: NotificationsManager {
         requestingNotifications = true
         notificationsRepository.unreadNotificationsCount() { [weak self] result in
             self?.requestingNotifications = false
-            guard let notificationCounts = result.value, let featureFlags = self?.featureFlags else { return }
-            self?.unreadNotificationsCount.value = notificationCounts.totalVisibleCount(featureFlags: featureFlags)
+            guard let notificationCounts = result.value else { return }
+            self?.unreadNotificationsCount.value = notificationCounts
         }
     }
 }
@@ -202,15 +202,5 @@ fileprivate extension LGNotificationsManager {
                                                                      loggedIn.asObservable(),
             resultSelector: { enabled, loggedIn in return !loggedIn || enabled }).skip(1)
         loggedInMkt.bindTo(loggedInMktNofitications).addDisposableTo(disposeBag)
-    }
-}
-
-
-// MARK: - UnreadNotificationsCounts
-
-fileprivate extension UnreadNotificationsCounts {
-    func totalVisibleCount(featureFlags: FeatureFlaggeable) -> Int {
-        let totalWoReviews = listingLike + listingSold + buyersInterested + listingSuggested + facebookFriendshipCreated + modular
-        return totalWoReviews + review + reviewUpdated
     }
 }

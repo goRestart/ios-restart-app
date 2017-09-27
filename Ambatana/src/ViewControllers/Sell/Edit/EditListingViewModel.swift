@@ -227,7 +227,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
             self.carModelId.value = car.carAttributes.modelId
             self.carModelName.value = car.carAttributes.model
             self.carYear.value = car.carAttributes.year
-        case .product(_):
+        case .product(_), .realEstate:
             break
         }
 
@@ -471,7 +471,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         let editParams: ListingEditionParams
         switch category {
         case .unassigned, .electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden,
-             .moviesBooksAndMusic, .fashionAndAccesories, .babyAndChild, .other:
+             .moviesBooksAndMusic, .fashionAndAccesories, .babyAndChild, .other, .realEstate:
             guard let productEditParams = ProductEditionParams(listing: listing) else { return }
             productEditParams.category = category
             productEditParams.name = title ?? ""

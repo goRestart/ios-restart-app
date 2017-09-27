@@ -15,11 +15,16 @@ open class MockSearchRepository: SearchRepository {
 
     // MARK: - SuggestedSearchesRepository {
 
-    public func index(_ countryCode: String, completion: TrendingSearchesCompletion?) {
+    public func index(countryCode: String,
+                      completion: TrendingSearchesCompletion?) {
         delay(result: indexResult, completion: completion)
     }
     
-    public func retrieveSuggestiveSearches(_ countryCode: String, limit: Int, term: String, completion: SuggestiveSearchesCompletion?) {
+    public func retrieveSuggestiveSearches(language: String,
+                                           limit: Int,
+                                           term: String,
+                                           shouldIncludeCategories: Bool,
+                                           completion: SuggestiveSearchesCompletion?) {
         delay(result: retrieveSuggestiveSearchResult, completion: completion)
     }
 }
