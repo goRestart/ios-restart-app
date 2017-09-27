@@ -199,7 +199,9 @@ fileprivate extension ListingCategory {
             return #imageLiteral(resourceName: "carIcon")
         case .motorsAndAccessories:
             return #imageLiteral(resourceName: "motorsAndAccesories")
-        case .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .realEstate:
+        case .realEstate:
+            return #imageLiteral(resourceName: "housingIcon")
+        case .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames:
             return image
         }
     }
