@@ -20,6 +20,7 @@ protocol SettingsNavigator: class {
     func openChangePassword()
     func openHelp()
     func closeSettings()
+    func open(url: URL)
 }
 
 protocol ChangeUsernameNavigator: class {

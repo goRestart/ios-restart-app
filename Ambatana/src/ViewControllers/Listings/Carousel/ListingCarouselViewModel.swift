@@ -121,6 +121,7 @@ class ListingCarouselViewModel: BaseViewModel {
             currentListingViewModel?.active = active
         }
     }
+    
 
     // MARK: - Init
 
