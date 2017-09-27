@@ -28,6 +28,9 @@ class ListingCarouselCell: UICollectionViewCell {
     static let identifier = "ListingCarouselCell"
     var collectionView: UICollectionView
 
+    fileprivate var leftTapFrameView: UIView!
+    fileprivate var rightTapFrameView: UIView!
+    
     fileprivate var productImages = [URL]()
     fileprivate var productBackgroundColor: UIColor?
     weak var delegate: ListingCarouselCellDelegate?
@@ -76,6 +79,21 @@ class ListingCarouselCell: UICollectionViewCell {
         collectionView.isDirectionalLockEnabled = true
         collectionView.register(ListingCarouselImageCell.self, forCellWithReuseIdentifier:
             ListingCarouselImageCell.identifier)
+        
+        leftTapFrameView = UIView()
+        rightTapFrameView = UIView()
+        let leftTap = UITapGestureRecognizer(target: self, action: #selector(ListingCarouselCell.doLeftTapAction))
+        let rightTap = UITapGestureRecognizer(target: self, action: #selector(ListingCarouselCell.doRightTapAction))
+        leftTapFrameView.addGestureRecognizer(leftTap)
+        rightTapFrameView.addGestureRecognizer(rightTap)
+        contentView.addSubviews([leftTapFrameView, rightTapFrameView])
+        leftTapFrameView.layout(with: self.contentView).fillVertical().leading().proportionalWidth(multiplier: 0.25)
+        rightTapFrameView.layout(with: self.contentView).fillVertical().trailing().proportionalWidth(multiplier: 0.75)
+        leftTapFrameView.translatesAutoresizingMaskIntoConstraints = false
+        rightTapFrameView.translatesAutoresizingMaskIntoConstraints = false
+        // Will be activated if feature flag is active
+        leftTapFrameView.alpha = 0.0
+        rightTapFrameView.alpha = 0.0
     }
     
     func doSingleTapAction(_ sender: UITapGestureRecognizer) {
@@ -125,14 +143,8 @@ class ListingCarouselCell: UICollectionViewCell {
             let singleTap = UITapGestureRecognizer(target: self, action: #selector(doSingleTapAction))
             collectionView.addGestureRecognizer(singleTap)
         } else {
-            let leftTapFrameView = UIView(frame: CGRect(x: 0, y: 0, width: self.width/4, height: self.height))
-            let rightTapFrameView = UIView(frame: CGRect(x: self.width/4, y: 0, width: self.width*3/4 , height: self.height))
-            let leftTap = UITapGestureRecognizer(target: self, action: #selector(ListingCarouselCell.doLeftTapAction))
-            let rightTap = UITapGestureRecognizer(target: self, action: #selector(ListingCarouselCell.doRightTapAction))
-            leftTapFrameView.addGestureRecognizer(leftTap)
-            rightTapFrameView.addGestureRecognizer(rightTap)
-            self.addSubview(leftTapFrameView)
-            self.addSubview(rightTapFrameView)
+            leftTapFrameView.alpha = 1.0
+            rightTapFrameView.alpha = 1.0
             
             collectionView.isUserInteractionEnabled = false // Disables user actions as scrolling or cell selection
         }
