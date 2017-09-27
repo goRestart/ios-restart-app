@@ -158,7 +158,7 @@ class MainListingsViewModel: BaseViewModel {
     fileprivate let tracker: Tracker
     fileprivate let searchType: SearchType? // The initial search
     fileprivate var collections: [CollectionCellType] {
-        guard keyValueStorage[.lastSearches].count >= minimumSearchesSavedToShowCollection else { return [] }
+        guard keyValueStorage[.lastSuggestiveSearches].count >= minimumSearchesSavedToShowCollection else { return [] }
         return [.You]
     }
     fileprivate let keyValueStorage: KeyValueStorage
@@ -192,7 +192,7 @@ class MainListingsViewModel: BaseViewModel {
     let lastSearchesShowMaximum = 3
     let trendingSearches = Variable<[String]>([])
     let suggestiveSearchInfo = Variable<SuggestiveSearchInfo>(SuggestiveSearchInfo.empty())
-    let lastSearches = Variable<[String]>([])
+    let lastSearches = Variable<[SuggestiveSearch]>([])
     let searchText = Variable<String?>(nil)
     var lastSearchesCounter: Int {
         return lastSearches.value.count
@@ -633,11 +633,10 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
 
         trackRequestSuccess(page: page, hasListings: hasListings)
         // Only save the string when there is products and we are not searching a collection
-        if let queryString = queryString, hasListings {
-            if let searchType = searchType, !searchType.isCollection {
-                updateLastSearchStoraged(queryString)
-            }
+        if let search = searchType, hasListings {
+            updateLastSearchStored(lastSearch: search)
         }
+        
         if shouldRetryLoad {
             shouldRetryLoad = false
             listViewModel.retrieveListings()
@@ -841,7 +840,7 @@ extension MainListingsViewModel {
         return (suggestiveSearchInfo.value.suggestiveSearches[index], suggestiveSearchInfo.value.sourceText)
     }
     
-    func lastSearchAtIndex(_ index: Int) -> String? {
+    func lastSearchAtIndex(_ index: Int) -> SuggestiveSearch? {
         guard 0..<lastSearches.value.count ~= index else { return nil }
         return lastSearches.value[index]
     }
@@ -862,20 +861,21 @@ extension MainListingsViewModel {
         } else {
             newFilters = filters
         }
-        navigator?.openMainListings(withSearchType: .suggestive(query: suggestiveSearch.name,
+        navigator?.openMainListings(withSearchType: .suggestive(search: suggestiveSearch,
                                                                 indexSelected: index),
                                     listingFilters: newFilters)
     }
     
     func selectedLastSearchAtIndex(_ index: Int) {
-        guard let lastSearch = lastSearchAtIndex(index), !lastSearch.isEmpty else { return }
+        guard let lastSearch = lastSearchAtIndex(index), !lastSearch.name.isEmpty else { return }
         delegate?.vmDidSearch()
-        navigator?.openMainListings(withSearchType: .lastSearch(query: lastSearch), listingFilters: filters)
+        navigator?.openMainListings(withSearchType: .lastSearch(search: lastSearch),
+                                    listingFilters: filters)
     }
     
     func cleanUpLastSearches() {
-        keyValueStorage[.lastSearches] = []
-        lastSearches.value = keyValueStorage[.lastSearches]
+        keyValueStorage[.lastSuggestiveSearches] = []
+        lastSearches.value = keyValueStorage[.lastSuggestiveSearches]
     }
     
     func cleanUpSuggestiveSearches() {
@@ -884,12 +884,12 @@ extension MainListingsViewModel {
     
     func retrieveLastUserSearch() {
         // We saved up to lastSearchesSavedMaximum(10) but we show only lastSearchesShowMaximum(3)
-        var searchesToShow = [String]()
-        let allSearchesSaved = keyValueStorage[.lastSearches]
+        var searchesToShow = [LocalSuggestiveSearch]()
+        let allSearchesSaved = keyValueStorage[.lastSuggestiveSearches]
         if allSearchesSaved.count > lastSearchesShowMaximum {
             searchesToShow = Array(allSearchesSaved.suffix(lastSearchesShowMaximum))
         } else {
-            searchesToShow = keyValueStorage[.lastSearches]
+            searchesToShow = keyValueStorage[.lastSuggestiveSearches]
         }
         lastSearches.value = searchesToShow.reversed()
     }
@@ -922,19 +922,39 @@ extension MainListingsViewModel {
         }
     }
     
-    fileprivate func updateLastSearchStoraged(_ query: String) {
-        // We save up to lastSearchesSavedMaximum(10)
-        var searchesSaved = keyValueStorage[.lastSearches]
-        // Check if already exists and move to front.
-        if let index = searchesSaved.index(of: query) {
+    fileprivate func updateLastSearchStored(lastSearch: SearchType) {
+        guard let suggestiveSearch = getSuggestiveSearchFrom(searchType: lastSearch) else { return }
+        
+        // We save up to lastSearchesSavedMaximum items
+        var searchesSaved = keyValueStorage[.lastSuggestiveSearches]
+        // Check if already the name exists and if so then move the search to front.
+        if let index = searchesSaved.flatMap({ $0.name }).index(of: suggestiveSearch.name) {
             searchesSaved.remove(at: index)
         }
-        searchesSaved.append(query)
+        let localSuggestiveSearch = LocalSuggestiveSearch(suggestiveSearch: suggestiveSearch)
+        searchesSaved.append(localSuggestiveSearch)
         if searchesSaved.count > lastSearchesSavedMaximum {
             searchesSaved.removeFirst()
         }
-        keyValueStorage[.lastSearches] = searchesSaved
+        keyValueStorage[.lastSuggestiveSearches] = searchesSaved
         retrieveLastUserSearch()
+    }
+    
+    fileprivate func getSuggestiveSearchFrom(searchType: SearchType) -> SuggestiveSearch? {
+        let suggestiveSearch: SuggestiveSearch?
+        switch searchType {
+        case let .user(query):
+            suggestiveSearch = LocalSuggestiveSearch(name: query, category: nil)
+        case let .trending(query):
+            suggestiveSearch = LocalSuggestiveSearch(name: query, category: nil)
+        case let .suggestive(search, _):
+            suggestiveSearch = search
+        case let .lastSearch(search):
+            suggestiveSearch = search
+        case .collection:
+            suggestiveSearch = nil
+        }
+        return suggestiveSearch
     }
 }
 
@@ -1020,7 +1040,10 @@ fileprivate extension MainListingsViewModel {
         var query: String
         switch type {
         case .You:
-            query = keyValueStorage[.lastSearches].reversed().joined(separator: " ")
+            query = keyValueStorage[.lastSuggestiveSearches]
+                .flatMap { $0.name }
+                .reversed()
+                .joined(separator: " ")
                 .clipMoreThan(wordCount: Constants.maxSelectedForYouQueryTerms)
         }
         return query

@@ -675,9 +675,9 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
             }
         case .lastSearch:
             guard let lastSearch = viewModel.lastSearchAtIndex(indexPath.row) else { return UITableViewCell() }
-            title = lastSearch
+            title = lastSearch.name
             titleSkipHighlight = nil
-            subtitle = nil
+            subtitle = lastSearch.category?.name
             fillSearchButtonBlock = nil
         case .trending:
             guard let trendingSearch = viewModel.trendingSearchAtIndex(indexPath.row) else { return UITableViewCell() }
