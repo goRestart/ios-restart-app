@@ -65,6 +65,11 @@ Updates strings with wti and cleans un-used ones, then removes the un-used keys 
 fastlane ios assets_clean
 ```
 Clean un-used assets
+### ios clean
+```
+fastlane ios clean
+```
+Clean project
 ### ios bumper
 ```
 fastlane ios bumper
