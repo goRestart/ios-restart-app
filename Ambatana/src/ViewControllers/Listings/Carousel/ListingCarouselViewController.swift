@@ -302,13 +302,13 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
                 .above(by: -CarouselUI.itemsMargin, constraintBlock: { [weak self] in
                     self?.customPageControlBottomConstraint = $0
                 })
-            } else {
+        } else {
             customPageControl.layout().height(0)
                 customPageControl.layout(with: buttonTop)
                 .above(by: 0, constraintBlock: { [weak self] in
                     self?.customPageControlBottomConstraint = $0
                 })
-            }
+        }
 
         userView.delegate = self
 
@@ -586,9 +586,10 @@ extension ListingCarouselViewController {
             customPageControl.progress = 0
             customPageControl.pageCount = images.count
             let spacesSize: CGFloat = CGFloat(images.count - 1) * CarouselUI.customPageControlSpaces
-            let screenWidth = UIScreen.main.bounds.width
-            let pillWidth = (screenWidth - (2 * CarouselUI.itemsMargin) - spacesSize)/CGFloat(images.count)
-            customPageControl.pillSize = CGSize(width: pillWidth, height: CarouselUI.customPageControlHeight)
+            if let screenWidth = self?.collectionView.width {
+                let pillWidth = (screenWidth - (2 * CarouselUI.itemsMargin) - spacesSize)/CGFloat(images.count)
+                customPageControl.pillSize = CGSize(width: pillWidth, height: CarouselUI.customPageControlHeight)
+            }
         }.addDisposableTo(disposeBag)
     }
 
@@ -854,7 +855,8 @@ extension ListingCarouselViewController: ListingCarouselCellDelegate {
         }
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
         cellAnimating.value = true
-        if tapSide == .left {
+        switch tapSide {
+        case .left?:
             var contentOffset = collectionContentOffset.value
             contentOffset.x -= cell.width
             if contentOffset.x >= 0 {
@@ -864,9 +866,9 @@ extension ListingCarouselViewController: ListingCarouselCellDelegate {
                                                     offset: usesHorizontalNavigation ?
                                                         ListingCarouselViewController.animatedLayoutRubberBandOffset :
                                                         ListingCarouselViewController.defaultRubberBandOffset)
-
+                
             }
-        } else {
+        default:
             let newIndexRow = indexPath.row + 1
             if newIndexRow < collectionView.numberOfItems(inSection: 0) {
                 pendingMovement = .tap
@@ -917,24 +919,6 @@ extension ListingCarouselViewController: ListingCarouselCellDelegate {
 
     func canScrollToNextPage() -> Bool {
         return moreInfoState.value == .hidden
-    }
-    
-    func didLeftTapFirstImageOnCarouselCell(_ cell: UICollectionViewCell) {
-        var contentOffset = collectionContentOffset.value
-        contentOffset.x -= collectionView.width
-        if contentOffset.x >= 0 {
-            //collectionView.setContentOffset(contentOffset, animated: true)
-            collectionView.contentOffset = contentOffset
-            collectionContentOffset.value = contentOffset
-        }
-    }
-    
-    func didRightTapLastImageTapOnCarouselCell(_ cell: UICollectionViewCell) {
-        var contentOffset = collectionContentOffset.value
-        contentOffset.x += collectionView.width
-        //collectionView.setContentOffset(contentOffset, animated: true)
-        collectionView.contentOffset = contentOffset
-        collectionContentOffset.value = contentOffset
     }
 }
 

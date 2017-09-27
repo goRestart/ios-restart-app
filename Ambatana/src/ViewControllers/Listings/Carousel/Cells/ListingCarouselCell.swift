@@ -19,8 +19,8 @@ protocol ListingCarouselCellDelegate: class {
 }
 
 enum ListingCarouselTapSide {
-    case right
     case left
+    case right
 }
 
 class ListingCarouselCell: UICollectionViewCell {
