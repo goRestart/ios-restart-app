@@ -23,10 +23,8 @@ public class LGCoreKit {
 
         LGCoreKit.shouldUseChatWithWebSocket = config.shouldUseChatWithWebSocket
 
-        // Environments setup
         EnvironmentProxy.sharedInstance.setEnvironmentType(config.environmentType)
 
-        // Managers setup
         InternalCore.internalSessionManager.initialize()
         InternalCore.locationManager.initialize()
 
@@ -38,11 +36,7 @@ public class LGCoreKit {
     }
 
     public static func start() {
-        // taxonomies are independent of user
         InternalCore.categoryRepository.refreshTaxonomiesCache()
-
-        guard let userId = InternalCore.myUserRepository.myUser?.objectId else { return }
-        InternalCore.listingRepository.indexFavorites(userId, completion: nil)
         InternalCore.stickersRepository.show(nil) // Sync stickers to UserDefaults
         InternalCore.carsInfoRepository.refreshCarsInfoFile()
     }
@@ -52,18 +46,11 @@ public class LGCoreKit {
     }
     
     public static func applicationWillEnterForeground() {
-        // Refresh my user
         InternalCore.myUserRepository.refresh(nil)
         InternalCore.webSocketClient.applicationWillEnterForeground()
     }
 
     static func setupAfterLoggedIn(_ completion: (() -> ())?) {
-        guard let userId = InternalCore.myUserRepository.myUser?.objectId else {
-            completion?()
-            return
-        }
-        InternalCore.listingRepository.indexFavorites(userId) { _ in
-            completion?()
-        }
+        completion?()
     }
 }

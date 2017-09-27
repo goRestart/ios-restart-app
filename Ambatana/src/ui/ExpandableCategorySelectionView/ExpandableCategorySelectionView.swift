@@ -186,7 +186,7 @@ fileprivate extension ListingCategory {
         switch self {
         case .unassigned:
             return LGLocalizedString.categoriesUnassignedItems
-        case .motorsAndAccessories, .cars, .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames:
+        case .motorsAndAccessories, .cars, .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .realEstate:
             return name
         }
     }
@@ -198,7 +198,7 @@ fileprivate extension ListingCategory {
             return #imageLiteral(resourceName: "carIcon")
         case .motorsAndAccessories:
             return #imageLiteral(resourceName: "motorsAndAccesories")
-        case .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames:
+        case .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .realEstate:
             return image
         }
     }

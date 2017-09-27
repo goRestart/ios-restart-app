@@ -248,6 +248,7 @@ class MainListingsViewModel: BaseViewModel {
         
         super.init()
 
+        self.listViewModel.listingCellDelegate = self
         setup()
     }
     
@@ -817,6 +818,7 @@ extension MainListingsViewModel {
         }
         
         if shouldUpdate {
+            infoBubbleText.value = defaultBubbleText
             listViewModel.retrieveListings()
         }
 
@@ -878,9 +880,7 @@ extension MainListingsViewModel {
         lastSearches.value = keyValueStorage[.lastSuggestiveSearches]
     }
     
-    func cleanUpSuggestiveSearches() {
-        suggestiveSearchInfo.value = SuggestiveSearchInfo.empty()
-    }
+    
     
     func retrieveLastUserSearch() {
         // We saved up to lastSearchesSavedMaximum(10) but we show only lastSearchesShowMaximum(3)
@@ -902,7 +902,16 @@ extension MainListingsViewModel {
         }
     }
     
-    func retrieveSuggestiveSearches(term: String) {
+    func searchTextFieldDidUpdate(text: String) {
+        let charactersCount = text.characters.count
+        if charactersCount > 0 {
+            retrieveSuggestiveSearches(term: text)
+        } else {
+            cleanUpSuggestiveSearches()
+        }
+    }
+    
+    private func retrieveSuggestiveSearches(term: String) {
         guard let languageCode = Locale.current.languageCode else { return }
         
         let shouldIncludeCategories: Bool
@@ -916,11 +925,17 @@ extension MainListingsViewModel {
                                                     limit: 10,
                                                     term: term,
                                                     shouldIncludeCategories: shouldIncludeCategories) { [weak self] result in
-            guard term == self?.searchText.value else { return }
+            // prevent showing results when deleting the search text
+            guard let sourceText = self?.searchText.value else { return }
             self?.suggestiveSearchInfo.value = SuggestiveSearchInfo(suggestiveSearches: result.value ?? [],
-                                                                    sourceText: term)
+                                                                    sourceText: sourceText)
         }
     }
+    
+    private func cleanUpSuggestiveSearches() {
+        suggestiveSearchInfo.value = SuggestiveSearchInfo.empty()
+    }
+    
     
     fileprivate func updateLastSearchStored(lastSearch: SearchType) {
         guard let suggestiveSearch = getSuggestiveSearchFrom(searchType: lastSearch) else { return }
@@ -1174,5 +1189,16 @@ extension MainListingsViewModel: TaxonomiesDelegate {
         delegate?.vmShowTags(tags)
         updateCategoriesHeader()
         updateListView()
+    }
+}
+
+// MARK: ListingCellDelegate
+
+extension MainListingsViewModel: ListingCellDelegate {
+    func chatButtonPressedFor(listing: Listing) {
+        
+        navigator?.openChat(.listingAPI(listing: listing),
+                            source: .listingListFeatured,
+                            predefinedMessage: nil)
     }
 }

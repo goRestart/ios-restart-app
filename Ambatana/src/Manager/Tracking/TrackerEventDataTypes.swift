@@ -55,7 +55,6 @@ enum EventName: String {
     case listingMarkAsSoldAtLetgo           = "product-detail-sold-at-letgo"
     case listingMarkAsSoldOutsideLetgo      = "product-detail-sold-outside-letgo"
     case listingMarkAsUnsold                = "product-detail-unsold"
-    
     case listingReport                      = "product-detail-report"
     
     case listingSellYourStuffButton         = "product-sell-your-stuff-button"
@@ -81,6 +80,8 @@ enum EventName: String {
     
     case listingDeleteStart                 = "product-delete-start"
     case listingDeleteComplete              = "product-delete-complete"
+    
+    case relatedListings                    = "related-items-list"
     
     case userMessageSent                    = "user-sent-message"
     case userMessageSentError               = "user-sent-message-error"
@@ -268,7 +269,6 @@ enum EventParameterName: String {
     case npsScore             = "nps-score"
     case accountNetwork       = "account-network"
     case profileType          = "profile-type"
-    case notificationType     = "notification-type"
     case notificationClickArea = "notification-click-area"
     case notificationAction   = "notification-action"
     case notificationCampaign = "notification-campaign"
@@ -282,6 +282,7 @@ enum EventParameterName: String {
     case bumpUpPrice          = "price"
     case bumpUpType           = "bump-type"
     case paymentId            = "payment-id"
+    case retriesNumber        = "retries-number"
     case passiveConversations = "passive-conversations"
     case feedPosition         = "feed-position"
     case feedSource           = "feed-source"
@@ -311,6 +312,7 @@ enum EventParameterName: String {
     case superKeywordsTotal   = "superkeyword-total"
     case superKeywordsIds     = "superkeyword-ids"
     case keywordName          = "keyword-name"
+    case relatedSource        = "related-source"
 }
 
 enum EventParameterBoolean: String {
@@ -406,6 +408,7 @@ enum EventParameterPostedWithin: String {
 enum EventParameterPostingType: String {
     case car = "car"
     case stuff = "stuff"
+    case realEstate = "real-estate"
     case none = "N/A"
 }
 
@@ -620,6 +623,7 @@ enum EventParameterEditedFields: String {
 enum EventParameterTypePage: String {
     case listingList = "product-list"
     case listingListBanner = "product-list-banner"
+    case listingListFeatured = "product-list-featured"
     case chat = "chat"
     case tabBar = "tab-bar"
     case chatList = "chat-list"
@@ -706,7 +710,12 @@ enum EventParameterListingVisitSource: String {
     case chat = "chat"
     case openApp = "open-app"
     case notifications = "notifications"
+    case relatedListings = "related-items-list"
     case unknown = "N/A"
+}
+
+enum EventParameterRelatedListingsVisitSource: String {
+    case notFound = "product-not-found"
 }
 
 
@@ -747,17 +756,6 @@ enum EventParameterBlockedAccountReason: String {
 enum EventParameterProfileType: String {
     case publicParameter = "public"
     case privateParameter = "private"
-}
-
-enum EventParameterNotificationType: String {
-    case favorite = "favorite"
-    case listingSold = "favorite-sold"
-    case rating = "rating"
-    case ratingUpdated = "rating-updated"
-    case buyersInterested = "passive-buyer-seller"
-    case listingSuggested = "passive-buyer-make-offer"
-    case facebookFriendshipCreated = "facebook-friendship-created"
-    case modular = "modular"
 }
 
 enum EventParameterNotificationClickArea: String {

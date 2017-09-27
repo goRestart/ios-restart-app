@@ -22,7 +22,6 @@ final class LGListingRepository: ListingRepository {
     let dataSource: ListingDataSource
     let myUserRepository: MyUserRepository
     let carsInfoRepository: CarsInfoRepository
-    let favoritesDAO: FavoritesDAO
     let listingsLimboDAO: ListingsLimboDAO
     var viewedListings:[(listingId: String, visitSource: String)] = []
 
@@ -30,12 +29,11 @@ final class LGListingRepository: ListingRepository {
 
     init(listingDataSource: ListingDataSource,
          myUserRepository: MyUserRepository,
-         favoritesDAO: FavoritesDAO,
          listingsLimboDAO: ListingsLimboDAO,
          carsInfoRepository: CarsInfoRepository) {
+        
         self.dataSource = listingDataSource
         self.myUserRepository = myUserRepository
-        self.favoritesDAO = favoritesDAO
         self.listingsLimboDAO = listingsLimboDAO
         self.viewedListings = []
         self.carsInfoRepository = carsInfoRepository
@@ -79,46 +77,26 @@ final class LGListingRepository: ListingRepository {
                                          completion: updateCompletion(completion))
     }
 
-    func indexFavorites(_ userId: String, completion: ListingsCompletion?) {
-
-        dataSource.indexFavorites(userId) { [weak self] result in
-            if let error = result.error {
+    func indexFavorites(userId: String,
+                        numberOfResults: Int?,
+                        resultsOffset: Int?,
+                        completion: ListingsCompletion?) {
+        
+        dataSource.indexFavorites(userId: userId, numberOfResults: numberOfResults, resultsOffset: resultsOffset) { result in
+            if let value = result.value {
+                completion?(ListingsResult(value: value))
+            } else if let error = result.error {
                 completion?(ListingsResult(error: RepositoryError(apiError: error)))
-            } else if let value = result.value {
-                if let myUserId = self?.myUserRepository.myUser?.objectId, myUserId == userId {
-                    self?.favoritesDAO.save(listings: value)
-                }
-                var listings = value
-                if let favorites = self?.favoritesDAO.favorites,
-                    let favoritedListings = self?.setFavoritesAndCarData(value, favorites: favorites) {
-                    listings = favoritedListings
-                }
-                completion?(ListingsResult(value: listings))
             }
         }
     }
 
     func retrieve(_ listingId: String, completion: ListingCompletion?) {
-        let favorites = favoritesDAO.favorites
         dataSource.retrieve(listingId) { result in
-            if let error = result.error {
+            if let value = result.value {
+                completion?(ListingResult(value: value))
+            } else if let error = result.error {
                 completion?(ListingResult(error: RepositoryError(apiError: error)))
-            } else if let value = result.value {
-                switch value {
-                case .product(let product):
-                    var newProduct = LGProduct(product: product)
-                    if let objectId = newProduct.objectId {
-                        newProduct.favorite = favorites.contains(objectId)
-                    }
-                    completion?(ListingResult(value: Listing.product(newProduct)))
-                case .car(let car):
-                    var newCar = LGCar(car: car)
-                    if let objectId = newCar.objectId {
-                        newCar.favorite = favorites.contains(objectId)
-                        newCar = self.fillCarAttributes(car: newCar)
-                    }
-                    completion?(ListingResult(value: Listing.car(newCar)))
-                }
             }
         }
     }
@@ -144,7 +122,7 @@ final class LGListingRepository: ListingRepository {
                     let carUpdated = strongSelf.fillCarAttributes(car: newCar)
                     listing = Listing.car(carUpdated)
                     carResult = Result(value: listing)
-                case .product:
+                case .product, .realEstate:
                     break
                 }
                 // Send event
@@ -170,7 +148,7 @@ final class LGListingRepository: ListingRepository {
                     let carUpdated = strongSelf.fillCarAttributes(car: newCar)
                     listing = Listing.car(carUpdated)
                     carResult = Result(value: listing)
-                case .product:
+                case .product, .realEstate:
                     break
                 }
                 // Send event
@@ -252,71 +230,44 @@ final class LGListingRepository: ListingRepository {
 
     // MARK: - (un)Favorite listing
     
-    func saveFavorite(listing: Listing, completion: ListingCompletion?) {
+    func saveFavorite(listing: Listing, completion: ListingVoidCompletion?) {
         guard let userId = myUserRepository.myUser?.objectId else {
-            completion?(ListingResult(error: .internalError(message: "Missing objectId in MyUser")))
+            completion?(ListingVoidResult(error: .internalError(message: "Missing objectId in MyUser")))
             return
         }
-        
         guard let listingId = listing.objectId else {
-            completion?(ListingResult(error: .internalError(message: "Missing objectId in Listing")))
+            completion?(ListingVoidResult(error: .internalError(message: "Missing objectId in Listing")))
             return
         }
-        
         dataSource.saveFavorite(listingId, userId: userId) { [weak self] result in
-            if let error = result.error {
-                completion?(ListingResult(error: RepositoryError(apiError: error)))
-            } else if let _ = result.value {
-                let newListing: Listing
-                switch listing {
-                case .product(let product):
-                    var newProduct = LGProduct(product: product)
-                    newProduct.favorite = true
-                    newListing = .product(newProduct)
-                case .car(let car):
-                    var newCar = LGCar(car: car)
-                    newCar.favorite = true
-                    newListing = .car(newCar)
-                }
-                self?.favoritesDAO.save(listingId: listingId)
-                self?.eventBus.onNext(.favorite(newListing))
-                completion?(ListingResult(value: newListing))
+            if let _ = result.value {
+                self?.eventBus.onNext(.favorite(listing))
+                completion?(ListingVoidResult(value: ()))
+            } else if let error = result.error {
+                completion?(ListingVoidResult(error: RepositoryError(apiError: error)))
             }
         }
     }
     
-    func deleteFavorite(listing: Listing, completion: ListingCompletion?) {
+    func deleteFavorite(listing: Listing, completion: ListingVoidCompletion?) {
         guard let userId = myUserRepository.myUser?.objectId else {
-            completion?(ListingResult(error: .internalError(message: "Missing objectId in MyUser")))
+            completion?(ListingVoidResult(error: .internalError(message: "Missing objectId in MyUser")))
             return
         }
-        
         guard let listingId = listing.objectId else {
-            completion?(ListingResult(error: .internalError(message: "Missing objectId in Listing")))
+            completion?(ListingVoidResult(error: .internalError(message: "Missing objectId in Listing")))
             return
         }
-        
-        dataSource.deleteFavorite(listingId, userId: userId)  { [weak self] result in
-            if let error = result.error {
-                completion?(ListingResult(error: RepositoryError(apiError: error)))
-            } else if let _ = result.value {
-                let newListing: Listing
-                switch listing {
-                case .product(let product):
-                    var newProduct = LGProduct(product: product)
-                    newProduct.favorite = false
-                    newListing = .product(newProduct)
-                case .car(let car):
-                    var newCar = LGCar(car: car)
-                    newCar.favorite = false
-                    newListing = .car(newCar)
-                }
-                self?.favoritesDAO.remove(listingId: listingId)
-                self?.eventBus.onNext(.unFavorite(newListing))
-                completion?(ListingResult(value: newListing))
+        dataSource.deleteFavorite(listingId, userId: userId) { [weak self] result in
+            if let _ = result.value {
+                self?.eventBus.onNext(.unFavorite(listing))
+                completion?(ListingVoidResult(value: ()))
+            } else if let error = result.error {
+                completion?(ListingVoidResult(error: RepositoryError(apiError: error)))
             }
         }
     }
+    
 
     // MARK: - User-Listing relation
 
@@ -327,9 +278,7 @@ final class LGListingRepository: ListingRepository {
         }
 
         dataSource.retrieveRelation(listingId, userId: userId) { result in
-            handleApiResult(result, success: { [weak self] value in
-                value.isFavorited ? self?.favoritesDAO.save(listingId: listingId) : self?.favoritesDAO.remove(listingId: listingId)
-                }, completion: completion)
+            handleApiResult(result, completion: completion)
         }
     }
 
@@ -379,12 +328,11 @@ final class LGListingRepository: ListingRepository {
                 for listing in listings {
                     guard let _ = listing.objectId else { continue }
                     switch listing {
-                    case .product(let product):
-                        newListings.append(Listing.product(product))
+                    case .product, .realEstate:
+                        newListings.append(listing)
                     case .car(let car):
-                        var newCar = LGCar(car: car)
-                        newCar = strongSelf.fillCarAttributes(car: newCar)
-                        newListings.append(Listing.car(newCar))
+                        let updatedCar = strongSelf.fillCarAttributes(car: car)
+                        newListings.append(Listing.car(updatedCar))
                     }
                 }
                 completion?(ListingsResult(value: newListings))
@@ -454,41 +402,28 @@ final class LGListingRepository: ListingRepository {
     }
 
 
-    // MARK: - Private funcs
-
-    private func setFavoritesAndCarData(_ listings: [Listing], favorites: [String]) -> [Listing] {
-        
-        var newListings: [Listing] = []
-        
-        for listing in listings {
-            guard let listingId = listing.objectId else { continue }
-            switch listing {
-            case .product(let product):
-                var newProduct = LGProduct(product: product)
-                newProduct.favorite = favorites.contains(listingId)
-                newListings.append(Listing.product(newProduct))
-            case .car(let car):
-                var newCar = LGCar(car: car)
-                newCar.favorite = favorites.contains(listingId)
-                newCar = fillCarAttributes(car: newCar)
-                newListings.append(Listing.car(newCar))
-            }
-        }
-        return newListings
-    }
+    // MARK: - Helpers
 
     private func updateCompletion(_ completion: ListingsCompletion?) -> ListingsDataSourceCompletion {
-        let favorites = favoritesDAO.favorites
-        let defaultCompletion: ListingsDataSourceCompletion = { [weak self] result in
+        let updatedCompletion: ListingsDataSourceCompletion = { [weak self] result in
+            guard let strongSelf = self else { return }
             if let error = result.error {
                 completion?(ListingsResult(error: RepositoryError(apiError: error)))
-            } else if let value = result.value {
-                guard let strongSelf = self else { return }
-                let newListings = strongSelf.setFavoritesAndCarData(value, favorites: favorites)
-                completion?(ListingsResult(value: newListings))
+            } else if let listings = result.value {
+                var updatedListings: [Listing] = []
+                for listing in listings {
+                    switch listing {
+                    case .product, .realEstate:
+                        updatedListings.append(listing)
+                    case .car(let car):
+                        let updatedCar = strongSelf.fillCarAttributes(car: car)
+                        updatedListings.append(Listing.car(updatedCar))
+                    }
+                }
+                completion?(ListingsResult(value: updatedListings))
             }
         }
-        return defaultCompletion
+        return updatedCompletion
     }
 
     private func updateListingViewsBatch(_ listingIds: [(String, String)], completion: ListingVoidCompletion?) {
@@ -504,16 +439,17 @@ final class LGListingRepository: ListingRepository {
         }
     }
     
-    private func fillCarAttributes(car: LGCar) -> LGCar {
+    private func fillCarAttributes(car: Car) -> Car {
+        let mutableCar = LGCar(car: car)
         guard let makeId = car.carAttributes.makeId else { return car }
         let make = carsInfoRepository.retrieveMakeName(with: makeId)
-        let model = carsInfoRepository.retrieveModelName(with: makeId, modelId: car.carAttributes.modelId)
-        let carAttributesUpdated = car.carAttributes.updating(makeId: car.carAttributes.makeId,
+        let model = carsInfoRepository.retrieveModelName(with: makeId, modelId: mutableCar.carAttributes.modelId)
+        let carAttributesUpdated = car.carAttributes.updating(makeId: mutableCar.carAttributes.makeId,
                                                               make: make,
-                                                              modelId: car.carAttributes.modelId,
+                                                              modelId: mutableCar.carAttributes.modelId,
                                                               model: model,
-                                                              year: car.carAttributes.year)
-        return car.updating(carAttributes: carAttributesUpdated)
+                                                              year: mutableCar.carAttributes.year)
+        return mutableCar.updating(carAttributes: carAttributesUpdated)
     }
 }
 

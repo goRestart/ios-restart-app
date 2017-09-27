@@ -459,12 +459,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     }
     
     func navBarSearchTextFieldUpdated(text: String) {
-        let charactersCount = text.characters.count
-        if charactersCount > 0 {
-            viewModel.retrieveSuggestiveSearches(term: text)
-        } else {
-            viewModel.cleanUpSuggestiveSearches()
-        }
+        viewModel.searchTextFieldDidUpdate(text: text)
     }
 }
 

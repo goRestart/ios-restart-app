@@ -467,6 +467,8 @@ struct TrackerEvent {
             params[.postingType] = EventParameterPostingType.car.rawValue
         case .product:
             params[.postingType] = EventParameterPostingType.stuff.rawValue
+        case .realEstate:
+            params[.postingType] = EventParameterPostingType.realEstate.rawValue
         }
 
         params[.make] = EventParameterMake.make(name: listing.car?.carAttributes.make).name
@@ -607,6 +609,14 @@ struct TrackerEvent {
         var params = EventParameters()
         params[.listingId] = listing.objectId
         return TrackerEvent(name: .listingDeleteComplete, params: params)
+    }
+    
+    static func relatedListings(listingId: String,
+                                source: EventParameterRelatedListingsVisitSource) -> TrackerEvent {
+        var params = EventParameters()
+        params[.listingId] = listingId
+        params[.relatedSource] = source.rawValue
+        return TrackerEvent(name: .relatedListings, params: params)
     }
 
     static func firstMessage(info: SendMessageTrackingInfo,
@@ -939,10 +949,9 @@ struct TrackerEvent {
         return TrackerEvent(name: .notificationCenterStart, params: EventParameters())
     }
 
-    static func notificationCenterComplete(_ type: EventParameterNotificationType, source: EventParameterNotificationClickArea,
-                                           cardAction: String?, notificationCampaign: String?) -> TrackerEvent {
+    static func notificationCenterComplete(source: EventParameterNotificationClickArea, cardAction: String?,
+                                           notificationCampaign: String?) -> TrackerEvent {
         var params = EventParameters()
-        params[.notificationType] = type.rawValue
         params[.notificationClickArea] = source.rawValue
         // cardAction is passed as string instead of EventParameterCardAction type as retention could send anything on the query parameter.
         params[.notificationAction] = cardAction ?? TrackerEvent.notApply
@@ -997,11 +1006,13 @@ struct TrackerEvent {
     }
 
     static func listingBumpUpComplete(_ listing: Listing, price: EventParameterBumpUpPrice,
-                                      type: EventParameterBumpUpType, network: EventParameterShareNetwork) -> TrackerEvent {
+                                      type: EventParameterBumpUpType, restoreRetriesCount: Int,
+                                      network: EventParameterShareNetwork) -> TrackerEvent {
         var params = EventParameters()
         params.addListingParams(listing)
         params[.bumpUpPrice] = price.description
         params[.bumpUpType] = type.rawValue
+        params[.retriesNumber] = restoreRetriesCount
         params[.shareNetwork] = network.rawValue
         return TrackerEvent(name: .bumpUpComplete, params: params)
     }

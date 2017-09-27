@@ -54,7 +54,7 @@ protocol TabNavigator: class {
 protocol ListingDetailNavigator: TabNavigator {
     func closeProductDetail()
     func editListing(_ listing: Listing)
-    func openListingChat(_ listing: Listing)
+    func openListingChat(_ listing: Listing, source: EventParameterTypePage)
     func closeAfterDelete()
     func openFreeBumpUp(forListing listing: Listing, socialMessage: SocialMessage, paymentItemId: String)
     func openPayBumpUp(forListing listing: Listing,

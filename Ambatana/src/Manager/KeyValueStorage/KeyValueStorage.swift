@@ -232,14 +232,26 @@ extension KeyValueStorageable {
         }
     }
 
-    var userPendingTransactionsProductIds: [String:String] {
+    var userPendingTransactionsListingIds: [String:String] {
         get {
-            return currentUserProperties?.pendingTransactionsProductIds ??
+            return currentUserProperties?.pendingTransactionsListingIds ??
                 UserDefaultsUser.transactionsListingIdsDefaultValue
         }
         set {
             guard var userProperties = currentUserProperties else { return }
-            userProperties.pendingTransactionsProductIds = newValue
+            userProperties.pendingTransactionsListingIds = newValue
+            currentUserProperties = userProperties
+        }
+    }
+
+    var userFailedBumpsInfo: [String:[String:String?]] {
+        get {
+            return currentUserProperties?.failedBumpsInfo ??
+                UserDefaultsUser.failedBumpsInfoDefaultValue
+        }
+        set {
+            guard var userProperties = currentUserProperties else { return }
+            userProperties.failedBumpsInfo = newValue
             currentUserProperties = userProperties
         }
     }
