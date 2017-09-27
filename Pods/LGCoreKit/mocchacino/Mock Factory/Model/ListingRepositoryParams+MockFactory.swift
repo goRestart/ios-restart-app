@@ -10,10 +10,12 @@ import Foundation
 
 extension ListingCreationParams: MockFactory {
     public static func makeMock() -> ListingCreationParams {
-        switch Int.makeRandom(min: 0, max: 1) {
+        switch Int.makeRandom(min: 0, max: 2) {
         case 0:
             return .product(MockProductCreationParams.makeMock())
         case 1:
+            return .car(MockCarCreationParams.makeMock())
+        case 2:
             return .car(MockCarCreationParams.makeMock())
         default:
             return .car(MockCarCreationParams.makeMock())
@@ -23,9 +25,11 @@ extension ListingCreationParams: MockFactory {
 
 extension ListingEditionParams: MockFactory {
     public static func makeMock() -> ListingEditionParams {
-        switch Int.makeRandom(min: 0, max: 1) {
+        switch Int.makeRandom(min: 0, max: 2) {
         case 0:
             return .product(MockProductEditionParams.makeMock())
+        case 1:
+            return .car(MockCarEditionParams.makeMock())
         case 1:
             return .car(MockCarEditionParams.makeMock())
         default:
