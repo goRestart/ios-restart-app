@@ -28,8 +28,9 @@ class ListingCarouselCell: UICollectionViewCell {
     static let identifier = "ListingCarouselCell"
     var collectionView: UICollectionView
 
-    fileprivate var leftTapFrameView: UIView!
-    fileprivate var rightTapFrameView: UIView!
+    fileprivate var singleTap: UITapGestureRecognizer?
+    fileprivate let leftTapFrameView = UIView()
+    fileprivate let rightTapFrameView = UIView()
     
     fileprivate var productImages = [URL]()
     fileprivate var productBackgroundColor: UIColor?
@@ -80,8 +81,12 @@ class ListingCarouselCell: UICollectionViewCell {
         collectionView.register(ListingCarouselImageCell.self, forCellWithReuseIdentifier:
             ListingCarouselImageCell.identifier)
         
-        leftTapFrameView = UIView()
-        rightTapFrameView = UIView()
+        singleTap = UITapGestureRecognizer(target: self, action: #selector(doSingleTapAction))
+        if let singleTap = singleTap {
+            singleTap.isEnabled = false
+            collectionView.addGestureRecognizer(singleTap)
+        }
+            
         let leftTap = UITapGestureRecognizer(target: self, action: #selector(ListingCarouselCell.doLeftTapAction))
         let rightTap = UITapGestureRecognizer(target: self, action: #selector(ListingCarouselCell.doRightTapAction))
         leftTapFrameView.addGestureRecognizer(leftTap)
@@ -140,8 +145,7 @@ class ListingCarouselCell: UICollectionViewCell {
         }
         
         if imageScrollDirection != .horizontal {
-            let singleTap = UITapGestureRecognizer(target: self, action: #selector(doSingleTapAction))
-            collectionView.addGestureRecognizer(singleTap)
+            singleTap?.isEnabled = true
         } else {
             leftTapFrameView.alpha = 1.0
             rightTapFrameView.alpha = 1.0
