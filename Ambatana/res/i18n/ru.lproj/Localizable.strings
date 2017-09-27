@@ -26,7 +26,7 @@
 "bump_up_pay_success" = "Выделено! Теперь ваш товар лучше виден.";
 "bump_up_processing_free_text" = "Обрабатываем продвижение объявления...";
 "bump_up_processing_priced_text" = "Обрабатываем платеж...";
-"bump_up_product_cell_chat_now_button" = "Chat Now";
+"bump_up_product_cell_chat_now_button" = "Пообщаться";
 "bump_up_product_cell_featured_stripe" = "Популярное";
 "bump_up_product_detail_featured_label" = "ПОПУЛЯРНОЕ";
 "bump_up_view_free_subtitle" = "Чем больше вы делитесь ссылкой на объявление, тем больше людей его видят.";
@@ -164,6 +164,7 @@
 "chat_safety_tips_message" = "• Встречайтесь лично и платите наличными.\n\n• Общайтесь в чате letgo.\n\n• Есть подозрения? Найди другого продавца/покупателя.";
 "chat_safety_tips_title" = "СОВЕТАМИ ПО БЕЗОПАСНОСТИ";
 "chat_send_button" = "Отправить";
+"chat_send_error_different_country" = "Вы не можете начать чат о товаре, размещенном в другой стране.";
 "chat_send_error_generic" = "При отправке сообщения произошла ошибка. Пожалуйста, попробуйте еще раз.";
 "chat_stickers_tooltip_new" = "НОВОЕ!";
 "chat_unblock_user" = "Разблокировать пользователя";
@@ -526,7 +527,14 @@
 "product_negotiable_price" = "Обсуждаема";
 "product_new_onboarding_finger_keep_swipe_label" = "%@ вперед или назад, чтобы перейти к следующему или предыдущему товару";
 "product_new_onboarding_finger_swipe_label" = "%@, чтобы увидеть еще фото";
+"product_new_onboarding_finger_swipe_next_product_highlighted_label" = "Листайте";
+"product_new_onboarding_finger_swipe_next_product_label" = "%@ для перехода к следующему или предыдущему объявлению";
 "product_new_onboarding_finger_tap_label" = "%@, чтобы перейти к следующему товару";
+"product_new_onboarding_tap_left_label" = "%@ для просмотра предыдущего фото";
+"product_new_onboarding_tap_left_label_highlighted" = "Нажмите на левую часть";
+"product_new_onboarding_tap_right_highlighted_label" = "Нажмите на правую часть";
+"product_new_onboarding_tap_right_highlighted_label_2" = "или в середину";
+"product_new_onboarding_tap_right_label" = "%@ или %@ для просмотра следующего фото";
 "product_onboarding_finger_scroll_label" = "Проведите вверх или вниз, чтобы листать фотографии";
 "product_onboarding_finger_swipe_label" = "Проведите влево или вправо, чтобы переключаться между предыдущим и следующим товаром";
 "product_onboarding_finger_tap_label" = "Коснитесь экрана, чтобы перейти к следующему товару";
@@ -587,6 +595,7 @@
 "product_post_retake" = "Переснять";
 "product_post_retry_button" = "Попробовать еще";
 "product_post_select_category_cars" = "Машины";
+"product_post_select_category_housing" = "Housing";
 "product_post_select_category_motors_and_accessories" = "Транспорт и запчасти";
 "product_post_select_category_other" = "Другие товары";
 "product_post_select_category_title" = "Что вы размещаете?";

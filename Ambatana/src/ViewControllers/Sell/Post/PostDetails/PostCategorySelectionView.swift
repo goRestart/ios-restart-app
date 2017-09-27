@@ -33,6 +33,7 @@ final class PostCategorySelectionView: UIView {
     fileprivate let carsCategoryButton = UIButton()
     fileprivate let motorsAndAccessoriesButton = UIButton()
     fileprivate let otherCategoryButton = UIButton()
+    fileprivate let realEstateCategoryButton = UIButton()
     
     fileprivate let disposeBag = DisposeBag()
     
@@ -113,12 +114,29 @@ fileprivate extension PostCategorySelectionView {
             self?.selectedCategoryPublishSubject.onNext(.unassigned)
         }.addDisposableTo(disposeBag)
         categoriesContainerView.addSubview(otherCategoryButton)
+        
+        
+        realEstateCategoryButton.translatesAutoresizingMaskIntoConstraints = false
+        realEstateCategoryButton.titleLabel?.font = UIFont.systemBoldFont(size: 23)
+        realEstateCategoryButton.setTitle(LGLocalizedString.productPostSelectCategoryHousing, for: .normal)
+        realEstateCategoryButton.setTitleColor(UIColor.white, for: .normal)
+        realEstateCategoryButton.setTitleColor(UIColor.whiteTextHighAlpha, for: .highlighted)
+        realEstateCategoryButton.setImage(#imageLiteral(resourceName: "categories_realestate_inactive"), for: .normal)
+        realEstateCategoryButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: Metrics.bigMargin, bottom: 0, right: 0)
+        realEstateCategoryButton.titleLabel?.lineBreakMode = .byWordWrapping
+        realEstateCategoryButton.contentHorizontalAlignment = .left
+        realEstateCategoryButton.rx.tap.subscribeNext { [weak self] _ in
+            self?.selectedCategoryPublishSubject.onNext(.realEstate)
+            }.addDisposableTo(disposeBag)
+        categoriesContainerView.addSubview(realEstateCategoryButton)
     }
     
     func setupAccessibilityIds() {
         carsCategoryButton.accessibilityId = .postingCategorySelectionCarsButton
         motorsAndAccessoriesButton.accessibilityId = .postingCategorySelectionMotorsAndAccessoriesButton
         otherCategoryButton.accessibilityId = .postingCategorySelectionOtherButton
+        otherCategoryButton.accessibilityId = .postingCategorySelectionRealEstateButton
+        
     }
     
     func setupLayout() {
@@ -152,6 +170,14 @@ fileprivate extension PostCategorySelectionView {
         otherCategoryButton.layout()
             .height(55)
         otherCategoryButton.layout(with: categoriesContainerView)
+            .leading(by: Metrics.bigMargin)
+            .trailing(by: -Metrics.bigMargin)
+        otherCategoryButton.layout(with: realEstateCategoryButton)
+            .above(by: -Metrics.bigMargin)
+        
+        realEstateCategoryButton.layout()
+            .height(55)
+        realEstateCategoryButton.layout(with: categoriesContainerView)
             .leading(by: Metrics.bigMargin)
             .trailing(by: -Metrics.bigMargin)
             .bottom()
