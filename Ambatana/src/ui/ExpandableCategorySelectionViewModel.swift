@@ -20,8 +20,8 @@ class ExpandableCategorySelectionViewModel: BaseViewModel {
     
     // MARK: - View lifecycle
     
-    override init() {
-        self.categoriesAvailable = [.unassigned, .motorsAndAccessories, .cars]
+    init(realEstateEnabled: Bool) {
+        self.categoriesAvailable = realEstateEnabled ? [.unassigned, .motorsAndAccessories, .cars, .realEstate] : [.unassigned, .motorsAndAccessories, .cars]
         super.init()
     }
     

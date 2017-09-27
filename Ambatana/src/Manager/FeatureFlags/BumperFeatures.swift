@@ -37,6 +37,7 @@ extension Bumper  {
         flags.append(FeedFilterRadiusValues.self)
         flags.append(ExpandableCategorySelectionMenu.self)
         flags.append(LocationDataSourceEndpoint.self)
+        flags.append(RealEstateEnabled.self)
         Bumper.initialize(flags)
     } 
 
@@ -158,6 +159,11 @@ extension Bumper  {
     static var locationDataSourceEndpoint: LocationDataSourceEndpoint {
         guard let value = Bumper.value(for: LocationDataSourceEndpoint.key) else { return .control }
         return LocationDataSourceEndpoint(rawValue: value) ?? .control 
+    }
+
+    static var realEstateEnabled: Bool {
+        guard let value = Bumper.value(for: RealEstateEnabled.key) else { return false }
+        return RealEstateEnabled(rawValue: value)?.asBool ?? false
     } 
 }
 
@@ -460,5 +466,14 @@ enum LocationDataSourceEndpoint: String, BumperFeature  {
             default: return .control
         }
     }
+}
+
+enum RealEstateEnabled: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return RealEstateEnabled.no.rawValue }
+    static var enumValues: [RealEstateEnabled] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Allow to see Real Estate category" } 
+    var asBool: Bool { return self == .yes }
 }
 

@@ -43,7 +43,9 @@ protocol FeatureFlaggeable: class {
     var appRatingDialogInactive: Bool { get }
     var feedFilterRadiusValues: FeedFilterRadiusValues { get }
     var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu { get }
+    var realEstateEnabled: Bool { get }
 
+    
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
     var locationRequiresManualChangeSuggestion: Bool { get }
@@ -337,6 +339,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.locationDataSourceEndpoint
         }
         return LocationDataSourceEndpoint.fromPosition(abTests.locationDataSourceType.value)
+    }
+    
+    var realEstateEnabled: Bool {
+        if Bumper.enabled {
+            return Bumper.realEstateEnabled
+        }
+        return abTests.realEstateEnabled.value
     }
     
 

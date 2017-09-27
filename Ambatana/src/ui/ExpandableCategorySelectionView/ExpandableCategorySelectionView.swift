@@ -33,7 +33,8 @@ class ExpandableCategorySelectionView: UIView {
     
     // MARK: - Lifecycle
     
-    init(frame: CGRect, buttonSpacing: CGFloat, bottomDistance: CGFloat, viewModel: ExpandableCategorySelectionViewModel) {
+    init(frame: CGRect, buttonSpacing: CGFloat, bottomDistance: CGFloat,
+         viewModel: ExpandableCategorySelectionViewModel) {
         self.buttonSpacing = buttonSpacing
         self.bottomDistance = bottomDistance
         self.viewModel = viewModel

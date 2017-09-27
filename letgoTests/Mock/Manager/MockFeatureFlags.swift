@@ -44,6 +44,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var appRatingDialogInactive: Bool = false
     var feedFilterRadiusValues: FeedFilterRadiusValues = .control
     var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu = .control
+    var realEstateEnabled: Bool = false
     
     // Country dependant features
     var freePostingModeAllowed = false
