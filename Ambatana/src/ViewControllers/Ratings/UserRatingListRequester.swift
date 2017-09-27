@@ -58,6 +58,7 @@ extension UserRatingListRequester: Paginable {
         delegate?.requesterIsLoadingUserRatings(isLoading, firstPage: nextPage == firstPage)
         userRatingRepository.index(userId, offset: objectCount, limit: resultsPerPage) { [weak self] result in
             if let value = result.value {
+                self?.nextPage += 1
                 self?.delegate?.requesterDidLoadUserRatings(value)
                 self?.objectCount += value.count
             } else if let _ = result.error {

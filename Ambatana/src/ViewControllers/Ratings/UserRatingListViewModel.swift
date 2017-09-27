@@ -94,6 +94,9 @@ class UserRatingListViewModel: BaseViewModel {
                                       isMyRating: isMyRatingsList, pendingReview: rating.status == .pendingReview)
     }
 
+    func setCurrentIndex(_ index: Int) {
+        userRatingListRequester.setCurrentIndex(index)
+    }
 
     // MARK: private methods
 
@@ -115,7 +118,7 @@ extension UserRatingListViewModel : UserRatingListRequesterDelegate {
     }
 
     func requesterDidLoadUserRatings(_ ratings: [UserRating]) {
-        self.ratings = ratings
+        self.ratings.append(contentsOf: ratings)
         delegate?.vmDidLoadUserRatings(ratings)
     }
 
