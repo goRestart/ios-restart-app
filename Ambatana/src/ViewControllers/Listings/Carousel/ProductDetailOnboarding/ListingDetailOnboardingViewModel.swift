@@ -18,14 +18,6 @@ class ListingDetailOnboardingViewModel : BaseViewModel {
     var featureFlags: FeatureFlaggeable
     var keyValueStorage: KeyValueStorageable
     weak var delegate: ListingDetailOnboardingViewDelegate?
-    
-    var newLabelIsHidden: Bool {
-        return !(featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive && keyValueStorage[.didShowListingDetailOnboarding])
-    }
-
-    var newText: String {
-        return LGLocalizedString.commonNew
-    }
 
     var firstImage: UIImage? {
         if featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive {

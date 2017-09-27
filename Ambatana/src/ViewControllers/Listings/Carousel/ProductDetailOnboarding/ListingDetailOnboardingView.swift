@@ -14,7 +14,6 @@ class ListingDetailOnboardingView: BaseView {
 
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var fingersView: UIVisualEffectView!
-    @IBOutlet weak var newLabel: UILabel!
     @IBOutlet weak var firstLabel: UILabel!
     @IBOutlet weak var secondLabel: UILabel!
     @IBOutlet weak var thirdLabel: UILabel!
@@ -46,9 +45,6 @@ class ListingDetailOnboardingView: BaseView {
         contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         contentView.backgroundColor = UIColor.listBackgroundColor
         addSubview(contentView)
-        
-        newLabel.text = viewModel.newText
-        newLabel.isHidden = viewModel.newLabelIsHidden
 
         setupFingersView()
         setupViewsVisibility()
