@@ -107,9 +107,9 @@ fileprivate extension LetGoSetting {
         case .help:
             return UIImage(named: "ic_setting_help")
         case .termsAndConditions:
-            return UIImage(named: "ic_setting_help")
+            return UIImage(named: "ic_setting_terms_and_conditions")
         case .privacyPolicy:
-            return UIImage(named: "ic_setting_help")
+            return UIImage(named: "ic_setting_privacy_policy")
         case .logOut, .versionInfo:
             return nil
         case let .changePhoto(placeholder,_):
