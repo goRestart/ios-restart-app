@@ -97,6 +97,10 @@ extension MockKeyValueStorage: KeyValueStorageable {
         get { return keyValue[key._key] as? [Int] ?? [Int]() }
         set { keyValue[key._key] = newValue }
     }
+    subscript(key: DefaultsKey<[LocalSuggestiveSearch]>) -> [LocalSuggestiveSearch] {
+        get { return keyValue[key._key] as? [LocalSuggestiveSearch] ?? [LocalSuggestiveSearch]() }
+        set { keyValue[key._key] = newValue }
+    }
     func get<T: UserDefaultsDecodable>(_ key: DefaultsKey<T>) -> T? {
         guard let dict = keyValue[key._key] as? [String: Any] else { return nil }
         return T.decode(dict)
