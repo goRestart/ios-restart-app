@@ -641,12 +641,14 @@ extension ChatViewModel {
                     case .userNotVerified:
                         self?.showUserNotVerifiedAlert()
                     case .notAuthenticated, .userBlocked, .internalError, .network, .apiError:
-                        self?.showSendMessageError()
+                        self?.showSendMessageError(withText: LGLocalizedString.chatSendErrorGeneric)
+                    case .differentCountry:
+                        self?.showSendMessageError(withText: LGLocalizedString.chatSendErrorDifferentCountry)
                     }
                 case .userNotVerified:
                     self?.showUserNotVerifiedAlert()
                 case .forbidden, .internalError, .network, .notFound, .tooManyRequests, .unauthorized, .serverError:
-                    self?.showSendMessageError()
+                    self?.showSendMessageError(withText: LGLocalizedString.chatSendErrorGeneric)
                 }
             }
         }
@@ -686,10 +688,10 @@ extension ChatViewModel {
         }
     }
 
-    private func showSendMessageError() {
+    private func showSendMessageError(withText text: String) {
         guard !showingSendMessageError else { return }
         showingSendMessageError = true
-        delegate?.vmShowAutoFadingMessage(LGLocalizedString.chatSendErrorGeneric) { [weak self] in
+        delegate?.vmShowAutoFadingMessage(text) { [weak self] in
             self?.showingSendMessageError = false
         }
     }

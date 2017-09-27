@@ -30,6 +30,7 @@ enum WebSocketError: Error {
     case userNotVerified
     case userBlocked
     case suspended(withCode: Int)
+    case differentCountry
     
     init(wsErrorType: WebSocketErrorType) {
         switch wsErrorType {
@@ -37,6 +38,8 @@ enum WebSocketError: Error {
             self = .userNotVerified
         case .userBlocked:
             self = .userBlocked
+        case .userInDifferentCountryError:
+            self = .differentCountry
         default:
             self = .internalError
         }
