@@ -51,8 +51,6 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     @IBOutlet weak var filterDescriptionTopConstraint: NSLayoutConstraint!
 
     fileprivate let infoBubbleTopMargin: CGFloat = 8
-    fileprivate let verticalMarginHeaderView: CGFloat = Metrics.veryShortMargin
-    fileprivate let horizontalMarginHeaderView: CGFloat = Metrics.margin
     fileprivate let sectionHeight: CGFloat = 54
     fileprivate let firstSectionMarginTop: CGFloat = -36
 
@@ -584,13 +582,12 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
         views["label"] = suggestionTitleLabel
         views["clear"] = clearButton
         var metrics = [String: Any]()
-        metrics["verticalMarginHeaderView"] = verticalMarginHeaderView
-        metrics["horizontalMarginHeaderView"] = horizontalMarginHeaderView
-        container.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-verticalMarginHeaderView-[label]-verticalMarginHeaderView-|",
+        metrics["horizontalMarginHeaderView"] = Metrics.margin
+        container.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-20-[label]-5-|",
             options: [], metrics: metrics, views: views))
         container.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-horizontalMarginHeaderView-[label]",
             options: [], metrics: metrics, views: views))
-        container.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-verticalMarginHeaderView-[clear]-verticalMarginHeaderView-|",
+        container.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-20-[clear]-5-|",
             options: [], metrics: metrics, views: views))
         container.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:[clear]-horizontalMarginHeaderView-|",
             options: [], metrics: metrics, views: views))
