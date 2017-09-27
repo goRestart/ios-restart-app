@@ -857,6 +857,12 @@ extension ListingCarouselViewController: ListingCarouselCellDelegate {
             contentOffset.x -= cell.width
             if contentOffset.x >= 0 {
                 collectionView.setContentOffset(contentOffset, animated: true)
+            } else {
+                collectionView.showRubberBandEffect(.left,
+                                                    offset: usesHorizontalNavigation ?
+                                                        ListingCarouselViewController.animatedLayoutRubberBandOffset :
+                                                        ListingCarouselViewController.defaultRubberBandOffset)
+
             }
         } else {
             let newIndexRow = indexPath.row + 1
@@ -1101,17 +1107,6 @@ extension ListingCarouselViewController: UICollectionViewDataSource, UICollectio
                                            indexPath: indexPath, imageDownloader: carouselImageDownloader,
                                            imageScrollDirection: viewModel.imageScrollDirection)
             carouselCell.delegate = self
-            
-            if usesHorizontalNavigation {
-                let leftTapFrameView = UIView(frame: CGRect(x: 0, y: 0, width: cell.width/4, height: cell.height))
-                let rightTapFrameView = UIView(frame: CGRect(x: cell.width/4, y: 0, width: cell.width*3/4 , height: cell.height))
-                let leftTap = UITapGestureRecognizer(target: carouselCell, action: #selector(ListingCarouselCell.didLeftTap))
-                let rightTap = UITapGestureRecognizer(target: carouselCell, action: #selector(ListingCarouselCell.didRightTap))
-                leftTapFrameView.addGestureRecognizer(leftTap)
-                rightTapFrameView.addGestureRecognizer(rightTap)
-                cell.addSubview(leftTapFrameView)
-                cell.addSubview(rightTapFrameView)
-            }
             
             return carouselCell
     }

@@ -78,28 +78,26 @@ class ListingCarouselCell: UICollectionViewCell {
             ListingCarouselImageCell.identifier)
     }
     
-    func didSingleTap(_ sender: UITapGestureRecognizer) {
+    func doSingleTapAction(_ sender: UITapGestureRecognizer) {
         delegate?.didTapOnCarouselCell(self, tapSide: nil)
     }
     
-    func didLeftTap(_ sender: UITapGestureRecognizer) {
+    func doLeftTapAction(_ sender: UITapGestureRecognizer) {
         let pageSize = collectionView.frame.size.width
         guard pageSize > 0, numberOfImages > 0 else { return }
-        let collectionContentOffset = collectionView.contentOffset.x - collectionView.width
+        let collectionContentOffset = collectionView.contentOffset.x - self.width
         if collectionContentOffset < 0 {
-            //delegate?.didLeftTapFirstImageOnCarouselCell(self)
             delegate?.didTapOnCarouselCell(self, tapSide: .left)
         } else {
             collectionView.setContentOffset(CGPoint(x: collectionContentOffset, y: 0.0), animated: true)
         }
     }
     
-    func didRightTap(_ sender: UITapGestureRecognizer) {
+    func doRightTapAction(_ sender: UITapGestureRecognizer) {
         let pageSize = collectionView.frame.size.width
         guard pageSize > 0, numberOfImages > 0 else { return }
-        let collectionContentOffset = collectionView.contentOffset.x + collectionView.width
-        if collectionContentOffset >= collectionView.width*CGFloat(numberOfImages) {
-            //delegate?.didRightTapLastImageTapOnCarouselCell(self)
+        let collectionContentOffset = collectionView.contentOffset.x + self.width
+        if collectionContentOffset >= self.width * CGFloat(numberOfImages) {
             delegate?.didTapOnCarouselCell(self, tapSide: .right)
         } else {
             collectionView.setContentOffset(CGPoint(x: collectionContentOffset, y: 0.0), animated: true)
@@ -124,10 +122,19 @@ class ListingCarouselCell: UICollectionViewCell {
         }
         
         if imageScrollDirection != .horizontal {
-            let singleTap = UITapGestureRecognizer(target: self, action: #selector(didSingleTap))
+            let singleTap = UITapGestureRecognizer(target: self, action: #selector(doSingleTapAction))
             collectionView.addGestureRecognizer(singleTap)
         } else {
-            collectionView.isUserInteractionEnabled = false
+            let leftTapFrameView = UIView(frame: CGRect(x: 0, y: 0, width: self.width/4, height: self.height))
+            let rightTapFrameView = UIView(frame: CGRect(x: self.width/4, y: 0, width: self.width*3/4 , height: self.height))
+            let leftTap = UITapGestureRecognizer(target: self, action: #selector(ListingCarouselCell.doLeftTapAction))
+            let rightTap = UITapGestureRecognizer(target: self, action: #selector(ListingCarouselCell.doRightTapAction))
+            leftTapFrameView.addGestureRecognizer(leftTap)
+            rightTapFrameView.addGestureRecognizer(rightTap)
+            self.addSubview(leftTapFrameView)
+            self.addSubview(rightTapFrameView)
+            
+            collectionView.isUserInteractionEnabled = false // Disables user actions as scrolling or cell selection
         }
         
         collectionView.setContentOffset(CGPoint.zero, animated: false) //Resetting images
