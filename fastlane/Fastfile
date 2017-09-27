@@ -341,7 +341,7 @@ platform :ios do
     #danger(github_api_token: '7d076b068979573b076de8866f9e46ab9845113a', verbose: true)
 
     ENV["LG_GITHUB_USER"] = "letbot"
-    ENV["LG_GITHUB_PASSWORD"] = "letgo2015"
+    ENV["LG_GITHUB_PASSWORD"] = "653712c98a4ed68b58776810aa543cf20e700a3a"
     ENV["LG_GITHUB_REPOSITORY"] = "letgoapp/letgo-ios"
     pullRequest = nil
     if !ENV["TEAMCITY_BRANCH"].nil?
