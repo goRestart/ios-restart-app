@@ -159,7 +159,7 @@ class MainListingsViewModel: BaseViewModel {
     fileprivate let searchType: SearchType? // The initial search
     fileprivate var collections: [CollectionCellType] {
         guard keyValueStorage[.lastSearches].count >= minimumSearchesSavedToShowCollection else { return [] }
-        return [.you]
+        return [.selectedForYou]
     }
     fileprivate let keyValueStorage: KeyValueStorage
     fileprivate let featureFlags: FeatureFlaggeable
@@ -1004,7 +1004,7 @@ fileprivate extension MainListingsViewModel {
     func queryForCollection(_ type: CollectionCellType) -> String {
         var query: String
         switch type {
-        case .you:
+        case .selectedForYou:
             query = keyValueStorage[.lastSearches].reversed().joined(separator: " ")
                 .clipMoreThan(wordCount: Constants.maxSelectedForYouQueryTerms)
         }
