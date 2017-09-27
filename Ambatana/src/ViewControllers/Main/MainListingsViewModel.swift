@@ -248,6 +248,7 @@ class MainListingsViewModel: BaseViewModel {
         
         super.init()
 
+        self.listViewModel.listingCellDelegate = self
         setup()
     }
     
@@ -1133,5 +1134,16 @@ extension MainListingsViewModel: TaxonomiesDelegate {
         delegate?.vmShowTags(tags)
         updateCategoriesHeader()
         updateListView()
+    }
+}
+
+// MARK: ListingCellDelegate
+
+extension MainListingsViewModel: ListingCellDelegate {
+    func chatButtonPressedFor(listing: Listing) {
+        
+        navigator?.openChat(.listingAPI(listing: listing),
+                            source: .listingListFeatured,
+                            predefinedMessage: nil)
     }
 }
