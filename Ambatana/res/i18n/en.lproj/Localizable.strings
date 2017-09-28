@@ -1627,6 +1627,27 @@
 // Product new onboarding, tap to go to next product label regular text
 "product_new_onboarding_finger_tap_label" = "%@ to go to the next item";
 
+// Product new onboarding, tap left to go to the next image
+"product_new_onboarding_tap_right_label" = "%@ or %@ to see the next picture";
+
+// Product new onboarding, tap left to go to the next image highlighted right
+"product_new_onboarding_tap_right_highlighted_label" = "Tap on the right";
+
+// Product new onboarding, tap left to go to the next image highlighted middle
+"product_new_onboarding_tap_right_highlighted_label_2" = "in the center";
+
+// Product new onboarding, tap left to go to the previous image
+"product_new_onboarding_tap_left_label" = "%@ to see the previous picture";
+
+// Product new onboarding, tap left to go to the previous image highlighted left
+"product_new_onboarding_tap_left_label_highlighted" = "Tap on the left";
+
+// Product new onboarding, swipe to go to next or previous product
+"product_new_onboarding_finger_swipe_next_product_label" = "%@ to go to the next listing or to the previous one";
+
+// Product new onboarding, swipe to go to next or previous product highlighted swipe
+"product_new_onboarding_finger_swipe_next_product_highlighted_label" = "Swipe";
+
 // Option to edit product
 "product_option_edit" = "Edit Product";
 

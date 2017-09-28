@@ -26,7 +26,7 @@
 "bump_up_pay_success" = "¡Destacado! Ahora tu artículo tiene más visibilidad.";
 "bump_up_processing_free_text" = "Procesando destacado...";
 "bump_up_processing_priced_text" = "Procesando el pago...";
-"bump_up_product_cell_chat_now_button" = "Chat Now";
+"bump_up_product_cell_chat_now_button" = "Chatear";
 "bump_up_product_cell_featured_stripe" = "Destacado";
 "bump_up_product_detail_featured_label" = "DESTACADO";
 "bump_up_view_free_subtitle" = "Cuanto más compartes, más visibilidad tiene tu anuncio.";
@@ -526,7 +526,14 @@
 "product_negotiable_price" = "Negociable";
 "product_new_onboarding_finger_keep_swipe_label" = "%@ hacia atrás o hacia delante para ir al artículo anterior o al siguiente";
 "product_new_onboarding_finger_swipe_label" = "%@ para ver más fotos";
+"product_new_onboarding_finger_swipe_next_product_highlighted_label" = "Swipe";
+"product_new_onboarding_finger_swipe_next_product_label" = "%@ to go to the next listing or to the previous one";
 "product_new_onboarding_finger_tap_label" = "%@ para ir al próximo artículo";
+"product_new_onboarding_tap_left_label" = "%@ to see the previous picture";
+"product_new_onboarding_tap_left_label_highlighted" = "Tap on the left";
+"product_new_onboarding_tap_right_highlighted_label" = "Tap on the right";
+"product_new_onboarding_tap_right_highlighted_label_2" = "in the center";
+"product_new_onboarding_tap_right_label" = "%@ or %@ to see the next picture";
 "product_onboarding_finger_scroll_label" = "Desplázate arriba o abajo para ver más fotos";
 "product_onboarding_finger_swipe_label" = "Desliza hacia la derecha o a la izquierda para pasar al próximo producto o al anterior";
 "product_onboarding_finger_tap_label" = "Pulsa para pasar al próximo producto";
