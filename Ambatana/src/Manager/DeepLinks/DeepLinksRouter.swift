@@ -6,15 +6,18 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
+import AppsFlyerLib
 import Foundation
 import RxSwift
 import Branch
 
-protocol DeepLinksRouter: class {
+protocol DeepLinksRouter: class, AppsFlyerTrackerDelegate {
     var deepLinks: Observable<DeepLink> { get }
     var chatDeepLinks: Observable<DeepLink> { get }
 
+    var initialDeeplinkAvailable: Bool { get }
     func consumeInitialDeepLink() -> DeepLink?
+
     func initWithLaunchOptions(_ launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool
     @available(iOS 9.0, *)
     func performActionForShortcutItem(_ shortcutItem: UIApplicationShortcutItem, completionHandler: (Bool) -> Void)
@@ -28,7 +31,23 @@ protocol DeepLinksRouter: class {
                                     completionHandler: () -> Void)
 }
 
-class LGDeepLinksRouter: DeepLinksRouter {
+class LGDeepLinksRouter: NSObject, DeepLinksRouter {
+    private struct AppInstallKeys {
+        struct Campaigns {
+            static let facebook = "adgroup"
+            static let other = "af_sub3"
+        }
+
+        struct Provider {
+            static let appsflyer = "Appsflyer"
+        }
+
+        static let isFacebook = "is_fb"
+        static let category = "-Category-"
+        static let search = "-Search-"
+        static let listing = "-Product-"
+    }
+
     static let sharedInstance: LGDeepLinksRouter = LGDeepLinksRouter()
 
     var deepLinks: Observable<DeepLink> {
@@ -53,6 +72,8 @@ class LGDeepLinksRouter: DeepLinksRouter {
 
     // MARK: - Public methods
 
+    var initialDeeplinkAvailable: Bool { return initialDeepLink != nil }
+
     func consumeInitialDeepLink() -> DeepLink? {
         let result = initialDeepLink
         initialDeepLink = nil
@@ -70,6 +91,17 @@ class LGDeepLinksRouter: DeepLinksRouter {
         let pushNotification = checkInitPushNotification(launchOptions)
 
         return shortcut || uriScheme || universalLink || pushNotification
+    }
+
+    // MARK: > Appsflyer
+
+    func onConversionDataReceived(_ installData: [AnyHashable : Any]!) {
+        guard let deferredDeepLink = buildFromConversionData(installData) else { return }
+        self.initialDeepLink = deferredDeepLink
+    }
+
+    func onConversionDataRequestFailure(_ error: Error!) {
+        print("App install conversion failed")
     }
 
     // MARK: > Shortcut actions (force touch)
@@ -156,4 +188,34 @@ class LGDeepLinksRouter: DeepLinksRouter {
         initialDeepLink = pushNotification.deepLink
         return true
     }
+
+    private func buildFromConversionData(_ installData: [AnyHashable : Any]!) -> DeepLink? {
+        if let isFacebook = installData[AppInstallKeys.isFacebook] as? Bool, isFacebook {
+            return buildFromAppInstall(installData, withCampaignID: AppInstallKeys.Campaigns.facebook)
+        } else {
+            return buildFromAppInstall(installData, withCampaignID: AppInstallKeys.Campaigns.other)
+        }
+    }
+
+    private func buildFromAppInstall(_ installData: [AnyHashable : Any]!, withCampaignID campaignID: String) -> DeepLink? {
+        guard let campaign = installData[campaignID] as? String else { return nil }
+
+        let splittedCategory = campaign.components(separatedBy: AppInstallKeys.category)
+        if splittedCategory.count == 2, let category = splittedCategory.last {
+            return DeepLink.appInstall(.search(query: "", categories: category),
+                                       source: .external(source: AppInstallKeys.Provider.appsflyer))
+        }
+        let splittedSearch = campaign.components(separatedBy: AppInstallKeys.search)
+        if splittedSearch.count == 2, let queryString = splittedSearch.last {
+            return DeepLink.appInstall(.search(query: queryString, categories: nil),
+                                       source: .external(source: AppInstallKeys.Provider.appsflyer))
+        }
+        let splittedListing = campaign.components(separatedBy: AppInstallKeys.listing)
+        if splittedListing.count == 2, let listing = splittedListing.last {
+            return DeepLink.appInstall(.listing(listingId: listing),
+                                       source: .external(source: AppInstallKeys.Provider.appsflyer))
+        }
+        return nil
+    }
+
 }

@@ -11,6 +11,7 @@ import SafariServices
 
 protocol OnboardingCoordinatorDelegate: class {
     func onboardingCoordinator(_ coordinator: OnboardingCoordinator, didFinishPosting posting: Bool, source: PostingSource?)
+    func shouldSkipPostingTour() -> Bool
 }
 
 final class OnboardingCoordinator: Coordinator, ChangePasswordPresenter {
@@ -181,7 +182,15 @@ extension OnboardingCoordinator: TourNotificationsNavigator {
         if locationManager.shouldAskForLocationPermissions() {
             openTourLocation()
         } else {
-            openTourPosting()
+            guard let delegate = self.delegate else {
+                openTourPosting()
+                return
+            }
+            if delegate.shouldSkipPostingTour() {
+                delegate.onboardingCoordinator(self, didFinishPosting: false, source: nil)
+            } else {
+                openTourPosting()
+            }
         }
     }
 }
@@ -191,7 +200,15 @@ extension OnboardingCoordinator: TourNotificationsNavigator {
 
 extension OnboardingCoordinator: TourLocationNavigator {
     func tourLocationFinish() {
-        openTourPosting()
+        guard let delegate = self.delegate else {
+            openTourPosting()
+            return
+        }
+        if delegate.shouldSkipPostingTour() {
+            delegate.onboardingCoordinator(self, didFinishPosting: false, source: nil)
+        } else {
+            openTourPosting()
+        }
     }
 }
 

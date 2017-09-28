@@ -57,7 +57,10 @@ extension AppDelegate: UIApplicationDelegate {
         self.featureFlags = featureFlags
         featureFlags.registerVariables()
         self.purchasesShopper = LGPurchasesShopper.sharedInstance
-        self.deepLinksRouter = LGDeepLinksRouter.sharedInstance
+        let deepLinksRouter = LGDeepLinksRouter.sharedInstance
+        AppsFlyerTracker.shared().delegate = deepLinksRouter
+        self.deepLinksRouter = deepLinksRouter
+
         setupAppearance()
         setupLibraries(application,
                        launchOptions: launchOptions,
@@ -98,14 +101,11 @@ extension AppDelegate: UIApplicationDelegate {
         window.makeKeyAndVisible()
 
         let fbApplicationDelegate = FBSDKApplicationDelegate.sharedInstance()
-        let deepLinksRouterContinuation = deepLinksRouter?.initWithLaunchOptions(launchOptions) ?? false
+        let deepLinksRouterContinuation = deepLinksRouter.initWithLaunchOptions(launchOptions) ?? false
         let fbSdkContinuation = fbApplicationDelegate?.application(application,
                                                                   didFinishLaunchingWithOptions: launchOptions) ?? false
 
         appCoordinator.open()
-
-
-        AppsFlyerTracker.shared().delegate = self
 
         return deepLinksRouterContinuation || fbSdkContinuation
     }
@@ -423,28 +423,5 @@ fileprivate extension AppDelegate {
             keyValueStorage[.didCrash] = true
             crashManager.appCrashed = true
         }
-    }
-}
-
-extension AppDelegate: AppsFlyerTrackerDelegate {
-    // TODO: move to another object
-
-    func onConversionDataReceived(_ installData: [AnyHashable : Any]!) {
-        func onFacebookConversionReceived(_ installData: [AnyHashable : Any]!) {
-
-        }
-        func onConversionReceived(_ installData: [AnyHashable : Any]!) {
-
-        }
-
-        if let isFacebook = installData["is_fb"] as? Bool, isFacebook {
-            onFacebookConversionReceived(installData)
-        } else {
-            onConversionReceived(installData)
-        }
-    }
-
-    func onConversionDataRequestFailure(_ error: Error!) {
-        
     }
 }
