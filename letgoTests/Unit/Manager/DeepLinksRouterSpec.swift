@@ -18,7 +18,7 @@ class DeepLinksRouterSpec: QuickSpec {
 
         let deeplinksRouter = LGDeepLinksRouter.sharedInstance
 
-        describe("We build the deeplink for") {
+        describe("We build the basic campaign deeplink for") {
 
             afterEach {
                 _ = deeplinksRouter.consumeInitialDeepLink()
@@ -48,6 +48,44 @@ class DeepLinksRouterSpec: QuickSpec {
             context("targeting a specific listing") {
                 beforeEach {
                     let installData = MockDeferredDeepLinkMaker.makeTargetListing()
+                    deeplinksRouter.onConversionDataReceived(installData)
+                }
+                it("and check if initial deeplink is set properly") {
+                    expect(deeplinksRouter.initialDeeplinkAvailable).to(beTrue())
+                }
+            }
+        }
+
+        describe("We build the facebook campaign deeplink for") {
+
+            afterEach {
+                _ = deeplinksRouter.consumeInitialDeepLink()
+            }
+
+            context("targeting a specific category") {
+                beforeEach {
+                    let installData = MockDeferredDeepLinkMaker.makeFacebookTargetCategory()
+                    deeplinksRouter.onConversionDataReceived(installData)
+                }
+                it("and check if initial deeplink is set properly") {
+                    expect(deeplinksRouter.initialDeeplinkAvailable).to(beTrue())
+                }
+
+            }
+
+            context("targeting a specific query search") {
+                beforeEach {
+                    let installData = MockDeferredDeepLinkMaker.makeFacebookTargetQuery()
+                    deeplinksRouter.onConversionDataReceived(installData)
+                }
+                it("and check if initial deeplink is set properly") {
+                    expect(deeplinksRouter.initialDeeplinkAvailable).to(beTrue())
+                }
+            }
+
+            context("targeting a specific listing") {
+                beforeEach {
+                    let installData = MockDeferredDeepLinkMaker.makeFacebookTargetListing()
                     deeplinksRouter.onConversionDataReceived(installData)
                 }
                 it("and check if initial deeplink is set properly") {

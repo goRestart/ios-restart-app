@@ -15,6 +15,27 @@ final class MockDeferredDeepLinkMaker {
         return nil
     }
 
+    static func makeFacebookTargetQuery() -> [String: Any]? {
+        var installData: [String: Any]? = [:]
+        if let installJSON = Bundle.main.url(forResource: "DeferredDeepLinkFacebookTargetSearchQuery", withExtension: "json") {
+            do {
+                let data = try Data(contentsOf: installJSON)
+                var jsonString: String = String(data: data, encoding: .utf8) ?? ""
+                let queryString = String.makeRandom()
+                jsonString = jsonString.replacingOccurrences(of: "{0}",
+                                                             with: queryString,
+                                                             options: .literal,
+                                                             range: nil)
+
+                installData = try JSONSerialization.jsonObject(with: jsonString.data(using: .utf8)!,
+                                                               options: []) as? [String: Any]
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        return installData
+    }
+
     static func makeTargetQuery() -> [String: Any]? {
         var installData: [String: Any]? = [:]
         if let installJSON = Bundle.main.url(forResource: "DeferredDeepLinkTargetSearchQuery", withExtension: "json") {
@@ -24,6 +45,27 @@ final class MockDeferredDeepLinkMaker {
                 let queryString = String.makeRandom()
                 jsonString = jsonString.replacingOccurrences(of: "{0}",
                                                              with: queryString,
+                                                             options: .literal,
+                                                             range: nil)
+
+                installData = try JSONSerialization.jsonObject(with: jsonString.data(using: .utf8)!,
+                                                               options: []) as? [String: Any]
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        return installData
+    }
+
+    static func makeFacebookTargetCategory() -> [String: Any]? {
+        var installData: [String: Any]? = [:]
+        if let installJSON = Bundle.main.url(forResource: "DeferredDeepLinkFacebookTargetCategory", withExtension: "json") {
+            do {
+                let data = try Data(contentsOf: installJSON)
+                var jsonString: String = String(data: data, encoding: .utf8) ?? ""
+                let categoryID = String(ListingCategory.makeMock().rawValue)
+                jsonString = jsonString.replacingOccurrences(of: "{0}",
+                                                             with: categoryID,
                                                              options: .literal,
                                                              range: nil)
 
@@ -52,6 +94,29 @@ final class MockDeferredDeepLinkMaker {
                                                                options: []) as? [String: Any]
             } catch {
                 print(error.localizedDescription)
+            }
+        }
+        return installData
+    }
+
+    static func makeFacebookTargetListing() -> [String: Any]? {
+        var installData: [String: Any]? = [:]
+        if let installJSON = Bundle.main.url(forResource: "DeferredDeepLinkFacebookTargetListing", withExtension: "json") {
+            do {
+                let data = try Data(contentsOf: installJSON)
+                var jsonString: String = String(data: data, encoding: .utf8) ?? ""
+                if let objectID = Listing.makeMock().objectId {
+                    jsonString = jsonString.replacingOccurrences(of: "{0}",
+                                                                 with: objectID,
+                                                                 options: .literal,
+                                                                 range: nil)
+                }
+
+                installData = try JSONSerialization.jsonObject(with: jsonString.data(using: .utf8)!,
+                                                               options: []) as? [String: Any]
+            } catch {
+                print(error.localizedDescription)
+                return installData
             }
         }
         return installData
