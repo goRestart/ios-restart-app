@@ -112,20 +112,6 @@ extension UIColor {
 
     static let asparagus = UIColor(rgb: 0x81ac56)
     static let macaroniAndCheese = UIColor(rgb: 0xf1b83d)
-    private static let wisteria = UIColor(rgb: 0xa384bf)
-    private static let desert = UIColor(rgb: 0xa384bf)
-
-    static var unassignedCategory: UIColor { return clear }
-    static var electronicsCategory: UIColor { return tealBlue }
-    static var carsMotorsCategory: UIColor { return UIColor(rgb: 0x9b9b9b) }
-    static var sportsGamesCategory: UIColor { return asparagus }
-    static var homeGardenCategory: UIColor { return macaroniAndCheese }
-    static var moviesBooksCategory: UIColor { return wisteria }
-    static var fashionAccessoriesCategory: UIColor { return UIColor(rgb: 0xfe6e7f) }
-    static var babyChildCategory: UIColor { return cornflower }
-    static var otherCategory: UIColor { return desert }
-    static var carCategory: UIColor { return desert }
-    static var realEstateCategory: UIColor { return desert }
 }
 
 // MARK: > Text colors
