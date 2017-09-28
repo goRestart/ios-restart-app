@@ -19,29 +19,59 @@ class ListingDetailOnboardingViewModel : BaseViewModel {
     var keyValueStorage: KeyValueStorageable
     weak var delegate: ListingDetailOnboardingViewDelegate?
 
-    var newText: String {
-        return LGLocalizedString.commonNew
-    }
-
     var firstImage: UIImage? {
+        if featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive {
+            return UIImage(named: "right_tap_squared")
+        }
         return UIImage(named: "finger_tap")
     }
     var firstText: NSAttributedString {
-        return tipText(textToHighlight: nil, fullText: LGLocalizedString.productOnboardingFingerTapLabel)
+        if featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive {
+            let highlightedTextTapRight = LGLocalizedString.productNewOnboardingTapRightHighlightedLabel
+            let highlightedTextTapMiddle = LGLocalizedString.productNewOnboardingTapRightHighlightedLabel2
+            return tipText(textToHighlight: highlightedTextTapRight,
+                           textToHighlight2: highlightedTextTapMiddle,
+                           fullText: LGLocalizedString.productNewOnboardingTapRightLabel(highlightedTextTapRight, highlightedTextTapMiddle))
+        }
+        return tipText(textToHighlight: nil,
+                       textToHighlight2: nil,
+                       fullText: LGLocalizedString.productOnboardingFingerTapLabel)
     }
 
     var secondImage: UIImage? {
+        if featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive {
+            return UIImage(named: "left_tap_squared")
+        }
         return UIImage(named: "finger_swipe")
     }
     var secondText: NSAttributedString {
-        return tipText(textToHighlight: nil, fullText: LGLocalizedString.productOnboardingFingerSwipeLabel)
+        if featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive {
+            let highlightedText = LGLocalizedString.productNewOnboardingTapLeftLabelHighlighted
+            return tipText(textToHighlight: highlightedText,
+                           textToHighlight2: nil,
+                           fullText: LGLocalizedString.productNewOnboardingTapLeftLabel(highlightedText))
+        }
+        return tipText(textToHighlight: nil,
+                       textToHighlight2: nil,
+                       fullText: LGLocalizedString.productOnboardingFingerSwipeLabel)
     }
 
     var thirdImage: UIImage? {
+        if featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive {
+            return UIImage(named: "finger_swipe_card")
+        }
         return UIImage(named: "finger_scroll")
     }
     var thirdText: NSAttributedString {
-        return tipText(textToHighlight: nil, fullText: LGLocalizedString.productOnboardingFingerScrollLabel)
+        if featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive {
+            let highlightedText = LGLocalizedString.productNewOnboardingFingerSwipeNextProductHighlightedLabel
+            return tipText(textToHighlight: highlightedText,
+                           textToHighlight2: nil,
+                           fullText: LGLocalizedString.productNewOnboardingFingerSwipeNextProductLabel(highlightedText))
+        }
+        return tipText(textToHighlight: nil,
+                       textToHighlight2: nil,
+                       fullText: LGLocalizedString.productOnboardingFingerScrollLabel)
     }
 
     convenience override init() {
@@ -60,7 +90,11 @@ class ListingDetailOnboardingViewModel : BaseViewModel {
     }
 
     func hasBeenShown() {
-        keyValueStorage[.didShowListingDetailOnboarding] = true
+        if featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive {
+            keyValueStorage[.didShowHorizontalListingDetailOnboarding] = true
+        } else {
+            keyValueStorage[.didShowListingDetailOnboarding] = true
+        }
         delegate?.listingDetailOnboardingDidAppear()
     }
 
@@ -68,7 +102,7 @@ class ListingDetailOnboardingViewModel : BaseViewModel {
         delegate?.listingDetailOnboardingDidDisappear()
     }
 
-    private func tipText(textToHighlight: String?, fullText: String) -> NSAttributedString {
+    private func tipText(textToHighlight: String?, textToHighlight2: String?, fullText: String) -> NSAttributedString {
 
         var regularTextAttributes = [String : AnyObject]()
         regularTextAttributes[NSForegroundColorAttributeName] = UIColor.white
@@ -85,6 +119,15 @@ class ListingDetailOnboardingViewModel : BaseViewModel {
 
             let range = (fullText as NSString).range(of: textToHighlight)
             resultText.addAttributes(highlightedTextAttributes, range: range)
+        }
+        
+        if let textToHighlight2 = textToHighlight2 {
+            var highlightedTextAttributes = [String : AnyObject]()
+            highlightedTextAttributes[NSForegroundColorAttributeName] = UIColor.primaryColor
+            highlightedTextAttributes[NSFontAttributeName] = UIFont.systemMediumFont(size: 17)
+            
+            let range2 = (fullText as NSString).range(of: textToHighlight2)
+            resultText.addAttributes(highlightedTextAttributes, range: range2)
         }
 
         return resultText

@@ -6,11 +6,13 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
+import LGCoreKit
+
 enum SearchType {
     case user(query: String)
     case trending(query: String)
-    case suggestive(query: String, indexSelected: Int)
-    case lastSearch(query: String)
+    case suggestive(search: SuggestiveSearch, indexSelected: Int)
+    case lastSearch(search: SuggestiveSearch)
     case collection(type: CollectionCellType, query: String)
 
     var text: String {
@@ -19,10 +21,10 @@ enum SearchType {
             return query
         case let .trending(query):
             return query
-        case let .suggestive(query, _):
-            return query
-        case let .lastSearch(query):
-            return query
+        case let .suggestive(search, _):
+            return search.name
+        case let .lastSearch(search):
+            return search.name
         case let .collection(type, _):
             return type.title
         }
@@ -34,12 +36,23 @@ enum SearchType {
             return query
         case let .trending(query):
             return query
-        case let .suggestive(query, _):
-            return query
-        case let .lastSearch(query):
-            return query
+        case let .suggestive(search, _):
+            return search.name
+        case let .lastSearch(search):
+            return search.name
         case let .collection(_ , query):
             return query
+        }
+    }
+    
+    var category: ListingCategory? {
+        switch self {
+        case .user, .trending, .collection:
+            return nil
+        case let .suggestive(search, _):
+            return search.category
+        case let .lastSearch(search):
+            return search.category
         }
     }
 
