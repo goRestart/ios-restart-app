@@ -27,12 +27,6 @@ protocol ListingListViewModelDataDelegate: class {
     func vmDidSelectCollection(_ type: CollectionCellType)
 }
 
-extension ListingListViewModelDataDelegate {
-    func vmProcessReceivedListingPage(_ Listings: [ListingCellModel], page: UInt) -> [ListingCellModel] { return Listings }
-    func vmDidSelectSellBanner(_ type: String) {}
-    func vmDidSelectCollection(_ type: CollectionCellType) {}
-}
-
 struct ListingsRequesterResult {
     let listingsResult: ListingsResult
     let context: String?
