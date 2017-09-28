@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -157,11 +157,11 @@
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
-                                        <exclude reference="Dkn-gR-ehc"/>
-                                        <exclude reference="kmX-AF-yq9"/>
                                         <exclude reference="8gn-Hp-TJ2"/>
                                         <exclude reference="XTs-I1-uJT"/>
                                         <exclude reference="Xrz-Sf-MLm"/>
+                                        <exclude reference="Dkn-gR-ehc"/>
+                                        <exclude reference="kmX-AF-yq9"/>
                                     </mask>
                                 </variation>
                             </view>
@@ -230,7 +230,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="amp-1O-xsr" firstAttribute="top" secondItem="plb-hW-26Q" secondAttribute="bottom" constant="36" id="3Zu-su-4sr"/>
                             <constraint firstItem="plb-hW-26Q" firstAttribute="leading" secondItem="tok-TJ-iIH" secondAttribute="leading" constant="8" id="97g-wA-f2L"/>
@@ -250,11 +250,11 @@
                             <constraint firstItem="1TT-u3-nwZ" firstAttribute="top" secondItem="amp-1O-xsr" secondAttribute="bottom" constant="39" id="zMF-iP-Wx6"/>
                         </constraints>
                     </view>
-                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <blurEffect style="dark"/>
                 </visualEffectView>
             </subviews>
-            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="hbZ-mn-WxI" secondAttribute="bottom" id="3Gh-A7-o7J"/>
                 <constraint firstAttribute="trailing" secondItem="hbZ-mn-WxI" secondAttribute="trailing" id="ItK-Y1-O3d"/>
