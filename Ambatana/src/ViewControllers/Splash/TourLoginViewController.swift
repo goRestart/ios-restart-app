@@ -121,6 +121,7 @@ fileprivate extension TourLoginViewController {
     }
 
     func setupUI() {
+        view.backgroundColor = UIColor.clear
         if AdminViewController.canOpenAdminPanel() {
             let tap = UITapGestureRecognizer(target: self, action: #selector(openAdminPanel))
             topLogoImage.addGestureRecognizer(tap)

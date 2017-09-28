@@ -75,6 +75,7 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
     // MARK: - Private
 
     private func setupUI() {
+        view.backgroundColor = UIColor.blackBackgroundAlpha
         contentContainer.layer.cornerRadius = LGUIKitConstants.alertCornerRadius
         fbButton.setStyle(.facebook)
         googleButton.setStyle(.google)

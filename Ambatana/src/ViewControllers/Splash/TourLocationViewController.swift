@@ -79,6 +79,7 @@ final class TourLocationViewController: BaseViewController {
     // MARK: - Private
     
     private func setupUI() {
+        view.backgroundColor = UIColor.clear
         titleLabel.text = viewModel.title
         subtitleLabel.text = LGLocalizedString.locationPermissonsSubtitle
         distanceLabel.text = LGLocalizedString.locationPermissionsBubble
