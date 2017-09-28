@@ -20,7 +20,6 @@ class ABTests {
     let surveyEnabled = BoolABDynamicVar(key: "surveyEnabled", defaultValue: false)
 
     let websocketChat = BoolABDynamicVar(key: "websocketChat20170609", defaultValue: true)
-    let userReviews = BoolABDynamicVar(key: "userReviews", defaultValue: false)
     let captchaTransparent = BoolABDynamicVar(key: "captchaTransparent", defaultValue: false)
     let passiveBuyersShowKeyboard = BoolABDynamicVar(key: "passiveBuyersShowKeyboard", defaultValue: false)
     let freeBumpUpEnabled = BoolABDynamicVar(key: "freeBumpUpEnabled", defaultValue: false)
@@ -57,7 +56,6 @@ class ABTests {
         result.append(surveyEnabled)
 
         result.append(websocketChat)
-        result.append(userReviews)
         result.append(passiveBuyersShowKeyboard)
         result.append(captchaTransparent)
         result.append(freeBumpUpEnabled)
