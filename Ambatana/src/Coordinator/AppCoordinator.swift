@@ -449,13 +449,9 @@ extension AppCoordinator: OnboardingCoordinatorDelegate {
     func onboardingCoordinator(_ coordinator: OnboardingCoordinator, didFinishPosting posting: Bool, source: PostingSource?) {
         delegate?.appNavigatorDidOpenApp()
 
-        //        let pendingDeepLink = DeepLink.appInstall(.search(query: "IKEA", categories: nil), source: .external(source: "Test"))
-                        let pendingDeepLink = DeepLink.appInstall(.search(query: "", categories: "1"), source: .external(source: "Test"))
-//        let pendingDeepLink = DeepLink.appInstall(.listing(listingId: "825b245b-060e-4a70-872c-5e8c7500ce0f"), source: .external(source: "Test"))
-        //        if let pendingDeepLink = deepLinksRouter.consumeInitialDeepLink() {
-        openDeepLink(deepLink: pendingDeepLink)
-        //        } else
-        if let source = source, posting {
+        if let pendingDeepLink = deepLinksRouter.consumeInitialDeepLink() {
+            openDeepLink(deepLink: pendingDeepLink)
+        } else if let source = source, posting {
             openSell(source: source, postCategory: nil)
         }
     }

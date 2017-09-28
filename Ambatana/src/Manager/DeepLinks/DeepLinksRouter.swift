@@ -189,15 +189,16 @@ class LGDeepLinksRouter: NSObject, DeepLinksRouter {
         return true
     }
 
-    private func buildFromConversionData(_ installData: [AnyHashable : Any]!) -> DeepLink? {
-        if let isFacebook = installData[AppInstallKeys.isFacebook] as? Bool, isFacebook {
-            return buildFromAppInstall(installData, withCampaignID: AppInstallKeys.Campaigns.facebook)
+    private func buildFromConversionData(_ installData: [AnyHashable : Any]?) -> DeepLink? {
+        guard let data = installData else { return nil }
+        if let isFacebook = data[AppInstallKeys.isFacebook] as? Bool, isFacebook {
+            return buildFromAppInstall(data, withCampaignID: AppInstallKeys.Campaigns.facebook)
         } else {
-            return buildFromAppInstall(installData, withCampaignID: AppInstallKeys.Campaigns.other)
+            return buildFromAppInstall(data, withCampaignID: AppInstallKeys.Campaigns.other)
         }
     }
 
-    private func buildFromAppInstall(_ installData: [AnyHashable : Any]!, withCampaignID campaignID: String) -> DeepLink? {
+    private func buildFromAppInstall(_ installData: [AnyHashable : Any], withCampaignID campaignID: String) -> DeepLink? {
         guard let campaign = installData[campaignID] as? String else { return nil }
 
         let splittedCategory = campaign.components(separatedBy: AppInstallKeys.category)
