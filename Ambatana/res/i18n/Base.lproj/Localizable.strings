@@ -484,6 +484,9 @@
 // Chat send error generic. Message displayal is like the other error messages
 "chat_send_error_generic" = "An error occurred while sending the message. Please try again.";
 
+// Chat send error, users in different country
+"chat_send_error_different_country" = "You can't start a conversation about an item posted in a different country.";
+
 // Chat tooltip add stickers "NEW"
 "chat_stickers_tooltip_new" = "NEW!";
 
@@ -1830,6 +1833,9 @@
 
 // Product post category selection others button
 "product_post_select_category_other" = "Other items";
+
+// Product post category selection real Estate button
+"product_post_select_category_housing" = "Housing";
 
 // Product report confirm message. Message displayal is like the other dialog messages
 "product_report_confirm_message" = "Are you sure you want to report this product?";

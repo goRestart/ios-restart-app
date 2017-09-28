@@ -48,7 +48,7 @@ extension DefaultsKeys {
     static let stickersBadgeAlreadyShown = DefaultsKey<Bool>("stickersTooltipAlreadyShown")
 
     static let isGod = DefaultsKey<Bool>("isGod")
-    static let lastSearches = DefaultsKey<[String]>("lastSearches")
+    static let lastSuggestiveSearches = DefaultsKey<[LocalSuggestiveSearch]>("lastSuggestiveSearches")
 
     static let previousUserAccountProvider = DefaultsKey<String?>("previousUserAccountProvider")
     static let previousUserEmailOrName = DefaultsKey<String?>("previousUserEmailOrName")
@@ -339,6 +339,10 @@ extension KeyValueStorage: KeyValueStorageable {
         set { storage[key] = newValue }
     }
     subscript(key: DefaultsKey<[Int]>) -> [Int] {
+        get { return storage[key] }
+        set { storage[key] = newValue }
+    }
+    subscript(key: DefaultsKey<[LocalSuggestiveSearch]>) -> [LocalSuggestiveSearch] {
         get { return storage[key] }
         set { storage[key] = newValue }
     }

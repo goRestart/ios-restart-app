@@ -87,6 +87,10 @@ class StorageableUserDefaults: KeyValueStorageable {
         get { return userDefaults[key] }
         set { userDefaults[key] = newValue }
     }
+    subscript(key: DefaultsKey<[LocalSuggestiveSearch]>) -> [LocalSuggestiveSearch] {
+        get { return userDefaults.unarchive(key) ?? [] }
+        set { userDefaults.archive(key, newValue) }
+    }
     func get<T: UserDefaultsDecodable>(_ key: DefaultsKey<T>) -> T? {
         guard let dict = userDefaults.dictionary(forKey: key._key) else { return nil }
         return T.decode(dict)

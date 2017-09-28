@@ -164,6 +164,7 @@
 "chat_safety_tips_message" = "• Persoonlijk ontmoeten en contant betalen.\n \n• Voer gesprekken in de letgo chat.\n \n• Klinkt het te mooi om waar te zijn? Vind een andere koper/verkoper.";
 "chat_safety_tips_title" = "VEILIGHEIDSTIPS";
 "chat_send_button" = "Versturen";
+"chat_send_error_different_country" = "Je kunt geen gesprek beginnen over een geplaatst item in een ander land.";
 "chat_send_error_generic" = "Er is een fout opgetreden tijdens het versturen van het bericht. Probeer het later nog eens.";
 "chat_stickers_tooltip_new" = "NIEUW!";
 "chat_unblock_user" = "Deblokkeer gebruiker";
@@ -526,14 +527,14 @@
 "product_negotiable_price" = "Bespreekbaar";
 "product_new_onboarding_finger_keep_swipe_label" = "%@ terug of vooruit om naar het vorige of volgende item te gaan";
 "product_new_onboarding_finger_swipe_label" = "%@ om meer afbeeldingen te zien";
-"product_new_onboarding_finger_swipe_next_product_highlighted_label" = "Swipe";
-"product_new_onboarding_finger_swipe_next_product_label" = "%@ to go to the next listing or to the previous one";
+"product_new_onboarding_finger_swipe_next_product_highlighted_label" = "Veeg";
+"product_new_onboarding_finger_swipe_next_product_label" = "%@ om naar de volgende advertentie te gaan of naar de vorige";
 "product_new_onboarding_finger_tap_label" = "%@ om naar het volgende item te gaan";
-"product_new_onboarding_tap_left_label" = "%@ to see the previous picture";
-"product_new_onboarding_tap_left_label_highlighted" = "Tap on the left";
-"product_new_onboarding_tap_right_highlighted_label" = "Tap on the right";
-"product_new_onboarding_tap_right_highlighted_label_2" = "in the center";
-"product_new_onboarding_tap_right_label" = "%@ or %@ to see the next picture";
+"product_new_onboarding_tap_left_label" = "%@ om de vorige afbeelding te zien";
+"product_new_onboarding_tap_left_label_highlighted" = "Tik links";
+"product_new_onboarding_tap_right_highlighted_label" = "Tik rechts";
+"product_new_onboarding_tap_right_highlighted_label_2" = "in het midden";
+"product_new_onboarding_tap_right_label" = "%@ of %@ om de volgende afbeelding te zien";
 "product_onboarding_finger_scroll_label" = "Scroll om meer afbeeldingen te zien";
 "product_onboarding_finger_swipe_label" = "Schuif om naar het volgende of vorige product te gaan";
 "product_onboarding_finger_tap_label" = "Tik om naar het volgende product te gaan";
@@ -594,6 +595,7 @@
 "product_post_retake" = "Opnieuw nemen";
 "product_post_retry_button" = "Probeer het nogmaals";
 "product_post_select_category_cars" = "Auto’s";
+"product_post_select_category_housing" = "Huisvesting";
 "product_post_select_category_motors_and_accessories" = "Overige Voertuigen en Onderdelen";
 "product_post_select_category_other" = "Overige items";
 "product_post_select_category_title" = "Wat wil je verkopen?";

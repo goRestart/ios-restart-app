@@ -164,6 +164,7 @@
 "chat_safety_tips_message" = "• Meet in person and pay in cash.\n\n• Keep conversations in the letgo chat.\n\n• Too good to be true? Find another buyer/seller!";
 "chat_safety_tips_title" = "STAY SAFE";
 "chat_send_button" = "Send";
+"chat_send_error_different_country" = "You can't start a conversation about an item posted in a different country.";
 "chat_send_error_generic" = "An error occurred while sending the message. Please try again.";
 "chat_stickers_tooltip_new" = "NEW!";
 "chat_unblock_user" = "Unblock User";
@@ -594,6 +595,7 @@
 "product_post_retake" = "Retake";
 "product_post_retry_button" = "Try Again";
 "product_post_select_category_cars" = "Cars";
+"product_post_select_category_housing" = "Housing";
 "product_post_select_category_motors_and_accessories" = "Other Vehicles and Parts";
 "product_post_select_category_other" = "Other items";
 "product_post_select_category_title" = "What are you posting?";
