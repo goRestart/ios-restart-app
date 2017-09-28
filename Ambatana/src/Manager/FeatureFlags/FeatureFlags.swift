@@ -339,6 +339,13 @@ class FeatureFlags: FeatureFlaggeable {
         return LocationDataSourceEndpoint.fromPosition(abTests.locationDataSourceType.value)
     }
     
+    var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter {
+        if Bumper.enabled {
+            return Bumper.showPriceAfterSearchOrFilter
+        }
+        return ShowPriceAfterSearchOrFilter.fromPosition(abTests.showPriceAfterSearchOrFilter.value)
+    }
+    
 
     // MARK: - Country features
 

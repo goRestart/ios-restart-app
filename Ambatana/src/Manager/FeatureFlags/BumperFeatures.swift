@@ -37,6 +37,7 @@ extension Bumper  {
         flags.append(FeedFilterRadiusValues.self)
         flags.append(ExpandableCategorySelectionMenu.self)
         flags.append(LocationDataSourceEndpoint.self)
+        flags.append(ShowPriceAfterSearchOrFilter.self)
         Bumper.initialize(flags)
     } 
 
@@ -158,6 +159,11 @@ extension Bumper  {
     static var locationDataSourceEndpoint: LocationDataSourceEndpoint {
         guard let value = Bumper.value(for: LocationDataSourceEndpoint.key) else { return .control }
         return LocationDataSourceEndpoint(rawValue: value) ?? .control 
+    }
+
+    static var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter {
+        guard let value = Bumper.value(for: ShowPriceAfterSearchOrFilter.key) else { return .control }
+        return ShowPriceAfterSearchOrFilter(rawValue: value) ?? .control 
     } 
 }
 
@@ -457,6 +463,22 @@ enum LocationDataSourceEndpoint: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .appleWithRegion
             case 3: return .niordWithRegion
+            default: return .control
+        }
+    }
+}
+
+enum ShowPriceAfterSearchOrFilter: String, BumperFeature  {
+    case control, baseline, priceOnSearchOrFilter
+    static var defaultValue: String { return ShowPriceAfterSearchOrFilter.control.rawValue }
+    static var enumValues: [ShowPriceAfterSearchOrFilter] { return [.control, .baseline, .priceOnSearchOrFilter]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show price in feed products when user applies any search or filter" } 
+    static func fromPosition(_ position: Int) -> ShowPriceAfterSearchOrFilter {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .priceOnSearchOrFilter
             default: return .control
         }
     }

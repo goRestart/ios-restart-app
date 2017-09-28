@@ -119,5 +119,10 @@
         "name": "LocationDataSourceEndpoint",
         "values": ["control", "baseline", "appleWithRegion", "niordWithRegion"],
         "description": "Location data source for geocode and reverse geocode"
+    },
+    {
+        "name": "ShowPriceAfterSearchOrFilter",
+        "values": ["control", "baseline", "priceOnSearchOrFilter"],
+        "description": "Show price in feed products when user applies any search or filter"
     }
 ]

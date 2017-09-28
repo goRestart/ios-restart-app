@@ -41,6 +41,7 @@ class ABTests {
     let feedFilterRadiusValues = IntABDynamicVar(key: "20170904feedFilterRadiusValues", defaultValue: 0)
     let expandableCategorySelectionMenu = IntABDynamicVar(key: "20170904ExpandableCategorySelectionMenu", defaultValue: 0)
     let locationDataSourceType = IntABDynamicVar(key: "20170830LocationDataSourceType", defaultValue: 0)
+    let showPriceAfterSearchOrFilter = IntABDynamicVar(key: "20170928ShowPriceAfterSearchOrFilter", defaultValue: 0)
 
     init() {
     }
@@ -76,6 +77,7 @@ class ABTests {
         result.append(feedFilterRadiusValues)
         result.append(expandableCategorySelectionMenu)
         result.append(locationDataSourceType)
+        result.append(showPriceAfterSearchOrFilter)
 
         return result
     }
