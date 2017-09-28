@@ -127,7 +127,7 @@ extension ListingCategory {
         case .motorsAndAccessories:
             return UIImage(named: "categories_motors_tag")
         case .sportsLeisureAndGames:
-            return UIImage(named: "catçegories_sports_tag")
+            return UIImage(named: "categories_sports_tag")
         case .homeAndGarden:
             return UIImage(named: "categories_homes_tag")
         case .moviesBooksAndMusic:
