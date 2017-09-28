@@ -108,6 +108,10 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     fileprivate var usesHorizontalNavigation: Bool {
         return viewModel.imageHorizontalNavigationEnabled.value
     }
+    
+    fileprivate var bottomScrollLimit: CGFloat {
+        return max(0, collectionView.contentSize.height - collectionView.height + collectionView.contentInset.bottom)
+    }
 
 
     // MARK: - Lifecycle
@@ -284,7 +288,11 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         //Duplicating registered cells to avoid reuse of colindant cells
         registerListingCarouselCells()
         collectionView.isDirectionalLockEnabled = true
-        collectionView.alwaysBounceVertical = false
+        if usesHorizontalNavigation {
+            collectionView.alwaysBounceVertical = true
+        } else {
+            collectionView.alwaysBounceVertical = false
+        }
         collectionView.alwaysBounceHorizontal = false
         automaticallyAdjustsScrollViewInsets = false
         
@@ -897,25 +905,11 @@ extension ListingCarouselViewController: ListingCarouselCellDelegate {
     }
 
     func didPullFromCellWith(_ offset: CGFloat, bottomLimit: CGFloat) {
-        guard moreInfoState.value != .shown && !cellZooming.value else { return }
-        if moreInfoView.frame.origin.y-offset > -view.frame.height {
-            moreInfoState.value = .moving
-            moreInfoView.frame.origin.y = moreInfoView.frame.origin.y-offset
-        } else {
-            moreInfoState.value = .hidden
-            moreInfoView.frame.origin.y = -view.frame.height
-        }
-
-        let bottomOverScroll = max(offset-bottomLimit, 0)
-        bottomItemsMargin = CarouselUI.itemsMargin + bottomOverScroll
+        dragMoreInfoView(offset: offset, bottomLimit: bottomLimit)
     }
 
     func didEndDraggingCell() {
-        if moreInfoView.frame.bottom > CarouselUI.moreInfoDragMargin*2 {
-            showMoreInfo()
-        } else {
-            hideMoreInfo()
-        }
+        updateMoreInfoFrame()
     }
 
     func canScrollToNextPage() -> Bool {
@@ -1006,6 +1000,28 @@ extension ListingCarouselViewController {
     func removeIgnoreTouchesForMoreInfo() {
         guard let button = moreInfoView.dragView else { return }
         self.navigationController?.navigationBar.endIgnoreTouchesFor(button)
+    }
+    
+    fileprivate func dragMoreInfoView(offset: CGFloat, bottomLimit: CGFloat) {
+        guard moreInfoState.value != .shown && !cellZooming.value else { return }
+        if moreInfoView.frame.origin.y-offset > -view.frame.height {
+            moreInfoState.value = .moving
+            moreInfoView.frame.origin.y = moreInfoView.frame.origin.y-offset
+        } else {
+            moreInfoState.value = .hidden
+            moreInfoView.frame.origin.y = -view.frame.height
+        }
+        
+        let bottomOverScroll = max(offset-bottomLimit, 0)
+        bottomItemsMargin = CarouselUI.itemsMargin + bottomOverScroll
+    }
+    
+    fileprivate func updateMoreInfoFrame() {
+        if moreInfoView.frame.bottom > CarouselUI.moreInfoDragMargin*2 {
+            showMoreInfo()
+        } else {
+            hideMoreInfo()
+        }
     }
 }
 
@@ -1100,8 +1116,16 @@ extension ListingCarouselViewController: UICollectionViewDataSource, UICollectio
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         collectionContentOffset.value = scrollView.contentOffset
+        
+        dragMoreInfoView(offset: scrollView.contentOffset.y, bottomLimit: bottomScrollLimit)
     }
 
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if usesHorizontalNavigation {
+            updateMoreInfoFrame()
+        }
+    }
+    
     func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         cellAnimating.value = false
     }
