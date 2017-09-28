@@ -123,7 +123,6 @@ fileprivate extension PostCategorySelectionView {
                           postCategoryLink: .realEstate)
             }
         }
-       
     }
     
     func setupAccessibilityIds() {
