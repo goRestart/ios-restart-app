@@ -450,13 +450,13 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         
         navbarSearch.searchTextField?.rx.text.asObservable()
             .subscribeNext { [weak self] text in
-                self?.navBarSearchTextFieldUpdated(text: text ?? "")
+                self?.navBarSearchTextFieldDidUpdate(text: text ?? "")
         }.addDisposableTo(disposeBag)
         
         navbarSearch.searchTextField.rx.text.asObservable().bindTo(viewModel.searchText).addDisposableTo(disposeBag)
     }
     
-    func navBarSearchTextFieldUpdated(text: String) {
+    func navBarSearchTextFieldDidUpdate(text: String) {
         viewModel.searchTextFieldDidUpdate(text: text)
     }
 }
@@ -663,7 +663,7 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
             fillSearchButtonBlock = { [weak self] in
                 self?.navbarSearch.searchTextField?.text = title
                 self?.viewModel.searchText.value = title
-                self?.navBarSearchTextFieldUpdated(text: title)
+                self?.navBarSearchTextFieldDidUpdate(text: title)
             }
         case .lastSearch:
             guard let lastSearch = viewModel.lastSearchAtIndex(indexPath.row) else { return UITableViewCell() }
