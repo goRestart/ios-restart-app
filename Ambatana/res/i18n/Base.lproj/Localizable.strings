@@ -484,6 +484,9 @@
 // Chat send error generic. Message displayal is like the other error messages
 "chat_send_error_generic" = "An error occurred while sending the message. Please try again.";
 
+// Chat send error, users in different country
+"chat_send_error_different_country" = "You can't start a conversation about an item posted in a different country.";
+
 // Chat tooltip add stickers "NEW"
 "chat_stickers_tooltip_new" = "NEW!";
 
@@ -1627,6 +1630,27 @@
 // Product new onboarding, tap to go to next product label regular text
 "product_new_onboarding_finger_tap_label" = "%@ to go to the next item";
 
+// Product new onboarding, tap left to go to the next image
+"product_new_onboarding_tap_right_label" = "%@ or %@ to see the next picture";
+
+// Product new onboarding, tap left to go to the next image highlighted right
+"product_new_onboarding_tap_right_highlighted_label" = "Tap on the right";
+
+// Product new onboarding, tap left to go to the next image highlighted middle
+"product_new_onboarding_tap_right_highlighted_label_2" = "in the center";
+
+// Product new onboarding, tap left to go to the previous image
+"product_new_onboarding_tap_left_label" = "%@ to see the previous picture";
+
+// Product new onboarding, tap left to go to the previous image highlighted left
+"product_new_onboarding_tap_left_label_highlighted" = "Tap on the left";
+
+// Product new onboarding, swipe to go to next or previous product
+"product_new_onboarding_finger_swipe_next_product_label" = "%@ to go to the next listing or to the previous one";
+
+// Product new onboarding, swipe to go to next or previous product highlighted swipe
+"product_new_onboarding_finger_swipe_next_product_highlighted_label" = "Swipe";
+
 // Option to edit product
 "product_option_edit" = "Edit Product";
 
@@ -1809,6 +1833,9 @@
 
 // Product post category selection others button
 "product_post_select_category_other" = "Other items";
+
+// Product post category selection real Estate button
+"product_post_select_category_housing" = "Housing";
 
 // Product report confirm message. Message displayal is like the other dialog messages
 "product_report_confirm_message" = "Are you sure you want to report this product?";
