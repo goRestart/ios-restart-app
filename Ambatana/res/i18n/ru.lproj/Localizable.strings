@@ -164,7 +164,7 @@
 "chat_safety_tips_message" = "• Встречайтесь лично и платите наличными.\n\n• Общайтесь в чате letgo.\n\n• Есть подозрения? Найди другого продавца/покупателя.";
 "chat_safety_tips_title" = "СОВЕТАМИ ПО БЕЗОПАСНОСТИ";
 "chat_send_button" = "Отправить";
-"chat_send_error_different_country" = "You can't start a conversation about an item posted in a different country.";
+"chat_send_error_different_country" = "Вы не можете начать чат о товаре, размещенном в другой стране.";
 "chat_send_error_generic" = "При отправке сообщения произошла ошибка. Пожалуйста, попробуйте еще раз.";
 "chat_stickers_tooltip_new" = "НОВОЕ!";
 "chat_unblock_user" = "Разблокировать пользователя";
@@ -595,6 +595,7 @@
 "product_post_retake" = "Переснять";
 "product_post_retry_button" = "Попробовать еще";
 "product_post_select_category_cars" = "Машины";
+"product_post_select_category_housing" = "Жилье";
 "product_post_select_category_motors_and_accessories" = "Транспорт и запчасти";
 "product_post_select_category_other" = "Другие товары";
 "product_post_select_category_title" = "Что вы размещаете?";

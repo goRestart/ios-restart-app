@@ -164,7 +164,7 @@
 "chat_safety_tips_message" = "• Gặp trực tiếp và trả bằng tiền mặt.\n\n• Lưu giữ các cuộc hội thoại trên mục trò chuyện letgo.\n\n• Có vẻ quá hời? Hãy tìm người mua/người bán khác.";
 "chat_safety_tips_title" = "LỜI KHUYÊN AN TOÀN";
 "chat_send_button" = "Gửi";
-"chat_send_error_different_country" = "You can't start a conversation about an item posted in a different country.";
+"chat_send_error_different_country" = "Chúng tôi không thể bắt đầu cuộc trò chuyện về một sản phẩm được đăng ở một quốc gia khác.";
 "chat_send_error_generic" = "Có lỗi xảy ra trong khi gửi tin nhắn. Xin vui lòng thử lại.";
 "chat_stickers_tooltip_new" = "MỚI!";
 "chat_unblock_user" = "Bỏ chặn Người dùng";
@@ -595,6 +595,7 @@
 "product_post_retake" = "Chụp lại";
 "product_post_retry_button" = "Thử lại";
 "product_post_select_category_cars" = "Xe hơi";
+"product_post_select_category_housing" = "Nhà đất";
 "product_post_select_category_motors_and_accessories" = "Phương tiện và Phụ tùng khác";
 "product_post_select_category_other" = "Sản phẩm khác";
 "product_post_select_category_title" = "Bạn đang đăng gì?";

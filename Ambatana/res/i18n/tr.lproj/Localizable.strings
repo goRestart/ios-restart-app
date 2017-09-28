@@ -164,7 +164,7 @@
 "chat_safety_tips_message" = "• Birebir görüş ve elden nakit öde.\n\n• Mesajlaşmayı letgo sistemi içerisinde yap.\n\n• Kulağa gerçek olamayacak kadar hoş geliyorsa, başka bir alıcı/satıcı bul.";
 "chat_safety_tips_title" = "TAVSİYELER";
 "chat_send_button" = "Gönder";
-"chat_send_error_different_country" = "You can't start a conversation about an item posted in a different country.";
+"chat_send_error_different_country" = "Farklı bir ülkede yayınlanmış bir ürün için mesaj gönderemezsin.";
 "chat_send_error_generic" = "Mesaj gönderilirken bir hata oluştu. Lütfen tekrar dene.";
 "chat_stickers_tooltip_new" = "YENİ!";
 "chat_unblock_user" = "Engellemeyi Kaldır";
@@ -595,6 +595,7 @@
 "product_post_retake" = "Tekrar Çek";
 "product_post_retry_button" = "Tekrar dene";
 "product_post_select_category_cars" = "Araba";
+"product_post_select_category_housing" = "Emlak";
 "product_post_select_category_motors_and_accessories" = "Diğer Araçlar ve Yedek Parça";
 "product_post_select_category_other" = "Diğer eşyalar";
 "product_post_select_category_title" = "Ne satıyorsun?";

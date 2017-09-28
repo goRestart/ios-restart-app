@@ -164,7 +164,7 @@
 "chat_safety_tips_message" = "• Incontra di persona e paga in contanti.\n\n• Continua le conversazioni nella chat di letgo.\n\n• Troppo bello per essere vero? Trova un altro venditore/acquirente,";
 "chat_safety_tips_title" = "CONSIGLI UTILI";
 "chat_send_button" = "Invia";
-"chat_send_error_different_country" = "You can't start a conversation about an item posted in a different country.";
+"chat_send_error_different_country" = "Non puoi iniziare una conversazione su un oggetto pubblicato in un paese differente.";
 "chat_send_error_generic" = "Si è verificato un errore durante l'invio del messaggio. Riprova.";
 "chat_stickers_tooltip_new" = "NOVITÀ!";
 "chat_unblock_user" = "Sblocca Utente";
@@ -595,6 +595,7 @@
 "product_post_retake" = "Scatta di Nuovo";
 "product_post_retry_button" = "Riprova";
 "product_post_select_category_cars" = "Auto";
+"product_post_select_category_housing" = "Alloggi";
 "product_post_select_category_motors_and_accessories" = "Altri veicoli e ricambi";
 "product_post_select_category_other" = "Altri articoli";
 "product_post_select_category_title" = "Che cosa stai pubblicando?";

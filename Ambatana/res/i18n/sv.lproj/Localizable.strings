@@ -164,7 +164,7 @@
 "chat_safety_tips_message" = "• Möt varandra och betala kontant.\n\n• Håll samtalen i letgo-chatten.\n\n• För bra för att vara sant? Hitta en annan köpare/säljare.";
 "chat_safety_tips_title" = "SÄKERHETSTIPS";
 "chat_send_button" = "Skicka";
-"chat_send_error_different_country" = "You can't start a conversation about an item posted in a different country.";
+"chat_send_error_different_country" = "Du kan inte starta en konversation om en vara som har lagts upp i ett annat land.";
 "chat_send_error_generic" = "Ett fel uppstod när meddelandet sändes. Vänligen försök igen.";
 "chat_stickers_tooltip_new" = "NY!";
 "chat_unblock_user" = "Avblockera användare";
@@ -595,6 +595,7 @@
 "product_post_retake" = "Ta en ny";
 "product_post_retry_button" = "Försök igen";
 "product_post_select_category_cars" = "Bilar";
+"product_post_select_category_housing" = "Boende";
 "product_post_select_category_motors_and_accessories" = "Andra Fordon och Reservdelar";
 "product_post_select_category_other" = "Något annat";
 "product_post_select_category_title" = "Vad lägger du upp?";

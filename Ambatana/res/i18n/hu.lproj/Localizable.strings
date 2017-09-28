@@ -164,7 +164,7 @@
 "chat_safety_tips_message" = "• Találkozzatok személyesen, készpénzt használjatok.\n\n• A letgo chaten beszéljétek meg a tranzakciót.\n\n• Túl szép, hogy igaz legyen? Keress valaki mást!";
 "chat_safety_tips_title" = "BIZTONSÁGI TANÁCSAINK";
 "chat_send_button" = "Küldés";
-"chat_send_error_different_country" = "You can't start a conversation about an item posted in a different country.";
+"chat_send_error_different_country" = "Nem kezdhetsz beszélgetést olyan portékáról, amelyet más országban hirdettek meg.";
 "chat_send_error_generic" = "Hiba történt az üzenet küldése során. Próbálkozz újra.";
 "chat_stickers_tooltip_new" = "ÚJ!";
 "chat_unblock_user" = "Blokkolás feloldása";
@@ -595,6 +595,7 @@
 "product_post_retake" = "Újra";
 "product_post_retry_button" = "Újra";
 "product_post_select_category_cars" = "Autók";
+"product_post_select_category_housing" = "Ingatlan";
 "product_post_select_category_motors_and_accessories" = "Más járművek és alkatrészek";
 "product_post_select_category_other" = "Valami más";
 "product_post_select_category_title" = "Mit készülsz meghirdetni?";

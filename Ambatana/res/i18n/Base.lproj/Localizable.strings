@@ -1834,6 +1834,9 @@
 // Product post category selection others button
 "product_post_select_category_other" = "Other items";
 
+// Product post category selection real Estate button
+"product_post_select_category_housing" = "Housing";
+
 // Product report confirm message. Message displayal is like the other dialog messages
 "product_report_confirm_message" = "Are you sure you want to report this product?";
 

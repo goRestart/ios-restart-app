@@ -164,7 +164,7 @@
 "chat_safety_tips_message" = "• Tavatkaa kasvokkain ja maksakaa käteisellä.\n\n• Käy keskusteluja vain letgon chatissä.\n\n• Kuulostaako liian hyvältä ollakseen totta? Etsi toinen ostaja/myyjä.";
 "chat_safety_tips_title" = "TURVALLISUUSVINKIT";
 "chat_send_button" = "Lähetä";
-"chat_send_error_different_country" = "You can't start a conversation about an item posted in a different country.";
+"chat_send_error_different_country" = "Et voi aloittaa keskustelua tuotteesta, joka on julkaistu toisessa maassa.";
 "chat_send_error_generic" = "Viestiä lähetettäessä tapahtui virhe. Ole hyvä ja yritä uudelleen.";
 "chat_stickers_tooltip_new" = "UUTTA!";
 "chat_unblock_user" = "Poista käyttäjän esto";
@@ -595,6 +595,7 @@
 "product_post_retake" = "Ota uusi kuva";
 "product_post_retry_button" = "Yritä uudelleen";
 "product_post_select_category_cars" = "Autoja";
+"product_post_select_category_housing" = "Asunnot";
 "product_post_select_category_motors_and_accessories" = "Muut ajoneuvot ja varusteet";
 "product_post_select_category_other" = "Muut tuotteet";
 "product_post_select_category_title" = "Mitä olet julkaisemassa?";

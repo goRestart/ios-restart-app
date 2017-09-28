@@ -164,7 +164,7 @@
 "chat_safety_tips_message" = "• Queda en persona y paga en efectivo.\n\n• Mantén las conversaciones dentro del chat de letgo.\n\n• ¿Demasiado bueno para ser cierto? Encuentra otro comprador o vendedor.";
 "chat_safety_tips_title" = "CONSEJOS DE SEGURIDAD";
 "chat_send_button" = "Enviar";
-"chat_send_error_different_country" = "You can't start a conversation about an item posted in a different country.";
+"chat_send_error_different_country" = "No puedes empezar una conversación sobre un artículo publicado en otro país.";
 "chat_send_error_generic" = "Se ha producido un error al enviar tu mensaje. Por favor, inténtalo de nuevo.";
 "chat_stickers_tooltip_new" = "¡NUEVO!";
 "chat_unblock_user" = "Desbloquear usuario";
@@ -595,6 +595,7 @@
 "product_post_retake" = "Cambiar";
 "product_post_retry_button" = "Vuelve a intentarlo";
 "product_post_select_category_cars" = "Coches";
+"product_post_select_category_housing" = "Vivienda";
 "product_post_select_category_motors_and_accessories" = "Otros Vehículos y Accesorios";
 "product_post_select_category_other" = "Otros artículos";
 "product_post_select_category_title" = "¿Qué estás publicando?";

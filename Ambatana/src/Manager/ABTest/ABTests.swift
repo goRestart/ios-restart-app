@@ -42,6 +42,7 @@ class ABTests {
     let expandableCategorySelectionMenu = IntABDynamicVar(key: "20170904ExpandableCategorySelectionMenu", defaultValue: 0)
     let locationDataSourceType = IntABDynamicVar(key: "20170830LocationDataSourceType", defaultValue: 0)
     let searchAutocomplete = IntABDynamicVar(key: "20170914SearchAutocomplete", defaultValue: 0)
+    let newCarouselTapNextPhotoNavigationEnabled = IntABDynamicVar(key: "20170914NewCarouselTapNextPhotoNavigationEnabled", defaultValue: 0)
 
     init() {
     }
@@ -78,6 +79,7 @@ class ABTests {
         result.append(expandableCategorySelectionMenu)
         result.append(locationDataSourceType)
         result.append(searchAutocomplete)
+        result.append(newCarouselTapNextPhotoNavigationEnabled)
 
         return result
     }

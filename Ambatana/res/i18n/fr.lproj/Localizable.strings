@@ -18,7 +18,7 @@
 "bump_up_banner_pay_text_improvement" = "Vendre !";
 "bump_up_banner_wait_text" = "avant de remettre en vedette";
 "bump_up_error_bump_generic" = "Une erreur est survenue lors de la mise en vedette de votre produit. Veuillez réessayer.";
-"bump_up_error_bump_token" = "Votre paiement a été effectué, mais le bien n'a pas été renvoyé vers le haut.";
+"bump_up_error_bump_token" = "Votre paiement a été effectué, mais le produit n'a pas été mis en vedette.";
 "bump_up_error_payment_failed" = "Impossible de se connecter à l'App Store. Votre paiement n'a pas été traité. Veuillez réessayer.";
 "bump_up_free_success" = "Renvoyé vers le haut ! Continuez de renvoyer vos annonces vers le haut pour toujours plus de visibilité.";
 "bump_up_not_allowed_alert_contact_button" = "Contactez-nous";
@@ -164,7 +164,7 @@
 "chat_safety_tips_message" = "• Rencontrez en personne et payez en liquide.\n\n• Chattez dans l'appli letgo.\n\n• Si cela semble trop beau pour être vrai, méfiez-vous !";
 "chat_safety_tips_title" = "CONSEILS DE SECURITÉ";
 "chat_send_button" = "Envoyer";
-"chat_send_error_different_country" = "You can't start a conversation about an item posted in a different country.";
+"chat_send_error_different_country" = "Vous ne pouvez pas démarrer une conversation à propos d'un produit publié dans un autre pays.";
 "chat_send_error_generic" = "Une erreur est survenue lors de l'envoi du message. Veuillez réessayer.";
 "chat_stickers_tooltip_new" = "NOUVEAU !";
 "chat_unblock_user" = "Débloquer l'Utilisateur";
@@ -595,6 +595,7 @@
 "product_post_retake" = "Reprendre";
 "product_post_retry_button" = "Réessayer";
 "product_post_select_category_cars" = "Voitures";
+"product_post_select_category_housing" = "Immobilier";
 "product_post_select_category_motors_and_accessories" = "Autres véhicules et accessoires";
 "product_post_select_category_other" = "Autres biens";
 "product_post_select_category_title" = "Que postez-vous ?";

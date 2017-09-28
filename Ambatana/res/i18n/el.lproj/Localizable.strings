@@ -164,7 +164,7 @@
 "chat_safety_tips_message" = "• Συναντηθείτε πρόσωπο με πρόσωπο και πληρώστε μετρητά.\n\n• Αποθηκεύστε τις συνομιλίες σας στο chat του letgo.\n\n• Πολύ καλό για να είναι αληθινό; Βρείτε κάποιον άλλο αγοραστή/πωλητή!";
 "chat_safety_tips_title" = "ΣΥΜΒΟΥΛΈΣ ΑΣΦΑΛΕΊΑΣ";
 "chat_send_button" = "Αποστολή";
-"chat_send_error_different_country" = "You can't start a conversation about an item posted in a different country.";
+"chat_send_error_different_country" = "Δεν μπορείτε να ξεκινήσετε μια συνομιλία για κάποιο αντικείμενο που έχει δημοσιευθεί σε άλλη χώρα.";
 "chat_send_error_generic" = "Παρουσιάστηκε σφάλμα κατά την αποστολή του μηνύματος. Παρακαλώ προσπαθήστε ξανά.";
 "chat_stickers_tooltip_new" = "ΝΕΟ!";
 "chat_unblock_user" = "Ξεμπλοκάρισμα Χρήστη";
@@ -595,6 +595,7 @@
 "product_post_retake" = "Ξανατραβήξτε";
 "product_post_retry_button" = "Προσπαθήστε Ξανά";
 "product_post_select_category_cars" = "Αυτοκίνητα";
+"product_post_select_category_housing" = "Μεσιτικά";
 "product_post_select_category_motors_and_accessories" = "Άλλα Οχήματα και Εξαρτήματα";
 "product_post_select_category_other" = "Άλλα αντικείμενα";
 "product_post_select_category_title" = "Τί δημοσιεύετε;";

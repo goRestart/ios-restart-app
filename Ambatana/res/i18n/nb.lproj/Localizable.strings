@@ -164,7 +164,7 @@
 "chat_safety_tips_message" = "• Møt personlig og betal med kontanter.\n\n• Gjør all kommunikasjon via letgo chat.\n\n• For godt til å være sant? Finn en annen kjøper/selger.";
 "chat_safety_tips_title" = "SIKKERHETSTIPS";
 "chat_send_button" = "Send";
-"chat_send_error_different_country" = "You can't start a conversation about an item posted in a different country.";
+"chat_send_error_different_country" = "Du kan ikke starte en chat angående et produkt i et annen land.";
 "chat_send_error_generic" = "En feil har oppstått ved sending av meldingen. Vennligst prøv igjen senere.";
 "chat_stickers_tooltip_new" = "NYHET!";
 "chat_unblock_user" = "Opphev blokkering";
@@ -595,6 +595,7 @@
 "product_post_retake" = "Ta nytt bilde";
 "product_post_retry_button" = "Prøv igjen";
 "product_post_select_category_cars" = "Biler";
+"product_post_select_category_housing" = "Bolig";
 "product_post_select_category_motors_and_accessories" = "Andre kjøretøyer og bildeler";
 "product_post_select_category_other" = "Andre produkter";
 "product_post_select_category_title" = "Hva publiserer du?";

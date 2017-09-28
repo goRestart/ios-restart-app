@@ -44,6 +44,7 @@ protocol FeatureFlaggeable: class {
     var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu { get }
     var locationDataSourceEndpoint: LocationDataSourceEndpoint { get }
     var searchAutocomplete: SearchAutocomplete { get }
+    var newCarouselNavigationTapNextPhotoEnabled: NewCarouselTapNextPhotoNavigationEnabled { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -109,6 +110,17 @@ extension ExpandableCategorySelectionMenu {
         case .control, .baseline:
             return false
         case .expandableMenu:
+            return true
+        }
+    }
+}
+
+extension NewCarouselTapNextPhotoNavigationEnabled {
+    var isActive: Bool {
+        switch self {
+        case .control, .baseline:
+            return false
+        case .active:
             return true
         }
     }
@@ -345,6 +357,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.searchAutocomplete
         }
         return SearchAutocomplete.fromPosition(abTests.searchAutocomplete.value)
+    }
+
+    var newCarouselNavigationTapNextPhotoEnabled: NewCarouselTapNextPhotoNavigationEnabled {
+        if Bumper.enabled {
+            return Bumper.newCarouselTapNextPhotoNavigationEnabled
+        }
+        return NewCarouselTapNextPhotoNavigationEnabled.fromPosition(abTests.newCarouselTapNextPhotoNavigationEnabled.value)
     }
     
 

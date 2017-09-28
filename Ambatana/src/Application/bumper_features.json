@@ -121,8 +121,14 @@
         "description": "Location data source for geocode and reverse geocode"
     },
     {
+<<<<<<< HEAD
         "name": "SearchAutocomplete",
         "values": ["control", "baseline", "withCategories"],
         "description": "Search suggestions with/without categories filtering."
+=======
+        "name": "NewCarouselTapNextPhotoNavigationEnabled",
+        "values": ["control", "baseline", "active"],
+        "description": "New carousel on tap displays different photo from same product"
+>>>>>>> release-1.20.3
     }
 ]

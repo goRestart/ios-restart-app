@@ -164,7 +164,7 @@
 "chat_safety_tips_message" = "• Persoonlijk ontmoeten en contant betalen.\n \n• Voer gesprekken in de letgo chat.\n \n• Klinkt het te mooi om waar te zijn? Vind een andere koper/verkoper.";
 "chat_safety_tips_title" = "VEILIGHEIDSTIPS";
 "chat_send_button" = "Versturen";
-"chat_send_error_different_country" = "You can't start a conversation about an item posted in a different country.";
+"chat_send_error_different_country" = "Je kunt geen gesprek beginnen over een geplaatst item in een ander land.";
 "chat_send_error_generic" = "Er is een fout opgetreden tijdens het versturen van het bericht. Probeer het later nog eens.";
 "chat_stickers_tooltip_new" = "NIEUW!";
 "chat_unblock_user" = "Deblokkeer gebruiker";
@@ -595,6 +595,7 @@
 "product_post_retake" = "Opnieuw nemen";
 "product_post_retry_button" = "Probeer het nogmaals";
 "product_post_select_category_cars" = "Auto’s";
+"product_post_select_category_housing" = "Huisvesting";
 "product_post_select_category_motors_and_accessories" = "Overige Voertuigen en Onderdelen";
 "product_post_select_category_other" = "Overige items";
 "product_post_select_category_title" = "Wat wil je verkopen?";
