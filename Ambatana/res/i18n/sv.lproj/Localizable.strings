@@ -26,7 +26,7 @@
 "bump_up_pay_success" = "Topplistad! Nu har din produkt fått extra synlighet.";
 "bump_up_processing_free_text" = "Bearbetar puff...";
 "bump_up_processing_priced_text" = "Bearbetar betalning...";
-"bump_up_product_cell_chat_now_button" = "Chat Now";
+"bump_up_product_cell_chat_now_button" = "Chatta nu";
 "bump_up_product_cell_featured_stripe" = "Topplistad";
 "bump_up_product_detail_featured_label" = "TOPPLISTAD";
 "bump_up_view_free_subtitle" = "Ju fler delningar, desto mer synlighet kommer din produkt att få.";
@@ -164,6 +164,7 @@
 "chat_safety_tips_message" = "• Möt varandra och betala kontant.\n\n• Håll samtalen i letgo-chatten.\n\n• För bra för att vara sant? Hitta en annan köpare/säljare.";
 "chat_safety_tips_title" = "SÄKERHETSTIPS";
 "chat_send_button" = "Skicka";
+"chat_send_error_different_country" = "Du kan inte starta en konversation om en vara som har lagts upp i ett annat land.";
 "chat_send_error_generic" = "Ett fel uppstod när meddelandet sändes. Vänligen försök igen.";
 "chat_stickers_tooltip_new" = "NY!";
 "chat_unblock_user" = "Avblockera användare";
@@ -526,7 +527,14 @@
 "product_negotiable_price" = "Förhandlingsbart";
 "product_new_onboarding_finger_keep_swipe_label" = "%@ framåt eller bakåt för att se förra eller nästa produkt";
 "product_new_onboarding_finger_swipe_label" = "%@ för att se fler bilder";
+"product_new_onboarding_finger_swipe_next_product_highlighted_label" = "Svep";
+"product_new_onboarding_finger_swipe_next_product_label" = "%@ för att gå till nästa eller föregående produkt";
 "product_new_onboarding_finger_tap_label" = "%@ för att se nästa produkt";
+"product_new_onboarding_tap_left_label" = "%@ för att se föregående bild";
+"product_new_onboarding_tap_left_label_highlighted" = "Klicka till vänster";
+"product_new_onboarding_tap_right_highlighted_label" = "Klicka till höger";
+"product_new_onboarding_tap_right_highlighted_label_2" = "i mitten";
+"product_new_onboarding_tap_right_label" = "%@ eller %@ för att se nästa bild";
 "product_onboarding_finger_scroll_label" = "Skrolla ner för att se fler bilder.";
 "product_onboarding_finger_swipe_label" = "Dra för att gå till nästa eller föregående produkt";
 "product_onboarding_finger_tap_label" = "Klicka för att gå till nästa produkt";
@@ -587,6 +595,7 @@
 "product_post_retake" = "Ta en ny";
 "product_post_retry_button" = "Försök igen";
 "product_post_select_category_cars" = "Bilar";
+"product_post_select_category_housing" = "Boende";
 "product_post_select_category_motors_and_accessories" = "Andra Fordon och Reservdelar";
 "product_post_select_category_other" = "Något annat";
 "product_post_select_category_title" = "Vad lägger du upp?";

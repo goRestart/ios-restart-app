@@ -26,7 +26,7 @@
 "bump_up_pay_success" = "Promosso! Adesso il tuo articolo gode di una maggiore visibilità.";
 "bump_up_processing_free_text" = "Elaborazione promozione...";
 "bump_up_processing_priced_text" = "Elaborazione pagamento...";
-"bump_up_product_cell_chat_now_button" = "Chat Now";
+"bump_up_product_cell_chat_now_button" = "Chatta subito";
 "bump_up_product_cell_featured_stripe" = "In evidenza";
 "bump_up_product_detail_featured_label" = "IN EVIDENZA";
 "bump_up_view_free_subtitle" = "Più condivisioni corrispondono a una maggiore visibilità per il tuo annuncio.";
@@ -164,6 +164,7 @@
 "chat_safety_tips_message" = "• Incontra di persona e paga in contanti.\n\n• Continua le conversazioni nella chat di letgo.\n\n• Troppo bello per essere vero? Trova un altro venditore/acquirente,";
 "chat_safety_tips_title" = "CONSIGLI UTILI";
 "chat_send_button" = "Invia";
+"chat_send_error_different_country" = "Non puoi iniziare una conversazione su un oggetto pubblicato in un paese differente.";
 "chat_send_error_generic" = "Si è verificato un errore durante l'invio del messaggio. Riprova.";
 "chat_stickers_tooltip_new" = "NOVITÀ!";
 "chat_unblock_user" = "Sblocca Utente";
@@ -526,7 +527,14 @@
 "product_negotiable_price" = "Trattabile";
 "product_new_onboarding_finger_keep_swipe_label" = "%@ avanti o indietro per passare all'articolo precedente o successivo";
 "product_new_onboarding_finger_swipe_label" = "%@ per vedere altre foto";
+"product_new_onboarding_finger_swipe_next_product_highlighted_label" = "Scorri";
+"product_new_onboarding_finger_swipe_next_product_label" = "%@ per andare all'annuncio successivo o a quello precedente";
 "product_new_onboarding_finger_tap_label" = "%@ per andare all'articolo successivo";
+"product_new_onboarding_tap_left_label" = "%@ per vedere la foto precedente";
+"product_new_onboarding_tap_left_label_highlighted" = "Tocca a sinistra";
+"product_new_onboarding_tap_right_highlighted_label" = "Tocca a sinistra";
+"product_new_onboarding_tap_right_highlighted_label_2" = "nel centro";
+"product_new_onboarding_tap_right_label" = "%@ or %@ per vedere la foto successiva";
 "product_onboarding_finger_scroll_label" = "Scorri per vedere altre foto";
 "product_onboarding_finger_swipe_label" = "Striscia il dito per passare al prodotto successivo o a quello precendente";
 "product_onboarding_finger_tap_label" = "Tocca per passare al prodotto successivo";
@@ -587,6 +595,7 @@
 "product_post_retake" = "Scatta di Nuovo";
 "product_post_retry_button" = "Riprova";
 "product_post_select_category_cars" = "Auto";
+"product_post_select_category_housing" = "Alloggi";
 "product_post_select_category_motors_and_accessories" = "Altri veicoli e ricambi";
 "product_post_select_category_other" = "Altri articoli";
 "product_post_select_category_title" = "Che cosa stai pubblicando?";
