@@ -63,8 +63,8 @@ final class TourNotificationsViewController: BaseViewController {
             name: NSNotification.Name(rawValue: PushManager.Notification.DidRegisterUserNotificationSettings.rawValue), object: nil)
         
         NotificationCenter.default.addObserver(self,
-                                                         selector: #selector(didBecomeActive),
-                                                         name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
+                                               selector: #selector(didBecomeActive),
+                                               name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
         viewModel.viewDidLoad()
     }
     
@@ -145,6 +145,7 @@ final class TourNotificationsViewController: BaseViewController {
     }
     
     func setupUI() {
+        view.backgroundColor = UIColor.clear
         iphoneBckgImage.image = viewModel.infoImage
         notifyButton.setStyle(.primary(fontSize: .medium))
 
