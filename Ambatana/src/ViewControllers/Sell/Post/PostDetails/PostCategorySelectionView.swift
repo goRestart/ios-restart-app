@@ -136,7 +136,7 @@ fileprivate extension PostCategorySelectionView {
         carsCategoryButton.accessibilityId = .postingCategorySelectionCarsButton
         motorsAndAccessoriesButton.accessibilityId = .postingCategorySelectionMotorsAndAccessoriesButton
         otherCategoryButton.accessibilityId = .postingCategorySelectionOtherButton
-        otherCategoryButton.accessibilityId = .postingCategorySelectionRealEstateButton
+        realEstateCategoryButton.accessibilityId = .postingCategorySelectionRealEstateButton
         
     }
     
