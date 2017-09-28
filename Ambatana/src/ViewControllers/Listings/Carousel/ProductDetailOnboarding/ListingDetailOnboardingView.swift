@@ -43,7 +43,7 @@ class ListingDetailOnboardingView: BaseView {
         Bundle.main.loadNibNamed("ListingDetailOnboardingView", owner: self, options: nil)
         contentView.frame = bounds
         contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-        contentView.backgroundColor = UIColor.listBackgroundColor
+        contentView.backgroundColor = UIColor.grayBackground.withAlphaComponent(0.7)
         addSubview(contentView)
 
         setupFingersView()
