@@ -855,8 +855,9 @@ extension ListingCarouselViewController: ListingCarouselCellDelegate {
         }
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
         cellAnimating.value = true
-        switch tapSide {
-        case .left?:
+        let actualTapSide = tapSide ?? .right
+        switch actualTapSide {
+        case .left:
             var contentOffset = collectionContentOffset.value
             contentOffset.x -= cell.width
             if contentOffset.x >= 0 {
@@ -868,7 +869,7 @@ extension ListingCarouselViewController: ListingCarouselCellDelegate {
                                                         ListingCarouselViewController.defaultRubberBandOffset)
                 
             }
-        default:
+        case .right:
             let newIndexRow = indexPath.row + 1
             if newIndexRow < collectionView.numberOfItems(inSection: 0) {
                 pendingMovement = .tap
