@@ -922,7 +922,7 @@ extension MainListingsViewModel {
             shouldIncludeCategories = true
         }
         searchRepository.retrieveSuggestiveSearches(language: languageCode,
-                                                    limit: 10,
+                                                    limit: Constants.listingsSearchSuggestionsMaxResults,
                                                     term: term,
                                                     shouldIncludeCategories: shouldIncludeCategories) { [weak self] result in
             // prevent showing results when deleting the search text
