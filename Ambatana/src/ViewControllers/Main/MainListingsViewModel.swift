@@ -159,7 +159,7 @@ class MainListingsViewModel: BaseViewModel {
     fileprivate let searchType: SearchType? // The initial search
     fileprivate var collections: [CollectionCellType] {
         guard keyValueStorage[.lastSuggestiveSearches].count >= minimumSearchesSavedToShowCollection else { return [] }
-        return [.you]
+        return [.selectedForYou]
     }
     fileprivate let keyValueStorage: KeyValueStorage
     fileprivate let featureFlags: FeatureFlaggeable
@@ -725,10 +725,10 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         navigator?.openListing(data, source: listingVisitSource, actionOnFirstAppear: .nonexistent)
     }
 
-    func vmProcessReceivedProductPage(_ products: [ListingCellModel], page: UInt) -> [ListingCellModel] {
-        guard searchType == nil else { return products }
-        guard products.count > bannerCellPosition else { return products }
-        var cellModels = products
+    func vmProcessReceivedListingPage(_ listings: [ListingCellModel], page: UInt) -> [ListingCellModel] {
+        guard searchType == nil else { return listings }
+        guard listings.count > bannerCellPosition else { return listings }
+        var cellModels = listings
         if !collections.isEmpty && featureFlags.collectionsAllowedFor(countryCode: listingListRequester.countryCode) {
             let collectionType = collections[Int(page) % collections.count]
             let collectionModel = ListingCellModel.collectionCell(type: collectionType)
@@ -747,6 +747,8 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
     func vmUserDidTapInvite() {
         navigator?.openAppInvite()
     }
+    
+    func vmDidSelectSellBanner(_ type: String) {}
 }
 
 
@@ -1054,7 +1056,7 @@ fileprivate extension MainListingsViewModel {
     func queryForCollection(_ type: CollectionCellType) -> String {
         var query: String
         switch type {
-        case .you:
+        case .selectedForYou:
             query = keyValueStorage[.lastSuggestiveSearches]
                 .flatMap { $0.name }
                 .reversed()

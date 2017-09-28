@@ -53,18 +53,18 @@ struct ListingData {
 }
 
 enum CollectionCellType: String {
-    case you = "selected-for-you"
+    case selectedForYou = "selected-for-you"
 
     var image: UIImage? {
         switch self {
-        case .you:
+        case .selectedForYou:
             return UIImage(named: "collection_you")
         }
     }
 
     var title: String {
         switch self {
-        case .you:
+        case .selectedForYou:
             return LGLocalizedString.collectionYouTitle
         }
     }
