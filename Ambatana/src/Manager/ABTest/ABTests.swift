@@ -81,6 +81,7 @@ class ABTests {
         result.append(locationDataSourceType)
         result.append(searchAutocomplete)
         result.append(newCarouselTapNextPhotoNavigationEnabled)
+        result.append(realEstateEnabled)
 
         return result
     }
