@@ -288,11 +288,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         //Duplicating registered cells to avoid reuse of colindant cells
         registerListingCarouselCells()
         collectionView.isDirectionalLockEnabled = true
-        if usesHorizontalNavigation {
-            collectionView.alwaysBounceVertical = true
-        } else {
-            collectionView.alwaysBounceVertical = false
-        }
+        collectionView.alwaysBounceVertical = usesHorizontalNavigation
         collectionView.alwaysBounceHorizontal = false
         automaticallyAdjustsScrollViewInsets = false
         
