@@ -27,6 +27,7 @@ protocol KeyValueStorageable: class {
     subscript(key: DefaultsKey<[String: Any]>) -> [String: Any] { get set }
     subscript(key: DefaultsKey<[String]>) -> [String] { get set }
     subscript(key: DefaultsKey<[Int]>) -> [Int] { get set }
+    subscript(key: DefaultsKey<[LocalSuggestiveSearch]>) -> [LocalSuggestiveSearch] { get set }
 
     func get<T: UserDefaultsDecodable>(_ key: DefaultsKey<T>) -> T?
     func set<T: UserDefaultsDecodable>(_ key: DefaultsKey<T>, value: T?)

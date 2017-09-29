@@ -51,8 +51,6 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     @IBOutlet weak var filterDescriptionTopConstraint: NSLayoutConstraint!
 
     fileprivate let infoBubbleTopMargin: CGFloat = 8
-    fileprivate let verticalMarginHeaderView: CGFloat = 16
-    fileprivate let horizontalMarginHeaderView: CGFloat = 16
     fileprivate let sectionHeight: CGFloat = 54
     fileprivate let firstSectionMarginTop: CGFloat = -36
 
@@ -70,7 +68,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     private var tagsViewController : FilterTagsViewController?
     private var tagsShowing : Bool = false
 
-    private let topInset = Variable<CGFloat> (0)
+    private let topInset = Variable<CGFloat>(0)
 
     fileprivate let disposeBag = DisposeBag()
     
@@ -452,16 +450,14 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         
         navbarSearch.searchTextField?.rx.text.asObservable()
             .subscribeNext { [weak self] text in
-                guard let term = text else { return }
-                guard let charactersCount = text?.characters.count else { return }
-                if (charactersCount > 0) {
-                    self?.viewModel.retrieveSuggestiveSearches(term: term)
-                } else {
-                    self?.viewModel.cleanUpSuggestiveSearches()
-                }
+                self?.navBarSearchTextFieldDidUpdate(text: text ?? "")
         }.addDisposableTo(disposeBag)
         
         navbarSearch.searchTextField.rx.text.asObservable().bindTo(viewModel.searchText).addDisposableTo(disposeBag)
+    }
+    
+    func navBarSearchTextFieldDidUpdate(text: String) {
+        viewModel.searchTextFieldDidUpdate(text: text)
     }
 }
 
@@ -524,8 +520,11 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
 extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource {
 
     func setupSuggestionsTable() {
-        suggestionsSearchesTable.register(UINib(nibName: SuggestionSearchCell.reusableID, bundle: nil),
+        suggestionsSearchesTable.register(SuggestionSearchCell.self,
                                           forCellReuseIdentifier: SuggestionSearchCell.reusableID)
+        suggestionsSearchesTable.rowHeight = UITableViewAutomaticDimension
+        suggestionsSearchesTable.estimatedRowHeight = SuggestionSearchCell.estimatedHeight
+        suggestionsSearchesTable.backgroundColor = UIColor.white
 
         let topConstraint = NSLayoutConstraint(item: suggestionsSearchesContainer, attribute: .top, relatedBy: .equal,
                                                toItem: topLayoutGuide, attribute: .bottom, multiplier: 1.0, constant: 0)
@@ -559,13 +558,10 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
         }
     }
     
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        // Needed to avoid footer on grouped tableView.
-        return 1.0
-    }
-    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let container = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: sectionHeight))
+        container.clipsToBounds = true
+        container.backgroundColor = UIColor.white
         let suggestionTitleLabel = UILabel()
         suggestionTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         suggestionTitleLabel.textAlignment = .left
@@ -586,13 +582,12 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
         views["label"] = suggestionTitleLabel
         views["clear"] = clearButton
         var metrics = [String: Any]()
-        metrics["verticalMarginHeaderView"] = verticalMarginHeaderView
-        metrics["horizontalMarginHeaderView"] = horizontalMarginHeaderView
-        container.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-verticalMarginHeaderView-[label]-verticalMarginHeaderView-|",
+        metrics["horizontalMarginHeaderView"] = Metrics.margin
+        container.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-20-[label]-5-|",
             options: [], metrics: metrics, views: views))
         container.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-horizontalMarginHeaderView-[label]",
             options: [], metrics: metrics, views: views))
-        container.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-verticalMarginHeaderView-[clear]-verticalMarginHeaderView-|",
+        container.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-20-[clear]-5-|",
             options: [], metrics: metrics, views: views))
         container.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:[clear]-horizontalMarginHeaderView-|",
             options: [], metrics: metrics, views: views))
@@ -603,6 +598,7 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
             clearButton.isHidden = true
             suggestionTitleLabel.text = LGLocalizedString.suggestedSearchesTitle.uppercase
         case .lastSearch:
+            clearButton.isHidden = false
             suggestionTitleLabel.text = LGLocalizedString.suggestionsLastSearchesTitle.uppercase
         case .trending:
             clearButton.isHidden = true
@@ -634,10 +630,6 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
         return SearchSuggestionType.numberOfSections
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return SuggestionSearchCell.cellHeight
-    }
-
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let sectionType = SearchSuggestionType.sectionType(index: section) else { return 0 }
         switch sectionType {
@@ -651,22 +643,45 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let sectionType = SearchSuggestionType.sectionType(index: indexPath.section) else { return UITableViewCell() }
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: SuggestionSearchCell.reusableID,
-                            for: indexPath) as? SuggestionSearchCell else { return UITableViewCell() }
+        guard let sectionType = SearchSuggestionType.sectionType(index: indexPath.section),
+              let cell = tableView.dequeueReusableCell(withIdentifier: SuggestionSearchCell.reusableID,
+                                                 for: indexPath) as? SuggestionSearchCell else {
+                                                    return UITableViewCell()
+        }
+        let title: String
+        let titleSkipHighlight: String?
+        let subtitle: String?
+        let fillSearchButtonBlock: (() -> ())?
         switch sectionType {
         case .suggestive:
-            guard let (suggestiveSearch, sourceText) = viewModel.suggestiveSearchAtIndex(indexPath.row)
-                 else { return UITableViewCell() }
-            cell.suggestionText.attributedText = suggestiveSearch.name.makeBold(ignoringText: sourceText.lowercased(),
-                                                                                   font: cell.labelFont)
+            guard let (suggestiveSearch, sourceText) = viewModel.suggestiveSearchAtIndex(indexPath.row) else {
+                return UITableViewCell()
+            }
+            title = suggestiveSearch.name
+            titleSkipHighlight = sourceText
+            subtitle = suggestiveSearch.category?.name
+            fillSearchButtonBlock = { [weak self] in
+                self?.navbarSearch.searchTextField?.text = title
+                self?.viewModel.searchText.value = title
+                self?.navBarSearchTextFieldDidUpdate(text: title)
+            }
         case .lastSearch:
             guard let lastSearch = viewModel.lastSearchAtIndex(indexPath.row) else { return UITableViewCell() }
-            cell.suggestionText.text = lastSearch
+            title = lastSearch.name
+            titleSkipHighlight = nil
+            subtitle = lastSearch.category?.name
+            fillSearchButtonBlock = nil
         case .trending:
             guard let trendingSearch = viewModel.trendingSearchAtIndex(indexPath.row) else { return UITableViewCell() }
-            cell.suggestionText.text = trendingSearch
+            title = trendingSearch
+            titleSkipHighlight = nil
+            subtitle = nil
+            fillSearchButtonBlock = nil
         }
+        cell.set(title: title,
+                 titleSkipHighlight: titleSkipHighlight,
+                 subtitle: subtitle)
+        cell.fillSearchButtonBlock = fillSearchButtonBlock
         return cell
     }
 

@@ -655,6 +655,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_send_error_generic", comment: "")
 	}
 
+	static var chatSendErrorDifferentCountry: String {
+		return NSLocalizedString("chat_send_error_different_country", comment: "")
+	}
+
 	static var chatStickersTooltipNew: String {
 		return NSLocalizedString("chat_stickers_tooltip_new", comment: "")
 	}
@@ -2191,6 +2195,34 @@ struct LGLocalizedString {
 		return String(format: NSLocalizedString("product_new_onboarding_finger_tap_label", comment: ""), var1)
 	}
 
+	static func productNewOnboardingTapRightLabel(_ var1: String, _ var2: String) -> String {
+		return String(format: NSLocalizedString("product_new_onboarding_tap_right_label", comment: ""), var1, var2)
+	}
+
+	static var productNewOnboardingTapRightHighlightedLabel: String {
+		return NSLocalizedString("product_new_onboarding_tap_right_highlighted_label", comment: "")
+	}
+
+	static var productNewOnboardingTapRightHighlightedLabel2: String {
+		return NSLocalizedString("product_new_onboarding_tap_right_highlighted_label_2", comment: "")
+	}
+
+	static func productNewOnboardingTapLeftLabel(_ var1: String) -> String {
+		return String(format: NSLocalizedString("product_new_onboarding_tap_left_label", comment: ""), var1)
+	}
+
+	static var productNewOnboardingTapLeftLabelHighlighted: String {
+		return NSLocalizedString("product_new_onboarding_tap_left_label_highlighted", comment: "")
+	}
+
+	static func productNewOnboardingFingerSwipeNextProductLabel(_ var1: String) -> String {
+		return String(format: NSLocalizedString("product_new_onboarding_finger_swipe_next_product_label", comment: ""), var1)
+	}
+
+	static var productNewOnboardingFingerSwipeNextProductHighlightedLabel: String {
+		return NSLocalizedString("product_new_onboarding_finger_swipe_next_product_highlighted_label", comment: "")
+	}
+
 	static var productOptionEdit: String {
 		return NSLocalizedString("product_option_edit", comment: "")
 	}
@@ -2433,6 +2465,10 @@ struct LGLocalizedString {
 
 	static var productPostSelectCategoryOther: String {
 		return NSLocalizedString("product_post_select_category_other", comment: "")
+	}
+
+	static var productPostSelectCategoryHousing: String {
+		return NSLocalizedString("product_post_select_category_housing", comment: "")
 	}
 
 	static var productReportConfirmMessage: String {
