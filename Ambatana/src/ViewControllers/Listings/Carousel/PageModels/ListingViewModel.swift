@@ -951,6 +951,8 @@ fileprivate extension ListingViewModel {
                         strongSelf.delegate?.vmShowAutoFadingMessage(LGLocalizedString.productChatDirectErrorBlockedUserMessage, completion: nil)
                     case .internalError, .notAuthenticated, .userNotVerified, .network, .apiError:
                         strongSelf.delegate?.vmShowAutoFadingMessage(LGLocalizedString.chatSendErrorGeneric, completion: nil)
+                    case .differentCountry:
+                        strongSelf.delegate?.vmShowAutoFadingMessage(LGLocalizedString.chatSendErrorDifferentCountry, completion: nil)
                     }
                 }
                 //Removing in case of failure
