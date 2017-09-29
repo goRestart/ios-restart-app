@@ -37,6 +37,8 @@ extension Bumper  {
         flags.append(FeedFilterRadiusValues.self)
         flags.append(ExpandableCategorySelectionMenu.self)
         flags.append(LocationDataSourceEndpoint.self)
+        flags.append(SearchAutocomplete.self)
+        flags.append(NewCarouselTapNextPhotoNavigationEnabled.self)
         Bumper.initialize(flags)
     } 
 
@@ -158,7 +160,17 @@ extension Bumper  {
     static var locationDataSourceEndpoint: LocationDataSourceEndpoint {
         guard let value = Bumper.value(for: LocationDataSourceEndpoint.key) else { return .control }
         return LocationDataSourceEndpoint(rawValue: value) ?? .control 
-    } 
+    }
+
+    static var searchAutocomplete: SearchAutocomplete {
+        guard let value = Bumper.value(for: SearchAutocomplete.key) else { return .control }
+        return SearchAutocomplete(rawValue: value) ?? .control 
+    }
+    
+    static var newCarouselTapNextPhotoNavigationEnabled: NewCarouselTapNextPhotoNavigationEnabled {
+        guard let value = Bumper.value(for: NewCarouselTapNextPhotoNavigationEnabled.key) else { return .control }
+        return NewCarouselTapNextPhotoNavigationEnabled(rawValue: value) ?? .control 
+    }
 }
 
 
@@ -457,6 +469,38 @@ enum LocationDataSourceEndpoint: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .appleWithRegion
             case 3: return .niordWithRegion
+            default: return .control
+        }
+    }
+}
+
+enum SearchAutocomplete: String, BumperFeature  {
+    case control, baseline, withCategories
+    static var defaultValue: String { return SearchAutocomplete.control.rawValue }
+    static var enumValues: [SearchAutocomplete] { return [.control, .baseline, .withCategories]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Search suggestions with/without categories filtering." } 
+    static func fromPosition(_ position: Int) -> SearchAutocomplete {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .withCategories
+            default: return .control
+        }
+    }
+}
+
+enum NewCarouselTapNextPhotoNavigationEnabled: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return NewCarouselTapNextPhotoNavigationEnabled.control.rawValue }
+    static var enumValues: [NewCarouselTapNextPhotoNavigationEnabled] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "New carousel on tap displays different photo from same product" } 
+    static func fromPosition(_ position: Int) -> NewCarouselTapNextPhotoNavigationEnabled {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
             default: return .control
         }
     }

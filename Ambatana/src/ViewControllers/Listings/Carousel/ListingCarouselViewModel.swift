@@ -99,7 +99,24 @@ class ListingCarouselViewModel: BaseViewModel {
     fileprivate var prefetchingIndexes: [Int] = []
 
     fileprivate var shouldShowOnboarding: Bool {
-        return !keyValueStorage[.didShowListingDetailOnboarding]
+        let shouldShowOldOnboarding = !featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive
+            && !keyValueStorage[.didShowListingDetailOnboarding]
+        let shouldShowNewOnboarding = featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive
+            && !keyValueStorage[.didShowHorizontalListingDetailOnboarding]
+        return shouldShowOldOnboarding || shouldShowNewOnboarding
+    }
+
+    var imageScrollDirection: UICollectionViewScrollDirection {
+        if featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive {
+            return .horizontal
+        }
+        return .vertical
+    }
+
+    let imageHorizontalNavigationEnabled = Variable<Bool>(false)
+
+    var isMyListing: Bool {
+        return currentListingViewModel?.isMine ?? false
     }
 
     fileprivate var trackingIndex: Int?
@@ -113,6 +130,7 @@ class ListingCarouselViewModel: BaseViewModel {
     fileprivate let keyValueStorage: KeyValueStorageable
     fileprivate let imageDownloader: ImageDownloaderType
     fileprivate let listingViewModelMaker: ListingViewModelMaker
+    fileprivate let featureFlags: FeatureFlaggeable
 
     fileprivate let disposeBag = DisposeBag()
 
@@ -204,6 +222,7 @@ class ListingCarouselViewModel: BaseViewModel {
         self.keyValueStorage = keyValueStorage
         self.imageDownloader = imageDownloader
         self.listingViewModelMaker = listingViewModelMaker
+        self.featureFlags = featureFlags
         if let initialListing = initialListing {
             self.startIndex = objects.value.index(where: { $0.listing.objectId == initialListing.objectId}) ?? 0
         } else {
@@ -350,6 +369,8 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     private func setupRxBindings() {
+        imageHorizontalNavigationEnabled.value = imageScrollDirection == .horizontal
+        
         quickAnswersCollapsed.asObservable().skip(1).bindNext { [weak self] collapsed in
             self?.keyValueStorage[.listingDetailQuickAnswersHidden] = collapsed
         }.addDisposableTo(disposeBag)

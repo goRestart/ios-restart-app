@@ -92,13 +92,13 @@
 "bump_up_view_free_subtitle" = "The more you share, the more visibility your listing will have.";
 
 // Title for payment bump up view
-"bump_up_view_pay_title" = "SELL FASTER";
+"bump_up_view_pay_title" = "Attract 2x more buyers";
 
 // Subtitle for payment bump up view
-"bump_up_view_pay_subtitle" = "Attract more buyers by giving your listing more visibility.";
+"bump_up_view_pay_subtitle" = "We’ll feature your item for 24 hours so more buyers will see your item and you’ll sell faster";
 
 // Button title for payment bump up view
-"bump_up_view_pay_button_title" = "Activate for %@";
+"bump_up_view_pay_button_title" = "Feature it for %@";
 
 // Text for alert when bump is not allowed
 "bump_up_not_allowed_alert_text" = "Featuring this item isn't possible at this time.  For more information, contact us.";
@@ -1833,6 +1833,9 @@
 
 // Product post category selection others button
 "product_post_select_category_other" = "Other items";
+
+// Product post category selection real Estate button
+"product_post_select_category_housing" = "Housing";
 
 // Product report confirm message. Message displayal is like the other dialog messages
 "product_report_confirm_message" = "Are you sure you want to report this product?";

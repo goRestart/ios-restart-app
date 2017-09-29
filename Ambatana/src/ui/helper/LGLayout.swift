@@ -212,7 +212,7 @@ extension LGLayout {
     }
 
 
-    // MARK: Horizantal / Vertical arrangement
+    // MARK: Horizontal / Vertical arrangement
 
     @discardableResult
     func toRight(by constant: CGFloat = 0, multiplier: CGFloat = 1,
