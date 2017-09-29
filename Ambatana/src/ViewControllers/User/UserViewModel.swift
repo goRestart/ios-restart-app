@@ -625,6 +625,10 @@ extension UserViewModel: ListingListViewModelDataDelegate {
                                                  showRelated: false, index: 0)
         navigator?.openListing(data, source: .profile, actionOnFirstAppear: .nonexistent)
     }
+    
+    func vmProcessReceivedListingPage(_ listings: [ListingCellModel], page: UInt) -> [ListingCellModel] { return listings }
+    func vmDidSelectSellBanner(_ type: String) {}
+    func vmDidSelectCollection(_ type: CollectionCellType) {}
 }
 
 

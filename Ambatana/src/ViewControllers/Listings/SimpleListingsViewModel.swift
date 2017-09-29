@@ -83,8 +83,8 @@ extension SimpleListingsViewModel: ListingListViewModelDataDelegate {
         navigator?.openListing(data, source: listingVisitSource, actionOnFirstAppear: .nonexistent)
     }
 
-    func vmProcessReceivedProductPage(_ products: [ListingCellModel], page: UInt) -> [ListingCellModel] {
-        return products
+    func vmProcessReceivedListingPage(_ listings: [ListingCellModel], page: UInt) -> [ListingCellModel] {
+        return listings
     }
     func vmDidSelectSellBanner(_ type: String) {}
     func vmDidSelectCollection(_ type: CollectionCellType) {}
