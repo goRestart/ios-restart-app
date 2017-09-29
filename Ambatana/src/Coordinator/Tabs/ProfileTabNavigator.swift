@@ -20,6 +20,7 @@ protocol SettingsNavigator: class {
     func openChangePassword()
     func openHelp()
     func closeSettings()
+    func open(url: URL)
 }
 
 protocol ChangeUsernameNavigator: class {
@@ -40,5 +41,4 @@ protocol EditLocationNavigator: class {
 
 protocol HelpNavigator: class {
     func closeHelp()
-    func open(url: URL)
 }

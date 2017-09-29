@@ -79,6 +79,10 @@ fileprivate extension LetGoSetting {
             return LGLocalizedString.settingsMarketingNotificationsSwitch
         case .help:
             return LGLocalizedString.settingsHelpButton
+        case .termsAndConditions:
+            return LGLocalizedString.mainSignUpTermsConditionsTermsPart
+        case .privacyPolicy:
+            return LGLocalizedString.helpTermsConditionsPrivacyPart
         case .logOut:
             return LGLocalizedString.settingsLogoutButton
         case .versionInfo:
@@ -102,6 +106,10 @@ fileprivate extension LetGoSetting {
             return UIImage(named: "ic_setting_notifications")
         case .help:
             return UIImage(named: "ic_setting_help")
+        case .termsAndConditions:
+            return UIImage(named: "ic_setting_terms_and_conditions")
+        case .privacyPolicy:
+            return UIImage(named: "ic_setting_privacy_policy")
         case .logOut, .versionInfo:
             return nil
         case let .changePhoto(placeholder,_):
