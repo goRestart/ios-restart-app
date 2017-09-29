@@ -18,6 +18,7 @@ class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDrawer {
         }
         if model.isFeatured {
             cell.setupFeaturedStripe()
+            cell.hidePriceView()
             switch style {
             case .mainList:
                 cell.setupFeaturedListingInfoWith(price: model.price, title: model.title, isMine: model.isMine,
@@ -27,6 +28,7 @@ class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDrawer {
             }
         } else {
             cell.hideFeaturedListingInfo()
+            cell.setupPriceView(price: model.price)
             if model.isFree {
                 cell.setupFreeStripe()
             }

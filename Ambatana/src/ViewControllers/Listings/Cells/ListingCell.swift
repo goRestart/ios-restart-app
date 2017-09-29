@@ -34,7 +34,13 @@ class ListingCell: UICollectionViewCell, ReusableCell {
 
     @IBOutlet weak var featuredListingInfoView: UIView!
     @IBOutlet weak var featuredListingInfoHeight: NSLayoutConstraint!
+    @IBOutlet var featuredInfoViewTopToImageViewBottomConstraint: NSLayoutConstraint!
 
+    @IBOutlet weak var priceView: UIView!
+    @IBOutlet weak var priceViewHeight: NSLayoutConstraint!
+    @IBOutlet var priceViewTopToImageViewBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var priceLabel: UILabel!
+    
     fileprivate var featuredListingPriceLabel: UILabel?
     fileprivate var featuredListingTitleLabel: UILabel?
     fileprivate var featuredListingChatButton: UIButton?
@@ -185,6 +191,18 @@ class ListingCell: UICollectionViewCell, ReusableCell {
 
     func hideFeaturedListingInfo() {
         featuredListingInfoHeight.constant = 0
+        featuredInfoViewTopToImageViewBottomConstraint.isActive = false
+    }
+    
+    func hidePriceView() {
+        priceViewHeight.constant = 0
+        priceViewTopToImageViewBottomConstraint.isActive = false
+    }
+    
+    func setupPriceView(price: String) {
+        priceLabel.text = price
+        priceLabel.font = UIFont.systemBoldFont(size: 18)
+        priceLabel.adjustsFontSizeToFitWidth = true
     }
 
 
@@ -199,6 +217,8 @@ class ListingCell: UICollectionViewCell, ReusableCell {
         // HIDDEN for the moment while we experiment with 3 columns
         stripeInfoView.isHidden = true
         stripeImageView.isHidden = true
+        
+        priceView.translatesAutoresizingMaskIntoConstraints = false
     }
 
     // Resets the UI to the initial state

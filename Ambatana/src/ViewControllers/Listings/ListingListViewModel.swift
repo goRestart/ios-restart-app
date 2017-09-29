@@ -76,6 +76,7 @@ class ListingListViewModel: BaseViewModel {
     private static let cellMaxThumbFactor: CGFloat = 2.0
     private static let cellFeaturedInfoMinHeight: CGFloat = 105.0
     private static let cellFeaturedInfoTitleMaxLines: CGFloat = 2.0
+    private static let cellPriceViewHeight: CGFloat = 30.0
 
     var cellWidth: CGFloat {
         return (UIScreen.main.bounds.size.width - (listingListFixedInset*2)) / CGFloat(numberOfColumns)
@@ -410,8 +411,11 @@ class ListingListViewModel: BaseViewModel {
                 }
                 featuredInfoFinalHeight = CGFloat(ListingListViewModel.cellFeaturedInfoMinHeight) + listingTitleHeight
             }
+            
+            var priceViewHeight: CGFloat = 0.0
+            priceViewHeight = ListingListViewModel.cellPriceViewHeight
 
-            return CGSize(width: defaultCellSize.width, height: imageFinalHeight+featuredInfoFinalHeight)
+            return CGSize(width: defaultCellSize.width, height: imageFinalHeight+featuredInfoFinalHeight+priceViewHeight)
         case .collectionCell:
             let height = defaultCellSize.width*ListingListViewModel.cellBannerAspectRatio
             return CGSize(width: defaultCellSize.width, height: height)
