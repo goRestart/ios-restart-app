@@ -33,7 +33,8 @@ class ExpandableCategorySelectionView: UIView {
     
     // MARK: - Lifecycle
     
-    init(frame: CGRect, buttonSpacing: CGFloat, bottomDistance: CGFloat, viewModel: ExpandableCategorySelectionViewModel) {
+    init(frame: CGRect, buttonSpacing: CGFloat, bottomDistance: CGFloat,
+         viewModel: ExpandableCategorySelectionViewModel) {
         self.buttonSpacing = buttonSpacing
         self.bottomDistance = bottomDistance
         self.viewModel = viewModel
@@ -198,7 +199,9 @@ fileprivate extension ListingCategory {
             return #imageLiteral(resourceName: "carIcon")
         case .motorsAndAccessories:
             return #imageLiteral(resourceName: "motorsAndAccesories")
-        case .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .realEstate:
+        case .realEstate:
+            return #imageLiteral(resourceName: "housingIcon")
+        case .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames:
             return image
         }
     }

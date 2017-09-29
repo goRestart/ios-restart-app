@@ -36,22 +36,4 @@ class HelpViewModel: BaseViewModel {
     var url: URL? {
         return LetgoURLHelper.buildHelpURL(myUserRepository.myUser, installation: installationRepository.installation)
     }
-
-    var termsAndConditionsURL: URL? {
-        return LetgoURLHelper.buildTermsAndConditionsURL()
-    }
-    
-    var privacyURL: URL? {
-        return LetgoURLHelper.buildPrivacyURL()
-    }
-    
-    func termsButtonPressed() {
-        guard let url = termsAndConditionsURL else { return }
-        navigator?.open(url: url)
-    }
-    
-    func privacyButtonPressed() {
-        guard let url = privacyURL else { return }
-        navigator?.open(url: url)
-    }
 }
