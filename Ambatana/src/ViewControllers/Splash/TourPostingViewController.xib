@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -138,7 +138,7 @@
                                 <state key="normal" image="ic_close"/>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="NFS-ck-gsl" secondAttribute="trailing" constant="15" id="1dH-k5-MbY"/>
                             <constraint firstAttribute="trailing" secondItem="wei-bc-Jxc" secondAttribute="trailing" constant="16" id="Ahi-8b-UUZ"/>
@@ -150,11 +150,11 @@
                             <constraint firstItem="On3-Pg-I69" firstAttribute="leading" secondItem="dWr-LA-o30" secondAttribute="leading" id="iPT-bk-1vg"/>
                         </constraints>
                     </view>
-                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <blurEffect style="dark"/>
                 </visualEffectView>
             </subviews>
-            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="DZu-8x-tJ8" secondAttribute="trailing" id="7J6-Me-E0U"/>
                 <constraint firstItem="DZu-8x-tJ8" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="NlY-zC-iWt"/>

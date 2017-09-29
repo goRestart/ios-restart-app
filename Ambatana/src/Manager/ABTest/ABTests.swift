@@ -20,7 +20,6 @@ class ABTests {
     let surveyEnabled = BoolABDynamicVar(key: "surveyEnabled", defaultValue: false)
 
     let websocketChat = BoolABDynamicVar(key: "websocketChat20170609", defaultValue: true)
-    let userReviews = BoolABDynamicVar(key: "userReviews", defaultValue: false)
     let captchaTransparent = BoolABDynamicVar(key: "captchaTransparent", defaultValue: false)
     let passiveBuyersShowKeyboard = BoolABDynamicVar(key: "passiveBuyersShowKeyboard", defaultValue: false)
     let freeBumpUpEnabled = BoolABDynamicVar(key: "freeBumpUpEnabled", defaultValue: false)
@@ -42,6 +41,8 @@ class ABTests {
     let feedFilterRadiusValues = IntABDynamicVar(key: "20170904feedFilterRadiusValues", defaultValue: 0)
     let expandableCategorySelectionMenu = IntABDynamicVar(key: "20170904ExpandableCategorySelectionMenu", defaultValue: 0)
     let locationDataSourceType = IntABDynamicVar(key: "20170830LocationDataSourceType", defaultValue: 0)
+    let searchAutocomplete = IntABDynamicVar(key: "20170914SearchAutocomplete", defaultValue: 0)
+    let newCarouselTapNextPhotoNavigationEnabled = IntABDynamicVar(key: "20170914NewCarouselTapNextPhotoNavigationEnabled", defaultValue: 0)
 
     init() {
     }
@@ -56,7 +57,6 @@ class ABTests {
         result.append(surveyEnabled)
 
         result.append(websocketChat)
-        result.append(userReviews)
         result.append(passiveBuyersShowKeyboard)
         result.append(captchaTransparent)
         result.append(freeBumpUpEnabled)
@@ -78,6 +78,8 @@ class ABTests {
         result.append(feedFilterRadiusValues)
         result.append(expandableCategorySelectionMenu)
         result.append(locationDataSourceType)
+        result.append(searchAutocomplete)
+        result.append(newCarouselTapNextPhotoNavigationEnabled)
 
         return result
     }

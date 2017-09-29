@@ -54,6 +54,9 @@ enum AccessibilityId: String {
     case listingCellStripeImageView
     case listingCellStripeLabel
     case listingCellStripeIcon
+    case listingCellFeaturedPrice
+    case listingCellFeaturedTitle
+    case listingCellFeaturedChatButton
 
     // Collection & Banner Cells
     case collectionCell
@@ -90,7 +93,8 @@ enum AccessibilityId: String {
 
     // SuggestionSearchCell
     case suggestionSearchCell
-    case suggestionSearchCellSuggestionText
+    case suggestionSearchCellTitle
+    case suggestionSearchCellSubtitle
 
     // Filters
     case filtersCollectionView
@@ -150,6 +154,7 @@ enum AccessibilityId: String {
     case listingCarouselDirectChatTable
     case listingCarouselFullScreenAvatarView
     case listingCarouselPageControl
+    case listingCarouselCustomPageControl
     case listingCarouselUserView
     case listingCarouselChatTextView
 

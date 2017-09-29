@@ -39,10 +39,12 @@ protocol FeatureFlaggeable: class {
     var tweaksCarPostingFlow: TweaksCarPostingFlow { get }
     var userReviewsReportEnabled: Bool { get }
     var dynamicQuickAnswers: DynamicQuickAnswers { get }
-    var locationDataSourceEndpoint: LocationDataSourceEndpoint { get }
     var appRatingDialogInactive: Bool { get }
     var feedFilterRadiusValues: FeedFilterRadiusValues { get }
     var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu { get }
+    var locationDataSourceEndpoint: LocationDataSourceEndpoint { get }
+    var searchAutocomplete: SearchAutocomplete { get }
+    var newCarouselNavigationTapNextPhotoEnabled: NewCarouselTapNextPhotoNavigationEnabled { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -108,6 +110,17 @@ extension ExpandableCategorySelectionMenu {
         case .control, .baseline:
             return false
         case .expandableMenu:
+            return true
+        }
+    }
+}
+
+extension NewCarouselTapNextPhotoNavigationEnabled {
+    var isActive: Bool {
+        switch self {
+        case .control, .baseline:
+            return false
+        case .active:
             return true
         }
     }
@@ -337,6 +350,20 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.locationDataSourceEndpoint
         }
         return LocationDataSourceEndpoint.fromPosition(abTests.locationDataSourceType.value)
+    }
+    
+    var searchAutocomplete: SearchAutocomplete {
+        if Bumper.enabled {
+            return Bumper.searchAutocomplete
+        }
+        return SearchAutocomplete.fromPosition(abTests.searchAutocomplete.value)
+    }
+
+    var newCarouselNavigationTapNextPhotoEnabled: NewCarouselTapNextPhotoNavigationEnabled {
+        if Bumper.enabled {
+            return Bumper.newCarouselTapNextPhotoNavigationEnabled
+        }
+        return NewCarouselTapNextPhotoNavigationEnabled.fromPosition(abTests.newCarouselTapNextPhotoNavigationEnabled.value)
     }
     
 
