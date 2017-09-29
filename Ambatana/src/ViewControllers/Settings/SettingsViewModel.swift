@@ -20,6 +20,8 @@ enum LetGoSetting {
     case marketingNotifications(switchValue: Variable<Bool>, changeClosure: ((Bool) -> Void))
     case changePassword
     case help
+    case termsAndConditions
+    case privacyPolicy
     case logOut
     case versionInfo
 }
@@ -51,7 +53,14 @@ class SettingsViewModel: BaseViewModel {
 
     private let disposeBag = DisposeBag()
 
-
+    private var termsAndConditionsURL: URL? {
+        return LetgoURLHelper.buildTermsAndConditionsURL()
+    }
+    
+    private var privacyURL: URL? {
+        return LetgoURLHelper.buildPrivacyURL()
+    }
+    
     convenience override init() {
         self.init(myUserRepository: Core.myUserRepository,
                   notificationsManager: LGNotificationsManager.sharedInstance,
@@ -190,6 +199,8 @@ class SettingsViewModel: BaseViewModel {
 
         var supportSettings = [LetGoSetting]()
         supportSettings.append(.help)
+        supportSettings.append(.termsAndConditions)
+        supportSettings.append(.privacyPolicy)
         settingSections.append(SettingsSection(title: LGLocalizedString.settingsSectionSupport, settings: supportSettings))
 
         var logoutAndInfo = [LetGoSetting]()
@@ -221,6 +232,12 @@ class SettingsViewModel: BaseViewModel {
             navigator?.openChangePassword()
         case .help:
             navigator?.openHelp()
+        case .termsAndConditions:
+            guard let url = termsAndConditionsURL else { return }
+            navigator?.open(url: url)
+        case .privacyPolicy:
+            guard let url = privacyURL else { return }
+            navigator?.open(url: url)
         case .logOut:
             let positive = UIAction(interface: .styledText(LGLocalizedString.settingsLogoutAlertOk, .standard),
                                     action: { [weak self] in
