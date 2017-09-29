@@ -37,6 +37,7 @@ extension Bumper  {
         flags.append(FeedFilterRadiusValues.self)
         flags.append(ExpandableCategorySelectionMenu.self)
         flags.append(LocationDataSourceEndpoint.self)
+        flags.append(RealEstateEnabled.self)
         flags.append(SearchAutocomplete.self)
         flags.append(NewCarouselTapNextPhotoNavigationEnabled.self)
         Bumper.initialize(flags)
@@ -162,15 +163,20 @@ extension Bumper  {
         return LocationDataSourceEndpoint(rawValue: value) ?? .control 
     }
 
+    static var realEstateEnabled: Bool {
+        guard let value = Bumper.value(for: RealEstateEnabled.key) else { return false }
+        return RealEstateEnabled(rawValue: value)?.asBool ?? false
+    }
+
     static var searchAutocomplete: SearchAutocomplete {
         guard let value = Bumper.value(for: SearchAutocomplete.key) else { return .control }
         return SearchAutocomplete(rawValue: value) ?? .control 
     }
-    
+
     static var newCarouselTapNextPhotoNavigationEnabled: NewCarouselTapNextPhotoNavigationEnabled {
         guard let value = Bumper.value(for: NewCarouselTapNextPhotoNavigationEnabled.key) else { return .control }
         return NewCarouselTapNextPhotoNavigationEnabled(rawValue: value) ?? .control 
-    }
+    } 
 }
 
 
@@ -472,6 +478,15 @@ enum LocationDataSourceEndpoint: String, BumperFeature  {
             default: return .control
         }
     }
+}
+
+enum RealEstateEnabled: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return RealEstateEnabled.no.rawValue }
+    static var enumValues: [RealEstateEnabled] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Allow to see Real Estate category" } 
+    var asBool: Bool { return self == .yes }
 }
 
 enum SearchAutocomplete: String, BumperFeature  {

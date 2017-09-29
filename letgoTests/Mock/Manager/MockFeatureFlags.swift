@@ -46,6 +46,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu = .control
     var searchAutocomplete: SearchAutocomplete = .control
     var newCarouselNavigationTapNextPhotoEnabled: NewCarouselTapNextPhotoNavigationEnabled = .control
+    var realEstateEnabled: Bool = false
     
     // Country dependant features
     var freePostingModeAllowed = false

@@ -55,7 +55,7 @@ final class PostListingState {
         switch category {
         case .car:
             newStep = .carDetailsSelection
-        case .unassigned, .motorsAndAccessories:
+        case .unassigned, .motorsAndAccessories, .realEstate:
             newStep = .finished
         }
         return PostListingState(step: newStep,
