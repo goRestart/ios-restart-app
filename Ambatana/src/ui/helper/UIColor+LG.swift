@@ -134,6 +134,9 @@ extension UIColor {
     static var whiteTextLowAlpha: UIColor { return whiteAlpha30 }
 
     static var grayPlaceholderText: UIColor { return gray }
+    
+    // Transparent Background
+    static var blackBackgroundAlpha: UIColor { return blackAlpha30 }
 }
 
 

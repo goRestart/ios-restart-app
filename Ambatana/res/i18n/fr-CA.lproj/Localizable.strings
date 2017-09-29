@@ -18,7 +18,7 @@
 "bump_up_banner_pay_text_improvement" = "Vendez au plus vite !";
 "bump_up_banner_wait_text" = "avant de remettre en vedette";
 "bump_up_error_bump_generic" = "Une erreur est survenue lors de la mise en vedette de votre produit. Veuillez réessayer.";
-"bump_up_error_bump_token" = "Votre paiement a été effectué, mais votre produit n'a pas encore été renvoyé vers le haut.";
+"bump_up_error_bump_token" = "Votre paiement a été effectué, mais le produit n'a pas été mis en vedette.";
 "bump_up_error_payment_failed" = "Impossible de se connecter à l'App Store. Votre paiement n'a pas été traité. Veuillez réessayer.";
 "bump_up_free_success" = "Renvoyé vers le haut ! Continuez de renvoyer vos annonces vers le haut pour toujours plus de visibilité.";
 "bump_up_not_allowed_alert_contact_button" = "Contactez-nous";
@@ -595,7 +595,7 @@
 "product_post_retake" = "Reprendre";
 "product_post_retry_button" = "Réessayer";
 "product_post_select_category_cars" = "Des voitures";
-"product_post_select_category_housing" = "Housing";
+"product_post_select_category_housing" = "Immobilier";
 "product_post_select_category_motors_and_accessories" = "Autres Véhicules et Accessoires";
 "product_post_select_category_other" = "Autres produits";
 "product_post_select_category_title" = "Que publiez-vous ?";

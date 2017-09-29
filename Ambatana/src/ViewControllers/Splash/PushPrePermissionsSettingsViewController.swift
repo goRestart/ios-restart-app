@@ -55,6 +55,7 @@ final class PushPrePermissionsSettingsViewController: BaseViewController {
     // MARK: - UI
     
     func setupUI() {
+        view.backgroundColor = UIColor.clear
         yesButton.setStyle(.primary(fontSize: .medium))
         
         switch DeviceFamily.current {
