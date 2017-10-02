@@ -126,6 +126,7 @@ class ListingListViewModel: BaseViewModel {
     // Tracking
     
     fileprivate let tracker: Tracker
+    fileprivate let reporter: CrashlyticsReporter
     
     
     // RX vars
@@ -147,7 +148,8 @@ class ListingListViewModel: BaseViewModel {
          listings: [Listing]? = nil,
          numberOfColumns: Int = 2,
          tracker: Tracker = TrackerProxy.sharedInstance,
-         imageDownloader: ImageDownloaderType = ImageDownloader.sharedInstance) {
+         imageDownloader: ImageDownloaderType = ImageDownloader.sharedInstance,
+         reporter: CrashlyticsReporter = CrashlyticsReporter()) {
         self.objects = (listings ?? []).map(ListingCellModel.init)
         self.pageNumber = 0
         self.refreshing = false
@@ -156,6 +158,7 @@ class ListingListViewModel: BaseViewModel {
         self.listingListRequester = requester
         self.defaultCellSize = CGSize.zero
         self.tracker = tracker
+        self.reporter = reporter
         self.imageDownloader = imageDownloader
         self.indexToTitleMapping = [:]
         super.init()
@@ -444,6 +447,10 @@ extension ListingListViewModel {
     func trackErrorStateShown(reason: EventParameterEmptyReason) {
         let event = TrackerEvent.emptyStateVisit(typePage: .listingList , reason: reason)
         tracker.trackEvent(event)
+
+        reporter.report(CrashlyticsReporter.appDomain,
+                        code: 0,
+                        message: "Listing list empty state shown -> \(reason.rawValue)")
     }
 
     func trackVerticalFilterResults(withVerticalTrackingInfo info: VerticalTrackingInfo) {
