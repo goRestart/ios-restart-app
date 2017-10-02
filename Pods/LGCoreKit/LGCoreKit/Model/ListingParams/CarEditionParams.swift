@@ -11,17 +11,12 @@ public class CarEditionParams: CarCreationParams {
     let userId: String
     
     public convenience init?(listing: Listing) {
-        guard let carId = listing.objectId, let userId = listing.user.objectId else { return nil }
         let editedCar: Car = CarEditionParams.createCarParams(withListing: listing)
-        self.init(car: editedCar, carId: carId, userId: userId)
+        self.init(car: editedCar)
     }
     
-    public convenience init?(car: Car) {
+    public init?(car: Car) {
         guard let carId = car.objectId, let userId = car.user.objectId else { return nil }
-        self.init(car: car, carId: carId, userId: userId)
-    }
-    
-    init(car: Car, carId: String, userId: String) {
         self.carId = carId
         self.userId = userId
         super.init(name: car.name,

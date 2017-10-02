@@ -11,17 +11,12 @@ public class RealEstateEditionParams: RealEstateCreationParams {
     let userId: String
     
     public convenience init?(listing: Listing) {
-        guard let realEstateId = listing.objectId, let userId = listing.user.objectId else { return nil }
         let editedRealEstate: RealEstate = RealEstateEditionParams.createRealEstateParams(withListing: listing)
-        self.init(realEstate: editedRealEstate, realEstateId: realEstateId, userId: userId)
+        self.init(realEstate: editedRealEstate)
     }
     
-    public convenience init?(realEstate: RealEstate) {
+    public init?(realEstate: RealEstate) {
         guard let realEstateId = realEstate.objectId, let userId = realEstate.user.objectId else { return nil }
-        self.init(realEstate: realEstate, realEstateId: realEstateId, userId: userId)
-    }
-    
-    init(realEstate: RealEstate, realEstateId: String, userId: String) {
         self.realEstateId = realEstateId
         self.userId = userId
         super.init(name: realEstate.name,

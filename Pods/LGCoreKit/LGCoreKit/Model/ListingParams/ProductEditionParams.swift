@@ -11,7 +11,6 @@ public class ProductEditionParams: ProductCreationParams {
     let userId: String
     
     public convenience init?(listing: Listing) {
-        guard let productId = listing.objectId, let userId = listing.user.objectId else { return nil }
         let editedProduct: Product
         switch listing {
         case .car, .realEstate:
@@ -19,21 +18,11 @@ public class ProductEditionParams: ProductCreationParams {
         case let .product(product):
             editedProduct = product
         }
-        self.init(product: editedProduct,
-                  productId: productId,
-                  userId: userId)
+        self.init(product: editedProduct)
     }
     
-    public convenience init?(product: Product) {
+    init?(product: Product) {
         guard let productId = product.objectId, let userId = product.user.objectId else { return nil }
-        self.init(product: product,
-                  productId: productId,
-                  userId: userId)
-    }
-    
-    init(product: Product,
-         productId: String,
-         userId: String) {
         self.productId = productId
         self.userId = userId
         super.init(name: product.name,
