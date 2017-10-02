@@ -11,7 +11,7 @@ import RxSwift
 import UIKit
 
 enum PostCategory {
-    case car, unassigned, motorsAndAccessories
+    case car, unassigned, motorsAndAccessories, realEstate
     
     var listingCategory: ListingCategory {
         switch self {
@@ -21,16 +21,27 @@ enum PostCategory {
             return .unassigned
         case .motorsAndAccessories:
             return .motorsAndAccessories
+        case .realEstate:
+            return .realEstate
         }
+    }
+    
+    static func categoriesAvailable(realEstateEnabled: Bool) -> [PostCategory] {
+        return realEstateEnabled ? [.car, PostCategory.realEstate, PostCategory.motorsAndAccessories, PostCategory.unassigned] : [PostCategory.car, PostCategory.motorsAndAccessories, PostCategory.unassigned]
     }
 }
 
 final class PostCategorySelectionView: UIView {
+    fileprivate let categoryButtonHeight: CGFloat = 55
+
     fileprivate let titleLabel = UILabel()
     fileprivate let categoriesContainerView = UIView()
     fileprivate let carsCategoryButton = UIButton()
     fileprivate let motorsAndAccessoriesButton = UIButton()
     fileprivate let otherCategoryButton = UIButton()
+    fileprivate let realEstateCategoryButton = UIButton()
+    fileprivate let realEstateEnabled: Bool
+    fileprivate let categoriesAvailables: [PostCategory]
     
     fileprivate let disposeBag = DisposeBag()
     
@@ -42,9 +53,10 @@ final class PostCategorySelectionView: UIView {
     
     // MARK: - Lifecycle
     
-    init() {
+    init(realEstateEnabled: Bool) {
+        self.realEstateEnabled = realEstateEnabled
+        categoriesAvailables = PostCategory.categoriesAvailable(realEstateEnabled: realEstateEnabled)
         super.init(frame: CGRect.zero)
-        
         setupUI()
         setupAccessibilityIds()
         setupLayout()
@@ -59,6 +71,23 @@ final class PostCategorySelectionView: UIView {
 // MARK: - Private methods
 
 fileprivate extension PostCategorySelectionView {
+    
+    func addButton(button: UIButton, title: String, image: UIImage, postCategoryLink: PostCategory) {
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleLabel?.font = UIFont.systemBoldFont(size: 23)
+        button.setTitle(title, for: .normal)
+        button.setTitleColor(UIColor.white, for: .normal)
+        button.setTitleColor(UIColor.whiteTextHighAlpha, for: .highlighted)
+        button.setImage(image, for: .normal)
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: Metrics.bigMargin, bottom: 0, right: 0)
+        button.titleLabel?.lineBreakMode = .byWordWrapping
+        button.contentHorizontalAlignment = .left
+        button.rx.tap.subscribeNext { [weak self] _ in
+            self?.selectedCategoryPublishSubject.onNext(postCategoryLink)
+            }.addDisposableTo(disposeBag)
+        categoriesContainerView.addSubview(button)
+    }
+    
     func setupUI() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = UIFont.systemSemiBoldFont(size: 17)
@@ -70,53 +99,38 @@ fileprivate extension PostCategorySelectionView {
         categoriesContainerView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(categoriesContainerView)
         
-        carsCategoryButton.translatesAutoresizingMaskIntoConstraints = false
-        carsCategoryButton.titleLabel?.font = UIFont.systemBoldFont(size: 23)
-        carsCategoryButton.setTitle(LGLocalizedString.productPostSelectCategoryCars, for: .normal)
-        carsCategoryButton.setTitleColor(UIColor.white, for: .normal)
-        carsCategoryButton.setTitleColor(UIColor.whiteTextHighAlpha, for: .highlighted)
-        carsCategoryButton.setImage(UIImage(named: "categories_cars_inactive"), for: .normal)
-        carsCategoryButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: Metrics.bigMargin, bottom: 0, right: 0)
-        carsCategoryButton.titleLabel?.lineBreakMode = .byWordWrapping
-        carsCategoryButton.contentHorizontalAlignment = .left
-        carsCategoryButton.rx.tap.subscribeNext { [weak self] _ in
-            self?.selectedCategoryPublishSubject.onNext(.car)
-        }.addDisposableTo(disposeBag)
-        categoriesContainerView.addSubview(carsCategoryButton)
-
-        motorsAndAccessoriesButton.translatesAutoresizingMaskIntoConstraints = false
-        motorsAndAccessoriesButton.titleLabel?.font = UIFont.systemBoldFont(size: 23)
-        motorsAndAccessoriesButton.setTitle(LGLocalizedString.productPostSelectCategoryMotorsAndAccessories, for: .normal)
-        motorsAndAccessoriesButton.setTitleColor(UIColor.white, for: .normal)
-        motorsAndAccessoriesButton.setTitleColor(UIColor.whiteTextHighAlpha, for: .highlighted)
-        motorsAndAccessoriesButton.setImage(UIImage(named: "categories_motors_inactive"), for: .normal)
-        motorsAndAccessoriesButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: Metrics.bigMargin, bottom: 0, right: 0)
-        motorsAndAccessoriesButton.titleLabel?.lineBreakMode = .byWordWrapping
-        motorsAndAccessoriesButton.contentHorizontalAlignment = .left
-        motorsAndAccessoriesButton.rx.tap.subscribeNext { [weak self] _ in
-            self?.selectedCategoryPublishSubject.onNext(.motorsAndAccessories)
-            }.addDisposableTo(disposeBag)
-        categoriesContainerView.addSubview(motorsAndAccessoriesButton)
-        
-        otherCategoryButton.translatesAutoresizingMaskIntoConstraints = false
-        otherCategoryButton.titleLabel?.font = UIFont.systemBoldFont(size: 23)
-        otherCategoryButton.setTitle(LGLocalizedString.productPostSelectCategoryOther, for: .normal)
-        otherCategoryButton.setTitleColor(UIColor.white, for: .normal)
-        otherCategoryButton.setTitleColor(UIColor.whiteTextHighAlpha, for: .highlighted)
-        otherCategoryButton.setImage(UIImage(named: "categories_other_items"), for: .normal)
-        otherCategoryButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: Metrics.bigMargin, bottom: 0, right: 0)
-        otherCategoryButton.titleLabel?.lineBreakMode = .byWordWrapping
-        otherCategoryButton.contentHorizontalAlignment = .left
-        otherCategoryButton.rx.tap.subscribeNext { [weak self] _ in
-            self?.selectedCategoryPublishSubject.onNext(.unassigned)
-        }.addDisposableTo(disposeBag)
-        categoriesContainerView.addSubview(otherCategoryButton)
+        categoriesAvailables.forEach { (category) in
+            switch category {
+            case .car:
+                addButton(button: carsCategoryButton,
+                          title: LGLocalizedString.productPostSelectCategoryCars,
+                          image: #imageLiteral(resourceName: "categories_cars_inactive"),
+                          postCategoryLink: .car)
+            case .unassigned:
+                addButton(button: otherCategoryButton,
+                          title: LGLocalizedString.productPostSelectCategoryOther,
+                          image: #imageLiteral(resourceName: "categories_other_items"),
+                          postCategoryLink: .unassigned)
+            case .motorsAndAccessories:
+                addButton(button: motorsAndAccessoriesButton,
+                          title: LGLocalizedString.productPostSelectCategoryMotorsAndAccessories,
+                          image: #imageLiteral(resourceName: "categories_motors_inactive"),
+                          postCategoryLink: .motorsAndAccessories)
+            case .realEstate:
+                addButton(button: realEstateCategoryButton,
+                          title: LGLocalizedString.productPostSelectCategoryHousing,
+                          image: #imageLiteral(resourceName: "categories_realestate_inactive"),
+                          postCategoryLink: .realEstate)
+            }
+        }
     }
     
     func setupAccessibilityIds() {
         carsCategoryButton.accessibilityId = .postingCategorySelectionCarsButton
         motorsAndAccessoriesButton.accessibilityId = .postingCategorySelectionMotorsAndAccessoriesButton
         otherCategoryButton.accessibilityId = .postingCategorySelectionOtherButton
+        realEstateCategoryButton.accessibilityId = .postingCategorySelectionRealEstateButton
+        
     }
     
     func setupLayout() {
@@ -131,16 +145,26 @@ fileprivate extension PostCategorySelectionView {
             .centerY()
         
         carsCategoryButton.layout()
-            .height(55)
+            .height(categoryButtonHeight)
         carsCategoryButton.layout(with: categoriesContainerView)
             .leading(by: Metrics.bigMargin)
             .trailing(by: -Metrics.bigMargin)
             .top()
-        carsCategoryButton.layout(with: motorsAndAccessoriesButton)
+        carsCategoryButton.layout(with: realEstateEnabled ? realEstateCategoryButton : motorsAndAccessoriesButton)
             .above(by: -Metrics.bigMargin)
         
+        if realEstateEnabled {
+            realEstateCategoryButton.layout()
+                .height(categoryButtonHeight)
+            realEstateCategoryButton.layout(with: categoriesContainerView)
+                .leading(by: Metrics.bigMargin)
+                .trailing(by: -Metrics.bigMargin)
+            realEstateCategoryButton .layout(with: motorsAndAccessoriesButton)
+                .above(by: -Metrics.bigMargin)
+        }
+
         motorsAndAccessoriesButton.layout()
-            .height(55)
+            .height(categoryButtonHeight)
         motorsAndAccessoriesButton.layout(with: categoriesContainerView)
             .leading(by: Metrics.bigMargin)
             .trailing(by: -Metrics.bigMargin)
@@ -148,7 +172,7 @@ fileprivate extension PostCategorySelectionView {
             .above(by: -Metrics.bigMargin)
         
         otherCategoryButton.layout()
-            .height(55)
+            .height(categoryButtonHeight)
         otherCategoryButton.layout(with: categoriesContainerView)
             .leading(by: Metrics.bigMargin)
             .trailing(by: -Metrics.bigMargin)

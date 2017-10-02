@@ -107,6 +107,7 @@ public enum ChatRepositoryError: Error, ApiErrorConvertible, WebSocketErrorConve
     case internalError(message: String)
     case network(wsCode: Int, onBackground: Bool)
     case apiError(httpCode: Int?)
+    case differentCountry
 
     init(webSocketError: WebSocketError) {
         switch webSocketError {
@@ -120,6 +121,8 @@ public enum ChatRepositoryError: Error, ApiErrorConvertible, WebSocketErrorConve
             self = .userBlocked
         case .suspended(let code):
             self = .network(wsCode: code, onBackground: false)
+        case .differentCountry:
+            self = .differentCountry
         }
     }
 
