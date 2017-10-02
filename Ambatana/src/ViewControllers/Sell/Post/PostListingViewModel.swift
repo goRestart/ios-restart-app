@@ -71,6 +71,10 @@ class PostListingViewModel: BaseViewModel {
         return featureFlags.tweaksCarPostingFlow.isActive
     }
     
+    var realEstateEnabled: Bool {
+        return featureFlags.realEstateEnabled
+    }
+    
     fileprivate let disposeBag: DisposeBag
 
     
