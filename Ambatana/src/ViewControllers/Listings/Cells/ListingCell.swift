@@ -150,6 +150,8 @@ class ListingCell: UICollectionViewCell, ReusableCell {
         featuredListingChatButton.addTarget(self, action: #selector(openChat), for: .touchUpInside)
 
         // layouts
+        
+        featuredInfoViewTopToImageViewBottomConstraint.isActive = true
 
         let priceTopMargin = Metrics.shortMargin
         featuredListingPriceLabel.layout(with: featuredListingInfoView)
@@ -196,10 +198,13 @@ class ListingCell: UICollectionViewCell, ReusableCell {
     
     func hidePriceView() {
         priceViewHeight.constant = 0
-        priceViewTopToImageViewBottomConstraint.isActive = false
+        //priceViewTopToImageViewBottomConstraint.isActive = false
     }
     
     func setupPriceView(price: String) {
+        priceViewHeight.constant = 30
+        priceViewTopToImageViewBottomConstraint.isActive = true
+        
         priceLabel.text = price
         priceLabel.font = UIFont.systemBoldFont(size: 18)
         priceLabel.adjustsFontSizeToFitWidth = true

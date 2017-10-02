@@ -43,6 +43,7 @@ protocol FeatureFlaggeable: class {
     var appRatingDialogInactive: Bool { get }
     var feedFilterRadiusValues: FeedFilterRadiusValues { get }
     var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu { get }
+    var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -108,6 +109,17 @@ extension ExpandableCategorySelectionMenu {
         case .control, .baseline:
             return false
         case .expandableMenu:
+            return true
+        }
+    }
+}
+
+extension ShowPriceAfterSearchOrFilter {
+    var isActive: Bool {
+        switch self {
+        case .control, .baseline:
+            return false
+        case .priceOnSearchOrFilter:
             return true
         }
     }

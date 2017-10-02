@@ -130,6 +130,8 @@ class ListingListViewModel: BaseViewModel {
         return !isLastPage && canRetrieveListings
     }
     
+    var shouldShowPrices: Bool?
+    
     // Tracking
     
     fileprivate let tracker: Tracker
@@ -154,7 +156,8 @@ class ListingListViewModel: BaseViewModel {
          listings: [Listing]? = nil,
          numberOfColumns: Int = 2,
          tracker: Tracker = TrackerProxy.sharedInstance,
-         imageDownloader: ImageDownloaderType = ImageDownloader.sharedInstance) {
+         imageDownloader: ImageDownloaderType = ImageDownloader.sharedInstance,
+         shouldShowPrices: Bool = false) {
         self.objects = (listings ?? []).map(ListingCellModel.init)
         self.pageNumber = 0
         self.refreshing = false
@@ -165,6 +168,7 @@ class ListingListViewModel: BaseViewModel {
         self.tracker = tracker
         self.imageDownloader = imageDownloader
         self.indexToTitleMapping = [:]
+        self.shouldShowPrices = shouldShowPrices
         super.init()
         let cellHeight = cellWidth * ListingListViewModel.cellAspectRatio
         self.defaultCellSize = CGSize(width: cellWidth, height: cellHeight)
@@ -249,6 +253,10 @@ class ListingListViewModel: BaseViewModel {
         guard let index = indexFor(listingId: listingId) else { return }
         objects.remove(at: index)
         delegate?.vmReloadData(self)
+    }
+    
+    func updateShouldShowPrices(_ shouldShowPrices: Bool) {
+        self.shouldShowPrices = shouldShowPrices
     }
     
     

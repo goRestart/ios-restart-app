@@ -30,7 +30,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RT5-jR-kCb">
-                                <rect key="frame" x="0.0" y="170" width="149" height="30"/>
+                                <rect key="frame" x="0.0" y="265.5" width="149" height="30"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lgo-gk-FUi">
                                         <rect key="frame" x="8" y="0.0" width="133" height="30"/>
@@ -60,6 +60,7 @@
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="RT5-jR-kCb" secondAttribute="trailing" id="0mw-OF-J5k"/>
+                            <constraint firstAttribute="bottom" secondItem="RT5-jR-kCb" secondAttribute="bottom" id="4Ev-iY-N3m"/>
                             <constraint firstAttribute="trailing" secondItem="tP5-iE-B50" secondAttribute="trailing" id="5wj-Zu-lni"/>
                             <constraint firstItem="tP5-iE-B50" firstAttribute="leading" secondItem="U25-jS-eMH" secondAttribute="leading" id="Axd-wN-p4x"/>
                             <constraint firstAttribute="bottom" secondItem="tP5-iE-B50" secondAttribute="bottom" id="EkL-b9-c1a"/>
@@ -67,12 +68,11 @@
                             <constraint firstItem="afm-Cf-H6I" firstAttribute="top" secondItem="U25-jS-eMH" secondAttribute="top" id="LIL-tR-5tN"/>
                             <constraint firstItem="RT5-jR-kCb" firstAttribute="leading" secondItem="U25-jS-eMH" secondAttribute="leading" id="PdB-rg-whP"/>
                             <constraint firstItem="jgH-1b-N7M" firstAttribute="top" secondItem="afm-Cf-H6I" secondAttribute="top" id="Tf3-nL-xUY"/>
-                            <constraint firstAttribute="bottom" secondItem="RT5-jR-kCb" secondAttribute="bottom" priority="750" id="ZdI-dw-sak"/>
                             <constraint firstItem="jgH-1b-N7M" firstAttribute="leading" secondItem="afm-Cf-H6I" secondAttribute="leading" id="cvz-k4-AoH"/>
                             <constraint firstItem="afm-Cf-H6I" firstAttribute="leading" secondItem="U25-jS-eMH" secondAttribute="leading" id="e5s-hZ-XYg"/>
                             <constraint firstAttribute="trailing" secondItem="afm-Cf-H6I" secondAttribute="trailing" id="lJS-K5-tI7"/>
                             <constraint firstItem="afm-Cf-H6I" firstAttribute="bottom" secondItem="jgH-1b-N7M" secondAttribute="bottom" id="n5G-x7-Psy"/>
-                            <constraint firstItem="RT5-jR-kCb" firstAttribute="top" secondItem="afm-Cf-H6I" secondAttribute="bottom" id="wvZ-6l-2rn"/>
+                            <constraint firstItem="RT5-jR-kCb" firstAttribute="top" secondItem="afm-Cf-H6I" secondAttribute="bottom" priority="750" id="wvZ-6l-2rn"/>
                             <constraint firstItem="tP5-iE-B50" firstAttribute="top" secondItem="afm-Cf-H6I" secondAttribute="bottom" id="zNI-hZ-JxQ"/>
                         </constraints>
                     </view>
