@@ -182,7 +182,7 @@ platform :ios do
   lane :deploy_to_appstore do
 
 
-    UI.important ("\n\n ⚠️ \nThis lane will take a release branch, merge it in master branch, build master and send it to Apple. Be sure to specify the correct version, equal to the release branch of type `release-x.x.x` \n\n")
+    UI.important ("\n\n ⚠️ \nThis lane will build release-x-x-x branch and send it to Apple. \n\n")
     UI.message ("📝  Before we begin...").cyan
 
     # Merge release branch into master #manual
@@ -191,24 +191,15 @@ platform :ios do
       raise "Please make sure to update master with all the release-fixes!"
     end
 
-    base_branch_name = "master"
     build_configuration = "Release"
     ENV["XCODE_SCHEME"] = "LetGo"
 
     release_branch = ask("Release branch to deploy (release-x.x.x): ".yellow)
 
     rb_git_clone(
-      branch_name: base_branch_name,
+      branch_name: release_branch,
       clone_single_branch: false,
       shallow_clone: false
-    )
-
-    # # Merge release branch into master
-    # # If you get merge conflicts, resolve them manually, push changes and re-run the lane
-    rb_git_merge(
-      from_branch_name: release_branch,
-      to_branch_name: base_branch_name,
-      repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
     )
 
     build_number = get_build_number(xcodeproj: "LetGo.xcodeproj")
