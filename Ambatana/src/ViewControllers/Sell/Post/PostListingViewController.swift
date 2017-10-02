@@ -89,7 +89,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         self.forcedInitialTab = forcedInitialTab
         
         self.priceView = PostListingDetailPriceView(viewModel: viewModel.postDetailViewModel)
-        self.categorySelectionView = PostCategorySelectionView()
+        self.categorySelectionView = PostCategorySelectionView(realEstateEnabled: viewModel.realEstateEnabled)
         self.carDetailsView = PostCarDetailsView(shouldShowSummaryAfter: viewModel.shouldShowSummaryAfter,
                                                  initialValues: viewModel.carInfo(forDetail: .make).carInfoWrappers)
         super.init(viewModel: viewModel, nibName: "PostListingViewController",

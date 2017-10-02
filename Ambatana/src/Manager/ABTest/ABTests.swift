@@ -43,6 +43,7 @@ class ABTests {
     let locationDataSourceType = IntABDynamicVar(key: "20170830LocationDataSourceType", defaultValue: 0)
     let searchAutocomplete = IntABDynamicVar(key: "20170914SearchAutocomplete", defaultValue: 0)
     let newCarouselTapNextPhotoNavigationEnabled = IntABDynamicVar(key: "20170914NewCarouselTapNextPhotoNavigationEnabled", defaultValue: 0)
+    let realEstateEnabled = BoolABDynamicVar(key: "20170927realEstateEnabled", defaultValue: false)
 
     init() {
     }
@@ -80,6 +81,7 @@ class ABTests {
         result.append(locationDataSourceType)
         result.append(searchAutocomplete)
         result.append(newCarouselTapNextPhotoNavigationEnabled)
+        result.append(realEstateEnabled)
 
         return result
     }

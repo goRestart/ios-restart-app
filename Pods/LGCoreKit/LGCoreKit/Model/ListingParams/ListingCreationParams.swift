@@ -29,7 +29,7 @@ public enum ListingCreationParams {
     
     public var isRealEstateParams: Bool {
         switch self {
-        case .car: return true
+        case .realEstate: return true
         default: return false
         }
     }

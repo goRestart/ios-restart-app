@@ -31,6 +31,8 @@ extension RepositoryError {
                 return .internalError(description: "3014 - User blocked")
             case let .internalError(message):
                 return .internalError(description: message)
+            case .differentCountry:
+                return .internalError(description: "3013 - Users in different country")
             }
         }
     }

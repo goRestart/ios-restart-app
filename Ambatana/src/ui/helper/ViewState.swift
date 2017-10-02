@@ -66,7 +66,7 @@ extension LGEmptyViewModel {
             switch chatRepositoryError {
             case let .network(_, onBackground):
                 return onBackground ? nil : LGEmptyViewModel.networkErrorWithRetry(action)
-            case .userBlocked, .userNotVerified, .notAuthenticated, .apiError, .internalError:
+            case .userBlocked, .userNotVerified, .notAuthenticated, .apiError, .internalError, .differentCountry:
                 return LGEmptyViewModel.genericErrorWithRetry(action)
             }
 

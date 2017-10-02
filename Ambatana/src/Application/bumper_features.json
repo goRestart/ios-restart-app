@@ -121,6 +121,11 @@
         "description": "Location data source for geocode and reverse geocode"
     },
     {
+        "name": "RealEstateEnabled",
+        "values": ["no", "yes"],
+        "description": "Allow to see Real Estate category"
+    },
+    {
         "name": "SearchAutocomplete",
         "values": ["control", "baseline", "withCategories"],
         "description": "Search suggestions with/without categories filtering."

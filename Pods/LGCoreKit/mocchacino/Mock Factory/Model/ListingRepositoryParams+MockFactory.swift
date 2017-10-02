@@ -16,7 +16,7 @@ extension ListingCreationParams: MockFactory {
         case 1:
             return .car(MockCarCreationParams.makeMock())
         case 2:
-            return .car(MockCarCreationParams.makeMock())
+            return .realEstate(MockRealEstateCreationParams.makeMock())
         default:
             return .car(MockCarCreationParams.makeMock())
         }
@@ -30,8 +30,8 @@ extension ListingEditionParams: MockFactory {
             return .product(MockProductEditionParams.makeMock())
         case 1:
             return .car(MockCarEditionParams.makeMock())
-        case 1:
-            return .car(MockCarEditionParams.makeMock())
+        case 2:
+            return .realEstate(MockRealEstateEditionParams.makeMock())
         default:
             return .car(MockCarEditionParams.makeMock())
         }
@@ -108,3 +108,40 @@ class MockCarEditionParams: CarEditionParams, MockFactory {
         return self.init()
     }
 }
+
+class MockRealEstateCreationParams: RealEstateCreationParams, MockFactory {
+    required init() {
+        super.init(name: String?.makeRandom(),
+                   description: String?.makeRandom(),
+                   price: ListingPrice.makeMock(),
+                   category: ListingCategory.makeMock(),
+                   currency: Currency.makeMock(),
+                   location: LGLocationCoordinates2D.makeMock(),
+                   postalAddress: PostalAddress.makeMock(),
+                   images: MockFile.makeMocks(count: Int.makeRandom(min: 0, max: 4)),
+                   realEstateAttributes: RealEstateAttributes.makeMock())
+    }
+    
+    public static func makeMock() -> Self {
+        return self.init()
+    }
+}
+
+class MockRealEstateEditionParams: RealEstateEditionParams, MockFactory {
+    required init() {
+        let realEstate = MockRealEstate.makeMock()
+        let realEstateId = String.makeRandom()
+        let userId = String.makeRandom()
+        super.init(realEstate: realEstate, realEstateId: realEstateId, userId: userId)
+    }
+    
+    init(realEstateId: String, userId: String) {
+        let realEstate = MockRealEstate.makeMock()
+        super.init(realEstate: realEstate, realEstateId: realEstateId, userId: userId)
+    }
+    
+    public static func makeMock() -> Self {
+        return self.init()
+    }
+}
+

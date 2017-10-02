@@ -45,7 +45,9 @@ protocol FeatureFlaggeable: class {
     var locationDataSourceEndpoint: LocationDataSourceEndpoint { get }
     var searchAutocomplete: SearchAutocomplete { get }
     var newCarouselNavigationTapNextPhotoEnabled: NewCarouselTapNextPhotoNavigationEnabled { get }
+    var realEstateEnabled: Bool { get }
 
+    
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
     var locationRequiresManualChangeSuggestion: Bool { get }
@@ -358,6 +360,14 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return SearchAutocomplete.fromPosition(abTests.searchAutocomplete.value)
     }
+    
+    var realEstateEnabled: Bool {
+        if Bumper.enabled {
+            return Bumper.realEstateEnabled
+        }
+        return abTests.realEstateEnabled.value
+    }
+    
 
     var newCarouselNavigationTapNextPhotoEnabled: NewCarouselTapNextPhotoNavigationEnabled {
         if Bumper.enabled {
