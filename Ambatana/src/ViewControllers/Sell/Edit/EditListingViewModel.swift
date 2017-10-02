@@ -471,7 +471,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         let editParams: ListingEditionParams
         switch category {
         case .unassigned, .electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden,
-             .moviesBooksAndMusic, .fashionAndAccesories, .babyAndChild, .other, .realEstate:
+             .moviesBooksAndMusic, .fashionAndAccesories, .babyAndChild, .other:
             guard let productEditParams = ProductEditionParams(listing: listing) else { return }
             productEditParams.category = category
             productEditParams.name = title ?? ""
@@ -495,6 +495,17 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
                 carEditParams.postalAddress = updatedPostalAddress
             }
             editParams = .car(carEditParams)
+        case .realEstate:
+            guard let realEstateEditParams = RealEstateEditionParams(listing: listing) else { return }
+            realEstateEditParams.category = category
+            realEstateEditParams.name = title ?? ""
+            realEstateEditParams.descr = (descr ?? "").stringByRemovingEmoji()
+            realEstateEditParams.price = generatePrice()
+            if let updatedLocation = location, let updatedPostalAddress = postalAddress {
+                realEstateEditParams.location = updatedLocation
+                realEstateEditParams.postalAddress = updatedPostalAddress
+            }
+            editParams = .realEstate(realEstateEditParams)
         }
 
         delegate?.vmHideKeyboard()
