@@ -451,7 +451,6 @@ fileprivate extension PostListingViewModel {
         guard let location = locationManager.currentLocation?.location else { return nil }
         let price = postDetailViewModel.listingPrice
         var title = postDetailViewModel.listingTitle
-        // TODO: Will generate a title depend on real estate attributes
         title = title ?? ""
         
         let description = postDetailViewModel.listingDescription
