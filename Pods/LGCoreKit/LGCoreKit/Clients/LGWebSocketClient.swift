@@ -65,9 +65,10 @@ func ==(a: WebSocketStatus, b: WebSocketStatus) -> Bool {
  - Closes on background after a timeout.
  - Opens with delay to prevent back-end saturation (after second try). */
 class LGWebSocketClient: WebSocketClient, WebSocketLibraryDelegate {
-    
+
     var webSocket: WebSocketLibraryProtocol
-    
+
+    var timeoutIntervalForRequest: TimeInterval = LGCoreKitConstants.websocketTimeOutTimeInterval
     var websocketPingTimeInterval: TimeInterval = LGCoreKitConstants.websocketPingTimeInterval
     var websocketBackgroundDisconnectTimeout: TimeInterval = LGCoreKitConstants.websocketBackgroundDisconnectTimeout
     var openWebsocketInitialMinTimeInterval: TimeInterval = LGCoreKitConstants.openWebsocketInitialMinTimeInterval
@@ -81,7 +82,7 @@ class LGWebSocketClient: WebSocketClient, WebSocketLibraryDelegate {
     private var openWebSocketTimer: Timer?
     private var pingTimer: Timer?
     private var backgroundTimeoutTimer: Timer?
-    
+
     /** Completions are stored to be executed once the WS delegate inform us of the ack/error */
     private var pendingCommandCompletions: [String: ((Result<Void, WebSocketError>) -> Void)] = [:]
     private var pendingQueryCompletions: [String: ((Result<[AnyHashable: Any], WebSocketError>) -> Void)] = [:]
@@ -298,7 +299,7 @@ class LGWebSocketClient: WebSocketClient, WebSocketLibraryDelegate {
         }
         setSocketStatus(.opening)
         increaseOpenWebSocketDelayAndRetryAttempts()
-        webSocket.open(withEndpointURL: endpointURL)
+        webSocket.open(withEndpointURL: endpointURL, timeout: timeoutIntervalForRequest)
     }
     
     private func tryToOpenWebSocket() {
