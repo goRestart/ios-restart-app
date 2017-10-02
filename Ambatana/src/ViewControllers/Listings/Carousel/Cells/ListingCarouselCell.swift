@@ -10,7 +10,7 @@ import LGCoreKit
 import RxSwift
 
 protocol ListingCarouselCellDelegate: class {
-    func didTapOnCarouselCell(_ cell: UICollectionViewCell)
+    func didTapOnCarouselCell(_ cell: UICollectionViewCell, tapSide: ListingCarouselTapSide?)
     func isZooming(_ zooming: Bool)
     func didScrollToPage(_ page: Int)
     func didPullFromCellWith(_ offset: CGFloat, bottomLimit: CGFloat)
@@ -18,16 +18,27 @@ protocol ListingCarouselCellDelegate: class {
     func didEndDraggingCell()
 }
 
+enum ListingCarouselTapSide {
+    case left
+    case right
+}
+
 class ListingCarouselCell: UICollectionViewCell {
 
     static let identifier = "ListingCarouselCell"
     var collectionView: UICollectionView
 
+    fileprivate var singleTap: UITapGestureRecognizer?
+    fileprivate let leftTapFrameView = UIView()
+    fileprivate let rightTapFrameView = UIView()
+    
     fileprivate var productImages = [URL]()
     fileprivate var productBackgroundColor: UIColor?
     weak var delegate: ListingCarouselCellDelegate?
     var placeholderImage: UIImage?
     fileprivate var currentPage = 0
+    fileprivate var imageScrollDirection: UICollectionViewScrollDirection = .vertical
+    fileprivate var verticalScrollCounter: CGFloat = 0.0
     fileprivate var numberOfImages: Int {
         return productImages.count
     }
@@ -70,32 +81,85 @@ class ListingCarouselCell: UICollectionViewCell {
         collectionView.register(ListingCarouselImageCell.self, forCellWithReuseIdentifier:
             ListingCarouselImageCell.identifier)
         
-        let singleTap = UITapGestureRecognizer(target: self, action: #selector(didSingleTap))
-        collectionView.addGestureRecognizer(singleTap)
+        singleTap = UITapGestureRecognizer(target: self, action: #selector(doSingleTapAction))
+        if let singleTap = singleTap {
+            singleTap.isEnabled = false
+            collectionView.addGestureRecognizer(singleTap)
+        }
+            
+        let leftTap = UITapGestureRecognizer(target: self, action: #selector(ListingCarouselCell.doLeftTapAction))
+        let rightTap = UITapGestureRecognizer(target: self, action: #selector(ListingCarouselCell.doRightTapAction))
+        leftTapFrameView.addGestureRecognizer(leftTap)
+        rightTapFrameView.addGestureRecognizer(rightTap)
+        contentView.addSubviews([leftTapFrameView, rightTapFrameView])
+        leftTapFrameView.layout(with: self.contentView).fillVertical().leading().proportionalWidth(multiplier: 0.25)
+        rightTapFrameView.layout(with: self.contentView).fillVertical().trailing().proportionalWidth(multiplier: 0.75)
+        leftTapFrameView.translatesAutoresizingMaskIntoConstraints = false
+        rightTapFrameView.translatesAutoresizingMaskIntoConstraints = false
+        // Will be activated if feature flag is active
+        leftTapFrameView.alpha = 0.0
+        rightTapFrameView.alpha = 0.0
     }
     
-    func didSingleTap(_ sender: UITapGestureRecognizer) {
-        delegate?.didTapOnCarouselCell(self)
+    func doSingleTapAction(_ sender: UITapGestureRecognizer) {
+        delegate?.didTapOnCarouselCell(self, tapSide: nil)
+    }
+    
+    func doLeftTapAction(_ sender: UITapGestureRecognizer) {
+        let pageSize = collectionView.frame.size.width
+        guard pageSize > 0, numberOfImages > 0 else { return }
+        let collectionContentOffset = collectionView.contentOffset.x - self.width
+        if collectionContentOffset < 0 {
+            delegate?.didTapOnCarouselCell(self, tapSide: .left)
+        } else {
+            collectionView.setContentOffset(CGPoint(x: collectionContentOffset, y: 0.0), animated: true)
+        }
+    }
+    
+    func doRightTapAction(_ sender: UITapGestureRecognizer) {
+        let pageSize = collectionView.frame.size.width
+        guard pageSize > 0, numberOfImages > 0 else { return }
+        let collectionContentOffset = collectionView.contentOffset.x + self.width
+        if collectionContentOffset >= self.width * CGFloat(numberOfImages) {
+            delegate?.didTapOnCarouselCell(self, tapSide: .right)
+        } else {
+            collectionView.setContentOffset(CGPoint(x: collectionContentOffset, y: 0.0), animated: true)
+        }
     }
 
     func configureCellWith(cellModel: ListingCarouselCellModel, placeholderImage: UIImage?, indexPath: IndexPath,
-                           imageDownloader: ImageDownloaderType) {
+                           imageDownloader: ImageDownloaderType, imageScrollDirection: UICollectionViewScrollDirection) {
         self.tag = (indexPath as NSIndexPath).hash
         self.productImages = cellModel.images
         self.productBackgroundColor = cellModel.backgroundColor
         self.imageDownloader = imageDownloader
         self.placeholderImage = placeholderImage
+        self.imageScrollDirection = imageScrollDirection
+
+        if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            layout.scrollDirection = imageScrollDirection
+        }
 
         if let firstImageUrl = productImages.first, placeholderImage == nil {
             self.placeholderImage = imageDownloader.cachedImageForUrl(firstImageUrl)
         }
+        
+        if imageScrollDirection != .horizontal {
+            singleTap?.isEnabled = true
+        } else {
+            leftTapFrameView.alpha = 1.0
+            rightTapFrameView.alpha = 1.0
+            
+            collectionView.isUserInteractionEnabled = false // Disables user actions as scrolling or cell selection
+        }
+        
         collectionView.setContentOffset(CGPoint.zero, animated: false) //Resetting images
         collectionView.reloadData()
     }
     
     func returnToFirstImage() {
         guard productImages.count > 1 else { return }
-        let scrollPosition = UICollectionViewScrollPosition.top
+        let scrollPosition = imageScrollDirection == .horizontal ? UICollectionViewScrollPosition.left : UICollectionViewScrollPosition.top
         collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: scrollPosition, animated: false)
     }
         
@@ -151,9 +215,22 @@ extension ListingCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let pageSize = collectionView.frame.size.height
+        let pageSize = imageScrollDirection == .horizontal ? collectionView.frame.size.width : collectionView.frame.size.height
         guard pageSize > 0, numberOfImages > 0 else { return }
-        let page = Int(round(scrollView.contentOffset.y / pageSize)) % numberOfImages
+        let collectionContentOffset: CGFloat
+
+        if imageScrollDirection == .horizontal {
+            verticalScrollCounter = verticalScrollCounter + scrollView.contentOffset.y
+            collectionContentOffset = scrollView.contentOffset.x
+            // in horizontal image scrolling, collection should not be able to move upwards.
+            if verticalScrollCounter > 0 {
+                scrollView.setContentOffset(CGPoint(x: scrollView.contentOffset.x, y: 0.0), animated: false)
+            }
+        } else {
+            collectionContentOffset = scrollView.contentOffset.y
+        }
+        
+        let page = Int(round(collectionContentOffset / pageSize)) % numberOfImages
         if page != currentPage {
             currentPage = page
             delegate?.isZooming(false)
@@ -161,16 +238,23 @@ extension ListingCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
         }
 
         if let delegate = delegate {
-            // informs the delegate how much to move the carousel elements "more info", chat textfield & buttons.
+            // tells the delegate how much to move the carousel elements "more info", chat textfield & buttons.
             delegate.didPullFromCellWith(scrollView.contentOffset.y, bottomLimit: bottomScrollLimit)
 
             if !delegate.canScrollToNextPage() {
-                scrollView.contentOffset = CGPoint(x: 0, y: 0)
+                // Setting the contentOffset.y = 0 prevents the collection of going down when scrolling for the "more info"
+                if imageScrollDirection == .horizontal {
+                    // Stay in the current picture
+                    scrollView.contentOffset = CGPoint(x: scrollView.contentOffset.x, y: 0)
+                } else {
+                    scrollView.contentOffset = CGPoint(x: 0, y: 0)
+                }
             }
         }
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        verticalScrollCounter = 0.0
         delegate?.didEndDraggingCell()
     }
 

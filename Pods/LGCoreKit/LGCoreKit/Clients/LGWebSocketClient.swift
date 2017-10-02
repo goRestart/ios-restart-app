@@ -828,6 +828,9 @@ class LGWebSocketClient: WebSocketClient, WebSocketLibraryDelegate {
             cancelOperations()
             cancelAllPendingCompletionsAndActiveRequests(withError: .userNotVerified)
             return
+        case .userInDifferentCountryError:
+            cancelOperations()
+            cancelAllPendingCompletionsAndActiveRequests(withError: .differentCountry)
         default:
             cancelOperations()
             cancelAllPendingCompletionsAndActiveRequests(withError: .suspended(withCode: error.errorType.rawValue))

@@ -291,7 +291,7 @@ class ChatViewModel: BaseViewModel {
     }
 
     func didAppear() {
-        if conversation.value.isSaved && chatEnabled.value {
+        if chatEnabled.value {
             delegate?.vmDidBeginEditing()
         }
     }
@@ -387,7 +387,7 @@ class ChatViewModel: BaseViewModel {
         Observable.combineLatest(relatedListingsConversation, sellerDidntAnswer.asObservable()) { [weak self] in
             guard let strongSelf = self else { return .loading }
             guard strongSelf.isBuyer else { return .hidden } // Seller doesn't have related listings
-            guard let listingId = strongSelf.conversation.value.listing?.objectId else {return .hidden }
+            guard let listingId = strongSelf.conversation.value.listing?.objectId else { return .hidden }
             if $0 { return .visible(listingId: listingId) }
             guard let didntAnswer = $1 else { return .loading } // If still checking if seller didn't answer. set loading state
             return didntAnswer ? .visible(listingId: listingId) : .hidden
@@ -641,12 +641,14 @@ extension ChatViewModel {
                     case .userNotVerified:
                         self?.showUserNotVerifiedAlert()
                     case .notAuthenticated, .userBlocked, .internalError, .network, .apiError:
-                        self?.showSendMessageError()
+                        self?.showSendMessageError(withText: LGLocalizedString.chatSendErrorGeneric)
+                    case .differentCountry:
+                        self?.showSendMessageError(withText: LGLocalizedString.chatSendErrorDifferentCountry)
                     }
                 case .userNotVerified:
                     self?.showUserNotVerifiedAlert()
                 case .forbidden, .internalError, .network, .notFound, .tooManyRequests, .unauthorized, .serverError:
-                    self?.showSendMessageError()
+                    self?.showSendMessageError(withText: LGLocalizedString.chatSendErrorGeneric)
                 }
             }
         }
@@ -686,10 +688,10 @@ extension ChatViewModel {
         }
     }
 
-    private func showSendMessageError() {
+    private func showSendMessageError(withText text: String) {
         guard !showingSendMessageError else { return }
         showingSendMessageError = true
-        delegate?.vmShowAutoFadingMessage(LGLocalizedString.chatSendErrorGeneric) { [weak self] in
+        delegate?.vmShowAutoFadingMessage(text) { [weak self] in
             self?.showingSendMessageError = false
         }
     }
@@ -818,7 +820,7 @@ extension ChatViewModel {
                 }
             }
         }
-        
+
         delegate?.vmShowActionSheet(LGLocalizedString.commonCancel, actions: actions)
     }
     
@@ -1141,11 +1143,15 @@ extension ChatViewModel {
         guard isBuyer else { return }
 
         guard let myUserId = myUserRepository.myUser?.objectId else { return }
-        guard let oldestMessageDate = messages.last?.sentAt else { return }
 
         let calendar = Calendar.current
-
         guard let twoDaysAgo = (calendar as NSCalendar).date(byAdding: .day, value: -2, to: Date(), options: []) else { return }
+
+        var hasOldMessages = false
+        if let oldestMessageDate = messages.last?.sentAt {
+            hasOldMessages = oldestMessageDate.compare(twoDaysAgo) == .orderedAscending
+        }
+
         let recentSellerMessages = messages.filter { $0.talkerId != myUserId && $0.sentAt?.compare(twoDaysAgo) == .orderedDescending }
 
         /*
@@ -1158,7 +1164,7 @@ extension ChatViewModel {
             didn't got any answer. We show him the related items too)
          */
         sellerDidntAnswer.value = recentSellerMessages.isEmpty &&
-            (oldestMessageDate.compare(twoDaysAgo) == .orderedAscending || messages.count == Constants.numMessagesPerPage)
+            (hasOldMessages || messages.count == Constants.numMessagesPerPage)
     }
 
     private func checkShouldShowDirectAnswers(_ messages: [ChatMessage]) {
@@ -1267,12 +1273,14 @@ fileprivate extension ChatViewModel {
         let sellerRating = conversation.value.amISelling ?
             myUserRepository.myUser?.ratingAverage : interlocutor?.ratingAverage
 
+        let typePage: EventParameterTypePage = source == .listingListFeatured ? .listingListFeatured : .chat
+
         let sendMessageInfo = SendMessageTrackingInfo()
             .set(chatListing: listing, freePostingModeAllowed: featureFlags.freePostingModeAllowed)
             .set(interlocutorId: userId)
             .set(messageType: type.chatTrackerType)
             .set(quickAnswerType: type.quickAnswerType)
-            .set(typePage: .chat)
+            .set(typePage: typePage)
             .set(sellerRating: sellerRating)
             .set(isBumpedUp: .falseParameter)
         if let error = error {

@@ -172,7 +172,7 @@ class MainListingsViewModelSpec: QuickSpec {
                     beforeEach {
                         var userFilters = ListingFilters()
                         userFilters.selectedCategories = []
-                        let searchType: SearchType = .collection(type: .You, query: "iphone")
+                        let searchType: SearchType = .collection(type: .selectedForYou, query: "iphone")
                         sut = MainListingsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository,
                                                     searchRepository: Core.searchRepository,
                                                     listingRepository: Core.listingRepository, monetizationRepository: Core.monetizationRepository, categoryRepository: Core.categoryRepository,

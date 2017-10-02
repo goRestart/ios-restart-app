@@ -20,7 +20,6 @@ class ABTests {
     let surveyEnabled = BoolABDynamicVar(key: "surveyEnabled", defaultValue: false)
 
     let websocketChat = BoolABDynamicVar(key: "websocketChat20170609", defaultValue: true)
-    let userReviews = BoolABDynamicVar(key: "userReviews", defaultValue: false)
     let captchaTransparent = BoolABDynamicVar(key: "captchaTransparent", defaultValue: false)
     let passiveBuyersShowKeyboard = BoolABDynamicVar(key: "passiveBuyersShowKeyboard", defaultValue: false)
     let freeBumpUpEnabled = BoolABDynamicVar(key: "freeBumpUpEnabled", defaultValue: false)
@@ -43,6 +42,9 @@ class ABTests {
     let expandableCategorySelectionMenu = IntABDynamicVar(key: "20170904ExpandableCategorySelectionMenu", defaultValue: 0)
     let locationDataSourceType = IntABDynamicVar(key: "20170830LocationDataSourceType", defaultValue: 0)
     let defaultRadiusDistanceFeed = IntABDynamicVar(key: "20170922DefaultRadiusDistanceFeed", defaultValue: 0)
+    let searchAutocomplete = IntABDynamicVar(key: "20170914SearchAutocomplete", defaultValue: 0)
+    let newCarouselTapNextPhotoNavigationEnabled = IntABDynamicVar(key: "20170914NewCarouselTapNextPhotoNavigationEnabled", defaultValue: 0)
+    let realEstateEnabled = BoolABDynamicVar(key: "20170927realEstateEnabled", defaultValue: false)
 
     init() {
     }
@@ -57,7 +59,6 @@ class ABTests {
         result.append(surveyEnabled)
 
         result.append(websocketChat)
-        result.append(userReviews)
         result.append(passiveBuyersShowKeyboard)
         result.append(captchaTransparent)
         result.append(freeBumpUpEnabled)
@@ -81,6 +82,10 @@ class ABTests {
         result.append(locationDataSourceType)
         result.append(defaultRadiusDistanceFeed)
         
+        result.append(searchAutocomplete)
+        result.append(newCarouselTapNextPhotoNavigationEnabled)
+        result.append(realEstateEnabled)
+
         return result
     }
 

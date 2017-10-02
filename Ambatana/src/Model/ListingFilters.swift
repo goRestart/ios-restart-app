@@ -90,11 +90,21 @@ struct ListingFilters {
         )
     }
     
-    init(place: Place?, distanceRadius: Int, distanceType: DistanceType, selectedCategories: [ListingCategory],
-         selectedTaxonomyChildren: [TaxonomyChild], onboardingFilters: [TaxonomyChild], selectedWithin: ListingTimeCriteria,
-         selectedOrdering: ListingSortCriteria?, priceRange: FilterPriceRange,
-         carMakeId: RetrieveListingParam<String>?, carMakeName: String?, carModelId: RetrieveListingParam<String>?,
-         carModelName: String?, carYearStart: RetrieveListingParam<Int>?, carYearEnd: RetrieveListingParam<Int>?){
+    init(place: Place?,
+         distanceRadius: Int,
+         distanceType: DistanceType,
+         selectedCategories: [ListingCategory],
+         selectedTaxonomyChildren: [TaxonomyChild],
+         onboardingFilters: [TaxonomyChild],
+         selectedWithin: ListingTimeCriteria,
+         selectedOrdering: ListingSortCriteria?,
+         priceRange: FilterPriceRange,
+         carMakeId: RetrieveListingParam<String>?,
+         carMakeName: String?,
+         carModelId: RetrieveListingParam<String>?,
+         carModelName: String?,
+         carYearStart: RetrieveListingParam<Int>?,
+         carYearEnd: RetrieveListingParam<Int>?) {
         self.place = place
         self.distanceRadius = distanceRadius > 0 ? distanceRadius : nil
         self.distanceType = distanceType
@@ -112,8 +122,26 @@ struct ListingFilters {
         self.carYearEnd = carYearEnd
     }
     
+    func updating(selectedCategories: [ListingCategory]) -> ListingFilters {
+        return ListingFilters(place: place,
+                              distanceRadius: distanceRadius ?? Constants.distanceSliderDefaultPosition,
+                              distanceType: distanceType,
+                              selectedCategories: selectedCategories,
+                              selectedTaxonomyChildren: selectedTaxonomyChildren,
+                              onboardingFilters: onboardingFilters,
+                              selectedWithin: selectedWithin,
+                              selectedOrdering: selectedOrdering,
+                              priceRange: priceRange,
+                              carMakeId: carMakeId,
+                              carMakeName: carMakeName,
+                              carModelId: carModelId,
+                              carModelName: carModelName,
+                              carYearStart: carYearStart,
+                              carYearEnd: carYearEnd)
+    }
+    
+    
     mutating func toggleCategory(_ category: ListingCategory) {
-
         if let categoryIndex = indexForCategory(category) {
             // DESELECT
             selectedCategories.remove(at: categoryIndex)

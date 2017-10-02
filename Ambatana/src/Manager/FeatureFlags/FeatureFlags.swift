@@ -39,12 +39,16 @@ protocol FeatureFlaggeable: class {
     var tweaksCarPostingFlow: TweaksCarPostingFlow { get }
     var userReviewsReportEnabled: Bool { get }
     var dynamicQuickAnswers: DynamicQuickAnswers { get }
-    var locationDataSourceEndpoint: LocationDataSourceEndpoint { get }
     var appRatingDialogInactive: Bool { get }
     var feedFilterRadiusValues: FeedFilterRadiusValues { get }
     var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu { get }
     var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed { get }
+    var locationDataSourceEndpoint: LocationDataSourceEndpoint { get }
+    var searchAutocomplete: SearchAutocomplete { get }
+    var newCarouselNavigationTapNextPhotoEnabled: NewCarouselTapNextPhotoNavigationEnabled { get }
+    var realEstateEnabled: Bool { get }
 
+    
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
     var locationRequiresManualChangeSuggestion: Bool { get }
@@ -109,6 +113,17 @@ extension ExpandableCategorySelectionMenu {
         case .control, .baseline:
             return false
         case .expandableMenu:
+            return true
+        }
+    }
+}
+
+extension NewCarouselTapNextPhotoNavigationEnabled {
+    var isActive: Bool {
+        switch self {
+        case .control, .baseline:
+            return false
+        case .active:
             return true
         }
     }
@@ -345,6 +360,28 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.defaultRadiusDistanceFeed
         }
         return DefaultRadiusDistanceFeed.fromPosition(abTests.defaultRadiusDistanceFeed.value)
+    }
+    
+    var searchAutocomplete: SearchAutocomplete {
+        if Bumper.enabled {
+            return Bumper.searchAutocomplete
+        }
+        return SearchAutocomplete.fromPosition(abTests.searchAutocomplete.value)
+    }
+    
+    var realEstateEnabled: Bool {
+        if Bumper.enabled {
+            return Bumper.realEstateEnabled
+        }
+        return abTests.realEstateEnabled.value
+    }
+    
+
+    var newCarouselNavigationTapNextPhotoEnabled: NewCarouselTapNextPhotoNavigationEnabled {
+        if Bumper.enabled {
+            return Bumper.newCarouselTapNextPhotoNavigationEnabled
+        }
+        return NewCarouselTapNextPhotoNavigationEnabled.fromPosition(abTests.newCarouselTapNextPhotoNavigationEnabled.value)
     }
     
 

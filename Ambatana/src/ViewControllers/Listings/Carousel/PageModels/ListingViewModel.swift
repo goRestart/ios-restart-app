@@ -428,7 +428,6 @@ class ListingViewModel: BaseViewModel {
             buttonBlock = hiddenBlock
         }
 
-//        bumpBannerShow
         bumpUpBannerInfo.value = BumpUpInfo(type: bumpUpType,
                                             timeSinceLastBump: timeSinceLastBump,
                                             maxCountdown: bumpMaxCountdown,
@@ -468,7 +467,7 @@ extension ListingViewModel {
     func chatWithSeller() {
         let source: EventParameterTypePage = (moreInfoState.value == .shown) ? .listingDetailMoreInfo : .listingDetail
         trackHelper.trackChatWithSeller(source)
-        navigator?.openListingChat(listing.value)
+        navigator?.openListingChat(listing.value, source: .listingDetail)
     }
 
     func sendDirectMessage(_ text: String, isDefaultText: Bool) {
@@ -952,6 +951,8 @@ fileprivate extension ListingViewModel {
                         strongSelf.delegate?.vmShowAutoFadingMessage(LGLocalizedString.productChatDirectErrorBlockedUserMessage, completion: nil)
                     case .internalError, .notAuthenticated, .userNotVerified, .network, .apiError:
                         strongSelf.delegate?.vmShowAutoFadingMessage(LGLocalizedString.chatSendErrorGeneric, completion: nil)
+                    case .differentCountry:
+                        strongSelf.delegate?.vmShowAutoFadingMessage(LGLocalizedString.chatSendErrorDifferentCountry, completion: nil)
                     }
                 }
                 //Removing in case of failure

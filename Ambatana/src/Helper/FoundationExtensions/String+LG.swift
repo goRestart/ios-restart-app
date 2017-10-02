@@ -294,4 +294,31 @@ extension String {
         )
         return attributedString
     }
+
+    func heightForWidth(width: CGFloat, maxLines: Int?, withFont font: UIFont) -> CGFloat {
+
+        guard !self.isEmpty else { return 0.0 }
+
+        let textSize = CGSize(width: width, height: CGFloat(Float.greatestFiniteMagnitude))
+
+        let requiredSize: CGRect = self.boundingRect(with: textSize,
+                                                     options: NSStringDrawingOptions.usesLineFragmentOrigin,
+                                                     attributes: [NSFontAttributeName: font],
+                                                     context: nil)
+
+        let resultHeight = requiredSize.height
+        let charSize = CGFloat(font.lineHeight)
+        let lineCount: CGFloat = resultHeight/charSize
+
+        let finalHeight: CGFloat
+        let interLineSpace: CGFloat
+        if let maxLines = maxLines, lineCount > CGFloat(maxLines) {
+            finalHeight = CGFloat(maxLines) * charSize
+            interLineSpace = CGFloat(maxLines)
+        } else {
+            finalHeight = resultHeight
+            interLineSpace = lineCount
+        }
+        return finalHeight + interLineSpace
+    }
 }

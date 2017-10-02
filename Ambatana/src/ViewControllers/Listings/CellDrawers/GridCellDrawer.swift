@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import LGCoreKit
 
 protocol GridCellDrawer {
     associatedtype T: UICollectionViewCell

@@ -38,6 +38,9 @@ extension Bumper  {
         flags.append(ExpandableCategorySelectionMenu.self)
         flags.append(LocationDataSourceEndpoint.self)
         flags.append(DefaultRadiusDistanceFeed.self)
+        flags.append(RealEstateEnabled.self)
+        flags.append(SearchAutocomplete.self)
+        flags.append(NewCarouselTapNextPhotoNavigationEnabled.self)
         Bumper.initialize(flags)
     } 
 
@@ -164,6 +167,20 @@ extension Bumper  {
     static var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed {
         guard let value = Bumper.value(for: DefaultRadiusDistanceFeed.key) else { return .control }
         return DefaultRadiusDistanceFeed(rawValue: value) ?? .control 
+    }    
+    static var realEstateEnabled: Bool {
+        guard let value = Bumper.value(for: RealEstateEnabled.key) else { return false }
+        return RealEstateEnabled(rawValue: value)?.asBool ?? false
+    }
+
+    static var searchAutocomplete: SearchAutocomplete {
+        guard let value = Bumper.value(for: SearchAutocomplete.key) else { return .control }
+        return SearchAutocomplete(rawValue: value) ?? .control 
+    }
+
+    static var newCarouselTapNextPhotoNavigationEnabled: NewCarouselTapNextPhotoNavigationEnabled {
+        guard let value = Bumper.value(for: NewCarouselTapNextPhotoNavigationEnabled.key) else { return .control }
+        return NewCarouselTapNextPhotoNavigationEnabled(rawValue: value) ?? .control 
     } 
 }
 
@@ -473,15 +490,56 @@ enum DefaultRadiusDistanceFeed: String, BumperFeature  {
     static var defaultValue: String { return DefaultRadiusDistanceFeed.control.rawValue }
     static var enumValues: [DefaultRadiusDistanceFeed] { return [.control, .baseline, .two, .five, .ten, .thirty]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Default distance radius main feed." } 
+    static var description: String { return "Default distance radius main feed." }
     static func fromPosition(_ position: Int) -> DefaultRadiusDistanceFeed {
+        switch position {
+        case 0: return .control
+        case 1: return .baseline
+        case 2: return .two
+        case 3: return .five
+        case 4: return .ten
+        case 5: return .thirty
+        default: return .control
+        }
+    }
+}
+
+enum RealEstateEnabled: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return RealEstateEnabled.no.rawValue }
+    static var enumValues: [RealEstateEnabled] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Allow to see Real Estate category" } 
+    var asBool: Bool { return self == .yes }
+}
+
+enum SearchAutocomplete: String, BumperFeature  {
+    case control, baseline, withCategories
+    static var defaultValue: String { return SearchAutocomplete.control.rawValue }
+    static var enumValues: [SearchAutocomplete] { return [.control, .baseline, .withCategories]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Search suggestions with/without categories filtering." } 
+    static func fromPosition(_ position: Int) -> SearchAutocomplete {
         switch position { 
             case 0: return .control
             case 1: return .baseline
-            case 2: return .two
-            case 3: return .five
-            case 4: return .ten
-            case 5: return .thirty
+            case 2: return .withCategories
+            default: return .control
+        }
+    }
+}
+
+enum NewCarouselTapNextPhotoNavigationEnabled: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return NewCarouselTapNextPhotoNavigationEnabled.control.rawValue }
+    static var enumValues: [NewCarouselTapNextPhotoNavigationEnabled] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "New carousel on tap displays different photo from same product" } 
+    static func fromPosition(_ position: Int) -> NewCarouselTapNextPhotoNavigationEnabled {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
             default: return .control
         }
     }
