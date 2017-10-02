@@ -47,7 +47,8 @@ class MockFeatureFlags: FeatureFlaggeable {
     var searchAutocomplete: SearchAutocomplete = .control
     var newCarouselNavigationTapNextPhotoEnabled: NewCarouselTapNextPhotoNavigationEnabled = .control
     var realEstateEnabled: Bool = false
-    
+    var requestTimeOut: RequestsTimeOut = .control
+
     // Country dependant features
     var freePostingModeAllowed = false
     var locationRequiresManualChangeSuggestion = false
