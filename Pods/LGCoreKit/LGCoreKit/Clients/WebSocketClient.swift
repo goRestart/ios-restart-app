@@ -48,7 +48,9 @@ enum WebSocketError: Error {
 
 // MARK: > WebsocketClient
 
-protocol WebSocketClient {
+protocol WebSocketClient: class {
+    var timeoutIntervalForRequest: TimeInterval { get set }
+
     var eventBus: PublishSubject<ChatEvent> { get }
     var socketStatus: Variable<WebSocketStatus> { get }
     
