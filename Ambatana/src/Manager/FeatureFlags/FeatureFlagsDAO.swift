@@ -8,5 +8,8 @@
 
 protocol FeatureFlagsDAO {
     func retrieveWebsocketChatEnabled() -> Bool?
+    func retrieveTimeoutForRequests() -> TimeInterval?
+
     func save(websocketChatEnabled: Bool)
+    func save(timeoutForRequests: TimeInterval)
 }

@@ -11,6 +11,7 @@ import Foundation
 protocol Environment {
     // API
     var apiBaseURL: String { get }
+    var realEstateBaseURL: String { get }
     var bouncerBaseURL: String { get }
     var userRatingsBaseURL: String { get }
     var chatBaseURL: String { get }
