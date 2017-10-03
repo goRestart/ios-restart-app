@@ -9,7 +9,7 @@
 import Foundation
 
 extension UILabel {
-    
+
     func fontSizeAdjusted() -> Int {
         guard let labelText = self.text else { return Int(self.font.pointSize)}
         guard var font = self.font else { return Int(self.font.pointSize)}
@@ -37,15 +37,17 @@ extension UILabel {
         }
         return Int(font.pointSize)
     }
-    
+
     func setHTMLFromString(htmlText: String) {
         guard let font = self.font else { return }
         let modifiedFont = String(format:"<span style=\"font-family: '-apple-system', '\(font.fontName)'; font-size: \(font.pointSize)\">%@</span>", htmlText)
-        guard let data = modifiedFont.data(using: .unicode, allowLossyConversion: true) else { return }
-        let attrStr = try? NSAttributedString(
-            data: data,
-            options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType, NSCharacterEncodingDocumentAttribute: String.Encoding.utf8.rawValue],
-            documentAttributes: nil)
-        self.attributedText = attrStr
+        guard let data = modifiedFont.data(using: .utf8, allowLossyConversion: true) else { return }
+        let options: [String: Any] = [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
+                                      NSCharacterEncodingDocumentAttribute: String.Encoding.utf8.rawValue]
+        DispatchQueue.main.async {
+            if let attrStr = try? NSAttributedString(data: data, options: options, documentAttributes: nil) {
+                self.attributedText = attrStr
+            }
+        }
     }
 }
