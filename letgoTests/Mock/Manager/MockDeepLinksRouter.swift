@@ -57,11 +57,7 @@ class MockDeepLinksRouter: NSObject, DeepLinksRouter {
 
     }
 
-    func onConversionDataReceived(_ installData: [AnyHashable : Any]!) {
+    func onConversionDataReceived(_ installData: [AnyHashable : Any]!) { }
 
-    }
-
-    func onConversionDataRequestFailure(_ error: Error!) {
-        print("App install conversion failed")
-    }
+    func onConversionDataRequestFailure(_ error: Error!) { }
 }

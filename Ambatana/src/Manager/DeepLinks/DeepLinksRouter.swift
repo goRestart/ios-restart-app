@@ -10,6 +10,7 @@ import AppsFlyerLib
 import Foundation
 import RxSwift
 import Branch
+import LGCoreKit
 
 protocol DeepLinksRouter: class, AppsFlyerTrackerDelegate {
     var deepLinks: Observable<DeepLink> { get }
@@ -101,7 +102,7 @@ class LGDeepLinksRouter: NSObject, DeepLinksRouter {
     }
 
     func onConversionDataRequestFailure(_ error: Error!) {
-        print("App install conversion failed")
+        logMessage(.error, type: [.deepLink], message: "App install conversion failed")
     }
 
     // MARK: > Shortcut actions (force touch)
