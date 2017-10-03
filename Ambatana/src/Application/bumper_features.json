@@ -121,6 +121,11 @@
         "description": "Location data source for geocode and reverse geocode"
     },
     {
+        "name": "DefaultRadiusDistanceFeed",
+        "values": ["control", "baseline", "two", "five", "ten", "thirty"],
+        "description": "Default distance radius main feed."
+    },
+    {
         "name": "RealEstateEnabled",
         "values": ["no", "yes"],
         "description": "Allow to see Real Estate category"

@@ -42,6 +42,7 @@ protocol FeatureFlaggeable: class {
     var appRatingDialogInactive: Bool { get }
     var feedFilterRadiusValues: FeedFilterRadiusValues { get }
     var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu { get }
+    var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed { get }
     var locationDataSourceEndpoint: LocationDataSourceEndpoint { get }
     var searchAutocomplete: SearchAutocomplete { get }
     var newCarouselNavigationTapNextPhotoEnabled: NewCarouselTapNextPhotoNavigationEnabled { get }
@@ -368,6 +369,13 @@ class FeatureFlags: FeatureFlaggeable {
         return LocationDataSourceEndpoint.fromPosition(abTests.locationDataSourceType.value)
     }
 
+    var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed {
+        if Bumper.enabled {
+            return Bumper.defaultRadiusDistanceFeed
+        }
+        return DefaultRadiusDistanceFeed.fromPosition(abTests.defaultRadiusDistanceFeed.value)
+    }
+    
     var searchAutocomplete: SearchAutocomplete {
         if Bumper.enabled {
             return Bumper.searchAutocomplete
