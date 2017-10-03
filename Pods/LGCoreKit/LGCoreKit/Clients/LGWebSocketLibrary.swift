@@ -32,10 +32,10 @@ class LGWebSocketLibrary: NSObject, WebSocketLibraryProtocol, SRWebSocketDelegat
         ws = nil
     }
     
-    func open(withEndpointURL endpointURL: URL) {
+    func open(withEndpointURL endpointURL: URL, timeout: TimeInterval) {
         ws?.delegate = nil
         ws?.close()
-        var urlRequest = URLRequest(url: endpointURL)
+        var urlRequest = URLRequest(url: endpointURL, timeoutInterval: timeout)
         urlRequest.setValue(userAgentBuilder.make(appBundle: Bundle.main, networkLibrary: .socketRocket),
                             forHTTPHeaderField: "User-Agent")
         ws = SRWebSocket(urlRequest: urlRequest)
