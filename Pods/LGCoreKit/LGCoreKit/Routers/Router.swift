@@ -21,6 +21,13 @@ struct APIBaseURL: BaseURL {
     static let contentTypeHeader: String? = nil
 }
 
+struct RealEstateBaseURL: BaseURL {
+    static let baseURL = EnvironmentProxy.sharedInstance.realEstateBaseURL
+    //TODO: waiting for accepted header for realEstate
+    static let acceptHeader: String? = "application/json"
+    static let contentTypeHeader: String? = nil
+}
+
 struct BouncerBaseURL: BaseURL {
     static var baseURL: String = EnvironmentProxy.sharedInstance.bouncerBaseURL
     static let acceptHeader: String? = "application/vnd.letgo-api+json;version=2"

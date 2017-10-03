@@ -13,17 +13,16 @@ public final class NetworkDefaultsDAO: NetworkDAO {
         static let networkTimeout = "NetworkTimeout"
     }
 
-    private let userDefaults: UserDefaults
+    private let userDefaults: UserDefaultable
 
     public var timeoutIntervalForRequests: TimeInterval? {
         get {
-            guard let timeout = userDefaults.value(forKey: Keys.networkTimeout) as? TimeInterval
+            guard let timeout = userDefaults.object(forKey: Keys.networkTimeout) as? TimeInterval
                 else { return nil }
             return TimeInterval(timeout)
         }
         set {
-            userDefaults.setValue(newValue, forKeyPath: Keys.networkTimeout)
-            userDefaults.synchronize()
+            userDefaults.set(newValue, forKey: Keys.networkTimeout)
         }
     }
 
@@ -32,7 +31,7 @@ public final class NetworkDefaultsDAO: NetworkDAO {
         self.init(userDefaults: UserDefaults.standard)
     }
 
-    init(userDefaults: UserDefaults) {
+    init(userDefaults: UserDefaultable) {
         self.userDefaults = userDefaults
     }
 

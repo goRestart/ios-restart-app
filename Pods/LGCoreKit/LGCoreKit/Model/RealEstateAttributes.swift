@@ -27,15 +27,15 @@ public struct RealEstateAttributes: Equatable {
     public let propertyType: RealEstatePropertyType?
     public let offerType: RealEstateOfferType?
     public let bedrooms: Int?
-    public let bathrooms: Int?
+    public let bathrooms: Float?
     
-    public init(propertyType: RealEstatePropertyType?, offerType: RealEstateOfferType?, bedrooms: Int?, bathrooms: Int?) {
+    public init(propertyType: RealEstatePropertyType?, offerType: RealEstateOfferType?, bedrooms: Int?, bathrooms: Float?) {
         self.propertyType = propertyType
         self.offerType = offerType
         self.bedrooms = bedrooms
         self.bathrooms = bathrooms
     }
-    public static func make(propertyType: String?, offerType: String?, bedrooms: Int?, bathrooms: Int?) -> RealEstateAttributes {
+    public static func make(propertyType: String?, offerType: String?, bedrooms: Int?, bathrooms: Float?) -> RealEstateAttributes {
         let newPropertyType = RealEstatePropertyType(rawValue: propertyType ?? "")
         let offerType = RealEstateOfferType(rawValue: offerType ?? "")
         return self.init(propertyType: newPropertyType, offerType: offerType, bedrooms: bedrooms, bathrooms: bathrooms)
@@ -48,7 +48,7 @@ public struct RealEstateAttributes: Equatable {
     public func updating(propertyType: RealEstatePropertyType? = nil,
                          offerType: RealEstateOfferType? = nil,
                          bedrooms: Int? = nil,
-                         bathrooms: Int? = nil) -> RealEstateAttributes {
+                         bathrooms: Float? = nil) -> RealEstateAttributes {
         
         return RealEstateAttributes(propertyType: propertyType ?? self.propertyType,
                                     offerType: offerType ?? self.offerType,
