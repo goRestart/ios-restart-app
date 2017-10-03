@@ -37,6 +37,7 @@ extension Bumper  {
         flags.append(FeedFilterRadiusValues.self)
         flags.append(ExpandableCategorySelectionMenu.self)
         flags.append(LocationDataSourceEndpoint.self)
+        flags.append(DefaultRadiusDistanceFeed.self)
         flags.append(RealEstateEnabled.self)
         flags.append(SearchAutocomplete.self)
         flags.append(NewCarouselTapNextPhotoNavigationEnabled.self)
@@ -163,6 +164,10 @@ extension Bumper  {
         return LocationDataSourceEndpoint(rawValue: value) ?? .control 
     }
 
+    static var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed {
+        guard let value = Bumper.value(for: DefaultRadiusDistanceFeed.key) else { return .control }
+        return DefaultRadiusDistanceFeed(rawValue: value) ?? .control 
+    }    
     static var realEstateEnabled: Bool {
         guard let value = Bumper.value(for: RealEstateEnabled.key) else { return false }
         return RealEstateEnabled(rawValue: value)?.asBool ?? false
@@ -476,6 +481,25 @@ enum LocationDataSourceEndpoint: String, BumperFeature  {
             case 2: return .appleWithRegion
             case 3: return .niordWithRegion
             default: return .control
+        }
+    }
+}
+
+enum DefaultRadiusDistanceFeed: String, BumperFeature  {
+    case control, baseline, two, five, ten, thirty
+    static var defaultValue: String { return DefaultRadiusDistanceFeed.control.rawValue }
+    static var enumValues: [DefaultRadiusDistanceFeed] { return [.control, .baseline, .two, .five, .ten, .thirty]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Default distance radius main feed." }
+    static func fromPosition(_ position: Int) -> DefaultRadiusDistanceFeed {
+        switch position {
+        case 0: return .control
+        case 1: return .baseline
+        case 2: return .two
+        case 3: return .five
+        case 4: return .ten
+        case 5: return .thirty
+        default: return .control
         }
     }
 }
