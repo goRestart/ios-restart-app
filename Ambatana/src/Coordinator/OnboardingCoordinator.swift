@@ -158,6 +158,18 @@ final class OnboardingCoordinator: Coordinator, ChangePasswordPresenter {
             openTourPosting()
         }
     }
+
+    fileprivate func openNextTour() {
+        guard let delegate = self.delegate else {
+            openTourPosting()
+            return
+        }
+        if delegate.shouldSkipPostingTour() {
+            delegate.onboardingCoordinator(self, didFinishPosting: false, source: nil)
+        } else {
+            openTourPosting()
+        }
+    }
 }
 
 
@@ -182,15 +194,7 @@ extension OnboardingCoordinator: TourNotificationsNavigator {
         if locationManager.shouldAskForLocationPermissions() {
             openTourLocation()
         } else {
-            guard let delegate = self.delegate else {
-                openTourPosting()
-                return
-            }
-            if delegate.shouldSkipPostingTour() {
-                delegate.onboardingCoordinator(self, didFinishPosting: false, source: nil)
-            } else {
-                openTourPosting()
-            }
+            openNextTour()
         }
     }
 }
@@ -200,15 +204,7 @@ extension OnboardingCoordinator: TourNotificationsNavigator {
 
 extension OnboardingCoordinator: TourLocationNavigator {
     func tourLocationFinish() {
-        guard let delegate = self.delegate else {
-            openTourPosting()
-            return
-        }
-        if delegate.shouldSkipPostingTour() {
-            delegate.onboardingCoordinator(self, didFinishPosting: false, source: nil)
-        } else {
-            openTourPosting()
-        }
+        openNextTour()
     }
 }
 
