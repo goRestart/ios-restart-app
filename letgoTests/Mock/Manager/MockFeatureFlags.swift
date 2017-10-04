@@ -43,10 +43,13 @@ class MockFeatureFlags: FeatureFlaggeable {
     var appRatingDialogInactive: Bool = false
     var feedFilterRadiusValues: FeedFilterRadiusValues = .control
     var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu = .control
+    var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed = .control
+
     var searchAutocomplete: SearchAutocomplete = .control
     var newCarouselNavigationTapNextPhotoEnabled: NewCarouselTapNextPhotoNavigationEnabled = .control
     var realEstateEnabled: Bool = false
-    
+    var requestTimeOut: RequestsTimeOut = .thirty
+
     // Country dependant features
     var freePostingModeAllowed = false
     var locationRequiresManualChangeSuggestion = false
