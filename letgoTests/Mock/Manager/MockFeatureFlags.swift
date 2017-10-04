@@ -49,6 +49,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var newCarouselNavigationTapNextPhotoEnabled: NewCarouselTapNextPhotoNavigationEnabled = .control
     var realEstateEnabled: Bool = false
     var requestTimeOut: RequestsTimeOut = .thirty
+    var newBumpUpExplanation: NewBumpUpExplanation = .control
 
     // Country dependant features
     var freePostingModeAllowed = false

@@ -139,5 +139,10 @@
         "name": "RequestsTimeOut",
          "values": ["baseline", "thirty", "forty_five", "sixty", "hundred_and_twenty"],
          "description": "API requests timeout"
+    },
+    {
+        "name": "NewBumpUpExplanation",
+        "values": ["control", "baseline", "active"],
+        "description": "show new bump up explanation view"
     }
 ]
