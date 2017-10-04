@@ -15,39 +15,6 @@ import Nimble
 class FeatureFlagsSpec: QuickSpec {
     override func spec() {
 
-        describe("FeatureFlags & NetworkDAO interaction") {
-
-            var sut: FeatureFlags!
-
-            var locale: Locale!
-            var locationManager: MockLocationManager!
-            var countryInfo: MockCountryConfigurable!
-            var abTests: ABTests!
-            var dao: MockFeatureFlagsDAO!
-
-            context("bumper disabled") {
-                context("network dao does not have any presetted value") {
-                    beforeEach {
-                        dao = MockFeatureFlagsDAO()
-                        locale = Locale.makeRandom()
-                        locationManager = MockLocationManager()
-                        countryInfo = MockCountryConfigurable()
-                        abTests = ABTests()
-
-                        sut = FeatureFlags(locale: locale,
-                                           locationManager: locationManager,
-                                           countryInfo: countryInfo,
-                                           abTests: abTests,
-                                           dao: dao)
-                    }
-
-                    it("returns timeout ab test value") {
-                        expect(sut.requestTimeOut.timeout) == TimeInterval(abTests.requestsTimeOut.value)
-                    }
-                }
-            }
-        }
-
         describe("FeatureFlags") {
             var sut: FeatureFlags!
 
@@ -114,6 +81,31 @@ class FeatureFlagsSpec: QuickSpec {
 
                 it("saves websocket ab test value in dao") {
                     expect(dao.websocketChatEnabled) == abTests.websocketChat.value
+                }
+            }
+
+            describe("NetworkDAO interaction") {
+
+                context("bumper disabled") {
+                    context("network dao does not have any presetted value") {
+                        beforeEach {
+                            dao = MockFeatureFlagsDAO()
+                            locale = Locale.makeRandom()
+                            locationManager = MockLocationManager()
+                            countryInfo = MockCountryConfigurable()
+                            abTests = ABTests()
+
+                            sut = FeatureFlags(locale: locale,
+                                               locationManager: locationManager,
+                                               countryInfo: countryInfo,
+                                               abTests: abTests,
+                                               dao: dao)
+                        }
+
+                        it("returns timeout ab test value") {
+                            expect(sut.requestTimeOut.timeout) == RequestsTimeOut.fromPosition(abTests.requestsTimeOut.value).timeout
+                        }
+                    }
                 }
             }
         }
