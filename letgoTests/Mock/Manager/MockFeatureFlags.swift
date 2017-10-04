@@ -34,7 +34,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var inAppRatingIOS10: Bool = false
     var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed = .control
     var copiesImprovementOnboarding: CopiesImprovementOnboarding = .control
-    var openGalleryInPosting: OpenGalleryInPosting = .control
     var tweaksCarPostingFlow: TweaksCarPostingFlow = .control
     var userReviewsReportEnabled: Bool = true
     var dynamicQuickAnswers: DynamicQuickAnswers = .control
@@ -48,6 +47,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var newCarouselNavigationTapNextPhotoEnabled: NewCarouselTapNextPhotoNavigationEnabled = .control
     var realEstateEnabled: Bool = false
     var requestTimeOut: RequestsTimeOut = .thirty
+    var newBumpUpExplanation: NewBumpUpExplanation = .control
 
     // Country dependant features
     var freePostingModeAllowed = false

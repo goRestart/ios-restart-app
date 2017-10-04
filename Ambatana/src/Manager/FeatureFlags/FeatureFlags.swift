@@ -33,7 +33,6 @@ protocol FeatureFlaggeable: class {
     var inAppRatingIOS10: Bool { get }
     var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed { get }
     var copiesImprovementOnboarding: CopiesImprovementOnboarding { get }
-    var openGalleryInPosting: OpenGalleryInPosting { get }
     var tweaksCarPostingFlow: TweaksCarPostingFlow { get }
     var userReviewsReportEnabled: Bool { get }
     var dynamicQuickAnswers: DynamicQuickAnswers { get }
@@ -46,6 +45,7 @@ protocol FeatureFlaggeable: class {
     var newCarouselNavigationTapNextPhotoEnabled: NewCarouselTapNextPhotoNavigationEnabled { get }
     var realEstateEnabled: Bool { get }
     var requestTimeOut: RequestsTimeOut { get }
+    var newBumpUpExplanation: NewBumpUpExplanation { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -274,13 +274,6 @@ class FeatureFlags: FeatureFlaggeable {
         return CopiesImprovementOnboarding.fromPosition(abTests.copiesImprovementOnboarding.value)
     }
     
-    var openGalleryInPosting: OpenGalleryInPosting {
-        if Bumper.enabled {
-            return Bumper.openGalleryInPosting
-        }
-        return OpenGalleryInPosting.fromPosition(abTests.openGalleryInPosting.value)
-    }
-
     var tweaksCarPostingFlow: TweaksCarPostingFlow {
         if Bumper.enabled {
             return Bumper.tweaksCarPostingFlow
@@ -351,12 +344,18 @@ class FeatureFlags: FeatureFlaggeable {
         return abTests.realEstateEnabled.value
     }
 
-
     var newCarouselNavigationTapNextPhotoEnabled: NewCarouselTapNextPhotoNavigationEnabled {
         if Bumper.enabled {
             return Bumper.newCarouselTapNextPhotoNavigationEnabled
         }
         return NewCarouselTapNextPhotoNavigationEnabled.fromPosition(abTests.newCarouselTapNextPhotoNavigationEnabled.value)
+    }
+
+    var newBumpUpExplanation: NewBumpUpExplanation {
+        if Bumper.enabled {
+            return Bumper.newBumpUpExplanation
+        }
+        return NewBumpUpExplanation.fromPosition(abTests.newBumpUpExplanation.value)
     }
 
 
