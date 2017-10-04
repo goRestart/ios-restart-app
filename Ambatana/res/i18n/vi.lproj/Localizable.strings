@@ -23,6 +23,9 @@
 "bump_up_free_success" = "Đẩy lên! Hãy liên tục đẩy sản phẩm lên để dễ thấy hơn nữa.";
 "bump_up_not_allowed_alert_contact_button" = "Liên hệ";
 "bump_up_not_allowed_alert_text" = "Hiện tại không thể làm nổi bật sản phẩm này. Để biết thêm thông tin, vui lòng liên hệ chúng tôi.";
+"bump_up_old_view_pay_button_title" = "Activate for %@";
+"bump_up_old_view_pay_subtitle" = "Attract more buyers by giving your listing more visibility.";
+"bump_up_old_view_pay_title" = "SELL FASTER";
 "bump_up_pay_success" = "Nổi bật! Sản phẩm của bạn hiện đã dễ thấy hơn.";
 "bump_up_processing_free_text" = "Đang tiến hành đẩy lên...";
 "bump_up_processing_priced_text" = "Đang tiến hành thanh toán...";
@@ -31,9 +34,9 @@
 "bump_up_product_detail_featured_label" = "TIÊU BIỂU";
 "bump_up_view_free_subtitle" = "Càng được chia sẻ nhiều, bài đăng của bạn càng dễ thấy.";
 "bump_up_view_free_title" = "ĐẨY BÀI ĐĂNG CỦA BẠN LÊN";
-"bump_up_view_pay_button_title" = "Kích hoạt cho %@";
-"bump_up_view_pay_subtitle" = "Thu hút nhiều người mua hơn bằng cách làm cho bài đăng của bạn dễ nhìn hơn.";
-"bump_up_view_pay_title" = "BÁN NHANH HƠN";
+"bump_up_view_pay_button_title" = "Làm nổi bật trong %@";
+"bump_up_view_pay_subtitle" = "Chúng tôi sẽ làm nổi bật sản phẩm của bạn trong 24 giờ để người mua có thể nhìn thấy sản phẩm của bạn và bạn sẽ bán nhanh hơn";
+"bump_up_view_pay_title" = "Thu hút thêm 2x người mua";
 "categories_baby_and_child" = "Trẻ sơ sinh và Trẻ nhỏ";
 "categories_car" = "Xe hơi";
 "categories_cars_and_motors" = "Xe máy và Phụ kiện";
