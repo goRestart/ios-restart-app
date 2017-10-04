@@ -21,7 +21,7 @@ class OldBumpUpPayViewController: BaseViewController {
     @IBOutlet weak var subtitleLabel: UILabel!
     @IBOutlet weak var bumpUpButton: UIButton!
 
-    @IBOutlet weak var  titleVerticalCenterConstraint: NSLayoutConstraint!
+    @IBOutlet weak var titleVerticalCenterConstraint: NSLayoutConstraint!
 
     private var viewModel: BumpUpPayViewModel
 
