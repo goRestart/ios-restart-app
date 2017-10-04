@@ -34,7 +34,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var inAppRatingIOS10: Bool = false
     var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed = .control
     var superKeywordsOnOnboarding: SuperKeywordsOnOnboarding = .control
-    var copiesImprovementOnboarding: CopiesImprovementOnboarding = .control
     var bumpUpImprovementBanner: BumpUpImprovementBanner = .control
     var openGalleryInPosting: OpenGalleryInPosting = .control
     var tweaksCarPostingFlow: TweaksCarPostingFlow = .control

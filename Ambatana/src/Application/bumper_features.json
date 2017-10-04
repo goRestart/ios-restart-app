@@ -66,11 +66,6 @@
         "description": "Add a step to select categories on onboarding"
     },
     {
-        "name": "CopiesImprovementOnboarding",
-        "values": ["control", "baseline", "B", "C", "D", "E", "F"],
-        "description": "new copies on last step of onboarding"
-    },
-    {
         "name": "BumpUpImprovementBanner",
         "values": ["control", "baseline", "active"],
         "description": "new copies on bump up banner"
