@@ -198,11 +198,10 @@ class ListingCell: UICollectionViewCell, ReusableCell {
     
     func hidePriceView() {
         priceViewHeight.constant = 0
-        //priceViewTopToImageViewBottomConstraint.isActive = false
     }
     
     func setupPriceView(price: String) {
-        priceViewHeight.constant = 30
+        priceViewHeight.constant = ListingListViewModel.cellPriceViewHeight
         priceViewTopToImageViewBottomConstraint.isActive = true
         
         priceLabel.text = price

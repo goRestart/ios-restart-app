@@ -25,11 +25,9 @@ class GridDrawerManager {
     private let showFeaturedStripeHelper = ShowFeaturedStripeHelper(featureFlags: FeatureFlags.sharedInstance,
                                                                     myUserRepository: Core.myUserRepository)
     private let myUserRepository: MyUserRepository
-    private let featureFlags: FeatureFlaggeable
 
     init(myUserRepository: MyUserRepository) {
         self.myUserRepository = myUserRepository
-        self.featureFlags = FeatureFlags.sharedInstance
     }
 
     func registerCell(inCollectionView collectionView: UICollectionView) {

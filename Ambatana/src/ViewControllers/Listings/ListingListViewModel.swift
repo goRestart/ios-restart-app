@@ -70,7 +70,7 @@ class ListingListViewModel: BaseViewModel {
     private static let cellMaxThumbFactor: CGFloat = 2.0
     private static let cellFeaturedInfoMinHeight: CGFloat = 105.0
     private static let cellFeaturedInfoTitleMaxLines: CGFloat = 2.0
-    private static let cellPriceViewHeight: CGFloat = 30.0
+    static let cellPriceViewHeight: CGFloat = 30.0
 
     var cellWidth: CGFloat {
         return (UIScreen.main.bounds.size.width - (listingListFixedInset*2)) / CGFloat(numberOfColumns)
@@ -124,7 +124,7 @@ class ListingListViewModel: BaseViewModel {
         return !isLastPage && canRetrieveListings
     }
     
-    var shouldShowPrices: Bool?
+    var shouldShowPrices: Bool
     
     // Tracking
     
@@ -252,7 +252,6 @@ class ListingListViewModel: BaseViewModel {
     func updateShouldShowPrices(_ shouldShowPrices: Bool) {
         self.shouldShowPrices = shouldShowPrices
     }
-    
     
     private func retrieveListings(firstPage: Bool) {
         guard let listingListRequester = listingListRequester else { return } //Should not happen

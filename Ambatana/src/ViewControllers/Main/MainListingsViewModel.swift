@@ -522,7 +522,6 @@ class MainListingsViewModel: BaseViewModel {
         shouldShowPrices.value = (hasFilters || searchType != nil) && featureFlags.showPriceAfterSearchOrFilter.isActive
     }
     
-    
     // MARK: - Categories From Onboarding
     
     func updateFiltersWithOnboardingTaxonomies(taxonomiesIds: [Int]) {
