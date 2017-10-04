@@ -34,7 +34,6 @@ protocol FeatureFlaggeable: class {
     var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed { get }
     var superKeywordsOnOnboarding: SuperKeywordsOnOnboarding { get }
     var copiesImprovementOnboarding: CopiesImprovementOnboarding { get }
-    var bumpUpImprovementBanner: BumpUpImprovementBanner { get }
     var openGalleryInPosting: OpenGalleryInPosting { get }
     var tweaksCarPostingFlow: TweaksCarPostingFlow { get }
     var userReviewsReportEnabled: Bool { get }
@@ -74,17 +73,6 @@ extension AddSuperKeywordsOnFeed {
 }
 
 extension SuperKeywordsOnOnboarding {
-    var isActive: Bool {
-        switch self {
-        case .control, .baseline:
-            return false
-        case .active:
-            return true
-        }
-    }
-}
-
-extension BumpUpImprovementBanner {
     var isActive: Bool {
         switch self {
         case .control, .baseline:
@@ -304,14 +292,7 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return CopiesImprovementOnboarding.fromPosition(abTests.copiesImprovementOnboarding.value)
     }
-
-    var bumpUpImprovementBanner: BumpUpImprovementBanner {
-        if Bumper.enabled {
-            return Bumper.bumpUpImprovementBanner
-        }
-        return BumpUpImprovementBanner.fromPosition(abTests.bumpUpImprovementBanner.value)
-    }
-
+    
     var openGalleryInPosting: OpenGalleryInPosting {
         if Bumper.enabled {
             return Bumper.openGalleryInPosting
