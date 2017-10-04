@@ -194,9 +194,8 @@ class LGDeepLinksRouter: NSObject, DeepLinksRouter {
         guard let data = installData else { return nil }
         if let isFacebook = data[AppInstallKeys.isFacebook] as? Bool, isFacebook {
             return buildFromAppInstall(data, withCampaignID: AppInstallKeys.Campaigns.facebook)
-        } else {
-            return buildFromAppInstall(data, withCampaignID: AppInstallKeys.Campaigns.other)
         }
+        return buildFromAppInstall(data, withCampaignID: AppInstallKeys.Campaigns.other)
     }
 
     private func buildFromAppInstall(_ installData: [AnyHashable : Any], withCampaignID campaignID: String) -> DeepLink? {
