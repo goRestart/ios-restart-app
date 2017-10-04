@@ -44,6 +44,7 @@ class ABTests {
     let newCarouselTapNextPhotoNavigationEnabled = IntABDynamicVar(key: "20170914NewCarouselTapNextPhotoNavigationEnabled", defaultValue: 0)
     let realEstateEnabled = BoolABDynamicVar(key: "20170927realEstateEnabled", defaultValue: false)
     let requestsTimeOut = IntABDynamicVar(key: "20170929RequestTimeOut", defaultValue: 30)
+    let newBumpUpExplanation = IntABDynamicVar(key: "20171004NewBumpUpExplanation", defaultValue: 0)
 
     init() {
     }
@@ -83,6 +84,7 @@ class ABTests {
         result.append(newCarouselTapNextPhotoNavigationEnabled)
         result.append(realEstateEnabled)
         result.append(requestsTimeOut)
+        result.append(newBumpUpExplanation)
         
         return result
     }

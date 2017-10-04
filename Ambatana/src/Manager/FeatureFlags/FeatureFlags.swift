@@ -46,6 +46,7 @@ protocol FeatureFlaggeable: class {
     var newCarouselNavigationTapNextPhotoEnabled: NewCarouselTapNextPhotoNavigationEnabled { get }
     var realEstateEnabled: Bool { get }
     var requestTimeOut: RequestsTimeOut { get }
+    var newBumpUpExplanation: NewBumpUpExplanation { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -363,12 +364,18 @@ class FeatureFlags: FeatureFlaggeable {
         return abTests.realEstateEnabled.value
     }
 
-
     var newCarouselNavigationTapNextPhotoEnabled: NewCarouselTapNextPhotoNavigationEnabled {
         if Bumper.enabled {
             return Bumper.newCarouselTapNextPhotoNavigationEnabled
         }
         return NewCarouselTapNextPhotoNavigationEnabled.fromPosition(abTests.newCarouselTapNextPhotoNavigationEnabled.value)
+    }
+
+    var newBumpUpExplanation: NewBumpUpExplanation {
+        if Bumper.enabled {
+            return Bumper.newBumpUpExplanation
+        }
+        return NewBumpUpExplanation.fromPosition(abTests.newBumpUpExplanation.value)
     }
 
 
