@@ -1113,7 +1113,10 @@ extension ListingCarouselViewController: UICollectionViewDataSource, UICollectio
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         collectionContentOffset.value = scrollView.contentOffset
         
-        dragMoreInfoView(offset: scrollView.contentOffset.y, bottomLimit: bottomScrollLimit)
+        if viewModel.imageScrollDirection == .horizontal {
+            dragMoreInfoView(offset: scrollView.contentOffset.y, bottomLimit: bottomScrollLimit)
+            scrollView.contentOffset = CGPoint(x: scrollView.contentOffset.x, y: 0)
+        }
     }
 
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
