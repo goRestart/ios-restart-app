@@ -135,16 +135,6 @@ final class OnboardingCoordinator: Coordinator, ChangePasswordPresenter {
         topVC.present(vc, animated: true, completion: nil)
     }
     
-    fileprivate func openTourCategories(taxonomies: [Taxonomy]) {
-        let topVC = topViewController()
-        let vm = TourCategoriesViewModel(taxonomies: taxonomies)
-        vm.navigator = self
-        let vc = TourCategoriesViewController(viewModel: vm)
-        hideVC(topVC)
-        presentedViewControllers.append(vc)
-        topVC.present(vc, animated: true, completion: nil)
-    }
-    
     fileprivate func openTourPermissions() {
         let pushPermissionsManager = LGPushPermissionsManager.sharedInstance
         let canAskForPushPermissions = pushPermissionsManager.shouldShowPushPermissionsAlertFromViewController(.onboarding)
@@ -164,12 +154,7 @@ final class OnboardingCoordinator: Coordinator, ChangePasswordPresenter {
 
 extension OnboardingCoordinator: TourLoginNavigator {
     func tourLoginFinish() {
-        let taxonomiesOnboarding = categoryRepository.indexOnboardingTaxonomies()
-        if featureFlags.superKeywordsOnOnboarding.isActive && taxonomiesOnboarding.count > TourCategoriesViewModel.minimumTaxonomiesNeeded {
-            openTourCategories(taxonomies: taxonomiesOnboarding)
-        } else {
-            openTourPermissions()
-        }
+        openTourPermissions()
     }
 }
 

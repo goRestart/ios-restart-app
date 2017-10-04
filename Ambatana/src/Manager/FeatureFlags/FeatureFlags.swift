@@ -32,7 +32,6 @@ protocol FeatureFlaggeable: class {
     var searchParamDisc129: SearchParamDisc129 { get }
     var inAppRatingIOS10: Bool { get }
     var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed { get }
-    var superKeywordsOnOnboarding: SuperKeywordsOnOnboarding { get }
     var copiesImprovementOnboarding: CopiesImprovementOnboarding { get }
     var openGalleryInPosting: OpenGalleryInPosting { get }
     var tweaksCarPostingFlow: TweaksCarPostingFlow { get }
@@ -72,18 +71,6 @@ extension AddSuperKeywordsOnFeed {
         }
     }
 }
-
-extension SuperKeywordsOnOnboarding {
-    var isActive: Bool {
-        switch self {
-        case .control, .baseline:
-            return false
-        case .active:
-            return true
-        }
-    }
-}
-
 extension TweaksCarPostingFlow {
     var isActive: Bool {
         switch self {
@@ -279,14 +266,7 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return AddSuperKeywordsOnFeed.fromPosition(abTests.addSuperKeywordsOnFeed.value)
     }
-
-    var superKeywordsOnOnboarding: SuperKeywordsOnOnboarding {
-        if Bumper.enabled {
-            return Bumper.superKeywordsOnOnboarding
-        }
-        return SuperKeywordsOnOnboarding.fromPosition(abTests.superKeywordsOnOnboarding.value)
-    }
-
+    
     var copiesImprovementOnboarding: CopiesImprovementOnboarding {
         if Bumper.enabled {
             return Bumper.copiesImprovementOnboarding

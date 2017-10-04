@@ -25,7 +25,6 @@ extension Bumper  {
         flags.append(NewOnboardingPhase1.self)
         flags.append(InAppRatingIOS10.self)
         flags.append(AddSuperKeywordsOnFeed.self)
-        flags.append(SuperKeywordsOnOnboarding.self)
         flags.append(CopiesImprovementOnboarding.self)
         flags.append(OpenGalleryInPosting.self)
         flags.append(TweaksCarPostingFlow.self)
@@ -102,11 +101,6 @@ extension Bumper  {
     static var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed {
         guard let value = Bumper.value(for: AddSuperKeywordsOnFeed.key) else { return .control }
         return AddSuperKeywordsOnFeed(rawValue: value) ?? .control
-    }
-
-    static var superKeywordsOnOnboarding: SuperKeywordsOnOnboarding {
-        guard let value = Bumper.value(for: SuperKeywordsOnOnboarding.key) else { return .control }
-        return SuperKeywordsOnOnboarding(rawValue: value) ?? .control
     }
 
     static var copiesImprovementOnboarding: CopiesImprovementOnboarding {
@@ -291,22 +285,6 @@ enum AddSuperKeywordsOnFeed: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Add super keywords in feed and filters" }
     static func fromPosition(_ position: Int) -> AddSuperKeywordsOnFeed {
-        switch position {
-        case 0: return .control
-        case 1: return .baseline
-        case 2: return .active
-        default: return .control
-        }
-    }
-}
-
-enum SuperKeywordsOnOnboarding: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return SuperKeywordsOnOnboarding.control.rawValue }
-    static var enumValues: [SuperKeywordsOnOnboarding] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Add a step to select categories on onboarding" }
-    static func fromPosition(_ position: Int) -> SuperKeywordsOnOnboarding {
         switch position {
         case 0: return .control
         case 1: return .baseline
