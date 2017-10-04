@@ -64,15 +64,14 @@ class OldBumpUpPayViewController: BaseViewController {
         }
 
         listingImageView.layer.cornerRadius = LGUIKitConstants.listingCellCornerRadius
-        titleLabel.text = LGLocalizedString.bumpUpViewPayTitle
-        subtitleLabel.text = LGLocalizedString.bumpUpViewPaySubtitle
+        titleLabel.text = LGLocalizedString.bumpUpOldViewPayTitle
+        subtitleLabel.text = LGLocalizedString.bumpUpOldViewPaySubtitle
 
         let rotation = CGFloat(Double.pi/4)
         featuredLabel.transform = CGAffineTransform(rotationAngle: rotation)
         featuredLabel.text = LGLocalizedString.bumpUpProductCellFeaturedStripe
         bumpUpButton.setStyle(.primary(fontSize: .medium))
-        bumpUpButton.setTitle(LGLocalizedString.bumpUpViewPayButtonTitle(viewModel.price), for: .normal)
-
+        bumpUpButton.setTitle(LGLocalizedString.bumpUpOldViewPayButtonTitle(viewModel.price), for: .normal)
 
         let swipeDownGesture = UISwipeGestureRecognizer(target: self, action: #selector(gestureClose))
         swipeDownGesture.direction = .down
