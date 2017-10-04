@@ -53,4 +53,5 @@ public class LGCoreKit {
     static func setupAfterLoggedIn(_ completion: (() -> ())?) {
         completion?()
     }
+
 }

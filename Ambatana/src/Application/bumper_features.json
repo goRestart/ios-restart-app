@@ -121,6 +121,11 @@
         "description": "Location data source for geocode and reverse geocode"
     },
     {
+        "name": "DefaultRadiusDistanceFeed",
+        "values": ["control", "baseline", "two", "five", "ten", "thirty"],
+        "description": "Default distance radius main feed."
+    },
+    {
         "name": "RealEstateEnabled",
         "values": ["no", "yes"],
         "description": "Allow to see Real Estate category"
@@ -139,5 +144,10 @@
         "name": "ShowPriceAfterSearchOrFilter",
         "values": ["control", "baseline", "priceOnSearchOrFilter"],
         "description": "Show price in feed products when user applies any search or filter"
+    },
+    {
+        "name": "RequestsTimeOut",
+         "values": ["baseline", "thirty", "forty_five", "sixty", "hundred_and_twenty"],
+         "description": "API requests timeout"
     }
 ]

@@ -42,7 +42,7 @@ public protocol DI: class {
     var currencyHelper: CurrencyHelper { get }
     var countryHelper: CountryHelper { get }
 
-    //Logs
+    // Logs
     var reporter: ReporterProxy { get }
 }
 
@@ -68,7 +68,8 @@ protocol InternalDI: DI {
     var installationDAO: InstallationDAO { get }
     var myUserDAO: MyUserDAO { get }
     var listingsLimboDAO: ListingsLimboDAO { get }
-    
+    var networkDAO: NetworkDAO { get }
+
     // Reachability
     var reachability: ReachabilityProtocol? { get }
 }
