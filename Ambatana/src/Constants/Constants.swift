@@ -90,6 +90,7 @@ struct Constants {
     static let maxImageCount = 5
     static let maxPriceIntegerCharacters = 9
     static let maxPriceFractionalCharacters = 2
+    static let currencyDefault = "US"
 
     // Messages retrieving
     static let numMessagesPerPage = 40

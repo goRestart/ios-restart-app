@@ -84,17 +84,6 @@ extension SuperKeywordsOnOnboarding {
     }
 }
 
-extension BumpUpImprovementBanner {
-    var isActive: Bool {
-        switch self {
-        case .control, .baseline:
-            return false
-        case .active:
-            return true
-        }
-    }
-}
-
 extension TweaksCarPostingFlow {
     var isActive: Bool {
         switch self {
