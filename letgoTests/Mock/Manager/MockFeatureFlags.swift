@@ -35,8 +35,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed = .control
     var superKeywordsOnOnboarding: SuperKeywordsOnOnboarding = .control
     var copiesImprovementOnboarding: CopiesImprovementOnboarding = .control
-    var bumpUpImprovementBanner: BumpUpImprovementBanner = .control
-    var openGalleryInPosting: OpenGalleryInPosting = .control
     var tweaksCarPostingFlow: TweaksCarPostingFlow = .control
     var userReviewsReportEnabled: Bool = true
     var dynamicQuickAnswers: DynamicQuickAnswers = .control
@@ -51,6 +49,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var realEstateEnabled: Bool = false
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter = .control
     var requestTimeOut: RequestsTimeOut = .thirty
+    var newBumpUpExplanation: NewBumpUpExplanation = .control
 
     // Country dependant features
     var freePostingModeAllowed = false

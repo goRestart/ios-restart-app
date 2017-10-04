@@ -27,8 +27,6 @@ extension Bumper  {
         flags.append(AddSuperKeywordsOnFeed.self)
         flags.append(SuperKeywordsOnOnboarding.self)
         flags.append(CopiesImprovementOnboarding.self)
-        flags.append(BumpUpImprovementBanner.self)
-        flags.append(OpenGalleryInPosting.self)
         flags.append(TweaksCarPostingFlow.self)
         flags.append(SearchParamDisc129.self)
         flags.append(UserReviewsReportEnabled.self)
@@ -41,8 +39,8 @@ extension Bumper  {
         flags.append(RealEstateEnabled.self)
         flags.append(SearchAutocomplete.self)
         flags.append(NewCarouselTapNextPhotoNavigationEnabled.self)
-        flags.append(ShowPriceAfterSearchOrFilter.self)
         flags.append(RequestsTimeOut.self)
+        flags.append(NewBumpUpExplanation.self)
         Bumper.initialize(flags)
     } 
 
@@ -116,16 +114,6 @@ extension Bumper  {
         return CopiesImprovementOnboarding(rawValue: value) ?? .control 
     }
 
-    static var bumpUpImprovementBanner: BumpUpImprovementBanner {
-        guard let value = Bumper.value(for: BumpUpImprovementBanner.key) else { return .control }
-        return BumpUpImprovementBanner(rawValue: value) ?? .control 
-    }
-
-    static var openGalleryInPosting: OpenGalleryInPosting {
-        guard let value = Bumper.value(for: OpenGalleryInPosting.key) else { return .control }
-        return OpenGalleryInPosting(rawValue: value) ?? .control 
-    }
-
     static var tweaksCarPostingFlow: TweaksCarPostingFlow {
         guard let value = Bumper.value(for: TweaksCarPostingFlow.key) else { return .control }
         return TweaksCarPostingFlow(rawValue: value) ?? .control 
@@ -186,14 +174,14 @@ extension Bumper  {
         return NewCarouselTapNextPhotoNavigationEnabled(rawValue: value) ?? .control 
     }
 
-    static var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter {
-        guard let value = Bumper.value(for: ShowPriceAfterSearchOrFilter.key) else { return .control }
-        return ShowPriceAfterSearchOrFilter(rawValue: value) ?? .control 
-    }
-
     static var requestsTimeOut: RequestsTimeOut {
         guard let value = Bumper.value(for: RequestsTimeOut.key) else { return .baseline }
         return RequestsTimeOut(rawValue: value) ?? .baseline 
+    }
+
+    static var newBumpUpExplanation: NewBumpUpExplanation {
+        guard let value = Bumper.value(for: NewBumpUpExplanation.key) else { return .control }
+        return NewBumpUpExplanation(rawValue: value) ?? .control 
     } 
 }
 
@@ -344,38 +332,6 @@ enum CopiesImprovementOnboarding: String, BumperFeature  {
             case 4: return .d
             case 5: return .e
             case 6: return .f
-            default: return .control
-        }
-    }
-}
-
-enum BumpUpImprovementBanner: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return BumpUpImprovementBanner.control.rawValue }
-    static var enumValues: [BumpUpImprovementBanner] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "new copies on bump up banner" } 
-    static func fromPosition(_ position: Int) -> BumpUpImprovementBanner {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
-enum OpenGalleryInPosting: String, BumperFeature  {
-    case control, baseline, openGallery
-    static var defaultValue: String { return OpenGalleryInPosting.control.rawValue }
-    static var enumValues: [OpenGalleryInPosting] { return [.control, .baseline, .openGallery]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Opens gallery in posting as default option" } 
-    static func fromPosition(_ position: Int) -> OpenGalleryInPosting {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .openGallery
             default: return .control
         }
     }
@@ -558,22 +514,6 @@ enum NewCarouselTapNextPhotoNavigationEnabled: String, BumperFeature  {
     }
 }
 
-enum ShowPriceAfterSearchOrFilter: String, BumperFeature  {
-    case control, baseline, priceOnSearchOrFilter
-    static var defaultValue: String { return ShowPriceAfterSearchOrFilter.control.rawValue }
-    static var enumValues: [ShowPriceAfterSearchOrFilter] { return [.control, .baseline, .priceOnSearchOrFilter]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show price in feed products when user applies any search or filter" } 
-    static func fromPosition(_ position: Int) -> ShowPriceAfterSearchOrFilter {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .priceOnSearchOrFilter
-            default: return .control
-        }
-    }
-}
-
 enum RequestsTimeOut: String, BumperFeature  {
     case baseline, thirty, forty_five, sixty, hundred_and_twenty
     static var defaultValue: String { return RequestsTimeOut.baseline.rawValue }
@@ -588,6 +528,22 @@ enum RequestsTimeOut: String, BumperFeature  {
             case 3: return .sixty
             case 4: return .hundred_and_twenty
             default: return .baseline
+        }
+    }
+}
+
+enum NewBumpUpExplanation: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return NewBumpUpExplanation.control.rawValue }
+    static var enumValues: [NewBumpUpExplanation] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "show new bump up explanation view" } 
+    static func fromPosition(_ position: Int) -> NewBumpUpExplanation {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
         }
     }
 }

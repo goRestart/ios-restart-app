@@ -34,8 +34,6 @@ protocol FeatureFlaggeable: class {
     var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed { get }
     var superKeywordsOnOnboarding: SuperKeywordsOnOnboarding { get }
     var copiesImprovementOnboarding: CopiesImprovementOnboarding { get }
-    var bumpUpImprovementBanner: BumpUpImprovementBanner { get }
-    var openGalleryInPosting: OpenGalleryInPosting { get }
     var tweaksCarPostingFlow: TweaksCarPostingFlow { get }
     var userReviewsReportEnabled: Bool { get }
     var dynamicQuickAnswers: DynamicQuickAnswers { get }
@@ -49,6 +47,7 @@ protocol FeatureFlaggeable: class {
     var realEstateEnabled: Bool { get }
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter { get }
     var requestTimeOut: RequestsTimeOut { get }
+    var newBumpUpExplanation: NewBumpUpExplanation { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -76,17 +75,6 @@ extension AddSuperKeywordsOnFeed {
 }
 
 extension SuperKeywordsOnOnboarding {
-    var isActive: Bool {
-        switch self {
-        case .control, .baseline:
-            return false
-        case .active:
-            return true
-        }
-    }
-}
-
-extension BumpUpImprovementBanner {
     var isActive: Bool {
         switch self {
         case .control, .baseline:
@@ -317,21 +305,7 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return CopiesImprovementOnboarding.fromPosition(abTests.copiesImprovementOnboarding.value)
     }
-
-    var bumpUpImprovementBanner: BumpUpImprovementBanner {
-        if Bumper.enabled {
-            return Bumper.bumpUpImprovementBanner
-        }
-        return BumpUpImprovementBanner.fromPosition(abTests.bumpUpImprovementBanner.value)
-    }
-
-    var openGalleryInPosting: OpenGalleryInPosting {
-        if Bumper.enabled {
-            return Bumper.openGalleryInPosting
-        }
-        return OpenGalleryInPosting.fromPosition(abTests.openGalleryInPosting.value)
-    }
-
+    
     var tweaksCarPostingFlow: TweaksCarPostingFlow {
         if Bumper.enabled {
             return Bumper.tweaksCarPostingFlow
@@ -410,12 +384,18 @@ class FeatureFlags: FeatureFlaggeable {
     }
     
 
-
     var newCarouselNavigationTapNextPhotoEnabled: NewCarouselTapNextPhotoNavigationEnabled {
         if Bumper.enabled {
             return Bumper.newCarouselTapNextPhotoNavigationEnabled
         }
         return NewCarouselTapNextPhotoNavigationEnabled.fromPosition(abTests.newCarouselTapNextPhotoNavigationEnabled.value)
+    }
+
+    var newBumpUpExplanation: NewBumpUpExplanation {
+        if Bumper.enabled {
+            return Bumper.newBumpUpExplanation
+        }
+        return NewBumpUpExplanation.fromPosition(abTests.newBumpUpExplanation.value)
     }
 
 
