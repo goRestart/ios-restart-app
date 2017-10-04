@@ -23,12 +23,12 @@ class FeatureFlagsSpec: QuickSpec {
             var locationManager: MockLocationManager!
             var countryInfo: MockCountryConfigurable!
             var abTests: ABTests!
-            var dao: FeatureFlagsDAO!
+            var dao: MockFeatureFlagsDAO!
 
             context("bumper disabled") {
                 context("network dao does not have any presetted value") {
                     beforeEach {
-                        dao = FeatureFlagsUDDAO()
+                        dao = MockFeatureFlagsDAO()
                         locale = Locale.makeRandom()
                         locationManager = MockLocationManager()
                         countryInfo = MockCountryConfigurable()
