@@ -30,7 +30,6 @@ class OldBumpUpPayViewController: BaseViewController {
     init(viewModel: BumpUpPayViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: "OldBumpUpPayViewController")
-        self.viewModel.delegate = self
         modalPresentationStyle = .overCurrentContext
     }
 
@@ -100,8 +99,3 @@ class OldBumpUpPayViewController: BaseViewController {
         bumpUpButton.accessibilityId = .paymentBumpUpButton
     }
 }
-
-
-// MARK: - BumpUpPayViewModelDelegate
-
-extension OldBumpUpPayViewController: BumpUpPayViewModelDelegate {}
