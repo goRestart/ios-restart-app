@@ -27,7 +27,6 @@ extension Bumper  {
         flags.append(AddSuperKeywordsOnFeed.self)
         flags.append(SuperKeywordsOnOnboarding.self)
         flags.append(CopiesImprovementOnboarding.self)
-        flags.append(OpenGalleryInPosting.self)
         flags.append(TweaksCarPostingFlow.self)
         flags.append(SearchParamDisc129.self)
         flags.append(UserReviewsReportEnabled.self)
@@ -113,11 +112,6 @@ extension Bumper  {
     static var copiesImprovementOnboarding: CopiesImprovementOnboarding {
         guard let value = Bumper.value(for: CopiesImprovementOnboarding.key) else { return .control }
         return CopiesImprovementOnboarding(rawValue: value) ?? .control 
-    }
-
-    static var openGalleryInPosting: OpenGalleryInPosting {
-        guard let value = Bumper.value(for: OpenGalleryInPosting.key) else { return .control }
-        return OpenGalleryInPosting(rawValue: value) ?? .control 
     }
 
     static var tweaksCarPostingFlow: TweaksCarPostingFlow {
@@ -338,22 +332,6 @@ enum CopiesImprovementOnboarding: String, BumperFeature  {
             case 4: return .d
             case 5: return .e
             case 6: return .f
-            default: return .control
-        }
-    }
-}
-
-enum OpenGalleryInPosting: String, BumperFeature  {
-    case control, baseline, openGallery
-    static var defaultValue: String { return OpenGalleryInPosting.control.rawValue }
-    static var enumValues: [OpenGalleryInPosting] { return [.control, .baseline, .openGallery]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Opens gallery in posting as default option" } 
-    static func fromPosition(_ position: Int) -> OpenGalleryInPosting {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .openGallery
             default: return .control
         }
     }
