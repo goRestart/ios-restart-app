@@ -67,25 +67,25 @@ extension AppDelegate: UIApplicationDelegate {
         self.locationRepository = Core.locationRepository
         self.sessionManager = Core.sessionManager
         self.configManager = LGConfigManager.sharedInstance
-    
+
         let keyValueStorage = KeyValueStorage.sharedInstance
         let versionChecker = VersionChecker.sharedInstance
 
         keyValueStorage[.lastRunAppVersion] = versionChecker.currentVersion.version
         keyValueStorage[.sessionNumber] += 1
-        
+
         let crashManager = CrashManager(appCrashed: keyValueStorage[.didCrash],
                                         versionChange: VersionChecker.sharedInstance.versionChange)
         self.crashManager = crashManager
         self.keyValueStorage = keyValueStorage
-        
+
         setupRxBindings()
         crashCheck()
 
         LGCoreKit.start()
-        
+
         let appCoordinator = AppCoordinator(configManager: configManager ?? LGConfigManager.sharedInstance)
-        
+
         appCoordinator.delegate = self
 
         self.navigator = appCoordinator
@@ -100,7 +100,7 @@ extension AppDelegate: UIApplicationDelegate {
         let fbApplicationDelegate = FBSDKApplicationDelegate.sharedInstance()
         let deepLinksRouterContinuation = deepLinksRouter?.initWithLaunchOptions(launchOptions) ?? false
         let fbSdkContinuation = fbApplicationDelegate?.application(application,
-                                                                  didFinishLaunchingWithOptions: launchOptions) ?? false
+                                                                   didFinishLaunchingWithOptions: launchOptions) ?? false
 
         appCoordinator.open()
 
@@ -123,22 +123,22 @@ extension AppDelegate: UIApplicationDelegate {
     func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem,
                      completionHandler: @escaping (Bool) -> Void) {
         deepLinksRouter?.performActionForShortcutItem(shortcutItem,
-                                                                    completionHandler: completionHandler)
+                                                      completionHandler: completionHandler)
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
         /* Sent when the application is about to move from active to inactive state. This can occur for certain types
-        of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application 
-        and it begins the transition to the background state.
-        Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates.
-        Games should use this method to pause the game.*/
+         of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application
+         and it begins the transition to the background state.
+         Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates.
+         Games should use this method to pause the game.*/
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        /*Use this method to release shared resources, save user data, invalidate timers, and store enough application 
-        state information to restore your application to its current state in case it is terminated later.
-        If your application supports background execution, this method is called instead of applicationWillTerminate: 
-        when the user quits.*/
+        /*Use this method to release shared resources, save user data, invalidate timers, and store enough application
+         state information to restore your application to its current state in case it is terminated later.
+         If your application supports background execution, this method is called instead of applicationWillTerminate:
+         when the user quits.*/
 
         keyValueStorage?[.didEnterBackground] = true
         appIsActive.value = false
@@ -149,7 +149,7 @@ extension AppDelegate: UIApplicationDelegate {
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         /* Called as part of the transition from the background to the active state; here you can undo many of the
-        changes made on entering the background.*/
+         changes made on entering the background.*/
 
         LGCoreKit.applicationWillEnterForeground()
         TrackerProxy.sharedInstance.applicationWillEnterForeground(application)
@@ -157,7 +157,7 @@ extension AppDelegate: UIApplicationDelegate {
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         /* Restart any tasks that were paused (or not yet started) while the application was inactive.
-        If the application was previously in the background, optionally refresh the user interface.*/
+         If the application was previously in the background, optionally refresh the user interface.*/
 
         keyValueStorage?[.didEnterBackground] = false
         appIsActive.value = true
@@ -207,9 +207,9 @@ extension AppDelegate: UIApplicationDelegate {
         PushManager.sharedInstance.application(application, handleActionWithIdentifier: identifier,
                                                forRemoteNotification: userInfo, completionHandler: completionHandler)
         deepLinksRouter?.handleActionWithIdentifier(identifier, forRemoteNotification: userInfo,
-                                                                  completionHandler: completionHandler)
+                                                    completionHandler: completionHandler)
     }
-    
+
     func application(_ application: UIApplication, didRegister notificationSettings: UIUserNotificationSettings) {
         PushManager.sharedInstance.application(application, didRegisterUserNotificationSettings: notificationSettings)
     }
@@ -267,10 +267,10 @@ fileprivate extension AppDelegate {
         #else
             NewRelicAgent.start(withApplicationToken: Constants.newRelicProductionToken)
         #endif
-        
+
         // Fabric
         Twitter.sharedInstance().start(withConsumerKey: EnvironmentProxy.sharedInstance.twitterConsumerKey,
-                                                      consumerSecret: EnvironmentProxy.sharedInstance.twitterConsumerSecret)
+                                       consumerSecret: EnvironmentProxy.sharedInstance.twitterConsumerSecret)
         #if DEBUG
             Fabric.with([Twitter.self])
         #else
@@ -278,7 +278,7 @@ fileprivate extension AppDelegate {
             Core.reporter.addReporter(CrashlyticsReporter())
             DDLog.add(CrashlyticsLogger.sharedInstance)
         #endif
-        
+
         // Location data source
         featureFlags.syncedData.filter { $0 }.asObservable().subscribeNext { [weak self] _ in
             let locationDataSourceType: LocationDataSourceType
@@ -291,8 +291,8 @@ fileprivate extension AppDelegate {
                 locationDataSourceType = .niord
             }
             self?.locationRepository?.setLocationDataSourceType(locationDataSourceType: locationDataSourceType)
-        }.addDisposableTo(disposeBag)
-        
+            }.addDisposableTo(disposeBag)
+
         // LGCoreKit
         let coreEnvironment = environmentHelper.coreEnvironment
         let shouldUseWebSocketChat = featureFlags.websocketChat
@@ -303,7 +303,7 @@ fileprivate extension AppDelegate {
                                             carsInfoAppJSONURL: URL(fileURLWithPath: carsInfoJSONPath),
                                             taxonomiesAppJSONURL: URL(fileURLWithPath: taxonomiesJSONPath))
         LGCoreKit.initialize(config: coreKitConfig)
-        
+
         // Branch.io
         if let branch = Branch.getInstance() {
             branch.initSession(launchOptions: launchOptions, andRegisterDeepLinkHandlerUsingBranchUniversalObject: {
@@ -351,14 +351,14 @@ fileprivate extension AppDelegate {
             } else {
                 self.locationManager?.stopSensorLocationUpdates()
             }
-        }.addDisposableTo(disposeBag)
+            }.addDisposableTo(disposeBag)
 
         // Force update check
         appActive.filter { $0 }.subscribeNext { [weak self] active in
             self?.configManager?.updateWithCompletion { _ in
                 self?.navigator?.openForceUpdateAlertIfNeeded()
             }
-        }.addDisposableTo(disposeBag)
+            }.addDisposableTo(disposeBag)
 
         if let featureFlags = featureFlags {
             let featureFlagsSynced = featureFlags.syncedData.asObservable().distinctUntilChanged()
@@ -392,14 +392,14 @@ fileprivate extension AppDelegate {
         let facebookHandling = FBSDKApplicationDelegate.sharedInstance().application(app, open: url,
                                                                                      sourceApplication: sourceApplication, annotation: annotation)
         let googleHandling = GIDSignIn.sharedInstance().handle(url, sourceApplication: sourceApplication,
-                                                                  annotation: annotation)
+                                                               annotation: annotation)
         if let options = options {
             AppsFlyerTracker.shared().handleOpen(url, options: options)
         } else if let sourceApplicationValue = sourceApplication {
             //We must keep it (even though it's deprecated) until we drop iOS8
             AppsFlyerTracker.shared().handleOpen(url, sourceApplication: sourceApplicationValue)
         }
-        
+
         return routerHandling || facebookHandling || googleHandling
     }
 }
@@ -419,6 +419,30 @@ fileprivate extension AppDelegate {
         if !crashManager.appCrashed && !keyValueStorage[.didEnterBackground] {
             keyValueStorage[.didCrash] = true
             crashManager.appCrashed = true
+        }
+    }
+}
+
+extension RequestsTimeOut {
+    
+    var timeout: TimeInterval {
+        switch self {
+        case .thirty: return TimeInterval(30)
+        case .baseline: return TimeInterval(30)
+        case .forty_five: return TimeInterval(45)
+        case .sixty: return TimeInterval(60)
+        case .hundred_and_twenty: return TimeInterval(120)
+        }
+    }
+
+    static func buildFromTimeout(_ timeout: TimeInterval?) -> RequestsTimeOut? {
+        guard let timeInterval = timeout else { return nil }
+        switch timeInterval {
+        case TimeInterval(30): return .thirty
+        case TimeInterval(45): return .forty_five
+        case TimeInterval(60): return .sixty
+        case TimeInterval(120): return .hundred_and_twenty
+        default: return nil
         }
     }
 }

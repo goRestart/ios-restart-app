@@ -10,7 +10,8 @@
 
 class MockFeatureFlagsDAO: FeatureFlagsDAO {
     var websocketChatEnabled: Bool?
-    
+    var timeoutForRequests: TimeInterval?
+
     init() {
         websocketChatEnabled = Bool?.makeRandom()
     }
@@ -22,4 +23,13 @@ class MockFeatureFlagsDAO: FeatureFlagsDAO {
     func save(websocketChatEnabled: Bool) {
         self.websocketChatEnabled = websocketChatEnabled
     }
+
+    func retrieveTimeoutForRequests() -> TimeInterval? {
+        return timeoutForRequests
+    }
+
+    func save(timeoutForRequests: TimeInterval) {
+        self.timeoutForRequests = timeoutForRequests
+    }
+
 }
