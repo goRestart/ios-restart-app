@@ -26,7 +26,6 @@ extension Bumper  {
         flags.append(InAppRatingIOS10.self)
         flags.append(AddSuperKeywordsOnFeed.self)
         flags.append(SuperKeywordsOnOnboarding.self)
-        flags.append(BumpUpImprovementBanner.self)
         flags.append(OpenGalleryInPosting.self)
         flags.append(TweaksCarPostingFlow.self)
         flags.append(SearchParamDisc129.self)
@@ -107,11 +106,6 @@ extension Bumper  {
     static var superKeywordsOnOnboarding: SuperKeywordsOnOnboarding {
         guard let value = Bumper.value(for: SuperKeywordsOnOnboarding.key) else { return .control }
         return SuperKeywordsOnOnboarding(rawValue: value) ?? .control
-    }
-
-    static var bumpUpImprovementBanner: BumpUpImprovementBanner {
-        guard let value = Bumper.value(for: BumpUpImprovementBanner.key) else { return .control }
-        return BumpUpImprovementBanner(rawValue: value) ?? .control
     }
 
     static var openGalleryInPosting: OpenGalleryInPosting {
@@ -307,22 +301,6 @@ enum SuperKeywordsOnOnboarding: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Add a step to select categories on onboarding" }
     static func fromPosition(_ position: Int) -> SuperKeywordsOnOnboarding {
-        switch position {
-        case 0: return .control
-        case 1: return .baseline
-        case 2: return .active
-        default: return .control
-        }
-    }
-}
-
-enum BumpUpImprovementBanner: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return BumpUpImprovementBanner.control.rawValue }
-    static var enumValues: [BumpUpImprovementBanner] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "new copies on bump up banner" }
-    static func fromPosition(_ position: Int) -> BumpUpImprovementBanner {
         switch position {
         case 0: return .control
         case 1: return .baseline
