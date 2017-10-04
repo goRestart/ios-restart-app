@@ -76,31 +76,25 @@ final class TourNotificationsViewModel: BaseViewModel {
     }
     
     func userDidTapNoButton() {
-        if featureFlags.newOnboardingPhase1 {
-            let actionOk = UIAction(interface: UIActionInterface.text(LGLocalizedString.onboardingAlertYes),
+        let actionOk = UIAction(interface: UIActionInterface.text(LGLocalizedString.onboardingAlertYes),
+                                action: { [weak self] in
+                                    self?.trackCloseTourNotifications()
+                                    self?.delegate?.requestPermissionFinished()
+
+        })
+        let actionCancel = UIAction(interface: UIActionInterface.text(LGLocalizedString.onboardingAlertNo),
                                     action: { [weak self] in
-                                            self?.trackCloseTourNotifications()
-                                            self?.delegate?.requestPermissionFinished()
-                                        
-            })
-            let actionCancel = UIAction(interface: UIActionInterface.text(LGLocalizedString.onboardingAlertNo),
-                                        action: { [weak self] in
-                                            self?.trackAskPermissions()
-                                            self?.delegate?.requestPermissionAccepted()
-            })
-            delegate?.vmShowAlert(LGLocalizedString.onboardingNotificationsPermissionsAlertTitle,
-                                  message: LGLocalizedString.onboardingNotificationsPermissionsAlertSubtitle,
-                                  actions: [actionCancel, actionOk])
-        } else {
-            trackCloseTourNotifications()
-            delegate?.requestPermissionFinished()
-        }
+                                        self?.trackAskPermissions()
+                                        self?.delegate?.requestPermissionAccepted()
+        })
+        delegate?.vmShowAlert(LGLocalizedString.onboardingNotificationsPermissionsAlertTitle,
+                              message: LGLocalizedString.onboardingNotificationsPermissionsAlertSubtitle,
+                              actions: [actionCancel, actionOk])
     }
-    
+
     func userDidTapYesButton() {
         trackAskPermissions()
         delegate?.requestPermissionFinished()
-        
     }
     
     // MARK: - Private methods
