@@ -48,6 +48,7 @@ class EnvironmentProxy: Environment {
     // MARK: - Environment
 
     var apiBaseURL: String { return environment.apiBaseURL }
+    var realEstateBaseURL: String { return environment.realEstateBaseURL }
     var bouncerBaseURL: String { return environment.bouncerBaseURL }
     var userRatingsBaseURL: String { return environment.userRatingsBaseURL }
     var chatBaseURL: String { return environment.chatBaseURL }

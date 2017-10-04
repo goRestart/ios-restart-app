@@ -10,6 +10,7 @@ import LGCoreKit
 import CoreLocation
 
 
+
 class FilteredListingListRequester: ListingListRequester {
 
     let itemsPerPage: Int
@@ -220,7 +221,7 @@ fileprivate extension FilteredListingListRequester {
         params.modelId = filters?.carModelId
         params.startYear = filters?.carYearStart
         params.endYear = filters?.carYearEnd
-        params.abtest = featureFlags.searchParamDisc129.stringValue
+        params.abtest = featureFlags.defaultRadiusDistanceFeed.stringValue
 
         if let priceRange = filters?.priceRange {
             switch priceRange {
@@ -308,6 +309,25 @@ extension SearchParamDisc129 {
             return "disc129-c"
         case .disc129d:
             return "disc129-d"
+        }
+    }
+}
+
+extension DefaultRadiusDistanceFeed {
+    var stringValue: String {
+        switch self {
+        case .control:
+            return "tbimkt1218-e"
+        case .baseline:
+            return "tbimkt1218-a"
+        case .two:
+            return "tbimkt1218-b"
+        case .five:
+            return "tbimkt1218-c"
+        case .ten:
+            return "tbimkt1218-d"
+        case .thirty:
+            return "tbimkt1218-f"
         }
     }
 }

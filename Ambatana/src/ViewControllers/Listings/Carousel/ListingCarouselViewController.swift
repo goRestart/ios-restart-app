@@ -63,12 +63,12 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     }
     fileprivate var bannerBottom: CGFloat = -CarouselUI.bannerHeight {
         didSet {
-            bannerContainerBottomConstraint.constant = contentBottomMargin + bannerBottom
+            bannerContainerBottomConstraint?.constant = contentBottomMargin + bannerBottom
         }
     }
     fileprivate var contentBottomMargin: CGFloat = 0 {
         didSet {
-            bannerContainerBottomConstraint.constant = contentBottomMargin + bannerBottom
+            bannerContainerBottomConstraint?.constant = contentBottomMargin + bannerBottom
         }
     }
 
