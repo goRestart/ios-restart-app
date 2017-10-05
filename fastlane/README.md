@@ -34,7 +34,7 @@ xcode-select --install
 ```
 fastlane ios release
 ```
-Will clone develop, create a new `release-x.x.x` branch from, update the build info, push it and do a deploy of that to crashlytics
+Will clone master, create a new `release-x.x.x` branch from, update the build info, push it and do a deploy of that to crashlytics
 ### ios beta
 ```
 fastlane ios beta

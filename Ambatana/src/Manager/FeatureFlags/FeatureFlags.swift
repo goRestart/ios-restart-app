@@ -28,17 +28,12 @@ protocol FeatureFlaggeable: class {
     var pricedBumpUpEnabled: Bool { get }
     var newMarkAsSoldFlow: Bool { get }
     var newCarsMultiRequesterEnabled: Bool { get }
-    var newOnboardingPhase1: Bool { get }
-    var searchParamDisc129: SearchParamDisc129 { get }
     var inAppRatingIOS10: Bool { get }
     var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed { get }
-    var copiesImprovementOnboarding: CopiesImprovementOnboarding { get }
-    var openGalleryInPosting: OpenGalleryInPosting { get }
     var tweaksCarPostingFlow: TweaksCarPostingFlow { get }
     var userReviewsReportEnabled: Bool { get }
     var dynamicQuickAnswers: DynamicQuickAnswers { get }
     var appRatingDialogInactive: Bool { get }
-    var feedFilterRadiusValues: FeedFilterRadiusValues { get }
     var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu { get }
     var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed { get }
     var locationDataSourceEndpoint: LocationDataSourceEndpoint { get }
@@ -46,6 +41,7 @@ protocol FeatureFlaggeable: class {
     var newCarouselNavigationTapNextPhotoEnabled: NewCarouselTapNextPhotoNavigationEnabled { get }
     var realEstateEnabled: Bool { get }
     var requestTimeOut: RequestsTimeOut { get }
+    var newBumpUpExplanation: NewBumpUpExplanation { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -239,20 +235,6 @@ class FeatureFlags: FeatureFlaggeable {
         return abTests.newCarsMultiRequesterEnabled.value
     }
 
-    var newOnboardingPhase1: Bool {
-        if Bumper.enabled {
-            return Bumper.newOnboardingPhase1
-        }
-        return abTests.newOnboardingPhase1.value
-    }
-
-    var searchParamDisc129: SearchParamDisc129 {
-        if Bumper.enabled {
-            return Bumper.searchParamDisc129
-        }
-        return SearchParamDisc129.fromPosition(abTests.searchParamDisc129.value)
-    }
-
     var inAppRatingIOS10: Bool {
         if Bumper.enabled {
             return Bumper.inAppRatingIOS10
@@ -265,20 +247,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.addSuperKeywordsOnFeed
         }
         return AddSuperKeywordsOnFeed.fromPosition(abTests.addSuperKeywordsOnFeed.value)
-    }
-    
-    var copiesImprovementOnboarding: CopiesImprovementOnboarding {
-        if Bumper.enabled {
-            return Bumper.copiesImprovementOnboarding
-        }
-        return CopiesImprovementOnboarding.fromPosition(abTests.copiesImprovementOnboarding.value)
-    }
-    
-    var openGalleryInPosting: OpenGalleryInPosting {
-        if Bumper.enabled {
-            return Bumper.openGalleryInPosting
-        }
-        return OpenGalleryInPosting.fromPosition(abTests.openGalleryInPosting.value)
     }
 
     var tweaksCarPostingFlow: TweaksCarPostingFlow {
@@ -307,13 +275,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.appRatingDialogInactive
         }
         return abTests.appRatingDialogInactive.value
-    }
-
-    var feedFilterRadiusValues: FeedFilterRadiusValues {
-        if Bumper.enabled {
-            return Bumper.feedFilterRadiusValues
-        }
-        return FeedFilterRadiusValues.fromPosition(abTests.feedFilterRadiusValues.value)
     }
 
     var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu {
@@ -351,12 +312,18 @@ class FeatureFlags: FeatureFlaggeable {
         return abTests.realEstateEnabled.value
     }
 
-
     var newCarouselNavigationTapNextPhotoEnabled: NewCarouselTapNextPhotoNavigationEnabled {
         if Bumper.enabled {
             return Bumper.newCarouselTapNextPhotoNavigationEnabled
         }
         return NewCarouselTapNextPhotoNavigationEnabled.fromPosition(abTests.newCarouselTapNextPhotoNavigationEnabled.value)
+    }
+
+    var newBumpUpExplanation: NewBumpUpExplanation {
+        if Bumper.enabled {
+            return Bumper.newBumpUpExplanation
+        }
+        return NewBumpUpExplanation.fromPosition(abTests.newBumpUpExplanation.value)
     }
 
 
