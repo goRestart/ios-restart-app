@@ -13,48 +13,9 @@ protocol TourPostingViewModelDelegate: BaseViewModelDelegate { }
 class TourPostingViewModel: BaseViewModel {
     weak var navigator: TourPostingNavigator?
 
-    var titleText: String {
-        switch featureFlags.copiesImprovementOnboarding {
-        case .control, .baseline:
-            return LGLocalizedString.onboardingPostingTitleB
-        case .b:
-            return LGLocalizedString.onboardingPostingImprovementBTitle
-        case .c:
-            return LGLocalizedString.onboardingPostingImprovementCTitle
-        case .d:
-            return LGLocalizedString.onboardingPostingImprovementDTitle
-        case .e:
-            return LGLocalizedString.onboardingPostingImprovementETitle
-        case .f:
-            return LGLocalizedString.onboardingPostingImprovementFTitle
-        }
-    }
-    var subtitleText: String {
-        switch featureFlags.copiesImprovementOnboarding {
-        case .control, .baseline:
-            return LGLocalizedString.onboardingPostingSubtitleB
-        case .b, .c, .d, .e, .f:
-            return ""
-        }
-    }
-    
-    var okButtonText: String  {
-        switch featureFlags.copiesImprovementOnboarding {
-        case .control, .baseline, .b, .d, .e, .f:
-            return LGLocalizedString.onboardingPostingButtonB
-        case  .c:
-            return LGLocalizedString.onboardingPostingImprovementCButton
-        }
-    }
-    
-    var hasSubtitle: Bool {
-        switch featureFlags.copiesImprovementOnboarding {
-        case .control, .baseline:
-            return true
-        case .b, .c, .d, .e, .f:
-            return false
-        }
-    }
+    let titleText = LGLocalizedString.onboardingPostingTitleB
+    let subtitleText = LGLocalizedString.onboardingPostingSubtitleB
+    let okButtonText = LGLocalizedString.onboardingPostingButtonB
     
     let featureFlags: FeatureFlaggeable
 
