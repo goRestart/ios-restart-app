@@ -18,20 +18,17 @@ class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDrawer {
         }
         if model.isFeatured {
             cell.setupFeaturedStripe()
-            cell.hidePriceView()
             switch style {
             case .mainList:
                 cell.setupFeaturedListingInfoWith(price: model.price, title: model.title, isMine: model.isMine,
                                                 listing: model.listing, delegate: model.delegate)
             case .relatedListings:
-                cell.hideFeaturedListingInfo()
+                cell.updateInfoViewHeightToZero()
             }
         } else if model.shouldShowPrice {
-            cell.hideFeaturedListingInfo()
             cell.setupPriceView(price: model.price)
         } else {
-            cell.hideFeaturedListingInfo()
-            cell.hidePriceView()
+            cell.updateInfoViewHeightToZero()
             if model.isFree {
                 cell.setupFreeStripe()
             }

@@ -29,25 +29,6 @@
                                     <constraint firstAttribute="height" constant="125" id="TsQ-E0-IIW"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RT5-jR-kCb">
-                                <rect key="frame" x="0.0" y="265.5" width="149" height="30"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lgo-gk-FUi">
-                                        <rect key="frame" x="8" y="0.0" width="133" height="30"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstItem="lgo-gk-FUi" firstAttribute="top" secondItem="RT5-jR-kCb" secondAttribute="top" id="1FX-bg-1ti"/>
-                                    <constraint firstItem="lgo-gk-FUi" firstAttribute="leading" secondItem="RT5-jR-kCb" secondAttribute="leading" constant="8" id="9xx-50-swK"/>
-                                    <constraint firstAttribute="trailing" secondItem="lgo-gk-FUi" secondAttribute="trailing" constant="8" id="PqL-XS-ghF"/>
-                                    <constraint firstAttribute="height" constant="30" id="qTx-xu-hDD"/>
-                                    <constraint firstAttribute="bottom" secondItem="lgo-gk-FUi" secondAttribute="bottom" id="vIj-5n-FfN"/>
-                                </constraints>
-                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jgH-1b-N7M" userLabel="Thumbnail Bg Color View">
                                 <rect key="frame" x="0.0" y="0.0" width="149" height="170.5"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -59,20 +40,16 @@
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="RT5-jR-kCb" secondAttribute="trailing" id="0mw-OF-J5k"/>
-                            <constraint firstAttribute="bottom" secondItem="RT5-jR-kCb" secondAttribute="bottom" id="4Ev-iY-N3m"/>
                             <constraint firstAttribute="trailing" secondItem="tP5-iE-B50" secondAttribute="trailing" id="5wj-Zu-lni"/>
                             <constraint firstItem="tP5-iE-B50" firstAttribute="leading" secondItem="U25-jS-eMH" secondAttribute="leading" id="Axd-wN-p4x"/>
                             <constraint firstAttribute="bottom" secondItem="tP5-iE-B50" secondAttribute="bottom" id="EkL-b9-c1a"/>
                             <constraint firstItem="jgH-1b-N7M" firstAttribute="trailing" secondItem="afm-Cf-H6I" secondAttribute="trailing" id="G2N-su-yx0"/>
                             <constraint firstItem="afm-Cf-H6I" firstAttribute="top" secondItem="U25-jS-eMH" secondAttribute="top" id="LIL-tR-5tN"/>
-                            <constraint firstItem="RT5-jR-kCb" firstAttribute="leading" secondItem="U25-jS-eMH" secondAttribute="leading" id="PdB-rg-whP"/>
                             <constraint firstItem="jgH-1b-N7M" firstAttribute="top" secondItem="afm-Cf-H6I" secondAttribute="top" id="Tf3-nL-xUY"/>
                             <constraint firstItem="jgH-1b-N7M" firstAttribute="leading" secondItem="afm-Cf-H6I" secondAttribute="leading" id="cvz-k4-AoH"/>
                             <constraint firstItem="afm-Cf-H6I" firstAttribute="leading" secondItem="U25-jS-eMH" secondAttribute="leading" id="e5s-hZ-XYg"/>
                             <constraint firstAttribute="trailing" secondItem="afm-Cf-H6I" secondAttribute="trailing" id="lJS-K5-tI7"/>
                             <constraint firstItem="afm-Cf-H6I" firstAttribute="bottom" secondItem="jgH-1b-N7M" secondAttribute="bottom" id="n5G-x7-Psy"/>
-                            <constraint firstItem="RT5-jR-kCb" firstAttribute="top" secondItem="afm-Cf-H6I" secondAttribute="bottom" priority="750" id="wvZ-6l-2rn"/>
                             <constraint firstItem="tP5-iE-B50" firstAttribute="top" secondItem="afm-Cf-H6I" secondAttribute="bottom" id="zNI-hZ-JxQ"/>
                         </constraints>
                     </view>
@@ -153,13 +130,8 @@
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
             <connections>
                 <outlet property="cellContent" destination="U25-jS-eMH" id="Q0Q-IE-he3"/>
-                <outlet property="featuredInfoViewTopToImageViewBottomConstraint" destination="zNI-hZ-JxQ" id="eCu-7E-09F"/>
                 <outlet property="featuredListingInfoHeight" destination="TsQ-E0-IIW" id="0Zf-XM-yJh"/>
                 <outlet property="featuredListingInfoView" destination="tP5-iE-B50" id="6ke-JE-xS7"/>
-                <outlet property="priceLabel" destination="lgo-gk-FUi" id="HMR-g5-x2d"/>
-                <outlet property="priceView" destination="RT5-jR-kCb" id="uqr-mD-Cem"/>
-                <outlet property="priceViewHeight" destination="qTx-xu-hDD" id="Ove-wt-51R"/>
-                <outlet property="priceViewTopToImageViewBottomConstraint" destination="wvZ-6l-2rn" id="jub-2j-rAe"/>
                 <outlet property="stripeIcon" destination="wEc-7h-s7X" id="8kF-0K-e3q"/>
                 <outlet property="stripeIconWidth" destination="IFQ-gE-Ewv" id="m7o-d0-hHD"/>
                 <outlet property="stripeImageView" destination="RTJ-Uh-fyf" id="zxj-4U-9RD"/>

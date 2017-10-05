@@ -20,6 +20,7 @@ class ListingCell: UICollectionViewCell, ReusableCell {
     static let stripeIconWidth: CGFloat = 14
 
     static let featuredListingPriceLabelHeight: CGFloat = 28
+    static let priceLabelHeight: CGFloat = 22
     
     @IBOutlet weak var cellContent: UIView!
     @IBOutlet weak var thumbnailBgColorView: UIView!
@@ -34,16 +35,12 @@ class ListingCell: UICollectionViewCell, ReusableCell {
 
     @IBOutlet weak var featuredListingInfoView: UIView!
     @IBOutlet weak var featuredListingInfoHeight: NSLayoutConstraint!
-    @IBOutlet var featuredInfoViewTopToImageViewBottomConstraint: NSLayoutConstraint!
-
-    @IBOutlet weak var priceView: UIView!
-    @IBOutlet weak var priceViewHeight: NSLayoutConstraint!
-    @IBOutlet var priceViewTopToImageViewBottomConstraint: NSLayoutConstraint!
-    @IBOutlet weak var priceLabel: UILabel!
     
     fileprivate var featuredListingPriceLabel: UILabel?
     fileprivate var featuredListingTitleLabel: UILabel?
     fileprivate var featuredListingChatButton: UIButton?
+    
+    fileprivate var priceLabel: UILabel?
 
     private var indexPath: IndexPath?
     private var listing: Listing?
@@ -151,7 +148,7 @@ class ListingCell: UICollectionViewCell, ReusableCell {
 
         // layouts
         
-        featuredInfoViewTopToImageViewBottomConstraint.isActive = true
+        //featuredInfoViewTopToImageViewBottomConstraint.isActive = true
 
         let priceTopMargin = Metrics.shortMargin
         featuredListingPriceLabel.layout(with: featuredListingInfoView)
@@ -191,22 +188,35 @@ class ListingCell: UICollectionViewCell, ReusableCell {
         featuredListingInfoHeight.constant = ListingCell.featuredListingPriceLabelHeight + titleHeight + buttonHeight + totalMarginsHeight
     }
 
-    func hideFeaturedListingInfo() {
+    func updateInfoViewHeightToZero() {
         featuredListingInfoHeight.constant = 0
-        featuredInfoViewTopToImageViewBottomConstraint.isActive = false
-    }
-    
-    func hidePriceView() {
-        priceViewHeight.constant = 0
     }
     
     func setupPriceView(price: String) {
-        priceViewHeight.constant = ListingListViewModel.cellPriceViewHeight
-        priceViewTopToImageViewBottomConstraint.isActive = true
+        priceLabel = UILabel()
+        
+        featuredListingInfoView.translatesAutoresizingMaskIntoConstraints = false
+        priceLabel?.translatesAutoresizingMaskIntoConstraints = false
+        
+        guard let priceLabel = priceLabel else {
+            featuredListingInfoHeight.constant = 0
+            return
+        }
+        
+        featuredListingInfoView.addSubview(priceLabel)
         
         priceLabel.text = price
         priceLabel.font = UIFont.systemBoldFont(size: 18)
         priceLabel.adjustsFontSizeToFitWidth = true
+        
+        let priceTopMargin = Metrics.shortMargin
+        priceLabel.layout(with: featuredListingInfoView)
+            .top(by: priceTopMargin)
+            .left(by: Metrics.shortMargin)
+            .right(by: -Metrics.shortMargin)
+        priceLabel.layout().height(ListingCell.featuredListingPriceLabelHeight)
+        
+        featuredListingInfoHeight.constant = ListingCell.priceLabelHeight + Metrics.shortMargin*2
     }
 
 
@@ -222,7 +232,7 @@ class ListingCell: UICollectionViewCell, ReusableCell {
         stripeInfoView.isHidden = true
         stripeImageView.isHidden = true
         
-        priceView.translatesAutoresizingMaskIntoConstraints = false
+        //priceView.translatesAutoresizingMaskIntoConstraints = false
     }
 
     // Resets the UI to the initial state
