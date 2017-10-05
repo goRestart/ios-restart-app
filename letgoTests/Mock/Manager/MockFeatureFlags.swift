@@ -37,7 +37,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var dynamicQuickAnswers: DynamicQuickAnswers = .control
     var locationDataSourceEndpoint: LocationDataSourceEndpoint = .control
     var appRatingDialogInactive: Bool = false
-    var feedFilterRadiusValues: FeedFilterRadiusValues = .control
     var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu = .control
     var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed = .control
 

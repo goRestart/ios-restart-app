@@ -73,7 +73,6 @@ struct Constants {
     // Filters
     static var distanceSliderDefaultPosition = 0
     static let distanceSliderPositions = [0, 1, 10, 20, 30, 100]
-    static let distanceSliderPositionsNew = [0, 5, 15, 25, 50, 100]
     
     // App sharing
     static let facebookAppLinkURL = "https://fb.me/900185926729336"
