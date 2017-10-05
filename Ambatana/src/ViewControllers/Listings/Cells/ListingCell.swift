@@ -14,6 +14,15 @@ protocol ListingCellDelegate: class {
 }
 
 class ListingCell: UICollectionViewCell, ReusableCell {
+    
+    struct LayoutConstants {
+        static let minHeight: CGFloat = 80.0
+        static let aspectRatio: CGFloat = 198.0 / minHeight
+        static let bannerAspectRatio: CGFloat = 1.3
+        static let maxThumbFactor: CGFloat = 2.0
+        static let featuredInfoMinHeight: CGFloat = 105.0
+        static let priceViewHeight: CGFloat = 30.0
+    }
 
     static let reusableID = "ListingCell"
     static let buttonsContainerShownHeight: CGFloat = 34

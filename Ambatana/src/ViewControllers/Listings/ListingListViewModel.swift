@@ -62,15 +62,6 @@ protocol ListingListRequester: class {
 }
 
 class ListingListViewModel: BaseViewModel {
-    
-    // MARK: - Constants
-    private static let cellMinHeight: CGFloat = 80.0
-    private static let cellAspectRatio: CGFloat = 198.0 / cellMinHeight
-    private static let cellBannerAspectRatio: CGFloat = 1.3
-    private static let cellMaxThumbFactor: CGFloat = 2.0
-    private static let cellFeaturedInfoMinHeight: CGFloat = 105.0
-    private static let cellFeaturedInfoTitleMaxLines: CGFloat = 2.0
-    static let cellPriceViewHeight: CGFloat = 30.0
 
     var cellWidth: CGFloat {
         return (UIScreen.main.bounds.size.width - (listingListFixedInset*2)) / CGFloat(numberOfColumns)
@@ -164,7 +155,7 @@ class ListingListViewModel: BaseViewModel {
         self.indexToTitleMapping = [:]
         self.shouldShowPrices = shouldShowPrices
         super.init()
-        let cellHeight = cellWidth * ListingListViewModel.cellAspectRatio
+        let cellHeight = cellWidth * ListingCell.LayoutConstants.aspectRatio
         self.defaultCellSize = CGSize(width: cellWidth, height: cellHeight)
     }
     
@@ -400,9 +391,9 @@ class ListingListViewModel: BaseViewModel {
             guard let thumbnailSize = listing.thumbnailSize, thumbnailSize.height != 0 && thumbnailSize.width != 0
                 else { return defaultCellSize }
             
-            let thumbFactor = min(ListingListViewModel.cellMaxThumbFactor,
+            let thumbFactor = min(ListingCell.LayoutConstants.maxThumbFactor,
                                   CGFloat(thumbnailSize.height / thumbnailSize.width))
-            let imageFinalHeight = max(ListingListViewModel.cellMinHeight, round(defaultCellSize.width * thumbFactor))
+            let imageFinalHeight = max(ListingCell.LayoutConstants.minHeight, round(defaultCellSize.width * thumbFactor))
 
             var featuredInfoFinalHeight: CGFloat = 0.0
             if let featured = listing.featured, featured {
@@ -410,14 +401,14 @@ class ListingListViewModel: BaseViewModel {
                 if let title = listing.title {
                     listingTitleHeight = title.heightForWidth(width: defaultCellSize.width, maxLines: 2, withFont: UIFont.mediumBodyFont)
                 }
-                featuredInfoFinalHeight = CGFloat(ListingListViewModel.cellFeaturedInfoMinHeight) + listingTitleHeight
+                featuredInfoFinalHeight = CGFloat(ListingCell.LayoutConstants.featuredInfoMinHeight) + listingTitleHeight
             }
             
-            let priceViewHeight: CGFloat = ListingListViewModel.cellPriceViewHeight
+            let priceViewHeight: CGFloat = ListingCell.LayoutConstants.priceViewHeight
 
             return CGSize(width: defaultCellSize.width, height: imageFinalHeight + featuredInfoFinalHeight + priceViewHeight)
         case .collectionCell:
-            let height = defaultCellSize.width*ListingListViewModel.cellBannerAspectRatio
+            let height = defaultCellSize.width * ListingCell.LayoutConstants.bannerAspectRatio
             return CGSize(width: defaultCellSize.width, height: height)
         case .emptyCell:
             return CGSize(width: defaultCellSize.width, height: 1)
