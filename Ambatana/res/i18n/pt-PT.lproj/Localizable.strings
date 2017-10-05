@@ -23,6 +23,9 @@
 "bump_up_free_success" = "Priorizado! Continue a dar prioridade à sua publicação e terá ainda mais visibilidade.";
 "bump_up_not_allowed_alert_contact_button" = "Contato";
 "bump_up_not_allowed_alert_text" = "De momento não é possível destacar este item. Contacte-nos para obter mais informações.";
+"bump_up_old_view_pay_button_title" = "Activate for %@";
+"bump_up_old_view_pay_subtitle" = "Attract more buyers by giving your listing more visibility.";
+"bump_up_old_view_pay_title" = "SELL FASTER";
 "bump_up_pay_success" = "Destacado! Agora o seu item tem uma visibilidade acrescida.";
 "bump_up_processing_free_text" = "A processar o bump...";
 "bump_up_processing_priced_text" = "A processar o pagamento...";
@@ -31,9 +34,9 @@
 "bump_up_product_detail_featured_label" = "DESTACADO";
 "bump_up_view_free_subtitle" = "Quanto mais partilhar mais visibilidade a sua publicação terá.";
 "bump_up_view_free_title" = "DÊ PRIORIDADE À SUA PUBLICAÇÃO";
-"bump_up_view_pay_button_title" = "Ative por %@";
-"bump_up_view_pay_subtitle" = "Atraia mais compradores dando à sua publicação mais visibilidade.";
-"bump_up_view_pay_title" = "VENDA MAIS RÁPIDO";
+"bump_up_view_pay_button_title" = "Destaque por %@";
+"bump_up_view_pay_subtitle" = "Destacaremos o seu item durante 24 horas para que mais compradores o vejam e possa assim vender mais rápido";
+"bump_up_view_pay_title" = "Atraia 2x mais compradores";
 "categories_baby_and_child" = "Bebés e Crianças";
 "categories_car" = "Carros";
 "categories_cars_and_motors" = "Motores e Acessórios";

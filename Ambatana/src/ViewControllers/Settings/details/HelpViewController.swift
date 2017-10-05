@@ -33,7 +33,6 @@ class HelpViewController: BaseViewController {
 
         // Navigation Bar
         setNavBarTitle(LGLocalizedString.helpTitle)
-        setLetGoRightButtonWith(imageName: "ic_more_options", selector: "showOptions")
 
         if let url = viewModel.url {
             let request = URLRequest(url: url)
@@ -49,17 +48,4 @@ class HelpViewController: BaseViewController {
     private func setupAccessibilityIds() {
         webView.accessibilityId = .helpWebView
     }
-
-    dynamic private func showOptions() {
-        let alert = UIAlertController(title: nil, message: nil,
-            preferredStyle: .actionSheet)
-        alert.popoverPresentationController?.barButtonItem = self.navigationItem.rightBarButtonItem
-        alert.addAction(UIAlertAction(title: LGLocalizedString.mainSignUpTermsConditionsTermsPart, style: .default,
-            handler: { [weak self] action in self?.viewModel.termsButtonPressed() }))
-        alert.addAction(UIAlertAction(title: LGLocalizedString.helpTermsConditionsPrivacyPart, style: .default,
-            handler: { [weak self] action in self?.viewModel.privacyButtonPressed() }))
-        alert.addAction(UIAlertAction(title: LGLocalizedString.commonCancel, style: .cancel, handler: nil))
-        self.present(alert, animated: true, completion: nil)
-    }
 }
-

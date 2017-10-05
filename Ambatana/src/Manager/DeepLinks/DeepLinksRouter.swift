@@ -98,7 +98,7 @@ class LGDeepLinksRouter: NSObject, DeepLinksRouter {
 
     func onConversionDataReceived(_ installData: [AnyHashable : Any]!) {
         guard let deferredDeepLink = buildFromConversionData(installData) else { return }
-        self.initialDeepLink = deferredDeepLink
+        initialDeepLink = deferredDeepLink
     }
 
     func onConversionDataRequestFailure(_ error: Error!) {

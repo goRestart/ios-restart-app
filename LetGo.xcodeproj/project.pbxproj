@@ -36,6 +36,10 @@
 		2E0F26501E0ACB3B00D97898 /* PurchaseableProductsRequestFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0F264F1E0ACB3B00D97898 /* PurchaseableProductsRequestFactory.swift */; };
 		2E0F26511E0ACD5D00D97898 /* PurchaseableProductsRequestFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0F264F1E0ACB3B00D97898 /* PurchaseableProductsRequestFactory.swift */; };
 		2E0F26591E0C425900D97898 /* BumpUpBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB32D621DF184FF00E01E93 /* BumpUpBanner.swift */; };
+		2E10CF601F84E5C00019B58F /* OldBumpUpPayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E10CF5F1F84E5C00019B58F /* OldBumpUpPayViewController.swift */; };
+		2E10CF611F84E5C10019B58F /* OldBumpUpPayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E10CF5F1F84E5C00019B58F /* OldBumpUpPayViewController.swift */; };
+		2E10CF631F84E6890019B58F /* OldBumpUpPayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E10CF621F84E6890019B58F /* OldBumpUpPayViewController.xib */; };
+		2E10CF641F84E6890019B58F /* OldBumpUpPayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E10CF621F84E6890019B58F /* OldBumpUpPayViewController.xib */; };
 		2E119E0B1D1C37040053BA9F /* LGUIKitConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E119E0A1D1C37040053BA9F /* LGUIKitConstants.swift */; };
 		2E119E0C1D1C37040053BA9F /* LGUIKitConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E119E0A1D1C37040053BA9F /* LGUIKitConstants.swift */; };
 		2E131C671DEDE446004D26DC /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E0C96441DEDCAFA00068B6D /* StoreKit.framework */; };
@@ -1465,6 +1469,8 @@
 		2E06EAEC1D7051BA00A40704 /* FilterRangePriceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterRangePriceCell.xib; sourceTree = "<group>"; };
 		2E0C96441DEDCAFA00068B6D /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		2E0F264F1E0ACB3B00D97898 /* PurchaseableProductsRequestFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PurchaseableProductsRequestFactory.swift; path = Monetization/PurchaseableProductsRequestFactory.swift; sourceTree = "<group>"; };
+		2E10CF5F1F84E5C00019B58F /* OldBumpUpPayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OldBumpUpPayViewController.swift; path = Monetization/OldBumpUpPayViewController.swift; sourceTree = "<group>"; };
+		2E10CF621F84E6890019B58F /* OldBumpUpPayViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OldBumpUpPayViewController.xib; path = Monetization/OldBumpUpPayViewController.xib; sourceTree = "<group>"; };
 		2E119E0A1D1C37040053BA9F /* LGUIKitConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGUIKitConstants.swift; sourceTree = "<group>"; };
 		2E131C6A1DEDE998004D26DC /* LGPurchasesShopper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LGPurchasesShopper.swift; path = Monetization/LGPurchasesShopper.swift; sourceTree = "<group>"; };
 		2E132A1D1F16512D00C20127 /* PostListingDetailViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostListingDetailViewModelSpec.swift; sourceTree = "<group>"; };
@@ -2428,6 +2434,8 @@
 				2E4952E01E26810D00188880 /* BumpUpPayViewController.swift */,
 				2E4952E11E26810D00188880 /* BumpUpPayViewController.xib */,
 				2E4952E21E26810D00188880 /* BumpUpPayViewModel.swift */,
+				2E10CF5F1F84E5C00019B58F /* OldBumpUpPayViewController.swift */,
+				2E10CF621F84E6890019B58F /* OldBumpUpPayViewController.xib */,
 			);
 			name = Monetization;
 			sourceTree = "<group>";
@@ -4676,6 +4684,7 @@
 				2E97169F1D59E958009B3A32 /* ExpressChatViewController.xib in Resources */,
 				C74016DC1D6467DB004C1E9D /* PostListingDetailPriceView.xib in Resources */,
 				5080111F1D474ED80073F362 /* Icons-Launchers.xcassets in Resources */,
+				2E10CF631F84E6890019B58F /* OldBumpUpPayViewController.xib in Resources */,
 				5080111B1D474ED80073F362 /* Errors.xcassets in Resources */,
 				C7F18AA11C89D62600D23319 /* GalleryImageCell.xib in Resources */,
 				2E4952E41E26810D00188880 /* BumpUpFreeViewController.xib in Resources */,
@@ -4815,6 +4824,7 @@
 				C74016DD1D6467DB004C1E9D /* PostListingDetailPriceView.xib in Resources */,
 				508011201D474ED80073F362 /* Icons-Launchers.xcassets in Resources */,
 				5080111C1D474ED80073F362 /* Errors.xcassets in Resources */,
+				2E10CF641F84E6890019B58F /* OldBumpUpPayViewController.xib in Resources */,
 				C7F18AA21C89D62600D23319 /* GalleryImageCell.xib in Resources */,
 				C7C61DF81D63035400F9505D /* ListingCarouselMoreInfoView.xib in Resources */,
 				2E4952E91E268AC300188880 /* BumpUpFreeViewController.xib in Resources */,
@@ -5819,6 +5829,7 @@
 				C7DE8AD11C888761005CF37E /* SellListingCell.swift in Sources */,
 				508D486D1CD09E8500C52BE3 /* AlamofireImage+ImageDownloaderType.swift in Sources */,
 				8E0C9DF71E96935300768D27 /* PostCarDetailsView.swift in Sources */,
+				2E10CF601F84E5C00019B58F /* OldBumpUpPayViewController.swift in Sources */,
 				6AA26CFD1CFDBA7600546063 /* ChatDisclaimerCellDrawer.swift in Sources */,
 				50A8DC821BA06BB1008296B0 /* ChatSafetyTipsView.swift in Sources */,
 				2E131C6B1DEDE998004D26DC /* LGPurchasesShopper.swift in Sources */,
@@ -6336,6 +6347,7 @@
 				6A5E19DD1D548F5400F92692 /* ExternalServiceAuthResult.swift in Sources */,
 				C7111EFD1CA43885000C5C5A /* DeepLink.swift in Sources */,
 				C75B5DD41D59E0C500112368 /* ListingCarouselCellModel.swift in Sources */,
+				2E10CF611F84E5C10019B58F /* OldBumpUpPayViewController.swift in Sources */,
 				C7DB42061C5138B500400945 /* Listing+Negotiable.swift in Sources */,
 				8E0C9DF81E96935300768D27 /* PostCarDetailsView.swift in Sources */,
 				C73C163C1D06C1B500DFC67D /* SuggestionSearchCell.swift in Sources */,
