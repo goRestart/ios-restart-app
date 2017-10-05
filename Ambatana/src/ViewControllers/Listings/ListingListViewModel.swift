@@ -413,10 +413,9 @@ class ListingListViewModel: BaseViewModel {
                 featuredInfoFinalHeight = CGFloat(ListingListViewModel.cellFeaturedInfoMinHeight) + listingTitleHeight
             }
             
-            var priceViewHeight: CGFloat = 0.0
-            priceViewHeight = ListingListViewModel.cellPriceViewHeight
+            let priceViewHeight: CGFloat = ListingListViewModel.cellPriceViewHeight
 
-            return CGSize(width: defaultCellSize.width, height: imageFinalHeight+featuredInfoFinalHeight+priceViewHeight)
+            return CGSize(width: defaultCellSize.width, height: imageFinalHeight + featuredInfoFinalHeight + priceViewHeight)
         case .collectionCell:
             let height = defaultCellSize.width*ListingListViewModel.cellBannerAspectRatio
             return CGSize(width: defaultCellSize.width, height: height)
