@@ -23,6 +23,9 @@
 "bump_up_free_success" = "Omhoog geplaatst! Blijf je item omhoog plaatsen en het zal nog zichtbaarder zijn.";
 "bump_up_not_allowed_alert_contact_button" = "Contact";
 "bump_up_not_allowed_alert_text" = "Het is op het moment niet mogelijk om dit item te plaatsen. Voor meer informatie, gelieve contact met ons op te nemen.";
+"bump_up_old_view_pay_button_title" = "Activate for %@";
+"bump_up_old_view_pay_subtitle" = "Attract more buyers by giving your listing more visibility.";
+"bump_up_old_view_pay_title" = "SELL FASTER";
 "bump_up_pay_success" = "Geplaatst! Je item is nu extra zichtbaar.";
 "bump_up_processing_free_text" = "Bezig met het omhoog plaatsen...";
 "bump_up_processing_priced_text" = "Verwerken van betaling...";
@@ -31,9 +34,9 @@
 "bump_up_product_detail_featured_label" = "AANBEVOLEN";
 "bump_up_view_free_subtitle" = "Hoe vaker gedeeld, hoe meer zichtbaarheid jouw item zal hebben.";
 "bump_up_view_free_title" = "JE ITEM OMHOOG PLAATSEN";
-"bump_up_view_pay_button_title" = "Activeren voor %@";
-"bump_up_view_pay_subtitle" = "Trek meer kopers aan door je advertentie meer zichtbaarheid te geven.";
-"bump_up_view_pay_title" = "SNELLER VERKOPEN";
+"bump_up_view_pay_button_title" = "Plaats als uitgelicht voor %@";
+"bump_up_view_pay_subtitle" = "We plaatsen jouw item 24 uur als uitgelicht zodat meer kopers je item zullen zien en je het sneller kunt verkopen";
+"bump_up_view_pay_title" = "Trek 2x zoveel kopers aan";
 "categories_baby_and_child" = "Baby en kind";
 "categories_car" = "Auto's";
 "categories_cars_and_motors" = "Motors en Accessoires";
