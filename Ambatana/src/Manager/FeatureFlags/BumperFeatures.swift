@@ -22,7 +22,6 @@ extension Bumper  {
         flags.append(PassiveBuyersShowKeyboard.self)
         flags.append(NewMarkAsSoldFlow.self)
         flags.append(NewCarsMultiRequesterEnabled.self)
-        flags.append(NewOnboardingPhase1.self)
         flags.append(InAppRatingIOS10.self)
         flags.append(AddSuperKeywordsOnFeed.self)
         flags.append(SuperKeywordsOnOnboarding.self)
@@ -85,11 +84,6 @@ extension Bumper  {
     static var newCarsMultiRequesterEnabled: Bool {
         guard let value = Bumper.value(for: NewCarsMultiRequesterEnabled.key) else { return false }
         return NewCarsMultiRequesterEnabled(rawValue: value)?.asBool ?? false
-    }
-
-    static var newOnboardingPhase1: Bool {
-        guard let value = Bumper.value(for: NewOnboardingPhase1.key) else { return false }
-        return NewOnboardingPhase1(rawValue: value)?.asBool ?? false
     }
 
     static var inAppRatingIOS10: Bool {
@@ -252,15 +246,6 @@ enum NewCarsMultiRequesterEnabled: String, BumperFeature  {
     static var enumValues: [NewCarsMultiRequesterEnabled] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Cars multi requester enabled" } 
-    var asBool: Bool { return self == .yes }
-}
-
-enum NewOnboardingPhase1: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return NewOnboardingPhase1.no.rawValue }
-    static var enumValues: [NewOnboardingPhase1] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "New onboarding - alerts on close button" } 
     var asBool: Bool { return self == .yes }
 }
 

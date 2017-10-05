@@ -29,7 +29,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var pricedBumpUpEnabled: Bool = false
     var newMarkAsSoldFlow: Bool = false
     var newCarsMultiRequesterEnabled: Bool = false
-    var newOnboardingPhase1: Bool = false
     var inAppRatingIOS10: Bool = false
     var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed = .control
     var superKeywordsOnOnboarding: SuperKeywordsOnOnboarding = .control

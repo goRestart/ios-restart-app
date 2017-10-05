@@ -39,7 +39,6 @@ class TourPostingViewModel: BaseViewModel {
     }
 
     func closeButtonPressed() {
-        if featureFlags.newOnboardingPhase1 {
             let actionOk = UIAction(interface: UIActionInterface.text(LGLocalizedString.onboardingAlertYes),
                                     action: { [weak self] in self?.navigator?.tourPostingPost(fromCamera: false) })
             let actionCancel = UIAction(interface: UIActionInterface.text(LGLocalizedString.onboardingAlertNo),
@@ -47,9 +46,5 @@ class TourPostingViewModel: BaseViewModel {
             delegate?.vmShowAlert(LGLocalizedString.onboardingPostingAlertTitle,
                                   message: LGLocalizedString.onboardingPostingAlertSubtitle,
                                   actions: [actionCancel, actionOk])
-        } else {
-            navigator?.tourPostingClose()
-        }
-        
     }
 }
