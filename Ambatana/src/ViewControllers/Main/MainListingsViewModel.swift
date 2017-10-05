@@ -433,7 +433,6 @@ class MainListingsViewModel: BaseViewModel {
         tracker.trackEvent(TrackerEvent.filterCategoryHeaderSelected(position: categoryHeaderInfo.position,
                                                                      name: categoryHeaderInfo.name))
         delegate?.vmShowTags(tags)
-        filters.onboardingFilters = []
         updateCategoriesHeader()
         updateListView()
         
@@ -475,9 +474,6 @@ class MainListingsViewModel: BaseViewModel {
         listViewModel.isListingListEmpty.asObservable().bindNext { [weak self] _ in
             self?.updateCategoriesHeader()
         }.addDisposableTo(disposeBag)
-        keyValueStorage.favoriteCategoriesSelected.asObservable().filter { $0 }.bindNext { [weak self] _ in
-            self?.updateFiltersWithOnboardingTaxonomies(taxonomiesIds: self?.keyValueStorage[.favoriteCategories] ?? [])
-        }.addDisposableTo(disposeBag)
     }
     
     /**
@@ -509,15 +505,6 @@ class MainListingsViewModel: BaseViewModel {
         listViewModel.resetUI()
         listViewModel.refresh()
     }
-    
-    
-    // MARK: - Categories From Onboarding
-    
-    func updateFiltersWithOnboardingTaxonomies(taxonomiesIds: [Int]) {
-        filters.onboardingFilters = categoryRepository.retrieveTaxonomyChildren(withIds: taxonomiesIds)
-        updateListView()
-    }
-    
     
     // MARK: - Taxonomies
     
@@ -560,7 +547,6 @@ extension MainListingsViewModel: FiltersViewModelDataDelegate {
 
     func viewModelDidUpdateFilters(_ viewModel: FiltersViewModel, filters: ListingFilters) {
         self.filters = filters
-        self.filters.onboardingFilters = []
         delegate?.vmShowTags(tags)
         updateListView()
     }

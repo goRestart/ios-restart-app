@@ -208,9 +208,6 @@ fileprivate extension FilteredListingListRequester {
         params.categoryIds?.append(contentsOf: idCategoriesFromTaxonomies ?? [])
         params.superKeywordIds = filters?.selectedTaxonomyChildren.getIds(withType: .superKeyword)
         
-        let idSuperKeywordsFromOnboarding = filters?.onboardingFilters.getIds(withType: .superKeyword)
-        params.superKeywordIds?.append(contentsOf: idSuperKeywordsFromOnboarding ?? [])
-        
         params.timeCriteria = filters?.selectedWithin
         params.sortCriteria = filters?.selectedOrdering
         params.distanceRadius = filters?.distanceRadius
