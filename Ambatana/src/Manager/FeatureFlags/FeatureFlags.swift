@@ -33,7 +33,6 @@ protocol FeatureFlaggeable: class {
     var inAppRatingIOS10: Bool { get }
     var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed { get }
     var superKeywordsOnOnboarding: SuperKeywordsOnOnboarding { get }
-    var openGalleryInPosting: OpenGalleryInPosting { get }
     var tweaksCarPostingFlow: TweaksCarPostingFlow { get }
     var userReviewsReportEnabled: Bool { get }
     var dynamicQuickAnswers: DynamicQuickAnswers { get }
@@ -285,13 +284,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.superKeywordsOnOnboarding
         }
         return SuperKeywordsOnOnboarding.fromPosition(abTests.superKeywordsOnOnboarding.value)
-    }
-
-    var openGalleryInPosting: OpenGalleryInPosting {
-        if Bumper.enabled {
-            return Bumper.openGalleryInPosting
-        }
-        return OpenGalleryInPosting.fromPosition(abTests.openGalleryInPosting.value)
     }
 
     var tweaksCarPostingFlow: TweaksCarPostingFlow {
