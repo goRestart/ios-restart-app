@@ -23,6 +23,9 @@
 "bump_up_free_success" = "Renvoyé vers le haut ! Continuez de renvoyer vos annonces vers le haut pour toujours plus de visibilité.";
 "bump_up_not_allowed_alert_contact_button" = "Contactez-nous";
 "bump_up_not_allowed_alert_text" = "Mettre ce produit en vedette est impossible pour le moment. Pour plus d'informations, contactez-nous.";
+"bump_up_old_view_pay_button_title" = "Activate for %@";
+"bump_up_old_view_pay_subtitle" = "Attract more buyers by giving your listing more visibility.";
+"bump_up_old_view_pay_title" = "SELL FASTER";
 "bump_up_pay_success" = "Mis en vedette ! Votre produit bénéficie maintenant d'une meilleure visibilité.";
 "bump_up_processing_free_text" = "Renvoi vers le haut en cours...";
 "bump_up_processing_priced_text" = "Paiement en cours...";
@@ -31,9 +34,9 @@
 "bump_up_product_detail_featured_label" = "SPÉCIAL";
 "bump_up_view_free_subtitle" = "Plus vous partagez, plus votre annonce sera visible.";
 "bump_up_view_free_title" = "RENVOYEZ VOTRE ANNONCE VERS LE HAUT";
-"bump_up_view_pay_button_title" = "Activer pour %@";
-"bump_up_view_pay_subtitle" = "Attirez plus d'acheteurs en donnant plus de visibilité à votre annonce";
-"bump_up_view_pay_title" = "VENDEZ PLUS RAPIDEMENT";
+"bump_up_view_pay_button_title" = "Mettez-le en vedette pour %@";
+"bump_up_view_pay_subtitle" = "En mettant votre produit en vedette pendant 24 heures, plus d'acheteurs voient votre produit et vous vendez plus vite";
+"bump_up_view_pay_title" = "Attirez deux fois plus d'acheteurs";
 "categories_baby_and_child" = "Bébé et Enfant";
 "categories_car" = "Voitures";
 "categories_cars_and_motors" = "Véhicules et accessoires";

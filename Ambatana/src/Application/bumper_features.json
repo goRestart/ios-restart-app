@@ -71,11 +71,6 @@
         "description": "new copies on last step of onboarding"
     },
     {
-        "name": "OpenGalleryInPosting",
-        "values": ["control", "baseline", "openGallery"],
-        "description": "Opens gallery in posting as default option"
-    },
-    {
         "name": "TweaksCarPostingFlow",
         "values": ["control", "baseline", "active"],
         "description": "car posting summary only at the end"
@@ -134,5 +129,10 @@
         "name": "RequestsTimeOut",
          "values": ["baseline", "thirty", "forty_five", "sixty", "hundred_and_twenty"],
          "description": "API requests timeout"
+    },
+    {
+        "name": "NewBumpUpExplanation",
+        "values": ["control", "baseline", "active"],
+        "description": "show new bump up explanation view"
     }
 ]
