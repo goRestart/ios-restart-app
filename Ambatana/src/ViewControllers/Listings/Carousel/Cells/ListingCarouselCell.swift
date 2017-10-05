@@ -80,10 +80,7 @@ class ListingCarouselCell: UICollectionViewCell {
             ListingCarouselImageCell.identifier)
         
         singleTap = UITapGestureRecognizer(target: self, action: #selector(doSingleTapAction))
-        if let singleTap = singleTap {
-            singleTap.isEnabled = false
-            collectionView.addGestureRecognizer(singleTap)
-        }
+        collectionView.addGestureRecognizer(singleTap)
     }
     
     func doSingleTapAction(_ gestureRecognizer: UITapGestureRecognizer) {
@@ -128,7 +125,6 @@ class ListingCarouselCell: UICollectionViewCell {
             self.placeholderImage = imageDownloader.cachedImageForUrl(firstImageUrl)
         }
         
-        singleTap?.isEnabled = true
         if imageScrollDirection == .horizontal {
             collectionView.isScrollEnabled = false
         }
