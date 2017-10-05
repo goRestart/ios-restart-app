@@ -9,10 +9,6 @@
 import Foundation
 import LGCoreKit
 
-
-protocol BumpUpPayViewModelDelegate: BaseViewModelDelegate { }
-
-
 class BumpUpPayViewModel: BaseViewModel {
 
     var listing: Listing
@@ -24,7 +20,6 @@ class BumpUpPayViewModel: BaseViewModel {
     var purchaseableProduct: PurchaseableProduct
     var purchasesShopper: PurchasesShopper
 
-    weak var delegate: BumpUpPayViewModelDelegate?
     weak var navigator: BumpUpNavigator?
 
 

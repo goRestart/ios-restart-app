@@ -22,6 +22,10 @@
 		2E0F26501E0ACB3B00D97898 /* PurchaseableProductsRequestFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0F264F1E0ACB3B00D97898 /* PurchaseableProductsRequestFactory.swift */; };
 		2E0F26511E0ACD5D00D97898 /* PurchaseableProductsRequestFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0F264F1E0ACB3B00D97898 /* PurchaseableProductsRequestFactory.swift */; };
 		2E0F26591E0C425900D97898 /* BumpUpBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB32D621DF184FF00E01E93 /* BumpUpBanner.swift */; };
+		2E10CF601F84E5C00019B58F /* OldBumpUpPayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E10CF5F1F84E5C00019B58F /* OldBumpUpPayViewController.swift */; };
+		2E10CF611F84E5C10019B58F /* OldBumpUpPayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E10CF5F1F84E5C00019B58F /* OldBumpUpPayViewController.swift */; };
+		2E10CF631F84E6890019B58F /* OldBumpUpPayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E10CF621F84E6890019B58F /* OldBumpUpPayViewController.xib */; };
+		2E10CF641F84E6890019B58F /* OldBumpUpPayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E10CF621F84E6890019B58F /* OldBumpUpPayViewController.xib */; };
 		2E119E0B1D1C37040053BA9F /* LGUIKitConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E119E0A1D1C37040053BA9F /* LGUIKitConstants.swift */; };
 		2E119E0C1D1C37040053BA9F /* LGUIKitConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E119E0A1D1C37040053BA9F /* LGUIKitConstants.swift */; };
 		2E131C671DEDE446004D26DC /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E0C96441DEDCAFA00068B6D /* StoreKit.framework */; };
@@ -619,7 +623,6 @@
 		720A8FAC1F1F94E700DCBAD8 /* FilterPriceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 720A8FA81F1F94E700DCBAD8 /* FilterPriceCell.xib */; };
 		720C55911F44559400554048 /* PostCarDetailsViewSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 720C55901F44559400554048 /* PostCarDetailsViewSpec.swift */; };
 		720C55931F44FB6100554048 /* TourCategoriesViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 720C55921F44FB6100554048 /* TourCategoriesViewModelSpec.swift */; };
-		720FD0091F322AD900C87551 /* TourPostingViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 720FD0081F322AD900C87551 /* TourPostingViewModelSpec.swift */; };
 		721383FE1F20B224006DB039 /* TaxonomiesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721383FD1F20B224006DB039 /* TaxonomiesViewModel.swift */; };
 		721383FF1F20B224006DB039 /* TaxonomiesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721383FD1F20B224006DB039 /* TaxonomiesViewModel.swift */; };
 		721384011F20EB97006DB039 /* TaxonomiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721384001F20EB97006DB039 /* TaxonomiesViewController.swift */; };
@@ -1443,6 +1446,8 @@
 		2E06EAEC1D7051BA00A40704 /* FilterRangePriceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterRangePriceCell.xib; sourceTree = "<group>"; };
 		2E0C96441DEDCAFA00068B6D /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		2E0F264F1E0ACB3B00D97898 /* PurchaseableProductsRequestFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PurchaseableProductsRequestFactory.swift; path = Monetization/PurchaseableProductsRequestFactory.swift; sourceTree = "<group>"; };
+		2E10CF5F1F84E5C00019B58F /* OldBumpUpPayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OldBumpUpPayViewController.swift; path = Monetization/OldBumpUpPayViewController.swift; sourceTree = "<group>"; };
+		2E10CF621F84E6890019B58F /* OldBumpUpPayViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OldBumpUpPayViewController.xib; path = Monetization/OldBumpUpPayViewController.xib; sourceTree = "<group>"; };
 		2E119E0A1D1C37040053BA9F /* LGUIKitConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGUIKitConstants.swift; sourceTree = "<group>"; };
 		2E131C6A1DEDE998004D26DC /* LGPurchasesShopper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LGPurchasesShopper.swift; path = Monetization/LGPurchasesShopper.swift; sourceTree = "<group>"; };
 		2E132A1D1F16512D00C20127 /* PostListingDetailViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostListingDetailViewModelSpec.swift; sourceTree = "<group>"; };
@@ -1835,7 +1840,6 @@
 		720A8FA81F1F94E700DCBAD8 /* FilterPriceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterPriceCell.xib; sourceTree = "<group>"; };
 		720C55901F44559400554048 /* PostCarDetailsViewSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostCarDetailsViewSpec.swift; path = Widgets/PostCarDetailsViewSpec.swift; sourceTree = "<group>"; };
 		720C55921F44FB6100554048 /* TourCategoriesViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourCategoriesViewModelSpec.swift; sourceTree = "<group>"; };
-		720FD0081F322AD900C87551 /* TourPostingViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourPostingViewModelSpec.swift; sourceTree = "<group>"; };
 		721383FD1F20B224006DB039 /* TaxonomiesViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TaxonomiesViewModel.swift; path = Ambatana/src/ViewControllers/Taxonomies/TaxonomiesViewModel.swift; sourceTree = SOURCE_ROOT; };
 		721384001F20EB97006DB039 /* TaxonomiesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TaxonomiesViewController.swift; path = Ambatana/src/ViewControllers/Taxonomies/TaxonomiesViewController.swift; sourceTree = SOURCE_ROOT; };
 		721384031F20EC43006DB039 /* TaxonomiesTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TaxonomiesTableView.swift; path = Ambatana/src/ViewControllers/Taxonomies/TaxonomiesTableView.swift; sourceTree = SOURCE_ROOT; };
@@ -2392,6 +2396,8 @@
 				2E4952E01E26810D00188880 /* BumpUpPayViewController.swift */,
 				2E4952E11E26810D00188880 /* BumpUpPayViewController.xib */,
 				2E4952E21E26810D00188880 /* BumpUpPayViewModel.swift */,
+				2E10CF5F1F84E5C00019B58F /* OldBumpUpPayViewController.swift */,
+				2E10CF621F84E6890019B58F /* OldBumpUpPayViewController.xib */,
 			);
 			name = Monetization;
 			sourceTree = "<group>";
@@ -3234,7 +3240,6 @@
 				72D928D71E83D1C60030F4C3 /* ChatViewModelSpec.swift */,
 				50D08D9B1E69AF14009CC260 /* MainListingsViewModelSpec.swift */,
 				50D08D9C1E69AF14009CC260 /* NotificationsViewModelSpec.swift */,
-				720FD0081F322AD900C87551 /* TourPostingViewModelSpec.swift */,
 				2E132A1D1F16512D00C20127 /* PostListingDetailViewModelSpec.swift */,
 				50D934D61E803C9E00BDD5FF /* PostListingStateSpec.swift */,
 				50D08D9D1E69AF14009CC260 /* ListingCarouselViewModelSpec.swift */,
@@ -4631,6 +4636,7 @@
 				2E97169F1D59E958009B3A32 /* ExpressChatViewController.xib in Resources */,
 				C74016DC1D6467DB004C1E9D /* PostListingDetailPriceView.xib in Resources */,
 				5080111F1D474ED80073F362 /* Icons-Launchers.xcassets in Resources */,
+				2E10CF631F84E6890019B58F /* OldBumpUpPayViewController.xib in Resources */,
 				5080111B1D474ED80073F362 /* Errors.xcassets in Resources */,
 				C7F18AA11C89D62600D23319 /* GalleryImageCell.xib in Resources */,
 				2E4952E41E26810D00188880 /* BumpUpFreeViewController.xib in Resources */,
@@ -4764,6 +4770,7 @@
 				C74016DD1D6467DB004C1E9D /* PostListingDetailPriceView.xib in Resources */,
 				508011201D474ED80073F362 /* Icons-Launchers.xcassets in Resources */,
 				5080111C1D474ED80073F362 /* Errors.xcassets in Resources */,
+				2E10CF641F84E6890019B58F /* OldBumpUpPayViewController.xib in Resources */,
 				C7F18AA21C89D62600D23319 /* GalleryImageCell.xib in Resources */,
 				C7C61DF81D63035400F9505D /* ListingCarouselMoreInfoView.xib in Resources */,
 				2E4952E91E268AC300188880 /* BumpUpFreeViewController.xib in Resources */,
@@ -5387,7 +5394,6 @@
 				72D928D81E83D1C60030F4C3 /* ChatViewModelSpec.swift in Sources */,
 				72D928E71E83ED300030F4C3 /* MockRatingManager.swift in Sources */,
 				50D08DCB1E69AF14009CC260 /* CrashManagerSpec.swift in Sources */,
-				720FD0091F322AD900C87551 /* TourPostingViewModelSpec.swift in Sources */,
 				50D08DCD1E69AF14009CC260 /* NotificationsManagerSpec.swift in Sources */,
 				50D08DDB1E69AF14009CC260 /* BaseViewModelSpec.swift in Sources */,
 				50D08DD21E69AF14009CC260 /* ConfigSpec.swift in Sources */,
@@ -5772,6 +5778,7 @@
 				C7DE8AD11C888761005CF37E /* SellListingCell.swift in Sources */,
 				508D486D1CD09E8500C52BE3 /* AlamofireImage+ImageDownloaderType.swift in Sources */,
 				8E0C9DF71E96935300768D27 /* PostCarDetailsView.swift in Sources */,
+				2E10CF601F84E5C00019B58F /* OldBumpUpPayViewController.swift in Sources */,
 				6AA26CFD1CFDBA7600546063 /* ChatDisclaimerCellDrawer.swift in Sources */,
 				50A8DC821BA06BB1008296B0 /* ChatSafetyTipsView.swift in Sources */,
 				2E131C6B1DEDE998004D26DC /* LGPurchasesShopper.swift in Sources */,
@@ -6289,6 +6296,7 @@
 				6A5E19DD1D548F5400F92692 /* ExternalServiceAuthResult.swift in Sources */,
 				C7111EFD1CA43885000C5C5A /* DeepLink.swift in Sources */,
 				C75B5DD41D59E0C500112368 /* ListingCarouselCellModel.swift in Sources */,
+				2E10CF611F84E5C10019B58F /* OldBumpUpPayViewController.swift in Sources */,
 				C7DB42061C5138B500400945 /* Listing+Negotiable.swift in Sources */,
 				8E0C9DF81E96935300768D27 /* PostCarDetailsView.swift in Sources */,
 				C73C163C1D06C1B500DFC67D /* SuggestionSearchCell.swift in Sources */,

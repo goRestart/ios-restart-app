@@ -26,24 +26,21 @@ class ABTests {
     let pricedBumpUpEnabled = BoolABDynamicVar(key: "pricedBumpUpEnabled", defaultValue: false)
     let newMarkAsSoldFlow = BoolABDynamicVar(key: "newMarkAsSoldFlow", defaultValue: false)
     let newCarsMultiRequesterEnabled = BoolABDynamicVar(key: "newCarsMultiRequesterEnabled", defaultValue: false)
-    let newOnboardingPhase1 = BoolABDynamicVar(key: "newOnboardingPhase1", defaultValue: false)
-    let searchParamDisc129 = IntABDynamicVar(key: "SearchParamDisc129", defaultValue: 0)
     let inAppRatingIOS10 = BoolABDynamicVar(key: "20170711inAppRatingIOS10", defaultValue: false)
     let addSuperKeywordsOnFeed = IntABDynamicVar(key: "20170719AddSuperKeywordsOnFeed", defaultValue: 0)
     let superKeywordsOnOnboarding = IntABDynamicVar(key: "20170728SuperKeywordsOnOnboarding", defaultValue: 0)
-    let copiesImprovementOnboarding = IntABDynamicVar(key: "20170803CopiesImprovementOnboarding", defaultValue: 0)
-    let bumpUpImprovementBanner = IntABDynamicVar(key: "20170804BumpUpImprovementBanner", defaultValue: 0)
-    let openGalleryInPosting = IntABDynamicVar(key: "20170810OpenGalleryInPosting", defaultValue: 0)
     let tweaksCarPostingFlow = IntABDynamicVar(key: "20170810tweaksCarPostingFlow", defaultValue: 0)
     let userReviewsReportEnabled = BoolABDynamicVar(key: "20170823userReviewsReportEnabled", defaultValue: true)
     let dynamicQuickAnswers = IntABDynamicVar(key: "20170816DynamicQuickAnswers", defaultValue: 0)
     let appRatingDialogInactive = BoolABDynamicVar(key: "20170831AppRatingDialogInactive", defaultValue: false)
-    let feedFilterRadiusValues = IntABDynamicVar(key: "20170904feedFilterRadiusValues", defaultValue: 0)
     let expandableCategorySelectionMenu = IntABDynamicVar(key: "20170904ExpandableCategorySelectionMenu", defaultValue: 0)
     let locationDataSourceType = IntABDynamicVar(key: "20170830LocationDataSourceType", defaultValue: 0)
+    let defaultRadiusDistanceFeed = IntABDynamicVar(key: "20170922DefaultRadiusDistanceFeed", defaultValue: 0)
     let searchAutocomplete = IntABDynamicVar(key: "20170914SearchAutocomplete", defaultValue: 0)
     let newCarouselTapNextPhotoNavigationEnabled = IntABDynamicVar(key: "20170914NewCarouselTapNextPhotoNavigationEnabled", defaultValue: 0)
     let realEstateEnabled = BoolABDynamicVar(key: "20170927realEstateEnabled", defaultValue: false)
+    let requestsTimeOut = IntABDynamicVar(key: "20170929RequestTimeOut", defaultValue: 30)
+    let newBumpUpExplanation = IntABDynamicVar(key: "20171004NewBumpUpExplanation", defaultValue: 0)
 
     init() {
     }
@@ -64,25 +61,23 @@ class ABTests {
         result.append(pricedBumpUpEnabled)
         result.append(newMarkAsSoldFlow)
         result.append(newCarsMultiRequesterEnabled)
-        result.append(newOnboardingPhase1)
-        result.append(searchParamDisc129)
         result.append(inAppRatingIOS10)
         result.append(addSuperKeywordsOnFeed)
         result.append(superKeywordsOnOnboarding)
-        result.append(copiesImprovementOnboarding)
-        result.append(bumpUpImprovementBanner)
-        result.append(openGalleryInPosting)
         result.append(tweaksCarPostingFlow)
         result.append(userReviewsReportEnabled)
         result.append(dynamicQuickAnswers)
         result.append(appRatingDialogInactive)
-        result.append(feedFilterRadiusValues)
         result.append(expandableCategorySelectionMenu)
         result.append(locationDataSourceType)
+        result.append(defaultRadiusDistanceFeed)
+        
         result.append(searchAutocomplete)
         result.append(newCarouselTapNextPhotoNavigationEnabled)
         result.append(realEstateEnabled)
-
+        result.append(requestsTimeOut)
+        result.append(newBumpUpExplanation)
+        
         return result
     }
 

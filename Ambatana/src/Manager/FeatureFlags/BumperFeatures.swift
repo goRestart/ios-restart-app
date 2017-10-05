@@ -22,24 +22,21 @@ extension Bumper  {
         flags.append(PassiveBuyersShowKeyboard.self)
         flags.append(NewMarkAsSoldFlow.self)
         flags.append(NewCarsMultiRequesterEnabled.self)
-        flags.append(NewOnboardingPhase1.self)
         flags.append(InAppRatingIOS10.self)
         flags.append(AddSuperKeywordsOnFeed.self)
         flags.append(SuperKeywordsOnOnboarding.self)
-        flags.append(CopiesImprovementOnboarding.self)
-        flags.append(BumpUpImprovementBanner.self)
-        flags.append(OpenGalleryInPosting.self)
         flags.append(TweaksCarPostingFlow.self)
-        flags.append(SearchParamDisc129.self)
         flags.append(UserReviewsReportEnabled.self)
         flags.append(DynamicQuickAnswers.self)
         flags.append(AppRatingDialogInactive.self)
-        flags.append(FeedFilterRadiusValues.self)
         flags.append(ExpandableCategorySelectionMenu.self)
         flags.append(LocationDataSourceEndpoint.self)
+        flags.append(DefaultRadiusDistanceFeed.self)
         flags.append(RealEstateEnabled.self)
         flags.append(SearchAutocomplete.self)
         flags.append(NewCarouselTapNextPhotoNavigationEnabled.self)
+        flags.append(RequestsTimeOut.self)
+        flags.append(NewBumpUpExplanation.self)
         Bumper.initialize(flags)
     } 
 
@@ -88,11 +85,6 @@ extension Bumper  {
         return NewCarsMultiRequesterEnabled(rawValue: value)?.asBool ?? false
     }
 
-    static var newOnboardingPhase1: Bool {
-        guard let value = Bumper.value(for: NewOnboardingPhase1.key) else { return false }
-        return NewOnboardingPhase1(rawValue: value)?.asBool ?? false
-    }
-
     static var inAppRatingIOS10: Bool {
         guard let value = Bumper.value(for: InAppRatingIOS10.key) else { return false }
         return InAppRatingIOS10(rawValue: value)?.asBool ?? false
@@ -108,29 +100,9 @@ extension Bumper  {
         return SuperKeywordsOnOnboarding(rawValue: value) ?? .control 
     }
 
-    static var copiesImprovementOnboarding: CopiesImprovementOnboarding {
-        guard let value = Bumper.value(for: CopiesImprovementOnboarding.key) else { return .control }
-        return CopiesImprovementOnboarding(rawValue: value) ?? .control 
-    }
-
-    static var bumpUpImprovementBanner: BumpUpImprovementBanner {
-        guard let value = Bumper.value(for: BumpUpImprovementBanner.key) else { return .control }
-        return BumpUpImprovementBanner(rawValue: value) ?? .control 
-    }
-
-    static var openGalleryInPosting: OpenGalleryInPosting {
-        guard let value = Bumper.value(for: OpenGalleryInPosting.key) else { return .control }
-        return OpenGalleryInPosting(rawValue: value) ?? .control 
-    }
-
     static var tweaksCarPostingFlow: TweaksCarPostingFlow {
         guard let value = Bumper.value(for: TweaksCarPostingFlow.key) else { return .control }
         return TweaksCarPostingFlow(rawValue: value) ?? .control 
-    }
-
-    static var searchParamDisc129: SearchParamDisc129 {
-        guard let value = Bumper.value(for: SearchParamDisc129.key) else { return .disc129a }
-        return SearchParamDisc129(rawValue: value) ?? .disc129a 
     }
 
     static var userReviewsReportEnabled: Bool {
@@ -147,12 +119,7 @@ extension Bumper  {
         guard let value = Bumper.value(for: AppRatingDialogInactive.key) else { return false }
         return AppRatingDialogInactive(rawValue: value)?.asBool ?? false
     }
-
-    static var feedFilterRadiusValues: FeedFilterRadiusValues {
-        guard let value = Bumper.value(for: FeedFilterRadiusValues.key) else { return .control }
-        return FeedFilterRadiusValues(rawValue: value) ?? .control 
-    }
-
+  
     static var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu {
         guard let value = Bumper.value(for: ExpandableCategorySelectionMenu.key) else { return .control }
         return ExpandableCategorySelectionMenu(rawValue: value) ?? .control 
@@ -161,6 +128,11 @@ extension Bumper  {
     static var locationDataSourceEndpoint: LocationDataSourceEndpoint {
         guard let value = Bumper.value(for: LocationDataSourceEndpoint.key) else { return .control }
         return LocationDataSourceEndpoint(rawValue: value) ?? .control 
+    }
+
+    static var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed {
+        guard let value = Bumper.value(for: DefaultRadiusDistanceFeed.key) else { return .control }
+        return DefaultRadiusDistanceFeed(rawValue: value) ?? .control 
     }
 
     static var realEstateEnabled: Bool {
@@ -176,6 +148,16 @@ extension Bumper  {
     static var newCarouselTapNextPhotoNavigationEnabled: NewCarouselTapNextPhotoNavigationEnabled {
         guard let value = Bumper.value(for: NewCarouselTapNextPhotoNavigationEnabled.key) else { return .control }
         return NewCarouselTapNextPhotoNavigationEnabled(rawValue: value) ?? .control 
+    }
+
+    static var requestsTimeOut: RequestsTimeOut {
+        guard let value = Bumper.value(for: RequestsTimeOut.key) else { return .baseline }
+        return RequestsTimeOut(rawValue: value) ?? .baseline 
+    }
+
+    static var newBumpUpExplanation: NewBumpUpExplanation {
+        guard let value = Bumper.value(for: NewBumpUpExplanation.key) else { return .control }
+        return NewBumpUpExplanation(rawValue: value) ?? .control 
     } 
 }
 
@@ -261,15 +243,6 @@ enum NewCarsMultiRequesterEnabled: String, BumperFeature  {
     var asBool: Bool { return self == .yes }
 }
 
-enum NewOnboardingPhase1: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return NewOnboardingPhase1.no.rawValue }
-    static var enumValues: [NewOnboardingPhase1] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "New onboarding - alerts on close button" } 
-    var asBool: Bool { return self == .yes }
-}
-
 enum InAppRatingIOS10: String, BumperFeature  {
     case no, yes
     static var defaultValue: String { return InAppRatingIOS10.no.rawValue }
@@ -311,58 +284,6 @@ enum SuperKeywordsOnOnboarding: String, BumperFeature  {
     }
 }
 
-enum CopiesImprovementOnboarding: String, BumperFeature  {
-    case control, baseline, b, c, d, e, f
-    static var defaultValue: String { return CopiesImprovementOnboarding.control.rawValue }
-    static var enumValues: [CopiesImprovementOnboarding] { return [.control, .baseline, .b, .c, .d, .e, .f]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "new copies on last step of onboarding" } 
-    static func fromPosition(_ position: Int) -> CopiesImprovementOnboarding {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .b
-            case 3: return .c
-            case 4: return .d
-            case 5: return .e
-            case 6: return .f
-            default: return .control
-        }
-    }
-}
-
-enum BumpUpImprovementBanner: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return BumpUpImprovementBanner.control.rawValue }
-    static var enumValues: [BumpUpImprovementBanner] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "new copies on bump up banner" } 
-    static func fromPosition(_ position: Int) -> BumpUpImprovementBanner {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
-enum OpenGalleryInPosting: String, BumperFeature  {
-    case control, baseline, openGallery
-    static var defaultValue: String { return OpenGalleryInPosting.control.rawValue }
-    static var enumValues: [OpenGalleryInPosting] { return [.control, .baseline, .openGallery]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Opens gallery in posting as default option" } 
-    static func fromPosition(_ position: Int) -> OpenGalleryInPosting {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .openGallery
-            default: return .control
-        }
-    }
-}
-
 enum TweaksCarPostingFlow: String, BumperFeature  {
     case control, baseline, active
     static var defaultValue: String { return TweaksCarPostingFlow.control.rawValue }
@@ -375,23 +296,6 @@ enum TweaksCarPostingFlow: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .active
             default: return .control
-        }
-    }
-}
-
-enum SearchParamDisc129: String, BumperFeature  {
-    case disc129a, disc129b, disc129c, disc129d
-    static var defaultValue: String { return SearchParamDisc129.disc129a.rawValue }
-    static var enumValues: [SearchParamDisc129] { return [.disc129a, .disc129b, .disc129c, .disc129d]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Diferent search approach follow up" } 
-    static func fromPosition(_ position: Int) -> SearchParamDisc129 {
-        switch position { 
-            case 0: return .disc129a
-            case 1: return .disc129b
-            case 2: return .disc129c
-            case 3: return .disc129d
-            default: return .disc129a
         }
     }
 }
@@ -431,22 +335,6 @@ enum AppRatingDialogInactive: String, BumperFeature  {
     var asBool: Bool { return self == .yes }
 }
 
-enum FeedFilterRadiusValues: String, BumperFeature  {
-    case control, baseline, newValues
-    static var defaultValue: String { return FeedFilterRadiusValues.control.rawValue }
-    static var enumValues: [FeedFilterRadiusValues] { return [.control, .baseline, .newValues]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Feed filter radius values" } 
-    static func fromPosition(_ position: Int) -> FeedFilterRadiusValues {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .newValues
-            default: return .control
-        }
-    }
-}
-
 enum ExpandableCategorySelectionMenu: String, BumperFeature  {
     case control, baseline, expandableMenu
     static var defaultValue: String { return ExpandableCategorySelectionMenu.control.rawValue }
@@ -475,6 +363,25 @@ enum LocationDataSourceEndpoint: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .appleWithRegion
             case 3: return .niordWithRegion
+            default: return .control
+        }
+    }
+}
+
+enum DefaultRadiusDistanceFeed: String, BumperFeature  {
+    case control, baseline, two, five, ten, thirty
+    static var defaultValue: String { return DefaultRadiusDistanceFeed.control.rawValue }
+    static var enumValues: [DefaultRadiusDistanceFeed] { return [.control, .baseline, .two, .five, .ten, .thirty]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Default distance radius main feed." } 
+    static func fromPosition(_ position: Int) -> DefaultRadiusDistanceFeed {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .two
+            case 3: return .five
+            case 4: return .ten
+            case 5: return .thirty
             default: return .control
         }
     }
@@ -512,6 +419,40 @@ enum NewCarouselTapNextPhotoNavigationEnabled: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "New carousel on tap displays different photo from same product" } 
     static func fromPosition(_ position: Int) -> NewCarouselTapNextPhotoNavigationEnabled {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum RequestsTimeOut: String, BumperFeature  {
+    case baseline, thirty, forty_five, sixty, hundred_and_twenty
+    static var defaultValue: String { return RequestsTimeOut.baseline.rawValue }
+    static var enumValues: [RequestsTimeOut] { return [.baseline, .thirty, .forty_five, .sixty, .hundred_and_twenty]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "API requests timeout" } 
+    static func fromPosition(_ position: Int) -> RequestsTimeOut {
+        switch position { 
+            case 0: return .baseline
+            case 1: return .thirty
+            case 2: return .forty_five
+            case 3: return .sixty
+            case 4: return .hundred_and_twenty
+            default: return .baseline
+        }
+    }
+}
+
+enum NewBumpUpExplanation: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return NewBumpUpExplanation.control.rawValue }
+    static var enumValues: [NewBumpUpExplanation] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "show new bump up explanation view" } 
+    static func fromPosition(_ position: Int) -> NewBumpUpExplanation {
         switch position { 
             case 0: return .control
             case 1: return .baseline
