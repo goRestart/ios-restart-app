@@ -45,11 +45,6 @@
         "values": ["no", "yes"],
         "description": "Cars multi requester enabled"
     },
-    {        
-        "name": "NewOnboardingPhase1",
-        "values": ["no", "yes"],
-        "description": "New onboarding - alerts on close button"
-    },
     {
         "name": "InAppRatingIOS10",
         "values": ["no", "yes"],
