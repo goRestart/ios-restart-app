@@ -143,6 +143,18 @@ struct LGLocalizedString {
 		return String(format: NSLocalizedString("bump_up_view_pay_button_title", comment: ""), var1)
 	}
 
+	static var bumpUpOldViewPayTitle: String {
+		return NSLocalizedString("bump_up_old_view_pay_title", comment: "")
+	}
+
+	static var bumpUpOldViewPaySubtitle: String {
+		return NSLocalizedString("bump_up_old_view_pay_subtitle", comment: "")
+	}
+
+	static func bumpUpOldViewPayButtonTitle(_ var1: String) -> String {
+		return String(format: NSLocalizedString("bump_up_old_view_pay_button_title", comment: ""), var1)
+	}
+
 	static var bumpUpNotAllowedAlertText: String {
 		return NSLocalizedString("bump_up_not_allowed_alert_text", comment: "")
 	}
