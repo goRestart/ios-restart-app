@@ -27,8 +27,6 @@ class ListingCarouselCell: UICollectionViewCell {
 
     static let identifier = "ListingCarouselCell"
     var collectionView: UICollectionView
-
-    fileprivate var singleTap: UITapGestureRecognizer?
     
     fileprivate var productImages = [URL]()
     fileprivate var productBackgroundColor: UIColor?
@@ -79,32 +77,33 @@ class ListingCarouselCell: UICollectionViewCell {
         collectionView.register(ListingCarouselImageCell.self, forCellWithReuseIdentifier:
             ListingCarouselImageCell.identifier)
         
-        singleTap = UITapGestureRecognizer(target: self, action: #selector(doSingleTapAction))
+        let singleTap = UITapGestureRecognizer(target: self, action: #selector(doSingleTapAction))
         collectionView.addGestureRecognizer(singleTap)
     }
     
     func doSingleTapAction(_ gestureRecognizer: UITapGestureRecognizer) {
-        if imageScrollDirection == .horizontal {
-            let tapLocation = gestureRecognizer.location(in: gestureRecognizer.view)
-            let pageSize = collectionView.frame.size.width
-            guard pageSize > 0, numberOfImages > 0 else { return }
-            if tapLocation.x < collectionView.width/4 {
-                let collectionContentOffset = collectionView.contentOffset.x - self.width
-                if collectionContentOffset < 0 {
-                    delegate?.didTapOnCarouselCell(self, tapSide: .left)
-                } else {
-                    collectionView.setContentOffset(CGPoint(x: collectionContentOffset, y: 0.0), animated: true)
-                }
+        guard imageScrollDirection == .horizontal else {
+            delegate?.didTapOnCarouselCell(self, tapSide: nil)
+            return
+        }
+
+        let tapLocation = gestureRecognizer.location(in: gestureRecognizer.view)
+        let pageSize = collectionView.frame.size.width
+        guard pageSize > 0, numberOfImages > 0 else { return }
+        if tapLocation.x < collectionView.width/4 {
+            let collectionContentOffset = collectionView.contentOffset.x - self.width
+            if collectionContentOffset < 0 {
+                delegate?.didTapOnCarouselCell(self, tapSide: .left)
             } else {
-                let collectionContentOffset = collectionView.contentOffset.x + self.width
-                if collectionContentOffset >= self.width * CGFloat(numberOfImages) {
-                    delegate?.didTapOnCarouselCell(self, tapSide: .right)
-                } else {
-                    collectionView.setContentOffset(CGPoint(x: collectionContentOffset, y: 0.0), animated: true)
-                }
+                collectionView.setContentOffset(CGPoint(x: collectionContentOffset, y: 0.0), animated: true)
             }
         } else {
-            delegate?.didTapOnCarouselCell(self, tapSide: nil)
+            let collectionContentOffset = collectionView.contentOffset.x + self.width
+            if collectionContentOffset >= self.width * CGFloat(numberOfImages) {
+                delegate?.didTapOnCarouselCell(self, tapSide: .right)
+            } else {
+                collectionView.setContentOffset(CGPoint(x: collectionContentOffset, y: 0.0), animated: true)
+            }
         }
     }
 
@@ -125,9 +124,7 @@ class ListingCarouselCell: UICollectionViewCell {
             self.placeholderImage = imageDownloader.cachedImageForUrl(firstImageUrl)
         }
         
-        if imageScrollDirection == .horizontal {
-            collectionView.isScrollEnabled = false
-        }
+        collectionView.isScrollEnabled = (imageScrollDirection != .horizontal)
         
         collectionView.setContentOffset(CGPoint.zero, animated: false) //Resetting images
         collectionView.reloadData()
