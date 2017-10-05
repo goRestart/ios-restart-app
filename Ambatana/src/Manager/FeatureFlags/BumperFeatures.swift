@@ -27,7 +27,6 @@ extension Bumper  {
         flags.append(SuperKeywordsOnOnboarding.self)
         flags.append(CopiesImprovementOnboarding.self)
         flags.append(TweaksCarPostingFlow.self)
-        flags.append(SearchParamDisc129.self)
         flags.append(UserReviewsReportEnabled.self)
         flags.append(DynamicQuickAnswers.self)
         flags.append(AppRatingDialogInactive.self)
@@ -111,11 +110,6 @@ extension Bumper  {
     static var tweaksCarPostingFlow: TweaksCarPostingFlow {
         guard let value = Bumper.value(for: TweaksCarPostingFlow.key) else { return .control }
         return TweaksCarPostingFlow(rawValue: value) ?? .control 
-    }
-
-    static var searchParamDisc129: SearchParamDisc129 {
-        guard let value = Bumper.value(for: SearchParamDisc129.key) else { return .disc129a }
-        return SearchParamDisc129(rawValue: value) ?? .disc129a 
     }
 
     static var userReviewsReportEnabled: Bool {
@@ -334,23 +328,6 @@ enum TweaksCarPostingFlow: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .active
             default: return .control
-        }
-    }
-}
-
-enum SearchParamDisc129: String, BumperFeature  {
-    case disc129a, disc129b, disc129c, disc129d
-    static var defaultValue: String { return SearchParamDisc129.disc129a.rawValue }
-    static var enumValues: [SearchParamDisc129] { return [.disc129a, .disc129b, .disc129c, .disc129d]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Diferent search approach follow up" } 
-    static func fromPosition(_ position: Int) -> SearchParamDisc129 {
-        switch position { 
-            case 0: return .disc129a
-            case 1: return .disc129b
-            case 2: return .disc129c
-            case 3: return .disc129d
-            default: return .disc129a
         }
     }
 }
