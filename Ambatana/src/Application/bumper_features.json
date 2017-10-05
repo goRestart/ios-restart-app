@@ -45,11 +45,6 @@
         "values": ["no", "yes"],
         "description": "Cars multi requester enabled"
     },
-    {        
-        "name": "NewOnboardingPhase1",
-        "values": ["no", "yes"],
-        "description": "New onboarding - alerts on close button"
-    },
     {
         "name": "InAppRatingIOS10",
         "values": ["no", "yes"],
@@ -66,19 +61,9 @@
         "description": "Add a step to select categories on onboarding"
     },
     {
-        "name": "CopiesImprovementOnboarding",
-        "values": ["control", "baseline", "B", "C", "D", "E", "F"],
-        "description": "new copies on last step of onboarding"
-    },
-    {
         "name": "TweaksCarPostingFlow",
         "values": ["control", "baseline", "active"],
         "description": "car posting summary only at the end"
-    },
-    {
-        "name": "SearchParamDisc129",
-        "values": ["disc129a", "disc129b", "disc129c", "disc129d"],
-        "description": "Diferent search approach follow up"
     },
     {
         "name": "UserReviewsReportEnabled",
@@ -94,11 +79,6 @@
         "name": "AppRatingDialogInactive",
         "values": ["no", "yes"],
         "description": "App rating dialog inactive to increase user activation"
-    },
-    {
-        "name": "FeedFilterRadiusValues",
-        "values": ["control", "baseline", "newValues"],
-        "description": "Feed filter radius values"
     },
     {
         "name": "ExpandableCategorySelectionMenu",
