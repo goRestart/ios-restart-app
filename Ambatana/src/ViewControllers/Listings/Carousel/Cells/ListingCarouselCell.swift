@@ -90,7 +90,8 @@ class ListingCarouselCell: UICollectionViewCell {
         let tapLocation = gestureRecognizer.location(in: gestureRecognizer.view)
         let pageSize = collectionView.frame.size.width
         guard pageSize > 0, numberOfImages > 0 else { return }
-        if tapLocation.x < collectionView.width/4 {
+        let tapLocationPage = tapLocation.x - CGFloat(currentPage)*pageSize
+        if tapLocationPage < pageSize/4 {
             let collectionContentOffset = collectionView.contentOffset.x - self.width
             if collectionContentOffset < 0 {
                 delegate?.didTapOnCarouselCell(self, tapSide: .left)
