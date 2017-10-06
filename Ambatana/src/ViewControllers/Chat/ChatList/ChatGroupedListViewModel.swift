@@ -46,11 +46,10 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     private(set) var status: ViewState {
         didSet {
             switch status {
-            case .error:
+            case let .error(emptyVM):
                 if let emptyReason = emptyViewModel?.emptyReason {
-                    trackErrorStateShown(reason: emptyReason)
+                    trackErrorStateShown(reason: emptyReason, errorCode: emptyVM.errorCode)
                 }
-                
             case .loading, .data, .empty:
                 break
             }
@@ -315,17 +314,17 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
         }
         var emptyVM: LGEmptyViewModel?
         switch error {
-        case let .network(_, onBackground):
-            emptyVM = onBackground ? nil : LGEmptyViewModel.networkErrorWithRetry(retryAction)
+        case let .network(errorCode, onBackground):
+            emptyVM = onBackground ? nil : LGEmptyViewModel.networkErrorWithRetry(errorCode: errorCode, action: retryAction)
         case let .wsChatError(chatRepositoryError):
             switch chatRepositoryError {
-            case let .network(_, onBackground):
-                emptyVM = onBackground ? nil : LGEmptyViewModel.networkErrorWithRetry(retryAction)
+            case let .network(errorCode, onBackground):
+                emptyVM = onBackground ? nil : LGEmptyViewModel.networkErrorWithRetry(errorCode: errorCode, action: retryAction)
             case .internalError, .notAuthenticated, .userNotVerified, .userBlocked, .apiError, .differentCountry:
-                emptyVM = LGEmptyViewModel.genericErrorWithRetry(retryAction)
+                emptyVM = LGEmptyViewModel.genericErrorWithRetry(action: retryAction)
             }
         case .internalError, .notFound, .forbidden, .unauthorized, .tooManyRequests, .userNotVerified, .serverError:
-            emptyVM = LGEmptyViewModel.genericErrorWithRetry(retryAction)
+            emptyVM = LGEmptyViewModel.genericErrorWithRetry(action: retryAction)
         }
         return emptyVM
     }
@@ -381,8 +380,8 @@ fileprivate extension BaseChatGroupedListViewModel {
 // MARK: - Tracking
 
 fileprivate extension BaseChatGroupedListViewModel {
-    func trackErrorStateShown(reason: EventParameterEmptyReason) {
-        let event = TrackerEvent.emptyStateVisit(typePage: .chatList, reason: reason)
+    func trackErrorStateShown(reason: EventParameterEmptyReason, errorCode: Int?) {
+        let event = TrackerEvent.emptyStateVisit(typePage: .chatList, reason: reason, errorCode: errorCode)
         tracker.trackEvent(event)
     }
 }
