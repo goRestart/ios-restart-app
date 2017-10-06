@@ -179,4 +179,8 @@ extension Date {
     var year: Int {
         return Calendar.current.component(.year, from: self)
     }
+    
+    var millisecondsSince1970: Int {
+        return Int((self.timeIntervalSince1970 * 1000.0).rounded())
+    }
 }

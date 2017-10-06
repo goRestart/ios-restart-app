@@ -188,7 +188,7 @@ class ListingViewModel: BaseViewModel {
     internal override func didBecomeActive(_ firstTime: Bool) {
         guard let listingId = listing.value.objectId else { return }
 
-        listingRepository.incrementViews(listingId: listingId, visitSource: visitSource.rawValue, completion: nil)
+        listingRepository.incrementViews(listingId: listingId, visitSource: visitSource.rawValue, visitTimestamp: Date().millisecondsSince1970, completion: nil)
 
         if !relationRetrieved && myUserRepository.myUser != nil {
             listingRepository.retrieveUserListingRelation(listingId) { [weak self] result in

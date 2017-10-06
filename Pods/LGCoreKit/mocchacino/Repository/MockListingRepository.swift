@@ -197,7 +197,7 @@ open class MockListingRepository: ListingRepository {
         delay(result: statsResult, completion: completion)
     }
 
-    public func incrementViews(listingId: String, visitSource: String, completion: ListingVoidCompletion?) {
+    public func incrementViews(listingId: String, visitSource: String, visitTimestamp: Int, completion: ListingVoidCompletion?) {
         delay(result: incrementViewsResult, completion: completion)
     }
 
