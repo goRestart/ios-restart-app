@@ -22,16 +22,13 @@ extension Bumper  {
         flags.append(PassiveBuyersShowKeyboard.self)
         flags.append(NewMarkAsSoldFlow.self)
         flags.append(NewCarsMultiRequesterEnabled.self)
-        flags.append(NewOnboardingPhase1.self)
         flags.append(InAppRatingIOS10.self)
         flags.append(AddSuperKeywordsOnFeed.self)
         flags.append(SuperKeywordsOnOnboarding.self)
-        flags.append(CopiesImprovementOnboarding.self)
         flags.append(TweaksCarPostingFlow.self)
         flags.append(UserReviewsReportEnabled.self)
         flags.append(DynamicQuickAnswers.self)
         flags.append(AppRatingDialogInactive.self)
-        flags.append(FeedFilterRadiusValues.self)
         flags.append(ExpandableCategorySelectionMenu.self)
         flags.append(LocationDataSourceEndpoint.self)
         flags.append(DefaultRadiusDistanceFeed.self)
@@ -88,11 +85,6 @@ extension Bumper  {
         return NewCarsMultiRequesterEnabled(rawValue: value)?.asBool ?? false
     }
 
-    static var newOnboardingPhase1: Bool {
-        guard let value = Bumper.value(for: NewOnboardingPhase1.key) else { return false }
-        return NewOnboardingPhase1(rawValue: value)?.asBool ?? false
-    }
-
     static var inAppRatingIOS10: Bool {
         guard let value = Bumper.value(for: InAppRatingIOS10.key) else { return false }
         return InAppRatingIOS10(rawValue: value)?.asBool ?? false
@@ -106,11 +98,6 @@ extension Bumper  {
     static var superKeywordsOnOnboarding: SuperKeywordsOnOnboarding {
         guard let value = Bumper.value(for: SuperKeywordsOnOnboarding.key) else { return .control }
         return SuperKeywordsOnOnboarding(rawValue: value) ?? .control 
-    }
-
-    static var copiesImprovementOnboarding: CopiesImprovementOnboarding {
-        guard let value = Bumper.value(for: CopiesImprovementOnboarding.key) else { return .control }
-        return CopiesImprovementOnboarding(rawValue: value) ?? .control 
     }
 
     static var tweaksCarPostingFlow: TweaksCarPostingFlow {
@@ -132,12 +119,7 @@ extension Bumper  {
         guard let value = Bumper.value(for: AppRatingDialogInactive.key) else { return false }
         return AppRatingDialogInactive(rawValue: value)?.asBool ?? false
     }
-
-    static var feedFilterRadiusValues: FeedFilterRadiusValues {
-        guard let value = Bumper.value(for: FeedFilterRadiusValues.key) else { return .control }
-        return FeedFilterRadiusValues(rawValue: value) ?? .control 
-    }
-
+  
     static var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu {
         guard let value = Bumper.value(for: ExpandableCategorySelectionMenu.key) else { return .control }
         return ExpandableCategorySelectionMenu(rawValue: value) ?? .control 
@@ -261,15 +243,6 @@ enum NewCarsMultiRequesterEnabled: String, BumperFeature  {
     var asBool: Bool { return self == .yes }
 }
 
-enum NewOnboardingPhase1: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return NewOnboardingPhase1.no.rawValue }
-    static var enumValues: [NewOnboardingPhase1] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "New onboarding - alerts on close button" } 
-    var asBool: Bool { return self == .yes }
-}
-
 enum InAppRatingIOS10: String, BumperFeature  {
     case no, yes
     static var defaultValue: String { return InAppRatingIOS10.no.rawValue }
@@ -306,26 +279,6 @@ enum SuperKeywordsOnOnboarding: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
-            default: return .control
-        }
-    }
-}
-
-enum CopiesImprovementOnboarding: String, BumperFeature  {
-    case control, baseline, b, c, d, e, f
-    static var defaultValue: String { return CopiesImprovementOnboarding.control.rawValue }
-    static var enumValues: [CopiesImprovementOnboarding] { return [.control, .baseline, .b, .c, .d, .e, .f]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "new copies on last step of onboarding" } 
-    static func fromPosition(_ position: Int) -> CopiesImprovementOnboarding {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .b
-            case 3: return .c
-            case 4: return .d
-            case 5: return .e
-            case 6: return .f
             default: return .control
         }
     }
@@ -380,22 +333,6 @@ enum AppRatingDialogInactive: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "App rating dialog inactive to increase user activation" } 
     var asBool: Bool { return self == .yes }
-}
-
-enum FeedFilterRadiusValues: String, BumperFeature  {
-    case control, baseline, newValues
-    static var defaultValue: String { return FeedFilterRadiusValues.control.rawValue }
-    static var enumValues: [FeedFilterRadiusValues] { return [.control, .baseline, .newValues]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Feed filter radius values" } 
-    static func fromPosition(_ position: Int) -> FeedFilterRadiusValues {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .newValues
-            default: return .control
-        }
-    }
 }
 
 enum ExpandableCategorySelectionMenu: String, BumperFeature  {

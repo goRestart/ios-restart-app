@@ -55,7 +55,7 @@ class TourPostingViewController: BaseViewController {
         titleLabel.text = viewModel.titleText
         subtitleLabel.text = viewModel.subtitleText
         
-        titleLabel.font = viewModel.hasSubtitle ? UIFont.boldSystemFont(ofSize: 24) : UIFont.boldSystemFont(ofSize: 30)
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 24)
         
         okButton.setStyle(.primary(fontSize: .medium))
         okButton.setTitle(viewModel.okButtonText, for: .normal)
