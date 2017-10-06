@@ -71,7 +71,7 @@
 "bump_up_error_payment_failed" = "Couldn't connect to the App Store. Your payment hasn't been processed. Please try again.";
 
 // Text for loading view while processing free bump
-"bump_up_processing_free_text" = "Processing Bump Up...";
+"bump_up_processing_free_text" = "Processing...";
 
 // Text for loading view while processing bump with a price
 "bump_up_processing_priced_text" = "Processing payment...";
