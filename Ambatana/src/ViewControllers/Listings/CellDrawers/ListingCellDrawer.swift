@@ -23,10 +23,12 @@ class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDrawer {
                 cell.setupFeaturedListingInfoWith(price: model.price, title: model.title, isMine: model.isMine,
                                                 listing: model.listing, delegate: model.delegate)
             case .relatedListings:
-                cell.hideFeaturedListingInfo()
+                cell.updateInfoViewHeightToZero()
             }
+        } else if model.shouldShowPrice {
+            cell.setupPriceView(price: model.price)
         } else {
-            cell.hideFeaturedListingInfo()
+            cell.updateInfoViewHeightToZero()
             if model.isFree {
                 cell.setupFreeStripe()
             }

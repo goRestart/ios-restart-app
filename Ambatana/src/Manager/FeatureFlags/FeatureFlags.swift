@@ -41,6 +41,7 @@ protocol FeatureFlaggeable: class {
     var searchAutocomplete: SearchAutocomplete { get }
     var newCarouselNavigationTapNextPhotoEnabled: NewCarouselTapNextPhotoNavigationEnabled { get }
     var realEstateEnabled: Bool { get }
+    var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter { get }
     var requestTimeOut: RequestsTimeOut { get }
     var newBumpUpExplanation: NewBumpUpExplanation { get }
 
@@ -108,6 +109,17 @@ extension NewCarouselTapNextPhotoNavigationEnabled {
         case .control, .baseline:
             return false
         case .active:
+            return true
+        }
+    }
+}
+
+extension ShowPriceAfterSearchOrFilter {
+    var isActive: Bool {
+        switch self {
+        case .control, .baseline:
+            return false
+        case .priceOnSearchOrFilter:
             return true
         }
     }
@@ -331,6 +343,14 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return abTests.realEstateEnabled.value
     }
+    
+    var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter {
+        if Bumper.enabled {
+            return Bumper.showPriceAfterSearchOrFilter
+        }
+        return ShowPriceAfterSearchOrFilter.fromPosition(abTests.showPriceAfterSearchOrFilter.value)
+    }
+    
 
     var newCarouselNavigationTapNextPhotoEnabled: NewCarouselTapNextPhotoNavigationEnabled {
         if Bumper.enabled {
