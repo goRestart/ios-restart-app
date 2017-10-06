@@ -15,41 +15,41 @@ enum BumpUpType {
     case restore
     case hidden
 
-    func bannerText(textsImprovements: Bool) -> String {
+    var bannerText: String {
         switch self {
         case .free:
-            return textsImprovements ? LGLocalizedString.bumpUpBannerPayTextImprovement : LGLocalizedString.bumpUpBannerFreeText
+            return LGLocalizedString.bumpUpBannerPayTextImprovement
         case .priced, .hidden:
-            return textsImprovements ? LGLocalizedString.bumpUpBannerPayTextImprovement : LGLocalizedString.bumpUpBannerPayText
+            return LGLocalizedString.bumpUpBannerPayTextImprovement
         case .restore:
             return LGLocalizedString.bumpUpErrorBumpToken
         }
     }
 
-    func bannerIcon(textsImprovements: Bool) -> UIImage? {
+    var bannerIcon: UIImage? {
         switch self {
         case .free, .priced, .hidden:
-            return textsImprovements ? UIImage(named: "gray_chevron_up") : UIImage(named: "red_chevron_up")
+            return UIImage(named: "gray_chevron_up")
         case .restore:
             return nil
         }
     }
 
-    func bannerTextIcon(textsImprovements: Bool) -> UIImage? {
+    var bannerTextIcon: UIImage? {
         switch self {
         case .free, .priced, .hidden:
-            return textsImprovements ? UIImage(named: "ic_lightning") : nil
+            return UIImage(named: "ic_lightning")
         case .restore:
             return nil
         }
     }
 
-    func bannerFont(textsImprovements: Bool) -> UIFont {
+    var bannerFont: UIFont {
         switch self {
         case .restore:
             return BumpUpBanner.bannerDefaultFont
         case .free, .priced, .hidden:
-            return textsImprovements ? UIFont.systemSemiBoldFont(size: 17) : BumpUpBanner.bannerDefaultFont
+            return UIFont.systemSemiBoldFont(size: 17)
         }
     }
 }
@@ -143,12 +143,12 @@ class BumpUpBanner: UIView {
         switch type {
         case .free:
             waitingTime = info.maxCountdown
-            bumpButton.isHidden = featureFlags.bumpUpImprovementBanner.isActive
-            bumpButtonWidthConstraint.isActive = !featureFlags.bumpUpImprovementBanner.isActive
+            bumpButtonWidthConstraint.isActive = false
+            bumpButton.isHidden = true
             bumpButton.setTitle(LGLocalizedString.bumpUpBannerFreeButtonTitle, for: .normal)
         case .priced, .hidden:
-            bumpButton.isHidden = featureFlags.bumpUpImprovementBanner.isActive
-            bumpButtonWidthConstraint.isActive = !featureFlags.bumpUpImprovementBanner.isActive
+            bumpButtonWidthConstraint.isActive = false
+            bumpButton.isHidden = true
             waitingTime = info.maxCountdown
             if let price = info.price {
                 bumpButton.setTitle(price, for: .normal)
@@ -222,10 +222,10 @@ class BumpUpBanner: UIView {
             var descriptionFont = BumpUpBanner.bannerDefaultFont
             if secondsLeft <= 0 {
                 strongSelf.timer.invalidate()
-                localizedText = strongSelf.type.bannerText(textsImprovements: strongSelf.featureFlags.bumpUpImprovementBanner.isActive)
-                strongSelf.leftIconImageView.image = strongSelf.type.bannerIcon(textsImprovements: strongSelf.featureFlags.bumpUpImprovementBanner.isActive)
-                strongSelf.textIconImageView.image = strongSelf.type.bannerTextIcon(textsImprovements: strongSelf.featureFlags.bumpUpImprovementBanner.isActive)
-                descriptionFont = strongSelf.type.bannerFont(textsImprovements: strongSelf.featureFlags.bumpUpImprovementBanner.isActive)
+                localizedText = strongSelf.type.bannerText
+                strongSelf.leftIconImageView.image = strongSelf.type.bannerIcon
+                strongSelf.textIconImageView.image = strongSelf.type.bannerTextIcon
+                descriptionFont = strongSelf.type.bannerFont
                 strongSelf.bumpButton.isEnabled = true
             } else {
                 strongSelf.textIconImageView.image = nil
@@ -238,7 +238,7 @@ class BumpUpBanner: UIView {
                 strongSelf.timeLabelText.value = Int(secondsLeft).secondsToCountdownFormat()
                 strongSelf.timeLabelRightMarginConstraint.constant = -Metrics.shortMargin
                 strongSelf.timeLabelWidthConstraint.constant = BumpUpBanner.timeLabelWidth
-                if strongSelf.featureFlags.bumpUpImprovementBanner.isActive || strongSelf.type == .restore {
+                if strongSelf.type == .restore {
                     strongSelf.textContainerCenterConstraint.isActive = false
                 }
             } else {
@@ -247,8 +247,6 @@ class BumpUpBanner: UIView {
                 strongSelf.timeLabelWidthConstraint.constant = 0
                 if strongSelf.type == .restore {
                     strongSelf.textContainerCenterConstraint.isActive = false
-                } else if strongSelf.featureFlags.bumpUpImprovementBanner.isActive {
-                    strongSelf.textContainerCenterConstraint.isActive = true
                 }
             }
             strongSelf.descriptionLabelText.value = localizedText
@@ -325,11 +323,9 @@ class BumpUpBanner: UIView {
 
         improvedTextContainerView.layout(with: containerView).top()
         improvedTextContainerView.layout(with: containerView).bottom()
-        if featureFlags.bumpUpImprovementBanner.isActive {
-            improvedTextContainerView.layout(with: containerView).centerX(constraintBlock: { [weak self] in
-                self?.textContainerCenterConstraint = $0
-            })
-        }
+        improvedTextContainerView.layout(with: containerView).centerX(constraintBlock: { [weak self] in
+            self?.textContainerCenterConstraint = $0
+        })
         improvedTextContainerView.layout(with: bumpButton).right(to: .left, by: -10, relatedBy: .lessThanOrEqual)
         improvedTextContainerView.setContentHuggingPriority(UILayoutPriorityDefaultLow, for: .horizontal)
 
@@ -346,9 +342,7 @@ class BumpUpBanner: UIView {
         descriptionLabel.layout(with: improvedTextContainerView).top()
         descriptionLabel.layout(with: improvedTextContainerView).bottom()
         descriptionLabel.layout(with: improvedTextContainerView).right()
-        let huggingPriority: UILayoutPriority = featureFlags.bumpUpImprovementBanner.isActive ? UILayoutPriorityRequired : UILayoutPriorityDefaultLow
-        descriptionLabel.setContentHuggingPriority(huggingPriority, for: .horizontal)
-        
+        descriptionLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
 
         bumpButton.layout(with: containerView).top(by: 10).bottom(by: -10).right(by: -15)
         bumpButton.layout().width(BumpUpBanner.timeLabelWidth, relatedBy: .greaterThanOrEqual, constraintBlock: { [weak self] in
