@@ -39,6 +39,7 @@ class ABTests {
     let searchAutocomplete = IntABDynamicVar(key: "20170914SearchAutocomplete", defaultValue: 0)
     let newCarouselTapNextPhotoNavigationEnabled = IntABDynamicVar(key: "20170914NewCarouselTapNextPhotoNavigationEnabled", defaultValue: 0)
     let realEstateEnabled = BoolABDynamicVar(key: "20170927realEstateEnabled", defaultValue: false)
+    let showPriceAfterSearchOrFilter = IntABDynamicVar(key: "20170928ShowPriceAfterSearchOrFilter", defaultValue: 0)
     let requestsTimeOut = IntABDynamicVar(key: "20170929RequestTimeOut", defaultValue: 30)
     let newBumpUpExplanation = IntABDynamicVar(key: "20171004NewBumpUpExplanation", defaultValue: 0)
 
@@ -75,6 +76,7 @@ class ABTests {
         result.append(searchAutocomplete)
         result.append(newCarouselTapNextPhotoNavigationEnabled)
         result.append(realEstateEnabled)
+        result.append(showPriceAfterSearchOrFilter)
         result.append(requestsTimeOut)
         result.append(newBumpUpExplanation)
         

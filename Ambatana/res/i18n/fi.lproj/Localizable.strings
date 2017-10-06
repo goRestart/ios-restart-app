@@ -23,9 +23,9 @@
 "bump_up_free_success" = "Nostettu! Nosta tuotettasi useamminkin listalla ylöspäin, jolloin se saa vielä enemmän näkyvyyttä.";
 "bump_up_not_allowed_alert_contact_button" = "Ota meihin yhteyttä";
 "bump_up_not_allowed_alert_text" = "Tämän tuotteen nostaminen esiin ei ole tällä hetkellä mahdollista.  Jos haluat lisätietoja, ota meihin yhteyttä.";
-"bump_up_old_view_pay_button_title" = "Activate for %@";
-"bump_up_old_view_pay_subtitle" = "Attract more buyers by giving your listing more visibility.";
-"bump_up_old_view_pay_title" = "SELL FASTER";
+"bump_up_old_view_pay_button_title" = "Aktivoi hintaan %@";
+"bump_up_old_view_pay_subtitle" = "Houkuttele enemmän ostajia antamalla tuotteellesi enemmän näkyvyyttä.";
+"bump_up_old_view_pay_title" = "MYY NOPEAMMIN";
 "bump_up_pay_success" = "Nostettu näyteikkunalle! Nyt tuotteesi saa lisänäkyvyyttä.";
 "bump_up_processing_free_text" = "Käsitellään nostoa...";
 "bump_up_processing_priced_text" = "Käsitellään maksua...";

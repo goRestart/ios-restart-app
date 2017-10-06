@@ -30,11 +30,11 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jgH-1b-N7M" userLabel="Thumbnail Bg Color View">
-                                <rect key="frame" x="0.0" y="0.0" width="149" height="171"/>
+                                <rect key="frame" x="0.0" y="0.0" width="149" height="170.5"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                             <imageView userInteractionEnabled="NO" tag="3" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="afm-Cf-H6I" userLabel="Thumbnail Image View">
-                                <rect key="frame" x="0.0" y="0.0" width="149" height="171"/>
+                                <rect key="frame" x="0.0" y="0.0" width="149" height="170.5"/>
                                 <color key="tintColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </imageView>
                         </subviews>
@@ -140,7 +140,7 @@
                 <outlet property="thumbnailBgColorView" destination="jgH-1b-N7M" id="h60-8J-u7a"/>
                 <outlet property="thumbnailImageView" destination="afm-Cf-H6I" id="90V-do-rJs"/>
             </connections>
-            <point key="canvasLocation" x="475.5" y="294"/>
+            <point key="canvasLocation" x="316" y="267"/>
         </tableViewCell>
     </objects>
     <resources>
