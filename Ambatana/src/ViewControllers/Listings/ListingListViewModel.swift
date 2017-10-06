@@ -188,7 +188,7 @@ class ListingListViewModel: BaseViewModel {
     func setErrorState(_ viewModel: LGEmptyViewModel) {
         state = .error(viewModel)
         if let errorReason = viewModel.emptyReason {
-             trackErrorStateShown(reason: errorReason)
+            trackErrorStateShown(reason: errorReason, errorCode: viewModel.errorCode)
         }
     }
 
@@ -444,12 +444,12 @@ class ListingListViewModel: BaseViewModel {
 // MARK: - Tracking
 
 extension ListingListViewModel {
-    func trackErrorStateShown(reason: EventParameterEmptyReason) {
+    func trackErrorStateShown(reason: EventParameterEmptyReason, errorCode: Int?) {
         let event = TrackerEvent.emptyStateVisit(typePage: .listingList , reason: reason)
         tracker.trackEvent(event)
 
         reporter.report(CrashlyticsReporter.appDomain,
-                        code: 0,
+                        code: errorCode ?? 0,
                         message: "Listing list empty state shown -> \(reason.rawValue)")
     }
 

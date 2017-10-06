@@ -104,7 +104,7 @@ class NotificationsViewModel: BaseViewModel {
                         title:  LGLocalizedString.notificationsEmptyTitle,
                         body: LGLocalizedString.notificationsEmptySubtitle, buttonTitle: LGLocalizedString.tabBarToolTip,
                         action: { [weak self] in self?.navigator?.openSell(source: .notifications, postCategory: nil) },
-                        secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: .emptyResults)
+                        secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: .emptyResults, errorCode: nil)
 
                     strongSelf.viewState.value = .empty(emptyViewModel)
                     if let errorReason = emptyViewModel.emptyReason {
