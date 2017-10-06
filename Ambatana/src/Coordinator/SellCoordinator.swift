@@ -9,6 +9,8 @@
 import LGCoreKit
 import RxSwift
 
+
+
 protocol SellCoordinatorDelegate: class {
     func sellCoordinatorDidCancel(_ coordinator: SellCoordinator)
     func sellCoordinator(_ coordinator: SellCoordinator, didFinishWithListing listing: Listing)
@@ -18,6 +20,7 @@ final class SellCoordinator: Coordinator {
     var child: Coordinator?
     weak var coordinatorDelegate: CoordinatorDelegate?
     var viewController: UIViewController
+    let navigationController: SellNavigationController
     weak var presentedAlertController: UIAlertController?
     let bubbleNotificationManager: BubbleNotificationManager
     let sessionManager: SessionManager
@@ -71,13 +74,15 @@ final class SellCoordinator: Coordinator {
         let postListingVM = PostListingViewModel(source: source, postCategory: postCategory)
         let postListingVC = PostListingViewController(viewModel: postListingVM,
                                                       forcedInitialTab: forcedInitialTab)
-        self.viewController = postListingVC
-
+        
+        navigationController = SellNavigationController(rootViewController: postListingVC, numberOfSteps: 5)
+        navigationController.modalPresentationStyle = .overCurrentContext
+        self.viewController = navigationController
         postListingVM.navigator = self
     }
 
     func presentViewController(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
-        guard let postListingVC = viewController as? PostListingViewController else { return }
+        guard let postListingVC = viewController as? UINavigationController else { return }
         guard postListingVC.parent == nil else { return }
 
         parentViewController = parent
@@ -119,6 +124,13 @@ extension SellCoordinator: PostListingNavigator {
         }
     }
     
+    func startDetails() {
+        let viewModel = BasePostingDetailsViewModel()
+        let vc = BasePostingDetailsViewController(viewModel: viewModel)
+        navigationController.shouldModifyProgress = true
+        navigationController.pushViewController(vc, animated: false)
+    }
+    
     fileprivate func trackListingPostedInBackground(withError error: RepositoryError) {
         let sellError: EventParameterPostListingError
         switch error {
@@ -127,7 +139,7 @@ extension SellCoordinator: PostListingNavigator {
         case let .forbidden(cause: cause):
             sellError = .forbidden(cause: cause)
         case .serverError, .notFound, .unauthorized, .tooManyRequests, .userNotVerified:
-            sellError = .serverError(code: error.errorCode)
+           sellError = .serverError(code: error.errorCode)
         case .internalError, .wsChatError:
             sellError = .internalError
         }

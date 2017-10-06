@@ -46,7 +46,6 @@ final class PostListingState {
         self.lastImagesUploadResult = lastImagesUploadResult
         self.price = price
         self.carInfo = carInfo
-       
     }
     
     func updating(category: PostCategory) -> PostListingState {
@@ -55,7 +54,9 @@ final class PostListingState {
         switch category {
         case .car:
             newStep = .carDetailsSelection
-        case .unassigned, .motorsAndAccessories, .realEstate:
+        case .realEstate:
+            newStep = .toDetails
+        case .unassigned, .motorsAndAccessories:
             newStep = .finished
         }
         return PostListingState(step: newStep,
@@ -71,7 +72,7 @@ final class PostListingState {
         switch step {
         case .imageSelection, .errorUpload:
             break
-        case .uploadingImage, .detailsSelection, .categorySelection, .carDetailsSelection, .finished, .uploadSuccess:
+        case .uploadingImage, .detailsSelection, .categorySelection, .carDetailsSelection, .finished, .uploadSuccess, .toDetails:
             return self
         }
         return PostListingState(step: .uploadingImage,
@@ -87,7 +88,7 @@ final class PostListingState {
         switch step {
         case .imageSelection:
             break
-        case .uploadingImage, .errorUpload, .detailsSelection, .categorySelection, .carDetailsSelection, .finished, .uploadSuccess:
+        case .uploadingImage, .errorUpload, .detailsSelection, .categorySelection, .carDetailsSelection, .finished, .uploadSuccess, .toDetails:
             return self
         }
         let nextStep: PostListingStep
@@ -153,9 +154,12 @@ final class PostListingState {
         guard step == .detailsSelection else { return self }
         let newStep: PostListingStep
         if let category = category {
-            if category == .car {
+            switch category {
+            case .car:
                 newStep = .carDetailsSelection
-            } else {
+            case .realEstate:
+                newStep = .toDetails
+            case .unassigned, .motorsAndAccessories:
                 newStep = .finished
             }
         } else {
@@ -204,17 +208,17 @@ enum PostListingStep: Equatable {
     case carDetailsSelection
     
     case finished
+    case toDetails
 }
 
 func ==(lhs: PostListingStep, rhs: PostListingStep) -> Bool {
     switch (lhs, rhs) {
     case (.imageSelection, .imageSelection), (.uploadingImage, .uploadingImage), (.detailsSelection, .detailsSelection),
-         (.categorySelection, .categorySelection), (.finished, .finished), (.uploadSuccess, .uploadSuccess):
+         (.categorySelection, .categorySelection), (.finished, .finished), (.uploadSuccess, .uploadSuccess),
+         (.carDetailsSelection, .carDetailsSelection), (.toDetails, .toDetails):
         return true
     case (let .errorUpload(lMessage), let .errorUpload(rMessage)):
         return lMessage == rMessage
-    case (.carDetailsSelection, .carDetailsSelection):
-        return true
     default:
         return false
     }

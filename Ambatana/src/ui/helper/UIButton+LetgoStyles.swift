@@ -24,10 +24,11 @@ enum ButtonStyle {
     case logout
     case darkField
     case lightField
+    case postingFlow
     
     var titleColor: UIColor {
         switch self {
-        case .primary, .terciary, .google, .facebook, .dark, .logout:
+        case .primary, .terciary, .google, .facebook, .dark, .logout, .postingFlow:
             return UIColor.white
         case .secondary:
             return UIColor.primaryColor
@@ -40,7 +41,7 @@ enum ButtonStyle {
     
     var backgroundColor: UIColor {
         switch self {
-        case .primary:
+        case .primary, .postingFlow:
             return UIColor.primaryColor
         case .secondary:
             return UIColor.secondaryColor
@@ -63,7 +64,7 @@ enum ButtonStyle {
     
     var backgroundColorHighlighted: UIColor {
         switch self {
-        case .primary:
+        case .primary, .postingFlow:
             return UIColor.primaryColorHighlighted
         case .secondary:
             return UIColor.secondaryColorHighlighted
@@ -100,6 +101,8 @@ enum ButtonStyle {
             return UIColor.lgBlack.withAlphaComponent(0.05)
         case .darkField, .lightField:
             return backgroundColor.withAlphaComponent(0.3)
+        case .postingFlow:
+            return UIColor.lgBlack
         }
     }
     
@@ -121,7 +124,7 @@ enum ButtonStyle {
             fontSize = size
         case let .dark(size):
             fontSize = size
-        case .logout:
+        case .logout, .postingFlow:
             fontSize = .medium
         case let .secondary(size,_):
             fontSize = size
@@ -135,7 +138,7 @@ enum ButtonStyle {
     
     var withBorder: Bool {
         switch self {
-        case .primary, .terciary, .google, .facebook, .dark, .darkField, .lightField, .logout:
+        case .primary, .terciary, .google, .facebook, .dark, .darkField, .lightField, .logout, .postingFlow:
             return false
         case let .secondary(_, withBorder):
             return withBorder
@@ -153,7 +156,7 @@ enum ButtonStyle {
 
     var applyCornerRadius: Bool {
         switch self {
-        case .primary, .secondary, .terciary, .google, .facebook, .dark, .logout:
+        case .primary, .secondary, .terciary, .google, .facebook, .dark, .logout, .postingFlow:
             return true
         case .darkField, .lightField:
             return false

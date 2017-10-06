@@ -61,7 +61,7 @@ class PostListingViewModel: BaseViewModel {
     fileprivate let featureFlags: FeatureFlaggeable
     fileprivate let locationManager: LocationManager
     
-    private var imagesSelected: [UIImage]?
+    fileprivate var imagesSelected: [UIImage]?
     fileprivate var uploadedImageSource: EventParameterPictureSource?
     
     let selectedDetail = Variable<CategoryDetailSelectedInfo?>(nil)
@@ -147,6 +147,7 @@ class PostListingViewModel: BaseViewModel {
     func imagesSelected(_ images: [UIImage], source: EventParameterPictureSource) {
         uploadedImageSource = source
         imagesSelected = images
+        
         guard sessionManager.loggedIn else {
             state.value = state.value.updating(pendingToUploadImages: images)
             return
@@ -338,6 +339,10 @@ fileprivate extension PostListingViewModel {
             self?.postListing()
         }.addDisposableTo(disposeBag)
         
+        state.asObservable().filter { $0.step == .toDetails }.bindNext { [weak self] _ in
+            self?.pushToDetails()
+            }.addDisposableTo(disposeBag)
+        
         state.asObservable().filter { $0.step == .uploadSuccess }.bindNext { [weak self] _ in
             // Keep one second delay in order to give time to read the product posted message.
             delay(1) { [weak self] in
@@ -382,6 +387,10 @@ fileprivate extension PostListingViewModel {
         } else {
             navigator?.cancelPostListing()
         }
+    }
+    
+    func pushToDetails() {
+        navigator?.startDetails()
     }
     
     func makeListingParams(images:[File]) -> ListingCreationParams? {

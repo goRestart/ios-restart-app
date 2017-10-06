@@ -11,6 +11,7 @@ import Foundation
 
 protocol PostListingNavigator: class {
     func cancelPostListing()
+    func startDetails()
     func closePostProductAndPostInBackground(params: ListingCreationParams,
                                              trackingInfo: PostListingTrackingInfo)
     func closePostProductAndPostLater(params: ListingCreationParams, images: [UIImage],
