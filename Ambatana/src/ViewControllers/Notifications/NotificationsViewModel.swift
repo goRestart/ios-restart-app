@@ -108,7 +108,7 @@ class NotificationsViewModel: BaseViewModel {
 
                     strongSelf.viewState.value = .empty(emptyViewModel)
                     if let errorReason = emptyViewModel.emptyReason {
-                        strongSelf.trackErrorStateShown(reason: errorReason)
+                        strongSelf.trackErrorStateShown(reason: errorReason, errorCode: nil)
                     }
                 } else {
                     strongSelf.viewState.value = .data
@@ -125,7 +125,7 @@ class NotificationsViewModel: BaseViewModel {
                             }) {
                             strongSelf.viewState.value = .error(emptyViewModel)
                             if let errorReason = emptyViewModel.emptyReason {
-                                strongSelf.trackErrorStateShown(reason: errorReason)
+                                strongSelf.trackErrorStateShown(reason: errorReason, errorCode: emptyViewModel.errorCode)
                             }
                     }
                     case .network(errorCode: _, onBackground: true):
@@ -197,8 +197,8 @@ fileprivate extension NotificationsViewModel {
         tracker.trackEvent(event)
     }
     
-    func trackErrorStateShown(reason: EventParameterEmptyReason) {
-        let event = TrackerEvent.emptyStateVisit(typePage: .notifications, reason: reason)
+    func trackErrorStateShown(reason: EventParameterEmptyReason, errorCode: Int?) {
+        let event = TrackerEvent.emptyStateVisit(typePage: .notifications, reason: reason, errorCode: errorCode)
         tracker.trackEvent(event)
     }
 }

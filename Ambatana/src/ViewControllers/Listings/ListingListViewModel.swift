@@ -445,7 +445,7 @@ class ListingListViewModel: BaseViewModel {
 
 extension ListingListViewModel {
     func trackErrorStateShown(reason: EventParameterEmptyReason, errorCode: Int?) {
-        let event = TrackerEvent.emptyStateVisit(typePage: .listingList , reason: reason)
+        let event = TrackerEvent.emptyStateVisit(typePage: .listingList , reason: reason, errorCode: errorCode)
         tracker.trackEvent(event)
 
         reporter.report(CrashlyticsReporter.appDomain,
