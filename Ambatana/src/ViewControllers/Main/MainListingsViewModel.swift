@@ -64,6 +64,8 @@ class MainListingsViewModel: BaseViewModel {
         return !filters.isDefault()
     }
     
+    fileprivate var shouldShowPrices = Variable<Bool>(false)
+    
     var isAddSuperKeywordsEnabled: Bool {
         return featureFlags.addSuperKeywordsOnFeed.isActive
     }
@@ -234,12 +236,13 @@ class MainListingsViewModel: BaseViewModel {
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         let columns = show3Columns ? 3 : 2
         let itemsPerPage = show3Columns ? Constants.numListingsPerPageBig : Constants.numListingsPerPageDefault
+        self.shouldShowPrices.value = (!filters.isDefault() || searchType != nil) && featureFlags.showPriceAfterSearchOrFilter.isActive
         self.listingListRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                         queryString: searchType?.query,
                                                                                         itemsPerPage: itemsPerPage,
                                                                                         multiRequesterEnabled: featureFlags.newCarsMultiRequesterEnabled)
         self.listViewModel = ListingListViewModel(requester: self.listingListRequester, listings: nil,
-                                                  numberOfColumns: columns, tracker: tracker)
+                                                  numberOfColumns: columns, tracker: tracker, shouldShowPrices: shouldShowPrices.value)
         self.listViewModel.listingListFixedInset = show3Columns ? 6 : 10
 
         if let search = searchType, !search.isCollection && !search.query.isEmpty {
@@ -473,6 +476,9 @@ class MainListingsViewModel: BaseViewModel {
     private func setupRx() {
         listViewModel.isListingListEmpty.asObservable().bindNext { [weak self] _ in
             self?.updateCategoriesHeader()
+        }.addDisposableTo(disposeBag) 
+        shouldShowPrices.asObservable().bindNext { [weak self] shouldShowPrices in
+            self?.listViewModel.updateShouldShowPrices(shouldShowPrices)
         }.addDisposableTo(disposeBag)
     }
     
@@ -502,10 +508,15 @@ class MainListingsViewModel: BaseViewModel {
 
         infoBubbleVisible.value = false
         errorMessage.value = nil
+        updateShouldShowPrices()
         listViewModel.resetUI()
         listViewModel.refresh()
     }
-    
+
+    fileprivate func updateShouldShowPrices() {
+        shouldShowPrices.value = (hasFilters || searchType != nil) && featureFlags.showPriceAfterSearchOrFilter.isActive
+    }
+
     // MARK: - Taxonomies
     
     fileprivate func getTaxonomies() -> [Taxonomy] {

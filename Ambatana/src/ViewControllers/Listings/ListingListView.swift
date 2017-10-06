@@ -156,7 +156,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     
     // MARK: - Lifecycle
     
-    init(viewModel: ListingListViewModel,featureFlags: FeatureFlaggeable, frame: CGRect) {
+    init(viewModel: ListingListViewModel, featureFlags: FeatureFlaggeable, frame: CGRect) {
         self.viewModel = viewModel
         let padding = UIEdgeInsets.zero
         self.dataPadding = padding
@@ -299,7 +299,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
                                cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let item = viewModel.itemAtIndex(indexPath.row) else { return UICollectionViewCell() }
         let cell = drawerManager.cell(item, collectionView: collectionView, atIndexPath: indexPath)
-        drawerManager.draw(item, inCell: cell, delegate: viewModel.listingCellDelegate)
+        drawerManager.draw(item, inCell: cell, delegate: viewModel.listingCellDelegate, shouldShowPrice: viewModel.shouldShowPrices)
         cell.tag = (indexPath as NSIndexPath).hash
         return cell
     }
