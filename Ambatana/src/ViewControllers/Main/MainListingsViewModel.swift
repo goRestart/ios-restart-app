@@ -678,7 +678,8 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                 }
 
                 let emptyViewModel = LGEmptyViewModel(icon: errImage, title: errTitle, body: errBody, buttonTitle: nil,
-                                                      action: nil, secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: nil)
+                                                      action: nil, secondaryButtonTitle: nil, secondaryAction: nil,
+                                                      emptyReason: nil, errorCode: nil)
                 listViewModel.setEmptyState(emptyViewModel)
                 filterDescription.value = nil
                 filterTitle.value = nil

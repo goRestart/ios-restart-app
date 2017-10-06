@@ -31,7 +31,10 @@ class BaseChatGroupedListViewModelSpec: BaseViewModelSpec {
                     context("with zero items") {
                         beforeEach {
                             sut.result = Result<[String], RepositoryError>(value: [])
-                            sut.emptyStatusViewModel = LGEmptyViewModel(icon: nil, title: "", body: "", buttonTitle: "", action: nil, secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: .emptyResults)
+                            sut.emptyStatusViewModel = LGEmptyViewModel(icon: nil, title: "", body: "", buttonTitle: "",
+                                                                        action: nil, secondaryButtonTitle: nil,
+                                                                        secondaryAction: nil, emptyReason: .emptyResults,
+                                                                        errorCode: nil)
                             sut.retrievePage(1)
                         }
                         it("does not track empty state error because there was not an error") {
@@ -66,8 +69,12 @@ class BaseChatGroupedListViewModelSpec: BaseViewModelSpec {
                         let eventParams = tracker.trackedEvents.flatMap { $0.params }.first
                         expect(eventParams?.stringKeyParams["reason"] as? String) == "no-internet-connection"
                     }
+                    it("fires empty-state-error error code -1") {
+                        let eventParams = tracker.trackedEvents.flatMap { $0.params }.first
+                        expect(eventParams?.stringKeyParams["error-details"] as? String) == "-1"
+                    }
                 }
-                context("fails with too many requests errpr") {
+                context("fails with too many requests error") {
                     beforeEach {
                         sut.result = Result<[String], RepositoryError>(error: .tooManyRequests)
                         sut.retrievePage(1)

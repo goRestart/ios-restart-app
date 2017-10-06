@@ -120,6 +120,7 @@ class ListingListViewModel: BaseViewModel {
     // Tracking
     
     fileprivate let tracker: Tracker
+    fileprivate let reporter: CrashlyticsReporter
     
     
     // RX vars
@@ -142,6 +143,7 @@ class ListingListViewModel: BaseViewModel {
          numberOfColumns: Int = 2,
          tracker: Tracker = TrackerProxy.sharedInstance,
          imageDownloader: ImageDownloaderType = ImageDownloader.sharedInstance,
+         reporter: CrashlyticsReporter = CrashlyticsReporter(),
          shouldShowPrices: Bool = false) {
         self.objects = (listings ?? []).map(ListingCellModel.init)
         self.pageNumber = 0
@@ -151,6 +153,7 @@ class ListingListViewModel: BaseViewModel {
         self.listingListRequester = requester
         self.defaultCellSize = CGSize.zero
         self.tracker = tracker
+        self.reporter = reporter
         self.imageDownloader = imageDownloader
         self.indexToTitleMapping = [:]
         self.shouldShowPrices = shouldShowPrices
@@ -181,7 +184,7 @@ class ListingListViewModel: BaseViewModel {
     func setErrorState(_ viewModel: LGEmptyViewModel) {
         state = .error(viewModel)
         if let errorReason = viewModel.emptyReason {
-             trackErrorStateShown(reason: errorReason)
+            trackErrorStateShown(reason: errorReason, errorCode: viewModel.errorCode)
         }
     }
 
@@ -442,9 +445,13 @@ class ListingListViewModel: BaseViewModel {
 // MARK: - Tracking
 
 extension ListingListViewModel {
-    func trackErrorStateShown(reason: EventParameterEmptyReason) {
-        let event = TrackerEvent.emptyStateVisit(typePage: .listingList , reason: reason)
+    func trackErrorStateShown(reason: EventParameterEmptyReason, errorCode: Int?) {
+        let event = TrackerEvent.emptyStateVisit(typePage: .listingList , reason: reason, errorCode: errorCode)
         tracker.trackEvent(event)
+
+        reporter.report(CrashlyticsReporter.appDomain,
+                        code: errorCode ?? 0,
+                        message: "Listing list empty state shown -> \(reason.rawValue)")
     }
 
     func trackVerticalFilterResults(withVerticalTrackingInfo info: VerticalTrackingInfo) {
