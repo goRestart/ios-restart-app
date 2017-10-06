@@ -401,7 +401,7 @@ fileprivate extension TabCoordinator {
 
     // MARK: Private methods
 
-    private func openRelatedListingsForNonExistentListing(listingId: String,
+    func openRelatedListingsForNonExistentListing(listingId: String,
                                                           source: EventParameterListingVisitSource,
                                                           requester: ListingListRequester,
                                                           relatedListings: [Listing]) {

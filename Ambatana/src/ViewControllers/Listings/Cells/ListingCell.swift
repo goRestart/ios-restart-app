@@ -8,23 +8,24 @@
 
 import UIKit
 import LGCoreKit
+import RxSwift
 
 protocol ListingCellDelegate: class {
     func chatButtonPressedFor(listing: Listing)
+    func relatedButtonPressedFor(listing: Listing)
 }
 
-class ListingCell: UICollectionViewCell, ReusableCell {
+class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate {
 
     static let reusableID = "ListingCell"
     static let buttonsContainerShownHeight: CGFloat = 34
     static let stripeIconWidth: CGFloat = 14
-
     static let featuredListingPriceLabelHeight: CGFloat = 28
-    
+
     @IBOutlet weak var cellContent: UIView!
     @IBOutlet weak var thumbnailBgColorView: UIView!
     @IBOutlet weak var thumbnailImageView: UIImageView!
-    
+
     @IBOutlet weak var stripeImageView: UIImageView!
 
     @IBOutlet weak var stripeInfoView: UIView!
@@ -39,11 +40,21 @@ class ListingCell: UICollectionViewCell, ReusableCell {
     fileprivate var featuredListingTitleLabel: UILabel?
     fileprivate var featuredListingChatButton: UIButton?
 
-    private var indexPath: IndexPath?
-    private var listing: Listing?
-    
+    var isRelatedEnabled: Bool = true {
+        didSet {
+            relatedListingButton.isHidden = !isRelatedEnabled
+            relatedListingButton.setNeedsLayout()
+        }
+    }
+    var relatedListingButton = RoundButton()
+
+    var listing: Listing?
+    weak var delegate: ListingCellDelegate?
+
     var likeButtonEnabled: Bool = true
     var chatButtonEnabled: Bool = true
+
+    private let disposeBag = DisposeBag()
 
     override var isHighlighted: Bool {
         didSet {
@@ -51,11 +62,8 @@ class ListingCell: UICollectionViewCell, ReusableCell {
         }
     }
 
-    weak var delegate: ListingCellDelegate?
-
-
     // MARK: - Lifecycle
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         self.setupUI()
@@ -74,7 +82,7 @@ class ListingCell: UICollectionViewCell, ReusableCell {
     func setupBackgroundColor(id: String?) {
         thumbnailBgColorView.backgroundColor = UIColor.placeholderBackgroundColor(id)
     }
-    
+
     func setupImageUrl(_ imageUrl: URL) {
         thumbnailImageView.lg_setImageWithURL(imageUrl, placeholderImage: nil, completion: {
             [weak self] (result, url) -> Void in
@@ -84,7 +92,7 @@ class ListingCell: UICollectionViewCell, ReusableCell {
             }
         })
     }
-    
+
     func setupFreeStripe() {
         stripeIconWidth.constant = ListingCell.stripeIconWidth
         stripeImageView.image = UIImage(named: "stripe_white")
@@ -105,12 +113,7 @@ class ListingCell: UICollectionViewCell, ReusableCell {
         stripeInfoView.isHidden = false
     }
 
-    func setupFeaturedListingInfoWith(price: String, title: String?, isMine: Bool, listing: Listing?, delegate: ListingCellDelegate?) {
-        if !isMine {
-            self.delegate = delegate
-            self.listing = listing
-        }
-
+    func setupFeaturedListingInfoWith(price: String, title: String?, isMine: Bool) {
         featuredListingPriceLabel = UILabel()
         featuredListingTitleLabel = UILabel()
         featuredListingChatButton = UIButton(type: .custom)
@@ -187,9 +190,8 @@ class ListingCell: UICollectionViewCell, ReusableCell {
         featuredListingInfoHeight.constant = 0
     }
 
-
     // MARK: - Private methods
-    
+
     // Sets up the UI
     private func setupUI() {
         cellContent.layer.cornerRadius = LGUIKitConstants.listingCellCornerRadius
@@ -199,6 +201,23 @@ class ListingCell: UICollectionViewCell, ReusableCell {
         // HIDDEN for the moment while we experiment with 3 columns
         stripeInfoView.isHidden = true
         stripeImageView.isHidden = true
+
+        setupRelatedListingButton()
+    }
+
+    private func setupRelatedListingButton() {
+        relatedListingButton.translatesAutoresizingMaskIntoConstraints = false
+        cellContent.addSubview(relatedListingButton)
+        relatedListingButton.layout(with: thumbnailImageView).bottom(to: .bottom, by: 0)
+        relatedListingButton.layout(with: thumbnailImageView).trailing(to: .trailing, by: 0)
+        relatedListingButton.layout(with: cellContent).proportionalWidth(multiplier: 0.3,
+                                                                         add: 0,
+                                                                         relatedBy: .equal,
+                                                                         priority: UILayoutPriorityRequired,
+                                                                         constraintBlock: nil)
+        relatedListingButton.layout().widthProportionalToHeight()
+
+        relatedListingButton.delegate = self
     }
 
     // Resets the UI to the initial state
@@ -208,7 +227,6 @@ class ListingCell: UICollectionViewCell, ReusableCell {
         stripeImageView.image = nil
         stripeLabel.text = ""
         stripeIcon.image = nil
-        indexPath = nil
         featuredListingTitleLabel?.text = nil
         featuredListingPriceLabel?.text = nil
 
@@ -218,6 +236,8 @@ class ListingCell: UICollectionViewCell, ReusableCell {
         for featuredInfoSubview in featuredListingInfoView.subviews {
             featuredInfoSubview.removeFromSuperview()
         }
+
+        relatedListingButton.compress()
     }
 
     dynamic private func openChat() {
@@ -235,5 +255,12 @@ class ListingCell: UICollectionViewCell, ReusableCell {
         featuredListingPriceLabel?.accessibilityId = .listingCellFeaturedPrice
         featuredListingTitleLabel?.accessibilityId = .listingCellFeaturedTitle
         featuredListingChatButton?.accessibilityId = .listingCellFeaturedChatButton
+    }
+    
+    // MARK: RoundButtonDelegate
+    
+    func roundedButtonActionDidTrigger(_ button: RoundButton) {
+        guard let listing = self.listing else { return }
+        self.delegate?.relatedButtonPressedFor(listing: listing)
     }
 }

@@ -10,6 +10,9 @@ import LGCoreKit
 
 class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDrawer {
     func draw(_ model: ListingData, style: CellStyle, inCell cell: ListingCell) {
+        cell.listing = model.listing
+        cell.delegate = model.delegate
+
         if let id = model.listingId {
             cell.setupBackgroundColor(id: id)
         }
@@ -20,8 +23,7 @@ class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDrawer {
             cell.setupFeaturedStripe()
             switch style {
             case .mainList:
-                cell.setupFeaturedListingInfoWith(price: model.price, title: model.title, isMine: model.isMine,
-                                                listing: model.listing, delegate: model.delegate)
+                cell.setupFeaturedListingInfoWith(price: model.price, title: model.title, isMine: model.isMine)
             case .relatedListings:
                 cell.hideFeaturedListingInfo()
             }
@@ -32,4 +34,11 @@ class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDrawer {
             }
         }
     }
+
+    func willDisplay(_ model: ListingData, inCell cell: ListingCell) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            cell.relatedListingButton.expand()
+        }
+    }
+
 }

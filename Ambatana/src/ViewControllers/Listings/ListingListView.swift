@@ -75,6 +75,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     @IBOutlet weak var rightInsetErrorViewConstraint: NSLayoutConstraint!
 
 
+    var isRelatedEnabled: Bool = true
     var shouldScrollToTopOnFirstPageReload = true
     var dataPadding: UIEdgeInsets {
         didSet {
@@ -141,6 +142,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             drawerManager.cellStyle = viewModel.cellStyle
         }
     }
+
     private let drawerManager = GridDrawerManager(myUserRepository: Core.myUserRepository)
     
     // Delegate
@@ -301,12 +303,19 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         let cell = drawerManager.cell(item, collectionView: collectionView, atIndexPath: indexPath)
         drawerManager.draw(item, inCell: cell, delegate: viewModel.listingCellDelegate)
         cell.tag = (indexPath as NSIndexPath).hash
+        (cell as? ListingCell)?.isRelatedEnabled = isRelatedEnabled
         return cell
     }
 
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell,
+    func collectionView(_ collectionView: UICollectionView,
+                        willDisplay cell: UICollectionViewCell,
                         forItemAt indexPath: IndexPath) {
         DispatchQueue.main.async { [weak self] in
+            if let item = self?.viewModel.itemAtIndex(indexPath.row),
+                let cell = self?.collectionView.cellForItem(at: indexPath) {
+                self?.drawerManager.willDisplay(item, inCell: cell, delegate: self?.viewModel.listingCellDelegate)
+            }
+
             self?.viewModel.setCurrentItemIndex(indexPath.item)
 
             let indexes = collectionView.indexPathsForVisibleItems.map{ $0.item }
