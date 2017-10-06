@@ -56,11 +56,6 @@
         "description": "Add super keywords in feed and filters"
     },
     {
-        "name": "SuperKeywordsOnOnboarding",
-        "values": ["control", "baseline", "active"],
-        "description": "Add a step to select categories on onboarding"
-    },
-    {
         "name": "TweaksCarPostingFlow",
         "values": ["control", "baseline", "active"],
         "description": "car posting summary only at the end"

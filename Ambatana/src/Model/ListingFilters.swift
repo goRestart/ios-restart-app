@@ -55,7 +55,6 @@ struct ListingFilters {
     var distanceType: DistanceType
     var selectedCategories: [ListingCategory]
     var selectedTaxonomyChildren: [TaxonomyChild]
-    var onboardingFilters: [TaxonomyChild]
     var selectedWithin: ListingTimeCriteria
     var selectedOrdering: ListingSortCriteria?
     var filterCoordinates: LGLocationCoordinates2D? {
@@ -77,7 +76,6 @@ struct ListingFilters {
             distanceType: DistanceType.systemDistanceType(),
             selectedCategories: [],
             selectedTaxonomyChildren: [],
-            onboardingFilters: [],
             selectedWithin: ListingTimeCriteria.defaultOption,
             selectedOrdering: ListingSortCriteria.defaultOption,
             priceRange: .priceRange(min: nil, max: nil),
@@ -95,7 +93,6 @@ struct ListingFilters {
          distanceType: DistanceType,
          selectedCategories: [ListingCategory],
          selectedTaxonomyChildren: [TaxonomyChild],
-         onboardingFilters: [TaxonomyChild],
          selectedWithin: ListingTimeCriteria,
          selectedOrdering: ListingSortCriteria?,
          priceRange: FilterPriceRange,
@@ -110,7 +107,6 @@ struct ListingFilters {
         self.distanceType = distanceType
         self.selectedCategories = selectedCategories
         self.selectedTaxonomyChildren = selectedTaxonomyChildren
-        self.onboardingFilters = onboardingFilters
         self.selectedWithin = selectedWithin
         self.selectedOrdering = selectedOrdering
         self.priceRange = priceRange
@@ -128,7 +124,6 @@ struct ListingFilters {
                               distanceType: distanceType,
                               selectedCategories: selectedCategories,
                               selectedTaxonomyChildren: selectedTaxonomyChildren,
-                              onboardingFilters: onboardingFilters,
                               selectedWithin: selectedWithin,
                               selectedOrdering: selectedOrdering,
                               priceRange: priceRange,

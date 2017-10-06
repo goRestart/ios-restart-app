@@ -436,7 +436,6 @@ class MainListingsViewModel: BaseViewModel {
         tracker.trackEvent(TrackerEvent.filterCategoryHeaderSelected(position: categoryHeaderInfo.position,
                                                                      name: categoryHeaderInfo.name))
         delegate?.vmShowTags(tags)
-        filters.onboardingFilters = []
         updateCategoriesHeader()
         updateListView()
         
@@ -477,11 +476,7 @@ class MainListingsViewModel: BaseViewModel {
     private func setupRx() {
         listViewModel.isListingListEmpty.asObservable().bindNext { [weak self] _ in
             self?.updateCategoriesHeader()
-        }.addDisposableTo(disposeBag)
-        keyValueStorage.favoriteCategoriesSelected.asObservable().filter { $0 }.bindNext { [weak self] _ in
-            self?.updateFiltersWithOnboardingTaxonomies(taxonomiesIds: self?.keyValueStorage[.favoriteCategories] ?? [])
-        }.addDisposableTo(disposeBag)
-        
+        }.addDisposableTo(disposeBag) 
         shouldShowPrices.asObservable().bindNext { [weak self] shouldShowPrices in
             self?.listViewModel.updateShouldShowPrices(shouldShowPrices)
         }.addDisposableTo(disposeBag)
@@ -517,19 +512,11 @@ class MainListingsViewModel: BaseViewModel {
         listViewModel.resetUI()
         listViewModel.refresh()
     }
-    
+
     fileprivate func updateShouldShowPrices() {
         shouldShowPrices.value = (hasFilters || searchType != nil) && featureFlags.showPriceAfterSearchOrFilter.isActive
     }
-    
-    // MARK: - Categories From Onboarding
-    
-    func updateFiltersWithOnboardingTaxonomies(taxonomiesIds: [Int]) {
-        filters.onboardingFilters = categoryRepository.retrieveTaxonomyChildren(withIds: taxonomiesIds)
-        updateListView()
-    }
-    
-    
+
     // MARK: - Taxonomies
     
     fileprivate func getTaxonomies() -> [Taxonomy] {
@@ -571,7 +558,6 @@ extension MainListingsViewModel: FiltersViewModelDataDelegate {
 
     func viewModelDidUpdateFilters(_ viewModel: FiltersViewModel, filters: ListingFilters) {
         self.filters = filters
-        self.filters.onboardingFilters = []
         delegate?.vmShowTags(tags)
         updateListView()
     }
