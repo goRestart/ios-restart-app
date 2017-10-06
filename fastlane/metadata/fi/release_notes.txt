@@ -1,10 +1,12 @@
-Tällä viikolla olemme työskennelleet kovasti lukuisten parannusten kanssa. Ne otetaan käyttöön tässä päivityksessä ja seuraavassa, ja olemme varmoja että nautit niistä!
+Antakaa edelleen palautetta, rakastamme kuulla mielipiteitänne! 
 
-+ Yleiset linkit toimivat nyt! Tämä tarkoittaa, että voit avata minkä tahansa linkin suoraan letgossa. Mene suoraan sovellukseen saadaksesi parhaan kokemuksen! 
-+ Kategorioiden uusi upea ulkonäkö
+Mikä on uutta:
 
-Tykkäätkö siitä, rakastatko sitä? Anna palautetta ja arvosana kertoaksesi asiasta meille! Muista lähettää viestiä osoitteeseen support@letgo.com jos sinulla on ehdotuksia tai tarvitset apua!
-
-Hyvää ostamista ja myymistä letgossa,
-
+- Olemme tehneet suorituskykyyn parannuksia koko sovelluksessa, se on nopeampi kuin koskaan! 
+- Korjasimme myös muutaman toimintavirheen, jotta ostaminen & myyminen on entistä helpompaa. Nauti!
+ 
+Tykkäätkö siitä, rakastatko sitä? Anna palautetta ja arvosana kertoaksesi asiasta meille! Kuten aina, laita viestiä osoitteeseen support@letgo.com mikäli sinulla on ehdotuksia tai tarvitset apua! 
+ 
+Hyvää ostamista ja myymistä letgossa! 
+ 
 letgo-tiimi
