@@ -12,11 +12,12 @@ module Fastlane
 
         UI.message "Pushing changes...".blue
         pushChangeCommand = "(cd #{path_to_repo}" +
+          " && git add Ambatana/res/i18n/" +
           " && git add Ambatana/res/config/" +
           " && git add Ambatana/src/Application/Info.plist" +
           " && git add Ambatana/res/Settings.bundle/Root.plist" +
           " && git add Ambatana/res/development/Settings.bundle/Root.plist" +
-          " && git commit -m '★ Update version to #{version_number} (#{build_number})'" +
+          " && git commit -m '★ Update config, strings & version to #{version_number} (#{build_number})'" +
           " && git pull && git push)"
         UI.message pushChangeCommand
         Actions.sh pushChangeCommand
