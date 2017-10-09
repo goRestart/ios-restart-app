@@ -166,6 +166,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
      Restore the failed paid bumps (payment was made, but bump failed)
      */
     func restoreFailedBumps() {
+        paymentProcessingListingId = nil
         let failedBumps = keyValueStorage.userFailedBumpsInfo
 
         for (listingId, bumpInfo) in failedBumps {
@@ -230,6 +231,10 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
             let appstoreChosenProduct = appstoreProduct as? SKProduct,
             appstoreProducts.contains(appstoreChosenProduct)
             else { return }
+
+        if let lastPaymentProcessingListingId = paymentProcessingListingId, lastPaymentProcessingListingId == listingId {
+            return
+        }
 
         delegate?.pricedBumpDidStart()
 
