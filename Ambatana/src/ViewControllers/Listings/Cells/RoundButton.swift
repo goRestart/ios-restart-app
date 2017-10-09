@@ -33,7 +33,6 @@ final class RoundButton: UIView {
         layer.addSublayer(ovalLayer)
         ovalLayer.frame = self.bounds
         ovalLayer.shadowColor = UIColor.black.cgColor
-        ovalLayer.shadowOffset = CGSize(width: 0, height: 0)
         ovalLayer.shadowRadius = 8
         ovalLayer.shadowOpacity = 0.3
 
@@ -68,7 +67,6 @@ final class RoundButton: UIView {
             scaleUp()
         default:
             return
-            // do nothing
         }
     }
 
