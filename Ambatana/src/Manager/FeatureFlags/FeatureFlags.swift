@@ -43,6 +43,7 @@ protocol FeatureFlaggeable: class {
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter { get }
     var requestTimeOut: RequestsTimeOut { get }
     var newBumpUpExplanation: NewBumpUpExplanation { get }
+    var superKeywordGroupsAndSubgroupsInFeed: SuperKeywordGroupsAndSubgroupsInFeed { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -107,6 +108,17 @@ extension ShowPriceAfterSearchOrFilter {
         case .control, .baseline:
             return false
         case .priceOnSearchOrFilter:
+            return true
+        }
+    }
+}
+
+extension SuperKeywordGroupsAndSubgroupsInFeed {
+    var isActive: Bool {
+        switch self {
+        case .control, .baseline:
+            return false
+        case .active:
             return true
         }
     }
@@ -344,6 +356,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.newBumpUpExplanation
         }
         return NewBumpUpExplanation.fromPosition(abTests.newBumpUpExplanation.value)
+    }
+    
+    var superKeywordGroupsAndSubgroupsInFeed: SuperKeywordGroupsAndSubgroupsInFeed {
+        if Bumper.enabled {
+            return Bumper.superKeywordGroupsAndSubgroupsInFeed
+        }
+        return SuperKeywordGroupsAndSubgroupsInFeed.fromPosition(abTests.superKeywordGroupsAndSubgroupsInFeed.value)
     }
 
 

@@ -37,6 +37,7 @@ extension Bumper  {
         flags.append(ShowPriceAfterSearchOrFilter.self)
         flags.append(RequestsTimeOut.self)
         flags.append(NewBumpUpExplanation.self)
+        flags.append(SuperKeywordGroupsAndSubgroupsInFeed.self)
         Bumper.initialize(flags)
     } 
 
@@ -114,7 +115,7 @@ extension Bumper  {
         guard let value = Bumper.value(for: AppRatingDialogInactive.key) else { return false }
         return AppRatingDialogInactive(rawValue: value)?.asBool ?? false
     }
-  
+
     static var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu {
         guard let value = Bumper.value(for: ExpandableCategorySelectionMenu.key) else { return .control }
         return ExpandableCategorySelectionMenu(rawValue: value) ?? .control 
@@ -158,6 +159,11 @@ extension Bumper  {
     static var newBumpUpExplanation: NewBumpUpExplanation {
         guard let value = Bumper.value(for: NewBumpUpExplanation.key) else { return .control }
         return NewBumpUpExplanation(rawValue: value) ?? .control 
+    }
+
+    static var superKeywordGroupsAndSubgroupsInFeed: SuperKeywordGroupsAndSubgroupsInFeed {
+        guard let value = Bumper.value(for: SuperKeywordGroupsAndSubgroupsInFeed.key) else { return .control }
+        return SuperKeywordGroupsAndSubgroupsInFeed(rawValue: value) ?? .control 
     } 
 }
 
@@ -453,6 +459,22 @@ enum NewBumpUpExplanation: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "show new bump up explanation view" } 
     static func fromPosition(_ position: Int) -> NewBumpUpExplanation {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum SuperKeywordGroupsAndSubgroupsInFeed: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return SuperKeywordGroupsAndSubgroupsInFeed.control.rawValue }
+    static var enumValues: [SuperKeywordGroupsAndSubgroupsInFeed] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Super keywords groups and subgroups in feed as bubble filters" } 
+    static func fromPosition(_ position: Int) -> SuperKeywordGroupsAndSubgroupsInFeed {
         switch position { 
             case 0: return .control
             case 1: return .baseline
