@@ -24,7 +24,6 @@ extension Bumper  {
         flags.append(NewCarsMultiRequesterEnabled.self)
         flags.append(InAppRatingIOS10.self)
         flags.append(AddSuperKeywordsOnFeed.self)
-        flags.append(SuperKeywordsOnOnboarding.self)
         flags.append(TweaksCarPostingFlow.self)
         flags.append(UserReviewsReportEnabled.self)
         flags.append(DynamicQuickAnswers.self)
@@ -35,6 +34,7 @@ extension Bumper  {
         flags.append(RealEstateEnabled.self)
         flags.append(SearchAutocomplete.self)
         flags.append(NewCarouselTapNextPhotoNavigationEnabled.self)
+        flags.append(ShowPriceAfterSearchOrFilter.self)
         flags.append(RequestsTimeOut.self)
         flags.append(NewBumpUpExplanation.self)
         Bumper.initialize(flags)
@@ -95,11 +95,6 @@ extension Bumper  {
         return AddSuperKeywordsOnFeed(rawValue: value) ?? .control 
     }
 
-    static var superKeywordsOnOnboarding: SuperKeywordsOnOnboarding {
-        guard let value = Bumper.value(for: SuperKeywordsOnOnboarding.key) else { return .control }
-        return SuperKeywordsOnOnboarding(rawValue: value) ?? .control 
-    }
-
     static var tweaksCarPostingFlow: TweaksCarPostingFlow {
         guard let value = Bumper.value(for: TweaksCarPostingFlow.key) else { return .control }
         return TweaksCarPostingFlow(rawValue: value) ?? .control 
@@ -148,6 +143,11 @@ extension Bumper  {
     static var newCarouselTapNextPhotoNavigationEnabled: NewCarouselTapNextPhotoNavigationEnabled {
         guard let value = Bumper.value(for: NewCarouselTapNextPhotoNavigationEnabled.key) else { return .control }
         return NewCarouselTapNextPhotoNavigationEnabled(rawValue: value) ?? .control 
+    }
+
+    static var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter {
+        guard let value = Bumper.value(for: ShowPriceAfterSearchOrFilter.key) else { return .control }
+        return ShowPriceAfterSearchOrFilter(rawValue: value) ?? .control 
     }
 
     static var requestsTimeOut: RequestsTimeOut {
@@ -259,22 +259,6 @@ enum AddSuperKeywordsOnFeed: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Add super keywords in feed and filters" } 
     static func fromPosition(_ position: Int) -> AddSuperKeywordsOnFeed {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
-enum SuperKeywordsOnOnboarding: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return SuperKeywordsOnOnboarding.control.rawValue }
-    static var enumValues: [SuperKeywordsOnOnboarding] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Add a step to select categories on onboarding" } 
-    static func fromPosition(_ position: Int) -> SuperKeywordsOnOnboarding {
         switch position { 
             case 0: return .control
             case 1: return .baseline
@@ -423,6 +407,22 @@ enum NewCarouselTapNextPhotoNavigationEnabled: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum ShowPriceAfterSearchOrFilter: String, BumperFeature  {
+    case control, baseline, priceOnSearchOrFilter
+    static var defaultValue: String { return ShowPriceAfterSearchOrFilter.control.rawValue }
+    static var enumValues: [ShowPriceAfterSearchOrFilter] { return [.control, .baseline, .priceOnSearchOrFilter]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show price in feed products when user applies any search or filter" } 
+    static func fromPosition(_ position: Int) -> ShowPriceAfterSearchOrFilter {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .priceOnSearchOrFilter
             default: return .control
         }
     }

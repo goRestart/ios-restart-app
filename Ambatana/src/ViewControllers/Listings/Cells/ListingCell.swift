@@ -8,7 +8,6 @@
 
 import UIKit
 import LGCoreKit
-import RxSwift
 
 protocol ListingCellDelegate: class {
     func chatButtonPressedFor(listing: Listing)
@@ -16,12 +15,22 @@ protocol ListingCellDelegate: class {
 }
 
 class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate {
-
+    
+    struct LayoutConstants {
+        static let minHeight: CGFloat = 80.0
+        static let aspectRatio: CGFloat = 198.0 / minHeight
+        static let bannerAspectRatio: CGFloat = 1.3
+        static let maxThumbFactor: CGFloat = 2.0
+        static let featuredInfoMinHeight: CGFloat = 105.0
+        static let priceViewHeight: CGFloat = 30.0
+    }
     static let reusableID = "ListingCell"
     static let buttonsContainerShownHeight: CGFloat = 34
     static let stripeIconWidth: CGFloat = 14
     static let featuredListingPriceLabelHeight: CGFloat = 28
 
+    static let priceLabelHeight: CGFloat = 22
+    
     @IBOutlet weak var cellContent: UIView!
     @IBOutlet weak var thumbnailBgColorView: UIView!
     @IBOutlet weak var thumbnailImageView: UIImageView!
@@ -35,10 +44,12 @@ class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate {
 
     @IBOutlet weak var featuredListingInfoView: UIView!
     @IBOutlet weak var featuredListingInfoHeight: NSLayoutConstraint!
-
+    
     fileprivate var featuredListingPriceLabel: UILabel?
     fileprivate var featuredListingTitleLabel: UILabel?
     fileprivate var featuredListingChatButton: UIButton?
+    
+    fileprivate var priceLabel: UILabel?
 
     var isRelatedEnabled: Bool = true {
         didSet {
@@ -53,8 +64,6 @@ class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate {
 
     var likeButtonEnabled: Bool = true
     var chatButtonEnabled: Bool = true
-
-    private let disposeBag = DisposeBag()
 
     override var isHighlighted: Bool {
         didSet {
@@ -147,6 +156,8 @@ class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate {
         featuredListingChatButton.addTarget(self, action: #selector(openChat), for: .touchUpInside)
 
         // layouts
+        
+        //featuredInfoViewTopToImageViewBottomConstraint.isActive = true
 
         let priceTopMargin = Metrics.shortMargin
         featuredListingPriceLabel.layout(with: featuredListingInfoView)
@@ -186,8 +197,35 @@ class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate {
         featuredListingInfoHeight.constant = ListingCell.featuredListingPriceLabelHeight + titleHeight + buttonHeight + totalMarginsHeight
     }
 
-    func hideFeaturedListingInfo() {
+    func updateInfoViewHeightToZero() {
         featuredListingInfoHeight.constant = 0
+    }
+    
+    func setupPriceView(price: String) {
+        priceLabel = UILabel()
+        
+        featuredListingInfoView.translatesAutoresizingMaskIntoConstraints = false
+        priceLabel?.translatesAutoresizingMaskIntoConstraints = false
+        
+        guard let priceLabel = priceLabel else {
+            featuredListingInfoHeight.constant = 0
+            return
+        }
+        
+        featuredListingInfoView.addSubview(priceLabel)
+        
+        priceLabel.text = price
+        priceLabel.font = UIFont.systemBoldFont(size: 18)
+        priceLabel.adjustsFontSizeToFitWidth = true
+        
+        let priceTopMargin = Metrics.shortMargin
+        priceLabel.layout(with: featuredListingInfoView)
+            .top(by: priceTopMargin)
+            .left(by: Metrics.shortMargin)
+            .right(by: -Metrics.shortMargin)
+        priceLabel.layout().height(ListingCell.featuredListingPriceLabelHeight)
+        
+        featuredListingInfoHeight.constant = ListingCell.priceLabelHeight + Metrics.shortMargin*2
     }
 
     // MARK: - Private methods

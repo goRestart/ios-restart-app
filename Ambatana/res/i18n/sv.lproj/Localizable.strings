@@ -23,9 +23,9 @@
 "bump_up_free_success" = "Puffad! Fortsätt att puffa upp din vara så blir den ännu mer synlig.";
 "bump_up_not_allowed_alert_contact_button" = "Kontakta Oss";
 "bump_up_not_allowed_alert_text" = "Det går inte att topplista denna produkt för tillfället. Var god kontakta oss för mer information.";
-"bump_up_old_view_pay_button_title" = "Activate for %@";
-"bump_up_old_view_pay_subtitle" = "Attract more buyers by giving your listing more visibility.";
-"bump_up_old_view_pay_title" = "SELL FASTER";
+"bump_up_old_view_pay_button_title" = "Aktivera för %@t";
+"bump_up_old_view_pay_subtitle" = "Nå ut till flera köpare genom att ge din produkt mera synlighet.";
+"bump_up_old_view_pay_title" = "SÄLJ SNABBARE";
 "bump_up_pay_success" = "Topplistad! Nu har din produkt fått extra synlighet.";
 "bump_up_processing_free_text" = "Bearbetar puff...";
 "bump_up_processing_priced_text" = "Bearbetar betalning...";

@@ -28,7 +28,6 @@ class ABTests {
     let newCarsMultiRequesterEnabled = BoolABDynamicVar(key: "newCarsMultiRequesterEnabled", defaultValue: false)
     let inAppRatingIOS10 = BoolABDynamicVar(key: "20170711inAppRatingIOS10", defaultValue: false)
     let addSuperKeywordsOnFeed = IntABDynamicVar(key: "20170719AddSuperKeywordsOnFeed", defaultValue: 0)
-    let superKeywordsOnOnboarding = IntABDynamicVar(key: "20170728SuperKeywordsOnOnboarding", defaultValue: 0)
     let tweaksCarPostingFlow = IntABDynamicVar(key: "20170810tweaksCarPostingFlow", defaultValue: 0)
     let userReviewsReportEnabled = BoolABDynamicVar(key: "20170823userReviewsReportEnabled", defaultValue: true)
     let dynamicQuickAnswers = IntABDynamicVar(key: "20170816DynamicQuickAnswers", defaultValue: 0)
@@ -39,6 +38,7 @@ class ABTests {
     let searchAutocomplete = IntABDynamicVar(key: "20170914SearchAutocomplete", defaultValue: 0)
     let newCarouselTapNextPhotoNavigationEnabled = IntABDynamicVar(key: "20170914NewCarouselTapNextPhotoNavigationEnabled", defaultValue: 0)
     let realEstateEnabled = BoolABDynamicVar(key: "20170927realEstateEnabled", defaultValue: false)
+    let showPriceAfterSearchOrFilter = IntABDynamicVar(key: "20170928ShowPriceAfterSearchOrFilter", defaultValue: 0)
     let requestsTimeOut = IntABDynamicVar(key: "20170929RequestTimeOut", defaultValue: 30)
     let newBumpUpExplanation = IntABDynamicVar(key: "20171004NewBumpUpExplanation", defaultValue: 0)
 
@@ -63,7 +63,6 @@ class ABTests {
         result.append(newCarsMultiRequesterEnabled)
         result.append(inAppRatingIOS10)
         result.append(addSuperKeywordsOnFeed)
-        result.append(superKeywordsOnOnboarding)
         result.append(tweaksCarPostingFlow)
         result.append(userReviewsReportEnabled)
         result.append(dynamicQuickAnswers)
@@ -75,6 +74,7 @@ class ABTests {
         result.append(searchAutocomplete)
         result.append(newCarouselTapNextPhotoNavigationEnabled)
         result.append(realEstateEnabled)
+        result.append(showPriceAfterSearchOrFilter)
         result.append(requestsTimeOut)
         result.append(newBumpUpExplanation)
         

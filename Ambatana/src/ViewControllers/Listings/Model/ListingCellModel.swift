@@ -38,7 +38,8 @@ struct ListingData {
     var isFeatured: Bool
     var isMine: Bool
     var price: String
-    
+    var shouldShowPrice: Bool
+
     var listingId: String? {
         return listing?.objectId
     }
