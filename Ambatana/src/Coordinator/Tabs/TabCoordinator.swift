@@ -246,7 +246,7 @@ fileprivate extension TabCoordinator {
         if showRelated {
             //Same as single product opening
             openListing(listing: listing, thumbnailImage: thumbnailImage, originFrame: originFrame,
-                        source: source, requester: requester, index: index, discover: true,
+                        source: source, requester: requester, index: index, discover: false,
                         actionOnFirstAppear: .nonexistent)
         } else {
             let vm = ListingCarouselViewModel(productListModels: cellModels, initialListing: listing,
