@@ -40,6 +40,8 @@ class FilterTagCell: UICollectionViewCell {
             return FilterTagCell.sizeForText(timeOption.name)
         case .category:
             return CGSize(width: iconWidth+fixedWidthSpace, height: FilterTagCell.cellHeight)
+        case .taxonomy(let taxonomy):
+            return FilterTagCell.sizeForText(taxonomy.name)
         case .taxonomyChild(let taxonomyChild):
             return FilterTagCell.sizeForText(taxonomyChild.name)
         case .priceRange(let minPrice, let maxPrice, let currency):
@@ -148,6 +150,8 @@ class FilterTagCell: UICollectionViewCell {
         case .category(let category):
             tagIconWidth.constant = FilterTagCell.iconWidth
             tagIcon.image = category.imageTag
+        case .taxonomy(let taxonomy):
+            tagLabel.text = taxonomy.name
         case .taxonomyChild(let taxonomyChild):
             tagLabel.text = taxonomyChild.name
         case .priceRange(let minPrice, let maxPrice, let currency):

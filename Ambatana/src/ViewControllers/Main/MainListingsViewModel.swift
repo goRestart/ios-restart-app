@@ -96,6 +96,10 @@ class MainListingsViewModel: BaseViewModel {
             resultTags.append(.category(prodCat))
         }
         
+        if let taxonomy = filters.selectedTaxonomies.last {
+            resultTags.append(.taxonomy(taxonomy))
+        }
+        
         if let taxonomyChild = filters.selectedTaxonomyChildren.last {
             resultTags.append(.taxonomyChild(taxonomyChild))
         }
@@ -338,6 +342,7 @@ class MainListingsViewModel: BaseViewModel {
 
         var place: Place? = nil
         var categories: [FilterCategoryItem] = []
+        var taxonomy: Taxonomy? = nil
         var taxonomyChild: TaxonomyChild? = nil
         var orderBy = ListingSortCriteria.defaultOption
         var within = ListingTimeCriteria.defaultOption
@@ -358,6 +363,8 @@ class MainListingsViewModel: BaseViewModel {
                 place = thePlace
             case .category(let prodCategory):
                 categories.append(FilterCategoryItem(category: prodCategory))
+            case .taxonomy(let taxonomySelected):
+                taxonomy = taxonomySelected
             case .taxonomyChild(let taxonomyChildSelected):
                 taxonomyChild = taxonomyChildSelected
             case .orderBy(let prodSortOption):
@@ -390,6 +397,12 @@ class MainListingsViewModel: BaseViewModel {
             case .category(let cat):
                 return cat
             }
+        }
+        
+        if let taxonomyValue = taxonomy {
+            filters.selectedTaxonomies = [taxonomyValue]
+        } else {
+            filters.selectedTaxonomies = []
         }
         
         if let taxonomyChildValue = taxonomyChild {
@@ -437,16 +450,12 @@ class MainListingsViewModel: BaseViewModel {
         updateListView()
     }
     
-    /**
-     Called when a filter gets removed
-     */
     func applyFilters(_ categoryHeaderInfo: CategoryHeaderInfo) {
         tracker.trackEvent(TrackerEvent.filterCategoryHeaderSelected(position: categoryHeaderInfo.position,
                                                                      name: categoryHeaderInfo.name))
         delegate?.vmShowTags(tags)
         updateCategoriesHeader()
         updateListView()
-        
     }
     
     func updateFiltersFromHeaderCategories(_ categoryHeaderInfo: CategoryHeaderInfo) {

@@ -13,6 +13,7 @@ enum FilterTag: Equatable{
     case within(ListingTimeCriteria)
     case orderBy(ListingSortCriteria)
     case category(ListingCategory)
+    case taxonomy(Taxonomy)
     case taxonomyChild(TaxonomyChild)
     case priceRange(from: Int?, to: Int?, currency: Currency?)
     case freeStuff

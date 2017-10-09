@@ -114,7 +114,7 @@ class FilterTagsViewController : NSObject, UICollectionViewDelegate, UICollectio
                     switch tags[i] {
                     case .make, .model, .yearsRange:
                         relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
-                    case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .taxonomyChild:
+                    case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .taxonomy, .taxonomyChild:
                         continue
                     }
                 }
@@ -127,11 +127,11 @@ class FilterTagsViewController : NSObject, UICollectionViewDelegate, UICollectio
                 switch tags[i] {
                 case .model:
                     relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
-                case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .make, .yearsRange, .taxonomyChild:
+                case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .make, .yearsRange, .taxonomyChild, .taxonomy:
                     continue
                 }
             }
-        case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .model, .yearsRange, .taxonomyChild:
+        case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .model, .yearsRange, .taxonomy, .taxonomyChild:
             break
         }
         return relatedIndexesToDelete
