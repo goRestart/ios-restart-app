@@ -3438,7 +3438,8 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "12345"
-                    sut = TrackerEvent.listingBumpUpComplete(.product(product), price: .free, type: .free, restoreRetriesCount: 8, network: .facebook)
+                    sut = TrackerEvent.listingBumpUpComplete(.product(product), price: .free, type: .free, restoreRetriesCount: 8,
+                                                             network: .facebook, transactionStatus: .purchasingPurchased)
                 }
                 it("has its event name ") {
                     expect(sut.name.rawValue).to(equal("bump-up-complete"))
@@ -3461,7 +3462,7 @@ class TrackerEventSpec: QuickSpec {
             }
             describe("bump up fail") {
                 beforeEach {
-                    sut = TrackerEvent.listingBumpUpFail(type: .paid, listingId: "1122")
+                    sut = TrackerEvent.listingBumpUpFail(type: .paid, listingId: "1122", transactionStatus: .purchasingPurchased)
                 }
                 it("has its event name ") {
                     expect(sut.name.rawValue).to(equal("bump-up-fail"))
@@ -3472,10 +3473,13 @@ class TrackerEventSpec: QuickSpec {
                 it("product id matches") {
                     expect(sut.params?.stringKeyParams["product-id"] as? String) == "1122"
                 }
+                it("transaction status matches") {
+                    expect(sut.params?.stringKeyParams["transaction-status"] as? String) == "purchasing-purchased"
+                }
             }
             describe("mobile payment complete") {
                 beforeEach {
-                    sut = TrackerEvent.mobilePaymentComplete(paymentId: "007", listingId: "1122")
+                    sut = TrackerEvent.mobilePaymentComplete(paymentId: "007", listingId: "1122", transactionStatus: .purchasingPurchased)
                 }
                 it("has its event name ") {
                     expect(sut.name.rawValue).to(equal("mobile-payment-complete"))
@@ -3486,10 +3490,13 @@ class TrackerEventSpec: QuickSpec {
                 it("product id matches") {
                     expect(sut.params?.stringKeyParams["product-id"] as? String) == "1122"
                 }
+                it("transaction status matches") {
+                    expect(sut.params?.stringKeyParams["transaction-status"] as? String) == "purchasing-purchased"
+                }
             }
             describe("mobile payment fail") {
                 beforeEach {
-                    sut = TrackerEvent.mobilePaymentFail(reason: nil, listingId: "1122")
+                    sut = TrackerEvent.mobilePaymentFail(reason: nil, listingId: "1122", transactionStatus: .purchasingPurchased)
                 }
                 it("has its event name ") {
                     expect(sut.name.rawValue).to(equal("mobile-payment-fail"))
@@ -3499,6 +3506,9 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("product id matches") {
                     expect(sut.params?.stringKeyParams["product-id"] as? String) == "1122"
+                }
+                it("transaction status matches") {
+                    expect(sut.params?.stringKeyParams["transaction-status"] as? String) == "purchasing-purchased"
                 }
             }
             describe("bump up not allowed") {
