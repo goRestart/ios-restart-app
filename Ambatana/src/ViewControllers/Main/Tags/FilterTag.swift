@@ -8,7 +8,7 @@
 
 import LGCoreKit
 
-enum FilterTag: Equatable{
+enum FilterTag: Equatable {
     case location(Place)
     case within(ListingTimeCriteria)
     case orderBy(ListingSortCriteria)
@@ -29,6 +29,7 @@ func ==(a: FilterTag, b: FilterTag) -> Bool {
     case (.within(let a),   .within(let b))   where a == b: return true
     case (.orderBy(let a),   .orderBy(let b))   where a == b: return true
     case (.category(let a), .category(let b)) where a == b: return true
+    case (.taxonomy(let a), .taxonomy(let b)) where a == b: return true
     case (.taxonomyChild(let a), .taxonomyChild(let b)) where a == b: return true
     case (.priceRange(let a, let b, _), .priceRange(let c, let d, _)) where a == c && b == d: return true
     case (.freeStuff, .freeStuff): return true
