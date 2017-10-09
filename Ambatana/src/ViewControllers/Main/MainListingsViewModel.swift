@@ -70,12 +70,17 @@ class MainListingsViewModel: BaseViewModel {
         return featureFlags.addSuperKeywordsOnFeed.isActive
     }
 
+    var isSuperKeywordGroupsAndSubgroupsInFeedEnabled: Bool {
+        return featureFlags.superKeywordGroupsAndSubgroupsInFeed.isActive
+    }
+    
     var defaultBubbleText: String {
         let distance = filters.distanceRadius ?? 0
         let type = filters.distanceType
         return bubbleTextGenerator.bubbleInfoText(forDistance: distance, type: type, distanceRadius: filters.distanceRadius, place: filters.place)
     }
     
+    var taxonomies: [Taxonomy] = []
     var taxonomyChildren: [TaxonomyChild] = []
 
     let infoBubbleVisible = Variable<Bool>(false)
@@ -288,6 +293,9 @@ class MainListingsViewModel: BaseViewModel {
         updatePermissionsWarning()
         taxonomyChildren = filterSuperKeywordsHighlighted(taxonomies: getTaxonomyChildren())
         updateCategoriesHeader()
+        if isSuperKeywordGroupsAndSubgroupsInFeedEnabled {
+            taxonomies = getTaxonomies()
+        }
         if firstTime {
             setupRx()
         }
@@ -447,6 +455,8 @@ class MainListingsViewModel: BaseViewModel {
             filters.selectedCategories = [listingCategory]
         case .superKeyword(let taxonomyChild):
             filters.selectedTaxonomyChildren = [taxonomyChild]
+        case .superKeywordGroup(let taxonomy):
+            filters.selectedTaxonomies = [taxonomy]
         case .other:
             tracker.trackEvent(TrackerEvent.filterCategoryHeaderSelected(position: categoryHeaderInfo.position,
                                                                          name: categoryHeaderInfo.name))
@@ -541,6 +551,10 @@ class MainListingsViewModel: BaseViewModel {
         if isAddSuperKeywordsEnabled {
             taxonomyChildren.forEach {
                 categoryHeaderElements.append(CategoryHeaderElement.superKeyword($0))
+            }
+        } else if isSuperKeywordGroupsAndSubgroupsInFeedEnabled {
+            taxonomies.forEach {
+                categoryHeaderElements.append(CategoryHeaderElement.superKeywordGroup($0))
             }
         } else {
             ListingCategory.visibleValuesInFeed().forEach {
