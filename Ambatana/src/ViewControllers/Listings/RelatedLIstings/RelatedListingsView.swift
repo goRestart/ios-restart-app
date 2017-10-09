@@ -133,11 +133,12 @@ extension RelatedListingsView: UICollectionViewDelegate, UICollectionViewDataSou
 
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let item = itemAtIndex(indexPath.row) else { return UICollectionViewCell() }
-        let cell = drawerManager.cell(item, collectionView: collectionView, atIndexPath: indexPath)
+            guard let item = itemAtIndex(indexPath.row) else { return UICollectionViewCell() }
+            let cell = drawerManager.cell(item, collectionView: collectionView, atIndexPath: indexPath)
         drawerManager.draw(item, inCell: cell, delegate: nil, shouldShowPrice: false)
-        cell.tag = (indexPath as NSIndexPath).hash
-        return cell
+            cell.tag = (indexPath as NSIndexPath).hash
+            (cell as? ListingCell)?.isRelatedEnabled = false
+            return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
