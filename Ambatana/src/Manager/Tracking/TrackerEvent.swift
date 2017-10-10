@@ -611,11 +611,13 @@ struct TrackerEvent {
         return TrackerEvent(name: .listingDeleteComplete, params: params)
     }
     
-    static func relatedListings(listingId: String,
-                                source: EventParameterRelatedListingsVisitSource) -> TrackerEvent {
+    static func relatedListings(listing: Listing,
+                                source: EventParameterRelatedListingsVisitSource?) -> TrackerEvent {
         var params = EventParameters()
-        params[.listingId] = listingId
-        params[.relatedSource] = source.rawValue
+        params.addListingParams(listing)
+        if let src = source {
+            params[.relatedSource] = src.rawValue
+        }
         return TrackerEvent(name: .relatedListings, params: params)
     }
 
