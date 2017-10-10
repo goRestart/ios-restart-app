@@ -101,7 +101,7 @@ class MainListingsViewModelSpec: QuickSpec {
                         let searchType: SearchType? = nil
                 
                         sut = MainListingsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, searchRepository: Core.searchRepository, listingRepository: Core.listingRepository, monetizationRepository: Core.monetizationRepository, categoryRepository: Core.categoryRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: mockTracker, searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags, bubbleTextGenerator: DistanceBubbleTextGenerator())
-                        sut.listingListVM(listingListViewModel, didSucceedRetrievingListingsPage: 0, hasListings: true)
+                        sut.listingListVM(listingListViewModel, didSucceedRetrievingListingsPage: 0, withResultsCount: 0, hasListings: true)
                     }
                     it("fires product list event") {
                         let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
@@ -120,7 +120,7 @@ class MainListingsViewModelSpec: QuickSpec {
                         let searchType: SearchType = .user(query: "iphone")
                         
                         sut = MainListingsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, searchRepository: Core.searchRepository, listingRepository: Core.listingRepository, monetizationRepository: Core.monetizationRepository, categoryRepository: Core.categoryRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: mockTracker, searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags, bubbleTextGenerator: DistanceBubbleTextGenerator())
-                        sut.listingListVM(listingListViewModel, didSucceedRetrievingListingsPage: 0, hasListings: true)
+                        sut.listingListVM(listingListViewModel, didSucceedRetrievingListingsPage: 0, withResultsCount: 0, hasListings: true)
                     }
                     it("fires listing list event and search complete") {
                         let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
@@ -138,7 +138,7 @@ class MainListingsViewModelSpec: QuickSpec {
                         userFilters.selectedCategories = [.motorsAndAccessories]
                         let searchType: SearchType? = nil
                         sut = MainListingsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, searchRepository: Core.searchRepository, listingRepository: Core.listingRepository, monetizationRepository: Core.monetizationRepository, categoryRepository: Core.categoryRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: mockTracker, searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags, bubbleTextGenerator: DistanceBubbleTextGenerator())
-                        sut.listingListVM(listingListViewModel, didSucceedRetrievingListingsPage: 0, hasListings: true)
+                        sut.listingListVM(listingListViewModel, didSucceedRetrievingListingsPage: 0, withResultsCount: 0, hasListings: true)
                     }
                     it("fires product list event") {
                         let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
@@ -156,7 +156,7 @@ class MainListingsViewModelSpec: QuickSpec {
                         userFilters.selectedCategories = [.motorsAndAccessories]
                         let searchType: SearchType = .user(query: "iphone")
                         sut = MainListingsViewModel(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository, searchRepository: Core.searchRepository, listingRepository: Core.listingRepository, monetizationRepository: Core.monetizationRepository, categoryRepository: Core.categoryRepository, locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: mockTracker, searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage, featureFlags: mockFeatureFlags, bubbleTextGenerator: DistanceBubbleTextGenerator())
-                        sut.listingListVM(listingListViewModel, didSucceedRetrievingListingsPage: 0, hasListings: true)
+                        sut.listingListVM(listingListViewModel, didSucceedRetrievingListingsPage: 0, withResultsCount: 0, hasListings: true)
                     }
                     it("fires product list event and search complete") {
                         let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
@@ -179,7 +179,7 @@ class MainListingsViewModelSpec: QuickSpec {
                                                     locationManager: Core.locationManager, currencyHelper: Core.currencyHelper, tracker: mockTracker,
                                                     searchType: searchType, filters: userFilters, keyValueStorage: keyValueStorage,
                                                     featureFlags: mockFeatureFlags, bubbleTextGenerator: DistanceBubbleTextGenerator())
-                        sut.listingListVM(listingListViewModel, didSucceedRetrievingListingsPage: 0, hasListings: true)
+                        sut.listingListVM(listingListViewModel, didSucceedRetrievingListingsPage: 0, withResultsCount: 0, hasListings: true)
                     }
                     it("fires product list event") {
                         let eventNames = mockTracker.trackedEvents.flatMap { $0.name }

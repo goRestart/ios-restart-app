@@ -810,8 +810,10 @@ class TrackerEventSpec: QuickSpec {
                 let categories: [ListingCategory] = [.homeAndGarden, .motorsAndAccessories]
                 let taxonomy: TaxonomyChild = MockTaxonomyChild.makeMock()
                 let searchQuery = "iPhone"
+                let count = Int.random()
+
                 beforeEach {
-                    sut = TrackerEvent.listingList(nil, categories: categories, taxonomy: taxonomy, searchQuery: searchQuery, feedSource: .home, success: .trueParameter)
+                    sut = TrackerEvent.listingList(nil, categories: categories, taxonomy: taxonomy, searchQuery: searchQuery, resultsCount: count, feedSource: .home, success: .trueParameter)
                 }
                 
                 it("has its event name") {
@@ -834,6 +836,13 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains keyword-name parameter") {
                     expect(sut.params!.stringKeyParams["keyword-name"] as? String).to(equal(taxonomy.name))
+                }
+                it("contains number-of-items parameter") {
+                    if count >= 50 {
+                        expect(sut.params!.stringKeyParams["number-of-items"] as? String).to(equal("50"))
+                    } else {
+                        expect(sut.params!.stringKeyParams["number-of-items"] as? String).to(equal("\(count)"))
+                    }
                 }
             }
             
