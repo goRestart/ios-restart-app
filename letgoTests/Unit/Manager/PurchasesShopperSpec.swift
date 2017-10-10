@@ -375,19 +375,19 @@ extension PurchasesShopperSpec: PurchasesShopperDelegate {
     func pricedBumpDidStart() {
     }
 
-    func paymentDidSucceed(paymentId: String) {
+    func paymentDidSucceed(paymentId: String, transactionStatus: EventParameterTransactionStatus) {
     }
 
-    func pricedBumpDidSucceed(type: BumpUpType, restoreRetriesCount: Int) {
+    func pricedBumpDidSucceed(type: BumpUpType, restoreRetriesCount: Int, transactionStatus: EventParameterTransactionStatus) {
         self.mockBumpResult = .success
         self.restoreRetriesCount = restoreRetriesCount
     }
 
-    func pricedBumpDidFail(type: BumpUpType) {
+    func pricedBumpDidFail(type: BumpUpType, transactionStatus: EventParameterTransactionStatus) {
         self.mockBumpResult = .fail
     }
 
-    func pricedBumpPaymentDidFail(withReason: String?) {
+    func pricedBumpPaymentDidFail(withReason: String?, transactionStatus: EventParameterTransactionStatus) {
         self.mockBumpResult = .paymentFail
     }
 
