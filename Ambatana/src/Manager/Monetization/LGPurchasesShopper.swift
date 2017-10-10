@@ -400,18 +400,18 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
                                                         if let code = code {
                                                             let bumpError = BumpFailedErrorCode(code: code)
                                                             if !bumpError.isUsersFault {
-                                                                self?.saveToUserDefaults(bumpUp: bump)
+                                                                strongSelf.saveToUserDefaults(bumpUp: bump)
                                                             } else {
-                                                                self?.finishTransaction(transaction: transaction,
+                                                                strongSelf.finishTransaction(transaction: transaction,
                                                                                         forListingId: listingId,
                                                                                         withBumpUpInfo: bump)
                                                             }
                                                         }
                                                     case .forbidden, .internalError, .network, .notFound, .tooManyRequests,
                                                          .unauthorized, .userNotVerified, .wsChatError:
-                                                        self?.saveToUserDefaults(bumpUp: bump)
+                                                        strongSelf.saveToUserDefaults(bumpUp: bump)
                                                     }
-                                                    self?.delegate?.pricedBumpDidFail(type: type, transactionStatus: transactionStatus)
+                                                    strongSelf.delegate?.pricedBumpDidFail(type: type, transactionStatus: transactionStatus)
                                                 }
         }
     }
