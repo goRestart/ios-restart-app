@@ -159,13 +159,12 @@ final class ListingApiDataSource: ListingDataSource {
         apiClient.request(request, decoder: ListingApiDataSource.decoderListingStats, completion: completion)
     }
     
-    func updateStats(_ listingIds: [(listingId: String, visitSource: String, visitTimestamp: Double)],
+    func updateStats(_ listingIds: [(listingId: String, visitSource: String)],
                      action: String,
                      userId: String?,
                      completion: ListingDataSourceEmptyCompletion?) {
         let params : [String : Any] = ["productIds" : listingIds.map({ $0.listingId }),
                                        "sources": listingIds.map({ $0.visitSource }),
-                                       "timestamps": listingIds.map({ $0.visitTimestamp }),
                                        "action" : action,
                                        "userId": userId ?? ""]
         let request = ListingRouter.updateStats(params: params)

@@ -56,7 +56,7 @@ protocol ListingDataSource {
     func indexTrending(_ parameters: [String: Any], completion: ListingsDataSourceCompletion?)
 
     func retrieveStats(_ listingId: String, completion: ListingDataSourceListingStatsCompletion?)
-    func updateStats(_ listingIds: [(listingId: String, visitSource: String, visitTimestamp: Double)],
+    func updateStats(_ listingIds: [(listingId: String, visitSource: String)],
                      action: String,
                      userId: String?,
                      completion: ListingDataSourceEmptyCompletion?)
