@@ -99,5 +99,7 @@ extension MainTabCoordinator: MainTabNavigator {
         simpleRelatedListingsVM.navigator = self
         let simpleRelatedListingsVC = SimpleListingsViewController(viewModel: simpleRelatedListingsVM)
         navigationController.pushViewController(simpleRelatedListingsVC, animated: true)
+
+        tracker.trackEvent(TrackerEvent.relatedListings(listing: listing, source: nil))
     }
 }
