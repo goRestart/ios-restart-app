@@ -590,7 +590,8 @@ extension UserViewModel: ListingListViewModelDataDelegate {
         }
     }
     
-    func listingListVM(_ viewModel: ListingListViewModel, didSucceedRetrievingListingsPage page: UInt, hasListings: Bool) {
+    func listingListVM(_ viewModel: ListingListViewModel, didSucceedRetrievingListingsPage page: UInt,
+                       withResultsCount resultsCount: Int, hasListings: Bool) {
         guard page == 0 && !hasListings else { return }
         
         let errTitle: String?

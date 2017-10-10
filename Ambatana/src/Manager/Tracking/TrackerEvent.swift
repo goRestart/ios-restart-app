@@ -180,7 +180,7 @@ struct TrackerEvent {
     }
 
     static func listingList(_ user: User?, categories: [ListingCategory]?, taxonomy: TaxonomyChild?, searchQuery: String?,
-                            feedSource: EventParameterFeedSource, success: EventParameterBoolean) -> TrackerEvent {
+                            resultsCount: ItemsCount?, feedSource: EventParameterFeedSource, success: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
 
         // Categories
@@ -196,6 +196,9 @@ struct TrackerEvent {
         // Search query
         if let actualSearchQuery = searchQuery {
             params[.searchString] = actualSearchQuery
+        }
+        if let count = resultsCount {
+            params[.numberOfItems] = count.value
         }
         params[.listSuccess] = success.rawValue
         return TrackerEvent(name: .listingList, params: params)
@@ -1157,5 +1160,17 @@ struct TrackerEvent {
     private static func eventParameterFreePostingWithPriceRange(_ freePostingModeAllowed: Bool, priceRange: FilterPriceRange) -> EventParameterBoolean {
         guard freePostingModeAllowed else {return .notAvailable}
         return priceRange.free ? .trueParameter : .falseParameter
+    }
+}
+
+typealias ItemsCount = Int
+extension ItemsCount {
+    var value: String {
+        get {
+            guard self <= 50 else {
+                return "50"
+            }
+            return "\(self)"
+        }
     }
 }
