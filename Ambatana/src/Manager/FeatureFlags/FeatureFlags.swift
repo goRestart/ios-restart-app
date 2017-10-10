@@ -30,7 +30,6 @@ protocol FeatureFlaggeable: class {
     var newCarsMultiRequesterEnabled: Bool { get }
     var inAppRatingIOS10: Bool { get }
     var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed { get }
-    var superKeywordsOnOnboarding: SuperKeywordsOnOnboarding { get }
     var tweaksCarPostingFlow: TweaksCarPostingFlow { get }
     var userReviewsReportEnabled: Bool { get }
     var dynamicQuickAnswers: DynamicQuickAnswers { get }
@@ -41,6 +40,7 @@ protocol FeatureFlaggeable: class {
     var searchAutocomplete: SearchAutocomplete { get }
     var newCarouselNavigationTapNextPhotoEnabled: NewCarouselTapNextPhotoNavigationEnabled { get }
     var realEstateEnabled: Bool { get }
+    var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter { get }
     var requestTimeOut: RequestsTimeOut { get }
     var newBumpUpExplanation: NewBumpUpExplanation { get }
 
@@ -68,18 +68,6 @@ extension AddSuperKeywordsOnFeed {
         }
     }
 }
-
-extension SuperKeywordsOnOnboarding {
-    var isActive: Bool {
-        switch self {
-        case .control, .baseline:
-            return false
-        case .active:
-            return true
-        }
-    }
-}
-
 extension TweaksCarPostingFlow {
     var isActive: Bool {
         switch self {
@@ -108,6 +96,17 @@ extension NewCarouselTapNextPhotoNavigationEnabled {
         case .control, .baseline:
             return false
         case .active:
+            return true
+        }
+    }
+}
+
+extension ShowPriceAfterSearchOrFilter {
+    var isActive: Bool {
+        switch self {
+        case .control, .baseline:
+            return false
+        case .priceOnSearchOrFilter:
             return true
         }
     }
@@ -262,13 +261,6 @@ class FeatureFlags: FeatureFlaggeable {
         return AddSuperKeywordsOnFeed.fromPosition(abTests.addSuperKeywordsOnFeed.value)
     }
 
-    var superKeywordsOnOnboarding: SuperKeywordsOnOnboarding {
-        if Bumper.enabled {
-            return Bumper.superKeywordsOnOnboarding
-        }
-        return SuperKeywordsOnOnboarding.fromPosition(abTests.superKeywordsOnOnboarding.value)
-    }
-
     var tweaksCarPostingFlow: TweaksCarPostingFlow {
         if Bumper.enabled {
             return Bumper.tweaksCarPostingFlow
@@ -331,6 +323,14 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return abTests.realEstateEnabled.value
     }
+    
+    var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter {
+        if Bumper.enabled {
+            return Bumper.showPriceAfterSearchOrFilter
+        }
+        return ShowPriceAfterSearchOrFilter.fromPosition(abTests.showPriceAfterSearchOrFilter.value)
+    }
+    
 
     var newCarouselNavigationTapNextPhotoEnabled: NewCarouselTapNextPhotoNavigationEnabled {
         if Bumper.enabled {

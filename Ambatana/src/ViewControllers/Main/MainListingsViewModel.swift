@@ -64,6 +64,8 @@ class MainListingsViewModel: BaseViewModel {
         return !filters.isDefault()
     }
     
+    fileprivate var shouldShowPrices = Variable<Bool>(false)
+    
     var isAddSuperKeywordsEnabled: Bool {
         return featureFlags.addSuperKeywordsOnFeed.isActive
     }
@@ -234,12 +236,13 @@ class MainListingsViewModel: BaseViewModel {
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         let columns = show3Columns ? 3 : 2
         let itemsPerPage = show3Columns ? Constants.numListingsPerPageBig : Constants.numListingsPerPageDefault
+        self.shouldShowPrices.value = (!filters.isDefault() || searchType != nil) && featureFlags.showPriceAfterSearchOrFilter.isActive
         self.listingListRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                         queryString: searchType?.query,
                                                                                         itemsPerPage: itemsPerPage,
                                                                                         multiRequesterEnabled: featureFlags.newCarsMultiRequesterEnabled)
         self.listViewModel = ListingListViewModel(requester: self.listingListRequester, listings: nil,
-                                                  numberOfColumns: columns, tracker: tracker)
+                                                  numberOfColumns: columns, tracker: tracker, shouldShowPrices: shouldShowPrices.value)
         self.listViewModel.listingListFixedInset = show3Columns ? 6 : 10
 
         if let search = searchType, !search.isCollection && !search.query.isEmpty {
@@ -433,7 +436,6 @@ class MainListingsViewModel: BaseViewModel {
         tracker.trackEvent(TrackerEvent.filterCategoryHeaderSelected(position: categoryHeaderInfo.position,
                                                                      name: categoryHeaderInfo.name))
         delegate?.vmShowTags(tags)
-        filters.onboardingFilters = []
         updateCategoriesHeader()
         updateListView()
         
@@ -474,9 +476,9 @@ class MainListingsViewModel: BaseViewModel {
     private func setupRx() {
         listViewModel.isListingListEmpty.asObservable().bindNext { [weak self] _ in
             self?.updateCategoriesHeader()
-        }.addDisposableTo(disposeBag)
-        keyValueStorage.favoriteCategoriesSelected.asObservable().filter { $0 }.bindNext { [weak self] _ in
-            self?.updateFiltersWithOnboardingTaxonomies(taxonomiesIds: self?.keyValueStorage[.favoriteCategories] ?? [])
+        }.addDisposableTo(disposeBag) 
+        shouldShowPrices.asObservable().bindNext { [weak self] shouldShowPrices in
+            self?.listViewModel.updateShouldShowPrices(shouldShowPrices)
         }.addDisposableTo(disposeBag)
     }
     
@@ -506,19 +508,15 @@ class MainListingsViewModel: BaseViewModel {
 
         infoBubbleVisible.value = false
         errorMessage.value = nil
+        updateShouldShowPrices()
         listViewModel.resetUI()
         listViewModel.refresh()
     }
-    
-    
-    // MARK: - Categories From Onboarding
-    
-    func updateFiltersWithOnboardingTaxonomies(taxonomiesIds: [Int]) {
-        filters.onboardingFilters = categoryRepository.retrieveTaxonomyChildren(withIds: taxonomiesIds)
-        updateListView()
+
+    fileprivate func updateShouldShowPrices() {
+        shouldShowPrices.value = (hasFilters || searchType != nil) && featureFlags.showPriceAfterSearchOrFilter.isActive
     }
-    
-    
+
     // MARK: - Taxonomies
     
     fileprivate func getTaxonomies() -> [Taxonomy] {
@@ -560,7 +558,6 @@ extension MainListingsViewModel: FiltersViewModelDataDelegate {
 
     func viewModelDidUpdateFilters(_ viewModel: FiltersViewModel, filters: ListingFilters) {
         self.filters = filters
-        self.filters.onboardingFilters = []
         delegate?.vmShowTags(tags)
         updateListView()
     }
@@ -667,7 +664,8 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                 }
 
                 let emptyViewModel = LGEmptyViewModel(icon: errImage, title: errTitle, body: errBody, buttonTitle: nil,
-                                                      action: nil, secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: nil)
+                                                      action: nil, secondaryButtonTitle: nil, secondaryAction: nil,
+                                                      emptyReason: nil, errorCode: nil)
                 listViewModel.setEmptyState(emptyViewModel)
                 filterDescription.value = nil
                 filterTitle.value = nil
