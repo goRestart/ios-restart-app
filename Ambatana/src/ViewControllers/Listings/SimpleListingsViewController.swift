@@ -17,6 +17,7 @@ class SimpleListingsViewController: BaseViewController {
         self.viewModel = viewModel
         self.listingList = ListingListView(viewModel: viewModel.listingListViewModel,
                                            featureFlags: viewModel.featureFlags, frame: CGRect.zero)
+        self.listingList.isRelatedEnabled = false
         super.init(viewModel: viewModel, nibName: "SimpleListingsViewController")
         hidesBottomBarWhenPushed = true
     }
