@@ -159,7 +159,7 @@ final class ListingApiDataSource: ListingDataSource {
         apiClient.request(request, decoder: ListingApiDataSource.decoderListingStats, completion: completion)
     }
     
-    func updateStats(_ listingIds: [(listingId: String, visitSource: String, visitTimestamp: Int)],
+    func updateStats(_ listingIds: [(listingId: String, visitSource: String, visitTimestamp: Double)],
                      action: String,
                      userId: String?,
                      completion: ListingDataSourceEmptyCompletion?) {

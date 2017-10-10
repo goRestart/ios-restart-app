@@ -23,7 +23,7 @@ final class LGListingRepository: ListingRepository {
     let myUserRepository: MyUserRepository
     let carsInfoRepository: CarsInfoRepository
     let listingsLimboDAO: ListingsLimboDAO
-    var viewedListings:[(listingId: String, visitSource: String, visitTimestamp: Int)] = []
+    var viewedListings:[(listingId: String, visitSource: String, visitTimestamp: Double)] = []
 
 
     // MARK: - Lifecycle
@@ -361,7 +361,7 @@ final class LGListingRepository: ListingRepository {
         }
     }
 
-    func incrementViews(listingId: String, visitSource: String, visitTimestamp: Int, completion: ListingVoidCompletion?) {
+    func incrementViews(listingId: String, visitSource: String, visitTimestamp: Double, completion: ListingVoidCompletion?) {
         viewedListings.append((listingId, visitSource, visitTimestamp))
         if viewedListings.count >= LGCoreKitConstants.viewedListingsThreshold  {
             updateListingViewsBatch(Array(viewedListings), completion: completion)
@@ -427,7 +427,7 @@ final class LGListingRepository: ListingRepository {
         return updatedCompletion
     }
 
-    private func updateListingViewsBatch(_ listingIds: [(String, String, Int)], completion: ListingVoidCompletion?) {
+    private func updateListingViewsBatch(_ listingIds: [(String, String, Double)], completion: ListingVoidCompletion?) {
         let myUserId = myUserRepository.myUser?.objectId
         dataSource.updateStats(listingIds,
                                action: "incr-views",
