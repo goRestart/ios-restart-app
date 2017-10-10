@@ -10,42 +10,85 @@ import Foundation
 import LGCoreKit
 import SwiftyUserDefaults
 
-final class LocalSuggestiveSearch: NSObject, SuggestiveSearch, NSCoding {
+final class LocalSuggestiveSearch: NSObject, NSCoding {
+    private static let typeKey = "type"
+    private static let typeValueTerm = 0
+    private static let typeValueCategory = 1
+    private static let typeValueTermWithCategory = 2
     private static let nameKey = "name"
     private static let categoryIdKey = "categoryId"
     
-    let name: String
-    let category: ListingCategory?
+    var title: String {
+        switch suggestiveSearch {
+        case let .term(name):
+            return name
+        case let .category(category):
+            return category.name
+        case let .termWithCategory(name, _):
+            return name
+        }
+    }
+    
+    var subtitle: String? {
+        switch suggestiveSearch {
+        case .term:
+            return nil
+        case .category:
+            return "category"   // TODO: ¡¡¡localizable!!!
+        case let .termWithCategory(_, category):
+            return category.name
+        }
+    }
+    
+    let suggestiveSearch: SuggestiveSearch
 
     
     // MARK: - Lifecycle
     
-    init(name: String,
-         category: ListingCategory?) {
-        self.name = name
-        self.category = category
-    }
-    
     init(suggestiveSearch: SuggestiveSearch) {
-        self.name = suggestiveSearch.name
-        self.category = suggestiveSearch.category
+        self.suggestiveSearch = suggestiveSearch
     }
     
     
     // MARK: - NSCoding
     
-    required init(coder decoder: NSCoder) {
-        self.name = decoder.decodeObject(forKey: LocalSuggestiveSearch.nameKey) as? String ?? ""
-        if let categoryId = decoder.decodeObject(forKey: LocalSuggestiveSearch.categoryIdKey) as? Int {
-            self.category = ListingCategory(rawValue: categoryId)
-        } else {
-            self.category = nil
-        }        
+    required init?(coder decoder: NSCoder) {
+        let type = decoder.decodeObject(forKey: LocalSuggestiveSearch.typeKey) as? Int ?? LocalSuggestiveSearch.typeValueTerm
+        switch type {
+        case LocalSuggestiveSearch.typeValueTerm:
+            guard let name = decoder.decodeObject(forKey: LocalSuggestiveSearch.nameKey) as? String else { return nil }
+            self.suggestiveSearch = .term(name: name)
+        case LocalSuggestiveSearch.typeValueCategory:
+            guard let categoryId = decoder.decodeObject(forKey: LocalSuggestiveSearch.categoryIdKey) as? Int,
+                  let category = ListingCategory(rawValue: categoryId) else {
+                return nil
+            }
+            self.suggestiveSearch = .category(category: category)
+        case LocalSuggestiveSearch.typeValueTermWithCategory:
+            guard let name = decoder.decodeObject(forKey: LocalSuggestiveSearch.nameKey) as? String,
+                  let categoryId = decoder.decodeObject(forKey: LocalSuggestiveSearch.categoryIdKey) as? Int,
+                  let category = ListingCategory(rawValue: categoryId)else {
+                    return nil
+            }
+            self.suggestiveSearch = .termWithCategory(name: name, category: category)
+        default:
+            return nil
+        }
     }
     
     func encode(with coder: NSCoder) {
-        coder.encode(name, forKey: LocalSuggestiveSearch.nameKey)
-        coder.encode(category?.rawValue, forKey: LocalSuggestiveSearch.categoryIdKey)
+        switch suggestiveSearch {
+        case let .term(name):
+            coder.encode(LocalSuggestiveSearch.typeValueTerm, forKey: LocalSuggestiveSearch.typeKey)
+            coder.encode(name, forKey: LocalSuggestiveSearch.nameKey)
+        case let .category(category):
+            coder.encode(LocalSuggestiveSearch.typeValueCategory, forKey: LocalSuggestiveSearch.typeKey)
+            coder.encode(category.rawValue, forKey: LocalSuggestiveSearch.categoryIdKey)
+        case let .termWithCategory(name, category):
+            coder.encode(LocalSuggestiveSearch.typeValueTermWithCategory, forKey: LocalSuggestiveSearch.typeKey)
+            coder.encode(name, forKey: LocalSuggestiveSearch.nameKey)
+            coder.encode(category.rawValue, forKey: LocalSuggestiveSearch.categoryIdKey)
+        }
     }
 }
 

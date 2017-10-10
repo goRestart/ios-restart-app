@@ -657,7 +657,7 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
             guard let (suggestiveSearch, sourceText) = viewModel.suggestiveSearchAtIndex(indexPath.row) else {
                 return UITableViewCell()
             }
-            title = suggestiveSearch.name
+            title = suggestiveSearch.name ?? ""
             titleSkipHighlight = sourceText
             subtitle = suggestiveSearch.category?.name
             fillSearchButtonBlock = { [weak self] in
@@ -667,7 +667,7 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
             }
         case .lastSearch:
             guard let lastSearch = viewModel.lastSearchAtIndex(indexPath.row) else { return UITableViewCell() }
-            title = lastSearch.name
+            title = lastSearch.name ?? ""
             titleSkipHighlight = nil
             subtitle = lastSearch.category?.name
             fillSearchButtonBlock = nil
