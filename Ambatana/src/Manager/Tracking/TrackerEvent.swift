@@ -1010,34 +1010,42 @@ struct TrackerEvent {
 
     static func listingBumpUpComplete(_ listing: Listing, price: EventParameterBumpUpPrice,
                                       type: EventParameterBumpUpType, restoreRetriesCount: Int,
-                                      network: EventParameterShareNetwork) -> TrackerEvent {
+                                      network: EventParameterShareNetwork,
+                                      transactionStatus: EventParameterTransactionStatus?) -> TrackerEvent {
         var params = EventParameters()
         params.addListingParams(listing)
         params[.bumpUpPrice] = price.description
         params[.bumpUpType] = type.rawValue
         params[.retriesNumber] = restoreRetriesCount
         params[.shareNetwork] = network.rawValue
+        params[.transactionStatus] = transactionStatus?.rawValue ?? TrackerEvent.notApply
         return TrackerEvent(name: .bumpUpComplete, params: params)
     }
 
-    static func listingBumpUpFail(type: EventParameterBumpUpType, listingId: String?) -> TrackerEvent {
+    static func listingBumpUpFail(type: EventParameterBumpUpType, listingId: String?,
+                                  transactionStatus: EventParameterTransactionStatus?) -> TrackerEvent {
         var params = EventParameters()
         params[.bumpUpType] = type.rawValue
         params[.listingId] = listingId ?? ""
+        params[.transactionStatus] = transactionStatus?.rawValue ?? TrackerEvent.notApply
         return TrackerEvent(name: .bumpUpFail, params: params)
     }
 
-    static func mobilePaymentComplete(paymentId: String, listingId: String?) -> TrackerEvent {
+    static func mobilePaymentComplete(paymentId: String, listingId: String?,
+                                      transactionStatus: EventParameterTransactionStatus) -> TrackerEvent {
         var params = EventParameters()
         params[.paymentId] = paymentId
         params[.listingId] = listingId ?? ""
+        params[.transactionStatus] = transactionStatus.rawValue
         return TrackerEvent(name: .mobilePaymentComplete, params: params)
     }
 
-    static func mobilePaymentFail(reason: String?, listingId: String?) -> TrackerEvent {
+    static func mobilePaymentFail(reason: String?, listingId: String?,
+                                  transactionStatus: EventParameterTransactionStatus) -> TrackerEvent {
         var params = EventParameters()
         params[.reason] = reason ?? ""
         params[.listingId] = listingId ?? ""
+        params[.transactionStatus] = transactionStatus.rawValue
         return TrackerEvent(name: .mobilePaymentFail, params: params)
     }
 
@@ -1164,7 +1172,7 @@ struct TrackerEvent {
 }
 
 typealias ItemsCount = Int
-extension ItemsCount {
+fileprivate extension ItemsCount {
     var value: String {
         get {
             guard self <= 50 else {

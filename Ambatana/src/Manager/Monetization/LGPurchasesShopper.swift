@@ -50,10 +50,10 @@ protocol PurchasesShopperDelegate: class {
     func freeBumpDidFail(withNetwork network: EventParameterShareNetwork)
 
     func pricedBumpDidStart()
-    func paymentDidSucceed(paymentId: String)
-    func pricedBumpDidSucceed(type: BumpUpType, restoreRetriesCount: Int)
-    func pricedBumpDidFail(type: BumpUpType)
-    func pricedBumpPaymentDidFail(withReason reason: String?)
+    func paymentDidSucceed(paymentId: String, transactionStatus: EventParameterTransactionStatus)
+    func pricedBumpDidSucceed(type: BumpUpType, restoreRetriesCount: Int, transactionStatus: EventParameterTransactionStatus)
+    func pricedBumpDidFail(type: BumpUpType, transactionStatus: EventParameterTransactionStatus)
+    func pricedBumpPaymentDidFail(withReason reason: String?, transactionStatus: EventParameterTransactionStatus)
 
     func restoreBumpDidStart()
 }
@@ -173,7 +173,10 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
                 let bump = FailedBumpInfo(dictionary: bumpDict)
                 else { continue }
 
-            requestBumpWithPaymentInfo(listingId: listingId, transaction: nil, type: .restore, currentBump: bump)
+            let transactionStatus = EventParameterTransactionStatus(purchasesShopperState: .restoring,
+                                                                    transactionState: nil)
+            requestBumpWithPaymentInfo(listingId: listingId, transaction: nil, type: .restore, currentBump: bump,
+                                       transactionStatus: transactionStatus)
         }
     }
 
@@ -225,11 +228,12 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
      */
     func requestPayment(forListingId listingId: String, appstoreProduct: PurchaseableProduct, paymentItemId: String) {
         guard canMakePayments else { return }
-        purchasesShopperState = .purchasing
         guard let appstoreProducts = letgoProductsDict[listingId],
             let appstoreChosenProduct = appstoreProduct as? SKProduct,
             appstoreProducts.contains(appstoreChosenProduct)
             else { return }
+
+        purchasesShopperState = .purchasing
 
         delegate?.pricedBumpDidStart()
 
@@ -284,11 +288,18 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
             // listing id still has SKPaymentTransactions in the paymentQueue
             // we need to pass the transaction to finish it in case
             for transaction in pendingTransactionsForListingId {
-                requestBumpWithPaymentInfo(listingId: listingId, transaction: transaction, type: .restore, currentBump: bump)
+                let transactionStatus = EventParameterTransactionStatus(purchasesShopperState: .restoring,
+                                                                        transactionState: transaction.transactionState)
+
+                requestBumpWithPaymentInfo(listingId: listingId, transaction: transaction, type: .restore, currentBump: bump,
+                                           transactionStatus: transactionStatus)
             }
         } else {
+            let transactionStatus = EventParameterTransactionStatus(purchasesShopperState: .restoring,
+                                                                    transactionState: nil)
             // listing id doesn't have SKPaymentTransactions in the paymentQueue
-            requestBumpWithPaymentInfo(listingId: listingId, transaction: nil, type: .restore, currentBump: bump)
+            requestBumpWithPaymentInfo(listingId: listingId, transaction: nil, type: .restore, currentBump: bump,
+                                       transactionStatus: transactionStatus)
         }
     }
 
@@ -300,7 +311,11 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
      - parameter transaction: the app store transaction info
      - parameter type: the type of bump
      */
-    fileprivate func requestPricedBumpUp(forListingId listingId: String, receiptData: String, transaction: SKPaymentTransaction, type: BumpUpType) {
+    fileprivate func requestPricedBumpUp(forListingId listingId: String,
+                                         receiptData: String,
+                                         transaction: SKPaymentTransaction,
+                                         type: BumpUpType,
+                                         transactionStatus: EventParameterTransactionStatus) {
 
         var price: String?
         var currency: String?
@@ -317,14 +332,15 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         let bundleId = Bundle.main.bundleIdentifier
 
         let paymentId = UUID().uuidString.lowercased()
-        delegate?.paymentDidSucceed(paymentId: paymentId)
+
+        delegate?.paymentDidSucceed(paymentId: paymentId, transactionStatus: transactionStatus)
 
         let bump = FailedBumpInfo(listingId: listingId, transactionId: transaction.transactionIdentifier,
                                      paymentId: paymentId, receiptData: receiptData, itemId: transaction.payment.productIdentifier,
                                      itemPrice: price ?? "0", itemCurrency: currency ?? "", amplitudeId: amplitudeId,
                                      appsflyerId: appsflyerId, idfa: idfa, bundleId: bundleId, numRetries: 0)
 
-        requestBumpWithPaymentInfo(listingId: listingId, transaction: transaction, type: type, currentBump: bump)
+        requestBumpWithPaymentInfo(listingId: listingId, transaction: transaction, type: type, currentBump: bump, transactionStatus: transactionStatus)
     }
 
     /**
@@ -344,7 +360,8 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
      - parameter type: the type of bump
      */
     private func requestBumpWithPaymentInfo(listingId: String, transaction: SKPaymentTransaction?,
-                                            type: BumpUpType, currentBump: FailedBumpInfo) {
+                                            type: BumpUpType, currentBump: FailedBumpInfo,
+                                            transactionStatus: EventParameterTransactionStatus) {
 
         guard currentBump.numRetries < Constants.maxRetriesForBumpUpRestore  else {
             removeFromUserDefaults(transactionId: currentBump.transactionId)
@@ -368,37 +385,43 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
 
         recursiveRequestBumpWithPaymentInfo(listingId: listingId, transaction: transaction, type: type, currentBump: bump,
                                             retryCount: retryCount, previousResult: nil) { [weak self] result in
-
+                                                guard let strongSelf = self else { return }
                                                 if let _ = result.value {
-                                                    self?.finishTransaction(transaction: transaction,
+                                                    strongSelf.finishTransaction(transaction: transaction,
                                                                             forListingId: listingId,
                                                                             withBumpUpInfo: bump)
-                                                    self?.delegate?.pricedBumpDidSucceed(type: type,
-                                                                                         restoreRetriesCount: bump.numRetries)
+
+                                                    strongSelf.delegate?.pricedBumpDidSucceed(type: type,
+                                                                                         restoreRetriesCount: bump.numRetries,
+                                                                                         transactionStatus: transactionStatus)
                                                 } else if let error = result.error {
                                                     switch error {
                                                     case .serverError(code: let code):
                                                         if let code = code {
                                                             let bumpError = BumpFailedErrorCode(code: code)
                                                             if !bumpError.isUsersFault {
-                                                                self?.saveToUserDefaults(bumpUp: bump)
+                                                                strongSelf.saveToUserDefaults(bumpUp: bump)
                                                             } else {
-                                                                self?.finishTransaction(transaction: transaction,
+                                                                strongSelf.finishTransaction(transaction: transaction,
                                                                                         forListingId: listingId,
                                                                                         withBumpUpInfo: bump)
                                                             }
                                                         }
                                                     case .forbidden, .internalError, .network, .notFound, .tooManyRequests,
                                                          .unauthorized, .userNotVerified, .wsChatError:
-                                                        self?.saveToUserDefaults(bumpUp: bump)
+                                                        strongSelf.saveToUserDefaults(bumpUp: bump)
                                                     }
-                                                    self?.delegate?.pricedBumpDidFail(type: type)
+                                                    strongSelf.delegate?.pricedBumpDidFail(type: type, transactionStatus: transactionStatus)
                                                 }
         }
     }
 
-    private func recursiveRequestBumpWithPaymentInfo(listingId: String, transaction: SKPaymentTransaction?, type: BumpUpType,
-                                                     currentBump: FailedBumpInfo, retryCount: Int, previousResult: BumpResult?,
+    private func recursiveRequestBumpWithPaymentInfo(listingId: String,
+                                                     transaction: SKPaymentTransaction?,
+                                                     type: BumpUpType,
+                                                     currentBump: FailedBumpInfo,
+                                                     retryCount: Int,
+                                                     previousResult: BumpResult?,
                                                      completion: BumpCompletion?) {
 
         if let value = previousResult?.value {
@@ -529,30 +552,32 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
 
     private func purchasePaymentQueue(queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         for transaction in transactions {
+            let transactionStatus = EventParameterTransactionStatus(purchasesShopperState: purchasesShopperState,
+                                                                    transactionState: transaction.transactionState)
             switch transaction.transactionState {
             case .purchasing:
                 // this avoids duplicated transactions for a listing
                 removeFromUserDefaults(transactionId: transaction.transactionIdentifier)
-            case .deferred, .restored:
+            case .deferred, .restored, .purchased:
                 /*
-                 those status will never happen:
                  deferred: wait for an user action to confirm the purchase
                  restored: restore a previous purchase (non-consumable)
+                 those status should never happen:
                  */
-                continue
-            case .purchased:
-                purchasesShopperState = .restoring
+
                 saveToUserDefaults(transaction: transaction, forListing: paymentProcessingListingId)
 
                 guard let receiptString = receiptString, let paymentProcessingListingId = paymentProcessingListingId else {
-                    delegate?.pricedBumpDidFail(type: .priced)
+                    delegate?.pricedBumpDidFail(type: .priced, transactionStatus: transactionStatus)
                     continue
                 }
 
                 requestPricedBumpUp(forListingId: paymentProcessingListingId, receiptData: receiptString,
-                                    transaction: transaction, type: .priced)
+                                    transaction: transaction, type: .priced, transactionStatus: transactionStatus)
+                purchasesShopperState = .restoring
             case .failed:
-                delegate?.pricedBumpPaymentDidFail(withReason: transaction.error?.localizedDescription)
+                delegate?.pricedBumpPaymentDidFail(withReason: transaction.error?.localizedDescription,
+                                                   transactionStatus: transactionStatus)
                 queue.finishTransaction(transaction)
                 logMessage(.info, type: [.monetization], message: "Purchase failed with error: \(String(describing: transaction.error?.localizedDescription))")
             }
@@ -562,22 +587,26 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
     // Is not OUR restore (with a different banner) is apple's restore
     private func restorePaymentQueue(queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         for transaction in transactions {
+            let transactionStatus = EventParameterTransactionStatus(purchasesShopperState: purchasesShopperState,
+                                                                    transactionState: transaction.transactionState)
             switch transaction.transactionState {
-            case .purchasing, .deferred:
+            case .purchasing:
                 continue
-            case .purchased, .restored:
+            case .purchased, .restored, .deferred:
                 let transactionListingId = listingIdFor(transaction: transaction) ?? paymentProcessingListingId
 
                 guard let listingId = transactionListingId, let receiptString = receiptString else {
                     removeFromUserDefaults(transactionId: transaction.transactionIdentifier)
                     queue.finishTransaction(transaction)
-                    delegate?.pricedBumpDidFail(type: .priced)
+                    delegate?.pricedBumpDidFail(type: .priced, transactionStatus: transactionStatus)
                     continue
                 }
                 requestPricedBumpUp(forListingId: listingId, receiptData: receiptString,
-                                              transaction: transaction, type: .priced)
+                                              transaction: transaction, type: .priced,
+                                              transactionStatus: transactionStatus)
             case .failed:
-                delegate?.pricedBumpPaymentDidFail(withReason: transaction.error?.localizedDescription)
+                delegate?.pricedBumpPaymentDidFail(withReason: transaction.error?.localizedDescription,
+                                                   transactionStatus: transactionStatus)
                 queue.finishTransaction(transaction)
                 logMessage(.info, type: [.monetization], message: "Purchase restore failed with error: \(String(describing: transaction.error?.localizedDescription))")
             }
@@ -638,6 +667,44 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
         removeFromUserDefaultsBumpUpWithListingId(listingId: listingId)
         if let transaction = transaction {
             paymentQueue.finishTransaction(transaction)
+        }
+    }
+}
+
+extension EventParameterTransactionStatus {
+    init(purchasesShopperState: PurchasesShopperState, transactionState: SKPaymentTransactionState?) {
+        guard let transactionState = transactionState else {
+            switch purchasesShopperState {
+            case .purchasing:
+                self = .purchasingUnknown
+            case .restoring:
+                self = .restoringUnknown
+            }
+            return
+        }
+        switch purchasesShopperState {
+        case .purchasing:
+            switch transactionState {
+            case .purchasing, .purchased:
+                self = .purchasingPurchased
+            case .deferred:
+                self = .purchasingDeferred
+            case .restored:
+                self = .purchasingRestored
+            case .failed:
+                self = .purchasingFailed
+            }
+        case .restoring:
+            switch transactionState {
+            case .purchasing, .purchased:
+                self = .restoringPurchased
+            case .deferred:
+                self = .restoringDeferred
+            case .restored:
+                self = .restoringRestored
+            case .failed:
+                self = .restoringFailed
+            }
         }
     }
 }
