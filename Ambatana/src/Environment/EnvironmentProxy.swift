@@ -101,4 +101,12 @@ class EnvironmentProxy: AppEnvironment {
     var websiteBaseUrlWithLocaleParams: String {
         return environment.websiteBaseUrlWithLocaleParams
     }
+
+    var googleAdsAppId: String {
+        return environment.googleAdsAppId
+    }
+
+    var moreInfoAdUnitId: String {
+        return environment.moreInfoAdUnitId
+    }
 }

@@ -37,4 +37,8 @@ class DevelopmentEnvironment: AppEnvironment {
     // Website
     let websiteBaseUrl = "https://www.stg.letgo.com"
     let websiteBaseUrlWithLocaleParams = "https://%@.stg.letgo.com/%@"
+
+    // Google Ads
+    let googleAdsAppId = "ca-app-pub-3940256099942544~1458002511"
+    let moreInfoAdUnitId = ""
 }

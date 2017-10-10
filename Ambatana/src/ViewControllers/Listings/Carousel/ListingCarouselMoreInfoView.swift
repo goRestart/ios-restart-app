@@ -10,6 +10,7 @@ import MapKit
 import LGCoreKit
 import RxSwift
 import LGCollapsibleLabel
+import GoogleMobileAds
 
 enum MoreInfoState {
     case hidden
@@ -55,7 +56,11 @@ class ListingCarouselMoreInfoView: UIView {
     @IBOutlet weak var mapViewContainer: UIView!
     fileprivate var mapViewContainerExpandable: UIView? = nil
     fileprivate var mapViewTapGesture: UITapGestureRecognizer? = nil
-    
+
+    @IBOutlet weak var bannerContainerView: UIView!
+    @IBOutlet weak var bannerContainerHeightConstraint: NSLayoutConstraint!
+    fileprivate var bannerView: GADSearchBannerView?
+
     @IBOutlet weak var socialShareContainer: UIView!
     @IBOutlet weak var socialShareTitleLabel: UILabel!
     @IBOutlet weak var socialShareView: SocialShareView!
@@ -99,6 +104,7 @@ class ListingCarouselMoreInfoView: UIView {
         setupStatsRx(viewModel: viewModel)
         setupBottomPanelRx(viewModel: viewModel)
         self.viewModel = viewModel
+        setupBanner()
     }
 
     func viewWillShow() {
@@ -270,6 +276,45 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
             return renderer
         }
         return MKCircleRenderer()
+    }
+
+    func setupBanner() {
+
+        bannerView = GADSearchBannerView(adSize: kGADAdSizeFluid)
+        guard let bannerView = bannerView else { return }
+        bannerView.adUnitID = "partner-vert-pla-mobile-app-ambatana-srp"
+        bannerView.frame = CGRect(x: 0, y: 0, width: bounds.width, height: 400)
+        bannerView.autoresizingMask = .flexibleHeight
+        bannerView.adSizeDelegate = self
+        bannerView.delegate = self
+        bannerContainerView.addSubview(bannerView)
+
+        bannerContainerHeightConstraint.constant = 400.0
+
+        let searchRequest = GADDynamicHeightSearchRequest()
+        searchRequest.query = "iphone 6"
+        searchRequest.adTestEnabled = true
+
+        searchRequest.setAdvancedOptionValue("plas", forKey: "adType")
+        searchRequest.setAdvancedOptionValue("300", forKey: "height")
+        searchRequest.setAdvancedOptionValue("300", forKey: "width")
+
+        bannerView.load(searchRequest)
+    }
+}
+
+extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate {
+    func adView(_ bannerView: GADBannerView, willChangeAdSizeTo size: GADAdSize) {
+        print("🐤🐤🐤🐤🐤🐤🐤")
+        print(size)
+    }
+
+    func adViewDidReceiveAd(_ bannerView: GADBannerView) {
+        print("🌸🌸🌸🌸🌸🌸")
+    }
+
+    func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError) {
+        print("❌❌❌❌❌❌")
     }
 }
 

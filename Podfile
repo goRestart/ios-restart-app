@@ -21,6 +21,9 @@ def shared_pods
     pod "RxCocoa",              "3.1.0"     # branch https://github.com/ReactiveX/RxSwift/tree/rxswift4.0-swift4.0 swift 4
     pod "RxBlocking",           "3.1.0"     # NOT USED IN LETGO !!!
 
+    #Ads
+    pod "Google-Mobile-Ads-SDK","7.24.1"
+
     #Fabric
     pod "Fabric",               "1.6.11"    # Obj-c
     pod "Crashlytics",          "3.8.3"     # Obj-c

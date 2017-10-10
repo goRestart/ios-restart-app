@@ -16,6 +16,7 @@ import LGCoreKit
 import RxSwift
 import TwitterKit
 import UIKit
+import GoogleMobileAds
 
 #if DEBUG
     import AdSupport
@@ -328,6 +329,9 @@ fileprivate extension AppDelegate {
 
         LGNotificationsManager.sharedInstance.setup()
         StickersManager.sharedInstance.setup()
+
+        // Google Ads
+//        GADMobileAds.configure(withApplicationID: EnvironmentProxy.sharedInstance.googleAdsAppId)
     }
 }
 

@@ -37,6 +37,10 @@ protocol AppEnvironment {
     // Website
     var websiteBaseUrl: String { get }
     var websiteBaseUrlWithLocaleParams: String { get }
+
+    // Google Ads
+    var googleAdsAppId: String { get }
+    var moreInfoAdUnitId: String { get }
 }
 
 extension AppEnvironment {
