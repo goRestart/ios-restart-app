@@ -24,7 +24,6 @@ class ABTests {
     let passiveBuyersShowKeyboard = BoolABDynamicVar(key: "passiveBuyersShowKeyboard", defaultValue: false)
     let freeBumpUpEnabled = BoolABDynamicVar(key: "freeBumpUpEnabled", defaultValue: false)
     let pricedBumpUpEnabled = BoolABDynamicVar(key: "pricedBumpUpEnabled", defaultValue: false)
-    let newMarkAsSoldFlow = BoolABDynamicVar(key: "newMarkAsSoldFlow", defaultValue: false)
     let newCarsMultiRequesterEnabled = BoolABDynamicVar(key: "newCarsMultiRequesterEnabled", defaultValue: false)
     let inAppRatingIOS10 = BoolABDynamicVar(key: "20170711inAppRatingIOS10", defaultValue: false)
     let addSuperKeywordsOnFeed = IntABDynamicVar(key: "20170719AddSuperKeywordsOnFeed", defaultValue: 0)
@@ -59,7 +58,7 @@ class ABTests {
         result.append(captchaTransparent)
         result.append(freeBumpUpEnabled)
         result.append(pricedBumpUpEnabled)
-        result.append(newMarkAsSoldFlow)
+
         result.append(newCarsMultiRequesterEnabled)
         result.append(inAppRatingIOS10)
         result.append(addSuperKeywordsOnFeed)
