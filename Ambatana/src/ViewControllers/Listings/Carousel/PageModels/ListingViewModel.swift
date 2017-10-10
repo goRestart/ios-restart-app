@@ -600,7 +600,7 @@ extension ListingViewModel {
         if isMine && status.value != .notAvailable {
             actions.append(buildDeleteAction())
         }
-        if isMine && status.value.isSold && isTransactionOpen{
+        if isMine && status.value.isSold && isTransactionOpen {
             actions.append(buildRateUserAction())
         }
         
