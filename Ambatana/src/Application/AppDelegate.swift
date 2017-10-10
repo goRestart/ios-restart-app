@@ -331,7 +331,7 @@ fileprivate extension AppDelegate {
         StickersManager.sharedInstance.setup()
 
         // Google Ads
-//        GADMobileAds.configure(withApplicationID: EnvironmentProxy.sharedInstance.googleAdsAppId)
+        GADMobileAds.configure(withApplicationID: EnvironmentProxy.sharedInstance.googleAdsAppId)
     }
 }
 

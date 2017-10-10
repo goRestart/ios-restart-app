@@ -104,11 +104,11 @@ class ListingCarouselMoreInfoView: UIView {
         setupStatsRx(viewModel: viewModel)
         setupBottomPanelRx(viewModel: viewModel)
         self.viewModel = viewModel
-        setupBanner()
     }
 
     func viewWillShow() {
         setupMapViewIfNeeded()
+        setupBanner()
     }
 
     func dismissed() {
