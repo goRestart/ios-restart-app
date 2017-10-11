@@ -443,10 +443,10 @@ extension AppCoordinator: SellCoordinatorDelegate {
 extension AppCoordinator: OnboardingCoordinatorDelegate {
 
     func onboardingCoordinatorDidFinishTour(_ coordinator: OnboardingCoordinator) {
-        guard let pendingDeepLink = deepLinksRouter.consumeInitialDeepLink() else {
-            openHome()
-        } else {
+        if let pendingDeepLink = deepLinksRouter.consumeInitialDeepLink() {
             openDeepLink(deepLink: pendingDeepLink)
+        } else {
+            openHome()
         }
     }
 
