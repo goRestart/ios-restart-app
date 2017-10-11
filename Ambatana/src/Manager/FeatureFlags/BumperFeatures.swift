@@ -36,6 +36,7 @@ extension Bumper  {
         flags.append(ShowPriceAfterSearchOrFilter.self)
         flags.append(RequestsTimeOut.self)
         flags.append(NewBumpUpExplanation.self)
+        flags.append(HideChatButtonOnFeaturedCells.self)
         Bumper.initialize(flags)
     } 
 
@@ -73,6 +74,7 @@ extension Bumper  {
         guard let value = Bumper.value(for: PassiveBuyersShowKeyboard.key) else { return false }
         return PassiveBuyersShowKeyboard(rawValue: value)?.asBool ?? false
     }
+
     static var newCarsMultiRequesterEnabled: Bool {
         guard let value = Bumper.value(for: NewCarsMultiRequesterEnabled.key) else { return false }
         return NewCarsMultiRequesterEnabled(rawValue: value)?.asBool ?? false
@@ -107,7 +109,7 @@ extension Bumper  {
         guard let value = Bumper.value(for: AppRatingDialogInactive.key) else { return false }
         return AppRatingDialogInactive(rawValue: value)?.asBool ?? false
     }
-  
+
     static var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu {
         guard let value = Bumper.value(for: ExpandableCategorySelectionMenu.key) else { return .control }
         return ExpandableCategorySelectionMenu(rawValue: value) ?? .control 
@@ -151,6 +153,11 @@ extension Bumper  {
     static var newBumpUpExplanation: NewBumpUpExplanation {
         guard let value = Bumper.value(for: NewBumpUpExplanation.key) else { return .control }
         return NewBumpUpExplanation(rawValue: value) ?? .control 
+    }
+
+    static var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells {
+        guard let value = Bumper.value(for: HideChatButtonOnFeaturedCells.key) else { return .control }
+        return HideChatButtonOnFeaturedCells(rawValue: value) ?? .control 
     } 
 }
 
@@ -437,6 +444,22 @@ enum NewBumpUpExplanation: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "show new bump up explanation view" } 
     static func fromPosition(_ position: Int) -> NewBumpUpExplanation {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum HideChatButtonOnFeaturedCells: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return HideChatButtonOnFeaturedCells.control.rawValue }
+    static var enumValues: [HideChatButtonOnFeaturedCells] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "hide chat button on the featured listing cells" } 
+    static func fromPosition(_ position: Int) -> HideChatButtonOnFeaturedCells {
         switch position { 
             case 0: return .control
             case 1: return .baseline

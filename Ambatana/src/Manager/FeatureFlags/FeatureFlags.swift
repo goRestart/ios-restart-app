@@ -42,6 +42,7 @@ protocol FeatureFlaggeable: class {
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter { get }
     var requestTimeOut: RequestsTimeOut { get }
     var newBumpUpExplanation: NewBumpUpExplanation { get }
+    var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -338,6 +339,12 @@ class FeatureFlags: FeatureFlaggeable {
         return NewBumpUpExplanation.fromPosition(abTests.newBumpUpExplanation.value)
     }
 
+    var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells {
+        if Bumper.enabled {
+            return Bumper.hideChatButtonOnFeaturedCells
+        }
+        return HideChatButtonOnFeaturedCells.fromPosition(abTests.hideChatButtonOnFeaturedCells.value)
+    }
 
     // MARK: - Country features
 
