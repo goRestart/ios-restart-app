@@ -44,6 +44,8 @@ class MockFeatureFlags: FeatureFlaggeable {
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter = .control
     var requestTimeOut: RequestsTimeOut = .thirty
     var newBumpUpExplanation: NewBumpUpExplanation = .control
+    var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells = .control
+
 
     // Country dependant features
     var freePostingModeAllowed = false
