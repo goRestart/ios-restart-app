@@ -42,6 +42,7 @@ protocol FeatureFlaggeable: class {
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter { get }
     var requestTimeOut: RequestsTimeOut { get }
     var newBumpUpExplanation: NewBumpUpExplanation { get }
+    var homeRelatedEnabled: HomeRelatedEnabled { get }
     var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells { get }
 
     // Country dependant features
@@ -110,6 +111,10 @@ extension ShowPriceAfterSearchOrFilter {
             return true
         }
     }
+}
+
+extension HomeRelatedEnabled {
+    var isActive: Bool { get { return self == .active } }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -324,7 +329,6 @@ class FeatureFlags: FeatureFlaggeable {
         return ShowPriceAfterSearchOrFilter.fromPosition(abTests.showPriceAfterSearchOrFilter.value)
     }
     
-
     var newCarouselNavigationTapNextPhotoEnabled: NewCarouselTapNextPhotoNavigationEnabled {
         if Bumper.enabled {
             return Bumper.newCarouselTapNextPhotoNavigationEnabled
@@ -337,6 +341,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.newBumpUpExplanation
         }
         return NewBumpUpExplanation.fromPosition(abTests.newBumpUpExplanation.value)
+    }
+
+    var homeRelatedEnabled: HomeRelatedEnabled {
+        if Bumper.enabled {
+            return Bumper.homeRelatedEnabled
+        }
+        return HomeRelatedEnabled.fromPosition(abTests.homeRelatedEnabled.value)
     }
 
     var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells {
