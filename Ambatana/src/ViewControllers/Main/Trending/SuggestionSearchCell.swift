@@ -77,14 +77,14 @@ class SuggestionSearchCell: UITableViewCell, ReusableCell {
             .bottom(by: -Metrics.shortMargin)
         
         titleLabel.layout(with: contentView)
-            .top(by: Metrics.shortMargin)
+            .top(by: Metrics.margin)
         titleLabel.layout(with: searchIconImageView)
             .toLeft(by: 25)
         
         subtitleLabel.layout(with: contentView)
-            .bottom(by: -Metrics.shortMargin)
+            .bottom(by: -Metrics.margin)
         subtitleLabel.layout(with: titleLabel)
-            .below { [weak self] constraint in
+            .below(by: 5) { [weak self] constraint in
                 self?.titleSubtitleSpacing = constraint
             }
         subtitleLabel.layout(with: searchIconImageView)
@@ -110,6 +110,7 @@ class SuggestionSearchCell: UITableViewCell, ReusableCell {
     }
     
     private func resetUI() {
+        searchIconImageView.image = #imageLiteral(resourceName: "ic_search")
         titleLabel.text = nil
         subtitleLabel.text = nil
         fillSearchButton.isHidden = true
@@ -122,25 +123,31 @@ class SuggestionSearchCell: UITableViewCell, ReusableCell {
     
     // MARK: - Setup
     
-    func set(title: String, titleSkipHighlight: String?, subtitle: String?) {
-        let actualTitle = title.lowercased()
-
+    func set(title: String,
+             titleSkipHighlight: String?,
+             subtitle: String?,
+             icon: UIImage?) {
+        let lowercasedTitle = title.lowercased()
         if let titleLabelFont = titleLabel.font,
-           let titleSkipHighlight = titleSkipHighlight {
-            let titleWithHighlight = NSMutableAttributedString(string: actualTitle,
+           let titleSkipHighlight = titleSkipHighlight?.lowercased() {
+            let titleWithHighlight = NSMutableAttributedString(string: title,
                                                                attributes: [NSFontAttributeName: titleLabelFont])
-            let range = NSString(string: actualTitle).range(of: titleSkipHighlight)
+            let range = NSString(string: lowercasedTitle).range(of: titleSkipHighlight)
             titleWithHighlight.addAttribute(
                 NSForegroundColorAttributeName,
                 value: UIColor.gray,
                 range: range)
             titleLabel.attributedText = titleWithHighlight
         } else {
-            titleLabel.text = actualTitle
+            titleLabel.text = title
         }
         subtitleLabel.text = subtitle
         
         let spacing: CGFloat = subtitle == nil ? 0 : SuggestionSearchCell.titleSubtitleSpacing
         titleSubtitleSpacing?.constant = spacing
+        
+        if let icon = icon {
+            searchIconImageView.image = icon
+        }
     }
 }
