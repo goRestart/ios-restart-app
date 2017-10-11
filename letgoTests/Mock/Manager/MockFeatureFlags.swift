@@ -51,6 +51,8 @@ class MockFeatureFlags: FeatureFlaggeable {
     var signUpEmailNewsletterAcceptRequired = false
     var signUpEmailTermsAndConditionsAcceptRequired = false
 
+    var homeRelatedsEnabled = false
+
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false
     }

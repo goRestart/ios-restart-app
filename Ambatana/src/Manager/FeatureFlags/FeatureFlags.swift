@@ -42,6 +42,7 @@ protocol FeatureFlaggeable: class {
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter { get }
     var requestTimeOut: RequestsTimeOut { get }
     var newBumpUpExplanation: NewBumpUpExplanation { get }
+    var homeRelatedsEnabled: Bool { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -323,7 +324,6 @@ class FeatureFlags: FeatureFlaggeable {
         return ShowPriceAfterSearchOrFilter.fromPosition(abTests.showPriceAfterSearchOrFilter.value)
     }
     
-
     var newCarouselNavigationTapNextPhotoEnabled: NewCarouselTapNextPhotoNavigationEnabled {
         if Bumper.enabled {
             return Bumper.newCarouselTapNextPhotoNavigationEnabled
@@ -336,6 +336,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.newBumpUpExplanation
         }
         return NewBumpUpExplanation.fromPosition(abTests.newBumpUpExplanation.value)
+    }
+
+    var homeRelatedsEnabled: Bool {
+        if Bumper.enabled {
+            return Bumper.homeRelatedsEnabled
+        }
+        return abTests.homeRelatedsEnabled.value
     }
 
 

@@ -36,6 +36,7 @@ extension Bumper  {
         flags.append(ShowPriceAfterSearchOrFilter.self)
         flags.append(RequestsTimeOut.self)
         flags.append(NewBumpUpExplanation.self)
+        flags.append(HomeRelatedsEnabled.self)
         Bumper.initialize(flags)
     } 
 
@@ -73,6 +74,7 @@ extension Bumper  {
         guard let value = Bumper.value(for: PassiveBuyersShowKeyboard.key) else { return false }
         return PassiveBuyersShowKeyboard(rawValue: value)?.asBool ?? false
     }
+
     static var newCarsMultiRequesterEnabled: Bool {
         guard let value = Bumper.value(for: NewCarsMultiRequesterEnabled.key) else { return false }
         return NewCarsMultiRequesterEnabled(rawValue: value)?.asBool ?? false
@@ -107,7 +109,7 @@ extension Bumper  {
         guard let value = Bumper.value(for: AppRatingDialogInactive.key) else { return false }
         return AppRatingDialogInactive(rawValue: value)?.asBool ?? false
     }
-  
+
     static var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu {
         guard let value = Bumper.value(for: ExpandableCategorySelectionMenu.key) else { return .control }
         return ExpandableCategorySelectionMenu(rawValue: value) ?? .control 
@@ -151,6 +153,11 @@ extension Bumper  {
     static var newBumpUpExplanation: NewBumpUpExplanation {
         guard let value = Bumper.value(for: NewBumpUpExplanation.key) else { return .control }
         return NewBumpUpExplanation(rawValue: value) ?? .control 
+    }
+
+    static var homeRelatedsEnabled: Bool {
+        guard let value = Bumper.value(for: HomeRelatedsEnabled.key) else { return false }
+        return HomeRelatedsEnabled(rawValue: value)?.asBool ?? false
     } 
 }
 
@@ -444,5 +451,14 @@ enum NewBumpUpExplanation: String, BumperFeature  {
             default: return .control
         }
     }
+}
+
+enum HomeRelatedsEnabled: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return HomeRelatedsEnabled.no.rawValue }
+    static var enumValues: [HomeRelatedsEnabled] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show the related button in the main feed" } 
+    var asBool: Bool { return self == .yes }
 }
 

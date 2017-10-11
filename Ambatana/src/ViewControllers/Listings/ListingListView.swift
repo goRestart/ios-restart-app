@@ -75,7 +75,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     @IBOutlet weak var rightInsetErrorViewConstraint: NSLayoutConstraint!
 
 
-    var isRelatedEnabled: Bool = true
+    var isRelatedEnabled = false
     var shouldScrollToTopOnFirstPageReload = true
     var dataPadding: UIEdgeInsets {
         didSet {
@@ -167,6 +167,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         self.padding = padding
         self.lastContentOffset = 0
         self.scrollingDown = true
+        self.isRelatedEnabled = featureFlags.homeRelatedsEnabled
         super.init(viewModel: viewModel, frame: frame)
         drawerManager.freePostingAllowed = featureFlags.freePostingModeAllowed
         viewModel.delegate = self
@@ -183,6 +184,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         self.padding = padding
         self.lastContentOffset = 0
         self.scrollingDown = true
+        self.isRelatedEnabled = featureFlags.homeRelatedsEnabled
         super.init(viewModel: viewModel, coder: aDecoder)
         drawerManager.freePostingAllowed = featureFlags.freePostingModeAllowed
         viewModel.delegate = self

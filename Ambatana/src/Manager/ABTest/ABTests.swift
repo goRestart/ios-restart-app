@@ -40,6 +40,7 @@ class ABTests {
     let showPriceAfterSearchOrFilter = IntABDynamicVar(key: "20170928ShowPriceAfterSearchOrFilter", defaultValue: 0)
     let requestsTimeOut = IntABDynamicVar(key: "20170929RequestTimeOut", defaultValue: 30)
     let newBumpUpExplanation = IntABDynamicVar(key: "20171004NewBumpUpExplanation", defaultValue: 0)
+    let homeRelatedsEnabled = BoolABDynamicVar(key: "20171011HomeRelatedsEnabled", defaultValue: false)
 
     init() {
     }
@@ -72,6 +73,7 @@ class ABTests {
         result.append(showPriceAfterSearchOrFilter)
         result.append(requestsTimeOut)
         result.append(newBumpUpExplanation)
+        result.append(homeRelatedsEnabled)
         
         return result
     }
