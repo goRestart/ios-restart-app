@@ -112,12 +112,12 @@ class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate {
         stripeInfoView.isHidden = false
     }
 
-    func setupFeaturedStripe() {
+    func setupFeaturedStripe(withTextColor textColor: UIColor) {
         stripeIconWidth.constant = 0
         stripeImageView.image = UIImage(named: "stripe_white")
         stripeIcon.image = nil
         stripeLabel.text = LGLocalizedString.bumpUpProductCellFeaturedStripe
-        stripeLabel.textColor = UIColor.blackText
+        stripeLabel.textColor = textColor
         stripeImageView.isHidden = false
         stripeInfoView.isHidden = false
     }

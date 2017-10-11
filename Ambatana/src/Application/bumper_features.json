@@ -114,5 +114,10 @@
         "name": "NewBumpUpExplanation",
         "values": ["control", "baseline", "active"],
         "description": "show new bump up explanation view"
+    },
+    {
+        "name": "HideChatButtonOnFeaturedCells",
+        "values": ["control", "baseline", "active"],
+        "description": "hide chat button on the featured listing cells"
     }
 ]

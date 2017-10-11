@@ -18,6 +18,7 @@ class GridDrawerManager {
 
     var cellStyle: CellStyle = .mainList
     var freePostingAllowed: Bool = true
+    var featuredShouldShowChatButton: Bool = true
     
     private let listingDrawer = ListingCellDrawer()
     private let collectionDrawer = ListingCollectionCellDrawer()
@@ -62,6 +63,7 @@ class GridDrawerManager {
                                    delegate: delegate,
                                    isFree: listing.price.free && freePostingAllowed,
                                    isFeatured: isFeatured,
+                                   featuredShouldShowChatButton: featuredShouldShowChatButton,
                                    isMine: isMine,
                                    price: listing.priceString(freeModeAllowed: freePostingAllowed),
                                    shouldShowPrice: false)
@@ -72,7 +74,10 @@ class GridDrawerManager {
     }
 
     
-    func draw(_ model: ListingCellModel, inCell cell: UICollectionViewCell, delegate: ListingCellDelegate?, shouldShowPrice: Bool) {
+    func draw(_ model: ListingCellModel,
+              inCell cell: UICollectionViewCell,
+              delegate: ListingCellDelegate?,
+              shouldShowPrice: Bool) {
         switch model {
         case let .listingCell(listing) where cell is ListingCell:
             guard let cell = cell as? ListingCell else { return }
@@ -87,6 +92,7 @@ class GridDrawerManager {
                                    delegate: delegate,
                                    isFree: listing.price.free && freePostingAllowed,
                                    isFeatured: isFeatured,
+                                   featuredShouldShowChatButton: featuredShouldShowChatButton,
                                    isMine: isMine,
                                    price: listing.priceString(freeModeAllowed: freePostingAllowed),
                                    shouldShowPrice: shouldShowPrice)
