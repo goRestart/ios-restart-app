@@ -713,6 +713,8 @@ enum EventParameterListingVisitSource: String {
     case openApp = "open-app"
     case notifications = "notifications"
     case relatedListings = "related-items-list"
+    case next = "next-related-items-list"
+    case previous = "previous-related-items-list"
     case unknown = "N/A"
 }
 
