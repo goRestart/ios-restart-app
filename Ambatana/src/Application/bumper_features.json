@@ -116,7 +116,7 @@
         "description": "show new bump up explanation view"
     },
     {
-        "name": "HomeRelatedsEnabled",
+        "name": "HomeRelatedEnabled",
         "values": ["No", "Yes"],
         "description": "Show the related button in the main feed"
     }

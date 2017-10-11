@@ -622,7 +622,10 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             break
         }
     }
-    
+
+    func shouldShowRelatedListingsButton() -> Bool {
+        return featureFlags.homeRelatedEnabled
+    }
 
     // MARK: > ListingListViewModelDataDelegate
 

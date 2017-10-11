@@ -42,7 +42,7 @@ protocol FeatureFlaggeable: class {
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter { get }
     var requestTimeOut: RequestsTimeOut { get }
     var newBumpUpExplanation: NewBumpUpExplanation { get }
-    var homeRelatedsEnabled: Bool { get }
+    var homeRelatedEnabled: Bool { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -338,11 +338,11 @@ class FeatureFlags: FeatureFlaggeable {
         return NewBumpUpExplanation.fromPosition(abTests.newBumpUpExplanation.value)
     }
 
-    var homeRelatedsEnabled: Bool {
+    var homeRelatedEnabled: Bool {
         if Bumper.enabled {
-            return Bumper.homeRelatedsEnabled
+            return Bumper.homeRelatedEnabled
         }
-        return abTests.homeRelatedsEnabled.value
+        return abTests.homeRelatedEnabled.value
     }
 
 

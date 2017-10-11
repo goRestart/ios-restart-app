@@ -36,7 +36,7 @@ extension Bumper  {
         flags.append(ShowPriceAfterSearchOrFilter.self)
         flags.append(RequestsTimeOut.self)
         flags.append(NewBumpUpExplanation.self)
-        flags.append(HomeRelatedsEnabled.self)
+        flags.append(HomeRelatedEnabled.self)
         Bumper.initialize(flags)
     } 
 
@@ -155,9 +155,9 @@ extension Bumper  {
         return NewBumpUpExplanation(rawValue: value) ?? .control 
     }
 
-    static var homeRelatedsEnabled: Bool {
-        guard let value = Bumper.value(for: HomeRelatedsEnabled.key) else { return false }
-        return HomeRelatedsEnabled(rawValue: value)?.asBool ?? false
+    static var homeRelatedEnabled: Bool {
+        guard let value = Bumper.value(for: HomeRelatedEnabled.key) else { return false }
+        return HomeRelatedEnabled(rawValue: value)?.asBool ?? false
     } 
 }
 
@@ -453,10 +453,10 @@ enum NewBumpUpExplanation: String, BumperFeature  {
     }
 }
 
-enum HomeRelatedsEnabled: String, BumperFeature  {
+enum HomeRelatedEnabled: String, BumperFeature  {
     case no, yes
-    static var defaultValue: String { return HomeRelatedsEnabled.no.rawValue }
-    static var enumValues: [HomeRelatedsEnabled] { return [.no, .yes]}
+    static var defaultValue: String { return HomeRelatedEnabled.no.rawValue }
+    static var enumValues: [HomeRelatedEnabled] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show the related button in the main feed" } 
     var asBool: Bool { return self == .yes }
