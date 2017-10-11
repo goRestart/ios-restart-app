@@ -155,9 +155,9 @@ extension Bumper  {
         return NewBumpUpExplanation(rawValue: value) ?? .control 
     }
 
-    static var homeRelatedEnabled: Bool {
-        guard let value = Bumper.value(for: HomeRelatedEnabled.key) else { return false }
-        return HomeRelatedEnabled(rawValue: value)?.asBool ?? false
+    static var homeRelatedEnabled: HomeRelatedEnabled {
+        guard let value = Bumper.value(for: HomeRelatedEnabled.key) else { return .control }
+        return HomeRelatedEnabled(rawValue: value) ?? .control
     } 
 }
 
@@ -467,6 +467,5 @@ enum HomeRelatedEnabled: String, BumperFeature  {
             default: return .control
         }
     }
-    var asBool: Bool { return self == .active }
 }
 

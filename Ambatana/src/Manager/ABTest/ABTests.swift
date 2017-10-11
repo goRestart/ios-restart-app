@@ -40,7 +40,7 @@ class ABTests {
     let showPriceAfterSearchOrFilter = IntABDynamicVar(key: "20170928ShowPriceAfterSearchOrFilter", defaultValue: 0)
     let requestsTimeOut = IntABDynamicVar(key: "20170929RequestTimeOut", defaultValue: 30)
     let newBumpUpExplanation = IntABDynamicVar(key: "20171004NewBumpUpExplanation", defaultValue: 0)
-    let homeRelatedEnabled = BoolABDynamicVar(key: "20171011HomeRelatedEnabled", defaultValue: false)
+    let homeRelatedEnabled = IntABDynamicVar(key: "20171011HomeRelatedEnabled", defaultValue: 0)
 
     init() {
     }

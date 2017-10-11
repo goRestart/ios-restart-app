@@ -44,6 +44,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter = .control
     var requestTimeOut: RequestsTimeOut = .thirty
     var newBumpUpExplanation: NewBumpUpExplanation = .control
+    var homeRelatedEnabled: HomeRelatedEnabled = .control
 
     // Country dependant features
     var freePostingModeAllowed = false
@@ -51,7 +52,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var signUpEmailNewsletterAcceptRequired = false
     var signUpEmailTermsAndConditionsAcceptRequired = false
 
-    var homeRelatedEnabled = false
 
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false
