@@ -57,7 +57,10 @@ extension AppDelegate: UIApplicationDelegate {
         self.featureFlags = featureFlags
         featureFlags.registerVariables()
         self.purchasesShopper = LGPurchasesShopper.sharedInstance
-        self.deepLinksRouter = LGDeepLinksRouter.sharedInstance
+        let deepLinksRouter = LGDeepLinksRouter.sharedInstance
+        AppsFlyerTracker.shared().delegate = deepLinksRouter
+        self.deepLinksRouter = deepLinksRouter
+
         setupAppearance()
         setupLibraries(application,
                        launchOptions: launchOptions,
@@ -98,7 +101,7 @@ extension AppDelegate: UIApplicationDelegate {
         window.makeKeyAndVisible()
 
         let fbApplicationDelegate = FBSDKApplicationDelegate.sharedInstance()
-        let deepLinksRouterContinuation = deepLinksRouter?.initWithLaunchOptions(launchOptions) ?? false
+        let deepLinksRouterContinuation = deepLinksRouter.initWithLaunchOptions(launchOptions) ?? false
         let fbSdkContinuation = fbApplicationDelegate?.application(application,
                                                                    didFinishLaunchingWithOptions: launchOptions) ?? false
 
