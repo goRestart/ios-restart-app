@@ -154,6 +154,47 @@ class LocalSuggestiveSearchSpec: QuickSpec {
                     }
                 }
             }
+            
+            context("equality") {
+                it("returns true when two term searches with the same name") {
+                    expect(LocalSuggestiveSearch(suggestiveSearch: SuggestiveSearch.term(name: "name")))
+                        == LocalSuggestiveSearch(suggestiveSearch: SuggestiveSearch.term(name: "name"))
+                }
+                
+                it("returns false when two term searches with different name") {
+                    expect(LocalSuggestiveSearch(suggestiveSearch: SuggestiveSearch.term(name: String.makeRandom())))
+                        != LocalSuggestiveSearch(suggestiveSearch: SuggestiveSearch.term(name: String.makeRandom()))
+                }
+                
+                it("returns true when comparing two category searches with the same category") {
+                    expect(LocalSuggestiveSearch(suggestiveSearch: SuggestiveSearch.category(category: .cars)))
+                        == LocalSuggestiveSearch(suggestiveSearch: SuggestiveSearch.category(category: .cars))
+                }
+                
+                it("returns false when comparing two category searches with different category") {
+                    expect(LocalSuggestiveSearch(suggestiveSearch: SuggestiveSearch.category(category: .cars)))
+                        != LocalSuggestiveSearch(suggestiveSearch: SuggestiveSearch.category(category: .electronics))
+                }
+                
+                it("returns true when comparing two term with category searches with the same name and category") {
+                    expect(LocalSuggestiveSearch(suggestiveSearch: SuggestiveSearch.termWithCategory(name: "name",
+                                                                                                     category: .cars)))
+                        == LocalSuggestiveSearch(suggestiveSearch: SuggestiveSearch.termWithCategory(name: "name",
+                                                                                                     category: .cars))
+                }
+                
+                it("returns false when comparing two term with category searches with different name or category") {
+                    expect(LocalSuggestiveSearch(suggestiveSearch: SuggestiveSearch.termWithCategory(name: String.makeRandom(),
+                                                                                                     category: ListingCategory.makeMock())))
+                        != LocalSuggestiveSearch(suggestiveSearch: SuggestiveSearch.termWithCategory(name: String.makeRandom(),
+                                                                                                     category: ListingCategory.makeMock()))
+                }
+                
+                it("returns false when comparing different searches types") {
+                    expect(LocalSuggestiveSearch(suggestiveSearch: SuggestiveSearch.term(name: String.makeRandom())))
+                        != LocalSuggestiveSearch(suggestiveSearch: SuggestiveSearch.category(category: ListingCategory.makeMock()))
+                }
+            }
         }
     }
 }

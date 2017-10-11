@@ -18,28 +18,6 @@ final class LocalSuggestiveSearch: NSObject, NSCoding {
     private static let nameKey = "name"
     private static let categoryIdKey = "categoryId"
     
-    var title: String {
-        switch suggestiveSearch {
-        case let .term(name):
-            return name
-        case let .category(category):
-            return category.name
-        case let .termWithCategory(name, _):
-            return name
-        }
-    }
-    
-    var subtitle: String? {
-        switch suggestiveSearch {
-        case .term:
-            return nil
-        case .category:
-            return "category"   // TODO: ¡¡¡localizable!!!
-        case let .termWithCategory(_, category):
-            return category.name
-        }
-    }
-    
     let suggestiveSearch: SuggestiveSearch
 
     
@@ -47,6 +25,11 @@ final class LocalSuggestiveSearch: NSObject, NSCoding {
     
     init(suggestiveSearch: SuggestiveSearch) {
         self.suggestiveSearch = suggestiveSearch
+    }
+    
+    override func isEqual(_ object: Any?) -> Bool {
+        guard let otherLocalSuggestiveSearch = object as? LocalSuggestiveSearch else { return false }
+        return suggestiveSearch == otherLocalSuggestiveSearch.suggestiveSearch
     }
     
     
