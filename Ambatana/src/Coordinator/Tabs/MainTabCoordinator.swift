@@ -92,14 +92,12 @@ extension MainTabCoordinator: MainTabNavigator {
         guard let objectId = listing.objectId else { return }
         let relatedRequester = RelatedListingListRequester(listingId: objectId,
                                                            itemsPerPage: Constants.numListingsPerPageDefault)
-        let simpleRelatedListingsVM = SimpleListingsViewModel(requester: relatedRequester,
-                                                              listings: [],
-                                                              title: LGLocalizedString.relatedItemsTitle,
-                                                              listingVisitSource: .relatedListings)
+        let simpleRelatedListingsVM = RelatedListingsViewModel(requester: relatedRequester,
+                                                               originListing: listing,
+                                                               title: LGLocalizedString.relatedItemsTitle,
+                                                               listingVisitSource: .relatedListings)
         simpleRelatedListingsVM.navigator = self
         let simpleRelatedListingsVC = SimpleListingsViewController(viewModel: simpleRelatedListingsVM)
         navigationController.pushViewController(simpleRelatedListingsVC, animated: true)
-
-        tracker.trackEvent(TrackerEvent.relatedListings(listing: listing, source: nil))
     }
 }
