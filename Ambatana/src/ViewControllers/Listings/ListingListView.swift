@@ -75,6 +75,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     @IBOutlet weak var rightInsetErrorViewConstraint: NSLayoutConstraint!
 
 
+    var isRelatedEnabled: Bool = true
     var shouldScrollToTopOnFirstPageReload = true
     var dataPadding: UIEdgeInsets {
         didSet {
@@ -141,6 +142,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             drawerManager.cellStyle = viewModel.cellStyle
         }
     }
+
     private let drawerManager = GridDrawerManager(myUserRepository: Core.myUserRepository)
     
     // Delegate
@@ -156,7 +158,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     
     // MARK: - Lifecycle
     
-    init(viewModel: ListingListViewModel,featureFlags: FeatureFlaggeable, frame: CGRect) {
+    init(viewModel: ListingListViewModel, featureFlags: FeatureFlaggeable, frame: CGRect) {
         self.viewModel = viewModel
         let padding = UIEdgeInsets.zero
         self.dataPadding = padding
@@ -167,6 +169,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         self.scrollingDown = true
         super.init(viewModel: viewModel, frame: frame)
         drawerManager.freePostingAllowed = featureFlags.freePostingModeAllowed
+        drawerManager.featuredShouldShowChatButton = featureFlags.hideChatButtonOnFeaturedCells != .active
         viewModel.delegate = self
         setupUI()
         setAccessibilityIds()
@@ -183,6 +186,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         self.scrollingDown = true
         super.init(viewModel: viewModel, coder: aDecoder)
         drawerManager.freePostingAllowed = featureFlags.freePostingModeAllowed
+        drawerManager.featuredShouldShowChatButton = featureFlags.hideChatButtonOnFeaturedCells != .active
         viewModel.delegate = self
         setupUI()
         setAccessibilityIds()
@@ -299,14 +303,21 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
                                cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let item = viewModel.itemAtIndex(indexPath.row) else { return UICollectionViewCell() }
         let cell = drawerManager.cell(item, collectionView: collectionView, atIndexPath: indexPath)
-        drawerManager.draw(item, inCell: cell, delegate: viewModel.listingCellDelegate)
+        drawerManager.draw(item, inCell: cell, delegate: viewModel.listingCellDelegate, shouldShowPrice: viewModel.shouldShowPrices)
         cell.tag = (indexPath as NSIndexPath).hash
+        (cell as? ListingCell)?.isRelatedEnabled = isRelatedEnabled
         return cell
     }
 
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell,
+    func collectionView(_ collectionView: UICollectionView,
+                        willDisplay cell: UICollectionViewCell,
                         forItemAt indexPath: IndexPath) {
         DispatchQueue.main.async { [weak self] in
+            if let item = self?.viewModel.itemAtIndex(indexPath.row),
+                let cell = self?.collectionView.cellForItem(at: indexPath) {
+                self?.drawerManager.willDisplay(item, inCell: cell, delegate: self?.viewModel.listingCellDelegate)
+            }
+
             self?.viewModel.setCurrentItemIndex(indexPath.item)
 
             let indexes = collectionView.indexPathsForVisibleItems.map{ $0.item }

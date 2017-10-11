@@ -12,16 +12,6 @@ import Runes
 
 extension SuggestiveSearch: Decodable {
     
-    /*private static func makeCategory(categoryId: Int) -> SuggestiveSearch? {
-        guard let category = ListingCategory(rawValue: categoryId) else { return nil }
-        return SuggestiveSearch.category(category: category)
-    }
-    
-    private static func makeTermWithCategory(name: String, categoryId: Int) -> SuggestiveSearch? {
-        guard let category = ListingCategory(rawValue: categoryId) else { return nil }
-        return SuggestiveSearch.termWithCategory(name: name, category: category)
-    }*/
-    
     /**
      Expects a json in the form:
      {

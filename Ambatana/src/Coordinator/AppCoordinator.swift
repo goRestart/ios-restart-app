@@ -21,7 +21,7 @@ final class AppCoordinator: NSObject, Coordinator {
     weak var presentedAlertController: UIAlertController?
     let bubbleNotificationManager: BubbleNotificationManager
     let sessionManager: SessionManager
-    
+
     let tabBarCtl: TabBarController
     fileprivate let selectedTab: Variable<Tab>
 
@@ -100,7 +100,7 @@ final class AppCoordinator: NSObject, Coordinator {
 
         self.tabBarCtl = tabBarController
         self.selectedTab = Variable<Tab>(.home)
-        
+
         self.mainTabBarCoordinator = MainTabCoordinator()
         self.notificationsTabBarCoordinator = NotificationsTabCoordinator()
         self.chatsTabBarCoordinator = ChatsTabCoordinator()
@@ -125,7 +125,7 @@ final class AppCoordinator: NSObject, Coordinator {
         self.chatRepository = chatRepository
         self.userRatingRepository = userRatingRepository
         self.installationRepository = installationRepository
-        
+
         self.featureFlags = featureFlags
         self.locationManager = locationManager
         super.init()
@@ -157,7 +157,7 @@ extension AppCoordinator: AppNavigator {
     func open() {
         guard !openOnboarding() else { return }
         delegate?.appNavigatorDidOpenApp()
-        
+
         if let deepLink = deepLinksRouter.consumeInitialDeepLink() {
             openExternalDeepLink(deepLink, initialDeepLink: true)
         }
@@ -206,7 +206,7 @@ extension AppCoordinator: AppNavigator {
         case .onboardingButton, .onboardingCamera:
             forcedInitialTab = .camera
         }
-        
+
         let sellCoordinator = SellCoordinator(source: source,
                                               postCategory: postCategory,
                                               forcedInitialTab: forcedInitialTab)
@@ -215,7 +215,7 @@ extension AppCoordinator: AppNavigator {
     }
 
     // MARK: App Review
-    
+
     func openAppRating(_ source: EventParameterRatingSource) {
         guard ratingManager.shouldShowRating else { return }
         let trackerEvent = TrackerEvent.appRatingStart(source)
@@ -234,7 +234,7 @@ extension AppCoordinator: AppNavigator {
             tabBarCtl.showAppRatingView(source)
         }
     }
-    
+
     private func askUserIsEnjoyingLetgo() {
         let yesButtonInterface = UIActionInterface.image(UIImage(named: "ic_emoji_yes"), nil)
         let rateAppAlertAction = UIAction(interface: yesButtonInterface, action: { [weak self] in
@@ -256,7 +256,7 @@ extension AppCoordinator: AppNavigator {
                             simulatePushTransitionOnDismiss: true,
                             dismissAction: dismissAction)
     }
-    
+
     private func askUserToRateApp() {
         let rateAppInterface = UIActionInterface.button(LGLocalizedString.ratingAppRateAlertYesButton,
                                                         ButtonStyle.primary(fontSize: .medium))
@@ -265,7 +265,7 @@ extension AppCoordinator: AppNavigator {
             self?.trackUserDidRate()
             LGRatingManager.sharedInstance.userDidRate()
         })
-        
+
         let dismissAction: (() -> ()) = { [weak self] in
             self?.trackUserDidRemindLater()
             LGRatingManager.sharedInstance.userDidRemindLater()
@@ -276,9 +276,9 @@ extension AppCoordinator: AppNavigator {
         let exitAction = UIAction(interface: exitInterface, action: {
             dismissAction()
         })
-        
-       
-        
+
+
+
         openTransitionAlert(title: LGLocalizedString.ratingAppRateAlertTitle,
                             text: "",
                             alertType: .plainAlert,
@@ -287,7 +287,7 @@ extension AppCoordinator: AppNavigator {
                             simulatePushTransitionOnPresent: true,
                             dismissAction: dismissAction)
     }
-    
+
     private func askUserToGiveFeedback() {
         let giveFeedbackInterface = UIActionInterface.button(LGLocalizedString.ratingAppFeedbackYesButton,
                                                              ButtonStyle.primary(fontSize: .medium))
@@ -306,7 +306,7 @@ extension AppCoordinator: AppNavigator {
         let exitAction = UIAction(interface: exitInterface, action: {
             dismissAction()
         })
-        
+
         openTransitionAlert(title: LGLocalizedString.ratingAppFeedbackTitle,
                             text: "",
                             alertType: .plainAlert,
@@ -315,30 +315,30 @@ extension AppCoordinator: AppNavigator {
                             simulatePushTransitionOnPresent: true,
                             dismissAction: dismissAction)
     }
-    
+
     private func canOpenAppStoreWriteReviewWebsite() -> Bool {
         if let url = URL(string: Constants.appStoreWriteReviewURL) {
             return UIApplication.shared.canOpenURL(url)
         }
         return false
     }
-    
+
     private func openAppStoreWriteReviewWebsite() {
         if let url = URL(string: Constants.appStoreWriteReviewURL) {
             UIApplication.shared.openURL(url)
         }
     }
-    
+
     private func trackUserDidRate() {
         let trackerEvent = TrackerEvent.appRatingRate()
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
-    
+
     private func trackUserDidRemindLater() {
         let event = TrackerEvent.appRatingRemindMeLater()
         TrackerProxy.sharedInstance.trackEvent(event)
     }
-    
+
     private func openGiveFeedback() {
         guard let email = myUserRepository.myUser?.email,
             let installation = installationRepository.installation,
@@ -347,7 +347,7 @@ extension AppCoordinator: AppNavigator {
         }
         viewController.openInternalUrl(contactURL)
     }
-    
+
     private func openTransitionAlert(title: String?,
                                      text: String,
                                      alertType: AlertType,
@@ -356,7 +356,7 @@ extension AppCoordinator: AppNavigator {
                                      simulatePushTransitionOnPresent: Bool = false,
                                      simulatePushTransitionOnDismiss: Bool = false,
                                      dismissAction: (() -> ())? = nil) {
-        
+
         guard let alert = LGAlertViewController(title: title,
                                                 text: text,
                                                 alertType: alertType,
@@ -367,7 +367,7 @@ extension AppCoordinator: AppNavigator {
         alert.simulatePushTransitionOnDismiss = simulatePushTransitionOnDismiss
         tabBarCtl.present(alert, animated: false, completion: nil)
     }
-    
+
     // MARK -
 
     func openUserRating(_ source: RateUserSource, data: RateUserData) {
@@ -375,7 +375,7 @@ extension AppCoordinator: AppNavigator {
         userRatingCoordinator.delegate = self
         openChild(coordinator: userRatingCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
     }
-    
+
     func openChangeLocation() {
         profileTabBarCoordinator.openEditLocation(withDistanceRadius: nil)
     }
@@ -385,7 +385,7 @@ extension AppCoordinator: AppNavigator {
         let viewController = VerifyAccountsViewController(viewModel: viewModel)
         tabBarCtl.present(viewController, animated: true, completion: nil)
     }
-    
+
     func openResetPassword(_ token: String) {
         let changePasswordCoordinator = ChangePasswordCoordinator(token: token)
         if let onboardingCoordinator = child as? ChangePasswordPresenter {
@@ -412,11 +412,11 @@ extension AppCoordinator: AppNavigator {
     func canOpenAppInvite() -> Bool {
         return AppShareViewController.canBeShown()
     }
-    
+
     func openDeepLink(deepLink: DeepLink) {
         triggerDeepLink(deepLink, initialDeepLink: false)
     }
-    
+
     func openAppStore() {
         if let url = URL(string: Constants.appStoreURL) {
             UIApplication.shared.openURL(url)
@@ -441,10 +441,25 @@ extension AppCoordinator: SellCoordinatorDelegate {
 // MARK: - OnboardingCoordinatorDelegate
 
 extension AppCoordinator: OnboardingCoordinatorDelegate {
+
+    func onboardingCoordinatorDidFinishTour(_ coordinator: OnboardingCoordinator) {
+        if let pendingDeepLink = deepLinksRouter.consumeInitialDeepLink() {
+            openDeepLink(deepLink: pendingDeepLink)
+        } else {
+            openHome()
+        }
+    }
+
+    func shouldSkipPostingTour() -> Bool {
+        return deepLinksRouter.initialDeeplinkAvailable
+    }
+
     func onboardingCoordinator(_ coordinator: OnboardingCoordinator, didFinishPosting posting: Bool, source: PostingSource?) {
         delegate?.appNavigatorDidOpenApp()
         if let source = source, posting {
             openSell(source: source, postCategory: nil)
+        } else {
+            openHome()
         }
     }
 }
@@ -496,11 +511,11 @@ extension AppCoordinator: TabCoordinatorDelegate {
 extension AppCoordinator: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController,
                           shouldSelect viewController: UIViewController) -> Bool {
-        
+
         defer {
             chatsTabBarCoordinator.setNeedsRefreshConversations()
         }
-        
+
         let topVC = topViewControllerInController(viewController)
         let selectedViewController = tabBarController.selectedViewController
 
@@ -547,7 +562,7 @@ extension AppCoordinator: UITabBarControllerDelegate {
 
 
 fileprivate extension AppCoordinator {
-    
+
     func setupTabBarController() {
         tabBarCtl.delegate = self
         var viewControllers = tabCoordinators.map { $0.navigationController as UIViewController }
@@ -561,7 +576,7 @@ fileprivate extension AppCoordinator {
         notificationsTabBarCoordinator.tabCoordinatorDelegate = self
         chatsTabBarCoordinator.tabCoordinatorDelegate = self
         profileTabBarCoordinator.tabCoordinatorDelegate = self
-        
+
         mainTabBarCoordinator.appNavigator = self
         notificationsTabBarCoordinator.appNavigator = self
         chatsTabBarCoordinator.appNavigator = self
@@ -592,21 +607,21 @@ fileprivate extension AppCoordinator {
                     }
                 }
             }
-        }.addDisposableTo(disposeBag)
+            }.addDisposableTo(disposeBag)
 
         locationManager.locationEvents.filter { $0 == .movedFarFromSavedManualLocation }.take(1).bindNext {
             [weak self] _ in
             self?.askUserToUpdateLocation()
-        }.addDisposableTo(disposeBag)
-        
+            }.addDisposableTo(disposeBag)
+
         locationManager.locationEvents.filter { $0 == .locationUpdate }.take(1).bindNext {
             [weak self] _ in
             guard let strongSelf = self else { return }
             if strongSelf.featureFlags.locationRequiresManualChangeSuggestion {
                 strongSelf.askUserToUpdateLocationManually()
             }
-        }.addDisposableTo(disposeBag)
-       }
+            }.addDisposableTo(disposeBag)
+    }
 
     func askUserToUpdateLocation() {
         guard let navCtl = selectedNavigationController else { return }
@@ -614,15 +629,15 @@ fileprivate extension AppCoordinator {
 
         let yesAction = UIAction(interface: .styledText(LGLocalizedString.commonOk, .standard), action: { [weak self] in
             self?.locationManager.setAutomaticLocation(nil)
-            })
+        })
         navCtl.showAlert(nil, message: LGLocalizedString.changeLocationRecommendUpdateLocationMessage,
                          cancelLabel: LGLocalizedString.commonCancel, actions: [yesAction])
     }
-    
+
     func askUserToUpdateLocationManually() {
         guard let navCtl = selectedNavigationController else { return }
         guard navCtl.isAtRootViewController else { return }
-        
+
         let yesAction = UIAction(interface: .styledText(LGLocalizedString.commonOk, .standard), action: { [weak self] in
             self?.openLoginIfNeeded(from: .profile) { [weak self] in
                 self?.openTab(.profile) { [weak self] in
@@ -643,11 +658,11 @@ fileprivate extension AppCoordinator {
 // MARK: - CustomLeanplumPresenter
 
 extension AppCoordinator: CustomLeanplumPresenter {
-    
+
     func setupLeanplumPopUp() {
         Leanplum.customLeanplumAlert(self)
     }
-    
+
     func showLeanplumAlert(_ title: String?, text: String, image: String, action: UIAction) {
         let alertIcon = UIImage(contentsOfFile: image)
         guard let alert = LGAlertViewController(title: title, text: text, alertType: .iconAlert(icon: alertIcon), actions: [action]) else { return }
@@ -721,8 +736,8 @@ fileprivate extension AppCoordinator {
     }
 
     /**
-     Those links will always come from an inactive state of the app. So it means the user clicked a push, a link or a 
-     shortcut. 
+     Those links will always come from an inactive state of the app. So it means the user clicked a push, a link or a
+     shortcut.
      As it was a user action we must perform navigation
      */
     func openExternalDeepLink(_ deepLink: DeepLink, initialDeepLink: Bool = false) {
@@ -731,7 +746,7 @@ fileprivate extension AppCoordinator {
 
         triggerDeepLink(deepLink, initialDeepLink: initialDeepLink)
     }
-    
+
     func triggerDeepLink(_ deepLink: DeepLink, initialDeepLink: Bool) {
         var afterDelayClosure: (() -> Void)?
         switch deepLink.action {
@@ -838,14 +853,14 @@ fileprivate extension AppCoordinator {
                 self?.openAppStore()
             }
         }
-        
+
         if let afterDelayClosure = afterDelayClosure {
             delay(0.5) { _ in
                 afterDelayClosure()
             }
         }
     }
-    
+
 
     /**
      A deeplink has been received while the app is active. It means the user was already inside the app and the deeplink
@@ -859,7 +874,7 @@ fileprivate extension AppCoordinator {
         switch deepLink.action {
         case .home, .sell, .listing, .listingShare, .listingBumpUp, .listingMarkAsSold, .user, .conversations, .conversationWithMessage, .search, .resetPassword, .userRatings, .userRating,
              .passiveBuyers, .notificationCenter, .appStore:
-            return // Do nothing
+        return // Do nothing
         case let .conversation(data):
             showInappChatNotification(data, message: deepLink.origin.message)
         case .message(_, let data):

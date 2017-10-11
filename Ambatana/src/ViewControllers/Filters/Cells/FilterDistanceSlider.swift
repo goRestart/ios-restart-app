@@ -30,12 +30,9 @@ class FilterDistanceSlider: UIView {
         return marksContainer.frame.size
     }
     
-    private var positions: [Int] {
-        return isUsingNewRadiusValues ? Constants.distanceSliderPositionsNew : Constants.distanceSliderPositions
-    }
+    private var positions: [Int] { return Constants.distanceSliderPositions }
     private var selectedPosition: Int = Constants.distanceSliderDefaultPosition
-    private let isUsingNewRadiusValues: Bool
-    
+
     weak var delegate: FilterDistanceSliderDelegate?
     
     var distanceType: DistanceType = DistanceType.systemDistanceType()
@@ -63,20 +60,8 @@ class FilterDistanceSlider: UIView {
     }
     
     // MARK: - Lifecycle
-
-    convenience init() {
-        let isUsingNewRadiusValues: Bool
-        switch FeatureFlags.sharedInstance.feedFilterRadiusValues {
-        case .baseline, .control:
-            isUsingNewRadiusValues = false
-        case .newValues:
-            isUsingNewRadiusValues = true
-        }
-        self.init(isUsingNewRadiusValues: isUsingNewRadiusValues)
-    }
     
-    init(isUsingNewRadiusValues: Bool) {
-        self.isUsingNewRadiusValues = isUsingNewRadiusValues
+    init() {
         super.init(frame: CGRect.zero)
         
         setupUI()

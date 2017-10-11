@@ -68,19 +68,15 @@ final class TourLocationViewModel: BaseViewModel {
     }
     
     func userDidTapNoButton() {
-        if featureFlags.newOnboardingPhase1 {
-            let actionOk = UIAction(interface: UIActionInterface.text(LGLocalizedString.onboardingAlertYes),
-                                    action: { [weak self] in self?.closeTourLocation() })
-            let actionCancel = UIAction(interface: UIActionInterface.text(LGLocalizedString.onboardingAlertNo),
-                                        action: { [weak self] in self?.askForPermissions() })
-            delegate?.vmShowAlert(LGLocalizedString.onboardingLocationPermissionsAlertTitle,
-                                  message: LGLocalizedString.onboardingLocationPermissionsAlertSubtitle,
-                                  actions: [actionCancel, actionOk])
-        } else {
-            closeTourLocation()
-        }
+        let actionOk = UIAction(interface: UIActionInterface.text(LGLocalizedString.onboardingAlertYes),
+                                action: { [weak self] in self?.closeTourLocation() })
+        let actionCancel = UIAction(interface: UIActionInterface.text(LGLocalizedString.onboardingAlertNo),
+                                    action: { [weak self] in self?.askForPermissions() })
+        delegate?.vmShowAlert(LGLocalizedString.onboardingLocationPermissionsAlertTitle,
+                              message: LGLocalizedString.onboardingLocationPermissionsAlertSubtitle,
+                              actions: [actionCancel, actionOk])
     }
-    
+
     func userDidTapYesButton() {
         askForPermissions()
     }

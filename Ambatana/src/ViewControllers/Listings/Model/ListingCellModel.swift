@@ -36,8 +36,10 @@ struct ListingData {
     var delegate: ListingCellDelegate?
     var isFree: Bool
     var isFeatured: Bool
+    var featuredShouldShowChatButton: Bool
     var isMine: Bool
     var price: String
+    var shouldShowPrice: Bool
 
     var listingId: String? {
         return listing?.objectId

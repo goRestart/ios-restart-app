@@ -19,7 +19,7 @@ protocol ListingListViewModelDelegate: class {
 protocol ListingListViewModelDataDelegate: class {
     func listingListMV(_ viewModel: ListingListViewModel, didFailRetrievingListingsPage page: UInt, hasListings: Bool,
                          error: RepositoryError)
-    func listingListVM(_ viewModel: ListingListViewModel, didSucceedRetrievingListingsPage page: UInt, hasListings: Bool)
+    func listingListVM(_ viewModel: ListingListViewModel, didSucceedRetrievingListingsPage page: UInt, withResultsCount resultsCount: Int, hasListings: Bool)
     func listingListVM(_ viewModel: ListingListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
                        originFrame: CGRect?)
     func vmProcessReceivedListingPage(_ Listings: [ListingCellModel], page: UInt) -> [ListingCellModel]
@@ -62,14 +62,6 @@ protocol ListingListRequester: class {
 }
 
 class ListingListViewModel: BaseViewModel {
-    
-    // MARK: - Constants
-    private static let cellMinHeight: CGFloat = 80.0
-    private static let cellAspectRatio: CGFloat = 198.0 / cellMinHeight
-    private static let cellBannerAspectRatio: CGFloat = 1.3
-    private static let cellMaxThumbFactor: CGFloat = 2.0
-    private static let cellFeaturedInfoMinHeight: CGFloat = 105.0
-    private static let cellFeaturedInfoTitleMaxLines: CGFloat = 2.0
 
     var cellWidth: CGFloat {
         return (UIScreen.main.bounds.size.width - (listingListFixedInset*2)) / CGFloat(numberOfColumns)
@@ -123,9 +115,12 @@ class ListingListViewModel: BaseViewModel {
         return !isLastPage && canRetrieveListings
     }
     
+    var shouldShowPrices: Bool
+    
     // Tracking
     
     fileprivate let tracker: Tracker
+    fileprivate let reporter: CrashlyticsReporter
     
     
     // RX vars
@@ -147,7 +142,9 @@ class ListingListViewModel: BaseViewModel {
          listings: [Listing]? = nil,
          numberOfColumns: Int = 2,
          tracker: Tracker = TrackerProxy.sharedInstance,
-         imageDownloader: ImageDownloaderType = ImageDownloader.sharedInstance) {
+         imageDownloader: ImageDownloaderType = ImageDownloader.sharedInstance,
+         reporter: CrashlyticsReporter = CrashlyticsReporter(),
+         shouldShowPrices: Bool = false) {
         self.objects = (listings ?? []).map(ListingCellModel.init)
         self.pageNumber = 0
         self.refreshing = false
@@ -156,10 +153,12 @@ class ListingListViewModel: BaseViewModel {
         self.listingListRequester = requester
         self.defaultCellSize = CGSize.zero
         self.tracker = tracker
+        self.reporter = reporter
         self.imageDownloader = imageDownloader
         self.indexToTitleMapping = [:]
+        self.shouldShowPrices = shouldShowPrices
         super.init()
-        let cellHeight = cellWidth * ListingListViewModel.cellAspectRatio
+        let cellHeight = cellWidth * ListingCell.LayoutConstants.aspectRatio
         self.defaultCellSize = CGSize(width: cellWidth, height: cellHeight)
     }
     
@@ -185,7 +184,7 @@ class ListingListViewModel: BaseViewModel {
     func setErrorState(_ viewModel: LGEmptyViewModel) {
         state = .error(viewModel)
         if let errorReason = viewModel.emptyReason {
-             trackErrorStateShown(reason: errorReason)
+            trackErrorStateShown(reason: errorReason, errorCode: viewModel.errorCode)
         }
     }
 
@@ -244,6 +243,9 @@ class ListingListViewModel: BaseViewModel {
         delegate?.vmReloadData(self)
     }
     
+    func updateShouldShowPrices(_ shouldShowPrices: Bool) {
+        self.shouldShowPrices = shouldShowPrices
+    }
     
     private func retrieveListings(firstPage: Bool) {
         guard let listingListRequester = listingListRequester else { return } //Should not happen
@@ -289,6 +291,7 @@ class ListingListViewModel: BaseViewModel {
                 }
                 strongSelf.delegate?.vmDidFinishLoading(strongSelf, page: nextPageNumber, indexes: indexes)
                 strongSelf.dataDelegate?.listingListVM(strongSelf, didSucceedRetrievingListingsPage: nextPageNumber,
+                                                       withResultsCount: newListings.count,
                                                        hasListings: hasListings)
             } else if let error = result.listingsResult.error {
                 strongSelf.processError(error, nextPageNumber: nextPageNumber)
@@ -392,9 +395,9 @@ class ListingListViewModel: BaseViewModel {
             guard let thumbnailSize = listing.thumbnailSize, thumbnailSize.height != 0 && thumbnailSize.width != 0
                 else { return defaultCellSize }
             
-            let thumbFactor = min(ListingListViewModel.cellMaxThumbFactor,
+            let thumbFactor = min(ListingCell.LayoutConstants.maxThumbFactor,
                                   CGFloat(thumbnailSize.height / thumbnailSize.width))
-            let imageFinalHeight = max(ListingListViewModel.cellMinHeight, round(defaultCellSize.width * thumbFactor))
+            let imageFinalHeight = max(ListingCell.LayoutConstants.minHeight, round(defaultCellSize.width * thumbFactor))
 
             var featuredInfoFinalHeight: CGFloat = 0.0
             if let featured = listing.featured, featured {
@@ -402,12 +405,14 @@ class ListingListViewModel: BaseViewModel {
                 if let title = listing.title {
                     listingTitleHeight = title.heightForWidth(width: defaultCellSize.width, maxLines: 2, withFont: UIFont.mediumBodyFont)
                 }
-                featuredInfoFinalHeight = CGFloat(ListingListViewModel.cellFeaturedInfoMinHeight) + listingTitleHeight
+                featuredInfoFinalHeight = CGFloat(ListingCell.LayoutConstants.featuredInfoMinHeight) + listingTitleHeight
             }
+            
+            let priceViewHeight: CGFloat = ListingCell.LayoutConstants.priceViewHeight
 
-            return CGSize(width: defaultCellSize.width, height: imageFinalHeight+featuredInfoFinalHeight)
+            return CGSize(width: defaultCellSize.width, height: imageFinalHeight + featuredInfoFinalHeight + priceViewHeight)
         case .collectionCell:
-            let height = defaultCellSize.width*ListingListViewModel.cellBannerAspectRatio
+            let height = defaultCellSize.width * ListingCell.LayoutConstants.bannerAspectRatio
             return CGSize(width: defaultCellSize.width, height: height)
         case .emptyCell:
             return CGSize(width: defaultCellSize.width, height: 1)
@@ -441,9 +446,13 @@ class ListingListViewModel: BaseViewModel {
 // MARK: - Tracking
 
 extension ListingListViewModel {
-    func trackErrorStateShown(reason: EventParameterEmptyReason) {
-        let event = TrackerEvent.emptyStateVisit(typePage: .listingList , reason: reason)
+    func trackErrorStateShown(reason: EventParameterEmptyReason, errorCode: Int?) {
+        let event = TrackerEvent.emptyStateVisit(typePage: .listingList , reason: reason, errorCode: errorCode)
         tracker.trackEvent(event)
+
+        reporter.report(CrashlyticsReporter.appDomain,
+                        code: errorCode ?? 0,
+                        message: "Listing list empty state shown -> \(reason.rawValue)")
     }
 
     func trackVerticalFilterResults(withVerticalTrackingInfo info: VerticalTrackingInfo) {

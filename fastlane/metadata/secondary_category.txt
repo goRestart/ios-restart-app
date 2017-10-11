@@ -1,1 +1,1 @@
-MZGenre.Apps.Catalogs
+MZGenre.Lifestyle

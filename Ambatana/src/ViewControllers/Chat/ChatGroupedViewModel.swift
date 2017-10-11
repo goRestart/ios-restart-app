@@ -100,7 +100,7 @@ class ChatGroupedViewModel: BaseViewModel {
                     icon: UIImage(named: "err_list_no_blocked_users"),
                     title: LGLocalizedString.chatListBlockedEmptyTitle,
                     body: LGLocalizedString.chatListBlockedEmptyBody, buttonTitle: nil, action: nil,
-                    secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: .emptyResults)
+                    secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: .emptyResults, errorCode: nil)
             }
         }
         setupRxBindings()
@@ -115,7 +115,8 @@ class ChatGroupedViewModel: BaseViewModel {
                                                       action: { [weak self] in
                                                         self?.refreshCurrentPage()
                                                         },
-                                                      secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: .verification)
+                                                      secondaryButtonTitle: nil, secondaryAction: nil,
+                                                      emptyReason: .verification, errorCode: nil)
     }
 
     // MARK: - Public methods
@@ -229,7 +230,7 @@ class ChatGroupedViewModel: BaseViewModel {
             secondaryButtonTitle: LGLocalizedString.chatListBuyingEmptyButton,
             secondaryAction: { [weak self] in
                 self?.tabNavigator?.openHome()
-            }, emptyReason: nil
+            }, emptyReason: nil, errorCode: nil
         )
         let chatListViewModel: ChatListViewModel
         if featureFlags.websocketChat {
@@ -249,7 +250,7 @@ class ChatGroupedViewModel: BaseViewModel {
             action: { [weak self] in
                 self?.tabNavigator?.openSell(source: .sellButton, postCategory: nil)
             },
-            secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: nil
+            secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: nil, errorCode: nil
         )
         let chatListViewModel: ChatListViewModel
         if featureFlags.websocketChat {
@@ -269,7 +270,7 @@ class ChatGroupedViewModel: BaseViewModel {
             action: { [weak self] in
                 self?.tabNavigator?.openHome()
             },
-            secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: nil
+            secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: nil, errorCode: nil
         )
         let chatListViewModel: ChatListViewModel
         if featureFlags.websocketChat {
