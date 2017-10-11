@@ -25,7 +25,7 @@ extension SuggestiveSearch {
         case .term:
             return nil
         case .category:
-            return "Category"           // TODO: !!!
+            return LGLocalizedString.suggestionsCategory
         case let .termWithCategory(_, category):
             return category.name
         }
@@ -36,7 +36,7 @@ extension SuggestiveSearch {
         case .term, .termWithCategory:
             return #imageLiteral(resourceName: "ic_search")
         case .category:
-            return #imageLiteral(resourceName: "ic_filters") // TODO: good icon
+            return #imageLiteral(resourceName: "ic_filters_gray")
         }
     }
 }
