@@ -8,6 +8,7 @@
 
 import LGCoreKit
 import RxSwift
+import GoogleMobileAds
 
 protocol ListingCarouselViewModelDelegate: BaseViewModelDelegate {
     func vmRemoveMoreInfoTooltip()
@@ -139,7 +140,13 @@ class ListingCarouselViewModel: BaseViewModel {
             currentListingViewModel?.active = active
         }
     }
-    
+
+    // Ads
+    var adUnitId: String {
+        return EnvironmentProxy.sharedInstance.moreInfoAdUnitId
+    }
+    var adsRequest: GADDynamicHeightSearchRequest?
+
 
     // MARK: - Init
 
@@ -238,6 +245,7 @@ class ListingCarouselViewModel: BaseViewModel {
         if firstProductSyncRequired {
             syncFirstListing()
         }
+        makeAdsRequest()
     }
 
     override func didBecomeActive(_ firstTime: Bool) {
@@ -434,6 +442,21 @@ class ListingCarouselViewModel: BaseViewModel {
         socialSharer.value = currentVM.socialSharer
 
         moreInfoState.asObservable().bindTo(currentVM.moreInfoState).addDisposableTo(activeDisposeBag)
+    }
+
+    func makeAdsRequest() {
+        adsRequest = GADDynamicHeightSearchRequest()
+
+        adsRequest?.query = "running shoes"
+        #if GOD_MODE
+            adsRequest?.adTestEnabled = true
+        #endif
+
+        
+        adsRequest?.setAdvancedOptionValue("plas", forKey: "adType")
+        adsRequest?.setAdvancedOptionValue("vert-pla-mobile-app-ambatana-srp", forKey: "pubId")
+        adsRequest?.setAdvancedOptionValue("400", forKey: "height")
+        adsRequest?.setAdvancedOptionValue("400", forKey: "width")
     }
 }
 

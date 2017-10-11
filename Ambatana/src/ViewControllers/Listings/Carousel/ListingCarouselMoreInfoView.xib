@@ -121,7 +121,7 @@
                                         <constraint firstAttribute="trailing" secondItem="N8I-fW-fvF" secondAttribute="trailing" id="xy5-Tm-6ra"/>
                                     </constraints>
                                 </view>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Y0-XY-Oc9" userLabel="Banner Container">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Y0-XY-Oc9" userLabel="Banner View" customClass="GADSearchBannerView">
                                     <rect key="frame" x="0.0" y="372.5" width="360" height="0.0"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <constraints>
@@ -224,8 +224,7 @@
             <connections>
                 <outlet property="addressLabel" destination="62m-Kf-4Em" id="CYm-sM-cM3"/>
                 <outlet property="autoTitleLabel" destination="jEM-iP-9WG" id="MFF-U6-zTJ"/>
-                <outlet property="bannerContainerHeightConstraint" destination="lG7-cp-bzA" id="MyS-3O-iE2"/>
-                <outlet property="bannerContainerView" destination="6Y0-XY-Oc9" id="uic-8n-0X5"/>
+                <outlet property="bannerView" destination="6Y0-XY-Oc9" id="Cku-Yq-oNj"/>
                 <outlet property="descriptionLabel" destination="o3x-0v-hnd" id="cRR-pA-LHP"/>
                 <outlet property="distanceLabel" destination="NxP-nG-TB9" id="gP3-Y9-hrw"/>
                 <outlet property="dragView" destination="lq7-uR-qpI" id="84m-7C-8UB"/>

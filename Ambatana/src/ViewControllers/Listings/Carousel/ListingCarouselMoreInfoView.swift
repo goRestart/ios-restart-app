@@ -57,9 +57,7 @@ class ListingCarouselMoreInfoView: UIView {
     fileprivate var mapViewContainerExpandable: UIView? = nil
     fileprivate var mapViewTapGesture: UITapGestureRecognizer? = nil
 
-    @IBOutlet weak var bannerContainerView: UIView!
-    @IBOutlet weak var bannerContainerHeightConstraint: NSLayoutConstraint!
-    fileprivate var bannerView: GADSearchBannerView?
+    @IBOutlet weak var bannerView: GADSearchBannerView!
 
     @IBOutlet weak var socialShareContainer: UIView!
     @IBOutlet weak var socialShareTitleLabel: UILabel!
@@ -103,12 +101,12 @@ class ListingCarouselMoreInfoView: UIView {
         setupMapRx(viewModel: viewModel)
         setupStatsRx(viewModel: viewModel)
         setupBottomPanelRx(viewModel: viewModel)
+        setupBannerWith(viewModel: viewModel)
         self.viewModel = viewModel
     }
 
     func viewWillShow() {
         setupMapViewIfNeeded()
-        setupBanner()
     }
 
     func dismissed() {
@@ -277,44 +275,34 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
         }
         return MKCircleRenderer()
     }
-
-    func setupBanner() {
-
-        bannerView = GADSearchBannerView(adSize: kGADAdSizeFluid)
-        guard let bannerView = bannerView else { return }
-        bannerView.adUnitID = "partner-vert-pla-mobile-app-ambatana-srp"
-        bannerView.frame = CGRect(x: 0, y: 0, width: bounds.width, height: 400)
-        bannerView.autoresizingMask = .flexibleHeight
-        bannerView.adSizeDelegate = self
-        bannerView.delegate = self
-        bannerContainerView.addSubview(bannerView)
-
-        bannerContainerHeightConstraint.constant = 400.0
-
-        let searchRequest = GADDynamicHeightSearchRequest()
-        searchRequest.query = "iphone 6"
-        searchRequest.adTestEnabled = true
-
-        searchRequest.setAdvancedOptionValue("plas", forKey: "adType")
-        searchRequest.setAdvancedOptionValue("300", forKey: "height")
-        searchRequest.setAdvancedOptionValue("300", forKey: "width")
-
-        bannerView.load(searchRequest)
-    }
 }
 
 extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate {
     func adView(_ bannerView: GADBannerView, willChangeAdSizeTo size: GADAdSize) {
         print("🐤🐤🐤🐤🐤🐤🐤")
         print(size)
+        print("bannerView.adUnitID -> \(bannerView.adUnitID)")
+
+//        // Update the banner view based on the ad size.
+//        CGRect newFrame = self.searchBannerView.frame;
+//        newFrame.size.height = size.size.height;
+//        self.searchBannerView.frame = newFrame;
+//
+//        // Any time the ad size changes, trigger a relayout of the view.
+//        [self.view setNeedsLayout];
     }
 
     func adViewDidReceiveAd(_ bannerView: GADBannerView) {
         print("🌸🌸🌸🌸🌸🌸")
+        print("bannerView.adUnitID -> \(bannerView.adUnitID)")
     }
 
     func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError) {
         print("❌❌❌❌❌❌")
+        print("bannerView.adUnitID -> \(bannerView.adUnitID)")
+        print(error)
+        print("--------")
+        print(error.userInfo)
     }
 }
 
@@ -461,6 +449,7 @@ fileprivate extension ListingCarouselMoreInfoView {
             self?.distanceLabel.text = info.distance
             self?.descriptionLabel.mainAttributedText = info.styledDescription
             self?.descriptionLabel.setNeedsLayout()
+            self?.loadAdsRequest()
         }.addDisposableTo(disposeBag)
     }
 
@@ -489,6 +478,21 @@ fileprivate extension ListingCarouselMoreInfoView {
             self?.socialShareView.socialMessage = socialMessage
             self?.socialShareView.isHidden = socialMessage == nil
         }.addDisposableTo(disposeBag)
+    }
+
+    func setupBannerWith(viewModel: ListingCarouselViewModel) {
+
+        bannerView.rootViewController = viewController()
+        bannerView.adSize = kGADAdSizeFluid
+        bannerView.adUnitID = viewModel.adUnitId
+        bannerView.frame = CGRect(x: 0, y: 0, width: bounds.width, height: 0)
+        bannerView.autoresizingMask = .flexibleHeight //.flexibleWidth
+        bannerView.adSizeDelegate = self
+        bannerView.delegate = self
+    }
+
+    func loadAdsRequest() {
+        bannerView.load(viewModel?.adsRequest)
     }
 }
 
