@@ -26,7 +26,6 @@ protocol FeatureFlaggeable: class {
     var passiveBuyersShowKeyboard: Bool { get }
     var freeBumpUpEnabled: Bool { get }
     var pricedBumpUpEnabled: Bool { get }
-    var newMarkAsSoldFlow: Bool { get }
     var newCarsMultiRequesterEnabled: Bool { get }
     var inAppRatingIOS10: Bool { get }
     var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed { get }
@@ -231,13 +230,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.pricedBumpUpEnabled
         }
         return abTests.pricedBumpUpEnabled.value
-    }
-
-    var newMarkAsSoldFlow: Bool {
-        if Bumper.enabled {
-            return Bumper.newMarkAsSoldFlow
-        }
-        return abTests.newMarkAsSoldFlow.value
     }
 
     var newCarsMultiRequesterEnabled: Bool {
