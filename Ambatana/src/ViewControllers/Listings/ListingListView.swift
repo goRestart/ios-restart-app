@@ -168,6 +168,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         self.scrollingDown = true
         super.init(viewModel: viewModel, frame: frame)
         drawerManager.freePostingAllowed = featureFlags.freePostingModeAllowed
+        drawerManager.featuredShouldShowChatButton = featureFlags.hideChatButtonOnFeaturedCells != .active
         viewModel.delegate = self
         setupUI()
         setAccessibilityIds()
@@ -184,6 +185,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         self.scrollingDown = true
         super.init(viewModel: viewModel, coder: aDecoder)
         drawerManager.freePostingAllowed = featureFlags.freePostingModeAllowed
+        drawerManager.featuredShouldShowChatButton = featureFlags.hideChatButtonOnFeaturedCells != .active
         viewModel.delegate = self
         setupUI()
         setAccessibilityIds()

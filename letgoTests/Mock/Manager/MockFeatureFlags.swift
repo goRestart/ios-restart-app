@@ -45,6 +45,8 @@ class MockFeatureFlags: FeatureFlaggeable {
     var requestTimeOut: RequestsTimeOut = .thirty
     var newBumpUpExplanation: NewBumpUpExplanation = .control
     var homeRelatedEnabled: HomeRelatedEnabled = .control
+    var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells = .control
+
 
     // Country dependant features
     var freePostingModeAllowed = false
