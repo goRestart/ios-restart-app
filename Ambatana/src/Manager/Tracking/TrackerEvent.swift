@@ -18,6 +18,8 @@ func ==(a: TrackerEvent, b: TrackerEvent) -> Bool {
 
 struct TrackerEvent {
     static let notApply: String = "N/A"
+    fileprivate static let itemsCountThreshold = 50
+
     private(set) var name: EventName
     var actualName: String {
         get {
@@ -1175,7 +1177,7 @@ typealias ItemsCount = Int
 fileprivate extension ItemsCount {
     var value: String {
         get {
-            guard self <= 50 else {
+            guard self <= TrackerEvent.itemsCountThreshold else {
                 return "50"
             }
             return "\(self)"
