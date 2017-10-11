@@ -313,6 +313,7 @@ enum EventParameterName: String {
     case superKeywordsIds     = "superkeyword-ids"
     case keywordName          = "keyword-name"
     case relatedSource        = "related-source"
+    case numberOfItems        = "number-of-items"
     case transactionStatus    = "transaction-status"
 }
 
