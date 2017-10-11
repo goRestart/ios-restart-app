@@ -19,7 +19,7 @@ protocol ListingListViewModelDelegate: class {
 protocol ListingListViewModelDataDelegate: class {
     func listingListMV(_ viewModel: ListingListViewModel, didFailRetrievingListingsPage page: UInt, hasListings: Bool,
                          error: RepositoryError)
-    func listingListVM(_ viewModel: ListingListViewModel, didSucceedRetrievingListingsPage page: UInt, hasListings: Bool)
+    func listingListVM(_ viewModel: ListingListViewModel, didSucceedRetrievingListingsPage page: UInt, withResultsCount resultsCount: Int, hasListings: Bool)
     func listingListVM(_ viewModel: ListingListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
                        originFrame: CGRect?)
     func vmProcessReceivedListingPage(_ Listings: [ListingCellModel], page: UInt) -> [ListingCellModel]
@@ -291,6 +291,7 @@ class ListingListViewModel: BaseViewModel {
                 }
                 strongSelf.delegate?.vmDidFinishLoading(strongSelf, page: nextPageNumber, indexes: indexes)
                 strongSelf.dataDelegate?.listingListVM(strongSelf, didSucceedRetrievingListingsPage: nextPageNumber,
+                                                       withResultsCount: newListings.count,
                                                        hasListings: hasListings)
             } else if let error = result.listingsResult.error {
                 strongSelf.processError(error, nextPageNumber: nextPageNumber)

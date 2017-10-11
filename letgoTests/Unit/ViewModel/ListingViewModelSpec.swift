@@ -111,42 +111,8 @@ class ListingViewModelSpec: BaseViewModelSpec {
                     listingRepository.markAsSoldResult = ListingResult(.product(soldProduct))
                 }
                 
-                context("buyer selection a/b disabled") {
+                context("buyer selection enabled newMarkAsSoldFlow") {
                     beforeEach {
-                        featureFlags.newMarkAsSoldFlow = false
-                        let userListing = MockUserListing.makeMock()
-                        listingRepository.listingBuyersResult = ListingBuyersResult([userListing])
-                        
-                        buildListingViewModel()
-                        sut.active = true
-                        
-                        // There should appear one button
-                        expect(sut.actionButtons.value.count).toEventually(equal(1))
-                        sut.actionButtons.value.first?.action()
-                        
-                        expect(tracker.trackedEvents.count).toEventually(equal(1))
-                    }
-                    it("has mark as sold and then sell it again button") {
-                        let buttonTexts: [String] = bottomButtonsObserver.eventValues.flatMap { $0.first?.text }
-                        expect(buttonTexts) == [LGLocalizedString.productMarkAsSoldButton, LGLocalizedString.productSellAgainButton]
-                    }
-                    it("does not request buyer selection") {
-                        expect(self.selectBuyersCalled) == false
-                    }
-                    it("has shown mark as sold alert") {
-                        expect(self.shownAlertText!) == LGLocalizedString.productMarkAsSoldConfirmMessage
-                    }
-                    it("calls show loading in delegate") {
-                        expect(self.delegateReceivedShowLoading) == true
-                    }
-                    it("calls hide loading in delegate") {
-                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
-                    }
-                }
-                
-                context("buyer selection enabled newMarkAsSoldFlow = true") {
-                    beforeEach {
-                        featureFlags.newMarkAsSoldFlow = true
                         let userListing = MockUserListing.makeMock()
                         listingRepository.listingBuyersResult = ListingBuyersResult([userListing])
                         buildListingViewModel()

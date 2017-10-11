@@ -365,7 +365,7 @@ fileprivate extension AppDelegate {
 
         if let featureFlags = featureFlags {
             let featureFlagsSynced = featureFlags.syncedData.asObservable().distinctUntilChanged()
-            Observable.combineLatest(appActive.asObservable(), featureFlagsSynced.asObservable()) { ($0, $1) }
+            Observable.combineLatest(appActive.asObservable().distinctUntilChanged(), featureFlagsSynced.asObservable()) { ($0, $1) }
                 .bindNext { [weak self] (appActive, _) in
                     guard featureFlags.pricedBumpUpEnabled else { return }
                     if appActive {

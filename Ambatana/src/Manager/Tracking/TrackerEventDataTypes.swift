@@ -313,6 +313,8 @@ enum EventParameterName: String {
     case superKeywordsIds     = "superkeyword-ids"
     case keywordName          = "keyword-name"
     case relatedSource        = "related-source"
+    case numberOfItems        = "number-of-items"
+    case transactionStatus    = "transaction-status"
 }
 
 enum EventParameterBoolean: String {
@@ -848,6 +850,20 @@ enum EventParameterBumpUpType: String {
             self = .retry
         }
     }
+}
+
+enum EventParameterTransactionStatus: String {
+    case purchasingPurchased = "purchasing-purchased"
+    case purchasingDeferred = "purchasing-deferred"
+    case purchasingRestored = "purchasing-restored"
+    case purchasingFailed = "purchasing-failed"
+    case purchasingUnknown = "purchasing-unknown"
+
+    case restoringPurchased = "restoring-purchased"
+    case restoringDeferred = "restoring-deferred"
+    case restoringRestored = "restoring-restored"
+    case restoringFailed = "restoring-failed"
+    case restoringUnknown = "restoring-unknown"
 }
 
 enum EventParameterBumpUpNotAllowedReason: String {

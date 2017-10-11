@@ -9,6 +9,8 @@
 import Foundation
 
 class ListingCollectionCellDrawer: BaseCollectionCellDrawer<CollectionCell>, GridCellDrawer {
+    func willDisplay(_ model: CollectionCellType, inCell cell: CollectionCell) { }
+
     func draw(_ model: CollectionCellType, style: CellStyle, inCell cell: CollectionCell) {
         cell.layoutIfNeeded()
         cell.imageView.image = model.image

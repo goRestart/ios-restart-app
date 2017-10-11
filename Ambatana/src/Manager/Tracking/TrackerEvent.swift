@@ -18,6 +18,8 @@ func ==(a: TrackerEvent, b: TrackerEvent) -> Bool {
 
 struct TrackerEvent {
     static let notApply: String = "N/A"
+    fileprivate static let itemsCountThreshold = 50
+
     private(set) var name: EventName
     var actualName: String {
         get {
@@ -180,7 +182,7 @@ struct TrackerEvent {
     }
 
     static func listingList(_ user: User?, categories: [ListingCategory]?, taxonomy: TaxonomyChild?, searchQuery: String?,
-                            feedSource: EventParameterFeedSource, success: EventParameterBoolean) -> TrackerEvent {
+                            resultsCount: ItemsCount?, feedSource: EventParameterFeedSource, success: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
 
         // Categories
@@ -196,6 +198,9 @@ struct TrackerEvent {
         // Search query
         if let actualSearchQuery = searchQuery {
             params[.searchString] = actualSearchQuery
+        }
+        if let count = resultsCount {
+            params[.numberOfItems] = count.value
         }
         params[.listSuccess] = success.rawValue
         return TrackerEvent(name: .listingList, params: params)
@@ -1007,34 +1012,42 @@ struct TrackerEvent {
 
     static func listingBumpUpComplete(_ listing: Listing, price: EventParameterBumpUpPrice,
                                       type: EventParameterBumpUpType, restoreRetriesCount: Int,
-                                      network: EventParameterShareNetwork) -> TrackerEvent {
+                                      network: EventParameterShareNetwork,
+                                      transactionStatus: EventParameterTransactionStatus?) -> TrackerEvent {
         var params = EventParameters()
         params.addListingParams(listing)
         params[.bumpUpPrice] = price.description
         params[.bumpUpType] = type.rawValue
         params[.retriesNumber] = restoreRetriesCount
         params[.shareNetwork] = network.rawValue
+        params[.transactionStatus] = transactionStatus?.rawValue ?? TrackerEvent.notApply
         return TrackerEvent(name: .bumpUpComplete, params: params)
     }
 
-    static func listingBumpUpFail(type: EventParameterBumpUpType, listingId: String?) -> TrackerEvent {
+    static func listingBumpUpFail(type: EventParameterBumpUpType, listingId: String?,
+                                  transactionStatus: EventParameterTransactionStatus?) -> TrackerEvent {
         var params = EventParameters()
         params[.bumpUpType] = type.rawValue
         params[.listingId] = listingId ?? ""
+        params[.transactionStatus] = transactionStatus?.rawValue ?? TrackerEvent.notApply
         return TrackerEvent(name: .bumpUpFail, params: params)
     }
 
-    static func mobilePaymentComplete(paymentId: String, listingId: String?) -> TrackerEvent {
+    static func mobilePaymentComplete(paymentId: String, listingId: String?,
+                                      transactionStatus: EventParameterTransactionStatus) -> TrackerEvent {
         var params = EventParameters()
         params[.paymentId] = paymentId
         params[.listingId] = listingId ?? ""
+        params[.transactionStatus] = transactionStatus.rawValue
         return TrackerEvent(name: .mobilePaymentComplete, params: params)
     }
 
-    static func mobilePaymentFail(reason: String?, listingId: String?) -> TrackerEvent {
+    static func mobilePaymentFail(reason: String?, listingId: String?,
+                                  transactionStatus: EventParameterTransactionStatus) -> TrackerEvent {
         var params = EventParameters()
         params[.reason] = reason ?? ""
         params[.listingId] = listingId ?? ""
+        params[.transactionStatus] = transactionStatus.rawValue
         return TrackerEvent(name: .mobilePaymentFail, params: params)
     }
 
@@ -1157,5 +1170,17 @@ struct TrackerEvent {
     private static func eventParameterFreePostingWithPriceRange(_ freePostingModeAllowed: Bool, priceRange: FilterPriceRange) -> EventParameterBoolean {
         guard freePostingModeAllowed else {return .notAvailable}
         return priceRange.free ? .trueParameter : .falseParameter
+    }
+}
+
+typealias ItemsCount = Int
+fileprivate extension ItemsCount {
+    var value: String {
+        get {
+            guard self <= TrackerEvent.itemsCountThreshold else {
+                return "50"
+            }
+            return "\(self)"
+        }
     }
 }

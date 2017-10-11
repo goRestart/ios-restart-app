@@ -627,9 +627,9 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
     // MARK: > ListingListViewModelDataDelegate
 
     func listingListVM(_ viewModel: ListingListViewModel, didSucceedRetrievingListingsPage page: UInt,
-                       hasListings: Bool) {
+                       withResultsCount resultsCount: Int, hasListings: Bool) {
 
-        trackRequestSuccess(page: page, hasListings: hasListings)
+        trackRequestSuccess(page: page, resultsCount: resultsCount, hasListings: hasListings)
         // Only save the string when there is products and we are not searching a collection
         if let search = searchType, hasListings {
             updateLastSearchStored(lastSearch: search)
@@ -1114,14 +1114,14 @@ fileprivate extension MainListingsViewModel {
     }
     
 
-    func trackRequestSuccess(page: UInt, hasListings: Bool) {
+    func trackRequestSuccess(page: UInt, resultsCount: Int, hasListings: Bool) {
         guard page == 0 else { return }
         let successParameter: EventParameterBoolean = hasListings ? .trueParameter : .falseParameter
         let trackerEvent = TrackerEvent.listingList(myUserRepository.myUser,
                                                     categories: filters.selectedCategories,
                                                     taxonomy: filters.selectedTaxonomyChildren.first,
-                                                    searchQuery: queryString, feedSource: feedSource,
-                                                    success: successParameter)
+                                                    searchQuery: queryString, resultsCount: resultsCount,
+                                                    feedSource: feedSource, success: successParameter)
         tracker.trackEvent(trackerEvent)
 
         if let searchType = searchType, shouldTrackSearch {
@@ -1195,6 +1195,10 @@ extension MainListingsViewModel: TaxonomiesDelegate {
 // MARK: ListingCellDelegate
 
 extension MainListingsViewModel: ListingCellDelegate {
+    func relatedButtonPressedFor(listing: Listing) {
+        navigator?.openRelatedItems(relatedToListing: listing)
+    }
+
     func chatButtonPressedFor(listing: Listing) {
         
         navigator?.openChat(.listingAPI(listing: listing),

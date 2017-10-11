@@ -36,11 +36,6 @@
         "description": "Passive buyers products suggested notification opens product with keyboard opened"
     },
     {
-        "name": "NewMarkAsSoldFlow",
-        "values": ["no", "yes"],
-        "description": "New mark as sold flow active. alert + showing buyer list"
-    },
-    {
         "name": "NewCarsMultiRequesterEnabled",
         "values": ["no", "yes"],
         "description": "Cars multi requester enabled"
