@@ -9,9 +9,36 @@
 import LGCoreKit
 import Foundation
 
+enum PostingDetailStep {
+    case price
+    case propertyType
+    case offerType
+    case bedrooms
+    case bathrooms
+    case summary
+    
+    var title: String {
+        switch self {
+        case .price:
+            return LGLocalizedString.realEstatePriceTitle
+        case .propertyType:
+            return LGLocalizedString.realEstateTypePropertyTitle
+        case .offerType:
+            return LGLocalizedString.realEstateOfferTypeTitle
+        case .bedrooms:
+            return LGLocalizedString.realEstateBedroomsTitle
+        case .bathrooms:
+            return LGLocalizedString.realEstateBathroomsTitle
+        case .summary:
+            return LGLocalizedString.realEstateSummaryTitle
+        }
+    }
+}
+
 protocol PostListingNavigator: class {
     func cancelPostListing()
     func startDetails()
+    func nextPostingDetailStep(step: PostingDetailStep)
     func closePostProductAndPostInBackground(params: ListingCreationParams,
                                              trackingInfo: PostListingTrackingInfo)
     func closePostProductAndPostLater(params: ListingCreationParams, images: [UIImage],

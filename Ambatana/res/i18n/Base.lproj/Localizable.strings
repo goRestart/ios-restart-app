@@ -71,7 +71,7 @@
 "bump_up_error_payment_failed" = "Couldn't connect to the App Store. Your payment hasn't been processed. Please try again.";
 
 // Text for loading view while processing free bump
-"bump_up_processing_free_text" = "Processing Bump Up...";
+"bump_up_processing_free_text" = "Processing...";
 
 // Text for loading view while processing bump with a price
 "bump_up_processing_priced_text" = "Processing payment...";
@@ -99,6 +99,15 @@
 
 // Button title for payment bump up view
 "bump_up_view_pay_button_title" = "Feature it for %@";
+
+// Title for payment bump up view
+"bump_up_old_view_pay_title" = "SELL FASTER";
+
+// Subtitle for payment bump up view
+"bump_up_old_view_pay_subtitle" = "Attract more buyers by giving your listing more visibility.";
+
+// Button title for payment bump up view
+"bump_up_old_view_pay_button_title" = "Activate for %@";
 
 // Text for alert when bump is not allowed
 "bump_up_not_allowed_alert_text" = "Featuring this item isn't possible at this time.  For more information, contact us.";
@@ -2149,6 +2158,84 @@
 
 // Rating view title label.  Check attached image "rating_view.png" (but uppercase)
 "rating_view_title_label_uppercase" = "GIVE US 5 STARS!";
+
+// Real Estate summary title
+"real_estate_summary_title" = "Summary";
+
+// Real Estate price title
+"real_estate_price_title" = "Price";
+
+// Real Estate offer type title
+"real_estate_offer_type_title" = "Type of Listing";
+
+// Real Estate offer type rent
+"real_estate_offer_type_rent" = "For Rent";
+
+// Real Estate offer type sale
+"real_estate_offer_type_sale" = "For Sale";
+
+// Real Estate property type title
+"real_estate_type_property_title" = "Type of Property";
+
+// Real Estate property type apartment
+"real_estate_type_property_apartment" = "Apartment";
+
+// Real Estate property type house
+"real_estate_type_property_house" = "House";
+
+// Real Estate property type room
+"real_estate_type_property_room" = "Room";
+
+// Real Estate property type commercial
+"real_estate_type_property_commercial" = "Comercial";
+
+// Real Estate property type others
+"real_estate_type_property_others" = "Others";
+
+// Real Estate number of bathrooms title
+"real_estate_bathrooms_title" = "Nº Bathrooms";
+
+// Real Estate number of bathrooms 0
+"real_estate_bathrooms_0" = "None";
+
+// Real Estate number of bathrooms 1
+"real_estate_bathrooms_1" = "1";
+
+// Real Estate number of bathrooms 1.5
+"real_estate_bathrooms_1_5" = "1.5";
+
+// Real Estate number of bathrooms 2
+"real_estate_bathrooms_2" = "2";
+
+// Real Estate number of bathrooms 2.5
+"real_estate_bathrooms_2_5" = "2.5";
+
+// Real Estate number of bathrooms 3
+"real_estate_bathrooms_3" = "3";
+
+// Real Estate number of bathrooms 3.5
+"real_estate_bathrooms_3_5" = "3.5";
+
+// Real Estate number of bathrooms 4
+"real_estate_bathrooms_4" = "+4";
+
+// Ral Estate number of bedrooms Title
+"real_estate_bedrooms_title" = "Nº Bedrooms";
+
+// Real Estate number of bedrooms 0 
+"real_estate_bedrooms_0" = "Studio";
+
+// Real Estate number of bedrooms 1
+"real_estate_bedrooms_1" = "1";
+
+// Real Estate number of bedrooms 2
+"real_estate_bedrooms_2" = "2";
+
+// Real Estate number of bedrooms 3
+"real_estate_bedrooms_3" = "3";
+
+// Real Estate number of bedrooms 4
+"real_estate_bedrooms_4" = "+4";
 
 // Title when showing list of related items
 "related_items_title" = "Related items";

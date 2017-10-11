@@ -23,8 +23,11 @@
 "bump_up_free_success" = "¡Destacado! Sigue destacando tu anuncio y tendrá aún más visibilidad.";
 "bump_up_not_allowed_alert_contact_button" = "Contáctanos";
 "bump_up_not_allowed_alert_text" = "No hemos podido destacar este artículo. Para más información, contáctanos.";
+"bump_up_old_view_pay_button_title" = "Activar por %@";
+"bump_up_old_view_pay_subtitle" = "Dale más visibilidad a tu anuncio para atraer a más compradores.";
+"bump_up_old_view_pay_title" = "VENDE RÁPIDO";
 "bump_up_pay_success" = "¡Destacado! Ahora tu artículo tiene más visibilidad.";
-"bump_up_processing_free_text" = "Procesando destacado...";
+"bump_up_processing_free_text" = "Procesando...";
 "bump_up_processing_priced_text" = "Procesando el pago...";
 "bump_up_product_cell_chat_now_button" = "Chatear";
 "bump_up_product_cell_featured_stripe" = "Destacado";
@@ -32,7 +35,7 @@
 "bump_up_view_free_subtitle" = "Cuanto más compartes, más visibilidad tiene tu anuncio.";
 "bump_up_view_free_title" = "DESTACA TU ANUNCIO";
 "bump_up_view_pay_button_title" = "Activar por %@";
-"bump_up_view_pay_subtitle" = "Dale más visibilidad a tu anuncio para atraer a más compradores.";
+"bump_up_view_pay_subtitle" = "Destacaremos tu artículo durante 24 horas para que lo vean más compradores y lo vendas más rápido.";
 "bump_up_view_pay_title" = "Atrae al doble de compradores";
 "categories_baby_and_child" = "Niños y Bebés";
 "categories_car" = "Coches";

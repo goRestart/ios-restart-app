@@ -33,6 +33,7 @@ final class SellCoordinator: Coordinator {
     fileprivate let featureFlags: FeatureFlaggeable
     fileprivate let postingSource: PostingSource
     fileprivate let postCategory: PostCategory?
+    fileprivate var postingDetailStep: PostingDetailStep?
     weak var delegate: SellCoordinatorDelegate?
 
     fileprivate let disposeBag = DisposeBag()
@@ -125,11 +126,21 @@ extension SellCoordinator: PostListingNavigator {
     }
     
     func startDetails() {
-        let viewModel = BasePostingDetailsViewModel()
+        let viewModel = BasePostingDetailsViewModel(step: .propertyType)
+        viewModel.navigator = self
         let vc = BasePostingDetailsViewController(viewModel: viewModel)
+        postingDetailStep = .propertyType
         navigationController.shouldModifyProgress = true
         navigationController.pushViewController(vc, animated: false)
     }
+    
+    func nextPostingDetailStep(step: PostingDetailStep) {
+        let viewModel = BasePostingDetailsViewModel(step: step)
+        viewModel.navigator = self
+        let vc = BasePostingDetailsViewController(viewModel: viewModel)
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
     
     fileprivate func trackListingPostedInBackground(withError error: RepositoryError) {
         let sellError: EventParameterPostListingError

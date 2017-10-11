@@ -133,6 +133,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
     
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
+        navigationController?.setNavigationBarHidden(true, animated: false)
         if viewModel.state.value.isLoading {
             customLoadingView.startAnimating()
         }

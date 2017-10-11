@@ -143,6 +143,18 @@ struct LGLocalizedString {
 		return String(format: NSLocalizedString("bump_up_view_pay_button_title", comment: ""), var1)
 	}
 
+	static var bumpUpOldViewPayTitle: String {
+		return NSLocalizedString("bump_up_old_view_pay_title", comment: "")
+	}
+
+	static var bumpUpOldViewPaySubtitle: String {
+		return NSLocalizedString("bump_up_old_view_pay_subtitle", comment: "")
+	}
+
+	static func bumpUpOldViewPayButtonTitle(_ var1: String) -> String {
+		return String(format: NSLocalizedString("bump_up_old_view_pay_button_title", comment: ""), var1)
+	}
+
 	static var bumpUpNotAllowedAlertText: String {
 		return NSLocalizedString("bump_up_not_allowed_alert_text", comment: "")
 	}
@@ -2889,6 +2901,110 @@ struct LGLocalizedString {
 
 	static var ratingViewTitleLabelUppercase: String {
 		return NSLocalizedString("rating_view_title_label_uppercase", comment: "")
+	}
+
+	static var realEstateSummaryTitle: String {
+		return NSLocalizedString("real_estate_summary_title", comment: "")
+	}
+
+	static var realEstatePriceTitle: String {
+		return NSLocalizedString("real_estate_price_title", comment: "")
+	}
+
+	static var realEstateOfferTypeTitle: String {
+		return NSLocalizedString("real_estate_offer_type_title", comment: "")
+	}
+
+	static var realEstateOfferTypeRent: String {
+		return NSLocalizedString("real_estate_offer_type_rent", comment: "")
+	}
+
+	static var realEstateOfferTypeSale: String {
+		return NSLocalizedString("real_estate_offer_type_sale", comment: "")
+	}
+
+	static var realEstateTypePropertyTitle: String {
+		return NSLocalizedString("real_estate_type_property_title", comment: "")
+	}
+
+	static var realEstateTypePropertyApartment: String {
+		return NSLocalizedString("real_estate_type_property_apartment", comment: "")
+	}
+
+	static var realEstateTypePropertyHouse: String {
+		return NSLocalizedString("real_estate_type_property_house", comment: "")
+	}
+
+	static var realEstateTypePropertyRoom: String {
+		return NSLocalizedString("real_estate_type_property_room", comment: "")
+	}
+
+	static var realEstateTypePropertyCommercial: String {
+		return NSLocalizedString("real_estate_type_property_commercial", comment: "")
+	}
+
+	static var realEstateTypePropertyOthers: String {
+		return NSLocalizedString("real_estate_type_property_others", comment: "")
+	}
+
+	static var realEstateBathroomsTitle: String {
+		return NSLocalizedString("real_estate_bathrooms_title", comment: "")
+	}
+
+	static var realEstateBathrooms0: String {
+		return NSLocalizedString("real_estate_bathrooms_0", comment: "")
+	}
+
+	static var realEstateBathrooms1: String {
+		return NSLocalizedString("real_estate_bathrooms_1", comment: "")
+	}
+
+	static var realEstateBathrooms15: String {
+		return NSLocalizedString("real_estate_bathrooms_1_5", comment: "")
+	}
+
+	static var realEstateBathrooms2: String {
+		return NSLocalizedString("real_estate_bathrooms_2", comment: "")
+	}
+
+	static var realEstateBathrooms25: String {
+		return NSLocalizedString("real_estate_bathrooms_2_5", comment: "")
+	}
+
+	static var realEstateBathrooms3: String {
+		return NSLocalizedString("real_estate_bathrooms_3", comment: "")
+	}
+
+	static var realEstateBathrooms35: String {
+		return NSLocalizedString("real_estate_bathrooms_3_5", comment: "")
+	}
+
+	static var realEstateBathrooms4: String {
+		return NSLocalizedString("real_estate_bathrooms_4", comment: "")
+	}
+
+	static var realEstateBedroomsTitle: String {
+		return NSLocalizedString("real_estate_bedrooms_title", comment: "")
+	}
+
+	static var realEstateBedrooms0: String {
+		return NSLocalizedString("real_estate_bedrooms_0", comment: "")
+	}
+
+	static var realEstateBedrooms1: String {
+		return NSLocalizedString("real_estate_bedrooms_1", comment: "")
+	}
+
+	static var realEstateBedrooms2: String {
+		return NSLocalizedString("real_estate_bedrooms_2", comment: "")
+	}
+
+	static var realEstateBedrooms3: String {
+		return NSLocalizedString("real_estate_bedrooms_3", comment: "")
+	}
+
+	static var realEstateBedrooms4: String {
+		return NSLocalizedString("real_estate_bedrooms_4", comment: "")
 	}
 
 	static var relatedItemsTitle: String {

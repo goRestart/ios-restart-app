@@ -34,13 +34,12 @@ class BasePostingDetailsViewController : BaseViewController, TaxonomiesViewModel
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.delegate = self
         navigationController?.setNavigationBarHidden(false, animated: false)
-        
-        titleLabel.text = viewModel.title
-        buttonNext.setTitle("Next", for: .normal)
-        
-        setupUI()
+
         setupConstraints()
+        setupUI()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -52,6 +51,11 @@ class BasePostingDetailsViewController : BaseViewController, TaxonomiesViewModel
     // MARK: - UI
     
     private func setupUI() {
+        view.clipsToBounds = true
+        
+        titleLabel.text = viewModel.title
+        buttonNext.setTitle("Next", for: .normal)
+        
         view.backgroundColor = UIColor.clear
         contentView.backgroundColor = UIColor.clear
         
@@ -59,7 +63,7 @@ class BasePostingDetailsViewController : BaseViewController, TaxonomiesViewModel
         titleLabel.textColor = UIColor.white
         
         buttonNext.setStyle(.postingFlow)
-        buttonNext.isEnabled = false
+        buttonNext.addTarget(self, action: #selector(nextButtonPressed), for: .touchUpInside)
     }
     
     private func setupNavigationBar() {
@@ -79,13 +83,12 @@ class BasePostingDetailsViewController : BaseViewController, TaxonomiesViewModel
         titleLabel.layout(with: view).top(by: 60)
         
         view.addSubview(contentView)
-        
         contentView.layout(with: titleLabel).below()
         contentView.layout(with: view).fillHorizontal()
         
         view.addSubview(buttonNext)
         buttonNext.layout(with: contentView).below()
-        buttonNext.layout().height(55)
+        buttonNext.layout().height(44)
         buttonNext.layout(with: view).right(by: -15).bottom(by: -15)
     }
     
@@ -93,6 +96,52 @@ class BasePostingDetailsViewController : BaseViewController, TaxonomiesViewModel
     // MARK: - UIActions
     
     func closeButtonPressed() {
-        navigationController?.popViewController(animated: true)
+        viewModel.closeButtonPressed()
+    }
+    
+    func nextButtonPressed() {
+        viewModel.nextbuttonPressed()
+    }
+}
+
+extension BasePostingDetailsViewController: UINavigationControllerDelegate {
+    
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return CustomAnimator()
+    }
+}
+
+class CustomAnimator: NSObject, UIViewControllerAnimatedTransitioning {
+    
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
+        return 0.5
+    }
+    
+    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+        guard let fromViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from)
+            else { return }
+        guard let toViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)
+            else { return }
+        let containerView = transitionContext.containerView
+        
+        containerView.addSubview(toViewController.view)
+        containerView.addSubview(fromViewController.view)
+        
+        let finalFrame = transitionContext.finalFrame(for: toViewController)
+        
+        fromViewController.view.alpha = 1.0
+        toViewController.view.alpha = 0.0
+        toViewController.view.frame = CGRect(x: finalFrame.width*2, y: 0, width: finalFrame.width, height: finalFrame.height)
+        
+        UIView.animate(withDuration: 0.5, animations: {
+            fromViewController.view.alpha = 0.0
+            toViewController.view.alpha = 1.0
+            fromViewController.view.frame = CGRect(x: -fromViewController.view.frame.width, y: 0, width: fromViewController.view.frame.width, height: fromViewController.view.frame.height)
+            toViewController.view.frame = finalFrame
+        }, completion: { finished in
+            let cancelled = transitionContext.transitionWasCancelled
+            fromViewController.view.alpha = 1.0
+            transitionContext.completeTransition(!cancelled)
+        })
     }
 }

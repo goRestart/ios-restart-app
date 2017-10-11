@@ -104,3 +104,6 @@ class SellNavigationController: UINavigationController {
         currentStep.asObservable().map { $0 == 0 }.bindTo(progressView.rx.isHidden).addDisposableTo(disposeBag)
     }
 }
+
+
+

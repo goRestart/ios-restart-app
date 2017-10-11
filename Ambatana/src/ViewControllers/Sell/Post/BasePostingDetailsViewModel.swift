@@ -12,21 +12,30 @@ import LGCoreKit
 
 class BasePostingDetailsViewModel : BaseViewModel {
     
-    var title: String
+    var title: String {
+        return step.title
+    }
     let tracker: Tracker
+    let step: PostingDetailStep
     
+    weak var navigator: PostListingNavigator?
     
     // MARK: - LifeCycle
     
-    init(tracker: Tracker) {
-        title = LGLocalizedString.categoriesTitle
+    convenience init(step: PostingDetailStep) {
+        self.init(step: step, tracker: TrackerProxy.sharedInstance)
+    }
+    
+    init(step: PostingDetailStep, tracker: Tracker) {
+        self.step = step
         self.tracker = tracker
     }
     
-    convenience override init() {
-        self.init(tracker: TrackerProxy.sharedInstance)
+    func closeButtonPressed() {
+        navigator?.cancelPostListing()
     }
     
-    override func didBecomeActive(_ firstTime: Bool) {
+    func nextbuttonPressed() {
+        navigator?.nextPostingDetailStep(step: .bedrooms)
     }
 }
