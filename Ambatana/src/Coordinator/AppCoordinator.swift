@@ -445,9 +445,9 @@ extension AppCoordinator: OnboardingCoordinatorDelegate {
     func onboardingCoordinatorDidFinishTour(_ coordinator: OnboardingCoordinator) {
         guard let pendingDeepLink = deepLinksRouter.consumeInitialDeepLink() else {
             openHome()
-            return
+        } else {
+            openDeepLink(deepLink: pendingDeepLink)
         }
-        openDeepLink(deepLink: pendingDeepLink)
     }
 
     func shouldSkipPostingTour() -> Bool {
@@ -458,9 +458,9 @@ extension AppCoordinator: OnboardingCoordinatorDelegate {
         delegate?.appNavigatorDidOpenApp()
         if let source = source, posting {
             openSell(source: source, postCategory: nil)
-            return
+        } else {
+            openHome()
         }
-        openHome()
     }
 }
 
