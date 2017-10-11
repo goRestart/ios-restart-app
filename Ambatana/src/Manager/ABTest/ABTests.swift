@@ -48,17 +48,14 @@ class ABTests {
         var result = [ABVariable]()
 
         result.append(marketingPush)
-        
         result.append(showNPSSurvey)
         result.append(surveyURL)
         result.append(surveyEnabled)
-
         result.append(websocketChat)
         result.append(passiveBuyersShowKeyboard)
         result.append(captchaTransparent)
         result.append(freeBumpUpEnabled)
         result.append(pricedBumpUpEnabled)
-
         result.append(newCarsMultiRequesterEnabled)
         result.append(inAppRatingIOS10)
         result.append(addSuperKeywordsOnFeed)
@@ -69,7 +66,6 @@ class ABTests {
         result.append(expandableCategorySelectionMenu)
         result.append(locationDataSourceType)
         result.append(defaultRadiusDistanceFeed)
-        
         result.append(searchAutocomplete)
         result.append(newCarouselTapNextPhotoNavigationEnabled)
         result.append(realEstateEnabled)
