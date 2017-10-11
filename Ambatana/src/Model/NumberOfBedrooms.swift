@@ -30,7 +30,7 @@ enum NumberOfBedrooms: Int {
         }
     }
     
-    var allValues: [NumberOfBedrooms] {
+    static var allValues: [NumberOfBedrooms] {
         return [.zero, .one, .two, .three, .four]
     }
 }

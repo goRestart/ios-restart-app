@@ -48,6 +48,7 @@ class BasePostingDetailsViewController : BaseViewController, TaxonomiesViewModel
         setupNavigationBar()
     }
     
+    
     // MARK: - UI
     
     private func setupUI() {
@@ -79,17 +80,25 @@ class BasePostingDetailsViewController : BaseViewController, TaxonomiesViewModel
         buttonNext.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(titleLabel)
-        titleLabel.layout(with: view).fillHorizontal(by: 20)
+        titleLabel.layout(with: view).fillHorizontal(by: Metrics.bigMargin)
         titleLabel.layout(with: view).top(by: 60)
         
         view.addSubview(contentView)
-        contentView.layout(with: titleLabel).below()
-        contentView.layout(with: view).fillHorizontal()
+        contentView.layout(with: titleLabel).below(by: Metrics.bigMargin)
+        contentView.layout(with: view).fillHorizontal(by: Metrics.bigMargin)
+        
+        
+        let tableView = viewModel.makeContentView
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(tableView)
+        
+        tableView.layout(with: contentView).fill()
         
         view.addSubview(buttonNext)
-        buttonNext.layout(with: contentView).below()
+        buttonNext.layout(with: contentView).below(by: Metrics.bigMargin)
         buttonNext.layout().height(44)
-        buttonNext.layout(with: view).right(by: -15).bottom(by: -15)
+        buttonNext.layout().width(100, relatedBy: .greaterThanOrEqual)
+        buttonNext.layout(with: view).right(by: -Metrics.bigMargin).bottom(by: -Metrics.bigMargin)
     }
     
     

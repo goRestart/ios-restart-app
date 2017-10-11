@@ -48,6 +48,7 @@ extension UIFont {
     
     static var headline: UIFont { return systemBoldFont(size: 35) }
     static var body: UIFont { return systemBoldFont(size: 27) }
+    static var selectableItem: UIFont { return systemBoldFont(size: 23) }
 
 
     // MARK: Private methods

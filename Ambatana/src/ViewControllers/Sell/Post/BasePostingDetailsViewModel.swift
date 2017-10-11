@@ -15,6 +15,26 @@ class BasePostingDetailsViewModel : BaseViewModel {
     var title: String {
         return step.title
     }
+    
+    var makeContentView: UIView {
+        var values: [String]
+        switch step {
+        case .bathrooms:
+            values = NumberOfBathrooms.allValues.flatMap { $0.value }
+        case .bedrooms:
+            values = NumberOfBedrooms.allValues.flatMap { $0.value }
+        case .offerType:
+            values = RealEstateOfferType.allValues.flatMap { $0.value }
+        case .propertyType:
+            values = RealEstatePropertyType.allValues.flatMap { $0.value }
+        case .price:
+            return UIView()
+        case .summary:
+            return UIView()
+        }
+        return PostingAddDetailTableView(values: values)
+    }
+    
     let tracker: Tracker
     let step: PostingDetailStep
     
