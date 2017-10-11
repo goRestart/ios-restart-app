@@ -20,7 +20,6 @@ extension Bumper  {
         flags.append(PricedBumpUpEnabled.self)
         flags.append(CaptchaTransparent.self)
         flags.append(PassiveBuyersShowKeyboard.self)
-        flags.append(NewMarkAsSoldFlow.self)
         flags.append(NewCarsMultiRequesterEnabled.self)
         flags.append(InAppRatingIOS10.self)
         flags.append(AddSuperKeywordsOnFeed.self)
@@ -74,12 +73,6 @@ extension Bumper  {
         guard let value = Bumper.value(for: PassiveBuyersShowKeyboard.key) else { return false }
         return PassiveBuyersShowKeyboard(rawValue: value)?.asBool ?? false
     }
-
-    static var newMarkAsSoldFlow: Bool {
-        guard let value = Bumper.value(for: NewMarkAsSoldFlow.key) else { return false }
-        return NewMarkAsSoldFlow(rawValue: value)?.asBool ?? false
-    }
-
     static var newCarsMultiRequesterEnabled: Bool {
         guard let value = Bumper.value(for: NewCarsMultiRequesterEnabled.key) else { return false }
         return NewCarsMultiRequesterEnabled(rawValue: value)?.asBool ?? false
@@ -222,15 +215,6 @@ enum PassiveBuyersShowKeyboard: String, BumperFeature  {
     static var enumValues: [PassiveBuyersShowKeyboard] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Passive buyers products suggested notification opens product with keyboard opened" } 
-    var asBool: Bool { return self == .yes }
-}
-
-enum NewMarkAsSoldFlow: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return NewMarkAsSoldFlow.no.rawValue }
-    static var enumValues: [NewMarkAsSoldFlow] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "New mark as sold flow active. alert + showing buyer list" } 
     var asBool: Bool { return self == .yes }
 }
 
