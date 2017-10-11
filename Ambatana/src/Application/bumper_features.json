@@ -117,7 +117,7 @@
     },
     {
         "name": "HomeRelatedEnabled",
-        "values": ["No", "Yes"],
+        "values": ["control", "baseline", "active"],
         "description": "Show the related button in the main feed"
     }
 ]

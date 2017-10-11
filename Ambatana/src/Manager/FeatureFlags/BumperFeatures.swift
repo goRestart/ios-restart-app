@@ -454,11 +454,19 @@ enum NewBumpUpExplanation: String, BumperFeature  {
 }
 
 enum HomeRelatedEnabled: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return HomeRelatedEnabled.no.rawValue }
-    static var enumValues: [HomeRelatedEnabled] { return [.no, .yes]}
+    case control, baseline, active
+    static var defaultValue: String { return HomeRelatedEnabled.control.rawValue }
+    static var enumValues: [HomeRelatedEnabled] { return [.control, .baseline, .active]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show the related button in the main feed" } 
-    var asBool: Bool { return self == .yes }
+    static func fromPosition(_ position: Int) -> HomeRelatedEnabled {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+    var asBool: Bool { return self == .active }
 }
 
