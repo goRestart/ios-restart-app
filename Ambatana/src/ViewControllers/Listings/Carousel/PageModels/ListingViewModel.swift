@@ -188,7 +188,7 @@ class ListingViewModel: BaseViewModel {
     internal override func didBecomeActive(_ firstTime: Bool) {
         guard let listingId = listing.value.objectId else { return }
 
-        listingRepository.incrementViews(listingId: listingId, visitSource: visitSource.rawValue, completion: nil)
+        listingRepository.incrementViews(listingId: listingId, visitSource: visitSource.rawValue, visitTimestamp: Date().millisecondsSince1970, completion: nil)
 
         if !relationRetrieved && myUserRepository.myUser != nil {
             listingRepository.retrieveUserListingRelation(listingId) { [weak self] result in
@@ -516,14 +516,7 @@ extension ListingViewModel {
             if let value = result.value {
                 strongSelf.listing.value = value
                 strongSelf.trackHelper.trackMarkSoldCompleted(isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value)
-                
-                if strongSelf.featureFlags.newMarkAsSoldFlow {
-                    strongSelf.selectBuyerToMarkAsSold(sourceRateBuyers: .markAsSold)
-                } else {
-                    strongSelf.delegate?.vmHideLoading(nil, afterMessageCompletion: {
-                        strongSelf.navigator?.openAppRating(.markedSold)
-                    })
-                }
+                strongSelf.selectBuyerToMarkAsSold(sourceRateBuyers: .markAsSold)
             } else {
                 let message = LGLocalizedString.productMarkAsSoldErrorGeneric
                 strongSelf.delegate?.vmHideLoading(message, afterMessageCompletion: nil)
@@ -607,7 +600,7 @@ extension ListingViewModel {
         if isMine && status.value != .notAvailable {
             actions.append(buildDeleteAction())
         }
-        if isMine && status.value.isSold && isTransactionOpen && featureFlags.newMarkAsSoldFlow {
+        if isMine && status.value.isSold && isTransactionOpen {
             actions.append(buildRateUserAction())
         }
         
@@ -794,7 +787,6 @@ fileprivate extension ListingViewModel {
     }
     
     func selectBuyerToMarkAsSold(sourceRateBuyers: SourceRateBuyers) {
-        guard featureFlags.newMarkAsSoldFlow else { return }
         guard let listingId = listing.value.objectId else { return }
         let trackingInfo = trackHelper.makeMarkAsSoldTrackingInfo(isShowingFeaturedStripe: isShowingFeaturedStripe.value)
         
@@ -821,23 +813,11 @@ fileprivate extension ListingViewModel {
         guard isMine && status.value.isAvailable else { return }
         let free = status.value.isFree
         
-        var okButton: String
-        var title: String
-        var message: String
-        var cancel: String
-        
-        if featureFlags.newMarkAsSoldFlow {
-            okButton = LGLocalizedString.productMarkAsSoldAlertConfirm
-            title = free ? LGLocalizedString.productMarkAsGivenAwayAlertTitle: LGLocalizedString.productMarkAsSoldAlertTitle
-            message = free ? LGLocalizedString.productMarkAsGivenAwayAlertMessage : LGLocalizedString.productMarkAsSoldAlertMessage
-            cancel = LGLocalizedString.productMarkAsSoldAlertCancel
-        } else {
-            okButton = free ? LGLocalizedString.productMarkAsSoldFreeConfirmOkButton : LGLocalizedString.productMarkAsSoldConfirmOkButton
-            title = free ? LGLocalizedString.productMarkAsSoldFreeConfirmTitle : LGLocalizedString.productMarkAsSoldConfirmTitle
-            message = free ? LGLocalizedString.productMarkAsSoldFreeConfirmMessage : LGLocalizedString.productMarkAsSoldConfirmMessage
-            cancel = free ? LGLocalizedString.productMarkAsSoldFreeConfirmCancelButton : LGLocalizedString.productMarkAsSoldConfirmCancelButton
-        }
-        
+        let okButton = LGLocalizedString.productMarkAsSoldAlertConfirm
+        let title = free ? LGLocalizedString.productMarkAsGivenAwayAlertTitle: LGLocalizedString.productMarkAsSoldAlertTitle
+        let message = free ? LGLocalizedString.productMarkAsGivenAwayAlertMessage : LGLocalizedString.productMarkAsSoldAlertMessage
+        let cancel = LGLocalizedString.productMarkAsSoldAlertCancel
+
         var alertActions: [UIAction] = []
         let markAsSoldAction = UIAction(interface: .text(okButton),
                                         action: { [weak self] in
