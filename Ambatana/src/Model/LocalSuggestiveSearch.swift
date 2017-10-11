@@ -53,21 +53,21 @@ final class LocalSuggestiveSearch: NSObject, NSCoding {
     // MARK: - NSCoding
     
     required init?(coder decoder: NSCoder) {
-        let type = decoder.decodeObject(forKey: LocalSuggestiveSearch.typeKey) as? Int ?? LocalSuggestiveSearch.typeValueTerm
+        let type = decoder.decodeInteger(forKey: LocalSuggestiveSearch.typeKey)
         switch type {
         case LocalSuggestiveSearch.typeValueTerm:
             guard let name = decoder.decodeObject(forKey: LocalSuggestiveSearch.nameKey) as? String else { return nil }
             self.suggestiveSearch = .term(name: name)
         case LocalSuggestiveSearch.typeValueCategory:
-            guard let categoryId = decoder.decodeObject(forKey: LocalSuggestiveSearch.categoryIdKey) as? Int,
-                  let category = ListingCategory(rawValue: categoryId) else {
+            let categoryId = decoder.decodeInteger(forKey: LocalSuggestiveSearch.categoryIdKey)
+            guard let category = ListingCategory(rawValue: categoryId) else {
                 return nil
             }
             self.suggestiveSearch = .category(category: category)
         case LocalSuggestiveSearch.typeValueTermWithCategory:
+            let categoryId = decoder.decodeInteger(forKey: LocalSuggestiveSearch.categoryIdKey)
             guard let name = decoder.decodeObject(forKey: LocalSuggestiveSearch.nameKey) as? String,
-                  let categoryId = decoder.decodeObject(forKey: LocalSuggestiveSearch.categoryIdKey) as? Int,
-                  let category = ListingCategory(rawValue: categoryId)else {
+                  let category = ListingCategory(rawValue: categoryId) else {
                     return nil
             }
             self.suggestiveSearch = .termWithCategory(name: name, category: category)
