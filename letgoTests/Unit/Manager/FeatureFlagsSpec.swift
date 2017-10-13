@@ -14,22 +14,23 @@ import Nimble
 
 class FeatureFlagsSpec: QuickSpec {
     override func spec() {
+
         describe("FeatureFlags") {
             var sut: FeatureFlags!
-            
+
             var locale: Locale!
             var locationManager: MockLocationManager!
             var countryInfo: MockCountryConfigurable!
             var abTests: ABTests!
             var dao: MockFeatureFlagsDAO!
-            
+
             beforeEach {
                 locale = Locale.makeRandom()
                 locationManager = MockLocationManager()
                 countryInfo = MockCountryConfigurable()
                 abTests = ABTests()
                 dao = MockFeatureFlagsDAO()
-                
+
                 sut = FeatureFlags(locale: locale,
                                    locationManager: locationManager,
                                    countryInfo: countryInfo,
@@ -42,44 +43,69 @@ class FeatureFlagsSpec: QuickSpec {
                     context("dao did not cache websocket variable") {
                         beforeEach {
                             dao.websocketChatEnabled = nil
-                            
+
                             sut = FeatureFlags(locale: locale,
                                                locationManager: locationManager,
                                                countryInfo: countryInfo,
                                                abTests: abTests,
                                                dao: dao)
                         }
-                        
+
                         it("returns websocket ab test value") {
                             expect(sut.websocketChat) == abTests.websocketChat.value
                         }
                     }
-                    
+
                     context("data cached websocket variable") {
                         beforeEach {
                             dao.websocketChatEnabled = true
-                            
+
                             sut = FeatureFlags(locale: locale,
                                                locationManager: locationManager,
                                                countryInfo: countryInfo,
                                                abTests: abTests,
                                                dao: dao)
                         }
-                        
+
                         it("returns websocket cached value") {
                             expect(sut.websocketChat) == dao.websocketChatEnabled
                         }
                     }
                 }
             }
-            
+
             describe("ab variables updated") {
                 beforeEach {
                     sut.variablesUpdated()
                 }
-                
+
                 it("saves websocket ab test value in dao") {
                     expect(dao.websocketChatEnabled) == abTests.websocketChat.value
+                }
+            }
+
+            describe("NetworkDAO interaction") {
+
+                context("bumper disabled") {
+                    context("network dao does not have any presetted value") {
+                        beforeEach {
+                            dao = MockFeatureFlagsDAO()
+                            locale = Locale.makeRandom()
+                            locationManager = MockLocationManager()
+                            countryInfo = MockCountryConfigurable()
+                            abTests = ABTests()
+
+                            sut = FeatureFlags(locale: locale,
+                                               locationManager: locationManager,
+                                               countryInfo: countryInfo,
+                                               abTests: abTests,
+                                               dao: dao)
+                        }
+
+                        it("returns timeout ab test value") {
+                            expect(sut.requestTimeOut.timeout) == RequestsTimeOut.fromPosition(abTests.requestsTimeOut.value).timeout
+                        }
+                    }
                 }
             }
         }

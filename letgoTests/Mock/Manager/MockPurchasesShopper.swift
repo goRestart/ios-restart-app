@@ -48,13 +48,14 @@ class MockPurchasesShopper: PurchasesShopper {
             guard let strongSelf = self else { return }
             if !strongSelf.paymentSucceeds {
                 // payment fails
-                strongSelf.delegate?.pricedBumpPaymentDidFail(withReason: nil)
+                strongSelf.delegate?.pricedBumpPaymentDidFail(withReason: nil, transactionStatus: .purchasingPurchased)
             } else if strongSelf.pricedBumpSucceeds {
                 // payment works and bump works
-                strongSelf.delegate?.pricedBumpDidSucceed(type: .priced, restoreRetriesCount: strongSelf.restoreRetriesCount)
+                strongSelf.delegate?.pricedBumpDidSucceed(type: .priced, restoreRetriesCount: strongSelf.restoreRetriesCount,
+                                                          transactionStatus: .purchasingPurchased)
             } else {
                 // payment works but bump fails
-                strongSelf.delegate?.pricedBumpDidFail(type: .priced)
+                strongSelf.delegate?.pricedBumpDidFail(type: .priced, transactionStatus: .purchasingPurchased)
             }
         }
     }
@@ -71,10 +72,10 @@ class MockPurchasesShopper: PurchasesShopper {
         delegate?.pricedBumpDidStart()
         if pricedBumpSucceeds {
             // payment works and bump works
-            delegate?.pricedBumpDidSucceed(type: .restore, restoreRetriesCount: restoreRetriesCount)
+            delegate?.pricedBumpDidSucceed(type: .restore, restoreRetriesCount: restoreRetriesCount, transactionStatus: .purchasingPurchased)
         } else {
             // payment works but bump fails
-            delegate?.pricedBumpDidFail(type: .restore)
+            delegate?.pricedBumpDidFail(type: .restore, transactionStatus: .purchasingPurchased)
         }
     }
 

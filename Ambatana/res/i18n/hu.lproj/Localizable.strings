@@ -23,7 +23,7 @@
 "bump_up_free_success" = "Felugrasztva! Ugraszd fel többször, hogy még láthatóbb legyen.";
 "bump_up_not_allowed_alert_contact_button" = "Kapcsolat";
 "bump_up_not_allowed_alert_text" = "A hirdetést jelenleg nem lehet kiemelni. További információkért lépj velünk kapcsolatba.";
-"bump_up_old_view_pay_button_title" = "%@ kiemelése";
+"bump_up_old_view_pay_button_title" = "Kiemelés: %@";
 "bump_up_old_view_pay_subtitle" = "Több érdeklődőt találhatsz, ha nagyobb láthatóságot adsz hirdetésednek.";
 "bump_up_old_view_pay_title" = "ADJ EL GYORSABBAN";
 "bump_up_pay_success" = "Kiemelve! Hirdetésed mostantól sokkal láthatóbb.";

@@ -29,8 +29,15 @@ struct DeepLink {
     }
 
     static func shortCut(_ action: DeepLinkAction) -> DeepLink {
-        return DeepLink(action: action, origin: .shortCut, campaign: nil, medium: nil, source: .none, cardActionParameter: nil)
+        return DeepLink(action: action, origin: .shortCut, campaign: nil, medium: nil,
+                        source: .none, cardActionParameter: nil)
     }
+
+    static func appInstall(_ action: DeepLinkAction, source: DeepLinkSource) -> DeepLink {
+        return DeepLink(action: action, origin: .appInstall, campaign: nil, medium: nil,
+                        source: source, cardActionParameter: nil)
+    }
+
 }
 
 enum DeepLinkAction: Equatable {
@@ -101,6 +108,7 @@ enum DeepLinkOrigin {
     case push(appActive: Bool, alert: String)
     case link
     case shortCut
+    case appInstall
 
     var appActive: Bool {
         switch self {
@@ -108,12 +116,14 @@ enum DeepLinkOrigin {
             return false
         case let .push(appActive, _):
             return appActive
+        case .appInstall:
+            return true
         }
     }
 
     var message: String {
         switch self {
-        case .link, .shortCut:
+        case .link, .shortCut, .appInstall:
             return ""
         case let .push(_, message):
             return message
