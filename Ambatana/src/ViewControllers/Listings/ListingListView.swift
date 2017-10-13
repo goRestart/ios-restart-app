@@ -17,6 +17,7 @@ protocol ListingListViewScrollDelegate: class {
 
 protocol ListingListViewCellsDelegate: class {
     func visibleTopCellWithIndex(_ index: Int, whileScrollingDown scrollingDown: Bool)
+    func shouldShowRelatedListingsButton() -> Bool
 }
 
 protocol ListingListViewHeaderDelegate: class {
@@ -74,8 +75,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     @IBOutlet weak var bottomInsetErrorViewConstraint: NSLayoutConstraint!
     @IBOutlet weak var rightInsetErrorViewConstraint: NSLayoutConstraint!
 
-
-    var isRelatedEnabled: Bool = true
     var shouldScrollToTopOnFirstPageReload = true
     var dataPadding: UIEdgeInsets {
         didSet {
@@ -305,7 +304,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         let cell = drawerManager.cell(item, collectionView: collectionView, atIndexPath: indexPath)
         drawerManager.draw(item, inCell: cell, delegate: viewModel.listingCellDelegate, shouldShowPrice: viewModel.shouldShowPrices)
         cell.tag = (indexPath as NSIndexPath).hash
-        (cell as? ListingCell)?.isRelatedEnabled = isRelatedEnabled
+        (cell as? ListingCell)?.isRelatedEnabled = cellsDelegate?.shouldShowRelatedListingsButton() ?? false
         return cell
     }
 

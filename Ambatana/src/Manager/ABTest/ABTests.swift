@@ -40,6 +40,7 @@ class ABTests {
     let showPriceAfterSearchOrFilter = IntABDynamicVar(key: "20170928ShowPriceAfterSearchOrFilter", defaultValue: 0)
     let requestsTimeOut = IntABDynamicVar(key: "20170929RequestTimeOut", defaultValue: 30)
     let newBumpUpExplanation = IntABDynamicVar(key: "20171004NewBumpUpExplanation", defaultValue: 0)
+    let homeRelatedEnabled = IntABDynamicVar(key: "20171011HomeRelatedEnabled", defaultValue: 0)
     let hideChatButtonOnFeaturedCells = IntABDynamicVar(key: "20171011ChatButtonOnFeaturedCells", defaultValue: 0)
 
     init() {
@@ -73,6 +74,7 @@ class ABTests {
         result.append(showPriceAfterSearchOrFilter)
         result.append(requestsTimeOut)
         result.append(newBumpUpExplanation)
+        result.append(homeRelatedEnabled)
         result.append(hideChatButtonOnFeaturedCells)
         
         return result

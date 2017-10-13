@@ -44,6 +44,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter = .control
     var requestTimeOut: RequestsTimeOut = .thirty
     var newBumpUpExplanation: NewBumpUpExplanation = .control
+    var homeRelatedEnabled: HomeRelatedEnabled = .control
     var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells = .control
 
 
@@ -52,6 +53,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var locationRequiresManualChangeSuggestion = false
     var signUpEmailNewsletterAcceptRequired = false
     var signUpEmailTermsAndConditionsAcceptRequired = false
+
 
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false
