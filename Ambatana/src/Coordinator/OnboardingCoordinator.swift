@@ -11,6 +11,8 @@ import SafariServices
 
 protocol OnboardingCoordinatorDelegate: class {
     func onboardingCoordinator(_ coordinator: OnboardingCoordinator, didFinishPosting posting: Bool, source: PostingSource?)
+    func shouldSkipPostingTour() -> Bool
+    func onboardingCoordinatorDidFinishTour(_ coordinator: OnboardingCoordinator)
 }
 
 final class OnboardingCoordinator: Coordinator, ChangePasswordPresenter {
@@ -135,16 +137,6 @@ final class OnboardingCoordinator: Coordinator, ChangePasswordPresenter {
         topVC.present(vc, animated: true, completion: nil)
     }
     
-    fileprivate func openTourCategories(taxonomies: [Taxonomy]) {
-        let topVC = topViewController()
-        let vm = TourCategoriesViewModel(taxonomies: taxonomies)
-        vm.navigator = self
-        let vc = TourCategoriesViewController(viewModel: vm)
-        hideVC(topVC)
-        presentedViewControllers.append(vc)
-        topVC.present(vc, animated: true, completion: nil)
-    }
-    
     fileprivate func openTourPermissions() {
         let pushPermissionsManager = LGPushPermissionsManager.sharedInstance
         let canAskForPushPermissions = pushPermissionsManager.shouldShowPushPermissionsAlertFromViewController(.onboarding)
@@ -157,6 +149,18 @@ final class OnboardingCoordinator: Coordinator, ChangePasswordPresenter {
             openTourPosting()
         }
     }
+
+    fileprivate func openNextTour() {
+        guard let delegate = self.delegate else {
+            openTourPosting()
+            return
+        }
+        if delegate.shouldSkipPostingTour() {
+            delegate.onboardingCoordinatorDidFinishTour(self)
+        } else {
+            openTourPosting()
+        }
+    }
 }
 
 
@@ -164,12 +168,7 @@ final class OnboardingCoordinator: Coordinator, ChangePasswordPresenter {
 
 extension OnboardingCoordinator: TourLoginNavigator {
     func tourLoginFinish() {
-        let taxonomiesOnboarding = categoryRepository.indexOnboardingTaxonomies()
-        if featureFlags.superKeywordsOnOnboarding.isActive && taxonomiesOnboarding.count > TourCategoriesViewModel.minimumTaxonomiesNeeded {
-            openTourCategories(taxonomies: taxonomiesOnboarding)
-        } else {
-            openTourPermissions()
-        }
+        openTourPermissions()
     }
 }
 
@@ -181,7 +180,7 @@ extension OnboardingCoordinator: TourNotificationsNavigator {
         if locationManager.shouldAskForLocationPermissions() {
             openTourLocation()
         } else {
-            openTourPosting()
+            openNextTour()
         }
     }
 }
@@ -191,7 +190,7 @@ extension OnboardingCoordinator: TourNotificationsNavigator {
 
 extension OnboardingCoordinator: TourLocationNavigator {
     func tourLocationFinish() {
-        openTourPosting()
+        openNextTour()
     }
 }
 

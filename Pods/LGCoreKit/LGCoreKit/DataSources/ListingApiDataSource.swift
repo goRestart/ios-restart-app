@@ -68,6 +68,9 @@ final class ListingApiDataSource: ListingDataSource {
         case .product(let productParams):
             request = ListingRouter.create(params: productParams.apiCreationEncode(userId: userId))
             apiClient.request(request, decoder: ListingApiDataSource.productDecoder, completion: completion)
+        case .realEstate(let realEstateParams):
+            request = ListingRouter.createRealEstate(params: realEstateParams.apiCreationEncode(userId: userId))
+            apiClient.request(request, decoder: ListingApiDataSource.realEstateDecoder, completion: completion)
         }
     }
 
@@ -79,6 +82,9 @@ final class ListingApiDataSource: ListingDataSource {
             apiClient.request(request, decoder: ListingApiDataSource.carDecoder, completion: completion)
         case .product(let productParams):
             request = ListingRouter.update(listingId: productParams.productId, params: productParams.apiEditionEncode())
+            apiClient.request(request, decoder: ListingApiDataSource.productDecoder, completion: completion)
+        case .realEstate(let realEstateParams):
+            request = ListingRouter.update(listingId: realEstateParams.realEstateId, params: realEstateParams.apiEditionEncode())
             apiClient.request(request, decoder: ListingApiDataSource.productDecoder, completion: completion)
         }
     }
@@ -153,12 +159,13 @@ final class ListingApiDataSource: ListingDataSource {
         apiClient.request(request, decoder: ListingApiDataSource.decoderListingStats, completion: completion)
     }
     
-    func updateStats(_ listingIds: [(listingId: String, visitSource: String)],
+    func updateStats(_ listingIds: [(listingId: String, visitSource: String, visitTimestamp: Double)],
                      action: String,
                      userId: String?,
                      completion: ListingDataSourceEmptyCompletion?) {
         let params : [String : Any] = ["productIds" : listingIds.map({ $0.listingId }),
                                        "sources": listingIds.map({ $0.visitSource }),
+                                       "timestamps": listingIds.map({ $0.visitTimestamp }),
                                        "action" : action,
                                        "userId": userId ?? ""]
         let request = ListingRouter.updateStats(params: params)
@@ -207,6 +214,14 @@ final class ListingApiDataSource: ListingDataSource {
         let car: LGCar? = decode(object)
         if let car = car {
             return .car(car)
+        }
+        return nil
+    }
+    
+    private static func realEstateDecoder(_ object: Any) -> Listing? {
+        let realEstate: LGRealEstate? = decode(object)
+        if let realEstate = realEstate {
+            return .realEstate(realEstate)
         }
         return nil
     }

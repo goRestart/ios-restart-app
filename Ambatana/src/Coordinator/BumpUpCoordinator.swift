@@ -32,11 +32,13 @@ class BumpUpCoordinator: Coordinator {
     convenience init(listing: Listing,
                      purchaseableProduct: PurchaseableProduct,
                      paymentItemId: String?) {
+        let featureFlags = FeatureFlags.sharedInstance
         self.init(listing: listing,
                   purchaseableProduct: purchaseableProduct,
                   paymentItemId: paymentItemId,
                   bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
-                  sessionManager: Core.sessionManager)
+                  sessionManager: Core.sessionManager,
+                  featureFlags: featureFlags)
     }
 
     init(listing: Listing,
@@ -59,11 +61,20 @@ class BumpUpCoordinator: Coordinator {
          purchaseableProduct: PurchaseableProduct,
          paymentItemId: String?,
          bubbleNotificationManager: BubbleNotificationManager,
-         sessionManager: SessionManager) {
+         sessionManager: SessionManager,
+         featureFlags: FeatureFlaggeable) {
 
         let bumpUpVM = BumpUpPayViewModel(listing: listing, purchaseableProduct: purchaseableProduct,
                                           paymentItemId: paymentItemId)
-        let bumpUpVC = BumpUpPayViewController(viewModel: bumpUpVM)
+        let bumpUpVC: BaseViewController
+
+        switch featureFlags.newBumpUpExplanation {
+        case .active:
+            bumpUpVC = BumpUpPayViewController(viewModel: bumpUpVM)
+        case .control, .baseline:
+            bumpUpVC = OldBumpUpPayViewController(viewModel: bumpUpVM)
+        }
+
         bumpUpVC.modalPresentationStyle = .overCurrentContext
         self.viewController = bumpUpVC
         self.bubbleNotificationManager = bubbleNotificationManager

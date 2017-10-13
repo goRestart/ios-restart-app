@@ -64,9 +64,11 @@ class ExpressChatViewModel: BaseViewModel {
     }
 
     override func didBecomeActive(_ firstTime: Bool) {
-        setupRx()
-        selectedItemsCount.value = productListCount
-        trackExpressChatStart()
+        if firstTime {
+            setupRx()
+            selectedItemsCount.value = productListCount
+            trackExpressChatStart()
+        }
     }
 
 

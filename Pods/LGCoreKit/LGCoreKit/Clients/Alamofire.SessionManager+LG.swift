@@ -9,7 +9,9 @@
 import Alamofire
 
 extension Alamofire.SessionManager {
-    static func make(backgroundEnabled: Bool, userAgentBuilder: UserAgentBuilder?) -> Alamofire.SessionManager {
+    static func make(backgroundEnabled: Bool,
+                     userAgentBuilder: UserAgentBuilder?,
+                     timeoutIntervalForRequest: TimeInterval) -> Alamofire.SessionManager {
         let configuration: URLSessionConfiguration
         if backgroundEnabled {
             configuration = URLSessionConfiguration
@@ -23,7 +25,9 @@ extension Alamofire.SessionManager {
         }
         configuration.httpAdditionalHeaders = headers
         configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
-        configuration.timeoutIntervalForResource = LGCoreKitConstants.requestTimeout
+
+        configuration.timeoutIntervalForRequest = timeoutIntervalForRequest
+        configuration.timeoutIntervalForResource = timeoutIntervalForRequest * 2
         return Alamofire.SessionManager(configuration: configuration)
     }
 }
