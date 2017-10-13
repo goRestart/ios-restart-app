@@ -814,6 +814,7 @@
 "sign_up_title" = "Yeni hesap oluştur";
 "sign_up_username_field_hint" = "İsim";
 "suggested_searches_title" = "Önerilen aramalar";
+"suggestions_category" = "Category";
 "suggestions_last_searches_clear_button" = "Hepsini sil";
 "suggestions_last_searches_title" = "Son aramalar";
 "survey_confirmation" = "Teşekkürler! Görüşleriniz letgo'yu geliştirmemize yardımcı oluyor";

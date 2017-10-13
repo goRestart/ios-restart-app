@@ -27,7 +27,7 @@
 "bump_up_old_view_pay_subtitle" = "Привлекайте больше покупателей, поднимая количество просмотров вашего объявления.";
 "bump_up_old_view_pay_title" = "Продать быстрее";
 "bump_up_pay_success" = "Выделено! Теперь ваш товар лучше виден.";
-"bump_up_processing_free_text" = "Обрабатываем продвижение объявления...";
+"bump_up_processing_free_text" = "Обработка...";
 "bump_up_processing_priced_text" = "Обрабатываем платеж...";
 "bump_up_product_cell_chat_now_button" = "Пообщаться";
 "bump_up_product_cell_featured_stripe" = "Популярное";
@@ -814,6 +814,7 @@
 "sign_up_title" = "Создать новый аккаунт";
 "sign_up_username_field_hint" = "Полное имя";
 "suggested_searches_title" = "Предлагаемые запросы";
+"suggestions_category" = "Category";
 "suggestions_last_searches_clear_button" = "Очистить все";
 "suggestions_last_searches_title" = "Недавний Поиск";
 "survey_confirmation" = "Спасибо! Ваши отзывы помогают нам быть лучше";

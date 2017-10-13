@@ -14,5 +14,4 @@ typealias TaxonomiesDataSourceCompletion = (TaxonomiesDataSourceResult) -> Void
 
 protocol TaxonomiesDataSource {
     func index(countryCode: String, locale: Locale?, completion: TaxonomiesDataSourceCompletion?)
-    func indexOnboarding(countryCode: String, locale: Locale?, completion: TaxonomiesDataSourceCompletion?)
 }
