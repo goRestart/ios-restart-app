@@ -12,6 +12,19 @@ import Runes
 
 extension SuggestiveSearch: Decodable {
     
+    private struct Keys {
+        static let type = "type"
+        static let name = "name"
+        static let attributes = "attributes"
+        static let categoryId = "categoryId"
+        
+        struct TypeValues {
+            static let term = "suggestion"
+            static let category = "category"
+            static let termWithCategory = "filterSuggestion"
+        }
+    }
+    
     /**
      Expects a json in the form:
      {
@@ -54,20 +67,20 @@ extension SuggestiveSearch: Decodable {
      }
      */
     public static func decode(_ j: JSON) -> Decoded<SuggestiveSearch> {
-        guard let type: String = j.decode("type") else {
-            return Decoded<SuggestiveSearch>.failure(.missingKey("type"))
+        guard let type: String = j.decode(Keys.type) else {
+            return Decoded<SuggestiveSearch>.failure(.missingKey(Keys.type))
         }
         
         let result: Decoded<SuggestiveSearch>
         switch type {
-        case "suggestion":
+        case Keys.TypeValues.term:
             result = SuggestiveSearch.decodeTerm(json: j)
-        case "category":
+        case Keys.TypeValues.category:
             result = SuggestiveSearch.decodeCategory(json: j)
-        case "filterSuggestion":
+        case Keys.TypeValues.termWithCategory:
             result = SuggestiveSearch.decodeTermWithCategory(json: j)
         default:
-            result = Decoded<SuggestiveSearch>.failure(.custom("unknown type"))
+            result = Decoded<SuggestiveSearch>.failure(.custom("unknown \(Keys.type)"))
         }
         
         if let error = result.error {
@@ -78,31 +91,31 @@ extension SuggestiveSearch: Decodable {
     
     private static func decodeTerm(json: JSON) -> Decoded<SuggestiveSearch> {
         let result1 = curry(SuggestiveSearch.term)
-        let result  = result1 <^> json <| "name"
+        let result  = result1 <^> json <| Keys.name
         return result
     }
     
     private static func decodeCategory(json: JSON) -> Decoded<SuggestiveSearch> {
-        guard let attributes: JSON = json.decode("attributes"),
-              let categoryId: Int = attributes.decode("categoryId") else {
-            return Decoded<SuggestiveSearch>.failure(.missingKey("attributes/categoryId"))
+        guard let attributes: JSON = json.decode(Keys.attributes),
+              let categoryId: Int = attributes.decode(Keys.categoryId) else {
+            return Decoded<SuggestiveSearch>.failure(.missingKey("\(Keys.attributes)/\(Keys.categoryId)"))
         }
         guard let category = ListingCategory(rawValue: categoryId) else {
-            return Decoded<SuggestiveSearch>.failure(.custom("categoryId not found"))
+            return Decoded<SuggestiveSearch>.failure(.custom("unknown \(Keys.categoryId)"))
         }
         return Decoded<SuggestiveSearch>.success(SuggestiveSearch.category(category: category))
     }
     
     private static func decodeTermWithCategory(json: JSON) -> Decoded<SuggestiveSearch> {
-        guard let name: String = json.decode("name") else {
-            return Decoded<SuggestiveSearch>.failure(.missingKey("name"))
+        guard let name: String = json.decode(Keys.name) else {
+            return Decoded<SuggestiveSearch>.failure(.missingKey(Keys.name))
         }
-        guard let attributes: JSON = json.decode("attributes"),
-              let categoryId: Int = attributes.decode("categoryId") else {
-            return Decoded<SuggestiveSearch>.failure(.missingKey("attributes/categoryId"))
+        guard let attributes: JSON = json.decode(Keys.attributes),
+              let categoryId: Int = attributes.decode(Keys.categoryId) else {
+            return Decoded<SuggestiveSearch>.failure(.missingKey("\(Keys.attributes)/\(Keys.categoryId)"))
         }
         guard let category = ListingCategory(rawValue: categoryId) else {
-            return Decoded<SuggestiveSearch>.failure(.custom("categoryId not found"))
+            return Decoded<SuggestiveSearch>.failure(.custom("unknown \(Keys.categoryId)"))
         }
         return Decoded<SuggestiveSearch>.success(SuggestiveSearch.termWithCategory(name: name, category: category))
     }
