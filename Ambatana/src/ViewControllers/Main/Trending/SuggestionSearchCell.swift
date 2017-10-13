@@ -127,12 +127,13 @@ class SuggestionSearchCell: UITableViewCell, ReusableCell {
              titleSkipHighlight: String?,
              subtitle: String?,
              icon: UIImage?) {
-        let lowercasedTitle = title.lowercased()
         if let titleLabelFont = titleLabel.font,
-           let titleSkipHighlight = titleSkipHighlight?.lowercased() {
+           let titleSkipHighlight = titleSkipHighlight {
             let titleWithHighlight = NSMutableAttributedString(string: title,
                                                                attributes: [NSFontAttributeName: titleLabelFont])
-            let range = NSString(string: lowercasedTitle).range(of: titleSkipHighlight)
+            let range = NSString(string: title).range(of: titleSkipHighlight,
+                                                      options: [.caseInsensitive, .diacriticInsensitive])
+            
             titleWithHighlight.addAttribute(
                 NSForegroundColorAttributeName,
                 value: UIColor.gray,
