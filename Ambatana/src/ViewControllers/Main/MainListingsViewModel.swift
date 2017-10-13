@@ -1126,10 +1126,10 @@ fileprivate extension MainListingsViewModel {
                                                     feedSource: feedSource, success: successParameter)
         tracker.trackEvent(trackerEvent)
 
-        if let searchType = searchType, shouldTrackSearch {
+        if let searchType = searchType, let searchQuery = searchType.query, shouldTrackSearch {
             shouldTrackSearch = false
             let successValue = hasListings ? EventParameterSearchCompleteSuccess.success : EventParameterSearchCompleteSuccess.fail
-            tracker.trackEvent(TrackerEvent.searchComplete(myUserRepository.myUser, searchQuery: searchType.query ?? "",
+            tracker.trackEvent(TrackerEvent.searchComplete(myUserRepository.myUser, searchQuery: searchQuery,
                                                            isTrending: searchType.isTrending,
                                                            success: successValue, isLastSearch: searchType.isLastSearch,
                                                            isSuggestiveSearch: searchType.isSuggestive, suggestiveSearchIndex: searchType.indexSelected))
