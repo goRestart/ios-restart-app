@@ -52,10 +52,7 @@ final class TourLoginViewModel: BaseViewModel {
     func textUrlPressed(url: URL) {
         delegate?.vmOpenInternalURL(url)
     }
-    
-    func refreshTaxonomiesOnboardingCache() {
-        categoryRepository.refreshTaxonomiesOnboardingCache()
-    }
+
 }
 
 
