@@ -161,6 +161,7 @@
 "chat_not_verified_state_check_button" = "Kiểm tra";
 "chat_not_verified_state_message" = "Kiểm tra xem bạn đã được xác minh chưa để bắt đầu trò chuyện.";
 "chat_not_verified_state_title" = "BẠN  ĐÃ ĐƯỢC XÁC MINH?";
+"chat_product_given_away_label" = "Product given away";
 "chat_product_sold_label" = "Sản phẩm đã bán";
 "chat_related_products_title" = "BẠN CÓ THỂ QUAN TÂM TỚI:";
 "chat_safety_tips" = "Lời khuyên an toàn";
@@ -209,6 +210,7 @@
 "common_new" = "MỚI!";
 "common_no" = "Không";
 "common_ok" = "OK";
+"common_product_given_away" = "Product given away";
 "common_product_not_available" = "Ồ! Sản phẩm này không còn nữa";
 "common_product_sold" = "Sản phẩm này đã được bán.";
 "common_settings" = "Cài đặt";

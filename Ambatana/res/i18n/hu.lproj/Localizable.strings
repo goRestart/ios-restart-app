@@ -161,6 +161,7 @@
 "chat_not_verified_state_check_button" = "Ellenőrzés";
 "chat_not_verified_state_message" = "A csevegéshez ellenőrizd, hogy visszaigazoltad-e magadat.";
 "chat_not_verified_state_title" = "VISSZAIGAZOLTAD MAGADAT?";
+"chat_product_given_away_label" = "Product given away";
 "chat_product_sold_label" = "Portéka eladva";
 "chat_related_products_title" = "TALÁN ÉRDEKEL:";
 "chat_safety_tips" = "Biztonsági tanácsaink";
@@ -209,6 +210,7 @@
 "common_new" = "ÚJ!";
 "common_no" = "Nem";
 "common_ok" = "OK";
+"common_product_given_away" = "Product given away";
 "common_product_not_available" = "Hoppá! A portéka már nem elérhető";
 "common_product_sold" = "Ez a portéka eladásra került.";
 "common_settings" = "Beállítások";

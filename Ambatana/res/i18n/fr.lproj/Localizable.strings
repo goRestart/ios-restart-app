@@ -161,6 +161,7 @@
 "chat_not_verified_state_check_button" = "Vérifier";
 "chat_not_verified_state_message" = "Assurez-vous d'être vérifié pour commencer à chatter.";
 "chat_not_verified_state_title" = "AVEZ-VOUS ÉTÉ VÉRIFIÉ ?";
+"chat_product_given_away_label" = "Product given away";
 "chat_product_sold_label" = "Bien vendu";
 "chat_related_products_title" = "VOUS POURRIEZ ETRE INTERESSE PAR";
 "chat_safety_tips" = "Conseils de sécurité";
@@ -209,6 +210,7 @@
 "common_new" = "NOUVEAU !";
 "common_no" = "Non";
 "common_ok" = "OK";
+"common_product_given_away" = "Product given away";
 "common_product_not_available" = "Oups ! Ce bien n'est plus disponible";
 "common_product_sold" = "Ce bien a été vendu.";
 "common_settings" = "Réglages";

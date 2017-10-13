@@ -161,6 +161,7 @@
 "chat_not_verified_state_check_button" = "Controleer";
 "chat_not_verified_state_message" = "Controleer of je geverifieerd bent om te beginnen met chatten.";
 "chat_not_verified_state_title" = "BEN JE GEVERIFIEERD?";
+"chat_product_given_away_label" = "Product given away";
 "chat_product_sold_label" = "Product verkocht";
 "chat_related_products_title" = "MISSCHIEN HEB JE INTERESSE IN:";
 "chat_safety_tips" = "Veiligheidstips";
@@ -209,6 +210,7 @@
 "common_new" = "NIEUW!";
 "common_no" = "Nee";
 "common_ok" = "OK";
+"common_product_given_away" = "Product given away";
 "common_product_not_available" = "Oeps! Dit item is niet meer beschikbaar";
 "common_product_sold" = "Dit product is verkocht.";
 "common_settings" = "Instellingen";

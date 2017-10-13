@@ -161,6 +161,7 @@
 "chat_not_verified_state_check_button" = "Controlla";
 "chat_not_verified_state_message" = "Controlla di essere un utente verificato per iniziare a chattare.";
 "chat_not_verified_state_title" = "SEI UN UTENTE VERIFICATO?";
+"chat_product_given_away_label" = "Product given away";
 "chat_product_sold_label" = "Prodotto venduto";
 "chat_related_products_title" = "POTRESTI ESSERE INTERESSATO A:";
 "chat_safety_tips" = "Consigli utili";
@@ -209,6 +210,7 @@
 "common_new" = "NOVITÀ!";
 "common_no" = "No";
 "common_ok" = "OK";
+"common_product_given_away" = "Product given away";
 "common_product_not_available" = "Ops! Questo articolo non è più disponibile.";
 "common_product_sold" = "Questo prodotto è stato venduto.";
 "common_settings" = "Impostazioni";

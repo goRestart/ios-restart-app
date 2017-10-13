@@ -161,6 +161,7 @@
 "chat_not_verified_state_check_button" = "Έλεγχος";
 "chat_not_verified_state_message" = "Ελέγξτε αν έχετε κάνει επιβεβαίωση για να ξεκινήσετε να συνομιλείτε.";
 "chat_not_verified_state_title" = "΄ΕΧΕΤΕ ΚΑΝΕΙ ΕΠΙΒΕΒΑΙΩΣΗ;";
+"chat_product_given_away_label" = "Product given away";
 "chat_product_sold_label" = "Το προϊόν πωλήθηκε";
 "chat_related_products_title" = "ΜΠΟΡΕΙ ΝΑ ΕΝΔΙΑΦΕΡΕΣΤΕ ΓΙΑ:";
 "chat_safety_tips" = "Συμβουλές ασφαλείας";
@@ -209,6 +210,7 @@
 "common_new" = "ΝΕΟ!";
 "common_no" = "Όχι";
 "common_ok" = "ΟΚ";
+"common_product_given_away" = "Product given away";
 "common_product_not_available" = "Όπα! Το προϊόν αυτό δεν είναι πλέον διαθέσιμο";
 "common_product_sold" = "Το προϊόν έχει πουληθεί.";
 "common_settings" = "Ρυθμίσεις";
