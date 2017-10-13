@@ -421,7 +421,7 @@ fileprivate extension ChatViewController {
             case .forbidden, .userPendingDelete, .userDeleted:
                 self?.listingView.disableUserProfileInteraction()
                 self?.listingView.disableListingInteraction()
-            case .available, .blocked, .blockedBy, .listingSold:
+            case .available, .blocked, .blockedBy, .listingSold, .listingGivenAway:
                 break
             }
             }.addDisposableTo(disposeBag)
