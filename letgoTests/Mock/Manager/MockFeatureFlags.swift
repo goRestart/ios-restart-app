@@ -24,7 +24,6 @@ class MockFeatureFlags: FeatureFlaggeable {
 
     var websocketChat: Bool = false
     var captchaTransparent: Bool = false
-    var passiveBuyersShowKeyboard: Bool = false
     var freeBumpUpEnabled: Bool = false
     var pricedBumpUpEnabled: Bool = false
     var newCarsMultiRequesterEnabled: Bool = false

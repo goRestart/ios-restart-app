@@ -149,10 +149,6 @@ enum EventName: String {
     case notificationCenterComplete         = "notification-center-complete"
 
     case marketingPushNotifications         = "marketing-push-notifications"
-    
-    case passiveBuyerStart                  = "passive-buyer-start"
-    case passiveBuyerComplete               = "passive-buyer-complete"
-    case passiveBuyerAbandon                = "passive-buyer-abandon"
 
     case bumpBannerShow                     = "bump-banner-show"
     case bumpUpStart                        = "bump-up-start"
