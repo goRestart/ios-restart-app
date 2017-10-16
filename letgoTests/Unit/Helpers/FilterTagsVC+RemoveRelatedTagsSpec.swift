@@ -13,14 +13,14 @@ import Nimble
 class FilterTagsVCRemoveRelatedTagsSpec: QuickSpec {
     override func spec() {
 
-        var sut: FilterTagsViewController!
+        var sut: FilterTagsView!
         var relatedTagsToRemove: [IndexPath]!
 
         describe("Remove Related Tags") {
             beforeEach {
                 let layout = UICollectionViewFlowLayout.init()
                 let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-                sut = FilterTagsViewController(collectionView: collectionView)
+                sut = FilterTagsView(collectionView: collectionView)
                 relatedTagsToRemove = []
             }
             context("Removing not-category, no related tags to remove") {
