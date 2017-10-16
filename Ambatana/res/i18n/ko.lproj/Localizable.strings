@@ -161,6 +161,7 @@
 "chat_not_verified_state_check_button" = "확인";
 "chat_not_verified_state_message" = "채팅을 시작하기 위해서 인증하셨는지 확인해주세요.";
 "chat_not_verified_state_title" = "인증하셨나요?";
+"chat_product_given_away_label" = "상품 증정";
 "chat_product_sold_label" = "상품 판매완료";
 "chat_related_products_title" = "사용자께서는 다음 항목들에 관심이 가실지도 모릅니다:";
 "chat_safety_tips" = "안전 정책";
@@ -209,6 +210,7 @@
 "common_new" = "새로운!";
 "common_no" = "아니요";
 "common_ok" = "확인";
+"common_product_given_away" = "상품 증정";
 "common_product_not_available" = "이런! 이 제품은 더 이상 존재하지 않습니다";
 "common_product_sold" = "제품이 이미 판매되었습니다.";
 "common_settings" = "설정";
@@ -814,7 +816,7 @@
 "sign_up_title" = "새 계정 만들기";
 "sign_up_username_field_hint" = "이름";
 "suggested_searches_title" = "제안되는 검색";
-"suggestions_category" = "Category";
+"suggestions_category" = "항목";
 "suggestions_last_searches_clear_button" = "모두 삭제하기";
 "suggestions_last_searches_title" = "최근 검색";
 "survey_confirmation" = "감사합니다! 남겨주신 피드백은 저희에게 많은 도움이 될 것입니다";

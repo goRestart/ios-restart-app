@@ -161,6 +161,7 @@
 "chat_not_verified_state_check_button" = "Controleer";
 "chat_not_verified_state_message" = "Controleer of je geverifieerd bent om te beginnen met chatten.";
 "chat_not_verified_state_title" = "BEN JE GEVERIFIEERD?";
+"chat_product_given_away_label" = "Product weggegeven";
 "chat_product_sold_label" = "Product verkocht";
 "chat_related_products_title" = "MISSCHIEN HEB JE INTERESSE IN:";
 "chat_safety_tips" = "Veiligheidstips";
@@ -209,6 +210,7 @@
 "common_new" = "NIEUW!";
 "common_no" = "Nee";
 "common_ok" = "OK";
+"common_product_given_away" = "Product weggegeven";
 "common_product_not_available" = "Oeps! Dit item is niet meer beschikbaar";
 "common_product_sold" = "Dit product is verkocht.";
 "common_settings" = "Instellingen";
@@ -814,7 +816,7 @@
 "sign_up_title" = "Nieuw account aanmaken";
 "sign_up_username_field_hint" = "Volledige naam";
 "suggested_searches_title" = "Voorgestelde Zoekopdrachten";
-"suggestions_category" = "Category";
+"suggestions_category" = "Categorie";
 "suggestions_last_searches_clear_button" = "Wis alles";
 "suggestions_last_searches_title" = "Recente Zoekopdrachten";
 "survey_confirmation" = "Bedankt! Jouw feedback helpt om ons te verbeteren";
