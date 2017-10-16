@@ -145,6 +145,7 @@ class ListingCarouselViewModel: BaseViewModel {
     var adUnitId: String {
         return EnvironmentProxy.sharedInstance.moreInfoAdUnitId
     }
+    var adRequestMaxWidth: Int?
     var adsRequest: GADDynamicHeightSearchRequest?
 
 
@@ -447,16 +448,17 @@ class ListingCarouselViewModel: BaseViewModel {
     func makeAdsRequest() {
         adsRequest = GADDynamicHeightSearchRequest()
 
-        adsRequest?.query = "running shoes"
+        adsRequest?.query = productInfo.value?.title
         #if GOD_MODE
             adsRequest?.adTestEnabled = true
         #endif
 
-        
+        let screenWidth = String(Int(UIScreen.main.bounds.width))
+
         adsRequest?.setAdvancedOptionValue("plas", forKey: "adType")
-        adsRequest?.setAdvancedOptionValue("vert-pla-mobile-app-ambatana-srp", forKey: "pubId")
-        adsRequest?.setAdvancedOptionValue("400", forKey: "height")
-        adsRequest?.setAdvancedOptionValue("400", forKey: "width")
+        adsRequest?.setAdvancedOptionValue("200", forKey: "height")
+        adsRequest?.setAdvancedOptionValue(screenWidth, forKey: "width")
+
     }
 }
 

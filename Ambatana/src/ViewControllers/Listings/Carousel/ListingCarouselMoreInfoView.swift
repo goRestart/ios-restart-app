@@ -57,7 +57,10 @@ class ListingCarouselMoreInfoView: UIView {
     fileprivate var mapViewContainerExpandable: UIView? = nil
     fileprivate var mapViewTapGesture: UITapGestureRecognizer? = nil
 
-    @IBOutlet weak var bannerView: GADSearchBannerView!
+    @IBOutlet weak var bannerContainerView: UIView!
+    @IBOutlet weak var bannerContainerViewHeightConstraint: NSLayoutConstraint!
+
+    var bannerView: GADSearchBannerView?
 
     @IBOutlet weak var socialShareContainer: UIView!
     @IBOutlet weak var socialShareTitleLabel: UILabel!
@@ -101,12 +104,13 @@ class ListingCarouselMoreInfoView: UIView {
         setupMapRx(viewModel: viewModel)
         setupStatsRx(viewModel: viewModel)
         setupBottomPanelRx(viewModel: viewModel)
-        setupBannerWith(viewModel: viewModel)
         self.viewModel = viewModel
+        setupBannerWith(viewModel: viewModel)
     }
 
     func viewWillShow() {
         setupMapViewIfNeeded()
+        loadAdsRequest()
     }
 
     func dismissed() {
@@ -277,35 +281,6 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
     }
 }
 
-extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate {
-    func adView(_ bannerView: GADBannerView, willChangeAdSizeTo size: GADAdSize) {
-        print("🐤🐤🐤🐤🐤🐤🐤")
-        print(size)
-        print("bannerView.adUnitID -> \(bannerView.adUnitID)")
-
-//        // Update the banner view based on the ad size.
-//        CGRect newFrame = self.searchBannerView.frame;
-//        newFrame.size.height = size.size.height;
-//        self.searchBannerView.frame = newFrame;
-//
-//        // Any time the ad size changes, trigger a relayout of the view.
-//        [self.view setNeedsLayout];
-    }
-
-    func adViewDidReceiveAd(_ bannerView: GADBannerView) {
-        print("🌸🌸🌸🌸🌸🌸")
-        print("bannerView.adUnitID -> \(bannerView.adUnitID)")
-    }
-
-    func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError) {
-        print("❌❌❌❌❌❌")
-        print("bannerView.adUnitID -> \(bannerView.adUnitID)")
-        print(error)
-        print("--------")
-        print(error.userInfo)
-    }
-}
-
 extension ListingCarouselMoreInfoView: UIScrollViewDelegate {
 
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
@@ -449,7 +424,6 @@ fileprivate extension ListingCarouselMoreInfoView {
             self?.distanceLabel.text = info.distance
             self?.descriptionLabel.mainAttributedText = info.styledDescription
             self?.descriptionLabel.setNeedsLayout()
-            self?.loadAdsRequest()
         }.addDisposableTo(disposeBag)
     }
 
@@ -481,18 +455,45 @@ fileprivate extension ListingCarouselMoreInfoView {
     }
 
     func setupBannerWith(viewModel: ListingCarouselViewModel) {
-
-        bannerView.rootViewController = viewController()
-        bannerView.adSize = kGADAdSizeFluid
+        bannerView = GADSearchBannerView.init(adSize: kGADAdSizeFluid)
+        guard let bannerView = bannerView else { return }
         bannerView.adUnitID = viewModel.adUnitId
         bannerView.frame = CGRect(x: 0, y: 0, width: bounds.width, height: 0)
-        bannerView.autoresizingMask = .flexibleHeight //.flexibleWidth
+
+        bannerView.autoresizingMask = .flexibleWidth
         bannerView.adSizeDelegate = self
         bannerView.delegate = self
+        bannerView.backgroundColor = UIColor.clear
+
+        bannerContainerView.addSubview(bannerView)
+        bannerView.translatesAutoresizingMaskIntoConstraints = false
+        bannerView.layout(with:bannerContainerView).fill()
     }
 
     func loadAdsRequest() {
-        bannerView.load(viewModel?.adsRequest)
+        bannerView?.load(viewModel?.adsRequest)
+    }
+}
+
+
+// MARK: - GADAdSizeDelegate, GADBannerViewDelegate
+
+extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate {
+    func adView(_ bannerView: GADBannerView, willChangeAdSizeTo size: GADAdSize) {
+        let newFrame = CGRect(x: bannerView.frame.origin.x, y: bannerView.frame.origin.y, width: size.size.width, height: size.size.height)
+        bannerView.frame = newFrame
+        bannerContainerViewHeightConstraint.constant = size.size.height
+        setNeedsLayout()
+    }
+
+    func adViewDidReceiveAd(_ bannerView: GADBannerView) {
+
+    }
+
+    func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError) {
+        logMessage(.info, type: .monetization, message: "Banner failed with error: \(error.localizedDescription)")
+        bannerContainerViewHeightConstraint.constant = 0
+        setNeedsLayout()
     }
 }
 
