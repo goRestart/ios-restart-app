@@ -27,7 +27,7 @@
 "bump_up_old_view_pay_subtitle" = "귀하의 목록이 더 잘 보이도록 옮겨 좀 더 많은 구매자를 끌어들이세요.";
 "bump_up_old_view_pay_title" = "빠르게 판매하기";
 "bump_up_pay_success" = "상품이 강조되었습니다! 이제 다른 사용자들이 상품을 더 잘 확인할 수 있게 됩니다.";
-"bump_up_processing_free_text" = "강조 진행중...";
+"bump_up_processing_free_text" = "진행중...";
 "bump_up_processing_priced_text" = "결제 처리중...";
 "bump_up_product_cell_chat_now_button" = "지금 대화하기";
 "bump_up_product_cell_featured_stripe" = "주요";
@@ -814,6 +814,7 @@
 "sign_up_title" = "새 계정 만들기";
 "sign_up_username_field_hint" = "이름";
 "suggested_searches_title" = "제안되는 검색";
+"suggestions_category" = "Category";
 "suggestions_last_searches_clear_button" = "모두 삭제하기";
 "suggestions_last_searches_title" = "최근 검색";
 "survey_confirmation" = "감사합니다! 남겨주신 피드백은 저희에게 많은 도움이 될 것입니다";

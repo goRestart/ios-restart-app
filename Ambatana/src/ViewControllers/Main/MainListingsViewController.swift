@@ -51,7 +51,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     @IBOutlet weak var filterDescriptionTopConstraint: NSLayoutConstraint!
 
     fileprivate let infoBubbleTopMargin: CGFloat = 8
-    fileprivate let sectionHeight: CGFloat = 54
+    fileprivate let sectionHeight: CGFloat = 40
     fileprivate let firstSectionMarginTop: CGFloat = -36
 
     @IBOutlet weak var infoBubbleLabel: UILabel!
@@ -651,15 +651,17 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
         let title: String
         let titleSkipHighlight: String?
         let subtitle: String?
+        let icon: UIImage?
         let fillSearchButtonBlock: (() -> ())?
         switch sectionType {
         case .suggestive:
             guard let (suggestiveSearch, sourceText) = viewModel.suggestiveSearchAtIndex(indexPath.row) else {
                 return UITableViewCell()
             }
-            title = suggestiveSearch.name
+            title = suggestiveSearch.title
             titleSkipHighlight = sourceText
-            subtitle = suggestiveSearch.category?.name
+            subtitle = suggestiveSearch.subtitle
+            icon = suggestiveSearch.icon
             fillSearchButtonBlock = { [weak self] in
                 self?.navbarSearch.searchTextField?.text = title
                 self?.viewModel.searchText.value = title
@@ -667,20 +669,23 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
             }
         case .lastSearch:
             guard let lastSearch = viewModel.lastSearchAtIndex(indexPath.row) else { return UITableViewCell() }
-            title = lastSearch.name
+            title = lastSearch.title
             titleSkipHighlight = nil
-            subtitle = lastSearch.category?.name
+            subtitle = lastSearch.subtitle
+            icon = lastSearch.icon
             fillSearchButtonBlock = nil
         case .trending:
             guard let trendingSearch = viewModel.trendingSearchAtIndex(indexPath.row) else { return UITableViewCell() }
             title = trendingSearch
             titleSkipHighlight = nil
             subtitle = nil
+            icon = nil
             fillSearchButtonBlock = nil
         }
         cell.set(title: title,
                  titleSkipHighlight: titleSkipHighlight,
-                 subtitle: subtitle)
+                 subtitle: subtitle,
+                 icon: icon)
         cell.fillSearchButtonBlock = fillSearchButtonBlock
         return cell
     }

@@ -16,9 +16,6 @@ public typealias TaxonomiesCompletion = (TaxonomiesResult) -> Void
 public protocol CategoryRepository {
     func index(filterVisible filtered: Bool, completion: CategoriesCompletion?)
     func indexTaxonomies() -> [Taxonomy]
-    func indexOnboardingTaxonomies() -> [Taxonomy]
-    func retrieveTaxonomyChildren(withIds ids: [Int]) -> [TaxonomyChild]
     func loadFirstRunCacheIfNeeded(jsonURL: URL)
     func refreshTaxonomiesCache()
-    func refreshTaxonomiesOnboardingCache()
 }
