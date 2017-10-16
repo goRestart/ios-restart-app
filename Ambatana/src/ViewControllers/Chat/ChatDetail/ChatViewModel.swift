@@ -194,7 +194,7 @@ class ChatViewModel: BaseViewModel {
         switch chatStatus.value {
         case .forbidden, .userDeleted, .userPendingDelete:
             return false
-        case .available, .listingSold, .listingDeleted, .blocked, .blockedBy:
+        case .available, .listingSold, .listingGivenAway, .listingDeleted, .blocked, .blockedBy:
             return true
         }
     }
@@ -908,7 +908,7 @@ extension ChatViewModel {
                 switch strongSelf.chatStatus.value {
                 case .forbidden, .blocked, .blockedBy, .userPendingDelete, .userDeleted:
                     strongSelf.chatEnabled.value = false
-                case .available, .listingSold, .listingDeleted:
+                case .available, .listingSold, .listingGivenAway, .listingDeleted:
                     strongSelf.chatEnabled.value =  true
                 }
             } else {
@@ -1010,7 +1010,7 @@ extension ChatViewModel {
         switch chatStatus.value {
         case .userDeleted, .userPendingDelete:
             return chatViewMessageAdapter.createUserDeletedDisclaimerMessage(conversation.value.interlocutor?.name)
-        case .available, .blocked, .blockedBy, .forbidden, .listingDeleted, .listingSold:
+        case .available, .blocked, .blockedBy, .forbidden, .listingDeleted, .listingSold, .listingGivenAway:
             return nil
         }
     }
@@ -1316,7 +1316,11 @@ fileprivate extension ChatConversation {
         case .deleted, .discarded:
             return .listingDeleted
         case .sold, .soldOld:
-            return .listingSold
+            if listing.price == .free {
+                return .listingGivenAway
+            } else {
+                return .listingSold
+            }
         case .approved, .pending:
             return .available
         }
@@ -1326,14 +1330,14 @@ fileprivate extension ChatConversation {
         switch chatStatus {
         case .forbidden, .blocked, .blockedBy, .userPendingDelete, .userDeleted:
             return false
-        case .available, .listingSold, .listingDeleted:
+        case .available, .listingSold, .listingDeleted, .listingGivenAway:
             return true
         }
     }
 
     var relatedListingsEnabled: Bool {
         switch chatStatus {
-        case .forbidden,  .userPendingDelete, .userDeleted, .listingDeleted, .listingSold:
+        case .forbidden,  .userPendingDelete, .userDeleted, .listingDeleted, .listingSold, .listingGivenAway:
             return !amISelling
         case .available, .blocked, .blockedBy:
             return false
