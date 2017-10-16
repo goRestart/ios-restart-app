@@ -10,42 +10,68 @@ import Foundation
 import LGCoreKit
 import SwiftyUserDefaults
 
-final class LocalSuggestiveSearch: NSObject, SuggestiveSearch, NSCoding {
+final class LocalSuggestiveSearch: NSObject, NSCoding {
+    private static let typeKey = "type"
+    private static let typeValueTerm = 0
+    private static let typeValueCategory = 1
+    private static let typeValueTermWithCategory = 2
     private static let nameKey = "name"
     private static let categoryIdKey = "categoryId"
     
-    let name: String
-    let category: ListingCategory?
+    let suggestiveSearch: SuggestiveSearch
 
     
     // MARK: - Lifecycle
     
-    init(name: String,
-         category: ListingCategory?) {
-        self.name = name
-        self.category = category
+    init(suggestiveSearch: SuggestiveSearch) {
+        self.suggestiveSearch = suggestiveSearch
     }
     
-    init(suggestiveSearch: SuggestiveSearch) {
-        self.name = suggestiveSearch.name
-        self.category = suggestiveSearch.category
+    override func isEqual(_ object: Any?) -> Bool {
+        guard let otherLocalSuggestiveSearch = object as? LocalSuggestiveSearch else { return false }
+        return suggestiveSearch == otherLocalSuggestiveSearch.suggestiveSearch
     }
     
     
     // MARK: - NSCoding
     
-    required init(coder decoder: NSCoder) {
-        self.name = decoder.decodeObject(forKey: LocalSuggestiveSearch.nameKey) as? String ?? ""
-        if let categoryId = decoder.decodeObject(forKey: LocalSuggestiveSearch.categoryIdKey) as? Int {
-            self.category = ListingCategory(rawValue: categoryId)
-        } else {
-            self.category = nil
-        }        
+    required init?(coder decoder: NSCoder) {
+        let type = decoder.decodeInteger(forKey: LocalSuggestiveSearch.typeKey)
+        switch type {
+        case LocalSuggestiveSearch.typeValueTerm:
+            guard let name = decoder.decodeObject(forKey: LocalSuggestiveSearch.nameKey) as? String else { return nil }
+            self.suggestiveSearch = .term(name: name)
+        case LocalSuggestiveSearch.typeValueCategory:
+            let categoryId = decoder.decodeInteger(forKey: LocalSuggestiveSearch.categoryIdKey)
+            guard let category = ListingCategory(rawValue: categoryId) else {
+                return nil
+            }
+            self.suggestiveSearch = .category(category: category)
+        case LocalSuggestiveSearch.typeValueTermWithCategory:
+            let categoryId = decoder.decodeInteger(forKey: LocalSuggestiveSearch.categoryIdKey)
+            guard let name = decoder.decodeObject(forKey: LocalSuggestiveSearch.nameKey) as? String,
+                  let category = ListingCategory(rawValue: categoryId) else {
+                    return nil
+            }
+            self.suggestiveSearch = .termWithCategory(name: name, category: category)
+        default:
+            return nil
+        }
     }
     
     func encode(with coder: NSCoder) {
-        coder.encode(name, forKey: LocalSuggestiveSearch.nameKey)
-        coder.encode(category?.rawValue, forKey: LocalSuggestiveSearch.categoryIdKey)
+        switch suggestiveSearch {
+        case let .term(name):
+            coder.encode(LocalSuggestiveSearch.typeValueTerm, forKey: LocalSuggestiveSearch.typeKey)
+            coder.encode(name, forKey: LocalSuggestiveSearch.nameKey)
+        case let .category(category):
+            coder.encode(LocalSuggestiveSearch.typeValueCategory, forKey: LocalSuggestiveSearch.typeKey)
+            coder.encode(category.rawValue, forKey: LocalSuggestiveSearch.categoryIdKey)
+        case let .termWithCategory(name, category):
+            coder.encode(LocalSuggestiveSearch.typeValueTermWithCategory, forKey: LocalSuggestiveSearch.typeKey)
+            coder.encode(name, forKey: LocalSuggestiveSearch.nameKey)
+            coder.encode(category.rawValue, forKey: LocalSuggestiveSearch.categoryIdKey)
+        }
     }
 }
 
