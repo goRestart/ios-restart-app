@@ -33,7 +33,6 @@ public protocol DI: class {
     var categoryRepository: CategoryRepository { get }
     var userRatingRepository: UserRatingRepository { get }
     var monetizationRepository: MonetizationRepository { get }
-    var passiveBuyersRepository: PassiveBuyersRepository { get }
     var carsInfoRepository: CarsInfoRepository { get }
     var locationRepository: LocationRepository { get }
 
