@@ -814,6 +814,7 @@
 "sign_up_title" = "Crear nueva cuenta";
 "sign_up_username_field_hint" = "Nombre y apellido";
 "suggested_searches_title" = "Búsquedas sugeridas";
+"suggestions_category" = "Category";
 "suggestions_last_searches_clear_button" = "Eliminar todas";
 "suggestions_last_searches_title" = "Búsquedas recientes";
 "survey_confirmation" = "¡Gracias! Tus opiniones nos ayudan a mejorar";

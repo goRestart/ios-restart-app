@@ -50,14 +50,17 @@ final class LGStickersRepository: StickersRepository {
      - parameter completion: The completion closure
      */
     func show(typeFilter filter: StickerType?, completion: StickersCompletion?) {
+        func shouldRefresh(currentRetrievalTime: TimeInterval) -> Bool {
+            return currentRetrievalTime - lastRetrieval >= LGCoreKitConstants.stickersRetrievalDebounceTime
+        }
+
         var calledCompletion = false
         let currentRetrievalTime = Date().timeIntervalSince1970
         if !stickersDAO.stickers.isEmpty {
             LGStickersRepository.handleSuccess(stickersDAO.stickers, filter: filter, completion: completion)
             calledCompletion = true
-            if currentRetrievalTime - lastRetrieval < LGCoreKitConstants.stickersRetrievalDebounceTime {
-                return
-            }
+
+            guard shouldRefresh(currentRetrievalTime: currentRetrievalTime) else { return }
         }
         dataSource.show(locale) { [weak self] result in
             if let value = result.value {

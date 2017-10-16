@@ -54,7 +54,7 @@ final class TourLoginViewModel: BaseViewModel {
     }
     
     func refreshTaxonomiesOnboardingCache() {
-        categoryRepository.refreshTaxonomiesOnboardingCache()
+        categoryRepository.refreshTaxonomiesCache()
     }
 }
 
