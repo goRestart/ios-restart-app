@@ -61,10 +61,10 @@ class RateBuyersHeader: UIView {
         messageLabel.numberOfLines = 0
         messageLabel.textAlignment = .center
         messageLabel.text = setSubtitle()
-        
+
         setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: [iconImage, titleLabel, messageLabel])
         header.addSubviews([iconImage, titleLabel, messageLabel])
-        
+
         iconImage.layout(with: header).top(by: imageMargin).centerX()
         iconImage.layout().width(imageDiameter).widthProportionalToHeight()
         titleLabel.layout(with: header).leading(by: textsHMargin).trailing(by: -textsHMargin)
@@ -72,16 +72,16 @@ class RateBuyersHeader: UIView {
         messageLabel.layout(with: header).leading(by: textsHMargin).trailing(by: -textsHMargin)
         messageLabel.layout(with: titleLabel).below(by: Metrics.veryShortMargin)
         messageLabel.layout(with: header).bottom(by: -Metrics.veryBigMargin)
-        
+
     }
-    
+
     private func setTitle() -> String {
         guard let source = source, source == .markAsSold else {
             return  LGLocalizedString.rateBuyersSubMessage
         }
         return LGLocalizedString.rateBuyersMessage
     }
-    
+
     private func setSubtitle() -> String {
         guard let source = source, source == .markAsSold else {
             return ""
