@@ -185,8 +185,6 @@ extension SellCoordinator: ListingPostedNavigator {
     }
 
     func closeListingPostedAndOpenEdit(_ listing: Listing) {
-        // Refactor to coordinator @ ABIOS-2719
-
         dismissViewController(animated: true) { [weak self] in
             guard let parentVC = self?.parentViewController else { return }
 

@@ -425,7 +425,6 @@ extension TabCoordinator: ListingDetailNavigator {
     }
 
     func editListing(_ listing: Listing) {
-        // Refactor to coordinator @ ABIOS-2719
         let navigator = EditListingCoordinator(listing: listing)
         openChild(coordinator: navigator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
     }
