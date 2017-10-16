@@ -581,7 +581,10 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     private func closeEdit() {
         delegate?.vmHideKeyboard()
         delegate?.vmDismiss { [weak self] in
-            guard let editedListing = self?.savedListing else { return }
+            guard let editedListing = self?.savedListing else {
+                self?.navigator?.editingListingDidCancel()
+                return
+            }
             self?.navigator?.editingListingDidFinish(editedListing)
         }
     }

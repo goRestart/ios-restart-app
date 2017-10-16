@@ -10,6 +10,6 @@ import Foundation
 import LGCoreKit
 
 protocol EditListingNavigator: class {
-    func edidtingListingDidCancel()
+    func editingListingDidCancel()
     func editingListingDidFinish(_ editedListing: Listing)
 }

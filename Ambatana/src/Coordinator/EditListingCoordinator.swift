@@ -53,7 +53,7 @@ final class EditListingCoordinator: Coordinator, EditListingNavigator {
 
     // MARK: EditingListingNavigator
 
-    func edidtingListingDidCancel() {
+    func editingListingDidCancel() {
         closeCoordinator(animated: false) { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.delegate?.editListingCoordinatorDidCancel(strongSelf)
