@@ -469,6 +469,9 @@
 // Chat message field hint. Check attached image "chat.png"
 "chat_message_field_hint" = "Type your message here";
 
+// Chat detail, the product is given away.
+"chat_product_given_away_label" = "Product given away";
+
 // Chat message load generic error. Message displayal is like the other error messages.
 "chat_message_load_generic_error" = "An error occurred while retrieving your conversation data. Please try again.";
 
@@ -631,11 +634,14 @@
 // Common ok
 "common_ok" = "OK";
 
+// Common product given away
+"common_product_given_away" = "Product given away";
+
 // Common product not available.
 "common_product_not_available" = "Oops! This item is no longer available";
 
 // Common product sold.
-"common_product_sold" = "This product has been sold.";
+"common_product_sold" = "Product sold";
 
 // Common settings
 "common_settings" = "Settings";
@@ -2159,6 +2165,84 @@
 // Rating view title label.  Check attached image "rating_view.png" (but uppercase)
 "rating_view_title_label_uppercase" = "GIVE US 5 STARS!";
 
+// Real Estate summary title
+"real_estate_summary_title" = "Summary";
+
+// Real Estate price title
+"real_estate_price_title" = "Price";
+
+// Real Estate offer type title
+"real_estate_offer_type_title" = "Type of Listing";
+
+// Real Estate offer type rent
+"real_estate_offer_type_rent" = "For Rent";
+
+// Real Estate offer type sale
+"real_estate_offer_type_sale" = "For Sale";
+
+// Real Estate property type title
+"real_estate_type_property_title" = "Type of Property";
+
+// Real Estate property type apartment
+"real_estate_type_property_apartment" = "Apartment";
+
+// Real Estate property type house
+"real_estate_type_property_house" = "House";
+
+// Real Estate property type room
+"real_estate_type_property_room" = "Room";
+
+// Real Estate property type commercial
+"real_estate_type_property_commercial" = "Comercial";
+
+// Real Estate property type others
+"real_estate_type_property_others" = "Others";
+
+// Real Estate number of bathrooms title
+"real_estate_bathrooms_title" = "Nº Bathrooms";
+
+// Real Estate number of bathrooms 0
+"real_estate_bathrooms_0" = "None";
+
+// Real Estate number of bathrooms 1
+"real_estate_bathrooms_1" = "1";
+
+// Real Estate number of bathrooms 1.5
+"real_estate_bathrooms_1_5" = "1.5";
+
+// Real Estate number of bathrooms 2
+"real_estate_bathrooms_2" = "2";
+
+// Real Estate number of bathrooms 2.5
+"real_estate_bathrooms_2_5" = "2.5";
+
+// Real Estate number of bathrooms 3
+"real_estate_bathrooms_3" = "3";
+
+// Real Estate number of bathrooms 3.5
+"real_estate_bathrooms_3_5" = "3.5";
+
+// Real Estate number of bathrooms 4
+"real_estate_bathrooms_4" = "+4";
+
+// Ral Estate number of bedrooms Title
+"real_estate_bedrooms_title" = "Nº Bedrooms";
+
+// Real Estate number of bedrooms 0 
+"real_estate_bedrooms_0" = "Studio";
+
+// Real Estate number of bedrooms 1
+"real_estate_bedrooms_1" = "1";
+
+// Real Estate number of bedrooms 2
+"real_estate_bedrooms_2" = "2";
+
+// Real Estate number of bedrooms 3
+"real_estate_bedrooms_3" = "3";
+
+// Real Estate number of bedrooms 4
+"real_estate_bedrooms_4" = "+4";
+
 // Title when showing list of related items
 "related_items_title" = "Related items";
 
@@ -2440,6 +2524,9 @@
 
 // Sign up username field hint. Check image @ "sign_up_email_field_hint" segment
 "sign_up_username_field_hint" = "Full name";
+
+// Category suggestion label.
+"suggestions_category" = "Category";
 
 // Title for Last Searches sections under Search suggestions.
 "suggestions_last_searches_title" = "Recent Searches";

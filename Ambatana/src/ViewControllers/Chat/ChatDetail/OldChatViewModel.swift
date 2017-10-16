@@ -140,7 +140,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         case .deleted, .discarded:
             return .listingDeleted
         case .sold, .soldOld:
-            return .listingSold
+            return listing.price == .free ? .listingGivenAway : .listingSold
         case .approved, .pending:
             return .available
         }
@@ -150,7 +150,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         switch chatStatus {
         case .forbidden, .blocked, .blockedBy, .userDeleted, .userPendingDelete:
             return false
-        case .available, .listingSold, .listingDeleted:
+        case .available, .listingSold, .listingDeleted, .listingGivenAway:
             return true
         }
     }
@@ -159,7 +159,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         switch chatStatus {
         case .forbidden, .userDeleted, .userPendingDelete:
             return false
-        case .available, .listingSold, .listingDeleted, .blocked, .blockedBy:
+        case .available, .listingSold, .listingDeleted, .blocked, .blockedBy, .listingGivenAway:
             return true
         }
     }
@@ -188,7 +188,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         switch chatStatus {
         case  .userPendingDelete, .userDeleted:
             return chatViewMessageAdapter.createUserDeletedDisclaimerMessage(otherUser?.name)
-        case .listingDeleted, .forbidden, .available, .blocked, .blockedBy, .listingSold:
+        case .listingDeleted, .forbidden, .available, .blocked, .blockedBy, .listingSold, .listingGivenAway:
             return nil
         }
     }
@@ -420,7 +420,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
     func statusEnableRelatedListings() -> Bool {
         guard isBuyer else { return false }
         switch chatStatus {
-        case .forbidden, .userDeleted, .userPendingDelete, .listingDeleted, .listingSold:
+        case .forbidden, .userDeleted, .userPendingDelete, .listingDeleted, .listingSold, .listingGivenAway:
             return true
         case  .available, .blocked, .blockedBy:
             return false
@@ -442,7 +442,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         switch chatStatus {
         case .listingDeleted, .forbidden:
             break
-        case .available, .blocked, .blockedBy, .listingSold, .userPendingDelete, .userDeleted:
+        case .available, .blocked, .blockedBy, .listingSold, .listingGivenAway, .userPendingDelete, .userDeleted:
             delegate?.vmHideKeyboard(animated: false)
             let data = ListingDetailData.listingAPI(listing: listing, thumbnailImage: nil, originFrame: nil)
             navigator?.openListing(data, source: .chat, actionOnFirstAppear: .nonexistent)
@@ -453,7 +453,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         switch chatStatus {
         case .forbidden, .userPendingDelete, .userDeleted:
             break
-        case .listingDeleted, .available, .blocked, .blockedBy, .listingSold:
+        case .listingDeleted, .available, .blocked, .blockedBy, .listingSold, .listingGivenAway:
             guard let user = otherUser else { return }
             let data = UserDetailData.userAPI(user: user, source: .chat)
             navigator?.openUser(data)

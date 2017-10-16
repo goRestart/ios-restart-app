@@ -27,7 +27,7 @@
 "bump_up_old_view_pay_subtitle" = "Προσελκύστε περισσότερους αγοραστές, δίνοντας μεγαλύτερη προβολή στην καταχώρησή σας.";
 "bump_up_old_view_pay_title" = "ΓΡΗΓΟΡΗ ΠΩΛΗΣΗ";
 "bump_up_pay_success" = "Επιτυχής προώθηση! Τώρα το αντικείμενό σας έχει επιπλέον προβολή.";
-"bump_up_processing_free_text" = "Επεξεργασία προώθησης...";
+"bump_up_processing_free_text" = "Επεξεργασία...";
 "bump_up_processing_priced_text" = "Επεξεργασία πληρωμής...";
 "bump_up_product_cell_chat_now_button" = "Συνομιλήστε Τώρα";
 "bump_up_product_cell_featured_stripe" = "Προτεινόμενο";
@@ -161,6 +161,7 @@
 "chat_not_verified_state_check_button" = "Έλεγχος";
 "chat_not_verified_state_message" = "Ελέγξτε αν έχετε κάνει επιβεβαίωση για να ξεκινήσετε να συνομιλείτε.";
 "chat_not_verified_state_title" = "΄ΕΧΕΤΕ ΚΑΝΕΙ ΕΠΙΒΕΒΑΙΩΣΗ;";
+"chat_product_given_away_label" = "Χαρισμένο προϊόν";
 "chat_product_sold_label" = "Το προϊόν πωλήθηκε";
 "chat_related_products_title" = "ΜΠΟΡΕΙ ΝΑ ΕΝΔΙΑΦΕΡΕΣΤΕ ΓΙΑ:";
 "chat_safety_tips" = "Συμβουλές ασφαλείας";
@@ -209,6 +210,7 @@
 "common_new" = "ΝΕΟ!";
 "common_no" = "Όχι";
 "common_ok" = "ΟΚ";
+"common_product_given_away" = "Χαρισμένο προϊόν";
 "common_product_not_available" = "Όπα! Το προϊόν αυτό δεν είναι πλέον διαθέσιμο";
 "common_product_sold" = "Το προϊόν έχει πουληθεί.";
 "common_settings" = "Ρυθμίσεις";
@@ -814,6 +816,7 @@
 "sign_up_title" = "Δημιουργία νέου λογαριασμού";
 "sign_up_username_field_hint" = "Ονοματεπώνυμο";
 "suggested_searches_title" = "Προτεινόμενες Αναζητήσεις";
+"suggestions_category" = "Κατηγορία";
 "suggestions_last_searches_clear_button" = "Εκκαθάριση όλων";
 "suggestions_last_searches_title" = "Πρόσφατες Αναζητήσεις";
 "survey_confirmation" = "Ευχαριστούμε πολύ! Τα σχόλιά σας μας βοηθούν να βελτιωνόμαστε";

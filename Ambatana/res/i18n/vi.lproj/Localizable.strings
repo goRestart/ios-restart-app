@@ -27,7 +27,7 @@
 "bump_up_old_view_pay_subtitle" = "Thu hút nhiều người mua hơn bằng cách làm cho bài đăng của bạn dễ thấy hơn.";
 "bump_up_old_view_pay_title" = "BÁN NHANH HƠN";
 "bump_up_pay_success" = "Nổi bật! Sản phẩm của bạn hiện đã dễ thấy hơn.";
-"bump_up_processing_free_text" = "Đang tiến hành đẩy lên...";
+"bump_up_processing_free_text" = "Đang tiến hành...";
 "bump_up_processing_priced_text" = "Đang tiến hành thanh toán...";
 "bump_up_product_cell_chat_now_button" = "Trò chuyện Bây giờ";
 "bump_up_product_cell_featured_stripe" = "Tiêu biểu";
@@ -161,6 +161,7 @@
 "chat_not_verified_state_check_button" = "Kiểm tra";
 "chat_not_verified_state_message" = "Kiểm tra xem bạn đã được xác minh chưa để bắt đầu trò chuyện.";
 "chat_not_verified_state_title" = "BẠN  ĐÃ ĐƯỢC XÁC MINH?";
+"chat_product_given_away_label" = "Sản phẩm đã được tặng";
 "chat_product_sold_label" = "Sản phẩm đã bán";
 "chat_related_products_title" = "BẠN CÓ THỂ QUAN TÂM TỚI:";
 "chat_safety_tips" = "Lời khuyên an toàn";
@@ -209,6 +210,7 @@
 "common_new" = "MỚI!";
 "common_no" = "Không";
 "common_ok" = "OK";
+"common_product_given_away" = "Sản phẩm đã được tặng";
 "common_product_not_available" = "Ồ! Sản phẩm này không còn nữa";
 "common_product_sold" = "Sản phẩm này đã được bán.";
 "common_settings" = "Cài đặt";
@@ -814,6 +816,7 @@
 "sign_up_title" = "Tạo tài khoản mới";
 "sign_up_username_field_hint" = "Họ tên";
 "suggested_searches_title" = "Tìm kiếm được Đề xuất";
+"suggestions_category" = "Danh mục";
 "suggestions_last_searches_clear_button" = "Xóa tất cả";
 "suggestions_last_searches_title" = "Tìm kiếm Gần đây";
 "survey_confirmation" = "Cảm ơn bạn! Phản hồi của bạn sẽ giúp chúng tôi cải thiện hơn";

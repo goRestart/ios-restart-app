@@ -23,11 +23,11 @@
 "bump_up_free_success" = "Felugrasztva! Ugraszd fel többször, hogy még láthatóbb legyen.";
 "bump_up_not_allowed_alert_contact_button" = "Kapcsolat";
 "bump_up_not_allowed_alert_text" = "A hirdetést jelenleg nem lehet kiemelni. További információkért lépj velünk kapcsolatba.";
-"bump_up_old_view_pay_button_title" = "Kiemelés: %@";
+"bump_up_old_view_pay_button_title" = "%@ kiemelése";
 "bump_up_old_view_pay_subtitle" = "Több érdeklődőt találhatsz, ha nagyobb láthatóságot adsz hirdetésednek.";
 "bump_up_old_view_pay_title" = "ADJ EL GYORSABBAN";
 "bump_up_pay_success" = "Kiemelve! Hirdetésed mostantól sokkal láthatóbb.";
-"bump_up_processing_free_text" = "Ugrasztás feldolgozása...";
+"bump_up_processing_free_text" = "Feldolgozás...";
 "bump_up_processing_priced_text" = "Fizetés feldolgozása...";
 "bump_up_product_cell_chat_now_button" = "Mérföld";
 "bump_up_product_cell_featured_stripe" = "Kiemelt";
@@ -161,6 +161,7 @@
 "chat_not_verified_state_check_button" = "Ellenőrzés";
 "chat_not_verified_state_message" = "A csevegéshez ellenőrizd, hogy visszaigazoltad-e magadat.";
 "chat_not_verified_state_title" = "VISSZAIGAZOLTAD MAGADAT?";
+"chat_product_given_away_label" = "Portéka elajándékozva";
 "chat_product_sold_label" = "Portéka eladva";
 "chat_related_products_title" = "TALÁN ÉRDEKEL:";
 "chat_safety_tips" = "Biztonsági tanácsaink";
@@ -209,6 +210,7 @@
 "common_new" = "ÚJ!";
 "common_no" = "Nem";
 "common_ok" = "OK";
+"common_product_given_away" = "Portéka elajándékozva";
 "common_product_not_available" = "Hoppá! A portéka már nem elérhető";
 "common_product_sold" = "Ez a portéka eladásra került.";
 "common_settings" = "Beállítások";
@@ -814,6 +816,7 @@
 "sign_up_title" = "Új fiók létrehozása";
 "sign_up_username_field_hint" = "Teljes név";
 "suggested_searches_title" = "Javasolt keresések";
+"suggestions_category" = "Kategória";
 "suggestions_last_searches_clear_button" = "Mind törlése";
 "suggestions_last_searches_title" = "Legutóbbi keresések";
 "survey_confirmation" = "Köszönjük! Visszajelzésed sokat segít!";
