@@ -808,7 +808,7 @@ enum EventParameterRelatedShownReason: String {
             self = .unanswered48h
         case .listingDeleted:
             self = .listingDeleted
-        case .listingSold:
+        case .listingSold, .listingGivenAway:
             self = .listingSold
         case .userPendingDelete, .userDeleted:
             self = .userDeleted

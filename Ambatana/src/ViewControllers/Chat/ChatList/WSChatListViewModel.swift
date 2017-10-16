@@ -199,7 +199,7 @@ fileprivate extension ChatConversation {
         case .deleted, .discarded:
             return .listingDeleted
         case .sold, .soldOld:
-            return .listingSold
+           return listing.price == .free ? .listingGivenAway : .listingSold
         case .approved, .pending:
             return .available
         }

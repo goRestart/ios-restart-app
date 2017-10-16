@@ -329,7 +329,7 @@ class OldChatViewController: TextViewController, UITableViewDelegate, UITableVie
             listingView.disableListingInteraction()
         case .listingDeleted:
             listingView.disableListingInteraction()
-        case .available, .blocked, .blockedBy, .listingSold:
+        case .available, .blocked, .blockedBy, .listingSold, .listingGivenAway:
             break
         }
     }

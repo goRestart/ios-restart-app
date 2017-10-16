@@ -161,6 +161,7 @@
 "chat_not_verified_state_check_button" = "Überprüfen";
 "chat_not_verified_state_message" = "Überprüfe, ob du verifiziert bist, um ein Gespräch zu beginnen.";
 "chat_not_verified_state_title" = "BIST DU VERIFIZIERT?";
+"chat_product_given_away_label" = "Produkt verschenkt";
 "chat_product_sold_label" = "Produkt verkauft";
 "chat_related_products_title" = "VIELLEICHT GEFÄLLT DIR AUCH:";
 "chat_safety_tips" = "Sicherheitstipps";
@@ -209,6 +210,7 @@
 "common_new" = "NEU!";
 "common_no" = "Nein";
 "common_ok" = "OK";
+"common_product_given_away" = "Produkt verschenkt";
 "common_product_not_available" = "Hoppla! Dieser Artikel ist nicht mehr verfügbar";
 "common_product_sold" = "Dieses Produkt wurde verkauft.";
 "common_settings" = "Einstellungen";
@@ -814,7 +816,7 @@
 "sign_up_title" = "Neues Benutzerkonto anlegen";
 "sign_up_username_field_hint" = "Vollständiger Name";
 "suggested_searches_title" = "Empfohlene Suchbegriffe";
-"suggestions_category" = "Category";
+"suggestions_category" = "Kategorie";
 "suggestions_last_searches_clear_button" = "Alle löschen";
 "suggestions_last_searches_title" = "Zuletzt gesucht";
 "survey_confirmation" = "Vielen Dank! Dein Feedback hilft uns, letgo zu verbessern";

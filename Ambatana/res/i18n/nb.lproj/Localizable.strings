@@ -161,6 +161,7 @@
 "chat_not_verified_state_check_button" = "Sjekk";
 "chat_not_verified_state_message" = "Sjekk om du er verifisert før du kan starte en samtale.";
 "chat_not_verified_state_title" = "ER DU VERIFISERT?";
+"chat_product_given_away_label" = "Produktet er gitt bort";
 "chat_product_sold_label" = "Produkt solgt";
 "chat_related_products_title" = "DU KAN VÆRE INTERESSERT I:";
 "chat_safety_tips" = "Sikkerhetstips";
@@ -209,6 +210,7 @@
 "common_new" = "NYHET!";
 "common_no" = "Nei";
 "common_ok" = "Ok";
+"common_product_given_away" = "Produktet er gitt bort";
 "common_product_not_available" = "Oops! Dette produktet er ikke lenger tilgjengelig";
 "common_product_sold" = "Dette produktet er solgt.";
 "common_settings" = "Innstillinger";
@@ -814,7 +816,7 @@
 "sign_up_title" = "Opprett ny konto";
 "sign_up_username_field_hint" = "Fullt navn";
 "suggested_searches_title" = "Foreslåtte søk";
-"suggestions_category" = "Category";
+"suggestions_category" = "Kategori";
 "suggestions_last_searches_clear_button" = "Tøm alle";
 "suggestions_last_searches_title" = "Siste søkeord";
 "survey_confirmation" = "Tusen takk! Din tilbakemelding hjelper oss med å forbedre oss";
