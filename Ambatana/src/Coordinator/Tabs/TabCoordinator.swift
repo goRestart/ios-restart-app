@@ -426,10 +426,8 @@ extension TabCoordinator: ListingDetailNavigator {
 
     func editListing(_ listing: Listing) {
         // Refactor to coordinator @ ABIOS-2719
-        let editProductVM = EditListingViewModel(listing: listing)
-        let editProductVC = EditListingViewController(viewModel: editProductVM)
-        let navCtl = UINavigationController(rootViewController: editProductVC)
-        navigationController.present(navCtl, animated: true, completion: nil)
+        let navigator = EditListingCoordinator(listing: listing)
+        openChild(coordinator: navigator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
     }
 
     func openListingChat(_ listing: Listing, source: EventParameterTypePage) {

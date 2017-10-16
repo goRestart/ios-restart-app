@@ -1,0 +1,15 @@
+//
+//  EditListingNavigator.swift
+//  LetGo
+//
+//  Created by Facundo Menzella on 16/10/2017.
+//  Copyright © 2017 Ambatana. All rights reserved.
+//
+
+import Foundation
+import LGCoreKit
+
+protocol EditListingNavigator: class {
+    func edidtingListingDidCancel()
+    func editingListingDidFinish(_ editedListing: Listing)
+}
