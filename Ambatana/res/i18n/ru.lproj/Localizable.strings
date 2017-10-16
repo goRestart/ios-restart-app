@@ -161,6 +161,7 @@
 "chat_not_verified_state_check_button" = "Проверить";
 "chat_not_verified_state_message" = "Проверьте, что ваш аккаунт подтвержден, чтобы начать чат.";
 "chat_not_verified_state_title" = "ВАШ АККАУНТ ПОДТВЕРЖДЕН?";
+"chat_product_given_away_label" = "Товар отдан";
 "chat_product_sold_label" = "Продано";
 "chat_related_products_title" = "ВАС МОЖЕТ ЗАИНТЕРЕСОВАТЬ:";
 "chat_safety_tips" = "Советами по безопасности";
@@ -209,6 +210,7 @@
 "common_new" = "НОВИНКА!";
 "common_no" = "Нет";
 "common_ok" = "OK";
+"common_product_given_away" = "Товар отдан";
 "common_product_not_available" = "Упс! Этот товар больше не доступен.";
 "common_product_sold" = "Это товар уже продан.";
 "common_settings" = "Настройки";
@@ -814,7 +816,7 @@
 "sign_up_title" = "Создать новый аккаунт";
 "sign_up_username_field_hint" = "Полное имя";
 "suggested_searches_title" = "Предлагаемые запросы";
-"suggestions_category" = "Category";
+"suggestions_category" = "Категория";
 "suggestions_last_searches_clear_button" = "Очистить все";
 "suggestions_last_searches_title" = "Недавний Поиск";
 "survey_confirmation" = "Спасибо! Ваши отзывы помогают нам быть лучше";

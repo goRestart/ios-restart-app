@@ -12,6 +12,7 @@ enum ConversationCellStatus {
     case available
     case forbidden
     case listingSold
+    case listingGivenAway
     case listingDeleted
     case userPendingDelete
     case userDeleted
@@ -141,6 +142,8 @@ class ConversationCell: UITableViewCell, ReusableCell {
             setInfo(text: LGLocalizedString.accountPendingModeration, icon: UIImage(named: "ic_pending_moderation"))
         case .listingSold:
             setInfo(text: LGLocalizedString.commonProductSold, icon: UIImage(named: "ic_dollar_sold"))
+        case .listingGivenAway:
+            setInfo(text: LGLocalizedString.commonProductGivenAway, icon: UIImage(named: "ic_dollar_sold"))
         case .listingDeleted:
             setInfo(text: LGLocalizedString.commonProductNotAvailable, icon: UIImage(named: "ic_alert_yellow_white_inside"))
         case .userPendingDelete:
