@@ -27,7 +27,7 @@
 "bump_up_old_view_pay_subtitle" = "Nå ut till flera köpare genom att ge din produkt mera synlighet.";
 "bump_up_old_view_pay_title" = "SÄLJ SNABBARE";
 "bump_up_pay_success" = "Topplistad! Nu har din produkt fått extra synlighet.";
-"bump_up_processing_free_text" = "Bearbetar puff...";
+"bump_up_processing_free_text" = "Bearbetar...";
 "bump_up_processing_priced_text" = "Bearbetar betalning...";
 "bump_up_product_cell_chat_now_button" = "Chatta nu";
 "bump_up_product_cell_featured_stripe" = "Topplistad";
@@ -814,6 +814,7 @@
 "sign_up_title" = "Skapa nytt konto";
 "sign_up_username_field_hint" = "Fullständigt namn";
 "suggested_searches_title" = "Rekommenderade Sökningar";
+"suggestions_category" = "Category";
 "suggestions_last_searches_clear_button" = "Rensa alla";
 "suggestions_last_searches_title" = "Senaste sökningarna";
 "survey_confirmation" = "Tack! Din feedback hjälper oss att förbättra letgo";

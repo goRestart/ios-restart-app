@@ -141,22 +141,12 @@ public class LGLocationRepository: LocationRepository {
     
     public func retrievePostalAddress(location: LGLocationCoordinates2D,
                                       completion: PostalAddressLocationRepositoryCompletion?) {
-        switch locationDataSourceType {
-        case .apple:
-            appleLocationDataSource.retrievePostalAddress(location: location) { result in
-                if let value = result.value {
-                    completion?(PostalAddressLocationRepositoryResult(value: value))
-                } else if let error = result.error {
-                    completion?(PostalAddressLocationRepositoryResult(error: error))
-                }
-            }
-        case .niord:
-            niordLocationDataSource.retrievePostalAddress(location: location) { result in
-                if let value = result.value {
-                    completion?(PostalAddressLocationRepositoryResult(value: value))
-                } else if let error = result.error {
-                    completion?(PostalAddressLocationRepositoryResult(error: error))
-                }
+        // Using only Apple geocode. We make too many geocode requests to use Niord
+        appleLocationDataSource.retrievePostalAddress(location: location) { result in
+            if let value = result.value {
+                completion?(PostalAddressLocationRepositoryResult(value: value))
+            } else if let error = result.error {
+                completion?(PostalAddressLocationRepositoryResult(error: error))
             }
         }
     }

@@ -12,7 +12,7 @@ enum SearchRouter: URLRequestAuthenticable {
 
     static let trendingSearchesBaseUrl = "/api/trending_searches"
     static let suggestiveSearchBaseUrl = "/search"
-    static let suggestiveSearchWithCategoriesBaseUrl = "/searchFilter"
+    static let suggestiveSearchWithCategoriesBaseUrl = "/suggestions"
 
     case index(params: [String: Any])
     case retrieveSuggestiveSearches(params: [String: Any], shouldIncludeCategories: Bool)
