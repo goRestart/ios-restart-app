@@ -433,15 +433,17 @@ extension TabCoordinator: ListingDetailNavigator {
         openChatFrom(listing: listing, source: source)
     }
 
-    func closeAfterDelete() {
+    func closeListingAfterDelete(_ listing: Listing) {
         closeProductDetail()
-        let action = UIAction(interface: .button(LGLocalizedString.productDeletePostButtonTitle,
-                                                 .primary(fontSize: .medium)), action: { [weak self] in
-                                                    self?.openSell(source: .deleteListing, postCategory: nil)
-            }, accessibilityId: .postDeleteAlertButton)
-        navigationController.showAlertWithTitle(LGLocalizedString.productDeletePostTitle,
-                                                text: LGLocalizedString.productDeletePostSubtitle,
-                                                alertType: .plainAlertOld, actions: [action])
+        if (listing.status != .sold) && (listing.status != .soldOld) {
+            let action = UIAction(interface: .button(LGLocalizedString.productDeletePostButtonTitle,
+                                                     .primary(fontSize: .medium)), action: { [weak self] in
+                                                        self?.openSell(source: .deleteListing, postCategory: nil)
+                }, accessibilityId: .postDeleteAlertButton)
+            navigationController.showAlertWithTitle(LGLocalizedString.productDeletePostTitle,
+                                                    text: LGLocalizedString.productDeletePostSubtitle,
+                                                    alertType: .plainAlertOld, actions: [action])
+        }
     }
 
     func openFreeBumpUp(forListing listing: Listing, socialMessage: SocialMessage, paymentItemId: String) {

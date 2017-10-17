@@ -676,8 +676,8 @@ extension ListingViewModelSpec: ListingDetailNavigator {
     func openListingChat(_ listing: Listing, source: EventParameterTypePage) {
 
     }
-    func closeAfterDelete() {
-
+    func closeListingAfterDelete(_ listing: Listing) {
+        
     }
     func openFreeBumpUp(forListing listing: Listing, socialMessage: SocialMessage, paymentItemId: String) {
         calledOpenFreeBumpUpView = true
