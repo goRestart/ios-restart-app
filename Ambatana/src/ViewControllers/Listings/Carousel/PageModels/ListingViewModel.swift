@@ -865,9 +865,9 @@ fileprivate extension ListingViewModel {
         listingRepository.delete(listingId: productId) { [weak self] result in
             var message: String? = nil
             var afterMessageAction: (() -> ())? = nil
-            if let _ = result.value {
+            if let _ = result.value, let listing = self?.listing.value {
                 afterMessageAction = { [weak self] in
-                    self?.navigator?.closeAfterDelete()
+                    self?.navigator?.closeListingAfterDelete(listing)
                 }
                 self?.trackHelper.trackDeleteCompleted()
             } else if let _ = result.error {
