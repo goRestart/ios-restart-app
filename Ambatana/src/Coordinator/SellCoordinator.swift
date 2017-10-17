@@ -9,8 +9,6 @@
 import LGCoreKit
 import RxSwift
 
-
-
 protocol SellCoordinatorDelegate: class {
     func sellCoordinatorDidCancel(_ coordinator: SellCoordinator)
     func sellCoordinator(_ coordinator: SellCoordinator, didFinishWithListing listing: Listing)

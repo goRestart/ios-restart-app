@@ -10,7 +10,6 @@ import RxSwift
 import LGCoreKit
 
 
-
 final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewDataSource {
     
     static let cellIdentifier = "postingAddDetailCell"
@@ -18,7 +17,6 @@ final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewD
     private var contentCell: [String]
     private let tableView = UITableView()
     
-    let selectedDetail = Variable<CategoryDetailSelectedInfo?>(nil)
     
     // MARK: - Lifecycle
     
@@ -33,6 +31,7 @@ final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewD
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     
     // MARK: - Layout
     
