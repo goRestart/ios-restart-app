@@ -40,5 +40,5 @@ class ProductionEnvironment: AppEnvironment {
 
     // Google Ads
     let googleAdsAppId = ""
-    let moreInfoAdUnitId = ""
+    let moreInfoAdUnitId = "partner-vert-pla-mobile-app-ambatana-srp"
 }

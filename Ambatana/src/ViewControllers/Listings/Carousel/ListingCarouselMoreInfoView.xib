@@ -226,6 +226,8 @@
                 <outlet property="autoTitleLabel" destination="jEM-iP-9WG" id="MFF-U6-zTJ"/>
                 <outlet property="bannerContainerView" destination="6Y0-XY-Oc9" id="asW-JJ-lVU"/>
                 <outlet property="bannerContainerViewHeightConstraint" destination="lG7-cp-bzA" id="gSf-YZ-9dH"/>
+                <outlet property="bannerContainerViewLeftConstraint" destination="hy3-H4-5fq" id="V6F-vD-kmK"/>
+                <outlet property="bannerContainerViewRightConstraint" destination="bZq-Ha-BYF" id="TKK-fK-nzT"/>
                 <outlet property="descriptionLabel" destination="o3x-0v-hnd" id="cRR-pA-LHP"/>
                 <outlet property="distanceLabel" destination="NxP-nG-TB9" id="gP3-Y9-hrw"/>
                 <outlet property="dragView" destination="lq7-uR-qpI" id="84m-7C-8UB"/>

@@ -24,6 +24,28 @@ enum CarouselMovement {
     case tap, swipeLeft, swipeRight, initial
 }
 
+enum AdRequestType {
+    case listingTitle
+    case listingCategory
+    case popular
+
+    var randomPopular: String {
+        let popularItems = ["ps4", "iphone", LGLocalizedString.productPostIncentiveDresser]
+        return popularItems.random() ?? "iphone"
+    }
+
+    var nextType: AdRequestType? {
+        switch self {
+        case .listingTitle:
+            return .listingCategory
+        case .listingCategory:
+            return .popular
+        case .popular:
+            return nil
+        }
+    }
+}
+
 class ListingCarouselViewModel: BaseViewModel {
 
     // Paginable
@@ -145,9 +167,8 @@ class ListingCarouselViewModel: BaseViewModel {
     var adUnitId: String {
         return EnvironmentProxy.sharedInstance.moreInfoAdUnitId
     }
-    var adRequestMaxWidth: Int?
-    var adsRequest: GADDynamicHeightSearchRequest?
-
+    var adRequestType: AdRequestType? = .listingTitle
+    let sideMargin: CGFloat = DeviceFamily.current.isWiderOrEqualThan(.iPhone6) ? Metrics.margin : 0
 
     // MARK: - Init
 
@@ -246,7 +267,6 @@ class ListingCarouselViewModel: BaseViewModel {
         if firstProductSyncRequired {
             syncFirstListing()
         }
-        makeAdsRequest()
     }
 
     override func didBecomeActive(_ firstTime: Bool) {
@@ -276,6 +296,7 @@ class ListingCarouselViewModel: BaseViewModel {
 
     func moveToProductAtIndex(_ index: Int, movement: CarouselMovement) {
         guard let viewModel = viewModelAt(index: index) else { return }
+        adRequestType = .listingTitle
         currentListingViewModel?.active = false
         currentListingViewModel?.delegate = nil
         currentListingViewModel = viewModel
@@ -353,6 +374,31 @@ class ListingCarouselViewModel: BaseViewModel {
     func moveQuickAnswerToTheEnd(_ index: Int) {
         guard index >= 0 else { return }
         quickAnswers.value.move(fromIndex: index, toIndex: quickAnswers.value.count-1)
+    }
+
+    func makeAdsRequest(adRequestType type: AdRequestType) -> GADDynamicHeightSearchRequest {
+
+        let adsRequest = GADDynamicHeightSearchRequest()
+
+        #if GOD_MODE
+            adsRequest.adTestEnabled = true
+            adsRequest.setAdvancedOptionValue("es", forKey: "testgl")
+            adsRequest.setAdvancedOptionValue("on", forKey: "adtest")
+        #endif
+
+        let queryAndType = makeAdsRequestQuery(adRequestType: type)
+
+        adsRequest.query = queryAndType.query
+        self.adRequestType = queryAndType.nextAdRequestType
+
+
+        let screenWidth = String(Int(UIScreen.main.bounds.width-(2*sideMargin)))
+
+        adsRequest.setAdvancedOptionValue("plas", forKey: "adType")
+        adsRequest.setAdvancedOptionValue("200", forKey: "height")
+        adsRequest.setAdvancedOptionValue(screenWidth, forKey: "width")
+        
+        return adsRequest
     }
     
     
@@ -445,20 +491,21 @@ class ListingCarouselViewModel: BaseViewModel {
         moreInfoState.asObservable().bindTo(currentVM.moreInfoState).addDisposableTo(activeDisposeBag)
     }
 
-    func makeAdsRequest() {
-        adsRequest = GADDynamicHeightSearchRequest()
-
-        adsRequest?.query = productInfo.value?.title
-        #if GOD_MODE
-            adsRequest?.adTestEnabled = true
-        #endif
-
-        let screenWidth = String(Int(UIScreen.main.bounds.width))
-
-        adsRequest?.setAdvancedOptionValue("plas", forKey: "adType")
-        adsRequest?.setAdvancedOptionValue("200", forKey: "height")
-        adsRequest?.setAdvancedOptionValue(screenWidth, forKey: "width")
-
+    private func makeAdsRequestQuery(adRequestType type: AdRequestType) -> (query: String, nextAdRequestType: AdRequestType?) {
+        switch type {
+        case .listingTitle:
+            guard let title = productInfo.value?.title else {
+                return makeAdsRequestQuery(adRequestType: .listingCategory)
+            }
+            return (title, .listingCategory)
+        case .listingCategory:
+            guard let category = productInfo.value?.category else {
+                return makeAdsRequestQuery(adRequestType: .popular)
+            }
+            return (category, .popular)
+        case .popular:
+            return (type.randomPopular, nil)
+        }
     }
 }
 
