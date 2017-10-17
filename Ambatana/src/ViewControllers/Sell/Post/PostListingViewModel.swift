@@ -390,7 +390,7 @@ fileprivate extension PostListingViewModel {
     }
     
     func pushToDetails() {
-        navigator?.startDetails()
+        navigator?.startDetails(postListingState: state.value)
     }
     
     func makeListingParams(images:[File]) -> ListingCreationParams? {

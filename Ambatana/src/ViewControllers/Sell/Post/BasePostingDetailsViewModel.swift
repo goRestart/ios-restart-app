@@ -56,6 +56,11 @@ class BasePostingDetailsViewModel : BaseViewModel {
     }
     
     func nextbuttonPressed() {
-        navigator?.nextPostingDetailStep(step: .bedrooms)
+        guard let next = step.nextStep else {
+            //TODO: post in background item
+            navigator?.cancelPostListing()
+            return
+        }
+        navigator?.nextPostingDetailStep(step: next)
     }
 }

@@ -161,6 +161,7 @@
 "chat_not_verified_state_check_button" = "Kontrol et";
 "chat_not_verified_state_message" = "Sohbete başlayabilmek için hesabının doğrulanmış olduğundan emin ol";
 "chat_not_verified_state_title" = "HESABINI DOĞRULADIN MI?";
+"chat_product_given_away_label" = "Ürün ücretsiz verildi";
 "chat_product_sold_label" = "Ürün Satıldı";
 "chat_related_products_title" = "ŞU ÜRÜNLER DE İLGİNİ ÇEKEBİLİR:";
 "chat_safety_tips" = "Güvenlik Önerilerimiz";
@@ -209,8 +210,9 @@
 "common_new" = "YENİ!";
 "common_no" = "Hayır";
 "common_ok" = "Tamam";
+"common_product_given_away" = "Ürün ücretsiz verildi";
 "common_product_not_available" = "Oops! Bu ürün artık satılık değil";
-"common_product_sold" = "Bu ürün satıldı.";
+"common_product_sold" = "Ürün satıldı";
 "common_settings" = "Ayarlar";
 "common_short_time_day_ago_label" = "%d gün";
 "common_short_time_days_ago_label" = "%d gün";
@@ -814,6 +816,7 @@
 "sign_up_title" = "Yeni hesap oluştur";
 "sign_up_username_field_hint" = "İsim";
 "suggested_searches_title" = "Önerilen aramalar";
+"suggestions_category" = "Kategori";
 "suggestions_last_searches_clear_button" = "Hepsini sil";
 "suggestions_last_searches_title" = "Son aramalar";
 "survey_confirmation" = "Teşekkürler! Görüşleriniz letgo'yu geliştirmemize yardımcı oluyor";

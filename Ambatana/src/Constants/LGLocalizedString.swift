@@ -635,6 +635,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_message_field_hint", comment: "")
 	}
 
+	static var chatProductGivenAwayLabel: String {
+		return NSLocalizedString("chat_product_given_away_label", comment: "")
+	}
+
 	static var chatMessageLoadGenericError: String {
 		return NSLocalizedString("chat_message_load_generic_error", comment: "")
 	}
@@ -849,6 +853,10 @@ struct LGLocalizedString {
 
 	static var commonOk: String {
 		return NSLocalizedString("common_ok", comment: "")
+	}
+
+	static var commonProductGivenAway: String {
+		return NSLocalizedString("common_product_given_away", comment: "")
 	}
 
 	static var commonProductNotAvailable: String {
@@ -2923,6 +2931,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("real_estate_offer_type_sale", comment: "")
 	}
 
+	static var postingButtonSkip: String {
+		return NSLocalizedString("posting_button_skip", comment: "")
+	}
+
 	static var realEstateTypePropertyTitle: String {
 		return NSLocalizedString("real_estate_type_property_title", comment: "")
 	}
@@ -3381,6 +3393,10 @@ struct LGLocalizedString {
 
 	static var signUpUsernameFieldHint: String {
 		return NSLocalizedString("sign_up_username_field_hint", comment: "")
+	}
+
+	static var suggestionsCategory: String {
+		return NSLocalizedString("suggestions_category", comment: "")
 	}
 
 	static var suggestionsLastSearchesTitle: String {

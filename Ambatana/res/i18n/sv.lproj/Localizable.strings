@@ -161,6 +161,7 @@
 "chat_not_verified_state_check_button" = "Kolla";
 "chat_not_verified_state_message" = "Kolla om du är verifierad för att kunna börja chatta.";
 "chat_not_verified_state_title" = "ÄR DU VERIFIERAD?";
+"chat_product_given_away_label" = "Produkt bortskänkt";
 "chat_product_sold_label" = "Produkt såld";
 "chat_related_products_title" = "DU KANSKE ÄR INTRESSERAD AV:";
 "chat_safety_tips" = "Säkerhetstips";
@@ -209,8 +210,9 @@
 "common_new" = "Ny!";
 "common_no" = "Nej";
 "common_ok" = "Ok";
+"common_product_given_away" = "Produkt bortskänkt";
 "common_product_not_available" = "Hoppsan! Produkten är tyvärr inte tillgänglig längre";
-"common_product_sold" = "Denna produkt är redan såld.";
+"common_product_sold" = "Produkt såld";
 "common_settings" = "Inställningar";
 "common_short_time_day_ago_label" = "%d dag";
 "common_short_time_days_ago_label" = "%d dagar";
@@ -814,6 +816,7 @@
 "sign_up_title" = "Skapa nytt konto";
 "sign_up_username_field_hint" = "Fullständigt namn";
 "suggested_searches_title" = "Rekommenderade Sökningar";
+"suggestions_category" = "Kategori";
 "suggestions_last_searches_clear_button" = "Rensa alla";
 "suggestions_last_searches_title" = "Senaste sökningarna";
 "survey_confirmation" = "Tack! Din feedback hjälper oss att förbättra letgo";

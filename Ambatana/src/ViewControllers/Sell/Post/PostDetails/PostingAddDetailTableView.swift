@@ -96,6 +96,14 @@ final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath) {
+            
+            let image = #imageLiteral(resourceName: "ic_checkmark").withRenderingMode(.alwaysTemplate)
+            let checkmark  = UIImageView(frame:CGRect(x:0, y:0, width:17, height:12))
+            checkmark.image = image
+            checkmark.tintColor = UIColor.white
+            cell.accessoryView = checkmark
+            
+            
             cell.accessoryType = .checkmark
             cell.textLabel?.textColor = UIColor.white
             cell.textLabel?.font = UIFont.selectableItem

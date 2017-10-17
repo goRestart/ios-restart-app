@@ -161,6 +161,7 @@
 "chat_not_verified_state_check_button" = "Verifique";
 "chat_not_verified_state_message" = "Confirme se está verificado para poder começar a conversar.";
 "chat_not_verified_state_title" = "ESTÁ VERIFICADO?";
+"chat_product_given_away_label" = "Produto dado";
 "chat_product_sold_label" = "Artigo vendido";
 "chat_related_products_title" = "PODERÁ TER INTERESSE EM:";
 "chat_safety_tips" = "Dicas de segurança";
@@ -209,8 +210,9 @@
 "common_new" = "NOVO!";
 "common_no" = "Não";
 "common_ok" = "Ok";
+"common_product_given_away" = "Produto dado";
 "common_product_not_available" = "Ups! Este produto já não está disponível";
-"common_product_sold" = "Este artigo foi vendido.";
+"common_product_sold" = "Artigo vendido";
 "common_settings" = "Definições";
 "common_short_time_day_ago_label" = "%d dia";
 "common_short_time_days_ago_label" = "%d dias";
@@ -814,6 +816,7 @@
 "sign_up_title" = "Criar uma nova conta";
 "sign_up_username_field_hint" = "Nome completo";
 "suggested_searches_title" = "Pesquisas sugeridas";
+"suggestions_category" = "Categoria";
 "suggestions_last_searches_clear_button" = "Limpar tudo";
 "suggestions_last_searches_title" = "Pesquisas recentes";
 "survey_confirmation" = "Obrigado! O seu feedback ajuda-nos a melhorar";

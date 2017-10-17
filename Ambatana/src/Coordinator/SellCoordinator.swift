@@ -76,7 +76,7 @@ final class SellCoordinator: Coordinator {
         let postListingVC = PostListingViewController(viewModel: postListingVM,
                                                       forcedInitialTab: forcedInitialTab)
         
-        navigationController = SellNavigationController(rootViewController: postListingVC, numberOfSteps: 5)
+        navigationController = SellNavigationController(rootViewController: postListingVC)
         navigationController.modalPresentationStyle = .overCurrentContext
         self.viewController = navigationController
         postListingVM.navigator = self
@@ -125,11 +125,12 @@ extension SellCoordinator: PostListingNavigator {
         }
     }
     
-    func startDetails() {
+    func startDetails(postListingState: PostListingState) {
         let viewModel = BasePostingDetailsViewModel(step: .propertyType)
         viewModel.navigator = self
         let vc = BasePostingDetailsViewController(viewModel: viewModel)
         postingDetailStep = .propertyType
+        navigationController.updating(state: postListingState)
         navigationController.shouldModifyProgress = true
         navigationController.pushViewController(vc, animated: false)
     }

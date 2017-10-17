@@ -12,6 +12,10 @@ import RxSwift
 
 class BasePostingDetailsViewController : BaseViewController, TaxonomiesViewModelDelegate {
     
+    fileprivate static let titleHeight: CGFloat = 60
+    fileprivate static let skipButtonMinimumWidth: CGFloat = 100
+    fileprivate static let skipButtonHeight: CGFloat = 44
+    
     private let titleLabel: UILabel = UILabel()
     private let contentView: UIView = UIView()
     private let buttonNext: UIButton = UIButton()
@@ -55,7 +59,7 @@ class BasePostingDetailsViewController : BaseViewController, TaxonomiesViewModel
         view.clipsToBounds = true
         
         titleLabel.text = viewModel.title
-        buttonNext.setTitle("Next", for: .normal)
+        buttonNext.setTitle(LGLocalizedString.postingButtonSkip, for: .normal)
         
         view.backgroundColor = UIColor.clear
         contentView.backgroundColor = UIColor.clear
@@ -81,7 +85,7 @@ class BasePostingDetailsViewController : BaseViewController, TaxonomiesViewModel
         
         view.addSubview(titleLabel)
         titleLabel.layout(with: view).fillHorizontal(by: Metrics.bigMargin)
-        titleLabel.layout(with: view).top(by: 60)
+        titleLabel.layout(with: view).top(by: BasePostingDetailsViewController.titleHeight)
         
         view.addSubview(contentView)
         contentView.layout(with: titleLabel).below(by: Metrics.bigMargin)
@@ -91,13 +95,12 @@ class BasePostingDetailsViewController : BaseViewController, TaxonomiesViewModel
         let tableView = viewModel.makeContentView
         tableView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(tableView)
-        
         tableView.layout(with: contentView).fill()
         
         view.addSubview(buttonNext)
         buttonNext.layout(with: contentView).below(by: Metrics.bigMargin)
-        buttonNext.layout().height(44)
-        buttonNext.layout().width(100, relatedBy: .greaterThanOrEqual)
+        buttonNext.layout().height(BasePostingDetailsViewController.skipButtonHeight)
+        buttonNext.layout().width(BasePostingDetailsViewController.skipButtonMinimumWidth, relatedBy: .greaterThanOrEqual)
         buttonNext.layout(with: view).right(by: -Metrics.bigMargin).bottom(by: -Metrics.bigMargin)
     }
     

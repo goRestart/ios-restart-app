@@ -469,6 +469,9 @@
 // Chat message field hint. Check attached image "chat.png"
 "chat_message_field_hint" = "Type your message here";
 
+// Chat detail, the product is given away.
+"chat_product_given_away_label" = "Product given away";
+
 // Chat message load generic error. Message displayal is like the other error messages.
 "chat_message_load_generic_error" = "An error occurred while retrieving your conversation data. Please try again.";
 
@@ -631,11 +634,14 @@
 // Common ok
 "common_ok" = "OK";
 
+// Common product given away
+"common_product_given_away" = "Product given away";
+
 // Common product not available.
 "common_product_not_available" = "Oops! This item is no longer available";
 
 // Common product sold.
-"common_product_sold" = "This product has been sold.";
+"common_product_sold" = "Product sold";
 
 // Common settings
 "common_settings" = "Settings";
@@ -2174,6 +2180,9 @@
 // Real Estate offer type sale
 "real_estate_offer_type_sale" = "For Sale";
 
+// Skip button
+"posting_button_skip" = "Skip";
+
 // Real Estate property type title
 "real_estate_type_property_title" = "Type of Property";
 
@@ -2518,6 +2527,9 @@
 
 // Sign up username field hint. Check image @ "sign_up_email_field_hint" segment
 "sign_up_username_field_hint" = "Full name";
+
+// Category suggestion label.
+"suggestions_category" = "Category";
 
 // Title for Last Searches sections under Search suggestions.
 "suggestions_last_searches_title" = "Recent Searches";
