@@ -840,12 +840,6 @@ fileprivate extension AppCoordinator {
                     self?.openUserRatingForUserFromRating(ratingId)
                 }
             }
-        case let .passiveBuyers(listingId):
-            afterDelayClosure = { [weak self] in
-                self?.openTab(.notifications, completion: {
-                    self?.openPassiveBuyers(listingId)
-                })
-            }
         case .notificationCenter:
             openTab(.notifications, force: false, completion: nil)
         case .appStore:
@@ -872,8 +866,7 @@ fileprivate extension AppCoordinator {
         if let child = child, child is SellCoordinator { return }
 
         switch deepLink.action {
-        case .home, .sell, .listing, .listingShare, .listingBumpUp, .listingMarkAsSold, .user, .conversations, .conversationWithMessage, .search, .resetPassword, .userRatings, .userRating,
-             .passiveBuyers, .notificationCenter, .appStore:
+        case .home, .sell, .listing, .listingShare, .listingBumpUp, .listingMarkAsSold, .user, .conversations, .conversationWithMessage, .search, .resetPassword, .userRatings, .userRating, .notificationCenter, .appStore:
         return // Do nothing
         case let .conversation(data):
             showInappChatNotification(data, message: deepLink.origin.message)
@@ -970,11 +963,6 @@ fileprivate extension AppCoordinator {
                                               action: action)
             showBubble(with: data, duration: Constants.bubbleChatDuration)
         }
-    }
-
-    func openPassiveBuyers(_ listingId: String) {
-        guard let notificationsTabCoordinator = selectedTabCoordinator as? NotificationsTabCoordinator else { return }
-        notificationsTabCoordinator.openPassiveBuyers(listingId, actionCompletedBlock: nil)
     }
 }
 
