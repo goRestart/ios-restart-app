@@ -212,17 +212,10 @@ extension SellCoordinator: ListingPostedNavigator {
         dismissViewController(animated: true) { [weak self] in
             guard let parentVC = self?.parentViewController else { return }
 
-            // Open a coordinator @ ABIOS-2719
-            let editVM = EditListingViewModel(listing: listing)
-            editVM.closeCompletion = { editedListing in
-                self?.closeCoordinator(animated: false) {
-                    guard let strongSelf = self else { return }
-                    strongSelf.delegate?.sellCoordinator(strongSelf, didFinishWithListing: editedListing ?? listing)
-                }
-            }
-            let editVC = EditListingViewController(viewModel: editVM)
-            let navCtl = UINavigationController(rootViewController: editVC)
-            parentVC.present(navCtl, animated: true, completion: nil)
+            let navigator = EditListingCoordinator(listing: listing)
+            navigator.delegate = self
+            self?.openChild(coordinator: navigator, parent: parentVC, animated: true,
+                            forceCloseChild: false, completion: nil)
         }
     }
 
@@ -237,6 +230,15 @@ extension SellCoordinator: ListingPostedNavigator {
 
             strongSelf.presentViewController(parent: parentVC, animated: true, completion: nil)
         }
+    }
+}
+
+extension SellCoordinator: EditListingCoordinatorDelegate {
+    func editListingCoordinatorDidCancel(_ coordinator: EditListingCoordinator) {
+        delegate?.sellCoordinatorDidCancel(self)
+    }
+    func editListingCoordinator(_ coordinator: EditListingCoordinator, didFinishWithListing listing: Listing) {
+        delegate?.sellCoordinator(self, didFinishWithListing: listing)
     }
 }
 

@@ -17,4 +17,6 @@ protocol MainTabNavigator: TabNavigator {
                                distanceRadius: Int?,
                                locationDelegate: EditLocationDelegate)
     func openTaxonomyList(withViewModel viewModel: TaxonomiesViewModel)
+
+    func openRelatedItems(relatedToListing listing: Listing)
 }

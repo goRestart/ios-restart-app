@@ -26,27 +26,24 @@ protocol FeatureFlaggeable: class {
     var passiveBuyersShowKeyboard: Bool { get }
     var freeBumpUpEnabled: Bool { get }
     var pricedBumpUpEnabled: Bool { get }
-    var newMarkAsSoldFlow: Bool { get }
     var newCarsMultiRequesterEnabled: Bool { get }
-    var newOnboardingPhase1: Bool { get }
-    var searchParamDisc129: SearchParamDisc129 { get }
     var inAppRatingIOS10: Bool { get }
     var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed { get }
-    var superKeywordsOnOnboarding: SuperKeywordsOnOnboarding { get }
-    var copiesImprovementOnboarding: CopiesImprovementOnboarding { get }
-    var openGalleryInPosting: OpenGalleryInPosting { get }
     var tweaksCarPostingFlow: TweaksCarPostingFlow { get }
     var userReviewsReportEnabled: Bool { get }
     var dynamicQuickAnswers: DynamicQuickAnswers { get }
     var appRatingDialogInactive: Bool { get }
-    var feedFilterRadiusValues: FeedFilterRadiusValues { get }
     var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu { get }
     var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed { get }
     var locationDataSourceEndpoint: LocationDataSourceEndpoint { get }
     var searchAutocomplete: SearchAutocomplete { get }
     var newCarouselNavigationTapNextPhotoEnabled: NewCarouselTapNextPhotoNavigationEnabled { get }
     var realEstateEnabled: Bool { get }
+    var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter { get }
     var requestTimeOut: RequestsTimeOut { get }
+    var newBumpUpExplanation: NewBumpUpExplanation { get }
+    var homeRelatedEnabled: HomeRelatedEnabled { get }
+    var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -72,18 +69,6 @@ extension AddSuperKeywordsOnFeed {
         }
     }
 }
-
-extension SuperKeywordsOnOnboarding {
-    var isActive: Bool {
-        switch self {
-        case .control, .baseline:
-            return false
-        case .active:
-            return true
-        }
-    }
-}
-
 extension TweaksCarPostingFlow {
     var isActive: Bool {
         switch self {
@@ -115,6 +100,21 @@ extension NewCarouselTapNextPhotoNavigationEnabled {
             return true
         }
     }
+}
+
+extension ShowPriceAfterSearchOrFilter {
+    var isActive: Bool {
+        switch self {
+        case .control, .baseline:
+            return false
+        case .priceOnSearchOrFilter:
+            return true
+        }
+    }
+}
+
+extension HomeRelatedEnabled {
+    var isActive: Bool { get { return self == .active } }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -238,32 +238,11 @@ class FeatureFlags: FeatureFlaggeable {
         return abTests.pricedBumpUpEnabled.value
     }
 
-    var newMarkAsSoldFlow: Bool {
-        if Bumper.enabled {
-            return Bumper.newMarkAsSoldFlow
-        }
-        return abTests.newMarkAsSoldFlow.value
-    }
-
     var newCarsMultiRequesterEnabled: Bool {
         if Bumper.enabled {
             return Bumper.newCarsMultiRequesterEnabled
         }
         return abTests.newCarsMultiRequesterEnabled.value
-    }
-
-    var newOnboardingPhase1: Bool {
-        if Bumper.enabled {
-            return Bumper.newOnboardingPhase1
-        }
-        return abTests.newOnboardingPhase1.value
-    }
-
-    var searchParamDisc129: SearchParamDisc129 {
-        if Bumper.enabled {
-            return Bumper.searchParamDisc129
-        }
-        return SearchParamDisc129.fromPosition(abTests.searchParamDisc129.value)
     }
 
     var inAppRatingIOS10: Bool {
@@ -278,27 +257,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.addSuperKeywordsOnFeed
         }
         return AddSuperKeywordsOnFeed.fromPosition(abTests.addSuperKeywordsOnFeed.value)
-    }
-
-    var superKeywordsOnOnboarding: SuperKeywordsOnOnboarding {
-        if Bumper.enabled {
-            return Bumper.superKeywordsOnOnboarding
-        }
-        return SuperKeywordsOnOnboarding.fromPosition(abTests.superKeywordsOnOnboarding.value)
-    }
-
-    var copiesImprovementOnboarding: CopiesImprovementOnboarding {
-        if Bumper.enabled {
-            return Bumper.copiesImprovementOnboarding
-        }
-        return CopiesImprovementOnboarding.fromPosition(abTests.copiesImprovementOnboarding.value)
-    }
-    
-    var openGalleryInPosting: OpenGalleryInPosting {
-        if Bumper.enabled {
-            return Bumper.openGalleryInPosting
-        }
-        return OpenGalleryInPosting.fromPosition(abTests.openGalleryInPosting.value)
     }
 
     var tweaksCarPostingFlow: TweaksCarPostingFlow {
@@ -327,13 +285,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.appRatingDialogInactive
         }
         return abTests.appRatingDialogInactive.value
-    }
-
-    var feedFilterRadiusValues: FeedFilterRadiusValues {
-        if Bumper.enabled {
-            return Bumper.feedFilterRadiusValues
-        }
-        return FeedFilterRadiusValues.fromPosition(abTests.feedFilterRadiusValues.value)
     }
 
     var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu {
@@ -370,8 +321,14 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return abTests.realEstateEnabled.value
     }
-
-
+    
+    var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter {
+        if Bumper.enabled {
+            return Bumper.showPriceAfterSearchOrFilter
+        }
+        return ShowPriceAfterSearchOrFilter.fromPosition(abTests.showPriceAfterSearchOrFilter.value)
+    }
+    
     var newCarouselNavigationTapNextPhotoEnabled: NewCarouselTapNextPhotoNavigationEnabled {
         if Bumper.enabled {
             return Bumper.newCarouselTapNextPhotoNavigationEnabled
@@ -379,6 +336,26 @@ class FeatureFlags: FeatureFlaggeable {
         return NewCarouselTapNextPhotoNavigationEnabled.fromPosition(abTests.newCarouselTapNextPhotoNavigationEnabled.value)
     }
 
+    var newBumpUpExplanation: NewBumpUpExplanation {
+        if Bumper.enabled {
+            return Bumper.newBumpUpExplanation
+        }
+        return NewBumpUpExplanation.fromPosition(abTests.newBumpUpExplanation.value)
+    }
+
+    var homeRelatedEnabled: HomeRelatedEnabled {
+        if Bumper.enabled {
+            return Bumper.homeRelatedEnabled
+        }
+        return HomeRelatedEnabled.fromPosition(abTests.homeRelatedEnabled.value)
+    }
+
+    var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells {
+        if Bumper.enabled {
+            return Bumper.hideChatButtonOnFeaturedCells
+        }
+        return HideChatButtonOnFeaturedCells.fromPosition(abTests.hideChatButtonOnFeaturedCells.value)
+    }
 
     // MARK: - Country features
 

@@ -77,14 +77,6 @@ enum AccessibilityId: String {
     // Taxonomies
     case taxonomiesTableView
     
-    // Taxonomies Onboarding
-    case tourCategoriesTitleLabel
-    case tourCategoriesTitleOkButton
-    case tourCategoriesCollectionViewCell
-    case tourCategoriesCollectionViewCellTitle
-    case tourCategoriesCollectionViewCellImage
-    case tourCategoriesCollectionViewCellSelectedIcon
-    
     // CategoriesHeader Cells
     case categoriesHeaderCollectionView
     case categoryHeaderCell

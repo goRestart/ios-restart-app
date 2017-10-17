@@ -15,7 +15,7 @@ enum SearchType {
     case lastSearch(search: SuggestiveSearch)
     case collection(type: CollectionCellType, query: String)
 
-    var text: String {
+    var text: String? {
         switch self {
         case let .user(query):
             return query
@@ -30,7 +30,7 @@ enum SearchType {
         }
     }
 
-    var query: String {
+    var query: String? {
         switch self {
         case let .user(query):
             return query

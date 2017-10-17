@@ -27,34 +27,33 @@ class MockFeatureFlags: FeatureFlaggeable {
     var passiveBuyersShowKeyboard: Bool = false
     var freeBumpUpEnabled: Bool = false
     var pricedBumpUpEnabled: Bool = false
-    var newMarkAsSoldFlow: Bool = false
     var newCarsMultiRequesterEnabled: Bool = false
-    var newOnboardingPhase1: Bool = false
-    var searchParamDisc129: SearchParamDisc129 = .disc129a
     var inAppRatingIOS10: Bool = false
     var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed = .control
-    var superKeywordsOnOnboarding: SuperKeywordsOnOnboarding = .control
-    var copiesImprovementOnboarding: CopiesImprovementOnboarding = .control
-    var openGalleryInPosting: OpenGalleryInPosting = .control
     var tweaksCarPostingFlow: TweaksCarPostingFlow = .control
     var userReviewsReportEnabled: Bool = true
     var dynamicQuickAnswers: DynamicQuickAnswers = .control
     var locationDataSourceEndpoint: LocationDataSourceEndpoint = .control
     var appRatingDialogInactive: Bool = false
-    var feedFilterRadiusValues: FeedFilterRadiusValues = .control
     var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu = .control
     var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed = .control
 
     var searchAutocomplete: SearchAutocomplete = .control
     var newCarouselNavigationTapNextPhotoEnabled: NewCarouselTapNextPhotoNavigationEnabled = .control
     var realEstateEnabled: Bool = false
+    var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter = .control
     var requestTimeOut: RequestsTimeOut = .thirty
+    var newBumpUpExplanation: NewBumpUpExplanation = .control
+    var homeRelatedEnabled: HomeRelatedEnabled = .control
+    var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells = .control
+
 
     // Country dependant features
     var freePostingModeAllowed = false
     var locationRequiresManualChangeSuggestion = false
     var signUpEmailNewsletterAcceptRequired = false
     var signUpEmailTermsAndConditionsAcceptRequired = false
+
 
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false

@@ -279,7 +279,13 @@ class ListingCarouselViewModel: BaseViewModel {
         // Tracking
         if active {
             let feedPosition = movement.feedPosition(for: trackingIndex)
-            currentListingViewModel?.trackVisit(movement.visitUserAction, source: source, feedPosition: feedPosition)
+            if source == .relatedListings {
+                currentListingViewModel?.trackVisit(movement.visitUserAction,
+                                                    source: movement.visitSource(source),
+                                                    feedPosition: feedPosition)
+            } else {
+                currentListingViewModel?.trackVisit(movement.visitUserAction, source: source, feedPosition: feedPosition)
+            }
         }
     }
 
@@ -587,6 +593,19 @@ extension ListingCarouselViewModel: ListingViewModelDelegate {
 // MARK: - Tracking
 
 extension CarouselMovement {
+    func visitSource(_ originSource: EventParameterListingVisitSource) -> EventParameterListingVisitSource {
+        switch self {
+        case .tap:
+            return .next
+        case .swipeRight:
+            return .next
+        case .initial:
+            return originSource
+        case .swipeLeft:
+            return .previous
+        }
+    }
+
     var visitUserAction: ListingVisitUserAction {
         switch self {
         case .tap:

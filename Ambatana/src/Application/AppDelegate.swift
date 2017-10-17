@@ -57,7 +57,10 @@ extension AppDelegate: UIApplicationDelegate {
         self.featureFlags = featureFlags
         featureFlags.registerVariables()
         self.purchasesShopper = LGPurchasesShopper.sharedInstance
-        self.deepLinksRouter = LGDeepLinksRouter.sharedInstance
+        let deepLinksRouter = LGDeepLinksRouter.sharedInstance
+        AppsFlyerTracker.shared().delegate = deepLinksRouter
+        self.deepLinksRouter = deepLinksRouter
+
         setupAppearance()
         setupLibraries(application,
                        launchOptions: launchOptions,
@@ -98,7 +101,7 @@ extension AppDelegate: UIApplicationDelegate {
         window.makeKeyAndVisible()
 
         let fbApplicationDelegate = FBSDKApplicationDelegate.sharedInstance()
-        let deepLinksRouterContinuation = deepLinksRouter?.initWithLaunchOptions(launchOptions) ?? false
+        let deepLinksRouterContinuation = deepLinksRouter.initWithLaunchOptions(launchOptions) ?? false
         let fbSdkContinuation = fbApplicationDelegate?.application(application,
                                                                    didFinishLaunchingWithOptions: launchOptions) ?? false
 
@@ -362,7 +365,7 @@ fileprivate extension AppDelegate {
 
         if let featureFlags = featureFlags {
             let featureFlagsSynced = featureFlags.syncedData.asObservable().distinctUntilChanged()
-            Observable.combineLatest(appActive.asObservable(), featureFlagsSynced.asObservable()) { ($0, $1) }
+            Observable.combineLatest(appActive.asObservable().distinctUntilChanged(), featureFlagsSynced.asObservable()) { ($0, $1) }
                 .bindNext { [weak self] (appActive, _) in
                     guard featureFlags.pricedBumpUpEnabled else { return }
                     if appActive {

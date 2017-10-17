@@ -10,7 +10,7 @@ import Foundation
 import LGCoreKit
 
 
-class SimpleListingsViewModel: BaseViewModel {
+class SimpleListingsViewModel: BaseViewModel, ListingListViewModelDataDelegate {
 
     weak var navigator: SimpleProductsNavigator?
 
@@ -62,15 +62,13 @@ class SimpleListingsViewModel: BaseViewModel {
         navigator.closeSimpleProducts()
         return true
     }
-}
 
-
-extension SimpleListingsViewModel: ListingListViewModelDataDelegate {
     func listingListMV(_ viewModel: ListingListViewModel, didFailRetrievingListingsPage page: UInt, hasListings: Bool,
                        error: RepositoryError) {
 
     }
-    func listingListVM(_ viewModel: ListingListViewModel, didSucceedRetrievingListingsPage page: UInt, hasListings: Bool) {
+    func listingListVM(_ viewModel: ListingListViewModel, didSucceedRetrievingListingsPage page: UInt,
+                       withResultsCount resultsCount: Int,  hasListings: Bool) {
 
     }
     func listingListVM(_ viewModel: ListingListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,

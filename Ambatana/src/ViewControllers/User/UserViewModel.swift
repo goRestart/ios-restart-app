@@ -590,7 +590,8 @@ extension UserViewModel: ListingListViewModelDataDelegate {
         }
     }
     
-    func listingListVM(_ viewModel: ListingListViewModel, didSucceedRetrievingListingsPage page: UInt, hasListings: Bool) {
+    func listingListVM(_ viewModel: ListingListViewModel, didSucceedRetrievingListingsPage page: UInt,
+                       withResultsCount resultsCount: Int, hasListings: Bool) {
         guard page == 0 && !hasListings else { return }
         
         let errTitle: String?
@@ -609,7 +610,8 @@ extension UserViewModel: ListingListViewModelDataDelegate {
         } else { return }
         
         let emptyViewModel = LGEmptyViewModel(icon: nil, title: errTitle, body: nil, buttonTitle: errButTitle,
-                                              action: errButAction, secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: .emptyResults)
+                                              action: errButAction, secondaryButtonTitle: nil, secondaryAction: nil,
+                                              emptyReason: .emptyResults, errorCode: nil)
         
         viewModel.setEmptyState(emptyViewModel)
     }

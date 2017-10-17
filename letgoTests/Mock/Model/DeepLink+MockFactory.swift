@@ -27,4 +27,5 @@ extension DeepLink: MockFactory {
                         source: .push,
                         cardActionParameter: String?.makeRandom())
     }
+    
 }
