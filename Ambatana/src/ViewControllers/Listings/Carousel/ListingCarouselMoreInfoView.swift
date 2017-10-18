@@ -514,12 +514,13 @@ extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate 
     }
 
     func adViewWillPresentScreen(_ bannerView: GADBannerView) {
-        print("🚨 Will present screen!")
+
     }
 
     func adViewWillLeaveApplication(_ bannerView: GADBannerView) {
-        print("🙊  will leave app!")
+
     }
+
 }
 
 
