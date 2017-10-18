@@ -123,8 +123,8 @@ extension SellCoordinator: PostListingNavigator {
         }
     }
     
-    func startDetails(postListingState: PostListingState) {
-        let viewModel = PostingDetailsViewModel(step: .propertyType, postListingState: postListingState)
+    func startDetails(postListingState: PostListingState, uploadedImageSource: EventParameterPictureSource?, postingSource: PostingSource) {
+        let viewModel = PostingDetailsViewModel(step: .propertyType, postListingState: postListingState, uploadedImageSource: uploadedImageSource, postingSource: postingSource)
         viewModel.navigator = self
         let vc = PostingDetailsViewController(viewModel: viewModel)
         postingDetailStep = .propertyType
@@ -133,8 +133,14 @@ extension SellCoordinator: PostListingNavigator {
         navigationController.pushViewController(vc, animated: false)
     }
     
-    func nextPostingDetailStep(step: PostingDetailStep, postListingState: PostListingState) {
-        let viewModel = PostingDetailsViewModel(step: step, postListingState: postListingState)
+    func nextPostingDetailStep(step: PostingDetailStep,
+                               postListingState: PostListingState,
+                               uploadedImageSource: EventParameterPictureSource?,
+                               postingSource: PostingSource) {
+        let viewModel = PostingDetailsViewModel(step: step,
+                                                postListingState: postListingState,
+                                                uploadedImageSource: uploadedImageSource,
+                                                postingSource: postingSource)
         viewModel.navigator = self
         let vc = PostingDetailsViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: true)

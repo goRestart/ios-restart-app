@@ -38,21 +38,45 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     }
     
     private let tracker: Tracker
+    private let currencyHelper: CurrencyHelper
+    private let locationManager: LocationManager
+    
     private let step: PostingDetailStep
     private var postListingState: PostListingState
+    private var uploadedImageSource: EventParameterPictureSource?
+    private let postingSource: PostingSource
     
     weak var navigator: PostListingNavigator?
     
     // MARK: - LifeCycle
     
-    convenience init(step: PostingDetailStep, postListingState: PostListingState) {
-        self.init(step: step, postListingState: postListingState, tracker: TrackerProxy.sharedInstance)
+    convenience init(step: PostingDetailStep,
+                     postListingState: PostListingState,
+                     uploadedImageSource: EventParameterPictureSource?,
+                     postingSource: PostingSource) {
+        self.init(step: step,
+                  postListingState: postListingState,
+                  uploadedImageSource: uploadedImageSource,
+                  postingSource: postingSource,
+                  tracker: TrackerProxy.sharedInstance,
+                  currencyHelper: Core.currencyHelper,
+                  locationManager: Core.locationManager)
     }
     
-    init(step: PostingDetailStep, postListingState: PostListingState, tracker: Tracker) {
+    init(step: PostingDetailStep,
+         postListingState: PostListingState,
+         uploadedImageSource: EventParameterPictureSource?,
+         postingSource: PostingSource,
+         tracker: Tracker,
+         currencyHelper: CurrencyHelper,
+         locationManager: LocationManager) {
         self.step = step
         self.postListingState = postListingState
+        self.uploadedImageSource = uploadedImageSource
+        self.postingSource = postingSource
         self.tracker = tracker
+        self.currencyHelper = currencyHelper
+        self.locationManager = locationManager
     }
     
     func closeButtonPressed() {
@@ -61,11 +85,24 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     
     func nextbuttonPressed() {
         guard let next = step.nextStep else {
-            //TODO: post in background item
+            postListing()
+            return
+        }
+        navigator?.nextPostingDetailStep(step: next, postListingState: postListingState, uploadedImageSource: uploadedImageSource, postingSource: postingSource)
+    }
+    
+    private func postListing() {
+        guard let location = locationManager.currentLocation?.location else {
             navigator?.cancelPostListing()
             return
         }
-        navigator?.nextPostingDetailStep(step: next, postListingState: postListingState)
+        let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()
+        let currency = currencyHelper.currencyWithCountryCode(postalAddress.countryCode ?? Constants.currencyDefault)
+        let listingCreationParams =  ListingCreationParams.make(title: "", description: "", currency: currency, location: location, postalAddress: postalAddress, postListingState: postListingState)
+        
+        let trackingInfo: PostListingTrackingInfo = PostListingTrackingInfo(buttonName: .summary, sellButtonPosition: postingSource.sellButtonPosition, imageSource: uploadedImageSource, price: String(describing: postListingState.price?.value))
+        navigator?.closePostProductAndPostInBackground(params: listingCreationParams, trackingInfo: trackingInfo)
+        navigator?.cancelPostListing()
     }
     
     
