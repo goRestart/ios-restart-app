@@ -42,9 +42,7 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
     var callsToActionDeeplinks: [String] = []
     var basicImageDeeplink: String? = nil
     var thumbnailsDeeplinks: [String] = []
-    
-    fileprivate var lastViewAdded: UIView? = nil
-    
+
     weak var delegate: ModularNotificationCellDelegate?
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -258,7 +256,6 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
             
         }
         heroImageDeeplink = deeplink
-        lastViewAdded = heroImageView
     }
     
     fileprivate func addBasicImage(with shape: NotificationImageShape, imageURL: String, deeplink: String?) {
@@ -301,8 +298,6 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
             textBodyLabel.text = body.ignoreHTMLTags
         }
         textTitleDeepLink = deeplink
-        
-        lastViewAdded = textBodyLabel
     }
     
     fileprivate func addIconImage(with imageURL: String) {
@@ -334,13 +329,11 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
             }
         }
         thumbnailsDeeplinks.append(deeplink)
-        lastViewAdded = thumbnailImageView
     }
     
     fileprivate func addCTA(to button: UIButton, title: String, deeplink: String) {
         button.setTitle(title, for: .normal)
         callsToActionDeeplinks.append(deeplink)
-        lastViewAdded = button
     }
     
     fileprivate func addButtonSeparator(to button: UIButton) {

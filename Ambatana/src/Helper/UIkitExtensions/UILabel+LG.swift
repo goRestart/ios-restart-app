@@ -54,8 +54,9 @@ extension UILabel {
 
                 let message = "Unable to set HTML with AttributedString \(htmlText)"
                 logMessage(.error, type: .uikit, message: message)
-                report(AppReport.navigation(error: .childCoordinatorPresent), message: message)
+                report(AppReport.uikit(error: .unableToConvertHTMLToString), message: message)
             }
         }
+
     }
 }
