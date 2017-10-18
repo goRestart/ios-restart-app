@@ -54,8 +54,9 @@ struct ListingFilters {
     var distanceRadius: Int?
     var distanceType: DistanceType
     var selectedCategories: [ListingCategory]
-    var selectedTaxonomies: [Taxonomy]
     var selectedTaxonomyChildren: [TaxonomyChild]
+    var selectedTaxonomy: Taxonomy?
+    var selectedSecondaryTaxonomyChild: TaxonomyChild?
     var selectedWithin: ListingTimeCriteria
     var selectedOrdering: ListingSortCriteria?
     var filterCoordinates: LGLocationCoordinates2D? {
@@ -76,7 +77,7 @@ struct ListingFilters {
             distanceRadius: Constants.distanceSliderDefaultPosition,
             distanceType: DistanceType.systemDistanceType(),
             selectedCategories: [],
-            selectedTaxonomies: [],
+            selectedTaxonomy: nil,
             selectedTaxonomyChildren: [],
             selectedWithin: ListingTimeCriteria.defaultOption,
             selectedOrdering: ListingSortCriteria.defaultOption,
@@ -94,7 +95,7 @@ struct ListingFilters {
          distanceRadius: Int,
          distanceType: DistanceType,
          selectedCategories: [ListingCategory],
-         selectedTaxonomies: [Taxonomy],
+         selectedTaxonomy: Taxonomy?,
          selectedTaxonomyChildren: [TaxonomyChild],
          selectedWithin: ListingTimeCriteria,
          selectedOrdering: ListingSortCriteria?,
@@ -109,7 +110,7 @@ struct ListingFilters {
         self.distanceRadius = distanceRadius > 0 ? distanceRadius : nil
         self.distanceType = distanceType
         self.selectedCategories = selectedCategories
-        self.selectedTaxonomies = selectedTaxonomies
+        self.selectedTaxonomy = selectedTaxonomy
         self.selectedTaxonomyChildren = selectedTaxonomyChildren
         self.selectedWithin = selectedWithin
         self.selectedOrdering = selectedOrdering
@@ -127,7 +128,7 @@ struct ListingFilters {
                               distanceRadius: distanceRadius ?? Constants.distanceSliderDefaultPosition,
                               distanceType: distanceType,
                               selectedCategories: selectedCategories,
-                              selectedTaxonomies: selectedTaxonomies,
+                              selectedTaxonomy: selectedTaxonomy,
                               selectedTaxonomyChildren: selectedTaxonomyChildren,
                               selectedWithin: selectedWithin,
                               selectedOrdering: selectedOrdering,

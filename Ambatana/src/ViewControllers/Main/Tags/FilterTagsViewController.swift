@@ -8,15 +8,16 @@
 
 protocol FilterTagsViewDelegate : class {
     func filterTagsViewDidRemoveTag(_ controller: FilterTagsView)
+    func filterTagsViewDidSelectTag(_ tag: FilterTag)
 }
 
 class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSource, FilterTagCellDelegate {
     
     var collectionView: UICollectionView!
-    //var secondaryCollectionView: UICollectionView!
+    var secondaryCollectionView: UICollectionView?
     
-    var tags : [FilterTag] = []
-    var seconaryTags : [FilterTag] = []
+    var tags: [FilterTag] = []
+    var secondaryTags: [FilterTag] = []
     
     weak var delegate: FilterTagsViewDelegate?
     
@@ -31,21 +32,18 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupView() {
-        collectionView = UICollectionView(frame: frame, collectionViewLayout: UICollectionViewFlowLayout())
-        //secondaryCollectionView = UICollectionView(frame: self.frame, collectionViewLayout: UICollectionViewFlowLayout())
-        
+    private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
+        
+        collectionView = UICollectionView(frame: frame, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
-        
         addSubview(collectionView)
-        //addSubview(secondaryCollectionView)
         
-        collectionView.layout(with: self).fillHorizontal().top().bottom()
-        //collectionView.layout(with: secondaryCollectionView ?? self).bottom().proportionalHeight()
-        //secondaryCollectionView.layout(with: self).fillHorizontal().bottom()
+        collectionView.layout(with: self).fillHorizontal().top()
+        collectionView.layout().height(40)
+        //collectionView.layout(with: self).bottom(priority: UILayoutPriorityDefaultLow)
         
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -56,13 +54,38 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
             layout.scrollDirection = UICollectionViewScrollDirection.horizontal
         }
         
-        //secondaryCollectionView.dataSource = self
-        //secondaryCollectionView.delegate = self
-        //secondaryCollectionView.scrollsToTop = false
-        //secondaryCollectionView.register(filterNib, forCellWithReuseIdentifier: "FilterTagCell")
-        //if let layout = secondaryCollectionView?.collectionViewLayout as? UICollectionViewFlowLayout {
-        //    layout.scrollDirection = UICollectionViewScrollDirection.horizontal
-        //}
+        collectionView.backgroundColor = .red
+    }
+    
+    private func setupSecondaryCollectionView() {
+        if secondaryTags.count <= 0 {
+            secondaryCollectionView?.removeFromSuperview()
+            return
+        }
+        
+        //guard secondaryCollectionView == nil, secondaryCollectionView?.superview == nil else { return }
+        secondaryCollectionView = UICollectionView(frame: frame, collectionViewLayout: UICollectionViewFlowLayout())
+        guard let secondaryCollectionView = secondaryCollectionView else { return }
+        secondaryCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        secondaryCollectionView.backgroundColor = .clear
+        secondaryCollectionView.showsHorizontalScrollIndicator = false
+        addSubview(secondaryCollectionView)
+        
+        secondaryCollectionView.dataSource = self
+        secondaryCollectionView.delegate = self
+        secondaryCollectionView.scrollsToTop = false
+        let filterNib = UINib(nibName: "FilterTagCell", bundle: nil)
+        secondaryCollectionView.register(filterNib, forCellWithReuseIdentifier: "FilterTagCell")
+        if let layout = secondaryCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            layout.scrollDirection = UICollectionViewScrollDirection.horizontal
+        }
+        
+        secondaryCollectionView.layout(with: self).fillHorizontal().bottom()
+        secondaryCollectionView.layout().height(40)
+        //secondaryCollectionView.layout(with: collectionView).top()
+        //collectionView.layout(with: secondaryCollectionView).bottom().proportionalHeight()
+        
+        secondaryCollectionView.backgroundColor = .green
     }
     
     
@@ -74,30 +97,49 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func updateSecondaryTags(_ newTags: [FilterTag]) {
-        tags = newTags
-        //secondaryCollectionView?.reloadData()
+        secondaryTags = newTags
+        setupSecondaryCollectionView()
+        secondaryCollectionView?.reloadData()
     }
     
     
     // MARK: - UICollectionViewDelegate & DataSource methods
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
-        return FilterTagCell.cellSizeForTag(tags[indexPath.row])
+        if collectionView == self.collectionView {
+            return FilterTagCell.cellSizeForTag(tags[indexPath.row])
+        } else {
+            return FilterTagCell.cellSizeForTag(secondaryTags[indexPath.row])
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return tags.count
+        if collectionView == self.collectionView {
+            return tags.count
+        } else {
+            return secondaryTags.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterTagCell", for: indexPath) as? FilterTagCell else { return UICollectionViewCell() }
         cell.delegate = self
-        cell.setupWithTag(tags[indexPath.row])
+        if collectionView == self.collectionView {
+            cell.setupWithTag(tags[indexPath.row])
+        } else if collectionView == self.secondaryCollectionView {
+            cell.setupWithTag(secondaryTags[indexPath.row])
+        }
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        if collectionView == self.collectionView {
+            return false
+        } else if collectionView == self.secondaryCollectionView {
+            delegate?.filterTagsViewDidSelectTag(secondaryTags[indexPath.row])
+            return true
+        }
         return false
     }
     
@@ -146,7 +188,7 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
                     switch tags[i] {
                     case .make, .model, .yearsRange:
                         relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
-                    case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .taxonomy, .taxonomyChild:
+                    case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .taxonomyChild, .taxonomy, .secondaryTaxonomyChild:
                         continue
                     }
                 }
@@ -159,11 +201,11 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
                 switch tags[i] {
                 case .model:
                     relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
-                case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .make, .yearsRange, .taxonomyChild, .taxonomy:
+                case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .make, .yearsRange, .taxonomyChild, .taxonomy, .secondaryTaxonomyChild:
                     continue
                 }
             }
-        case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .model, .yearsRange, .taxonomy, .taxonomyChild:
+        case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .model, .yearsRange, .taxonomyChild, .taxonomy, .secondaryTaxonomyChild:
             break
         }
         return relatedIndexesToDelete

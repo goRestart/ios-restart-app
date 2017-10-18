@@ -13,8 +13,9 @@ enum FilterTag: Equatable {
     case within(ListingTimeCriteria)
     case orderBy(ListingSortCriteria)
     case category(ListingCategory)
-    case taxonomy(Taxonomy)
     case taxonomyChild(TaxonomyChild)
+    case taxonomy(Taxonomy)
+    case secondaryTaxonomyChild(TaxonomyChild)
     case priceRange(from: Int?, to: Int?, currency: Currency?)
     case freeStuff
     case distance(distance: Int)
@@ -29,8 +30,9 @@ func ==(a: FilterTag, b: FilterTag) -> Bool {
     case (.within(let a),   .within(let b))   where a == b: return true
     case (.orderBy(let a),   .orderBy(let b))   where a == b: return true
     case (.category(let a), .category(let b)) where a == b: return true
-    case (.taxonomy(let a), .taxonomy(let b)) where a == b: return true
     case (.taxonomyChild(let a), .taxonomyChild(let b)) where a == b: return true
+    case (.taxonomy(let a), .taxonomy(let b)) where a == b: return true
+    case (.secondaryTaxonomyChild(let a), .secondaryTaxonomyChild(let b)) where a == b: return true
     case (.priceRange(let a, let b, _), .priceRange(let c, let d, _)) where a == c && b == d: return true
     case (.freeStuff, .freeStuff): return true
     case (.distance(let distanceA), .distance(let distanceB)) where distanceA == distanceB: return true

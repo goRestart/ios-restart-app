@@ -40,10 +40,12 @@ class FilterTagCell: UICollectionViewCell {
             return FilterTagCell.sizeForText(timeOption.name)
         case .category:
             return CGSize(width: iconWidth+fixedWidthSpace, height: FilterTagCell.cellHeight)
-        case .taxonomy(let taxonomy):
-            return FilterTagCell.sizeForText(taxonomy.name)
         case .taxonomyChild(let taxonomyChild):
             return FilterTagCell.sizeForText(taxonomyChild.name)
+        case .taxonomy(let taxonomy):
+            return FilterTagCell.sizeForText(taxonomy.name)
+        case .secondaryTaxonomyChild(let secondaryTaxonomyChild):
+            return FilterTagCell.sizeForText(secondaryTaxonomyChild.name)
         case .priceRange(let minPrice, let maxPrice, let currency):
             let priceRangeString  = FilterTagCell.stringForPriceRange(minPrice, max: maxPrice, withCurrency: currency)
             return FilterTagCell.sizeForText(priceRangeString)
@@ -150,10 +152,12 @@ class FilterTagCell: UICollectionViewCell {
         case .category(let category):
             tagIconWidth.constant = FilterTagCell.iconWidth
             tagIcon.image = category.imageTag
-        case .taxonomy(let taxonomy):
-            tagLabel.text = taxonomy.name
         case .taxonomyChild(let taxonomyChild):
             tagLabel.text = taxonomyChild.name
+        case .taxonomy(let taxonomy):
+            tagLabel.text = taxonomy.name
+        case .secondaryTaxonomyChild(let secondaryTaxonomyChild):
+            tagLabel.text = secondaryTaxonomyChild.name
         case .priceRange(let minPrice, let maxPrice, let currency):
             tagLabel.text = FilterTagCell.stringForPriceRange(minPrice, max: maxPrice, withCurrency: currency)
         case .freeStuff:

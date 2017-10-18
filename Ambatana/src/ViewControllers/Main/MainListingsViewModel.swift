@@ -13,7 +13,7 @@ import RxSwift
 
 protocol MainListingsViewModelDelegate: BaseViewModelDelegate {
     func vmDidSearch()
-    func vmShowTags(_ tags: [FilterTag])
+    func vmShowTags(primaryTags: [FilterTag], secondaryTags: [FilterTag])
     func vmFiltersChanged()
 }
 
@@ -89,19 +89,21 @@ class MainListingsViewModel: BaseViewModel {
     
     private static let firstVersionNumber = 1
 
-    var tags: [FilterTag] {
+    var primaryTags: [FilterTag] {
         
         var resultTags : [FilterTag] = []
         for prodCat in filters.selectedCategories {
             resultTags.append(.category(prodCat))
         }
         
-        if let taxonomy = filters.selectedTaxonomies.last {
-            resultTags.append(.taxonomy(taxonomy))
-        }
-        
-        if let taxonomyChild = filters.selectedTaxonomyChildren.last {
-            resultTags.append(.taxonomyChild(taxonomyChild))
+        if isSuperKeywordGroupsAndSubgroupsInFeedEnabled {
+            if let taxonomy = filters.selectedTaxonomy {
+                resultTags.append(.taxonomy(taxonomy))
+            }
+        } else {
+            if let taxonomyChild = filters.selectedTaxonomyChildren.last {
+                resultTags.append(.taxonomyChild(taxonomyChild))
+            }
         }
 
         if filters.selectedWithin != ListingTimeCriteria.defaultOption {
@@ -136,6 +138,20 @@ class MainListingsViewModel: BaseViewModel {
             }
         }
 
+        return resultTags
+    }
+    
+    var secondaryTags: [FilterTag] {
+        var resultTags: [FilterTag] = []
+        
+        if isSuperKeywordGroupsAndSubgroupsInFeedEnabled {
+            if let taxonomyChildren = filters.selectedTaxonomy?.children {
+                for secondaryTaxonomyChild in taxonomyChildren {
+                    resultTags.append(.secondaryTaxonomyChild(secondaryTaxonomyChild))
+                }
+            }
+        }
+        
         return resultTags
     }
 
@@ -342,8 +358,9 @@ class MainListingsViewModel: BaseViewModel {
 
         var place: Place? = nil
         var categories: [FilterCategoryItem] = []
-        var taxonomy: Taxonomy? = nil
         var taxonomyChild: TaxonomyChild? = nil
+        var taxonomy: Taxonomy? = nil
+        var secondaryTaxonomyChild: TaxonomyChild? = nil
         var orderBy = ListingSortCriteria.defaultOption
         var within = ListingTimeCriteria.defaultOption
         var minPrice: Int? = nil
@@ -363,10 +380,12 @@ class MainListingsViewModel: BaseViewModel {
                 place = thePlace
             case .category(let prodCategory):
                 categories.append(FilterCategoryItem(category: prodCategory))
-            case .taxonomy(let taxonomySelected):
-                taxonomy = taxonomySelected
             case .taxonomyChild(let taxonomyChildSelected):
                 taxonomyChild = taxonomyChildSelected
+            case .taxonomy(let taxonomySelected):
+                taxonomy = taxonomySelected
+            case .secondaryTaxonomyChild(let secondaryTaxonomySelected):
+                secondaryTaxonomyChild = secondaryTaxonomySelected
             case .orderBy(let prodSortOption):
                 orderBy = prodSortOption
             case .within(let prodTimeOption):
@@ -399,16 +418,22 @@ class MainListingsViewModel: BaseViewModel {
             }
         }
         
-        if let taxonomyValue = taxonomy {
-            filters.selectedTaxonomies = [taxonomyValue]
-        } else {
-            filters.selectedTaxonomies = []
-        }
-        
         if let taxonomyChildValue = taxonomyChild {
             filters.selectedTaxonomyChildren = [taxonomyChildValue]
         } else {
             filters.selectedTaxonomyChildren = []
+        }
+        
+        if let taxonomyValue = taxonomy {
+            filters.selectedTaxonomy = taxonomyValue
+        } else {
+            filters.selectedTaxonomy = nil
+        }
+        
+        if let secondaryTaxonomyChildValue = secondaryTaxonomyChild {
+            filters.selectedSecondaryTaxonomyChild = secondaryTaxonomyChildValue
+        } else {
+            filters.selectedSecondaryTaxonomyChild = nil
         }
     
         filters.selectedOrdering = orderBy
@@ -453,7 +478,7 @@ class MainListingsViewModel: BaseViewModel {
     func applyFilters(_ categoryHeaderInfo: CategoryHeaderInfo) {
         tracker.trackEvent(TrackerEvent.filterCategoryHeaderSelected(position: categoryHeaderInfo.position,
                                                                      name: categoryHeaderInfo.name))
-        delegate?.vmShowTags(tags)
+        delegate?.vmShowTags(primaryTags: primaryTags, secondaryTags: secondaryTags)
         updateCategoriesHeader()
         updateListView()
     }
@@ -465,7 +490,8 @@ class MainListingsViewModel: BaseViewModel {
         case .superKeyword(let taxonomyChild):
             filters.selectedTaxonomyChildren = [taxonomyChild]
         case .superKeywordGroup(let taxonomy):
-            filters.selectedTaxonomies = [taxonomy]
+            filters.selectedTaxonomy = taxonomy
+            //secondaryTags.append(taxonomy.children)// = taxonomy.children
         case .other:
             tracker.trackEvent(TrackerEvent.filterCategoryHeaderSelected(position: categoryHeaderInfo.position,
                                                                          name: categoryHeaderInfo.name))
@@ -581,7 +607,7 @@ extension MainListingsViewModel: FiltersViewModelDataDelegate {
 
     func viewModelDidUpdateFilters(_ viewModel: FiltersViewModel, filters: ListingFilters) {
         self.filters = filters
-        delegate?.vmShowTags(tags)
+        delegate?.vmShowTags(primaryTags: primaryTags, secondaryTags: secondaryTags)
         updateListView()
     }
 }
@@ -1001,7 +1027,7 @@ extension MainListingsViewModel {
 extension MainListingsViewModel {
 
     var showCategoriesCollectionBanner: Bool {
-        return tags.isEmpty && !listViewModel.isListingListEmpty.value
+        return primaryTags.isEmpty && !listViewModel.isListingListEmpty.value
     }
 
     func pushPermissionsHeaderPressed() {
@@ -1209,7 +1235,7 @@ extension MainListingsViewModel: CategoriesHeaderCollectionViewDelegate {
 extension MainListingsViewModel: TaxonomiesDelegate {
     func didSelectTaxonomyChild(taxonomyChild: TaxonomyChild) {
         filters.selectedTaxonomyChildren = [taxonomyChild]
-        delegate?.vmShowTags(tags)
+        delegate?.vmShowTags(primaryTags: primaryTags, secondaryTags: secondaryTags)
         updateCategoriesHeader()
         updateListView()
     }
