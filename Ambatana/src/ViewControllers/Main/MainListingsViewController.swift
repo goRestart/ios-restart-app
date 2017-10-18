@@ -275,6 +275,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         return true
     }
     
+    
     // MARK: - FilterHeaders
     
     private func setupFilterHeaders() {
@@ -294,6 +295,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     func setFilterHeaderDescription(withText text: String) {
         filterDescriptionHeaderView.text = text
     }
+    
     
     // MARK: - FilterTagsViewDelegate
     
@@ -350,7 +352,6 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
 
         filterTagsView = FilterTagsView()
         filterTagsView?.delegate = self
-        //tagsContainerView.backgroundColor = UIColor.white
         tagsContainerView.addSubview(filterTagsView!)
         tagsContainerView.isHidden = true
         tagsContainerView.translatesAutoresizingMaskIntoConstraints = false

@@ -205,7 +205,16 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
                     continue
                 }
             }
-        case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .model, .yearsRange, .taxonomyChild, .taxonomy, .secondaryTaxonomyChild:
+        case .taxonomy:
+            for i in 0..<tags.count {
+                switch tags[i] {
+                case .secondaryTaxonomyChild:
+                    relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
+                case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .model, .category, .make, .yearsRange, .taxonomyChild, .taxonomy:
+                    continue
+                }
+            }
+        case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .model, .yearsRange, .taxonomyChild, .secondaryTaxonomyChild:
             break
         }
         return relatedIndexesToDelete

@@ -158,6 +158,7 @@ class FilterTagCell: UICollectionViewCell {
             tagLabel.text = taxonomyChild.name
         case .taxonomy(let taxonomy):
             tagLabel.text = taxonomy.name
+            tagLabel.textColor = .white
             contentView.backgroundColor = taxonomy.color
             closeButton.setImage(UIImage(named: "filters_taxonomy_clear_btn"), for: .normal)
             closeButton.setImage(UIImage(named: "filters_taxonomy_clear_btn"), for: .highlighted)
@@ -193,11 +194,15 @@ class FilterTagCell: UICollectionViewCell {
         tagLabel.text = nil
         tagIcon.image = nil
         tagIconWidth.constant = 0
+        tagLabel.textColor = .black
+        contentView.backgroundColor = .white
     }
 
     private func setAccessibilityIds() {
         accessibilityId = .filterTagCell
         tagIcon.accessibilityId = .filterTagCellTagIcon
         tagLabel.accessibilityId = .filterTagCellTagLabel
+        closeButton.setImage(UIImage(named: "filters_clear_btn"), for: .normal)
+        closeButton.setImage(UIImage(named: "filters_clear_btn"), for: .highlighted)
     }
 }
