@@ -509,19 +509,6 @@ extension ListingCarouselViewModel: ListingViewModelDelegate {
         finalActions.append(UIAction(interface: .text(title), action: { [weak self] in
             self?.delegate?.vmShowOnboarding()
         }))
-
-        if quickAnswersAvailable.value {
-            //Adding show/hide quick answers option
-            if quickAnswersCollapsed.value {
-                finalActions.append(UIAction(interface: .text(LGLocalizedString.directAnswersShow), action: {
-                    [weak self] in self?.quickAnswersShowButtonPressed()
-                }))
-            } else {
-                finalActions.append(UIAction(interface: .text(LGLocalizedString.directAnswersHide), action: {
-                    [weak self] in self?.quickAnswersCloseButtonPressed()
-                }))
-            }
-        }
         delegate?.vmShowCarouselOptions(cancelLabel, actions: finalActions)
     }
 

@@ -471,13 +471,6 @@ class OldChatViewModel: BaseViewModel, Paginable {
         texts.append(LGLocalizedString.chatSafetyTips)
         actions.append({ [weak self] in self?.delegate?.vmShowSafetyTips() })
 
-        //Direct answers
-        if chat.isSaved && directAnswersState.value != .notAvailable {
-            let visible = directAnswersState.value == .visible
-            texts.append(visible ? LGLocalizedString.directAnswersHide :
-                LGLocalizedString.directAnswersShow)
-            actions.append({ [weak self] in self?.toggleDirectAnswers() })
-        }
         //Delete
         if chat.isSaved && !isDeleted {
             texts.append(LGLocalizedString.chatListDelete)

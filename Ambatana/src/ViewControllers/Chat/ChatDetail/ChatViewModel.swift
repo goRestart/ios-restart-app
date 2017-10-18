@@ -790,14 +790,6 @@ extension ChatViewModel {
         actions.append(safetyTips)
 
         if conversation.value.isSaved {
-            if directAnswersState.value != .notAvailable {
-                let visible = directAnswersState.value == .visible
-                let directAnswersText = visible ? LGLocalizedString.directAnswersHide : LGLocalizedString.directAnswersShow
-                let directAnswersAction = UIAction(interface: UIActionInterface.text(directAnswersText),
-                                                   action: toggleDirectAnswers)
-                actions.append(directAnswersAction)
-            }
-            
             if !isDeleted && !isEmptyConversation.value {
                 let delete = UIAction(interface: UIActionInterface.text(LGLocalizedString.chatListDelete),
                                                    action: deleteAction)
