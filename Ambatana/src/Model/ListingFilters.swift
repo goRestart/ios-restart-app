@@ -1,5 +1,5 @@
 //
-//  ProductFilter.swift
+//  ListingFilters.swift
 //  LetGo
 //
 //  Created by Eli Kohen on 10/11/15.
@@ -77,8 +77,9 @@ struct ListingFilters {
             distanceRadius: Constants.distanceSliderDefaultPosition,
             distanceType: DistanceType.systemDistanceType(),
             selectedCategories: [],
-            selectedTaxonomy: nil,
             selectedTaxonomyChildren: [],
+            selectedTaxonomy: nil,
+            selectedSecondaryTaxonomyChild: nil,
             selectedWithin: ListingTimeCriteria.defaultOption,
             selectedOrdering: ListingSortCriteria.defaultOption,
             priceRange: .priceRange(min: nil, max: nil),
@@ -95,8 +96,9 @@ struct ListingFilters {
          distanceRadius: Int,
          distanceType: DistanceType,
          selectedCategories: [ListingCategory],
-         selectedTaxonomy: Taxonomy?,
          selectedTaxonomyChildren: [TaxonomyChild],
+         selectedTaxonomy: Taxonomy?,
+         selectedSecondaryTaxonomyChild: TaxonomyChild?,
          selectedWithin: ListingTimeCriteria,
          selectedOrdering: ListingSortCriteria?,
          priceRange: FilterPriceRange,
@@ -110,8 +112,9 @@ struct ListingFilters {
         self.distanceRadius = distanceRadius > 0 ? distanceRadius : nil
         self.distanceType = distanceType
         self.selectedCategories = selectedCategories
-        self.selectedTaxonomy = selectedTaxonomy
         self.selectedTaxonomyChildren = selectedTaxonomyChildren
+        self.selectedTaxonomy = selectedTaxonomy
+        self.selectedSecondaryTaxonomyChild = selectedSecondaryTaxonomyChild
         self.selectedWithin = selectedWithin
         self.selectedOrdering = selectedOrdering
         self.priceRange = priceRange
@@ -128,8 +131,9 @@ struct ListingFilters {
                               distanceRadius: distanceRadius ?? Constants.distanceSliderDefaultPosition,
                               distanceType: distanceType,
                               selectedCategories: selectedCategories,
-                              selectedTaxonomy: selectedTaxonomy,
                               selectedTaxonomyChildren: selectedTaxonomyChildren,
+                              selectedTaxonomy: selectedTaxonomy,
+                              selectedSecondaryTaxonomyChild: selectedSecondaryTaxonomyChild,
                               selectedWithin: selectedWithin,
                               selectedOrdering: selectedOrdering,
                               priceRange: priceRange,
@@ -161,6 +165,8 @@ struct ListingFilters {
         if let _ = distanceRadius { return false } //Default is nil
         if !selectedCategories.isEmpty { return false }
         if !selectedTaxonomyChildren.isEmpty { return false }
+        if let _ = selectedTaxonomy { return false } //Default is nil
+        if let _ = selectedSecondaryTaxonomyChild { return false } //Default is nil
         if selectedWithin != ListingTimeCriteria.defaultOption { return false }
         if selectedOrdering != ListingSortCriteria.defaultOption { return false }
         if priceRange != .priceRange(min: nil, max: nil) { return false }
@@ -204,6 +210,8 @@ extension ListingFilters: Equatable {
         a.distanceRadius == b.distanceRadius &&
         a.distanceType == b.distanceType &&
         a.selectedCategories == b.selectedCategories &&
+        a.selectedTaxonomy == b.selectedTaxonomy &&
+        a.selectedSecondaryTaxonomyChild == b.selectedSecondaryTaxonomyChild &&
         a.selectedWithin == b.selectedWithin &&
         a.selectedOrdering == b.selectedOrdering &&
         a.filterCoordinates == b.filterCoordinates &&

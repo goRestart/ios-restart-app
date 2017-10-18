@@ -204,9 +204,13 @@ fileprivate extension FilteredListingListRequester {
         params.queryString = queryString
         params.countryCode = countryCode
         params.categoryIds = filters?.selectedCategories.flatMap { $0.rawValue }
+        
         let idCategoriesFromTaxonomies = filters?.selectedTaxonomyChildren.getIds(withType: .category)
         params.categoryIds?.append(contentsOf: idCategoriesFromTaxonomies ?? [])
         params.superKeywordIds = filters?.selectedTaxonomyChildren.getIds(withType: .superKeyword)
+        
+        params.categoryIds = filters?.selectedTaxonomy?.children.getIds(withType: .category)
+        params.superKeywordIds = filters?.selectedTaxonomy?.children.getIds(withType: .superKeyword)
         
         params.timeCriteria = filters?.selectedWithin
         params.sortCriteria = filters?.selectedOrdering
