@@ -209,8 +209,17 @@ fileprivate extension FilteredListingListRequester {
         params.categoryIds?.append(contentsOf: idCategoriesFromTaxonomies ?? [])
         params.superKeywordIds = filters?.selectedTaxonomyChildren.getIds(withType: .superKeyword)
         
-        params.categoryIds = filters?.selectedTaxonomy?.children.getIds(withType: .category)
-        params.superKeywordIds = filters?.selectedTaxonomy?.children.getIds(withType: .superKeyword)
+        if let selectedSecondaryTaxonomyChild = filters?.selectedSecondaryTaxonomyChild {
+            switch selectedSecondaryTaxonomyChild.type {
+            case .category:
+                params.categoryIds = [selectedSecondaryTaxonomyChild.id]
+            case .superKeyword:
+                params.superKeywordIds = [selectedSecondaryTaxonomyChild.id]
+            }
+        } else if let selectedTaxonomy = filters?.selectedTaxonomy {
+            params.categoryIds = selectedTaxonomy.children.getIds(withType: .category)
+            params.superKeywordIds = selectedTaxonomy.children.getIds(withType: .superKeyword)
+        }
         
         params.timeCriteria = filters?.selectedWithin
         params.sortCriteria = filters?.selectedOrdering
