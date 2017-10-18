@@ -43,6 +43,7 @@ protocol FeatureFlaggeable: class {
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter { get }
     var requestTimeOut: RequestsTimeOut { get }
     var newBumpUpExplanation: NewBumpUpExplanation { get }
+    var moreInfoAdActive: MoreInfoAdActive { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -344,6 +345,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.newBumpUpExplanation
         }
         return NewBumpUpExplanation.fromPosition(abTests.newBumpUpExplanation.value)
+    }
+
+    var moreInfoAdActive: MoreInfoAdActive {
+        if Bumper.enabled {
+            return Bumper.moreInfoAdActive
+        }
+        return MoreInfoAdActive.fromPosition(abTests.moreInfoAdActive.value)
     }
 
 

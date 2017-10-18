@@ -167,8 +167,12 @@ class ListingCarouselViewModel: BaseViewModel {
     var adUnitId: String {
         return EnvironmentProxy.sharedInstance.moreInfoAdUnitId
     }
+    var adActive: Bool {
+        return featureFlags.moreInfoAdActive == .active
+    }
     var adRequestType: AdRequestType? = .listingTitle
     let sideMargin: CGFloat = DeviceFamily.current.isWiderOrEqualThan(.iPhone6) ? Metrics.margin : 0
+
 
     // MARK: - Init
 

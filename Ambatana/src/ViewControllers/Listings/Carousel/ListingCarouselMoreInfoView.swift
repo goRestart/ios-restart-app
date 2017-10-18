@@ -107,12 +107,14 @@ class ListingCarouselMoreInfoView: UIView {
         setupStatsRx(viewModel: viewModel)
         setupBottomPanelRx(viewModel: viewModel)
         self.viewModel = viewModel
-        setupBannerWith(viewModel: viewModel)
+        if viewModel.adActive {
+            setupBannerWith(viewModel: viewModel)
+        }
     }
 
     func viewWillShow() {
         setupMapViewIfNeeded()
-        if let adRequestType = viewModel?.adRequestType {
+        if let adRequestType = viewModel?.adRequestType, let adActive = viewModel?.adActive, adActive {
             loadAdsRequest(adRequestType: adRequestType)
         }
     }

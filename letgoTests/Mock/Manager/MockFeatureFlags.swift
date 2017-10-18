@@ -45,6 +45,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter = .control
     var requestTimeOut: RequestsTimeOut = .thirty
     var newBumpUpExplanation: NewBumpUpExplanation = .control
+    var moreInfoAdActive: MoreInfoAdActive = .control
 
     // Country dependant features
     var freePostingModeAllowed = false
