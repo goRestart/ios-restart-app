@@ -10,7 +10,6 @@ import UIKit
 
 enum SourceRateBuyers {
     case markAsSold
-    case rateBuyer
 }
 
 class RateBuyersHeader: UIView {

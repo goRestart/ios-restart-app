@@ -54,7 +54,6 @@ class EnvironmentProxy: Environment {
     var chatBaseURL: String { return environment.chatBaseURL }
     var webSocketURL: String { return environment.webSocketURL }
     var notificationsBaseURL: String { return environment.notificationsBaseURL }
-    var passiveBuyersBaseURL: String { return environment.passiveBuyersBaseURL }
     var paymentsBaseURL: String { return environment.paymentsBaseURL }
     var suggestiveSearchBaseURL: String { return environment.suggestiveSearchBaseURL }
     var searchProductsBaseURL: String { return environment.searchProductsBaseURL }

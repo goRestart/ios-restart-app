@@ -31,10 +31,7 @@ final class CoreDI: InternalDI {
         keychain = KeychainSwift()
         userDefaults = UserDefaults.standard
 
-        let tokenKeychainDAO = TokenKeychainDAO(keychain: keychain)
-        let userDefaultsDAO = TokenUserDefaultsDAO(userDefaults: UserDefaults.standard)
-        tokenDAO = TokenCleanupDAO(primaryDAO: tokenKeychainDAO,
-                                   toDeleteDAO: userDefaultsDAO)
+        tokenDAO = TokenKeychainDAO(keychain: keychain)
 
         let apiClient = AFApiClient(alamofireManager: networkManager,
                                     tokenDAO: tokenDAO)
@@ -158,8 +155,6 @@ final class CoreDI: InternalDI {
         let userRatingDataSource = UserRatingApiDataSource(apiClient: self.apiClient)
         self.userRatingRepository = LGUserRatingRepository(dataSource: userRatingDataSource,
                                                            myUserRepository: myUserRepository)
-        let passiveBuyersDataSource = PassiveBuyersApiDataSource(apiClient: self.apiClient)
-        self.passiveBuyersRepository = LGPassiveBuyersRepository(dataSource: passiveBuyersDataSource)
 
         self.deviceIdDAO = deviceIdDAO
         self.installationDAO = installationDAO
@@ -225,7 +220,6 @@ final class CoreDI: InternalDI {
     let stickersRepository: StickersRepository
     let searchRepository: SearchRepository
     let userRatingRepository: UserRatingRepository
-    let passiveBuyersRepository: PassiveBuyersRepository
     let carsInfoRepository: CarsInfoRepository
     let categoryRepository: CategoryRepository
     var locationRepository: LocationRepository
