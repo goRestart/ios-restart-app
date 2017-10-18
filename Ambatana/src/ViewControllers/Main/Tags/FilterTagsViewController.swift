@@ -74,8 +74,7 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
         secondaryCollectionView.dataSource = self
         secondaryCollectionView.delegate = self
         secondaryCollectionView.scrollsToTop = false
-        let filterNib = UINib(nibName: "FilterTagCell", bundle: nil)
-        secondaryCollectionView.register(filterNib, forCellWithReuseIdentifier: "FilterTagCell")
+        secondaryCollectionView.register(SelectableFilterTagCell.self, forCellWithReuseIdentifier: "SelectableFilterTagCell")
         if let layout = secondaryCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.scrollDirection = UICollectionViewScrollDirection.horizontal
         }
@@ -108,7 +107,7 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
         if collectionView == self.collectionView {
             return FilterTagCell.cellSizeForTag(tags[indexPath.row])
         } else {
-            return FilterTagCell.cellSizeForTag(secondaryTags[indexPath.row])
+            return SelectableFilterTagCell.cellSizeForTag(secondaryTags[indexPath.row])
         }
     }
     
@@ -121,16 +120,17 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterTagCell", for: indexPath) as? FilterTagCell else { return UICollectionViewCell() }
-        cell.delegate = self
         if collectionView == self.collectionView {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterTagCell", for: indexPath) as? FilterTagCell else { return UICollectionViewCell() }
+            cell.delegate = self
             cell.setupWithTag(tags[indexPath.row])
+            return cell
         } else if collectionView == self.secondaryCollectionView {
-            cell.setupWithTag(secondaryTags[indexPath.row])
+            guard let cell2 = collectionView.dequeueReusableCell(withReuseIdentifier: "SelectableFilterTagCell", for: indexPath) as? SelectableFilterTagCell else { return UICollectionViewCell() }
+            cell2.setupWithTag(secondaryTags[indexPath.row])
+            return cell2
         }
-        
-        return cell
+        return UICollectionViewCell()
     }
     
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {

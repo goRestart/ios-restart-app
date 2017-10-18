@@ -23,6 +23,7 @@ class FilterTagCell: UICollectionViewCell {
     @IBOutlet weak var tagIcon: UIImageView!
     @IBOutlet weak var tagIconWidth: NSLayoutConstraint!
     @IBOutlet weak var tagLabel: UILabel!
+    @IBOutlet weak var closeButton: UIButton!
     
     weak var delegate : FilterTagCellDelegate?
     var filterTag : FilterTag?
@@ -130,6 +131,7 @@ class FilterTagCell: UICollectionViewCell {
         self.resetUI()
     }
     
+    
     // MARK: - IBActions
     
     @IBAction func onCloseBtn(_ sender: AnyObject) {
@@ -156,6 +158,9 @@ class FilterTagCell: UICollectionViewCell {
             tagLabel.text = taxonomyChild.name
         case .taxonomy(let taxonomy):
             tagLabel.text = taxonomy.name
+            contentView.backgroundColor = taxonomy.color
+            closeButton.setImage(UIImage(named: "filters_taxonomy_clear_btn"), for: .normal)
+            closeButton.setImage(UIImage(named: "filters_taxonomy_clear_btn"), for: .highlighted)
         case .secondaryTaxonomyChild(let secondaryTaxonomyChild):
             tagLabel.text = secondaryTaxonomyChild.name
         case .priceRange(let minPrice, let maxPrice, let currency):
@@ -178,20 +183,20 @@ class FilterTagCell: UICollectionViewCell {
     // MARK: - Private methods
     
     private func setupUI() {
-        self.contentView.layer.borderColor = UIColor.lineGray.cgColor
-        self.contentView.layer.borderWidth = LGUIKitConstants.onePixelSize
-        self.contentView.rounded = true
-        self.contentView.layer.backgroundColor = UIColor.white.cgColor
+        contentView.layer.borderColor = UIColor.lineGray.cgColor
+        contentView.layer.borderWidth = LGUIKitConstants.onePixelSize
+        contentView.rounded = true
+        contentView.layer.backgroundColor = UIColor.white.cgColor
     }
     
     private func resetUI() {
-        self.tagLabel.text = nil
-        self.tagIcon.image = nil
-        self.tagIconWidth.constant = 0
+        tagLabel.text = nil
+        tagIcon.image = nil
+        tagIconWidth.constant = 0
     }
 
     private func setAccessibilityIds() {
-        self.accessibilityId = .filterTagCell
+        accessibilityId = .filterTagCell
         tagIcon.accessibilityId = .filterTagCellTagIcon
         tagLabel.accessibilityId = .filterTagCellTagLabel
     }
