@@ -9,6 +9,10 @@
 import RxSwift
 import LGCoreKit
 
+protocol PostingAddDetailTableViewDelegate: class {
+    func indexSelected(index: Int)
+}
+
 
 final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewDataSource {
     
@@ -16,6 +20,7 @@ final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewD
     
     private var contentCell: [String]
     private let tableView = UITableView()
+    weak var delegate: PostingAddDetailTableViewDelegate?
     
     
     // MARK: - Lifecycle
@@ -43,7 +48,7 @@ final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewD
         tableView.backgroundColor = UIColor.clear
         tableView.tintColor = UIColor.white
         tableView.indicatorStyle = .white
-        tableView.contentInset = UIEdgeInsets(top: 0, left: -Metrics.bigMargin, bottom: Metrics.margin, right: 0)
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Metrics.margin, right: 0)
     }
     
     private func setupLayout() {
@@ -106,6 +111,9 @@ final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewD
             cell.accessoryType = .checkmark
             cell.textLabel?.textColor = UIColor.white
             cell.textLabel?.font = UIFont.selectableItem
+            
+            delegate?.indexSelected(index: indexPath.row)
+            
         }
     }
     

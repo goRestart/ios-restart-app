@@ -12,7 +12,7 @@ import Foundation
 protocol PostListingNavigator: class {
     func cancelPostListing()
     func startDetails(postListingState: PostListingState)
-    func nextPostingDetailStep(step: PostingDetailStep)
+    func nextPostingDetailStep(step: PostingDetailStep, postListingState: PostListingState)
     func closePostProductAndPostInBackground(params: ListingCreationParams,
                                              trackingInfo: PostListingTrackingInfo)
     func closePostProductAndPostLater(params: ListingCreationParams, images: [UIImage],

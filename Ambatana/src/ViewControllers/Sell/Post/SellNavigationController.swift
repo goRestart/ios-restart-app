@@ -20,7 +20,7 @@ class SellNavigationController: UINavigationController {
     let progressView = UIView()
     let backgroundProgressView = UIView()
     let numberOfSteps = Variable<CGFloat>(0)
-    let postListingState = Variable<PostListingState?>(nil)
+    let categorySelected = Variable<PostCategory?>(nil)
     let currentStep = Variable<CGFloat>(0)
     var shouldModifyProgress: Bool = false
     
@@ -66,8 +66,8 @@ class SellNavigationController: UINavigationController {
         self.view.sendSubview(toBack:background)
     }
     
-    func updating(state: PostListingState) {
-        postListingState.value = state
+    func updating(category: PostCategory?) {
+        categorySelected.value = category
     }
     
     override func pushViewController(_ viewController: UIViewController, animated: Bool) {
@@ -98,14 +98,14 @@ class SellNavigationController: UINavigationController {
     func setupRx() {
         currentStep.asObservable().map { $0 == 0 }.bindTo(progressView.rx.isHidden).addDisposableTo(disposeBag)
         currentStep.asObservable().map { $0 == 0 }.bindTo(backgroundProgressView.rx.isHidden).addDisposableTo(disposeBag)
-        postListingState.asObservable().map { $0?.category?.numberOfSteps }.bindNext { [weak self] number in
+        categorySelected.asObservable().map { $0?.numberOfSteps }.bindNext { [weak self] number in
                 self?.numberOfSteps.value = number ?? 0
             }.addDisposableTo(disposeBag)
     }
     
     func setupUI() {
         progressView.backgroundColor = UIColor.white
-        backgroundProgressView.backgroundColor = UIColor(white: 0, alpha: 0.20)
+        backgroundProgressView.backgroundColor = UIColor(white: 1, alpha: 0.5)
         
         progressView.frame = CGRect(x: 0, y: 0, width: progressVarFilled, height: SellNavigationController.progressViewHeight)
         view.addSubview(progressView)

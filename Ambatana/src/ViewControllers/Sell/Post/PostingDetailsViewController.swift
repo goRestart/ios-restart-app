@@ -1,5 +1,5 @@
 //
-//  BaseRealEstateViewController.swift
+//  PostingDetailsViewController.swift
 //  LetGo
 //
 //  Created by Juan Iglesias on 04/10/2017.
@@ -10,7 +10,7 @@ import Foundation
 import LGCoreKit
 import RxSwift
 
-class BasePostingDetailsViewController : BaseViewController, TaxonomiesViewModelDelegate {
+class PostingDetailsViewController : BaseViewController, TaxonomiesViewModelDelegate {
     
     fileprivate static let titleHeight: CGFloat = 60
     fileprivate static let skipButtonMinimumWidth: CGFloat = 100
@@ -20,14 +20,14 @@ class BasePostingDetailsViewController : BaseViewController, TaxonomiesViewModel
     private let contentView: UIView = UIView()
     private let buttonNext: UIButton = UIButton()
     
-    private let viewModel: BasePostingDetailsViewModel
+    private let viewModel: PostingDetailsViewModel
     
     let disposeBag = DisposeBag()
     
     
     // MARK: - LifeCycle
     
-    init(viewModel: BasePostingDetailsViewModel) {
+    init(viewModel: PostingDetailsViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
     }
@@ -74,7 +74,7 @@ class BasePostingDetailsViewController : BaseViewController, TaxonomiesViewModel
     private func setupNavigationBar() {
         setNavBarBackgroundStyle(.transparent(substyle: .dark))
         let closeButton = UIBarButtonItem(image: UIImage(named: "ic_post_close") , style: UIBarButtonItemStyle.plain,
-                                          target: self, action: #selector(BasePostingDetailsViewController.closeButtonPressed))
+                                          target: self, action: #selector(PostingDetailsViewController.closeButtonPressed))
         self.navigationItem.leftBarButtonItem = closeButton
     }
     
@@ -85,7 +85,7 @@ class BasePostingDetailsViewController : BaseViewController, TaxonomiesViewModel
         
         view.addSubview(titleLabel)
         titleLabel.layout(with: view).fillHorizontal(by: Metrics.bigMargin)
-        titleLabel.layout(with: view).top(by: BasePostingDetailsViewController.titleHeight)
+        titleLabel.layout(with: view).top(by: PostingDetailsViewController.titleHeight)
         
         view.addSubview(contentView)
         contentView.layout(with: titleLabel).below(by: Metrics.bigMargin)
@@ -99,8 +99,8 @@ class BasePostingDetailsViewController : BaseViewController, TaxonomiesViewModel
         
         view.addSubview(buttonNext)
         buttonNext.layout(with: contentView).below(by: Metrics.bigMargin)
-        buttonNext.layout().height(BasePostingDetailsViewController.skipButtonHeight)
-        buttonNext.layout().width(BasePostingDetailsViewController.skipButtonMinimumWidth, relatedBy: .greaterThanOrEqual)
+        buttonNext.layout().height(PostingDetailsViewController.skipButtonHeight)
+        buttonNext.layout().width(PostingDetailsViewController.skipButtonMinimumWidth, relatedBy: .greaterThanOrEqual)
         buttonNext.layout(with: view).right(by: -Metrics.bigMargin).bottom(by: -Metrics.bigMargin)
     }
     
@@ -116,7 +116,7 @@ class BasePostingDetailsViewController : BaseViewController, TaxonomiesViewModel
     }
 }
 
-extension BasePostingDetailsViewController: UINavigationControllerDelegate {
+extension PostingDetailsViewController: UINavigationControllerDelegate {
     
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return CustomAnimator()

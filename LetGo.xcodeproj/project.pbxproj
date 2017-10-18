@@ -30,8 +30,6 @@
 		0A8275131F7D1A1100A6A0C5 /* DeferredDeepLinkFacebookTargetSearchQuery.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A82750D1F7D190A00A6A0C5 /* DeferredDeepLinkFacebookTargetSearchQuery.json */; };
 		0A8275141F7D1A1100A6A0C5 /* DeferredDeepLinkFacebookTargetCategory.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A82750F1F7D194800A6A0C5 /* DeferredDeepLinkFacebookTargetCategory.json */; };
 		0A8275151F7D1A1100A6A0C5 /* DeferredDeepLinkFacebookTargetListing.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A8275111F7D196700A6A0C5 /* DeferredDeepLinkFacebookTargetListing.json */; };
-		0A6E56AE1F8E233500419DDC /* RelatedListingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6E56AD1F8E233500419DDC /* RelatedListingsViewModel.swift */; };
-		0A6E56AF1F8E241000419DDC /* RelatedListingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6E56AD1F8E233500419DDC /* RelatedListingsViewModel.swift */; };
 		0AC264E11F94ACB600666BA6 /* EditListingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC264E01F94ACB600666BA6 /* EditListingCoordinator.swift */; };
 		0AC264E21F94B6A800666BA6 /* EditListingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC264E01F94ACB600666BA6 /* EditListingCoordinator.swift */; };
 		0AC264E41F94B87400666BA6 /* EditListingNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC264E31F94B87400666BA6 /* EditListingNavigator.swift */; };
@@ -684,10 +682,10 @@
 		727EF06F1E0BE6600037DA4E /* LGLocation+isAuto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727EF06E1E0BE6600037DA4E /* LGLocation+isAuto.swift */; };
 		727EF0701E0BE6600037DA4E /* LGLocation+isAuto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727EF06E1E0BE6600037DA4E /* LGLocation+isAuto.swift */; };
 		7281CBCA1E5EF06800C6ADF4 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D57CD01E5767FC0009FA06 /* NotificationService.swift */; };
-		72854D101F8515BB00E54530 /* BasePostingDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72854D0F1F8515BB00E54530 /* BasePostingDetailsViewController.swift */; };
-		72854D111F8515BB00E54530 /* BasePostingDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72854D0F1F8515BB00E54530 /* BasePostingDetailsViewController.swift */; };
-		72854D131F85183E00E54530 /* BasePostingDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72854D121F85183E00E54530 /* BasePostingDetailsViewModel.swift */; };
-		72854D141F85183E00E54530 /* BasePostingDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72854D121F85183E00E54530 /* BasePostingDetailsViewModel.swift */; };
+		72854D101F8515BB00E54530 /* PostingDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72854D0F1F8515BB00E54530 /* PostingDetailsViewController.swift */; };
+		72854D111F8515BB00E54530 /* PostingDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72854D0F1F8515BB00E54530 /* PostingDetailsViewController.swift */; };
+		72854D131F85183E00E54530 /* PostingDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72854D121F85183E00E54530 /* PostingDetailsViewModel.swift */; };
+		72854D141F85183E00E54530 /* PostingDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72854D121F85183E00E54530 /* PostingDetailsViewModel.swift */; };
 		72854D171F8CE41700E54530 /* PostingAddDetailTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72854D161F8CE41700E54530 /* PostingAddDetailTableView.swift */; };
 		72854D181F8CE41700E54530 /* PostingAddDetailTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72854D161F8CE41700E54530 /* PostingAddDetailTableView.swift */; };
 		72854D1A1F8E002100E54530 /* RealEstateOfferType+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72854D191F8E002100E54530 /* RealEstateOfferType+LG.swift */; };
@@ -1488,7 +1486,6 @@
 		0A82750D1F7D190A00A6A0C5 /* DeferredDeepLinkFacebookTargetSearchQuery.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DeferredDeepLinkFacebookTargetSearchQuery.json; sourceTree = "<group>"; };
 		0A82750F1F7D194800A6A0C5 /* DeferredDeepLinkFacebookTargetCategory.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DeferredDeepLinkFacebookTargetCategory.json; sourceTree = "<group>"; };
 		0A8275111F7D196700A6A0C5 /* DeferredDeepLinkFacebookTargetListing.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DeferredDeepLinkFacebookTargetListing.json; sourceTree = "<group>"; };
-		0A6E56AD1F8E233500419DDC /* RelatedListingsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelatedListingsViewModel.swift; sourceTree = "<group>"; };
 		0AC264E01F94ACB600666BA6 /* EditListingCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditListingCoordinator.swift; sourceTree = "<group>"; };
 		0AC264E31F94B87400666BA6 /* EditListingNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditListingNavigator.swift; sourceTree = "<group>"; };
 		0AF7CCBA1F8B51F500128303 /* RoundButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
@@ -1908,8 +1905,8 @@
 		727EF0681E0AF0220037DA4E /* LocationManager+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LocationManager+LG.swift"; sourceTree = "<group>"; };
 		727EF06B1E0BE16D0037DA4E /* CountryCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryCode.swift; sourceTree = "<group>"; };
 		727EF06E1E0BE6600037DA4E /* LGLocation+isAuto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LGLocation+isAuto.swift"; sourceTree = "<group>"; };
-		72854D0F1F8515BB00E54530 /* BasePostingDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasePostingDetailsViewController.swift; sourceTree = "<group>"; };
-		72854D121F85183E00E54530 /* BasePostingDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasePostingDetailsViewModel.swift; sourceTree = "<group>"; };
+		72854D0F1F8515BB00E54530 /* PostingDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostingDetailsViewController.swift; sourceTree = "<group>"; };
+		72854D121F85183E00E54530 /* PostingDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostingDetailsViewModel.swift; sourceTree = "<group>"; };
 		72854D161F8CE41700E54530 /* PostingAddDetailTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostingAddDetailTableView.swift; sourceTree = "<group>"; };
 		72854D191F8E002100E54530 /* RealEstateOfferType+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RealEstateOfferType+LG.swift"; sourceTree = "<group>"; };
 		72854D1C1F8E252600E54530 /* RealEstatePropertyType+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RealEstatePropertyType+LG.swift"; sourceTree = "<group>"; };
@@ -4169,8 +4166,8 @@
 				50C2E1991E6FFA7A006639BB /* PostProductFooter */,
 				C7F4CBA21C9181A5008E40D6 /* PostListingCameraViewModel.swift */,
 				7285C95A1F83C75F00BD16E9 /* SellNavigationController.swift */,
-				72854D0F1F8515BB00E54530 /* BasePostingDetailsViewController.swift */,
-				72854D121F85183E00E54530 /* BasePostingDetailsViewModel.swift */,
+				72854D0F1F8515BB00E54530 /* PostingDetailsViewController.swift */,
+				72854D121F85183E00E54530 /* PostingDetailsViewModel.swift */,
 				72FE02D51F95FCE5005BD672 /* PostingDetailStep.swift */,
 				C7DE8AD51C88929A005CF37E /* PostListingCameraView.swift */,
 				C7DE8AD81C8892C9005CF37E /* PostListingCameraView.xib */,
@@ -5688,7 +5685,7 @@
 				6A5E19E21D548F5400F92692 /* GoogleLoginHelper.swift in Sources */,
 				2ED5E52D1EC5BAFB00B6D4F6 /* FilterListingListRequesterFactory.swift in Sources */,
 				6AEF66B31C5A155C0025D43C /* Paginable.swift in Sources */,
-				72854D131F85183E00E54530 /* BasePostingDetailsViewModel.swift in Sources */,
+				72854D131F85183E00E54530 /* PostingDetailsViewModel.swift in Sources */,
 				8E814F3F1F34732F00C88432 /* LGSliderThumb.swift in Sources */,
 				6A5E1A001D548F5400F92692 /* MapZoomBlocker.swift in Sources */,
 				2EF4E3B01D3688AB00A09DFD /* ConfigDAO.swift in Sources */,
@@ -5994,7 +5991,7 @@
 				6A5E1A1A1D548F5400F92692 /* UIViewController+Alert.swift in Sources */,
 				2E4436311BF389E000814624 /* LGNavBarSearchField.swift in Sources */,
 				C7B588871CE1DFA6009B3975 /* ChatBubbleCell.swift in Sources */,
-				72854D101F8515BB00E54530 /* BasePostingDetailsViewController.swift in Sources */,
+				72854D101F8515BB00E54530 /* PostingDetailsViewController.swift in Sources */,
 				6A5E19F01D548F5400F92692 /* String+LG.swift in Sources */,
 				721A83111E827FD300507E47 /* MediaPermissions.swift in Sources */,
 				D4912A831B08E12C00DACD5A /* UIImage+Tint.swift in Sources */,
@@ -6217,7 +6214,7 @@
 				2E52CCD51CBD54F3003B7A96 /* ABTests.swift in Sources */,
 				6A3C73101CF346CB00A062E0 /* ChatStickerGridCell.swift in Sources */,
 				2ED5E52E1EC5BAFB00B6D4F6 /* FilterListingListRequesterFactory.swift in Sources */,
-				72854D141F85183E00E54530 /* BasePostingDetailsViewModel.swift in Sources */,
+				72854D141F85183E00E54530 /* PostingDetailsViewModel.swift in Sources */,
 				6A5E19E31D548F5400F92692 /* GoogleLoginHelper.swift in Sources */,
 				8E814F401F34732F00C88432 /* LGSliderThumb.swift in Sources */,
 				6A5E1A011D548F5400F92692 /* MapZoomBlocker.swift in Sources */,
@@ -6523,7 +6520,7 @@
 				727EF06D1E0BE16D0037DA4E /* CountryCode.swift in Sources */,
 				C72794411D549342009C25AB /* ChangeUsernameViewModel.swift in Sources */,
 				C7DB42201C5138B500400945 /* BaseViewModel.swift in Sources */,
-				72854D111F8515BB00E54530 /* BasePostingDetailsViewController.swift in Sources */,
+				72854D111F8515BB00E54530 /* PostingDetailsViewController.swift in Sources */,
 				6A5E1A1B1D548F5400F92692 /* UIViewController+Alert.swift in Sources */,
 				721A83121E827FD300507E47 /* MediaPermissions.swift in Sources */,
 				C7DB42211C5138B500400945 /* LGLocalizedString.swift in Sources */,

@@ -124,19 +124,19 @@ extension SellCoordinator: PostListingNavigator {
     }
     
     func startDetails(postListingState: PostListingState) {
-        let viewModel = BasePostingDetailsViewModel(step: .propertyType)
+        let viewModel = PostingDetailsViewModel(step: .propertyType, postListingState: postListingState)
         viewModel.navigator = self
-        let vc = BasePostingDetailsViewController(viewModel: viewModel)
+        let vc = PostingDetailsViewController(viewModel: viewModel)
         postingDetailStep = .propertyType
-        navigationController.updating(state: postListingState)
+        navigationController.updating(category: postListingState.category)
         navigationController.shouldModifyProgress = true
         navigationController.pushViewController(vc, animated: false)
     }
     
-    func nextPostingDetailStep(step: PostingDetailStep) {
-        let viewModel = BasePostingDetailsViewModel(step: step)
+    func nextPostingDetailStep(step: PostingDetailStep, postListingState: PostListingState) {
+        let viewModel = PostingDetailsViewModel(step: step, postListingState: postListingState)
         viewModel.navigator = self
-        let vc = BasePostingDetailsViewController(viewModel: viewModel)
+        let vc = PostingDetailsViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: true)
     }
     

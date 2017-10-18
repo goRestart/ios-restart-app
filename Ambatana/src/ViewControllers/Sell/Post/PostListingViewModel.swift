@@ -339,7 +339,7 @@ fileprivate extension PostListingViewModel {
             self?.postListing()
         }.addDisposableTo(disposeBag)
         
-        state.asObservable().filter { $0.step == .toDetails }.bindNext { [weak self] _ in
+        state.asObservable().filter { $0.step == .addingDetails }.bindNext { [weak self] _ in
             self?.pushToDetails()
             }.addDisposableTo(disposeBag)
         
