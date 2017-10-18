@@ -14,13 +14,13 @@ protocol ModularNotificationCellDelegate: class {
 
 class ModularNotificationCell: UITableViewCell, ReusableCell {
     
-    let background: UIView
-    let heroImageView: UIImageView
-    let textTitleLabel: UILabel
-    let textBodyLabel: UILabel
+    let background = UIView()
+    let heroImageView = UIImageView()
+    let textTitleLabel = UILabel()
+    let textBodyLabel = UILabel()
     let callsToAction: [UIButton]
-    let basicImage: UIImageView
-    let iconImageView: UIImageView
+    let basicImage = UIImageView()
+    let iconImageView = UIImageView()
     let thumbnails: [UIImageView]
     
     var campaignType: String?
@@ -45,13 +45,7 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
     weak var delegate: ModularNotificationCellDelegate?
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        self.background = UIView()
-        self.heroImageView = UIImageView()
-        self.textTitleLabel = UILabel()
-        self.textBodyLabel = UILabel()
         self.callsToAction = [UIButton(), UIButton(), UIButton()] // max 3 CTAs
-        self.basicImage = UIImageView()
-        self.iconImageView = UIImageView()
         self.thumbnails = [UIImageView() , UIImageView(), UIImageView(), UIImageView()] // max 4 thumbnails
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
