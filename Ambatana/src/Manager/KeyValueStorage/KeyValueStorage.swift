@@ -120,14 +120,7 @@ extension KeyValueStorageable {
             currentUserProperties = userProperties
         }
     }
-    func userLoadChatShowDirectAnswersForKey(_ key: String) -> Bool {
-        return currentUserProperties?.chatShowDirectAnswers[key] ?? true
-    }
-    func userSaveChatShowDirectAnswersForKey(_ key: String, value: Bool) {
-        guard var userProperties = currentUserProperties else { return }
-        userProperties.chatShowDirectAnswers[key] = value
-        currentUserProperties = userProperties
-    }
+
     var userRatingAlreadyRated: Bool {
         get {
             return currentUserProperties?.ratingAlreadyRated ??
