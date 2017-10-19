@@ -94,7 +94,6 @@ class SellNavigationController: UINavigationController {
         return super.popViewController(animated: animated)
     }
     
-    
     func setupRx() {
         currentStep.asObservable().map { $0 == 0 }.bindTo(progressView.rx.isHidden).addDisposableTo(disposeBag)
         currentStep.asObservable().map { $0 == 0 }.bindTo(backgroundProgressView.rx.isHidden).addDisposableTo(disposeBag)
@@ -105,7 +104,7 @@ class SellNavigationController: UINavigationController {
     
     func setupUI() {
         progressView.backgroundColor = UIColor.white
-        backgroundProgressView.backgroundColor = UIColor(white: 1, alpha: 0.5)
+        backgroundProgressView.backgroundColor = UIColor(white: 0, alpha: 0.20)
         
         progressView.frame = CGRect(x: 0, y: 0, width: progressVarFilled, height: SellNavigationController.progressViewHeight)
         view.addSubview(progressView)

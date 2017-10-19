@@ -37,6 +37,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         return view
     }
     
+    
     private let tracker: Tracker
     private let currencyHelper: CurrencyHelper
     private let locationManager: LocationManager

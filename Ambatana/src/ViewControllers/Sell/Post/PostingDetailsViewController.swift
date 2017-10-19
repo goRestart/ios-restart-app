@@ -10,7 +10,7 @@ import Foundation
 import LGCoreKit
 import RxSwift
 
-class PostingDetailsViewController : BaseViewController, TaxonomiesViewModelDelegate {
+class PostingDetailsViewController : BaseViewController {
     
     fileprivate static let titleHeight: CGFloat = 60
     fileprivate static let skipButtonMinimumWidth: CGFloat = 100
@@ -38,7 +38,7 @@ class PostingDetailsViewController : BaseViewController, TaxonomiesViewModelDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.delegate = self
+       // navigationController?.delegate = self
         navigationController?.setNavigationBarHidden(false, animated: false)
 
         setupConstraints()
@@ -72,10 +72,20 @@ class PostingDetailsViewController : BaseViewController, TaxonomiesViewModelDele
     }
     
     private func setupNavigationBar() {
-        setNavBarBackgroundStyle(.transparent(substyle: .dark))
-        let closeButton = UIBarButtonItem(image: UIImage(named: "ic_post_close") , style: UIBarButtonItemStyle.plain,
-                                          target: self, action: #selector(PostingDetailsViewController.closeButtonPressed))
-        self.navigationItem.leftBarButtonItem = closeButton
+        guard let navigationController = navigationController as? SellNavigationController else { return }
+        let currentStep = navigationController.currentStep.value
+        if currentStep == 1 {
+            setNavBarBackgroundStyle(.transparent(substyle: .dark))
+            let closeButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_post_close") , style: UIBarButtonItemStyle.plain,
+                                              target: self, action: #selector(PostingDetailsViewController.closeButtonPressed))
+            self.navigationItem.leftBarButtonItem = closeButton
+        } else {
+            setNavBarBackgroundStyle(.transparent(substyle: .dark))
+            let closeButton = UIBarButtonItem(image: #imageLiteral(resourceName: "navbar_back_white_shadow") , style: UIBarButtonItemStyle.plain,
+                                              target: self, action: #selector(PostingDetailsViewController.popBackViewController))
+            self.navigationItem.leftBarButtonItem = closeButton
+        }
+        
     }
     
     private func setupConstraints() {
@@ -89,7 +99,7 @@ class PostingDetailsViewController : BaseViewController, TaxonomiesViewModelDele
         
         view.addSubview(contentView)
         contentView.layout(with: titleLabel).below(by: Metrics.bigMargin)
-        contentView.layout(with: view).fillHorizontal(by: Metrics.bigMargin)
+        contentView.layout(with: view).fillHorizontal(by: Metrics.veryShortMargin)
         
         
         let tableView = viewModel.makeContentView
@@ -119,14 +129,18 @@ class PostingDetailsViewController : BaseViewController, TaxonomiesViewModelDele
 extension PostingDetailsViewController: UINavigationControllerDelegate {
     
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return CustomAnimator()
+        if operation == .push {
+           return AlphaPushAnimator()
+        } else {
+            return AlphaPopAnimator()
+        }
     }
 }
 
-class CustomAnimator: NSObject, UIViewControllerAnimatedTransitioning {
+class AlphaPushAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return 0.5
+        return 1.0
     }
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
@@ -157,3 +171,41 @@ class CustomAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         })
     }
 }
+
+class AlphaPopAnimator: NSObject, UIViewControllerAnimatedTransitioning {
+    
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
+        return 1.0
+    }
+    
+    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+        guard let fromViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from)
+            else {
+                return }
+        guard let toViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)
+            else {
+                return }
+        let containerView = transitionContext.containerView
+        
+        containerView.addSubview(toViewController.view)
+        containerView.addSubview(fromViewController.view)
+        
+        let finalFrame = transitionContext.finalFrame(for: toViewController)
+        
+        fromViewController.view.alpha = 1.0
+        toViewController.view.alpha = 0.0
+        toViewController.view.frame = CGRect(x: -finalFrame.width*2, y: 0, width: finalFrame.width, height: finalFrame.height)
+        
+        UIView.animate(withDuration: 0.5, animations: {
+            fromViewController.view.alpha = 0.0
+            toViewController.view.alpha = 1.0
+            fromViewController.view.frame = CGRect(x: fromViewController.view.frame.width, y: 0, width: fromViewController.view.frame.width, height: fromViewController.view.frame.height)
+            toViewController.view.frame = finalFrame
+        }, completion: { finished in
+            let cancelled = transitionContext.transitionWasCancelled
+            fromViewController.view.alpha = 1.0
+            transitionContext.completeTransition(!cancelled)
+        })
+    }
+}
+

@@ -18,7 +18,7 @@ final class SellCoordinator: Coordinator {
     var child: Coordinator?
     weak var coordinatorDelegate: CoordinatorDelegate?
     var viewController: UIViewController
-    let navigationController: SellNavigationController
+    var navigationController: SellNavigationController
     weak var presentedAlertController: UIAlertController?
     let bubbleNotificationManager: BubbleNotificationManager
     let sessionManager: SessionManager
@@ -231,7 +231,9 @@ extension SellCoordinator: ListingPostedNavigator {
                                                           forcedInitialTab: nil)
             strongSelf.viewController = postListingVC
             postListingVM.navigator = self
-
+            strongSelf.navigationController = SellNavigationController(rootViewController: postListingVC)
+            strongSelf.navigationController.modalPresentationStyle = .overCurrentContext
+            strongSelf.viewController = strongSelf.navigationController
             strongSelf.presentViewController(parent: parentVC, animated: true, completion: nil)
         }
     }

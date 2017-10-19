@@ -20,6 +20,7 @@ final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewD
     
     private var contentCell: [String]
     private let tableView = UITableView()
+    private var selectedValue: IndexPath?
     weak var delegate: PostingAddDetailTableViewDelegate?
     
     
@@ -100,6 +101,11 @@ final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath) {
+            if let selectedValue = selectedValue, let cellAlreadySelected = tableView.cellForRow(at: selectedValue) {
+                cellAlreadySelected.accessoryType = .none
+                cellAlreadySelected.accessoryView = nil
+                cellAlreadySelected.textLabel?.textColor = UIColor.grayLight
+            }
             
             let image = #imageLiteral(resourceName: "ic_checkmark").withRenderingMode(.alwaysTemplate)
             let checkmark  = UIImageView(frame:CGRect(x:0, y:0, width:17, height:12))
@@ -107,11 +113,9 @@ final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewD
             checkmark.tintColor = UIColor.white
             cell.accessoryView = checkmark
             
-            
             cell.accessoryType = .checkmark
             cell.textLabel?.textColor = UIColor.white
-            cell.textLabel?.font = UIFont.selectableItem
-            
+            selectedValue = indexPath
             delegate?.indexSelected(index: indexPath.row)
             
         }
