@@ -19,60 +19,20 @@ class ListingDetailOnboardingViewModel : BaseViewModel {
     var keyValueStorage: KeyValueStorageable
     weak var delegate: ListingDetailOnboardingViewDelegate?
 
-    var firstImage: UIImage? {
-        if featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive {
-            return UIImage(named: "right_tap_squared")
-        }
-        return UIImage(named: "finger_tap")
-    }
-    var firstText: NSAttributedString {
-        if featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive {
-            let highlightedTextTapRight = LGLocalizedString.productNewOnboardingTapRightHighlightedLabel
-            let highlightedTextTapMiddle = LGLocalizedString.productNewOnboardingTapRightHighlightedLabel2
-            return tipText(textToHighlight: highlightedTextTapRight,
-                           textToHighlight2: highlightedTextTapMiddle,
-                           fullText: LGLocalizedString.productNewOnboardingTapRightLabel(highlightedTextTapRight, highlightedTextTapMiddle))
-        }
-        return tipText(textToHighlight: nil,
-                       textToHighlight2: nil,
-                       fullText: LGLocalizedString.productOnboardingFingerTapLabel)
-    }
+    var firstImage: UIImage?  = #imageLiteral(resourceName: "finger_tap")
+    var firstText = ListingDetailOnboardingViewModel.tipText(textToHighlight: nil,
+                                                                                 textToHighlight2: nil,
+                                                                                 fullText: LGLocalizedString.productOnboardingFingerTapLabel)
+    var secondImage: UIImage? = #imageLiteral(resourceName: "finger_swipe")
 
-    var secondImage: UIImage? {
-        if featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive {
-            return UIImage(named: "left_tap_squared")
-        }
-        return UIImage(named: "finger_swipe")
-    }
-    var secondText: NSAttributedString {
-        if featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive {
-            let highlightedText = LGLocalizedString.productNewOnboardingTapLeftLabelHighlighted
-            return tipText(textToHighlight: highlightedText,
-                           textToHighlight2: nil,
-                           fullText: LGLocalizedString.productNewOnboardingTapLeftLabel(highlightedText))
-        }
-        return tipText(textToHighlight: nil,
-                       textToHighlight2: nil,
-                       fullText: LGLocalizedString.productOnboardingFingerSwipeLabel)
-    }
+    var secondText = ListingDetailOnboardingViewModel.tipText(textToHighlight: nil,
+                                                              textToHighlight2: nil,
+                                                              fullText: LGLocalizedString.productOnboardingFingerSwipeLabel)
+    var thirdImage: UIImage? = #imageLiteral(resourceName: "finger_scroll")
 
-    var thirdImage: UIImage? {
-        if featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive {
-            return UIImage(named: "finger_swipe_card")
-        }
-        return UIImage(named: "finger_scroll")
-    }
-    var thirdText: NSAttributedString {
-        if featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive {
-            let highlightedText = LGLocalizedString.productNewOnboardingFingerSwipeNextProductHighlightedLabel
-            return tipText(textToHighlight: highlightedText,
-                           textToHighlight2: nil,
-                           fullText: LGLocalizedString.productNewOnboardingFingerSwipeNextProductLabel(highlightedText))
-        }
-        return tipText(textToHighlight: nil,
+    var thirdText = ListingDetailOnboardingViewModel.tipText(textToHighlight: nil,
                        textToHighlight2: nil,
                        fullText: LGLocalizedString.productOnboardingFingerScrollLabel)
-    }
 
     convenience override init() {
         self.init(featureFlags: FeatureFlags.sharedInstance, keyValueStorage: KeyValueStorage.sharedInstance)
@@ -90,11 +50,7 @@ class ListingDetailOnboardingViewModel : BaseViewModel {
     }
 
     func hasBeenShown() {
-        if featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive {
-            keyValueStorage[.didShowHorizontalListingDetailOnboarding] = true
-        } else {
-            keyValueStorage[.didShowListingDetailOnboarding] = true
-        }
+        keyValueStorage[.didShowListingDetailOnboarding] = true
         delegate?.listingDetailOnboardingDidAppear()
     }
 
@@ -102,7 +58,7 @@ class ListingDetailOnboardingViewModel : BaseViewModel {
         delegate?.listingDetailOnboardingDidDisappear()
     }
 
-    private func tipText(textToHighlight: String?, textToHighlight2: String?, fullText: String) -> NSAttributedString {
+    private static func tipText(textToHighlight: String?, textToHighlight2: String?, fullText: String) -> NSAttributedString {
 
         var regularTextAttributes = [String : AnyObject]()
         regularTextAttributes[NSForegroundColorAttributeName] = UIColor.white

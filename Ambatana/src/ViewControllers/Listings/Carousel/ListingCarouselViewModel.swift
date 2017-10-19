@@ -98,22 +98,9 @@ class ListingCarouselViewModel: BaseViewModel {
     fileprivate let nextImagesToPrefetch = 3
     fileprivate var prefetchingIndexes: [Int] = []
 
-    fileprivate var shouldShowOnboarding: Bool {
-        let shouldShowOldOnboarding = !featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive
-            && !keyValueStorage[.didShowListingDetailOnboarding]
-        let shouldShowNewOnboarding = featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive
-            && !keyValueStorage[.didShowHorizontalListingDetailOnboarding]
-        return shouldShowOldOnboarding || shouldShowNewOnboarding
-    }
+    fileprivate var shouldShowOnboarding: Bool { return !keyValueStorage[.didShowListingDetailOnboarding] }
 
-    var imageScrollDirection: UICollectionViewScrollDirection {
-        if featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive {
-            return .horizontal
-        }
-        return .vertical
-    }
-
-    let imageHorizontalNavigationEnabled = Variable<Bool>(false)
+    var imageScrollDirection: UICollectionViewScrollDirection = .vertical
 
     var isMyListing: Bool {
         return currentListingViewModel?.isMine ?? false
@@ -376,8 +363,6 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     private func setupRxBindings() {
-        imageHorizontalNavigationEnabled.value = imageScrollDirection == .horizontal
-        
         quickAnswersCollapsed.asObservable().skip(1).bindNext { [weak self] collapsed in
             self?.keyValueStorage[.listingDetailQuickAnswersHidden] = collapsed
         }.addDisposableTo(disposeBag)
