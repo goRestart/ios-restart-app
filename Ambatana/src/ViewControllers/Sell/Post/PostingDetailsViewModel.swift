@@ -16,6 +16,15 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         return step.title
     }
     
+    var buttonTitle: String {
+        switch step {
+        case .bathrooms, .bedrooms, .offerType, .price, .propertyType:
+            return LGLocalizedString.postingButtonSkip
+        default:
+            return LGLocalizedString.productPostDone
+        }
+    }
+    
     var makeContentView: UIView {
         var values: [String]
         switch step {
