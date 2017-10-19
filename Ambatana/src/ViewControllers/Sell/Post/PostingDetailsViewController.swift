@@ -38,7 +38,6 @@ class PostingDetailsViewController : BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       // navigationController?.delegate = self
         navigationController?.setNavigationBarHidden(false, animated: false)
 
         setupConstraints()
@@ -126,16 +125,6 @@ class PostingDetailsViewController : BaseViewController {
     }
 }
 
-extension PostingDetailsViewController: UINavigationControllerDelegate {
-    
-    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        if operation == .push {
-           return AlphaPushAnimator()
-        } else {
-            return AlphaPopAnimator()
-        }
-    }
-}
 
 class AlphaPushAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     

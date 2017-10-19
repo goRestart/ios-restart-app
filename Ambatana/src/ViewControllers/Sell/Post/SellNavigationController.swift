@@ -45,7 +45,8 @@ class SellNavigationController: UINavigationController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.isNavigationBarHidden = true
+        delegate = self
+        isNavigationBarHidden = true
         setupRx()
         setupUI()
     }
@@ -112,6 +113,17 @@ class SellNavigationController: UINavigationController {
         backgroundProgressView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: SellNavigationController.progressViewHeight)
         view.addSubview(backgroundProgressView)
         view.sendSubview(toBack: backgroundProgressView)
+    }
+}
+
+extension SellNavigationController: UINavigationControllerDelegate {
+    
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        if operation == .push {
+            return AlphaPushAnimator()
+        } else {
+            return AlphaPopAnimator()
+        }
     }
 }
 
