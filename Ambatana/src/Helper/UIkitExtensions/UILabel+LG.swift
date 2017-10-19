@@ -45,17 +45,16 @@ extension UILabel {
         guard let data = modifiedFont.data(using: .utf8, allowLossyConversion: true) else { return }
         let options: [String: Any] = [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
                                       NSCharacterEncodingDocumentAttribute: String.Encoding.utf8.rawValue]
-        DispatchQueue.main.async {
-            if let attrStr = try? NSAttributedString(data: data, options: options, documentAttributes: nil) {
-                self.attributedText = attrStr
-            } else {
-                // if it fails we keep going 💪🏼
-                self.text = htmlText.ignoreHTMLTags
+        if let attrStr = try? NSAttributedString(data: data, options: options, documentAttributes: nil) {
+            self.attributedText = attrStr
+        } else {
+            // if it fails we keep going 💪🏼
+            self.text = htmlText.ignoreHTMLTags
 
-                let message = "Unable to set HTML with AttributedString \(htmlText)"
-                logMessage(.error, type: .uikit, message: message)
-                report(AppReport.navigation(error: .childCoordinatorPresent), message: message)
-            }
+            let message = "Unable to set HTML with AttributedString \(htmlText)"
+            logMessage(.error, type: .uikit, message: message)
+            report(AppReport.uikit(error: .unableToConvertHTMLToString), message: message)
         }
+
     }
 }
