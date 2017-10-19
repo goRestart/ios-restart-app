@@ -32,8 +32,18 @@ extension ListingViewModel {
         trackHelper.trackVisit(visitUserAction, source: source, feedPosition: feedPosition, isShowingFeaturedStripe: isBumpedUp)
     }
 
-    func trackVisitMoreInfo() {
-        trackHelper.trackVisitMoreInfo()
+    func trackVisitMoreInfo(isMine: EventParameterBoolean,
+                            adShown: EventParameterBoolean,
+                            queryType: EventParameterAdQueryType?,
+                            query: String?,
+                            visibility: EventParameterAdVisibility?,
+                            errorReason: EventParameterAdSenseRequestErrorReason?) {
+        trackHelper.trackVisitMoreInfo(isMine: isMine,
+                                       adShown: adShown,
+                                       queryType: queryType,
+                                       query: query,
+                                       visibility: visibility,
+                                       errorReason: errorReason)
     }
 
 
@@ -174,8 +184,20 @@ extension ProductVMTrackHelper {
         tracker.trackEvent(trackerEvent)
     }
 
-    func trackVisitMoreInfo() {
-        let trackerEvent = TrackerEvent.listingDetailVisitMoreInfo(listing)
+    func trackVisitMoreInfo(isMine: EventParameterBoolean,
+                            adShown: EventParameterBoolean,
+                            queryType: EventParameterAdQueryType?,
+                            query: String?,
+                            visibility: EventParameterAdVisibility?,
+                            errorReason: EventParameterAdSenseRequestErrorReason?) {
+
+        let trackerEvent = TrackerEvent.listingDetailVisitMoreInfo(listing,
+                                                                   isMine: isMine,
+                                                                   adShown: adShown,
+                                                                   queryType: queryType,
+                                                                   query: query,
+                                                                   visibility: visibility,
+                                                                   errorReason: errorReason)
         tracker.trackEvent(trackerEvent)
     }
 

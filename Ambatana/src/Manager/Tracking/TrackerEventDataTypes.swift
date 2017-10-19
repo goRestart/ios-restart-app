@@ -313,12 +313,29 @@ enum EventParameterName: String {
     case superKeywordsIds     = "superkeyword-ids"
     case keywordName          = "keyword-name"
     case relatedSource        = "related-source"
+    case adShown              = "ad-shown"
+    case adQueryType          = "query-type"
+    case adQuery              = "query"
+    case adVisibility         = "visibility"
+    case adActionLeftApp      = "left-application"
 }
 
 enum EventParameterBoolean: String {
     case trueParameter = "true"
     case falseParameter = "false"
     case notAvailable = "N/A"
+
+    init(bool: Bool?) {
+        guard let bool = bool else {
+            self = .notAvailable
+            return
+        }
+        if bool {
+            self = .trueParameter
+        } else {
+            self = .falseParameter
+        }
+    }
 }
 
 enum EventParameterLoginSourceValue: String {
@@ -905,6 +922,50 @@ enum EventParamenterLocationTypePage: String {
     case profile    = "profile"
     case feedBubble = "feed-bubble"
     case automatic  = "automatic"
+}
+
+enum EventParameterAdQueryType: String {
+    case title = "title"
+    case cloudsight = "cloudsight"
+    case category = "category"
+    case hardcoded = "hardcoded"
+}
+
+enum EventParameterAdVisibility: String {
+    case full = "full"
+    case partial = "partial"
+    case none = "none"
+
+    init(bannerTopPosition: CGFloat, bannerBottomPosition: CGFloat) {
+        let height = UIScreen.main.bounds.height
+        if bannerBottomPosition <= height {
+            self = .full
+        } else if bannerTopPosition >= height {
+            self = .none
+        } else {
+            self = .partial
+        }
+    }
+}
+
+enum EventParameterAdSenseRequestErrorReason: String {
+    case invalidRequest = "invalid-request"
+    case noAdsToShow = "no-fill"
+    case networkError = "network"
+    case internalError = "internal"
+
+    init(errorCode: Int) {
+        switch errorCode {
+        case 0:
+            self = .invalidRequest
+        case 1:
+            self = .noAdsToShow
+        case 2:
+            self = .networkError
+        default:
+            self = .internalError
+        }
+    }
 }
 
 struct EventParameters {

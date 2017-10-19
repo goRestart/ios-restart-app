@@ -114,8 +114,12 @@ class ListingCarouselMoreInfoView: UIView {
 
     func viewWillShow() {
         setupMapViewIfNeeded()
-        if let adRequestType = viewModel?.adRequestType, let adActive = viewModel?.adActive, adActive {
-            loadAdsRequest(adRequestType: adRequestType)
+        if let adActive = viewModel?.adActive, adActive {
+            if let bannerTrackingStatus = viewModel?.bannerTrackingStatus {
+                viewModel?.adAlreadyRequestedWithStatus(bannerTrackingStatus: bannerTrackingStatus)
+            } else {
+                loadAdsRequest(adRequestType: .listingTitle)
+            }
         }
     }
 
@@ -496,6 +500,11 @@ extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate 
             bannerContainerViewRightConstraint.constant = sideMargin
         }
         setNeedsLayout()
+        if size.size.height > 0 {
+            let bannerTop = bannerContainerView.frame.origin.y
+            let bannerBottom = bannerContainerView.frame.origin.y + size.size.height
+            viewModel?.didReceiveAd(bannerTopPosition: bannerTop, bannerBottomPosition: bannerBottom)
+        }
     }
 
     func adViewDidReceiveAd(_ bannerView: GADBannerView) {
@@ -508,8 +517,10 @@ extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate 
         bannerContainerViewLeftConstraint.constant = 0
         bannerContainerViewRightConstraint.constant = 0
         setNeedsLayout()
-        if let adRequestType = viewModel?.adRequestType {
+        if let adRequestType = viewModel?.nextAdRequestType {
             loadAdsRequest(adRequestType: adRequestType)
+        } else {
+            viewModel?.didFailToReceiveAd(withErrorCode: error.code)
         }
     }
 

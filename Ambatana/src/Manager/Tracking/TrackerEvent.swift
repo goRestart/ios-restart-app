@@ -338,9 +338,22 @@ struct TrackerEvent {
         return TrackerEvent(name: .listingNotAvailable, params: params)
     }
 
-    static func listingDetailVisitMoreInfo(_ listing: Listing) -> TrackerEvent {
+    static func listingDetailVisitMoreInfo(_ listing: Listing,
+                                           isMine: EventParameterBoolean,
+                                           adShown: EventParameterBoolean,
+                                           queryType: EventParameterAdQueryType?,
+                                           query: String?,
+                                           visibility: EventParameterAdVisibility?,
+                                           errorReason: EventParameterAdSenseRequestErrorReason?) -> TrackerEvent {
         var params = EventParameters()
         params.addListingParams(listing)
+
+        params[.adShown] = adShown.rawValue
+        params[.adQueryType] = queryType?.rawValue ?? TrackerEvent.notApply
+        params[.adQuery] = query ?? TrackerEvent.notApply
+        params[.adVisibility] = visibility?.rawValue ?? TrackerEvent.notApply
+        params[.reason] = errorReason?.rawValue ?? TrackerEvent.notApply
+
         return TrackerEvent(name: .listingDetailVisitMoreInfo, params: params)
     }
 
