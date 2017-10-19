@@ -10,8 +10,13 @@ import Foundation
 import LGCoreKit
 import Result
 
-typealias ChatWrapperResult = Result<Bool, RepositoryError>
+typealias ChatWrapperResult = Result<ChatWrapperResultSuccess, RepositoryError>
 typealias ChatWrapperCompletion = (ChatWrapperResult) -> Void
+
+struct ChatWrapperResultSuccess {
+    let shouldSendFirstMessageEvent: Bool
+    let conversationId: String?
+}
 
 enum ChatWrapperMessageType {
     case text(String)
@@ -72,7 +77,7 @@ class LGChatWrapper: ChatWrapper {
         oldChatRepository.sendMessage(type, message: text, listingId: listingId, recipientId: sellerId) { result in
             if let _ = result.value {
                 // Value is true as we can't know (old chat)  if it is first contact or not. (always track)
-                completion?(Result(value: true))
+                completion?(Result(value: ChatWrapperResultSuccess(shouldSendFirstMessageEvent: true, conversationId: nil)))
             } else if let error = result.error {
                 completion?(Result(error: error))
             }
@@ -102,7 +107,8 @@ class LGChatWrapper: ChatWrapper {
                 let shouldSendFirstMessageEvent = value.lastMessageSentAt == nil
                 self?.chatRepository.sendMessage(conversationId, messageId: messageId, type: type, text: text) { result in
                     if let _ = result.value {
-                        completion?(Result(value: shouldSendFirstMessageEvent))
+                        completion?(Result(value: ChatWrapperResultSuccess(shouldSendFirstMessageEvent: shouldSendFirstMessageEvent,
+                                                                           conversationId: conversationId)))
                     } else if let error = result.error {
                         completion?(Result(error: error))
                     }

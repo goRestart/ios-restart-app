@@ -17,6 +17,8 @@ protocol ListingCarouselViewModelDelegate: BaseViewModelDelegate {
     func vmShowCarouselOptions(_ cancelLabel: String, actions: [UIAction])
     func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?)
     func vmResetBumpUpBannerCountdown()
+    
+    func vmShouldRefreshDirectChatTableView()
 }
 
 enum CarouselMovement {
@@ -416,18 +418,7 @@ class ListingCarouselViewModel: BaseViewModel {
         currentVM.directChatEnabled.asObservable().bindTo(directChatEnabled).addDisposableTo(activeDisposeBag)
         directChatMessages.removeAll()
         currentVM.directChatMessages.changesObservable.subscribeNext { [weak self] change in
-            switch change {
-            case let .insert(index, value):
-                self?.directChatMessages.insert(value, atIndex: index)
-            case let .remove(index, _):
-                self?.directChatMessages.removeAtIndex(index)
-            case let .swap(fromIndex, toIndex, replacingWith):
-                self?.directChatMessages.swap(fromIndex: fromIndex, toIndex: toIndex, replacingWith: replacingWith)
-            case let .move(fromIndex, toIndex, replacingWith):
-                self?.directChatMessages.move(fromIndex: fromIndex, toIndex: toIndex, replacingWith: replacingWith)
-            case .composite:
-                break
-            }
+            self?.performCollectionChange(change: change)
         }.addDisposableTo(activeDisposeBag)
         directChatPlaceholder.value = currentVM.directChatPlaceholder
 
@@ -440,6 +431,24 @@ class ListingCarouselViewModel: BaseViewModel {
         socialSharer.value = currentVM.socialSharer
 
         moreInfoState.asObservable().bindTo(currentVM.moreInfoState).addDisposableTo(activeDisposeBag)
+    }
+    
+    private func performCollectionChange(change: CollectionChange<ChatViewMessage>) {
+        switch change {
+        case let .insert(index, value):
+            directChatMessages.insert(value, atIndex: index)
+        case let .remove(index, _):
+            directChatMessages.removeAtIndex(index)
+        case let .swap(fromIndex, toIndex, replacingWith):
+            directChatMessages.swap(fromIndex: fromIndex, toIndex: toIndex, replacingWith: replacingWith)
+        case let .move(fromIndex, toIndex, replacingWith):
+            directChatMessages.move(fromIndex: fromIndex, toIndex: toIndex, replacingWith: replacingWith)
+        case let .composite(changes):
+            for change in changes {
+                performCollectionChange(change: change)
+            }            
+            delegate?.vmShouldRefreshDirectChatTableView()
+        }
     }
 }
 

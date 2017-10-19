@@ -702,7 +702,18 @@ extension ListingCarouselViewController {
             }.addDisposableTo(disposeBag)
 
         viewModel.directChatMessages.changesObservable.bindNext { [weak self] change in
-            self?.directChatTable.handleCollectionChange(change, animation: .top)
+            guard let strongSelf = self else { return }
+            switch change {
+            case .insert(_, let message):
+                // if the message is already in the table we don't perform animations
+                if strongSelf.viewModel.directChatMessages.value.filter({ $0.objectId == message.objectId }).count >= 1 {
+                    strongSelf.directChatTable.handleCollectionChange(change, animation: .none)
+                } else {
+                    strongSelf.directChatTable.handleCollectionChange(change, animation: .top)
+                }
+            default:
+                strongSelf.directChatTable.handleCollectionChange(change, animation: .none)
+            }
             }.addDisposableTo(disposeBag)
 
         chatTextView.rx.send.bindNext { [weak self] textToSend in
@@ -1279,6 +1290,13 @@ extension ListingCarouselViewController: ListingCarouselViewModelDelegate {
     func vmResetBumpUpBannerCountdown() {
         bumpUpBanner.resetCountdown()
     }
+    
+    func vmShouldRefreshDirectChatTableView() {
+        delay(1) { [weak self] in
+            self?.directChatTable.reloadData()
+        }
+    }
+    
 
     // Loadings and alerts overrides to remove keyboard before showing
 

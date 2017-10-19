@@ -44,23 +44,23 @@ class BaseChatCellDrawer<T: UITableViewCell>: BaseTableCellDrawer<T>, ChatCellDr
 
     private func checkAutoHide(_ cell: T, message: ChatViewMessage) {
        
-        guard let timeInterval = message.sentAt?.timeIntervalSinceNow, autoHide  else { return }
-        let diffTime = autoHideTime + timeInterval
-        guard 0.0..<autoHideTime ~= diffTime else {
-            cell.contentView.alpha = 0
-            cell.contentView.isHidden = true
-            return
-        }
-        cell.contentView.isHidden = false
-        cell.contentView.alpha = 1
-        
-        // keep a message hash on content view to be sure that completions happens on the correct cell.
-        let messageTag = (message.sentAt as NSDate?)?.hash ?? 0
-        cell.contentView.tag = messageTag
-        UIView.animate(withDuration: autoHideFadeTime, delay: diffTime, options: .curveEaseIn,
-                                   animations: { cell.contentView.alpha = 0 }, completion: { _ in
-                                    guard cell.contentView.tag == messageTag else { return }
-                                    cell.contentView.isHidden = true
-        })
+//        guard let timeInterval = message.sentAt?.timeIntervalSinceNow, autoHide  else { return }
+//        let diffTime = autoHideTime + timeInterval
+//        guard 0.0..<autoHideTime ~= diffTime else {
+//            cell.contentView.alpha = 0
+//            cell.contentView.isHidden = true
+//            return
+//        }
+//        cell.contentView.isHidden = false
+//        cell.contentView.alpha = 1
+//        
+//        // keep a message hash on content view to be sure that completions happens on the correct cell.
+//        let messageTag = (message.sentAt as NSDate?)?.hash ?? 0
+//        cell.contentView.tag = messageTag
+//        UIView.animate(withDuration: autoHideFadeTime, delay: diffTime, options: .curveEaseIn,
+//                                   animations: { cell.contentView.alpha = 0 }, completion: { _ in
+//                                    guard cell.contentView.tag == messageTag else { return }
+//                                    cell.contentView.isHidden = true
+//        })
     }
 }
