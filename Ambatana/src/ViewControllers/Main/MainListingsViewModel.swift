@@ -105,6 +105,10 @@ class MainListingsViewModel: BaseViewModel {
                 resultTags.append(.taxonomyChild(taxonomyChild))
             }
         }
+        
+        if let taxonomyChild = filters.selectedTaxonomyChildren.last {
+            resultTags.append(.taxonomyChild(taxonomyChild))
+        }
 
         if filters.selectedWithin != ListingTimeCriteria.defaultOption {
             resultTags.append(.within(filters.selectedWithin))

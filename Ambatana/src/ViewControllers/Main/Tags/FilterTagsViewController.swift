@@ -48,7 +48,6 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
         
         collectionView.layout(with: self).fillHorizontal().top()
         collectionView.layout().height(40)
-        //collectionView.layout(with: self).bottom(priority: UILayoutPriorityDefaultLow)
         
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -89,8 +88,6 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
         
         secondaryCollectionView.layout(with: self).fillHorizontal().bottom()
         secondaryCollectionView.layout().height(40)
-        //secondaryCollectionView.layout(with: collectionView).top()
-        //collectionView.layout(with: secondaryCollectionView).bottom().proportionalHeight()
         
         secondaryCollectionView.backgroundColor = .green
     }
