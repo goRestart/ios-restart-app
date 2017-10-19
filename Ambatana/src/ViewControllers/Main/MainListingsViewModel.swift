@@ -71,7 +71,7 @@ class MainListingsViewModel: BaseViewModel {
     }
 
     var isSuperKeywordGroupsAndSubgroupsInFeedEnabled: Bool {
-        return featureFlags.superKeywordGroupsAndSubgroupsInFeed.isActive
+        return featureFlags.superKeywordGroupsAndSubgroupsInFeed.isActive && !isAddSuperKeywordsEnabled
     }
     
     var defaultBubbleText: String {
@@ -145,7 +145,7 @@ class MainListingsViewModel: BaseViewModel {
         var resultTags: [FilterTag] = []
         
         if isSuperKeywordGroupsAndSubgroupsInFeedEnabled {
-            if let taxonomyChildren = filters.selectedTaxonomy?.children {
+            if let taxonomyChildren = filters.selectedTaxonomy?.children, filters.selectedSecondaryTaxonomyChild.isEmpty() {
                 for secondaryTaxonomyChild in taxonomyChildren {
                     resultTags.append(.secondaryTaxonomyChild(secondaryTaxonomyChild))
                 }
@@ -583,11 +583,7 @@ class MainListingsViewModel: BaseViewModel {
     
     var categoryHeaderElements: [CategoryHeaderElement] {
         var categoryHeaderElements: [CategoryHeaderElement] = []
-        if isAddSuperKeywordsEnabled {
-            taxonomyChildren.forEach {
-                categoryHeaderElements.append(CategoryHeaderElement.superKeyword($0))
-            }
-        } else if isSuperKeywordGroupsAndSubgroupsInFeedEnabled {
+        if isSuperKeywordGroupsAndSubgroupsInFeedEnabled {
             taxonomies.forEach {
                 categoryHeaderElements.append(CategoryHeaderElement.superKeywordGroup($0))
             }

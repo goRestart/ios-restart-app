@@ -182,6 +182,10 @@ class FiltersViewModel: BaseViewModel {
         return featureFlags.addSuperKeywordsOnFeed.isActive
     }
     
+    var isSuperKeywordGroupsAndSubgroupsInFeedEnabled: Bool {
+        return featureFlags.superKeywordGroupsAndSubgroupsInFeed.isActive
+    }
+    
     var currentTaxonomyChildSelected: TaxonomyChild? {
         return productFilter.selectedTaxonomyChildren.last
     }

@@ -299,9 +299,11 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     
     // MARK: - FilterTagsViewDelegate
     
-    func filterTagsViewDidRemoveTag(_ controller: FilterTagsView) {
-        viewModel.updateFiltersFromTags(controller.tags)
-        if controller.tags.isEmpty {
+    func filterTagsViewDidRemoveTag(_ tag: FilterTag, remainingTags: [FilterTag]) {
+        viewModel.updateFiltersFromTags(remainingTags)
+        if tag.isSecondaryTaxonomyChild {
+            loadTagsViewWithTags(primaryTags: remainingTags, secondaryTags: viewModel.secondaryTags)
+        } else if remainingTags.isEmpty {
             loadTagsViewWithTags(primaryTags: [], secondaryTags: [])
         }
     }

@@ -24,6 +24,17 @@ enum FilterTag: Equatable {
     case yearsRange(from: Int?, to: Int?)
 }
 
+extension FilterTag {
+    var isSecondaryTaxonomyChild: Bool {
+        switch self {
+        case .location, .within, .orderBy, .category, .taxonomyChild, .taxonomy, .priceRange, .freeStuff, .distance, .make, .model, .yearsRange:
+            return false
+        case .secondaryTaxonomyChild:
+            return true
+        }
+    }
+}
+
 func ==(a: FilterTag, b: FilterTag) -> Bool {
     switch (a, b) {
     case (.location, .location): return true

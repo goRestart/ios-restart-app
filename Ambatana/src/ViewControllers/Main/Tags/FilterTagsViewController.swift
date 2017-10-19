@@ -7,11 +7,13 @@
 //
 
 protocol FilterTagsViewDelegate : class {
-    func filterTagsViewDidRemoveTag(_ controller: FilterTagsView)
+    func filterTagsViewDidRemoveTag(_ tag: FilterTag, remainingTags: [FilterTag])
     func filterTagsViewDidSelectTag(_ tag: FilterTag)
 }
 
 class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSource, FilterTagCellDelegate {
+    
+    private static var collectionContentInset = UIEdgeInsets(top: 2, left: 10, bottom: 2, right: 5)
     
     var collectionView: UICollectionView!
     var secondaryCollectionView: UICollectionView?
@@ -35,10 +37,13 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
     private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
         
-        collectionView = UICollectionView(frame: frame, collectionViewLayout: UICollectionViewFlowLayout())
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.sectionInset = FilterTagsView.collectionContentInset
+        collectionView = UICollectionView(frame: frame, collectionViewLayout: flowLayout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
+        //collectionView.collec.contentInset = FilterTagsView.collectionContentInset
         addSubview(collectionView)
         
         collectionView.layout(with: self).fillHorizontal().top()
@@ -64,11 +69,14 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
         }
         
         //guard secondaryCollectionView == nil, secondaryCollectionView?.superview == nil else { return }
-        secondaryCollectionView = UICollectionView(frame: frame, collectionViewLayout: UICollectionViewFlowLayout())
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.sectionInset = FilterTagsView.collectionContentInset
+        secondaryCollectionView = UICollectionView(frame: frame, collectionViewLayout: flowLayout)
         guard let secondaryCollectionView = secondaryCollectionView else { return }
         secondaryCollectionView.translatesAutoresizingMaskIntoConstraints = false
         secondaryCollectionView.backgroundColor = .clear
         secondaryCollectionView.showsHorizontalScrollIndicator = false
+        //secondaryCollectionView.collectionViewLayout.contentInset = FilterTagsView.collectionContentInset
         addSubview(secondaryCollectionView)
         
         secondaryCollectionView.dataSource = self
@@ -168,7 +176,7 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
             self.collectionView?.deleteItems(at: indexesToDelete)
         }
         
-        delegate?.filterTagsViewDidRemoveTag(self)
+        delegate?.filterTagsViewDidRemoveTag(cellTag, remainingTags: tags)
     }
     
     // MARK: - Private methods
