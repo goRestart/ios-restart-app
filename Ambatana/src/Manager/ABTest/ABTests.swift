@@ -21,10 +21,8 @@ class ABTests {
 
     let websocketChat = BoolABDynamicVar(key: "websocketChat20170609", defaultValue: true)
     let captchaTransparent = BoolABDynamicVar(key: "captchaTransparent", defaultValue: false)
-    let passiveBuyersShowKeyboard = BoolABDynamicVar(key: "passiveBuyersShowKeyboard", defaultValue: false)
     let freeBumpUpEnabled = BoolABDynamicVar(key: "freeBumpUpEnabled", defaultValue: false)
     let pricedBumpUpEnabled = BoolABDynamicVar(key: "pricedBumpUpEnabled", defaultValue: false)
-    let newMarkAsSoldFlow = BoolABDynamicVar(key: "newMarkAsSoldFlow", defaultValue: false)
     let newCarsMultiRequesterEnabled = BoolABDynamicVar(key: "newCarsMultiRequesterEnabled", defaultValue: false)
     let inAppRatingIOS10 = BoolABDynamicVar(key: "20170711inAppRatingIOS10", defaultValue: false)
     let addSuperKeywordsOnFeed = IntABDynamicVar(key: "20170719AddSuperKeywordsOnFeed", defaultValue: 0)
@@ -41,6 +39,8 @@ class ABTests {
     let showPriceAfterSearchOrFilter = IntABDynamicVar(key: "20170928ShowPriceAfterSearchOrFilter", defaultValue: 0)
     let requestsTimeOut = IntABDynamicVar(key: "20170929RequestTimeOut", defaultValue: 30)
     let newBumpUpExplanation = IntABDynamicVar(key: "20171004NewBumpUpExplanation", defaultValue: 0)
+    let homeRelatedEnabled = IntABDynamicVar(key: "20171011HomeRelatedEnabled", defaultValue: 0)
+    let hideChatButtonOnFeaturedCells = IntABDynamicVar(key: "20171011ChatButtonOnFeaturedCells", defaultValue: 0)
     let superKeywordGroupsAndSubgroupsInFeed = IntABDynamicVar(key: "20171009SuperKeywordGroupsAndSubgroupsInFeed", defaultValue: 0)
 
     init() {
@@ -50,17 +50,13 @@ class ABTests {
         var result = [ABVariable]()
 
         result.append(marketingPush)
-        
         result.append(showNPSSurvey)
         result.append(surveyURL)
         result.append(surveyEnabled)
-
         result.append(websocketChat)
-        result.append(passiveBuyersShowKeyboard)
         result.append(captchaTransparent)
         result.append(freeBumpUpEnabled)
         result.append(pricedBumpUpEnabled)
-        result.append(newMarkAsSoldFlow)
         result.append(newCarsMultiRequesterEnabled)
         result.append(inAppRatingIOS10)
         result.append(addSuperKeywordsOnFeed)
@@ -71,13 +67,14 @@ class ABTests {
         result.append(expandableCategorySelectionMenu)
         result.append(locationDataSourceType)
         result.append(defaultRadiusDistanceFeed)
-        
         result.append(searchAutocomplete)
         result.append(newCarouselTapNextPhotoNavigationEnabled)
         result.append(realEstateEnabled)
         result.append(showPriceAfterSearchOrFilter)
         result.append(requestsTimeOut)
         result.append(newBumpUpExplanation)
+        result.append(homeRelatedEnabled)
+        result.append(hideChatButtonOnFeaturedCells)
         result.append(superKeywordGroupsAndSubgroupsInFeed)
         
         return result

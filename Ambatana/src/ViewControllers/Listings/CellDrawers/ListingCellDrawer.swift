@@ -10,6 +10,9 @@ import LGCoreKit
 
 class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDrawer {
     func draw(_ model: ListingData, style: CellStyle, inCell cell: ListingCell) {
+        cell.listing = model.listing
+        cell.delegate = model.delegate
+
         if let id = model.listingId {
             cell.setupBackgroundColor(id: id)
         }
@@ -17,12 +20,10 @@ class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDrawer {
             cell.setupImageUrl(thumbURL)
         }
         if model.isFeatured {
-            cell.setupFeaturedStripe()
-            switch style {
-            case .mainList:
-                cell.setupFeaturedListingInfoWith(price: model.price, title: model.title, isMine: model.isMine,
-                                                listing: model.listing, delegate: model.delegate)
-            case .relatedListings:
+            cell.setupFeaturedStripe(withTextColor: model.featuredShouldShowChatButton ? UIColor.blackText : UIColor.red)
+            if style == .mainList, model.featuredShouldShowChatButton {
+                cell.setupFeaturedListingInfoWith(price: model.price, title: model.title, isMine: model.isMine)
+            } else {
                 cell.updateInfoViewHeightToZero()
             }
         } else if model.shouldShowPrice {
@@ -34,4 +35,11 @@ class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDrawer {
             }
         }
     }
+
+    func willDisplay(_ model: ListingData, inCell cell: ListingCell) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            cell.relatedListingButton.expand()
+        }
+    }
+
 }

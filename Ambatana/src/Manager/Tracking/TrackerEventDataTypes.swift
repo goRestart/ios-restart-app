@@ -149,10 +149,6 @@ enum EventName: String {
     case notificationCenterComplete         = "notification-center-complete"
 
     case marketingPushNotifications         = "marketing-push-notifications"
-    
-    case passiveBuyerStart                  = "passive-buyer-start"
-    case passiveBuyerComplete               = "passive-buyer-complete"
-    case passiveBuyerAbandon                = "passive-buyer-abandon"
 
     case bumpBannerShow                     = "bump-banner-show"
     case bumpUpStart                        = "bump-up-start"
@@ -313,6 +309,8 @@ enum EventParameterName: String {
     case superKeywordsIds     = "superkeyword-ids"
     case keywordName          = "keyword-name"
     case relatedSource        = "related-source"
+    case numberOfItems        = "number-of-items"
+    case transactionStatus    = "transaction-status"
 }
 
 enum EventParameterBoolean: String {
@@ -711,6 +709,8 @@ enum EventParameterListingVisitSource: String {
     case openApp = "open-app"
     case notifications = "notifications"
     case relatedListings = "related-items-list"
+    case next = "next-related-items-list"
+    case previous = "previous-related-items-list"
     case unknown = "N/A"
 }
 
@@ -804,7 +804,7 @@ enum EventParameterRelatedShownReason: String {
             self = .unanswered48h
         case .listingDeleted:
             self = .listingDeleted
-        case .listingSold:
+        case .listingSold, .listingGivenAway:
             self = .listingSold
         case .userPendingDelete, .userDeleted:
             self = .userDeleted
@@ -848,6 +848,20 @@ enum EventParameterBumpUpType: String {
             self = .retry
         }
     }
+}
+
+enum EventParameterTransactionStatus: String {
+    case purchasingPurchased = "purchasing-purchased"
+    case purchasingDeferred = "purchasing-deferred"
+    case purchasingRestored = "purchasing-restored"
+    case purchasingFailed = "purchasing-failed"
+    case purchasingUnknown = "purchasing-unknown"
+
+    case restoringPurchased = "restoring-purchased"
+    case restoringDeferred = "restoring-deferred"
+    case restoringRestored = "restoring-restored"
+    case restoringFailed = "restoring-failed"
+    case restoringUnknown = "restoring-unknown"
 }
 
 enum EventParameterBumpUpNotAllowedReason: String {

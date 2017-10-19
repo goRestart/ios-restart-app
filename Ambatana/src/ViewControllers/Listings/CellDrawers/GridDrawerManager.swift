@@ -18,6 +18,7 @@ class GridDrawerManager {
 
     var cellStyle: CellStyle = .mainList
     var freePostingAllowed: Bool = true
+    var featuredShouldShowChatButton: Bool = true
     
     private let listingDrawer = ListingCellDrawer()
     private let collectionDrawer = ListingCollectionCellDrawer()
@@ -46,8 +47,8 @@ class GridDrawerManager {
             return emptyCellDrawer.cell(collectionView, atIndexPath: atIndexPath)
         }
     }
-    
-    func draw(_ model: ListingCellModel, inCell cell: UICollectionViewCell, delegate: ListingCellDelegate?, shouldShowPrice: Bool) {
+
+    func willDisplay(_ model: ListingCellModel, inCell cell: UICollectionViewCell, delegate: ListingCellDelegate?) {
         switch model {
         case let .listingCell(listing) where cell is ListingCell:
             guard let cell = cell as? ListingCell else { return }
@@ -62,6 +63,36 @@ class GridDrawerManager {
                                    delegate: delegate,
                                    isFree: listing.price.free && freePostingAllowed,
                                    isFeatured: isFeatured,
+                                   featuredShouldShowChatButton: featuredShouldShowChatButton,
+                                   isMine: isMine,
+                                   price: listing.priceString(freeModeAllowed: freePostingAllowed),
+                                   shouldShowPrice: false)
+            listingDrawer.willDisplay(data, inCell: cell)
+        default:
+            return
+        }
+    }
+
+    
+    func draw(_ model: ListingCellModel,
+              inCell cell: UICollectionViewCell,
+              delegate: ListingCellDelegate?,
+              shouldShowPrice: Bool) {
+        switch model {
+        case let .listingCell(listing) where cell is ListingCell:
+            guard let cell = cell as? ListingCell else { return }
+            let isFeatured = showFeaturedStripeHelper.shouldShowFeaturedStripeFor(listing: listing)
+            var isMine = false
+            if let listingUserId = listing.user.objectId,
+                let myUserId = myUserRepository.myUser?.objectId,
+                listingUserId == myUserId {
+                isMine = true
+            }
+            let data = ListingData(listing: listing,
+                                   delegate: delegate,
+                                   isFree: listing.price.free && freePostingAllowed,
+                                   isFeatured: isFeatured,
+                                   featuredShouldShowChatButton: featuredShouldShowChatButton,
                                    isMine: isMine,
                                    price: listing.priceString(freeModeAllowed: freePostingAllowed),
                                    shouldShowPrice: shouldShowPrice)

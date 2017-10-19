@@ -113,9 +113,6 @@ extension DirectAnswersHorizontalView: UICollectionViewDelegate, UICollectionVie
         let filterNib = UINib(nibName: DirectAnswerCell.reusableID, bundle: nil)
         collectionView.register(filterNib, forCellWithReuseIdentifier: DirectAnswerCell.reusableID)
 
-        let closeNib = UINib(nibName: DirectAnswersCloseCell.reusableID, bundle: nil)
-        collectionView.register(closeNib, forCellWithReuseIdentifier: DirectAnswersCloseCell.reusableID)
-
         collectionView.backgroundColor = UIColor.clear
         collectionView.allowsSelection = true
         collectionView.allowsMultipleSelection = false
@@ -134,32 +131,21 @@ extension DirectAnswersHorizontalView: UICollectionViewDelegate, UICollectionVie
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
-        if indexPath.row == answers.count {
-            return DirectAnswersCloseCell.size()
-        } else {
-            return DirectAnswerCell.sizeForDirectAnswer(answers[indexPath.row].random(), isDynamic: isDynamic)
-        }
+        return DirectAnswerCell.sizeForDirectAnswer(answers[indexPath.row].random(), isDynamic: isDynamic)
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return answers.count + 1
+        return answers.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-        if indexPath.row == answers.count {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DirectAnswersCloseCell.reusableID,
-                                                      for: indexPath) as? DirectAnswersCloseCell else { return UICollectionViewCell() }
-            cell.setupWith(style: style)
-            return cell
-        } else {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DirectAnswerCell.reusableID,
-                                                                for: indexPath) as? DirectAnswerCell else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DirectAnswerCell.reusableID,
+                                                            for: indexPath) as? DirectAnswerCell else { return UICollectionViewCell() }
 
-            cell.setupWithDirectAnswer(answers[indexPath.row].random(), isDynamic: isDynamic)
+        cell.setupWithDirectAnswer(answers[indexPath.row].random(), isDynamic: isDynamic)
 
-            return cell
-        }
+        return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
@@ -173,9 +159,7 @@ extension DirectAnswersHorizontalView: UICollectionViewDelegate, UICollectionVie
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         defer { collectionView.deselectItem(at: indexPath, animated: true) }
         guard answersEnabled else { return }
-        if indexPath.row == answers.count {
-            delegate?.directAnswersHorizontalViewDidSelectClose()
-        } else if let quickAnswer = answers[indexPath.row].random() {
+        if let quickAnswer = answers[indexPath.row].random() {
             delegate?.directAnswersHorizontalViewDidSelect(answer: quickAnswer, index: indexPath.row)
         }
     }

@@ -399,9 +399,7 @@ fileprivate extension TabCoordinator {
     }
 
 
-    // MARK: Private methods
-
-    private func openRelatedListingsForNonExistentListing(listingId: String,
+    func openRelatedListingsForNonExistentListing(listingId: String,
                                                           source: EventParameterListingVisitSource,
                                                           requester: ListingListRequester,
                                                           relatedListings: [Listing]) {
@@ -427,26 +425,25 @@ extension TabCoordinator: ListingDetailNavigator {
     }
 
     func editListing(_ listing: Listing) {
-        // Refactor to coordinator @ ABIOS-2719
-        let editProductVM = EditListingViewModel(listing: listing)
-        let editProductVC = EditListingViewController(viewModel: editProductVM)
-        let navCtl = UINavigationController(rootViewController: editProductVC)
-        navigationController.present(navCtl, animated: true, completion: nil)
+        let navigator = EditListingCoordinator(listing: listing)
+        openChild(coordinator: navigator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
     }
 
     func openListingChat(_ listing: Listing, source: EventParameterTypePage) {
         openChatFrom(listing: listing, source: source)
     }
 
-    func closeAfterDelete() {
+    func closeListingAfterDelete(_ listing: Listing) {
         closeProductDetail()
-        let action = UIAction(interface: .button(LGLocalizedString.productDeletePostButtonTitle,
-                                                 .primary(fontSize: .medium)), action: { [weak self] in
-                                                    self?.openSell(source: .deleteListing, postCategory: nil)
-            }, accessibilityId: .postDeleteAlertButton)
-        navigationController.showAlertWithTitle(LGLocalizedString.productDeletePostTitle,
-                                                text: LGLocalizedString.productDeletePostSubtitle,
-                                                alertType: .plainAlertOld, actions: [action])
+        if (listing.status != .sold) && (listing.status != .soldOld) {
+            let action = UIAction(interface: .button(LGLocalizedString.productDeletePostButtonTitle,
+                                                     .primary(fontSize: .medium)), action: { [weak self] in
+                                                        self?.openSell(source: .deleteListing, postCategory: nil)
+                }, accessibilityId: .postDeleteAlertButton)
+            navigationController.showAlertWithTitle(LGLocalizedString.productDeletePostTitle,
+                                                    text: LGLocalizedString.productDeletePostSubtitle,
+                                                    alertType: .plainAlertOld, actions: [action])
+        }
     }
 
     func openFreeBumpUp(forListing listing: Listing, socialMessage: SocialMessage, paymentItemId: String) {

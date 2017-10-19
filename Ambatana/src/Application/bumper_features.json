@@ -31,16 +31,6 @@
         "description": "Captcha transparent"
     },
     {
-        "name": "PassiveBuyersShowKeyboard",
-        "values": ["No", "Yes"],
-        "description": "Passive buyers products suggested notification opens product with keyboard opened"
-    },
-    {
-        "name": "NewMarkAsSoldFlow",
-        "values": ["no", "yes"],
-        "description": "New mark as sold flow active. alert + showing buyer list"
-    },
-    {
         "name": "NewCarsMultiRequesterEnabled",
         "values": ["no", "yes"],
         "description": "Cars multi requester enabled"
@@ -119,6 +109,16 @@
         "name": "NewBumpUpExplanation",
         "values": ["control", "baseline", "active"],
         "description": "show new bump up explanation view"
+    },
+    {
+        "name": "HomeRelatedEnabled",
+        "values": ["control", "baseline", "active"],
+        "description": "Show the related button in the main feed"
+    },
+    {
+        "name": "HideChatButtonOnFeaturedCells",
+        "values": ["control", "baseline", "active"],
+        "description": "hide chat button on the featured listing cells"
     },
     {
         "name": "SuperKeywordGroupsAndSubgroupsInFeed",

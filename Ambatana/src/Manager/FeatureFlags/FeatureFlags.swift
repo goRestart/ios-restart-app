@@ -23,10 +23,8 @@ protocol FeatureFlaggeable: class {
 
     var websocketChat: Bool { get }
     var captchaTransparent: Bool { get }
-    var passiveBuyersShowKeyboard: Bool { get }
     var freeBumpUpEnabled: Bool { get }
     var pricedBumpUpEnabled: Bool { get }
-    var newMarkAsSoldFlow: Bool { get }
     var newCarsMultiRequesterEnabled: Bool { get }
     var inAppRatingIOS10: Bool { get }
     var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed { get }
@@ -43,6 +41,8 @@ protocol FeatureFlaggeable: class {
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter { get }
     var requestTimeOut: RequestsTimeOut { get }
     var newBumpUpExplanation: NewBumpUpExplanation { get }
+    var homeRelatedEnabled: HomeRelatedEnabled { get }
+    var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells { get }
     var superKeywordGroupsAndSubgroupsInFeed: SuperKeywordGroupsAndSubgroupsInFeed { get }
 
     // Country dependant features
@@ -111,6 +111,10 @@ extension ShowPriceAfterSearchOrFilter {
             return true
         }
     }
+}
+
+extension HomeRelatedEnabled {
+    var isActive: Bool { get { return self == .active } }
 }
 
 extension SuperKeywordGroupsAndSubgroupsInFeed {
@@ -224,13 +228,6 @@ class FeatureFlags: FeatureFlaggeable {
         return abTests.captchaTransparent.value
     }
 
-    var passiveBuyersShowKeyboard: Bool {
-        if Bumper.enabled {
-            return Bumper.passiveBuyersShowKeyboard
-        }
-        return abTests.passiveBuyersShowKeyboard.value
-    }
-
     var freeBumpUpEnabled: Bool {
         if Bumper.enabled {
             return Bumper.freeBumpUpEnabled
@@ -243,13 +240,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.pricedBumpUpEnabled
         }
         return abTests.pricedBumpUpEnabled.value
-    }
-
-    var newMarkAsSoldFlow: Bool {
-        if Bumper.enabled {
-            return Bumper.newMarkAsSoldFlow
-        }
-        return abTests.newMarkAsSoldFlow.value
     }
 
     var newCarsMultiRequesterEnabled: Bool {
@@ -343,7 +333,6 @@ class FeatureFlags: FeatureFlaggeable {
         return ShowPriceAfterSearchOrFilter.fromPosition(abTests.showPriceAfterSearchOrFilter.value)
     }
     
-
     var newCarouselNavigationTapNextPhotoEnabled: NewCarouselTapNextPhotoNavigationEnabled {
         if Bumper.enabled {
             return Bumper.newCarouselTapNextPhotoNavigationEnabled
@@ -365,6 +354,19 @@ class FeatureFlags: FeatureFlaggeable {
         return SuperKeywordGroupsAndSubgroupsInFeed.fromPosition(abTests.superKeywordGroupsAndSubgroupsInFeed.value)
     }
 
+    var homeRelatedEnabled: HomeRelatedEnabled {
+        if Bumper.enabled {
+            return Bumper.homeRelatedEnabled
+        }
+        return HomeRelatedEnabled.fromPosition(abTests.homeRelatedEnabled.value)
+    }
+
+    var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells {
+        if Bumper.enabled {
+            return Bumper.hideChatButtonOnFeaturedCells
+        }
+        return HideChatButtonOnFeaturedCells.fromPosition(abTests.hideChatButtonOnFeaturedCells.value)
+    }
 
     // MARK: - Country features
 

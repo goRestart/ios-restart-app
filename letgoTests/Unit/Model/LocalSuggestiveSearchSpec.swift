@@ -13,53 +13,30 @@ import LGCoreKit
 
 class LocalSuggestiveSearchSpec: QuickSpec {
     override func spec() {
-        var sut : LocalSuggestiveSearch!
+        var sut: LocalSuggestiveSearch!
         
         describe("LocalSuggestiveSearch") {
-            describe("init with parameters") {
-                var name: String!
-                var category: ListingCategory!
-                
-                beforeEach {
-                    name = String.makeRandom()
-                    category = ListingCategory.makeMock()
-                    sut = LocalSuggestiveSearch(name: name,
-                                                category: category)
-                }
-                
-                it("has the same name passed into initializer") {
-                    expect(sut.name) == name
-                }
-                it("has the same category passed into initializer") {
-                    expect(sut.category!.rawValue) == category.rawValue
-                }
-            }
-            
             describe("init with suggestive search") {
                 var suggestiveSearch: SuggestiveSearch!
+                
                 beforeEach {
-                    suggestiveSearch = LocalSuggestiveSearch(name: String.makeRandom(),
-                                                             category: ListingCategory.makeMock())
+                    suggestiveSearch = SuggestiveSearch.makeMock()
                     sut = LocalSuggestiveSearch(suggestiveSearch: suggestiveSearch)
                 }
-                
-                it("has the same name suggestiveSearch has") {
-                    expect(sut.name) == suggestiveSearch.name
-                }
-                it("has the same category suggestiveSearch has") {
-                    expect(sut.category!.rawValue) == suggestiveSearch.category!.rawValue
+
+                it("has the same suggestive search") {
+                    expect(sut.suggestiveSearch) == suggestiveSearch
                 }
             }
             
             describe("NSCoding") {
-                var name: String!
+                var suggestiveSearch: SuggestiveSearch!
                 var data: Data!
                 
-                context("without category") {
+                context("term") {
                     beforeEach {
-                        name = String.makeRandom()
-                        sut = LocalSuggestiveSearch(name: name,
-                                                    category: nil)
+                        suggestiveSearch = SuggestiveSearch.term(name: String.makeRandom())
+                        sut = LocalSuggestiveSearch(suggestiveSearch: suggestiveSearch)
                         data = NSKeyedArchiver.archivedData(withRootObject: sut)
                     }
                     
@@ -79,24 +56,16 @@ class LocalSuggestiveSearchSpec: QuickSpec {
                         it("decodes the data into an object") {
                             expect(decodedSut).notTo(beNil())
                         }
-                        it("decodes the same name it previously coded") {
-                            expect(decodedSut.name) == name
-                        }
-                        it("decodes nil category") {
-                            expect(decodedSut.category).to(beNil())
+                        it("decodes the same suggestive search") {
+                            expect(decodedSut.suggestiveSearch) == suggestiveSearch
                         }
                     }
                 }
                 
-                
-                context("with category") {
-                    var category: ListingCategory!
-                    
+                context("category") {
                     beforeEach {
-                        name = String.makeRandom()
-                        category = ListingCategory.makeMock()
-                        sut = LocalSuggestiveSearch(name: name,
-                                                    category: category)
+                        suggestiveSearch = SuggestiveSearch.category(category: ListingCategory.makeMock())
+                        sut = LocalSuggestiveSearch(suggestiveSearch: suggestiveSearch)
                         data = NSKeyedArchiver.archivedData(withRootObject: sut)
                     }
                     
@@ -116,13 +85,114 @@ class LocalSuggestiveSearchSpec: QuickSpec {
                         it("decodes the data into an object") {
                             expect(decodedSut).notTo(beNil())
                         }
-                        it("decodes the same name it previously coded") {
-                            expect(decodedSut.name) == name
-                        }
-                        it("decodes the same category it previously coded") {
-                            expect(decodedSut.category!.rawValue) == category!.rawValue
+                        it("decodes the same suggestive search") {
+                            expect(decodedSut.suggestiveSearch) == suggestiveSearch
                         }
                     }
+                }
+                
+                context("term with category") {
+                    beforeEach {
+                        suggestiveSearch = SuggestiveSearch.termWithCategory(name: String.makeRandom(),
+                                                                             category: ListingCategory.makeMock())
+                        sut = LocalSuggestiveSearch(suggestiveSearch: suggestiveSearch)
+                        data = NSKeyedArchiver.archivedData(withRootObject: sut)
+                    }
+                    
+                    describe("encoding") {
+                        it("encodes the object into data") {
+                            expect(data).notTo(beNil())
+                        }
+                    }
+                    
+                    describe("decoding") {
+                        var decodedSut: LocalSuggestiveSearch!
+                        
+                        beforeEach {
+                            decodedSut = NSKeyedUnarchiver.unarchiveObject(with: data) as? LocalSuggestiveSearch
+                        }
+                        
+                        it("decodes the data into an object") {
+                            expect(decodedSut).notTo(beNil())
+                        }
+                        it("decodes the same suggestive search") {
+                            expect(decodedSut.suggestiveSearch) == suggestiveSearch
+                        }
+                    }
+                }
+                
+                context("array") {
+                    var array: [LocalSuggestiveSearch]!
+                    
+                    beforeEach {
+                        array = [LocalSuggestiveSearch(suggestiveSearch: SuggestiveSearch.term(name: String.makeRandom())),
+                                 LocalSuggestiveSearch(suggestiveSearch: SuggestiveSearch.category(category: ListingCategory.makeMock())),
+                                 LocalSuggestiveSearch(suggestiveSearch: SuggestiveSearch.termWithCategory(name: String.makeRandom(),
+                                                                                                           category: ListingCategory.makeMock()))]
+                        data = NSKeyedArchiver.archivedData(withRootObject: array)
+                    }
+                    
+                    describe("encoding") {
+                        it("encodes the object into data") {
+                            expect(data).notTo(beNil())
+                        }
+                    }
+
+                    describe("decoding") {
+                        var decodedSut: [LocalSuggestiveSearch]!
+                        
+                        beforeEach {
+                            decodedSut = NSKeyedUnarchiver.unarchiveObject(with: data) as? [LocalSuggestiveSearch]
+                        }
+                        
+                        it("decodes the data into an object") {
+                            expect(decodedSut).notTo(beNil())
+                        }
+                        it("decodes the same suggestive searches") {
+                            expect(decodedSut.flatMap { $0.suggestiveSearch }) == array.flatMap { $0.suggestiveSearch }
+                        }
+                    }
+                }
+            }
+            
+            context("equality") {
+                it("returns true when two term searches with the same name") {
+                    expect(LocalSuggestiveSearch(suggestiveSearch: SuggestiveSearch.term(name: "name")))
+                        == LocalSuggestiveSearch(suggestiveSearch: SuggestiveSearch.term(name: "name"))
+                }
+                
+                it("returns false when two term searches with different name") {
+                    expect(LocalSuggestiveSearch(suggestiveSearch: SuggestiveSearch.term(name: String.makeRandom())))
+                        != LocalSuggestiveSearch(suggestiveSearch: SuggestiveSearch.term(name: String.makeRandom()))
+                }
+                
+                it("returns true when comparing two category searches with the same category") {
+                    expect(LocalSuggestiveSearch(suggestiveSearch: SuggestiveSearch.category(category: .cars)))
+                        == LocalSuggestiveSearch(suggestiveSearch: SuggestiveSearch.category(category: .cars))
+                }
+                
+                it("returns false when comparing two category searches with different category") {
+                    expect(LocalSuggestiveSearch(suggestiveSearch: SuggestiveSearch.category(category: .cars)))
+                        != LocalSuggestiveSearch(suggestiveSearch: SuggestiveSearch.category(category: .electronics))
+                }
+                
+                it("returns true when comparing two term with category searches with the same name and category") {
+                    expect(LocalSuggestiveSearch(suggestiveSearch: SuggestiveSearch.termWithCategory(name: "name",
+                                                                                                     category: .cars)))
+                        == LocalSuggestiveSearch(suggestiveSearch: SuggestiveSearch.termWithCategory(name: "name",
+                                                                                                     category: .cars))
+                }
+                
+                it("returns false when comparing two term with category searches with different name or category") {
+                    expect(LocalSuggestiveSearch(suggestiveSearch: SuggestiveSearch.termWithCategory(name: String.makeRandom(),
+                                                                                                     category: ListingCategory.makeMock())))
+                        != LocalSuggestiveSearch(suggestiveSearch: SuggestiveSearch.termWithCategory(name: String.makeRandom(),
+                                                                                                     category: ListingCategory.makeMock()))
+                }
+                
+                it("returns false when comparing different searches types") {
+                    expect(LocalSuggestiveSearch(suggestiveSearch: SuggestiveSearch.term(name: String.makeRandom())))
+                        != LocalSuggestiveSearch(suggestiveSearch: SuggestiveSearch.category(category: ListingCategory.makeMock()))
                 }
             }
         }

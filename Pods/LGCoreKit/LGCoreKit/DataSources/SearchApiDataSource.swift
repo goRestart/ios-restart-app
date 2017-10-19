@@ -48,9 +48,9 @@ class SearchApiDataSource: SearchDataSource {
         guard let dict = object as? [String : Any] else { return nil }
         guard let itemsArray = dict["items"] else { return nil }
         
-        guard let suggestiveSearches: [LGSuggestiveSearch] = decode(itemsArray) else { return nil }
-        return suggestiveSearches
+        // Ignore suggestive searches that can't be decoded
+        guard let suggestiveSearches = [SuggestiveSearch].filteredDecode(JSON(itemsArray)).value else { return nil }
+        return suggestiveSearches.map { $0 }
     }
-    
 }
 

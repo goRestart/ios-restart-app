@@ -11,7 +11,7 @@ import RxSwift
 import Branch
 
 
-class MockDeepLinksRouter: DeepLinksRouter {
+class MockDeepLinksRouter: NSObject, DeepLinksRouter {
     var deepLinks: Observable<DeepLink> { return deepLinksSignal.asObservable() }
     var chatDeepLinks: Observable<DeepLink> {
         return deepLinks.filter { deepLink in
@@ -26,6 +26,7 @@ class MockDeepLinksRouter: DeepLinksRouter {
 
     let deepLinksSignal = PublishSubject<DeepLink>()
     var initialDeepLink: DeepLink?
+    var initialDeeplinkAvailable: Bool { return initialDeepLink != nil }
 
     var didReceiveRemoteNotificationCalled: Bool = false
 
@@ -55,4 +56,8 @@ class MockDeepLinksRouter: DeepLinksRouter {
                                     completionHandler: () -> Void) {
 
     }
+
+    func onConversionDataReceived(_ installData: [AnyHashable : Any]!) { }
+
+    func onConversionDataRequestFailure(_ error: Error!) { }
 }
