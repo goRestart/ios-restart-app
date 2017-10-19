@@ -119,11 +119,8 @@ class SellNavigationController: UINavigationController {
 extension SellNavigationController: UINavigationControllerDelegate {
     
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        if operation == .push {
-            return AlphaPushAnimator()
-        } else {
-            return AlphaPopAnimator()
-        }
+        return AlphaAnimator(operation: operation)
+
     }
 }
 
