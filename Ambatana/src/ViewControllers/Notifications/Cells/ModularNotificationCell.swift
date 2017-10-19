@@ -311,7 +311,6 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         textBodyLabel.font = UIFont.notificationSubtitleFont(read: isRead)
         if isRead {
             textBodyLabel.setHTMLFromString(htmlText: body)
-            textBodyLabel.setNeedsLayout()
         } else {
             textBodyLabel.text = body.ignoreHTMLTags
         }
@@ -370,9 +369,7 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         basicImage.image = nil
         iconImageView.image = nil
         textTitleLabel.text = ""
-        textTitleLabel.invalidateIntrinsicContentSize()
         textBodyLabel.text = ""
-        textBodyLabel.invalidateIntrinsicContentSize()
         thumbnails.forEach {
             $0.image = nil
             $0.isHidden = true
