@@ -23,7 +23,6 @@ protocol FeatureFlaggeable: class {
 
     var websocketChat: Bool { get }
     var captchaTransparent: Bool { get }
-    var passiveBuyersShowKeyboard: Bool { get }
     var freeBumpUpEnabled: Bool { get }
     var pricedBumpUpEnabled: Bool { get }
     var newCarsMultiRequesterEnabled: Bool { get }
@@ -215,13 +214,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.captchaTransparent
         }
         return abTests.captchaTransparent.value
-    }
-
-    var passiveBuyersShowKeyboard: Bool {
-        if Bumper.enabled {
-            return Bumper.passiveBuyersShowKeyboard
-        }
-        return abTests.passiveBuyersShowKeyboard.value
     }
 
     var freeBumpUpEnabled: Bool {

@@ -600,9 +600,6 @@ extension ListingViewModel {
         if isMine && status.value != .notAvailable {
             actions.append(buildDeleteAction())
         }
-        if isMine && status.value.isSold && isTransactionOpen {
-            actions.append(buildRateUserAction())
-        }
         
         delegate?.vmShowProductDetailOptions(LGLocalizedString.commonCancel, actions: actions)
     }
@@ -675,11 +672,6 @@ extension ListingViewModel {
                 cancelLabel: LGLocalizedString.productDeleteConfirmCancelButton,
                 actions: alertActions)
             })
-    }
-    
-    private func buildRateUserAction() -> UIAction {
-        let title = LGLocalizedString.productMenuRateBuyer
-        return UIAction(interface: .text(title), action: { [weak self] in self?.selectBuyerToMarkAsSold(sourceRateBuyers: .rateBuyer) } )
     }
 
     private var socialShareMessage: SocialMessage {

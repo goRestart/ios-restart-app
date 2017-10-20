@@ -61,7 +61,6 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
         if DeviceFamily.current == .iPhone4 {
             adaptConstraintsToiPhone4()
         }
-        viewModel.refreshTaxonomiesOnboardingCache()
     }
 
     override func viewDidFirstAppear(_ animated: Bool) {

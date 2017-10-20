@@ -982,28 +982,6 @@ struct TrackerEvent {
         params[.enabled] = enabled
         return TrackerEvent(name: .marketingPushNotifications, params: params)
     }
-    
-    static func passiveBuyerStart(withUser userId: String?, productId: String?) -> TrackerEvent {
-        var params = EventParameters()
-        params[.userId] = userId ?? ""
-        params[.listingId] = productId ?? ""
-        return TrackerEvent(name: .passiveBuyerStart, params: params)
-    }
-    
-    static func passiveBuyerComplete(withUser userId: String?, productId: String?, passiveConversations: Int) -> TrackerEvent {
-        var params = EventParameters()
-        params[.userId] = userId ?? ""
-        params[.listingId] = productId ?? ""
-        params[.passiveConversations] = passiveConversations
-        return TrackerEvent(name: .passiveBuyerComplete, params: params)
-    }
-    
-    static func passiveBuyerAbandon(withUser userId: String?, productId: String?) -> TrackerEvent {
-        var params = EventParameters()
-        params[.userId] = userId ?? ""
-        params[.listingId] = productId ?? ""
-        return TrackerEvent(name: .passiveBuyerAbandon, params: params)
-    }
 
     static func bumpBannerShow(type: EventParameterBumpUpType, listingId: String?) -> TrackerEvent {
         var params = EventParameters()

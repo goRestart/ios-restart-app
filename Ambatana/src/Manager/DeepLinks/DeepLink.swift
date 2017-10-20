@@ -56,7 +56,6 @@ enum DeepLinkAction: Equatable {
     case resetPassword(token: String)
     case userRatings
     case userRating(ratingId: String)
-    case passiveBuyers(listingId: String)
     case notificationCenter
     case appStore
     
@@ -92,8 +91,6 @@ enum DeepLinkAction: Equatable {
             return true
         case (.userRating(let lhsRatingId), .userRating(let rhsRatingId)):
             return lhsRatingId == rhsRatingId
-        case (.passiveBuyers(let lhsListingId), .passiveBuyers(let rhsListingId)):
-            return lhsListingId == rhsListingId
         case (.notificationCenter, .notificationCenter):
             return true
         case (.appStore, .appStore):

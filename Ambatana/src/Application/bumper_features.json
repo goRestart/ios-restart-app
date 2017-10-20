@@ -31,11 +31,6 @@
         "description": "Captcha transparent"
     },
     {
-        "name": "PassiveBuyersShowKeyboard",
-        "values": ["No", "Yes"],
-        "description": "Passive buyers products suggested notification opens product with keyboard opened"
-    },
-    {
         "name": "NewCarsMultiRequesterEnabled",
         "values": ["no", "yes"],
         "description": "Cars multi requester enabled"
