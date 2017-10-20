@@ -11,6 +11,7 @@ import LGCoreKit
 
 protocol PostingAddDetailTableViewDelegate: class {
     func indexSelected(index: Int)
+    func indexDeselected(index: Int)
 }
 
 
@@ -124,6 +125,17 @@ final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewD
             delegate?.indexSelected(index: indexPath.row)
             
         }
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        if let cell = tableView.cellForRow(at: indexPath) {
+            if let selectedValue = selectedValue, let cellAlreadySelected = tableView.cellForRow(at: selectedValue) {
+                cellAlreadySelected.accessoryType = .none
+                cellAlreadySelected.accessoryView = nil
+                cellAlreadySelected.textLabel?.textColor = UIColor.grayLight
+            }
+        }
+        delegate?.indexDeselected(index: indexPath.row)
     }
     
     func setupTableView(values: [String]) {

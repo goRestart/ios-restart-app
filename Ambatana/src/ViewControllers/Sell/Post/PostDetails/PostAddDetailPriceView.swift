@@ -102,33 +102,37 @@ class PostAddDetailPriceView: UIView {
         currencyLabel.layout().width(20)
         
         priceTextField.layout(with: currencyLabel).left(by: 50)
-        priceTextField.layout(with: contentTextFieldView).right(by: -20).fillVertical()
+        priceTextField.layout(with: contentTextFieldView).right(by: Metrics.bigMargin).fillVertical()
         
-        separatorView.layout(with: contentTextFieldView).below(by: 20)
-        separatorView.layout(with: self).fillHorizontal(by: 20)
+        separatorView.layout(with: contentTextFieldView).below(by: Metrics.bigMargin)
+        separatorView.layout(with: self).fillHorizontal(by: Metrics.bigMargin)
         separatorView.layout().height(2)
         
-        contentSwitchView.layout(with: separatorView).below(by: 20)
-        contentSwitchView.layout(with: self).fillHorizontal(by: 20)
+        contentSwitchView.layout(with: separatorView).below(by: Metrics.bigMargin)
+        contentSwitchView.layout(with: self).fillHorizontal(by: Metrics.bigMargin)
         contentSwitchView.layout().height(50)
         
         freeLabel.layout(with: contentSwitchView).fillVertical().left()
         freeLabel.layout(with: freeSwitch).right()
         
-        freeSwitch.layout(with: contentSwitchView).right(by: -20).top(by: 10).bottom(by: -10)
+        freeSwitch.layout(with: contentSwitchView).right().top(by: Metrics.shortMargin).bottom(by: -Metrics.shortMargin)
     }
     
     private func setupRx() {
-        freeActive.asObservable().bindTo(freeSwitch.rx.isOn).addDisposableTo(disposeBag)
-        freeSwitch.rx.isOn.skip(1).bindNext { [weak self] isOn in
-            self?.freeActive.value = isOn
-            self?.textFieldContainerHeightConstraint.constant = isOn ? 0 : 50
-            UIView.animate(withDuration: 0.2, animations: {
-                self?.separatorView.alpha = isOn ? 0.0 : 1.0
-                self?.currencyLabel.alpha = isOn ? 0.0 : 1.0
-                self?.layoutIfNeeded()
-            })
-        }.addDisposableTo(disposeBag)
+        freeActive.asObservable().debug().bindTo(freeSwitch.rx.value(animated: true)).addDisposableTo(disposeBag)
+        freeActive.asObservable().bindNext{[weak self] active in
+            self?.showPriceContainer(hide: active)
+            }.addDisposableTo(disposeBag)
+        freeSwitch.rx.isOn.asObservable().bindTo(freeActive).addDisposableTo(disposeBag)
+    }
+    
+    private func showPriceContainer(hide: Bool) {
+        textFieldContainerHeightConstraint.constant = hide ? 0 : 50
+        UIView.animate(withDuration: 0.2, animations: { [weak self] in
+            self?.separatorView.alpha = hide ? 0.0 : 1.0
+            self?.currencyLabel.alpha = hide ? 0.0 : 1.0
+            self?.layoutIfNeeded()
+        })
     }
     
     
