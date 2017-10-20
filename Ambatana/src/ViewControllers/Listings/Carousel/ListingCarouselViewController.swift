@@ -706,11 +706,8 @@ extension ListingCarouselViewController {
             switch change {
             case .insert(_, let message):
                 // if the message is already in the table we don't perform animations
-                if strongSelf.viewModel.directChatMessages.value.filter({ $0.objectId == message.objectId }).count >= 1 {
-                    strongSelf.directChatTable.handleCollectionChange(change, animation: .none)
-                } else {
-                    strongSelf.directChatTable.handleCollectionChange(change, animation: .top)
-                }
+                let chatMessageExists = strongSelf.viewModel.directChatMessages.value.filter({ $0.objectId == message.objectId }).count >= 1
+                strongSelf.directChatTable.handleCollectionChange(change, animation: chatMessageExists ? .none : .top)
             default:
                 strongSelf.directChatTable.handleCollectionChange(change, animation: .none)
             }
