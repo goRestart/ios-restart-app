@@ -101,10 +101,10 @@ class PostingDetailsViewController : BaseViewController {
         contentView.layout(with: view).fillHorizontal(by: Metrics.veryShortMargin)
         
         
-        let tableView = viewModel.makeContentView
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(tableView)
-        tableView.layout(with: contentView).fill()
+        let infoView = viewModel.makeContentView
+        infoView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(infoView)
+        infoView.layout(with: contentView).fill()
         
         view.addSubview(buttonNext)
         buttonNext.layout(with: contentView).below(by: Metrics.bigMargin)

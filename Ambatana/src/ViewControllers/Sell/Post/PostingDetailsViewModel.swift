@@ -39,7 +39,12 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         case .price:
             return UIView()
         case .summary:
-            return UIView()
+            var currencySymbol: String? = nil
+            if let countryCode = locationManager.currentLocation?.countryCode {
+                currencySymbol = currencyHelper.currencyWithCountryCode(countryCode).symbol
+            }
+            return PostAddDetailPriceView(currencySymbol: currencySymbol,
+                                          freeEnabled: featureFlags.freePostingModeAllowed, frame: CGRect.zero)
         }
         let view: PostingAddDetailTableView = PostingAddDetailTableView(values: values)
         view.delegate = self
@@ -50,6 +55,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     private let tracker: Tracker
     private let currencyHelper: CurrencyHelper
     private let locationManager: LocationManager
+    private let featureFlags: FeatureFlags
     
     private let step: PostingDetailStep
     private var postListingState: PostListingState
@@ -70,7 +76,8 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
                   postingSource: postingSource,
                   tracker: TrackerProxy.sharedInstance,
                   currencyHelper: Core.currencyHelper,
-                  locationManager: Core.locationManager)
+                  locationManager: Core.locationManager,
+                  featureFlags: FeatureFlags.sharedInstance)
     }
     
     init(step: PostingDetailStep,
@@ -79,7 +86,8 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
          postingSource: PostingSource,
          tracker: Tracker,
          currencyHelper: CurrencyHelper,
-         locationManager: LocationManager) {
+         locationManager: LocationManager,
+         featureFlags: FeatureFlags) {
         self.step = step
         self.postListingState = postListingState
         self.uploadedImageSource = uploadedImageSource
@@ -87,6 +95,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         self.tracker = tracker
         self.currencyHelper = currencyHelper
         self.locationManager = locationManager
+        self.featureFlags = featureFlags
     }
     
     func closeButtonPressed() {
