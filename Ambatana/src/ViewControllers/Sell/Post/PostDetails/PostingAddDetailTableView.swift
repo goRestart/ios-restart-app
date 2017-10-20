@@ -17,8 +17,10 @@ protocol PostingAddDetailTableViewDelegate: class {
 final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewDataSource {
     
     static let cellIdentifier = "postingAddDetailCell"
+    static let cellAddDetailHeight: CGFloat = 67
+    static let checkMarkSize: CGSize = CGSize(width: 17, height: 12)
     
-    private var contentCell: [String]
+    private var detailInfo: [String]
     private let tableView = UITableView()
     private var selectedValue: IndexPath?
     weak var delegate: PostingAddDetailTableViewDelegate?
@@ -27,7 +29,7 @@ final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewD
     // MARK: - Lifecycle
     
     init(values: [String]) {
-        self.contentCell = values
+        self.detailInfo = values
         super.init(frame: CGRect.zero)
         setupUI()
         setupAccessibilityIds()
@@ -62,7 +64,7 @@ final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewD
             .leading()
             .trailing()
         
-        setupTableView(values: contentCell)
+        setupTableView(values: detailInfo)
     }
     
     // MARK: - Accessibility
@@ -75,7 +77,7 @@ final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewD
     // MARK: - UITableView delegate
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return contentCell.count
+        return detailInfo.count
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -83,14 +85,14 @@ final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 67
+        return PostingAddDetailTableView.cellAddDetailHeight
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: PostingAddDetailTableView.cellIdentifier) else {
             return UITableViewCell()
         }
-        let value = contentCell[indexPath.row]
+        let value = detailInfo[indexPath.row]
         cell.selectionStyle = .none
         cell.textLabel?.text = value
         cell.textLabel?.font = UIFont.selectableItem
@@ -108,7 +110,10 @@ final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewD
             }
             
             let image = #imageLiteral(resourceName: "ic_checkmark").withRenderingMode(.alwaysTemplate)
-            let checkmark  = UIImageView(frame:CGRect(x:0, y:0, width:17, height:12))
+            let checkmark  = UIImageView(frame:CGRect(x:0,
+                                                      y:0,
+                                                      width:PostingAddDetailTableView.checkMarkSize.width,
+                                                      height:PostingAddDetailTableView.checkMarkSize.height))
             checkmark.image = image
             checkmark.tintColor = UIColor.white
             cell.accessoryView = checkmark
@@ -122,7 +127,7 @@ final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewD
     }
     
     func setupTableView(values: [String]) {
-        contentCell = values
+        detailInfo = values
         tableView.reloadData()
     }
 }
