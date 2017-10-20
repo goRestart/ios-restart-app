@@ -19,8 +19,7 @@ class FilterTagsVCRemoveRelatedTagsSpec: QuickSpec {
         describe("Remove Related Tags") {
             beforeEach {
                 let layout = UICollectionViewFlowLayout.init()
-                let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-                sut = FilterTagsView(collectionView: collectionView)
+                sut = FilterTagsView()
                 relatedTagsToRemove = []
             }
             context("Removing not-category, no related tags to remove") {
