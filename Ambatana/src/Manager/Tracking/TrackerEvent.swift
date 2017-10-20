@@ -358,7 +358,9 @@ struct TrackerEvent {
         return TrackerEvent(name: .listingDetailVisitMoreInfo, params: params)
     }
 
-    static func moreInfoAdTapped(listingId: String?, isMine: EventParameterBoolean, willLeaveApp: EventParameterBoolean) {
+    static func moreInfoAdTapped(listingId: String?,
+                                 isMine: EventParameterBoolean,
+                                 willLeaveApp: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
 
         params[.listingId] = listingId ?? TrackerEvent.notApply
