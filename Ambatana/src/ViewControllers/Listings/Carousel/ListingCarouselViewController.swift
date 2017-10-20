@@ -1288,12 +1288,6 @@ extension ListingCarouselViewController: ListingCarouselViewModelDelegate {
         bumpUpBanner.resetCountdown()
     }
     
-    func vmShouldRefreshDirectChatTableView() {
-        delay(1) { [weak self] in
-            self?.directChatTable.reloadData()
-        }
-    }
-    
 
     // Loadings and alerts overrides to remove keyboard before showing
 

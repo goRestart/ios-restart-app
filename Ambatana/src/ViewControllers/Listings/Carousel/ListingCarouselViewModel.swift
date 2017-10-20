@@ -17,8 +17,6 @@ protocol ListingCarouselViewModelDelegate: BaseViewModelDelegate {
     func vmShowCarouselOptions(_ cancelLabel: String, actions: [UIAction])
     func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?)
     func vmResetBumpUpBannerCountdown()
-    
-    func vmShouldRefreshDirectChatTableView()
 }
 
 enum CarouselMovement {
@@ -447,7 +445,6 @@ class ListingCarouselViewModel: BaseViewModel {
             for change in changes {
                 performCollectionChange(change: change)
             }            
-            delegate?.vmShouldRefreshDirectChatTableView()
         }
     }
 }

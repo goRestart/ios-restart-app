@@ -97,9 +97,8 @@ class ExpressChatViewModel: BaseViewModel {
         for listing in selectedListings.value {
             chatWrapper.sendMessageFor(listing: listing, type:.expressChat(messageText.value)) { result in
                 if let value = result.value {
-                    ExpressChatViewModel.singleMessageTrackings(tracker, shouldSendAskQuestion: value.shouldSendFirstMessageEvent,
-                                                                listing: listing,
-                                                                freePostingModeAllowed: freePostingModeAllowed)
+                    ExpressChatViewModel.singleMessageTrackings(tracker, shouldSendAskQuestion: value, listing: listing,
+                                                                     freePostingModeAllowed: freePostingModeAllowed)
                 } else if let error = result.error {
                     ExpressChatViewModel.singleMessageTrackingError(tracker, listing: listing,
                                                                          freePostingModeAllowed: freePostingModeAllowed, error: error)
