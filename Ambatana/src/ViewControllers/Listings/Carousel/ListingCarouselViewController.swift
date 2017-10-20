@@ -625,8 +625,7 @@ extension ListingCarouselViewController {
             strongSelf.buttonTop.rx.tap.takeUntil(takeUntilAction).bindNext {
                 topAction.action()
                 }.addDisposableTo(strongSelf.disposeBag)
-        }
-.addDisposableTo(disposeBag)
+        }.addDisposableTo(disposeBag)
     }
 
     private func setupDirectChatElementsRx() {
