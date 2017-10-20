@@ -491,6 +491,13 @@ class ListingCarouselViewModel: BaseViewModel {
                                                     errorReason: status.errorReason)
     }
 
+    func adTapped(willLeaveApp: Bool) {
+        let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
+        let willLeave = EventParameterBoolean(bool: willLeaveApp)
+        currentListingViewModel?.trackAdTapped(isMine: isMine,
+                                               willLeaveApp: willLeave)
+    }
+
 
     // MARK: - Private Methods
 

@@ -46,6 +46,10 @@ extension ListingViewModel {
                                        errorReason: errorReason)
     }
 
+    func trackAdTapped(isMine: EventParameterBoolean, willLeaveApp: EventParameterBoolean) {
+        trackHelper.trackAdTapped(isMine: isMine,
+                                  willLeaveApp: willLeaveApp)
+    }
 
     // MARK: Share
 
@@ -198,6 +202,11 @@ extension ProductVMTrackHelper {
                                                                    query: query,
                                                                    visibility: visibility,
                                                                    errorReason: errorReason)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func trackAdTapped(isMine: EventParameterBoolean, willLeaveApp: EventParameterBoolean) {
+        let trackerEvent = TrackerEvent.moreInfoAdTapped(listingId: listing.objectId, isMine: isMine, willLeaveApp: willLeaveApp)
         tracker.trackEvent(trackerEvent)
     }
 

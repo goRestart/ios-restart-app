@@ -348,6 +348,7 @@ struct TrackerEvent {
         var params = EventParameters()
         params.addListingParams(listing)
 
+        params[.isMine] = isMine.rawValue
         params[.adShown] = adShown.rawValue
         params[.adQueryType] = queryType?.rawValue ?? TrackerEvent.notApply
         params[.adQuery] = query ?? TrackerEvent.notApply
@@ -355,6 +356,15 @@ struct TrackerEvent {
         params[.reason] = errorReason?.rawValue ?? TrackerEvent.notApply
 
         return TrackerEvent(name: .listingDetailVisitMoreInfo, params: params)
+    }
+
+    static func moreInfoAdTapped(listingId: String?, isMine: EventParameterBoolean, willLeaveApp: EventParameterBoolean) {
+        var params = EventParameters()
+
+        params[.listingId] = listingId ?? TrackerEvent.notApply
+        params[.isMine] = isMine.rawValue
+        params[.adActionLeftApp] = willLeaveApp.rawValue
+        return TrackerEvent(name: .moreInfoAdTapped, params: params)
     }
 
     static func listingFavorite(_ listing: Listing, typePage: EventParameterTypePage,

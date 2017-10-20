@@ -171,6 +171,8 @@ enum EventName: String {
     case onboardingInterestsComplete        = "onboarding-interests-complete"
     case categoriesStart                    = "categories-start"
     case categoriesComplete                 = "categories-complete"
+
+    case moreInfoAdTapped                   = "more-info-ad-tapped"
     
 
     // Constants
@@ -318,6 +320,7 @@ enum EventParameterName: String {
     case adQuery              = "query"
     case adVisibility         = "visibility"
     case adActionLeftApp      = "left-application"
+    case isMine               = "is-mine"
 }
 
 enum EventParameterBoolean: String {
