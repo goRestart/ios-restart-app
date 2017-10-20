@@ -700,7 +700,7 @@ extension ListingViewModel {
     private func buildActionButtons(_ status: ListingViewModelStatus) -> [UIAction] {
         var actionButtons = [UIAction]()
         switch status {
-        case .pending, .notAvailable, .otherSold, .otherSoldFree:
+        case .pending, .notAvailable, .otherSold, .otherSoldFree, .pendingAndFeatured:
             break
         case .available:
             actionButtons.append(UIAction(interface: .button(LGLocalizedString.productMarkAsSoldButton, .terciary),
