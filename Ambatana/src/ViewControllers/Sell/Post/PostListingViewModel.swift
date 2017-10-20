@@ -318,7 +318,7 @@ fileprivate extension PostListingViewModel {
         }.addDisposableTo(disposeBag)
         
         state.asObservable().filter { $0.step == .addingDetails }.bindNext { [weak self] _ in
-            self?.pushToDetails()
+            self?.openPostingDetails()
             }.addDisposableTo(disposeBag)
         
         state.asObservable().filter { $0.step == .uploadSuccess }.bindNext { [weak self] _ in
@@ -367,7 +367,7 @@ fileprivate extension PostListingViewModel {
         }
     }
     
-    func pushToDetails() {
+    func openPostingDetails() {
         navigator?.startDetails(postListingState: state.value, uploadedImageSource: uploadedImageSource, postingSource: postingSource)
     }
     

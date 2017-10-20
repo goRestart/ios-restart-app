@@ -17,6 +17,7 @@ protocol PostingAddDetailTableViewDelegate: class {
 final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewDataSource {
     
     static let cellIdentifier = "postingAddDetailCell"
+    static let cellAddDetailHeight: CGFloat = 67
     
     private var contentCell: [String]
     private let tableView = UITableView()
@@ -83,7 +84,7 @@ final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 67
+        return PostingAddDetailTableView.cellAddDetailHeight
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -108,7 +109,7 @@ final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewD
             }
             
             let image = #imageLiteral(resourceName: "ic_checkmark").withRenderingMode(.alwaysTemplate)
-            let checkmark  = UIImageView(frame:CGRect(x:0, y:0, width:17, height:12))
+            let checkmark  = UIImageView()
             checkmark.image = image
             checkmark.tintColor = UIColor.white
             cell.accessoryView = checkmark
