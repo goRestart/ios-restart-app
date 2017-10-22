@@ -13,6 +13,7 @@ import LGCoreKit
 protocol TaxonomiesViewModelDelegate: BaseViewModelDelegate {}
 
 protocol TaxonomiesDelegate: class {
+    func didSelectTaxonomy(taxonomy: Taxonomy)
     func didSelectTaxonomyChild(taxonomyChild: TaxonomyChild)
 }
 
@@ -26,24 +27,36 @@ class TaxonomiesViewModel : BaseViewModel {
     let taxonomies: [Taxonomy]
     let tracker: Tracker
     let source: EventParameterTypePage
+    let currentTaxonomySelected: Taxonomy?
+    let currentTaxonomyChildSelected: TaxonomyChild?
     
     
     // MARK: - LifeCycle
     
-    init(taxonomies: [Taxonomy], source: EventParameterTypePage, tracker: Tracker) {
+    init(taxonomies: [Taxonomy], taxonomySelected: Taxonomy? , taxonomyChildSelected: TaxonomyChild?,
+         source: EventParameterTypePage, tracker: Tracker) {
         title = LGLocalizedString.categoriesTitle
         self.taxonomies = taxonomies
+        self.currentTaxonomySelected = taxonomySelected
+        self.currentTaxonomyChildSelected = taxonomyChildSelected
         self.source = source
         self.tracker = tracker
     }
     
-    convenience init(taxonomies: [Taxonomy], source: EventParameterTypePage) {
-        self.init(taxonomies: taxonomies, source: source, tracker: TrackerProxy.sharedInstance)
+    convenience init(taxonomies: [Taxonomy], taxonomySelected: Taxonomy?, taxonomyChildSelected: TaxonomyChild?, source: EventParameterTypePage) {
+        self.init(taxonomies: taxonomies, taxonomySelected: taxonomySelected, taxonomyChildSelected: taxonomyChildSelected, source: source, tracker: TrackerProxy.sharedInstance)
     }
     
     override func didBecomeActive(_ firstTime: Bool) {
         let event = TrackerEvent.categoriesStart(source: source)
         tracker.trackEvent(event)
+    }
+    
+    func taxonomySelected(taxonomy: Taxonomy) {
+        let event = TrackerEvent.categoriesComplete(keywordName: taxonomy.name, source: source)
+        tracker.trackEvent(event)
+        taxonomiesDelegate?.didSelectTaxonomy(taxonomy: taxonomy)
+        goBack()
     }
     
     func taxonomyChildSelected(taxonomyChild: TaxonomyChild) {

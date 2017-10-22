@@ -238,7 +238,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterDisclosureCell",
                                                                         for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
                     cell.titleLabel.text = LGLocalizedString.categoriesTitle
-                    cell.subtitleLabel.text = viewModel.currentTaxonomyChildSelected?.name
+                    cell.subtitleLabel.text = viewModel.currentCategoryNameSelected
                     return cell
                 } else {
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterCategoryCell",

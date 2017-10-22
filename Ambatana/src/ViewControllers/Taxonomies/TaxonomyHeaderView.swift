@@ -6,20 +6,33 @@
 //  Copyright © 2017 Ambatana. All rights reserved.
 //
 
-import Foundation
+import LGCoreKit
+import RxSwift
+
+protocol TaxonomyHeaderViewDelegate: class {
+    func didSelectTaxonomy(taxonomy: Taxonomy)
+}
 
 class TaxonomyHeaderView: UIView {
+    
+    weak var delegate: TaxonomyHeaderViewDelegate?
+    private let taxonomy: Taxonomy
+    private let isSelected: Bool
     
     private let containerView = UIView()
     private let label = UILabel()
     private let iconView = UIImageView()
+    private let selectionButton = UIButton()
+    private let checkmarkImageView = UIImageView()
     
     
     // MARK: - Lifecycle
     
-    init(title: String, iconURL: URL?) {
+    init(taxonomy: Taxonomy, isSelected: Bool) {
+        self.taxonomy = taxonomy
+        self.isSelected = isSelected
         super.init(frame: CGRect.zero)
-        setupUI(title: title, iconURL: iconURL)
+        setupUI()
         setupLayout()
     }
     
@@ -30,25 +43,30 @@ class TaxonomyHeaderView: UIView {
     
     // MARK: - UI
     
-    private func setupUI(title: String, iconURL: URL?) {
-        
+    private func setupUI() {
         iconView.contentMode = .scaleAspectFit
         label.font = UIFont.smallBodyFont
         label.textColor = UIColor.grayDark
         label.numberOfLines = 1
         label.textAlignment = .left
         
-        label.text = title.uppercased()
-        if let url = iconURL {
+        label.text = taxonomy.name.uppercased()
+        if let url = taxonomy.icon {
             iconView.lg_setImageWithURL(url)
+        }
+        
+        selectionButton.addTarget(self, action:#selector(headerTap), for: .touchUpInside)
+        
+        if isSelected {
+            checkmarkImageView.image = UIImage(named: "ic_checkmark")
         }
     }
     
     private func setupLayout() {
-        setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: [containerView, iconView, label])
+        setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: [containerView, iconView, label, selectionButton, checkmarkImageView])
         
         addSubview(containerView)
-        containerView.addSubviews([iconView, label])
+        containerView.addSubviews([iconView, label, selectionButton, checkmarkImageView])
         
         containerView.layout(with: self).fill()
         
@@ -57,5 +75,17 @@ class TaxonomyHeaderView: UIView {
         
         label.layout(with: iconView).fillVertical().left(to: .right, by: Metrics.margin)
         label.layout(with: containerView).right(by: -Metrics.margin)
+        
+        selectionButton.layout(with: containerView).fill()
+        
+        checkmarkImageView.layout(with:containerView).trailing(by: -22).centerY()
+        checkmarkImageView.layout().width(14).height(10)
+    }
+    
+    
+    // MARK: - UI Actions
+    
+    func headerTap() {
+        delegate?.didSelectTaxonomy(taxonomy: taxonomy)
     }
 }

@@ -1228,7 +1228,7 @@ extension MainListingsViewModel: EditLocationDelegate {
 
 extension MainListingsViewModel: CategoriesHeaderCollectionViewDelegate {
     func openTaxonomyList() {
-        let vm = TaxonomiesViewModel(taxonomies: getTaxonomies(), source: .listingList)
+        let vm = TaxonomiesViewModel(taxonomies: getTaxonomies(), taxonomySelected: nil, taxonomyChildSelected: nil, source: .listingList)
         vm.taxonomiesDelegate = self
         navigator?.openTaxonomyList(withViewModel: vm)
     }
@@ -1238,6 +1238,13 @@ extension MainListingsViewModel: CategoriesHeaderCollectionViewDelegate {
 // MARK: TaxonomiesDelegate
 
 extension MainListingsViewModel: TaxonomiesDelegate {
+    func didSelectTaxonomy(taxonomy: Taxonomy) {
+        filters.selectedTaxonomy = taxonomy
+        delegate?.vmShowTags(primaryTags: primaryTags, secondaryTags: secondaryTags)
+        updateCategoriesHeader()
+        updateListView()
+    }
+    
     func didSelectTaxonomyChild(taxonomyChild: TaxonomyChild) {
         filters.selectedTaxonomyChildren = [taxonomyChild]
         delegate?.vmShowTags(primaryTags: primaryTags, secondaryTags: secondaryTags)

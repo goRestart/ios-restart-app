@@ -9,7 +9,7 @@
 import RxSwift
 import LGCoreKit
 
-final class TaxonomiesTableView: UIView, UITableViewDelegate, UITableViewDataSource {
+final class TaxonomiesTableView: UIView, UITableViewDelegate, UITableViewDataSource, TaxonomyHeaderViewDelegate {
     
     static let cellIdentifier = "taxonomyCell"
     
@@ -20,8 +20,10 @@ final class TaxonomiesTableView: UIView, UITableViewDelegate, UITableViewDataSou
         }
     }
     
-    let itemSelected = Variable<TaxonomyChild?>(nil)
-    
+    let taxonomySelected = Variable<Taxonomy?>(nil)
+    let taxonomyChildSelected = Variable<TaxonomyChild?>(nil)
+    var selectedTaxonomy: Taxonomy?
+    var selectedTaxonomyChild2: TaxonomyChild?
     
     // MARK: - Lifecycle
     
@@ -90,6 +92,12 @@ final class TaxonomiesTableView: UIView, UITableViewDelegate, UITableViewDataSou
         cell.textLabel?.textColor = UIColor.lgBlack
         cell.indentationLevel = 1
         cell.indentationWidth = 50
+        
+        if selectedTaxonomyChild2 == value {
+            cell.accessoryType = .checkmark
+            cell.tintColor = UIColor.redText
+        }
+        
         return cell
     }
     
@@ -98,7 +106,7 @@ final class TaxonomiesTableView: UIView, UITableViewDelegate, UITableViewDataSou
             cell.accessoryType = .checkmark
             cell.textLabel?.textColor = UIColor.redText
             cell.tintColor = UIColor.redText
-            itemSelected.value = taxonomies[indexPath.section].children[indexPath.row]
+            taxonomyChildSelected.value = taxonomies[indexPath.section].children[indexPath.row]
         }
     }
     
@@ -110,7 +118,9 @@ final class TaxonomiesTableView: UIView, UITableViewDelegate, UITableViewDataSou
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = TaxonomyHeaderView(title: taxonomies[section].name, iconURL: taxonomies[section].icon)
+        let isSelected = taxonomies[section] == selectedTaxonomy && selectedTaxonomyChild2 == nil
+        let view = TaxonomyHeaderView(taxonomy: taxonomies[section], isSelected: isSelected)
+        view.delegate = self
         return view
     }
     
@@ -118,8 +128,17 @@ final class TaxonomiesTableView: UIView, UITableViewDelegate, UITableViewDataSou
         return 50
     }
 
-    func setupTableView(values: [Taxonomy]) {
+    func setupTableView(values: [Taxonomy], selectedTaxonomy: Taxonomy?, selectedTaxonomyChild2: TaxonomyChild?) {
         taxonomies = values
+        self.selectedTaxonomy = selectedTaxonomy
+        self.selectedTaxonomyChild2 = selectedTaxonomyChild2
         tableView.reloadData()
+    }
+    
+    
+    // MARK: - TaxonomyHeaderViewDelegate
+    
+    func didSelectTaxonomy(taxonomy: Taxonomy) {
+        taxonomySelected.value = taxonomy
     }
 }
