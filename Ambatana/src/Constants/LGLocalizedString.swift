@@ -3019,6 +3019,30 @@ struct LGLocalizedString {
 		return NSLocalizedString("real_estate_bedrooms_4", comment: "")
 	}
 
+	static var realEstateSummaryPriceEmpty: String {
+		return NSLocalizedString("real_estate_summary_price_empty", comment: "")
+	}
+
+	static var realEstateSummaryTypePropertyEmpty: String {
+		return NSLocalizedString("real_estate_summary_type_property_empty", comment: "")
+	}
+
+	static var realEstateSummaryOfferTypeEmpty: String {
+		return NSLocalizedString("real_estate_summary_offer_type_empty", comment: "")
+	}
+
+	static var realEstateSummaryBedroomsEmtpy: String {
+		return NSLocalizedString("real_estate_summary_bedrooms_emtpy", comment: "")
+	}
+
+	static var realEstateSummaryBathroomsEmpty: String {
+		return NSLocalizedString("real_estate_summary_bathrooms_empty", comment: "")
+	}
+
+	static var realEstateSummaryLocationEmpty: String {
+		return NSLocalizedString("real_estate_summary_location_empty", comment: "")
+	}
+
 	static var relatedItemsTitle: String {
 		return NSLocalizedString("related_items_title", comment: "")
 	}
