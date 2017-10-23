@@ -161,7 +161,7 @@ extension SellCoordinator: PostListingNavigator {
         case let .forbidden(cause: cause):
             sellError = .forbidden(cause: cause)
         case .serverError, .notFound, .unauthorized, .tooManyRequests, .userNotVerified:
-           sellError = .serverError(code: error.errorCode)
+            sellError = .serverError(code: error.errorCode)
         case .internalError, .wsChatError:
             sellError = .internalError
         }
@@ -238,7 +238,6 @@ extension SellCoordinator: ListingPostedNavigator {
             strongSelf.viewController = postListingVC
             postListingVM.navigator = self
             strongSelf.navigationController = SellNavigationController(rootViewController: postListingVC)
-            strongSelf.navigationController.modalPresentationStyle = .overCurrentContext
             strongSelf.viewController = strongSelf.navigationController
             strongSelf.presentViewController(parent: parentVC, animated: true, completion: nil)
         }
