@@ -123,8 +123,12 @@ extension SellCoordinator: PostListingNavigator {
         }
     }
     
-    func startDetails(postListingState: PostListingState, uploadedImageSource: EventParameterPictureSource?, postingSource: PostingSource) {
-        let viewModel = PostingDetailsViewModel(step: .propertyType, postListingState: postListingState, uploadedImageSource: uploadedImageSource, postingSource: postingSource)
+    func startDetails(postListingState: PostListingState, uploadedImageSource: EventParameterPictureSource?, postingSource: PostingSource, postListingBasicInfo: PostListingBasicDetailViewModel) {
+        let viewModel = PostingDetailsViewModel(step: .propertyType,
+                                                postListingState: postListingState,
+                                                uploadedImageSource: uploadedImageSource,
+                                                postingSource: postingSource,
+                                                postListingBasicInfo: postListingBasicInfo)
         viewModel.navigator = self
         let vc = PostingDetailsViewController(viewModel: viewModel)
         postingDetailStep = .propertyType
@@ -136,11 +140,13 @@ extension SellCoordinator: PostListingNavigator {
     func nextPostingDetailStep(step: PostingDetailStep,
                                postListingState: PostListingState,
                                uploadedImageSource: EventParameterPictureSource?,
-                               postingSource: PostingSource) {
+                               postingSource: PostingSource,
+                               postListingBasicInfo: PostListingBasicDetailViewModel) {
         let viewModel = PostingDetailsViewModel(step: step,
                                                 postListingState: postListingState,
                                                 uploadedImageSource: uploadedImageSource,
-                                                postingSource: postingSource)
+                                                postingSource: postingSource,
+                                                postListingBasicInfo: postListingBasicInfo)
         viewModel.navigator = self
         let vc = PostingDetailsViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: true)

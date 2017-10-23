@@ -61,6 +61,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     private var postListingState: PostListingState
     private var uploadedImageSource: EventParameterPictureSource?
     private let postingSource: PostingSource
+    private let postListingBasicInfo: PostListingBasicDetailViewModel
     
     weak var navigator: PostListingNavigator?
     
@@ -69,11 +70,13 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     convenience init(step: PostingDetailStep,
                      postListingState: PostListingState,
                      uploadedImageSource: EventParameterPictureSource?,
-                     postingSource: PostingSource) {
+                     postingSource: PostingSource,
+                     postListingBasicInfo: PostListingBasicDetailViewModel) {
         self.init(step: step,
                   postListingState: postListingState,
                   uploadedImageSource: uploadedImageSource,
                   postingSource: postingSource,
+                  postListingBasicInfo: postListingBasicInfo,
                   tracker: TrackerProxy.sharedInstance,
                   currencyHelper: Core.currencyHelper,
                   locationManager: Core.locationManager,
@@ -84,6 +87,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
          postListingState: PostListingState,
          uploadedImageSource: EventParameterPictureSource?,
          postingSource: PostingSource,
+         postListingBasicInfo: PostListingBasicDetailViewModel,
          tracker: Tracker,
          currencyHelper: CurrencyHelper,
          locationManager: LocationManager,
@@ -92,6 +96,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         self.postListingState = postListingState
         self.uploadedImageSource = uploadedImageSource
         self.postingSource = postingSource
+        self.postListingBasicInfo = postListingBasicInfo
         self.tracker = tracker
         self.currencyHelper = currencyHelper
         self.locationManager = locationManager
@@ -107,7 +112,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
             postListing()
             return
         }
-        navigator?.nextPostingDetailStep(step: next, postListingState: postListingState, uploadedImageSource: uploadedImageSource, postingSource: postingSource)
+        navigator?.nextPostingDetailStep(step: next, postListingState: postListingState, uploadedImageSource: uploadedImageSource, postingSource: postingSource, postListingBasicInfo: postListingBasicInfo)
     }
     
     private func postListing() {
@@ -117,7 +122,12 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         }
         let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()
         let currency = currencyHelper.currencyWithCountryCode(postalAddress.countryCode ?? Constants.currencyDefault)
-        let listingCreationParams =  ListingCreationParams.make(title: "", description: "", currency: currency, location: location, postalAddress: postalAddress, postListingState: postListingState)
+        let listingCreationParams =  ListingCreationParams.make(title: postListingBasicInfo.title.value,
+                                                                description: postListingBasicInfo.description.value,
+                                                                currency: currency,
+                                                                location: location,
+                                                                postalAddress: postalAddress,
+                                                                postListingState: postListingState)
         
         let trackingInfo: PostListingTrackingInfo = PostListingTrackingInfo(buttonName: .summary, sellButtonPosition: postingSource.sellButtonPosition, imageSource: uploadedImageSource, price: String(describing: postListingState.price?.value))
         navigator?.closePostProductAndPostInBackground(params: listingCreationParams, trackingInfo: trackingInfo)
@@ -180,7 +190,8 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
             return
         }
         if let realEstateInfo = postListingState.realEstateInfo {
-            realEstateInfo.removing(propertyType: removePropertyType, offerType: removeOfferType, bedrooms: removeBedrooms, bathrooms: removeBathrooms)
+            let realEstateInfo = realEstateInfo.removing(propertyType: removePropertyType, offerType: removeOfferType, bedrooms: removeBedrooms, bathrooms: removeBathrooms)
+            postListingState = postListingState.updating(realEstateInfo: realEstateInfo)
         }
     }
 }
