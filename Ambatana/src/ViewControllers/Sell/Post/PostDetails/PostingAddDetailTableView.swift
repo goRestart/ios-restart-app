@@ -11,6 +11,7 @@ import LGCoreKit
 
 protocol PostingAddDetailTableViewDelegate: class {
     func indexSelected(index: Int)
+    func indexDeselected(index: Int)
 }
 
 
