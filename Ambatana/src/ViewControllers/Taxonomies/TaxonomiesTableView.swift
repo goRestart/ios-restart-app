@@ -106,6 +106,7 @@ final class TaxonomiesTableView: UIView, UITableViewDelegate, UITableViewDataSou
             cell.accessoryType = .checkmark
             cell.textLabel?.textColor = UIColor.redText
             cell.tintColor = UIColor.redText
+            taxonomySelected.value = taxonomies[indexPath.section]
             taxonomyChildSelected.value = taxonomies[indexPath.section].children[indexPath.row]
         }
     }

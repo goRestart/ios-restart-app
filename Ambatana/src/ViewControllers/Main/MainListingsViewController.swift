@@ -76,7 +76,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     fileprivate var categoriesHeader: CategoriesHeaderCollectionView?
 
     fileprivate var filterTagsViewHeight: CGFloat {
-        if viewModel.secondaryTags.count <= 0 || viewModel.filters.selectedSecondaryTaxonomyChild != nil {
+        if viewModel.secondaryTags.count <= 0 || viewModel.filters.selectedTaxonomyChildren.count > 0 {
             return 40
         } else {
             return 80

@@ -149,7 +149,7 @@ class MainListingsViewModel: BaseViewModel {
         var resultTags: [FilterTag] = []
         
         if isSuperKeywordGroupsAndSubgroupsInFeedEnabled {
-            if let taxonomyChildren = filters.selectedTaxonomy?.children, filters.selectedSecondaryTaxonomyChild.isEmpty() {
+            if let taxonomyChildren = filters.selectedTaxonomy?.children, filters.selectedTaxonomyChildren.first.isEmpty() {
                 for secondaryTaxonomyChild in taxonomyChildren {
                     resultTags.append(.secondaryTaxonomyChild(secondaryTaxonomyChild))
                 }
@@ -435,9 +435,9 @@ class MainListingsViewModel: BaseViewModel {
         }
         
         if let secondaryTaxonomyChildValue = secondaryTaxonomyChild {
-            filters.selectedSecondaryTaxonomyChild = secondaryTaxonomyChildValue
+            filters.selectedTaxonomyChildren = [secondaryTaxonomyChildValue]
         } else {
-            filters.selectedSecondaryTaxonomyChild = nil
+            filters.selectedTaxonomyChildren = []
         }
     
         filters.selectedOrdering = orderBy

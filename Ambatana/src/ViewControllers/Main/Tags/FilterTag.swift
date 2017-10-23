@@ -27,9 +27,9 @@ enum FilterTag: Equatable {
 extension FilterTag {
     var isSecondaryTaxonomyChild: Bool {
         switch self {
-        case .location, .within, .orderBy, .category, .taxonomyChild, .taxonomy, .priceRange, .freeStuff, .distance, .make, .model, .yearsRange:
+        case .location, .within, .orderBy, .category, .taxonomy, .priceRange, .freeStuff, .distance, .make, .model, .yearsRange:
             return false
-        case .secondaryTaxonomyChild:
+        case .taxonomyChild, .secondaryTaxonomyChild:
             return true
         }
     }
