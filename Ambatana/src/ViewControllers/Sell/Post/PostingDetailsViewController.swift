@@ -39,10 +39,8 @@ class PostingDetailsViewController : BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.setNavigationBarHidden(false, animated: false)
-
         setupConstraints()
         setupUI()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -124,5 +122,3 @@ class PostingDetailsViewController : BaseViewController {
         viewModel.nextbuttonPressed()
     }
 }
-
-

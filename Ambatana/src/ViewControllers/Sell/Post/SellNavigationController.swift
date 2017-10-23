@@ -15,7 +15,7 @@ class SellNavigationController: UINavigationController {
     
     static let progressViewHeight: CGFloat = 5
     
-    fileprivate let disposeBag: DisposeBag
+    fileprivate let disposeBag = DisposeBag()
     
     let progressView = UIView()
     let backgroundProgressView = UIView()
@@ -30,12 +30,10 @@ class SellNavigationController: UINavigationController {
     }
     
     override init(rootViewController: UIViewController) {
-        self.disposeBag = DisposeBag()
         super.init(rootViewController: rootViewController)
     }
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        self.disposeBag = DisposeBag()
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
 
@@ -57,13 +55,13 @@ class SellNavigationController: UINavigationController {
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.frame = view.bounds
         view.addSubview(blurEffectView)
-        self.view.sendSubview(toBack:blurEffectView)
+        view.sendSubview(toBack:blurEffectView)
         
         let background = UIImageView()
         background.image = image
         background.frame = view.bounds
         view.addSubview(background)
-        self.view.sendSubview(toBack:background)
+        view.sendSubview(toBack:background)
     }
     
     func updating(category: PostCategory?) {
@@ -118,10 +116,6 @@ class SellNavigationController: UINavigationController {
 extension SellNavigationController: UINavigationControllerDelegate {
     
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return AlphaAnimator(operation: operation)
-
+        return ContentViewPushAnimatedTransitioning(operation: operation)
     }
 }
-
-
-
