@@ -76,7 +76,6 @@ class ListingCarouselViewModel: BaseViewModel {
 
     let quickAnswers = Variable<[[QuickAnswer]]>([[]])
     let quickAnswersAvailable = Variable<Bool>(false)
-    let quickAnswersCollapsed: Variable<Bool>
 
     let directChatEnabled = Variable<Bool>(false)
     var directChatPlaceholder = Variable<String>("")
@@ -206,7 +205,6 @@ class ListingCarouselViewModel: BaseViewModel {
         self.listingListRequester = listingListRequester
         self.source = source
         self.actionOnFirstAppear = actionOnFirstAppear
-        self.quickAnswersCollapsed = Variable<Bool>(keyValueStorage[.listingDetailQuickAnswersHidden])
         self.keyValueStorage = keyValueStorage
         self.imageDownloader = imageDownloader
         self.listingViewModelMaker = listingViewModelMaker
@@ -294,14 +292,6 @@ class ListingCarouselViewModel: BaseViewModel {
         currentListingViewModel?.chatWithSeller()
     }
 
-    func quickAnswersShowButtonPressed() {
-        quickAnswersCollapsed.value = false
-    }
-
-    func quickAnswersCloseButtonPressed() {
-        quickAnswersCollapsed.value = true
-    }
-
     func send(quickAnswer: QuickAnswer) {
         currentListingViewModel?.sendQuickAnswer(quickAnswer: quickAnswer)
     }
@@ -363,10 +353,6 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     private func setupRxBindings() {
-        quickAnswersCollapsed.asObservable().skip(1).bindNext { [weak self] collapsed in
-            self?.keyValueStorage[.listingDetailQuickAnswersHidden] = collapsed
-        }.addDisposableTo(disposeBag)
-
         moreInfoState.asObservable().map { $0 == .shown }.distinctUntilChanged().filter { $0 }.bindNext { [weak self] _ in
             self?.currentListingViewModel?.trackVisitMoreInfo()
             self?.keyValueStorage[.listingMoreInfoTooltipDismissed] = true
@@ -401,18 +387,7 @@ class ListingCarouselViewModel: BaseViewModel {
         currentVM.directChatEnabled.asObservable().bindTo(directChatEnabled).addDisposableTo(activeDisposeBag)
         directChatMessages.removeAll()
         currentVM.directChatMessages.changesObservable.subscribeNext { [weak self] change in
-            switch change {
-            case let .insert(index, value):
-                self?.directChatMessages.insert(value, atIndex: index)
-            case let .remove(index, _):
-                self?.directChatMessages.removeAtIndex(index)
-            case let .swap(fromIndex, toIndex, replacingWith):
-                self?.directChatMessages.swap(fromIndex: fromIndex, toIndex: toIndex, replacingWith: replacingWith)
-            case let .move(fromIndex, toIndex, replacingWith):
-                self?.directChatMessages.move(fromIndex: fromIndex, toIndex: toIndex, replacingWith: replacingWith)
-            case .composite:
-                break
-            }
+            self?.performCollectionChange(change: change)
         }.addDisposableTo(activeDisposeBag)
         directChatPlaceholder.value = currentVM.directChatPlaceholder
 
@@ -425,6 +400,23 @@ class ListingCarouselViewModel: BaseViewModel {
         socialSharer.value = currentVM.socialSharer
 
         moreInfoState.asObservable().bindTo(currentVM.moreInfoState).addDisposableTo(activeDisposeBag)
+    }
+    
+    private func performCollectionChange(change: CollectionChange<ChatViewMessage>) {
+        switch change {
+        case let .insert(index, value):
+            directChatMessages.insert(value, atIndex: index)
+        case let .remove(index, _):
+            directChatMessages.removeAtIndex(index)
+        case let .swap(fromIndex, toIndex, replacingWith):
+            directChatMessages.swap(fromIndex: fromIndex, toIndex: toIndex, replacingWith: replacingWith)
+        case let .move(fromIndex, toIndex, replacingWith):
+            directChatMessages.move(fromIndex: fromIndex, toIndex: toIndex, replacingWith: replacingWith)
+        case let .composite(changes):
+            for change in changes {
+                performCollectionChange(change: change)
+            }            
+        }
     }
 }
 

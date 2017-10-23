@@ -130,8 +130,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         self.pageControl = UIPageControl(frame: CGRect.zero)
         self.imageDownloader = imageDownloader
         self.carouselImageDownloader = carouselImageDownloader
-        self.directAnswersView = DirectAnswersHorizontalView(answers: [], sideMargin: CarouselUI.itemsMargin,
-                                                             collapsed: viewModel.quickAnswersCollapsed.value)
+        self.directAnswersView = DirectAnswersHorizontalView(answers: [], sideMargin: CarouselUI.itemsMargin)
         self.moreInfoView = ListingCarouselMoreInfoView.moreInfoView()
         let mainBlurEffect = UIBlurEffect(style: .light)
         self.mainViewBlurEffectView = UIVisualEffectView(effect: mainBlurEffect)
@@ -645,7 +644,15 @@ extension ListingCarouselViewController {
             }.addDisposableTo(disposeBag)
 
         viewModel.directChatMessages.changesObservable.bindNext { [weak self] change in
-            self?.directChatTable.handleCollectionChange(change, animation: .top)
+            guard let strongSelf = self else { return }
+            switch change {
+            case .insert(_, let message):
+                // if the message is already in the table we don't perform animations
+                let chatMessageExists = strongSelf.viewModel.directChatMessages.value.filter({ $0.objectId == message.objectId }).count >= 1
+                strongSelf.directChatTable.handleCollectionChange(change, animation: chatMessageExists ? .none : .top)
+            default:
+                strongSelf.directChatTable.handleCollectionChange(change, animation: .none)
+            }
             }.addDisposableTo(disposeBag)
 
         chatTextView.rx.send.bindNext { [weak self] textToSend in
@@ -1063,7 +1070,7 @@ extension ListingCarouselViewController: UITableViewDataSource, UITableViewDeleg
         chatTextView.translatesAutoresizingMaskIntoConstraints = false
         chatContainer.addSubview(chatTextView)
         chatTextView.layout(with: chatContainer).leading(by: CarouselUI.itemsMargin).trailing(by: -CarouselUI.itemsMargin).bottom()
-        let directAnswersBottom: CGFloat = viewModel.quickAnswersCollapsed.value ? 0 : CarouselUI.itemsMargin
+        let directAnswersBottom: CGFloat = CarouselUI.itemsMargin
         chatTextView.layout(with: directAnswersView).top(to: .bottom, by: directAnswersBottom,
                                                          constraintBlock: { [weak self] in self?.directAnswersBottom = $0 })
 
@@ -1073,17 +1080,6 @@ extension ListingCarouselViewController: UITableViewDataSource, UITableViewDeleg
             self?.contentBottomMargin = viewHeight - change.origin
             UIView.animate(withDuration: Double(change.animationTime)) {
                 strongSelf.view.layoutIfNeeded()
-            }
-            }.addDisposableTo(disposeBag)
-
-        viewModel.quickAnswersCollapsed.asObservable().skip(1).bindNext { [weak self] collapsed in
-            if !collapsed {
-                self?.directAnswersView.resetScrollPosition()
-            }
-            self?.directAnswersView.set(collapsed: collapsed)
-            self?.directAnswersBottom.constant = collapsed ? 0 : CarouselUI.itemsMargin
-            UIView.animate(withDuration: LGUIKitConstants.defaultAnimationTime) {
-                self?.chatContainer.superview?.layoutIfNeeded()
             }
             }.addDisposableTo(disposeBag)
     }
@@ -1117,9 +1113,6 @@ extension ListingCarouselViewController: UITableViewDataSource, UITableViewDeleg
         }
     }
 
-    func directAnswersHorizontalViewDidSelectClose() {
-        viewModel.quickAnswersCloseButtonPressed()
-    }
 }
 
 
@@ -1191,6 +1184,7 @@ extension ListingCarouselViewController: ListingCarouselViewModelDelegate {
     func vmResetBumpUpBannerCountdown() {
         bumpUpBanner.resetCountdown()
     }
+    
 
     // Loadings and alerts overrides to remove keyboard before showing
 
