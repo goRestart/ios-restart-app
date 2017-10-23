@@ -8,7 +8,6 @@
 
 protocol DirectAnswersPresenterDelegate: class {
     func directAnswersDidTapAnswer(_ presenter: DirectAnswersPresenter, answer: QuickAnswer, index: Int)
-    func directAnswersDidTapClose(_ presenter: DirectAnswersPresenter)
 }
 
 class DirectAnswersPresenter {
@@ -83,9 +82,5 @@ extension DirectAnswersPresenter: DirectAnswersHorizontalViewDelegate {
             horizontalView?.update(answers: answers, isDynamic: isDynamic)
         }
         delegate?.directAnswersDidTapAnswer(self, answer: answer, index: index)
-    }
-
-    func directAnswersHorizontalViewDidSelectClose() {
-        delegate?.directAnswersDidTapClose(self)
     }
 }

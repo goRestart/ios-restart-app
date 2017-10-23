@@ -156,7 +156,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
     // Delegate
     weak var delegate: EditListingViewModelDelegate?
-    var closeCompletion: ((Listing?) -> Void)?
+    weak var navigator: EditListingNavigator?
 
     // Rx
     let disposeBag = DisposeBag()
@@ -581,7 +581,11 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     private func closeEdit() {
         delegate?.vmHideKeyboard()
         delegate?.vmDismiss { [weak self] in
-            self?.closeCompletion?(self?.savedListing)
+            guard let editedListing = self?.savedListing else {
+                self?.navigator?.editingListingDidCancel()
+                return
+            }
+            self?.navigator?.editingListingDidFinish(editedListing)
         }
     }
 

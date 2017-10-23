@@ -600,9 +600,6 @@ extension ListingViewModel {
         if isMine && status.value != .notAvailable {
             actions.append(buildDeleteAction())
         }
-        if isMine && status.value.isSold && isTransactionOpen {
-            actions.append(buildRateUserAction())
-        }
         
         delegate?.vmShowProductDetailOptions(LGLocalizedString.commonCancel, actions: actions)
     }
@@ -675,11 +672,6 @@ extension ListingViewModel {
                 cancelLabel: LGLocalizedString.productDeleteConfirmCancelButton,
                 actions: alertActions)
             })
-    }
-    
-    private func buildRateUserAction() -> UIAction {
-        let title = LGLocalizedString.productMenuRateBuyer
-        return UIAction(interface: .text(title), action: { [weak self] in self?.selectBuyerToMarkAsSold(sourceRateBuyers: .rateBuyer) } )
     }
 
     private var socialShareMessage: SocialMessage {
@@ -873,9 +865,9 @@ fileprivate extension ListingViewModel {
         listingRepository.delete(listingId: productId) { [weak self] result in
             var message: String? = nil
             var afterMessageAction: (() -> ())? = nil
-            if let _ = result.value {
+            if let _ = result.value, let listing = self?.listing.value {
                 afterMessageAction = { [weak self] in
-                    self?.navigator?.closeAfterDelete()
+                    self?.navigator?.closeListingAfterDelete(listing)
                 }
                 self?.trackHelper.trackDeleteCompleted()
             } else if let _ = result.error {

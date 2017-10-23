@@ -137,8 +137,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         self.customPageControl = PillPageControl(frame: CGRect.zero)
         self.imageDownloader = imageDownloader
         self.carouselImageDownloader = carouselImageDownloader
-        self.directAnswersView = DirectAnswersHorizontalView(answers: [], sideMargin: CarouselUI.itemsMargin,
-                                                             collapsed: viewModel.quickAnswersCollapsed.value)
+        self.directAnswersView = DirectAnswersHorizontalView(answers: [], sideMargin: CarouselUI.itemsMargin)
         self.moreInfoView = ListingCarouselMoreInfoView.moreInfoView()
         let mainBlurEffect = UIBlurEffect(style: .light)
         self.mainViewBlurEffectView = UIVisualEffectView(effect: mainBlurEffect)
@@ -1159,7 +1158,7 @@ extension ListingCarouselViewController: UITableViewDataSource, UITableViewDeleg
         chatTextView.translatesAutoresizingMaskIntoConstraints = false
         chatContainer.addSubview(chatTextView)
         chatTextView.layout(with: chatContainer).leading(by: CarouselUI.itemsMargin).trailing(by: -CarouselUI.itemsMargin).bottom()
-        let directAnswersBottom: CGFloat = viewModel.quickAnswersCollapsed.value ? 0 : CarouselUI.itemsMargin
+        let directAnswersBottom: CGFloat = CarouselUI.itemsMargin
         chatTextView.layout(with: directAnswersView).top(to: .bottom, by: directAnswersBottom,
                                                          constraintBlock: { [weak self] in self?.directAnswersBottom = $0 })
 
@@ -1169,17 +1168,6 @@ extension ListingCarouselViewController: UITableViewDataSource, UITableViewDeleg
             self?.contentBottomMargin = viewHeight - change.origin
             UIView.animate(withDuration: Double(change.animationTime)) {
                 strongSelf.view.layoutIfNeeded()
-            }
-            }.addDisposableTo(disposeBag)
-
-        viewModel.quickAnswersCollapsed.asObservable().skip(1).bindNext { [weak self] collapsed in
-            if !collapsed {
-                self?.directAnswersView.resetScrollPosition()
-            }
-            self?.directAnswersView.set(collapsed: collapsed)
-            self?.directAnswersBottom.constant = collapsed ? 0 : CarouselUI.itemsMargin
-            UIView.animate(withDuration: LGUIKitConstants.defaultAnimationTime) {
-                self?.chatContainer.superview?.layoutIfNeeded()
             }
             }.addDisposableTo(disposeBag)
     }
@@ -1213,9 +1201,6 @@ extension ListingCarouselViewController: UITableViewDataSource, UITableViewDeleg
         }
     }
 
-    func directAnswersHorizontalViewDidSelectClose() {
-        viewModel.quickAnswersCloseButtonPressed()
-    }
 }
 
 

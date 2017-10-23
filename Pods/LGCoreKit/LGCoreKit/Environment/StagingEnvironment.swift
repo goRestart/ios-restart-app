@@ -14,7 +14,6 @@ struct StagingEnvironment: Environment {
     let chatBaseURL = "https://chat.stg.letgo.com"
     let webSocketURL = "wss://chat.stg.letgo.com/socket"
     let notificationsBaseURL = "http://notifications.stg.letgo.com/api"
-    let passiveBuyersBaseURL = "http://passivebuyers.stg.letgo.com/api"
     let paymentsBaseURL = "https://payment.stg.letgo.com/payment"
     let suggestiveSearchBaseURL = "https://suggestivesearch.letgo.com"
     let searchProductsBaseURL = "https://search-products.stg.letgo.com"
