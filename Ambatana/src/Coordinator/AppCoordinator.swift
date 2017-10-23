@@ -242,7 +242,7 @@ extension AppCoordinator: AppNavigator {
         })
         let noButtonInterface = UIActionInterface.image(UIImage(named: "ic_emoji_no"), nil)
         let feedbackAlertAction = UIAction(interface: noButtonInterface, action: { [weak self] in
-            self?.askUserToGiveFeedback()
+            self?.askUserToRateApp()
         })
         let dismissAction: (() -> ()) = { [weak self] in
             self?.trackUserDidRemindLater()
@@ -284,34 +284,6 @@ extension AppCoordinator: AppNavigator {
                             alertType: .plainAlert,
                             buttonsLayout: .vertical,
                             actions: [rateAppAction, exitAction],
-                            simulatePushTransitionOnPresent: true,
-                            dismissAction: dismissAction)
-    }
-
-    private func askUserToGiveFeedback() {
-        let giveFeedbackInterface = UIActionInterface.button(LGLocalizedString.ratingAppFeedbackYesButton,
-                                                             ButtonStyle.primary(fontSize: .medium))
-        let giveFeedbackAction = UIAction(interface: giveFeedbackInterface, action: { [weak self] in
-            self?.openGiveFeedback()
-            self?.trackUserDidRate()
-            LGRatingManager.sharedInstance.userDidRate()
-        })
-        let exitInterface = UIActionInterface.button(LGLocalizedString.ratingAppFeedbackNoButton,
-                                                     ButtonStyle.secondary(fontSize: .medium,
-                                                                           withBorder: true))
-        let dismissAction: (() -> ()) = { [weak self] _ in
-            self?.trackUserDidRemindLater()
-            LGRatingManager.sharedInstance.userDidRemindLater()
-        }
-        let exitAction = UIAction(interface: exitInterface, action: {
-            dismissAction()
-        })
-
-        openTransitionAlert(title: LGLocalizedString.ratingAppFeedbackTitle,
-                            text: "",
-                            alertType: .plainAlert,
-                            buttonsLayout: .vertical,
-                            actions: [giveFeedbackAction, exitAction],
                             simulatePushTransitionOnPresent: true,
                             dismissAction: dismissAction)
     }
