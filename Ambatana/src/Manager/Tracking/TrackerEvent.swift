@@ -761,7 +761,12 @@ struct TrackerEvent {
         return TrackerEvent(name: .appRatingStart, params: params)
     }
 
-    static func appRatingRate() -> TrackerEvent {
+    static func appRatingRate(_ reason: EventParameterUserDidRateReason?) -> TrackerEvent {
+        if let aReason = reason {
+            var params = EventParameters()
+            params[.appRatingReason] = aReason.rawValue
+            return TrackerEvent(name: .appRatingRate, params: params)
+        }
         return TrackerEvent(name: .appRatingRate, params: nil)
     }
 
