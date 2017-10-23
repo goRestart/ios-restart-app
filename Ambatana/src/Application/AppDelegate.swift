@@ -107,6 +107,13 @@ extension AppDelegate: UIApplicationDelegate {
 
         appCoordinator.open()
 
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(5)) { 
+            window.rootViewController?.present(UINavigationController(rootViewController: ListingDeckViewController()),
+                                               animated: true,
+                                               completion: nil)
+        }
+
         return deepLinksRouterContinuation || fbSdkContinuation
     }
 

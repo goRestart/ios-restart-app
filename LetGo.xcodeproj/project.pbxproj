@@ -30,12 +30,18 @@
 		0A8275131F7D1A1100A6A0C5 /* DeferredDeepLinkFacebookTargetSearchQuery.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A82750D1F7D190A00A6A0C5 /* DeferredDeepLinkFacebookTargetSearchQuery.json */; };
 		0A8275141F7D1A1100A6A0C5 /* DeferredDeepLinkFacebookTargetCategory.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A82750F1F7D194800A6A0C5 /* DeferredDeepLinkFacebookTargetCategory.json */; };
 		0A8275151F7D1A1100A6A0C5 /* DeferredDeepLinkFacebookTargetListing.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A8275111F7D196700A6A0C5 /* DeferredDeepLinkFacebookTargetListing.json */; };
-		0A6E56AE1F8E233500419DDC /* RelatedListingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6E56AD1F8E233500419DDC /* RelatedListingsViewModel.swift */; };
-		0A6E56AF1F8E241000419DDC /* RelatedListingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6E56AD1F8E233500419DDC /* RelatedListingsViewModel.swift */; };
+		0AB6E1D41F9DD1670048AFFD /* ListingDeckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB6E1D31F9DD1670048AFFD /* ListingDeckViewController.swift */; };
+		0AB6E1D61F9DD18F0048AFFD /* ListingDeckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB6E1D51F9DD18F0048AFFD /* ListingDeckView.swift */; };
+		0AB6E1D71F9DD4440048AFFD /* ListingDeckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB6E1D31F9DD1670048AFFD /* ListingDeckViewController.swift */; };
+		0AB6E1D81F9DD4440048AFFD /* ListingDeckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB6E1D51F9DD18F0048AFFD /* ListingDeckView.swift */; };
 		0AC264E11F94ACB600666BA6 /* EditListingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC264E01F94ACB600666BA6 /* EditListingCoordinator.swift */; };
 		0AC264E21F94B6A800666BA6 /* EditListingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC264E01F94ACB600666BA6 /* EditListingCoordinator.swift */; };
 		0AC264E41F94B87400666BA6 /* EditListingNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC264E31F94B87400666BA6 /* EditListingNavigator.swift */; };
 		0AC264E51F94B8E900666BA6 /* EditListingNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC264E31F94B87400666BA6 /* EditListingNavigator.swift */; };
+		0AC489431F9DE15000CD6C53 /* ListingCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC489421F9DE15000CD6C53 /* ListingCardView.swift */; };
+		0AC489441F9DE2C000CD6C53 /* ListingCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC489421F9DE15000CD6C53 /* ListingCardView.swift */; };
+		0AC489461F9DE31400CD6C53 /* ListingDeckCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC489451F9DE31400CD6C53 /* ListingDeckCollectionViewLayout.swift */; };
+		0AC489471F9DE41A00CD6C53 /* ListingDeckCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC489451F9DE31400CD6C53 /* ListingDeckCollectionViewLayout.swift */; };
 		0AF7CCBB1F8B51F500128303 /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF7CCBA1F8B51F500128303 /* RoundButton.swift */; };
 		0AF7CCBD1F8B525E00128303 /* OvalLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF7CCBC1F8B525E00128303 /* OvalLayer.swift */; };
 		0AF7CCBE1F8B533D00128303 /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF7CCBA1F8B51F500128303 /* RoundButton.swift */; };
@@ -1452,9 +1458,12 @@
 		0A82750D1F7D190A00A6A0C5 /* DeferredDeepLinkFacebookTargetSearchQuery.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DeferredDeepLinkFacebookTargetSearchQuery.json; sourceTree = "<group>"; };
 		0A82750F1F7D194800A6A0C5 /* DeferredDeepLinkFacebookTargetCategory.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DeferredDeepLinkFacebookTargetCategory.json; sourceTree = "<group>"; };
 		0A8275111F7D196700A6A0C5 /* DeferredDeepLinkFacebookTargetListing.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DeferredDeepLinkFacebookTargetListing.json; sourceTree = "<group>"; };
-		0A6E56AD1F8E233500419DDC /* RelatedListingsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelatedListingsViewModel.swift; sourceTree = "<group>"; };
+		0AB6E1D31F9DD1670048AFFD /* ListingDeckViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckViewController.swift; sourceTree = "<group>"; };
+		0AB6E1D51F9DD18F0048AFFD /* ListingDeckView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckView.swift; sourceTree = "<group>"; };
 		0AC264E01F94ACB600666BA6 /* EditListingCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditListingCoordinator.swift; sourceTree = "<group>"; };
 		0AC264E31F94B87400666BA6 /* EditListingNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditListingNavigator.swift; sourceTree = "<group>"; };
+		0AC489421F9DE15000CD6C53 /* ListingCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardView.swift; sourceTree = "<group>"; };
+		0AC489451F9DE31400CD6C53 /* ListingDeckCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckCollectionViewLayout.swift; sourceTree = "<group>"; };
 		0AF7CCBA1F8B51F500128303 /* RoundButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
 		0AF7CCBC1F8B525E00128303 /* OvalLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OvalLayer.swift; sourceTree = "<group>"; };
 		2E06EAEB1D7051BA00A40704 /* FilterRangePriceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterRangePriceCell.swift; sourceTree = "<group>"; };
@@ -2348,6 +2357,17 @@
 			path = DeepLinks;
 			sourceTree = "<group>";
 		};
+		0AB6E1D21F9DD15D0048AFFD /* DeckView */ = {
+			isa = PBXGroup;
+			children = (
+				0AB6E1D31F9DD1670048AFFD /* ListingDeckViewController.swift */,
+				0AB6E1D51F9DD18F0048AFFD /* ListingDeckView.swift */,
+				0AC489421F9DE15000CD6C53 /* ListingCardView.swift */,
+				0AC489451F9DE31400CD6C53 /* ListingDeckCollectionViewLayout.swift */,
+			);
+			path = DeckView;
+			sourceTree = "<group>";
+		};
 		2E00C4DE1D00364C00B95010 /* LGAlertViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -2653,6 +2673,7 @@
 		50560B8F1B25D18F0021D8D9 /* Listings */ = {
 			isa = PBXGroup;
 			children = (
+				0AB6E1D21F9DD15D0048AFFD /* DeckView */,
 				6AA8278F1D2D03720068C39B /* Carousel */,
 				6A5691511D255CF3000B7365 /* Model */,
 				C7B76CEE1C1089DF00863512 /* CellDrawers */,
@@ -5606,6 +5627,7 @@
 				C727943A1D549342009C25AB /* ChangePasswordViewModel.swift in Sources */,
 				C7363FB81BF9E64B00A4BF6F /* FilterTag.swift in Sources */,
 				6A5E19FA1D548F5400F92692 /* KeyboardHelper.swift in Sources */,
+				0AB6E1D41F9DD1670048AFFD /* ListingDeckViewController.swift in Sources */,
 				C75B55F91C7E12C90001F5CD /* FilterDisclosureCell.swift in Sources */,
 				C768CC1A1CA44B5F00E39E5F /* BranchDeepLink.swift in Sources */,
 				6AF75D0A1CF457D800EACCF0 /* ChatViewMessageAdapter.swift in Sources */,
@@ -5694,6 +5716,7 @@
 				C7732F721D883C7700EAD5B7 /* OnboardingCoordinator.swift in Sources */,
 				C7BAC9C31E49CEA1005BD0AF /* NotificationsManager.swift in Sources */,
 				C7732F6F1D87FA4600EAD5B7 /* TourPostingViewModel.swift in Sources */,
+				0AC489461F9DE31400CD6C53 /* ListingDeckCollectionViewLayout.swift in Sources */,
 				2EBC92151E0ABC73007F0F82 /* PurchaseableProductsResponse.swift in Sources */,
 				2E2A5E121D5C784B0047ED45 /* ExpressChatCoordinator.swift in Sources */,
 				2EBC92121E0ABC4A007F0F82 /* PurchaseableProduct.swift in Sources */,
@@ -5810,6 +5833,7 @@
 				5076228A1CD0EB1D004E5D0D /* AppCoordinator.swift in Sources */,
 				6A5E19EE1D548F5400F92692 /* URL+LG.swift in Sources */,
 				5007279D1B32CE660058DA76 /* UIApplication+TopViewController.swift in Sources */,
+				0AC489431F9DE15000CD6C53 /* ListingCardView.swift in Sources */,
 				2EE4BD211CDA398400EAADF9 /* CrashManager.swift in Sources */,
 				C74016D91D6467C9004C1E9D /* PostListingDetailPriceView.swift in Sources */,
 				50146BD31D4F5FC700B0F635 /* ProfileTabCoordinator.swift in Sources */,
@@ -5818,6 +5842,7 @@
 				721384071F210C15006DB039 /* TaxonomyHeaderView.swift in Sources */,
 				D4912A8A1B08FFF900DACD5A /* UIView+Border.swift in Sources */,
 				01A528711F70113200FEF4CF /* AnimatedPageCollectionViewLayout.swift in Sources */,
+				0AB6E1D61F9DD18F0048AFFD /* ListingDeckView.swift in Sources */,
 				72EB705C1E65C44E00BF709B /* ModularNotificationCellDrawer.swift in Sources */,
 				C731B8781CE22BBE00F31D46 /* WSChatListViewModel.swift in Sources */,
 				505F55B31E8A97AF005A616F /* PostCategorySelectionView.swift in Sources */,
@@ -6120,6 +6145,7 @@
 				C7B5882A1CE1DE1C009B3975 /* BlockedUsersListView.swift in Sources */,
 				C727943B1D549342009C25AB /* ChangePasswordViewModel.swift in Sources */,
 				C7DB41BF1C5138B500400945 /* LoadingIndicator.swift in Sources */,
+				0AB6E1D71F9DD4440048AFFD /* ListingDeckViewController.swift in Sources */,
 				6A5E19FB1D548F5400F92692 /* KeyboardHelper.swift in Sources */,
 				C7DB41C31C5138B500400945 /* SignUpLogInViewController.swift in Sources */,
 				C7DB41C41C5138B500400945 /* EnvironmentProxy.swift in Sources */,
@@ -6208,6 +6234,7 @@
 				C7BAC9C41E49CEA1005BD0AF /* NotificationsManager.swift in Sources */,
 				503D4BF21CCE53C30039FE14 /* UserViewHeaderAccounts.swift in Sources */,
 				C7DB41EB1C5138B500400945 /* SignUpViewModel.swift in Sources */,
+				0AC489471F9DE41A00CD6C53 /* ListingDeckCollectionViewLayout.swift in Sources */,
 				C7732F731D883C7700EAD5B7 /* OnboardingCoordinator.swift in Sources */,
 				C7B588841CE1DFA6009B3975 /* ChatMyMessageCellDrawer.swift in Sources */,
 				C7732F701D87FA4600EAD5B7 /* TourPostingViewModel.swift in Sources */,
@@ -6324,6 +6351,7 @@
 				2EED4D261D23F03E0024328A /* ChatListing+title.swift in Sources */,
 				C73FABBD1DD3895E008F4519 /* SettingsInfoCell.swift in Sources */,
 				6A5E19EB1D548F5400F92692 /* Date+LG.swift in Sources */,
+				0AC489441F9DE2C000CD6C53 /* ListingCardView.swift in Sources */,
 				C7B5887E1CE1DFA6009B3975 /* BaseChatCellDrawer.swift in Sources */,
 				C7BB25D11E36153600649396 /* GodModeManager.swift in Sources */,
 				6A5E19EF1D548F5400F92692 /* URL+LG.swift in Sources */,
@@ -6332,6 +6360,7 @@
 				50146BD41D4F5FC700B0F635 /* ProfileTabCoordinator.swift in Sources */,
 				C74016DA1D6467C9004C1E9D /* PostListingDetailPriceView.swift in Sources */,
 				C743FEAE1E449EA600B4E912 /* RateBuyersViewController.swift in Sources */,
+				0AB6E1D81F9DD4440048AFFD /* ListingDeckView.swift in Sources */,
 				5076228B1CD0EB1D004E5D0D /* AppCoordinator.swift in Sources */,
 				721384081F210C15006DB039 /* TaxonomyHeaderView.swift in Sources */,
 				72EB705D1E65C44E00BF709B /* ModularNotificationCellDrawer.swift in Sources */,
