@@ -76,7 +76,6 @@ class ListingCarouselViewModel: BaseViewModel {
 
     let quickAnswers = Variable<[[QuickAnswer]]>([[]])
     let quickAnswersAvailable = Variable<Bool>(false)
-    let quickAnswersCollapsed: Variable<Bool>
 
     let directChatEnabled = Variable<Bool>(false)
     var directChatPlaceholder = Variable<String>("")
@@ -219,7 +218,6 @@ class ListingCarouselViewModel: BaseViewModel {
         self.listingListRequester = listingListRequester
         self.source = source
         self.actionOnFirstAppear = actionOnFirstAppear
-        self.quickAnswersCollapsed = Variable<Bool>(keyValueStorage[.listingDetailQuickAnswersHidden])
         self.keyValueStorage = keyValueStorage
         self.imageDownloader = imageDownloader
         self.listingViewModelMaker = listingViewModelMaker
@@ -307,14 +305,6 @@ class ListingCarouselViewModel: BaseViewModel {
         currentListingViewModel?.chatWithSeller()
     }
 
-    func quickAnswersShowButtonPressed() {
-        quickAnswersCollapsed.value = false
-    }
-
-    func quickAnswersCloseButtonPressed() {
-        quickAnswersCollapsed.value = true
-    }
-
     func send(quickAnswer: QuickAnswer) {
         currentListingViewModel?.sendQuickAnswer(quickAnswer: quickAnswer)
     }
@@ -378,10 +368,6 @@ class ListingCarouselViewModel: BaseViewModel {
     private func setupRxBindings() {
         imageHorizontalNavigationEnabled.value = imageScrollDirection == .horizontal
         
-        quickAnswersCollapsed.asObservable().skip(1).bindNext { [weak self] collapsed in
-            self?.keyValueStorage[.listingDetailQuickAnswersHidden] = collapsed
-        }.addDisposableTo(disposeBag)
-
         moreInfoState.asObservable().map { $0 == .shown }.distinctUntilChanged().filter { $0 }.bindNext { [weak self] _ in
             self?.currentListingViewModel?.trackVisitMoreInfo()
             self?.keyValueStorage[.listingMoreInfoTooltipDismissed] = true
@@ -509,19 +495,6 @@ extension ListingCarouselViewModel: ListingViewModelDelegate {
         finalActions.append(UIAction(interface: .text(title), action: { [weak self] in
             self?.delegate?.vmShowOnboarding()
         }))
-
-        if quickAnswersAvailable.value {
-            //Adding show/hide quick answers option
-            if quickAnswersCollapsed.value {
-                finalActions.append(UIAction(interface: .text(LGLocalizedString.directAnswersShow), action: {
-                    [weak self] in self?.quickAnswersShowButtonPressed()
-                }))
-            } else {
-                finalActions.append(UIAction(interface: .text(LGLocalizedString.directAnswersHide), action: {
-                    [weak self] in self?.quickAnswersCloseButtonPressed()
-                }))
-            }
-        }
         delegate?.vmShowCarouselOptions(cancelLabel, actions: finalActions)
     }
 

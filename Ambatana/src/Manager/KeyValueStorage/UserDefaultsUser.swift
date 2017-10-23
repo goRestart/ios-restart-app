@@ -13,7 +13,6 @@ struct UserDefaultsUser {
     static let appSharedDefaultValue = false
     static let userLocationApproximateDefaultValue = true
     static let chatSafetyTipsShownDefaultValue = false
-    static let chatShowDirectAnswersDefaultValue = [String:Bool]()
     static let ratingAlreadyRatedDefaultValue = false
     static let ratingRemindMeLaterDateDefaultValue: Date? = nil
     static let postListingLastGalleryAlbumSelectedDefaultValue: String? = nil
@@ -31,7 +30,6 @@ struct UserDefaultsUser {
     var appShared: Bool
     var userLocationApproximate: Bool
     var chatSafetyTipsShown: Bool
-    var chatShowDirectAnswers: [String:Bool] // <id>: <value>
     var ratingAlreadyRated: Bool
     var ratingRemindMeLaterDate: Date?
     var postListingLastGalleryAlbumSelected: String?
@@ -52,7 +50,6 @@ struct UserDefaultsUser {
                   chatSafetyTipsShown: UserDefaultsUser.chatSafetyTipsShownDefaultValue,
                   ratingAlreadyRated: UserDefaultsUser.ratingAlreadyRatedDefaultValue,
                   ratingRemindMeLaterDate: UserDefaultsUser.ratingRemindMeLaterDateDefaultValue,
-                  chatShowDirectAnswers: UserDefaultsUser.chatShowDirectAnswersDefaultValue,
                   postListingLastGalleryAlbumSelected: UserDefaultsUser.postListingLastGalleryAlbumSelectedDefaultValue,
                   postListingLastTabSelected: UserDefaultsUser.postListingLastTabSelectedDefaultValue,
                   postListingPostedPreviously: UserDefaultsUser.postListingPostedPreviouslyDefaultValue,
@@ -70,7 +67,6 @@ struct UserDefaultsUser {
          chatSafetyTipsShown: Bool,
          ratingAlreadyRated: Bool,
          ratingRemindMeLaterDate: Date?,
-         chatShowDirectAnswers: [String: Bool],
          postListingLastGalleryAlbumSelected: String?,
          postListingLastTabSelected: Int,
          postListingPostedPreviously: Bool,
@@ -86,7 +82,6 @@ struct UserDefaultsUser {
         self.chatSafetyTipsShown = chatSafetyTipsShown
         self.ratingAlreadyRated = ratingAlreadyRated
         self.ratingRemindMeLaterDate = ratingRemindMeLaterDate
-        self.chatShowDirectAnswers = chatShowDirectAnswers
         self.postListingLastGalleryAlbumSelected = postListingLastGalleryAlbumSelected
         self.postListingLastTabSelected = postListingLastTabSelected
         self.postListingPostedPreviously = postListingPostedPreviously
@@ -111,8 +106,6 @@ extension UserDefaultsUser: UserDefaultsDecodable {
                                                         defaultValue: UserDefaultsUser.userLocationApproximateDefaultValue)
         let chatSafetyTipsShown = dictionary.decode(UserDefaultsUserKey.chatSafetyTipsShown.rawValue,
                                                     defaultValue: UserDefaultsUser.chatSafetyTipsShownDefaultValue)
-        let chatShowDirectAnswers = dictionary.decode(UserDefaultsUserKey.chatDirectAnswersShow.rawValue,
-                                                      defaultValue: UserDefaultsUser.chatShowDirectAnswersDefaultValue)
         let ratingAlreadyRated = dictionary.decode(UserDefaultsUserKey.ratingAlreadyRated.rawValue,
                                                    defaultValue: UserDefaultsUser.ratingAlreadyRatedDefaultValue)
         let ratingRemindMeLaterDate: Date? = dictionary.decode(UserDefaultsUserKey.ratingRemindMeLaterDate.rawValue,
@@ -143,7 +136,6 @@ extension UserDefaultsUser: UserDefaultsDecodable {
                                 chatSafetyTipsShown: chatSafetyTipsShown,
                                 ratingAlreadyRated: ratingAlreadyRated,
                                 ratingRemindMeLaterDate: ratingRemindMeLaterDate,
-                                chatShowDirectAnswers: chatShowDirectAnswers,
                                 postListingLastGalleryAlbumSelected: postListingLastGalleryAlbumSelected,
                                 postListingLastTabSelected: postListingLastTabSelected,
                                 postListingPostedPreviously:  postListingPostedPreviously,
@@ -161,7 +153,6 @@ extension UserDefaultsUser: UserDefaultsDecodable {
         dict.encode(UserDefaultsUserKey.appShared.rawValue, value: appShared)
         dict.encode(UserDefaultsUserKey.userLocationApproximate.rawValue, value: userLocationApproximate)
         dict.encode(UserDefaultsUserKey.chatSafetyTipsShown.rawValue, value: chatSafetyTipsShown)
-        dict.encode(UserDefaultsUserKey.chatDirectAnswersShow.rawValue, value: chatShowDirectAnswers)
         dict.encode(UserDefaultsUserKey.ratingAlreadyRated.rawValue, value: ratingAlreadyRated)
         if let ratingRemindMeLaterDate = ratingRemindMeLaterDate {
             dict.encode(UserDefaultsUserKey.ratingRemindMeLaterDate.rawValue, value: ratingRemindMeLaterDate)
@@ -193,7 +184,6 @@ private enum UserDefaultsUserKey: String {
     case userLocationApproximate = "isApproximateLocation"
 
     case chatSafetyTipsShown = "chatSafetyTipsShown"
-    case chatDirectAnswersShow = "showDirectAnswers"
 
     case ratingAlreadyRated = "alreadyRated"
     case ratingRemindMeLaterDate = "remindMeLater"

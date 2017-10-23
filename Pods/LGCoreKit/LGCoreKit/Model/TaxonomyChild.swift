@@ -18,9 +18,16 @@ public protocol TaxonomyChild {
     var image: URL? { get }
 }
 
+/*
+ Custom equatable method. TaxonomyChild can not implement Equatable because it is not a type
+ */
 public func ==(lhs: TaxonomyChild?, rhs: TaxonomyChild?) -> Bool {
-    guard let lhs = lhs else { return rhs == nil }
+    guard let lhs = lhs else {
+        guard let _ = rhs else { return true }
+        return false
+    }
     guard let rhs = rhs else { return false }
+
     return lhs.id == rhs.id &&
         lhs.name == rhs.name &&
         lhs.type == rhs.type &&
