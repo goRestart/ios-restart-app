@@ -12,7 +12,7 @@ import LGCoreKit
 class SelectableFilterTagCell: UICollectionViewCell {
     
     private static let cellHeight: CGFloat = 32.0
-    private var tagLabel: UILabel!
+    var tagLabel: UILabel!
     private var filterTag : FilterTag?
     
     
@@ -61,12 +61,13 @@ class SelectableFilterTagCell: UICollectionViewCell {
         contentView.rounded = true
         contentView.layer.backgroundColor = UIColor.white.cgColor
         
-        tagLabel = UILabel(frame: contentView.frame)
+        tagLabel = UILabel()
+        tagLabel.translatesAutoresizingMaskIntoConstraints = false
         tagLabel.textColor = .black
-        tagLabel.font = .systemFont(size: 15)
+        tagLabel.font = UIFont.mediumBodyFont
         tagLabel.textAlignment = .center
         contentView.addSubview(tagLabel)
-        tagLabel.layout(with: contentView).fillVertical().trailing(by: Metrics.shortMargin).leading(by: Metrics.shortMargin)
+        tagLabel.layout(with: contentView).fillVertical().trailing().leading()
     }
     
     private func resetUI() {

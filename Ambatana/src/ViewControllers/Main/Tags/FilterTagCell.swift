@@ -15,9 +15,9 @@ protocol FilterTagCellDelegate : class {
 
 class FilterTagCell: UICollectionViewCell {
     
-    private static let cellHeight : CGFloat = 32.0
-    private static let fixedWidthSpace : CGFloat = 42.0 //10.0 left margin & 32.0 close button
-    private static let iconWidth : CGFloat = 28.0
+    private static let cellHeight: CGFloat = 32.0
+    private static let fixedWidthSpace: CGFloat = 42.0 //10.0 left margin & 32.0 close button
+    private static let iconWidth: CGFloat = 28.0
     private static let USDollarCode = "USD"
 
     @IBOutlet weak var tagIcon: UIImageView!
@@ -48,7 +48,7 @@ class FilterTagCell: UICollectionViewCell {
         case .secondaryTaxonomyChild(let secondaryTaxonomyChild):
             return FilterTagCell.sizeForText(secondaryTaxonomyChild.name)
         case .priceRange(let minPrice, let maxPrice, let currency):
-            let priceRangeString  = FilterTagCell.stringForPriceRange(minPrice, max: maxPrice, withCurrency: currency)
+            let priceRangeString = FilterTagCell.stringForPriceRange(minPrice, max: maxPrice, withCurrency: currency)
             return FilterTagCell.sizeForText(priceRangeString)
         case .freeStuff:
             return CGSize(width: iconWidth+fixedWidthSpace, height: FilterTagCell.cellHeight)

@@ -25,6 +25,15 @@ enum FilterTag: Equatable {
 }
 
 extension FilterTag {
+    var isTaxonomy: Bool {
+        switch self {
+        case .location, .within, .orderBy, .category, .taxonomyChild, .secondaryTaxonomyChild, .priceRange, .freeStuff, .distance, .make, .model, .yearsRange:
+            return false
+        case .taxonomy:
+            return true
+        }
+    }
+    
     var isSecondaryTaxonomyChild: Bool {
         switch self {
         case .location, .within, .orderBy, .category, .taxonomy, .priceRange, .freeStuff, .distance, .make, .model, .yearsRange:

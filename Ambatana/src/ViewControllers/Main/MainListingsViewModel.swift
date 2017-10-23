@@ -149,7 +149,7 @@ class MainListingsViewModel: BaseViewModel {
         var resultTags: [FilterTag] = []
         
         if isSuperKeywordGroupsAndSubgroupsInFeedEnabled {
-            if let taxonomyChildren = filters.selectedTaxonomy?.children, filters.selectedTaxonomyChildren.first.isEmpty() {
+            if let taxonomyChildren = filters.selectedTaxonomy?.children, filters.selectedTaxonomyChildren.count <= 0 {
                 for secondaryTaxonomyChild in taxonomyChildren {
                     resultTags.append(.secondaryTaxonomyChild(secondaryTaxonomyChild))
                 }
@@ -358,7 +358,7 @@ class MainListingsViewModel: BaseViewModel {
     /**
         Called when a filter gets removed
     */
-    func updateFiltersFromTags(_ tags: [FilterTag]) {
+    func updateFiltersFromTags(_ tags: [FilterTag], removedTag: FilterTag?) {
 
         var place: Place? = nil
         var categories: [FilterCategoryItem] = []
@@ -422,11 +422,11 @@ class MainListingsViewModel: BaseViewModel {
             }
         }
         
-        if let taxonomyChildValue = taxonomyChild {
-            filters.selectedTaxonomyChildren = [taxonomyChildValue]
-        } else {
-            filters.selectedTaxonomyChildren = []
-        }
+//        if let taxonomyChildValue = taxonomyChild {
+//            filters.selectedTaxonomyChildren = [taxonomyChildValue]
+//        } else {
+//            filters.selectedTaxonomyChildren = []
+//        }
         
         if let taxonomyValue = taxonomy {
             filters.selectedTaxonomy = taxonomyValue
@@ -434,9 +434,17 @@ class MainListingsViewModel: BaseViewModel {
             filters.selectedTaxonomy = nil
         }
         
-        if let secondaryTaxonomyChildValue = secondaryTaxonomyChild {
+        if let secondaryTaxonomyChildValue = secondaryTaxonomyChild,
+            filters.selectedTaxonomy != nil {
             filters.selectedTaxonomyChildren = [secondaryTaxonomyChildValue]
+        } else if let taxonomyChildValue = taxonomyChild,
+            filters.selectedTaxonomy != nil {
+            filters.selectedTaxonomyChildren = [taxonomyChildValue]
         } else {
+            filters.selectedTaxonomyChildren = []
+        }
+        
+        if let removedTag = removedTag, removedTag.isTaxonomy {
             filters.selectedTaxonomyChildren = []
         }
     
@@ -1240,6 +1248,7 @@ extension MainListingsViewModel: CategoriesHeaderCollectionViewDelegate {
 extension MainListingsViewModel: TaxonomiesDelegate {
     func didSelectTaxonomy(taxonomy: Taxonomy) {
         filters.selectedTaxonomy = taxonomy
+        filters.selectedTaxonomyChildren = []
         delegate?.vmShowTags(primaryTags: primaryTags, secondaryTags: secondaryTags)
         updateCategoriesHeader()
         updateListView()

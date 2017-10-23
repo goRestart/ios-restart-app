@@ -60,9 +60,9 @@ class TaxonomiesViewModel : BaseViewModel {
     }
     
     func taxonomyChildSelected(taxonomyChild: TaxonomyChild) {
+        taxonomiesDelegate?.didSelectTaxonomyChild(taxonomyChild: taxonomyChild)
         let event = TrackerEvent.categoriesComplete(keywordName: taxonomyChild.name, source: source)
         tracker.trackEvent(event)
-        taxonomiesDelegate?.didSelectTaxonomyChild(taxonomyChild: taxonomyChild)
         goBack()
     }
     

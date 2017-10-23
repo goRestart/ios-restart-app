@@ -58,7 +58,8 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
             layout.scrollDirection = UICollectionViewScrollDirection.horizontal
         }
         
-        collectionView.backgroundColor = .red
+        backgroundColor = .clear
+        collectionView.backgroundColor = .clear
     }
     
     private func setupSecondaryCollectionView() {
@@ -67,6 +68,7 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
             return
         }
         
+        if secondaryCollectionView == nil || secondaryCollectionView?.superview == nil {
         //guard secondaryCollectionView == nil, secondaryCollectionView?.superview == nil else { return }
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.sectionInset = FilterTagsView.collectionContentInset
@@ -89,7 +91,8 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
         secondaryCollectionView.layout(with: self).fillHorizontal().bottom()
         secondaryCollectionView.layout().height(40)
         
-        secondaryCollectionView.backgroundColor = .green
+        secondaryCollectionView.backgroundColor = .clear
+        }
     }
     
     

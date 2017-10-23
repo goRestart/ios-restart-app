@@ -195,7 +195,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
            listingListView.collectionView.contentOffset.y <= -topHeadersHeight  {
             // Move tags view along iwth tab bar
             if let tagsVC = self.filterTagsView, !tagsVC.tags.isEmpty {
-                showTagsView(showPrimaryTags: !scrollDown, showSecondaryTags: !scrollDown && viewModel.secondaryTags.count > 0, updateInsets: false)
+                showTagsView(showPrimaryTags: !scrollDown, showSecondaryTags: !scrollDown && viewModel.filters.selectedTaxonomyChildren.count <= 0, updateInsets: false)
             }
             setBars(hidden: scrollDown)
         }
@@ -300,18 +300,20 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     // MARK: - FilterTagsViewDelegate
     
     func filterTagsViewDidRemoveTag(_ tag: FilterTag, remainingTags: [FilterTag]) {
-        viewModel.updateFiltersFromTags(remainingTags)
+        viewModel.updateFiltersFromTags(remainingTags, removedTag: tag)
         if tag.isSecondaryTaxonomyChild {
             loadTagsViewWithTags(primaryTags: remainingTags, secondaryTags: viewModel.secondaryTags)
         } else if remainingTags.isEmpty {
             loadTagsViewWithTags(primaryTags: [], secondaryTags: [])
+        } else {
+            loadTagsViewWithTags(primaryTags: viewModel.primaryTags, secondaryTags: viewModel.secondaryTags)
         }
     }
     
     func filterTagsViewDidSelectTag(_ tag: FilterTag) {
         guard var newTags: [FilterTag] = filterTagsView?.tags else { return }
         newTags.append(tag)
-        viewModel.updateFiltersFromTags(newTags)
+        viewModel.updateFiltersFromTags(newTags, removedTag: nil)
         loadTagsViewWithTags(primaryTags: newTags, secondaryTags: [])
     }
     
@@ -354,6 +356,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
 
         filterTagsView = FilterTagsView()
         filterTagsView?.delegate = self
+        tagsContainerView.backgroundColor = .clear
         tagsContainerView.addSubview(filterTagsView!)
         tagsContainerView.isHidden = true
         tagsContainerView.translatesAutoresizingMaskIntoConstraints = false
