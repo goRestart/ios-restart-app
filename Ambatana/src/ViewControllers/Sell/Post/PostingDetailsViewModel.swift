@@ -43,7 +43,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
             if let countryCode = locationManager.currentLocation?.countryCode {
                 currencySymbol = currencyHelper.currencyWithCountryCode(countryCode).symbol
             }
-            return PostAddDetailPriceView(currencySymbol: currencySymbol,
+            return PostingAddDetailPriceView(currencySymbol: currencySymbol,
                                           freeEnabled: featureFlags.freePostingModeAllowed, frame: CGRect.zero)
         }
         let view: PostingAddDetailTableView = PostingAddDetailTableView(values: values)

@@ -10,7 +10,7 @@ import Foundation
 import LGCoreKit
 import RxSwift
 
-class PostingDetailsViewController : BaseViewController {
+class PostingDetailsViewController: KeyboardViewController {
     
     fileprivate static let titleHeight: CGFloat = 60
     fileprivate static let skipButtonMinimumWidth: CGFloat = 100
@@ -19,6 +19,7 @@ class PostingDetailsViewController : BaseViewController {
     private let titleLabel: UILabel = UILabel()
     private let contentView: UIView = UIView()
     private let buttonNext: UIButton = UIButton()
+    private var buttonNextBottomMargin = NSLayoutConstraint()
     
     private let viewModel: PostingDetailsViewModel
     
@@ -42,6 +43,7 @@ class PostingDetailsViewController : BaseViewController {
 
         setupConstraints()
         setupUI()
+        setupRx()
         
     }
     
@@ -110,7 +112,20 @@ class PostingDetailsViewController : BaseViewController {
         buttonNext.layout(with: contentView).below(by: Metrics.bigMargin)
         buttonNext.layout().height(PostingDetailsViewController.skipButtonHeight)
         buttonNext.layout().width(PostingDetailsViewController.skipButtonMinimumWidth, relatedBy: .greaterThanOrEqual)
-        buttonNext.layout(with: view).right(by: -Metrics.bigMargin).bottom(by: -Metrics.bigMargin)
+        buttonNext.layout(with: view).right(by: -Metrics.bigMargin).bottom(by: -Metrics.bigMargin) { (constraint) in
+            self.buttonNextBottomMargin = constraint
+        }
+    }
+    
+    private func setupRx() {
+        keyboardChanges.bindNext { [weak self] change in
+            guard let strongSelf = self else { return }
+            let viewHeight = strongSelf.view.height
+            self?.buttonNextBottomMargin.constant = change.origin - viewHeight - Metrics.bigMargin
+            UIView.animate(withDuration: Double(change.animationTime)) {
+                strongSelf.view.layoutIfNeeded()
+            }
+            }.addDisposableTo(disposeBag)
     }
     
     

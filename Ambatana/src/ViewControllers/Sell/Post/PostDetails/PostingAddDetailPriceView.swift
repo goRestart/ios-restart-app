@@ -9,7 +9,7 @@
 import LGCoreKit
 import RxSwift
 
-class PostAddDetailPriceView: UIView {
+class PostingAddDetailPriceView: UIView {
     
     static private let currencyWidth: CGFloat = 20
     static private let priceViewMargin: CGFloat = 20
@@ -79,6 +79,9 @@ class PostAddDetailPriceView: UIView {
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(freeContainerPressed))
         contentSwitchView.addGestureRecognizer(tap)
+        
+        let tapBackground = UITapGestureRecognizer(target: self, action: #selector(closeKeyboard))
+        addGestureRecognizer(tapBackground)
     }
     
     private func setupConstraints() {
@@ -140,5 +143,9 @@ class PostAddDetailPriceView: UIView {
     
     dynamic private func freeContainerPressed() {
         freeActive.value = !freeSwitch.isOn
+    }
+    
+    dynamic private func closeKeyboard() {
+        priceTextField.resignFirstResponder()
     }
 }
