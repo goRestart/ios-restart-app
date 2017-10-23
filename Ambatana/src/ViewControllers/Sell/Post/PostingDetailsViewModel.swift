@@ -149,4 +149,30 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
             self?.nextbuttonPressed()
         }
     }
+    
+    func indexDeselected(index: Int) {
+        var removeBathrooms = false
+        var removeBedrooms = false
+        var removePropertyType = false
+        var removeOfferType = false
+        
+        switch step {
+        case .bathrooms:
+            removeBathrooms = true
+        case .bedrooms:
+            removeBedrooms = true
+        case .offerType:
+            removeOfferType = true
+        case .propertyType:
+            removePropertyType = true
+        case .price:
+            return
+        case .summary:
+            return
+        }
+        if let realEstateInfo = postListingState.realEstateInfo {
+            let realEstateInfo = realEstateInfo.removing(propertyType: removePropertyType, offerType: removeOfferType, bedrooms: removeBedrooms, bathrooms: removeBathrooms)
+            postListingState = postListingState.updating(realEstateInfo: realEstateInfo)
+        }
+    }
 }
