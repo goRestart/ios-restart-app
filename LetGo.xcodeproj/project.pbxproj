@@ -901,8 +901,8 @@
 		C74016DA1D6467C9004C1E9D /* PostListingDetailPriceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74016D81D6467C9004C1E9D /* PostListingDetailPriceView.swift */; };
 		C74016DC1D6467DB004C1E9D /* PostListingDetailPriceView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74016DB1D6467DB004C1E9D /* PostListingDetailPriceView.xib */; };
 		C74016DD1D6467DB004C1E9D /* PostListingDetailPriceView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74016DB1D6467DB004C1E9D /* PostListingDetailPriceView.xib */; };
-		C74016DF1D6468A7004C1E9D /* PostListingDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74016DE1D6468A7004C1E9D /* PostListingDetailViewModel.swift */; };
-		C74016E01D6468A7004C1E9D /* PostListingDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74016DE1D6468A7004C1E9D /* PostListingDetailViewModel.swift */; };
+		C74016DF1D6468A7004C1E9D /* PostListingBasicDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74016DE1D6468A7004C1E9D /* PostListingBasicDetailViewModel.swift */; };
+		C74016E01D6468A7004C1E9D /* PostListingBasicDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74016DE1D6468A7004C1E9D /* PostListingBasicDetailViewModel.swift */; };
 		C7415ED61DE880BD0003D6C1 /* SimpleListingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7415ED41DE880BD0003D6C1 /* SimpleListingsViewController.swift */; };
 		C7415ED71DE880BD0003D6C1 /* SimpleListingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7415ED41DE880BD0003D6C1 /* SimpleListingsViewController.swift */; };
 		C7415ED81DE880BD0003D6C1 /* SimpleListingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7415ED51DE880BD0003D6C1 /* SimpleListingsViewController.xib */; };
@@ -2022,7 +2022,7 @@
 		C73FABC11DD46A1D008F4519 /* SettingsSwitchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsSwitchCell.xib; sourceTree = "<group>"; };
 		C74016D81D6467C9004C1E9D /* PostListingDetailPriceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostListingDetailPriceView.swift; sourceTree = "<group>"; };
 		C74016DB1D6467DB004C1E9D /* PostListingDetailPriceView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PostListingDetailPriceView.xib; sourceTree = "<group>"; };
-		C74016DE1D6468A7004C1E9D /* PostListingDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostListingDetailViewModel.swift; sourceTree = "<group>"; };
+		C74016DE1D6468A7004C1E9D /* PostListingBasicDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostListingBasicDetailViewModel.swift; sourceTree = "<group>"; };
 		C7415ED41DE880BD0003D6C1 /* SimpleListingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleListingsViewController.swift; sourceTree = "<group>"; };
 		C7415ED51DE880BD0003D6C1 /* SimpleListingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SimpleListingsViewController.xib; sourceTree = "<group>"; };
 		C7415EDA1DE898580003D6C1 /* SimpleListingsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleListingsViewModel.swift; sourceTree = "<group>"; };
@@ -3806,7 +3806,7 @@
 				8E0C9DF31E96924F00768D27 /* PostCategoryDetailProgressView.swift */,
 				8E15D7961E9B97D3000A99C0 /* PostCategoryDetailRowView.swift */,
 				8E69F3F11E9E30EE00E14F12 /* CategoryDetailTableView.swift */,
-				C74016DE1D6468A7004C1E9D /* PostListingDetailViewModel.swift */,
+				C74016DE1D6468A7004C1E9D /* PostListingBasicDetailViewModel.swift */,
 				C74016D81D6467C9004C1E9D /* PostListingDetailPriceView.swift */,
 				C74016DB1D6467DB004C1E9D /* PostListingDetailPriceView.xib */,
 				72854D161F8CE41700E54530 /* PostingAddDetailTableView.swift */,
@@ -5809,7 +5809,7 @@
 				50D934D91E81283100BDD5FF /* PostListingState.swift in Sources */,
 				50E8A08B1B79F8D800DE49CC /* ContactSubject.swift in Sources */,
 				6A672C161CCFB76E00AB9175 /* UIFont+LG.swift in Sources */,
-				C74016DF1D6468A7004C1E9D /* PostListingDetailViewModel.swift in Sources */,
+				C74016DF1D6468A7004C1E9D /* PostListingBasicDetailViewModel.swift in Sources */,
 				2E4A94E61E49D66000218916 /* UIView+Rx.swift in Sources */,
 				C7F3F1E11DE5A95F00652447 /* ChatRelatedListingsView.swift in Sources */,
 				C727943C1D549342009C25AB /* ChangeUsernameViewController.swift in Sources */,
@@ -6339,7 +6339,7 @@
 				C7C61E051D633FDB00F9505D /* SearchType.swift in Sources */,
 				2E4A94E71E49D73F00218916 /* UIView+Rx.swift in Sources */,
 				C7111EFA1CA43822000C5C5A /* DeepLinksRouter.swift in Sources */,
-				C74016E01D6468A7004C1E9D /* PostListingDetailViewModel.swift in Sources */,
+				C74016E01D6468A7004C1E9D /* PostListingBasicDetailViewModel.swift in Sources */,
 				C727943D1D549342009C25AB /* ChangeUsernameViewController.swift in Sources */,
 				72E8A58B1EB34D93000524E6 /* CategoriesHeaderCell.swift in Sources */,
 				6A672C171CCFB76E00AB9175 /* UIFont+LG.swift in Sources */,

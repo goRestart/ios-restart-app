@@ -47,7 +47,7 @@ class PostListingViewModel: BaseViewModel {
     let state: Variable<PostListingState>
     let category: Variable<PostCategory?>
 
-    let postDetailViewModel: PostListingDetailViewModel
+    let postDetailViewModel: PostListingBasicDetailViewModel
     let postListingCameraViewModel: PostListingCameraViewModel
     let postingSource: PostingSource
     let postCategory: PostCategory?
@@ -111,7 +111,7 @@ class PostListingViewModel: BaseViewModel {
         self.listingRepository = listingRepository
         self.fileRepository = fileRepository
         self.carsInfoRepository = carsInfoRepository
-        self.postDetailViewModel = PostListingDetailViewModel()
+        self.postDetailViewModel = PostListingBasicDetailViewModel()
         self.postListingCameraViewModel = PostListingCameraViewModel(postingSource: source)
         self.tracker = tracker
         self.sessionManager = sessionManager
@@ -295,10 +295,10 @@ extension PostListingViewModel {
     }
 }
 
-// MARK: - PostListingDetailViewModelDelegate
+// MARK: - PostListingBasicDetailViewModelDelegate
 
-extension PostListingViewModel: PostListingDetailViewModelDelegate {
-    func postListingDetailDone(_ viewModel: PostListingDetailViewModel) {
+extension PostListingViewModel: PostListingBasicDetailViewModelDelegate {
+    func postListingDetailDone(_ viewModel: PostListingBasicDetailViewModel) {
         state.value = state.value.updating(price: viewModel.listingPrice)
     }
 }
@@ -368,7 +368,10 @@ fileprivate extension PostListingViewModel {
     }
     
     func openPostingDetails() {
-        navigator?.startDetails(postListingState: state.value, uploadedImageSource: uploadedImageSource, postingSource: postingSource)
+        navigator?.startDetails(postListingState: state.value,
+                                uploadedImageSource: uploadedImageSource,
+                                postingSource: postingSource,
+                                postListingBasicInfo: postDetailViewModel)
     }
     
     func makeListingParams(images:[File]) -> ListingCreationParams? {

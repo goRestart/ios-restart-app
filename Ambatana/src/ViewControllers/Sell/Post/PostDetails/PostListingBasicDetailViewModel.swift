@@ -1,5 +1,5 @@
 //
-//  PostListingDetailViewModel.swift
+//  PostListingBasicDetailViewModel.swift
 //  LetGo
 //
 //  Created by Eli Kohen on 17/08/16.
@@ -9,12 +9,12 @@
 import RxSwift
 import LGCoreKit
 
-protocol PostListingDetailViewModelDelegate: class {
-    func postListingDetailDone(_ viewModel: PostListingDetailViewModel)
+protocol PostListingBasicDetailViewModelDelegate: class {
+    func postListingDetailDone(_ viewModel: PostListingBasicDetailViewModel)
 }
 
-class PostListingDetailViewModel: BaseViewModel {
-    weak var delegate: PostListingDetailViewModelDelegate?
+class PostListingBasicDetailViewModel: BaseViewModel {
+    weak var delegate: PostListingBasicDetailViewModelDelegate?
 
     // In variables
     let price = Variable<String>("")
