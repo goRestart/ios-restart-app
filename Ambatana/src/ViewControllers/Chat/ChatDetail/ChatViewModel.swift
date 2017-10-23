@@ -132,7 +132,6 @@ class ChatViewModel: BaseViewModel {
     private let myMessagesCount = Variable<Int>(0)
     private let otherMessagesCount = Variable<Int>(0)
     fileprivate let isEmptyConversation = Variable<Bool>(true)
-    fileprivate let userDirectAnswersEnabled = Variable<Bool>(false)
 
     fileprivate var isDeleted = false
     fileprivate var shouldAskListingSold: Bool = false
@@ -420,18 +419,15 @@ class ChatViewModel: BaseViewModel {
         expressMessagesAlreadySent.asObservable()) { $0 && $1 && !$2 && !$3 }
             .distinctUntilChanged().bindTo(shouldShowExpressBanner).addDisposableTo(disposeBag)
 
-        userDirectAnswersEnabled.value = keyValueStorage.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
-
         let directAnswers: Observable<DirectAnswersState> = Observable.combineLatest(chatEnabled.asObservable(),
                                         relatedListingsState.asObservable(),
-                                        userDirectAnswersEnabled.asObservable(),
-                                        resultSelector: { chatEnabled, relatedState, directAnswers in
+                                        resultSelector: { chatEnabled, relatedState in
                                             switch relatedState {
                                             case .loading, .visible:
                                                 return .notAvailable
                                             case .hidden:
                                                 guard chatEnabled else { return .notAvailable }
-                                                return directAnswers ? .visible : .hidden
+                                                return .visible
                                             }
                                         }).distinctUntilChanged()
         directAnswers.bindTo(directAnswersState).addDisposableTo(disposeBag)
@@ -557,9 +553,6 @@ class ChatViewModel: BaseViewModel {
         navigator?.openExpressChat(relatedListings, sourceListingId: listingId, manualOpen: true)
     }
 
-    func directAnswersButtonPressed() {
-        toggleDirectAnswers()
-    }
 }
 
 
@@ -1165,7 +1158,6 @@ extension ChatViewModel {
         for message in messages {
             guard message.talkerId != myUserId else { return }
         }
-        userDirectAnswersEnabled.value = true
     }
 }
 
@@ -1377,19 +1369,6 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
         } else {
             send(quickAnswer: answer)
         }
-    }
-    
-    func directAnswersDidTapClose(_ controller: DirectAnswersPresenter) {
-        showDirectAnswers(false)
-    }
-
-    fileprivate func toggleDirectAnswers() {
-        showDirectAnswers(!userDirectAnswersEnabled.value)
-    }
-
-    fileprivate func showDirectAnswers(_ show: Bool) {
-        keyValueStorage.userSaveChatShowDirectAnswersForKey(userDefaultsSubKey, value: show)
-        userDirectAnswersEnabled.value = show
     }
     
     private func clearListingSoldDirectAnswer() {

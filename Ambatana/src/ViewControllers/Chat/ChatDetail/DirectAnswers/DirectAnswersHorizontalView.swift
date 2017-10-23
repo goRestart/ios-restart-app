@@ -10,7 +10,6 @@ import Foundation
 
 protocol DirectAnswersHorizontalViewDelegate: class {
     func directAnswersHorizontalViewDidSelect(answer: QuickAnswer, index: Int)
-    func directAnswersHorizontalViewDidSelectClose()
 }
 
 enum DirectAnswersStyle {
@@ -32,11 +31,7 @@ class DirectAnswersHorizontalView: UIView {
             }
         }
     }
-    var style: DirectAnswersStyle = .dark {
-        didSet {
-            reloadCloseCell()
-        }
-    }
+    var style: DirectAnswersStyle = .dark
 
     fileprivate var heightConstraint = NSLayoutConstraint()
     fileprivate let collectionView: UICollectionView
@@ -45,17 +40,17 @@ class DirectAnswersHorizontalView: UIView {
 
     // MARK: - Lifecycle
 
-    convenience init(answers: [[QuickAnswer]], sideMargin: CGFloat = DirectAnswersHorizontalView.defaultSideMargin, collapsed: Bool = false) {
+    convenience init(answers: [[QuickAnswer]], sideMargin: CGFloat = DirectAnswersHorizontalView.defaultSideMargin) {
         let frame = CGRect(x: 0, y: 0, width: DirectAnswersHorizontalView.defaultWidth, height: DirectAnswerCell.cellHeight)
-        self.init(frame: frame, answers: answers, sideMargin: sideMargin, collapsed: collapsed)
+        self.init(frame: frame, answers: answers, sideMargin: sideMargin)
     }
 
-    required init(frame: CGRect, answers: [[QuickAnswer]], sideMargin: CGFloat = DirectAnswersHorizontalView.defaultSideMargin, collapsed: Bool = false) {
+    required init(frame: CGRect, answers: [[QuickAnswer]], sideMargin: CGFloat = DirectAnswersHorizontalView.defaultSideMargin) {
         self.answers = answers
         let collectionFrame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
         self.collectionView = UICollectionView(frame: collectionFrame, collectionViewLayout: UICollectionViewFlowLayout())
         super.init(frame: frame)
-        setupUI(sideMargin: sideMargin, collapsed: collapsed)
+        setupUI(sideMargin: sideMargin)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -64,12 +59,6 @@ class DirectAnswersHorizontalView: UIView {
 
     override var intrinsicContentSize: CGSize {
         return CGSize(width: DirectAnswersHorizontalView.defaultWidth, height: DirectAnswersHorizontalView.defaultHeight)
-    }
-
-    func set(collapsed: Bool) {
-        let currentCollapsed = heightConstraint.constant == 0
-        guard currentCollapsed != collapsed else { return }
-        heightConstraint.constant = collapsed ? 0 : DirectAnswersHorizontalView.defaultHeight
     }
 
     func update(answers: [[QuickAnswer]], isDynamic: Bool) {
@@ -83,10 +72,10 @@ class DirectAnswersHorizontalView: UIView {
         collectionView.scrollRectToVisible(rectToScroll, animated: false)
     }
 
-    private func setupUI(sideMargin: CGFloat, collapsed: Bool) {
+    private func setupUI(sideMargin: CGFloat) {
         backgroundColor = UIColor.clear
         clipsToBounds = true
-        let height = collapsed ? 0 : DirectAnswersHorizontalView.defaultHeight
+        let height = DirectAnswersHorizontalView.defaultHeight
         layout().height(height, constraintBlock: { [weak self] in self?.heightConstraint = $0 })
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(collectionView)
@@ -96,11 +85,6 @@ class DirectAnswersHorizontalView: UIView {
         setupCollection(sideMargin: sideMargin)
     }
 
-    private func reloadCloseCell() {
-        guard collectionView.indexPathsForVisibleItems.count > 0 else { return }
-        let closeIndexPath = IndexPath(item: answers.count, section: 0)
-        collectionView.reloadItems(at: [closeIndexPath])
-    }
 }
 
 
