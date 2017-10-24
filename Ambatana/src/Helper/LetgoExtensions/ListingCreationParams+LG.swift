@@ -9,7 +9,12 @@
 import LGCoreKit
 
 extension ListingCreationParams {
-    static func make(title: String, description: String, currency: Currency, location: LGLocationCoordinates2D, postalAddress: PostalAddress, postListingState: PostListingState) -> ListingCreationParams {
+    static func make(title: String,
+                     description: String,
+                     currency: Currency,
+                     location: LGLocationCoordinates2D,
+                     postalAddress: PostalAddress,
+                     postListingState: PostListingState) -> ListingCreationParams {
         
         let listingCreationParams: ListingCreationParams
         
