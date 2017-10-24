@@ -12,7 +12,7 @@ import LGCoreKit
 class SelectableFilterTagCell: UICollectionViewCell {
     
     private static let cellHeight: CGFloat = 32.0
-    var tagLabel: UILabel!
+    private var tagLabel: UILabel!
     private var filterTag : FilterTag?
     
     

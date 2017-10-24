@@ -25,8 +25,8 @@ class FilterTagCell: UICollectionViewCell {
     @IBOutlet weak var tagLabel: UILabel!
     @IBOutlet weak var closeButton: UIButton!
     
-    weak var delegate : FilterTagCellDelegate?
-    var filterTag : FilterTag?
+    weak var delegate: FilterTagCellDelegate?
+    var filterTag: FilterTag?
 
 
     // MARK: - Static methods

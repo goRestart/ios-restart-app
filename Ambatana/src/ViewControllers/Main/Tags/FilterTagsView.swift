@@ -16,8 +16,8 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
     static var collectionViewHeight: CGFloat = 40
     private static var collectionContentInset = UIEdgeInsets(top: 2, left: 10, bottom: 2, right: 5)
     
-    var collectionView: UICollectionView!
-    var secondaryCollectionView: UICollectionView?
+    private var collectionView: UICollectionView?
+    private var secondaryCollectionView: UICollectionView?
     
     var tags: [FilterTag] = []
     var secondaryTags: [FilterTag] = []
@@ -43,6 +43,7 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.sectionInset = FilterTagsView.collectionContentInset
         collectionView = UICollectionView(frame: frame, collectionViewLayout: flowLayout)
+        guard let collectionView = collectionView else { return }
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
@@ -56,7 +57,7 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
         collectionView.scrollsToTop = false
         let filterNib = UINib(nibName: "FilterTagCell", bundle: nil)
         collectionView.register(filterNib, forCellWithReuseIdentifier: "FilterTagCell")
-        if let layout = collectionView?.collectionViewLayout as? UICollectionViewFlowLayout {
+        if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.scrollDirection = UICollectionViewScrollDirection.horizontal
         }
     }

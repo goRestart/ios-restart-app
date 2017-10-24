@@ -83,7 +83,7 @@ final class TaxonomiesTableView: UIView, UITableViewDelegate, UITableViewDataSou
     // MARK: - UITableViewDataSource, UITableViewDelegate
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return taxonomies[section].children.count + 1
+        return taxonomies[section].children.count + 1 // + 1 because we show the taxonomy parent as well
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
