@@ -71,7 +71,7 @@ class MainListingsViewModel: BaseViewModel {
     }
 
     var isSuperKeywordGroupsAndSubgroupsInFeedEnabled: Bool {
-        return featureFlags.superKeywordGroupsAndSubgroupsInFeed.isActive && !isAddSuperKeywordsEnabled
+        return featureFlags.superKeywordGroupsAndSubgroupsInFeed.isActive
     }
     
     var defaultBubbleText: String {
@@ -96,16 +96,9 @@ class MainListingsViewModel: BaseViewModel {
             resultTags.append(.category(prodCat))
         }
         
-        if isSuperKeywordGroupsAndSubgroupsInFeedEnabled {
-            if let taxonomy = filters.selectedTaxonomy {
-                resultTags.append(.taxonomy(taxonomy))
-            }
-        } else {
-            if let taxonomyChild = filters.selectedTaxonomyChildren.last {
-                resultTags.append(.taxonomyChild(taxonomyChild))
-            }
+        if isSuperKeywordGroupsAndSubgroupsInFeedEnabled, let taxonomy = filters.selectedTaxonomy {
+            resultTags.append(.taxonomy(taxonomy))
         }
-        
         if let taxonomyChild = filters.selectedTaxonomyChildren.last {
             resultTags.append(.taxonomyChild(taxonomyChild))
         }
@@ -148,11 +141,9 @@ class MainListingsViewModel: BaseViewModel {
     var secondaryTags: [FilterTag] {
         var resultTags: [FilterTag] = []
         
-        if isSuperKeywordGroupsAndSubgroupsInFeedEnabled {
-            if let taxonomyChildren = filters.selectedTaxonomy?.children, filters.selectedTaxonomyChildren.count <= 0 {
-                for secondaryTaxonomyChild in taxonomyChildren {
-                    resultTags.append(.secondaryTaxonomyChild(secondaryTaxonomyChild))
-                }
+        if let taxonomyChildren = filters.selectedTaxonomy?.children, filters.selectedTaxonomyChildren.count <= 0 {
+            for secondaryTaxonomyChild in taxonomyChildren {
+                resultTags.append(.secondaryTaxonomyChild(secondaryTaxonomyChild))
             }
         }
         
@@ -422,12 +413,6 @@ class MainListingsViewModel: BaseViewModel {
             }
         }
         
-//        if let taxonomyChildValue = taxonomyChild {
-//            filters.selectedTaxonomyChildren = [taxonomyChildValue]
-//        } else {
-//            filters.selectedTaxonomyChildren = []
-//        }
-        
         if let taxonomyValue = taxonomy {
             filters.selectedTaxonomy = taxonomyValue
         } else {
@@ -503,7 +488,6 @@ class MainListingsViewModel: BaseViewModel {
             filters.selectedTaxonomyChildren = [taxonomyChild]
         case .superKeywordGroup(let taxonomy):
             filters.selectedTaxonomy = taxonomy
-            //secondaryTags.append(taxonomy.children)// = taxonomy.children
         case .other:
             tracker.trackEvent(TrackerEvent.filterCategoryHeaderSelected(position: categoryHeaderInfo.position,
                                                                          name: categoryHeaderInfo.name))

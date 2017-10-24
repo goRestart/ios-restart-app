@@ -77,9 +77,9 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
 
     fileprivate var filterTagsViewHeight: CGFloat {
         if viewModel.secondaryTags.count <= 0 || viewModel.filters.selectedTaxonomyChildren.count > 0 {
-            return 40
+            return FilterTagsView.collectionViewHeight
         } else {
-            return 80
+            return FilterTagsView.collectionViewHeight * 2
         }
     }
     fileprivate var filterHeadersHeight: CGFloat {
@@ -301,13 +301,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     
     func filterTagsViewDidRemoveTag(_ tag: FilterTag, remainingTags: [FilterTag]) {
         viewModel.updateFiltersFromTags(remainingTags, removedTag: tag)
-        if tag.isSecondaryTaxonomyChild {
-            loadTagsViewWithTags(primaryTags: remainingTags, secondaryTags: viewModel.secondaryTags)
-        } else if remainingTags.isEmpty {
-            loadTagsViewWithTags(primaryTags: [], secondaryTags: [])
-        } else {
-            loadTagsViewWithTags(primaryTags: viewModel.primaryTags, secondaryTags: viewModel.secondaryTags)
-        }
+        loadTagsViewWithTags(primaryTags: viewModel.primaryTags, secondaryTags: viewModel.secondaryTags)
     }
     
     func filterTagsViewDidSelectTag(_ tag: FilterTag) {
@@ -739,7 +733,6 @@ extension MainListingsViewController {
         navigationItem.rightBarButtonItem?.accessibilityId = .mainListingsFilterButton
         listingListView.accessibilityId = .mainListingsListView
         tagsContainerView.accessibilityId = .mainListingsTagsCollection
-        //tagsCollectionView.accessibilityId = .mainListingsTagsCollection
         infoBubbleLabel.accessibilityId = .mainListingsInfoBubbleLabel
         navbarSearch.accessibilityId = .mainListingsNavBarSearch
         suggestionsSearchesTable.accessibilityId = .mainListingsSuggestionSearchesTable

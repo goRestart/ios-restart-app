@@ -12,7 +12,8 @@ protocol FilterTagsViewDelegate : class {
 }
 
 class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSource, FilterTagCellDelegate {
-    
+
+    static var collectionViewHeight: CGFloat = 40
     private static var collectionContentInset = UIEdgeInsets(top: 2, left: 10, bottom: 2, right: 5)
     
     var collectionView: UICollectionView!
@@ -37,17 +38,18 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
     private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
         
+        guard collectionView == nil || collectionView?.superview == nil else { return }
+        
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.sectionInset = FilterTagsView.collectionContentInset
         collectionView = UICollectionView(frame: frame, collectionViewLayout: flowLayout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
-        //collectionView.collec.contentInset = FilterTagsView.collectionContentInset
         addSubview(collectionView)
         
         collectionView.layout(with: self).fillHorizontal().top()
-        collectionView.layout().height(40)
+        collectionView.layout().height(FilterTagsView.collectionViewHeight)
         
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -57,19 +59,15 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
         if let layout = collectionView?.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.scrollDirection = UICollectionViewScrollDirection.horizontal
         }
-        
-        backgroundColor = .clear
-        collectionView.backgroundColor = .clear
     }
     
     private func setupSecondaryCollectionView() {
-        if secondaryTags.count <= 0 {
+        guard secondaryTags.count > 0 else {
             secondaryCollectionView?.removeFromSuperview()
             return
         }
+        guard secondaryCollectionView == nil || secondaryCollectionView?.superview == nil else { return }
         
-        if secondaryCollectionView == nil || secondaryCollectionView?.superview == nil {
-        //guard secondaryCollectionView == nil, secondaryCollectionView?.superview == nil else { return }
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.sectionInset = FilterTagsView.collectionContentInset
         secondaryCollectionView = UICollectionView(frame: frame, collectionViewLayout: flowLayout)
@@ -77,7 +75,6 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
         secondaryCollectionView.translatesAutoresizingMaskIntoConstraints = false
         secondaryCollectionView.backgroundColor = .clear
         secondaryCollectionView.showsHorizontalScrollIndicator = false
-        //secondaryCollectionView.collectionViewLayout.contentInset = FilterTagsView.collectionContentInset
         addSubview(secondaryCollectionView)
         
         secondaryCollectionView.dataSource = self
@@ -89,10 +86,7 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
         }
         
         secondaryCollectionView.layout(with: self).fillHorizontal().bottom()
-        secondaryCollectionView.layout().height(40)
-        
-        secondaryCollectionView.backgroundColor = .clear
-        }
+        secondaryCollectionView.layout().height(FilterTagsView.collectionViewHeight)
     }
     
     
@@ -134,24 +128,24 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
             cell.setupWithTag(tags[indexPath.row])
             return cell
         } else if collectionView == self.secondaryCollectionView {
-            guard let cell2 = collectionView.dequeueReusableCell(withReuseIdentifier: "SelectableFilterTagCell", for: indexPath) as? SelectableFilterTagCell else { return UICollectionViewCell() }
-            cell2.setupWithTag(secondaryTags[indexPath.row])
-            return cell2
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SelectableFilterTagCell", for: indexPath) as? SelectableFilterTagCell else { return UICollectionViewCell() }
+            cell.setupWithTag(secondaryTags[indexPath.row])
+            return cell
         }
         return UICollectionViewCell()
     }
     
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        if collectionView == self.collectionView {
-            return false
-        } else if collectionView == self.secondaryCollectionView {
+        if collectionView == self.secondaryCollectionView {
             delegate?.filterTagsViewDidSelectTag(secondaryTags[indexPath.row])
             return true
+        } else {
+            return false
         }
-        return false
     }
     
     // MARK: - FilterTagCellDelegate
+    
     func onFilterTagClosed(_ filterTagCell: FilterTagCell) {
         
         guard let cellTag = filterTagCell.filterTag else {

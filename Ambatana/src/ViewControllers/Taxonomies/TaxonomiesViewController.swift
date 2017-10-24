@@ -38,7 +38,8 @@ class TaxonomiesViewController : BaseViewController, TaxonomiesViewModelDelegate
         updateTableView(values: viewModel.taxonomies)
     }
     
-     // MARK: - UI
+    
+    // MARK: - UI
     
     private func setupUI() {
         view.backgroundColor = UIColor.white
