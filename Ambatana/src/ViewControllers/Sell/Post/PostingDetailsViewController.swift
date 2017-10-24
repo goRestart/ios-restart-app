@@ -71,13 +71,12 @@ class PostingDetailsViewController : BaseViewController {
     private func setupNavigationBar() {
         guard let navigationController = navigationController as? SellNavigationController else { return }
         let currentStep = navigationController.currentStep.value
+        setNavBarBackgroundStyle(.transparent(substyle: .dark))
         if currentStep == 1 {
-            setNavBarBackgroundStyle(.transparent(substyle: .dark))
             let closeButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_post_close") , style: UIBarButtonItemStyle.plain,
                                               target: self, action: #selector(PostingDetailsViewController.closeButtonPressed))
             self.navigationItem.leftBarButtonItem = closeButton
         } else {
-            setNavBarBackgroundStyle(.transparent(substyle: .dark))
             let closeButton = UIBarButtonItem(image: #imageLiteral(resourceName: "navbar_back_white_shadow") , style: UIBarButtonItemStyle.plain,
                                               target: self, action: #selector(PostingDetailsViewController.popBackViewController))
             self.navigationItem.leftBarButtonItem = closeButton
