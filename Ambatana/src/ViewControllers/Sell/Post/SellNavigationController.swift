@@ -26,7 +26,7 @@ class SellNavigationController: UINavigationController {
     
     var progressVarFilled: CGFloat {
         guard numberOfSteps.value > 0 else { return 0 }
-        return (UIScreen.main.bounds.width/numberOfSteps.value)*currentStep.value
+        return (view.width/numberOfSteps.value)*currentStep.value
     }
     
     override init(rootViewController: UIViewController) {
