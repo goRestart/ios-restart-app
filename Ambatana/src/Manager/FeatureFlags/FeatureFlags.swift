@@ -36,7 +36,6 @@ protocol FeatureFlaggeable: class {
     var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed { get }
     var locationDataSourceEndpoint: LocationDataSourceEndpoint { get }
     var searchAutocomplete: SearchAutocomplete { get }
-    var newCarouselNavigationTapNextPhotoEnabled: NewCarouselTapNextPhotoNavigationEnabled { get }
     var realEstateEnabled: Bool { get }
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter { get }
     var requestTimeOut: RequestsTimeOut { get }
@@ -85,17 +84,6 @@ extension ExpandableCategorySelectionMenu {
         case .control, .baseline:
             return false
         case .expandableMenu:
-            return true
-        }
-    }
-}
-
-extension NewCarouselTapNextPhotoNavigationEnabled {
-    var isActive: Bool {
-        switch self {
-        case .control, .baseline:
-            return false
-        case .active:
             return true
         }
     }
@@ -321,13 +309,6 @@ class FeatureFlags: FeatureFlaggeable {
         return ShowPriceAfterSearchOrFilter.fromPosition(abTests.showPriceAfterSearchOrFilter.value)
     }
     
-    var newCarouselNavigationTapNextPhotoEnabled: NewCarouselTapNextPhotoNavigationEnabled {
-        if Bumper.enabled {
-            return Bumper.newCarouselTapNextPhotoNavigationEnabled
-        }
-        return NewCarouselTapNextPhotoNavigationEnabled.fromPosition(abTests.newCarouselTapNextPhotoNavigationEnabled.value)
-    }
-
     var newBumpUpExplanation: NewBumpUpExplanation {
         if Bumper.enabled {
             return Bumper.newBumpUpExplanation

@@ -146,7 +146,6 @@ enum AccessibilityId: String {
     case listingCarouselDirectChatTable
     case listingCarouselFullScreenAvatarView
     case listingCarouselPageControl
-    case listingCarouselCustomPageControl
     case listingCarouselUserView
     case listingCarouselChatTextView
 

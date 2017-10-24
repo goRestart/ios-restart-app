@@ -38,7 +38,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed = .control
 
     var searchAutocomplete: SearchAutocomplete = .control
-    var newCarouselNavigationTapNextPhotoEnabled: NewCarouselTapNextPhotoNavigationEnabled = .control
     var realEstateEnabled: Bool = false
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter = .control
     var requestTimeOut: RequestsTimeOut = .thirty
