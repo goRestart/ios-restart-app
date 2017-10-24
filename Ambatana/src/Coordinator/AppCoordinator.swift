@@ -299,7 +299,7 @@ extension AppCoordinator: AppNavigator {
     }
 
     private func trackUserDidRate(_ reason: EventParameterUserDidRateReason?) {
-        let trackerEvent = TrackerEvent.appRatingRate(reason)
+        let trackerEvent = TrackerEvent.appRatingRate(reason: reason)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
