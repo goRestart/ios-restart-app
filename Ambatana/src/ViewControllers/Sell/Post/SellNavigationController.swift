@@ -53,14 +53,16 @@ class SellNavigationController: UINavigationController {
         guard let image = image else { return }
         let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.frame = view.bounds
+        blurEffectView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(blurEffectView)
+        blurEffectView.layout(with: view).fill()
         view.sendSubview(toBack:blurEffectView)
         
         let background = UIImageView()
         background.image = image
-        background.frame = view.bounds
+        background.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(background)
+        background.layout(with: view).fill()
         view.sendSubview(toBack:background)
     }
     
