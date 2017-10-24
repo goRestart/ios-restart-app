@@ -29,13 +29,13 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         var values: [String]
         switch step {
         case .bathrooms:
-            values = NumberOfBathrooms.allValues.flatMap { $0.value }
+            values = NumberOfBathrooms.allValues.flatMap { $0.localizedString }
         case .bedrooms:
-            values = NumberOfBedrooms.allValues.flatMap { $0.value }
+            values = NumberOfBedrooms.allValues.flatMap { $0.localizedString }
         case .offerType:
-            values = RealEstateOfferType.allValues.flatMap { $0.value }
+            values = RealEstateOfferType.allValues.flatMap { $0.localizedString }
         case .propertyType:
-            values = RealEstatePropertyType.allValues.flatMap { $0.value }
+            values = RealEstatePropertyType.allValues.flatMap { $0.localizedString }
         case .price:
             // WIP: https://ambatana.atlassian.net/browse/ABIOS-3081
             return UIView()

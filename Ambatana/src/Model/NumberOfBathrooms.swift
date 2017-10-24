@@ -18,7 +18,7 @@ enum NumberOfBathrooms: Float {
     case threeAndHalf = 3.5
     case four = 4.0
     
-    var value: String {
+    var localizedString: String {
         switch self {
         case .zero:
             return LGLocalizedString.realEstateBathrooms0

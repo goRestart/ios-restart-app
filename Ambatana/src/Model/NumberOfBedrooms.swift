@@ -15,7 +15,7 @@ enum NumberOfBedrooms: Int {
     case three = 3
     case four = 4
     
-    var value: String {
+    var localizedString: String {
         switch self {
         case .zero:
             return LGLocalizedString.realEstateBedrooms0
