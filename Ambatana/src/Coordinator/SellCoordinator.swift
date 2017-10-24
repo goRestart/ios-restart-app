@@ -75,7 +75,6 @@ final class SellCoordinator: Coordinator {
                                                       forcedInitialTab: forcedInitialTab)
         
         navigationController = SellNavigationController(rootViewController: postListingVC)
-        navigationController.modalPresentationStyle = .overCurrentContext
         self.viewController = navigationController
         postListingVM.navigator = self
     }
