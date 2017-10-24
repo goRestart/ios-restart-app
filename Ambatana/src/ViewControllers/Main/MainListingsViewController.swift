@@ -76,7 +76,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     fileprivate var categoriesHeader: CategoriesHeaderCollectionView?
 
     fileprivate var filterTagsViewHeight: CGFloat {
-        if viewModel.secondaryTags.count <= 0 || viewModel.filters.selectedTaxonomyChildren.count > 0 {
+        if viewModel.secondaryTags.isEmpty || viewModel.filters.selectedTaxonomyChildren.count > 0 {
             return FilterTagsView.collectionViewHeight
         } else {
             return FilterTagsView.collectionViewHeight * 2
@@ -396,10 +396,6 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         }
         primaryTagsShowing = showPrimaryTags
         secondaryTagsShowing = showSecondaryTags
-        
-        if showPrimaryTags {
-            tagsContainerView.isHidden = false
-        }
 
         tagsContainerViewHeightConstraint.constant = showPrimaryTags ? filterTagsViewHeight : 0
         if updateInsets {
@@ -409,9 +405,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         }
         view.layoutIfNeeded()
         
-        if !showPrimaryTags {
-            tagsContainerView.isHidden = true
-        }
+        tagsContainerView.isHidden = !showPrimaryTags
     }
     
     private func setupInfoBubble() {

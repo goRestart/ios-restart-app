@@ -11,6 +11,9 @@ import RxSwift
 
 class TaxonomyTableViewCell: UITableViewCell {
 
+    private static let iconViewWidth: CGFloat = 36
+    private static let iconViewHeight: CGFloat = 36
+    
     private let label = UILabel()
     private let iconView = UIImageView()
 
@@ -45,7 +48,7 @@ class TaxonomyTableViewCell: UITableViewCell {
         
         contentView.addSubviews([iconView, label])
         
-        iconView.layout().width(36).height(36)
+        iconView.layout().width(TaxonomyTableViewCell.iconViewWidth).height(TaxonomyTableViewCell.iconViewHeight)
         iconView.layout(with: contentView).left(by: Metrics.margin).centerY()
         
         label.layout(with: iconView).fillVertical().left(to: .right, by: Metrics.margin)

@@ -13,8 +13,8 @@ import LGCoreKit
 protocol TaxonomiesViewModelDelegate: BaseViewModelDelegate {}
 
 protocol TaxonomiesDelegate: class {
-    func didSelectTaxonomy(taxonomy: Taxonomy)
-    func didSelectTaxonomyChild(taxonomyChild: TaxonomyChild)
+    func didSelect(taxonomy: Taxonomy)
+    func didSelect(taxonomyChild: TaxonomyChild)
 }
 
 class TaxonomiesViewModel : BaseViewModel {
@@ -55,12 +55,12 @@ class TaxonomiesViewModel : BaseViewModel {
     func taxonomySelected(taxonomy: Taxonomy) {
         let event = TrackerEvent.categoriesComplete(keywordName: taxonomy.name, source: source)
         tracker.trackEvent(event)
-        taxonomiesDelegate?.didSelectTaxonomy(taxonomy: taxonomy)
+        taxonomiesDelegate?.didSelect(taxonomy: taxonomy)
         goBack()
     }
     
     func taxonomyChildSelected(taxonomyChild: TaxonomyChild) {
-        taxonomiesDelegate?.didSelectTaxonomyChild(taxonomyChild: taxonomyChild)
+        taxonomiesDelegate?.didSelect(taxonomyChild: taxonomyChild)
         let event = TrackerEvent.categoriesComplete(keywordName: taxonomyChild.name, source: source)
         tracker.trackEvent(event)
         goBack()

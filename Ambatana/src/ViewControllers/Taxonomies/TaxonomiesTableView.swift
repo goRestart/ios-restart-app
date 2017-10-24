@@ -52,6 +52,8 @@ final class TaxonomiesTableView: UIView, UITableViewDelegate, UITableViewDataSou
         tableView.indicatorStyle = .white
         tableView.backgroundColor = UIColor.clear
         tableView.separatorStyle = .none
+        // Avoid margin generated when adjusting scroll view insets. Setting automaticallyAdjustsScrollViewInsets to false 
+        // does not fit because it overlaps with the navigation bar
         tableView.contentInset = UIEdgeInsetsMake(-36, 0, 0, 0);
     }
     

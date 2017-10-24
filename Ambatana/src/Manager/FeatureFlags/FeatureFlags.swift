@@ -118,14 +118,7 @@ extension HomeRelatedEnabled {
 }
 
 extension SuperKeywordGroupsAndSubgroupsInFeed {
-    var isActive: Bool {
-        switch self {
-        case .control, .baseline:
-            return false
-        case .active:
-            return true
-        }
-    }
+    var isActive: Bool { get { return self == .active } }
 }
 
 class FeatureFlags: FeatureFlaggeable {

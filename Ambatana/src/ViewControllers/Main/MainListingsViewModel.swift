@@ -580,13 +580,9 @@ class MainListingsViewModel: BaseViewModel {
     var categoryHeaderElements: [CategoryHeaderElement] {
         var categoryHeaderElements: [CategoryHeaderElement] = []
         if isSuperKeywordGroupsAndSubgroupsInFeedEnabled {
-            taxonomies.forEach {
-                categoryHeaderElements.append(CategoryHeaderElement.superKeywordGroup($0))
-            }
+            categoryHeaderElements.append(contentsOf: taxonomies.map { CategoryHeaderElement.superKeywordGroup($0) })
         } else {
-            ListingCategory.visibleValuesInFeed().forEach {
-                categoryHeaderElements.append(CategoryHeaderElement.listingCategory($0))
-            }
+            categoryHeaderElements.append(contentsOf: ListingCategory.visibleValuesInFeed().map { CategoryHeaderElement.listingCategory($0) })
         }
         return categoryHeaderElements
     }
@@ -1230,7 +1226,7 @@ extension MainListingsViewModel: CategoriesHeaderCollectionViewDelegate {
 // MARK: TaxonomiesDelegate
 
 extension MainListingsViewModel: TaxonomiesDelegate {
-    func didSelectTaxonomy(taxonomy: Taxonomy) {
+    func didSelect(taxonomy: Taxonomy) {
         filters.selectedTaxonomy = taxonomy
         filters.selectedTaxonomyChildren = []
         delegate?.vmShowTags(primaryTags: primaryTags, secondaryTags: secondaryTags)
@@ -1238,7 +1234,7 @@ extension MainListingsViewModel: TaxonomiesDelegate {
         updateListView()
     }
     
-    func didSelectTaxonomyChild(taxonomyChild: TaxonomyChild) {
+    func didSelect(taxonomyChild: TaxonomyChild) {
         filters.selectedTaxonomyChildren = [taxonomyChild]
         delegate?.vmShowTags(primaryTags: primaryTags, secondaryTags: secondaryTags)
         updateCategoriesHeader()

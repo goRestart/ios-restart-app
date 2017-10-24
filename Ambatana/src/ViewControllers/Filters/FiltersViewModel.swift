@@ -527,14 +527,14 @@ extension FiltersViewModel: CarAttributeSelectionDelegate {
 // MARK: TaxonomiesDelegate
 
 extension FiltersViewModel: TaxonomiesDelegate {
-    func didSelectTaxonomy(taxonomy: Taxonomy) {
+    func didSelect(taxonomy: Taxonomy) {
         productFilter.selectedTaxonomy = taxonomy
         productFilter.selectedTaxonomyChildren = []
         sections = generateSections()
         delegate?.vmDidUpdate()
     }
     
-    func didSelectTaxonomyChild(taxonomyChild: TaxonomyChild) {
+    func didSelect(taxonomyChild: TaxonomyChild) {
         productFilter.selectedTaxonomyChildren = [taxonomyChild]
         sections = generateSections()
         delegate?.vmDidUpdate()
