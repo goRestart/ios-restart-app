@@ -29,7 +29,7 @@ extension ListingCreationParams {
                                                   location: location,
                                                   postalAddress: postalAddress,
                                                   images: postListingState.lastImagesUploadResult?.value ?? [],
-                                                  carAttributes: postListingState.carInfo ?? CarAttributes.emptyCarAttributes())
+                                                  carAttributes: postListingState.verticalAttributes?.carAttributes ?? CarAttributes.emptyCarAttributes())
                 listingCreationParams = ListingCreationParams.car(carParams)
             case .realEstate:
                 let realEstateParams = RealEstateCreationParams(name: title,
@@ -40,7 +40,7 @@ extension ListingCreationParams {
                                                                 location: location,
                                                                 postalAddress: postalAddress,
                                                                 images: postListingState.lastImagesUploadResult?.value ?? [],
-                                                                realEstateAttributes: postListingState.realEstateInfo ?? RealEstateAttributes.emptyRealEstateAttributes())
+                                                                realEstateAttributes: postListingState.verticalAttributes?.realEstateAttributes ?? RealEstateAttributes.emptyRealEstateAttributes())
                 listingCreationParams = ListingCreationParams.realEstate(realEstateParams)
             case .motorsAndAccessories, .unassigned:
                 let productParams = ProductCreationParams(name: title,

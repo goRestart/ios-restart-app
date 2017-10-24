@@ -151,7 +151,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
             return
         }
 
-        var realEstateInfo = postListingState.realEstateInfo ?? RealEstateAttributes.emptyRealEstateAttributes()
+        var realEstateInfo = postListingState.verticalAttributes?.realEstateAttributes ?? RealEstateAttributes.emptyRealEstateAttributes()
         realEstateInfo = realEstateInfo.updating(propertyType: realEstatePropertyType,
                                                  offerType: realEstateOfferType,
                                                  bedrooms: numberOfBedrooms?.rawValue,
@@ -182,7 +182,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         case .summary:
             return
         }
-        if let realEstateInfo = postListingState.realEstateInfo {
+        if let realEstateInfo = postListingState.verticalAttributes?.realEstateAttributes {
             let realEstateInfo = realEstateInfo.removing(propertyType: removePropertyType, offerType: removeOfferType, bedrooms: removeBedrooms, bathrooms: removeBathrooms)
             postListingState = postListingState.updating(realEstateInfo: realEstateInfo)
         }
