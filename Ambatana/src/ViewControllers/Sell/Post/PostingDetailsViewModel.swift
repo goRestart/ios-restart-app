@@ -37,8 +37,10 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         case .propertyType:
             values = RealEstatePropertyType.allValues.flatMap { $0.value }
         case .price:
+            // WIP: https://ambatana.atlassian.net/browse/ABIOS-3081
             return UIView()
         case .summary:
+            //WIP: https://ambatana.atlassian.net/browse/ABIOS-3079
             return UIView()
         }
         let view: PostingAddDetailTableView = PostingAddDetailTableView(values: values)
