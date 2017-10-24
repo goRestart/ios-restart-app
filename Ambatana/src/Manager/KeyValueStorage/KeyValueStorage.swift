@@ -35,7 +35,6 @@ extension DefaultsKeys {
     static let didShowOnboarding = DefaultsKey<Bool>("didShowOnboarding")
     static let didShowListingDetailOnboarding = DefaultsKey<Bool>("didShowProductDetailOnboarding")
     static let didShowHorizontalListingDetailOnboarding = DefaultsKey<Bool>("didShowHorizontalProductDetailOnboarding")
-    static let listingDetailQuickAnswersHidden = DefaultsKey<Bool>("productDetailQuickAnswers")
     static let listingMoreInfoTooltipDismissed = DefaultsKey<Bool>("showMoreInfoTooltip")
     static let favoriteCategories = DefaultsKey<[Int]>("favoriteCategories")
 
@@ -121,14 +120,7 @@ extension KeyValueStorageable {
             currentUserProperties = userProperties
         }
     }
-    func userLoadChatShowDirectAnswersForKey(_ key: String) -> Bool {
-        return currentUserProperties?.chatShowDirectAnswers[key] ?? true
-    }
-    func userSaveChatShowDirectAnswersForKey(_ key: String, value: Bool) {
-        guard var userProperties = currentUserProperties else { return }
-        userProperties.chatShowDirectAnswers[key] = value
-        currentUserProperties = userProperties
-    }
+
     var userRatingAlreadyRated: Bool {
         get {
             return currentUserProperties?.ratingAlreadyRated ??

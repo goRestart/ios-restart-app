@@ -903,6 +903,8 @@ fileprivate extension ListingViewModel {
         chatWrapper.sendMessageFor(listing: listing.value, type: type) { [weak self] result in
             guard let strongSelf = self else { return }
             if let firstMessage = result.value {
+                let messageViewSent = messageView.markAsSent()
+                strongSelf.directChatMessages.replace(0, with: messageViewSent)
                 let feedPosition = strongSelf.delegate?.trackingFeedPosition ?? .none
                 strongSelf.trackHelper.trackMessageSent(isFirstMessage: firstMessage && !strongSelf.alreadyTrackedFirstMessageSent,
                                                         messageType: type,
