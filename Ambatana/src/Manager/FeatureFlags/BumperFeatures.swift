@@ -31,7 +31,6 @@ extension Bumper  {
         flags.append(DefaultRadiusDistanceFeed.self)
         flags.append(RealEstateEnabled.self)
         flags.append(SearchAutocomplete.self)
-        flags.append(NewCarouselTapNextPhotoNavigationEnabled.self)
         flags.append(ShowPriceAfterSearchOrFilter.self)
         flags.append(RequestsTimeOut.self)
         flags.append(NewBumpUpExplanation.self)
@@ -129,11 +128,6 @@ extension Bumper  {
     static var searchAutocomplete: SearchAutocomplete {
         guard let value = Bumper.value(for: SearchAutocomplete.key) else { return .control }
         return SearchAutocomplete(rawValue: value) ?? .control 
-    }
-
-    static var newCarouselTapNextPhotoNavigationEnabled: NewCarouselTapNextPhotoNavigationEnabled {
-        guard let value = Bumper.value(for: NewCarouselTapNextPhotoNavigationEnabled.key) else { return .control }
-        return NewCarouselTapNextPhotoNavigationEnabled(rawValue: value) ?? .control 
     }
 
     static var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter {
@@ -379,22 +373,6 @@ enum SearchAutocomplete: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .withCategories
-            default: return .control
-        }
-    }
-}
-
-enum NewCarouselTapNextPhotoNavigationEnabled: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return NewCarouselTapNextPhotoNavigationEnabled.control.rawValue }
-    static var enumValues: [NewCarouselTapNextPhotoNavigationEnabled] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "New carousel on tap displays different photo from same product" } 
-    static func fromPosition(_ position: Int) -> NewCarouselTapNextPhotoNavigationEnabled {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
             default: return .control
         }
     }
