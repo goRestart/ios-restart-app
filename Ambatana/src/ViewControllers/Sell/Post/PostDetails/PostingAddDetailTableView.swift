@@ -18,7 +18,7 @@ protocol PostingAddDetailTableViewDelegate: class {
 final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewDataSource {
     
     static let cellIdentifier = "postingAddDetailCell"
-    static let cellAddDetailHeight: CGFloat = 67
+    static let cellAddDetailHeight: CGFloat = 70
     static let checkMarkSize: CGSize = CGSize(width: 17, height: 12)
     
     private var detailInfo: [String]
