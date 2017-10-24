@@ -147,7 +147,7 @@ enum ListingViewModelStatus {
         }
     }
 
-    var isBumpeable: Bool {
+    var shouldRefreshBumpBanner: Bool {
         switch self {
         case .available, .availableFree, .pendingAndFeatured:
             return true

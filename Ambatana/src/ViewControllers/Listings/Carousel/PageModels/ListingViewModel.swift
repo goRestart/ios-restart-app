@@ -257,7 +257,7 @@ class ListingViewModel: BaseViewModel {
 
         // bumpeable listing check
         status.asObservable().bindNext { [weak self] status in
-            if status.isBumpeable {
+            if status.shouldRefreshBumpBanner {
                 self?.refreshBumpeableBanner()
             } else {
                 self?.bumpUpBannerInfo.value = nil
@@ -321,7 +321,7 @@ class ListingViewModel: BaseViewModel {
     }
 
     func refreshBumpeableBanner() {
-        guard let listingId = listing.value.objectId, status.value.isBumpeable, !isUpdatingBumpUpBanner,
+        guard let listingId = listing.value.objectId, status.value.shouldRefreshBumpBanner, !isUpdatingBumpUpBanner,
                 (featureFlags.freeBumpUpEnabled || featureFlags.pricedBumpUpEnabled) else { return }
 
         let isBumpUpPending = purchasesShopper.isBumpUpPending(forListingId: listingId)
