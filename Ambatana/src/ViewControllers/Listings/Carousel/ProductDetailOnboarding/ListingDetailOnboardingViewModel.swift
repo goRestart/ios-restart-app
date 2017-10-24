@@ -76,15 +76,6 @@ class ListingDetailOnboardingViewModel : BaseViewModel {
             let range = (fullText as NSString).range(of: textToHighlight)
             resultText.addAttributes(highlightedTextAttributes, range: range)
         }
-        
-        if let textToHighlight2 = textToHighlight2 {
-            var highlightedTextAttributes = [String : AnyObject]()
-            highlightedTextAttributes[NSForegroundColorAttributeName] = UIColor.primaryColor
-            highlightedTextAttributes[NSFontAttributeName] = UIFont.systemMediumFont(size: 17)
-            
-            let range2 = (fullText as NSString).range(of: textToHighlight2)
-            resultText.addAttributes(highlightedTextAttributes, range: range2)
-        }
 
         return resultText
     }

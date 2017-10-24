@@ -12,7 +12,7 @@ import RxSwift
 class ListingCarouselViewController: KeyboardViewController, AnimatableTransition {
 
     @IBOutlet weak var imageBackground: UIImageView!
-    @IBOutlet weak var flowLayout: AnimatedPageCollectionViewLayout!
+    @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var buttonBottom: UIButton!
     @IBOutlet weak var buttonBottomHeight: NSLayoutConstraint!
@@ -524,7 +524,6 @@ extension ListingCarouselViewController {
         setupShareButtonRx()
         setupBumpUpBannerRx()
         setupUserInteractionRxBindings()
-        setupNavigationAnimationsRx()
     }
 
     private func setupMoreInfoRx() {
@@ -711,13 +710,6 @@ extension ListingCarouselViewController {
 
     private func setupUserInteractionRxBindings() {
         cellAnimating.asObservable().map { !$0 } .bindTo(view.rx.userInteractionEnabled).addDisposableTo(disposeBag)
-    }
-
-    private func setupNavigationAnimationsRx() {
-        viewModel.currentViewModelIsBeingUpdated.asObservable().bindNext { [weak self] updatingVM in
-            guard let strongSelf = self else { return }
-                strongSelf.flowLayout.animator = nil
-        }.addDisposableTo(disposeBag)
     }
 
     fileprivate func resetMoreInfoState() {
