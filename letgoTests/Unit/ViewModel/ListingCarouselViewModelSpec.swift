@@ -772,88 +772,91 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                         listingRepository.transactionsResult = ListingTransactionsResult(value: [])
                     }
                     context("pending") {
-                        beforeEach {
-                            product.status = .pending
-                            product.name = String.makeRandom()
-                            buildSut(initialProduct: product)
-                            sut.active = true
+                        context("not featured") {
+                            beforeEach {
+                                product.status = .pending
+                                product.name = String.makeRandom()
+                                product.featured = false
+                                buildSut(initialProduct: product)
+                                sut.active = true
+                            }
+                            it("product title matches") {
+                                expect(productInfoObserver.lastValue??.title) == product.title
+                            }
+                            it("images match") {
+                                expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
+                            }
+                            it("user name matches") {
+                                expect(userInfoObserver.lastValue??.name) == myUser.shortName
+                            }
+                            it("navbar buttons have edit and options") {
+                                let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarEditButton, .listingCarouselNavBarActionsButton]
+                                expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
+                            }
+                            it("there are no action buttons") {
+                                expect(actionButtonsObserver.lastValue?.count) == 0
+                            }
+                            it("product vm status is pending") {
+                                expect(statusObserver.lastValue) == .pending
+                            }
+                            it("isFeatured is false") {
+                                expect(isFeaturedObserver.lastValue) == product.featured ?? false
+                            }
+                            it("quick answers are disabled") {
+                                expect(quickAnswersAvailableObserver.lastValue) == false
+                            }
+                            it("direct chat is disabled") {
+                                expect(directChatEnabledObserver.lastValue) == false
+                            }
+                            it("sharebutton is enabled") {
+                                expect(shareButtonStateObserver.lastValue) == .enabled
+                            }
+                            it("favorite button is hidden") {
+                                expect(favoriteButtonStateObserver.lastValue) == .hidden
+                            }
                         }
-                        it("product title matches") {
-                            expect(productInfoObserver.lastValue??.title) == product.title
-                        }
-                        it("images match") {
-                            expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
-                        }
-                        it("user name matches") {
-                            expect(userInfoObserver.lastValue??.name) == myUser.shortName
-                        }
-                        it("navbar buttons have edit and options") {
-                            let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarEditButton, .listingCarouselNavBarActionsButton]
-                            expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
-                        }
-                        it("there are no action buttons") {
-                            expect(actionButtonsObserver.lastValue?.count) == 0
-                        }
-                        it("product vm status is pending") {
-                            expect(statusObserver.lastValue) == .pending
-                        }
-                        it("isFeatured is false") {
-                            expect(isFeaturedObserver.lastValue) == product.featured ?? false
-                        }
-                        it("quick answers are disabled") {
-                            expect(quickAnswersAvailableObserver.lastValue) == false
-                        }
-                        it("direct chat is disabled") {
-                            expect(directChatEnabledObserver.lastValue) == false
-                        }
-                        it("sharebutton is enabled") {
-                            expect(shareButtonStateObserver.lastValue) == .enabled
-                        }
-                        it("favorite button is hidden") {
-                            expect(favoriteButtonStateObserver.lastValue) == .hidden
-                        }
-                    }
-                    context("pending and featured") {
-                        beforeEach {
-                            product.status = .pending
-                            product.name = String.makeRandom()
-                            product.featured = true
-                            buildSut(initialProduct: product)
-                            sut.active = true
-                        }
-                        it("product title matches") {
-                            expect(productInfoObserver.lastValue??.title) == product.title
-                        }
-                        it("images match") {
-                            expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
-                        }
-                        it("user name matches") {
-                            expect(userInfoObserver.lastValue??.name) == myUser.shortName
-                        }
-                        it("navbar buttons have edit and options") {
-                            let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarEditButton, .listingCarouselNavBarActionsButton]
-                            expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
-                        }
-                        it("there are no action buttons") {
-                            expect(actionButtonsObserver.lastValue?.count) == 0
-                        }
-                        it("product vm status is pendingAndFeatured") {
-                            expect(statusObserver.lastValue) == .pendingAndFeatured
-                        }
-                        it("isFeatured is true") {
-                            expect(isFeaturedObserver.lastValue) == true
-                        }
-                        it("quick answers are disabled") {
-                            expect(quickAnswersAvailableObserver.lastValue) == false
-                        }
-                        it("direct chat is disabled") {
-                            expect(directChatEnabledObserver.lastValue) == false
-                        }
-                        it("sharebutton is enabled") {
-                            expect(shareButtonStateObserver.lastValue) == .enabled
-                        }
-                        it("favorite button is hidden") {
-                            expect(favoriteButtonStateObserver.lastValue) == .hidden
+                        context("featured") {
+                            beforeEach {
+                                product.status = .pending
+                                product.name = String.makeRandom()
+                                product.featured = true
+                                buildSut(initialProduct: product)
+                                sut.active = true
+                            }
+                            it("product title matches") {
+                                expect(productInfoObserver.lastValue??.title) == product.title
+                            }
+                            it("images match") {
+                                expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
+                            }
+                            it("user name matches") {
+                                expect(userInfoObserver.lastValue??.name) == myUser.shortName
+                            }
+                            it("navbar buttons have edit and options") {
+                                let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarEditButton, .listingCarouselNavBarActionsButton]
+                                expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
+                            }
+                            it("there are no action buttons") {
+                                expect(actionButtonsObserver.lastValue?.count) == 0
+                            }
+                            it("product vm status is pendingAndFeatured") {
+                                expect(statusObserver.lastValue) == .pendingAndFeatured
+                            }
+                            it("isFeatured is true") {
+                                expect(isFeaturedObserver.lastValue) == true
+                            }
+                            it("quick answers are disabled") {
+                                expect(quickAnswersAvailableObserver.lastValue) == false
+                            }
+                            it("direct chat is disabled") {
+                                expect(directChatEnabledObserver.lastValue) == false
+                            }
+                            it("sharebutton is enabled") {
+                                expect(shareButtonStateObserver.lastValue) == .enabled
+                            }
+                            it("favorite button is hidden") {
+                                expect(favoriteButtonStateObserver.lastValue) == .hidden
+                            }
                         }
                     }
                     context("approved - normal") {
