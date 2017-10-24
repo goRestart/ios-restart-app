@@ -44,6 +44,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var newBumpUpExplanation: NewBumpUpExplanation = .control
     var homeRelatedEnabled: HomeRelatedEnabled = .control
     var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells = .control
+    var superKeywordGroupsAndSubgroupsInFeed: SuperKeywordGroupsAndSubgroupsInFeed = .control
 
 
     // Country dependant features

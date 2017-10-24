@@ -42,6 +42,7 @@ protocol FeatureFlaggeable: class {
     var newBumpUpExplanation: NewBumpUpExplanation { get }
     var homeRelatedEnabled: HomeRelatedEnabled { get }
     var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells { get }
+    var superKeywordGroupsAndSubgroupsInFeed: SuperKeywordGroupsAndSubgroupsInFeed { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -101,6 +102,10 @@ extension ShowPriceAfterSearchOrFilter {
 }
 
 extension HomeRelatedEnabled {
+    var isActive: Bool { get { return self == .active } }
+}
+
+extension SuperKeywordGroupsAndSubgroupsInFeed {
     var isActive: Bool { get { return self == .active } }
 }
 
@@ -314,6 +319,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.newBumpUpExplanation
         }
         return NewBumpUpExplanation.fromPosition(abTests.newBumpUpExplanation.value)
+    }
+    
+    var superKeywordGroupsAndSubgroupsInFeed: SuperKeywordGroupsAndSubgroupsInFeed {
+        if Bumper.enabled {
+            return Bumper.superKeywordGroupsAndSubgroupsInFeed
+        }
+        return SuperKeywordGroupsAndSubgroupsInFeed.fromPosition(abTests.superKeywordGroupsAndSubgroupsInFeed.value)
     }
 
     var homeRelatedEnabled: HomeRelatedEnabled {

@@ -36,6 +36,7 @@ extension Bumper  {
         flags.append(NewBumpUpExplanation.self)
         flags.append(HomeRelatedEnabled.self)
         flags.append(HideChatButtonOnFeaturedCells.self)
+        flags.append(SuperKeywordGroupsAndSubgroupsInFeed.self)
         Bumper.initialize(flags)
     } 
 
@@ -152,6 +153,11 @@ extension Bumper  {
     static var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells {
         guard let value = Bumper.value(for: HideChatButtonOnFeaturedCells.key) else { return .control }
         return HideChatButtonOnFeaturedCells(rawValue: value) ?? .control 
+    }
+
+    static var superKeywordGroupsAndSubgroupsInFeed: SuperKeywordGroupsAndSubgroupsInFeed {
+        guard let value = Bumper.value(for: SuperKeywordGroupsAndSubgroupsInFeed.key) else { return .control }
+        return SuperKeywordGroupsAndSubgroupsInFeed(rawValue: value) ?? .control 
     } 
 }
 
@@ -445,6 +451,22 @@ enum HideChatButtonOnFeaturedCells: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "hide chat button on the featured listing cells" } 
     static func fromPosition(_ position: Int) -> HideChatButtonOnFeaturedCells {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum SuperKeywordGroupsAndSubgroupsInFeed: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return SuperKeywordGroupsAndSubgroupsInFeed.control.rawValue }
+    static var enumValues: [SuperKeywordGroupsAndSubgroupsInFeed] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Super keywords groups and subgroups in feed as bubble filters" } 
+    static func fromPosition(_ position: Int) -> SuperKeywordGroupsAndSubgroupsInFeed {
         switch position { 
             case 0: return .control
             case 1: return .baseline

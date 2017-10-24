@@ -114,5 +114,10 @@
         "name": "HideChatButtonOnFeaturedCells",
         "values": ["control", "baseline", "active"],
         "description": "hide chat button on the featured listing cells"
+    },
+    {
+        "name": "SuperKeywordGroupsAndSubgroupsInFeed",
+        "values": ["control", "baseline", "active"],
+        "description": "Super keywords groups and subgroups in feed as bubble filters"
     }
 ]
