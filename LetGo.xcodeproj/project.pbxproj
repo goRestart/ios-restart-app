@@ -21,6 +21,8 @@
 		0A6D88CB1F7D05B700819E89 /* DeferredDeepLinkTargetListing.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A6D88CA1F7D05B700819E89 /* DeferredDeepLinkTargetListing.json */; };
 		0A6E56AE1F8E233500419DDC /* RelatedListingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6E56AD1F8E233500419DDC /* RelatedListingsViewModel.swift */; };
 		0A6E56AF1F8E241000419DDC /* RelatedListingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6E56AD1F8E233500419DDC /* RelatedListingsViewModel.swift */; };
+		0A760FEE1FA08E0C0055F2B6 /* ListingDeckActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A760FED1FA08E0C0055F2B6 /* ListingDeckActionsView.swift */; };
+		0A760FEF1FA08EFD0055F2B6 /* ListingDeckActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A760FED1FA08E0C0055F2B6 /* ListingDeckActionsView.swift */; };
 		0A82750A1F7D090C00A6A0C5 /* MockDeferredDeepLinkMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8275091F7D090C00A6A0C5 /* MockDeferredDeepLinkMaker.swift */; };
 		0A82750B1F7D0DA400A6A0C5 /* DeferredDeepLinkTargetSearchQuery.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A6D88C81F7D058B00819E89 /* DeferredDeepLinkTargetSearchQuery.json */; };
 		0A82750C1F7D0DAD00A6A0C5 /* DeferredDeepLinkTargetListing.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A6D88CA1F7D05B700819E89 /* DeferredDeepLinkTargetListing.json */; };
@@ -1454,6 +1456,7 @@
 		0A6D88C81F7D058B00819E89 /* DeferredDeepLinkTargetSearchQuery.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DeferredDeepLinkTargetSearchQuery.json; sourceTree = "<group>"; };
 		0A6D88CA1F7D05B700819E89 /* DeferredDeepLinkTargetListing.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DeferredDeepLinkTargetListing.json; sourceTree = "<group>"; };
 		0A6E56AD1F8E233500419DDC /* RelatedListingsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelatedListingsViewModel.swift; sourceTree = "<group>"; };
+		0A760FED1FA08E0C0055F2B6 /* ListingDeckActionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckActionsView.swift; sourceTree = "<group>"; };
 		0A8275091F7D090C00A6A0C5 /* MockDeferredDeepLinkMaker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockDeferredDeepLinkMaker.swift; sourceTree = "<group>"; };
 		0A82750D1F7D190A00A6A0C5 /* DeferredDeepLinkFacebookTargetSearchQuery.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DeferredDeepLinkFacebookTargetSearchQuery.json; sourceTree = "<group>"; };
 		0A82750F1F7D194800A6A0C5 /* DeferredDeepLinkFacebookTargetCategory.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DeferredDeepLinkFacebookTargetCategory.json; sourceTree = "<group>"; };
@@ -2364,6 +2367,7 @@
 				0AB6E1D51F9DD18F0048AFFD /* ListingDeckView.swift */,
 				0AC489421F9DE15000CD6C53 /* ListingCardView.swift */,
 				0AC489451F9DE31400CD6C53 /* ListingDeckCollectionViewLayout.swift */,
+				0A760FED1FA08E0C0055F2B6 /* ListingDeckActionsView.swift */,
 			);
 			path = DeckView;
 			sourceTree = "<group>";
@@ -5769,6 +5773,7 @@
 				2E6009B61B5CE5E500FC9CAC /* LGTextField.swift in Sources */,
 				50C59BD41CE0DB4400377124 /* KeyValueStorageable.swift in Sources */,
 				50EC640A1C64F99E00DC04C5 /* LGEmptyViewModel.swift in Sources */,
+				0A760FEE1FA08E0C0055F2B6 /* ListingDeckActionsView.swift in Sources */,
 				C78F9DB91DC9EE8500884064 /* LocalUser.swift in Sources */,
 				C743FEB71E44E46000B4E912 /* PossibleBuyerCell.swift in Sources */,
 				50F0BAA91B28938D00E50A68 /* MainSignUpViewController.swift in Sources */,
@@ -6287,6 +6292,7 @@
 				2E4EBFC11EADF628005FE040 /* CarAttributeSelectionViewModel.swift in Sources */,
 				C7DB42001C5138B500400945 /* ReusableCell.swift in Sources */,
 				2E28B12C1D99132D001BF8E4 /* Double+Rounding.swift in Sources */,
+				0A760FEF1FA08EFD0055F2B6 /* ListingDeckActionsView.swift in Sources */,
 				6A9C9EBF1CCF95A1009D866C /* UIButton+LetgoStyles.swift in Sources */,
 				0A6E56AF1F8E241000419DDC /* RelatedListingsViewModel.swift in Sources */,
 				C7111F091CA4458F000C5C5A /* ShortcutItem.swift in Sources */,

@@ -22,6 +22,7 @@ final class ListingDeckViewController: UIViewController, UICollectionViewDataSou
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         edgesForExtendedLayout = []
         listingDeckView.collectionView.dataSource = self
         listingDeckView.collectionView.reloadData()

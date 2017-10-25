@@ -16,15 +16,19 @@ protocol ListingDeckViewDelegate {
 
 final class ListingDeckView: UIView, UICollectionViewDelegate {
 
-    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: ListingDeckCollectionViewLayout())
-    let bottomView = UIView()
+    let collectionView: UICollectionView
+    let layout = ListingDeckCollectionViewLayout()
+
+    let bottomView = ListingDeckActionView()
 
     override init(frame: CGRect) {
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         super.init(frame: frame)
         setupUI()
     }
 
     required init?(coder aDecoder: NSCoder) {
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         super.init(coder: aDecoder)
         setupUI()
     }
@@ -32,9 +36,9 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
     private func setupUI() {
         setupCollectionView()
         setupBottomView()
+        bringSubview(toFront: collectionView)
 
         collectionView.backgroundColor = #colorLiteral(red: 0.721568644, green: 0.8862745166, blue: 0.5921568871, alpha: 1)
-        bottomView.backgroundColor = #colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1)
     }
 
     private func setupCollectionView() {
@@ -47,9 +51,11 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
     private func setupBottomView() {
         addSubview(bottomView)
         bottomView.translatesAutoresizingMaskIntoConstraints = false
-        bottomView.layout(with: collectionView).below(by: 8)
-        bottomView.layout(with: self).proportionalHeight(multiplier: 0.2).trailing().bottom().leading()
+        bottomView.layout(with: collectionView).below()
+        bottomView.layout(with: self).trailing().bottom().leading()
+        bottomView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
     }
+    
 
     // MARK : UIScrollViewDelegate
 
