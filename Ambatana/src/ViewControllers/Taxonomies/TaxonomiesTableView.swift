@@ -113,6 +113,8 @@ final class TaxonomiesTableView: UIView, UITableViewDelegate, UITableViewDataSou
             if selectedTaxonomyChild == value {
                 cell.accessoryType = .checkmark
                 cell.tintColor = UIColor.redText
+            } else {
+                cell.accessoryType = .none
             }
             
             return cell
