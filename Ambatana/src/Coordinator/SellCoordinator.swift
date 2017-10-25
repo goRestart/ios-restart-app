@@ -73,7 +73,6 @@ final class SellCoordinator: Coordinator {
         let postListingVM = PostListingViewModel(source: source, postCategory: postCategory)
         let postListingVC = PostListingViewController(viewModel: postListingVM,
                                                       forcedInitialTab: forcedInitialTab)
-        
         navigationController = SellNavigationController(rootViewController: postListingVC)
         self.viewController = navigationController
         postListingVM.navigator = self
@@ -82,7 +81,6 @@ final class SellCoordinator: Coordinator {
     func presentViewController(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
         guard let postListingVC = viewController as? UINavigationController else { return }
         guard postListingVC.parent == nil else { return }
-
         parentViewController = parent
         parent.present(postListingVC, animated: animated, completion: completion)
     }
@@ -131,8 +129,7 @@ extension SellCoordinator: PostListingNavigator {
         viewModel.navigator = self
         let vc = PostingDetailsViewController(viewModel: viewModel)
         postingDetailStep = .propertyType
-        navigationController.updating(category: postListingState.category)
-        navigationController.shouldModifyProgress = true
+        navigationController.startDetails(category: postListingState.category)
         navigationController.pushViewController(vc, animated: false)
     }
     

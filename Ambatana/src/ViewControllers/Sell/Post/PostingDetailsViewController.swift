@@ -70,7 +70,7 @@ class PostingDetailsViewController : BaseViewController {
     
     private func setupNavigationBar() {
         guard let navigationController = navigationController as? SellNavigationController else { return }
-        let currentStep = navigationController.currentStep.value
+        let currentStep = navigationController.currentStep
         setNavBarBackgroundStyle(.transparent(substyle: .dark))
         if currentStep == 1 {
             let closeButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_post_close") , style: UIBarButtonItemStyle.plain,
