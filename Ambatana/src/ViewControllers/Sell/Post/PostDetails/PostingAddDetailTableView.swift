@@ -53,6 +53,8 @@ final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewD
         tableView.tintColor = UIColor.white
         tableView.indicatorStyle = .white
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Metrics.margin, right: 0)
+        tableView.allowsMultipleSelection = true
+ 
     }
     
     private func setupLayout() {
@@ -102,30 +104,41 @@ final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewD
         return cell
     }
     
+    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        guard let selectedValue = selectedValue else { return indexPath }
+        deselectCell(indexPath: selectedValue)
+        return indexPath
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) else { return }
-        if let selectedCell = selectedValue, let cellAlreadySelected = tableView.cellForRow(at: selectedCell) {
-            cellAlreadySelected.accessoryType = .none
-            cellAlreadySelected.accessoryView = nil
-            cellAlreadySelected.textLabel?.textColor = UIColor.grayLight
-            selectedValue = nil
-            delegate?.indexDeselected(index: indexPath.row)
-        } else {
-            let image = #imageLiteral(resourceName: "ic_checkmark").withRenderingMode(.alwaysTemplate)
-            let checkmark  = UIImageView(frame:CGRect(x:0,
-                                                      y:0,
-                                                      width:PostingAddDetailTableView.checkMarkSize.width,
-                                                      height:PostingAddDetailTableView.checkMarkSize.height))
-            checkmark.image = image
-            checkmark.tintColor = UIColor.white
-            cell.accessoryView = checkmark
-            
-            cell.accessoryType = .checkmark
-            cell.textLabel?.textColor = UIColor.white
-            selectedValue = indexPath
-            cell.isSelected = true
-            delegate?.indexSelected(index: indexPath.row)
-        }
+        
+        let image = #imageLiteral(resourceName: "ic_checkmark").withRenderingMode(.alwaysTemplate)
+        let checkmark  = UIImageView(frame:CGRect(x:0,
+                                                  y:0,
+                                                  width:PostingAddDetailTableView.checkMarkSize.width,
+                                                  height:PostingAddDetailTableView.checkMarkSize.height))
+        checkmark.image = image
+        checkmark.tintColor = UIColor.white
+        cell.accessoryView = checkmark
+        
+        cell.accessoryType = .checkmark
+        cell.textLabel?.textColor = UIColor.white
+        selectedValue = indexPath
+        delegate?.indexSelected(index: indexPath.row)
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        deselectCell(indexPath: indexPath)
+    }
+    
+    func deselectCell(indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        cell.accessoryType = .none
+        cell.accessoryView = nil
+        cell.textLabel?.textColor = UIColor.grayLight
+        selectedValue = nil
+        delegate?.indexDeselected(index: indexPath.row)
     }
     
     func setupTableView(values: [String]) {
