@@ -108,8 +108,10 @@ extension AppDelegate: UIApplicationDelegate {
         appCoordinator.open()
 
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(5)) { 
-            window.rootViewController?.present(UINavigationController(rootViewController: ListingDeckViewController()),
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
+            let viewModel = ListingDeckViewModel()
+            let viewController = ListingDeckViewController(viewModel: viewModel, nibName: nil)
+            window.rootViewController?.present(UINavigationController(rootViewController: viewController),
                                                animated: true,
                                                completion: nil)
         }

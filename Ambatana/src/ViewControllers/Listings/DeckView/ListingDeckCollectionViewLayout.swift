@@ -11,13 +11,32 @@ import UIKit
 
 typealias EasingFunction = (CGFloat) -> CGFloat
 
+struct ListingDeckCellLayout {
+    let insets: UIEdgeInsets
+    let anchors: Anchors
+    let verticalInsetDelta: CGFloat
+
+    struct Anchors {
+        let leftAnchor: CGFloat
+        let anchor: CGFloat
+        let rightAnchor: CGFloat
+    }
+
+}
+
 final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
 
     let easeInQuad: EasingFunction = { t in return t * t }
     var cache = [UICollectionViewLayoutAttributes]()
 
+    private var cellLayout: ListingDeckCellLayout
+
     let horizontalInset: CGFloat = 32.0
-    let verticalInset: CGFloat = 32.0
+    let verticalInset: CGFloat = 16.0
+    var interitemSpacing: CGFloat { get { return cellLayout.insets.left / 2.0 } }
+    var leftAnchor: CGFloat { get { return cellLayout.anchors.leftAnchor } }
+    var anchor: CGFloat { get { return cellLayout.anchors.anchor } }
+    var rightAnchor: CGFloat { get { return cellLayout.anchors.rightAnchor } }
 
     override var collectionViewContentSize : CGSize {
         let count = CGFloat(numberOfItems)
@@ -26,21 +45,24 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
     }
 
     var visibleWidth: CGFloat { get { return (collectionView?.bounds.width ?? 375) } }
-
-    let minimumAnchor: CGFloat = 0.25
-    let leftAnchor: CGFloat = 0.4
-    let anchor: CGFloat = 0.5
-    let rightAnchor: CGFloat = 0.75
-    let maximumAnchor: CGFloat = 0.7
+    var visibleHeight: CGFloat { get { return (collectionView?.bounds.height ?? 750) } }
 
     var cellWidth: CGFloat { get { return visibleWidth - 2*horizontalInset } }
-    var cellHeight: CGFloat { get { return (collectionView?.bounds.height)! - verticalInset } }
-    var numberOfItems: Int {
-        get { return collectionView?.numberOfItems(inSection: 0) ?? 0 }
+    var cellHeight: CGFloat { get { return visibleHeight - verticalInset } }
+
+    var numberOfItems: Int { get { return collectionView?.numberOfItems(inSection: 0) ?? 0 } }
+
+    convenience init(cellLayout: ListingDeckCellLayout) {
+        self.init()
+        self.cellLayout = cellLayout
     }
 
     override init() {
+        let insets = UIEdgeInsets(top: 16.0, left: 32.0, bottom: 32.0, right: 32.0)
+        let anchors = ListingDeckCellLayout.Anchors(leftAnchor: 0.25, anchor: 0.5, rightAnchor: 0.75)
+        self.cellLayout = ListingDeckCellLayout(insets: insets, anchors: anchors, verticalInsetDelta: insets.top)
         super.init()
+
         self.scrollDirection = .horizontal
     }
 
@@ -71,13 +93,9 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
     private func yInsetForItem(atIndexPath indexPath: IndexPath, withInitialX initialX: CGFloat) -> CGFloat {
         let factor = offsetFactorForItem(withInitialX: initialX)
 
-        guard factor < 1 && factor > 0 else {
-            return verticalInset
-        }
-
-        let minimumInset = verticalInset / 2.0
-        let leftInset = min(minimumInset + ((0.5 - factor) * verticalInset), verticalInset)
-        let rightInset = min(minimumInset + ((factor - 0.5) * verticalInset), verticalInset)
+        let minimum = cellLayout.insets.top - cellLayout.verticalInsetDelta
+        let leftInset = min(minimum + ((0.5 - factor) * verticalInset), verticalInset)
+        let rightInset = min(minimum + ((factor - 0.5) * verticalInset), verticalInset)
         let inset = factor < anchor ? leftInset : rightInset
 
         return inset
@@ -85,17 +103,20 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
 
     private func alphaForItem(atIndexPath indexPath: IndexPath, withInitialX initialX: CGFloat) -> CGFloat {
         let factor = offsetFactorForItem(withInitialX: initialX)
-        let midAnchor = anchor
-
-        let leftAlpha = factor / 0.5
-        let rightAlpha = (1.5 - factor) / 0.5
+        let base: CGFloat = 0.7
 
         guard factor < 1 && factor > 0 else {
-            return 0.7
+            return base
         }
 
-        let alpha = factor < midAnchor ? min(max(0.7, leftAlpha), 1) : min(max(0.7, rightAlpha), 1)
-        return max(0.7, easeInQuad(alpha))
+        let variable = 1 - base
+        let midAnchor = anchor
+
+        let leftAlpha = min(base + ((0.5 + factor) * variable), 1.0)
+        let rightAlpha = min(base + ((1.5 - factor) * variable), 1.0)
+
+        let alpha = factor < midAnchor ? leftAlpha : rightAlpha
+        return max(base, easeInQuad(alpha))
     }
 
     private func offsetFactorForItem(withInitialX initialX: CGFloat) -> CGFloat {
@@ -105,6 +126,14 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
         return draggedAnchor / visibleWidth
     }
 
+    override func targetContentOffset(forProposedContentOffset proposedContentOffset: CGPoint,
+                                      withScrollingVelocity velocity: CGPoint) -> CGPoint {
+        let anchor: CGFloat = cellWidth + interitemSpacing
+        if velocity.x > 0.0 {
+            print(velocity)
+        }
+        return CGPoint(x: round(proposedContentOffset.x / anchor) * anchor, y: 0)
+    }
 
     /* Return all attributes in the cache whose frame intersects with the rect passed to the method */
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
@@ -117,7 +146,7 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
         return layoutAttributes
     }
 
-    /* Return true so that the layout is continuously invalidated as the user scrolls */
+//     Return true so that the layout is continuously invalidated as the user scrolls
     override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
         return true
     }

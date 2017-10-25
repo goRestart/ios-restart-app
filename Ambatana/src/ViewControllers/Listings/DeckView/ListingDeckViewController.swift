@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-final class ListingDeckViewController: UIViewController, UICollectionViewDataSource {
+final class ListingDeckViewController: BaseViewController, UICollectionViewDataSource {
 
     struct Identifiers {
         static let cardView = "ListingCardView"
@@ -22,8 +22,14 @@ final class ListingDeckViewController: UIViewController, UICollectionViewDataSou
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        edgesForExtendedLayout = []
+
+        setupNavigationBar()
+        setupCollectionView()
+    }
+
+    // MARK: CollectionView
+
+    private func setupCollectionView() {
         listingDeckView.collectionView.dataSource = self
         listingDeckView.collectionView.reloadData()
         listingDeckView.collectionView.register(ListingCardView.self, forCellWithReuseIdentifier: Identifiers.cardView)
@@ -45,4 +51,25 @@ final class ListingDeckViewController: UIViewController, UICollectionViewDataSou
         }
         return UICollectionViewCell()
     }
+
+    // MARK: NavBar
+
+    private func setupNavigationBar() {
+        setNavBarBackgroundStyle(.transparent(substyle: .light))
+        edgesForExtendedLayout = []
+
+        let rightButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_more_options"), style: .plain, target: self, action: #selector(didTapMoreInfo))
+        let leftButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_close_red"), style: .plain, target: self, action: #selector(didTapClose))
+        self.navigationItem.rightBarButtonItem = rightButton
+        self.navigationItem.leftBarButtonItem  = leftButton
+    }
+
+    @objc private func didTapClose() {
+
+    }
+
+    @objc private func didTapMoreInfo() {
+
+    }
+
 }
