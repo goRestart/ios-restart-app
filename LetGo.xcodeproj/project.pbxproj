@@ -711,6 +711,8 @@
 		72B935F71E3F917500F93F73 /* UserProduct+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B935F51E3F917500F93F73 /* UserProduct+LG.swift */; };
 		72C7A1BC1F9F8D150089F175 /* SellNavigationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C7A1BB1F9F8D150089F175 /* SellNavigationViewModel.swift */; };
 		72C7A1BD1F9F8D150089F175 /* SellNavigationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C7A1BB1F9F8D150089F175 /* SellNavigationViewModel.swift */; };
+		72C7A1BF1FA0ECF60089F175 /* PostingDetailsViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C7A1BE1FA0ECF60089F175 /* PostingDetailsViewModelSpec.swift */; };
+		72C7A1C11FA0F4E90089F175 /* PostingDetailsStepSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C7A1C01FA0F4E90089F175 /* PostingDetailsStepSpec.swift */; };
 		72C99E9C1DED7417006361C1 /* ChangePasswordCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C99E9B1DED7417006361C1 /* ChangePasswordCoordinator.swift */; };
 		72C99E9D1DED7417006361C1 /* ChangePasswordCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C99E9B1DED7417006361C1 /* ChangePasswordCoordinator.swift */; };
 		72D57CD51E5767FC0009FA06 /* notificationservice.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 72D57CCE1E5767FC0009FA06 /* notificationservice.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -1908,6 +1910,8 @@
 		72B76C821DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CTTelephonyNetworkInfo+CountryConfigurable.swift"; path = "../FoundationExtensions/CTTelephonyNetworkInfo+CountryConfigurable.swift"; sourceTree = "<group>"; };
 		72B935F51E3F917500F93F73 /* UserProduct+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserProduct+LG.swift"; sourceTree = "<group>"; };
 		72C7A1BB1F9F8D150089F175 /* SellNavigationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellNavigationViewModel.swift; sourceTree = "<group>"; };
+		72C7A1BE1FA0ECF60089F175 /* PostingDetailsViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostingDetailsViewModelSpec.swift; sourceTree = "<group>"; };
+		72C7A1C01FA0F4E90089F175 /* PostingDetailsStepSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostingDetailsStepSpec.swift; sourceTree = "<group>"; };
 		72C99E9B1DED7417006361C1 /* ChangePasswordCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordCoordinator.swift; sourceTree = "<group>"; };
 		72D57CCE1E5767FC0009FA06 /* notificationservice.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = notificationservice.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		72D57CD01E5767FC0009FA06 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
@@ -3293,8 +3297,10 @@
 				50D08D9C1E69AF14009CC260 /* NotificationsViewModelSpec.swift */,
 				2E132A1D1F16512D00C20127 /* PostListingDetailViewModelSpec.swift */,
 				50D934D61E803C9E00BDD5FF /* PostListingStateSpec.swift */,
+				72C7A1C01FA0F4E90089F175 /* PostingDetailsStepSpec.swift */,
 				50D08D9D1E69AF14009CC260 /* ListingCarouselViewModelSpec.swift */,
 				50D08D9E1E69AF14009CC260 /* ListingViewModelSpec.swift */,
+				72C7A1BE1FA0ECF60089F175 /* PostingDetailsViewModelSpec.swift */,
 				509F79B11EDC01E400AF2F70 /* RateUserViewModelSpec.swift */,
 				50D08DA11E69AF14009CC260 /* SignUpLogInViewModelSpec.swift */,
 				50D08DA21E69AF14009CC260 /* SignUpViewModelSpec.swift */,
@@ -5452,11 +5458,13 @@
 				50D08DD61E69AF14009CC260 /* ListingListMultiRequesterSpec.swift in Sources */,
 				50D08DCC1E69AF14009CC260 /* GodModeManagerSpec.swift in Sources */,
 				504C63C41ECAF2EA00D33BFA /* MockApplication.swift in Sources */,
+				72C7A1C11FA0F4E90089F175 /* PostingDetailsStepSpec.swift in Sources */,
 				0A6D88BF1F7CED6900819E89 /* DeepLinksRouterSpec.swift in Sources */,
 				C750AA8B1E6D76DC005F87C5 /* MockListingViewModelMaker.swift in Sources */,
 				50D08DE11E69AF14009CC260 /* ListingCarouselViewModelSpec.swift in Sources */,
 				2EF0BB131E784468006808B5 /* MockPaymentQueue.swift in Sources */,
 				C765EE4B1E7FEEE200063750 /* MockChatEvent.swift in Sources */,
+				72C7A1BF1FA0ECF60089F175 /* PostingDetailsViewModelSpec.swift in Sources */,
 				8EBEF9791F3CA50500473822 /* LGSliderViewModelSpec.swift in Sources */,
 				504C63B91ECAE0AB00D33BFA /* PushManagerSpec.swift in Sources */,
 				50D08DD01E69AF14009CC260 /* TrackerProxySpec.swift in Sources */,
