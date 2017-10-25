@@ -43,6 +43,7 @@ protocol FeatureFlaggeable: class {
     var newBumpUpExplanation: NewBumpUpExplanation { get }
     var homeRelatedEnabled: HomeRelatedEnabled { get }
     var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells { get }
+    var featuredRibbonImprovementInDetail: FeaturedRibbonImprovementInDetail { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -348,6 +349,14 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return HideChatButtonOnFeaturedCells.fromPosition(abTests.hideChatButtonOnFeaturedCells.value)
     }
+
+    var featuredRibbonImprovementInDetail: FeaturedRibbonImprovementInDetail {
+        if Bumper.enabled {
+            return Bumper.featuredRibbonImprovementInDetail
+        }
+        return FeaturedRibbonImprovementInDetail.fromPosition(abTests.featuredRibbonImprovementInDetail.value)
+    }
+
 
     // MARK: - Country features
 

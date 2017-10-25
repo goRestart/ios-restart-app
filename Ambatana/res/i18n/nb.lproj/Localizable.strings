@@ -212,7 +212,7 @@
 "common_ok" = "Ok";
 "common_product_given_away" = "Produktet er gitt bort";
 "common_product_not_available" = "Oops! Dette produktet er ikke lenger tilgjengelig";
-"common_product_sold" = "Dette produktet er solgt.";
+"common_product_sold" = "Produkt solgt";
 "common_settings" = "Innstillinger";
 "common_short_time_day_ago_label" = "%d dag";
 "common_short_time_days_ago_label" = "%d dager";
@@ -292,6 +292,12 @@
 "edit_product_title" = "Endre produkt";
 "edit_product_unsaved_changes_alert" = "Er du sikker på at du vil forkaste endringene?";
 "edit_product_unsaved_changes_alert_ok" = "Forkast";
+"featured_info_view_increase_visibility" = "Get more visibility";
+"featured_info_view_more_buyers" = "Attract more buyers";
+"featured_info_view_sell_faster" = "Selg raskere";
+"featured_info_view_sell_increase_visibility" = "Få mer synlighet";
+"featured_info_view_sell_more_buyers" = "Tiltrekk flere kjøpere";
+"featured_info_view_title" = "Promotert annonse";
 "filter_results_cars_no_matches" = "Ingen eksakte resultater ble funnet.\n Vis liknende resultater. ";
 "filter_results_cars_other_results" = "Nylig publisert i ditt nærområde";
 "filters_car_make_not_set" = "Ikke valgt";

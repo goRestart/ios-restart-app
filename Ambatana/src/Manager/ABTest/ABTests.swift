@@ -41,6 +41,7 @@ class ABTests {
     let newBumpUpExplanation = IntABDynamicVar(key: "20171004NewBumpUpExplanation", defaultValue: 0)
     let homeRelatedEnabled = IntABDynamicVar(key: "20171011HomeRelatedEnabled", defaultValue: 0)
     let hideChatButtonOnFeaturedCells = IntABDynamicVar(key: "20171011ChatButtonOnFeaturedCells", defaultValue: 0)
+    let featuredRibbonImprovementInDetail = IntABDynamicVar(key: "20171024FeaturedRibbonImprovementInDetail", defaultValue: 0)
 
     init() {
     }
@@ -74,6 +75,7 @@ class ABTests {
         result.append(newBumpUpExplanation)
         result.append(homeRelatedEnabled)
         result.append(hideChatButtonOnFeaturedCells)
+        result.append(featuredRibbonImprovementInDetail)
         
         return result
     }

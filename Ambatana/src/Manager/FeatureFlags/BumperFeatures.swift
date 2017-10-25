@@ -37,6 +37,7 @@ extension Bumper  {
         flags.append(NewBumpUpExplanation.self)
         flags.append(HomeRelatedEnabled.self)
         flags.append(HideChatButtonOnFeaturedCells.self)
+        flags.append(FeaturedRibbonImprovementInDetail.self)
         Bumper.initialize(flags)
     } 
 
@@ -152,12 +153,17 @@ extension Bumper  {
 
     static var homeRelatedEnabled: HomeRelatedEnabled {
         guard let value = Bumper.value(for: HomeRelatedEnabled.key) else { return .control }
-        return HomeRelatedEnabled(rawValue: value) ?? .control
+        return HomeRelatedEnabled(rawValue: value) ?? .control 
     }
 
     static var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells {
         guard let value = Bumper.value(for: HideChatButtonOnFeaturedCells.key) else { return .control }
         return HideChatButtonOnFeaturedCells(rawValue: value) ?? .control 
+    }
+
+    static var featuredRibbonImprovementInDetail: FeaturedRibbonImprovementInDetail {
+        guard let value = Bumper.value(for: FeaturedRibbonImprovementInDetail.key) else { return .control }
+        return FeaturedRibbonImprovementInDetail(rawValue: value) ?? .control 
     } 
 }
 
@@ -451,7 +457,7 @@ enum HomeRelatedEnabled: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show the related button in the main feed" } 
     static func fromPosition(_ position: Int) -> HomeRelatedEnabled {
-    switch position { 
+        switch position { 
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
@@ -459,7 +465,7 @@ enum HomeRelatedEnabled: String, BumperFeature  {
         }
     }
 }
-          
+
 enum HideChatButtonOnFeaturedCells: String, BumperFeature  {
     case control, baseline, active
     static var defaultValue: String { return HideChatButtonOnFeaturedCells.control.rawValue }
@@ -467,6 +473,22 @@ enum HideChatButtonOnFeaturedCells: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "hide chat button on the featured listing cells" } 
     static func fromPosition(_ position: Int) -> HideChatButtonOnFeaturedCells {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum FeaturedRibbonImprovementInDetail: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return FeaturedRibbonImprovementInDetail.control.rawValue }
+    static var enumValues: [FeaturedRibbonImprovementInDetail] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Featured ribbon in product detail is clickable" } 
+    static func fromPosition(_ position: Int) -> FeaturedRibbonImprovementInDetail {
         switch position { 
             case 0: return .control
             case 1: return .baseline

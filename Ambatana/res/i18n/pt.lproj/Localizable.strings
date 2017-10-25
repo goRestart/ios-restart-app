@@ -292,6 +292,10 @@
 "edit_product_title" = "Edit Product";
 "edit_product_unsaved_changes_alert" = "Are you sure you want to discard these changes?";
 "edit_product_unsaved_changes_alert_ok" = "Discard";
+"featured_info_view_increase_visibility" = "Get more visibility";
+"featured_info_view_more_buyers" = "Attract more buyers";
+"featured_info_view_sell_faster" = "Sell faster";
+"featured_info_view_title" = "Featured Listing";
 "filter_results_cars_no_matches" = "No exact matches for your search.\n Showing similar results. ";
 "filter_results_cars_other_results" = "Recently posted in your area";
 "filters_car_make_not_set" = "Not Set";

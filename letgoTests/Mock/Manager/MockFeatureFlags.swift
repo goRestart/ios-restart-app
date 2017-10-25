@@ -45,7 +45,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var newBumpUpExplanation: NewBumpUpExplanation = .control
     var homeRelatedEnabled: HomeRelatedEnabled = .control
     var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells = .control
-
+    var featuredRibbonImprovementInDetail: FeaturedRibbonImprovementInDetail = .control
 
     // Country dependant features
     var freePostingModeAllowed = false
