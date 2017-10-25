@@ -97,22 +97,9 @@ class ListingCarouselViewModel: BaseViewModel {
     fileprivate let nextImagesToPrefetch = 3
     fileprivate var prefetchingIndexes: [Int] = []
 
-    fileprivate var shouldShowOnboarding: Bool {
-        let shouldShowOldOnboarding = !featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive
-            && !keyValueStorage[.didShowListingDetailOnboarding]
-        let shouldShowNewOnboarding = featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive
-            && !keyValueStorage[.didShowHorizontalListingDetailOnboarding]
-        return shouldShowOldOnboarding || shouldShowNewOnboarding
-    }
+    fileprivate var shouldShowOnboarding: Bool { return !keyValueStorage[.didShowListingDetailOnboarding] }
 
-    var imageScrollDirection: UICollectionViewScrollDirection {
-        if featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive {
-            return .horizontal
-        }
-        return .vertical
-    }
-
-    let imageHorizontalNavigationEnabled = Variable<Bool>(false)
+    var imageScrollDirection: UICollectionViewScrollDirection = .vertical
 
     var isMyListing: Bool {
         return currentListingViewModel?.isMine ?? false
@@ -366,8 +353,6 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     private func setupRxBindings() {
-        imageHorizontalNavigationEnabled.value = imageScrollDirection == .horizontal
-        
         moreInfoState.asObservable().map { $0 == .shown }.distinctUntilChanged().filter { $0 }.bindNext { [weak self] _ in
             self?.currentListingViewModel?.trackVisitMoreInfo()
             self?.keyValueStorage[.listingMoreInfoTooltipDismissed] = true
