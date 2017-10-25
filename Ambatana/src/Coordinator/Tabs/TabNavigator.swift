@@ -74,6 +74,7 @@ protocol ListingDetailNavigator: TabNavigator {
                                               buttonsLayout: AlertButtonsLayout,
                                               actions: [UIAction])
     func openContactUs(forListing listing: Listing, contactUstype: ContactUsType)
+    func openFeaturedInfo()
 }
 
 protocol SimpleProductsNavigator: class {

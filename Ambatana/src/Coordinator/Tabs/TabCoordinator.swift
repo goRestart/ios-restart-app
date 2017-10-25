@@ -503,6 +503,10 @@ extension TabCoordinator: ListingDetailNavigator {
         }
         rootViewController.openInternalUrl(contactURL)
     }
+
+    func openFeaturedInfo() {
+        
+    }
 }
 
 

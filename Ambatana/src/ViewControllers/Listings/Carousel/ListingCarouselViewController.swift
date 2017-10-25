@@ -30,6 +30,10 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
 
     @IBOutlet weak var productStatusView: UIView!
     @IBOutlet weak var productStatusLabel: UILabel!
+    @IBOutlet weak var productStatusImageView: UIImageView!
+    @IBOutlet weak var productStatusImageViewLeftConstraint: NSLayoutConstraint!
+    @IBOutlet weak var productStatusImageViewRightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var productStatusImageViewWidthConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var directChatTable: CustomTouchesTableView!
 
@@ -723,17 +727,40 @@ extension ListingCarouselViewController {
 
         let statusAndFeatured = Observable.combineLatest(viewModel.status.asObservable(), viewModel.isFeatured.asObservable()) { $0 }
         statusAndFeatured.bindNext { [weak self] (status, isFeatured) in
+            guard let strongSelf = self else { return }
             if isFeatured {
-                self?.productStatusView.backgroundColor = UIColor.white
-                self?.productStatusLabel.text = LGLocalizedString.bumpUpProductDetailFeaturedLabel
-                self?.productStatusLabel.textColor = UIColor.redText
+                strongSelf.productStatusView.backgroundColor = UIColor.white
+                let featuredText = LGLocalizedString.bumpUpProductDetailFeaturedLabel
+                strongSelf.productStatusLabel.text = strongSelf.viewModel.isStatusLabelClickable ? featuredText.capitalizedFirstLetterOnly : featuredText
+                strongSelf.productStatusLabel.textColor = strongSelf.viewModel.isStatusLabelClickable ? UIColor.blackText : UIColor.redText
+                strongSelf.productStatusImageView.isHidden = !strongSelf.viewModel.isStatusLabelClickable
+                strongSelf.productStatusImageViewLeftConstraint.constant = strongSelf.viewModel.isStatusLabelClickable ? Metrics.shortMargin : 0
+                strongSelf.productStatusImageViewRightConstraint.constant = strongSelf.viewModel.isStatusLabelClickable ? Metrics.shortMargin : 0
+                strongSelf.productStatusImageViewWidthConstraint.constant = strongSelf.viewModel.isStatusLabelClickable ? Metrics.margin : 0
+                if strongSelf.viewModel.isStatusLabelClickable {
+                    strongSelf.addTapRecognizerToStatusLabel()
+                }
             } else {
-                self?.productStatusView.backgroundColor = status.bgColor
-                self?.productStatusLabel.text = status.string
-                self?.productStatusLabel.textColor = status.labelColor
+                strongSelf.productStatusView.backgroundColor = status.bgColor
+                strongSelf.productStatusLabel.text = status.string
+                strongSelf.productStatusLabel.textColor = status.labelColor
+                strongSelf.productStatusImageView.isHidden = true
+                strongSelf.productStatusImageViewLeftConstraint.constant = 0
+                strongSelf.productStatusImageViewRightConstraint.constant = 0
+                strongSelf.productStatusImageViewWidthConstraint.constant = 0
             }
-            self?.productStatusView.isHidden = self?.productStatusLabel.text?.isEmpty ?? true
+            strongSelf.productStatusView.isHidden = strongSelf.productStatusLabel.text?.isEmpty ?? true
             }.addDisposableTo(disposeBag)
+    }
+
+    private func addTapRecognizerToStatusLabel() {
+        let tapRec = UITapGestureRecognizer(target: self, action: #selector(statusLabelTapped))
+        productStatusView.addGestureRecognizer(tapRec)
+    }
+
+    private dynamic func statusLabelTapped() {
+        print("⚡️⚡️⚡️⚡️⚡️")
+        viewModel.statusLabelTapped()
     }
 
     private func setupFavoriteButtonRx() {
