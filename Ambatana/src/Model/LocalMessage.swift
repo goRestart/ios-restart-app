@@ -40,7 +40,7 @@ struct LocalMessage: Message {
     init(type: ChatWrapperMessageType, userId: String?) {
         self.objectId = Date().description
         self.text = type.text
-        self.type = type.oldChatType
+        self.type = .text
         self.userId = userId ?? ""
         self.createdAt = Date()
         self.isRead = false

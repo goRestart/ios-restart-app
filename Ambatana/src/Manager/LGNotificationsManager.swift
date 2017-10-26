@@ -33,7 +33,6 @@ class LGNotificationsManager: NotificationsManager {
     private let sessionManager: SessionManager
     private let chatRepository: ChatRepository
     private var chatStatus: WSChatStatus?
-    private let oldChatRepository: OldChatRepository
     private let notificationsRepository: NotificationsRepository
     fileprivate let keyValueStorage: KeyValueStorage
     private let featureFlags: FeatureFlaggeable
@@ -49,7 +48,6 @@ class LGNotificationsManager: NotificationsManager {
     convenience init() {
         self.init(sessionManager: Core.sessionManager,
                   chatRepository: Core.chatRepository,
-                  oldChatRepository: Core.oldChatRepository,
                   notificationsRepository: Core.notificationsRepository,
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   featureFlags: FeatureFlags.sharedInstance,
@@ -58,14 +56,12 @@ class LGNotificationsManager: NotificationsManager {
 
     init(sessionManager: SessionManager,
          chatRepository: ChatRepository,
-         oldChatRepository: OldChatRepository,
          notificationsRepository: NotificationsRepository,
          keyValueStorage: KeyValueStorage,
          featureFlags: FeatureFlaggeable,
          deepLinksRouter: DeepLinksRouter) {
         self.sessionManager = sessionManager
         self.chatRepository = chatRepository
-        self.oldChatRepository = oldChatRepository
         self.notificationsRepository = notificationsRepository
         self.keyValueStorage = keyValueStorage
         self.featureFlags = featureFlags
@@ -120,22 +116,20 @@ class LGNotificationsManager: NotificationsManager {
             UIApplication.shared.applicationIconBadgeNumber = count
         }.addDisposableTo(disposeBag)
 
-        if featureFlags.websocketChat {
-            chatRepository.chatEvents.filter { event in
-                switch event.type {
-                case .interlocutorMessageSent:
-                    return true
-                default:
-                    return false
-                }
-            }.bindNext{ [weak self] event in
-                self?.requestChatCounters()
-            }.addDisposableTo(disposeBag)
+        chatRepository.chatEvents.filter { event in
+            switch event.type {
+            case .interlocutorMessageSent:
+                return true
+            default:
+                return false
+            }
+        }.bindNext{ [weak self] event in
+            self?.requestChatCounters()
+        }.addDisposableTo(disposeBag)
 
-            chatRepository.chatStatus.bindNext { [weak self] in
-                self?.chatStatus = $0
-            }.addDisposableTo(disposeBag)
-        }
+        chatRepository.chatStatus.bindNext { [weak self] in
+            self?.chatStatus = $0
+        }.addDisposableTo(disposeBag)
 
         deepLinksRouter.chatDeepLinks.filter { [weak self] _ in
             if let status = self?.chatStatus, status == .openAuthenticated { return false }
@@ -158,18 +152,10 @@ class LGNotificationsManager: NotificationsManager {
         guard sessionManager.loggedIn && !requestingChat else { return }
         requestingChat = true
 
-        if featureFlags.websocketChat {
-            chatRepository.chatUnreadMessagesCount() { [weak self] result in
-                self?.requestingChat = false
-                guard let count = result.value?.totalUnreadMessages else { return }
-                self?.unreadMessagesCount.value = count
-            }
-        } else {
-            oldChatRepository.retrieveUnreadMessageCountWithCompletion { [weak self] result in
-                self?.requestingChat = false
-                guard let count = result.value else { return }
-                self?.unreadMessagesCount.value = count
-            }
+        chatRepository.chatUnreadMessagesCount() { [weak self] result in
+            self?.requestingChat = false
+            guard let count = result.value?.totalUnreadMessages else { return }
+            self?.unreadMessagesCount.value = count
         }
     }
 

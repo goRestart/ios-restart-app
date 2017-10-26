@@ -29,19 +29,17 @@ protocol ChatWrapper {
 class LGChatWrapper: ChatWrapper {
 
     private let chatRepository: ChatRepository
-    private let oldChatRepository: OldChatRepository
     private let myUserRepository: MyUserRepository
     private let featureFlags: FeatureFlaggeable
 
     convenience init() {
-        self.init(chatRepository: Core.chatRepository, oldChatRepository: Core.oldChatRepository,
-                  myUserRepository: Core.myUserRepository, featureFlags: FeatureFlags.sharedInstance)
+        self.init(chatRepository: Core.chatRepository, myUserRepository: Core.myUserRepository,
+                  featureFlags: FeatureFlags.sharedInstance)
     }
 
-    init(chatRepository: ChatRepository, oldChatRepository: OldChatRepository, myUserRepository: MyUserRepository,
+    init(chatRepository: ChatRepository, myUserRepository: MyUserRepository,
          featureFlags: FeatureFlaggeable) {
         self.chatRepository = chatRepository
-        self.oldChatRepository = oldChatRepository
         self.myUserRepository = myUserRepository
         self.featureFlags = featureFlags
     }
@@ -56,27 +54,7 @@ class LGChatWrapper: ChatWrapper {
             return
         }
 
-
-        if featureFlags.websocketChat {
-            sendWebSocketChatMessage(listingId, sellerId: sellerId, text: type.text, type: type.chatType, completion: completion)
-        } else {
-            sendOldChatMessage(listingId, sellerId: sellerId, text: type.text, type: type.oldChatType, completion: completion)
-        }
-    }
-
-    private func sendOldChatMessage(_ listingId: String, sellerId: String, text: String?, type: MessageType, completion: ChatWrapperCompletion?) {
-        guard let text = text else {
-            completion?(Result(error: .internalError(message: "There's no message to send")))
-            return
-        }
-        oldChatRepository.sendMessage(type, message: text, listingId: listingId, recipientId: sellerId) { result in
-            if let _ = result.value {
-                // Value is true as we can't know (old chat)  if it is first contact or not. (always track)
-                completion?(Result(value: true))
-            } else if let error = result.error {
-                completion?(Result(error: error))
-            }
-        }
+        sendWebSocketChatMessage(listingId, sellerId: sellerId, text: type.text, type: type.chatType, completion: completion)
     }
 
     private func sendWebSocketChatMessage(_ listingId: String, sellerId: String, text: String, type: ChatMessageType,
@@ -129,17 +107,6 @@ extension ChatWrapperMessageType {
             return text
         case let .periscopeDirect(text):
             return text
-        }
-    }
-
-    var oldChatType: MessageType {
-        switch self {
-        case .text:
-            return .text
-        case .chatSticker:
-            return .sticker
-        case .quickAnswer, .expressChat, .favoritedListing, .periscopeDirect: // Legacy chat doesn't use this types
-            return .text
         }
     }
 

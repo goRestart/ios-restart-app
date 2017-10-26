@@ -65,7 +65,7 @@ class ChatViewController: TextViewController {
         self.viewModel = viewModel
         self.listingView = ChatListingView.chatListingView()
         self.relatedListingsView = ChatRelatedListingsView()
-        self.directAnswersPresenter = DirectAnswersPresenter(websocketChatActive: featureFlags.websocketChat)
+        self.directAnswersPresenter = DirectAnswersPresenter()
         self.stickersView = ChatStickersView()
         self.featureFlags = featureFlags
         self.pushPermissionManager = pushPermissionManager

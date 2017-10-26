@@ -21,7 +21,6 @@ protocol FeatureFlaggeable: class {
     var surveyUrl: String { get }
     var surveyEnabled: Bool { get }
 
-    var websocketChat: Bool { get }
     var captchaTransparent: Bool { get }
     var freeBumpUpEnabled: Bool { get }
     var pricedBumpUpEnabled: Bool { get }
@@ -107,7 +106,6 @@ extension HomeRelatedEnabled {
 class FeatureFlags: FeatureFlaggeable {
     static let sharedInstance: FeatureFlags = FeatureFlags()
 
-    let websocketChat: Bool
     let requestTimeOut: RequestsTimeOut
 
     private let locale: Locale
@@ -124,12 +122,6 @@ class FeatureFlags: FeatureFlaggeable {
         Bumper.initialize()
 
         // Initialize all vars that shouldn't change over application lifetime
-        if Bumper.enabled {
-            self.websocketChat = Bumper.websocketChat
-        } else {
-            self.websocketChat = dao.retrieveWebsocketChatEnabled() ?? abTests.websocketChat.value
-        }
-
         if Bumper.enabled {
             self.requestTimeOut = Bumper.requestsTimeOut
         } else {
@@ -167,7 +159,6 @@ class FeatureFlags: FeatureFlaggeable {
     }
 
     func variablesUpdated() {
-        dao.save(websocketChatEnabled: abTests.websocketChat.value)
         if Bumper.enabled {
             dao.save(timeoutForRequests: TimeInterval(Bumper.requestsTimeOut.timeout))
         } else {

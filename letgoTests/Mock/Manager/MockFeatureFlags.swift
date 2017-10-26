@@ -22,7 +22,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var surveyUrl: String = ""
     var surveyEnabled: Bool = false
 
-    var websocketChat: Bool = false
     var captchaTransparent: Bool = false
     var freeBumpUpEnabled: Bool = false
     var pricedBumpUpEnabled: Bool = false

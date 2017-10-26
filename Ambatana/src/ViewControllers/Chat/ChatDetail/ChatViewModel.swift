@@ -1428,9 +1428,6 @@ extension ChatViewModel {
         var cleanRelatedListings: [Listing] = []
         for listing in listings {
             if listing.user.objectId != myUserRepository.myUser?.objectId { cleanRelatedListings.append(listing) }
-            if cleanRelatedListings.count == OldChatViewModel.maxRelatedListingsForExpressChat {
-                return cleanRelatedListings
-            }
         }
         return cleanRelatedListings
     }

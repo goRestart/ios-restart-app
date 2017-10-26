@@ -54,14 +54,9 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedListViewDelegate
 
         for index in 0..<viewModel.chatListsCount {
             let page: ChatListView
-            if featureFlags.websocketChat {
-                guard let pageVM = viewModel.wsChatListViewModelForTabAtIndex(index) else { continue }
-                page = ChatListView(viewModel: pageVM)
-            } else {
-                guard let pageVM = viewModel.oldChatListViewModelForTabAtIndex(index) else { continue }
-                page = ChatListView(viewModel: pageVM)
-            }
             
+            guard let pageVM = viewModel.wsChatListViewModelForTabAtIndex(index) else { continue }
+            page = ChatListView(viewModel: pageVM)
             page.tableView.accessibilityId = viewModel.accessibilityIdentifierForTableViewAtIndex(index)
             page.footerButton.accessibilityId = .chatListViewFooterButton
             page.chatGroupedListViewDelegate = self
@@ -76,8 +71,6 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedListViewDelegate
         pages.append(page)
         
         setupRxBindings()
-        
-        
     }
     
     convenience init(viewModel: ChatGroupedViewModel) {
@@ -241,12 +234,6 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedListViewDelegate
     // MARK: - Private methods
 
     private func setupUI() {
-        #if GOD_MODE
-        let chatType = featureFlags.websocketChat ? "New" : "Old"
-        let leftButton = UIBarButtonItem(title: chatType, style: .plain, target: self, action: #selector(chatInfo))
-        navigationItem.leftBarButtonItem = leftButton
-        #endif
-
         setupValidationEmptyState()
 
         view.backgroundColor = UIColor.listBackgroundColor
@@ -268,11 +255,6 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedListViewDelegate
         validationPendingEmptyView.setupWithModel(emptyVM)
         validationPendingEmptyView.frame = view.frame
         view.addSubview(validationPendingEmptyView)
-    }
-
-    private dynamic func chatInfo() {
-        let message = featureFlags.websocketChat ? "You're using the F*ng new chat!!" : "You're using the crappy old chat :("
-        showAutoFadingOutMessageAlert(message)
     }
 
     private func setupConstraints() {

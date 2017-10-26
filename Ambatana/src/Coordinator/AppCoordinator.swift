@@ -42,7 +42,6 @@ final class AppCoordinator: NSObject, Coordinator {
     fileprivate let listingRepository: ListingRepository
     fileprivate let userRepository: UserRepository
     fileprivate let myUserRepository: MyUserRepository
-    fileprivate let oldChatRepository: OldChatRepository
     fileprivate let chatRepository: ChatRepository
     fileprivate let userRatingRepository: UserRatingRepository
     fileprivate let featureFlags: FeatureFlaggeable
@@ -70,7 +69,6 @@ final class AppCoordinator: NSObject, Coordinator {
                   listingRepository: Core.listingRepository,
                   userRepository: Core.userRepository,
                   myUserRepository: Core.myUserRepository,
-                  oldChatRepository: Core.oldChatRepository,
                   chatRepository: Core.chatRepository,
                   userRatingRepository: Core.userRatingRepository,
                   installationRepository: Core.installationRepository,
@@ -91,7 +89,6 @@ final class AppCoordinator: NSObject, Coordinator {
          listingRepository: ListingRepository,
          userRepository: UserRepository,
          myUserRepository: MyUserRepository,
-         oldChatRepository: OldChatRepository,
          chatRepository: ChatRepository,
          userRatingRepository: UserRatingRepository,
          installationRepository: InstallationRepository,
@@ -121,7 +118,6 @@ final class AppCoordinator: NSObject, Coordinator {
         self.listingRepository = listingRepository
         self.userRepository = userRepository
         self.myUserRepository = myUserRepository
-        self.oldChatRepository = oldChatRepository
         self.chatRepository = chatRepository
         self.userRatingRepository = userRatingRepository
         self.installationRepository = installationRepository
@@ -934,34 +930,20 @@ fileprivate extension AppCoordinator {
         }
 
         tracker.trackEvent(TrackerEvent.inappChatNotificationStart())
-        if featureFlags.websocketChat {
-            chatRepository.showConversation(conversationId) { [weak self] result in
-                guard let conversation = result.value else { return }
-                let action = UIAction(interface: .text(LGLocalizedString.appNotificationReply), action: { [weak self] in
-                    self?.tracker.trackEvent(TrackerEvent.inappChatNotificationComplete())
-                    self?.openTab(.chats, force: false) { [weak self] in
-                        self?.selectedTabCoordinator?.openChat(.conversation(conversation: conversation), source: .inAppNotification, predefinedMessage: nil)
-                    }
-                })
-                let data = BubbleNotificationData(tagGroup: conversationId,
-                                                  text: message,
-                                                  action: action,
-                                                  iconURL: conversation.interlocutor?.avatar?.fileURL,
-                                                  iconImage: UIImage(named: "user_placeholder"))
-                self?.showBubble(with: data, duration: Constants.bubbleChatDuration)
-            }
-        } else {
-            // Old chat cannot retrieve chat because it would mark messages as read.
+        chatRepository.showConversation(conversationId) { [weak self] result in
+            guard let conversation = result.value else { return }
             let action = UIAction(interface: .text(LGLocalizedString.appNotificationReply), action: { [weak self] in
                 self?.tracker.trackEvent(TrackerEvent.inappChatNotificationComplete())
                 self?.openTab(.chats, force: false) { [weak self] in
-                    self?.selectedTabCoordinator?.openChat(.dataIds(data: data), source: .inAppNotification, predefinedMessage: nil)
+                    self?.selectedTabCoordinator?.openChat(.conversation(conversation: conversation), source: .inAppNotification, predefinedMessage: nil)
                 }
             })
             let data = BubbleNotificationData(tagGroup: conversationId,
                                               text: message,
-                                              action: action)
-            showBubble(with: data, duration: Constants.bubbleChatDuration)
+                                              action: action,
+                                              iconURL: conversation.interlocutor?.avatar?.fileURL,
+                                              iconImage: UIImage(named: "user_placeholder"))
+            self?.showBubble(with: data, duration: Constants.bubbleChatDuration)
         }
     }
 }

@@ -13,7 +13,6 @@ import bumper
 extension Bumper  {
     static func initialize() {
         var flags = [BumperFeature.Type]()
-        flags.append(WebsocketChat.self)
         flags.append(ShowNPSSurvey.self)
         flags.append(SurveyEnabled.self)
         flags.append(FreeBumpUpEnabled.self)
@@ -37,11 +36,6 @@ extension Bumper  {
         flags.append(HomeRelatedEnabled.self)
         flags.append(HideChatButtonOnFeaturedCells.self)
         Bumper.initialize(flags)
-    } 
-
-    static var websocketChat: Bool {
-        guard let value = Bumper.value(for: WebsocketChat.key) else { return false }
-        return WebsocketChat(rawValue: value)?.asBool ?? false
     }
 
     static var showNPSSurvey: Bool {
@@ -155,15 +149,6 @@ extension Bumper  {
     } 
 }
 
-
-enum WebsocketChat: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return WebsocketChat.no.rawValue }
-    static var enumValues: [WebsocketChat] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "New Websocket Chat" } 
-    var asBool: Bool { return self == .yes }
-}
 
 enum ShowNPSSurvey: String, BumperFeature  {
     case no, yes

@@ -14,7 +14,6 @@ class MainTabCoordinator: TabCoordinator {
         let listingRepository = Core.listingRepository
         let userRepository = Core.userRepository
         let chatRepository = Core.chatRepository
-        let oldChatRepository = Core.oldChatRepository
         let myUserRepository = Core.myUserRepository
         let installationRepository = Core.installationRepository
         let bubbleNotificationManager =  LGBubbleNotificationManager.sharedInstance
@@ -25,9 +24,8 @@ class MainTabCoordinator: TabCoordinator {
         let viewModel = MainListingsViewModel(searchType: nil, tabNavigator: nil)
         let rootViewController = MainListingsViewController(viewModel: viewModel)
         self.init(listingRepository: listingRepository, userRepository: userRepository,
-                  chatRepository: chatRepository, oldChatRepository: oldChatRepository,
-                  myUserRepository: myUserRepository, installationRepository: installationRepository,
-                  bubbleNotificationManager: bubbleNotificationManager,
+                  chatRepository: chatRepository, myUserRepository: myUserRepository,
+                  installationRepository: installationRepository, bubbleNotificationManager: bubbleNotificationManager,
                   keyValueStorage: keyValueStorage, tracker: tracker, rootViewController: rootViewController,
                   featureFlags: featureFlags, sessionManager: sessionManager)
 

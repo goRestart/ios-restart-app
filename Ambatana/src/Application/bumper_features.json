@@ -1,10 +1,5 @@
 
 [
-	{
-		"name": "WebsocketChat",
-		"values": ["No", "Yes"],
-		"description": "New Websocket Chat"
-	},
     {
 		"name": "ShowNPSSurvey",
 		"values": ["No", "Yes"],

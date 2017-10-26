@@ -1205,7 +1205,6 @@ extension MainListingsViewModel: ListingCellDelegate {
     }
 
     func chatButtonPressedFor(listing: Listing) {
-        
         navigator?.openChat(.listingAPI(listing: listing),
                             source: .listingListFeatured,
                             predefinedMessage: nil)
