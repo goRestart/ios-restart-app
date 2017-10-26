@@ -12,7 +12,7 @@ import RxSwift
 class ListingCarouselViewController: KeyboardViewController, AnimatableTransition {
 
     @IBOutlet weak var imageBackground: UIImageView!
-    @IBOutlet weak var flowLayout: AnimatedPageCollectionViewLayout!
+    @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var buttonBottom: UIButton!
     @IBOutlet weak var buttonBottomHeight: NSLayoutConstraint!
@@ -77,8 +77,6 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     }
 
     fileprivate let pageControl: UIPageControl
-    fileprivate let customPageControl: PillPageControl
-    fileprivate var customPageControlBottomConstraint: NSLayoutConstraint?
     fileprivate var moreInfoTooltip: Tooltip?
 
     fileprivate let collectionContentOffset = Variable<CGPoint>(CGPoint.zero)
@@ -108,11 +106,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
 
     fileprivate let carouselImageDownloader: ImageDownloaderType
     fileprivate let imageDownloader: ImageDownloaderType
-    
-    fileprivate var usesHorizontalNavigation: Bool {
-        return viewModel.imageHorizontalNavigationEnabled.value
-    }
-    
+
     fileprivate var bottomScrollLimit: CGFloat {
         return max(0, collectionView.contentSize.height - collectionView.height + collectionView.contentInset.bottom)
     }
@@ -138,7 +132,6 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         self.fullScreenAvatarView = UIImageView(frame: CGRect.zero)
         self.animator = pushAnimator
         self.pageControl = UIPageControl(frame: CGRect.zero)
-        self.customPageControl = PillPageControl(frame: CGRect.zero)
         self.imageDownloader = imageDownloader
         self.carouselImageDownloader = carouselImageDownloader
         self.directAnswersView = DirectAnswersHorizontalView(answers: [], sideMargin: CarouselUI.itemsMargin)
@@ -268,8 +261,6 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         mainViewBlurEffectView.translatesAutoresizingMaskIntoConstraints = false
         imageBackground.addSubview(mainViewBlurEffectView)
         view.addSubview(pageControl)
-        customPageControl.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(customPageControl)
         fullScreenAvatarEffectView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(fullScreenAvatarEffectView)
         userView.translatesAutoresizingMaskIntoConstraints = false
@@ -279,10 +270,6 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     }
 
     func setupUI() {
-        if usesHorizontalNavigation {
-            flowLayout.animator = PageAttributesAnimator()
-        }
-        
         flowLayout.minimumLineSpacing = 0
         flowLayout.minimumInteritemSpacing = 0
 
@@ -291,31 +278,15 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         //Duplicating registered cells to avoid reuse of colindant cells
         registerListingCarouselCells()
         collectionView.isDirectionalLockEnabled = true
-        collectionView.alwaysBounceVertical = usesHorizontalNavigation
+        collectionView.alwaysBounceVertical = false
         collectionView.alwaysBounceHorizontal = false
         automaticallyAdjustsScrollViewInsets = false
-        
-        customPageControl.backgroundColor = UIColor.clear
 
         CarouselUIHelper.setupPageControl(pageControl, topBarHeight: topBarHeight)
 
         mainViewBlurEffectView.layout(with: imageBackground).fill()
         fullScreenAvatarEffectView.layout(with: view).fill()
-        
-        customPageControl.layout(with: view).leading(by: CarouselUI.itemsMargin).trailing(by: -CarouselUI.itemsMargin)
-        if usesHorizontalNavigation {
-            customPageControl.layout().height(CarouselUI.customPageControlHeight)
-            customPageControl.layout(with: buttonTop)
-                .above(by: -CarouselUI.itemsMargin, constraintBlock: { [weak self] in
-                    self?.customPageControlBottomConstraint = $0
-                })
-        } else {
-            customPageControl.layout().height(0)
-                customPageControl.layout(with: buttonTop)
-                .above(by: 0, constraintBlock: { [weak self] in
-                    self?.customPageControlBottomConstraint = $0
-                })
-        }
+
 
         userView.delegate = self
 
@@ -325,11 +296,9 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
             .trailing(by: CarouselUI.itemsMargin, constraintBlock: { [weak self] in
                 self?.userViewRightConstraint = $0
             })
-            userView.layout(with: customPageControl)
-                .above(by: -CarouselUI.itemsMargin, constraintBlock: { [weak self] in
-                    self?.userViewBottomConstraint = $0
-                })
-        
+        userView.layout(with: buttonTop)
+            .above(by: 0, constraintBlock: nil)
+
         // UserView effect
         fullScreenAvatarEffectView.alpha = 0
         fullScreenAvatarView.clipsToBounds = true
@@ -420,18 +389,9 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
             guard let strongSelf = self else { return }
 
             self?.imageBackground.isHidden = true
-                
-            if strongSelf.usesHorizontalNavigation && strongSelf.viewModel.isMyListing {
-                // when an item is updated, we have to reload all the items
-                // to reassign the right zIndexes to the cells
-                UIView.performWithoutAnimation {
-                    self?.collectionView.reloadData()
-                }
-            } else {
                 self?.collectionView.handleCollectionChange(change) { _ in
                     self?.imageBackground.isHidden = false
                 }
-            }
             }.addDisposableTo(disposeBag)
     }
 
@@ -450,12 +410,10 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         itemsAlpha.asObservable().bindTo(buttonBottom.rx.alpha).addDisposableTo(disposeBag)
         itemsAlpha.asObservable().bindTo(buttonTop.rx.alpha).addDisposableTo(disposeBag)
         itemsAlpha.asObservable().bindTo(userView.rx.alpha).addDisposableTo(disposeBag)
-            
-        Observable.combineLatest(viewModel.imageHorizontalNavigationEnabled.asObservable(), itemsAlpha.asObservable()) { ($0, $1) }
-            .bindNext { [weak self] (horizontalNavigation, itemsAlpha) in
-                self?.pageControl.alpha = horizontalNavigation ? 0 : itemsAlpha
-                self?.customPageControl.alpha = horizontalNavigation ? itemsAlpha : 0
-            }.addDisposableTo(disposeBag)
+
+        itemsAlpha.asObservable().bindNext { [weak self] itemsAlpha in
+            self?.pageControl.alpha = itemsAlpha
+        }
 
         itemsAlpha.asObservable().bindTo(productStatusView.rx.alpha).addDisposableTo(disposeBag)
         itemsAlpha.asObservable().bindTo(directChatTable.rx.alpha).addDisposableTo(disposeBag)
@@ -570,8 +528,6 @@ extension ListingCarouselViewController {
         setupShareButtonRx()
         setupBumpUpBannerRx()
         setupUserInteractionRxBindings()
-        setupBackgroundRx()
-        setupNavigationAnimationsRx()
     }
 
     private func setupMoreInfoRx() {
@@ -586,17 +542,6 @@ extension ListingCarouselViewController {
             pageControl.numberOfPages = images.count
             pageControl.frame.size = CGSize(width: CarouselUI.pageControlWidth, height:
                 pageControl.size(forNumberOfPages: images.count).width + CarouselUI.pageControlWidth)
-        }.addDisposableTo(disposeBag)
-        
-        viewModel.productImageURLs.asObservable().bindNext { [weak self] images in
-            guard let customPageControl = self?.customPageControl else { return }
-            customPageControl.progress = 0
-            customPageControl.pageCount = images.count
-            let spacesSize: CGFloat = CGFloat(images.count - 1) * CarouselUI.customPageControlSpaces
-            if let screenWidth = self?.collectionView.width {
-                let pillWidth = (screenWidth - (2 * CarouselUI.itemsMargin) - spacesSize)/CGFloat(images.count)
-                customPageControl.pillSize = CGSize(width: pillWidth, height: CarouselUI.customPageControlHeight)
-            }
         }.addDisposableTo(disposeBag)
     }
 
@@ -664,28 +609,25 @@ extension ListingCarouselViewController {
     }
 
     private func setupBottomButtonsRx() {
-        Observable.combineLatest(viewModel.actionButtons.asObservable(),
-                                 viewModel.imageHorizontalNavigationEnabled.asObservable()) { $0 }
-            .bindNext { [weak self] (actionButtons, horizontalImageNavigationEnabled) in
-                guard let strongSelf = self else { return }
-                strongSelf.buttonBottomHeight.constant = actionButtons.isEmpty ? 0 : CarouselUI.buttonHeight
-                strongSelf.buttonTopBottomConstraint.constant = actionButtons.isEmpty ? 0 : CarouselUI.itemsMargin
-                strongSelf.buttonTopHeight.constant = actionButtons.count < 2 ? 0 : CarouselUI.buttonHeight
-                strongSelf.userViewBottomConstraint?.constant = (actionButtons.count < 2 && !horizontalImageNavigationEnabled) ? 0 : -CarouselUI.itemsMargin
-                strongSelf.customPageControlBottomConstraint?.constant = (actionButtons.count < 2 || horizontalImageNavigationEnabled) ? 0 : -CarouselUI.itemsMargin
-                guard !actionButtons.isEmpty else { return }
-                let takeUntilAction = strongSelf.viewModel.actionButtons.asObservable().skip(1)
-                guard let bottomAction = actionButtons.first else { return }
-                strongSelf.buttonBottom.configureWith(uiAction: bottomAction)
-                strongSelf.buttonBottom.rx.tap.takeUntil(takeUntilAction).bindNext {
-                    bottomAction.action()
-                    }.addDisposableTo(strongSelf.disposeBag)
-                guard let topAction = actionButtons.last, actionButtons.count > 1 else { return }
-                strongSelf.buttonTop.configureWith(uiAction: topAction)
-                strongSelf.buttonTop.rx.tap.takeUntil(takeUntilAction).bindNext {
-                    topAction.action()
-                    }.addDisposableTo(strongSelf.disposeBag)
-            }.addDisposableTo(disposeBag)
+        viewModel.actionButtons.asObservable().bindNext { [weak self] actionButtons in
+            guard let strongSelf = self else { return }
+            strongSelf.buttonBottomHeight.constant = actionButtons.isEmpty ? 0 : CarouselUI.buttonHeight
+            strongSelf.buttonTopBottomConstraint.constant = actionButtons.isEmpty ? 0 : CarouselUI.itemsMargin
+            strongSelf.buttonTopHeight.constant = actionButtons.count < 2 ? 0 : CarouselUI.buttonHeight
+            strongSelf.userViewBottomConstraint?.constant = actionButtons.count < 2 ? 0 : -CarouselUI.itemsMargin
+            guard !actionButtons.isEmpty else { return }
+            let takeUntilAction = strongSelf.viewModel.actionButtons.asObservable().skip(1)
+            guard let bottomAction = actionButtons.first else { return }
+            strongSelf.buttonBottom.configureWith(uiAction: bottomAction)
+            strongSelf.buttonBottom.rx.tap.takeUntil(takeUntilAction).bindNext {
+                bottomAction.action()
+                }.addDisposableTo(strongSelf.disposeBag)
+            guard let topAction = actionButtons.last, actionButtons.count > 1 else { return }
+            strongSelf.buttonTop.configureWith(uiAction: topAction)
+            strongSelf.buttonTop.rx.tap.takeUntil(takeUntilAction).bindNext {
+                topAction.action()
+                }.addDisposableTo(strongSelf.disposeBag)
+        }.addDisposableTo(disposeBag)
     }
 
     private func setupDirectChatElementsRx() {
@@ -795,30 +737,6 @@ extension ListingCarouselViewController {
     private func setupUserInteractionRxBindings() {
         cellAnimating.asObservable().map { !$0 } .bindTo(view.rx.userInteractionEnabled).addDisposableTo(disposeBag)
     }
-    
-    private func setupBackgroundRx() {
-        viewModel.imageHorizontalNavigationEnabled.asObservable()
-            .distinctUntilChanged().map { !$0 }
-            .bindTo(mainViewBlurEffectView.rx.isHidden)
-            .addDisposableTo(disposeBag)
-    }
-
-    private func setupNavigationAnimationsRx() {
-        viewModel.currentViewModelIsBeingUpdated.asObservable().bindNext { [weak self] updatingVM in
-            guard let strongSelf = self else { return }
-            if strongSelf.usesHorizontalNavigation {
-                if !updatingVM {
-                    strongSelf.collectionView.translatesAutoresizingMaskIntoConstraints = false
-                    strongSelf.flowLayout.animator = PageAttributesAnimator()
-                } else {
-                    strongSelf.collectionView.translatesAutoresizingMaskIntoConstraints = true
-                    strongSelf.flowLayout.animator = nil
-                }
-            } else {
-                strongSelf.flowLayout.animator = nil
-            }
-        }.addDisposableTo(disposeBag)
-    }
 
     fileprivate func resetMoreInfoState() {
         moreInfoView.frame = view.bounds
@@ -901,9 +819,7 @@ extension ListingCarouselViewController: ListingCarouselCellDelegate {
                 collectionView.setContentOffset(contentOffset, animated: true)
             } else {
                 collectionView.showRubberBandEffect(.left,
-                                                    offset: usesHorizontalNavigation ?
-                                                        ListingCarouselViewController.animatedLayoutRubberBandOffset :
-                                                        ListingCarouselViewController.defaultRubberBandOffset)
+                                                    offset: ListingCarouselViewController.defaultRubberBandOffset)
                 
             }
         case .right:
@@ -914,9 +830,7 @@ extension ListingCarouselViewController: ListingCarouselCellDelegate {
                 collectionView.scrollToItem(at: nextIndexPath, at: .right, animated: true)
             } else {
                 collectionView.showRubberBandEffect(.right,
-                                                    offset: usesHorizontalNavigation ?
-                                                        ListingCarouselViewController.animatedLayoutRubberBandOffset :
-                                                        ListingCarouselViewController.defaultRubberBandOffset)
+                                                    offset: ListingCarouselViewController.defaultRubberBandOffset)
             }
         }
     }
@@ -926,11 +840,7 @@ extension ListingCarouselViewController: ListingCarouselCellDelegate {
     }
 
     func didScrollToPage(_ page: Int) {
-        if viewModel.imageHorizontalNavigationEnabled.value {
-            customPageControl.progress = CGFloat(page)
-        } else {
-            pageControl.currentPage = page
-        }
+        pageControl.currentPage = page
     }
 
     func didPullFromCellWith(_ offset: CGFloat, bottomLimit: CGFloat) {
@@ -1151,12 +1061,6 @@ extension ListingCarouselViewController: UICollectionViewDataSource, UICollectio
             scrollView.contentOffset = CGPoint(x: scrollView.contentOffset.x, y: 0)
         }
     }
-
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if usesHorizontalNavigation {
-            updateMoreInfoFrame()
-        }
-    }
     
     func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         cellAnimating.value = false
@@ -1343,7 +1247,6 @@ fileprivate extension ListingCarouselViewController {
         directChatTable.accessibilityId = .listingCarouselDirectChatTable
         fullScreenAvatarView.accessibilityId = .listingCarouselFullScreenAvatarView
         pageControl.accessibilityId = .listingCarouselPageControl
-        customPageControl.accessibilityId = .listingCarouselCustomPageControl
         userView.accessibilityId = .listingCarouselUserView
         chatTextView.accessibilityId = .listingCarouselChatTextView
         productStatusView.accessibilityId = .listingCarouselStatusView

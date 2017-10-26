@@ -34,7 +34,6 @@ class ABTests {
     let locationDataSourceType = IntABDynamicVar(key: "20170830LocationDataSourceType", defaultValue: 0)
     let defaultRadiusDistanceFeed = IntABDynamicVar(key: "20170922DefaultRadiusDistanceFeed", defaultValue: 0)
     let searchAutocomplete = IntABDynamicVar(key: "20170914SearchAutocomplete", defaultValue: 0)
-    let newCarouselTapNextPhotoNavigationEnabled = IntABDynamicVar(key: "20170914NewCarouselTapNextPhotoNavigationEnabled", defaultValue: 0)
     let realEstateEnabled = BoolABDynamicVar(key: "20170927realEstateEnabled", defaultValue: false)
     let showPriceAfterSearchOrFilter = IntABDynamicVar(key: "20170928ShowPriceAfterSearchOrFilter", defaultValue: 0)
     let requestsTimeOut = IntABDynamicVar(key: "20170929RequestTimeOut", defaultValue: 30)
@@ -42,6 +41,7 @@ class ABTests {
     let homeRelatedEnabled = IntABDynamicVar(key: "20171011HomeRelatedEnabled", defaultValue: 0)
     let hideChatButtonOnFeaturedCells = IntABDynamicVar(key: "20171011ChatButtonOnFeaturedCells", defaultValue: 0)
     let featuredRibbonImprovementInDetail = IntABDynamicVar(key: "20171024FeaturedRibbonImprovementInDetail", defaultValue: 0)
+    let superKeywordGroupsAndSubgroupsInFeed = IntABDynamicVar(key: "20171009SuperKeywordGroupsAndSubgroupsInFeed", defaultValue: 0)
 
     init() {
     }
@@ -68,7 +68,6 @@ class ABTests {
         result.append(locationDataSourceType)
         result.append(defaultRadiusDistanceFeed)
         result.append(searchAutocomplete)
-        result.append(newCarouselTapNextPhotoNavigationEnabled)
         result.append(realEstateEnabled)
         result.append(showPriceAfterSearchOrFilter)
         result.append(requestsTimeOut)
@@ -76,6 +75,7 @@ class ABTests {
         result.append(homeRelatedEnabled)
         result.append(hideChatButtonOnFeaturedCells)
         result.append(featuredRibbonImprovementInDetail)
+        result.append(superKeywordGroupsAndSubgroupsInFeed)
         
         return result
     }

@@ -11,6 +11,7 @@ import LGCoreKit
 enum CategoryHeaderElement {
     case listingCategory(ListingCategory)
     case superKeyword(TaxonomyChild)
+    case superKeywordGroup(Taxonomy)
     case other
     
     var name: String {
@@ -19,6 +20,8 @@ enum CategoryHeaderElement {
             return listingCategory.nameInFeed
         case .superKeyword(let taxonomyChild):
             return taxonomyChild.name
+        case .superKeywordGroup(let taxonomy):
+            return taxonomy.name
         case .other:
             return LGLocalizedString.categoriesSuperKeywordsInfeedShowMore
         }
@@ -30,6 +33,8 @@ enum CategoryHeaderElement {
             return nil
         case .superKeyword(let taxonomyChild):
             return taxonomyChild.highlightIcon
+        case .superKeywordGroup(let taxonomy):
+            return taxonomy.icon
         }
     }
     
@@ -37,7 +42,7 @@ enum CategoryHeaderElement {
         switch self {
         case .listingCategory(let listingCategory):
             return listingCategory.imageInFeed
-        case .superKeyword:
+        case .superKeyword, .superKeywordGroup:
             return nil
         case .other:
             return #imageLiteral(resourceName: "showMore")
@@ -48,7 +53,7 @@ enum CategoryHeaderElement {
         switch self {
         case .listingCategory(let listingCategory):
             return listingCategory.isCar
-        case .superKeyword, .other:
+        case .superKeyword, .superKeywordGroup, .other:
             return false
         }
     }
@@ -57,23 +62,32 @@ enum CategoryHeaderElement {
         switch self {
         case .listingCategory:
             return true
-        case .superKeyword, .other:
+        case .superKeyword, .superKeywordGroup, .other:
             return false
         }
     }
     
     var isSuperKeyword: Bool {
         switch self {
-        case .listingCategory, .other:
+        case .listingCategory, .superKeywordGroup, .other:
             return false
         case .superKeyword:
             return true
         }
     }
     
+    var isSuperKeywordGroup: Bool {
+        switch self {
+        case .listingCategory, .superKeyword, .other:
+            return false
+        case .superKeywordGroup:
+            return true
+        }
+    }
+    
     var isOther: Bool {
         switch self {
-        case .listingCategory, .superKeyword:
+        case .listingCategory, .superKeyword, .superKeywordGroup:
             return false
         case .other:
             return true

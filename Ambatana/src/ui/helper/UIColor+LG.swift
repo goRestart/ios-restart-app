@@ -37,9 +37,10 @@ extension UIColor {
     fileprivate static let rosa = UIColor(rgb: 0xfc919d)
     fileprivate static let lightPink = UIColor(rgb: 0xffd8dd)
     fileprivate static let paleTeal = UIColor(rgb: 0x73bdc5)
-
     fileprivate static let lightRose = UIColor(rgb: 0xffc5cc)
     fileprivate static let lightBlueGrey = UIColor(rgb: 0xb2e0e5)
+    fileprivate static let celestialBlue = UIColor(rgb: 0x86b0de)
+    fileprivate static let budGreen = UIColor(rgb: 0xa6c488)
 }
 
 
@@ -260,9 +261,9 @@ extension UIColor {
 
     // Avatar Colors
     private static let avatarRed = rosa
-    private static let avatarGreen = UIColor(rgb: 0xA6c488)
+    private static let avatarGreen = budGreen
     private static let avatarBlue = paleTeal
-    private static let avatarDarkBlue = UIColor(rgb: 0x86B0DE)
+    private static let avatarDarkBlue = celestialBlue
     private static let avatarPurple = UIColor(rgb: 0xBEA8D2)
 
     // Bg Colors
@@ -291,3 +292,22 @@ extension UIColor {
         return colors[Int(asciiValue) % colors.count]
     }
 }
+
+// MARK: > Superkeyword groups
+
+extension UIColor {
+    struct Taxonomy {
+        static var electronics: UIColor { return paleTeal }
+        static var vehiclesAndBicycles: UIColor { return celestialBlue }
+        static var homeAndGarden: UIColor { return cyanBlueAzure }
+        static var hobbiesAndEntertainment: UIColor { return budGreen }
+        static var fashionAndAccessories: UIColor { return rosa }
+        static var family: UIColor { return amber }
+        static var others: UIColor { return earthYellow }
+        
+        fileprivate static let amber = UIColor(rgb: 0x538fd1)
+        fileprivate static let cyanBlueAzure = UIColor(rgb: 0xf5cd77)
+        fileprivate static let earthYellow = UIColor(rgb: 0xcd1a960)
+    }
+}
+

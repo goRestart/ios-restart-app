@@ -257,7 +257,7 @@ class ListingViewModel: BaseViewModel {
 
         // bumpeable listing check
         status.asObservable().bindNext { [weak self] status in
-            if status.isBumpeable {
+            if status.shouldRefreshBumpBanner {
                 self?.refreshBumpeableBanner()
             } else {
                 self?.bumpUpBannerInfo.value = nil
@@ -321,7 +321,7 @@ class ListingViewModel: BaseViewModel {
     }
 
     func refreshBumpeableBanner() {
-        guard let listingId = listing.value.objectId, status.value.isBumpeable, !isUpdatingBumpUpBanner,
+        guard let listingId = listing.value.objectId, status.value.shouldRefreshBumpBanner, !isUpdatingBumpUpBanner,
                 (featureFlags.freeBumpUpEnabled || featureFlags.pricedBumpUpEnabled) else { return }
 
         let isBumpUpPending = purchasesShopper.isBumpUpPending(forListingId: listingId)
@@ -700,7 +700,7 @@ extension ListingViewModel {
     private func buildActionButtons(_ status: ListingViewModelStatus) -> [UIAction] {
         var actionButtons = [UIAction]()
         switch status {
-        case .pending, .notAvailable, .otherSold, .otherSoldFree:
+        case .pending, .notAvailable, .otherSold, .otherSoldFree, .pendingAndFeatured:
             break
         case .available:
             actionButtons.append(UIAction(interface: .button(LGLocalizedString.productMarkAsSoldButton, .terciary),

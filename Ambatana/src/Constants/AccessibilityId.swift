@@ -73,6 +73,7 @@ enum AccessibilityId: String {
     case filterTagCell
     case filterTagCellTagIcon
     case filterTagCellTagLabel
+    case selectableFilterTagCellTagLabel
     
     // Taxonomies
     case taxonomiesTableView
@@ -146,7 +147,6 @@ enum AccessibilityId: String {
     case listingCarouselDirectChatTable
     case listingCarouselFullScreenAvatarView
     case listingCarouselPageControl
-    case listingCarouselCustomPageControl
     case listingCarouselUserView
     case listingCarouselChatTextView
     case listingCarouselStatusView

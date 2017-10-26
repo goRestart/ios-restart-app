@@ -33,7 +33,7 @@ enum SearchSuggestionType {
 }
 
 class MainListingsViewController: BaseViewController, ListingListViewScrollDelegate, MainListingsViewModelDelegate,
-    FilterTagsViewControllerDelegate, UITextFieldDelegate, ScrollableToTop {
+    FilterTagsViewDelegate, UITextFieldDelegate, ScrollableToTop {
     
     // ViewModel
     var viewModel: MainListingsViewModel
@@ -41,8 +41,8 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     // UI
     @IBOutlet weak var listingListView: ListingListView!
     
-    @IBOutlet weak var tagsCollectionView: UICollectionView!
-    @IBOutlet weak var tagsCollectionHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var tagsContainerView: UIView!
+    @IBOutlet weak var tagsContainerViewHeightConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var filterDescriptionHeaderViewContainer: UIView!
     @IBOutlet weak var filterTitleHeaderViewContainer: UIView!
@@ -65,8 +65,9 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     @IBOutlet weak var suggestionsSearchesContainer: UIVisualEffectView!
     @IBOutlet weak var suggestionsSearchesTable: UITableView!
     
-    private var tagsViewController : FilterTagsViewController?
-    private var tagsShowing : Bool = false
+    private var filterTagsView: FilterTagsView?
+    private var primaryTagsShowing: Bool = false
+    private var secondaryTagsShowing: Bool = false
 
     private let topInset = Variable<CGFloat>(0)
 
@@ -74,12 +75,18 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     
     fileprivate var categoriesHeader: CategoriesHeaderCollectionView?
 
-    fileprivate static let filterTagsViewHeight: CGFloat = 40
+    fileprivate var filterTagsViewHeight: CGFloat {
+        if viewModel.secondaryTags.isEmpty || viewModel.filters.selectedTaxonomyChildren.count > 0 {
+            return FilterTagsView.collectionViewHeight
+        } else {
+            return FilterTagsView.collectionViewHeight * 2
+        }
+    }
     fileprivate var filterHeadersHeight: CGFloat {
         return filterDescriptionHeaderView.height + filterTitleHeaderView.height
     }
     fileprivate var topHeadersHeight: CGFloat {
-        return filterHeadersHeight + tagsCollectionView.height
+        return filterHeadersHeight + tagsContainerView.height
     }
     fileprivate var collectionViewHeadersHeight: CGFloat {
         return listingListView.headerDelegate?.totalHeaderHeight() ?? 0
@@ -162,9 +169,10 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         // we want to show the selected tags when the user closes the product detail too.  Also:
         // ⚠️ not showing the tags collection view causes a crash when trying to reload the collection data
         // ⚠️ while not visible (ABIOS-2696)
-        showTagsView(viewModel.tags.count > 0, updateInsets: true)
+        showTagsView(showPrimaryTags: viewModel.primaryTags.count > 0, showSecondaryTags: viewModel.secondaryTags.count > 0, updateInsets: true)
     }
 
+    
     // MARK: - ScrollableToTop
 
     /**
@@ -186,8 +194,8 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         if listingListView.collectionView.contentOffset.y > headersCollection ||
            listingListView.collectionView.contentOffset.y <= -topHeadersHeight  {
             // Move tags view along iwth tab bar
-            if let tagsVC = self.tagsViewController, !tagsVC.tags.isEmpty {
-                showTagsView(!scrollDown, updateInsets: false)
+            if let tagsVC = self.filterTagsView, !tagsVC.tags.isEmpty {
+                showTagsView(showPrimaryTags: !scrollDown, showSecondaryTags: !scrollDown && viewModel.filters.selectedTaxonomyChildren.count <= 0, updateInsets: false)
             }
             setBars(hidden: scrollDown)
         }
@@ -235,8 +243,8 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         suggestionsSearchesContainer.isHidden = true
     }
 
-    func vmShowTags(_ tags: [FilterTag]) {
-        loadTagsViewWithTags(tags)
+    func vmShowTags(primaryTags: [FilterTag], secondaryTags: [FilterTag]) {
+        loadTagsViewWithTags(primaryTags: primaryTags, secondaryTags: secondaryTags)
     }
 
     func vmFiltersChanged() {
@@ -267,6 +275,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         return true
     }
     
+    
     // MARK: - FilterHeaders
     
     private func setupFilterHeaders() {
@@ -287,13 +296,19 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         filterDescriptionHeaderView.text = text
     }
     
-    // MARK: - FilterTagsViewControllerDelegate
     
-    func filterTagsViewControllerDidRemoveTag(_ controller: FilterTagsViewController) {
-        viewModel.updateFiltersFromTags(controller.tags)
-        if controller.tags.isEmpty {
-            loadTagsViewWithTags([])
-        }
+    // MARK: - FilterTagsViewDelegate
+    
+    func filterTagsViewDidRemoveTag(_ tag: FilterTag, remainingTags: [FilterTag]) {
+        viewModel.updateFiltersFromTags(remainingTags, removedTag: tag)
+        loadTagsViewWithTags(primaryTags: viewModel.primaryTags, secondaryTags: viewModel.secondaryTags)
+    }
+    
+    func filterTagsViewDidSelectTag(_ tag: FilterTag) {
+        guard var newTags: [FilterTag] = filterTagsView?.tags else { return }
+        newTags.append(tag)
+        viewModel.updateFiltersFromTags(newTags, removedTag: nil)
+        loadTagsViewWithTags(primaryTags: newTags, secondaryTags: [])
     }
     
     
@@ -331,18 +346,26 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     }
     
     private func setupTagsView() {
-        view.addConstraint(NSLayoutConstraint(item: tagsCollectionView, attribute: .top, relatedBy: .equal,
-                                              toItem: topLayoutGuide, attribute: .bottom, multiplier: 1.0, constant: 0))
-        tagsViewController = FilterTagsViewController(collectionView: self.tagsCollectionView)
-        tagsViewController?.delegate = self
-        loadTagsViewWithTags(viewModel.tags)
+        view.addConstraint(NSLayoutConstraint(item: tagsContainerView, attribute: .top, relatedBy: .equal, toItem: topLayoutGuide, attribute: .bottom, multiplier: 1.0, constant: 0))
+
+        filterTagsView = FilterTagsView()
+        filterTagsView?.delegate = self
+        tagsContainerView.backgroundColor = .clear
+        tagsContainerView.addSubview(filterTagsView!)
+        tagsContainerView.isHidden = true
+        tagsContainerView.translatesAutoresizingMaskIntoConstraints = false
+        
+        filterTagsView?.layout(with: tagsContainerView).fill()
+        
+        loadTagsViewWithTags(primaryTags: viewModel.primaryTags, secondaryTags: viewModel.secondaryTags)
     }
     
-    private func loadTagsViewWithTags(_ tags: [FilterTag]) {
-        
-        tagsViewController?.updateTags(tags)
-        let showTags = tags.count > 0
-        showTagsView(showTags, updateInsets: true)
+    private func loadTagsViewWithTags(primaryTags: [FilterTag], secondaryTags: [FilterTag]) {
+        filterTagsView?.updateTags(primaryTags)
+        filterTagsView?.updateSecondaryTags(secondaryTags)
+        let showPrimaryTags = primaryTags.count > 0
+        let showSecondaryTags = secondaryTags.count > 0
+        showTagsView(showPrimaryTags: showPrimaryTags, showSecondaryTags: showSecondaryTags, updateInsets: true)
         
         //Update tags button
         setFiltersNavBarButton()
@@ -367,27 +390,22 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         viewModel.vmUserDidTapInvite()
     }
     
-    private func showTagsView(_ show: Bool, updateInsets: Bool) {
-        if tagsShowing == show {
+    private func showTagsView(showPrimaryTags: Bool, showSecondaryTags: Bool, updateInsets: Bool) {
+        if primaryTagsShowing == showPrimaryTags && secondaryTagsShowing == showSecondaryTags {
             return
         }
-        tagsShowing = show
-        
-        if show {
-            tagsCollectionView.isHidden = false
-        }
+        primaryTagsShowing = showPrimaryTags
+        secondaryTagsShowing = showSecondaryTags
 
-        tagsCollectionHeightConstraint.constant = show ? MainListingsViewController.filterTagsViewHeight : 0
+        tagsContainerViewHeightConstraint.constant = showPrimaryTags ? filterTagsViewHeight : 0
         if updateInsets {
-            topInset.value = show ?
-                topBarHeight + MainListingsViewController.filterTagsViewHeight + filterHeadersHeight
+            topInset.value = showPrimaryTags ?
+                topBarHeight + filterTagsViewHeight + filterHeadersHeight
                 : topBarHeight
         }
         view.layoutIfNeeded()
         
-        if !show {
-            tagsCollectionView.isHidden = true
-        }
+        tagsContainerView.isHidden = !showPrimaryTags
     }
     
     private func setupInfoBubble() {
@@ -416,7 +434,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         viewModel.infoBubbleVisible.asObservable().map { !$0 }.bindTo(infoBubbleShadow.rx.isHidden).addDisposableTo(disposeBag)
 
         topInset.asObservable().bindNext { [weak self] topInset in
-                self?.listingListView.collectionViewContentInset.top = topInset
+            self?.listingListView.collectionViewContentInset.top = topInset
         }.addDisposableTo(disposeBag)
 
         viewModel.mainListingsHeader.asObservable().bindNext { [weak self] header in
@@ -437,14 +455,14 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         }.bindNext { [weak self] filterTitle in
             guard let strongSelf = self else { return }
             strongSelf.filterTitleHeaderView.text = filterTitle
-            let tagsHeight = strongSelf.tagsShowing ? MainListingsViewController.filterTagsViewHeight : 0
+            let tagsHeight = strongSelf.primaryTagsShowing ? strongSelf.filterTagsViewHeight : 0
             strongSelf.topInset.value = strongSelf.topBarHeight + tagsHeight + strongSelf.filterHeadersHeight
         }.addDisposableTo(disposeBag)
 
         viewModel.filterDescription.asObservable().bindNext { [weak self] filterDescr in
             guard let strongSelf = self else { return }
             strongSelf.filterDescriptionHeaderView.text = filterDescr
-            let tagsHeight = strongSelf.tagsShowing ? MainListingsViewController.filterTagsViewHeight : 0
+            let tagsHeight = strongSelf.primaryTagsShowing ? strongSelf.filterTagsViewHeight : 0
             strongSelf.topInset.value = strongSelf.topBarHeight + tagsHeight + strongSelf.filterHeadersHeight
         }.addDisposableTo(disposeBag)
         
@@ -708,7 +726,7 @@ extension MainListingsViewController {
     func setAccessibilityIds() {
         navigationItem.rightBarButtonItem?.accessibilityId = .mainListingsFilterButton
         listingListView.accessibilityId = .mainListingsListView
-        tagsCollectionView.accessibilityId = .mainListingsTagsCollection
+        tagsContainerView.accessibilityId = .mainListingsTagsCollection
         infoBubbleLabel.accessibilityId = .mainListingsInfoBubbleLabel
         navbarSearch.accessibilityId = .mainListingsNavBarSearch
         suggestionsSearchesTable.accessibilityId = .mainListingsSuggestionSearchesTable
