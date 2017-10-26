@@ -97,14 +97,26 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     }
     
     func closeButtonPressed() {
-        navigator?.cancelPostListing()
+        closePostingProcess()
     }
     
     func nextbuttonPressed() {
         guard let next = step.nextStep else {
-            postListing()
+            closePostingProcess()
             return
         }
+        advanceNextStep(next: next)
+    }
+    
+    private func closePostingProcess() {
+        navigator?.openLoginIfNeededFromListingPosted(from: .sell, loggedInAction: {
+            self.postListing()
+        }, cancelAction: {
+            self.navigator?.cancelPostListing()
+        })
+    }
+    
+    private func advanceNextStep(next: PostingDetailStep) {
         navigator?.nextPostingDetailStep(step: next, postListingState: postListingState, uploadedImageSource: uploadedImageSource, postingSource: postingSource, postListingBasicInfo: postListingBasicInfo)
     }
     
@@ -124,7 +136,6 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         
         let trackingInfo: PostListingTrackingInfo = PostListingTrackingInfo(buttonName: .summary, sellButtonPosition: postingSource.sellButtonPosition, imageSource: uploadedImageSource, price: String(describing: postListingState.price?.value))
         navigator?.closePostProductAndPostInBackground(params: listingCreationParams, trackingInfo: trackingInfo)
-        navigator?.cancelPostListing()
     }
     
     
@@ -158,7 +169,8 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
                                                  bathrooms: numberOfBathrooms?.rawValue)
         postListingState = postListingState.updating(realEstateInfo: realEstateInfo)
         delay(0.3) { [weak self] in
-            self?.nextbuttonPressed()
+            guard let next = self?.step.nextStep else { return }
+            self?.advanceNextStep(next: next)
         }
     }
     
