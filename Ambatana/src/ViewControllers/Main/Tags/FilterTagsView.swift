@@ -105,8 +105,10 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     
-    // MARK: - UICollectionViewDelegate & DataSource methods
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+    // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
         if collectionView == self.collectionView {
             return FilterTagCell.cellSizeForTag(tags[indexPath.row])
         } else {
@@ -191,7 +193,8 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
                     switch tags[i] {
                     case .make, .model, .yearsRange:
                         relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
-                    case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .taxonomyChild, .taxonomy, .secondaryTaxonomyChild:
+                    case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .taxonomyChild,
+                         .taxonomy, .secondaryTaxonomyChild:
                         continue
                     }
                 }
@@ -204,20 +207,23 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
                 switch tags[i] {
                 case .model:
                     relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
-                case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .make, .yearsRange, .taxonomyChild, .taxonomy, .secondaryTaxonomyChild:
+                case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .make, .yearsRange,
+                     .taxonomyChild, .taxonomy, .secondaryTaxonomyChild:
                     continue
                 }
             }
         case .taxonomy:
             for i in 0..<tags.count {
                 switch tags[i] {
-                case .secondaryTaxonomyChild:
+                case .secondaryTaxonomyChild, .taxonomyChild:
                     relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
-                case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .model, .category, .make, .yearsRange, .taxonomyChild, .taxonomy:
+                case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .model, .category, .make,
+                     .yearsRange, .taxonomy:
                     continue
                 }
             }
-        case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .model, .yearsRange, .taxonomyChild, .secondaryTaxonomyChild:
+        case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .model, .yearsRange, .taxonomyChild,
+             .secondaryTaxonomyChild:
             break
         }
         return relatedIndexesToDelete
