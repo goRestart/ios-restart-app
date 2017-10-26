@@ -759,7 +759,6 @@ extension ListingCarouselViewController {
     }
 
     private dynamic func statusLabelTapped() {
-        print("⚡️⚡️⚡️⚡️⚡️")
         viewModel.statusLabelTapped()
     }
 
@@ -1347,5 +1346,6 @@ fileprivate extension ListingCarouselViewController {
         customPageControl.accessibilityId = .listingCarouselCustomPageControl
         userView.accessibilityId = .listingCarouselUserView
         chatTextView.accessibilityId = .listingCarouselChatTextView
+        productStatusView.accessibilityId = .listingCarouselStatusView
     }
 }

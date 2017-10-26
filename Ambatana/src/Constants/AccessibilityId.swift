@@ -149,6 +149,7 @@ enum AccessibilityId: String {
     case listingCarouselCustomPageControl
     case listingCarouselUserView
     case listingCarouselChatTextView
+    case listingCarouselStatusView
 
     case listingCarouselNavBarEditButton
     case listingCarouselNavBarShareButton
@@ -571,12 +572,14 @@ enum AccessibilityId: String {
     // Bump Up Hidden Alert
     case bumpUpHiddenListingAlertContactButton
     case bumpUpHiddenListingAlertCancelButton
-    
-    
+
     // ExpandableSelectionCategoryView
     case expandableCategorySelectionCloseButton
     case expandableCategorySelectionView
     case expandableCategorySelectionButton
+
+    // Featured Info View
+    case featuredInfoCloseButton
 }
 
 extension UIAccessibilityIdentification {

@@ -347,8 +347,7 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     func statusLabelTapped() {
-        print("⚡️⚡️⚡️⚡️⚡️")
-
+        navigator?.openFeaturedInfo()
     }
     
     

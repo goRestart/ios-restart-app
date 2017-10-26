@@ -505,7 +505,16 @@ extension TabCoordinator: ListingDetailNavigator {
     }
 
     func openFeaturedInfo() {
-        
+
+        let featuredInfoVM = FeaturedInfoViewModel()
+        featuredInfoVM.navigator = self
+        let featuredInfoVC = FeaturedInfoViewController(viewModel: featuredInfoVM)
+
+        rootViewController.present(featuredInfoVC, animated: true, completion: nil)
+    }
+
+    func closeFeaturedInfo() {
+        rootViewController.dismiss(animated: true, completion: nil)
     }
 }
 
