@@ -13,8 +13,9 @@ protocol FilterTagsViewDelegate : class {
 
 class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSource, FilterTagCellDelegate {
 
-    static var collectionViewHeight: CGFloat = 40
-    private static var collectionContentInset = UIEdgeInsets(top: 2, left: 10, bottom: 2, right: 5)
+    static var collectionViewHeight: CGFloat = 52
+    static var cellHeight: CGFloat = 32
+    private static var collectionContentInset = UIEdgeInsets(top: 10, left: 5, bottom: 10, right: 5)
     
     private var collectionView: UICollectionView?
     private var secondaryCollectionView: UICollectionView?
@@ -42,6 +43,7 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
         
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.sectionInset = FilterTagsView.collectionContentInset
+        flowLayout.minimumInteritemSpacing = 5
         collectionView = UICollectionView(frame: frame, collectionViewLayout: flowLayout)
         guard let collectionView = collectionView else { return }
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -71,6 +73,7 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
         
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.sectionInset = FilterTagsView.collectionContentInset
+        flowLayout.minimumInteritemSpacing = 5
         secondaryCollectionView = UICollectionView(frame: frame, collectionViewLayout: flowLayout)
         guard let secondaryCollectionView = secondaryCollectionView else { return }
         secondaryCollectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -136,6 +139,10 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
             return cell
         }
         return UICollectionViewCell()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 20
     }
     
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
