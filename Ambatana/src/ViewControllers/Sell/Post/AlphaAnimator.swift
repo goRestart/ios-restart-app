@@ -1,5 +1,5 @@
 //
-//  AlphaAnimator.swift
+//  ContentViewPushAnimatedTransitioning.swift
 //  LetGo
 //
 //  Created by Juan Iglesias on 19/10/2017.
@@ -8,7 +8,7 @@
 
 
 
-class AlphaAnimator: NSObject, UIViewControllerAnimatedTransitioning {
+class ContentViewPushAnimatedTransitioning: NSObject, UIViewControllerAnimatedTransitioning {
     
     let operation: UINavigationControllerOperation
     

@@ -3572,7 +3572,7 @@ class TrackerEventSpec: QuickSpec {
             }
             describe("app rating rate") {
                 beforeEach {
-                    sut = TrackerEvent.appRatingRate()
+                    sut = TrackerEvent.appRatingRate(reason: nil)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("app-rating-rate"))

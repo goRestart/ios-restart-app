@@ -122,7 +122,7 @@ class PostingAddDetailPriceView: UIView {
     }
     
     private func setupRx() {
-        freeActive.asObservable().debug().bindTo(freeSwitch.rx.value(animated: true)).addDisposableTo(disposeBag)
+        freeActive.asObservable().bindTo(freeSwitch.rx.value(animated: true)).addDisposableTo(disposeBag)
         freeActive.asObservable().bindNext{[weak self] active in
             self?.showPriceContainer(hide: active)
             }.addDisposableTo(disposeBag)

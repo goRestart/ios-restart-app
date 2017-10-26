@@ -1183,6 +1183,22 @@ struct LGLocalizedString {
 		return NSLocalizedString("edit_product_unsaved_changes_alert_ok", comment: "")
 	}
 
+	static var featuredInfoViewTitle: String {
+		return NSLocalizedString("featured_info_view_title", comment: "")
+	}
+
+	static var featuredInfoViewSellFaster: String {
+		return NSLocalizedString("featured_info_view_sell_faster", comment: "")
+	}
+
+	static var featuredInfoViewIncreaseVisibility: String {
+		return NSLocalizedString("featured_info_view_increase_visibility", comment: "")
+	}
+
+	static var featuredInfoViewMoreBuyers: String {
+		return NSLocalizedString("featured_info_view_more_buyers", comment: "")
+	}
+
 	static var filtersDistanceNotSet: String {
 		return NSLocalizedString("filters_distance_not_set", comment: "")
 	}
@@ -3017,6 +3033,30 @@ struct LGLocalizedString {
 
 	static var realEstateBedrooms4: String {
 		return NSLocalizedString("real_estate_bedrooms_4", comment: "")
+	}
+
+	static var realEstateSummaryPriceEmpty: String {
+		return NSLocalizedString("real_estate_summary_price_empty", comment: "")
+	}
+
+	static var realEstateSummaryTypePropertyEmpty: String {
+		return NSLocalizedString("real_estate_summary_type_property_empty", comment: "")
+	}
+
+	static var realEstateSummaryOfferTypeEmpty: String {
+		return NSLocalizedString("real_estate_summary_offer_type_empty", comment: "")
+	}
+
+	static var realEstateSummaryBedroomsEmtpy: String {
+		return NSLocalizedString("real_estate_summary_bedrooms_emtpy", comment: "")
+	}
+
+	static var realEstateSummaryBathroomsEmpty: String {
+		return NSLocalizedString("real_estate_summary_bathrooms_empty", comment: "")
+	}
+
+	static var realEstateSummaryLocationEmpty: String {
+		return NSLocalizedString("real_estate_summary_location_empty", comment: "")
 	}
 
 	static var relatedItemsTitle: String {

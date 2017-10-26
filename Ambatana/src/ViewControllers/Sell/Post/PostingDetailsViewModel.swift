@@ -29,14 +29,15 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         var values: [String]
         switch step {
         case .bathrooms:
-            values = NumberOfBathrooms.allValues.flatMap { $0.value }
+            values = NumberOfBathrooms.allValues.flatMap { $0.localizedString }
         case .bedrooms:
-            values = NumberOfBedrooms.allValues.flatMap { $0.value }
+            values = NumberOfBedrooms.allValues.flatMap { $0.localizedString }
         case .offerType:
-            values = RealEstateOfferType.allValues.flatMap { $0.value }
+            values = RealEstateOfferType.allValues.flatMap { $0.localizedString }
         case .propertyType:
-            values = RealEstatePropertyType.allValues.flatMap { $0.value }
+            values = RealEstatePropertyType.allValues.flatMap { $0.localizedString }
         case .price:
+            // WIP: https://ambatana.atlassian.net/browse/ABIOS-3081
             return UIView()
         case .summary:
             var currencySymbol: String? = nil
@@ -55,7 +56,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     private let tracker: Tracker
     private let currencyHelper: CurrencyHelper
     private let locationManager: LocationManager
-    private let featureFlags: FeatureFlags
+    private let featureFlags: FeatureFlaggeable
     
     private let step: PostingDetailStep
     private var postListingState: PostListingState
@@ -91,7 +92,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
          tracker: Tracker,
          currencyHelper: CurrencyHelper,
          locationManager: LocationManager,
-         featureFlags: FeatureFlags) {
+         featureFlags: FeatureFlaggeable) {
         self.step = step
         self.postListingState = postListingState
         self.uploadedImageSource = uploadedImageSource
@@ -104,14 +105,26 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     }
     
     func closeButtonPressed() {
-        navigator?.cancelPostListing()
+        closePostingProcess()
     }
     
     func nextbuttonPressed() {
         guard let next = step.nextStep else {
-            postListing()
+            closePostingProcess()
             return
         }
+        advanceNextStep(next: next)
+    }
+    
+    private func closePostingProcess() {
+        navigator?.openLoginIfNeededFromListingPosted(from: .sell, loggedInAction: {
+            self.postListing()
+        }, cancelAction: {
+            self.navigator?.cancelPostListing()
+        })
+    }
+    
+    private func advanceNextStep(next: PostingDetailStep) {
         navigator?.nextPostingDetailStep(step: next, postListingState: postListingState, uploadedImageSource: uploadedImageSource, postingSource: postingSource, postListingBasicInfo: postListingBasicInfo)
     }
     
@@ -131,7 +144,6 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         
         let trackingInfo: PostListingTrackingInfo = PostListingTrackingInfo(buttonName: .summary, sellButtonPosition: postingSource.sellButtonPosition, imageSource: uploadedImageSource, price: String(describing: postListingState.price?.value))
         navigator?.closePostProductAndPostInBackground(params: listingCreationParams, trackingInfo: trackingInfo)
-        navigator?.cancelPostListing()
     }
     
     
@@ -158,14 +170,15 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
             return
         }
 
-        var realEstateInfo = postListingState.realEstateInfo ?? RealEstateAttributes.emptyRealEstateAttributes()
+        var realEstateInfo = postListingState.verticalAttributes?.realEstateAttributes ?? RealEstateAttributes.emptyRealEstateAttributes()
         realEstateInfo = realEstateInfo.updating(propertyType: realEstatePropertyType,
                                                  offerType: realEstateOfferType,
                                                  bedrooms: numberOfBedrooms?.rawValue,
                                                  bathrooms: numberOfBathrooms?.rawValue)
         postListingState = postListingState.updating(realEstateInfo: realEstateInfo)
         delay(0.3) { [weak self] in
-            self?.nextbuttonPressed()
+            guard let next = self?.step.nextStep else { return }
+            self?.advanceNextStep(next: next)
         }
     }
     
@@ -189,7 +202,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         case .summary:
             return
         }
-        if let realEstateInfo = postListingState.realEstateInfo {
+        if let realEstateInfo = postListingState.verticalAttributes?.realEstateAttributes {
             let realEstateInfo = realEstateInfo.removing(propertyType: removePropertyType, offerType: removeOfferType, bedrooms: removeBedrooms, bathrooms: removeBathrooms)
             postListingState = postListingState.updating(realEstateInfo: realEstateInfo)
         }

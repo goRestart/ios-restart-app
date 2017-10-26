@@ -531,7 +531,7 @@ fileprivate extension ListingViewModelStatus {
     func scrollBottomInset(chatEnabled: Bool) -> CGFloat {
         // Needed to avoid drawing content below the chat button
         switch self {
-        case .pending, .otherSold, .notAvailable, .otherSoldFree:
+        case .pending, .otherSold, .notAvailable, .otherSoldFree, .pendingAndFeatured:
             // No buttons in the bottom
             return 0
         case .available, .sold, .otherAvailable, .availableFree, .otherAvailableFree, .soldFree:
