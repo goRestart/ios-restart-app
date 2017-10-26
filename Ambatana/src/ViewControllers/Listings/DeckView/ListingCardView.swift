@@ -11,9 +11,15 @@ import UIKit
 
 final class ListingCardView: UICollectionViewCell {
 
+    let listingIDLabel = UILabel()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
+    }
+
+    func populateWith(_ listingID: String) {
+        listingIDLabel.text = listingID
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -22,6 +28,13 @@ final class ListingCardView: UICollectionViewCell {
 
     private func setupUI() {
         backgroundColor = #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1)
+
+        contentView.addSubview(listingIDLabel)
+        listingIDLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        listingIDLabel.layout(with: contentView).fillVertical().leadingMargin(by: 16).trailingMargin(by: -16)
+        listingIDLabel.textAlignment = .center
+        listingIDLabel.font = UIFont.bigBodyFont
     }
 
 }

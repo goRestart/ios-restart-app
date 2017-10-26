@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import RxSwift
 
 final class ListingDeckViewController: BaseViewController, UICollectionViewDataSource {
 
@@ -15,6 +16,16 @@ final class ListingDeckViewController: BaseViewController, UICollectionViewDataS
         static let cardView = "ListingCardView"
     }
     let listingDeckView = ListingDeckView()
+
+    fileprivate let viewModel: ListingDeckViewModel
+    fileprivate let disposeBag = DisposeBag()
+
+    init(viewModel: ListingDeckViewModel) {
+        self.viewModel = viewModel
+        super.init(viewModel: viewModel, nibName: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     override func loadView() {
         self.view = listingDeckView
@@ -30,9 +41,18 @@ final class ListingDeckViewController: BaseViewController, UICollectionViewDataS
     // MARK: CollectionView
 
     private func setupCollectionView() {
+        func setupCollectionRx() {
+            viewModel.objectChanges.observeOn(MainScheduler.instance).bindNext { [weak self] change in
+                guard let strongSelf = self else { return }
+                strongSelf.listingDeckView.collectionView.reloadData()
+                }.addDisposableTo(disposeBag)
+        }
+
         listingDeckView.collectionView.dataSource = self
         listingDeckView.collectionView.reloadData()
         listingDeckView.collectionView.register(ListingCardView.self, forCellWithReuseIdentifier: Identifiers.cardView)
+
+        setupCollectionRx()
     }
 
     // MARK: UICollectionViewDataSource
@@ -42,11 +62,13 @@ final class ListingDeckViewController: BaseViewController, UICollectionViewDataS
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return viewModel.objectCount
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Identifiers.cardView, for: indexPath) as? ListingCardView {
+            let listing = viewModel.listingCellModelAt(index: indexPath.row)
+            cell.populateWith(listing?.listing.objectId ?? "IDENTIFICADOR")
             return cell
         }
         return UICollectionViewCell()
@@ -65,11 +87,12 @@ final class ListingDeckViewController: BaseViewController, UICollectionViewDataS
     }
 
     @objc private func didTapClose() {
-
+//            closeBumpUpBanner()
+        viewModel.close()
     }
 
     @objc private func didTapMoreInfo() {
-
+        
     }
-
+    
 }

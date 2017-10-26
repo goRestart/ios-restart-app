@@ -243,18 +243,25 @@ fileprivate extension TabCoordinator {
     func openListing(_ listing: Listing, cellModels: [ListingCellModel], requester: ListingListRequester,
                      thumbnailImage: UIImage?, originFrame: CGRect?, showRelated: Bool,
                      source: EventParameterListingVisitSource, index: Int) {
-        if showRelated {
+        if false {
             //Same as single product opening
             openListing(listing: listing, thumbnailImage: thumbnailImage, originFrame: originFrame,
                         source: source, requester: requester, index: index, discover: false,
                         actionOnFirstAppear: .nonexistent)
         } else {
-            let vm = ListingCarouselViewModel(productListModels: cellModels, initialListing: listing,
-                                              thumbnailImage: thumbnailImage, listingListRequester: requester, source: source,
-                                              actionOnFirstAppear: .nonexistent, trackingIndex: index,
-                                              firstProductSyncRequired: false)
-            vm.navigator = self
-            openListing(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, listingId: listing.objectId)
+//            let vm = ListingCarouselViewModel(productListModels: cellModels, initialListing: listing,
+//                                              thumbnailImage: thumbnailImage, listingListRequester: requester, source: source,
+//                                              actionOnFirstAppear: .nonexistent, trackingIndex: index,
+//                                              firstProductSyncRequired: false)
+//            vm.navigator = self
+//            openListing(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, listingId: listing.objectId)
+
+            let viewModel = ListingDeckViewModel(listing: listing,
+                                                 listingListRequester: requester,
+                                                 source: source)
+            viewModel.navigator = self
+            let deckViewController = ListingDeckViewController(viewModel: viewModel)
+            navigationController.pushViewController(deckViewController, animated: true)
         }
     }
 
