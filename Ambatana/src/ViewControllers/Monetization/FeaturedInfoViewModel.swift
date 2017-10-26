@@ -15,7 +15,7 @@ class FeaturedInfoViewModel: BaseViewModel {
     var increaseVisibilityText: String
     var moreBuyersText: String
 
-    var navigator: ListingDetailNavigator?
+    weak var navigator: ListingDetailNavigator?
 
 
     // MARK: - Lifecycle

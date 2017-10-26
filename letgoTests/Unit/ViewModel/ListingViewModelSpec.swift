@@ -714,4 +714,8 @@ extension ListingViewModelSpec: ListingDetailNavigator {
     func openFeaturedInfo() {
 
     }
+
+    func closeFeaturedInfo() {
+
+    }
 }
