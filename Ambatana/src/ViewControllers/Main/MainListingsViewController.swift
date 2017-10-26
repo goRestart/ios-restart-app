@@ -350,7 +350,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
 
         filterTagsView = FilterTagsView()
         filterTagsView?.delegate = self
-        tagsContainerView.backgroundColor = .clear
+        tagsContainerView.backgroundColor = .grayBackground
         tagsContainerView.addSubview(filterTagsView!)
         tagsContainerView.isHidden = true
         tagsContainerView.translatesAutoresizingMaskIntoConstraints = false
