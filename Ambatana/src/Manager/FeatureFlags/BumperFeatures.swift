@@ -479,6 +479,7 @@ enum FeaturedRibbonImprovementInDetail: String, BumperFeature  {
             case 2: return .active
             default: return .control
         }
+    }
 }
 
 enum SuperKeywordGroupsAndSubgroupsInFeed: String, BumperFeature  {
