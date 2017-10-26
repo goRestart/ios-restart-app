@@ -14,7 +14,6 @@ protocol FilterTagsViewDelegate : class {
 class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSource, FilterTagCellDelegate {
 
     static var collectionViewHeight: CGFloat = 52
-    static var cellHeight: CGFloat = 32
     static var minimumInteritemSpacing: CGFloat = 5
     private static var collectionContentInset = UIEdgeInsets(top: 10, left: 5, bottom: 10, right: 5)
     
