@@ -1113,6 +1113,12 @@ struct TrackerEvent {
         return TrackerEvent(name: .listingSellYourStuffButton, params: params)
     }
 
+    static func productDetailOpenFeaturedInfoForListing(listingId: String?) -> TrackerEvent {
+        var params = EventParameters()
+        params[.listingId] = listingId ?? ""
+        return TrackerEvent(name: .featuredMoreInfo, params: params)
+    }
+
 
     // MARK: - Private methods
 

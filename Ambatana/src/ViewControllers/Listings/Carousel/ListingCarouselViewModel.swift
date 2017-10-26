@@ -348,6 +348,7 @@ class ListingCarouselViewModel: BaseViewModel {
 
     func statusLabelTapped() {
         navigator?.openFeaturedInfo()
+        currentListingViewModel?.trackOpenFeaturedInfo()
     }
     
     
