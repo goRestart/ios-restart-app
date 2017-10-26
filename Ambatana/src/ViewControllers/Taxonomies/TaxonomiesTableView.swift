@@ -12,6 +12,7 @@ import LGCoreKit
 final class TaxonomiesTableView: UIView, UITableViewDelegate, UITableViewDataSource {
     
     static let cellIdentifier = "taxonomyCell"
+    static let taxonomyCellIdentifier = "taxonomyCellIdentifier"
     
     private let tableView = UITableView(frame: CGRect.zero, style: .grouped)
     private var taxonomies: [Taxonomy] = [] {
@@ -20,7 +21,10 @@ final class TaxonomiesTableView: UIView, UITableViewDelegate, UITableViewDataSou
         }
     }
     
-    let itemSelected = Variable<TaxonomyChild?>(nil)
+    let taxonomySelection = Variable<Taxonomy?>(nil)
+    let taxonomyChildSelection = Variable<TaxonomyChild?>(nil)
+    var selectedTaxonomy: Taxonomy?
+    var selectedTaxonomyChild: TaxonomyChild?
     
     
     // MARK: - Lifecycle
@@ -38,15 +42,19 @@ final class TaxonomiesTableView: UIView, UITableViewDelegate, UITableViewDataSou
     }
     
     
-    // MARK: - Layout
+    // MARK: - UI
     
     private func setupUI() {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: TaxonomiesTableView.cellIdentifier)
+        tableView.register(TaxonomyTableViewCell.self, forCellReuseIdentifier: TaxonomiesTableView.taxonomyCellIdentifier)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.indicatorStyle = .white
         tableView.backgroundColor = UIColor.clear
         tableView.separatorStyle = .none
+        // Avoid margin generated when adjusting scroll view insets. Setting automaticallyAdjustsScrollViewInsets to false 
+        // does not fit because it overlaps with the navigation bar
+        tableView.contentInset = UIEdgeInsetsMake(-36, 0, 0, 0);
     }
     
     private func setupLayout() {
@@ -60,18 +68,22 @@ final class TaxonomiesTableView: UIView, UITableViewDelegate, UITableViewDataSou
             .trailing()
     }
     
-    
-    // MARK: - Accessibility
-    
     private func setupAccessibilityIds() {
         tableView.accessibilityId = .taxonomiesTableView
     }
     
+    func setupTableView(values: [Taxonomy], selectedTaxonomy: Taxonomy?, selectedTaxonomyChild: TaxonomyChild?) {
+        taxonomies = values
+        self.selectedTaxonomy = selectedTaxonomy
+        self.selectedTaxonomyChild = selectedTaxonomyChild
+        tableView.reloadData()
+    }
     
-    // MARK: - UITableView delegate
+    
+    // MARK: - UITableViewDataSource, UITableViewDelegate
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return taxonomies[section].children.count
+        return taxonomies[section].children.count + 1 // + 1 because we show the taxonomy parent as well
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -79,26 +91,44 @@ final class TaxonomiesTableView: UIView, UITableViewDelegate, UITableViewDataSou
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: TaxonomiesTableView.cellIdentifier) else {
-            return UITableViewCell()
+        if indexPath.row == 0 {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: TaxonomiesTableView.taxonomyCellIdentifier) as? TaxonomyTableViewCell else {
+                return UITableViewCell()
+            }
+            let value = taxonomies[indexPath.section]
+            cell.updateWith(text: value.name, iconURL: value.icon, selected: selectedTaxonomy == value)
+            return cell
+        } else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: TaxonomiesTableView.cellIdentifier) else {
+                return UITableViewCell()
+            }
+            let value = taxonomies[indexPath.section].children[indexPath.row-1]
+            cell.selectionStyle = .none
+            cell.textLabel?.text = value.name
+            cell.textLabel?.font =  UIFont.systemBoldFont(size: 21)
+            cell.textLabel?.textColor = UIColor.lgBlack
+            cell.indentationLevel = 1
+            cell.indentationWidth = 50
+            
+            if selectedTaxonomyChild == value {
+                cell.accessoryType = .checkmark
+                cell.tintColor = UIColor.redText
+            }
+            
+            return cell
         }
-        let value = taxonomies[indexPath.section].children[indexPath.row]
-        cell.selectionStyle = .none
-        cell.textLabel?.text = value.name
-        cell.textLabel?.font =  UIFont.systemBoldFont(size: 21)
-        cell.textLabel?.textColor = UIColor.lgBlack
-        cell.indentationLevel = 1
-        cell.indentationWidth = 50
-        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let cell = tableView.cellForRow(at: indexPath) {
+        if indexPath.row == 0, let cell = tableView.cellForRow(at: indexPath) as? TaxonomyTableViewCell {
+            cell.highlight()
+            taxonomySelection.value = taxonomies[indexPath.section]
+        } else if let cell = tableView.cellForRow(at: indexPath) {
             cell.accessoryType = .checkmark
             cell.textLabel?.textColor = UIColor.redText
             cell.tintColor = UIColor.redText
-            itemSelected.value = taxonomies[indexPath.section].children[indexPath.row]
+            taxonomySelection.value = taxonomies[indexPath.section]
+            taxonomyChildSelection.value = taxonomies[indexPath.section].children[indexPath.row-1]
         }
     }
     
@@ -107,19 +137,5 @@ final class TaxonomiesTableView: UIView, UITableViewDelegate, UITableViewDataSou
             cell.accessoryType = .none
             cell.textLabel?.textColor = UIColor.blackText
         }
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = TaxonomyHeaderView(title: taxonomies[section].name, iconURL: taxonomies[section].icon)
-        return view
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50
-    }
-
-    func setupTableView(values: [Taxonomy]) {
-        taxonomies = values
-        tableView.reloadData()
     }
 }

@@ -39,8 +39,8 @@ class ChatViewMessageAdapter {
             }
         }
         
-        let status: ChatMessageStatus = message.isRead ? .read : .sent
-        return ChatViewMessage(objectId: message.objectId ,talkerId: message.userId, sentAt: message.createdAt,
+        let status: ChatMessageStatus = message.isRead ? .read : .unknown
+        return ChatViewMessage(objectId: message.objectId, talkerId: message.userId, sentAt: message.createdAt,
                                receivedAt: nil, readAt: nil, type: type, status: status,
                                warningStatus: ChatViewMessageWarningStatus(status: message.warningStatus))
     }

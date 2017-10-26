@@ -51,12 +51,12 @@ class AppRatingView: UIView {
 
         setAccesibilityIds()
     }
-    
+
     
     @IBAction func ratePressed(_ sender: AnyObject) {
         userRatesOrGivesFeedback()
         if let _ = (sender as? UIButton)?.tag {
-            let trackerEvent = TrackerEvent.appRatingRate()
+            let trackerEvent = TrackerEvent.appRatingRate(reason: nil)
             TrackerProxy.sharedInstance.trackEvent(trackerEvent)
         }
         closeWithFadeOut()
