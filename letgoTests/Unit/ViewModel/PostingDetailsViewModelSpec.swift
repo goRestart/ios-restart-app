@@ -41,7 +41,7 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
         var postingSource: PostingSource! = .tabBar
         var postListingBasicInfo = PostListingBasicDetailViewModel()
         
-        fdescribe("PostingDetailsViewModelSpec") {
+        describe("PostingDetailsViewModelSpec") {
             
             func buildPostingDetailsViewModel() {
                 sut = PostingDetailsViewModel(step: postingDetailsStep,
