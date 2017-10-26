@@ -15,6 +15,7 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
 
     static var collectionViewHeight: CGFloat = 52
     static var cellHeight: CGFloat = 32
+    static var minimumInteritemSpacing: CGFloat = 5
     private static var collectionContentInset = UIEdgeInsets(top: 10, left: 5, bottom: 10, right: 5)
     
     private var collectionView: UICollectionView?
@@ -43,7 +44,7 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
         
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.sectionInset = FilterTagsView.collectionContentInset
-        flowLayout.minimumInteritemSpacing = 5
+        flowLayout.minimumInteritemSpacing = FilterTagsView.minimumInteritemSpacing
         collectionView = UICollectionView(frame: frame, collectionViewLayout: flowLayout)
         guard let collectionView = collectionView else { return }
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -73,7 +74,7 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
         
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.sectionInset = FilterTagsView.collectionContentInset
-        flowLayout.minimumInteritemSpacing = 5
+        flowLayout.minimumInteritemSpacing = FilterTagsView.minimumInteritemSpacing
         secondaryCollectionView = UICollectionView(frame: frame, collectionViewLayout: flowLayout)
         guard let secondaryCollectionView = secondaryCollectionView else { return }
         secondaryCollectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -139,10 +140,6 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
             return cell
         }
         return UICollectionViewCell()
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 20
     }
     
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
