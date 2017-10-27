@@ -467,7 +467,7 @@
 "post_category_details_navigation_title" = "Ajouter des Détails";
 "post_category_details_progress" = "%@ complété";
 "post_category_details_progress_100" = "Magnifique !";
-"posting_button_skip" = "Skip";
+"posting_button_skip" = "Passer";
 "product_auto_generated_title_label" = "Titre généré automatiquement par letgo";
 "product_auto_generated_translated_title_label" = "(et traduit par Google)";
 "product_bubble_favorite_button" = "Informez le vendeur !";
@@ -736,7 +736,7 @@
 "real_estate_offer_type_rent" = "For Rent";
 "real_estate_offer_type_sale" = "For Sale";
 "real_estate_offer_type_title" = "Type of Listing";
-"real_estate_price_title" = "Price";
+"real_estate_price_title" = "Prix";
 "real_estate_summary_bathrooms_empty" = "Add no. of bathrooms";
 "real_estate_summary_bedrooms_emtpy" = "Add no. of bedrooms";
 "real_estate_summary_location_empty" = "Location: not set";
@@ -745,9 +745,9 @@
 "real_estate_summary_title" = "Summary";
 "real_estate_summary_type_property_empty" = "Add type of property";
 "real_estate_type_property_apartment" = "Apartment";
-"real_estate_type_property_commercial" = "Commercial";
+"real_estate_type_property_commercial" = "Publicité";
 "real_estate_type_property_house" = "House";
-"real_estate_type_property_others" = "Other";
+"real_estate_type_property_others" = "Autre";
 "real_estate_type_property_room" = "Room";
 "real_estate_type_property_title" = "Type of Property";
 "related_items_title" = "Biens associés";

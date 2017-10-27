@@ -167,6 +167,7 @@ enum EventName: String {
     case onboardingInterestsComplete        = "onboarding-interests-complete"
     case categoriesStart                    = "categories-start"
     case categoriesComplete                 = "categories-complete"
+    case featuredMoreInfo                   = "featured-more-info"
     
 
     // Constants

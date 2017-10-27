@@ -46,7 +46,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
             priceView.priceListing.asObservable().bindTo(priceListing).addDisposableTo(disposeBag)
             return priceView
         case .summary:
-            // WIP: https://ambatana.atlassian.net/browse/ABIOS-3081 
+            // WIP: https://ambatana.atlassian.net/browse/ABIOS-3079
             return UIView()
         }
         let view: PostingAddDetailTableView = PostingAddDetailTableView(values: values)
