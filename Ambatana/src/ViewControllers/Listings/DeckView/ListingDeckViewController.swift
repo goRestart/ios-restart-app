@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import RxSwift
 
-final class ListingDeckViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+final class ListingDeckViewController: KeyboardViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     struct Identifiers {
         static let cardView = "ListingCardView"
     }
@@ -32,6 +32,11 @@ final class ListingDeckViewController: BaseViewController, UICollectionViewDataS
 
     override func loadView() {
         self.view = listingDeckView
+    }
+
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        listingDeckView.collectionViewTop?.constant = topBarHeight
     }
 
     override func viewDidLoad() {
@@ -89,8 +94,7 @@ final class ListingDeckViewController: BaseViewController, UICollectionViewDataS
 
     private func setupNavigationBar() {
         setNavBarBackgroundStyle(.transparent(substyle: .light))
-        edgesForExtendedLayout = []
-
+        
         let rightButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_more_options"), style: .plain, target: self, action: #selector(didTapMoreInfo))
         let leftButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_close_red"), style: .plain, target: self, action: #selector(didTapClose))
         self.navigationItem.rightBarButtonItem = rightButton
@@ -132,17 +136,6 @@ extension ListingDeckViewController: UITableViewDataSource, UITableViewDelegate,
         directChatTable.estimatedRowHeight = 140
         directChatTable.isCellHiddenBlock = { return $0.contentView.isHidden }
 //        directChatTable.didSelectRowAtIndexPath = {  [weak self] _ in self?.viewModel.directMessagesItemPressed() }
-
-
-
-//        keyboardChanges.bindNext { [weak self] change in
-//            guard let strongSelf = self else { return }
-//            let viewHeight = strongSelf.view.height
-//            self?.contentBottomMargin = viewHeight - change.origin
-//            UIView.animate(withDuration: Double(change.animationTime)) {
-//                strongSelf.view.layoutIfNeeded()
-//            }
-//            }.addDisposableTo(disposeBag)
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

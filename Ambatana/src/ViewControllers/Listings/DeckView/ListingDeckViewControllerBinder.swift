@@ -15,6 +15,70 @@ final class ListingDeckViewControllerBinder {
     weak var listingDeckViewController: ListingDeckViewController? = nil
     let disposeBag: DisposeBag = DisposeBag()
 
+
+    func bind(withViewModel viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
+        guard let viewController = listingDeckViewController else { return }
+
+        bindKeyboardChanges(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
+        bindCollectionView(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
+        bindContentOffset(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
+        bindOverlaysAlpha(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
+        bindIndexSignal(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
+        bindChat(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
+        bindActions(withViewModel: viewModel, listingDeckView: listingDeckView)
+    }
+
+    private func bindActions(withViewModel viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
+        viewModel.actionButtons.asObservable().bindNext { [unowned listingDeckView, unowned viewModel, weak self]
+            actionButtons in
+            guard let strongSelf = self else { return }
+
+            guard actionButtons.count > 0 else {
+                UIView.animate(withDuration: 0.2, animations: {
+                    listingDeckView.itemActionsView.alpha = 0
+                })
+                return
+            }
+            let takeUntilAction = viewModel.actionButtons.asObservable().skip(1)
+            guard let bottomAction = actionButtons.first else { return }
+            listingDeckView.itemActionsView.topButton.configureWith(uiAction: bottomAction)
+            listingDeckView.itemActionsView
+                .topButton.rx.tap.takeUntil(takeUntilAction).bindNext {
+                    bottomAction.action()
+                }.addDisposableTo(strongSelf.disposeBag)
+            UIView.animate(withDuration: 0.2, animations: {
+                listingDeckView.itemActionsView.alpha = 1
+            })
+            }.addDisposableTo(disposeBag)
+    }
+
+    private func bindKeyboardChanges(withViewController viewController: ListingDeckViewController,
+                                     viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
+
+        let tapGesture = UITapGestureRecognizer()
+        listingDeckView.overlayView.addGestureRecognizer(tapGesture)
+        tapGesture.rx.event.bindNext { _ in
+            listingDeckView.chatTextView.resignFirstResponder()
+            }.addDisposableTo(disposeBag)
+
+        viewController.keyboardChanges.bindNext { [unowned viewController] change in
+            let height = listingDeckView.bounds.height - change.origin
+            listingDeckView.updateBottom(wintInset: height)
+            UIView.animate(withDuration: TimeInterval(change.animationTime),
+                           delay: 0,
+                           options: change.animationOptions,
+                           animations: {
+                            if change.visible {
+                                listingDeckView.showFullScreenChat()
+                            } else {
+                                listingDeckView.hideFullScreenChat()
+                            }
+                            viewController.view.layoutIfNeeded()
+            }, completion: nil)
+
+            }.addDisposableTo(disposeBag)
+    }
+
     private func bindCollectionView(withViewController viewController: ListingDeckViewController,
                                     viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
         viewModel.objectChanges.observeOn(MainScheduler.instance).bindNext { [weak self] change in
@@ -29,9 +93,9 @@ final class ListingDeckViewControllerBinder {
             .map { [unowned listingDeckView] x in
                 let pageOffset = listingDeckView.layout.pageOffset(givenOffset: x).truncatingRemainder(dividingBy: 1.0)
                 if pageOffset < 0.5 {
-                    return pageOffset
+                    return 2*pageOffset
                 }
-                return (1 - pageOffset)
+                return 2*(1 - pageOffset)
             }.bindTo(viewController.overlaysAlpha).addDisposableTo(disposeBag)
 
         viewController.contentOffset.asObservable().bindNext { [unowned viewController, listingDeckView] _ in
@@ -41,8 +105,9 @@ final class ListingDeckViewControllerBinder {
 
     private func bindOverlaysAlpha(withViewController viewController: ListingDeckViewController,
                                    viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
-        viewController.overlaysAlpha.asObservable()
-            .bindTo(listingDeckView.bottomView.rx.alpha).addDisposableTo(disposeBag)
+        viewController.overlaysAlpha.asObservable().bindNext { [unowned listingDeckView] alpha in
+            listingDeckView.updateOverlaysWith(alpha: alpha)
+            }.addDisposableTo(disposeBag)
     }
 
     private func bindIndexSignal(withViewController viewController: ListingDeckViewController,
@@ -82,44 +147,12 @@ final class ListingDeckViewControllerBinder {
                 let chatMessageExists = viewModel.directChatMessages.value
                     .filter({ $0.objectId == message.objectId }).count >= 1
                 listingDeckView.directChatTable.handleCollectionChange(change,
-                                                                                  animation: chatMessageExists
-                                                                                    ? .none : .top)
+                                                                       animation: chatMessageExists
+                                                                        ? .none : .top)
             default:
                 listingDeckView.directChatTable.handleCollectionChange(change, animation: .none)
             }
             }.addDisposableTo(disposeBag)
     }
-
-    func bind(withViewModel viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
-        guard let viewController = listingDeckViewController else { return }
-
-        bindCollectionView(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
-        bindContentOffset(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
-        bindOverlaysAlpha(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
-        bindIndexSignal(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
-        bindChat(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
-        
-        viewModel.actionButtons.asObservable().bindNext { [unowned listingDeckView, unowned viewModel, weak self]
-            actionButtons in
-            guard let strongSelf = self else { return }
-
-            guard actionButtons.count > 0 else {
-                UIView.animate(withDuration: 0.2, animations: {
-                    listingDeckView.itemActionsView.alpha = 0
-                })
-                return
-            }
-            let takeUntilAction = viewModel.actionButtons.asObservable().skip(1)
-            guard let bottomAction = actionButtons.first else { return }
-            listingDeckView.itemActionsView.topButton.configureWith(uiAction: bottomAction)
-            listingDeckView.itemActionsView
-                .topButton.rx.tap.takeUntil(takeUntilAction).bindNext {
-                    bottomAction.action()
-                }.addDisposableTo(strongSelf.disposeBag)
-            UIView.animate(withDuration: 0.2, animations: {
-                listingDeckView.itemActionsView.alpha = 1
-            })
-            }.addDisposableTo(disposeBag)
-    }
-
+    
 }

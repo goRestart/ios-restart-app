@@ -12,15 +12,18 @@ import LGCoreKit
 
 final class ListingDeckView: UIView, UICollectionViewDelegate {
 
+    let overlayView = UIView()
     let directChatTable = CustomTouchesTableView()
+    var directAnswersView = DirectAnswersHorizontalView(answers: [], sideMargin: CarouselUI.itemsMargin)
     let chatTextView = ChatTextView()
+    var chatTextViewBottom: NSLayoutConstraint? = nil
 
     let collectionView: UICollectionView
+    var collectionViewTop: NSLayoutConstraint? = nil
     let layout = ListingDeckCollectionViewLayout()
 
     let bottomView = UIView()
     let itemActionsView = ListingDeckActionView()
-    var directAnswersView = DirectAnswersHorizontalView(answers: [], sideMargin: CarouselUI.itemsMargin)
 
     override init(frame: CGRect) {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -36,16 +39,19 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
 
     private func setupUI() {
         backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        setupDirectChatView()
         setupCollectionView()
         setupBottomView()
         bringSubview(toFront: collectionView)
+
+        setupDirectChatView()
     }
 
     private func setupCollectionView() {
         addSubview(collectionView)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.layout(with: self).top().leading().trailing()
+        collectionView.layout(with: self).leading().trailing().top() { [weak self] constraint in
+            self?.collectionViewTop = constraint
+        }
 
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.decelerationRate = 0
@@ -70,23 +76,50 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
     }
 
     private func setupDirectChatView() {
-        directAnswersView.style = .light
-        directAnswersView.translatesAutoresizingMaskIntoConstraints = false
-        bottomView.addSubview(directAnswersView)
-        directAnswersView.layout(with: bottomView).leading().trailing().top()
+        addSubview(overlayView)
+        overlayView.translatesAutoresizingMaskIntoConstraints = false
+        overlayView.layout(with: self).fill()
+        overlayView.alpha = 0
+        overlayView.backgroundColor = UIColor.black.withAlphaComponent(0.6)
 
         chatTextView.translatesAutoresizingMaskIntoConstraints = false
-        bottomView.addSubview(chatTextView)
-        chatTextView.layout(with: bottomView)
-            .leading(by: CarouselUI.itemsMargin).trailing(by: -CarouselUI.itemsMargin)
-        chatTextView.layout(with: directAnswersView).top(to: .bottom, by: CarouselUI.itemsMargin)
-//                                                         constraintBlock: { [weak self] in self?.directAnswersBottom = $0 })
+        addSubview(chatTextView)
+        chatTextView.layout(with: self)
+            .fillHorizontal(by: CarouselUI.itemsMargin)
+            .bottomMargin(by: -16.0) { [weak self] constraint in
+                self?.chatTextViewBottom = constraint
+        }
+
+        directAnswersView.style = .light
+        directAnswersView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(directAnswersView)
+        directAnswersView.layout(with: self).leftMargin().rightMargin()
+        directAnswersView.layout(with: chatTextView).above(by: -8.0)
 
         addSubview(directChatTable)
         directChatTable.translatesAutoresizingMaskIntoConstraints = false
         directChatTable.layout(with: self).topMargin().leftMargin().rightMargin()
-        directChatTable.layout(with: directAnswersView).above()
+        directChatTable.layout(with: directAnswersView).above(by: -8.0)
         directChatTable.alpha = 0
+    }
+
+    func updateOverlaysWith(alpha: CGFloat) {
+        bottomView.alpha = alpha
+        chatTextView.alpha = alpha
+        directAnswersView.alpha = alpha
+    }
+
+    func updateBottom(wintInset inset: CGFloat) {
+        self.chatTextViewBottom?.constant = -(inset + 16.0)
+    }
+
+    func showFullScreenChat() {
+        overlayView.alpha = 1
+    }
+
+    func hideFullScreenChat() {
+        chatTextView.resignFirstResponder()
+        overlayView.alpha = 0
     }
 
     func showBumpUp() {  }
@@ -98,7 +131,6 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
             self.itemActionsView.alpha = 1
             self.directAnswersView.alpha = 0
             self.chatTextView.alpha = 0
-            self.directChatTable.alpha = 0
         }
     }
 
@@ -107,7 +139,6 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
             self.itemActionsView.alpha = 0
             self.directAnswersView.alpha = 1
             self.chatTextView.alpha = 1
-            self.directChatTable.alpha = 1
         }
     }
 

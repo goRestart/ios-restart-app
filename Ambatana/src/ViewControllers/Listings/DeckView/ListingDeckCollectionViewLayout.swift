@@ -106,7 +106,6 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
         let leftInset = min(minimum + ((0.5 - factor) * verticalInset), verticalInset)
         let rightInset = min(minimum + ((factor - 0.5) * verticalInset), verticalInset)
         let inset = factor < anchor ? leftInset : rightInset
-
         return inset
     }
 
