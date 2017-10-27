@@ -305,10 +305,10 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     }
     
     func filterTagsViewDidSelectTag(_ tag: FilterTag) {
-        guard var newTags: [FilterTag] = filterTagsView?.tags else { return }
-        newTags.append(tag)
-        viewModel.updateFiltersFromTags(newTags, removedTag: nil)
-        loadTagsViewWithTags(primaryTags: newTags, secondaryTags: [])
+        if let taxonomyChild = tag.taxonomyChild {
+            viewModel.updateSelectedTaxonomyChildren(taxonomyChildren: [taxonomyChild])
+        }
+        loadTagsViewWithTags(primaryTags: viewModel.primaryTags, secondaryTags: viewModel.secondaryTags)
     }
     
     
