@@ -37,21 +37,22 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         case .propertyType:
             values = RealEstatePropertyType.allValues.flatMap { $0.localizedString }
         case .price:
-            // WIP: https://ambatana.atlassian.net/browse/ABIOS-3081
-            return UIView()
-        case .summary:
             var currencySymbol: String? = nil
             if let countryCode = locationManager.currentLocation?.countryCode {
                 currencySymbol = currencyHelper.currencyWithCountryCode(countryCode).symbol
             }
-            return PostingAddDetailPriceView(currencySymbol: currencySymbol,
-                                          freeEnabled: featureFlags.freePostingModeAllowed, frame: CGRect.zero)
+            let priceView = PostingAddDetailPriceView(currencySymbol: currencySymbol,
+                                                      freeEnabled: featureFlags.freePostingModeAllowed, frame: CGRect.zero)
+            priceView.priceListing.asObservable().bindTo(priceListing).addDisposableTo(disposeBag)
+            return priceView
+        case .summary:
+            // WIP: https://ambatana.atlassian.net/browse/ABIOS-3081 
+            return UIView()
         }
         let view: PostingAddDetailTableView = PostingAddDetailTableView(values: values)
         view.delegate = self
         return view
     }
-    
     
     private let tracker: Tracker
     private let currencyHelper: CurrencyHelper
@@ -63,8 +64,10 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     private var uploadedImageSource: EventParameterPictureSource?
     private let postingSource: PostingSource
     private let postListingBasicInfo: PostListingBasicDetailViewModel
+    private let priceListing = Variable<ListingPrice>(Constants.defaultPrice)
     
     weak var navigator: PostListingNavigator?
+    let disposeBag = DisposeBag()
     
     // MARK: - LifeCycle
     
@@ -105,18 +108,21 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     }
     
     func closeButtonPressed() {
-        closePostingProcess()
+        postAndClose()
     }
     
     func nextbuttonPressed() {
         guard let next = step.nextStep else {
-            closePostingProcess()
+            postAndClose()
             return
+        }
+        if step == .price {
+            priceSet(price: priceListing.value)
         }
         advanceNextStep(next: next)
     }
     
-    private func closePostingProcess() {
+    private func postAndClose() {
         navigator?.openLoginIfNeededFromListingPosted(from: .sell, loggedInAction: {
             self.postListing()
         }, cancelAction: {
@@ -146,6 +152,9 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         navigator?.closePostProductAndPostInBackground(params: listingCreationParams, trackingInfo: trackingInfo)
     }
     
+    private func priceSet(price: ListingPrice) {
+        postListingState = postListingState.updating(price: price)
+    }
     
     // MARK: - PostingAddDetailTableViewDelegate 
     
