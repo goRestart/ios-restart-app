@@ -12,7 +12,7 @@ import RxSwift
 final class ListingViewModelBinder {
 
     // the one to rule them all
-    let viewModel: ListingDeckViewModel? = nil
+    weak var viewModel: ListingDeckViewModel? = nil
     var disposeBag: DisposeBag = DisposeBag()
 
     func bindTo(listingViewModel currentVM: ListingViewModel) {
@@ -37,9 +37,8 @@ final class ListingViewModelBinder {
         currentVM.navBarButtons.asObservable().bindTo(theOneViewModel.navBarButtons).addDisposableTo(disposeBag)
 
         theOneViewModel.quickAnswers.value = currentVM.quickAnswers
-        currentVM.directChatEnabled.asObservable().bindTo(theOneViewModel.quickAnswersAvailable).addDisposableTo(disposeBag)
+        currentVM.directChatEnabled.asObservable().bindTo(theOneViewModel.chatEnabled).addDisposableTo(disposeBag)
 
-        currentVM.directChatEnabled.asObservable().bindTo(theOneViewModel.directChatEnabled).addDisposableTo(disposeBag)
         theOneViewModel.directChatMessages.removeAll()
         currentVM.directChatMessages.changesObservable.subscribeNext { [unowned self] change in
             //            theOneViewModel.performCollectionChange(change: change)

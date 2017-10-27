@@ -13,6 +13,9 @@ import LGCoreKit
 final class ListingDeckActionView: UIView {
 
     let topButton = UIButton(type: .custom)
+    private var topButtonBottomContainer: NSLayoutConstraint?
+    private var topButtonBottomSeparator: NSLayoutConstraint?
+
     let separator = UIView()
     let bumpUpBanner = BumpUpBanner()
 
@@ -42,8 +45,14 @@ final class ListingDeckActionView: UIView {
     private func setupTopButton() {
         addSubview(topButton)
         topButton.translatesAutoresizingMaskIntoConstraints = false
+        topButton.layout().height(48.0)
+
         topButton.layout(with: self)
             .topMargin(by: 8.0).rightMargin(by: -16.0).leftMargin(by: 16.0)
+        topButton.layout(with: self).bottomMargin(by: -8) { [weak self] constraint in
+            self?.topButtonBottomContainer = constraint
+            self?.topButtonBottomContainer?.priority = UILayoutPriorityDefaultLow
+        }
         topButton.setTitle("Mark as Sold", for: .normal)
         topButton.setStyle(.terciary)
     }
@@ -52,7 +61,10 @@ final class ListingDeckActionView: UIView {
         addSubview(separator)
         separator.translatesAutoresizingMaskIntoConstraints = false
 
-        separator.layout(with: topButton).below(by: 8.0)
+        separator.layout(with: topButton).below(by: 8.0) { [weak self] constraint in
+            self?.topButtonBottomSeparator = constraint
+            self?.topButtonBottomSeparator?.priority = 999
+        }
         separator.layout().height(1 / UIScreen.main.scale)
         separator.layout(with: self).fillHorizontal()
     }
@@ -62,7 +74,8 @@ final class ListingDeckActionView: UIView {
         bumpUpBanner.translatesAutoresizingMaskIntoConstraints = false
 
         bumpUpBanner.layout(with: separator).below(by: 8.0)
-        bumpUpBanner.layout(with: self).fillHorizontal().bottomMargin(by: -8.0)
+        bumpUpBanner.layout(with: self).fillHorizontal()
+        bumpUpBanner.layout(with: self).bottomMargin(by: -8.0)
 
         bumpUpBanner.updateInfo(info: BumpUpInfo(type: .priced,
                                                  timeSinceLastBump: 10.0,
@@ -72,10 +85,25 @@ final class ListingDeckActionView: UIView {
                                                  buttonBlock: {}))
     }
 
+    func hideBumpUp() {
+        topButtonBottomSeparator?.priority = UILayoutPriorityDefaultLow
+        topButtonBottomContainer?.priority = 999
+        separator.alpha = 0
+        bumpUpBanner.alpha = 0
+    }
+
+    func showBumpUp() {
+        topButtonBottomContainer?.priority = UILayoutPriorityDefaultLow
+        topButtonBottomSeparator?.priority = 999
+        separator.alpha = 1
+        bumpUpBanner.alpha = 1
+    }
+
     private func setupUI() {
         backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         separator.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
 
+        bringSubview(toFront: topButton)
     }
 
 }

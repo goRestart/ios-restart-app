@@ -70,10 +70,8 @@ final class ListingDeckViewModel: BaseViewModel {
     let status = Variable<ListingViewModelStatus>(.pending)
     let isFeatured = Variable<Bool>(false)
 
+    let chatEnabled = Variable<Bool>(false)
     let quickAnswers = Variable<[[QuickAnswer]]>([[]])
-    let quickAnswersAvailable = Variable<Bool>(false)
-
-    let directChatEnabled = Variable<Bool>(false)
     var directChatPlaceholder = Variable<String>("")
     let directChatMessages = CollectionVariable<ChatViewMessage>([])
 
@@ -135,7 +133,8 @@ final class ListingDeckViewModel: BaseViewModel {
         }
 
         super.init()
-        moveToProductAtIndex(0, movement: .initial)
+        binder.viewModel = self
+        moveToProductAtIndex(startIndex, movement: .initial)
 
         if shouldSyncFirstListing {
             syncFirstListing()
@@ -145,6 +144,7 @@ final class ListingDeckViewModel: BaseViewModel {
     override func didBecomeActive(_ firstTime: Bool) {
         if firstTime {
             // TODO prepare onboarding
+
         }
         // Tracking
         currentListingViewModel?.trackVisit(.none, source: source, feedPosition: trackingFeedPosition)

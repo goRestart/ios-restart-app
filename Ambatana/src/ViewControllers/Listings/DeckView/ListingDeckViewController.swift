@@ -14,12 +14,14 @@ final class ListingDeckViewController: BaseViewController, UICollectionViewDataS
     struct Identifiers {
         static let cardView = "ListingCardView"
     }
-    let listingDeckView = ListingDeckView()
-    let contentOffset = Variable<CGFloat>(0)
-    fileprivate let overlaysAlpha = Variable<CGFloat>(1)
 
+    let contentOffset = Variable<CGFloat>(0)
+    let overlaysAlpha = Variable<CGFloat>(1)
+    let indexSignal = Variable<Int>(0)
+
+    let listingDeckView = ListingDeckView()
     fileprivate let viewModel: ListingDeckViewModel
-    fileprivate let disposeBag = DisposeBag()
+    fileprivate let binder = ListingDeckViewControllerBinder()
 
     init(viewModel: ListingDeckViewModel) {
         self.viewModel = viewModel
@@ -38,41 +40,23 @@ final class ListingDeckViewController: BaseViewController, UICollectionViewDataS
 
         setupNavigationBar()
         setupCollectionView()
+        setupDirectChat()
     }
 
     // MARK: Rx
 
     private func setupRx() {
-        contentOffset.asObservable()
-            .map { [weak self] x in
-                guard let strongSelf = self else { return x }
-                let pageOffset = strongSelf.listingDeckView.layout.pageOffset(givenOffset: x).truncatingRemainder(dividingBy: 1.0)
-                if pageOffset < 0.5 {
-                    return pageOffset
-                }
-                return (1 - pageOffset)
-        }.bindTo(overlaysAlpha).addDisposableTo(disposeBag)
-
-        overlaysAlpha.asObservable().bindTo(listingDeckView.bottomView.rx.alpha).addDisposableTo(disposeBag)
+        binder.listingDeckViewController = self
+        binder.bind(withViewModel: viewModel, listingDeckView: listingDeckView)
     }
-    
+
     // MARK: CollectionView
 
     private func setupCollectionView() {
-        func setupCollectionRx() {
-            viewModel.objectChanges.observeOn(MainScheduler.instance).bindNext { [weak self] change in
-                guard let strongSelf = self else { return }
-                //                    strongSelf.listingDeckView.collectionView.handleCollectionChange(change)
-                strongSelf.listingDeckView.collectionView.reloadData()
-                }.addDisposableTo(disposeBag)
-        }
-
         listingDeckView.collectionView.dataSource = self
         listingDeckView.collectionView.delegate = self
         listingDeckView.collectionView.reloadData()
         listingDeckView.collectionView.register(ListingCardView.self, forCellWithReuseIdentifier: Identifiers.cardView)
-
-        setupCollectionRx()
     }
 
     // MARK: UICollectionViewDataSource
@@ -113,42 +97,6 @@ final class ListingDeckViewController: BaseViewController, UICollectionViewDataS
         self.navigationItem.leftBarButtonItem  = leftButton
 
         setNavigationBarRightButtons([])
-        viewModel.navBarButtons.asObservable().subscribeNext { [weak self] navBarButtons in
-            guard let strongSelf = self else { return }
-            let takeUntilAction = strongSelf.viewModel.navBarButtons.asObservable().skip(1)
-            if navBarButtons.count == 1 {
-                let action = navBarButtons[0]
-                switch action.interface {
-                case .textImage:
-                    let shareButton = CarouselUIHelper.buildShareButton(action.text, icon: action.image)
-                    let rightItem = UIBarButtonItem(customView: shareButton)
-                    rightItem.style = .plain
-                    shareButton.rx.tap.takeUntil(takeUntilAction).bindNext{
-                        action.action()
-                        }.addDisposableTo(strongSelf.disposeBag)
-                    strongSelf.navigationItem.rightBarButtonItems = nil
-                    strongSelf.navigationItem.rightBarButtonItem = rightItem
-                default:
-                    strongSelf.setLetGoRightButtonWith(action, buttonTintColor: UIColor.white,
-                                                       tapBlock: { tapEvent in
-                                                        tapEvent.takeUntil(takeUntilAction).bindNext{
-                                                            action.action()
-                                                            }.addDisposableTo(strongSelf.disposeBag)
-                    })
-                }
-            } else if navBarButtons.count > 1 {
-                var buttons = [UIButton]()
-                navBarButtons.forEach { navBarButton in
-                    let button = UIButton(type: .system)
-                    button.setImage(navBarButton.image, for: .normal)
-                    button.rx.tap.takeUntil(takeUntilAction).bindNext { _ in
-                        navBarButton.action()
-                        }.addDisposableTo(strongSelf.disposeBag)
-                    buttons.append(button)
-                }
-                strongSelf.setNavigationBarRightButtons(buttons)
-            }
-            }.addDisposableTo(disposeBag)
     }
 
     @objc private func didTapBumpUp() {
@@ -164,4 +112,68 @@ final class ListingDeckViewController: BaseViewController, UICollectionViewDataS
 
     }
 
+    // MARK: DirectAnswersHorizontalViewDelegate
+
+    private func setupDirectChat() {
+        listingDeckView.directAnswersView.delegate = self
+    }
+    
 }
+
+extension ListingDeckViewController: UITableViewDataSource, UITableViewDelegate, DirectAnswersHorizontalViewDelegate {
+    func setupDirectMessages() {
+        let directChatTable = listingDeckView.directChatTable
+
+        directChatTable.dataSource = self
+        directChatTable.delegate = self
+        ChatCellDrawerFactory.registerCells(directChatTable)
+        directChatTable.transform = CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: 0)
+        directChatTable.rowHeight = UITableViewAutomaticDimension
+        directChatTable.estimatedRowHeight = 140
+        directChatTable.isCellHiddenBlock = { return $0.contentView.isHidden }
+//        directChatTable.didSelectRowAtIndexPath = {  [weak self] _ in self?.viewModel.directMessagesItemPressed() }
+
+
+
+//        keyboardChanges.bindNext { [weak self] change in
+//            guard let strongSelf = self else { return }
+//            let viewHeight = strongSelf.view.height
+//            self?.contentBottomMargin = viewHeight - change.origin
+//            UIView.animate(withDuration: Double(change.animationTime)) {
+//                strongSelf.view.layoutIfNeeded()
+//            }
+//            }.addDisposableTo(disposeBag)
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.directChatMessages.value.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let messages = viewModel.directChatMessages.value
+        guard 0..<messages.count ~= indexPath.row else { return UITableViewCell() }
+        let message = messages[indexPath.row]
+        let drawer = ChatCellDrawerFactory.drawerForMessage(message, autoHide: true, disclosure: true)
+        let cell = drawer.cell(tableView, atIndexPath: indexPath)
+        
+        drawer.draw(cell, message: message)
+        cell.transform = tableView.transform
+
+        return cell
+    }
+
+    func directAnswersHorizontalViewDidSelect(answer: QuickAnswer, index: Int) {
+        print("Selected direct answer")
+        if let productVM = viewModel.currentListingViewModel, productVM.showKeyboardWhenQuickAnswer {
+//            chatTextView.setText(answer.text)
+        } else {
+//            viewModel.send(quickAnswer: answer)
+        }
+
+        if let productVM = viewModel.currentListingViewModel, productVM.areQuickAnswersDynamic {
+//            viewModel.moveQuickAnswerToTheEnd(index)
+        }
+    }
+    
+}
+
