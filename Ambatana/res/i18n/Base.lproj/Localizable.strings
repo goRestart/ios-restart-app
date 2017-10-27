@@ -2208,13 +2208,13 @@
 "real_estate_type_property_room" = "Room";
 
 // Real Estate property type commercial
-"real_estate_type_property_commercial" = "Comercial";
+"real_estate_type_property_commercial" = "Commercial";
 
 // Real Estate property type others
-"real_estate_type_property_others" = "Others";
+"real_estate_type_property_others" = "Other";
 
 // Real Estate number of bathrooms title
-"real_estate_bathrooms_title" = "No of bathrooms";
+"real_estate_bathrooms_title" = "No. of bathrooms";
 
 // Real Estate number of bathrooms 0
 "real_estate_bathrooms_0" = "None";
@@ -2238,10 +2238,10 @@
 "real_estate_bathrooms_3_5" = "3.5";
 
 // Real Estate number of bathrooms 4
-"real_estate_bathrooms_4" = "+4";
+"real_estate_bathrooms_4" = "4+";
 
 // Ral Estate number of bedrooms Title
-"real_estate_bedrooms_title" = "No of bedrooms";
+"real_estate_bedrooms_title" = "No. of bedrooms";
 
 // Real Estate number of bedrooms 0 
 "real_estate_bedrooms_0" = "Studio";
@@ -2256,7 +2256,7 @@
 "real_estate_bedrooms_3" = "3";
 
 // Real Estate number of bedrooms 4
-"real_estate_bedrooms_4" = "+4";
+"real_estate_bedrooms_4" = "4+";
 
 // Real Estate summary price empty value
 "real_estate_summary_price_empty" = "Add price";
@@ -2274,7 +2274,7 @@
 "real_estate_summary_bathrooms_empty" = "Add no. of bathrooms";
 
 // Real Estate summary location empty value
-"real_estate_summary_location_empty" = "Location: Not set";
+"real_estate_summary_location_empty" = "Location: not set";
 
 // Title when showing list of related items
 "related_items_title" = "Related items";

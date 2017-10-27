@@ -29,6 +29,17 @@ enum PostCategory {
     static func categoriesAvailable(realEstateEnabled: Bool) -> [PostCategory] {
         return realEstateEnabled ? [.car, PostCategory.realEstate, PostCategory.motorsAndAccessories, PostCategory.unassigned] : [PostCategory.car, PostCategory.motorsAndAccessories, PostCategory.unassigned]
     }
+    
+    var numberOfSteps: CGFloat {
+        switch self {
+        case .car:
+            return 3
+        case .realEstate:
+            return 5
+        case .unassigned, .motorsAndAccessories:
+            return 0
+        }
+    }
 }
 
 final class PostCategorySelectionView: UIView {

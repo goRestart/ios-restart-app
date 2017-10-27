@@ -1,5 +1,5 @@
 //
-//  PostListingDetailViewModelSpec.swift
+//  PostListingBasicDetailViewModelSpec.swift
 //  LetGo
 //
 //  Created by Dídac on 12/07/2017.
@@ -12,14 +12,14 @@ import Quick
 import Nimble
 
 
-class PostListingDetailViewModelSpec: BaseViewModelSpec {
+class PostListingBasicDetailViewModelSpec: BaseViewModelSpec {
 
     override func spec() {
-        describe("PostListingDetailViewModel") {
-            var sut: PostListingDetailViewModel!
+        describe("PostListingBasicDetailViewModel") {
+            var sut: PostListingBasicDetailViewModel!
 
             beforeEach {
-                sut = PostListingDetailViewModel()
+                sut = PostListingBasicDetailViewModel()
             }
 
             context("price creation") {
