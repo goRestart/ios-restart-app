@@ -10,10 +10,6 @@ import Foundation
 import UIKit
 import LGCoreKit
 
-protocol ListingDeckViewDelegate {
-
-}
-
 final class ListingDeckView: UIView, UICollectionViewDelegate {
 
     let collectionView: UICollectionView
@@ -46,9 +42,9 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
     private func setupCollectionView() {
         addSubview(collectionView)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.delegate = self
         collectionView.layout(with: self).top().leading().trailing()
-        
+
+        collectionView.showsHorizontalScrollIndicator = false
         collectionView.decelerationRate = 0
     }
 

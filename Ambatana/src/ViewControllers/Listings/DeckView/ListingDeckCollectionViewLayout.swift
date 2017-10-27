@@ -30,6 +30,7 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
     var cache = [UICollectionViewLayoutAttributes]()
 
     private var cellLayout: ListingDeckCellLayout
+    var page: Int { return Int(pageOffset(givenOffset: collectionView?.contentOffset.x ?? 0)) }
 
     let horizontalInset: CGFloat = 32.0
     let verticalInset: CGFloat = 16.0
@@ -82,15 +83,23 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
             var frame: CGRect = .zero
             let x = CGFloat(item) * (cellWidth + horizontalInset / 2) + horizontalInset
 
-            frame = CGRect(x: x, y: yInsetForItem(atIndexPath: indexPath, withInitialX: x), width: cellWidth, height: cellHeight)
+            frame = CGRect(x: x, y: yInsetForItem(withInitialX: x), width: cellWidth, height: cellHeight)
 
             attributes.frame = frame
-            attributes.alpha = alphaForItem(atIndexPath: indexPath, withInitialX: x)
+            attributes.alpha = alphaForItem(withInitialX: x)
             cache.append(attributes)
         }
     }
 
-    private func yInsetForItem(atIndexPath indexPath: IndexPath, withInitialX initialX: CGFloat) -> CGFloat {
+    func pageOffset(givenOffset x: CGFloat) -> CGFloat {
+        let offset: CGFloat =  x
+        let pageWidth: CGFloat = cellWidth + interitemSpacing
+        let finalOffset = offset + pageWidth/2.0 // because of the first page initial position
+
+        return CGFloat(finalOffset / pageWidth)
+    }
+
+    private func yInsetForItem(withInitialX initialX: CGFloat) -> CGFloat {
         let factor = offsetFactorForItem(withInitialX: initialX)
 
         let minimum = cellLayout.insets.top - cellLayout.verticalInsetDelta
@@ -101,7 +110,7 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
         return inset
     }
 
-    private func alphaForItem(atIndexPath indexPath: IndexPath, withInitialX initialX: CGFloat) -> CGFloat {
+    private func alphaForItem(withInitialX initialX: CGFloat) -> CGFloat {
         let factor = offsetFactorForItem(withInitialX: initialX)
         let base: CGFloat = 0.7
 
@@ -129,9 +138,6 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
     override func targetContentOffset(forProposedContentOffset proposedContentOffset: CGPoint,
                                       withScrollingVelocity velocity: CGPoint) -> CGPoint {
         let anchor: CGFloat = cellWidth + interitemSpacing
-        if velocity.x > 0.0 {
-            print(velocity)
-        }
         return CGPoint(x: round(proposedContentOffset.x / anchor) * anchor, y: 0)
     }
 

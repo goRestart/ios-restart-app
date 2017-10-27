@@ -11,6 +11,7 @@ import LGCoreKit
 import RxSwift
 import LGCollapsibleLabel
 
+// This might go away if the new design ABIOS-3100 wins
 enum MoreInfoState {
     case hidden
     case moving

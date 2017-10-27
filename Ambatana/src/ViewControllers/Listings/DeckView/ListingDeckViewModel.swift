@@ -25,8 +25,14 @@ struct Prefetching {
     let nextCount: Int
 }
 
-protocol ListingDeckViewModelDelegate: class {
+protocol ListingDeckViewModelDelegate: BaseViewModelDelegate {
+    func vmRemoveMoreInfoTooltip()
+    func vmShowOnboarding()
 
+    // Forward from ListingViewModelDelegate
+    func vmShowCarouselOptions(_ cancelLabel: String, actions: [UIAction])
+    func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?)
+    func vmResetBumpUpBannerCountdown()
 }
 
 final class ListingDeckViewModel: BaseViewModel {
@@ -44,10 +50,40 @@ final class ListingDeckViewModel: BaseViewModel {
     let prefetching: Prefetching
     fileprivate var prefetchingIndexes: [Int] = []
 
+    let startIndex: Int
+    fileprivate var trackingIndex: Int?
+
     let objects = CollectionVariable<ListingCarouselCellModel>([])
     var objectChanges: Observable<CollectionChange<ListingCarouselCellModel>> {
         return objects.changesObservable
     }
+
+    let binder: ListingViewModelBinder
+    let productInfo = Variable<ListingVMProductInfo?>(nil)
+    let productImageURLs = Variable<[URL]>([])
+    let userInfo = Variable<ListingVMUserInfo?>(nil)
+    let listingStats = Variable<ListingStats?>(nil)
+
+    let navBarButtons = Variable<[UIAction]>([])
+    let actionButtons = Variable<[UIAction]>([])
+
+    let status = Variable<ListingViewModelStatus>(.pending)
+    let isFeatured = Variable<Bool>(false)
+
+    let quickAnswers = Variable<[[QuickAnswer]]>([[]])
+    let quickAnswersAvailable = Variable<Bool>(false)
+
+    let directChatEnabled = Variable<Bool>(false)
+    var directChatPlaceholder = Variable<String>("")
+    let directChatMessages = CollectionVariable<ChatViewMessage>([])
+
+    let isFavorite = Variable<Bool>(false)
+    let favoriteButtonState = Variable<ButtonState>(.enabled)
+    let shareButtonState = Variable<ButtonState>(.hidden)
+    let bumpUpBannerInfo = Variable<BumpUpInfo?>(nil)
+
+    let socialMessage = Variable<SocialMessage?>(nil)
+    let socialSharer = Variable<SocialSharer>(SocialSharer())
 
     fileprivate let source: EventParameterListingVisitSource
     fileprivate let listingListRequester: ListingListRequester
@@ -70,30 +106,48 @@ final class ListingDeckViewModel: BaseViewModel {
                      source: EventParameterListingVisitSource) {
         let pagination = Pagination(first: 0, next: 1, isLast: false)
         let prefetching = Prefetching(previousCount: 1, nextCount: 3)
-        self.init(listing: listing, listingListRequester: listingListRequester, source: source,
+        self.init(initialListing: listing, listingListRequester: listingListRequester, source: source,
                   imageDownloader: ImageDownloader.sharedInstance,
                   listingViewModelMaker: ListingViewModel.ConvenienceMaker(),
-                  pagination: pagination, prefetching: prefetching)
+                  pagination: pagination, prefetching: prefetching, shouldSyncFirstListing: true)
     }
 
-    init(listing: Listing,
+    init(initialListing: Listing?,
          listingListRequester: ListingListRequester,
          source: EventParameterListingVisitSource,
          imageDownloader: ImageDownloaderType, listingViewModelMaker: ListingViewModelMaker,
-         pagination: Pagination, prefetching: Prefetching) {
+         pagination: Pagination, prefetching: Prefetching,
+         shouldSyncFirstListing: Bool) {
         self.imageDownloader = imageDownloader
         self.pagination = pagination
         self.prefetching = prefetching
         self.listingListRequester = listingListRequester
         self.listingViewModelMaker = listingViewModelMaker
         self.source = source
+        self.binder = ListingViewModelBinder()
 
-
-        self.objects.appendContentsOf([listing].flatMap{$0}.map(ListingCarouselCellModel.init))
+        self.objects.appendContentsOf([initialListing].flatMap{$0}.map(ListingCarouselCellModel.init))
         self.pagination.isLast = false
+        if let listing = initialListing {
+            startIndex = objects.value.index(where: { $0.listing.objectId == listing.objectId}) ?? 0
+        } else {
+            startIndex = 0
+        }
 
         super.init()
         moveToProductAtIndex(0, movement: .initial)
+
+        if shouldSyncFirstListing {
+            syncFirstListing()
+        }
+    }
+
+    override func didBecomeActive(_ firstTime: Bool) {
+        if firstTime {
+            // TODO prepare onboarding
+        }
+        // Tracking
+        currentListingViewModel?.trackVisit(.none, source: source, feedPosition: trackingFeedPosition)
     }
 
     func moveToProductAtIndex(_ index: Int, movement: CarouselMovement) {
@@ -101,10 +155,11 @@ final class ListingDeckViewModel: BaseViewModel {
         currentListingViewModel?.active = false
         currentListingViewModel?.delegate = nil
         currentListingViewModel = viewModel
-        //        currentListingViewModel?.delegate = self
+        currentListingViewModel?.delegate = self
         currentListingViewModel?.active = active
+
         currentIndex = index
-        //        setupCurrentProductVMRxBindings(forIndex: index)
+        binder.bindTo(listingViewModel: viewModel)
         prefetchNeighborsImages(index, movement: movement)
 
         // Tracking
@@ -145,6 +200,31 @@ final class ListingDeckViewModel: BaseViewModel {
         return vm
     }
 
+    private func performCollectionChange(change: CollectionChange<ChatViewMessage>) {
+        switch change {
+        case let .insert(index, value):
+            directChatMessages.insert(value, atIndex: index)
+        case let .remove(index, _):
+            directChatMessages.removeAtIndex(index)
+        case let .swap(fromIndex, toIndex, replacingWith):
+            directChatMessages.swap(fromIndex: fromIndex, toIndex: toIndex, replacingWith: replacingWith)
+        case let .move(fromIndex, toIndex, replacingWith):
+            directChatMessages.move(fromIndex: fromIndex, toIndex: toIndex, replacingWith: replacingWith)
+        case let .composite(changes):
+            for change in changes {
+                performCollectionChange(change: change)
+            }
+        }
+    }
+
+    private func syncFirstListing() {
+        currentListingViewModel?.syncListing() { [weak self] in
+            guard let strongSelf = self else { return }
+            guard let listing = strongSelf.currentListingViewModel?.listing.value else { return }
+            let newModel = ListingCarouselCellModel(listing: listing)
+            strongSelf.objects.replace(strongSelf.startIndex, with: newModel)
+        }
+    }
 
     // MARK: Paginable
 
@@ -176,6 +256,84 @@ final class ListingDeckViewModel: BaseViewModel {
     func close() {
         navigator?.closeProductDetail()
     }
+}
+
+// MARK: ListingViewModelDelegate
+
+extension ListingDeckViewModel: ListingViewModelDelegate {
+    func vmShowProductDetailOptions(_ cancelLabel: String, actions: [UIAction]) {
+        var finalActions: [UIAction] = actions
+
+        //Adding show onboarding action
+        let title = LGLocalizedString.productOnboardingShowAgainButtonTitle
+        finalActions.append(UIAction(interface: .text(title), action: { [weak self] in
+            self?.delegate?.vmShowOnboarding()
+        }))
+        delegate?.vmShowCarouselOptions(cancelLabel, actions: finalActions)
+    }
+
+    func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?) {
+        guard let delegate = delegate else { return (UIViewController(), nil) }
+        return delegate.vmShareViewControllerAndItem()
+    }
+
+    var trackingFeedPosition: EventParameterFeedPosition {
+        if let trackingIndex = trackingIndex, currentIndex == startIndex {
+            return .position(index: trackingIndex)
+        } else {
+            return .none
+        }
+    }
+
+    func vmResetBumpUpBannerCountdown() {
+        delegate?.vmResetBumpUpBannerCountdown()
+    }
+
+    // BaseViewModelDelegate forwarding methods
+
+    func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?) {
+        delegate?.vmShowAutoFadingMessage(message, completion: completion)
+    }
+    func vmShowLoading(_ loadingMessage: String?) {
+        delegate?.vmShowLoading(loadingMessage)
+    }
+    func vmHideLoading(_ finishedMessage: String?, afterMessageCompletion: (() -> ())?) {
+        delegate?.vmHideLoading(finishedMessage, afterMessageCompletion: afterMessageCompletion)
+    }
+    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, actions: [UIAction]?) {
+        delegate?.vmShowAlertWithTitle(title, text: text, alertType: alertType, actions: actions)
+    }
+    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, actions: [UIAction]?, dismissAction: (() -> ())?) {
+        delegate?.vmShowAlertWithTitle(title, text: text, alertType: alertType, actions: actions, dismissAction: dismissAction)
+    }
+    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout, actions: [UIAction]?) {
+        delegate?.vmShowAlertWithTitle(title, text: text, alertType: alertType, buttonsLayout: buttonsLayout, actions: actions)
+    }
+    func vmShowAlertWithTitle(_ title: String?, text: String, alertType: AlertType, buttonsLayout: AlertButtonsLayout, actions: [UIAction]?, dismissAction: (() -> ())?) {
+        delegate?.vmShowAlertWithTitle(title, text: text, alertType: alertType, buttonsLayout: buttonsLayout, actions: actions, dismissAction: dismissAction)
+    }
+    func vmShowAlert(_ title: String?, message: String?, actions: [UIAction]) {
+        delegate?.vmShowAlert(title, message: message, actions: actions)
+    }
+    func vmShowAlert(_ title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {
+        delegate?.vmShowAlert(title, message: message, cancelLabel: cancelLabel, actions: actions)
+    }
+    func vmShowActionSheet(_ cancelAction: UIAction, actions: [UIAction]) {
+        delegate?.vmShowActionSheet(cancelAction, actions: actions)
+    }
+    func vmShowActionSheet(_ cancelLabel: String, actions: [UIAction]) {
+        delegate?.vmShowActionSheet(cancelLabel, actions: actions)
+    }
+    func vmOpenInternalURL(_ url: URL) {
+        delegate?.vmOpenInternalURL(url)
+    }
+    func vmPop() {
+        delegate?.vmPop()
+    }
+    func vmDismiss(_ completion: (() -> Void)?) {
+        delegate?.vmDismiss(completion)
+    }
+
 }
 
 // MARK: Paginable
