@@ -97,25 +97,16 @@ class ListingCarouselViewModel: BaseViewModel {
     fileprivate let nextImagesToPrefetch = 3
     fileprivate var prefetchingIndexes: [Int] = []
 
-    fileprivate var shouldShowOnboarding: Bool {
-        let shouldShowOldOnboarding = !featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive
-            && !keyValueStorage[.didShowListingDetailOnboarding]
-        let shouldShowNewOnboarding = featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive
-            && !keyValueStorage[.didShowHorizontalListingDetailOnboarding]
-        return shouldShowOldOnboarding || shouldShowNewOnboarding
-    }
+    fileprivate var shouldShowOnboarding: Bool { return !keyValueStorage[.didShowListingDetailOnboarding] }
 
-    var imageScrollDirection: UICollectionViewScrollDirection {
-        if featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive {
-            return .horizontal
-        }
-        return .vertical
-    }
-
-    let imageHorizontalNavigationEnabled = Variable<Bool>(false)
+    var imageScrollDirection: UICollectionViewScrollDirection = .vertical
 
     var isMyListing: Bool {
         return currentListingViewModel?.isMine ?? false
+    }
+
+    var isStatusLabelClickable: Bool {
+        return featureFlags.featuredRibbonImprovementInDetail == .active
     }
 
     fileprivate var trackingIndex: Int?
@@ -341,6 +332,11 @@ class ListingCarouselViewModel: BaseViewModel {
         guard index >= 0 else { return }
         quickAnswers.value.move(fromIndex: index, toIndex: quickAnswers.value.count-1)
     }
+
+    func statusLabelTapped() {
+        navigator?.openFeaturedInfo()
+        currentListingViewModel?.trackOpenFeaturedInfo()
+    }
     
     
     // MARK: - Private Methods
@@ -366,8 +362,6 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     private func setupRxBindings() {
-        imageHorizontalNavigationEnabled.value = imageScrollDirection == .horizontal
-        
         moreInfoState.asObservable().map { $0 == .shown }.distinctUntilChanged().filter { $0 }.bindNext { [weak self] _ in
             self?.currentListingViewModel?.trackVisitMoreInfo()
             self?.keyValueStorage[.listingMoreInfoTooltipDismissed] = true
@@ -402,18 +396,7 @@ class ListingCarouselViewModel: BaseViewModel {
         currentVM.directChatEnabled.asObservable().bindTo(directChatEnabled).addDisposableTo(activeDisposeBag)
         directChatMessages.removeAll()
         currentVM.directChatMessages.changesObservable.subscribeNext { [weak self] change in
-            switch change {
-            case let .insert(index, value):
-                self?.directChatMessages.insert(value, atIndex: index)
-            case let .remove(index, _):
-                self?.directChatMessages.removeAtIndex(index)
-            case let .swap(fromIndex, toIndex, replacingWith):
-                self?.directChatMessages.swap(fromIndex: fromIndex, toIndex: toIndex, replacingWith: replacingWith)
-            case let .move(fromIndex, toIndex, replacingWith):
-                self?.directChatMessages.move(fromIndex: fromIndex, toIndex: toIndex, replacingWith: replacingWith)
-            case .composite:
-                break
-            }
+            self?.performCollectionChange(change: change)
         }.addDisposableTo(activeDisposeBag)
         directChatPlaceholder.value = currentVM.directChatPlaceholder
 
@@ -426,6 +409,23 @@ class ListingCarouselViewModel: BaseViewModel {
         socialSharer.value = currentVM.socialSharer
 
         moreInfoState.asObservable().bindTo(currentVM.moreInfoState).addDisposableTo(activeDisposeBag)
+    }
+    
+    private func performCollectionChange(change: CollectionChange<ChatViewMessage>) {
+        switch change {
+        case let .insert(index, value):
+            directChatMessages.insert(value, atIndex: index)
+        case let .remove(index, _):
+            directChatMessages.removeAtIndex(index)
+        case let .swap(fromIndex, toIndex, replacingWith):
+            directChatMessages.swap(fromIndex: fromIndex, toIndex: toIndex, replacingWith: replacingWith)
+        case let .move(fromIndex, toIndex, replacingWith):
+            directChatMessages.move(fromIndex: fromIndex, toIndex: toIndex, replacingWith: replacingWith)
+        case let .composite(changes):
+            for change in changes {
+                performCollectionChange(change: change)
+            }            
+        }
     }
 }
 

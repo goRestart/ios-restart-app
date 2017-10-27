@@ -40,7 +40,6 @@ class PostingDetailsViewController: KeyboardViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.setNavigationBarHidden(false, animated: false)
-
         setupConstraints()
         setupUI()
         setupRx()
@@ -74,14 +73,13 @@ class PostingDetailsViewController: KeyboardViewController {
     
     private func setupNavigationBar() {
         guard let navigationController = navigationController as? SellNavigationController else { return }
-        let currentStep = navigationController.currentStep.value
+        let currentStep = navigationController.currentStep
+        setNavBarBackgroundStyle(.transparent(substyle: .dark))
         if currentStep == 1 {
-            setNavBarBackgroundStyle(.transparent(substyle: .dark))
             let closeButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_post_close") , style: UIBarButtonItemStyle.plain,
                                               target: self, action: #selector(PostingDetailsViewController.closeButtonPressed))
             self.navigationItem.leftBarButtonItem = closeButton
         } else {
-            setNavBarBackgroundStyle(.transparent(substyle: .dark))
             let closeButton = UIBarButtonItem(image: #imageLiteral(resourceName: "navbar_back_white_shadow") , style: UIBarButtonItemStyle.plain,
                                               target: self, action: #selector(PostingDetailsViewController.popBackViewController))
             self.navigationItem.leftBarButtonItem = closeButton
@@ -139,5 +137,3 @@ class PostingDetailsViewController: KeyboardViewController {
         viewModel.nextbuttonPressed()
     }
 }
-
-

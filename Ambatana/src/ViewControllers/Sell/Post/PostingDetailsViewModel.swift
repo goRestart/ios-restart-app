@@ -29,41 +29,45 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         var values: [String]
         switch step {
         case .bathrooms:
-            values = NumberOfBathrooms.allValues.flatMap { $0.value }
+            values = NumberOfBathrooms.allValues.flatMap { $0.localizedString }
         case .bedrooms:
-            values = NumberOfBedrooms.allValues.flatMap { $0.value }
+            values = NumberOfBedrooms.allValues.flatMap { $0.localizedString }
         case .offerType:
-            values = RealEstateOfferType.allValues.flatMap { $0.value }
+            values = RealEstateOfferType.allValues.flatMap { $0.localizedString }
         case .propertyType:
-            values = RealEstatePropertyType.allValues.flatMap { $0.value }
+            values = RealEstatePropertyType.allValues.flatMap { $0.localizedString }
         case .price:
-            return UIView()
-        case .summary:
             var currencySymbol: String? = nil
             if let countryCode = locationManager.currentLocation?.countryCode {
                 currencySymbol = currencyHelper.currencyWithCountryCode(countryCode).symbol
             }
-            return PostingAddDetailPriceView(currencySymbol: currencySymbol,
-                                          freeEnabled: featureFlags.freePostingModeAllowed, frame: CGRect.zero)
+            let priceView = PostingAddDetailPriceView(currencySymbol: currencySymbol,
+                                                      freeEnabled: featureFlags.freePostingModeAllowed, frame: CGRect.zero)
+            priceView.priceListing.asObservable().bindTo(priceListing).addDisposableTo(disposeBag)
+            return priceView
+        case .summary:
+            // WIP: https://ambatana.atlassian.net/browse/ABIOS-3079
+            return UIView()
         }
         let view: PostingAddDetailTableView = PostingAddDetailTableView(values: values)
         view.delegate = self
         return view
     }
     
-    
     private let tracker: Tracker
     private let currencyHelper: CurrencyHelper
     private let locationManager: LocationManager
-    private let featureFlags: FeatureFlags
+    private let featureFlags: FeatureFlaggeable
     
     private let step: PostingDetailStep
     private var postListingState: PostListingState
     private var uploadedImageSource: EventParameterPictureSource?
     private let postingSource: PostingSource
     private let postListingBasicInfo: PostListingBasicDetailViewModel
+    private let priceListing = Variable<ListingPrice>(Constants.defaultPrice)
     
     weak var navigator: PostListingNavigator?
+    let disposeBag = DisposeBag()
     
     // MARK: - LifeCycle
     
@@ -91,7 +95,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
          tracker: Tracker,
          currencyHelper: CurrencyHelper,
          locationManager: LocationManager,
-         featureFlags: FeatureFlags) {
+         featureFlags: FeatureFlaggeable) {
         self.step = step
         self.postListingState = postListingState
         self.uploadedImageSource = uploadedImageSource
@@ -104,14 +108,29 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     }
     
     func closeButtonPressed() {
-        navigator?.cancelPostListing()
+        postAndClose()
     }
     
     func nextbuttonPressed() {
         guard let next = step.nextStep else {
-            postListing()
+            postAndClose()
             return
         }
+        if step == .price {
+            priceSet(price: priceListing.value)
+        }
+        advanceNextStep(next: next)
+    }
+    
+    private func postAndClose() {
+        navigator?.openLoginIfNeededFromListingPosted(from: .sell, loggedInAction: { [weak self] in
+            self?.postListing()
+        }, cancelAction: { [weak self] in
+            self?.navigator?.cancelPostListing()
+        })
+    }
+    
+    private func advanceNextStep(next: PostingDetailStep) {
         navigator?.nextPostingDetailStep(step: next, postListingState: postListingState, uploadedImageSource: uploadedImageSource, postingSource: postingSource, postListingBasicInfo: postListingBasicInfo)
     }
     
@@ -131,9 +150,11 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         
         let trackingInfo: PostListingTrackingInfo = PostListingTrackingInfo(buttonName: .summary, sellButtonPosition: postingSource.sellButtonPosition, imageSource: uploadedImageSource, price: String(describing: postListingState.price?.value))
         navigator?.closePostProductAndPostInBackground(params: listingCreationParams, trackingInfo: trackingInfo)
-        navigator?.cancelPostListing()
     }
     
+    private func priceSet(price: ListingPrice) {
+        postListingState = postListingState.updating(price: price)
+    }
     
     // MARK: - PostingAddDetailTableViewDelegate 
     
@@ -158,14 +179,15 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
             return
         }
 
-        var realEstateInfo = postListingState.realEstateInfo ?? RealEstateAttributes.emptyRealEstateAttributes()
+        var realEstateInfo = postListingState.verticalAttributes?.realEstateAttributes ?? RealEstateAttributes.emptyRealEstateAttributes()
         realEstateInfo = realEstateInfo.updating(propertyType: realEstatePropertyType,
                                                  offerType: realEstateOfferType,
                                                  bedrooms: numberOfBedrooms?.rawValue,
                                                  bathrooms: numberOfBathrooms?.rawValue)
         postListingState = postListingState.updating(realEstateInfo: realEstateInfo)
         delay(0.3) { [weak self] in
-            self?.nextbuttonPressed()
+            guard let next = self?.step.nextStep else { return }
+            self?.advanceNextStep(next: next)
         }
     }
     
@@ -189,7 +211,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         case .summary:
             return
         }
-        if let realEstateInfo = postListingState.realEstateInfo {
+        if let realEstateInfo = postListingState.verticalAttributes?.realEstateAttributes {
             let realEstateInfo = realEstateInfo.removing(propertyType: removePropertyType, offerType: removeOfferType, bedrooms: removeBedrooms, bathrooms: removeBathrooms)
             postListingState = postListingState.updating(realEstateInfo: realEstateInfo)
         }

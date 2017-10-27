@@ -16,6 +16,8 @@ enum ListingViewModelStatus {
     case availableFree
     case sold
     case soldFree
+    case pendingAndFeatured
+
 
     // Other Selling:
     case otherAvailable
@@ -29,7 +31,12 @@ enum ListingViewModelStatus {
     init(listing: Listing, isMine: Bool, featureFlags: FeatureFlaggeable) {
         switch listing.status {
         case .pending:
-            self = isMine ? .pending : .notAvailable
+            if isMine {
+                let featured = listing.featured ?? false
+                self = featured ? .pendingAndFeatured : .pending
+            } else {
+                self = .notAvailable
+            }
         case .discarded, .deleted:
             self = .notAvailable
         case .approved:
@@ -49,7 +56,7 @@ enum ListingViewModelStatus {
 
     var isEditable: Bool {
         switch self {
-        case .pending, .available, .availableFree:
+        case .pending, .available, .availableFree, .pendingAndFeatured:
             return true
         case .notAvailable, .sold, .otherSold, .otherAvailable, .otherSoldFree, .soldFree, .otherAvailableFree:
             return false
@@ -61,7 +68,7 @@ enum ListingViewModelStatus {
         case .availableFree, .otherAvailableFree, .otherSoldFree, .soldFree :
             return true
         case .pending, .available, .notAvailable, .sold,
-             .otherSold, .otherAvailable:
+             .otherSold, .otherAvailable, .pendingAndFeatured:
             return false
         }
     }
@@ -71,7 +78,7 @@ enum ListingViewModelStatus {
         case .sold, .soldFree:
             return true
         case .pending, .available, .availableFree, .otherAvailable, .otherAvailableFree, .otherSold, .otherSoldFree,
-             .notAvailable:
+             .notAvailable, .pendingAndFeatured:
             return false
         }
     }
@@ -81,7 +88,7 @@ enum ListingViewModelStatus {
         case .availableFree, .otherAvailableFree, .available, .otherAvailable:
             return true
         case .pending, .notAvailable, .sold, .otherSold,
-             .otherSoldFree, .soldFree:
+             .otherSoldFree, .soldFree, .pendingAndFeatured:
             return false
         }
     }
@@ -89,7 +96,7 @@ enum ListingViewModelStatus {
     var directChatsAvailable: Bool {
         switch self {
         case .pending, .available, .soldFree,
-             .otherSoldFree, .availableFree, .notAvailable, .sold, .otherSold:
+             .otherSoldFree, .availableFree, .notAvailable, .sold, .otherSold, .pendingAndFeatured:
             return false
         case  .otherAvailable,  .otherAvailableFree:
             return true
@@ -101,7 +108,7 @@ enum ListingViewModelStatus {
         case .sold, .otherSold, .soldFree, .otherSoldFree:
             return true
         case .pending, .available, .otherAvailable, .availableFree, .otherAvailableFree,
-             .notAvailable:
+             .notAvailable, .pendingAndFeatured:
             return false
         }
     }
@@ -113,7 +120,7 @@ enum ListingViewModelStatus {
         case .soldFree, .otherSoldFree:
             return LGLocalizedString.productListItemGivenAwayStatusLabel
         case .pending, .available, .otherAvailable, .availableFree, .otherAvailableFree,
-             .notAvailable:
+             .notAvailable, .pendingAndFeatured:
             return nil
         }
     }
@@ -123,7 +130,7 @@ enum ListingViewModelStatus {
         case .sold, .otherSold, .soldFree, .otherSoldFree:
             return UIColor.white
         case .pending, .available, .otherAvailable,
-             .notAvailable, .availableFree, .otherAvailableFree:
+             .notAvailable, .availableFree, .otherAvailableFree, .pendingAndFeatured:
             return UIColor.clear
         }
     }
@@ -135,14 +142,14 @@ enum ListingViewModelStatus {
         case .soldFree, .otherSoldFree:
             return UIColor.soldFreeColor
         case .pending, .available, .otherAvailable,
-             .notAvailable, .availableFree, .otherAvailableFree:
+             .notAvailable, .availableFree, .otherAvailableFree, .pendingAndFeatured:
             return UIColor.clear
         }
     }
 
-    var isBumpeable: Bool {
+    var shouldRefreshBumpBanner: Bool {
         switch self {
-        case .available, .availableFree:
+        case .available, .availableFree, .pendingAndFeatured:
             return true
         case .otherAvailable, .otherAvailableFree, .pending, .notAvailable, .sold, .otherSold, .otherSoldFree, .soldFree:
             return false

@@ -10,7 +10,7 @@ import Foundation
 import LGCoreKit
 
 extension RealEstatePropertyType {
-    var value: String {
+    var localizedString: String {
         switch self {
         case .apartment:
             return LGLocalizedString.realEstateTypePropertyApartment

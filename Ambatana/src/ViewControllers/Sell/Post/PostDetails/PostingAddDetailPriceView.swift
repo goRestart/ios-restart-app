@@ -9,6 +9,7 @@
 import LGCoreKit
 import RxSwift
 
+
 class PostingAddDetailPriceView: UIView {
     
     static private let currencyWidth: CGFloat = 20
@@ -27,6 +28,8 @@ class PostingAddDetailPriceView: UIView {
     
     private let currencySymbol: String?
     private let freeEnabled: Bool
+    
+    var priceListing = Variable<ListingPrice>(Constants.defaultPrice)
     
     private let disposeBag = DisposeBag()
     
@@ -122,11 +125,22 @@ class PostingAddDetailPriceView: UIView {
     }
     
     private func setupRx() {
-        freeActive.asObservable().debug().bindTo(freeSwitch.rx.value(animated: true)).addDisposableTo(disposeBag)
+        freeActive.asObservable().bindTo(freeSwitch.rx.value(animated: true)).addDisposableTo(disposeBag)
         freeActive.asObservable().bindNext{[weak self] active in
             self?.showPriceContainer(hide: active)
             }.addDisposableTo(disposeBag)
         freeSwitch.rx.isOn.asObservable().bindTo(freeActive).addDisposableTo(disposeBag)
+        
+        Observable.combineLatest(freeSwitch.rx.isOn.asObservable(), priceTextField.rx.text.asObservable()) { ($0, $1) }.bindNext { [weak self] (isOn, textFieldValue) in
+            guard let strongSelf = self else { return }
+            if isOn {
+               strongSelf.priceListing.value = .free
+            } else if let value = textFieldValue, let price = Double(value) {
+                strongSelf.priceListing.value = .normal(price)
+            } else {
+                strongSelf.priceListing.value = Constants.defaultPrice
+            }
+        }.addDisposableTo(disposeBag)
     }
     
     private func showPriceContainer(hide: Bool) {

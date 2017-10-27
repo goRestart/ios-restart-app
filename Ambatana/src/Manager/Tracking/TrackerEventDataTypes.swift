@@ -167,6 +167,7 @@ enum EventName: String {
     case onboardingInterestsComplete        = "onboarding-interests-complete"
     case categoriesStart                    = "categories-start"
     case categoriesComplete                 = "categories-complete"
+    case featuredMoreInfo                   = "featured-more-info"
     
 
     // Constants
@@ -248,6 +249,7 @@ enum EventParameterName: String {
     case tab                  = "tab"
     case userAction           = "user-action"
     case appRatingSource      = "app-rating-source"
+    case appRatingReason     = "app-rating-reason"
     case messageType          = "message-type"
     case ratingStars          = "rating-stars"
     case ratingComments       = "rating-comments"
@@ -695,6 +697,11 @@ enum EventParameterRatingSource: String {
     case listingSellComplete = "product-sell-complete"
     case markedSold = "marked-sold"
     case favorite = "favorite"
+}
+
+enum EventParameterUserDidRateReason: String {
+    case happy = "happy"
+    case sad = "sad"
 }
 
 enum EventParameterListingVisitSource: String {

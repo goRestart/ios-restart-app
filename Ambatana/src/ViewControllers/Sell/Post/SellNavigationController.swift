@@ -15,27 +15,23 @@ class SellNavigationController: UINavigationController {
     
     static let progressViewHeight: CGFloat = 5
     
-    fileprivate let disposeBag: DisposeBag
+    fileprivate let disposeBag = DisposeBag()
+    fileprivate let viewModel: SellNavigationViewModel
     
     let progressView = UIView()
     let backgroundProgressView = UIView()
-    let numberOfSteps = Variable<CGFloat>(0)
-    let categorySelected = Variable<PostCategory?>(nil)
-    let currentStep = Variable<CGFloat>(0)
-    var shouldModifyProgress: Bool = false
     
-    var progressVarFilled: CGFloat {
-        guard numberOfSteps.value > 0 else { return 0 }
-        return (UIScreen.main.bounds.width/numberOfSteps.value)*currentStep.value
+    var currentStep: CGFloat {
+        return viewModel.actualStep
     }
     
     override init(rootViewController: UIViewController) {
-        self.disposeBag = DisposeBag()
+        self.viewModel = SellNavigationViewModel()
         super.init(rootViewController: rootViewController)
     }
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        self.disposeBag = DisposeBag()
+        self.viewModel = SellNavigationViewModel()
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
 
@@ -55,60 +51,60 @@ class SellNavigationController: UINavigationController {
         guard let image = image else { return }
         let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.frame = view.bounds
+        blurEffectView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(blurEffectView)
-        self.view.sendSubview(toBack:blurEffectView)
+        blurEffectView.layout(with: view).fill()
+        view.sendSubview(toBack:blurEffectView)
         
         let background = UIImageView()
         background.image = image
-        background.frame = view.bounds
+        background.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(background)
-        self.view.sendSubview(toBack:background)
+        background.layout(with: view).fill()
+        view.sendSubview(toBack:background)
     }
     
-    func updating(category: PostCategory?) {
-        categorySelected.value = category
+    func startDetails(category: PostCategory?) {
+        viewModel.shouldModifyProgress = true
+        viewModel.categorySelected.value = category
     }
     
     override func pushViewController(_ viewController: UIViewController, animated: Bool) {
         super.pushViewController(viewController, animated: animated)
-        if shouldModifyProgress {
-            currentStep.value = currentStep.value + 1
-            UIView.animate(withDuration: 0.3) { [weak self] in
-                guard let strongSelf = self else { return }
-                strongSelf.progressView.frame = CGRect(x: 0, y: 0, width: strongSelf.progressVarFilled, height: SellNavigationController.progressViewHeight)
-                strongSelf.progressView.layoutIfNeeded()
-            }
+        viewModel.navigationControllerPushed()
+        let witdh = viewModel.widthToFill(totalWidth: view.width)
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.progressView.frame = CGRect(x: 0, y: 0, width: witdh, height: SellNavigationController.progressViewHeight)
+            strongSelf.progressView.layoutIfNeeded()
         }
     }
-    
+
     override func popViewController(animated: Bool) -> UIViewController? {
-        if shouldModifyProgress {
-            currentStep.value = currentStep.value - 1
+        viewModel.navigationControllerPop()
+            let witdh = viewModel.widthToFill(totalWidth: view.width)
             UIView.animate(withDuration: 0.3) { [weak self] in
                 guard let strongSelf = self else { return }
-                strongSelf.progressView.frame = CGRect(x: 0, y: 0, width: strongSelf.progressVarFilled, height: SellNavigationController.progressViewHeight)
+                strongSelf.progressView.frame = CGRect(x: 0, y: 0, width: witdh, height: SellNavigationController.progressViewHeight)
                 strongSelf.progressView.layoutIfNeeded()
             }
-        }
         return super.popViewController(animated: animated)
     }
     
     func setupRx() {
-        currentStep.asObservable().map { $0 == 0 }.bindTo(progressView.rx.isHidden).addDisposableTo(disposeBag)
-        currentStep.asObservable().map { $0 == 0 }.bindTo(backgroundProgressView.rx.isHidden).addDisposableTo(disposeBag)
-        categorySelected.asObservable().map { $0?.numberOfSteps }.bindNext { [weak self] number in
-                self?.numberOfSteps.value = number ?? 0
+        viewModel.currentStep.asObservable().map { $0 == 0 }.bindTo(progressView.rx.isHidden).addDisposableTo(disposeBag)
+        viewModel.currentStep.asObservable().map { $0 == 0 }.bindTo(backgroundProgressView.rx.isHidden).addDisposableTo(disposeBag)
+        viewModel.categorySelected.asObservable().map { $0?.numberOfSteps }.bindNext { [weak self] number in
+                self?.viewModel.numberOfSteps.value = number ?? 0
             }.addDisposableTo(disposeBag)
     }
     
     func setupUI() {
         progressView.backgroundColor = UIColor.white
         backgroundProgressView.backgroundColor = UIColor(white: 0, alpha: 0.20)
-        
-        progressView.frame = CGRect(x: 0, y: 0, width: progressVarFilled, height: SellNavigationController.progressViewHeight)
+        let witdh = viewModel.widthToFill(totalWidth: view.width)
+        progressView.frame = CGRect(x: 0, y: 0, width: witdh, height: SellNavigationController.progressViewHeight)
         view.addSubview(progressView)
-        
         backgroundProgressView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: SellNavigationController.progressViewHeight)
         view.addSubview(backgroundProgressView)
         view.sendSubview(toBack: backgroundProgressView)
@@ -118,9 +114,6 @@ class SellNavigationController: UINavigationController {
 extension SellNavigationController: UINavigationControllerDelegate {
     
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return AlphaAnimator(operation: operation)
+        return ContentViewPushAnimatedTransitioning(operation: operation)
     }
 }
-
-
-

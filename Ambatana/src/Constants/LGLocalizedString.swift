@@ -1183,6 +1183,22 @@ struct LGLocalizedString {
 		return NSLocalizedString("edit_product_unsaved_changes_alert_ok", comment: "")
 	}
 
+	static var featuredInfoViewTitle: String {
+		return NSLocalizedString("featured_info_view_title", comment: "")
+	}
+
+	static var featuredInfoViewSellFaster: String {
+		return NSLocalizedString("featured_info_view_sell_faster", comment: "")
+	}
+
+	static var featuredInfoViewIncreaseVisibility: String {
+		return NSLocalizedString("featured_info_view_increase_visibility", comment: "")
+	}
+
+	static var featuredInfoViewMoreBuyers: String {
+		return NSLocalizedString("featured_info_view_more_buyers", comment: "")
+	}
+
 	static var filtersDistanceNotSet: String {
 		return NSLocalizedString("filters_distance_not_set", comment: "")
 	}

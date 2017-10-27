@@ -614,6 +614,9 @@ extension PostListingViewController: PostListingCameraViewDelegate {
     }
 
     func productCameraDidTakeImage(_ image: UIImage) {
+        if let navigationController = navigationController as? SellNavigationController {
+            navigationController.updateBackground(image: cameraGalleryContainer.takeSnapshot())
+        }
         viewModel.imagesSelected([image], source: .camera)
     }
 
