@@ -212,7 +212,7 @@
 "common_ok" = "OK";
 "common_product_given_away" = "Sản phẩm đã được tặng";
 "common_product_not_available" = "Ồ! Sản phẩm này không còn nữa";
-"common_product_sold" = "Sản phẩm này đã được bán.";
+"common_product_sold" = "Sản phẩm đã bán";
 "common_settings" = "Cài đặt";
 "common_short_time_day_ago_label" = "%d ngày";
 "common_short_time_days_ago_label" = "%d ngày";
@@ -292,6 +292,12 @@
 "edit_product_title" = "Chỉnh sửa Sản phẩm";
 "edit_product_unsaved_changes_alert" = "Bạn có chắc chắn muốn rời khỏi trang này? Thay đổi sẽ bị mất.";
 "edit_product_unsaved_changes_alert_ok" = "Rời";
+"featured_info_view_increase_visibility" = "Get more visibility";
+"featured_info_view_more_buyers" = "Attract more buyers";
+"featured_info_view_sell_faster" = "Bán nhanh hơn";
+"featured_info_view_sell_increase_visibility" = "Dễ nhìn hơn";
+"featured_info_view_sell_more_buyers" = "Thu hút thêm người mua";
+"featured_info_view_title" = "Bài đăng Nổi bật";
 "filter_results_cars_no_matches" = "Không có kết quả chính xác cho tìm kiếm của bạn.\nHiển thị kết quả tương tự. ";
 "filter_results_cars_other_results" = "Được đăng gần đây tại khu vực của bạn";
 "filters_car_make_not_set" = "Chưa Cài Đặt";

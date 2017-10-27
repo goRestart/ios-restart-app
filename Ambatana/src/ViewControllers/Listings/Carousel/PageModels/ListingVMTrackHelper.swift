@@ -84,6 +84,10 @@ extension ListingViewModel {
     func trackBumpUpNotAllowedContactUs(reason: EventParameterBumpUpNotAllowedReason) {
         trackHelper.trackBumpUpNotAllowedContactUs(reason: reason)
     }
+
+    func trackOpenFeaturedInfo() {
+        trackHelper.trackOpenFeaturedInfo()
+    }
 }
 
 
@@ -166,6 +170,11 @@ extension ProductVMTrackHelper {
 
     func trackBumpUpNotAllowedContactUs(reason: EventParameterBumpUpNotAllowedReason) {
         let trackerEvent = TrackerEvent.bumpUpNotAllowedContactUs(reason)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func trackOpenFeaturedInfo() {
+        let trackerEvent = TrackerEvent.productDetailOpenFeaturedInfoForListing(listingId: listing.objectId)
         tracker.trackEvent(trackerEvent)
     }
 }

@@ -749,4 +749,12 @@ extension ListingViewModelSpec: ListingDetailNavigator {
     func openContactUs(forListing listing: Listing, contactUstype: ContactUsType) {
 
     }
+
+    func openFeaturedInfo() {
+
+    }
+
+    func closeFeaturedInfo() {
+
+    }
 }

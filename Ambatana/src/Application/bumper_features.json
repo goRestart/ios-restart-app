@@ -116,6 +116,11 @@
         "description": "hide chat button on the featured listing cells"
     },
     {
+        "name": "FeaturedRibbonImprovementInDetail",
+        "values": ["control", "baseline", "active"],
+        "description": "Featured ribbon in product detail is clickable"
+    },
+    {
         "name": "SuperKeywordGroupsAndSubgroupsInFeed",
         "values": ["control", "baseline", "active"],
         "description": "Super keywords groups and subgroups in feed as bubble filters"
