@@ -52,9 +52,11 @@ class LGConfigRetrieveService: ConfigRetrieveService {
 }
 
 extension DataRequest {
-
     @discardableResult
-    func responseObject<T: ResponseObjectSerializable>(_ completionHandler: @escaping (DataResponse<T>) -> Void) -> Self {
+    func responseObject<T: Decodable>(_ completionHandler: @escaping (DataResponse<T>) -> Void) -> Self {
+        //let sut: Config! = try? JSONDecoder().decode(Config.self, from: json)
+        
+        
         let responseSerializer = DataResponseSerializer<T> { request, response, data, error in
             if let error = error { return .failure(error) }
 

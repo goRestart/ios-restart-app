@@ -6,90 +6,53 @@
 //
 //
 
-import Alamofire
-import Argo
-import LGCoreKit
-
-class Config: ResponseObjectSerializable {
-
-    // Constant
-    static let currentVersionInfoJSONKey = "currentVersionInfo"
-    private static let buildNumberJSONKey = "buildNumber"
-    private static let forceUpdateVersionsJSONKey = "forceUpdateVersions"
-    private static let configURLJSONKey = "configURL"
-    private static let quadKeyZoomLevelJSONKey = "quadKeyZoomLevel"
-
-    private(set) var buildNumber : Int
-    private(set) var forceUpdateVersions : [Int]
-    private(set) var configURL : String
-    private(set) var quadKeyZoomLevel: Int
+struct Config: Codable {
+    let buildNumber: Int
+    let forceUpdateVersions: [Int]
+    let configURL: String
+    let quadKeyZoomLevel: Int
     
-
-    // MARK : - Lifecycle
-
-    convenience init() {
-        self.init(buildNumber: 0,
-                  forceUpdateVersions: [],
-                  configURL: "",
-                  quadKeyZoomLevel: Constants.defaultQuadKeyZoomLevel)
+    enum CodingKeys: String, CodingKey {
+        case currentVersionInfo
+        case configURL
+        case quadKeyZoomLevel
     }
-
-    init(buildNumber: Int,
-         forceUpdateVersions: [Int],
-         configURL: String,
-         quadKeyZoomLevel: Int) {
-        self.buildNumber = buildNumber
-        self.forceUpdateVersions = forceUpdateVersions
-        self.configURL = configURL
-        self.quadKeyZoomLevel = quadKeyZoomLevel
+    
+    enum CurrentVersionInfoKeys: String, CodingKey {
+        case buildNumber
+        case forceUpdateVersions
     }
-
-    required convenience init?(response: HTTPURLResponse, representation: Any) {
-        let json = JSON(representation)
-        self.init(json: json)
-    }
-
-    required convenience init?(data: Data) {
-        guard let json = JSON.parse(data: data) else {
-            return nil
+    
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        
+        do {
+            let currentVersionInfo = try values.nestedContainer(keyedBy: CurrentVersionInfoKeys.self,
+                                                                forKey: .currentVersionInfo)
+            buildNumber = (try? currentVersionInfo.decode(Int.self, forKey: .buildNumber)) ?? 0
+            forceUpdateVersions = (try? currentVersionInfo.decode([Int].self, forKey: .forceUpdateVersions)) ?? []
+        } catch jsonError {
+            buildNumber = 0
+            forceUpdateVersions = []
         }
-        self.init(json: json)
-    }
-
-    required convenience init(json: JSON) {
-        self.init()
-
-        if let currentVersionInfo: JSON = json.decode(Config.currentVersionInfoJSONKey) {
-            if let buildNumber: Int = currentVersionInfo.decode(Config.buildNumberJSONKey) {
-                self.buildNumber = buildNumber
-            }
-            if let forceUpdateVersions: [Int] = currentVersionInfo.decode(Config.forceUpdateVersionsJSONKey) {
-                self.forceUpdateVersions = forceUpdateVersions
-            }
-        }
-
-        if let cfgURL : String = json.decode(Config.configURLJSONKey) {
-            self.configURL = cfgURL
-        }
-
-        if let quadKeyZoomLevel: Int = json.decode(Config.quadKeyZoomLevelJSONKey) {
-            self.quadKeyZoomLevel = quadKeyZoomLevel
+        
+        configURL = (try? values.decode(String.self, forKey: .configURL)) ?? ""
+        
+        do {
+            quadKeyZoomLevel = try values.decode(Int.self, forKey: .quadKeyZoomLevel)
+        } catch {
+            quadKeyZoomLevel =  Constants.defaultQuadKeyZoomLevel
         }
     }
-
-    // MARK : - Public Methods
-
-    func jsonRepresentation() -> Any {
-        var tmpFinalDic : [String:Any] = [:]
-        var tmpCurrentVersionDic : [String:Any] = [:]
-
-        tmpCurrentVersionDic[Config.buildNumberJSONKey] = buildNumber
-        tmpCurrentVersionDic[Config.forceUpdateVersionsJSONKey] = forceUpdateVersions
-
-        tmpFinalDic[Config.currentVersionInfoJSONKey] = tmpCurrentVersionDic
-        tmpFinalDic[Config.configURLJSONKey] = configURL
-        tmpFinalDic[Config.quadKeyZoomLevelJSONKey] = quadKeyZoomLevel
-
-        return tmpFinalDic
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        var currentVersionInfo = container.nestedContainer(keyedBy: CurrentVersionInfoKeys.self,
+                                                           forKey: .currentVersionInfo)
+        try currentVersionInfo.encode(buildNumber, forKey: .buildNumber)
+        try currentVersionInfo.encode(forceUpdateVersions, forKey: .forceUpdateVersions)
+        
+        try container.encode(configURL, forKey: .configURL)
+        try container.encode(quadKeyZoomLevel, forKey: .quadKeyZoomLevel)
     }
 }

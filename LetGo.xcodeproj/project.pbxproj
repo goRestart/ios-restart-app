@@ -411,7 +411,6 @@
 		50D08DA61E69AF14009CC260 /* RatingManagerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D541E69AF14009CC260 /* RatingManagerSpec.swift */; };
 		50D08DA71E69AF14009CC260 /* iOScfgMockKOIncomplete.json in Resources */ = {isa = PBXBuildFile; fileRef = 50D08D571E69AF14009CC260 /* iOScfgMockKOIncomplete.json */; };
 		50D08DA81E69AF14009CC260 /* iOScfgMockOK.json in Resources */ = {isa = PBXBuildFile; fileRef = 50D08D581E69AF14009CC260 /* iOScfgMockOK.json */; };
-		50D08DA91E69AF14009CC260 /* iOScfgReadDAO.json in Resources */ = {isa = PBXBuildFile; fileRef = 50D08D591E69AF14009CC260 /* iOScfgReadDAO.json */; };
 		50D08DAA1E69AF14009CC260 /* MockConfigFileDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D5A1E69AF14009CC260 /* MockConfigFileDAO.swift */; };
 		50D08DAB1E69AF14009CC260 /* MockConfigRetrieveService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D5B1E69AF14009CC260 /* MockConfigRetrieveService.swift */; };
 		50D08DAC1E69AF14009CC260 /* No_JSON.txt in Resources */ = {isa = PBXBuildFile; fileRef = 50D08D5C1E69AF14009CC260 /* No_JSON.txt */; };
@@ -1692,7 +1691,6 @@
 		50D08D541E69AF14009CC260 /* RatingManagerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingManagerSpec.swift; sourceTree = "<group>"; };
 		50D08D571E69AF14009CC260 /* iOScfgMockKOIncomplete.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = iOScfgMockKOIncomplete.json; sourceTree = "<group>"; };
 		50D08D581E69AF14009CC260 /* iOScfgMockOK.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = iOScfgMockOK.json; sourceTree = "<group>"; };
-		50D08D591E69AF14009CC260 /* iOScfgReadDAO.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = iOScfgReadDAO.json; sourceTree = "<group>"; };
 		50D08D5A1E69AF14009CC260 /* MockConfigFileDAO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockConfigFileDAO.swift; sourceTree = "<group>"; };
 		50D08D5B1E69AF14009CC260 /* MockConfigRetrieveService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockConfigRetrieveService.swift; sourceTree = "<group>"; };
 		50D08D5C1E69AF14009CC260 /* No_JSON.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = No_JSON.txt; sourceTree = "<group>"; };
@@ -3061,7 +3059,6 @@
 			children = (
 				50D08D571E69AF14009CC260 /* iOScfgMockKOIncomplete.json */,
 				50D08D581E69AF14009CC260 /* iOScfgMockOK.json */,
-				50D08D591E69AF14009CC260 /* iOScfgReadDAO.json */,
 				50D08D5A1E69AF14009CC260 /* MockConfigFileDAO.swift */,
 				50D08D5B1E69AF14009CC260 /* MockConfigRetrieveService.swift */,
 				50D08D5C1E69AF14009CC260 /* No_JSON.txt */,
@@ -4520,7 +4517,6 @@
 				50D08DA81E69AF14009CC260 /* iOScfgMockOK.json in Resources */,
 				50D08DA71E69AF14009CC260 /* iOScfgMockKOIncomplete.json in Resources */,
 				0A8275101F7D194800A6A0C5 /* DeferredDeepLinkFacebookTargetCategory.json in Resources */,
-				50D08DA91E69AF14009CC260 /* iOScfgReadDAO.json in Resources */,
 				0A6D88C91F7D058B00819E89 /* DeferredDeepLinkTargetSearchQuery.json in Resources */,
 				50D08DAC1E69AF14009CC260 /* No_JSON.txt in Resources */,
 			);
