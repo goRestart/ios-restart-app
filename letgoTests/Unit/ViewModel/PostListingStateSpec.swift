@@ -200,7 +200,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                 }
                 
-                fcontext("adding details") {
+                context("adding details") {
                     beforeEach {
                         sut = PostListingState(postCategory: .realEstate)
                         sut = sut.updatingStepToUploadingImages()
