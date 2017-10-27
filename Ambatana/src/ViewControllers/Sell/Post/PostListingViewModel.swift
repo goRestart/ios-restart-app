@@ -47,7 +47,7 @@ class PostListingViewModel: BaseViewModel {
     let state: Variable<PostListingState>
     let category: Variable<PostCategory?>
 
-    let postDetailViewModel: PostListingDetailViewModel
+    let postDetailViewModel: PostListingBasicDetailViewModel
     let postListingCameraViewModel: PostListingCameraViewModel
     let postingSource: PostingSource
     let postCategory: PostCategory?
@@ -61,7 +61,7 @@ class PostListingViewModel: BaseViewModel {
     fileprivate let featureFlags: FeatureFlaggeable
     fileprivate let locationManager: LocationManager
     
-    private var imagesSelected: [UIImage]?
+    fileprivate var imagesSelected: [UIImage]?
     fileprivate var uploadedImageSource: EventParameterPictureSource?
     
     let selectedDetail = Variable<CategoryDetailSelectedInfo?>(nil)
@@ -111,7 +111,7 @@ class PostListingViewModel: BaseViewModel {
         self.listingRepository = listingRepository
         self.fileRepository = fileRepository
         self.carsInfoRepository = carsInfoRepository
-        self.postDetailViewModel = PostListingDetailViewModel()
+        self.postDetailViewModel = PostListingBasicDetailViewModel()
         self.postListingCameraViewModel = PostListingCameraViewModel(postingSource: source)
         self.tracker = tracker
         self.sessionManager = sessionManager
@@ -147,6 +147,7 @@ class PostListingViewModel: BaseViewModel {
     func imagesSelected(_ images: [UIImage], source: EventParameterPictureSource) {
         uploadedImageSource = source
         imagesSelected = images
+        
         guard sessionManager.loggedIn else {
             state.value = state.value.updating(pendingToUploadImages: images)
             return
@@ -174,34 +175,12 @@ class PostListingViewModel: BaseViewModel {
                 return
             }
             
-            var listingParams: ListingCreationParams?
-            if let category = category.value {
-                switch category {
-                case .car:
-                    if let carParams = makeCarCreationParams(images: images) {
-                        listingParams = ListingCreationParams.car(carParams)
-                    }
-                case .realEstate:
-                    if let realEstateParams = makeRealEstateCreationParams(images: images) {
-                        listingParams = ListingCreationParams.realEstate(realEstateParams)
-                    }
-                case .motorsAndAccessories, .unassigned:
-                    if let productParams = makeProductCreationParams(images: images) {
-                        listingParams = ListingCreationParams.product(productParams)
-                    }
-                }
-            } else {
-                if let productParams = makeProductCreationParams(images: images) {
-                    listingParams = ListingCreationParams.product(productParams)
-                }
-            }
-            
-            if let params = listingParams {
+            if let listingParams = makeListingParams(images: images) {
                 let trackingInfo = PostListingTrackingInfo(buttonName: .close,
                                                            sellButtonPosition: postingSource.sellButtonPosition,
                                                            imageSource: uploadedImageSource,
                                                            price: postDetailViewModel.price.value)
-                navigator?.closePostProductAndPostInBackground(params: params,
+                navigator?.closePostProductAndPostInBackground(params: listingParams,
                                                                trackingInfo: trackingInfo)
             } else {
                 navigator?.cancelPostListing()
@@ -316,10 +295,10 @@ extension PostListingViewModel {
     }
 }
 
-// MARK: - PostListingDetailViewModelDelegate
+// MARK: - PostListingBasicDetailViewModelDelegate
 
-extension PostListingViewModel: PostListingDetailViewModelDelegate {
-    func postListingDetailDone(_ viewModel: PostListingDetailViewModel) {
+extension PostListingViewModel: PostListingBasicDetailViewModelDelegate {
+    func postListingDetailDone(_ viewModel: PostListingBasicDetailViewModel) {
         state.value = state.value.updating(price: viewModel.listingPrice)
     }
 }
@@ -337,6 +316,10 @@ fileprivate extension PostListingViewModel {
         state.asObservable().filter { $0.step == .finished }.bindNext { [weak self] _ in
             self?.postListing()
         }.addDisposableTo(disposeBag)
+        
+        state.asObservable().filter { $0.step == .addingDetails }.bindNext { [weak self] _ in
+            self?.openPostingDetails()
+            }.addDisposableTo(disposeBag)
         
         state.asObservable().filter { $0.step == .uploadSuccess }.bindNext { [weak self] _ in
             // Keep one second delay in order to give time to read the product posted message.
@@ -384,87 +367,25 @@ fileprivate extension PostListingViewModel {
         }
     }
     
+    func openPostingDetails() {
+        navigator?.startDetails(postListingState: state.value,
+                                uploadedImageSource: uploadedImageSource,
+                                postingSource: postingSource,
+                                postListingBasicInfo: postDetailViewModel)
+    }
+    
     func makeListingParams(images:[File]) -> ListingCreationParams? {
-        var listingParams: ListingCreationParams? = nil
-        if let category = category.value {
-            switch category {
-            case .realEstate:
-                if let realEstateParams = makeRealEstateCreationParams(images: images) {
-                    listingParams = ListingCreationParams.realEstate(realEstateParams)
-                }
-            case .car:
-                if let carParams = makeCarCreationParams(images: images) {
-                    listingParams = ListingCreationParams.car(carParams)
-                }
-            case .unassigned, .motorsAndAccessories:
-                if let productParams = makeProductCreationParams(images: images) {
-                    listingParams = ListingCreationParams.product(productParams)
-                }
-            }
-        } else {
-            if let productParams = makeProductCreationParams(images: images) {
-                listingParams = ListingCreationParams.product(productParams)
-            }
-        }
-        return listingParams
-    }
-
-    func makeProductCreationParams(images: [File]) -> ProductCreationParams? {
         guard let location = locationManager.currentLocation?.location else { return nil }
-        let price = postDetailViewModel.listingPrice
-        let title = postDetailViewModel.listingTitle
-        let description = postDetailViewModel.listingDescription
-        let listingCategory = category.value?.listingCategory ?? .unassigned
+        let title = postDetailViewModel.listingTitle ?? ""
+        let description = postDetailViewModel.listingDescription ?? ""
         let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()
         let currency = currencyHelper.currencyWithCountryCode(postalAddress.countryCode ?? Constants.currencyDefault)
-        return ProductCreationParams(name: title,
-                                     description: description,
-                                     price: price,
-                                     category: listingCategory,
-                                     currency: currency,
-                                     location: location,
-                                     postalAddress: postalAddress,
-                                     images: images)
-    }
-    
-    func makeCarCreationParams(images: [File]) -> CarCreationParams? {
-        guard let location = locationManager.currentLocation?.location else { return nil }
-        let price = postDetailViewModel.listingPrice
-        var title = postDetailViewModel.listingTitle
-        title = title ?? selectedCarAttributes.generatedCarName()
-
-        let description = postDetailViewModel.listingDescription
-        let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()
-        let currency = currencyHelper.currencyWithCountryCode(postalAddress.countryCode ?? Constants.currencyDefault)
-        return CarCreationParams(name: title,
-                                 description: description,
-                                 price: price,
-                                 category: .cars,
-                                 currency: currency,
-                                 location: location,
-                                 postalAddress: postalAddress,
-                                 images: images,
-                                 carAttributes: selectedCarAttributes)
-    }
-    
-    func makeRealEstateCreationParams(images: [File]) -> RealEstateCreationParams? {
-        guard let location = locationManager.currentLocation?.location else { return nil }
-        let price = postDetailViewModel.listingPrice
-        var title = postDetailViewModel.listingTitle
-        title = title ?? ""
-        
-        let description = postDetailViewModel.listingDescription
-        let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()
-        let currency = currencyHelper.currencyWithCountryCode(postalAddress.countryCode ?? Constants.currencyDefault)
-        return RealEstateCreationParams(name: title,
-                                 description: description,
-                                 price: price,
-                                 category: .cars,
-                                 currency: currency,
-                                 location: location,
-                                 postalAddress: postalAddress,
-                                 images: images,
-                                 realEstateAttributes: selectedRealEstateAttributes)
+        return ListingCreationParams.make(title: title,
+                                   description: description,
+                                   currency: currency,
+                                   location: location,
+                                   postalAddress: postalAddress,
+                                   postListingState: state.value)
     }
 }
 

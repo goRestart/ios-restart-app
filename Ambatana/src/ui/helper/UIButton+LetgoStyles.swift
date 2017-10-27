@@ -24,10 +24,11 @@ enum ButtonStyle {
     case logout
     case darkField
     case lightField
+    case postingFlow
     
     var titleColor: UIColor {
         switch self {
-        case .primary, .terciary, .google, .facebook, .dark, .logout:
+        case .primary, .terciary, .google, .facebook, .dark, .logout, .postingFlow:
             return UIColor.white
         case .secondary:
             return UIColor.primaryColor
@@ -50,7 +51,7 @@ enum ButtonStyle {
             return UIColor.facebookColor
         case .google:
             return UIColor.googleColor
-        case .dark:
+        case .dark, .postingFlow:
             return UIColor.lgBlack.withAlphaComponent(0.3)
         case .logout:
             return UIColor.lgBlack.withAlphaComponent(0.1)
@@ -73,7 +74,7 @@ enum ButtonStyle {
             return UIColor.facebookColorHighlighted
         case .google:
             return UIColor.googleColorHighlighted
-        case .dark:
+        case .dark, .postingFlow:
             return UIColor.lgBlack.withAlphaComponent(0.5)
         case .logout:
             return UIColor.lgBlack.withAlphaComponent(0.05)
@@ -94,7 +95,7 @@ enum ButtonStyle {
             return UIColor.facebookColorDisabled
         case .google:
             return UIColor.googleColorDisabled
-        case .dark:
+        case .dark, .postingFlow:
             return UIColor.lgBlack.withAlphaComponent(0.3)
         case .logout:
             return UIColor.lgBlack.withAlphaComponent(0.05)
@@ -121,7 +122,7 @@ enum ButtonStyle {
             fontSize = size
         case let .dark(size):
             fontSize = size
-        case .logout:
+        case .logout, .postingFlow:
             fontSize = .medium
         case let .secondary(size,_):
             fontSize = size
@@ -137,23 +138,61 @@ enum ButtonStyle {
         switch self {
         case .primary, .terciary, .google, .facebook, .dark, .darkField, .lightField, .logout:
             return false
+        case.postingFlow:
+            return true
         case let .secondary(_, withBorder):
             return withBorder
         }
     }
+    
+    
+    var borderColor: UIColor {
+        switch self {
+        case .primary, .terciary, .google, .facebook, .dark, .logout:
+            return UIColor.white
+        case .secondary:
+            return UIColor.primaryColor
+        case .darkField:
+            return UIColor.white
+        case .lightField:
+            return UIColor.lgBlack
+        case .postingFlow:
+            return UIColor.grayBackground
+        }
+    }
+    
+    var borderColorDisabled: UIColor {
+        switch self {
+        case .postingFlow:
+            return UIColor.gray
+        case .primary, .terciary, .google, .facebook, .dark, .logout:
+            return UIColor.white
+        case .secondary:
+            return UIColor.primaryColor
+        case .darkField:
+            return UIColor.white
+        case .lightField:
+            return UIColor.lgBlack
+        }
+    }
 
     var sidePadding: CGFloat {
-        switch fontSize {
-        case .big:
+        switch self {
+        case .postingFlow:
             return 15
-        case .medium, .small:
-            return 10
+        case .primary, .terciary, .google, .facebook, .dark, .darkField, .lightField, .logout, .secondary:
+            switch fontSize {
+            case .big:
+                return 15
+            case .medium, .small:
+                return 10
+            }
         }
     }
 
     var applyCornerRadius: Bool {
         switch self {
-        case .primary, .secondary, .terciary, .google, .facebook, .dark, .logout:
+        case .primary, .secondary, .terciary, .google, .facebook, .dark, .logout, .postingFlow:
             return true
         case .darkField, .lightField:
             return false
@@ -194,7 +233,7 @@ extension UIButton {
             layer.cornerRadius = bounds.height/2
         }
         layer.borderWidth = style.withBorder ? 1 : 0
-        layer.borderColor = style.titleColor.cgColor
+        layer.borderColor = isEnabled ? style.borderColor.cgColor : style.borderColorDisabled.cgColor
 
         setBackgroundImage(style.backgroundColor.imageWithSize(CGSize(width: 1, height: 1)), for: .normal)
         setBackgroundImage(style.backgroundColorHighlighted.imageWithSize(CGSize(width: 1, height: 1)),

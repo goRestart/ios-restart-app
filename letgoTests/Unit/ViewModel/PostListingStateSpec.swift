@@ -39,8 +39,8 @@ class PostProductStateSpec: BaseViewModelSpec {
                     it("has no price") {
                         expect(sut.price).to(beNil())
                     }
-                    it("has no car info") {
-                        expect(sut.carInfo).to(beNil())
+                    it("has no vertical attributes") {
+                        expect(sut.verticalAttributes).to(beNil())
                     }
                 }
                 

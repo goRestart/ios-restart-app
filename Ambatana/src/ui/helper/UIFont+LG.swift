@@ -43,6 +43,12 @@ extension UIFont {
     static var bigButtonFont: UIFont { return systemSemiBoldFont(size: 19) }
     static var mediumButtonFont: UIFont { return systemMediumFont(size: 17) }
     static var smallButtonFont: UIFont { return systemMediumFont(size: 15) }
+    
+    // Posting Flow 
+    
+    static var headline: UIFont { return systemBoldFont(size: 35) }
+    static var body: UIFont { return systemBoldFont(size: 27) }
+    static var selectableItem: UIFont { return systemBoldFont(size: 23) }
 
 
     // MARK: Private methods
