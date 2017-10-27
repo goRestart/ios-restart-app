@@ -33,6 +33,17 @@ extension FilterTag {
             return true
         }
     }
+    
+    var taxonomyChild: TaxonomyChild? {
+        switch self {
+        case .location, .within, .orderBy, .category, .taxonomy, .priceRange, .freeStuff, .distance, .make, .model, .yearsRange:
+            return nil
+        case .taxonomyChild(let taxonomyChild):
+            return taxonomyChild
+        case .secondaryTaxonomyChild(let taxonomyChild):
+            return taxonomyChild
+        }
+    }
 }
 
 func ==(a: FilterTag, b: FilterTag) -> Bool {
