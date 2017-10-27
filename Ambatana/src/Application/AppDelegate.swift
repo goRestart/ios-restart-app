@@ -16,7 +16,7 @@ import LGCoreKit
 import RxSwift
 import TwitterKit
 import UIKit
-import GoogleMobileAds
+
 
 #if DEBUG
     import AdSupport
