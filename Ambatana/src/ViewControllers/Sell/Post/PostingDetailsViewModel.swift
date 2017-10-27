@@ -123,10 +123,10 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     }
     
     private func postAndClose() {
-        navigator?.openLoginIfNeededFromListingPosted(from: .sell, loggedInAction: {
-            self.postListing()
-        }, cancelAction: {
-            self.navigator?.cancelPostListing()
+        navigator?.openLoginIfNeededFromListingPosted(from: .sell, loggedInAction: { [weak self] in
+            self?.postListing()
+        }, cancelAction: { [weak self] in
+            self?.navigator?.cancelPostListing()
         })
     }
     
