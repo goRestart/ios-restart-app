@@ -9,16 +9,15 @@ workspace "LetGo.xcworkspace"
 project "LetGo.xcodeproj"
 
 def shared_pods
-    pod "AlamofireImage",       "3.2.0"     # 3.3.0 swift 3.2
+    pod "AlamofireImage",       "3.2.0" #"3.3.0"     # Swift 3.2
 
     pod "FBSDKLoginKit",        "4.22.0"    # Obj-c
     pod "FBSDKCoreKit",         "4.22.0"    # Obj-c
     pod "FBSDKShareKit",		"4.22.0"    # Obj-c
 
-    pod "RxSwift",              "3.1.0"     # 3.6.1 support for Xcode 9b3 / 4.0.0-beta.0 swift 4
-    pod "RxSwiftExt",           "2.1.0"     # branch https://github.com/RxSwiftCommunity/RxSwiftExt/tree/swift4.0 swift 4
-    pod "RxCocoa",              "3.1.0"     # branch https://github.com/ReactiveX/RxSwift/tree/rxswift4.0-swift4.0 swift 4
-    pod "RxBlocking",           "3.1.0"     # NOT USED IN LETGO !!!
+    pod "RxSwift",              "~> 3.0" #"4.0.0"     # Swift 4.0
+    pod "RxSwiftExt"#,           "3.0.0"     # Swift 4.0
+    pod "RxCocoa",              "~> 3.0" #"4.0.0"     # Swift 4.0
 
     #Fabric
     pod "Fabric",               "1.6.11"    # Obj-c
@@ -39,7 +38,7 @@ def shared_pods
 #    pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => 'ad6a18b470243d462e3019ebf0331ea6e25377da'
 
     # letgo Collapsible label
-    pod "LGCollapsibleLabel",   "1.1.0"     # :path => "../collapsiblelabel"
+    pod "LGCollapsibleLabel",   "1.2.0"     # :path => "../collapsiblelabel"
 
     # letgo bumper (feature flags)
     pod "bumper",               "1.1.0"     #:path => "../bumper"
@@ -48,7 +47,7 @@ def shared_pods
     pod "CHTCollectionViewWaterfallLayout", "0.9.5" # Obj-c
 
     # Device info helper
-    pod "DeviceGuru",           "~> 2.1.0"  # 3.0.0 swift 4
+    pod "DeviceGuru",           "~> 2.1" #"~> 3.0.0"  # Swift 4
 
     # Google -> we have to ask for the Google/"subpod" so it imports Google/Core too
     pod "Google/SignIn",        "3.0.3"     # Obj-c
@@ -67,13 +66,13 @@ def shared_pods
     pod "TMReachability",        :git => 'https://github.com/albertbori/Reachability', :commit => 'e34782b386307e386348b481c02c176d58ba45e6' # Obj-c
 
     # Logging
-    pod "CocoaLumberjack/Swift", "3.0.0" # branch master https://github.com/CocoaLumberjack/CocoaLumberjack swift 4
+    pod "CocoaLumberjack/Swift", "~> 3.0" #"3.3.0" # Swift 4
 
     # FLEX debugging tool
     pod "FLEX",                 "2.4.0"  # Obj-c
 
     # User defaults
-    pod "SwiftyUserDefaults",   "3.0.0" # pr https://github.com/radex/SwiftyUserDefaults/pull/135 swift 4 (not too much activity)
+    pod "SwiftyUserDefaults",   :git => 'https://github.com/Dschee/SwiftyUserDefaults', :commit => 'dd3d8ddc5bf95db09b66185182b5a555ac59efd5' # PR: https://github.com/radex/SwiftyUserDefaults/pull/135 swift 4 (not too much activity)
 
     # TextView with placeholder
     pod "KMPlaceholderTextView", "1.3.0" # not updated, we could make our component for this, shouldn't be hard
@@ -95,9 +94,9 @@ target "letgoTests" do
 	shared_pods
 
     ## Testing
-    pod "Quick",            "1.0.0" # working on it, nothing final/released
-    pod "Nimble",           "5.1.1" # 7.0.1 swift 4 (we have to migrate to new predicate type results) https://github.com/Quick/Nimble#migrating-from-the-old-matcher-api
-    pod "RxTest",           "3.1.0" # same as RxSwift - 3.6.1 support for Xcode 9b3 / 4.0.0-beta.0 swift 4
+    pod "Quick",            "1.2.0" # Swift 3.2
+    pod "Nimble",           "7.0.2" # Swift 4
+    pod "RxTest",           "~> 3.0" #"4.0.0" # Swift 4
 
     # Mocking
     pod "OHHTTPStubs",      "5.2.3" # not updated - https://github.com/AliSoftware/OHHTTPStubs/issues/257

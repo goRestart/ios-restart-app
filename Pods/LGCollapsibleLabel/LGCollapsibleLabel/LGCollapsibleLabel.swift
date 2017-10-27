@@ -8,6 +8,7 @@
 
 import UIKit
 
+@IBDesignable
 public class LGCollapsibleLabel: UIView {
 
     // Our custom view from the XIB file
@@ -27,7 +28,7 @@ public class LGCollapsibleLabel: UIView {
     /**
      Collapsed state. Changing this value will trigger the visual change too.
      */
-    public var collapsed : Bool = true {
+    @IBInspectable public var collapsed : Bool = true {
         didSet {
             guard let _ = labelHeight else { return }
             updateState()
@@ -58,7 +59,7 @@ public class LGCollapsibleLabel: UIView {
     /**
      Text color.
      */
-    public var textColor: UIColor = UIColor.white {
+    @IBInspectable public var textColor: UIColor = UIColor.white {
         didSet {
             guard let _ = textView else { return }
             textView.textColor = textColor
@@ -68,7 +69,7 @@ public class LGCollapsibleLabel: UIView {
     /**
      Color of the gradient that will 'blur' the last line of text when collapsed. TIP: Set it to the same color of background
      */
-    public var gradientColor: UIColor = UIColor.white {
+    @IBInspectable public var gradientColor: UIColor = UIColor.white {
         didSet {
             guard let _ = gradientView else { return }
             setupGradient()
@@ -78,7 +79,7 @@ public class LGCollapsibleLabel: UIView {
     /**
      Label text
      */
-    public var mainText: String? = nil {
+    @IBInspectable public var mainText: String? = nil {
         didSet {
             guard let _ = textView else { return }
             textView.text = mainText
@@ -106,7 +107,7 @@ public class LGCollapsibleLabel: UIView {
         }
     }
 
-    public var expandTextColor: UIColor = UIColor.black {
+    @IBInspectable public var expandTextColor: UIColor = UIColor.black {
         didSet {
             guard let _ = expandLabel else { return }
             setupExpandLabel()
@@ -116,7 +117,7 @@ public class LGCollapsibleLabel: UIView {
     /**
      Text of button to expand when state == collapsed
      */
-    public var expandText: String = "Expand" {
+    @IBInspectable public var expandText: String = "Expand" {
         didSet {
             guard let _ = expandLabel else { return }
             setupExpandLabel()
@@ -126,7 +127,7 @@ public class LGCollapsibleLabel: UIView {
     /**
      Text of button to collapse when state == expanded
      */
-    public var collapseText: String = "Collapse" {
+    @IBInspectable public var collapseText: String = "Collapse" {
         didSet {
             guard let _ = expandLabel else { return }
             setupExpandLabel()
