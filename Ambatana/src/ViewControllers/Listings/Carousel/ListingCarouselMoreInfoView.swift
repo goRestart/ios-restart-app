@@ -118,7 +118,7 @@ class ListingCarouselMoreInfoView: UIView {
             if let bannerTrackingStatus = viewModel?.bannerTrackingStatus {
                 viewModel?.adAlreadyRequestedWithStatus(bannerTrackingStatus: bannerTrackingStatus)
             } else {
-                loadAdsRequest(adRequestType: .listingTitle)
+                loadAFShoppingRequest()
             }
         }
     }
@@ -482,8 +482,12 @@ fileprivate extension ListingCarouselMoreInfoView {
         setNeedsLayout()
     }
 
-    func loadAdsRequest(adRequestType: AdRequestType) {
-        bannerView?.load(viewModel?.makeAdsRequest(adRequestType: adRequestType))
+    func loadAFShoppingRequest() {
+        bannerView?.load(viewModel?.makeAFShoppingRequest())
+    }
+
+    func loadAFSearchRequest() {
+        bannerView?.load(viewModel?.makeAFSearchRequest())
     }
 }
 
@@ -517,11 +521,21 @@ extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate 
         bannerContainerViewLeftConstraint.constant = 0
         bannerContainerViewRightConstraint.constant = 0
         setNeedsLayout()
-        if let adRequestType = viewModel?.nextAdRequestType {
-            loadAdsRequest(adRequestType: adRequestType)
-        } else {
-            viewModel?.didFailToReceiveAd(withErrorCode: error.code)
+
+        // TODO: ⚠️ remove line when Google's AFS finally works!!!
+        viewModel?.didFailToReceiveAd(withErrorCode: error.code)
+
+        /** TODO: ⚠️ Uncomment code when Google's AFS finally works!!!
+
+        if let adRequestType = viewModel?.currentAdRequestType {
+            switch adRequestType {
+            case .shopping:
+                loadAFSearchRequest()
+            case .search:
+                viewModel?.didFailToReceiveAd(withErrorCode: error.code)
+            }
         }
+         */
     }
 
     func adViewWillPresentScreen(_ bannerView: GADBannerView) {
@@ -531,7 +545,6 @@ extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate 
     func adViewWillLeaveApplication(_ bannerView: GADBannerView) {
         viewModel?.adTapped(willLeaveApp: true)
     }
-
 }
 
 

@@ -316,6 +316,7 @@ enum EventParameterName: String {
     case keywordName          = "keyword-name"
     case relatedSource        = "related-source"
     case adShown              = "ad-shown"
+    case adType               = "ad-type"
     case adQueryType          = "query-type"
     case adQuery              = "query"
     case adVisibility         = "visibility"
@@ -925,6 +926,11 @@ enum EventParamenterLocationTypePage: String {
     case profile    = "profile"
     case feedBubble = "feed-bubble"
     case automatic  = "automatic"
+}
+
+enum EventParameterAdType: String {
+    case shopping = "shopping"
+    case search = "search"
 }
 
 enum EventParameterAdQueryType: String {

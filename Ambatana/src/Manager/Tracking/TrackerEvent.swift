@@ -341,6 +341,7 @@ struct TrackerEvent {
     static func listingDetailVisitMoreInfo(_ listing: Listing,
                                            isMine: EventParameterBoolean,
                                            adShown: EventParameterBoolean,
+                                           adType: EventParameterAdType?,
                                            queryType: EventParameterAdQueryType?,
                                            query: String?,
                                            visibility: EventParameterAdVisibility?,
@@ -350,6 +351,7 @@ struct TrackerEvent {
 
         params[.isMine] = isMine.rawValue
         params[.adShown] = adShown.rawValue
+        params[.adType] = adType?.rawValue ?? TrackerEvent.notApply
         params[.adQueryType] = queryType?.rawValue ?? TrackerEvent.notApply
         params[.adQuery] = query ?? TrackerEvent.notApply
         params[.adVisibility] = visibility?.rawValue ?? TrackerEvent.notApply
@@ -359,11 +361,13 @@ struct TrackerEvent {
     }
 
     static func moreInfoAdTapped(listingId: String?,
+                                 adType: EventParameterAdType?,
                                  isMine: EventParameterBoolean,
                                  willLeaveApp: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
 
         params[.listingId] = listingId ?? TrackerEvent.notApply
+        params[.adType] = adType?.rawValue ?? TrackerEvent.notApply
         params[.isMine] = isMine.rawValue
         params[.adActionLeftApp] = willLeaveApp.rawValue
         return TrackerEvent(name: .moreInfoAdTapped, params: params)

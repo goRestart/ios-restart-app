@@ -34,20 +34,23 @@ extension ListingViewModel {
 
     func trackVisitMoreInfo(isMine: EventParameterBoolean,
                             adShown: EventParameterBoolean,
+                            adType: EventParameterAdType?,
                             queryType: EventParameterAdQueryType?,
                             query: String?,
                             visibility: EventParameterAdVisibility?,
                             errorReason: EventParameterAdSenseRequestErrorReason?) {
         trackHelper.trackVisitMoreInfo(isMine: isMine,
                                        adShown: adShown,
+                                       adType: adType,
                                        queryType: queryType,
                                        query: query,
                                        visibility: visibility,
                                        errorReason: errorReason)
     }
 
-    func trackAdTapped(isMine: EventParameterBoolean, willLeaveApp: EventParameterBoolean) {
-        trackHelper.trackAdTapped(isMine: isMine,
+    func trackAdTapped(adType: EventParameterAdType?, isMine: EventParameterBoolean, willLeaveApp: EventParameterBoolean) {
+        trackHelper.trackAdTapped(adType: adType,
+                                  isMine: isMine,
                                   willLeaveApp: willLeaveApp)
     }
 
@@ -190,6 +193,7 @@ extension ProductVMTrackHelper {
 
     func trackVisitMoreInfo(isMine: EventParameterBoolean,
                             adShown: EventParameterBoolean,
+                            adType: EventParameterAdType?,
                             queryType: EventParameterAdQueryType?,
                             query: String?,
                             visibility: EventParameterAdVisibility?,
@@ -198,6 +202,7 @@ extension ProductVMTrackHelper {
         let trackerEvent = TrackerEvent.listingDetailVisitMoreInfo(listing,
                                                                    isMine: isMine,
                                                                    adShown: adShown,
+                                                                   adType: adType,
                                                                    queryType: queryType,
                                                                    query: query,
                                                                    visibility: visibility,
@@ -205,8 +210,8 @@ extension ProductVMTrackHelper {
         tracker.trackEvent(trackerEvent)
     }
 
-    func trackAdTapped(isMine: EventParameterBoolean, willLeaveApp: EventParameterBoolean) {
-        let trackerEvent = TrackerEvent.moreInfoAdTapped(listingId: listing.objectId, isMine: isMine, willLeaveApp: willLeaveApp)
+    func trackAdTapped(adType: EventParameterAdType?, isMine: EventParameterBoolean, willLeaveApp: EventParameterBoolean) {
+        let trackerEvent = TrackerEvent.moreInfoAdTapped(listingId: listing.objectId, adType: adType, isMine: isMine, willLeaveApp: willLeaveApp)
         tracker.trackEvent(trackerEvent)
     }
 
