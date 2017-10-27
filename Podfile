@@ -10,7 +10,6 @@ project "LetGo.xcodeproj"
 
 def shared_pods
     pod "AlamofireImage",       "3.2.0"     # 3.3.0 swift 3.2
-    pod "Argo",                 "4.1.2"     # not updated, low activity
 
     pod "FBSDKLoginKit",        "4.22.0"    # Obj-c
     pod "FBSDKCoreKit",         "4.22.0"    # Obj-c
