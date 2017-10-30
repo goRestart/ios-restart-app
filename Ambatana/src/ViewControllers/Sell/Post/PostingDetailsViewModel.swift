@@ -255,7 +255,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
                 value = NumberOfBathrooms(rawValue:bathrooms)?.summaryLocalizedString
             }
         case .location:
-            value = myUserRepository.myUser?.location?.postalAddress?.cityStateString
+            value = myUserRepository.myUser?.location?.postalAddress?.cityStateString ?? locationManager.currentLocation?.postalAddress?.cityStateString
         case .make:
             value = postListingState.verticalAttributes?.carAttributes?.make
         case .model:
