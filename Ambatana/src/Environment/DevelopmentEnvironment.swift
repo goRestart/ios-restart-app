@@ -39,6 +39,5 @@ class DevelopmentEnvironment: AppEnvironment {
     let websiteBaseUrlWithLocaleParams = "https://%@.stg.letgo.com/%@"
 
     // Google Ads
-    let googleAdsAppId = "ca-app-pub-3940256099942544~1458002511" 
     let moreInfoAdUnitId = "partner-vert-pla-mobile-app-ambatana-srp"
 }

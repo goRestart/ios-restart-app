@@ -39,6 +39,5 @@ class EscrowEnvironment: AppEnvironment {
     let websiteBaseUrlWithLocaleParams = "https://%@.escrowverification.com/%@"
 
     // Google Ads
-    let googleAdsAppId = ""
     let moreInfoAdUnitId = ""
 }
