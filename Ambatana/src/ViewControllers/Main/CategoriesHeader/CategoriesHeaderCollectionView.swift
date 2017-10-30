@@ -70,7 +70,7 @@ class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate
             switch categoryHeaderElement {
             case .listingCategory, .other:
                 cell.categoryIcon.image = categoryHeaderElement.imageIcon
-            case .superKeyword:
+            case .superKeyword, .superKeywordGroup:
                 if let url = categoryHeaderElement.imageIconURL {
                     cell.categoryIcon.lg_setImageWithURL(url)
                 }

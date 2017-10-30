@@ -1,5 +1,5 @@
 //
-//  ProductFilter.swift
+//  ListingFilters.swift
 //  LetGo
 //
 //  Created by Eli Kohen on 10/11/15.
@@ -55,6 +55,7 @@ struct ListingFilters {
     var distanceType: DistanceType
     var selectedCategories: [ListingCategory]
     var selectedTaxonomyChildren: [TaxonomyChild]
+    var selectedTaxonomy: Taxonomy?
     var selectedWithin: ListingTimeCriteria
     var selectedOrdering: ListingSortCriteria?
     var filterCoordinates: LGLocationCoordinates2D? {
@@ -76,6 +77,7 @@ struct ListingFilters {
             distanceType: DistanceType.systemDistanceType(),
             selectedCategories: [],
             selectedTaxonomyChildren: [],
+            selectedTaxonomy: nil,
             selectedWithin: ListingTimeCriteria.defaultOption,
             selectedOrdering: ListingSortCriteria.defaultOption,
             priceRange: .priceRange(min: nil, max: nil),
@@ -93,6 +95,7 @@ struct ListingFilters {
          distanceType: DistanceType,
          selectedCategories: [ListingCategory],
          selectedTaxonomyChildren: [TaxonomyChild],
+         selectedTaxonomy: Taxonomy?,
          selectedWithin: ListingTimeCriteria,
          selectedOrdering: ListingSortCriteria?,
          priceRange: FilterPriceRange,
@@ -107,6 +110,7 @@ struct ListingFilters {
         self.distanceType = distanceType
         self.selectedCategories = selectedCategories
         self.selectedTaxonomyChildren = selectedTaxonomyChildren
+        self.selectedTaxonomy = selectedTaxonomy
         self.selectedWithin = selectedWithin
         self.selectedOrdering = selectedOrdering
         self.priceRange = priceRange
@@ -124,6 +128,7 @@ struct ListingFilters {
                               distanceType: distanceType,
                               selectedCategories: selectedCategories,
                               selectedTaxonomyChildren: selectedTaxonomyChildren,
+                              selectedTaxonomy: selectedTaxonomy,
                               selectedWithin: selectedWithin,
                               selectedOrdering: selectedOrdering,
                               priceRange: priceRange,
@@ -155,6 +160,7 @@ struct ListingFilters {
         if let _ = distanceRadius { return false } //Default is nil
         if !selectedCategories.isEmpty { return false }
         if !selectedTaxonomyChildren.isEmpty { return false }
+        if let _ = selectedTaxonomy { return false } //Default is nil
         if selectedWithin != ListingTimeCriteria.defaultOption { return false }
         if selectedOrdering != ListingSortCriteria.defaultOption { return false }
         if priceRange != .priceRange(min: nil, max: nil) { return false }
@@ -198,6 +204,7 @@ extension ListingFilters: Equatable {
         a.distanceRadius == b.distanceRadius &&
         a.distanceType == b.distanceType &&
         a.selectedCategories == b.selectedCategories &&
+        a.selectedTaxonomy == b.selectedTaxonomy &&
         a.selectedWithin == b.selectedWithin &&
         a.selectedOrdering == b.selectedOrdering &&
         a.filterCoordinates == b.filterCoordinates &&

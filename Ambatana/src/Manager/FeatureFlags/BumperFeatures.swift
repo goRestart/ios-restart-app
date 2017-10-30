@@ -31,12 +31,13 @@ extension Bumper  {
         flags.append(DefaultRadiusDistanceFeed.self)
         flags.append(RealEstateEnabled.self)
         flags.append(SearchAutocomplete.self)
-        flags.append(NewCarouselTapNextPhotoNavigationEnabled.self)
         flags.append(ShowPriceAfterSearchOrFilter.self)
         flags.append(RequestsTimeOut.self)
         flags.append(NewBumpUpExplanation.self)
         flags.append(HomeRelatedEnabled.self)
         flags.append(HideChatButtonOnFeaturedCells.self)
+        flags.append(FeaturedRibbonImprovementInDetail.self)
+        flags.append(SuperKeywordGroupsAndSubgroupsInFeed.self)
         Bumper.initialize(flags)
     } 
 
@@ -130,11 +131,6 @@ extension Bumper  {
         return SearchAutocomplete(rawValue: value) ?? .control 
     }
 
-    static var newCarouselTapNextPhotoNavigationEnabled: NewCarouselTapNextPhotoNavigationEnabled {
-        guard let value = Bumper.value(for: NewCarouselTapNextPhotoNavigationEnabled.key) else { return .control }
-        return NewCarouselTapNextPhotoNavigationEnabled(rawValue: value) ?? .control 
-    }
-
     static var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter {
         guard let value = Bumper.value(for: ShowPriceAfterSearchOrFilter.key) else { return .control }
         return ShowPriceAfterSearchOrFilter(rawValue: value) ?? .control 
@@ -152,12 +148,22 @@ extension Bumper  {
 
     static var homeRelatedEnabled: HomeRelatedEnabled {
         guard let value = Bumper.value(for: HomeRelatedEnabled.key) else { return .control }
-        return HomeRelatedEnabled(rawValue: value) ?? .control
+        return HomeRelatedEnabled(rawValue: value) ?? .control 
     }
 
     static var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells {
         guard let value = Bumper.value(for: HideChatButtonOnFeaturedCells.key) else { return .control }
         return HideChatButtonOnFeaturedCells(rawValue: value) ?? .control 
+    }
+
+    static var featuredRibbonImprovementInDetail: FeaturedRibbonImprovementInDetail {
+        guard let value = Bumper.value(for: FeaturedRibbonImprovementInDetail.key) else { return .control }
+        return FeaturedRibbonImprovementInDetail(rawValue: value) ?? .control 
+    }
+  
+    static var superKeywordGroupsAndSubgroupsInFeed: SuperKeywordGroupsAndSubgroupsInFeed {
+        guard let value = Bumper.value(for: SuperKeywordGroupsAndSubgroupsInFeed.key) else { return .control }
+        return SuperKeywordGroupsAndSubgroupsInFeed(rawValue: value) ?? .control 
     } 
 }
 
@@ -378,22 +384,6 @@ enum SearchAutocomplete: String, BumperFeature  {
     }
 }
 
-enum NewCarouselTapNextPhotoNavigationEnabled: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return NewCarouselTapNextPhotoNavigationEnabled.control.rawValue }
-    static var enumValues: [NewCarouselTapNextPhotoNavigationEnabled] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "New carousel on tap displays different photo from same product" } 
-    static func fromPosition(_ position: Int) -> NewCarouselTapNextPhotoNavigationEnabled {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
 enum ShowPriceAfterSearchOrFilter: String, BumperFeature  {
     case control, baseline, priceOnSearchOrFilter
     static var defaultValue: String { return ShowPriceAfterSearchOrFilter.control.rawValue }
@@ -451,7 +441,7 @@ enum HomeRelatedEnabled: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show the related button in the main feed" } 
     static func fromPosition(_ position: Int) -> HomeRelatedEnabled {
-    switch position { 
+        switch position { 
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
@@ -459,7 +449,7 @@ enum HomeRelatedEnabled: String, BumperFeature  {
         }
     }
 }
-          
+
 enum HideChatButtonOnFeaturedCells: String, BumperFeature  {
     case control, baseline, active
     static var defaultValue: String { return HideChatButtonOnFeaturedCells.control.rawValue }
@@ -467,6 +457,38 @@ enum HideChatButtonOnFeaturedCells: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "hide chat button on the featured listing cells" } 
     static func fromPosition(_ position: Int) -> HideChatButtonOnFeaturedCells {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum FeaturedRibbonImprovementInDetail: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return FeaturedRibbonImprovementInDetail.control.rawValue }
+    static var enumValues: [FeaturedRibbonImprovementInDetail] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Featured ribbon in product detail is clickable" } 
+    static func fromPosition(_ position: Int) -> FeaturedRibbonImprovementInDetail {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum SuperKeywordGroupsAndSubgroupsInFeed: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return SuperKeywordGroupsAndSubgroupsInFeed.control.rawValue }
+    static var enumValues: [SuperKeywordGroupsAndSubgroupsInFeed] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Super keywords groups and subgroups in feed as bubble filters" } 
+    static func fromPosition(_ position: Int) -> SuperKeywordGroupsAndSubgroupsInFeed {
         switch position { 
             case 0: return .control
             case 1: return .baseline

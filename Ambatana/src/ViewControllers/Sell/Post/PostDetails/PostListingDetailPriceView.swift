@@ -32,21 +32,21 @@ class PostListingDetailPriceView: BaseView {
     static let containerHeight: CGFloat = 55
     
     @IBOutlet weak var freePostLabel: UILabel!
-    private let viewModel: PostListingDetailViewModel
+    private let viewModel: PostListingBasicDetailViewModel
 
     private let disposeBag = DisposeBag()
     
-    convenience init(viewModel: PostListingDetailViewModel) {
+    convenience init(viewModel: PostListingBasicDetailViewModel) {
         self.init(viewModel: viewModel, frame: CGRect.zero)
     }
 
-    init(viewModel: PostListingDetailViewModel, frame: CGRect) {
+    init(viewModel: PostListingBasicDetailViewModel, frame: CGRect) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, frame: frame)
         setup()
     }
 
-    init?(viewModel: PostListingDetailViewModel, coder aDecoder: NSCoder) {
+    init?(viewModel: PostListingBasicDetailViewModel, coder aDecoder: NSCoder) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, coder: aDecoder)
         setup()
